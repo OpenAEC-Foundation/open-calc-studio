@@ -1,0 +1,379 @@
+.subsheet-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  outline: none;
+  background: var(--theme-bg);
+}
+
+.subsheet-formula-bar {
+  display: flex;
+  align-items: center;
+  height: 26px;
+  border-bottom: 1px solid var(--theme-border);
+  background: var(--theme-surface);
+  padding: 0 4px;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.subsheet-cell-ref {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--theme-text);
+  width: 48px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.subsheet-formula-sep {
+  width: 1px;
+  height: 16px;
+  background: var(--theme-border);
+  flex-shrink: 0;
+}
+
+.subsheet-formula-value {
+  font-size: 11px;
+  color: var(--theme-text);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.subsheet-grid-wrapper {
+  flex: 1;
+  overflow: auto;
+}
+
+.subsheet-grid {
+  border-collapse: collapse;
+  font-size: 11px;
+  font-family: inherit;
+  table-layout: fixed;
+  /* Use CSS `zoom` instead of `transform: scale()` so position:sticky on
+   * column/row headers keeps working. transform creates a containing block
+   * that breaks sticky in Chromium. */
+  zoom: var(--sheet-scale, 1);
+}
+
+.subsheet-corner {
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 3;
+}
+
+.subsheet-col-header {
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  font-weight: 500;
+  font-size: 10px;
+  color: var(--theme-text-secondary);
+  text-align: center;
+  padding: 2px 0;
+  height: 22px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  user-select: none;
+}
+
+.subsheet-row-header {
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  font-weight: 400;
+  font-size: 10px;
+  color: var(--theme-text-secondary);
+  text-align: center;
+  padding: 0 4px;
+  width: 40px;
+  min-width: 40px;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  user-select: none;
+}
+
+.subsheet-cell {
+  border: 1px solid var(--theme-grid-vline);
+  padding: 0 4px;
+  cursor: cell;
+  position: relative;
+  overflow: hidden;
+}
+
+.subsheet-cell.active {
+  outline: 2px solid var(--theme-active);
+  outline-offset: -1px;
+  z-index: 1;
+}
+
+.subsheet-cell.selected {
+  background: rgba(59, 130, 246, 0.15);
+}
+
+.subsheet-cell.formula .subsheet-cell-value {
+  color: var(--theme-text);
+}
+
+.subsheet-cell-value {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 22px;
+  color: var(--theme-text);
+}
+
+.subsheet-cell-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: none;
+  background: var(--theme-bg);
+  color: var(--theme-text);
+  font-size: 11px;
+  font-family: inherit;
+  padding: 0 4px;
+  outline: none;
+  z-index: 2;
+}
+
+.subsheet-formula-input {
+  flex: 1;
+  border: 1px solid var(--theme-border);
+  border-radius: 3px;
+  background: var(--theme-bg);
+  color: var(--theme-text);
+  font-size: 12px;
+  font-family: inherit;
+  padding: 2px 6px;
+  outline: none;
+  height: 20px;
+}
+
+.subsheet-formula-input:focus {
+  border-color: var(--theme-active);
+}
+
+.subsheet-formula-input::placeholder {
+  color: var(--theme-text-muted);
+}
+
+.subsheet-formula-input:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.subsheet-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--theme-text-secondary);
+  font-size: 13px;
+}
+
+/* Sub-sheet tabs (shown below main FileTabBar) */
+.subsheet-tab-bar {
+  display: flex;
+  align-items: center;
+  height: 26px;
+  background: var(--theme-surface);
+  border-top: 1px solid var(--theme-border);
+  border-bottom: 1px solid var(--theme-border);
+  padding: 0 4px;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.subsheet-tab {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-family: inherit;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--theme-text-secondary);
+  border-radius: 3px 3px 0 0;
+  cursor: default;
+  height: 22px;
+}
+
+.subsheet-tab:hover {
+  background: var(--theme-hover);
+  color: var(--theme-text);
+}
+
+.subsheet-tab.active {
+  background: var(--theme-bg);
+  border-color: var(--theme-border);
+  border-bottom-color: var(--theme-bg);
+  color: var(--theme-text);
+  font-weight: 500;
+}
+
+.subsheet-tab-main {
+  font-weight: 500;
+  color: var(--theme-text);
+}
+
+.subsheet-tab-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border: none;
+  background: transparent;
+  color: var(--theme-text-secondary);
+  font-size: 12px;
+  cursor: default;
+  border-radius: 2px;
+  padding: 0;
+  line-height: 1;
+}
+
+.subsheet-tab-close:hover {
+  background: var(--theme-hover);
+  color: var(--theme-text);
+}
+
+.subsheet-tab-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: transparent;
+  color: var(--theme-text-secondary);
+  cursor: default;
+  border-radius: 3px;
+}
+
+.subsheet-tab-add:hover {
+  background: var(--theme-hover);
+  color: var(--theme-text);
+}
+
+/* Context menu */
+.subsheet-context-menu {
+  position: fixed;
+  z-index: 100;
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  padding: 4px 0;
+  min-width: 180px;
+}
+
+.subsheet-context-menu button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: none;
+  color: var(--theme-text);
+  font-size: 12px;
+  padding: 6px 16px;
+  cursor: pointer;
+}
+
+.subsheet-context-menu button:hover {
+  background: var(--theme-active);
+  color: white;
+}
+
+.subsheet-ctx-sep {
+  height: 1px;
+  background: var(--theme-border);
+  margin: 4px 0;
+}
+
+.subsheet-row-menu {
+  position: fixed;
+  background: var(--theme-surface, #fff);
+  border: 1px solid var(--theme-border, #ccc);
+  border-radius: 6px;
+  padding: 4px;
+  z-index: 10000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  min-width: 140px;
+}
+.subsheet-row-menu-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--theme-text-secondary, #777);
+  padding: 4px 8px;
+  letter-spacing: 0.5px;
+}
+.subsheet-row-menu button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 8px;
+  border: none;
+  background: transparent;
+  cursor: default;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--theme-text);
+  text-align: left;
+  border-radius: 3px;
+}
+.subsheet-row-menu button:hover {
+  background: var(--theme-hover, #eee);
+}
+.subsheet-row-menu .swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* Border picker */
+.subsheet-border-picker {
+  position: fixed;
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: 6px;
+  padding: 4px;
+  z-index: 10001;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  min-width: 160px;
+}
+.subsheet-border-picker-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--theme-text-secondary);
+  padding: 4px 8px;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+.subsheet-border-picker button {
+  display: block;
+  width: 100%;
+  padding: 4px 8px;
+  border: none;
+  background: transparent;
+  cursor: default;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--theme-text);
+  text-align: left;
+  border-radius: 3px;
+}
+.subsheet-border-picker button:hover {
+  background: var(--theme-hover);
+}

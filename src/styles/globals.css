@@ -1,0 +1,178 @@
+:root {
+  font-family: 'Inter', "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--theme-text);
+  background-color: var(--theme-bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#root {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+input, textarea, select, [contenteditable] {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Empty state — no documents open */
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  background: var(--theme-content-bg);
+  overflow: hidden;
+}
+
+.empty-state-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.empty-state-content {
+  text-align: center;
+  color: var(--theme-text-secondary);
+}
+
+.empty-state-content h2 {
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Space Grotesk', 'Inter', inherit;
+  color: var(--theme-text);
+  margin: 0 0 4px;
+}
+
+.empty-state-content p {
+  font-size: 12px;
+  margin: 0;
+}
+
+.empty-state-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.empty-state-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: 1.5px solid var(--theme-border);
+  border-radius: 8px;
+  background: var(--theme-surface);
+  color: var(--theme-text);
+  font-size: 14px;
+  font-family: 'Inter', inherit;
+  font-weight: 600;
+  cursor: default;
+  transition: all 0.15s ease;
+}
+
+.empty-state-btn:hover {
+  border-color: var(--theme-accent);
+  background: var(--theme-hover);
+}
+
+.empty-state-btn svg {
+  stroke: var(--theme-text-secondary);
+}
+
+.empty-state-btn:hover svg {
+  stroke: var(--theme-accent);
+}
+
+.empty-state-recent {
+  margin-top: 24px;
+  text-align: left;
+  max-width: 320px;
+  width: 100%;
+}
+
+.empty-state-recent-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--theme-text-secondary);
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.empty-state-recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.empty-state-recent-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: transparent;
+  border: none;
+  border-radius: 3px;
+  cursor: default;
+  text-align: left;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--theme-text);
+  transition: background 0.15s ease;
+  width: 100%;
+}
+
+.empty-state-recent-item:hover {
+  background: var(--theme-hover);
+}
+
+.empty-state-recent-item svg {
+  stroke: var(--theme-text-secondary);
+  flex-shrink: 0;
+}
+
+.empty-state-recent-item:hover svg {
+  stroke: var(--theme-accent);
+}
+
+.empty-state-recent-item span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--theme-scrollbar-track); }
+::-webkit-scrollbar-thumb { background: var(--theme-scrollbar-thumb); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--theme-accent); }
+::-webkit-scrollbar-corner { background: var(--theme-content-bg); }
+
+/* Hide decorum plugin's overlay titlebar buttons (we use our own) */
+div[data-tauri-decorum-tb] { display: none !important; }
+

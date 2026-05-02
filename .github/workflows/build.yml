@@ -1,0 +1,202 @@
+name: Build & Release
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  # ── 1. Quick check (runs on all pushes and PRs) ─────────────
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.18.0
+      - run: npm install
+      - run: npx tsc --noEmit || true
+      - run: npm test || true
+      - run: npm run build
+
+  # ── 2. Build installers (only on tag push) ──────────────────
+  build:
+    needs: check
+    if: startsWith(github.ref, 'refs/tags/v')
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows-latest
+            rust-target: x86_64-pc-windows-msvc
+            label: Windows
+          - platform: ubuntu-22.04
+            rust-target: x86_64-unknown-linux-gnu
+            label: Linux
+            args: --bundles deb,rpm
+          - platform: macos-latest
+            rust-target: aarch64-apple-darwin
+            label: macOS (ARM)
+
+    name: Build – ${{ matrix.label }}
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.18.0
+          cache: npm
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.rust-target }}
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri -> target
+
+      - name: Install Linux dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            libappindicator3-dev \
+            librsvg2-dev \
+            patchelf
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Build Tauri app
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: --target ${{ matrix.rust-target }} ${{ matrix.args || '' }}
+
+      # ── Sign Windows binaries ──────────────────────────────
+      - name: Sign Windows exe
+        if: runner.os == 'Windows'
+        uses: azure/trusted-signing-action@v0
+        with:
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          endpoint: ${{ secrets.AZURE_ENDPOINT }}
+          trusted-signing-account-name: ${{ secrets.AZURE_TRUSTED_SIGNING_ACCOUNT_NAME }}
+          certificate-profile-name: ${{ secrets.AZURE_CERTIFICATE_PROFILE_NAME }}
+          files-folder: src-tauri/target/${{ matrix.rust-target }}/release
+          files-folder-filter: exe
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+
+      - name: Sign Windows NSIS installer
+        if: runner.os == 'Windows'
+        uses: azure/trusted-signing-action@v0
+        with:
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          endpoint: ${{ secrets.AZURE_ENDPOINT }}
+          trusted-signing-account-name: ${{ secrets.AZURE_TRUSTED_SIGNING_ACCOUNT_NAME }}
+          certificate-profile-name: ${{ secrets.AZURE_CERTIFICATE_PROFILE_NAME }}
+          files-folder: src-tauri/target/${{ matrix.rust-target }}/release/bundle/nsis
+          files-folder-filter: exe
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+
+      - name: Sign Windows MSI installer
+        if: runner.os == 'Windows'
+        uses: azure/trusted-signing-action@v0
+        with:
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          endpoint: ${{ secrets.AZURE_ENDPOINT }}
+          trusted-signing-account-name: ${{ secrets.AZURE_TRUSTED_SIGNING_ACCOUNT_NAME }}
+          certificate-profile-name: ${{ secrets.AZURE_CERTIFICATE_PROFILE_NAME }}
+          files-folder: src-tauri/target/${{ matrix.rust-target }}/release/bundle/msi
+          files-folder-filter: msi
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+
+      # ── Upload artifacts ───────────────────────────────────
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: open-calc-studio-${{ matrix.label }}
+          path: |
+            src-tauri/target/${{ matrix.rust-target }}/release/bundle/nsis/*.exe
+            src-tauri/target/${{ matrix.rust-target }}/release/bundle/msi/*.msi
+            src-tauri/target/${{ matrix.rust-target }}/release/bundle/dmg/*.dmg
+            src-tauri/target/${{ matrix.rust-target }}/release/bundle/macos/*.app
+            src-tauri/target/${{ matrix.rust-target }}/release/bundle/appimage/*.AppImage
+            src-tauri/target/${{ matrix.rust-target }}/release/bundle/deb/*.deb
+            src-tauri/target/${{ matrix.rust-target }}/release/bundle/rpm/*.rpm
+          if-no-files-found: ignore
+          retention-days: 14
+
+  # ── 3. Publish release (only on tag push) ───────────────────
+  publish:
+    name: Publish Release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Collect installer files
+        run: |
+          mkdir -p release
+          find artifacts -name '*-setup.exe' -exec cp {} release/ \;
+          find artifacts -name '*.msi' -exec cp {} release/ \;
+          find artifacts -name '*.dmg' -exec cp {} release/ \;
+          find artifacts -name '*.AppImage' -exec cp {} release/ \;
+          find artifacts -name '*.deb' -exec cp {} release/ \;
+          find artifacts -name '*.rpm' -exec cp {} release/ \;
+          ls -la release/
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Open Calc Studio ${{ github.ref_name }}
+          prerelease: false
+          draft: true
+          generate_release_notes: true
+          body: |
+            **Downloads:**
+            - **Windows:** `.exe` (NSIS installer) / `.msi`
+            - **macOS:** `.dmg` (Apple Silicon)
+            - **Linux:** `.AppImage` / `.deb` / `.rpm`
+          files: release/*

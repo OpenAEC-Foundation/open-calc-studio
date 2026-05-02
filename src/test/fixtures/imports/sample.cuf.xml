@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculatie version="4.003">
+  <Naam>Test Begroting</Naam>
+  <Hoofdstuk code="01" omschrijving="Grondwerk">
+    <Post code="01.01" omschrijving="Ontgraven">
+      <Hoeveelheid>100</Hoeveelheid>
+      <Eenheid>m3</Eenheid>
+      <Prijs>15,50</Prijs>
+    </Post>
+  </Hoofdstuk>
+</Calculatie>

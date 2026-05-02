@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Begroting version="7.10">
+  <Kop><Projectnaam>IBIS Test</Projectnaam></Kop>
+  <Hoofdstuk code="H1" omschrijving="Fundering">
+    <Element code="E1" omschrijving="Strokenfundering">
+      <Activiteit code="A1" omschrijving="Beton storten">
+        <Hoeveelheid>25</Hoeveelheid>
+        <Eenheid>m3</Eenheid>
+        <Eenheidsprijs>120.00</Eenheidsprijs>
+      </Activiteit>
+    </Element>
+  </Hoofdstuk>
+</Begroting>

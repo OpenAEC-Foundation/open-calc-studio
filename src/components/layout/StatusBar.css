@@ -1,0 +1,163 @@
+/* StatusBar — OpenAEC Style Book */
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 22px;
+  padding: 0 10px;
+  background: var(--theme-status-bg);
+  border-top: 1px solid var(--theme-status-border);
+  flex-shrink: 0;
+  user-select: none;
+  cursor: default;
+  font-size: 11px;
+  font-family: 'Inter', inherit;
+}
+
+.status-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+
+.status-bar-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 6px;
+  height: 100%;
+  transition: background 0.15s ease;
+}
+
+.status-item:hover { background: var(--theme-status-hover); }
+
+.status-item-label {
+  color: var(--theme-status-text-label);
+}
+
+.status-item-value {
+  color: var(--theme-status-text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+}
+
+.status-separator {
+  width: 1px;
+  height: 12px;
+  background: var(--theme-status-separator);
+  flex-shrink: 0;
+}
+
+/* Zoom control */
+.status-zoom {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.status-zoom-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--theme-status-text);
+  cursor: default;
+  width: 18px;
+  height: 18px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  border-radius: 3px;
+  opacity: 0.7;
+  transition: opacity 0.1s ease, background 0.1s ease;
+}
+.status-zoom-btn:hover {
+  opacity: 1;
+  background: var(--theme-status-hover);
+}
+
+.status-zoom-value-wrapper {
+  position: relative;
+}
+
+.status-zoom-value {
+  background: none;
+  border: none;
+  color: var(--theme-status-text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  padding: 1px 4px;
+  min-width: 38px;
+  text-align: center;
+  cursor: default;
+  border-radius: 2px;
+  transition: background 0.15s ease;
+}
+.status-zoom-value:hover {
+  background: var(--theme-status-hover);
+}
+
+.status-zoom-input {
+  width: 34px;
+  background: var(--theme-bg);
+  border: 1px solid var(--theme-accent);
+  color: var(--theme-text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  padding: 0 2px;
+  text-align: center;
+  outline: none;
+  border-radius: 2px;
+}
+
+.status-zoom-dropdown {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 4px;
+  background: var(--theme-surface, var(--theme-bg));
+  border: 1px solid var(--theme-border);
+  border-radius: 4px;
+  box-shadow: var(--theme-popover-shadow);
+  padding: 2px 0;
+  z-index: 10001;
+  min-width: 60px;
+}
+
+.status-zoom-preset {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--theme-text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 3px 12px;
+  text-align: right;
+  cursor: default;
+  transition: background 0.1s ease;
+}
+.status-zoom-preset:hover {
+  background: var(--theme-hover);
+}
+.status-zoom-preset.active {
+  color: var(--theme-accent);
+  font-weight: 600;
+}

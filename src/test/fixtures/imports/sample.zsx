@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Prijslijst versie="1.0">
+  <Middel code="A001" type="arbeid" naam="Uurloon timmerman">
+    <Prijs>45,00</Prijs>
+    <Eenheid>uur</Eenheid>
+  </Middel>
+  <Middel code="M001" type="materiaal" naam="Beton C20/25">
+    <Prijs>80,00</Prijs>
+    <Eenheid>m3</Eenheid>
+  </Middel>
+</Prijslijst>

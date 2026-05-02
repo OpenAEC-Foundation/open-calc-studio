@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Normenbestand versie="1.0">
+  <Norm code="N001" middelcode="A001" omschrijving="Metselen per m2">
+    <Factor>0,8</Factor>
+    <Deler>1</Deler>
+    <Eenheid>uur/m2</Eenheid>
+  </Norm>
+  <Norm code="N002" middelcode="M001" omschrijving="Beton per m3">
+    <Factor>1</Factor>
+    <Deler>1</Deler>
+    <Eenheid>m3/m3</Eenheid>
+  </Norm>
+</Normenbestand>

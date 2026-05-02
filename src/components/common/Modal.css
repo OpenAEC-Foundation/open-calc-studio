@@ -1,0 +1,149 @@
+/* Modal — reusable base dialog */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--theme-dialog-overlay);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.modal-overlay.modal-open {
+  opacity: 1;
+}
+
+.modal-dialog {
+  background: var(--theme-dialog-bg);
+  border: 1px solid var(--theme-dialog-border);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--theme-dialog-shadow);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  user-select: none;
+  font-family: 'Inter', inherit;
+  opacity: 0;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease;
+}
+
+.modal-dialog.modal-dialog-open {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+/* After drag: positioned via left/top, no transform needed */
+.modal-dialog.modal-dragged {
+  transition: none;
+}
+.modal-dialog.modal-dragged,
+.modal-dialog.modal-dragged.modal-dialog-open {
+  transform: none;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0 0 12px;
+  height: 32px;
+  flex-shrink: 0;
+  background: linear-gradient(to bottom, var(--theme-dialog-header-bg) 0%, var(--theme-dialog-bg) 100%);
+  border-bottom: 1px solid var(--theme-dialog-border);
+  cursor: default;
+}
+
+.modal-header h2 {
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Space Grotesk', 'Inter', inherit;
+  color: var(--theme-dialog-header-text);
+  margin: 0;
+}
+
+.modal-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: calc(100% + 1px);
+  margin-top: -1px;
+  margin-right: -1px;
+  border: none;
+  background: transparent;
+  color: var(--theme-dialog-content-text);
+  cursor: default;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0;
+  border-radius: 0 4px 0 0;
+  transition: background 0.15s ease;
+}
+
+.modal-close-btn:hover {
+  background: var(--theme-danger-color);
+  color: white;
+}
+
+.modal-body {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Progress modal — blocking spinner dialog */
+.progress-modal {
+  min-width: 280px;
+  padding: 0;
+}
+
+.progress-modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 24px;
+}
+
+.progress-modal-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--theme-border);
+  border-top-color: var(--theme-accent, #D97706);
+  border-radius: 50%;
+  animation: progress-spin 0.8s linear infinite;
+}
+
+@keyframes progress-spin { to { transform: rotate(360deg); } }
+
+.progress-modal-message {
+  font-size: 13px;
+  color: var(--theme-text);
+  text-align: center;
+}
+
+.progress-modal-cancel {
+  padding: 6px 20px;
+  font-size: 12px;
+  font-family: inherit;
+  font-weight: 500;
+  border: 1px solid var(--theme-border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--theme-text-secondary);
+  cursor: default;
+  transition: all 0.15s ease;
+}
+
+.progress-modal-cancel:hover {
+  background: var(--theme-hover);
+  color: var(--theme-text);
+  border-color: var(--theme-accent);
+}
