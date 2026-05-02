@@ -1,0 +1,153 @@
+/* SettingsDialog — uses Modal base */
+.settings-dialog {
+  width: 560px;
+  height: 500px;
+}
+
+.settings-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.settings-sidebar {
+  width: 120px;
+  background: var(--theme-dialog-sidebar-bg);
+  border-right: 1px solid var(--theme-dialog-sidebar-border);
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+  gap: 2px;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.settings-tab {
+  padding: 8px 12px;
+  font-size: 11px;
+  font-family: 'Inter', inherit;
+  background: transparent;
+  border: none;
+  color: var(--theme-dialog-tab-text);
+  font-weight: 500;
+  cursor: default;
+  transition: all 0.15s ease;
+  text-align: left;
+  border-left: 3px solid transparent;
+}
+
+.settings-tab:hover {
+  background: var(--theme-dialog-tab-hover);
+  color: var(--theme-dialog-tab-hover-text);
+}
+
+.settings-tab.active {
+  background: var(--theme-dialog-tab-active-bg);
+  color: var(--theme-dialog-tab-active-text);
+  border-left-color: var(--theme-dialog-tab-active-accent);
+}
+
+.settings-content {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+  background: var(--theme-dialog-content-bg);
+  color: var(--theme-dialog-content-text);
+}
+
+.settings-section { margin-bottom: 14px; }
+.settings-section:last-child { margin-bottom: 0; }
+
+.settings-section h3 {
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'Space Grotesk', 'Inter', inherit;
+  color: var(--theme-dialog-content-text);
+  margin: 0 0 8px 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--theme-dialog-section-border);
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 12px;
+}
+
+.settings-label {
+  font-size: 11px;
+  color: var(--theme-dialog-content-text);
+  flex-shrink: 0;
+}
+
+.settings-select {
+  padding: 4px 8px;
+  font-size: 11px;
+  font-family: 'Inter', inherit;
+  border: 1.5px solid var(--theme-dialog-input-border);
+  border-radius: 4px;
+  background: var(--theme-dialog-input-bg);
+  color: var(--theme-dialog-input-text);
+  outline: none;
+  min-width: 100px;
+  cursor: default;
+  transition: border-color 0.15s ease;
+}
+
+.settings-select:focus {
+  border-color: var(--theme-focus-color);
+  box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.2);
+}
+
+.settings-select option {
+  background: var(--theme-dialog-bg);
+  color: var(--theme-dialog-content-text);
+}
+
+.settings-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 8px 12px;
+  border-top: 1px solid var(--theme-dialog-border);
+  background: var(--theme-dialog-sidebar-bg);
+  flex-shrink: 0;
+}
+
+.settings-footer-right { display: flex; gap: 8px; }
+
+.settings-btn {
+  padding: 6px 20px;
+  border: 1.5px solid var(--theme-dialog-input-border);
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: 'Inter', inherit;
+  cursor: default;
+  transition: all 0.15s ease;
+  min-width: 75px;
+}
+
+.settings-btn-primary {
+  background: var(--theme-btn-primary-bg);
+  color: var(--theme-btn-primary-text);
+  border-color: var(--theme-btn-primary-border);
+}
+
+.settings-btn-primary:hover {
+  background: var(--theme-btn-primary-hover-bg);
+  color: var(--theme-btn-primary-hover-text);
+}
+
+.settings-btn-secondary {
+  background: var(--theme-btn-secondary-bg);
+  color: var(--theme-btn-secondary-text);
+}
+
+.settings-btn-secondary:hover {
+  background: var(--theme-btn-secondary-hover-bg);
+  border-color: var(--theme-btn-secondary-hover-border);
+}

@@ -1,0 +1,6210 @@
+{
+  "version": "1.0",
+  "name": "Middelen GWW",
+  "description": "Standaard middelenbibliotheek GWW (Grond-, Weg- en Waterbouw)",
+  "source": "Beuvink Advies - BasCalc GWW v9.2",
+  "categories": [
+    {
+      "code": "0",
+      "name": "MANUREN AANNEMING DERDEN"
+    },
+    {
+      "code": "1",
+      "name": "MACHINE-UREN"
+    },
+    {
+      "code": "2",
+      "name": "ZAND,GRIND franko"
+    },
+    {
+      "code": "3",
+      "name": "ONDERAANNEMING"
+    },
+    {
+      "code": "4",
+      "name": "test 4"
+    },
+    {
+      "code": "5",
+      "name": "PRODUKTEN"
+    },
+    {
+      "code": "8",
+      "name": "BESTRATINGEN"
+    },
+    {
+      "code": "9",
+      "name": "DIVERSEN"
+    }
+  ],
+  "resources": [
+    {
+      "code": "00101",
+      "description": "sloper",
+      "unit": "uur",
+      "defaultUnitPrice": 60,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "SLOOP PERSONEEL"
+    },
+    {
+      "code": "00102",
+      "description": "sloopploeg",
+      "unit": "uur",
+      "defaultUnitPrice": 120,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "SLOOP PERSONEEL"
+    },
+    {
+      "code": "00111",
+      "description": "grondwerker",
+      "unit": "uur",
+      "defaultUnitPrice": 60,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "CIVIELE TECHNISCH"
+    },
+    {
+      "code": "00112",
+      "description": "straatmaker",
+      "unit": "uur",
+      "defaultUnitPrice": 60,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "CIVIELE TECHNISCH"
+    },
+    {
+      "code": "00113",
+      "description": "opperman",
+      "unit": "uur",
+      "defaultUnitPrice": 54,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "CIVIELE TECHNISCH"
+    },
+    {
+      "code": "00119",
+      "description": "voorman",
+      "unit": "uur",
+      "defaultUnitPrice": 54,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "CIVIELE TECHNISCH"
+    },
+    {
+      "code": "00120",
+      "description": "applicateur",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "CIVIELE TECHNISCH"
+    },
+    {
+      "code": "00131",
+      "description": "machinist",
+      "unit": "uur",
+      "defaultUnitPrice": 60,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "BEDIENING MATERIEEL"
+    },
+    {
+      "code": "00132",
+      "description": "chauffeur",
+      "unit": "uur",
+      "defaultUnitPrice": 54,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "BEDIENING MATERIEEL"
+    },
+    {
+      "code": "00133",
+      "description": "monteur",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "BEDIENING MATERIEEL"
+    },
+    {
+      "code": "00141",
+      "description": "timmerman",
+      "unit": "uur",
+      "defaultUnitPrice": 78,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "BOUWKUNDIG"
+    },
+    {
+      "code": "00142",
+      "description": "metselaar",
+      "unit": "uur",
+      "defaultUnitPrice": 66,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "BOUWKUNDIG"
+    },
+    {
+      "code": "00171",
+      "description": "hovenier",
+      "unit": "uur",
+      "defaultUnitPrice": 78,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "GROENVOORZIENINGEN"
+    },
+    {
+      "code": "00172",
+      "description": "groen personeel",
+      "unit": "uur",
+      "defaultUnitPrice": 60,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "GROENVOORZIENINGEN"
+    },
+    {
+      "code": "00181",
+      "description": "Landmeetk. Met GPS",
+      "unit": "uur",
+      "defaultUnitPrice": 108,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "LANDMEETKUNDIG PERSONEEL"
+    },
+    {
+      "code": "00182",
+      "description": "Landmeetk. Verwerking gegevensMet tachymeter",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "LANDMEETKUNDIG PERSONEEL"
+    },
+    {
+      "code": "00183",
+      "description": "Landmeetkundige",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "LANDMEETKUNDIG PERSONEEL"
+    },
+    {
+      "code": "00184",
+      "description": "Landmeetassistent",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "LANDMEETKUNDIG PERSONEEL"
+    },
+    {
+      "code": "00185",
+      "description": "uitzetter",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "LANDMEETKUNDIG PERSONEEL"
+    },
+    {
+      "code": "00186",
+      "description": "uitzethulp",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "LANDMEETKUNDIG PERSONEEL"
+    },
+    {
+      "code": "00187",
+      "description": "projectleider",
+      "unit": "uur",
+      "defaultUnitPrice": 96,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "LANDMEETKUNDIG PERSONEEL"
+    },
+    {
+      "code": "00188",
+      "description": "bedrijfsleider",
+      "unit": "uur",
+      "defaultUnitPrice": 120,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "LANDMEETKUNDIG PERSONEEL"
+    },
+    {
+      "code": "00191",
+      "description": "uitvoerder",
+      "unit": "uur",
+      "defaultUnitPrice": 84,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "UITVOEREND PERSONEEL"
+    },
+    {
+      "code": "00192",
+      "description": "ass. uitvoerder",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "UITVOEREND PERSONEEL"
+    },
+    {
+      "code": "00193",
+      "description": "tekenaar",
+      "unit": "uur",
+      "defaultUnitPrice": 72,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "UITVOEREND PERSONEEL"
+    },
+    {
+      "code": "00194",
+      "description": "Projectassistent",
+      "unit": "uur",
+      "defaultUnitPrice": 60,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "UITVOEREND PERSONEEL"
+    },
+    {
+      "code": "00195",
+      "description": "Projectcoordinator",
+      "unit": "uur",
+      "defaultUnitPrice": 96,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "UITVOEREND PERSONEEL"
+    },
+    {
+      "code": "00201",
+      "description": "calculator",
+      "unit": "uur",
+      "defaultUnitPrice": 90,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "WERKVOORBEREIDEND PERSONEEL"
+    },
+    {
+      "code": "00202",
+      "description": "hogereveiligheidskundigen",
+      "unit": "uur",
+      "defaultUnitPrice": 108,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "WERKVOORBEREIDEND PERSONEEL"
+    },
+    {
+      "code": "00203",
+      "description": "middelbareveiligheidskundigen",
+      "unit": "uur",
+      "defaultUnitPrice": 78,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "WERKVOORBEREIDEND PERSONEEL"
+    },
+    {
+      "code": "00210",
+      "description": "Machinist zuigwagen",
+      "unit": "uur",
+      "defaultUnitPrice": 65,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "CLEANING"
+    },
+    {
+      "code": "00211",
+      "description": "Vakman zuigwagen",
+      "unit": "uur",
+      "defaultUnitPrice": 60,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "CLEANING"
+    },
+    {
+      "code": "00212",
+      "description": "cacuumwagen 17m3",
+      "unit": "uur",
+      "defaultUnitPrice": 175,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "CLEANING"
+    },
+    {
+      "code": "00213",
+      "description": "Pick-up bus iveco met kraan",
+      "unit": "uur",
+      "defaultUnitPrice": 61.2,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "CLEANING"
+    },
+    {
+      "code": "00214",
+      "description": "Pick-up bus iveco",
+      "unit": "uur",
+      "defaultUnitPrice": 17.5,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "CLEANING"
+    },
+    {
+      "code": "00301",
+      "description": "Boormeester",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "BODEMADVIES"
+    },
+    {
+      "code": "00302",
+      "description": "Boorploeg",
+      "unit": "dag",
+      "defaultUnitPrice": 850,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "BODEMADVIES"
+    },
+    {
+      "code": "00303",
+      "description": "adviseur",
+      "unit": "uur",
+      "defaultUnitPrice": 90,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "BODEMADVIES"
+    },
+    {
+      "code": "00304",
+      "description": "senior adviseur",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "BODEMADVIES"
+    },
+    {
+      "code": "00305",
+      "description": "milieukundig begeleider",
+      "unit": "uur",
+      "defaultUnitPrice": 60,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "BODEMADVIES"
+    },
+    {
+      "code": "00306",
+      "description": "milieukundig begeleider (6000)",
+      "unit": "uur",
+      "defaultUnitPrice": 96,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "BODEMADVIES"
+    },
+    {
+      "code": "00307",
+      "description": "adviseur/projectleider",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "BODEMADVIES"
+    },
+    {
+      "code": "00308",
+      "description": "specialist bodemsanering",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "BODEMADVIES"
+    },
+    {
+      "code": "00309",
+      "description": "adviseur/projectleider SA",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "BODEMADVIES"
+    },
+    {
+      "code": "00310",
+      "description": "senior adviseur/specialist SA",
+      "unit": "uur",
+      "defaultUnitPrice": 115,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "BODEMADVIES"
+    },
+    {
+      "code": "00311",
+      "description": "veldmedewerker",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "BODEMADVIES"
+    },
+    {
+      "code": "00312",
+      "description": "Direct leidinggevende projecten",
+      "unit": "uur",
+      "defaultUnitPrice": 60,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "BODEMADVIES"
+    },
+    {
+      "code": "00313",
+      "description": "R dlp",
+      "unit": "st",
+      "defaultUnitPrice": 65,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "BODEMADVIES"
+    },
+    {
+      "code": "00900",
+      "description": "Reisuren",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MANUREN AANNEMING DERDEN",
+      "subCategory": "BODEMADVIES"
+    },
+    {
+      "code": "10000",
+      "description": "mobiele kraan",
+      "unit": "uur",
+      "defaultUnitPrice": 86.39999999999999,
+      "category": "MACHINE-UREN",
+      "subCategory": "BODEMADVIES"
+    },
+    {
+      "code": "10010",
+      "description": "mob.kraan 800 liter",
+      "unit": "uur",
+      "defaultUnitPrice": 68,
+      "category": "MACHINE-UREN",
+      "subCategory": "BODEMADVIES"
+    },
+    {
+      "code": "10020",
+      "description": "mob.kraan 1000 liter dks",
+      "unit": "uur",
+      "defaultUnitPrice": 90,
+      "category": "MACHINE-UREN",
+      "subCategory": "BODEMADVIES"
+    },
+    {
+      "code": "10030",
+      "description": "mob.kraan + sloophamer",
+      "unit": "uur",
+      "defaultUnitPrice": 106.5,
+      "category": "MACHINE-UREN",
+      "subCategory": "BODEMADVIES"
+    },
+    {
+      "code": "10120",
+      "description": "rupskraan 1000 ltr",
+      "unit": "uur",
+      "defaultUnitPrice": 87,
+      "category": "MACHINE-UREN",
+      "subCategory": "RUPSKRANEN"
+    },
+    {
+      "code": "10130",
+      "description": "rupskraan 1250 ltr",
+      "unit": "uur",
+      "defaultUnitPrice": 90,
+      "category": "MACHINE-UREN",
+      "subCategory": "RUPSKRANEN"
+    },
+    {
+      "code": "10140",
+      "description": "rupskraan 1500 ltr",
+      "unit": "uur",
+      "defaultUnitPrice": 94.8,
+      "category": "MACHINE-UREN",
+      "subCategory": "RUPSKRANEN"
+    },
+    {
+      "code": "10150",
+      "description": "rupskraan 1750 ltr",
+      "unit": "uur",
+      "defaultUnitPrice": 105,
+      "category": "MACHINE-UREN",
+      "subCategory": "RUPSKRANEN"
+    },
+    {
+      "code": "10160",
+      "description": "rupskraan 3000 ltr",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "RUPSKRANEN"
+    },
+    {
+      "code": "10200",
+      "description": "hyd hamer 13-19 t",
+      "unit": "dag",
+      "defaultUnitPrice": 250,
+      "category": "MACHINE-UREN",
+      "subCategory": "TOEBEHOREN KRAAN/SHOVEL"
+    },
+    {
+      "code": "10210",
+      "description": "Vergruizer 16-25 t",
+      "unit": "dag",
+      "defaultUnitPrice": 225,
+      "category": "MACHINE-UREN",
+      "subCategory": "TOEBEHOREN KRAAN/SHOVEL"
+    },
+    {
+      "code": "10220",
+      "description": "Trilblok",
+      "unit": "dag",
+      "defaultUnitPrice": 225,
+      "category": "MACHINE-UREN",
+      "subCategory": "TOEBEHOREN KRAAN/SHOVEL"
+    },
+    {
+      "code": "10230",
+      "description": "Sorteergrijper",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TOEBEHOREN KRAAN/SHOVEL"
+    },
+    {
+      "code": "10240",
+      "description": "Zuignap aan kraan",
+      "unit": "dag",
+      "defaultUnitPrice": 155,
+      "category": "MACHINE-UREN",
+      "subCategory": "TOEBEHOREN KRAAN/SHOVEL"
+    },
+    {
+      "code": "10250",
+      "description": "Vlaktomaat shovel",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TOEBEHOREN KRAAN/SHOVEL"
+    },
+    {
+      "code": "10260",
+      "description": "knijper",
+      "unit": "dag",
+      "defaultUnitPrice": 45,
+      "category": "MACHINE-UREN",
+      "subCategory": "TOEBEHOREN KRAAN/SHOVEL"
+    },
+    {
+      "code": "10270",
+      "description": "trilrol achter shovel",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TOEBEHOREN KRAAN/SHOVEL"
+    },
+    {
+      "code": "10280",
+      "description": "kantelbak",
+      "unit": "dag",
+      "defaultUnitPrice": 45,
+      "category": "MACHINE-UREN",
+      "subCategory": "TOEBEHOREN KRAAN/SHOVEL"
+    },
+    {
+      "code": "10290",
+      "description": "palletvorken",
+      "unit": "dag",
+      "defaultUnitPrice": 25,
+      "category": "MACHINE-UREN",
+      "subCategory": "TOEBEHOREN KRAAN/SHOVEL"
+    },
+    {
+      "code": "10330",
+      "description": "telekraan 35 ton 3uur",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TELEKRANEN"
+    },
+    {
+      "code": "10340",
+      "description": "telekraan 40 ton 3uur",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TELEKRANEN"
+    },
+    {
+      "code": "10350",
+      "description": "telekraan 45 ton 3uur",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TELEKRANEN"
+    },
+    {
+      "code": "10360",
+      "description": "telekraan 50 ton 3uur",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TELEKRANEN"
+    },
+    {
+      "code": "10370",
+      "description": "telekraan 60 ton 4uur",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TELEKRANEN"
+    },
+    {
+      "code": "10380",
+      "description": "telekraan 70 ton 4uur",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TELEKRANEN"
+    },
+    {
+      "code": "10900",
+      "description": "minigraver 1,5 ton",
+      "unit": "uur",
+      "defaultUnitPrice": 63,
+      "category": "MACHINE-UREN",
+      "subCategory": "MINIGRAVERS"
+    },
+    {
+      "code": "10910",
+      "description": "minigraver 2,5/4 ton",
+      "unit": "uur",
+      "defaultUnitPrice": 66,
+      "category": "MACHINE-UREN",
+      "subCategory": "MINIGRAVERS"
+    },
+    {
+      "code": "10920",
+      "description": "minigraver 6 ton",
+      "unit": "uur",
+      "defaultUnitPrice": 60,
+      "category": "MACHINE-UREN",
+      "subCategory": "MINIGRAVERS"
+    },
+    {
+      "code": "10930",
+      "description": "minigraver sloophamer",
+      "unit": "uur",
+      "defaultUnitPrice": 80,
+      "category": "MACHINE-UREN",
+      "subCategory": "MINIGRAVERS"
+    },
+    {
+      "code": "10980",
+      "description": "midigraver 5 ton",
+      "unit": "uur",
+      "defaultUnitPrice": 69,
+      "category": "MACHINE-UREN",
+      "subCategory": "MINIGRAVERS"
+    },
+    {
+      "code": "11010",
+      "description": "bulldoser d 4",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "bulldozers"
+    },
+    {
+      "code": "11020",
+      "description": "bulldoser d 5",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "bulldozers"
+    },
+    {
+      "code": "11030",
+      "description": "bulldoser d 6",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "bulldozers"
+    },
+    {
+      "code": "11100",
+      "description": "loader+dieplader",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "LOADERS"
+    },
+    {
+      "code": "11110",
+      "description": "loader mini",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "LOADERS"
+    },
+    {
+      "code": "11140",
+      "description": "loader 2000 ltr",
+      "unit": "uur",
+      "defaultUnitPrice": 75,
+      "category": "MACHINE-UREN",
+      "subCategory": "LOADERS"
+    },
+    {
+      "code": "11150",
+      "description": "loader 2500 ltr",
+      "unit": "uur",
+      "defaultUnitPrice": 80,
+      "category": "MACHINE-UREN",
+      "subCategory": "LOADERS"
+    },
+    {
+      "code": "11180",
+      "description": "loader zonder machinist",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "LOADERS"
+    },
+    {
+      "code": "11190",
+      "description": "bobcat",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "LOADERS"
+    },
+    {
+      "code": "11200",
+      "description": "grader",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "GRADERS"
+    },
+    {
+      "code": "12130",
+      "description": "kraanwagen 8*4",
+      "unit": "uur",
+      "defaultUnitPrice": 95,
+      "category": "MACHINE-UREN",
+      "subCategory": "KRAANWAGEN"
+    },
+    {
+      "code": "12140",
+      "description": "kraanwagen 6*6",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "KRAANWAGEN"
+    },
+    {
+      "code": "12150",
+      "description": "auto met steenklem",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "KRAANWAGEN"
+    },
+    {
+      "code": "12210",
+      "description": "vrachtwagen 6*6",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "VRACHTWAGENS"
+    },
+    {
+      "code": "12220",
+      "description": "vrachtwagen 8*4 wsg (16m3)",
+      "unit": "uur",
+      "defaultUnitPrice": 98.39999999999999,
+      "category": "MACHINE-UREN",
+      "subCategory": "VRACHTWAGENS"
+    },
+    {
+      "code": "12230",
+      "description": "vrachtwagen 8*8 wsg (19m3)",
+      "unit": "uur",
+      "defaultUnitPrice": 102,
+      "category": "MACHINE-UREN",
+      "subCategory": "VRACHTWAGENS"
+    },
+    {
+      "code": "12240",
+      "description": "vrachtwagen 10*8 (23m3)",
+      "unit": "uur",
+      "defaultUnitPrice": 118.19999999999999,
+      "category": "MACHINE-UREN",
+      "subCategory": "VRACHTWAGENS"
+    },
+    {
+      "code": "12250",
+      "description": "auto kiptrailer 30m3",
+      "unit": "uur",
+      "defaultUnitPrice": 105,
+      "category": "MACHINE-UREN",
+      "subCategory": "VRACHTWAGENS"
+    },
+    {
+      "code": "12320",
+      "description": "dieplader",
+      "unit": "uur",
+      "defaultUnitPrice": 95,
+      "category": "MACHINE-UREN",
+      "subCategory": "DIEPLADER"
+    },
+    {
+      "code": "12330",
+      "description": "semi-dieplader",
+      "unit": "uur",
+      "defaultUnitPrice": 87.5,
+      "category": "MACHINE-UREN",
+      "subCategory": "DIEPLADER"
+    },
+    {
+      "code": "12410",
+      "description": "Iveco met kraan",
+      "unit": "dag",
+      "defaultUnitPrice": 540,
+      "category": "MACHINE-UREN",
+      "subCategory": "BESTELBUS"
+    },
+    {
+      "code": "126",
+      "description": "ZUIGWAGEN",
+      "unit": "uur",
+      "defaultUnitPrice": 200,
+      "category": "MACHINE-UREN",
+      "subCategory": "BESTELBUS"
+    },
+    {
+      "code": "12610",
+      "description": "zuigwagen met 1 man",
+      "unit": "uur",
+      "defaultUnitPrice": 220,
+      "category": "MACHINE-UREN",
+      "subCategory": "BESTELBUS"
+    },
+    {
+      "code": "12620",
+      "description": "spuitwagen/rioolreiniger",
+      "unit": "uur",
+      "defaultUnitPrice": 70,
+      "category": "MACHINE-UREN",
+      "subCategory": "BESTELBUS"
+    },
+    {
+      "code": "12630",
+      "description": "veeg/zuigwagen",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "BESTELBUS"
+    },
+    {
+      "code": "12640",
+      "description": "reparatieunit kitwerk",
+      "unit": "uur",
+      "defaultUnitPrice": 227.5,
+      "category": "MACHINE-UREN",
+      "subCategory": "BESTELBUS"
+    },
+    {
+      "code": "12650",
+      "description": "reparatieunit coating",
+      "unit": "uur",
+      "defaultUnitPrice": 227.5,
+      "category": "MACHINE-UREN",
+      "subCategory": "BESTELBUS"
+    },
+    {
+      "code": "12660",
+      "description": "controleunit riolering",
+      "unit": "uur",
+      "defaultUnitPrice": 210,
+      "category": "MACHINE-UREN",
+      "subCategory": "BESTELBUS"
+    },
+    {
+      "code": "12710",
+      "description": "trekker 50 pk.",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TREKKERS"
+    },
+    {
+      "code": "12720",
+      "description": "trekker 70 pk.",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TREKKERS"
+    },
+    {
+      "code": "12790",
+      "description": "trekker + waterw.",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TREKKERS"
+    },
+    {
+      "code": "12791",
+      "description": "trekker + bezem",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TREKKERS"
+    },
+    {
+      "code": "12792",
+      "description": "trekker + ploeg",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TREKKERS"
+    },
+    {
+      "code": "12793",
+      "description": "trekker + frees",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TREKKERS"
+    },
+    {
+      "code": "12794",
+      "description": "trekker + spitmachine",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TREKKERS"
+    },
+    {
+      "code": "12795",
+      "description": "trekker+eg/inzaaimach",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TREKKERS"
+    },
+    {
+      "code": "12796",
+      "description": "trekker + kilver",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TREKKERS"
+    },
+    {
+      "code": "12797",
+      "description": "trekker + woeler",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TREKKERS"
+    },
+    {
+      "code": "12798",
+      "description": "trekker + trilrol",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TREKKERS"
+    },
+    {
+      "code": "12799",
+      "description": "trekker + versnipperaar",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TREKKERS"
+    },
+    {
+      "code": "12850",
+      "description": "trekker+dumper 8m3",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TREKKERS"
+    },
+    {
+      "code": "12870",
+      "description": "trekker+dumper 10m3",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TREKKERS"
+    },
+    {
+      "code": "12880",
+      "description": "terkker+dummper z.mach",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TREKKERS"
+    },
+    {
+      "code": "12890",
+      "description": "trekker+dumper 12m3",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TREKKERS"
+    },
+    {
+      "code": "12891",
+      "description": "knikdumper 15m3 los",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TREKKERS"
+    },
+    {
+      "code": "12892",
+      "description": "knikdumper 16m3 los",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TREKKERS"
+    },
+    {
+      "code": "12910",
+      "description": "klepelaar gras/struik",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TREKKERS"
+    },
+    {
+      "code": "12920",
+      "description": "klepelaar struik/hout",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "TREKKERS"
+    },
+    {
+      "code": "13200",
+      "description": "trilwals",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "VERDICHTINGSAPPARATUUR"
+    },
+    {
+      "code": "13290",
+      "description": "trilrol (aanhang)",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "VERDICHTINGSAPPARATUUR"
+    },
+    {
+      "code": "13300",
+      "description": "stat.wals",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "VERDICHTINGSAPPARATUUR"
+    },
+    {
+      "code": "13910",
+      "description": "stamper",
+      "unit": "dag",
+      "defaultUnitPrice": 25,
+      "category": "MACHINE-UREN",
+      "subCategory": "VERDICHTINGSAPPARATUUR"
+    },
+    {
+      "code": "13920",
+      "description": "trilplaat 2500",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "VERDICHTINGSAPPARATUUR"
+    },
+    {
+      "code": "13930",
+      "description": "trilplaat 3500",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "VERDICHTINGSAPPARATUUR"
+    },
+    {
+      "code": "13940",
+      "description": "trilplaat rotary",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "VERDICHTINGSAPPARATUUR"
+    },
+    {
+      "code": "19180",
+      "description": "Roterende laser",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19190",
+      "description": "rioollaser",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19200",
+      "description": "aggregaat",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19300",
+      "description": "compressor",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19400",
+      "description": "betonboormachine",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19500",
+      "description": "materieel sloopploeg",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19600",
+      "description": "vacuumstraalmachine",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19610",
+      "description": "borstelring vlak",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19620",
+      "description": "borstelring 90 gr. Binnen",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19630",
+      "description": "borstelring 90 gr. buiten",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19640",
+      "description": "borstelring voor buizen",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19650",
+      "description": "borstelhouder vlak",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19660",
+      "description": "borstelhouder binnen 90 gr.",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19660",
+      "description": "borstelhouder buiten 90 gr.",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19670",
+      "description": "straalnozzle 1/4 bc",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19680",
+      "description": "straalmond behuizing",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19690",
+      "description": "binnenpijp vlak",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19691",
+      "description": "binnenpijp hoek",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19692",
+      "description": "vacuumslang 2\" 15 m",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19693",
+      "description": "vacuumslang 1\" 15 m",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19694",
+      "description": "afdichtring",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19695",
+      "description": "zeef voor grit/stof scheiding",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19696",
+      "description": "grote straalmond",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19700",
+      "description": "waterafscheider",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "19800",
+      "description": "slang",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "MACHINE-UREN",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "21110",
+      "description": "aanvulzand franko",
+      "unit": "m3",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "21120",
+      "description": "betonzand franko",
+      "unit": "m3",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "21130",
+      "description": "brekerzand franko",
+      "unit": "m3",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "21140",
+      "description": "metselzand franko",
+      "unit": "m3",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "21150",
+      "description": "Drainzand franko",
+      "unit": "m3",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "21160",
+      "description": "zand af put",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "21170",
+      "description": "drainzand af put,ongez",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "21171",
+      "description": "drainzand af put,gezeefd",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "21180",
+      "description": "Bomenzand 1,3t/m3",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "21190",
+      "description": "Bomengrond 1,3t/m3",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "21200",
+      "description": "Rijngrind 16/32mm",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "21210",
+      "description": "Rijngrind 32/56mm",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "21220",
+      "description": "Rode mijnsteen",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "21230",
+      "description": "Grave D' or",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "21240",
+      "description": "Ibb. Breuksteen,franko",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "Div. KLEINMATERIEEL"
+    },
+    {
+      "code": "22400",
+      "description": "gebroken puin 0/40",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "RECYCLINGMATERIALEN"
+    },
+    {
+      "code": "22410",
+      "description": "gebroken betonpuin",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "RECYCLINGMATERIALEN"
+    },
+    {
+      "code": "22420",
+      "description": "gebroken asfaltpuin",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "RECYCLINGMATERIALEN"
+    },
+    {
+      "code": "22421",
+      "description": "Zandkorrelmix",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "RECYCLINGMATERIALEN"
+    },
+    {
+      "code": "22430",
+      "description": "Gest.0/40 3MN",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "RECYCLINGMATERIALEN"
+    },
+    {
+      "code": "22430",
+      "description": "Gest.puin 5MN",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "RECYCLINGMATERIALEN"
+    },
+    {
+      "code": "22440",
+      "description": "Gest.metsel 0-5,10%",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "RECYCLINGMATERIALEN"
+    },
+    {
+      "code": "22450",
+      "description": "Gest.meng 0-20,  7,5%",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "RECYCLINGMATERIALEN"
+    },
+    {
+      "code": "22460",
+      "description": "Gest.zand 125kg",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "RECYCLINGMATERIALEN"
+    },
+    {
+      "code": "22470",
+      "description": "Gest.AGRAC Type A2",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "RECYCLINGMATERIALEN"
+    },
+    {
+      "code": "22480",
+      "description": "Zandduomix",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "RECYCLINGMATERIALEN"
+    },
+    {
+      "code": "23510",
+      "description": "Bouw-Sloopafval",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "STORT"
+    },
+    {
+      "code": "23530",
+      "description": "Groen en snoeihout",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "STORT"
+    },
+    {
+      "code": "23540",
+      "description": "Stobben en stammen",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "STORT"
+    },
+    {
+      "code": "23550",
+      "description": "Hout A",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "STORT"
+    },
+    {
+      "code": "23560",
+      "description": "Hout B",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "STORT"
+    },
+    {
+      "code": "23570",
+      "description": "Hout C",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "STORT"
+    },
+    {
+      "code": "23580",
+      "description": "Dakleer ed.",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "STORT"
+    },
+    {
+      "code": "23590",
+      "description": "Metsel/metselbetonpuin",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "STORT"
+    },
+    {
+      "code": "23600",
+      "description": "betonpuin",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "STORT"
+    },
+    {
+      "code": "23610",
+      "description": "asfaltpuin met 5% zand",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "STORT"
+    },
+    {
+      "code": "23620",
+      "description": "Asfaltpuin stort >0,8x0,8",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "STORT"
+    },
+    {
+      "code": "23630",
+      "description": "teerasfalt stort",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "STORT"
+    },
+    {
+      "code": "24100",
+      "description": "Lijnmmortel",
+      "unit": "m3",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "BETON franko"
+    },
+    {
+      "code": "24110",
+      "description": "Beton C20/25 franko",
+      "unit": "m3",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "BETON franko"
+    },
+    {
+      "code": "24120",
+      "description": "Beton C28/35 franko",
+      "unit": "m3",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "BETON franko"
+    },
+    {
+      "code": "24130",
+      "description": "spramex",
+      "unit": "m3",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "BETON franko"
+    },
+    {
+      "code": "24140",
+      "description": "superplastificeerder",
+      "unit": "m3",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "BETON franko"
+    },
+    {
+      "code": "24210",
+      "description": "stelspecie (betonsloof)",
+      "unit": "m3",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "BETON franko"
+    },
+    {
+      "code": "24220",
+      "description": "vrachtkosten stelspecie",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "BETON franko"
+    },
+    {
+      "code": "24230",
+      "description": "stampbeton (betonrug)",
+      "unit": "m3",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "BETON franko"
+    },
+    {
+      "code": "24240",
+      "description": "kleine lading<6m3 stampbeton",
+      "unit": "m3",
+      "defaultUnitPrice": null,
+      "category": "ZAND,GRIND franko",
+      "subCategory": "BETON franko"
+    },
+    {
+      "code": "31010",
+      "description": "asfalt cm/m1 binnen",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK ASFALT"
+    },
+    {
+      "code": "31020",
+      "description": "asfalt cm/m1 5/40m2",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK ASFALT"
+    },
+    {
+      "code": "31030",
+      "description": "asfalt cm/m1 40/80m2",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK ASFALT"
+    },
+    {
+      "code": "31040",
+      "description": "asfalt cm/m1 >80m2",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK ASFALT"
+    },
+    {
+      "code": "31050",
+      "description": "asfaltfrees + transportband",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK ASFALT"
+    },
+    {
+      "code": "31060",
+      "description": "minimumtarief 1",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK ASFALT"
+    },
+    {
+      "code": "31070",
+      "description": "asfaltfrees - transportband",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK ASFALT"
+    },
+    {
+      "code": "31080",
+      "description": "minimumtarief 2",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK ASFALT"
+    },
+    {
+      "code": "31090",
+      "description": "frezen asfalt 4cm dik",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK ASFALT"
+    },
+    {
+      "code": "31110",
+      "description": "ongew. betonvloer tot 20cm cm/m1",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK VLOER BINNEN"
+    },
+    {
+      "code": "31120",
+      "description": "ongew. betonvloer tot 40cm cm/m1",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK VLOER BINNEN"
+    },
+    {
+      "code": "31130",
+      "description": "gewap. betonvloer tot 20cm cm/m1",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK VLOER BINNEN"
+    },
+    {
+      "code": "31140",
+      "description": "gewap. betonvloer tot 40cm cm/m1",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK VLOER BINNEN"
+    },
+    {
+      "code": "31150",
+      "description": "gewap. betonvloer tot 55cm cm/m1",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK VLOER BINNEN"
+    },
+    {
+      "code": "31210",
+      "description": "ongewapende betonweg cm/m1",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK VLOER BUITEN"
+    },
+    {
+      "code": "31220",
+      "description": "gewapende betonweg cm/m1",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK VLOER BUITEN"
+    },
+    {
+      "code": "31310",
+      "description": "baksteen tot 11cm zagen",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK WANDEN"
+    },
+    {
+      "code": "31320",
+      "description": "baksteen tot 60cm zagen",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK WANDEN"
+    },
+    {
+      "code": "31330",
+      "description": "betonwand tot 30cm zagen",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK WANDEN"
+    },
+    {
+      "code": "31340",
+      "description": "betonwand tot 55cm zagen",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK WANDEN"
+    },
+    {
+      "code": "31410",
+      "description": "Minimumopdracht/dag",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ZAAGWERK WANDEN"
+    },
+    {
+      "code": "32010",
+      "description": "bronbemaling",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "BRONBEMALING"
+    },
+    {
+      "code": "32040",
+      "description": "dieselpomp",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "BRONBEMALING"
+    },
+    {
+      "code": "32050",
+      "description": "stroompomp",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "BRONBEMALING"
+    },
+    {
+      "code": "32060",
+      "description": "noodstroomaggregaat install.",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "BRONBEMALING"
+    },
+    {
+      "code": "32070",
+      "description": "huur noodstroomaggregaat",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "BRONBEMALING"
+    },
+    {
+      "code": "32080",
+      "description": "installeren tel. alarm",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "BRONBEMALING"
+    },
+    {
+      "code": "32090",
+      "description": "huur telefonisch alarm",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "BRONBEMALING"
+    },
+    {
+      "code": "33010",
+      "description": "GAB",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ASFALT"
+    },
+    {
+      "code": "33020",
+      "description": "SAB",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ASFALT"
+    },
+    {
+      "code": "33030",
+      "description": "STAB",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ASFALT"
+    },
+    {
+      "code": "33040",
+      "description": "DAB",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ASFALT"
+    },
+    {
+      "code": "33050",
+      "description": "OAB",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ASFALT"
+    },
+    {
+      "code": "33060",
+      "description": "SMA",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ASFALT"
+    },
+    {
+      "code": "33070",
+      "description": "ZOAB",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ASFALT"
+    },
+    {
+      "code": "33080",
+      "description": "rood asfalt",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ASFALT"
+    },
+    {
+      "code": "33090",
+      "description": "kleeflaag",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ASFALT"
+    },
+    {
+      "code": "33100",
+      "description": "oppervlaktebehandeling",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ASFALT"
+    },
+    {
+      "code": "34010",
+      "description": "AP04 Insitu<2000 ton \"schoon\"",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "BEMONSTEREN"
+    },
+    {
+      "code": "34020",
+      "description": "AP04 depot<2000 ton \"schoon\"",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "BEMONSTEREN"
+    },
+    {
+      "code": "34030",
+      "description": "AP04 \"niet schoon\"",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "BEMONSTEREN"
+    },
+    {
+      "code": "34040",
+      "description": "Uitloogonderzoek",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "BEMONSTEREN"
+    },
+    {
+      "code": "34050",
+      "description": "Uitsplitsing EOX",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "BEMONSTEREN"
+    },
+    {
+      "code": "34110",
+      "description": "storten categorie 1 Twence",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "STORTGELDEN GROND"
+    },
+    {
+      "code": "34120",
+      "description": "storten categorie 2 Twence",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "STORTGELDEN GROND"
+    },
+    {
+      "code": "34130",
+      "description": "bemonstering AP04 Twence",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "STORTGELDEN GROND"
+    },
+    {
+      "code": "34140",
+      "description": "storten CAT 1 Almelo grondbank",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "STORTGELDEN GROND"
+    },
+    {
+      "code": "34210",
+      "description": "grondmechanisch onderzoek",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "GRONDONDERZOEK"
+    },
+    {
+      "code": "34220",
+      "description": "funderingsadvies",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "GRONDONDERZOEK"
+    },
+    {
+      "code": "34230",
+      "description": "sondering 15/20m1 diep (incl. U+W)",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "GRONDONDERZOEK"
+    },
+    {
+      "code": "34240",
+      "description": "meting plaatselijke wrijving",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "GRONDONDERZOEK"
+    },
+    {
+      "code": "343010",
+      "description": "verwerken schone grond",
+      "unit": "m3",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "VERWERKINGSKOSTEN BOUWSTOFFEN"
+    },
+    {
+      "code": "343020",
+      "description": "Verwerken van schone grond",
+      "unit": "ton",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "VERWERKINGSKOSTEN BOUWSTOFFEN"
+    },
+    {
+      "code": "343030",
+      "description": "Reinigen van verontreinigde grond",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "VERWERKINGSKOSTEN BOUWSTOFFEN"
+    },
+    {
+      "code": "35110",
+      "description": "Bomen lev/aan compleet",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "BEPLANTING"
+    },
+    {
+      "code": "35120",
+      "description": "Haag 1-rijig",
+      "unit": "m",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "BEPLANTING"
+    },
+    {
+      "code": "35130",
+      "description": "Haag 2-rijig",
+      "unit": "m",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "BEPLANTING"
+    },
+    {
+      "code": "35140",
+      "description": "Struiken",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "BEPLANTING"
+    },
+    {
+      "code": "35150",
+      "description": "Klimplanten",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "BEPLANTING"
+    },
+    {
+      "code": "35210",
+      "description": "Gazon zaaiklaar maken",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "zaaien"
+    },
+    {
+      "code": "35220",
+      "description": "Inzaaien gazon",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "zaaien"
+    },
+    {
+      "code": "35230",
+      "description": "Maaien gras",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "zaaien"
+    },
+    {
+      "code": "35240",
+      "description": "Inzaaien onderhoudspad",
+      "unit": "are",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "zaaien"
+    },
+    {
+      "code": "35310",
+      "description": "Verwijderen bos",
+      "unit": "are",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "GROEN VERWIJDEREN"
+    },
+    {
+      "code": "35320",
+      "description": "Verwijderen windsingel",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "GROEN VERWIJDEREN"
+    },
+    {
+      "code": "35321",
+      "description": "Haag verwijderen",
+      "unit": "m",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "GROEN VERWIJDEREN"
+    },
+    {
+      "code": "35330",
+      "description": "Afzetten struiken",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "GROEN VERWIJDEREN"
+    },
+    {
+      "code": "35340",
+      "description": "Opsnoeien houtopstand",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "GROEN VERWIJDEREN"
+    },
+    {
+      "code": "35350",
+      "description": "Verwijderen boom ø20-30",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "GROEN VERWIJDEREN"
+    },
+    {
+      "code": "35360",
+      "description": "Verwijderen boom ø30-50",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "GROEN VERWIJDEREN"
+    },
+    {
+      "code": "35370",
+      "description": "Verwijderen boom ø50-100",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "GROEN VERWIJDEREN"
+    },
+    {
+      "code": "35380",
+      "description": "Verwijderen boom >100",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "GROEN VERWIJDEREN"
+    },
+    {
+      "code": "35390",
+      "description": "Stobben 30-50 rooien",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "GROEN VERWIJDEREN"
+    },
+    {
+      "code": "35391",
+      "description": "Stobben 50-100 rooien",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "GROEN VERWIJDEREN"
+    },
+    {
+      "code": "36010",
+      "description": "Aan-afvoer rijplaten",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "RIJPLATEN"
+    },
+    {
+      "code": "36020",
+      "description": "Huur rijplaten …... Stuks",
+      "unit": "st/wk",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "RIJPLATEN"
+    },
+    {
+      "code": "37310",
+      "description": "Hekwerk leveren",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "HEKWERKEN Divers"
+    },
+    {
+      "code": "37320",
+      "description": "Poort enkel",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "HEKWERKEN Divers"
+    },
+    {
+      "code": "37330",
+      "description": "Poort dubbel",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "HEKWERKEN Divers"
+    },
+    {
+      "code": "37340",
+      "description": "Afrastering schapengaas",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "HEKWERKEN Divers"
+    },
+    {
+      "code": "37350",
+      "description": "Afrastering 3 puntdraden",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "HEKWERKEN Divers"
+    },
+    {
+      "code": "380000",
+      "description": "Volgens aanvraag dd…..",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ASBEST"
+    },
+    {
+      "code": "380010",
+      "description": "Asbestonderzoek",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ASBEST"
+    },
+    {
+      "code": "380020",
+      "description": "Dakbeschot + stort",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ASBEST"
+    },
+    {
+      "code": "380030",
+      "description": "Dakbeschot ex. stort",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ASBEST"
+    },
+    {
+      "code": "380040",
+      "description": "Deko unit",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ASBEST"
+    },
+    {
+      "code": "380050",
+      "description": "Onderdrukcabine",
+      "unit": "dag",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "ASBEST"
+    },
+    {
+      "code": "39110",
+      "description": "belijning",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "BELIJNING"
+    },
+    {
+      "code": "39210",
+      "description": "verkeersmaatregelen",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "VERKEERSMAATREGELEN"
+    },
+    {
+      "code": "39220",
+      "description": "plaatsen bebording",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "VERKEERSMAATREGELEN"
+    },
+    {
+      "code": "39230",
+      "description": "opnemen bebording",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "VERKEERSMAATREGELEN"
+    },
+    {
+      "code": "39240",
+      "description": "onderhoud verkeersmaatregelen",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "VERKEERSMAATREGELEN"
+    },
+    {
+      "code": "39309",
+      "description": "container 15/40m3 plaatsen",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "CONTAINERS"
+    },
+    {
+      "code": "39310",
+      "description": "container 15/40m3 ledigen en retour",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "CONTAINERS"
+    },
+    {
+      "code": "39320",
+      "description": "container 10m3",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "CONTAINERS"
+    },
+    {
+      "code": "39330",
+      "description": "puincontainer 6m3 (all-in) Hengelo",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "CONTAINERS"
+    },
+    {
+      "code": "39340",
+      "description": "puincontainer 6m3 (all-in) Old/Ensch",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "ONDERAANNEMING",
+      "subCategory": "CONTAINERS"
+    },
+    {
+      "code": "44001",
+      "description": "wordt gebruikt in calc…",
+      "unit": "m",
+      "defaultUnitPrice": null,
+      "category": "test 4",
+      "subCategory": "groep 44"
+    },
+    {
+      "code": "50110",
+      "description": "ongew.buis d=250",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "50120",
+      "description": "ongew.buis d=300",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "50130",
+      "description": "ongew.buis d=400",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "50140",
+      "description": "ongew.buis d=500",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "50150",
+      "description": "ongew.buis d=600",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "50160",
+      "description": "ongew.buis d=700",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "50170",
+      "description": "ongew.buis d=800",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "50180",
+      "description": "ongew.buis d=900",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "50190",
+      "description": "ongew.buis d=1000",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "50200",
+      "description": "ongew.buis d=1250",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "50210",
+      "description": "ongew.buis d=1500",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "50320",
+      "description": "ongew.buis d=300 VV",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "50330",
+      "description": "ongew.buis d=400 VV",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "50340",
+      "description": "ongew.buis d=500 VV",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "50350",
+      "description": "ongew.buis d=600 VV",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "50360",
+      "description": "ongew.buis d=700 VV",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "50370",
+      "description": "ongew.buis d=800 VV",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "50380",
+      "description": "ongew.buis d=900 VV",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "50390",
+      "description": "ongew.buis d=1000 VV",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "50500",
+      "description": "inlaat o125 in betonbuis",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "50600",
+      "description": "inlaat o160 in betonbuis",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "ongewapende betonb."
+    },
+    {
+      "code": "51100",
+      "description": "prefab rioolput 80",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "RIOOLPUTTEN"
+    },
+    {
+      "code": "51110",
+      "description": "onderbak put 80x80 1m hoog",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "RIOOLPUTTEN"
+    },
+    {
+      "code": "51120",
+      "description": "stroomprofiel put 80x80",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "RIOOLPUTTEN"
+    },
+    {
+      "code": "51130",
+      "description": "opzetstuk",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "RIOOLPUTTEN"
+    },
+    {
+      "code": "51140",
+      "description": "afdekplaat",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "RIOOLPUTTEN"
+    },
+    {
+      "code": "51150",
+      "description": "prefab rioolput 100",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "RIOOLPUTTEN"
+    },
+    {
+      "code": "51160",
+      "description": "onderbak put 100x100 1m hoog",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "RIOOLPUTTEN"
+    },
+    {
+      "code": "51170",
+      "description": "stroomprofiel put 100x100",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "RIOOLPUTTEN"
+    },
+    {
+      "code": "51180",
+      "description": "opzetstuk",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "RIOOLPUTTEN"
+    },
+    {
+      "code": "51190",
+      "description": "afdekplaat",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "RIOOLPUTTEN"
+    },
+    {
+      "code": "51210",
+      "description": "P352 h=12/17/23cm 400KN/D",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PUTRANDEN"
+    },
+    {
+      "code": "51220",
+      "description": "P5352 h=12/17/23cm 400KN/D",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PUTRANDEN"
+    },
+    {
+      "code": "51230",
+      "description": "P352 h=17,5cm 400KN/D",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PUTRANDEN"
+    },
+    {
+      "code": "51240",
+      "description": "P5352 h=17,5cm 400KN/D",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PUTRANDEN"
+    },
+    {
+      "code": "51250",
+      "description": "ontluchtingsgat",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PUTRANDEN"
+    },
+    {
+      "code": "51260",
+      "description": "opschrift",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PUTRANDEN"
+    },
+    {
+      "code": "51270",
+      "description": "vergrendeling",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PUTRANDEN"
+    },
+    {
+      "code": "51280",
+      "description": "N352NG-R \"SW\" h=17,5cm (netto)",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PUTRANDEN"
+    },
+    {
+      "code": "51290",
+      "description": "TBS 313 24 hoog",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PUTRANDEN"
+    },
+    {
+      "code": "51300",
+      "description": "Betonkolk",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONNEN KOLKEN"
+    },
+    {
+      "code": "51310",
+      "description": "WGS straatkolk S1230/60 eendelig",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONNEN KOLKEN"
+    },
+    {
+      "code": "51320",
+      "description": "WGS straatkolk S1250/80 eendelig",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONNEN KOLKEN"
+    },
+    {
+      "code": "51330",
+      "description": "WGS straatkolk S1330-1320/88 tweedelig",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONNEN KOLKEN"
+    },
+    {
+      "code": "51340",
+      "description": "WGS straatkolk S1332-1325/90 tweedelig",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONNEN KOLKEN"
+    },
+    {
+      "code": "51360",
+      "description": "WGS trottoirkolk T1271/90 eendelig",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONNEN KOLKEN"
+    },
+    {
+      "code": "51370",
+      "description": "WGS trottoirkolk T1271/60 eendelig",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONNEN KOLKEN"
+    },
+    {
+      "code": "51380",
+      "description": "WGS trottoirkolk T1350-1320/100 tweedelig",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONNEN KOLKEN"
+    },
+    {
+      "code": "51390",
+      "description": "WGS trottoirkolk T1352-1320/90 tweedelig",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONNEN KOLKEN"
+    },
+    {
+      "code": "51391",
+      "description": "WGS voetgangerskok",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONNEN KOLKEN"
+    },
+    {
+      "code": "51400",
+      "description": "kolkvergrendeling",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONNEN KOLKEN"
+    },
+    {
+      "code": "51410",
+      "description": "TBS str9742",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONNEN KOLKEN"
+    },
+    {
+      "code": "51510",
+      "description": "WGS90x90x20 ø63cm (incl. ring)",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "STELRINGEN"
+    },
+    {
+      "code": "51520",
+      "description": "WGS80x80x20 ø42/34cm (incl. ring)",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "STELRINGEN"
+    },
+    {
+      "code": "51530",
+      "description": "Betonnen stelring 80x80x5",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "STELRINGEN"
+    },
+    {
+      "code": "51540",
+      "description": "Betonnen stelring 80x80x10",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "STELRINGEN"
+    },
+    {
+      "code": "51550",
+      "description": "Betonnen stelring 80x80x15",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "STELRINGEN"
+    },
+    {
+      "code": "51560",
+      "description": "Betonnen stelring 80x80x20",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "STELRINGEN"
+    },
+    {
+      "code": "51580",
+      "description": "NB90x90x20 ø63cm (incl. ring)",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "STELRINGEN"
+    },
+    {
+      "code": "51590",
+      "description": "TBS 90x90x20 ø63cm(incl ring)",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "STELRINGEN"
+    },
+    {
+      "code": "54100",
+      "description": "Bkk,8cm,wit",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONSTRAATSTENEN"
+    },
+    {
+      "code": "54110",
+      "description": "BKK,7cm,grijs",
+      "unit": "dz",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONSTRAATSTENEN"
+    },
+    {
+      "code": "54120",
+      "description": "Bkk,8cm,grijs",
+      "unit": "dz",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONSTRAATSTENEN"
+    },
+    {
+      "code": "54121",
+      "description": "Bkk,8cm,grijs z.deklaag",
+      "unit": "dz",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONSTRAATSTENEN"
+    },
+    {
+      "code": "54130",
+      "description": "Bkk,10cm grijs",
+      "unit": "dz",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONSTRAATSTENEN"
+    },
+    {
+      "code": "54140",
+      "description": "BKK 8cm heide",
+      "unit": "dz",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONSTRAATSTENEN"
+    },
+    {
+      "code": "54150",
+      "description": "BKK 8cm antraciet",
+      "unit": "dz",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONSTRAATSTENEN"
+    },
+    {
+      "code": "54160",
+      "description": "H-profiel,8cm,grijs",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONSTRAATSTENEN"
+    },
+    {
+      "code": "54170",
+      "description": "H-profiel,10cm,grijs",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONSTRAATSTENEN"
+    },
+    {
+      "code": "54180",
+      "description": "DF beton",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONSTRAATSTENEN"
+    },
+    {
+      "code": "54190",
+      "description": "WF beton",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BETONSTRAATSTENEN"
+    },
+    {
+      "code": "54200",
+      "description": "trottoirtegels 4,5cm",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TEGELS"
+    },
+    {
+      "code": "54210",
+      "description": "trottoirtegels 5cm",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TEGELS"
+    },
+    {
+      "code": "54230",
+      "description": "trottoirtegels 6 cm",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TEGELS"
+    },
+    {
+      "code": "54240",
+      "description": "trottoirtegels 7cm",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TEGELS"
+    },
+    {
+      "code": "54250",
+      "description": "trottoirtegels 8cm",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TEGELS"
+    },
+    {
+      "code": "54260",
+      "description": "meerprijs rood/zwart",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TEGELS"
+    },
+    {
+      "code": "54270",
+      "description": "Tegel 50x50 / 40x60x5",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TEGELS"
+    },
+    {
+      "code": "54280",
+      "description": "Tegel 50x50 / 40x60x6",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TEGELS"
+    },
+    {
+      "code": "54290",
+      "description": "Tegel 50x50 / 40x60x7",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TEGELS"
+    },
+    {
+      "code": "54300",
+      "description": "Tegel 50x50 / 40x60x8",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TEGELS"
+    },
+    {
+      "code": "54310",
+      "description": "Gew. grind 40x60x550x50x5  wit/geel",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TEGELS"
+    },
+    {
+      "code": "54320",
+      "description": "Grasbetont. 40x60x10",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TEGELS"
+    },
+    {
+      "code": "54330",
+      "description": "Grasbetont. 40x60x12",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TEGELS"
+    },
+    {
+      "code": "54340",
+      "description": "Tegel 50x50",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TEGELS"
+    },
+    {
+      "code": "54350",
+      "description": "Tegel 40x60",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TEGELS"
+    },
+    {
+      "code": "54400",
+      "description": "Trot.band 13/15x18",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TROTTOIRBAND"
+    },
+    {
+      "code": "54410",
+      "description": "trottr.band.13/15/25",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TROTTOIRBAND"
+    },
+    {
+      "code": "54420",
+      "description": "trottr.band 13/15/30",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TROTTOIRBAND"
+    },
+    {
+      "code": "54430",
+      "description": "Trot.band 18/20x16",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TROTTOIRBAND"
+    },
+    {
+      "code": "54440",
+      "description": "Trot.band 18/20x20",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TROTTOIRBAND"
+    },
+    {
+      "code": "54450",
+      "description": "trottr.band 18/20/25",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TROTTOIRBAND"
+    },
+    {
+      "code": "54460",
+      "description": "Trot.band 18/20x30",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TROTTOIRBAND"
+    },
+    {
+      "code": "54470",
+      "description": "Trot.band 13/25x20",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TROTTOIRBAND"
+    },
+    {
+      "code": "54471",
+      "description": "Trot.band 7/20x20",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TROTTOIRBAND"
+    },
+    {
+      "code": "54472",
+      "description": "Trot.band 115x225x16",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TROTTOIRBAND"
+    },
+    {
+      "code": "54473",
+      "description": "Tro.band 115x225x20",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TROTTOIRBAND"
+    },
+    {
+      "code": "54474",
+      "description": "Trot.band 5/20x20",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TROTTOIRBAND"
+    },
+    {
+      "code": "54480",
+      "description": "meerprijs hoekstuk",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TROTTOIRBAND"
+    },
+    {
+      "code": "54490",
+      "description": "meerprijs bochtstuk",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "TROTTOIRBAND"
+    },
+    {
+      "code": "54500",
+      "description": "opsluitbanden 5x15",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "OPSLUITBANDEN"
+    },
+    {
+      "code": "54510",
+      "description": "opsluitbanden 6x15",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "OPSLUITBANDEN"
+    },
+    {
+      "code": "54520",
+      "description": "opsluitbanden 6x20",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "OPSLUITBANDEN"
+    },
+    {
+      "code": "54530",
+      "description": "opsluitbanden 8x20",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "OPSLUITBANDEN"
+    },
+    {
+      "code": "54540",
+      "description": "opsluitbanden 10x20",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "OPSLUITBANDEN"
+    },
+    {
+      "code": "54550",
+      "description": "Gazonband 10x20",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "OPSLUITBANDEN"
+    },
+    {
+      "code": "54560",
+      "description": "opsluitband 12x25",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "OPSLUITBANDEN"
+    },
+    {
+      "code": "54570",
+      "description": "opsluitbanden 12x30",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "OPSLUITBANDEN"
+    },
+    {
+      "code": "54580",
+      "description": "opsluitband 15x25",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "OPSLUITBANDEN"
+    },
+    {
+      "code": "54590",
+      "description": "opsluitband 10x15",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "OPSLUITBANDEN"
+    },
+    {
+      "code": "54591",
+      "description": "opsluitband 15x40",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "OPSLUITBANDEN"
+    },
+    {
+      "code": "54600",
+      "description": "Binab-band 18/19x10",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE BANDEN"
+    },
+    {
+      "code": "54610",
+      "description": "Binab-band 13/14x10",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE BANDEN"
+    },
+    {
+      "code": "54620",
+      "description": "Binab-band 11/22x13",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE BANDEN"
+    },
+    {
+      "code": "54630",
+      "description": "Binab-band 16/20x15",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE BANDEN"
+    },
+    {
+      "code": "54640",
+      "description": "Varkensrug 100cm DZ",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE BANDEN"
+    },
+    {
+      "code": "54650",
+      "description": "Varkensrug 90cm EZ",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE BANDEN"
+    },
+    {
+      "code": "54660",
+      "description": "Varkensrug 80cm TS",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE BANDEN"
+    },
+    {
+      "code": "54670",
+      "description": "Verl. 13/15x25=15x13",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE BANDEN"
+    },
+    {
+      "code": "54680",
+      "description": "Tussenstuk 15x18",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE BANDEN"
+    },
+    {
+      "code": "54690",
+      "description": "Verl. 18/20x16=8,5x20",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE BANDEN"
+    },
+    {
+      "code": "54700",
+      "description": "Tussenstuk 8,5x20",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE BANDEN"
+    },
+    {
+      "code": "54710",
+      "description": "Drempel 120x50x12/24",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE BANDEN"
+    },
+    {
+      "code": "54720",
+      "description": "Drempel 170x50x12/24",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE BANDEN"
+    },
+    {
+      "code": "54730",
+      "description": "Drempel 240x50x12/24",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE BANDEN"
+    },
+    {
+      "code": "54740",
+      "description": "Molgoot 100x35x5/8",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE BANDEN"
+    },
+    {
+      "code": "54750",
+      "description": "Molgoot 100x40x8 of 10/12",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE BANDEN"
+    },
+    {
+      "code": "54760",
+      "description": "Inritband 50x45x12/20",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE BANDEN"
+    },
+    {
+      "code": "54770",
+      "description": "Inritband 50x50x12/20",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE BANDEN"
+    },
+    {
+      "code": "54780",
+      "description": "Bochtbescherm 60x50x40",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE BANDEN"
+    },
+    {
+      "code": "54800",
+      "description": "Visbektegel 4,5cm",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE TEGELS"
+    },
+    {
+      "code": "54810",
+      "description": "Boomtegel 5-gat",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE TEGELS"
+    },
+    {
+      "code": "54820",
+      "description": "Nokkentegel 5cm",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE TEGELS"
+    },
+    {
+      "code": "54830",
+      "description": "Ventilatietegel 5cm",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE TEGELS"
+    },
+    {
+      "code": "54840",
+      "description": "Gitruittegel 30x30x4,5",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE TEGELS"
+    },
+    {
+      "code": "54850",
+      "description": "Gitruittegel 30x30x5",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE TEGELS"
+    },
+    {
+      "code": "54860",
+      "description": "P-tegel 6cm",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE TEGELS"
+    },
+    {
+      "code": "54870",
+      "description": "Verk. 50x70x10 zw/w",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE TEGELS"
+    },
+    {
+      "code": "54880",
+      "description": "Verk. 50x70x10 zwart",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE TEGELS"
+    },
+    {
+      "code": "54890",
+      "description": "Verk. 50x50x8 zw/w-wit",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DIVERSE TEGELS"
+    },
+    {
+      "code": "54900",
+      "description": "bedr.vloerplaten",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "VLOERPLATEN"
+    },
+    {
+      "code": "54910",
+      "description": "bedr.vloerplaten 12 cm",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "VLOERPLATEN"
+    },
+    {
+      "code": "54920",
+      "description": "bedr.vloerplaten 14 cm",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "VLOERPLATEN"
+    },
+    {
+      "code": "55010",
+      "description": "Keerwand hoog 1,0m",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KEERWANDEN"
+    },
+    {
+      "code": "55020",
+      "description": "Keerwand hoog 1,25m",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KEERWANDEN"
+    },
+    {
+      "code": "55030",
+      "description": "Keerwand hoog 1,50m",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KEERWANDEN"
+    },
+    {
+      "code": "55040",
+      "description": "Keerwand hoog 1,75m",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KEERWANDEN"
+    },
+    {
+      "code": "55050",
+      "description": "Keerwand hoog 2,0m",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KEERWANDEN"
+    },
+    {
+      "code": "55060",
+      "description": "Keerwand hoog 2,25m",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KEERWANDEN"
+    },
+    {
+      "code": "55070",
+      "description": "Keerwand hoog 2,50m",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KEERWANDEN"
+    },
+    {
+      "code": "55080",
+      "description": "Keerwand hoog 3,0m",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KEERWANDEN"
+    },
+    {
+      "code": "55110",
+      "description": "gebakken klinkerkei",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "GEBAKKEN STENEN"
+    },
+    {
+      "code": "55120",
+      "description": "gebakken DF",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "GEBAKKEN STENEN"
+    },
+    {
+      "code": "55130",
+      "description": "gebakken WF",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "GEBAKKEN STENEN"
+    },
+    {
+      "code": "60100",
+      "description": "wapeningsstaal",
+      "unit": "%kg",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "METAALWAREN"
+    },
+    {
+      "code": "60210",
+      "description": "bouwstaalnet 5x2m",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "bouwstaalnetten"
+    },
+    {
+      "code": "70000",
+      "description": "houtwaren algemeen",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "HOUTWAREN"
+    },
+    {
+      "code": "70110",
+      "description": "baddinghout",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "HOUTWAREN"
+    },
+    {
+      "code": "70120",
+      "description": "multiplex platen 18",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "HOUTWAREN"
+    },
+    {
+      "code": "70130",
+      "description": "planken",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "HOUTWAREN"
+    },
+    {
+      "code": "70300",
+      "description": "hardhout",
+      "unit": "m3",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "hardhout"
+    },
+    {
+      "code": "70310",
+      "description": "FSC hout",
+      "unit": "m3",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "hardhout"
+    },
+    {
+      "code": "70320",
+      "description": "Gording",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "hardhout"
+    },
+    {
+      "code": "70330",
+      "description": "Dekplanken 14x4",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "hardhout"
+    },
+    {
+      "code": "71010",
+      "description": "PVC ø110 SN4/8",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BUIS"
+    },
+    {
+      "code": "71020",
+      "description": "PVC ø125 SN4",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BUIS"
+    },
+    {
+      "code": "71030",
+      "description": "PVC ø125 SN8",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BUIS"
+    },
+    {
+      "code": "71040",
+      "description": "PVC ø160 SN4",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BUIS"
+    },
+    {
+      "code": "71050",
+      "description": "PVC ø160 SN8",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BUIS"
+    },
+    {
+      "code": "71060",
+      "description": "PVC ø200 SN4",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BUIS"
+    },
+    {
+      "code": "71070",
+      "description": "PVC ø200 SN8",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BUIS"
+    },
+    {
+      "code": "71080",
+      "description": "PVC ø250 SN4",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BUIS"
+    },
+    {
+      "code": "71090",
+      "description": "PVC ø250 SN8",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BUIS"
+    },
+    {
+      "code": "71100",
+      "description": "PVC ø315 SN4",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BUIS"
+    },
+    {
+      "code": "71110",
+      "description": "PVC ø315 SN8",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BUIS"
+    },
+    {
+      "code": "71120",
+      "description": "PVC ø400 SN4",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BUIS"
+    },
+    {
+      "code": "71130",
+      "description": "PVC ø400 SN8",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BUIS"
+    },
+    {
+      "code": "71140",
+      "description": "PVC ø500 SN8",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BUIS"
+    },
+    {
+      "code": "71150",
+      "description": "PVC ø630 SN8",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "BUIS"
+    },
+    {
+      "code": "71300",
+      "description": "pvc hulpstukken",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "HULPSTUKKEN"
+    },
+    {
+      "code": "71301",
+      "description": "PVC bocht",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "HULPSTUKKEN"
+    },
+    {
+      "code": "71302",
+      "description": "PVC T-stuk",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "HULPSTUKKEN"
+    },
+    {
+      "code": "71303",
+      "description": "PVC ontst.stuk",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "HULPSTUKKEN"
+    },
+    {
+      "code": "71310",
+      "description": "knevelinlaat ø200/250/315/400x125",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "HULPSTUKKEN"
+    },
+    {
+      "code": "71320",
+      "description": "knevelinlaat ø200/250/315/400x160",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "HULPSTUKKEN"
+    },
+    {
+      "code": "71330",
+      "description": "polderexpansiestuk ø110",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "HULPSTUKKEN"
+    },
+    {
+      "code": "71340",
+      "description": "polderexpansiestuk ø125",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "HULPSTUKKEN"
+    },
+    {
+      "code": "71350",
+      "description": "polderexpansiestuk ø160",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "HULPSTUKKEN"
+    },
+    {
+      "code": "71360",
+      "description": "Flexibele huis-kolk aansl. Ø125",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "HULPSTUKKEN"
+    },
+    {
+      "code": "71370",
+      "description": "Flexibele huis-kolk aansl. Ø160",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "HULPSTUKKEN"
+    },
+    {
+      "code": "71380",
+      "description": "Flexibele steekmof ø125",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "HULPSTUKKEN"
+    },
+    {
+      "code": "71390",
+      "description": "ontstoppingsstuk + terugslagklep ø125",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "HULPSTUKKEN"
+    },
+    {
+      "code": "71410",
+      "description": "PE 100 ø63",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PE 100-buizen (SDR 13,6) op rol"
+    },
+    {
+      "code": "71420",
+      "description": "PE 100 ø75",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PE 100-buizen (SDR 13,6) op rol"
+    },
+    {
+      "code": "71430",
+      "description": "PE 100 ø90",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PE 100-buizen (SDR 13,6) op rol"
+    },
+    {
+      "code": "71440",
+      "description": "PE 100 ø110",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PE 100-buizen (SDR 13,6) op rol"
+    },
+    {
+      "code": "71450",
+      "description": "PE 100 ø125",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PE 100-buizen (SDR 13,6) op rol"
+    },
+    {
+      "code": "71510",
+      "description": "PE 100 ø63",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PE 100-buizen (SDR 13,6) 12m1"
+    },
+    {
+      "code": "71520",
+      "description": "PE 100 ø75",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PE 100-buizen (SDR 13,6) 12m1"
+    },
+    {
+      "code": "71530",
+      "description": "PE 100 ø90",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PE 100-buizen (SDR 13,6) 12m1"
+    },
+    {
+      "code": "71540",
+      "description": "PE 100 ø110",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PE 100-buizen (SDR 13,6) 12m1"
+    },
+    {
+      "code": "71550",
+      "description": "PE 100 ø125",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PE 100-buizen (SDR 13,6) 12m1"
+    },
+    {
+      "code": "71560",
+      "description": "PE 100 ø160",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PE 100-buizen (SDR 13,6) 12m1"
+    },
+    {
+      "code": "71600",
+      "description": "hulpstuk PE 80",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "hulpst. PE 80 leiding"
+    },
+    {
+      "code": "71710",
+      "description": "PK-put ø315-125",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "CONTROLEPUTTEN"
+    },
+    {
+      "code": "71720",
+      "description": "PK-put ø315-125 bruin",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "CONTROLEPUTTEN"
+    },
+    {
+      "code": "71730",
+      "description": "PK-put ø315-160",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "CONTROLEPUTTEN"
+    },
+    {
+      "code": "71740",
+      "description": "PK-put ø315-160 bruin",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "CONTROLEPUTTEN"
+    },
+    {
+      "code": "71750",
+      "description": "PK-put ø315-200",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "CONTROLEPUTTEN"
+    },
+    {
+      "code": "71760",
+      "description": "monsternameput ø315-125",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "CONTROLEPUTTEN"
+    },
+    {
+      "code": "71770",
+      "description": "monsternameput ø315-160",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "CONTROLEPUTTEN"
+    },
+    {
+      "code": "71780",
+      "description": "monsternameput ø315-200",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "CONTROLEPUTTEN"
+    },
+    {
+      "code": "71790",
+      "description": "Bovenstuk monsternameput",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "CONTROLEPUTTEN"
+    },
+    {
+      "code": "71810",
+      "description": "Save straatkolk GS",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KOLKEN PVC"
+    },
+    {
+      "code": "71820",
+      "description": "Save straatkolk GS waaier",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KOLKEN PVC"
+    },
+    {
+      "code": "71830",
+      "description": "Save straatkolk GS dicht",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KOLKEN PVC"
+    },
+    {
+      "code": "71840",
+      "description": "Save trottoirkolk GT",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KOLKEN PVC"
+    },
+    {
+      "code": "71850",
+      "description": "Save trottoirkolk GT waaier",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KOLKEN PVC"
+    },
+    {
+      "code": "71860",
+      "description": "Save trottoirkolk GT RWS",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KOLKEN PVC"
+    },
+    {
+      "code": "71870",
+      "description": "Save Combikolk GC",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KOLKEN PVC"
+    },
+    {
+      "code": "71880",
+      "description": "toeslag vuilvanger",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KOLKEN PVC"
+    },
+    {
+      "code": "71890",
+      "description": "toeslag stankslot deksel",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KOLKEN PVC"
+    },
+    {
+      "code": "71910",
+      "description": "straatkolk klasse Y",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KOLKEN PVC"
+    },
+    {
+      "code": "71920",
+      "description": "trottoirkolk klasse Y",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KOLKEN PVC"
+    },
+    {
+      "code": "71930",
+      "description": "straatkolk klasse Y waaier",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KOLKEN PVC"
+    },
+    {
+      "code": "71940",
+      "description": "trottoirkolk klasse Y waaier",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KOLKEN PVC"
+    },
+    {
+      "code": "71990",
+      "description": "tegelpadkolk",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "KOLKEN PVC"
+    },
+    {
+      "code": "72110",
+      "description": "drain ø80 + kokos",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAINAGE BUIS"
+    },
+    {
+      "code": "72120",
+      "description": "drain ø100 + kokos",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAINAGE BUIS"
+    },
+    {
+      "code": "72130",
+      "description": "drain ø125 + kokos",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAINAGE BUIS"
+    },
+    {
+      "code": "72140",
+      "description": "drain ø160 + kokos",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAINAGE BUIS"
+    },
+    {
+      "code": "72150",
+      "description": "drain ø80 + PP-450",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAINAGE BUIS"
+    },
+    {
+      "code": "72160",
+      "description": "drain ø100 + PP-450",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAINAGE BUIS"
+    },
+    {
+      "code": "72170",
+      "description": "drain ø125 + PP-450",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAINAGE BUIS"
+    },
+    {
+      "code": "72180",
+      "description": "drain ø160 + PP-450",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAINAGE BUIS"
+    },
+    {
+      "code": "72190",
+      "description": "drain ø80 + PP-700",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAINAGE BUIS"
+    },
+    {
+      "code": "72200",
+      "description": "drain ø100 + PP-700",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAINAGE BUIS"
+    },
+    {
+      "code": "72210",
+      "description": "drain ø125 + PP-700",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAINAGE BUIS"
+    },
+    {
+      "code": "72220",
+      "description": "drain ø160 + PP-700",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAINAGE BUIS"
+    },
+    {
+      "code": "72310",
+      "description": "doorspuitput ø315 60cm hoog",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "72320",
+      "description": "extra per 10cm",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "72330",
+      "description": "doorspuitinrichting 80x80mm 30°",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "72340",
+      "description": "doorspuitinrichting 100x100mm 45°",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "72350",
+      "description": "doorspuitinrichting 125x80mm 45°",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "72360",
+      "description": "PVC controleput ø250, 30cm hoog",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "72370",
+      "description": "extra per 10cm",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "72380",
+      "description": "PVC controleput ø315, 30cm hoog",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "72390",
+      "description": "extra per 10cm",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "72410",
+      "description": "PVC controleput ø400, 30cm hoog",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "72420",
+      "description": "extra per 10cm",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "72430",
+      "description": "PVC controleput ø500, 30cm hoog",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "72440",
+      "description": "extra per 10cm",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "72450",
+      "description": "klikmof 50/60/65mm",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "72460",
+      "description": "klikmof 80/100mm",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "72470",
+      "description": "wafix mof 110mm",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "72480",
+      "description": "wafix mof 125mm",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "72490",
+      "description": "wafix mof 160mm",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "72510",
+      "description": "wafix mof 200mm",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "72580",
+      "description": "eindbuis ø80 l=1m",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "72590",
+      "description": "eindbuis ø100 l=1m",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "DRAIN HULPSTUKKEN"
+    },
+    {
+      "code": "73020",
+      "description": "Tegra ø1000 1,1m hoog",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PVC-PUTTEN"
+    },
+    {
+      "code": "73030",
+      "description": "per 10cm hoger ø1000",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PVC-PUTTEN"
+    },
+    {
+      "code": "73060",
+      "description": "PVC-put ø600, 0,8m hoog",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PVC-PUTTEN"
+    },
+    {
+      "code": "73070",
+      "description": "per 10cm hoger/lager ø600",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PVC-PUTTEN"
+    },
+    {
+      "code": "73080",
+      "description": "PVC-put ø800, 0,8m hoog",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PVC-PUTTEN"
+    },
+    {
+      "code": "73090",
+      "description": "per 10cm hoger ø800",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PVC-PUTTEN"
+    },
+    {
+      "code": "73091",
+      "description": "Tegra ø800+2xaansl",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PVC-PUTTEN"
+    },
+    {
+      "code": "73092",
+      "description": "Tegra schacht",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PVC-PUTTEN"
+    },
+    {
+      "code": "73093",
+      "description": "Tegra telescoopstuk",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PVC-PUTTEN"
+    },
+    {
+      "code": "73100",
+      "description": "Aansluitingen",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PVC-PUTTEN"
+    },
+    {
+      "code": "73110",
+      "description": "per aansluiting ø110 of kleiner",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PVC-PUTTEN"
+    },
+    {
+      "code": "73120",
+      "description": "per aansluiting ø125",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PVC-PUTTEN"
+    },
+    {
+      "code": "73130",
+      "description": "per aansluiting ø160",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PVC-PUTTEN"
+    },
+    {
+      "code": "73140",
+      "description": "per aansluiting ø200",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PVC-PUTTEN"
+    },
+    {
+      "code": "73150",
+      "description": "per aansluiting ø250",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PVC-PUTTEN"
+    },
+    {
+      "code": "73160",
+      "description": "per aansluiting ø315",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PVC-PUTTEN"
+    },
+    {
+      "code": "73170",
+      "description": "per aansluiting ø400",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PVC-PUTTEN"
+    },
+    {
+      "code": "73180",
+      "description": "per aansluiting ø500",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PVC-PUTTEN"
+    },
+    {
+      "code": "73190",
+      "description": "per aansluiting ø630",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PVC-PUTTEN"
+    },
+    {
+      "code": "75010",
+      "description": "PP ø125",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PP ARTIKELEN"
+    },
+    {
+      "code": "75020",
+      "description": "PP bocht 125",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PP ARTIKELEN"
+    },
+    {
+      "code": "75030",
+      "description": "PP mof 125",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PP ARTIKELEN"
+    },
+    {
+      "code": "75040",
+      "description": "PP t-stuk 125",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PP ARTIKELEN"
+    },
+    {
+      "code": "75100",
+      "description": "PP ø160",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PP ARTIKELEN"
+    },
+    {
+      "code": "75110",
+      "description": "PP bocht 160",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PP ARTIKELEN"
+    },
+    {
+      "code": "75120",
+      "description": "PP mof 160",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PP ARTIKELEN"
+    },
+    {
+      "code": "75130",
+      "description": "PP t-stuk 160",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PP ARTIKELEN"
+    },
+    {
+      "code": "75200",
+      "description": "Nyloplast SK",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PP ARTIKELEN"
+    },
+    {
+      "code": "75210",
+      "description": "Nyloplast TK",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PP ARTIKELEN"
+    },
+    {
+      "code": "75220",
+      "description": "meerprijs vergrendeling",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "PRODUKTEN",
+      "subCategory": "PP ARTIKELEN"
+    },
+    {
+      "code": "81100",
+      "description": "blokken bkk nieuw",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "81110",
+      "description": "blokken bkk oud",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "81120",
+      "description": "blokken DF nieuw",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "81130",
+      "description": "blokken DF oud",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "81140",
+      "description": "blokken WF nieuw",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "81150",
+      "description": "blokken WF oud",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "81160",
+      "description": "koprollaag bkk (nood)",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "81200",
+      "description": "zetten 10x20",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "kantopsluiting"
+    },
+    {
+      "code": "81210",
+      "description": "zetten 13/15x25",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "kantopsluiting"
+    },
+    {
+      "code": "81220",
+      "description": "zetten 18/20x25",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "kantopsluiting"
+    },
+    {
+      "code": "81230",
+      "description": "zetten RWS band",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "kantopsluiting"
+    },
+    {
+      "code": "82030",
+      "description": "leggen H-profiel all-in>250m2",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "MACHINALE BESTRATING"
+    },
+    {
+      "code": "82040",
+      "description": "bkk elleboog all-in>750m2",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "MACHINALE BESTRATING"
+    },
+    {
+      "code": "82050",
+      "description": "bkk keper all-in>750m2",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "MACHINALE BESTRATING"
+    },
+    {
+      "code": "82060",
+      "description": "bkk (nood) blok all-in>1000m2",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "MACHINALE BESTRATING"
+    },
+    {
+      "code": "82070",
+      "description": "leggen grasbetontegels>250m2",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "MACHINALE BESTRATING"
+    },
+    {
+      "code": "82080",
+      "description": "leggen grasbetontegels all-in>250m2",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "MACHINALE BESTRATING"
+    },
+    {
+      "code": "82090",
+      "description": "machinaal afreien-vlaktomaat",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "MACHINALE BESTRATING"
+    },
+    {
+      "code": "82100",
+      "description": "machinaal afreien-afreibalk",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "MACHINALE BESTRATING"
+    },
+    {
+      "code": "82110",
+      "description": "huur machinale legmachine",
+      "unit": "uur",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "MACHINALE BESTRATING"
+    },
+    {
+      "code": "83100",
+      "description": "1-streks in zand",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "MOLGOTEN"
+    },
+    {
+      "code": "83110",
+      "description": "2-streks in zand",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "MOLGOTEN"
+    },
+    {
+      "code": "83120",
+      "description": "3-streks in zand",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "MOLGOTEN"
+    },
+    {
+      "code": "83130",
+      "description": "4-streks in zand",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "MOLGOTEN"
+    },
+    {
+      "code": "83140",
+      "description": "5-streks in zand",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "MOLGOTEN"
+    },
+    {
+      "code": "83150",
+      "description": "3-streks in specie",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "MOLGOTEN"
+    },
+    {
+      "code": "83160",
+      "description": "4-streks in specie",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "MOLGOTEN"
+    },
+    {
+      "code": "83170",
+      "description": "5-streks in specie",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "MOLGOTEN"
+    },
+    {
+      "code": "83180",
+      "description": "6-streks in specie",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "MOLGOTEN"
+    },
+    {
+      "code": "83190",
+      "description": "7-streks in specie",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "MOLGOTEN"
+    },
+    {
+      "code": "83200",
+      "description": "gootlaag tegels in specie 15x30",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "GOOTLAAG"
+    },
+    {
+      "code": "83210",
+      "description": "gootlaag tegels in specie 30x30",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "GOOTLAAG"
+    },
+    {
+      "code": "83220",
+      "description": "gootklinker in specie",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "GOOTLAAG"
+    },
+    {
+      "code": "83300",
+      "description": "betonnen molgoot 30cm breed",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "PREFAB MOLGOOT"
+    },
+    {
+      "code": "83310",
+      "description": "betonnen molgoot 35cm breed",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "PREFAB MOLGOOT"
+    },
+    {
+      "code": "83320",
+      "description": "betonnen molgoot 40cm breed",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "PREFAB MOLGOOT"
+    },
+    {
+      "code": "83330",
+      "description": "betonnen molgoot 50cm breed",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "PREFAB MOLGOOT"
+    },
+    {
+      "code": "83340",
+      "description": "zagen betonnen molgootelement",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "PREFAB MOLGOOT"
+    },
+    {
+      "code": "84100",
+      "description": "Vlijen DK oud",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "84110",
+      "description": "Vlijen bkk oud",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "84120",
+      "description": "Vlijen H-profiel oud",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "84130",
+      "description": "Vlijen DF oud",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "84140",
+      "description": "Vlijen WF oud",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "84150",
+      "description": "herstraten bkk",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "84160",
+      "description": "herstraten DF",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "84170",
+      "description": "herstraten WF",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "84200",
+      "description": "herstraten tegels 30x30x4,5",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "tegels"
+    },
+    {
+      "code": "84210",
+      "description": "herstraten tegels 30x30x7",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "tegels"
+    },
+    {
+      "code": "84220",
+      "description": "herstraten tegels 40x60/50x50",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "tegels"
+    },
+    {
+      "code": "84300",
+      "description": "herstraten klinkerkei",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "gebakken klinkers"
+    },
+    {
+      "code": "84310",
+      "description": "herstraten geb. DF",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "gebakken klinkers"
+    },
+    {
+      "code": "84320",
+      "description": "herstraten geb. WF",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "gebakken klinkers"
+    },
+    {
+      "code": "85100",
+      "description": "Vlijen DK",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "85110",
+      "description": "Vlijen bkk",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "85120",
+      "description": "Vlijen H-profiel",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "85130",
+      "description": "Vlijen DF",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "85140",
+      "description": "Vlijen WF",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "85150",
+      "description": "Straten bkk",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "85160",
+      "description": "Straten DF",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "85170",
+      "description": "Straten WF",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "85180",
+      "description": "Bkk, wit",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "85190",
+      "description": "knipwerk",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "betonstraatstenen"
+    },
+    {
+      "code": "85200",
+      "description": "vlijen tegels 30x30x4,5",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "tegels"
+    },
+    {
+      "code": "85210",
+      "description": "vlijen tegels 30x30x7",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "tegels"
+    },
+    {
+      "code": "85220",
+      "description": "vlijen tegels 40x60/50x50",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "tegels"
+    },
+    {
+      "code": "85230",
+      "description": "straten tegels 30x30x4,5",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "tegels"
+    },
+    {
+      "code": "85240",
+      "description": "straten tegels 30x30x7",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "tegels"
+    },
+    {
+      "code": "85250",
+      "description": "straten tegels 40x60/50x50",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "tegels"
+    },
+    {
+      "code": "85260",
+      "description": "staptegel 40x60/50x50",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "tegels"
+    },
+    {
+      "code": "85270",
+      "description": "tegels 40x60 in 2 rijen",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "tegels"
+    },
+    {
+      "code": "85280",
+      "description": "tegels 30x30x4,5 in bergingen",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "tegels"
+    },
+    {
+      "code": "85370",
+      "description": "Grasbetontegels 40x60x12",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "tegels"
+    },
+    {
+      "code": "85380",
+      "description": "zagen tegels 4,5cm dik",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "tegels"
+    },
+    {
+      "code": "85390",
+      "description": "zagen tegels 7cm dik",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "tegels"
+    },
+    {
+      "code": "85400",
+      "description": "Vlijen klinkerkei",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "GEBAKKEN KLINKERS"
+    },
+    {
+      "code": "85410",
+      "description": "Vlijen geb. DF",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "GEBAKKEN KLINKERS"
+    },
+    {
+      "code": "85420",
+      "description": "Vlijen geb. WF",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "GEBAKKEN KLINKERS"
+    },
+    {
+      "code": "85430",
+      "description": "straten klinkerkei",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "GEBAKKEN KLINKERS"
+    },
+    {
+      "code": "85440",
+      "description": "straten geb. DF",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "GEBAKKEN KLINKERS"
+    },
+    {
+      "code": "85450",
+      "description": "straten geb. WF",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "GEBAKKEN KLINKERS"
+    },
+    {
+      "code": "85460",
+      "description": "straten geb. WF in waaierverband",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "GEBAKKEN KLINKERS"
+    },
+    {
+      "code": "85470",
+      "description": "kapwerk klinkerkei",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "GEBAKKEN KLINKERS"
+    },
+    {
+      "code": "85480",
+      "description": "kapwerk geb. DF",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "GEBAKKEN KLINKERS"
+    },
+    {
+      "code": "85490",
+      "description": "kapwerk geb. WF",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "GEBAKKEN KLINKERS"
+    },
+    {
+      "code": "85500",
+      "description": "straten natuursteen 8x8",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "GEBAKKEN KLINKERS"
+    },
+    {
+      "code": "85510",
+      "description": "straten natuursteen 10x10",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "GEBAKKEN KLINKERS"
+    },
+    {
+      "code": "85520",
+      "description": "straten natuursteen 15x15",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "GEBAKKEN KLINKERS"
+    },
+    {
+      "code": "85530",
+      "description": "meerprijs natuursteen in waaier",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "GEBAKKEN KLINKERS"
+    },
+    {
+      "code": "85540",
+      "description": "straten veldkeien",
+      "unit": "m2",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "GEBAKKEN KLINKERS"
+    },
+    {
+      "code": "86100",
+      "description": "opsluitband 5x15",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Opsluitbanden"
+    },
+    {
+      "code": "86110",
+      "description": "opsluitband 6x15",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Opsluitbanden"
+    },
+    {
+      "code": "86120",
+      "description": "opsluitband 6x20",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Opsluitbanden"
+    },
+    {
+      "code": "86130",
+      "description": "opsluitband 8x20",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Opsluitbanden"
+    },
+    {
+      "code": "86140",
+      "description": "opsluitband 10x20",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Opsluitbanden"
+    },
+    {
+      "code": "86150",
+      "description": "opsluitband 12x25",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Opsluitbanden"
+    },
+    {
+      "code": "86160",
+      "description": "opsluitband 20x20",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Opsluitbanden"
+    },
+    {
+      "code": "86170",
+      "description": "toeslag herstellen opsluitband",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Opsluitbanden"
+    },
+    {
+      "code": "86180",
+      "description": "zagen opsluitband 5x15/6x20",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Opsluitbanden"
+    },
+    {
+      "code": "86190",
+      "description": "zagen opsluitband 10x20/12x25",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Opsluitbanden"
+    },
+    {
+      "code": "86200",
+      "description": "trottoirband 13/15x16",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Trottoirbanden"
+    },
+    {
+      "code": "86210",
+      "description": "trottoirband 13/15x25",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Trottoirbanden"
+    },
+    {
+      "code": "86220",
+      "description": "trottoirband 18/20x13",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Trottoirbanden"
+    },
+    {
+      "code": "86230",
+      "description": "trottoirband 18/20x16",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Trottoirbanden"
+    },
+    {
+      "code": "86240",
+      "description": "trottoirband 18/20x20",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Trottoirbanden"
+    },
+    {
+      "code": "86250",
+      "description": "trottoirband 18/20x25",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Trottoirbanden"
+    },
+    {
+      "code": "86260",
+      "description": "trottoirband 18/20x40",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Trottoirbanden"
+    },
+    {
+      "code": "86270",
+      "description": "toeslag herstellen trottoirband",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Trottoirbanden"
+    },
+    {
+      "code": "86280",
+      "description": "zagen trottoirband",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Trottoirbanden"
+    },
+    {
+      "code": "86300",
+      "description": "RWS band 11,5/22,5x13",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "RWS banden"
+    },
+    {
+      "code": "86310",
+      "description": "RWS band 11,5/22,5x16",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "RWS banden"
+    },
+    {
+      "code": "86320",
+      "description": "RWS band 11,5/22,5x20",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "RWS banden"
+    },
+    {
+      "code": "86330",
+      "description": "RWS band 11,5/22,5x25",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "RWS banden"
+    },
+    {
+      "code": "86400",
+      "description": "rijwielpadband 5/20x20",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Rijwielpadbanden"
+    },
+    {
+      "code": "86410",
+      "description": "rijwielpadband 6/12x25",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Rijwielpadbanden"
+    },
+    {
+      "code": "86420",
+      "description": "rijwielpadband 7/20x15",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Rijwielpadbanden"
+    },
+    {
+      "code": "86430",
+      "description": "rijwielpadband 7/20x20",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Rijwielpadbanden"
+    },
+    {
+      "code": "86500",
+      "description": "inritblok 45x45x20",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Inritblokken"
+    },
+    {
+      "code": "86510",
+      "description": "inritblok 45x50x20",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Inritblokken"
+    },
+    {
+      "code": "86520",
+      "description": "inritblok 50x50x20",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Inritblokken"
+    },
+    {
+      "code": "86530",
+      "description": "inritblok 75x50x22",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Inritblokken"
+    },
+    {
+      "code": "86540",
+      "description": "inritblok 80x50x20",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Inritblokken"
+    },
+    {
+      "code": "86550",
+      "description": "toeslag herstellen inritblok",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Inritblokken"
+    },
+    {
+      "code": "86560",
+      "description": "zagen inritblok",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Inritblokken"
+    },
+    {
+      "code": "86600",
+      "description": "varkensrug 20x20",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Diversen"
+    },
+    {
+      "code": "86610",
+      "description": "varkensrug 20x12",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Diversen"
+    },
+    {
+      "code": "86620",
+      "description": "toeslag band op betonsloof",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Diversen"
+    },
+    {
+      "code": "86630",
+      "description": "toeslag band op betonsloof + steunrug",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Diversen"
+    },
+    {
+      "code": "86640",
+      "description": "koprollaag bkk",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Diversen"
+    },
+    {
+      "code": "86650",
+      "description": "koprollaag DF",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Diversen"
+    },
+    {
+      "code": "86660",
+      "description": "koprollaag WF",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Diversen"
+    },
+    {
+      "code": "86670",
+      "description": "toeslag 1-strek in specie langs band",
+      "unit": "m1",
+      "defaultUnitPrice": null,
+      "category": "BESTRATINGEN",
+      "subCategory": "Diversen"
+    },
+    {
+      "code": "90110",
+      "description": "huur werkterrein",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "terrein"
+    },
+    {
+      "code": "90200",
+      "description": "keten",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "keten"
+    },
+    {
+      "code": "90210",
+      "description": "opbouw keten",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "keten"
+    },
+    {
+      "code": "90220",
+      "description": "demont. keten",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "keten"
+    },
+    {
+      "code": "90300",
+      "description": "aansluitingen",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "aansluitingen"
+    },
+    {
+      "code": "90310",
+      "description": "aansl. gas",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "aansluitingen"
+    },
+    {
+      "code": "90320",
+      "description": "verbruik gas",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "aansluitingen"
+    },
+    {
+      "code": "90330",
+      "description": "aansl. electra",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "aansluitingen"
+    },
+    {
+      "code": "90340",
+      "description": "verbruik elektra",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "aansluitingen"
+    },
+    {
+      "code": "90350",
+      "description": "aansl. water",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "aansluitingen"
+    },
+    {
+      "code": "90360",
+      "description": "verbr. water",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "aansluitingen"
+    },
+    {
+      "code": "90370",
+      "description": "aansl. telefoon",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "aansluitingen"
+    },
+    {
+      "code": "90380",
+      "description": "telefoonkosten",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "aansluitingen"
+    },
+    {
+      "code": "90400",
+      "description": "inventaris keet",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "inventaris keet"
+    },
+    {
+      "code": "90410",
+      "description": "koopinventaris",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "inventaris keet"
+    },
+    {
+      "code": "90420",
+      "description": "afschr. inventaris",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "inventaris keet"
+    },
+    {
+      "code": "91100",
+      "description": "aan- en afvoer",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "aan- en afvoer"
+    },
+    {
+      "code": "91110",
+      "description": "aan- afv. materieel",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "aan- en afvoer"
+    },
+    {
+      "code": "91120",
+      "description": "aanvoer materialen",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "aan- en afvoer"
+    },
+    {
+      "code": "91210",
+      "description": "stortkosten",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "afvoer materieel"
+    },
+    {
+      "code": "91220",
+      "description": "puincontainers",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "afvoer materieel"
+    },
+    {
+      "code": "91330",
+      "description": "lozingskosten",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "afvoer materieel"
+    },
+    {
+      "code": "91900",
+      "description": "div. transp. kosten",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "div. transport"
+    },
+    {
+      "code": "91910",
+      "description": "veergelden",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "div. transport"
+    },
+    {
+      "code": "91920",
+      "description": "tol",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "div. transport"
+    },
+    {
+      "code": "91930",
+      "description": "douanekosten",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "div. transport"
+    },
+    {
+      "code": "92001",
+      "description": "te declareren km",
+      "unit": "km",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "materieel"
+    },
+    {
+      "code": "92002",
+      "description": "opstartkosten",
+      "unit": "st",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "materieel"
+    },
+    {
+      "code": "92110",
+      "description": "kl. mater. eigen",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "kleinmaterieel"
+    },
+    {
+      "code": "92120",
+      "description": "kl. mater. derden",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "kleinmaterieel"
+    },
+    {
+      "code": "92900",
+      "description": "onderh. materieel",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "onderh. materieel"
+    },
+    {
+      "code": "92910",
+      "description": "servicewagen",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "onderh. materieel"
+    },
+    {
+      "code": "92920",
+      "description": "technische dienst",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "onderh. materieel"
+    },
+    {
+      "code": "93000",
+      "description": "kwaliteitscontrole",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "kwaliteitscontrole"
+    },
+    {
+      "code": "93010",
+      "description": "ijkkosten",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "kwaliteitscontrole"
+    },
+    {
+      "code": "93020",
+      "description": "meetkosten",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "kwaliteitscontrole"
+    },
+    {
+      "code": "93030",
+      "description": "keuringskosten",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "kwaliteitscontrole"
+    },
+    {
+      "code": "93040",
+      "description": "boorkernen",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "kwaliteitscontrole"
+    },
+    {
+      "code": "93050",
+      "description": "vlakheidsmeting",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "kwaliteitscontrole"
+    },
+    {
+      "code": "93060",
+      "description": "stroefheidsmeting",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "kwaliteitscontrole"
+    },
+    {
+      "code": "94000",
+      "description": "stelpost",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "stelpost"
+    },
+    {
+      "code": "99100",
+      "description": "diverse premies",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "diverse premies"
+    },
+    {
+      "code": "99110",
+      "description": "premie NVWB",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "diverse premies"
+    },
+    {
+      "code": "99120",
+      "description": "premie VCW",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "diverse premies"
+    },
+    {
+      "code": "99130",
+      "description": "premie VBW",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "diverse premies"
+    },
+    {
+      "code": "99140",
+      "description": "bijdrage SCW",
+      "unit": "€",
+      "defaultUnitPrice": null,
+      "category": "DIVERSEN",
+      "subCategory": "diverse premies"
+    }
+  ]
+}

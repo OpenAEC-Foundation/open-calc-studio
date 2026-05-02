@@ -1,0 +1,68 @@
+/* UnsavedChangesDialog */
+.unsaved-dialog {
+  width: 420px;
+  max-width: 90vw;
+}
+
+.unsaved-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+}
+
+.unsaved-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.unsaved-message {
+  font-size: 13px;
+  color: var(--theme-dialog-content-text);
+  margin: 0;
+  line-height: 1.5;
+  padding-top: 4px;
+}
+
+.unsaved-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 8px 16px;
+  border-top: 1px solid var(--theme-dialog-border);
+  background: var(--theme-dialog-sidebar-bg);
+}
+
+.unsaved-btn {
+  padding: 6px 20px;
+  border: 1.5px solid var(--theme-dialog-input-border);
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'Inter', inherit;
+  cursor: default;
+  transition: all 0.15s ease;
+  min-width: 80px;
+}
+
+.unsaved-btn-primary {
+  background: var(--theme-btn-primary-bg);
+  color: var(--theme-btn-primary-text);
+  border-color: var(--theme-btn-primary-border);
+}
+
+.unsaved-btn-primary:hover {
+  background: var(--theme-btn-primary-hover-bg);
+}
+
+.unsaved-btn-secondary {
+  background: var(--theme-btn-secondary-bg);
+  color: var(--theme-btn-secondary-text);
+}
+
+.unsaved-btn-secondary:hover {
+  background: var(--theme-btn-secondary-hover-bg);
+  border-color: var(--theme-btn-secondary-hover-border);
+}
