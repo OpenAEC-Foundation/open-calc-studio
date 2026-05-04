@@ -161,7 +161,39 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
 
-  # ── 3. Publish release (only on tag push) ───────────────────
+  # ── 3. Build & publish Snap (only on tag push) ──────────────
+  snap:
+    name: Snap (Linux)
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-22.04
+    env:
+      SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Build snap
+        id: build-snap
+        uses: snapcore/action-build@v1
+
+      - name: Upload snap artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: open-calc-studio-Snap
+          path: ${{ steps.build-snap.outputs.snap }}
+          retention-days: 14
+
+      - name: Publish to Snap Store
+        if: env.SNAPCRAFT_STORE_CREDENTIALS != ''
+        uses: snapcore/action-publish@v1
+        with:
+          snap: ${{ steps.build-snap.outputs.snap }}
+          release: stable
+
+  # ── 4. Publish release (only on tag push) ───────────────────
   publish:
     name: Publish Release
     needs: build

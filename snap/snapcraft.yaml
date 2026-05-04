@@ -1,0 +1,80 @@
+name: open-calc-studio
+base: core22
+adopt-info: open-calc-studio
+summary: Open construction cost-calculation studio for AEC
+description: |
+  Open Calc Studio is an open-source budget and cost-calculation
+  application for the architecture, engineering, and construction
+  industry. Built on Tauri, it offers a fast native UI, IFC import,
+  PDF/Excel export, and an embedded MCP server for AI integrations.
+
+license: AGPL-3.0
+website: https://github.com/OpenAEC-Foundation/open-calc-studio
+source-code: https://github.com/OpenAEC-Foundation/open-calc-studio
+issues: https://github.com/OpenAEC-Foundation/open-calc-studio/issues
+
+grade: stable
+confinement: strict
+compression: lzo
+
+architectures:
+  - build-on: amd64
+
+apps:
+  open-calc-studio:
+    command: usr/bin/Open\ Calc\ Studio
+    extensions: [gnome]
+    common-id: com.opencalcstudio.app
+    desktop: usr/share/applications/Open\ Calc\ Studio.desktop
+    plugs:
+      - home
+      - network
+      - removable-media
+      - audio-playback
+      - opengl
+      - gsettings
+      - browser-support
+
+parts:
+  open-calc-studio:
+    plugin: nil
+    source: .
+    source-type: local
+    build-snaps:
+      - node/22/stable
+      - rustup/latest/stable
+    build-packages:
+      - libwebkit2gtk-4.1-dev
+      - libjavascriptcoregtk-4.1-dev
+      - libsoup-3.0-dev
+      - libgtk-3-dev
+      - libayatana-appindicator3-dev
+      - librsvg2-dev
+      - libssl-dev
+      - patchelf
+      - build-essential
+      - pkg-config
+      - curl
+      - wget
+      - file
+    stage-packages:
+      - libwebkit2gtk-4.1-0
+      - libjavascriptcoregtk-4.1-0
+      - libsoup-3.0-0
+      - libayatana-appindicator3-1
+      - librsvg2-2
+      - libssl3
+      - libnss3
+    override-pull: |
+      craftctl default
+      VERSION="$(grep '\"version\"' package.json | head -1 | sed -E 's/.*\"version\": *\"([^\"]+)\".*/\1/')"
+      craftctl set version="$VERSION"
+    override-build: |
+      set -eux
+      rustup default stable
+      rustup target add x86_64-unknown-linux-gnu
+      npm install
+      npm run build
+      npx tauri build --bundles deb --target x86_64-unknown-linux-gnu
+      DEB="$(ls src-tauri/target/x86_64-unknown-linux-gnu/release/bundle/deb/*.deb | head -1)"
+      dpkg-deb -x "$DEB" "$CRAFT_PART_INSTALL/"
