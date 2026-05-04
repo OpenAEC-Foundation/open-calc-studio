@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Open Calc Studio",
-  "version": "0.7.6",
+  "version": "0.7.7",
   "identifier": "com.opencalcstudio.app",
   "mainBinaryName": "Open Calc Studio",
   "build": {

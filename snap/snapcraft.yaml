@@ -1,4 +1,5 @@
 name: open-calc-studio
+title: Open Calc Studio
 base: core22
 adopt-info: open-calc-studio
 summary: Open construction cost-calculation studio for AEC
@@ -9,6 +10,7 @@ description: |
   PDF/Excel export, and an embedded MCP server for AI integrations.
 
 license: AGPL-3.0
+contact: https://github.com/OpenAEC-Foundation/open-calc-studio/issues
 website: https://github.com/OpenAEC-Foundation/open-calc-studio
 source-code: https://github.com/OpenAEC-Foundation/open-calc-studio
 issues: https://github.com/OpenAEC-Foundation/open-calc-studio/issues
@@ -22,10 +24,10 @@ architectures:
 
 apps:
   open-calc-studio:
-    command: "usr/bin/Open Calc Studio"
+    command: usr/bin/open-calc-studio
     extensions: [gnome]
     common-id: com.opencalcstudio.app
-    desktop: "usr/share/applications/Open Calc Studio.desktop"
+    desktop: usr/share/applications/open-calc-studio.desktop
     plugs:
       - home
       - network
@@ -78,3 +80,19 @@ parts:
       npx tauri build --bundles deb --target x86_64-unknown-linux-gnu
       DEB="$(ls src-tauri/target/x86_64-unknown-linux-gnu/release/bundle/deb/*.deb | head -1)"
       dpkg-deb -x "$DEB" "$CRAFT_PART_INSTALL/"
+
+      # Snapd's wrapper-script generator splits app commands on whitespace,
+      # so the space in "Open Calc Studio" breaks pack. Rename the binary,
+      # desktop file, and icon files to a hyphenated lowercase form. The
+      # /usr/lib/Open Calc Studio/ resource directory is left intact since
+      # Tauri resolves resources via current_exe() at runtime.
+      mv "$CRAFT_PART_INSTALL/usr/bin/Open Calc Studio" \
+         "$CRAFT_PART_INSTALL/usr/bin/open-calc-studio"
+      mv "$CRAFT_PART_INSTALL/usr/share/applications/Open Calc Studio.desktop" \
+         "$CRAFT_PART_INSTALL/usr/share/applications/open-calc-studio.desktop"
+      sed -i \
+        -e 's|^Exec=.*|Exec=open-calc-studio|' \
+        -e 's|^Icon=.*|Icon=open-calc-studio|' \
+        "$CRAFT_PART_INSTALL/usr/share/applications/open-calc-studio.desktop"
+      find "$CRAFT_PART_INSTALL/usr/share/icons" -name "Open Calc Studio.png" \
+        -execdir mv {} open-calc-studio.png \;
