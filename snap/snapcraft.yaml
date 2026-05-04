@@ -22,10 +22,10 @@ architectures:
 
 apps:
   open-calc-studio:
-    command: usr/bin/Open\ Calc\ Studio
+    command: "usr/bin/Open Calc Studio"
     extensions: [gnome]
     common-id: com.opencalcstudio.app
-    desktop: usr/share/applications/Open\ Calc\ Studio.desktop
+    desktop: "usr/share/applications/Open Calc Studio.desktop"
     plugs:
       - home
       - network
