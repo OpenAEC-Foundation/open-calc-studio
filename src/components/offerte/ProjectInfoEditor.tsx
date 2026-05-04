@@ -1,4 +1,4 @@
-import type { ProjectInfo, OfferteImage } from '@/types/costModel';
+import type { ProjectInfo } from '@/types/costModel';
 import { ImageUploader } from './ImageUploader';
 
 interface ProjectInfoEditorProps {

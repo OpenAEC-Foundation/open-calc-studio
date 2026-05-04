@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import RibbonButton from "./RibbonButton";
 import RibbonGroup from "./RibbonGroup";
 import RibbonButtonStack from "./RibbonButtonStack";
-import { clipboardIcon, cutIcon, copyIcon, undoIcon, redoIcon, addChapterIcon, addBegrotingspostIcon, addBewakingspostIcon, addRegelIcon, addTekstregelIcon, addWitregelIcon, deleteIcon, panelLeftIcon, panelRightIcon, settingsIcon, companyIcon, viewStIcon, viewWpCalcIcon, exportIcon } from "./icons";
+import { clipboardIcon, cutIcon, copyIcon, undoIcon, redoIcon, addChapterIcon, addBegrotingspostIcon, addBewakingspostIcon, addRegelIcon, addTekstregelIcon, addWitregelIcon, deleteIcon, settingsIcon, viewStIcon, viewWpCalcIcon, exportIcon } from "./icons";
 import { useAppStore } from "../../state/appStore";
 import { updateAllExcelLinks } from "../../services/excel/excelLinkService";
 
@@ -11,11 +11,9 @@ export default function HomeTab() {
   const { t: tCommon } = useTranslation("common");
   const {
     canUndo, canRedo, undo, redo, setItems,
-    activeRow, activeItemId, getVisibleItems, copyItems, cutItems, pasteItems, clipboardItems,
+    activeRow, activeItemId, copyItems, cutItems, pasteItems, clipboardItems,
     addItem, addChapter, addBewakingspost, addRegel, addTekstregel, addWitregel, deleteItem, items, pushHistory,
-    toggleSchedulePanel, togglePropertiesPanel, toggleChatPanel, showSchedulePanel, showPropertiesPanel, showChatPanel,
     showHoeveelheid, toggleHoeveelheid,
-    openDialog,
     gridView, setGridView,
   } = useAppStore();
 

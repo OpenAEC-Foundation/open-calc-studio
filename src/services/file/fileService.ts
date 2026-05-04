@@ -1,4 +1,4 @@
-import type { ProjectFile, CostSchedule, CostItem, CompanyInfo, SubSheet, SpreadsheetsData, RowType, OfferteDocument, ProjectInfo, ProjectSnapshot } from '@/types/costModel';
+import type { ProjectFile, CostSchedule, CostItem, CompanyInfo, SubSheet, SpreadsheetsData, RowType, OfferteDocument, ProjectSnapshot } from '@/types/costModel';
 import { defaultCompanyInfo } from '@/state/slices/companySlice';
 import { createDefaultProjectInfo } from '@/types/costModel';
 import { synthesizeStaartItems } from '@/services/calculation/staartDefaults';

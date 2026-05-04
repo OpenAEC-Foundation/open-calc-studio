@@ -28,8 +28,6 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
     pushHistory,
     getVisibleItems,
     getSelectedRowIndices,
-    setActiveCell,
-    activeCol,
     updateItem,
   } = useAppStore();
 

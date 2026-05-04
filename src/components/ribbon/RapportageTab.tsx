@@ -4,7 +4,6 @@ import RibbonGroup from "./RibbonGroup";
 import RibbonButtonStack from "./RibbonButtonStack";
 import {
   printIcon,
-  previewIcon,
   pdfExportIcon,
   excelExportIcon,
   exportIcon,
@@ -68,10 +67,6 @@ export default function RapportageTab() {
     } else {
       printBudget(schedule, items, reportView, showHoeveelheid, companyInfo, undefined, pageOrientation, pageSize);
     }
-  };
-
-  const handlePreview = () => {
-    printBudget(schedule, items, reportView, showHoeveelheid, companyInfo, undefined, pageOrientation, pageSize);
   };
 
   const handlePdfExport = async () => {

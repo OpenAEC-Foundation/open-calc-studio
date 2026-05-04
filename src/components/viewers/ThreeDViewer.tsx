@@ -20,7 +20,7 @@ export function ThreeDViewer() {
   const worldRef = useRef<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [selectedInfo, setSelectedInfo] = useState<{
+  const [selectedInfo, _setSelectedInfo] = useState<{
     name?: string;
     quantities?: Record<string, number>;
   } | null>(null);
@@ -79,11 +79,11 @@ export function ThreeDViewer() {
       });
 
       const buffer = await file.arrayBuffer();
-      const model = await ifcLoader.load(new Uint8Array(buffer));
-      worldRef.current.scene.three.add(model);
+      const model = await ifcLoader.load(new Uint8Array(buffer), false, file.name);
+      worldRef.current.scene.three.add(model.object);
 
       // Fit camera to model
-      const box = new THREE.Box3().setFromObject(model);
+      const box = new THREE.Box3().setFromObject(model.object);
       const center = box.getCenter(new THREE.Vector3());
       const size = box.getSize(new THREE.Vector3()).length();
       worldRef.current.camera.controls.setLookAt(

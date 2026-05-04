@@ -6,7 +6,7 @@ import type { ProjectInfo } from '@/types/costModel';
  */
 export function buildCoverLetter(
   projectInfo: ProjectInfo,
-  projectNumber: string,
+  _projectNumber: string,
   manualText: string,
 ): string {
   const lines: string[] = [];

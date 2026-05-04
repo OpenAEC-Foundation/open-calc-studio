@@ -220,6 +220,7 @@ export const PropertiesPanel: React.FC = () => {
   const item = visibleItems[activeRow];
 
   const projectProperties = schedule.projectProperties ?? createDefaultProjectProperties();
+  const grandTotal = getGrandTotal(items);
 
   const handleCompanyChange = (key: keyof typeof companyInfo, value: string) => {
     setCompanyInfo({ ...companyInfo, [key]: value });

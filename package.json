@@ -1,11 +1,12 @@
 {
   "name": "open-calc-studio",
   "private": true,
-  "version": "0.7.3",
+  "version": "0.7.4",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run mcp:bundle && vite build",
+    "mcp:bundle": "npm install --prefix mcp-server && npm run bundle --prefix mcp-server",
     "preview": "vite preview",
     "tauri": "tauri",
     "test": "vitest run",
@@ -24,6 +25,7 @@
     "@thatopen/fragments": "^3.4.1",
     "@types/three": "^0.184.0",
     "buffer": "^6.0.3",
+    "camera-controls": "^3.1.2",
     "i18next": "^25.8.18",
     "i18next-browser-languagedetector": "^8.2.1",
     "immer": "^11.1.4",
@@ -33,6 +35,7 @@
     "react-dom": "^19.2.4",
     "react-i18next": "^16.5.8",
     "three": "^0.184.0",
+    "web-ifc": "^0.0.77",
     "xlsx": "^0.18.5",
     "zustand": "^5.0.12"
   },

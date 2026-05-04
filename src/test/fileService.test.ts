@@ -26,8 +26,8 @@ describe('File Service', () => {
     const parsed = deserializeProject(json);
 
     // Check the first staart item survives
-    const origItem = items.find(i => i.rowType === 'staart_ukk');
-    const parsedItem = parsed.items.find(i => i.rowType === 'staart_ukk');
+    const origItem = items.find(i => i.rowType === 'staart_ak_oa');
+    const parsedItem = parsed.items.find(i => i.rowType === 'staart_ak_oa');
     expect(parsedItem).toBeTruthy();
     expect(parsedItem!.description).toBe(origItem!.description);
     expect(parsedItem!.staartPercentage).toBe(origItem!.staartPercentage);

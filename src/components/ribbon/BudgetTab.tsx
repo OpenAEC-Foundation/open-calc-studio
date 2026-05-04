@@ -14,7 +14,7 @@ export default function BudgetTab() {
   const {
     addItem, addChapter, addBewakingspost, addRegel, addTekstregel, deleteItem, moveItem,
     indentItem, outdentItem,
-    activeRow, activeItemId, getVisibleItems,
+    activeRow, activeItemId,
     items, pushHistory,
   } = useAppStore();
 
@@ -76,9 +76,7 @@ export default function BudgetTab() {
         parentId = addItem(activeItem.id);
       }
     } else {
-      parentId = activeItem.rowType === 'bewakingspost' ? activeItem.id
-        : activeItem.rowType === 'begrotingspost' ? activeItem.id
-        : (activeItem.parentId ?? '');
+      parentId = activeItem.parentId ?? '';
     }
     if (!parentId) return;
     addRegel(parentId, activeItem.id);

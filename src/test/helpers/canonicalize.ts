@@ -28,7 +28,7 @@ export function canonicalize(items: CostItem[]): any[] {
     .sort((a, b) => a.path.localeCompare(b.path));
 }
 
-function round(n: number | undefined, decimals = 2): number | undefined {
+function round(n: number | null | undefined, decimals = 2): number | undefined {
   if (n === undefined || n === null) return undefined;
   return Math.round(n * 10 ** decimals) / 10 ** decimals;
 }

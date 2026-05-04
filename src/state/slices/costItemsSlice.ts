@@ -1,5 +1,5 @@
 import type { StateCreator } from 'zustand';
-import type { CostItem, CostUnit, RowType, ExcelLink } from '@/types/costModel';
+import type { CostItem, CostUnit, RowType, ExcelLink, QuantityLink } from '@/types/costModel';
 import i18next from 'i18next';
 import { recalculateItems } from '@/services/calculation/calculator';
 import { createDefaultItems } from '@/data/defaultBudget';
@@ -27,7 +27,7 @@ export interface CostItemsSlice {
   addTekstregel: (parentId: string, afterItemId?: string) => string;
   addWitregel: (parentId: string | null, afterItemId?: string) => string;
   deleteItem: (id: string) => void;
-  updateItem: (id: string, field: string, value: string | number | null | boolean | CostUnit | ExcelLink) => void;
+  updateItem: (id: string, field: string, value: string | number | null | boolean | CostUnit | ExcelLink | QuantityLink) => void;
   moveItem: (id: string, direction: 'up' | 'down') => void;
   moveItems: (ids: string[], targetId: string, position: 'before' | 'after' | 'inside') => void;
   indentItem: (id: string) => void;
