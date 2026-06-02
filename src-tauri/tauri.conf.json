@@ -1,0 +1,68 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "Open Calc Studio",
+  "version": "0.7.4",
+  "identifier": "com.opencalcstudio.app",
+  "mainBinaryName": "Open Calc Studio",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:4200"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Open Calc Studio",
+        "width": 1400,
+        "height": 900,
+        "resizable": true,
+        "fullscreen": false,
+        "decorations": false,
+        "shadow": true
+      }
+    ],
+    "withGlobalTauri": true,
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "resources": [
+      "WebView2Loader.dll",
+      "icons/icon.png",
+      "resources/wpcalc-template.calc",
+      "../mcp-server/dist/ocs-mcp.mjs"
+    ],
+    "fileAssociations": [
+      {
+        "ext": ["ifcCalc"],
+        "name": "Open Calc Studio begroting",
+        "description": "Open Calc Studio begrotingsbestand",
+        "role": "Editor",
+        "mimeType": "application/x-ifccalc"
+      },
+      {
+        "ext": ["calc"],
+        "name": "WpCalc begroting",
+        "description": "WpCalc / OCS begrotingsbestand",
+        "role": "Editor",
+        "mimeType": "application/x-wpcalc"
+      }
+    ],
+    "windows": {
+      "webviewInstallMode": {
+        "type": "embedBootstrapper"
+      }
+    }
+  }
+}

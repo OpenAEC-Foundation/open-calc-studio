@@ -1,0 +1,66 @@
+{
+  "title": "Instellingen",
+  "resetToDefaults": "Standaardwaarden",
+  "resetConfirm": "Weet u zeker dat u alle instellingen wilt herstellen?",
+  "tabs": {
+    "general": "Algemeen",
+    "appearance": "Uiterlijk",
+    "grid": "Raster",
+    "files": "Bestanden",
+    "shortcuts": "Sneltoetsen",
+    "plugins": "Plugins",
+    "about": "Over"
+  },
+  "general": {
+    "application": "Applicatie",
+    "language": "Taal",
+    "startup": "Opstarten",
+    "restoreSession": "Sessie herstellen bij opstarten",
+    "checkUpdates": "Controleer op updates",
+    "author": "Auteur",
+    "authorName": "Naam"
+  },
+  "appearance": {
+    "theme": "Thema",
+    "system": "Systeem",
+    "default": "Standaard",
+    "dark": "Donker",
+    "light": "Licht",
+    "blue": "Blauw",
+    "amberNavy": "Amber donker",
+    "warmEmber": "Warme gloed",
+    "highContrast": "Hoog contrast",
+    "font": "Lettertype",
+    "uiFontSize": "UI lettergrootte"
+  },
+  "grid": {
+    "general": "Raster",
+    "showRowNumbers": "Rijnummers tonen",
+    "alternateRowColors": "Afwisselende rijkleuren"
+  },
+  "files": {
+    "autoSave": "Automatisch opslaan",
+    "autoSaveOption": "Automatisch opslaan",
+    "off": "Uit",
+    "afterDelay": "Na vertraging",
+    "onFocusChange": "Bij focuswisseling",
+    "onWindowChange": "Bij vensterwisseling",
+    "encoding": "Codering",
+    "defaultEncoding": "Standaard codering",
+    "backup": "Back-up",
+    "autoBackup": "Automatische back-up"
+  },
+  "shortcuts": {
+    "placeholder": "Sneltoetsen worden hier geconfigureerd"
+  },
+  "plugins": {
+    "placeholder": "Plugins worden hier beheerd"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Versie",
+    "framework": "Framework",
+    "license": "Licentie",
+    "description": "Open source begrotingsprogramma voor de Nederlandse bouw. Opslag in IFC-formaat."
+  }
+}

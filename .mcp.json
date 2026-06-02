@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "open-calc-studio": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["tsx", "mcp-server/src/index.ts"]
+    }
+  }
+}

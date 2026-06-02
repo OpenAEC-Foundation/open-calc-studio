@@ -1,0 +1,66 @@
+{
+  "title": "Settings",
+  "resetToDefaults": "Reset to Defaults",
+  "resetConfirm": "Are you sure you want to reset all settings?",
+  "tabs": {
+    "general": "General",
+    "appearance": "Appearance",
+    "grid": "Grid",
+    "files": "Files",
+    "shortcuts": "Shortcuts",
+    "plugins": "Plugins",
+    "about": "About"
+  },
+  "general": {
+    "application": "Application",
+    "language": "Language",
+    "startup": "Startup",
+    "restoreSession": "Restore session on startup",
+    "checkUpdates": "Check for updates",
+    "author": "Author",
+    "authorName": "Name"
+  },
+  "appearance": {
+    "theme": "Theme",
+    "system": "System",
+    "default": "Default",
+    "dark": "Dark",
+    "light": "Light",
+    "blue": "Blue",
+    "amberNavy": "Amber Navy",
+    "warmEmber": "Warm Ember",
+    "highContrast": "High Contrast",
+    "font": "Font",
+    "uiFontSize": "UI font size"
+  },
+  "grid": {
+    "general": "Grid",
+    "showRowNumbers": "Show row numbers",
+    "alternateRowColors": "Alternate row colors"
+  },
+  "files": {
+    "autoSave": "Auto Save",
+    "autoSaveOption": "Auto save",
+    "off": "Off",
+    "afterDelay": "After delay",
+    "onFocusChange": "On focus change",
+    "onWindowChange": "On window change",
+    "encoding": "Encoding",
+    "defaultEncoding": "Default encoding",
+    "backup": "Backup",
+    "autoBackup": "Auto backup"
+  },
+  "shortcuts": {
+    "placeholder": "Shortcuts will be configured here"
+  },
+  "plugins": {
+    "placeholder": "Plugins will be managed here"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Version",
+    "framework": "Framework",
+    "license": "License",
+    "description": "Open source budgeting software for Dutch construction. Storage in IFC format."
+  }
+}

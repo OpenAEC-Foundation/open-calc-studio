@@ -1,0 +1,294 @@
+/* ExtensionManagerPanel — OpenAEC Style Book */
+.ext-manager {
+  max-width: 640px;
+}
+
+.ext-manager-title {
+  font-size: 22px;
+  font-weight: 500;
+  font-family: 'Space Grotesk', 'Inter', inherit;
+  color: var(--theme-text);
+  margin: 0 0 20px 0;
+}
+
+.ext-manager-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.ext-manager-tabs {
+  display: flex;
+  gap: 2px;
+}
+
+.ext-tab {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-family: 'Inter', inherit;
+  border: 1px solid var(--theme-border);
+  background: var(--theme-surface);
+  color: var(--theme-text-secondary);
+  cursor: default;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.ext-tab:first-child { border-radius: 8px 0 0 8px; }
+.ext-tab:last-child { border-radius: 0 8px 8px 0; }
+
+.ext-tab:hover {
+  background: var(--theme-hover);
+  color: var(--theme-text);
+}
+
+.ext-tab.active {
+  background: var(--theme-active);
+  color: var(--theme-file-tab-text, #fff);
+  border-color: var(--theme-active);
+}
+
+.ext-manager-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.ext-install-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-family: 'Inter', inherit;
+  font-weight: 500;
+  border: 1.5px solid var(--theme-border);
+  background: var(--theme-surface);
+  color: var(--theme-text);
+  border-radius: 8px;
+  cursor: default;
+  transition: all 0.15s ease;
+}
+
+.ext-install-btn:hover {
+  background: var(--theme-hover);
+}
+
+.ext-install-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.ext-search {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-family: 'Inter', inherit;
+  border: 1.5px solid var(--theme-border);
+  background: var(--theme-surface);
+  color: var(--theme-text);
+  border-radius: 8px;
+  outline: none;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ext-search:focus {
+  border-color: var(--theme-active);
+  box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.2);
+}
+
+.ext-search::placeholder {
+  color: var(--theme-text-secondary);
+}
+
+/* Extension List */
+.ext-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ext-empty {
+  padding: 32px 0;
+  text-align: center;
+  color: var(--theme-text-secondary);
+  font-size: 13px;
+}
+
+.ext-empty-hint {
+  font-size: 11px;
+  margin-top: 4px;
+  opacity: 0.7;
+}
+
+/* Extension Card */
+.ext-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--theme-border);
+  background: var(--theme-surface);
+  border-radius: 8px;
+  transition: border-color 0.15s ease;
+}
+
+.ext-card:hover {
+  border-color: var(--theme-active);
+}
+
+.ext-card-error {
+  border-color: #DC2626;
+}
+
+.ext-card-icon {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--theme-text-secondary);
+}
+
+.ext-card-icon svg {
+  stroke: var(--theme-text-secondary);
+}
+
+.ext-card-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.ext-card-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.ext-card-name {
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Inter', inherit;
+  color: var(--theme-text);
+}
+
+.ext-card-version {
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--theme-text-secondary);
+}
+
+.ext-card-category {
+  font-size: 10px;
+  font-weight: 500;
+  margin-left: auto;
+}
+
+.ext-card-desc {
+  font-size: 11px;
+  color: var(--theme-text-secondary);
+  margin: 0 0 4px 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ext-card-author {
+  font-size: 10px;
+  color: var(--theme-text-secondary);
+  opacity: 0.7;
+}
+
+.ext-card-error-msg {
+  font-size: 10px;
+  color: #DC2626;
+  margin: 4px 0 0;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Card actions */
+.ext-card-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* Toggle switch */
+.ext-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: default;
+}
+
+.ext-toggle:disabled {
+  opacity: 0.5;
+}
+
+.ext-toggle-track {
+  width: 32px;
+  height: 18px;
+  border-radius: 9999px;
+  background: var(--theme-border);
+  position: relative;
+  transition: background 0.15s ease;
+}
+
+.ext-toggle-on .ext-toggle-track {
+  background: #16A34A;
+}
+
+.ext-toggle-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: white;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.15s ease;
+}
+
+.ext-toggle-on .ext-toggle-thumb {
+  transform: translateX(14px);
+}
+
+/* Remove button */
+.ext-remove-btn {
+  font-size: 10px;
+  font-family: 'Inter', inherit;
+  padding: 2px 8px;
+  border: 1px solid var(--theme-border);
+  background: transparent;
+  color: var(--theme-text-secondary);
+  border-radius: 4px;
+  cursor: default;
+  transition: all 0.15s ease;
+}
+
+.ext-remove-btn:hover {
+  border-color: #DC2626;
+  color: #DC2626;
+}
+
+.ext-remove-confirm {
+  border-color: #DC2626;
+  background: #DC2626;
+  color: white;
+}
+
+.ext-installed-badge {
+  font-size: 10px;
+  color: #16A34A;
+  padding: 2px 8px;
+  border: 1px solid #16A34A;
+  border-radius: 4px;
+}

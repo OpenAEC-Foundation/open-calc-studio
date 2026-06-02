@@ -1,0 +1,96 @@
+# Bouw 1 — Default brand configuration for PDF reports
+# Used by the OpenAEC engine via generate_pdf_with_config()
+#
+# This is a generic, neutral brand intended as a starting template.
+# Users can copy this file to their own tenant directory and customize
+# colors, fonts, contact info, and footer text for their organization.
+
+brand:
+  name: "Bouw 1"
+  slug: "bouw1"
+
+colors:
+  primary: "#1A1A1A"
+  secondary: "#6B7280"
+  text: "#1A1A1A"
+  text_light: "#6B7280"
+  white: "#FFFFFF"
+  grid: "#DCDCDC"
+
+fonts:
+  heading: "Arial-Bold"
+  body: "Arial"
+  italic: "Arial-Italic"
+
+logos:
+  main: "logos/logo.png"
+
+contact:
+  name: "Bouw 1"
+  address: ""
+  website: ""
+  phone: ""
+  email: ""
+
+header:
+  height: 0
+  elements: []
+
+footer:
+  height: 18
+  elements:
+    - type: text
+      content: "Op al onze offertes zijn de algemene voorwaarden van toepassing."
+      x: 10
+      y: 14
+      font: "$body"
+      size: 6
+      color: "$text_light"
+      align: left
+    - type: text
+      content: "{page} - {total_pages}"
+      x: 285
+      y: 4
+      font: "$body"
+      size: 7
+      color: "$text_light"
+      align: right
+
+styles:
+  Normal:
+    fontName: "Arial"
+    fontSize: 6.0
+    leading: 8.0
+    textColor: "#1A1A1A"
+  Heading1:
+    fontName: "Arial"
+    fontSize: 10.0
+    leading: 13.0
+    textColor: "#1A1A1A"
+  Heading2:
+    fontName: "Arial-Bold"
+    fontSize: 8.0
+    leading: 10.0
+    textColor: "#1A1A1A"
+
+stationery:
+  content:
+    source: ""
+    content_frame:
+      x_pt: 28.0
+      y_pt: 22.0
+      width_pt: 787.0
+      height_pt: 530.0
+
+modules:
+  table:
+    header_bg: "#FFFFFF"
+    header_text_color: "#1A1A1A"
+    body_font: "Arial"
+    body_size: 6.0
+    header_size: 5.0
+    grid_color: "#DCDCDC"
+    grid_width: 0.3
+    row_stripe: false
+  bouw1_grid:
+    col_widths_mm: [3.5, 3.5, 3.5, 58.0, 25.3, 16.7, 10.5, 15.9, 12.5, 8.2, 12.0, 12.9, 10.2, 12.3, 13.5, 16.6, 22.3, 19.3]

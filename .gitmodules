@@ -1,0 +1,3 @@
+[submodule "libs/openaec-reports"]
+	path = libs/openaec-reports
+	url = https://github.com/OpenAEC-Foundation/openaec-reports.git

@@ -1,0 +1,28 @@
+{
+  "name": "open-calc-studio-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Open Calc Studio budget files",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "bundle": "esbuild src/index.ts --bundle --platform=node --target=node18 --format=esm --outfile=dist/ocs-mcp.mjs --banner:js=\"#!/usr/bin/env node\"",
+    "start": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "@types/sql.js": "^1.4.11",
+    "@xmldom/xmldom": "^0.9.10",
+    "mdb-reader": "^3.2.0",
+    "sql.js": "^1.14.1",
+    "ws": "^8.20.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "@types/ws": "^8.18.1",
+    "esbuild": "^0.27.4",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

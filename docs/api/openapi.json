@@ -1,0 +1,663 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Open Calc Studio Local API",
+    "version": "0.7.3-gert",
+    "description": "Loopback REST API exposed by the Tauri desktop app on port 9742. Companion to the MCP server (port 9741). Authentication: optional Bearer token via the OCS_API_TOKEN env var. Loopback-only — no CORS, no TLS.",
+    "contact": {
+      "name": "Open Calc Studio"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:9742",
+      "description": "Local Tauri app"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "Health": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "string", "example": "ok" },
+          "version": { "type": "string" },
+          "api": { "type": "string", "example": "v1" }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": ["error"],
+        "properties": {
+          "error": { "type": "string" },
+          "detail": { "type": "string" }
+        }
+      },
+      "CostItem": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "parentId": { "type": "string", "nullable": true },
+          "sortOrder": { "type": "integer" },
+          "code": { "type": "string" },
+          "description": { "type": "string" },
+          "unit": {
+            "type": "string",
+            "enum": ["st", "m", "m²", "m³", "kg", "ton", "uur", "dgn", "km", "keer", "ls", "week", "mnd", "post", "%", "pm"]
+          },
+          "quantity": { "type": "number", "nullable": true },
+          "materialPrice": { "type": "number", "nullable": true },
+          "laborPrice": { "type": "number", "nullable": true },
+          "unitPrice": { "type": "number" },
+          "total": { "type": "number" },
+          "rowType": {
+            "type": "string",
+            "enum": ["chapter", "begrotingspost", "bewakingspost", "regel", "tekstregel", "witregel", "staart_ukk", "staart_ak", "staart_wr", "staart_afronding", "staart_ak_oa", "staart_abk", "staart_garanties", "staart_wvpm", "staart_risico", "staart_winst", "staart_verzekering", "staart_btw"]
+          },
+          "depth": { "type": "integer" },
+          "nr": { "type": "string" },
+          "normQuantity": { "type": "number", "nullable": true },
+          "normFactor": { "type": "number", "nullable": true },
+          "normDivisor": { "type": "number", "nullable": true },
+          "normUnitPrice": { "type": "number", "nullable": true },
+          "resourceType": {
+            "type": "string",
+            "nullable": true,
+            "enum": ["onderaannemer", "materieel", "materiaal", "arbeid", "overig", null]
+          },
+          "tariefGroep": {
+            "type": "string",
+            "nullable": true,
+            "enum": ["A", "B", "C", null]
+          },
+          "verrekenbaar": {
+            "type": "string",
+            "nullable": true,
+            "enum": ["V", "A", "N", "F", null]
+          },
+          "staartPercentage": { "type": "number", "nullable": true }
+        }
+      },
+      "CostSchedule": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "status": { "type": "string", "enum": ["DRAFT", "FINAL", "REVISED"] },
+          "predefinedType": { "type": "string", "enum": ["BUDGET", "ESTIMATE", "TENDER"] },
+          "currency": { "type": "string" },
+          "projectName": { "type": "string" },
+          "projectNumber": { "type": "string" },
+          "client": { "type": "string" },
+          "author": { "type": "string" },
+          "reportDate": { "type": "string", "format": "date" },
+          "ifcGuid": { "type": "string" },
+          "uitvoeringskosten": { "type": "number" },
+          "algemeneKosten": { "type": "number" },
+          "winstRisico": { "type": "number" }
+        }
+      },
+      "CompanyInfo": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "postalAddress": { "type": "string" },
+          "postalCity": { "type": "string" },
+          "visitAddress": { "type": "string" },
+          "visitCity": { "type": "string" },
+          "phone": { "type": "string" },
+          "fax": { "type": "string" },
+          "email": { "type": "string" },
+          "kvk": { "type": "string" },
+          "btw": { "type": "string" },
+          "iban": { "type": "string" },
+          "logoLeft": { "type": "string", "description": "Base64-encoded PNG" },
+          "logoRight": { "type": "string", "description": "Base64-encoded PNG" }
+        }
+      },
+      "Branch": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "parentId": { "type": "string", "nullable": true },
+          "color": { "type": "string" }
+        }
+      },
+      "ResourceLibraryItem": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "code": { "type": "string" },
+          "description": { "type": "string" },
+          "unit": { "type": "string" },
+          "resourceType": {
+            "type": "string",
+            "enum": ["onderaannemer", "materieel", "materiaal", "arbeid", "overig"]
+          },
+          "defaultUnitPrice": { "type": "number", "nullable": true },
+          "category": { "type": "string" }
+        }
+      },
+      "SubSheet": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "columns": { "type": "integer" },
+          "rows": { "type": "integer" },
+          "cells": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "string" },
+                "computed": { "type": "number" }
+              }
+            }
+          }
+        }
+      },
+      "DocumentTab": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "fileName": { "type": "string" },
+          "filePath": { "type": "string", "nullable": true },
+          "isModified": { "type": "boolean" }
+        }
+      },
+      "StaartItem": {
+        "type": "object",
+        "properties": {
+          "rowType": { "type": "string" },
+          "description": { "type": "string" },
+          "percentage": { "type": "number", "nullable": true },
+          "total": { "type": "number" }
+        }
+      }
+    }
+  },
+  "security": [{ "bearerAuth": [] }],
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "summary": "Liveness probe",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Health" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/openapi.json": {
+      "get": {
+        "summary": "Inline (minimal) OpenAPI spec served from the running app",
+        "security": [],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/v1/budget": {
+      "get": {
+        "summary": "Full project snapshot (schedule + items + companyInfo)",
+        "responses": {
+          "200": { "description": "OK" },
+          "503": {
+            "description": "No state snapshot yet — open or interact with the UI once",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/budget/summary": {
+      "get": {
+        "summary": "Chapter totals + staart breakdown + aanneemsom",
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/v1/budget/recalculate": {
+      "post": {
+        "summary": "Trigger a recalculation in the UI",
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/v1/items": {
+      "get": {
+        "summary": "List all cost items (optional filters)",
+        "parameters": [
+          { "in": "query", "name": "rowType", "schema": { "type": "string" } },
+          { "in": "query", "name": "parentId", "schema": { "type": "string" }, "description": "Use 'root' for top-level" }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": { "type": "integer" },
+                    "items": { "type": "array", "items": { "$ref": "#/components/schemas/CostItem" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new cost item",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["parentId", "rowType", "description"],
+                "properties": {
+                  "parentId": { "type": "string", "nullable": true },
+                  "rowType": { "type": "string" },
+                  "description": { "type": "string" },
+                  "code": { "type": "string" },
+                  "quantity": { "type": "number" },
+                  "unit": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Queued" } }
+      }
+    },
+    "/api/v1/items/{id}": {
+      "get": {
+        "summary": "Read one item",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/CostItem" } }
+            }
+          },
+          "404": { "description": "Not found" }
+        }
+      },
+      "patch": {
+        "summary": "Update fields on an item",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "description": "Partial CostItem fields to update"
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Queued" } }
+      },
+      "delete": {
+        "summary": "Remove an item (and its descendants)",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "Queued" } }
+      }
+    },
+    "/api/v1/items/{id}/move": {
+      "post": {
+        "summary": "Move an item before/after/inside another",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["targetId", "position"],
+                "properties": {
+                  "targetId": { "type": "string" },
+                  "position": { "type": "string", "enum": ["before", "after", "inside"] }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Queued" } }
+      }
+    },
+    "/api/v1/schedule": {
+      "get": {
+        "summary": "Get schedule (project metadata)",
+        "responses": { "200": { "description": "OK" } }
+      },
+      "patch": {
+        "summary": "Update schedule fields (projectName, client, author, …)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CostSchedule" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Queued" } }
+      }
+    },
+    "/api/v1/company-info": {
+      "get": {
+        "summary": "Get the company info / letterhead",
+        "responses": { "200": { "description": "OK" } }
+      },
+      "put": {
+        "summary": "Replace the company info",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CompanyInfo" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Queued" } }
+      }
+    },
+    "/api/v1/staart": {
+      "get": {
+        "summary": "List staart (markup) items and the cumulative breakdown",
+        "responses": { "200": { "description": "OK" } }
+      },
+      "put": {
+        "summary": "Replace staart configuration (preset 'bouw1' or custom items array)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "preset": { "type": "string", "enum": ["bouw1", "custom"] },
+                  "items": {
+                    "type": "array",
+                    "items": { "$ref": "#/components/schemas/StaartItem" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Queued" } }
+      }
+    },
+    "/api/v1/sheets": {
+      "get": {
+        "summary": "List all sub-sheets (spreadsheets)",
+        "responses": { "200": { "description": "OK" } }
+      },
+      "post": {
+        "summary": "Create a new sub-sheet",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Queued" } }
+      }
+    },
+    "/api/v1/sheets/{id}": {
+      "patch": {
+        "summary": "Rename a sheet",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name"],
+                "properties": { "name": { "type": "string" } }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Queued" } }
+      },
+      "delete": {
+        "summary": "Remove a sheet",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "Queued" } }
+      }
+    },
+    "/api/v1/sheets/{id}/cells": {
+      "get": {
+        "summary": "Read all cells of a sheet",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/api/v1/sheets/{id}/cells/{ref}": {
+      "put": {
+        "summary": "Set a single cell (A1)",
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } },
+          { "in": "path", "name": "ref", "required": true, "schema": { "type": "string" }, "description": "Cell reference like A1" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["value"],
+                "properties": { "value": { "type": "string" } }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Queued" } }
+      }
+    },
+    "/api/v1/branches": {
+      "get": {
+        "summary": "List all budget variant branches",
+        "responses": { "200": { "description": "OK" } }
+      },
+      "post": {
+        "summary": "Add a new branch",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name"],
+                "properties": {
+                  "name": { "type": "string" },
+                  "parentId": { "type": "string", "nullable": true }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Queued" } }
+      }
+    },
+    "/api/v1/branches/{id}": {
+      "delete": {
+        "summary": "Remove a branch (and descendants). 'main' cannot be removed.",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "Queued" } }
+      }
+    },
+    "/api/v1/resources": {
+      "get": {
+        "summary": "List resource library items",
+        "responses": { "200": { "description": "OK" } }
+      },
+      "post": {
+        "summary": "Add a resource library item",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ResourceLibraryItem" }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Queued" } }
+      }
+    },
+    "/api/v1/open": {
+      "post": {
+        "summary": "Open a file by path",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["filePath"],
+                "properties": { "filePath": { "type": "string" } }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Queued" } }
+      }
+    },
+    "/api/v1/save": {
+      "post": {
+        "summary": "Save the current budget to disk",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": { "filePath": { "type": "string" } }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Queued" } }
+      }
+    },
+    "/api/v1/export/pdf": {
+      "post": {
+        "summary": "Generate a PDF report",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "report_view": { "type": "string", "enum": ["werkbeschrijving", "hoofdaanneming", "onderaanneming", "inschrijfstaat", "nacalculatie", "bouw1", "offerte"] },
+                  "output_path": { "type": "string" },
+                  "page_size": { "type": "string", "enum": ["A4", "A3", "Letter"] },
+                  "page_orientation": { "type": "string", "enum": ["portrait", "landscape"] }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Queued" } }
+      }
+    },
+    "/api/v1/export/ifc": {
+      "post": {
+        "summary": "Export current budget as IFC4X3 STEP",
+        "responses": { "200": { "description": "Queued" } }
+      }
+    },
+    "/api/v1/import/cuf": {
+      "post": {
+        "summary": "Import a CUF-XML body",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/xml": { "schema": { "type": "string" } },
+            "text/plain": { "schema": { "type": "string" } }
+          }
+        },
+        "responses": { "200": { "description": "Queued" } }
+      }
+    },
+    "/api/v1/import/wpcalc": {
+      "post": {
+        "summary": "Import a WpCalc (.calc) binary upload. For large files prefer POST /api/v1/open with a filePath instead.",
+        "requestBody": {
+          "required": true,
+          "content": { "application/octet-stream": { "schema": { "type": "string", "format": "binary" } } }
+        },
+        "responses": { "200": { "description": "Queued" } }
+      }
+    },
+    "/api/v1/import/xtb": {
+      "post": {
+        "summary": "Import an .xtb (IBIS-TRAD SQLite) binary upload. For large files prefer POST /api/v1/open with a filePath instead.",
+        "requestBody": {
+          "required": true,
+          "content": { "application/octet-stream": { "schema": { "type": "string", "format": "binary" } } }
+        },
+        "responses": { "200": { "description": "Queued" } }
+      }
+    },
+    "/api/v1/documents": {
+      "get": {
+        "summary": "List all open document tabs",
+        "responses": { "200": { "description": "OK" } }
+      },
+      "post": {
+        "summary": "Add a new document tab",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fileName": { "type": "string" },
+                  "filePath": { "type": "string", "nullable": true }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Queued" } }
+      }
+    },
+    "/api/v1/documents/{id}": {
+      "delete": {
+        "summary": "Close a document tab",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "Queued" } }
+      }
+    }
+  }
+}

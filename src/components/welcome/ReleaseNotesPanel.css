@@ -1,0 +1,93 @@
+.welcome-side-panel {
+  width: 360px;
+  max-width: 40%;
+  border-left: 1px solid var(--theme-border);
+  background: var(--theme-surface);
+  padding: 24px 20px;
+  overflow-y: auto;
+  flex-shrink: 0;
+  font-family: 'Inter', inherit;
+}
+
+.welcome-brand h3 {
+  margin: 0 0 4px;
+  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--theme-text);
+}
+
+.welcome-link {
+  display: inline-block;
+  font-size: 12px;
+  color: #D97706;
+  text-decoration: none;
+  font-weight: 500;
+}
+.welcome-link:hover { text-decoration: underline; }
+
+.welcome-releases {
+  margin-top: 28px;
+}
+.welcome-releases h3 {
+  margin: 0 0 12px;
+  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--theme-text-secondary);
+}
+
+.welcome-release {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--theme-border);
+}
+.welcome-release:last-child { border-bottom: none; }
+
+.welcome-release header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+.welcome-release-tag {
+  font-family: 'JetBrains Mono', 'Inter', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: #D97706;
+  text-decoration: none;
+  background: rgba(217, 119, 6, 0.08);
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+.welcome-release-tag:hover { text-decoration: underline; }
+
+.welcome-release-date {
+  font-size: 10px;
+  color: var(--theme-text-secondary);
+}
+
+.welcome-release-title {
+  margin: 4px 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--theme-text);
+  font-family: 'Space Grotesk', 'Inter', inherit;
+  letter-spacing: -0.005em;
+}
+
+.welcome-release-body {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--theme-text-secondary);
+  white-space: pre-wrap;
+}
+
+.welcome-error,
+.welcome-loading {
+  font-size: 12px;
+  color: var(--theme-text-secondary);
+}
