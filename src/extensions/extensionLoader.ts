@@ -114,6 +114,15 @@ function executeExtensionCode(mainCode: string): ExtensionPlugin {
 export async function enableExtension(id: string): Promise<void> {
   const store = useAppStore.getState();
 
+  // Builtins leven in code, niet in IndexedDB: hun importers blijven altijd
+  // geregistreerd en alleen de status bepaalt zichtbaarheid. Direct weer op
+  // 'enabled' zetten — de DB-route hieronder zou met "not found in storage"
+  // falen en de toggle permanent op error zetten.
+  if (id.startsWith('builtin-')) {
+    store.setExtensionStatus(id, 'enabled');
+    return;
+  }
+
   // Already active?
   if (activePlugins.has(id)) return;
 

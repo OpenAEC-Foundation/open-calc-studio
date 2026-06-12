@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useAppStore } from '@/state/appStore';
+import { buildBudgetContext, ACTIE_PROTOCOL, parseActies, applyActies } from '@/services/assistant/assistantActions';
+import { BEGROTEN_KENNIS } from '@/services/assistant/begrotenKennis';
 import './ChatPanel.css';
 
 interface ChatMessage {
@@ -10,13 +12,14 @@ interface ChatMessage {
 
 export function ChatPanel() {
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'assistant', content: 'Hallo! Ik ben je begroting-assistent. Stel me een vraag over je begroting, of geef me een opdracht zoals "voeg een hoofdstuk Funderingen toe".', timestamp: Date.now() },
+    { role: 'assistant', content: 'Hallo! Ik ben je **calculatieassistent** en ik kijk mee in de begroting die nu open staat. Stel een vraag ("wat is het duurste hoofdstuk?") of geef een opdracht ("verhoog de betonbakken naar 14 stuks", "voeg onder 21.01 een regel toe…") — wijzigingen voer ik direct in het document door, met ongedaan-maken als vangnet.', timestamp: Date.now() },
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const toggleChatPanel = useAppStore(s => s.toggleChatPanel);
+  const activeDocName = useAppStore(s => s.documents.find(d => d.id === s.activeDocumentId)?.fileName);
   const accountsUser = useAppStore(s => s.accountsUser);
   const aiCredits = useAppStore(s => s.aiCredits);
   const accountsAiComplete = useAppStore(s => s.accountsAiComplete);
@@ -33,29 +36,17 @@ export function ChatPanel() {
 
   const buildSystemPrompt = useCallback(() => {
     const store = useAppStore.getState();
-    const schedule = store.schedule;
-    const items = store.items;
-    const chapters = items.filter(i => i.rowType === 'chapter' && i.depth === 0);
-    const staartItems = items.filter(i => i.rowType.startsWith('staart_'));
+    const staartItems = store.items.filter(i => i.rowType.startsWith('staart_'));
 
-    return `Je bent een bouwkosten-assistent geïntegreerd in Open Calc Studio, een begrotingsprogramma voor de Nederlandse bouw.
+    return `Je bent de Calculatieassistent van Open Calc Studio, een begrotingsprogramma voor de Nederlandse bouw. Je werkt IN het document dat nu open staat — hieronder staat de volledige actuele inhoud.
 
-Huidige begroting:
-- Project: ${schedule?.projectName || '(geen)'}
-- Nummer: ${schedule?.projectNumber || '(geen)'}
-- Opdrachtgever: ${schedule?.client || '(geen)'}
-- Aantal items: ${items.length}
-- Hoofdstukken: ${chapters.map(c => `${c.code} ${c.description} (€${Math.round(c.total)})`).join(', ') || '(geen)'}
-- Kostprijs: €${Math.round(chapters.reduce((s, c) => s + c.total, 0))}
-- Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? ''}%`).join(', ') || '(geen)'}
+${buildBudgetContext(store.schedule, store.items)}
 
-Je kunt de gebruiker helpen met:
-- Vragen over de begroting beantwoorden
-- Uitleg geven over posten en berekeningen
-- Advies over prijzen en hoeveelheden
-- Tips voor kostenoptimalisatie
+Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? ''}%`).join(', ') || '(geen)'}
+${BEGROTEN_KENNIS}
+${ACTIE_PROTOCOL}
 
-Antwoord altijd in het Nederlands. Wees bondig en praktisch.`;
+Antwoord altijd in het Nederlands. Wees bondig en praktisch; noem bedragen excl. btw tenzij anders gevraagd.`;
   }, []);
 
   const handleSend = useCallback(async () => {
@@ -80,7 +71,12 @@ Antwoord altijd in het Nederlands. Wees bondig en praktisch.`;
           .join('\n\n');
         try {
           const answer = await accountsAiComplete(`${history}\n\nAssistent:`, buildSystemPrompt());
-          setMessages(prev => [...prev, { role: 'assistant', content: answer || 'Geen antwoord ontvangen.', timestamp: Date.now() }]);
+          // Wijzigingsacties uit het antwoord halen en op het document uitvoeren
+          const { acties, cleanText } = parseActies(answer || '');
+          const resultaten = applyActies(acties);
+          const inhoud = [cleanText || (resultaten.length ? '' : 'Geen antwoord ontvangen.'), resultaten.join('\n')]
+            .filter(Boolean).join('\n\n');
+          setMessages(prev => [...prev, { role: 'assistant', content: inhoud, timestamp: Date.now() }]);
         } catch (err: any) {
           const msg = String(err);
           const friendly = msg.includes('402') || /insufficient credits/i.test(msg)
@@ -149,7 +145,11 @@ Antwoord altijd in het Nederlands. Wees bondig en praktisch.`;
 
         const data = await res.json();
         const assistantText = data.content?.[0]?.text || 'Geen antwoord ontvangen.';
-        setMessages(prev => [...prev, { role: 'assistant', content: assistantText, timestamp: Date.now() }]);
+        const { acties, cleanText } = parseActies(assistantText);
+        const resultaten = applyActies(acties);
+        const inhoud = [cleanText || (resultaten.length ? '' : assistantText), resultaten.join('\n')]
+          .filter(Boolean).join('\n\n');
+        setMessages(prev => [...prev, { role: 'assistant', content: inhoud, timestamp: Date.now() }]);
       }
     } catch (err: any) {
       setMessages(prev => [...prev, {
@@ -180,14 +180,16 @@ Antwoord altijd in het Nederlands. Wees bondig en praktisch.`;
   return (
     <div className="chat-panel">
       <div className="chat-header">
-        <span className="chat-title">💬 Assistent</span>
+        <div className="chat-header-titles">
+          <span className="chat-title">✨ Calculatieassistent</span>
+          <span className="chat-subtitle" title={activeDocName}>{activeDocName ? `werkt in: ${activeDocName}` : 'geen document geopend'}</span>
+        </div>
         {accountsUser && aiCredits != null && (
           <span
             className="chat-credits"
             title="Resterend AI-tegoed van je OpenAEC-account"
-            style={{ marginLeft: 'auto', marginRight: 8, fontSize: 11, color: 'var(--theme-text-secondary)', whiteSpace: 'nowrap' }}
           >
-            ✨ {aiCredits.toLocaleString('nl-NL')} credits
+            {aiCredits.toLocaleString('nl-NL')} credits
           </span>
         )}
         <button className="chat-close" onClick={toggleChatPanel}>✕</button>
@@ -208,6 +210,19 @@ Antwoord altijd in het Nederlands. Wees bondig en praktisch.`;
         )}
         <div ref={messagesEndRef} />
       </div>
+      {messages.length <= 1 && !loading && (
+        <div className="chat-chips">
+          {[
+            'Wat is het duurste hoofdstuk?',
+            'Hoeveel uren zitten er in totaal in?',
+            'Verhoog het aantal van de eerste regel met 10%',
+          ].map((s) => (
+            <button key={s} className="chat-chip" onClick={() => { setInput(s); inputRef.current?.focus(); }}>
+              {s}
+            </button>
+          ))}
+        </div>
+      )}
       <div className="chat-input-area">
         <textarea
           ref={inputRef}
@@ -215,7 +230,7 @@ Antwoord altijd in het Nederlands. Wees bondig en praktisch.`;
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Stel een vraag over je begroting..."
+          placeholder="Vraag of opdracht voor deze begroting…"
           rows={2}
         />
         <button
