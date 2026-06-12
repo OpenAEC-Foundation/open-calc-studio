@@ -15,7 +15,10 @@ import { useAppStore } from '@/state/appStore';
 
 // ── 1. Context ──────────────────────────────────────────────────────────
 
-const MAX_CONTEXT_REGELS = 150;
+// De begrotingscontext gaat via stdin (geen lengtelimiet), dus de hele
+// begroting kan mee — de assistent moet immers alle regels kennen om vragen
+// te beantwoorden. Ruime veiligheidsbovengrens tegen pathologische gevallen.
+const MAX_CONTEXT_REGELS = 2000;
 
 export function buildBudgetContext(schedule: CostSchedule, items: CostItem[]): string {
   const tarieven = schedule.tarieven ?? { A: 66, B: 46, C: 82 };
