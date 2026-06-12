@@ -12,7 +12,7 @@ interface ChatMessage {
 
 export function ChatPanel() {
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'assistant', content: 'Hallo! Ik ben je **calculatieassistent** en ik kijk mee in de begroting die nu open staat. Stel een vraag ("wat is het duurste hoofdstuk?") of geef een opdracht ("verhoog de betonbakken naar 14 stuks", "voeg onder 21.01 een regel toe…") — wijzigingen voer ik direct in het document door, met ongedaan-maken als vangnet.', timestamp: Date.now() },
+    { role: 'assistant', content: 'Hallo! Ik ben de **OpenAEC calculatieassistent** en ik kijk mee in de begroting die nu open staat. Stel een vraag ("wat is het duurste hoofdstuk?") of geef een opdracht ("verhoog de betonbakken naar 14 stuks", "voeg onder 21.01 een regel toe…") — wijzigingen voer ik direct in het document door, met ongedaan-maken als vangnet.', timestamp: Date.now() },
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -38,7 +38,7 @@ export function ChatPanel() {
     const store = useAppStore.getState();
     const staartItems = store.items.filter(i => i.rowType.startsWith('staart_'));
 
-    return `Je bent de Calculatieassistent van Open Calc Studio, een begrotingsprogramma voor de Nederlandse bouw. Je werkt IN het document dat nu open staat — hieronder staat de volledige actuele inhoud.
+    return `Je bent de OpenAEC calculatieassistent van Open Calc Studio, een begrotingsprogramma voor de Nederlandse bouw. Je werkt IN het document dat nu open staat — hieronder staat de volledige actuele inhoud.
 
 ${buildBudgetContext(store.schedule, store.items)}
 
@@ -81,7 +81,7 @@ Antwoord altijd in het Nederlands. Wees bondig en praktisch; noem bedragen excl.
           const msg = String(err);
           let friendly: string;
           if (msg.includes('402') || /insufficient credits/i.test(msg)) {
-            friendly = 'Je OpenAEC AI-tegoed is op. Koop credits bij in de OpenAEC-portal en probeer het opnieuw.';
+            friendly = 'Je OpenAEC AI-tegoed (tokens) is op. Koop tokens bij in de OpenAEC-portal en probeer het opnieuw.';
           } else if (/\b50[234]\b/.test(msg) || /bad gateway|bridge|gateway timed out|unavailable/i.test(msg)) {
             // Platformzijde: de AI-dienst van OpenAEC is tijdelijk niet bereikbaar
             // (bv. de AI-bridge op de server start niet). Niets aan deze app.
@@ -188,15 +188,15 @@ Antwoord altijd in het Nederlands. Wees bondig en praktisch; noem bedragen excl.
     <div className="chat-panel">
       <div className="chat-header">
         <div className="chat-header-titles">
-          <span className="chat-title">✨ Calculatieassistent</span>
+          <span className="chat-title">✨ OpenAEC calculatieassistent</span>
           <span className="chat-subtitle" title={activeDocName}>{activeDocName ? `werkt in: ${activeDocName}` : 'geen document geopend'}</span>
         </div>
         {accountsUser && aiCredits != null && (
           <span
             className="chat-credits"
-            title="Resterend AI-tegoed van je OpenAEC-account"
+            title="Resterend AI-tegoed (tokens) van je OpenAEC-account"
           >
-            {aiCredits.toLocaleString('nl-NL')} credits
+            {aiCredits.toLocaleString('nl-NL')} tokens
           </span>
         )}
         <button className="chat-close" onClick={toggleChatPanel}>✕</button>

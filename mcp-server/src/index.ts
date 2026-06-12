@@ -1006,7 +1006,16 @@ function deserializeProject(json: string): ProjectFile {
 async function loadProjectFile(filePath: string): Promise<ProjectFile> {
   const ext = extname(filePath).toLowerCase();
   if (ext === '.xtb') return loadXtbProject(filePath);
-  if (ext === '.calc' || ext === '.mdb') return loadCalcProject(filePath);
+  if (ext === '.calc' || ext === '.mdb') {
+    // Inhoud-sniff: sommige bestanden dragen een .calc/.mdb-extensie maar zijn
+    // in werkelijkheid een native OCS-project (JSON). Open die als native i.p.v.
+    // ze door mdb-reader te duwen (faalt met "Wrong page type ...").
+    const raw = readFileSync(filePath);
+    let i = 0;
+    while (i < raw.length && [0x20, 0x09, 0x0a, 0x0d, 0xef, 0xbb, 0xbf].includes(raw[i])) i++;
+    if (raw[i] === 0x7b) return deserializeProject(raw.toString('utf-8'));
+    return loadCalcProject(filePath);
+  }
   // Default: JSON (.ifcCalc, .ocs, .json, .ifcx)
   return deserializeProject(readFileSync(filePath, 'utf-8'));
 }
