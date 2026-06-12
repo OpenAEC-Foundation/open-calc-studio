@@ -10,6 +10,40 @@ interface ChatMessage {
   timestamp: number;
 }
 
+/**
+ * Maakt van een ruwe AI-aanroepfout een specifieke, diagnosticeerbare melding.
+ * Toont altijd de echte statuscode + servermelding, zodat duidelijk is of het
+ * om login, tokens, de verbinding of een serverfout (AI-bridge) gaat.
+ */
+function describeAiError(err: unknown): string {
+  const raw = String((err as { message?: string })?.message ?? err ?? '').trim();
+  const status = raw.match(/\bgaf (\d{3})\b/)?.[1] ?? raw.match(/\b(40\d|41\d|42\d|50\d)\b/)?.[1] ?? null;
+  // Servermelding uit een JSON-body, bv. {"message":"AI bridge exited 1: ..."}
+  let serverMsg = '';
+  const jsonStart = raw.indexOf('{');
+  if (jsonStart >= 0) {
+    try {
+      const j = JSON.parse(raw.slice(jsonStart)) as { message?: string; error?: string };
+      serverMsg = String(j.message ?? j.error ?? '');
+    } catch { /* geen JSON-body */ }
+  }
+  const detail = serverMsg || raw || 'onbekende fout';
+
+  if (status === '401' || /niet ingelogd|geen refresh_token|log opnieuw in|invalid_grant/i.test(raw)) {
+    return `⚠️ Niet (meer) ingelogd bij OpenAEC. Log opnieuw in via de knop rechtsboven en probeer het dan opnieuw.\n\n_Detail: ${detail}_`;
+  }
+  if (status === '402' || /insufficient credits/i.test(raw)) {
+    return '⚠️ Je OpenAEC AI-tegoed (tokens) is op. Koop tokens bij in de OpenAEC-portal en probeer het opnieuw.';
+  }
+  if (!status && /onbereikbaar|sending request|connection|econn|timed out|failed to connect|dns|refused/i.test(raw)) {
+    return `⚠️ Geen verbinding met de OpenAEC-dienst. Draait de accounts-server (localhost:4000)?\n\n_Detail: ${detail}_`;
+  }
+  if (status && status.startsWith('5')) {
+    return `⚠️ De OpenAEC AI-dienst gaf een serverfout (${status}) — dit ligt aan de serverkant.\n\n_Detail: ${detail}_`;
+  }
+  return `⚠️ AI-aanroep mislukt${status ? ` (${status})` : ''}.\n\n_Detail: ${detail}_`;
+}
+
 export function ChatPanel() {
   const [messages, setMessages] = useState<ChatMessage[]>([
     { role: 'assistant', content: 'Hallo! Ik ben de **OpenAEC calculatieassistent** en ik kijk mee in de begroting die nu open staat. Stel een vraag ("wat is het duurste hoofdstuk?") of geef een opdracht ("verhoog de betonbakken naar 14 stuks", "voeg onder 21.01 een regel toe…") — wijzigingen voer ik direct in het document door, met ongedaan-maken als vangnet.', timestamp: Date.now() },
@@ -78,18 +112,7 @@ Antwoord altijd in het Nederlands. Wees bondig en praktisch; noem bedragen excl.
             .filter(Boolean).join('\n\n');
           setMessages(prev => [...prev, { role: 'assistant', content: inhoud, timestamp: Date.now() }]);
         } catch (err: any) {
-          const msg = String(err);
-          let friendly: string;
-          if (msg.includes('402') || /insufficient credits/i.test(msg)) {
-            friendly = 'Je OpenAEC AI-tegoed (tokens) is op. Koop tokens bij in de OpenAEC-portal en probeer het opnieuw.';
-          } else if (/\b50[234]\b/.test(msg) || /bad gateway|bridge|gateway timed out|unavailable/i.test(msg)) {
-            // Platformzijde: de AI-dienst van OpenAEC is tijdelijk niet bereikbaar
-            // (bv. de AI-bridge op de server start niet). Niets aan deze app.
-            friendly = 'De AI-dienst van OpenAEC is op dit moment niet bereikbaar. Dit ligt aan de serverkant — probeer het zo nog eens. Ondertussen kun je gewoon doorwerken in je begroting.';
-          } else {
-            friendly = `AI-aanroep via OpenAEC mislukt: ${msg}`;
-          }
-          setMessages(prev => [...prev, { role: 'assistant', content: friendly, timestamp: Date.now() }]);
+          setMessages(prev => [...prev, { role: 'assistant', content: describeAiError(err), timestamp: Date.now() }]);
         }
       } else if (!apiKey) {
         // No API key — give helpful response based on local context
