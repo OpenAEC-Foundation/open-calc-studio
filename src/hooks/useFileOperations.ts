@@ -16,6 +16,27 @@ function fileNameFromPath(filePath: string): string {
   return fullName.replace(/\.(ifcx|json)$/i, '');
 }
 
+/**
+ * Sommige bestanden dragen een .calc/.mdb-extensie maar zijn in werkelijkheid
+ * een native OCS-project (JSON) — bijv. een begroting die met de verkeerde
+ * extensie is opgeslagen. Detecteer dat aan de inhoud (eerste niet-witruimte
+ * byte is `{`) en open ze als native, in plaats van ze door de Access-importer
+ * te duwen — die faalt dan met "Wrong page type. Expected 0 but received 123".
+ */
+export function sniffNativeProject(data: ArrayBuffer): ReturnType<typeof deserializeProject> | null {
+  try {
+    const bytes = new Uint8Array(data);
+    let i = 0;
+    // UTF-8 BOM + voorafgaande witruimte overslaan
+    while (i < bytes.length && [0x20, 0x09, 0x0a, 0x0d, 0xef, 0xbb, 0xbf].includes(bytes[i])) i++;
+    if (bytes[i] !== 0x7b) return null; // geen '{' → echt binair (Access/Excel)
+    const parsed = deserializeProject(new TextDecoder('utf-8').decode(data));
+    return parsed?.schedule && Array.isArray(parsed.items) ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
 export function useFileOperations() {
   const { t } = useTranslation();
   const {
@@ -142,6 +163,19 @@ export function useFileOperations() {
           const { readBinaryFileByPath } = await import('@/services/file/nativeFileService');
           const data = await readBinaryFileByPath(result.path);
 
+          // Inhoud-sniff: een .calc/.mdb met JSON-inhoud is een native OCS-project
+          const native = sniffNativeProject(data);
+          if (native) {
+            const id = crypto.randomUUID();
+            addDocument({ id, filePath: result.path, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: false, items: native.items, schedule: native.schedule });
+            if (native.companyInfo) setCompanyInfo(native.companyInfo);
+            if (native.subSheets) setSubSheets(native.subSheets);
+            if (native.offerte) setOfferte(native.offerte);
+            if (native.schedule.projectInfo) setProjectInfo(native.schedule.projectInfo);
+            addToRecentFiles(result.path);
+            return;
+          }
+
           // Find the matching extension importer
           const store = useAppStore.getState();
           const importers = store.extensionImporters;
@@ -203,6 +237,19 @@ export function useFileOperations() {
       if (['calc', 'mdb', 'xls', 'xlsx', 'xtb'].includes(ext)) {
         const { readBinaryFileByPath } = await import('@/services/file/nativeFileService');
         const data = await readBinaryFileByPath(filePath);
+
+        // Inhoud-sniff: een .calc/.mdb met JSON-inhoud is een native OCS-project
+        const native = sniffNativeProject(data);
+        if (native) {
+          const id = crypto.randomUUID();
+          addDocument({ id, filePath, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: false, items: native.items, schedule: native.schedule });
+          if (native.companyInfo) setCompanyInfo(native.companyInfo);
+          if (native.subSheets) setSubSheets(native.subSheets);
+          if (native.offerte) setOfferte(native.offerte);
+          if (native.schedule.projectInfo) setProjectInfo(native.schedule.projectInfo);
+          addToRecentFiles(filePath);
+          return;
+        }
 
         const store = useAppStore.getState();
         const importers = store.extensionImporters;
