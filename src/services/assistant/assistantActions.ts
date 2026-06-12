@@ -15,7 +15,7 @@ import { useAppStore } from '@/state/appStore';
 
 // ── 1. Context ──────────────────────────────────────────────────────────
 
-const MAX_CONTEXT_REGELS = 250;
+const MAX_CONTEXT_REGELS = 150;
 
 export function buildBudgetContext(schedule: CostSchedule, items: CostItem[]): string {
   const tarieven = schedule.tarieven ?? { A: 66, B: 46, C: 82 };

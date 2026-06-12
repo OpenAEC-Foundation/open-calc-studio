@@ -68,19 +68,25 @@ export function ChatPanel() {
     if (accountsUser) void accountsLoadCredits();
   }, [accountsUser, accountsLoadCredits]);
 
+  // Klein, statisch system-prompt. Bij de OpenAEC-bridge gaat dit als
+  // command-line-argument mee (cmd.exe limiteert dat tot ~8K), dus de grote,
+  // dynamische begrotingsinhoud zit NIET hier maar in het user-bericht (stdin).
   const buildSystemPrompt = useCallback(() => {
+    return `Je bent de OpenAEC calculatieassistent in Open Calc Studio (begrotingsprogramma voor de Nederlandse bouw). Je werkt in het document dat nu open staat; de actuele inhoud staat in het gebruikersbericht.
+${ACTIE_PROTOCOL}
+Antwoord in het Nederlands, bondig en praktisch; bedragen excl. btw tenzij anders gevraagd.`;
+  }, []);
+
+  // Dynamische context (vakkennis + actuele begroting) — gaat in het
+  // user-bericht zodat het niet tegen de command-line-limiet van de bridge aanloopt.
+  const buildContextBlock = useCallback(() => {
     const store = useAppStore.getState();
     const staartItems = store.items.filter(i => i.rowType.startsWith('staart_'));
+    return `${BEGROTEN_KENNIS}
 
-    return `Je bent de OpenAEC calculatieassistent van Open Calc Studio, een begrotingsprogramma voor de Nederlandse bouw. Je werkt IN het document dat nu open staat — hieronder staat de volledige actuele inhoud.
-
+Huidige begroting:
 ${buildBudgetContext(store.schedule, store.items)}
-
-Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? ''}%`).join(', ') || '(geen)'}
-${BEGROTEN_KENNIS}
-${ACTIE_PROTOCOL}
-
-Antwoord altijd in het Nederlands. Wees bondig en praktisch; noem bedragen excl. btw tenzij anders gevraagd.`;
+Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? ''}%`).join(', ') || '(geen)'}`;
   }, []);
 
   const handleSend = useCallback(async () => {
@@ -104,7 +110,9 @@ Antwoord altijd in het Nederlands. Wees bondig en praktisch; noem bedragen excl.
           .map(m => `${m.role === 'user' ? 'Gebruiker' : 'Assistent'}: ${m.content}`)
           .join('\n\n');
         try {
-          const answer = await accountsAiComplete(`${history}\n\nAssistent:`, buildSystemPrompt());
+          // Context in het user-bericht (stdin), klein system als CLI-arg
+          const prompt = `${buildContextBlock()}\n\n${history}\n\nAssistent:`;
+          const answer = await accountsAiComplete(prompt, buildSystemPrompt());
           // Wijzigingsacties uit het antwoord halen en op het document uitvoeren
           const { acties, cleanText } = parseActies(answer || '');
           const resultaten = applyActies(acties);
@@ -164,7 +172,8 @@ Antwoord altijd in het Nederlands. Wees bondig en praktisch; noem bedragen excl.
           body: JSON.stringify({
             model: 'claude-sonnet-4-6',
             max_tokens: 1024,
-            system: buildSystemPrompt(),
+            // Directe API kent geen CLI-limiet → context mag hier in het system
+            system: `${buildSystemPrompt()}\n\n${buildContextBlock()}`,
             messages: chatHistory,
           }),
         });
@@ -190,7 +199,7 @@ Antwoord altijd in het Nederlands. Wees bondig en praktisch; noem bedragen excl.
     } finally {
       setLoading(false);
     }
-  }, [input, loading, messages, buildSystemPrompt, accountsUser, accountsAiComplete]);
+  }, [input, loading, messages, buildSystemPrompt, buildContextBlock, accountsUser, accountsAiComplete]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
