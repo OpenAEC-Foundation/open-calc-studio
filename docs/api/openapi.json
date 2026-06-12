@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Open Calc Studio Local API",
-    "version": "0.7.3-gert",
+    "version": "0.7.10",
     "description": "Loopback REST API exposed by the Tauri desktop app on port 9742. Companion to the MCP server (port 9741). Authentication: optional Bearer token via the OCS_API_TOKEN env var. Loopback-only — no CORS, no TLS.",
     "contact": {
       "name": "Open Calc Studio"

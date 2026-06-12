@@ -1,7 +1,16 @@
-import type { ProjectFile, CostSchedule, CostItem, CompanyInfo, SubSheet, SpreadsheetsData, RowType, OfferteDocument, ProjectInfo, ProjectSnapshot } from '@/types/costModel';
+import type { ProjectFile, CostSchedule, CostItem, CompanyInfo, SubSheet, SpreadsheetsData, RowType, OfferteDocument, ProjectSnapshot } from '@/types/costModel';
 import { defaultCompanyInfo } from '@/state/slices/companySlice';
 import { createDefaultProjectInfo } from '@/types/costModel';
 import { synthesizeStaartItems } from '@/services/calculation/staartDefaults';
+
+/**
+ * Huidige versie van het .ifcCalc-bestandsformaat (major.minor.patch).
+ * Eén bron van waarheid — overal dit gebruiken, nooit een losse literal.
+ * Beleid en versiehistorie: docs/ifccalc-formaat.md.
+ * - major omhoog = breaking (oudere apps weigeren met nette melding)
+ * - minor omhoog = additief (oudere bestanden migreren automatisch mee)
+ */
+export const FILE_FORMAT_VERSION = '2.1.0';
 
 export function createProjectFile(
   schedule: CostSchedule,
@@ -15,7 +24,7 @@ export function createProjectFile(
     ? { sheets: spreadsheets, activeSheetId: spreadsheets[0]?.id ?? null }
     : spreadsheets ?? { sheets: [], activeSheetId: null };
   return {
-    version: '2.1.0',
+    version: FILE_FORMAT_VERSION,
     schedule,
     items,
     resourceLibrary: [],
@@ -93,6 +102,17 @@ export function deserializeProject(json: string): ProjectFile {
     parsed.version = '2.0.0';
     parsed.resourceLibrary = parsed.resourceLibrary ?? [];
     parsed.items = parsed.items.map(migrateItemV1toV2);
+  }
+
+  // Nieuwer-dan-deze-app: een hogere MAJOR betekent breaking wijzigingen die
+  // deze app niet kent — weiger met een duidelijke melding in plaats van het
+  // bestand half/fout te interpreteren (en bij opslaan stilletjes te slopen).
+  const fileMajor = parseInt(String(parsed.version).split('.')[0], 10);
+  const appMajor = parseInt(FILE_FORMAT_VERSION.split('.')[0], 10);
+  if (!isNaN(fileMajor) && fileMajor > appMajor) {
+    throw new Error(
+      `Dit bestand gebruikt een nieuwer .ifcCalc-formaat (${parsed.version}) dan deze app ondersteunt (t/m ${FILE_FORMAT_VERSION}). Werk Open Calc Studio bij om het te openen.`
+    );
   }
 
   // Migrate v1 files to v2

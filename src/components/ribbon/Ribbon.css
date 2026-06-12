@@ -45,7 +45,7 @@
 .ribbon-tab {
   padding: 6px 16px;
   font-size: 13px;
-  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   font-weight: 500;
   letter-spacing: -0.01em;
   background: transparent;
@@ -172,7 +172,7 @@
 
 .ribbon-group-label {
   font-size: 9px;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
   color: var(--theme-ribbon-group-label);
   text-align: center;
   font-weight: 500;
@@ -207,7 +207,7 @@
   height: 66px;
   box-shadow: none;
   color: var(--theme-ribbon-text);
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
 .ribbon-btn:hover {
@@ -247,7 +247,7 @@
 
 .ribbon-btn-label {
   font-size: 10px;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
   color: var(--theme-ribbon-btn-label);
   text-align: center;
   line-height: 1.15;

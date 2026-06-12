@@ -9,7 +9,7 @@ import { useGridVirtualizer } from './useGridVirtualizer';
 import { useGridNavigation } from './useGridNavigation';
 import { useGridEditing } from './useGridEditing';
 import { useAppStore } from '@/state/appStore';
-import { ROW_HEIGHT, getColumnsForView, isCellEditable } from './gridConstants';
+import { ROW_HEIGHT, getColumnsForView, isCellEditable, isColumnHidden } from './gridConstants';
 import { getKostprijs } from '@/services/calculation/calculator';
 import { formatCurrency } from '@/utils/formatting';
 import type { CostItem, ExcelLink, Branch } from '@/types/costModel';
@@ -18,8 +18,6 @@ import type { CostItem, ExcelLink, Branch } from '@/types/costModel';
 // `s.schedule.branches ?? []` returns a fresh array each render which
 // triggers infinite re-render loops via useSyncExternalStore.
 const EMPTY_BRANCHES: Branch[] = [];
-import WpCalcBottomPanel from './WpCalcBottomPanel';
-import type { WpCalcTab } from './WpCalcBottomPanel';
 import ExcelCellPicker from '@/components/common/ExcelCellPicker';
 import { QuantityPicker } from '@/components/common/QuantityPicker';
 
@@ -182,7 +180,6 @@ export const CostGrid: React.FC = () => {
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; rowIndex: number; itemId?: string } | null>(null);
   const [dropHint, setDropHint] = useState<{ rowId: string; pos: 'before' | 'after' | 'inside' } | null>(null);
   const [draggingIds, setDraggingIds] = useState<Set<string>>(new Set());
-  const [wpcalcTab, setWpcalcTab] = useState<WpCalcTab>('data');
   const [excelPickerItem, setExcelPickerItem] = useState<CostItem | null>(null);
   const [quantityLinkItem, setQuantityLinkItem] = useState<CostItem | null>(null);
 
@@ -298,13 +295,16 @@ export const CostGrid: React.FC = () => {
     [visibleItems, setActiveCell, activeCol, selectionStart, selectionEnd, gridZoom]
   );
 
-  // Effective column widths: hide 'hoeveelheid' column when toggle is off
+  // Effective column widths: hide 'hoeveelheid' column when toggle is off,
+  // and hide any column the user has hidden via the column header menu.
+  const hiddenColumns = useAppStore((s) => s.hiddenColumns);
   const effectiveColumnWidths = useMemo(() => {
     return columns.map((col, i) => {
       if (col.key === 'hoeveelheid' && !showHoeveelheid) return 0;
+      if (isColumnHidden(hiddenColumns, gridView, col.key)) return 0;
       return columnWidths[i] ?? col.width;
     });
-  }, [columns, columnWidths, showHoeveelheid]);
+  }, [columns, columnWidths, showHoeveelheid, hiddenColumns, gridView]);
 
   // Compute resource totals (only in wpcalc view)
   const resourceTotalsMap = useMemo(() => {
@@ -421,9 +421,16 @@ export const CostGrid: React.FC = () => {
 
   const handleCellClick = useCallback(
     (row: number, col: number, shiftKey: boolean) => {
-      // Skip footer rows
+      // Footerrijen: alleen de uren-cel (hoeveelheid) is interactief — klik
+      // opent direct de cel-editor (uren hoofdstuk naar rato).
       const item = visibleItems[row];
-      if (item?.id.startsWith('footer:')) return;
+      if (item?.id.startsWith('footer:')) {
+        if (columns[col]?.key === 'hoeveelheid' && !shiftKey) {
+          setActiveCell(row, col, item.id);
+          requestAnimationFrame(() => startEditing());
+        }
+        return;
+      }
 
       if (shiftKey) {
         setActiveCellExtend(row, col);
@@ -455,8 +462,11 @@ export const CostGrid: React.FC = () => {
       setActiveCell(row, col, item?.id);
       const colDef = columns[col];
       if (!item) return;
-      // Skip footer rows
-      if (item.id.startsWith('footer:')) return;
+      // Footerrijen: alleen de uren-cel start een edit
+      if (item.id.startsWith('footer:')) {
+        if (colDef?.key === 'hoeveelheid') startEditing();
+        return;
+      }
 
       // In wpcalc view: double-click on resource column sets resourceType
       if (gridView === 'wpcalc' && item.rowType === 'regel' && RESOURCE_COL_MAP[colDef.key]) {
@@ -570,9 +580,15 @@ export const CostGrid: React.FC = () => {
   );
 
   // Drag-and-drop handlers
-  const handleRowDragStart = useCallback((e: React.DragEvent, rowIndex: number, itemId: string) => {
-    e.stopPropagation();
-    // Collect ids: if row is part of multi-selection, use all selected; else just this row
+  // ── Pointer-gebaseerd rij-slepen ──
+  // HTML5 drag&drop werkt niet binnen Tauri-webviews zolang de native
+  // drag-drop-handler aanstaat (die is nodig om bestanden de app in te
+  // slepen). Daarom slepen we rijen zelf met pointer-events via de gutter.
+  const dropHintRef = useRef<typeof dropHint>(null);
+  useEffect(() => { dropHintRef.current = dropHint; }, [dropHint]);
+
+  const handleRowPointerDown = useCallback((e: React.PointerEvent, rowIndex: number, itemId: string) => {
+    if (e.button !== 0) return;
     const selIndices = getSelectedRowIndices();
     let ids: string[];
     if (selIndices.includes(rowIndex) && selIndices.length > 1) {
@@ -582,77 +598,57 @@ export const CostGrid: React.FC = () => {
     } else {
       ids = [itemId];
     }
-    try {
-      e.dataTransfer.setData('application/x-ocs-row', JSON.stringify({ ids }));
-    } catch {
-      // fallback
-    }
-    e.dataTransfer.effectAllowed = 'move';
-    setDraggingIds(new Set(ids));
-  }, [getSelectedRowIndices, visibleItems]);
+    const idSet = new Set(ids);
+    let started = false;
+    const startY = e.clientY;
 
-  const handleRowDragOver = useCallback((e: React.DragEvent, _rowIndex: number, itemId: string, rowType: CostItem['rowType']) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-    // Don't show hint when hovering a dragged row
-    if (draggingIds.has(itemId)) {
+    const onMove = (ev: PointerEvent) => {
+      if (!started) {
+        if (Math.abs(ev.clientY - startY) < 4) return; // sleep-drempel
+        started = true;
+        setDraggingIds(new Set(ids));
+      }
+      ev.preventDefault();
+      const rowEl = document.elementFromPoint(ev.clientX, ev.clientY)?.closest('[data-row-index]') as HTMLElement | null;
+      if (!rowEl) { setDropHint(null); return; }
+      const idx = Number(rowEl.getAttribute('data-row-index'));
+      const target = visibleItems[idx];
+      if (!target || target.id.startsWith('footer:') || idSet.has(target.id)) { setDropHint(null); return; }
+      const rect = rowEl.getBoundingClientRect();
+      const y = ev.clientY - rect.top;
+      const h = rect.height;
+      const canInside = target.rowType === 'chapter' || target.rowType === 'begrotingspost' || target.rowType === 'bewakingspost';
+      let pos: 'before' | 'after' | 'inside';
+      if (canInside) pos = y < h / 3 ? 'before' : y > (2 * h) / 3 ? 'after' : 'inside';
+      else pos = y < h / 2 ? 'before' : 'after';
+      setDropHint((prev) => (prev?.rowId === target.id && prev.pos === pos ? prev : { rowId: target.id, pos }));
+      // Auto-scroll bij de randen
+      const scrollEl = containerRef.current;
+      if (scrollEl) {
+        const r = scrollEl.getBoundingClientRect();
+        if (ev.clientY - r.top < 40 + HEADER_HEIGHT) scrollEl.scrollTop = Math.max(0, scrollEl.scrollTop - 10);
+        else if (r.bottom - ev.clientY < 40) scrollEl.scrollTop += 10;
+      }
+    };
+    const onUp = () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+      const hint = dropHintRef.current;
       setDropHint(null);
-      return;
-    }
-    const rect = e.currentTarget.getBoundingClientRect();
-    const y = e.clientY - rect.top;
-    const h = rect.height;
-    const canInside = rowType === 'chapter' || rowType === 'begrotingspost' || rowType === 'bewakingspost';
-    let pos: 'before' | 'after' | 'inside';
-    if (canInside) {
-      if (y < h / 3) pos = 'before';
-      else if (y > (2 * h) / 3) pos = 'after';
-      else pos = 'inside';
-    } else {
-      pos = y < h / 2 ? 'before' : 'after';
-    }
-    setDropHint((prev) => (prev?.rowId === itemId && prev.pos === pos ? prev : { rowId: itemId, pos }));
-
-    // Auto-scroll near edges of grid container
-    const scrollEl = containerRef.current;
-    if (scrollEl) {
-      const r = scrollEl.getBoundingClientRect();
-      if (e.clientY - r.top < 40 + HEADER_HEIGHT) scrollEl.scrollTop = Math.max(0, scrollEl.scrollTop - 10);
-      else if (r.bottom - e.clientY < 40) scrollEl.scrollTop += 10;
-    }
-  }, [draggingIds]);
-
-  const handleRowDragLeave = useCallback((_e: React.DragEvent, _rowIndex: number) => {
-    // Only clear if we leave this row; onDragOver will re-set when entering another
-    // Skipping aggressive clearing to avoid flicker.
-  }, []);
-
-  const handleRowDrop = useCallback((e: React.DragEvent, _rowIndex: number, itemId: string) => {
-    e.preventDefault();
-    const raw = e.dataTransfer.getData('application/x-ocs-row');
-    const hint = dropHint;
-    setDropHint(null);
-    setDraggingIds(new Set());
-    if (!raw) return;
-    try {
-      const data = JSON.parse(raw) as { ids: string[] };
-      if (!Array.isArray(data.ids) || data.ids.length === 0) return;
-      if (data.ids.includes(itemId)) return;
-      const pos = hint?.rowId === itemId ? hint.pos : 'after';
-      pushHistory(items, 'Verplaats rij');
-      moveItems(data.ids, itemId, pos);
-    } catch {
-      // ignore
-    }
-  }, [dropHint, moveItems, pushHistory, items]);
-
-  const handleRowDragEnd = useCallback((_e: React.DragEvent) => {
-    setDropHint(null);
-    setDraggingIds(new Set());
-  }, []);
+      setDraggingIds(new Set());
+      if (started && hint) {
+        pushHistory(items, 'Verplaats rij');
+        moveItems(ids, hint.rowId, hint.pos);
+      }
+    };
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+  }, [getSelectedRowIndices, visibleItems, moveItems, pushHistory, items]);
 
   const isWpcalcView = gridView === 'wpcalc';
-  const showGrid = !isWpcalcView || wpcalcTab === 'data';
+  // The grid is its own bottom-nav tab now; "Uren & Staart" is a separate
+  // content view (UrenStaartView), so the grid always renders here.
+  const showGrid = true;
 
   return (
     <div className={`cost-grid-wrapper${isWpcalcView ? ' grid-view-wpcalc-wrapper' : ''}`}>
@@ -701,11 +697,7 @@ export const CostGrid: React.FC = () => {
                   onCellMouseEnter={handleCellMouseEnter}
                   onToggleCollapse={toggleCollapse}
                   onAddRow={handleAddRow}
-                  onDragStartRow={handleRowDragStart}
-                  onDragOverRow={handleRowDragOver}
-                  onDragLeaveRow={handleRowDragLeave}
-                  onDropRow={handleRowDrop}
-                  onDragEndRow={handleRowDragEnd}
+                  onPointerDownRow={handleRowPointerDown}
                 />
               );
             })}
@@ -788,9 +780,6 @@ export const CostGrid: React.FC = () => {
             setQuantityLinkItem(null);
           }}
         />
-      )}
-      {isWpcalcView && visibleItems.length > 0 && (
-        <WpCalcBottomPanel activeTab={wpcalcTab} onTabChange={setWpcalcTab} />
       )}
     </div>
   );

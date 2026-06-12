@@ -14,16 +14,18 @@ export function useGridEditing() {
       const col = columns[colIndex];
       if (!col || !col.editable) return;
 
-      // WPCalc: editing the Uren cell on a chapter rescales all regel-norms in
-      // that chapter naar rato (totaal aantal uren per hoofdstuk).
-      if (gridView === 'wpcalc' && col.key === 'hoeveelheid' && item.rowType === 'chapter') {
+      // WPCalc: de uren-som op de hoofdstuk-FOOTERRIJ bewerken herrekent alle
+      // regel-normen in dat hoofdstuk naar rato.
+      if (item.id.startsWith('footer:') && col.key === 'hoeveelheid') {
         const newTotal = parseNlNumber(value);
         if (newTotal != null && !isNaN(newTotal)) {
           pushHistory(items, 'Uren hoofdstuk naar rato');
-          prorateUrenForChapter(item.id, newTotal);
+          prorateUrenForChapter(item.id.replace('footer:', ''), newTotal);
         }
         return;
       }
+      // Synthetische footerrijen verder nooit als item updaten
+      if (item.id.startsWith('footer:')) return;
 
       pushHistory(items, `Edit ${col.key}`);
 
@@ -32,6 +34,10 @@ export function useGridEditing() {
         productienorm: 'normQuantity',
         productiecapaciteit: 'normFactor',
         hoeveelheid: 'quantity',
+        // UI-2 'Hst'-kolom: hoofdstuknummer leeft op CostItem.code — zonder
+        // deze mapping schrijft de edit naar een niet-bestaand veld en
+        // "gebeurt er niks" bij het wijzigen van een hoofdstuknummer.
+        chapterCode: 'code',
       };
       const fieldKey = keyMap[col.key] ?? col.key;
 

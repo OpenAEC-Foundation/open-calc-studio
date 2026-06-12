@@ -29,15 +29,12 @@ interface Props {
   onCellMouseEnter: (row: number, col: number) => void;
   onToggleCollapse: (id: string) => void;
   onAddRow: (rowIndex: number) => void;
-  onDragStartRow?: (e: React.DragEvent, rowIndex: number, itemId: string) => void;
-  onDragOverRow?: (e: React.DragEvent, rowIndex: number, itemId: string, rowType: CostItem['rowType']) => void;
-  onDragLeaveRow?: (e: React.DragEvent, rowIndex: number) => void;
-  onDropRow?: (e: React.DragEvent, rowIndex: number, itemId: string) => void;
-  onDragEndRow?: (e: React.DragEvent) => void;
+  /** Pointer-gebaseerd rij-slepen (HTML5 DnD werkt niet in Tauri-webviews). */
+  onPointerDownRow?: (e: React.PointerEvent, rowIndex: number, itemId: string) => void;
 }
 
 export const GridRow: React.FC<Props> = React.memo(
-  ({ item, rowIndex, activeRow, activeCol, isSelected, hideTotal, isChapterFooter, rowHeight, columns, columnWidths, resourceTotals, cellSelectionMinRow, cellSelectionMaxRow, cellSelectionMinCol, cellSelectionMaxCol, dropHintPosition, isDragging, onCellClick, onCellDoubleClick, onCellMouseDown, onCellMouseEnter, onToggleCollapse, onAddRow, onDragStartRow, onDragOverRow, onDragLeaveRow, onDropRow, onDragEndRow }) => {
+  ({ item, rowIndex, activeRow, activeCol, isSelected, hideTotal, isChapterFooter, rowHeight, columns, columnWidths, resourceTotals, cellSelectionMinRow, cellSelectionMaxRow, cellSelectionMinCol, cellSelectionMaxCol, dropHintPosition, isDragging, onCellClick, onCellDoubleClick, onCellMouseDown, onCellMouseEnter, onToggleCollapse, onAddRow, onPointerDownRow }) => {
     const { t } = useTranslation();
     const isActiveRow = rowIndex === activeRow;
 
@@ -63,17 +60,13 @@ export const GridRow: React.FC<Props> = React.memo(
         className={className}
         data-row-index={rowIndex}
         style={{ height: rowHeight, position: 'relative', width: rowWidth, minWidth: rowWidth }}
-        onDragOver={canDrag && onDragOverRow ? (e) => onDragOverRow(e, rowIndex, item.id, item.rowType) : undefined}
-        onDragLeave={canDrag && onDragLeaveRow ? (e) => onDragLeaveRow(e, rowIndex) : undefined}
-        onDrop={canDrag && onDropRow ? (e) => onDropRow(e, rowIndex, item.id) : undefined}
       >
-        {canDrag && onDragStartRow && (
+        {canDrag && onPointerDownRow && (
           <div
             className="grid-row-drag-handle"
-            draggable
-            onDragStart={(e) => onDragStartRow(e, rowIndex, item.id)}
-            onDragEnd={onDragEndRow}
-            title="Drag to reorder"
+            onPointerDown={(e) => onPointerDownRow(e, rowIndex, item.id)}
+            onClick={(e) => { e.stopPropagation(); onCellClick(rowIndex, 0, e.shiftKey); }}
+            title="Klik om de rij te selecteren; sleep om te verplaatsen (ook naar een ander hoofdstuk)"
           />
         )}
         {columns.map((col, colIndex) => {

@@ -11,7 +11,7 @@
   user-select: none;
   cursor: default;
   font-size: 11px;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
 .status-bar-left {

@@ -1,6 +1,8 @@
 [package]
-name = "app"
-version = "0.7.4"
+# Unieke naam: de Cargo-default "app" botst met andere Tauri-projecten op deze
+# machine (zelfde dev-binarynaam app.exe) en werd daardoor extern gekild.
+name = "open-calc-studio"
+version = "0.7.10"
 description = "A Tauri App"
 authors = ["you"]
 license = ""
@@ -10,7 +12,7 @@ rust-version = "1.77.2"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-default-run = "app"
+default-run = "open-calc-studio"
 
 [lib]
 name = "app_lib"
@@ -42,3 +44,8 @@ typst-as-lib = { version = "0.15.4", features = ["typst-kit-fonts"] }
 typst-pdf = "0.14.2"
 dirs = "6"
 chrono = { version = "0.4", default-features = false, features = ["clock"] }
+# OpenAEC Accounts: OIDC/PKCE-login + Accounts API (cloud-opslag)
+reqwest = { version = "0.12", default-features = false, features = ["json", "multipart", "rustls-tls"] }
+sha2 = "0.10"
+rand = "0.8"
+keyring = { version = "3", features = ["windows-native"] }

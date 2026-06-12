@@ -59,7 +59,7 @@
 .left-panel-title {
   font-size: 11px;
   font-weight: 600;
-  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--theme-text);
@@ -190,7 +190,7 @@
 .right-panel-title {
   font-size: 11px;
   font-weight: 600;
-  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--theme-text);
@@ -433,7 +433,7 @@
   height: 28px;
   font-size: 11px;
   font-weight: 500;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
   cursor: default;
   border: none;
   background: transparent;

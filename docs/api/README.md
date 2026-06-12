@@ -111,7 +111,7 @@ curl -X POST http://127.0.0.1:9742/api/v1/budget/recalculate
 # Update schedule fields
 curl -X PATCH http://127.0.0.1:9742/api/v1/schedule \
   -H "Content-Type: application/json" \
-  -d '{"projectName": "Demo project", "author": "Gert"}'
+  -d '{"projectName": "Demo project", "author": "Jan Jansen"}'
 
 # Replace company info (letterhead)
 curl -X PUT http://127.0.0.1:9742/api/v1/company-info \

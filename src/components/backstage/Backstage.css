@@ -1,4 +1,7 @@
-/* Backstage — OpenAEC Style Book */
+/* Backstage — OpenAEC Style Book
+   Links uitklappend paneel (géén schermvullend scherm): de overlay is een
+   dimmende click-catcher; het menu zit links, een eventueel inhoudspaneel
+   verschijnt als kolom ernaast. Klik op de dim of Esc sluit. */
 .backstage-overlay {
   position: fixed;
   top: 32px;
@@ -8,7 +11,7 @@
   z-index: 1000;
   display: flex;
   flex-direction: row;
-  background: var(--theme-bg);
+  background: rgba(0, 0, 0, 0.28);
   opacity: 0;
   transition: opacity 0.2s ease;
 }
@@ -44,7 +47,7 @@
   color: var(--theme-file-tab-text);
   font-size: 15px;
   font-weight: 600;
-  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   cursor: default;
   transition: background 0.15s ease;
 }
@@ -69,7 +72,7 @@
   border: none;
   color: var(--theme-text);
   font-size: 13px;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
   cursor: default;
   transition: background 0.15s ease;
   text-align: left;
@@ -117,9 +120,15 @@
 }
 
 .backstage-content {
-  flex: 1;
+  /* Kolom naast het menu i.p.v. schermvullend; alleen zichtbaar mét paneel */
+  display: none;
+  flex: 0 0 auto;
+  width: 660px;
+  max-width: calc(100vw - 280px);
   background: var(--theme-bg);
-  padding: 40px;
+  border-right: 1px solid var(--theme-border);
+  box-shadow: 12px 0 32px rgba(0, 0, 0, 0.18);
+  padding: 28px 32px;
   overflow-y: auto;
   color: var(--theme-text);
   transform: translateX(20px);
@@ -127,9 +136,74 @@
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.08s, opacity 0.25s ease 0.08s;
 }
 
+.backstage-overlay.has-panel .backstage-content {
+  display: block;
+}
+
 .backstage-open .backstage-content {
   transform: translateX(0);
   opacity: 1;
+}
+
+/* ── OpenAEC Cloud: verkenner-achtige mappenweergave ── */
+.cloud-browser {
+  border: 1px solid var(--theme-border);
+  border-radius: 8px;
+  overflow: hidden;
+  min-width: 540px;
+  max-width: 596px;
+  background: var(--theme-surface, var(--theme-bg));
+}
+.cloud-browser-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--theme-text-secondary);
+  background: var(--theme-bg);
+  border-bottom: 1px solid var(--theme-border);
+}
+.cloud-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  border-top: 1px solid var(--theme-border);
+  font-size: 12.5px;
+  color: var(--theme-text);
+  transition: background 0.12s ease;
+}
+.cloud-row:first-of-type { border-top: none; }
+.cloud-row:hover { background: var(--theme-hover); }
+.cloud-row.is-folder { font-weight: 600; }
+.cloud-row.just-uploaded { background: rgba(217, 119, 6, 0.12); }
+.cloud-row .cloud-icon { flex-shrink: 0; display: flex; align-items: center; }
+.cloud-row .cloud-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cloud-meta { color: var(--theme-text-secondary); font-size: 11.5px; width: 76px; text-align: right; flex-shrink: 0; }
+.cloud-meta.date { width: 92px; }
+.cloud-row-btn {
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--theme-accent);
+  background: transparent;
+  color: var(--theme-accent);
+  font-size: 11px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.cloud-row-btn.danger {
+  border-color: var(--theme-border);
+  color: var(--theme-danger-color, #dc2626);
+  font-weight: 400;
 }
 
 .bs-about-panel { max-width: 500px; }
@@ -137,7 +211,7 @@
 .bs-about-title {
   font-size: 22px;
   font-weight: 500;
-  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   color: var(--theme-text);
   margin: 0 0 24px 0;
 }
@@ -165,7 +239,7 @@
 .bs-about-app-name {
   font-size: 20px;
   font-weight: 700;
-  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   color: var(--theme-text);
   margin: 0 0 2px 0;
 }
@@ -202,7 +276,7 @@
 .bs-about-company-name {
   font-size: 14px;
   font-weight: 600;
-  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   color: var(--theme-text);
   margin: 0 0 6px 0;
   display: flex;
@@ -244,7 +318,7 @@
 .bs-panel-title {
   font-size: 22px;
   font-weight: 500;
-  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   color: var(--theme-text);
   margin: 0 0 24px 0;
 }
@@ -315,7 +389,7 @@
 .bs-recent-title {
   font-size: 14px;
   font-weight: 500;
-  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   color: var(--theme-text-secondary);
   margin: 24px 0 8px 0;
 }

@@ -12,11 +12,13 @@ import { isTauriEnvironment } from "../../services/file/nativeFileService";
 import { importCuf, importTradxml, importRsx, importZsx, importNsx, type ImportResult } from "../../services/importers";
 import { exportCuf, exportTradxml, exportRsx, type ExportInput, type ExportResult } from "../../services/exporters";
 import ExtensionManagerPanel from "./ExtensionManagerPanel";
+import { CloudPanel } from "./CloudPanel";
 import "./Backstage.css";
 
 const ICONS = {
   new: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6m-3 3h6"/></svg>',
   open: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>',
+  cloud: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 116.71-9h1.79a4.5 4.5 0 110 9z"/></svg>',
   save: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V7l-4-4z"/><path d="M17 3v4a1 1 0 01-1 1H8"/><path d="M7 14h10v7H7z"/></svg>',
   import: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
   export: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>',
@@ -89,12 +91,21 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
   );
 
 
+  // Paneel-default alléén bij het open-gaan zetten. Niet samenvoegen met het
+  // keydown-effect hieronder: dat heeft onClose als dependency en her-runt bij
+  // elke parent-render — dan springt het actieve paneel telkens terug naar
+  // "open" zodra iets in de store wijzigt (bv. het cloud-paneel dat laadt).
   useEffect(() => {
     if (!open) { setActivePanel("none"); return; }
     // Default to "open" panel when backstage opens if there are recent files
     if ((settings.recentFiles?.length ?? 0) > 0) {
       setActivePanel("open");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
@@ -441,7 +452,10 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
   };
 
   return (
-    <div className={`backstage-overlay${animating ? ' backstage-open' : ''}`}>
+    <div
+      className={`backstage-overlay${animating ? ' backstage-open' : ''}${activePanel !== 'none' ? ' has-panel' : ''}`}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
       <div className="backstage-sidebar">
         <button className="backstage-back" onClick={onClose}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -459,6 +473,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
           <Divider />
           <MenuItem icon={ICONS.import} label={t("import")} active={activePanel === "import"} onClick={() => setActivePanel("import")} />
           <MenuItem icon={ICONS.export} label={t("export")} active={activePanel === "export"} onClick={() => setActivePanel("export")} />
+          <MenuItem icon={ICONS.cloud} label="OpenAEC Cloud" active={activePanel === "cloud"} onClick={() => setActivePanel("cloud")} />
           <Divider />
           <MenuItem icon={ICONS.extensions} label={t("extensions")} active={activePanel === "extensions"} onClick={() => setActivePanel("extensions")} />
           <Divider />
@@ -516,6 +531,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         )}
         {activePanel === "about" && <AboutPanel />}
         {activePanel === "extensions" && <ExtensionManagerPanel />}
+        {activePanel === "cloud" && <CloudPanel onClose={onClose} />}
         {activePanel === "import" && (
           <div className="bs-panel">
             <h2 className="bs-panel-title">{t("importPanel.title")}</h2>

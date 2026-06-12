@@ -26,7 +26,7 @@
 .settings-tab {
   padding: 8px 12px;
   font-size: 11px;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
   background: transparent;
   border: none;
   color: var(--theme-dialog-tab-text);
@@ -62,7 +62,7 @@
 .settings-section h3 {
   font-size: 11px;
   font-weight: 600;
-  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   color: var(--theme-dialog-content-text);
   margin: 0 0 8px 0;
   padding-bottom: 4px;
@@ -86,7 +86,7 @@
 .settings-select {
   padding: 4px 8px;
   font-size: 11px;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
   border: 1.5px solid var(--theme-dialog-input-border);
   border-radius: 4px;
   background: var(--theme-dialog-input-bg);
@@ -125,7 +125,7 @@
   border-radius: 3px;
   font-size: 11px;
   font-weight: 500;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
   cursor: default;
   transition: all 0.15s ease;
   min-width: 75px;

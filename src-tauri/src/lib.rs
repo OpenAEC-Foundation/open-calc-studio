@@ -1,3 +1,4 @@
+pub mod accounts;
 pub mod api;
 pub mod reports;
 pub mod wpcalc_export;
@@ -119,11 +120,19 @@ pub fn run() {
     .invoke_handler(tauri::generate_handler![
         reports::generate_pdf_report,
         reports::generate_pdf_preview,
+        reports::generate_ibis_report,
+        reports::generate_ibis_preview,
         reports::generate_offerte_pdf,
         reports::generate_offerte_preview,
         wpcalc_export::export_wpcalc,
         open_new_window,
-        api_push_state
+        api_push_state,
+        accounts::accounts_sign_in,
+        accounts::accounts_get_user,
+        accounts::accounts_sign_out,
+        accounts::accounts_fetch,
+        accounts::accounts_upload_file,
+        accounts::accounts_download_file
     ])
     .setup(|app| {
       if cfg!(debug_assertions) {
@@ -163,6 +172,18 @@ pub fn run() {
       }
 
       Ok(())
+    })
+    // Diagnose: log wie het afsluiten initieert. Zien we vóór een "stille dood"
+    // een CloseRequested in het log → venster is bewust gesloten (gebruiker/OS);
+    // zien we niets → proces is extern beëindigd.
+    .on_window_event(|window, event| match event {
+      tauri::WindowEvent::CloseRequested { .. } => {
+        log::info!("[WindowEvent] CloseRequested op '{}'", window.label());
+      }
+      tauri::WindowEvent::Destroyed => {
+        log::info!("[WindowEvent] Destroyed '{}'", window.label());
+      }
+      _ => {}
     })
     .run(tauri::generate_context!())
     .expect("error while running tauri application");

@@ -1,6 +1,7 @@
 pub mod generator;
 pub mod offerte;
 mod bouw1;
+mod ibis;
 
 use serde::Deserialize;
 use std::collections::HashMap;
@@ -316,6 +317,17 @@ pub fn generate_pdf_report(request: ReportRequest, output_path: String) -> Resul
 #[tauri::command]
 pub fn generate_pdf_preview(request: ReportRequest) -> Result<Vec<u8>, String> {
     generator::generate_bytes(&request)
+}
+
+#[tauri::command]
+pub fn generate_ibis_report(request: ReportRequest, output_path: String) -> Result<(), String> {
+    let pdf = ibis::generate_ibis_typst(&request)?;
+    std::fs::write(std::path::Path::new(&output_path), pdf).map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+pub fn generate_ibis_preview(request: ReportRequest) -> Result<Vec<u8>, String> {
+    ibis::generate_ibis_typst(&request)
 }
 
 #[tauri::command]

@@ -29,6 +29,12 @@ export function SubSheetTabBar() {
 
   const budgetActive = activeContentTab === 'grid';
 
+  /** Navigate to a non-spreadsheet content view (clears active sub-sheet). */
+  const goTo = (tab: 'grid' | 'urenstaart' | 'rapport' | 'ifc') => {
+    setActiveSubSheet(null);
+    setActiveContentTab(tab);
+  };
+
   const handleAdd = () => {
     const id = addSubSheet();
     setActiveContentTab('spreadsheet');
@@ -54,15 +60,35 @@ export function SubSheetTabBar() {
 
   return (
     <div className="subsheet-tab-bar">
-      {/* Begroting tab - always first */}
+      {/* Vaste navigatie: Data | Uren & Staart | Rapport | (bladen) | IFC */}
       <button
         className={`subsheet-tab subsheet-tab-main${budgetActive ? ' active' : ''}`}
-        onClick={() => setActiveContentTab('grid')}
+        onClick={() => goTo('grid')}
       >
-        {t('budget')}
+        {t('wpcalc.tabData')}
+      </button>
+      <button
+        className={`subsheet-tab subsheet-tab-main${activeContentTab === 'urenstaart' ? ' active' : ''}`}
+        onClick={() => goTo('urenstaart')}
+      >
+        {t('wpcalc.tabHoursTail')}
+      </button>
+      <button
+        className={`subsheet-tab subsheet-tab-main${activeContentTab === 'rapport' ? ' active' : ''}`}
+        onClick={() => goTo('rapport')}
+      >
+        {t('wpcalc.tabReport')}
       </button>
 
-      {/* One tab per sub-sheet */}
+      {/* Spreadsheet: one tab per sub-sheet (or a starter tab when none exist) */}
+      {subSheets.length === 0 && (
+        <button
+          className={`subsheet-tab subsheet-tab-main${activeContentTab === 'spreadsheet' ? ' active' : ''}`}
+          onClick={handleAdd}
+        >
+          Spreadsheet
+        </button>
+      )}
       {subSheets.map((ss) => {
         const isActive = activeContentTab === 'spreadsheet' && activeSubSheetId === ss.id;
         return (
@@ -90,6 +116,13 @@ export function SubSheetTabBar() {
           <line x1="6" y1="2" x2="6" y2="10" />
           <line x1="2" y1="6" x2="10" y2="6" />
         </svg>
+      </button>
+
+      <button
+        className={`subsheet-tab subsheet-tab-main${activeContentTab === 'ifc' ? ' active' : ''}`}
+        onClick={() => goTo('ifc')}
+      >
+        IFC
       </button>
 
       {menu && (

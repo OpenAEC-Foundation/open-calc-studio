@@ -27,6 +27,7 @@ import { ThreeDViewer } from "./components/viewers/ThreeDViewer";
 import { PdfViewer } from "./components/viewers/PdfViewer";
 import { StartSidebar } from "./components/welcome/StartSidebar";
 import "./components/welcome/StartSidebar.css";
+import { UrenStaartView } from "./components/grid/WpCalcBottomPanel";
 import { useQuantityLinkSync } from "./hooks/useQuantityLinkSync";
 import { useAppStore } from "./state/appStore";
 import { deserializeProject } from "./services/file/fileService";
@@ -38,6 +39,7 @@ import { changeLanguage } from "./i18n/config";
 import { loadSettings } from "./utils/settings";
 import { initMcpBridge } from "./services/mcp/mcpBridge";
 import { sendDockRequest, onWindowBridgeMessage } from "./services/windowBridge";
+import "./styles/fonts.css";
 import "./styles/themes.css";
 import "./components/layout/layout.css";
 import "./styles/globals.css";
@@ -294,6 +296,21 @@ function App() {
 
   // Intercept window close and show 3-button dialog if unsaved changes
   const { saveFile: saveFileForClose } = useFileOperations();
+
+  // Autosave: sla het actieve document elke 2 minuten stil op als het is
+  // gewijzigd én al een bestandspad heeft. Nooit een Opslaan-als-dialoog
+  // (documenten zonder pad worden overgeslagen); alleen in de desktop-app.
+  useEffect(() => {
+    if (!('__TAURI_INTERNALS__' in window)) return;
+    const id = setInterval(() => {
+      const s = useAppStore.getState();
+      const doc = s.documents.find((d) => d.id === s.activeDocumentId);
+      if (doc?.isModified && doc.filePath) {
+        void saveFileForClose();
+      }
+    }, 120_000);
+    return () => clearInterval(id);
+  }, [saveFileForClose]);
   useEffect(() => {
     let unlisten: (() => void) | undefined;
     (async () => {
@@ -515,6 +532,7 @@ function App() {
           ) : (
             <>
               {activeContentTab === 'grid' && <CostGrid />}
+              {activeContentTab === 'urenstaart' && <UrenStaartView />}
               {activeContentTab === 'rapport' && <ReportPreview />}
               {activeContentTab === 'samenvatting' && <SummaryPanel />}
               {activeContentTab === 'ifc' && <IfcPreview />}
@@ -524,7 +542,7 @@ function App() {
             </>
           )}
           {/* Bottom tab bar: Begroting + Blad N + "+" — shown on grid & spreadsheet views */}
-          {(activeContentTab === 'grid' || activeContentTab === 'spreadsheet') && <SubSheetTabBar />}
+          <SubSheetTabBar />
         </main>
 
         {/* Right panel — Properties */}

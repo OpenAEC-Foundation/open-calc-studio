@@ -43,6 +43,7 @@ const REPORT_VIEWS: { value: ReportView; label: string }[] = [
   { value: 'inschrijfstaat', label: 'Inschrijfstaat' },
   { value: 'nacalculatie', label: 'Nacalculatie' },
   { value: 'bouw1', label: 'Bouw 1' },
+  { value: 'ibis', label: 'Bouw 2' },
 ];
 
 export default function RapportageTab() {
@@ -92,10 +93,10 @@ export default function RapportageTab() {
           defaultPath,
         });
         if (!outputPath) return;
-        await tauri.invoke('generate_pdf_report', {
-          request: { schedule, items, reportView, pageSize, pageOrientation, showHoeveelheid, companyInfo, includeCover: false, includeSummary: false },
-          outputPath,
-        });
+        const request = { schedule, items, reportView, pageSize, pageOrientation, showHoeveelheid, companyInfo, includeCover: false, includeSummary: false };
+        // IBIS-stijl heeft een dedicated command (eigen Typst-template).
+        const command = reportView === 'ibis' ? 'generate_ibis_report' : 'generate_pdf_report';
+        await tauri.invoke(command, { request, outputPath });
         // Open the exported PDF
         const { openPath } = await import('@tauri-apps/plugin-opener');
         await openPath(outputPath);

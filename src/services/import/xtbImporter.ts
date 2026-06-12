@@ -142,14 +142,21 @@ function makeItem(partial: Partial<CostItem>): CostItem {
   };
 }
 
+/** Minimal sql.js Database surface used by the importer (keeps it testable). */
+interface SqlJsDatabase {
+  exec(sql: string): Array<{ columns: string[]; values: unknown[][] }>;
+  close(): void;
+}
+
 /**
  * Import an IBIS-TRAD .xtb file (SQLite3) into OCS structures.
  *
  * Tree mapping:
- *   - BegrotingsRegels.Type==0 with chapter-like CalculatieCode → 'chapter'
- *   - BegrotingsRegels.Type==0 (deeper) → 'chapter' (sub-chapter)
- *   - BegrotingsRegels.Type==2 with associated Kostenpost → 'begrotingspost'
- *     plus 1 'regel' for the Middel (resource cost)
+ *   - A synthetic root (Type=0, empty CalculatieCode + Omschrijving, ParentId=NULL)
+ *     is skipped; its direct children become the top-level chapters.
+ *   - BegrotingsRegels.Type==0 → 'chapter' (nestable sub-chapters)
+ *   - BegrotingsRegels.Type==2 with associated Kostenpost → a single
+ *     'begrotingspost' (NO separate regel child, to avoid double counting).
  */
 export async function importXtbFile(buffer: ArrayBuffer): Promise<XtbImportResult> {
   // sql.js is lazy-loaded; the wasm URL is bundled by Vite so it works in
@@ -160,8 +167,16 @@ export async function importXtbFile(buffer: ArrayBuffer): Promise<XtbImportResul
   const SQL = await initSqlJs({
     locateFile: () => wasmUrl,
   });
-  const db = new SQL.Database(new Uint8Array(buffer));
+  const db = new SQL.Database(new Uint8Array(buffer)) as unknown as SqlJsDatabase;
+  return buildXtbImport(db);
+}
 
+/**
+ * Pure mapping from an opened sql.js database to OCS structures.
+ * Split out so it can be unit-tested with a Node-loaded sql.js instance
+ * (the wasm URL import above is Vite-only).
+ */
+export function buildXtbImport(db: SqlJsDatabase): XtbImportResult {
   const warnings: string[] = [];
 
   // ── Read Begroting metadata ──
@@ -267,16 +282,25 @@ export async function importXtbFile(buffer: ArrayBuffer): Promise<XtbImportResul
     childrenOf.set(key, list);
   }
 
-  // Detect resource type from Middel.MiddelCode prefix or Eenheid
-  function resourceTypeFor(m: XtbMiddel | undefined): ResourceType | null {
-    if (!m) return null;
-    const code = (m.MiddelCode ?? '').toUpperCase();
-    const eh = (m.Eenheid ?? '').toLowerCase();
-    if (code.startsWith('A') || eh === 'uur' || m.NormUren > 0) return 'arbeid';
-    if (code.startsWith('OA') || code.startsWith('ON')) return 'onderaannemer';
-    if (code.startsWith('MA') || code.startsWith('MT') || m.EenheidsprijsMaterieel > 0) return 'materieel';
-    if (m.EenheidsprijsMateriaal > 0) return 'materiaal';
-    return 'overig';
+  // Detect resource type from the dominant Netto-column of the Kostenpost.
+  // Falls back to 'overig' when no column dominates (e.g. an empty/text leaf).
+  function resourceTypeFor(kp: XtbKostenpost | undefined): ResourceType | null {
+    if (!kp) return null;
+    const cols: Array<[ResourceType, number]> = [
+      ['arbeid', kp.NettoArbeid],
+      ['materiaal', kp.NettoMateriaal],
+      ['materieel', kp.NettoMaterieel],
+      ['onderaannemer', kp.NettoOnderaanneming],
+    ];
+    let best: ResourceType | null = null;
+    let bestVal = 0;
+    for (const [t, v] of cols) {
+      if (v > bestVal) {
+        bestVal = v;
+        best = t;
+      }
+    }
+    return best ?? 'overig';
   }
 
   // Walk the tree from root, skipping root itself; first level becomes chapters
@@ -311,13 +335,22 @@ export async function importXtbFile(buffer: ArrayBuffer): Promise<XtbImportResul
         const middel = kp?.MiddelId != null ? middelen.get(kp.MiddelId) : undefined;
         const element = elementen.get(r.Id);
         const eh = middel?.Eenheid || element?.Eenheid || '';
-        const qty = kp?.Hoeveelheid ?? element?.Hoeveelheid ?? r.Multipliciteit;
-        const total = kp?.NettoTotaal ?? element?.NettoTotaal ?? 0;
-        const ehprijs = kp?.Eenheidsprijs ?? 0;
-        const rType = resourceTypeFor(middel);
+        const netto = kp?.NettoTotaal ?? element?.NettoTotaal ?? 0;
+        const rType = resourceTypeFor(kp);
 
-        // Each leaf becomes a begrotingspost with one or more regel children.
-        // For simplicity: one begrotingspost containing one resource regel (if Middel present).
+        // IBIS invariant: Hoeveelheid × Eenheidsprijs === NettoTotaal.
+        let qty = kp?.Hoeveelheid ?? element?.Hoeveelheid ?? 0;
+        let ehprijs = kp?.Eenheidsprijs ?? 0;
+        // Fixed/lump-sum post: no quantity but a real amount → treat as 1 × NettoTotaal.
+        if ((qty === 0 || qty == null) && netto !== 0) {
+          qty = 1;
+          ehprijs = netto;
+        }
+
+        // Each Type=2 leaf becomes a SINGLE begrotingspost with NO regel child.
+        // The eenheidsprijs is stored in materialPrice so that the calculator's
+        // childless-begrotingspost path (unitPrice = materialPrice + laborPrice,
+        // total = quantity × unitPrice) reconstructs total === NettoTotaal exactly.
         const postId = genId();
         idToOcsId.set(r.Id, postId);
         items.push(makeItem({
@@ -330,41 +363,36 @@ export async function importXtbFile(buffer: ArrayBuffer): Promise<XtbImportResul
           depth,
           unit: normalizeUnit(eh),
           quantity: qty,
+          materialPrice: ehprijs,
           unitPrice: ehprijs,
-          total: total,
+          total: netto,
+          resourceType: rType,
         }));
-
-        if (middel && (kp?.NettoTotaal ?? 0) > 0) {
-          // Add a regel under the post with breakdown
-          items.push(makeItem({
-            parentId: postId,
-            sortOrder: sortStart.v++,
-            code: middel.MiddelCode || '',
-            description: middel.Omschrijving || '',
-            rowType: 'regel',
-            depth: depth + 1,
-            unit: normalizeUnit(middel.Eenheid),
-            quantity: qty,
-            normQuantity: middel.NormUren > 0 ? middel.NormUren : null,
-            normUnitPrice:
-              middel.EenheidsprijsMateriaal ||
-              middel.EenheidsprijsMaterieel ||
-              middel.EenheidsprijsOnderaanneming ||
-              null,
-            laborPrice: (kp.NettoArbeid && kp.Uren > 0)
-              ? kp.NettoArbeid / kp.Uren
-              : null,
-            unitPrice: ehprijs,
-            total: kp.NettoTotaal,
-            resourceType: rType,
-          }));
-        }
       }
     }
   }
 
+  // ── Detect the synthetic root ──
+  // IBIS-TRAD wraps the real chapters under one synthetic root node:
+  //   Id=1, ParentId=NULL, Type=0, empty CalculatieCode + Omschrijving.
+  // We skip it and promote its children to top-level chapters (depth 0).
+  // Guard: only when there is EXACTLY one ParentId=NULL row AND it is empty,
+  // otherwise fall back to the previous behaviour (walk from 'root').
+  const nullRoots = regels.filter((r) => r.ParentId == null);
   const sortStart = { v: 0 };
-  walk('root', null, 0, sortStart);
+  let startKey: number | 'root' = 'root';
+  if (nullRoots.length === 1) {
+    const root = nullRoots[0];
+    const isSyntheticRoot =
+      root.Type === 0 &&
+      (root.CalculatieCode ?? '').trim() === '' &&
+      (root.Omschrijving ?? '').trim() === '';
+    if (isSyntheticRoot) {
+      idToOcsId.set(root.Id, ''); // mark as consumed (no OCS item)
+      startKey = root.Id;
+    }
+  }
+  walk(startKey, null, 0, sortStart);
 
   if (items.length === 0) {
     warnings.push('Geen items gevonden. Mogelijk is dit een leeg .xtb bestand.');

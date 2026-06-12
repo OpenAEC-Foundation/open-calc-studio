@@ -10,7 +10,7 @@
   -webkit-user-select: none;
   flex-shrink: 0;
   z-index: 9999;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
   position: relative;
 }
 
@@ -61,7 +61,7 @@
   transform: translateX(-50%);
   font-size: 13px;
   font-weight: 500;
-  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   letter-spacing: -0.01em;
   color: var(--theme-titlebar-text);
   white-space: nowrap;
@@ -173,3 +173,88 @@
 .titlebar-macos .titlebar-left {
   padding-left: 0;
 }
+
+/* ── OpenAEC-account in de titelbalk ── */
+.openaec-signin-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  margin-right: 8px;
+  padding: 0 10px;
+  border: 1px solid var(--theme-accent);
+  border-radius: 11px;
+  background: transparent;
+  color: var(--theme-accent);
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'Inter', system-ui, sans-serif;
+  cursor: default;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  align-self: center;
+}
+.openaec-signin-btn:hover { background: var(--theme-accent); color: var(--theme-accent-text, #fff); }
+.openaec-signin-btn:disabled { opacity: 0.5; pointer-events: none; }
+
+.openaec-account { position: relative; display: flex; align-items: center; margin-right: 8px; }
+.openaec-avatar-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 8px 0 2px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--theme-titlebar-text);
+  font-size: 11px;
+  font-family: 'Inter', system-ui, sans-serif;
+  cursor: default;
+  transition: background 0.15s ease;
+  align-self: center;
+}
+.openaec-avatar-btn:hover { background: var(--theme-titlebar-btn-hover); }
+.openaec-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #D97706 0%, #F59E0B 60%, #EA580C 100%);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.openaec-account-name { max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.openaec-account-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 200px;
+  background: var(--theme-surface, var(--theme-bg));
+  border: 1px solid var(--theme-border);
+  border-radius: 8px;
+  box-shadow: var(--theme-popover-shadow, 0 8px 24px rgba(0,0,0,0.15));
+  padding: 6px;
+  z-index: 10000;
+}
+.openaec-account-menu-header { padding: 6px 8px 8px; border-bottom: 1px solid var(--theme-border); margin-bottom: 4px; }
+.openaec-account-menu-name { font-size: 12px; font-weight: 600; color: var(--theme-text); }
+.openaec-account-menu-email { font-size: 11px; color: var(--theme-text-secondary); }
+.openaec-account-menu-item {
+  display: block;
+  width: 100%;
+  padding: 6px 8px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--theme-text);
+  font-size: 12px;
+  text-align: left;
+  cursor: default;
+  transition: background 0.1s ease;
+}
+.openaec-account-menu-item:hover { background: var(--theme-hover); }

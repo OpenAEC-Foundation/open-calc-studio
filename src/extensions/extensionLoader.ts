@@ -173,6 +173,12 @@ export async function loadAllExtensions(): Promise<void> {
     const allExtensions = await getAllExtensionsFromDb();
 
     for (const ext of allExtensions) {
+      // Builtin-importers (BasCalc/WpCalc/xtb/RSX/…) zijn in-code beheerd en
+      // staan standaard AAN via registerBuiltinExtensions(). Een (stale)
+      // IndexedDB-record mag die registratie nooit overschrijven naar
+      // 'disabled' — anders kun je ineens geen .calc/.xtb meer openen.
+      if (ext.id.startsWith('builtin-')) continue;
+
       // Register in store
       const installed: InstalledExtension = {
         id: ext.id,

@@ -147,30 +147,19 @@ html.cursor-col-resizing * { cursor: col-resize !important; }
   min-height: 0;
 }
 
-/* ── WpCalc Tab Bar & Full-screen Panels ── */
-.wpcalc-bottom-tabs {
+/* ── Uren & Staart full-screen panels ── */
+/* Uren & Staart as a full content view (own bottom-nav tab): hours overview
+   and tail-cost cascade side by side, filling the content area. */
+.urenstaart-view {
   display: flex;
-  gap: 0;
-  border-top: 1px solid var(--theme-border);
+  gap: 24px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  overflow: auto;
+  flex: 1;
+  height: 100%;
+  padding: 8px 16px;
   background: var(--theme-surface, var(--theme-bg));
-  flex-shrink: 0;
-}
-.wpcalc-bottom-tab {
-  padding: 4px 16px;
-  font-size: 0.8em;
-  font-weight: 600;
-  border: none;
-  background: transparent;
-  color: var(--theme-text-muted, #888);
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-}
-.wpcalc-bottom-tab:hover {
-  color: var(--theme-text);
-}
-.wpcalc-bottom-tab.active {
-  color: var(--theme-accent, #3b82f6);
-  border-bottom-color: var(--theme-accent, #3b82f6);
 }
 .wpcalc-fullscreen-panel {
   flex: 1;
@@ -376,7 +365,7 @@ select.grid-cell-editor option {
   border-radius: 8px;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   padding: 4px 0;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
 .grid-context-menu-item {
@@ -415,7 +404,7 @@ select.grid-cell-editor option {
   border-radius: 8px;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   padding: 4px 0;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
 .grid-context-menu-shortcut {
@@ -429,6 +418,64 @@ select.grid-cell-editor option {
   height: 1px;
   margin: 4px 0;
   background: var(--theme-border);
+}
+
+/* ── Column header (hide/show columns) menu ──────── */
+.column-header-menu {
+  min-width: 220px;
+  max-width: 280px;
+}
+
+.column-header-menu-section-title {
+  padding: 2px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--theme-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.column-header-menu-list {
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 2px 0;
+}
+
+.column-header-menu-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 3px 12px;
+  font-size: 12px;
+  color: var(--theme-text);
+  cursor: default;
+}
+
+.column-header-menu-check:hover {
+  background: var(--theme-hover);
+}
+
+.column-header-menu-check input {
+  cursor: pointer;
+  margin: 0;
+}
+
+/* Thin clickable strip marking a hidden column between two visible ones */
+.grid-header-hidden-indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  z-index: 2;
+  cursor: pointer;
+  background: var(--theme-accent, var(--theme-text-secondary));
+  opacity: 0.45;
+}
+
+.grid-header-hidden-indicator:hover {
+  opacity: 0.85;
 }
 
 /* ── Split View ────────────────────────────────── */
@@ -597,21 +644,49 @@ th.split-col-unit { text-align: center; }
 }
 
 /* Drag-and-drop row reorder */
+/* Zichtbare selectie/sleep-gutter aan de linkerkant van elke rij (over de
+   ID-kolom): klik = rij selecteren, slepen = verplaatsen (ook naar een ander
+   hoofdstuk). De grip licht op zodra je over de rij beweegt. */
 .grid-row-drag-handle {
   position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
-  width: 8px;
+  width: 18px;
   cursor: grab;
   z-index: 2;
   background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.grid-row-drag-handle::after {
+  content: '⠿';
+  font-size: 12px;
+  line-height: 1;
+  color: var(--theme-text-muted, #888);
+  opacity: 0.22;
+  transition: opacity 0.12s ease, color 0.12s ease;
+}
+.grid-row:hover .grid-row-drag-handle::after {
+  opacity: 0.85;
+  color: var(--theme-accent, #D97706);
 }
 .grid-row-drag-handle:hover {
-  background: var(--theme-hover, rgba(0, 0, 0, 0.04));
+  background: var(--theme-hover, rgba(0, 0, 0, 0.06));
+}
+.grid-row-drag-handle:hover::after {
+  opacity: 1;
 }
 .grid-row-drag-handle:active {
   cursor: grabbing;
+}
+
+/* Afgeleide sommen op begrotings-/bewakingsposten: cursief + eigen kleur,
+   zodat ze niet als (dubbele) invoer lezen maar als optelling. */
+.grid-cell.derived-sum {
+  font-style: italic;
+  color: var(--theme-derived-sum, #c0392b);
 }
 .grid-row.dragging {
   opacity: 0.6;

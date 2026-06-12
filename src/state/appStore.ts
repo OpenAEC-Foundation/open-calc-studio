@@ -16,6 +16,7 @@ import { createOfferteSlice, type OfferteSlice } from './slices/offerteSlice';
 import { createVersionSlice, type VersionSlice } from './slices/versionSlice';
 import { createLinkableSourcesSlice, type LinkableSourcesSlice } from './slices/linkableSourcesSlice';
 import { createSpreadsheetHistorySlice, type SpreadsheetHistorySlice } from './slices/spreadsheetHistorySlice';
+import { createAccountsSlice, type AccountsSlice } from './slices/accountsSlice';
 
 export type AppStore = CostScheduleSlice &
   CostItemsSlice &
@@ -33,7 +34,8 @@ export type AppStore = CostScheduleSlice &
   OfferteSlice &
   VersionSlice &
   LinkableSourcesSlice &
-  SpreadsheetHistorySlice;
+  SpreadsheetHistorySlice &
+  AccountsSlice;
 
 export const useAppStore = create<AppStore>()((...a) => ({
   ...createCostScheduleSlice(...a),
@@ -53,6 +55,7 @@ export const useAppStore = create<AppStore>()((...a) => ({
   ...createVersionSlice(...a),
   ...createLinkableSourcesSlice(...a),
   ...createSpreadsheetHistorySlice(...a),
+  ...createAccountsSlice(...a),
 }));
 
 // Debug: expose store on window in dev mode

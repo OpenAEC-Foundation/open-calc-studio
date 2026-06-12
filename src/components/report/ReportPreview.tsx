@@ -111,7 +111,9 @@ export const ReportPreview: React.FC = () => {
           includeSummary,
         };
 
-        const bytes: number[] = await invoke('generate_pdf_preview', { request });
+        // IBIS-stijl heeft een dedicated preview-command (eigen Typst-template).
+        const previewCommand = reportView === 'ibis' ? 'generate_ibis_preview' : 'generate_pdf_preview';
+        const bytes: number[] = await invoke(previewCommand, { request });
 
         // If cancelled or a newer generation started, discard this result
         if (thisId !== generationIdRef.current) return;

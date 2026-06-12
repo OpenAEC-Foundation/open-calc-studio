@@ -28,7 +28,7 @@
   top: 50%;
   transform: translate(-50%, -50%) scale(0.95);
   user-select: none;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
   opacity: 0;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease;
 }
@@ -62,7 +62,7 @@
 .modal-header h2 {
   font-size: 13px;
   font-weight: 600;
-  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   color: var(--theme-dialog-header-text);
   margin: 0;
 }

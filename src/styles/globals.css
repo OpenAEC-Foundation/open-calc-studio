@@ -63,7 +63,7 @@ html, body, #root {
 .empty-state-content h2 {
   font-size: 16px;
   font-weight: 600;
-  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   color: var(--theme-text);
   margin: 0 0 4px;
 }
@@ -89,7 +89,7 @@ html, body, #root {
   background: var(--theme-surface);
   color: var(--theme-text);
   font-size: 14px;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
   font-weight: 600;
   cursor: default;
   transition: all 0.15s ease;

@@ -390,6 +390,23 @@ export function importWpCalcFile(buffer: ArrayBuffer): {
     }
   }
 
+  // Normalize depth from the actual parent chain. The raw `tabs` column is a
+  // visual indent that doesn't always match the hierarchy (regels directly
+  // under a chapter carried tabs=1 → depth 2). Wrong depths break subtree
+  // detection (move/drag) and grid indentation.
+  const itemById = new Map(items.map((i) => [i.id, i] as const));
+  for (const it of items) {
+    let d = 0;
+    const guard = new Set<string>();
+    let p = it.parentId ? itemById.get(it.parentId) : undefined;
+    while (p && !guard.has(p.id)) {
+      guard.add(p.id);
+      d++;
+      p = p.parentId ? itemById.get(p.parentId) : undefined;
+    }
+    it.depth = d;
+  }
+
   // ── Store staart rows in schedule for bottom panel ──
   schedule.staartRows = staartRows.map(s => ({
     label: s.omschrijving || '',

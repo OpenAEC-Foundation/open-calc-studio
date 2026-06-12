@@ -17,10 +17,19 @@ export function ChatPanel() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const toggleChatPanel = useAppStore(s => s.toggleChatPanel);
+  const accountsUser = useAppStore(s => s.accountsUser);
+  const aiCredits = useAppStore(s => s.aiCredits);
+  const accountsAiComplete = useAppStore(s => s.accountsAiComplete);
+  const accountsLoadCredits = useAppStore(s => s.accountsLoadCredits);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  // Creditsaldo tonen zodra de gebruiker met een OpenAEC-account is ingelogd
+  useEffect(() => {
+    if (accountsUser) void accountsLoadCredits();
+  }, [accountsUser, accountsLoadCredits]);
 
   const buildSystemPrompt = useCallback(() => {
     const store = useAppStore.getState();
@@ -59,10 +68,27 @@ Antwoord altijd in het Nederlands. Wees bondig en praktisch.`;
     setLoading(true);
 
     try {
-      // Try Anthropic API via proxy or direct
+      // Provider-volgorde: (1) OpenAEC-account (AI-credits), (2) eigen
+      // Anthropic API-key, (3) lokale antwoorden zonder AI.
       const apiKey = localStorage.getItem('ocs-anthropic-key') || '';
 
-      if (!apiKey) {
+      if (accountsUser) {
+        // Chatgeschiedenis platslaan tot één prompt — het platform-endpoint
+        // (POST /me/ai/complete) accepteert prompt+system, geen message-array.
+        const history = [...messages.slice(1), userMsg]
+          .map(m => `${m.role === 'user' ? 'Gebruiker' : 'Assistent'}: ${m.content}`)
+          .join('\n\n');
+        try {
+          const answer = await accountsAiComplete(`${history}\n\nAssistent:`, buildSystemPrompt());
+          setMessages(prev => [...prev, { role: 'assistant', content: answer || 'Geen antwoord ontvangen.', timestamp: Date.now() }]);
+        } catch (err: any) {
+          const msg = String(err);
+          const friendly = msg.includes('402') || /insufficient credits/i.test(msg)
+            ? 'Je OpenAEC AI-tegoed is op. Koop credits bij in de OpenAEC-portal en probeer het opnieuw.'
+            : `AI-aanroep via OpenAEC mislukt: ${msg}`;
+          setMessages(prev => [...prev, { role: 'assistant', content: friendly, timestamp: Date.now() }]);
+        }
+      } else if (!apiKey) {
         // No API key — give helpful response based on local context
         const store = useAppStore.getState();
         const items = store.items;
@@ -110,7 +136,7 @@ Antwoord altijd in het Nederlands. Wees bondig en praktisch.`;
             'anthropic-dangerous-direct-browser-access': 'true',
           },
           body: JSON.stringify({
-            model: 'claude-sonnet-4-20250514',
+            model: 'claude-sonnet-4-6',
             max_tokens: 1024,
             system: buildSystemPrompt(),
             messages: chatHistory,
@@ -134,7 +160,7 @@ Antwoord altijd in het Nederlands. Wees bondig en praktisch.`;
     } finally {
       setLoading(false);
     }
-  }, [input, loading, messages, buildSystemPrompt]);
+  }, [input, loading, messages, buildSystemPrompt, accountsUser, accountsAiComplete]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -155,6 +181,15 @@ Antwoord altijd in het Nederlands. Wees bondig en praktisch.`;
     <div className="chat-panel">
       <div className="chat-header">
         <span className="chat-title">💬 Assistent</span>
+        {accountsUser && aiCredits != null && (
+          <span
+            className="chat-credits"
+            title="Resterend AI-tegoed van je OpenAEC-account"
+            style={{ marginLeft: 'auto', marginRight: 8, fontSize: 11, color: 'var(--theme-text-secondary)', whiteSpace: 'nowrap' }}
+          >
+            ✨ {aiCredits.toLocaleString('nl-NL')} credits
+          </span>
+        )}
         <button className="chat-close" onClick={toggleChatPanel}>✕</button>
       </div>
       <div className="chat-messages">

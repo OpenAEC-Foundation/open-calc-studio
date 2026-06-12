@@ -5,8 +5,9 @@
 
 const OCS_FILTER = { name: 'Open Calc Studio', extensions: ['ifcCalc', 'ifcx', 'ocs'] };
 const JSON_FILTER = { name: 'JSON', extensions: ['json'] };
-const ALL_SUPPORTED_FILTER = { name: 'Alle ondersteunde bestanden', extensions: ['ifcCalc', 'ifcx', 'ocs', 'json', 'calc', 'mdb', 'xls', 'xlsx', 'rsx'] };
+const ALL_SUPPORTED_FILTER = { name: 'Alle ondersteunde bestanden', extensions: ['ifcCalc', 'ifcx', 'ocs', 'json', 'calc', 'mdb', 'xtb', 'xls', 'xlsx', 'rsx'] };
 const WPCALC_FILTER = { name: 'WpCalc', extensions: ['calc', 'mdb'] };
+const XTB_FILTER = { name: 'IBIS-TRAD', extensions: ['xtb'] };
 const EXCEL_FILTER = { name: 'Excel', extensions: ['xls', 'xlsx'] };
 const RSX_FILTER = { name: 'RAW Bestek', extensions: ['rsx'] };
 
@@ -44,14 +45,14 @@ export async function openFileNative(): Promise<{ path: string; content: string 
   if (!_dialog || !_fs) return null;
   const selected = await _dialog.open({
     multiple: false,
-    filters: [ALL_SUPPORTED_FILTER, OCS_FILTER, WPCALC_FILTER, EXCEL_FILTER, RSX_FILTER, JSON_FILTER],
+    filters: [ALL_SUPPORTED_FILTER, OCS_FILTER, WPCALC_FILTER, XTB_FILTER, EXCEL_FILTER, RSX_FILTER, JSON_FILTER],
   });
   if (!selected) return null;
   const filePath = typeof selected === 'string' ? selected : selected;
   if (!filePath) return null;
   const ext = filePath.split('.').pop()?.toLowerCase() || '';
   // Binary formats: read as bytes
-  if (['calc', 'mdb', 'xls', 'xlsx'].includes(ext)) {
+  if (['calc', 'mdb', 'xtb', 'xls', 'xlsx'].includes(ext)) {
     // Binary format — caller will re-read as binary via openBinaryFileNative
     return { path: filePath, content: '__BINARY__' };
   }

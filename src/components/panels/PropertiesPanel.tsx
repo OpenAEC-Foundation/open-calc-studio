@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { formatCurrency, formatNumber, parseNlNumber } from '@/utils/formatting';
-import { getGrandTotal } from '@/services/calculation/calculator';
+import { getStaartBreakdown } from '@/services/calculation/calculator';
 import { createDefaultProjectProperties } from '@/types/costModel';
 import { BranchTreeEditor } from './BranchTreeEditor';
 import { createThumbnail } from '@/services/offerte/imageService';
@@ -220,6 +220,13 @@ export const PropertiesPanel: React.FC = () => {
   const item = visibleItems[activeRow];
 
   const projectProperties = schedule.projectProperties ?? createDefaultProjectProperties();
+  // Aanneemsom both excl. and incl. btw — used to derive the price-per-unit for each
+  // project metric (e.g. € per m² BVO), shown in two columns. (Computing a total here
+  // was previously omitted, which threw `grandTotal is not defined` and crashed the
+  // panel as soon as any metric had a value > 0.)
+  const staart = getStaartBreakdown(items);
+  const totalExcl = staart.aanneemsomExcl;
+  const totalIncl = staart.aanneemsomAfgerond;
 
   const handleCompanyChange = (key: keyof typeof companyInfo, value: string) => {
     setCompanyInfo({ ...companyInfo, [key]: value });
@@ -277,16 +284,16 @@ export const PropertiesPanel: React.FC = () => {
               <th style={{ textAlign: 'left' }}>Eigenschap</th>
               <th style={{ textAlign: 'right', width: 70 }}>Waarde</th>
               <th style={{ textAlign: 'center', width: 40 }}>Eenh.</th>
-              <th style={{ textAlign: 'right', width: 80 }}>Prijs/eenh.</th>
+              <th style={{ textAlign: 'right', width: 68 }}>€/eh. excl.</th>
+              <th style={{ textAlign: 'right', width: 68 }}>€/eh. incl.</th>
               <th style={{ width: 24 }}></th>
             </tr>
           </thead>
           <tbody>
             {projectProperties.map((prop) => {
-              const pricePerUnit =
-                prop.value != null && prop.value > 0 && grandTotal > 0
-                  ? grandTotal / prop.value
-                  : null;
+              const hasVal = prop.value != null && prop.value > 0;
+              const perExcl = hasVal && totalExcl > 0 ? totalExcl / prop.value! : null;
+              const perIncl = hasVal && totalIncl > 0 ? totalIncl / prop.value! : null;
               return (
                 <tr key={prop.id}>
                   <td>
@@ -318,8 +325,11 @@ export const PropertiesPanel: React.FC = () => {
                       />
                     )}
                   </td>
+                  <td style={{ textAlign: 'right', color: 'var(--theme-text-secondary)' }}>
+                    {perExcl != null ? formatCurrency(perExcl) : '-'}
+                  </td>
                   <td style={{ textAlign: 'right', fontWeight: 500 }}>
-                    {pricePerUnit != null ? formatCurrency(pricePerUnit) : '-'}
+                    {perIncl != null ? formatCurrency(perIncl) : '-'}
                   </td>
                   <td style={{ textAlign: 'center' }}>
                     {!prop.isDefault && (
@@ -354,6 +364,28 @@ export const PropertiesPanel: React.FC = () => {
           <div style={{ marginBottom: 8 }}>
             <div className="prop-label">{t('selectedItem')}</div>
             <div className="prop-value" style={{ fontWeight: 600 }}>{item.description || t('noDescription')}</div>
+          </div>
+          <div style={{ marginBottom: 8 }}>
+            <div className="prop-label">Type</div>
+            {(() => {
+              const typeInfo: Record<string, { label: string; bg: string; fg: string }> = {
+                chapter: { label: 'Hoofdstuk', bg: 'rgba(22,163,74,0.15)', fg: '#16a34a' },
+                begrotingspost: { label: 'Begrotingspost', bg: 'rgba(59,130,246,0.15)', fg: '#3b82f6' },
+                bewakingspost: { label: 'Bewakingspost', bg: 'rgba(217,119,6,0.15)', fg: '#d97706' },
+                regel: { label: 'Rekenregel', bg: 'rgba(120,120,128,0.15)', fg: 'var(--theme-text-secondary)' },
+                tekstregel: { label: 'Tekstregel', bg: 'rgba(120,120,128,0.12)', fg: 'var(--theme-text-secondary)' },
+                witregel: { label: 'Witregel', bg: 'rgba(120,120,128,0.12)', fg: 'var(--theme-text-secondary)' },
+              };
+              const info = item.rowType.startsWith('staart_')
+                ? { label: 'Staartregel', bg: 'rgba(120,120,128,0.12)', fg: 'var(--theme-text-secondary)' }
+                : typeInfo[item.rowType] ?? { label: item.rowType, bg: 'rgba(120,120,128,0.12)', fg: 'var(--theme-text-secondary)' };
+              return (
+                <span style={{
+                  display: 'inline-block', padding: '2px 10px', borderRadius: 9999,
+                  background: info.bg, color: info.fg, fontSize: 11, fontWeight: 600,
+                }}>{info.label}</span>
+              );
+            })()}
           </div>
           <div style={{ marginBottom: 8 }}>
             <div className="prop-label">{t('code')}</div>

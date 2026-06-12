@@ -492,28 +492,43 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
 
   getVisibleItems: () => {
     const state = get();
-    const collapsedParents = new Set<string>();
-    const visible: CostItem[] = [];
+    // Render the tree depth-first with each sibling group ordered by sortOrder
+    // (stable on flat-array index). This keeps every row under its correct parent
+    // regardless of the flat `items` array order — e.g. when items are appended
+    // out of hierarchical order (MCP add_item, imports). Collapsed containers keep
+    // their own row but their descendants are skipped.
+    const indexOf = new Map<string, number>();
+    state.items.forEach((it, i) => indexOf.set(it.id, i));
 
+    const childrenByParent = new Map<string | null, CostItem[]>();
     for (const item of state.items) {
-      // Check if any ancestor is collapsed
-      let hidden = false;
-      let pid = item.parentId;
-      while (pid) {
-        if (collapsedParents.has(pid)) {
-          hidden = true;
-          break;
-        }
-        const parent = state.items.find((i) => i.id === pid);
-        pid = parent?.parentId ?? null;
-      }
-      if (!hidden) {
-        visible.push(item);
-      }
-      if (item.isCollapsed) {
-        collapsedParents.add(item.id);
-      }
+      const key = item.parentId ?? null;
+      const list = childrenByParent.get(key);
+      if (list) list.push(item);
+      else childrenByParent.set(key, [item]);
     }
+    for (const list of childrenByParent.values()) {
+      list.sort((a, b) => {
+        const so = (a.sortOrder ?? 0) - (b.sortOrder ?? 0);
+        return so !== 0 ? so : (indexOf.get(a.id) ?? 0) - (indexOf.get(b.id) ?? 0);
+      });
+    }
+
+    const visible: CostItem[] = [];
+    const seen = new Set<string>();
+    const walk = (parentId: string | null) => {
+      const children = childrenByParent.get(parentId);
+      if (!children) return;
+      for (const item of children) {
+        // Guard against broken/cyclic parentId data (e.g. malformed .calc imports):
+        // visiting an item already seen would recurse forever → stack overflow → crash.
+        if (seen.has(item.id)) continue;
+        seen.add(item.id);
+        visible.push(item);
+        if (!item.isCollapsed) walk(item.id);
+      }
+    };
+    walk(null);
     return visible;
   },
 };

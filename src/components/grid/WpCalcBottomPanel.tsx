@@ -3,40 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { formatCurrency, formatNumber } from '@/utils/formatting';
 
-export type WpCalcTab = 'data' | 'uren' | 'staart';
-
-interface Props {
-  activeTab: WpCalcTab;
-  onTabChange: (tab: WpCalcTab) => void;
-}
-
-export default function WpCalcBottomPanel({ activeTab, onTabChange }: Props) {
-  const { t } = useTranslation('common');
+/**
+ * Full-content view for the "Uren & Staart" bottom-nav tab: the hours
+ * overview and the staart (tail-cost) cascade side by side.
+ */
+export function UrenStaartView() {
   return (
-    <>
-      {activeTab === 'uren' && <UrenFullScreen />}
-      {activeTab === 'staart' && <StaartFullScreen />}
-      <div className="wpcalc-bottom-tabs">
-        <button
-          className={`wpcalc-bottom-tab${activeTab === 'data' ? ' active' : ''}`}
-          onClick={() => onTabChange('data')}
-        >
-          {t('wpcalc.tabData')}
-        </button>
-        <button
-          className={`wpcalc-bottom-tab${activeTab === 'uren' ? ' active' : ''}`}
-          onClick={() => onTabChange('uren')}
-        >
-          {t('wpcalc.tabHours')}
-        </button>
-        <button
-          className={`wpcalc-bottom-tab${activeTab === 'staart' ? ' active' : ''}`}
-          onClick={() => onTabChange('staart')}
-        >
-          {t('wpcalc.tabTail')}
-        </button>
-      </div>
-    </>
+    <div className="urenstaart-view">
+      <UrenFullScreen />
+      <StaartFullScreen />
+    </div>
   );
 }
 

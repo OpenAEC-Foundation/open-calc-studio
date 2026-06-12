@@ -21,6 +21,41 @@ function TitleBar({ onSettingsClick, onFeedbackClick }: TitleBarProps) {
   const isTauri = '__TAURI_INTERNALS__' in window;
   const appWindowRef = useRef<any>(null);
 
+  // OpenAEC-account (login via Rust/OIDC; tokens blijven in de keyring)
+  const accountsUser = useAppStore((s) => s.accountsUser);
+  const accountsBusy = useAppStore((s) => s.accountsBusy);
+  const accountsSignIn = useAppStore((s) => s.accountsSignIn);
+  const accountsSignOut = useAppStore((s) => s.accountsSignOut);
+  const accountsLoadUser = useAppStore((s) => s.accountsLoadUser);
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
+
+  useEffect(() => { void accountsLoadUser(); }, [accountsLoadUser]);
+
+  useEffect(() => {
+    if (!accountMenuOpen) return;
+    const close = () => setAccountMenuOpen(false);
+    window.addEventListener('click', close);
+    return () => window.removeEventListener('click', close);
+  }, [accountMenuOpen]);
+
+  const accountInitials = accountsUser
+    ? (accountsUser.name || accountsUser.email)
+        .split(/[\s@.]+/)
+        .filter(Boolean)
+        .map((p) => p[0])
+        .slice(0, 2)
+        .join('')
+        .toUpperCase()
+    : '';
+
+  const handleSignIn = async () => {
+    try {
+      await accountsSignIn();
+    } catch (e) {
+      alert(`${t('accounts.signInFailed')}: ${e}`);
+    }
+  };
+
   // Detect macOS platform
   useEffect(() => {
     (async () => {
@@ -150,6 +185,49 @@ function TitleBar({ onSettingsClick, onFeedbackClick }: TitleBarProps) {
       </span>
 
       <div className="titlebar-controls">
+        {accountsUser ? (
+          <div className="openaec-account" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="openaec-avatar-btn"
+              onClick={() => setAccountMenuOpen((v) => !v)}
+              title={accountsUser.email}
+              tabIndex={-1}
+            >
+              <span className="openaec-avatar">{accountInitials}</span>
+              <span className="openaec-account-name">{accountsUser.name || accountsUser.email}</span>
+            </button>
+            {accountMenuOpen && (
+              <div className="openaec-account-menu">
+                <div className="openaec-account-menu-header">
+                  <div className="openaec-account-menu-name">{accountsUser.name}</div>
+                  <div className="openaec-account-menu-email">{accountsUser.email}</div>
+                </div>
+                <button
+                  className="openaec-account-menu-item"
+                  onClick={() => {
+                    setAccountMenuOpen(false);
+                    // Dev-portal; wordt later configureerbaar per omgeving
+                    import('@tauri-apps/plugin-opener')
+                      .then((m) => m.openUrl('http://localhost:3000'))
+                      .catch(() => { window.open('http://localhost:3000', '_blank'); });
+                  }}
+                >
+                  {t('accounts.openPortal')}
+                </button>
+                <button
+                  className="openaec-account-menu-item"
+                  onClick={() => { setAccountMenuOpen(false); void accountsSignOut(); }}
+                >
+                  {t('accounts.signOut')}
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <button className="openaec-signin-btn" onClick={handleSignIn} disabled={accountsBusy} tabIndex={-1}>
+            {accountsBusy ? t('accounts.signingIn') : t('accounts.signIn')}
+          </button>
+        )}
         <button className="send-feedback-btn" onClick={onFeedbackClick} tabIndex={-1}>
           {t("sendFeedback")}
         </button>

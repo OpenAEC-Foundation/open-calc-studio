@@ -4,13 +4,34 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+    <!-- Brand fonts are self-hosted (see src/styles/fonts.css) so the desktop
+         app renders correctly offline, with no Google Fonts CDN dependency. -->
     <title>Open Calc Studio</title>
   </head>
   <body>
     <div id="root"></div>
+    <!-- Zelfherstel bij wit scherm: dit script staat bewust BUITEN de bundle.
+         Faalt het laden van de module-graph (dode HMR-sessie na slaapstand,
+         mislukte chunk), dan draait geen enkele app-code meer — alleen dit
+         inline script kan dan nog eenmalig herladen. De guard voorkomt een
+         reload-lus; bij een gevulde root wordt hij weer gewist. -->
+    <script>
+      (function () {
+        var GUARD = "ocs-white-screen-reload";
+        setTimeout(function () {
+          var root = document.getElementById("root");
+          if (root && root.childElementCount === 0) {
+            var last = Number(sessionStorage.getItem(GUARD) || 0);
+            if (Date.now() - last > 60000) {
+              sessionStorage.setItem(GUARD, String(Date.now()));
+              window.location.reload();
+            }
+          } else {
+            sessionStorage.removeItem(GUARD);
+          }
+        }, 8000);
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -43,7 +43,7 @@
 .ifc-toolbar-btn {
   padding: 4px 12px;
   font-size: 11px;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
   font-weight: 500;
   border: 1.5px solid var(--theme-border);
   border-radius: 8px;

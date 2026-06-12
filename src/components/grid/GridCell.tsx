@@ -103,11 +103,10 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
     }
 
     // Chapters in UI-2: only show description (and chapterCode/paragraphCode).
-    // Exception: the "Uren" cell (hoeveelheid) shows the chapter's total uren so
-    // the user can edit it (rescales all regel-norms in the chapter naar rato).
+    // De uren-som staat NIET op de hoofdstukrij maar alleen op de footerrij
+    // (de blauwe "+"-optelling onderaan) — daar is hij ook bewerkbaar.
     if (isChapterInWpcalc && column.key !== 'description' && column.key !== 'chapterCode'
-      && column.key !== 'paragraphCode' && column.key !== 'rowNumber'
-      && column.key !== 'hoeveelheid') {
+      && column.key !== 'paragraphCode' && column.key !== 'rowNumber') {
       return '';
     }
 
@@ -140,27 +139,6 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
           const cap = item.normFactor ?? 1;
           if (qty === 0 || norm === 0) return '';
           return formatNumber(qty * norm / (cap || 1));
-        }
-        // WPCalc: chapter rij toont totaal uren van alle onderliggende regels
-        if (rt === 'chapter' && gridView === 'wpcalc') {
-          let uren = 0;
-          for (const it of items) {
-            if (it.rowType !== 'regel') continue;
-            let pid = it.parentId;
-            let belongs = false;
-            while (pid) {
-              if (pid === item.id) { belongs = true; break; }
-              const p = items.find(x => x.id === pid);
-              if (!p) break;
-              pid = p.parentId;
-            }
-            if (!belongs) continue;
-            const q = it.quantity ?? 0;
-            const n = it.normQuantity ?? 0;
-            const c = it.normFactor ?? 1;
-            uren += q * n / (c || 1);
-          }
-          return uren ? formatNumber(uren) : '';
         }
         // Op begrotingspost/bewakingspost/tekstregel: toon quantity als hoeveelheid
         if (isBgr || isBwk || rt === 'tekstregel') return formatNumber(item.quantity);
@@ -326,9 +304,13 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
   const showQuantityLinkIcon = isHoeveelheidCol && !!item.quantityLink;
   const cellTooltip = getCellTooltip();
 
+  // Sommen op posten zijn afgeleide waarden (optelling van onderliggende
+  // regels) — cursief + eigen kleur, zodat ze niet als dubbele invoer lezen.
+  const isDerivedSum = (isBgr || isBwk) && column.type === 'computed' && !isChapterFooter;
+
   return (
     <div
-      className={`grid-cell${isActive ? ' active' : ''}${isCellSelected ? ' cell-selected' : ''}${alignClass}${isChapterBold ? ' bold' : ''}${column.key === 'rowType' ? ' type-cell' : ''}${isWitregel && isDescCol ? ' witregel-desc' : ''}${editable ? ' editable-value' : ''}${isDescCol ? ' col-description' : ''}`}
+      className={`grid-cell${isActive ? ' active' : ''}${isCellSelected ? ' cell-selected' : ''}${alignClass}${isChapterBold ? ' bold' : ''}${column.key === 'rowType' ? ' type-cell' : ''}${isWitregel && isDescCol ? ' witregel-desc' : ''}${editable ? ' editable-value' : ''}${isDescCol ? ' col-description' : ''}${isDerivedSum ? ' derived-sum' : ''}`}
       title={cellTooltip || undefined}
       style={{
         width: colWidth,

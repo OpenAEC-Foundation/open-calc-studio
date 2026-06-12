@@ -6,9 +6,6 @@ import IfcTab from "./IfcTab";
 import RapportageTab from "./RapportageTab";
 import OfferteTab from "./OfferteTab";
 import SpreadsheetTab from "./SpreadsheetTab";
-import { useAppStore } from "../../state/appStore";
-
-import type { ContentTab } from "../../state/slices/uiSlice";
 import "./Ribbon.css";
 
 interface RibbonProps {
@@ -29,10 +26,6 @@ export default function Ribbon({ onFileTabClick }: RibbonProps) {
   const [prevTab, setPrevTab] = useState<TabId | null>(null);
   const [animating, setAnimating] = useState(false);
   const [direction, setDirection] = useState<"left" | "right">("right");
-  const { setActiveContentTab, setActiveSubSheet } = useAppStore();
-  const subSheets = useAppStore((s) => s.subSheets);
-  const activeSubSheetId = useAppStore((s) => s.activeSubSheetId);
-  const addSubSheet = useAppStore((s) => s.addSubSheet);
   const tabsRef = useRef<HTMLDivElement>(null);
   const borderRef = useRef<HTMLDivElement>(null);
   const gapRef = useRef<HTMLDivElement>(null);
@@ -76,22 +69,9 @@ export default function Ribbon({ onFileTabClick }: RibbonProps) {
     setPrevTab(activeTab);
     setActiveTab(newTab);
     setAnimating(true);
-    const tab: ContentTab = newTab === "home" ? "grid" : newTab === "rapportage" ? "rapport" : newTab === "offerte" ? "offerte" : newTab === "spreadsheet" ? "spreadsheet" : newTab === "viewer3d" ? "viewer3d" : newTab === "pdf" ? "pdf" : "ifc";
-    setActiveContentTab(tab);
-    // When switching away from spreadsheet, clear activeSubSheet so grid shows
-    if (newTab !== "spreadsheet") {
-      setActiveSubSheet(null);
-    } else {
-      // Auto-create a sheet if none exists or none is active, so the user
-      // lands directly in an editable spreadsheet rather than the empty hint.
-      if (subSheets.length === 0) {
-        const id = addSubSheet();
-        setActiveSubSheet(id);
-      } else if (!activeSubSheetId) {
-        setActiveSubSheet(subSheets[0].id);
-      }
-    }
-  }, [activeTab, setActiveContentTab, setActiveSubSheet, subSheets, activeSubSheetId, addSubSheet]);
+    // Ribbon tabs only swap the command groups; the content view is driven by
+    // the bottom navigation bar (Data | Uren & Staart | Rapport | Spreadsheet | IFC).
+  }, [activeTab]);
 
   useEffect(() => {
     updateHighlight();
