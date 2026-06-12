@@ -13,6 +13,7 @@ import { importCuf, importTradxml, importRsx, importZsx, importNsx, type ImportR
 import { exportCuf, exportTradxml, exportRsx, type ExportInput, type ExportResult } from "../../services/exporters";
 import ExtensionManagerPanel from "./ExtensionManagerPanel";
 import { CloudPanel } from "./CloudPanel";
+import { OPENAEC_ENABLED } from "../../services/buildFlags";
 import "./Backstage.css";
 
 const ICONS = {
@@ -473,7 +474,9 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
           <Divider />
           <MenuItem icon={ICONS.import} label={t("import")} active={activePanel === "import"} onClick={() => setActivePanel("import")} />
           <MenuItem icon={ICONS.export} label={t("export")} active={activePanel === "export"} onClick={() => setActivePanel("export")} />
-          <MenuItem icon={ICONS.cloud} label="OpenAEC Cloud" active={activePanel === "cloud"} onClick={() => setActivePanel("cloud")} />
+          {OPENAEC_ENABLED && (
+            <MenuItem icon={ICONS.cloud} label="OpenAEC Cloud" active={activePanel === "cloud"} onClick={() => setActivePanel("cloud")} />
+          )}
           <Divider />
           <MenuItem icon={ICONS.extensions} label={t("extensions")} active={activePanel === "extensions"} onClick={() => setActivePanel("extensions")} />
           <Divider />

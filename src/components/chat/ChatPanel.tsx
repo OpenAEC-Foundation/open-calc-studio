@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useAppStore } from '@/state/appStore';
 import { buildBudgetContext, ACTIE_PROTOCOL, parseActies, applyActies } from '@/services/assistant/assistantActions';
 import { BEGROTEN_KENNIS } from '@/services/assistant/begrotenKennis';
+import { OPENAEC_ENABLED } from '@/services/buildFlags';
 import './ChatPanel.css';
 
 interface ChatMessage {
@@ -103,7 +104,7 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
       // Anthropic API-key, (3) lokale antwoorden zonder AI.
       const apiKey = localStorage.getItem('ocs-anthropic-key') || '';
 
-      if (accountsUser) {
+      if (OPENAEC_ENABLED && accountsUser) {
         // Chatgeschiedenis platslaan tot één prompt — het platform-endpoint
         // (POST /me/ai/complete) accepteert prompt+system, geen message-array.
         const history = [...messages.slice(1), userMsg]
@@ -223,7 +224,7 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
           <span className="chat-title">✨ OpenAEC calculatieassistent</span>
           <span className="chat-subtitle" title={activeDocName}>{activeDocName ? `werkt in: ${activeDocName}` : 'geen document geopend'}</span>
         </div>
-        {accountsUser && aiCredits != null && (
+        {OPENAEC_ENABLED && accountsUser && aiCredits != null && (
           <span
             className="chat-credits"
             title="Resterend AI-tegoed (tokens) van je OpenAEC-account"

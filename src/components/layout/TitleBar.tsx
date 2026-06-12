@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppStore } from "../../state/appStore";
 import { useFileOperations } from "../../hooks/useFileOperations";
+import { OPENAEC_ENABLED } from "../../services/buildFlags";
 import "./TitleBar.css";
 
 interface TitleBarProps {
@@ -185,7 +186,7 @@ function TitleBar({ onSettingsClick, onFeedbackClick }: TitleBarProps) {
       </span>
 
       <div className="titlebar-controls">
-        {accountsUser ? (
+        {OPENAEC_ENABLED && accountsUser ? (
           <div className="openaec-account" onClick={(e) => e.stopPropagation()}>
             <button
               className="openaec-avatar-btn"
@@ -223,11 +224,11 @@ function TitleBar({ onSettingsClick, onFeedbackClick }: TitleBarProps) {
               </div>
             )}
           </div>
-        ) : (
+        ) : OPENAEC_ENABLED ? (
           <button className="openaec-signin-btn" onClick={handleSignIn} disabled={accountsBusy} tabIndex={-1}>
             {accountsBusy ? t('accounts.signingIn') : t('accounts.signIn')}
           </button>
-        )}
+        ) : null}
         <button className="send-feedback-btn" onClick={onFeedbackClick} tabIndex={-1}>
           {t("sendFeedback")}
         </button>
