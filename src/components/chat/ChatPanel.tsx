@@ -79,9 +79,16 @@ Antwoord altijd in het Nederlands. Wees bondig en praktisch; noem bedragen excl.
           setMessages(prev => [...prev, { role: 'assistant', content: inhoud, timestamp: Date.now() }]);
         } catch (err: any) {
           const msg = String(err);
-          const friendly = msg.includes('402') || /insufficient credits/i.test(msg)
-            ? 'Je OpenAEC AI-tegoed is op. Koop credits bij in de OpenAEC-portal en probeer het opnieuw.'
-            : `AI-aanroep via OpenAEC mislukt: ${msg}`;
+          let friendly: string;
+          if (msg.includes('402') || /insufficient credits/i.test(msg)) {
+            friendly = 'Je OpenAEC AI-tegoed is op. Koop credits bij in de OpenAEC-portal en probeer het opnieuw.';
+          } else if (/\b50[234]\b/.test(msg) || /bad gateway|bridge|gateway timed out|unavailable/i.test(msg)) {
+            // Platformzijde: de AI-dienst van OpenAEC is tijdelijk niet bereikbaar
+            // (bv. de AI-bridge op de server start niet). Niets aan deze app.
+            friendly = 'De AI-dienst van OpenAEC is op dit moment niet bereikbaar. Dit ligt aan de serverkant — probeer het zo nog eens. Ondertussen kun je gewoon doorwerken in je begroting.';
+          } else {
+            friendly = `AI-aanroep via OpenAEC mislukt: ${msg}`;
+          }
           setMessages(prev => [...prev, { role: 'assistant', content: friendly, timestamp: Date.now() }]);
         }
       } else if (!apiKey) {
