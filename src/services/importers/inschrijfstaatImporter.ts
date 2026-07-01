@@ -12,42 +12,8 @@
  * Column I = Bedrag
  */
 
-import type { CostItem, CostSchedule, CostUnit, CompanyInfo, Verrekenbaarheid } from '@/types/costModel';
-
-function generateId(): string {
-  return crypto.randomUUID();
-}
-
-function generateIfcGuid(): string {
-  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$';
-  let r = '';
-  for (let i = 0; i < 22; i++) r += chars[Math.floor(Math.random() * 64)];
-  return r;
-}
-
-function mapUnit(raw: string): CostUnit {
-  const u = raw.trim().toLowerCase();
-  switch (u) {
-    case 'm': case 'm1': return 'm';
-    case 'm2': return 'm²';
-    case 'm3': return 'm³';
-    case 'kg': return 'kg';
-    case 'ton': return 'ton';
-    case 'uur': return 'uur';
-    case 'st': return 'st';
-    case 'dgn': return 'dgn';
-    case 'km': return 'km';
-    case 'keer': return 'keer';
-    case 'ls': return 'ls';
-    case 'week': return 'week';
-    case 'mnd': return 'mnd';
-    case 'post': return 'post';
-    case '%': return '%';
-    case 'pm': return 'pm';
-    case 'eur': return 'post';
-    default: return 'st';
-  }
-}
+import type { CostItem, CostSchedule, CompanyInfo, Verrekenbaarheid } from '@/types/costModel';
+import { makeCostItem, normalizeUnit } from './core';
 
 function unspaceTitle(text: string): string {
   // "A A N V A N G S W E R K" → "AANVANGSWERK"
@@ -68,38 +34,6 @@ function isSpacedTitle(text: string): boolean {
     if (trimmed[i] !== ' ') return false;
   }
   return true;
-}
-
-function createEmptyItem(overrides: Partial<CostItem>): CostItem {
-  return {
-    id: generateId(),
-    parentId: null,
-    sortOrder: 0,
-    code: '',
-    description: '',
-    unit: 'st',
-    quantity: null,
-    materialPrice: null,
-    laborPrice: null,
-    unitPrice: 0,
-    total: 0,
-    isCollapsed: false,
-    depth: 0,
-    notes: '',
-    ifcGuid: generateIfcGuid(),
-    rowType: 'begrotingspost',
-    staartPercentage: null,
-    nr: '',
-    normQuantity: null,
-    normFactor: null,
-    normDivisor: null,
-    normUnitPrice: null,
-    resourceType: null,
-    resourceLibraryId: null,
-    verrekenbaar: 'V',
-    tariefGroep: null,
-    ...overrides,
-  };
 }
 
 interface ParsedRow {
@@ -221,7 +155,7 @@ export async function importInschrijfstaatFile(buffer: ArrayBuffer): Promise<{
 
     if (info.rowType === 'chapter' && info.depth === 0) {
       // Top-level chapter
-      currentChapter = createEmptyItem({
+      currentChapter = makeCostItem({
         code: row.code,
         description: desc,
         rowType: 'chapter',
@@ -235,7 +169,7 @@ export async function importInschrijfstaatFile(buffer: ArrayBuffer): Promise<{
       currentSubChapter = null;
     } else if (info.rowType === 'chapter' && info.depth === 1) {
       // Sub-chapter
-      currentSubChapter = createEmptyItem({
+      currentSubChapter = makeCostItem({
         code: row.code,
         description: desc,
         rowType: 'chapter',
@@ -249,7 +183,7 @@ export async function importInschrijfstaatFile(buffer: ArrayBuffer): Promise<{
     } else if (info.rowType === 'begrotingspost') {
       // Bestekspost
       const parentId = currentSubChapter?.id ?? currentChapter?.id ?? null;
-      items.push(createEmptyItem({
+      items.push(makeCostItem({
         code: row.code,
         description: desc,
         rowType: 'begrotingspost',
@@ -257,7 +191,7 @@ export async function importInschrijfstaatFile(buffer: ArrayBuffer): Promise<{
         parentId,
         sortOrder: sortOrder++,
         quantity: row.quantity,
-        unit: mapUnit(row.unit),
+        unit: normalizeUnit(row.unit),
         unitPrice: row.unitPrice,
         total: row.total,
         verrekenbaar: verr,
@@ -265,7 +199,7 @@ export async function importInschrijfstaatFile(buffer: ArrayBuffer): Promise<{
     } else if (info.rowType === 'tekstregel') {
       // Opmerking / tekstregel
       const parentId = currentSubChapter?.id ?? currentChapter?.id ?? null;
-      items.push(createEmptyItem({
+      items.push(makeCostItem({
         code: row.code,
         description: desc,
         rowType: 'tekstregel',

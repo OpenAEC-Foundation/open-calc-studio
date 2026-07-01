@@ -1,6 +1,6 @@
 // Bouw 1 Begroting Report Template
 // Rendered via typst-as-lib from Open Calc Studio
-// Default neutral budget layout for the Bouw 1 tenant.
+// Voorbeeld-huisstijl (Bouw 1) voor Open Calc Studio
 
 #let data = json("data.json")
 
@@ -59,12 +59,14 @@
 // Right-align helper
 #let rcell(content) = align(right, content)
 
-// Column widths: use fractional units matching reference proportions (total ~630 parts)
-// Hst(10) Par(10) Nr(10) Omschrijving(160) AantalEh(40) Norm(18) Uren(18) Tar(8) Loon(40) Prijs(34) Materiaal(34) Materieel(36) Stelpost(32) Ond.aann(36) Kosten/eh(38) Subtotaal(46) Totaal(60) Memo(40)
-#let col-widths = (10fr, 10fr, 10fr, 160fr, 40fr, 18fr, 18fr, 8fr, 40fr, 34fr, 34fr, 36fr, 32fr, 36fr, 38fr, 46fr, 60fr, 40fr)
+// Column widths: use fractional units matching reference proportions.
+// De Memo-kolom is verwijderd (was altijd leeg) en het Nr-veld is verbreed,
+// zodat hiërarchische codes niet in de omschrijving overlopen.
+// Hst(10) Par(10) Nr(22) Omschrijving(168) AantalEh(40) Norm(18) Uren(18) Tar(8) Loon(40) Prijs(34) Materiaal(34) Materieel(36) Stelpost(32) Ond.aann(36) Kosten/eh(38) Subtotaal(46) Totaal(60)
+#let col-widths = (10fr, 10fr, 22fr, 168fr, 40fr, 18fr, 18fr, 8fr, 40fr, 34fr, 34fr, 36fr, 32fr, 36fr, 38fr, 46fr, 60fr)
 
 // Table headers
-#let headers = ("Hst", "Par", "Nr", "Omschrijving", "Aantal Eh.", "Norm", "Uren", "Tar.", "Loon", "Prijs", "Materiaal", "Materieel", "Stelpost", "Ond.aann.", "Kosten/eh", "Subtotaal", "Totaal", "Memo")
+#let headers = ("Hst", "Par", "Nr", "Omschrijving", "Aantal Eh.", "Norm", "Uren", "Tar.", "Loon", "Prijs", "Materiaal", "Materieel", "Stelpost", "Ond.aann.", "Kosten/eh", "Subtotaal", "Totaal")
 
 // Right-aligned column indices (0-based): Loon(8), Prijs(9), Materiaal(10), Materieel(11), Stelpost(12), Ond.aann(13), Kosten/eh(14), Subtotaal(15), Totaal(16)
 #let right-cols = (8, 9, 10, 11, 12, 13, 14, 15, 16)
@@ -103,7 +105,7 @@
 
     // Data rows
     ..chapter.rows.map(row => {
-      let vals = (row.hst, row.par, row.nr, row.omschrijving, row.aantal_eh, row.norm, row.uren, row.tar, row.loon, row.prijs, row.materiaal, row.materieel, row.stelpost, row.ond_aann, row.kosten_eh, row.subtotaal, row.totaal, row.memo)
+      let vals = (row.hst, row.par, row.nr, row.omschrijving, row.aantal_eh, row.norm, row.uren, row.tar, row.loon, row.prijs, row.materiaal, row.materieel, row.stelpost, row.ond_aann, row.kosten_eh, row.subtotaal, row.totaal)
 
       if row.is_subtotal {
         (

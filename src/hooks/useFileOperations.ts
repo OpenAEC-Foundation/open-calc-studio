@@ -16,6 +16,27 @@ function fileNameFromPath(filePath: string): string {
   return fullName.replace(/\.(ifcx|json)$/i, '');
 }
 
+/**
+ * Sommige bestanden dragen een .calc/.mdb-extensie maar zijn in werkelijkheid
+ * een native OCS-project (JSON) — bijv. een begroting die met de verkeerde
+ * extensie is opgeslagen. Detecteer dat aan de inhoud (eerste niet-witruimte
+ * byte is `{`) en open ze als native, in plaats van ze door de Access-importer
+ * te duwen — die faalt dan met "Wrong page type. Expected 0 but received 123".
+ */
+export function sniffNativeProject(data: ArrayBuffer): ReturnType<typeof deserializeProject> | null {
+  try {
+    const bytes = new Uint8Array(data);
+    let i = 0;
+    // UTF-8 BOM + voorafgaande witruimte overslaan
+    while (i < bytes.length && [0x20, 0x09, 0x0a, 0x0d, 0xef, 0xbb, 0xbf].includes(bytes[i])) i++;
+    if (bytes[i] !== 0x7b) return null; // geen '{' → echt binair (Access/Excel)
+    const parsed = deserializeProject(new TextDecoder('utf-8').decode(data));
+    return parsed?.schedule && Array.isArray(parsed.items) ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
 export function useFileOperations() {
   const { t } = useTranslation();
   const {
@@ -137,10 +158,23 @@ export function useFileOperations() {
         const ext = result.path.split('.').pop()?.toLowerCase() || '';
         const fileName = fileNameFromPath(result.path);
 
-        // Binary import formats: .calc, .mdb, .xls, .xlsx, .xtb
-        if (['calc', 'mdb', 'xls', 'xlsx', 'xtb'].includes(ext)) {
+        // Binary import formats: .calc, .mdb, .xls, .xlsx, .xtb, .dnc
+        if (['calc', 'mdb', 'xls', 'xlsx', 'xtb', 'dnc'].includes(ext)) {
           const { readBinaryFileByPath } = await import('@/services/file/nativeFileService');
           const data = await readBinaryFileByPath(result.path);
+
+          // Inhoud-sniff: een .calc/.mdb met JSON-inhoud is een native OCS-project
+          const native = sniffNativeProject(data);
+          if (native) {
+            const id = crypto.randomUUID();
+            addDocument({ id, filePath: result.path, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: false, items: native.items, schedule: native.schedule });
+            if (native.companyInfo) setCompanyInfo(native.companyInfo);
+            if (native.subSheets) setSubSheets(native.subSheets);
+            if (native.offerte) setOfferte(native.offerte);
+            if (native.schedule.projectInfo) setProjectInfo(native.schedule.projectInfo);
+            addToRecentFiles(result.path);
+            return;
+          }
 
           // Find the matching extension importer
           const store = useAppStore.getState();
@@ -203,6 +237,19 @@ export function useFileOperations() {
       if (['calc', 'mdb', 'xls', 'xlsx', 'xtb'].includes(ext)) {
         const { readBinaryFileByPath } = await import('@/services/file/nativeFileService');
         const data = await readBinaryFileByPath(filePath);
+
+        // Inhoud-sniff: een .calc/.mdb met JSON-inhoud is een native OCS-project
+        const native = sniffNativeProject(data);
+        if (native) {
+          const id = crypto.randomUUID();
+          addDocument({ id, filePath, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: false, items: native.items, schedule: native.schedule });
+          if (native.companyInfo) setCompanyInfo(native.companyInfo);
+          if (native.subSheets) setSubSheets(native.subSheets);
+          if (native.offerte) setOfferte(native.offerte);
+          if (native.schedule.projectInfo) setProjectInfo(native.schedule.projectInfo);
+          addToRecentFiles(filePath);
+          return;
+        }
 
         const store = useAppStore.getState();
         const importers = store.extensionImporters;
@@ -271,22 +318,35 @@ export function useFileOperations() {
   function openFileBrowser() {
     const input = document.createElement('input');
     input.type = 'file';
-    input.accept = '.ifcCalc,.ifcx,.json';
-    input.onchange = (e) => {
+    input.accept = '.ifcCalc,.ifcx,.ocs,.json,.calc,.mdb,.xls,.xlsx,.xtb,.rsx,.dnc';
+    input.onchange = async (e) => {
       const file = (e.target as HTMLInputElement).files?.[0];
       if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        const parsed = deserializeProject(reader.result as string);
+      try {
+        const ext = file.name.split('.').pop()?.toLowerCase() || '';
+        // Import-formaten (binair én tekst) via de geregistreerde importeurs.
+        const imp = useAppStore.getState().extensionImporters.find(
+          i => i.fileExtensions.some(fe => fe.replace(/^\./, '') === ext),
+        );
+        if (imp) {
+          const importResult = await imp.handler(file);
+          const id = crypto.randomUUID();
+          addDocument({ id, filePath: null, fileName: file.name.replace(/\.[^.]+$/, ''), isModified: false, items: importResult.items, schedule: importResult.schedule });
+          if (importResult.companyInfo) setCompanyInfo(importResult.companyInfo);
+          return;
+        }
+        // Native formaat (.ifcCalc/.ifcx/.ocs/.json)
+        const parsed = deserializeProject(await file.text());
         const id = crypto.randomUUID();
-        const fileName = file.name.replace(/\.(ifcx|json)$/, '');
+        const fileName = file.name.replace(/\.(ifcCalc|ifcx|ocs|json)$/i, '');
         addDocument({ id, filePath: null, fileName, isModified: false, items: parsed.items, schedule: parsed.schedule });
         if (parsed.companyInfo) setCompanyInfo(parsed.companyInfo);
         if (parsed.subSheets) setSubSheets(parsed.subSheets);
         if (parsed.offerte) setOfferte(parsed.offerte);
         if (parsed.schedule.projectInfo) setProjectInfo(parsed.schedule.projectInfo);
-      };
-      reader.readAsText(file);
+      } catch (err) {
+        await showError(`Failed to open file: ${err}`);
+      }
     };
     input.click();
   }

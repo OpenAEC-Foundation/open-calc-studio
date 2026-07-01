@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { importCuf } from '@/services/importers/cufImporter';
+import { recalculateItems } from '@/services/calculation/calculator';
 
 const SAMPLE = `<?xml version="1.0" encoding="UTF-8"?>
 <Calculatie version="4.003">
@@ -68,5 +69,56 @@ describe('CUF importer', () => {
     const materiaal = middelen.find((m) => m.description === 'Beton C20/25');
     expect((materiaal as any).resourceType).toBe('materiaal');
     expect(result.warnings.some((w) => w.toLowerCase().includes('toeslag'))).toBe(true);
+  });
+});
+
+// Standaard CUF 4.003: <CUF> met geneste <BUNDELING> en <BEGROTINGSREGEL>,
+// alle gegevens in hoofdletter-attributen (zoals externe pakketten uitwisselen).
+describe('CUF importer — standaard 4.003 schema', () => {
+  const STANDARD = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<CUF xmlns="x-schema:CufSchema.xml" xmlns:Ibis="http://example.invalid/ibis">
+  <PROJECTGEGEVENS CUF_VERSIE="4.003" PROJECTNUMMER="P-1" PROJECTNAAM="Mini CUF" CALCULATOR="cal" OPDRACHTGEVER="og"></PROJECTGEGEVENS>
+  <BEGROTING UREN="40.00" LOONKOSTEN="2052.00" MATERIAALKOSTEN="880.00" ONDERAANNEMING="550.00">
+    <BUNDELING CODE="05." OMSCHRIJVING="BOUWPLAATSVOORZIENINGEN" EENHEID="TOT" TERUGDEEL_HOEVEELHEID="1.00" Ibis:AANDUIDING="1">
+      <BUNDELING CODE="05.31." OMSCHRIJVING="LOODSEN EN KETEN" EENHEID="PST" TERUGDEEL_HOEVEELHEID="1.00" Ibis:AANDUIDING="2">
+        <BEGROTINGSREGEL CODE="05.31.05." OMSCHRIJVING="plaatsen schaftkeet" HOEVEELHEID_EENHEID="st" HOEVEELHEID="1.00" INZET="1.00000" HOEVEELHEID_FACTOR="1.00000" UUR_NORM="40.00" MATERIAALPRIJS="" MATERIEELPRIJS="" ONDERAANNEMINGSPRIJS="" UUR_TARIEF="513" BTW="21"></BEGROTINGSREGEL>
+        <BEGROTINGSREGEL CODE="05.31.05." OMSCHRIJVING="schaftkeet huur" HOEVEELHEID_EENHEID="wk" HOEVEELHEID="16.00" INZET="1.00000" HOEVEELHEID_FACTOR="1.00000" UUR_NORM="" MATERIAALPRIJS="55.00" MATERIEELPRIJS="" ONDERAANNEMINGSPRIJS="" UUR_TARIEF="513" BTW="21"></BEGROTINGSREGEL>
+        <BEGROTINGSREGEL CODE="05.31.05." OMSCHRIJVING="aanvoer keet" HOEVEELHEID_EENHEID="st" HOEVEELHEID="1.00" INZET="1.00000" HOEVEELHEID_FACTOR="1.00000" UUR_NORM="" MATERIAALPRIJS="" MATERIEELPRIJS="" ONDERAANNEMINGSPRIJS="550.00" UUR_TARIEF="513" BTW="21"></BEGROTINGSREGEL>
+      </BUNDELING>
+    </BUNDELING>
+  </BEGROTING>
+</CUF>`;
+
+  it('imports nested BUNDELING/BEGROTINGSREGEL into chapter → post → regels', () => {
+    const result = importCuf(STANDARD);
+    expect(result.format).toBe('cuf');
+    expect(result.schedule.name).toBe('Mini CUF');
+
+    const chapters = result.items.filter((i) => i.rowType === 'chapter');
+    const posts = result.items.filter((i) => i.rowType === 'begrotingspost');
+    const regels = result.items.filter((i) => i.rowType === 'regel');
+    expect(chapters).toHaveLength(1);          // 05. (heeft sub-bundeling → hoofdstuk)
+    expect(posts).toHaveLength(1);             // 05.31. (heeft regels → post)
+    expect(regels).toHaveLength(3);            // arbeid + materiaal + onderaanneming
+    expect(posts[0].parentId).toBe(chapters[0].id);
+    expect(regels.every((r) => r.parentId === posts[0].id)).toBe(true);
+
+    const arbeid = regels.find((r) => r.resourceType === 'arbeid');
+    const materiaal = regels.find((r) => r.resourceType === 'materiaal');
+    const oa = regels.find((r) => r.resourceType === 'onderaannemer');
+    expect(arbeid).toBeDefined();
+    expect(materiaal).toBeDefined();
+    expect(oa).toBeDefined();
+    // Uurtarief "513" → € 51,30 (geen tarieventabel in CUF), met waarschuwing.
+    expect(result.schedule.tarieven?.A).toBeCloseTo(51.3);
+    expect(result.warnings.some((w) => w.toLowerCase().includes('uurtarief'))).toBe(true);
+  });
+
+  it('computes line totals via the standard regel formula', () => {
+    const items = recalculateItems(importCuf(STANDARD).items);
+    const total = (desc: string) => items.find((i) => i.description === desc)?.total ?? 0;
+    expect(total('plaatsen schaftkeet')).toBeCloseTo(2052, 0); // 1 × 40 uur × € 51,30
+    expect(total('schaftkeet huur')).toBeCloseTo(880, 0);      // 16 × € 55,00
+    expect(total('aanvoer keet')).toBeCloseTo(550, 0);         // 1 × € 550,00
   });
 });

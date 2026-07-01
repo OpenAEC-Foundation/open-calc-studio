@@ -13,7 +13,7 @@ describe('File Service', () => {
     expect(json.length).toBeGreaterThan(0);
 
     const parsed = deserializeProject(json);
-    expect(parsed.version).toBe('2.1.0');
+    expect(parsed.version).toBe('2.2.0');
     expect(parsed.schedule.name).toBe(schedule.name);
     expect(parsed.items.length).toBe(items.length);
   });

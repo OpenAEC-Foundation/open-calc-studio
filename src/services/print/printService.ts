@@ -78,6 +78,7 @@ function getColumnsForView(view: ReportView, showHoeveelheid = true): ReportCol[
         { key: 'total', label: 'Bedrag', cssClass: 'number' },
       ]);
     case 'bouw1':
+    case 'ibis':
     case 'offerte':
       // These use their own builders; return minimal cols for type safety
       return [
@@ -95,6 +96,7 @@ function getViewTitle(view: ReportView): string {
     case 'inschrijfstaat': return 'Inschrijfstaat';
     case 'nacalculatie': return 'Nacalculatie';
     case 'bouw1': return 'Bouw 1 Begroting';
+    case 'ibis': return 'IBIS-stijl Begroting';
     case 'offerte': return 'Offerte';
   }
 }
@@ -149,8 +151,10 @@ function buildHtml(
   orientation: PageOrientation = 'landscape',
   paperSize: PageSize = 'A4',
 ): string {
-  // Bouw 1 view uses its own dedicated builder (always landscape)
-  if (view === 'bouw1') {
+  // Bouw 1 view uses its own dedicated builder (always landscape).
+  // IBIS-stijl PDF rendert via de Rust/Typst-template; de browser-print
+  // (zonder Tauri) valt terug op de Bouw 1 HTML-builder als vangnet.
+  if (view === 'bouw1' || view === 'ibis') {
     return buildBouw1Html(schedule, items, includeActions, companyInfo, logoDataUrl);
   }
   const pageSizeCss = `${paperSize} ${orientation}`;

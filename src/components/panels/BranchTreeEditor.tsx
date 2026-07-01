@@ -5,7 +5,6 @@ import type { Branch } from '@/types/costModel';
 /** Tree editor for budget variant branches (git-like) */
 export const BranchTreeEditor: React.FC = () => {
   const schedule = useAppStore(s => s.schedule);
-  const toggleBranchesEnabled = useAppStore(s => s.toggleBranchesEnabled);
   const addBranch = useAppStore(s => s.addBranch);
   const removeBranch = useAppStore(s => s.removeBranch);
   const renameBranch = useAppStore(s => s.renameBranch);
@@ -121,14 +120,11 @@ export const BranchTreeEditor: React.FC = () => {
 
   return (
     <div style={{ padding: 12 }}>
-      <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, cursor: 'pointer', marginBottom: 12 }}>
-        <input
-          type="checkbox"
-          checked={enabled}
-          onChange={toggleBranchesEnabled}
-        />
-        <span style={{ fontWeight: 600 }}>Begrotingsvarianten inschakelen</span>
-      </label>
+      {!enabled && (
+        <div style={{ fontSize: 11, color: 'var(--theme-text-muted)' }}>
+          Schakel begrotingsvarianten in via het lint: <b>Begroting → Varianten</b>.
+        </div>
+      )}
 
       {enabled && (
         <>

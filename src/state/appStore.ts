@@ -16,6 +16,9 @@ import { createOfferteSlice, type OfferteSlice } from './slices/offerteSlice';
 import { createVersionSlice, type VersionSlice } from './slices/versionSlice';
 import { createLinkableSourcesSlice, type LinkableSourcesSlice } from './slices/linkableSourcesSlice';
 import { createSpreadsheetHistorySlice, type SpreadsheetHistorySlice } from './slices/spreadsheetHistorySlice';
+import { createAccountsSlice, type AccountsSlice } from './slices/accountsSlice';
+import { createChatSlice, type ChatSlice } from './slices/chatSlice';
+import { createCodeLibrarySlice, type CodeLibrarySlice } from './slices/codeLibrarySlice';
 
 export type AppStore = CostScheduleSlice &
   CostItemsSlice &
@@ -33,7 +36,10 @@ export type AppStore = CostScheduleSlice &
   OfferteSlice &
   VersionSlice &
   LinkableSourcesSlice &
-  SpreadsheetHistorySlice;
+  SpreadsheetHistorySlice &
+  AccountsSlice &
+  ChatSlice &
+  CodeLibrarySlice;
 
 export const useAppStore = create<AppStore>()((...a) => ({
   ...createCostScheduleSlice(...a),
@@ -51,8 +57,11 @@ export const useAppStore = create<AppStore>()((...a) => ({
   ...createSubSheetSlice(...a),
   ...createOfferteSlice(...a),
   ...createVersionSlice(...a),
+  ...createChatSlice(...a),
   ...createLinkableSourcesSlice(...a),
   ...createSpreadsheetHistorySlice(...a),
+  ...createAccountsSlice(...a),
+  ...createCodeLibrarySlice(...a),
 }));
 
 // Debug: expose store on window in dev mode

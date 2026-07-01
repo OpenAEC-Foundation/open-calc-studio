@@ -7,7 +7,7 @@ export const OVERSCAN = 10;
 /** UI-1: norm-gebaseerde kolommen (huidige layout) */
 export const GRID_COLUMNS: GridColumn[] = [
   { key: 'sortIndex', label: 'ID', width: 32, minWidth: 28, editable: false, type: 'computed', align: 'center' },
-  { key: 'rowType', label: 'Type', width: 44, minWidth: 40, editable: false, type: 'computed', align: 'center' },
+  { key: 'rowType', label: 'Type', width: 62, minWidth: 50, editable: false, type: 'computed', align: 'center' },
   { key: 'rowNumber', label: 'Nr', width: 50, minWidth: 40, editable: false, type: 'computed', align: 'center' },
   { key: 'code', label: 'Code', abbr: 'code', width: 42, minWidth: 32, editable: true, type: 'text', align: 'left' },
   { key: 'description', label: 'Omschrijving', abbr: 'omschr', width: 380, minWidth: 120, editable: true, type: 'text', align: 'left' },
@@ -25,7 +25,7 @@ export const GRID_COLUMNS: GridColumn[] = [
 /** UI-2: resource-breakdown kolommen (zoals WpCalc screenshot) */
 export const WPCALC_COLUMNS: GridColumn[] = [
   { key: 'sortIndex', label: 'ID', width: 32, minWidth: 28, editable: false, type: 'computed', align: 'center' },
-  { key: 'rowType', label: 'Type', width: 36, minWidth: 30, editable: false, type: 'computed', align: 'center' },
+  { key: 'rowType', label: 'Type', width: 62, minWidth: 50, editable: false, type: 'computed', align: 'center' },
   { key: 'chapterCode', label: 'Hst', abbr: 'hst', width: 40, minWidth: 30, editable: true, type: 'text', align: 'center', tooltip: 'Hoofdstuknummer' },
   { key: 'paragraphCode', label: 'Paragraaf', abbr: 'par', width: 65, minWidth: 40, editable: false, type: 'computed', align: 'center', tooltip: 'Paragraafnummer' },
   { key: 'rowNumber', label: 'Nr', width: 50, minWidth: 40, editable: true, type: 'text', align: 'center' },
@@ -48,7 +48,7 @@ export const WPCALC_COLUMNS: GridColumn[] = [
 
 /** Inschrijfstaat RAW: Code, Omschrijving, Hoeveelheid, Eenheid, Verr., Eenheidsprijs, Bedrag */
 export const INSCHRIJFSTAAT_COLUMNS: GridColumn[] = [
-  { key: 'rowType', label: 'Type', width: 44, minWidth: 40, editable: false, type: 'computed', align: 'center' },
+  { key: 'rowType', label: 'Type', width: 62, minWidth: 50, editable: false, type: 'computed', align: 'center' },
   { key: 'rowNumber', label: 'Nr', width: 50, minWidth: 40, editable: false, type: 'computed', align: 'center' },
   { key: 'code', label: 'Code', abbr: 'code', width: 80, minWidth: 40, editable: true, type: 'text', align: 'left' },
   { key: 'description', label: 'Omschrijving', abbr: 'omschr', width: 420, minWidth: 150, editable: true, type: 'text', align: 'left' },
@@ -97,15 +97,35 @@ export function getColumnsForView(view: GridView, branchesEnabled = false): Grid
   return cols;
 }
 
+/** Column keys that may never be hidden — they carry structural info the grid
+ *  relies on (the description text and the row identity columns). */
+export const NON_HIDEABLE_COLUMNS: ReadonlySet<string> = new Set([
+  'description',
+  'sortIndex',
+  'rowType',
+]);
+
+/** Whether a column may be hidden by the user. */
+export function isColumnHideable(colKey: string): boolean {
+  return !NON_HIDEABLE_COLUMNS.has(colKey);
+}
+
+/** Whether a column is currently hidden in the given view. */
+export function isColumnHidden(
+  hiddenColumns: Record<string, boolean>,
+  gridView: string,
+  colKey: string,
+): boolean {
+  return !!hiddenColumns[`${gridView}:${colKey}`];
+}
+
 export const COST_UNITS = ['st', 'm', 'm²', 'm³', 'kg', 'ton', 'uur', 'dgn', 'km', 'keer', 'ls', 'week', 'mnd', 'post', '%', 'pm'] as const;
 
 /** Check if a column is editable for a given rowType */
-export function isCellEditable(colKey: string, rowType: string, gridView?: GridView): boolean {
-  // WPCalc view: the "Uren" cell (key=hoeveelheid) on a chapter row is editable —
-  // editing it rescales all regel-norms in the chapter naar rato.
-  if (gridView === 'wpcalc' && colKey === 'hoeveelheid' && rowType === 'chapter') {
-    return true;
-  }
+export function isCellEditable(colKey: string, rowType: string, _gridView?: GridView): boolean {
+  // WPCalc: de uren-som van een hoofdstuk wordt bewerkt op de FOOTERRIJ
+  // (de blauwe "+"-optelling; rowType 'tekstregel' → kolom 'hoeveelheid' is
+  // verderop al bewerkbaar). De hoofdstukrij zelf toont geen uren meer.
   // Code always editable (except staart)
   if (colKey === 'code') return !rowType.startsWith('staart_');
   // Description editable on all rows, including staart

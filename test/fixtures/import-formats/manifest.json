@@ -1,0 +1,42 @@
+[
+  {
+    "file": "01-ifccalc-klein.ifcCalc",
+    "total": 29414
+  },
+  {
+    "file": "02-ifccalc-staart.ifcCalc",
+    "total": 68614
+  },
+  {
+    "file": "03-ifccalc-kengetallen.ifcCalc",
+    "total": 79624
+  },
+  {
+    "file": "04-dnc-stabu.dnc",
+    "total": 68614
+  },
+  {
+    "file": "05-dnc-stabu-groot.dnc",
+    "total": 79624
+  },
+  {
+    "file": "06-xtb-ibis.xtb",
+    "total": 68614
+  },
+  {
+    "file": "07-xtb-ibis-groot.xtb",
+    "total": 79624
+  },
+  {
+    "file": "08-rsx-raw.rsx",
+    "total": 68614
+  },
+  {
+    "file": "09-rsx-raw-klein.rsx",
+    "total": 29414
+  },
+  {
+    "file": "10-xls-bascalc.xls",
+    "total": 68614
+  }
+]

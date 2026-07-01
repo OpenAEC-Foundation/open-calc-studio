@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 /**
  * Open Calc Studio MCP Server
  *
@@ -138,9 +138,13 @@ interface CompanyInfo {
 interface ProjectFile {
   version: string; schedule: CostSchedule; items: CostItem[];
   resourceLibrary?: unknown[]; companyInfo: CompanyInfo;
-  subSheets?: unknown[]; offerte?: unknown; snapshots?: unknown[];
+  subSheets?: unknown[]; spreadsheets?: unknown; offerte?: unknown; snapshots?: unknown[];
   brandSlug?: string; createdAt: string; modifiedAt: string;
 }
+
+// Huidige .ifcCalc-formaatversie — gelijk houden aan FILE_FORMAT_VERSION in
+// src/services/file/fileService.ts (zie docs/ifccalc-formaat.md).
+const FILE_FORMAT_VERSION = '2.2.0';
 
 // ===========================================================================
 // Helpers
@@ -168,8 +172,58 @@ function err(msg: string) { return { content: [{ type: "text" as const, text: `E
 // Calculator (faithful port of src/services/calculation/calculator.ts)
 // ===========================================================================
 
+/**
+ * Canonieke item-volgorde (port van normalizeItemOrder in de frontend):
+ * depth-first per parentId zodat kinderen aaneengesloten onder hun ouder
+ * staan. add_item voegt plat (achteraan) toe; zonder deze normalisatie
+ * belanden regels in rapportages/exports onder het verkeerde hoofdstuk.
+ * Sibling-volgorde = bestaande relatieve volgorde; depth her-afgeleid;
+ * sortOrder = sibling-index; wezen behouden; staart_* achteraan.
+ */
+function normalizeItemOrder(items: CostItem[]): CostItem[] {
+  const byParent = new Map<string | null, CostItem[]>();
+  const staart: CostItem[] = [];
+  for (const item of items) {
+    if (item.parentId === undefined) item.parentId = null;
+    if (item.rowType.startsWith('staart_')) {
+      staart.push(item);
+      continue;
+    }
+    const key = item.parentId;
+    const list = byParent.get(key);
+    if (list) list.push(item);
+    else byParent.set(key, [item]);
+  }
+
+  const ordered: CostItem[] = [];
+  const seen = new Set<string>();
+  const walk = (parentId: string | null, depth: number) => {
+    const kids = byParent.get(parentId);
+    if (!kids) return;
+    for (let i = 0; i < kids.length; i++) {
+      const item = kids[i];
+      if (seen.has(item.id)) continue; // cyclus-guard
+      seen.add(item.id);
+      item.depth = depth;
+      item.sortOrder = i;
+      ordered.push(item);
+      walk(item.id, depth + 1);
+    }
+  };
+  walk(null, 0);
+
+  for (const item of items) {
+    if (!item.rowType.startsWith('staart_') && !seen.has(item.id)) {
+      seen.add(item.id);
+      ordered.push(item);
+    }
+  }
+
+  return [...ordered, ...staart];
+}
+
 function recalculateItems(items: CostItem[], tarieven?: Record<string, number>): CostItem[] {
-  const result = items.map(item => ({ ...item }));
+  const result = normalizeItemOrder(items.map(item => ({ ...item })));
 
   // Recompute laborPrice from tariefGroep
   if (tarieven) {
@@ -587,15 +641,24 @@ async function loadXtbProject(filePath: string): Promise<ProjectFile> {
       childrenOf.set(key, list);
     }
 
-    function resourceTypeFor(m: XtbMiddel | undefined): ResourceType | null {
-      if (!m) return null;
-      const code = (m.MiddelCode ?? '').toUpperCase();
-      const eh = (m.Eenheid ?? '').toLowerCase();
-      if (code.startsWith('A') || eh === 'uur' || m.NormUren > 0) return 'arbeid';
-      if (code.startsWith('OA') || code.startsWith('ON')) return 'onderaannemer';
-      if (code.startsWith('MA') || code.startsWith('MT') || m.EenheidsprijsMaterieel > 0) return 'materieel';
-      if (m.EenheidsprijsMateriaal > 0) return 'materiaal';
-      return 'overig';
+    // Resource type from the dominant Netto-column of the Kostenpost.
+    function resourceTypeFor(kp: XtbKp | undefined): ResourceType | null {
+      if (!kp) return null;
+      const cols: Array<[ResourceType, number]> = [
+        ['arbeid', kp.NettoArbeid],
+        ['materiaal', kp.NettoMateriaal],
+        ['materieel', kp.NettoMaterieel],
+        ['onderaannemer', kp.NettoOnderaanneming],
+      ];
+      let best: ResourceType | null = null;
+      let bestVal = 0;
+      for (const [t, v] of cols) {
+        if (v > bestVal) {
+          bestVal = v;
+          best = t;
+        }
+      }
+      return best ?? 'overig';
     }
 
     function walk(parentXtbId: number | 'root', ocsParentId: string | null, depth: number, sortStart: { v: number }): void {
@@ -619,11 +682,22 @@ async function loadXtbProject(filePath: string): Promise<ProjectFile> {
           const middel = kp?.MiddelId != null ? middelen.get(kp.MiddelId) : undefined;
           const element = elementen.get(r.Id);
           const eh = middel?.Eenheid || element?.Eenheid || '';
-          const qty = kp?.Hoeveelheid ?? element?.Hoeveelheid ?? r.Multipliciteit;
-          const total = kp?.NettoTotaal ?? element?.NettoTotaal ?? 0;
-          const ehprijs = kp?.Eenheidsprijs ?? 0;
-          const rType = resourceTypeFor(middel);
+          const netto = kp?.NettoTotaal ?? element?.NettoTotaal ?? 0;
+          const rType = resourceTypeFor(kp);
 
+          // IBIS invariant: Hoeveelheid × Eenheidsprijs === NettoTotaal.
+          let qty = kp?.Hoeveelheid ?? element?.Hoeveelheid ?? 0;
+          let ehprijs = kp?.Eenheidsprijs ?? 0;
+          // Fixed/lump-sum post: no quantity but a real amount → 1 × NettoTotaal.
+          if ((qty === 0 || qty == null) && netto !== 0) {
+            qty = 1;
+            ehprijs = netto;
+          }
+
+          // Each Type=2 leaf becomes a SINGLE begrotingspost (NO regel child).
+          // Eenheidsprijs is stored in materialPrice so the calculator's
+          // childless-begrotingspost path (unitPrice = materialPrice + laborPrice,
+          // total = quantity × unitPrice) reconstructs total === NettoTotaal.
           const postId = crypto.randomUUID();
           items.push(makeBlankItem({
             id: postId, parentId: ocsParentId, sortOrder: sortStart.v++,
@@ -631,34 +705,30 @@ async function loadXtbProject(filePath: string): Promise<ProjectFile> {
             description: r.Omschrijving || middel?.Omschrijving || '',
             rowType: 'begrotingspost', depth,
             unit: mapUnitGeneric(eh), quantity: qty,
-            unitPrice: ehprijs, total,
+            materialPrice: ehprijs, unitPrice: ehprijs, total: netto,
+            resourceType: rType,
           }));
-
-          if (middel && (kp?.NettoTotaal ?? 0) > 0 && kp) {
-            items.push(makeBlankItem({
-              id: crypto.randomUUID(),
-              parentId: postId, sortOrder: sortStart.v++,
-              code: middel.MiddelCode || '',
-              description: middel.Omschrijving || '',
-              rowType: 'regel', depth: depth + 1,
-              unit: mapUnitGeneric(middel.Eenheid),
-              quantity: qty,
-              normQuantity: middel.NormUren > 0 ? middel.NormUren : null,
-              normUnitPrice:
-                middel.EenheidsprijsMateriaal ||
-                middel.EenheidsprijsMaterieel ||
-                middel.EenheidsprijsOnderaanneming ||
-                null,
-              laborPrice: (kp.NettoArbeid && kp.Uren > 0) ? kp.NettoArbeid / kp.Uren : null,
-              unitPrice: ehprijs, total: kp.NettoTotaal,
-              resourceType: rType,
-            }));
-          }
         }
       }
     }
 
-    walk('root', null, 0, { v: 0 });
+    // ── Detect the synthetic root ──
+    // IBIS-TRAD wraps the real chapters under one synthetic root node:
+    //   Id=1, ParentId=NULL, Type=0, empty CalculatieCode + Omschrijving.
+    // Skip it and promote its children to top-level chapters (depth 0).
+    // Guard: only when there is EXACTLY one ParentId=NULL row AND it is empty,
+    // otherwise fall back to walking from 'root'.
+    const nullRoots = regels.filter((r) => r.ParentId == null);
+    let startKey: number | 'root' = 'root';
+    if (nullRoots.length === 1) {
+      const root = nullRoots[0];
+      const isSyntheticRoot =
+        root.Type === 0 &&
+        (root.CalculatieCode ?? '').trim() === '' &&
+        (root.Omschrijving ?? '').trim() === '';
+      if (isSyntheticRoot) startKey = root.Id;
+    }
+    walk(startKey, null, 0, { v: 0 });
 
     const schedule = defaultSchedule();
     schedule.name = begroting.Naam || 'IBIS-TRAD import';
@@ -669,7 +739,7 @@ async function loadXtbProject(filePath: string): Promise<ProjectFile> {
     const itemsWithStaart = [...items, ...synthesizeStaartItems(schedule)];
 
     return {
-      version: '2.0.0',
+      version: FILE_FORMAT_VERSION,
       schedule, items: itemsWithStaart,
       resourceLibrary: [],
       companyInfo: emptyCompanyInfo(),
@@ -857,6 +927,23 @@ function loadCalcProject(filePath: string): ProjectFile {
     }
   }
 
+  // Normalize depth from the actual parent chain — the raw `tabs` column is a
+  // visual indent that doesn't always match the hierarchy (regels directly
+  // under a chapter carried tabs=1 → depth 2), which breaks subtree detection
+  // and grid indentation.
+  const itemById = new Map(items.map((i) => [i.id, i] as const));
+  for (const it of items) {
+    let d = 0;
+    const guard = new Set<string>();
+    let p = it.parentId ? itemById.get(it.parentId) : undefined;
+    while (p && !guard.has(p.id)) {
+      guard.add(p.id);
+      d++;
+      p = p.parentId ? itemById.get(p.parentId) : undefined;
+    }
+    it.depth = d;
+  }
+
   // Inject staart items
   const itemsWithStaart = [...items, ...synthesizeStaartItems(schedule)];
 
@@ -869,7 +956,7 @@ function loadCalcProject(filePath: string): ProjectFile {
   };
 
   return {
-    version: '2.0.0',
+    version: FILE_FORMAT_VERSION,
     schedule, items: itemsWithStaart,
     resourceLibrary: [], companyInfo,
     createdAt: new Date().toISOString(),
@@ -919,7 +1006,16 @@ function deserializeProject(json: string): ProjectFile {
 async function loadProjectFile(filePath: string): Promise<ProjectFile> {
   const ext = extname(filePath).toLowerCase();
   if (ext === '.xtb') return loadXtbProject(filePath);
-  if (ext === '.calc' || ext === '.mdb') return loadCalcProject(filePath);
+  if (ext === '.calc' || ext === '.mdb') {
+    // Inhoud-sniff: sommige bestanden dragen een .calc/.mdb-extensie maar zijn
+    // in werkelijkheid een native OCS-project (JSON). Open die als native i.p.v.
+    // ze door mdb-reader te duwen (faalt met "Wrong page type ...").
+    const raw = readFileSync(filePath);
+    let i = 0;
+    while (i < raw.length && [0x20, 0x09, 0x0a, 0x0d, 0xef, 0xbb, 0xbf].includes(raw[i])) i++;
+    if (raw[i] === 0x7b) return deserializeProject(raw.toString('utf-8'));
+    return loadCalcProject(filePath);
+  }
   // Default: JSON (.ifcCalc, .ocs, .json, .ifcx)
   return deserializeProject(readFileSync(filePath, 'utf-8'));
 }
@@ -1528,10 +1624,13 @@ server.tool("save_budget", "Save current budget to an .ifcx file", {
     const out = filePath ? resolve(filePath) : b.filePath;
     if (!out) throw new Error('No file path specified');
     const pf: ProjectFile = {
-      version: '2.0.0', schedule: b.schedule, items: b.items,
+      version: FILE_FORMAT_VERSION, schedule: b.schedule, items: b.items,
       resourceLibrary: b.project.resourceLibrary ?? [],
       companyInfo: b.project.companyInfo,
-      subSheets: b.project.subSheets ?? [],
+      // 2.1-vorm behouden: spreadsheets-object doorzetten als het bestond,
+      // anders afleiden uit legacy subSheets — nooit stilletjes droppen.
+      spreadsheets: (b.project as ProjectFile).spreadsheets
+        ?? { sheets: b.project.subSheets ?? [], activeSheetId: (b.project.subSheets as Array<{ id?: string }> | undefined)?.[0]?.id ?? null },
       offerte: b.project.offerte,
       snapshots: b.project.snapshots,
       brandSlug: b.project.brandSlug,
@@ -1634,7 +1733,7 @@ server.tool("export_pdf", "Generate a PDF report from the current budget", {
     // Save to temp file, run gen_pdf, return
     const tmp = b.filePath.replace(/\.[^.]+$/, '_mcp_tmp.ifcx');
     writeFileSync(tmp, JSON.stringify({
-      version: '2.0.0', schedule: b.schedule, items: b.items,
+      version: FILE_FORMAT_VERSION, schedule: b.schedule, items: b.items,
       resourceLibrary: [], companyInfo: b.project.companyInfo,
       createdAt: new Date().toISOString(), modifiedAt: new Date().toISOString(),
     }, null, 2));
@@ -2783,9 +2882,97 @@ function normalizeUnitXml(raw: string): CostUnit {
   }
 }
 
+// CUF kent twee dialecten: het standaard 4.003-schema (<CUF>/<BEGROTING>/geneste
+// <BUNDELING>/<BEGROTINGSREGEL>, data in hoofdletter-attributen) en het OCS-eigen
+// <Calculatie>/<Hoofdstuk>-schema. Kies automatisch.
 function importCufXml(xml: string): { items: CostItem[]; schedule: Partial<CostSchedule>; warnings: string[] } {
   const doc = xmlParse(xml);
   const root = (doc as any).documentElement;
+  const isStandard = (root.localName ?? root.tagName) === 'CUF'
+    || ((root.getElementsByTagName?.('BEGROTING')?.length ?? 0) > 0);
+  return isStandard ? importStandardCufXml(root) : importLegacyCufXml(root);
+}
+
+function cufAttrNum(el: any, name: string): number {
+  const raw = (el.getAttribute(name) ?? '').trim();
+  if (!raw) return 0;
+  const t = raw.indexOf(',') >= 0 ? raw.replace(/\./g, '').replace(',', '.') : raw;
+  const n = parseFloat(t);
+  return Number.isFinite(n) ? n : 0;
+}
+
+/** Uurtarief uit UUR_TARIEF zonder decimaalteken (513 = € 51,30). */
+function cufNormTarief(raw: number): number {
+  let t = raw;
+  while (t > 200) t /= 10;
+  return t;
+}
+
+function importStandardCufXml(root: any): { items: CostItem[]; schedule: Partial<CostSchedule>; warnings: string[] } {
+  const warnings: string[] = [];
+  const items: CostItem[] = [];
+  const proj = xmlChildren(root, 'PROJECTGEGEVENS')[0];
+  const name = (proj?.getAttribute('PROJECTNAAM') ?? '').trim() || 'Geïmporteerde begroting';
+  const begroting = xmlChildren(root, 'BEGROTING')[0];
+  if (!begroting) { warnings.push('Geen <BEGROTING> in CUF-bestand.'); return { items, schedule: { name }, warnings }; }
+
+  // Eén gedeeld uurtarief (CUF bevat geen tarieventabel).
+  let uurtarief = 0;
+  const allRegels: any = begroting.getElementsByTagName?.('BEGROTINGSREGEL') ?? [];
+  for (let i = 0; i < allRegels.length; i++) {
+    const ut = (allRegels[i].getAttribute('UUR_TARIEF') ?? '').trim();
+    if (ut) { uurtarief = cufNormTarief(cufAttrNum(allRegels[i], 'UUR_TARIEF')); break; }
+  }
+
+  const addRegels = (bundeling: any, postId: string, depth: number) => {
+    xmlChildren(bundeling, 'BEGROTINGSREGEL').forEach((reg: any) => {
+      const omschrijving = (reg.getAttribute('OMSCHRIJVING') ?? '').trim();
+      const qty = cufAttrNum(reg, 'HOEVEELHEID') * (cufAttrNum(reg, 'INZET') || 1) * (cufAttrNum(reg, 'HOEVEELHEID_FACTOR') || 1);
+      const unit = normalizeUnitXml(reg.getAttribute('HOEVEELHEID_EENHEID') ?? '');
+      const uurNorm = cufAttrNum(reg, 'UUR_NORM');
+      const mat = cufAttrNum(reg, 'MATERIAALPRIJS');
+      const mte = cufAttrNum(reg, 'MATERIEELPRIJS');
+      const oa = cufAttrNum(reg, 'ONDERAANNEMINGSPRIJS');
+      const comps: { rt: ResourceType; nq: number; nup: number }[] = [];
+      if (uurNorm > 0) comps.push({ rt: 'arbeid', nq: uurNorm, nup: uurtarief });
+      if (mat > 0) comps.push({ rt: 'materiaal', nq: 1, nup: mat });
+      if (mte > 0) comps.push({ rt: 'materieel', nq: 1, nup: mte });
+      if (oa > 0) comps.push({ rt: 'onderaannemer', nq: 1, nup: oa });
+      const code = (reg.getAttribute('CODE') ?? '').trim();
+      if (comps.length === 0) {
+        if (!omschrijving) return;
+        items.push(makeBlankItem({ id: crypto.randomUUID(), parentId: postId, sortOrder: items.length, depth, rowType: 'regel', code, description: omschrijving, unit, quantity: qty || null, normQuantity: 0, normFactor: 1, normDivisor: 1, normUnitPrice: 0, resourceType: 'overig' }));
+        return;
+      }
+      comps.forEach((c) => {
+        const label = comps.length > 1 ? `${omschrijving} (${c.rt})` : (omschrijving || '(regel)');
+        items.push(makeBlankItem({ id: crypto.randomUUID(), parentId: postId, sortOrder: items.length, depth, rowType: 'regel', code, description: label, unit, quantity: qty || null, normQuantity: c.nq, normFactor: 1, normDivisor: 1, normUnitPrice: c.nup, resourceType: c.rt }));
+      });
+    });
+  };
+
+  const walk = (bundeling: any, parentId: string | null, depth: number) => {
+    const subs = xmlChildren(bundeling, 'BUNDELING');
+    const code = (bundeling.getAttribute('CODE') ?? '').trim();
+    const omschrijving = (bundeling.getAttribute('OMSCHRIJVING') ?? '').trim();
+    if (subs.length > 0) {
+      const chapter = makeBlankItem({ id: crypto.randomUUID(), parentId, sortOrder: items.length, depth, rowType: 'chapter', code, description: omschrijving });
+      items.push(chapter);
+      if (xmlChildren(bundeling, 'BEGROTINGSREGEL').length > 0) addRegels(bundeling, chapter.id, depth + 1);
+      subs.forEach((sub: any) => walk(sub, chapter.id, depth + 1));
+    } else {
+      const post = makeBlankItem({ id: crypto.randomUUID(), parentId, sortOrder: items.length, depth, rowType: 'begrotingspost', code, description: omschrijving, unit: normalizeUnitXml(bundeling.getAttribute('EENHEID') ?? ''), quantity: cufAttrNum(bundeling, 'TERUGDEEL_HOEVEELHEID') || null });
+      items.push(post);
+      addRegels(bundeling, post.id, depth + 1);
+    }
+  };
+
+  xmlChildren(begroting, 'BUNDELING').forEach((top: any) => walk(top, null, 0));
+  if (items.length === 0) warnings.push('CUF-bestand bevat geen posten of regels.');
+  return { items, schedule: { name }, warnings };
+}
+
+function importLegacyCufXml(root: any): { items: CostItem[]; schedule: Partial<CostSchedule>; warnings: string[] } {
   const warnings: string[] = [];
   const items: CostItem[] = [];
   const name = xmlGetText(root, 'Naam') || 'Geïmporteerde begroting';
@@ -2981,7 +3168,7 @@ function ensureBudgetForImport() {
     currentBudget = {
       filePath: '',
       project: {
-        version: '2.0.0', schedule, items: [],
+        version: FILE_FORMAT_VERSION, schedule, items: [],
         resourceLibrary: [], companyInfo: emptyCompanyInfo(),
         createdAt: new Date().toISOString(), modifiedAt: new Date().toISOString(),
       },

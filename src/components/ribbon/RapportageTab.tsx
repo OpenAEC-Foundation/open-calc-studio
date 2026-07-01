@@ -1,4 +1,7 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import Modal from "../common/Modal";
+import { ReportLogoSettings } from "../report/ReportLogoSettings";
 import RibbonButton from "./RibbonButton";
 import RibbonGroup from "./RibbonGroup";
 import RibbonButtonStack from "./RibbonButtonStack";
@@ -43,11 +46,14 @@ const REPORT_VIEWS: { value: ReportView; label: string }[] = [
   { value: 'inschrijfstaat', label: 'Inschrijfstaat' },
   { value: 'nacalculatie', label: 'Nacalculatie' },
   { value: 'bouw1', label: 'Bouw 1' },
+  { value: 'ibis', label: 'Bouw 2' },
+  { value: 'directie', label: 'Directiebegr.' },
 ];
 
 export default function RapportageTab() {
   const { t } = useTranslation("ribbon");
-  const { schedule, items, offerte, setActiveContentTab, reportView, setReportView, showHoeveelheid, toggleHoeveelheid, companyInfo, pageOrientation, setPageOrientation, pageSize, setPageSize } = useAppStore();
+  const { schedule, items, offerte, setActiveContentTab, reportView, setReportView, showHoeveelheid, toggleHoeveelheid, companyInfo, pageOrientation, setPageOrientation, pageSize, setPageSize, setReportShowChanges } = useAppStore();
+  const [showLogos, setShowLogos] = useState(false);
 
   const handlePrint = async () => {
     const tauri = await tauriApi();
@@ -92,10 +98,10 @@ export default function RapportageTab() {
           defaultPath,
         });
         if (!outputPath) return;
-        await tauri.invoke('generate_pdf_report', {
-          request: { schedule, items, reportView, pageSize, pageOrientation, showHoeveelheid, companyInfo, includeCover: false, includeSummary: false },
-          outputPath,
-        });
+        const request = { schedule, items, reportView, pageSize, pageOrientation, showHoeveelheid, companyInfo, includeCover: false, includeSummary: false };
+        // IBIS-stijl en directiebegroting delen de IBIS Typst-generator.
+        const command = (reportView === 'ibis' || reportView === 'directie') ? 'generate_ibis_report' : 'generate_pdf_report';
+        await tauri.invoke(command, { request, outputPath });
         // Open the exported PDF
         const { openPath } = await import('@tauri-apps/plugin-opener');
         await openPath(outputPath);
@@ -178,6 +184,19 @@ export default function RapportageTab() {
             onClick={() => setPageOrientation('landscape')}
             active={pageOrientation === 'landscape'}
           />
+          <RibbonButton
+            icon={reportIcon}
+            label="Wijzigingen"
+            title="Toon de wijzigingsmarkeringen ook in de rapportage-PDF"
+            onClick={() => setReportShowChanges(!schedule.reportShowChanges)}
+            active={!!schedule.reportShowChanges}
+          />
+          <RibbonButton
+            icon={pageSizeIcon}
+            label="Logo's"
+            title="Logo's voor de rapportage instellen (standaard of eigen logo links/rechts)"
+            onClick={() => setShowLogos(true)}
+          />
         </RibbonGroup>
 
         <RibbonGroup label={t("rapportage.printing")}>
@@ -192,6 +211,10 @@ export default function RapportageTab() {
           </RibbonButtonStack>
         </RibbonGroup>
       </div>
+
+      <Modal open={showLogos} onClose={() => setShowLogos(false)} title="Logo's rapportage">
+        <ReportLogoSettings />
+      </Modal>
     </div>
   );
 }

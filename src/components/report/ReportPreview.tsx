@@ -79,6 +79,8 @@ export const ReportPreview: React.FC = () => {
             winstRisico: schedule.winstRisico,
             tarieven: schedule.tarieven,
             staartRows: schedule.staartRows || null,
+            reportShowChanges: schedule.reportShowChanges ?? false,
+            changeTrackingSince: schedule.changeTrackingSince ?? null,
           },
           items: items.map(item => ({
             id: item.id,
@@ -101,6 +103,7 @@ export const ReportPreview: React.FC = () => {
             normQuantity: item.normQuantity,
             normFactor: item.normFactor,
             normDivisor: item.normDivisor,
+            history: item.history ?? null,
           })),
           reportView,
           pageSize,
@@ -111,7 +114,10 @@ export const ReportPreview: React.FC = () => {
           includeSummary,
         };
 
-        const bytes: number[] = await invoke('generate_pdf_preview', { request });
+        // IBIS-stijl en de directiebegroting delen de IBIS Typst-generator
+        // (dezelfde tabel; de directiebegroting is een stijlvariant).
+        const previewCommand = (reportView === 'ibis' || reportView === 'directie') ? 'generate_ibis_preview' : 'generate_pdf_preview';
+        const bytes: number[] = await invoke(previewCommand, { request });
 
         // If cancelled or a newer generation started, discard this result
         if (thisId !== generationIdRef.current) return;

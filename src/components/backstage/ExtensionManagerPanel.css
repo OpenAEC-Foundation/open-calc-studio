@@ -6,7 +6,7 @@
 .ext-manager-title {
   font-size: 22px;
   font-weight: 500;
-  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   color: var(--theme-text);
   margin: 0 0 20px 0;
 }
@@ -27,7 +27,7 @@
 .ext-tab {
   padding: 6px 14px;
   font-size: 12px;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
   border: 1px solid var(--theme-border);
   background: var(--theme-surface);
   color: var(--theme-text-secondary);
@@ -60,7 +60,7 @@
   gap: 4px;
   padding: 5px 12px;
   font-size: 11px;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
   font-weight: 500;
   border: 1.5px solid var(--theme-border);
   background: var(--theme-surface);
@@ -83,7 +83,7 @@
   width: 100%;
   padding: 8px 12px;
   font-size: 12px;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
   border: 1.5px solid var(--theme-border);
   background: var(--theme-surface);
   color: var(--theme-text);
@@ -172,7 +172,7 @@
 .ext-card-name {
   font-size: 13px;
   font-weight: 600;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
   color: var(--theme-text);
 }
 
@@ -264,7 +264,7 @@
 /* Remove button */
 .ext-remove-btn {
   font-size: 10px;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
   padding: 2px 8px;
   border: 1px solid var(--theme-border);
   background: transparent;

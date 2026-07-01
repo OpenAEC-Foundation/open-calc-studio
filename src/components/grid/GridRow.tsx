@@ -5,12 +5,27 @@ import type { CostItem, GridColumn } from '@/types/costModel';
 
 export type DropPosition = 'before' | 'after' | 'inside';
 
+/** Grid-kolomsleutel → CostItem-veldnaam (spiegelt useGridEditing.commitEdit). */
+const COL_TO_FIELD: Record<string, string> = {
+  productienorm: 'normQuantity',
+  productiecapaciteit: 'normFactor',
+  hoeveelheid: 'quantity',
+  chapterCode: 'code',
+};
+const colToField = (key: string) => COL_TO_FIELD[key] ?? key;
+
 interface Props {
   item: CostItem;
   rowIndex: number;
   activeRow: number;
   activeCol: number;
   isSelected: boolean;
+  /** Gewijzigd sinds wijzigingen-bijhouden aan staat → krijgt een kleurmarkering. */
+  isChanged?: boolean;
+  /** Markeringsmodus: 'row' = hele regel kleuren, 'cell' = alleen gewijzigde cellen. */
+  changeMode?: 'row' | 'cell';
+  /** Komma-gescheiden veldnamen die gewijzigd zijn (voor cel-modus). */
+  changedFields?: string;
   hideTotal: boolean;
   isChapterFooter?: boolean;
   rowHeight: number;
@@ -29,17 +44,17 @@ interface Props {
   onCellMouseEnter: (row: number, col: number) => void;
   onToggleCollapse: (id: string) => void;
   onAddRow: (rowIndex: number) => void;
-  onDragStartRow?: (e: React.DragEvent, rowIndex: number, itemId: string) => void;
-  onDragOverRow?: (e: React.DragEvent, rowIndex: number, itemId: string, rowType: CostItem['rowType']) => void;
-  onDragLeaveRow?: (e: React.DragEvent, rowIndex: number) => void;
-  onDropRow?: (e: React.DragEvent, rowIndex: number, itemId: string) => void;
-  onDragEndRow?: (e: React.DragEvent) => void;
+  /** Pointer-gebaseerd rij-slepen (HTML5 DnD werkt niet in Tauri-webviews). */
+  onPointerDownRow?: (e: React.PointerEvent, rowIndex: number, itemId: string) => void;
 }
 
 export const GridRow: React.FC<Props> = React.memo(
-  ({ item, rowIndex, activeRow, activeCol, isSelected, hideTotal, isChapterFooter, rowHeight, columns, columnWidths, resourceTotals, cellSelectionMinRow, cellSelectionMaxRow, cellSelectionMinCol, cellSelectionMaxCol, dropHintPosition, isDragging, onCellClick, onCellDoubleClick, onCellMouseDown, onCellMouseEnter, onToggleCollapse, onAddRow, onDragStartRow, onDragOverRow, onDragLeaveRow, onDropRow, onDragEndRow }) => {
+  ({ item, rowIndex, activeRow, activeCol, isSelected, isChanged, changeMode, changedFields, hideTotal, isChapterFooter, rowHeight, columns, columnWidths, resourceTotals, cellSelectionMinRow, cellSelectionMaxRow, cellSelectionMinCol, cellSelectionMaxCol, dropHintPosition, isDragging, onCellClick, onCellDoubleClick, onCellMouseDown, onCellMouseEnter, onToggleCollapse, onAddRow, onPointerDownRow }) => {
     const { t } = useTranslation();
     const isActiveRow = rowIndex === activeRow;
+    // Cel-modus: alleen de gewijzigde cellen kleuren; rij-modus: de hele regel.
+    const cellMode = changeMode === 'cell';
+    const changedSet = cellMode && changedFields ? new Set(changedFields.split(',')) : null;
 
     const rowWidth = columnWidths.reduce((s, w, i) => s + (w ?? columns[i]?.width ?? 0), 0);
     let className = 'grid-row';
@@ -51,6 +66,7 @@ export const GridRow: React.FC<Props> = React.memo(
     else if (item.rowType === 'witregel') className += ' witregel';
     if (isActiveRow) className += ' grid-row-active';
     if (isSelected) className += ' grid-row-selected';
+    if (isChanged && !cellMode) className += ' grid-row-changed';
     if (isDragging) className += ' dragging';
     if (dropHintPosition === 'before') className += ' drop-before';
     else if (dropHintPosition === 'after') className += ' drop-after';
@@ -63,17 +79,13 @@ export const GridRow: React.FC<Props> = React.memo(
         className={className}
         data-row-index={rowIndex}
         style={{ height: rowHeight, position: 'relative', width: rowWidth, minWidth: rowWidth }}
-        onDragOver={canDrag && onDragOverRow ? (e) => onDragOverRow(e, rowIndex, item.id, item.rowType) : undefined}
-        onDragLeave={canDrag && onDragLeaveRow ? (e) => onDragLeaveRow(e, rowIndex) : undefined}
-        onDrop={canDrag && onDropRow ? (e) => onDropRow(e, rowIndex, item.id) : undefined}
       >
-        {canDrag && onDragStartRow && (
+        {canDrag && onPointerDownRow && (
           <div
             className="grid-row-drag-handle"
-            draggable
-            onDragStart={(e) => onDragStartRow(e, rowIndex, item.id)}
-            onDragEnd={onDragEndRow}
-            title="Drag to reorder"
+            onPointerDown={(e) => onPointerDownRow(e, rowIndex, item.id)}
+            onClick={(e) => { e.stopPropagation(); onCellClick(rowIndex, 0, e.shiftKey); }}
+            title="Klik om de rij te selecteren; sleep om te verplaatsen (ook naar een ander hoofdstuk)"
           />
         )}
         {columns.map((col, colIndex) => {
@@ -100,6 +112,7 @@ export const GridRow: React.FC<Props> = React.memo(
                 hideTotal={hideTotal}
                 isChapterFooter={isChapterFooter}
                 resourceTotals={resourceTotals}
+                isChangedCell={!!changedSet?.has(colToField(col.key))}
                 onToggleCollapse={col.key === 'description' ? () => onToggleCollapse(item.id) : undefined}
               />
             </div>
@@ -119,6 +132,9 @@ export const GridRow: React.FC<Props> = React.memo(
     prev.activeRow === next.activeRow &&
     prev.activeCol === next.activeCol &&
     prev.isSelected === next.isSelected &&
+    prev.isChanged === next.isChanged &&
+    prev.changeMode === next.changeMode &&
+    prev.changedFields === next.changedFields &&
     prev.hideTotal === next.hideTotal &&
     prev.isChapterFooter === next.isChapterFooter &&
     prev.rowHeight === next.rowHeight &&

@@ -62,6 +62,27 @@ export interface CostItem {
 
   // Hoeveelheid-link: pick waarde uit spreadsheet / PDF meting / IFC quantity
   quantityLink?: QuantityLink | null;
+
+  /**
+   * Wijzigingshistorie van deze regel: per veldwijziging de oude/nieuwe waarde,
+   * wanneer en door welke Windows-gebruiker. Optioneel — oudere bestanden en
+   * verse regels hebben (nog) geen historie. Zie services/history/itemHistory.
+   */
+  history?: FieldChange[];
+}
+
+/** Eén vastgelegde veldwijziging op een CostItem (zie itemHistory.ts). */
+export interface FieldChange {
+  /** veldnaam, bv. 'quantity', 'description', 'materialPrice' */
+  field: string;
+  /** waarde vóór de wijziging */
+  oldValue: string | number | boolean | null;
+  /** waarde ná de wijziging */
+  newValue: string | number | boolean | null;
+  /** ISO-datumtijd van de wijziging */
+  timestamp: string;
+  /** Windows-gebruikersnaam die de wijziging deed */
+  user: string;
 }
 
 /** Link a CostItem's quantity field to a value from another tab */
@@ -100,6 +121,19 @@ export interface CostSchedule {
   branchesEnabled?: boolean;               // Toggle to show Branch column in grid
   activeBranchId?: string;                 // Currently selected branch for filtering
   reportLogoPreset?: 'bouw1' | 'custom';  // Which logo set to use in PDF reports (default: 'bouw1')
+  /**
+   * Wijzigingen-bijhouden ("track changes"): ISO-tijdstip vanaf wanneer
+   * regelwijzigingen visueel gemarkeerd worden in de grid. null/undefined = uit.
+   * Een regel kleurt als ze een history-entry heeft met timestamp >= deze waarde.
+   */
+  changeTrackingSince?: string | null;
+  /**
+   * Hoe gewijzigde regels gemarkeerd worden: 'row' = hele regel kleuren
+   * (default), 'cell' = alleen de gewijzigde cel(len).
+   */
+  changeDisplayMode?: 'row' | 'cell';
+  /** Toon wijzigingsmarkeringen ook in de rapportage-PDF. Default false. */
+  reportShowChanges?: boolean;
 }
 
 /** Budget variant branch — forms a tree via parentId */

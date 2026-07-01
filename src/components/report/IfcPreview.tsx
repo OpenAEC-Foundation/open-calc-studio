@@ -4,6 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { generateIfcCostFile } from '@/services/ifc/ifcCostGenerator';
 import { generateIfcxJson } from '@/services/ifc/ifcxJsonGenerator';
+import { IfcxFolderOverview } from './IfcxFolderOverview';
+import { IfcStructureView } from './IfcStructureView';
+import { useCloudFolderIfcx } from '@/hooks/useCloudFolderIfcx';
 
 // ── Syntax highlighting for STEP lines ──
 
@@ -375,6 +378,9 @@ export const IfcPreview: React.FC = () => {
   const [highlightedStepLine, setHighlightedStepLine] = useState<number | null>(null);
   const [highlightedJsonNodeId, setHighlightedJsonNodeId] = useState<string | null>(null);
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
+  // Een uit de cloudmap geselecteerd ifcx-familiebestand dat we uitlezen
+  // (vervangt tijdelijk de gegenereerde .ifcx-weergave in het rechterpaneel).
+  const [selectedExternal, setSelectedExternal] = useState<{ name: string; content: string } | null>(null);
 
   const stepPanelRef = useRef<HTMLDivElement>(null);
   const jsonPanelRef = useRef<HTMLDivElement>(null);
@@ -384,10 +390,17 @@ export const IfcPreview: React.FC = () => {
     [schedule, items, offerte],
   );
 
+  // Eigen begroting als ifcx (altijd beschikbaar, ook bij extern bekijken)
+  const budgetIfcx = useMemo(() => generateIfcxJson(schedule, items), [schedule, items]);
   const jsonContent = useMemo(
-    () => generateIfcxJson(schedule, items),
-    [schedule, items],
+    () => (selectedExternal ? selectedExternal.content : budgetIfcx),
+    [selectedExternal, budgetIfcx],
   );
+
+  // Cloudmap-bestanden (gedeeld door mapoverzicht + structuurweergave)
+  const folderData = useCloudFolderIfcx();
+  const [showStructure, setShowStructure] = useState(true);
+  const [showCode, setShowCode] = useState(true);
 
   const stepLines: StepLine[] = useMemo(() =>
     ifcContent.split('\n').map((text, i) => ({ lineNumber: i + 1, text })),
@@ -597,7 +610,35 @@ export const IfcPreview: React.FC = () => {
   }, []);
 
   return (
-    <div className={`ifc-preview ifc-split${isDragging ? ' ifc-dragging' : ''}`}>
+    <div className="ifc-tab-root">
+      <IfcxFolderOverview data={folderData} onOpenFile={(name, content) => setSelectedExternal({ name, content })} />
+
+      {/* Structuur: IFC-objecten van deze begroting + de mapbestanden */}
+      <div className={`ifc-section${showStructure ? ' ifc-section-open' : ''}`}>
+        <div className="ifc-section-head" onClick={() => setShowStructure(o => !o)}>
+          <span className="ifc-section-twisty">{showStructure ? '▾' : '▸'}</span>
+          <span className="ifc-section-title">Structuur</span>
+          <span className="ifc-section-meta">objecten in deze begroting{folderData.active ? ' + mapbestanden' : ''}</span>
+        </div>
+        {showStructure && (
+          <div className="ifc-section-body">
+            <IfcStructureView
+              budgetContent={budgetIfcx}
+              folderFiles={folderData.ifcxFiles}
+              onLink={(guid) => { setShowCode(true); handleJsonNodeClick(guid); }}
+            />
+          </div>
+        )}
+      </div>
+
+      {/* IFC-code (4x3 STEP + IfcX) — inklapbaar */}
+      <div className="ifc-section-head ifc-code-head" onClick={() => setShowCode(o => !o)}>
+        <span className="ifc-section-twisty">{showCode ? '▾' : '▸'}</span>
+        <span className="ifc-section-title">IFC-code</span>
+        <span className="ifc-section-meta">IFC 4x3 (STEP) &amp; IfcX (JSON)</span>
+      </div>
+      {showCode && (
+      <div className={`ifc-preview ifc-split${isDragging ? ' ifc-dragging' : ''}`}>
       {/* Left panel: IFC STEP */}
       <div className="ifc-panel" style={{ width: `${splitPos}%` }}>
         <div className="ifc-toolbar">
@@ -641,9 +682,22 @@ export const IfcPreview: React.FC = () => {
       <div className="ifc-panel" style={{ width: `${100 - splitPos}%` }}>
         <div className="ifc-toolbar">
           <div className="ifc-toolbar-info">
-            <span className="ifc-toolbar-label">{t('ifc.jsonFormat')}</span>
-            <span className="ifc-toolbar-meta">{t('lines', { count: jsonLineCount })}</span>
-            <span className="ifc-toolbar-meta">{jsonFileSize}</span>
+            {selectedExternal ? (
+              <>
+                <span className="ifc-toolbar-label" title={selectedExternal.name}>
+                  📐 {selectedExternal.name.slice(selectedExternal.name.lastIndexOf('/') + 1)}
+                </span>
+                <button className="ifc-toolbar-btn ifc-back-btn" onClick={() => setSelectedExternal(null)}>
+                  ✕ terug naar deze begroting
+                </button>
+              </>
+            ) : (
+              <>
+                <span className="ifc-toolbar-label">{t('ifc.jsonFormat')}</span>
+                <span className="ifc-toolbar-meta">{t('lines', { count: jsonLineCount })}</span>
+                <span className="ifc-toolbar-meta">{jsonFileSize}</span>
+              </>
+            )}
           </div>
           <div className="ifc-toolbar-actions">
             <button className="ifc-toolbar-btn" onClick={handleCopyJson}>{t('copyBtn')}</button>
@@ -661,11 +715,17 @@ export const IfcPreview: React.FC = () => {
               onNodeClick={handleJsonNodeClick}
               isLast={true}
             />
+          ) : selectedExternal ? (
+            // Niet-JSON ifcx-familiebestand: toon de ruwe inhoud zodat het
+            // alsnog uitgelezen kan worden.
+            <pre className="ifc-raw-content">{jsonContent}</pre>
           ) : (
             <div className="ifc-json-error">Failed to parse JSON</div>
           )}
         </div>
       </div>
+      </div>
+      )}
     </div>
   );
 };

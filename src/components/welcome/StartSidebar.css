@@ -53,7 +53,7 @@
 .start-sidebar-title {
   font-size: 11px;
   font-weight: 600;
-  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--theme-text);
@@ -102,7 +102,7 @@
   margin: 0;
   font-size: 14px;
   font-weight: 700;
-  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   letter-spacing: -0.01em;
   color: var(--theme-text);
 }
@@ -131,7 +131,7 @@
   background: var(--theme-surface);
   color: var(--theme-text);
   font-size: 12px;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
   font-weight: 500;
   cursor: pointer;
   text-align: left;

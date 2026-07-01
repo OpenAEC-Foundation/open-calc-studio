@@ -27,6 +27,7 @@ import { ThreeDViewer } from "./components/viewers/ThreeDViewer";
 import { PdfViewer } from "./components/viewers/PdfViewer";
 import { StartSidebar } from "./components/welcome/StartSidebar";
 import "./components/welcome/StartSidebar.css";
+import { UrenStaartView } from "./components/grid/WpCalcBottomPanel";
 import { useQuantityLinkSync } from "./hooks/useQuantityLinkSync";
 import { useAppStore } from "./state/appStore";
 import { deserializeProject } from "./services/file/fileService";
@@ -37,7 +38,9 @@ import { registerBuiltinExtensions } from "./extensions/builtinExtensions";
 import { changeLanguage } from "./i18n/config";
 import { loadSettings } from "./utils/settings";
 import { initMcpBridge } from "./services/mcp/mcpBridge";
+import { initOsUsername } from "./services/system/osUser";
 import { sendDockRequest, onWindowBridgeMessage } from "./services/windowBridge";
+import "./styles/fonts.css";
 import "./styles/themes.css";
 import "./components/layout/layout.css";
 import "./styles/globals.css";
@@ -123,6 +126,10 @@ function App() {
       }
     });
 
+    // Resolve the Windows username once, so edit-history entries are attributed
+    // to the right person (cached synchronously for the store's updateItem).
+    initOsUsername();
+
     // Register built-in extensions and load user-installed extensions
     registerBuiltinExtensions();
     loadAllExtensions().catch((err) =>
@@ -198,7 +205,7 @@ function App() {
               store.addDocument({ id, filePath, fileName: displayName, isModified: false, items: parsed.items, schedule: parsed.schedule });
               if (parsed.companyInfo) store.setCompanyInfo(parsed.companyInfo);
               if (parsed.spreadsheets?.sheets) store.setSubSheets(parsed.spreadsheets.sheets);
-            } else if (ext === 'calc' || ext === 'xtb') {
+            } else if (ext === 'calc' || ext === 'xtb' || ext === 'dnc') {
               const data = await readFile(filePath);
               const importers = store.extensionImporters;
               const imp = importers.find((i: any) => i.fileExtensions.some((fe: string) => fe.replace(/^\./, '') === ext));
@@ -245,7 +252,7 @@ function App() {
                 store.addDocument({ id, filePath, fileName: displayName, isModified: false, items: parsed.items, schedule: parsed.schedule });
                 if (parsed.companyInfo) store.setCompanyInfo(parsed.companyInfo);
                 if (parsed.spreadsheets?.sheets) store.setSubSheets(parsed.spreadsheets.sheets);
-              } else if (ext === 'calc' || ext === 'mdb' || ext === 'xls' || ext === 'xlsx' || ext === 'xtb') {
+              } else if (ext === 'calc' || ext === 'mdb' || ext === 'xls' || ext === 'xlsx' || ext === 'xtb' || ext === 'dnc') {
                 // Binary import via extension importers
                 const data = await readFile(filePath);
                 const importers = store.extensionImporters;
@@ -294,6 +301,21 @@ function App() {
 
   // Intercept window close and show 3-button dialog if unsaved changes
   const { saveFile: saveFileForClose } = useFileOperations();
+
+  // Autosave: sla het actieve document elke 2 minuten stil op als het is
+  // gewijzigd én al een bestandspad heeft. Nooit een Opslaan-als-dialoog
+  // (documenten zonder pad worden overgeslagen); alleen in de desktop-app.
+  useEffect(() => {
+    if (!('__TAURI_INTERNALS__' in window)) return;
+    const id = setInterval(() => {
+      const s = useAppStore.getState();
+      const doc = s.documents.find((d) => d.id === s.activeDocumentId);
+      if (doc?.isModified && doc.filePath) {
+        void saveFileForClose();
+      }
+    }, 120_000);
+    return () => clearInterval(id);
+  }, [saveFileForClose]);
   useEffect(() => {
     let unlisten: (() => void) | undefined;
     (async () => {
@@ -515,6 +537,7 @@ function App() {
           ) : (
             <>
               {activeContentTab === 'grid' && <CostGrid />}
+              {activeContentTab === 'urenstaart' && <UrenStaartView />}
               {activeContentTab === 'rapport' && <ReportPreview />}
               {activeContentTab === 'samenvatting' && <SummaryPanel />}
               {activeContentTab === 'ifc' && <IfcPreview />}
@@ -524,7 +547,7 @@ function App() {
             </>
           )}
           {/* Bottom tab bar: Begroting + Blad N + "+" — shown on grid & spreadsheet views */}
-          {(activeContentTab === 'grid' || activeContentTab === 'spreadsheet') && <SubSheetTabBar />}
+          <SubSheetTabBar />
         </main>
 
         {/* Right panel — Properties */}

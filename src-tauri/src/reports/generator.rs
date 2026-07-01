@@ -67,6 +67,7 @@ fn view_title(view: &str) -> &str {
         "inschrijfstaat" => "Inschrijfstaat",
         "nacalculatie" => "Nacalculatie",
         "bouw1" => "Bouw 1 begroting",
+        "ibis" => "IBIS-stijl begroting",
         _ => "Rapport",
     }
 }
@@ -294,6 +295,10 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
     // Route Bouw 1 view through Typst engine
     if request.report_view == "bouw1" {
         return super::bouw1::generate_bouw1_typst(request);
+    }
+    // Route IBIS-stijl view through its own Typst template
+    if request.report_view == "ibis" {
+        return super::ibis::generate_ibis_typst(request);
     }
 
     let fonts = shared_font_registry();

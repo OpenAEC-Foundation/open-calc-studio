@@ -6,12 +6,12 @@
   padding: 24px 20px;
   overflow-y: auto;
   flex-shrink: 0;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
 .welcome-brand h3 {
   margin: 0 0 4px;
-  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   font-size: 16px;
   font-weight: 700;
   letter-spacing: -0.01em;
@@ -32,7 +32,7 @@
 }
 .welcome-releases h3 {
   margin: 0 0 12px;
-  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
@@ -75,7 +75,7 @@
   font-size: 13px;
   font-weight: 600;
   color: var(--theme-text);
-  font-family: 'Space Grotesk', 'Inter', inherit;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   letter-spacing: -0.005em;
 }
 
@@ -83,7 +83,48 @@
   font-size: 12px;
   line-height: 1.5;
   color: var(--theme-text-secondary);
-  white-space: pre-wrap;
+}
+
+/* Opgemaakte release-notes (markdown) */
+.welcome-release-body .rn-p {
+  margin: 0 0 5px;
+}
+.welcome-release-body .rn-p:last-child {
+  margin-bottom: 0;
+}
+.welcome-release-body .rn-h {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--theme-text);
+  margin: 7px 0 2px;
+}
+.welcome-release-body .rn-ul {
+  margin: 3px 0 6px;
+  padding-left: 16px;
+}
+.welcome-release-body .rn-ul li {
+  margin: 1px 0;
+}
+.welcome-release-body strong {
+  font-weight: 600;
+  color: var(--theme-text);
+}
+.welcome-release-body em {
+  font-style: italic;
+}
+.welcome-release-body code {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10.5px;
+  background: var(--theme-hover, rgba(217, 119, 6, 0.10));
+  border-radius: 3px;
+  padding: 0 3px;
+}
+.welcome-release-body a {
+  color: #D97706;
+  text-decoration: none;
+}
+.welcome-release-body a:hover {
+  text-decoration: underline;
 }
 
 .welcome-error,

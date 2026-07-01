@@ -89,6 +89,14 @@ jobs:
       - name: Install npm dependencies
         run: npm install
 
+      # De Tauri-bundle vereist de gebundelde MCP-server als resource
+      # (src-tauri/tauri.conf.json → ../mcp-server/dist/ocs-mcp.mjs);
+      # zonder deze stap faalt het build-script op alle platforms.
+      - name: Bundle MCP server
+        run: |
+          npm --prefix mcp-server install
+          npm --prefix mcp-server run bundle
+
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0
         env:

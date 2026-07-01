@@ -1,7 +1,7 @@
 {
   "name": "open-calc-studio",
   "private": true,
-  "version": "0.7.4",
+  "version": "0.8.5",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -23,6 +23,7 @@
     "@thatopen/components-front": "^3.4.1",
     "@thatopen/fragments": "^3.4.1",
     "@types/three": "^0.184.0",
+    "7z-wasm": "^1.2.0",
     "buffer": "^6.0.3",
     "i18next": "^25.8.18",
     "i18next-browser-languagedetector": "^8.2.1",

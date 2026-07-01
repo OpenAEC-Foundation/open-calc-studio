@@ -5,10 +5,10 @@
  */
 import type { InstalledExtension, ExtensionManifest } from './types';
 import { useAppStore } from '../state/appStore';
-import { importBasCalcFile } from '../services/import/bascalcImporter';
-import { importRsxFile } from '../services/import/rsxImporter';
+import { importBasCalcFile } from '../services/importers/bascalcImporter';
+import { importRsx } from '../services/importers/rsxImporter';
 // WpCalc importer is lazy-loaded because mdb-reader needs Buffer polyfill
-// import { importWpCalcFile } from '../services/import/wpcalcImporter';
+// import { importWpCalcFile } from '../services/importers/wpcalcImporter';
 import { recalculateItems } from '../services/calculation/calculator';
 
 // ── BasCalc Importer ──
@@ -83,6 +83,20 @@ const xtbManifest: ExtensionManifest = {
   icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><ellipse cx="12" cy="14" rx="4" ry="2"/><path d="M8 14v3a4 2 0 008 0v-3"/></svg>',
 };
 
+const dncManifest: ExtensionManifest = {
+  id: 'builtin-dnc-importer',
+  name: 'DNC Importer',
+  version: '1.0.0',
+  minAppVersion: __APP_VERSION__,
+  author: 'Open Calc Studio',
+  description: 'Importeer STABU-directiebegrotingen uit .dnc-bestanden (7z-archief met dBASE-tabellen). Leest hoofdstukken, posten en middelen (arbeid/materiaal/onderaanneming), uurtarief, staartpercentages en kengetallen.',
+  category: 'Import/Export',
+  main: 'builtin',
+  permissions: ['commands', 'events'],
+  tags: ['dnc', 'stabu', 'directiebegroting', 'dbase', '7z', 'import', 'bouw'],
+  icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>',
+};
+
 const rsxManifest: ExtensionManifest = {
   id: 'builtin-rsx-importer',
   name: 'RAW Bestek Importer',
@@ -145,7 +159,7 @@ export function registerBuiltinExtensions(): void {
     fileExtensions: ['.calc', '.mdb'],
     icon: wpcalcManifest.icon,
     handler: async (file: File) => {
-      const { importWpCalcFile } = await import('../services/import/wpcalcImporter');
+      const { importWpCalcFile } = await import('../services/importers/wpcalcImporter');
       const buffer = await file.arrayBuffer();
       const result = importWpCalcFile(buffer);
       return {
@@ -172,7 +186,7 @@ export function registerBuiltinExtensions(): void {
     icon: rsxManifest.icon,
     handler: async (file: File) => {
       const text = await file.text();
-      const result = importRsxFile(text);
+      const result = importRsx(text);
       return {
         schedule: result.schedule,
         items: recalculateItems(result.items),
@@ -196,7 +210,7 @@ export function registerBuiltinExtensions(): void {
     fileExtensions: ['.xls', '.xlsx'],
     icon: inschrijfstaatManifest.icon,
     handler: async (file: File) => {
-      const { importInschrijfstaatFile } = await import('../services/import/inschrijfstaatImporter');
+      const { importInschrijfstaatFile } = await import('../services/importers/inschrijfstaatImporter');
       const buffer = await file.arrayBuffer();
       const result = await importInschrijfstaatFile(buffer);
       return {
@@ -215,6 +229,34 @@ export function registerBuiltinExtensions(): void {
   };
   store.registerExtension(wpcalcExporterExt);
 
+  // DNC (STABU-directiebegroting) Importer
+  const dncExt: InstalledExtension = {
+    id: 'builtin-dnc-importer',
+    manifest: dncManifest,
+    status: 'enabled',
+  };
+  store.registerExtension(dncExt);
+  store.addExtensionImporter({
+    extensionId: 'builtin-dnc-importer',
+    id: 'dnc-import',
+    name: 'STABU-directiebegroting (.dnc)',
+    description: 'Importeer STABU-directiebegrotingen uit .dnc-bestanden',
+    fileExtensions: ['.dnc'],
+    icon: dncManifest.icon,
+    handler: async (file: File) => {
+      const { importDncFile } = await import('../services/importers/dncImporter');
+      const buffer = await file.arrayBuffer();
+      const result = await importDncFile(buffer, file.name);
+      // Een .dnc is een STABU-directiebegroting → toon meteen het bijpassende
+      // directiebegroting-rapport in plaats van het standaard (Bouw 1) rapport.
+      useAppStore.getState().setReportView('directie');
+      return {
+        schedule: result.schedule,
+        items: recalculateItems(result.items, result.schedule.tarieven),
+      };
+    },
+  });
+
   // IBIS-TRAD .xtb Importer
   const xtbExt: InstalledExtension = {
     id: 'builtin-xtb-importer',
@@ -230,7 +272,7 @@ export function registerBuiltinExtensions(): void {
     fileExtensions: ['.xtb'],
     icon: xtbManifest.icon,
     handler: async (file: File) => {
-      const { importXtbFile } = await import('../services/import/xtbImporter');
+      const { importXtbFile } = await import('../services/importers/xtbImporter');
       const buffer = await file.arrayBuffer();
       const result = await importXtbFile(buffer);
       return {

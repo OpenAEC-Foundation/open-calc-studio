@@ -1,8 +1,69 @@
 import type { CostItem } from '@/types/costModel';
 import { isStagartRowType } from '@/types/costModel';
 
+/**
+ * Canonieke item-volgorde: depth-first per parentId, zodat kinderen altijd
+ * direct (aaneengesloten) onder hun ouder staan. Dit is dé invariant waar de
+ * rest van de app op leunt — rapportages, prints, exporters, nummering en
+ * verplaats-/invoeglogica lezen de array sequentieel en zijn alleen correct
+ * als deze volgorde klopt. Importeurs en de MCP-bridge voegen items echter
+ * plat (achteraan) toe; daarom normaliseert recalculateItems de volgorde bij
+ * elke herberekening.
+ *
+ * Regels:
+ * - sibling-volgorde = bestaande relatieve array-volgorde (stabiel; respecteert
+ *   versleep-acties die alléén de array herordenen);
+ * - depth wordt her-afgeleid uit de boom; sortOrder wordt vastgelegd als de
+ *   uiteindelijke sibling-index (voor externe lezers van opgeslagen bestanden);
+ * - onbereikbare items (wees met onbekende parentId, of cyclus) blijven
+ *   behouden en komen ná de reguliere boom — data verdwijnt nooit stilletjes;
+ * - staart_* regels staan altijd helemaal achteraan.
+ */
+export function normalizeItemOrder(items: CostItem[]): CostItem[] {
+  const byParent = new Map<string | null, CostItem[]>();
+  const staart: CostItem[] = [];
+  for (const item of items) {
+    if (item.parentId === undefined) item.parentId = null;
+    if (isStagartRowType(item.rowType)) {
+      staart.push(item);
+      continue;
+    }
+    const key = item.parentId;
+    const list = byParent.get(key);
+    if (list) list.push(item);
+    else byParent.set(key, [item]);
+  }
+
+  const ordered: CostItem[] = [];
+  const seen = new Set<string>();
+  const walk = (parentId: string | null, depth: number) => {
+    const kids = byParent.get(parentId);
+    if (!kids) return;
+    for (let i = 0; i < kids.length; i++) {
+      const item = kids[i];
+      if (seen.has(item.id)) continue; // cyclus-guard
+      seen.add(item.id);
+      item.depth = depth;
+      item.sortOrder = i;
+      ordered.push(item);
+      walk(item.id, depth + 1);
+    }
+  };
+  walk(null, 0);
+
+  // Wezen/cycli: behouden in hun bestaande relatieve volgorde.
+  for (const item of items) {
+    if (!isStagartRowType(item.rowType) && !seen.has(item.id)) {
+      seen.add(item.id);
+      ordered.push(item);
+    }
+  }
+
+  return [...ordered, ...staart];
+}
+
 export function recalculateItems(items: CostItem[], tarieven?: Record<string, number>): CostItem[] {
-  const result = items.map(item => ({ ...item }));
+  const result = normalizeItemOrder(items.map(item => ({ ...item })));
 
   // Recompute laborPrice from tariefGroep + tarieven when tarieven are provided
   if (tarieven) {

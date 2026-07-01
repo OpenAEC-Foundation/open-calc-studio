@@ -1,4 +1,6 @@
 export { importCuf } from './cufImporter';
+export { importS01 } from './s01Importer';
+export { importIfcx } from './ifcxImporter';
 export { importTradxml } from './tradxmlImporter';
 export { importRsx } from './rsxImporter';
 export { importZsx } from './zsxImporter';

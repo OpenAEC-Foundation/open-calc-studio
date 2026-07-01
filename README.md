@@ -24,12 +24,15 @@ Open Calc Studio brengt professionele kostencalculatie voor de bouw naar een ope
 - Norm-berekening (productienorm, factor, deler) per regel
 - Tariefgroepen (A/B/C) met instelbare uurtarieven
 - Begrotingsvarianten (branches, git-achtig boommodel)
+- Uren naar rato: bewerk een uren-totaal (alles, per tariefgroep of per hoofdstuk) en de onderliggende normen schalen automatisch mee
 - Embedded spreadsheets voor deelberekeningen, met cell formules en cell-borders
 - Snapshots / versies van een begroting
+- Automatisch opslaan (elke 2 minuten, stil, voor documenten met een bestandslocatie)
 
 ### Import & Export
 - **BasCalc** (.calc/.xls) — legacy MDB import
 - **WPCalc** (.calc) — round-trip (lezen + schrijven)
+- **IBIS-TRAD** (.xtb) — import (SQLite), inclusief middelen en uurloon-codes
 - **IFC 4.x** (IfcCostSchedule + IfcCostItem) — import en export, custom STEP generator (geen WASM)
 - **CUF-XML / TRADXML / RAW RSX** — exporters
 - **ZSX / NSX** — prijs- en normbestanden
@@ -38,23 +41,32 @@ Open Calc Studio brengt professionele kostencalculatie voor de bouw naar een ope
 - **Eigen formaat** — `.ocs` / `.ifcCalc` (open JSON, mens-leesbaar)
 
 ### Rapportage
-- 6 rapport-views: werkbeschrijving, hoofdaanneming, onderaanneming, inschrijfstaat, nacalculatie, Bouw 1 (18-koloms uitgebreid format)
+- 7 rapport-views: werkbeschrijving, hoofdaanneming, onderaanneming, inschrijfstaat, nacalculatie, Bouw 1 (18-koloms uitgebreid format) en Bouw 2 (IBIS-stijl)
 - Live preview, print en PDF-export
 - Configureerbare rapport-datum, paginering en oriëntatie
 - Cover-page en samenvatting opt-in
 
 ### UI
-- Office-stijl ribbon (Home, Begroting, Rapportage, IFC, Spreadsheet, View)
+- Office-stijl ribbon voor commando's (Bestand, Begroting, Rapportage, Spreadsheet, IFC)
+- **Onderbalk-navigatie per document**: Data · Uren & Staart · Rapport · Spreadsheet · IFC
+- Bestand-menu als links uitklappend paneel (niet schermvullend)
+- Rijen selecteren en verslepen via de grip-gutter links — ook naar een ander hoofdstuk
 - Persistent start sidebar met release notes en recente bestanden
-- 3-paneel layout: scheduletree, grid, properties
+- Eigenschappenpaneel met item-type, kengetallen (€/eenheid excl. én incl. btw); structuurpaneel optioneel
 - Multi-document support met file tabs
 - Virtualized grid voor grote begrotingen
 - 4 themes (light, dark, blue, high-contrast)
 - Volledig keyboard-bedienbaar
 
+### OpenAEC-account (optioneel)
+- **Sign in with OpenAEC** — OIDC/PKCE-login via de systeembrowser; tokens veilig in de OS-keyring
+- **Cloud-opslag** met mappenbrowser: begrotingen opslaan, openen en beheren op je account
+- **AI-assistent op accounttegoed** — de ingebouwde chat gebruikt AI-credits van je OpenAEC-account (met live saldo), zonder eigen API-sleutel
+
 ### Extensions
 - MCP server (`mcp-server/`) voor Claude / agentic gebruik — bouw je begroting via natural language
 - Plugin-architectuur voor custom importers en domain features
+- Ingebouwde importers (WPCalc, IBIS-TRAD, BasCalc, RSX, inschrijfstaat) staan standaard aan
 
 ## Quick start
 
@@ -135,11 +147,11 @@ open-calc-studio/
 
 ## Bestandsformaat
 
-Open Calc Studio gebruikt een open JSON-formaat (`.ocs` / `.ifcCalc`). Volledig formaat in [`docs/API.md`](docs/API.md).
+Open Calc Studio gebruikt een open JSON-formaat (`.ocs` / `.ifcCalc`), huidige formaatversie **2.1.0**. Het formaat is gedocumenteerd in [`docs/ifccalc-formaat.md`](docs/ifccalc-formaat.md) (structuur, versiebeleid en migratiegaranties); de API in [`docs/API.md`](docs/API.md). Oudere bestanden openen altijd (automatische migratie); bestanden uit een nieuwere major-versie worden met een duidelijke melding geweigerd.
 
 ```json
 {
-  "version": "2.0.0",
+  "version": "2.1.0",
   "schedule": { "name": "...", "projectName": "...", ... },
   "items": [{ "id": "...", "rowType": "chapter", ... }, ...],
   "companyInfo": { ... },

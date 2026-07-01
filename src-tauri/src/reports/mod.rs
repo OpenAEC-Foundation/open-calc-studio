@@ -1,6 +1,7 @@
 pub mod generator;
 pub mod offerte;
 mod bouw1;
+mod ibis;
 
 use serde::Deserialize;
 use std::collections::HashMap;
@@ -61,6 +62,13 @@ pub struct Schedule {
     /// (or custom logos from CompanyInfo) per existing behavior.
     #[serde(default)]
     pub report_logo_preset: Option<String>,
+    /// Toon wijzigingsmarkeringen in de PDF (gewijzigde regels markeren).
+    #[serde(default)]
+    pub report_show_changes: bool,
+    /// Baseline voor "gewijzigd sinds" (ISO-tijd); regels met een latere
+    /// history-entry zijn gewijzigd.
+    #[serde(default)]
+    pub change_tracking_since: Option<String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -173,6 +181,26 @@ pub struct CostItem {
     pub norm_divisor: Option<f64>,
     #[serde(default)]
     pub staart_item_breakdown: Option<StaartItemBreakdown>,
+    #[serde(default)]
+    pub history: Option<Vec<HistoryEntry>>,
+}
+
+/// Eén wijzigingshistorie-entry (alleen het tijdstip is nodig voor markering).
+#[derive(Debug, Clone, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct HistoryEntry {
+    #[serde(default)]
+    pub timestamp: String,
+}
+
+impl CostItem {
+    /// Of deze regel gewijzigd is sinds `since` (ISO-tijd). Leeg `since` = nooit.
+    pub fn changed_since(&self, since: &Option<String>) -> bool {
+        match (since, &self.history) {
+            (Some(s), Some(h)) if !s.is_empty() => h.iter().any(|e| e.timestamp.as_str() >= s.as_str()),
+            _ => false,
+        }
+    }
 }
 
 // ── Offerte report structures ──
@@ -316,6 +344,17 @@ pub fn generate_pdf_report(request: ReportRequest, output_path: String) -> Resul
 #[tauri::command]
 pub fn generate_pdf_preview(request: ReportRequest) -> Result<Vec<u8>, String> {
     generator::generate_bytes(&request)
+}
+
+#[tauri::command]
+pub fn generate_ibis_report(request: ReportRequest, output_path: String) -> Result<(), String> {
+    let pdf = ibis::generate_ibis_typst(&request)?;
+    std::fs::write(std::path::Path::new(&output_path), pdf).map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+pub fn generate_ibis_preview(request: ReportRequest) -> Result<Vec<u8>, String> {
+    ibis::generate_ibis_typst(&request)
 }
 
 #[tauri::command]

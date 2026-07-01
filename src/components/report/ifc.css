@@ -1,4 +1,132 @@
 /* IFC preview */
+/* IFC-tab wrapper: optioneel mapoverzicht boven, split-view eronder */
+.ifc-tab-root {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+.ifc-tab-root .ifc-preview { flex: 1; min-height: 0; }
+
+/* ── IFC mapoverzicht (cloud-federatie) ── */
+.ifcx-folder-overview {
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--theme-border);
+  background: var(--theme-surface, var(--theme-bg));
+  max-height: 40%;
+  display: flex;
+  flex-direction: column;
+}
+.ifcx-folder-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 12.5px;
+  color: var(--theme-text);
+  background: linear-gradient(135deg, rgba(217,119,6,0.08), transparent);
+}
+.ifcx-folder-toggle { color: var(--theme-text-secondary); font-size: 10px; }
+.ifcx-folder-title { flex: 1; }
+.ifcx-folder-meta { font-size: 11px; color: var(--theme-text-secondary); font-weight: 400; }
+.ifcx-folder-refresh {
+  border: none; background: transparent; cursor: pointer;
+  color: var(--theme-text-secondary); font-size: 14px; padding: 0 4px;
+}
+.ifcx-folder-refresh:hover { color: var(--theme-accent, #D97706); }
+.ifcx-folder-body { overflow-y: auto; padding: 6px 12px 10px; font-size: 12px; }
+.ifcx-folder-subhead {
+  font-size: 11px; font-weight: 600; color: var(--theme-text-secondary);
+  text-transform: uppercase; letter-spacing: 0.03em; margin: 8px 0 4px;
+}
+.ifcx-folder-empty, .ifcx-folder-error { color: var(--theme-text-secondary); font-size: 12px; padding: 4px 0; }
+.ifcx-folder-error { color: var(--theme-danger-color, #dc2626); }
+.ifcx-folder-links { background: rgba(217,119,6,0.06); border-radius: 6px; padding: 6px 8px; margin-bottom: 6px; }
+.ifcx-link-row { display: flex; gap: 10px; align-items: center; padding: 2px 0; }
+.ifcx-guid { color: var(--theme-accent, #D97706); font-size: 11px; flex-shrink: 0; }
+.ifcx-link-files { color: var(--theme-text); font-size: 11.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ifcx-file-card { border-top: 1px solid var(--theme-border); padding: 6px 0; }
+.ifcx-file-name { font-weight: 600; color: var(--theme-text); margin-bottom: 3px; }
+.ifcx-file-types { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.ifcx-file-count { font-size: 11px; color: var(--theme-text-secondary); margin-right: 4px; }
+.ifcx-type-chip {
+  font-size: 11px; padding: 1px 7px; border-radius: 9999px;
+  background: var(--theme-bg); border: 1px solid var(--theme-border); color: var(--theme-text);
+}
+.ifcx-type-chip b { color: var(--theme-accent, #D97706); }
+.ifcx-folder-others { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.ifcx-other-chip { font-size: 11px; color: var(--theme-text-secondary); padding: 1px 6px; }
+.ifcx-file-openable { cursor: pointer; border-radius: 6px; transition: background 0.12s; }
+.ifcx-file-openable:hover { background: var(--theme-hover, rgba(217,119,6,0.06)); }
+.ifcx-file-open-hint { margin-left: 8px; font-size: 11px; font-weight: 400; color: var(--theme-accent, #D97706); }
+.ifc-back-btn { color: var(--theme-accent, #D97706); }
+.ifc-raw-content { margin: 0; padding: 8px 12px; font-size: 12px; white-space: pre-wrap; word-break: break-word; color: var(--theme-text); }
+
+/* ── Inklapbare secties (Structuur / IFC-code) ── */
+.ifc-section {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--theme-border);
+  min-height: 0;
+}
+.ifc-section-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 12.5px;
+  color: var(--theme-text);
+  background: linear-gradient(135deg, rgba(217,119,6,0.06), transparent);
+  border-bottom: 1px solid transparent;
+}
+.ifc-section-head:hover { background: var(--theme-hover, rgba(217,119,6,0.06)); }
+.ifc-code-head { border-top: 1px solid var(--theme-border); }
+.ifc-section-twisty { color: var(--theme-text-secondary); font-size: 10px; width: 10px; }
+.ifc-section-title { flex-shrink: 0; }
+.ifc-section-meta { font-size: 11px; color: var(--theme-text-secondary); font-weight: 400; }
+.ifc-section-body { overflow-y: auto; max-height: 38vh; }
+
+/* ── Structuurweergave: IFC-objecten als boom ── */
+.ifc-structure { padding: 4px 0 8px; font-size: 12px; }
+.ifc-struct-source { border-top: 1px solid var(--theme-border); }
+.ifc-struct-source:first-child { border-top: none; }
+.ifc-struct-source-head {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 12px; cursor: pointer;
+  font-weight: 600; color: var(--theme-text);
+}
+.ifc-struct-source-head:hover { background: var(--theme-hover, rgba(217,119,6,0.06)); }
+.ifc-struct-source-name { flex-shrink: 0; }
+.ifc-struct-source-meta { font-size: 11px; color: var(--theme-text-secondary); font-weight: 400; }
+.ifc-struct-row {
+  display: flex; align-items: center; gap: 6px;
+  padding: 1px 12px 1px 0; line-height: 1.7;
+}
+.ifc-struct-row:hover { background: var(--theme-hover, rgba(217,119,6,0.04)); }
+.ifc-struct-twisty { color: var(--theme-text-secondary); font-size: 10px; width: 12px; cursor: pointer; flex-shrink: 0; }
+.ifc-struct-type {
+  color: var(--theme-accent, #D97706); font-weight: 600;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif; flex-shrink: 0;
+}
+.ifc-struct-name {
+  color: var(--theme-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.ifc-struct-link {
+  margin-left: auto; flex-shrink: 0; cursor: pointer;
+  font-size: 11px; padding: 0 7px; border-radius: 9999px;
+  background: rgba(217,119,6,0.12); color: var(--theme-accent, #D97706); font-weight: 600;
+}
+.ifc-struct-link:hover { background: rgba(217,119,6,0.22); }
+
 .ifc-preview {
   flex: 1;
   display: flex;
@@ -43,7 +171,7 @@
 .ifc-toolbar-btn {
   padding: 4px 12px;
   font-size: 11px;
-  font-family: 'Inter', inherit;
+  font-family: 'Inter', system-ui, sans-serif;
   font-weight: 500;
   border: 1.5px solid var(--theme-border);
   border-radius: 8px;

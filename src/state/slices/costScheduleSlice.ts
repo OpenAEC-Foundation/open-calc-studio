@@ -12,6 +12,15 @@ export interface CostScheduleSlice {
   updateProjectProperty: (id: string, field: keyof ProjectProperty, value: any) => void;
   addProjectProperty: () => void;
   removeProjectProperty: (id: string) => void;
+  // Wijzigingen bijhouden ("track changes")
+  /** Zet wijzigingen-bijhouden aan (baseline = nu) of uit (wist de markeringen). */
+  toggleChangeTracking: () => void;
+  /** Wis de huidige markeringen maar blijf bijhouden (baseline naar nu). */
+  clearChangeMarks: () => void;
+  /** Hoe gewijzigde regels gemarkeerd worden: hele regel of alleen de cel. */
+  setChangeDisplayMode: (mode: 'row' | 'cell') => void;
+  /** Of wijzigingsmarkeringen ook in de rapportage-PDF getoond worden. */
+  setReportShowChanges: (show: boolean) => void;
   // Branches (budget variants)
   toggleBranchesEnabled: () => void;
   addBranch: (name: string, parentId: string | null) => string;
@@ -20,11 +29,48 @@ export interface CostScheduleSlice {
   setActiveBranch: (id: string | undefined) => void;
 }
 
-export const createCostScheduleSlice: StateCreator<CostScheduleSlice> = (set, get) => ({
+export const createCostScheduleSlice: StateCreator<CostScheduleSlice> = (set, get) => {
+  /** Markeer het actieve document als gewijzigd (zelfde API als costItemsSlice). */
+  const markModified = () => {
+    const s = get() as any;
+    if (s.activeDocumentId && s.updateDocument) {
+      s.updateDocument(s.activeDocumentId, { isModified: true });
+    }
+  };
+
+  return {
   schedule: createDefaultSchedule(),
   setSchedule: (partial) =>
     set((state) => ({ schedule: { ...state.schedule, ...partial } })),
   resetSchedule: () => set({ schedule: createDefaultSchedule() }),
+
+  toggleChangeTracking: () => {
+    set((state) => ({
+      schedule: {
+        ...state.schedule,
+        changeTrackingSince: state.schedule.changeTrackingSince ? null : new Date().toISOString(),
+      },
+    }));
+    markModified();
+  },
+
+  clearChangeMarks: () => {
+    if (!get().schedule.changeTrackingSince) return;
+    set((state) => ({
+      schedule: { ...state.schedule, changeTrackingSince: new Date().toISOString() },
+    }));
+    markModified();
+  },
+
+  setChangeDisplayMode: (mode) => {
+    set((state) => ({ schedule: { ...state.schedule, changeDisplayMode: mode } }));
+    markModified();
+  },
+
+  setReportShowChanges: (show) => {
+    set((state) => ({ schedule: { ...state.schedule, reportShowChanges: show } }));
+    markModified();
+  },
   updateProjectProperty: (id, field, value) =>
     set((state) => {
       const props = (state.schedule.projectProperties ?? createDefaultProjectProperties()).map((p) =>
@@ -123,4 +169,5 @@ export const createCostScheduleSlice: StateCreator<CostScheduleSlice> = (set, ge
       }
     }
   },
-});
+  };
+};

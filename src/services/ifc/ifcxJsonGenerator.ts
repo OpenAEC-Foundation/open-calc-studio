@@ -242,9 +242,13 @@ function buildCostItemNode(
   if (children && children.length > 0) {
     node.children = {};
     const sorted = [...children].sort((a, b) => a.sortOrder - b.sortOrder);
+    const usedKeys = new Set<string>();
     for (const child of sorted) {
-      const childCode = child.code || child.nr || child.id.slice(0, 8);
-      const childKey = pathSegment(childCode);
+      const base = pathSegment(child.code || child.nr || child.id.slice(0, 8));
+      let childKey = base;
+      let n = 1;
+      while (usedKeys.has(childKey)) childKey = `${base}_${++n}`;
+      usedKeys.add(childKey);
       node.children[childKey] = buildCostItemNode(child, path, childrenByParent);
     }
   }
@@ -303,9 +307,13 @@ export function generateIfcxJson(
   const costItemChildren: Record<string, IfcxNode> = {};
   const schedulePath = `/Project/${projectName}/CostSchedules/${scheduleName}`;
 
+  const usedTopKeys = new Set<string>();
   for (const item of topLevelItems) {
-    const code = item.code || item.nr || item.id.slice(0, 8);
-    const key = pathSegment(code);
+    const base = pathSegment(item.code || item.nr || item.id.slice(0, 8));
+    let key = base;
+    let n = 1;
+    while (usedTopKeys.has(key)) key = `${base}_${++n}`;
+    usedTopKeys.add(key);
     costItemChildren[key] = buildCostItemNode(
       item,
       `${schedulePath}/CostItems`,

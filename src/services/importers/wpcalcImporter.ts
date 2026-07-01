@@ -16,46 +16,9 @@
  *   tabs = indentation depth
  */
 import MDBReader from 'mdb-reader';
-import type { CostItem, CostSchedule, CostUnit, CompanyInfo, ResourceType, StagartRow } from '@/types/costModel';
+import type { CostItem, CostSchedule, CompanyInfo, ResourceType, StagartRow } from '@/types/costModel';
 import { makeStaartItem } from '@/services/calculation/staartDefaults';
-
-function generateId(): string {
-  return crypto.randomUUID();
-}
-
-function generateIfcGuid(): string {
-  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$';
-  let result = '';
-  for (let i = 0; i < 22; i++) {
-    result += chars[Math.floor(Math.random() * 64)];
-  }
-  return result;
-}
-
-function mapUnit(raw: string | undefined | null): CostUnit {
-  if (!raw) return 'st';
-  const u = raw.toString().trim().toLowerCase();
-  switch (u) {
-    case 'm²': case 'm2': return 'm²';
-    case 'm¹': case 'm1': case 'm': return 'm';
-    case 'm³': case 'm3': return 'm³';
-    case 'uur': case 'hr': case 'u': return 'uur';
-    case 'st': case 'stk': case 'stuks': return 'st';
-    case 'ton': return 'ton';
-    case 'kg': return 'kg';
-    case 'dgn': case 'dag': case 'dg': return 'dgn';
-    case 'km': return 'km';
-    case 'keer': return 'keer';
-    case 'ls': return 'ls';
-    case 'week': case 'wk': return 'week';
-    case 'mnd': case 'maand': return 'mnd';
-    case 'pst': case 'post': return 'post';
-    case '%': return '%';
-    case 'pm': return 'pm';
-    case 'bvl': return 'st'; // bouwvloer → st
-    default: return 'st';
-  }
-}
+import { makeCostItem, normalizeUnit, genId, genIfcGuid } from './core';
 
 function num(val: any): number | null {
   if (val === null || val === undefined || val === '') return null;
@@ -238,7 +201,7 @@ export function importWpCalcFile(buffer: ArrayBuffer): {
 
   // ── Build CostSchedule ──
   const schedule: CostSchedule = {
-    id: generateId(),
+    id: genId(),
     name: calc?.calculatietitel || 'WpCalc Import',
     description: '',
     status: 'DRAFT',
@@ -248,7 +211,7 @@ export function importWpCalcFile(buffer: ArrayBuffer): {
     projectNumber: calc?.offertenr || '',
     client: calc?.naam || '',
     author: calc?.calculator || '',
-    ifcGuid: generateIfcGuid(),
+    ifcGuid: genIfcGuid(),
     uitvoeringskosten: 0,
     algemeneKosten: 0,
     winstRisico: 0,
@@ -283,7 +246,7 @@ export function importWpCalcFile(buffer: ArrayBuffer): {
     const desc = (row.omschrijving || '').trim();
     if (!desc && row.rectype !== 5) continue;
 
-    const id = generateId();
+    const id = genId();
 
     if (row.rectype === 8) {
       // ── Chapter (Hoofdstuk) ──
@@ -374,7 +337,7 @@ export function importWpCalcFile(buffer: ArrayBuffer): {
         sortOrder: sortOrder++,
         code: row.code || row.artikelnr || '',
         description: desc,
-        unit: mapUnit(row.eenheid),
+        unit: normalizeUnit(row.eenheid),
         quantity,
         materialPrice,
         laborPrice,
@@ -388,6 +351,23 @@ export function importWpCalcFile(buffer: ArrayBuffer): {
         tariefGroep: (tariefGroep === 'A' || tariefGroep === 'B' || tariefGroep === 'C') ? tariefGroep : null,
       }));
     }
+  }
+
+  // Normalize depth from the actual parent chain. The raw `tabs` column is a
+  // visual indent that doesn't always match the hierarchy (regels directly
+  // under a chapter carried tabs=1 → depth 2). Wrong depths break subtree
+  // detection (move/drag) and grid indentation.
+  const itemById = new Map(items.map((i) => [i.id, i] as const));
+  for (const it of items) {
+    let d = 0;
+    const guard = new Set<string>();
+    let p = it.parentId ? itemById.get(it.parentId) : undefined;
+    while (p && !guard.has(p.id)) {
+      guard.add(p.id);
+      d++;
+      p = p.parentId ? itemById.get(p.parentId) : undefined;
+    }
+    it.depth = d;
   }
 
   // ── Store staart rows in schedule for bottom panel ──
@@ -503,35 +483,4 @@ function findParentId(
   }
   // Otherwise, parent is the chapter
   return chapterIds.get(row.groep) || null;
-}
-
-function makeCostItem(partial: Partial<CostItem> & { id: string }): CostItem {
-  return {
-    id: partial.id,
-    parentId: partial.parentId ?? null,
-    sortOrder: partial.sortOrder ?? 0,
-    code: partial.code ?? '',
-    description: partial.description ?? '',
-    unit: partial.unit ?? 'st',
-    quantity: partial.quantity ?? null,
-    materialPrice: partial.materialPrice ?? null,
-    laborPrice: partial.laborPrice ?? null,
-    unitPrice: partial.unitPrice ?? 0,
-    total: partial.total ?? 0,
-    isCollapsed: false,
-    depth: partial.depth ?? 0,
-    notes: partial.notes ?? '',
-    ifcGuid: generateIfcGuid(),
-    rowType: partial.rowType ?? 'begrotingspost',
-    staartPercentage: partial.staartPercentage ?? null,
-    nr: '',
-    normQuantity: partial.normQuantity ?? null,
-    normFactor: partial.normFactor ?? null,
-    normDivisor: partial.normDivisor ?? null,
-    normUnitPrice: partial.normUnitPrice ?? null,
-    resourceType: partial.resourceType ?? null,
-    resourceLibraryId: null,
-    verrekenbaar: null,
-    tariefGroep: partial.tariefGroep ?? null,
-  };
 }

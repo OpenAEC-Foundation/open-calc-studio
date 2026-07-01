@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import Modal from "../common/Modal";
+import { ProjectInfoSettings } from "../report/ProjectInfoSettings";
 import RibbonButton from "./RibbonButton";
 import RibbonGroup from "./RibbonGroup";
 import RibbonButtonStack from "./RibbonButtonStack";
-import { clipboardIcon, cutIcon, copyIcon, undoIcon, redoIcon, addChapterIcon, addBegrotingspostIcon, addBewakingspostIcon, addRegelIcon, addTekstregelIcon, addWitregelIcon, deleteIcon, panelLeftIcon, panelRightIcon, settingsIcon, companyIcon, viewStIcon, viewWpCalcIcon, exportIcon } from "./icons";
+import { clipboardIcon, cutIcon, copyIcon, undoIcon, redoIcon, addChapterIcon, addBegrotingspostIcon, addBewakingspostIcon, addRegelIcon, addTekstregelIcon, addWitregelIcon, deleteIcon, panelLeftIcon, panelRightIcon, settingsIcon, companyIcon, viewStIcon, viewWpCalcIcon, exportIcon, trackChangesIcon, clearMarksIcon, rowHighlightIcon, cellHighlightIcon, branchIcon, optionSetIcon } from "./icons";
 import { useAppStore } from "../../state/appStore";
 import { updateAllExcelLinks } from "../../services/excel/excelLinkService";
 
@@ -17,7 +20,25 @@ export default function HomeTab() {
     showHoeveelheid, toggleHoeveelheid,
     openDialog,
     gridView, setGridView,
+    schedule, toggleChangeTracking, clearChangeMarks, setChangeDisplayMode,
+    toggleBranchesEnabled,
   } = useAppStore();
+
+  const trackingOn = !!schedule.changeTrackingSince;
+  const changeDisplayMode = schedule.changeDisplayMode ?? 'row';
+  const branchesOn = !!schedule.branchesEnabled;
+  const [showProject, setShowProject] = useState(false);
+
+  // Maak in één klik een optieset (variant-groep) met twee opties aan.
+  const handleCreateOptieSet = () => {
+    const st = useAppStore.getState();
+    if (!st.schedule.branchesEnabled) st.toggleBranchesEnabled(); // schakelt in + maakt 'main'
+    const branches = useAppStore.getState().schedule.branches ?? [];
+    const n = branches.filter(b => b.parentId === 'main').length + 1;
+    const setId = st.addBranch(`Optieset ${n}`, 'main');
+    st.addBranch('Optie A', setId);
+    st.addBranch('Optie B', setId);
+  };
 
   const handleUndo = () => {
     const restored = undo();
@@ -221,6 +242,69 @@ export default function HomeTab() {
           />
         </RibbonGroup>
 
+        <RibbonGroup label="Wijzigingen">
+          <RibbonButton
+            icon={trackChangesIcon}
+            label="Bijhouden"
+            title={trackingOn
+              ? "Wijzigingen bijhouden staat aan — gewijzigde regels krijgen een kleur. Klik om uit te zetten."
+              : "Wijzigingen bijhouden aanzetten — vanaf nu krijgen gewijzigde regels een kleur"}
+            active={trackingOn}
+            onClick={toggleChangeTracking}
+          />
+          <RibbonButton
+            icon={clearMarksIcon}
+            label="Wis markeringen"
+            size="small"
+            title="Wis de huidige kleurmarkeringen, maar blijf wijzigingen bijhouden"
+            disabled={!trackingOn}
+            onClick={clearChangeMarks}
+          />
+          <RibbonButtonStack>
+            <RibbonButton
+              icon={rowHighlightIcon}
+              label="Hele regel"
+              size="small"
+              title="Markeer de hele gewijzigde regel"
+              active={changeDisplayMode === 'row'}
+              onClick={() => setChangeDisplayMode('row')}
+            />
+            <RibbonButton
+              icon={cellHighlightIcon}
+              label="Alleen cel"
+              size="small"
+              title="Markeer alleen de gewijzigde cel(len)"
+              active={changeDisplayMode === 'cell'}
+              onClick={() => setChangeDisplayMode('cell')}
+            />
+          </RibbonButtonStack>
+        </RibbonGroup>
+
+        <RibbonGroup label="Project">
+          <RibbonButton
+            icon={companyIcon}
+            label="Projectgegevens"
+            title="Projectnaam/-nummer, opdrachtgever, rapportdatum en kengetallen instellen"
+            onClick={() => setShowProject(true)}
+          />
+        </RibbonGroup>
+
+        <RibbonGroup label="Varianten">
+          <RibbonButton
+            icon={branchIcon}
+            label="Varianten"
+            title={branchesOn ? "Begrotingsvarianten staan aan. Klik om uit te zetten." : "Begrotingsvarianten inschakelen (varianten/opties per regel)"}
+            active={branchesOn}
+            onClick={toggleBranchesEnabled}
+          />
+          <RibbonButton
+            icon={optionSetIcon}
+            label="Optieset"
+            title="Maak een optieset (variant-groep) met twee opties aan"
+            onClick={handleCreateOptieSet}
+          />
+        </RibbonGroup>
+
         {hasExcelLinks && (
           <RibbonGroup label="Excel">
             <RibbonButton icon={exportIcon} label="Update Excel" onClick={handleUpdateExcel} />
@@ -228,6 +312,10 @@ export default function HomeTab() {
         )}
 
       </div>
+
+      <Modal open={showProject} onClose={() => setShowProject(false)} title="Projectgegevens">
+        <ProjectInfoSettings />
+      </Modal>
     </div>
   );
 }

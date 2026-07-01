@@ -1,6 +1,6 @@
 # Open Calc Studio — API Documentatie
 
-> Versie 2.0.0 | Stack: Vite 6 + React 18 + TypeScript 5.7 + Zustand 5 + Tauri 2
+> Versie 2.1.0 | Stack: Vite 6 + React 18 + TypeScript 5.7 + Zustand 5 + Tauri 2
 
 ---
 
@@ -12,7 +12,7 @@ Open Calc Studio slaat projecten op als `.ifcx` bestanden (JSON). Het formaat is
 
 | Veld | Type | Omschrijving |
 |------|------|-------------|
-| `version` | `string` | Bestandsversie, momenteel `"2.0.0"` |
+| `version` | `string` | Bestandsversie, momenteel `"2.1.0"` (zie docs/ifccalc-formaat.md) |
 | `schedule` | `CostSchedule` | Projectmetadata en begrotingsgegevens |
 | `items` | `CostItem[]` | Alle begrotingsregels (platte lijst met parentId-verwijzingen) |
 | `resourceLibrary` | `ResourceLibraryItem[]` | Middelenbibliotheek (optioneel) |
@@ -160,7 +160,7 @@ Het systeem ondersteunt automatische migratie van v1 naar v2:
 
 ```json
 {
-  "version": "2.0.0",
+  "version": "2.1.0",
   "schedule": {
     "id": "...",
     "name": "Nieuwbouw woning",

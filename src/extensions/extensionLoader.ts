@@ -114,6 +114,15 @@ function executeExtensionCode(mainCode: string): ExtensionPlugin {
 export async function enableExtension(id: string): Promise<void> {
   const store = useAppStore.getState();
 
+  // Builtins leven in code, niet in IndexedDB: hun importers blijven altijd
+  // geregistreerd en alleen de status bepaalt zichtbaarheid. Direct weer op
+  // 'enabled' zetten — de DB-route hieronder zou met "not found in storage"
+  // falen en de toggle permanent op error zetten.
+  if (id.startsWith('builtin-')) {
+    store.setExtensionStatus(id, 'enabled');
+    return;
+  }
+
   // Already active?
   if (activePlugins.has(id)) return;
 
@@ -173,6 +182,12 @@ export async function loadAllExtensions(): Promise<void> {
     const allExtensions = await getAllExtensionsFromDb();
 
     for (const ext of allExtensions) {
+      // Builtin-importers (BasCalc/WpCalc/xtb/RSX/…) zijn in-code beheerd en
+      // staan standaard AAN via registerBuiltinExtensions(). Een (stale)
+      // IndexedDB-record mag die registratie nooit overschrijven naar
+      // 'disabled' — anders kun je ineens geen .calc/.xtb meer openen.
+      if (ext.id.startsWith('builtin-')) continue;
+
       // Register in store
       const installed: InstalledExtension = {
         id: ext.id,

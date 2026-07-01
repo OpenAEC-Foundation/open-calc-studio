@@ -1,42 +1,6 @@
 import * as XLSX from 'xlsx';
-import type { CostItem, CostSchedule, CostUnit, RowType, CompanyInfo, ResourceType } from '@/types/costModel';
-
-function generateId(): string {
-  return crypto.randomUUID();
-}
-
-function generateIfcGuid(): string {
-  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$';
-  let result = '';
-  for (let i = 0; i < 22; i++) {
-    result += chars[Math.floor(Math.random() * 64)];
-  }
-  return result;
-}
-
-function mapUnit(raw: string | undefined | null): CostUnit {
-  if (!raw) return 'st';
-  const u = raw.toString().trim().toLowerCase();
-  switch (u) {
-    case 'm2': return 'm²';
-    case 'm1': return 'm';
-    case 'm3': return 'm³';
-    case 'uur': return 'uur';
-    case 'st': return 'st';
-    case 'ton': return 'ton';
-    case 'dgn': return 'dgn';
-    case 'km': return 'km';
-    case 'keer': return 'keer';
-    case '%': return '%';
-    case 'pm': return 'pm';
-    case 'kg': return 'kg';
-    case 'ls': return 'ls';
-    case 'week': return 'week';
-    case 'mnd': return 'mnd';
-    case 'post': return 'post';
-    default: return 'st';
-  }
-}
+import type { CostItem, CostSchedule, RowType, CompanyInfo, ResourceType } from '@/types/costModel';
+import { makeCostItem, normalizeUnit, genId, genIfcGuid } from './core';
 
 function getDepthFromCode(code: string): number {
   const len = code.replace(/\s/g, '').length;
@@ -76,38 +40,6 @@ function cellNum(row: unknown[], col: number): number | null {
   if (v === undefined || v === null || v === '') return null;
   const n = Number(v);
   return isNaN(n) ? null : n;
-}
-
-function createEmptyItem(overrides: Partial<CostItem>): CostItem {
-  return {
-    id: generateId(),
-    parentId: null,
-    sortOrder: 0,
-    code: '',
-    description: '',
-    unit: 'st',
-    quantity: null,
-    materialPrice: null,
-    laborPrice: null,
-    unitPrice: 0,
-    total: 0,
-    isCollapsed: false,
-    depth: 0,
-    notes: '',
-    ifcGuid: generateIfcGuid(),
-    rowType: 'begrotingspost',
-    staartPercentage: null,
-    nr: '',
-    normQuantity: null,
-    normFactor: null,
-    normDivisor: null,
-    normUnitPrice: null,
-    resourceType: null,
-    resourceLibraryId: null,
-    verrekenbaar: null,
-    tariefGroep: null,
-    ...overrides,
-  };
 }
 
 export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSchedule; items: CostItem[]; companyInfo: CompanyInfo } {
@@ -213,7 +145,7 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
 
       const description = cellStr(row, 3); // Column D
       const quantity = cellNum(row, 8);    // Column I (Hoeveelheid)
-      const unit = mapUnit(cellStr(row, 9)); // Column J (Eenheid)
+      const unit = normalizeUnit(cellStr(row, 9)); // Column J (Eenheid)
       const ehPrijs = cellNum(row, 12);    // Column M (Eh.prijs post)
       const bedrag = cellNum(row, 13);     // Column N (Bedrag post)
 
@@ -255,7 +187,7 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
 
       const itemRowType: RowType = isChapter ? 'chapter' : rowType;
 
-      const item = createEmptyItem({
+      const item = makeCostItem({
         parentId,
         sortOrder: sortOrder++,
         code,
@@ -289,7 +221,7 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
       // cb rows with code 'opm' are tekstregel (opmerking), not bewakingspost
       const isTekst = code.trim().toLowerCase() === 'opm';
 
-      const item = createEmptyItem({
+      const item = makeCostItem({
         parentId,
         sortOrder: sortOrder++,
         code: isTekst ? '' : code,
@@ -312,7 +244,7 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
       const colE = cellNum(row, 4);     // Column E → Aantal (quantity)
       const colF = cellNum(row, 5);    // Column F → Productienorm (normQuantity)
       const colH = cellNum(row, 7);    // Column H → Productiecapaciteit (normFactor)
-      const rUnit = mapUnit(cellStr(row, 9));
+      const rUnit = normalizeUnit(cellStr(row, 9));
       const sColumn = cellStr(row, 10);
       const rEhPrijs = cellNum(row, 12);
       const rBedrag = cellNum(row, 13);
@@ -323,7 +255,7 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
       const parentId = parentStack.length > 0 ? parentStack[parentStack.length - 1].id : null;
       const depth = parentId ? (parentStack[parentStack.length - 1].depth + 1) : 0;
 
-      const item = createEmptyItem({
+      const item = makeCostItem({
         parentId,
         sortOrder: sortOrder++,
         code,
@@ -348,7 +280,7 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
       const parentId = parentStack.length > 0 ? parentStack[parentStack.length - 1].id : null;
       const depth = parentId ? (parentStack[parentStack.length - 1].depth + 1) : 0;
 
-      const item = createEmptyItem({
+      const item = makeCostItem({
         parentId,
         sortOrder: sortOrder++,
         description,
@@ -362,7 +294,7 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
 
   // --- Build schedule ---
   const schedule: CostSchedule = {
-    id: generateId(),
+    id: genId(),
     name: projectName || 'BasCalc import',
     description: '',
     status: 'DRAFT',
@@ -372,7 +304,7 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
     projectNumber: projectNumber || '',
     client: client || '',
     author: author || '',
-    ifcGuid: generateIfcGuid(),
+    ifcGuid: genIfcGuid(),
     uitvoeringskosten,
     algemeneKosten,
     winstRisico,
