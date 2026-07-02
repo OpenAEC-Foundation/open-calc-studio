@@ -285,7 +285,7 @@ export function buildBouw1Html(
   }
 
   // Summary section
-  let summaryHtml = buildSummarySection(colTotals, breakdown, schedule, hasStaart);
+  let summaryHtml = buildSummarySection(colTotals, breakdown, hasStaart);
 
   const actionsHtml = includeActions
     ? `<div class="print-actions">
@@ -448,44 +448,45 @@ function buildChapterSubtotalRow(chapterDR: Bouw1Row): string {
 function buildSummarySection(
   colTotals: ColumnTotals,
   breakdown: ReturnType<typeof getStaartBreakdown> | null,
-  schedule: CostSchedule,
   hasStaart: boolean,
 ): string {
   const kostprijs = breakdown?.kostprijs ?? (colTotals.loon + colTotals.materiaal + colTotals.materieel + colTotals.stelpost + colTotals.ondaann);
+  const akBasis = colTotals.loon + colTotals.materiaal + colTotals.materieel;
 
-  // Opslagen percentages from staart or schedule
-  const akPct = breakdown?.akPercentage ?? schedule.algemeneKosten ?? 6;
-  void (breakdown?.wrPercentage ?? schedule.winstRisico ?? 2);
+  // Opslag-percentages én -bedragen komen uit de staart-breakdown: die is
+  // afgeleid uit de daadwerkelijke staart-items (dus inclusief door de
+  // gebruiker aangepaste percentages). Alleen als er geen staart is
+  // (breakdown === null) vallen we terug op de standaard-percentages.
 
-  // AK over onderaanneming (9% default)
-  const akOndPct = 9;
-  const akOndAmount = colTotals.ondaann * (akOndPct / 100);
+  // AK over onderaanneming
+  const akOndPct = breakdown?.akOaPercentage ?? 9;
+  const akOndAmount = breakdown?.akOaAmount ?? colTotals.ondaann * (akOndPct / 100);
 
   // Algemene bedrijfskosten (over loon + materiaal + materieel)
-  const akBasis = colTotals.loon + colTotals.materiaal + colTotals.materieel;
-  const akAmount = akBasis * (akPct / 100);
+  const akPct = breakdown?.abkPercentage ?? 6;
+  const akAmount = breakdown?.abkAmount ?? akBasis * (akPct / 100);
 
-  // Garanties (2%)
-  const garantiePct = 2;
-  const garantieAmount = akBasis * (garantiePct / 100);
+  // Garanties
+  const garantiePct = breakdown?.garantiesPercentage ?? 2;
+  const garantieAmount = breakdown?.garantiesAmount ?? akBasis * (garantiePct / 100);
 
-  // Werkvoorbereiding & projectmanagement (2%)
-  const wvPct = 2;
-  const wvAmount = akBasis * (wvPct / 100);
+  // Werkvoorbereiding & projectmanagement
+  const wvPct = breakdown?.wvpmPercentage ?? 2;
+  const wvAmount = breakdown?.wvpmAmount ?? akBasis * (wvPct / 100);
 
-  const totaalKostprijs = kostprijs + akOndAmount + akAmount + garantieAmount + wvAmount;
+  const totaalKostprijs = breakdown?.kostprijsBouw1 ?? (kostprijs + akOndAmount + akAmount + garantieAmount + wvAmount);
 
-  // Risico, winst, verzekering (over totaal kostprijs)
-  const risicoPct = 3;
-  const winstPct = 5;
-  const verzekeringPct = 0.5;
+  // Risico, winst, verzekering
+  const risicoPct = breakdown?.risicoPercentage ?? 3;
+  const winstPct = breakdown?.winstPercentage ?? 5;
+  const verzekeringPct = breakdown?.verzekeringPercentage ?? 0.5;
 
-  const risico = totaalKostprijs * (risicoPct / 100);
-  const winst = totaalKostprijs * (winstPct / 100);
-  const verzekering = totaalKostprijs * (verzekeringPct / 100);
+  const risico = breakdown?.risicoAmount ?? totaalKostprijs * (risicoPct / 100);
+  const winst = breakdown?.winstAmount ?? totaalKostprijs * (winstPct / 100);
+  const verzekering = breakdown?.verzekeringAmount ?? totaalKostprijs * (verzekeringPct / 100);
 
-  const totaalExclBtw = totaalKostprijs + risico + winst + verzekering;
-  const btwPct = 21;
+  const totaalExclBtw = breakdown?.aanneemsomExcl ?? (totaalKostprijs + risico + winst + verzekering);
+  const btwPct = breakdown?.btwPercentage ?? 21;
 
   return `
   <div class="summary-section">

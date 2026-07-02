@@ -10,8 +10,26 @@ function generateIfcGuid(): string {
   return r;
 }
 
-/** Empty schedule for initial state before async load */
+/**
+ * Empty schedule for initial state before async load.
+ *
+ * De drie opslag-scalars (uitvoeringskosten/algemeneKosten/winstRisico) vormen
+ * het LEGACY 3-opslagmodel dat nog wordt gelezen door rapport-, export- en
+ * MCP-lagen. De echte staartberekening draait op de detail-staart-items
+ * (createDefaultItems → staart_ak_oa/abk/…): dát is de bron van waarheid.
+ *
+ * Om te voorkomen dat beide representaties uit elkaar lopen, leiden we de
+ * scalars af uit die items (op waarde) i.p.v. losse magische getallen:
+ *   - uitvoeringskosten ← ABK-percentage         (staart_abk)
+ *   - algemeneKosten    ← AK over onderaanneming  (staart_ak_oa)
+ *   - winstRisico       ← winst-percentage        (staart_winst)
+ * Let op: winstRisico dekt alléén winst; de aparte risico-opslag (staart_risico,
+ * 3%) zit hier bewust niet in — net als in het bestaande gedrag.
+ */
 export function createDefaultSchedule(): CostSchedule {
+  const staart = createDefaultItems();
+  const pctOf = (rowType: string): number =>
+    staart.find((i) => i.rowType === rowType)?.staartPercentage ?? 0;
   return {
     id: crypto.randomUUID(),
     name: i18next.t('newBudget', { defaultValue: 'New budget' }),
@@ -24,9 +42,9 @@ export function createDefaultSchedule(): CostSchedule {
     client: '',
     author: '',
     ifcGuid: generateIfcGuid(),
-    uitvoeringskosten: 6,
-    algemeneKosten: 9,
-    winstRisico: 5,
+    uitvoeringskosten: pctOf('staart_abk'),
+    algemeneKosten: pctOf('staart_ak_oa'),
+    winstRisico: pctOf('staart_winst'),
     projectProperties: createDefaultProjectProperties(),
   };
 }

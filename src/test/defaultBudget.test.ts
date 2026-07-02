@@ -17,8 +17,8 @@ describe('Default Budget', () => {
 
   it('creates items with correct structure', () => {
     const items = createDefaultItems();
-    // Default items are 4 staart items
-    expect(items.length).toBe(4);
+    // Default items are 9 staart items (gedetailleerde staartkosten-breakdown)
+    expect(items.length).toBe(9);
 
     // Every item has an id and ifcGuid
     for (const item of items) {
@@ -30,18 +30,25 @@ describe('Default Budget', () => {
   it('has staart items with correct row types', () => {
     const items = createDefaultItems();
     const staartTypes = items.map(i => i.rowType);
-    expect(staartTypes).toEqual(['staart_ukk', 'staart_ak', 'staart_wr', 'staart_afronding']);
+    expect(staartTypes).toEqual([
+      'staart_ak_oa', 'staart_abk', 'staart_garanties', 'staart_wvpm',
+      'staart_risico', 'staart_winst', 'staart_verzekering', 'staart_btw', 'staart_afronding',
+    ]);
   });
 
   it('staart items have correct percentages', () => {
     const items = createDefaultItems();
-    const ukk = items.find(i => i.rowType === 'staart_ukk');
-    const ak = items.find(i => i.rowType === 'staart_ak');
-    const wr = items.find(i => i.rowType === 'staart_wr');
+    const akOa = items.find(i => i.rowType === 'staart_ak_oa');
+    const abk = items.find(i => i.rowType === 'staart_abk');
+    const risico = items.find(i => i.rowType === 'staart_risico');
+    const winst = items.find(i => i.rowType === 'staart_winst');
+    const btw = items.find(i => i.rowType === 'staart_btw');
     const afr = items.find(i => i.rowType === 'staart_afronding');
-    expect(ukk!.staartPercentage).toBe(6);
-    expect(ak!.staartPercentage).toBe(9);
-    expect(wr!.staartPercentage).toBe(5);
+    expect(akOa!.staartPercentage).toBe(9);
+    expect(abk!.staartPercentage).toBe(6);
+    expect(risico!.staartPercentage).toBe(3);
+    expect(winst!.staartPercentage).toBe(5);
+    expect(btw!.staartPercentage).toBe(21);
     expect(afr!.staartPercentage).toBeNull();
   });
 
@@ -67,5 +74,21 @@ describe('Default Budget', () => {
     for (const item of items) {
       expect(item.parentId).toBeNull();
     }
+  });
+
+  it('legacy opslag-scalars blijven in sync met de detail-staart-items', () => {
+    // De schedule-scalars (legacy 3-opslagmodel) worden afgeleid uit de
+    // staart-items (bron van waarheid). Deze test bewaakt dat ze niet uit
+    // elkaar lopen als de default-percentages ooit wijzigen.
+    const schedule = createDefaultSchedule();
+    const items = createDefaultItems();
+    const pctOf = (rt: string) => items.find((i) => i.rowType === rt)!.staartPercentage;
+    expect(schedule.uitvoeringskosten).toBe(pctOf('staart_abk'));
+    expect(schedule.algemeneKosten).toBe(pctOf('staart_ak_oa'));
+    expect(schedule.winstRisico).toBe(pctOf('staart_winst'));
+    // Waarden ongewijzigd t.o.v. voorheen (geen gedragswijziging):
+    expect(schedule.uitvoeringskosten).toBe(6);
+    expect(schedule.algemeneKosten).toBe(9);
+    expect(schedule.winstRisico).toBe(5);
   });
 });
