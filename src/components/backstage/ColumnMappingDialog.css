@@ -1,0 +1,120 @@
+/* Column mapping dialog — generieke Excel/CSV-import */
+.column-mapping-dialog {
+  width: min(920px, 94vw);
+  max-height: 84vh;
+}
+
+.cmd-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+}
+
+.cmd-intro {
+  margin: 0;
+  padding: 12px 16px;
+  font-size: 12px;
+  color: var(--theme-text-secondary);
+  border-bottom: 1px solid var(--theme-dialog-border);
+}
+.cmd-intro strong { color: var(--theme-text); }
+
+.cmd-table-wrap {
+  flex: 1;
+  overflow: auto;
+  padding: 8px 16px;
+}
+
+.cmd-table {
+  border-collapse: collapse;
+  font-size: 12px;
+  color: var(--theme-text);
+  white-space: nowrap;
+}
+
+.cmd-table th {
+  position: sticky;
+  top: 0;
+  background: var(--theme-dialog-header-bg);
+  border: 1px solid var(--theme-dialog-border);
+  padding: 6px 8px;
+  vertical-align: top;
+  text-align: left;
+  z-index: 1;
+}
+
+.cmd-header-name {
+  font-weight: 600;
+  font-size: 11px;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+  color: var(--theme-text-secondary);
+}
+
+.cmd-table th select {
+  width: 100%;
+  min-width: 130px;
+  font-family: inherit;
+  font-size: 12px;
+  padding: 3px 4px;
+  background: var(--theme-input-bg, var(--theme-dialog-bg));
+  color: var(--theme-editable-text, var(--theme-text));
+  border: 1px solid var(--theme-border);
+  border-radius: 3px;
+}
+
+.cmd-table td {
+  border: 1px solid var(--theme-dialog-border);
+  padding: 4px 8px;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cmd-ignored {
+  color: var(--theme-text-secondary);
+  opacity: 0.45;
+}
+
+.cmd-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--theme-dialog-border);
+  flex-shrink: 0;
+}
+
+.cmd-status {
+  font-size: 11px;
+  color: var(--theme-text-secondary);
+}
+.cmd-warn { color: var(--theme-danger-color, #dc2626); font-weight: 500; }
+
+.cmd-actions { display: flex; gap: 8px; }
+
+.cmd-btn {
+  padding: 6px 18px;
+  font-size: 12px;
+  font-family: inherit;
+  font-weight: 500;
+  border: 1px solid var(--theme-border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--theme-text-secondary);
+  cursor: default;
+  transition: all 0.15s ease;
+}
+.cmd-btn:hover { background: var(--theme-hover); color: var(--theme-text); border-color: var(--theme-accent); }
+
+.cmd-btn-primary {
+  background: var(--theme-accent, #D97706);
+  border-color: var(--theme-accent, #D97706);
+  color: #fff;
+}
+.cmd-btn-primary:hover { background: var(--theme-accent-hover, #EA580C); color: #fff; }
+.cmd-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }

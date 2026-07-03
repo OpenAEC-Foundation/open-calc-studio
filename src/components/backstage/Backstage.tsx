@@ -10,10 +10,15 @@ import { exportInschrijfstaatAsync } from "../../services/export/inschrijfstaatE
 import { exportWpCalcFile } from "../../services/export/wpcalcExporter";
 import { printBudget } from "../../services/print/printService";
 import { isTauriEnvironment } from "../../services/file/nativeFileService";
-import { importCuf, importTradxml, importRsx, importZsx, importNsx, importS01, type ImportResult } from "../../services/importers";
+import {
+  importCuf, importTradxml, importRsx, importRsu, importZsx, importNsx, importS01, importSufx, importBmecat,
+  parseCsv, parseXlsxTabular, buildFromMapping,
+  type ImportResult, type TabularData, type ColumnMapping,
+} from "../../services/importers";
 import { exportCuf, exportTradxml, exportRsx, type ExportInput, type ExportResult } from "../../services/exporters";
 import ExtensionManagerPanel from "./ExtensionManagerPanel";
 import { CloudPanel } from "./CloudPanel";
+import ColumnMappingDialog from "./ColumnMappingDialog";
 import { OPENAEC_ENABLED } from "../../services/buildFlags";
 import "./Backstage.css";
 
@@ -309,6 +314,99 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
     }
   }, [onClose]);
 
+  // ── Generieke Excel/CSV-import met kolom-mapping ──
+  const [mappingData, setMappingData] = useState<TabularData | null>(null);
+
+  const handleGenericImport = useCallback(async () => {
+    const extensions = ['xlsx', 'xls', 'csv'];
+    try {
+      if (isTauriEnvironment()) {
+        const { openBinaryFileNative } = await import('../../services/file/nativeFileService');
+        const res = await openBinaryFileNative('Excel/CSV', extensions);
+        if (!res) return;
+        const fileName = res.path.split(/[\\/]/).pop() || 'import';
+        const base = fileName.replace(/\.[^.]+$/, '');
+        const bytes = res.data instanceof Uint8Array ? res.data : new Uint8Array(res.data);
+        const data = /\.csv$/i.test(fileName)
+          ? parseCsv(new TextDecoder().decode(bytes), base)
+          : parseXlsxTabular(bytes, base);
+        if (data.headers.length === 0) { alert('Geen kolommen gevonden in het bestand.'); return; }
+        setMappingData(data);
+      } else {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.xlsx,.xls,.csv';
+        input.onchange = async (e) => {
+          const file = (e.target as HTMLInputElement).files?.[0];
+          if (!file) return;
+          const base = file.name.replace(/\.[^.]+$/, '');
+          const data = /\.csv$/i.test(file.name)
+            ? parseCsv(await file.text(), base)
+            : parseXlsxTabular(await file.arrayBuffer(), base);
+          if (data.headers.length === 0) { alert('Geen kolommen gevonden in het bestand.'); return; }
+          setMappingData(data);
+        };
+        input.click();
+      }
+    } catch (err: any) {
+      console.error('[Import Excel/CSV] failed:', err);
+      alert(`Import mislukt: ${err?.message || err}`);
+    }
+  }, []);
+
+  const handleMappingConfirm = useCallback((mapping: ColumnMapping) => {
+    if (!mappingData) return;
+    const result = buildFromMapping(mappingData, mapping);
+    newFile();
+    const store = useAppStore.getState();
+    store.setSchedule(result.schedule);
+    store.setItems(recalculateItems(result.items));
+    store.updateDocument(store.activeDocumentId, { fileName: mappingData.sourceName, isModified: true });
+    if (result.warnings.length > 0) console.warn('[Import Excel/CSV] waarschuwingen:', result.warnings);
+    setMappingData(null);
+    onClose();
+  }, [mappingData, newFile, onClose]);
+
+  const handleBmecatImport = useCallback(async () => {
+    onClose();
+    const applyResult = (xml: string, fileName: string) => {
+      try {
+        const result = importBmecat(xml);
+        if (result.resources.length === 0) { alert(`Geen middelen gevonden (${fileName}).`); return; }
+        const store = useAppStore.getState();
+        const byCode = new Map(store.resourceLibrary.map((r) => [r.code, r]));
+        for (const r of result.resources) byCode.set(r.code, r);
+        store.setResourceLibrary(Array.from(byCode.values()));
+        if (result.warnings.length > 0) console.warn('[Import BMEcat] waarschuwingen:', result.warnings);
+        console.log(`[Import BMEcat] ${result.resources.length} middelen geladen uit ${fileName}`);
+      } catch (err: any) {
+        console.error('[Import BMEcat] failed:', err);
+        alert(`Import mislukt: ${err?.message || err}`);
+      }
+    };
+    try {
+      if (isTauriEnvironment()) {
+        const { openTextFileNative } = await import('../../services/file/nativeFileService');
+        const res = await openTextFileNative('BMEcat/DICO prijscatalogus', ['xml', 'bmecat']);
+        if (!res) return;
+        applyResult(res.content, res.path.split(/[\\/]/).pop() || 'import');
+      } else {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.xml,.bmecat';
+        input.onchange = async (e) => {
+          const file = (e.target as HTMLInputElement).files?.[0];
+          if (!file) return;
+          applyResult(await file.text(), file.name);
+        };
+        input.click();
+      }
+    } catch (err: any) {
+      console.error('[Import BMEcat] failed:', err);
+      alert(`Import mislukt: ${err?.message || err}`);
+    }
+  }, [onClose]);
+
   const handleXmlImport = useCallback(
     async (
       formatLabel: string,
@@ -562,12 +660,32 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
               </button>
               <button
                 className="bs-panel-option"
+                onClick={() => void handleGenericImport()}
+              >
+                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                <div className="bs-panel-option-text">
+                  <strong>Excel / CSV</strong>
+                  <span>Vrije kolomindeling — koppel zelf de kolommen (.xlsx/.csv)</span>
+                </div>
+              </button>
+              <button
+                className="bs-panel-option"
                 onClick={() => void handleXmlImport('STABU-bestek', ['s01'], importS01)}
               >
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
                 <div className="bs-panel-option-text">
                   <strong>STABU-bestek</strong>
                   <span>STABU-uitwisselformaat als skelet-begroting (.s01)</span>
+                </div>
+              </button>
+              <button
+                className="bs-panel-option"
+                onClick={() => void handleXmlImport('STABU SUFX', ['sufx', 'xml'], importSufx)}
+              >
+                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                <div className="bs-panel-option-text">
+                  <strong>STABU SUFX</strong>
+                  <span>STABU Bouwbreed XML als skelet-begroting (.sufx)</span>
                 </div>
               </button>
               <button
@@ -592,12 +710,32 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
               </button>
               <button
                 className="bs-panel-option"
+                onClick={() => void handleXmlImport('RAW RSU (legacy)', ['rsu', 'xml'], importRsu)}
+              >
+                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                <div className="bs-panel-option-text">
+                  <strong>RAW RSU (legacy)</strong>
+                  <span>Oudere RAW-uitwisseling (.rsu) — via de RSX-route</span>
+                </div>
+              </button>
+              <button
+                className="bs-panel-option"
                 onClick={() => void handleZsxImport()}
               >
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
                 <div className="bs-panel-option-text">
                   <strong>Prijslijst (ZSX)</strong>
                   <span>Middelen importeren in resourcebibliotheek (.zsx/.xml)</span>
+                </div>
+              </button>
+              <button
+                className="bs-panel-option"
+                onClick={() => void handleBmecatImport()}
+              >
+                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                <div className="bs-panel-option-text">
+                  <strong>Prijscatalogus (BMEcat/DICO)</strong>
+                  <span>Groothandels-/ETIM-prijsdata in resourcebibliotheek (.xml)</span>
                 </div>
               </button>
               <button
@@ -683,6 +821,12 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
           </div>
         )}
       </div>
+      <ColumnMappingDialog
+        open={!!mappingData}
+        data={mappingData}
+        onClose={() => setMappingData(null)}
+        onConfirm={handleMappingConfirm}
+      />
     </div>
   );
 }
