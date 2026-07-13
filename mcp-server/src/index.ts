@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+// De shebang + createRequire-shim worden door build.mjs (esbuild-banner) aan de bundle toegevoegd.
 /**
  * Open Calc Studio MCP Server
  *
@@ -26,6 +26,7 @@ import WebSocket from "ws";
 import MDBReader from "mdb-reader";
 import initSqlJs from "sql.js";
 import { DOMParser } from "@xmldom/xmldom";
+import * as XLSX from "xlsx";
 
 const nodeRequire = createRequire(import.meta.url);
 
@@ -2885,6 +2886,153 @@ function normalizeUnitXml(raw: string): CostUnit {
 // CUF kent twee dialecten: het standaard 4.003-schema (<CUF>/<BEGROTING>/geneste
 // <BUNDELING>/<BEGROTINGSREGEL>, data in hoofdletter-attributen) en het OCS-eigen
 // <Calculatie>/<Hoofdstuk>-schema. Kies automatisch.
+// ===========================================================================
+// Generic Excel/CSV tabular import
+// (mirrors src/services/importers/genericTabularImporter.ts — self-contained,
+//  net als de andere MCP-importers)
+// ===========================================================================
+
+type TabularTarget =
+  | 'ignore' | 'code' | 'nr' | 'description' | 'unit'
+  | 'quantity' | 'materialPrice' | 'laborPrice' | 'unitPrice' | 'total';
+
+const TABULAR_TARGETS: TabularTarget[] = [
+  'ignore', 'code', 'nr', 'description', 'unit', 'quantity', 'materialPrice', 'laborPrice', 'unitPrice', 'total',
+];
+
+/** NL ("1.234,56") of EN ("1234.56") getal → number; leeg/onleesbaar → 0. */
+function parseNumNL(raw: string): number {
+  const s = (raw ?? '').trim();
+  if (!s) return 0;
+  const t = s.indexOf(',') >= 0 ? s.replace(/\./g, '').replace(',', '.') : s;
+  const n = parseFloat(t.replace(/\s/g, ''));
+  return Number.isFinite(n) ? n : 0;
+}
+
+function detectCsvDelimiter(headerLine: string): string {
+  const counts: Record<string, number> = { ';': 0, ',': 0, '\t': 0 };
+  for (const ch of headerLine) if (ch in counts) counts[ch] += 1;
+  const best = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
+  return best && best[1] > 0 ? best[0] : ';';
+}
+
+function parseCsvLineMcp(line: string, delim: string): string[] {
+  const out: string[] = [];
+  let cur = ''; let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (inQuotes) {
+      if (ch === '"') { if (line[i + 1] === '"') { cur += '"'; i += 1; } else inQuotes = false; }
+      else cur += ch;
+    } else if (ch === '"') inQuotes = true;
+    else if (ch === delim) { out.push(cur); cur = ''; }
+    else cur += ch;
+  }
+  out.push(cur);
+  return out.map((s) => s.trim());
+}
+
+function parseCsvText(text: string): { headers: string[]; rows: string[][] } {
+  const lines = text.replace(/^﻿/, '').split(/\r?\n/).filter((l) => l.trim().length > 0);
+  if (lines.length === 0) return { headers: [], rows: [] };
+  const delim = detectCsvDelimiter(lines[0]);
+  return { headers: parseCsvLineMcp(lines[0], delim), rows: lines.slice(1).map((l) => parseCsvLineMcp(l, delim)) };
+}
+
+function parseTabularFile(filePath: string): { headers: string[]; rows: string[][] } {
+  if (/\.csv$/i.test(filePath)) return parseCsvText(readFileSync(filePath, 'utf8'));
+  const wb = XLSX.read(readFileSync(filePath), { type: 'buffer' });
+  let best: unknown[][] = [];
+  for (const name of wb.SheetNames) {
+    const rows = XLSX.utils.sheet_to_json<unknown[]>(wb.Sheets[name], { header: 1, blankrows: false });
+    if (rows.length > best.length) best = rows;
+  }
+  if (best.length === 0) return { headers: [], rows: [] };
+  const toStr = (v: unknown) => (v == null ? '' : String(v).trim());
+  return { headers: (best[0] as unknown[]).map(toStr), rows: best.slice(1).map((r) => (r as unknown[]).map(toStr)) };
+}
+
+const TABULAR_SYNONYMS: { field: TabularTarget; pattern: RegExp }[] = [
+  { field: 'code', pattern: /^(code|stabu|nlsfb|nl-sfb|besteksnr|besteknr|artikelnr|artikelcode)$/ },
+  { field: 'nr', pattern: /^(nr|nummer|regelnr|volgnr|positie|pos)$/ },
+  { field: 'description', pattern: /^(omschrijving|omschr|oms|description|benaming|naam|werk|activiteit)$/ },
+  { field: 'unit', pattern: /^(eh|ehd|eenheid|unit)$/ },
+  { field: 'quantity', pattern: /^(hoeveelheid|hoev|hvh|aantal|qty|quantity)$/ },
+  { field: 'materialPrice', pattern: /^(materiaal|materiaalprijs|mat|matprijs|material)$/ },
+  { field: 'laborPrice', pattern: /^(arbeid|arbeidsprijs|loon|loonprijs|labor|labour|uurprijs|urenprijs)$/ },
+  { field: 'unitPrice', pattern: /^(eenheidsprijs|ehprijs|ehprs|prijs|price|unitprice|stukprijs|tarief|prijspereh)$/ },
+  { field: 'total', pattern: /^(totaal|bedrag|total|amount|subtotaal|regeltotaal)$/ },
+];
+
+/** Raad per bronkolom een doelveld op basis van de kop. Elk veld max. één keer. */
+function autoDetectTabularMapping(headers: string[]): TabularTarget[] {
+  const used = new Set<TabularTarget>();
+  return headers.map((h) => {
+    const norm = h.trim().toLowerCase().replace(/[\s._/]+/g, '');
+    for (const syn of TABULAR_SYNONYMS) {
+      if (used.has(syn.field)) continue;
+      if (syn.pattern.test(norm)) { used.add(syn.field); return syn.field; }
+    }
+    return 'ignore';
+  });
+}
+
+/**
+ * Bouw items uit rijen + kolom-mapping. Rij met (alleen) code/omschrijving en
+ * géén hoeveelheid/bedrag → hoofdstuk; overige rijen → begrotingspost onder het
+ * laatst geziene hoofdstuk.
+ */
+function buildTabularItems(
+  data: { headers: string[]; rows: string[][]; sourceName: string },
+  mapping: TabularTarget[],
+): { items: CostItem[]; schedule: Partial<CostSchedule>; warnings: string[] } {
+  const items: CostItem[] = [];
+  const warnings: string[] = [];
+  const colOf = (f: TabularTarget) => mapping.indexOf(f);
+  const cDesc = colOf('description'), cCode = colOf('code'), cNr = colOf('nr'), cUnit = colOf('unit');
+  const cQty = colOf('quantity'), cMat = colOf('materialPrice'), cLab = colOf('laborPrice'), cUp = colOf('unitPrice'), cTot = colOf('total');
+  const cell = (row: string[], idx: number) => (idx >= 0 ? (row[idx] ?? '').trim() : '');
+  let currentChapterId: string | null = null;
+
+  for (const row of data.rows) {
+    if (row.every((c) => !c || !c.trim())) continue;
+    const description = cell(row, cDesc), code = cell(row, cCode);
+    if (!description && !code) continue;
+    const qtyRaw = cell(row, cQty), matRaw = cell(row, cMat), labRaw = cell(row, cLab), upRaw = cell(row, cUp), totRaw = cell(row, cTot);
+    const hasQty = qtyRaw !== '';
+    const hasMoney = [matRaw, labRaw, upRaw, totRaw].some((v) => v !== '');
+    if (!hasQty && !hasMoney) {
+      const ch = makeBlankItem({ id: crypto.randomUUID(), parentId: null, sortOrder: items.length, depth: 0, rowType: 'chapter', code, description: description || code, unit: 'st', verrekenbaar: 'V' });
+      items.push(ch); currentChapterId = ch.id; continue;
+    }
+    // Een kale begrotingspost haalt zijn totaal bij de herberekening uit
+    // hoeveelheid × (materiaal + arbeid). Een losse eenheidsprijs/totaal
+    // stoppen we daarom in de materiaal-kolom, anders komt de post op € 0.
+    let materialPrice = matRaw !== '' ? parseNumNL(matRaw) : null;
+    const laborPrice = labRaw !== '' ? parseNumNL(labRaw) : null;
+    let quantity = hasQty ? parseNumNL(qtyRaw) : null;
+    const explicitUnit = upRaw !== '' ? parseNumNL(upRaw) : null;
+    const explicitTotal = totRaw !== '' ? parseNumNL(totRaw) : null;
+    if (materialPrice == null && laborPrice == null) {
+      if (explicitUnit != null) materialPrice = explicitUnit;
+      else if (explicitTotal != null) {
+        if (quantity == null || quantity === 0) { quantity = 1; materialPrice = explicitTotal; }
+        else materialPrice = explicitTotal / quantity;
+      }
+    }
+    const unitPrice = (materialPrice ?? 0) + (laborPrice ?? 0);
+    const total = (quantity ?? 0) * unitPrice;
+    items.push(makeBlankItem({
+      id: crypto.randomUUID(), parentId: currentChapterId, sortOrder: items.length,
+      depth: currentChapterId ? 1 : 0, rowType: 'begrotingspost',
+      code, nr: cell(row, cNr), description, unit: normalizeUnitXml(cell(row, cUnit)),
+      quantity, materialPrice, laborPrice, unitPrice, total,
+    }));
+  }
+  if (items.length === 0) warnings.push('Geen bruikbare rijen gevonden met deze kolomindeling.');
+  return { items, schedule: { name: data.sourceName || 'Import' }, warnings };
+}
+
 function importCufXml(xml: string): { items: CostItem[]; schedule: Partial<CostSchedule>; warnings: string[] } {
   const doc = xmlParse(xml);
   const root = (doc as any).documentElement;
@@ -3237,6 +3385,64 @@ server.tool("import_rsx", "Import a RAW RSX (CROW) XML string into the current b
     return ok({
       success: true, format: 'rsx', importedCount: res.items.length,
       warnings: res.warnings,
+    });
+  } catch (e: unknown) { return err((e as Error).message); }
+});
+
+server.tool("import_excel_csv", "Import a generic Excel (.xlsx/.xls) or CSV begroting with a free column layout. You map each source column to a target field (code, nr, description, unit, quantity, materialPrice, laborPrice, unitPrice, total, or ignore). If 'mapping' is omitted it is auto-detected from the header row. Recommended flow: call once with dryRun:true to inspect the detected mapping, headers and a row preview, then re-call with a corrected 'mapping' (one entry per column, in column order). Rows with only code/description and no quantity/amount become a chapter; the rest become begrotingsposten.", {
+  filePath: z.string().optional().describe("Path to a .xlsx/.xls/.csv file. Provide this OR csvContent."),
+  csvContent: z.string().optional().describe("Raw CSV text (alternative to filePath, for CSV data you already have)."),
+  mapping: z.array(z.enum(['ignore', 'code', 'nr', 'description', 'unit', 'quantity', 'materialPrice', 'laborPrice', 'unitPrice', 'total'])).optional().describe("Target field per source column, in column order. Omit to auto-detect from headers."),
+  dryRun: z.boolean().optional().describe("If true, only inspect: return headers, detected mapping and a preview without importing."),
+  replace: z.boolean().optional().describe("Replace existing (non-staart) items instead of appending (default: false)."),
+}, async ({ filePath, csvContent, mapping, dryRun, replace }) => {
+  try {
+    let parsed: { headers: string[]; rows: string[][] };
+    let sourceName: string;
+    if (csvContent && csvContent.trim()) {
+      parsed = parseCsvText(csvContent);
+      sourceName = 'CSV-import';
+    } else if (filePath) {
+      const p = resolve(filePath);
+      parsed = parseTabularFile(p);
+      sourceName = basename(p).replace(/\.[^.]+$/, '');
+    } else {
+      return err('Geef filePath of csvContent mee.');
+    }
+    if (parsed.headers.length === 0) return err('Geen kolommen gevonden in het bestand.');
+
+    const usedMapping = (mapping && mapping.length ? mapping : autoDetectTabularMapping(parsed.headers)) as TabularTarget[];
+    const mappingSource = mapping && mapping.length ? 'provided' : 'auto';
+
+    if (dryRun) {
+      return ok({
+        dryRun: true, sourceName, headers: parsed.headers,
+        mapping: usedMapping, mappingSource,
+        targetFields: TABULAR_TARGETS, rowCount: parsed.rows.length,
+        preview: parsed.rows.slice(0, 5),
+      });
+    }
+
+    if (!usedMapping.includes('description')) {
+      return err('Geen kolom aan "description" gekoppeld. Roep aan met dryRun:true om de koppen te zien en geef een expliciete mapping mee.');
+    }
+
+    ensureBudgetForImport();
+    const b = req();
+    const res = buildTabularItems({ headers: parsed.headers, rows: parsed.rows, sourceName }, usedMapping);
+    const baseItems = replace ? [] : b.items.filter(i => !isStagart(i.rowType));
+    const staart = b.items.filter(i => isStagart(i.rowType));
+    b.items = [...baseItems, ...res.items, ...staart];
+    if (res.schedule.name && !b.schedule.name) b.schedule.name = res.schedule.name;
+    doRecalc();
+    sendBridgeMutation("set_items", { items: b.items });
+
+    const bd = getStaartBreakdown(b.items);
+    return ok({
+      success: true, format: 'tabular', sourceName,
+      mapping: usedMapping, mappingSource,
+      importedCount: res.items.length, warnings: res.warnings,
+      grandTotal: bd.aanneemsomAfgerond,
     });
   } catch (e: unknown) { return err((e as Error).message); }
 });

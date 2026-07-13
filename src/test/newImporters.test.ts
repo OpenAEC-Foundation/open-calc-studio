@@ -7,6 +7,7 @@ import {
   importSufx,
   importRsu,
 } from '@/services/importers';
+import { recalculateItems } from '@/services/calculation/calculator';
 
 describe('Generieke Excel/CSV-import', () => {
   const csv = [
@@ -54,6 +55,17 @@ describe('Generieke Excel/CSV-import', () => {
     expect(post.laborPrice).toBe(30);
     expect(post.unitPrice).toBe(50);
     expect(post.total).toBe(500);
+  });
+
+  it('bedragen overleven de herberekening (kale begrotingspost)', () => {
+    // Regressie: een losse "Eenheidsprijs"-kolom (zonder materiaal/arbeid) mag
+    // na recalculateItems niet op € 0 uitkomen — een kale begrotingspost leidt
+    // zijn totaal af uit hoeveelheid × (materiaal + arbeid).
+    const data = parseCsv(['Omschrijving;Hoeveelheid;Eenheidsprijs', 'Ontgraven;100;12,50'].join('\n'), 'x');
+    const recalced = recalculateItems(buildFromMapping(data, autoDetectMapping(data.headers)).items);
+    const post = recalced.find((i) => i.rowType === 'begrotingspost');
+    expect(post?.unitPrice).toBe(12.5);
+    expect(post?.total).toBe(1250);
   });
 });
 

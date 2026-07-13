@@ -18,6 +18,7 @@ const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours
 // (offline én vóór een GitHub-publicatie), samengevoegd met de opgehaalde
 // releases. Bijwerken bij elke release; de bullets staan in HIGHLIGHTS hieronder.
 const BUNDLED_RELEASES: Release[] = [
+  { tag_name: 'v0.8.8', name: 'Excel/CSV-import-fix + via MCP', body: '', published_at: '2026-07-03T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.8.8` },
   { tag_name: 'v0.8.7', name: 'Vier nieuwe importformaten', body: '', published_at: '2026-07-03T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.8.7` },
   { tag_name: 'v0.8.6', name: 'Staartkosten in rapport-samenvatting gecorrigeerd', body: '', published_at: '2026-07-02T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.8.6` },
   { tag_name: 'v0.8.5', name: 'Import fors uitgebreid + wit-scherm-fix', body: '', published_at: '2026-07-01T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.8.5` },
@@ -32,6 +33,10 @@ const BUNDLED_RELEASES: Release[] = [
 // Gecureerde, concrete verbeterpunten per versie. De GitHub-releases bevatten
 // vaak alleen downloads; deze lijst toont wat er écht is verbeterd.
 const HIGHLIGHTS: Record<string, string[]> = {
+  'v0.8.8': [
+    'Excel/CSV-import: bedragen kwamen soms op € 0 te staan — opgelost',
+    'Excel/CSV-import nu ook via de MCP-server (tool import_excel_csv)',
+  ],
   'v0.8.7': [
     'Excel/CSV-import met kolom-mapping — lees vrije Excel-/CSV-indelingen in en koppel zelf de kolommen',
     'Nieuwe formaten: STABU SUFX (XML-bestek) en legacy RAW (.rsu)',

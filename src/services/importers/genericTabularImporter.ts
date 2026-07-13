@@ -190,14 +190,27 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
       continue;
     }
 
-    const materialPrice = matRaw !== '' ? parseNumber(matRaw) : null;
+    let materialPrice = matRaw !== '' ? parseNumber(matRaw) : null;
     const laborPrice = labRaw !== '' ? parseNumber(labRaw) : null;
-    let unitPrice = upRaw !== '' ? parseNumber(upRaw) : 0;
-    if (!unitPrice && (materialPrice != null || laborPrice != null)) {
-      unitPrice = (materialPrice ?? 0) + (laborPrice ?? 0);
+    let quantity = hasQty ? parseNumber(qtyRaw) : null;
+    const explicitUnit = upRaw !== '' ? parseNumber(upRaw) : null;
+    const explicitTotal = totRaw !== '' ? parseNumber(totRaw) : null;
+
+    // Een kale begrotingspost (zonder regels) haalt zijn totaal bij de
+    // herberekening uit hoeveelheid × (materiaal + arbeid). Zit er geen
+    // materiaal/arbeid-split in maar wél een eenheidsprijs of totaal, dan
+    // stoppen we die waarde in de materiaal-kolom zodat het bedrag de
+    // herberekening overleeft (anders zou de post op € 0 uitkomen).
+    if (materialPrice == null && laborPrice == null) {
+      if (explicitUnit != null) {
+        materialPrice = explicitUnit;
+      } else if (explicitTotal != null) {
+        if (quantity == null || quantity === 0) { quantity = 1; materialPrice = explicitTotal; }
+        else { materialPrice = explicitTotal / quantity; }
+      }
     }
-    const quantity = hasQty ? parseNumber(qtyRaw) : null;
-    const total = totRaw !== '' ? parseNumber(totRaw) : (quantity ?? 0) * unitPrice;
+    const unitPrice = (materialPrice ?? 0) + (laborPrice ?? 0);
+    const total = (quantity ?? 0) * unitPrice;
 
     builder.add({
       parentId: currentChapterId,

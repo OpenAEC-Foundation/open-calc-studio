@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "bundle": "esbuild src/index.ts --bundle --platform=node --target=node18 --format=esm --outfile=dist/ocs-mcp.mjs --banner:js=\"#!/usr/bin/env node\"",
+    "bundle": "node build.mjs",
     "start": "tsx src/index.ts"
   },
   "dependencies": {

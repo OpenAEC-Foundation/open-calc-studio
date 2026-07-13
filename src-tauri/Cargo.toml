@@ -2,7 +2,7 @@
 # Unieke naam: de Cargo-default "app" botst met andere Tauri-projecten op deze
 # machine (zelfde dev-binarynaam app.exe) en werd daardoor extern gekild.
 name = "open-calc-studio"
-version = "0.8.7"
+version = "0.8.8"
 description = "A Tauri App"
 authors = ["you"]
 license = ""
