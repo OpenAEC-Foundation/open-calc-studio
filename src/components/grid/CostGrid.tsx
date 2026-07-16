@@ -564,16 +564,15 @@ export const CostGrid: React.FC = () => {
     return set;
   }, [items]);
 
+  const insertRegelBelow = useAppStore((s) => s.insertRegelBelow);
   const handleAddRow = useCallback(
     (rowIndex: number) => {
       const item = visibleItems[rowIndex];
-      if (!item) return;
+      if (!item || item.id.startsWith('footer:')) return;
       pushHistory(items, t('addRow'));
-      const siblings = items.filter((i) => i.parentId === item.parentId);
-      const siblingIdx = siblings.findIndex((s) => s.id === item.id);
-      addItem(item.parentId, siblingIdx >= 0 ? siblingIdx : undefined);
+      insertRegelBelow(item.id);
     },
-    [visibleItems, items, pushHistory, addItem]
+    [visibleItems, items, pushHistory, insertRegelBelow]
   );
 
   const handleContainerKeyDown = useCallback(

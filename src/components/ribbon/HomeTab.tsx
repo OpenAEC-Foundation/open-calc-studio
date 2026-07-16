@@ -5,7 +5,7 @@ import { ProjectInfoSettings } from "../report/ProjectInfoSettings";
 import RibbonButton from "./RibbonButton";
 import RibbonGroup from "./RibbonGroup";
 import RibbonButtonStack from "./RibbonButtonStack";
-import { clipboardIcon, cutIcon, copyIcon, undoIcon, redoIcon, addChapterIcon, addBegrotingspostIcon, addBewakingspostIcon, addRegelIcon, addTekstregelIcon, addWitregelIcon, deleteIcon, panelLeftIcon, panelRightIcon, settingsIcon, companyIcon, viewStIcon, viewWpCalcIcon, exportIcon, trackChangesIcon, clearMarksIcon, rowHighlightIcon, cellHighlightIcon, branchIcon, optionSetIcon } from "./icons";
+import { clipboardIcon, cutIcon, copyIcon, undoIcon, redoIcon, addChapterIcon, addBegrotingspostIcon, addBewakingspostIcon, addRegelIcon, addTekstregelIcon, addWitregelIcon, deleteIcon, settingsIcon, companyIcon, viewStIcon, viewWpCalcIcon, exportIcon, trackChangesIcon, clearMarksIcon, rowHighlightIcon, cellHighlightIcon, branchIcon, optionSetIcon } from "./icons";
 import { useAppStore } from "../../state/appStore";
 import { updateAllExcelLinks } from "../../services/excel/excelLinkService";
 
@@ -14,11 +14,9 @@ export default function HomeTab() {
   const { t: tCommon } = useTranslation("common");
   const {
     canUndo, canRedo, undo, redo, setItems,
-    activeRow, activeItemId, getVisibleItems, copyItems, cutItems, pasteItems, clipboardItems,
-    addItem, addChapter, addBewakingspost, addRegel, addTekstregel, addWitregel, deleteItem, items, pushHistory,
-    toggleSchedulePanel, togglePropertiesPanel, toggleChatPanel, showSchedulePanel, showPropertiesPanel, showChatPanel,
+    activeRow, activeItemId, copyItems, cutItems, pasteItems, clipboardItems,
+    addItem, addChapter, addBewakingspost, addTekstregel, addWitregel, insertRegelBelow, deleteItem, items, pushHistory,
     showHoeveelheid, toggleHoeveelheid,
-    openDialog,
     gridView, setGridView,
     schedule, toggleChangeTracking, clearChangeMarks, setChangeDisplayMode,
     toggleBranchesEnabled,
@@ -85,44 +83,11 @@ export default function HomeTab() {
     addBewakingspost(parentId, activeItem.id);
   };
 
+  // Gedeelde actie met de +-knop bij de rij (insertRegelBelow in de store):
+  // voegt een rekenregel toe direct onder het actieve item.
   const handleAddRegel = () => {
     pushHistory(items, tCommon('newCalculationRule'));
-
-    // Empty budget or no active item: auto-create chapter + begrotingspost + regel
-    if (!activeItem || items.length === 0) {
-      const chapterId = addChapter(null);
-      const postId = addItem(chapterId);
-      addRegel(postId);
-      return;
-    }
-
-    // Find the nearest bewakingspost or begrotingspost
-    let parentId = '';
-    if (activeItem.rowType === 'bewakingspost' || activeItem.rowType === 'begrotingspost') {
-      parentId = activeItem.id;
-    } else if (activeItem.rowType === 'chapter') {
-      // On a chapter: find or create begrotingspost child
-      const child = items.filter(i => i.parentId === activeItem.id && (i.rowType === 'begrotingspost' || i.rowType === 'bewakingspost')).pop();
-      if (child) {
-        parentId = child.id;
-      } else {
-        // No begrotingspost yet — create one
-        parentId = addItem(activeItem.id);
-      }
-    } else {
-      let current = activeItem;
-      while (current) {
-        if (current.rowType === 'bewakingspost' || current.rowType === 'begrotingspost') {
-          parentId = current.id;
-          break;
-        }
-        const parent = items.find((i) => i.id === current.parentId);
-        if (!parent) break;
-        current = parent;
-      }
-    }
-    if (!parentId) return;
-    addRegel(parentId, activeItem.id);
+    insertRegelBelow(activeItemId ?? null);
   };
 
   const handleAddTekstregel = () => {
@@ -193,6 +158,12 @@ export default function HomeTab() {
             <RibbonButton icon={addTekstregelIcon} label={t('home.textLine')} size="small" onClick={handleAddTekstregel} disabled={!activeItem} />
             <RibbonButton icon={addWitregelIcon} label={t('home.blankLine')} size="small" onClick={handleAddWitregel} disabled={!activeItem} />
           </RibbonButtonStack>
+          <RibbonButton
+            icon={addRegelIcon}
+            label="+ Regel"
+            title="Voeg een rekenregel toe direct onder de geselecteerde rij — zelfde als de +-knop links bij de rij"
+            onClick={handleAddRegel}
+          />
           <RibbonButton icon={deleteIcon} label={t("budget.deleteRow")} onClick={handleDelete} disabled={!activeItem} />
         </RibbonGroup>
 

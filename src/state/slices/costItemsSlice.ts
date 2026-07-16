@@ -1,5 +1,5 @@
 import type { StateCreator } from 'zustand';
-import type { CostItem, CostUnit, RowType, ExcelLink } from '@/types/costModel';
+import type { CostItem, CostUnit, RowType, ExcelLink, QuantityLink } from '@/types/costModel';
 import i18next from 'i18next';
 import { recalculateItems } from '@/services/calculation/calculator';
 import { prorateUrenForTariefGroep, prorateUrenAll, prorateUrenForChapter } from '@/services/calculation/urenProrate';
@@ -27,10 +27,19 @@ export interface CostItemsSlice {
   addChapter: (parentId: string | null, afterItemId?: string) => string;
   addBewakingspost: (parentId: string, afterItemId?: string) => string;
   addRegel: (parentId: string, afterItemId?: string) => string;
+  /**
+   * Voeg een rekenregel toe "direct onder" het gegeven item — de gedeelde
+   * actie achter de +-knop bij de rij én de lint-knoppen:
+   *  - regel → als broertje direct onder die regel
+   *  - begrotings-/bewakingspost → als laatste regel ín die post
+   *  - hoofdstuk → in de laatste post van dat hoofdstuk (of maakt er één aan)
+   *  - null / lege begroting → maakt hoofdstuk + post + regel aan
+   */
+  insertRegelBelow: (itemId: string | null) => string;
   addTekstregel: (parentId: string, afterItemId?: string) => string;
   addWitregel: (parentId: string | null, afterItemId?: string) => string;
   deleteItem: (id: string) => void;
-  updateItem: (id: string, field: string, value: string | number | null | boolean | CostUnit | ExcelLink) => void;
+  updateItem: (id: string, field: string, value: string | number | null | boolean | CostUnit | ExcelLink | QuantityLink) => void;
   moveItem: (id: string, direction: 'up' | 'down') => void;
   moveItems: (ids: string[], targetId: string, position: 'before' | 'after' | 'inside') => void;
   indentItem: (id: string) => void;
@@ -203,6 +212,44 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
     set({ items: recalculateItems(newItems) });
     markModified();
     return newItem.id;
+  },
+
+  insertRegelBelow: (itemId) => {
+    const state = get();
+    const item = itemId ? state.items.find((i) => i.id === itemId) : undefined;
+
+    // Lege begroting of geen item: hoofdstuk + post + regel aanmaken.
+    if (!item || state.items.length === 0) {
+      const chapterId = state.addChapter(null);
+      const postId = state.addItem(chapterId);
+      return get().addRegel(postId);
+    }
+
+    // Vind de post (begrotings-/bewakingspost) waar de regel in hoort.
+    let parentId = '';
+    if (item.rowType === 'bewakingspost' || item.rowType === 'begrotingspost') {
+      parentId = item.id;
+    } else if (item.rowType === 'chapter') {
+      // Op een hoofdstuk: laatste post-kind gebruiken of er één aanmaken.
+      const child = state.items
+        .filter((i) => i.parentId === item.id && (i.rowType === 'begrotingspost' || i.rowType === 'bewakingspost'))
+        .pop();
+      parentId = child ? child.id : state.addItem(item.id);
+    } else {
+      // Regel/tekstregel/witregel: loop omhoog naar de dichtstbijzijnde post.
+      let current: CostItem | undefined = item;
+      while (current) {
+        if (current.rowType === 'bewakingspost' || current.rowType === 'begrotingspost') {
+          parentId = current.id;
+          break;
+        }
+        current = state.items.find((i) => i.id === current!.parentId);
+      }
+    }
+    if (!parentId) return '';
+    // afterItemId = het aangeklikte item → de regel komt direct onder zijn
+    // subtree. Bij een hoofdstuk: gewoon achteraan in de gevonden post.
+    return get().addRegel(parentId, item.rowType === 'chapter' ? undefined : item.id);
   },
 
   addTekstregel: (parentId, afterItemId) => {

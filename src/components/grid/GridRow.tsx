@@ -118,11 +118,13 @@ export const GridRow: React.FC<Props> = React.memo(
             </div>
           );
         })}
-        <button
-          className="grid-row-add-btn"
-          title={t('addRow')}
-          onClick={(e) => { e.stopPropagation(); onAddRow(rowIndex); }}
-        >+</button>
+        {canDrag && (
+          <button
+            className="grid-row-add-btn"
+            title={t('addRow')}
+            onClick={(e) => { e.stopPropagation(); onAddRow(rowIndex); }}
+          >+</button>
+        )}
       </div>
     );
   },

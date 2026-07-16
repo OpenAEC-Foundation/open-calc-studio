@@ -7,7 +7,6 @@ import RibbonGroup from "./RibbonGroup";
 import RibbonButtonStack from "./RibbonButtonStack";
 import {
   printIcon,
-  previewIcon,
   pdfExportIcon,
   excelExportIcon,
   exportIcon,
@@ -15,7 +14,9 @@ import {
   portraitIcon,
   landscapeIcon,
   pageSizeIcon,
+  settingsIcon,
 } from "./icons";
+import "./rapportProps.css";
 import { useAppStore } from "../../state/appStore";
 import { printBudget } from "../../services/print/printService";
 import { generateIfcCostFile } from "../../services/ifc/ifcCostGenerator";
@@ -54,6 +55,7 @@ export default function RapportageTab() {
   const { t } = useTranslation("ribbon");
   const { schedule, items, offerte, setActiveContentTab, reportView, setReportView, showHoeveelheid, toggleHoeveelheid, companyInfo, pageOrientation, setPageOrientation, pageSize, setPageSize, setReportShowChanges } = useAppStore();
   const [showLogos, setShowLogos] = useState(false);
+  const [showProps, setShowProps] = useState(false);
 
   const handlePrint = async () => {
     const tauri = await tauriApi();
@@ -74,10 +76,6 @@ export default function RapportageTab() {
     } else {
       printBudget(schedule, items, reportView, showHoeveelheid, companyInfo, undefined, pageOrientation, pageSize);
     }
-  };
-
-  const handlePreview = () => {
-    printBudget(schedule, items, reportView, showHoeveelheid, companyInfo, undefined, pageOrientation, pageSize);
   };
 
   const handlePdfExport = async () => {
@@ -155,10 +153,11 @@ export default function RapportageTab() {
 
         <RibbonGroup label={t('rapportage.display')}>
           <RibbonButton
-            icon={reportIcon}
-            label={t('rapportage.quantities')}
-            onClick={toggleHoeveelheid}
-            active={showHoeveelheid}
+            icon={settingsIcon}
+            label="Eigenschappen"
+            title="Rapport-eigenschappen: hoeveelheden aan/uit, wijzigingsmarkeringen"
+            onClick={() => setShowProps(true)}
+            active={showProps}
           />
           <RibbonButton
             icon={pageSizeIcon}
@@ -185,13 +184,6 @@ export default function RapportageTab() {
             active={pageOrientation === 'landscape'}
           />
           <RibbonButton
-            icon={reportIcon}
-            label="Wijzigingen"
-            title="Toon de wijzigingsmarkeringen ook in de rapportage-PDF"
-            onClick={() => setReportShowChanges(!schedule.reportShowChanges)}
-            active={!!schedule.reportShowChanges}
-          />
-          <RibbonButton
             icon={pageSizeIcon}
             label="Logo's"
             title="Logo's voor de rapportage instellen (standaard of eigen logo links/rechts)"
@@ -214,6 +206,33 @@ export default function RapportageTab() {
 
       <Modal open={showLogos} onClose={() => setShowLogos(false)} title="Logo's rapportage">
         <ReportLogoSettings />
+      </Modal>
+
+      <Modal open={showProps} onClose={() => setShowProps(false)} title="Rapport-eigenschappen" className="rapport-props-dialog">
+        <div className="rapport-props">
+          <label className="rapport-props-row">
+            <input
+              type="checkbox"
+              checked={showHoeveelheid}
+              onChange={toggleHoeveelheid}
+            />
+            <span>
+              <strong>Hoeveelheden tonen</strong>
+              <em>Hoeveelheid-, eenheid- en eenheidsprijskolommen in het rapport (o.a. werkomschrijving en hoofdaanneming). Uit = alleen omschrijvingen{' '}en bedragen.</em>
+            </span>
+          </label>
+          <label className="rapport-props-row">
+            <input
+              type="checkbox"
+              checked={!!schedule.reportShowChanges}
+              onChange={() => setReportShowChanges(!schedule.reportShowChanges)}
+            />
+            <span>
+              <strong>Wijzigingen markeren</strong>
+              <em>Toon de wijzigingsmarkeringen (bijhouden) ook in de rapportage-PDF.</em>
+            </span>
+          </label>
+        </div>
       </Modal>
     </div>
   );

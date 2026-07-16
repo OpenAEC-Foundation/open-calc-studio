@@ -1,0 +1,42 @@
+/* Rapport-eigenschappen dialoog (Rapportage-lint → Eigenschappen) */
+.rapport-props-dialog {
+  width: min(420px, 92vw);
+}
+
+.rapport-props {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+}
+
+.rapport-props-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: default;
+}
+
+.rapport-props-row input[type='checkbox'] {
+  margin-top: 2px;
+  accent-color: var(--theme-accent, #d97706);
+}
+
+.rapport-props-row span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rapport-props-row strong {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--theme-text);
+}
+
+.rapport-props-row em {
+  font-style: normal;
+  font-size: 11px;
+  color: var(--theme-text-secondary);
+  line-height: 1.4;
+}

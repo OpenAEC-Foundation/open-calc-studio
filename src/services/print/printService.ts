@@ -79,6 +79,7 @@ function getColumnsForView(view: ReportView, showHoeveelheid = true): ReportCol[
       ]);
     case 'bouw1':
     case 'ibis':
+    case 'directie':
     case 'offerte':
       // These use their own builders; return minimal cols for type safety
       return [
@@ -97,6 +98,7 @@ function getViewTitle(view: ReportView): string {
     case 'nacalculatie': return 'Nacalculatie';
     case 'bouw1': return 'Bouw 1 Begroting';
     case 'ibis': return 'IBIS-stijl Begroting';
+    case 'directie': return 'Directiebegroting';
     case 'offerte': return 'Offerte';
   }
 }
@@ -106,9 +108,9 @@ function filterItems(items: CostItem[], view: ReportView): CostItem[] {
   let filtered = items.filter(item => !item.rowType.startsWith('staart_') && item.rowType !== 'witregel');
 
   if (view === 'werkbeschrijving') {
-    // Only chapters and begrotingsposten (no detail rows)
+    // Hoofdstukken, posten én tekstregels (opmerkingen bij de posten)
     filtered = filtered.filter(item =>
-      item.rowType === 'chapter' || item.rowType === 'begrotingspost'
+      item.rowType === 'chapter' || item.rowType === 'begrotingspost' || item.rowType === 'tekstregel'
     );
   } else if (view === 'hoofdaanneming') {
     // Chapters, begrotingsposten en tekstregel (geen bewakingsposten/regels)
@@ -132,7 +134,8 @@ function getCellValue(item: CostItem, key: string, _view: ReportView): string {
     case 'description': return escapeHtml(item.description);
     case 'quantity': return fmtNumber(item.quantity);
     case 'unit': return escapeHtml(String(item.unit ?? ''));
-    case 'verrekenbaar': return item.rowType === 'chapter' ? (item.verrekenbaar ?? '') : '';
+    // V/N/… per regel — ook op posten (S-kolom in de besteksopmaak)
+    case 'verrekenbaar': return item.verrekenbaar ?? '';
     case 'normUnitPrice': return item.normUnitPrice != null ? fmtCurrency(item.normUnitPrice) : '';
     case 'unitPrice': return item.unitPrice ? fmtCurrency(item.unitPrice) : '';
     case 'total': return item.total === 0 ? '' : fmtCurrency(item.total);
@@ -152,9 +155,10 @@ function buildHtml(
   paperSize: PageSize = 'A4',
 ): string {
   // Bouw 1 view uses its own dedicated builder (always landscape).
-  // IBIS-stijl PDF rendert via de Rust/Typst-template; de browser-print
-  // (zonder Tauri) valt terug op de Bouw 1 HTML-builder als vangnet.
-  if (view === 'bouw1' || view === 'ibis') {
+  // IBIS-stijl en directiebegroting renderen als PDF via de Rust/Typst-
+  // template; de browser-print (zonder Tauri) valt terug op de Bouw 1
+  // HTML-builder als vangnet.
+  if (view === 'bouw1' || view === 'ibis' || view === 'directie') {
     return buildBouw1Html(schedule, items, includeActions, companyInfo, logoDataUrl);
   }
   const pageSizeCss = `${paperSize} ${orientation}`;
@@ -182,34 +186,41 @@ function buildHtml(
   let tableRows = '';
   let rowNum = 0;
 
-  // For hoofdaanneming: track chapters to insert subtotals after their last child
+  // Werkbeschrijving en hoofdaanneming renderen "clean" (besteksopmaak):
+  // geen cellijnen/zebra, inspringende paragrafen, en bij hoofdaanneming een
+  // subtotaal per paragraaf (het hoofdstuk dat de posten direct bevat).
+  const cleanView = view === 'werkbeschrijving' || view === 'hoofdaanneming';
   const useSubtotalRows = view === 'hoofdaanneming' && hasTotalCol;
+
+  // Paragraaf waarvan nog een subtotaal openstaat (parentId van de laatste post)
+  let pendingSubtotalParentId: string | null = null;
+  const flushSubtotal = (): string => {
+    if (!useSubtotalRows || !pendingSubtotalParentId) return '';
+    const parent = items.find(i => i.id === pendingSubtotalParentId);
+    pendingSubtotalParentId = null;
+    if (!parent || parent.total === 0) return '';
+    return `<tr class="subtotal-row">
+      <td colspan="${colCount - 1}" class="total-label">Subtotaal</td>
+      <td class="amount">${fmtCurrency(parent.total)}</td>
+    </tr><tr class="spacer-row"><td colspan="${colCount}">&nbsp;</td></tr>`;
+  };
 
   for (let idx = 0; idx < normalItems.length; idx++) {
     const item = normalItems[idx];
 
-    // Insert subtotal + spacer when leaving a chapter section (hoofdaanneming)
-    if (useSubtotalRows && idx > 0) {
-      const prev = normalItems[idx - 1];
-      // Check if we left a chapter's children
-      if (prev.rowType !== 'chapter' && item.rowType === 'chapter' && prev.depth > item.depth) {
-        const parentChapter = items.find(i => i.id === prev.parentId && i.rowType === 'chapter');
-        if (parentChapter && parentChapter.total !== 0) {
-          const stColspan = colCount - 1;
-          tableRows += `<tr class="subtotal-row">
-            <td colspan="${stColspan}" class="total-label">Subtotaal</td>
-            <td class="amount">${fmtCurrency(parentChapter.total)}</td>
-          </tr>`;
-        }
-      }
-      // Witregel voor elk nieuw hoofdstuk/paragraaf
-      if (item.rowType === 'chapter') {
+    if (item.rowType === 'chapter') {
+      const flushed = flushSubtotal();
+      tableRows += flushed;
+      // Witregel tussen groepen (als het subtotaal er niet al één gaf)
+      if (!flushed && cleanView && idx > 0 && normalItems[idx - 1].rowType !== 'chapter') {
         tableRows += `<tr class="spacer-row"><td colspan="${colCount}">&nbsp;</td></tr>`;
       }
+    } else if (item.rowType === 'begrotingspost') {
+      pendingSubtotalParentId = item.parentId;
     }
 
     rowNum++;
-    const indentPx = view === 'hoofdaanneming' ? 0 : item.depth * 16;
+    const indentPx = item.depth * 16;
     const indentStyle = indentPx > 0 ? ` style="padding-left:${indentPx}px"` : '';
     const zebraClass = rowNum % 2 === 0 ? 'even' : '';
 
@@ -239,20 +250,8 @@ function buildHtml(
     }
   }
 
-  // Insert final subtotal for the last chapter section
-  if (useSubtotalRows && normalItems.length > 0) {
-    const last = normalItems[normalItems.length - 1];
-    if (last.rowType !== 'chapter') {
-      const parentChapter = items.find(i => i.id === last.parentId && i.rowType === 'chapter');
-      if (parentChapter && parentChapter.total !== 0) {
-        const stColspan = colCount - 1;
-        tableRows += `<tr class="subtotal-row">
-          <td colspan="${stColspan}" class="total-label">Subtotaal</td>
-          <td class="amount">${fmtCurrency(parentChapter.total)}</td>
-        </tr>`;
-      }
-    }
-  }
+  // Subtotaal van de laatste paragraaf
+  tableRows += flushSubtotal();
 
   // Staartkosten section (only for views with total column)
   if (hasTotalCol && hasStaart && breakdown) {
@@ -361,6 +360,23 @@ tr.even td { background: #FAFAF9; }
 .print-btn:hover { background: #EA580C; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
 .close-btn { padding: 8px 24px; background: transparent; color: #36363E; border: 1.5px solid #A8A29E; border-radius: 8px; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 10pt; font-weight: 500; transition: all 0.15s ease; }
 .close-btn:hover { background: #F5F5F4; border-color: #36363E; }
+${cleanView ? `
+/* Clean besteksopmaak (werkbeschrijving/hoofdaanneming): geen cellijnen of
+   vullingen; hiërarchie via typografie en inspringing, zoals een klassiek
+   bestek. Alleen een dunne lijn onder de koprij. */
+thead th { background: none; border-top: none; border-bottom: 1px solid #A8A29E; }
+tbody td { border-bottom: none; }
+tr.even td { background: transparent; }
+.chapter-row td,
+.chapter-row.depth-0 td,
+.chapter-row.depth-1 td,
+.chapter-row.depth-2 td { background: transparent; border-top: none; border-bottom: none; font-size: 8.5pt; }
+.chapter-row.depth-2 td, .chapter-row.depth-3 td { font-style: italic; }
+.tekstregel-row td { font-weight: 400; font-style: italic; color: #57575E; }
+.subtotal-row td { background: transparent; border-top: none; font-weight: 700; }
+.subtotal-row .total-label { text-align: left; padding-left: 22px; }
+.total-row td { background: transparent; border-top: 1px solid #36363E; }
+` : ''}
 /* Page break indicator (preview only) */
 .page-break-line { display: none; }
 ${!includeActions ? `

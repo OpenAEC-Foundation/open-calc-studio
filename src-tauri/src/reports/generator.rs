@@ -83,20 +83,21 @@ struct Col {
 fn get_columns(view: &str, show_hoeveelheid: bool) -> Vec<Col> {
     let qty_keys: &[&str] = &["quantity", "unit", "unitPrice", "normUnitPrice"];
     let cols: Vec<Col> = match view {
+        // Besteksopmaak: smalle codekolom, brede omschrijving (ook op staand A4)
         "werkbeschrijving" => vec![
-            Col { key: "code", label: "Code", width_mm: 50.0 },
+            Col { key: "code", label: "Code", width_mm: 18.0 },
             Col { key: "description", label: "Omschrijving", width_mm: 0.0 },
-            Col { key: "quantity", label: "Hoeveelheid", width_mm: 25.0 },
-            Col { key: "unit", label: "Eenheid", width_mm: 20.0 },
-            Col { key: "verrekenbaar", label: "Verr.", width_mm: 15.0 },
+            Col { key: "quantity", label: "Hoeveelheid", width_mm: 22.0 },
+            Col { key: "unit", label: "Eh.", width_mm: 12.0 },
+            Col { key: "verrekenbaar", label: "S", width_mm: 8.0 },
         ],
         "hoofdaanneming" => vec![
-            Col { key: "code", label: "Code", width_mm: 45.0 },
+            Col { key: "code", label: "Code", width_mm: 18.0 },
             Col { key: "description", label: "Omschrijving", width_mm: 0.0 },
-            Col { key: "quantity", label: "Hoeveelheid", width_mm: 25.0 },
-            Col { key: "unit", label: "Eenheid", width_mm: 20.0 },
-            Col { key: "unitPrice", label: "Eenheidsprijs", width_mm: 30.0 },
-            Col { key: "total", label: "Bedrag", width_mm: 35.0 },
+            Col { key: "quantity", label: "Hoeveelheid", width_mm: 20.0 },
+            Col { key: "unit", label: "Eh.", width_mm: 12.0 },
+            Col { key: "unitPrice", label: "Eh. Prijs", width_mm: 24.0 },
+            Col { key: "total", label: "Bedrag", width_mm: 26.0 },
         ],
         "onderaanneming" => vec![
             Col { key: "nr", label: "Nr", width_mm: 30.0 },
@@ -145,7 +146,12 @@ fn filter_items<'a>(items: &'a [CostItem], view: &str) -> Vec<&'a CostItem> {
         .iter()
         .filter(|i| !i.row_type.starts_with("staart_") && i.row_type != "witregel")
         .filter(|i| match view {
-            "werkbeschrijving" => i.row_type == "chapter" || i.row_type == "begrotingspost",
+            // Werkbeschrijving: ook tekstregels (opmerkingen bij de posten)
+            "werkbeschrijving" => {
+                i.row_type == "chapter"
+                    || i.row_type == "begrotingspost"
+                    || i.row_type == "tekstregel"
+            }
             "hoofdaanneming" => {
                 i.row_type == "chapter"
                     || i.row_type == "begrotingspost"
@@ -157,6 +163,29 @@ fn filter_items<'a>(items: &'a [CostItem], view: &str) -> Vec<&'a CostItem> {
         .collect()
 }
 
+/// Lettertype-afwijking per rij voor de "clean" rapportstijl
+/// (werkbeschrijving/hoofdaanneming): hoofdstukken vet, diepere paragrafen
+/// vet-cursief, opmerkingen (tekstregels) cursief.
+fn row_font_for(item: &CostItem) -> Option<RowOverride> {
+    match item.row_type.as_str() {
+        "chapter" if item.depth >= 2 => Some(RowOverride {
+            font_name: Some("LiberationSans-BoldItalic".to_string()),
+        }),
+        "chapter" => Some(RowOverride {
+            font_name: Some("LiberationSans-Bold".to_string()),
+        }),
+        "tekstregel" => Some(RowOverride {
+            font_name: Some("LiberationSans-Italic".to_string()),
+        }),
+        _ => None,
+    }
+}
+
+/// Inspring in de omschrijving-kolom per hiërarchie-diepte.
+fn indent_for(depth: u32) -> String {
+    "  ".repeat(depth as usize)
+}
+
 fn get_cell_value(item: &CostItem, key: &str) -> String {
     match key {
         "nr" => item.nr.clone().unwrap_or_default(),
@@ -164,13 +193,8 @@ fn get_cell_value(item: &CostItem, key: &str) -> String {
         "description" => item.description.clone(),
         "quantity" => fmt_number(item.quantity),
         "unit" => item.unit.clone().unwrap_or_default(),
-        "verrekenbaar" => {
-            if item.row_type == "chapter" {
-                item.verrekenbaar.clone().unwrap_or_default()
-            } else {
-                String::new()
-            }
-        }
+        // V/N/… per regel — ook op posten (S-kolom in de besteksopmaak)
+        "verrekenbaar" => item.verrekenbaar.clone().unwrap_or_default(),
         "normUnitPrice" => fmt_number(item.norm_unit_price),
         "unitPrice" => {
             if item.unit_price != 0.0 {
@@ -266,9 +290,10 @@ pub(crate) fn load_system_fonts(fonts: &SharedFontRegistry) {
     // Try common font paths on Windows
     let font_dir = std::path::Path::new("C:/Windows/Fonts");
     let font_candidates = [
-        ("Inter", "segoeui.ttf"),          // Regular
-        ("Inter-Bold", "segoeuib.ttf"),    // Bold
-        ("Inter-Italic", "segoeuii.ttf"),  // Italic
+        ("Inter", "segoeui.ttf"),                // Regular
+        ("Inter-Bold", "segoeuib.ttf"),          // Bold
+        ("Inter-Italic", "segoeuii.ttf"),        // Italic
+        ("Inter-BoldItalic", "segoeuiz.ttf"),    // Bold Italic (paragraaf-koppen)
     ];
 
     for (name, file) in &font_candidates {
@@ -285,6 +310,7 @@ pub(crate) fn load_system_fonts(fonts: &SharedFontRegistry) {
     reg.register_alias("LiberationSans", "Inter");
     reg.register_alias("LiberationSans-Bold", "Inter-Bold");
     reg.register_alias("LiberationSans-Italic", "Inter-Italic");
+    reg.register_alias("LiberationSans-BoldItalic", "Inter-BoldItalic");
     reg.register_alias("LiberationSans-Regular", "Inter");
 }
 
@@ -410,6 +436,15 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
         .map(|c| if c.width_mm == 0.0 { auto_width } else { c.width_mm })
         .collect();
 
+    // Getalkolommen rechts uitlijnen (zoals in de besteksopmaak).
+    let col_alignments: Vec<Alignment> = columns
+        .iter()
+        .map(|c| match c.key {
+            "quantity" | "unitPrice" | "normUnitPrice" | "total" => Alignment::Right,
+            _ => Alignment::Left,
+        })
+        .collect();
+
     // Build rows
     let rows: Vec<Vec<String>> = filtered
         .iter()
@@ -458,7 +493,12 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
 
     // ── Build table(s) with view-specific logic ──
 
-    // For hoofdaanneming: split into per-chapter tables with subtotals
+    // Werkbeschrijving en hoofdaanneming renderen in de "clean" stijl:
+    // geen cellijnen, inspringende paragrafen, typografische hiërarchie en
+    // (hoofdaanneming) een subtotaal per paragraaf — naar de klassieke
+    // besteksopmaak.
+    let clean_view = request.report_view == "werkbeschrijving"
+        || request.report_view == "hoofdaanneming";
     let use_chapter_subtotals = request.report_view == "hoofdaanneming";
     let has_total_col = columns.iter().any(|c| c.key == "total");
 
@@ -473,88 +513,140 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
             || request.report_view == "nacalculatie");
 
     // Create table with OpenAEC styling
-    let table_style = TableStyleConfig {
-        header_background: Some(Color::rgb(254, 243, 199)), // Amber light #FEF3C7
-        header_text_color: Color::rgb(54, 54, 62),
-        grid_color: Color::rgb(231, 229, 228),
-        grid_width: Pt(0.5),
-        row_backgrounds: vec![None, Some(Color::rgb(250, 250, 249))], // Zebra
-        cell_padding: Padding::new(Pt(2.0), Pt(3.0), Pt(2.0), Pt(3.0)),
-        font_name: "LiberationSans".to_string(),
-        header_font_name: "LiberationSans-Bold".to_string(),
-        font_size: Pt(7.5),
-        header_font_size: Pt(7.0),
+    let table_style = if clean_view {
+        // Clean besteksopmaak: geen cellijnen/zebra/vulling, alleen een
+        // dunne lijn onder de koprij.
+        TableStyleConfig {
+            header_background: None,
+            header_text_color: Color::rgb(54, 54, 62),
+            grid_color: Color::rgb(168, 162, 158),
+            grid_width: Pt(0.0),
+            row_backgrounds: vec![None],
+            cell_padding: Padding::new(Pt(2.0), Pt(3.0), Pt(2.0), Pt(3.0)),
+            font_name: "LiberationSans".to_string(),
+            header_font_name: "LiberationSans-Bold".to_string(),
+            font_size: Pt(7.5),
+            header_font_size: Pt(7.0),
+            header_rule: true,
+        }
+    } else {
+        TableStyleConfig {
+            header_background: Some(Color::rgb(254, 243, 199)), // Amber light #FEF3C7
+            header_text_color: Color::rgb(54, 54, 62),
+            grid_color: Color::rgb(231, 229, 228),
+            grid_width: Pt(0.5),
+            row_backgrounds: vec![None, Some(Color::rgb(250, 250, 249))], // Zebra
+            cell_padding: Padding::new(Pt(2.0), Pt(3.0), Pt(2.0), Pt(3.0)),
+            font_name: "LiberationSans".to_string(),
+            header_font_name: "LiberationSans-Bold".to_string(),
+            font_size: Pt(7.5),
+            header_font_size: Pt(7.0),
+            header_rule: false,
+        }
     };
 
-    // For hoofdaanneming with chapter subtotals: build separate tables per chapter section
-    if use_chapter_subtotals && filtered.len() > 1 {
-        let mut chapter_rows: Vec<Vec<String>> = Vec::new();
-        let mut current_chapter_total: f64 = 0.0;
-        let mut in_chapter = false;
+    if clean_view && !filtered.is_empty() {
+        // Eén doorlopende tabel in besteksopmaak: inspringende omschrijvingen,
+        // hoofdstukken vet / paragrafen vet-cursief / opmerkingen cursief, en
+        // bij hoofdaanneming een vetgedrukte subtotaalregel per paragraaf
+        // (het hoofdstuk dat de posten direct bevat), gevolgd door een
+        // witregel.
+        let desc_idx = columns.iter().position(|c| c.key == "description").unwrap_or(1);
+        let total_idx = columns.iter().position(|c| c.key == "total");
+        let n_cols = columns.len();
 
-        for (i, item) in filtered.iter().enumerate() {
-            let is_new_top_chapter = item.row_type == "chapter" && item.depth == 0;
+        let mut body_rows: Vec<Vec<String>> = Vec::new();
+        let mut overrides: Vec<Option<RowOverride>> = Vec::new();
+        // Paragraaf waarvan nog een subtotaal openstaat: (chapter_id, total)
+        let mut pending_subtotal: Option<(String, f64)> = None;
 
-            // If we hit a new top-level chapter and have accumulated rows, flush them
-            if is_new_top_chapter && in_chapter && !chapter_rows.is_empty() {
-                // Build table for this chapter section
-                let mut t = Table::new(headers.clone(), chapter_rows.clone())
-                    .with_col_widths_mm(col_widths.clone())
-                    .with_style(table_style.clone())
-                    .with_repeat_header(true);
-                flowables.push(Box::new(t));
+        let push_subtotal = |body: &mut Vec<Vec<String>>,
+                             ovs: &mut Vec<Option<RowOverride>>,
+                             sum: f64| {
+            if sum == 0.0 {
+                return;
+            }
+            let mut r = vec![String::new(); n_cols];
+            r[desc_idx] = format!("{}Subtotaal", indent_for(1));
+            if let Some(t) = total_idx {
+                r[t] = fmt_currency(sum);
+            }
+            body.push(r);
+            ovs.push(Some(RowOverride {
+                font_name: Some("LiberationSans-Bold".to_string()),
+            }));
+            // Witregel na het subtotaal
+            body.push(vec![String::new(); n_cols]);
+            ovs.push(None);
+        };
 
-                // Add subtotal paragraph
-                if current_chapter_total != 0.0 {
-                    let sub_text = format!("Subtotaal: {}", fmt_currency(current_chapter_total));
-                    flowables.push(Box::new(Paragraph::new(&sub_text, ParagraphStyle {
-                        font_size: Pt(8.0),
-                        leading: Pt(11.0),
-                        bold: true,
-                        space_after: Pt(12.0),
-                        alignment: Alignment::Right,
-                        ..Default::default()
-                    })));
+        for item in &filtered {
+            if item.row_type == "chapter" {
+                if use_chapter_subtotals {
+                    if let Some((_, sum)) = pending_subtotal.take() {
+                        push_subtotal(&mut body_rows, &mut overrides, sum);
+                    }
                 }
+                let row: Vec<String> = columns
+                    .iter()
+                    .map(|col| match col.key {
+                        "description" => {
+                            format!("{}{}", indent_for(item.depth), item.description)
+                        }
+                        // Hoofdaanneming: geen bedragen naast hoofdstukregels —
+                        // die staan in de subtotalen per paragraaf.
+                        "total" | "unitPrice" if use_chapter_subtotals => String::new(),
+                        key => get_cell_value(item, key),
+                    })
+                    .collect();
+                body_rows.push(row);
+                overrides.push(row_font_for(item));
+            } else {
+                let row: Vec<String> = columns
+                    .iter()
+                    .map(|col| match col.key {
+                        "description" => {
+                            format!("{}{}", indent_for(item.depth), item.description)
+                        }
+                        key => get_cell_value(item, key),
+                    })
+                    .collect();
+                body_rows.push(row);
+                overrides.push(row_font_for(item));
 
-                chapter_rows.clear();
+                // Posten bepalen de paragraaf waarvoor een subtotaal volgt.
+                if item.row_type == "begrotingspost" {
+                    if let Some(pid) = &item.parent_id {
+                        let sum = request
+                            .items
+                            .iter()
+                            .find(|i| &i.id == pid)
+                            .map(|p| p.total)
+                            .unwrap_or(0.0);
+                        pending_subtotal = Some((pid.clone(), sum));
+                    }
+                }
             }
-
-            if is_new_top_chapter {
-                in_chapter = true;
-                current_chapter_total = item.total;
+        }
+        if use_chapter_subtotals {
+            if let Some((_, sum)) = pending_subtotal.take() {
+                push_subtotal(&mut body_rows, &mut overrides, sum);
             }
-
-            // Add row data
-            let row: Vec<String> = columns.iter().map(|col| get_cell_value(item, col.key)).collect();
-            chapter_rows.push(row);
         }
 
-        // Flush last chapter section
-        if !chapter_rows.is_empty() {
-            let t = Table::new(headers.clone(), chapter_rows)
-                .with_col_widths_mm(col_widths.clone())
-                .with_style(table_style.clone())
-                .with_repeat_header(true);
-            flowables.push(Box::new(t));
-
-            if current_chapter_total != 0.0 {
-                let sub_text = format!("Subtotaal: {}", fmt_currency(current_chapter_total));
-                flowables.push(Box::new(Paragraph::new(&sub_text, ParagraphStyle {
-                    font_size: Pt(8.0),
-                    leading: Pt(11.0),
-                    bold: true,
-                    space_after: Pt(12.0),
-                    alignment: Alignment::Right,
-                    ..Default::default()
-                })));
-            }
-        }
+        let table = Table::new(headers.clone(), body_rows)
+            .with_col_widths_mm(col_widths.clone())
+            .with_style(table_style.clone())
+            .with_row_overrides(overrides)
+            .with_col_alignments(col_alignments.clone())
+            .with_repeat_header(true);
+        flowables.push(Box::new(table));
     } else {
         // Standard table for other views
         let table = Table::new(headers.clone(), rows)
             .with_col_widths_mm(col_widths.clone())
             .with_style(table_style.clone())
+            .with_col_alignments(col_alignments.clone())
             .with_repeat_header(true);
         flowables.push(Box::new(table));
     }

@@ -216,6 +216,7 @@ fn build_technical_section(section: &super::OfferteSection, flowables: &mut Vec<
         header_font_name: "LiberationSans-Bold".to_string(),
         font_size: Pt(8.0),
         header_font_size: Pt(8.0),
+        header_rule: false,
     };
 
     flowables.push(Box::new(
@@ -248,6 +249,7 @@ fn build_meerwerk_section(section: &super::OfferteSection, flowables: &mut Vec<B
         header_font_name: "LiberationSans-Bold".to_string(),
         font_size: Pt(8.0),
         header_font_size: Pt(8.0),
+        header_rule: false,
     };
 
     flowables.push(Box::new(

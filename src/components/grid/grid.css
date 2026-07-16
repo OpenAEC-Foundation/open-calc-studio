@@ -262,9 +262,12 @@ html.cursor-col-resizing * { cursor: col-resize !important; }
   flex-shrink: 0;
 }
 
+/* +-knop links bij de rij: voegt een rekenregel toe direct onder deze rij.
+   Staat op de rij-grens (bottom: -8px) als invoeg-metafoor, rechts naast de
+   sleep-gutter (18px) zodat slepen en toevoegen elkaar niet bijten. */
 .grid-row-add-btn {
   position: absolute;
-  right: 2px;
+  left: 20px;
   bottom: -8px;
   width: 16px;
   height: 16px;
