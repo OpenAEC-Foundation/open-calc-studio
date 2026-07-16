@@ -180,7 +180,11 @@ function buildHtml(
     ? (paperSize === 'A3' ? 297 : 210)
     : (paperSize === 'A3' ? 420 : 297);
   const pageContentHeightMm = pageHeightMm - 35; // 15mm top + 20mm bottom margin
-  const columns = getColumnsForView(view, showHoeveelheid);
+  let columns = getColumnsForView(view, showHoeveelheid);
+  // Verrekenbaar-kolom is optioneel (rapport-eigenschap); default aan.
+  if (schedule.reportShowVerrekenbaar === false) {
+    columns = columns.filter(c => c.key !== 'verrekenbaar');
+  }
   const colCount = columns.length;
   const hasTotalCol = columns.some(c => c.key === 'total');
   const today = new Date().toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -203,6 +207,21 @@ function buildHtml(
   // subtotaal per paragraaf (het hoofdstuk dat de posten direct bevat).
   const cleanView = view === 'werkbeschrijving' || view === 'hoofdaanneming';
   const useSubtotalRows = view === 'hoofdaanneming' && hasTotalCol;
+
+  // Verrekenbaar erft van het dichtstbijzijnde hoofdstuk erboven: de 'V'
+  // staat meestal op hoofdstukniveau, het rapport toont hem per postregel.
+  const byId = new Map(items.map(i => [i.id, i]));
+  const verrOf = (item: CostItem): string => {
+    let v = item.verrekenbaar ?? '';
+    let cur = item.parentId;
+    while (!v && cur) {
+      const p = byId.get(cur);
+      if (!p) break;
+      v = p.verrekenbaar ?? '';
+      cur = p.parentId;
+    }
+    return v;
+  };
 
   // Paragraaf waarvan nog een subtotaal openstaat (parentId van de laatste post)
   let pendingSubtotalParentId: string | null = null;
@@ -242,7 +261,8 @@ function buildHtml(
         // Bij hoofdaanneming: geen totaal naast hoofdstuknaam
         if (c.key === 'total') return `<td class="amount">${useSubtotalRows ? '' : (item.total === 0 ? '' : fmtCurrency(item.total))}</td>`;
         if (c.key === 'code') return `<td class="code">${escapeHtml(item.code)}</td>`;
-        if (c.key === 'verrekenbaar') return `<td class="center">${item.verrekenbaar ?? ''}</td>`;
+        // Clean views: S/V leeg op hoofdstukregels (de posten dragen de V)
+        if (c.key === 'verrekenbaar') return `<td class="center">${cleanView ? '' : (item.verrekenbaar ?? '')}</td>`;
         if (c.key === 'nr') return `<td class="nr">${item.nr ?? ''}</td>`;
         return '<td></td>';
       }).join('');
@@ -256,6 +276,7 @@ function buildHtml(
     } else {
       const cells = columns.map(c => {
         if (c.key === 'description') return `<td class="desc"${indentStyle}>${escapeHtml(item.description)}</td>`;
+        if (c.key === 'verrekenbaar') return `<td class="${c.cssClass}">${item.rowType === 'witregel' ? '' : verrOf(item)}</td>`;
         return `<td class="${c.cssClass}">${getCellValue(item, c.key, view)}</td>`;
       }).join('');
       tableRows += `<tr${zebraClass ? ' class="even"' : ''}>${cells}</tr>`;
@@ -387,7 +408,7 @@ tr.even td { background: transparent; }
 .chapter-row.depth-1 td { border-top: 1px solid #A8A29E; border-bottom: 1px solid #A8A29E; }
 .chapter-row.depth-2 td, .chapter-row.depth-3 td { font-style: italic; }
 .tekstregel-row td { font-weight: 700; font-style: italic; color: #57575E; }
-.subtotal-row td { background: transparent; border-top: none; font-weight: 700; }
+.subtotal-row td { background: transparent; border-top: 1px solid #A8A29E; font-weight: 700; }
 .subtotal-row .total-label { text-align: left; padding-left: 22px; }
 .total-row td { background: transparent; border-top: 1px solid #36363E; }
 ` : ''}

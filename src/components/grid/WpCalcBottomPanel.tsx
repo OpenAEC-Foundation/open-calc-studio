@@ -251,9 +251,11 @@ function StaartFullScreen() {
       const afrItem = staartItems.find(i => i.rowType === 'staart_afronding');
       if (afrItem) rows.push({ id: afrItem.id, label: afrItem.description || 'Afronding', percentage: null, total: afrItem.total, rowType: 'staart_afronding', isBold: false });
 
-      // Eindbedrag ná btw en afronding — het totaal onderaan de staart
+      // Eindbedrag ná btw en afronding — het totaal onderaan de staart.
+      // Invulbaar (via het afronding-item als sluitpost): typ het gewenste
+      // eindbedrag en de afronding wordt automatisch het verschil.
       const eindbedrag = aanneemsomExcl + (btwItem?.total ?? 0) + (afrItem?.total ?? 0);
-      rows.push({ id: '', label: btwItem ? 'Totaalprijs incl. btw.:' : 'Eindbedrag:', percentage: null, total: eindbedrag, rowType: 'eindbedrag', isBold: true });
+      rows.push({ id: afrItem?.id ?? '', label: btwItem ? 'Totaalprijs incl. btw.:' : 'Eindbedrag:', percentage: null, total: eindbedrag, rowType: 'eindbedrag', isBold: true });
 
       return { staartRows: rows, kostprijs: kp, aanneemsom: aanneemsomExcl };
     }
@@ -297,6 +299,22 @@ function StaartFullScreen() {
     updateItem(id, 'staartVastBedrag', num);
   };
 
+  // Eindbedrag invullen: pint het doelbedrag op het afronding-item — de
+  // afronding wordt automatisch doel − som tot daar (vaste sluitpost, zoals
+  // een inschrijfstaat die exact op een rond bedrag moet uitkomen).
+  const handleEindbedragChange = (id: string, value: string, original: string) => {
+    if (!id || value.trim() === original.trim()) return;
+    if (value.trim() === '') {
+      updateItem(id, 'staartVastBedrag', null);
+      updateItem(id, 'staartDoelbedrag', null);
+      return;
+    }
+    const num = parseNumericInput(value);
+    if (num === null) return;
+    updateItem(id, 'staartVastBedrag', null);
+    updateItem(id, 'staartDoelbedrag', num);
+  };
+
   return (
     <div className="wpcalc-fullscreen-panel">
       <h3>{t('wpcalc.tailCosts')}</h3>
@@ -336,6 +354,16 @@ function StaartFullScreen() {
                     onBlur={e => handleAfrondingChange(r.id, e.target.value, formatNumberForEdit(Math.round(r.total * 100) / 100))}
                     onKeyDown={e => { if (e.key === 'Enter') { handleAfrondingChange(r.id, (e.target as HTMLInputElement).value, formatNumberForEdit(Math.round(r.total * 100) / 100)); (e.target as HTMLInputElement).blur(); } }}
                     style={{ width: 80, textAlign: 'right', border: '1px solid var(--theme-border)', borderRadius: 3, padding: '1px 4px', background: 'var(--theme-bg)', color: 'var(--theme-editable-text, var(--theme-text))', fontSize: 'inherit', fontFamily: 'inherit' }}
+                  />
+                ) : r.rowType === 'eindbedrag' && r.id ? (
+                  <input
+                    key={`eind-${formatNumberForEdit(Math.round(r.total * 100) / 100)}`}
+                    type="text"
+                    defaultValue={formatNumberForEdit(Math.round(r.total * 100) / 100)}
+                    title="Eindbedrag invullen: de afronding wordt automatisch het verschil; leegmaken = automatisch afronden"
+                    onBlur={e => handleEindbedragChange(r.id, e.target.value, formatNumberForEdit(Math.round(r.total * 100) / 100))}
+                    onKeyDown={e => { if (e.key === 'Enter') { handleEindbedragChange(r.id, (e.target as HTMLInputElement).value, formatNumberForEdit(Math.round(r.total * 100) / 100)); (e.target as HTMLInputElement).blur(); } }}
+                    style={{ width: 90, textAlign: 'right', fontWeight: 700, border: '1px solid var(--theme-border)', borderRadius: 3, padding: '1px 4px', background: 'var(--theme-bg)', color: 'var(--theme-editable-text, var(--theme-text))', fontSize: 'inherit', fontFamily: 'inherit' }}
                   />
                 ) : (
                   r.total !== 0 ? formatCurrency(r.total) : ''

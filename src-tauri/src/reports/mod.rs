@@ -65,6 +65,10 @@ pub struct Schedule {
     /// Toon wijzigingsmarkeringen in de PDF (gewijzigde regels markeren).
     #[serde(default)]
     pub report_show_changes: bool,
+    /// Toon de verrekenbaar-kolom (S/Verr., 'V') in tabelrapporten.
+    /// None/afwezig = tonen (bestaand gedrag).
+    #[serde(default)]
+    pub report_show_verrekenbaar: Option<bool>,
     /// Baseline voor "gewijzigd sinds" (ISO-tijd); regels met een latere
     /// history-entry zijn gewijzigd.
     #[serde(default)]

@@ -243,6 +243,17 @@ export default function RapportageTab() {
               <em>Compact rapport: alleen de hoofdstukregels met hun subtotalen (en de staart); posten en regels worden weggelaten.</em>
             </span>
           </label>
+          <label className="rapport-props-row">
+            <input
+              type="checkbox"
+              checked={schedule.reportShowVerrekenbaar !== false}
+              onChange={() => setSchedule({ reportShowVerrekenbaar: schedule.reportShowVerrekenbaar === false ? undefined : false })}
+            />
+            <span>
+              <strong>Verrekenbaar (V) tonen</strong>
+              <em>De S/Verr.-kolom in o.a. hoofdaanneming en inschrijfstaat; postregels erven de V van hun hoofdstuk.</em>
+            </span>
+          </label>
         </div>
       </Modal>
     </div>

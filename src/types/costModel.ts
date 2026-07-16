@@ -162,6 +162,11 @@ export interface CostSchedule {
    * opmerkingen worden weggelaten; de staart blijft staan. Default false.
    */
   reportChapterTotalsOnly?: boolean;
+  /**
+   * Rapportage: toon de verrekenbaar-kolom (S/Verr., 'V') in tabelrapporten.
+   * undefined = tonen (bestaand gedrag); false = kolom weglaten.
+   */
+  reportShowVerrekenbaar?: boolean;
 }
 
 /** Budget variant branch — forms a tree via parentId */

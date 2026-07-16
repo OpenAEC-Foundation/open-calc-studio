@@ -81,6 +81,7 @@ export const ReportPreview: React.FC = () => {
             tarieven: schedule.tarieven,
             staartRows: schedule.staartRows || null,
             reportShowChanges: schedule.reportShowChanges ?? false,
+            reportShowVerrekenbaar: schedule.reportShowVerrekenbaar ?? null,
             changeTrackingSince: schedule.changeTrackingSince ?? null,
           },
           items: itemsForReport(schedule, items).map(item => ({

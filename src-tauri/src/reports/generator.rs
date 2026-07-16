@@ -479,8 +479,38 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
     }
 
     // Main table
-    let columns = get_columns(&request.report_view, request.show_hoeveelheid);
+    let mut columns = get_columns(&request.report_view, request.show_hoeveelheid);
+    // Verrekenbaar-kolom is optioneel (rapport-eigenschap); default aan.
+    if !request.schedule.report_show_verrekenbaar.unwrap_or(true) {
+        columns.retain(|c| c.key != "verrekenbaar");
+    }
     let filtered = filter_items(&request.items, &request.report_view);
+
+    // Verrekenbaar erft van het dichtstbijzijnde hoofdstuk erboven: in de
+    // begroting staat de 'V' meestal op hoofdstukniveau, terwijl het rapport
+    // hem per postregel toont.
+    let verr_of: std::collections::HashMap<&str, String> = {
+        let by_id: std::collections::HashMap<&str, &CostItem> =
+            request.items.iter().map(|i| (i.id.as_str(), i)).collect();
+        request
+            .items
+            .iter()
+            .map(|i| {
+                let mut v = i.verrekenbaar.clone().unwrap_or_default();
+                let mut cur = i.parent_id.as_deref();
+                while v.is_empty() {
+                    match cur.and_then(|id| by_id.get(id)) {
+                        Some(p) => {
+                            v = p.verrekenbaar.clone().unwrap_or_default();
+                            cur = p.parent_id.as_deref();
+                        }
+                        None => break,
+                    }
+                }
+                (i.id.as_str(), v)
+            })
+            .collect()
+    };
 
     // Build headers
     let headers: Vec<String> = columns.iter().map(|c| c.label.to_string()).collect();
@@ -526,7 +556,13 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
         .map(|item| {
             columns
                 .iter()
-                .map(|col| get_cell_value(item, col.key))
+                .map(|col| match col.key {
+                    "verrekenbaar" if item.row_type != "tekstregel" && item.row_type != "witregel" => {
+                        verr_of.get(item.id.as_str()).cloned().unwrap_or_default()
+                    }
+                    "verrekenbaar" => String::new(),
+                    key => get_cell_value(item, key),
+                })
                 .collect()
         })
         .collect();
@@ -649,6 +685,8 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
             body.push(r);
             ovs.push(Some(RowOverride {
                 font_name: Some("LiberationSans-Bold".to_string()),
+                // Dunne lijn tussen de laatste post en het subtotaal
+                top_rule: true,
                 ..Default::default()
             }));
             // Witregel na het subtotaal
@@ -690,6 +728,12 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
                         // Besteksopmaak: kale bedragen zonder valutateken
                         "unitPrice" => fmt_bedrag(item.unit_price),
                         "total" => fmt_bedrag(item.total),
+                        // V/N: eigen waarde of geërfd van het hoofdstuk —
+                        // alleen op rekenende regels, niet op opmerkingen
+                        "verrekenbaar" if item.row_type != "tekstregel" && item.row_type != "witregel" => {
+                            verr_of.get(item.id.as_str()).cloned().unwrap_or_default()
+                        }
+                        "verrekenbaar" => String::new(),
                         key => get_cell_value(item, key),
                     })
                     .collect();
