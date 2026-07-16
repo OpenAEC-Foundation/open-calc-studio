@@ -237,25 +237,27 @@ function StaartFullScreen() {
         if (item) rows.push({ id: item.id, label: item.description, percentage: item.staartPercentage, total: item.total, rowType: rt, isBold: false });
       }
 
-      // Aanneemsom excl BTW (incl. legacy-opslagen)
-      const aanneemsomExcl = kostprijsBouw1 + staartItems
-        .filter(i => phase2Types.includes(i.rowType) || legacyTypes.includes(i.rowType))
-        .reduce((s, i) => s + i.total, 0);
-      rows.push({ id: '', label: 'Totaal excl. btw.:', percentage: null, total: aanneemsomExcl, rowType: '', isBold: true });
-
-      // BTW
-      const btwItem = staartItems.find(i => i.rowType === 'staart_btw');
-      if (btwItem) rows.push({ id: btwItem.id, label: btwItem.description, percentage: btwItem.staartPercentage, total: btwItem.total, rowType: 'staart_btw', isBold: false });
-
-      // Afronding — altijd tonen; het bedrag is invulbaar (vaste sluitpost)
+      // Afronding hoort ín het excl.-blok (vóór het excl.-subtotaal); het
+      // bedrag is invulbaar als vaste sluitpost.
       const afrItem = staartItems.find(i => i.rowType === 'staart_afronding');
       if (afrItem) rows.push({ id: afrItem.id, label: afrItem.description || 'Afronding', percentage: null, total: afrItem.total, rowType: 'staart_afronding', isBold: false });
 
-      // Eindbedrag ná btw en afronding — het totaal onderaan de staart.
-      // Invulbaar (via het afronding-item als sluitpost): typ het gewenste
-      // eindbedrag en de afronding wordt automatisch het verschil.
-      const eindbedrag = aanneemsomExcl + (btwItem?.total ?? 0) + (afrItem?.total ?? 0);
-      rows.push({ id: afrItem?.id ?? '', label: btwItem ? 'Totaalprijs incl. btw.:' : 'Eindbedrag:', percentage: null, total: eindbedrag, rowType: 'eindbedrag', isBold: true });
+      // Totaal excl. btw = kostprijs + opslagen + afronding. Dit is hét
+      // invulbare eindbedrag: typ het gewenste bedrag (excl. btw, incl.
+      // opslagen) en de afronding wordt automatisch het verschil.
+      const aanneemsomExcl = kostprijsBouw1 + staartItems
+        .filter(i => phase2Types.includes(i.rowType) || legacyTypes.includes(i.rowType))
+        .reduce((s, i) => s + i.total, 0) + (afrItem?.total ?? 0);
+      rows.push({ id: afrItem?.id ?? '', label: 'Totaal excl. btw.:', percentage: null, total: aanneemsomExcl, rowType: 'excl_doel', isBold: true });
+
+      // BTW (over het afgeronde excl-bedrag)
+      const btwItem = staartItems.find(i => i.rowType === 'staart_btw');
+      if (btwItem) rows.push({ id: btwItem.id, label: btwItem.description, percentage: btwItem.staartPercentage, total: btwItem.total, rowType: 'staart_btw', isBold: false });
+
+      // Eindtotaal incl. btw (alleen tonen als er een btw-regel is)
+      if (btwItem) {
+        rows.push({ id: '', label: 'Totaalprijs incl. btw.:', percentage: null, total: aanneemsomExcl + btwItem.total, rowType: '', isBold: true });
+      }
 
       return { staartRows: rows, kostprijs: kp, aanneemsom: aanneemsomExcl };
     }
@@ -299,9 +301,9 @@ function StaartFullScreen() {
     updateItem(id, 'staartVastBedrag', num);
   };
 
-  // Eindbedrag invullen: pint het doelbedrag op het afronding-item — de
-  // afronding wordt automatisch doel − som tot daar (vaste sluitpost, zoals
-  // een inschrijfstaat die exact op een rond bedrag moet uitkomen).
+  // Eindbedrag (excl. btw, incl. opslagen) invullen: pint het doelbedrag op
+  // het afronding-item — de afronding wordt automatisch het verschil met de
+  // berekende som; de btw rekent daarna over het afgeronde excl-bedrag.
   const handleEindbedragChange = (id: string, value: string, original: string) => {
     if (!id || value.trim() === original.trim()) return;
     if (value.trim() === '') {
@@ -355,12 +357,12 @@ function StaartFullScreen() {
                     onKeyDown={e => { if (e.key === 'Enter') { handleAfrondingChange(r.id, (e.target as HTMLInputElement).value, formatNumberForEdit(Math.round(r.total * 100) / 100)); (e.target as HTMLInputElement).blur(); } }}
                     style={{ width: 80, textAlign: 'right', border: '1px solid var(--theme-border)', borderRadius: 3, padding: '1px 4px', background: 'var(--theme-bg)', color: 'var(--theme-editable-text, var(--theme-text))', fontSize: 'inherit', fontFamily: 'inherit' }}
                   />
-                ) : r.rowType === 'eindbedrag' && r.id ? (
+                ) : r.rowType === 'excl_doel' && r.id ? (
                   <input
                     key={`eind-${formatNumberForEdit(Math.round(r.total * 100) / 100)}`}
                     type="text"
                     defaultValue={formatNumberForEdit(Math.round(r.total * 100) / 100)}
-                    title="Eindbedrag invullen: de afronding wordt automatisch het verschil; leegmaken = automatisch afronden"
+                    title="Eindbedrag excl. btw (incl. opslagen) invullen: de afronding wordt automatisch het verschil; leegmaken = automatisch afronden"
                     onBlur={e => handleEindbedragChange(r.id, e.target.value, formatNumberForEdit(Math.round(r.total * 100) / 100))}
                     onKeyDown={e => { if (e.key === 'Enter') { handleEindbedragChange(r.id, (e.target as HTMLInputElement).value, formatNumberForEdit(Math.round(r.total * 100) / 100)); (e.target as HTMLInputElement).blur(); } }}
                     style={{ width: 90, textAlign: 'right', fontWeight: 700, border: '1px solid var(--theme-border)', borderRadius: 3, padding: '1px 4px', background: 'var(--theme-bg)', color: 'var(--theme-editable-text, var(--theme-text))', fontSize: 'inherit', fontFamily: 'inherit' }}

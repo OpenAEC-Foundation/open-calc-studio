@@ -94,7 +94,10 @@ describe('computeStaartItemBreakdowns', () => {
     expect(btw?.staartItemBreakdown?.totaal).toBeCloseTo(121000, 2);
   });
 
-  it('afronding rounds to 2 decimals', () => {
+  it('afronding werkt op het excl-bedrag; btw rekent over het afgeronde excl', () => {
+    // De afronding hoort bij het excl.-blok: eerst excl afronden
+    // (100000.456 → 100000.46), daarna btw over het afgeronde bedrag —
+    // ongeacht waar de btw-regel in de volgorde staat.
     const items: CostItem[] = [
       mkRegel('arbeid', 100000.456),
       mkStaart('staart_btw', 21),
@@ -102,9 +105,30 @@ describe('computeStaartItemBreakdowns', () => {
     ];
     const result = computeStaartItemBreakdowns(items);
     const af = result.find(i => i.rowType === 'staart_afronding');
-    // (100000.456 * 1.21) = 121000.55176; rounded = 121000.55; afronding = -0.00176
-    expect(af?.staartItemBreakdown?.subtotaal).toBeCloseTo(-0.00176, 4);
-    expect(af?.staartItemBreakdown?.totaal).toBeCloseTo(121000.55, 2);
+    expect(af?.staartItemBreakdown?.subtotaal).toBeCloseTo(0.004, 4);
+    expect(af?.staartItemBreakdown?.totaal).toBeCloseTo(100000.46, 2);
+    const btw = result.find(i => i.rowType === 'staart_btw');
+    expect(btw?.staartItemBreakdown?.bedrag).toBeCloseTo(100000.46, 2);
+    expect(btw?.staartItemBreakdown?.totaal).toBeCloseTo(100000.46 * 1.21, 2);
+  });
+
+  it('doelbedrag = eindbedrag excl. btw incl. opslagen; btw volgt erover', () => {
+    // Gebruikersspec: vul het eindbedrag excl. btw in → afronding is het
+    // verschil met de berekende som; het incl-totaal = doel × (1 + btw%).
+    const af = mkStaart('staart_afronding', null);
+    af.staartDoelbedrag = 55000;
+    const items: CostItem[] = [
+      mkRegel('arbeid', 54878.67),
+      mkStaart('staart_btw', 21),
+      af,
+    ];
+    const result = computeStaartItemBreakdowns(items);
+    const r = result.find(i => i.rowType === 'staart_afronding');
+    expect(r?.staartItemBreakdown?.subtotaal).toBeCloseTo(121.33, 2);
+    expect(r?.staartItemBreakdown?.totaal).toBeCloseTo(55000, 2);
+    const btw = result.find(i => i.rowType === 'staart_btw');
+    expect(btw?.staartItemBreakdown?.subtotaal).toBeCloseTo(11550, 2);
+    expect(btw?.staartItemBreakdown?.totaal).toBeCloseTo(66550, 2);
   });
 
   it('handmatig ingevulde afronding (staartVastBedrag) is een vaste sluitpost', () => {

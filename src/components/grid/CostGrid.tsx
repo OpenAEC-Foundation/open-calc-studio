@@ -325,12 +325,21 @@ export const CostGrid: React.FC = () => {
       const lineCount = Math.max(1, (item.description.match(/\n/g) || []).length + 1);
       return Math.max(ROW_HEIGHT, lineCount * ROW_HEIGHT);
     }
+    // Tekstregels: terugloop — schat het aantal regels op basis van de
+    // beschikbare omschrijvingsbreedte en laat de rij meegroeien.
+    if (item?.rowType === 'tekstregel' && item.description) {
+      const descIdx = columns.findIndex(c => c.key === 'description');
+      const descW = (effectiveColumnWidths[descIdx] ?? 300) - (item.depth * 16 + 4) - 10;
+      const charsPerLine = Math.max(10, Math.floor(descW / 5.8));
+      const lines = Math.min(8, Math.max(1, Math.ceil(item.description.length / charsPerLine)));
+      if (lines > 1) return 10 + lines * 13;
+    }
     // In wpcalc view, chapters get 8px top spacing (except the first)
     if (gridView === 'wpcalc' && item?.rowType === 'chapter' && !item.parentId && index > 0) {
       return ROW_HEIGHT + 8;
     }
     return ROW_HEIGHT;
-  }, [visibleItems, gridView]);
+  }, [visibleItems, gridView, columns, effectiveColumnWidths]);
 
   const { startIndex, endIndex, totalHeight, offsetY, rowOffsets } = useGridVirtualizer(
     visibleItems.length,

@@ -416,20 +416,27 @@ export function computeStaartItemBreakdowns(items: CostItem[]): CostItem[] {
     kostprijs.loon + kostprijs.materiaal + kostprijs.materieel +
     kostprijs.stelpost + kostprijs.onderaanneming;
 
-  // Track running cumulative — starts with kostprijs.
+  // Track running cumulative — alles EXCLUSIEF btw. De btw wordt in een
+  // tweede stap over het eind-excl-bedrag (inclusief afronding) berekend,
+  // zodat het doelbedrag altijd "excl. btw, incl. opslagen en afronding"
+  // betekent — onafhankelijk van waar de btw-regel in de volgorde staat.
   let cumulative = totaalKolommen;
   // Resource-column running totals also accumulate
   const running = { ...kostprijs };
 
-  // Order matters: process in array order (which is sortOrder order).
-  return items.map((item) => {
-    if (!item.rowType?.startsWith('staart_')) return item;
+  type BD = import('@/types/costModel').StaartItemBreakdown;
+  const bdOf = new Map<string, BD>();
+  const staartItems = items.filter(i => i.rowType?.startsWith('staart_'));
+
+  // Pass 1: alle niet-btw-staartregels in arrayvolgorde (cascade, excl. btw)
+  for (const item of staartItems) {
+    if (item.rowType === 'staart_btw') continue;
     const pct = (item.staartPercentage ?? 0) / 100;
     // Vlakke staart (BasCalc): percentage over de directe kosten i.p.v.
     // over het opgehoogde bedrag (cascade). Zie CostItem.staartBasis.
     const vlak = item.staartBasis === 'kostprijs';
 
-    let bd: import('@/types/costModel').StaartItemBreakdown = {
+    let bd: BD = {
       loon: 0, materiaal: 0, materieel: 0, stelpost: 0, onderaanneming: 0,
       bedrag: 0, subtotaal: 0, totaal: cumulative,
     };
@@ -476,21 +483,14 @@ export function computeStaartItemBreakdowns(items: CostItem[]): CostItem[] {
         bd.totaal = cumulative;
         break;
       }
-      case 'staart_btw': {
-        const base = cumulative;
-        const v = base * pct;
-        bd = { ...bd, bedrag: base, subtotaal: v };
-        cumulative += v;
-        bd.totaal = cumulative;
-        break;
-      }
       case 'staart_afronding': {
         if (item.staartVastBedrag != null) {
-          // Handmatig in het grid ingevulde afronding: vast bedrag.
+          // Handmatig ingevulde afronding: vast bedrag.
           bd = { ...bd, subtotaal: item.staartVastBedrag };
           cumulative += item.staartVastBedrag;
         } else if (item.staartDoelbedrag != null) {
-          // Vaste sluitpost (BasCalc): afronding = doelbedrag − som tot hier.
+          // Vaste sluitpost: doelbedrag = gewenst totaal excl. btw incl.
+          // opslagen; de afronding is het verschil met de berekende som.
           const v = item.staartDoelbedrag - cumulative;
           bd = { ...bd, subtotaal: v };
           cumulative = item.staartDoelbedrag;
@@ -516,6 +516,26 @@ export function computeStaartItemBreakdowns(items: CostItem[]): CostItem[] {
       }
     }
 
+    bdOf.set(item.id, bd);
+  }
+
+  // Pass 2: btw over het volledige excl-eindbedrag (inclusief afronding)
+  const exclEind = cumulative;
+  let btwCumulative = exclEind;
+  for (const item of staartItems) {
+    if (item.rowType !== 'staart_btw') continue;
+    const pct = (item.staartPercentage ?? 0) / 100;
+    const v = exclEind * pct;
+    btwCumulative += v;
+    bdOf.set(item.id, {
+      loon: 0, materiaal: 0, materieel: 0, stelpost: 0, onderaanneming: 0,
+      bedrag: exclEind, subtotaal: v, totaal: btwCumulative,
+    });
+  }
+
+  return items.map((item) => {
+    const bd = bdOf.get(item.id);
+    if (!bd) return item;
     return { ...item, staartItemBreakdown: bd, total: bd.subtotaal };
   });
 }

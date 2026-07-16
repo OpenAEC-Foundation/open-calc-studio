@@ -69,6 +69,10 @@ pub struct Schedule {
     /// None/afwezig = tonen (bestaand gedrag).
     #[serde(default)]
     pub report_show_verrekenbaar: Option<bool>,
+    /// Hoofdaanneming: toon alleen subtotaal-bedragen — de individuele
+    /// regelbedragen (eh.prijs/bedrag) blijven leeg, hoeveelheden zichtbaar.
+    #[serde(default)]
+    pub report_amounts_subtotals_only: Option<bool>,
     /// Baseline voor "gewijzigd sinds" (ISO-tijd); regels met een latere
     /// history-entry zijn gewijzigd.
     #[serde(default)]

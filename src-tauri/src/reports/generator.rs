@@ -178,6 +178,7 @@ fn row_font_for(item: &CostItem) -> Option<RowOverride> {
             font_name: Some("LiberationSans-Bold".to_string()),
             top_rule: true,
             bottom_rule: true,
+            ..Default::default()
         }),
         "tekstregel" => Some(RowOverride {
             font_name: Some("LiberationSans-BoldItalic".to_string()),
@@ -583,7 +584,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
 
     // Metadata line
     let meta_parts: Vec<String> = [
-        (!request.schedule.project_number.is_empty()).then(|| format!("Nr: {}", request.schedule.project_number)),
+        (!request.schedule.project_number.is_empty()).then(|| format!("Projectnummer: {}", request.schedule.project_number)),
         (!request.schedule.client.is_empty()).then(|| format!("Opdrachtgever: {}", request.schedule.client)),
         (!request.schedule.author.is_empty()).then(|| format!("Auteur: {}", request.schedule.author)),
     ].into_iter().flatten().collect();
@@ -611,6 +612,9 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
     let clean_view = request.report_view == "werkbeschrijving"
         || request.report_view == "hoofdaanneming";
     let use_chapter_subtotals = request.report_view == "hoofdaanneming";
+    // Rapportoptie: alleen subtotaal-bedragen tonen (hoeveelheden blijven)
+    let hide_line_amounts = use_chapter_subtotals
+        && request.schedule.report_amounts_subtotals_only.unwrap_or(false);
     let has_total_col = columns.iter().any(|c| c.key == "total");
 
     // Detect staartkosten
@@ -685,8 +689,8 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
             body.push(r);
             ovs.push(Some(RowOverride {
                 font_name: Some("LiberationSans-Bold".to_string()),
-                // Dunne lijn tussen de laatste post en het subtotaal
-                top_rule: true,
+                // Som-lijn tussen de laatste post en het subtotaal
+                top_rule_sum: true,
                 ..Default::default()
             }));
             // Witregel na het subtotaal
@@ -725,6 +729,9 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
                         "description" => {
                             format!("{}{}", indent_for(item.depth), item.description)
                         }
+                        // Rapportoptie: alleen subtotaal-bedragen — individuele
+                        // regelbedragen leeg, hoeveelheden blijven staan.
+                        "unitPrice" | "total" if hide_line_amounts => String::new(),
                         // Besteksopmaak: kale bedragen zonder valutateken
                         "unitPrice" => fmt_bedrag(item.unit_price),
                         "total" => fmt_bedrag(item.total),

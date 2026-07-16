@@ -207,6 +207,8 @@ function buildHtml(
   // subtotaal per paragraaf (het hoofdstuk dat de posten direct bevat).
   const cleanView = view === 'werkbeschrijving' || view === 'hoofdaanneming';
   const useSubtotalRows = view === 'hoofdaanneming' && hasTotalCol;
+  // Rapportoptie: alleen subtotaal-bedragen (hoeveelheden blijven zichtbaar)
+  const hideLineAmounts = useSubtotalRows && !!schedule.reportAmountsSubtotalsOnly;
 
   // Verrekenbaar erft van het dichtstbijzijnde hoofdstuk erboven: de 'V'
   // staat meestal op hoofdstukniveau, het rapport toont hem per postregel.
@@ -277,6 +279,7 @@ function buildHtml(
       const cells = columns.map(c => {
         if (c.key === 'description') return `<td class="desc"${indentStyle}>${escapeHtml(item.description)}</td>`;
         if (c.key === 'verrekenbaar') return `<td class="${c.cssClass}">${item.rowType === 'witregel' ? '' : verrOf(item)}</td>`;
+        if ((c.key === 'total' || c.key === 'unitPrice') && hideLineAmounts) return `<td class="${c.cssClass}"></td>`;
         return `<td class="${c.cssClass}">${getCellValue(item, c.key, view)}</td>`;
       }).join('');
       tableRows += `<tr${zebraClass ? ' class="even"' : ''}>${cells}</tr>`;
@@ -405,10 +408,13 @@ tr.even td { background: transparent; }
 .chapter-row.depth-1 td,
 .chapter-row.depth-2 td { background: transparent; border-top: none; border-bottom: none; font-size: 8.5pt; }
 .chapter-row.depth-0 td,
-.chapter-row.depth-1 td { border-top: 1px solid #A8A29E; border-bottom: 1px solid #A8A29E; }
+.chapter-row.depth-1 td { border-top: 1.5px solid #A8A29E; border-bottom: 1.5px solid #A8A29E; }
 .chapter-row.depth-2 td, .chapter-row.depth-3 td { font-style: italic; }
 .tekstregel-row td { font-weight: 700; font-style: italic; color: #57575E; }
-.subtotal-row td { background: transparent; border-top: 1px solid #A8A29E; font-weight: 700; }
+/* Som-lijn boven het subtotaal: zwart, dikker, 5 mm rechts doorgetrokken met '+' */
+.subtotal-row td { position: relative; background: transparent; border-top: 1.4px solid #1a1a1a; font-weight: 700; }
+.subtotal-row td:last-child::before { content: ''; position: absolute; top: -1.4px; right: -5mm; width: 5mm; border-top: 1.4px solid #1a1a1a; }
+.subtotal-row td:last-child::after { content: '+'; position: absolute; top: -13px; right: -5mm; font-size: 10px; font-weight: 700; color: #1a1a1a; }
 .subtotal-row .total-label { text-align: left; padding-left: 22px; }
 .total-row td { background: transparent; border-top: 1px solid #36363E; }
 ` : ''}

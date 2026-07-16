@@ -167,6 +167,11 @@ export interface CostSchedule {
    * undefined = tonen (bestaand gedrag); false = kolom weglaten.
    */
   reportShowVerrekenbaar?: boolean;
+  /**
+   * Hoofdaanneming: toon alleen subtotaal-bedragen — individuele
+   * regelbedragen (eh.prijs/bedrag) blijven leeg, hoeveelheden zichtbaar.
+   */
+  reportAmountsSubtotalsOnly?: boolean;
 }
 
 /** Budget variant branch — forms a tree via parentId */

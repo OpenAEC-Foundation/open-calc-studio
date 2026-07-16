@@ -54,4 +54,17 @@ describe('rapportkop-logo in de HTML-print', () => {
     expect(html).toContain('Grondwerk');
     expect(html).not.toContain('Graafmachine');
   });
+
+  it('alleen subtotaal-bedragen: regelbedragen leeg, hoeveelheden zichtbaar', () => {
+    const items = sample();
+    const regel = items.find(i => i.rowType === 'regel')!;
+    regel.total = 640; regel.unitPrice = 640;
+    const post = items.find(i => i.rowType === 'begrotingspost')!;
+    post.total = 640;
+    const zonder = generatePrintHtml(mkSchedule(), items, 'hoofdaanneming', true);
+    expect(zonder).toContain('640,00'); // regelbedrag zichtbaar zonder vinkje
+    const met = generatePrintHtml(mkSchedule({ reportAmountsSubtotalsOnly: true }), items, 'hoofdaanneming', true);
+    expect(met).not.toContain('640,00'); // regelbedrag verborgen
+    expect(met).toContain('10,00'); // hoeveelheid (op de post) blijft staan
+  });
 });

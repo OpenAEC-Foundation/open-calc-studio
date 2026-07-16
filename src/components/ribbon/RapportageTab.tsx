@@ -254,6 +254,17 @@ export default function RapportageTab() {
               <em>De S/Verr.-kolom in o.a. hoofdaanneming en inschrijfstaat; postregels erven de V van hun hoofdstuk.</em>
             </span>
           </label>
+          <label className="rapport-props-row">
+            <input
+              type="checkbox"
+              checked={!!schedule.reportAmountsSubtotalsOnly}
+              onChange={() => setSchedule({ reportAmountsSubtotalsOnly: !schedule.reportAmountsSubtotalsOnly })}
+            />
+            <span>
+              <strong>Alleen subtotaal-bedragen (hoofdaanneming)</strong>
+              <em>Verberg de individuele eh.prijzen en bedragen per regel; hoeveelheden en de subtotalen per paragraaf blijven zichtbaar.</em>
+            </span>
+          </label>
         </div>
       </Modal>
     </div>
