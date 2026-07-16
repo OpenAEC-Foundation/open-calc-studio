@@ -266,31 +266,31 @@ impl PageCallback for ReportPageCallback {
 
         if let Some((bytes, aspect)) = &self.logo_right {
             // Koptekst mét logo: alleen het logo rechtsboven; projectnaam en
-            // rapporttitel samen links, accentlijn iets lager zodat het logo past.
-            let mut h: Pt = Mm(9.0).into();
+            // rapporttitel samen links. Compact en hoog tegen de paginarand.
+            let mut h: Pt = Mm(8.0).into();
             let mut w = Pt(if *aspect > 0.0 { h.0 / aspect } else { h.0 });
             let max_w: Pt = Mm(45.0).into();
             if w.0 > max_w.0 {
                 w = max_w;
                 h = Pt(w.0 * aspect);
             }
-            // Witte fill vóór het tekenen: transparante PNG's worden tegen de
-            // actuele fill-kleur gecomposited.
+            // Witte fill vóór het tekenen: de compositing-fallback (voor
+            // viewers zonder SMask-ondersteuning) hoort tegen wit.
             draw_list.set_fill_color(Color::rgb(255, 255, 255));
-            draw_list.draw_image(bytes.clone(), Pt(right_edge.0 - w.0), Mm(1.5).into(), w, h);
+            draw_list.draw_image(bytes.clone(), Pt(right_edge.0 - w.0), Mm(1.0).into(), w, h);
 
-            let header_y: Pt = Mm(12.0).into();
+            let header_y: Pt = Mm(10.0).into();
             draw_list.set_stroke_color(Color::rgb(217, 119, 6)); // Amber
             draw_list.set_line_width(Pt(1.5));
             draw_list.draw_line(margin, header_y, right_edge, header_y);
 
             draw_list.set_font("LiberationSans-Bold", Pt(9.0));
             draw_list.set_fill_color(Color::rgb(54, 54, 62));
-            draw_list.draw_text(margin, Mm(5.5).into(), &self.project_name);
+            draw_list.draw_text(margin, Mm(4.5).into(), &self.project_name);
 
             draw_list.set_font("LiberationSans", Pt(8.0));
             draw_list.set_fill_color(Color::rgb(161, 161, 170));
-            draw_list.draw_text(margin, Mm(9.5).into(), &self.report_title);
+            draw_list.draw_text(margin, Mm(8.2).into(), &self.report_title);
         } else {
             // Header: amber accent line at top
             let header_y: Pt = Mm(8.0).into(); // top-left origin: Y=8mm from top
