@@ -73,6 +73,13 @@ pub struct Schedule {
     /// regelbedragen (eh.prijs/bedrag) blijven leeg, hoeveelheden zichtbaar.
     #[serde(default)]
     pub report_amounts_subtotals_only: Option<bool>,
+    /// Hoogte van de rapportkoptekst in mm (positie van de accentlijn);
+    /// het logo schaalt mee. None = automatisch (10 met logo, 8 zonder).
+    #[serde(default)]
+    pub report_header_height_mm: Option<f64>,
+    /// Kleur van de koptekst-accentlijn als hex ("#D97706"). None = amber.
+    #[serde(default)]
+    pub report_header_line_color: Option<String>,
     /// Baseline voor "gewijzigd sinds" (ISO-tijd); regels met een latere
     /// history-entry zijn gewijzigd.
     #[serde(default)]

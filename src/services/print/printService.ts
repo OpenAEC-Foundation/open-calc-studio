@@ -210,6 +210,14 @@ function buildHtml(
   // Rapportoptie: alleen subtotaal-bedragen (hoeveelheden blijven zichtbaar)
   const hideLineAmounts = useSubtotalRows && !!schedule.reportAmountsSubtotalsOnly;
 
+  // Koptekst-instellingen (rapporteigenschappen): lijnkleur en hoogte;
+  // het logo schaalt mee met de koptekst-hoogte.
+  const headerLineColor = /^#[0-9a-fA-F]{6}$/.test(schedule.reportHeaderLineColor ?? '')
+    ? schedule.reportHeaderLineColor!
+    : '#D97706';
+  const headerHeightMm = Math.min(30, Math.max(6, schedule.reportHeaderHeightMm ?? 10));
+  const logoHeightMm = Math.max(6, headerHeightMm - 2);
+
   // Verrekenbaar erft van het dichtstbijzijnde hoofdstuk erboven: de 'V'
   // staat meestal op hoofdstukniveau, het rapport toont hem per postregel.
   const byId = new Map(items.map(i => [i.id, i]));
@@ -363,7 +371,7 @@ function buildHtml(
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Inter', 'Segoe UI', sans-serif; font-size: 9pt; color: #36363E; line-height: 1.4; padding: 10mm; background: white; }
-.header { display: flex; justify-content: space-between; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid #D97706; }
+.header { display: flex; justify-content: space-between; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid ${headerLineColor}; }
 .header-left h1 { font-family: 'Space Grotesk', sans-serif; font-size: 16pt; font-weight: 700; margin-bottom: 2px; color: #36363E; }
 .header-left .subtitle { font-size: 10pt; color: #A1A1AA; font-weight: 500; }
 .header-right { text-align: right; font-size: 9pt; }
@@ -441,12 +449,13 @@ ${!includeActions ? `
 }
 ` : ''}
 .report-logo-right {
-  /* Koptekst-logo rechtsboven; position:fixed herhaalt op elke geprinte pagina */
+  /* Koptekst-logo rechtsboven; position:fixed herhaalt op elke geprinte
+     pagina. Schaalt mee met de ingestelde koptekst-hoogte. */
   position: fixed;
   top: 0;
   right: 0;
-  height: 10mm;
-  max-width: 45mm;
+  height: ${logoHeightMm}mm;
+  max-width: 70mm;
   object-fit: contain;
 }
 @media print {

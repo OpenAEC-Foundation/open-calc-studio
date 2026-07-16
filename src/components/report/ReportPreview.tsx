@@ -83,6 +83,8 @@ export const ReportPreview: React.FC = () => {
             reportShowChanges: schedule.reportShowChanges ?? false,
             reportShowVerrekenbaar: schedule.reportShowVerrekenbaar ?? null,
             reportAmountsSubtotalsOnly: schedule.reportAmountsSubtotalsOnly ?? false,
+            reportHeaderHeightMm: schedule.reportHeaderHeightMm ?? null,
+            reportHeaderLineColor: schedule.reportHeaderLineColor ?? null,
             changeTrackingSince: schedule.changeTrackingSince ?? null,
           },
           items: itemsForReport(schedule, items).map(item => ({

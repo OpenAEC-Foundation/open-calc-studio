@@ -265,6 +265,39 @@ export default function RapportageTab() {
               <em>Verberg de individuele eh.prijzen en bedragen per regel; hoeveelheden en de subtotalen per paragraaf blijven zichtbaar.</em>
             </span>
           </label>
+          <div className="rapport-props-row" style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+            <span style={{ minWidth: 120 }}>
+              <strong>Koptekst</strong>
+              <em style={{ display: 'block' }}>Hoogte van de kop (het logo schaalt mee) en de kleur van de accentlijn.</em>
+            </span>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11 }}>
+              Hoogte
+              <input
+                type="number" min={6} max={30} step={1}
+                value={schedule.reportHeaderHeightMm ?? 10}
+                onChange={(e) => {
+                  const v = parseFloat(e.target.value);
+                  setSchedule({ reportHeaderHeightMm: Number.isFinite(v) ? Math.min(30, Math.max(6, v)) : undefined });
+                }}
+                style={{ width: 52 }}
+                className="prop-input"
+              /> mm
+            </label>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11 }}>
+              Lijnkleur
+              <input
+                type="color"
+                value={schedule.reportHeaderLineColor ?? '#D97706'}
+                onChange={(e) => setSchedule({ reportHeaderLineColor: e.target.value })}
+                style={{ width: 34, height: 22, padding: 0, border: '1px solid var(--theme-border)', borderRadius: 3, background: 'none' }}
+                title="Kleur van de koptekst-accentlijn"
+              />
+            </label>
+            <button
+              style={{ fontSize: 10, background: 'none', border: '1px solid var(--theme-border)', borderRadius: 3, padding: '2px 8px', color: 'var(--theme-text-secondary)', cursor: 'pointer' }}
+              onClick={() => setSchedule({ reportHeaderHeightMm: undefined, reportHeaderLineColor: undefined })}
+            >Standaard</button>
+          </div>
         </div>
       </Modal>
     </div>

@@ -252,6 +252,10 @@ struct ReportPageCallback {
     company_name: String,
     /// Bedrijfslogo rechtsboven: (bytes, hoogte/breedte-verhouding)
     logo_right: Option<(Vec<u8>, f32)>,
+    /// Hoogte van de koptekst in mm (positie van de accentlijn).
+    header_height_mm: f32,
+    /// Kleur van de accentlijn.
+    header_line_color: Color,
 }
 
 impl PageCallback for ReportPageCallback {
@@ -264,13 +268,16 @@ impl PageCallback for ReportPageCallback {
     ) {
         let margin: Pt = Mm(12.0).into();
         let right_edge = Pt(page_size.width.0 - margin.0);
+        let hh = self.header_height_mm;
+        let header_y: Pt = Mm(hh).into();
 
         if let Some((bytes, aspect)) = &self.logo_right {
             // Koptekst mét logo: alleen het logo rechtsboven; projectnaam en
-            // rapporttitel samen links. Compact en hoog tegen de paginarand.
-            let mut h: Pt = Mm(8.0).into();
+            // rapporttitel samen links. Het logo schaalt mee met de
+            // koptekst-hoogte (1 mm marge boven en onder de lijn).
+            let mut h: Pt = Mm(hh - 2.0).into();
             let mut w = Pt(if *aspect > 0.0 { h.0 / aspect } else { h.0 });
-            let max_w: Pt = Mm(45.0).into();
+            let max_w: Pt = Mm(70.0).into();
             if w.0 > max_w.0 {
                 w = max_w;
                 h = Pt(w.0 * aspect);
@@ -280,34 +287,32 @@ impl PageCallback for ReportPageCallback {
             draw_list.set_fill_color(Color::rgb(255, 255, 255));
             draw_list.draw_image(bytes.clone(), Pt(right_edge.0 - w.0), Mm(1.0).into(), w, h);
 
-            let header_y: Pt = Mm(10.0).into();
-            draw_list.set_stroke_color(Color::rgb(217, 119, 6)); // Amber
+            draw_list.set_stroke_color(self.header_line_color);
             draw_list.set_line_width(Pt(1.5));
             draw_list.draw_line(margin, header_y, right_edge, header_y);
 
             draw_list.set_font("LiberationSans-Bold", Pt(9.0));
             draw_list.set_fill_color(Color::rgb(54, 54, 62));
-            draw_list.draw_text(margin, Mm(4.5).into(), &self.project_name);
+            draw_list.draw_text(margin, Mm((hh - 5.5).max(3.5)).into(), &self.project_name);
 
             draw_list.set_font("LiberationSans", Pt(8.0));
             draw_list.set_fill_color(Color::rgb(161, 161, 170));
-            draw_list.draw_text(margin, Mm(8.2).into(), &self.report_title);
+            draw_list.draw_text(margin, Mm(hh - 1.8).into(), &self.report_title);
         } else {
-            // Header: amber accent line at top
-            let header_y: Pt = Mm(8.0).into(); // top-left origin: Y=8mm from top
-            draw_list.set_stroke_color(Color::rgb(217, 119, 6)); // Amber
+            // Accentlijn bovenaan; tekst er vlak boven
+            draw_list.set_stroke_color(self.header_line_color);
             draw_list.set_line_width(Pt(1.5));
             draw_list.draw_line(margin, header_y, right_edge, header_y);
 
             // Project name (top left, above the line)
             draw_list.set_font("LiberationSans-Bold", Pt(9.0));
             draw_list.set_fill_color(Color::rgb(54, 54, 62));
-            draw_list.draw_text(margin, Mm(5.0).into(), &self.project_name);
+            draw_list.draw_text(margin, Mm((hh - 3.0).max(3.0)).into(), &self.project_name);
 
             // Report title (top right)
             draw_list.set_font("LiberationSans", Pt(8.0));
             draw_list.set_fill_color(Color::rgb(161, 161, 170));
-            draw_list.draw_text_right(right_edge, Mm(5.0).into(), &self.report_title);
+            draw_list.draw_text_right(right_edge, Mm((hh - 3.0).max(3.0)).into(), &self.report_title);
         }
 
         // Footer: thin line near bottom
@@ -326,6 +331,18 @@ impl PageCallback for ReportPageCallback {
         let page_text = format!("Pagina {} / {}", page_num, total_pages);
         draw_list.draw_text_right(right_edge, footer_text_y, &page_text);
     }
+}
+
+/// Parse een "#RRGGBB"-hexkleur; None bij ongeldige invoer.
+fn parse_hex_color(s: &str) -> Option<Color> {
+    let h = s.trim().trim_start_matches('#');
+    if h.len() != 6 {
+        return None;
+    }
+    let r = u8::from_str_radix(&h[0..2], 16).ok()?;
+    let g = u8::from_str_radix(&h[2..4], 16).ok()?;
+    let b = u8::from_str_radix(&h[4..6], 16).ok()?;
+    Some(Color::rgb(r, g, b))
 }
 
 /// Decodeer een logo uit een data-URL ("data:image/png;base64,....") naar
@@ -399,16 +416,38 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
     load_system_fonts(&fonts);
     let page = page_size_for(&request.page_size, &request.page_orientation);
 
-    // Margins
+    // Bedrijfslogo rechtsboven in de koptekst (indien ingesteld)
+    let logo_right = request
+        .company_info
+        .as_ref()
+        .and_then(|c| c.logo_right.as_deref())
+        .and_then(decode_logo);
+
+    // Koptekst-instellingen (rapporteigenschappen): hoogte en lijnkleur
+    let header_height_mm = request
+        .schedule
+        .report_header_height_mm
+        .map(|v| v as f32)
+        .unwrap_or(if logo_right.is_some() { 10.0 } else { 8.0 })
+        .clamp(6.0, 30.0);
+    let header_line_color = request
+        .schedule
+        .report_header_line_color
+        .as_deref()
+        .and_then(parse_hex_color)
+        .unwrap_or(Color::rgb(217, 119, 6)); // Amber
+
+    // Margins — de topmarge groeit mee met een hogere koptekst
     let margin_left: Pt = Mm(12.0).into();
     let margin_right: Pt = Mm(12.0).into();
-    let margin_top: Pt = Mm(18.0).into();
+    let margin_top: Pt = Mm((header_height_mm + 8.0).max(18.0)).into();
     let margin_bottom: Pt = Mm(15.0).into();
 
-    // Content frame
+    // Content frame — rect.y is de TOP van het contentgebied (top-left
+    // coördinaten): de content begint dus op margin_top, onder de koptekst.
     let frame = Frame::new(Rect::new(
         margin_left,
-        margin_bottom,
+        margin_top,
         Pt(page.width.0 - margin_left.0 - margin_right.0),
         Pt(page.height.0 - margin_top.0 - margin_bottom.0),
     ));
@@ -420,18 +459,13 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
         .map(|c| c.name.clone())
         .unwrap_or_default();
 
-    // Bedrijfslogo rechtsboven in de koptekst (indien ingesteld)
-    let logo_right = request
-        .company_info
-        .as_ref()
-        .and_then(|c| c.logo_right.as_deref())
-        .and_then(decode_logo);
-
     let callback = ReportPageCallback {
         project_name: request.schedule.project_name.clone(),
         report_title: view_title(&request.report_view).to_string(),
         company_name,
         logo_right,
+        header_height_mm,
+        header_line_color,
     };
 
     let template = PageTemplate::new("content", page, frame)

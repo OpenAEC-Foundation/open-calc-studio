@@ -172,6 +172,14 @@ export interface CostSchedule {
    * regelbedragen (eh.prijs/bedrag) blijven leeg, hoeveelheden zichtbaar.
    */
   reportAmountsSubtotalsOnly?: boolean;
+  /**
+   * Hoogte van de rapportkoptekst in mm (= positie van de accentlijn vanaf
+   * de bovenrand). Het logo schaalt mee. undefined = automatisch
+   * (10 mm met logo, 8 mm zonder).
+   */
+  reportHeaderHeightMm?: number;
+  /** Kleur van de koptekst-accentlijn als hex ("#D97706"). undefined = amber. */
+  reportHeaderLineColor?: string;
 }
 
 /** Budget variant branch — forms a tree via parentId */
