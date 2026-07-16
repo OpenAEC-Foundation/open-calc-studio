@@ -14,7 +14,7 @@ export const GRID_COLUMNS: GridColumn[] = [
   { key: 'quantity', label: 'Aantal', abbr: 'aant', width: 80, minWidth: 50, editable: true, type: 'number', align: 'center', tooltip: 'Aantal (aant)\nOp rekenregel en (bewakings)post\nDimensieloos getal' },
   { key: 'productienorm', label: 'Prod.norm', abbr: 'pnorm', width: 80, minWidth: 50, editable: true, type: 'number', align: 'center', tooltip: 'Productienorm (pnorm)\nAlleen op rekenregel\nBijv. 8 uur per persoon per dag' },
   { key: 'productiecapaciteit', label: 'Prod.cap.', abbr: 'pcap', width: 80, minWidth: 50, editable: true, type: 'number', align: 'center', tooltip: 'Productiecapaciteit (pcap)\nAlleen op rekenregel\nDeler in de hoeveelheidformule' },
-  { key: 'hoeveelheid', label: 'Hoeveelheid', abbr: 'hoev', width: 90, minWidth: 60, editable: true, type: 'number', align: 'center', tooltip: 'Hoeveelheid (hoev)\nregel: aant × pnorm / pcap\nbgrps: toont Aantal\ntekst: direct invulbaar' },
+  { key: 'hoeveelheid', label: 'Hoeveelheid', abbr: 'hoev', width: 90, minWidth: 60, editable: true, type: 'number', align: 'center', tooltip: 'Hoeveelheid (hoev)\nregel: aant × pnorm / pcap (berekend)\nbgrps/bwkps: Aantal, direct bewerkbaar\ntekst: direct invulbaar' },
   { key: 'unit', label: 'Eenheid', abbr: 'eenh', width: 55, minWidth: 45, editable: true, type: 'unit-select', align: 'center', tooltip: 'Eenheid (eenh)\nbgrps, bwkps, regel' },
   { key: 'verrekenbaar', label: 'Verr.', abbr: 'verr', width: 32, minWidth: 28, editable: true, type: 'vn-select', align: 'center', tooltip: 'Verrekenbaarheid (verr)\nAlleen op hfdst\nV=Verrekenbaar, A=Aanbod\nN=Niet verrekenbaar, F=Fictief' },
   { key: 'normUnitPrice', label: 'Prijs/middel', abbr: 'pmddl', width: 100, minWidth: 60, editable: true, type: 'currency', align: 'center', tooltip: 'Prijs per middel (pmddl)\nAlleen op rekenregel' },
@@ -145,7 +145,10 @@ export function isCellEditable(colKey: string, rowType: string, _gridView?: Grid
   // Hoeveelheid/Uren: alleen direct invulbaar op tekstregel
   // Op begrotingspost/bewakingspost is dit een berekende som
   if (colKey === 'hoeveelheid') {
-    return rowType === 'tekstregel';
+    // Op (bewakings)posten toont de hoeveelheid-kolom het Aantal — bewerken
+    // schrijft naar quantity (zelfde mapping als de editor). Op regels blijft
+    // hoeveelheid berekend (aant × pnorm / pcap).
+    return rowType === 'tekstregel' || rowType === 'begrotingspost' || rowType === 'bewakingspost';
   }
   // Prijs/middel: rekenregel, begrotingspost, bewakingspost
   if (colKey === 'normUnitPrice') {

@@ -10,6 +10,15 @@ describe('aantal bewerkbaar op posten', () => {
     expect(isCellEditable('quantity', 'chapter')).toBe(false);
     expect(isCellEditable('quantity', 'tekstregel')).toBe(false);
   });
+
+  it('hoeveelheid is bewerkbaar op (bewakings)post en tekstregel, niet op regel', () => {
+    expect(isCellEditable('hoeveelheid', 'begrotingspost')).toBe(true);
+    expect(isCellEditable('hoeveelheid', 'bewakingspost')).toBe(true);
+    expect(isCellEditable('hoeveelheid', 'tekstregel')).toBe(true);
+    // Op een regel blijft hoeveelheid een berekende waarde
+    expect(isCellEditable('hoeveelheid', 'regel')).toBe(false);
+    expect(isCellEditable('hoeveelheid', 'chapter')).toBe(false);
+  });
 });
 
 describe('toggleAllBewakingspostenCollapsed', () => {
