@@ -18,6 +18,7 @@ const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours
 // (offline én vóór een GitHub-publicatie), samengevoegd met de opgehaalde
 // releases. Bijwerken bij elke release; de bullets staan in HIGHLIGHTS hieronder.
 const BUNDLED_RELEASES: Release[] = [
+  { tag_name: 'v0.10.0', name: 'Logo in de rapportkop + formules in cellen', body: '', published_at: '2026-07-16T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.10.0` },
   { tag_name: 'v0.9.0', name: 'Exacte BasCalc-totalen + besteksopmaak rapporten', body: '', published_at: '2026-07-16T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.9.0` },
   { tag_name: 'v0.8.8', name: 'Excel/CSV-import-fix + via MCP', body: '', published_at: '2026-07-03T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.8.8` },
   { tag_name: 'v0.8.7', name: 'Vier nieuwe importformaten', body: '', published_at: '2026-07-03T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.8.7` },
@@ -34,6 +35,13 @@ const BUNDLED_RELEASES: Release[] = [
 // Gecureerde, concrete verbeterpunten per versie. De GitHub-releases bevatten
 // vaak alleen downloads; deze lijst toont wat er écht is verbeterd.
 const HIGHLIGHTS: Record<string, string[]> = {
+  'v0.10.0': [
+    'Bedrijfslogo rechtsboven in de rapportkop (transparant, schaalt mee); kophoogte en lijnkleur instelbaar',
+    'Rekenformules in getalcellen (=12,2*2,22 of 12.2*2.2) — en de komma-wegval-bug is opgelost',
+    'Staart: vul het eindbedrag excl. btw in en de afronding wordt automatisch het verschil; btw over het afgeronde bedrag',
+    'Hoofdaanneming: som-lijnen met "+", optionele S-kolom (V erft van het hoofdstuk) en alleen-subtotalen-weergaven',
+    'Sneller werken: prijzen ±%, Ctrl+F zoeken/vervangen, inklappen per niveau, meerstaps ongedaan, tekstregels met terugloop',
+  ],
   'v0.9.0': [
     'BasCalc-import: kostprijs én aanneemsom tot op de cent gelijk aan Excel (vlakke staart + vaste afrondingspost)',
     'Werkbeschrijving en hoofdaanneming in besteksopmaak: geen cellijnen, inspringende paragrafen, subtotaal per paragraaf',
