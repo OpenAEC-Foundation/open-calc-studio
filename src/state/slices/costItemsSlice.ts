@@ -40,7 +40,6 @@ export interface CostItemsSlice {
   addWitregel: (parentId: string | null, afterItemId?: string) => string;
   deleteItem: (id: string) => void;
   updateItem: (id: string, field: string, value: string | number | null | boolean | CostUnit | ExcelLink | QuantityLink) => void;
-  moveItem: (id: string, direction: 'up' | 'down') => void;
   moveItems: (ids: string[], targetId: string, position: 'before' | 'after' | 'inside') => void;
   indentItem: (id: string) => void;
   outdentItem: (id: string) => void;
@@ -352,24 +351,6 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
         tarieven ?? (s.schedule?.tarieven ?? { A: 64, B: 43, C: 82 }),
       ),
     }));
-    markModified();
-  },
-
-  moveItem: (id, direction) => {
-    const state = get();
-    const item = state.items.find((i) => i.id === id);
-    if (!item) return;
-    const siblings = state.items.filter((i) => i.parentId === item.parentId);
-    const idx = siblings.findIndex((s) => s.id === id);
-    if (direction === 'up' && idx <= 0) return;
-    if (direction === 'down' && idx >= siblings.length - 1) return;
-    const swapWith = direction === 'up' ? siblings[idx - 1] : siblings[idx + 1];
-    const newItems = state.items.map((i) => {
-      if (i.id === id) return { ...i, sortOrder: swapWith.sortOrder };
-      if (i.id === swapWith.id) return { ...i, sortOrder: item.sortOrder };
-      return i;
-    });
-    set({ items: newItems });
     markModified();
   },
 

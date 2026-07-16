@@ -769,7 +769,7 @@ useAppStore.getState().recalculate();
 | `addWitregel` | `(parentId, afterItemId?) => string` | Voeg witregel toe |
 | `deleteItem` | `(id: string) => void` | Verwijder item + subtree |
 | `updateItem` | `(id, field, value) => void` | Werk een veld bij |
-| `moveItem` | `(id, direction) => void` | Verplaats omhoog/omlaag |
+
 | `indentItem` | `(id: string) => void` | Inspringen (dieper nesten) |
 | `outdentItem` | `(id: string) => void` | Uitspringen (hoger nesten) |
 | `toggleCollapse` | `(id: string) => void` | In-/uitklappen |

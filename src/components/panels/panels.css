@@ -140,31 +140,6 @@
   color: var(--theme-grid-active-text);
 }
 
-/* Company panel fields */
-.company-fields {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.company-field {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-/* ── Company Dialog ── */
-.company-dialog {
-  width: 480px;
-  max-width: 90vw;
-  max-height: 80vh;
-}
-
-.company-dialog .modal-body {
-  padding: 12px 16px;
-  overflow-y: auto;
-}
-
 /* ── Resource Picker — OpenAEC Style Book ── */
 .resource-picker-overlay {
   position: fixed;

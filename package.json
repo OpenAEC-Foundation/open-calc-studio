@@ -26,7 +26,6 @@
     "buffer": "^6.0.3",
     "i18next": "^25.8.18",
     "i18next-browser-languagedetector": "^8.2.1",
-    "immer": "^11.1.4",
     "mdb-reader": "^3.2.0",
     "pdfjs-dist": "^5.6.205",
     "react": "^19.2.4",
