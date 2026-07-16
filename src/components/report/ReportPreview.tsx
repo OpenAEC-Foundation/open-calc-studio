@@ -20,7 +20,7 @@ export const ReportPreview: React.FC = () => {
   const { t } = useTranslation();
   const {
     schedule, items, reportView, showHoeveelheid, toggleHoeveelheid, companyInfo,
-    pageOrientation, pageSize, includeCover, includeSummary,
+    pageOrientation, pageSize, includeCover, includeSummary, setSchedule,
   } = useAppStore();
 
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
@@ -169,6 +169,16 @@ export const ReportPreview: React.FC = () => {
           <input type="checkbox" checked={showHoeveelheid} onChange={toggleHoeveelheid} />
           Hoeveelheden
         </label>
+        {reportView === 'hoofdaanneming' && (
+          <label className="report-toolbar-check" title="Verberg de individuele eh.prijzen en bedragen per regel; hoeveelheden en de subtotalen per paragraaf blijven zichtbaar">
+            <input
+              type="checkbox"
+              checked={!!schedule.reportAmountsSubtotalsOnly}
+              onChange={() => setSchedule({ reportAmountsSubtotalsOnly: !schedule.reportAmountsSubtotalsOnly })}
+            />
+            Alleen subtotalen
+          </label>
+        )}
         <div className="report-toolbar-zoom">
           <button className="report-zoom-btn" onClick={() => setZoom(z => Math.max(30, z - 10))}>−</button>
           <span className="report-zoom-label">{zoom}%</span>
