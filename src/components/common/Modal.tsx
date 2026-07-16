@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import "./Modal.css";
 
 interface ModalProps {
@@ -93,7 +94,10 @@ export default function Modal({ open, onClose, title, className, children }: Mod
 
   if (!visible) return null;
 
-  return (
+  // Portal naar <body>: een voorouder met transform/filter (zoals de
+  // animerende lint-panelen) zou position:fixed anders "vangen", waardoor de
+  // dialoog zonder overlay onder het lint blijft plakken.
+  return createPortal(
     <div className={`modal-overlay${animating ? ' modal-open' : ''}`} ref={overlayRef}>
       <div
         className={`modal-dialog${className ? ` ${className}` : ''}${animating ? ' modal-dialog-open' : ''}`}
@@ -107,6 +111,7 @@ export default function Modal({ open, onClose, title, className, children }: Mod
           {children}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
