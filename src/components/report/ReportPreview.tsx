@@ -97,6 +97,8 @@ export const ReportPreview: React.FC = () => {
             depth: item.depth,
             parentId: item.parentId,
             staartPercentage: item.staartPercentage,
+            staartBasis: item.staartBasis ?? null,
+            staartDoelbedrag: item.staartDoelbedrag ?? null,
             verrekenbaar: item.verrekenbaar,
             resourceType: item.resourceType,
             tariefGroep: item.tariefGroep,

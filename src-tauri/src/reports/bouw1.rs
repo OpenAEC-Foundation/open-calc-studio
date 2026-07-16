@@ -400,6 +400,10 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
             let mut row_bedrag = 0.0;
             let mut row_subtotaal = 0.0;
 
+            // Vlakke staart (BasCalc): percentage over de directe kosten
+            // i.p.v. het opgehoogde bedrag — spiegel van CostItem.staartBasis.
+            let vlak = si.staart_basis.as_deref() == Some("kostprijs");
+
             match si.row_type.as_str() {
                 "staart_ak_oa" => {
                     let v = kp_oa * pct;
@@ -408,26 +412,40 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
                     cumulative += v;
                 }
                 "staart_abk" | "staart_garanties" | "staart_wvpm" => {
-                    row_bedrag = run_loon + run_mat + run_matrl;
-                    row_loon = run_loon * pct;
-                    row_mat = run_mat * pct;
-                    row_matrl = run_matrl * pct;
+                    let (b_loon, b_mat, b_matrl) = if vlak {
+                        (kp_loon, kp_mat, kp_matrl)
+                    } else {
+                        (run_loon, run_mat, run_matrl)
+                    };
+                    row_bedrag = b_loon + b_mat + b_matrl;
+                    row_loon = b_loon * pct;
+                    row_mat = b_mat * pct;
+                    row_matrl = b_matrl * pct;
                     row_subtotaal = row_loon + row_mat + row_matrl;
-                    run_loon += row_loon;
-                    run_mat += row_mat;
-                    run_matrl += row_matrl;
+                    if !vlak {
+                        run_loon += row_loon;
+                        run_mat += row_mat;
+                        run_matrl += row_matrl;
+                    }
                     cumulative += row_subtotaal;
                 }
                 "staart_risico" | "staart_winst" | "staart_verzekering"
                 | "staart_ukk" | "staart_ak" | "staart_wr" => {
-                    row_bedrag = cumulative;
-                    row_subtotaal = cumulative * pct;
+                    row_bedrag = if vlak { kp_total } else { cumulative };
+                    row_subtotaal = row_bedrag * pct;
                     cumulative += row_subtotaal;
                 }
                 "staart_btw" => {
                     row_bedrag = cumulative;
                     row_subtotaal = cumulative * pct;
                     cumulative += row_subtotaal;
+                }
+                "staart_afronding" => {
+                    if let Some(doel) = si.staart_doelbedrag {
+                        // Vaste sluitpost: afronding = doelbedrag − som tot hier.
+                        row_subtotaal = doel - cumulative;
+                        cumulative = doel;
+                    }
                 }
                 _ => {}
             }

@@ -38,6 +38,22 @@ export interface CostItem {
   /** Per-row breakdown for staart_* items, populated by recalculateItems() */
   staartItemBreakdown?: StaartItemBreakdown;
 
+  /**
+   * Rekenbasis van een percentage-staartregel:
+   * - 'cumulatief' (default, undefined): over het opgehoogde bedrag t/m de
+   *   vorige staartregel (cascade, WPCalc-stijl).
+   * - 'kostprijs': vlak over de directe kosten (BasCalc-stijl — 6/9/4% zijn
+   *   dan alle drie over hetzelfde kostprijsbedrag).
+   */
+  staartBasis?: 'cumulatief' | 'kostprijs' | null;
+
+  /**
+   * Alleen op staart_afronding: sluit de aanneemsom exact op dit doelbedrag
+   * (afronding = doel − som van kostprijs en opslagen), zoals de vaste
+   * afrondingspost in BasCalc. null/undefined = automatisch afronden.
+   */
+  staartDoelbedrag?: number | null;
+
   // Normberekening (alleen voor 'regel' rijen)
   normQuantity: number | null;
   normFactor: number | null;

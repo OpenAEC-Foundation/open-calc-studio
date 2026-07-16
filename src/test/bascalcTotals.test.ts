@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import * as XLSX from 'xlsx';
 import { importBasCalcFile } from '@/services/importers/bascalcImporter';
-import { recalculateItems, getKostprijs } from '@/services/calculation/calculator';
+import { recalculateItems, getKostprijs, getStaartBreakdown } from '@/services/calculation/calculator';
 
 /**
  * BasCalc-import: de bedragen uit kolom N zijn de bron van waarheid en moeten
@@ -33,11 +33,22 @@ function makeBasCalcXls(): ArrayBuffer {
     ['cb', '', null, 'Uitvoeringskosten', null, null, null, null, 6, '%', null, null, 0, 0],
     ['cn', '', '99101', 'Uitvoeringskosten', 1, null, '/', null, 0, 0, 'h', 0, 0, 0],
     ['cp', '', null, null, null, 'hv-post', null, null, null, null, null, null, null, null],
+    ['ih', '0', '939990', 'Algemene kosten', null, null, null, null, 9, '%', 'V', null, 0, 0],
+    ['ih', '0', '949990', 'Winst', null, null, null, null, 4, '%', 'V', null, 0, 0],
+    ['ih', '0', '959990', 'Afronding', null, null, null, null, null, null, 'V', null, 0, 0],
+  ];
+  // Eindblad: percentages (code idx 8, pct idx 15) + aanneemsom-doel
+  const eind: (string | number | null)[][] = [
+    ['%_bascalc_%eb'],
+    [null, null, null, null, null, null, null, null, '929990', null, null, null, null, null, null, 6],
+    [null, null, null, null, null, null, null, null, '939990', null, null, null, null, null, null, 9],
+    [null, null, null, null, null, null, null, null, '949990', null, null, null, null, null, null, 4],
+    ['4', 'Tot_Inschrijfstaat', 1650, 1, 1],
   ];
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([['%_vrij_%']]), 'Menu');
   XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(kp), 'Kostprijs');
-  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([['%_bascalc_%eb']]), 'Eindblad');
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(eind), 'Eindblad');
   const out = XLSX.write(wb, { type: 'array', bookType: 'xlsx' }) as ArrayBuffer;
   return out;
 }
@@ -75,5 +86,22 @@ describe('BasCalc bron-getrouwe bedragen', () => {
     const kinderen = recalced.filter((i) => i.parentId === staart!.id);
     expect(kinderen.length).toBe(0);
     expect(staart!.staartPercentage).toBe(6);
+  });
+
+  it('staart rekent vlak (BasCalc): elk percentage over de kostprijs', () => {
+    // Kostprijs 1373 → UKK 6% = 82,38 · AK 9% = 123,57 · Winst 4% = 54,92
+    // (cascade zou AK over 1455,38 rekenen = 130,98 — dat mag dus niet)
+    const t = (rt: string) => Math.round((recalced.find((i) => i.rowType === rt)?.total ?? 0) * 100) / 100;
+    expect(t('staart_ukk')).toBe(82.38);
+    expect(t('staart_ak')).toBe(123.57);
+    expect(t('staart_wr')).toBe(54.92);
+  });
+
+  it('afronding sluit exact op het Eindblad-doelbedrag', () => {
+    // 1373 + 82,38 + 123,57 + 54,92 = 1633,87 → afronding = 1650 − 1633,87
+    const afr = recalced.find((i) => i.rowType === 'staart_afronding');
+    expect(Math.round((afr?.total ?? 0) * 100) / 100).toBe(16.13);
+    const bd = getStaartBreakdown(recalced);
+    expect(Math.round(bd.aanneemsomAfgerond * 100) / 100).toBe(1650);
   });
 });

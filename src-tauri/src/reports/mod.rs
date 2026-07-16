@@ -167,6 +167,13 @@ pub struct CostItem {
     pub parent_id: Option<String>,
     #[serde(default)]
     pub staart_percentage: Option<f64>,
+    /// 'kostprijs' = vlak percentage over de directe kosten (BasCalc);
+    /// afwezig/'cumulatief' = cascade.
+    #[serde(default)]
+    pub staart_basis: Option<String>,
+    /// Alleen op staart_afronding: aanneemsom-doelbedrag (vaste sluitpost).
+    #[serde(default)]
+    pub staart_doelbedrag: Option<f64>,
     #[serde(default)]
     pub verrekenbaar: Option<String>,
     #[serde(default)]

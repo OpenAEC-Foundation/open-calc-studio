@@ -93,15 +93,29 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
     if (menuData.length > 20) companyInfo.email = cellStr(menuData[20] ?? [], 5);
   }
 
-  // --- Read Eindblad for staartkosten percentages ---
+  // --- Read Eindblad for staartkosten percentages + aanneemsom-doel ---
   let uitvoeringskosten = 6;
   let algemeneKosten = 9;
   let winstRisico = 5;
+  // BasCalc sluit de begroting met een vaste afrondingspost op een exact
+  // doelbedrag (de aanneemsom op het Eindblad, bv. 75.000). Dat doel nemen
+  // we over zodat de afronding in OCS identiek sluit.
+  let aanneemsomDoel: number | null = null;
   const eindSheet = wb.Sheets['Eindblad'];
   if (eindSheet) {
     const eindData: unknown[][] = XLSX.utils.sheet_to_json(eindSheet, { header: 1 });
     for (const row of eindData) {
-      if (!row || row.length < 16) continue;
+      if (!row) continue;
+      // Aanneemsom-doel: cel 'Tot_Inschrijfstaat' met het bedrag ernaast.
+      for (let c = 0; c < row.length; c++) {
+        if (String(row[c] ?? '').trim() === 'Tot_Inschrijfstaat') {
+          for (let n = c + 1; n < row.length; n++) {
+            const v = cellNum(row, n);
+            if (v !== null && v !== 0) { aanneemsomDoel = v; break; }
+          }
+        }
+      }
+      if (row.length < 16) continue;
       const code = String(row[8] ?? '').trim();
       const pct = cellNum(row, 15);
       if (pct === null) continue;
@@ -227,6 +241,9 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
         }
       }
 
+      // BasCalc rekent de staart vlak: elk percentage over de kostprijs
+      // (niet cascade), en de afronding sluit op het Eindblad-doelbedrag.
+      const isStaartPct = rowType === 'staart_ukk' || rowType === 'staart_ak' || rowType === 'staart_wr';
       const item = makeCostItem({
         parentId,
         sortOrder: sortOrder++,
@@ -241,6 +258,8 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
         depth,
         rowType: itemRowType,
         staartPercentage,
+        staartBasis: isStaartPct ? 'kostprijs' : null,
+        staartDoelbedrag: rowType === 'staart_afronding' ? aanneemsomDoel : null,
         verrekenbaar: isChapter ? 'V' : null,
       });
 

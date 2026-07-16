@@ -404,6 +404,9 @@ export function computeStaartItemBreakdowns(items: CostItem[]): CostItem[] {
   return items.map((item) => {
     if (!item.rowType?.startsWith('staart_')) return item;
     const pct = (item.staartPercentage ?? 0) / 100;
+    // Vlakke staart (BasCalc): percentage over de directe kosten i.p.v.
+    // over het opgehoogde bedrag (cascade). Zie CostItem.staartBasis.
+    const vlak = item.staartBasis === 'kostprijs';
 
     let bd: import('@/types/costModel').StaartItemBreakdown = {
       loon: 0, materiaal: 0, materieel: 0, stelpost: 0, onderaanneming: 0,
@@ -422,15 +425,22 @@ export function computeStaartItemBreakdowns(items: CostItem[]): CostItem[] {
       case 'staart_abk':
       case 'staart_garanties':
       case 'staart_wvpm': {
-        const base = running.loon + running.materiaal + running.materieel;
-        const loon = running.loon * pct;
-        const mat = running.materiaal * pct;
-        const matrl = running.materieel * pct;
+        // Vlak: over de oorspronkelijke kostprijskolommen; cascade: over de
+        // running (door eerdere opslagen opgehoogde) kolommen.
+        const bLoon = vlak ? kostprijs.loon : running.loon;
+        const bMat = vlak ? kostprijs.materiaal : running.materiaal;
+        const bMatrl = vlak ? kostprijs.materieel : running.materieel;
+        const base = bLoon + bMat + bMatrl;
+        const loon = bLoon * pct;
+        const mat = bMat * pct;
+        const matrl = bMatrl * pct;
         const v = loon + mat + matrl;
         bd = { ...bd, loon, materiaal: mat, materieel: matrl, bedrag: base, subtotaal: v };
-        running.loon += loon;
-        running.materiaal += mat;
-        running.materieel += matrl;
+        if (!vlak) {
+          running.loon += loon;
+          running.materiaal += mat;
+          running.materieel += matrl;
+        }
         cumulative += v;
         bd.totaal = cumulative;
         break;
@@ -438,7 +448,7 @@ export function computeStaartItemBreakdowns(items: CostItem[]): CostItem[] {
       case 'staart_risico':
       case 'staart_winst':
       case 'staart_verzekering': {
-        const base = cumulative;
+        const base = vlak ? totaalKolommen : cumulative;
         const v = base * pct;
         bd = { ...bd, bedrag: base, subtotaal: v };
         cumulative += v;
@@ -454,18 +464,25 @@ export function computeStaartItemBreakdowns(items: CostItem[]): CostItem[] {
         break;
       }
       case 'staart_afronding': {
-        const rounded = Math.round(cumulative * 100) / 100;
-        const v = rounded - cumulative;
-        bd = { ...bd, subtotaal: v };
-        cumulative = rounded;
+        if (item.staartDoelbedrag != null) {
+          // Vaste sluitpost (BasCalc): afronding = doelbedrag − som tot hier.
+          const v = item.staartDoelbedrag - cumulative;
+          bd = { ...bd, subtotaal: v };
+          cumulative = item.staartDoelbedrag;
+        } else {
+          const rounded = Math.round(cumulative * 100) / 100;
+          const v = rounded - cumulative;
+          bd = { ...bd, subtotaal: v };
+          cumulative = rounded;
+        }
         bd.totaal = cumulative;
         break;
       }
-      // Legacy staart_ukk/ak/wr — same percentage-of-cumulative pattern
+      // Legacy staart_ukk/ak/wr — percentage-of-cumulative (of vlak over kostprijs)
       case 'staart_ukk':
       case 'staart_ak':
       case 'staart_wr': {
-        const base = cumulative;
+        const base = vlak ? totaalKolommen : cumulative;
         const v = base * pct;
         bd = { ...bd, bedrag: base, subtotaal: v };
         cumulative += v;
