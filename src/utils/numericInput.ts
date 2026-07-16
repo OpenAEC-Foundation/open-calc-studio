@@ -26,6 +26,16 @@ export function parseNumericInput(input: string): number | null {
   return isFormula ? null : parseNlNumber(body);
 }
 
+// Herschrijft alle getal-tokens in een expressie naar punt-notatie
+// ("1.234,56" → "1234.56", "6,66" → "6.66"); overige tekst blijft staan.
+// Voor formule-engines die alleen punt-decimalen kennen (subbladen).
+export function normalizeDecimalsInExpression(expr: string): string {
+  return expr.replace(/\d[\d.,]*/g, (tok) => {
+    const n = parseFormulaNumber(tok);
+    return n === null ? tok : String(n);
+  });
+}
+
 type Token = { kind: 'num'; value: number } | { kind: 'op'; op: string };
 
 function tokenize(expr: string): Token[] | null {

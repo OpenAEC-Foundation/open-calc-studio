@@ -1,5 +1,7 @@
 import type { StateCreator } from 'zustand';
 import type { SubSheet, SubSheetCell, CellBorder, CellBorders } from '@/types/costModel';
+import { parseNlNumber } from '@/utils/formatting';
+import { normalizeDecimalsInExpression } from '@/utils/numericInput';
 
 export type BorderPreset = 'none' | 'all' | 'outer' | 'thick-outer' | 'inner' | 'top' | 'bottom';
 
@@ -100,8 +102,9 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
           const computed = evaluateFormula(value.slice(1), ss.cells);
           if (computed !== null) cell.computed = computed;
         } else {
-          const n = parseFloat(value);
-          if (!isNaN(n)) cell.computed = n;
+          // NL-notatie: "6,66" moet 6,66 zijn, niet 6 (parseFloat stopt bij de komma)
+          const n = parseNlNumber(value);
+          if (n !== null) cell.computed = n;
         }
         return {
           ...ss,
@@ -322,8 +325,8 @@ function getCellValue(cells: Record<string, SubSheetCell>, ref: string): number 
   const cell = cells[key];
   if (!cell) return 0;
   if (cell.computed !== undefined) return cell.computed;
-  const n = parseFloat(cell.value);
-  return isNaN(n) ? 0 : n;
+  const n = parseNlNumber(cell.value);
+  return n === null ? 0 : n;
 }
 
 /**
@@ -340,6 +343,9 @@ function evaluateFormula(
   try {
     let processed = expr.trim();
 
+    // NL-functienaam (LibreOffice/Excel NL plakt "=SOM(...)")
+    processed = processed.replace(/\bSOM\(/gi, 'SUM(');
+
     // Handle SUM(range)
     processed = processed.replace(
       /SUM\(([A-Z]+\d+):([A-Z]+\d+)\)/gi,
@@ -355,6 +361,10 @@ function evaluateFormula(
         return String(getCellValue(cells, `${col.toUpperCase()}${row}`));
       },
     );
+
+    // Komma-decimalen en duizendtal-punten naar punt-notatie
+    // ("=B2*1,05" en "=1.234,56*2" uit NL-spreadsheets)
+    processed = normalizeDecimalsInExpression(processed);
 
     // Evaluate the math expression safely (only allow numbers and operators)
     if (!/^[\d\s+\-*/().]+$/.test(processed)) return null;
