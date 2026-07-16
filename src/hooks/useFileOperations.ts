@@ -16,6 +16,27 @@ function fileNameFromPath(filePath: string): string {
   return fullName.replace(/\.(ifcx|json)$/i, '');
 }
 
+/** Extensies waarin OCS zijn native JSON-projectformaat wegschrijft. */
+const NATIVE_SAVE_EXTS = ['ifccalc', 'ifcx', 'ocs', 'json'];
+
+/** Is dit pad een native OCS-bestand waar we in-place naartoe mogen schrijven? */
+export function isNativeSavePath(filePath: string): boolean {
+  const ext = filePath.split('.').pop()?.toLowerCase() ?? '';
+  return NATIVE_SAVE_EXTS.includes(ext);
+}
+
+/**
+ * Voorstel-pad voor Opslaan (als): map + bestandsnaam van het document
+ * behouden, maar de extensie altijd .ifcCalc — het standaard native formaat.
+ * Ook voor documenten die uit een import (.xls/.xtb/…) komen: opslaan
+ * schrijft immers altijd het OCS-formaat, nooit het bronformaat.
+ */
+export function toIfcCalcPath(filePath: string | null | undefined, fileName: string | null | undefined): string {
+  if (filePath) return filePath.replace(/\.[^.\\/]+$/, '') + '.ifcCalc';
+  const base = (fileName || 'begroting').replace(/\.[^.]+$/, '');
+  return `${base || 'begroting'}.ifcCalc`;
+}
+
 /**
  * Sommige bestanden dragen een .calc/.mdb-extensie maar zijn in werkelijkheid
  * een native OCS-project (JSON) — bijv. een begroting die met de verkeerde
@@ -83,7 +104,7 @@ export function useFileOperations() {
     const scheduleWithProjectInfo = { ...state.schedule, projectInfo: state.projectInfo };
     const json = serializeProject(scheduleWithProjectInfo, state.items, state.companyInfo, state.subSheets, state.offerte);
 
-    if (doc.filePath && isTauriEnvironment()) {
+    if (doc.filePath && isNativeSavePath(doc.filePath) && isTauriEnvironment()) {
       try {
         await saveFileToPath(doc.filePath, json);
         updateDocument(activeId, { isModified: false });
@@ -91,8 +112,10 @@ export function useFileOperations() {
         await showError(`Failed to save: ${err}`);
       }
     } else if (isTauriEnvironment()) {
-      // No path yet → Save As. Prefer the active tab's own fileName.
-      const defaultPath = doc.filePath ?? `${doc.fileName || 'begroting'}.ifcCalc`;
+      // Geen (native) pad — bv. een import uit .xls/.xtb: NOOIT het
+      // bronbestand overschrijven met OCS-JSON, maar Opslaan-als tonen
+      // met .ifcCalc als standaard.
+      const defaultPath = toIfcCalcPath(doc.filePath, doc.fileName);
       try {
         const savedPath = await saveFileAsNative(json, defaultPath);
         if (savedPath) {
@@ -124,9 +147,10 @@ export function useFileOperations() {
 
     const scheduleWithProjectInfo = { ...state.schedule, projectInfo: state.projectInfo };
     const json = serializeProject(scheduleWithProjectInfo, state.items, state.companyInfo, state.subSheets, state.offerte);
-    // Prefer the active tab's full filePath so the dialog opens in the right folder
-    // with the right filename. Falls back to the tab's fileName (never another tab's name).
-    const defaultPath = doc.filePath ?? `${doc.fileName || 'begroting'}.ifcCalc`;
+    // Prefer the active tab's folder + filename, but always with .ifcCalc als
+    // standaardformaat — ook als het document uit een import (.xls/.xtb/…)
+    // komt. Opslaan-als schrijft immers altijd het native OCS-formaat.
+    const defaultPath = toIfcCalcPath(doc.filePath, doc.fileName);
 
     if (isTauriEnvironment()) {
       try {
