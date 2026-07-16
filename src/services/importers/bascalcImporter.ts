@@ -125,15 +125,37 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
   // Track parent hierarchy by depth
   const parentStack: { id: string; depth: number }[] = [];
 
-  // Collect all rows
+  // Collect all rows.
+  // 'cp' (afsluiting calculatieblok, hv-factor) wordt overgeslagen: de
+  // hv-factor zit al verwerkt in de cn-bedragen (kolom N) en een cp-rij als
+  // regel importeren gaf lege phantom-regels.
   const rowEntries: { type: string; row: unknown[] }[] = [];
   for (const row of data) {
     if (!row || row.length === 0) continue;
     const rijtype = cellStr(row, 0); // Column A
-    if (rijtype === 'ih' || rijtype === 'cn' || rijtype === 'cb' || rijtype === 'cp' || rijtype === 'opm') {
+    if (rijtype === 'ih' || rijtype === 'cn' || rijtype === 'cb' || rijtype === 'opm') {
       rowEntries.push({ type: rijtype, row });
     }
   }
+
+  // Binnen een staart-blok (929990 e.d.) dragen cb/cn-rijen geen echte
+  // calculatie — het percentage staat op de ih-rij zelf. Kinderen daarvan
+  // overslaan i.p.v. als phantom-bewakingspost/-regels importeren.
+  let inStaartBlock = false;
+
+  /**
+   * Wat onze calculator van een regel met deze velden zou maken
+   * (spiegel van recalculateItems: lab=0 → norm>0 ? qty×norm/cap×prijs
+   * : qty×prijs). Gebruikt om te toetsen of de norm-mapping het
+   * Excel-bedrag exact reproduceert.
+   */
+  const calcCandidate = (qty: number | null, normQ: number | null, normF: number | null, nup: number | null): number => {
+    const q = qty ?? 0;
+    const n = normQ ?? 0;
+    const p = nup ?? 0;
+    if (n === 0) return q * p;
+    return (q * n / ((normF ?? 1) || 1)) * p;
+  };
 
   for (let idx = 0; idx < rowEntries.length; idx++) {
     const entry = rowEntries[idx];
@@ -186,6 +208,24 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
       const total = bedrag ?? (quantity !== null ? quantity * unitPrice : 0);
 
       const itemRowType: RowType = isChapter ? 'chapter' : rowType;
+      inStaartBlock = !isChapter && rowType !== 'begrotingspost';
+
+      // Bron-getrouw: als een kale post (zonder middelen) bij herberekening
+      // (quantity × prijs) niet op het Excel-bedrag (kolom N) uitkomt, pin
+      // dan de prijs zodat het bedrag exact behouden blijft. Posten mét
+      // cn-kinderen worden bottom-up overschreven door de (gepinde) regels.
+      let pinQuantity = quantity;
+      let pinMaterial = materialPrice;
+      let pinLabor = laborPrice;
+      if (!isChapter && rowType === 'begrotingspost' && total !== 0) {
+        const zouWorden = (quantity ?? 0) * unitPrice;
+        if (Math.abs(zouWorden - total) > 0.005) {
+          pinQuantity = quantity && quantity !== 0 ? quantity : 1;
+          // Niet afronden: hoeveelheid × prijs = exact het bronbedrag.
+          pinMaterial = total / pinQuantity;
+          pinLabor = null;
+        }
+      }
 
       const item = makeCostItem({
         parentId,
@@ -193,10 +233,10 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
         code,
         description,
         unit: isChapter ? 'st' : unit,
-        quantity: isChapter ? null : quantity,
-        materialPrice: isChapter ? null : materialPrice,
-        laborPrice: isChapter ? null : laborPrice,
-        unitPrice: isChapter ? 0 : unitPrice,
+        quantity: isChapter ? null : pinQuantity,
+        materialPrice: isChapter ? null : pinMaterial,
+        laborPrice: isChapter ? null : pinLabor,
+        unitPrice: isChapter ? 0 : (pinMaterial ?? 0) + (pinLabor ?? 0),
         total,
         depth,
         rowType: itemRowType,
@@ -209,6 +249,9 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
       // Push to parent stack if it's a container (chapter or begrotingspost)
       // so that cb/cn rows become children of the begrotingspost, not the chapter
       parentStack.push({ id: item.id, depth });
+    } else if (inStaartBlock) {
+      // cb/cn/opm binnen een staart-blok: overslaan (geen echte calculatie).
+      continue;
     } else if (entry.type === 'cb') {
       const row = entry.row;
       const code = cellStr(row, 2);
@@ -236,18 +279,20 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
       if (!isTekst) {
         parentStack.push({ id: item.id, depth });
       }
-    } else if (entry.type === 'cn' || entry.type === 'cp') {
+    } else if (entry.type === 'cn') {
       // Regel → own CostItem row with norm fields
       const row = entry.row;
       const code = cellStr(row, 2);
       const description = cellStr(row, 3);
-      const colE = cellNum(row, 4);     // Column E → Aantal (quantity)
-      const colF = cellNum(row, 5);    // Column F → Productienorm (normQuantity)
-      const colH = cellNum(row, 7);    // Column H → Productiecapaciteit (normFactor)
+      const colE = cellNum(row, 4);     // Column E → Aantal
+      const colF = cellNum(row, 5);     // Column F → Norm
+      const colH = cellNum(row, 7);     // Column H → hv-post (capaciteit/deler)
+      const colI = cellNum(row, 8);     // Column I → Hoeveelheid (berekend)
       const rUnit = normalizeUnit(cellStr(row, 9));
       const sColumn = cellStr(row, 10);
-      const rEhPrijs = cellNum(row, 12);
-      const rBedrag = cellNum(row, 13);
+      const colL = cellNum(row, 11);    // Column L → Prijs middel
+      const colM = cellNum(row, 12);    // Column M → Eh.prijs post
+      const rBedrag = cellNum(row, 13); // Column N → Bedrag (bron van waarheid)
 
       const resourceType = mapResourceType(sColumn);
 
@@ -255,19 +300,40 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
       const parentId = parentStack.length > 0 ? parentStack[parentStack.length - 1].id : null;
       const depth = parentId ? (parentStack[parentStack.length - 1].depth + 1) : 0;
 
+      // Bron-getrouwe velden: kolom N is het bedrag zoals Excel het toont.
+      // Houd de norm-detailvelden alleen aan als onze regelformule er exact
+      // hetzelfde bedrag uit herrekent (anders zou elke herberekening de
+      // totalen laten wegdrijven). Probeer eerst prijs-middel (L), dan
+      // eh.prijs (M); reproduceert geen van beide het bedrag → pin het
+      // bedrag via hoeveelheid × effectieve prijs.
+      const doel = rBedrag ?? 0;
+      let fields: { quantity: number | null; normQuantity: number | null; normFactor: number | null; normUnitPrice: number | null };
+      if (Math.abs(calcCandidate(colE, colF, colH, colL) - doel) <= 0.005) {
+        fields = { quantity: colE, normQuantity: colF, normFactor: colH, normUnitPrice: colL };
+      } else if (Math.abs(calcCandidate(colE, colF, colH, colM) - doel) <= 0.005) {
+        fields = { quantity: colE, normQuantity: colF, normFactor: colH, normUnitPrice: colM };
+      } else {
+        const q = (colI ?? colE) || 1;
+        // Prijs niet afronden: hoeveelheid × prijs moet exact het
+        // bronbedrag opleveren, ook na elke herberekening.
+        fields = {
+          quantity: q,
+          normQuantity: null,
+          normFactor: null,
+          normUnitPrice: doel / q,
+        };
+      }
+
       const item = makeCostItem({
         parentId,
         sortOrder: sortOrder++,
         code,
         description,
         unit: rUnit,
-        total: rBedrag ?? 0,
+        total: doel,
         depth,
         rowType: 'regel',
-        quantity: colE,          // Aantal
-        normQuantity: colF,      // Productienorm
-        normFactor: colH,        // Productiecapaciteit
-        normUnitPrice: rEhPrijs, // Prijs per middel
+        ...fields,
         resourceType,
       });
 
