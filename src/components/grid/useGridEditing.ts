@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useAppStore } from '@/state/appStore';
 import { getColumnsForView } from './gridConstants';
-import { parseNlNumber } from '@/utils/formatting';
+import { parseNumericInput } from '@/utils/numericInput';
 import type { CostItem, CostUnit } from '@/types/costModel';
 
 export function useGridEditing() {
@@ -17,7 +17,7 @@ export function useGridEditing() {
       // WPCalc: de uren-som op de hoofdstuk-FOOTERRIJ bewerken herrekent alle
       // regel-normen in dat hoofdstuk naar rato.
       if (item.id.startsWith('footer:') && col.key === 'hoeveelheid') {
-        const newTotal = parseNlNumber(value);
+        const newTotal = parseNumericInput(value);
         if (newTotal != null && !isNaN(newTotal)) {
           pushHistory(items, 'Uren hoofdstuk naar rato');
           prorateUrenForChapter(item.id.replace('footer:', ''), newTotal);
@@ -46,9 +46,14 @@ export function useGridEditing() {
           updateItem(item.id, fieldKey, value);
           break;
         case 'number':
-        case 'currency':
-          updateItem(item.id, fieldKey, parseNlNumber(value));
+        case 'currency': {
+          // Accepteert ook formules: "=12,2*2,22" of "12.2*2.2"
+          const parsed = parseNumericInput(value);
+          // Ongeldige (niet-lege) invoer wist de waarde niet
+          if (parsed === null && value.trim() !== '') break;
+          updateItem(item.id, fieldKey, parsed);
           break;
+        }
         case 'unit-select':
           updateItem(item.id, fieldKey, value as CostUnit);
           break;

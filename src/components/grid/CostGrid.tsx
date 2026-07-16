@@ -736,6 +736,7 @@ export const CostGrid: React.FC = () => {
           </div>
           {isEditing && visibleItems[activeRow] && (
             <GridCellEditor
+              key={`${visibleItems[activeRow].id}:${activeCol}`}
               item={visibleItems[activeRow]}
               colIndex={activeCol}
               style={{

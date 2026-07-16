@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import { COST_UNITS, getColumnsForView, isCellEditable } from './gridConstants';
+import { formatNumberForEdit } from '@/utils/formatting';
 import { useAppStore } from '@/state/appStore';
 import type { CostItem } from '@/types/costModel';
 
@@ -60,10 +61,19 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
     const raw = item[fieldKey as keyof CostItem];
     if (raw === null || raw === undefined) return '';
     if (col.type === 'currency' || col.type === 'number') {
-      return raw === 0 ? '' : String(raw);
+      // NL-notatie (komma), zodat een ongewijzigde commit exact round-tript;
+      // "6.66" zou door de NL-parser als 666 gelezen worden.
+      return formatNumberForEdit(raw as number);
     }
     return String(raw);
   })();
+
+  // Alleen committen als de tekst echt gewijzigd is: klik-in/klik-uit of
+  // Tab-en door cellen mag waarden nooit herschrijven (en vult de
+  // geschiedenis niet met lege bewerkingen).
+  const commitIfChanged = useCallback((value: string) => {
+    if (value !== initialValue) onCommit(item, colIndex, value);
+  }, [initialValue, onCommit, item, colIndex]);
 
   const moveToNextCell = useCallback((shift: boolean) => {
     const currentEditIdx = editableCols.findIndex(c => c.index === colIndex);
@@ -111,7 +121,8 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
             stopEditing();
           } else if (e.key === 'Tab') {
             e.preventDefault();
-            onCommit(item, colIndex, (e.target as HTMLSelectElement).value);
+            const val = (e.target as HTMLSelectElement).value;
+            if (val !== defaultVal) onCommit(item, colIndex, val);
             stopEditing();
             moveToNextCell(e.shiftKey);
             requestAnimationFrame(() => startEditing());
@@ -144,7 +155,7 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
         style={{ ...style, height: lineCount * 24, resize: 'vertical' }}
         className="grid-cell-editor grid-cell-editor-textarea"
         onBlur={(e) => {
-          onCommit(item, colIndex, e.target.value);
+          commitIfChanged(e.target.value);
           stopEditing();
         }}
         onKeyDown={(e) => {
@@ -153,7 +164,7 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
             stopEditing();
           } else if (e.key === 'Tab') {
             e.preventDefault();
-            onCommit(item, colIndex, (e.target as HTMLTextAreaElement).value);
+            commitIfChanged((e.target as HTMLTextAreaElement).value);
             stopEditing();
             moveToNextCell(e.shiftKey);
             requestAnimationFrame(() => startEditing());
@@ -171,13 +182,13 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
       style={style}
       className="grid-cell-editor"
       onBlur={(e) => {
-        onCommit(item, colIndex, e.target.value);
+        commitIfChanged(e.target.value);
         stopEditing();
       }}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
           e.preventDefault();
-          onCommit(item, colIndex, (e.target as HTMLInputElement).value);
+          commitIfChanged((e.target as HTMLInputElement).value);
           stopEditing();
           setActiveCell(activeRow + 1, colIndex);
         } else if (e.key === 'Escape') {
@@ -185,7 +196,7 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
           stopEditing();
         } else if (e.key === 'Tab') {
           e.preventDefault();
-          onCommit(item, colIndex, (e.target as HTMLInputElement).value);
+          commitIfChanged((e.target as HTMLInputElement).value);
           stopEditing();
           moveToNextCell(e.shiftKey);
           // Re-enter edit mode in the next cell
