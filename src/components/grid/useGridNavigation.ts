@@ -8,10 +8,11 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
   const { activeRow, activeCol, isEditing, setActiveCell, setActiveCellExtend,
     getSelectedRowIndices, startEditing, stopEditing,
     updateItem, pushHistory, items, copyItems, getVisibleItems, gridView,
-    cellSelectionStart, cellSelectionEnd } =
+    cellSelectionStart, cellSelectionEnd, schedule } =
     useAppStore();
 
-  const columns = getColumnsForView(gridView);
+  // Mét branchesEnabled: kolomindices moeten gelijk lopen met het gerenderde grid.
+  const columns = getColumnsForView(gridView, !!schedule.branchesEnabled);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {

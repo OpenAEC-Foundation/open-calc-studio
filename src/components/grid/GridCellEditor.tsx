@@ -16,8 +16,9 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
   const inputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const selectRef = useRef<HTMLSelectElement>(null);
-  const { editValue, selectOnFocus, stopEditing, startEditing, setActiveCell, activeRow, gridView } = useAppStore();
-  const columns = getColumnsForView(gridView);
+  const { editValue, selectOnFocus, stopEditing, startEditing, setActiveCell, activeRow, gridView, schedule } = useAppStore();
+  // Mét branchesEnabled: kolomindices moeten gelijk lopen met het gerenderde grid.
+  const columns = getColumnsForView(gridView, !!schedule.branchesEnabled);
   const col = columns[colIndex];
 
   // Only consider columns that are actually editable for THIS item's rowType

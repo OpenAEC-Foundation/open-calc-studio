@@ -292,6 +292,14 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
     setEditing(true);
   }, [sheet]);
 
+  // Kolomindex begrenzen: parseRef kent één letter (A-Z) en het blad heeft
+  // sheet.columns kolommen — voorbij die grens (colLabel(-1) = '') raakte de
+  // toetsenbordnavigatie zoek tot een muisklik hem herstelde.
+  const clampCol = useCallback(
+    (i: number) => Math.max(0, Math.min(Math.min(sheet?.columns ?? 26, 26) - 1, i)),
+    [sheet?.columns],
+  );
+
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (!activeCell) return;
 
@@ -341,7 +349,7 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
         const col = activeCell.replace(/\d/g, '');
         const row = parseInt(activeCell.replace(/[A-Z]/gi, ''));
         const colIdx = col.charCodeAt(0) - 65;
-        setActiveCell(`${colLabel(colIdx + (e.shiftKey ? -1 : 1))}${row}`);
+        setActiveCell(`${colLabel(clampCol(colIdx + (e.shiftKey ? -1 : 1)))}${row}`);
         setSelectionEnd(null);
         requestAnimationFrame(() => {
           containerRef.current?.focus();
@@ -386,14 +394,14 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
       case 'ArrowRight':
         if (e.shiftKey) {
           const end = selectionEnd ? parseRef(selectionEnd) : { col, row, colIdx };
-          setSelectionEnd(`${colLabel(end.colIdx + 1)}${end.row}`);
+          setSelectionEnd(`${colLabel(clampCol(end.colIdx + 1))}${end.row}`);
         } else {
-          setActiveCell(`${colLabel(colIdx + 1)}${row}`); setSelectionEnd(null);
+          setActiveCell(`${colLabel(clampCol(colIdx + 1))}${row}`); setSelectionEnd(null);
         }
         break;
       case 'Tab':
         e.preventDefault();
-        setActiveCell(`${colLabel(colIdx + (e.shiftKey ? -1 : 1))}${row}`); setSelectionEnd(null);
+        setActiveCell(`${colLabel(clampCol(colIdx + (e.shiftKey ? -1 : 1)))}${row}`); setSelectionEnd(null);
         break;
       case 'Delete':
       case 'Backspace':
@@ -414,7 +422,10 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
           setEditing(true);
         }
     }
-  }, [activeCell, editing, commitEdit, sheet, sheetId, setCell]);
+  }, [activeCell, editing, commitEdit, sheet, sheetId, setCell, clampCol,
+    // Zonder deze deps vangt de handler verouderde state: Shift+pijl-selectie
+    // bleef op één cel hangen en Ctrl+C/X/Delete werkten op de oude selectie.
+    selectionEnd, getSelectedCellRefs, doCopy, doPaste, doCut, toggleBold, toggleItalic]);
 
   if (!sheet) {
     return <div className="subsheet-empty">{t('sheetNotFound')}</div>;
@@ -569,10 +580,8 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
                             if (e.shiftKey) {
                               setSelectionEnd(cellRef);
                             } else {
-                              if (editing && activeCell) commitEdit(activeCell);
                               setActiveCell(cellRef);
                               setSelectionEnd(null);
-                              setEditing(false);
                               setIsDragging(true);
                             }
                           }

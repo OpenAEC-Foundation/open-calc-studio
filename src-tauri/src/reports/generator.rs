@@ -14,20 +14,19 @@ use super::{CostItem, ReportRequest};
 // ── Formatting helpers ──────────────────────────────────────────────────────
 
 pub(crate) fn fmt_currency(value: f64) -> String {
-    let abs = value.abs();
-    let whole = abs as u64;
-    let cents = ((abs - whole as f64) * 100.0).round() as u64;
-    let formatted_whole = fmt_thousands(whole);
+    // Eerst op hele centen afronden en dán splitsen: fractie-eerst rondde
+    // 39.996 af naar 100 centen en rendert "€ 39,100" i.p.v. "€ 40,00".
+    let total_cents = (value.abs() * 100.0).round() as u64;
+    let (whole, cents) = (total_cents / 100, total_cents % 100);
     let sign = if value < 0.0 { "-" } else { "" };
-    format!("€ {}{},{:02}", sign, formatted_whole, cents)
+    format!("€ {}{},{:02}", sign, fmt_thousands(whole), cents)
 }
 
 pub(crate) fn fmt_number(value: Option<f64>) -> String {
     match value {
         Some(v) if v != 0.0 => {
-            let abs = v.abs();
-            let whole = abs as u64;
-            let frac = ((abs - whole as f64) * 100.0).round() as u64;
+            let total_cents = (v.abs() * 100.0).round() as u64;
+            let (whole, frac) = (total_cents / 100, total_cents % 100);
             let sign = if v < 0.0 { "-" } else { "" };
             format!("{}{},{:02}", sign, fmt_thousands(whole), frac)
         }

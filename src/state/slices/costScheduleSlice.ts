@@ -159,14 +159,10 @@ export const createCostScheduleSlice: StateCreator<CostScheduleSlice> = (set, ge
     const newSchedule = { ...state.schedule, tarieven };
     const newItems = recalculateItems(state.items, tarieven);
     set({ schedule: newSchedule, items: newItems } as any);
-    // Mark document as modified
-    if (state.activeDocId && state.documents) {
-      const doc = state.documents.get(state.activeDocId);
-      if (doc) {
-        const updated = new Map(state.documents);
-        updated.set(state.activeDocId, { ...doc, modified: true });
-        set({ documents: updated } as any);
-      }
+    // Markeer het actieve document als gewijzigd (documents is een array
+    // met isModified; de oude Map/activeDocId-variant was dode code).
+    if (state.activeDocumentId && state.updateDocument) {
+      state.updateDocument(state.activeDocumentId, { isModified: true });
     }
   },
   };

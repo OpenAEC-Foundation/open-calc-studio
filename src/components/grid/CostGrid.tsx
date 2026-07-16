@@ -423,16 +423,8 @@ export const CostGrid: React.FC = () => {
     [setScrollTop]
   );
 
-  const handleWheel = useCallback(
-    (e: React.WheelEvent) => {
-      if (e.ctrlKey || e.metaKey) {
-        e.preventDefault();
-        const delta = e.deltaY > 0 ? -10 : 10;
-        setGridZoom(gridZoom + delta);
-      }
-    },
-    [gridZoom, setGridZoom]
-  );
+  // Ctrl+scroll-zoom loopt uitsluitend via de native non-passive listener
+  // hierboven — een tweede React onWheel-handler vuurde dubbel per tik.
 
 
   const handleCellClick = useCallback(
@@ -694,7 +686,6 @@ export const CostGrid: React.FC = () => {
         tabIndex={0}
         onKeyDown={handleContainerKeyDown}
         onScroll={handleScroll}
-        onWheel={handleWheel}
         onContextMenu={handleContextMenu}
         style={{ zoom: gridZoom / 100, display: showGrid ? undefined : 'none' }}
       >

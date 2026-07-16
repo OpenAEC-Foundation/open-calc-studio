@@ -95,9 +95,10 @@ function computeBouw1Rows(items: CostItem[], schedule: CostSchedule): Bouw1Row[]
     let loon = 0, materiaal = 0, materieel = 0, stelpost = 0, ondaann = 0, uren = 0;
 
     if (item.rowType === 'regel') {
-      // Compute uren from norm
-      uren = item.normQuantity ?? 0;
-      if (item.normFactor != null) uren *= item.normFactor;
+      // Uren volgens de canonieke normformule: aantal × norm / capaciteit
+      // (zoals calculator.ts en urenProrate.ts — normFactor is een deler).
+      uren = (item.quantity ?? 0) * (item.normQuantity ?? 0);
+      if (item.normFactor != null && item.normFactor !== 0) uren /= item.normFactor;
       if (item.normDivisor != null && item.normDivisor !== 0) uren /= item.normDivisor;
 
       // Get tarief for this row

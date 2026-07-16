@@ -5,9 +5,11 @@ import { parseNumericInput } from '@/utils/numericInput';
 import type { CostItem, CostUnit } from '@/types/costModel';
 
 export function useGridEditing() {
-  const { updateItem, pushHistory, items, gridView, prorateUrenForChapter } = useAppStore();
+  const { updateItem, pushHistory, items, gridView, prorateUrenForChapter, schedule } = useAppStore();
 
-  const columns = getColumnsForView(gridView);
+  // Mét branchesEnabled: anders schuiven alle kolomindices één op zodra de
+  // branch-kolom zichtbaar is en schrijft een commit naar het verkeerde veld.
+  const columns = getColumnsForView(gridView, !!schedule.branchesEnabled);
 
   const commitEdit = useCallback(
     (item: CostItem, colIndex: number, value: string) => {

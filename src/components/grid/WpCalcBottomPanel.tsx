@@ -197,6 +197,7 @@ function StaartFullScreen() {
   const items = useAppStore((s) => s.items);
   const schedule = useAppStore((s) => s.schedule);
   const updateItem = useAppStore((s) => s.updateItem);
+  const pushHistory = useAppStore((s) => s.pushHistory);
 
   // Build staart display from staart_* items in the items array
   const { staartRows } = useMemo(() => {
@@ -279,6 +280,7 @@ function StaartFullScreen() {
   const handlePercentageChange = (id: string, value: string) => {
     const num = parseFloat(value.replace(',', '.'));
     if (!isNaN(num) && id) {
+      pushHistory(items, 'Staartpercentage');
       updateItem(id, 'staartPercentage', num);
       updateItem(id, 'quantity', num);
     }
@@ -291,12 +293,14 @@ function StaartFullScreen() {
   const handleAfrondingChange = (id: string, value: string, original: string) => {
     if (!id || value.trim() === original.trim()) return;
     if (value.trim() === '') {
+      pushHistory(items, 'Afronding automatisch');
       updateItem(id, 'staartVastBedrag', null);
       updateItem(id, 'staartDoelbedrag', null);
       return;
     }
     const num = parseNumericInput(value);
     if (num === null) return;
+    pushHistory(items, 'Afronding invullen');
     updateItem(id, 'staartDoelbedrag', null);
     updateItem(id, 'staartVastBedrag', num);
   };
@@ -307,12 +311,14 @@ function StaartFullScreen() {
   const handleEindbedragChange = (id: string, value: string, original: string) => {
     if (!id || value.trim() === original.trim()) return;
     if (value.trim() === '') {
+      pushHistory(items, 'Afronding automatisch');
       updateItem(id, 'staartVastBedrag', null);
       updateItem(id, 'staartDoelbedrag', null);
       return;
     }
     const num = parseNumericInput(value);
     if (num === null) return;
+    pushHistory(items, 'Eindbedrag invullen');
     updateItem(id, 'staartVastBedrag', null);
     updateItem(id, 'staartDoelbedrag', num);
   };

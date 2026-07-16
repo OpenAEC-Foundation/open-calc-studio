@@ -56,7 +56,6 @@ fn main() {
             // Begrotingspost row
             let qty = item["quantity"].as_f64().unwrap_or(0.0);
             let tot = item["total"].as_f64().unwrap_or(0.0);
-            let up = item["unitPrice"].as_f64().unwrap_or(0.0);
             let u = item["unit"].as_str().unwrap_or("");
             let loon = item["loon"].as_f64().unwrap_or(0.0);
             let mat = item["matBedrag"].as_f64().unwrap_or(0.0);
