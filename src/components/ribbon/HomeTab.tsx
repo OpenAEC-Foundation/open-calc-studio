@@ -16,7 +16,7 @@ export default function HomeTab() {
     canUndo, canRedo, undo, redo, setItems, undoStack,
     activeRow, activeItemId, copyItems, cutItems, pasteItems, clipboardItems,
     addItem, addChapter, addBewakingspost, addTekstregel, addWitregel, insertRegelBelow, deleteItem, items, pushHistory,
-    toggleAllBewakingspostenCollapsed,
+    collapseToLevel, scaleAllPrices,
     showHoeveelheid, toggleHoeveelheid,
     gridView, setGridView,
     schedule, toggleChangeTracking, clearChangeMarks, setChangeDisplayMode,
@@ -48,6 +48,28 @@ export default function HomeTab() {
     const restored = redo();
     if (restored) setItems(restored);
   };
+
+  // Inklappen-tot-niveau dropdown + prijzen-schalen dialoog
+  const [showCollapseList, setShowCollapseList] = useState(false);
+  const [showPriceDialog, setShowPriceDialog] = useState(false);
+  const [pricePct, setPricePct] = useState('10');
+
+  const handleScalePrices = () => {
+    const pct = parseFloat(pricePct.replace(',', '.'));
+    if (!Number.isFinite(pct) || pct === 0 || pct <= -100) return;
+    pushHistory(items, `Prijzen ${pct > 0 ? '+' : ''}${pct}%`);
+    scaleAllPrices(1 + pct / 100);
+    setShowPriceDialog(false);
+  };
+
+  useEffect(() => {
+    if (!showCollapseList) return;
+    const close = (e: MouseEvent) => {
+      if (!(e.target as HTMLElement).closest('.ribbon-undo-dropdown-wrap')) setShowCollapseList(false);
+    };
+    window.addEventListener('mousedown', close);
+    return () => window.removeEventListener('mousedown', close);
+  }, [showCollapseList]);
 
   // Meerstaps ongedaan maken via het dropdowntje naast de Ongedaan-knop:
   // n keer poppen en de laatst herstelde staat toepassen (elke stap apart
@@ -257,11 +279,42 @@ export default function HomeTab() {
             onClick={() => setGridView('simple')}
             active={gridView === 'simple'}
           />
+          <div className="ribbon-undo-dropdown-wrap">
+            <RibbonButton
+              icon={addBewakingspostIcon}
+              label="Inklappen"
+              title="Alles in één keer inklappen tot een gekozen niveau"
+              onClick={() => setShowCollapseList((v) => !v)}
+            />
+            {showCollapseList && (
+              <div className="ribbon-undo-dropdown">
+                <div className="ribbon-undo-dropdown-header">Inklappen tot…</div>
+                {([
+                  ['hoofdstuk', 'Hoofdstukken'],
+                  ['paragraaf', 'Paragrafen'],
+                  ['begrotingspost', 'Begrotingsposten'],
+                  ['bewakingspost', 'Bewakingsposten'],
+                  ['alles', 'Alles openklappen'],
+                ] as const).map(([niveau, label]) => (
+                  <button
+                    key={niveau}
+                    className="ribbon-undo-dropdown-item"
+                    onClick={() => { collapseToLevel(niveau); setShowCollapseList(false); }}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </RibbonGroup>
+
+        <RibbonGroup label="Prijzen">
           <RibbonButton
-            icon={addBewakingspostIcon}
-            label="Bew.posten"
-            title="Alle bewakingsposten in één keer in- of uitklappen"
-            onClick={toggleAllBewakingspostenCollapsed}
+            icon={settingsIcon}
+            label="Prijzen %"
+            title="Alle prijzen (prijs/middel, materiaal, arbeid) met een percentage verhogen of verlagen"
+            onClick={() => { setPricePct('10'); setShowPriceDialog(true); }}
           />
         </RibbonGroup>
 
@@ -338,6 +391,30 @@ export default function HomeTab() {
 
       <Modal open={showProject} onClose={() => setShowProject(false)} title="Projectgegevens">
         <ProjectInfoSettings />
+      </Modal>
+
+      <Modal open={showPriceDialog} onClose={() => setShowPriceDialog(false)} title="Prijzen aanpassen" className="rapport-props-dialog">
+        <div className="rapport-props">
+          <label className="rapport-props-row">
+            <span>
+              <strong>Percentage</strong>
+              <em>Alle prijzen (prijs/middel, materiaal, arbeid) worden met dit percentage verhoogd. Negatief = verlagen (bv. -5). Staart-percentages blijven ongewijzigd; ongedaan maken kan altijd.</em>
+            </span>
+          </label>
+          <div className="price-scale-row">
+            <input
+              type="number"
+              step="0.1"
+              value={pricePct}
+              autoFocus
+              onChange={(e) => setPricePct(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') handleScalePrices(); }}
+              className="price-scale-input"
+            />
+            <span className="price-scale-pct">%</span>
+            <button className="cmd-btn cmd-btn-primary" onClick={handleScalePrices}>Toepassen</button>
+          </div>
+        </div>
       </Modal>
     </div>
   );

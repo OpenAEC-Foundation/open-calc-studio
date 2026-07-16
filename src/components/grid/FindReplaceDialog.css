@@ -1,0 +1,60 @@
+/* Zoeken & vervangen (Ctrl+F) — zwevend paneel rechtsboven in het grid */
+.find-replace {
+  position: absolute;
+  top: 6px;
+  right: 18px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  background: var(--theme-dialog-bg);
+  border: 1px solid var(--theme-dialog-border);
+  border-radius: 6px;
+  box-shadow: var(--theme-dialog-shadow);
+}
+
+.find-replace-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.find-replace-input {
+  width: 200px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-family: inherit;
+  border: 1px solid var(--theme-border);
+  border-radius: 4px;
+  background: #ffffff;
+  color: #1a1a1a;
+}
+
+.find-replace-count {
+  min-width: 44px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--theme-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.find-replace-btn {
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border: 1px solid var(--theme-border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--theme-text);
+  font-size: 12px;
+  font-family: inherit;
+  cursor: default;
+}
+.find-replace-btn:hover:not(:disabled) {
+  background: var(--theme-hover);
+  border-color: var(--theme-accent);
+}
+.find-replace-btn:disabled { opacity: 0.4; }
+.find-replace-wide { padding: 0 10px; }
+.find-replace-close { border: none; font-size: 14px; }

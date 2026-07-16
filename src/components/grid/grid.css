@@ -164,6 +164,8 @@ html.cursor-col-resizing * { cursor: col-resize !important; }
   flex-direction: column;
   height: 100%;
   overflow: hidden;
+  /* Anker voor zwevende panelen zoals zoeken/vervangen (Ctrl+F) */
+  position: relative;
 }
 .cost-grid-wrapper .cost-grid {
   flex: 1;
@@ -738,4 +740,22 @@ th.split-col-unit { text-align: center; }
 .grid-row.drop-inside {
   outline: 2px solid #D97706;
   outline-offset: -2px;
+}
+
+/* Inklap-pijltje in de linker kantlijn voor hoofdstukken en (bewakings)posten.
+   Vervangt visueel de sleep-puntjes op die rijen; slepen blijft werken via
+   pointer-down (klik zonder beweging = in-/uitklappen). */
+.grid-row-collapse-left {
+  font-size: 10px;
+  line-height: 1;
+  color: var(--theme-text-secondary);
+  opacity: 0.75;
+  user-select: none;
+}
+.grid-row-drag-handle:hover .grid-row-collapse-left {
+  color: var(--theme-accent, #d97706);
+  opacity: 1;
+}
+.grid-row-drag-handle:has(.grid-row-collapse-left)::after {
+  content: '';
 }

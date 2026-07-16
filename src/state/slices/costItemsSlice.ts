@@ -51,6 +51,21 @@ export interface CostItemsSlice {
    * open. Geeft terug of ze nu ingeklapt zijn.
    */
   toggleAllBewakingspostenCollapsed: () => boolean;
+  /**
+   * Klap de hele begroting in tot een gekozen niveau:
+   * - 'hoofdstuk': alleen de top-hoofdstukken zichtbaar
+   * - 'paragraaf': sub-hoofdstukken dicht, top-hoofdstukken open
+   * - 'begrotingspost': posten dicht (regels/bewakingsposten verborgen)
+   * - 'bewakingspost': bewakingsposten dicht, de rest open
+   * - 'alles': alles openklappen
+   */
+  collapseToLevel: (niveau: 'hoofdstuk' | 'paragraaf' | 'begrotingspost' | 'bewakingspost' | 'alles') => void;
+  /**
+   * Vermenigvuldig alle prijsvelden (prijs/middel, materiaal, arbeid) met een
+   * factor — bv. 1.10 voor +10%. Staart-percentages blijven ongemoeid; de
+   * totalen worden herrekend.
+   */
+  scaleAllPrices: (factor: number) => void;
   recalculate: () => void;
   /**
    * Proportionally rescale `normQuantity` of all `regel` items with the given
@@ -532,6 +547,56 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
       ),
     });
     return collapse;
+  },
+
+  collapseToLevel: (niveau) => {
+    const state = get();
+    // Bepaal per item of het dicht moet: alles óp en boven het gekozen
+    // niveau blijft open, het gekozen niveau zelf gaat dicht.
+    const dicht = (i: CostItem): boolean => {
+      switch (niveau) {
+        case 'hoofdstuk':
+          return i.rowType === 'chapter' && i.depth === 0;
+        case 'paragraaf':
+          return i.rowType === 'chapter' && i.depth >= 1;
+        case 'begrotingspost':
+          return i.rowType === 'begrotingspost';
+        case 'bewakingspost':
+          return i.rowType === 'bewakingspost';
+        case 'alles':
+          return false;
+      }
+    };
+    set({
+      items: state.items.map((item) => {
+        const isContainer =
+          item.rowType === 'chapter' || item.rowType === 'begrotingspost' || item.rowType === 'bewakingspost';
+        if (!isContainer) return item;
+        const val = dicht(item);
+        return item.isCollapsed === val ? item : { ...item, isCollapsed: val };
+      }),
+    });
+  },
+
+  scaleAllPrices: (factor) => {
+    const state = get();
+    if (!Number.isFinite(factor) || factor <= 0) return;
+    const schaal = (v: number | null): number | null => (v == null ? null : v * factor);
+    set({
+      items: recalculateItems(
+        state.items.map((item) => {
+          if (item.rowType.startsWith('staart_')) return item; // percentages, geen prijzen
+          if (item.normUnitPrice == null && item.materialPrice == null && item.laborPrice == null) return item;
+          return {
+            ...item,
+            normUnitPrice: schaal(item.normUnitPrice),
+            materialPrice: schaal(item.materialPrice),
+            laborPrice: schaal(item.laborPrice),
+          };
+        }),
+      ),
+    });
+    markModified();
   },
 
   recalculate: () => {

@@ -40,3 +40,26 @@
   color: var(--theme-text-secondary);
   line-height: 1.4;
 }
+
+/* Prijzen-% dialoog */
+.price-scale-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px 16px;
+}
+.price-scale-input {
+  width: 90px;
+  padding: 6px 8px;
+  font-size: 13px;
+  font-family: inherit;
+  border: 1px solid var(--theme-border);
+  border-radius: 4px;
+  background: #ffffff;
+  color: #1a1a1a;
+}
+.price-scale-pct {
+  font-size: 13px;
+  color: var(--theme-text-secondary);
+  margin-right: 8px;
+}

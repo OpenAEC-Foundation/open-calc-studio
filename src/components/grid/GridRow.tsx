@@ -86,7 +86,17 @@ export const GridRow: React.FC<Props> = React.memo(
             onPointerDown={(e) => onPointerDownRow(e, rowIndex, item.id)}
             onClick={(e) => { e.stopPropagation(); onCellClick(rowIndex, 0, e.shiftKey); }}
             title="Klik om de rij te selecteren; sleep om te verplaatsen (ook naar een ander hoofdstuk)"
-          />
+          >
+            {(item.rowType === 'chapter' || item.rowType === 'begrotingspost' || item.rowType === 'bewakingspost') && (
+              <span
+                className="grid-row-collapse-left"
+                title={item.isCollapsed ? 'Uitklappen' : 'Inklappen'}
+                onClick={(e) => { e.stopPropagation(); onToggleCollapse(item.id); }}
+              >
+                {item.isCollapsed ? '▸' : '▾'}
+              </span>
+            )}
+          </div>
         )}
         {columns.map((col, colIndex) => {
           const isCellInSelection = cellSelectionMinRow != null && cellSelectionMaxRow != null &&

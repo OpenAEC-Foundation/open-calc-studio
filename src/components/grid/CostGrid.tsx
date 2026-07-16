@@ -5,6 +5,7 @@ import { GridHeader } from './GridHeader';
 import { GridRow } from './GridRow';
 import { GridCellEditor } from './GridCellEditor';
 import { GridContextMenu } from './GridContextMenu';
+import FindReplaceDialog from './FindReplaceDialog';
 import { useGridVirtualizer } from './useGridVirtualizer';
 import { useGridNavigation } from './useGridNavigation';
 import { useGridEditing } from './useGridEditing';
@@ -564,6 +565,19 @@ export const CostGrid: React.FC = () => {
     return set;
   }, [items]);
 
+  // Zoeken & vervangen (Ctrl+F) — zwevend paneel rechtsboven in het grid
+  const [showFindReplace, setShowFindReplace] = useState(false);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'f' || e.key === 'F')) {
+        e.preventDefault();
+        setShowFindReplace(true);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
   const insertRegelBelow = useAppStore((s) => s.insertRegelBelow);
   const handleAddRow = useCallback(
     (rowIndex: number) => {
@@ -664,6 +678,7 @@ export const CostGrid: React.FC = () => {
 
   return (
     <div className={`cost-grid-wrapper${isWpcalcView ? ' grid-view-wpcalc-wrapper' : ''}`}>
+      <FindReplaceDialog open={showFindReplace} onClose={() => setShowFindReplace(false)} />
       <div
         ref={containerRef}
         className={`cost-grid${isWpcalcView ? ' grid-view-wpcalc' : ''}`}
