@@ -323,8 +323,12 @@ html.cursor-col-resizing * { cursor: col-resize !important; }
 }
 
 .grid-cell-editor {
-  background: var(--theme-surface, #ffffff);
-  color: var(--theme-text);
+  /* Excel-stijl: de invoer-cel is ALTIJD wit met donkere tekst, in elk
+     thema. Vaste kleuren i.p.v. thema-variabelen: een mix van variabelen
+     uit verschillende thema-scopes gaf wit-op-wit (onzichtbare invoer). */
+  background: #ffffff;
+  color: #1a1a1a;
+  caret-color: #1a1a1a;
   border: 1px solid var(--theme-grid-input-border);
   font-size: 11px;
   padding: 0 3px;
@@ -339,14 +343,22 @@ html.cursor-col-resizing * { cursor: col-resize !important; }
   z-index: 10;
 }
 
-/* Ensure select dropdowns respect theme colors */
+/* Ensure select dropdowns are always readable (zelfde vaste kleuren) */
 select.grid-cell-editor {
-  background-color: var(--theme-surface, #ffffff);
-  color: var(--theme-text);
+  background-color: #ffffff;
+  color: #1a1a1a;
 }
 select.grid-cell-editor option {
-  background-color: var(--theme-surface);
-  color: var(--theme-text);
+  background-color: #ffffff;
+  color: #1a1a1a;
+}
+
+/* Hoofdstuknamen duidelijk te onderscheiden: eigen kleur + vet, per thema
+   via --theme-chapter-text (fallback: donkergroen). */
+.grid-row.chapter .grid-cell,
+.grid-row.chapter .grid-cell.editable-value {
+  color: var(--theme-chapter-text, #15803d);
+  font-weight: 700;
 }
 
 .grid-collapse-btn {
