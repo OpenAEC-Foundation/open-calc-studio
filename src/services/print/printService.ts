@@ -44,8 +44,9 @@ function getColumnsForView(view: ReportView, showHoeveelheid = true): ReportCol[
         { key: 'code', label: 'Code', cssClass: 'code' },
         { key: 'description', label: 'Omschrijving', cssClass: 'desc' },
         { key: 'quantity', label: 'Hoeveelheid', cssClass: 'number' },
-        { key: 'unit', label: 'Eenheid', cssClass: 'center' },
-        { key: 'unitPrice', label: 'Eenheidsprijs', cssClass: 'number' },
+        { key: 'unit', label: 'Eh.', cssClass: 'center' },
+        { key: 'verrekenbaar', label: 'S', cssClass: 'center' },
+        { key: 'unitPrice', label: 'Eh. Prijs', cssClass: 'number' },
         { key: 'total', label: 'Bedrag', cssClass: 'number' },
       ]);
     case 'onderaanneming':
@@ -363,7 +364,7 @@ tr.even td { background: #FAFAF9; }
 ${cleanView ? `
 /* Clean besteksopmaak (werkbeschrijving/hoofdaanneming): geen cellijnen of
    vullingen; hiërarchie via typografie en inspringing, zoals een klassiek
-   bestek. Alleen een dunne lijn onder de koprij. */
+   bestek. Dunne lijn onder de koprij en lijnen om hoofdstukregels. */
 thead th { background: none; border-top: none; border-bottom: 1px solid #A8A29E; }
 tbody td { border-bottom: none; }
 tr.even td { background: transparent; }
@@ -371,8 +372,10 @@ tr.even td { background: transparent; }
 .chapter-row.depth-0 td,
 .chapter-row.depth-1 td,
 .chapter-row.depth-2 td { background: transparent; border-top: none; border-bottom: none; font-size: 8.5pt; }
+.chapter-row.depth-0 td,
+.chapter-row.depth-1 td { border-top: 1px solid #A8A29E; border-bottom: 1px solid #A8A29E; }
 .chapter-row.depth-2 td, .chapter-row.depth-3 td { font-style: italic; }
-.tekstregel-row td { font-weight: 400; font-style: italic; color: #57575E; }
+.tekstregel-row td { font-weight: 700; font-style: italic; color: #57575E; }
 .subtotal-row td { background: transparent; border-top: none; font-weight: 700; }
 .subtotal-row .total-label { text-align: left; padding-left: 22px; }
 .total-row td { background: transparent; border-top: 1px solid #36363E; }

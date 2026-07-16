@@ -96,6 +96,7 @@ fn get_columns(view: &str, show_hoeveelheid: bool) -> Vec<Col> {
             Col { key: "description", label: "Omschrijving", width_mm: 0.0 },
             Col { key: "quantity", label: "Hoeveelheid", width_mm: 20.0 },
             Col { key: "unit", label: "Eh.", width_mm: 12.0 },
+            Col { key: "verrekenbaar", label: "S", width_mm: 8.0 },
             Col { key: "unitPrice", label: "Eh. Prijs", width_mm: 24.0 },
             Col { key: "total", label: "Bedrag", width_mm: 26.0 },
         ],
@@ -164,21 +165,35 @@ fn filter_items<'a>(items: &'a [CostItem], view: &str) -> Vec<&'a CostItem> {
 }
 
 /// Lettertype-afwijking per rij voor de "clean" rapportstijl
-/// (werkbeschrijving/hoofdaanneming): hoofdstukken vet, diepere paragrafen
-/// vet-cursief, opmerkingen (tekstregels) cursief.
+/// (werkbeschrijving/hoofdaanneming): hoofdstukken vet mét lijnen erboven en
+/// eronder, diepere paragrafen vet-cursief, opmerkingen (tekstregels)
+/// vet-cursief — naar de klassieke besteksopmaak.
 fn row_font_for(item: &CostItem) -> Option<RowOverride> {
     match item.row_type.as_str() {
         "chapter" if item.depth >= 2 => Some(RowOverride {
             font_name: Some("LiberationSans-BoldItalic".to_string()),
+            ..Default::default()
         }),
         "chapter" => Some(RowOverride {
             font_name: Some("LiberationSans-Bold".to_string()),
+            top_rule: true,
+            bottom_rule: true,
         }),
         "tekstregel" => Some(RowOverride {
-            font_name: Some("LiberationSans-Italic".to_string()),
+            font_name: Some("LiberationSans-BoldItalic".to_string()),
+            ..Default::default()
         }),
         _ => None,
     }
+}
+
+/// Bedrag-notatie in de besteksopmaak: kaal NL-getal zonder valutateken
+/// (zoals de referentie-opmaak), lege string bij 0.
+fn fmt_bedrag(value: f64) -> String {
+    if value == 0.0 {
+        return String::new();
+    }
+    fmt_number(Some(value))
 }
 
 /// Inspring in de omschrijving-kolom per hiërarchie-diepte.
@@ -569,11 +584,12 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
             let mut r = vec![String::new(); n_cols];
             r[desc_idx] = format!("{}Subtotaal", indent_for(1));
             if let Some(t) = total_idx {
-                r[t] = fmt_currency(sum);
+                r[t] = fmt_bedrag(sum);
             }
             body.push(r);
             ovs.push(Some(RowOverride {
                 font_name: Some("LiberationSans-Bold".to_string()),
+                ..Default::default()
             }));
             // Witregel na het subtotaal
             body.push(vec![String::new(); n_cols]);
@@ -596,6 +612,9 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
                         // Hoofdaanneming: geen bedragen naast hoofdstukregels —
                         // die staan in de subtotalen per paragraaf.
                         "total" | "unitPrice" if use_chapter_subtotals => String::new(),
+                        "total" => fmt_bedrag(item.total),
+                        // S-kolom (V/N) alleen op posten, niet op hoofdstukken
+                        "verrekenbaar" => String::new(),
                         key => get_cell_value(item, key),
                     })
                     .collect();
@@ -608,6 +627,9 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
                         "description" => {
                             format!("{}{}", indent_for(item.depth), item.description)
                         }
+                        // Besteksopmaak: kale bedragen zonder valutateken
+                        "unitPrice" => fmt_bedrag(item.unit_price),
+                        "total" => fmt_bedrag(item.total),
                         key => get_cell_value(item, key),
                     })
                     .collect();
