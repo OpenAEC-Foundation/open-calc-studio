@@ -65,28 +65,37 @@ export const ProjectInfoSettings: React.FC = () => {
   const totalExcl = staart.aanneemsomExcl;
   const totalIncl = staart.aanneemsomAfgerond;
 
+  const sectieKader: React.CSSProperties = {
+    border: '1px solid var(--theme-border)',
+    borderRadius: 6,
+    padding: '10px 12px',
+    marginBottom: 12,
+  };
+
   return (
     <div style={{ fontSize: 12 }}>
-      <div style={{ marginBottom: 10 }}>
-        <div className="prop-label">Project</div>
-        <input className="prop-input" value={schedule.projectName} onChange={(e) => setSchedule({ projectName: e.target.value })} placeholder="Projectnaam" />
-      </div>
-      <div style={{ display: 'flex', gap: 10, marginBottom: 10 }}>
-        <div style={{ flex: 1 }}>
-          <div className="prop-label">Projectnummer</div>
-          <input className="prop-input" value={schedule.projectNumber} onChange={(e) => setSchedule({ projectNumber: e.target.value })} placeholder="Projectnummer" />
+      <div style={sectieKader}>
+        <div style={{ marginBottom: 10 }}>
+          <div className="prop-label">Project</div>
+          <input className="prop-input" value={schedule.projectName} onChange={(e) => setSchedule({ projectName: e.target.value })} placeholder="Projectnaam" />
         </div>
-        <div style={{ flex: 1 }}>
-          <div className="prop-label">Rapportdatum</div>
-          <input className="prop-input" type="date" value={schedule.reportDate ?? ''} onChange={(e) => setSchedule({ reportDate: e.target.value || undefined })} />
+        <div style={{ display: 'flex', gap: 10, marginBottom: 10 }}>
+          <div style={{ flex: 1 }}>
+            <div className="prop-label">Projectnummer</div>
+            <input className="prop-input" value={schedule.projectNumber} onChange={(e) => setSchedule({ projectNumber: e.target.value })} placeholder="Projectnummer" />
+          </div>
+          <div style={{ flex: 1 }}>
+            <div className="prop-label">Rapportdatum</div>
+            <input className="prop-input" type="date" value={schedule.reportDate ?? ''} onChange={(e) => setSchedule({ reportDate: e.target.value || undefined })} />
+          </div>
         </div>
-      </div>
-      <div style={{ marginBottom: 2 }}>
-        <div className="prop-label">Opdrachtgever</div>
-        <input className="prop-input" value={schedule.client} onChange={(e) => setSchedule({ client: e.target.value })} placeholder="Opdrachtgever" />
+        <div>
+          <div className="prop-label">Opdrachtgever</div>
+          <input className="prop-input" value={schedule.client} onChange={(e) => setSchedule({ client: e.target.value })} placeholder="Opdrachtgever" />
+        </div>
       </div>
 
-      <div className="prop-separator">
+      <div style={sectieKader}>
         <div className="prop-label" style={{ fontWeight: 600, marginBottom: 6 }}>Projectkengetallen</div>
         <table className="project-metrics-table">
           <thead>
@@ -124,24 +133,6 @@ export const ProjectInfoSettings: React.FC = () => {
           </tbody>
         </table>
         <button className="metrics-add-btn" onClick={addProjectProperty} title="Kengetal toevoegen">+ Kengetal toevoegen</button>
-      </div>
-
-      <div className="prop-separator">
-        <div className="prop-label" style={{ fontWeight: 600, marginBottom: 6 }}>Rapportopties</div>
-        <label style={{ display: 'flex', alignItems: 'flex-start', gap: 8, cursor: 'pointer', fontSize: 11 }}>
-          <input
-            type="checkbox"
-            checked={!!schedule.reportChapterTotalsOnly}
-            onChange={() => setSchedule({ reportChapterTotalsOnly: !schedule.reportChapterTotalsOnly })}
-            style={{ marginTop: 2 }}
-          />
-          <span>
-            <strong>Toon alleen het subtotaal per hoofdstuk</strong>
-            <div style={{ color: 'var(--theme-text-secondary)' }}>
-              Compact rapport: alleen de hoofdstukregels met hun subtotalen en de staart; posten en regels worden weggelaten.
-            </div>
-          </span>
-        </label>
       </div>
     </div>
   );
