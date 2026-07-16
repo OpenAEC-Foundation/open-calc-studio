@@ -18,7 +18,7 @@ async function getTauriInvoke(): Promise<((cmd: string, args?: any) => Promise<a
 export const ReportPreview: React.FC = () => {
   const { t } = useTranslation();
   const {
-    schedule, items, reportView, showHoeveelheid, companyInfo,
+    schedule, items, reportView, showHoeveelheid, toggleHoeveelheid, companyInfo,
     pageOrientation, pageSize, includeCover, includeSummary,
   } = useAppStore();
 
@@ -162,6 +162,10 @@ export const ReportPreview: React.FC = () => {
         <span className="report-toolbar-info">
           {pageSize} {pageOrientation === 'landscape' ? t('landscape') : t('portrait')}
         </span>
+        <label className="report-toolbar-check" title="Hoeveelheid-, eenheid- en eenheidsprijskolommen tonen of verbergen in dit rapport">
+          <input type="checkbox" checked={showHoeveelheid} onChange={toggleHoeveelheid} />
+          Hoeveelheden
+        </label>
         <div className="report-toolbar-zoom">
           <button className="report-zoom-btn" onClick={() => setZoom(z => Math.max(30, z - 10))}>−</button>
           <span className="report-zoom-label">{zoom}%</span>

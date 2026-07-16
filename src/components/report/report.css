@@ -183,6 +183,22 @@
   font-weight: 500;
 }
 
+/* Vinkje "Hoeveelheden" in de rapport-toolbar (aan/uit per rapportweergave) */
+.report-toolbar-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--theme-text);
+  cursor: default;
+  user-select: none;
+}
+.report-toolbar-check input[type='checkbox'] {
+  accent-color: var(--theme-accent, #d97706);
+  margin: 0;
+}
+
 .report-toolbar-zoom {
   display: flex;
   align-items: center;
