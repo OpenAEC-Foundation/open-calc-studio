@@ -75,11 +75,30 @@ export async function initMcpBridge(): Promise<() => void> {
   }
 }
 
+// Acties die de begrotingsregels wijzigen: één geschiedenis-stap vooraf,
+// zodat assistent-/MCP-wijzigingen met Ctrl+Z ongedaan te maken zijn
+// (en in het meerstaps-lijstje naast Ongedaan verschijnen).
+const ITEM_MUTATIES: Record<string, string> = {
+  set_items: 'Assistent: regels vervangen',
+  add_chapter: 'Assistent: hoofdstuk toevoegen',
+  add_item: 'Assistent: rij toevoegen',
+  update_item: 'Assistent: rij wijzigen',
+  remove_item: 'Assistent: rij verwijderen',
+  move_items: 'Assistent: rijen verplaatsen',
+  indent_item: 'Assistent: inspringen',
+  outdent_item: 'Assistent: uitspringen',
+};
+
 function handleMutation(mutation: McpMutation) {
   const { action, data } = mutation;
   const store = useAppStore.getState();
 
   console.log(`[MCP Bridge] Received action: ${action}`, data);
+
+  const historyLabel = ITEM_MUTATIES[action];
+  if (historyLabel && store.items.length > 0) {
+    store.pushHistory(store.items, historyLabel);
+  }
 
   switch (action) {
     case 'set_items':

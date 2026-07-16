@@ -63,7 +63,7 @@ export const createClipboardSlice: StateCreator<ClipboardSlice> = (set, get) => 
     }
 
     // Push history, update items, clear clipboard if cut
-    state.pushHistory(items, 'Plakken');
+    state.pushHistory(items, clipboardMode === 'cut' ? 'Knippen en plakken' : 'Plakken');
     const updates: any = { items: recalculateItems(newItems) };
     if (clipboardMode === 'cut') {
       updates.clipboardItems = [];
