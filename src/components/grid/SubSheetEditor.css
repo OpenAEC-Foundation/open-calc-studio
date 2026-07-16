@@ -1,7 +1,11 @@
 .subsheet-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  /* Flex-kind van .main-view: neem de resterende ruimte en krimp mee, zodat
+     de onderbalk (Data | … | bladen) zichtbaar en klikbaar blijft. height:100%
+     drukte de tab-balk onder de statusbalk uit beeld. */
+  flex: 1;
+  min-height: 0;
   outline: none;
   background: var(--theme-bg);
 }
