@@ -2,6 +2,7 @@ import './report.css';
 import React, { useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
+import { itemsForReport } from '@/services/print/printService';
 import ProgressModal from '@/components/common/ProgressModal';
 
 /** Get Tauri invoke function */
@@ -82,7 +83,7 @@ export const ReportPreview: React.FC = () => {
             reportShowChanges: schedule.reportShowChanges ?? false,
             changeTrackingSince: schedule.changeTrackingSince ?? null,
           },
-          items: items.map(item => ({
+          items: itemsForReport(schedule, items).map(item => ({
             id: item.id,
             code: item.code,
             description: item.description,

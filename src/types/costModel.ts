@@ -157,6 +157,11 @@ export interface CostSchedule {
   changeDisplayMode?: 'row' | 'cell';
   /** Toon wijzigingsmarkeringen ook in de rapportage-PDF. Default false. */
   reportShowChanges?: boolean;
+  /**
+   * Rapportage: toon alleen het subtotaal per hoofdstuk — posten, regels en
+   * opmerkingen worden weggelaten; de staart blijft staan. Default false.
+   */
+  reportChapterTotalsOnly?: boolean;
 }
 
 /** Budget variant branch — forms a tree via parentId */

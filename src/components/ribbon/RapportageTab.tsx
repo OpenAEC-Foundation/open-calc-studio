@@ -18,7 +18,7 @@ import {
 } from "./icons";
 import "./rapportProps.css";
 import { useAppStore } from "../../state/appStore";
-import { printBudget } from "../../services/print/printService";
+import { printBudget, itemsForReport } from "../../services/print/printService";
 import { generateIfcCostFile } from "../../services/ifc/ifcCostGenerator";
 import type { ReportView } from "../../state/slices/uiSlice";
 
@@ -53,7 +53,7 @@ const REPORT_VIEWS: { value: ReportView; label: string }[] = [
 
 export default function RapportageTab() {
   const { t } = useTranslation("ribbon");
-  const { schedule, items, offerte, setActiveContentTab, reportView, setReportView, showHoeveelheid, toggleHoeveelheid, companyInfo, pageOrientation, setPageOrientation, pageSize, setPageSize, setReportShowChanges } = useAppStore();
+  const { schedule, items, offerte, setActiveContentTab, reportView, setReportView, showHoeveelheid, toggleHoeveelheid, companyInfo, pageOrientation, setPageOrientation, pageSize, setPageSize, setReportShowChanges, setSchedule } = useAppStore();
   const [showLogos, setShowLogos] = useState(false);
   const [showProps, setShowProps] = useState(false);
 
@@ -64,7 +64,7 @@ export default function RapportageTab() {
       try {
         const tempPath = `${await tauri.invoke('plugin:fs|resolve_path', { path: '', directory: 'Temp' }).catch(() => 'C:/Users/rickd/AppData/Local/Temp')}/ocs-print-${Date.now()}.pdf`;
         await tauri.invoke('generate_pdf_report', {
-          request: { schedule, items, reportView, pageSize, pageOrientation, showHoeveelheid, companyInfo, includeCover: false, includeSummary: false },
+          request: { schedule, items: itemsForReport(schedule, items), reportView, pageSize, pageOrientation, showHoeveelheid, companyInfo, includeCover: false, includeSummary: false },
           outputPath: tempPath,
         });
         const { openPath } = await import('@tauri-apps/plugin-opener');
@@ -96,7 +96,7 @@ export default function RapportageTab() {
           defaultPath,
         });
         if (!outputPath) return;
-        const request = { schedule, items, reportView, pageSize, pageOrientation, showHoeveelheid, companyInfo, includeCover: false, includeSummary: false };
+        const request = { schedule, items: itemsForReport(schedule, items), reportView, pageSize, pageOrientation, showHoeveelheid, companyInfo, includeCover: false, includeSummary: false };
         // IBIS-stijl en directiebegroting delen de IBIS Typst-generator.
         const command = (reportView === 'ibis' || reportView === 'directie') ? 'generate_ibis_report' : 'generate_pdf_report';
         await tauri.invoke(command, { request, outputPath });
@@ -230,6 +230,17 @@ export default function RapportageTab() {
             <span>
               <strong>Wijzigingen markeren</strong>
               <em>Toon de wijzigingsmarkeringen (bijhouden) ook in de rapportage-PDF.</em>
+            </span>
+          </label>
+          <label className="rapport-props-row">
+            <input
+              type="checkbox"
+              checked={!!schedule.reportChapterTotalsOnly}
+              onChange={() => setSchedule({ reportChapterTotalsOnly: !schedule.reportChapterTotalsOnly })}
+            />
+            <span>
+              <strong>Alleen subtotaal per hoofdstuk</strong>
+              <em>Compact rapport: alleen de hoofdstukregels met hun subtotalen (en de staart); posten en regels worden weggelaten.</em>
             </span>
           </label>
         </div>

@@ -3888,6 +3888,7 @@ dependencies = [
  "chrono",
  "dirs",
  "futures-util",
+ "image",
  "keyring",
  "log",
  "openaec-core",

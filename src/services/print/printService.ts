@@ -144,9 +144,19 @@ function getCellValue(item: CostItem, key: string, _view: ReportView): string {
   }
 }
 
+/**
+ * Rapport-items volgens de rapportinstellingen: met "alleen subtotaal per
+ * hoofdstuk" blijven enkel hoofdstukregels en de staart over. Gedeeld door
+ * de HTML-print én de PDF-request (Rust).
+ */
+export function itemsForReport(schedule: CostSchedule, items: CostItem[]): CostItem[] {
+  if (!schedule.reportChapterTotalsOnly) return items;
+  return items.filter(i => i.rowType === 'chapter' || i.rowType.startsWith('staart_'));
+}
+
 function buildHtml(
   schedule: CostSchedule,
-  items: CostItem[],
+  itemsIn: CostItem[],
   view: ReportView,
   includeActions: boolean,
   showHoeveelheid = true,
@@ -155,6 +165,7 @@ function buildHtml(
   orientation: PageOrientation = 'landscape',
   paperSize: PageSize = 'A4',
 ): string {
+  const items = itemsForReport(schedule, itemsIn);
   // Bouw 1 view uses its own dedicated builder (always landscape).
   // IBIS-stijl en directiebegroting renderen als PDF via de Rust/Typst-
   // template; de browser-print (zonder Tauri) valt terug op de Bouw 1
@@ -402,6 +413,15 @@ ${!includeActions ? `
   padding: 0 4px;
 }
 ` : ''}
+.report-logo-right {
+  /* Koptekst-logo rechtsboven; position:fixed herhaalt op elke geprinte pagina */
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 10mm;
+  max-width: 45mm;
+  object-fit: contain;
+}
 @media print {
   .print-actions { display: none; }
   .page-break-line { display: none !important; }
@@ -413,7 +433,8 @@ ${!includeActions ? `
 </head>
 <body>
 ${actionsHtml}
-<div class="header">
+${companyInfo?.logoRight ? `<img class="report-logo-right" src="${companyInfo.logoRight}" alt="">` : ''}
+<div class="header"${companyInfo?.logoRight ? ' style="margin-top:12mm"' : ''}>
   <div class="header-left">
     <h1>${escapeHtml(schedule.projectName || schedule.name || 'Begroting')}</h1>
     <div class="subtitle">${title}</div>

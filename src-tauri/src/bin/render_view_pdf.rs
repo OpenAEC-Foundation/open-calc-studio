@@ -52,7 +52,7 @@ fn main() {
         .nth(2)
         .unwrap_or_else(|| format!("ocs_view_{view}.pdf"));
 
-    let request_json = match std::env::args().nth(3) {
+    let mut request_json = match std::env::args().nth(3).filter(|s| !s.is_empty()) {
         Some(project_path) => {
             let json = std::fs::read_to_string(&project_path).expect("projectbestand lezen");
             let proj: serde_json::Value = serde_json::from_str(&json).expect("JSON parsen");
@@ -68,6 +68,15 @@ fn main() {
         }
         None => sample_request(&view),
     };
+
+    // Optioneel 4e argument: pad naar een logo-afbeelding → koptekst rechtsboven
+    if let Some(logo_path) = std::env::args().nth(4) {
+        let bytes = std::fs::read(&logo_path).expect("logo lezen");
+        use base64::Engine as _;
+        let b64 = base64::engine::general_purpose::STANDARD.encode(&bytes);
+        request_json["companyInfo"]["logoRight"] =
+            serde_json::Value::String(format!("data:image/png;base64,{b64}"));
+    }
 
     let request: app_lib::reports::ReportRequest =
         serde_json::from_value(request_json).expect("ReportRequest parsen");

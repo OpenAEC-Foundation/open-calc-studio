@@ -249,6 +249,8 @@ struct ReportPageCallback {
     project_name: String,
     report_title: String,
     company_name: String,
+    /// Bedrijfslogo rechtsboven: (bytes, hoogte/breedte-verhouding)
+    logo_right: Option<(Vec<u8>, f32)>,
 }
 
 impl PageCallback for ReportPageCallback {
@@ -262,21 +264,50 @@ impl PageCallback for ReportPageCallback {
         let margin: Pt = Mm(12.0).into();
         let right_edge = Pt(page_size.width.0 - margin.0);
 
-        // Header: amber accent line at top
-        let header_y: Pt = Mm(8.0).into(); // top-left origin: Y=8mm from top
-        draw_list.set_stroke_color(Color::rgb(217, 119, 6)); // Amber
-        draw_list.set_line_width(Pt(1.5));
-        draw_list.draw_line(margin, header_y, right_edge, header_y);
+        if let Some((bytes, aspect)) = &self.logo_right {
+            // Koptekst mét logo: alleen het logo rechtsboven; projectnaam en
+            // rapporttitel samen links, accentlijn iets lager zodat het logo past.
+            let mut h: Pt = Mm(9.0).into();
+            let mut w = Pt(if *aspect > 0.0 { h.0 / aspect } else { h.0 });
+            let max_w: Pt = Mm(45.0).into();
+            if w.0 > max_w.0 {
+                w = max_w;
+                h = Pt(w.0 * aspect);
+            }
+            // Witte fill vóór het tekenen: transparante PNG's worden tegen de
+            // actuele fill-kleur gecomposited.
+            draw_list.set_fill_color(Color::rgb(255, 255, 255));
+            draw_list.draw_image(bytes.clone(), Pt(right_edge.0 - w.0), Mm(1.5).into(), w, h);
 
-        // Project name (top left, above the line)
-        draw_list.set_font("LiberationSans-Bold", Pt(9.0));
-        draw_list.set_fill_color(Color::rgb(54, 54, 62));
-        draw_list.draw_text(margin, Mm(5.0).into(), &self.project_name);
+            let header_y: Pt = Mm(12.0).into();
+            draw_list.set_stroke_color(Color::rgb(217, 119, 6)); // Amber
+            draw_list.set_line_width(Pt(1.5));
+            draw_list.draw_line(margin, header_y, right_edge, header_y);
 
-        // Report title (top right)
-        draw_list.set_font("LiberationSans", Pt(8.0));
-        draw_list.set_fill_color(Color::rgb(161, 161, 170));
-        draw_list.draw_text_right(right_edge, Mm(5.0).into(), &self.report_title);
+            draw_list.set_font("LiberationSans-Bold", Pt(9.0));
+            draw_list.set_fill_color(Color::rgb(54, 54, 62));
+            draw_list.draw_text(margin, Mm(5.5).into(), &self.project_name);
+
+            draw_list.set_font("LiberationSans", Pt(8.0));
+            draw_list.set_fill_color(Color::rgb(161, 161, 170));
+            draw_list.draw_text(margin, Mm(9.5).into(), &self.report_title);
+        } else {
+            // Header: amber accent line at top
+            let header_y: Pt = Mm(8.0).into(); // top-left origin: Y=8mm from top
+            draw_list.set_stroke_color(Color::rgb(217, 119, 6)); // Amber
+            draw_list.set_line_width(Pt(1.5));
+            draw_list.draw_line(margin, header_y, right_edge, header_y);
+
+            // Project name (top left, above the line)
+            draw_list.set_font("LiberationSans-Bold", Pt(9.0));
+            draw_list.set_fill_color(Color::rgb(54, 54, 62));
+            draw_list.draw_text(margin, Mm(5.0).into(), &self.project_name);
+
+            // Report title (top right)
+            draw_list.set_font("LiberationSans", Pt(8.0));
+            draw_list.set_fill_color(Color::rgb(161, 161, 170));
+            draw_list.draw_text_right(right_edge, Mm(5.0).into(), &self.report_title);
+        }
 
         // Footer: thin line near bottom
         let footer_line_y = Pt(page_size.height.0 - Mm(12.0).0);
@@ -294,6 +325,27 @@ impl PageCallback for ReportPageCallback {
         let page_text = format!("Pagina {} / {}", page_num, total_pages);
         draw_list.draw_text_right(right_edge, footer_text_y, &page_text);
     }
+}
+
+/// Decodeer een logo uit een data-URL ("data:image/png;base64,....") naar
+/// (bytes, hoogte/breedte-verhouding). None bij lege of onleesbare input.
+fn decode_logo(data_url: &str) -> Option<(Vec<u8>, f32)> {
+    let trimmed = data_url.trim();
+    if trimmed.is_empty() {
+        return None;
+    }
+    let b64 = trimmed.split(',').next_back().unwrap_or(trimmed);
+    use base64::Engine as _;
+    let bytes = base64::engine::general_purpose::STANDARD.decode(b64).ok()?;
+    let dims = image::ImageReader::new(std::io::Cursor::new(&bytes))
+        .with_guessed_format()
+        .ok()?
+        .into_dimensions()
+        .ok()?;
+    if dims.0 == 0 || dims.1 == 0 {
+        return None;
+    }
+    Some((bytes, dims.1 as f32 / dims.0 as f32))
 }
 
 // ── PDF Generation ──────────────────────────────────────────────────────────
@@ -367,10 +419,18 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
         .map(|c| c.name.clone())
         .unwrap_or_default();
 
+    // Bedrijfslogo rechtsboven in de koptekst (indien ingesteld)
+    let logo_right = request
+        .company_info
+        .as_ref()
+        .and_then(|c| c.logo_right.as_deref())
+        .and_then(decode_logo);
+
     let callback = ReportPageCallback {
         project_name: request.schedule.project_name.clone(),
         report_title: view_title(&request.report_view).to_string(),
         company_name,
+        logo_right,
     };
 
     let template = PageTemplate::new("content", page, frame)
