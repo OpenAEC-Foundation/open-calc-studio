@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import Modal from "../common/Modal";
 import { ProjectInfoSettings } from "../report/ProjectInfoSettings";
@@ -50,9 +51,20 @@ export default function HomeTab() {
   };
 
   // Inklappen-tot-niveau dropdown + prijzen-schalen dialoog
+  // Dropdowns renderen via een portal naar body: het lint heeft
+  // overflow:hidden en transform-animaties, waardoor ze anders achter
+  // het grid wegvallen (zelfde kwaal als eerder de dialogen).
   const [showCollapseList, setShowCollapseList] = useState(false);
+  const [collapsePos, setCollapsePos] = useState<{ top: number; left: number } | null>(null);
+  const collapseWrapRef = useRef<HTMLDivElement>(null);
   const [showPriceDialog, setShowPriceDialog] = useState(false);
   const [pricePct, setPricePct] = useState('10');
+
+  const posBelow = (el: HTMLElement | null) => {
+    if (!el) return { top: 130, left: 200 };
+    const r = el.getBoundingClientRect();
+    return { top: r.bottom + 2, left: Math.max(4, Math.min(r.left, window.innerWidth - 250)) };
+  };
 
   const handleScalePrices = () => {
     const pct = parseFloat(pricePct.replace(',', '.'));
@@ -65,7 +77,7 @@ export default function HomeTab() {
   useEffect(() => {
     if (!showCollapseList) return;
     const close = (e: MouseEvent) => {
-      if (!(e.target as HTMLElement).closest('.ribbon-undo-dropdown-wrap')) setShowCollapseList(false);
+      if (!(e.target as HTMLElement).closest('.ribbon-undo-dropdown-wrap, .ribbon-undo-dropdown')) setShowCollapseList(false);
     };
     window.addEventListener('mousedown', close);
     return () => window.removeEventListener('mousedown', close);
@@ -75,6 +87,7 @@ export default function HomeTab() {
   // n keer poppen en de laatst herstelde staat toepassen (elke stap apart
   // toepassen houdt de redo-stack correct).
   const [showUndoList, setShowUndoList] = useState(false);
+  const [undoPos, setUndoPos] = useState<{ top: number; left: number } | null>(null);
   const handleUndoSteps = (n: number) => {
     for (let i = 0; i < n; i++) {
       const restored = undo();
@@ -87,7 +100,7 @@ export default function HomeTab() {
   useEffect(() => {
     if (!showUndoList) return;
     const close = (e: MouseEvent) => {
-      if (!(e.target as HTMLElement).closest('.ribbon-undo-dropdown-wrap')) setShowUndoList(false);
+      if (!(e.target as HTMLElement).closest('.ribbon-undo-dropdown-wrap, .ribbon-undo-dropdown')) setShowUndoList(false);
     };
     window.addEventListener('mousedown', close);
     return () => window.removeEventListener('mousedown', close);
@@ -227,10 +240,10 @@ export default function HomeTab() {
               className="ribbon-undo-dropdown-toggle"
               title="Meerdere stappen ongedaan maken"
               disabled={!canUndo()}
-              onClick={() => setShowUndoList((v) => !v)}
+              onClick={(e) => { setUndoPos(posBelow(e.currentTarget as HTMLElement)); setShowUndoList((v) => !v); }}
             >▾</button>
-            {showUndoList && (
-              <div className="ribbon-undo-dropdown">
+            {showUndoList && undoPos && createPortal(
+              <div className="ribbon-undo-dropdown" style={{ position: 'fixed', top: undoPos.top, left: undoPos.left }}>
                 <div className="ribbon-undo-dropdown-header">Ongedaan maken t/m…</div>
                 {[...undoStack].reverse().slice(0, 15).map((entry, i) => (
                   <button
@@ -242,7 +255,8 @@ export default function HomeTab() {
                     {entry.description || 'Wijziging'}
                   </button>
                 ))}
-              </div>
+              </div>,
+              document.body
             )}
           </div>
           <RibbonButton icon={redoIcon} label={t("home.redo")} onClick={handleRedo} disabled={!canRedo()} />
@@ -279,15 +293,15 @@ export default function HomeTab() {
             onClick={() => setGridView('simple')}
             active={gridView === 'simple'}
           />
-          <div className="ribbon-undo-dropdown-wrap">
+          <div className="ribbon-undo-dropdown-wrap" ref={collapseWrapRef}>
             <RibbonButton
               icon={addBewakingspostIcon}
               label="Inklappen"
               title="Alles in één keer inklappen tot een gekozen niveau"
-              onClick={() => setShowCollapseList((v) => !v)}
+              onClick={() => { setCollapsePos(posBelow(collapseWrapRef.current)); setShowCollapseList((v) => !v); }}
             />
-            {showCollapseList && (
-              <div className="ribbon-undo-dropdown">
+            {showCollapseList && collapsePos && createPortal(
+              <div className="ribbon-undo-dropdown" style={{ position: 'fixed', top: collapsePos.top, left: collapsePos.left }}>
                 <div className="ribbon-undo-dropdown-header">Inklappen tot…</div>
                 {([
                   ['hoofdstuk', 'Hoofdstukken'],
@@ -304,7 +318,8 @@ export default function HomeTab() {
                     {label}
                   </button>
                 ))}
-              </div>
+              </div>,
+              document.body
             )}
           </div>
         </RibbonGroup>
