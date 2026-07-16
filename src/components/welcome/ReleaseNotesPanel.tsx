@@ -18,6 +18,7 @@ const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours
 // (offline én vóór een GitHub-publicatie), samengevoegd met de opgehaalde
 // releases. Bijwerken bij elke release; de bullets staan in HIGHLIGHTS hieronder.
 const BUNDLED_RELEASES: Release[] = [
+  { tag_name: 'v0.9.0', name: 'Exacte BasCalc-totalen + besteksopmaak rapporten', body: '', published_at: '2026-07-16T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.9.0` },
   { tag_name: 'v0.8.8', name: 'Excel/CSV-import-fix + via MCP', body: '', published_at: '2026-07-03T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.8.8` },
   { tag_name: 'v0.8.7', name: 'Vier nieuwe importformaten', body: '', published_at: '2026-07-03T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.8.7` },
   { tag_name: 'v0.8.6', name: 'Staartkosten in rapport-samenvatting gecorrigeerd', body: '', published_at: '2026-07-02T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.8.6` },
@@ -33,6 +34,13 @@ const BUNDLED_RELEASES: Release[] = [
 // Gecureerde, concrete verbeterpunten per versie. De GitHub-releases bevatten
 // vaak alleen downloads; deze lijst toont wat er écht is verbeterd.
 const HIGHLIGHTS: Record<string, string[]> = {
+  'v0.9.0': [
+    'BasCalc-import: kostprijs én aanneemsom tot op de cent gelijk aan Excel (vlakke staart + vaste afrondingspost)',
+    'Werkbeschrijving en hoofdaanneming in besteksopmaak: geen cellijnen, inspringende paragrafen, subtotaal per paragraaf',
+    '+-knop links bij de rij voegt een rekenregel toe; hoeveelheden aan/uit direct in de rapport-toolbar',
+    'Opslaan als gaat standaard naar .ifcCalc en beschermt het originele bronbestand',
+    'Nieuw groen logo; navigatie- en dialoogfixes (spreadsheet ↔ begroting)',
+  ],
   'v0.8.8': [
     'Excel/CSV-import: bedragen kwamen soms op € 0 te staan — opgelost',
     'Excel/CSV-import nu ook via de MCP-server (tool import_excel_csv)',
