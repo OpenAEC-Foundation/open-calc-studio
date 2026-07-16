@@ -25,6 +25,10 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
   const editableCols = columns.map((c, i) => ({ ...c, index: i })).filter(c => isCellEditable(c.key, item.rowType, gridView));
 
   const isWitregelDesc = item.rowType === 'witregel' && col.key === 'description';
+  // Tekstregels bewerken met terugloop (textarea): een enkelregel-input
+  // toont van een lange toelichting alleen het staartje.
+  const isTekstregelDesc = item.rowType === 'tekstregel' && col.key === 'description';
+  const isTextareaDesc = isWitregelDesc || isTekstregelDesc;
 
   const isSelect = col.type === 'unit-select' || col.type === 'vn-select' || col.type === 'tarief-select';
 
@@ -36,7 +40,7 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
         // Auto-open dropdown
         try { el.showPicker(); } catch { /* not supported in all browsers */ }
       }
-    } else if (isWitregelDesc) {
+    } else if (isTextareaDesc) {
       const ta = textareaRef.current;
       if (ta) {
         ta.focus();
@@ -54,7 +58,7 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
         }
       }
     }
-  }, [col.type, selectOnFocus, isWitregelDesc, isSelect]);
+  }, [col.type, selectOnFocus, isTextareaDesc, isSelect]);
 
   const initialValue = (() => {
     if (editValue) return editValue;
@@ -159,14 +163,18 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
     );
   }
 
-  // Witregel description uses textarea for multi-line editing
-  if (isWitregelDesc) {
+  // Wit- en tekstregels bewerken in een textarea met terugloop
+  if (isTextareaDesc) {
     const lineCount = Math.max(3, (initialValue.match(/\n/g) || []).length + 2);
+    // Tekstregel: minimaal de (meegegroeide) rijhoogte, zodat de hele
+    // toelichting tijdens het bewerken zichtbaar blijft.
+    const rowH = typeof style.height === 'number' ? style.height : 24;
+    const taHeight = isTekstregelDesc ? Math.max(rowH + 2, 64) : lineCount * 24;
     return (
       <textarea
         ref={textareaRef}
         defaultValue={initialValue}
-        style={{ ...editorStyle, height: lineCount * 24, resize: 'vertical' }}
+        style={{ ...editorStyle, height: taHeight, resize: 'vertical', whiteSpace: 'pre-wrap', lineHeight: '13px' }}
         className="grid-cell-editor grid-cell-editor-textarea"
         onBlur={(e) => {
           commitIfChanged(e.target.value);
@@ -182,8 +190,14 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
             stopEditing();
             moveToNextCell(e.shiftKey);
             requestAnimationFrame(() => startEditing());
+          } else if (isTekstregelDesc && e.key === 'Enter' && !e.shiftKey) {
+            // Tekstregel: Enter = bevestigen (Shift+Enter voor een nieuwe regel)
+            e.preventDefault();
+            commitIfChanged((e.target as HTMLTextAreaElement).value);
+            stopEditing();
+            setActiveCell(activeRow + 1, colIndex);
           }
-          // Enter adds newline (default textarea behavior)
+          // Witregel: Enter voegt een nieuwe regel toe (textarea-default)
         }}
       />
     );

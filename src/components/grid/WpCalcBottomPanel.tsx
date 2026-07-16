@@ -249,7 +249,7 @@ function StaartFullScreen() {
       const aanneemsomExcl = kostprijsBouw1 + staartItems
         .filter(i => phase2Types.includes(i.rowType) || legacyTypes.includes(i.rowType))
         .reduce((s, i) => s + i.total, 0) + (afrItem?.total ?? 0);
-      rows.push({ id: afrItem?.id ?? '', label: 'Totaal excl. btw.:', percentage: null, total: aanneemsomExcl, rowType: 'excl_doel', isBold: true });
+      rows.push({ id: afrItem?.id ?? '', label: 'Totaal excl. btw. incl. opslagen:', percentage: null, total: aanneemsomExcl, rowType: 'excl_doel', isBold: true });
 
       // BTW (over het afgeronde excl-bedrag)
       const btwItem = staartItems.find(i => i.rowType === 'staart_btw');
