@@ -305,3 +305,71 @@
   max-width: none;
   white-space: nowrap;
 }
+
+/* ── Meerstaps ongedaan-dropdown (naast de Ongedaan-knop) ── */
+.ribbon-undo-dropdown-wrap {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+.ribbon-undo-dropdown-toggle {
+  width: 16px;
+  border: none;
+  background: transparent;
+  color: var(--theme-text-secondary);
+  font-size: 10px;
+  cursor: default;
+  border-radius: 3px;
+}
+.ribbon-undo-dropdown-toggle:hover:not(:disabled) {
+  background: var(--theme-hover);
+  color: var(--theme-text);
+}
+.ribbon-undo-dropdown-toggle:disabled { opacity: 0.4; }
+.ribbon-undo-dropdown {
+  position: absolute;
+  top: 100%;
+  left: -60px;
+  z-index: 10001;
+  min-width: 240px;
+  max-height: 320px;
+  overflow-y: auto;
+  background: var(--theme-dialog-bg);
+  border: 1px solid var(--theme-dialog-border);
+  border-radius: 4px;
+  box-shadow: var(--theme-dialog-shadow);
+  padding: 4px;
+}
+.ribbon-undo-dropdown-header {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--theme-text-secondary);
+  padding: 4px 8px;
+}
+.ribbon-undo-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--theme-text);
+  font-size: 12px;
+  font-family: inherit;
+  text-align: left;
+  padding: 5px 8px;
+  border-radius: 3px;
+  cursor: default;
+}
+.ribbon-undo-dropdown-item:hover {
+  background: var(--theme-hover);
+}
+.ribbon-undo-step {
+  min-width: 18px;
+  text-align: right;
+  font-size: 10px;
+  color: var(--theme-text-secondary);
+  font-variant-numeric: tabular-nums;
+}

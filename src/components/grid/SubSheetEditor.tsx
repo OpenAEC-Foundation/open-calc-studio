@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { SubSheetRowContextMenu } from './SubSheetRowContextMenu';
 import { SubSheetBorderPicker } from './SubSheetBorderPicker';
+import { shiftFormulaRefs } from '@/services/spreadsheet/formulaRefs';
 import type { CellBorder } from '@/types/costModel';
 
 const COL_WIDTH = 90;
@@ -78,6 +79,12 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
     return refs;
   }, [activeCell, selectionEnd]);
 
+  // Interne kopieerbuffer: het klembord krijgt de zichtbare wáárden (zodat
+  // plakken in Excel/LibreOffice waarden geeft), maar binnen OCS plakken we
+  // de onderliggende formules — met relatief meegeschoven celverwijzingen,
+  // net als in Excel/LibreOffice. Herkenning via de klembord-vingerafdruk.
+  const lastCopyRef = useRef<{ clipText: string; anchor: { colIdx: number; row: number }; raw: string[][] } | null>(null);
+
   const doCopy = useCallback(() => {
     if (!sheet || !activeCell) return;
     const refs = getSelectedCellRefs();
@@ -88,16 +95,22 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
     const minRow = Math.min(...parsed.map(p => p.row));
     const maxRow = Math.max(...parsed.map(p => p.row));
     const rows: string[] = [];
+    const raw: string[][] = [];
     for (let r = minRow; r <= maxRow; r++) {
       const cols: string[] = [];
+      const rawCols: string[] = [];
       for (let c = minCol; c <= maxCol; c++) {
         const ref = `${colLabel(c)}${r}`;
         const cell = sheet.cells[ref];
         cols.push(cell?.computed !== undefined ? String(cell.computed) : (cell?.value || ''));
+        rawCols.push(cell?.value || '');
       }
       rows.push(cols.join('\t'));
+      raw.push(rawCols);
     }
-    navigator.clipboard.writeText(rows.join('\n'));
+    const clipText = rows.join('\n');
+    lastCopyRef.current = { clipText, anchor: { colIdx: minCol, row: minRow }, raw };
+    navigator.clipboard.writeText(clipText);
   }, [sheet, activeCell, getSelectedCellRefs]);
 
   const doPaste = useCallback(() => {
@@ -105,7 +118,26 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
     navigator.clipboard.readText().then(text => {
       if (!text) return;
       const start = parseRef(activeCell);
-      const lines = text.split('\n');
+
+      // Interne plak: klembord matcht onze laatste kopie → formules plakken
+      // met relatief verschoven verwijzingen (Excel-gedrag).
+      const internal = lastCopyRef.current;
+      if (internal && internal.clipText === text.replace(/\r/g, '').replace(/\n$/, '')) {
+        const dCol = start.colIdx - internal.anchor.colIdx;
+        const dRow = start.row - internal.anchor.row;
+        for (let r = 0; r < internal.raw.length; r++) {
+          for (let c = 0; c < internal.raw[r].length; c++) {
+            const ref = `${colLabel(start.colIdx + c)}${start.row + r}`;
+            const rawVal = internal.raw[r][c];
+            if (rawVal) setCell(sheetId, ref, shiftFormulaRefs(rawVal, dCol, dRow));
+          }
+        }
+        return;
+      }
+
+      // Externe plak (bv. LibreOffice/Excel): blok relatief vanaf de
+      // plakpositie neerzetten; formule-teksten blijven ongewijzigd.
+      const lines = text.replace(/\r/g, '').split('\n');
       for (let r = 0; r < lines.length; r++) {
         const cols = lines[r].split('\t');
         for (let c = 0; c < cols.length; c++) {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Modal from "../common/Modal";
 import { ProjectInfoSettings } from "../report/ProjectInfoSettings";
@@ -13,7 +13,7 @@ export default function HomeTab() {
   const { t } = useTranslation("ribbon");
   const { t: tCommon } = useTranslation("common");
   const {
-    canUndo, canRedo, undo, redo, setItems,
+    canUndo, canRedo, undo, redo, setItems, undoStack,
     activeRow, activeItemId, copyItems, cutItems, pasteItems, clipboardItems,
     addItem, addChapter, addBewakingspost, addTekstregel, addWitregel, insertRegelBelow, deleteItem, items, pushHistory,
     toggleAllBewakingspostenCollapsed,
@@ -48,6 +48,28 @@ export default function HomeTab() {
     const restored = redo();
     if (restored) setItems(restored);
   };
+
+  // Meerstaps ongedaan maken via het dropdowntje naast de Ongedaan-knop:
+  // n keer poppen en de laatst herstelde staat toepassen (elke stap apart
+  // toepassen houdt de redo-stack correct).
+  const [showUndoList, setShowUndoList] = useState(false);
+  const handleUndoSteps = (n: number) => {
+    for (let i = 0; i < n; i++) {
+      const restored = undo();
+      if (!restored) break;
+      setItems(restored);
+    }
+    setShowUndoList(false);
+  };
+
+  useEffect(() => {
+    if (!showUndoList) return;
+    const close = (e: MouseEvent) => {
+      if (!(e.target as HTMLElement).closest('.ribbon-undo-dropdown-wrap')) setShowUndoList(false);
+    };
+    window.addEventListener('mousedown', close);
+    return () => window.removeEventListener('mousedown', close);
+  }, [showUndoList]);
 
   const activeItem = activeItemId ? items.find(i => i.id === activeItemId) : null;
 
@@ -178,6 +200,29 @@ export default function HomeTab() {
 
         <RibbonGroup label={t("home.history")}>
           <RibbonButton icon={undoIcon} label={t("home.undo")} onClick={handleUndo} disabled={!canUndo()} />
+          <div className="ribbon-undo-dropdown-wrap">
+            <button
+              className="ribbon-undo-dropdown-toggle"
+              title="Meerdere stappen ongedaan maken"
+              disabled={!canUndo()}
+              onClick={() => setShowUndoList((v) => !v)}
+            >▾</button>
+            {showUndoList && (
+              <div className="ribbon-undo-dropdown">
+                <div className="ribbon-undo-dropdown-header">Ongedaan maken t/m…</div>
+                {[...undoStack].reverse().slice(0, 15).map((entry, i) => (
+                  <button
+                    key={`${undoStack.length - i}-${entry.description}`}
+                    className="ribbon-undo-dropdown-item"
+                    onClick={() => handleUndoSteps(i + 1)}
+                  >
+                    <span className="ribbon-undo-step">{i + 1}</span>
+                    {entry.description || 'Wijziging'}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <RibbonButton icon={redoIcon} label={t("home.redo")} onClick={handleRedo} disabled={!canRedo()} />
         </RibbonGroup>
 
