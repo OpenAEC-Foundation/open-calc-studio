@@ -110,19 +110,29 @@ export function recalculateItems(items: CostItem[], tarieven?: Record<string, nu
         item.unitPrice = hoeveelheid * nup;
       }
       item.total = item.unitPrice;
-    } else if (item.rowType === 'begrotingspost') {
-      // Check if this begrotingspost has children
+    } else if (item.rowType === 'begrotingspost' || item.rowType === 'bewakingspost') {
+      // Kale (bewakings)post zonder kinderen: eigen prijs telt —
+      // prijs/middel (normUnitPrice) plus materiaal en loon.
       const children = childrenMap.get(item.id) ?? [];
       if (children.length === 0) {
-        // Backward-compatible: no children → unitPrice = mat + lab, total = qty × unitPrice
         const mat = item.materialPrice ?? 0;
         const lab = item.laborPrice ?? 0;
-        item.unitPrice = mat + lab;
+        const nup = item.normUnitPrice ?? 0;
+        item.unitPrice = nup + mat + lab;
         item.total = (item.quantity ?? 0) * item.unitPrice;
       }
       // If has children, total will be computed bottom-up below
     }
   }
+
+  // Eigen berekening van een (bewakings)post: aantal × (prijs/middel + mat + loon).
+  // Gebruikt als de kinderen (nog) niets opleveren — een op de post ingevulde
+  // prijs mag niet verdwijnen zodra er een lege bewakingspost of tekstregel
+  // onder hangt.
+  const ownTotal = (item: CostItem): number => {
+    const price = (item.normUnitPrice ?? 0) + (item.materialPrice ?? 0) + (item.laborPrice ?? 0);
+    return (item.quantity ?? 0) * price;
+  };
 
   // Special first pass for bewakingspost: quantity acts as multiplier
   // Must be done before second pass so the bewakingspost subtree total is correct
@@ -136,23 +146,31 @@ export function recalculateItems(items: CostItem[], tarieven?: Record<string, nu
       if (child.rowType === 'chapter' || child.rowType === 'begrotingspost' || child.rowType === 'bewakingspost') {
         const childChildren = childrenMap.get(child.id) ?? [];
         if (childChildren.length > 0) {
-          const childSum = calcTotal(child.id);
-          // Total is always the bottom-up sum of children
-          child.total = childSum;
-          // Eenheidsprijs rollup
-          if (child.rowType === 'bewakingspost') {
-            // Bewakingspost: unitPrice = sum of child unitPrices
-            child.unitPrice = childChildren
-              .filter(c => !isStagartRowType(c.rowType))
-              .reduce((s, c) => s + (c.unitPrice ?? 0), 0);
-          } else if (child.rowType === 'begrotingspost') {
-            // Begrotingspost: unitPrice = total / quantity (afgeleide waarde voor weergave)
-            if (child.quantity != null && child.quantity !== 0) {
-              child.unitPrice = childSum / child.quantity;
-            } else {
+          let childSum = calcTotal(child.id);
+          const own = (child.rowType !== 'chapter' && childSum === 0) ? ownTotal(child) : 0;
+          if (own !== 0) {
+            // Kinderen leveren (nog) niets op: de eigen post-prijs telt door.
+            child.total = own;
+            child.unitPrice = child.quantity ? own / child.quantity : own;
+            childSum = own;
+          } else {
+            // Total is always the bottom-up sum of children
+            child.total = childSum;
+            // Eenheidsprijs rollup
+            if (child.rowType === 'bewakingspost') {
+              // Bewakingspost: unitPrice = sum of child unitPrices
               child.unitPrice = childChildren
                 .filter(c => !isStagartRowType(c.rowType))
                 .reduce((s, c) => s + (c.unitPrice ?? 0), 0);
+            } else if (child.rowType === 'begrotingspost') {
+              // Begrotingspost: unitPrice = total / quantity (afgeleide waarde voor weergave)
+              if (child.quantity != null && child.quantity !== 0) {
+                child.unitPrice = childSum / child.quantity;
+              } else {
+                child.unitPrice = childChildren
+                  .filter(c => !isStagartRowType(c.rowType))
+                  .reduce((s, c) => s + (c.unitPrice ?? 0), 0);
+              }
             }
           }
         }
