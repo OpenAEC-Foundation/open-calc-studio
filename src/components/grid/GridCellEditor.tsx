@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import { COST_UNITS, getColumnsForView, isCellEditable } from './gridConstants';
 import { formatNumberForEdit } from '@/utils/formatting';
 import { useAppStore } from '@/state/appStore';
+import { isContainerRowType } from '@/types/costModel';
 import type { CostItem } from '@/types/costModel';
 
 interface Props {
@@ -60,13 +61,25 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
     const fieldKey = keyMap[col.key] ?? col.key;
     const raw = item[fieldKey as keyof CostItem];
     if (raw === null || raw === undefined) return '';
-    if (col.type === 'currency' || col.type === 'number') {
+    if (col.type === 'currency' || col.type === 'number' || col.type === 'computed') {
       // NL-notatie (komma), zodat een ongewijzigde commit exact round-tript;
       // "6.66" zou door de NL-parser als 666 gelezen worden.
       return formatNumberForEdit(raw as number);
     }
     return String(raw);
   })();
+
+  // Zelfde inspringing als GridCell (padding per diepte + chevron op
+  // containerrijen), zodat de tekst tijdens het bewerken op zijn plek
+  // blijft staan in plaats van naar de linkerrand te springen.
+  const descPaddingLeft = (() => {
+    if (col.key !== 'description') return undefined;
+    const base = gridView === 'wpcalc'
+      ? (item.rowType === 'chapter' && item.depth === 0 ? 4 : 4 + item.depth * 16)
+      : item.depth * 16 + 4;
+    return base + (isContainerRowType(item.rowType) ? 16 : 0);
+  })();
+  const editorStyle = descPaddingLeft !== undefined ? { ...style, paddingLeft: descPaddingLeft } : style;
 
   // Alleen committen als de tekst echt gewijzigd is: klik-in/klik-uit of
   // Tab-en door cellen mag waarden nooit herschrijven (en vult de
@@ -152,7 +165,7 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
       <textarea
         ref={textareaRef}
         defaultValue={initialValue}
-        style={{ ...style, height: lineCount * 24, resize: 'vertical' }}
+        style={{ ...editorStyle, height: lineCount * 24, resize: 'vertical' }}
         className="grid-cell-editor grid-cell-editor-textarea"
         onBlur={(e) => {
           commitIfChanged(e.target.value);
@@ -179,7 +192,7 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
     <input
       ref={inputRef}
       defaultValue={initialValue}
-      style={style}
+      style={editorStyle}
       className="grid-cell-editor"
       onBlur={(e) => {
         commitIfChanged(e.target.value);
