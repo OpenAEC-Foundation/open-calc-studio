@@ -5,7 +5,7 @@
  */
 import { parseNumber } from './core';
 
-export { makeCostItem, normalizeUnit, parseNumber, genId, genIfcGuid, BudgetBuilder } from './core';
+export { makeCostItem, normalizeUnit, genId, genIfcGuid } from './core';
 
 export function parseXml(text: string): Document {
   const doc = new DOMParser().parseFromString(text, 'application/xml');

@@ -60,7 +60,7 @@ export const INSCHRIJFSTAAT_COLUMNS: GridColumn[] = [
 ];
 
 /** UI-3: Simple — alleen de essentiële kolommen */
-export const SIMPLE_COLUMNS: GridColumn[] = [
+const SIMPLE_COLUMNS: GridColumn[] = [
   { key: 'sortIndex', label: 'ID', width: 32, minWidth: 28, editable: false, type: 'computed', align: 'center' },
   { key: 'rowNumber', label: 'Nr', width: 50, minWidth: 40, editable: false, type: 'computed', align: 'center' },
   { key: 'description', label: 'Omschrijving', abbr: 'omschr', width: 450, minWidth: 150, editable: true, type: 'text', align: 'left' },
@@ -72,7 +72,7 @@ export const SIMPLE_COLUMNS: GridColumn[] = [
 ];
 
 /** Branch column (shown leftmost when branchesEnabled) */
-export const BRANCH_COLUMN: GridColumn = {
+const BRANCH_COLUMN: GridColumn = {
   key: 'branch', label: 'Branch', abbr: 'branch', width: 100, minWidth: 60,
   editable: true, type: 'text', align: 'left',
   tooltip: 'Begrotingsvariant (branch) — main / aanbouw / variant 1 etc.',
@@ -99,7 +99,7 @@ export function getColumnsForView(view: GridView, branchesEnabled = false): Grid
 
 /** Column keys that may never be hidden — they carry structural info the grid
  *  relies on (the description text and the row identity columns). */
-export const NON_HIDEABLE_COLUMNS: ReadonlySet<string> = new Set([
+const NON_HIDEABLE_COLUMNS: ReadonlySet<string> = new Set([
   'description',
   'sortIndex',
   'rowType',

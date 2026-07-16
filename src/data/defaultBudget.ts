@@ -1,7 +1,6 @@
 import type { CostItem, CostSchedule } from '@/types/costModel';
 import { createDefaultProjectProperties } from '@/types/costModel';
 import i18next from 'i18next';
-import { recalculateItems } from '@/services/calculation/calculator';
 
 function generateIfcGuid(): string {
   const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$';
@@ -93,13 +92,3 @@ export function createDefaultItems(): CostItem[] {
   ];
 }
 
-/** Load the test-begroting from the bundled JSON file */
-export async function loadDefaultBudget(): Promise<{ schedule: CostSchedule; items: CostItem[] }> {
-  const resp = await fetch('/data/test-begroting.json');
-  if (!resp.ok) throw new Error('Kan standaard begroting niet laden');
-  const data = await resp.json();
-  return {
-    schedule: data.schedule as CostSchedule,
-    items: recalculateItems(data.items as CostItem[]),
-  };
-}

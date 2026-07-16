@@ -17,7 +17,7 @@ export interface CodeEntry {
 }
 
 /** STABU-2 werksoorten (hoofdstukken). */
-export const STABU_CODES: CodeEntry[] = [
+const STABU_CODES: CodeEntry[] = [
   ['05', 'Bouwplaatsvoorzieningen'],
   ['10', 'Stut- en sloopwerk'],
   ['14', 'Funderingspalen en damwanden'],
@@ -65,7 +65,7 @@ export const STABU_CODES: CodeEntry[] = [
 ].map(([code, description]) => ({ code, description, scheme: 'stabu' as const }));
 
 /** NL-SfB elementenmethode (hoofdgroepen + veelgebruikte elementen). */
-export const NLSFB_CODES: CodeEntry[] = [
+const NLSFB_CODES: CodeEntry[] = [
   ['11', 'Bodemvoorzieningen'],
   ['13', 'Vloeren op grondslag'],
   ['16', 'Funderingsconstructies'],

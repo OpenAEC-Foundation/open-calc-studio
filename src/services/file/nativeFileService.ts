@@ -131,32 +131,6 @@ export async function saveFileToPath(path: string, content: string): Promise<voi
   await _fs.writeTextFile(path, content);
 }
 
-/** Read a file by path (for recent files). Returns content or null on error. */
-export async function readFileByPath(path: string): Promise<string | null> {
-  await loadTauriApis();
-  if (!_fs) return null;
-  try {
-    return await _fs.readTextFile(path);
-  } catch {
-    return null;
-  }
-}
-
-/** Show native unsaved changes dialog. Returns 'save' | 'discard' | 'cancel'. */
-export async function showUnsavedDialog(documentName: string): Promise<'save' | 'discard'> {
-  await loadTauriApis();
-  if (!_dialog) {
-    // Browser fallback — use window.confirm
-    const wantToSave = window.confirm(`"${documentName}" has unsaved changes. Do you want to save?`);
-    return wantToSave ? 'save' : 'discard';
-  }
-  const wantToSave = await _dialog.ask(
-    `"${documentName}" has unsaved changes. Do you want to save?`,
-    { title: 'Unsaved Changes', kind: 'warning', okLabel: 'Save', cancelLabel: "Don't Save" }
-  );
-  return wantToSave ? 'save' : 'discard';
-}
-
 /** Show an error message dialog. */
 export async function showError(msg: string): Promise<void> {
   await loadTauriApis();

@@ -34,7 +34,6 @@
         { "path": "**" }
       ]
     },
-    "process:default",
     "store:default",
     "opener:default",
     {

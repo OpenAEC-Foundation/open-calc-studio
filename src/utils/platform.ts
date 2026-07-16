@@ -1,6 +1,6 @@
 const APP_NAME = 'OpenCalcStudio';
 
-export function isTauriEnvironment(): boolean {
+function isTauriEnvironment(): boolean {
   return '__TAURI_INTERNALS__' in window;
 }
 

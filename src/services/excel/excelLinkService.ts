@@ -1,34 +1,6 @@
 import * as XLSX from 'xlsx';
 import type { CostItem } from '../../types/costModel';
 
-/** Read a single cell value from an Excel file (browser File API) */
-export async function readExcelCellFromFile(file: File, sheet: string, cell: string): Promise<number | null> {
-  const buf = await file.arrayBuffer();
-  const wb = XLSX.read(buf, { type: 'array' });
-  const ws = wb.Sheets[sheet];
-  if (!ws) return null;
-  const cellObj = ws[cell];
-  if (!cellObj) return null;
-  return typeof cellObj.v === 'number' ? cellObj.v : parseFloat(String(cellObj.v)) || null;
-}
-
-/** Read a single cell value from an Excel file by path (Tauri FS) */
-export async function readExcelCellFromPath(filePath: string, sheet: string, cell: string): Promise<number | null> {
-  try {
-    const tauriFs = await import('@tauri-apps/plugin-fs');
-    const bytes = await tauriFs.readFile(filePath);
-    const wb = XLSX.read(bytes, { type: 'array' });
-    const ws = wb.Sheets[sheet];
-    if (!ws) return null;
-    const cellObj = ws[cell];
-    if (!cellObj) return null;
-    return typeof cellObj.v === 'number' ? cellObj.v : parseFloat(String(cellObj.v)) || null;
-  } catch (e) {
-    console.error(`[ExcelLink] Failed to read ${filePath}!${sheet}!${cell}:`, e);
-    return null;
-  }
-}
-
 /** Parse an Excel file (from File object) and return sheet names + data for the picker */
 export async function parseExcelFile(file: File): Promise<{
   sheetNames: string[];
@@ -88,15 +60,6 @@ export function colIndexToLetter(index: number): string {
     n = Math.floor(n / 26) - 1;
   }
   return result;
-}
-
-/** Convert Excel column letter to 0-based index */
-export function colLetterToIndex(letter: string): number {
-  let result = 0;
-  for (let i = 0; i < letter.length; i++) {
-    result = result * 26 + (letter.charCodeAt(i) - 64);
-  }
-  return result - 1;
 }
 
 /** Build cell reference from row/col (0-based) */

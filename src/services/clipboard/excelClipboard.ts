@@ -94,7 +94,7 @@ export function getGridCellDisplayValue(item: CostItem, colKey: string): string 
 }
 
 /** Build a TSV string from cost items */
-export function itemsToTsv(items: CostItem[]): string {
+function itemsToTsv(items: CostItem[]): string {
   const header = COLUMNS.map(c => c.header).join('\t');
   const rows = items.map(item =>
     COLUMNS.map(c => getCellValue(item, c.key)).join('\t')

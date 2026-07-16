@@ -10,7 +10,7 @@ function fmtDate(d: Date): string {
 }
 
 /** Compare two item arrays and produce diffs */
-export function computeDiffs(oldItems: CostItem[], newItems: CostItem[]): SnapshotDiff[] {
+function computeDiffs(oldItems: CostItem[], newItems: CostItem[]): SnapshotDiff[] {
   const diffs: SnapshotDiff[] = [];
   const oldMap = new Map(oldItems.map(i => [i.id, i]));
   const newMap = new Map(newItems.map(i => [i.id, i]));

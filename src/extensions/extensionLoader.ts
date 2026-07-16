@@ -57,7 +57,7 @@ export async function removeExtensionFromDb(id: string): Promise<void> {
   });
 }
 
-export async function getAllExtensionsFromDb(): Promise<StoredExtension[]> {
+async function getAllExtensionsFromDb(): Promise<StoredExtension[]> {
   const db = await openExtensionDb();
   return new Promise((resolve, reject) => {
     const tx = db.transaction('extensions', 'readonly');
@@ -67,7 +67,7 @@ export async function getAllExtensionsFromDb(): Promise<StoredExtension[]> {
   });
 }
 
-export async function getExtensionFromDb(id: string): Promise<StoredExtension | undefined> {
+async function getExtensionFromDb(id: string): Promise<StoredExtension | undefined> {
   const db = await openExtensionDb();
   return new Promise((resolve, reject) => {
     const tx = db.transaction('extensions', 'readonly');

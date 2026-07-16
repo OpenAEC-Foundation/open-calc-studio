@@ -69,18 +69,3 @@ export function importZsx(xml: string): ZsxImportResult {
   return { resources, warnings };
 }
 
-/**
- * Convenience alias mirroring the task-spec contract — each item exposes a
- * `unitPrice` and `name` field in addition to the slice-native shape.
- */
-export interface ZsxResource extends ResourceLibraryItem {
-  readonly name: string;
-  readonly unitPrice: number | null;
-}
-
-export function toZsxResource(item: ResourceLibraryItem): ZsxResource {
-  return Object.assign({}, item, {
-    name: item.description,
-    unitPrice: item.defaultUnitPrice,
-  });
-}

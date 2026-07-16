@@ -17,7 +17,7 @@ type EventListener = (data: any) => void;
 // Global event bus for extensions
 const eventListeners = new Map<string, Set<EventListener>>();
 
-export function emitExtensionEvent(event: string, data?: any) {
+function emitExtensionEvent(event: string, data?: any) {
   eventListeners.get(event)?.forEach((fn) => fn(data));
 }
 

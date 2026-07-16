@@ -36,10 +36,6 @@ export function registerWizard(def: WizardDefinition): void {
   registry.set(def.id, def);
 }
 
-export function getWizard(id: string): WizardDefinition | undefined {
-  return registry.get(id);
-}
-
 export function getAllWizards(): WizardDefinition[] {
   return Array.from(registry.values());
 }

@@ -10,9 +10,9 @@ import { synthesizeStaartItems } from '@/services/calculation/staartDefaults';
  * - major omhoog = breaking (oudere apps weigeren met nette melding)
  * - minor omhoog = additief (oudere bestanden migreren automatisch mee)
  */
-export const FILE_FORMAT_VERSION = '2.2.0';
+const FILE_FORMAT_VERSION = '2.2.0';
 
-export function createProjectFile(
+function createProjectFile(
   schedule: CostSchedule,
   items: CostItem[],
   companyInfo?: CompanyInfo,
@@ -177,5 +177,3 @@ export function deserializeProject(json: string): ProjectFile {
   return parsed as ProjectFile;
 }
 
-/** Alias of `deserializeProject` — matches v0.5.2+ naming. */
-export const parseProjectFile = deserializeProject;

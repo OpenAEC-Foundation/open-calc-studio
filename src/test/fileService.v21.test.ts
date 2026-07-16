@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseProjectFile } from '@/services/file/fileService';
+import { deserializeProject } from '@/services/file/fileService';
 
 describe('file format v2.1', () => {
   it('migrates v2.0 subSheets[] to v2.1 spreadsheets.sheets[]', () => {
@@ -9,7 +9,7 @@ describe('file format v2.1', () => {
       items: [],
       subSheets: [{ id: 'a', name: 'Blad 1', columns: 10, rows: 50, cells: {} }],
     });
-    const parsed = parseProjectFile(v20);
+    const parsed = deserializeProject(v20);
     expect(parsed.version).toBe('2.1.0');
     expect(parsed.spreadsheets?.sheets).toHaveLength(1);
     expect(parsed.spreadsheets?.sheets[0].name).toBe('Blad 1');
@@ -25,7 +25,7 @@ describe('file format v2.1', () => {
       spreadsheets: { sheets: [sheet], activeSheetId: 'x' },
     };
     const json = JSON.stringify(file);
-    const parsed = parseProjectFile(json);
+    const parsed = deserializeProject(json);
     expect(parsed.spreadsheets?.activeSheetId).toBe('x');
     expect(parsed.spreadsheets?.sheets[0].cells.A1.value).toBe('5');
   });
