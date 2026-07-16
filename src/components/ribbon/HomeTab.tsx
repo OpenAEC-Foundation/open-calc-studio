@@ -16,6 +16,7 @@ export default function HomeTab() {
     canUndo, canRedo, undo, redo, setItems,
     activeRow, activeItemId, copyItems, cutItems, pasteItems, clipboardItems,
     addItem, addChapter, addBewakingspost, addTekstregel, addWitregel, insertRegelBelow, deleteItem, items, pushHistory,
+    toggleAllBewakingspostenCollapsed,
     showHoeveelheid, toggleHoeveelheid,
     gridView, setGridView,
     schedule, toggleChangeTracking, clearChangeMarks, setChangeDisplayMode,
@@ -210,6 +211,12 @@ export default function HomeTab() {
             size="small"
             onClick={() => setGridView('simple')}
             active={gridView === 'simple'}
+          />
+          <RibbonButton
+            icon={addBewakingspostIcon}
+            label="Bew.posten"
+            title="Alle bewakingsposten in één keer in- of uitklappen"
+            onClick={toggleAllBewakingspostenCollapsed}
           />
         </RibbonGroup>
 

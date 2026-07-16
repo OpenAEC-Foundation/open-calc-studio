@@ -45,6 +45,12 @@ export interface CostItemsSlice {
   indentItem: (id: string) => void;
   outdentItem: (id: string) => void;
   toggleCollapse: (id: string) => void;
+  /**
+   * Klap alle bewakingsposten in één keer in of uit (lint-knop): zijn er nog
+   * uitgeklapte bewakingsposten, dan gaan ze allemaal dicht; anders allemaal
+   * open. Geeft terug of ze nu ingeklapt zijn.
+   */
+  toggleAllBewakingspostenCollapsed: () => boolean;
   recalculate: () => void;
   /**
    * Proportionally rescale `normQuantity` of all `regel` items with the given
@@ -512,6 +518,20 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
         item.id === id ? { ...item, isCollapsed: !item.isCollapsed } : item
       ),
     }));
+  },
+
+  toggleAllBewakingspostenCollapsed: () => {
+    const state = get();
+    // Nog minstens één open bewakingspost → alles inklappen; anders uitklappen.
+    const collapse = state.items.some(
+      (i) => i.rowType === 'bewakingspost' && !i.isCollapsed,
+    );
+    set({
+      items: state.items.map((item) =>
+        item.rowType === 'bewakingspost' ? { ...item, isCollapsed: collapse } : item,
+      ),
+    });
+    return collapse;
   },
 
   recalculate: () => {

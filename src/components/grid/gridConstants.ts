@@ -11,7 +11,7 @@ export const GRID_COLUMNS: GridColumn[] = [
   { key: 'rowNumber', label: 'Nr', width: 50, minWidth: 40, editable: false, type: 'computed', align: 'center' },
   { key: 'code', label: 'Code', abbr: 'code', width: 42, minWidth: 32, editable: true, type: 'text', align: 'left' },
   { key: 'description', label: 'Omschrijving', abbr: 'omschr', width: 380, minWidth: 120, editable: true, type: 'text', align: 'left' },
-  { key: 'quantity', label: 'Aantal', abbr: 'aant', width: 80, minWidth: 50, editable: true, type: 'number', align: 'center', tooltip: 'Aantal (aant)\nAlleen op rekenregel\nDimensieloos getal' },
+  { key: 'quantity', label: 'Aantal', abbr: 'aant', width: 80, minWidth: 50, editable: true, type: 'number', align: 'center', tooltip: 'Aantal (aant)\nOp rekenregel en (bewakings)post\nDimensieloos getal' },
   { key: 'productienorm', label: 'Prod.norm', abbr: 'pnorm', width: 80, minWidth: 50, editable: true, type: 'number', align: 'center', tooltip: 'Productienorm (pnorm)\nAlleen op rekenregel\nBijv. 8 uur per persoon per dag' },
   { key: 'productiecapaciteit', label: 'Prod.cap.', abbr: 'pcap', width: 80, minWidth: 50, editable: true, type: 'number', align: 'center', tooltip: 'Productiecapaciteit (pcap)\nAlleen op rekenregel\nDeler in de hoeveelheidformule' },
   { key: 'hoeveelheid', label: 'Hoeveelheid', abbr: 'hoev', width: 90, minWidth: 60, editable: true, type: 'number', align: 'center', tooltip: 'Hoeveelheid (hoev)\nregel: aant × pnorm / pcap\nbgrps: toont Aantal\ntekst: direct invulbaar' },
@@ -137,7 +137,10 @@ export function isCellEditable(colKey: string, rowType: string, _gridView?: Grid
   }
   // Aantal: rekenregel, begrotingspost (leaf only), bewakingspost (leaf only)
   if (colKey === 'quantity') {
-    return rowType === 'regel';
+    // Ook op (bewakings)posten bewerkbaar: bij een kale post rekent
+    // hoeveelheid × prijs; bij een post mét regels voedt het alleen de
+    // afgeleide eenheidsprijs (totaal / hoeveelheid).
+    return rowType === 'regel' || rowType === 'begrotingspost' || rowType === 'bewakingspost';
   }
   // Hoeveelheid/Uren: alleen direct invulbaar op tekstregel
   // Op begrotingspost/bewakingspost is dit een berekende som
