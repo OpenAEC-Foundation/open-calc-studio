@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { computeStaartItemBreakdowns } from '@/services/calculation/calculator';
+import { computeStaartItemBreakdowns, recalculateItems } from '@/services/calculation/calculator';
 import type { CostItem } from '@/types/costModel';
 
 function mkRegel(rt: string, total: number): CostItem {
@@ -105,5 +105,59 @@ describe('computeStaartItemBreakdowns', () => {
     // (100000.456 * 1.21) = 121000.55176; rounded = 121000.55; afronding = -0.00176
     expect(af?.staartItemBreakdown?.subtotaal).toBeCloseTo(-0.00176, 4);
     expect(af?.staartItemBreakdown?.totaal).toBeCloseTo(121000.55, 2);
+  });
+
+  it('handmatig ingevulde afronding (staartVastBedrag) is een vaste sluitpost', () => {
+    const af = mkStaart('staart_afronding', null);
+    af.staartVastBedrag = 250;
+    const items: CostItem[] = [mkRegel('arbeid', 100000), af];
+    const result = computeStaartItemBreakdowns(items);
+    const r = result.find(i => i.rowType === 'staart_afronding');
+    expect(r?.staartItemBreakdown?.subtotaal).toBe(250);
+    expect(r?.total).toBe(250);
+    expect(r?.staartItemBreakdown?.totaal).toBeCloseTo(100250, 2);
+  });
+
+  it('staartVastBedrag heeft voorrang op staartDoelbedrag; negatief mag', () => {
+    const af = mkStaart('staart_afronding', null);
+    af.staartVastBedrag = -125.5;
+    af.staartDoelbedrag = 999999; // wordt genegeerd
+    const items: CostItem[] = [mkRegel('arbeid', 100000), af];
+    const result = computeStaartItemBreakdowns(items);
+    const r = result.find(i => i.rowType === 'staart_afronding');
+    expect(r?.staartItemBreakdown?.subtotaal).toBe(-125.5);
+    expect(r?.staartItemBreakdown?.totaal).toBeCloseTo(99874.5, 2);
+  });
+
+  it('recalc met tarieven wist een direct uurloon niet (regel zonder norm)', () => {
+    // Pre-existing bug: laborPrice = norm × tarief overschreef een direct
+    // ingevuld uurloon met 0 zodra norm ontbrak — elke bewerking elders
+    // in de begroting nulde zo alle arbeidsregels zonder productienorm.
+    const r = mkRegel('arbeid', 0);
+    r.quantity = 14; r.laborPrice = 60; r.tariefGroep = 'B';
+    r.normQuantity = null; r.unitPrice = 0; r.total = 0;
+    const result = recalculateItems([r], { A: 64, B: 43, C: 82 });
+    const rr = result.find(i => i.id === r.id)!;
+    expect(rr.laborPrice).toBe(60);
+    expect(rr.total).toBeCloseTo(840, 2); // 14 uur × 60
+  });
+
+  it('regel mét productienorm volgt wél het tarief', () => {
+    const r = mkRegel('arbeid', 0);
+    r.quantity = 10; r.tariefGroep = 'B'; r.normQuantity = 2; r.laborPrice = 999;
+    const result = recalculateItems([r], { A: 64, B: 43, C: 82 });
+    const rr = result.find(i => i.id === r.id)!;
+    expect(rr.laborPrice).toBe(86); // 2 × 43
+  });
+
+  it('staartVastBedrag = null valt terug op doelbedrag of automatisch', () => {
+    const af = mkStaart('staart_afronding', null);
+    af.staartVastBedrag = null;
+    af.staartDoelbedrag = 105000;
+    const items: CostItem[] = [mkRegel('arbeid', 100000), af];
+    const result = computeStaartItemBreakdowns(items);
+    const r = result.find(i => i.rowType === 'staart_afronding');
+    expect(r?.staartItemBreakdown?.subtotaal).toBeCloseTo(5000, 2);
+    expect(r?.staartItemBreakdown?.totaal).toBeCloseTo(105000, 2);
   });
 });

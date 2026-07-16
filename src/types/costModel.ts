@@ -54,6 +54,13 @@ export interface CostItem {
    */
   staartDoelbedrag?: number | null;
 
+  /**
+   * Alleen op staart_afronding: handmatig in het grid ingevuld
+   * afrondingsbedrag (vaste sluitpost). Heeft voorrang op
+   * staartDoelbedrag; null/undefined = automatisch afronden.
+   */
+  staartVastBedrag?: number | null;
+
   // Normberekening (alleen voor 'regel' rijen)
   normQuantity: number | null;
   normFactor: number | null;

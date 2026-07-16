@@ -27,6 +27,17 @@ export function useGridEditing() {
       // Synthetische footerrijen verder nooit als item updaten
       if (item.id.startsWith('footer:')) return;
 
+      // Afronding-staartregel: het ingevulde bedrag wordt een vaste
+      // sluitpost; leegmaken schakelt terug naar automatisch afronden.
+      if (item.rowType === 'staart_afronding' && col.key === 'total') {
+        const parsed = parseNumericInput(value);
+        if (parsed === null && value.trim() !== '') return;
+        pushHistory(items, 'Afronding invullen');
+        updateItem(item.id, 'staartDoelbedrag', null);
+        updateItem(item.id, 'staartVastBedrag', parsed);
+        return;
+      }
+
       pushHistory(items, `Edit ${col.key}`);
 
       // Map grid column keys to CostItem field names

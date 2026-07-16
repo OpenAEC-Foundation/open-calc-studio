@@ -19,7 +19,7 @@ export const GRID_COLUMNS: GridColumn[] = [
   { key: 'verrekenbaar', label: 'Verr.', abbr: 'verr', width: 32, minWidth: 28, editable: true, type: 'vn-select', align: 'center', tooltip: 'Verrekenbaarheid (verr)\nAlleen op hfdst\nV=Verrekenbaar, A=Aanbod\nN=Niet verrekenbaar, F=Fictief' },
   { key: 'normUnitPrice', label: 'Prijs/middel', abbr: 'pmddl', width: 100, minWidth: 60, editable: true, type: 'currency', align: 'center', tooltip: 'Prijs per middel (pmddl)\nAlleen op rekenregel' },
   { key: 'unitPrice', label: 'Eenheidsprijs', abbr: 'ehprs', width: 100, minWidth: 60, editable: false, type: 'computed', align: 'center', tooltip: 'Eenheidsprijs (ehprs)\nregel: hoev × pmddl\nbwkps: Σ regel ehprs\nbgrps: bedrag / hoev' },
-  { key: 'total', label: 'Bedrag', abbr: 'bedrag', width: 110, minWidth: 70, editable: false, type: 'computed', align: 'center', tooltip: 'Bedrag (bedrag)\nregel: = ehprs\nbwkps: Σ regel bedrag\nbgrps: Σ bwkps bedrag\nhfdst: Σ onderliggende bedrag' },
+  { key: 'total', label: 'Bedrag', abbr: 'bedrag', width: 110, minWidth: 70, editable: true, type: 'computed', align: 'center', tooltip: 'Bedrag (bedrag)\nregel: = ehprs\nbwkps: Σ regel bedrag\nbgrps: Σ bwkps bedrag\nhfdst: Σ onderliggende bedrag' },
 ];
 
 /** UI-2: resource-breakdown kolommen (zoals WpCalc screenshot) */
@@ -43,7 +43,7 @@ export const WPCALC_COLUMNS: GridColumn[] = [
   { key: 'onderaannemingTotal', label: 'Onderaann.', abbr: 'oa', width: 85, minWidth: 50, editable: false, type: 'computed', align: 'right', tooltip: 'Onderaannemingskosten\nSom van regels met resourceType=onderaannemer' },
   { key: 'kostenEd', label: 'Kosten e/d', abbr: 'k e/d', width: 80, minWidth: 50, editable: false, type: 'computed', align: 'right', tooltip: 'Kosten per eenheid/dag' },
   { key: 'unitPrice', label: 'Subtotaal', abbr: 'subtot', width: 90, minWidth: 60, editable: false, type: 'computed', align: 'right' },
-  { key: 'total', label: 'Totaal', abbr: 'totaal', width: 100, minWidth: 70, editable: false, type: 'computed', align: 'right' },
+  { key: 'total', label: 'Totaal', abbr: 'totaal', width: 100, minWidth: 70, editable: true, type: 'computed', align: 'right' },
 ];
 
 /** Inschrijfstaat RAW: Code, Omschrijving, Hoeveelheid, Eenheid, Verr., Eenheidsprijs, Bedrag */
@@ -56,7 +56,7 @@ export const INSCHRIJFSTAAT_COLUMNS: GridColumn[] = [
   { key: 'unit', label: 'Eh.', abbr: 'eenh', width: 45, minWidth: 35, editable: true, type: 'unit-select', align: 'center' },
   { key: 'verrekenbaar', label: 'S', abbr: 'verr', width: 32, minWidth: 28, editable: true, type: 'vn-select', align: 'center', tooltip: 'Stelpost\nV=Verrekenbaar, A=Aanbod\nN=Niet verrekenbaar, F=Fictief' },
   { key: 'unitPrice', label: 'Eenheidsprijs', abbr: 'ehprs', width: 110, minWidth: 70, editable: false, type: 'computed', align: 'right' },
-  { key: 'total', label: 'Bedrag', abbr: 'bedrag', width: 120, minWidth: 80, editable: false, type: 'computed', align: 'right' },
+  { key: 'total', label: 'Bedrag', abbr: 'bedrag', width: 120, minWidth: 80, editable: true, type: 'computed', align: 'right' },
 ];
 
 /** UI-3: Simple — alleen de essentiële kolommen */
@@ -68,7 +68,7 @@ const SIMPLE_COLUMNS: GridColumn[] = [
   { key: 'unit', label: 'Eenheid', abbr: 'eenh', width: 55, minWidth: 40, editable: true, type: 'unit-select', align: 'center' },
   { key: 'normUnitPrice', label: 'Prijs', abbr: 'prijs', width: 90, minWidth: 60, editable: true, type: 'currency', align: 'right' },
   { key: 'unitPrice', label: 'Eenheidsprijs', abbr: 'ehprs', width: 100, minWidth: 60, editable: false, type: 'computed', align: 'right' },
-  { key: 'total', label: 'Totaal', abbr: 'totaal', width: 110, minWidth: 70, editable: false, type: 'computed', align: 'right' },
+  { key: 'total', label: 'Totaal', abbr: 'totaal', width: 110, minWidth: 70, editable: true, type: 'computed', align: 'right' },
 ];
 
 /** Branch column (shown leftmost when branchesEnabled) */
@@ -130,9 +130,11 @@ export function isCellEditable(colKey: string, rowType: string, _gridView?: Grid
   if (colKey === 'code') return !rowType.startsWith('staart_');
   // Description editable on all rows, including staart
   if (colKey === 'description') return true;
-  // Staart: percentage (shown in quantity column) is editable, afronding is computed
+  // Staart: percentage (shown in quantity column) is editable
   if (rowType.startsWith('staart_')) {
-    if (rowType === 'staart_afronding') return false;
+    // Afronding: het bedrag is direct invulbaar (vaste sluitpost);
+    // leegmaken schakelt terug naar automatisch afronden.
+    if (rowType === 'staart_afronding') return colKey === 'total';
     return colKey === 'quantity'; // quantity = percentage for staart rows
   }
   // Aantal: rekenregel, begrotingspost (leaf only), bewakingspost (leaf only)

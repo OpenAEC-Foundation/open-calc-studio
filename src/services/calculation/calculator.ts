@@ -65,13 +65,16 @@ export function normalizeItemOrder(items: CostItem[]): CostItem[] {
 export function recalculateItems(items: CostItem[], tarieven?: Record<string, number>): CostItem[] {
   const result = normalizeItemOrder(items.map(item => ({ ...item })));
 
-  // Recompute laborPrice from tariefGroep + tarieven when tarieven are provided
+  // Recompute laborPrice from tariefGroep + tarieven when tarieven are provided.
+  // Alleen voor regels mét een productienorm: laborPrice = norm × uurtarief.
+  // Regels zonder norm hebben een direct ingevuld uurloon — dat moet blijven
+  // staan (norm=null → 0 × tarief zou het uurloon stilletjes wissen bij
+  // elke willekeurige bewerking elders in de begroting).
   if (tarieven) {
     for (const item of result) {
-      if (item.rowType === 'regel' && item.tariefGroep) {
+      if (item.rowType === 'regel' && item.tariefGroep && item.normQuantity != null) {
         const tarief = tarieven[item.tariefGroep] ?? 0;
-        const norm = item.normQuantity ?? 0;
-        item.laborPrice = norm * tarief;
+        item.laborPrice = item.normQuantity * tarief;
       }
     }
   }
@@ -464,7 +467,11 @@ export function computeStaartItemBreakdowns(items: CostItem[]): CostItem[] {
         break;
       }
       case 'staart_afronding': {
-        if (item.staartDoelbedrag != null) {
+        if (item.staartVastBedrag != null) {
+          // Handmatig in het grid ingevulde afronding: vast bedrag.
+          bd = { ...bd, subtotaal: item.staartVastBedrag };
+          cumulative += item.staartVastBedrag;
+        } else if (item.staartDoelbedrag != null) {
           // Vaste sluitpost (BasCalc): afronding = doelbedrag − som tot hier.
           const v = item.staartDoelbedrag - cumulative;
           bd = { ...bd, subtotaal: v };

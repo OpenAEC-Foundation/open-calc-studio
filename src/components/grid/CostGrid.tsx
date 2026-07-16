@@ -11,7 +11,7 @@ import { useGridNavigation } from './useGridNavigation';
 import { useGridEditing } from './useGridEditing';
 import { useAppStore } from '@/state/appStore';
 import { ROW_HEIGHT, getColumnsForView, isCellEditable, isColumnHidden } from './gridConstants';
-import { getKostprijs } from '@/services/calculation/calculator';
+import { getGrandTotal } from '@/services/calculation/calculator';
 import { isItemChangedSince, changedFieldsSince } from '@/services/history/itemHistory';
 import { formatCurrency } from '@/utils/formatting';
 import type { CostItem, ExcelLink, Branch } from '@/types/costModel';
@@ -752,7 +752,10 @@ export const CostGrid: React.FC = () => {
           )}
         </div>
         {visibleItems.length > 0 && (() => {
-          const kostprijs = getKostprijs(items);
+          // Eindtotaal ínclusief staartkosten en afronding (aanneemsom),
+          // niet alleen de kostprijs — de staartregels staan er direct boven.
+          const grandTotal = getGrandTotal(items);
+          const heeftBtw = items.some(i => i.rowType === 'staart_btw' && Math.abs(i.total) > 0.005);
           return (
             <div className="grid-total-row" style={{ height: ROW_HEIGHT, width: effectiveColumnWidths.reduce((s, w) => s + (w ?? 0), 0), minWidth: effectiveColumnWidths.reduce((s, w) => s + (w ?? 0), 0) }}>
               {columns.map((col, i) => (
@@ -764,8 +767,8 @@ export const CostGrid: React.FC = () => {
                     textAlign: col.align as any,
                   }}
                 >
-                  {col.key === 'description' && t('totalExclVat')}
-                  {col.key === 'total' && formatCurrency(kostprijs)}
+                  {col.key === 'description' && (heeftBtw ? t('totalInclVat') : t('totalExclVat'))}
+                  {col.key === 'total' && formatCurrency(grandTotal)}
                 </div>
               ))}
             </div>
