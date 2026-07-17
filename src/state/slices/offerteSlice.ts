@@ -65,6 +65,13 @@ export interface OfferteSlice {
 
   // Secties
   addSection: (type: OfferteSectionType, titel?: string) => string;
+  /**
+   * Neem de hoofdstukken van de begroting over als offerte-secties: elk
+   * top-hoofdstuk (geen staart) zonder bestaande gekoppelde sectie krijgt
+   * een technische sectie met de hoofdstuknaam en een leeg tekstdeel.
+   * Retourneert het aantal toegevoegde secties.
+   */
+  syncSectiesMetHoofdstukken: () => number;
   removeSection: (id: string) => void;
   updateSection: (id: string, updates: Partial<OfferteSection>) => void;
   moveSectionUp: (id: string) => void;
@@ -135,7 +142,7 @@ export interface OfferteSlice {
   setProjectInfo: (updates: Partial<ProjectInfo>) => void;
 }
 
-export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
+export const createOfferteSlice: StateCreator<OfferteSlice> = (set, get) => ({
   offerte: createDefaultOfferte(),
   activeSectionId: null,
 
@@ -174,6 +181,35 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
       },
     }));
     return id;
+  },
+
+  syncSectiesMetHoofdstukken: () => {
+    const state = get() as any; // volledige AppStore op runtime
+    const hoofdstukken = (state.items ?? []).filter(
+      (i: { rowType: string; depth: number; parentId: string | null }) =>
+        i.rowType === 'chapter' && i.depth === 0 && i.parentId === null,
+    );
+    const gekoppeld = new Set(
+      state.offerte.secties
+        .map((sec: { linkedChapterId: string | null }) => sec.linkedChapterId)
+        .filter(Boolean),
+    );
+    const nieuw = hoofdstukken
+      .filter((ch: { id: string }) => !gekoppeld.has(ch.id))
+      .map((ch: { id: string; description: string }) => ({
+        id: genId(),
+        titel: ch.description || 'Hoofdstuk',
+        type: 'technisch' as OfferteSectionType,
+        linkedChapterId: ch.id,
+        begeleidendeTekst: '',
+        items: [],
+      }));
+    if (nieuw.length > 0) {
+      set((s) => ({
+        offerte: { ...s.offerte, secties: [...s.offerte.secties, ...nieuw] },
+      }));
+    }
+    return nieuw.length;
   },
 
   removeSection: (id) => set((s) => ({
