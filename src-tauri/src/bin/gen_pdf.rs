@@ -10,6 +10,35 @@ fn main() {
     let ifcx = std::env::args().nth(1).expect("usage: gen_pdf <input.ifcx> <output.pdf>");
     let out = std::env::args().nth(2).expect("usage: gen_pdf <input.ifcx> <output.pdf>");
 
+    // Rapportweergave: '--report-view <view>' of env OCS_REPORT_VIEW.
+    // Alles behalve bouw1 rendert via de generator (besteksopmaak e.d.) —
+    // voorheen werd het argument genegeerd en kwam er altijd bouw1 uit.
+    let argv: Vec<String> = std::env::args().collect();
+    let view = argv
+        .iter()
+        .position(|a| a == "--report-view")
+        .and_then(|i| argv.get(i + 1).cloned())
+        .or_else(|| std::env::var("OCS_REPORT_VIEW").ok())
+        .unwrap_or_else(|| "bouw1".to_string());
+    if view != "bouw1" {
+        let json = std::fs::read_to_string(&ifcx).expect("read .ifcx");
+        let proj: serde_json::Value = serde_json::from_str(&json).expect("parse");
+        let request_json = serde_json::json!({
+            "schedule": proj["schedule"],
+            "items": proj["items"],
+            "reportView": view,
+            "pageSize": "A4",
+            "pageOrientation": "portrait",
+            "showHoeveelheid": true,
+            "companyInfo": proj["companyInfo"],
+        });
+        let request: app_lib::reports::ReportRequest =
+            serde_json::from_value(request_json).expect("ReportRequest parsen");
+        app_lib::reports::generator::generate(&request, &out).expect("PDF-generatie mislukt");
+        println!("PDF ({view}) geschreven naar {out}");
+        return;
+    }
+
     let json = std::fs::read_to_string(&ifcx).expect("read .ifcx");
     let proj: serde_json::Value = serde_json::from_str(&json).expect("parse");
     let items: Vec<serde_json::Value> = proj["items"].as_array().unwrap().clone();

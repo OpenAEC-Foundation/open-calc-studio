@@ -42,6 +42,15 @@ function cellNum(row: unknown[], col: number): number | null {
   return isNaN(n) ? null : n;
 }
 
+/** Tabblad opzoeken zonder hoofdlettergevoeligheid: oudere BasCalc-bestanden
+ *  gebruiken bv. "kostprijs" i.p.v. "Kostprijs". */
+function sheetByName(wb: XLSX.WorkBook, naam: string): XLSX.WorkSheet | undefined {
+  const exact = wb.Sheets[naam];
+  if (exact) return exact;
+  const gevonden = wb.SheetNames.find(n => n.trim().toLowerCase() === naam.toLowerCase());
+  return gevonden ? wb.Sheets[gevonden] : undefined;
+}
+
 export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSchedule; items: CostItem[]; companyInfo: CompanyInfo } {
   const wb = XLSX.read(arrayBuffer, { type: 'array' });
 
@@ -62,7 +71,7 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
     logoLeft: '',
     logoRight: '',
   };
-  const menuSheet = wb.Sheets['Menu'];
+  const menuSheet = sheetByName(wb, 'Menu');
   if (menuSheet) {
     const menuData: unknown[][] = XLSX.utils.sheet_to_json(menuSheet, { header: 1 });
     for (const row of menuData) {
@@ -101,7 +110,7 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
   // doelbedrag (de aanneemsom op het Eindblad, bv. 75.000). Dat doel nemen
   // we over zodat de afronding in OCS identiek sluit.
   let aanneemsomDoel: number | null = null;
-  const eindSheet = wb.Sheets['Eindblad'];
+  const eindSheet = sheetByName(wb, 'Eindblad');
   if (eindSheet) {
     const eindData: unknown[][] = XLSX.utils.sheet_to_json(eindSheet, { header: 1 });
     for (const row of eindData) {
@@ -126,7 +135,7 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
   }
 
   // --- Read Kostprijs sheet ---
-  const kostprijsSheet = wb.Sheets['Kostprijs'];
+  const kostprijsSheet = sheetByName(wb, 'Kostprijs');
   if (!kostprijsSheet) {
     throw new Error('Geen "Kostprijs" tabblad gevonden in het BasCalc bestand');
   }
