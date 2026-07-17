@@ -63,7 +63,7 @@ export interface CostItem {
 
   /**
    * Alleen op staart_afronding: stap voor het automatisch afronden van het
-   * totaal excl. btw (bv. 10 = op tientallen). undefined = € 10.
+   * totaal excl. btw (bv. 10 = op tientallen). undefined/0 = niet afronden.
    */
   staartAfrondingStap?: number | null;
 

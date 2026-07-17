@@ -495,9 +495,9 @@ export function computeStaartItemBreakdowns(items: CostItem[]): CostItem[] {
           bd = { ...bd, subtotaal: v };
           cumulative = item.staartDoelbedrag;
         } else {
-          // Automatisch afronden op de ingestelde stap (standaard € 10):
-          // het totaal excl. btw wordt een net rond bedrag.
-          const stap = item.staartAfrondingStap ?? 10;
+          // Automatisch afronden op de ingestelde stap; standaard 0 =
+          // niet afronden (afronding blijft € 0,00 tot je een stap kiest).
+          const stap = item.staartAfrondingStap ?? 0;
           const rounded = stap > 0
             ? Math.round((Math.round(cumulative / stap) * stap) * 100) / 100
             : cumulative;

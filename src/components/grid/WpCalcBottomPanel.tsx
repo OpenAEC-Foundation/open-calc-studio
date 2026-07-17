@@ -355,7 +355,7 @@ function StaartFullScreen() {
                 {r.rowType === 'staart_afronding' && r.id ? (
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
                     <select
-                      value={String(items.find(i => i.id === r.id)?.staartAfrondingStap ?? 10)}
+                      value={String(items.find(i => i.id === r.id)?.staartAfrondingStap ?? 0)}
                       title="Stap voor automatisch afronden van het totaal excl. btw"
                       onChange={e => {
                         pushHistory(items, 'Afrondingsstap');
@@ -363,7 +363,7 @@ function StaartFullScreen() {
                       }}
                       style={{ border: '1px solid var(--theme-border)', borderRadius: 3, padding: '1px 2px', background: 'var(--theme-bg)', color: 'var(--theme-text)', fontSize: 10, fontFamily: 'inherit' }}
                     >
-                      <option value="0.01">op cent</option>
+                      <option value="0">niet afronden</option>
                       <option value="1">op € 1</option>
                       <option value="10">op € 10</option>
                       <option value="100">op € 100</option>

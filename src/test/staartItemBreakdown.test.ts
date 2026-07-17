@@ -94,10 +94,7 @@ describe('computeStaartItemBreakdowns', () => {
     expect(btw?.staartItemBreakdown?.totaal).toBeCloseTo(121000, 2);
   });
 
-  it('afronding rondt standaard op € 10; btw rekent over het afgeronde excl', () => {
-    // De afronding hoort bij het excl.-blok: eerst excl afronden op de
-    // standaardstap van € 10 (100000.456 → 100000), daarna btw over het
-    // afgeronde bedrag — ongeacht waar de btw-regel in de volgorde staat.
+  it('zonder stap wordt er niet afgerond (afronding € 0,00)', () => {
     const items: CostItem[] = [
       mkRegel('arbeid', 100000.456),
       mkStaart('staart_btw', 21),
@@ -105,8 +102,22 @@ describe('computeStaartItemBreakdowns', () => {
     ];
     const result = computeStaartItemBreakdowns(items);
     const af = result.find(i => i.rowType === 'staart_afronding');
-    expect(af?.staartItemBreakdown?.subtotaal).toBeCloseTo(-0.456, 3);
-    expect(af?.staartItemBreakdown?.totaal).toBeCloseTo(100000, 2);
+    expect(af?.staartItemBreakdown?.subtotaal).toBe(0);
+    expect(af?.staartItemBreakdown?.totaal).toBeCloseTo(100000.456, 3);
+  });
+
+  it('met stap € 10 wordt het excl-bedrag rond; btw rekent erover', () => {
+    const af = mkStaart('staart_afronding', null);
+    af.staartAfrondingStap = 10;
+    const items: CostItem[] = [
+      mkRegel('arbeid', 100000.456),
+      mkStaart('staart_btw', 21),
+      af,
+    ];
+    const result = computeStaartItemBreakdowns(items);
+    const r = result.find(i => i.rowType === 'staart_afronding');
+    expect(r?.staartItemBreakdown?.subtotaal).toBeCloseTo(-0.456, 3);
+    expect(r?.staartItemBreakdown?.totaal).toBeCloseTo(100000, 2);
     const btw = result.find(i => i.rowType === 'staart_btw');
     expect(btw?.staartItemBreakdown?.bedrag).toBeCloseTo(100000, 2);
     expect(btw?.staartItemBreakdown?.totaal).toBeCloseTo(121000, 2);
