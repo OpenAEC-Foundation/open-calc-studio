@@ -353,16 +353,33 @@ function StaartFullScreen() {
               </td>
               <td style={{ textAlign: 'right' }}>
                 {r.rowType === 'staart_afronding' && r.id ? (
-                  <input
-                    key={`afr-${formatNumberForEdit(Math.round(r.total * 100) / 100)}`}
-                    type="text"
-                    defaultValue={formatNumberForEdit(Math.round(r.total * 100) / 100)}
-                    placeholder="auto"
-                    title="Afrondingsbedrag invullen (vaste sluitpost); leegmaken = automatisch afronden"
-                    onBlur={e => handleAfrondingChange(r.id, e.target.value, formatNumberForEdit(Math.round(r.total * 100) / 100))}
-                    onKeyDown={e => { if (e.key === 'Enter') { handleAfrondingChange(r.id, (e.target as HTMLInputElement).value, formatNumberForEdit(Math.round(r.total * 100) / 100)); (e.target as HTMLInputElement).blur(); } }}
-                    style={{ width: 80, textAlign: 'right', border: '1px solid var(--theme-border)', borderRadius: 3, padding: '1px 4px', background: 'var(--theme-bg)', color: 'var(--theme-editable-text, var(--theme-text))', fontSize: 'inherit', fontFamily: 'inherit' }}
-                  />
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                    <select
+                      value={String(items.find(i => i.id === r.id)?.staartAfrondingStap ?? 10)}
+                      title="Stap voor automatisch afronden van het totaal excl. btw"
+                      onChange={e => {
+                        pushHistory(items, 'Afrondingsstap');
+                        updateItem(r.id, 'staartAfrondingStap', parseFloat(e.target.value));
+                      }}
+                      style={{ border: '1px solid var(--theme-border)', borderRadius: 3, padding: '1px 2px', background: 'var(--theme-bg)', color: 'var(--theme-text)', fontSize: 10, fontFamily: 'inherit' }}
+                    >
+                      <option value="0.01">op cent</option>
+                      <option value="1">op € 1</option>
+                      <option value="10">op € 10</option>
+                      <option value="100">op € 100</option>
+                      <option value="1000">op € 1.000</option>
+                    </select>
+                    <input
+                      key={`afr-${formatNumberForEdit(Math.round(r.total * 100) / 100)}`}
+                      type="text"
+                      defaultValue={formatNumberForEdit(Math.round(r.total * 100) / 100)}
+                      placeholder="auto"
+                      title="Afrondingsbedrag invullen (vaste sluitpost); leegmaken = automatisch afronden"
+                      onBlur={e => handleAfrondingChange(r.id, e.target.value, formatNumberForEdit(Math.round(r.total * 100) / 100))}
+                      onKeyDown={e => { if (e.key === 'Enter') { handleAfrondingChange(r.id, (e.target as HTMLInputElement).value, formatNumberForEdit(Math.round(r.total * 100) / 100)); (e.target as HTMLInputElement).blur(); } }}
+                      style={{ width: 80, textAlign: 'right', border: '1px solid var(--theme-border)', borderRadius: 3, padding: '1px 4px', background: 'var(--theme-bg)', color: 'var(--theme-editable-text, var(--theme-text))', fontSize: 'inherit', fontFamily: 'inherit' }}
+                    />
+                  </span>
                 ) : r.rowType === 'excl_doel' && r.id ? (
                   <input
                     key={`eind-${formatNumberForEdit(Math.round(r.total * 100) / 100)}`}

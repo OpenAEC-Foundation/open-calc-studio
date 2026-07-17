@@ -94,10 +94,10 @@ describe('computeStaartItemBreakdowns', () => {
     expect(btw?.staartItemBreakdown?.totaal).toBeCloseTo(121000, 2);
   });
 
-  it('afronding werkt op het excl-bedrag; btw rekent over het afgeronde excl', () => {
-    // De afronding hoort bij het excl.-blok: eerst excl afronden
-    // (100000.456 → 100000.46), daarna btw over het afgeronde bedrag —
-    // ongeacht waar de btw-regel in de volgorde staat.
+  it('afronding rondt standaard op € 10; btw rekent over het afgeronde excl', () => {
+    // De afronding hoort bij het excl.-blok: eerst excl afronden op de
+    // standaardstap van € 10 (100000.456 → 100000), daarna btw over het
+    // afgeronde bedrag — ongeacht waar de btw-regel in de volgorde staat.
     const items: CostItem[] = [
       mkRegel('arbeid', 100000.456),
       mkStaart('staart_btw', 21),
@@ -105,11 +105,21 @@ describe('computeStaartItemBreakdowns', () => {
     ];
     const result = computeStaartItemBreakdowns(items);
     const af = result.find(i => i.rowType === 'staart_afronding');
-    expect(af?.staartItemBreakdown?.subtotaal).toBeCloseTo(0.004, 4);
-    expect(af?.staartItemBreakdown?.totaal).toBeCloseTo(100000.46, 2);
+    expect(af?.staartItemBreakdown?.subtotaal).toBeCloseTo(-0.456, 3);
+    expect(af?.staartItemBreakdown?.totaal).toBeCloseTo(100000, 2);
     const btw = result.find(i => i.rowType === 'staart_btw');
-    expect(btw?.staartItemBreakdown?.bedrag).toBeCloseTo(100000.46, 2);
-    expect(btw?.staartItemBreakdown?.totaal).toBeCloseTo(100000.46 * 1.21, 2);
+    expect(btw?.staartItemBreakdown?.bedrag).toBeCloseTo(100000, 2);
+    expect(btw?.staartItemBreakdown?.totaal).toBeCloseTo(121000, 2);
+  });
+
+  it('afrondingsstap is instelbaar (op € 100)', () => {
+    const af = mkStaart('staart_afronding', null);
+    af.staartAfrondingStap = 100;
+    const items: CostItem[] = [mkRegel('arbeid', 56669.51), af];
+    const result = computeStaartItemBreakdowns(items);
+    const r = result.find(i => i.rowType === 'staart_afronding');
+    expect(r?.staartItemBreakdown?.totaal).toBeCloseTo(56700, 2);
+    expect(r?.staartItemBreakdown?.subtotaal).toBeCloseTo(30.49, 2);
   });
 
   it('doelbedrag = eindbedrag excl. btw incl. opslagen; btw volgt erover', () => {

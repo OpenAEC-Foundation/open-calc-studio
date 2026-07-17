@@ -61,6 +61,12 @@ export interface CostItem {
    */
   staartVastBedrag?: number | null;
 
+  /**
+   * Alleen op staart_afronding: stap voor het automatisch afronden van het
+   * totaal excl. btw (bv. 10 = op tientallen). undefined = € 10.
+   */
+  staartAfrondingStap?: number | null;
+
   // Normberekening (alleen voor 'regel' rijen)
   normQuantity: number | null;
   normFactor: number | null;
