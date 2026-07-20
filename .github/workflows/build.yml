@@ -46,7 +46,7 @@ jobs:
           - platform: ubuntu-22.04
             rust-target: x86_64-unknown-linux-gnu
             label: Linux
-            args: --bundles deb,rpm
+            args: --bundles appimage,deb,rpm
           - platform: macos-latest
             rust-target: aarch64-apple-darwin
             label: macOS (ARM)
