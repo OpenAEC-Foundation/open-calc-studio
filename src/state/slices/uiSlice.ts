@@ -132,9 +132,8 @@ export const createUiSlice: StateCreator<UiSlice> = (set, get) => ({
     set({ uiZoom: z });
   },
   setActiveContentTab: (activeContentTab) => {
-    // Offerte is volwaardig onderdeel; alleen pdf/viewer3d zijn nog experimenteel.
     const HIDE_EXP = import.meta.env.VITE_HIDE_EXPERIMENTAL === 'true';
-    if (HIDE_EXP && (['pdf', 'viewer3d'] as ContentTab[]).includes(activeContentTab)) {
+    if (HIDE_EXP && (['pdf', 'viewer3d', 'offerte'] as ContentTab[]).includes(activeContentTab)) {
       set({ activeContentTab: 'grid' });
       return;
     }

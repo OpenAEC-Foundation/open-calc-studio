@@ -41,7 +41,6 @@ export function OfferteView() {
   const moveLayerDown = useAppStore(s => s.moveLayerDown);
   const linkSectionItemToCostItem = useAppStore(s => s.linkSectionItemToCostItem);
   const unlinkSectionItemFromCostItem = useAppStore(s => s.unlinkSectionItemFromCostItem);
-  const syncSectiesMetHoofdstukken = useAppStore(s => s.syncSectiesMetHoofdstukken);
   const items = useAppStore(s => s.items);
   const addImage = useAppStore(s => s.addImage);
   const removeImage = useAppStore(s => s.removeImage);
@@ -70,13 +69,6 @@ export function OfferteView() {
     () => items.filter(i => i.rowType === 'chapter' && i.depth === 0),
     [items]
   );
-
-  // Kostinformatie naast het tekstdeel: totaal van het gekoppelde hoofdstuk.
-  const chapterTotalOf = (chapterId: string | null): number | null => {
-    if (!chapterId) return null;
-    const ch = chapters.find(c => c.id === chapterId);
-    return ch ? ch.total : null;
-  };
 
   const totalTermijnen = offerte.betalingstermijnen.reduce((sum, term) => sum + term.percentage, 0);
 
@@ -126,9 +118,6 @@ export function OfferteView() {
                 {sec.type === 'technisch' ? '🔧' : sec.type === 'opties' ? '➕' : sec.type === 'meerwerk' ? '🔨' : sec.type === 'opdrachtgever' ? '👤' : sec.type === 'betalingstermijnen' ? '💰' : sec.type === 'garanties' ? '🛡️' : '📄'}
               </span>
               <span className="nav-label">{sec.titel}</span>
-              {sec.linkedChapterId && chapterTotalOf(sec.linkedChapterId) !== null && (
-                <span className="nav-amount">{formatCurrency(chapterTotalOf(sec.linkedChapterId)!)}</span>
-              )}
               <div className="nav-actions">
                 <button className="nav-btn" onClick={e => { e.stopPropagation(); moveSectionUp(sec.id); }} disabled={idx === 0}>↑</button>
                 <button className="nav-btn" onClick={e => { e.stopPropagation(); moveSectionDown(sec.id); }} disabled={idx === offerte.secties.length - 1}>↓</button>
@@ -179,16 +168,6 @@ export function OfferteView() {
               <option value="opdrachtgever">{t("offerte.clientArranged")}</option>
               <option value="vrij">{t("offerte.freeSection")}</option>
             </select>
-            <button
-              className="offerte-sync-btn"
-              title="Maak per hoofdstuk uit de begroting een sectie met een eigen tekstdeel; bestaande gekoppelde secties blijven staan"
-              onClick={() => {
-                const n = syncSectiesMetHoofdstukken();
-                if (n === 0) window.alert('Alle hoofdstukken hebben al een gekoppelde sectie.');
-              }}
-            >
-              ⇪ Hoofdstukken uit begroting overnemen
-            </button>
           </div>
         </div>
 
@@ -262,11 +241,6 @@ export function OfferteView() {
                     <option key={ch.id} value={ch.id}>{ch.description}</option>
                   ))}
                 </select>
-                {chapterTotalOf(activeSection.linkedChapterId) !== null && (
-                  <span className="section-chapter-total" title="Totaal van het gekoppelde hoofdstuk uit de begroting">
-                    {formatCurrency(chapterTotalOf(activeSection.linkedChapterId)!)}
-                  </span>
-                )}
               </div>
 
               <textarea

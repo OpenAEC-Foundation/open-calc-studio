@@ -254,39 +254,3 @@ h4 { font-size: 13px; font-weight: 600; color: var(--theme-text); margin: 12px 0
   cursor: pointer; font-size: 11px; padding: 2px;
 }
 .offerte-subitem-row button:hover { color: var(--theme-danger); }
-
-/* Hoofdstukken uit de begroting overnemen als secties */
-.offerte-sync-btn {
-  display: block;
-  width: 100%;
-  margin-top: 6px;
-  padding: 5px 8px;
-  border: 1px dashed var(--theme-border);
-  border-radius: 4px;
-  background: none;
-  color: var(--theme-text-secondary);
-  font-size: 11px;
-  font-family: inherit;
-  cursor: pointer;
-  text-align: center;
-}
-.offerte-sync-btn:hover {
-  border-color: var(--theme-accent, #D97706);
-  color: var(--theme-text);
-}
-
-/* Kostinformatie naast het tekstdeel van een gekoppelde sectie */
-.section-chapter-total {
-  margin-left: 8px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--theme-accent, #D97706);
-  white-space: nowrap;
-}
-.offerte-nav-item .nav-amount {
-  margin-left: auto;
-  margin-right: 4px;
-  font-size: 10px;
-  color: var(--theme-text-secondary);
-  white-space: nowrap;
-}

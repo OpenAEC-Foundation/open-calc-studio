@@ -30,7 +30,7 @@ export function SubSheetTabBar() {
   const budgetActive = activeContentTab === 'grid';
 
   /** Navigate to a non-spreadsheet content view (clears active sub-sheet). */
-  const goTo = (tab: 'grid' | 'urenstaart' | 'rapport' | 'offerte' | 'ifc') => {
+  const goTo = (tab: 'grid' | 'urenstaart' | 'rapport' | 'ifc') => {
     setActiveSubSheet(null);
     setActiveContentTab(tab);
   };
@@ -78,12 +78,6 @@ export function SubSheetTabBar() {
         onClick={() => goTo('rapport')}
       >
         {t('wpcalc.tabReport')}
-      </button>
-      <button
-        className={`subsheet-tab subsheet-tab-main${activeContentTab === 'offerte' ? ' active' : ''}`}
-        onClick={() => goTo('offerte')}
-      >
-        Offerte
       </button>
 
       {/* Spreadsheet: one tab per sub-sheet (or a starter tab when none exist) */}
