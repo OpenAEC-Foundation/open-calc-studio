@@ -63,6 +63,13 @@
   flex-shrink: 0;
 }
 
+/* Som/aantal/gemiddelde van een celselectie — verschijnt en verdwijnt mee
+   met de selectie, dus niet laten meeschuiven met de rest van de balk. */
+.status-selection {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 /* Zoom control */
 .status-zoom {
   display: flex;

@@ -1,8 +1,11 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppStore } from "../../state/appStore";
-import { formatCurrency } from "../../utils/formatting";
+import { formatCurrency, formatNumber } from "../../utils/formatting";
 import { getGrandTotal } from "../../services/calculation/calculator";
+import { getColumnsForView } from "../grid/gridConstants";
+import { summarizeCellSelection, needsResourceTotals } from "../../services/grid/cellValue";
+import { computeResourceTotals } from "../../services/grid/resourceTotals";
 import "./StatusBar.css";
 
 const ZOOM_PRESETS = [50, 75, 100, 125, 150, 175, 200];
@@ -100,6 +103,60 @@ function ZoomControl() {
   );
 }
 
+/** Excel-achtige samenvatting van een celselectie: som, aantal en gemiddelde. */
+function SelectionSummary() {
+  const items = useAppStore((s) => s.items);
+  const gridView = useAppStore((s) => s.gridView);
+  const branchesEnabled = useAppStore((s) => s.schedule.branchesEnabled ?? false);
+  const cellSelectionStart = useAppStore((s) => s.cellSelectionStart);
+  const cellSelectionEnd = useAppStore((s) => s.cellSelectionEnd);
+  const getGridRows = useAppStore((s) => s.getGridRows);
+
+  const summary = useMemo(() => {
+    if (!cellSelectionStart || !cellSelectionEnd) return null;
+    // Eén enkele cel: geen som tonen (dat is alleen ruis in de balk).
+    const cells =
+      (Math.abs(cellSelectionEnd.row - cellSelectionStart.row) + 1) *
+      (Math.abs(cellSelectionEnd.col - cellSelectionStart.col) + 1);
+    if (cells < 2) return null;
+
+    const columns = getColumnsForView(gridView, branchesEnabled);
+    const minCol = Math.min(cellSelectionStart.col, cellSelectionEnd.col);
+    const maxCol = Math.max(cellSelectionStart.col, cellSelectionEnd.col);
+    // Resource-uitsplitsing alleen berekenen als er ook zo'n kolom in de
+    // selectie zit — die walk over alle items is te duur voor elke sleep.
+    const rt = needsResourceTotals(columns, minCol, maxCol)
+      ? computeResourceTotals(items)
+      : undefined;
+
+    const s = summarizeCellSelection(getGridRows(), columns, cellSelectionStart, cellSelectionEnd, rt);
+    return s.count > 0 ? s : null;
+  }, [items, gridView, branchesEnabled, cellSelectionStart, cellSelectionEnd, getGridRows]);
+
+  if (!summary) return null;
+  const fmt = (n: number) => (summary.currency ? formatCurrency(n) : formatNumber(n));
+
+  return (
+    <>
+      <div className="status-item status-selection">
+        <span className="status-item-label">Som:</span>
+        <span className="status-item-value" style={{ fontWeight: 600 }}>{fmt(summary.sum)}</span>
+      </div>
+      <div className="status-separator" />
+      <div className="status-item status-selection">
+        <span className="status-item-label">Aantal:</span>
+        <span className="status-item-value">{summary.count}</span>
+      </div>
+      <div className="status-separator" />
+      <div className="status-item status-selection">
+        <span className="status-item-label">Gem.:</span>
+        <span className="status-item-value">{fmt(summary.sum / summary.count)}</span>
+      </div>
+      <div className="status-separator" />
+    </>
+  );
+}
+
 export default function StatusBar() {
   const { t } = useTranslation();
   const { items, activeRow, activeCol, schedule, setActiveBranch } = useAppStore();
@@ -143,6 +200,7 @@ export default function StatusBar() {
       </div>
 
       <div className="status-bar-right">
+        <SelectionSummary />
         <div className="status-item">
           <span className="status-item-label">{t("total")}:</span>
           <span className="status-item-value" style={{ fontWeight: 600 }}>{formatCurrency(grandTotal)}</span>
