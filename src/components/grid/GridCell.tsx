@@ -150,9 +150,18 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
         return (isBgr || isBwk || isRegel || rt === 'tekstregel') ? String(item.unit ?? '') : '';
       case 'verrekenbaar':
         return rt === 'chapter' ? (item.verrekenbaar ?? '') : '';
-      case 'normUnitPrice':
-        // Prijs per middel alleen op rekenregel
-        return isRegel ? formatCurrency(item.normUnitPrice) : '';
+      case 'normUnitPrice': {
+        if (isRegel) return formatCurrency(item.normUnitPrice);
+        if (isBgr || isBwk) {
+          // Eigen prijs van een (bewakings)post: prijs/middel, plus een
+          // eventueel geïmporteerd materiaal-/loonbedrag (BasCalc pint de
+          // postprijs daar) — anders is er wél een totaal maar geen
+          // zichtbare eenheidsprijs.
+          const eigen = (item.normUnitPrice ?? 0) + (item.materialPrice ?? 0) + (item.laborPrice ?? 0);
+          return eigen !== 0 ? formatCurrency(eigen) : '';
+        }
+        return '';
+      }
       case 'unitPrice':
         // Eenheidsprijs: op regel, bewakingspost, begrotingspost
         return (isRegel || isBwk || isBgr) ? formatCurrency(item.unitPrice) : '';

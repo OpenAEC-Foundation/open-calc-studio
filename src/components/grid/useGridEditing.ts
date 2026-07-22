@@ -64,6 +64,14 @@ export function useGridEditing() {
           const parsed = parseNumericInput(value);
           // Ongeldige (niet-lege) invoer wist de waarde niet
           if (parsed === null && value.trim() !== '') break;
+          // Post-prijs: de Prijs-kolom is dé eigen prijs van een
+          // (bewakings)post. Een geïmporteerd materiaal-/loonbedrag wissen
+          // we mee, anders telt de oude prijs dubbel op bij de nieuwe.
+          if (fieldKey === 'normUnitPrice'
+            && (item.rowType === 'begrotingspost' || item.rowType === 'bewakingspost')) {
+            if (item.materialPrice != null) updateItem(item.id, 'materialPrice', null);
+            if (item.laborPrice != null) updateItem(item.id, 'laborPrice', null);
+          }
           updateItem(item.id, fieldKey, parsed);
           break;
         }

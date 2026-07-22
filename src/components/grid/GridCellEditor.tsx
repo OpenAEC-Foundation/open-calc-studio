@@ -65,6 +65,14 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
     const keyMap: Record<string, string> = { productienorm: 'normQuantity', productiecapaciteit: 'normFactor', hoeveelheid: 'quantity' };
     const fieldKey = keyMap[col.key] ?? col.key;
     const raw = item[fieldKey as keyof CostItem];
+    // Post-prijs: als de eigen prijs in materiaal/loon zit (BasCalc-import),
+    // start de editor met die effectieve prijs zodat je hem kunt aanpassen.
+    if (col.key === 'normUnitPrice'
+      && (item.rowType === 'begrotingspost' || item.rowType === 'bewakingspost')
+      && (raw === null || raw === undefined)) {
+      const eigen = (item.materialPrice ?? 0) + (item.laborPrice ?? 0);
+      if (eigen !== 0) return formatNumberForEdit(eigen);
+    }
     if (raw === null || raw === undefined) return '';
     if (col.type === 'currency' || col.type === 'number' || col.type === 'computed') {
       // NL-notatie (komma), zodat een ongewijzigde commit exact round-tript;

@@ -52,4 +52,31 @@ describe('eigen prijs op een (bewakings)post telt door', () => {
     expect(s().items.find(i => i.id === bw)!.total).toBe(150);
     expect(s().items.find(i => i.id === post)!.total).toBe(150);
   });
+
+  it('BasCalc-import: postprijs gepind in materialPrice telt door', () => {
+    // Praktijkgeval 2.02.02 "Ontgraven ... vloeistofdichte vloer":
+    // 81 m³ × 15,319024 (materialPrice), normUnitPrice leeg, met een lege
+    // bewakingspost eronder → totaal 1.240,84.
+    const ch = s().addChapter(null);
+    const post = s().addItem(ch);
+    s().updateItem(post, 'quantity', 81);
+    s().updateItem(post, 'materialPrice', 15.319024);
+    s().addBewakingspost(post);
+    expect(s().items.find(i => i.id === post)!.total).toBeCloseTo(1240.84, 2);
+  });
+
+  it('prijs-edit op zo\'n post vervangt de gepinde materiaal/loon-prijs (geen dubbeltelling)', () => {
+    // Gedrag van useGridEditing bij een commit op de Prijs-kolom van een
+    // (bewakings)post: materialPrice/laborPrice worden gewist en de nieuwe
+    // waarde landt in normUnitPrice.
+    const ch = s().addChapter(null);
+    const post = s().addItem(ch);
+    s().updateItem(post, 'quantity', 81);
+    s().updateItem(post, 'materialPrice', 15.319024);
+    s().updateItem(post, 'materialPrice', null);
+    s().updateItem(post, 'normUnitPrice', 16);
+    const p = s().items.find(i => i.id === post)!;
+    expect(p.total).toBe(81 * 16);
+    expect(p.materialPrice).toBeNull();
+  });
 });
