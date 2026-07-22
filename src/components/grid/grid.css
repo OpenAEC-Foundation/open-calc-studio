@@ -373,21 +373,54 @@ select.grid-cell-editor option {
   font-weight: 700;
 }
 
+/* In-/uitklappen: één chevron die roteert in plaats van twee losse iconen,
+   met een duidelijk klikvlak. Stond eerder op cursor:default zonder enige
+   hover-terugkoppeling, waardoor hij niet als knop las. */
 .grid-collapse-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 14px;
   height: 14px;
+  padding: 0;
   border: none;
+  border-radius: 3px;
   background: transparent;
   color: var(--theme-text-secondary);
-  cursor: default;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-right: 2px;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.grid-collapse-btn svg {
+  transition: transform 0.12s ease;
+}
+
+/* Ingeklapt: chevron wijst naar rechts */
+.grid-collapse-btn.is-collapsed svg {
+  transform: rotate(-90deg);
+}
+
+.grid-collapse-btn:hover {
+  color: var(--theme-text);
+  background: var(--theme-hover, rgba(127, 127, 127, 0.18));
+}
+
+.grid-collapse-btn:focus-visible {
+  outline: 1px solid var(--theme-accent, #D97706);
+  outline-offset: 0;
+}
+
+/* Containerrij zonder inhoud: plek vrijhouden zodat de omschrijving van
+   rij tot rij op dezelfde x-positie blijft staan. */
+.grid-collapse-spacer {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
   flex-shrink: 0;
   margin-right: 2px;
 }
-
-.grid-collapse-btn:hover { color: var(--theme-text); }
 
 .grid-excel-link-icon {
   flex-shrink: 0;

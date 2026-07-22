@@ -12,7 +12,7 @@ import { useGridEditing } from './useGridEditing';
 import { useAppStore } from '@/state/appStore';
 import { ROW_HEIGHT, getColumnsForView, isCellEditable, isColumnHidden } from './gridConstants';
 import { getGrandTotal } from '@/services/calculation/calculator';
-import { isFooterRow } from '@/services/grid/gridRows';
+import { isFooterRow, computeParentIds } from '@/services/grid/gridRows';
 import { computeResourceTotals } from '@/services/grid/resourceTotals';
 import { computeHideTotalSet } from '@/services/grid/hideTotal';
 import { isItemChangedSince, changedFieldsSince } from '@/services/history/itemHistory';
@@ -369,6 +369,10 @@ export const CostGrid: React.FC = () => {
   );
 
   const hideTotalSet = useMemo(() => computeHideTotalSet(items), [items]);
+  // Welke rijen hebben daadwerkelijk iets onder zich? Alleen die krijgen een
+  // klikbare chevron; lege posten houden de plek vrij zodat de omschrijving
+  // niet per rij verspringt.
+  const parentIds = useMemo(() => computeParentIds(items), [items]);
 
   // Zoeken & vervangen (Ctrl+F) — zwevend paneel rechtsboven in het grid
   const [showFindReplace, setShowFindReplace] = useState(false);
@@ -512,6 +516,7 @@ export const CostGrid: React.FC = () => {
                     ? [...changedFieldsSince(item, changeTrackingSince)].sort().join(',')
                     : undefined}
                   hideTotal={hideTotalSet.has(item.id)}
+                  hasChildren={parentIds.has(item.id)}
                   rowHeight={getRowHeight(rowIndex)}
                   columns={columns}
                   columnWidths={effectiveColumnWidths}

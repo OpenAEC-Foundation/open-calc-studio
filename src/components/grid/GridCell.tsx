@@ -14,6 +14,8 @@ interface Props {
   isActive: boolean;
   isCellSelected?: boolean;
   hideTotal: boolean;
+  /** Heeft deze rij onderliggende rijen? Bepaalt of de chevron klikbaar is. */
+  hasChildren?: boolean;
   isChapterFooter?: boolean;
   resourceTotals?: Record<string, number>;
   /** Cel-niveau wijzigingsmarkering: deze cel is gewijzigd sinds bijhouden aan staat. */
@@ -21,7 +23,7 @@ interface Props {
   onToggleCollapse?: () => void;
 }
 
-export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, rowIndex, isActive, isCellSelected, hideTotal, isChapterFooter, resourceTotals, isChangedCell, onToggleCollapse }) => {
+export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, rowIndex, isActive, isCellSelected, hideTotal, hasChildren, isChapterFooter, resourceTotals, isChangedCell, onToggleCollapse }) => {
   const gridView = useAppStore((s) => s.gridView);
   const items = useAppStore((s) => s.items);
 
@@ -332,21 +334,28 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
         ) : undefined,
       }}
     >
+      {/* Containerrijen houden de plek van de chevron altijd vrij, ook als er
+          niets onder hangt — anders verspringt de omschrijving per rij. Alleen
+          rijen die echt iets bevatten krijgen een klikbare knop. */}
       {isDescCol && canCollapse && (
-        <button
-          className="grid-collapse-btn"
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleCollapse?.();
-          }}
-        >
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            {item.isCollapsed
-              ? <polyline points="3,2 7,5 3,8" />
-              : <polyline points="2,3 5,7 8,3" />
-            }
-          </svg>
-        </button>
+        hasChildren ? (
+          <button
+            className={`grid-collapse-btn${item.isCollapsed ? ' is-collapsed' : ''}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleCollapse?.();
+            }}
+            title={item.isCollapsed ? 'Uitklappen' : 'Inklappen'}
+            aria-label={item.isCollapsed ? 'Uitklappen' : 'Inklappen'}
+            aria-expanded={!item.isCollapsed}
+          >
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polyline points="2,3 5,7 8,3" />
+            </svg>
+          </button>
+        ) : (
+          <span className="grid-collapse-spacer" aria-hidden="true" />
+        )
       )}
       {showExcelIcon && (
         <svg className="grid-excel-link-icon" width="10" height="10" viewBox="0 0 16 16" fill="currentColor">

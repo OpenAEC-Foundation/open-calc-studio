@@ -18,6 +18,21 @@ export function isFooterRow(id: string): boolean {
   return id.startsWith('footer:');
 }
 
+/**
+ * De ids van alle rijen die daadwerkelijk onderliggende rijen hebben.
+ *
+ * Het grid liet op élke containerrij een chevron zien, ook op lege posten.
+ * Die wees dan "uitgeklapt" terwijl er niets onder zat en klikken deed niets —
+ * juist in geïmporteerde begrotingen, waar lege bewakingsposten veel voorkomen.
+ */
+export function computeParentIds(items: CostItem[]): Set<string> {
+  const set = new Set<string>();
+  for (const item of items) {
+    if (item.parentId) set.add(item.parentId);
+  }
+  return set;
+}
+
 /** Create a synthetic chapter footer item for totals row */
 export function makeChapterFooter(chapterId: string): CostItem {
   return {

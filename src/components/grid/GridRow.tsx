@@ -27,6 +27,8 @@ interface Props {
   /** Komma-gescheiden veldnamen die gewijzigd zijn (voor cel-modus). */
   changedFields?: string;
   hideTotal: boolean;
+  /** Heeft deze rij onderliggende rijen? Bepaalt of de chevron klikbaar is. */
+  hasChildren?: boolean;
   isChapterFooter?: boolean;
   rowHeight: number;
   columns: GridColumn[];
@@ -49,7 +51,7 @@ interface Props {
 }
 
 export const GridRow: React.FC<Props> = React.memo(
-  ({ item, rowIndex, activeRow, activeCol, isSelected, isChanged, changeMode, changedFields, hideTotal, isChapterFooter, rowHeight, columns, columnWidths, resourceTotals, cellSelectionMinRow, cellSelectionMaxRow, cellSelectionMinCol, cellSelectionMaxCol, dropHintPosition, isDragging, onCellClick, onCellDoubleClick, onCellMouseDown, onCellMouseEnter, onToggleCollapse, onAddRow, onPointerDownRow }) => {
+  ({ item, rowIndex, activeRow, activeCol, isSelected, isChanged, changeMode, changedFields, hideTotal, hasChildren, isChapterFooter, rowHeight, columns, columnWidths, resourceTotals, cellSelectionMinRow, cellSelectionMaxRow, cellSelectionMinCol, cellSelectionMaxCol, dropHintPosition, isDragging, onCellClick, onCellDoubleClick, onCellMouseDown, onCellMouseEnter, onToggleCollapse, onAddRow, onPointerDownRow }) => {
     const { t } = useTranslation();
     const isActiveRow = rowIndex === activeRow;
     // Cel-modus: alleen de gewijzigde cellen kleuren; rij-modus: de hele regel.
@@ -120,6 +122,7 @@ export const GridRow: React.FC<Props> = React.memo(
                 isActive={isActiveRow && colIndex === activeCol}
                 isCellSelected={isCellInSelection}
                 hideTotal={hideTotal}
+                hasChildren={hasChildren}
                 isChapterFooter={isChapterFooter}
                 resourceTotals={resourceTotals}
                 isChangedCell={!!changedSet?.has(colToField(col.key))}
@@ -148,6 +151,7 @@ export const GridRow: React.FC<Props> = React.memo(
     prev.changeMode === next.changeMode &&
     prev.changedFields === next.changedFields &&
     prev.hideTotal === next.hideTotal &&
+    prev.hasChildren === next.hasChildren &&
     prev.isChapterFooter === next.isChapterFooter &&
     prev.rowHeight === next.rowHeight &&
     prev.columns === next.columns &&
