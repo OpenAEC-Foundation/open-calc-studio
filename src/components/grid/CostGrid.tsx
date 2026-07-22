@@ -14,6 +14,7 @@ import { ROW_HEIGHT, getColumnsForView, isCellEditable, isColumnHidden } from '.
 import { getGrandTotal } from '@/services/calculation/calculator';
 import { isFooterRow } from '@/services/grid/gridRows';
 import { computeResourceTotals } from '@/services/grid/resourceTotals';
+import { computeHideTotalSet } from '@/services/grid/hideTotal';
 import { isItemChangedSince, changedFieldsSince } from '@/services/history/itemHistory';
 import { formatCurrency } from '@/utils/formatting';
 import type { CostItem, ExcelLink, Branch } from '@/types/costModel';
@@ -367,27 +368,7 @@ export const CostGrid: React.FC = () => {
     [visibleItems, startIndex, endIndex]
   );
 
-  // Hide total on container rows that have exactly one container child with the same total
-  const hideTotalSet = useMemo(() => {
-    const set = new Set<string>();
-    const childrenMap = new Map<string, typeof items>();
-    for (const item of items) {
-      if (item.parentId) {
-        const list = childrenMap.get(item.parentId) ?? [];
-        list.push(item);
-        childrenMap.set(item.parentId, list);
-      }
-    }
-    for (const item of items) {
-      if (item.rowType !== 'chapter' && item.rowType !== 'begrotingspost') continue;
-      const children = (childrenMap.get(item.id) ?? [])
-        .filter(c => c.rowType !== 'tekstregel' && c.rowType !== 'witregel');
-      if (children.length === 1 && Math.abs(children[0].total - item.total) < 0.01) {
-        set.add(item.id);
-      }
-    }
-    return set;
-  }, [items]);
+  const hideTotalSet = useMemo(() => computeHideTotalSet(items), [items]);
 
   // Zoeken & vervangen (Ctrl+F) — zwevend paneel rechtsboven in het grid
   const [showFindReplace, setShowFindReplace] = useState(false);
