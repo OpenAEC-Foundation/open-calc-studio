@@ -101,8 +101,32 @@ jobs:
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # macOS: ondertekenen en notariseren. Zonder deze stap merkt
+          # Gatekeeper de download als niet-vertrouwd en meldt hij dat de app
+          # "beschadigd" is, waarna gebruikers hem niet kunnen starten.
+          # De bundler slaat dit over zolang de secrets niet gezet zijn, dus
+          # builds blijven werken zonder Apple-account.
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         with:
           args: --target ${{ matrix.rust-target }} ${{ matrix.args || '' }}
+
+      # Controleert of de .dmg daadwerkelijk door Gatekeeper komt. Faalt de
+      # build niet op — bij ontbrekende secrets is "rejected" het verwachte
+      # resultaat en dient de uitvoer als zichtbare bevestiging daarvan.
+      - name: Verify macOS notarization
+        if: runner.os == 'macOS'
+        continue-on-error: true
+        run: |
+          for dmg in src-tauri/target/${{ matrix.rust-target }}/release/bundle/dmg/*.dmg; do
+            [ -e "$dmg" ] || continue
+            echo "== $dmg"
+            spctl -a -t open --context context:primary-signature -v "$dmg" || true
+          done
 
       # ── Sign Windows binaries ──────────────────────────────
       - name: Sign Windows exe
@@ -207,4 +231,14 @@ jobs:
             - **Windows:** `.exe` (NSIS installer) / `.msi`
             - **macOS:** `.dmg` (Apple Silicon)
             - **Linux:** `.AppImage` / `.deb` / `.rpm`
+
+            **macOS: "Open Calc Studio is damaged and can't be opened"**
+
+            Deze melding komt van Gatekeeper wanneer de download niet
+            ondertekend en genotariseerd is; de app zelf is niet beschadigd.
+            Verwijder in dat geval het quarantaine-kenmerk:
+
+            ```sh
+            sudo xattr -cr '/Applications/Open Calc Studio.app/'
+            ```
           files: release/*
