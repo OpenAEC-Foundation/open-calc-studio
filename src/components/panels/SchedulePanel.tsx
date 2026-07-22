@@ -5,8 +5,9 @@ import './panels.css';
 
 export const SchedulePanel: React.FC = () => {
   const { t } = useTranslation();
-  const { items, schedule, activeRow, setActiveCell, toggleCollapse, getVisibleItems } = useAppStore();
-  const visibleItems = getVisibleItems();
+  // Gerenderde rijenlijst: hoofdstuk-klik moet naar de grid-rij-index springen.
+  const { items, schedule, activeRow, setActiveCell, toggleCollapse, getGridRows } = useAppStore();
+  const visibleItems = getGridRows();
   const chapters = items.filter((i) => i.rowType === 'chapter');
 
   return (
@@ -21,7 +22,7 @@ export const SchedulePanel: React.FC = () => {
             key={chapter.id}
             className={`schedule-item${visIdx === activeRow ? ' active' : ''}`}
             style={{ paddingLeft: chapter.depth * 12 + 8 }}
-            onClick={() => visIdx >= 0 && setActiveCell(visIdx, 1)}
+            onClick={() => visIdx >= 0 && setActiveCell(visIdx, 1, chapter.id)}
           >
             <button
               className="grid-collapse-btn"

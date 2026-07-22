@@ -1,6 +1,7 @@
 import type { StateCreator } from 'zustand';
 import type { CostItem } from '@/types/costModel';
 import { recalculateItems } from '@/services/calculation/calculator';
+import { isFooterRow } from '@/services/grid/gridRows';
 
 export interface ClipboardSlice {
   clipboardItems: CostItem[];
@@ -19,12 +20,18 @@ export const createClipboardSlice: StateCreator<ClipboardSlice> = (set, get) => 
 
   pasteItems: () => {
     const state = get() as any; // full AppStore at runtime
-    const { clipboardItems, clipboardMode, items, activeRow } = state;
+    const { clipboardItems, clipboardMode, items, activeRow, activeItemId } = state;
     if (!clipboardItems || clipboardItems.length === 0) return;
 
-    // Determine visible items to find the active item
-    const visibleItems: CostItem[] = state.getVisibleItems();
-    const activeItem: CostItem | undefined = visibleItems[activeRow];
+    // Het actieve item op identiteit (activeItemId hoort bij de geselecteerde
+    // grid-rij); rij-index alleen als fallback en dan via de gerenderde
+    // rijenlijst — getVisibleItems() kent de footerrijen niet en wees dan
+    // een verkeerd plak-doel aan.
+    const gridRows: CostItem[] = state.getGridRows();
+    const rowItem = gridRows[activeRow];
+    const activeItem: CostItem | undefined =
+      (activeItemId ? items.find((i: CostItem) => i.id === activeItemId) : undefined)
+      ?? (rowItem && !isFooterRow(rowItem.id) ? rowItem : undefined);
 
     // Clone clipboard items with new IDs
     const idMap = new Map<string, string>();

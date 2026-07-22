@@ -12,6 +12,7 @@ import { useGridEditing } from './useGridEditing';
 import { useAppStore } from '@/state/appStore';
 import { ROW_HEIGHT, getColumnsForView, isCellEditable, isColumnHidden } from './gridConstants';
 import { getGrandTotal } from '@/services/calculation/calculator';
+import { isFooterRow } from '@/services/grid/gridRows';
 import { isItemChangedSince, changedFieldsSince } from '@/services/history/itemHistory';
 import { formatCurrency } from '@/utils/formatting';
 import type { CostItem, ExcelLink, Branch } from '@/types/costModel';
@@ -104,38 +105,6 @@ function computeResourceTotals(items: CostItem[]): Map<string, Record<string, nu
   return map;
 }
 
-/** Create a synthetic chapter footer item for totals row */
-function makeChapterFooter(chapterId: string): CostItem {
-  return {
-    id: `footer:${chapterId}`,
-    parentId: chapterId,
-    sortOrder: 999999,
-    code: '',
-    description: '+',
-    unit: 'st',
-    quantity: null,
-    materialPrice: null,
-    laborPrice: null,
-    unitPrice: 0,
-    total: 0,
-    isCollapsed: false,
-    depth: 0,
-    notes: '',
-    ifcGuid: '',
-    rowType: 'tekstregel',  // will be styled differently via chapterFooterIds
-    staartPercentage: null,
-    nr: '',
-    normQuantity: null,
-    normFactor: null,
-    normDivisor: null,
-    normUnitPrice: null,
-    resourceType: null,
-    resourceLibraryId: null,
-    verrekenbaar: null,
-    tariefGroep: null,
-  };
-}
-
 export const CostGrid: React.FC = () => {
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -160,7 +129,6 @@ export const CostGrid: React.FC = () => {
     setActiveCellExtend,
     startEditing,
     toggleCollapse,
-    getVisibleItems,
     addItem,
     pushHistory,
   } = useAppStore();
@@ -192,86 +160,17 @@ export const CostGrid: React.FC = () => {
 
   const activeBranchId = useAppStore(s => s.schedule.activeBranchId);
   const allBranches = useAppStore(s => s.schedule.branches ?? EMPTY_BRANCHES);
-  const baseVisibleItems = useMemo(() => {
-    let visible = getVisibleItems().filter(i => !i.rowType.startsWith('staart_'));
-    // Branch filter: if activeBranchId set, show only items matching or in ancestor chain
-    if (branchesEnabled && activeBranchId) {
-      // Collect active branch and all ancestors (main chain is always visible)
-      const ancestors = new Set<string>(['main']);
-      let cur: string | null | undefined = activeBranchId;
-      while (cur) {
-        ancestors.add(cur);
-        const b = allBranches.find(b => b.id === cur);
-        cur = b?.parentId;
-      }
-      visible = visible.filter(i => {
-        const bid = i.branchId ?? 'main';
-        return ancestors.has(bid);
-      });
-    }
-    return visible;
-  }, [items, getVisibleItems, branchesEnabled, activeBranchId, allBranches]);
-
-  // In wpcalc view, insert chapter footer rows after each chapter's last visible child
+  const getGridRows = useAppStore(s => s.getGridRows);
+  // DE gerenderde rijenlijst — gedeeld met alle index-consumers (paneel,
+  // plakken, sneltoetsen, zoeken) via dezelfde store-selector, zodat
+  // rij-indices overal hetzelfde item aanwijzen.
   const { visibleItems, chapterFooterIds } = useMemo(() => {
-    if (gridView !== 'wpcalc') return { visibleItems: baseVisibleItems, chapterFooterIds: new Set<string>() };
-
-    const footerIds = new Set<string>();
-    const result: CostItem[] = [];
-
-    // Find which chapters have children in the visible list
-    const chapterLastChild = new Map<string, number>(); // chapterId → last index in baseVisibleItems
-    for (let i = 0; i < baseVisibleItems.length; i++) {
-      const item = baseVisibleItems[i];
-      // Walk up to find the root chapter
-      let rootChapterId: string | null = null;
-      if (item.rowType === 'chapter' && !item.parentId) {
-        rootChapterId = item.id;
-      } else {
-        // Find root chapter via parentId chain
-        let current = item;
-        while (current.parentId) {
-          const parent = items.find(it => it.id === current.parentId);
-          if (!parent) break;
-          if (parent.rowType === 'chapter' && !parent.parentId) {
-            rootChapterId = parent.id;
-            break;
-          }
-          current = parent;
-        }
-      }
-      if (rootChapterId) {
-        chapterLastChild.set(rootChapterId, i);
-      }
-    }
-
-    // Build result with footer rows inserted
-    let currentChapterId: string | null = null;
-    for (let i = 0; i < baseVisibleItems.length; i++) {
-      const item = baseVisibleItems[i];
-
-      // Detect new root chapter
-      if (item.rowType === 'chapter' && !item.parentId) {
-        // Insert footer for previous chapter (if any)
-        if (currentChapterId) {
-          const footer = makeChapterFooter(currentChapterId);
-          footerIds.add(footer.id);
-          result.push(footer);
-        }
-        currentChapterId = item.id;
-      }
-
-      result.push(item);
-    }
-    // Insert footer for last chapter
-    if (currentChapterId) {
-      const footer = makeChapterFooter(currentChapterId);
-      footerIds.add(footer.id);
-      result.push(footer);
-    }
-
-    return { visibleItems: result, chapterFooterIds: footerIds };
-  }, [baseVisibleItems, items, gridView]);
+    const rows = getGridRows();
+    return {
+      visibleItems: rows,
+      chapterFooterIds: new Set<string>(rows.filter(r => isFooterRow(r.id)).map(r => r.id)),
+    };
+  }, [items, getGridRows, gridView, branchesEnabled, activeBranchId, allBranches]);
 
   const handleContextMenu = useCallback(
     (e: React.MouseEvent) => {
@@ -293,8 +192,8 @@ export const CostGrid: React.FC = () => {
       // Correct for CSS zoom: clientX/Y are in viewport coords, but the menu
       // is rendered inside the zoomed container, so divide by zoom factor
       const zoomFactor = gridZoom / 100;
-      // Store the item ID instead of rowIndex to avoid index mismatch
-      // between CostGrid's filtered visibleItems and GridContextMenu's getVisibleItems()
+      // Store the item ID alongside rowIndex — id-lookup is robuust, ook al
+      // delen CostGrid en GridContextMenu inmiddels dezelfde getGridRows-lijst.
       const clickedItem = visibleItems[rowIndex];
       if (!clickedItem) return;
       setContextMenu({ x: e.clientX / zoomFactor, y: e.clientY / zoomFactor, rowIndex, itemId: clickedItem.id });

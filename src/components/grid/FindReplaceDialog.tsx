@@ -19,7 +19,7 @@ export default function FindReplaceDialog({ open, onClose }: Props) {
   const updateItem = useAppStore((s) => s.updateItem);
   const pushHistory = useAppStore((s) => s.pushHistory);
   const setActiveCell = useAppStore((s) => s.setActiveCell);
-  const getVisibleItems = useAppStore((s) => s.getVisibleItems);
+  const getGridRows = useAppStore((s) => s.getGridRows);
 
   const [query, setQuery] = useState('');
   const [replaceWith, setReplaceWith] = useState('');
@@ -61,11 +61,13 @@ export default function FindReplaceDialog({ open, onClose }: Props) {
       parent = items.find((i) => i.id === parent!.parentId);
     }
     requestAnimationFrame(() => {
-      const visible = getVisibleItems();
+      // Rij-index in de gerenderde rijenlijst — met getVisibleItems() zou de
+      // sprong in de WPCalc-weergave (footerrijen) op de verkeerde rij landen.
+      const visible = getGridRows();
       const row = visible.findIndex((i) => i.id === match.id);
       if (row >= 0) setActiveCell(row, 2, match.id);
     });
-  }, [items, updateItem, getVisibleItems, setActiveCell]);
+  }, [items, updateItem, getGridRows, setActiveCell]);
 
   const findNext = useCallback((dir: 1 | -1 = 1) => {
     if (matches.length === 0) return;

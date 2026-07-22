@@ -3,11 +3,12 @@ import { useAppStore } from '@/state/appStore';
 import { getColumnsForView, isCellEditable } from './gridConstants';
 import type { CostUnit } from '@/types/costModel';
 import { getGridCellDisplayValue } from '@/services/clipboard/excelClipboard';
+import { isFooterRow } from '@/services/grid/gridRows';
 
 export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: string; rowType: string }[]) {
   const { activeRow, activeCol, isEditing, setActiveCell, setActiveCellExtend,
     getSelectedRowIndices, startEditing, stopEditing,
-    updateItem, pushHistory, items, copyItems, getVisibleItems, gridView,
+    updateItem, pushHistory, items, copyItems, getGridRows, gridView,
     cellSelectionStart, cellSelectionEnd, schedule } =
     useAppStore();
 
@@ -22,9 +23,11 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
       if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
         e.preventDefault();
 
-        // If there is a cell range selection, copy that range as TSV
+        // If there is a cell range selection, copy that range as TSV.
+        // Cel-selectie-indices zijn grid-rij-indices → via de gerenderde
+        // rijenlijst vertalen; footerrijen slaan we over.
         if (cellSelectionStart && cellSelectionEnd) {
-          const visible = getVisibleItems().filter(i => !i.rowType.startsWith('staart_'));
+          const visible = getGridRows();
           const minRow = Math.min(cellSelectionStart.row, cellSelectionEnd.row);
           const maxRow = Math.max(cellSelectionStart.row, cellSelectionEnd.row);
           const minCol = Math.min(cellSelectionStart.col, cellSelectionEnd.col);
@@ -34,6 +37,7 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
           for (let r = minRow; r <= maxRow; r++) {
             if (r < 0 || r >= visible.length) continue;
             const item = visible[r];
+            if (isFooterRow(item.id)) continue;
             const cells: string[] = [];
             for (let c = minCol; c <= maxCol; c++) {
               if (c < 0 || c >= columns.length) { cells.push(''); continue; }
@@ -55,12 +59,13 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
           return;
         }
 
-        // Fallback: copy selected rows
-        const visible = getVisibleItems();
+        // Fallback: copy selected rows (indices → gerenderde rijenlijst)
+        const visible = getGridRows();
         const indices = getSelectedRowIndices();
         const selectedItems = indices
           .filter((i) => i >= 0 && i < visible.length)
-          .map((i) => visible[i]);
+          .map((i) => visible[i])
+          .filter((it) => !isFooterRow(it.id));
         if (selectedItems.length > 0) {
           copyItems(selectedItems);
         }
@@ -191,7 +196,7 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
     },
     [activeRow, activeCol, isEditing, visibleRowCount, setActiveCell, setActiveCellExtend,
       getSelectedRowIndices, startEditing, stopEditing, updateItem, pushHistory, items, visibleItems,
-      copyItems, getVisibleItems, columns, cellSelectionStart, cellSelectionEnd]
+      copyItems, getGridRows, columns, cellSelectionStart, cellSelectionEnd]
   );
 
   return { handleKeyDown };

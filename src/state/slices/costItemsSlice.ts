@@ -6,6 +6,7 @@ import { prorateUrenForTariefGroep, prorateUrenAll, prorateUrenForChapter } from
 import { createDefaultItems } from '@/data/defaultBudget';
 import { appendHistory, shouldTrackField } from '@/services/history/itemHistory';
 import { getCachedOsUsername } from '@/services/system/osUser';
+import { buildGridRows } from '@/services/grid/gridRows';
 
 function generateId(): string {
   return crypto.randomUUID();
@@ -79,6 +80,13 @@ export interface CostItemsSlice {
   /** Rescale normQuantity of all regel descendants in a chapter so its total uren equals newTotal. */
   prorateUrenForChapter: (chapterId: string, newTotal: number) => void;
   getVisibleItems: () => CostItem[];
+  /**
+   * De gerenderde grid-rijenlijst: getVisibleItems() minus staart-rijen,
+   * met branch-filtering en (in WPCalc-weergave) hoofdstuk-footerrijen.
+   * `activeRow`/selectie-indices horen bij DEZE lijst — gebruik deze om
+   * een rij-index naar een item te vertalen, nooit getVisibleItems().
+   */
+  getGridRows: () => CostItem[];
 }
 
 /** Find the insert index after the given item's subtree, or at end of parent's children */
@@ -651,6 +659,11 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
     };
     walk(null);
     return visible;
+  },
+
+  getGridRows: () => {
+    const state = get() as any; // full AppStore at runtime (gridView/schedule)
+    return buildGridRows(state.getVisibleItems(), state.gridView ?? 'wpcalc', state.schedule ?? {});
   },
 };
 };

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { copyItemsToExcel } from '@/services/clipboard/excelClipboard';
+import { isFooterRow } from '@/services/grid/gridRows';
 
 interface Props {
   x: number;
@@ -26,13 +27,14 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
     indentItem,
     outdentItem,
     pushHistory,
-    getVisibleItems,
+    getGridRows,
     getSelectedRowIndices,
     updateItem,
   } = useAppStore();
 
-  // Use filtered visible items (same as CostGrid's baseVisibleItems — excludes staart)
-  const visibleItems = getVisibleItems().filter(i => !i.rowType.startsWith('staart_'));
+  // De gerenderde rijenlijst (incl. footers) — selectie-indices zijn
+  // grid-indices en moeten op DEZE lijst gemapt worden.
+  const visibleItems = getGridRows();
   // Use itemId for reliable lookup
   const item = itemId ? items.find(i => i.id === itemId) ?? visibleItems[rowIndex] : visibleItems[rowIndex];
   const selectedIndices = getSelectedRowIndices();
@@ -70,7 +72,8 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
 
   const selectedItems = selectedIndices
     .filter((i) => i >= 0 && i < visibleItems.length)
-    .map((i) => visibleItems[i]);
+    .map((i) => visibleItems[i])
+    .filter((it) => !isFooterRow(it.id));
   const hasMultipleSelected = selectedItems.length > 1;
 
   // Find the parent for inserting a new regel.

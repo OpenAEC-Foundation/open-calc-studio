@@ -2,21 +2,26 @@ import { useEffect } from 'react';
 import { useAppStore } from '@/state/appStore';
 import { useFileOperations } from './useFileOperations';
 import { copyItemsToExcel } from '@/services/clipboard/excelClipboard';
+import { isFooterRow } from '@/services/grid/gridRows';
 
-/** Get the selected items (multi-select or single active row) */
+/** Get the selected items (multi-select or single active row).
+ *  Selectie-indices zijn grid-rij-indices — vertalen via de gerenderde
+ *  rijenlijst (getGridRows), anders slaan kopiëren/knippen/verwijderen
+ *  de verkeerde items aan zodra er footerrijen in het grid staan. */
 function getSelectedItems() {
   const state = useAppStore.getState();
-  const visibleItems = state.getVisibleItems();
+  const gridRows = state.getGridRows();
   const indices = state.getSelectedRowIndices();
   return indices
-    .filter((i) => i >= 0 && i < visibleItems.length)
-    .map((i) => visibleItems[i]);
+    .filter((i) => i >= 0 && i < gridRows.length)
+    .map((i) => gridRows[i])
+    .filter((it) => !isFooterRow(it.id));
 }
 
 export function useKeyboardShortcuts() {
   const {
-    addItem, undo, redo, setItems, items, pushHistory,
-    activeRow, getVisibleItems, deleteItem, activeCol,
+    insertRegelBelow, undo, redo, setItems, items, pushHistory,
+    activeRow, deleteItem, activeCol,
     copyItems, cutItems, pasteItems, clipboardItems,
   } = useAppStore();
   const { newFile, saveFile, saveFileAs, openFile } = useFileOperations();
@@ -74,10 +79,12 @@ export function useKeyboardShortcuts() {
         });
       } else if (ctrl && e.key === 'Enter') {
         e.preventDefault();
-        const visibleItems = getVisibleItems();
-        const activeItem = visibleItems[activeRow];
+        // Nieuwe regel direct onder het actieve item — op identiteit, en via
+        // de gedeelde insertRegelBelow (zelfde gedrag als de +-knop).
+        const { activeItemId, items: cur } = useAppStore.getState();
+        const activeItem = cur.find((i) => i.id === activeItemId);
         pushHistory(items, 'Nieuwe regel');
-        addItem(activeItem?.parentId ?? null, activeRow);
+        insertRegelBelow(activeItem?.id ?? null);
       } else if (e.key === 'Delete' && !isEditing && !isInInput) {
         // Delete selected rows
         const selected = getSelectedItems();
@@ -93,5 +100,5 @@ export function useKeyboardShortcuts() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [addItem, undo, redo, setItems, items, pushHistory, activeRow, activeCol, getVisibleItems, deleteItem, newFile, saveFile, saveFileAs, openFile, copyItems, cutItems, pasteItems, clipboardItems]);
+  }, [insertRegelBelow, undo, redo, setItems, items, pushHistory, activeRow, activeCol, deleteItem, newFile, saveFile, saveFileAs, openFile, copyItems, cutItems, pasteItems, clipboardItems]);
 }

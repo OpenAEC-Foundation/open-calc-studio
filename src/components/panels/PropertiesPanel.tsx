@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { formatCurrency, formatNumber } from '@/utils/formatting';
+import { isFooterRow } from '@/services/grid/gridRows';
 import { BranchTreeEditor } from './BranchTreeEditor';
 import type { FieldChange } from '@/types/costModel';
 import './panels.css';
@@ -101,10 +102,15 @@ const ItemHistoryView: React.FC<{ history?: FieldChange[] }> = ({ history }) => 
 export const PropertiesPanel: React.FC = () => {
   const { t } = useTranslation();
   const {
-    activeRow, getVisibleItems, updateItem,
+    activeRow, activeItemId, items, getGridRows, updateItem,
   } = useAppStore();
-  const visibleItems = getVisibleItems();
-  const item = visibleItems[activeRow];
+  // Identiteit vóór index: activeItemId hoort gegarandeerd bij de
+  // geselecteerde grid-rij. De rij-index alleen als fallback (bv. vlak na
+  // laden), en dan via de gerenderde rijenlijst — een index in
+  // getVisibleItems() wijst een ander item aan zodra er footerrijen zijn.
+  const fromId = activeItemId ? items.find((i) => i.id === activeItemId) : undefined;
+  const rowItem = fromId ? undefined : getGridRows()[activeRow];
+  const item = fromId ?? (rowItem && !isFooterRow(rowItem.id) ? rowItem : undefined);
 
   return (
     <div style={{ padding: 12, fontSize: 11 }}>

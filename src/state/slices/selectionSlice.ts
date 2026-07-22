@@ -27,6 +27,13 @@ export interface SelectionSlice {
   setEditValue: (value: string) => void;
 }
 
+/** Item-id van een grid-rij-index, via getGridRows uit de items-slice. */
+function resolveRowItemId(get: () => SelectionSlice, row: number): string | null {
+  const state = get() as any; // full AppStore at runtime
+  const rows = state.getGridRows?.();
+  return rows?.[row]?.id ?? null;
+}
+
 export const createSelectionSlice: StateCreator<SelectionSlice> = (set, get) => ({
   activeRow: 0,
   activeCol: 1,
@@ -39,10 +46,14 @@ export const createSelectionSlice: StateCreator<SelectionSlice> = (set, get) => 
   cellSelectionStart: null,
   cellSelectionEnd: null,
   setCellSelection: (start, end) => set({ cellSelectionStart: start, cellSelectionEnd: end }),
-  setActiveCell: (row, col, itemId) => set((s) => ({
+  setActiveCell: (row, col, itemId) => set(() => ({
     activeRow: row,
     activeCol: col,
-    activeItemId: itemId !== undefined ? itemId : s.activeItemId,
+    // Geen id meegekregen (bv. rij-overgang via Tab in de celeditor)?
+    // Zelf resolven uit de gerenderde rijenlijst, zodat activeItemId
+    // ALTIJD bij activeRow hoort en id-consumers (eigenschappenpaneel,
+    // plakken, sneltoetsen) nooit een verouderd/verkeerd item zien.
+    activeItemId: itemId !== undefined ? itemId : (resolveRowItemId(get, row)),
     isEditing: false,
     selectionStart: null,
     selectionEnd: null,
@@ -55,6 +66,7 @@ export const createSelectionSlice: StateCreator<SelectionSlice> = (set, get) => 
     set({
       activeRow: row,
       activeCol: col,
+      activeItemId: resolveRowItemId(get, row),
       isEditing: false,
       selectionStart: anchor,
       selectionEnd: row,
