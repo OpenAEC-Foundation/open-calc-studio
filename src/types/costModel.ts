@@ -39,6 +39,21 @@ export interface CostItem {
   staartItemBreakdown?: StaartItemBreakdown;
 
   /**
+   * Tekstopmaak van een tekst- of witregel. Geldt voor de hele regel — geen
+   * opmaak binnen een woord, want de omschrijving is platte tekst die ook in
+   * de rapporten en exports terechtkomt.
+   *
+   * undefined = geen opmaak; zo blijven bestaande bestanden ongewijzigd.
+   */
+  textBold?: boolean;
+  textItalic?: boolean;
+  textUnderline?: boolean;
+  /** Uitlijning binnen de omschrijvingkolom. undefined = links. */
+  textAlign?: 'left' | 'center' | 'right';
+  /** Puntgrootte; undefined = de gewone rijgrootte. */
+  textSize?: number | null;
+
+  /**
    * Rekenbasis van een percentage-staartregel:
    * - 'cumulatief' (default, undefined): over het opgehoogde bedrag t/m de
    *   vorige staartregel (cascade, WPCalc-stijl).

@@ -367,8 +367,20 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
         <span title={`🔗 ${item.quantityLink!.source}`} style={{ fontSize: 9, marginRight: 2, color: '#3b82f6' }}>🔗</span>
       )}
       {(isWitregel || item.rowType === 'tekstregel') && isDescCol ? (
-        // Wit- en tekstregels: terugloop — de rij groeit mee (getRowHeight)
-        <span style={{ whiteSpace: 'pre-wrap', overflow: 'hidden', wordBreak: 'break-word', lineHeight: '13px' }}>{getValue()}</span>
+        // Wit- en tekstregels: terugloop — de rij groeit mee (getRowHeight).
+        // Opmaak geldt voor de hele regel (zie tabblad Tekstopmaak).
+        <span style={{
+          whiteSpace: 'pre-wrap',
+          overflow: 'hidden',
+          wordBreak: 'break-word',
+          lineHeight: '13px',
+          flex: 1,
+          fontWeight: item.textBold ? 700 : undefined,
+          fontStyle: item.textItalic ? 'italic' : undefined,
+          textDecoration: item.textUnderline ? 'underline' : undefined,
+          textAlign: item.textAlign && item.textAlign !== 'left' ? item.textAlign : undefined,
+          fontSize: item.textSize ? `${item.textSize}px` : undefined,
+        }}>{getValue()}</span>
       ) : (
         <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{getValue()}</span>
       )}

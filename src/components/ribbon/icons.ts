@@ -53,8 +53,19 @@ export const reportBouw2Icon = `<svg aria-hidden="true" fill="none" stroke="curr
 /** Directiebegroting — het overzicht voor de directie. */
 export const reportDirectieIcon = `<svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" stroke-width="2"/><path d="M12 7.2l1.6 3.24 3.57.52-2.58 2.52.61 3.56L12 15.36l-3.2 1.68.61-3.56-2.58-2.52 3.57-.52z" stroke-width="1.3" stroke-linejoin="round"/></svg>`;
 
+// ── Tekstopmaak ────────────────────────────────────────────────
+export const textBoldIcon = `<svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M7 5h6a3.5 3.5 0 010 7H7zm0 7h7a3.5 3.5 0 010 7H7z"/></svg>`;
+export const textItalicIcon = `<svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" stroke-linecap="round" d="M15 5h-5m4 0l-4 14m0 0H5"/></svg>`;
+export const textUnderlineIcon = `<svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" stroke-linecap="round" d="M7 4v7a5 5 0 0010 0V4M5 20h14"/></svg>`;
+export const textAlignLeftIcon = `<svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" stroke-linecap="round" d="M4 6h16M4 10h10M4 14h16M4 18h10"/></svg>`;
+export const textAlignCenterIcon = `<svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" stroke-linecap="round" d="M4 6h16M7 10h10M4 14h16M7 18h10"/></svg>`;
+export const textAlignRightIcon = `<svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" stroke-linecap="round" d="M4 6h16M10 10h10M4 14h16M10 18h10"/></svg>`;
+export const textSizeUpIcon = `<svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 18L8.5 6l5.5 12M5 14h7"/><path stroke-width="2" stroke-linecap="round" d="M18 9v8m-4-4h8"/></svg>`;
+export const textSizeDownIcon = `<svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 18L8.5 6l5.5 12M5 14h7"/><path stroke-width="2" stroke-linecap="round" d="M14 13h8"/></svg>`;
+export const textClearIcon = `<svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M8 6h11M12 6l-3 9M6 20h7"/><path stroke-width="1.8" stroke-linecap="round" d="M16 15l5 5m0-5l-5 5"/></svg>`;
+
 // Rapportage icons
-export const printIcon = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm0-16h6a2 2 0 012 2v2H7V5a2 2 0 012-2z"/></svg>`;
+export const printIcon =`<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm0-16h6a2 2 0 012 2v2H7V5a2 2 0 012-2z"/></svg>`;
 export const pdfExportIcon = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/><text x="7" y="17" font-size="6" font-weight="bold" fill="currentColor" stroke="none">PDF</text></svg>`;
 export const excelExportIcon = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/><text x="6" y="17" font-size="5.5" font-weight="bold" fill="currentColor" stroke="none">XLS</text></svg>`;
 

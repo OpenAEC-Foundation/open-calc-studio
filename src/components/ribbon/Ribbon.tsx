@@ -6,6 +6,8 @@ import IfcTab from "./IfcTab";
 import RapportageTab from "./RapportageTab";
 import OfferteTab from "./OfferteTab";
 import SpreadsheetTab from "./SpreadsheetTab";
+import TekstopmaakTab, { isOpmaakbareRegel } from "./TekstopmaakTab";
+import { useAppStore } from "@/state/appStore";
 import "./Ribbon.css";
 
 interface RibbonProps {
@@ -13,16 +15,36 @@ interface RibbonProps {
 }
 
 const HIDE_EXP = import.meta.env.VITE_HIDE_EXPERIMENTAL === 'true';
-const ALL_TABS = ["home", "offerte", "rapportage", "spreadsheet", "viewer3d", "pdf", "ifc"] as const;
+const ALL_TABS = ["home", "offerte", "rapportage", "spreadsheet", "viewer3d", "pdf", "ifc", "tekstopmaak"] as const;
+/** Contextueel: verschijnt alleen als de cursor op een tekst- of witregel staat. */
+const CONTEXT_TABS = ["tekstopmaak"] as const;
 const EXPERIMENTAL_TABS = ["offerte", "viewer3d", "pdf"] as const;
-const TABS = (HIDE_EXP
+const BASE_TABS = (HIDE_EXP
   ? ALL_TABS.filter((t) => !(EXPERIMENTAL_TABS as readonly string[]).includes(t))
-  : ALL_TABS) as readonly (typeof ALL_TABS)[number][];
+  : ALL_TABS
+).filter((t) => !(CONTEXT_TABS as readonly string[]).includes(t)) as readonly (typeof ALL_TABS)[number][];
 type TabId = (typeof ALL_TABS)[number];
 
 export default function Ribbon({ onFileTabClick }: RibbonProps) {
   const { t, i18n } = useTranslation("ribbon");
   const [activeTab, setActiveTab] = useState<TabId>("home");
+
+  // Contextueel tabblad: verschijnt zodra de cursor op een tekst- of witregel
+  // staat, zoals de tabelhulpmiddelen in Office.
+  const items = useAppStore((s) => s.items);
+  const activeItemId = useAppStore((s) => s.activeItemId);
+  const toonTekstopmaak = isOpmaakbareRegel(
+    activeItemId ? items.find((i) => i.id === activeItemId) : undefined
+  );
+  const TABS = toonTekstopmaak
+    ? ([...BASE_TABS, "tekstopmaak"] as readonly TabId[])
+    : BASE_TABS;
+
+  // Verlaat je de tekstregel terwijl dat tabblad openstaat, dan valt het lint
+  // terug op Start — anders blijft er een leeg lint staan zonder actieve tab.
+  useEffect(() => {
+    if (!toonTekstopmaak && activeTab === 'tekstopmaak') setActiveTab('home');
+  }, [toonTekstopmaak, activeTab]);
   const [prevTab, setPrevTab] = useState<TabId | null>(null);
   const [animating, setAnimating] = useState(false);
   const [direction, setDirection] = useState<"left" | "right">("right");
@@ -101,6 +123,7 @@ export default function Ribbon({ onFileTabClick }: RibbonProps) {
       case "viewer3d": return <div className="ribbon-content"><div style={{ padding: 12, fontSize: 12, color: 'var(--theme-text-muted)' }}>3D IFC Viewer — sleep een .ifc bestand naar het canvas of klik "Open IFC..."</div></div>;
       case "pdf": return <div className="ribbon-content"><div style={{ padding: 12, fontSize: 12, color: 'var(--theme-text-muted)' }}>PDF Viewer met meetfuncties — open een PDF en gebruik de tools voor lengte/oppervlak</div></div>;
       case "ifc": return <IfcTab />;
+      case "tekstopmaak": return <TekstopmaakTab />;
     }
   };
 
@@ -111,7 +134,7 @@ export default function Ribbon({ onFileTabClick }: RibbonProps) {
         {TABS.map((tab) => (
           <RibbonTab
             key={tab}
-            label={t(`tabs.${tab}`)}
+            label={tab === 'tekstopmaak' ? 'Tekstopmaak' : t(`tabs.${tab}`)}
             isActive={activeTab === tab}
             onClick={() => switchTab(tab)}
           />
