@@ -74,6 +74,62 @@ describe('kostensoort-kolommen sluiten aan op het totaal', () => {
     expect(s().items.find(i => i.id === post)!.total).toBeCloseTo(200, 2);
   });
 
+  it('sluitingscontrole over alle postvormen door elkaar heen', () => {
+    // Permanente tegenhanger van de archief-sweep: elke combinatie van
+    // postvormen die in de praktijk voorkomt, in één hoofdstuk. De som van
+    // de kostensoort-kolommen moet exact het hoofdstuktotaal zijn — dat is
+    // de invariant die de Subtotaal- en Totaal-footer aan elkaar bindt.
+    const ch = s().addChapter(null);
+
+    // a) post met eigen prijs + lege bewakingspost
+    const a = s().addItem(ch);
+    s().updateItem(a, 'quantity', 1);
+    s().updateItem(a, 'normUnitPrice', 550);
+    s().addBewakingspost(a);
+
+    // b) post met geïmporteerde materiaalprijs
+    const b = s().addItem(ch);
+    s().updateItem(b, 'quantity', 81);
+    s().updateItem(b, 'materialPrice', 15.319024);
+
+    // c) post met een norm-regel (UI-1-model)
+    const c = s().addItem(ch);
+    const cbw = s().addBewakingspost(c);
+    const cr = s().addRegel(cbw);
+    s().updateItem(cr, 'quantity', 1);
+    s().updateItem(cr, 'normQuantity', 8);
+    s().updateItem(cr, 'normUnitPrice', 71.5);
+
+    // d) post met een loonregel (WpCalc-model)
+    const d = s().addItem(ch);
+    const dbw = s().addBewakingspost(d);
+    const dr = s().addRegel(dbw);
+    s().updateItem(dr, 'quantity', 3);
+    s().updateItem(dr, 'laborPrice', 40);
+    s().updateItem(dr, 'normUnitPrice', 10);
+
+    // e) onderaannemer- en materieelregels
+    const e = s().addItem(ch);
+    const ebw = s().addBewakingspost(e);
+    const oa = s().addRegel(ebw);
+    s().updateItem(oa, 'quantity', 1);
+    s().updateItem(oa, 'normUnitPrice', 2500);
+    s().updateItem(oa, 'resourceType', 'onderaannemer');
+    const mr = s().addRegel(ebw);
+    s().updateItem(mr, 'quantity', 2);
+    s().updateItem(mr, 'normUnitPrice', 125);
+    s().updateItem(mr, 'resourceType', 'materieel');
+
+    // f) post zonder geld (alleen een tekstregel) mag niets toevoegen
+    const f = s().addItem(ch);
+    s().addTekstregel(f);
+
+    const hoofdstuk = s().items.find(i => i.id === ch)!;
+    const kolommen = somKolommen(computeResourceTotals(s().items).get(ch));
+    expect(hoofdstuk.total).toBeGreaterThan(0);
+    expect(kolommen).toBeCloseTo(hoofdstuk.total, 2);
+  });
+
   it('loonregel (WpCalc-model) blijft ongewijzigd: aantal × loon', () => {
     const ch = s().addChapter(null);
     const post = s().addItem(ch);
