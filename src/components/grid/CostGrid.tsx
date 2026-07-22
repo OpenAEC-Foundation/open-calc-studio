@@ -60,6 +60,8 @@ export const CostGrid: React.FC = () => {
 
   const moveItems = useAppStore((s) => s.moveItems);
   const getSelectedRowIndices = useAppStore((s) => s.getSelectedRowIndices);
+  const selectedColumns = useAppStore((s) => s.selectedColumns);
+  const clearSelectedColumns = useAppStore((s) => s.clearSelectedColumns);
 
   // Track whether mouse is being dragged for cell selection
   const isDraggingRef = useRef(false);
@@ -325,6 +327,9 @@ export const CostGrid: React.FC = () => {
     (row: number, col: number, shiftKey: boolean) => {
       const item = visibleItems[row];
       if (item?.id.startsWith('footer:')) return;
+      // In het grid klikken heft een kolomselectie op — anders blijft de
+      // koprij oplichten terwijl je allang ergens anders werkt.
+      if (selectedColumns.length > 0) clearSelectedColumns();
       if (shiftKey && cellSelectionStart) {
         // Extend from existing start
         setCellSelection(cellSelectionStart, { row, col });
@@ -333,7 +338,7 @@ export const CostGrid: React.FC = () => {
       }
       isDraggingRef.current = true;
     },
-    [visibleItems, cellSelectionStart, setCellSelection]
+    [visibleItems, cellSelectionStart, setCellSelection, selectedColumns, clearSelectedColumns]
   );
 
   const handleCellMouseEnter = useCallback(

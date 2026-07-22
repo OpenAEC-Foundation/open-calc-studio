@@ -32,6 +32,17 @@ html.cursor-col-resizing * { cursor: col-resize !important; }
   line-height: 1.3;
   flex-shrink: 0;
 }
+/* Kolomselectie: klik een kop aan (Shift = bereik, Ctrl = los toevoegen) en
+   rechtsklik om te verbergen. */
+.grid-header-cell { cursor: pointer; }
+
+.grid-header-cell.is-selected {
+  background: var(--theme-selection-bg, rgba(59, 130, 246, 0.18));
+  color: var(--theme-text);
+  font-weight: 600;
+  box-shadow: inset 0 -2px 0 var(--theme-accent, #D97706);
+}
+
 .grid-header-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .grid-header-abbr { font-size: 9px; color: var(--theme-text-secondary); opacity: 0.7; white-space: nowrap; }
 

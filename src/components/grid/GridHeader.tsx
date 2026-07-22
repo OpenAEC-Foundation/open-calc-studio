@@ -15,6 +15,8 @@ export const GridHeader: React.FC = () => {
   const showHoeveelheid = useAppStore((s) => s.showHoeveelheid);
   const hiddenColumns = useAppStore((s) => s.hiddenColumns);
   const setColumnHidden = useAppStore((s) => s.setColumnHidden);
+  const selectedColumns = useAppStore((s) => s.selectedColumns);
+  const selectColumn = useAppStore((s) => s.selectColumn);
   const resizing = useRef<{ index: number; startX: number; startWidth: number } | null>(null);
 
   const branchesEnabled = useAppStore((s) => s.schedule.branchesEnabled ?? false);
@@ -57,12 +59,27 @@ export const GridHeader: React.FC = () => {
     [columnWidths, setColumnWidth, columns]
   );
 
+  const zichtbareKeys = columns.filter((c) => !isHidden(c)).map((c) => c.key);
+
+  const handleHeaderClick = useCallback(
+    (e: React.MouseEvent, col: GridColumn) => {
+      const mode = (e.ctrlKey || e.metaKey) ? 'toggle' : e.shiftKey ? 'range' : 'set';
+      selectColumn(col.key, mode, zichtbareKeys);
+    },
+    [selectColumn, zichtbareKeys]
+  );
+
   const handleContextMenu = useCallback(
     (e: React.MouseEvent, col: GridColumn) => {
       e.preventDefault();
+      // Rechtsklik buiten de selectie verplaatst de selectie naar die kolom —
+      // zo werkt het menu altijd op wat je op dat moment ziet oplichten.
+      if (!selectedColumns.includes(col.key)) {
+        selectColumn(col.key, 'set', zichtbareKeys);
+      }
       setMenu({ x: e.clientX, y: e.clientY, column: col });
     },
-    []
+    [selectedColumns, selectColumn, zichtbareKeys]
   );
 
   const headerHeight = ROW_HEIGHT * 2;
@@ -81,9 +98,10 @@ export const GridHeader: React.FC = () => {
         return (
           <div
             key={col.key}
-            className="grid-header-cell"
+            className={`grid-header-cell${selectedColumns.includes(col.key) ? ' is-selected' : ''}`}
             style={{ width: hidden ? 0 : (columnWidths[i] ?? col.width), height: headerHeight, overflow: 'hidden', position: 'relative' }}
             title={col.tooltip}
+            onClick={(e) => handleHeaderClick(e, col)}
             onContextMenu={(e) => handleContextMenu(e, col)}
           >
             {showRestoreLeft && prevCol && (
@@ -104,6 +122,7 @@ export const GridHeader: React.FC = () => {
       })}
       {menu && (
         <ColumnHeaderMenu
+          selectedColumns={selectedColumns}
           x={menu.x}
           y={menu.y}
           column={menu.column}

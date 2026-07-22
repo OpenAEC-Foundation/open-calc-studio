@@ -10,14 +10,15 @@ interface Props {
   column: GridColumn;
   /** All columns of the current view (for the toggle checkbox list). */
   columns: GridColumn[];
+  /** Aangeklikte kolomselectie; verbergen werkt op alle geselecteerde kolommen. */
+  selectedColumns?: string[];
   gridView: string;
   onClose: () => void;
 }
 
-export const ColumnHeaderMenu: React.FC<Props> = ({ x, y, column, columns, gridView, onClose }) => {
+export const ColumnHeaderMenu: React.FC<Props> = ({ x, y, column, columns, selectedColumns = [], gridView, onClose }) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const hiddenColumns = useAppStore((s) => s.hiddenColumns);
-  const toggleColumnHidden = useAppStore((s) => s.toggleColumnHidden);
   const setColumnHidden = useAppStore((s) => s.setColumnHidden);
   const showAllColumns = useAppStore((s) => s.showAllColumns);
 
@@ -49,20 +50,28 @@ export const ColumnHeaderMenu: React.FC<Props> = ({ x, y, column, columns, gridV
   const toggleable = columns.filter((c) => isColumnHideable(c.key));
   const anyHidden = toggleable.some((c) => isColumnHidden(hiddenColumns, gridView, c.key));
 
-  const canHideClicked = isColumnHideable(column.key);
+  // Verbergen werkt op de kolomselectie; is er niets geselecteerd, dan op de
+  // aangeklikte kolom. Structurele kolommen (bv. omschrijving) blijven staan.
+  const teVerbergen = (selectedColumns.length > 0 ? selectedColumns : [column.key])
+    .filter((k) => isColumnHideable(k));
+  const meervoud = teVerbergen.length > 1;
+  const label = meervoud
+    ? `Verberg ${teVerbergen.length} kolommen`
+    : `Verberg kolom “${columns.find((c) => c.key === teVerbergen[0])?.label ?? column.label}”`;
 
   return (
     <div ref={menuRef} className="grid-context-menu column-header-menu" style={{ left: x, top: y }}>
       <button
         className="grid-context-menu-item"
-        disabled={!canHideClicked}
+        disabled={teVerbergen.length === 0}
+        title={teVerbergen.length === 0 ? 'Deze kolom is nodig voor de structuur en kan niet verborgen worden' : undefined}
         onClick={() => {
-          if (!canHideClicked) return;
-          toggleColumnHidden(gridView, column.key);
+          if (teVerbergen.length === 0) return;
+          for (const key of teVerbergen) setColumnHidden(gridView, key, true);
           onClose();
         }}
       >
-        <span>Verberg kolom “{column.label}”</span>
+        <span>{label}</span>
       </button>
 
       <div className="grid-context-menu-separator" />

@@ -16,6 +16,18 @@ export interface SelectionSlice {
   selectOnFocus: boolean;
   cellSelectionStart: CellCoord | null;
   cellSelectionEnd: CellCoord | null;
+  /** Geselecteerde kolommen (keys), via klikken op de koprij. */
+  selectedColumns: string[];
+  /** Ankerkolom voor Shift+klik. */
+  kolomAnker?: string | null;
+  /**
+   * Kolomselectie zetten. `mode`:
+   *  - 'set'    vervangt de selectie (gewone klik)
+   *  - 'toggle' voegt toe of haalt weg (Ctrl/Cmd+klik)
+   *  - 'range'  selecteert alles tussen het anker en deze kolom (Shift+klik)
+   */
+  selectColumn: (key: string, mode: 'set' | 'toggle' | 'range', allKeys: string[]) => void;
+  clearSelectedColumns: () => void;
   setCellSelection: (start: CellCoord | null, end: CellCoord | null) => void;
   setActiveCell: (row: number, col: number, itemId?: string) => void;
   setActiveCellExtend: (row: number, col: number) => void;
@@ -45,6 +57,28 @@ export const createSelectionSlice: StateCreator<SelectionSlice> = (set, get) => 
   selectOnFocus: false,
   cellSelectionStart: null,
   cellSelectionEnd: null,
+  selectedColumns: [],
+  selectColumn: (key, mode, allKeys) => set((s) => {
+    if (mode === 'toggle') {
+      const heeft = s.selectedColumns.includes(key);
+      return {
+        selectedColumns: heeft
+          ? s.selectedColumns.filter((k) => k !== key)
+          : [...s.selectedColumns, key],
+        kolomAnker: key,
+      } as Partial<SelectionSlice>;
+    }
+    if (mode === 'range' && s.kolomAnker) {
+      const a = allKeys.indexOf(s.kolomAnker);
+      const b = allKeys.indexOf(key);
+      if (a >= 0 && b >= 0) {
+        const [van, tot] = a <= b ? [a, b] : [b, a];
+        return { selectedColumns: allKeys.slice(van, tot + 1) } as Partial<SelectionSlice>;
+      }
+    }
+    return { selectedColumns: [key], kolomAnker: key } as Partial<SelectionSlice>;
+  }),
+  clearSelectedColumns: () => set({ selectedColumns: [] }),
   setCellSelection: (start, end) => set({ cellSelectionStart: start, cellSelectionEnd: end }),
   setActiveCell: (row, col, itemId) => set(() => ({
     activeRow: row,
