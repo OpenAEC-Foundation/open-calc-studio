@@ -10,7 +10,14 @@ import {
   pdfExportIcon,
   excelExportIcon,
   exportIcon,
-  reportIcon,
+  reportWerkbeschrijvingIcon,
+  reportHoofdaannemingIcon,
+  reportOnderaannemingIcon,
+  reportInschrijfstaatIcon,
+  reportNacalculatieIcon,
+  reportBouw1Icon,
+  reportBouw2Icon,
+  reportDirectieIcon,
   portraitIcon,
   landscapeIcon,
   pageSizeIcon,
@@ -40,15 +47,15 @@ const tauriApi = (() => {
   };
 })();
 
-const REPORT_VIEWS: { value: ReportView; label: string }[] = [
-  { value: 'werkbeschrijving', label: 'Werkbeschr.' },
-  { value: 'hoofdaanneming', label: 'Hoofdaann.' },
-  { value: 'onderaanneming', label: 'Onderaann.' },
-  { value: 'inschrijfstaat', label: 'Inschrijfstaat' },
-  { value: 'nacalculatie', label: 'Nacalculatie' },
-  { value: 'bouw1', label: 'Bouw 1' },
-  { value: 'ibis', label: 'Bouw 2' },
-  { value: 'directie', label: 'Directiebegr.' },
+const REPORT_VIEWS: { value: ReportView; label: string; icon: string; title: string }[] = [
+  { value: 'werkbeschrijving', label: 'Werkbeschr.', icon: reportWerkbeschrijvingIcon, title: 'Werkbeschrijving — omschrijvingen zonder bedragen' },
+  { value: 'hoofdaanneming', label: 'Hoofdaann.', icon: reportHoofdaannemingIcon, title: 'Hoofdaanneming — de aanneemsom voor de opdrachtgever' },
+  { value: 'onderaanneming', label: 'Onderaann.', icon: reportOnderaannemingIcon, title: 'Onderaanneming — het uitbestede werk' },
+  { value: 'inschrijfstaat', label: 'Inschrijfstaat', icon: reportInschrijfstaatIcon, title: 'Inschrijfstaat — geprijsde staat met hoeveelheden' },
+  { value: 'nacalculatie', label: 'Nacalculatie', icon: reportNacalculatieIcon, title: 'Nacalculatie — achteraf toetsen wat het geworden is' },
+  { value: 'bouw1', label: 'Bouw 1', icon: reportBouw1Icon, title: 'Bouw 1 — vaste uitvoerlay-out' },
+  { value: 'ibis', label: 'Bouw 2', icon: reportBouw2Icon, title: 'Bouw 2 — vaste uitvoerlay-out' },
+  { value: 'directie', label: 'Directiebegr.', icon: reportDirectieIcon, title: 'Directiebegroting — overzicht voor de directie' },
 ];
 
 export default function RapportageTab() {
@@ -143,8 +150,9 @@ export default function RapportageTab() {
           {REPORT_VIEWS.map((v) => (
             <RibbonButton
               key={v.value}
-              icon={reportIcon}
+              icon={v.icon}
               label={v.label}
+              title={v.title}
               onClick={() => handleViewClick(v.value)}
               active={reportView === v.value}
             />

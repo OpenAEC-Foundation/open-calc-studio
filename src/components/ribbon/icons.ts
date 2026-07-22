@@ -24,6 +24,35 @@ export const deleteIcon = `<svg fill="none" stroke="currentColor" viewBox="0 0 2
 export const exportIcon = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>`;
 export const reportIcon = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>`;
 
+// ── Rapportweergaven ────────────────────────────────────────────
+// Eén icoon per rapporttype. Ze delen dezelfde documentvorm zodat ze als
+// familie leesbaar blijven; het teken erbinnen zegt om welk rapport het gaat.
+// Bewust simpel gehouden: in het lint worden ze rond de 16-20px getekend.
+
+/** Werkbeschrijving — alleen omschrijvende tekst, geen bedragen. */
+export const reportWerkbeschrijvingIcon = `<svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" stroke-width="2"/><line x1="8" y1="8.5" x2="16" y2="8.5" stroke-width="1.5" stroke-linecap="round"/><line x1="8" y1="12" x2="16" y2="12" stroke-width="1.5" stroke-linecap="round"/><line x1="8" y1="15.5" x2="13" y2="15.5" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+
+/** Hoofdaanneming — de aanneemsom richting opdrachtgever. */
+export const reportHoofdaannemingIcon = `<svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" stroke-width="2"/><text x="12" y="16.5" text-anchor="middle" font-size="11" font-weight="bold" fill="currentColor" stroke="none">€</text></svg>`;
+
+/** Onderaanneming — werk dat wordt uitbesteed: een tweede partij erbij. */
+export const reportOnderaannemingIcon = `<svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 6.5V4.5a1.5 1.5 0 011.5-1.5h9A1.5 1.5 0 0120 4.5v11a1.5 1.5 0 01-1.5 1.5h-2" stroke-width="1.5" stroke-linecap="round"/><rect x="3.5" y="6.5" width="12.5" height="14" rx="2" stroke-width="2"/><line x1="7" y1="11.5" x2="12.5" y2="11.5" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="15.5" x2="12.5" y2="15.5" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+
+/** Inschrijfstaat — de geprijsde staat als tabel met hoeveelheden. */
+export const reportInschrijfstaatIcon = `<svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="1.5" stroke-width="2"/><line x1="3" y1="9" x2="21" y2="9" stroke-width="1.5"/><line x1="3" y1="14.5" x2="21" y2="14.5" stroke-width="1.5"/><line x1="14.5" y1="9" x2="14.5" y2="20" stroke-width="1.5"/></svg>`;
+
+/** Nacalculatie — achteraf toetsen wat het geworden is. */
+export const reportNacalculatieIcon = `<svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" stroke-width="2"/><path d="M8.5 12.2l2.4 2.4 4.6-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+/** Bouw 1 — vaste uitvoerlay-out nummer 1. */
+export const reportBouw1Icon = `<svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" stroke-width="2"/><text x="12" y="16.5" text-anchor="middle" font-size="11" font-weight="bold" fill="currentColor" stroke="none">1</text></svg>`;
+
+/** Bouw 2 — vaste uitvoerlay-out nummer 2. */
+export const reportBouw2Icon = `<svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" stroke-width="2"/><text x="12" y="16.5" text-anchor="middle" font-size="11" font-weight="bold" fill="currentColor" stroke="none">2</text></svg>`;
+
+/** Directiebegroting — het overzicht voor de directie. */
+export const reportDirectieIcon = `<svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" stroke-width="2"/><path d="M12 7.2l1.6 3.24 3.57.52-2.58 2.52.61 3.56L12 15.36l-3.2 1.68.61-3.56-2.58-2.52 3.57-.52z" stroke-width="1.3" stroke-linejoin="round"/></svg>`;
+
 // Rapportage icons
 export const printIcon = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm0-16h6a2 2 0 012 2v2H7V5a2 2 0 012-2z"/></svg>`;
 export const pdfExportIcon = `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/><text x="7" y="17" font-size="6" font-weight="bold" fill="currentColor" stroke="none">PDF</text></svg>`;
