@@ -105,15 +105,22 @@ fn get_columns(view: &str, show_hoeveelheid: bool) -> Vec<Col> {
             Col { key: "description", label: "Omschrijving", width_mm: 0.0 },
             Col { key: "total", label: "Bedrag", width_mm: 35.0 },
         ],
+        // Inschrijfstaat: de klassieke besteksvolgorde — bestekspostnummer,
+        // omschrijving, eenheid, hoeveelheid, verrekenbaarheid, prijs, bedrag.
+        //
+        // De vaste kolommen tellen op tot 110 mm, zodat de omschrijving op een
+        // staand A4 (~180 mm bruikbaar) ruim 70 mm overhoudt. Eerder stond hier
+        // 190 mm aan vaste breedtes; de flexibele omschrijving hield dan niets
+        // over en de tekst werd dwars over de hoeveelheid- en eenheidkolom
+        // getekend.
         "inschrijfstaat" => vec![
-            Col { key: "nr", label: "Nr", width_mm: 25.0 },
-            Col { key: "code", label: "Code", width_mm: 40.0 },
+            Col { key: "code", label: "Bestekspost", width_mm: 20.0 },
             Col { key: "description", label: "Omschrijving", width_mm: 0.0 },
-            Col { key: "quantity", label: "Hoeveelheid", width_mm: 25.0 },
-            Col { key: "unit", label: "Eenheid", width_mm: 20.0 },
-            Col { key: "verrekenbaar", label: "Verr.", width_mm: 15.0 },
-            Col { key: "unitPrice", label: "Eenheidsprijs", width_mm: 30.0 },
-            Col { key: "total", label: "Bedrag", width_mm: 35.0 },
+            Col { key: "unit", label: "Eh.", width_mm: 12.0 },
+            Col { key: "quantity", label: "Hoeveelheid", width_mm: 20.0 },
+            Col { key: "verrekenbaar", label: "S", width_mm: 8.0 },
+            Col { key: "unitPrice", label: "Prijs per eh.", width_mm: 24.0 },
+            Col { key: "total", label: "Totaal bedrag", width_mm: 26.0 },
         ],
         "nacalculatie" => vec![
             Col { key: "nr", label: "Nr", width_mm: 25.0 },
@@ -158,6 +165,15 @@ fn filter_items<'a>(items: &'a [CostItem], view: &str) -> Vec<&'a CostItem> {
                     || i.row_type == "tekstregel"
             }
             "onderaanneming" => i.row_type == "chapter" || i.row_type == "begrotingspost",
+            // Inschrijfstaat gaat naar de opdrachtgever: alleen hoofdstukken
+            // en bestekposten. Zonder deze regel viel hij door naar `true` en
+            // stonden de onderliggende rekenregels er ook in — inclusief
+            // uurtarieven en de opbouw van de kostprijs.
+            "inschrijfstaat" => {
+                i.row_type == "chapter"
+                    || i.row_type == "begrotingspost"
+                    || i.row_type == "tekstregel"
+            }
             _ => true,
         })
         .collect()
@@ -638,12 +654,14 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
 
     // ── Build table(s) with view-specific logic ──
 
-    // Werkbeschrijving en hoofdaanneming renderen in de "clean" stijl:
-    // geen cellijnen, inspringende paragrafen, typografische hiërarchie en
-    // (hoofdaanneming) een subtotaal per paragraaf — naar de klassieke
-    // besteksopmaak.
+    // Werkbeschrijving, hoofdaanneming en inschrijfstaat renderen in de
+    // "clean" stijl: geen cellijnen, inspringende paragrafen, typografische
+    // hiërarchie en (hoofdaanneming) een subtotaal per paragraaf — naar de
+    // klassieke besteksopmaak. Alle drie zijn documenten die de deur uit gaan;
+    // de gekleurde koprij en zebrastrepen horen bij de interne overzichten.
     let clean_view = request.report_view == "werkbeschrijving"
-        || request.report_view == "hoofdaanneming";
+        || request.report_view == "hoofdaanneming"
+        || request.report_view == "inschrijfstaat";
     let use_chapter_subtotals = request.report_view == "hoofdaanneming";
     // Rapportoptie: alleen subtotaal-bedragen tonen (hoeveelheden blijven)
     let hide_line_amounts = use_chapter_subtotals
