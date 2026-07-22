@@ -120,6 +120,24 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
     }
   }, [colIndex, activeRow, editableCols, setActiveCell, item.id]);
 
+  /**
+   * Pijl omhoog/omlaag verspringt altijd naar de vorige/volgende rij — ongeacht
+   * het rijtype en ongeacht welke editor er openstaat.
+   *
+   * Eerder gold dat alleen voor de gewone invoervelden: in een keuzelijst
+   * (eenheid, S, tarief) liep de pijl door de opties en in de tekstregel-editor
+   * door de tekstregels, waardoor je in zo'n cel niet verder kwam. Waarden kies
+   * je in een keuzelijst nog steeds door de letter te typen.
+   */
+  const gaNaarRij = useCallback((delta: -1 | 1, waarde?: string) => {
+    const doel = activeRow + delta;
+    if (doel < 0) return;
+    if (waarde !== undefined) commitIfChanged(waarde);
+    stopEditing();
+    setActiveCell(doel, colIndex);
+    requestAnimationFrame(() => startEditing());
+  }, [activeRow, colIndex, commitIfChanged, stopEditing, setActiveCell, startEditing]);
+
   // Block editing for cells not editable on this rowType
   if (!isCellEditable(col.key, item.rowType, gridView)) {
     stopEditing();
@@ -145,6 +163,12 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
           if (e.key === 'Escape') {
             e.preventDefault();
             stopEditing();
+          } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+            // Rij verspringen gaat vóór het doorlopen van de keuzelijst.
+            e.preventDefault();
+            const val = (e.target as HTMLSelectElement).value;
+            if (val !== defaultVal) onCommit(item, colIndex, val);
+            gaNaarRij(e.key === 'ArrowDown' ? 1 : -1);
           } else if (e.key === 'Tab') {
             e.preventDefault();
             const val = (e.target as HTMLSelectElement).value;
@@ -192,6 +216,11 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
           if (e.key === 'Escape') {
             e.preventDefault();
             stopEditing();
+          } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+            // Ook hier gaat rij verspringen vóór; binnen de tekst navigeer je
+            // met Home/End of de muis.
+            e.preventDefault();
+            gaNaarRij(e.key === 'ArrowDown' ? 1 : -1, (e.target as HTMLTextAreaElement).value);
           } else if (e.key === 'Tab') {
             e.preventDefault();
             commitIfChanged((e.target as HTMLTextAreaElement).value);
@@ -231,12 +260,7 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
           // Doorlopen van een kolom: bevestigen en meteen de volgende cel
           // bewerken, zonder tussendoor te hoeven klikken of Enter te drukken.
           e.preventDefault();
-          const doel = e.key === 'ArrowDown' ? activeRow + 1 : activeRow - 1;
-          if (doel < 0) return;
-          commitIfChanged((e.target as HTMLInputElement).value);
-          stopEditing();
-          setActiveCell(doel, colIndex);
-          requestAnimationFrame(() => startEditing());
+          gaNaarRij(e.key === 'ArrowDown' ? 1 : -1, (e.target as HTMLInputElement).value);
         } else if (e.key === 'Escape') {
           e.preventDefault();
           stopEditing();
