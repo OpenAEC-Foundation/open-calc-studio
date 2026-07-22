@@ -227,6 +227,16 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
           commitIfChanged((e.target as HTMLInputElement).value);
           stopEditing();
           setActiveCell(activeRow + 1, colIndex);
+        } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+          // Doorlopen van een kolom: bevestigen en meteen de volgende cel
+          // bewerken, zonder tussendoor te hoeven klikken of Enter te drukken.
+          e.preventDefault();
+          const doel = e.key === 'ArrowDown' ? activeRow + 1 : activeRow - 1;
+          if (doel < 0) return;
+          commitIfChanged((e.target as HTMLInputElement).value);
+          stopEditing();
+          setActiveCell(doel, colIndex);
+          requestAnimationFrame(() => startEditing());
         } else if (e.key === 'Escape') {
           e.preventDefault();
           stopEditing();

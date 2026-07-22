@@ -61,9 +61,15 @@ export function useGridEditing() {
         case 'number':
         case 'currency': {
           // Accepteert ook formules: "=12,2*2,22" of "12.2*2.2"
-          const parsed = parseNumericInput(value);
+          const ruw = parseNumericInput(value);
           // Ongeldige (niet-lege) invoer wist de waarde niet
-          if (parsed === null && value.trim() !== '') break;
+          if (ruw === null && value.trim() !== '') break;
+          // Bedragen krijgen hoogstens twee decimalen — ook als er een
+          // formule is ingevuld die meer oplevert (=10/3). Aantallen en
+          // normen houden hun precisie; daar is meer nauwkeurigheid zinvol.
+          const parsed = (col.type === 'currency' && ruw !== null)
+            ? Math.round(ruw * 100) / 100
+            : ruw;
           // Post-prijs: de Prijs-kolom is dé eigen prijs van een
           // (bewakings)post. Een geïmporteerd materiaal-/loonbedrag wissen
           // we mee, anders telt de oude prijs dubbel op bij de nieuwe.

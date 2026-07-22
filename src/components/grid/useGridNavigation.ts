@@ -15,6 +15,18 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
   // Mét branchesEnabled: kolomindices moeten gelijk lopen met het gerenderde grid.
   const columns = getColumnsForView(gridView, !!schedule.branchesEnabled);
 
+  /** Zet de doelrij meteen in bewerkmodus, mits die cel daar bewerkbaar is.
+   *  Zo kun je met de pijltjes een kolom doorlopen en direct doortypen —
+   *  op een rijtype waar de kolom niet geldt (bv. een hoofdstukrij) blijft
+   *  het bij selecteren, anders zou de editor meteen weer sluiten. */
+  const editIfPossible = useCallback((row: number) => {
+    const item = visibleItems?.[row];
+    if (!item || item.id.startsWith('footer:')) return;
+    const col = columns[activeCol];
+    if (!col?.editable || !isCellEditable(col.key, item.rowType, gridView)) return;
+    requestAnimationFrame(() => startEditing());
+  }, [visibleItems, columns, activeCol, gridView, startEditing]);
+
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       if (isEditing) return;
@@ -80,6 +92,7 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
               setActiveCellExtend(activeRow - 1, activeCol);
             } else {
               setActiveCell(activeRow - 1, activeCol, visibleItems?.[activeRow - 1]?.id);
+              editIfPossible(activeRow - 1);
             }
           }
           break;
@@ -90,6 +103,7 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
               setActiveCellExtend(activeRow + 1, activeCol);
             } else {
               setActiveCell(activeRow + 1, activeCol, visibleItems?.[activeRow + 1]?.id);
+              editIfPossible(activeRow + 1);
             }
           }
           break;
@@ -196,7 +210,7 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
     },
     [activeRow, activeCol, isEditing, visibleRowCount, setActiveCell, setActiveCellExtend,
       getSelectedRowIndices, startEditing, stopEditing, updateItem, pushHistory, items, visibleItems,
-      copyItems, getGridRows, columns, cellSelectionStart, cellSelectionEnd]
+      copyItems, getGridRows, columns, cellSelectionStart, cellSelectionEnd, editIfPossible, gridView]
   );
 
   return { handleKeyDown };
