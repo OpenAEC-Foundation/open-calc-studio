@@ -39,10 +39,24 @@ export function computeResourceTotals(items: CostItem[]): Map<string, Record<str
       const qty = item.quantity || 0;
       const lab = item.laborPrice ?? 0;
       const nup = item.normUnitPrice ?? 0;
-      // Loon = laborPrice × aantal
-      const loon = lab * qty;
-      // Materiaalprijs = normUnitPrice × aantal
-      const matKosten = nup * qty;
+      const norm = item.normQuantity ?? 0;
+      const cap = item.normFactor ?? 1;
+
+      // Dezelfde twee rekenmodellen als de calculator, anders tellen de
+      // kostensoort-kolommen niet op tot het bedrag van de regel:
+      //  - WpCalc (loon ingevuld, of geen norm): aantal × prijs
+      //  - UI-1 (norm > 0, geen apart loon):     hoeveelheid × prijs/middel
+      // Zonder dat tweede geval viel de productienorm weg: een regel van
+      // 8 uur à 71,50 telde als 71,50 in plaats van 572,00.
+      let loon: number;
+      let matKosten: number;
+      if (lab > 0 || norm === 0) {
+        loon = lab * qty;
+        matKosten = nup * qty;
+      } else {
+        loon = 0;
+        matKosten = (qty * norm / (cap || 1)) * nup;
+      }
 
       // For onderaannemer: entire amount goes to onderaanneming, no loon
       switch (item.resourceType) {
@@ -68,6 +82,38 @@ export function computeResourceTotals(items: CostItem[]): Map<string, Record<str
         const childTotals = getTotals(child.id);
         for (const key of Object.keys(totals)) {
           totals[key] += childTotals[key] || 0;
+        }
+      }
+
+      // Kale (bewakings)post met een eigen prijs: de calculator valt terug
+      // op die eigen prijs zodra de kinderen niets opleveren (lege
+      // bewakingspost, alleen een tekstregel). Doe hier hetzelfde, anders
+      // staat dat geld wél in Totaal maar in geen enkele kostensoort-kolom
+      // en loopt het hoofdstuk-subtotaal uit de pas met het totaal.
+      const childSum = totals.arbeidTotal + totals.materiaalTotal + totals.materieelTotal
+        + totals.stelpostTotal + totals.onderaannemingTotal;
+      if (childSum === 0 && (item.rowType === 'begrotingspost' || item.rowType === 'bewakingspost')) {
+        const qty = item.quantity ?? 0;
+        const loon = (item.laborPrice ?? 0) * qty;
+        // BasCalc pint de postprijs in materialPrice; normUnitPrice is de
+        // handmatig ingevulde eigen prijs. Samen vormen ze het bedrag.
+        const eigen = ((item.normUnitPrice ?? 0) + (item.materialPrice ?? 0)) * qty;
+        switch (item.resourceType) {
+          case 'onderaannemer':
+            totals.onderaannemingTotal = item.total || 0;
+            break;
+          case 'materieel':
+            totals.arbeidTotal = loon;
+            totals.materieelTotal = eigen;
+            break;
+          case 'overig':
+            totals.arbeidTotal = loon;
+            totals.stelpostTotal = eigen;
+            break;
+          default:
+            totals.arbeidTotal = loon;
+            totals.materiaalTotal = eigen;
+            break;
         }
       }
     }
