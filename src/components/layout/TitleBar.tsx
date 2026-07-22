@@ -57,13 +57,22 @@ function TitleBar({ onSettingsClick, onFeedbackClick }: TitleBarProps) {
     }
   };
 
-  // Detect macOS platform
+  // Detect macOS platform.
+  //
+  // Eerst de user agent: die is er altijd en kan niet stilvallen. De
+  // os-plugin bevestigt het daarna. Eerder hing dit uitsluitend op de
+  // plugin; die was niet in Rust geregistreerd, dus de aanroep gooide een
+  // fout die in de lege catch verdween — macOS werd nooit herkend en de
+  // titelbalk liet geen ruimte voor de stoplichtknoppen.
   useEffect(() => {
+    if (/Mac|iPhone|iPad/i.test(navigator.userAgent)) setIsMacOS(true);
     (async () => {
       try {
         const { platform } = await import("@tauri-apps/plugin-os");
         setIsMacOS(platform() === "macos");
-      } catch { /* not in Tauri */ }
+      } catch (e) {
+        console.warn('[titlebar] platformdetectie via os-plugin mislukt, user agent gebruikt', e);
+      }
     })();
   }, []);
 

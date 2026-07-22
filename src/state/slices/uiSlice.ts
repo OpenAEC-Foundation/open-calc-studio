@@ -1,4 +1,5 @@
 import type { StateCreator } from 'zustand';
+import { applyUiZoom, clampUiZoom, loadUiZoom, nextUiZoom, saveUiZoom } from '@/services/system/uiZoom';
 
 export type ThemeName = 'default' | 'light' | 'dark' | 'blue' | 'amber-navy' | 'warm-ember' | 'highContrast';
 export type DialogType = 'settings' | 'about' | 'company' | 'wizard' | null;
@@ -26,6 +27,8 @@ export interface UiSlice {
   gridView: GridView;
   contextMenuPos: { x: number; y: number } | null;
   gridZoom: number;
+  /** App-brede interface-zoom in procenten (schaalt ook alle tekst). */
+  uiZoom: number;
   includeCover: boolean;
   includeSummary: boolean;
   splitView: boolean;
@@ -48,13 +51,17 @@ export interface UiSlice {
   setGridView: (view: GridView) => void;
   setContextMenuPos: (pos: { x: number; y: number } | null) => void;
   setGridZoom: (zoom: number) => void;
+  /** Zet de app-brede interface-zoom (blijft bewaard tussen sessies). */
+  setUiZoom: (zoom: number) => void;
+  /** Eén stap in- (1) of uitzoomen (-1). */
+  stepUiZoom: (richting: 1 | -1) => void;
   toggleIncludeCover: () => void;
   toggleIncludeSummary: () => void;
   toggleSplitView: () => void;
   setSplitDocumentId: (id: string | null) => void;
 }
 
-export const createUiSlice: StateCreator<UiSlice> = (set) => ({
+export const createUiSlice: StateCreator<UiSlice> = (set, get) => ({
   theme: 'light',
   activeDialog: null,
   activeContentTab: 'grid',
@@ -102,6 +109,7 @@ export const createUiSlice: StateCreator<UiSlice> = (set) => ({
   setGridView: (gridView) => set({ gridView }),
   contextMenuPos: null,
   gridZoom: 100,
+  uiZoom: loadUiZoom(),
   includeCover: false,
   includeSummary: false,
   splitView: false,
@@ -111,6 +119,18 @@ export const createUiSlice: StateCreator<UiSlice> = (set) => ({
   toggleSplitView: () => set((s) => ({ splitView: !s.splitView, splitDocumentId: s.splitView ? null : s.splitDocumentId })),
   setSplitDocumentId: (id) => set({ splitDocumentId: id, splitView: id !== null }),
   setGridZoom: (zoom) => set({ gridZoom: Math.max(50, Math.min(200, zoom)) }),
+  setUiZoom: (zoom) => {
+    const z = clampUiZoom(zoom);
+    saveUiZoom(z);
+    void applyUiZoom(z);
+    set({ uiZoom: z });
+  },
+  stepUiZoom: (richting) => {
+    const z = nextUiZoom(get().uiZoom, richting);
+    saveUiZoom(z);
+    void applyUiZoom(z);
+    set({ uiZoom: z });
+  },
   setActiveContentTab: (activeContentTab) => {
     // Offerte is volwaardig onderdeel; alleen pdf/viewer3d zijn nog experimenteel.
     const HIDE_EXP = import.meta.env.VITE_HIDE_EXPERIMENTAL === 'true';

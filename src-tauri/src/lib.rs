@@ -129,6 +129,10 @@ pub fn run() {
     .plugin(tauri_plugin_fs::init())
     .plugin(tauri_plugin_store::Builder::default().build())
     .plugin(tauri_plugin_opener::init())
+    // Platformdetectie: zonder deze registratie faalde platform() in de
+    // frontend stil, waardoor de titelbalk op macOS geen ruimte vrijhield
+    // voor de stoplichtknoppen van het systeem.
+    .plugin(tauri_plugin_os::init())
     .invoke_handler(tauri::generate_handler![
         reports::generate_pdf_report,
         reports::generate_pdf_preview,

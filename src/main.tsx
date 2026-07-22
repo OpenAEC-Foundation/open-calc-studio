@@ -8,6 +8,11 @@ try {
   document.documentElement.setAttribute("data-theme", saved || "light");
 } catch { /* ignore */ }
 
+// Bewaarde interface-zoom meteen toepassen, zodat de app niet eerst op
+// 100% verschijnt en daarna verspringt.
+import { applyUiZoom, loadUiZoom } from "./services/system/uiZoom";
+void applyUiZoom(loadUiZoom());
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./i18n/config";

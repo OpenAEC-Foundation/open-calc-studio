@@ -157,6 +157,27 @@ function SelectionSummary() {
   );
 }
 
+/** App-brede interface-zoom (schaalt ook de tekst) — los van de grid-zoom. */
+function UiZoomControl() {
+  const uiZoom = useAppStore((s) => s.uiZoom);
+  const stepUiZoom = useAppStore((s) => s.stepUiZoom);
+  const setUiZoom = useAppStore((s) => s.setUiZoom);
+  return (
+    <div className="status-zoom" title="Interface-zoom — Ctrl+= groter, Ctrl+- kleiner, Ctrl+0 terug naar 100%">
+      <span className="status-item-label">UI:</span>
+      <button className="status-zoom-btn" onClick={() => stepUiZoom(-1)} aria-label="Interface kleiner">−</button>
+      <button
+        className="status-zoom-value"
+        onClick={() => setUiZoom(100)}
+        aria-label="Interface-zoom terugzetten op 100%"
+      >
+        {uiZoom}%
+      </button>
+      <button className="status-zoom-btn" onClick={() => stepUiZoom(1)} aria-label="Interface groter">+</button>
+    </div>
+  );
+}
+
 export default function StatusBar() {
   const { t } = useTranslation();
   const { items, activeRow, activeCol, schedule, setActiveBranch } = useAppStore();
@@ -205,6 +226,8 @@ export default function StatusBar() {
           <span className="status-item-label">{t("total")}:</span>
           <span className="status-item-value" style={{ fontWeight: 600 }}>{formatCurrency(grandTotal)}</span>
         </div>
+        <div className="status-separator" />
+        <UiZoomControl />
         <div className="status-separator" />
         <ZoomControl />
       </div>

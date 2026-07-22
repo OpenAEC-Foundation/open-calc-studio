@@ -70,6 +70,16 @@ export function useKeyboardShortcuts() {
         if (isEditing || isInInput) return;
         e.preventDefault();
         pasteItems();
+      } else if (ctrl && (e.key === '+' || e.key === '=')) {
+        // App-brede zoom, zoals Ctrl+= in een browser
+        e.preventDefault();
+        useAppStore.getState().stepUiZoom(1);
+      } else if (ctrl && (e.key === '-' || e.key === '_')) {
+        e.preventDefault();
+        useAppStore.getState().stepUiZoom(-1);
+      } else if (ctrl && e.key === '0') {
+        e.preventDefault();
+        useAppStore.getState().setUiZoom(100);
       } else if (ctrl && e.key === 'p') {
         e.preventDefault();
         import('../services/print/printService').then(({ printBudget }) => {
