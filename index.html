@@ -11,25 +11,68 @@
   <body>
     <div id="root"></div>
     <!-- Zelfherstel bij wit scherm: dit script staat bewust BUITEN de bundle.
-         Faalt het laden van de module-graph (dode HMR-sessie na slaapstand,
-         mislukte chunk), dan draait geen enkele app-code meer — alleen dit
-         inline script kan dan nog eenmalig herladen. De guard voorkomt een
-         reload-lus; bij een gevulde root wordt hij weer gewist. -->
+         Faalt het laden van de module-graph, dan draait geen enkele app-code
+         meer — alleen dit inline script kan dan nog herladen.
+
+         Hoofdoorzaak in dev: een koude-start-race tussen de Tauri-webview en
+         Vite's dependency-optimalisatie. De webview grijpt een module vóórdat
+         Vite klaar is ("does not provide an export named …"), cachet die en
+         blijft wit. Zo'n race heeft soms één retry nódig, dus we staan een
+         paar snelle pogingen toe (geen enkele reload van 8s→60s zoals eerder)
+         met een harde bovengrens tegen een reload-lus. Bij een gevulde root
+         wordt de teller gewist. -->
     <script>
       (function () {
-        var GUARD = "ocs-white-screen-reload";
-        setTimeout(function () {
+        var COUNT = "ocs-wsr-count";
+        var MAX = 4;               // max opeenvolgende reloads voor we opgeven
+        var done = false;
+
+        function tries() { return Number(sessionStorage.getItem(COUNT) || 0); }
+
+        function recover(reason) {
+          if (done) return;
+          if (document.getElementById("root") && document.getElementById("root").childElementCount > 0) return;
+          var n = tries();
+          if (n >= MAX) return;    // opgeven: laat het witte scherm staan i.p.v. eindeloos herladen
+          done = true;
+          sessionStorage.setItem(COUNT, String(n + 1));
+          // cache-bust zodat de webview niet dezelfde half-geoptimaliseerde
+          // module opnieuw uit z'n cache serveert
+          var u = new URL(window.location.href);
+          u.searchParams.set("_wsr", String(Date.now()));
+          window.location.replace(u.toString());
+        }
+
+        // 1) Direct op een mislukte module-/scriptlaad reageren (snelst herstel)
+        window.addEventListener("error", function (e) {
+          var t = e && e.target;
+          if (t && (t.tagName === "SCRIPT" || t.tagName === "LINK")) recover("resource");
+        }, true);
+        window.addEventListener("error", function (e) {
+          var m = e && e.message ? String(e.message) : "";
+          if (m.indexOf("does not provide an export") !== -1 ||
+              m.indexOf("Failed to fetch dynamically imported module") !== -1 ||
+              m.indexOf("error loading dynamically imported module") !== -1) recover("module");
+        });
+        window.addEventListener("unhandledrejection", function (e) {
+          var m = e && e.reason && e.reason.message ? String(e.reason.message) : "";
+          if (m.indexOf("dynamically imported module") !== -1) recover("promise");
+        });
+
+        // 2) Vangnet-poll: gemount → teller wissen; nog leeg → herstellen
+        var polls = 0;
+        var iv = setInterval(function () {
           var root = document.getElementById("root");
-          if (root && root.childElementCount === 0) {
-            var last = Number(sessionStorage.getItem(GUARD) || 0);
-            if (Date.now() - last > 60000) {
-              sessionStorage.setItem(GUARD, String(Date.now()));
-              window.location.reload();
-            }
-          } else {
-            sessionStorage.removeItem(GUARD);
+          if (root && root.childElementCount > 0) {
+            sessionStorage.removeItem(COUNT);
+            clearInterval(iv);
+            return;
           }
-        }, 8000);
+          if (++polls >= 5) {      // ~5 × 700ms ≈ 3,5s zonder mount
+            clearInterval(iv);
+            recover("poll");
+          }
+        }, 700);
       })();
     </script>
     <script type="module" src="/src/main.tsx"></script>
