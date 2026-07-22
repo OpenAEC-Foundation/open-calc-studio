@@ -84,7 +84,19 @@ jobs:
             libwebkit2gtk-4.1-dev \
             libappindicator3-dev \
             librsvg2-dev \
-            patchelf
+            patchelf \
+            libfuse2
+        # libfuse2: het AppImage-gereedschap (linuxdeploy) is zelf een
+        # AppImage en heeft FUSE 2 nodig. Ubuntu 22.04 levert alleen fuse3,
+        # dus zonder dit pakket kan de bundelstap stuklopen. De build-job
+        # draait alleen op een release-tag, waar zo'n fout de hele Linux-
+        # release zou kosten — vandaar dat we het niet op goed geluk doen.
+
+      # Vangnet voor dezelfde stap: laat het AppImage-gereedschap zichzelf
+      # uitpakken in plaats van via FUSE te mounten.
+      - name: Enable AppImage extract-and-run
+        if: runner.os == 'Linux'
+        run: echo "APPIMAGE_EXTRACT_AND_RUN=1" >> "$GITHUB_ENV"
 
       - name: Install npm dependencies
         run: npm install
