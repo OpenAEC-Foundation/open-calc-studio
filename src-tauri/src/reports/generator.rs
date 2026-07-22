@@ -360,6 +360,41 @@ fn parse_hex_color(s: &str) -> Option<Color> {
     Some(Color::rgb(r, g, b))
 }
 
+/// Decodeer een aangeleverd logo en lever het als **PNG**-bytes op.
+///
+/// De Typst-sjablonen registreren het logo onder de naam `logo-right.png`, en
+/// Typst leidt het formaat uit die naam af. Een gebruiker levert echter net zo
+/// vaak een JPEG aan (het dialoogvenster accepteert dat), en dan strandde het
+/// hele rapport op "failed to decode image (Invalid PNG signature)". Daarom
+/// hercoderen we alles wat geen PNG is naar PNG.
+///
+/// Geeft None terug bij lege of onleesbare invoer; de aanroeper valt dan terug
+/// op een doorzichtige stip in plaats van het rapport te laten mislukken.
+pub(crate) fn logo_as_png(data_url: &str) -> Option<Vec<u8>> {
+    let trimmed = data_url.trim();
+    if trimmed.is_empty() {
+        return None;
+    }
+    let b64 = trimmed.split(',').next_back().unwrap_or(trimmed);
+    use base64::Engine as _;
+    let bytes = base64::engine::general_purpose::STANDARD.decode(b64).ok()?;
+
+    // Al een PNG? Dan niets aanraken — hercoderen kost alleen kwaliteit en tijd.
+    if bytes.starts_with(&[0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]) {
+        return Some(bytes);
+    }
+
+    let img = image::ImageReader::new(std::io::Cursor::new(&bytes))
+        .with_guessed_format()
+        .ok()?
+        .decode()
+        .ok()?;
+    let mut out = Vec::new();
+    img.write_to(&mut std::io::Cursor::new(&mut out), image::ImageFormat::Png)
+        .ok()?;
+    Some(out)
+}
+
 /// Decodeer een logo uit een data-URL ("data:image/png;base64,....") naar
 /// (bytes, hoogte/breedte-verhouding). None bij lege of onleesbare input.
 fn decode_logo(data_url: &str) -> Option<(Vec<u8>, f32)> {

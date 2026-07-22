@@ -537,27 +537,21 @@ pub fn generate_bouw1_typst(request: &ReportRequest) -> Result<Vec<u8>, String> 
     data.page_orientation = request.page_orientation.clone();
     let json_bytes = serde_json::to_vec_pretty(&data).map_err(|e| e.to_string())?;
 
-    // Logos are user-supplied via CompanyInfo.logoLeft/logoRight (PNG base64).
-    // No third-party logos are bundled - fallback is a 1x1 transparent placeholder.
+    // Logo's komen van de gebruiker via CompanyInfo.logoLeft/logoRight. Ze
+    // worden hieronder als "logo-*.png" geregistreerd en Typst leidt het
+    // formaat uit die naam af, dus alles wat geen PNG is wordt eerst
+    // omgezet — een aangeleverde JPEG liet anders het hele rapport stranden
+    // op "failed to decode image (Invalid PNG signature)".
     let logo_left_bytes: Vec<u8> = request.company_info.as_ref()
         .and_then(|ci| ci.logo_left.as_ref())
         .filter(|s| !s.is_empty())
-        .and_then(|b64| {
-            // Strip data URI prefix if present (e.g., "data:image/jpeg;base64,...")
-            let raw = if let Some(pos) = b64.find(",") { &b64[pos + 1..] } else { b64.as_str() };
-            use base64::Engine;
-            base64::engine::general_purpose::STANDARD.decode(raw).ok()
-        })
+        .and_then(|b64| super::generator::logo_as_png(b64))
         .unwrap_or_else(|| EMPTY_PNG.to_vec());
 
     let logo_right_bytes: Vec<u8> = request.company_info.as_ref()
         .and_then(|ci| ci.logo_right.as_ref())
         .filter(|s| !s.is_empty())
-        .and_then(|b64| {
-            let raw = if let Some(pos) = b64.find(",") { &b64[pos + 1..] } else { b64.as_str() };
-            use base64::Engine;
-            base64::engine::general_purpose::STANDARD.decode(raw).ok()
-        })
+        .and_then(|b64| super::generator::logo_as_png(b64))
         .unwrap_or_else(|| EMPTY_PNG.to_vec());
 
     // Build Typst engine
