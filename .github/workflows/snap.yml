@@ -34,7 +34,15 @@ jobs:
     runs-on: ubuntu-22.04
     # `types: [completed]` vuurt OOK als build.yml faalde of werd geannuleerd;
     # zonder deze gate zou een mislukte release alsnog een snap bouwen.
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    # "Build & Release" draait ook zijn lichte check-job op elke gewone push
+    # naar main (niet alleen op een tag) — zonder de head_branch-check hieronder
+    # zou zo'n routine merge ook deze snap-job triggeren, en zodra
+    # SNAPCRAFT_STORE_CREDENTIALS bestaat zelfs een ongewenste store-publish
+    # veroorzaken. Alleen doorgaan bij een echte v*-tag (of een handmatige test).
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       startsWith(github.event.workflow_run.head_branch, 'v'))
     permissions:
       contents: write
     env:
