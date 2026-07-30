@@ -1,0 +1,163 @@
+name: Build Snap Package
+
+on:
+  # workflow_run werkt alleen als dit workflowbestand op de DEFAULT branch staat.
+  # De workflow wordt getriggerd zodra "Build & Release" afrondt, ongeacht hoe
+  # DIE startte (tag-push óf een eigen workflow_dispatch op main).
+  workflow_run:
+    workflows: ["Build & Release"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Bestaande release-tag om tegen te bouwen (test)'
+        required: true
+        default: 'v0.10.0'
+
+# Minimale default; de build-snap-job zet zelf `contents: write` omdat hij de
+# snap als asset aan de release hangt.
+permissions:
+  contents: read
+
+# Eén globale groep, NIET annuleren: twee releases kort na elkaar publiceren
+# allebei naar het `stable`-kanaal van de Snap Store, en een Snap-release is
+# niet in te trekken.
+concurrency:
+  group: snap
+  cancel-in-progress: false
+
+jobs:
+  build-snap:
+    # Ruim boven de snapcraft-bouwtijd, maar begrensd: deze job bevat een
+    # poll-lus (max ~2,5 min) plus een snapcraft-build in een VM.
+    timeout-minutes: 75
+    runs-on: ubuntu-22.04
+    # `types: [completed]` vuurt OOK als build.yml faalde of werd geannuleerd;
+    # zonder deze gate zou een mislukte release alsnog een snap bouwen.
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    permissions:
+      contents: write
+    env:
+      # Job-level zodat de gated publish-stap er in `if:` naar kan verwijzen.
+      SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # Bij workflow_run checkt checkout standaard de DEFAULT BRANCH uit,
+          # niet de tag/commit die build.yml bouwde — fout, want snap/snapcraft.yaml
+          # moet van de gebouwde commit komen. Daarom expliciet de head_sha van
+          # build.yml; voor workflow_dispatch (geen workflow_run-event) valt die
+          # weg naar github.ref (de branch waarop handmatig werd gedispatcht).
+          ref: ${{ github.event.workflow_run.head_sha || github.ref }}
+
+      - name: Get version
+        id: get-version
+        env:
+          # Niet-vertrouwde invoer via env, NOOIT rechtstreeks ${} in de shell.
+          # GITHUB_*-namen zelf NIET zetten: gereserveerd en al aanwezig in de runner.
+          EVENT_NAME: ${{ github.event_name }}
+          DISPATCH_VERSION: ${{ github.event.inputs.version }}
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            VERSION="$DISPATCH_VERSION"
+          elif [ "$EVENT_NAME" = "workflow_run" ]; then
+            # head_branch bevat bij een TAG-push de tagnaam; startte build.yml
+            # zelf via dispatch op main, dan staat hier 'main'.
+            if printf '%s' "$HEAD_BRANCH" | grep -qE '^v[0-9]'; then
+              VERSION="$HEAD_BRANCH"
+            else
+              VERSION="$(gh release list --exclude-drafts --limit 1 --json tagName --jq '.[0].tagName // empty')"
+            fi
+          else
+            VERSION=""
+          fi
+          if [ -z "$VERSION" ]; then
+            echo "::error::Kon geen versie afleiden (event=$EVENT_NAME, head_branch=$HEAD_BRANCH)"
+            exit 1
+          fi
+          # `version` en `version_number` gaan verderop een `sed`-VERVANGINGSPATROON
+          # in, en een dispatch-input is vrije tekst — een '/' of '&' herschrijft dat
+          # patroon, een nieuwe regel schrijft een tweede regel in $GITHUB_OUTPUT
+          # (output-injectie). Whitelist: de `case` dekt de hele waarde (dus ook
+          # nieuwe regels), de regex daarna de structuur.
+          case "$VERSION" in
+            *[!v0-9.]*)
+              echo "::error::Versie bevat tekens buiten 'v', cijfers en punten." >&2
+              exit 1
+              ;;
+          esac
+          if ! printf '%s' "$VERSION" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::Versie '$VERSION' heeft niet de vorm vX.Y.Z." >&2
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "version_number=${VERSION#v}" >> "$GITHUB_OUTPUT"
+
+      # We bouwen de Tauri-app NIET opnieuw: de snap herverpakt de deb van de
+      # gepubliceerde GitHub-release (zelfde artifact als de overige Linux-downloads).
+      - name: Wait for release deb and download it
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.get-version.outputs.version }}
+        run: |
+          echo "Wachten op deb-asset van release $VERSION..."
+          found=""
+          for i in $(seq 1 10); do
+            if gh release view "$VERSION" --json assets --jq '.assets[].name' 2>/dev/null | grep -q '_amd64\.deb$'; then
+              found=1
+              echo "deb-asset gevonden"
+              break
+            fi
+            echo "nog geen deb-asset... (poging $i/10)"
+            sleep 15
+          done
+          if [ -z "$found" ]; then
+            echo "::error::deb-asset voor $VERSION verscheen niet op tijd"
+            exit 1
+          fi
+          gh release download "$VERSION" -p '*_amd64.deb' --clobber --dir .
+          deb=$(ls *_amd64.deb | head -1)
+          cp "$deb" open-calc-studio.deb
+          echo "Gebruik $deb -> open-calc-studio.deb"
+
+      - name: Set version in snapcraft.yaml
+        env:
+          VERSION_NUMBER: ${{ steps.get-version.outputs.version_number }}
+        run: |
+          sed -i "s/^version: .*/version: '$VERSION_NUMBER'/" snap/snapcraft.yaml
+          grep '^version:' snap/snapcraft.yaml
+
+      - name: Build snap
+        uses: snapcore/action-build@v1
+        id: snapcraft
+
+      # Echte release (via workflow_run): snap als asset aan de release hangen.
+      - name: Upload snap to GitHub release
+        if: github.event_name == 'workflow_run'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.get-version.outputs.version }}
+          SNAP: ${{ steps.snapcraft.outputs.snap }}
+        run: |
+          gh release upload "$VERSION" "$SNAP" --clobber
+
+      # Handmatige test: snap als CI-artifact (de release NIET aanraken).
+      - name: Upload snap as workflow artifact
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: open-calc-studio-snap
+          path: ${{ steps.snapcraft.outputs.snap }}
+          if-no-files-found: error
+
+      # Live publiceren naar de Snap Store: alleen op een echte release én pas
+      # zodra het store-credentials-secret bestaat (eigenaar-stap).
+      - name: Publish to Snap Store
+        if: github.event_name == 'workflow_run' && env.SNAPCRAFT_STORE_CREDENTIALS != ''
+        uses: snapcore/action-publish@v1
+        with:
+          snap: ${{ steps.snapcraft.outputs.snap }}
+          release: stable
