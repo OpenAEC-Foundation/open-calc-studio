@@ -13,6 +13,17 @@ on:
         description: 'Bestaande release-tag om tegen te bouwen (test)'
         required: true
         default: 'v0.10.0'
+      publish:
+        # Backfill-route: publiceren gebeurt normaal alleen via workflow_run
+        # na een echte release. Deze snap-pijplijn is echter TOEGEVOEGD NA de
+        # huidige release, dus er bestaat geen release-event om aan te haken en
+        # de Store zou tot de volgende release blijven hangen op een oude versie.
+        # Bewust default false: aanzetten is onomkeerbaar (een Snap-release is
+        # niet in te trekken).
+        description: 'Ook publiceren naar het stable-kanaal van de Snap Store (ONOMKEERBAAR)'
+        type: boolean
+        required: false
+        default: false
 
 # Minimale default; de build-snap-job zet zelf `contents: write` omdat hij de
 # snap als asset aan de release hangt.
@@ -164,7 +175,10 @@ jobs:
       # Live publiceren naar de Snap Store: alleen op een echte release én pas
       # zodra het store-credentials-secret bestaat (eigenaar-stap).
       - name: Publish to Snap Store
-        if: github.event_name == 'workflow_run' && env.SNAPCRAFT_STORE_CREDENTIALS != ''
+        if: >-
+          env.SNAPCRAFT_STORE_CREDENTIALS != '' &&
+          (github.event_name == 'workflow_run' ||
+           (github.event_name == 'workflow_dispatch' && inputs.publish))
         uses: snapcore/action-publish@v1
         with:
           snap: ${{ steps.snapcraft.outputs.snap }}
