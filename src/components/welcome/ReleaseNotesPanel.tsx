@@ -18,6 +18,7 @@ const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours
 // (offline én vóór een GitHub-publicatie), samengevoegd met de opgehaalde
 // releases. Bijwerken bij elke release; de bullets staan in HIGHLIGHTS hieronder.
 const BUNDLED_RELEASES: Release[] = [
+  { tag_name: 'v0.10.3', name: 'Btw hoog én laag — per onderdeel selecteerbaar', body: '', published_at: '2026-09-10T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.10.3` },
   { tag_name: 'v0.10.0', name: 'Logo in de rapportkop + formules in cellen', body: '', published_at: '2026-07-16T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.10.0` },
   { tag_name: 'v0.9.0', name: 'Exacte BasCalc-totalen + besteksopmaak rapporten', body: '', published_at: '2026-07-16T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.9.0` },
   { tag_name: 'v0.8.8', name: 'Excel/CSV-import-fix + via MCP', body: '', published_at: '2026-07-03T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.8.8` },
@@ -35,6 +36,13 @@ const BUNDLED_RELEASES: Release[] = [
 // Gecureerde, concrete verbeterpunten per versie. De GitHub-releases bevatten
 // vaak alleen downloads; deze lijst toont wat er écht is verbeterd.
 const HIGHLIGHTS: Record<string, string[]> = {
+  'v0.10.3': [
+    'Nieuwe staartregel "Btw laag" (9%) naast "Btw hoog" — bestaande begrotingen krijgen hem automatisch',
+    'Markeer hoofdstukken, posten of regels als laag-belast via rechtermuisknop; kinderen erven het tarief en het grid toont een btw-label',
+    'Grondslag pro rata berekend uit de markering (opslagen tellen mee) of handmatig invulbaar in het staart-paneel',
+    'Btw-verdeling doorgevoerd in alle rapporten (IBIS toont grondslag hoog/laag apart) en de MCP-server',
+    'Fixes: dubbele btw in de Bouw 1-samenvatting en incl-bedrag onder het label "Aanneemsom excl. BTW"',
+  ],
   'v0.10.0': [
     'Bedrijfslogo rechtsboven in de rapportkop (transparant, schaalt mee); kophoogte en lijnkleur instelbaar',
     'Rekenformules in getalcellen (=12,2*2,22 of 12.2*2.2) — en de komma-wegval-bug is opgelost',

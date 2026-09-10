@@ -3976,7 +3976,7 @@ dependencies = [
 
 [[package]]
 name = "open-calc-studio"
-version = "0.10.2"
+version = "0.10.3"
 dependencies = [
  "axum",
  "base64 0.22.1",
