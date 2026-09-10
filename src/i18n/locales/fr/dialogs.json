@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "Associer les colonnes",
+    "intro": "Associez chaque colonne de <b>{{name}}</b> au champ de devis correspondant. Les colonnes réglées sur « — ignorer — » sont ignorées.",
+    "columnN": "Colonne {{n}}",
+    "columnsLinked_one": "{{count}} colonne associée",
+    "columnsLinked_other": "{{count}} colonnes associées",
+    "rows": "{{count}} lignes",
+    "linkDescriptionFirst": "associez d'abord une colonne « Désignation »",
+    "cancel": "Annuler",
+    "import": "Importer"
+  },
+  "quantityPicker": {
+    "title": "Lier la quantité",
+    "tabSpreadsheet": "Feuille de calcul",
+    "tabPdf": "Métré PDF",
+    "tabIfc": "Élément IFC",
+    "cellNotNumeric": "La cellule ne contient pas de nombre valide",
+    "noSheets": "Aucune feuille pour le moment. Créez d'abord une feuille de calcul.",
+    "sheet": "Feuille",
+    "cellReference": "Référence de cellule (p. ex. A5 ou B12)",
+    "value": "Valeur",
+    "empty": "(vide)",
+    "linkCell": "Lier la cellule",
+    "noPdfMeasurements": "Aucune mesure PDF pour le moment. Ouvrez d'abord un PDF dans l'onglet PDF et créez des mesures.",
+    "sumLengths": "Σ Toutes les longueurs",
+    "sumAreas": "Σ Toutes les surfaces",
+    "individualMeasurements": "Mesures individuelles :",
+    "noIfcElements": "Aucun élément IFC pour le moment. Ouvrez un fichier IFC dans l'onglet 3D et sélectionnez un élément.",
+    "cancel": "Annuler"
+  },
+  "excelPicker": {
+    "title": "Lier à Excel",
+    "cannotReadFile": "Impossible de lire le fichier",
+    "chooseFile": "Choisir un fichier…",
+    "noFileSelected": "Aucun fichier sélectionné",
+    "loadingFile": "Chargement du fichier…",
+    "cancel": "Annuler",
+    "select": "Sélectionner"
+  },
+  "costItemPicker": {
+    "title": "Lier à une ligne du devis",
+    "searchPlaceholder": "Rechercher par désignation ou code…",
+    "suggestions": "Suggestions",
+    "results": "Résultats ({{count}})",
+    "allLines": "Toutes les lignes",
+    "unlink": "Dissocier",
+    "cancel": "Annuler",
+    "link": "Lier"
+  },
+  "resourceTypes": {
+    "arbeid": "Main-d'œuvre",
+    "materieel": "Matériel",
+    "materiaal": "Matériaux",
+    "onderaannemer": "Sous-traitant",
+    "overig": "Autre"
+  },
+  "undo": {
+    "addResource": "Ajouter une ressource",
+    "wizard": "Assistant : {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Aperçu — {{name}}"
+  }
+}

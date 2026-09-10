@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "39 nyelv + spanyol FIEBDC-3 (.bc3)",
+    "v0.10.3": "Normál és kedvezményes áfa — részenként választható",
+    "v0.10.0": "Logó a jelentés fejlécében + képletek a cellákban",
+    "v0.9.0": "Pontos BasCalc-végösszegek + tételes jellegű jelentések",
+    "v0.8.8": "Excel/CSV-import javítás + MCP-n keresztül",
+    "v0.8.7": "Négy új importformátum",
+    "v0.8.6": "Javított felárak a jelentés összesítőjében",
+    "v0.8.5": "Jelentősen bővített import + fehér képernyő javítása",
+    "v0.8.4": "Kódválasztó + tömör megrendelői költségvetés",
+    "v0.8.3": "Módosításkövetés + költségvetés-import",
+    "v0.8.2": "Az OpenAEC funkciókapcsoló mögött",
+    "v0.8.1": "OpenAEC-bejelentkezés + asszisztensfejlesztések",
+    "v0.8.0": "Az asszisztens közvetlenül alkalmazza a módosításokat",
+    "v0.7.10": "OpenAEC-fiók + alsó sávos navigáció"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "A felület mostantól 39 nyelven érhető el — válassza ki a sajátját a Beállítások → Általános pontban, vagy hagyja, hogy az alkalmazás a rendszernyelvet kövesse",
+      "Jobbról balra írás támogatása arab, fárszi, héber és urdu nyelvhez: a teljes elrendezés tükröződik",
+      "Az angol nyelv félig holland maradt; a nyelvi beállítás belül rögzítve volt, és több mint 500 szöveg be volt égetve a kódba — mindkettő javítva",
+      "FIEBDC-3 (.bc3) import és export: a spanyol szabvány költségvetésekhez és árazási adatbázisokhoz (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS: a „sérült” hibaüzenet megoldva és maga a build megjavítva; az „Újdonságok” mostantól az Ön nyelvén jelenik meg"
+    ],
+    "v0.10.3": [
+      "Új „Kedvezményes áfa” (9%) felársor a „Normál áfa” mellett — a meglévő költségvetések automatikusan megkapják",
+      "Jelöljön meg fejezeteket, tételeket vagy sorokat kedvezményes kulcsúként jobb gombbal; az altételek öröklik a kulcsot, a táblázat pedig áfacímkét mutat",
+      "Az adóalap arányosan számítódik a jelölésből (a felárakkal együtt), vagy kézzel adható meg a felárak panelen",
+      "Az áfabontás minden jelentésben érvényesül (az IBIS külön mutatja a normál/kedvezményes alapot) és az MCP-kiszolgálón is",
+      "Javítások: az áfa kétszeres beszámítása a Bouw 1 összesítőben, és az áfás összeg megjelenítése „Vállalási ár áfa nélkül” címke alatt"
+    ],
+    "v0.10.0": [
+      "Céglogó a jelentés fejlécének jobb felső sarkában (átlátszó, együtt méreteződik); a fejléc magassága és a vonal színe állítható",
+      "Képletek a numerikus cellákban (=12.2*2.22 vagy 12,2*2,2) — és javítva az elveszett tizedesjegy hibája",
+      "Felárak: adja meg a végleges áfa nélküli összeget, és a kerekítés automatikusan a különbözet lesz; az áfa a kerekített összegre",
+      "Fővállalkozás: sorok összegzése „+” jellel, opcionális E oszlop (elszámolhatóság a fejezettől örökölve) és csak részösszeges nézetek",
+      "Gyorsabb munka: árak ±%, Ctrl+F keresés és csere, összecsukás szintenként, többlépéses visszavonás, sortöréses szövegsorok"
+    ],
+    "v0.9.0": [
+      "BasCalc-import: az önköltség és a vállalási ár centre egyezik az Excellel (egységes felárak + fix kerekítési tétel)",
+      "Munkaleírás és fővállalkozás tételes elrendezésben: cellaszegélyek nélkül, behúzott szakaszok, szakaszonkénti részösszeg",
+      "A sor melletti + gomb számítási sort ad hozzá; a mennyiségek be-/kikapcsolása közvetlenül a jelentés eszköztárán",
+      "A Mentés másként mostantól alapértelmezés szerint .ifcCalc formátumot használ, és megőrzi az eredeti forrásfájlt",
+      "Új zöld logó; navigációs és párbeszédpanel-javítások (táblázat ↔ költségvetés)"
+    ],
+    "v0.8.8": [
+      "Excel/CSV-import: az összegek néha € 0 értékkel érkeztek — javítva",
+      "Az Excel/CSV-import mostantól az MCP-kiszolgálón keresztül is elérhető (import_excel_csv eszköz)"
+    ],
+    "v0.8.7": [
+      "Excel/CSV-import oszlopmegfeleltetéssel — olvasson be szabad elrendezésű Excel/CSV fájlokat, és párosítsa Ön az oszlopokat",
+      "Új formátumok: STABU SUFX (XML műszaki leírás) és régi RAW (.rsu)",
+      "Árkatalógus (BMEcat/DICO) → egyenesen az erőforrás-könyvtárba"
+    ],
+    "v0.8.6": [
+      "A jelentés összesítője a helyes felárszázalékokat mutatja, és figyelembe veszi az egyedi kulcsokat (korábban a „Rezsiköltség” 0%-ot mutathatott)",
+      "A felármodell belül rendbe téve; minden jelentés ugyanabból a forrásból számol"
+    ],
+    "v0.8.5": [
+      "Sokkal több importformátum: .cuf, .dnc, .xtb (részletsorokkal), .rsx, .s01 és .ifcx",
+      "A Windows alatti fehér képernyő javítva (a WebView szoftveres megjelenítésre vált)",
+      "Az importmotor tisztán újraépítve; a végösszegek pontosan egyeznek a forrásfájlokkal"
+    ],
+    "v0.8.4": [
+      "Kódmező: válasszon STABU/NL-SfB kódokat dupla kattintással (és vegyen fel sajátot)",
+      "Költségvetés-import (.dnc): mostantól rögtön tömör megrendelői jelentésként nyílik meg",
+      "A projekt, a logók és a változatok átkerültek a menüszalagra; a tulajdonságok rendbe téve"
+    ],
+    "v0.8.3": [
+      "Módosításkövetés: válassza ki, hogy a teljes sor vagy csak a módosított cella legyen kiemelve",
+      "A módosítások a jelentés PDF-jében is látszanak",
+      "Költségvetés-import: a megrendelői költségvetések (.dnc) közvetlenül importálhatók, és a Fájl → Megnyitás menüponton át nyithatók meg",
+      "Megrendelői jelentés opció; soronkénti módosítási előzmények (ki/mikor/mit)"
+    ],
+    "v0.8.2": [
+      "Költségvetési asszisztens: költségvetésenkénti csevegési előzmények, több kérdés egyszerre",
+      "Az OpenAEC-funkciók (bejelentkezés, felhőtárolás) egy beállítás mögött"
+    ],
+    "v0.8.1": [
+      "OpenAEC-bejelentkezés és asszisztensfejlesztések",
+      "Érthető AI-hibaüzenetek; az asszisztens szövege kijelölhető és másolható"
+    ],
+    "v0.8.0": [
+      "A költségvetési asszisztens közvetlenül a megnyitott dokumentumban alkalmazza a módosításokat",
+      "JSON-t tartalmazó .calc/.mdb fájlok megnyitása natív OCS-projektként"
+    ],
+    "v0.7.10": [
+      "OpenAEC-fiók és alsó sávos navigáció",
+      "Oszlopok elrejtése/megjelenítése az oszlopfejlécre jobb gombbal kattintva",
+      "Az Órák és a Felárak lap egyesítve; IBIS-stílusú jelentés (Bouw 2)"
+    ]
+  }
+}

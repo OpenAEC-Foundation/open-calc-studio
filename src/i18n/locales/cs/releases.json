@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "39 jazyků + španělský FIEBDC-3 (.bc3)",
+    "v0.10.3": "Základní a snížená sazba DPH — volitelná u každé části",
+    "v0.10.0": "Logo v záhlaví sestavy + vzorce v buňkách",
+    "v0.9.0": "Přesné součty BasCalc + sestavy ve stylu specifikace",
+    "v0.8.8": "Oprava importu Excel/CSV + přes MCP",
+    "v0.8.7": "Čtyři nové formáty importu",
+    "v0.8.6": "Opravené přirážky v souhrnu sestavy",
+    "v0.8.5": "Výrazně rozšířený import + oprava bílé obrazovky",
+    "v0.8.4": "Výběr kódu + kompaktní rozpočet pro investora",
+    "v0.8.3": "Sledování změn + import rozpočtů",
+    "v0.8.2": "OpenAEC za přepínačem funkcí",
+    "v0.8.1": "Přihlášení OpenAEC + vylepšení asistenta",
+    "v0.8.0": "Asistent provádí změny přímo",
+    "v0.7.10": "Účet OpenAEC + navigace ve spodní liště"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "Rozhraní je nyní dostupné ve 39 jazycích — svůj si vyberte v Předvolby → Obecné, nebo nechte aplikaci sledovat jazyk systému",
+      "Podpora psaní zprava doleva pro arabštinu, perštinu, hebrejštinu a urdštinu: zrcadlí se celé rozvržení",
+      "Anglická verze zůstávala napůl nizozemská; nastavení jazyka bylo interně zamčené a přes 500 textů bylo napevno v kódu — obojí opraveno",
+      "Import a export FIEBDC-3 (.bc3): španělský standard pro rozpočty a cenové databáze (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS: vyřešena chyba o „poškozené“ aplikaci a opraveno samotné sestavení; „Novinky“ se nyní zobrazují ve vašem jazyce"
+    ],
+    "v0.10.3": [
+      "Nový řádek přirážky „Snížená DPH“ (9 %) vedle „Základní DPH“ — stávající rozpočty jej dostanou automaticky",
+      "Kapitoly, položky nebo řádky označte pravým tlačítkem jako se sníženou sazbou; podřízené prvky sazbu dědí a tabulka zobrazí štítek DPH",
+      "Základ daně se počítá poměrně z označení (včetně přirážek) nebo se zadá ručně v panelu přirážek",
+      "Rozdělení DPH se promítá do všech sestav (IBIS zobrazuje základ pro základní a sníženou sazbu odděleně) i do serveru MCP",
+      "Opravy: dvojí započtení DPH v souhrnu Bouw 1 a částka včetně DPH zobrazená pod popiskem „Cena díla bez DPH“"
+    ],
+    "v0.10.0": [
+      "Logo firmy vpravo nahoře v záhlaví sestavy (průhledné, zvětšuje se spolu se záhlavím); výška záhlaví a barva linky nastavitelné",
+      "Vzorce v číselných buňkách (=12.2*2.22 nebo 12,2*2,2) — a opravena chyba se ztrácejícími se desetinnými místy",
+      "Přirážky: zadejte konečnou částku bez DPH a zaokrouhlení se automaticky stane rozdílem; DPH ze zaokrouhlené částky",
+      "Hlavní dodávka: sčítání řádků znakem „+“, volitelný sloupec S (zúčtovatelnost zděděná z kapitoly) a pohledy pouze s mezisoučty",
+      "Rychlejší práce: ceny ±%, Ctrl+F najít a nahradit, sbalení podle úrovně, vícenásobné vrácení zpět, textové řádky se zalamováním"
+    ],
+    "v0.9.0": [
+      "Import BasCalc: vlastní náklady a cena díla odpovídají Excelu na cent (ploché přirážky + pevná zaokrouhlovací položka)",
+      "Popis prací a hlavní dodávka ve stylu specifikace: bez ohraničení buněk, odsazené oddíly, mezisoučet za oddíl",
+      "Tlačítko + vedle řádku přidá kalkulační řádek; množství zap./vyp. přímo v panelu nástrojů sestavy",
+      "Uložit jako nyní nabízí výchozí příponu .ifcCalc a chrání původní zdrojový soubor",
+      "Nové zelené logo; opravy navigace a dialogů (tabulka ↔ rozpočet)"
+    ],
+    "v0.8.8": [
+      "Import Excel/CSV: částky občas skončily jako € 0 — opraveno",
+      "Import Excel/CSV nyní i přes server MCP (nástroj import_excel_csv)"
+    ],
+    "v0.8.7": [
+      "Import Excel/CSV s mapováním sloupců — načtěte volné rozvržení Excel/CSV a sloupce si namapujte sami",
+      "Nové formáty: STABU SUFX (XML specifikace) a starší RAW (.rsu)",
+      "Cenový katalog (BMEcat/DICO) → rovnou do knihovny zdrojů"
+    ],
+    "v0.8.6": [
+      "Souhrn sestavy zobrazuje správná procenta přirážek a respektuje upravené sazby (dříve mohla „Všeobecná režie“ ukazovat 0 %)",
+      "Model přirážek interně vyčištěn; všechny sestavy nyní počítají ze stejného zdroje"
+    ],
+    "v0.8.5": [
+      "Mnohem více formátů importu: .cuf, .dnc, .xtb (s detailními řádky), .rsx, .s01 a .ifcx",
+      "Opravena bílá obrazovka ve Windows (WebView přepne na softwarové vykreslování)",
+      "Importní jádro přestavěno načisto; součty přesně odpovídají zdrojovým souborům"
+    ],
+    "v0.8.4": [
+      "Pole kódu: kódy STABU/NL-SfB vyberete dvojklikem (a můžete přidat vlastní)",
+      "Import rozpočtu (.dnc): otevře se rovnou jako kompaktní sestava rozpočtu pro investora",
+      "Projekt, loga a varianty přesunuty na pás karet; vlastnosti pročištěny"
+    ],
+    "v0.8.3": [
+      "Sledování změn: zvolte, zda se zvýrazní celý řádek, nebo jen změněná buňka",
+      "Změny jsou vidět i v PDF sestavě",
+      "Import rozpočtů: rozpočty pro investora (.dnc) se importují přímo a otevírají přes Soubor → Otevřít",
+      "Volba sestavy rozpočtu pro investora; historie změn u každého řádku (kdo/kdy/co)"
+    ],
+    "v0.8.2": [
+      "Rozpočtový asistent: historie chatu pro každý rozpočet, několik otázek najednou",
+      "Funkce OpenAEC (přihlášení, cloudové úložiště) za volbou v nastavení"
+    ],
+    "v0.8.1": [
+      "Přihlášení OpenAEC a vylepšení asistenta",
+      "Srozumitelné chybové hlášky AI; text asistenta lze označit a zkopírovat"
+    ],
+    "v0.8.0": [
+      "Rozpočtový asistent provádí změny přímo v otevřeném dokumentu",
+      "Otevírání souborů .calc/.mdb obsahujících JSON jako nativního projektu OCS"
+    ],
+    "v0.7.10": [
+      "Účet OpenAEC a navigace ve spodní liště",
+      "Skrývání/zobrazování sloupců pravým tlačítkem na záhlaví sloupce",
+      "Karty Hodiny a Přirážky sloučeny; sestava ve stylu IBIS (Bouw 2)"
+    ]
+  }
+}

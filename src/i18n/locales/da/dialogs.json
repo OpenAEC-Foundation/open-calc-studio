@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "Tilknyt kolonner",
+    "intro": "Tilknyt hver kolonne fra <b>{{name}}</b> til det rigtige budgetfelt. Kolonner med “— ignorer —” springes over.",
+    "columnN": "Kolonne {{n}}",
+    "columnsLinked_one": "{{count}} kolonne tilknyttet",
+    "columnsLinked_other": "{{count}} kolonner tilknyttet",
+    "rows": "{{count}} linjer",
+    "linkDescriptionFirst": "tilknyt først en “Beskrivelse”-kolonne",
+    "cancel": "Annuller",
+    "import": "Importér"
+  },
+  "quantityPicker": {
+    "title": "Forbind mængde",
+    "tabSpreadsheet": "Regneark",
+    "tabPdf": "PDF-måling",
+    "tabIfc": "IFC-element",
+    "cellNotNumeric": "Cellen indeholder ikke et gyldigt tal",
+    "noSheets": "Ingen ark endnu. Opret først et regneark.",
+    "sheet": "Ark",
+    "cellReference": "Cellereference (f.eks. A5 eller B12)",
+    "value": "Værdi",
+    "empty": "(tom)",
+    "linkCell": "Forbind celle",
+    "noPdfMeasurements": "Ingen PDF-målinger endnu. Åbn først en PDF under fanen PDF, og lav målinger.",
+    "sumLengths": "Σ Alle længder",
+    "sumAreas": "Σ Alle arealer",
+    "individualMeasurements": "Enkelte målinger:",
+    "noIfcElements": "Ingen IFC-elementer endnu. Åbn en IFC-fil under fanen 3D, og vælg et element.",
+    "cancel": "Annuller"
+  },
+  "excelPicker": {
+    "title": "Forbind til Excel",
+    "cannotReadFile": "Filen kan ikke læses",
+    "chooseFile": "Vælg fil …",
+    "noFileSelected": "Ingen fil valgt",
+    "loadingFile": "Indlæser fil …",
+    "cancel": "Annuller",
+    "select": "Vælg"
+  },
+  "costItemPicker": {
+    "title": "Forbind til budgetlinje",
+    "searchPlaceholder": "Søg på beskrivelse eller kode …",
+    "suggestions": "Forslag",
+    "results": "Resultater ({{count}})",
+    "allLines": "Alle linjer",
+    "unlink": "Fjern forbindelse",
+    "cancel": "Annuller",
+    "link": "Forbind"
+  },
+  "resourceTypes": {
+    "arbeid": "Arbejdsløn",
+    "materieel": "Materiel",
+    "materiaal": "Materialer",
+    "onderaannemer": "Underentreprenør",
+    "overig": "Øvrigt"
+  },
+  "undo": {
+    "addResource": "Tilføj ressource",
+    "wizard": "Guide: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Forhåndsvisning — {{name}}"
+  }
+}

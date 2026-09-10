@@ -1,0 +1,66 @@
+{
+  "title": "Innstillinger",
+  "resetToDefaults": "Tilbakestill til standard",
+  "resetConfirm": "Er du sikker på at du vil tilbakestille alle innstillinger?",
+  "tabs": {
+    "general": "Generelt",
+    "appearance": "Utseende",
+    "grid": "Tabell",
+    "files": "Filer",
+    "shortcuts": "Hurtigtaster",
+    "plugins": "Programtillegg",
+    "about": "Om"
+  },
+  "general": {
+    "application": "Program",
+    "language": "Språk",
+    "startup": "Oppstart",
+    "restoreSession": "Gjenopprett økten ved oppstart",
+    "checkUpdates": "Se etter oppdateringer",
+    "author": "Forfatter",
+    "authorName": "Navn"
+  },
+  "appearance": {
+    "theme": "Tema",
+    "system": "System",
+    "default": "Standard",
+    "dark": "Mørkt",
+    "light": "Lyst",
+    "blue": "Blått",
+    "amberNavy": "Rav og marineblå",
+    "warmEmber": "Varm glo",
+    "highContrast": "Høy kontrast",
+    "font": "Skrift",
+    "uiFontSize": "Skriftstørrelse i grensesnittet"
+  },
+  "grid": {
+    "general": "Tabell",
+    "showRowNumbers": "Vis linjenumre",
+    "alternateRowColors": "Vekslende linjefarger"
+  },
+  "files": {
+    "autoSave": "Autolagring",
+    "autoSaveOption": "Lagre automatisk",
+    "off": "Av",
+    "afterDelay": "Etter forsinkelse",
+    "onFocusChange": "Ved fokusbytte",
+    "onWindowChange": "Ved vindusbytte",
+    "encoding": "Tegnkoding",
+    "defaultEncoding": "Standardkoding",
+    "backup": "Sikkerhetskopi",
+    "autoBackup": "Automatisk sikkerhetskopi"
+  },
+  "shortcuts": {
+    "placeholder": "Hurtigtaster settes opp her"
+  },
+  "plugins": {
+    "placeholder": "Programtillegg administreres her"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Versjon",
+    "framework": "Rammeverk",
+    "license": "Lisens",
+    "description": "Kalkyleprogramvare med åpen kildekode for nederlandsk byggenæring. Lagring i IFC-format."
+  }
+}

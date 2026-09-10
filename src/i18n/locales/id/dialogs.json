@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "Tautkan kolom",
+    "intro": "Tautkan setiap kolom dari <b>{{name}}</b> ke bidang anggaran yang sesuai. Kolom yang diatur ke “— abaikan —” akan dilewati.",
+    "columnN": "Kolom {{n}}",
+    "columnsLinked_one": "{{count}} kolom tertaut",
+    "columnsLinked_other": "{{count}} kolom tertaut",
+    "rows": "{{count}} baris",
+    "linkDescriptionFirst": "tautkan kolom “Uraian” terlebih dahulu",
+    "cancel": "Batal",
+    "import": "Impor"
+  },
+  "quantityPicker": {
+    "title": "Tautkan volume",
+    "tabSpreadsheet": "Lembar kerja",
+    "tabPdf": "Pengukuran PDF",
+    "tabIfc": "Elemen IFC",
+    "cellNotNumeric": "Sel tidak memuat angka yang valid",
+    "noSheets": "Belum ada lembar. Buat lembar kerja terlebih dahulu.",
+    "sheet": "Lembar",
+    "cellReference": "Referensi sel (mis. A5 atau B12)",
+    "value": "Nilai",
+    "empty": "(kosong)",
+    "linkCell": "Tautkan sel",
+    "noPdfMeasurements": "Belum ada pengukuran PDF. Buka PDF di tab PDF terlebih dahulu dan buat pengukuran.",
+    "sumLengths": "Σ Semua panjang",
+    "sumAreas": "Σ Semua luas",
+    "individualMeasurements": "Pengukuran satuan:",
+    "noIfcElements": "Belum ada elemen IFC. Buka berkas IFC di tab 3D lalu pilih sebuah elemen.",
+    "cancel": "Batal"
+  },
+  "excelPicker": {
+    "title": "Tautkan ke Excel",
+    "cannotReadFile": "Tidak dapat membaca berkas",
+    "chooseFile": "Pilih berkas...",
+    "noFileSelected": "Belum ada berkas dipilih",
+    "loadingFile": "Memuat berkas...",
+    "cancel": "Batal",
+    "select": "Pilih"
+  },
+  "costItemPicker": {
+    "title": "Tautkan ke baris anggaran",
+    "searchPlaceholder": "Cari berdasarkan uraian atau kode...",
+    "suggestions": "Saran",
+    "results": "Hasil ({{count}})",
+    "allLines": "Semua baris",
+    "unlink": "Lepas tautan",
+    "cancel": "Batal",
+    "link": "Tautkan"
+  },
+  "resourceTypes": {
+    "arbeid": "Upah",
+    "materieel": "Peralatan",
+    "materiaal": "Bahan",
+    "onderaannemer": "Subkontraktor",
+    "overig": "Lainnya"
+  },
+  "undo": {
+    "addResource": "Tambah sumber daya",
+    "wizard": "Wizard: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Pratinjau — {{name}}"
+  }
+}

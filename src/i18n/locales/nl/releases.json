@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "39 talen + Spaans FIEBDC-3 (.bc3)",
+    "v0.10.3": "Btw hoog én laag — per onderdeel selecteerbaar",
+    "v0.10.0": "Logo in de rapportkop + formules in cellen",
+    "v0.9.0": "Exacte BasCalc-totalen + besteksopmaak rapporten",
+    "v0.8.8": "Excel/CSV-import-fix + via MCP",
+    "v0.8.7": "Vier nieuwe importformaten",
+    "v0.8.6": "Staartkosten in rapport-samenvatting gecorrigeerd",
+    "v0.8.5": "Import fors uitgebreid + wit-scherm-fix",
+    "v0.8.4": "Coderingenkiezer + compacte directiebegroting",
+    "v0.8.3": "Wijzigingen bijhouden + calculatie-import",
+    "v0.8.2": "OpenAEC achter een feature-flag",
+    "v0.8.1": "OpenAEC-login + assistent-verbeteringen",
+    "v0.8.0": "Assistent past wijzigingen direct toe",
+    "v0.7.10": "OpenAEC-account + onderbalk-navigatie"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "De interface is er nu in 39 talen — kies je taal bij Voorkeuren → Algemeen, of laat de app je systeemtaal volgen",
+      "Rechts-naar-links voor Arabisch, Farsi, Hebreeuws en Urdu: de hele indeling spiegelt mee",
+      "Engels bleef eerder half Nederlands; de taalinstelling stond intern vast en ruim 500 teksten zaten vastgezet in de code — beide opgelost",
+      "FIEBDC-3 (.bc3) importeren én exporteren: de Spaanse standaard voor begrotingen en prijzenboeken (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS: \"beschadigd\"-melding verholpen en de build zelf gerepareerd; \"Wat is er nieuw\" verschijnt nu in je eigen taal"
+    ],
+    "v0.10.3": [
+      "Nieuwe staartregel \"Btw laag\" (9%) naast \"Btw hoog\" — bestaande begrotingen krijgen hem automatisch",
+      "Markeer hoofdstukken, posten of regels als laag-belast via rechtermuisknop; kinderen erven het tarief en het grid toont een btw-label",
+      "Grondslag pro rata berekend uit de markering (opslagen tellen mee) of handmatig invulbaar in het staart-paneel",
+      "Btw-verdeling doorgevoerd in alle rapporten (IBIS toont grondslag hoog/laag apart) en de MCP-server",
+      "Fixes: dubbele btw in de Bouw 1-samenvatting en incl-bedrag onder het label \"Aanneemsom excl. BTW\""
+    ],
+    "v0.10.0": [
+      "Bedrijfslogo rechtsboven in de rapportkop (transparant, schaalt mee); kophoogte en lijnkleur instelbaar",
+      "Rekenformules in getalcellen (=12,2*2,22 of 12.2*2.2) — en de komma-wegval-bug is opgelost",
+      "Staart: vul het eindbedrag excl. btw in en de afronding wordt automatisch het verschil; btw over het afgeronde bedrag",
+      "Hoofdaanneming: som-lijnen met \"+\", optionele S-kolom (V erft van het hoofdstuk) en alleen-subtotalen-weergaven",
+      "Sneller werken: prijzen ±%, Ctrl+F zoeken/vervangen, inklappen per niveau, meerstaps ongedaan, tekstregels met terugloop"
+    ],
+    "v0.9.0": [
+      "BasCalc-import: kostprijs én aanneemsom tot op de cent gelijk aan Excel (vlakke staart + vaste afrondingspost)",
+      "Werkbeschrijving en hoofdaanneming in besteksopmaak: geen cellijnen, inspringende paragrafen, subtotaal per paragraaf",
+      "+-knop links bij de rij voegt een rekenregel toe; hoeveelheden aan/uit direct in de rapport-toolbar",
+      "Opslaan als gaat standaard naar .ifcCalc en beschermt het originele bronbestand",
+      "Nieuw groen logo; navigatie- en dialoogfixes (spreadsheet ↔ begroting)"
+    ],
+    "v0.8.8": [
+      "Excel/CSV-import: bedragen kwamen soms op € 0 te staan — opgelost",
+      "Excel/CSV-import nu ook via de MCP-server (tool import_excel_csv)"
+    ],
+    "v0.8.7": [
+      "Excel/CSV-import met kolom-mapping — lees vrije Excel-/CSV-indelingen in en koppel zelf de kolommen",
+      "Nieuwe formaten: STABU SUFX (XML-bestek) en legacy RAW (.rsu)",
+      "Prijscatalogus (BMEcat/DICO) → rechtstreeks in de middelenbibliotheek"
+    ],
+    "v0.8.6": [
+      "Rapport-samenvatting toont de juiste staartkosten-percentages en respecteert aangepaste opslagen (voorheen kon \"Algemene bedrijfskosten\" op 0% staan)",
+      "Staartkosten-model intern opgeschoond; alle rapporten rekenen met dezelfde bron"
+    ],
+    "v0.8.5": [
+      "Veel meer importformaten: .cuf, .dnc, .xtb (met detailregels), .rsx, .s01 en .ifcx",
+      "Wit scherm op Windows opgelost (WebView valt terug op software-rendering)",
+      "Importmotor schoon herbouwd; totalen komen exact overeen met de bronbestanden"
+    ],
+    "v0.8.4": [
+      "Nr-veld: kies STABU/NL-SfB-coderingen via dubbelklik (en voeg eigen codes toe)",
+      "Calculatie-import (.dnc): opent nu meteen als compact directiebegroting-rapport",
+      "Project, logo's en varianten verplaatst naar het lint; eigenschappen opgeschoond"
+    ],
+    "v0.8.3": [
+      "Wijzigingen-bijhouden: kies of de hele regel of alleen de gewijzigde cel kleurt",
+      "Wijzigingen ook zichtbaar in de rapportage-PDF",
+      "Calculatie-import: directiebegrotingen (.dnc) rechtstreeks importeren én openen via Bestand → Openen",
+      "Directiebegroting-rapportoptie; wijzigingshistorie per regel (wie/wanneer/wat)"
+    ],
+    "v0.8.2": [
+      "Calculatieassistent: chatgeschiedenis per begroting, meerdere vragen tegelijk",
+      "OpenAEC-functies (login, cloud-opslag) achter een instelling"
+    ],
+    "v0.8.1": [
+      "OpenAEC-login en assistent-verbeteringen",
+      "Duidelijke AI-foutmeldingen; assistent-tekst is selecteer- en kopieerbaar"
+    ],
+    "v0.8.0": [
+      "Calculatieassistent past wijzigingen direct in het open document toe",
+      ".calc/.mdb met JSON-inhoud openen als native OCS-project"
+    ],
+    "v0.7.10": [
+      "OpenAEC-account en onderbalk-navigatie",
+      "Kolommen verbergen/tonen via rechtsklik op de kolomkop",
+      "Uren- en Staart-tab gecombineerd; IBIS-stijl rapport (Bouw 2)"
+    ]
+  }
+}

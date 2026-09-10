@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "39 languages + Spanish FIEBDC-3 (.bc3)",
+    "v0.10.3": "Standard and reduced VAT — selectable per item",
+    "v0.10.0": "Logo in the report header + formulas in cells",
+    "v0.9.0": "Exact BasCalc totals + specification-style reports",
+    "v0.8.8": "Excel/CSV import fix + via MCP",
+    "v0.8.7": "Four new import formats",
+    "v0.8.6": "Markups corrected in the report summary",
+    "v0.8.5": "Import greatly expanded + white-screen fix",
+    "v0.8.4": "Code picker + compact client budget estimate",
+    "v0.8.3": "Change tracking + estimate import",
+    "v0.8.2": "OpenAEC behind a feature flag",
+    "v0.8.1": "OpenAEC sign-in + assistant improvements",
+    "v0.8.0": "Assistant applies changes directly",
+    "v0.7.10": "OpenAEC account + bottom-bar navigation"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "The interface is now available in 39 languages — pick yours under Preferences → General, or let the app follow your system language",
+      "Right-to-left support for Arabic, Farsi, Hebrew and Urdu: the whole layout mirrors along",
+      "English used to stay half Dutch; the language setting was locked internally and over 500 texts were hard-coded — both fixed",
+      "FIEBDC-3 (.bc3) import and export: the Spanish standard for estimates and price databases (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS: the \"damaged\" error resolved and the build itself repaired; \"What's new\" now appears in your own language"
+    ],
+    "v0.10.3": [
+      "New markup row \"Reduced VAT\" (9%) alongside \"Standard VAT\" — existing estimates get it automatically",
+      "Mark chapters, items or lines as reduced-rate via right-click; children inherit the rate and the grid shows a VAT label",
+      "Taxable base calculated pro rata from the marking (markups included) or entered manually in the markups panel",
+      "VAT split applied throughout all reports (IBIS shows the standard/reduced base separately) and the MCP server",
+      "Fixes: VAT counted twice in the Bouw 1 summary, and a VAT-inclusive amount shown under the label \"Contract sum excl. VAT\""
+    ],
+    "v0.10.0": [
+      "Company logo top right in the report header (transparent, scales along); header height and line colour adjustable",
+      "Formulas in numeric cells (=12.2*2.22 or 12,2*2,2) — and the dropped-decimal bug is fixed",
+      "Markups: enter the final amount excl. VAT and the rounding becomes the difference automatically; VAT over the rounded amount",
+      "Main contract: sum lines with \"+\", an optional S column (adjustable inherited from the chapter) and subtotals-only views",
+      "Work faster: prices ±%, Ctrl+F find and replace, collapse by level, multi-step undo, text lines with word wrap"
+    ],
+    "v0.9.0": [
+      "BasCalc import: cost price and contract sum match Excel to the cent (flat markups + fixed rounding item)",
+      "Work description and main contract in specification layout: no cell borders, indented paragraphs, subtotal per paragraph",
+      "The + button beside the row adds a calculation line; quantities on/off directly in the report toolbar",
+      "Save as now defaults to .ifcCalc and protects the original source file",
+      "New green logo; navigation and dialog fixes (spreadsheet ↔ estimate)"
+    ],
+    "v0.8.8": [
+      "Excel/CSV import: amounts sometimes ended up as € 0 — fixed",
+      "Excel/CSV import now also via the MCP server (tool import_excel_csv)"
+    ],
+    "v0.8.7": [
+      "Excel/CSV import with column mapping — read free-form Excel/CSV layouts and map the columns yourself",
+      "New formats: STABU SUFX (XML specification) and legacy RAW (.rsu)",
+      "Price catalogue (BMEcat/DICO) → straight into the resource library"
+    ],
+    "v0.8.6": [
+      "The report summary shows the correct markup percentages and respects customised rates (previously \"General overheads\" could show 0%)",
+      "Markup model cleaned up internally; all reports now calculate from the same source"
+    ],
+    "v0.8.5": [
+      "Many more import formats: .cuf, .dnc, .xtb (with detail lines), .rsx, .s01 and .ifcx",
+      "White screen on Windows fixed (WebView falls back to software rendering)",
+      "Import engine rebuilt cleanly; totals match the source files exactly"
+    ],
+    "v0.8.4": [
+      "Code field: pick STABU/NL-SfB codes by double-clicking (and add your own)",
+      "Estimate import (.dnc): now opens straight away as a compact client budget report",
+      "Project, logos and variants moved to the ribbon; properties cleaned up"
+    ],
+    "v0.8.3": [
+      "Change tracking: choose whether the whole row or only the changed cell is highlighted",
+      "Changes also visible in the report PDF",
+      "Estimate import: client budget estimates (.dnc) imported directly and opened via File → Open",
+      "Client budget report option; per-line change history (who/when/what)"
+    ],
+    "v0.8.2": [
+      "Estimating assistant: chat history per estimate, several questions at once",
+      "OpenAEC features (sign-in, cloud storage) behind a setting"
+    ],
+    "v0.8.1": [
+      "OpenAEC sign-in and assistant improvements",
+      "Clear AI error messages; assistant text can be selected and copied"
+    ],
+    "v0.8.0": [
+      "The estimating assistant applies changes directly in the open document",
+      "Open .calc/.mdb files containing JSON as a native OCS project"
+    ],
+    "v0.7.10": [
+      "OpenAEC account and bottom-bar navigation",
+      "Hide/show columns by right-clicking the column header",
+      "Hours and Markups tabs combined; IBIS-style report (Bouw 2)"
+    ]
+  }
+}

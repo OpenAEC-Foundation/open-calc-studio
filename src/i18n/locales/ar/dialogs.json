@@ -1,0 +1,69 @@
+{
+  "columnMapping": {
+    "title": "ربط الأعمدة",
+    "intro": "اربط كل عمود من <b>{{name}}</b> بحقل التقدير الصحيح. تُتجاهل الأعمدة المضبوطة على ”— تجاهل —“.",
+    "columnN": "العمود {{n}}",
+    "columnsLinked_zero": "لم يتم ربط أي عمود",
+    "columnsLinked_one": "تم ربط {{count}} عمود",
+    "columnsLinked_two": "تم ربط عمودين",
+    "columnsLinked_few": "تم ربط {{count}} أعمدة",
+    "columnsLinked_many": "تم ربط {{count}} عموداً",
+    "columnsLinked_other": "تم ربط {{count}} عمود",
+    "rows": "{{count}} صف",
+    "linkDescriptionFirst": "اربط عمود ”الوصف“ أولاً",
+    "cancel": "إلغاء",
+    "import": "استيراد"
+  },
+  "quantityPicker": {
+    "title": "ربط الكمية",
+    "tabSpreadsheet": "جدول بيانات",
+    "tabPdf": "قياس من PDF",
+    "tabIfc": "عنصر IFC",
+    "cellNotNumeric": "لا تحتوي الخلية على رقم صالح",
+    "noSheets": "لا توجد أوراق بعد. أنشئ جدول بيانات أولاً.",
+    "sheet": "الورقة",
+    "cellReference": "مرجع الخلية (مثال A5 أو B12)",
+    "value": "القيمة",
+    "empty": "(فارغة)",
+    "linkCell": "ربط الخلية",
+    "noPdfMeasurements": "لا توجد قياسات PDF‎ بعد. افتح ملف PDF في علامة تبويب PDF أولاً وأنشئ قياسات.",
+    "sumLengths": "Σ جميع الأطوال",
+    "sumAreas": "Σ جميع المساحات",
+    "individualMeasurements": "القياسات المفردة:",
+    "noIfcElements": "لا توجد عناصر IFC‎ بعد. افتح ملف IFC في علامة التبويب ثلاثية الأبعاد وحدد عنصراً.",
+    "cancel": "إلغاء"
+  },
+  "excelPicker": {
+    "title": "الربط بـ Excel",
+    "cannotReadFile": "تعذّرت قراءة الملف",
+    "chooseFile": "اختيار ملف...",
+    "noFileSelected": "لم يتم اختيار ملف",
+    "loadingFile": "جارٍ تحميل الملف...",
+    "cancel": "إلغاء",
+    "select": "اختيار"
+  },
+  "costItemPicker": {
+    "title": "الربط بسطر التقدير",
+    "searchPlaceholder": "ابحث بالوصف أو الكود...",
+    "suggestions": "اقتراحات",
+    "results": "النتائج ({{count}})",
+    "allLines": "جميع الأسطر",
+    "unlink": "إلغاء الربط",
+    "cancel": "إلغاء",
+    "link": "ربط"
+  },
+  "resourceTypes": {
+    "arbeid": "عمالة",
+    "materieel": "معدات",
+    "materiaal": "مواد",
+    "onderaannemer": "مقاول باطن",
+    "overig": "أخرى"
+  },
+  "undo": {
+    "addResource": "إضافة مورد",
+    "wizard": "معالج: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "معاينة — {{name}}"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "title": "تنظیمات",
+  "resetToDefaults": "بازنشانی به پیش‌فرض",
+  "resetConfirm": "از بازنشانی همه تنظیمات مطمئن هستید؟",
+  "tabs": {
+    "general": "عمومی",
+    "appearance": "ظاهر",
+    "grid": "جدول",
+    "files": "فایل‌ها",
+    "shortcuts": "میان‌برها",
+    "plugins": "افزایه‌ها",
+    "about": "درباره"
+  },
+  "general": {
+    "application": "برنامه",
+    "language": "زبان",
+    "startup": "راه‌اندازی",
+    "restoreSession": "بازیابی نشست هنگام راه‌اندازی",
+    "checkUpdates": "بررسی به‌روزرسانی‌ها",
+    "author": "پدیدآورنده",
+    "authorName": "نام"
+  },
+  "appearance": {
+    "theme": "پوسته",
+    "system": "سیستم",
+    "default": "پیش‌فرض",
+    "dark": "تیره",
+    "light": "روشن",
+    "blue": "آبی",
+    "amberNavy": "کهربایی سرمه‌ای",
+    "warmEmber": "اخگر گرم",
+    "highContrast": "کنتراست بالا",
+    "font": "قلم",
+    "uiFontSize": "اندازه قلم رابط کاربری"
+  },
+  "grid": {
+    "general": "جدول",
+    "showRowNumbers": "نمایش شماره سطرها",
+    "alternateRowColors": "رنگ‌های یک‌درمیان سطرها"
+  },
+  "files": {
+    "autoSave": "ذخیره خودکار",
+    "autoSaveOption": "ذخیره خودکار",
+    "off": "خاموش",
+    "afterDelay": "پس از تأخیر",
+    "onFocusChange": "هنگام تغییر تمرکز",
+    "onWindowChange": "هنگام تغییر پنجره",
+    "encoding": "کدگذاری",
+    "defaultEncoding": "کدگذاری پیش‌فرض",
+    "backup": "پشتیبان",
+    "autoBackup": "پشتیبان‌گیری خودکار"
+  },
+  "shortcuts": {
+    "placeholder": "میان‌برها اینجا پیکربندی خواهند شد"
+  },
+  "plugins": {
+    "placeholder": "افزایه‌ها اینجا مدیریت خواهند شد"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "نسخه",
+    "framework": "چارچوب",
+    "license": "مجوز",
+    "description": "نرم‌افزار متن‌باز برآورد هزینه برای صنعت ساختمان. ذخیره‌سازی در قالب IFC."
+  }
+}

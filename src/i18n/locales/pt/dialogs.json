@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "Associar colunas",
+    "intro": "Associe cada coluna de <b>{{name}}</b> ao campo correto do orçamento. As colunas definidas como «— ignorar —» são ignoradas.",
+    "columnN": "Coluna {{n}}",
+    "columnsLinked_one": "{{count}} coluna associada",
+    "columnsLinked_other": "{{count}} colunas associadas",
+    "rows": "{{count}} linhas",
+    "linkDescriptionFirst": "associe primeiro uma coluna «Designação»",
+    "cancel": "Cancelar",
+    "import": "Importar"
+  },
+  "quantityPicker": {
+    "title": "Ligar a quantidade",
+    "tabSpreadsheet": "Folha de cálculo",
+    "tabPdf": "Medição em PDF",
+    "tabIfc": "Elemento IFC",
+    "cellNotNumeric": "A célula não contém um número válido",
+    "noSheets": "Ainda não há folhas. Crie primeiro uma folha de cálculo.",
+    "sheet": "Folha",
+    "cellReference": "Referência de célula (p. ex. A5 ou B12)",
+    "value": "Valor",
+    "empty": "(vazio)",
+    "linkCell": "Ligar a célula",
+    "noPdfMeasurements": "Ainda não há medições em PDF. Abra primeiro um PDF no separador PDF e crie medições.",
+    "sumLengths": "Σ Todos os comprimentos",
+    "sumAreas": "Σ Todas as áreas",
+    "individualMeasurements": "Medições individuais:",
+    "noIfcElements": "Ainda não há elementos IFC. Abra um ficheiro IFC no separador 3D e selecione um elemento.",
+    "cancel": "Cancelar"
+  },
+  "excelPicker": {
+    "title": "Ligar ao Excel",
+    "cannotReadFile": "Não é possível ler o ficheiro",
+    "chooseFile": "Escolher ficheiro…",
+    "noFileSelected": "Nenhum ficheiro selecionado",
+    "loadingFile": "A carregar o ficheiro…",
+    "cancel": "Cancelar",
+    "select": "Selecionar"
+  },
+  "costItemPicker": {
+    "title": "Ligar a uma linha do orçamento",
+    "searchPlaceholder": "Pesquisar por designação ou código…",
+    "suggestions": "Sugestões",
+    "results": "Resultados ({{count}})",
+    "allLines": "Todas as linhas",
+    "unlink": "Desligar",
+    "cancel": "Cancelar",
+    "link": "Ligar"
+  },
+  "resourceTypes": {
+    "arbeid": "Mão de obra",
+    "materieel": "Equipamento",
+    "materiaal": "Materiais",
+    "onderaannemer": "Subempreiteiro",
+    "overig": "Outro"
+  },
+  "undo": {
+    "addResource": "Adicionar recurso",
+    "wizard": "Assistente: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Pré-visualização — {{name}}"
+  }
+}

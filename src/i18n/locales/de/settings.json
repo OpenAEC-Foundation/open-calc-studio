@@ -1,0 +1,66 @@
+{
+  "title": "Einstellungen",
+  "resetToDefaults": "Auf Standard zurücksetzen",
+  "resetConfirm": "Möchten Sie wirklich alle Einstellungen zurücksetzen?",
+  "tabs": {
+    "general": "Allgemein",
+    "appearance": "Darstellung",
+    "grid": "Tabelle",
+    "files": "Dateien",
+    "shortcuts": "Tastenkürzel",
+    "plugins": "Plug-ins",
+    "about": "Über"
+  },
+  "general": {
+    "application": "Anwendung",
+    "language": "Sprache",
+    "startup": "Programmstart",
+    "restoreSession": "Sitzung beim Start wiederherstellen",
+    "checkUpdates": "Nach Updates suchen",
+    "author": "Autor",
+    "authorName": "Name"
+  },
+  "appearance": {
+    "theme": "Design",
+    "system": "System",
+    "default": "Standard",
+    "dark": "Dunkel",
+    "light": "Hell",
+    "blue": "Blau",
+    "amberNavy": "Bernstein-Marine",
+    "warmEmber": "Warme Glut",
+    "highContrast": "Hoher Kontrast",
+    "font": "Schriftart",
+    "uiFontSize": "Schriftgröße der Oberfläche"
+  },
+  "grid": {
+    "general": "Tabelle",
+    "showRowNumbers": "Zeilennummern anzeigen",
+    "alternateRowColors": "Zeilen abwechselnd einfärben"
+  },
+  "files": {
+    "autoSave": "Automatisch speichern",
+    "autoSaveOption": "Automatisch speichern",
+    "off": "Aus",
+    "afterDelay": "Nach Verzögerung",
+    "onFocusChange": "Bei Fokuswechsel",
+    "onWindowChange": "Bei Fensterwechsel",
+    "encoding": "Zeichenkodierung",
+    "defaultEncoding": "Standardkodierung",
+    "backup": "Sicherung",
+    "autoBackup": "Automatische Sicherung"
+  },
+  "shortcuts": {
+    "placeholder": "Tastenkürzel werden hier eingerichtet"
+  },
+  "plugins": {
+    "placeholder": "Plug-ins werden hier verwaltet"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Version",
+    "framework": "Framework",
+    "license": "Lizenz",
+    "description": "Open-Source-Kalkulationssoftware für das niederländische Bauwesen. Speicherung im IFC-Format."
+  }
+}

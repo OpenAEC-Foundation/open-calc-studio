@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "Yhdistä sarakkeet",
+    "intro": "Yhdistä jokainen tiedoston <b>{{name}}</b> sarake oikeaan kustannusarvion kenttään. Sarakkeet, joiden arvo on ”— ohita —”, jätetään väliin.",
+    "columnN": "Sarake {{n}}",
+    "columnsLinked_one": "{{count}} sarake yhdistetty",
+    "columnsLinked_other": "{{count}} saraketta yhdistetty",
+    "rows": "{{count}} riviä",
+    "linkDescriptionFirst": "yhdistä ensin ”Kuvaus”-sarake",
+    "cancel": "Peruuta",
+    "import": "Tuo"
+  },
+  "quantityPicker": {
+    "title": "Linkitä määrä",
+    "tabSpreadsheet": "Taulukko",
+    "tabPdf": "PDF-mittaus",
+    "tabIfc": "IFC-elementti",
+    "cellNotNumeric": "Solu ei sisällä kelvollista lukua",
+    "noSheets": "Ei vielä taulukoita. Luo ensin taulukko.",
+    "sheet": "Taulukko",
+    "cellReference": "Soluviittaus (esim. A5 tai B12)",
+    "value": "Arvo",
+    "empty": "(tyhjä)",
+    "linkCell": "Linkitä solu",
+    "noPdfMeasurements": "Ei vielä PDF-mittauksia. Avaa ensin PDF PDF-välilehdellä ja tee mittauksia.",
+    "sumLengths": "Σ Kaikki pituudet",
+    "sumAreas": "Σ Kaikki pinta-alat",
+    "individualMeasurements": "Yksittäiset mittaukset:",
+    "noIfcElements": "Ei vielä IFC-elementtejä. Avaa IFC-tiedosto 3D-välilehdellä ja valitse elementti.",
+    "cancel": "Peruuta"
+  },
+  "excelPicker": {
+    "title": "Linkitä Exceliin",
+    "cannotReadFile": "Tiedostoa ei voi lukea",
+    "chooseFile": "Valitse tiedosto...",
+    "noFileSelected": "Tiedostoa ei ole valittu",
+    "loadingFile": "Ladataan tiedostoa...",
+    "cancel": "Peruuta",
+    "select": "Valitse"
+  },
+  "costItemPicker": {
+    "title": "Linkitä kustannusarvion riviin",
+    "searchPlaceholder": "Hae kuvauksella tai koodilla...",
+    "suggestions": "Ehdotukset",
+    "results": "Tulokset ({{count}})",
+    "allLines": "Kaikki rivit",
+    "unlink": "Poista linkitys",
+    "cancel": "Peruuta",
+    "link": "Linkitä"
+  },
+  "resourceTypes": {
+    "arbeid": "Työ",
+    "materieel": "Kalusto",
+    "materiaal": "Materiaali",
+    "onderaannemer": "Aliurakoitsija",
+    "overig": "Muu"
+  },
+  "undo": {
+    "addResource": "Lisää panos",
+    "wizard": "Velho: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Esikatselu — {{name}}"
+  }
+}

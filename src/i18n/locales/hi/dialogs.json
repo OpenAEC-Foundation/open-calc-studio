@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "कॉलम जोड़ें",
+    "intro": "<b>{{name}}</b> के हर कॉलम को सही अनुमान फ़ील्ड से जोड़ें। “— छोड़ें —” पर सेट कॉलम अनदेखे रहेंगे।",
+    "columnN": "कॉलम {{n}}",
+    "columnsLinked_one": "{{count}} कॉलम जुड़ा",
+    "columnsLinked_other": "{{count}} कॉलम जुड़े",
+    "rows": "{{count}} पंक्तियाँ",
+    "linkDescriptionFirst": "पहले एक “विवरण” कॉलम जोड़ें",
+    "cancel": "रद्द करें",
+    "import": "आयात करें"
+  },
+  "quantityPicker": {
+    "title": "मात्रा जोड़ें",
+    "tabSpreadsheet": "स्प्रेडशीट",
+    "tabPdf": "PDF माप",
+    "tabIfc": "IFC एलिमेंट",
+    "cellNotNumeric": "सेल में मान्य संख्या नहीं है",
+    "noSheets": "अभी कोई शीट नहीं है। पहले स्प्रेडशीट बनाएँ।",
+    "sheet": "शीट",
+    "cellReference": "सेल संदर्भ (जैसे A5 या B12)",
+    "value": "मान",
+    "empty": "(खाली)",
+    "linkCell": "सेल जोड़ें",
+    "noPdfMeasurements": "अभी कोई PDF माप नहीं है। पहले PDF टैब में कोई PDF खोलें और माप बनाएँ।",
+    "sumLengths": "Σ सभी लंबाइयाँ",
+    "sumAreas": "Σ सभी क्षेत्रफल",
+    "individualMeasurements": "अलग-अलग माप:",
+    "noIfcElements": "अभी कोई IFC एलिमेंट नहीं है। 3D टैब में IFC फ़ाइल खोलें और कोई एलिमेंट चुनें।",
+    "cancel": "रद्द करें"
+  },
+  "excelPicker": {
+    "title": "Excel से जोड़ें",
+    "cannotReadFile": "फ़ाइल पढ़ी नहीं जा सकी",
+    "chooseFile": "फ़ाइल चुनें...",
+    "noFileSelected": "कोई फ़ाइल चयनित नहीं",
+    "loadingFile": "फ़ाइल लोड हो रही है...",
+    "cancel": "रद्द करें",
+    "select": "चुनें"
+  },
+  "costItemPicker": {
+    "title": "अनुमान पंक्ति से जोड़ें",
+    "searchPlaceholder": "विवरण या कोड से खोजें...",
+    "suggestions": "सुझाव",
+    "results": "परिणाम ({{count}})",
+    "allLines": "सभी पंक्तियाँ",
+    "unlink": "लिंक हटाएँ",
+    "cancel": "रद्द करें",
+    "link": "जोड़ें"
+  },
+  "resourceTypes": {
+    "arbeid": "श्रम",
+    "materieel": "उपकरण",
+    "materiaal": "सामग्री",
+    "onderaannemer": "उपठेकेदार",
+    "overig": "अन्य"
+  },
+  "undo": {
+    "addResource": "संसाधन जोड़ना",
+    "wizard": "विज़ार्ड: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "पूर्वावलोकन — {{name}}"
+  }
+}

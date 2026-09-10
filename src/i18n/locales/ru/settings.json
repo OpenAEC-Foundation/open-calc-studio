@@ -1,0 +1,66 @@
+{
+  "title": "Настройки",
+  "resetToDefaults": "Сбросить до значений по умолчанию",
+  "resetConfirm": "Действительно сбросить все настройки?",
+  "tabs": {
+    "general": "Общие",
+    "appearance": "Оформление",
+    "grid": "Таблица",
+    "files": "Файлы",
+    "shortcuts": "Сочетания клавиш",
+    "plugins": "Плагины",
+    "about": "О программе"
+  },
+  "general": {
+    "application": "Приложение",
+    "language": "Язык",
+    "startup": "Запуск",
+    "restoreSession": "Восстанавливать сеанс при запуске",
+    "checkUpdates": "Проверять обновления",
+    "author": "Автор",
+    "authorName": "Имя"
+  },
+  "appearance": {
+    "theme": "Тема",
+    "system": "Системная",
+    "default": "По умолчанию",
+    "dark": "Тёмная",
+    "light": "Светлая",
+    "blue": "Синяя",
+    "amberNavy": "Янтарно-синяя",
+    "warmEmber": "Тёплый янтарь",
+    "highContrast": "Высокая контрастность",
+    "font": "Шрифт",
+    "uiFontSize": "Размер шрифта интерфейса"
+  },
+  "grid": {
+    "general": "Таблица",
+    "showRowNumbers": "Показывать номера строк",
+    "alternateRowColors": "Чередовать цвет строк"
+  },
+  "files": {
+    "autoSave": "Автосохранение",
+    "autoSaveOption": "Автосохранение",
+    "off": "Выкл.",
+    "afterDelay": "С задержкой",
+    "onFocusChange": "При смене фокуса",
+    "onWindowChange": "При смене окна",
+    "encoding": "Кодировка",
+    "defaultEncoding": "Кодировка по умолчанию",
+    "backup": "Резервная копия",
+    "autoBackup": "Автоматическая резервная копия"
+  },
+  "shortcuts": {
+    "placeholder": "Здесь будут настраиваться сочетания клавиш"
+  },
+  "plugins": {
+    "placeholder": "Здесь будут управляться плагины"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Версия",
+    "framework": "Фреймворк",
+    "license": "Лицензия",
+    "description": "Программа с открытым исходным кодом для составления смет в нидерландском строительстве. Хранение в формате IFC."
+  }
+}

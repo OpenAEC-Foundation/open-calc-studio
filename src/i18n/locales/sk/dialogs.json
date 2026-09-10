@@ -1,0 +1,67 @@
+{
+  "columnMapping": {
+    "title": "Prepojiť stĺpce",
+    "intro": "Prepojte každý stĺpec zo súboru <b>{{name}}</b> so správnym poľom rozpočtu. Stĺpce nastavené na „— ignorovať —“ sa preskočia.",
+    "columnN": "Stĺpec {{n}}",
+    "columnsLinked_one": "{{count}} stĺpec prepojený",
+    "columnsLinked_few": "{{count}} stĺpce prepojené",
+    "columnsLinked_many": "{{count}} stĺpca prepojených",
+    "columnsLinked_other": "{{count}} stĺpcov prepojených",
+    "rows": "{{count}} riadkov",
+    "linkDescriptionFirst": "najprv prepojte stĺpec „Popis“",
+    "cancel": "Zrušiť",
+    "import": "Importovať"
+  },
+  "quantityPicker": {
+    "title": "Prepojiť množstvo",
+    "tabSpreadsheet": "Tabuľka",
+    "tabPdf": "Meranie v PDF",
+    "tabIfc": "Prvok IFC",
+    "cellNotNumeric": "Bunka neobsahuje platné číslo",
+    "noSheets": "Zatiaľ žiadne hárky. Najprv vytvorte tabuľku.",
+    "sheet": "Hárok",
+    "cellReference": "Odkaz na bunku (napr. A5 alebo B12)",
+    "value": "Hodnota",
+    "empty": "(prázdne)",
+    "linkCell": "Prepojiť bunku",
+    "noPdfMeasurements": "Zatiaľ žiadne merania v PDF. Najprv otvorte PDF na karte PDF a vytvorte merania.",
+    "sumLengths": "Σ Všetky dĺžky",
+    "sumAreas": "Σ Všetky plochy",
+    "individualMeasurements": "Jednotlivé merania:",
+    "noIfcElements": "Zatiaľ žiadne prvky IFC. Otvorte súbor IFC na karte 3D a vyberte prvok.",
+    "cancel": "Zrušiť"
+  },
+  "excelPicker": {
+    "title": "Prepojiť s Excelom",
+    "cannotReadFile": "Súbor sa nedá prečítať",
+    "chooseFile": "Vybrať súbor...",
+    "noFileSelected": "Nie je vybraný žiadny súbor",
+    "loadingFile": "Načítavanie súboru...",
+    "cancel": "Zrušiť",
+    "select": "Vybrať"
+  },
+  "costItemPicker": {
+    "title": "Prepojiť s riadkom rozpočtu",
+    "searchPlaceholder": "Hľadať podľa popisu alebo kódu...",
+    "suggestions": "Návrhy",
+    "results": "Výsledky ({{count}})",
+    "allLines": "Všetky riadky",
+    "unlink": "Zrušiť väzbu",
+    "cancel": "Zrušiť",
+    "link": "Prepojiť"
+  },
+  "resourceTypes": {
+    "arbeid": "Mzdy",
+    "materieel": "Stroje",
+    "materiaal": "Materiál",
+    "onderaannemer": "Subdodávateľ",
+    "overig": "Ostatné"
+  },
+  "undo": {
+    "addResource": "Pridanie zdroja",
+    "wizard": "Sprievodca: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Náhľad — {{name}}"
+  }
+}

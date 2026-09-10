@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "Koble kolonner",
+    "intro": "Koble hver kolonne fra <b>{{name}}</b> til riktig kalkylefelt. Kolonner som er satt til «— ignorer —», hoppes over.",
+    "columnN": "Kolonne {{n}}",
+    "columnsLinked_one": "{{count}} kolonne koblet",
+    "columnsLinked_other": "{{count}} kolonner koblet",
+    "rows": "{{count}} linjer",
+    "linkDescriptionFirst": "koble først en «Beskrivelse»-kolonne",
+    "cancel": "Avbryt",
+    "import": "Importer"
+  },
+  "quantityPicker": {
+    "title": "Koble mengde",
+    "tabSpreadsheet": "Regneark",
+    "tabPdf": "PDF-måling",
+    "tabIfc": "IFC-element",
+    "cellNotNumeric": "Cellen inneholder ikke et gyldig tall",
+    "noSheets": "Ingen ark ennå. Opprett et regneark først.",
+    "sheet": "Ark",
+    "cellReference": "Cellereferanse (f.eks. A5 eller B12)",
+    "value": "Verdi",
+    "empty": "(tom)",
+    "linkCell": "Koble celle",
+    "noPdfMeasurements": "Ingen PDF-målinger ennå. Åpne først en PDF i PDF-fanen, og lag målinger.",
+    "sumLengths": "Σ Alle lengder",
+    "sumAreas": "Σ Alle arealer",
+    "individualMeasurements": "Enkeltmålinger:",
+    "noIfcElements": "Ingen IFC-elementer ennå. Åpne en IFC-fil i 3D-fanen, og velg et element.",
+    "cancel": "Avbryt"
+  },
+  "excelPicker": {
+    "title": "Koble til Excel",
+    "cannotReadFile": "Kan ikke lese filen",
+    "chooseFile": "Velg fil …",
+    "noFileSelected": "Ingen fil er valgt",
+    "loadingFile": "Laster filen …",
+    "cancel": "Avbryt",
+    "select": "Velg"
+  },
+  "costItemPicker": {
+    "title": "Koble til kalkylelinje",
+    "searchPlaceholder": "Søk på beskrivelse eller kode …",
+    "suggestions": "Forslag",
+    "results": "Treff ({{count}})",
+    "allLines": "Alle linjer",
+    "unlink": "Fjern kobling",
+    "cancel": "Avbryt",
+    "link": "Koble"
+  },
+  "resourceTypes": {
+    "arbeid": "Arbeidslønn",
+    "materieel": "Maskiner",
+    "materiaal": "Materialer",
+    "onderaannemer": "Underentreprenør",
+    "overig": "Annet"
+  },
+  "undo": {
+    "addResource": "Legg til ressurs",
+    "wizard": "Veiviser: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Forhåndsvisning — {{name}}"
+  }
+}

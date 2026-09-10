@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "Enllaça les columnes",
+    "intro": "Enllaceu cada columna de <b>{{name}}</b> amb el camp correcte del pressupost. Les columnes posades a «— ignora —» s'ometen.",
+    "columnN": "Columna {{n}}",
+    "columnsLinked_one": "{{count}} columna enllaçada",
+    "columnsLinked_other": "{{count}} columnes enllaçades",
+    "rows": "{{count}} files",
+    "linkDescriptionFirst": "enllaceu primer una columna «Descripció»",
+    "cancel": "Cancel·la",
+    "import": "Importa"
+  },
+  "quantityPicker": {
+    "title": "Enllaça l'amidament",
+    "tabSpreadsheet": "Full de càlcul",
+    "tabPdf": "Amidament en PDF",
+    "tabIfc": "Element IFC",
+    "cellNotNumeric": "La cel·la no conté cap nombre vàlid",
+    "noSheets": "Encara no hi ha cap full. Creeu primer un full de càlcul.",
+    "sheet": "Full",
+    "cellReference": "Referència de cel·la (p. ex. A5 o B12)",
+    "value": "Valor",
+    "empty": "(buit)",
+    "linkCell": "Enllaça la cel·la",
+    "noPdfMeasurements": "Encara no hi ha amidaments en PDF. Obriu primer un PDF a la pestanya PDF i creeu-hi amidaments.",
+    "sumLengths": "Σ Totes les longituds",
+    "sumAreas": "Σ Totes les superfícies",
+    "individualMeasurements": "Amidaments individuals:",
+    "noIfcElements": "Encara no hi ha elements IFC. Obriu un fitxer IFC a la pestanya 3D i seleccioneu-hi un element.",
+    "cancel": "Cancel·la"
+  },
+  "excelPicker": {
+    "title": "Enllaça amb l'Excel",
+    "cannotReadFile": "No es pot llegir el fitxer",
+    "chooseFile": "Trieu un fitxer...",
+    "noFileSelected": "Cap fitxer seleccionat",
+    "loadingFile": "S'està carregant el fitxer...",
+    "cancel": "Cancel·la",
+    "select": "Selecciona"
+  },
+  "costItemPicker": {
+    "title": "Enllaça amb una línia del pressupost",
+    "searchPlaceholder": "Cerca per descripció o codi...",
+    "suggestions": "Suggeriments",
+    "results": "Resultats ({{count}})",
+    "allLines": "Totes les línies",
+    "unlink": "Desenllaça",
+    "cancel": "Cancel·la",
+    "link": "Enllaça"
+  },
+  "resourceTypes": {
+    "arbeid": "Mà d'obra",
+    "materieel": "Maquinària",
+    "materiaal": "Materials",
+    "onderaannemer": "Subcontracta",
+    "overig": "Altres"
+  },
+  "undo": {
+    "addResource": "Addició de recurs",
+    "wizard": "Auxiliar: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Previsualització — {{name}}"
+  }
+}

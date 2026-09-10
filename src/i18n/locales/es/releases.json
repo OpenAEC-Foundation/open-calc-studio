@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "39 idiomas + FIEBDC-3 (.bc3)",
+    "v0.10.3": "IVA general y reducido — seleccionable por elemento",
+    "v0.10.0": "Logotipo en el encabezado del informe + fórmulas en las celdas",
+    "v0.9.0": "Totales BasCalc exactos + informes en formato de pliego",
+    "v0.8.8": "Corrección de la importación Excel/CSV + vía MCP",
+    "v0.8.7": "Cuatro formatos de importación nuevos",
+    "v0.8.6": "Recargos corregidos en el resumen del informe",
+    "v0.8.5": "Importación muy ampliada + corrección de la pantalla en blanco",
+    "v0.8.4": "Selector de códigos + presupuesto compacto para el cliente",
+    "v0.8.3": "Seguimiento de cambios + importación de presupuestos",
+    "v0.8.2": "OpenAEC tras un indicador de función",
+    "v0.8.1": "Inicio de sesión OpenAEC + mejoras del asistente",
+    "v0.8.0": "El asistente aplica los cambios directamente",
+    "v0.7.10": "Cuenta OpenAEC + navegación en la barra inferior"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "La interfaz está disponible en 39 idiomas — elige el tuyo en Preferencias → General, o deja que la aplicación siga el idioma del sistema",
+      "Soporte de derecha a izquierda para árabe, farsi, hebreo y urdu: toda la disposición se refleja",
+      "El inglés se quedaba a medias en neerlandés: el idioma estaba fijado internamente y más de 500 textos estaban escritos en el código — ambos corregidos",
+      "Importación y exportación de FIEBDC-3 (.bc3): el estándar español de presupuestos y bancos de precios (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS: resuelto el aviso de «dañado» y reparada la propia compilación; «Novedades» aparece ahora en tu idioma"
+    ],
+    "v0.10.3": [
+      "Nueva línea de recargo «IVA reducido» (9 %) junto a «IVA general»: los presupuestos existentes la reciben automáticamente",
+      "Marque capítulos, partidas o líneas como tipo reducido con el clic derecho; los elementos hijos heredan el tipo y la tabla muestra una etiqueta de IVA",
+      "Base imponible calculada a prorrata a partir del marcado (recargos incluidos) o introducida a mano en el panel de recargos",
+      "El reparto del IVA se aplica en todos los informes (IBIS muestra por separado la base general y la reducida) y en el servidor MCP",
+      "Correcciones: el IVA se contaba dos veces en el resumen de Bouw 1 y un importe con IVA aparecía bajo la etiqueta «Presupuesto de contrata sin IVA»"
+    ],
+    "v0.10.0": [
+      "Logotipo de la empresa arriba a la derecha del encabezado del informe (transparente y a escala); altura del encabezado y color de la línea ajustables",
+      "Fórmulas en las celdas numéricas (=12.2*2.22 o 12,2*2,2), y corregido el error que descartaba decimales",
+      "Recargos: introduzca el importe final sin IVA y el redondeo pasa a ser automáticamente la diferencia; el IVA se calcula sobre el importe redondeado",
+      "Contrata principal: sume líneas con «+», columna A opcional (abonable heredado del capítulo) y vistas de solo subtotales",
+      "Trabaje más rápido: precios ±%, buscar y reemplazar con Ctrl+F, contraer por nivel, deshacer varios pasos, líneas de texto con ajuste de línea"
+    ],
+    "v0.9.0": [
+      "Importación BasCalc: el precio de coste y el presupuesto de contrata coinciden al céntimo con Excel (recargos planos + partida de redondeo fija)",
+      "Memoria de trabajos y contrata principal en formato de pliego: sin bordes de celda, apartados sangrados y subtotal por apartado",
+      "El botón + junto a la línea añade una línea de cálculo; mediciones sí/no directamente en la barra de herramientas del informe",
+      "Guardar como usa ahora .ifcCalc por defecto y protege el archivo original",
+      "Nuevo logotipo verde; correcciones de navegación y diálogos (hoja de cálculo ↔ presupuesto)"
+    ],
+    "v0.8.8": [
+      "Importación Excel/CSV: a veces los importes acababan en 0 € — corregido",
+      "La importación Excel/CSV también está disponible vía el servidor MCP (herramienta import_excel_csv)"
+    ],
+    "v0.8.7": [
+      "Importación Excel/CSV con asignación de columnas: lea disposiciones libres de Excel/CSV y vincule usted mismo las columnas",
+      "Formatos nuevos: STABU SUFX (pliego XML) y RAW antiguo (.rsu)",
+      "Catálogo de precios (BMEcat/DICO) → directo a la biblioteca de recursos"
+    ],
+    "v0.8.6": [
+      "El resumen del informe muestra los porcentajes de recargo correctos y respeta los tipos personalizados (antes «Gastos generales» podía mostrar 0 %)",
+      "Modelo de recargos depurado internamente; ahora todos los informes calculan desde la misma fuente"
+    ],
+    "v0.8.5": [
+      "Muchos más formatos de importación: .cuf, .dnc, .xtb (con líneas de detalle), .rsx, .s01 e .ifcx",
+      "Corregida la pantalla en blanco en Windows (WebView pasa a renderizado por software)",
+      "Motor de importación reconstruido desde cero; los totales coinciden exactamente con los archivos de origen"
+    ],
+    "v0.8.4": [
+      "Campo de código: elija códigos STABU/NL-SfB con doble clic (y añada los suyos)",
+      "Importación de presupuestos (.dnc): ahora se abre directamente como informe compacto para el cliente",
+      "Proyecto, logotipos y variantes trasladados a la cinta; propiedades depuradas"
+    ],
+    "v0.8.3": [
+      "Seguimiento de cambios: elija si se resalta la línea entera o solo la celda modificada",
+      "Los cambios también se ven en el PDF del informe",
+      "Importación de presupuestos: los presupuestos para el cliente (.dnc) se importan directamente y se abren con Archivo → Abrir",
+      "Opción de informe de presupuesto para el cliente; historial de cambios por línea (quién/cuándo/qué)"
+    ],
+    "v0.8.2": [
+      "Asistente de presupuestos: historial de chat por presupuesto, varias preguntas a la vez",
+      "Funciones de OpenAEC (inicio de sesión, almacenamiento en la nube) tras un ajuste"
+    ],
+    "v0.8.1": [
+      "Inicio de sesión de OpenAEC y mejoras del asistente",
+      "Mensajes de error de IA claros; el texto del asistente se puede seleccionar y copiar"
+    ],
+    "v0.8.0": [
+      "El asistente de presupuestos aplica los cambios directamente en el documento abierto",
+      "Abra archivos .calc/.mdb con JSON como proyecto nativo de OCS"
+    ],
+    "v0.7.10": [
+      "Cuenta OpenAEC y navegación en la barra inferior",
+      "Ocultar/mostrar columnas con el clic derecho en el encabezado de columna",
+      "Pestañas de Horas y Recargos unificadas; informe estilo IBIS (Bouw 2)"
+    ]
+  }
+}

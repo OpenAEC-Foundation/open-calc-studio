@@ -1,0 +1,67 @@
+{
+  "columnMapping": {
+    "title": "Propojit sloupce",
+    "intro": "Propojte každý sloupec ze souboru <b>{{name}}</b> se správným polem rozpočtu. Sloupce nastavené na „— ignorovat —“ se přeskočí.",
+    "columnN": "Sloupec {{n}}",
+    "columnsLinked_one": "{{count}} sloupec propojen",
+    "columnsLinked_few": "{{count}} sloupce propojeny",
+    "columnsLinked_many": "{{count}} sloupce propojeno",
+    "columnsLinked_other": "{{count}} sloupců propojeno",
+    "rows": "{{count}} řádků",
+    "linkDescriptionFirst": "nejprve propojte sloupec „Popis“",
+    "cancel": "Zrušit",
+    "import": "Importovat"
+  },
+  "quantityPicker": {
+    "title": "Propojit množství",
+    "tabSpreadsheet": "Tabulka",
+    "tabPdf": "Měření v PDF",
+    "tabIfc": "Prvek IFC",
+    "cellNotNumeric": "Buňka neobsahuje platné číslo",
+    "noSheets": "Zatím žádné listy. Nejprve vytvořte tabulku.",
+    "sheet": "List",
+    "cellReference": "Odkaz na buňku (např. A5 nebo B12)",
+    "value": "Hodnota",
+    "empty": "(prázdné)",
+    "linkCell": "Propojit buňku",
+    "noPdfMeasurements": "Zatím žádná měření v PDF. Nejprve otevřete PDF na kartě PDF a vytvořte měření.",
+    "sumLengths": "Σ Všechny délky",
+    "sumAreas": "Σ Všechny plochy",
+    "individualMeasurements": "Jednotlivá měření:",
+    "noIfcElements": "Zatím žádné prvky IFC. Otevřete soubor IFC na kartě 3D a vyberte prvek.",
+    "cancel": "Zrušit"
+  },
+  "excelPicker": {
+    "title": "Propojit s Excelem",
+    "cannotReadFile": "Soubor nelze přečíst",
+    "chooseFile": "Vybrat soubor...",
+    "noFileSelected": "Není vybrán žádný soubor",
+    "loadingFile": "Načítání souboru...",
+    "cancel": "Zrušit",
+    "select": "Vybrat"
+  },
+  "costItemPicker": {
+    "title": "Propojit s řádkem rozpočtu",
+    "searchPlaceholder": "Hledat podle popisu nebo kódu...",
+    "suggestions": "Návrhy",
+    "results": "Výsledky ({{count}})",
+    "allLines": "Všechny řádky",
+    "unlink": "Zrušit vazbu",
+    "cancel": "Zrušit",
+    "link": "Propojit"
+  },
+  "resourceTypes": {
+    "arbeid": "Mzdy",
+    "materieel": "Stroje",
+    "materiaal": "Materiál",
+    "onderaannemer": "Subdodavatel",
+    "overig": "Ostatní"
+  },
+  "undo": {
+    "addResource": "Přidání zdroje",
+    "wizard": "Průvodce: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Náhled — {{name}}"
+  }
+}

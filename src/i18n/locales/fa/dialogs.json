@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "پیوند ستون‌ها",
+    "intro": "هر ستون از <b>{{name}}</b> را به فیلد درست برآورد پیوند دهید. ستون‌هایی که روی «— نادیده بگیر —» تنظیم شوند رد می‌شوند.",
+    "columnN": "ستون {{n}}",
+    "columnsLinked_one": "{{count}} ستون پیوند خورد",
+    "columnsLinked_other": "{{count}} ستون پیوند خورد",
+    "rows": "{{count}} سطر",
+    "linkDescriptionFirst": "ابتدا یک ستون «شرح» را پیوند دهید",
+    "cancel": "انصراف",
+    "import": "ورود"
+  },
+  "quantityPicker": {
+    "title": "پیوند مقدار",
+    "tabSpreadsheet": "صفحه‌گسترده",
+    "tabPdf": "اندازه‌گیری PDF",
+    "tabIfc": "عنصر IFC",
+    "cellNotNumeric": "سلول عدد معتبری ندارد",
+    "noSheets": "هنوز برگه‌ای وجود ندارد. ابتدا یک صفحه‌گسترده بسازید.",
+    "sheet": "برگه",
+    "cellReference": "مرجع سلول (مثلاً A5 یا B12)",
+    "value": "مقدار",
+    "empty": "(خالی)",
+    "linkCell": "پیوند سلول",
+    "noPdfMeasurements": "هنوز اندازه‌گیری PDF‎ وجود ندارد. ابتدا در زبانه PDF یک فایل باز کنید و اندازه‌گیری بسازید.",
+    "sumLengths": "Σ همه طول‌ها",
+    "sumAreas": "Σ همه مساحت‌ها",
+    "individualMeasurements": "اندازه‌گیری‌های منفرد:",
+    "noIfcElements": "هنوز عنصر IFC‎ وجود ندارد. در زبانه سه‌بعدی یک فایل IFC باز کنید و عنصری را انتخاب کنید.",
+    "cancel": "انصراف"
+  },
+  "excelPicker": {
+    "title": "پیوند به Excel",
+    "cannotReadFile": "خواندن فایل ممکن نشد",
+    "chooseFile": "انتخاب فایل...",
+    "noFileSelected": "فایلی انتخاب نشده است",
+    "loadingFile": "در حال بارگذاری فایل...",
+    "cancel": "انصراف",
+    "select": "انتخاب"
+  },
+  "costItemPicker": {
+    "title": "پیوند به سطر برآورد",
+    "searchPlaceholder": "جستجو بر اساس شرح یا کد...",
+    "suggestions": "پیشنهادها",
+    "results": "نتایج ({{count}})",
+    "allLines": "همه سطرها",
+    "unlink": "حذف پیوند",
+    "cancel": "انصراف",
+    "link": "پیوند"
+  },
+  "resourceTypes": {
+    "arbeid": "دستمزد",
+    "materieel": "ماشین‌آلات",
+    "materiaal": "مصالح",
+    "onderaannemer": "پیمانکار جزء",
+    "overig": "سایر"
+  },
+  "undo": {
+    "addResource": "افزودن منبع",
+    "wizard": "دستیار: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "پیش‌نمایش — {{name}}"
+  }
+}

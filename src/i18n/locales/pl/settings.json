@@ -1,0 +1,66 @@
+{
+  "title": "Ustawienia",
+  "resetToDefaults": "Przywróć domyślne",
+  "resetConfirm": "Czy na pewno chcesz przywrócić wszystkie ustawienia domyślne?",
+  "tabs": {
+    "general": "Ogólne",
+    "appearance": "Wygląd",
+    "grid": "Tabela",
+    "files": "Pliki",
+    "shortcuts": "Skróty klawiszowe",
+    "plugins": "Wtyczki",
+    "about": "O programie"
+  },
+  "general": {
+    "application": "Aplikacja",
+    "language": "Język",
+    "startup": "Uruchamianie",
+    "restoreSession": "Przywróć sesję przy uruchomieniu",
+    "checkUpdates": "Sprawdzaj aktualizacje",
+    "author": "Autor",
+    "authorName": "Nazwa"
+  },
+  "appearance": {
+    "theme": "Motyw",
+    "system": "Systemowy",
+    "default": "Domyślny",
+    "dark": "Ciemny",
+    "light": "Jasny",
+    "blue": "Niebieski",
+    "amberNavy": "Bursztyn i granat",
+    "warmEmber": "Ciepły żar",
+    "highContrast": "Wysoki kontrast",
+    "font": "Czcionka",
+    "uiFontSize": "Rozmiar czcionki interfejsu"
+  },
+  "grid": {
+    "general": "Tabela",
+    "showRowNumbers": "Pokaż numery wierszy",
+    "alternateRowColors": "Naprzemienne kolory wierszy"
+  },
+  "files": {
+    "autoSave": "Autozapis",
+    "autoSaveOption": "Autozapis",
+    "off": "Wyłączony",
+    "afterDelay": "Po upływie czasu",
+    "onFocusChange": "Przy zmianie fokusu",
+    "onWindowChange": "Przy zmianie okna",
+    "encoding": "Kodowanie",
+    "defaultEncoding": "Kodowanie domyślne",
+    "backup": "Kopia zapasowa",
+    "autoBackup": "Automatyczna kopia zapasowa"
+  },
+  "shortcuts": {
+    "placeholder": "Tutaj będzie można skonfigurować skróty klawiszowe"
+  },
+  "plugins": {
+    "placeholder": "Tutaj będzie można zarządzać wtyczkami"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Wersja",
+    "framework": "Framework",
+    "license": "Licencja",
+    "description": "Otwartoźródłowy program do kosztorysowania dla holenderskiego budownictwa. Zapis w formacie IFC."
+  }
+}

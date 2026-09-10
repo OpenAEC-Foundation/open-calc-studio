@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "Oszlopok párosítása",
+    "intro": "Párosítsa a(z) <b>{{name}}</b> minden oszlopát a megfelelő költségvetési mezővel. A „— kihagyás —” értékre állított oszlopok kimaradnak.",
+    "columnN": "{{n}}. oszlop",
+    "columnsLinked_one": "{{count}} oszlop párosítva",
+    "columnsLinked_other": "{{count}} oszlop párosítva",
+    "rows": "{{count}} sor",
+    "linkDescriptionFirst": "előbb párosítson egy „Megnevezés” oszlopot",
+    "cancel": "Mégse",
+    "import": "Importálás"
+  },
+  "quantityPicker": {
+    "title": "Mennyiség összekapcsolása",
+    "tabSpreadsheet": "Táblázat",
+    "tabPdf": "PDF-mérés",
+    "tabIfc": "IFC-elem",
+    "cellNotNumeric": "A cella nem tartalmaz érvényes számot",
+    "noSheets": "Még nincs munkalap. Hozzon létre előbb egy táblázatot.",
+    "sheet": "Munkalap",
+    "cellReference": "Cellahivatkozás (pl. A5 vagy B12)",
+    "value": "Érték",
+    "empty": "(üres)",
+    "linkCell": "Cella összekapcsolása",
+    "noPdfMeasurements": "Még nincs PDF-mérés. Nyisson meg előbb egy PDF-et a PDF lapon, és készítsen méréseket.",
+    "sumLengths": "Σ Összes hossz",
+    "sumAreas": "Σ Összes terület",
+    "individualMeasurements": "Egyedi mérések:",
+    "noIfcElements": "Még nincs IFC-elem. Nyisson meg egy IFC-fájlt a 3D lapon, és válasszon ki egy elemet.",
+    "cancel": "Mégse"
+  },
+  "excelPicker": {
+    "title": "Összekapcsolás Excellel",
+    "cannotReadFile": "A fájl nem olvasható",
+    "chooseFile": "Fájl választása...",
+    "noFileSelected": "Nincs kiválasztott fájl",
+    "loadingFile": "Fájl betöltése...",
+    "cancel": "Mégse",
+    "select": "Kiválasztás"
+  },
+  "costItemPicker": {
+    "title": "Összekapcsolás költségvetési sorral",
+    "searchPlaceholder": "Keresés megnevezés vagy kód alapján...",
+    "suggestions": "Javaslatok",
+    "results": "Találatok ({{count}})",
+    "allLines": "Minden sor",
+    "unlink": "Kapcsolat bontása",
+    "cancel": "Mégse",
+    "link": "Összekapcsolás"
+  },
+  "resourceTypes": {
+    "arbeid": "Munkadíj",
+    "materieel": "Gép",
+    "materiaal": "Anyag",
+    "onderaannemer": "Alvállalkozó",
+    "overig": "Egyéb"
+  },
+  "undo": {
+    "addResource": "Erőforrás hozzáadása",
+    "wizard": "Varázsló: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Előnézet — {{name}}"
+  }
+}

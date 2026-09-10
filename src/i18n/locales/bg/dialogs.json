@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "Свързване на колони",
+    "intro": "Свържете всяка колона от <b>{{name}}</b> със съответното поле в сметката. Колоните с „— пропусни —“ се прескачат.",
+    "columnN": "Колона {{n}}",
+    "columnsLinked_one": "{{count}} свързана колона",
+    "columnsLinked_other": "{{count}} свързани колони",
+    "rows": "{{count}} реда",
+    "linkDescriptionFirst": "първо свържете колона „Описание“",
+    "cancel": "Отказ",
+    "import": "Импорт"
+  },
+  "quantityPicker": {
+    "title": "Свързване на количество",
+    "tabSpreadsheet": "Таблица",
+    "tabPdf": "PDF измерване",
+    "tabIfc": "IFC елемент",
+    "cellNotNumeric": "Клетката не съдържа валидно число",
+    "noSheets": "Все още няма листове. Първо създайте електронна таблица.",
+    "sheet": "Лист",
+    "cellReference": "Адрес на клетка (напр. A5 или B12)",
+    "value": "Стойност",
+    "empty": "(празно)",
+    "linkCell": "Свържи клетката",
+    "noPdfMeasurements": "Все още няма PDF измервания. Първо отворете PDF в раздела PDF и направете измервания.",
+    "sumLengths": "Σ Всички дължини",
+    "sumAreas": "Σ Всички площи",
+    "individualMeasurements": "Отделни измервания:",
+    "noIfcElements": "Все още няма IFC елементи. Отворете IFC файл в раздела 3D и изберете елемент.",
+    "cancel": "Отказ"
+  },
+  "excelPicker": {
+    "title": "Свързване с Excel",
+    "cannotReadFile": "Файлът не може да бъде прочетен",
+    "chooseFile": "Избери файл...",
+    "noFileSelected": "Няма избран файл",
+    "loadingFile": "Зареждане на файла...",
+    "cancel": "Отказ",
+    "select": "Избери"
+  },
+  "costItemPicker": {
+    "title": "Свързване с ред от сметката",
+    "searchPlaceholder": "Търсене по описание или код...",
+    "suggestions": "Предложения",
+    "results": "Резултати ({{count}})",
+    "allLines": "Всички редове",
+    "unlink": "Премахни връзката",
+    "cancel": "Отказ",
+    "link": "Свържи"
+  },
+  "resourceTypes": {
+    "arbeid": "Труд",
+    "materieel": "Механизация",
+    "materiaal": "Материали",
+    "onderaannemer": "Подизпълнител",
+    "overig": "Друго"
+  },
+  "undo": {
+    "addResource": "Добавяне на ресурс",
+    "wizard": "Помощник: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Преглед — {{name}}"
+  }
+}

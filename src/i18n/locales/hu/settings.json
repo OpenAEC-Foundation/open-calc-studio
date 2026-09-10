@@ -1,0 +1,66 @@
+{
+  "title": "Beállítások",
+  "resetToDefaults": "Alapértelmezések visszaállítása",
+  "resetConfirm": "Biztosan visszaállítja az összes beállítást?",
+  "tabs": {
+    "general": "Általános",
+    "appearance": "Megjelenés",
+    "grid": "Táblázat",
+    "files": "Fájlok",
+    "shortcuts": "Gyorsbillentyűk",
+    "plugins": "Bővítmények",
+    "about": "Névjegy"
+  },
+  "general": {
+    "application": "Alkalmazás",
+    "language": "Nyelv",
+    "startup": "Indítás",
+    "restoreSession": "Munkamenet visszaállítása indításkor",
+    "checkUpdates": "Frissítések keresése",
+    "author": "Szerző",
+    "authorName": "Név"
+  },
+  "appearance": {
+    "theme": "Téma",
+    "system": "Rendszer",
+    "default": "Alapértelmezett",
+    "dark": "Sötét",
+    "light": "Világos",
+    "blue": "Kék",
+    "amberNavy": "Borostyán-tengerkék",
+    "warmEmber": "Meleg parázs",
+    "highContrast": "Nagy kontraszt",
+    "font": "Betűtípus",
+    "uiFontSize": "Felület betűmérete"
+  },
+  "grid": {
+    "general": "Táblázat",
+    "showRowNumbers": "Sorszámok megjelenítése",
+    "alternateRowColors": "Váltakozó sorszínek"
+  },
+  "files": {
+    "autoSave": "Automatikus mentés",
+    "autoSaveOption": "Automatikus mentés",
+    "off": "Ki",
+    "afterDelay": "Késleltetés után",
+    "onFocusChange": "Fókuszváltáskor",
+    "onWindowChange": "Ablakváltáskor",
+    "encoding": "Kódolás",
+    "defaultEncoding": "Alapértelmezett kódolás",
+    "backup": "Biztonsági mentés",
+    "autoBackup": "Automatikus biztonsági mentés"
+  },
+  "shortcuts": {
+    "placeholder": "A gyorsbillentyűket itt lehet majd beállítani"
+  },
+  "plugins": {
+    "placeholder": "A bővítményeket itt lehet majd kezelni"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Verzió",
+    "framework": "Keretrendszer",
+    "license": "Licenc",
+    "description": "Nyílt forráskódú költségvetési szoftver a holland építőipar számára. Tárolás IFC formátumban."
+  }
+}

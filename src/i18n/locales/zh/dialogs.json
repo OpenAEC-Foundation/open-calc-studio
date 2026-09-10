@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "匹配列",
+    "intro": "将 <b>{{name}}</b> 中的每一列匹配到对应的预算字段。设为“— 忽略 —”的列将被跳过。",
+    "columnN": "第 {{n}} 列",
+    "columnsLinked_one": "已匹配 {{count}} 列",
+    "columnsLinked_other": "已匹配 {{count}} 列",
+    "rows": "{{count}} 行",
+    "linkDescriptionFirst": "请先匹配一个“名称”列",
+    "cancel": "取消",
+    "import": "导入"
+  },
+  "quantityPicker": {
+    "title": "关联工程量",
+    "tabSpreadsheet": "电子表格",
+    "tabPdf": "PDF 测量",
+    "tabIfc": "IFC 构件",
+    "cellNotNumeric": "单元格中没有有效数值",
+    "noSheets": "暂无工作表。请先创建电子表格。",
+    "sheet": "工作表",
+    "cellReference": "单元格引用（例如 A5 或 B12）",
+    "value": "值",
+    "empty": "（空）",
+    "linkCell": "关联单元格",
+    "noPdfMeasurements": "暂无 PDF 测量结果。请先在 PDF 标签页中打开 PDF 并进行测量。",
+    "sumLengths": "Σ 所有长度",
+    "sumAreas": "Σ 所有面积",
+    "individualMeasurements": "单项测量结果：",
+    "noIfcElements": "暂无 IFC 构件。请在 3D 标签页中打开 IFC 文件并选择构件。",
+    "cancel": "取消"
+  },
+  "excelPicker": {
+    "title": "关联到 Excel",
+    "cannotReadFile": "无法读取文件",
+    "chooseFile": "选择文件…",
+    "noFileSelected": "未选择文件",
+    "loadingFile": "正在加载文件…",
+    "cancel": "取消",
+    "select": "选择"
+  },
+  "costItemPicker": {
+    "title": "关联到预算行",
+    "searchPlaceholder": "按名称或编码搜索…",
+    "suggestions": "推荐",
+    "results": "结果（{{count}}）",
+    "allLines": "所有行",
+    "unlink": "取消关联",
+    "cancel": "取消",
+    "link": "关联"
+  },
+  "resourceTypes": {
+    "arbeid": "人工",
+    "materieel": "机械",
+    "materiaal": "材料",
+    "onderaannemer": "分包商",
+    "overig": "其他"
+  },
+  "undo": {
+    "addResource": "添加资源",
+    "wizard": "向导：{{name}}"
+  },
+  "wizard": {
+    "previewTitle": "预览 —— {{name}}"
+  }
+}

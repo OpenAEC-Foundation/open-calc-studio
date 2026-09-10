@@ -147,8 +147,8 @@
     "notSignedIn": "Sign in with OpenAEC first (top-right button)",
     "uploaded": "Budget saved to the OpenAEC Cloud",
     "noFiles": "No budgets in the cloud yet",
-    "hiddenFiles": "{{count}} other file (not a budget) hidden",
-    "hiddenFiles_plural": "{{count}} other files (not budgets) hidden"
+    "hiddenFiles_one": "{{count}} other file (not a budget) hidden",
+    "hiddenFiles_other": "{{count}} other files (not budgets) hidden"
   },
   "wpcalc": {
     "tabData": "Data",
@@ -177,8 +177,8 @@
   "wizard": {
     "title": "Component wizard",
     "description": "Choose a building component to automatically calculate and insert:",
-    "back": "\u2190 Back",
-    "calculate": "Calculate \u2192",
+    "back": "← Back",
+    "calculate": "Calculate →",
     "type": "Type",
     "description_col": "Description",
     "quantity": "Qty.",
@@ -294,24 +294,24 @@
     "addImageBtn": "+ Image"
   },
   "tooltip": {
-    "hoursFormula": "hours = quantity \u00D7 norm\nhours = {{qty}} \u00D7 {{norm}}\nhours = {{result}}",
-    "quantityFormula": "qty = count \u00D7 pnorm / pcap\nqty = {{qty}} \u00D7 {{norm}} / {{cap}}\nqty = {{result}}",
+    "hoursFormula": "hours = quantity × norm\nhours = {{qty}} × {{norm}}\nhours = {{result}}",
+    "quantityFormula": "qty = count × pnorm / pcap\nqty = {{qty}} × {{norm}} / {{cap}}\nqty = {{result}}",
     "quantityDirect": "qty = Count\nqty = {{qty}}",
     "materialPricePerUnit": "price = material price per unit\nprice = {{price}}",
     "resourcePrice": "rscpr = price per resource\nrscpr = {{price}}",
-    "laborFormula": "labor = laborPrice \u00D7 quantity\nlabor = {{laborPrice}} \u00D7 {{qty}}\nlabor = {{result}}",
-    "materialFormula": "material = price \u00D7 quantity\nmaterial = {{price}} \u00D7 {{qty}}\nmaterial = {{result}}",
-    "resourceCostFormula": "{{label}} = price \u00D7 quantity\n{{label}} = {{result}}",
+    "laborFormula": "labor = laborPrice × quantity\nlabor = {{laborPrice}} × {{qty}}\nlabor = {{result}}",
+    "materialFormula": "material = price × quantity\nmaterial = {{price}} × {{qty}}\nmaterial = {{result}}",
+    "resourceCostFormula": "{{label}} = price × quantity\n{{label}} = {{result}}",
     "costPerUnitFormula": "cost/unit = price + labor/unit\ncost/unit = {{price}} + {{labor}}\ncost/unit = {{result}}",
-    "subtotalFormula": "subtotal = quantity \u00D7 cost/unit\nsubtotal = {{qty}} \u00D7 {{costPerUnit}}\nsubtotal = {{result}}",
-    "unitPriceFormula": "unitpr = qty \u00D7 rscpr\nunitpr = {{qty}} \u00D7 {{resourcePrice}}\nunitpr = {{result}}",
-    "unitPriceSumRules": "unitpr = \u03A3 rule unitpr\nunitpr = {{result}}",
+    "subtotalFormula": "subtotal = quantity × cost/unit\nsubtotal = {{qty}} × {{costPerUnit}}\nsubtotal = {{result}}",
+    "unitPriceFormula": "unitpr = qty × rscpr\nunitpr = {{qty}} × {{resourcePrice}}\nunitpr = {{result}}",
+    "unitPriceSumRules": "unitpr = Σ rule unitpr\nunitpr = {{result}}",
     "unitPriceDivFormula": "unitpr = amount / qty\nunitpr = {{total}} / {{qty}}\nunitpr = {{result}}",
-    "totalWpcalc": "total = quantity \u00D7 cost/unit\ntotal = {{result}}",
+    "totalWpcalc": "total = quantity × cost/unit\ntotal = {{result}}",
     "totalFromUnitPrice": "amount = unitpr\namount = {{result}}",
-    "totalSumRules": "amount = \u03A3 rule amount\namount = {{result}}",
-    "totalSumMonitorPosts": "amount = \u03A3 monitor post amount\namount = {{result}}",
-    "totalSumChildren": "amount = \u03A3 child amount\namount = {{result}}"
+    "totalSumRules": "amount = Σ rule amount\namount = {{result}}",
+    "totalSumMonitorPosts": "amount = Σ monitor post amount\namount = {{result}}",
+    "totalSumChildren": "amount = Σ child amount\namount = {{result}}"
   },
   "openInNewWindow": "Open in new window",
   "closeTab": "Close tab",

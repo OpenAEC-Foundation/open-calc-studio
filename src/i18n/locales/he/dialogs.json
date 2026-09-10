@@ -1,0 +1,67 @@
+{
+  "columnMapping": {
+    "title": "קישור עמודות",
+    "intro": "יש לקשר כל עמודה מתוך <b>{{name}}</b> לשדה האומדן הנכון. עמודות שהוגדרו כ„— התעלם —” יידלגו.",
+    "columnN": "עמודה {{n}}",
+    "columnsLinked_one": "{{count}} עמודה קושרה",
+    "columnsLinked_two": "שתי עמודות קושרו",
+    "columnsLinked_many": "{{count}} עמודות קושרו",
+    "columnsLinked_other": "{{count}} עמודות קושרו",
+    "rows": "{{count}} שורות",
+    "linkDescriptionFirst": "יש לקשר תחילה עמודת „תיאור”",
+    "cancel": "ביטול",
+    "import": "ייבוא"
+  },
+  "quantityPicker": {
+    "title": "קישור כמות",
+    "tabSpreadsheet": "גיליון אלקטרוני",
+    "tabPdf": "מדידת PDF",
+    "tabIfc": "אלמנט IFC",
+    "cellNotNumeric": "התא אינו מכיל מספר תקין",
+    "noSheets": "אין עדיין גיליונות. יש ליצור תחילה גיליון אלקטרוני.",
+    "sheet": "גיליון",
+    "cellReference": "הפניה לתא (לדוגמה A5 או B12)",
+    "value": "ערך",
+    "empty": "(ריק)",
+    "linkCell": "קישור התא",
+    "noPdfMeasurements": "אין עדיין מדידות PDF. יש לפתוח קובץ PDF בלשונית PDF וליצור מדידות.",
+    "sumLengths": "Σ כל האורכים",
+    "sumAreas": "Σ כל השטחים",
+    "individualMeasurements": "מדידות בודדות:",
+    "noIfcElements": "אין עדיין אלמנטים של IFC. יש לפתוח קובץ IFC בלשונית התלת-ממד ולבחור אלמנט.",
+    "cancel": "ביטול"
+  },
+  "excelPicker": {
+    "title": "קישור ל-Excel",
+    "cannotReadFile": "לא ניתן לקרוא את הקובץ",
+    "chooseFile": "בחירת קובץ...",
+    "noFileSelected": "לא נבחר קובץ",
+    "loadingFile": "טוען את הקובץ...",
+    "cancel": "ביטול",
+    "select": "בחירה"
+  },
+  "costItemPicker": {
+    "title": "קישור לשורת אומדן",
+    "searchPlaceholder": "חיפוש לפי תיאור או קוד...",
+    "suggestions": "הצעות",
+    "results": "תוצאות ({{count}})",
+    "allLines": "כל השורות",
+    "unlink": "ניתוק הקישור",
+    "cancel": "ביטול",
+    "link": "קישור"
+  },
+  "resourceTypes": {
+    "arbeid": "עבודה",
+    "materieel": "ציוד",
+    "materiaal": "חומרים",
+    "onderaannemer": "קבלן משנה",
+    "overig": "אחר"
+  },
+  "undo": {
+    "addResource": "הוספת משאב",
+    "wizard": "אשף: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "תצוגה מקדימה — {{name}}"
+  }
+}

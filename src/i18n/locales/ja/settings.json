@@ -1,0 +1,66 @@
+{
+  "title": "設定",
+  "resetToDefaults": "既定値に戻す",
+  "resetConfirm": "すべての設定をリセットしてもよろしいですか？",
+  "tabs": {
+    "general": "全般",
+    "appearance": "外観",
+    "grid": "表",
+    "files": "ファイル",
+    "shortcuts": "ショートカット",
+    "plugins": "プラグイン",
+    "about": "バージョン情報"
+  },
+  "general": {
+    "application": "アプリケーション",
+    "language": "言語",
+    "startup": "起動",
+    "restoreSession": "起動時にセッションを復元する",
+    "checkUpdates": "更新を確認する",
+    "author": "作成者",
+    "authorName": "氏名"
+  },
+  "appearance": {
+    "theme": "テーマ",
+    "system": "システムに合わせる",
+    "default": "既定",
+    "dark": "ダーク",
+    "light": "ライト",
+    "blue": "ブルー",
+    "amberNavy": "アンバーネイビー",
+    "warmEmber": "ウォームエンバー",
+    "highContrast": "ハイコントラスト",
+    "font": "フォント",
+    "uiFontSize": "画面の文字サイズ"
+  },
+  "grid": {
+    "general": "表",
+    "showRowNumbers": "行番号を表示する",
+    "alternateRowColors": "行を交互に色分けする"
+  },
+  "files": {
+    "autoSave": "自動保存",
+    "autoSaveOption": "自動保存",
+    "off": "オフ",
+    "afterDelay": "一定時間後",
+    "onFocusChange": "フォーカス変更時",
+    "onWindowChange": "ウィンドウ切り替え時",
+    "encoding": "エンコーディング",
+    "defaultEncoding": "既定のエンコーディング",
+    "backup": "バックアップ",
+    "autoBackup": "自動バックアップ"
+  },
+  "shortcuts": {
+    "placeholder": "ショートカットはここで設定します"
+  },
+  "plugins": {
+    "placeholder": "プラグインはここで管理します"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "バージョン",
+    "framework": "フレームワーク",
+    "license": "ライセンス",
+    "description": "オランダの建設業向けオープンソース積算ソフトウェア。IFC 形式で保存します。"
+  }
+}

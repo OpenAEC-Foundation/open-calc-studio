@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "열 연결",
+    "intro": "<b>{{name}}</b>의 각 열을 알맞은 내역서 항목에 연결하세요. “— 무시 —”로 설정한 열은 건너뜁니다.",
+    "columnN": "{{n}}번 열",
+    "columnsLinked_one": "{{count}}개 열 연결됨",
+    "columnsLinked_other": "{{count}}개 열 연결됨",
+    "rows": "{{count}}행",
+    "linkDescriptionFirst": "먼저 “명칭” 열을 연결하세요",
+    "cancel": "취소",
+    "import": "가져오기"
+  },
+  "quantityPicker": {
+    "title": "수량 연결",
+    "tabSpreadsheet": "스프레드시트",
+    "tabPdf": "PDF 측정",
+    "tabIfc": "IFC 요소",
+    "cellNotNumeric": "셀에 유효한 숫자가 없습니다",
+    "noSheets": "시트가 없습니다. 먼저 스프레드시트를 만드세요.",
+    "sheet": "시트",
+    "cellReference": "셀 참조(예: A5 또는 B12)",
+    "value": "값",
+    "empty": "(비어 있음)",
+    "linkCell": "셀 연결",
+    "noPdfMeasurements": "PDF 측정 결과가 없습니다. 먼저 PDF 탭에서 PDF를 열고 측정하세요.",
+    "sumLengths": "Σ 모든 길이",
+    "sumAreas": "Σ 모든 면적",
+    "individualMeasurements": "개별 측정 결과:",
+    "noIfcElements": "IFC 요소가 없습니다. 3D 탭에서 IFC 파일을 열고 요소를 선택하세요.",
+    "cancel": "취소"
+  },
+  "excelPicker": {
+    "title": "Excel에 연결",
+    "cannotReadFile": "파일을 읽을 수 없습니다",
+    "chooseFile": "파일 선택…",
+    "noFileSelected": "선택된 파일 없음",
+    "loadingFile": "파일을 불러오는 중…",
+    "cancel": "취소",
+    "select": "선택"
+  },
+  "costItemPicker": {
+    "title": "내역서 행에 연결",
+    "searchPlaceholder": "명칭 또는 코드로 검색…",
+    "suggestions": "추천",
+    "results": "결과({{count}})",
+    "allLines": "모든 행",
+    "unlink": "연결 해제",
+    "cancel": "취소",
+    "link": "연결"
+  },
+  "resourceTypes": {
+    "arbeid": "노무",
+    "materieel": "장비",
+    "materiaal": "재료",
+    "onderaannemer": "하도급업체",
+    "overig": "기타"
+  },
+  "undo": {
+    "addResource": "자원 추가",
+    "wizard": "마법사: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "미리보기 — {{name}}"
+  }
+}

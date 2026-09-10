@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "39 języków + hiszpański FIEBDC-3 (.bc3)",
+    "v0.10.3": "Podstawowa i obniżona stawka VAT — wybierana dla każdego elementu",
+    "v0.10.0": "Logo w nagłówku raportu + formuły w komórkach",
+    "v0.9.0": "Dokładne sumy BasCalc + raporty w układzie specyfikacji",
+    "v0.8.8": "Poprawka importu Excel/CSV + obsługa przez MCP",
+    "v0.8.7": "Cztery nowe formaty importu",
+    "v0.8.6": "Poprawione narzuty w podsumowaniu raportu",
+    "v0.8.5": "Znacznie rozszerzony import + poprawka białego ekranu",
+    "v0.8.4": "Wybór kodu + kompaktowy kosztorys inwestorski",
+    "v0.8.3": "Śledzenie zmian + import kosztorysów",
+    "v0.8.2": "OpenAEC za przełącznikiem funkcji",
+    "v0.8.1": "Logowanie OpenAEC + usprawnienia asystenta",
+    "v0.8.0": "Asystent wprowadza zmiany bezpośrednio",
+    "v0.7.10": "Konto OpenAEC + nawigacja na dolnym pasku"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "Interfejs jest teraz dostępny w 39 językach — wybierz swój w Preferencje → Ogólne albo pozwól aplikacji podążać za językiem systemu",
+      "Obsługa pisma od prawej do lewej dla arabskiego, perskiego, hebrajskiego i urdu: cały układ jest lustrzanie odbijany",
+      "Wersja angielska pozostawała częściowo niderlandzka; ustawienie języka było wewnętrznie zablokowane, a ponad 500 tekstów wpisano na sztywno — jedno i drugie naprawione",
+      "Import i eksport FIEBDC-3 (.bc3): hiszpański standard kosztorysów i baz cenowych (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS: rozwiązany błąd „uszkodzonej” aplikacji i naprawiona sama kompilacja; „Co nowego” wyświetla się teraz w Twoim języku"
+    ],
+    "v0.10.3": [
+      "Nowy wiersz narzutu „VAT obniżony” (9%) obok „VAT podstawowy” — istniejące kosztorysy otrzymują go automatycznie",
+      "Oznacz działy, pozycje lub nakłady jako objęte stawką obniżoną przez kliknięcie prawym przyciskiem; elementy podrzędne dziedziczą stawkę, a tabela pokazuje etykietę VAT",
+      "Podstawa opodatkowania obliczana proporcjonalnie na podstawie oznaczeń (wraz z narzutami) albo wpisywana ręcznie w panelu narzutów",
+      "Podział VAT stosowany we wszystkich raportach (IBIS pokazuje osobno podstawę dla stawki podstawowej i obniżonej) oraz na serwerze MCP",
+      "Poprawki: podwójnie liczony VAT w podsumowaniu Bouw 1 oraz kwota brutto wyświetlana pod etykietą „Cena ofertowa netto”"
+    ],
+    "v0.10.0": [
+      "Logo firmy w prawym górnym rogu nagłówka raportu (przezroczyste, skaluje się razem z nagłówkiem); wysokość nagłówka i kolor linii do ustawienia",
+      "Formuły w komórkach liczbowych (=12.2*2.22 lub 12,2*2,2) — naprawiono też błąd gubienia miejsc dziesiętnych",
+      "Narzuty: wpisz kwotę końcową netto, a zaokrąglenie automatycznie stanie się różnicą; VAT liczony od kwoty zaokrąglonej",
+      "Wykonawstwo główne: sumowanie wierszy znakiem „+”, opcjonalna kolumna S (rozliczalność dziedziczona z działu) oraz widoki z samymi sumami częściowymi",
+      "Szybsza praca: ceny ±%, Ctrl+F znajdź i zamień, zwijanie według poziomu, wielokrotne cofanie, wiersze tekstowe ze zawijaniem"
+    ],
+    "v0.9.0": [
+      "Import BasCalc: koszt własny i cena ofertowa zgadzają się z Excelem co do centa (płaskie narzuty + stała pozycja zaokrąglająca)",
+      "Opis robót i wykonawstwo główne w układzie specyfikacji: bez obramowań komórek, wcięte paragrafy, suma częściowa dla paragrafu",
+      "Przycisk + obok wiersza dodaje nakład; ilości wł./wył. bezpośrednio z paska narzędzi raportu",
+      "Zapis jako domyślnie proponuje .ifcCalc i chroni oryginalny plik źródłowy",
+      "Nowe zielone logo; poprawki nawigacji i okien dialogowych (arkusz ↔ kosztorys)"
+    ],
+    "v0.8.8": [
+      "Import Excel/CSV: kwoty czasem trafiały jako € 0 — naprawione",
+      "Import Excel/CSV dostępny również przez serwer MCP (narzędzie import_excel_csv)"
+    ],
+    "v0.8.7": [
+      "Import Excel/CSV z przypisaniem kolumn — wczytaj dowolny układ Excel/CSV i sam przypisz kolumny",
+      "Nowe formaty: STABU SUFX (specyfikacja XML) oraz starsze RAW (.rsu)",
+      "Katalog cenowy (BMEcat/DICO) → prosto do biblioteki zasobów"
+    ],
+    "v0.8.6": [
+      "Podsumowanie raportu pokazuje prawidłowe procenty narzutów i uwzględnia zmienione stawki (wcześniej „Koszty ogólne” mogły pokazywać 0%)",
+      "Model narzutów uporządkowany wewnętrznie; wszystkie raporty liczą teraz z jednego źródła"
+    ],
+    "v0.8.5": [
+      "Znacznie więcej formatów importu: .cuf, .dnc, .xtb (z wierszami szczegółowymi), .rsx, .s01 i .ifcx",
+      "Naprawiono biały ekran w Windows (WebView przechodzi na renderowanie programowe)",
+      "Silnik importu przebudowany od podstaw; sumy dokładnie zgadzają się z plikami źródłowymi"
+    ],
+    "v0.8.4": [
+      "Pole kodu: wybieraj kody STABU/NL-SfB podwójnym kliknięciem (możesz też dodać własne)",
+      "Import kosztorysu (.dnc): otwiera się od razu jako kompaktowy raport kosztorysu inwestorskiego",
+      "Projekt, logo i warianty przeniesione na wstążkę; uporządkowane właściwości"
+    ],
+    "v0.8.3": [
+      "Śledzenie zmian: wybierz, czy wyróżniany ma być cały wiersz, czy tylko zmieniona komórka",
+      "Zmiany widoczne również w raporcie PDF",
+      "Import kosztorysów: kosztorysy inwestorskie (.dnc) importowane bezpośrednio i otwierane przez Plik → Otwórz",
+      "Opcja raportu kosztorysu inwestorskiego; historia zmian dla każdego wiersza (kto/kiedy/co)"
+    ],
+    "v0.8.2": [
+      "Asystent kosztorysowy: historia czatu dla każdego kosztorysu, kilka pytań naraz",
+      "Funkcje OpenAEC (logowanie, zapis w chmurze) za przełącznikiem w ustawieniach"
+    ],
+    "v0.8.1": [
+      "Logowanie OpenAEC i usprawnienia asystenta",
+      "Czytelne komunikaty błędów AI; tekst asystenta można zaznaczać i kopiować"
+    ],
+    "v0.8.0": [
+      "Asystent kosztorysowy wprowadza zmiany bezpośrednio w otwartym dokumencie",
+      "Otwieranie plików .calc/.mdb zawierających JSON jako natywnego projektu OCS"
+    ],
+    "v0.7.10": [
+      "Konto OpenAEC i nawigacja na dolnym pasku",
+      "Ukrywanie/pokazywanie kolumn kliknięciem prawym przyciskiem na nagłówku kolumny",
+      "Połączone karty Godziny i Narzuty; raport w stylu IBIS (Bouw 2)"
+    ]
+  }
+}

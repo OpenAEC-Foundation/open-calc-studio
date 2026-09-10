@@ -1,0 +1,66 @@
+{
+  "title": "Setări",
+  "resetToDefaults": "Resetare la valorile implicite",
+  "resetConfirm": "Sigur doriți să resetați toate setările?",
+  "tabs": {
+    "general": "General",
+    "appearance": "Aspect",
+    "grid": "Tabel",
+    "files": "Fișiere",
+    "shortcuts": "Scurtături",
+    "plugins": "Pluginuri",
+    "about": "Despre"
+  },
+  "general": {
+    "application": "Aplicație",
+    "language": "Limbă",
+    "startup": "Pornire",
+    "restoreSession": "Restaurare sesiune la pornire",
+    "checkUpdates": "Verificare actualizări",
+    "author": "Autor",
+    "authorName": "Nume"
+  },
+  "appearance": {
+    "theme": "Temă",
+    "system": "Sistem",
+    "default": "Implicit",
+    "dark": "Întunecat",
+    "light": "Luminos",
+    "blue": "Albastru",
+    "amberNavy": "Chihlimbar-bleumarin",
+    "warmEmber": "Jar cald",
+    "highContrast": "Contrast ridicat",
+    "font": "Font",
+    "uiFontSize": "Dimensiunea fontului interfeței"
+  },
+  "grid": {
+    "general": "Tabel",
+    "showRowNumbers": "Afișare numere de rând",
+    "alternateRowColors": "Culori alternante pentru rânduri"
+  },
+  "files": {
+    "autoSave": "Salvare automată",
+    "autoSaveOption": "Salvare automată",
+    "off": "Dezactivată",
+    "afterDelay": "După o întârziere",
+    "onFocusChange": "La schimbarea focalizării",
+    "onWindowChange": "La schimbarea ferestrei",
+    "encoding": "Codificare",
+    "defaultEncoding": "Codificare implicită",
+    "backup": "Copie de siguranță",
+    "autoBackup": "Copie de siguranță automată"
+  },
+  "shortcuts": {
+    "placeholder": "Scurtăturile vor fi configurate aici"
+  },
+  "plugins": {
+    "placeholder": "Pluginurile vor fi gestionate aici"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Versiune",
+    "framework": "Framework",
+    "license": "Licență",
+    "description": "Software de devize open source pentru construcțiile din Țările de Jos. Stocare în format IFC."
+  }
+}

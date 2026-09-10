@@ -1,0 +1,66 @@
+{
+  "title": "Configuració",
+  "resetToDefaults": "Restableix els valors predeterminats",
+  "resetConfirm": "Segur que voleu restablir tota la configuració?",
+  "tabs": {
+    "general": "General",
+    "appearance": "Aparença",
+    "grid": "Taula",
+    "files": "Fitxers",
+    "shortcuts": "Dreceres",
+    "plugins": "Connectors",
+    "about": "Quant a"
+  },
+  "general": {
+    "application": "Aplicació",
+    "language": "Idioma",
+    "startup": "Inici",
+    "restoreSession": "Restaura la sessió en iniciar",
+    "checkUpdates": "Comprova si hi ha actualitzacions",
+    "author": "Autor",
+    "authorName": "Nom"
+  },
+  "appearance": {
+    "theme": "Tema",
+    "system": "Sistema",
+    "default": "Predeterminat",
+    "dark": "Fosc",
+    "light": "Clar",
+    "blue": "Blau",
+    "amberNavy": "Ambre i blau marí",
+    "warmEmber": "Brasa càlida",
+    "highContrast": "Contrast alt",
+    "font": "Lletra",
+    "uiFontSize": "Mida de la lletra de la interfície"
+  },
+  "grid": {
+    "general": "Taula",
+    "showRowNumbers": "Mostra els números de fila",
+    "alternateRowColors": "Alterna els colors de les files"
+  },
+  "files": {
+    "autoSave": "Desament automàtic",
+    "autoSaveOption": "Desa automàticament",
+    "off": "Desactivat",
+    "afterDelay": "Després d'un interval",
+    "onFocusChange": "En canviar el focus",
+    "onWindowChange": "En canviar de finestra",
+    "encoding": "Codificació",
+    "defaultEncoding": "Codificació predeterminada",
+    "backup": "Còpia de seguretat",
+    "autoBackup": "Còpia de seguretat automàtica"
+  },
+  "shortcuts": {
+    "placeholder": "Aquí es configuraran les dreceres de teclat"
+  },
+  "plugins": {
+    "placeholder": "Aquí es gestionaran els connectors"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Versió",
+    "framework": "Framework",
+    "license": "Llicència",
+    "description": "Programari lliure de pressupostos per a la construcció neerlandesa. Emmagatzematge en format IFC."
+  }
+}

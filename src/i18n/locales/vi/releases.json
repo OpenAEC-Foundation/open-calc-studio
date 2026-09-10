@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "39 ngôn ngữ + FIEBDC-3 (.bc3) của Tây Ban Nha",
+    "v0.10.3": "Thuế GTGT chuẩn và thấp — chọn được cho từng mục",
+    "v0.10.0": "Logo ở đầu trang báo cáo + công thức trong ô",
+    "v0.9.0": "Tổng BasCalc chính xác + báo cáo kiểu chỉ dẫn kỹ thuật",
+    "v0.8.8": "Sửa lỗi nhập Excel/CSV + dùng được qua MCP",
+    "v0.8.7": "Bốn định dạng nhập mới",
+    "v0.8.6": "Sửa chi phí cộng thêm trong bảng tổng hợp báo cáo",
+    "v0.8.5": "Mở rộng mạnh chức năng nhập + sửa lỗi màn hình trắng",
+    "v0.8.4": "Bộ chọn mã + dự toán cho chủ đầu tư dạng gọn",
+    "v0.8.3": "Theo dõi thay đổi + nhập dự toán",
+    "v0.8.2": "OpenAEC nằm sau một cờ tính năng",
+    "v0.8.1": "Đăng nhập OpenAEC + cải tiến trợ lý",
+    "v0.8.0": "Trợ lý áp dụng thay đổi trực tiếp",
+    "v0.7.10": "Tài khoản OpenAEC + điều hướng ở thanh dưới"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "Giao diện nay có sẵn bằng 39 ngôn ngữ — chọn ngôn ngữ của bạn trong Tùy chọn → Chung, hoặc để ứng dụng chạy theo ngôn ngữ hệ thống",
+      "Hỗ trợ viết từ phải sang trái cho tiếng Ả Rập, Ba Tư, Do Thái và Urdu: toàn bộ bố cục được lật theo",
+      "Trước đây bản tiếng Anh vẫn còn một nửa là tiếng Hà Lan; thiết lập ngôn ngữ bị khóa bên trong và hơn 500 đoạn văn bản bị gắn cứng trong mã — cả hai đã được khắc phục",
+      "Nhập và xuất FIEBDC-3 (.bc3): chuẩn của Tây Ban Nha cho dự toán và cơ sở dữ liệu giá (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS: lỗi \"damaged\" đã được giải quyết và bản dựng cũng được sửa; mục \"Có gì mới\" nay hiển thị bằng ngôn ngữ của bạn"
+    ],
+    "v0.10.3": [
+      "Dòng chi phí cộng thêm mới \"Thuế GTGT thấp\" (9%) bên cạnh \"Thuế GTGT chuẩn\" — các dự toán hiện có tự động được bổ sung",
+      "Đánh dấu chương, công tác hoặc dòng theo thuế suất thấp bằng cách bấm chuột phải; các mục con kế thừa thuế suất và bảng hiển thị nhãn GTGT",
+      "Cơ sở tính thuế được tính theo tỷ lệ từ phần đã đánh dấu (gồm cả chi phí cộng thêm) hoặc nhập tay trong bảng chi phí cộng thêm",
+      "Việc tách thuế GTGT được áp dụng trong mọi báo cáo (IBIS hiển thị riêng cơ sở thuế suất chuẩn/thấp) và trong máy chủ MCP",
+      "Sửa lỗi: thuế GTGT bị tính hai lần trong bảng tổng hợp Bouw 1, và một số tiền đã gồm thuế lại hiển thị dưới nhãn \"Giá nhận thầu chưa thuế GTGT\""
+    ],
+    "v0.10.0": [
+      "Logo công ty ở góc trên bên phải đầu trang báo cáo (nền trong suốt, co giãn theo); chiều cao đầu trang và màu đường kẻ điều chỉnh được",
+      "Công thức trong ô số (=12.2*2.22 hoặc 12,2*2,2) — và lỗi mất chữ số thập phân đã được khắc phục",
+      "Chi phí cộng thêm: nhập số tiền cuối cùng chưa thuế GTGT và phần làm tròn tự động thành chênh lệch; thuế tính trên số đã làm tròn",
+      "Thầu chính: cộng các dòng bằng \"+\", cột S tùy chọn (khả năng điều chỉnh giá kế thừa từ chương) và chế độ xem chỉ hiện dòng cộng",
+      "Làm việc nhanh hơn: giá ±%, Ctrl+F tìm và thay thế, thu gọn theo cấp, hoàn tác nhiều bước, dòng văn bản tự xuống dòng"
+    ],
+    "v0.9.0": [
+      "Nhập BasCalc: giá thành và giá nhận thầu khớp với Excel đến từng xu (chi phí cộng thêm phẳng + khoản làm tròn cố định)",
+      "Thuyết minh công việc và thầu chính theo bố cục chỉ dẫn kỹ thuật: không kẻ ô, các mục thụt lề, có dòng cộng theo từng mục",
+      "Nút + bên cạnh dòng dùng để thêm dòng tính toán; bật/tắt khối lượng ngay trên thanh công cụ báo cáo",
+      "Lưu thành nay mặc định dùng .ifcCalc và bảo vệ tệp nguồn gốc",
+      "Logo xanh mới; sửa lỗi điều hướng và hộp thoại (trang tính ↔ dự toán)"
+    ],
+    "v0.8.8": [
+      "Nhập Excel/CSV: đôi khi số tiền bị chuyển thành € 0 — đã sửa",
+      "Nhập Excel/CSV nay cũng dùng được qua máy chủ MCP (công cụ import_excel_csv)"
+    ],
+    "v0.8.7": [
+      "Nhập Excel/CSV kèm ánh xạ cột — đọc bố cục Excel/CSV tự do và tự gán các cột",
+      "Định dạng mới: STABU SUFX (chỉ dẫn kỹ thuật dạng XML) và RAW đời cũ (.rsu)",
+      "Danh mục giá (BMEcat/DICO) → đưa thẳng vào thư viện nguồn lực"
+    ],
+    "v0.8.6": [
+      "Bảng tổng hợp báo cáo hiển thị đúng tỷ lệ chi phí cộng thêm và tôn trọng các mức đã tùy chỉnh (trước đây \"Chi phí chung\" có thể hiện 0%)",
+      "Mô hình chi phí cộng thêm được dọn dẹp bên trong; mọi báo cáo nay tính từ cùng một nguồn"
+    ],
+    "v0.8.5": [
+      "Nhiều định dạng nhập hơn: .cuf, .dnc, .xtb (kèm dòng chi tiết), .rsx, .s01 và .ifcx",
+      "Đã khắc phục màn hình trắng trên Windows (WebView chuyển sang kết xuất bằng phần mềm)",
+      "Bộ máy nhập được xây dựng lại gọn gàng; tổng khớp chính xác với tệp nguồn"
+    ],
+    "v0.8.4": [
+      "Trường mã: chọn mã STABU/NL-SfB bằng cách bấm đúp (và thêm mã riêng của bạn)",
+      "Nhập dự toán (.dnc): nay mở ngay dưới dạng báo cáo dự toán gọn cho chủ đầu tư",
+      "Dự án, logo và phương án được chuyển lên thanh ribbon; bảng thuộc tính được dọn gọn"
+    ],
+    "v0.8.3": [
+      "Theo dõi thay đổi: chọn tô sáng cả dòng hay chỉ ô đã thay đổi",
+      "Các thay đổi cũng hiển thị trong tệp PDF của báo cáo",
+      "Nhập dự toán: dự toán cho chủ đầu tư (.dnc) nhập trực tiếp và mở qua Tệp → Mở",
+      "Tùy chọn báo cáo dự toán cho chủ đầu tư; lịch sử thay đổi theo từng dòng (ai/khi nào/điều gì)"
+    ],
+    "v0.8.2": [
+      "Trợ lý lập dự toán: lưu lịch sử trò chuyện riêng cho từng dự toán, hỏi nhiều câu cùng lúc",
+      "Các tính năng OpenAEC (đăng nhập, lưu trữ đám mây) nằm sau một tùy chọn cài đặt"
+    ],
+    "v0.8.1": [
+      "Đăng nhập OpenAEC và các cải tiến cho trợ lý",
+      "Thông báo lỗi AI rõ ràng; văn bản của trợ lý có thể chọn và sao chép"
+    ],
+    "v0.8.0": [
+      "Trợ lý lập dự toán áp dụng thay đổi trực tiếp vào tài liệu đang mở",
+      "Mở tệp .calc/.mdb chứa JSON như một dự án OCS gốc"
+    ],
+    "v0.7.10": [
+      "Tài khoản OpenAEC và điều hướng ở thanh dưới",
+      "Ẩn/hiện cột bằng cách bấm chuột phải vào tiêu đề cột",
+      "Gộp thẻ Giờ công và Chi phí cộng thêm; thêm báo cáo kiểu IBIS (Bouw 2)"
+    ]
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "เชื่อมโยงคอลัมน์",
+    "intro": "เชื่อมโยงแต่ละคอลัมน์จาก <b>{{name}}</b> เข้ากับช่องข้อมูลของการประมาณราคาที่ถูกต้อง คอลัมน์ที่ตั้งเป็น “— ข้ามไป —” จะไม่ถูกนำเข้า",
+    "columnN": "คอลัมน์ {{n}}",
+    "columnsLinked_one": "เชื่อมโยงแล้ว {{count}} คอลัมน์",
+    "columnsLinked_other": "เชื่อมโยงแล้ว {{count}} คอลัมน์",
+    "rows": "{{count}} แถว",
+    "linkDescriptionFirst": "กรุณาเชื่อมโยงคอลัมน์ “รายละเอียด” ก่อน",
+    "cancel": "ยกเลิก",
+    "import": "นำเข้า"
+  },
+  "quantityPicker": {
+    "title": "เชื่อมโยงปริมาณ",
+    "tabSpreadsheet": "สเปรดชีต",
+    "tabPdf": "การวัดจาก PDF",
+    "tabIfc": "องค์ประกอบ IFC",
+    "cellNotNumeric": "เซลล์ไม่มีตัวเลขที่ถูกต้อง",
+    "noSheets": "ยังไม่มีชีต กรุณาสร้างสเปรดชีตก่อน",
+    "sheet": "ชีต",
+    "cellReference": "อ้างอิงเซลล์ (เช่น A5 หรือ B12)",
+    "value": "ค่า",
+    "empty": "(ว่าง)",
+    "linkCell": "เชื่อมโยงเซลล์",
+    "noPdfMeasurements": "ยังไม่มีการวัดจาก PDF กรุณาเปิดไฟล์ PDF ในแท็บ PDF แล้วสร้างการวัดก่อน",
+    "sumLengths": "Σ ความยาวทั้งหมด",
+    "sumAreas": "Σ พื้นที่ทั้งหมด",
+    "individualMeasurements": "การวัดแต่ละรายการ:",
+    "noIfcElements": "ยังไม่มีองค์ประกอบ IFC กรุณาเปิดไฟล์ IFC ในแท็บ 3D แล้วเลือกองค์ประกอบ",
+    "cancel": "ยกเลิก"
+  },
+  "excelPicker": {
+    "title": "เชื่อมโยงกับ Excel",
+    "cannotReadFile": "ไม่สามารถอ่านไฟล์ได้",
+    "chooseFile": "เลือกไฟล์...",
+    "noFileSelected": "ยังไม่ได้เลือกไฟล์",
+    "loadingFile": "กำลังโหลดไฟล์...",
+    "cancel": "ยกเลิก",
+    "select": "เลือก"
+  },
+  "costItemPicker": {
+    "title": "เชื่อมโยงกับบรรทัดการประมาณราคา",
+    "searchPlaceholder": "ค้นหาด้วยรายละเอียดหรือรหัส...",
+    "suggestions": "ข้อเสนอแนะ",
+    "results": "ผลลัพธ์ ({{count}})",
+    "allLines": "ทุกบรรทัด",
+    "unlink": "ยกเลิกการเชื่อมโยง",
+    "cancel": "ยกเลิก",
+    "link": "เชื่อมโยง"
+  },
+  "resourceTypes": {
+    "arbeid": "ค่าแรง",
+    "materieel": "เครื่องจักร",
+    "materiaal": "วัสดุ",
+    "onderaannemer": "ผู้รับเหมาช่วง",
+    "overig": "อื่น ๆ"
+  },
+  "undo": {
+    "addResource": "เพิ่มทรัพยากร",
+    "wizard": "ตัวช่วยสร้าง: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "ตัวอย่าง — {{name}}"
+  }
+}

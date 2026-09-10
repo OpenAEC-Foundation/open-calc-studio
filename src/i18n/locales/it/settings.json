@@ -1,0 +1,66 @@
+{
+  "title": "Impostazioni",
+  "resetToDefaults": "Ripristina i valori predefiniti",
+  "resetConfirm": "Vuoi davvero reimpostare tutte le impostazioni?",
+  "tabs": {
+    "general": "Generale",
+    "appearance": "Aspetto",
+    "grid": "Griglia",
+    "files": "File",
+    "shortcuts": "Scorciatoie",
+    "plugins": "Plugin",
+    "about": "Informazioni"
+  },
+  "general": {
+    "application": "Applicazione",
+    "language": "Lingua",
+    "startup": "Avvio",
+    "restoreSession": "Ripristina la sessione all'avvio",
+    "checkUpdates": "Controlla gli aggiornamenti",
+    "author": "Autore",
+    "authorName": "Nome"
+  },
+  "appearance": {
+    "theme": "Tema",
+    "system": "Sistema",
+    "default": "Predefinito",
+    "dark": "Scuro",
+    "light": "Chiaro",
+    "blue": "Blu",
+    "amberNavy": "Ambra e blu notte",
+    "warmEmber": "Brace calda",
+    "highContrast": "Contrasto elevato",
+    "font": "Carattere",
+    "uiFontSize": "Dimensione del carattere dell'interfaccia"
+  },
+  "grid": {
+    "general": "Griglia",
+    "showRowNumbers": "Mostra i numeri di riga",
+    "alternateRowColors": "Alterna i colori delle righe"
+  },
+  "files": {
+    "autoSave": "Salvataggio automatico",
+    "autoSaveOption": "Salvataggio automatico",
+    "off": "Disattivato",
+    "afterDelay": "Dopo un intervallo",
+    "onFocusChange": "Al cambio di focus",
+    "onWindowChange": "Al cambio di finestra",
+    "encoding": "Codifica",
+    "defaultEncoding": "Codifica predefinita",
+    "backup": "Backup",
+    "autoBackup": "Backup automatico"
+  },
+  "shortcuts": {
+    "placeholder": "Le scorciatoie si configureranno qui"
+  },
+  "plugins": {
+    "placeholder": "I plugin si gestiranno qui"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Versione",
+    "framework": "Framework",
+    "license": "Licenza",
+    "description": "Software di computo open source per l'edilizia olandese. Archiviazione in formato IFC."
+  }
+}

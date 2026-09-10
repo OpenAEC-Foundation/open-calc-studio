@@ -1,0 +1,66 @@
+{
+  "title": "Definições",
+  "resetToDefaults": "Repor as predefinições",
+  "resetConfirm": "Tem a certeza de que quer repor todas as definições?",
+  "tabs": {
+    "general": "Geral",
+    "appearance": "Aspeto",
+    "grid": "Grelha",
+    "files": "Ficheiros",
+    "shortcuts": "Atalhos",
+    "plugins": "Extras",
+    "about": "Acerca de"
+  },
+  "general": {
+    "application": "Aplicação",
+    "language": "Idioma",
+    "startup": "Arranque",
+    "restoreSession": "Restaurar a sessão no arranque",
+    "checkUpdates": "Procurar atualizações",
+    "author": "Autor",
+    "authorName": "Nome"
+  },
+  "appearance": {
+    "theme": "Tema",
+    "system": "Sistema",
+    "default": "Predefinido",
+    "dark": "Escuro",
+    "light": "Claro",
+    "blue": "Azul",
+    "amberNavy": "Âmbar e azul-marinho",
+    "warmEmber": "Brasa quente",
+    "highContrast": "Contraste elevado",
+    "font": "Tipo de letra",
+    "uiFontSize": "Tamanho de letra da interface"
+  },
+  "grid": {
+    "general": "Grelha",
+    "showRowNumbers": "Mostrar os números de linha",
+    "alternateRowColors": "Alternar as cores das linhas"
+  },
+  "files": {
+    "autoSave": "Gravação automática",
+    "autoSaveOption": "Gravação automática",
+    "off": "Desativada",
+    "afterDelay": "Após um intervalo",
+    "onFocusChange": "Ao mudar de foco",
+    "onWindowChange": "Ao mudar de janela",
+    "encoding": "Codificação",
+    "defaultEncoding": "Codificação predefinida",
+    "backup": "Cópia de segurança",
+    "autoBackup": "Cópia de segurança automática"
+  },
+  "shortcuts": {
+    "placeholder": "Os atalhos serão configurados aqui"
+  },
+  "plugins": {
+    "placeholder": "Os extras serão geridos aqui"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Versão",
+    "framework": "Framework",
+    "license": "Licença",
+    "description": "Software de orçamentação open source para a construção neerlandesa. Armazenamento em formato IFC."
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "39 idiomas + FIEBDC-3 espanhol (.bc3)",
+    "v0.10.3": "IVA à taxa normal e reduzida — selecionável por elemento",
+    "v0.10.0": "Logótipo no cabeçalho do relatório + fórmulas nas células",
+    "v0.9.0": "Totais BasCalc exatos + relatórios em estilo de caderno de encargos",
+    "v0.8.8": "Correção da importação Excel/CSV + através do MCP",
+    "v0.8.7": "Quatro novos formatos de importação",
+    "v0.8.6": "Majorações corrigidas no resumo do relatório",
+    "v0.8.5": "Importação muito alargada + correção do ecrã branco",
+    "v0.8.4": "Seletor de códigos + estimativa compacta para o dono de obra",
+    "v0.8.3": "Registo de alterações + importação de orçamentos",
+    "v0.8.2": "OpenAEC atrás de um feature flag",
+    "v0.8.1": "Início de sessão OpenAEC + melhorias no assistente",
+    "v0.8.0": "O assistente aplica as alterações diretamente",
+    "v0.7.10": "Conta OpenAEC + navegação na barra inferior"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "A interface está agora disponível em 39 idiomas — escolha o seu em Preferências → Geral, ou deixe a aplicação seguir o idioma do sistema",
+      "Suporte da direita para a esquerda para árabe, farsi, hebraico e urdu: todo o esquema é espelhado",
+      "O inglês mantinha-se meio neerlandês; a definição de idioma estava bloqueada internamente e mais de 500 textos estavam fixos no código — ambos corrigidos",
+      "Importação e exportação FIEBDC-3 (.bc3): a norma espanhola para orçamentos e bases de dados de preços (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS: resolvido o erro «danificado» e reparada a própria build; «Novidades» aparece agora no seu idioma"
+    ],
+    "v0.10.3": [
+      "Nova linha de majoração «IVA reduzido» (9%) a par de «IVA normal» — os orçamentos existentes recebem-na automaticamente",
+      "Marque capítulos, artigos ou linhas como sujeitos à taxa reduzida com o botão direito; os elementos subordinados herdam a taxa e a grelha mostra uma etiqueta de IVA",
+      "Base tributável calculada proporcionalmente a partir da marcação (majorações incluídas) ou introduzida manualmente no painel das majorações",
+      "Repartição do IVA aplicada em todos os relatórios (o IBIS mostra separadamente a base normal e a reduzida) e no servidor MCP",
+      "Correções: IVA contado duas vezes no resumo Bouw 1 e um valor com IVA apresentado sob a etiqueta «Valor da empreitada sem IVA»"
+    ],
+    "v0.10.0": [
+      "Logótipo da empresa no canto superior direito do cabeçalho do relatório (transparente, ajusta-se); altura do cabeçalho e cor da linha reguláveis",
+      "Fórmulas nas células numéricas (=12.2*2.22 ou 12,2*2,2) — e o erro da casa decimal perdida está corrigido",
+      "Majorações: introduza o valor final sem IVA e o arredondamento passa automaticamente a ser a diferença; IVA sobre o valor arredondado",
+      "Empreitada principal: linhas de soma com «+», coluna S opcional (revisível herdado do capítulo) e vistas apenas com subtotais",
+      "Trabalhe mais depressa: preços ±%, localizar e substituir com Ctrl+F, reduzir por nível, anulação em vários passos, linhas de texto com moldagem de texto"
+    ],
+    "v0.9.0": [
+      "Importação BasCalc: o preço de custo e o valor da empreitada coincidem com o Excel ao cêntimo (majorações fixas + artigo de arredondamento fixo)",
+      "Descrição dos trabalhos e empreitada principal em esquema de caderno de encargos: sem limites de célula, parágrafos avançados, subtotal por parágrafo",
+      "O botão + ao lado da linha adiciona uma linha de cálculo; quantidades sim/não diretamente na barra de ferramentas do relatório",
+      "Guardar como propõe agora .ifcCalc por predefinição e protege o ficheiro de origem original",
+      "Novo logótipo verde; correções de navegação e de caixas de diálogo (folha de cálculo ↔ orçamento)"
+    ],
+    "v0.8.8": [
+      "Importação Excel/CSV: por vezes os valores ficavam a 0 € — corrigido",
+      "A importação Excel/CSV está agora também disponível através do servidor MCP (ferramenta import_excel_csv)"
+    ],
+    "v0.8.7": [
+      "Importação Excel/CSV com associação de colunas — leia esquemas Excel/CSV livres e associe as colunas você mesmo",
+      "Novos formatos: STABU SUFX (caderno de encargos em XML) e RAW antigo (.rsu)",
+      "Catálogo de preços (BMEcat/DICO) → diretamente para a biblioteca de recursos"
+    ],
+    "v0.8.6": [
+      "O resumo do relatório mostra as percentagens de majoração corretas e respeita as taxas personalizadas (antes «Encargos gerais» podia mostrar 0%)",
+      "Modelo de majorações reorganizado internamente; todos os relatórios calculam agora a partir da mesma fonte"
+    ],
+    "v0.8.5": [
+      "Muitos mais formatos de importação: .cuf, .dnc, .xtb (com linhas de detalhe), .rsx, .s01 e .ifcx",
+      "Ecrã branco no Windows corrigido (o WebView passa para a renderização por software)",
+      "Motor de importação reconstruído de raiz; os totais coincidem exatamente com os ficheiros de origem"
+    ],
+    "v0.8.4": [
+      "Campo de código: escolha códigos STABU/NL-SfB com duplo clique (e acrescente os seus)",
+      "Importação de orçamentos (.dnc): abre agora logo como relatório compacto de estimativa para o dono de obra",
+      "Obra, logótipos e variantes movidos para o friso; propriedades simplificadas"
+    ],
+    "v0.8.3": [
+      "Registo de alterações: escolha se é realçada a linha inteira ou apenas a célula alterada",
+      "Alterações também visíveis no PDF do relatório",
+      "Importação de orçamentos: as estimativas para o dono de obra (.dnc) são importadas diretamente e abertas em Ficheiro → Abrir",
+      "Opção de relatório de estimativa para o dono de obra; histórico de alterações por linha (quem/quando/o quê)"
+    ],
+    "v0.8.2": [
+      "Assistente de orçamentação: histórico de conversa por orçamento, várias perguntas de uma vez",
+      "Funcionalidades OpenAEC (início de sessão, armazenamento na nuvem) atrás de uma definição"
+    ],
+    "v0.8.1": [
+      "Início de sessão OpenAEC e melhorias no assistente",
+      "Mensagens de erro de IA claras; o texto do assistente pode ser selecionado e copiado"
+    ],
+    "v0.8.0": [
+      "O assistente de orçamentação aplica as alterações diretamente no documento aberto",
+      "Abra ficheiros .calc/.mdb que contenham JSON como projeto OCS nativo"
+    ],
+    "v0.7.10": [
+      "Conta OpenAEC e navegação na barra inferior",
+      "Ocultar/mostrar colunas com o botão direito no cabeçalho da coluna",
+      "Separadores Horas e Majorações reunidos; relatório em estilo IBIS (Bouw 2)"
+    ]
+  }
+}

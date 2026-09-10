@@ -72,6 +72,28 @@ describe('FIEBDC-3 (.bc3) import', () => {
     expect(result.items.filter(i => i.rowType === 'begrotingspost')).toHaveLength(2);
   });
 
+  it('meldt het wanneer een bestand geen prijzen bevat (mediciones-bibliotheek)', () => {
+    // Posten mét hoeveelheden maar zonder prijzen — zonder melding lijkt de
+    // import mislukt omdat het totaal € 0 blijft.
+    const zonderPrijzen = [
+      '~V||FIEBDC-3/2012|TestSoft||ANSI|||||',
+      '~C|BIB##||Biblioteca de mediciones|0||0|',
+      '~C|CAP1#||Cerramientos|0||0|',
+      '~C|P001|m2|Fachada ventilada|0||0|',
+      '~D|BIB##|CAP1#\\1\\1\\|',
+      '~D|CAP1#|P001\\1\\1\\|',
+      '~M|CAP1#\\P001||25.00||',
+    ].join('\r\n');
+    const result = importBc3(zonderPrijzen);
+    expect(result.warnings.some(w => w.includes('geen prijzen'))).toBe(true);
+    // De structuur en hoeveelheden komen wél gewoon binnen.
+    expect(result.items.find(i => i.code === 'P001')?.quantity).toBe(25);
+  });
+
+  it('meldt niets over prijzen wanneer die er wél zijn', () => {
+    expect(importBc3(SAMPLE).warnings.some(w => w.includes('geen prijzen'))).toBe(false);
+  });
+
   it('round-trip: export → import behoudt structuur en kostprijs', () => {
     const eerste = importBc3(SAMPLE);
     const items1 = recalculateItems(eerste.items);

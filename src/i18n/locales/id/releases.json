@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "39 bahasa + FIEBDC-3 Spanyol (.bc3)",
+    "v0.10.3": "PPN normal dan rendah — dapat dipilih per bagian",
+    "v0.10.0": "Logo di kepala laporan + rumus dalam sel",
+    "v0.9.0": "Total BasCalc presisi + laporan bergaya spesifikasi",
+    "v0.8.8": "Perbaikan impor Excel/CSV + lewat MCP",
+    "v0.8.7": "Empat format impor baru",
+    "v0.8.6": "Biaya tambahan diperbaiki di ringkasan laporan",
+    "v0.8.5": "Impor diperluas besar-besaran + perbaikan layar putih",
+    "v0.8.4": "Pemilih kode + anggaran pemberi tugas yang ringkas",
+    "v0.8.3": "Pelacakan perubahan + impor anggaran",
+    "v0.8.2": "OpenAEC di balik feature flag",
+    "v0.8.1": "Login OpenAEC + peningkatan asisten",
+    "v0.8.0": "Asisten menerapkan perubahan secara langsung",
+    "v0.7.10": "Akun OpenAEC + navigasi bilah bawah"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "Antarmuka kini tersedia dalam 39 bahasa — pilih bahasa Anda di Preferensi → Umum, atau biarkan aplikasi mengikuti bahasa sistem",
+      "Dukungan kanan-ke-kiri untuk bahasa Arab, Farsi, Ibrani, dan Urdu: seluruh tata letak ikut dicerminkan",
+      "Bahasa Inggris sebelumnya masih setengah berbahasa Belanda; pengaturan bahasa terkunci secara internal dan lebih dari 500 teks tertulis permanen — keduanya sudah diperbaiki",
+      "Impor dan ekspor FIEBDC-3 (.bc3): standar Spanyol untuk anggaran dan basis data harga (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS: kesalahan \"rusak\" teratasi dan build-nya sendiri diperbaiki; \"Yang baru\" kini muncul dalam bahasa Anda sendiri"
+    ],
+    "v0.10.3": [
+      "Baris biaya tambahan baru \"PPN rendah\" (9%) di samping \"PPN normal\" — anggaran yang sudah ada mendapatkannya otomatis",
+      "Tandai bab, pos, atau baris sebagai bertarif rendah lewat klik kanan; subitem mewarisi tarifnya dan tabel menampilkan label PPN",
+      "Dasar pengenaan pajak dihitung proporsional dari penandaan (termasuk biaya tambahan) atau dimasukkan manual di panel biaya tambahan",
+      "Pembagian PPN diterapkan di seluruh laporan (IBIS menampilkan dasar normal dan rendah secara terpisah) serta di server MCP",
+      "Perbaikan: PPN terhitung dua kali pada ringkasan Bouw 1, dan nilai termasuk PPN tampil di bawah label \"Nilai kontrak tanpa PPN\""
+    ],
+    "v0.10.0": [
+      "Logo perusahaan di kanan atas kepala laporan (transparan, ikut menyesuaikan skala); tinggi kepala halaman dan warna garis dapat diatur",
+      "Rumus dalam sel angka (=12.2*2.22 atau 12,2*2,2) — dan bug desimal yang hilang sudah diperbaiki",
+      "Biaya tambahan: masukkan nilai akhir tanpa PPN, pembulatan otomatis menjadi selisihnya; PPN dihitung atas nilai yang dibulatkan",
+      "Kontrak utama: baris penjumlahan dengan \"+\", kolom S opsional (perhitungan diwarisi dari bab), dan tampilan hanya subtotal",
+      "Bekerja lebih cepat: harga ±%, Ctrl+F temukan dan ganti, ciutkan per tingkat, urungkan banyak langkah, baris teks dengan pemenggalan"
+    ],
+    "v0.9.0": [
+      "Impor BasCalc: harga pokok dan nilai kontrak sama persis dengan Excel hingga sen terakhir (biaya tambahan rata + pos pembulatan tetap)",
+      "Uraian pekerjaan dan kontrak utama dalam tata letak spesifikasi: tanpa garis sel, bagian menjorok, subtotal per bagian",
+      "Tombol + di samping baris menambahkan baris perhitungan; volume aktif/nonaktif langsung di bilah alat laporan",
+      "Simpan sebagai kini menggunakan .ifcCalc sebagai bawaan dan melindungi berkas sumber aslinya",
+      "Logo hijau baru; perbaikan navigasi dan dialog (lembar kerja ↔ anggaran)"
+    ],
+    "v0.8.8": [
+      "Impor Excel/CSV: nilai kadang menjadi € 0 — sudah diperbaiki",
+      "Impor Excel/CSV kini juga bisa lewat server MCP (alat import_excel_csv)"
+    ],
+    "v0.8.7": [
+      "Impor Excel/CSV dengan pemetaan kolom — baca susunan Excel/CSV bebas dan petakan sendiri kolomnya",
+      "Format baru: STABU SUFX (spesifikasi XML) dan RAW lama (.rsu)",
+      "Katalog harga (BMEcat/DICO) → langsung ke pustaka sumber daya"
+    ],
+    "v0.8.6": [
+      "Ringkasan laporan menampilkan persentase biaya tambahan yang benar dan mengikuti tarif yang disesuaikan (sebelumnya \"Overhead umum\" bisa tampil 0%)",
+      "Model biaya tambahan dirapikan secara internal; semua laporan kini menghitung dari sumber yang sama"
+    ],
+    "v0.8.5": [
+      "Jauh lebih banyak format impor: .cuf, .dnc, .xtb (dengan baris rincian), .rsx, .s01, dan .ifcx",
+      "Layar putih di Windows diperbaiki (WebView beralih ke perenderan perangkat lunak)",
+      "Mesin impor dibangun ulang dari awal; totalnya sama persis dengan berkas sumber"
+    ],
+    "v0.8.4": [
+      "Kolom kode: pilih kode STABU/NL-SfB dengan klik ganda (dan tambahkan kode sendiri)",
+      "Impor anggaran (.dnc): kini langsung terbuka sebagai laporan anggaran pemberi tugas yang ringkas",
+      "Proyek, logo, dan varian dipindahkan ke pita menu; panel properti dirapikan"
+    ],
+    "v0.8.3": [
+      "Pelacakan perubahan: pilih apakah seluruh baris atau hanya sel yang berubah yang disorot",
+      "Perubahan juga terlihat dalam PDF laporan",
+      "Impor anggaran: anggaran pemberi tugas (.dnc) diimpor langsung dan dibuka lewat Berkas → Buka",
+      "Opsi laporan anggaran pemberi tugas; riwayat perubahan per baris (siapa/kapan/apa)"
+    ],
+    "v0.8.2": [
+      "Asisten anggaran: riwayat chat per anggaran, beberapa pertanyaan sekaligus",
+      "Fitur OpenAEC (login, penyimpanan cloud) di balik sebuah pengaturan"
+    ],
+    "v0.8.1": [
+      "Login OpenAEC dan peningkatan asisten",
+      "Pesan kesalahan AI yang jelas; teks asisten dapat diseleksi dan disalin"
+    ],
+    "v0.8.0": [
+      "Asisten anggaran menerapkan perubahan langsung pada dokumen yang terbuka",
+      "Buka berkas .calc/.mdb berisi JSON sebagai proyek OCS asli"
+    ],
+    "v0.7.10": [
+      "Akun OpenAEC dan navigasi bilah bawah",
+      "Sembunyikan/tampilkan kolom lewat klik kanan pada kepala kolom",
+      "Tab Jam dan Biaya tambahan digabung; laporan bergaya IBIS (Bouw 2)"
+    ]
+  }
+}

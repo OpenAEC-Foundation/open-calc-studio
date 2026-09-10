@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "39 språk + spanska FIEBDC-3 (.bc3)",
+    "v0.10.3": "Hög och låg momssats — kan väljas per post",
+    "v0.10.0": "Logotyp i rapportens sidhuvud + formler i celler",
+    "v0.9.0": "Exakta BasCalc-totaler + rapporter i beskrivningsformat",
+    "v0.8.8": "Excel/CSV-import rättad + via MCP",
+    "v0.8.7": "Fyra nya importformat",
+    "v0.8.6": "Påslagen rättade i rapportsammanställningen",
+    "v0.8.5": "Kraftigt utökad import + vit skärm rättad",
+    "v0.8.4": "Kodväljare + kompakt beställarkalkyl",
+    "v0.8.3": "Spårning av ändringar + kalkylimport",
+    "v0.8.2": "OpenAEC bakom en funktionsflagga",
+    "v0.8.1": "OpenAEC-inloggning + förbättringar av assistenten",
+    "v0.8.0": "Assistenten gör ändringar direkt",
+    "v0.7.10": "OpenAEC-konto + navigering i nederkanten"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "Gränssnittet finns nu på 39 språk — välj ditt under Inställningar → Allmänt, eller låt programmet följa systemspråket",
+      "Stöd för höger-till-vänster för arabiska, persiska, hebreiska och urdu: hela layouten speglas med",
+      "Engelskan var tidigare halvt nederländsk; språkinställningen var låst internt och över 500 texter var hårdkodade — bådadera är åtgärdat",
+      "FIEBDC-3-import och -export (.bc3): den spanska standarden för kalkyler och prisdatabaser (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS: felet ”skadad” är löst och själva bygget är lagat; ”Nyheter” visas nu på ditt eget språk"
+    ],
+    "v0.10.3": [
+      "Ny påslagsrad ”Låg moms” (9 %) vid sidan av ”Hög moms” — befintliga kalkyler får den automatiskt",
+      "Märk kapitel, poster eller rader som lågmoms med högerklick; underliggande rader ärver satsen och tabellen visar en momsetikett",
+      "Momsunderlaget beräknas proportionellt utifrån märkningen (påslag inräknade) eller anges manuellt i påslagspanelen",
+      "Momsuppdelningen slår igenom i alla rapporter (IBIS visar högt och lågt underlag separat) och i MCP-servern",
+      "Rättningar: momsen räknades två gånger i Bouw 1-sammanställningen, och ett belopp inkl. moms visades under etiketten ”Entreprenadsumma exkl. moms”"
+    ],
+    "v0.10.0": [
+      "Företagslogotyp uppe till höger i rapportens sidhuvud (transparent, skalas med); sidhuvudets höjd och linjefärg kan justeras",
+      "Formler i sifferceller (=12.2*2.22 eller 12,2*2,2) — och felet med den försvunna decimalen är rättat",
+      "Påslag: ange slutbeloppet exkl. moms så blir avrundningen automatiskt differensen; moms på det avrundade beloppet",
+      "Huvudentreprenad: summera rader med ”+”, en valfri R-kolumn (reglerbarhet ärvd från kapitlet) och vyer med endast delsummor",
+      "Arbeta snabbare: priser ±%, Ctrl+F sök och ersätt, fäll ihop per nivå, ångra flera steg, textrader med radbrytning"
+    ],
+    "v0.9.0": [
+      "BasCalc-import: självkostnad och entreprenadsumma stämmer med Excel på öret (schablonpåslag + fast avrundningspost)",
+      "Arbetsbeskrivning och huvudentreprenad i beskrivningsformat: inga cellkanter, indragna avsnitt, delsumma per avsnitt",
+      "Knappen + bredvid raden lägger till en kalkylrad; mängder på/av direkt i rapportens verktygsfält",
+      "Spara som använder nu .ifcCalc som standard och skyddar den ursprungliga källfilen",
+      "Ny grön logotyp; rättningar i navigering och dialogrutor (kalkylblad ↔ kalkyl)"
+    ],
+    "v0.8.8": [
+      "Excel/CSV-import: belopp hamnade ibland som € 0 — rättat",
+      "Excel/CSV-import nu även via MCP-servern (verktyget import_excel_csv)"
+    ],
+    "v0.8.7": [
+      "Excel/CSV-import med kolumnkoppling — läs in fria Excel/CSV-uppställningar och koppla kolumnerna själv",
+      "Nya format: STABU SUFX (XML-beskrivning) och äldre RAW (.rsu)",
+      "Priskatalog (BMEcat/DICO) → direkt in i resursbiblioteket"
+    ],
+    "v0.8.6": [
+      "Rapportsammanställningen visar rätt påslagsprocent och respekterar anpassade satser (tidigare kunde ”Administrationskostnader” visa 0 %)",
+      "Påslagsmodellen är internt uppstädad; alla rapporter räknar nu från samma källa"
+    ],
+    "v0.8.5": [
+      "Många fler importformat: .cuf, .dnc, .xtb (med detaljrader), .rsx, .s01 och .ifcx",
+      "Vit skärm i Windows är åtgärdad (WebView faller tillbaka på programvarurendering)",
+      "Importmotorn är ombyggd från grunden; totalerna stämmer exakt med källfilerna"
+    ],
+    "v0.8.4": [
+      "Kodfält: välj STABU/NL-SfB-koder med dubbelklick (och lägg till egna)",
+      "Kalkylimport (.dnc): öppnas nu direkt som en kompakt beställarrapport",
+      "Projekt, logotyper och varianter har flyttats till menyfliksområdet; egenskaperna är uppstädade"
+    ],
+    "v0.8.3": [
+      "Spårning av ändringar: välj om hela raden eller bara den ändrade cellen markeras",
+      "Ändringarna syns även i rapportens PDF",
+      "Kalkylimport: beställarkalkyler (.dnc) importeras direkt och öppnas via Arkiv → Öppna",
+      "Alternativ för beställarrapport; ändringshistorik per rad (vem/när/vad)"
+    ],
+    "v0.8.2": [
+      "Kalkylassistent: chatthistorik per kalkyl, flera frågor på en gång",
+      "OpenAEC-funktioner (inloggning, molnlagring) bakom en inställning"
+    ],
+    "v0.8.1": [
+      "OpenAEC-inloggning och förbättringar av assistenten",
+      "Tydliga AI-felmeddelanden; assistentens text går att markera och kopiera"
+    ],
+    "v0.8.0": [
+      "Kalkylassistenten gör ändringar direkt i det öppna dokumentet",
+      "Öppna .calc/.mdb-filer med JSON-innehåll som ett vanligt OCS-projekt"
+    ],
+    "v0.7.10": [
+      "OpenAEC-konto och navigering i nederkanten",
+      "Dölj/visa kolumner genom att högerklicka på kolumnrubriken",
+      "Flikarna Timmar och Påslag har slagits ihop; rapport i IBIS-stil (Bouw 2)"
+    ]
+  }
+}

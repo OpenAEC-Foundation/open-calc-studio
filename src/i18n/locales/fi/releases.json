@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "39 kieltä + espanjalainen FIEBDC-3 (.bc3)",
+    "v0.10.3": "Yleinen ja alennettu alv — valittavissa osittain",
+    "v0.10.0": "Logo raportin ylätunnisteessa + kaavat soluihin",
+    "v0.9.0": "Tarkat BasCalc-summat + selostustyyliset raportit",
+    "v0.8.8": "Excel/CSV-tuonnin korjaus + MCP:n kautta",
+    "v0.8.7": "Neljä uutta tuontimuotoa",
+    "v0.8.6": "Lisät korjattu raportin yhteenvedossa",
+    "v0.8.5": "Tuontia laajennettu huomattavasti + valkoisen ruudun korjaus",
+    "v0.8.4": "Koodivalitsin + tiivis tilaajan kustannusarvio",
+    "v0.8.3": "Muutosten seuranta + kustannusarvion tuonti",
+    "v0.8.2": "OpenAEC ominaisuuslipun takana",
+    "v0.8.1": "OpenAEC-kirjautuminen + avustajan parannuksia",
+    "v0.8.0": "Avustaja tekee muutokset suoraan",
+    "v0.7.10": "OpenAEC-tili + alapalkin navigointi"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "Käyttöliittymä on nyt saatavilla 39 kielellä — valitse omasi kohdasta Asetukset → Yleiset tai anna sovelluksen seurata järjestelmän kieltä",
+      "Oikealta vasemmalle -tuki arabialle, farsille, hepreaksi ja urdulle: koko asettelu peilautuu mukana",
+      "Englanti oli aiemmin puoliksi hollantia; kieliasetus oli sisäisesti lukittu ja yli 500 tekstiä oli kovakoodattu — molemmat korjattu",
+      "FIEBDC-3 (.bc3) -tuonti ja -vienti: espanjalainen standardi kustannusarvioille ja hintatietokannoille (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS: \"vahingoittunut\"-virhe ratkaistu ja itse koontiversio korjattu; \"Mitä uutta\" näkyy nyt omalla kielelläsi"
+    ],
+    "v0.10.3": [
+      "Uusi lisärivi \"Alennettu alv\" (9 %) yleisen alv:n rinnalle — nykyiset kustannusarviot saavat sen automaattisesti",
+      "Merkitse luvut, nimikkeet tai rivit alennettuun kantaan hiiren oikealla painikkeella; alarivit perivät kannan ja taulukko näyttää alv-merkinnän",
+      "Veroperuste lasketaan merkinnän mukaan suhteessa (lisät mukaan lukien) tai syötetään käsin lisät-paneelissa",
+      "Alv-jako otettu käyttöön kaikissa raporteissa (IBIS näyttää yleisen ja alennetun perusteen erikseen) sekä MCP-palvelimessa",
+      "Korjaukset: alv laskettiin kahteen kertaan Bouw 1 -yhteenvedossa, ja alv:llinen summa näkyi otsikolla \"Urakkasumma ilman alv:tä\""
+    ],
+    "v0.10.0": [
+      "Yrityksen logo raportin ylätunnisteen oikeassa reunassa (läpinäkyvä, skaalautuu mukana); ylätunnisteen korkeus ja viivan väri säädettävissä",
+      "Kaavat numerosoluissa (=12.2*2.22 tai 12,2*2,2) — ja desimaalien katoamisvirhe on korjattu",
+      "Lisät: syötä lopullinen alviton summa, jolloin pyöristys muodostuu erotuksesta automaattisesti; alv pyöristetystä summasta",
+      "Pääurakka: summarivit \"+\"-merkillä, valinnainen V-sarake (veloitettavuus peritään luvulta) ja vain välisummat -näkymät",
+      "Työskentele nopeammin: hinnat ±%, Ctrl+F etsi ja korvaa, kutistus tasoittain, monivaiheinen kumoaminen, tekstirivit rivityksellä"
+    ],
+    "v0.9.0": [
+      "BasCalc-tuonti: omakustannushinta ja urakkasumma täsmäävät Excelin kanssa sentilleen (tasalisät + kiinteä pyöristysnimike)",
+      "Työselostus ja pääurakka selostusasettelussa: ei soluviivoja, sisennetyt kohdat, välisumma kohdittain",
+      "Rivin vieressä oleva +-painike lisää laskentarivin; määrät päälle/pois suoraan raportin työkalupalkista",
+      "Tallenna nimellä käyttää nyt oletuksena muotoa .ifcCalc ja suojaa alkuperäisen lähdetiedoston",
+      "Uusi vihreä logo; navigointi- ja valintaikkunakorjauksia (taulukko ↔ kustannusarvio)"
+    ],
+    "v0.8.8": [
+      "Excel/CSV-tuonti: summat päätyivät toisinaan arvoon 0 € — korjattu",
+      "Excel/CSV-tuonti onnistuu nyt myös MCP-palvelimen kautta (työkalu import_excel_csv)"
+    ],
+    "v0.8.7": [
+      "Excel/CSV-tuonti sarakemäärityksellä — lue vapaamuotoisia Excel/CSV-asetteluja ja yhdistä sarakkeet itse",
+      "Uudet muodot: STABU SUFX (XML-selostus) ja vanha RAW (.rsu)",
+      "Hintaluettelo (BMEcat/DICO) → suoraan panoskirjastoon"
+    ],
+    "v0.8.6": [
+      "Raportin yhteenveto näyttää oikeat lisäprosentit ja huomioi muokatut kannat (aiemmin \"Yleiskulut\" saattoi näyttää 0 %)",
+      "Lisämalli siivottu sisäisesti; kaikki raportit laskevat nyt samasta lähteestä"
+    ],
+    "v0.8.5": [
+      "Paljon lisää tuontimuotoja: .cuf, .dnc, .xtb (yksityiskohtarivein), .rsx, .s01 ja .ifcx",
+      "Valkoinen ruutu Windowsissa korjattu (WebView siirtyy ohjelmistopohjaiseen piirtoon)",
+      "Tuontimoottori rakennettu puhtaalta pöydältä; summat täsmäävät lähdetiedostojen kanssa tarkasti"
+    ],
+    "v0.8.4": [
+      "Koodikenttä: valitse STABU/NL-SfB-koodit kaksoisnapsauttamalla (ja lisää omia)",
+      "Kustannusarvion tuonti (.dnc): avautuu nyt suoraan tiiviinä tilaajan raporttina",
+      "Projekti, logot ja variantit siirretty valintanauhaan; ominaisuudet siivottu"
+    ],
+    "v0.8.3": [
+      "Muutosten seuranta: valitse, korostetaanko koko rivi vai vain muuttunut solu",
+      "Muutokset näkyvät myös raportin PDF-tiedostossa",
+      "Kustannusarvion tuonti: tilaajan kustannusarviot (.dnc) tuodaan suoraan ja avataan valikosta Tiedosto → Avaa",
+      "Tilaajan raporttivaihtoehto; rivikohtainen muutoshistoria (kuka/milloin/mitä)"
+    ],
+    "v0.8.2": [
+      "Kustannuslaskenta-avustaja: chat-historia kustannusarviota kohti, useita kysymyksiä kerralla",
+      "OpenAEC-ominaisuudet (kirjautuminen, pilvitallennus) asetuksen takana"
+    ],
+    "v0.8.1": [
+      "OpenAEC-kirjautuminen ja avustajan parannuksia",
+      "Selkeät tekoälyn virheilmoitukset; avustajan tekstin voi valita ja kopioida"
+    ],
+    "v0.8.0": [
+      "Kustannuslaskenta-avustaja tekee muutokset suoraan avoinna olevaan asiakirjaan",
+      "Avaa JSON-sisältöiset .calc/.mdb-tiedostot natiivina OCS-projektina"
+    ],
+    "v0.7.10": [
+      "OpenAEC-tili ja alapalkin navigointi",
+      "Piilota/näytä sarakkeita napsauttamalla sarakeotsikkoa hiiren oikealla painikkeella",
+      "Tunnit- ja Lisät-välilehdet yhdistetty; IBIS-tyylinen raportti (Bouw 2)"
+    ]
+  }
+}

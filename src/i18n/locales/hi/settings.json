@@ -1,0 +1,66 @@
+{
+  "title": "सेटिंग्स",
+  "resetToDefaults": "डिफ़ॉल्ट पर रीसेट करें",
+  "resetConfirm": "क्या आप वाकई सभी सेटिंग्स रीसेट करना चाहते हैं?",
+  "tabs": {
+    "general": "सामान्य",
+    "appearance": "रूप-रंग",
+    "grid": "ग्रिड",
+    "files": "फ़ाइलें",
+    "shortcuts": "शॉर्टकट",
+    "plugins": "प्लगइन",
+    "about": "परिचय"
+  },
+  "general": {
+    "application": "एप्लिकेशन",
+    "language": "भाषा",
+    "startup": "प्रारंभ",
+    "restoreSession": "प्रारंभ पर पिछला सत्र पुनर्स्थापित करें",
+    "checkUpdates": "अपडेट जाँचें",
+    "author": "लेखक",
+    "authorName": "नाम"
+  },
+  "appearance": {
+    "theme": "थीम",
+    "system": "सिस्टम",
+    "default": "डिफ़ॉल्ट",
+    "dark": "गहरा",
+    "light": "हल्का",
+    "blue": "नीला",
+    "amberNavy": "एम्बर नेवी",
+    "warmEmber": "वॉर्म एम्बर",
+    "highContrast": "उच्च कंट्रास्ट",
+    "font": "फ़ॉन्ट",
+    "uiFontSize": "इंटरफ़ेस फ़ॉन्ट आकार"
+  },
+  "grid": {
+    "general": "ग्रिड",
+    "showRowNumbers": "पंक्ति संख्याएँ दिखाएँ",
+    "alternateRowColors": "एक-एक पंक्ति छोड़कर रंग बदलें"
+  },
+  "files": {
+    "autoSave": "स्वतः सहेजना",
+    "autoSaveOption": "स्वतः सहेजें",
+    "off": "बंद",
+    "afterDelay": "कुछ देर बाद",
+    "onFocusChange": "फ़ोकस बदलने पर",
+    "onWindowChange": "विंडो बदलने पर",
+    "encoding": "एन्कोडिंग",
+    "defaultEncoding": "डिफ़ॉल्ट एन्कोडिंग",
+    "backup": "बैकअप",
+    "autoBackup": "स्वतः बैकअप"
+  },
+  "shortcuts": {
+    "placeholder": "शॉर्टकट यहाँ सेट किए जाएँगे"
+  },
+  "plugins": {
+    "placeholder": "प्लगइन यहाँ प्रबंधित किए जाएँगे"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "संस्करण",
+    "framework": "फ़्रेमवर्क",
+    "license": "लाइसेंस",
+    "description": "डच निर्माण उद्योग के लिए ओपन सोर्स अनुमान सॉफ़्टवेयर। संग्रहण IFC प्रारूप में।"
+  }
+}

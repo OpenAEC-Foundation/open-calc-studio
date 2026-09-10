@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "কলাম যুক্ত করুন",
+    "intro": "<b>{{name}}</b>-এর প্রতিটি কলাম সঠিক প্রাক্কলন ফিল্ডের সাথে যুক্ত করুন। “— উপেক্ষা করুন —” সেট করা কলাম বাদ দেওয়া হবে।",
+    "columnN": "কলাম {{n}}",
+    "columnsLinked_one": "{{count}} কলাম যুক্ত",
+    "columnsLinked_other": "{{count}} কলাম যুক্ত",
+    "rows": "{{count}} সারি",
+    "linkDescriptionFirst": "প্রথমে একটি “বিবরণ” কলাম যুক্ত করুন",
+    "cancel": "বাতিল",
+    "import": "আমদানি করুন"
+  },
+  "quantityPicker": {
+    "title": "পরিমাণ যুক্ত করুন",
+    "tabSpreadsheet": "স্প্রেডশিট",
+    "tabPdf": "PDF পরিমাপ",
+    "tabIfc": "IFC এলিমেন্ট",
+    "cellNotNumeric": "সেলে বৈধ সংখ্যা নেই",
+    "noSheets": "এখনো কোনো শিট নেই। প্রথমে একটি স্প্রেডশিট তৈরি করুন।",
+    "sheet": "শিট",
+    "cellReference": "সেল রেফারেন্স (যেমন A5 বা B12)",
+    "value": "মান",
+    "empty": "(ফাঁকা)",
+    "linkCell": "সেল যুক্ত করুন",
+    "noPdfMeasurements": "এখনো কোনো PDF পরিমাপ নেই। প্রথমে PDF ট্যাবে একটি PDF খুলে পরিমাপ তৈরি করুন।",
+    "sumLengths": "Σ সব দৈর্ঘ্য",
+    "sumAreas": "Σ সব ক্ষেত্রফল",
+    "individualMeasurements": "আলাদা পরিমাপ:",
+    "noIfcElements": "এখনো কোনো IFC এলিমেন্ট নেই। 3D ট্যাবে একটি IFC ফাইল খুলে একটি এলিমেন্ট নির্বাচন করুন।",
+    "cancel": "বাতিল"
+  },
+  "excelPicker": {
+    "title": "Excel-এর সাথে যুক্ত করুন",
+    "cannotReadFile": "ফাইল পড়া যায়নি",
+    "chooseFile": "ফাইল নির্বাচন করুন...",
+    "noFileSelected": "কোনো ফাইল নির্বাচিত নয়",
+    "loadingFile": "ফাইল লোড হচ্ছে...",
+    "cancel": "বাতিল",
+    "select": "নির্বাচন করুন"
+  },
+  "costItemPicker": {
+    "title": "প্রাক্কলন লাইনের সাথে যুক্ত করুন",
+    "searchPlaceholder": "বিবরণ বা কোড দিয়ে খুঁজুন...",
+    "suggestions": "পরামর্শ",
+    "results": "ফলাফল ({{count}})",
+    "allLines": "সব লাইন",
+    "unlink": "লিঙ্ক সরান",
+    "cancel": "বাতিল",
+    "link": "যুক্ত করুন"
+  },
+  "resourceTypes": {
+    "arbeid": "শ্রম",
+    "materieel": "যন্ত্রপাতি",
+    "materiaal": "সামগ্রী",
+    "onderaannemer": "উপ-ঠিকাদার",
+    "overig": "অন্যান্য"
+  },
+  "undo": {
+    "addResource": "রিসোর্স যোগ করা",
+    "wizard": "উইজার্ড: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "প্রিভিউ — {{name}}"
+  }
+}

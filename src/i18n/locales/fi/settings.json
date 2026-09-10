@@ -1,0 +1,66 @@
+{
+  "title": "Asetukset",
+  "resetToDefaults": "Palauta oletusarvot",
+  "resetConfirm": "Haluatko varmasti palauttaa kaikki asetukset?",
+  "tabs": {
+    "general": "Yleiset",
+    "appearance": "Ulkoasu",
+    "grid": "Taulukko",
+    "files": "Tiedostot",
+    "shortcuts": "Pikanäppäimet",
+    "plugins": "Liitännäiset",
+    "about": "Tietoja"
+  },
+  "general": {
+    "application": "Sovellus",
+    "language": "Kieli",
+    "startup": "Käynnistys",
+    "restoreSession": "Palauta istunto käynnistettäessä",
+    "checkUpdates": "Tarkista päivitykset",
+    "author": "Tekijä",
+    "authorName": "Nimi"
+  },
+  "appearance": {
+    "theme": "Teema",
+    "system": "Järjestelmä",
+    "default": "Oletus",
+    "dark": "Tumma",
+    "light": "Vaalea",
+    "blue": "Sininen",
+    "amberNavy": "Meripihka-laivastonsininen",
+    "warmEmber": "Lämmin hiillos",
+    "highContrast": "Suuri kontrasti",
+    "font": "Fontti",
+    "uiFontSize": "Käyttöliittymän fonttikoko"
+  },
+  "grid": {
+    "general": "Taulukko",
+    "showRowNumbers": "Näytä rivinumerot",
+    "alternateRowColors": "Vuorottele rivien värit"
+  },
+  "files": {
+    "autoSave": "Automaattinen tallennus",
+    "autoSaveOption": "Tallenna automaattisesti",
+    "off": "Pois",
+    "afterDelay": "Viiveen jälkeen",
+    "onFocusChange": "Kohdistuksen vaihtuessa",
+    "onWindowChange": "Ikkunan vaihtuessa",
+    "encoding": "Merkistö",
+    "defaultEncoding": "Oletusmerkistö",
+    "backup": "Varmuuskopio",
+    "autoBackup": "Automaattinen varmuuskopiointi"
+  },
+  "shortcuts": {
+    "placeholder": "Pikanäppäimet määritetään täällä"
+  },
+  "plugins": {
+    "placeholder": "Liitännäisiä hallitaan täällä"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Versio",
+    "framework": "Kehys",
+    "license": "Lisenssi",
+    "description": "Avoimen lähdekoodin kustannuslaskentaohjelmisto Alankomaiden rakennusalalle. Tallennus IFC-muodossa."
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "title": "Mipangilio",
+  "resetToDefaults": "Rudisha chaguo-msingi",
+  "resetConfirm": "Una uhakika unataka kuweka upya mipangilio yote?",
+  "tabs": {
+    "general": "Ujumla",
+    "appearance": "Muonekano",
+    "grid": "Gridi",
+    "files": "Faili",
+    "shortcuts": "Njia za mkato",
+    "plugins": "Programu-jalizi",
+    "about": "Kuhusu"
+  },
+  "general": {
+    "application": "Programu",
+    "language": "Lugha",
+    "startup": "Uanzishaji",
+    "restoreSession": "Rejesha kipindi wakati wa kuanzisha",
+    "checkUpdates": "Angalia masasisho",
+    "author": "Mwandishi",
+    "authorName": "Jina"
+  },
+  "appearance": {
+    "theme": "Mandhari",
+    "system": "Mfumo",
+    "default": "Chaguo-msingi",
+    "dark": "Nyeusi",
+    "light": "Nyeupe",
+    "blue": "Buluu",
+    "amberNavy": "Kaharabu na Buluu iliyokolea",
+    "warmEmber": "Kaa la moto",
+    "highContrast": "Utofautishaji mkubwa",
+    "font": "Fonti",
+    "uiFontSize": "Ukubwa wa fonti ya kiolesura"
+  },
+  "grid": {
+    "general": "Gridi",
+    "showRowNumbers": "Onyesha namba za safu",
+    "alternateRowColors": "Rangi za safu zinazopishana"
+  },
+  "files": {
+    "autoSave": "Hifadhi kiotomatiki",
+    "autoSaveOption": "Hifadhi kiotomatiki",
+    "off": "Zima",
+    "afterDelay": "Baada ya kuchelewa",
+    "onFocusChange": "Wakati wa kubadilisha umakinifu",
+    "onWindowChange": "Wakati wa kubadilisha dirisha",
+    "encoding": "Usimbaji",
+    "defaultEncoding": "Usimbaji chaguo-msingi",
+    "backup": "Nakala rudufu",
+    "autoBackup": "Nakala rudufu kiotomatiki"
+  },
+  "shortcuts": {
+    "placeholder": "Njia za mkato zitasanidiwa hapa"
+  },
+  "plugins": {
+    "placeholder": "Programu-jalizi zitasimamiwa hapa"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Toleo",
+    "framework": "Mfumo-msingi",
+    "license": "Leseni",
+    "description": "Programu huria ya makadirio ya gharama kwa sekta ya ujenzi ya Uholanzi. Uhifadhi katika umbizo la IFC."
+  }
+}

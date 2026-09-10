@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "Associa le colonne",
+    "intro": "Associa ogni colonna di <b>{{name}}</b> al campo corretto del computo. Le colonne impostate su «— ignora —» vengono saltate.",
+    "columnN": "Colonna {{n}}",
+    "columnsLinked_one": "{{count}} colonna associata",
+    "columnsLinked_other": "{{count}} colonne associate",
+    "rows": "{{count}} righe",
+    "linkDescriptionFirst": "associa prima una colonna «Descrizione»",
+    "cancel": "Annulla",
+    "import": "Importa"
+  },
+  "quantityPicker": {
+    "title": "Collega la quantità",
+    "tabSpreadsheet": "Foglio di calcolo",
+    "tabPdf": "Misurazione PDF",
+    "tabIfc": "Elemento IFC",
+    "cellNotNumeric": "La cella non contiene un numero valido",
+    "noSheets": "Nessun foglio disponibile. Crea prima un foglio di calcolo.",
+    "sheet": "Foglio",
+    "cellReference": "Riferimento di cella (es. A5 o B12)",
+    "value": "Valore",
+    "empty": "(vuoto)",
+    "linkCell": "Collega la cella",
+    "noPdfMeasurements": "Nessuna misurazione PDF. Apri prima un PDF nella scheda PDF e crea delle misurazioni.",
+    "sumLengths": "Σ Tutte le lunghezze",
+    "sumAreas": "Σ Tutte le aree",
+    "individualMeasurements": "Misurazioni singole:",
+    "noIfcElements": "Nessun elemento IFC. Apri un file IFC nella scheda 3D e seleziona un elemento.",
+    "cancel": "Annulla"
+  },
+  "excelPicker": {
+    "title": "Collega a Excel",
+    "cannotReadFile": "Impossibile leggere il file",
+    "chooseFile": "Scegli un file…",
+    "noFileSelected": "Nessun file selezionato",
+    "loadingFile": "Caricamento del file…",
+    "cancel": "Annulla",
+    "select": "Seleziona"
+  },
+  "costItemPicker": {
+    "title": "Collega a una riga del computo",
+    "searchPlaceholder": "Cerca per descrizione o codice…",
+    "suggestions": "Suggerimenti",
+    "results": "Risultati ({{count}})",
+    "allLines": "Tutte le righe",
+    "unlink": "Scollega",
+    "cancel": "Annulla",
+    "link": "Collega"
+  },
+  "resourceTypes": {
+    "arbeid": "Manodopera",
+    "materieel": "Noli e attrezzature",
+    "materiaal": "Materiali",
+    "onderaannemer": "Subappaltatore",
+    "overig": "Altro"
+  },
+  "undo": {
+    "addResource": "Aggiungi una risorsa",
+    "wizard": "Procedura guidata: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Anteprima — {{name}}"
+  }
+}

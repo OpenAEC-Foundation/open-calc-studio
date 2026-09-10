@@ -1,0 +1,66 @@
+{
+  "title": "الإعدادات",
+  "resetToDefaults": "إعادة التعيين إلى الافتراضي",
+  "resetConfirm": "هل أنت متأكد من رغبتك في إعادة تعيين جميع الإعدادات؟",
+  "tabs": {
+    "general": "عام",
+    "appearance": "المظهر",
+    "grid": "الجدول",
+    "files": "الملفات",
+    "shortcuts": "الاختصارات",
+    "plugins": "الملحقات",
+    "about": "حول"
+  },
+  "general": {
+    "application": "التطبيق",
+    "language": "اللغة",
+    "startup": "بدء التشغيل",
+    "restoreSession": "استعادة الجلسة عند بدء التشغيل",
+    "checkUpdates": "البحث عن تحديثات",
+    "author": "المؤلف",
+    "authorName": "الاسم"
+  },
+  "appearance": {
+    "theme": "السمة",
+    "system": "النظام",
+    "default": "افتراضي",
+    "dark": "داكن",
+    "light": "فاتح",
+    "blue": "أزرق",
+    "amberNavy": "كهرماني كحلي",
+    "warmEmber": "جمري دافئ",
+    "highContrast": "تباين عالٍ",
+    "font": "الخط",
+    "uiFontSize": "حجم خط الواجهة"
+  },
+  "grid": {
+    "general": "الجدول",
+    "showRowNumbers": "إظهار أرقام الصفوف",
+    "alternateRowColors": "تناوب ألوان الصفوف"
+  },
+  "files": {
+    "autoSave": "الحفظ التلقائي",
+    "autoSaveOption": "حفظ تلقائي",
+    "off": "إيقاف",
+    "afterDelay": "بعد مهلة",
+    "onFocusChange": "عند تغيير التركيز",
+    "onWindowChange": "عند تغيير النافذة",
+    "encoding": "الترميز",
+    "defaultEncoding": "الترميز الافتراضي",
+    "backup": "النسخ الاحتياطي",
+    "autoBackup": "نسخ احتياطي تلقائي"
+  },
+  "shortcuts": {
+    "placeholder": "سيتم إعداد الاختصارات هنا"
+  },
+  "plugins": {
+    "placeholder": "ستتم إدارة الملحقات هنا"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "الإصدار",
+    "framework": "إطار العمل",
+    "license": "الترخيص",
+    "description": "برنامج مفتوح المصدر لتقدير تكاليف البناء. التخزين بصيغة IFC."
+  }
+}

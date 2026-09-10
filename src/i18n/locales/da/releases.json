@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "39 sprog + spansk FIEBDC-3 (.bc3)",
+    "v0.10.3": "Høj og lav momssats — kan vælges pr. post",
+    "v0.10.0": "Logo i rapportens sidehoved + formler i celler",
+    "v0.9.0": "Præcise BasCalc-totaler + rapporter i beskrivelsesformat",
+    "v0.8.8": "Excel/CSV-import rettet + via MCP",
+    "v0.8.7": "Fire nye importformater",
+    "v0.8.6": "Tillæg rettet i rapportoversigten",
+    "v0.8.5": "Import kraftigt udvidet + hvid skærm rettet",
+    "v0.8.4": "Kodevælger + kompakt bygherrebudget",
+    "v0.8.3": "Registrering af ændringer + budgetimport",
+    "v0.8.2": "OpenAEC bag et feature flag",
+    "v0.8.1": "OpenAEC-login + forbedringer af assistenten",
+    "v0.8.0": "Assistenten foretager ændringer direkte",
+    "v0.7.10": "OpenAEC-konto + navigation i bundlinjen"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "Brugerfladen findes nu på 39 sprog — vælg dit under Indstillinger → Generelt, eller lad programmet følge systemsproget",
+      "Understøttelse af højre-mod-venstre for arabisk, farsi, hebraisk og urdu: hele layoutet spejlvendes med",
+      "Engelsk var før halvt hollandsk; sprogindstillingen var låst internt, og over 500 tekster var hårdkodede — begge dele er rettet",
+      "FIEBDC-3-import og -eksport (.bc3): den spanske standard for budgetter og prisdatabaser (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS: fejlen “beskadiget” er løst, og selve builden er repareret; “Nyheder” vises nu på dit eget sprog"
+    ],
+    "v0.10.3": [
+      "Ny tillægslinje “Lav moms” (9 %) ved siden af “Høj moms” — eksisterende budgetter får den automatisk",
+      "Markér kapitler, poster eller linjer som lavmoms med højreklik; underliggende linjer arver satsen, og tabellen viser et momsmærke",
+      "Momsgrundlaget beregnes forholdsmæssigt ud fra markeringen (tillæg medregnet) eller indtastes manuelt i tillægspanelet",
+      "Momsopdelingen slår igennem i alle rapporter (IBIS viser høj og lav grundlag hver for sig) og i MCP-serveren",
+      "Rettelser: moms blev talt med to gange i Bouw 1-oversigten, og et beløb inkl. moms blev vist under mærket “Entreprisesum ekskl. moms”"
+    ],
+    "v0.10.0": [
+      "Firmalogo øverst til højre i rapportens sidehoved (transparent, skaleres med); sidehovedets højde og linjefarve kan justeres",
+      "Formler i talceller (=12.2*2.22 eller 12,2*2,2) — og fejlen med den forsvundne decimal er rettet",
+      "Tillæg: indtast slutbeløbet ekskl. moms, så bliver afrundingen automatisk differencen; moms af det afrundede beløb",
+      "Hovedentreprise: sammentæl linjer med “+”, en valgfri A-kolonne (regulerbarhed arvet fra kapitlet) og visninger med kun subtotaler",
+      "Arbejd hurtigere: priser ±%, Ctrl+F søg og erstat, skjul efter niveau, fortryd flere trin, tekstlinjer med ombrydning"
+    ],
+    "v0.9.0": [
+      "BasCalc-import: kostpris og entreprisesum stemmer med Excel til sidste cent (faste tillæg + fast afrundingspost)",
+      "Arbejdsbeskrivelse og hovedentreprise i beskrivelsesformat: ingen cellerammer, indrykkede afsnit, subtotal pr. afsnit",
+      "Knappen + ved siden af linjen tilføjer en beregningslinje; mængder til/fra direkte i rapportens værktøjslinje",
+      "Gem som bruger nu .ifcCalc som standard og beskytter den oprindelige kildefil",
+      "Nyt grønt logo; rettelser i navigation og dialoger (regneark ↔ budget)"
+    ],
+    "v0.8.8": [
+      "Excel/CSV-import: beløb endte af og til som € 0 — rettet",
+      "Excel/CSV-import nu også via MCP-serveren (værktøjet import_excel_csv)"
+    ],
+    "v0.8.7": [
+      "Excel/CSV-import med kolonnetilknytning — læs frie Excel/CSV-layouts, og tilknyt selv kolonnerne",
+      "Nye formater: STABU SUFX (XML-beskrivelse) og ældre RAW (.rsu)",
+      "Priskatalog (BMEcat/DICO) → direkte i ressourcebiblioteket"
+    ],
+    "v0.8.6": [
+      "Rapportoversigten viser de korrekte tillægsprocenter og respekterer tilpassede satser (tidligere kunne “Administrationsomkostninger” vise 0 %)",
+      "Tillægsmodellen er ryddet op internt; alle rapporter regner nu ud fra den samme kilde"
+    ],
+    "v0.8.5": [
+      "Mange flere importformater: .cuf, .dnc, .xtb (med detaljelinjer), .rsx, .s01 og .ifcx",
+      "Hvid skærm på Windows er rettet (WebView falder tilbage til softwaregengivelse)",
+      "Importmotoren er bygget rent op igen; totalerne stemmer nøjagtigt med kildefilerne"
+    ],
+    "v0.8.4": [
+      "Kodefelt: vælg STABU/NL-SfB-koder ved at dobbeltklikke (og tilføj dine egne)",
+      "Budgetimport (.dnc): åbner nu direkte som en kompakt bygherrerapport",
+      "Projekt, logoer og varianter er flyttet til båndet; egenskaberne er ryddet op"
+    ],
+    "v0.8.3": [
+      "Registrering af ændringer: vælg, om hele linjen eller kun den ændrede celle fremhæves",
+      "Ændringer er også synlige i rapportens PDF",
+      "Budgetimport: bygherrebudgetter (.dnc) importeres direkte og åbnes via Filer → Åbn",
+      "Mulighed for bygherrerapport; ændringshistorik pr. linje (hvem/hvornår/hvad)"
+    ],
+    "v0.8.2": [
+      "Kalkulationsassistent: chathistorik pr. budget, flere spørgsmål på én gang",
+      "OpenAEC-funktioner (login, skylagring) bag en indstilling"
+    ],
+    "v0.8.1": [
+      "OpenAEC-login og forbedringer af assistenten",
+      "Tydelige AI-fejlmeddelelser; assistentens tekst kan markeres og kopieres"
+    ],
+    "v0.8.0": [
+      "Kalkulationsassistenten foretager ændringer direkte i det åbne dokument",
+      "Åbn .calc/.mdb-filer med JSON-indhold som et almindeligt OCS-projekt"
+    ],
+    "v0.7.10": [
+      "OpenAEC-konto og navigation i bundlinjen",
+      "Skjul/vis kolonner ved at højreklikke på kolonneoverskriften",
+      "Fanerne Timer og Tillæg er slået sammen; rapport i IBIS-stil (Bouw 2)"
+    ]
+  }
+}

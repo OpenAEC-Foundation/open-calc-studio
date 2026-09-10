@@ -17,8 +17,10 @@ const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours
 
 // Gebundelde release notes: worden in "Wat is er nieuw" getoond ongeacht GitHub
 // (offline én vóór een GitHub-publicatie), samengevoegd met de opgehaalde
-// releases. Bijwerken bij elke release; de bullets staan in HIGHLIGHTS hieronder.
+// releases. Bijwerken bij elke release; titels en bullets staan vertaald in
+// de `releases`-namespace (src/i18n/locales/<taal>/releases.json).
 const BUNDLED_RELEASES: Release[] = [
+  { tag_name: 'v0.11.0', name: '39 talen + Spaans FIEBDC-3 (.bc3)', body: '', published_at: '2026-09-10T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.11.0` },
   { tag_name: 'v0.10.3', name: 'Btw hoog én laag — per onderdeel selecteerbaar', body: '', published_at: '2026-09-10T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.10.3` },
   { tag_name: 'v0.10.0', name: 'Logo in de rapportkop + formules in cellen', body: '', published_at: '2026-07-16T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.10.0` },
   { tag_name: 'v0.9.0', name: 'Exacte BasCalc-totalen + besteksopmaak rapporten', body: '', published_at: '2026-07-16T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.9.0` },
@@ -33,78 +35,6 @@ const BUNDLED_RELEASES: Release[] = [
   { tag_name: 'v0.8.0', name: 'Assistent past wijzigingen direct toe', body: '', published_at: '2026-06-10T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.8.0` },
   { tag_name: 'v0.7.10', name: 'OpenAEC-account + onderbalk-navigatie', body: '', published_at: '2026-05-28T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.7.10` },
 ];
-
-// Gecureerde, concrete verbeterpunten per versie. De GitHub-releases bevatten
-// vaak alleen downloads; deze lijst toont wat er écht is verbeterd.
-const HIGHLIGHTS: Record<string, string[]> = {
-  'v0.10.3': [
-    'Nieuwe staartregel "Btw laag" (9%) naast "Btw hoog" — bestaande begrotingen krijgen hem automatisch',
-    'Markeer hoofdstukken, posten of regels als laag-belast via rechtermuisknop; kinderen erven het tarief en het grid toont een btw-label',
-    'Grondslag pro rata berekend uit de markering (opslagen tellen mee) of handmatig invulbaar in het staart-paneel',
-    'Btw-verdeling doorgevoerd in alle rapporten (IBIS toont grondslag hoog/laag apart) en de MCP-server',
-    'Fixes: dubbele btw in de Bouw 1-samenvatting en incl-bedrag onder het label "Aanneemsom excl. BTW"',
-  ],
-  'v0.10.0': [
-    'Bedrijfslogo rechtsboven in de rapportkop (transparant, schaalt mee); kophoogte en lijnkleur instelbaar',
-    'Rekenformules in getalcellen (=12,2*2,22 of 12.2*2.2) — en de komma-wegval-bug is opgelost',
-    'Staart: vul het eindbedrag excl. btw in en de afronding wordt automatisch het verschil; btw over het afgeronde bedrag',
-    'Hoofdaanneming: som-lijnen met "+", optionele S-kolom (V erft van het hoofdstuk) en alleen-subtotalen-weergaven',
-    'Sneller werken: prijzen ±%, Ctrl+F zoeken/vervangen, inklappen per niveau, meerstaps ongedaan, tekstregels met terugloop',
-  ],
-  'v0.9.0': [
-    'BasCalc-import: kostprijs én aanneemsom tot op de cent gelijk aan Excel (vlakke staart + vaste afrondingspost)',
-    'Werkbeschrijving en hoofdaanneming in besteksopmaak: geen cellijnen, inspringende paragrafen, subtotaal per paragraaf',
-    '+-knop links bij de rij voegt een rekenregel toe; hoeveelheden aan/uit direct in de rapport-toolbar',
-    'Opslaan als gaat standaard naar .ifcCalc en beschermt het originele bronbestand',
-    'Nieuw groen logo; navigatie- en dialoogfixes (spreadsheet ↔ begroting)',
-  ],
-  'v0.8.8': [
-    'Excel/CSV-import: bedragen kwamen soms op € 0 te staan — opgelost',
-    'Excel/CSV-import nu ook via de MCP-server (tool import_excel_csv)',
-  ],
-  'v0.8.7': [
-    'Excel/CSV-import met kolom-mapping — lees vrije Excel-/CSV-indelingen in en koppel zelf de kolommen',
-    'Nieuwe formaten: STABU SUFX (XML-bestek) en legacy RAW (.rsu)',
-    'Prijscatalogus (BMEcat/DICO) → rechtstreeks in de middelenbibliotheek',
-  ],
-  'v0.8.6': [
-    'Rapport-samenvatting toont de juiste staartkosten-percentages en respecteert aangepaste opslagen (voorheen kon "Algemene bedrijfskosten" op 0% staan)',
-    'Staartkosten-model intern opgeschoond; alle rapporten rekenen met dezelfde bron',
-  ],
-  'v0.8.5': [
-    'Veel meer importformaten: .cuf, .dnc, .xtb (met detailregels), .rsx, .s01 en .ifcx',
-    'Wit scherm op Windows opgelost (WebView valt terug op software-rendering)',
-    'Importmotor schoon herbouwd; totalen komen exact overeen met de bronbestanden',
-  ],
-  'v0.8.4': [
-    'Nr-veld: kies STABU/NL-SfB-coderingen via dubbelklik (en voeg eigen codes toe)',
-    'Calculatie-import (.dnc): opent nu meteen als compact directiebegroting-rapport',
-    'Project, logo’s en varianten verplaatst naar het lint; eigenschappen opgeschoond',
-  ],
-  'v0.8.3': [
-    'Wijzigingen-bijhouden: kies of de hele regel of alleen de gewijzigde cel kleurt',
-    'Wijzigingen ook zichtbaar in de rapportage-PDF',
-    'Calculatie-import: directiebegrotingen (.dnc) rechtstreeks importeren én openen via Bestand → Openen',
-    'Directiebegroting-rapportoptie; wijzigingshistorie per regel (wie/wanneer/wat)',
-  ],
-  'v0.8.2': [
-    'Calculatieassistent: chatgeschiedenis per begroting, meerdere vragen tegelijk',
-    'OpenAEC-functies (login, cloud-opslag) achter een instelling',
-  ],
-  'v0.8.1': [
-    'OpenAEC-login en assistent-verbeteringen',
-    'Duidelijke AI-foutmeldingen; assistent-tekst is selecteer- en kopieerbaar',
-  ],
-  'v0.8.0': [
-    'Calculatieassistent past wijzigingen direct in het open document toe',
-    '.calc/.mdb met JSON-inhoud openen als native OCS-project',
-  ],
-  'v0.7.10': [
-    'OpenAEC-account en onderbalk-navigatie',
-    'Kolommen verbergen/tonen via rechtsklik op de kolomkop',
-    'Uren- en Staart-tab gecombineerd; IBIS-stijl rapport (Bouw 2)',
-  ],
-};
 
 /**
  * Ontdubbel releases op tag: GitHub kan dezelfde versie (bv. v0.7.4) twee keer
@@ -146,7 +76,21 @@ function mergeReleases(fetched: Release[]): Release[] {
 }
 
 export function ReleaseNotesPanel() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  // Titels en opsommingen staan in de `releases`-namespace, zodat "Wat is er
+  // nieuw" in elke taal leesbaar is. Ontbreekt een vertaling, dan valt
+  // i18next terug op Engels; ontbreekt de key helemaal (bv. een release die
+  // alleen van GitHub komt), dan gebruiken we de tekst van GitHub zelf.
+  const { t: tRel } = useTranslation('releases');
+  const releaseName = (tag: string, fallback: string): string => {
+    const key = `names.${tag}`;
+    return tRel(key) === key ? (fallback || tag) : tRel(key);
+  };
+  const releaseHighlights = (tag: string): string[] | null => {
+    const key = `highlights.${tag}`;
+    const value = tRel(key, { returnObjects: true });
+    return Array.isArray(value) ? (value as string[]) : null;
+  };
   const [releases, setReleases] = useState<Release[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -202,7 +146,7 @@ export function ReleaseNotesPanel() {
         {!releases && !error && <p className="welcome-loading">{t('releaseNotes.loading')}</p>}
         {releases?.length === 0 && <p>{t('releaseNotes.none')}</p>}
         {dedupeByTag(releases ?? []).map((r) => {
-          const bullets = HIGHLIGHTS[r.tag_name];
+          const bullets = releaseHighlights(r.tag_name);
           const notes = bullets ? '' : stripReleaseBoilerplate(r.body);
           return (
             <article key={r.tag_name} className="welcome-release">
@@ -211,10 +155,10 @@ export function ReleaseNotesPanel() {
                   {r.tag_name}
                 </a>
                 <time className="welcome-release-date">
-                  {new Date(r.published_at).toLocaleDateString('nl-NL', { year: 'numeric', month: 'short', day: 'numeric' })}
+                  {new Date(r.published_at).toLocaleDateString(i18n.language, { year: 'numeric', month: 'short', day: 'numeric' })}
                 </time>
               </header>
-              <h4 className="welcome-release-title">{r.name || r.tag_name}</h4>
+              <h4 className="welcome-release-title">{releaseName(r.tag_name, r.name)}</h4>
               {bullets ? (
                 <div className="welcome-release-body markdown-body">
                   <ul className="rn-ul">{bullets.map((b, j) => <li key={j}>{b}</li>)}</ul>

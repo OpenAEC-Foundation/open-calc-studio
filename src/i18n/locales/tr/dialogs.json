@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "Sütunları eşleştir",
+    "intro": "<b>{{name}}</b> dosyasındaki her sütunu doğru keşif alanıyla eşleştirin. “— yok say —” olarak ayarlanan sütunlar atlanır.",
+    "columnN": "Sütun {{n}}",
+    "columnsLinked_one": "{{count}} sütun eşleştirildi",
+    "columnsLinked_other": "{{count}} sütun eşleştirildi",
+    "rows": "{{count}} satır",
+    "linkDescriptionFirst": "önce bir “Açıklama” sütunu eşleştirin",
+    "cancel": "İptal",
+    "import": "İçe aktar"
+  },
+  "quantityPicker": {
+    "title": "Miktarı bağla",
+    "tabSpreadsheet": "Hesap tablosu",
+    "tabPdf": "PDF ölçümü",
+    "tabIfc": "IFC elemanı",
+    "cellNotNumeric": "Hücre geçerli bir sayı içermiyor",
+    "noSheets": "Henüz sayfa yok. Önce bir hesap tablosu oluşturun.",
+    "sheet": "Sayfa",
+    "cellReference": "Hücre başvurusu (örn. A5 veya B12)",
+    "value": "Değer",
+    "empty": "(boş)",
+    "linkCell": "Hücreyi bağla",
+    "noPdfMeasurements": "Henüz PDF ölçümü yok. Önce PDF sekmesinde bir PDF açıp ölçüm yapın.",
+    "sumLengths": "Σ Tüm uzunluklar",
+    "sumAreas": "Σ Tüm alanlar",
+    "individualMeasurements": "Tekil ölçümler:",
+    "noIfcElements": "Henüz IFC elemanı yok. 3B sekmesinde bir IFC dosyası açıp bir eleman seçin.",
+    "cancel": "İptal"
+  },
+  "excelPicker": {
+    "title": "Excel'e bağla",
+    "cannotReadFile": "Dosya okunamıyor",
+    "chooseFile": "Dosya seç...",
+    "noFileSelected": "Dosya seçilmedi",
+    "loadingFile": "Dosya yükleniyor...",
+    "cancel": "İptal",
+    "select": "Seç"
+  },
+  "costItemPicker": {
+    "title": "Keşif satırına bağla",
+    "searchPlaceholder": "Açıklamaya veya koda göre ara...",
+    "suggestions": "Öneriler",
+    "results": "Sonuçlar ({{count}})",
+    "allLines": "Tüm satırlar",
+    "unlink": "Bağlantıyı kaldır",
+    "cancel": "İptal",
+    "link": "Bağla"
+  },
+  "resourceTypes": {
+    "arbeid": "İşçilik",
+    "materieel": "Makine",
+    "materiaal": "Malzeme",
+    "onderaannemer": "Taşeron",
+    "overig": "Diğer"
+  },
+  "undo": {
+    "addResource": "Kaynak ekle",
+    "wizard": "Sihirbaz: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Önizleme — {{name}}"
+  }
+}

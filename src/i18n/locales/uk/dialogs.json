@@ -1,0 +1,67 @@
+{
+  "columnMapping": {
+    "title": "Зіставити стовпці",
+    "intro": "Зіставте кожен стовпець із <b>{{name}}</b> з потрібним полем кошторису. Стовпці зі значенням «— пропустити —» не імпортуються.",
+    "columnN": "Стовпець {{n}}",
+    "columnsLinked_one": "Зіставлено {{count}} стовпець",
+    "columnsLinked_few": "Зіставлено {{count}} стовпці",
+    "columnsLinked_many": "Зіставлено {{count}} стовпців",
+    "columnsLinked_other": "Зіставлено {{count}} стовпців",
+    "rows": "рядків: {{count}}",
+    "linkDescriptionFirst": "спершу зіставте стовпець «Опис»",
+    "cancel": "Скасувати",
+    "import": "Імпорт"
+  },
+  "quantityPicker": {
+    "title": "Пов'язати обсяг",
+    "tabSpreadsheet": "Таблиця",
+    "tabPdf": "Вимірювання за PDF",
+    "tabIfc": "Елемент IFC",
+    "cellNotNumeric": "Комірка не містить допустимого числа",
+    "noSheets": "Аркушів поки немає. Спершу створіть таблицю.",
+    "sheet": "Аркуш",
+    "cellReference": "Посилання на комірку (напр. A5 або B12)",
+    "value": "Значення",
+    "empty": "(порожньо)",
+    "linkCell": "Пов'язати комірку",
+    "noPdfMeasurements": "Вимірювань за PDF поки немає. Спершу відкрийте PDF на вкладці PDF і виконайте вимірювання.",
+    "sumLengths": "Σ Усі довжини",
+    "sumAreas": "Σ Усі площі",
+    "individualMeasurements": "Окремі вимірювання:",
+    "noIfcElements": "Елементів IFC поки немає. Відкрийте файл IFC на вкладці 3D і виберіть елемент.",
+    "cancel": "Скасувати"
+  },
+  "excelPicker": {
+    "title": "Пов'язати з Excel",
+    "cannotReadFile": "Не вдалося прочитати файл",
+    "chooseFile": "Вибрати файл...",
+    "noFileSelected": "Файл не вибрано",
+    "loadingFile": "Завантаження файлу...",
+    "cancel": "Скасувати",
+    "select": "Вибрати"
+  },
+  "costItemPicker": {
+    "title": "Пов'язати з рядком кошторису",
+    "searchPlaceholder": "Пошук за описом або кодом...",
+    "suggestions": "Пропозиції",
+    "results": "Результати ({{count}})",
+    "allLines": "Усі рядки",
+    "unlink": "Розірвати зв'язок",
+    "cancel": "Скасувати",
+    "link": "Пов'язати"
+  },
+  "resourceTypes": {
+    "arbeid": "Оплата праці",
+    "materieel": "Машини",
+    "materiaal": "Матеріали",
+    "onderaannemer": "Субпідрядник",
+    "overig": "Інше"
+  },
+  "undo": {
+    "addResource": "Додавання ресурсу",
+    "wizard": "Майстер: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Попередній перегляд — {{name}}"
+  }
+}

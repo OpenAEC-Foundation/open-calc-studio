@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "39 jezika + španjolski FIEBDC-3 (.bc3)",
+    "v0.10.3": "Opća i snižena stopa PDV-a — po stavci",
+    "v0.10.0": "Logotip u zaglavlju izvještaja + formule u ćelijama",
+    "v0.9.0": "Točni BasCalc zbrojevi + izvještaji u obliku specifikacije",
+    "v0.8.8": "Ispravak Excel/CSV uvoza + putem MCP-a",
+    "v0.8.7": "Četiri nova formata uvoza",
+    "v0.8.6": "Ispravljeni dodaci u sažetku izvještaja",
+    "v0.8.5": "Znatno prošireni uvoz + ispravak bijelog zaslona",
+    "v0.8.4": "Birač šifri + sažeti troškovnik za naručitelja",
+    "v0.8.3": "Praćenje promjena + uvoz troškovnika",
+    "v0.8.2": "OpenAEC iza zastavice značajke",
+    "v0.8.1": "OpenAEC prijava + poboljšanja asistenta",
+    "v0.8.0": "Asistent izravno primjenjuje promjene",
+    "v0.7.10": "OpenAEC račun + navigacija u donjoj traci"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "Sučelje je sada dostupno na 39 jezika — odaberite svoj u Postavke → Općenito ili prepustite aplikaciji da slijedi jezik sustava",
+      "Podrška za pisanje zdesna nalijevo za arapski, farsi, hebrejski i urdski: cijeli se raspored zrcali",
+      "Engleski je dosad ostajao napola nizozemski; postavka jezika bila je interno zaključana, a više od 500 tekstova bilo je čvrsto kodirano — oboje je ispravljeno",
+      "FIEBDC-3 (.bc3) uvoz i izvoz: španjolski standard za troškovnike i baze cijena (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS: riješena pogreška \"oštećeno\" i popravljena sama gradnja; \"Što je novo\" sada se prikazuje na vašem jeziku"
+    ],
+    "v0.10.3": [
+      "Novi redak dodataka \"Snižen PDV\" (9 %) uz \"Opći PDV\" — postojeći troškovnici dobivaju ga automatski",
+      "Označite poglavlja, stavke ili retke kao snižene desnim klikom; podstavke nasljeđuju stopu, a tablica prikazuje oznaku PDV-a",
+      "Porezna osnovica izračunava se razmjerno prema oznakama (uključujući dodatke) ili se unosi ručno u ploči dodataka",
+      "Podjela PDV-a primijenjena je u svim izvještajima (IBIS zasebno prikazuje opću i sniženu osnovicu) i na MCP poslužitelju",
+      "Ispravci: PDV se dvaput zbrajao u sažetku Bouw 1, a iznos s PDV-om prikazivao se pod oznakom \"Ugovorena cijena bez PDV-a\""
+    ],
+    "v0.10.0": [
+      "Logotip tvrtke gore desno u zaglavlju izvještaja (proziran, skalira se zajedno); visina zaglavlja i boja crte podesive su",
+      "Formule u brojčanim ćelijama (=12.2*2.22 ili 12,2*2,2) — ispravljena je i greška s izgubljenim decimalama",
+      "Dodaci: unesite konačni iznos bez PDV-a i zaokruživanje automatski postaje razlika; PDV se računa na zaokruženi iznos",
+      "Glavno izvođenje: zbrojni redci s \"+\", neobavezan stupac S (obračunljivost naslijeđena od poglavlja) i prikazi samo s međuzbrojevima",
+      "Radite brže: cijene ±%, Ctrl+F pronađi i zamijeni, sažimanje po razini, višekoračno poništavanje, tekstualni redci s prelamanjem"
+    ],
+    "v0.9.0": [
+      "BasCalc uvoz: cijena koštanja i ugovorena cijena poklapaju se s Excelom u cent (ravnomjerni dodaci + fiksna stavka zaokruživanja)",
+      "Opis radova i glavno izvođenje u obliku specifikacije: bez obruba ćelija, uvučeni odjeljci, međuzbroj po odjeljku",
+      "Gumb + pokraj retka dodaje kalkulacijski redak; količine uključeno/isključeno izravno u alatnoj traci izvještaja",
+      "Spremi kao sada koristi .ifcCalc kao zadani format i štiti izvornu datoteku",
+      "Novi zeleni logotip; ispravci navigacije i dijaloga (proračunska tablica ↔ troškovnik)"
+    ],
+    "v0.8.8": [
+      "Excel/CSV uvoz: iznosi su ponekad završavali kao 0 € — ispravljeno",
+      "Excel/CSV uvoz sada je moguć i putem MCP poslužitelja (alat import_excel_csv)"
+    ],
+    "v0.8.7": [
+      "Excel/CSV uvoz s mapiranjem stupaca — učitajte slobodno oblikovane Excel/CSV rasporede i sami povežite stupce",
+      "Novi formati: STABU SUFX (XML specifikacija) i stariji RAW (.rsu)",
+      "Katalog cijena (BMEcat/DICO) → izravno u knjižnicu resursa"
+    ],
+    "v0.8.6": [
+      "Sažetak izvještaja prikazuje ispravne postotke dodataka i poštuje prilagođene stope (ranije su \"Opći režijski troškovi\" mogli pokazivati 0 %)",
+      "Model dodataka interno je pročišćen; svi izvještaji sada računaju iz istog izvora"
+    ],
+    "v0.8.5": [
+      "Mnogo više formata uvoza: .cuf, .dnc, .xtb (s redcima detalja), .rsx, .s01 i .ifcx",
+      "Bijeli zaslon na Windowsu ispravljen (WebView prelazi na softversko iscrtavanje)",
+      "Uvozni mehanizam iznova izgrađen; zbrojevi se točno poklapaju s izvornim datotekama"
+    ],
+    "v0.8.4": [
+      "Polje šifre: odaberite STABU/NL-SfB šifre dvoklikom (i dodajte vlastite)",
+      "Uvoz troškovnika (.dnc): sada se odmah otvara kao sažeti izvještaj za naručitelja",
+      "Projekt, logotipi i varijante premješteni su na vrpcu; svojstva su pročišćena"
+    ],
+    "v0.8.3": [
+      "Praćenje promjena: odaberite ističe li se cijeli redak ili samo promijenjena ćelija",
+      "Promjene su vidljive i u PDF-u izvještaja",
+      "Uvoz troškovnika: troškovnici za naručitelja (.dnc) uvoze se izravno i otvaraju putem Datoteka → Otvori",
+      "Opcija izvještaja za naručitelja; povijest promjena po retku (tko/kada/što)"
+    ],
+    "v0.8.2": [
+      "Asistent za troškovnike: povijest razgovora po troškovniku, više pitanja odjednom",
+      "OpenAEC značajke (prijava, pohrana u oblaku) iza postavke"
+    ],
+    "v0.8.1": [
+      "OpenAEC prijava i poboljšanja asistenta",
+      "Jasne poruke o AI greškama; tekst asistenta može se označiti i kopirati"
+    ],
+    "v0.8.0": [
+      "Asistent za troškovnike primjenjuje promjene izravno u otvorenom dokumentu",
+      "Otvaranje .calc/.mdb datoteka koje sadrže JSON kao izvornog OCS projekta"
+    ],
+    "v0.7.10": [
+      "OpenAEC račun i navigacija u donjoj traci",
+      "Sakrivanje/prikaz stupaca desnim klikom na zaglavlje stupca",
+      "Kartice Sati i Dodaci objedinjene; izvještaj u IBIS stilu (Bouw 2)"
+    ]
+  }
+}

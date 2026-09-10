@@ -1,0 +1,66 @@
+{
+  "title": "Tetapan",
+  "resetToDefaults": "Set semula kepada lalai",
+  "resetConfirm": "Adakah anda pasti mahu menetapkan semula semua tetapan?",
+  "tabs": {
+    "general": "Umum",
+    "appearance": "Rupa",
+    "grid": "Jadual",
+    "files": "Fail",
+    "shortcuts": "Pintasan",
+    "plugins": "Pemalam",
+    "about": "Perihal"
+  },
+  "general": {
+    "application": "Aplikasi",
+    "language": "Bahasa",
+    "startup": "Permulaan",
+    "restoreSession": "Pulihkan sesi semasa permulaan",
+    "checkUpdates": "Semak kemas kini",
+    "author": "Penyedia",
+    "authorName": "Nama"
+  },
+  "appearance": {
+    "theme": "Tema",
+    "system": "Sistem",
+    "default": "Lalai",
+    "dark": "Gelap",
+    "light": "Cerah",
+    "blue": "Biru",
+    "amberNavy": "Ambar Biru Laut",
+    "warmEmber": "Bara Suam",
+    "highContrast": "Kontras tinggi",
+    "font": "Fon",
+    "uiFontSize": "Saiz fon antara muka"
+  },
+  "grid": {
+    "general": "Jadual",
+    "showRowNumbers": "Papar nombor baris",
+    "alternateRowColors": "Warna baris berselang-seli"
+  },
+  "files": {
+    "autoSave": "Simpan automatik",
+    "autoSaveOption": "Simpan secara automatik",
+    "off": "Mati",
+    "afterDelay": "Selepas tempoh lengah",
+    "onFocusChange": "Apabila fokus bertukar",
+    "onWindowChange": "Apabila tetingkap bertukar",
+    "encoding": "Pengekodan",
+    "defaultEncoding": "Pengekodan lalai",
+    "backup": "Sandaran",
+    "autoBackup": "Sandaran automatik"
+  },
+  "shortcuts": {
+    "placeholder": "Pintasan akan ditetapkan di sini"
+  },
+  "plugins": {
+    "placeholder": "Pemalam akan diurus di sini"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Versi",
+    "framework": "Rangka kerja",
+    "license": "Lesen",
+    "description": "Perisian anggaran kos sumber terbuka untuk industri pembinaan Belanda. Simpanan dalam format IFC."
+  }
+}

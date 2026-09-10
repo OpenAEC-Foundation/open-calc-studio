@@ -1,0 +1,66 @@
+{
+  "title": "ترتیبات",
+  "resetToDefaults": "ڈیفالٹ پر بحال کریں",
+  "resetConfirm": "کیا آپ واقعی تمام ترتیبات ری سیٹ کرنا چاہتے ہیں؟",
+  "tabs": {
+    "general": "عمومی",
+    "appearance": "ظاہری شکل",
+    "grid": "گرڈ",
+    "files": "فائلیں",
+    "shortcuts": "شارٹ کٹ",
+    "plugins": "پلگ اِن",
+    "about": "تعارف"
+  },
+  "general": {
+    "application": "ایپلی کیشن",
+    "language": "زبان",
+    "startup": "آغاز",
+    "restoreSession": "آغاز پر سیشن بحال کریں",
+    "checkUpdates": "اپ ڈیٹس دیکھیں",
+    "author": "مصنف",
+    "authorName": "نام"
+  },
+  "appearance": {
+    "theme": "تھیم",
+    "system": "سسٹم",
+    "default": "ڈیفالٹ",
+    "dark": "گہرا",
+    "light": "ہلکا",
+    "blue": "نیلا",
+    "amberNavy": "کہربائی-نیوی",
+    "warmEmber": "گرم انگارہ",
+    "highContrast": "اعلیٰ تضاد",
+    "font": "فونٹ",
+    "uiFontSize": "انٹرفیس فونٹ سائز"
+  },
+  "grid": {
+    "general": "گرڈ",
+    "showRowNumbers": "سطر نمبر دکھائیں",
+    "alternateRowColors": "یکے بعد دیگرے سطر رنگ"
+  },
+  "files": {
+    "autoSave": "خودکار محفوظ",
+    "autoSaveOption": "خودکار محفوظ کریں",
+    "off": "بند",
+    "afterDelay": "وقفے کے بعد",
+    "onFocusChange": "فوکس بدلنے پر",
+    "onWindowChange": "ونڈو بدلنے پر",
+    "encoding": "انکوڈنگ",
+    "defaultEncoding": "ڈیفالٹ انکوڈنگ",
+    "backup": "بیک اپ",
+    "autoBackup": "خودکار بیک اپ"
+  },
+  "shortcuts": {
+    "placeholder": "شارٹ کٹ یہاں ترتیب دیے جائیں گے"
+  },
+  "plugins": {
+    "placeholder": "پلگ اِن یہاں منظم کیے جائیں گے"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "نسخہ",
+    "framework": "فریم ورک",
+    "license": "لائسنس",
+    "description": "تعمیراتی شعبے کے لیے اوپن سورس تخمینہ سازی سافٹ ویئر۔ IFC فارمیٹ میں محفوظ۔"
+  }
+}

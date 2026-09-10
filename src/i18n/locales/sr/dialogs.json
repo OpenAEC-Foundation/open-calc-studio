@@ -1,0 +1,66 @@
+{
+  "columnMapping": {
+    "title": "Повезивање колона",
+    "intro": "Повежите сваку колону из <b>{{name}}</b> са одговарајућим пољем предрачуна. Колоне подешене на „— занемари —“ се прескачу.",
+    "columnN": "Колона {{n}}",
+    "columnsLinked_one": "{{count}} повезана колона",
+    "columnsLinked_few": "{{count}} повезане колоне",
+    "columnsLinked_other": "{{count}} повезаних колона",
+    "rows": "{{count}} редова",
+    "linkDescriptionFirst": "прво повежите колону „Опис“",
+    "cancel": "Откажи",
+    "import": "Увоз"
+  },
+  "quantityPicker": {
+    "title": "Повезивање количине",
+    "tabSpreadsheet": "Табела",
+    "tabPdf": "PDF мерење",
+    "tabIfc": "IFC елемент",
+    "cellNotNumeric": "Ћелија не садржи исправан број",
+    "noSheets": "Још нема листова. Прво направите табелу.",
+    "sheet": "Лист",
+    "cellReference": "Адреса ћелије (нпр. A5 или B12)",
+    "value": "Вредност",
+    "empty": "(празно)",
+    "linkCell": "Повежи ћелију",
+    "noPdfMeasurements": "Још нема PDF мерења. Прво отворите PDF на картици PDF и направите мерења.",
+    "sumLengths": "Σ Све дужине",
+    "sumAreas": "Σ Све површине",
+    "individualMeasurements": "Појединачна мерења:",
+    "noIfcElements": "Још нема IFC елемената. Отворите IFC датотеку на картици 3D и изаберите елемент.",
+    "cancel": "Откажи"
+  },
+  "excelPicker": {
+    "title": "Повезивање са Excel-ом",
+    "cannotReadFile": "Датотека се не може прочитати",
+    "chooseFile": "Изабери датотеку...",
+    "noFileSelected": "Није изабрана датотека",
+    "loadingFile": "Учитавање датотеке...",
+    "cancel": "Откажи",
+    "select": "Изабери"
+  },
+  "costItemPicker": {
+    "title": "Повезивање са редом предрачуна",
+    "searchPlaceholder": "Претрага по опису или шифри...",
+    "suggestions": "Предлози",
+    "results": "Резултати ({{count}})",
+    "allLines": "Сви редови",
+    "unlink": "Уклони везу",
+    "cancel": "Откажи",
+    "link": "Повежи"
+  },
+  "resourceTypes": {
+    "arbeid": "Рад",
+    "materieel": "Механизација",
+    "materiaal": "Материјал",
+    "onderaannemer": "Подизвођач",
+    "overig": "Остало"
+  },
+  "undo": {
+    "addResource": "Додавање ресурса",
+    "wizard": "Чаробњак: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Преглед — {{name}}"
+  }
+}

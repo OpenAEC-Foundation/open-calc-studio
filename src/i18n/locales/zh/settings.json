@@ -1,0 +1,66 @@
+{
+  "title": "设置",
+  "resetToDefaults": "恢复默认设置",
+  "resetConfirm": "确定要重置所有设置吗？",
+  "tabs": {
+    "general": "常规",
+    "appearance": "外观",
+    "grid": "表格",
+    "files": "文件",
+    "shortcuts": "快捷键",
+    "plugins": "插件",
+    "about": "关于"
+  },
+  "general": {
+    "application": "应用程序",
+    "language": "语言",
+    "startup": "启动",
+    "restoreSession": "启动时恢复上次会话",
+    "checkUpdates": "检查更新",
+    "author": "作者",
+    "authorName": "姓名"
+  },
+  "appearance": {
+    "theme": "主题",
+    "system": "跟随系统",
+    "default": "默认",
+    "dark": "深色",
+    "light": "浅色",
+    "blue": "蓝色",
+    "amberNavy": "琥珀藏青",
+    "warmEmber": "暖橘",
+    "highContrast": "高对比度",
+    "font": "字体",
+    "uiFontSize": "界面字号"
+  },
+  "grid": {
+    "general": "表格",
+    "showRowNumbers": "显示行号",
+    "alternateRowColors": "隔行变色"
+  },
+  "files": {
+    "autoSave": "自动保存",
+    "autoSaveOption": "自动保存",
+    "off": "关闭",
+    "afterDelay": "延时后",
+    "onFocusChange": "焦点变化时",
+    "onWindowChange": "窗口切换时",
+    "encoding": "编码",
+    "defaultEncoding": "默认编码",
+    "backup": "备份",
+    "autoBackup": "自动备份"
+  },
+  "shortcuts": {
+    "placeholder": "快捷键将在此处配置"
+  },
+  "plugins": {
+    "placeholder": "插件将在此处管理"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "版本",
+    "framework": "框架",
+    "license": "许可证",
+    "description": "面向荷兰建筑业的开源工程预算软件。以 IFC 格式存储。"
+  }
+}

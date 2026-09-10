@@ -1,0 +1,66 @@
+{
+  "title": "அமைப்புகள்",
+  "resetToDefaults": "இயல்புநிலைக்கு மீட்டமை",
+  "resetConfirm": "அனைத்து அமைப்புகளையும் மீட்டமைக்க நிச்சயமாக விரும்புகிறீர்களா?",
+  "tabs": {
+    "general": "பொது",
+    "appearance": "தோற்றம்",
+    "grid": "கட்டம்",
+    "files": "கோப்புகள்",
+    "shortcuts": "குறுக்குவழிகள்",
+    "plugins": "செருகுநிரல்கள்",
+    "about": "பற்றி"
+  },
+  "general": {
+    "application": "பயன்பாடு",
+    "language": "மொழி",
+    "startup": "தொடக்கம்",
+    "restoreSession": "தொடங்கும்போது முந்தைய அமர்வை மீட்டெடு",
+    "checkUpdates": "புதுப்பிப்புகளைச் சரிபார்",
+    "author": "ஆசிரியர்",
+    "authorName": "பெயர்"
+  },
+  "appearance": {
+    "theme": "தீம்",
+    "system": "கணினி",
+    "default": "இயல்புநிலை",
+    "dark": "கருமை",
+    "light": "வெளிர்",
+    "blue": "நீலம்",
+    "amberNavy": "ஆம்பர் நேவி",
+    "warmEmber": "வார்ம் எம்பர்",
+    "highContrast": "உயர் மாறுபாடு",
+    "font": "எழுத்துரு",
+    "uiFontSize": "இடைமுக எழுத்துரு அளவு"
+  },
+  "grid": {
+    "general": "கட்டம்",
+    "showRowNumbers": "வரிசை எண்களைக் காட்டு",
+    "alternateRowColors": "மாற்று வரிசைகளுக்கு வேறு நிறம்"
+  },
+  "files": {
+    "autoSave": "தானியங்கிச் சேமிப்பு",
+    "autoSaveOption": "தானாகச் சேமி",
+    "off": "நிறுத்து",
+    "afterDelay": "சிறிது நேரத்திற்குப் பிறகு",
+    "onFocusChange": "கவனம் மாறும்போது",
+    "onWindowChange": "சாளரம் மாறும்போது",
+    "encoding": "குறியாக்கம்",
+    "defaultEncoding": "இயல்புநிலைக் குறியாக்கம்",
+    "backup": "காப்புப்பிரதி",
+    "autoBackup": "தானியங்கிக் காப்புப்பிரதி"
+  },
+  "shortcuts": {
+    "placeholder": "குறுக்குவழிகள் இங்கே அமைக்கப்படும்"
+  },
+  "plugins": {
+    "placeholder": "செருகுநிரல்கள் இங்கே நிர்வகிக்கப்படும்"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "பதிப்பு",
+    "framework": "கட்டமைப்பு",
+    "license": "உரிமம்",
+    "description": "டச்சு கட்டுமானத் துறைக்கான ஓப்பன் சோர்ஸ் மதிப்பீட்டு மென்பொருள். சேமிப்பு IFC வடிவத்தில்."
+  }
+}

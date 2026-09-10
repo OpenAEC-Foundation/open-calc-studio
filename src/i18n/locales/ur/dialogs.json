@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "کالم منسلک کریں",
+    "intro": "<b>{{name}}</b> کے ہر کالم کو تخمینے کے درست خانے سے منسلک کریں۔ ”— نظر انداز —“ پر مقرر کالم چھوڑ دیے جاتے ہیں۔",
+    "columnN": "کالم {{n}}",
+    "columnsLinked_one": "{{count}} کالم منسلک ہوا",
+    "columnsLinked_other": "{{count}} کالم منسلک ہوئے",
+    "rows": "{{count}} سطریں",
+    "linkDescriptionFirst": "پہلے کوئی ”تفصیل“ کالم منسلک کریں",
+    "cancel": "منسوخ",
+    "import": "درآمد"
+  },
+  "quantityPicker": {
+    "title": "مقدار منسلک کریں",
+    "tabSpreadsheet": "اسپریڈ شیٹ",
+    "tabPdf": "PDF پیمائش",
+    "tabIfc": "IFC عنصر",
+    "cellNotNumeric": "خانے میں درست عدد موجود نہیں",
+    "noSheets": "ابھی کوئی شیٹ نہیں۔ پہلے اسپریڈ شیٹ بنائیں۔",
+    "sheet": "شیٹ",
+    "cellReference": "خانے کا حوالہ (مثلاً A5 یا B12)",
+    "value": "قدر",
+    "empty": "(خالی)",
+    "linkCell": "خانہ منسلک کریں",
+    "noPdfMeasurements": "ابھی کوئی PDF پیمائش نہیں۔ پہلے PDF ٹیب میں فائل کھول کر پیمائشیں بنائیں۔",
+    "sumLengths": "Σ تمام لمبائیاں",
+    "sumAreas": "Σ تمام رقبے",
+    "individualMeasurements": "انفرادی پیمائشیں:",
+    "noIfcElements": "ابھی کوئی IFC عنصر نہیں۔ تھری ڈی ٹیب میں IFC فائل کھولیں اور کوئی عنصر منتخب کریں۔",
+    "cancel": "منسوخ"
+  },
+  "excelPicker": {
+    "title": "Excel سے منسلک کریں",
+    "cannotReadFile": "فائل پڑھی نہیں جا سکی",
+    "chooseFile": "فائل منتخب کریں...",
+    "noFileSelected": "کوئی فائل منتخب نہیں",
+    "loadingFile": "فائل لوڈ ہو رہی ہے...",
+    "cancel": "منسوخ",
+    "select": "منتخب کریں"
+  },
+  "costItemPicker": {
+    "title": "تخمینے کی سطر سے منسلک کریں",
+    "searchPlaceholder": "تفصیل یا کوڈ سے تلاش کریں...",
+    "suggestions": "تجاویز",
+    "results": "نتائج ({{count}})",
+    "allLines": "تمام سطریں",
+    "unlink": "لنک ہٹائیں",
+    "cancel": "منسوخ",
+    "link": "منسلک کریں"
+  },
+  "resourceTypes": {
+    "arbeid": "مزدوری",
+    "materieel": "مشینری",
+    "materiaal": "سامان",
+    "onderaannemer": "ذیلی ٹھیکیدار",
+    "overig": "دیگر"
+  },
+  "undo": {
+    "addResource": "وسیلہ شامل کریں",
+    "wizard": "وزرڈ: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "پیش منظر — {{name}}"
+  }
+}

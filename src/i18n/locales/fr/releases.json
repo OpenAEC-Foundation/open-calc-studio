@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "39 langues + FIEBDC-3 espagnol (.bc3)",
+    "v0.10.3": "TVA taux normal et taux réduit — au choix par élément",
+    "v0.10.0": "Logo dans l'en-tête du rapport + formules dans les cellules",
+    "v0.9.0": "Totaux BasCalc exacts + rapports en style descriptif",
+    "v0.8.8": "Correctif de l'import Excel/CSV + via MCP",
+    "v0.8.7": "Quatre nouveaux formats d'import",
+    "v0.8.6": "Majorations corrigées dans la synthèse du rapport",
+    "v0.8.5": "Import fortement étendu + correctif de l'écran blanc",
+    "v0.8.4": "Sélecteur de codes + estimation MOA compacte",
+    "v0.8.3": "Suivi des modifications + import de devis",
+    "v0.8.2": "OpenAEC derrière un indicateur de fonctionnalité",
+    "v0.8.1": "Connexion OpenAEC + améliorations de l'assistant",
+    "v0.8.0": "L'assistant applique les modifications directement",
+    "v0.7.10": "Compte OpenAEC + navigation dans la barre inférieure"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "L'interface est désormais disponible en 39 langues — choisissez la vôtre dans Préférences → Général, ou laissez l'application suivre la langue du système",
+      "Prise en charge de l'écriture de droite à gauche pour l'arabe, le farsi, l'hébreu et l'ourdou : toute la mise en page est mise en miroir",
+      "L'anglais restait à moitié en néerlandais ; le réglage de langue était verrouillé en interne et plus de 500 textes étaient codés en dur — les deux problèmes sont corrigés",
+      "Import et export FIEBDC-3 (.bc3) : la norme espagnole pour les devis et les bases de prix (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS : l'erreur « endommagé » est résolue et la build elle-même réparée ; « Nouveautés » s'affiche maintenant dans votre langue"
+    ],
+    "v0.10.3": [
+      "Nouvelle ligne de majoration « TVA réduite » (9 %) à côté de « TVA normale » — les devis existants la reçoivent automatiquement",
+      "Marquez des lots, ouvrages ou lignes au taux réduit par clic droit ; les sous-éléments héritent du taux et la grille affiche une étiquette TVA",
+      "Base imposable calculée au prorata à partir du marquage (majorations incluses) ou saisie manuellement dans le volet des majorations",
+      "Ventilation de la TVA appliquée dans tous les rapports (IBIS affiche séparément la base au taux normal et au taux réduit) et dans le serveur MCP",
+      "Corrections : TVA comptée deux fois dans la synthèse Bouw 1, et un montant TTC affiché sous le libellé « Montant du marché HT »"
+    ],
+    "v0.10.0": [
+      "Logo de l'entreprise en haut à droite de l'en-tête du rapport (transparent, mis à l'échelle) ; hauteur de l'en-tête et couleur du filet réglables",
+      "Formules dans les cellules numériques (=12.2*2.22 ou 12,2*2,2) — et le bug de la décimale perdue est corrigé",
+      "Majorations : saisissez le montant final HT et l'arrondi devient automatiquement la différence ; TVA sur le montant arrondi",
+      "Marché principal : lignes de somme avec « + », colonne S facultative (révisable hérité du lot) et vues sous-totaux uniquement",
+      "Travaillez plus vite : prix ±%, recherche et remplacement Ctrl+F, réduction par niveau, annulation multi-étapes, lignes de texte avec retour à la ligne"
+    ],
+    "v0.9.0": [
+      "Import BasCalc : le prix de revient et le montant du marché correspondent à Excel au centime près (majorations forfaitaires + poste d'arrondi fixe)",
+      "Descriptif des travaux et marché principal en mise en page descriptive : sans bordures de cellule, paragraphes en retrait, sous-total par paragraphe",
+      "Le bouton + à côté de la ligne ajoute une ligne de calcul ; quantités oui/non directement dans la barre d'outils du rapport",
+      "Enregistrer sous propose désormais .ifcCalc par défaut et protège le fichier source d'origine",
+      "Nouveau logo vert ; corrections de navigation et de boîtes de dialogue (feuille de calcul ↔ devis)"
+    ],
+    "v0.8.8": [
+      "Import Excel/CSV : les montants se retrouvaient parfois à 0 € — corrigé",
+      "L'import Excel/CSV est désormais aussi disponible via le serveur MCP (outil import_excel_csv)"
+    ],
+    "v0.8.7": [
+      "Import Excel/CSV avec association de colonnes — lisez des mises en page Excel/CSV libres et associez les colonnes vous-même",
+      "Nouveaux formats : STABU SUFX (cahier des charges XML) et RAW hérité (.rsu)",
+      "Catalogue de prix (BMEcat/DICO) → directement dans la bibliothèque de ressources"
+    ],
+    "v0.8.6": [
+      "La synthèse du rapport affiche les bons pourcentages de majoration et respecte les taux personnalisés (auparavant « Frais généraux » pouvait afficher 0 %)",
+      "Modèle de majorations nettoyé en interne ; tous les rapports calculent désormais à partir de la même source"
+    ],
+    "v0.8.5": [
+      "Bien plus de formats d'import : .cuf, .dnc, .xtb (avec lignes de détail), .rsx, .s01 et .ifcx",
+      "Écran blanc sous Windows corrigé (WebView bascule sur le rendu logiciel)",
+      "Moteur d'import reconstruit proprement ; les totaux correspondent exactement aux fichiers source"
+    ],
+    "v0.8.4": [
+      "Champ code : choisissez des codes STABU/NL-SfB par double-clic (et ajoutez les vôtres)",
+      "Import de devis (.dnc) : s'ouvre maintenant directement comme rapport d'estimation MOA compact",
+      "Projet, logos et variantes déplacés vers le ruban ; propriétés simplifiées"
+    ],
+    "v0.8.3": [
+      "Suivi des modifications : choisissez si toute la ligne ou seulement la cellule modifiée est mise en évidence",
+      "Modifications également visibles dans le PDF du rapport",
+      "Import de devis : les estimations MOA (.dnc) sont importées directement et ouvertes via Fichier → Ouvrir",
+      "Option de rapport d'estimation MOA ; historique des modifications par ligne (qui/quand/quoi)"
+    ],
+    "v0.8.2": [
+      "Assistant d'estimation : historique de discussion par devis, plusieurs questions à la fois",
+      "Fonctionnalités OpenAEC (connexion, stockage cloud) derrière un paramètre"
+    ],
+    "v0.8.1": [
+      "Connexion OpenAEC et améliorations de l'assistant",
+      "Messages d'erreur IA clairs ; le texte de l'assistant peut être sélectionné et copié"
+    ],
+    "v0.8.0": [
+      "L'assistant d'estimation applique les modifications directement dans le document ouvert",
+      "Ouvrez des fichiers .calc/.mdb contenant du JSON comme projet OCS natif"
+    ],
+    "v0.7.10": [
+      "Compte OpenAEC et navigation dans la barre inférieure",
+      "Masquer/afficher des colonnes par clic droit sur l'en-tête de colonne",
+      "Onglets Heures et Majorations regroupés ; rapport de style IBIS (Bouw 2)"
+    ]
+  }
+}

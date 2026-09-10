@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "Αντιστοίχιση στηλών",
+    "intro": "Αντιστοιχίστε κάθε στήλη του <b>{{name}}</b> στο σωστό πεδίο του προϋπολογισμού. Οι στήλες που ορίζονται ως “— παράβλεψη —” παραλείπονται.",
+    "columnN": "Στήλη {{n}}",
+    "columnsLinked_one": "{{count}} στήλη αντιστοιχίστηκε",
+    "columnsLinked_other": "{{count}} στήλες αντιστοιχίστηκαν",
+    "rows": "{{count}} γραμμές",
+    "linkDescriptionFirst": "αντιστοιχίστε πρώτα μια στήλη “Περιγραφή”",
+    "cancel": "Άκυρο",
+    "import": "Εισαγωγή"
+  },
+  "quantityPicker": {
+    "title": "Σύνδεση ποσότητας",
+    "tabSpreadsheet": "Φύλλο υπολογισμού",
+    "tabPdf": "Μέτρηση PDF",
+    "tabIfc": "Στοιχείο IFC",
+    "cellNotNumeric": "Το κελί δεν περιέχει έγκυρο αριθμό",
+    "noSheets": "Δεν υπάρχουν ακόμη φύλλα. Δημιουργήστε πρώτα ένα φύλλο υπολογισμού.",
+    "sheet": "Φύλλο",
+    "cellReference": "Αναφορά κελιού (π.χ. A5 ή B12)",
+    "value": "Τιμή",
+    "empty": "(κενό)",
+    "linkCell": "Σύνδεση κελιού",
+    "noPdfMeasurements": "Δεν υπάρχουν ακόμη μετρήσεις PDF. Ανοίξτε πρώτα ένα PDF στην καρτέλα PDF και δημιουργήστε μετρήσεις.",
+    "sumLengths": "Σ Όλα τα μήκη",
+    "sumAreas": "Σ Όλα τα εμβαδά",
+    "individualMeasurements": "Επιμέρους μετρήσεις:",
+    "noIfcElements": "Δεν υπάρχουν ακόμη στοιχεία IFC. Ανοίξτε ένα αρχείο IFC στην καρτέλα 3D και επιλέξτε ένα στοιχείο.",
+    "cancel": "Άκυρο"
+  },
+  "excelPicker": {
+    "title": "Σύνδεση με Excel",
+    "cannotReadFile": "Δεν είναι δυνατή η ανάγνωση του αρχείου",
+    "chooseFile": "Επιλογή αρχείου...",
+    "noFileSelected": "Δεν επιλέχθηκε αρχείο",
+    "loadingFile": "Φόρτωση αρχείου...",
+    "cancel": "Άκυρο",
+    "select": "Επιλογή"
+  },
+  "costItemPicker": {
+    "title": "Σύνδεση με γραμμή προϋπολογισμού",
+    "searchPlaceholder": "Αναζήτηση με περιγραφή ή κωδικό...",
+    "suggestions": "Προτάσεις",
+    "results": "Αποτελέσματα ({{count}})",
+    "allLines": "Όλες οι γραμμές",
+    "unlink": "Αποσύνδεση",
+    "cancel": "Άκυρο",
+    "link": "Σύνδεση"
+  },
+  "resourceTypes": {
+    "arbeid": "Εργατικά",
+    "materieel": "Μηχανήματα",
+    "materiaal": "Υλικά",
+    "onderaannemer": "Υπεργολάβος",
+    "overig": "Άλλο"
+  },
+  "undo": {
+    "addResource": "Προσθήκη πόρου",
+    "wizard": "Οδηγός: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Προεπισκόπηση — {{name}}"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "title": "Ayarlar",
+  "resetToDefaults": "Varsayılanlara sıfırla",
+  "resetConfirm": "Tüm ayarları sıfırlamak istediğinizden emin misiniz?",
+  "tabs": {
+    "general": "Genel",
+    "appearance": "Görünüm",
+    "grid": "Tablo",
+    "files": "Dosyalar",
+    "shortcuts": "Kısayollar",
+    "plugins": "Eklentiler",
+    "about": "Hakkında"
+  },
+  "general": {
+    "application": "Uygulama",
+    "language": "Dil",
+    "startup": "Başlangıç",
+    "restoreSession": "Başlangıçta oturumu geri yükle",
+    "checkUpdates": "Güncellemeleri denetle",
+    "author": "Yazar",
+    "authorName": "Ad"
+  },
+  "appearance": {
+    "theme": "Tema",
+    "system": "Sistem",
+    "default": "Varsayılan",
+    "dark": "Koyu",
+    "light": "Açık",
+    "blue": "Mavi",
+    "amberNavy": "Kehribar Lacivert",
+    "warmEmber": "Sıcak Kor",
+    "highContrast": "Yüksek kontrast",
+    "font": "Yazı tipi",
+    "uiFontSize": "Arayüz yazı boyutu"
+  },
+  "grid": {
+    "general": "Tablo",
+    "showRowNumbers": "Satır numaralarını göster",
+    "alternateRowColors": "Satırları dönüşümlü renklendir"
+  },
+  "files": {
+    "autoSave": "Otomatik kaydetme",
+    "autoSaveOption": "Otomatik kaydet",
+    "off": "Kapalı",
+    "afterDelay": "Gecikmeden sonra",
+    "onFocusChange": "Odak değiştiğinde",
+    "onWindowChange": "Pencere değiştiğinde",
+    "encoding": "Kodlama",
+    "defaultEncoding": "Varsayılan kodlama",
+    "backup": "Yedekleme",
+    "autoBackup": "Otomatik yedekleme"
+  },
+  "shortcuts": {
+    "placeholder": "Kısayollar burada yapılandırılacak"
+  },
+  "plugins": {
+    "placeholder": "Eklentiler burada yönetilecek"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Sürüm",
+    "framework": "Çatı",
+    "license": "Lisans",
+    "description": "Hollanda inşaat sektörü için açık kaynaklı keşif yazılımı. IFC biçiminde saklama."
+  }
+}

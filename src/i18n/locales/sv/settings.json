@@ -1,0 +1,66 @@
+{
+  "title": "Inställningar",
+  "resetToDefaults": "Återställ till standard",
+  "resetConfirm": "Vill du verkligen återställa alla inställningar?",
+  "tabs": {
+    "general": "Allmänt",
+    "appearance": "Utseende",
+    "grid": "Tabell",
+    "files": "Filer",
+    "shortcuts": "Kortkommandon",
+    "plugins": "Insticksmoduler",
+    "about": "Om"
+  },
+  "general": {
+    "application": "Program",
+    "language": "Språk",
+    "startup": "Start",
+    "restoreSession": "Återställ sessionen vid start",
+    "checkUpdates": "Sök efter uppdateringar",
+    "author": "Författare",
+    "authorName": "Namn"
+  },
+  "appearance": {
+    "theme": "Tema",
+    "system": "System",
+    "default": "Standard",
+    "dark": "Mörkt",
+    "light": "Ljust",
+    "blue": "Blått",
+    "amberNavy": "Bärnsten och marinblått",
+    "warmEmber": "Varm glöd",
+    "highContrast": "Hög kontrast",
+    "font": "Teckensnitt",
+    "uiFontSize": "Teckenstorlek i gränssnittet"
+  },
+  "grid": {
+    "general": "Tabell",
+    "showRowNumbers": "Visa radnummer",
+    "alternateRowColors": "Växlande radfärger"
+  },
+  "files": {
+    "autoSave": "Spara automatiskt",
+    "autoSaveOption": "Spara automatiskt",
+    "off": "Av",
+    "afterDelay": "Efter fördröjning",
+    "onFocusChange": "Vid fokusbyte",
+    "onWindowChange": "Vid fönsterbyte",
+    "encoding": "Teckenkodning",
+    "defaultEncoding": "Standardkodning",
+    "backup": "Säkerhetskopia",
+    "autoBackup": "Automatisk säkerhetskopia"
+  },
+  "shortcuts": {
+    "placeholder": "Kortkommandon ställs in här"
+  },
+  "plugins": {
+    "placeholder": "Insticksmoduler hanteras här"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Version",
+    "framework": "Ramverk",
+    "license": "Licens",
+    "description": "Öppen källkod för kalkylering i nederländskt byggande. Lagring i IFC-format."
+  }
+}

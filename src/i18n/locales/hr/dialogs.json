@@ -1,0 +1,66 @@
+{
+  "columnMapping": {
+    "title": "Poveži stupce",
+    "intro": "Povežite svaki stupac iz <b>{{name}}</b> s odgovarajućim poljem troškovnika. Stupci postavljeni na „— zanemari —” preskaču se.",
+    "columnN": "Stupac {{n}}",
+    "columnsLinked_one": "{{count}} stupac povezan",
+    "columnsLinked_few": "{{count}} stupca povezana",
+    "columnsLinked_other": "{{count}} stupaca povezano",
+    "rows": "{{count}} redaka",
+    "linkDescriptionFirst": "najprije povežite stupac „Opis”",
+    "cancel": "Odustani",
+    "import": "Uvezi"
+  },
+  "quantityPicker": {
+    "title": "Poveži količinu",
+    "tabSpreadsheet": "Proračunska tablica",
+    "tabPdf": "PDF mjerenje",
+    "tabIfc": "IFC element",
+    "cellNotNumeric": "Ćelija ne sadrži valjani broj",
+    "noSheets": "Još nema listova. Najprije izradite proračunsku tablicu.",
+    "sheet": "List",
+    "cellReference": "Referenca ćelije (npr. A5 ili B12)",
+    "value": "Vrijednost",
+    "empty": "(prazno)",
+    "linkCell": "Poveži ćeliju",
+    "noPdfMeasurements": "Još nema PDF mjerenja. Najprije otvorite PDF na kartici PDF i izradite mjerenja.",
+    "sumLengths": "Σ Sve duljine",
+    "sumAreas": "Σ Sve površine",
+    "individualMeasurements": "Pojedinačna mjerenja:",
+    "noIfcElements": "Još nema IFC elemenata. Otvorite IFC datoteku na kartici 3D i odaberite element.",
+    "cancel": "Odustani"
+  },
+  "excelPicker": {
+    "title": "Poveži s Excelom",
+    "cannotReadFile": "Nije moguće pročitati datoteku",
+    "chooseFile": "Odaberi datoteku...",
+    "noFileSelected": "Nije odabrana datoteka",
+    "loadingFile": "Učitavanje datoteke...",
+    "cancel": "Odustani",
+    "select": "Odaberi"
+  },
+  "costItemPicker": {
+    "title": "Poveži s retkom troškovnika",
+    "searchPlaceholder": "Traži po opisu ili šifri...",
+    "suggestions": "Prijedlozi",
+    "results": "Rezultati ({{count}})",
+    "allLines": "Svi redci",
+    "unlink": "Ukloni poveznicu",
+    "cancel": "Odustani",
+    "link": "Poveži"
+  },
+  "resourceTypes": {
+    "arbeid": "Rad",
+    "materieel": "Oprema",
+    "materiaal": "Materijal",
+    "onderaannemer": "Podizvođač",
+    "overig": "Ostalo"
+  },
+  "undo": {
+    "addResource": "Dodavanje resursa",
+    "wizard": "Čarobnjak: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Pregled — {{name}}"
+  }
+}

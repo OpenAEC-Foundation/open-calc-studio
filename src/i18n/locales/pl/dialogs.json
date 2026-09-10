@@ -1,0 +1,67 @@
+{
+  "columnMapping": {
+    "title": "Przypisz kolumny",
+    "intro": "Przypisz każdą kolumnę z pliku <b>{{name}}</b> do właściwego pola kosztorysu. Kolumny ustawione na „— pomiń —” są pomijane.",
+    "columnN": "Kolumna {{n}}",
+    "columnsLinked_one": "Przypisano {{count}} kolumnę",
+    "columnsLinked_few": "Przypisano {{count}} kolumny",
+    "columnsLinked_many": "Przypisano {{count}} kolumn",
+    "columnsLinked_other": "Przypisano {{count}} kolumn",
+    "rows": "{{count}} wierszy",
+    "linkDescriptionFirst": "najpierw przypisz kolumnę „Opis”",
+    "cancel": "Anuluj",
+    "import": "Importuj"
+  },
+  "quantityPicker": {
+    "title": "Powiąż ilość",
+    "tabSpreadsheet": "Arkusz",
+    "tabPdf": "Pomiar PDF",
+    "tabIfc": "Element IFC",
+    "cellNotNumeric": "Komórka nie zawiera prawidłowej liczby",
+    "noSheets": "Brak arkuszy. Najpierw utwórz arkusz kalkulacyjny.",
+    "sheet": "Arkusz",
+    "cellReference": "Odwołanie do komórki (np. A5 lub B12)",
+    "value": "Wartość",
+    "empty": "(puste)",
+    "linkCell": "Powiąż komórkę",
+    "noPdfMeasurements": "Brak pomiarów PDF. Otwórz najpierw plik PDF na karcie PDF i wykonaj pomiary.",
+    "sumLengths": "Σ Wszystkie długości",
+    "sumAreas": "Σ Wszystkie powierzchnie",
+    "individualMeasurements": "Pojedyncze pomiary:",
+    "noIfcElements": "Brak elementów IFC. Otwórz plik IFC na karcie 3D i wybierz element.",
+    "cancel": "Anuluj"
+  },
+  "excelPicker": {
+    "title": "Powiąż z Excelem",
+    "cannotReadFile": "Nie można odczytać pliku",
+    "chooseFile": "Wybierz plik...",
+    "noFileSelected": "Nie wybrano pliku",
+    "loadingFile": "Wczytywanie pliku...",
+    "cancel": "Anuluj",
+    "select": "Wybierz"
+  },
+  "costItemPicker": {
+    "title": "Powiąż z wierszem kosztorysu",
+    "searchPlaceholder": "Szukaj po opisie lub kodzie...",
+    "suggestions": "Sugestie",
+    "results": "Wyniki ({{count}})",
+    "allLines": "Wszystkie wiersze",
+    "unlink": "Usuń powiązanie",
+    "cancel": "Anuluj",
+    "link": "Powiąż"
+  },
+  "resourceTypes": {
+    "arbeid": "Robocizna",
+    "materieel": "Sprzęt",
+    "materiaal": "Materiały",
+    "onderaannemer": "Podwykonawca",
+    "overig": "Inne"
+  },
+  "undo": {
+    "addResource": "Dodanie zasobu",
+    "wizard": "Kreator: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Podgląd — {{name}}"
+  }
+}

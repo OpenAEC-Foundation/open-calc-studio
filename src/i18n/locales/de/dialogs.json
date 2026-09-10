@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "Spalten zuordnen",
+    "intro": "Ordnen Sie jede Spalte aus <b>{{name}}</b> dem richtigen Kalkulationsfeld zu. Spalten mit „— ignorieren —“ werden übersprungen.",
+    "columnN": "Spalte {{n}}",
+    "columnsLinked_one": "{{count}} Spalte zugeordnet",
+    "columnsLinked_other": "{{count}} Spalten zugeordnet",
+    "rows": "{{count}} Zeilen",
+    "linkDescriptionFirst": "zuerst eine Spalte „Beschreibung“ zuordnen",
+    "cancel": "Abbrechen",
+    "import": "Importieren"
+  },
+  "quantityPicker": {
+    "title": "Menge verknüpfen",
+    "tabSpreadsheet": "Tabelle",
+    "tabPdf": "PDF-Messung",
+    "tabIfc": "IFC-Element",
+    "cellNotNumeric": "Die Zelle enthält keine gültige Zahl",
+    "noSheets": "Noch keine Blätter. Erstellen Sie zuerst eine Tabelle.",
+    "sheet": "Blatt",
+    "cellReference": "Zellbezug (z. B. A5 oder B12)",
+    "value": "Wert",
+    "empty": "(leer)",
+    "linkCell": "Zelle verknüpfen",
+    "noPdfMeasurements": "Noch keine PDF-Messungen. Öffnen Sie zuerst ein PDF im PDF-Register und erstellen Sie Messungen.",
+    "sumLengths": "Σ Alle Längen",
+    "sumAreas": "Σ Alle Flächen",
+    "individualMeasurements": "Einzelne Messungen:",
+    "noIfcElements": "Noch keine IFC-Elemente. Öffnen Sie eine IFC-Datei im 3D-Register und wählen Sie ein Element aus.",
+    "cancel": "Abbrechen"
+  },
+  "excelPicker": {
+    "title": "Mit Excel verknüpfen",
+    "cannotReadFile": "Datei kann nicht gelesen werden",
+    "chooseFile": "Datei wählen …",
+    "noFileSelected": "Keine Datei ausgewählt",
+    "loadingFile": "Datei wird geladen …",
+    "cancel": "Abbrechen",
+    "select": "Auswählen"
+  },
+  "costItemPicker": {
+    "title": "Mit Kalkulationszeile verknüpfen",
+    "searchPlaceholder": "Nach Beschreibung oder Code suchen …",
+    "suggestions": "Vorschläge",
+    "results": "Ergebnisse ({{count}})",
+    "allLines": "Alle Zeilen",
+    "unlink": "Verknüpfung aufheben",
+    "cancel": "Abbrechen",
+    "link": "Verknüpfen"
+  },
+  "resourceTypes": {
+    "arbeid": "Lohn",
+    "materieel": "Gerät",
+    "materiaal": "Material",
+    "onderaannemer": "Nachunternehmer",
+    "overig": "Sonstiges"
+  },
+  "undo": {
+    "addResource": "Betriebsmittel hinzufügen",
+    "wizard": "Assistent: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Vorschau — {{name}}"
+  }
+}

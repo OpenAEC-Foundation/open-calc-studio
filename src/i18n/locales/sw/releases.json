@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "Lugha 39 + FIEBDC-3 ya Uhispania (.bc3)",
+    "v0.10.3": "VAT ya kawaida na ya chini — huchaguliwa kwa kila kipengele",
+    "v0.10.0": "Nembo kichwani mwa ripoti + fomula kwenye visanduku",
+    "v0.9.0": "Jumla sahihi za BasCalc + ripoti za mtindo wa vigezo",
+    "v0.8.8": "Marekebisho ya uingizaji wa Excel/CSV + kupitia MCP",
+    "v0.8.7": "Mifumo minne mipya ya uingizaji",
+    "v0.8.6": "Nyongeza zimerekebishwa katika muhtasari wa ripoti",
+    "v0.8.5": "Uingizaji umepanuliwa sana + marekebisho ya skrini nyeupe",
+    "v0.8.4": "Kichagua misimbo + makadirio mafupi ya mteja",
+    "v0.8.3": "Ufuatiliaji wa mabadiliko + uingizaji wa makadirio",
+    "v0.8.2": "OpenAEC nyuma ya kiashiria cha kipengele",
+    "v0.8.1": "Kuingia kwa OpenAEC + maboresho ya msaidizi",
+    "v0.8.0": "Msaidizi hutumia mabadiliko moja kwa moja",
+    "v0.7.10": "Akaunti ya OpenAEC + urambazaji wa upau wa chini"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "Kiolesura sasa kinapatikana katika lugha 39 — chagua yako chini ya Mapendeleo → Ujumla, au acha programu ifuate lugha ya mfumo wako",
+      "Msaada wa kuandika kutoka kulia kwenda kushoto kwa Kiarabu, Kifarsi, Kiebrania na Kiurdu: mpangilio mzima hugeuzwa pia",
+      "Awali Kiingereza kilibaki nusu Kiholanzi; mpangilio wa lugha ulikuwa umefungwa ndani na maandishi zaidi ya 500 yalikuwa yameandikwa moja kwa moja kwenye msimbo — vyote viwili vimerekebishwa",
+      "Uingizaji na uhamishaji wa FIEBDC-3 (.bc3): kiwango cha Uhispania cha makadirio na hifadhidata za bei (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS: hitilafu ya \"damaged\" imetatuliwa na jengo lenyewe limerekebishwa; \"Yaliyo mapya\" sasa huonekana kwa lugha yako"
+    ],
+    "v0.10.3": [
+      "Safu mpya ya nyongeza \"VAT ya chini\" (9%) pamoja na \"VAT ya kawaida\" — makadirio yaliyopo huipata kiotomatiki",
+      "Weka alama kwenye sura, vipengele au mistari kama vya kiwango cha chini kwa kubofya kulia; vipengele vidogo hurithi kiwango na gridi huonyesha lebo ya VAT",
+      "Msingi wa kodi hukokotolewa kwa uwiano kutoka alama zilizowekwa (pamoja na nyongeza) au huingizwa kwa mkono kwenye paneli ya nyongeza",
+      "Mgawanyo wa VAT hutumika katika ripoti zote (IBIS huonyesha msingi wa kiwango cha kawaida/cha chini kando) na kwenye seva ya MCP",
+      "Marekebisho: VAT ilihesabiwa mara mbili katika muhtasari wa Bouw 1, na kiasi kilichojumuisha VAT kilionyeshwa chini ya lebo \"Jumla ya mkataba bila VAT\""
+    ],
+    "v0.10.0": [
+      "Nembo ya kampuni juu kulia kichwani mwa ripoti (yenye uwazi, hukua nacho); urefu wa kichwa na rangi ya mstari hurekebishwa",
+      "Fomula kwenye visanduku vya namba (=12.2*2.22 au 12,2*2,2) — na hitilafu ya desimali kudondoka imerekebishwa",
+      "Nyongeza: weka kiasi cha mwisho bila VAT na kuzungusha kunakuwa tofauti kiotomatiki; VAT juu ya kiasi kilichozungushwa",
+      "Mkataba mkuu: jumlisha mistari kwa \"+\", safu wima ya hiari ya S (uwezo wa kurekebishwa uliorithiwa kutoka sura) na mionekano ya jumla ndogo pekee",
+      "Fanya kazi haraka zaidi: bei ±%, Ctrl+F tafuta na ubadilishe, kunja kwa kiwango, tendua hatua nyingi, mistari ya maandishi yenye kufunga maneno"
+    ],
+    "v0.9.0": [
+      "Uingizaji wa BasCalc: bei ya gharama na jumla ya mkataba zinalingana na Excel hadi senti (nyongeza tambarare + kipengele maalum cha kuzungusha)",
+      "Maelezo ya kazi na mkataba mkuu katika mpangilio wa vigezo: bila mipaka ya visanduku, mafungu yaliyosogezwa ndani, jumla ndogo kwa kila fungu",
+      "Kitufe cha + kando ya safu huongeza mstari wa kukokotoa; viasi washa/zima moja kwa moja kwenye upau wa zana wa ripoti",
+      "Hifadhi kama sasa hutumia .ifcCalc kama chaguo-msingi na hulinda faili chanzo asilia",
+      "Nembo mpya ya kijani; marekebisho ya urambazaji na visanduku vya mazungumzo (lahajedwali ↔ makadirio)"
+    ],
+    "v0.8.8": [
+      "Uingizaji wa Excel/CSV: mara nyingine kiasi cha fedha kiliishia kuwa € 0 — kimerekebishwa",
+      "Uingizaji wa Excel/CSV sasa unapatikana pia kupitia seva ya MCP (zana import_excel_csv)"
+    ],
+    "v0.8.7": [
+      "Uingizaji wa Excel/CSV wenye uunganishaji wa safu wima — soma mipangilio huru ya Excel/CSV na uunganishe safu wima mwenyewe",
+      "Mifumo mipya: STABU SUFX (vigezo vya XML) na RAW ya zamani (.rsu)",
+      "Katalogi ya bei (BMEcat/DICO) → moja kwa moja kwenye maktaba ya rasilimali"
+    ],
+    "v0.8.6": [
+      "Muhtasari wa ripoti huonyesha asilimia sahihi za nyongeza na huheshimu viwango vilivyobinafsishwa (awali \"Gharama za jumla\" zingeweza kuonyesha 0%)",
+      "Muundo wa nyongeza umesafishwa ndani; ripoti zote sasa hukokotoa kutoka chanzo kimoja"
+    ],
+    "v0.8.5": [
+      "Mifumo mingi zaidi ya uingizaji: .cuf, .dnc, .xtb (yenye mistari ya kina), .rsx, .s01 na .ifcx",
+      "Skrini nyeupe kwenye Windows imerekebishwa (WebView hurudi kwenye uchoraji wa programu)",
+      "Injini ya uingizaji imejengwa upya kwa usafi; jumla zinalingana kabisa na faili chanzo"
+    ],
+    "v0.8.4": [
+      "Uga wa msimbo: chagua misimbo ya STABU/NL-SfB kwa kubofya mara mbili (na ongeza yako mwenyewe)",
+      "Uingizaji wa makadirio (.dnc): sasa hufunguka moja kwa moja kama ripoti fupi ya makadirio ya mteja",
+      "Mradi, nembo na matoleo yamehamishwa kwenye utepe; sifa zimesafishwa"
+    ],
+    "v0.8.3": [
+      "Ufuatiliaji wa mabadiliko: chagua kama safu nzima au kisanduku kilichobadilika pekee kiangaziwe",
+      "Mabadiliko pia yanaonekana katika PDF ya ripoti",
+      "Uingizaji wa makadirio: makadirio ya mteja (.dnc) huingizwa moja kwa moja na kufunguliwa kupitia Faili → Fungua",
+      "Chaguo la ripoti ya makadirio ya mteja; historia ya mabadiliko kwa kila mstari (nani/lini/nini)"
+    ],
+    "v0.8.2": [
+      "Msaidizi wa makadirio: historia ya mazungumzo kwa kila makadirio, maswali kadhaa kwa wakati mmoja",
+      "Vipengele vya OpenAEC (kuingia, hifadhi ya wingu) nyuma ya mpangilio"
+    ],
+    "v0.8.1": [
+      "Kuingia kwa OpenAEC na maboresho ya msaidizi",
+      "Ujumbe wa hitilafu za AI ulio wazi; maandishi ya msaidizi yanaweza kuchaguliwa na kunakiliwa"
+    ],
+    "v0.8.0": [
+      "Msaidizi wa makadirio hutumia mabadiliko moja kwa moja kwenye hati iliyofunguliwa",
+      "Fungua faili za .calc/.mdb zenye JSON kama mradi asilia wa OCS"
+    ],
+    "v0.7.10": [
+      "Akaunti ya OpenAEC na urambazaji wa upau wa chini",
+      "Ficha/onyesha safu wima kwa kubofya kulia kichwa cha safu wima",
+      "Vichupo vya Saa na Nyongeza vimeunganishwa; ripoti ya mtindo wa IBIS (Bouw 2)"
+    ]
+  }
+}

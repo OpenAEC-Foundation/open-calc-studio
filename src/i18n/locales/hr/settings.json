@@ -1,0 +1,66 @@
+{
+  "title": "Postavke",
+  "resetToDefaults": "Vrati na zadano",
+  "resetConfirm": "Sigurno želite vratiti sve postavke na zadano?",
+  "tabs": {
+    "general": "Općenito",
+    "appearance": "Izgled",
+    "grid": "Tablica",
+    "files": "Datoteke",
+    "shortcuts": "Prečaci",
+    "plugins": "Dodaci",
+    "about": "O programu"
+  },
+  "general": {
+    "application": "Aplikacija",
+    "language": "Jezik",
+    "startup": "Pokretanje",
+    "restoreSession": "Vrati sesiju pri pokretanju",
+    "checkUpdates": "Provjeri ima li ažuriranja",
+    "author": "Autor",
+    "authorName": "Ime"
+  },
+  "appearance": {
+    "theme": "Tema",
+    "system": "Sustav",
+    "default": "Zadano",
+    "dark": "Tamna",
+    "light": "Svijetla",
+    "blue": "Plava",
+    "amberNavy": "Jantar i tamnoplava",
+    "warmEmber": "Topli žar",
+    "highContrast": "Visoki kontrast",
+    "font": "Font",
+    "uiFontSize": "Veličina fonta sučelja"
+  },
+  "grid": {
+    "general": "Tablica",
+    "showRowNumbers": "Prikaži brojeve redaka",
+    "alternateRowColors": "Naizmjenične boje redaka"
+  },
+  "files": {
+    "autoSave": "Automatsko spremanje",
+    "autoSaveOption": "Automatski spremi",
+    "off": "Isključeno",
+    "afterDelay": "Nakon odgode",
+    "onFocusChange": "Pri promjeni fokusa",
+    "onWindowChange": "Pri promjeni prozora",
+    "encoding": "Kodiranje",
+    "defaultEncoding": "Zadano kodiranje",
+    "backup": "Sigurnosna kopija",
+    "autoBackup": "Automatska sigurnosna kopija"
+  },
+  "shortcuts": {
+    "placeholder": "Ovdje će se postavljati prečaci"
+  },
+  "plugins": {
+    "placeholder": "Ovdje će se upravljati dodacima"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Verzija",
+    "framework": "Okvir",
+    "license": "Licenca",
+    "description": "Softver otvorenog koda za izradu troškovnika u nizozemskom graditeljstvu. Pohrana u IFC formatu."
+  }
+}

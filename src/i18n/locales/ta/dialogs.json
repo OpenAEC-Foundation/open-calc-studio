@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "நெடுவரிசைகளை இணை",
+    "intro": "<b>{{name}}</b> இன் ஒவ்வொரு நெடுவரிசையையும் சரியான மதிப்பீட்டுப் புலத்துடன் இணைக்கவும். “— புறக்கணி —” எனத் தேர்ந்தெடுத்த நெடுவரிசைகள் விடப்படும்.",
+    "columnN": "நெடுவரிசை {{n}}",
+    "columnsLinked_one": "{{count}} நெடுவரிசை இணைக்கப்பட்டது",
+    "columnsLinked_other": "{{count}} நெடுவரிசைகள் இணைக்கப்பட்டன",
+    "rows": "{{count}} வரிசைகள்",
+    "linkDescriptionFirst": "முதலில் ஒரு “விவரம்” நெடுவரிசையை இணைக்கவும்",
+    "cancel": "ரத்து",
+    "import": "இறக்குமதி செய்"
+  },
+  "quantityPicker": {
+    "title": "அளவை இணை",
+    "tabSpreadsheet": "விரிதாள்",
+    "tabPdf": "PDF அளவீடு",
+    "tabIfc": "IFC உறுப்பு",
+    "cellNotNumeric": "கலத்தில் சரியான எண் இல்லை",
+    "noSheets": "இன்னும் தாள்கள் இல்லை. முதலில் ஒரு விரிதாளை உருவாக்கவும்.",
+    "sheet": "தாள்",
+    "cellReference": "கலக் குறிப்பு (எ.கா. A5 அல்லது B12)",
+    "value": "மதிப்பு",
+    "empty": "(காலி)",
+    "linkCell": "கலத்தை இணை",
+    "noPdfMeasurements": "இன்னும் PDF அளவீடுகள் இல்லை. முதலில் PDF தாவலில் ஒரு PDF ஐத் திறந்து அளவீடுகளை உருவாக்கவும்.",
+    "sumLengths": "Σ அனைத்து நீளங்கள்",
+    "sumAreas": "Σ அனைத்து பரப்பளவுகள்",
+    "individualMeasurements": "தனித்தனி அளவீடுகள்:",
+    "noIfcElements": "இன்னும் IFC உறுப்புகள் இல்லை. 3D தாவலில் ஒரு IFC கோப்பைத் திறந்து ஒரு உறுப்பைத் தேர்ந்தெடுக்கவும்.",
+    "cancel": "ரத்து"
+  },
+  "excelPicker": {
+    "title": "Excel உடன் இணை",
+    "cannotReadFile": "கோப்பைப் படிக்க முடியவில்லை",
+    "chooseFile": "கோப்பைத் தேர்ந்தெடு...",
+    "noFileSelected": "கோப்பு எதுவும் தேர்ந்தெடுக்கப்படவில்லை",
+    "loadingFile": "கோப்பு ஏற்றப்படுகிறது...",
+    "cancel": "ரத்து",
+    "select": "தேர்ந்தெடு"
+  },
+  "costItemPicker": {
+    "title": "மதிப்பீட்டு வரியுடன் இணை",
+    "searchPlaceholder": "விவரம் அல்லது குறியீட்டால் தேடு...",
+    "suggestions": "பரிந்துரைகள்",
+    "results": "முடிவுகள் ({{count}})",
+    "allLines": "அனைத்து வரிகள்",
+    "unlink": "இணைப்பை நீக்கு",
+    "cancel": "ரத்து",
+    "link": "இணை"
+  },
+  "resourceTypes": {
+    "arbeid": "கூலி",
+    "materieel": "உபகரணம்",
+    "materiaal": "பொருள்",
+    "onderaannemer": "உப ஒப்பந்ததாரர்",
+    "overig": "பிற"
+  },
+  "undo": {
+    "addResource": "வளம் சேர்த்தல்",
+    "wizard": "விஸார்டு: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "முன்னோட்டம் — {{name}}"
+  }
+}

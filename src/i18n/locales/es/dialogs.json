@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "Vincular columnas",
+    "intro": "Vincule cada columna de <b>{{name}}</b> con el campo correcto del presupuesto. Las columnas puestas en «— ignorar —» se omiten.",
+    "columnN": "Columna {{n}}",
+    "columnsLinked_one": "{{count}} columna vinculada",
+    "columnsLinked_other": "{{count}} columnas vinculadas",
+    "rows": "{{count}} filas",
+    "linkDescriptionFirst": "vincule primero una columna «Descripción»",
+    "cancel": "Cancelar",
+    "import": "Importar"
+  },
+  "quantityPicker": {
+    "title": "Vincular medición",
+    "tabSpreadsheet": "Hoja de cálculo",
+    "tabPdf": "Medición en PDF",
+    "tabIfc": "Elemento IFC",
+    "cellNotNumeric": "La celda no contiene un número válido",
+    "noSheets": "Todavía no hay hojas. Cree primero una hoja de cálculo.",
+    "sheet": "Hoja",
+    "cellReference": "Referencia de celda (p. ej. A5 o B12)",
+    "value": "Valor",
+    "empty": "(vacío)",
+    "linkCell": "Vincular celda",
+    "noPdfMeasurements": "Todavía no hay mediciones en PDF. Abra primero un PDF en la pestaña PDF y cree mediciones.",
+    "sumLengths": "Σ Todas las longitudes",
+    "sumAreas": "Σ Todas las superficies",
+    "individualMeasurements": "Mediciones individuales:",
+    "noIfcElements": "Todavía no hay elementos IFC. Abra un archivo IFC en la pestaña 3D y seleccione un elemento.",
+    "cancel": "Cancelar"
+  },
+  "excelPicker": {
+    "title": "Vincular con Excel",
+    "cannotReadFile": "No se puede leer el archivo",
+    "chooseFile": "Elegir archivo...",
+    "noFileSelected": "Ningún archivo seleccionado",
+    "loadingFile": "Cargando el archivo...",
+    "cancel": "Cancelar",
+    "select": "Seleccionar"
+  },
+  "costItemPicker": {
+    "title": "Vincular con una línea del presupuesto",
+    "searchPlaceholder": "Buscar por descripción o código...",
+    "suggestions": "Sugerencias",
+    "results": "Resultados ({{count}})",
+    "allLines": "Todas las líneas",
+    "unlink": "Desvincular",
+    "cancel": "Cancelar",
+    "link": "Vincular"
+  },
+  "resourceTypes": {
+    "arbeid": "Mano de obra",
+    "materieel": "Maquinaria",
+    "materiaal": "Materiales",
+    "onderaannemer": "Subcontrata",
+    "overig": "Otros"
+  },
+  "undo": {
+    "addResource": "Añadir recurso",
+    "wizard": "Asistente: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Vista previa — {{name}}"
+  }
+}

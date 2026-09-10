@@ -147,8 +147,8 @@
     "notSignedIn": "Log eerst in met OpenAEC (knop rechtsboven)",
     "uploaded": "Begroting opgeslagen in de OpenAEC Cloud",
     "noFiles": "Nog geen begrotingen in de cloud",
-    "hiddenFiles": "{{count}} ander bestand (geen begroting) verborgen",
-    "hiddenFiles_plural": "{{count}} andere bestanden (geen begrotingen) verborgen"
+    "hiddenFiles_one": "{{count}} ander bestand (geen begroting) verborgen",
+    "hiddenFiles_other": "{{count}} andere bestanden (geen begrotingen) verborgen"
   },
   "wpcalc": {
     "tabData": "Data",
@@ -177,8 +177,8 @@
   "wizard": {
     "title": "Onderdeel wizard",
     "description": "Kies een bouwonderdeel om automatisch te berekenen en in te voegen:",
-    "back": "\u2190 Terug",
-    "calculate": "Berekenen \u2192",
+    "back": "← Terug",
+    "calculate": "Berekenen →",
     "type": "Type",
     "description_col": "Omschrijving",
     "quantity": "Hoev.",
@@ -294,24 +294,24 @@
     "addImageBtn": "+ Afbeelding"
   },
   "tooltip": {
-    "hoursFormula": "uren = aantal \u00D7 norm\nuren = {{qty}} \u00D7 {{norm}}\nuren = {{result}}",
-    "quantityFormula": "hoev = aant \u00D7 pnorm / pcap\nhoev = {{qty}} \u00D7 {{norm}} / {{cap}}\nhoev = {{result}}",
+    "hoursFormula": "uren = aantal × norm\nuren = {{qty}} × {{norm}}\nuren = {{result}}",
+    "quantityFormula": "hoev = aant × pnorm / pcap\nhoev = {{qty}} × {{norm}} / {{cap}}\nhoev = {{result}}",
     "quantityDirect": "hoev = Aantal\nhoev = {{qty}}",
     "materialPricePerUnit": "prijs = materiaalprijs per eenheid\nprijs = {{price}}",
     "resourcePrice": "pmddl = prijs per middel\npmddl = {{price}}",
-    "laborFormula": "loon = laborPrice \u00D7 aantal\nloon = {{laborPrice}} \u00D7 {{qty}}\nloon = {{result}}",
-    "materialFormula": "materiaal = prijs \u00D7 aantal\nmateriaal = {{price}} \u00D7 {{qty}}\nmateriaal = {{result}}",
-    "resourceCostFormula": "{{label}} = prijs \u00D7 aantal\n{{label}} = {{result}}",
+    "laborFormula": "loon = laborPrice × aantal\nloon = {{laborPrice}} × {{qty}}\nloon = {{result}}",
+    "materialFormula": "materiaal = prijs × aantal\nmateriaal = {{price}} × {{qty}}\nmateriaal = {{result}}",
+    "resourceCostFormula": "{{label}} = prijs × aantal\n{{label}} = {{result}}",
     "costPerUnitFormula": "kosteneh = prijs + loon/eh\nkosteneh = {{price}} + {{labor}}\nkosteneh = {{result}}",
-    "subtotalFormula": "subtotaal = aantal \u00D7 kosteneh\nsubtotaal = {{qty}} \u00D7 {{costPerUnit}}\nsubtotaal = {{result}}",
-    "unitPriceFormula": "ehprs = hoev \u00D7 pmddl\nehprs = {{qty}} \u00D7 {{resourcePrice}}\nehprs = {{result}}",
-    "unitPriceSumRules": "ehprs = \u03A3 regel ehprs\nehprs = {{result}}",
+    "subtotalFormula": "subtotaal = aantal × kosteneh\nsubtotaal = {{qty}} × {{costPerUnit}}\nsubtotaal = {{result}}",
+    "unitPriceFormula": "ehprs = hoev × pmddl\nehprs = {{qty}} × {{resourcePrice}}\nehprs = {{result}}",
+    "unitPriceSumRules": "ehprs = Σ regel ehprs\nehprs = {{result}}",
     "unitPriceDivFormula": "ehprs = bedrag / hoev\nehprs = {{total}} / {{qty}}\nehprs = {{result}}",
-    "totalWpcalc": "totaal = aantal \u00D7 kosteneh\ntotaal = {{result}}",
+    "totalWpcalc": "totaal = aantal × kosteneh\ntotaal = {{result}}",
     "totalFromUnitPrice": "bedrag = ehprs\nbedrag = {{result}}",
-    "totalSumRules": "bedrag = \u03A3 regel bedrag\nbedrag = {{result}}",
-    "totalSumMonitorPosts": "bedrag = \u03A3 bwkps bedrag\nbedrag = {{result}}",
-    "totalSumChildren": "bedrag = \u03A3 onderliggende bedrag\nbedrag = {{result}}"
+    "totalSumRules": "bedrag = Σ regel bedrag\nbedrag = {{result}}",
+    "totalSumMonitorPosts": "bedrag = Σ bwkps bedrag\nbedrag = {{result}}",
+    "totalSumChildren": "bedrag = Σ onderliggende bedrag\nbedrag = {{result}}"
   },
   "openInNewWindow": "Open in nieuw venster",
   "closeTab": "Tabblad sluiten",

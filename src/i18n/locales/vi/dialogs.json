@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "Liên kết các cột",
+    "intro": "Liên kết mỗi cột từ <b>{{name}}</b> với trường dữ liệu dự toán tương ứng. Các cột đặt là “— bỏ qua —” sẽ không được nhập.",
+    "columnN": "Cột {{n}}",
+    "columnsLinked_one": "Đã liên kết {{count}} cột",
+    "columnsLinked_other": "Đã liên kết {{count}} cột",
+    "rows": "{{count}} dòng",
+    "linkDescriptionFirst": "hãy liên kết một cột “Mô tả” trước",
+    "cancel": "Hủy",
+    "import": "Nhập"
+  },
+  "quantityPicker": {
+    "title": "Liên kết khối lượng",
+    "tabSpreadsheet": "Trang tính",
+    "tabPdf": "Đo trên PDF",
+    "tabIfc": "Đối tượng IFC",
+    "cellNotNumeric": "Ô không chứa số hợp lệ",
+    "noSheets": "Chưa có trang tính nào. Hãy tạo một trang tính trước.",
+    "sheet": "Trang tính",
+    "cellReference": "Tham chiếu ô (ví dụ A5 hoặc B12)",
+    "value": "Giá trị",
+    "empty": "(trống)",
+    "linkCell": "Liên kết ô",
+    "noPdfMeasurements": "Chưa có phép đo PDF nào. Hãy mở một tệp PDF trong thẻ PDF trước rồi tạo các phép đo.",
+    "sumLengths": "Σ Tất cả chiều dài",
+    "sumAreas": "Σ Tất cả diện tích",
+    "individualMeasurements": "Từng phép đo:",
+    "noIfcElements": "Chưa có đối tượng IFC nào. Hãy mở một tệp IFC trong thẻ 3D và chọn một đối tượng.",
+    "cancel": "Hủy"
+  },
+  "excelPicker": {
+    "title": "Liên kết với Excel",
+    "cannotReadFile": "Không đọc được tệp",
+    "chooseFile": "Chọn tệp...",
+    "noFileSelected": "Chưa chọn tệp nào",
+    "loadingFile": "Đang tải tệp...",
+    "cancel": "Hủy",
+    "select": "Chọn"
+  },
+  "costItemPicker": {
+    "title": "Liên kết với dòng dự toán",
+    "searchPlaceholder": "Tìm theo mô tả hoặc mã...",
+    "suggestions": "Gợi ý",
+    "results": "Kết quả ({{count}})",
+    "allLines": "Tất cả các dòng",
+    "unlink": "Bỏ liên kết",
+    "cancel": "Hủy",
+    "link": "Liên kết"
+  },
+  "resourceTypes": {
+    "arbeid": "Nhân công",
+    "materieel": "Máy thi công",
+    "materiaal": "Vật liệu",
+    "onderaannemer": "Thầu phụ",
+    "overig": "Khác"
+  },
+  "undo": {
+    "addResource": "Thêm nguồn lực",
+    "wizard": "Trình hướng dẫn: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Xem trước — {{name}}"
+  }
+}

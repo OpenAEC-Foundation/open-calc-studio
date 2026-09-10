@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "Unganisha safu wima",
+    "intro": "Unganisha kila safu wima kutoka <b>{{name}}</b> na uga sahihi wa makadirio. Safu wima zilizowekwa \"— puuza —\" huachwa.",
+    "columnN": "Safu wima {{n}}",
+    "columnsLinked_one": "Safu wima {{count}} imeunganishwa",
+    "columnsLinked_other": "Safu wima {{count}} zimeunganishwa",
+    "rows": "Safu {{count}}",
+    "linkDescriptionFirst": "unganisha safu wima ya “Maelezo” kwanza",
+    "cancel": "Ghairi",
+    "import": "Ingiza"
+  },
+  "quantityPicker": {
+    "title": "Unganisha kiasi",
+    "tabSpreadsheet": "Lahajedwali",
+    "tabPdf": "Kipimo cha PDF",
+    "tabIfc": "Kipengele cha IFC",
+    "cellNotNumeric": "Kisanduku hakina namba halali",
+    "noSheets": "Bado hakuna laha. Tengeneza lahajedwali kwanza.",
+    "sheet": "Laha",
+    "cellReference": "Rejea ya kisanduku (mfano A5 au B12)",
+    "value": "Thamani",
+    "empty": "(tupu)",
+    "linkCell": "Unganisha kisanduku",
+    "noPdfMeasurements": "Bado hakuna vipimo vya PDF. Fungua PDF kwenye kichupo cha PDF kwanza kisha tengeneza vipimo.",
+    "sumLengths": "Σ Urefu wote",
+    "sumAreas": "Σ Maeneo yote",
+    "individualMeasurements": "Vipimo mmoja mmoja:",
+    "noIfcElements": "Bado hakuna vipengele vya IFC. Fungua faili ya IFC kwenye kichupo cha 3D kisha chagua kipengele.",
+    "cancel": "Ghairi"
+  },
+  "excelPicker": {
+    "title": "Unganisha na Excel",
+    "cannotReadFile": "Imeshindwa kusoma faili",
+    "chooseFile": "Chagua faili...",
+    "noFileSelected": "Hakuna faili iliyochaguliwa",
+    "loadingFile": "Inapakia faili...",
+    "cancel": "Ghairi",
+    "select": "Chagua"
+  },
+  "costItemPicker": {
+    "title": "Unganisha na mstari wa makadirio",
+    "searchPlaceholder": "Tafuta kwa maelezo au msimbo...",
+    "suggestions": "Mapendekezo",
+    "results": "Matokeo ({{count}})",
+    "allLines": "Mistari yote",
+    "unlink": "Tenganisha",
+    "cancel": "Ghairi",
+    "link": "Unganisha"
+  },
+  "resourceTypes": {
+    "arbeid": "Wafanyakazi",
+    "materieel": "Mitambo",
+    "materiaal": "Vifaa",
+    "onderaannemer": "Mkandarasi mdogo",
+    "overig": "Nyingine"
+  },
+  "undo": {
+    "addResource": "Ongeza rasilimali",
+    "wizard": "Mwongozo: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Hakiki — {{name}}"
+  }
+}

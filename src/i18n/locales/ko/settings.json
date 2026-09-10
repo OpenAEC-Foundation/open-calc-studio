@@ -1,0 +1,66 @@
+{
+  "title": "설정",
+  "resetToDefaults": "기본값으로 초기화",
+  "resetConfirm": "모든 설정을 초기화하시겠습니까?",
+  "tabs": {
+    "general": "일반",
+    "appearance": "모양",
+    "grid": "표",
+    "files": "파일",
+    "shortcuts": "단축키",
+    "plugins": "플러그인",
+    "about": "정보"
+  },
+  "general": {
+    "application": "애플리케이션",
+    "language": "언어",
+    "startup": "시작",
+    "restoreSession": "시작할 때 세션 복원",
+    "checkUpdates": "업데이트 확인",
+    "author": "작성자",
+    "authorName": "이름"
+  },
+  "appearance": {
+    "theme": "테마",
+    "system": "시스템 설정",
+    "default": "기본",
+    "dark": "어둡게",
+    "light": "밝게",
+    "blue": "블루",
+    "amberNavy": "앰버 네이비",
+    "warmEmber": "웜 엠버",
+    "highContrast": "고대비",
+    "font": "글꼴",
+    "uiFontSize": "화면 글자 크기"
+  },
+  "grid": {
+    "general": "표",
+    "showRowNumbers": "행 번호 표시",
+    "alternateRowColors": "행 색상 번갈아 표시"
+  },
+  "files": {
+    "autoSave": "자동 저장",
+    "autoSaveOption": "자동 저장",
+    "off": "끔",
+    "afterDelay": "일정 시간 후",
+    "onFocusChange": "포커스 변경 시",
+    "onWindowChange": "창 전환 시",
+    "encoding": "인코딩",
+    "defaultEncoding": "기본 인코딩",
+    "backup": "백업",
+    "autoBackup": "자동 백업"
+  },
+  "shortcuts": {
+    "placeholder": "단축키는 여기에서 설정합니다"
+  },
+  "plugins": {
+    "placeholder": "플러그인은 여기에서 관리합니다"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "버전",
+    "framework": "프레임워크",
+    "license": "라이선스",
+    "description": "네덜란드 건설업을 위한 오픈소스 적산 소프트웨어. IFC 형식으로 저장합니다."
+  }
+}

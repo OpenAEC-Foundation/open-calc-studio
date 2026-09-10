@@ -1,0 +1,66 @@
+{
+  "title": "Nastavení",
+  "resetToDefaults": "Obnovit výchozí",
+  "resetConfirm": "Opravdu chcete obnovit všechna nastavení na výchozí?",
+  "tabs": {
+    "general": "Obecné",
+    "appearance": "Vzhled",
+    "grid": "Tabulka",
+    "files": "Soubory",
+    "shortcuts": "Klávesové zkratky",
+    "plugins": "Zásuvné moduly",
+    "about": "O aplikaci"
+  },
+  "general": {
+    "application": "Aplikace",
+    "language": "Jazyk",
+    "startup": "Spuštění",
+    "restoreSession": "Obnovit relaci při spuštění",
+    "checkUpdates": "Kontrolovat aktualizace",
+    "author": "Autor",
+    "authorName": "Jméno"
+  },
+  "appearance": {
+    "theme": "Motiv",
+    "system": "Systémový",
+    "default": "Výchozí",
+    "dark": "Tmavý",
+    "light": "Světlý",
+    "blue": "Modrý",
+    "amberNavy": "Jantar a námořnická modř",
+    "warmEmber": "Teplý žhavý",
+    "highContrast": "Vysoký kontrast",
+    "font": "Písmo",
+    "uiFontSize": "Velikost písma rozhraní"
+  },
+  "grid": {
+    "general": "Tabulka",
+    "showRowNumbers": "Zobrazit čísla řádků",
+    "alternateRowColors": "Střídat barvy řádků"
+  },
+  "files": {
+    "autoSave": "Automatické ukládání",
+    "autoSaveOption": "Automatické ukládání",
+    "off": "Vypnuto",
+    "afterDelay": "Po prodlevě",
+    "onFocusChange": "Při změně zaměření",
+    "onWindowChange": "Při změně okna",
+    "encoding": "Kódování",
+    "defaultEncoding": "Výchozí kódování",
+    "backup": "Záloha",
+    "autoBackup": "Automatická záloha"
+  },
+  "shortcuts": {
+    "placeholder": "Zde se budou nastavovat klávesové zkratky"
+  },
+  "plugins": {
+    "placeholder": "Zde se budou spravovat zásuvné moduly"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Verze",
+    "framework": "Framework",
+    "license": "Licence",
+    "description": "Open source rozpočtový software pro nizozemské stavebnictví. Ukládání ve formátu IFC."
+  }
+}

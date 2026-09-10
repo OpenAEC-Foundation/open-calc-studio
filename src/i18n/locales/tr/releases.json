@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "39 dil + İspanyol FIEBDC-3 (.bc3)",
+    "v0.10.3": "Yüksek ve düşük KDV — kısım bazında seçilebilir",
+    "v0.10.0": "Rapor başlığında logo + hücrelerde formüller",
+    "v0.9.0": "Kuruşuna kadar BasCalc toplamları + şartname biçiminde raporlar",
+    "v0.8.8": "Excel/CSV içe aktarma düzeltmesi + MCP üzerinden",
+    "v0.8.7": "Dört yeni içe aktarma biçimi",
+    "v0.8.6": "Rapor özetindeki yüzdeli giderler düzeltildi",
+    "v0.8.5": "İçe aktarma büyük ölçüde genişletildi + beyaz ekran düzeltmesi",
+    "v0.8.4": "Kod seçici + kompakt işveren keşfi",
+    "v0.8.3": "Değişiklik izleme + keşif içe aktarma",
+    "v0.8.2": "OpenAEC bir özellik anahtarının arkasında",
+    "v0.8.1": "OpenAEC oturum açma + asistan iyileştirmeleri",
+    "v0.8.0": "Asistan değişiklikleri doğrudan uyguluyor",
+    "v0.7.10": "OpenAEC hesabı + alt çubuk gezinmesi"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "Arayüz artık 39 dilde kullanılabiliyor — dilinizi Tercihler → Genel altından seçin veya uygulamanın sistem dilinizi izlemesine izin verin",
+      "Arapça, Farsça, İbranice ve Urduca için sağdan sola desteği: tüm düzen birlikte aynalanıyor",
+      "İngilizce sürüm yarı yarıya Felemenkçe kalıyordu; dil ayarı içeride kilitliydi ve 500'den fazla metin sabit kodlanmıştı — ikisi de düzeltildi",
+      "FIEBDC-3 (.bc3) içe ve dışa aktarma: keşifler ve fiyat veritabanları için İspanyol standardı (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS: \"hasarlı\" hatası giderildi ve derlemenin kendisi onarıldı; \"Yenilikler\" artık kendi dilinizde görünüyor"
+    ],
+    "v0.10.3": [
+      "\"Standart KDV\" yanında yeni \"Düşük KDV\" (%9) gider satırı — mevcut keşifler bunu otomatik alır",
+      "Bölümleri, pozları veya satırları sağ tıkla düşük oranlı işaretleyin; alt kalemler oranı devralır ve tabloda bir KDV etiketi görünür",
+      "Matrah, işaretlemeden oranlı olarak (giderler dahil) hesaplanır veya gider panelinde elle girilir",
+      "KDV ayrımı tüm raporlarda (IBIS, standart/düşük matrahı ayrı gösterir) ve MCP sunucusunda uygulanır",
+      "Düzeltmeler: Bouw 1 özetinde KDV'nin iki kez sayılması ve \"Sözleşme bedeli KDV hariç\" etiketiyle KDV dahil tutar gösterilmesi"
+    ],
+    "v0.10.0": [
+      "Rapor başlığının sağ üstünde firma logosu (şeffaf, birlikte ölçeklenir); başlık yüksekliği ve çizgi rengi ayarlanabilir",
+      "Sayısal hücrelerde formüller (=12.2*2.22 veya 12,2*2,2) — ve kaybolan ondalık hatası giderildi",
+      "Giderler: KDV hariç nihai tutarı girin, yuvarlama otomatik olarak fark olsun; KDV yuvarlanmış tutar üzerinden",
+      "Ana yüklenim: satırları \"+\" ile toplayın, isteğe bağlı S sütunu (mahsup bilgisi bölümden devralınır) ve yalnızca ara toplam görünümleri",
+      "Daha hızlı çalışın: fiyatlar ±%, Ctrl+F bul ve değiştir, düzeye göre daraltma, çok adımlı geri alma, kaydırmalı metin satırları"
+    ],
+    "v0.9.0": [
+      "BasCalc içe aktarma: maliyet bedeli ve sözleşme bedeli Excel ile kuruşuna kadar uyuşuyor (düz giderler + sabit yuvarlama kalemi)",
+      "İş tarifi ve ana yüklenim şartname düzeninde: hücre kenarlığı yok, girintili paragraflar, paragraf başına ara toplam",
+      "Satırın yanındaki + düğmesi bir hesap satırı ekler; rapor araç çubuğunda miktarlar doğrudan açılıp kapatılır",
+      "Farklı kaydet artık varsayılan olarak .ifcCalc kullanır ve özgün kaynak dosyayı korur",
+      "Yeni yeşil logo; gezinme ve iletişim kutusu düzeltmeleri (hesap tablosu ↔ keşif)"
+    ],
+    "v0.8.8": [
+      "Excel/CSV içe aktarma: tutarlar bazen € 0 olarak geliyordu — düzeltildi",
+      "Excel/CSV içe aktarma artık MCP sunucusundan da yapılabiliyor (import_excel_csv aracı)"
+    ],
+    "v0.8.7": [
+      "Sütun eşleştirmeli Excel/CSV içe aktarma — serbest biçimli Excel/CSV düzenlerini okuyun ve sütunları kendiniz eşleştirin",
+      "Yeni biçimler: STABU SUFX (XML şartname) ve eski RAW (.rsu)",
+      "Fiyat kataloğu (BMEcat/DICO) → doğrudan kaynak kitaplığına"
+    ],
+    "v0.8.6": [
+      "Rapor özeti doğru gider yüzdelerini gösteriyor ve özelleştirilmiş oranlara uyuyor (önceden \"Genel giderler\" %0 görünebiliyordu)",
+      "Gider modeli içeride temizlendi; tüm raporlar artık aynı kaynaktan hesaplıyor"
+    ],
+    "v0.8.5": [
+      "Çok daha fazla içe aktarma biçimi: .cuf, .dnc, .xtb (detay satırlarıyla), .rsx, .s01 ve .ifcx",
+      "Windows'taki beyaz ekran giderildi (WebView yazılım tabanlı görüntülemeye geçiyor)",
+      "İçe aktarma motoru sıfırdan yazıldı; toplamlar kaynak dosyalarla tam olarak uyuşuyor"
+    ],
+    "v0.8.4": [
+      "Kod alanı: STABU/NL-SfB kodlarını çift tıklayarak seçin (ve kendi kodunuzu ekleyin)",
+      "Keşif içe aktarma (.dnc): artık doğrudan kompakt bir işveren keşif raporu olarak açılıyor",
+      "Proje, logolar ve varyantlar şeride taşındı; özellikler sadeleştirildi"
+    ],
+    "v0.8.3": [
+      "Değişiklik izleme: tüm satırın mı yoksa yalnızca değişen hücrenin mi vurgulanacağını seçin",
+      "Değişiklikler rapor PDF'inde de görünür",
+      "Keşif içe aktarma: işveren keşifleri (.dnc) doğrudan aktarılır ve Dosya → Aç ile açılır",
+      "İşveren keşfi rapor seçeneği; satır başına değişiklik geçmişi (kim/ne zaman/ne)"
+    ],
+    "v0.8.2": [
+      "Keşif asistanı: keşif başına sohbet geçmişi, aynı anda birden fazla soru",
+      "OpenAEC özellikleri (oturum açma, bulut depolama) bir ayarın arkasında"
+    ],
+    "v0.8.1": [
+      "OpenAEC oturum açma ve asistan iyileştirmeleri",
+      "Anlaşılır AI hata mesajları; asistan metni seçilip kopyalanabiliyor"
+    ],
+    "v0.8.0": [
+      "Keşif asistanı değişiklikleri doğrudan açık belgede uyguluyor",
+      "JSON içeren .calc/.mdb dosyaları yerel bir OCS projesi olarak açılıyor"
+    ],
+    "v0.7.10": [
+      "OpenAEC hesabı ve alt çubuk gezinmesi",
+      "Sütun başlığına sağ tıklayarak sütunları gizleyin/gösterin",
+      "Saatler ve Giderler sekmeleri birleştirildi; IBIS tarzı rapor (Bouw 2)"
+    ]
+  }
+}

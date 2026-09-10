@@ -1,0 +1,66 @@
+{
+  "title": "ตั้งค่า",
+  "resetToDefaults": "คืนค่าเริ่มต้น",
+  "resetConfirm": "ต้องการคืนค่าการตั้งค่าทั้งหมดหรือไม่",
+  "tabs": {
+    "general": "ทั่วไป",
+    "appearance": "รูปลักษณ์",
+    "grid": "ตาราง",
+    "files": "ไฟล์",
+    "shortcuts": "ปุ่มลัด",
+    "plugins": "ปลั๊กอิน",
+    "about": "เกี่ยวกับ"
+  },
+  "general": {
+    "application": "แอปพลิเคชัน",
+    "language": "ภาษา",
+    "startup": "การเริ่มต้น",
+    "restoreSession": "เรียกคืนเซสชันเมื่อเริ่มโปรแกรม",
+    "checkUpdates": "ตรวจหาการอัปเดต",
+    "author": "ผู้จัดทำ",
+    "authorName": "ชื่อ"
+  },
+  "appearance": {
+    "theme": "ธีม",
+    "system": "ตามระบบ",
+    "default": "ค่าเริ่มต้น",
+    "dark": "มืด",
+    "light": "สว่าง",
+    "blue": "น้ำเงิน",
+    "amberNavy": "เหลืองอำพัน-กรมท่า",
+    "warmEmber": "ถ่านไฟอุ่น",
+    "highContrast": "คอนทราสต์สูง",
+    "font": "แบบอักษร",
+    "uiFontSize": "ขนาดตัวอักษรส่วนติดต่อผู้ใช้"
+  },
+  "grid": {
+    "general": "ตาราง",
+    "showRowNumbers": "แสดงหมายเลขแถว",
+    "alternateRowColors": "สลับสีแถว"
+  },
+  "files": {
+    "autoSave": "บันทึกอัตโนมัติ",
+    "autoSaveOption": "บันทึกอัตโนมัติ",
+    "off": "ปิด",
+    "afterDelay": "หลังหน่วงเวลา",
+    "onFocusChange": "เมื่อเปลี่ยนโฟกัส",
+    "onWindowChange": "เมื่อเปลี่ยนหน้าต่าง",
+    "encoding": "การเข้ารหัส",
+    "defaultEncoding": "การเข้ารหัสเริ่มต้น",
+    "backup": "สำรองข้อมูล",
+    "autoBackup": "สำรองข้อมูลอัตโนมัติ"
+  },
+  "shortcuts": {
+    "placeholder": "ปุ่มลัดจะตั้งค่าได้ที่นี่"
+  },
+  "plugins": {
+    "placeholder": "ปลั๊กอินจะจัดการได้ที่นี่"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "เวอร์ชัน",
+    "framework": "เฟรมเวิร์ก",
+    "license": "สัญญาอนุญาต",
+    "description": "ซอฟต์แวร์ประมาณราคาแบบโอเพนซอร์สสำหรับงานก่อสร้างเนเธอร์แลนด์ จัดเก็บในรูปแบบ IFC"
+  }
+}

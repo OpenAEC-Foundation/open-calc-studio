@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "39 språk + spansk FIEBDC-3 (.bc3)",
+    "v0.10.3": "Høy og lav mva.-sats — kan velges per post",
+    "v0.10.0": "Logo i rapportens topptekst + formler i celler",
+    "v0.9.0": "Nøyaktige BasCalc-totaler + rapporter i beskrivelsesformat",
+    "v0.8.8": "Excel/CSV-import rettet + via MCP",
+    "v0.8.7": "Fire nye importformater",
+    "v0.8.6": "Påslagene rettet i rapportsammendraget",
+    "v0.8.5": "Kraftig utvidet import + hvit skjerm rettet",
+    "v0.8.4": "Kodevelger + kompakt byggherrekalkyle",
+    "v0.8.3": "Sporing av endringer + kalkyleimport",
+    "v0.8.2": "OpenAEC bak et funksjonsflagg",
+    "v0.8.1": "OpenAEC-innlogging + forbedringer i assistenten",
+    "v0.8.0": "Assistenten gjør endringer direkte",
+    "v0.7.10": "OpenAEC-konto + navigasjon i bunnlinjen"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "Grensesnittet finnes nå på 39 språk — velg ditt under Innstillinger → Generelt, eller la programmet følge systemspråket",
+      "Støtte for høyre-til-venstre for arabisk, persisk, hebraisk og urdu: hele oppsettet speiles med",
+      "Engelsken var tidligere halvt nederlandsk; språkinnstillingen var låst internt og over 500 tekster var hardkodet — begge deler er rettet",
+      "FIEBDC-3-import og -eksport (.bc3): den spanske standarden for kalkyler og prisdatabaser (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS: feilen «skadet» er løst, og selve byggingen er reparert; «Nyheter» vises nå på ditt eget språk"
+    ],
+    "v0.10.3": [
+      "Ny påslagslinje «Lav mva.» (9 %) ved siden av «Høy mva.» — eksisterende kalkyler får den automatisk",
+      "Merk kapitler, poster eller linjer som lav sats med høyreklikk; underliggende linjer arver satsen, og tabellen viser en mva.-etikett",
+      "Mva.-grunnlaget beregnes forholdsmessig ut fra merkingen (påslag medregnet) eller angis manuelt i påslagspanelet",
+      "Mva.-fordelingen slår gjennom i alle rapporter (IBIS viser høyt og lavt grunnlag hver for seg) og i MCP-serveren",
+      "Rettinger: mva. ble talt to ganger i Bouw 1-sammendraget, og et beløp inkl. mva. ble vist under etiketten «Kontraktssum eks. mva.»"
+    ],
+    "v0.10.0": [
+      "Firmalogo øverst til høyre i rapportens topptekst (transparent, skaleres med); toppteksthøyde og linjefarge kan justeres",
+      "Formler i tallceller (=12.2*2.22 eller 12,2*2,2) — og feilen med desimalen som forsvant, er rettet",
+      "Påslag: angi sluttbeløpet eks. mva., så blir avrundingen automatisk differansen; mva. av det avrundede beløpet",
+      "Hovedentreprise: summer linjer med «+», en valgfri R-kolonne (regulerbarhet arvet fra kapittelet) og visninger med bare delsummer",
+      "Jobb raskere: priser ±%, Ctrl+F søk og erstatt, skjul etter nivå, angre flere trinn, tekstlinjer med linjebryting"
+    ],
+    "v0.9.0": [
+      "BasCalc-import: selvkost og kontraktssum stemmer med Excel til øret (faste påslag + fast avrundingspost)",
+      "Arbeidsbeskrivelse og hovedentreprise i beskrivelsesformat: ingen cellekanter, innrykkede avsnitt, delsum per avsnitt",
+      "+-knappen ved siden av linjen legger til en beregningslinje; mengder på/av rett i rapportens verktøylinje",
+      "Lagre som bruker nå .ifcCalc som standard og beskytter den opprinnelige kildefilen",
+      "Ny grønn logo; rettinger i navigasjon og dialoger (regneark ↔ kalkyle)"
+    ],
+    "v0.8.8": [
+      "Excel/CSV-import: beløp havnet av og til som € 0 — rettet",
+      "Excel/CSV-import nå også via MCP-serveren (verktøyet import_excel_csv)"
+    ],
+    "v0.8.7": [
+      "Excel/CSV-import med kolonnekobling — les inn frie Excel/CSV-oppsett, og koble kolonnene selv",
+      "Nye formater: STABU SUFX (XML-beskrivelse) og eldre RAW (.rsu)",
+      "Priskatalog (BMEcat/DICO) → rett inn i ressursbiblioteket"
+    ],
+    "v0.8.6": [
+      "Rapportsammendraget viser riktige påslagsprosenter og respekterer tilpassede satser (tidligere kunne «Administrasjonskostnader» vise 0 %)",
+      "Påslagsmodellen er ryddet opp internt; alle rapporter regner nå fra den samme kilden"
+    ],
+    "v0.8.5": [
+      "Mange flere importformater: .cuf, .dnc, .xtb (med detaljlinjer), .rsx, .s01 og .ifcx",
+      "Hvit skjerm i Windows er rettet (WebView faller tilbake på programvaregjengivelse)",
+      "Importmotoren er bygget opp på nytt; totalene stemmer nøyaktig med kildefilene"
+    ],
+    "v0.8.4": [
+      "Kodefelt: velg STABU/NL-SfB-koder med dobbeltklikk (og legg til dine egne)",
+      "Kalkyleimport (.dnc): åpnes nå direkte som en kompakt byggherrerapport",
+      "Prosjekt, logoer og varianter er flyttet til båndet; egenskapene er ryddet opp"
+    ],
+    "v0.8.3": [
+      "Sporing av endringer: velg om hele linjen eller bare den endrede cellen skal utheves",
+      "Endringene vises også i rapportens PDF",
+      "Kalkyleimport: byggherrekalkyler (.dnc) importeres direkte og åpnes via Fil → Åpne",
+      "Alternativ for byggherrerapport; endringslogg per linje (hvem/når/hva)"
+    ],
+    "v0.8.2": [
+      "Kalkyleassistent: chatlogg per kalkyle, flere spørsmål samtidig",
+      "OpenAEC-funksjoner (innlogging, skylagring) bak en innstilling"
+    ],
+    "v0.8.1": [
+      "OpenAEC-innlogging og forbedringer i assistenten",
+      "Tydelige AI-feilmeldinger; teksten fra assistenten kan merkes og kopieres"
+    ],
+    "v0.8.0": [
+      "Kalkyleassistenten gjør endringer direkte i det åpne dokumentet",
+      "Åpne .calc/.mdb-filer med JSON-innhold som et vanlig OCS-prosjekt"
+    ],
+    "v0.7.10": [
+      "OpenAEC-konto og navigasjon i bunnlinjen",
+      "Skjul/vis kolonner ved å høyreklikke på kolonneoverskriften",
+      "Fanene Timer og Påslag er slått sammen; rapport i IBIS-stil (Bouw 2)"
+    ]
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "title": "Налаштування",
+  "resetToDefaults": "Скинути до значень за замовчуванням",
+  "resetConfirm": "Справді скинути всі налаштування?",
+  "tabs": {
+    "general": "Загальні",
+    "appearance": "Оформлення",
+    "grid": "Таблиця",
+    "files": "Файли",
+    "shortcuts": "Сполучення клавіш",
+    "plugins": "Плагіни",
+    "about": "Про програму"
+  },
+  "general": {
+    "application": "Застосунок",
+    "language": "Мова",
+    "startup": "Запуск",
+    "restoreSession": "Відновлювати сеанс під час запуску",
+    "checkUpdates": "Перевіряти оновлення",
+    "author": "Автор",
+    "authorName": "Ім'я"
+  },
+  "appearance": {
+    "theme": "Тема",
+    "system": "Системна",
+    "default": "За замовчуванням",
+    "dark": "Темна",
+    "light": "Світла",
+    "blue": "Синя",
+    "amberNavy": "Бурштиново-синя",
+    "warmEmber": "Теплий бурштин",
+    "highContrast": "Висока контрастність",
+    "font": "Шрифт",
+    "uiFontSize": "Розмір шрифту інтерфейсу"
+  },
+  "grid": {
+    "general": "Таблиця",
+    "showRowNumbers": "Показувати номери рядків",
+    "alternateRowColors": "Чергувати колір рядків"
+  },
+  "files": {
+    "autoSave": "Автозбереження",
+    "autoSaveOption": "Автозбереження",
+    "off": "Вимк.",
+    "afterDelay": "Із затримкою",
+    "onFocusChange": "При зміні фокуса",
+    "onWindowChange": "При зміні вікна",
+    "encoding": "Кодування",
+    "defaultEncoding": "Кодування за замовчуванням",
+    "backup": "Резервна копія",
+    "autoBackup": "Автоматична резервна копія"
+  },
+  "shortcuts": {
+    "placeholder": "Тут налаштовуватимуться сполучення клавіш"
+  },
+  "plugins": {
+    "placeholder": "Тут керуватимуть плагінами"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Версія",
+    "framework": "Фреймворк",
+    "license": "Ліцензія",
+    "description": "Програма з відкритим кодом для складання кошторисів у нідерландському будівництві. Зберігання у форматі IFC."
+  }
+}

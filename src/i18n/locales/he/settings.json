@@ -1,0 +1,66 @@
+{
+  "title": "הגדרות",
+  "resetToDefaults": "איפוס לברירות המחדל",
+  "resetConfirm": "לאפס את כל ההגדרות?",
+  "tabs": {
+    "general": "כללי",
+    "appearance": "מראה",
+    "grid": "טבלה",
+    "files": "קבצים",
+    "shortcuts": "קיצורי מקשים",
+    "plugins": "תוספים",
+    "about": "אודות"
+  },
+  "general": {
+    "application": "יישום",
+    "language": "שפה",
+    "startup": "הפעלה",
+    "restoreSession": "שחזור ההפעלה בעת הפתיחה",
+    "checkUpdates": "בדיקת עדכונים",
+    "author": "מחבר",
+    "authorName": "שם"
+  },
+  "appearance": {
+    "theme": "ערכת נושא",
+    "system": "מערכת",
+    "default": "ברירת מחדל",
+    "dark": "כהה",
+    "light": "בהיר",
+    "blue": "כחול",
+    "amberNavy": "ענבר-כחול כהה",
+    "warmEmber": "גחלת חמימה",
+    "highContrast": "ניגודיות גבוהה",
+    "font": "גופן",
+    "uiFontSize": "גודל גופן הממשק"
+  },
+  "grid": {
+    "general": "טבלה",
+    "showRowNumbers": "הצגת מספרי שורות",
+    "alternateRowColors": "צבעי שורות מתחלפים"
+  },
+  "files": {
+    "autoSave": "שמירה אוטומטית",
+    "autoSaveOption": "שמירה אוטומטית",
+    "off": "כבוי",
+    "afterDelay": "לאחר השהיה",
+    "onFocusChange": "בעת שינוי מיקוד",
+    "onWindowChange": "בעת החלפת חלון",
+    "encoding": "קידוד",
+    "defaultEncoding": "קידוד ברירת מחדל",
+    "backup": "גיבוי",
+    "autoBackup": "גיבוי אוטומטי"
+  },
+  "shortcuts": {
+    "placeholder": "קיצורי המקשים יוגדרו כאן"
+  },
+  "plugins": {
+    "placeholder": "התוספים ינוהלו כאן"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "גרסה",
+    "framework": "מסגרת עבודה",
+    "license": "רישיון",
+    "description": "תוכנת קוד פתוח לאומדני עלויות בענף הבנייה. אחסון בפורמט IFC."
+  }
+}

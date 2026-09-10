@@ -1,0 +1,67 @@
+{
+  "columnMapping": {
+    "title": "Сопоставить столбцы",
+    "intro": "Сопоставьте каждый столбец из <b>{{name}}</b> с нужным полем сметы. Столбцы со значением «— пропустить —» не импортируются.",
+    "columnN": "Столбец {{n}}",
+    "columnsLinked_one": "Сопоставлен {{count}} столбец",
+    "columnsLinked_few": "Сопоставлено {{count}} столбца",
+    "columnsLinked_many": "Сопоставлено {{count}} столбцов",
+    "columnsLinked_other": "Сопоставлено {{count}} столбцов",
+    "rows": "строк: {{count}}",
+    "linkDescriptionFirst": "сначала сопоставьте столбец «Описание»",
+    "cancel": "Отмена",
+    "import": "Импорт"
+  },
+  "quantityPicker": {
+    "title": "Связать объём",
+    "tabSpreadsheet": "Таблица",
+    "tabPdf": "Измерение по PDF",
+    "tabIfc": "Элемент IFC",
+    "cellNotNumeric": "Ячейка не содержит допустимого числа",
+    "noSheets": "Листов пока нет. Сначала создайте таблицу.",
+    "sheet": "Лист",
+    "cellReference": "Ссылка на ячейку (напр. A5 или B12)",
+    "value": "Значение",
+    "empty": "(пусто)",
+    "linkCell": "Связать ячейку",
+    "noPdfMeasurements": "Измерений по PDF пока нет. Сначала откройте PDF на вкладке PDF и выполните измерения.",
+    "sumLengths": "Σ Все длины",
+    "sumAreas": "Σ Все площади",
+    "individualMeasurements": "Отдельные измерения:",
+    "noIfcElements": "Элементов IFC пока нет. Откройте файл IFC на вкладке 3D и выберите элемент.",
+    "cancel": "Отмена"
+  },
+  "excelPicker": {
+    "title": "Связать с Excel",
+    "cannotReadFile": "Не удалось прочитать файл",
+    "chooseFile": "Выбрать файл...",
+    "noFileSelected": "Файл не выбран",
+    "loadingFile": "Загрузка файла...",
+    "cancel": "Отмена",
+    "select": "Выбрать"
+  },
+  "costItemPicker": {
+    "title": "Связать со строкой сметы",
+    "searchPlaceholder": "Поиск по описанию или коду...",
+    "suggestions": "Предложения",
+    "results": "Результаты ({{count}})",
+    "allLines": "Все строки",
+    "unlink": "Разорвать связь",
+    "cancel": "Отмена",
+    "link": "Связать"
+  },
+  "resourceTypes": {
+    "arbeid": "Оплата труда",
+    "materieel": "Машины",
+    "materiaal": "Материалы",
+    "onderaannemer": "Субподрядчик",
+    "overig": "Прочее"
+  },
+  "undo": {
+    "addResource": "Добавление ресурса",
+    "wizard": "Мастер: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Предпросмотр — {{name}}"
+  }
+}

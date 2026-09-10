@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "列の対応付け",
+    "intro": "<b>{{name}}</b> の各列を積算の項目に対応付けてください。「— 無視 —」に設定した列はスキップされます。",
+    "columnN": "列 {{n}}",
+    "columnsLinked_one": "{{count}} 列を対応付け済み",
+    "columnsLinked_other": "{{count}} 列を対応付け済み",
+    "rows": "{{count}} 行",
+    "linkDescriptionFirst": "先に「名称」列を対応付けてください",
+    "cancel": "キャンセル",
+    "import": "インポート"
+  },
+  "quantityPicker": {
+    "title": "数量をリンク",
+    "tabSpreadsheet": "スプレッドシート",
+    "tabPdf": "PDF 計測",
+    "tabIfc": "IFC 要素",
+    "cellNotNumeric": "セルに有効な数値が入っていません",
+    "noSheets": "シートがありません。先にスプレッドシートを作成してください。",
+    "sheet": "シート",
+    "cellReference": "セル参照（例：A5 または B12）",
+    "value": "値",
+    "empty": "（空）",
+    "linkCell": "セルをリンク",
+    "noPdfMeasurements": "PDF の計測結果がありません。先に PDF タブで PDF を開いて計測してください。",
+    "sumLengths": "Σ すべての長さ",
+    "sumAreas": "Σ すべての面積",
+    "individualMeasurements": "個別の計測結果：",
+    "noIfcElements": "IFC 要素がありません。3D タブで IFC ファイルを開いて要素を選択してください。",
+    "cancel": "キャンセル"
+  },
+  "excelPicker": {
+    "title": "Excel にリンク",
+    "cannotReadFile": "ファイルを読み込めません",
+    "chooseFile": "ファイルを選択…",
+    "noFileSelected": "ファイルが選択されていません",
+    "loadingFile": "ファイルを読み込んでいます…",
+    "cancel": "キャンセル",
+    "select": "選択"
+  },
+  "costItemPicker": {
+    "title": "積算の行にリンク",
+    "searchPlaceholder": "名称またはコードで検索…",
+    "suggestions": "候補",
+    "results": "検索結果（{{count}}）",
+    "allLines": "すべての行",
+    "unlink": "リンクを解除",
+    "cancel": "キャンセル",
+    "link": "リンク"
+  },
+  "resourceTypes": {
+    "arbeid": "労務",
+    "materieel": "機械",
+    "materiaal": "材料",
+    "onderaannemer": "下請業者",
+    "overig": "その他"
+  },
+  "undo": {
+    "addResource": "資源の追加",
+    "wizard": "ウィザード：{{name}}"
+  },
+  "wizard": {
+    "previewTitle": "プレビュー — {{name}}"
+  }
+}

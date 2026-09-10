@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "39 Sprachen + spanisches FIEBDC-3 (.bc3)",
+    "v0.10.3": "Voller und ermäßigter MwSt.-Satz — je Position wählbar",
+    "v0.10.0": "Logo in der Berichtskopfzeile + Formeln in Zellen",
+    "v0.9.0": "Exakte BasCalc-Summen + Berichte im Verzeichnis-Layout",
+    "v0.8.8": "Excel/CSV-Import korrigiert + über MCP",
+    "v0.8.7": "Vier neue Importformate",
+    "v0.8.6": "Zuschläge in der Berichtsübersicht korrigiert",
+    "v0.8.5": "Import stark erweitert + Weißbild-Fehler behoben",
+    "v0.8.4": "Code-Auswahl + kompakte Bauherrenkalkulation",
+    "v0.8.3": "Änderungsverfolgung + Kalkulationsimport",
+    "v0.8.2": "OpenAEC hinter einem Feature-Flag",
+    "v0.8.1": "OpenAEC-Anmeldung + Verbesserungen am Assistenten",
+    "v0.8.0": "Assistent übernimmt Änderungen direkt",
+    "v0.7.10": "OpenAEC-Konto + Navigation in der Fußleiste"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "Die Oberfläche ist jetzt in 39 Sprachen verfügbar — wählen Sie Ihre unter Einstellungen → Allgemein, oder lassen Sie die App der Systemsprache folgen",
+      "Unterstützung für Rechts-nach-links bei Arabisch, Farsi, Hebräisch und Urdu: das gesamte Layout spiegelt mit",
+      "Englisch blieb bisher halb niederländisch; die Spracheinstellung war intern festgesetzt und über 500 Texte waren fest einprogrammiert — beides behoben",
+      "FIEBDC-3-Import und -Export (.bc3): der spanische Standard für Kalkulationen und Preisdatenbanken (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS: die Meldung „beschädigt“ ist behoben und das Build selbst repariert; „Neuerungen“ erscheint nun in Ihrer eigenen Sprache"
+    ],
+    "v0.10.3": [
+      "Neue Zuschlagszeile „Ermäßigte MwSt.“ (9 %) neben „Volle MwSt.“ — bestehende Kalkulationen erhalten sie automatisch",
+      "Titel, Positionen oder Zeilen per Rechtsklick als ermäßigt markieren; untergeordnete Zeilen erben den Satz und die Tabelle zeigt ein MwSt.-Label",
+      "Bemessungsgrundlage anteilig aus der Markierung berechnet (Zuschläge eingerechnet) oder manuell im Zuschlagsbereich eingegeben",
+      "MwSt.-Aufteilung durchgängig in allen Berichten (IBIS weist die volle und die ermäßigte Grundlage getrennt aus) und im MCP-Server",
+      "Behoben: MwSt. wurde in der Bouw-1-Übersicht doppelt gezählt, und ein Bruttobetrag erschien unter dem Label „Angebotssumme exkl. MwSt.“"
+    ],
+    "v0.10.0": [
+      "Firmenlogo oben rechts in der Berichtskopfzeile (transparent, skaliert mit); Höhe der Kopfzeile und Linienfarbe einstellbar",
+      "Formeln in Zahlenzellen (=12.2*2.22 oder 12,2*2,2) — und der Fehler mit der verschluckten Dezimalstelle ist behoben",
+      "Zuschläge: Endbetrag exkl. MwSt. eingeben und die Rundung wird automatisch zur Differenz; MwSt. auf den gerundeten Betrag",
+      "Hauptauftrag: Zeilen mit „+“ summieren, optionale Spalte S (Abrechenbarkeit vom Titel geerbt) und Ansichten mit reinen Zwischensummen",
+      "Schneller arbeiten: Preise ±%, Suchen und Ersetzen mit Strg+F, Einklappen nach Ebene, mehrstufiges Rückgängig, Textzeilen mit Zeilenumbruch"
+    ],
+    "v0.9.0": [
+      "BasCalc-Import: Selbstkosten und Angebotssumme stimmen auf den Cent mit Excel überein (pauschale Zuschläge + fester Rundungsposten)",
+      "Leistungsbeschreibung und Hauptauftrag im Verzeichnis-Layout: ohne Zellrahmen, eingerückte Abschnitte, Zwischensumme je Abschnitt",
+      "Die Schaltfläche + neben der Zeile fügt eine Kalkulationszeile ein; Mengen ein/aus direkt in der Berichtsleiste",
+      "Speichern unter verwendet jetzt standardmäßig .ifcCalc und schützt die ursprüngliche Quelldatei",
+      "Neues grünes Logo; Korrekturen bei Navigation und Dialogen (Tabelle ↔ Kalkulation)"
+    ],
+    "v0.8.8": [
+      "Excel/CSV-Import: Beträge landeten mitunter als € 0 — behoben",
+      "Excel/CSV-Import jetzt auch über den MCP-Server (Werkzeug import_excel_csv)"
+    ],
+    "v0.8.7": [
+      "Excel/CSV-Import mit Spaltenzuordnung — freie Excel/CSV-Layouts einlesen und die Spalten selbst zuordnen",
+      "Neue Formate: STABU SUFX (XML-Leistungsbeschreibung) und älteres RAW (.rsu)",
+      "Preiskatalog (BMEcat/DICO) → direkt in die Betriebsmittelbibliothek"
+    ],
+    "v0.8.6": [
+      "Die Berichtsübersicht zeigt die richtigen Zuschlagsprozentsätze und berücksichtigt angepasste Sätze (zuvor konnte „Allgemeine Geschäftskosten“ 0 % anzeigen)",
+      "Zuschlagsmodell intern aufgeräumt; alle Berichte rechnen jetzt aus derselben Quelle"
+    ],
+    "v0.8.5": [
+      "Viele weitere Importformate: .cuf, .dnc, .xtb (mit Detailzeilen), .rsx, .s01 und .ifcx",
+      "Weißes Fenster unter Windows behoben (WebView fällt auf Software-Rendering zurück)",
+      "Import-Engine sauber neu aufgebaut; Summen stimmen exakt mit den Quelldateien überein"
+    ],
+    "v0.8.4": [
+      "Code-Feld: STABU/NL-SfB-Codes per Doppelklick auswählen (und eigene hinzufügen)",
+      "Kalkulationsimport (.dnc): öffnet jetzt direkt als kompakter Bauherrenbericht",
+      "Projekt, Logos und Varianten ins Menüband verlegt; Eigenschaften aufgeräumt"
+    ],
+    "v0.8.3": [
+      "Änderungsverfolgung: wählen Sie, ob die ganze Zeile oder nur die geänderte Zelle hervorgehoben wird",
+      "Änderungen auch im Bericht-PDF sichtbar",
+      "Kalkulationsimport: Bauherrenkalkulationen (.dnc) direkt importiert und über Datei → Öffnen geöffnet",
+      "Option für den Bauherrenbericht; Änderungsverlauf je Zeile (wer/wann/was)"
+    ],
+    "v0.8.2": [
+      "Kalkulationsassistent: Chatverlauf je Kalkulation, mehrere Fragen auf einmal",
+      "OpenAEC-Funktionen (Anmeldung, Cloud-Speicher) hinter einer Einstellung"
+    ],
+    "v0.8.1": [
+      "OpenAEC-Anmeldung und Verbesserungen am Assistenten",
+      "Verständliche KI-Fehlermeldungen; Assistententext lässt sich markieren und kopieren"
+    ],
+    "v0.8.0": [
+      "Der Kalkulationsassistent übernimmt Änderungen direkt im geöffneten Dokument",
+      "Dateien .calc/.mdb mit JSON-Inhalt als natives OCS-Projekt öffnen"
+    ],
+    "v0.7.10": [
+      "OpenAEC-Konto und Navigation in der Fußleiste",
+      "Spalten per Rechtsklick auf die Spaltenüberschrift ein- und ausblenden",
+      "Register Stunden und Zuschläge zusammengeführt; Bericht im IBIS-Stil (Bouw 2)"
+    ]
+  }
+}

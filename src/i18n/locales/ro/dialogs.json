@@ -1,0 +1,66 @@
+{
+  "columnMapping": {
+    "title": "Asociere coloane",
+    "intro": "Asociați fiecare coloană din <b>{{name}}</b> cu câmpul corect din deviz. Coloanele setate pe „— ignoră —” sunt omise.",
+    "columnN": "Coloana {{n}}",
+    "columnsLinked_one": "{{count}} coloană asociată",
+    "columnsLinked_few": "{{count}} coloane asociate",
+    "columnsLinked_other": "{{count}} de coloane asociate",
+    "rows": "{{count}} rânduri",
+    "linkDescriptionFirst": "asociați mai întâi o coloană „Denumire”",
+    "cancel": "Anulare",
+    "import": "Import"
+  },
+  "quantityPicker": {
+    "title": "Legare cantitate",
+    "tabSpreadsheet": "Foaie de calcul",
+    "tabPdf": "Măsurătoare PDF",
+    "tabIfc": "Element IFC",
+    "cellNotNumeric": "Celula nu conține un număr valid",
+    "noSheets": "Încă nu există foi. Creați mai întâi o foaie de calcul.",
+    "sheet": "Foaie",
+    "cellReference": "Referință de celulă (ex. A5 sau B12)",
+    "value": "Valoare",
+    "empty": "(gol)",
+    "linkCell": "Legare celulă",
+    "noPdfMeasurements": "Încă nu există măsurători PDF. Deschideți mai întâi un PDF în fila PDF și creați măsurători.",
+    "sumLengths": "Σ Toate lungimile",
+    "sumAreas": "Σ Toate suprafețele",
+    "individualMeasurements": "Măsurători individuale:",
+    "noIfcElements": "Încă nu există elemente IFC. Deschideți un fișier IFC în fila 3D și selectați un element.",
+    "cancel": "Anulare"
+  },
+  "excelPicker": {
+    "title": "Legare la Excel",
+    "cannotReadFile": "Fișierul nu poate fi citit",
+    "chooseFile": "Alegere fișier...",
+    "noFileSelected": "Niciun fișier selectat",
+    "loadingFile": "Se încarcă fișierul...",
+    "cancel": "Anulare",
+    "select": "Selectare"
+  },
+  "costItemPicker": {
+    "title": "Legare la o linie din deviz",
+    "searchPlaceholder": "Căutare după denumire sau cod...",
+    "suggestions": "Sugestii",
+    "results": "Rezultate ({{count}})",
+    "allLines": "Toate liniile",
+    "unlink": "Desfacere legătură",
+    "cancel": "Anulare",
+    "link": "Legare"
+  },
+  "resourceTypes": {
+    "arbeid": "Manoperă",
+    "materieel": "Utilaje",
+    "materiaal": "Materiale",
+    "onderaannemer": "Subantreprenor",
+    "overig": "Altele"
+  },
+  "undo": {
+    "addResource": "Adăugare resursă",
+    "wizard": "Asistent: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Previzualizare — {{name}}"
+  }
+}

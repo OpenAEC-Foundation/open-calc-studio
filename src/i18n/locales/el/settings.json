@@ -1,0 +1,66 @@
+{
+  "title": "Ρυθμίσεις",
+  "resetToDefaults": "Επαναφορά προεπιλογών",
+  "resetConfirm": "Θέλετε σίγουρα να επαναφέρετε όλες τις ρυθμίσεις;",
+  "tabs": {
+    "general": "Γενικά",
+    "appearance": "Εμφάνιση",
+    "grid": "Πίνακας",
+    "files": "Αρχεία",
+    "shortcuts": "Συντομεύσεις",
+    "plugins": "Πρόσθετα",
+    "about": "Πληροφορίες"
+  },
+  "general": {
+    "application": "Εφαρμογή",
+    "language": "Γλώσσα",
+    "startup": "Εκκίνηση",
+    "restoreSession": "Επαναφορά συνεδρίας κατά την εκκίνηση",
+    "checkUpdates": "Έλεγχος για ενημερώσεις",
+    "author": "Συντάκτης",
+    "authorName": "Όνομα"
+  },
+  "appearance": {
+    "theme": "Θέμα",
+    "system": "Σύστημα",
+    "default": "Προεπιλογή",
+    "dark": "Σκούρο",
+    "light": "Ανοιχτό",
+    "blue": "Μπλε",
+    "amberNavy": "Κεχριμπάρι-Μπλε",
+    "warmEmber": "Θερμή Χόβολη",
+    "highContrast": "Υψηλή αντίθεση",
+    "font": "Γραμματοσειρά",
+    "uiFontSize": "Μέγεθος γραμματοσειράς διεπαφής"
+  },
+  "grid": {
+    "general": "Πίνακας",
+    "showRowNumbers": "Εμφάνιση αριθμών γραμμών",
+    "alternateRowColors": "Εναλλαγή χρωμάτων γραμμών"
+  },
+  "files": {
+    "autoSave": "Αυτόματη αποθήκευση",
+    "autoSaveOption": "Αυτόματη αποθήκευση",
+    "off": "Ανενεργή",
+    "afterDelay": "Μετά από καθυστέρηση",
+    "onFocusChange": "Στην αλλαγή εστίασης",
+    "onWindowChange": "Στην αλλαγή παραθύρου",
+    "encoding": "Κωδικοποίηση",
+    "defaultEncoding": "Προεπιλεγμένη κωδικοποίηση",
+    "backup": "Αντίγραφο ασφαλείας",
+    "autoBackup": "Αυτόματο αντίγραφο ασφαλείας"
+  },
+  "shortcuts": {
+    "placeholder": "Οι συντομεύσεις θα ρυθμίζονται εδώ"
+  },
+  "plugins": {
+    "placeholder": "Τα πρόσθετα θα διαχειρίζονται εδώ"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Έκδοση",
+    "framework": "Πλαίσιο",
+    "license": "Άδεια",
+    "description": "Λογισμικό προϋπολογισμών ανοιχτού κώδικα για τον ολλανδικό κατασκευαστικό κλάδο. Αποθήκευση σε μορφή IFC."
+  }
+}

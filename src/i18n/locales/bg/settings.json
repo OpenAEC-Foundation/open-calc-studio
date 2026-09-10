@@ -1,0 +1,66 @@
+{
+  "title": "Настройки",
+  "resetToDefaults": "Възстанови стойностите по подразбиране",
+  "resetConfirm": "Наистина ли да се нулират всички настройки?",
+  "tabs": {
+    "general": "Общи",
+    "appearance": "Външен вид",
+    "grid": "Таблица",
+    "files": "Файлове",
+    "shortcuts": "Клавишни комбинации",
+    "plugins": "Приставки",
+    "about": "Относно"
+  },
+  "general": {
+    "application": "Приложение",
+    "language": "Език",
+    "startup": "Стартиране",
+    "restoreSession": "Възстановявай сесията при стартиране",
+    "checkUpdates": "Проверявай за актуализации",
+    "author": "Автор",
+    "authorName": "Име"
+  },
+  "appearance": {
+    "theme": "Тема",
+    "system": "Системна",
+    "default": "По подразбиране",
+    "dark": "Тъмна",
+    "light": "Светла",
+    "blue": "Синя",
+    "amberNavy": "Кехлибарено-синя",
+    "warmEmber": "Топъл кехлибар",
+    "highContrast": "Висок контраст",
+    "font": "Шрифт",
+    "uiFontSize": "Размер на шрифта на интерфейса"
+  },
+  "grid": {
+    "general": "Таблица",
+    "showRowNumbers": "Показвай номерата на редовете",
+    "alternateRowColors": "Редувай цветовете на редовете"
+  },
+  "files": {
+    "autoSave": "Автоматичен запис",
+    "autoSaveOption": "Автоматичен запис",
+    "off": "Изкл.",
+    "afterDelay": "След забавяне",
+    "onFocusChange": "При смяна на фокуса",
+    "onWindowChange": "При смяна на прозореца",
+    "encoding": "Кодиране",
+    "defaultEncoding": "Кодиране по подразбиране",
+    "backup": "Резервно копие",
+    "autoBackup": "Автоматично резервно копие"
+  },
+  "shortcuts": {
+    "placeholder": "Тук ще се настройват клавишните комбинации"
+  },
+  "plugins": {
+    "placeholder": "Тук ще се управляват приставките"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Версия",
+    "framework": "Рамка",
+    "license": "Лиценз",
+    "description": "Софтуер с отворен код за строителни сметки в нидерландското строителство. Съхранение във формат IFC."
+  }
+}

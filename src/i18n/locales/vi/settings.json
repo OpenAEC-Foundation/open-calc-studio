@@ -1,0 +1,66 @@
+{
+  "title": "Cài đặt",
+  "resetToDefaults": "Khôi phục mặc định",
+  "resetConfirm": "Bạn chắc chắn muốn đặt lại toàn bộ cài đặt?",
+  "tabs": {
+    "general": "Chung",
+    "appearance": "Giao diện",
+    "grid": "Bảng",
+    "files": "Tệp",
+    "shortcuts": "Phím tắt",
+    "plugins": "Trình cắm",
+    "about": "Giới thiệu"
+  },
+  "general": {
+    "application": "Ứng dụng",
+    "language": "Ngôn ngữ",
+    "startup": "Khởi động",
+    "restoreSession": "Khôi phục phiên làm việc khi khởi động",
+    "checkUpdates": "Kiểm tra cập nhật",
+    "author": "Tác giả",
+    "authorName": "Tên"
+  },
+  "appearance": {
+    "theme": "Chủ đề",
+    "system": "Theo hệ thống",
+    "default": "Mặc định",
+    "dark": "Tối",
+    "light": "Sáng",
+    "blue": "Xanh dương",
+    "amberNavy": "Hổ phách - Xanh navy",
+    "warmEmber": "Than hồng ấm",
+    "highContrast": "Tương phản cao",
+    "font": "Phông chữ",
+    "uiFontSize": "Cỡ chữ giao diện"
+  },
+  "grid": {
+    "general": "Bảng",
+    "showRowNumbers": "Hiện số thứ tự dòng",
+    "alternateRowColors": "Màu dòng xen kẽ"
+  },
+  "files": {
+    "autoSave": "Tự động lưu",
+    "autoSaveOption": "Tự động lưu",
+    "off": "Tắt",
+    "afterDelay": "Sau một khoảng trễ",
+    "onFocusChange": "Khi đổi vùng làm việc",
+    "onWindowChange": "Khi đổi cửa sổ",
+    "encoding": "Bảng mã",
+    "defaultEncoding": "Bảng mã mặc định",
+    "backup": "Sao lưu",
+    "autoBackup": "Tự động sao lưu"
+  },
+  "shortcuts": {
+    "placeholder": "Phím tắt sẽ được cấu hình tại đây"
+  },
+  "plugins": {
+    "placeholder": "Trình cắm sẽ được quản lý tại đây"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Phiên bản",
+    "framework": "Nền tảng",
+    "license": "Giấy phép",
+    "description": "Phần mềm lập dự toán mã nguồn mở cho ngành xây dựng Hà Lan. Lưu trữ ở định dạng IFC."
+  }
+}

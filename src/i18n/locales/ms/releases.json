@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "39 bahasa + FIEBDC-3 Sepanyol (.bc3)",
+    "v0.10.3": "GST biasa dan rendah — boleh dipilih bagi setiap bahagian",
+    "v0.10.0": "Logo dalam pengepala laporan + formula dalam sel",
+    "v0.9.0": "Jumlah BasCalc tepat + laporan bergaya spesifikasi",
+    "v0.8.8": "Pembetulan import Excel/CSV + melalui MCP",
+    "v0.8.7": "Empat format import baharu",
+    "v0.8.6": "Kos tambahan dibetulkan dalam ringkasan laporan",
+    "v0.8.5": "Import diperluas dengan ketara + pembetulan skrin putih",
+    "v0.8.4": "Pemilih kod + anggaran klien yang padat",
+    "v0.8.3": "Penjejakan perubahan + import anggaran",
+    "v0.8.2": "OpenAEC di sebalik bendera ciri",
+    "v0.8.1": "Log masuk OpenAEC + penambahbaikan pembantu",
+    "v0.8.0": "Pembantu menerapkan perubahan secara terus",
+    "v0.7.10": "Akaun OpenAEC + navigasi bar bawah"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "Antara muka kini tersedia dalam 39 bahasa — pilih bahasa anda di Keutamaan → Umum, atau biarkan aplikasi mengikut bahasa sistem anda",
+      "Sokongan kanan ke kiri untuk bahasa Arab, Farsi, Ibrani dan Urdu: keseluruhan susun atur turut dicerminkan",
+      "Bahasa Inggeris dahulunya kekal separuh berbahasa Belanda; tetapan bahasa terkunci secara dalaman dan lebih 500 teks ditulis secara tetap dalam kod — kedua-duanya telah dibetulkan",
+      "Import dan eksport FIEBDC-3 (.bc3): standard Sepanyol untuk anggaran dan pangkalan data harga (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS: ralat \"rosak\" diselesaikan dan binaan itu sendiri dibaiki; \"Apa yang baharu\" kini dipaparkan dalam bahasa anda sendiri"
+    ],
+    "v0.10.3": [
+      "Baris kos tambahan baharu \"GST rendah\" (9%) di samping \"GST biasa\" — anggaran sedia ada mendapatkannya secara automatik",
+      "Tandakan bab, butiran atau baris sebagai berkadar rendah melalui klik kanan; subbutiran mewarisi kadar tersebut dan jadual memaparkan label GST",
+      "Asas bercukai dikira secara berkadar daripada penandaan (termasuk kos tambahan) atau dimasukkan secara manual dalam panel kos tambahan",
+      "Pembahagian GST diterapkan dalam semua laporan (IBIS memaparkan asas biasa dan rendah secara berasingan) dan pada pelayan MCP",
+      "Pembetulan: GST dikira dua kali dalam ringkasan Bouw 1, dan amaun termasuk GST dipaparkan di bawah label \"Jumlah kontrak tidak termasuk GST\""
+    ],
+    "v0.10.0": [
+      "Logo syarikat di kanan atas pengepala laporan (lutsinar, berskala bersama); ketinggian pengepala dan warna garis boleh dilaraskan",
+      "Formula dalam sel bernombor (=12.2*2.22 atau 12,2*2,2) — dan pepijat perpuluhan yang tercicir telah dibetulkan",
+      "Kos tambahan: masukkan amaun akhir tanpa GST dan pembundaran secara automatik menjadi bezanya; GST dikira atas amaun yang dibundarkan",
+      "Kontrak utama: baris hasil tambah dengan \"+\", lajur S pilihan (boleh dikira semula diwarisi daripada bab) dan paparan jumlah kecil sahaja",
+      "Bekerja lebih pantas: harga ±%, Ctrl+F cari dan ganti, runtuhkan mengikut aras, buat asal berbilang langkah, baris teks dengan lilitan perkataan"
+    ],
+    "v0.9.0": [
+      "Import BasCalc: harga kos dan jumlah kontrak sepadan dengan Excel hingga ke sen (kos tambahan rata + butiran pembundaran tetap)",
+      "Huraian kerja dan kontrak utama dalam susun atur spesifikasi: tanpa sempadan sel, seksyen berinden, jumlah kecil bagi setiap seksyen",
+      "Butang + di sebelah baris menambah baris pengiraan; kuantiti hidup/mati terus dalam bar alat laporan",
+      "Simpan sebagai kini menggunakan .ifcCalc secara lalai dan melindungi fail sumber asal",
+      "Logo hijau baharu; pembetulan navigasi dan dialog (hamparan ↔ anggaran)"
+    ],
+    "v0.8.8": [
+      "Import Excel/CSV: amaun kadangkala menjadi € 0 — telah dibetulkan",
+      "Import Excel/CSV kini juga boleh melalui pelayan MCP (alat import_excel_csv)"
+    ],
+    "v0.8.7": [
+      "Import Excel/CSV dengan pemetaan lajur — baca susun atur Excel/CSV bebas dan petakan sendiri lajurnya",
+      "Format baharu: STABU SUFX (spesifikasi XML) dan RAW lama (.rsu)",
+      "Katalog harga (BMEcat/DICO) → terus ke dalam pustaka sumber"
+    ],
+    "v0.8.6": [
+      "Ringkasan laporan memaparkan peratusan kos tambahan yang betul dan menghormati kadar yang disesuaikan (sebelum ini \"Overhed am\" boleh memaparkan 0%)",
+      "Model kos tambahan dikemaskan secara dalaman; semua laporan kini mengira daripada sumber yang sama"
+    ],
+    "v0.8.5": [
+      "Jauh lebih banyak format import: .cuf, .dnc, .xtb (dengan baris terperinci), .rsx, .s01 dan .ifcx",
+      "Skrin putih pada Windows dibetulkan (WebView beralih kepada pemaparan perisian)",
+      "Enjin import dibina semula dengan kemas; jumlahnya sepadan tepat dengan fail sumber"
+    ],
+    "v0.8.4": [
+      "Medan kod: pilih kod STABU/NL-SfB dengan klik dua kali (dan tambah kod sendiri)",
+      "Import anggaran (.dnc): kini terus terbuka sebagai laporan anggaran klien yang padat",
+      "Projek, logo dan varian dipindahkan ke reben; panel sifat dikemaskan"
+    ],
+    "v0.8.3": [
+      "Penjejakan perubahan: pilih sama ada seluruh baris atau hanya sel yang berubah diserlahkan",
+      "Perubahan turut kelihatan dalam PDF laporan",
+      "Import anggaran: anggaran klien (.dnc) diimport terus dan dibuka melalui Fail → Buka",
+      "Pilihan laporan anggaran klien; sejarah perubahan bagi setiap baris (siapa/bila/apa)"
+    ],
+    "v0.8.2": [
+      "Pembantu anggaran: sejarah sembang bagi setiap anggaran, beberapa soalan sekali gus",
+      "Ciri OpenAEC (log masuk, storan awan) di sebalik satu tetapan"
+    ],
+    "v0.8.1": [
+      "Log masuk OpenAEC dan penambahbaikan pembantu",
+      "Mesej ralat AI yang jelas; teks pembantu boleh dipilih dan disalin"
+    ],
+    "v0.8.0": [
+      "Pembantu anggaran menerapkan perubahan terus dalam dokumen yang dibuka",
+      "Buka fail .calc/.mdb yang mengandungi JSON sebagai projek OCS asli"
+    ],
+    "v0.7.10": [
+      "Akaun OpenAEC dan navigasi bar bawah",
+      "Sembunyikan/papar lajur dengan klik kanan pada pengepala lajur",
+      "Tab Jam dan Kos tambahan digabungkan; laporan bergaya IBIS (Bouw 2)"
+    ]
+  }
+}

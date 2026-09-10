@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "39 lingue + FIEBDC-3 spagnolo (.bc3)",
+    "v0.10.3": "IVA ordinaria e ridotta — selezionabile per singolo elemento",
+    "v0.10.0": "Logo nell'intestazione del report + formule nelle celle",
+    "v0.9.0": "Totali BasCalc esatti + report in stile capitolato",
+    "v0.8.8": "Correzione dell'importazione Excel/CSV + tramite MCP",
+    "v0.8.7": "Quattro nuovi formati di importazione",
+    "v0.8.6": "Maggiorazioni corrette nel riepilogo del report",
+    "v0.8.5": "Importazione molto ampliata + correzione della schermata bianca",
+    "v0.8.4": "Selettore di codici + stima compatta per il committente",
+    "v0.8.3": "Revisione delle modifiche + importazione di computi",
+    "v0.8.2": "OpenAEC dietro un feature flag",
+    "v0.8.1": "Accesso OpenAEC + miglioramenti dell'assistente",
+    "v0.8.0": "L'assistente applica le modifiche direttamente",
+    "v0.7.10": "Account OpenAEC + navigazione nella barra inferiore"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "L'interfaccia è ora disponibile in 39 lingue — scegli la tua in Preferenze → Generale, oppure lascia che l'app segua la lingua di sistema",
+      "Supporto da destra a sinistra per arabo, farsi, ebraico e urdu: l'intero layout viene rispecchiato",
+      "L'inglese restava per metà in olandese; l'impostazione della lingua era bloccata internamente e oltre 500 testi erano scritti nel codice — entrambi i problemi sono risolti",
+      "Importazione ed esportazione FIEBDC-3 (.bc3): lo standard spagnolo per computi e banche dati di prezzi (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS: risolto l'errore «danneggiato» e riparata la build stessa; «Novità» compare ora nella tua lingua"
+    ],
+    "v0.10.3": [
+      "Nuova riga di maggiorazione «IVA ridotta» (9%) accanto a «IVA ordinaria» — i computi esistenti la ricevono automaticamente",
+      "Contrassegna capitoli, voci o righe come ad aliquota ridotta con il clic destro; gli elementi figli ereditano l'aliquota e la griglia mostra un'etichetta IVA",
+      "Base imponibile calcolata in proporzione dal contrassegno (maggiorazioni incluse) oppure inserita manualmente nel pannello delle maggiorazioni",
+      "Ripartizione dell'IVA applicata in tutti i report (IBIS mostra separatamente la base ordinaria e quella ridotta) e nel server MCP",
+      "Correzioni: IVA conteggiata due volte nel riepilogo Bouw 1 e un importo IVA inclusa mostrato sotto l'etichetta «Importo contrattuale IVA esclusa»"
+    ],
+    "v0.10.0": [
+      "Logo aziendale in alto a destra nell'intestazione del report (trasparente, si adatta); altezza dell'intestazione e colore della linea regolabili",
+      "Formule nelle celle numeriche (=12.2*2.22 oppure 12,2*2,2) — e il bug del decimale perso è risolto",
+      "Maggiorazioni: inserisci l'importo finale IVA esclusa e l'arrotondamento diventa automaticamente la differenza; IVA sull'importo arrotondato",
+      "Appalto principale: righe di somma con «+», colonna S facoltativa (contabilizzabile ereditato dal capitolo) e viste con soli subtotali",
+      "Lavora più in fretta: prezzi ±%, trova e sostituisci con Ctrl+F, compressione per livello, annullamento a più passaggi, righe di testo con a capo automatico"
+    ],
+    "v0.9.0": [
+      "Importazione BasCalc: costo e importo contrattuale coincidono con Excel al centesimo (maggiorazioni forfettarie + voce di arrotondamento fissa)",
+      "Descrizione dei lavori e appalto principale in impaginazione da capitolato: senza bordi di cella, paragrafi rientrati, subtotale per paragrafo",
+      "Il pulsante + accanto alla riga aggiunge una riga di calcolo; quantità sì/no direttamente nella barra degli strumenti del report",
+      "Salva con nome propone ora .ifcCalc come impostazione predefinita e protegge il file sorgente originale",
+      "Nuovo logo verde; correzioni di navigazione e finestre di dialogo (foglio di calcolo ↔ computo)"
+    ],
+    "v0.8.8": [
+      "Importazione Excel/CSV: a volte gli importi finivano a € 0 — risolto",
+      "L'importazione Excel/CSV è ora disponibile anche tramite il server MCP (strumento import_excel_csv)"
+    ],
+    "v0.8.7": [
+      "Importazione Excel/CSV con mappatura delle colonne — leggi layout Excel/CSV liberi e associa tu stesso le colonne",
+      "Nuovi formati: STABU SUFX (capitolato XML) e RAW legacy (.rsu)",
+      "Catalogo prezzi (BMEcat/DICO) → direttamente nella libreria delle risorse"
+    ],
+    "v0.8.6": [
+      "Il riepilogo del report mostra le percentuali di maggiorazione corrette e rispetta le aliquote personalizzate (in precedenza «Spese generali» poteva mostrare 0%)",
+      "Modello delle maggiorazioni riordinato internamente; tutti i report calcolano ora dalla stessa fonte"
+    ],
+    "v0.8.5": [
+      "Molti più formati di importazione: .cuf, .dnc, .xtb (con righe di dettaglio), .rsx, .s01 e .ifcx",
+      "Risolta la schermata bianca su Windows (WebView passa al rendering software)",
+      "Motore di importazione ricostruito da zero; i totali coincidono esattamente con i file sorgente"
+    ],
+    "v0.8.4": [
+      "Campo codice: scegli i codici STABU/NL-SfB con un doppio clic (e aggiungi i tuoi)",
+      "Importazione di computi (.dnc): ora si apre subito come report compatto di stima per il committente",
+      "Progetto, loghi e varianti spostati nella barra multifunzione; proprietà riordinate"
+    ],
+    "v0.8.3": [
+      "Revisione delle modifiche: scegli se evidenziare l'intera riga o solo la cella modificata",
+      "Modifiche visibili anche nel PDF del report",
+      "Importazione di computi: le stime per il committente (.dnc) vengono importate direttamente e aperte da File → Apri",
+      "Opzione di report di stima per il committente; cronologia delle modifiche per riga (chi/quando/cosa)"
+    ],
+    "v0.8.2": [
+      "Assistente di computo: cronologia della chat per computo, più domande insieme",
+      "Funzioni OpenAEC (accesso, archiviazione cloud) dietro un'impostazione"
+    ],
+    "v0.8.1": [
+      "Accesso OpenAEC e miglioramenti dell'assistente",
+      "Messaggi di errore IA chiari; il testo dell'assistente si può selezionare e copiare"
+    ],
+    "v0.8.0": [
+      "L'assistente di computo applica le modifiche direttamente nel documento aperto",
+      "Apri file .calc/.mdb contenenti JSON come progetto OCS nativo"
+    ],
+    "v0.7.10": [
+      "Account OpenAEC e navigazione nella barra inferiore",
+      "Nascondi/mostra colonne con il clic destro sull'intestazione di colonna",
+      "Schede Ore e Maggiorazioni unite; report in stile IBIS (Bouw 2)"
+    ]
+  }
+}

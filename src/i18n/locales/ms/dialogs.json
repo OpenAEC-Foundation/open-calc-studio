@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "Pautkan lajur",
+    "intro": "Pautkan setiap lajur daripada <b>{{name}}</b> kepada medan anggaran yang betul. Lajur yang ditetapkan kepada “— abaikan —” akan dilangkau.",
+    "columnN": "Lajur {{n}}",
+    "columnsLinked_one": "{{count}} lajur dipautkan",
+    "columnsLinked_other": "{{count}} lajur dipautkan",
+    "rows": "{{count}} baris",
+    "linkDescriptionFirst": "pautkan lajur “Huraian” terlebih dahulu",
+    "cancel": "Batal",
+    "import": "Import"
+  },
+  "quantityPicker": {
+    "title": "Pautkan kuantiti",
+    "tabSpreadsheet": "Hamparan",
+    "tabPdf": "Ukuran PDF",
+    "tabIfc": "Elemen IFC",
+    "cellNotNumeric": "Sel tidak mengandungi nombor yang sah",
+    "noSheets": "Belum ada helaian. Cipta hamparan terlebih dahulu.",
+    "sheet": "Helaian",
+    "cellReference": "Rujukan sel (cth. A5 atau B12)",
+    "value": "Nilai",
+    "empty": "(kosong)",
+    "linkCell": "Pautkan sel",
+    "noPdfMeasurements": "Belum ada ukuran PDF. Buka PDF dalam tab PDF terlebih dahulu dan buat ukuran.",
+    "sumLengths": "Σ Semua panjang",
+    "sumAreas": "Σ Semua luas",
+    "individualMeasurements": "Ukuran individu:",
+    "noIfcElements": "Belum ada elemen IFC. Buka fail IFC dalam tab 3D dan pilih satu elemen.",
+    "cancel": "Batal"
+  },
+  "excelPicker": {
+    "title": "Pautkan ke Excel",
+    "cannotReadFile": "Tidak dapat membaca fail",
+    "chooseFile": "Pilih fail...",
+    "noFileSelected": "Tiada fail dipilih",
+    "loadingFile": "Memuatkan fail...",
+    "cancel": "Batal",
+    "select": "Pilih"
+  },
+  "costItemPicker": {
+    "title": "Pautkan ke baris anggaran",
+    "searchPlaceholder": "Cari mengikut huraian atau kod...",
+    "suggestions": "Cadangan",
+    "results": "Keputusan ({{count}})",
+    "allLines": "Semua baris",
+    "unlink": "Nyahpaut",
+    "cancel": "Batal",
+    "link": "Pautkan"
+  },
+  "resourceTypes": {
+    "arbeid": "Buruh",
+    "materieel": "Peralatan",
+    "materiaal": "Bahan",
+    "onderaannemer": "Subkontraktor",
+    "overig": "Lain-lain"
+  },
+  "undo": {
+    "addResource": "Tambah sumber",
+    "wizard": "Bestari: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Pratonton — {{name}}"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "title": "সেটিংস",
+  "resetToDefaults": "ডিফল্টে রিসেট করুন",
+  "resetConfirm": "আপনি কি নিশ্চিতভাবে সব সেটিংস রিসেট করতে চান?",
+  "tabs": {
+    "general": "সাধারণ",
+    "appearance": "চেহারা",
+    "grid": "গ্রিড",
+    "files": "ফাইল",
+    "shortcuts": "শর্টকাট",
+    "plugins": "প্লাগইন",
+    "about": "পরিচিতি"
+  },
+  "general": {
+    "application": "অ্যাপ্লিকেশন",
+    "language": "ভাষা",
+    "startup": "শুরু",
+    "restoreSession": "শুরুতে আগের সেশন পুনরুদ্ধার করুন",
+    "checkUpdates": "আপডেট পরীক্ষা করুন",
+    "author": "লেখক",
+    "authorName": "নাম"
+  },
+  "appearance": {
+    "theme": "থিম",
+    "system": "সিস্টেম",
+    "default": "ডিফল্ট",
+    "dark": "গাঢ়",
+    "light": "হালকা",
+    "blue": "নীল",
+    "amberNavy": "অ্যাম্বার নেভি",
+    "warmEmber": "ওয়ার্ম এম্বার",
+    "highContrast": "উচ্চ কনট্রাস্ট",
+    "font": "ফন্ট",
+    "uiFontSize": "ইন্টারফেস ফন্টের আকার"
+  },
+  "grid": {
+    "general": "গ্রিড",
+    "showRowNumbers": "সারির নম্বর দেখান",
+    "alternateRowColors": "এক সারি অন্তর রং বদলান"
+  },
+  "files": {
+    "autoSave": "স্বয়ংক্রিয় সংরক্ষণ",
+    "autoSaveOption": "স্বয়ংক্রিয় সংরক্ষণ",
+    "off": "বন্ধ",
+    "afterDelay": "কিছুক্ষণ পর",
+    "onFocusChange": "ফোকাস বদলালে",
+    "onWindowChange": "উইন্ডো বদলালে",
+    "encoding": "এনকোডিং",
+    "defaultEncoding": "ডিফল্ট এনকোডিং",
+    "backup": "ব্যাকআপ",
+    "autoBackup": "স্বয়ংক্রিয় ব্যাকআপ"
+  },
+  "shortcuts": {
+    "placeholder": "শর্টকাট এখানে নির্ধারণ করা হবে"
+  },
+  "plugins": {
+    "placeholder": "প্লাগইন এখানে ব্যবস্থাপনা করা হবে"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "সংস্করণ",
+    "framework": "ফ্রেমওয়ার্ক",
+    "license": "লাইসেন্স",
+    "description": "ডাচ নির্মাণশিল্পের জন্য ওপেন সোর্স প্রাক্কলন সফটওয়্যার। সংরক্ষণ IFC ফরম্যাটে।"
+  }
+}

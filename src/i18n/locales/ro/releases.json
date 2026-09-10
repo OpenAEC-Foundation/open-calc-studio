@@ -1,0 +1,94 @@
+{
+  "names": {
+    "v0.11.0": "39 de limbi + FIEBDC-3 spaniol (.bc3)",
+    "v0.10.3": "TVA standard și redus — selectabil pe fiecare parte",
+    "v0.10.0": "Logo în antetul raportului + formule în celule",
+    "v0.9.0": "Totaluri BasCalc exacte + rapoarte în format de listă",
+    "v0.8.8": "Corectare import Excel/CSV + prin MCP",
+    "v0.8.7": "Patru formate noi de import",
+    "v0.8.6": "Adaosuri corectate în sinteza raportului",
+    "v0.8.5": "Import mult extins + corectarea ecranului alb",
+    "v0.8.4": "Selector de coduri + deviz compact pentru beneficiar",
+    "v0.8.3": "Urmărirea modificărilor + import de devize",
+    "v0.8.2": "OpenAEC în spatele unui comutator de funcționalitate",
+    "v0.8.1": "Autentificare OpenAEC + îmbunătățiri ale asistentului",
+    "v0.8.0": "Asistentul aplică modificările direct",
+    "v0.7.10": "Cont OpenAEC + navigare din bara de jos"
+  },
+  "highlights": {
+    "v0.11.0": [
+      "Interfața este acum disponibilă în 39 de limbi — alegeți-o pe a dumneavoastră din Preferințe → General sau lăsați aplicația să urmeze limba sistemului",
+      "Suport pentru scriere de la dreapta la stânga pentru arabă, farsi, ebraică și urdu: întreaga structură se oglindește",
+      "Engleza rămânea pe jumătate olandeză; setarea de limbă era blocată intern, iar peste 500 de texte erau scrise fix în cod — ambele au fost rezolvate",
+      "Import și export FIEBDC-3 (.bc3): standardul spaniol pentru devize și baze de date de prețuri (Presto, Arquímedes, Menfis, TCQ)",
+      "macOS: eroarea „deteriorat” a fost rezolvată și build-ul în sine reparat; „Noutăți” apare acum în limba dumneavoastră"
+    ],
+    "v0.10.3": [
+      "Rând nou de adaos „TVA redus” (9%) alături de „TVA standard” — devizele existente îl primesc automat",
+      "Marcați capitole, articole sau linii cu cotă redusă prin clic dreapta; subarticolele moștenesc cota, iar tabelul afișează o etichetă TVA",
+      "Baza impozabilă se calculează proporțional din marcaj (cu adaosuri incluse) sau se introduce manual în panoul de adaosuri",
+      "Împărțirea TVA se aplică în toate rapoartele (IBIS afișează separat baza standard/redusă) și în serverul MCP",
+      "Corectări: TVA numărat de două ori în sinteza Bouw 1 și o valoare cu TVA afișată sub eticheta „Valoare contract fără TVA”"
+    ],
+    "v0.10.0": [
+      "Logoul companiei în dreapta sus în antetul raportului (transparent, se scalează odată cu acesta); înălțimea antetului și culoarea liniei sunt reglabile",
+      "Formule în celulele numerice (=12.2*2.22 sau 12,2*2,2) — și eroarea zecimalei pierdute este rezolvată",
+      "Adaosuri: introduceți valoarea finală fără TVA, iar rotunjirea devine automat diferența; TVA pe valoarea rotunjită",
+      "Antrepriză generală: însumarea liniilor cu „+”, o coloană S opțională (decontabilitate moștenită de la capitol) și vizualizări doar cu subtotaluri",
+      "Lucrați mai rapid: prețuri ±%, găsire și înlocuire cu Ctrl+F, restrângere pe niveluri, anulare în mai mulți pași, linii de text cu încadrare"
+    ],
+    "v0.9.0": [
+      "Import BasCalc: prețul de cost și valoarea contractului corespund Excelului la cent (adaosuri uniforme + poziție fixă de rotunjire)",
+      "Descrierea lucrărilor și antrepriza generală în format de listă: fără borduri de celule, paragrafe indentate, subtotal pe paragraf",
+      "Butonul + de lângă rând adaugă o linie de calcul; cantitățile pornit/oprit direct din bara de instrumente a raportului",
+      "Salvare ca folosește acum implicit .ifcCalc și protejează fișierul sursă original",
+      "Logo verde nou; corectări de navigare și de ferestre de dialog (foaie de calcul ↔ deviz)"
+    ],
+    "v0.8.8": [
+      "Import Excel/CSV: uneori valorile ajungeau € 0 — rezolvat",
+      "Importul Excel/CSV este disponibil acum și prin serverul MCP (instrumentul import_excel_csv)"
+    ],
+    "v0.8.7": [
+      "Import Excel/CSV cu asocierea coloanelor — citiți fișiere Excel/CSV cu structură liberă și asociați singur coloanele",
+      "Formate noi: STABU SUFX (caiet de sarcini XML) și RAW vechi (.rsu)",
+      "Catalog de prețuri (BMEcat/DICO) → direct în biblioteca de resurse"
+    ],
+    "v0.8.6": [
+      "Sinteza raportului afișează procentele corecte de adaos și respectă cotele personalizate (anterior „Cheltuieli indirecte” putea afișa 0%)",
+      "Modelul de adaosuri a fost curățat pe plan intern; toate rapoartele calculează acum din aceeași sursă"
+    ],
+    "v0.8.5": [
+      "Mult mai multe formate de import: .cuf, .dnc, .xtb (cu linii de detaliu), .rsx, .s01 și .ifcx",
+      "Ecranul alb pe Windows a fost rezolvat (WebView revine la randarea software)",
+      "Motorul de import a fost rescris curat; totalurile corespund exact fișierelor sursă"
+    ],
+    "v0.8.4": [
+      "Câmpul de cod: alegeți coduri STABU/NL-SfB cu dublu clic (și adăugați-le pe ale dumneavoastră)",
+      "Import de deviz (.dnc): se deschide acum direct ca raport compact pentru beneficiar",
+      "Proiectul, logourile și variantele au trecut în panglică; proprietățile au fost ordonate"
+    ],
+    "v0.8.3": [
+      "Urmărirea modificărilor: alegeți dacă se evidențiază întregul rând sau doar celula modificată",
+      "Modificările sunt vizibile și în PDF-ul raportului",
+      "Import de devize: devizele pentru beneficiar (.dnc) se importă direct și se deschid din Fișier → Deschidere",
+      "Opțiune de raport pentru beneficiar; istoric al modificărilor pe fiecare linie (cine/când/ce)"
+    ],
+    "v0.8.2": [
+      "Asistent de devize: istoric de conversație pentru fiecare deviz, mai multe întrebări deodată",
+      "Funcțiile OpenAEC (autentificare, stocare în cloud) în spatele unei setări"
+    ],
+    "v0.8.1": [
+      "Autentificare OpenAEC și îmbunătățiri ale asistentului",
+      "Mesaje de eroare AI clare; textul asistentului poate fi selectat și copiat"
+    ],
+    "v0.8.0": [
+      "Asistentul de devize aplică modificările direct în documentul deschis",
+      "Deschiderea fișierelor .calc/.mdb care conțin JSON ca proiect OCS nativ"
+    ],
+    "v0.7.10": [
+      "Cont OpenAEC și navigare din bara de jos",
+      "Ascunderea/afișarea coloanelor prin clic dreapta pe antetul coloanei",
+      "Filele Ore și Adaosuri au fost unite; raport în stil IBIS (Bouw 2)"
+    ]
+  }
+}

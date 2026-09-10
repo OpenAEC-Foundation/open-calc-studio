@@ -1,0 +1,66 @@
+{
+  "title": "Paramètres",
+  "resetToDefaults": "Rétablir les valeurs par défaut",
+  "resetConfirm": "Voulez-vous vraiment réinitialiser tous les paramètres ?",
+  "tabs": {
+    "general": "Général",
+    "appearance": "Apparence",
+    "grid": "Grille",
+    "files": "Fichiers",
+    "shortcuts": "Raccourcis",
+    "plugins": "Modules",
+    "about": "À propos"
+  },
+  "general": {
+    "application": "Application",
+    "language": "Langue",
+    "startup": "Démarrage",
+    "restoreSession": "Restaurer la session au démarrage",
+    "checkUpdates": "Rechercher des mises à jour",
+    "author": "Auteur",
+    "authorName": "Nom"
+  },
+  "appearance": {
+    "theme": "Thème",
+    "system": "Système",
+    "default": "Par défaut",
+    "dark": "Sombre",
+    "light": "Clair",
+    "blue": "Bleu",
+    "amberNavy": "Ambre et bleu marine",
+    "warmEmber": "Braise chaude",
+    "highContrast": "Contraste élevé",
+    "font": "Police",
+    "uiFontSize": "Taille de police de l'interface"
+  },
+  "grid": {
+    "general": "Grille",
+    "showRowNumbers": "Afficher les numéros de ligne",
+    "alternateRowColors": "Alterner les couleurs de ligne"
+  },
+  "files": {
+    "autoSave": "Enregistrement automatique",
+    "autoSaveOption": "Enregistrement automatique",
+    "off": "Désactivé",
+    "afterDelay": "Après un délai",
+    "onFocusChange": "Au changement de focus",
+    "onWindowChange": "Au changement de fenêtre",
+    "encoding": "Encodage",
+    "defaultEncoding": "Encodage par défaut",
+    "backup": "Sauvegarde",
+    "autoBackup": "Sauvegarde automatique"
+  },
+  "shortcuts": {
+    "placeholder": "Les raccourcis se configureront ici"
+  },
+  "plugins": {
+    "placeholder": "Les modules se géreront ici"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Version",
+    "framework": "Framework",
+    "license": "Licence",
+    "description": "Logiciel d'estimation open source pour la construction néerlandaise. Stockage au format IFC."
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "title": "Configuración",
+  "resetToDefaults": "Restablecer valores predeterminados",
+  "resetConfirm": "¿Seguro que desea restablecer toda la configuración?",
+  "tabs": {
+    "general": "General",
+    "appearance": "Apariencia",
+    "grid": "Tabla",
+    "files": "Archivos",
+    "shortcuts": "Atajos",
+    "plugins": "Complementos",
+    "about": "Acerca de"
+  },
+  "general": {
+    "application": "Aplicación",
+    "language": "Idioma",
+    "startup": "Inicio",
+    "restoreSession": "Restaurar la sesión al iniciar",
+    "checkUpdates": "Buscar actualizaciones",
+    "author": "Autor",
+    "authorName": "Nombre"
+  },
+  "appearance": {
+    "theme": "Tema",
+    "system": "Sistema",
+    "default": "Predeterminado",
+    "dark": "Oscuro",
+    "light": "Claro",
+    "blue": "Azul",
+    "amberNavy": "Ámbar y azul marino",
+    "warmEmber": "Brasa cálida",
+    "highContrast": "Alto contraste",
+    "font": "Fuente",
+    "uiFontSize": "Tamaño de fuente de la interfaz"
+  },
+  "grid": {
+    "general": "Tabla",
+    "showRowNumbers": "Mostrar números de fila",
+    "alternateRowColors": "Alternar colores de fila"
+  },
+  "files": {
+    "autoSave": "Guardado automático",
+    "autoSaveOption": "Guardar automáticamente",
+    "off": "Desactivado",
+    "afterDelay": "Tras un intervalo",
+    "onFocusChange": "Al cambiar el foco",
+    "onWindowChange": "Al cambiar de ventana",
+    "encoding": "Codificación",
+    "defaultEncoding": "Codificación predeterminada",
+    "backup": "Copia de seguridad",
+    "autoBackup": "Copia de seguridad automática"
+  },
+  "shortcuts": {
+    "placeholder": "Aquí se configurarán los atajos de teclado"
+  },
+  "plugins": {
+    "placeholder": "Aquí se gestionarán los complementos"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "Versión",
+    "framework": "Framework",
+    "license": "Licencia",
+    "description": "Software libre de presupuestos para la construcción neerlandesa. Almacenamiento en formato IFC."
+  }
+}

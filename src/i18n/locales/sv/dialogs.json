@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "Koppla kolumner",
+    "intro": "Koppla varje kolumn från <b>{{name}}</b> till rätt kalkylfält. Kolumner som är satta till ”— ignorera —” hoppas över.",
+    "columnN": "Kolumn {{n}}",
+    "columnsLinked_one": "{{count}} kolumn kopplad",
+    "columnsLinked_other": "{{count}} kolumner kopplade",
+    "rows": "{{count}} rader",
+    "linkDescriptionFirst": "koppla först en ”Beskrivning”-kolumn",
+    "cancel": "Avbryt",
+    "import": "Importera"
+  },
+  "quantityPicker": {
+    "title": "Koppla mängd",
+    "tabSpreadsheet": "Kalkylblad",
+    "tabPdf": "PDF-mätning",
+    "tabIfc": "IFC-element",
+    "cellNotNumeric": "Cellen innehåller inget giltigt tal",
+    "noSheets": "Inga blad ännu. Skapa först ett kalkylblad.",
+    "sheet": "Blad",
+    "cellReference": "Cellreferens (t.ex. A5 eller B12)",
+    "value": "Värde",
+    "empty": "(tom)",
+    "linkCell": "Koppla cell",
+    "noPdfMeasurements": "Inga PDF-mätningar ännu. Öppna först en PDF på fliken PDF och gör mätningar.",
+    "sumLengths": "Σ Alla längder",
+    "sumAreas": "Σ Alla areor",
+    "individualMeasurements": "Enskilda mätningar:",
+    "noIfcElements": "Inga IFC-element ännu. Öppna en IFC-fil på fliken 3D och markera ett element.",
+    "cancel": "Avbryt"
+  },
+  "excelPicker": {
+    "title": "Koppla till Excel",
+    "cannotReadFile": "Filen kan inte läsas",
+    "chooseFile": "Välj fil …",
+    "noFileSelected": "Ingen fil vald",
+    "loadingFile": "Läser in filen …",
+    "cancel": "Avbryt",
+    "select": "Välj"
+  },
+  "costItemPicker": {
+    "title": "Koppla till kalkylrad",
+    "searchPlaceholder": "Sök på beskrivning eller kod …",
+    "suggestions": "Förslag",
+    "results": "Resultat ({{count}})",
+    "allLines": "Alla rader",
+    "unlink": "Ta bort koppling",
+    "cancel": "Avbryt",
+    "link": "Koppla"
+  },
+  "resourceTypes": {
+    "arbeid": "Arbetskostnad",
+    "materieel": "Maskiner",
+    "materiaal": "Material",
+    "onderaannemer": "Underentreprenör",
+    "overig": "Övrigt"
+  },
+  "undo": {
+    "addResource": "Lägg till resurs",
+    "wizard": "Guide: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Förhandsgranskning — {{name}}"
+  }
+}
