@@ -1,10 +1,14 @@
 import React, { useCallback, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ROW_HEIGHT, getColumnsForView, isColumnHidden } from './gridConstants';
 import { useAppStore } from '@/state/appStore';
 import { ColumnHeaderMenu } from './ColumnHeaderMenu';
 import type { GridColumn } from '@/types/costModel';
 
 export const GridHeader: React.FC = () => {
+  // useTranslation zorgt óók voor een herrender bij taalwissel, zodat
+  // getColumnsForView de labels in de nieuwe taal oplost.
+  const { t } = useTranslation('grid');
   const gridView = useAppStore((s) => s.gridView);
   const columnWidths = useAppStore((s) =>
     s.gridView === 'wpcalc' ? s.wpcalcColumnWidths
@@ -107,7 +111,7 @@ export const GridHeader: React.FC = () => {
             {showRestoreLeft && prevCol && (
               <div
                 className="grid-header-hidden-indicator"
-                title={`Verborgen kolom “${prevCol.label}” tonen`}
+                title={t('columnMenu.showHidden', { name: prevCol.label })}
                 onClick={(e) => { e.stopPropagation(); setColumnHidden(gridView, prevCol.key, false); }}
               />
             )}

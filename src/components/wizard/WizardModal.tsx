@@ -46,7 +46,7 @@ export default function WizardModal({ open, onClose }: WizardModalProps) {
 
   const handleInsert = () => {
     if (!result) return;
-    pushHistory(items, `Wizard: ${result.chapterName}`);
+    pushHistory(items, t('dialogs:undo.wizard', { name: result.chapterName }));
 
     // Determine insertion sort order (append at end of top level)
     const topLevelItems = items.filter(i => i.parentId === null);
@@ -80,7 +80,7 @@ export default function WizardModal({ open, onClose }: WizardModalProps) {
 
   const title = step === 'select' ? t('wizard.title')
     : step === 'params' ? `${selectedWizard?.icon} ${selectedWizard?.label}`
-    : `Preview — ${result?.chapterName}`;
+    : t('dialogs:wizard.previewTitle', { name: result?.chapterName });
 
   return (
     <Modal open={open} onClose={handleClose} title={title} className="wizard-modal">

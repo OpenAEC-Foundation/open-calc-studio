@@ -240,8 +240,8 @@ export function CloudPanel({ onClose }: { onClose: () => void }) {
           <div className="cloud-browser-header">
             <span className="cloud-icon" style={{ width: 15 }} />
             <span className="cloud-name">{t('description')}</span>
-            <span className="cloud-meta">Grootte</span>
-            <span className="cloud-meta date">Gewijzigd</span>
+            <span className="cloud-meta">{t('backstage:cloudPanel.size')}</span>
+            <span className="cloud-meta date">{t('backstage:cloudPanel.modified')}</span>
             <span style={{ width: 118, flexShrink: 0 }} />
           </div>
           {view.folders.map((folder) => (

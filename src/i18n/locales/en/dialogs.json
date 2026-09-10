@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "Link columns",
+    "intro": "Link each column from <b>{{name}}</b> to the correct estimate field. Columns set to “— ignore —” are skipped.",
+    "columnN": "Column {{n}}",
+    "columnsLinked_one": "{{count}} column linked",
+    "columnsLinked_other": "{{count}} columns linked",
+    "rows": "{{count}} rows",
+    "linkDescriptionFirst": "link a “Description” column first",
+    "cancel": "Cancel",
+    "import": "Import"
+  },
+  "quantityPicker": {
+    "title": "Link quantity",
+    "tabSpreadsheet": "Spreadsheet",
+    "tabPdf": "PDF measurement",
+    "tabIfc": "IFC element",
+    "cellNotNumeric": "Cell does not contain a valid number",
+    "noSheets": "No sheets yet. Create a spreadsheet first.",
+    "sheet": "Sheet",
+    "cellReference": "Cell reference (e.g. A5 or B12)",
+    "value": "Value",
+    "empty": "(empty)",
+    "linkCell": "Link cell",
+    "noPdfMeasurements": "No PDF measurements yet. Open a PDF in the PDF tab first and create measurements.",
+    "sumLengths": "Σ All lengths",
+    "sumAreas": "Σ All areas",
+    "individualMeasurements": "Individual measurements:",
+    "noIfcElements": "No IFC elements yet. Open an IFC file in the 3D tab and select an element.",
+    "cancel": "Cancel"
+  },
+  "excelPicker": {
+    "title": "Link to Excel",
+    "cannotReadFile": "Unable to read file",
+    "chooseFile": "Choose file...",
+    "noFileSelected": "No file selected",
+    "loadingFile": "Loading file...",
+    "cancel": "Cancel",
+    "select": "Select"
+  },
+  "costItemPicker": {
+    "title": "Link to estimate line",
+    "searchPlaceholder": "Search by description or code...",
+    "suggestions": "Suggestions",
+    "results": "Results ({{count}})",
+    "allLines": "All lines",
+    "unlink": "Unlink",
+    "cancel": "Cancel",
+    "link": "Link"
+  },
+  "resourceTypes": {
+    "arbeid": "Labor",
+    "materieel": "Equipment",
+    "materiaal": "Material",
+    "onderaannemer": "Subcontractor",
+    "overig": "Other"
+  },
+  "undo": {
+    "addResource": "Add resource",
+    "wizard": "Wizard: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Preview — {{name}}"
+  }
+}

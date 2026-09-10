@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { renderMarkdown, truncateMarkdown, stripReleaseBoilerplate } from './renderMarkdown';
 import './ReleaseNotesPanel.css';
 
@@ -145,6 +146,7 @@ function mergeReleases(fetched: Release[]): Release[] {
 }
 
 export function ReleaseNotesPanel() {
+  const { t } = useTranslation();
   const [releases, setReleases] = useState<Release[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -193,12 +195,12 @@ export function ReleaseNotesPanel() {
       </div>
 
       <div className="welcome-releases">
-        <h3>Wat is er nieuw</h3>
+        <h3>{t('releaseNotes.title')}</h3>
         {error && !releases && (
-          <p className="welcome-error">Kan release notes niet laden ({error})</p>
+          <p className="welcome-error">{t('releaseNotes.loadError', { error })}</p>
         )}
-        {!releases && !error && <p className="welcome-loading">Laden…</p>}
-        {releases?.length === 0 && <p>Geen releases gevonden</p>}
+        {!releases && !error && <p className="welcome-loading">{t('releaseNotes.loading')}</p>}
+        {releases?.length === 0 && <p>{t('releaseNotes.none')}</p>}
         {dedupeByTag(releases ?? []).map((r) => {
           const bullets = HIGHLIGHTS[r.tag_name];
           const notes = bullets ? '' : stripReleaseBoilerplate(r.body);

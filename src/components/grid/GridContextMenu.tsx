@@ -180,7 +180,7 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
   };
 
   const handleRemoveExcelLink = () => {
-    pushHistory(items, 'Verwijder Excel-link');
+    pushHistory(items, t('grid:contextMenu.removeExcelLink'));
     updateItem(item.id, 'excelLink', null);
     onClose();
   };
@@ -191,7 +191,7 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
   };
 
   const handleRemoveQuantityLink = () => {
-    pushHistory(items, 'Verwijder hoeveelheid-link');
+    pushHistory(items, t('grid:contextMenu.removeQuantityLink'));
     updateItem(item.id, 'quantityLink', null);
     onClose();
   };
@@ -202,7 +202,7 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
   // het tarief van hun ouder (default hoog).
   const canSetBtw = ['chapter', 'begrotingspost', 'bewakingspost', 'regel'].includes(item.rowType);
   const handleSetBtwTarief = (tarief: 'hoog' | 'laag' | null) => {
-    pushHistory(items, 'Btw-tarief');
+    pushHistory(items, t('grid:undo.vatRate'));
     const targets = hasMultipleSelected ? selectedItems : [item];
     for (const it of targets) {
       if (['chapter', 'begrotingspost', 'bewakingspost', 'regel'].includes(it.rowType)) {
@@ -222,7 +222,7 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
   const canMove = item.rowType !== 'chapter' && chapters.length > 0;
 
   const handleMoveToChapter = (chapterId: string) => {
-    pushHistory(items, 'Verplaats naar hoofdstuk');
+    pushHistory(items, t('grid:undo.moveToChapter'));
     updateItem(item.id, 'parentId', chapterId);
     onClose();
   };
@@ -234,30 +234,30 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
     { label: deleteLabel, action: handleDelete },
     { label: '-' },
     { label: copyLabel, action: handleCopy, shortcut: 'Ctrl+C' },
-    { label: t('copyToExcel', 'Kopiëren naar Excel'), action: handleCopyToExcel },
+    { label: t('grid:contextMenu.copyToExcel'), action: handleCopyToExcel },
     { label: t('paste'), action: handlePaste, disabled: clipboardItems.length === 0, shortcut: 'Ctrl+V' },
     { label: '-' },
     { label: t('indent'), action: handleIndent, shortcut: 'Tab' },
     { label: t('outdent'), action: handleOutdent, shortcut: 'Shift+Tab' },
     ...(canMove ? [
       { label: '-' },
-      { label: 'Verplaats naar...', action: () => setShowMoveSubmenu(!showMoveSubmenu), hasSubmenu: true },
+      { label: t('grid:contextMenu.moveTo'), action: () => setShowMoveSubmenu(!showMoveSubmenu), hasSubmenu: true },
     ] : []),
     ...(hasQuantity && onExcelLink ? [
       { label: '-' },
-      { label: 'Link naar Excel...', action: handleExcelLink },
-      ...(hasExcelLink ? [{ label: 'Verwijder Excel-link', action: handleRemoveExcelLink }] : []),
+      { label: t('grid:contextMenu.linkToExcel'), action: handleExcelLink },
+      ...(hasExcelLink ? [{ label: t('grid:contextMenu.removeExcelLink'), action: handleRemoveExcelLink }] : []),
     ] : []),
     ...(hasQuantity && onQuantityLink ? [
       { label: '-' },
-      { label: '🔗 Hoeveelheid linken (spreadsheet/PDF/IFC)...', action: handleQuantityLink },
-      ...(hasQuantityLink ? [{ label: 'Verwijder hoeveelheid-link', action: handleRemoveQuantityLink }] : []),
+      { label: t('grid:contextMenu.linkQuantity'), action: handleQuantityLink },
+      ...(hasQuantityLink ? [{ label: t('grid:contextMenu.removeQuantityLink'), action: handleRemoveQuantityLink }] : []),
     ] : []),
     ...(canSetBtw ? [
       { label: '-' },
-      { label: `${btwCheck(null)}Btw-tarief erven (standaard hoog)`, action: () => handleSetBtwTarief(null) },
-      { label: `${btwCheck('hoog')}Btw hoog tarief`, action: () => handleSetBtwTarief('hoog') },
-      { label: `${btwCheck('laag')}Btw laag tarief`, action: () => handleSetBtwTarief('laag') },
+      { label: `${btwCheck(null)}${t('grid:contextMenu.vatInherit')}`, action: () => handleSetBtwTarief(null) },
+      { label: `${btwCheck('hoog')}${t('grid:contextMenu.vatHigh')}`, action: () => handleSetBtwTarief('hoog') },
+      { label: `${btwCheck('laag')}${t('grid:contextMenu.vatLow')}`, action: () => handleSetBtwTarief('laag') },
     ] : []),
   ];
 

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useAppStore } from "@/state/appStore";
 import { isFooterRow } from "@/services/grid/gridRows";
 import RibbonGroup from "./RibbonGroup";
@@ -25,6 +26,7 @@ const MAX_SIZE = 24;
 const STANDAARD_SIZE = 11;
 
 export default function TekstopmaakTab() {
+  const { t } = useTranslation("ribbon");
   const items = useAppStore((s) => s.items);
   const activeItemId = useAppStore((s) => s.activeItemId);
   const activeRow = useAppStore((s) => s.activeRow);
@@ -63,17 +65,17 @@ export default function TekstopmaakTab() {
   };
 
   const zetUitlijning = (waarde: 'left' | 'center' | 'right') =>
-    pas('Tekst uitlijnen', (it) => updateItem(it.id, 'textAlign', waarde));
+    pas(t('tekstopmaak.histAlign'), (it) => updateItem(it.id, 'textAlign', waarde));
 
   const stapGrootte = (delta: number) =>
-    pas('Tekstgrootte', (it) => {
+    pas(t('tekstopmaak.histSize'), (it) => {
       const huidig = it.textSize ?? STANDAARD_SIZE;
       const nieuw = Math.max(MIN_SIZE, Math.min(MAX_SIZE, huidig + delta));
       updateItem(it.id, 'textSize', nieuw);
     });
 
   const wisOpmaak = () =>
-    pas('Opmaak wissen', (it) => {
+    pas(t('tekstopmaak.clearFormat'), (it) => {
       updateItem(it.id, 'textBold', false);
       updateItem(it.id, 'textItalic', false);
       updateItem(it.id, 'textUnderline', false);
@@ -84,47 +86,47 @@ export default function TekstopmaakTab() {
   return (
     <div className="ribbon-content">
       <div className="ribbon-groups">
-        <RibbonGroup label="Tekststijl">
-          <RibbonButton icon={textBoldIcon} label="Vet" title="Vet (hele regel)"
+        <RibbonGroup label={t('tekstopmaak.textStyle')}>
+          <RibbonButton icon={textBoldIcon} label={t('tekstopmaak.bold')} title={t('tekstopmaak.boldTitle')}
             size="small" disabled={uit} active={!!eerste?.textBold}
-            onClick={() => toggle('textBold', 'Tekst vet')} />
-          <RibbonButton icon={textItalicIcon} label="Cursief" title="Cursief (hele regel)"
+            onClick={() => toggle('textBold', t('tekstopmaak.histBold'))} />
+          <RibbonButton icon={textItalicIcon} label={t('tekstopmaak.italic')} title={t('tekstopmaak.italicTitle')}
             size="small" disabled={uit} active={!!eerste?.textItalic}
-            onClick={() => toggle('textItalic', 'Tekst cursief')} />
-          <RibbonButton icon={textUnderlineIcon} label="Onderstr." title="Onderstrepen (hele regel)"
+            onClick={() => toggle('textItalic', t('tekstopmaak.histItalic'))} />
+          <RibbonButton icon={textUnderlineIcon} label={t('tekstopmaak.underline')} title={t('tekstopmaak.underlineTitle')}
             size="small" disabled={uit} active={!!eerste?.textUnderline}
-            onClick={() => toggle('textUnderline', 'Tekst onderstrepen')} />
+            onClick={() => toggle('textUnderline', t('tekstopmaak.histUnderline'))} />
         </RibbonGroup>
 
-        <RibbonGroup label="Grootte">
-          <RibbonButton icon={textSizeUpIcon} label="Groter" title={`Groter (max ${MAX_SIZE} pt)`}
+        <RibbonGroup label={t('tekstopmaak.size')}>
+          <RibbonButton icon={textSizeUpIcon} label={t('tekstopmaak.larger')} title={t('tekstopmaak.largerTitle', { max: MAX_SIZE })}
             size="small" disabled={uit} onClick={() => stapGrootte(1)} />
-          <RibbonButton icon={textSizeDownIcon} label="Kleiner" title={`Kleiner (min ${MIN_SIZE} pt)`}
+          <RibbonButton icon={textSizeDownIcon} label={t('tekstopmaak.smaller')} title={t('tekstopmaak.smallerTitle', { min: MIN_SIZE })}
             size="small" disabled={uit} onClick={() => stapGrootte(-1)} />
         </RibbonGroup>
 
-        <RibbonGroup label="Uitlijning">
-          <RibbonButton icon={textAlignLeftIcon} label="Links" title="Links uitlijnen"
+        <RibbonGroup label={t('tekstopmaak.alignment')}>
+          <RibbonButton icon={textAlignLeftIcon} label={t('tekstopmaak.alignLeft')} title={t('tekstopmaak.alignLeftTitle')}
             size="small" disabled={uit} active={(eerste?.textAlign ?? 'left') === 'left'}
             onClick={() => zetUitlijning('left')} />
-          <RibbonButton icon={textAlignCenterIcon} label="Midden" title="Centreren"
+          <RibbonButton icon={textAlignCenterIcon} label={t('tekstopmaak.alignCenter')} title={t('tekstopmaak.alignCenterTitle')}
             size="small" disabled={uit} active={eerste?.textAlign === 'center'}
             onClick={() => zetUitlijning('center')} />
-          <RibbonButton icon={textAlignRightIcon} label="Rechts" title="Rechts uitlijnen"
+          <RibbonButton icon={textAlignRightIcon} label={t('tekstopmaak.alignRight')} title={t('tekstopmaak.alignRightTitle')}
             size="small" disabled={uit} active={eerste?.textAlign === 'right'}
             onClick={() => zetUitlijning('right')} />
         </RibbonGroup>
 
-        <RibbonGroup label="Herstellen">
-          <RibbonButton icon={textClearIcon} label="Opmaak wissen" title="Terug naar de standaardopmaak"
+        <RibbonGroup label={t('tekstopmaak.restore')}>
+          <RibbonButton icon={textClearIcon} label={t('tekstopmaak.clearFormat')} title={t('tekstopmaak.clearFormatTitle')}
             disabled={uit} onClick={wisOpmaak} />
         </RibbonGroup>
 
-        <RibbonGroup label="Selectie">
+        <RibbonGroup label={t('tekstopmaak.selection')}>
           <div style={{ padding: '4px 8px', fontSize: 11, color: 'var(--theme-text-secondary)', maxWidth: 190 }}>
             {uit
-              ? 'Zet de cursor op een tekst- of witregel om de opmaak te wijzigen.'
-              : `${doelen.length} regel${doelen.length === 1 ? '' : 's'} geselecteerd.`}
+              ? t('tekstopmaak.statusEmpty')
+              : t('tekstopmaak.statusSelected', { count: doelen.length })}
           </div>
         </RibbonGroup>
       </div>

@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { useTranslation, Trans } from 'react-i18next';
 import Modal from '../common/Modal';
 import {
   TARGET_FIELDS,
@@ -25,6 +26,7 @@ const PREVIEW_ROWS = 6;
  * te passen. Een niet-`ignore` doelveld kan aan hooguit één kolom hangen.
  */
 export default function ColumnMappingDialog({ open, data, onClose, onConfirm }: Props) {
+  const { t } = useTranslation('dialogs');
   const [mapping, setMapping] = useState<ColumnMapping>([]);
 
   useEffect(() => {
@@ -49,11 +51,15 @@ export default function ColumnMappingDialog({ open, data, onClose, onConfirm }: 
   const previewRows = data.rows.slice(0, PREVIEW_ROWS);
 
   return (
-    <Modal open={open} onClose={onClose} title="Kolommen koppelen" className="column-mapping-dialog">
+    <Modal open={open} onClose={onClose} title={t('columnMapping.title')} className="column-mapping-dialog">
       <div className="cmd-body">
         <p className="cmd-intro">
-          Koppel elke kolom uit <strong>{data.sourceName}</strong> aan het juiste begrotingsveld.
-          Kolommen op “— negeren —” worden overgeslagen.
+          <Trans
+            t={t}
+            i18nKey="columnMapping.intro"
+            values={{ name: data.sourceName }}
+            components={{ b: <strong /> }}
+          />
         </p>
         <div className="cmd-table-wrap">
           <table className="cmd-table">
@@ -61,7 +67,7 @@ export default function ColumnMappingDialog({ open, data, onClose, onConfirm }: 
               <tr>
                 {data.headers.map((h, i) => (
                   <th key={i}>
-                    <div className="cmd-header-name" title={h}>{h || `Kolom ${i + 1}`}</div>
+                    <div className="cmd-header-name" title={h}>{h || t('columnMapping.columnN', { n: i + 1 })}</div>
                     <select
                       value={mapping[i] ?? 'ignore'}
                       onChange={(e) => setCol(i, e.target.value as TargetField)}
@@ -89,17 +95,17 @@ export default function ColumnMappingDialog({ open, data, onClose, onConfirm }: 
         </div>
         <div className="cmd-footer">
           <span className="cmd-status">
-            {mappedCount} kolom{mappedCount === 1 ? '' : 'men'} gekoppeld · {data.rows.length} rijen
-            {!hasDescription && <span className="cmd-warn"> · koppel eerst een “Omschrijving”-kolom</span>}
+            {t('columnMapping.columnsLinked', { count: mappedCount })} · {t('columnMapping.rows', { count: data.rows.length })}
+            {!hasDescription && <span className="cmd-warn"> · {t('columnMapping.linkDescriptionFirst')}</span>}
           </span>
           <div className="cmd-actions">
-            <button className="cmd-btn" onClick={onClose}>Annuleren</button>
+            <button className="cmd-btn" onClick={onClose}>{t('columnMapping.cancel')}</button>
             <button
               className="cmd-btn cmd-btn-primary"
               disabled={!hasDescription}
               onClick={() => onConfirm(mapping)}
             >
-              Importeren
+              {t('columnMapping.import')}
             </button>
           </div>
         </div>

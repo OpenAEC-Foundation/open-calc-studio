@@ -9,11 +9,14 @@
  * - Extract quantities (volume, area, length) to push into the budget
  */
 import { useEffect, useRef, useState, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 import * as THREE from 'three';
 import * as OBC from '@thatopen/components';
 import * as OBF from '@thatopen/components-front';
 
 export function ThreeDViewer() {
+  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const componentsRef = useRef<OBC.Components | null>(null);
@@ -91,7 +94,7 @@ export function ThreeDViewer() {
         center.x, center.y, center.z,
       );
     } catch (e: any) {
-      setError(`IFC laden mislukt: ${e.message || e}`);
+      setError(i18next.t('viewer3d.loadFailed', { message: String(e.message || e) }));
     } finally {
       setLoading(false);
     }
@@ -126,9 +129,9 @@ export function ThreeDViewer() {
           onClick={() => fileInputRef.current?.click()}
           style={{ padding: '6px 12px', fontSize: 12, background: 'var(--theme-accent)', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer' }}
         >
-          📁 Open IFC...
+          {t('viewer3d.openIfc')}
         </button>
-        <span style={{ fontSize: 11, color: '#555' }}>of sleep een .ifc bestand</span>
+        <span style={{ fontSize: 11, color: '#555' }}>{t('viewer3d.dropHint')}</span>
         <input
           ref={fileInputRef}
           type="file"
@@ -144,7 +147,7 @@ export function ThreeDViewer() {
           background: 'rgba(255,255,255,0.95)', padding: 20, borderRadius: 8,
           fontSize: 14, zIndex: 20,
         }}>
-          IFC laden...
+          {t('viewer3d.loading')}
         </div>
       )}
 

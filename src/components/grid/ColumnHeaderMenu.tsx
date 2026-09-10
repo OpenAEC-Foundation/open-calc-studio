@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { GridColumn } from '@/types/costModel';
 import { useAppStore } from '@/state/appStore';
 import { isColumnHideable, isColumnHidden } from './gridConstants';
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export const ColumnHeaderMenu: React.FC<Props> = ({ x, y, column, columns, selectedColumns = [], gridView, onClose }) => {
+  const { t } = useTranslation('grid');
   const menuRef = useRef<HTMLDivElement>(null);
   const hiddenColumns = useAppStore((s) => s.hiddenColumns);
   const setColumnHidden = useAppStore((s) => s.setColumnHidden);
@@ -56,15 +58,15 @@ export const ColumnHeaderMenu: React.FC<Props> = ({ x, y, column, columns, selec
     .filter((k) => isColumnHideable(k));
   const meervoud = teVerbergen.length > 1;
   const label = meervoud
-    ? `Verberg ${teVerbergen.length} kolommen`
-    : `Verberg kolom “${columns.find((c) => c.key === teVerbergen[0])?.label ?? column.label}”`;
+    ? t('columnMenu.hideColumns', { count: teVerbergen.length })
+    : t('columnMenu.hideColumn', { name: columns.find((c) => c.key === teVerbergen[0])?.label ?? column.label });
 
   return (
     <div ref={menuRef} className="grid-context-menu column-header-menu" style={{ left: x, top: y }}>
       <button
         className="grid-context-menu-item"
         disabled={teVerbergen.length === 0}
-        title={teVerbergen.length === 0 ? 'Deze kolom is nodig voor de structuur en kan niet verborgen worden' : undefined}
+        title={teVerbergen.length === 0 ? t('columnMenu.cannotHide') : undefined}
         onClick={() => {
           if (teVerbergen.length === 0) return;
           for (const key of teVerbergen) setColumnHidden(gridView, key, true);
@@ -76,7 +78,7 @@ export const ColumnHeaderMenu: React.FC<Props> = ({ x, y, column, columns, selec
 
       <div className="grid-context-menu-separator" />
 
-      <div className="column-header-menu-section-title">Kolommen tonen / verbergen</div>
+      <div className="column-header-menu-section-title">{t('columnMenu.showHide')}</div>
       <div className="column-header-menu-list">
         {toggleable.map((c) => {
           const hidden = isColumnHidden(hiddenColumns, gridView, c.key);
@@ -103,7 +105,7 @@ export const ColumnHeaderMenu: React.FC<Props> = ({ x, y, column, columns, selec
           onClose();
         }}
       >
-        <span>Alle kolommen tonen</span>
+        <span>{t('columnMenu.showAll')}</span>
       </button>
     </div>
   );

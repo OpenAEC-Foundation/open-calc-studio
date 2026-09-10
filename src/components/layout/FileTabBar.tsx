@@ -291,7 +291,7 @@ export const FileTabBar: React.FC = () => {
       {documents.length === 0 && (
         <span className="file-tab-hint">{t("noDocumentOpen")}</span>
       )}
-      <button className="file-tab-add" onClick={newFile} title={t("new") ?? 'New'}>
+      <button className="file-tab-add" onClick={newFile} title={t("new")}>
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
           <line x1="6" y1="2" x2="6" y2="10" />
           <line x1="2" y1="6" x2="10" y2="6" />
@@ -309,20 +309,20 @@ export const FileTabBar: React.FC = () => {
             className="grid-context-menu-item"
             onClick={handleOpenInNewWindow}
             disabled={!canOpenInNewWindow}
-            title={!canOpenInNewWindow ? (contextDoc?.filePath ? '' : t('saveFirst') ?? 'Sla het bestand eerst op') : ''}
+            title={!canOpenInNewWindow ? (contextDoc?.filePath ? '' : t('saveFirst')) : ''}
           >
-            <span>{t('openInNewWindow') ?? 'Open in nieuw venster'}</span>
+            <span>{t('openInNewWindow')}</span>
           </button>
           <button
             className="grid-context-menu-item"
             onClick={handleViewBeside}
             disabled={!canViewBeside}
           >
-            <span>{t('viewBeside') ?? 'Bekijk naast huidige'}</span>
+            <span>{t('viewBeside')}</span>
           </button>
           <div className="grid-context-menu-separator" />
           <button className="grid-context-menu-item" onClick={handleCloseTab}>
-            <span>{t('closeTab') ?? 'Tabblad sluiten'}</span>
+            <span>{t('closeTab')}</span>
           </button>
         </div>
       )}

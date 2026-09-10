@@ -436,12 +436,12 @@ function App() {
           draggable
           onDragStart={handleDockDragStart}
           onClick={handleDockClick}
-          title={t('dragToDock') ?? 'Klik om terug te docken in het hoofdvenster'}
+          title={t('dragToDock')}
         >
           <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
             <path d="M4 2v12M8 6l-4 4 4 4" />
           </svg>
-          <span>{t('dockToMain') ?? 'Dock naar hoofdvenster'}</span>
+          <span>{t('dockToMain')}</span>
         </div>
       )}
       <div className="content">
@@ -450,9 +450,9 @@ function App() {
           <button
             className="start-sidebar-collapsed-tab"
             onClick={() => setStartSidebarOpen(true)}
-            title="Start"
+            title={t('start')}
           >
-            <span>Start</span>
+            <span>{t('start')}</span>
           </button>
         )}
         {startSidebarOpen && (
@@ -465,7 +465,7 @@ function App() {
         {documents.length === 0 ? (
           <div className="start-empty-main">
             <h3>{t("appName")}</h3>
-            <p>Geen begroting open. Maak er een aan via 'Start' links →</p>
+            <p>{t('app.noBudgetOpen')}</p>
           </div>
         ) : (
         <>
@@ -486,7 +486,7 @@ function App() {
               <button
                 className="left-panel-close-btn"
                 onClick={() => setLeftPanelOpen(false)}
-                title="Inklappen"
+                title={t('collapse')}
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                   <path d="M10.78 4.22a.75.75 0 010 1.06L8.06 8l2.72 2.72a.75.75 0 11-1.06 1.06L6.94 8.53a.75.75 0 010-1.06l2.78-2.78a.75.75 0 011.06 0z"/>
@@ -507,7 +507,7 @@ function App() {
               <SubSheetEditor sheetId={activeSubSheetId} />
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1, gap: 12 }}>
-                <span style={{ color: 'var(--theme-text-muted)', fontSize: 14 }}>Maak berekeningen in een spreadsheet werkblad</span>
+                <span style={{ color: 'var(--theme-text-muted)', fontSize: 14 }}>{t('app.spreadsheetEmpty')}</span>
                 <button
                   style={{ padding: '8px 20px', background: '#d97706', color: 'white', border: 'none', borderRadius: 6, cursor: 'pointer', fontSize: 13 }}
                   onClick={() => {
@@ -516,7 +516,7 @@ function App() {
                     useAppStore.getState().setActiveSubSheet(id);
                   }}
                 >
-                  + Nieuw werkblad
+                  {t('app.newSheet')}
                 </button>
               </div>
             )
@@ -564,7 +564,7 @@ function App() {
               <button
                 className="right-panel-close-btn"
                 onClick={() => setRightPanelOpen(false)}
-                title="Inklappen"
+                title={t('collapse')}
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                   <path d="M5.22 4.22a.75.75 0 011.06 0l2.78 2.78a.75.75 0 010 1.06l-2.78 2.78a.75.75 0 11-1.06-1.06L7.94 8 5.22 5.28a.75.75 0 010-1.06z"/>
@@ -585,7 +585,7 @@ function App() {
         <button
           className="chat-fab"
           onClick={() => useAppStore.getState().toggleChatPanel()}
-          title="Chat assistent"
+          title={t('app.chatAssistant')}
           style={{ right: rightPanelOpen ? rightPanelWidth + 20 : 20 }}
         >
           💬

@@ -120,8 +120,8 @@ export default function Ribbon({ onFileTabClick }: RibbonProps) {
       case "rapportage": return <RapportageTab />;
       case "offerte": return <OfferteTab />;
       case "spreadsheet": return <SpreadsheetTab />;
-      case "viewer3d": return <div className="ribbon-content"><div style={{ padding: 12, fontSize: 12, color: 'var(--theme-text-muted)' }}>3D IFC Viewer — sleep een .ifc bestand naar het canvas of klik "Open IFC..."</div></div>;
-      case "pdf": return <div className="ribbon-content"><div style={{ padding: 12, fontSize: 12, color: 'var(--theme-text-muted)' }}>PDF Viewer met meetfuncties — open een PDF en gebruik de tools voor lengte/oppervlak</div></div>;
+      case "viewer3d": return <div className="ribbon-content"><div style={{ padding: 12, fontSize: 12, color: 'var(--theme-text-muted)' }}>{t('placeholders.viewer3d')}</div></div>;
+      case "pdf": return <div className="ribbon-content"><div style={{ padding: 12, fontSize: 12, color: 'var(--theme-text-muted)' }}>{t('placeholders.pdf')}</div></div>;
       case "ifc": return <IfcTab />;
       case "tekstopmaak": return <TekstopmaakTab />;
     }
@@ -134,7 +134,7 @@ export default function Ribbon({ onFileTabClick }: RibbonProps) {
         {TABS.map((tab) => (
           <RibbonTab
             key={tab}
-            label={tab === 'tekstopmaak' ? 'Tekstopmaak' : t(`tabs.${tab}`)}
+            label={t(`tabs.${tab}`)}
             isActive={activeTab === tab}
             onClick={() => switchTab(tab)}
           />

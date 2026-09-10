@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 import { useAppStore } from '@/state/appStore';
 import { buildBudgetContext, ACTIE_PROTOCOL, parseActies, applyActies } from '@/services/assistant/assistantActions';
 import { BEGROTEN_KENNIS } from '@/services/assistant/begrotenKennis';
@@ -6,9 +8,6 @@ import { OPENAEC_ENABLED } from '@/services/buildFlags';
 import './ChatPanel.css';
 
 import type { ChatMessage } from '@/state/slices/chatSlice';
-
-const WELCOME =
-  'Hallo! Ik ben de **OpenAEC calculatieassistent** en ik kijk mee in de begroting die nu open staat. Stel een vraag ("wat is het duurste hoofdstuk?") of geef een opdracht ("verhoog de betonbakken naar 14 stuks", "voeg onder 21.01 een regel toe…") — wijzigingen voer ik direct in het document door, met ongedaan-maken als vangnet. Je kunt gerust meerdere vragen tegelijk stellen.';
 
 const EMPTY_MESSAGES: ChatMessage[] = [];
 
@@ -29,24 +28,25 @@ function describeAiError(err: unknown): string {
       serverMsg = String(j.message ?? j.error ?? '');
     } catch { /* geen JSON-body */ }
   }
-  const detail = serverMsg || raw || 'onbekende fout';
+  const detail = serverMsg || raw || i18next.t('chat.unknownError');
 
   if (status === '401' || /niet ingelogd|geen refresh_token|log opnieuw in|invalid_grant/i.test(raw)) {
-    return `⚠️ Niet (meer) ingelogd bij OpenAEC. Log opnieuw in via de knop rechtsboven en probeer het dan opnieuw.\n\n_Detail: ${detail}_`;
+    return i18next.t('chat.errNotSignedIn', { detail });
   }
   if (status === '402' || /insufficient credits/i.test(raw)) {
-    return '⚠️ Je OpenAEC AI-tegoed (tokens) is op. Koop tokens bij in de OpenAEC-portal en probeer het opnieuw.';
+    return i18next.t('chat.errNoCredits');
   }
   if (!status && /onbereikbaar|sending request|connection|econn|timed out|failed to connect|dns|refused/i.test(raw)) {
-    return `⚠️ Geen verbinding met de OpenAEC-dienst. Draait de accounts-server (localhost:4000)?\n\n_Detail: ${detail}_`;
+    return i18next.t('chat.errNoConnection', { detail });
   }
   if (status && status.startsWith('5')) {
-    return `⚠️ De OpenAEC AI-dienst gaf een serverfout (${status}) — dit ligt aan de serverkant.\n\n_Detail: ${detail}_`;
+    return i18next.t('chat.errServer', { status, detail });
   }
-  return `⚠️ AI-aanroep mislukt${status ? ` (${status})` : ''}.\n\n_Detail: ${detail}_`;
+  return i18next.t('chat.errGeneric', { statusSuffix: status ? ` (${status})` : '', detail });
 }
 
 export function ChatPanel() {
+  const { t } = useTranslation();
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -111,7 +111,7 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
     // (1) OpenAEC-account
     if (OPENAEC_ENABLED && accountsUser) {
       const prompt = `${contextBlock}\n\n${historyText}\n\nAssistent:`;
-      return (await accountsAiComplete(prompt, buildSystemPrompt())) || 'Geen antwoord ontvangen.';
+      return (await accountsAiComplete(prompt, buildSystemPrompt())) || i18next.t('chat.noAnswer');
     }
 
     // (3) eigen Anthropic API-key
@@ -133,28 +133,31 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
       });
       if (!res.ok) throw new Error(`API error: ${res.status}`);
       const data = await res.json();
-      return data.content?.[0]?.text || 'Geen antwoord ontvangen.';
+      return data.content?.[0]?.text || i18next.t('chat.noAnswer');
     }
 
     // (2) geen AI — lokaal antwoord uit de snapshot
     const total = chapters.reduce((s, c) => s + c.total, 0);
     const lower = text.toLowerCase();
+    const fmtTotal = Math.round(total).toLocaleString('nl-NL');
+    const chapterList = chapters.map(c => `- ${c.code} ${c.description}: €${Math.round(c.total).toLocaleString('nl-NL')}`).join('\n');
     if (lower.includes('totaal') || lower.includes('kosten') || lower.includes('prijs')) {
-      return `De totale kostprijs van deze begroting is **€${Math.round(total).toLocaleString('nl-NL')}** excl. BTW.\n\nVerdeling per hoofdstuk:\n${chapters.map(c => `- ${c.code} ${c.description}: €${Math.round(c.total).toLocaleString('nl-NL')}`).join('\n')}`;
+      return i18next.t('chat.localTotal', { total: fmtTotal, list: chapterList });
     }
     if (lower.includes('hoofdstuk') || lower.includes('overzicht')) {
-      return `De begroting heeft **${chapters.length} hoofdstukken**:\n${chapters.map(c => `- ${c.code} ${c.description}: €${Math.round(c.total).toLocaleString('nl-NL')}`).join('\n')}\n\n**Totaal: €${Math.round(total).toLocaleString('nl-NL')}**`;
+      return i18next.t('chat.localChapters', { count: chapters.length, list: chapterList, total: fmtTotal });
     }
     if (lower.includes('duurste') || lower.includes('grootste')) {
       const sorted = [...chapters].sort((a, b) => b.total - a.total);
-      return `De duurste hoofdstukken:\n${sorted.slice(0, 5).map((c, i) => `${i + 1}. ${c.code} ${c.description}: €${Math.round(c.total).toLocaleString('nl-NL')} (${total ? Math.round(c.total / total * 100) : 0}%)`).join('\n')}`;
+      const list = sorted.slice(0, 5).map((c, i) => `${i + 1}. ${c.code} ${c.description}: €${Math.round(c.total).toLocaleString('nl-NL')} (${total ? Math.round(c.total / total * 100) : 0}%)`).join('\n');
+      return i18next.t('chat.localTop', { list });
     }
     if (lower.includes('m2') || lower.includes('per vierkante meter') || lower.includes('bvo')) {
       return bvo && bvo > 0
-        ? `Met een BVO van ${bvo} m² is de kostprijs **€${Math.round(total / bvo).toLocaleString('nl-NL')}/m²** excl. BTW.`
-        : `Er is geen BVO ingesteld. Stel deze in via het eigenschappenpaneel om de kosten per m² te berekenen.`;
+        ? i18next.t('chat.localBvo', { bvo, value: Math.round(total / bvo).toLocaleString('nl-NL') })
+        : i18next.t('chat.localNoBvo');
     }
-    return `Ik kan je helpen met vragen over je begroting. Probeer bijvoorbeeld:\n- "Wat is het totaal?"\n- "Wat zijn de duurste hoofdstukken?"\n- "Hoeveel per m²?"\n\n💡 Voor de volledige AI-assistent: log in met OpenAEC of stel een Anthropic API-key in.`;
+    return i18next.t('chat.localHelp');
   }, [accountsUser, accountsAiComplete, buildSystemPrompt]);
 
   const handleSend = useCallback(async () => {
@@ -191,11 +194,11 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
         if (useAppStore.getState().activeDocumentId === docId) {
           resultaten = applyActies(acties);
         } else {
-          resultaten = ['⚠️ Wijzigingen niet automatisch toegepast — een ander document is nu actief. Schakel terug en stel de opdracht opnieuw.'];
+          resultaten = [i18next.t('chat.notApplied')];
         }
       }
       const inhoud = [cleanText || (resultaten.length ? '' : raw), resultaten.join('\n')].filter(Boolean).join('\n\n');
-      updateChatMessage(docId, pendingId, { content: inhoud || 'Geen antwoord ontvangen.', status: 'done' });
+      updateChatMessage(docId, pendingId, { content: inhoud || i18next.t('chat.noAnswer'), status: 'done' });
     } catch (err: any) {
       updateChatMessage(docId, pendingId, { content: describeAiError(err), status: 'error' });
     }
@@ -220,15 +223,15 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
     <div className="chat-panel">
       <div className="chat-header">
         <div className="chat-header-titles">
-          <span className="chat-title">✨ OpenAEC calculatieassistent</span>
-          <span className="chat-subtitle" title={activeDocName}>{activeDocName ? `werkt in: ${activeDocName}` : 'geen document geopend'}</span>
+          <span className="chat-title">✨ {t('chat.title')}</span>
+          <span className="chat-subtitle" title={activeDocName}>{activeDocName ? t('chat.workingIn', { name: activeDocName }) : t('chat.noDocument')}</span>
         </div>
         {OPENAEC_ENABLED && accountsUser && aiCredits != null && (
           <span
             className="chat-credits"
-            title="Resterend AI-tegoed (tokens) van je OpenAEC-account"
+            title={t('chat.creditsTitle')}
           >
-            {aiCredits.toLocaleString('nl-NL')} tokens
+            {t('chat.tokens', { amount: aiCredits.toLocaleString('nl-NL') })}
           </span>
         )}
         <button className="chat-close" onClick={toggleChatPanel}>✕</button>
@@ -236,13 +239,13 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
       <div className="chat-messages">
         {messages.length === 0 && (
           <div className="chat-message chat-assistant">
-            <div className="chat-bubble" dangerouslySetInnerHTML={{ __html: renderContent(WELCOME) }} />
+            <div className="chat-bubble" dangerouslySetInnerHTML={{ __html: renderContent(t('chat.welcome')) }} />
           </div>
         )}
         {messages.map((msg) => (
           <div key={msg.id} className={`chat-message chat-${msg.role}`}>
             {msg.status === 'pending' ? (
-              <div className="chat-bubble chat-typing">Denken…</div>
+              <div className="chat-bubble chat-typing">{t('chat.thinking')}</div>
             ) : (
               <div
                 className={`chat-bubble${msg.status === 'error' ? ' chat-error' : ''}`}
@@ -256,9 +259,9 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
       {messages.length === 0 && (
         <div className="chat-chips">
           {[
-            'Wat is het duurste hoofdstuk?',
-            'Hoeveel uren zitten er in totaal in?',
-            'Verhoog het aantal van de eerste regel met 10%',
+            t('chat.chip1'),
+            t('chat.chip2'),
+            t('chat.chip3'),
           ].map((s) => (
             <button key={s} className="chat-chip" onClick={() => { setInput(s); inputRef.current?.focus(); }}>
               {s}
@@ -273,7 +276,7 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder={pendingCount > 0 ? `Nog een vraag stellen kan (${pendingCount} lopend)…` : 'Vraag of opdracht voor deze begroting…'}
+          placeholder={pendingCount > 0 ? t('chat.placeholderPending', { count: pendingCount }) : t('chat.placeholder')}
           rows={2}
         />
         <button

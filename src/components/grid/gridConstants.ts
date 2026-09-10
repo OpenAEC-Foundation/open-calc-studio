@@ -1,98 +1,136 @@
+import i18next from 'i18next';
 import type { GridColumn } from '@/types/costModel';
 import type { GridView } from '@/state/slices/uiSlice';
 
 export const ROW_HEIGHT = 24;
 export const OVERSCAN = 10;
 
+/**
+ * Kolomdefinitie met i18n-sleutels i.p.v. vaste teksten. `getColumnsForView`
+ * lost de sleutels bij elke aanroep op via i18next, zodat een taalwissel
+ * direct doorwerkt zodra de consumerende componenten herrenderen
+ * (react-i18next triggert dat voor componenten met useTranslation).
+ */
+interface ColumnDef extends Omit<GridColumn, 'label' | 'abbr' | 'tooltip'> {
+  labelKey: string;
+  abbrKey?: string;
+  tooltipKey?: string;
+}
+
+/** i18next.t met 'grid'-namespace; vóór init valt hij terug op de sleutel. */
+const tr = (key: string): string =>
+  i18next.isInitialized ? i18next.t(key, { ns: 'grid' }) : key;
+
+function resolveColumn(def: ColumnDef): GridColumn {
+  const { labelKey, abbrKey, tooltipKey, ...rest } = def;
+  return {
+    ...rest,
+    label: tr(labelKey),
+    ...(abbrKey ? { abbr: tr(abbrKey) } : {}),
+    ...(tooltipKey ? { tooltip: tr(tooltipKey) } : {}),
+  };
+}
+
 /** UI-1: norm-gebaseerde kolommen (huidige layout) */
-export const GRID_COLUMNS: GridColumn[] = [
-  { key: 'sortIndex', label: 'ID', width: 32, minWidth: 28, editable: false, type: 'computed', align: 'center' },
-  { key: 'rowType', label: 'Type', width: 62, minWidth: 50, editable: false, type: 'computed', align: 'center' },
-  { key: 'rowNumber', label: 'Nr', width: 50, minWidth: 40, editable: false, type: 'computed', align: 'center' },
-  { key: 'code', label: 'Code', abbr: 'code', width: 42, minWidth: 32, editable: true, type: 'text', align: 'left' },
-  { key: 'description', label: 'Omschrijving', abbr: 'omschr', width: 380, minWidth: 120, editable: true, type: 'text', align: 'left' },
-  { key: 'quantity', label: 'Aantal', abbr: 'aant', width: 80, minWidth: 50, editable: true, type: 'number', align: 'center', tooltip: 'Aantal (aant)\nOp rekenregel en (bewakings)post\nDimensieloos getal' },
-  { key: 'productienorm', label: 'Prod.norm', abbr: 'pnorm', width: 80, minWidth: 50, editable: true, type: 'number', align: 'center', tooltip: 'Productienorm (pnorm)\nAlleen op rekenregel\nBijv. 8 uur per persoon per dag' },
-  { key: 'productiecapaciteit', label: 'Prod.cap.', abbr: 'pcap', width: 80, minWidth: 50, editable: true, type: 'number', align: 'center', tooltip: 'Productiecapaciteit (pcap)\nAlleen op rekenregel\nDeler in de hoeveelheidformule' },
-  { key: 'hoeveelheid', label: 'Hoeveelheid', abbr: 'hoev', width: 90, minWidth: 60, editable: true, type: 'number', align: 'center', tooltip: 'Hoeveelheid (hoev)\nregel: aant × pnorm / pcap (berekend)\nbgrps/bwkps: Aantal, direct bewerkbaar\ntekst: direct invulbaar' },
-  { key: 'unit', label: 'Eenheid', abbr: 'eenh', width: 55, minWidth: 45, editable: true, type: 'unit-select', align: 'center', tooltip: 'Eenheid (eenh)\nbgrps, bwkps, regel' },
-  { key: 'verrekenbaar', label: 'Verr.', abbr: 'verr', width: 32, minWidth: 28, editable: true, type: 'vn-select', align: 'center', tooltip: 'Verrekenbaarheid (verr)\nAlleen op hfdst\nV=Verrekenbaar, A=Aanbod\nN=Niet verrekenbaar, F=Fictief' },
-  { key: 'normUnitPrice', label: 'Prijs/middel', abbr: 'pmddl', width: 100, minWidth: 60, editable: true, type: 'currency', align: 'center', tooltip: 'Prijs per middel (pmddl)\nAlleen op rekenregel' },
-  { key: 'unitPrice', label: 'Eenheidsprijs', abbr: 'ehprs', width: 100, minWidth: 60, editable: false, type: 'computed', align: 'center', tooltip: 'Eenheidsprijs (ehprs)\nregel: hoev × pmddl\nbwkps: Σ regel ehprs\nbgrps: bedrag / hoev' },
-  { key: 'total', label: 'Bedrag', abbr: 'bedrag', width: 110, minWidth: 70, editable: true, type: 'computed', align: 'center', tooltip: 'Bedrag (bedrag)\nregel: = ehprs\nbwkps: Σ regel bedrag\nbgrps: Σ bwkps bedrag\nhfdst: Σ onderliggende bedrag' },
+const GRID_COLUMN_DEFS: ColumnDef[] = [
+  { key: 'sortIndex', labelKey: 'columns.id', width: 32, minWidth: 28, editable: false, type: 'computed', align: 'center' },
+  { key: 'rowType', labelKey: 'columns.type', width: 62, minWidth: 50, editable: false, type: 'computed', align: 'center' },
+  { key: 'rowNumber', labelKey: 'columns.nr', width: 50, minWidth: 40, editable: false, type: 'computed', align: 'center' },
+  { key: 'code', labelKey: 'columns.code', abbrKey: 'abbr.code', width: 42, minWidth: 32, editable: true, type: 'text', align: 'left' },
+  { key: 'description', labelKey: 'columns.description', abbrKey: 'abbr.description', width: 380, minWidth: 120, editable: true, type: 'text', align: 'left' },
+  { key: 'quantity', labelKey: 'columns.quantity', abbrKey: 'abbr.quantity', width: 80, minWidth: 50, editable: true, type: 'number', align: 'center', tooltipKey: 'tooltips.quantity' },
+  { key: 'productienorm', labelKey: 'columns.productienorm', abbrKey: 'abbr.productienorm', width: 80, minWidth: 50, editable: true, type: 'number', align: 'center', tooltipKey: 'tooltips.productienorm' },
+  { key: 'productiecapaciteit', labelKey: 'columns.productiecapaciteit', abbrKey: 'abbr.productiecapaciteit', width: 80, minWidth: 50, editable: true, type: 'number', align: 'center', tooltipKey: 'tooltips.productiecapaciteit' },
+  { key: 'hoeveelheid', labelKey: 'columns.hoeveelheid', abbrKey: 'abbr.hoeveelheid', width: 90, minWidth: 60, editable: true, type: 'number', align: 'center', tooltipKey: 'tooltips.hoeveelheid' },
+  { key: 'unit', labelKey: 'columns.unit', abbrKey: 'abbr.unit', width: 55, minWidth: 45, editable: true, type: 'unit-select', align: 'center', tooltipKey: 'tooltips.unit' },
+  { key: 'verrekenbaar', labelKey: 'columns.verrekenbaar', abbrKey: 'abbr.verrekenbaar', width: 32, minWidth: 28, editable: true, type: 'vn-select', align: 'center', tooltipKey: 'tooltips.verrekenbaar' },
+  { key: 'normUnitPrice', labelKey: 'columns.normUnitPrice', abbrKey: 'abbr.normUnitPrice', width: 100, minWidth: 60, editable: true, type: 'currency', align: 'center', tooltipKey: 'tooltips.normUnitPrice' },
+  { key: 'unitPrice', labelKey: 'columns.unitPrice', abbrKey: 'abbr.unitPrice', width: 100, minWidth: 60, editable: false, type: 'computed', align: 'center', tooltipKey: 'tooltips.unitPrice' },
+  { key: 'total', labelKey: 'columns.amount', abbrKey: 'abbr.amount', width: 110, minWidth: 70, editable: true, type: 'computed', align: 'center', tooltipKey: 'tooltips.total' },
 ];
 
 /** UI-2: resource-breakdown kolommen (zoals WpCalc screenshot) */
-export const WPCALC_COLUMNS: GridColumn[] = [
-  { key: 'sortIndex', label: 'ID', width: 32, minWidth: 28, editable: false, type: 'computed', align: 'center' },
-  { key: 'rowType', label: 'Type', width: 62, minWidth: 50, editable: false, type: 'computed', align: 'center' },
-  { key: 'chapterCode', label: 'Hst', abbr: 'hst', width: 40, minWidth: 30, editable: true, type: 'text', align: 'center', tooltip: 'Hoofdstuknummer' },
-  { key: 'paragraphCode', label: 'Paragraaf', abbr: 'par', width: 65, minWidth: 40, editable: false, type: 'computed', align: 'center', tooltip: 'Paragraafnummer' },
-  { key: 'rowNumber', label: 'Nr', width: 50, minWidth: 40, editable: true, type: 'text', align: 'center' },
-  { key: 'description', label: 'Omschrijving', abbr: 'omschr', width: 240, minWidth: 120, editable: true, type: 'text', align: 'left' },
-  { key: 'quantity', label: 'Aantal', abbr: 'aant', width: 70, minWidth: 45, editable: true, type: 'number', align: 'right' },
-  { key: 'unit', label: 'Eenheid', abbr: 'eenh', width: 50, minWidth: 30, editable: true, type: 'unit-select', align: 'center' },
-  { key: 'normUnitPrice', label: 'Prijs', abbr: 'prijs', width: 70, minWidth: 50, editable: true, type: 'currency', align: 'right', tooltip: 'Prijs per eenheid / middel' },
-  { key: 'productienorm', label: 'Norm', abbr: 'norm', width: 60, minWidth: 40, editable: true, type: 'number', align: 'right', tooltip: 'Productienorm' },
-  { key: 'hoeveelheid', label: 'Uren', abbr: 'uren', width: 60, minWidth: 45, editable: true, type: 'number', align: 'right', tooltip: 'Uren (berekend: aant × norm)' },
-  { key: 'tarief', label: 'Tar.', abbr: 'tar', width: 45, minWidth: 35, editable: true, type: 'tarief-select', align: 'center', tooltip: 'Tariefgroep (A/B/C)' },
-  { key: 'arbeidTotal', label: 'Loon', abbr: 'loon', width: 80, minWidth: 50, editable: false, type: 'computed', align: 'right', tooltip: 'Loonkosten\nSom van regels met resourceType=arbeid' },
-  { key: 'materiaalTotal', label: 'Materiaal', abbr: 'mat', width: 80, minWidth: 50, editable: false, type: 'computed', align: 'right', tooltip: 'Materiaalkosten\nSom van regels met resourceType=materiaal' },
-  { key: 'materieelTotal', label: 'Materieel', abbr: 'matrl', width: 80, minWidth: 50, editable: false, type: 'computed', align: 'right', tooltip: 'Materieelkosten\nSom van regels met resourceType=materieel' },
-  { key: 'stelpostTotal', label: 'Stelpost', abbr: 'stelp', width: 80, minWidth: 50, editable: false, type: 'computed', align: 'right', tooltip: 'Stelpostkosten\nSom van regels met resourceType=overig' },
-  { key: 'onderaannemingTotal', label: 'Onderaann.', abbr: 'oa', width: 85, minWidth: 50, editable: false, type: 'computed', align: 'right', tooltip: 'Onderaannemingskosten\nSom van regels met resourceType=onderaannemer' },
-  { key: 'kostenEd', label: 'Kosten e/d', abbr: 'k e/d', width: 80, minWidth: 50, editable: false, type: 'computed', align: 'right', tooltip: 'Kosten per eenheid/dag' },
-  { key: 'unitPrice', label: 'Subtotaal', abbr: 'subtot', width: 90, minWidth: 60, editable: false, type: 'computed', align: 'right' },
-  { key: 'total', label: 'Totaal', abbr: 'totaal', width: 100, minWidth: 70, editable: true, type: 'computed', align: 'right' },
+const WPCALC_COLUMN_DEFS: ColumnDef[] = [
+  { key: 'sortIndex', labelKey: 'columns.id', width: 32, minWidth: 28, editable: false, type: 'computed', align: 'center' },
+  { key: 'rowType', labelKey: 'columns.type', width: 62, minWidth: 50, editable: false, type: 'computed', align: 'center' },
+  { key: 'chapterCode', labelKey: 'columns.chapterCode', abbrKey: 'abbr.chapterCode', width: 40, minWidth: 30, editable: true, type: 'text', align: 'center', tooltipKey: 'tooltips.chapterCode' },
+  { key: 'paragraphCode', labelKey: 'columns.paragraph', abbrKey: 'abbr.paragraph', width: 65, minWidth: 40, editable: false, type: 'computed', align: 'center', tooltipKey: 'tooltips.paragraph' },
+  { key: 'rowNumber', labelKey: 'columns.nr', width: 50, minWidth: 40, editable: true, type: 'text', align: 'center' },
+  { key: 'description', labelKey: 'columns.description', abbrKey: 'abbr.description', width: 240, minWidth: 120, editable: true, type: 'text', align: 'left' },
+  { key: 'quantity', labelKey: 'columns.quantity', abbrKey: 'abbr.quantity', width: 70, minWidth: 45, editable: true, type: 'number', align: 'right' },
+  { key: 'unit', labelKey: 'columns.unit', abbrKey: 'abbr.unit', width: 50, minWidth: 30, editable: true, type: 'unit-select', align: 'center' },
+  { key: 'normUnitPrice', labelKey: 'columns.price', abbrKey: 'abbr.price', width: 70, minWidth: 50, editable: true, type: 'currency', align: 'right', tooltipKey: 'tooltips.wpPrice' },
+  { key: 'productienorm', labelKey: 'columns.norm', abbrKey: 'abbr.norm', width: 60, minWidth: 40, editable: true, type: 'number', align: 'right', tooltipKey: 'tooltips.wpNorm' },
+  { key: 'hoeveelheid', labelKey: 'columns.hours', abbrKey: 'abbr.hours', width: 60, minWidth: 45, editable: true, type: 'number', align: 'right', tooltipKey: 'tooltips.wpHours' },
+  { key: 'tarief', labelKey: 'columns.tarief', abbrKey: 'abbr.tarief', width: 45, minWidth: 35, editable: true, type: 'tarief-select', align: 'center', tooltipKey: 'tooltips.wpTarief' },
+  { key: 'arbeidTotal', labelKey: 'columns.labour', abbrKey: 'abbr.labour', width: 80, minWidth: 50, editable: false, type: 'computed', align: 'right', tooltipKey: 'tooltips.wpLabour' },
+  { key: 'materiaalTotal', labelKey: 'columns.material', abbrKey: 'abbr.material', width: 80, minWidth: 50, editable: false, type: 'computed', align: 'right', tooltipKey: 'tooltips.wpMaterial' },
+  { key: 'materieelTotal', labelKey: 'columns.equipment', abbrKey: 'abbr.equipment', width: 80, minWidth: 50, editable: false, type: 'computed', align: 'right', tooltipKey: 'tooltips.wpEquipment' },
+  { key: 'stelpostTotal', labelKey: 'columns.provisionalSum', abbrKey: 'abbr.provisionalSum', width: 80, minWidth: 50, editable: false, type: 'computed', align: 'right', tooltipKey: 'tooltips.wpProvisionalSum' },
+  { key: 'onderaannemingTotal', labelKey: 'columns.subcontracting', abbrKey: 'abbr.subcontracting', width: 85, minWidth: 50, editable: false, type: 'computed', align: 'right', tooltipKey: 'tooltips.wpSubcontracting' },
+  { key: 'kostenEd', labelKey: 'columns.costsPerUnit', abbrKey: 'abbr.costsPerUnit', width: 80, minWidth: 50, editable: false, type: 'computed', align: 'right', tooltipKey: 'tooltips.wpCostsPerUnit' },
+  { key: 'unitPrice', labelKey: 'columns.subtotal', abbrKey: 'abbr.subtotal', width: 90, minWidth: 60, editable: false, type: 'computed', align: 'right' },
+  { key: 'total', labelKey: 'columns.total', abbrKey: 'abbr.total', width: 100, minWidth: 70, editable: true, type: 'computed', align: 'right' },
 ];
 
 /** Inschrijfstaat RAW: Code, Omschrijving, Hoeveelheid, Eenheid, Verr., Eenheidsprijs, Bedrag */
-export const INSCHRIJFSTAAT_COLUMNS: GridColumn[] = [
-  { key: 'rowType', label: 'Type', width: 62, minWidth: 50, editable: false, type: 'computed', align: 'center' },
-  { key: 'rowNumber', label: 'Nr', width: 50, minWidth: 40, editable: false, type: 'computed', align: 'center' },
-  { key: 'code', label: 'Code', abbr: 'code', width: 80, minWidth: 40, editable: true, type: 'text', align: 'left' },
-  { key: 'description', label: 'Omschrijving', abbr: 'omschr', width: 420, minWidth: 150, editable: true, type: 'text', align: 'left' },
-  { key: 'hoeveelheid', label: 'Hoeveelheid', abbr: 'hoev', width: 100, minWidth: 60, editable: true, type: 'number', align: 'center' },
-  { key: 'unit', label: 'Eh.', abbr: 'eenh', width: 45, minWidth: 35, editable: true, type: 'unit-select', align: 'center' },
-  { key: 'verrekenbaar', label: 'S', abbr: 'verr', width: 32, minWidth: 28, editable: true, type: 'vn-select', align: 'center', tooltip: 'Stelpost\nV=Verrekenbaar, A=Aanbod\nN=Niet verrekenbaar, F=Fictief' },
-  { key: 'unitPrice', label: 'Eenheidsprijs', abbr: 'ehprs', width: 110, minWidth: 70, editable: false, type: 'computed', align: 'right' },
-  { key: 'total', label: 'Bedrag', abbr: 'bedrag', width: 120, minWidth: 80, editable: true, type: 'computed', align: 'right' },
+const INSCHRIJFSTAAT_COLUMN_DEFS: ColumnDef[] = [
+  { key: 'rowType', labelKey: 'columns.type', width: 62, minWidth: 50, editable: false, type: 'computed', align: 'center' },
+  { key: 'rowNumber', labelKey: 'columns.nr', width: 50, minWidth: 40, editable: false, type: 'computed', align: 'center' },
+  { key: 'code', labelKey: 'columns.code', abbrKey: 'abbr.code', width: 80, minWidth: 40, editable: true, type: 'text', align: 'left' },
+  { key: 'description', labelKey: 'columns.description', abbrKey: 'abbr.description', width: 420, minWidth: 150, editable: true, type: 'text', align: 'left' },
+  { key: 'hoeveelheid', labelKey: 'columns.hoeveelheid', abbrKey: 'abbr.hoeveelheid', width: 100, minWidth: 60, editable: true, type: 'number', align: 'center' },
+  { key: 'unit', labelKey: 'columns.unitShort', abbrKey: 'abbr.unit', width: 45, minWidth: 35, editable: true, type: 'unit-select', align: 'center' },
+  { key: 'verrekenbaar', labelKey: 'columns.stelpostShort', abbrKey: 'abbr.verrekenbaar', width: 32, minWidth: 28, editable: true, type: 'vn-select', align: 'center', tooltipKey: 'tooltips.inschrijfVerrekenbaar' },
+  { key: 'unitPrice', labelKey: 'columns.unitPrice', abbrKey: 'abbr.unitPrice', width: 110, minWidth: 70, editable: false, type: 'computed', align: 'right' },
+  { key: 'total', labelKey: 'columns.amount', abbrKey: 'abbr.amount', width: 120, minWidth: 80, editable: true, type: 'computed', align: 'right' },
 ];
 
 /** UI-3: Simple — alleen de essentiële kolommen */
-const SIMPLE_COLUMNS: GridColumn[] = [
-  { key: 'sortIndex', label: 'ID', width: 32, minWidth: 28, editable: false, type: 'computed', align: 'center' },
-  { key: 'rowNumber', label: 'Nr', width: 50, minWidth: 40, editable: false, type: 'computed', align: 'center' },
-  { key: 'description', label: 'Omschrijving', abbr: 'omschr', width: 450, minWidth: 150, editable: true, type: 'text', align: 'left' },
-  { key: 'quantity', label: 'Aantal', abbr: 'aant', width: 80, minWidth: 50, editable: true, type: 'number', align: 'right' },
-  { key: 'unit', label: 'Eenheid', abbr: 'eenh', width: 55, minWidth: 40, editable: true, type: 'unit-select', align: 'center' },
-  { key: 'normUnitPrice', label: 'Prijs', abbr: 'prijs', width: 90, minWidth: 60, editable: true, type: 'currency', align: 'right' },
-  { key: 'unitPrice', label: 'Eenheidsprijs', abbr: 'ehprs', width: 100, minWidth: 60, editable: false, type: 'computed', align: 'right' },
-  { key: 'total', label: 'Totaal', abbr: 'totaal', width: 110, minWidth: 70, editable: true, type: 'computed', align: 'right' },
+const SIMPLE_COLUMN_DEFS: ColumnDef[] = [
+  { key: 'sortIndex', labelKey: 'columns.id', width: 32, minWidth: 28, editable: false, type: 'computed', align: 'center' },
+  { key: 'rowNumber', labelKey: 'columns.nr', width: 50, minWidth: 40, editable: false, type: 'computed', align: 'center' },
+  { key: 'description', labelKey: 'columns.description', abbrKey: 'abbr.description', width: 450, minWidth: 150, editable: true, type: 'text', align: 'left' },
+  { key: 'quantity', labelKey: 'columns.quantity', abbrKey: 'abbr.quantity', width: 80, minWidth: 50, editable: true, type: 'number', align: 'right' },
+  { key: 'unit', labelKey: 'columns.unit', abbrKey: 'abbr.unit', width: 55, minWidth: 40, editable: true, type: 'unit-select', align: 'center' },
+  { key: 'normUnitPrice', labelKey: 'columns.price', abbrKey: 'abbr.price', width: 90, minWidth: 60, editable: true, type: 'currency', align: 'right' },
+  { key: 'unitPrice', labelKey: 'columns.unitPrice', abbrKey: 'abbr.unitPrice', width: 100, minWidth: 60, editable: false, type: 'computed', align: 'right' },
+  { key: 'total', labelKey: 'columns.total', abbrKey: 'abbr.total', width: 110, minWidth: 70, editable: true, type: 'computed', align: 'right' },
 ];
 
 /** Branch column (shown leftmost when branchesEnabled) */
-const BRANCH_COLUMN: GridColumn = {
-  key: 'branch', label: 'Branch', abbr: 'branch', width: 100, minWidth: 60,
+const BRANCH_COLUMN_DEF: ColumnDef = {
+  key: 'branch', labelKey: 'columns.branch', abbrKey: 'abbr.branch', width: 100, minWidth: 60,
   editable: true, type: 'text', align: 'left',
-  tooltip: 'Begrotingsvariant (branch) — main / aanbouw / variant 1 etc.',
+  tooltipKey: 'tooltips.branch',
 };
 
-/** Get the column set for the active grid view */
+/**
+ * Statisch geresolvede exports — labels bevriezen op de taal van het moment
+ * van importeren. Alleen gebruiken voor structurele info (key/width/minWidth,
+ * zoals viewSlice en tests doen); voor UI-teksten altijd getColumnsForView.
+ */
+export const GRID_COLUMNS: GridColumn[] = GRID_COLUMN_DEFS.map(resolveColumn);
+export const WPCALC_COLUMNS: GridColumn[] = WPCALC_COLUMN_DEFS.map(resolveColumn);
+export const INSCHRIJFSTAAT_COLUMNS: GridColumn[] = INSCHRIJFSTAAT_COLUMN_DEFS.map(resolveColumn);
+
+/** Get the column set for the active grid view (labels in de actieve taal) */
 export function getColumnsForView(view: GridView, branchesEnabled = false): GridColumn[] {
-  let cols: GridColumn[];
-  if (view === 'wpcalc') cols = WPCALC_COLUMNS;
-  else if (view === 'inschrijfstaat') cols = INSCHRIJFSTAAT_COLUMNS;
-  else if (view === 'simple') cols = SIMPLE_COLUMNS;
-  else cols = GRID_COLUMNS;
+  let defs: ColumnDef[];
+  if (view === 'wpcalc') defs = WPCALC_COLUMN_DEFS;
+  else if (view === 'inschrijfstaat') defs = INSCHRIJFSTAAT_COLUMN_DEFS;
+  else if (view === 'simple') defs = SIMPLE_COLUMN_DEFS;
+  else defs = GRID_COLUMN_DEFS;
+  const cols = defs.map(resolveColumn);
   if (branchesEnabled) {
+    const branchColumn = resolveColumn(BRANCH_COLUMN_DEF);
     // Insert directly after ID column (sortIndex)
     const insertAt = cols.findIndex(c => c.key === 'sortIndex');
     if (insertAt >= 0) {
-      return [...cols.slice(0, insertAt + 1), BRANCH_COLUMN, ...cols.slice(insertAt + 1)];
+      return [...cols.slice(0, insertAt + 1), branchColumn, ...cols.slice(insertAt + 1)];
     }
     // Fallback: prepend
-    return [BRANCH_COLUMN, ...cols];
+    return [branchColumn, ...cols];
   }
   return cols;
 }

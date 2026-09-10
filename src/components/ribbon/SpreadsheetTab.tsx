@@ -1,9 +1,11 @@
+import { useTranslation } from "react-i18next";
 import RibbonButton from "./RibbonButton";
 import RibbonGroup from "./RibbonGroup";
 import RibbonButtonStack from "./RibbonButtonStack";
 import { useAppStore } from "../../state/appStore";
 
 export default function SpreadsheetTab() {
+  const { t } = useTranslation("ribbon");
   const {
     subSheets, addSubSheet, removeSubSheet, activeSubSheetId, setActiveSubSheet, setActiveContentTab,
   } = useAppStore();
@@ -21,9 +23,9 @@ export default function SpreadsheetTab() {
   return (
     <div className="ribbon-content">
       <div className="ribbon-groups">
-        <RibbonGroup label="Werkbladen">
-          <RibbonButton icon="➕" label="Nieuw blad" onClick={() => openSheet(addSubSheet())} />
-          <RibbonButton icon="🗑️" label="Verwijder" onClick={() => activeSubSheetId && removeSubSheet(activeSubSheetId)} disabled={!activeSubSheetId} />
+        <RibbonGroup label={t('spreadsheet.sheets')}>
+          <RibbonButton icon="➕" label={t('spreadsheet.newSheet')} onClick={() => openSheet(addSubSheet())} />
+          <RibbonButton icon="🗑️" label={t('spreadsheet.deleteSheet')} onClick={() => activeSubSheetId && removeSubSheet(activeSubSheetId)} disabled={!activeSubSheetId} />
           {subSheets.length > 0 && (
             <select
               style={{ ...btnStyle, width: 100 }}
@@ -35,30 +37,30 @@ export default function SpreadsheetTab() {
           )}
         </RibbonGroup>
 
-        <RibbonGroup label="Opmaak">
+        <RibbonGroup label={t('spreadsheet.format')}>
           <RibbonButtonStack>
-            <RibbonButton icon="𝐁" label="Vet" size="small" onClick={() => {
+            <RibbonButton icon="𝐁" label={t('spreadsheet.bold')} size="small" onClick={() => {
               // Dispatch event to SubSheetEditor to toggle bold on selection
               document.dispatchEvent(new CustomEvent('spreadsheet-action', { detail: 'bold' }));
             }} />
-            <RibbonButton icon="𝐼" label="Cursief" size="small" onClick={() => {
+            <RibbonButton icon="𝐼" label={t('spreadsheet.italic')} size="small" onClick={() => {
               document.dispatchEvent(new CustomEvent('spreadsheet-action', { detail: 'italic' }));
             }} />
           </RibbonButtonStack>
           <RibbonButtonStack>
-            <RibbonButton icon="⬅" label="Links" size="small" onClick={() => {
+            <RibbonButton icon="⬅" label={t('spreadsheet.alignLeft')} size="small" onClick={() => {
               document.dispatchEvent(new CustomEvent('spreadsheet-action', { detail: 'align-left' }));
             }} />
-            <RibbonButton icon="⬌" label="Midden" size="small" onClick={() => {
+            <RibbonButton icon="⬌" label={t('spreadsheet.alignCenter')} size="small" onClick={() => {
               document.dispatchEvent(new CustomEvent('spreadsheet-action', { detail: 'align-center' }));
             }} />
-            <RibbonButton icon="➡" label="Rechts" size="small" onClick={() => {
+            <RibbonButton icon="➡" label={t('spreadsheet.alignRight')} size="small" onClick={() => {
               document.dispatchEvent(new CustomEvent('spreadsheet-action', { detail: 'align-right' }));
             }} />
           </RibbonButtonStack>
         </RibbonGroup>
 
-        <RibbonGroup label="Getal">
+        <RibbonGroup label={t('spreadsheet.number')}>
           <select
             style={btnStyle}
             defaultValue="auto"
@@ -66,23 +68,23 @@ export default function SpreadsheetTab() {
               document.dispatchEvent(new CustomEvent('spreadsheet-action', { detail: `format-${e.target.value}` }));
             }}
           >
-            <option value="auto">Automatisch</option>
-            <option value="number">Getal</option>
-            <option value="currency">Valuta (€)</option>
-            <option value="percentage">Percentage (%)</option>
-            <option value="text">Tekst</option>
+            <option value="auto">{t('spreadsheet.formatAuto')}</option>
+            <option value="number">{t('spreadsheet.formatNumber')}</option>
+            <option value="currency">{t('spreadsheet.formatCurrency')}</option>
+            <option value="percentage">{t('spreadsheet.formatPercentage')}</option>
+            <option value="text">{t('spreadsheet.formatText')}</option>
           </select>
           <RibbonButtonStack>
-            <RibbonButton icon=".0" label="+Decimaal" size="small" onClick={() => {
+            <RibbonButton icon=".0" label={t('spreadsheet.decimalUp')} size="small" onClick={() => {
               document.dispatchEvent(new CustomEvent('spreadsheet-action', { detail: 'decimals-up' }));
             }} />
-            <RibbonButton icon=".←" label="-Decimaal" size="small" onClick={() => {
+            <RibbonButton icon=".←" label={t('spreadsheet.decimalDown')} size="small" onClick={() => {
               document.dispatchEvent(new CustomEvent('spreadsheet-action', { detail: 'decimals-down' }));
             }} />
           </RibbonButtonStack>
         </RibbonGroup>
 
-        <RibbonGroup label="Tekstgrootte">
+        <RibbonGroup label={t('spreadsheet.textSize')}>
           <select
             style={btnStyle}
             defaultValue="11"

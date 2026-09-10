@@ -5,14 +5,6 @@ import type { ResourceLibraryItem, ResourceType } from '@/types/costModel';
 import { formatCurrency } from '@/utils/formatting';
 import '../panels/panels.css';
 
-const RESOURCE_TYPE_LABELS: Record<ResourceType, string> = {
-  arbeid: 'Arbeid',
-  materieel: 'Materieel',
-  materiaal: 'Materiaal',
-  onderaannemer: 'Onderaannemer',
-  overig: 'Overig',
-};
-
 const RESOURCE_TYPE_COLORS: Record<ResourceType, string> = {
   arbeid: '#3b82f6',
   materieel: '#f59e0b',
@@ -91,7 +83,7 @@ export const ResourcePicker: React.FC = () => {
   const handleSelect = useCallback((item: ResourceLibraryItem) => {
     if (!resourcePickerParentId) return;
 
-    pushHistory(items, 'Middel toevoegen');
+    pushHistory(items, t('dialogs:undo.addResource'));
     const newId = addRegel(resourcePickerParentId);
     if (newId) {
       // Update the new regel with the library item's data
@@ -109,7 +101,7 @@ export const ResourcePicker: React.FC = () => {
       }
     }
     closeResourcePicker();
-  }, [resourcePickerParentId, pushHistory, items, addRegel, closeResourcePicker]);
+  }, [resourcePickerParentId, pushHistory, items, addRegel, closeResourcePicker, t]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown') {
@@ -200,7 +192,7 @@ export const ResourcePicker: React.FC = () => {
                     className="rp-type-badge"
                     style={{ backgroundColor: RESOURCE_TYPE_COLORS[item.resourceType] + '22', color: RESOURCE_TYPE_COLORS[item.resourceType], borderColor: RESOURCE_TYPE_COLORS[item.resourceType] + '44' }}
                   >
-                    {RESOURCE_TYPE_LABELS[item.resourceType]}
+                    {t(`dialogs:resourceTypes.${item.resourceType}`)}
                   </span>
                 </span>
                 <span className="rp-col-unit">{item.unit}</span>

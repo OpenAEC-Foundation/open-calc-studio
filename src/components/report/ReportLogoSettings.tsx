@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { createThumbnail } from '@/services/offerte/imageService';
 
@@ -9,6 +10,7 @@ import { createThumbnail } from '@/services/offerte/imageService';
  * dit in het eigenschappen-paneel.
  */
 export const ReportLogoSettings: React.FC = () => {
+  const { t } = useTranslation();
   const companyInfo = useAppStore(s => s.companyInfo);
   const setCompanyInfo = useAppStore(s => s.setCompanyInfo);
   const schedule = useAppStore(s => s.schedule);
@@ -20,7 +22,7 @@ export const ReportLogoSettings: React.FC = () => {
   const handleLogoSelect = async (side: 'logoLeft' | 'logoRight') => {
     try {
       const { open } = await import('@tauri-apps/plugin-dialog');
-      const selected = await open({ multiple: false, filters: [{ name: 'Afbeeldingen', extensions: ['jpg', 'jpeg', 'png', 'webp'] }] });
+      const selected = await open({ multiple: false, filters: [{ name: t('images'), extensions: ['jpg', 'jpeg', 'png', 'webp'] }] });
       if (selected) {
         const { createOfferteImageFromPath } = await import('@/services/offerte/imageService');
         const img = await createOfferteImageFromPath(selected as string);
@@ -42,21 +44,21 @@ export const ReportLogoSettings: React.FC = () => {
   return (
     <div style={{ fontSize: 12 }}>
       <div style={{ marginBottom: 12 }}>
-        <div className="prop-label">Rapport-logo</div>
+        <div className="prop-label">{t('reportLogo.title')}</div>
         <select
           className="prop-input"
           value={schedule.reportLogoPreset ?? 'bouw1'}
           onChange={(e) => setSchedule({ reportLogoPreset: e.target.value as 'bouw1' | 'custom' })}
         >
-          <option value="bouw1">Standaard</option>
-          <option value="custom">Eigen logo (upload)</option>
+          <option value="bouw1">{t('reportLogo.standard')}</option>
+          <option value="custom">{t('reportLogo.custom')}</option>
         </select>
       </div>
 
       <div style={{ display: 'flex', gap: 8 }}>
         {(['logoLeft', 'logoRight'] as const).map(side => (
           <div key={side} style={{ flex: 1 }}>
-            <div className="prop-label">{side === 'logoLeft' ? 'Logo links' : 'Logo rechts'}</div>
+            <div className="prop-label">{side === 'logoLeft' ? t('reportLogo.left') : t('reportLogo.right')}</div>
             <div
               style={{
                 height: 64, border: '1px dashed var(--theme-border)', borderRadius: 4,
@@ -68,14 +70,14 @@ export const ReportLogoSettings: React.FC = () => {
               {companyInfo[side] ? (
                 <img src={companyInfo[side]} alt={side} style={{ maxWidth: '100%', maxHeight: '100%' }} />
               ) : (
-                <span style={{ fontSize: 10, color: 'var(--theme-text-muted)' }}>Kies logo</span>
+                <span style={{ fontSize: 10, color: 'var(--theme-text-muted)' }}>{t('reportLogo.choose')}</span>
               )}
             </div>
             {companyInfo[side] && (
               <button
                 style={{ fontSize: 10, background: 'none', border: 'none', color: 'var(--theme-danger, #dc2626)', cursor: 'pointer', marginTop: 2, padding: 0 }}
                 onClick={(e) => { e.stopPropagation(); setCompanyInfo({ ...companyInfo, [side]: '' }); }}
-              >Verwijder</button>
+              >{t('reportLogo.remove')}</button>
             )}
             <input
               ref={side === 'logoLeft' ? logoLeftRef : logoRightRef}

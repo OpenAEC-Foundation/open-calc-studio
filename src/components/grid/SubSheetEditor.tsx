@@ -480,7 +480,7 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
               }
             }, 150);
           }}
-          placeholder="Formule of waarde..."
+          placeholder={t('grid:subsheet.formulaPlaceholder')}
           disabled={!activeCell}
         />
       </div>
@@ -634,25 +634,25 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
           className="subsheet-context-menu"
           style={{ left: ctxMenu.x, top: ctxMenu.y }}
         >
-          <button onClick={() => { doCut(); setCtxMenu(null); }}>Knippen (Ctrl+X)</button>
-          <button onClick={() => { doCopy(); setCtxMenu(null); }}>Kopiëren (Ctrl+C)</button>
-          <button onClick={() => { doPaste(); setCtxMenu(null); }}>Plakken (Ctrl+V)</button>
+          <button onClick={() => { doCut(); setCtxMenu(null); }}>{t('grid:subsheet.cut')}</button>
+          <button onClick={() => { doCopy(); setCtxMenu(null); }}>{t('grid:subsheet.copy')}</button>
+          <button onClick={() => { doPaste(); setCtxMenu(null); }}>{t('grid:subsheet.paste')}</button>
           <div className="subsheet-ctx-sep" />
           <button onClick={() => {
             for (const ref of getSelectedCellRefs()) toggleBold(sheetId, ref);
             setCtxMenu(null);
-          }}>Vet (Ctrl+B)</button>
+          }}>{t('grid:subsheet.bold')}</button>
           <button onClick={() => {
             for (const ref of getSelectedCellRefs()) setCell(sheetId, ref, '');
             setCtxMenu(null);
-          }}>Wissen (Delete)</button>
+          }}>{t('grid:subsheet.clear')}</button>
           <div className="subsheet-ctx-sep" />
           <button onClick={() => {
             const refs = getSelectedCellRefs();
             if (refs.length === 0) { setCtxMenu(null); return; }
             setBorderPicker({ x: ctxMenu.x, y: ctxMenu.y, refs });
             setCtxMenu(null);
-          }}>Randen…</button>
+          }}>{t('grid:subsheet.bordersEllipsis')}</button>
         </div>
       )}
       {borderPicker && (

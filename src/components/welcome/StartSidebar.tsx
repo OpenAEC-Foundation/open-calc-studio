@@ -17,11 +17,11 @@ export function StartSidebar({ onLoadVoorbeeld, onClose }: StartSidebarProps) {
   return (
     <aside className="start-sidebar">
       <div className="start-sidebar-toolbar">
-        <span className="start-sidebar-title">Start</span>
+        <span className="start-sidebar-title">{t('start')}</span>
         <button
           className="start-sidebar-close-btn"
           onClick={onClose}
-          title="Inklappen"
+          title={t('collapse')}
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
             <path d="M10.78 4.22a.75.75 0 010 1.06L8.06 8l2.72 2.72a.75.75 0 11-1.06 1.06L6.94 8.53a.75.75 0 010-1.06l2.78-2.78a.75.75 0 011.06 0z" />
@@ -58,7 +58,7 @@ export function StartSidebar({ onLoadVoorbeeld, onClose }: StartSidebarProps) {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M9 11H5a2 2 0 00-2 2v7a2 2 0 002 2h14a2 2 0 002-2v-7a2 2 0 00-2-2h-4M12 2v13M9 6l3-3 3 3" />
             </svg>
-            <span>Voorbeeldbegroting</span>
+            <span>{t('app.sampleBudget')}</span>
           </button>
         </div>
 

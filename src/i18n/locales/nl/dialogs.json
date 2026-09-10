@@ -1,0 +1,65 @@
+{
+  "columnMapping": {
+    "title": "Kolommen koppelen",
+    "intro": "Koppel elke kolom uit <b>{{name}}</b> aan het juiste begrotingsveld. Kolommen op “— negeren —” worden overgeslagen.",
+    "columnN": "Kolom {{n}}",
+    "columnsLinked_one": "{{count}} kolom gekoppeld",
+    "columnsLinked_other": "{{count}} kolommen gekoppeld",
+    "rows": "{{count}} rijen",
+    "linkDescriptionFirst": "koppel eerst een “Omschrijving”-kolom",
+    "cancel": "Annuleren",
+    "import": "Importeren"
+  },
+  "quantityPicker": {
+    "title": "Hoeveelheid linken",
+    "tabSpreadsheet": "Spreadsheet",
+    "tabPdf": "PDF meting",
+    "tabIfc": "IFC element",
+    "cellNotNumeric": "Cel bevat geen geldig getal",
+    "noSheets": "Nog geen werkbladen. Maak eerst een spreadsheet aan.",
+    "sheet": "Werkblad",
+    "cellReference": "Celreferentie (bijv. A5 of B12)",
+    "value": "Waarde",
+    "empty": "(leeg)",
+    "linkCell": "Link cel",
+    "noPdfMeasurements": "Nog geen PDF metingen. Open eerst een PDF in het PDF tabblad en maak metingen.",
+    "sumLengths": "Σ Alle lengtes",
+    "sumAreas": "Σ Alle oppervlakken",
+    "individualMeasurements": "Losse metingen:",
+    "noIfcElements": "Nog geen IFC elementen. Open een IFC in het 3D tabblad en selecteer een element.",
+    "cancel": "Annuleren"
+  },
+  "excelPicker": {
+    "title": "Link naar Excel",
+    "cannotReadFile": "Kan bestand niet lezen",
+    "chooseFile": "Bestand kiezen...",
+    "noFileSelected": "Geen bestand geselecteerd",
+    "loadingFile": "Bestand laden...",
+    "cancel": "Annuleren",
+    "select": "Selecteren"
+  },
+  "costItemPicker": {
+    "title": "Koppel aan begrotingsregel",
+    "searchPlaceholder": "Zoek op omschrijving of code...",
+    "suggestions": "Suggesties",
+    "results": "Resultaten ({{count}})",
+    "allLines": "Alle regels",
+    "unlink": "Ontkoppelen",
+    "cancel": "Annuleren",
+    "link": "Koppelen"
+  },
+  "resourceTypes": {
+    "arbeid": "Arbeid",
+    "materieel": "Materieel",
+    "materiaal": "Materiaal",
+    "onderaannemer": "Onderaannemer",
+    "overig": "Overig"
+  },
+  "undo": {
+    "addResource": "Middel toevoegen",
+    "wizard": "Wizard: {{name}}"
+  },
+  "wizard": {
+    "previewTitle": "Preview — {{name}}"
+  }
+}

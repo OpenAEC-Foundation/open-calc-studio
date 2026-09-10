@@ -7,6 +7,7 @@ export { importRsu } from './legacyRawImporter';
 export { importZsx } from './zsxImporter';
 export { importNsx } from './nsxImporter';
 export { importBmecat } from './bmecatImporter';
+export { importBc3 } from './bc3Importer';
 export {
   parseCsv,
   parseXlsxTabular,

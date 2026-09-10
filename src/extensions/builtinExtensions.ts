@@ -11,6 +11,21 @@ import { importRsx } from '../services/importers/rsxImporter';
 // import { importWpCalcFile } from '../services/importers/wpcalcImporter';
 import { recalculateItems } from '../services/calculation/calculator';
 
+
+const bc3Manifest: ExtensionManifest = {
+  id: 'builtin-bc3-importer',
+  name: 'FIEBDC-3 Importer',
+  version: '1.0.0',
+  minAppVersion: __APP_VERSION__,
+  author: 'Open Calc Studio',
+  description: 'Importeer Spaanse FIEBDC-3-begrotingen en prijzenboeken (.bc3): hoofdstukken, partida’s met metingen en decomposities met arbeid/materieel/materiaal.',
+  category: 'Import/Export',
+  main: 'builtin',
+  permissions: ['commands', 'events'],
+  tags: ['bc3', 'fiebdc', 'spanje', 'import'],
+  icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>',
+};
+
 // ── BasCalc Importer ──
 
 const bascalcManifest: ExtensionManifest = {
@@ -275,6 +290,31 @@ export function registerBuiltinExtensions(): void {
       const { importXtbFile } = await import('../services/importers/xtbImporter');
       const buffer = await file.arrayBuffer();
       const result = await importXtbFile(buffer);
+      return {
+        schedule: result.schedule,
+        items: recalculateItems(result.items),
+      };
+    },
+  });
+
+  // FIEBDC-3 (.bc3) Importer
+  const bc3Ext: InstalledExtension = {
+    id: 'builtin-bc3-importer',
+    manifest: bc3Manifest,
+    status: 'enabled',
+  };
+  store.registerExtension(bc3Ext);
+  store.addExtensionImporter({
+    extensionId: 'builtin-bc3-importer',
+    id: 'bc3-import',
+    name: 'FIEBDC-3 (.bc3)',
+    description: 'Importeer Spaanse FIEBDC-3-begrotingen (.bc3)',
+    fileExtensions: ['.bc3'],
+    icon: bc3Manifest.icon,
+    handler: async (file: File) => {
+      const { importBc3File } = await import('../services/importers/bc3Importer');
+      const buffer = await file.arrayBuffer();
+      const result = importBc3File(buffer);
       return {
         schedule: result.schedule,
         items: recalculateItems(result.items),

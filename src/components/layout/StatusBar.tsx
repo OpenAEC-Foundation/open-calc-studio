@@ -105,6 +105,7 @@ function ZoomControl() {
 
 /** Excel-achtige samenvatting van een celselectie: som, aantal en gemiddelde. */
 function SelectionSummary() {
+  const { t } = useTranslation();
   const items = useAppStore((s) => s.items);
   const gridView = useAppStore((s) => s.gridView);
   const branchesEnabled = useAppStore((s) => s.schedule.branchesEnabled ?? false);
@@ -139,17 +140,17 @@ function SelectionSummary() {
   return (
     <>
       <div className="status-item status-selection">
-        <span className="status-item-label">Som:</span>
+        <span className="status-item-label">{t('statusBar.sum')}</span>
         <span className="status-item-value" style={{ fontWeight: 600 }}>{fmt(summary.sum)}</span>
       </div>
       <div className="status-separator" />
       <div className="status-item status-selection">
-        <span className="status-item-label">Aantal:</span>
+        <span className="status-item-label">{t('statusBar.count')}</span>
         <span className="status-item-value">{summary.count}</span>
       </div>
       <div className="status-separator" />
       <div className="status-item status-selection">
-        <span className="status-item-label">Gem.:</span>
+        <span className="status-item-label">{t('statusBar.avg')}</span>
         <span className="status-item-value">{fmt(summary.sum / summary.count)}</span>
       </div>
       <div className="status-separator" />
@@ -159,21 +160,22 @@ function SelectionSummary() {
 
 /** App-brede interface-zoom (schaalt ook de tekst) — los van de grid-zoom. */
 function UiZoomControl() {
+  const { t } = useTranslation();
   const uiZoom = useAppStore((s) => s.uiZoom);
   const stepUiZoom = useAppStore((s) => s.stepUiZoom);
   const setUiZoom = useAppStore((s) => s.setUiZoom);
   return (
-    <div className="status-zoom" title="Interface-zoom — Ctrl+= groter, Ctrl+- kleiner, Ctrl+0 terug naar 100%">
+    <div className="status-zoom" title={t('statusBar.uiZoomTitle')}>
       <span className="status-item-label">UI:</span>
-      <button className="status-zoom-btn" onClick={() => stepUiZoom(-1)} aria-label="Interface kleiner">−</button>
+      <button className="status-zoom-btn" onClick={() => stepUiZoom(-1)} aria-label={t('statusBar.uiSmaller')}>−</button>
       <button
         className="status-zoom-value"
         onClick={() => setUiZoom(100)}
-        aria-label="Interface-zoom terugzetten op 100%"
+        aria-label={t('statusBar.uiReset')}
       >
         {uiZoom}%
       </button>
-      <button className="status-zoom-btn" onClick={() => stepUiZoom(1)} aria-label="Interface groter">+</button>
+      <button className="status-zoom-btn" onClick={() => stepUiZoom(1)} aria-label={t('statusBar.uiLarger')}>+</button>
     </div>
   );
 }
@@ -207,13 +209,13 @@ export default function StatusBar() {
       <div className="status-bar-center">
         {branchesEnabled && branches.length > 0 && (
           <div className="status-item">
-            <span className="status-item-label">🌿 Variant:</span>
+            <span className="status-item-label">🌿 {t('statusBar.variant')}</span>
             <select
               style={{ fontSize: 11, padding: '1px 4px', border: '1px solid var(--theme-border)', borderRadius: 3, background: 'var(--theme-surface)', color: 'var(--theme-text)' }}
               value={activeBranchId ?? ''}
               onChange={(e) => setActiveBranch(e.target.value || undefined)}
             >
-              <option value="">(alle)</option>
+              <option value="">{t('statusBar.allVariants')}</option>
               {branches.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
             </select>
           </div>

@@ -73,6 +73,21 @@ Open Calc Studio brengt professionele kostencalculatie voor de bouw naar een ope
 ### Download
 Download de installer voor jouw platform vanaf de [releases pagina](https://github.com/OpenAEC-Foundation/open-calc-studio/releases). Windows MSI/NSIS, macOS DMG, en Linux AppImage/DEB worden gepubliceerd per release.
 
+#### macOS: "Open Calc Studio is damaged and can't be opened"
+
+De macOS-builds zijn (nog) niet door Apple genotariseerd, waardoor
+Gatekeeper de gedownloade app kan blokkeren. Start de app de eerste keer
+via **rechtsklik → Open** (daarna normaal te openen), of verwijder het
+quarantaine-attribuut in de Terminal:
+
+```sh
+xattr -cr "/Applications/Open Calc Studio.app"
+```
+
+*The macOS builds are not yet notarized by Apple, so Gatekeeper may block
+the downloaded app as "damaged". Launch it once via right-click → Open, or
+remove the quarantine attribute with the command above.*
+
 ### Build from source
 
 Vereisten:

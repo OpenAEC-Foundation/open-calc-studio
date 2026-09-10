@@ -48,13 +48,13 @@ export function SubSheetTabBar() {
 
   const handleRename = (id: string) => {
     const sheet = subSheets.find((ss) => ss.id === id);
-    const name = window.prompt('Hernoem blad:', sheet?.name ?? '');
+    const name = window.prompt(t('grid:subsheet.renamePrompt'), sheet?.name ?? '');
     if (name && name.trim()) renameSubSheet(id, name.trim());
     setMenu(null);
   };
 
   const handleDelete = (id: string) => {
-    if (window.confirm('Dit blad verwijderen?')) removeSubSheet(id);
+    if (window.confirm(t('grid:subsheet.deleteConfirm'))) removeSubSheet(id);
     setMenu(null);
   };
 
@@ -131,8 +131,8 @@ export function SubSheetTabBar() {
           style={{ left: menu.x, top: menu.y }}
           onClick={(e) => e.stopPropagation()}
         >
-          <button onClick={() => handleRename(menu.id)}>Hernoemen</button>
-          <button onClick={() => handleDelete(menu.id)}>Verwijderen</button>
+          <button onClick={() => handleRename(menu.id)}>{t('grid:subsheet.rename')}</button>
+          <button onClick={() => handleDelete(menu.id)}>{t('grid:subsheet.delete')}</button>
         </div>
       )}
     </div>

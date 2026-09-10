@@ -1,4 +1,5 @@
 import { useCallback, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { OfferteImage } from '@/types/costModel';
 
 interface ImageUploaderProps {
@@ -9,6 +10,7 @@ interface ImageUploaderProps {
 }
 
 export function ImageUploader({ images, onAdd, onRemove, onUpdateCaption }: ImageUploaderProps) {
+  const { t } = useTranslation();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = useCallback(async () => {
@@ -16,7 +18,7 @@ export function ImageUploader({ images, onAdd, onRemove, onUpdateCaption }: Imag
       const { open } = await import('@tauri-apps/plugin-dialog');
       const selected = await open({
         multiple: true,
-        filters: [{ name: 'Afbeeldingen', extensions: ['jpg', 'jpeg', 'png', 'webp'] }],
+        filters: [{ name: t('images'), extensions: ['jpg', 'jpeg', 'png', 'webp'] }],
       });
       if (selected) {
         const { createOfferteImageFromPath } = await import('@/services/offerte/imageService');
@@ -31,7 +33,7 @@ export function ImageUploader({ images, onAdd, onRemove, onUpdateCaption }: Imag
     } catch {
       fileInputRef.current?.click();
     }
-  }, [onAdd]);
+  }, [onAdd, t]);
 
   const handleHtmlFileChange = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -58,7 +60,7 @@ export function ImageUploader({ images, onAdd, onRemove, onUpdateCaption }: Imag
               <input
                 className="offerte-image-caption"
                 type="text"
-                placeholder="Bijschrift..."
+                placeholder={t('offerte.captionPlaceholder')}
                 value={img.caption || ''}
                 onChange={(e) => onUpdateCaption(img.id, e.target.value)}
               />
@@ -66,7 +68,7 @@ export function ImageUploader({ images, onAdd, onRemove, onUpdateCaption }: Imag
             <button
               className="offerte-image-remove"
               onClick={() => onRemove(img.id)}
-              title="Verwijder afbeelding"
+              title={t('offerte.removeImage')}
             >
               ✕
             </button>
@@ -75,9 +77,9 @@ export function ImageUploader({ images, onAdd, onRemove, onUpdateCaption }: Imag
         <button
           className="offerte-image-add"
           onClick={handleFileSelect}
-          title="Afbeelding toevoegen"
+          title={t('offerte.addImage')}
         >
-          + Afbeelding
+          {t('offerte.addImageBtn')}
         </button>
       </div>
       <input

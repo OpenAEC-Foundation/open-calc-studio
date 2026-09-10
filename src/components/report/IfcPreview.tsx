@@ -617,8 +617,8 @@ export const IfcPreview: React.FC = () => {
       <div className={`ifc-section${showStructure ? ' ifc-section-open' : ''}`}>
         <div className="ifc-section-head" onClick={() => setShowStructure(o => !o)}>
           <span className="ifc-section-twisty">{showStructure ? '▾' : '▸'}</span>
-          <span className="ifc-section-title">Structuur</span>
-          <span className="ifc-section-meta">objecten in deze begroting{folderData.active ? ' + mapbestanden' : ''}</span>
+          <span className="ifc-section-title">{t('explorer')}</span>
+          <span className="ifc-section-meta">{t('ifc.structureMeta')}{folderData.active ? t('ifc.structureMetaFolder') : ''}</span>
         </div>
         {showStructure && (
           <div className="ifc-section-body">
@@ -634,7 +634,7 @@ export const IfcPreview: React.FC = () => {
       {/* IFC-code (4x3 STEP + IfcX) — inklapbaar */}
       <div className="ifc-section-head ifc-code-head" onClick={() => setShowCode(o => !o)}>
         <span className="ifc-section-twisty">{showCode ? '▾' : '▸'}</span>
-        <span className="ifc-section-title">IFC-code</span>
+        <span className="ifc-section-title">{t('ifc.codeTitle')}</span>
         <span className="ifc-section-meta">IFC 4x3 (STEP) &amp; IfcX (JSON)</span>
       </div>
       {showCode && (
@@ -688,7 +688,7 @@ export const IfcPreview: React.FC = () => {
                   📐 {selectedExternal.name.slice(selectedExternal.name.lastIndexOf('/') + 1)}
                 </span>
                 <button className="ifc-toolbar-btn ifc-back-btn" onClick={() => setSelectedExternal(null)}>
-                  ✕ terug naar deze begroting
+                  {t('ifc.backToBudget')}
                 </button>
               </>
             ) : (

@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { ExcelLink } from '../../types/costModel';
 import { parseExcelFile, parseExcelFileFromPath, cellRef, colIndexToLetter } from '../../services/excel/excelLinkService';
 import './Modal.css';
@@ -17,6 +18,7 @@ interface SheetData {
 }
 
 export default function ExcelCellPicker({ open, initialLink, onSelect, onCancel }: ExcelCellPickerProps) {
+  const { t } = useTranslation('dialogs');
   const [filePath, setFilePath] = useState(initialLink?.filePath || '');
   const [sheetNames, setSheetNames] = useState<string[]>([]);
   const [sheets, setSheets] = useState<Record<string, SheetData>>({});
@@ -55,7 +57,7 @@ export default function ExcelCellPicker({ open, initialLink, onSelect, onCancel 
     try {
       const result = await parseExcelFileFromPath(path);
       if (!result) {
-        setError('Kan bestand niet lezen');
+        setError(t('excelPicker.cannotReadFile'));
         return;
       }
       setSheetNames(result.sheetNames);
@@ -143,16 +145,16 @@ export default function ExcelCellPicker({ open, initialLink, onSelect, onCancel 
     <div className="modal-overlay modal-open">
       <div className="modal-dialog modal-dialog-open excel-picker-dialog">
         <div className="modal-header">
-          <span className="modal-title">Link naar Excel</span>
+          <span className="modal-title">{t('excelPicker.title')}</span>
           <button className="modal-close" onClick={onCancel}>×</button>
         </div>
 
         <div className="excel-picker-toolbar">
           <button className="excel-picker-browse" onClick={handleFileSelect}>
-            Bestand kiezen...
+            {t('excelPicker.chooseFile')}
           </button>
           <span className="excel-picker-path" title={filePath}>
-            {filePath ? filePath.split(/[/\\]/).pop() : 'Geen bestand geselecteerd'}
+            {filePath ? filePath.split(/[/\\]/).pop() : t('excelPicker.noFileSelected')}
           </span>
           {selectedCell && (
             <span className="excel-picker-ref">
@@ -173,7 +175,7 @@ export default function ExcelCellPicker({ open, initialLink, onSelect, onCancel 
           {loading && (
             <div className="excel-picker-loading">
               <div className="progress-modal-spinner" />
-              <span>Bestand laden...</span>
+              <span>{t('excelPicker.loadingFile')}</span>
             </div>
           )}
           {error && <div className="excel-picker-error">{error}</div>}
@@ -232,14 +234,14 @@ export default function ExcelCellPicker({ open, initialLink, onSelect, onCancel 
 
         <div className="modal-footer">
           <button className="modal-btn modal-btn-secondary" onClick={onCancel}>
-            Annuleren
+            {t('excelPicker.cancel')}
           </button>
           <button
             className="modal-btn modal-btn-primary"
             onClick={handleConfirm}
             disabled={!selectedCell || !activeSheet}
           >
-            Selecteren
+            {t('excelPicker.select')}
           </button>
         </div>
       </div>

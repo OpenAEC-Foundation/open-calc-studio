@@ -58,7 +58,7 @@ function UrenFullScreen() {
     if (Math.abs(num - currentUren) < 0.001) return;
     // Only A/B/C tariefgroepen are valid rescale targets; '-' (no group) is read-only
     if (groep !== 'A' && groep !== 'B' && groep !== 'C') return;
-    pushHistory(items, `Uren ${groep} naar rato`);
+    pushHistory(items, t('grid:undo.hoursGroupProrate', { group: groep }));
     prorateUrenByTariefGroep(groep, num);
   };
 
@@ -67,7 +67,7 @@ function UrenFullScreen() {
     const num = parseFloat(value.replace(',', '.'));
     if (isNaN(num) || num < 0) return;
     if (Math.abs(num - currentTotal) < 0.001) return;
-    pushHistory(items, 'Totaal uren naar rato');
+    pushHistory(items, t('grid:undo.totalHoursProrate'));
     prorateUrenTotal(num);
   };
 
@@ -98,7 +98,7 @@ function UrenFullScreen() {
                     type="text"
                     className="uren-input"
                     defaultValue={formatNumber(val.uren)}
-                    title="Pas het groepstotaal aan — onderliggende regels worden naar rato herrekend"
+                    title={t('grid:staart.groupHoursTitle')}
                     onBlur={(e) => handleUrenChange(groep, e.target.value, val.uren)}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
@@ -162,7 +162,7 @@ function UrenFullScreen() {
                 type="text"
                 className="uren-input uren-input-total"
                 defaultValue={formatNumber(totaalUren)}
-                title="Pas het totaal aantal uren aan — alle regels worden naar rato herrekend"
+                title={t('grid:staart.totalHoursTitle')}
                 onBlur={(e) => handleTotaalUrenChange(e.target.value, totaalUren)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
@@ -212,7 +212,7 @@ function StaartFullScreen() {
       const rows: Array<{ id: string; label: string; percentage: number | null; total: number; rowType: string; isBold: boolean }> = [];
 
       // Totaal kolommen header
-      rows.push({ id: '', label: 'Totaal kolommen:', percentage: null, total: kp, rowType: '', isBold: true });
+      rows.push({ id: '', label: t('grid:staart.totalColumns'), percentage: null, total: kp, rowType: '', isBold: true });
 
       // Phase 1: over totaal kolommen
       const phase1Types = ['staart_ak_oa', 'staart_abk', 'staart_garanties', 'staart_wvpm'];
@@ -223,7 +223,7 @@ function StaartFullScreen() {
 
       // Kostprijs subtotaal
       const kostprijsBouw1 = kp + staartItems.filter(i => phase1Types.includes(i.rowType)).reduce((s, i) => s + i.total, 0);
-      rows.push({ id: '', label: 'Totaal kostprijs:', percentage: null, total: kostprijsBouw1, rowType: '', isBold: true });
+      rows.push({ id: '', label: t('grid:staart.totalCostPrice'), percentage: null, total: kostprijsBouw1, rowType: '', isBold: true });
 
       // Phase 2: over kostprijs
       const phase2Types = ['staart_risico', 'staart_winst', 'staart_verzekering'];
@@ -242,7 +242,7 @@ function StaartFullScreen() {
       // Afronding hoort ín het excl.-blok (vóór het excl.-subtotaal); het
       // bedrag is invulbaar als vaste sluitpost.
       const afrItem = staartItems.find(i => i.rowType === 'staart_afronding');
-      if (afrItem) rows.push({ id: afrItem.id, label: afrItem.description || 'Afronding', percentage: null, total: afrItem.total, rowType: 'staart_afronding', isBold: false });
+      if (afrItem) rows.push({ id: afrItem.id, label: afrItem.description || t('grid:staart.rounding'), percentage: null, total: afrItem.total, rowType: 'staart_afronding', isBold: false });
 
       // Totaal excl. btw = kostprijs + opslagen + afronding. Dit is hét
       // invulbare eindbedrag: typ het gewenste bedrag (excl. btw, incl.
@@ -250,7 +250,7 @@ function StaartFullScreen() {
       const aanneemsomExcl = kostprijsBouw1 + staartItems
         .filter(i => phase2Types.includes(i.rowType) || legacyTypes.includes(i.rowType))
         .reduce((s, i) => s + i.total, 0) + (afrItem?.total ?? 0);
-      rows.push({ id: afrItem?.id ?? '', label: 'Totaal excl. btw. incl. opslagen:', percentage: null, total: aanneemsomExcl, rowType: 'excl_doel', isBold: true });
+      rows.push({ id: afrItem?.id ?? '', label: t('grid:staart.totalExclVatInclMarkups'), percentage: null, total: aanneemsomExcl, rowType: 'excl_doel', isBold: true });
 
       // BTW (over het afgeronde excl-bedrag): laag tarief over de ingevulde
       // grondslag, hoog tarief over de rest.
@@ -261,7 +261,7 @@ function StaartFullScreen() {
 
       // Eindtotaal incl. btw (alleen tonen als er een btw-regel is)
       if (btwItem || btwLaagItem) {
-        rows.push({ id: '', label: 'Totaalprijs incl. btw.:', percentage: null, total: aanneemsomExcl + (btwItem?.total ?? 0) + (btwLaagItem?.total ?? 0), rowType: '', isBold: true });
+        rows.push({ id: '', label: t('grid:staart.totalInclVat'), percentage: null, total: aanneemsomExcl + (btwItem?.total ?? 0) + (btwLaagItem?.total ?? 0), rowType: '', isBold: true });
       }
 
       return { staartRows: rows, kostprijs: kp, aanneemsom: aanneemsomExcl };
@@ -278,13 +278,13 @@ function StaartFullScreen() {
       };
     }
 
-    return { staartRows: [{ id: '', label: 'Geen staartkosten ingesteld', percentage: null, total: 0, rowType: '', isBold: false }], kostprijs: kp, aanneemsom: kp };
-  }, [items, schedule]);
+    return { staartRows: [{ id: '', label: t('grid:staart.noTailCosts'), percentage: null, total: 0, rowType: '', isBold: false }], kostprijs: kp, aanneemsom: kp };
+  }, [items, schedule, t]);
 
   const handlePercentageChange = (id: string, value: string) => {
     const num = parseFloat(value.replace(',', '.'));
     if (!isNaN(num) && id) {
-      pushHistory(items, 'Staartpercentage');
+      pushHistory(items, t('grid:undo.tailPercentage'));
       updateItem(id, 'staartPercentage', num);
       updateItem(id, 'quantity', num);
     }
@@ -297,14 +297,14 @@ function StaartFullScreen() {
   const handleAfrondingChange = (id: string, value: string, original: string) => {
     if (!id || value.trim() === original.trim()) return;
     if (value.trim() === '') {
-      pushHistory(items, 'Afronding automatisch');
+      pushHistory(items, t('grid:undo.roundingAuto'));
       updateItem(id, 'staartVastBedrag', null);
       updateItem(id, 'staartDoelbedrag', null);
       return;
     }
     const num = parseNumericInput(value);
     if (num === null) return;
-    pushHistory(items, 'Afronding invullen');
+    pushHistory(items, t('grid:undo.fillRounding'));
     updateItem(id, 'staartDoelbedrag', null);
     updateItem(id, 'staartVastBedrag', num);
   };
@@ -315,13 +315,13 @@ function StaartFullScreen() {
   const handleGrondslagChange = (id: string, value: string, original: string) => {
     if (!id || value.trim() === original.trim()) return;
     if (value.trim() === '') {
-      pushHistory(items, 'Btw-grondslag wissen');
+      pushHistory(items, t('grid:undo.vatBaseClear'));
       updateItem(id, 'staartBtwBasis', null);
       return;
     }
     const num = parseNumericInput(value);
     if (num === null) return;
-    pushHistory(items, 'Btw-grondslag invullen');
+    pushHistory(items, t('grid:undo.vatBaseSet'));
     updateItem(id, 'staartBtwBasis', num);
   };
 
@@ -331,14 +331,14 @@ function StaartFullScreen() {
   const handleEindbedragChange = (id: string, value: string, original: string) => {
     if (!id || value.trim() === original.trim()) return;
     if (value.trim() === '') {
-      pushHistory(items, 'Afronding automatisch');
+      pushHistory(items, t('grid:undo.roundingAuto'));
       updateItem(id, 'staartVastBedrag', null);
       updateItem(id, 'staartDoelbedrag', null);
       return;
     }
     const num = parseNumericInput(value);
     if (num === null) return;
-    pushHistory(items, 'Eindbedrag invullen');
+    pushHistory(items, t('grid:undo.finalAmountSet'));
     updateItem(id, 'staartVastBedrag', null);
     updateItem(id, 'staartDoelbedrag', num);
   };
@@ -376,25 +376,25 @@ function StaartFullScreen() {
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
                     <select
                       value={String(items.find(i => i.id === r.id)?.staartAfrondingStap ?? 0)}
-                      title="Stap voor automatisch afronden van het totaal excl. btw"
+                      title={t('grid:staart.roundingStepTitle')}
                       onChange={e => {
-                        pushHistory(items, 'Afrondingsstap');
+                        pushHistory(items, t('grid:undo.roundingStep'));
                         updateItem(r.id, 'staartAfrondingStap', parseFloat(e.target.value));
                       }}
                       style={{ border: '1px solid var(--theme-border)', borderRadius: 3, padding: '1px 2px', background: 'var(--theme-bg)', color: 'var(--theme-text)', fontSize: 10, fontFamily: 'inherit' }}
                     >
-                      <option value="0">niet afronden</option>
-                      <option value="1">op € 1</option>
-                      <option value="10">op € 10</option>
-                      <option value="100">op € 100</option>
-                      <option value="1000">op € 1.000</option>
+                      <option value="0">{t('grid:staart.roundingNone')}</option>
+                      <option value="1">{t('grid:staart.roundTo1')}</option>
+                      <option value="10">{t('grid:staart.roundTo10')}</option>
+                      <option value="100">{t('grid:staart.roundTo100')}</option>
+                      <option value="1000">{t('grid:staart.roundTo1000')}</option>
                     </select>
                     <input
                       key={`afr-${formatNumberForEdit(Math.round(r.total * 100) / 100)}`}
                       type="text"
                       defaultValue={formatNumberForEdit(Math.round(r.total * 100) / 100)}
-                      placeholder="auto"
-                      title="Afrondingsbedrag invullen (vaste sluitpost); leegmaken = automatisch afronden"
+                      placeholder={t('grid:staart.autoPlaceholder')}
+                      title={t('grid:staart.roundingAmountTitle')}
                       onBlur={e => handleAfrondingChange(r.id, e.target.value, formatNumberForEdit(Math.round(r.total * 100) / 100))}
                       onKeyDown={e => { if (e.key === 'Enter') { handleAfrondingChange(r.id, (e.target as HTMLInputElement).value, formatNumberForEdit(Math.round(r.total * 100) / 100)); (e.target as HTMLInputElement).blur(); } }}
                       style={{ width: 80, textAlign: 'right', border: '1px solid var(--theme-border)', borderRadius: 3, padding: '1px 4px', background: 'var(--theme-bg)', color: 'var(--theme-editable-text, var(--theme-text))', fontSize: 'inherit', fontFamily: 'inherit' }}
@@ -413,16 +413,16 @@ function StaartFullScreen() {
                         : '');
                   return (
                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                      <span style={{ fontSize: 10, color: 'var(--theme-text-muted, var(--theme-text))' }}>over</span>
+                      <span style={{ fontSize: 10, color: 'var(--theme-text-muted, var(--theme-text))' }}>{t('grid:staart.over')}</span>
                       <input
                         key={`grondslag-${basisStr}`}
                         type="text"
                         defaultValue={basisStr}
-                        placeholder="grondslag"
+                        placeholder={t('grid:staart.basePlaceholder')}
                         disabled={markeringActief}
                         title={markeringActief
-                          ? 'Grondslag berekend uit de onderdelen die als "Btw laag" zijn gemarkeerd (rechtermuisknop op een rij in het grid), pro rata incl. opslagen.'
-                          : 'Grondslag (bedrag excl. btw) waarover het lage tarief rekent; het hoge tarief rekent over de rest. Leegmaken = geen laag-belast deel. Tip: markeer onderdelen via rechtermuisknop → Btw laag tarief.'}
+                          ? t('grid:staart.vatBaseComputedTitle')
+                          : t('grid:staart.vatBaseManualTitle')}
                         onBlur={e => handleGrondslagChange(r.id, e.target.value, basisStr)}
                         onKeyDown={e => { if (e.key === 'Enter') { handleGrondslagChange(r.id, (e.target as HTMLInputElement).value, basisStr); (e.target as HTMLInputElement).blur(); } }}
                         style={{ width: 80, textAlign: 'right', border: '1px solid var(--theme-border)', borderRadius: 3, padding: '1px 4px', background: 'var(--theme-bg)', color: 'var(--theme-editable-text, var(--theme-text))', fontSize: 'inherit', fontFamily: 'inherit', opacity: markeringActief ? 0.7 : 1 }}
@@ -435,7 +435,7 @@ function StaartFullScreen() {
                     key={`eind-${formatNumberForEdit(Math.round(r.total * 100) / 100)}`}
                     type="text"
                     defaultValue={formatNumberForEdit(Math.round(r.total * 100) / 100)}
-                    title="Eindbedrag excl. btw (incl. opslagen) invullen: de afronding wordt automatisch het verschil; leegmaken = automatisch afronden"
+                    title={t('grid:staart.finalAmountTitle')}
                     onBlur={e => handleEindbedragChange(r.id, e.target.value, formatNumberForEdit(Math.round(r.total * 100) / 100))}
                     onKeyDown={e => { if (e.key === 'Enter') { handleEindbedragChange(r.id, (e.target as HTMLInputElement).value, formatNumberForEdit(Math.round(r.total * 100) / 100)); (e.target as HTMLInputElement).blur(); } }}
                     style={{ width: 90, textAlign: 'right', fontWeight: 700, border: '1px solid var(--theme-border)', borderRadius: 3, padding: '1px 4px', background: 'var(--theme-bg)', color: 'var(--theme-editable-text, var(--theme-text))', fontSize: 'inherit', fontFamily: 'inherit' }}

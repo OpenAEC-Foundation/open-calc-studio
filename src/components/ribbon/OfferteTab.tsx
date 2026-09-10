@@ -117,13 +117,13 @@ export default function OfferteTab() {
               }}
               defaultValue=""
             >
-              <option value="" disabled>Template toepassen...</option>
+              <option value="" disabled>{t('offerte.applyTemplate')}</option>
               {getBuiltInTemplates().map(t => (
                 <option key={t.id} value={t.id}>{t.name}</option>
               ))}
             </select>
           </div>
-          <div className="ribbon-group-label">Template</div>
+          <div className="ribbon-group-label">{t('offerte.templateGroup')}</div>
         </div>
 
         <RibbonGroup label={t("offerte.export")}>

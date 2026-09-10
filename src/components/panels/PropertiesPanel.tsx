@@ -24,14 +24,11 @@ const sectionStyle: React.CSSProperties = {
 
 // ── Wijzigingshistorie ──
 
-const FIELD_LABELS: Record<string, string> = {
-  code: 'Code', description: 'Omschrijving', unit: 'Eenheid', quantity: 'Hoeveelheid',
-  materialPrice: 'Materiaal', laborPrice: 'Arbeid/loon', notes: 'Notitie',
-  normQuantity: 'Normhoeveelheid', normFactor: 'Normfactor', normDivisor: 'Normdeler',
-  normUnitPrice: 'Norm-eenheidsprijs', resourceType: 'Middelsoort', tariefGroep: 'Tariefgroep',
-  verrekenbaar: 'Verrekenbaar', staartPercentage: 'Percentage', nr: 'Nr',
-};
-const fieldLabel = (f: string) => FIELD_LABELS[f] ?? f;
+const FIELD_KEYS = new Set([
+  'code', 'description', 'unit', 'quantity', 'materialPrice', 'laborPrice', 'notes',
+  'normQuantity', 'normFactor', 'normDivisor', 'normUnitPrice', 'resourceType',
+  'tariefGroep', 'verrekenbaar', 'staartPercentage', 'nr',
+]);
 
 const fmtHistVal = (v: string | number | boolean | null): string => {
   if (v === null || v === '') return '—';
@@ -49,14 +46,16 @@ const fmtHistDate = (iso: string): string => {
 
 /** Toont de wijzigingshistorie van de geselecteerde regel: wat, oud→nieuw, wanneer, wie. */
 const ItemHistoryView: React.FC<{ history?: FieldChange[] }> = ({ history }) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(true);
+  const fieldLabel = (f: string) => (FIELD_KEYS.has(f) ? t(`propertiesPanel.fields.${f}`) : f);
 
   if (!history || history.length === 0) {
     return (
       <>
-        <div style={sectionStyle}>Wijzigingshistorie</div>
+        <div style={sectionStyle}>{t('propertiesPanel.history')}</div>
         <div style={{ color: 'var(--theme-text-secondary)', fontStyle: 'italic' }}>
-          Nog geen wijzigingen vastgelegd voor deze regel.
+          {t('propertiesPanel.historyEmpty')}
         </div>
       </>
     );
@@ -69,7 +68,7 @@ const ItemHistoryView: React.FC<{ history?: FieldChange[] }> = ({ history }) => 
         style={{ ...sectionStyle, display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}
         onClick={() => setOpen((o) => !o)}
       >
-        <span>Wijzigingshistorie ({history.length})</span>
+        <span>{t('propertiesPanel.historyCount', { count: history.length })}</span>
         <span style={{ fontSize: 10 }}>{open ? '▾' : '▸'}</span>
       </div>
       {open && (
@@ -89,7 +88,7 @@ const ItemHistoryView: React.FC<{ history?: FieldChange[] }> = ({ history }) => 
                 <span style={{ color: 'var(--theme-editable-text, var(--theme-text))', fontWeight: 500 }}>{fmtHistVal(e.newValue)}</span>
               </div>
               <div style={{ color: 'var(--theme-text-secondary)', fontSize: 10 }}>
-                <span title="Windows-gebruiker">👤 {e.user}</span>
+                <span title={t('propertiesPanel.windowsUser')}>👤 {e.user}</span>
               </div>
             </div>
           ))}
@@ -119,24 +118,24 @@ export const PropertiesPanel: React.FC = () => {
 
       {item && (
         <>
-          <div style={sectionStyle}>Geselecteerd item</div>
+          <div style={sectionStyle}>{t('selectedItem')}</div>
           <div style={{ marginBottom: 8 }}>
             <div className="prop-label">{t('selectedItem')}</div>
             <div className="prop-value" style={{ fontWeight: 600 }}>{item.description || t('noDescription')}</div>
           </div>
           <div style={{ marginBottom: 8 }}>
-            <div className="prop-label">Type</div>
+            <div className="prop-label">{t('type')}</div>
             {(() => {
               const typeInfo: Record<string, { label: string; bg: string; fg: string }> = {
-                chapter: { label: 'Hoofdstuk', bg: 'rgba(22,163,74,0.15)', fg: '#16a34a' },
-                begrotingspost: { label: 'Begrotingspost', bg: 'rgba(59,130,246,0.15)', fg: '#3b82f6' },
-                bewakingspost: { label: 'Bewakingspost', bg: 'rgba(217,119,6,0.15)', fg: '#d97706' },
-                regel: { label: 'Rekenregel', bg: 'rgba(120,120,128,0.15)', fg: 'var(--theme-text-secondary)' },
-                tekstregel: { label: 'Tekstregel', bg: 'rgba(120,120,128,0.12)', fg: 'var(--theme-text-secondary)' },
-                witregel: { label: 'Witregel', bg: 'rgba(120,120,128,0.12)', fg: 'var(--theme-text-secondary)' },
+                chapter: { label: t('propertiesPanel.types.chapter'), bg: 'rgba(22,163,74,0.15)', fg: '#16a34a' },
+                begrotingspost: { label: t('propertiesPanel.types.begrotingspost'), bg: 'rgba(59,130,246,0.15)', fg: '#3b82f6' },
+                bewakingspost: { label: t('propertiesPanel.types.bewakingspost'), bg: 'rgba(217,119,6,0.15)', fg: '#d97706' },
+                regel: { label: t('propertiesPanel.types.regel'), bg: 'rgba(120,120,128,0.15)', fg: 'var(--theme-text-secondary)' },
+                tekstregel: { label: t('propertiesPanel.types.tekstregel'), bg: 'rgba(120,120,128,0.12)', fg: 'var(--theme-text-secondary)' },
+                witregel: { label: t('propertiesPanel.types.witregel'), bg: 'rgba(120,120,128,0.12)', fg: 'var(--theme-text-secondary)' },
               };
               const info = item.rowType.startsWith('staart_')
-                ? { label: 'Staartregel', bg: 'rgba(120,120,128,0.12)', fg: 'var(--theme-text-secondary)' }
+                ? { label: t('propertiesPanel.types.staart'), bg: 'rgba(120,120,128,0.12)', fg: 'var(--theme-text-secondary)' }
                 : typeInfo[item.rowType] ?? { label: item.rowType, bg: 'rgba(120,120,128,0.12)', fg: 'var(--theme-text-secondary)' };
               return (
                 <span style={{
@@ -178,7 +177,7 @@ export const PropertiesPanel: React.FC = () => {
           Bestand → Bedrijfsgegevens, logo's in Rapportage → Logo's. */}
 
       {/* ── Begrotingsvarianten (in-/uitschakelen via Begroting → Varianten) ── */}
-      <div style={sectionStyle}>Begrotingsvarianten</div>
+      <div style={sectionStyle}>{t('propertiesPanel.budgetVariants')}</div>
       <BranchTreeEditor />
     </div>
   );

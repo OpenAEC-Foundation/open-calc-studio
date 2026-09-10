@@ -5,6 +5,7 @@
  * - IFC element quantity (volume/area/length/count)
  */
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import type { QuantityLink } from '@/types/costModel';
 
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export function QuantityPicker({ onPick, onClose }: Props) {
+  const { t } = useTranslation('dialogs');
   const subSheets = useAppStore(s => s.subSheets);
   const pdfMeasurements = useAppStore(s => s.pdfMeasurements);
   const ifcQuantities = useAppStore(s => s.ifcQuantities);
@@ -28,7 +30,7 @@ export function QuantityPicker({ onPick, onClose }: Props) {
     if (!activeSheet || !cellRef) return;
     const cell = activeSheet.cells[cellRef.toUpperCase()];
     const value = cell?.computed ?? parseFloat(cell?.value ?? '0');
-    if (!isFinite(value)) { alert('Cel bevat geen geldig getal'); return; }
+    if (!isFinite(value)) { alert(t('quantityPicker.cellNotNumeric')); return; }
     onPick({ source: 'spreadsheet', sheetId: selectedSheet, cellRef: cellRef.toUpperCase() }, value);
     onClose();
   };
@@ -73,22 +75,22 @@ export function QuantityPicker({ onPick, onClose }: Props) {
     <div style={overlayStyle} onClick={onClose}>
       <div style={modalStyle} onClick={e => e.stopPropagation()}>
         <div style={{ padding: '12px 16px', borderBottom: '1px solid var(--theme-border)', fontWeight: 600 }}>
-          🔗 Hoeveelheid linken
+          🔗 {t('quantityPicker.title')}
         </div>
         <div style={{ display: 'flex', borderBottom: '1px solid var(--theme-border)' }}>
-          <button style={tabBtnStyle(tab === 'spreadsheet')} onClick={() => setTab('spreadsheet')}>📊 Spreadsheet</button>
-          <button style={tabBtnStyle(tab === 'pdf')} onClick={() => setTab('pdf')}>📄 PDF meting</button>
-          <button style={tabBtnStyle(tab === 'ifc')} onClick={() => setTab('ifc')}>🏗️ IFC element</button>
+          <button style={tabBtnStyle(tab === 'spreadsheet')} onClick={() => setTab('spreadsheet')}>📊 {t('quantityPicker.tabSpreadsheet')}</button>
+          <button style={tabBtnStyle(tab === 'pdf')} onClick={() => setTab('pdf')}>📄 {t('quantityPicker.tabPdf')}</button>
+          <button style={tabBtnStyle(tab === 'ifc')} onClick={() => setTab('ifc')}>🏗️ {t('quantityPicker.tabIfc')}</button>
         </div>
         <div style={{ flex: 1, overflow: 'auto', padding: 16, fontSize: 12 }}>
           {tab === 'spreadsheet' && (
             <>
               {subSheets.length === 0 ? (
-                <div style={{ color: 'var(--theme-text-muted)' }}>Nog geen werkbladen. Maak eerst een spreadsheet aan.</div>
+                <div style={{ color: 'var(--theme-text-muted)' }}>{t('quantityPicker.noSheets')}</div>
               ) : (
                 <>
                   <div style={{ marginBottom: 12 }}>
-                    <div style={{ fontSize: 11, color: 'var(--theme-text-muted)', marginBottom: 4 }}>Werkblad</div>
+                    <div style={{ fontSize: 11, color: 'var(--theme-text-muted)', marginBottom: 4 }}>{t('quantityPicker.sheet')}</div>
                     <select
                       value={selectedSheet}
                       onChange={e => setSelectedSheet(e.target.value)}
@@ -98,7 +100,7 @@ export function QuantityPicker({ onPick, onClose }: Props) {
                     </select>
                   </div>
                   <div style={{ marginBottom: 12 }}>
-                    <div style={{ fontSize: 11, color: 'var(--theme-text-muted)', marginBottom: 4 }}>Celreferentie (bijv. A5 of B12)</div>
+                    <div style={{ fontSize: 11, color: 'var(--theme-text-muted)', marginBottom: 4 }}>{t('quantityPicker.cellReference')}</div>
                     <input
                       value={cellRef}
                       onChange={e => setCellRef(e.target.value)}
@@ -109,9 +111,9 @@ export function QuantityPicker({ onPick, onClose }: Props) {
                   </div>
                   {cellRef && activeSheet && (
                     <div style={{ padding: 8, background: 'var(--theme-surface)', borderRadius: 4, marginBottom: 12 }}>
-                      Waarde: <b>{(() => {
+                      {t('quantityPicker.value')}: <b>{(() => {
                         const cell = activeSheet.cells[cellRef.toUpperCase()];
-                        return cell?.computed ?? cell?.value ?? '(leeg)';
+                        return cell?.computed ?? cell?.value ?? t('quantityPicker.empty');
                       })()}</b>
                     </div>
                   )}
@@ -119,7 +121,7 @@ export function QuantityPicker({ onPick, onClose }: Props) {
                     onClick={pickSpreadsheet}
                     disabled={!cellRef}
                     style={{ padding: '8px 16px', background: 'var(--theme-accent)', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer', fontSize: 12 }}
-                  >Link cel</button>
+                  >{t('quantityPicker.linkCell')}</button>
                 </>
               )}
             </>
@@ -127,20 +129,20 @@ export function QuantityPicker({ onPick, onClose }: Props) {
           {tab === 'pdf' && (
             <>
               {pdfMeasurements.length === 0 ? (
-                <div style={{ color: 'var(--theme-text-muted)' }}>Nog geen PDF metingen. Open eerst een PDF in het PDF tabblad en maak metingen.</div>
+                <div style={{ color: 'var(--theme-text-muted)' }}>{t('quantityPicker.noPdfMeasurements')}</div>
               ) : (
                 <>
                   <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
                     <button
                       onClick={() => pickPdfSum('length')}
                       style={{ flex: 1, padding: '8px', background: 'var(--theme-surface)', border: '1px solid var(--theme-border)', borderRadius: 4, cursor: 'pointer', fontSize: 12, color: 'var(--theme-text)' }}
-                    >Σ Alle lengtes</button>
+                    >{t('quantityPicker.sumLengths')}</button>
                     <button
                       onClick={() => pickPdfSum('area')}
                       style={{ flex: 1, padding: '8px', background: 'var(--theme-surface)', border: '1px solid var(--theme-border)', borderRadius: 4, cursor: 'pointer', fontSize: 12, color: 'var(--theme-text)' }}
-                    >Σ Alle oppervlakken</button>
+                    >{t('quantityPicker.sumAreas')}</button>
                   </div>
-                  <div style={{ fontSize: 11, color: 'var(--theme-text-muted)', marginBottom: 6 }}>Losse metingen:</div>
+                  <div style={{ fontSize: 11, color: 'var(--theme-text-muted)', marginBottom: 6 }}>{t('quantityPicker.individualMeasurements')}</div>
                   {pdfMeasurements.map(m => (
                     <div
                       key={m.id}
@@ -162,7 +164,7 @@ export function QuantityPicker({ onPick, onClose }: Props) {
           {tab === 'ifc' && (
             <>
               {ifcQuantities.length === 0 ? (
-                <div style={{ color: 'var(--theme-text-muted)' }}>Nog geen IFC elementen. Open een IFC in het 3D tabblad en selecteer een element.</div>
+                <div style={{ color: 'var(--theme-text-muted)' }}>{t('quantityPicker.noIfcElements')}</div>
               ) : (
                 ifcQuantities.map(q => (
                   <div key={q.fragmentId} style={{ padding: 8, border: '1px solid var(--theme-border)', borderRadius: 4, marginBottom: 4, background: 'var(--theme-surface)' }}>
@@ -188,7 +190,7 @@ export function QuantityPicker({ onPick, onClose }: Props) {
           <button
             onClick={onClose}
             style={{ padding: '6px 14px', background: 'var(--theme-surface)', border: '1px solid var(--theme-border)', color: 'var(--theme-text)', borderRadius: 4, cursor: 'pointer', fontSize: 12 }}
-          >Annuleren</button>
+          >{t('quantityPicker.cancel')}</button>
         </div>
       </div>
     </div>

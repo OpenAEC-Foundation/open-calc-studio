@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { findMatchingCostItems } from '@/services/offerte/costItemMatcher';
 import { useAppStore } from '@/state/appStore';
 import { formatCurrency } from '@/utils/formatting';
@@ -20,6 +21,7 @@ export default function CostItemPicker({
   open, offerteOnderdeel, offerteOmschrijving, linkedChapterId,
   currentLinkedId, onSelect, onUnlink, onCancel,
 }: CostItemPickerProps) {
+  const { t } = useTranslation('dialogs');
   const items = useAppStore(s => s.items);
   const [search, setSearch] = useState('');
   const [selectedId, setSelectedId] = useState<string | null>(currentLinkedId);
@@ -44,14 +46,14 @@ export default function CostItemPicker({
     <div className="modal-overlay modal-open">
       <div className="modal-dialog modal-dialog-open cost-picker-dialog">
         <div className="modal-header">
-          <span className="modal-title">Koppel aan begrotingsregel</span>
+          <span className="modal-title">{t('costItemPicker.title')}</span>
           <button className="modal-close" onClick={onCancel}>&times;</button>
         </div>
 
         <div className="cost-picker-search">
           <input
             type="text"
-            placeholder="Zoek op omschrijving of code..."
+            placeholder={t('costItemPicker.searchPlaceholder')}
             value={search}
             onChange={e => setSearch(e.target.value)}
             autoFocus
@@ -61,7 +63,7 @@ export default function CostItemPicker({
         <div className="cost-picker-body">
           {suggestions.length > 0 && !search && (
             <div className="cost-picker-suggestions">
-              <div className="cost-picker-section-label">Suggesties</div>
+              <div className="cost-picker-section-label">{t('costItemPicker.suggestions')}</div>
               {suggestions.map(s => (
                 <button
                   key={s.costItemId}
@@ -77,7 +79,7 @@ export default function CostItemPicker({
           )}
 
           <div className="cost-picker-section-label">
-            {search ? `Resultaten (${filteredItems.length})` : 'Alle regels'}
+            {search ? t('costItemPicker.results', { count: filteredItems.length }) : t('costItemPicker.allLines')}
           </div>
           <div className="cost-picker-list">
             {filteredItems.map(item => (
@@ -96,11 +98,11 @@ export default function CostItemPicker({
 
         <div className="modal-footer">
           {currentLinkedId && (
-            <button className="modal-btn modal-btn-danger" onClick={onUnlink}>Ontkoppelen</button>
+            <button className="modal-btn modal-btn-danger" onClick={onUnlink}>{t('costItemPicker.unlink')}</button>
           )}
           <div style={{ flex: 1 }} />
-          <button className="modal-btn modal-btn-secondary" onClick={onCancel}>Annuleren</button>
-          <button className="modal-btn modal-btn-primary" onClick={() => { if (selectedId) onSelect(selectedId); }} disabled={!selectedId}>Koppelen</button>
+          <button className="modal-btn modal-btn-secondary" onClick={onCancel}>{t('costItemPicker.cancel')}</button>
+          <button className="modal-btn modal-btn-primary" onClick={() => { if (selectedId) onSelect(selectedId); }} disabled={!selectedId}>{t('costItemPicker.link')}</button>
         </div>
       </div>
     </div>

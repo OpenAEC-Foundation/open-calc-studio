@@ -7,11 +7,15 @@ import enRibbon from "./locales/en/ribbon.json";
 import enBackstage from "./locales/en/backstage.json";
 import enSettings from "./locales/en/settings.json";
 import enFeedback from "./locales/en/feedback.json";
+import enGrid from "./locales/en/grid.json";
+import enDialogs from "./locales/en/dialogs.json";
 import nlCommon from "./locales/nl/common.json";
 import nlRibbon from "./locales/nl/ribbon.json";
 import nlBackstage from "./locales/nl/backstage.json";
 import nlSettings from "./locales/nl/settings.json";
 import nlFeedback from "./locales/nl/feedback.json";
+import nlGrid from "./locales/nl/grid.json";
+import nlDialogs from "./locales/nl/dialogs.json";
 
 export const LANGUAGES = [
   { code: "auto", name: "Auto-detect" },
@@ -19,20 +23,22 @@ export const LANGUAGES = [
   { code: "nl", name: "Nederlands" },
 ];
 
-const ns = ["common", "ribbon", "backstage", "settings", "feedback"];
+const ns = ["common", "ribbon", "backstage", "settings", "feedback", "grid", "dialogs"];
 
 i18next
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources: {
-      en: { common: enCommon, ribbon: enRibbon, backstage: enBackstage, settings: enSettings, feedback: enFeedback },
-      nl: { common: nlCommon, ribbon: nlRibbon, backstage: nlBackstage, settings: nlSettings, feedback: nlFeedback },
+      en: { common: enCommon, ribbon: enRibbon, backstage: enBackstage, settings: enSettings, feedback: enFeedback, grid: enGrid, dialogs: enDialogs },
+      nl: { common: nlCommon, ribbon: nlRibbon, backstage: nlBackstage, settings: nlSettings, feedback: nlFeedback, grid: nlGrid, dialogs: nlDialogs },
     },
     ns,
     defaultNS: "common",
-    lng: "nl",
-    fallbackLng: "nl",
+    // Geen vaste lng: de LanguageDetector kiest de browsertaal bij de eerste
+    // start (App.tsx past daarna een opgeslagen voorkeur toe). Niet-ondersteunde
+    // talen (bv. Spaans) vallen terug op Engels — Nederlands alleen voor nl.
+    fallbackLng: "en",
     interpolation: { escapeValue: false },
     detection: {
       order: ["navigator"],

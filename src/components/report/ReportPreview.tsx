@@ -167,18 +167,18 @@ export const ReportPreview: React.FC = () => {
         <span className="report-toolbar-info">
           {pageSize} {pageOrientation === 'landscape' ? t('landscape') : t('portrait')}
         </span>
-        <label className="report-toolbar-check" title="Hoeveelheid-, eenheid- en eenheidsprijskolommen tonen of verbergen in dit rapport">
+        <label className="report-toolbar-check" title={t('report.quantitiesTooltip')}>
           <input type="checkbox" checked={showHoeveelheid} onChange={toggleHoeveelheid} />
-          Hoeveelheden
+          {t('quantities')}
         </label>
         {reportView === 'hoofdaanneming' && (
-          <label className="report-toolbar-check" title="Verberg de individuele eh.prijzen en bedragen per regel; hoeveelheden en de subtotalen per paragraaf blijven zichtbaar">
+          <label className="report-toolbar-check" title={t('report.subtotalsOnlyTooltip')}>
             <input
               type="checkbox"
               checked={!!schedule.reportAmountsSubtotalsOnly}
               onChange={() => setSchedule({ reportAmountsSubtotalsOnly: !schedule.reportAmountsSubtotalsOnly })}
             />
-            Alleen subtotalen
+            {t('report.subtotalsOnly')}
           </label>
         )}
         <div className="report-toolbar-zoom">

@@ -1,4 +1,5 @@
 import React, { useMemo, useRef, useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import Modal from '../common/Modal';
 import { useAppStore } from '@/state/appStore';
 import type { CodeEntry, CodeScheme } from '@/data/codeLibrary';
@@ -20,6 +21,7 @@ type Filter = 'all' | CodeScheme;
  * codering toe te voegen. Dubbelklik/Enter kiest een codering.
  */
 export const CodePickerModal: React.FC<Props> = ({ open, onClose, onPick }) => {
+  const { t } = useTranslation('grid');
   const getAllCodes = useAppStore((s) => s.getAllCodes);
   const customCodes = useAppStore((s) => s.customCodes);
   const addCustomCode = useAppStore((s) => s.addCustomCode);
@@ -71,7 +73,7 @@ export const CodePickerModal: React.FC<Props> = ({ open, onClose, onPick }) => {
   };
 
   return (
-    <Modal open={open} onClose={onClose} title="Codering kiezen (STABU / NL-SfB)" className="code-picker-modal">
+    <Modal open={open} onClose={onClose} title={t('codePicker.title')} className="code-picker-modal">
       <div style={{ fontSize: 12, minWidth: 460 }}>
         {/* Zoek + filter */}
         <div style={{ display: 'flex', gap: 8, marginBottom: 8, alignItems: 'center' }}>
@@ -79,7 +81,7 @@ export const CodePickerModal: React.FC<Props> = ({ open, onClose, onPick }) => {
             ref={searchRef}
             className="prop-input"
             style={{ flex: 1 }}
-            placeholder="Zoek op code of omschrijving…"
+            placeholder={t('codePicker.searchPlaceholder')}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => {
@@ -98,7 +100,7 @@ export const CodePickerModal: React.FC<Props> = ({ open, onClose, onPick }) => {
                   color: filter === f ? '#fff' : 'var(--theme-text)',
                 }}
               >
-                {f === 'all' ? 'Alle' : SCHEME_LABEL[f]}
+                {f === 'all' ? t('codePicker.all') : SCHEME_LABEL[f]}
               </button>
             ))}
           </div>
@@ -108,7 +110,7 @@ export const CodePickerModal: React.FC<Props> = ({ open, onClose, onPick }) => {
         <div style={{ maxHeight: 320, overflowY: 'auto', border: '1px solid var(--theme-border)', borderRadius: 4 }}>
           {results.length === 0 ? (
             <div style={{ padding: 12, color: 'var(--theme-text-secondary)', fontStyle: 'italic' }}>
-              Geen coderingen gevonden. Voeg er hieronder zelf één toe.
+              {t('codePicker.noResults')}
             </div>
           ) : (
             results.map((e) => {
@@ -134,7 +136,7 @@ export const CodePickerModal: React.FC<Props> = ({ open, onClose, onPick }) => {
                   }}>{SCHEME_LABEL[e.scheme]}</span>
                   {isCustom && (
                     <button
-                      title="Eigen codering verwijderen"
+                      title={t('codePicker.removeCustom')}
                       onClick={(ev) => { ev.stopPropagation(); removeCustomCode(e.scheme, e.code); }}
                       style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--theme-danger, #dc2626)', fontSize: 12, padding: 0 }}
                     >✕</button>
@@ -151,16 +153,16 @@ export const CodePickerModal: React.FC<Props> = ({ open, onClose, onPick }) => {
             <button
               onClick={() => setShowAdd(true)}
               style={{ fontSize: 11, padding: '4px 8px', border: '1px solid var(--theme-border)', background: 'var(--theme-surface)', borderRadius: 3, cursor: 'pointer', color: 'var(--theme-text)' }}
-            >+ Eigen codering toevoegen</button>
+            >{t('codePicker.addCustom')}</button>
           ) : (
             <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
               <input
-                className="prop-input" style={{ width: 90 }} placeholder="Code"
+                className="prop-input" style={{ width: 90 }} placeholder={t('codePicker.codePlaceholder')}
                 value={newCode} autoFocus onChange={(e) => setNewCode(e.target.value)}
                 onKeyDown={(e) => { if (e.key === 'Enter') handleAdd(); }}
               />
               <input
-                className="prop-input" style={{ flex: 1, minWidth: 140 }} placeholder="Omschrijving"
+                className="prop-input" style={{ flex: 1, minWidth: 140 }} placeholder={t('codePicker.descriptionPlaceholder')}
                 value={newDesc} onChange={(e) => setNewDesc(e.target.value)}
                 onKeyDown={(e) => { if (e.key === 'Enter') handleAdd(); }}
               />
@@ -171,11 +173,11 @@ export const CodePickerModal: React.FC<Props> = ({ open, onClose, onPick }) => {
               <button
                 onClick={handleAdd}
                 style={{ fontSize: 11, padding: '4px 10px', border: 'none', background: 'var(--theme-accent)', color: '#fff', borderRadius: 3, cursor: 'pointer' }}
-              >Toevoegen</button>
+              >{t('common:add')}</button>
               <button
                 onClick={() => setShowAdd(false)}
                 style={{ fontSize: 11, padding: '4px 8px', border: '1px solid var(--theme-border)', background: 'var(--theme-surface)', borderRadius: 3, cursor: 'pointer', color: 'var(--theme-text)' }}
-              >Annuleren</button>
+              >{t('common:cancel')}</button>
             </div>
           )}
         </div>

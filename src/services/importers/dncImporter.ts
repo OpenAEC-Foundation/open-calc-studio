@@ -44,7 +44,7 @@ const CP850_HIGH =
   '░▒▓│┤ÁÂÀ©╣║╗╝¢¥┐└┴┬├─┼ãÃ╚╔╩╦╠═╬¤ðÐÊËÈıÍÎÏ┘┌█▄¦Ì▀' +
   'ÓßÔÒõÕµþÞÚÛÙýÝ¯´­±‗¾¶§÷¸°¨·¹³²■ ';
 
-function decodeCp850(bytes: Uint8Array, start: number, len: number): string {
+export function decodeCp850(bytes: Uint8Array, start: number, len: number): string {
   let s = '';
   for (let i = start; i < start + len; i++) {
     const b = bytes[i];

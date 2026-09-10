@@ -47,15 +47,15 @@ const tauriApi = (() => {
   };
 })();
 
-const REPORT_VIEWS: { value: ReportView; label: string; icon: string; title: string }[] = [
-  { value: 'werkbeschrijving', label: 'Werkbeschr.', icon: reportWerkbeschrijvingIcon, title: 'Werkbeschrijving — omschrijvingen zonder bedragen' },
-  { value: 'hoofdaanneming', label: 'Hoofdaann.', icon: reportHoofdaannemingIcon, title: 'Hoofdaanneming — de aanneemsom voor de opdrachtgever' },
-  { value: 'onderaanneming', label: 'Onderaann.', icon: reportOnderaannemingIcon, title: 'Onderaanneming — het uitbestede werk' },
-  { value: 'inschrijfstaat', label: 'Inschrijfstaat', icon: reportInschrijfstaatIcon, title: 'Inschrijfstaat — geprijsde staat met hoeveelheden' },
-  { value: 'nacalculatie', label: 'Nacalculatie', icon: reportNacalculatieIcon, title: 'Nacalculatie — achteraf toetsen wat het geworden is' },
-  { value: 'bouw1', label: 'Bouw 1', icon: reportBouw1Icon, title: 'Bouw 1 — vaste uitvoerlay-out' },
-  { value: 'ibis', label: 'Bouw 2', icon: reportBouw2Icon, title: 'Bouw 2 — vaste uitvoerlay-out' },
-  { value: 'directie', label: 'Directiebegr.', icon: reportDirectieIcon, title: 'Directiebegroting — overzicht voor de directie' },
+const REPORT_VIEWS: { value: ReportView; labelKey: string; icon: string; titleKey: string }[] = [
+  { value: 'werkbeschrijving', labelKey: 'rapportage.viewWerkbeschrijving', icon: reportWerkbeschrijvingIcon, titleKey: 'rapportage.viewWerkbeschrijvingTitle' },
+  { value: 'hoofdaanneming', labelKey: 'rapportage.viewHoofdaanneming', icon: reportHoofdaannemingIcon, titleKey: 'rapportage.viewHoofdaannemingTitle' },
+  { value: 'onderaanneming', labelKey: 'rapportage.viewOnderaanneming', icon: reportOnderaannemingIcon, titleKey: 'rapportage.viewOnderaannemingTitle' },
+  { value: 'inschrijfstaat', labelKey: 'rapportage.viewInschrijfstaat', icon: reportInschrijfstaatIcon, titleKey: 'rapportage.viewInschrijfstaatTitle' },
+  { value: 'nacalculatie', labelKey: 'rapportage.viewNacalculatie', icon: reportNacalculatieIcon, titleKey: 'rapportage.viewNacalculatieTitle' },
+  { value: 'bouw1', labelKey: 'rapportage.viewBouw1', icon: reportBouw1Icon, titleKey: 'rapportage.viewBouw1Title' },
+  { value: 'ibis', labelKey: 'rapportage.viewBouw2', icon: reportBouw2Icon, titleKey: 'rapportage.viewBouw2Title' },
+  { value: 'directie', labelKey: 'rapportage.viewDirectie', icon: reportDirectieIcon, titleKey: 'rapportage.viewDirectieTitle' },
 ];
 
 export default function RapportageTab() {
@@ -123,7 +123,7 @@ export default function RapportageTab() {
       const { exportInschrijfstaat } = await import('@/services/export/inschrijfstaatExporter');
       await exportInschrijfstaat(schedule, items);
     } catch (err) {
-      alert(`Excel export: ${err}`);
+      alert(`${t("rapportage.excelExportFailed")}: ${err}`);
     }
   };
 
@@ -151,8 +151,8 @@ export default function RapportageTab() {
             <RibbonButton
               key={v.value}
               icon={v.icon}
-              label={v.label}
-              title={v.title}
+              label={t(v.labelKey)}
+              title={t(v.titleKey)}
               onClick={() => handleViewClick(v.value)}
               active={reportView === v.value}
             />
@@ -162,8 +162,8 @@ export default function RapportageTab() {
         <RibbonGroup label={t('rapportage.display')}>
           <RibbonButton
             icon={settingsIcon}
-            label="Eigenschappen"
-            title="Rapport-eigenschappen: hoeveelheden aan/uit, wijzigingsmarkeringen"
+            label={t('rapportage.properties')}
+            title={t('rapportage.propertiesTitle')}
             onClick={() => setShowProps(true)}
             active={showProps}
           />
@@ -193,8 +193,8 @@ export default function RapportageTab() {
           />
           <RibbonButton
             icon={pageSizeIcon}
-            label="Logo's"
-            title="Logo's voor de rapportage instellen (standaard of eigen logo links/rechts)"
+            label={t('rapportage.logos')}
+            title={t('rapportage.logosTitle')}
             onClick={() => setShowLogos(true)}
           />
         </RibbonGroup>
@@ -212,11 +212,11 @@ export default function RapportageTab() {
         </RibbonGroup>
       </div>
 
-      <Modal open={showLogos} onClose={() => setShowLogos(false)} title="Logo's rapportage">
+      <Modal open={showLogos} onClose={() => setShowLogos(false)} title={t('rapportage.logosModalTitle')}>
         <ReportLogoSettings />
       </Modal>
 
-      <Modal open={showProps} onClose={() => setShowProps(false)} title="Rapport-eigenschappen" className="rapport-props-dialog">
+      <Modal open={showProps} onClose={() => setShowProps(false)} title={t('rapportage.propsModalTitle')} className="rapport-props-dialog">
         <div className="rapport-props">
           <label className="rapport-props-row">
             <input
@@ -225,8 +225,8 @@ export default function RapportageTab() {
               onChange={toggleHoeveelheid}
             />
             <span>
-              <strong>Hoeveelheden tonen</strong>
-              <em>Hoeveelheid-, eenheid- en eenheidsprijskolommen in het rapport (o.a. werkomschrijving en hoofdaanneming). Uit = alleen omschrijvingen{' '}en bedragen.</em>
+              <strong>{t('rapportage.propShowQuantities')}</strong>
+              <em>{t('rapportage.propShowQuantitiesHelp')}</em>
             </span>
           </label>
           <label className="rapport-props-row">
@@ -236,8 +236,8 @@ export default function RapportageTab() {
               onChange={() => setReportShowChanges(!schedule.reportShowChanges)}
             />
             <span>
-              <strong>Wijzigingen markeren</strong>
-              <em>Toon de wijzigingsmarkeringen (bijhouden) ook in de rapportage-PDF.</em>
+              <strong>{t('rapportage.propMarkChanges')}</strong>
+              <em>{t('rapportage.propMarkChangesHelp')}</em>
             </span>
           </label>
           <label className="rapport-props-row">
@@ -247,8 +247,8 @@ export default function RapportageTab() {
               onChange={() => setSchedule({ reportChapterTotalsOnly: !schedule.reportChapterTotalsOnly })}
             />
             <span>
-              <strong>Alleen subtotaal per hoofdstuk</strong>
-              <em>Compact rapport: alleen de hoofdstukregels met hun subtotalen (en de staart); posten en regels worden weggelaten.</em>
+              <strong>{t('rapportage.propChapterTotalsOnly')}</strong>
+              <em>{t('rapportage.propChapterTotalsOnlyHelp')}</em>
             </span>
           </label>
           <label className="rapport-props-row">
@@ -258,8 +258,8 @@ export default function RapportageTab() {
               onChange={() => setSchedule({ reportShowVerrekenbaar: schedule.reportShowVerrekenbaar === false ? undefined : false })}
             />
             <span>
-              <strong>Verrekenbaar (V) tonen</strong>
-              <em>De S/Verr.-kolom in o.a. hoofdaanneming en inschrijfstaat; postregels erven de V van hun hoofdstuk.</em>
+              <strong>{t('rapportage.propShowVerrekenbaar')}</strong>
+              <em>{t('rapportage.propShowVerrekenbaarHelp')}</em>
             </span>
           </label>
           <label className="rapport-props-row">
@@ -269,17 +269,17 @@ export default function RapportageTab() {
               onChange={() => setSchedule({ reportAmountsSubtotalsOnly: !schedule.reportAmountsSubtotalsOnly })}
             />
             <span>
-              <strong>Alleen subtotaal-bedragen (hoofdaanneming)</strong>
-              <em>Verberg de individuele eh.prijzen en bedragen per regel; hoeveelheden en de subtotalen per paragraaf blijven zichtbaar.</em>
+              <strong>{t('rapportage.propAmountsSubtotalsOnly')}</strong>
+              <em>{t('rapportage.propAmountsSubtotalsOnlyHelp')}</em>
             </span>
           </label>
           <div className="rapport-props-row" style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
             <span style={{ minWidth: 120 }}>
-              <strong>Koptekst</strong>
-              <em style={{ display: 'block' }}>Hoogte van de kop (het logo schaalt mee) en de kleur van de accentlijn.</em>
+              <strong>{t('rapportage.propHeader')}</strong>
+              <em style={{ display: 'block' }}>{t('rapportage.propHeaderHelp')}</em>
             </span>
             <label style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11 }}>
-              Hoogte
+              {t('rapportage.height')}
               <input
                 type="number" min={6} max={30} step={1}
                 value={schedule.reportHeaderHeightMm ?? 10}
@@ -292,19 +292,19 @@ export default function RapportageTab() {
               /> mm
             </label>
             <label style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11 }}>
-              Lijnkleur
+              {t('rapportage.lineColor')}
               <input
                 type="color"
                 value={schedule.reportHeaderLineColor ?? '#D97706'}
                 onChange={(e) => setSchedule({ reportHeaderLineColor: e.target.value })}
                 style={{ width: 34, height: 22, padding: 0, border: '1px solid var(--theme-border)', borderRadius: 3, background: 'none' }}
-                title="Kleur van de koptekst-accentlijn"
+                title={t('rapportage.lineColorTitle')}
               />
             </label>
             <button
               style={{ fontSize: 10, background: 'none', border: '1px solid var(--theme-border)', borderRadius: 3, padding: '2px 8px', color: 'var(--theme-text-secondary)', cursor: 'pointer' }}
               onClick={() => setSchedule({ reportHeaderHeightMm: undefined, reportHeaderLineColor: undefined })}
-            >Standaard</button>
+            >{t('rapportage.default')}</button>
           </div>
         </div>
       </Modal>

@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import type { CloudFolderIfcx } from '@/hooks/useCloudFolderIfcx';
 import { analyzeIfcxFolder } from '@/services/ifc/ifcxFolder';
@@ -12,6 +13,7 @@ const base = (name: string) => name.slice(name.lastIndexOf('/') + 1);
  * Klik een bestand om het uit te lezen in het objectenpaneel.
  */
 export const IfcxFolderOverview: React.FC<{ data: CloudFolderIfcx; onOpenFile?: (name: string, content: string) => void }> = ({ data, onOpenFile }) => {
+  const { t } = useTranslation();
   const cloudRefresh = useAppStore(s => s.cloudRefresh);
   const { active, folder, ifcxFiles, otherFiles, busy } = data;
   const [open, setOpen] = useState(true);
@@ -27,30 +29,30 @@ export const IfcxFolderOverview: React.FC<{ data: CloudFolderIfcx; onOpenFile?: 
   }, [ifcxFiles]);
 
   if (!active) return null;
-  const folderLabel = folder === '' ? '/ (hoofdmap)' : `/${folder}`;
+  const folderLabel = folder === '' ? t('ifcxFolder.rootFolder') : `/${folder}`;
 
   return (
     <div className="ifcx-folder-overview">
       <div className="ifcx-folder-head" onClick={() => setOpen(o => !o)}>
         <span className="ifcx-folder-toggle">{open ? '▼' : '▶'}</span>
-        <span className="ifcx-folder-title">Mapoverzicht — {folderLabel}</span>
-        {busy && <span className="ifcx-folder-meta">laden…</span>}
+        <span className="ifcx-folder-title">{t('ifcxFolder.title', { folder: folderLabel })}</span>
+        {busy && <span className="ifcx-folder-meta">{t('ifcxFolder.loading')}</span>}
         <button
           className="ifcx-folder-refresh"
           onClick={(e) => { e.stopPropagation(); cloudRefresh().catch(() => {}); }}
-          title="Cloudmap vernieuwen"
+          title={t('ifcxFolder.refresh')}
         >↻</button>
       </div>
 
       {open && (
         <div className="ifcx-folder-body">
           {analysis.files.length === 0 && analysis.otherFiles.length === 0 && (
-            <div className="ifcx-folder-empty">Nog geen bestanden in deze map. Sla begrotingen of .ifcx in dezelfde cloudmap op om ze hier gefedereerd te zien.</div>
+            <div className="ifcx-folder-empty">{t('ifcxFolder.empty')}</div>
           )}
 
           {analysis.links.length > 0 && (
             <div className="ifcx-folder-links">
-              <div className="ifcx-folder-subhead">🔗 Gekoppelde objecten ({analysis.links.length})</div>
+              <div className="ifcx-folder-subhead">🔗 {t('ifcxFolder.linkedObjects', { count: analysis.links.length })}</div>
               {analysis.links.slice(0, 12).map(l => (
                 <div key={l.ifcGuid} className="ifcx-link-row">
                   <code className="ifcx-guid">{l.ifcGuid.slice(0, 12)}…</code>
@@ -67,14 +69,14 @@ export const IfcxFolderOverview: React.FC<{ data: CloudFolderIfcx; onOpenFile?: 
                 key={f.name}
                 className={`ifcx-file-card${canOpen ? ' ifcx-file-openable' : ''}`}
                 onClick={canOpen ? () => onOpenFile!(f.name, contentByName[f.name]) : undefined}
-                title={canOpen ? 'Klik om dit bestand uit te lezen' : undefined}
+                title={canOpen ? t('ifcxFolder.clickToRead') : undefined}
               >
-                <div className="ifcx-file-name">📐 {base(f.name)}{canOpen && <span className="ifcx-file-open-hint">bekijk →</span>}</div>
+                <div className="ifcx-file-name">📐 {base(f.name)}{canOpen && <span className="ifcx-file-open-hint">{t('ifcxFolder.view')}</span>}</div>
                 {f.error ? (
                   <div className="ifcx-folder-error">{f.error}</div>
                 ) : (
                   <div className="ifcx-file-types">
-                    <span className="ifcx-file-count">{f.objectCount} objecten</span>
+                    <span className="ifcx-file-count">{t('ifc.objectCount', { count: f.objectCount })}</span>
                     {f.objectTypes.map(t => (
                       <span key={t.type} className="ifcx-type-chip">{t.type} <b>{t.count}</b></span>
                     ))}
@@ -86,7 +88,7 @@ export const IfcxFolderOverview: React.FC<{ data: CloudFolderIfcx; onOpenFile?: 
 
           {analysis.otherFiles.length > 0 && (
             <div className="ifcx-folder-others">
-              <div className="ifcx-folder-subhead">Overige bestanden</div>
+              <div className="ifcx-folder-subhead">{t('ifcxFolder.otherFiles')}</div>
               {analysis.otherFiles.map(n => <span key={n} className="ifcx-other-chip">📄 {base(n)}</span>)}
             </div>
           )}

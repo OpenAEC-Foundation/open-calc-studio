@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import type { Branch } from '@/types/costModel';
 
 /** Tree editor for budget variant branches (git-like) */
 export const BranchTreeEditor: React.FC = () => {
+  const { t } = useTranslation();
   const schedule = useAppStore(s => s.schedule);
   const addBranch = useAppStore(s => s.addBranch);
   const removeBranch = useAppStore(s => s.removeBranch);
@@ -72,16 +74,16 @@ export const BranchTreeEditor: React.FC = () => {
                 {branch.name}
               </span>
               <button
-                title="Sub-branch toevoegen"
+                title={t('branches.addSub')}
                 style={{ fontSize: 11, padding: '2px 6px', border: '1px solid var(--theme-border)', background: 'var(--theme-surface)', borderRadius: 3, cursor: 'pointer', color: 'var(--theme-text)' }}
                 onClick={() => { setAddingUnderId(branch.id); setNewBranchName(''); }}
               >+</button>
               {!isMain && (
                 <button
-                  title="Verwijder"
+                  title={t('branches.delete')}
                   style={{ fontSize: 11, padding: '2px 6px', border: 'none', background: 'none', cursor: 'pointer', color: 'var(--theme-danger)' }}
                   onClick={() => {
-                    if (confirm(`Variant '${branch.name}' verwijderen? (incl. sub-varianten)`)) removeBranch(branch.id);
+                    if (confirm(t('branches.confirmDelete', { name: branch.name }))) removeBranch(branch.id);
                   }}
                 >✕</button>
               )}
@@ -97,7 +99,7 @@ export const BranchTreeEditor: React.FC = () => {
               style={{ flex: 1, fontSize: 12, height: 22 }}
               autoFocus
               value={newBranchName}
-              placeholder="Naam sub-variant..."
+              placeholder={t('branches.namePlaceholder')}
               onChange={e => setNewBranchName(e.target.value)}
               onBlur={() => {
                 if (newBranchName.trim()) addBranch(newBranchName.trim(), branch.id);
@@ -122,19 +124,19 @@ export const BranchTreeEditor: React.FC = () => {
     <div style={{ padding: 12 }}>
       {!enabled && (
         <div style={{ fontSize: 11, color: 'var(--theme-text-muted)' }}>
-          Schakel begrotingsvarianten in via het lint: <b>Begroting → Varianten</b>.
+          {t('branches.enableHint')} <b>{t('branches.enableHintPath')}</b>.
         </div>
       )}
 
       {enabled && (
         <>
           <div style={{ fontSize: 11, color: 'var(--theme-text-muted)', marginBottom: 8 }}>
-            Maak varianten zoals een git-tree. Elke regel in de begroting kan aan een variant toegewezen worden. Dubbelklik op een naam om te hernoemen.
+            {t('branches.explain')}
           </div>
           <div style={{ border: '1px solid var(--theme-border)', borderRadius: 4, padding: 8, background: 'var(--theme-surface)' }}>
             {roots.length === 0 ? (
               <div style={{ fontSize: 11, color: 'var(--theme-text-muted)', padding: '8px 0' }}>
-                Nog geen varianten. Klik hieronder om 'main' aan te maken.
+                {t('branches.empty')}
               </div>
             ) : (
               roots.map(r => renderBranch(r, 0))
@@ -143,7 +145,7 @@ export const BranchTreeEditor: React.FC = () => {
               <button
                 style={{ fontSize: 11, padding: '4px 8px', border: '1px solid var(--theme-border)', background: 'var(--theme-bg)', borderRadius: 3, cursor: 'pointer', color: 'var(--theme-text)' }}
                 onClick={() => addBranch('main', null)}
-              >+ main branch aanmaken</button>
+              >{t('branches.createMain')}</button>
             )}
           </div>
         </>

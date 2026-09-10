@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import './FindReplaceDialog.css';
 
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export default function FindReplaceDialog({ open, onClose }: Props) {
+  const { t } = useTranslation('grid');
   const items = useAppStore((s) => s.items);
   const updateItem = useAppStore((s) => s.updateItem);
   const pushHistory = useAppStore((s) => s.pushHistory);
@@ -79,11 +81,11 @@ export default function FindReplaceDialog({ open, onClose }: Props) {
   const replaceOne = useCallback(() => {
     if (!current || !query.trim()) return;
     if (current.field === 'nr') { findNext(1); return; } // nr is berekend — overslaan
-    pushHistory(items, 'Vervangen');
+    pushHistory(items, t('undo.replace'));
     const re = new RegExp(query.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
     updateItem(current.id, current.field, current.text.replace(re, replaceWith));
     // cursor blijft — de lijst herrekent en schuift vanzelf op
-  }, [current, query, replaceWith, items, pushHistory, updateItem, findNext]);
+  }, [current, query, replaceWith, items, pushHistory, updateItem, findNext, t]);
 
   const replaceAll = useCallback(() => {
     const q = query.trim();
@@ -91,11 +93,11 @@ export default function FindReplaceDialog({ open, onClose }: Props) {
     const re = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
     const targets = matches.filter((m) => m.field !== 'nr');
     if (targets.length === 0) return;
-    pushHistory(items, `Alles vervangen (${targets.length}×)`);
+    pushHistory(items, t('undo.replaceAll', { count: targets.length }));
     for (const m of targets) {
       updateItem(m.id, m.field, m.text.replace(re, replaceWith));
     }
-  }, [matches, query, replaceWith, items, pushHistory, updateItem]);
+  }, [matches, query, replaceWith, items, pushHistory, updateItem, t]);
 
   if (!open) return null;
 
@@ -105,7 +107,7 @@ export default function FindReplaceDialog({ open, onClose }: Props) {
         <input
           ref={inputRef}
           className="find-replace-input"
-          placeholder="Zoeken…"
+          placeholder={t('findReplace.searchPlaceholder')}
           value={query}
           onChange={(e) => { setQuery(e.target.value); setCursor(0); }}
           onKeyDown={(e) => {
@@ -113,22 +115,22 @@ export default function FindReplaceDialog({ open, onClose }: Props) {
           }}
         />
         <span className="find-replace-count">
-          {query.trim() ? (matches.length === 0 ? 'geen' : `${Math.min(cursor + 1, matches.length)}/${matches.length}`) : ''}
+          {query.trim() ? (matches.length === 0 ? t('findReplace.none') : `${Math.min(cursor + 1, matches.length)}/${matches.length}`) : ''}
         </span>
-        <button className="find-replace-btn" title="Vorige (Shift+Enter)" onClick={() => findNext(-1)} disabled={matches.length === 0}>↑</button>
-        <button className="find-replace-btn" title="Volgende (Enter)" onClick={() => findNext(1)} disabled={matches.length === 0}>↓</button>
-        <button className="find-replace-btn find-replace-close" title="Sluiten (Esc)" onClick={onClose}>×</button>
+        <button className="find-replace-btn" title={t('findReplace.previous')} onClick={() => findNext(-1)} disabled={matches.length === 0}>↑</button>
+        <button className="find-replace-btn" title={t('findReplace.next')} onClick={() => findNext(1)} disabled={matches.length === 0}>↓</button>
+        <button className="find-replace-btn find-replace-close" title={t('findReplace.close')} onClick={onClose}>×</button>
       </div>
       <div className="find-replace-row">
         <input
           className="find-replace-input"
-          placeholder="Vervangen door…"
+          placeholder={t('findReplace.replacePlaceholder')}
           value={replaceWith}
           onChange={(e) => setReplaceWith(e.target.value)}
           onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); replaceOne(); } }}
         />
-        <button className="find-replace-btn find-replace-wide" onClick={replaceOne} disabled={!current || current.field === 'nr'}>Vervangen</button>
-        <button className="find-replace-btn find-replace-wide" onClick={replaceAll} disabled={matches.filter(m => m.field !== 'nr').length === 0}>Alles</button>
+        <button className="find-replace-btn find-replace-wide" onClick={replaceOne} disabled={!current || current.field === 'nr'}>{t('findReplace.replace')}</button>
+        <button className="find-replace-btn find-replace-wide" onClick={replaceAll} disabled={matches.filter(m => m.field !== 'nr').length === 0}>{t('findReplace.all')}</button>
       </div>
     </div>
   );

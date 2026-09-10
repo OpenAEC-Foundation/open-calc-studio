@@ -1,4 +1,5 @@
 import type { StateCreator } from 'zustand';
+import i18next from 'i18next';
 import type { CostItem } from '@/types/costModel';
 import { recalculateItems } from '@/services/calculation/calculator';
 import { isFooterRow } from '@/services/grid/gridRows';
@@ -70,7 +71,7 @@ export const createClipboardSlice: StateCreator<ClipboardSlice> = (set, get) => 
     }
 
     // Push history, update items, clear clipboard if cut
-    state.pushHistory(items, clipboardMode === 'cut' ? 'Knippen en plakken' : 'Plakken');
+    state.pushHistory(items, clipboardMode === 'cut' ? i18next.t('history.cutPaste') : i18next.t('history.paste'));
     const updates: any = { items: recalculateItems(newItems) };
     if (clipboardMode === 'cut') {
       updates.clipboardItems = [];

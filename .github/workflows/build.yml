@@ -113,17 +113,17 @@ jobs:
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # macOS: ondertekenen en notariseren. Zonder deze stap merkt
-          # Gatekeeper de download als niet-vertrouwd en meldt hij dat de app
-          # "beschadigd" is, waarna gebruikers hem niet kunnen starten.
-          # De bundler slaat dit over zolang de secrets niet gezet zijn, dus
-          # builds blijven werken zonder Apple-account.
-          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
-          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
-          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          # LET OP — geen APPLE_*-variabelen hier zetten zolang er geen echt
+          # Apple Developer ID-certificaat is. Een ontbrekend secret levert een
+          # LEGE maar wél gezette omgevingsvariabele op, en de Tauri-bundler
+          # leest die als "onderteken met certificaat" → `security import`
+          # faalt op lege data en de hele macOS-build breekt af
+          # (SecKeychainItemImport: One or more parameters … were not valid).
+          # De app wordt nu ad-hoc ondertekend via bundle.macOS.signingIdentity
+          # ("-") in tauri.conf.json: Gatekeeper meldt dan "onbekende
+          # ontwikkelaar" (te openen via rechtsklik → Open) in plaats van het
+          # fatale "beschadigd". Voor echte notarisatie: certificaat als
+          # secrets toevoegen én dit env-blok terugzetten.
         with:
           args: --target ${{ matrix.rust-target }} ${{ matrix.args || '' }}
 
@@ -209,6 +209,11 @@ jobs:
   publish:
     name: Publish Release
     needs: build
+    # Publiceer zolang de build-matrix niet is geannuleerd én ten minste
+    # gedeeltelijk draaide. Zo blokkeert een falende leg (bv. macOS zonder
+    # geldig signing-certificaat) niet de Windows- en Linux-installers: de
+    # release krijgt de artefacten die wél gebouwd zijn.
+    if: ${{ !cancelled() && needs.build.result != 'skipped' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -246,11 +251,15 @@ jobs:
 
             **macOS: "Open Calc Studio is damaged and can't be opened"**
 
-            Deze melding komt van Gatekeeper wanneer de download niet
-            ondertekend en genotariseerd is; de app zelf is niet beschadigd.
-            Verwijder in dat geval het quarantaine-kenmerk:
+            This is macOS Gatekeeper blocking a download that is not notarized
+            by Apple — the app itself is fine. Launch it once via
+            **right-click → Open**, or remove the quarantine attribute:
 
             ```sh
-            sudo xattr -cr '/Applications/Open Calc Studio.app/'
+            xattr -cr "/Applications/Open Calc Studio.app"
             ```
+
+            (NL: deze melding komt van Gatekeeper omdat de download niet
+            genotariseerd is; open de app eenmalig via rechtsklik → Open of
+            verwijder het quarantaine-kenmerk met bovenstaand commando.)
           files: release/*

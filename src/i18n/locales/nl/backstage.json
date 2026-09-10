@@ -53,7 +53,34 @@
     "fromFile": "Uit bestand (.ifcx)",
     "fromFileDesc": "Open een eerder opgeslagen begroting.",
     "fromTemplate": "Uit IFC-bestand",
-    "fromTemplateDesc": "Importeer een begroting uit een IFC-bestand met IfcCostSchedule."
+    "fromTemplateDesc": "Importeer een begroting uit een IFC-bestand met IfcCostSchedule.",
+    "cufDesc": "CUF-calculatiebestand 4.003 (.cuf/.xml)",
+    "excelCsvDesc": "Vrije kolomindeling — koppel zelf de kolommen (.xlsx/.csv)",
+    "stabuTitle": "STABU-bestek",
+    "stabuDesc": "STABU-uitwisselformaat als skelet-begroting (.s01)",
+    "sufxDesc": "STABU Bouwbreed XML als skelet-begroting (.sufx)",
+    "tradDesc": "IBIS Trad uitwisselformaat (.xml)",
+    "rsxDesc": "CROW RAW besteks-uitwisseling (.rsx/.xml)",
+    "rsuDesc": "Oudere RAW-uitwisseling (.rsu) — via de RSX-route",
+    "bc3Desc": "Spaanse begrotingen en prijzenboeken (.bc3)",
+    "zsxTitle": "Prijslijst (ZSX)",
+    "zsxDesc": "Middelen importeren in resourcebibliotheek (.zsx/.xml)",
+    "bmecatTitle": "Prijscatalogus (BMEcat/DICO)",
+    "bmecatDesc": "Groothandels-/ETIM-prijsdata in resourcebibliotheek (.xml)",
+    "bmecatFilterName": "BMEcat/DICO prijscatalogus",
+    "nsxTitle": "Normen (NSX)",
+    "nsxDesc": "Normenbestand inlezen (.nsx/.xml) — opslag volgt in v0.7.0",
+    "nsxFilterName": "Normenbestand (NSX)",
+    "importFailed": "Import mislukt: {{error}}",
+    "zsxNoResources": "ZSX bevat geen middelen ({{fileName}}).",
+    "nsxNoNorms": "NSX bevat geen normen ({{fileName}}).",
+    "nsxImported": "Geïmporteerd: {{count}} normen (nog niet opgeslagen — integratie volgt in v0.7.0).",
+    "noColumnsFound": "Geen kolommen gevonden in het bestand.",
+    "bmecatNoResources": "Geen middelen gevonden ({{fileName}})."
+  },
+  "cloudPanel": {
+    "size": "Grootte",
+    "modified": "Gewijzigd"
   },
   "recentFiles": "Recente bestanden",
   "noRecentFiles": "Geen recente bestanden",
@@ -67,6 +94,12 @@
     "asHtml": "Als IFC",
     "asHtmlDesc": "Exporteer naar IFC-formaat (IfcCostSchedule).",
     "asWpCalc": "WPCalc (.calc)",
-    "asWpCalcDesc": "Exporteer als WPCalc Access-database voor uitwisseling met WpCalc"
+    "asWpCalcDesc": "Exporteer als WPCalc Access-database voor uitwisseling met WpCalc",
+    "cufDesc": "Ibis, Kraan, ArchiCalc, WpCalc (aanbevolen)",
+    "bc3Desc": "Spaans uitwisselformaat — hoofdstukken, partida's en decomposities",
+    "tradDesc": "Experimenteel — alleen basisstructuur",
+    "rsxDesc": "CROW GWW — beperkt",
+    "exportFailed": "Export mislukt: {{error}}",
+    "wpcalcExportFailed": "WPCalc export mislukt: {{error}}"
   }
 }

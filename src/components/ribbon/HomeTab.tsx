@@ -69,7 +69,7 @@ export default function HomeTab() {
   const handleScalePrices = () => {
     const pct = parseFloat(pricePct.replace(',', '.'));
     if (!Number.isFinite(pct) || pct === 0 || pct <= -100) return;
-    pushHistory(items, `Prijzen ${pct > 0 ? '+' : ''}${pct}%`);
+    pushHistory(items, t('home.pricesHistory', { pct: `${pct > 0 ? '+' : ''}${pct}` }));
     scaleAllPrices(1 + pct / 100);
     setShowPriceDialog(false);
   };
@@ -189,16 +189,16 @@ export default function HomeTab() {
   const hasExcelLinks = items.some(i => !!i.excelLink);
 
   const handleUpdateExcel = async () => {
-    pushHistory(items, 'Update Excel');
+    pushHistory(items, t('home.updateExcel'));
     const { updatedItems, updateCount, errors } = await updateAllExcelLinks(items);
     setItems(updatedItems);
-    const msg = `${updateCount} hoeveelhe${updateCount === 1 ? 'id' : 'den'} bijgewerkt`;
+    const msg = t('home.excelUpdated', { count: updateCount });
     if (errors.length > 0) {
-      alert(`${msg}\n\nWaarschuwingen:\n${errors.join('\n')}`);
+      alert(`${msg}\n\n${t('home.excelWarnings')}\n${errors.join('\n')}`);
     } else if (updateCount > 0) {
       alert(msg);
     } else {
-      alert('Alle waarden zijn al up-to-date');
+      alert(t('home.excelUpToDate'));
     }
   };
 
@@ -218,8 +218,8 @@ export default function HomeTab() {
           </RibbonButtonStack>
           <RibbonButton
             icon={addRegelIcon}
-            label="+ Regel"
-            title="Voeg een rekenregel toe direct onder de geselecteerde rij — zelfde als de +-knop links bij de rij"
+            label={t('home.addRegelDirect')}
+            title={t('home.addRegelDirectTitle')}
             onClick={handleAddRegel}
           />
           <RibbonButton icon={deleteIcon} label={t("budget.deleteRow")} onClick={handleDelete} disabled={!activeItem} />
@@ -238,13 +238,13 @@ export default function HomeTab() {
           <div className="ribbon-undo-dropdown-wrap">
             <button
               className="ribbon-undo-dropdown-toggle"
-              title="Meerdere stappen ongedaan maken"
+              title={t('home.undoMultipleTitle')}
               disabled={!canUndo()}
               onClick={(e) => { setUndoPos(posBelow(e.currentTarget as HTMLElement)); setShowUndoList((v) => !v); }}
             >▾</button>
             {showUndoList && undoPos && createPortal(
               <div className="ribbon-undo-dropdown" style={{ position: 'fixed', top: undoPos.top, left: undoPos.left }}>
-                <div className="ribbon-undo-dropdown-header">Ongedaan maken t/m…</div>
+                <div className="ribbon-undo-dropdown-header">{t('home.undoUpTo')}</div>
                 {[...undoStack].reverse().slice(0, 15).map((entry, i) => (
                   <button
                     key={`${undoStack.length - i}-${entry.description}`}
@@ -252,7 +252,7 @@ export default function HomeTab() {
                     onClick={() => handleUndoSteps(i + 1)}
                   >
                     <span className="ribbon-undo-step">{i + 1}</span>
-                    {entry.description || 'Wijziging'}
+                    {entry.description || t('home.changeFallback')}
                   </button>
                 ))}
               </div>,
@@ -296,19 +296,19 @@ export default function HomeTab() {
           <div className="ribbon-undo-dropdown-wrap" ref={collapseWrapRef}>
             <RibbonButton
               icon={addBewakingspostIcon}
-              label="Inklappen"
-              title="Alles in één keer inklappen tot een gekozen niveau"
+              label={t('home.collapse')}
+              title={t('home.collapseTitle')}
               onClick={() => { setCollapsePos(posBelow(collapseWrapRef.current)); setShowCollapseList((v) => !v); }}
             />
             {showCollapseList && collapsePos && createPortal(
               <div className="ribbon-undo-dropdown" style={{ position: 'fixed', top: collapsePos.top, left: collapsePos.left }}>
-                <div className="ribbon-undo-dropdown-header">Inklappen tot…</div>
+                <div className="ribbon-undo-dropdown-header">{t('home.collapseTo')}</div>
                 {([
-                  ['hoofdstuk', 'Hoofdstukken'],
-                  ['paragraaf', 'Paragrafen'],
-                  ['begrotingspost', 'Begrotingsposten'],
-                  ['bewakingspost', 'Bewakingsposten'],
-                  ['alles', 'Alles openklappen'],
+                  ['hoofdstuk', t('home.collapseChapters')],
+                  ['paragraaf', t('home.collapseParagraphs')],
+                  ['begrotingspost', t('home.collapseBudgetPosts')],
+                  ['bewakingspost', t('home.collapseMonitorPosts')],
+                  ['alles', t('home.expandAll')],
                 ] as const).map(([niveau, label]) => (
                   <button
                     key={niveau}
@@ -324,96 +324,96 @@ export default function HomeTab() {
           </div>
         </RibbonGroup>
 
-        <RibbonGroup label="Prijzen">
+        <RibbonGroup label={t('home.pricesGroup')}>
           <RibbonButton
             icon={settingsIcon}
-            label="Prijzen %"
-            title="Alle prijzen (prijs/middel, materiaal, arbeid) met een percentage verhogen of verlagen"
+            label={t('home.pricesPct')}
+            title={t('home.pricesPctTitle')}
             onClick={() => { setPricePct('10'); setShowPriceDialog(true); }}
           />
         </RibbonGroup>
 
-        <RibbonGroup label="Wijzigingen">
+        <RibbonGroup label={t('home.changesGroup')}>
           <RibbonButton
             icon={trackChangesIcon}
-            label="Bijhouden"
+            label={t('home.trackChanges')}
             title={trackingOn
-              ? "Wijzigingen bijhouden staat aan — gewijzigde regels krijgen een kleur. Klik om uit te zetten."
-              : "Wijzigingen bijhouden aanzetten — vanaf nu krijgen gewijzigde regels een kleur"}
+              ? t('home.trackChangesOnTitle')
+              : t('home.trackChangesOffTitle')}
             active={trackingOn}
             onClick={toggleChangeTracking}
           />
           <RibbonButton
             icon={clearMarksIcon}
-            label="Wis markeringen"
+            label={t('home.clearMarks')}
             size="small"
-            title="Wis de huidige kleurmarkeringen, maar blijf wijzigingen bijhouden"
+            title={t('home.clearMarksTitle')}
             disabled={!trackingOn}
             onClick={clearChangeMarks}
           />
           <RibbonButtonStack>
             <RibbonButton
               icon={rowHighlightIcon}
-              label="Hele regel"
+              label={t('home.wholeRow')}
               size="small"
-              title="Markeer de hele gewijzigde regel"
+              title={t('home.wholeRowTitle')}
               active={changeDisplayMode === 'row'}
               onClick={() => setChangeDisplayMode('row')}
             />
             <RibbonButton
               icon={cellHighlightIcon}
-              label="Alleen cel"
+              label={t('home.cellOnly')}
               size="small"
-              title="Markeer alleen de gewijzigde cel(len)"
+              title={t('home.cellOnlyTitle')}
               active={changeDisplayMode === 'cell'}
               onClick={() => setChangeDisplayMode('cell')}
             />
           </RibbonButtonStack>
         </RibbonGroup>
 
-        <RibbonGroup label="Project">
+        <RibbonGroup label={t('home.projectGroup')}>
           <RibbonButton
             icon={companyIcon}
-            label="Projectgegevens"
-            title="Projectnaam/-nummer, opdrachtgever, rapportdatum en kengetallen instellen"
+            label={t('home.projectData')}
+            title={t('home.projectDataTitle')}
             onClick={() => setShowProject(true)}
           />
         </RibbonGroup>
 
-        <RibbonGroup label="Varianten">
+        <RibbonGroup label={t('home.variantsGroup')}>
           <RibbonButton
             icon={branchIcon}
-            label="Varianten"
-            title={branchesOn ? "Begrotingsvarianten staan aan. Klik om uit te zetten." : "Begrotingsvarianten inschakelen (varianten/opties per regel)"}
+            label={t('home.variants')}
+            title={branchesOn ? t('home.variantsOnTitle') : t('home.variantsOffTitle')}
             active={branchesOn}
             onClick={toggleBranchesEnabled}
           />
           <RibbonButton
             icon={optionSetIcon}
-            label="Optieset"
-            title="Maak een optieset (variant-groep) met twee opties aan"
+            label={t('home.optionSet')}
+            title={t('home.optionSetTitle')}
             onClick={handleCreateOptieSet}
           />
         </RibbonGroup>
 
         {hasExcelLinks && (
-          <RibbonGroup label="Excel">
-            <RibbonButton icon={exportIcon} label="Update Excel" onClick={handleUpdateExcel} />
+          <RibbonGroup label={t('home.excelGroup')}>
+            <RibbonButton icon={exportIcon} label={t('home.updateExcel')} onClick={handleUpdateExcel} />
           </RibbonGroup>
         )}
 
       </div>
 
-      <Modal open={showProject} onClose={() => setShowProject(false)} title="Projectgegevens">
+      <Modal open={showProject} onClose={() => setShowProject(false)} title={t('home.projectData')}>
         <ProjectInfoSettings />
       </Modal>
 
-      <Modal open={showPriceDialog} onClose={() => setShowPriceDialog(false)} title="Prijzen aanpassen" className="rapport-props-dialog">
+      <Modal open={showPriceDialog} onClose={() => setShowPriceDialog(false)} title={t('home.priceDialogTitle')} className="rapport-props-dialog">
         <div className="rapport-props">
           <label className="rapport-props-row">
             <span>
-              <strong>Percentage</strong>
-              <em>Alle prijzen (prijs/middel, materiaal, arbeid) worden met dit percentage verhoogd. Negatief = verlagen (bv. -5). Staart-percentages blijven ongewijzigd; ongedaan maken kan altijd.</em>
+              <strong>{t('home.percentage')}</strong>
+              <em>{t('home.percentageHelp')}</em>
             </span>
           </label>
           <div className="price-scale-row">
@@ -427,7 +427,7 @@ export default function HomeTab() {
               className="price-scale-input"
             />
             <span className="price-scale-pct">%</span>
-            <button className="cmd-btn cmd-btn-primary" onClick={handleScalePrices}>Toepassen</button>
+            <button className="cmd-btn cmd-btn-primary" onClick={handleScalePrices}>{t('home.apply')}</button>
           </div>
         </div>
       </Modal>

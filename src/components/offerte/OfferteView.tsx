@@ -104,7 +104,7 @@ export function OfferteView() {
             onClick={() => setActiveSectionId('__projectinfo')}
           >
             <span className="nav-icon">🏗️</span>
-            <span>Projectgegevens</span>
+            <span>{t('projectInfo.title')}</span>
           </div>
 
           {/* Sections */}
@@ -315,11 +315,11 @@ export function OfferteView() {
                                       {linkedCostItem.code && <span className="cost-picker-code">{linkedCostItem.code}</span>}
                                       {linkedCostItem.description}
                                       {linkedCostItem.total != null && ` — ${formatCurrency(linkedCostItem.total)}`}
-                                      <button className="offerte-link-btn" onClick={() => setLinkingItem({ sectionId: activeSection.id, item })}>Wijzig</button>
+                                      <button className="offerte-link-btn" onClick={() => setLinkingItem({ sectionId: activeSection.id, item })}>{t('offerte.change')}</button>
                                       <button className="offerte-link-btn del" onClick={() => unlinkSectionItemFromCostItem(activeSection.id, item.id)}>×</button>
                                     </span>
                                   ) : (
-                                    <button className="offerte-link-btn" onClick={() => setLinkingItem({ sectionId: activeSection.id, item })}>Koppel...</button>
+                                    <button className="offerte-link-btn" onClick={() => setLinkingItem({ sectionId: activeSection.id, item })}>{t('offerte.link')}</button>
                                   )}
                                 </div>
 
@@ -366,12 +366,12 @@ export function OfferteView() {
                                         <td><input className="item-input" type="number" value={layer.thickness ?? ''} onChange={e => updateLayer(activeSection.id, item.id, layer.id, { thickness: e.target.value ? parseFloat(e.target.value) : null })} /></td>
                                         <td>
                                           <select className="item-input" value={layer.function} onChange={e => updateLayer(activeSection.id, item.id, layer.id, { function: e.target.value as LayerFunction })}>
-                                            <option value="constructie">Constructie</option>
-                                            <option value="isolatie">Isolatie</option>
-                                            <option value="beplating">Beplating</option>
-                                            <option value="afwerking">Afwerking</option>
-                                            <option value="folie">Folie</option>
-                                            <option value="overig">Overig</option>
+                                            <option value="constructie">{t('offerte.layerFnConstructie')}</option>
+                                            <option value="isolatie">{t('offerte.layerFnIsolatie')}</option>
+                                            <option value="beplating">{t('offerte.layerFnBeplating')}</option>
+                                            <option value="afwerking">{t('offerte.layerFnAfwerking')}</option>
+                                            <option value="folie">{t('offerte.layerFnFolie')}</option>
+                                            <option value="overig">{t('offerte.layerFnOverig')}</option>
                                           </select>
                                         </td>
                                         <td><input className="item-input" type="number" value={layer.rcValue ?? ''} onChange={e => updateLayer(activeSection.id, item.id, layer.id, { rcValue: e.target.value ? parseFloat(e.target.value) : null })} /></td>
@@ -386,7 +386,7 @@ export function OfferteView() {
                                 </table>
                                 <button className="offerte-add-btn-sm" onClick={() => addLayer(activeSection.id, item.id)}>+ {t("offerte.addLayer")}</button>
 
-                                <h5 style={{ marginTop: 12 }}>Afbeeldingen</h5>
+                                <h5 style={{ marginTop: 12 }}>{t('images')}</h5>
                                 <ImageUploader
                                   images={item.afbeeldingen}
                                   onAdd={(img) => addImage(activeSection!.id, item.id, img)}
@@ -394,7 +394,7 @@ export function OfferteView() {
                                   onUpdateCaption={(imgId, caption) => updateImage(activeSection!.id, item.id, imgId, { caption })}
                                 />
 
-                                <h5 style={{ marginTop: 12 }}>Sub-specificaties</h5>
+                                <h5 style={{ marginTop: 12 }}>{t('offerte.subSpecs')}</h5>
                                 <div className="offerte-subitems">
                                   {item.subItems.map((text, idx) => (
                                     <div key={idx} className="offerte-subitem-row">
@@ -411,7 +411,7 @@ export function OfferteView() {
                                     className="offerte-add-btn"
                                     onClick={() => addSubItem(activeSection!.id, item.id, '')}
                                   >
-                                    + Sub-item
+                                    {t('offerte.addSubItem')}
                                   </button>
                                 </div>
                               </td>
@@ -454,7 +454,7 @@ export function OfferteView() {
                       <th className="col-omschrijving">{t("offerte.descriptionLabel")}</th>
                       <th style={{ width: 100, textAlign: 'right' }}>{t("offerte.price")}</th>
                       <th style={{ width: 80 }}>{t("offerte.perUnit")}</th>
-                      <th style={{ width: 40, textAlign: 'center' }}>Sel.</th>
+                      <th style={{ width: 40, textAlign: 'center' }}>{t('offerte.selectedShort')}</th>
                       <th className="col-actions"></th>
                     </tr>
                   </thead>
@@ -491,7 +491,7 @@ export function OfferteView() {
                             className="item-input"
                             value={item.priceUnit ?? ''}
                             onChange={e => updateSectionItem(activeSection.id, item.id, { priceUnit: e.target.value || null })}
-                            placeholder="st"
+                            placeholder={t('offerte.unitPlaceholder')}
                           />
                         </td>
                         <td style={{ textAlign: 'center' }}>

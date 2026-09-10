@@ -182,8 +182,8 @@ export function useFileOperations() {
         const ext = result.path.split('.').pop()?.toLowerCase() || '';
         const fileName = fileNameFromPath(result.path);
 
-        // Binary import formats: .calc, .mdb, .xls, .xlsx, .xtb, .dnc
-        if (['calc', 'mdb', 'xls', 'xlsx', 'xtb', 'dnc'].includes(ext)) {
+        // Binary import formats: .calc, .mdb, .xls, .xlsx, .xtb, .dnc, .bc3
+        if (['calc', 'mdb', 'xls', 'xlsx', 'xtb', 'dnc', 'bc3'].includes(ext)) {
           const { readBinaryFileByPath } = await import('@/services/file/nativeFileService');
           const data = await readBinaryFileByPath(result.path);
 
@@ -257,8 +257,8 @@ export function useFileOperations() {
       const ext = filePath.split('.').pop()?.toLowerCase() || '';
       const fileName = fileNameFromPath(filePath);
 
-      // Binary import formats: .calc, .mdb, .xls, .xlsx, .xtb
-      if (['calc', 'mdb', 'xls', 'xlsx', 'xtb'].includes(ext)) {
+      // Binary import formats: .calc, .mdb, .xls, .xlsx, .xtb, .bc3
+      if (['calc', 'mdb', 'xls', 'xlsx', 'xtb', 'bc3'].includes(ext)) {
         const { readBinaryFileByPath } = await import('@/services/file/nativeFileService');
         const data = await readBinaryFileByPath(filePath);
 
@@ -342,7 +342,7 @@ export function useFileOperations() {
   function openFileBrowser() {
     const input = document.createElement('input');
     input.type = 'file';
-    input.accept = '.ifcCalc,.ifcx,.ocs,.json,.calc,.mdb,.xls,.xlsx,.xtb,.rsx,.dnc';
+    input.accept = '.ifcCalc,.ifcx,.ocs,.json,.calc,.mdb,.xls,.xlsx,.xtb,.rsx,.dnc,.bc3';
     input.onchange = async (e) => {
       const file = (e.target as HTMLInputElement).files?.[0];
       if (!file) return;

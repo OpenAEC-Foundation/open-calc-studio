@@ -3,6 +3,7 @@
  * Uses pdfjs-dist for rendering. Measurements are drawn on an overlay canvas.
  */
 import { useEffect, useRef, useState, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 
 type Tool = 'pan' | 'length' | 'area';
@@ -18,6 +19,7 @@ interface Measurement {
 }
 
 export function PdfViewer() {
+  const { t } = useTranslation();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const overlayRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -36,12 +38,16 @@ export function PdfViewer() {
   useEffect(() => {
     setPdfMeasurements(measurements.map((m, i) => ({
       id: m.id,
-      label: `${m.type === 'length' ? 'Lengte' : 'Oppervlak'} #${i + 1} - pagina ${m.page}`,
+      label: t('pdfViewer.measurementLabel', {
+        type: m.type === 'length' ? t('pdfViewer.length') : t('pdfViewer.area'),
+        index: i + 1,
+        page: m.page,
+      }),
       type: m.type,
       page: m.page,
       value: m.value,
     })));
-  }, [measurements, setPdfMeasurements]);
+  }, [measurements, setPdfMeasurements, t]);
 
   // Render current page
   const renderPage = useCallback(async (pageNum: number) => {
@@ -208,21 +214,21 @@ export function PdfViewer() {
         background: 'white', borderBottom: '1px solid #d1d5db', flexShrink: 0,
       }}>
         <button style={btnStyle(false)} onClick={() => fileInputRef.current?.click()}>
-          📁 Open PDF
+          {t('pdfViewer.openPdf')}
         </button>
         <input ref={fileInputRef} type="file" accept=".pdf" style={{ display: 'none' }} onChange={handleFileChange} />
         {fileName && <span style={{ fontSize: 11, color: '#666' }}>{fileName}</span>}
 
         <div style={{ width: 1, height: 24, background: '#d1d5db', margin: '0 4px' }} />
 
-        <button style={btnStyle(tool === 'pan')} onClick={() => setTool('pan')}>✋ Pan</button>
-        <button style={btnStyle(tool === 'length')} onClick={() => setTool('length')}>📏 Lengte</button>
-        <button style={btnStyle(tool === 'area')} onClick={() => setTool('area')}>⬛ Oppervlak</button>
+        <button style={btnStyle(tool === 'pan')} onClick={() => setTool('pan')}>{t('pdfViewer.pan')}</button>
+        <button style={btnStyle(tool === 'length')} onClick={() => setTool('length')}>📏 {t('pdfViewer.length')}</button>
+        <button style={btnStyle(tool === 'area')} onClick={() => setTool('area')}>⬛ {t('pdfViewer.area')}</button>
 
         <div style={{ width: 1, height: 24, background: '#d1d5db', margin: '0 4px' }} />
 
         <label style={{ fontSize: 11, display: 'flex', alignItems: 'center', gap: 4 }}>
-          Schaal (mm/punt):
+          {t('pdfViewer.scaleLabel')}
           <input
             type="number"
             value={scale}
@@ -241,7 +247,7 @@ export function PdfViewer() {
           <>
             <div style={{ width: 1, height: 24, background: '#d1d5db', margin: '0 4px' }} />
             <button style={btnStyle(false)} onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page <= 1}>◀</button>
-            <span style={{ fontSize: 11 }}>Pagina {page} / {numPages}</span>
+            <span style={{ fontSize: 11 }}>{t('pdfViewer.page', { page, total: numPages })}</span>
             <button style={btnStyle(false)} onClick={() => setPage(p => Math.min(numPages, p + 1))} disabled={page >= numPages}>▶</button>
           </>
         )}
@@ -253,7 +259,7 @@ export function PdfViewer() {
             style={{ ...btnStyle(false), background: '#fee', color: '#900' }}
             onClick={() => setMeasurements([])}
             disabled={measurements.length === 0}
-          >Wis metingen</button>
+          >{t('pdfViewer.clearMeasurements')}</button>
         </div>
       </div>
 
@@ -261,7 +267,7 @@ export function PdfViewer() {
       <div style={{ flex: 1, overflow: 'auto', display: 'flex', justifyContent: 'center', padding: 16 }}>
         {!fileName ? (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666', fontSize: 14 }}>
-            Klik op <strong style={{ margin: '0 4px' }}>📁 Open PDF</strong> om een bestand te laden.
+            {t('pdfViewer.emptyPrefix')} <strong style={{ margin: '0 4px' }}>{t('pdfViewer.openPdf')}</strong> {t('pdfViewer.emptySuffix')}
           </div>
         ) : (
           <div style={{ position: 'relative', boxShadow: '0 4px 16px rgba(0,0,0,0.15)' }}>
@@ -285,13 +291,13 @@ export function PdfViewer() {
           maxHeight: 120, overflow: 'auto', padding: 8, background: 'white',
           borderTop: '1px solid #d1d5db', fontSize: 11, flexShrink: 0,
         }}>
-          <div style={{ fontWeight: 600, marginBottom: 4 }}>Metingen:</div>
+          <div style={{ fontWeight: 600, marginBottom: 4 }}>{t('pdfViewer.measurements')}</div>
           {measurements.map((m, i) => (
             <div key={m.id} style={{ display: 'flex', gap: 8, padding: '2px 0' }}>
               <span style={{ color: m.type === 'length' ? '#e74c3c' : '#3498db' }}>
                 {m.type === 'length' ? '📏' : '⬛'}
               </span>
-              <span>#{i + 1} — pagina {m.page}</span>
+              <span>{t('pdfViewer.measurementRow', { index: i + 1, page: m.page })}</span>
               <span style={{ marginLeft: 'auto', fontWeight: 600 }}>
                 {m.type === 'length' ? `${m.value.toFixed(2)} m` : `${m.value.toFixed(2)} m²`}
               </span>

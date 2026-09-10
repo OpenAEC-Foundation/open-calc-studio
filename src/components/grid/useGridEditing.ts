@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import i18next from 'i18next';
 import { useAppStore } from '@/state/appStore';
 import { getColumnsForView } from './gridConstants';
 import { parseNumericInput } from '@/utils/numericInput';
@@ -21,7 +22,7 @@ export function useGridEditing() {
       if (item.id.startsWith('footer:') && col.key === 'hoeveelheid') {
         const newTotal = parseNumericInput(value);
         if (newTotal != null && !isNaN(newTotal)) {
-          pushHistory(items, 'Uren hoofdstuk naar rato');
+          pushHistory(items, i18next.t('grid:undo.chapterHoursProrate'));
           prorateUrenForChapter(item.id.replace('footer:', ''), newTotal);
         }
         return;
@@ -34,13 +35,13 @@ export function useGridEditing() {
       if (item.rowType === 'staart_afronding' && col.key === 'total') {
         const parsed = parseNumericInput(value);
         if (parsed === null && value.trim() !== '') return;
-        pushHistory(items, 'Afronding invullen');
+        pushHistory(items, i18next.t('grid:undo.fillRounding'));
         updateItem(item.id, 'staartDoelbedrag', null);
         updateItem(item.id, 'staartVastBedrag', parsed);
         return;
       }
 
-      pushHistory(items, `Edit ${col.key}`);
+      pushHistory(items, i18next.t('grid:undo.editCell', { column: col.key }));
 
       // Map grid column keys to CostItem field names
       const keyMap: Record<string, string> = {

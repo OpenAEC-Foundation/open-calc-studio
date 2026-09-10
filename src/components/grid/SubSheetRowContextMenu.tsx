@@ -1,15 +1,16 @@
+import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 
-const ROW_COLOR_PRESETS: { name: string; value: string | null }[] = [
-  { name: 'Geen', value: null },
-  { name: 'Amber', value: '#fff3e0' },
-  { name: 'Geel', value: '#fff9c4' },
-  { name: 'Groen', value: '#e8f5e9' },
-  { name: 'Blauw', value: '#e3f2fd' },
-  { name: 'Paars', value: '#f3e5f5' },
-  { name: 'Roze', value: '#fce4ec' },
-  { name: 'Rood', value: '#ffebee' },
-  { name: 'Grijs', value: '#eceff1' },
+const ROW_COLOR_PRESETS: { nameKey: string; value: string | null }[] = [
+  { nameKey: 'subsheet.colorNone', value: null },
+  { nameKey: 'subsheet.colorAmber', value: '#fff3e0' },
+  { nameKey: 'subsheet.colorYellow', value: '#fff9c4' },
+  { nameKey: 'subsheet.colorGreen', value: '#e8f5e9' },
+  { nameKey: 'subsheet.colorBlue', value: '#e3f2fd' },
+  { nameKey: 'subsheet.colorPurple', value: '#f3e5f5' },
+  { nameKey: 'subsheet.colorPink', value: '#fce4ec' },
+  { nameKey: 'subsheet.colorRed', value: '#ffebee' },
+  { nameKey: 'subsheet.colorGray', value: '#eceff1' },
 ];
 
 interface Props {
@@ -21,6 +22,7 @@ interface Props {
 }
 
 export function SubSheetRowContextMenu({ sheetId, rowIndex, x, y, onClose }: Props) {
+  const { t } = useTranslation('grid');
   const setRowColor = useAppStore((s) => s.setSubSheetRowColor);
   return (
     <div
@@ -28,10 +30,10 @@ export function SubSheetRowContextMenu({ sheetId, rowIndex, x, y, onClose }: Pro
       style={{ left: x, top: y }}
       onMouseLeave={onClose}
     >
-      <div className="subsheet-row-menu-title">Rijkleur</div>
+      <div className="subsheet-row-menu-title">{t('subsheet.rowColor')}</div>
       {ROW_COLOR_PRESETS.map((c) => (
         <button
-          key={c.name}
+          key={c.nameKey}
           onClick={() => {
             setRowColor(sheetId, rowIndex, c.value);
             onClose();
@@ -44,7 +46,7 @@ export function SubSheetRowContextMenu({ sheetId, rowIndex, x, y, onClose }: Pro
               border: '1px solid var(--theme-border, #ccc)',
             }}
           />
-          {c.name}
+          {t(c.nameKey)}
         </button>
       ))}
     </div>

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { formatCurrency, formatNumber, parseNlNumber } from '@/utils/formatting';
 import { getStaartBreakdown } from '@/services/calculation/calculator';
@@ -53,6 +54,7 @@ const EditableTextCell: React.FC<{ value: string; onChange: (v: string) => void;
 };
 
 export const ProjectInfoSettings: React.FC = () => {
+  const { t } = useTranslation();
   const schedule = useAppStore(s => s.schedule);
   const setSchedule = useAppStore(s => s.setSchedule);
   const items = useAppStore(s => s.items);
@@ -76,35 +78,35 @@ export const ProjectInfoSettings: React.FC = () => {
     <div style={{ fontSize: 12 }}>
       <div style={sectieKader}>
         <div style={{ marginBottom: 10 }}>
-          <div className="prop-label">Project</div>
-          <input className="prop-input" value={schedule.projectName} onChange={(e) => setSchedule({ projectName: e.target.value })} placeholder="Projectnaam" />
+          <div className="prop-label">{t('project')}</div>
+          <input className="prop-input" value={schedule.projectName} onChange={(e) => setSchedule({ projectName: e.target.value })} placeholder={t('projectName')} />
         </div>
         <div style={{ display: 'flex', gap: 10, marginBottom: 10 }}>
           <div style={{ flex: 1 }}>
-            <div className="prop-label">Projectnummer</div>
-            <input className="prop-input" value={schedule.projectNumber} onChange={(e) => setSchedule({ projectNumber: e.target.value })} placeholder="Projectnummer" />
+            <div className="prop-label">{t('projectNumber')}</div>
+            <input className="prop-input" value={schedule.projectNumber} onChange={(e) => setSchedule({ projectNumber: e.target.value })} placeholder={t('projectNumber')} />
           </div>
           <div style={{ flex: 1 }}>
-            <div className="prop-label">Rapportdatum</div>
+            <div className="prop-label">{t('projectInfo.reportDate')}</div>
             <input className="prop-input" type="date" value={schedule.reportDate ?? ''} onChange={(e) => setSchedule({ reportDate: e.target.value || undefined })} />
           </div>
         </div>
         <div>
-          <div className="prop-label">Opdrachtgever</div>
-          <input className="prop-input" value={schedule.client} onChange={(e) => setSchedule({ client: e.target.value })} placeholder="Opdrachtgever" />
+          <div className="prop-label">{t('client')}</div>
+          <input className="prop-input" value={schedule.client} onChange={(e) => setSchedule({ client: e.target.value })} placeholder={t('client')} />
         </div>
       </div>
 
       <div style={sectieKader}>
-        <div className="prop-label" style={{ fontWeight: 600, marginBottom: 6 }}>Projectkengetallen</div>
+        <div className="prop-label" style={{ fontWeight: 600, marginBottom: 6 }}>{t('projectInfo.keyFigures')}</div>
         <table className="project-metrics-table">
           <thead>
             <tr>
-              <th style={{ textAlign: 'left' }}>Eigenschap</th>
-              <th style={{ textAlign: 'right', width: 70 }}>Waarde</th>
-              <th style={{ textAlign: 'center', width: 40 }}>Eenh.</th>
-              <th style={{ textAlign: 'right', width: 68 }}>€/eh. excl.</th>
-              <th style={{ textAlign: 'right', width: 68 }}>€/eh. incl.</th>
+              <th style={{ textAlign: 'left' }}>{t('projectInfo.property')}</th>
+              <th style={{ textAlign: 'right', width: 70 }}>{t('projectInfo.value')}</th>
+              <th style={{ textAlign: 'center', width: 40 }}>{t('projectInfo.unitShort')}</th>
+              <th style={{ textAlign: 'right', width: 68 }}>{t('projectInfo.perUnitExcl')}</th>
+              <th style={{ textAlign: 'right', width: 68 }}>{t('projectInfo.perUnitIncl')}</th>
               <th style={{ width: 24 }}></th>
             </tr>
           </thead>
@@ -115,14 +117,14 @@ export const ProjectInfoSettings: React.FC = () => {
               const perIncl = hasVal && totalIncl > 0 ? totalIncl / prop.value! : null;
               return (
                 <tr key={prop.id}>
-                  <td>{prop.isDefault ? <span>{prop.name}</span> : <EditableTextCell value={prop.name} onChange={(v) => updateProjectProperty(prop.id, 'name', v)} placeholder="Naam..." />}</td>
+                  <td>{prop.isDefault ? <span>{prop.name}</span> : <EditableTextCell value={prop.name} onChange={(v) => updateProjectProperty(prop.id, 'name', v)} placeholder={t('projectInfo.namePlaceholder')} />}</td>
                   <td style={{ textAlign: 'right' }}><EditableNumberCell value={prop.value} onChange={(v) => updateProjectProperty(prop.id, 'value', v)} placeholder="0" /></td>
-                  <td style={{ textAlign: 'center', color: 'var(--theme-text-secondary)' }}>{prop.isDefault ? prop.unit : <EditableTextCell value={prop.unit} onChange={(v) => updateProjectProperty(prop.id, 'unit', v)} placeholder="eenh." />}</td>
+                  <td style={{ textAlign: 'center', color: 'var(--theme-text-secondary)' }}>{prop.isDefault ? prop.unit : <EditableTextCell value={prop.unit} onChange={(v) => updateProjectProperty(prop.id, 'unit', v)} placeholder={t('projectInfo.unitPlaceholder')} />}</td>
                   <td style={{ textAlign: 'right', color: 'var(--theme-text-secondary)' }}>{perExcl != null ? formatCurrency(perExcl) : '-'}</td>
                   <td style={{ textAlign: 'right', fontWeight: 500 }}>{perIncl != null ? formatCurrency(perIncl) : '-'}</td>
                   <td style={{ textAlign: 'center' }}>
                     {!prop.isDefault && (
-                      <button className="metrics-delete-btn" onClick={() => removeProjectProperty(prop.id)} title="Verwijderen">
+                      <button className="metrics-delete-btn" onClick={() => removeProjectProperty(prop.id)} title={t('delete')}>
                         <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor"><path d="M12.78 4.28a.75.75 0 00-1.06-1.06L8 6.94 4.28 3.22a.75.75 0 00-1.06 1.06L6.94 8l-3.72 3.72a.75.75 0 101.06 1.06L8 9.06l3.72 3.72a.75.75 0 101.06-1.06L9.06 8l3.72-3.72z" /></svg>
                       </button>
                     )}
@@ -132,7 +134,7 @@ export const ProjectInfoSettings: React.FC = () => {
             })}
           </tbody>
         </table>
-        <button className="metrics-add-btn" onClick={addProjectProperty} title="Kengetal toevoegen">+ Kengetal toevoegen</button>
+        <button className="metrics-add-btn" onClick={addProjectProperty} title={t('projectInfo.addKeyFigure')}>+ {t('projectInfo.addKeyFigure')}</button>
       </div>
     </div>
   );

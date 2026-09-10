@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import i18next from 'i18next';
 import { useAppStore } from '@/state/appStore';
 import { useFileOperations } from './useFileOperations';
 import { copyItemsToExcel } from '@/services/clipboard/excelClipboard';
@@ -93,14 +94,14 @@ export function useKeyboardShortcuts() {
         // de gedeelde insertRegelBelow (zelfde gedrag als de +-knop).
         const { activeItemId, items: cur } = useAppStore.getState();
         const activeItem = cur.find((i) => i.id === activeItemId);
-        pushHistory(items, 'Nieuwe regel');
+        pushHistory(items, i18next.t('history.newRow'));
         insertRegelBelow(activeItem?.id ?? null);
       } else if (e.key === 'Delete' && !isEditing && !isInInput) {
         // Delete selected rows
         const selected = getSelectedItems();
         if (selected.length > 0) {
           e.preventDefault();
-          pushHistory(items, 'Verwijderen');
+          pushHistory(items, i18next.t('history.delete'));
           for (let i = selected.length - 1; i >= 0; i--) {
             deleteItem(selected[i].id);
           }

@@ -31,7 +31,7 @@ import type { CodeEntry } from '@/data/codeLibrary';
 const HEADER_HEIGHT = ROW_HEIGHT * 2;
 
 export const CostGrid: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const {
     items,
@@ -74,7 +74,9 @@ export const CostGrid: React.FC = () => {
   );
 
   const branchesEnabled = useAppStore(s => s.schedule.branchesEnabled ?? false);
-  const columns = useMemo(() => getColumnsForView(gridView, branchesEnabled), [gridView, branchesEnabled]);
+  // i18n.language in de deps: bij taalwissel opnieuw oplossen zodat
+  // kolomlabels/-tooltips in de nieuwe taal doorsijpelen naar de rijen.
+  const columns = useMemo(() => getColumnsForView(gridView, branchesEnabled), [gridView, branchesEnabled, i18n.language]);
   const changeTrackingSince = useAppStore(s => s.schedule.changeTrackingSince);
   const changeDisplayMode = useAppStore(s => s.schedule.changeDisplayMode ?? 'row');
 
@@ -477,7 +479,7 @@ export const CostGrid: React.FC = () => {
       setDropHint(null);
       setDraggingIds(new Set());
       if (started && hint) {
-        pushHistory(items, 'Verplaats rij');
+        pushHistory(items, t('grid:undo.moveRow'));
         moveItems(ids, hint.rowId, hint.pos);
       }
     };
@@ -610,7 +612,7 @@ export const CostGrid: React.FC = () => {
         initialLink={excelPickerItem?.excelLink}
         onSelect={(link: ExcelLink, value: number | null) => {
           if (excelPickerItem) {
-            pushHistory(items, 'Excel link');
+            pushHistory(items, t('grid:undo.excelLink'));
             updateItem(excelPickerItem.id, 'excelLink', link);
             if (value !== null) {
               updateItem(excelPickerItem.id, 'quantity', value);
@@ -624,7 +626,7 @@ export const CostGrid: React.FC = () => {
         <QuantityPicker
           onClose={() => setQuantityLinkItem(null)}
           onPick={(link, value) => {
-            pushHistory(items, 'Hoeveelheid link');
+            pushHistory(items, t('grid:undo.quantityLink'));
             updateItem(quantityLinkItem.id, 'quantityLink', link);
             updateItem(quantityLinkItem.id, 'quantity', value);
             setQuantityLinkItem(null);
@@ -636,7 +638,7 @@ export const CostGrid: React.FC = () => {
         onClose={() => setCodePickerItem(null)}
         onPick={(entry: CodeEntry) => {
           if (codePickerItem) {
-            pushHistory(items, 'Codering kiezen');
+            pushHistory(items, t('grid:undo.pickCode'));
             updateItem(codePickerItem.id, 'code', entry.code);
             // Lege omschrijving aanvullen met de standaard-omschrijving van de code.
             if (!codePickerItem.description.trim() && entry.description) {

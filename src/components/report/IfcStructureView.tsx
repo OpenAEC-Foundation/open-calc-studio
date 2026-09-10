@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { extractStructure, collectGuids, type IfcStructureNode, type IfcSourceStructure } from '@/services/ifc/ifcStructure';
 
 interface Props {
@@ -18,6 +19,7 @@ const ObjectRow: React.FC<{
   guidSources: Map<string, string[]>;
   onLink?: (g: string) => void;
 }> = ({ node, depth, linkedGuids, guidSources, onLink }) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(depth < 2);
   const hasKids = node.children.length > 0;
   const isLinked = !!node.ifcGuid && linkedGuids.has(node.ifcGuid);
@@ -34,9 +36,9 @@ const ObjectRow: React.FC<{
         {isLinked && (
           <span
             className="ifc-struct-link"
-            title={`Gekoppeld via ${node.ifcGuid} — komt ook voor in: ${(guidSources.get(node.ifcGuid!) ?? []).join(', ')}`}
+            title={t('ifc.linkedVia', { guid: node.ifcGuid, files: (guidSources.get(node.ifcGuid!) ?? []).join(', ') })}
             onClick={() => node.ifcGuid && onLink?.(node.ifcGuid)}
-          >🔗 link</span>
+          >🔗 {t('ifc.linkLabel')}</span>
         )}
       </div>
       {open && node.children.map(c => (
@@ -53,11 +55,12 @@ const ObjectRow: React.FC<{
  * je ze kunt herkennen en eruit kunt linken.
  */
 export const IfcStructureView: React.FC<Props> = ({ budgetContent, folderFiles, onLink }) => {
+  const { t } = useTranslation();
   const sources: IfcSourceStructure[] = useMemo(() => {
-    const list = [extractStructure('Deze begroting', budgetContent)];
+    const list = [extractStructure(t('ifc.thisBudget'), budgetContent)];
     for (const f of folderFiles) list.push(extractStructure(f.name, f.content));
     return list;
-  }, [budgetContent, folderFiles]);
+  }, [budgetContent, folderFiles, t]);
 
   // guid → in welke bronnen komt hij voor (≥2 = gekoppeld)
   const { linkedGuids, guidSources } = useMemo(() => {
@@ -94,7 +97,7 @@ export const IfcStructureView: React.FC<Props> = ({ budgetContent, folderFiles, 
               <span className="ifc-struct-twisty">{open ? '▾' : '▸'}</span>
               <span className="ifc-struct-source-name">{base(src.name)}</span>
               <span className="ifc-struct-source-meta">
-                {src.error ? src.error : `${src.objectCount} objecten`}
+                {src.error ? src.error : t('ifc.objectCount', { count: src.objectCount })}
               </span>
             </div>
             {open && !src.error && src.roots.map(r => (

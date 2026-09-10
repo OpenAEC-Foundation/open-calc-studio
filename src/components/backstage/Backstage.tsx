@@ -203,16 +203,16 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
             loadImportResult(result, name);
           } catch (err: any) {
             console.error(`[Import] ${imp.name} failed:`, err);
-            alert(`Import mislukt: ${err?.message || err}`);
+            alert(t('importPanel.importFailed', { error: err?.message || err }));
           }
         };
         input.click();
       }
     } catch (err: any) {
       console.error(`[Import] ${imp.name} failed:`, err);
-      alert(`Import mislukt: ${err?.message || err}`);
+      alert(t('importPanel.importFailed', { error: err?.message || err }));
     }
-  }, [extensionImporters, newFile, onClose]);
+  }, [extensionImporters, newFile, onClose, t]);
 
   const handleZsxImport = useCallback(async () => {
     onClose();
@@ -220,7 +220,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
       try {
         const result = importZsx(xml);
         if (result.resources.length === 0) {
-          alert(`ZSX bevat geen middelen (${fileName}).`);
+          alert(t('importPanel.zsxNoResources', { fileName }));
           return;
         }
         const store = useAppStore.getState();
@@ -238,14 +238,14 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         console.log(`[Import ZSX] ${result.resources.length} middelen geladen uit ${fileName}`);
       } catch (err: any) {
         console.error('[Import ZSX] failed:', err);
-        alert(`Import mislukt: ${err?.message || err}`);
+        alert(t('importPanel.importFailed', { error: err?.message || err }));
       }
     };
 
     try {
       if (isTauriEnvironment()) {
         const { openTextFileNative } = await import('../../services/file/nativeFileService');
-        const res = await openTextFileNative('Prijslijst (ZSX)', ['zsx', 'xml']);
+        const res = await openTextFileNative(t('importPanel.zsxTitle'), ['zsx', 'xml']);
         if (!res) return;
         const baseName = (res.path.split(/[\\/]/).pop() || 'import');
         applyResult(res.content, baseName);
@@ -263,9 +263,9 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
       }
     } catch (err: any) {
       console.error('[Import ZSX] failed:', err);
-      alert(`Import mislukt: ${err?.message || err}`);
+      alert(t('importPanel.importFailed', { error: err?.message || err }));
     }
-  }, [onClose]);
+  }, [onClose, t]);
 
   const handleNsxImport = useCallback(async () => {
     onClose();
@@ -273,7 +273,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
       try {
         const result = importNsx(xml);
         if (result.norms.length === 0) {
-          alert(`NSX bevat geen normen (${fileName}).`);
+          alert(t('importPanel.nsxNoNorms', { fileName }));
           return;
         }
         // NOTE: no norms slice yet — v0.7.0 follow-up will persist these into
@@ -282,17 +282,17 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         if (result.warnings.length > 0) {
           console.warn(`[Import NSX] ${result.warnings.length} waarschuwingen:`, result.warnings);
         }
-        alert(`Geïmporteerd: ${result.norms.length} normen (nog niet opgeslagen — integratie volgt in v0.7.0).`);
+        alert(t('importPanel.nsxImported', { count: result.norms.length }));
       } catch (err: any) {
         console.error('[Import NSX] failed:', err);
-        alert(`Import mislukt: ${err?.message || err}`);
+        alert(t('importPanel.importFailed', { error: err?.message || err }));
       }
     };
 
     try {
       if (isTauriEnvironment()) {
         const { openTextFileNative } = await import('../../services/file/nativeFileService');
-        const res = await openTextFileNative('Normenbestand (NSX)', ['nsx', 'xml']);
+        const res = await openTextFileNative(t('importPanel.nsxFilterName'), ['nsx', 'xml']);
         if (!res) return;
         const baseName = (res.path.split(/[\\/]/).pop() || 'import');
         applyResult(res.content, baseName);
@@ -310,9 +310,9 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
       }
     } catch (err: any) {
       console.error('[Import NSX] failed:', err);
-      alert(`Import mislukt: ${err?.message || err}`);
+      alert(t('importPanel.importFailed', { error: err?.message || err }));
     }
-  }, [onClose]);
+  }, [onClose, t]);
 
   // ── Generieke Excel/CSV-import met kolom-mapping ──
   const [mappingData, setMappingData] = useState<TabularData | null>(null);
@@ -330,7 +330,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         const data = /\.csv$/i.test(fileName)
           ? parseCsv(new TextDecoder().decode(bytes), base)
           : parseXlsxTabular(bytes, base);
-        if (data.headers.length === 0) { alert('Geen kolommen gevonden in het bestand.'); return; }
+        if (data.headers.length === 0) { alert(t('importPanel.noColumnsFound')); return; }
         setMappingData(data);
       } else {
         const input = document.createElement('input');
@@ -343,16 +343,16 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
           const data = /\.csv$/i.test(file.name)
             ? parseCsv(await file.text(), base)
             : parseXlsxTabular(await file.arrayBuffer(), base);
-          if (data.headers.length === 0) { alert('Geen kolommen gevonden in het bestand.'); return; }
+          if (data.headers.length === 0) { alert(t('importPanel.noColumnsFound')); return; }
           setMappingData(data);
         };
         input.click();
       }
     } catch (err: any) {
       console.error('[Import Excel/CSV] failed:', err);
-      alert(`Import mislukt: ${err?.message || err}`);
+      alert(t('importPanel.importFailed', { error: err?.message || err }));
     }
-  }, []);
+  }, [t]);
 
   const handleMappingConfirm = useCallback((mapping: ColumnMapping) => {
     if (!mappingData) return;
@@ -372,7 +372,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
     const applyResult = (xml: string, fileName: string) => {
       try {
         const result = importBmecat(xml);
-        if (result.resources.length === 0) { alert(`Geen middelen gevonden (${fileName}).`); return; }
+        if (result.resources.length === 0) { alert(t('importPanel.bmecatNoResources', { fileName })); return; }
         const store = useAppStore.getState();
         const byCode = new Map(store.resourceLibrary.map((r) => [r.code, r]));
         for (const r of result.resources) byCode.set(r.code, r);
@@ -381,13 +381,13 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         console.log(`[Import BMEcat] ${result.resources.length} middelen geladen uit ${fileName}`);
       } catch (err: any) {
         console.error('[Import BMEcat] failed:', err);
-        alert(`Import mislukt: ${err?.message || err}`);
+        alert(t('importPanel.importFailed', { error: err?.message || err }));
       }
     };
     try {
       if (isTauriEnvironment()) {
         const { openTextFileNative } = await import('../../services/file/nativeFileService');
-        const res = await openTextFileNative('BMEcat/DICO prijscatalogus', ['xml', 'bmecat']);
+        const res = await openTextFileNative(t('importPanel.bmecatFilterName'), ['xml', 'bmecat']);
         if (!res) return;
         applyResult(res.content, res.path.split(/[\\/]/).pop() || 'import');
       } else {
@@ -403,9 +403,9 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
       }
     } catch (err: any) {
       console.error('[Import BMEcat] failed:', err);
-      alert(`Import mislukt: ${err?.message || err}`);
+      alert(t('importPanel.importFailed', { error: err?.message || err }));
     }
-  }, [onClose]);
+  }, [onClose, t]);
 
   const handleXmlImport = useCallback(
     async (
@@ -449,18 +449,62 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
               loadResult(result, file.name.replace(/\.[^.]+$/, ''));
             } catch (err: any) {
               console.error(`[Import ${formatLabel}] failed:`, err);
-              alert(`Import mislukt: ${err?.message || err}`);
+              alert(t('importPanel.importFailed', { error: err?.message || err }));
             }
           };
           input.click();
         }
       } catch (err: any) {
         console.error(`[Import ${formatLabel}] failed:`, err);
-        alert(`Import mislukt: ${err?.message || err}`);
+        alert(t('importPanel.importFailed', { error: err?.message || err }));
       }
     },
-    [newFile, onClose],
+    [newFile, onClose, t],
   );
+
+  // FIEBDC-3 (.bc3) is Windows-1252/CP850-gecodeerd → als bytes lezen en de
+  // tekenset uit het ~V-record laten bepalen (importBc3File).
+  const handleBc3Import = useCallback(async () => {
+    onClose();
+    const loadBc3 = async (buffer: ArrayBuffer, fileName: string) => {
+      const { importBc3File } = await import('@/services/importers/bc3Importer');
+      const result = importBc3File(buffer);
+      newFile();
+      const store = useAppStore.getState();
+      store.setSchedule(result.schedule);
+      store.setItems(recalculateItems(result.items));
+      store.updateDocument(store.activeDocumentId, { fileName, isModified: true });
+      if (result.warnings.length > 0) {
+        console.warn(`[Import FIEBDC-3] ${result.warnings.length} waarschuwingen:`, result.warnings);
+      }
+    };
+    try {
+      if (isTauriEnvironment()) {
+        const { openBinaryFileNative } = await import('../../services/file/nativeFileService');
+        const res = await openBinaryFileNative('FIEBDC-3', ['bc3']);
+        if (!res) return;
+        await loadBc3(res.data, (res.path.split(/[\\/]/).pop() || 'import').replace(/\.[^.]+$/, ''));
+      } else {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.bc3';
+        input.onchange = async (e) => {
+          const file = (e.target as HTMLInputElement).files?.[0];
+          if (!file) return;
+          try {
+            await loadBc3(await file.arrayBuffer(), file.name.replace(/\.[^.]+$/, ''));
+          } catch (err: any) {
+            console.error('[Import FIEBDC-3] failed:', err);
+            alert(t('importPanel.importFailed', { error: err?.message || err }));
+          }
+        };
+        input.click();
+      }
+    } catch (err: any) {
+      console.error('[Import FIEBDC-3] failed:', err);
+      alert(t('importPanel.importFailed', { error: err?.message || err }));
+    }
+  }, [newFile, onClose, t]);
 
   if (!visible) return null;
 
@@ -509,7 +553,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         exportRsx(input);
     } catch (err: any) {
       console.error(`[Export ${formatLabel}] failed:`, err);
-      alert(`Export mislukt: ${err?.message || err}`);
+      alert(t('exportPanel.exportFailed', { error: err?.message || err }));
       return;
     }
 
@@ -537,7 +581,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
       }
     } catch (err: any) {
       console.error(`[Export ${formatLabel}] failed:`, err);
-      alert(`Export mislukt: ${err?.message || err}`);
+      alert(t('exportPanel.exportFailed', { error: err?.message || err }));
     }
   };
 
@@ -549,7 +593,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
       }
     } catch (err: any) {
       console.error('[Export] WPCalc failed:', err);
-      alert(`WPCalc export mislukt: ${err?.message || err}`);
+      alert(t('exportPanel.wpcalcExportFailed', { error: err?.message || err }));
     }
     onClose();
   };
@@ -655,7 +699,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
                 <div className="bs-panel-option-text">
                   <strong>CUF-XML</strong>
-                  <span>CUF-calculatiebestand 4.003 (.cuf/.xml)</span>
+                  <span>{t("importPanel.cufDesc")}</span>
                 </div>
               </button>
               <button
@@ -665,17 +709,17 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
                 <div className="bs-panel-option-text">
                   <strong>Excel / CSV</strong>
-                  <span>Vrije kolomindeling — koppel zelf de kolommen (.xlsx/.csv)</span>
+                  <span>{t("importPanel.excelCsvDesc")}</span>
                 </div>
               </button>
               <button
                 className="bs-panel-option"
-                onClick={() => void handleXmlImport('STABU-bestek', ['s01'], importS01)}
+                onClick={() => void handleXmlImport(t('importPanel.stabuTitle'), ['s01'], importS01)}
               >
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
                 <div className="bs-panel-option-text">
-                  <strong>STABU-bestek</strong>
-                  <span>STABU-uitwisselformaat als skelet-begroting (.s01)</span>
+                  <strong>{t("importPanel.stabuTitle")}</strong>
+                  <span>{t("importPanel.stabuDesc")}</span>
                 </div>
               </button>
               <button
@@ -685,7 +729,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
                 <div className="bs-panel-option-text">
                   <strong>STABU SUFX</strong>
-                  <span>STABU Bouwbreed XML als skelet-begroting (.sufx)</span>
+                  <span>{t("importPanel.sufxDesc")}</span>
                 </div>
               </button>
               <button
@@ -695,7 +739,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
                 <div className="bs-panel-option-text">
                   <strong>IBIS-TRAD XML</strong>
-                  <span>IBIS Trad uitwisselformaat (.xml)</span>
+                  <span>{t("importPanel.tradDesc")}</span>
                 </div>
               </button>
               <button
@@ -705,7 +749,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
                 <div className="bs-panel-option-text">
                   <strong>RAW RSX (CROW GWW)</strong>
-                  <span>CROW RAW besteks-uitwisseling (.rsx/.xml)</span>
+                  <span>{t("importPanel.rsxDesc")}</span>
                 </div>
               </button>
               <button
@@ -715,7 +759,14 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
                 <div className="bs-panel-option-text">
                   <strong>RAW RSU (legacy)</strong>
-                  <span>Oudere RAW-uitwisseling (.rsu) — via de RSX-route</span>
+                  <span>{t("importPanel.rsuDesc")}</span>
+                </div>
+              </button>
+              <button className="bs-panel-option" onClick={() => void handleBc3Import()}>
+                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                <div className="bs-panel-option-text">
+                  <strong>FIEBDC-3 (.bc3)</strong>
+                  <span>{t("importPanel.bc3Desc")}</span>
                 </div>
               </button>
               <button
@@ -724,8 +775,8 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
               >
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
                 <div className="bs-panel-option-text">
-                  <strong>Prijslijst (ZSX)</strong>
-                  <span>Middelen importeren in resourcebibliotheek (.zsx/.xml)</span>
+                  <strong>{t("importPanel.zsxTitle")}</strong>
+                  <span>{t("importPanel.zsxDesc")}</span>
                 </div>
               </button>
               <button
@@ -734,8 +785,8 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
               >
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
                 <div className="bs-panel-option-text">
-                  <strong>Prijscatalogus (BMEcat/DICO)</strong>
-                  <span>Groothandels-/ETIM-prijsdata in resourcebibliotheek (.xml)</span>
+                  <strong>{t("importPanel.bmecatTitle")}</strong>
+                  <span>{t("importPanel.bmecatDesc")}</span>
                 </div>
               </button>
               <button
@@ -744,8 +795,8 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
               >
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
                 <div className="bs-panel-option-text">
-                  <strong>Normen (NSX)</strong>
-                  <span>Normenbestand inlezen (.nsx/.xml) — opslag volgt in v0.7.0</span>
+                  <strong>{t("importPanel.nsxTitle")}</strong>
+                  <span>{t("importPanel.nsxDesc")}</span>
                 </div>
               </button>
               {extensionImporters.map((imp) => (
@@ -785,7 +836,21 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.export }} />
                 <div className="bs-panel-option-text">
                   <strong>CUF-XML</strong>
-                  <span>Ibis, Kraan, ArchiCalc, WpCalc (aanbevolen)</span>
+                  <span>{t("exportPanel.cufDesc")}</span>
+                </div>
+              </button>
+              <button
+                className="bs-panel-option"
+                onClick={async () => {
+                  const { exportBc3 } = await import('@/services/export/bc3Exporter');
+                  exportBc3(schedule, items);
+                  onClose();
+                }}
+              >
+                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.export }} />
+                <div className="bs-panel-option-text">
+                  <strong>FIEBDC-3 (.bc3)</strong>
+                  <span>{t("exportPanel.bc3Desc")}</span>
                 </div>
               </button>
               <button
@@ -795,7 +860,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.export }} />
                 <div className="bs-panel-option-text">
                   <strong>IBIS-TRAD XML</strong>
-                  <span>Experimenteel — alleen basisstructuur</span>
+                  <span>{t("exportPanel.tradDesc")}</span>
                 </div>
               </button>
               <button
@@ -805,15 +870,15 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.export }} />
                 <div className="bs-panel-option-text">
                   <strong>RAW RSX</strong>
-                  <span>CROW GWW — beperkt</span>
+                  <span>{t("exportPanel.rsxDesc")}</span>
                 </div>
               </button>
               {isTauriEnvironment() && (
                 <button className="bs-panel-option" onClick={handleExportWpCalc}>
                   <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>' }} />
                   <div className="bs-panel-option-text">
-                    <strong>{t("exportPanel.asWpCalc", "WPCalc (.calc)")}</strong>
-                    <span>{t("exportPanel.asWpCalcDesc", "Exporteer als WPCalc Access-database voor uitwisseling met WpCalc")}</span>
+                    <strong>{t("exportPanel.asWpCalc")}</strong>
+                    <span>{t("exportPanel.asWpCalcDesc")}</span>
                   </div>
                 </button>
               )}

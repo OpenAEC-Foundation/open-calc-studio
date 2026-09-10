@@ -56,8 +56,8 @@ export const SplitGridPane: React.FC<SplitGridPaneProps> = ({ documentId, onClos
   if (!doc) {
     return (
       <div className="split-pane-empty">
-        <p>{t('splitDocNotFound') ?? 'Document niet gevonden'}</p>
-        <button className="split-pane-close-btn" onClick={onClose}>{t('close') ?? 'Sluiten'}</button>
+        <p>{t('grid:split.docNotFound')}</p>
+        <button className="split-pane-close-btn" onClick={onClose}>{t('close')}</button>
       </div>
     );
   }
@@ -72,7 +72,7 @@ export const SplitGridPane: React.FC<SplitGridPaneProps> = ({ documentId, onClos
     <div className="split-pane">
       <div className="split-pane-header">
         <span className="split-pane-title">{doc.fileName}</span>
-        <button className="split-pane-close-btn" onClick={onClose} title={t('close') ?? 'Sluiten'}>
+        <button className="split-pane-close-btn" onClick={onClose} title={t('close')}>
           <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
             <path d="M12.78 4.28a.75.75 0 00-1.06-1.06L8 6.94 4.28 3.22a.75.75 0 00-1.06 1.06L6.94 8l-3.72 3.72a.75.75 0 101.06 1.06L8 9.06l3.72 3.72a.75.75 0 101.06-1.06L9.06 8l3.72-3.72z" />
           </svg>
@@ -82,12 +82,12 @@ export const SplitGridPane: React.FC<SplitGridPaneProps> = ({ documentId, onClos
         <table className="split-pane-table">
           <thead>
             <tr>
-              <th className="split-col-nr">Nr</th>
-              <th className="split-col-desc">{t('description') ?? 'Omschrijving'}</th>
-              <th className="split-col-qty">{t('quantity') ?? 'Hoev.'}</th>
-              <th className="split-col-unit">{t('unit') ?? 'Eenh.'}</th>
-              <th className="split-col-price">{t('unitPrice') ?? 'Ehprs'}</th>
-              <th className="split-col-total">{t('total') ?? 'Totaal'}</th>
+              <th className="split-col-nr">{t('grid:split.nr')}</th>
+              <th className="split-col-desc">{t('description')}</th>
+              <th className="split-col-qty">{t('grid:split.quantityShort')}</th>
+              <th className="split-col-unit">{t('grid:split.unitShort')}</th>
+              <th className="split-col-price">{t('grid:split.unitPriceShort')}</th>
+              <th className="split-col-total">{t('total')}</th>
             </tr>
           </thead>
           <tbody>
@@ -123,7 +123,7 @@ export const SplitGridPane: React.FC<SplitGridPaneProps> = ({ documentId, onClos
           <tfoot>
             <tr className="split-row-total">
               <td className="split-col-nr"></td>
-              <td className="split-col-desc">{t('totalExclVat') ?? 'Totaal excl. BTW'}</td>
+              <td className="split-col-desc">{t('totalExclVat')}</td>
               <td className="split-col-qty"></td>
               <td className="split-col-unit"></td>
               <td className="split-col-price"></td>

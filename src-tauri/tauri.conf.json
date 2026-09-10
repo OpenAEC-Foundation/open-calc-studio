@@ -45,14 +45,18 @@
     ],
     "fileAssociations": [
       {
-        "ext": ["ifcCalc"],
+        "ext": [
+          "ifcCalc"
+        ],
         "name": "Open Calc Studio begroting",
         "description": "Open Calc Studio begrotingsbestand",
         "role": "Editor",
         "mimeType": "application/x-ifccalc"
       },
       {
-        "ext": ["calc"],
+        "ext": [
+          "calc"
+        ],
         "name": "WpCalc begroting",
         "description": "WpCalc / OCS begrotingsbestand",
         "role": "Editor",
@@ -64,6 +68,9 @@
         "type": "embedBootstrapper",
         "silent": true
       }
+    },
+    "macOS": {
+      "signingIdentity": "-"
     }
   }
 }

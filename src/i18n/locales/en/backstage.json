@@ -53,7 +53,34 @@
     "fromFile": "From file (.ifcx)",
     "fromFileDesc": "Open a previously saved budget.",
     "fromTemplate": "From IFC file",
-    "fromTemplateDesc": "Import a budget from an IFC file with IfcCostSchedule."
+    "fromTemplateDesc": "Import a budget from an IFC file with IfcCostSchedule.",
+    "cufDesc": "CUF calculation file 4.003 (.cuf/.xml)",
+    "excelCsvDesc": "Free column layout — link the columns yourself (.xlsx/.csv)",
+    "stabuTitle": "STABU specification",
+    "stabuDesc": "STABU exchange format as skeleton estimate (.s01)",
+    "sufxDesc": "STABU Bouwbreed XML as skeleton estimate (.sufx)",
+    "tradDesc": "IBIS Trad exchange format (.xml)",
+    "rsxDesc": "CROW RAW specification exchange (.rsx/.xml)",
+    "rsuDesc": "Older RAW exchange (.rsu) — via the RSX route",
+    "bc3Desc": "Spanish estimates and price books (.bc3)",
+    "zsxTitle": "Price list (ZSX)",
+    "zsxDesc": "Import resources into the resource library (.zsx/.xml)",
+    "bmecatTitle": "Price catalog (BMEcat/DICO)",
+    "bmecatDesc": "Wholesale/ETIM price data into the resource library (.xml)",
+    "bmecatFilterName": "BMEcat/DICO price catalog",
+    "nsxTitle": "Norms (NSX)",
+    "nsxDesc": "Read a norms file (.nsx/.xml) — storage follows in v0.7.0",
+    "nsxFilterName": "Norms file (NSX)",
+    "importFailed": "Import failed: {{error}}",
+    "zsxNoResources": "ZSX contains no resources ({{fileName}}).",
+    "nsxNoNorms": "NSX contains no norms ({{fileName}}).",
+    "nsxImported": "Imported: {{count}} norms (not saved yet — integration follows in v0.7.0).",
+    "noColumnsFound": "No columns found in the file.",
+    "bmecatNoResources": "No resources found ({{fileName}})."
+  },
+  "cloudPanel": {
+    "size": "Size",
+    "modified": "Modified"
   },
   "recentFiles": "Recent Files",
   "noRecentFiles": "No recent files",
@@ -67,6 +94,12 @@
     "asHtml": "As IFC",
     "asHtmlDesc": "Export to IFC format (IfcCostSchedule).",
     "asWpCalc": "WPCalc (.calc)",
-    "asWpCalcDesc": "Export as WPCalc Access database for exchange with WpCalc"
+    "asWpCalcDesc": "Export as WPCalc Access database for exchange with WpCalc",
+    "cufDesc": "Ibis, Kraan, ArchiCalc, WpCalc (recommended)",
+    "bc3Desc": "Spanish exchange format — chapters, partidas and decompositions",
+    "tradDesc": "Experimental — basic structure only",
+    "rsxDesc": "CROW GWW — limited",
+    "exportFailed": "Export failed: {{error}}",
+    "wpcalcExportFailed": "WPCalc export failed: {{error}}"
   }
 }

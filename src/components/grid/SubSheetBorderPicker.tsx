@@ -1,14 +1,15 @@
+import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import type { BorderPreset } from '@/state/slices/subSheetSlice';
 
-const PRESETS: { value: BorderPreset; label: string }[] = [
-  { value: 'none',        label: 'Geen randen' },
-  { value: 'all',         label: 'Alle randen' },
-  { value: 'outer',       label: 'Buitenrand' },
-  { value: 'thick-outer', label: 'Dikke buitenrand' },
-  { value: 'inner',       label: 'Binnenranden' },
-  { value: 'top',         label: 'Bovenrand' },
-  { value: 'bottom',      label: 'Onderrand' },
+const PRESETS: { value: BorderPreset; labelKey: string }[] = [
+  { value: 'none',        labelKey: 'subsheet.borderNone' },
+  { value: 'all',         labelKey: 'subsheet.borderAll' },
+  { value: 'outer',       labelKey: 'subsheet.borderOuter' },
+  { value: 'thick-outer', labelKey: 'subsheet.borderThickOuter' },
+  { value: 'inner',       labelKey: 'subsheet.borderInner' },
+  { value: 'top',         labelKey: 'subsheet.borderTop' },
+  { value: 'bottom',      labelKey: 'subsheet.borderBottom' },
 ];
 
 interface Props {
@@ -20,6 +21,7 @@ interface Props {
 }
 
 export function SubSheetBorderPicker({ sheetId, cellRefs, x, y, onClose }: Props) {
+  const { t } = useTranslation('grid');
   const apply = useAppStore((s) => s.setSubSheetSelectionBorders);
   return (
     <div
@@ -28,7 +30,7 @@ export function SubSheetBorderPicker({ sheetId, cellRefs, x, y, onClose }: Props
       onMouseLeave={onClose}
       onClick={(e) => e.stopPropagation()}
     >
-      <div className="subsheet-border-picker-title">Randen</div>
+      <div className="subsheet-border-picker-title">{t('subsheet.borders')}</div>
       {PRESETS.map((p) => (
         <button
           key={p.value}
@@ -37,7 +39,7 @@ export function SubSheetBorderPicker({ sheetId, cellRefs, x, y, onClose }: Props
             onClose();
           }}
         >
-          {p.label}
+          {t(p.labelKey)}
         </button>
       ))}
     </div>
