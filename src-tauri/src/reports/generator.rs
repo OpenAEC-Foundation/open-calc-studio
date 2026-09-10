@@ -893,7 +893,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
 
         // Individual staart items (exclude BTW and afronding — shown separately below)
         for si in &staart_items {
-            if si.row_type == "staart_btw" || si.row_type == "staart_afronding" {
+            if si.row_type.starts_with("staart_btw") || si.row_type == "staart_afronding" {
                 continue;
             }
             let pct_str = si.staart_percentage.map(|p| format!(" ({:.2}%)", p)).unwrap_or_default();
@@ -908,13 +908,21 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
             )));
         }
 
-        // Aanneemsom excl. BTW (exclude staart_btw and staart_afronding from sum)
-        let aanneemsom_excl: f64 = kostprijs + staart_items.iter()
-            .filter(|i| i.row_type != "staart_btw" && i.row_type != "staart_afronding")
+        // Aanneemsom excl. BTW (exclude staart_btw* and staart_afronding from sum;
+        // de afronding hoort wél bij het excl-bedrag)
+        let afronding: f64 = staart_items.iter()
+            .filter(|i| i.row_type == "staart_afronding")
             .map(|i| i.total).sum::<f64>();
-        let btw_amount: f64 = staart_items.iter()
+        let aanneemsom_excl: f64 = kostprijs + afronding + staart_items.iter()
+            .filter(|i| !i.row_type.starts_with("staart_btw") && i.row_type != "staart_afronding")
+            .map(|i| i.total).sum::<f64>();
+        let btw_hoog: f64 = staart_items.iter()
             .filter(|i| i.row_type == "staart_btw")
             .map(|i| i.total).sum();
+        let btw_laag: f64 = staart_items.iter()
+            .filter(|i| i.row_type == "staart_btw_laag")
+            .map(|i| i.total).sum();
+        let btw_amount = btw_hoog + btw_laag;
         let aanneemsom_incl = aanneemsom_excl + btw_amount;
         flowables.push(Box::new(Spacer::from_mm(2.0)));
         flowables.push(Box::new(Paragraph::new(
@@ -928,8 +936,27 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
             },
         )));
         if btw_amount > 0.0 {
+            if btw_laag > 0.0 {
+                let laag_pct = staart_items.iter()
+                    .find(|i| i.row_type == "staart_btw_laag")
+                    .and_then(|i| i.staart_percentage)
+                    .unwrap_or(9.0);
+                flowables.push(Box::new(Paragraph::new(
+                    &format!("BTW laag {:.0}%: {}", laag_pct, fmt_currency(btw_laag)),
+                    ParagraphStyle {
+                        font_size: Pt(8.0),
+                        leading: Pt(11.0),
+                        space_after: Pt(1.0),
+                        ..Default::default()
+                    },
+                )));
+            }
+            let hoog_pct = staart_items.iter()
+                .find(|i| i.row_type == "staart_btw")
+                .and_then(|i| i.staart_percentage)
+                .unwrap_or(21.0);
             flowables.push(Box::new(Paragraph::new(
-                &format!("BTW 21%: {}", fmt_currency(btw_amount)),
+                &format!("BTW {:.0}%: {}", hoog_pct, fmt_currency(btw_hoog)),
                 ParagraphStyle {
                     font_size: Pt(8.0),
                     leading: Pt(11.0),

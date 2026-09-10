@@ -1,7 +1,7 @@
 import type { ProjectFile, CostSchedule, CostItem, CompanyInfo, SubSheet, SpreadsheetsData, RowType, OfferteDocument, ProjectSnapshot } from '@/types/costModel';
 import { defaultCompanyInfo } from '@/state/slices/companySlice';
 import { createDefaultProjectInfo } from '@/types/costModel';
-import { synthesizeStaartItems } from '@/services/calculation/staartDefaults';
+import { synthesizeStaartItems, ensureBtwLaagItem } from '@/services/calculation/staartDefaults';
 
 /**
  * Huidige versie van het .ifcCalc-bestandsformaat (major.minor.patch).
@@ -172,6 +172,9 @@ export function deserializeProject(json: string): ProjectFile {
       const staartItems = synthesizeStaartItems(parsed.schedule);
       parsed.items = [...parsed.items, ...staartItems];
     }
+    // Migrate: staart van vóór het lage btw-tarief krijgt een "Btw laag"-regel
+    // (9%, zonder grondslag → € 0 tot de grondslag wordt ingevuld).
+    parsed.items = ensureBtwLaagItem(parsed.items);
   }
 
   return parsed as ProjectFile;

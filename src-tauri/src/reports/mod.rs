@@ -189,6 +189,12 @@ pub struct CostItem {
     /// Alleen op staart_afronding: aanneemsom-doelbedrag (vaste sluitpost).
     #[serde(default)]
     pub staart_doelbedrag: Option<f64>,
+    /// Alleen op staart_btw_laag: grondslag (excl. btw) voor het lage tarief.
+    #[serde(default)]
+    pub staart_btw_basis: Option<f64>,
+    /// Btw-tarief van dit onderdeel ('hoog'/'laag'); kinderen erven van ouder.
+    #[serde(default)]
+    pub btw_tarief: Option<String>,
     #[serde(default)]
     pub verrekenbaar: Option<String>,
     #[serde(default)]
@@ -387,4 +393,43 @@ pub fn generate_offerte_pdf(request: OfferteReportRequest, output_path: String) 
 #[tauri::command]
 pub fn generate_offerte_preview(request: OfferteReportRequest) -> Result<Vec<u8>, String> {
     offerte::generate_bytes(&request).map_err(|e| e.to_string())
+}
+
+/// Directe kosten (excl. staart) onder het lage btw-tarief, op basis van de
+/// per-onderdeel markering (`btw_tarief`). Kinderen erven het tarief van hun
+/// ouder; alleen bladeren tellen mee (spiegel van computeBtwLaagDirect in TS).
+pub fn btw_laag_direct(items: &[CostItem]) -> f64 {
+    use std::collections::HashMap;
+    let mut children: HashMap<Option<&str>, Vec<&CostItem>> = HashMap::new();
+    for it in items {
+        if it.row_type.starts_with("staart_") {
+            continue;
+        }
+        children.entry(it.parent_id.as_deref()).or_default().push(it);
+    }
+    fn walk(node: &CostItem, inherited_laag: bool, children: &std::collections::HashMap<Option<&str>, Vec<&CostItem>>) -> f64 {
+        let eff_laag = match node.btw_tarief.as_deref() {
+            Some("laag") => true,
+            Some("hoog") => false,
+            _ => inherited_laag,
+        };
+        match children.get(&Some(node.id.as_str())) {
+            Some(kids) if !kids.is_empty() => kids.iter().map(|k| walk(k, eff_laag, children)).sum(),
+            _ => if eff_laag { node.total } else { 0.0 },
+        }
+    }
+    children
+        .get(&None)
+        .map(|tops| tops.iter().map(|t| walk(t, false, &children)).sum())
+        .unwrap_or(0.0)
+}
+
+/// Som van de top-level directe kosten (excl. staart) — noemer voor de
+/// pro-rata laag-grondslag.
+pub fn direct_totaal(items: &[CostItem]) -> f64 {
+    items
+        .iter()
+        .filter(|i| i.parent_id.is_none() && !i.row_type.starts_with("staart_"))
+        .map(|i| i.total)
+        .sum()
 }

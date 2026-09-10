@@ -17,8 +17,8 @@ describe('Default Budget', () => {
 
   it('creates items with correct structure', () => {
     const items = createDefaultItems();
-    // Default items are 9 staart items (gedetailleerde staartkosten-breakdown)
-    expect(items.length).toBe(9);
+    // Default items are 10 staart items (gedetailleerde staartkosten-breakdown)
+    expect(items.length).toBe(10);
 
     // Every item has an id and ifcGuid
     for (const item of items) {
@@ -32,7 +32,7 @@ describe('Default Budget', () => {
     const staartTypes = items.map(i => i.rowType);
     expect(staartTypes).toEqual([
       'staart_ak_oa', 'staart_abk', 'staart_garanties', 'staart_wvpm',
-      'staart_risico', 'staart_winst', 'staart_verzekering', 'staart_btw', 'staart_afronding',
+      'staart_risico', 'staart_winst', 'staart_verzekering', 'staart_btw_laag', 'staart_btw', 'staart_afronding',
     ]);
   });
 

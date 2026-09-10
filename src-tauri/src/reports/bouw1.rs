@@ -353,6 +353,24 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
         let mut after_excl = false;       // before btw
         let mut last_total = cumulative;
 
+        // Laag btw-tarief: per-onderdeel markering (btw_tarief) gaat vóór de
+        // handmatige grondslag; de fractie wordt bij de btw-fase pro rata
+        // over het excl-eindbedrag gelegd (clamp volgt daar ook).
+        let laag_direct = crate::reports::btw_laag_direct(&request.items);
+        let dir_totaal = crate::reports::direct_totaal(&request.items);
+        let laag_fractie = if laag_direct > 0.0 && dir_totaal > 0.0 {
+            Some(laag_direct / dir_totaal)
+        } else {
+            None
+        };
+        let laag_basis_raw: f64 = staart_items.iter()
+            .filter(|i| i.row_type == "staart_btw_laag")
+            .map(|i| i.staart_btw_basis.unwrap_or(0.0).max(0.0))
+            .sum();
+        let mut excl_eind = 0f64;
+        let mut laag_grondslag_totaal = 0f64;
+        let mut laag_resterend = 0f64;
+
         for si in &staart_items {
             let pct = si.staart_percentage.unwrap_or(0.0) / 100.0;
             let pct_str = if si.staart_percentage.is_some() {
@@ -364,7 +382,7 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
                 si.row_type.as_str(),
                 "staart_risico" | "staart_winst" | "staart_verzekering" | "staart_wr"
             );
-            let is_btw = si.row_type == "staart_btw";
+            let is_btw = si.row_type == "staart_btw" || si.row_type == "staart_btw_laag";
 
             if is_winst_phase && !after_kostprijs {
                 all_rows.push(Bouw1TotalenRow {
@@ -389,6 +407,15 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
                     is_bold: true,
                 });
                 after_excl = true;
+                // Vanaf hier is het excl-eindbedrag bekend: bepaal en clamp de
+                // lage grondslag (markering pro rata, anders handmatig bedrag).
+                excl_eind = cumulative;
+                let raw = match laag_fractie {
+                    Some(f) => f * excl_eind,
+                    None => laag_basis_raw,
+                };
+                laag_grondslag_totaal = raw.max(0.0).min(excl_eind.max(0.0));
+                laag_resterend = laag_grondslag_totaal;
             }
 
             // Compute this row's contribution
@@ -436,8 +463,22 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
                     cumulative += row_subtotaal;
                 }
                 "staart_btw" => {
-                    row_bedrag = cumulative;
-                    row_subtotaal = cumulative * pct;
+                    // Hoog tarief over de rest van het excl-eindbedrag.
+                    row_bedrag = excl_eind - laag_grondslag_totaal;
+                    row_subtotaal = row_bedrag * pct;
+                    cumulative += row_subtotaal;
+                }
+                "staart_btw_laag" => {
+                    // Laag tarief: bij markering de berekende grondslag,
+                    // anders de eigen (geclampte) handmatige grondslag.
+                    let basis = if laag_fractie.is_some() {
+                        laag_resterend
+                    } else {
+                        si.staart_btw_basis.unwrap_or(0.0).max(0.0).min(laag_resterend)
+                    };
+                    laag_resterend -= basis;
+                    row_bedrag = basis;
+                    row_subtotaal = basis * pct;
                     cumulative += row_subtotaal;
                 }
                 "staart_afronding" => {

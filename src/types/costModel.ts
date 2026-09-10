@@ -8,7 +8,7 @@ export type RowType =
   | 'tekstregel'        // Tekstregel/opmerking (opm) - werkomschrijving/certificering
   | 'witregel'          // Witomschrijving - meerdere regels, alleen description
   | 'staart_ukk' | 'staart_ak' | 'staart_wr' | 'staart_afronding'
-  | 'staart_ak_oa' | 'staart_abk' | 'staart_garanties' | 'staart_wvpm' | 'staart_risico' | 'staart_winst' | 'staart_verzekering' | 'staart_btw';
+  | 'staart_ak_oa' | 'staart_abk' | 'staart_garanties' | 'staart_wvpm' | 'staart_risico' | 'staart_winst' | 'staart_verzekering' | 'staart_btw' | 'staart_btw_laag';
 
 export type ResourceType = 'onderaannemer' | 'materieel' | 'materiaal' | 'arbeid' | 'overig';
 
@@ -81,6 +81,23 @@ export interface CostItem {
    * totaal excl. btw (bv. 10 = op tientallen). undefined/0 = niet afronden.
    */
   staartAfrondingStap?: number | null;
+
+  /**
+   * Alleen op staart_btw_laag: de grondslag (bedrag excl. btw) waarover het
+   * lage tarief rekent. Het hoge tarief (staart_btw) rekent automatisch over
+   * de rest van het excl-eindbedrag. null/undefined/0 = geen laag-belast deel.
+   * Wanneer onderdelen als laag-belast zijn gemarkeerd (zie btwTarief), wordt
+   * de grondslag daaruit berekend en is dit veld niet in gebruik.
+   */
+  staartBtwBasis?: number | null;
+
+  /**
+   * Btw-tarief van dit onderdeel (hoofdstuk, post of regel). Kinderen erven
+   * het tarief van hun ouder; undefined/null = erven (default hoog). De
+   * laag-grondslag = (laag-belaste directe kosten / totale directe kosten)
+   * × excl-eindbedrag — opslagen en afronding tellen dus pro rata mee.
+   */
+  btwTarief?: 'hoog' | 'laag' | null;
 
   // Normberekening (alleen voor 'regel' rijen)
   normQuantity: number | null;

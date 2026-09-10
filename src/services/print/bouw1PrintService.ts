@@ -611,26 +611,48 @@ function buildSummarySection(
         <td></td>
       </tr>
 
+      ${(() => {
+        // Excl-eindbedrag (incl. afronding); btw uit de breakdown zodat de
+        // hoog/laag-verdeling van de staart-items 1-op-1 wordt overgenomen.
+        const exclEind = hasStaart && breakdown
+          ? breakdown.aanneemsomExcl + breakdown.afronding
+          : totaalExclBtw;
+        const btwLaagGrondslag = breakdown?.btwLaagGrondslag ?? 0;
+        const btwLaagPct = breakdown?.btwLaagPercentage ?? 9;
+        const btwLaag = breakdown?.btwLaagAmount ?? 0;
+        const btwGrondslag = hasStaart && breakdown ? breakdown.btwGrondslag : exclEind;
+        const btwHoog = hasStaart && breakdown ? breakdown.btwAmount : exclEind * btwPct / 100;
+        const btwLaagRow = btwLaagGrondslag > 0 ? `
+      <tr>
+        <td>Btw laag:</td>
+        <td class="num">${btwLaagPct} %</td>
+        <td colspan="5"></td>
+        <td class="num">${fmtNLForce(btwLaagGrondslag)}</td>
+        <td class="num">${fmtNLForce(btwLaag)}</td>
+        <td></td>
+      </tr>` : '';
+        return `
       <tr class="summary-total">
         <td>Totaal excl. btw.:</td>
         <td></td>
-        <td colspan="8" class="num total-amount">${fmtNLForce(hasStaart && breakdown ? breakdown.aanneemsomAfgerond : totaalExclBtw)}</td>
+        <td colspan="8" class="num total-amount">${fmtNLForce(exclEind)}</td>
       </tr>
-
+      ${btwLaagRow}
       <tr>
         <td>Btw hoog:</td>
         <td class="num">${btwPct} %</td>
         <td colspan="5"></td>
-        <td class="num">${fmtNLForce(hasStaart && breakdown ? breakdown.aanneemsomAfgerond : totaalExclBtw)}</td>
-        <td class="num">${fmtNLForce((hasStaart && breakdown ? breakdown.aanneemsomAfgerond : totaalExclBtw) * btwPct / 100)}</td>
+        <td class="num">${fmtNLForce(btwGrondslag)}</td>
+        <td class="num">${fmtNLForce(btwHoog)}</td>
         <td></td>
       </tr>
 
       <tr class="summary-total grand-total">
         <td>Totaalprijs incl. btw.:</td>
         <td></td>
-        <td colspan="8" class="num total-amount">${fmtNLForce((hasStaart && breakdown ? breakdown.aanneemsomAfgerond : totaalExclBtw) * (1 + btwPct / 100))}</td>
-      </tr>
+        <td colspan="8" class="num total-amount">${fmtNLForce(exclEind + btwHoog + btwLaag)}</td>
+      </tr>`;
+      })()}
     </table>
   </div>`;
 }

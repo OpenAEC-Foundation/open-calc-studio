@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { formatCurrency, formatNumber, formatNumberForEdit } from '@/utils/formatting';
 import { parseNumericInput } from '@/utils/numericInput';
+import { computeBtwLaagDirect } from '@/services/calculation/calculator';
 
 /**
  * Full-content view for the "Uren & Staart" bottom-nav tab: the hours
@@ -251,13 +252,16 @@ function StaartFullScreen() {
         .reduce((s, i) => s + i.total, 0) + (afrItem?.total ?? 0);
       rows.push({ id: afrItem?.id ?? '', label: 'Totaal excl. btw. incl. opslagen:', percentage: null, total: aanneemsomExcl, rowType: 'excl_doel', isBold: true });
 
-      // BTW (over het afgeronde excl-bedrag)
+      // BTW (over het afgeronde excl-bedrag): laag tarief over de ingevulde
+      // grondslag, hoog tarief over de rest.
+      const btwLaagItem = staartItems.find(i => i.rowType === 'staart_btw_laag');
+      if (btwLaagItem) rows.push({ id: btwLaagItem.id, label: btwLaagItem.description, percentage: btwLaagItem.staartPercentage, total: btwLaagItem.total, rowType: 'staart_btw_laag', isBold: false });
       const btwItem = staartItems.find(i => i.rowType === 'staart_btw');
       if (btwItem) rows.push({ id: btwItem.id, label: btwItem.description, percentage: btwItem.staartPercentage, total: btwItem.total, rowType: 'staart_btw', isBold: false });
 
       // Eindtotaal incl. btw (alleen tonen als er een btw-regel is)
-      if (btwItem) {
-        rows.push({ id: '', label: 'Totaalprijs incl. btw.:', percentage: null, total: aanneemsomExcl + btwItem.total, rowType: '', isBold: true });
+      if (btwItem || btwLaagItem) {
+        rows.push({ id: '', label: 'Totaalprijs incl. btw.:', percentage: null, total: aanneemsomExcl + (btwItem?.total ?? 0) + (btwLaagItem?.total ?? 0), rowType: '', isBold: true });
       }
 
       return { staartRows: rows, kostprijs: kp, aanneemsom: aanneemsomExcl };
@@ -303,6 +307,22 @@ function StaartFullScreen() {
     pushHistory(items, 'Afronding invullen');
     updateItem(id, 'staartDoelbedrag', null);
     updateItem(id, 'staartVastBedrag', num);
+  };
+
+  // Grondslag laag btw-tarief: het bedrag (excl. btw) waarover het lage
+  // tarief rekent; het hoge tarief rekent automatisch over de rest.
+  // Leegmaken of 0 = geen laag-belast deel.
+  const handleGrondslagChange = (id: string, value: string, original: string) => {
+    if (!id || value.trim() === original.trim()) return;
+    if (value.trim() === '') {
+      pushHistory(items, 'Btw-grondslag wissen');
+      updateItem(id, 'staartBtwBasis', null);
+      return;
+    }
+    const num = parseNumericInput(value);
+    if (num === null) return;
+    pushHistory(items, 'Btw-grondslag invullen');
+    updateItem(id, 'staartBtwBasis', num);
   };
 
   // Eindbedrag (excl. btw, incl. opslagen) invullen: pint het doelbedrag op
@@ -380,7 +400,37 @@ function StaartFullScreen() {
                       style={{ width: 80, textAlign: 'right', border: '1px solid var(--theme-border)', borderRadius: 3, padding: '1px 4px', background: 'var(--theme-bg)', color: 'var(--theme-editable-text, var(--theme-text))', fontSize: 'inherit', fontFamily: 'inherit' }}
                     />
                   </span>
-                ) : r.rowType === 'excl_doel' && r.id ? (
+                ) : r.rowType === 'staart_btw_laag' && r.id ? (() => {
+                  const laagItem = items.find(i => i.id === r.id);
+                  // Per-onderdeel markering (btwTarief) actief? Dan is de
+                  // grondslag berekend en niet handmatig aanpasbaar.
+                  const markeringActief = computeBtwLaagDirect(items) > 0;
+                  const berekend = laagItem?.staartItemBreakdown?.bedrag ?? 0;
+                  const basisStr = markeringActief
+                    ? formatNumberForEdit(Math.round(berekend * 100) / 100)
+                    : (laagItem?.staartBtwBasis != null && laagItem.staartBtwBasis !== 0
+                        ? formatNumberForEdit(Math.round(laagItem.staartBtwBasis * 100) / 100)
+                        : '');
+                  return (
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                      <span style={{ fontSize: 10, color: 'var(--theme-text-muted, var(--theme-text))' }}>over</span>
+                      <input
+                        key={`grondslag-${basisStr}`}
+                        type="text"
+                        defaultValue={basisStr}
+                        placeholder="grondslag"
+                        disabled={markeringActief}
+                        title={markeringActief
+                          ? 'Grondslag berekend uit de onderdelen die als "Btw laag" zijn gemarkeerd (rechtermuisknop op een rij in het grid), pro rata incl. opslagen.'
+                          : 'Grondslag (bedrag excl. btw) waarover het lage tarief rekent; het hoge tarief rekent over de rest. Leegmaken = geen laag-belast deel. Tip: markeer onderdelen via rechtermuisknop → Btw laag tarief.'}
+                        onBlur={e => handleGrondslagChange(r.id, e.target.value, basisStr)}
+                        onKeyDown={e => { if (e.key === 'Enter') { handleGrondslagChange(r.id, (e.target as HTMLInputElement).value, basisStr); (e.target as HTMLInputElement).blur(); } }}
+                        style={{ width: 80, textAlign: 'right', border: '1px solid var(--theme-border)', borderRadius: 3, padding: '1px 4px', background: 'var(--theme-bg)', color: 'var(--theme-editable-text, var(--theme-text))', fontSize: 'inherit', fontFamily: 'inherit', opacity: markeringActief ? 0.7 : 1 }}
+                      />
+                      <span style={{ minWidth: 70, display: 'inline-block', textAlign: 'right' }}>{r.total !== 0 ? formatCurrency(r.total) : ''}</span>
+                    </span>
+                  );
+                })() : r.rowType === 'excl_doel' && r.id ? (
                   <input
                     key={`eind-${formatNumberForEdit(Math.round(r.total * 100) / 100)}`}
                     type="text"

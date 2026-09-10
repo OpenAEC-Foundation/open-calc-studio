@@ -49,6 +49,10 @@ describe('staart migration on load', () => {
       spreadsheets: { sheets: [], activeSheetId: null },
     });
     const parsed = deserializeProject(json);
-    expect(parsed.items.length).toBe(1);
+    // Geen volledige synthese; wel krijgt een oude staart er een
+    // "Btw laag"-regel bij (vóór de bestaande hoog-regel).
+    expect(parsed.items.length).toBe(2);
+    expect(parsed.items[0].rowType).toBe('staart_btw_laag');
+    expect(parsed.items[1].rowType).toBe('staart_btw');
   });
 });

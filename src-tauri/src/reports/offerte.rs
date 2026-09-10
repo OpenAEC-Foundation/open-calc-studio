@@ -282,10 +282,14 @@ fn build_total_price(request: &OfferteReportRequest, flowables: &mut Vec<Box<dyn
     let aanneemsom: f64 = request.items.iter()
         .filter(|i| i.row_type == "chapter" && i.depth == 0).map(|i| i.total).sum();
     let staart_total: f64 = request.items.iter()
-        .filter(|i| i.row_type.starts_with("staart_") && i.row_type != "staart_btw")
+        .filter(|i| i.row_type.starts_with("staart_") && !i.row_type.starts_with("staart_btw"))
         .map(|i| i.total).sum();
     let total_excl = aanneemsom + staart_total;
-    let btw = total_excl * 0.21;
+    // Btw uit de staart-items (hoog + laag) als die er zijn; anders 21%.
+    let staart_btw: f64 = request.items.iter()
+        .filter(|i| i.row_type.starts_with("staart_btw"))
+        .map(|i| i.total).sum();
+    let btw = if staart_btw > 0.0 { staart_btw } else { total_excl * 0.21 };
     let total_incl = total_excl + btw;
 
     flowables.push(Box::new(Spacer::from_mm(12.0)));

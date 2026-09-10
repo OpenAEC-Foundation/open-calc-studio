@@ -102,7 +102,7 @@ connectBridge();
 // ===========================================================================
 
 type CostUnit = 'st'|'m'|'m\u00B2'|'m\u00B3'|'kg'|'ton'|'uur'|'dgn'|'km'|'keer'|'ls'|'week'|'mnd'|'post'|'%'|'pm';
-type RowType = 'chapter'|'begrotingspost'|'bewakingspost'|'regel'|'tekstregel'|'witregel'|'staart_ukk'|'staart_ak'|'staart_wr'|'staart_afronding'|'staart_ak_oa'|'staart_abk'|'staart_garanties'|'staart_wvpm'|'staart_risico'|'staart_winst'|'staart_verzekering'|'staart_btw';
+type RowType = 'chapter'|'begrotingspost'|'bewakingspost'|'regel'|'tekstregel'|'witregel'|'staart_ukk'|'staart_ak'|'staart_wr'|'staart_afronding'|'staart_ak_oa'|'staart_abk'|'staart_garanties'|'staart_wvpm'|'staart_risico'|'staart_winst'|'staart_verzekering'|'staart_btw'|'staart_btw_laag';
 type ResourceType = 'onderaannemer'|'materieel'|'materiaal'|'arbeid'|'overig';
 type Verrekenbaarheid = 'V'|'A'|'N'|'F'|null;
 
@@ -312,6 +312,23 @@ function recalculateItems(items: CostItem[], tarieven?: Record<string, number>):
     .reduce((sum, item) => sum + item.total, 0);
 
   let kostprijs = totaalKolommen;
+  let btwExclBasis: number | null = null;
+  let btwLaagBasisSum = 0;
+  // Per-onderdeel btw-markering: laag-belaste directe kosten via leaf-walk
+  // (kinderen erven het tarief van hun ouder; default hoog).
+  const _childrenOf = new Map<string | null, CostItem[]>();
+  for (const it of result) {
+    if (it.rowType.startsWith('staart_')) continue;
+    const l = _childrenOf.get(it.parentId) ?? []; l.push(it); _childrenOf.set(it.parentId, l);
+  }
+  const _walkLaag = (node: CostItem, inherited: 'hoog' | 'laag'): number => {
+    const eff = node.btwTarief ?? inherited;
+    const kids = _childrenOf.get(node.id);
+    if (!kids || kids.length === 0) return eff === 'laag' ? node.total : 0;
+    return kids.reduce((s, k) => s + _walkLaag(k, eff), 0);
+  };
+  const btwLaagDirect = (_childrenOf.get(null) ?? []).reduce((s, t) => s + _walkLaag(t, 'hoog'), 0);
+  const btwDirectTotaal = (_childrenOf.get(null) ?? []).reduce((s, t) => s + t.total, 0);
   let runningTotal = totaalKolommen;
   for (const item of result) {
     if (!isStagart(item.rowType)) continue;
@@ -352,8 +369,19 @@ function recalculateItems(items: CostItem[], tarieven?: Record<string, number>):
       item.quantity = pct; item.unit = '%'; item.unitPrice = kostprijs / 100;
       item.total = kostprijs * (pct / 100); runningTotal += item.total;
     // Bouw 1 staart model: phase 3 (BTW over aanneemsom)
+    // Laag tarief over de ingevulde grondslag; hoog tarief over de rest.
+    } else if (item.rowType === 'staart_btw_laag') {
+      if (btwExclBasis === null) btwExclBasis = runningTotal;
+      const rawBasis = btwLaagDirect > 0 && btwDirectTotaal > 0
+        ? (btwLaagDirect / btwDirectTotaal) * btwExclBasis
+        : (item.staartBtwBasis ?? 0);
+      const basis = Math.min(Math.max(rawBasis, 0), Math.max(btwExclBasis - btwLaagBasisSum, 0));
+      btwLaagBasisSum += basis;
+      item.quantity = pct; item.unit = '%'; item.unitPrice = basis / 100;
+      item.total = basis * (pct / 100); runningTotal += item.total;
     } else if (item.rowType === 'staart_btw') {
-      const aanneemsomExcl = runningTotal;
+      if (btwExclBasis === null) btwExclBasis = runningTotal;
+      const aanneemsomExcl = btwExclBasis - btwLaagBasisSum;
       item.quantity = pct; item.unit = '%'; item.unitPrice = aanneemsomExcl / 100;
       item.total = aanneemsomExcl * (pct / 100); runningTotal += item.total;
     // Afronding (shared)
@@ -407,6 +435,7 @@ interface StaartBreakdown {
   verzekeringAmount: number; verzekeringPercentage: number;
   aanneemsomExcl: number;
   btwAmount: number; btwPercentage: number;
+  btwLaagAmount: number; btwLaagPercentage: number;
 }
 
 function getStaartBreakdown(items: CostItem[]): StaartBreakdown {
@@ -415,7 +444,7 @@ function getStaartBreakdown(items: CostItem[]): StaartBreakdown {
     .reduce((s, i) => s + i.total, 0);
   let uA = 0, uP = 0, aA = 0, aP = 0, wA = 0, wP = 0, af = 0;
   let aoA = 0, aoP = 0, abA = 0, abP = 0, gaA = 0, gaP = 0, wvA = 0, wvP = 0;
-  let riA = 0, riP = 0, wiA = 0, wiP = 0, veA = 0, veP = 0, btA = 0, btP = 0;
+  let riA = 0, riP = 0, wiA = 0, wiP = 0, veA = 0, veP = 0, btA = 0, btP = 0, btlA = 0, btlP = 0;
   for (const i of items) {
     if (i.rowType === 'staart_ukk') { uA = i.total; uP = i.staartPercentage ?? 0; }
     if (i.rowType === 'staart_ak') { aA = i.total; aP = i.staartPercentage ?? 0; }
@@ -428,6 +457,7 @@ function getStaartBreakdown(items: CostItem[]): StaartBreakdown {
     if (i.rowType === 'staart_winst') { wiA = i.total; wiP = i.staartPercentage ?? 0; }
     if (i.rowType === 'staart_verzekering') { veA = i.total; veP = i.staartPercentage ?? 0; }
     if (i.rowType === 'staart_btw') { btA = i.total; btP = i.staartPercentage ?? 0; }
+    if (i.rowType === 'staart_btw_laag') { btlA = i.total; btlP = i.staartPercentage ?? 0; }
     if (i.rowType === 'staart_afronding') { af = i.total; }
   }
   const s1 = totaalKolommen + uA, s2 = s1 + aA;
@@ -439,7 +469,7 @@ function getStaartBreakdown(items: CostItem[]): StaartBreakdown {
     ukkAmount: uA, ukkPercentage: uP, subtotaal1: s1,
     akAmount: aA, akPercentage: aP, subtotaal2: s2,
     wrAmount: wA, wrPercentage: wP,
-    aanneemsom, afronding: af, aanneemsomAfgerond: aanneemsom + btA + af,
+    aanneemsom, afronding: af, aanneemsomAfgerond: aanneemsom + btA + btlA + af,
     akOaAmount: aoA, akOaPercentage: aoP,
     abkAmount: abA, abkPercentage: abP,
     garantiesAmount: gaA, garantiesPercentage: gaP,
@@ -448,6 +478,7 @@ function getStaartBreakdown(items: CostItem[]): StaartBreakdown {
     winstAmount: wiA, winstPercentage: wiP,
     verzekeringAmount: veA, verzekeringPercentage: veP,
     aanneemsomExcl, btwAmount: btA, btwPercentage: btP,
+    btwLaagAmount: btlA, btwLaagPercentage: btlP,
   };
 }
 
@@ -1068,6 +1099,7 @@ function synthesizeStaartItems(schedule: any): any[] {
     makeStaartItem('staart_risico',      'Risico:',                               findPct('risico') ?? 3, n++),
     makeStaartItem('staart_winst',       'Winst:',                                findPct('winst') ?? 5, n++),
     makeStaartItem('staart_verzekering', 'Verzekering:',                          findPct('verzekering') ?? 0.5, n++),
+    makeStaartItem('staart_btw_laag',    'Btw laag:',                             findPct('btw laag') ?? 9, n++),
     makeStaartItem('staart_btw',         'Btw hoog:',                             findPct('btw hoog') ?? findPct('btw') ?? 21, n++),
     makeStaartItem('staart_afronding',   'Afronding',                             null, n++),
   ];
@@ -1292,7 +1324,7 @@ function depthOf(parentId: string | null): number {
 function makeItem(opts: {
   parentId: string | null; rowType: RowType; description: string;
   code?: string; quantity?: number | null; unit?: CostUnit;
-  normUnitPrice?: number | null; staartPercentage?: number | null;
+  normUnitPrice?: number | null; staartPercentage?: number | null; staartBtwBasis?: number | null; btwTarief?: 'hoog' | 'laag' | null;
 }): CostItem {
   return {
     id: crypto.randomUUID(), parentId: opts.parentId, sortOrder: nextSort(opts.parentId),
@@ -1536,6 +1568,7 @@ const BOUW1_STAART = [
   { rowType: 'staart_risico' as RowType, description: 'Risico:', percentage: 3 },
   { rowType: 'staart_winst' as RowType, description: 'Winst:', percentage: 5 },
   { rowType: 'staart_verzekering' as RowType, description: 'Verzekering:', percentage: 0.5 },
+  { rowType: 'staart_btw_laag' as RowType, description: 'Btw laag:', percentage: 9 },
   { rowType: 'staart_btw' as RowType, description: 'Btw hoog:', percentage: 21 },
   { rowType: 'staart_afronding' as RowType, description: 'Afronding', percentage: null },
 ];
@@ -1543,7 +1576,7 @@ const BOUW1_STAART = [
 server.tool("set_staart", "Set staartkosten (tail costs / markups). Use preset='bouw1' for standard percentages, or provide custom items.", {
   preset: z.enum(['bouw1', 'custom']).optional().default('bouw1').describe("Preset: 'bouw1' for Bouw 1 standard percentages, 'custom' for manual"),
   items: z.array(z.object({
-    rowType: z.string().describe("Staart row type (staart_ak_oa, staart_abk, staart_garanties, staart_wvpm, staart_risico, staart_winst, staart_verzekering, staart_btw, staart_afronding)"),
+    rowType: z.string().describe("Staart row type (staart_ak_oa, staart_abk, staart_garanties, staart_wvpm, staart_risico, staart_winst, staart_verzekering, staart_btw_laag, staart_btw, staart_afronding)"),
     description: z.string().describe("Label"),
     percentage: z.number().nullable().describe("Percentage (null for afronding)"),
   })).optional().describe("Custom staart items (only used when preset='custom')"),

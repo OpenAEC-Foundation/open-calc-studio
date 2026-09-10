@@ -293,7 +293,9 @@ export function recalculateItems(items: CostItem[], tarieven?: Record<string, nu
       runningTotal += item.total;
 
     // Phase 3: BTW over aanneemsom (= kostprijs + risico + winst + verzekering)
-    } else if (item.rowType === 'staart_btw') {
+    // De definitieve hoog/laag-verdeling komt uit computeStaartItemBreakdowns
+    // (die item.total overschrijft); hier alleen de weergavevelden bijwerken.
+    } else if (item.rowType === 'staart_btw' || item.rowType === 'staart_btw_laag') {
       // runningTotal at this point = aanneemsom excl BTW
       const aanneemsomExcl = runningTotal;
       item.quantity = pct;
@@ -408,6 +410,31 @@ export function computeKostprijsBreakdown(items: CostItem[]): KostprijsBreakdown
   return out;
 }
 
+/**
+ * Directe kosten (excl. staart) die onder het lage btw-tarief vallen, op
+ * basis van de per-onderdeel markering (CostItem.btwTarief). Kinderen erven
+ * het tarief van hun ouder; alleen bladeren (rijen zonder kinderen) tellen
+ * mee, zodat een hoog-override binnen een laag hoofdstuk correct aftrekt.
+ */
+export function computeBtwLaagDirect(items: CostItem[]): number {
+  const childrenOf = new Map<string | null, CostItem[]>();
+  for (const it of items) {
+    if (isStagartRowType(it.rowType)) continue;
+    const list = childrenOf.get(it.parentId) ?? [];
+    list.push(it);
+    childrenOf.set(it.parentId, list);
+  }
+  const walk = (node: CostItem, inherited: 'hoog' | 'laag'): number => {
+    const eff = node.btwTarief ?? inherited;
+    const kids = childrenOf.get(node.id);
+    if (!kids || kids.length === 0) {
+      return eff === 'laag' ? node.total : 0;
+    }
+    return kids.reduce((s, k) => s + walk(k, eff), 0);
+  };
+  return (childrenOf.get(null) ?? []).reduce((s, top) => s + walk(top, 'hoog'), 0);
+}
+
 /** Returns items with staart_* rows updated to have staartItemBreakdown filled in.
  *  Pure: returns new array, leaves input untouched (except non-staart items are passed through). */
 export function computeStaartItemBreakdowns(items: CostItem[]): CostItem[] {
@@ -430,7 +457,7 @@ export function computeStaartItemBreakdowns(items: CostItem[]): CostItem[] {
 
   // Pass 1: alle niet-btw-staartregels in arrayvolgorde (cascade, excl. btw)
   for (const item of staartItems) {
-    if (item.rowType === 'staart_btw') continue;
+    if (item.rowType === 'staart_btw' || item.rowType === 'staart_btw_laag') continue;
     const pct = (item.staartPercentage ?? 0) / 100;
     // Vlakke staart (BasCalc): percentage over de directe kosten i.p.v.
     // over het opgehoogde bedrag (cascade). Zie CostItem.staartBasis.
@@ -524,17 +551,49 @@ export function computeStaartItemBreakdowns(items: CostItem[]): CostItem[] {
     bdOf.set(item.id, bd);
   }
 
-  // Pass 2: btw over het volledige excl-eindbedrag (inclusief afronding)
+  // Pass 2: btw over het volledige excl-eindbedrag (inclusief afronding).
+  // Laag tarief (staart_btw_laag) rekent over de grondslag; het hoge tarief
+  // (staart_btw) over de rest. De grondslag komt uit de per-onderdeel
+  // btw-markering (btwTarief, pro rata over het excl-eindbedrag) en anders
+  // uit de handmatig ingevulde staartBtwBasis.
   const exclEind = cumulative;
+  const laagDirect = computeBtwLaagDirect(items);
+  // Zelfde (hiërarchische) basis voor teller en noemer, zodat de fractie ook
+  // klopt wanneer kale posten buiten de regel-kolommen vallen.
+  const directTotaal = items
+    .filter((i) => i.parentId === null && !isStagartRowType(i.rowType))
+    .reduce((s, i) => s + i.total, 0);
+  const laagBasisRaw = laagDirect > 0 && directTotaal > 0
+    ? (laagDirect / directTotaal) * exclEind
+    : staartItems
+        .filter((i) => i.rowType === 'staart_btw_laag')
+        .reduce((s, i) => s + (i.staartBtwBasis ?? 0), 0);
+  const laagGrondslagTotaal = Math.min(
+    Math.max(laagBasisRaw, 0),
+    Math.max(exclEind, 0),
+  );
+  const markeringActief = laagDirect > 0;
   let btwCumulative = exclEind;
+  let laagResterend = laagGrondslagTotaal;
   for (const item of staartItems) {
-    if (item.rowType !== 'staart_btw') continue;
+    if (item.rowType !== 'staart_btw' && item.rowType !== 'staart_btw_laag') continue;
     const pct = (item.staartPercentage ?? 0) / 100;
-    const v = exclEind * pct;
+    let basis: number;
+    if (item.rowType === 'staart_btw_laag') {
+      // Bij per-onderdeel markering: de berekende grondslag; anders de eigen
+      // ingevulde grondslag, begrensd op wat er (na eerdere laag-regels) over is.
+      basis = markeringActief
+        ? laagResterend
+        : Math.min(Math.max(item.staartBtwBasis ?? 0, 0), laagResterend);
+      laagResterend -= basis;
+    } else {
+      basis = exclEind - laagGrondslagTotaal;
+    }
+    const v = basis * pct;
     btwCumulative += v;
     bdOf.set(item.id, {
       loon: 0, materiaal: 0, materieel: 0, stelpost: 0, onderaanneming: 0,
-      bedrag: exclEind, subtotaal: v, totaal: btwCumulative,
+      bedrag: basis, subtotaal: v, totaal: btwCumulative,
     });
   }
 
@@ -592,6 +651,12 @@ export interface StaartBreakdown {
   aanneemsomExcl: number;        // kostprijsBouw1 + risico + winst + verzekering
   btwAmount: number;
   btwPercentage: number;
+  /** Grondslag waarover het hoge btw-tarief rekent (excl-eind − lage grondslag). */
+  btwGrondslag: number;
+  btwLaagAmount: number;
+  btwLaagPercentage: number;
+  /** Ingevulde grondslag voor het lage tarief (0 = niet in gebruik). */
+  btwLaagGrondslag: number;
 }
 
 export function getStaartBreakdown(items: CostItem[]): StaartBreakdown {
@@ -609,7 +674,8 @@ export function getStaartBreakdown(items: CostItem[]): StaartBreakdown {
   let risicoAmount = 0, risicoPercentage = 0;
   let winstAmount = 0, winstPercentage = 0;
   let verzekeringAmount = 0, verzekeringPercentage = 0;
-  let btwAmount = 0, btwPercentage = 0;
+  let btwAmount = 0, btwPercentage = 0, btwGrondslag = 0;
+  let btwLaagAmount = 0, btwLaagPercentage = 0, btwLaagGrondslag = 0;
 
   for (const item of items) {
     if (item.rowType === 'staart_ukk') { ukkAmount = item.total; ukkPercentage = item.staartPercentage ?? 0; }
@@ -622,7 +688,8 @@ export function getStaartBreakdown(items: CostItem[]): StaartBreakdown {
     if (item.rowType === 'staart_risico') { risicoAmount = item.total; risicoPercentage = item.staartPercentage ?? 0; }
     if (item.rowType === 'staart_winst') { winstAmount = item.total; winstPercentage = item.staartPercentage ?? 0; }
     if (item.rowType === 'staart_verzekering') { verzekeringAmount = item.total; verzekeringPercentage = item.staartPercentage ?? 0; }
-    if (item.rowType === 'staart_btw') { btwAmount = item.total; btwPercentage = item.staartPercentage ?? 0; }
+    if (item.rowType === 'staart_btw') { btwAmount = item.total; btwPercentage = item.staartPercentage ?? 0; btwGrondslag = item.staartItemBreakdown?.bedrag ?? 0; }
+    if (item.rowType === 'staart_btw_laag') { btwLaagAmount = item.total; btwLaagPercentage = item.staartPercentage ?? 0; btwLaagGrondslag = item.staartItemBreakdown?.bedrag ?? 0; }
     if (item.rowType === 'staart_afronding') { afronding = item.total; }
   }
 
@@ -637,7 +704,7 @@ export function getStaartBreakdown(items: CostItem[]): StaartBreakdown {
   // Combined: use whichever model is active (legacy or Bouw 1)
   // Legacy aanneemsom = subtotaal2 + wrAmount, Bouw 1 = aanneemsomExcl
   const aanneemsom = subtotaal2 + wrAmount + akOaAmount + abkAmount + garantiesAmount + wvpmAmount + risicoAmount + winstAmount + verzekeringAmount;
-  const aanneemsomAfgerond = aanneemsom + btwAmount + afronding;
+  const aanneemsomAfgerond = aanneemsom + btwAmount + btwLaagAmount + afronding;
 
   return {
     kostprijs: totaalKolommen, totaalKolommen,
@@ -648,6 +715,7 @@ export function getStaartBreakdown(items: CostItem[]): StaartBreakdown {
     garantiesAmount, garantiesPercentage, wvpmAmount, wvpmPercentage,
     kostprijsBouw1, risicoAmount, risicoPercentage,
     winstAmount, winstPercentage, verzekeringAmount, verzekeringPercentage,
-    aanneemsomExcl, btwAmount, btwPercentage,
+    aanneemsomExcl, btwAmount, btwPercentage, btwGrondslag,
+    btwLaagAmount, btwLaagPercentage, btwLaagGrondslag,
   };
 }

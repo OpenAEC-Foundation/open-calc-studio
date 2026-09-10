@@ -336,7 +336,9 @@ function buildHtml(
       }
     }
 
-    const finalTotal = breakdown.afronding !== 0 ? breakdown.aanneemsomAfgerond : breakdown.aanneemsom;
+    // Excl-eindbedrag = aanneemsom + afronding (zonder btw — die zit wél in
+    // aanneemsomAfgerond en hoort niet onder dit label).
+    const finalTotal = breakdown.aanneemsom + breakdown.afronding;
     tableRows += `<tr class="total-row">
       <td colspan="${totalLabelColspan}" class="total-label">Aanneemsom excl. BTW</td>
       <td class="amount">${fmtCurrency(finalTotal)}</td>

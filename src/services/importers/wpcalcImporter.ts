@@ -440,6 +440,12 @@ export function importWpCalcFile(buffer: ArrayBuffer): {
       staartSort++,
     ),
     makeStaartItem(
+      'staart_btw_laag',
+      'Btw laag:',
+      findPctFromStaart('btw laag') ?? 9,
+      staartSort++,
+    ),
+    makeStaartItem(
       'staart_btw',
       'Btw hoog:',
       findPctFromStaart('btw hoog') ?? findPctFromStaart('btw') ?? 21,

@@ -384,6 +384,25 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
       ) : (
         <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{getValue()}</span>
       )}
+      {/* Btw-tarief-markering: klein label achter de omschrijving zodat
+          zichtbaar is welke onderdelen laag/hoog belast zijn (rechtermuisknop
+          → Btw-tarief). Kinderen zonder eigen markering erven van hun ouder. */}
+      {isDescCol && item.btwTarief && (
+        <span
+          title={item.btwTarief === 'laag'
+            ? 'Btw laag tarief — dit onderdeel (incl. onderliggende regels) telt mee in de lage btw-grondslag'
+            : 'Btw hoog tarief (expliciet) — override binnen een laag-belast onderdeel'}
+          style={{
+            marginLeft: 6, flexShrink: 0, fontSize: 9, lineHeight: '12px',
+            padding: '0 4px', borderRadius: 6,
+            background: item.btwTarief === 'laag' ? 'rgba(16,185,129,0.15)' : 'rgba(217,119,6,0.15)',
+            color: item.btwTarief === 'laag' ? '#059669' : '#B45309',
+            border: `1px solid ${item.btwTarief === 'laag' ? 'rgba(5,150,105,0.4)' : 'rgba(180,83,9,0.4)'}`,
+          }}
+        >
+          {item.btwTarief === 'laag' ? 'btw laag' : 'btw hoog'}
+        </span>
+      )}
     </div>
   );
 });

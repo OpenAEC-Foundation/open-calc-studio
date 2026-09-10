@@ -14,8 +14,8 @@ describe('AppStore', () => {
 
   it('initializes with default budget items', () => {
     const { items } = useAppStore.getState();
-    // Default items are 9 staart items (gedetailleerde staartkosten-breakdown)
-    expect(items.length).toBe(9);
+    // Default items are 10 staart items (gedetailleerde staartkosten-breakdown)
+    expect(items.length).toBe(10);
   });
 
   it('has a valid default schedule', () => {

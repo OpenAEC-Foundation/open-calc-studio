@@ -27,3 +27,7 @@ test-mcp.ifcx
 begrotingen/
 output/
 *.ocs.bak
+
+# Agent-tooling (lokaal)
+.agents/
+.codex/

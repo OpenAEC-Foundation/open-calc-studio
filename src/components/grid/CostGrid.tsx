@@ -569,7 +569,7 @@ export const CostGrid: React.FC = () => {
           // Eindtotaal ínclusief staartkosten en afronding (aanneemsom),
           // niet alleen de kostprijs — de staartregels staan er direct boven.
           const grandTotal = getGrandTotal(items);
-          const heeftBtw = items.some(i => i.rowType === 'staart_btw' && Math.abs(i.total) > 0.005);
+          const heeftBtw = items.some(i => (i.rowType === 'staart_btw' || i.rowType === 'staart_btw_laag') && Math.abs(i.total) > 0.005);
           return (
             <div className="grid-total-row" style={{ height: ROW_HEIGHT, width: effectiveColumnWidths.reduce((s, w) => s + (w ?? 0), 0), minWidth: effectiveColumnWidths.reduce((s, w) => s + (w ?? 0), 0) }}>
               {columns.map((col, i) => (

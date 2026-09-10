@@ -87,8 +87,9 @@ export function createDefaultItems(): CostItem[] {
     makeItem('staart_risico', 'Risico:', 3, 9004),
     makeItem('staart_winst', 'Winst:', 5, 9005),
     makeItem('staart_verzekering', 'Verzekering:', 0.5, 9006),
-    makeItem('staart_btw', 'Btw hoog:', 21, 9007),
-    makeItem('staart_afronding', 'Afronding', null, 9008),
+    makeItem('staart_btw_laag', 'Btw laag:', 9, 9007),
+    makeItem('staart_btw', 'Btw hoog:', 21, 9008),
+    makeItem('staart_afronding', 'Afronding', null, 9009),
   ];
 }
 

@@ -198,6 +198,21 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
 
   const hasQuantityLink = !!item.quantityLink;
 
+  // Btw-tarief per onderdeel: hoofdstukken, posten en regels. Kinderen erven
+  // het tarief van hun ouder (default hoog).
+  const canSetBtw = ['chapter', 'begrotingspost', 'bewakingspost', 'regel'].includes(item.rowType);
+  const handleSetBtwTarief = (tarief: 'hoog' | 'laag' | null) => {
+    pushHistory(items, 'Btw-tarief');
+    const targets = hasMultipleSelected ? selectedItems : [item];
+    for (const it of targets) {
+      if (['chapter', 'begrotingspost', 'bewakingspost', 'regel'].includes(it.rowType)) {
+        updateItem(it.id, 'btwTarief', tarief);
+      }
+    }
+    onClose();
+  };
+  const btwCheck = (v: 'hoog' | 'laag' | null) => ((item.btwTarief ?? null) === v ? '✓ ' : ' ');
+
   // Chapters for "Move to chapter" submenu
   const chapters = useMemo(() =>
     items.filter(i => i.rowType === 'chapter' && i.parentId === null && i.id !== item.parentId),
@@ -237,6 +252,12 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
       { label: '-' },
       { label: '🔗 Hoeveelheid linken (spreadsheet/PDF/IFC)...', action: handleQuantityLink },
       ...(hasQuantityLink ? [{ label: 'Verwijder hoeveelheid-link', action: handleRemoveQuantityLink }] : []),
+    ] : []),
+    ...(canSetBtw ? [
+      { label: '-' },
+      { label: `${btwCheck(null)}Btw-tarief erven (standaard hoog)`, action: () => handleSetBtwTarief(null) },
+      { label: `${btwCheck('hoog')}Btw hoog tarief`, action: () => handleSetBtwTarief('hoog') },
+      { label: `${btwCheck('laag')}Btw laag tarief`, action: () => handleSetBtwTarief('laag') },
     ] : []),
   ];
 

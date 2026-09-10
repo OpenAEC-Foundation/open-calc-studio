@@ -360,10 +360,10 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
     // Walk staart items in order. Split into: opslag-fase (everything except btw/afronding),
     // afronding, btw-fase.
     let opslag: Vec<&&CostItem> = staart_items.iter()
-        .filter(|i| i.row_type != "staart_btw" && i.row_type != "staart_afronding")
+        .filter(|i| !i.row_type.starts_with("staart_btw") && i.row_type != "staart_afronding")
         .collect();
     let btw_items: Vec<&&CostItem> = staart_items.iter()
-        .filter(|i| i.row_type == "staart_btw")
+        .filter(|i| i.row_type.starts_with("staart_btw"))
         .collect();
     let afronding_item = staart_items.iter().find(|i| i.row_type == "staart_afronding");
 
@@ -446,15 +446,42 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
         is_bold: true,
     });
 
-    // BTW-fase. OCS heeft per staart_btw één tarief. IBIS toont grondslag hoog/laag apart.
-    // Voor elk BTW-item: "Grondslag BTW <desc>" (grondslag = excl_btw, pct) + de BTW-post.
-    // Met de OCS-default is er één item ("Btw hoog:", 21%) → alleen "Grondslag BTW hoog".
+    // BTW-fase. IBIS toont grondslag hoog/laag apart: staart_btw_laag rekent
+    // over de per-onderdeel markering (btw_tarief, pro rata) of anders over
+    // de ingevulde grondslag (staart_btw_basis); staart_btw over de rest.
+    let laag_direct = crate::reports::btw_laag_direct(&request.items);
+    let dir_totaal = crate::reports::direct_totaal(&request.items);
+    let markering_actief = laag_direct > 0.0 && dir_totaal > 0.0;
+    let laag_raw: f64 = if markering_actief {
+        (laag_direct / dir_totaal) * excl_btw
+    } else {
+        btw_items.iter()
+            .filter(|i| i.row_type == "staart_btw_laag")
+            .map(|i| i.staart_btw_basis.unwrap_or(0.0).max(0.0))
+            .sum::<f64>()
+    };
+    let laag_grondslag_totaal: f64 = laag_raw.max(0.0).min(excl_btw.max(0.0));
+    let mut laag_resterend = laag_grondslag_totaal;
     let mut total_btw = 0.0;
     for bi in &btw_items {
         let pct = bi.staart_percentage.unwrap_or(0.0);
         let pct_frac = pct / 100.0;
         let pct_str = format!("{:.2}%", pct).replace('.', ",");
-        let grondslag = excl_btw;
+        let grondslag = if bi.row_type == "staart_btw_laag" {
+            let basis = if markering_actief {
+                laag_resterend
+            } else {
+                bi.staart_btw_basis.unwrap_or(0.0).max(0.0).min(laag_resterend)
+            };
+            laag_resterend -= basis;
+            basis
+        } else {
+            excl_btw - laag_grondslag_totaal
+        };
+        // Laag-regel zonder grondslag: niet tonen (draagt € 0 bij).
+        if bi.row_type == "staart_btw_laag" && grondslag <= 0.0 {
+            continue;
+        }
         let btw_amt = grondslag * pct_frac;
         total_btw += btw_amt;
 
