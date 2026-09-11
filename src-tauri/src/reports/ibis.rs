@@ -13,7 +13,6 @@
 //! percentages and amounts come from the live staart_* CostItems, never hardcoded.
 
 use super::{CostItem, ReportRequest};
-use super::generator::{fmt_currency, fmt_number};
 
 static IBIS_TEMPLATE: &str = include_str!("../../../tenants/bouw1/templates/ibis.typ");
 // Logos are user-supplied via CompanyInfo.logoLeft/logoRight (PNG base64).
@@ -166,18 +165,19 @@ fn compute_parent_breakdown(parent_id: &str, all_items: &[&CostItem]) -> Resourc
 
 /// IBIS Stabucode: the original code as-is (e.g. "00", "0001", "1032").
 fn build_ibis_row(request: &ReportRequest, item: &CostItem, level: u8, all_items: &[&CostItem]) -> IbisRow {
-    let qty_s = item.quantity.map(|q| fmt_number(Some(q))).unwrap_or_default();
+    let nf = &request.number_format;
+    let qty_s = item.quantity.map(|q| nf.opt_number(Some(q))).unwrap_or_default();
     let unit = request.unit(item.unit.as_deref().unwrap_or(""));
 
-    let price_s = if item.unit_price != 0.0 { fmt_currency(item.unit_price) } else { String::new() };
-    let total_s = if item.total != 0.0 { fmt_currency(item.total) } else { String::new() };
+    let price_s = if item.unit_price != 0.0 { nf.currency(item.unit_price) } else { String::new() };
+    let total_s = if item.total != 0.0 { nf.currency(item.total) } else { String::new() };
     // Uurnorm = norm per eenheid (normQuantity). Uren = hoeveelheid x uurnorm.
     let uurnorm_s = item.norm_quantity
         .filter(|n| *n != 0.0)
-        .map(|n| format!("{:.3}", n).replace('.', ","))
+        .map(|n| nf.number(n, 3))
         .unwrap_or_default();
     let uren = match (item.quantity, item.norm_quantity) {
-        (Some(q), Some(n)) if q != 0.0 && n != 0.0 => fmt_number(Some(q * n)),
+        (Some(q), Some(n)) if q != 0.0 && n != 0.0 => nf.opt_number(Some(q * n)),
         _ => String::new(),
     };
 
@@ -202,9 +202,9 @@ fn build_ibis_row(request: &ReportRequest, item: &CostItem, level: u8, all_items
         eh: unit,
         uurnorm: uurnorm_s,
         uren,
-        materiaal: if materiaal_amt != 0.0 { fmt_currency(materiaal_amt) } else { String::new() },
-        materieel: if bd.materieel != 0.0 { fmt_currency(bd.materieel) } else { String::new() },
-        onderaan: if bd.ond_aann != 0.0 { fmt_currency(bd.ond_aann) } else { String::new() },
+        materiaal: if materiaal_amt != 0.0 { nf.currency(materiaal_amt) } else { String::new() },
+        materieel: if bd.materieel != 0.0 { nf.currency(bd.materieel) } else { String::new() },
+        onderaan: if bd.ond_aann != 0.0 { nf.currency(bd.ond_aann) } else { String::new() },
         eenheidsprijs: price_s,
         totaal: total_s,
         level,
@@ -234,6 +234,7 @@ fn subtotal_row(label: &str, subtotal: &str) -> IbisRow {
 }
 
 fn build_ibis_data(request: &ReportRequest) -> IbisReportData {
+    let nf = &request.number_format;
     let visible: Vec<&CostItem> = request.items.iter()
         .filter(|i| !i.row_type.starts_with("staart_") && i.row_type != "witregel")
         .collect();
@@ -260,7 +261,7 @@ fn build_ibis_data(request: &ReportRequest) -> IbisReportData {
             // Flush previous chapter
             if let Some(ch) = cur_ch {
                 if !ch_rows.is_empty() || ch.total != 0.0 {
-                    let subtotal = fmt_currency(ch.total);
+                    let subtotal = nf.currency(ch.total);
                     let title = if ch.code.is_empty() { ch.description.clone() } else { format!("{}  {}", ch.code, ch.description) };
                     ch_rows.push(subtotal_row(&ch.description, &subtotal));
                     chapters.push(IbisChapter { title, rows: std::mem::take(&mut ch_rows) });
@@ -284,7 +285,7 @@ fn build_ibis_data(request: &ReportRequest) -> IbisReportData {
     }
     if let Some(ch) = cur_ch {
         if !ch_rows.is_empty() || ch.total != 0.0 {
-            let subtotal = fmt_currency(ch.total);
+            let subtotal = nf.currency(ch.total);
             let title = if ch.code.is_empty() { ch.description.clone() } else { format!("{}  {}", ch.code, ch.description) };
             ch_rows.push(subtotal_row(&ch.description, &subtotal));
             chapters.push(IbisChapter { title, rows: std::mem::take(&mut ch_rows) });
@@ -294,8 +295,8 @@ fn build_ibis_data(request: &ReportRequest) -> IbisReportData {
     let totalen = build_ibis_totalen(request);
 
     let report_date = match request.schedule.report_date.as_deref() {
-        Some(s) if !s.is_empty() => format_report_date(s),
-        _ => chrono::Local::now().format("%d-%m-%y").to_string(),
+        Some(s) if !s.is_empty() => nf.date_short_year(s),
+        _ => nf.date_short_year(&chrono::Local::now().format("%Y-%m-%d").to_string()),
     };
 
     let is_directie = request.report_view == "directie";
@@ -338,6 +339,7 @@ fn build_ibis_data(request: &ReportRequest) -> IbisReportData {
 /// Percentages and amounts come from the staart items (never hardcoded). BTW splitting
 /// hoog/laag: each staart_btw item becomes one "Grondslag BTW <desc>" + computed BTW.
 fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
+    let nf = &request.number_format;
     let staart_items: Vec<&CostItem> = request.items.iter()
         .filter(|i| i.row_type.starts_with("staart_"))
         .collect();
@@ -361,7 +363,7 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
         percentage: String::new(),
         bedrag: String::new(),
         post: String::new(),
-        totaal: fmt_currency(alle_kosten),
+        totaal: nf.currency(alle_kosten),
         is_bold: true,
     });
 
@@ -386,7 +388,7 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
         let pct = si.staart_percentage.unwrap_or(0.0);
         let pct_frac = pct / 100.0;
         let pct_str = if si.staart_percentage.is_some() {
-            format!("{:.2}%", pct).replace('.', ",")
+            nf.percent(pct, 2)
         } else {
             String::new()
         };
@@ -409,9 +411,9 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
             symbol: "%".into(),
             label: clean_label(&si.description),
             percentage: pct_str,
-            bedrag: fmt_currency(base),
-            post: fmt_currency(post),
-            totaal: fmt_currency(cumulative),
+            bedrag: nf.currency(base),
+            post: nf.currency(post),
+            totaal: nf.currency(cumulative),
             is_bold: false,
         });
     }
@@ -424,7 +426,7 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
         percentage: String::new(),
         bedrag: String::new(),
         post: String::new(),
-        totaal: fmt_currency(transport),
+        totaal: nf.currency(transport),
         is_bold: false,
     });
 
@@ -436,7 +438,7 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
             label: request.lbl("staart.rounding", "Afronding").into(),
             percentage: String::new(),
             bedrag: String::new(),
-            post: fmt_currency(af.total),
+            post: nf.currency(af.total),
             totaal: String::new(),
             is_bold: false,
         });
@@ -450,7 +452,7 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
         percentage: String::new(),
         bedrag: String::new(),
         post: String::new(),
-        totaal: fmt_currency(excl_btw),
+        totaal: nf.currency(excl_btw),
         is_bold: true,
     });
 
@@ -474,7 +476,7 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
     for bi in &btw_items {
         let pct = bi.staart_percentage.unwrap_or(0.0);
         let pct_frac = pct / 100.0;
-        let pct_str = format!("{:.2}%", pct).replace('.', ",");
+        let pct_str = nf.percent(pct, 2);
         let grondslag = if bi.row_type == "staart_btw_laag" {
             let basis = if markering_actief {
                 laag_resterend
@@ -511,7 +513,7 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
                 _ => request.lbl("staart.vatBase", "Grondslag BTW").into(),
             },
             percentage: pct_str,
-            bedrag: fmt_currency(grondslag),
+            bedrag: nf.currency(grondslag),
             post: String::new(),
             totaal: String::new(),
             is_bold: false,
@@ -525,7 +527,7 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
             },
             percentage: String::new(),
             bedrag: String::new(),
-            post: fmt_currency(btw_amt),
+            post: nf.currency(btw_amt),
             totaal: String::new(),
             is_bold: false,
         });
@@ -537,8 +539,8 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
         label: request.lbl("staart.totalVat", "Totaal BTW").into(),
         percentage: String::new(),
         bedrag: String::new(),
-        post: fmt_currency(total_btw),
-        totaal: fmt_currency(total_btw),
+        post: nf.currency(total_btw),
+        totaal: nf.currency(total_btw),
         is_bold: false,
     });
 
@@ -550,7 +552,7 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
         percentage: String::new(),
         bedrag: String::new(),
         post: String::new(),
-        totaal: fmt_currency(incl_btw),
+        totaal: nf.currency(incl_btw),
         is_bold: true,
     });
 
@@ -560,17 +562,6 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
 /// Strip trailing colon and whitespace from a staart label for the cascade.
 fn clean_label(s: &str) -> String {
     s.trim().trim_end_matches(':').trim().to_string()
-}
-
-/// Convert ISO YYYY-MM-DD to DD-MM-YY (IBIS uses 2-digit year). Pass through otherwise.
-fn format_report_date(iso: &str) -> String {
-    let parts: Vec<&str> = iso.split('-').collect();
-    if parts.len() == 3 && parts[0].len() == 4 {
-        let yy = &parts[0][2..];
-        format!("{}-{}-{}", parts[2], parts[1], yy)
-    } else {
-        iso.to_string()
-    }
 }
 
 pub fn generate_ibis_typst(request: &ReportRequest) -> Result<Vec<u8>, String> {

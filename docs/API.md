@@ -288,7 +288,8 @@ Het exportproces:
 | `companyInfo` | `CompanyInfo` | `null` | Bedrijfsgegevens voor koptekst |
 | `includeCover` | `boolean` | `false` | Voorblad genereren |
 | `includeSummary` | `boolean` | `false` | Samenvattingspagina genereren |
-| `labels` | `Record<string, string>` | `{}` | Rapportteksten in de rapporttaal: platte keys uit de `report`-namespace (bv. `"totals.contractSumExclVat"`) plus eenheden als `"units.<code>"`. Ontbrekende of lege keys vallen terug op de Nederlandse standaardtekst, dus een request zonder `labels` levert een Nederlands rapport. De app vult dit met `getReportLabels()` uit `src/i18n/reportI18n.ts`. |
+| `labels` | `Record<string, string>` | `{}` | Rapportteksten in de rapporttaal: platte keys uit de `report`-namespace (bv. `"totals.contractSumExclVat"`) plus eenheden als `"units.<code>"`. Ontbrekende of lege keys vallen terug op de Nederlandse standaardtekst, dus een request zonder `labels` levert een Nederlands rapport. De app vult dit via `getReportRequestLocale()` uit `src/i18n/reportI18n.ts`. |
+| `numberFormat` | `object` | Nederlands | Getal-, bedrag-, procent- en datumnotatie in de rapporttaal: `decimal`, `group`, `grouping` (`[3]` of `[3, 2]`), `minGroupingDigits` (2 = pas scheiden vanaf vijf cijfers, zoals in het Spaans), `minus`, `currency` en `currencyNegative` (patronen met `{{n}}`, bv. `"{{n}} €"`), `percent` en `date` (met `DD`, `MM`, `YYYY`). Ontbrekende velden vallen terug op de Nederlandse notatie (`€ 1.234,56`, `DD-MM-YYYY`). De app leidt dit af uit `Intl` voor de rapporttaal (`reportNumberFormat()`). |
 
 ---
 

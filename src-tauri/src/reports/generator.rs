@@ -9,42 +9,11 @@
 use openaec_layout::*;
 use std::path::Path;
 
-use super::{CostItem, ReportRequest};
+use super::{CostItem, NumberFormat, ReportRequest};
 
 // ── Formatting helpers ──────────────────────────────────────────────────────
-
-pub(crate) fn fmt_currency(value: f64) -> String {
-    // Eerst op hele centen afronden en dán splitsen: fractie-eerst rondde
-    // 39.996 af naar 100 centen en rendert "€ 39,100" i.p.v. "€ 40,00".
-    let total_cents = (value.abs() * 100.0).round() as u64;
-    let (whole, cents) = (total_cents / 100, total_cents % 100);
-    let sign = if value < 0.0 { "-" } else { "" };
-    format!("€ {}{},{:02}", sign, fmt_thousands(whole), cents)
-}
-
-pub(crate) fn fmt_number(value: Option<f64>) -> String {
-    match value {
-        Some(v) if v != 0.0 => {
-            let total_cents = (v.abs() * 100.0).round() as u64;
-            let (whole, frac) = (total_cents / 100, total_cents % 100);
-            let sign = if v < 0.0 { "-" } else { "" };
-            format!("{}{},{:02}", sign, fmt_thousands(whole), frac)
-        }
-        _ => String::new(),
-    }
-}
-
-fn fmt_thousands(n: u64) -> String {
-    let s = n.to_string();
-    let mut result = String::with_capacity(s.len() + s.len() / 3);
-    for (i, c) in s.chars().rev().enumerate() {
-        if i > 0 && i % 3 == 0 {
-            result.push('.');
-        }
-        result.push(c);
-    }
-    result.chars().rev().collect()
-}
+//
+// Getallen, bedragen en datums lopen via `request.number_format` (numfmt.rs).
 
 #[allow(dead_code)]
 fn today_str() -> String {
@@ -209,13 +178,10 @@ fn row_font_for(item: &CostItem) -> Option<RowOverride> {
     }
 }
 
-/// Bedrag-notatie in de besteksopmaak: kaal NL-getal zonder valutateken
+/// Bedrag-notatie in de besteksopmaak: kaal getal zonder valutateken
 /// (zoals de referentie-opmaak), lege string bij 0.
-fn fmt_bedrag(value: f64) -> String {
-    if value == 0.0 {
-        return String::new();
-    }
-    fmt_number(Some(value))
+fn fmt_bedrag(nf: &NumberFormat, value: f64) -> String {
+    nf.opt_number(Some(value))
 }
 
 /// Inspring in de omschrijving-kolom per hiërarchie-diepte.
@@ -224,25 +190,26 @@ fn indent_for(depth: u32) -> String {
 }
 
 fn get_cell_value(request: &ReportRequest, item: &CostItem, key: &str) -> String {
+    let nf = &request.number_format;
     match key {
         "nr" => item.nr.clone().unwrap_or_default(),
         "code" => item.code.clone(),
         "description" => item.description.clone(),
-        "quantity" => fmt_number(item.quantity),
+        "quantity" => nf.opt_number(item.quantity),
         "unit" => request.unit(item.unit.as_deref().unwrap_or("")),
         // V/N/… per regel — ook op posten (S-kolom in de besteksopmaak)
         "verrekenbaar" => item.verrekenbaar.clone().unwrap_or_default(),
-        "normUnitPrice" => fmt_number(item.norm_unit_price),
+        "normUnitPrice" => nf.opt_number(item.norm_unit_price),
         "unitPrice" => {
             if item.unit_price != 0.0 {
-                fmt_currency(item.unit_price)
+                nf.currency(item.unit_price)
             } else {
                 String::new()
             }
         }
         "total" => {
             if item.total != 0.0 {
-                fmt_currency(item.total)
+                nf.currency(item.total)
             } else {
                 String::new()
             }
@@ -464,6 +431,7 @@ pub(crate) fn load_system_fonts(fonts: &SharedFontRegistry) {
 
 /// Generate PDF bytes from a report request.
 pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
+    let nf = &request.number_format;
     // Route Bouw 1 view through Typst engine
     if request.report_view == "bouw1" {
         return super::bouw1::generate_bouw1_typst(request);
@@ -783,7 +751,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
             let mut r = vec![String::new(); n_cols];
             r[desc_idx] = format!("{}{}", indent_for(1), subtotal_label);
             if let Some(t) = total_idx {
-                r[t] = fmt_bedrag(sum);
+                r[t] = fmt_bedrag(nf, sum);
             }
             body.push(r);
             ovs.push(Some(RowOverride {
@@ -813,7 +781,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
                         // Hoofdaanneming: geen bedragen naast hoofdstukregels —
                         // die staan in de subtotalen per paragraaf.
                         "total" | "unitPrice" if use_chapter_subtotals => String::new(),
-                        "total" => fmt_bedrag(item.total),
+                        "total" => fmt_bedrag(nf, item.total),
                         // S-kolom (V/N) alleen op posten, niet op hoofdstukken
                         "verrekenbaar" => String::new(),
                         key => get_cell_value(request, item, key),
@@ -832,8 +800,8 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
                         // regelbedragen leeg, hoeveelheden blijven staan.
                         "unitPrice" | "total" if hide_line_amounts => String::new(),
                         // Besteksopmaak: kale bedragen zonder valutateken
-                        "unitPrice" => fmt_bedrag(item.unit_price),
-                        "total" => fmt_bedrag(item.total),
+                        "unitPrice" => fmt_bedrag(nf, item.unit_price),
+                        "total" => fmt_bedrag(nf, item.total),
                         // V/N: eigen waarde of geërfd van het hoofdstuk —
                         // alleen op rekenende regels, niet op opmerkingen
                         "verrekenbaar" if item.row_type != "tekstregel" && item.row_type != "witregel" => {
@@ -894,7 +862,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
             .sum();
 
         flowables.push(Box::new(Paragraph::new(
-            &format!("{}: {}", request.lbl("totals.directCosts", "Subtotaal directe kosten (Kostprijs)"), fmt_currency(kostprijs)),
+            &format!("{}: {}", request.lbl("totals.directCosts", "Subtotaal directe kosten (Kostprijs)"), nf.currency(kostprijs)),
             ParagraphStyle {
                 font_size: Pt(8.0),
                 leading: Pt(11.0),
@@ -909,9 +877,9 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
             if si.row_type.starts_with("staart_btw") || si.row_type == "staart_afronding" {
                 continue;
             }
-            let pct_str = si.staart_percentage.map(|p| format!(" ({:.2}%)", p)).unwrap_or_default();
+            let pct_str = si.staart_percentage.map(|p| format!(" ({})", nf.percent(p, 2))).unwrap_or_default();
             flowables.push(Box::new(Paragraph::new(
-                &format!("{}{}:  {}", si.description, pct_str, fmt_currency(si.total)),
+                &format!("{}{}:  {}", si.description, pct_str, nf.currency(si.total)),
                 ParagraphStyle {
                     font_size: Pt(7.5),
                     leading: Pt(10.0),
@@ -939,7 +907,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
         let aanneemsom_incl = aanneemsom_excl + btw_amount;
         flowables.push(Box::new(Spacer::from_mm(2.0)));
         flowables.push(Box::new(Paragraph::new(
-            &format!("{}: {}", request.lbl("totals.contractSumExclVat", "Aanneemsom excl. BTW"), fmt_currency(aanneemsom_excl)),
+            &format!("{}: {}", request.lbl("totals.contractSumExclVat", "Aanneemsom excl. BTW"), nf.currency(aanneemsom_excl)),
             ParagraphStyle {
                 font_size: Pt(9.0),
                 leading: Pt(12.0),
@@ -957,8 +925,8 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
                 flowables.push(Box::new(Paragraph::new(
                     &format!(
                         "{}: {}",
-                        request.lbl_fmt("totals.vatLowPct", "BTW laag {{pct}}%", &[("pct", &format!("{:.0}", laag_pct))]),
-                        fmt_currency(btw_laag)
+                        request.lbl_fmt("totals.vatLowPct", "BTW laag {{pct}}%", &[("pct", &nf.pct_value(laag_pct))]),
+                        nf.currency(btw_laag)
                     ),
                     ParagraphStyle {
                         font_size: Pt(8.0),
@@ -975,8 +943,8 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
             flowables.push(Box::new(Paragraph::new(
                 &format!(
                     "{}: {}",
-                    request.lbl_fmt("totals.vatPct", "BTW {{pct}}%", &[("pct", &format!("{:.0}", hoog_pct))]),
-                    fmt_currency(btw_hoog)
+                    request.lbl_fmt("totals.vatPct", "BTW {{pct}}%", &[("pct", &nf.pct_value(hoog_pct))]),
+                    nf.currency(btw_hoog)
                 ),
                 ParagraphStyle {
                     font_size: Pt(8.0),
@@ -986,7 +954,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
                 },
             )));
             flowables.push(Box::new(Paragraph::new(
-                &format!("{}: {}", request.lbl("totals.totalInclVat", "Totaal incl. BTW"), fmt_currency(aanneemsom_incl)),
+                &format!("{}: {}", request.lbl("totals.totalInclVat", "Totaal incl. BTW"), nf.currency(aanneemsom_incl)),
                 ParagraphStyle {
                     font_size: Pt(9.0),
                     leading: Pt(12.0),
@@ -1006,7 +974,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
         if grand_total != 0.0 {
             flowables.push(Box::new(Spacer::from_mm(4.0)));
             flowables.push(Box::new(Paragraph::new(
-                &format!("{}: {}", request.lbl("totals.totalExclVat", "Totaal excl. BTW"), fmt_currency(grand_total)),
+                &format!("{}: {}", request.lbl("totals.totalExclVat", "Totaal excl. BTW"), nf.currency(grand_total)),
                 ParagraphStyle {
                     font_size: Pt(9.0),
                     leading: Pt(12.0),

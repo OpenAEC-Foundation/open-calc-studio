@@ -3,7 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { itemsForReport } from '@/services/print/printService';
-import { getReportLabels } from '@/i18n/reportI18n';
+import { getReportRequestLocale } from '@/i18n/reportI18n';
 import ProgressModal from '@/components/common/ProgressModal';
 
 /** Get Tauri invoke function */
@@ -123,8 +123,8 @@ export const ReportPreview: React.FC = () => {
           companyInfo: companyInfo || null,
           includeCover,
           includeSummary,
-          // Rapportteksten in de rapporttaal; Rust valt per key terug op Nederlands.
-          labels: await getReportLabels(),
+          // Teksten en notatie in de rapporttaal; Rust valt terug op Nederlands.
+          ...(await getReportRequestLocale()),
         };
 
         // IBIS-stijl en de directiebegroting delen de IBIS Typst-generator

@@ -3,7 +3,7 @@ import RibbonButton from "./RibbonButton";
 import RibbonGroup from "./RibbonGroup";
 import { reportIcon, settingsIcon, pdfExportIcon, printIcon, addChapterIcon, deleteIcon } from "./icons";
 import { useAppStore } from "../../state/appStore";
-import { getReportLabels } from "../../i18n/reportI18n";
+import { getReportRequestLocale } from "../../i18n/reportI18n";
 import { getBuiltInTemplates, applyTemplate } from '@/services/offerte/templateService';
 
 export default function OfferteTab() {
@@ -223,8 +223,8 @@ export default function OfferteTab() {
                     staartPercentage: i.staartPercentage,
                   })),
                   briefhoofdPath: null,
-                  // Rapportteksten in de rapporttaal; Rust valt per key terug op Nederlands.
-                  labels: await getReportLabels(),
+                  // Teksten en notatie in de rapporttaal; Rust valt terug op Nederlands.
+                  ...(await getReportRequestLocale()),
                 };
 
                 await invoke('generate_offerte_pdf', { request, outputPath });

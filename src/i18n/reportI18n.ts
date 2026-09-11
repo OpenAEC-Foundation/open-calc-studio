@@ -7,10 +7,10 @@
  * opdrachtgever.
  *
  * - TS-printservices gebruiken `getReportContext()` / `getReportT()`.
- * - De Rust-generators krijgen `getReportLabels()` mee in het request: de hele
- *   `report`-namespace plat (keys met punten) plus `units.<code>`. Rust valt per
- *   key terug op de Nederlandse tekst, dus zonder labels (CLI, MCP-server)
- *   blijft alles Nederlands.
+ * - De Rust-generators krijgen `getReportRequestLocale()` mee in het request:
+ *   `labels` (de `report`-namespace plat plus `units.<code>`) en `numberFormat`
+ *   (getal-, bedrag- en datumnotatie). Rust valt terug op Nederlands, dus
+ *   zonder beide (CLI, MCP-server) blijft het rapport Nederlands.
  */
 import i18next, { type TFunction } from "i18next";
 import { LANGUAGES, loadLocale } from "./config";
@@ -110,6 +110,100 @@ export async function getReportLabels(reportLocale?: string): Promise<Record<str
   const units = { ...bundle("en", "units"), ...bundle(lang, "units") };
   for (const [code, label] of Object.entries(units)) labels[`units.${code}`] = label;
   return labels;
+}
+
+/**
+ * Getal-, bedrag- en datumnotatie voor de Rust-generators (veld
+ * `numberFormat` in het rapportverzoek; zie src-tauri/src/reports/numfmt.rs).
+ * Rust kent geen locales, dus we leiden hier de tekens en patronen af uit Intl.
+ */
+export interface ReportNumberFormat {
+  decimal: string;
+  group: string;
+  /** Groepsgroottes van rechts: [3], of [3, 2] voor de Indiase notatie. */
+  grouping: number[];
+  /** 2 = pas scheiden vanaf vijf cijfers ("1234" maar "12.345"), zoals in het Spaans. */
+  minGroupingDigits: number;
+  minus: string;
+  /** Patronen met `{{n}}` voor het getal zonder teken. */
+  currency: string;
+  currencyNegative: string;
+  percent: string;
+  /** Datumpatroon met DD, MM en YYYY, bv. "DD-MM-YYYY". */
+  date: string;
+}
+
+// Harde spatie in plaats van smalle of dunne spaties (Frans, Zweeds, …): de
+// PDF-lettertypes kennen U+00A0 zeker, U+202F niet altijd. Richtingstekens
+// (LRM/RLM/ALM en isolates, Arabisch en Hebreeuws) weg: de PDF-engine heeft
+// daar geen glyph voor.
+const normalizeSpaces = (s: string): string =>
+  s.replace(/[\u202F\u2009\u00A0]/g, "\u00A0").replace(/[\u200E\u200F\u061C\u202A-\u202E\u2066-\u2069]/g, "");
+
+/** Patroon uit formatToParts: het getal (alle cijferdelen) wordt `{{n}}`. */
+function toPattern(parts: Intl.NumberFormatPart[]): string {
+  const numeric = new Set(["integer", "group", "decimal", "fraction"]);
+  let out = "";
+  let placed = false;
+  for (const p of parts) {
+    if (numeric.has(p.type)) {
+      if (!placed) out += "{{n}}";
+      placed = true;
+    } else {
+      out += p.value;
+    }
+  }
+  return normalizeSpaces(out);
+}
+
+export function reportNumberFormat(intlLocale: string): ReportNumberFormat {
+  // Latijnse cijfers: de PDF-lettertypes hebben niet elk cijferschrift
+  // (Arabisch-Indisch, Bengaals, …), en in bestekken zijn ze gangbaar.
+  const locale = `${intlLocale}-u-nu-latn`;
+  const plain = new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const parts = plain.formatToParts(-1234567890.5);
+  const pick = (type: string, fallback: string) => parts.find((p) => p.type === type)?.value ?? fallback;
+
+  // Groepsgroottes afleiden uit 1234567890: "1.234.567.890" of "1,23,45,67,890".
+  const groups = parts.filter((p) => p.type === "integer").map((p) => p.value.length);
+  const primary = groups.length > 1 ? groups[groups.length - 1] : 3;
+  const secondary = groups.length > 2 ? groups[groups.length - 2] : primary;
+  const grouping = secondary !== primary ? [primary, secondary] : [primary];
+  const minGroupingDigits = plain.formatToParts(1234).some((p) => p.type === "group") ? 1 : 2;
+
+  // narrowSymbol: overal "€", ook waar de locale "EUR" schrijft (hu, ro, uk).
+  const money = new Intl.NumberFormat(locale, { style: "currency", currency: "EUR", currencyDisplay: "narrowSymbol" });
+  const percent = new Intl.NumberFormat(locale, { style: "percent" });
+
+  // Datumvolgorde en scheidingstekens uit een datum met herkenbare delen.
+  const dateParts = new Intl.DateTimeFormat(locale, { day: "2-digit", month: "2-digit", year: "numeric" })
+    .formatToParts(new Date(2026, 10, 23));
+  const date = dateParts
+    .map((p) => (p.type === "day" ? "DD" : p.type === "month" ? "MM" : p.type === "year" ? "YYYY" : p.value))
+    .join("");
+
+  return {
+    decimal: pick("decimal", "."),
+    group: normalizeSpaces(pick("group", "")),
+    grouping,
+    minGroupingDigits,
+    minus: pick("minusSign", "-"),
+    currency: toPattern(money.formatToParts(1234.5)),
+    currencyNegative: toPattern(money.formatToParts(-1234.5)),
+    percent: toPattern(percent.formatToParts(0.5)),
+    date: normalizeSpaces(date),
+  };
+}
+
+/**
+ * Wat elk Rust-rapportverzoek meekrijgt voor de rapporttaal: de teksten
+ * (`labels`) en de notatie (`numberFormat`).
+ */
+export async function getReportRequestLocale(
+  reportLocale?: string,
+): Promise<{ labels: Record<string, string>; numberFormat: ReportNumberFormat }> {
+  const lang = resolveReportLanguage(reportLocale);
+  return { labels: await getReportLabels(lang), numberFormat: reportNumberFormat(intlLocaleFor(lang)) };
 }
 
 // Een rapporttaal die afwijkt van de interface moet ook voor de synchrone

@@ -7,7 +7,6 @@
 //! - Footer with company info and page numbers
 
 use super::{CostItem, ReportRequest};
-use super::generator::{fmt_currency, fmt_number};
 
 static BOUW1_TEMPLATE: &str = include_str!("../../../tenants/bouw1/templates/begroting.typ");
 // Tiny 1x1 transparent PNG used when no logo is configured. Logos are no longer
@@ -158,6 +157,7 @@ fn compute_parent_breakdown(parent_id: &str, all_items: &[&CostItem]) -> Resourc
 }
 
 fn build_bouw1_row(request: &ReportRequest, item: &CostItem, is_chapter: bool, all_items: &[&CostItem]) -> Bouw1Row {
+    let nf = &request.number_format;
     let code = &item.code;
     let (hst, par, nr_val) = if code.len() >= 6 {
         (code[..1].to_string(), code[1..3].to_string(), code[3..].to_string())
@@ -167,21 +167,21 @@ fn build_bouw1_row(request: &ReportRequest, item: &CostItem, is_chapter: bool, a
         (code.clone(), String::new(), String::new())
     };
 
-    let qty_s = item.quantity.map(|q| fmt_number(Some(q))).unwrap_or_default();
+    let qty_s = item.quantity.map(|q| nf.opt_number(Some(q))).unwrap_or_default();
     let unit = request.unit(item.unit.as_deref().unwrap_or(""));
     let aantal_eh = if qty_s.is_empty() { String::new() } else { format!("{} {}", qty_s, unit) };
     let labor = item.labor_price.unwrap_or(0.0);
-    let labor_s = if labor != 0.0 { fmt_currency(labor) } else { String::new() };
-    let price_s = if item.unit_price != 0.0 { fmt_currency(item.unit_price) } else { String::new() };
-    let total_s = if item.total != 0.0 { fmt_currency(item.total) } else { String::new() };
-    let norm_s = item.norm_quantity.map(|n| format!("{:.3}", n).replace('.', ",")).unwrap_or_default();
+    let labor_s = if labor != 0.0 { nf.currency(labor) } else { String::new() };
+    let price_s = if item.unit_price != 0.0 { nf.currency(item.unit_price) } else { String::new() };
+    let total_s = if item.total != 0.0 { nf.currency(item.total) } else { String::new() };
+    let norm_s = item.norm_quantity.map(|n| nf.number(n, 3)).unwrap_or_default();
     let tg = item.tarief_groep.clone().unwrap_or_default();
     let uren = match (item.quantity, item.norm_quantity) {
-        (Some(q), Some(n)) if q != 0.0 && n != 0.0 => fmt_number(Some(q * n)),
+        (Some(q), Some(n)) if q != 0.0 && n != 0.0 => nf.opt_number(Some(q * n)),
         _ => String::new(),
     };
     let kosten_eh = if item.unit_price != 0.0 {
-        fmt_currency(item.unit_price)
+        nf.currency(item.unit_price)
     } else {
         String::new()
     };
@@ -203,16 +203,16 @@ fn build_bouw1_row(request: &ReportRequest, item: &CostItem, is_chapter: bool, a
         norm: norm_s,
         uren,
         tar: tg,
-        loon: if bd.loon != 0.0 { fmt_currency(bd.loon) } else { labor_s },
+        loon: if bd.loon != 0.0 { nf.currency(bd.loon) } else { labor_s },
         prijs: price_s,
-        materiaal: if bd.materiaal != 0.0 { fmt_currency(bd.materiaal) } else { String::new() },
-        materieel: if bd.materieel != 0.0 { fmt_currency(bd.materieel) } else { String::new() },
-        stelpost: if bd.stelpost != 0.0 { fmt_currency(bd.stelpost) } else { String::new() },
-        ond_aann: if bd.ond_aann != 0.0 { fmt_currency(bd.ond_aann) } else { String::new() },
+        materiaal: if bd.materiaal != 0.0 { nf.currency(bd.materiaal) } else { String::new() },
+        materieel: if bd.materieel != 0.0 { nf.currency(bd.materieel) } else { String::new() },
+        stelpost: if bd.stelpost != 0.0 { nf.currency(bd.stelpost) } else { String::new() },
+        ond_aann: if bd.ond_aann != 0.0 { nf.currency(bd.ond_aann) } else { String::new() },
         kosten_eh,
         subtotaal: total_s,
         // Totaal column: only show for top-level chapters (begrotingshoofdstukken)
-        totaal: if is_chapter && item.depth == 0 { fmt_currency(item.total) } else { String::new() },
+        totaal: if is_chapter && item.depth == 0 { nf.currency(item.total) } else { String::new() },
         memo: String::new(),
         is_chapter,
         is_subtotal: false,
@@ -233,6 +233,7 @@ fn empty_subtotal_row(subtotal: &str) -> Bouw1Row {
 }
 
 fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
+    let nf = &request.number_format;
     let visible: Vec<&CostItem> = request.items.iter()
         .filter(|i| !i.row_type.starts_with("staart_") && i.row_type != "witregel")
         .collect();
@@ -259,7 +260,7 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
         if item.row_type == "chapter" && item.depth == 0 {
             if let Some(ch) = cur_ch {
                 if !ch_rows.is_empty() || ch.total != 0.0 {
-                    let subtotal = fmt_currency(ch.total);
+                    let subtotal = nf.currency(ch.total);
                     ch_rows.push(empty_subtotal_row(&subtotal));
                     chapters.push(Bouw1Chapter {
                         title: if ch.code.is_empty() { ch.description.clone() } else { format!("{}. {}", ch.code, ch.description) },
@@ -279,7 +280,7 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
     }
     if let Some(ch) = cur_ch {
         if !ch_rows.is_empty() || ch.total != 0.0 {
-            let subtotal = fmt_currency(ch.total);
+            let subtotal = nf.currency(ch.total);
             ch_rows.push(empty_subtotal_row(&subtotal));
             chapters.push(Bouw1Chapter {
                 title: ch.description.clone(),
@@ -334,14 +335,14 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
         all_rows.push(Bouw1TotalenRow {
             label: request.lbl("summary.columnTotals", "Totaal kolommen:").into(),
             percentage: String::new(),
-            loon: fmt_currency(kp_loon),
-            materiaal: fmt_currency(kp_mat),
-            materieel: fmt_currency(kp_matrl),
-            stelpost: fmt_currency(kp_stelp),
-            ond_aann: fmt_currency(kp_oa),
+            loon: nf.currency(kp_loon),
+            materiaal: nf.currency(kp_mat),
+            materieel: nf.currency(kp_matrl),
+            stelpost: nf.currency(kp_stelp),
+            ond_aann: nf.currency(kp_oa),
             bedrag: String::new(),
             post: String::new(),
-            totaal: fmt_currency(kp_total),
+            totaal: nf.currency(kp_total),
             is_bold: true,
         });
 
@@ -377,7 +378,7 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
         for si in &staart_items {
             let pct = si.staart_percentage.unwrap_or(0.0) / 100.0;
             let pct_str = if si.staart_percentage.is_some() {
-                format!("{:.2}%", si.staart_percentage.unwrap())
+                nf.percent(si.staart_percentage.unwrap(), 2)
             } else {
                 String::new()
             };
@@ -394,7 +395,7 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
                     loon: String::new(), materiaal: String::new(), materieel: String::new(),
                     stelpost: String::new(), ond_aann: String::new(), bedrag: String::new(),
                     post: String::new(),
-                    totaal: fmt_currency(cumulative),
+                    totaal: nf.currency(cumulative),
                     is_bold: true,
                 });
                 after_kostprijs = true;
@@ -406,7 +407,7 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
                     loon: String::new(), materiaal: String::new(), materieel: String::new(),
                     stelpost: String::new(), ond_aann: String::new(), bedrag: String::new(),
                     post: String::new(),
-                    totaal: fmt_currency(cumulative),
+                    totaal: nf.currency(cumulative),
                     is_bold: true,
                 });
                 after_excl = true;
@@ -498,13 +499,13 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
             all_rows.push(Bouw1TotalenRow {
                 label: si.description.clone(),
                 percentage: pct_str,
-                loon: if row_loon != 0.0 { fmt_currency(row_loon) } else { String::new() },
-                materiaal: if row_mat != 0.0 { fmt_currency(row_mat) } else { String::new() },
-                materieel: if row_matrl != 0.0 { fmt_currency(row_matrl) } else { String::new() },
-                stelpost: if row_stelp != 0.0 { fmt_currency(row_stelp) } else { String::new() },
-                ond_aann: if row_oa != 0.0 { fmt_currency(row_oa) } else { String::new() },
-                bedrag: if row_bedrag != 0.0 { fmt_currency(row_bedrag) } else { String::new() },
-                post: if row_subtotaal != 0.0 { fmt_currency(row_subtotaal) } else { String::new() },
+                loon: if row_loon != 0.0 { nf.currency(row_loon) } else { String::new() },
+                materiaal: if row_mat != 0.0 { nf.currency(row_mat) } else { String::new() },
+                materieel: if row_matrl != 0.0 { nf.currency(row_matrl) } else { String::new() },
+                stelpost: if row_stelp != 0.0 { nf.currency(row_stelp) } else { String::new() },
+                ond_aann: if row_oa != 0.0 { nf.currency(row_oa) } else { String::new() },
+                bedrag: if row_bedrag != 0.0 { nf.currency(row_bedrag) } else { String::new() },
+                post: if row_subtotaal != 0.0 { nf.currency(row_subtotaal) } else { String::new() },
                 totaal: String::new(),
                 is_bold: false,
             });
@@ -517,7 +518,7 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
             loon: String::new(), materiaal: String::new(), materieel: String::new(),
             stelpost: String::new(), ond_aann: String::new(), bedrag: String::new(),
             post: String::new(),
-            totaal: fmt_currency(last_total),
+            totaal: nf.currency(last_total),
             is_bold: true,
         });
 
@@ -526,10 +527,10 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
         None
     };
 
-    // Format report date: if provided as ISO YYYY-MM-DD, render as DD-MM-YYYY; else today
+    // Rapportdatum in de notatie van de rapporttaal; zonder datum: vandaag
     let report_date = match request.schedule.report_date.as_deref() {
-        Some(s) if !s.is_empty() => format_report_date(s),
-        _ => chrono::Local::now().format("%d-%m-%Y").to_string(),
+        Some(s) if !s.is_empty() => nf.date(s),
+        _ => nf.today(),
     };
 
     Bouw1ReportData {
@@ -543,16 +544,6 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
         page_size: String::new(),
         page_orientation: String::new(),
         labels: request.labels.clone(),
-    }
-}
-
-/// Convert ISO YYYY-MM-DD to DD-MM-YYYY. Pass through other formats unchanged.
-fn format_report_date(iso: &str) -> String {
-    let parts: Vec<&str> = iso.split('-').collect();
-    if parts.len() == 3 && parts[0].len() == 4 {
-        format!("{}-{}-{}", parts[2], parts[1], parts[0])
-    } else {
-        iso.to_string()
     }
 }
 
@@ -681,6 +672,26 @@ mod tests {
         assert!(rows.iter().any(|r| r.label == "Total excl. VAT:"));
         assert_eq!(rows.last().unwrap().label, "Total price incl. VAT:");
         assert_eq!(en.chapters[0].rows[0].aantal_eh, "10,00 h");
+    }
+
+    #[test]
+    fn notatie_volgt_number_format() {
+        let nl = build_bouw1_data(&request(serde_json::json!({})));
+        assert_eq!(nl.chapters[0].subtotal, "€ 800,00");
+
+        let mut en = request(en_labels());
+        en.schedule.report_date = Some("2026-09-11".into());
+        en.number_format = serde_json::from_value(serde_json::json!({
+            "decimal": ".", "group": ",", "currency": "€{{n}}", "currencyNegative": "-€{{n}}",
+            "date": "DD/MM/YYYY"
+        }))
+        .unwrap();
+        let en = build_bouw1_data(&en);
+        assert_eq!(en.report_date, "11/09/2026");
+        assert_eq!(en.chapters[0].subtotal, "€800.00");
+        assert_eq!(en.chapters[0].rows[0].aantal_eh, "10.00 h");
+        let rows = &en.totalen.as_ref().unwrap().rows;
+        assert!(rows.iter().any(|r| r.percentage == "5.00%"), "{:?}", rows.iter().map(|r| &r.percentage).collect::<Vec<_>>());
     }
 
     #[test]

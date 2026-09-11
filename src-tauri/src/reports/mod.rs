@@ -1,10 +1,13 @@
 pub mod generator;
+pub mod numfmt;
 pub mod offerte;
 mod bouw1;
 mod ibis;
 
 use serde::Deserialize;
 use std::collections::HashMap;
+
+pub use numfmt::NumberFormat;
 
 #[derive(Debug, Clone, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -28,7 +31,10 @@ pub struct ReportRequest {
     /// ("totals.contractSumExclVat") plus eenheden als "units.<code>". Leeg of
     /// afwezig (CLI, MCP-server) = de Nederlandse standaardteksten.
     #[serde(default)]
-    pub labels: HashMap<String, String>,
+    pub labels: HashMap<String, String>,    /// Getal-, bedrag- en datumnotatie in de rapporttaal. Afwezig = Nederlands
+    /// (€ 1.234,56 en DD-MM-JJJJ).
+    #[serde(default)]
+    pub number_format: NumberFormat,
 }
 
 impl ReportRequest {
@@ -293,7 +299,9 @@ pub struct OfferteReportRequest {
     pub briefhoofd_path: Option<String>,
     /// Rapportteksten in de rapporttaal (zie [`ReportRequest::labels`]).
     #[serde(default)]
-    pub labels: HashMap<String, String>,
+    pub labels: HashMap<String, String>,    /// Notatie in de rapporttaal (zie [`ReportRequest::number_format`]).
+    #[serde(default)]
+    pub number_format: NumberFormat,
 }
 
 impl OfferteReportRequest {

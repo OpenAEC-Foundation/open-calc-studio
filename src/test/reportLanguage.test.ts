@@ -2,7 +2,7 @@ import { describe, it, expect, afterEach } from 'vitest';
 import { generatePrintHtml, cssPageCounter } from '@/services/print/printService';
 import { buildBouw1Html } from '@/services/print/bouw1PrintService';
 import { generateReport } from '@/services/report/reportGenerator';
-import { getReportLabels, makeReportContext, resolveReportLanguage } from '@/i18n/reportI18n';
+import { getReportLabels, getReportRequestLocale, makeReportContext, reportNumberFormat, resolveReportLanguage } from '@/i18n/reportI18n';
 import { createDefaultSchedule, createDefaultItems } from '@/data/defaultBudget';
 import { recalculateItems } from '@/services/calculation/calculator';
 import { makeCostItem } from '@/services/importers/core';
@@ -130,6 +130,37 @@ describe('rapportlabels voor de Rust/Typst-generators', () => {
     const xx = await getReportLabels('sw');
     const en = await getReportLabels('en');
     for (const key of Object.keys(en)) expect(xx[key]).toBeTruthy();
+  });
+
+  it('leidt de getalnotatie per rapporttaal af (numberFormat)', () => {
+    // Nederlands = de standaard van de Rust-kant (numfmt.rs)
+    expect(reportNumberFormat('nl-NL')).toEqual({
+      decimal: ',', group: '.', grouping: [3], minGroupingDigits: 1, minus: '-',
+      currency: '€\u00A0{{n}}', currencyNegative: '€\u00A0-{{n}}', percent: '{{n}}%', date: 'DD-MM-YYYY',
+    });
+    const en = reportNumberFormat('en-GB');
+    expect([en.decimal, en.group, en.currency, en.currencyNegative, en.date]).toEqual(['.', ',', '€{{n}}', '-€{{n}}', 'DD/MM/YYYY']);
+    // Spaans: "1234" maar "12.345", bedrag achter het getal
+    const es = reportNumberFormat('es');
+    expect([es.decimal, es.group, es.minGroupingDigits, es.currency]).toEqual([',', '.', 2, '{{n}}\u00A0€']);
+    // Frans: smalle spatie wordt een harde spatie
+    expect(reportNumberFormat('fr').group).toBe('\u00A0');
+    // Indiase groepering en Latijnse cijfers
+    expect(reportNumberFormat('hi').grouping).toEqual([3, 2]);
+    // Geen richtingstekens (RLM/ALM) in de patronen voor Arabisch en Hebreeuws
+    for (const lang of ['ar', 'he', 'fa']) {
+      const f = reportNumberFormat(lang);
+      expect(JSON.stringify(f)).not.toMatch(/[\u200E\u200F\u061C\u202A-\u202E\u2066-\u2069]/);
+      expect(f.date).toMatch(/DD|MM|YYYY/);
+    }
+    // Altijd het €-teken, ook waar de locale "EUR" schrijft
+    expect(reportNumberFormat('hu').currency).toContain('€');
+  });
+
+  it('getReportRequestLocale levert labels én notatie in de rapporttaal', async () => {
+    const es = await getReportRequestLocale('es');
+    expect(es.numberFormat.date).toBe('DD/MM/YYYY');
+    expect(es.labels['units.uur']).toBe('h');
   });
 
   it('en- en nl-report.json hebben exact dezelfde keys', () => {

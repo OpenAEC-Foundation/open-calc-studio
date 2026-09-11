@@ -4,7 +4,6 @@ use openaec_layout::*;
 use std::path::Path;
 
 use super::{OfferteReportRequest, OfferteSection};
-use super::generator::fmt_currency;
 
 #[derive(Debug, Clone)]
 struct BriefhoofdCallback {
@@ -179,7 +178,7 @@ fn build_cover(request: &OfferteReportRequest, flowables: &mut Vec<Box<dyn Flowa
         &request.lbl_fmt(
             "offerte.heading",
             "Offerte {{number}} — {{date}}",
-            &[("number", &request.offerte.offerte_nummer), ("date", &request.offerte.offerte_datum)],
+            &[("number", &request.offerte.offerte_nummer), ("date", &request.number_format.date(&request.offerte.offerte_datum))],
         ),
         ParagraphStyle { bold: true, font_size: Pt(11.0), leading: Pt(15.0), space_after: Pt(12.0), ..Default::default() },
     )));
@@ -242,6 +241,7 @@ fn build_technical_section(request: &OfferteReportRequest, section: &OfferteSect
 }
 
 fn build_meerwerk_section(request: &OfferteReportRequest, section: &OfferteSection, flowables: &mut Vec<Box<dyn Flowable>>) {
+    let nf = &request.number_format;
     flowables.push(Box::new(Spacer::from_mm(6.0)));
     flowables.push(Box::new(Paragraph::new(&section.titel, section_title_style())));
     if section.items.is_empty() { return; }
@@ -253,7 +253,7 @@ fn build_meerwerk_section(request: &OfferteReportRequest, section: &OfferteSecti
     ];
     let col_widths_mm = vec![40.0, 60.0, 30.0];
     let rows: Vec<Vec<String>> = section.items.iter().map(|item| {
-        let price = item.price_override.or(item.price_per_unit).map(|p| fmt_currency(p)).unwrap_or_default();
+        let price = item.price_override.or(item.price_per_unit).map(|p| nf.currency(p)).unwrap_or_default();
         let unit = request.unit(item.price_unit.as_deref().unwrap_or(""));
         let price_str = if unit.is_empty() { price } else { format!("{} / {}", price, unit) };
         vec![item.onderdeel.clone(), item.omschrijving.clone(), price_str]
@@ -300,6 +300,7 @@ fn build_vrij_section(section: &OfferteSection, flowables: &mut Vec<Box<dyn Flow
 }
 
 fn build_total_price(request: &OfferteReportRequest, flowables: &mut Vec<Box<dyn Flowable>>) {
+    let nf = &request.number_format;
     let aanneemsom: f64 = request.items.iter()
         .filter(|i| i.row_type == "chapter" && i.depth == 0).map(|i| i.total).sum();
     let staart_total: f64 = request.items.iter()
@@ -318,7 +319,7 @@ fn build_total_price(request: &OfferteReportRequest, flowables: &mut Vec<Box<dyn
         &request.lbl_fmt(
             "offerte.totalOffer",
             "Wij kunnen deze werkzaamheden verzorgen voor: {{amount}}",
-            &[("amount", &fmt_currency(total_incl))],
+            &[("amount", &nf.currency(total_incl))],
         ),
         ParagraphStyle { font_size: Pt(11.0), leading: Pt(15.0), bold: true, space_after: Pt(4.0), ..Default::default() },
     )));
