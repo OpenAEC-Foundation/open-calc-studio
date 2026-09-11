@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { formatCurrency } from '@/utils/formatting';
+import { formatUnit } from '@/i18n/formatUnit';
 import type { CostItem } from '@/types/costModel';
 
 interface SplitGridPaneProps {
@@ -108,7 +109,7 @@ export const SplitGridPane: React.FC<SplitGridPaneProps> = ({ documentId, onClos
                     {isRegel && item.quantity != null ? item.quantity : ''}
                   </td>
                   <td className="split-col-unit">
-                    {(isRegel || isBgr) ? (item.unit || '') : ''}
+                    {(isRegel || isBgr) ? formatUnit(item.unit, t) : ''}
                   </td>
                   <td className="split-col-price">
                     {isRegel && item.unitPrice ? formatCurrency(item.unitPrice) : ''}

@@ -5,6 +5,7 @@ import Modal from '../common/Modal';
 import { getAllWizards, type WizardDefinition, type WizardResult } from '@/services/wizard/wizardRegistry';
 import { useAppStore } from '@/state/appStore';
 import { recalculateItems } from '@/services/calculation/calculator';
+import { formatUnit } from '@/i18n/formatUnit';
 
 // Import wizards to register them
 import '@/services/wizard/hsbWandCalculator';
@@ -168,7 +169,7 @@ export default function WizardModal({ open, onClose }: WizardModalProps) {
                     <td className="wizard-rowtype">{item.rowType}</td>
                     <td style={{ paddingLeft: item.depth * 16 }}>{item.description}</td>
                     <td className="align-right">{item.quantity != null ? item.quantity.toFixed(2) : ''}</td>
-                    <td>{item.quantity != null ? item.unit : ''}</td>
+                    <td>{item.quantity != null ? formatUnit(item.unit) : ''}</td>
                     <td className="align-right">{item.materialPrice != null ? `€ ${item.materialPrice.toFixed(2)}` : ''}</td>
                     <td className="align-right">{item.laborPrice != null ? `€ ${item.laborPrice.toFixed(2)}` : ''}</td>
                   </tr>

@@ -12,23 +12,34 @@
 import type { CostItem, CostSchedule, CompanyInfo } from '@/types/costModel';
 import { getStaartBreakdown } from '@/services/calculation/calculator';
 import { isStagartRowType } from '@/types/costModel';
+import { makeReportContext, type ReportContext } from '@/i18n/reportI18n';
 
 function esc(text: string): string {
   return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-function fmtNL(value: number | null, decimals = 2): string {
-  if (value === null || value === undefined || value === 0) return '';
-  return new Intl.NumberFormat('nl-NL', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(value);
+/** Rapporttaal + getalnotatie voor één opbouw van het rapport. */
+interface Bouw1Fmt {
+  ctx: ReportContext;
+  t: ReportContext['t'];
+  /** Leeg bij 0/null; anders twee decimalen in de rapporttaal. */
+  num: (value: number | null) => string;
+  /** Altijd een getal (ook 0), twee decimalen. */
+  force: (value: number) => string;
+  /** Normen: drie decimalen, leeg bij 0/null. */
+  norm: (value: number | null) => string;
 }
 
-function fmtNLForce(value: number, decimals = 2): string {
-  return new Intl.NumberFormat('nl-NL', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(value);
-}
-
-function fmtNorm(value: number | null): string {
-  if (value === null || value === undefined || value === 0) return '';
-  return new Intl.NumberFormat('nl-NL', { minimumFractionDigits: 3, maximumFractionDigits: 3 }).format(value);
+function makeBouw1Fmt(ctx: ReportContext): Bouw1Fmt {
+  const nf2 = new Intl.NumberFormat(ctx.intlLocale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const nf3 = new Intl.NumberFormat(ctx.intlLocale, { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+  return {
+    ctx,
+    t: ctx.t,
+    num: (value) => (value === null || value === undefined || value === 0 ? '' : nf2.format(value)),
+    force: (value) => nf2.format(value),
+    norm: (value) => (value === null || value === undefined || value === 0 ? '' : nf3.format(value)),
+  };
 }
 
 /**
@@ -234,20 +245,29 @@ export function buildBouw1Html(
   includeActions: boolean,
   companyInfo?: CompanyInfo,
   logoDataUrl?: string,
+  ctx: ReportContext = makeReportContext(),
 ): string {
-  const today = new Date().toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const fx = makeBouw1Fmt(ctx);
+  const { t } = ctx;
+  const today = new Date().toLocaleDateString(ctx.intlLocale, { day: '2-digit', month: '2-digit', year: 'numeric' });
   const bouw1Rows = computeBouw1Rows(items, schedule);
   const hasStaart = items.some(item => isStagartRowType(item.rowType));
   const breakdown = hasStaart ? getStaartBreakdown(items) : null;
   const colTotals = computeColumnTotals(items, schedule);
 
-  const companyName = companyInfo?.name || 'Bedrijfsnaam';
+  const companyName = companyInfo?.name || t('headings.companyNamePlaceholder');
   const companyAddress = [companyInfo?.visitAddress, companyInfo?.visitCity].filter(Boolean).join(' - ');
   const companyPhone = companyInfo?.phone || '';
   const companyEmail = companyInfo?.email || '';
   const companyFax = companyInfo?.fax || '';
 
-  const footerLine = [companyName, companyAddress, companyPhone ? `tel. ${companyPhone}` : '', companyEmail ? `e-mail ${companyEmail}` : '', companyFax ? `fax ${companyFax}` : ''].filter(Boolean).join(' - ');
+  const footerLine = [
+    companyName,
+    companyAddress,
+    companyPhone ? `${t('footer.phone')} ${companyPhone}` : '',
+    companyEmail ? `${t('footer.email')} ${companyEmail}` : '',
+    companyFax ? `${t('footer.fax')} ${companyFax}` : '',
+  ].filter(Boolean).join(' - ');
 
   // Build data rows grouped by chapter
   let tableRows = '';
@@ -265,33 +285,33 @@ export function buildBouw1Html(
         // Find the Bouw1Row for the current chapter to get totals
         const chapterDR = bouw1Rows.find(r => r.item.id === currentTopChapter!.id);
         if (chapterDR) {
-          tableRows += buildChapterSubtotalRow(chapterDR);
+          tableRows += buildChapterSubtotalRow(chapterDR, fx);
         }
         tableRows += '<tr class="spacer"><td colspan="18"></td></tr>';
       }
       // Repeat header at each chapter start
-      tableRows += buildHeaderRow();
+      tableRows += buildHeaderRow(t);
       currentTopChapter = item;
     }
 
-    tableRows += buildDataRow(dr);
+    tableRows += buildDataRow(dr, fx);
   }
 
   // Final chapter subtotal
   if (currentTopChapter) {
     const chapterDR = bouw1Rows.find(r => r.item.id === currentTopChapter!.id);
     if (chapterDR) {
-      tableRows += buildChapterSubtotalRow(chapterDR);
+      tableRows += buildChapterSubtotalRow(chapterDR, fx);
     }
   }
 
   // Summary section
-  let summaryHtml = buildSummarySection(colTotals, breakdown, hasStaart);
+  let summaryHtml = buildSummarySection(colTotals, breakdown, hasStaart, fx);
 
   const actionsHtml = includeActions
     ? `<div class="print-actions">
-  <button class="print-btn" onclick="window.print()">Afdrukken</button>
-  <button class="close-btn" onclick="window.close()">Sluiten</button>
+  <button class="print-btn" onclick="window.print()">${esc(t('actions.print'))}</button>
+  <button class="close-btn" onclick="window.close()">${esc(t('actions.close'))}</button>
 </div>`
     : '';
 
@@ -300,10 +320,10 @@ export function buildBouw1Html(
     : `<div class="company-name-large">${esc(companyName)}</div>`;
 
   return `<!DOCTYPE html>
-<html lang="nl">
+<html lang="${ctx.lang}">
 <head>
 <meta charset="UTF-8">
-<title>Begroting - ${esc(schedule.projectName || schedule.name)}</title>
+<title>${esc(t('views.budget'))} - ${esc(schedule.projectName || schedule.name)}</title>
 <style>
 ${getBouw1Styles()}
 </style>
@@ -317,18 +337,18 @@ ${actionsHtml}
     </div>
     <div class="header-right">
       <table class="meta-table">
-        <tr><td class="meta-label">Volgnr.:</td><td class="meta-value">${esc(schedule.projectNumber || '')}</td></tr>
-        <tr><td class="meta-label">T.b.v.:</td><td class="meta-value">${esc(schedule.client || '')}</td></tr>
-        <tr><td class="meta-label">Project:</td><td class="meta-value">${esc(schedule.projectName || schedule.name || '')}</td></tr>
-        <tr><td class="meta-label">Datum:</td><td class="meta-value">${today}</td></tr>
+        <tr><td class="meta-label">${esc(t('meta.sequenceNo'))}:</td><td class="meta-value">${esc(schedule.projectNumber || '')}</td></tr>
+        <tr><td class="meta-label">${esc(t('meta.forAttentionOf'))}:</td><td class="meta-value">${esc(schedule.client || '')}</td></tr>
+        <tr><td class="meta-label">${esc(t('meta.project'))}:</td><td class="meta-value">${esc(schedule.projectName || schedule.name || '')}</td></tr>
+        <tr><td class="meta-label">${esc(t('meta.date'))}:</td><td class="meta-value">${today}</td></tr>
       </table>
-      <div class="report-title">${esc(schedule.description || 'Begroting')}</div>
+      <div class="report-title">${esc(schedule.description || t('views.budget'))}</div>
     </div>
   </div>
 
   <table class="bouw1-grid">
     <thead>
-      ${buildHeaderRow()}
+      ${buildHeaderRow(t)}
     </thead>
     <tbody>
       ${tableRows}
@@ -338,38 +358,41 @@ ${actionsHtml}
   ${summaryHtml}
 </div>
 <div class="footer">
-  <div class="footer-text">Op al onze offertes zijn de algemene voorwaarden van toepassing. Deze voorwaarden zijn bij dit document als bijlage bijgesloten.</div>
+  <div class="footer-text">${esc(t('footer.terms'))}</div>
   <div class="footer-company">${esc(footerLine)}</div>
 </div>
 </body>
 </html>`;
 }
 
-function buildHeaderRow(): string {
+function buildHeaderRow(t: ReportContext['t']): string {
+  const th = (cls: string, key: string) => `<th class="${cls}">${esc(t(key))}</th>`;
   return `<tr class="header-row">
-    <th class="col-hst">Hst</th>
-    <th class="col-par">Par</th>
-    <th class="col-nr">Nr</th>
-    <th class="col-desc">Omschrijving</th>
-    <th class="col-qty">Aantal</th>
-    <th class="col-unit">Eh.</th>
-    <th class="col-price">Prijs</th>
-    <th class="col-norm">Norm</th>
-    <th class="col-uren">Uren</th>
-    <th class="col-tar">Tar.</th>
-    <th class="col-loon">Loon</th>
-    <th class="col-mat">Materiaal</th>
-    <th class="col-meel">Materieel</th>
-    <th class="col-stel">Stelpost</th>
-    <th class="col-ond">Ond.aann.</th>
-    <th class="col-keh">Kosten/eh</th>
-    <th class="col-sub">Subtotaal</th>
-    <th class="col-tot">Totaal</th>
+    ${th('col-hst', 'columns.chapterShort')}
+    ${th('col-par', 'columns.paragraphShort')}
+    ${th('col-nr', 'columns.nr')}
+    ${th('col-desc', 'columns.description')}
+    ${th('col-qty', 'columns.count')}
+    ${th('col-unit', 'columns.unitShort')}
+    ${th('col-price', 'columns.price')}
+    ${th('col-norm', 'columns.norm')}
+    ${th('col-uren', 'columns.hours')}
+    ${th('col-tar', 'columns.rateShort')}
+    ${th('col-loon', 'columns.labour')}
+    ${th('col-mat', 'columns.material')}
+    ${th('col-meel', 'columns.equipment')}
+    ${th('col-stel', 'columns.provisionalSum')}
+    ${th('col-ond', 'columns.subcontract')}
+    ${th('col-keh', 'columns.costPerUnit')}
+    ${th('col-sub', 'columns.subtotal')}
+    ${th('col-tot', 'columns.total')}
   </tr>`;
 }
 
-function buildDataRow(dr: Bouw1Row): string {
+function buildDataRow(dr: Bouw1Row, fx: Bouw1Fmt): string {
   const item = dr.item;
+  const fmtNL = fx.num;
+  const fmtNorm = fx.norm;
 
   if (item.rowType === 'chapter') {
     // Chapter rows: only show hst (at depth 0) or hst+par (depth 1), plus description
@@ -397,7 +420,7 @@ function buildDataRow(dr: Bouw1Row): string {
 
   // Quantity & unit
   const qty = fmtNL(item.quantity);
-  const unit = item.unit ?? '';
+  const unit = fx.ctx.unit(item.unit);
 
   // Price column: normUnitPrice or unitPrice
   const price = item.normUnitPrice != null && item.normUnitPrice > 0
@@ -432,7 +455,8 @@ function buildDataRow(dr: Bouw1Row): string {
   </tr>`;
 }
 
-function buildChapterSubtotalRow(chapterDR: Bouw1Row): string {
+function buildChapterSubtotalRow(chapterDR: Bouw1Row, fx: Bouw1Fmt): string {
+  const fmtNL = fx.num;
   return `<tr class="chapter-subtotal">
     <td colspan="8"></td>
     <td class="num">${fmtNL(chapterDR.uren)}</td>
@@ -450,7 +474,11 @@ function buildSummarySection(
   colTotals: ColumnTotals,
   breakdown: ReturnType<typeof getStaartBreakdown> | null,
   hasStaart: boolean,
+  fx: Bouw1Fmt,
 ): string {
+  const { t } = fx;
+  const fmtNLForce = fx.force;
+  const lbl = (key: string) => esc(t(key));
   const kostprijs = breakdown?.kostprijs ?? (colTotals.loon + colTotals.materiaal + colTotals.materieel + colTotals.stelpost + colTotals.ondaann);
   const akBasis = colTotals.loon + colTotals.materiaal + colTotals.materieel;
 
@@ -493,24 +521,24 @@ function buildSummarySection(
   <div class="summary-section">
     <div class="page-break"></div>
 
-    <h3 class="summary-title">Samenvatting</h3>
+    <h3 class="summary-title">${lbl('summary.title')}</h3>
 
     <table class="summary-table">
       <tr class="summary-header">
-        <th class="s-desc">Omschrijving</th>
+        <th class="s-desc">${lbl('columns.description')}</th>
         <th class="s-pct">%</th>
-        <th class="s-loon">Loon</th>
-        <th class="s-mat">Materiaal</th>
-        <th class="s-meel">Materieel</th>
-        <th class="s-stel">Stelpost</th>
-        <th class="s-ond">Ond.aann.</th>
-        <th class="s-bedrag">Bedrag</th>
-        <th class="s-post">Post</th>
-        <th class="s-tot">Totaal</th>
+        <th class="s-loon">${lbl('columns.labour')}</th>
+        <th class="s-mat">${lbl('columns.material')}</th>
+        <th class="s-meel">${lbl('columns.equipment')}</th>
+        <th class="s-stel">${lbl('columns.provisionalSum')}</th>
+        <th class="s-ond">${lbl('columns.subcontract')}</th>
+        <th class="s-bedrag">${lbl('columns.amount')}</th>
+        <th class="s-post">${lbl('columns.post')}</th>
+        <th class="s-tot">${lbl('columns.total')}</th>
       </tr>
 
       <tr>
-        <td>Totaal kolommen:</td>
+        <td>${lbl('summary.columnTotals')}</td>
         <td></td>
         <td class="num">${fmtNLForce(colTotals.loon)}</td>
         <td class="num">${fmtNLForce(colTotals.materiaal)}</td>
@@ -523,7 +551,7 @@ function buildSummarySection(
       </tr>
 
       <tr>
-        <td>Algemene kosten over onderaanneming:</td>
+        <td>${lbl('summary.overheadSubcontract')}</td>
         <td class="num">${akOndPct} %</td>
         <td></td><td></td><td></td><td></td>
         <td class="num">${fmtNLForce(akOndAmount)}</td>
@@ -533,7 +561,7 @@ function buildSummarySection(
       </tr>
 
       <tr>
-        <td>Algemene bedrijfskosten:</td>
+        <td>${lbl('summary.generalOverhead')}</td>
         <td class="num">${akPct} %</td>
         <td class="num">${fmtNLForce(colTotals.loon * akPct / 100)}</td>
         <td class="num">${fmtNLForce(colTotals.materiaal * akPct / 100)}</td>
@@ -545,7 +573,7 @@ function buildSummarySection(
       </tr>
 
       <tr>
-        <td>Garanties:</td>
+        <td>${lbl('summary.guarantees')}</td>
         <td class="num">${garantiePct} %</td>
         <td class="num">${fmtNLForce(colTotals.loon * garantiePct / 100)}</td>
         <td class="num">${fmtNLForce(colTotals.materiaal * garantiePct / 100)}</td>
@@ -557,7 +585,7 @@ function buildSummarySection(
       </tr>
 
       <tr>
-        <td>Werkvoorbereiding &amp; projectmanagement</td>
+        <td>${lbl('summary.preparation')}</td>
         <td class="num">${wvPct} %</td>
         <td class="num">${fmtNLForce(colTotals.loon * wvPct / 100)}</td>
         <td class="num">${fmtNLForce(colTotals.materiaal * wvPct / 100)}</td>
@@ -569,7 +597,7 @@ function buildSummarySection(
       </tr>
 
       <tr class="summary-kostprijs">
-        <td>Totaal kostprijs:</td>
+        <td>${lbl('summary.totalCostPrice')}</td>
         <td></td>
         <td class="num">${fmtNLForce(colTotals.loon * (1 + akPct / 100 + garantiePct / 100 + wvPct / 100))}</td>
         <td class="num">${fmtNLForce(colTotals.materiaal * (1 + akPct / 100 + garantiePct / 100 + wvPct / 100))}</td>
@@ -582,7 +610,7 @@ function buildSummarySection(
       </tr>
 
       <tr>
-        <td>Risico:</td>
+        <td>${lbl('summary.risk')}</td>
         <td class="num">${risicoPct} %</td>
         <td colspan="4"></td>
         <td></td>
@@ -592,7 +620,7 @@ function buildSummarySection(
       </tr>
 
       <tr>
-        <td>Winst:</td>
+        <td>${lbl('summary.profit')}</td>
         <td class="num">${winstPct} %</td>
         <td colspan="4"></td>
         <td></td>
@@ -602,7 +630,7 @@ function buildSummarySection(
       </tr>
 
       <tr>
-        <td>Verzekering:</td>
+        <td>${lbl('summary.insurance')}</td>
         <td class="num">${verzekeringPct} %</td>
         <td colspan="4"></td>
         <td></td>
@@ -624,7 +652,7 @@ function buildSummarySection(
         const btwHoog = hasStaart && breakdown ? breakdown.btwAmount : exclEind * btwPct / 100;
         const btwLaagRow = btwLaagGrondslag > 0 ? `
       <tr>
-        <td>Btw laag:</td>
+        <td>${lbl('summary.vatLow')}</td>
         <td class="num">${btwLaagPct} %</td>
         <td colspan="5"></td>
         <td class="num">${fmtNLForce(btwLaagGrondslag)}</td>
@@ -633,13 +661,13 @@ function buildSummarySection(
       </tr>` : '';
         return `
       <tr class="summary-total">
-        <td>Totaal excl. btw.:</td>
+        <td>${lbl('summary.totalExclVat')}</td>
         <td></td>
         <td colspan="8" class="num total-amount">${fmtNLForce(exclEind)}</td>
       </tr>
       ${btwLaagRow}
       <tr>
-        <td>Btw hoog:</td>
+        <td>${lbl('summary.vatHigh')}</td>
         <td class="num">${btwPct} %</td>
         <td colspan="5"></td>
         <td class="num">${fmtNLForce(btwGrondslag)}</td>
@@ -648,7 +676,7 @@ function buildSummarySection(
       </tr>
 
       <tr class="summary-total grand-total">
-        <td>Totaalprijs incl. btw.:</td>
+        <td>${lbl('summary.totalInclVat')}</td>
         <td></td>
         <td colspan="8" class="num total-amount">${fmtNLForce(exclEind + btwHoog + btwLaag)}</td>
       </tr>`;

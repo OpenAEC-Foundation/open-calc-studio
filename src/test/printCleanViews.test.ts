@@ -1,8 +1,16 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import { generatePrintHtml } from '@/services/print/printService';
 import { createDefaultSchedule } from '@/data/defaultBudget';
 import { makeCostItem } from '@/services/importers/core';
 import type { CostItem } from '@/types/costModel';
+import { useAppStore } from '@/state/appStore';
+
+// Deze tests controleren de Nederlandse rapportteksten: zet de rapporttaal
+// expliciet op Nederlands (de testomgeving detecteert anders Engels).
+beforeAll(() => {
+  const { settings, setSettings } = useAppStore.getState();
+  setSettings({ ...settings, reportLocale: 'nl' });
+});
 
 /**
  * Clean besteksopmaak in de HTML-print (spiegel van de Rust/PDF-weergave):
@@ -32,15 +40,15 @@ function sampleItems(): CostItem[] {
 const schedule = () => ({ ...createDefaultSchedule(), name: 'Test', projectName: 'Test' });
 
 describe('Clean besteksopmaak (HTML-print)', () => {
-  it('werkbeschrijving bevat tekstregels (opm) en V/N per post', () => {
-    const html = generatePrintHtml(schedule(), sampleItems(), 'werkbeschrijving');
+  it('werkbeschrijving bevat tekstregels (opm) en V/N per post', async () => {
+    const html = await generatePrintHtml(schedule(), sampleItems(), 'werkbeschrijving');
     expect(html).toContain('Toelichting bij de post');
     // V/N op de postregel (S-kolom), niet alleen op hoofdstukken
     expect(html).toMatch(/Verkennend onderzoek[\s\S]*?<td class="center">N<\/td>/);
   });
 
-  it('hoofdaanneming heeft een subtotaal per paragraaf', () => {
-    const html = generatePrintHtml(schedule(), sampleItems(), 'hoofdaanneming');
+  it('hoofdaanneming heeft een subtotaal per paragraaf', async () => {
+    const html = await generatePrintHtml(schedule(), sampleItems(), 'hoofdaanneming');
     const subtotals = html.match(/>Subtotaal</g) ?? [];
     // Twee paragrafen met posten → twee subtotalen
     expect(subtotals.length).toBe(2);
@@ -48,8 +56,8 @@ describe('Clean besteksopmaak (HTML-print)', () => {
     expect(html).toContain('400,00');
   });
 
-  it('hoofdaanneming toont het hoofdstuktotaal alleen in de totaalregel', () => {
-    const html = generatePrintHtml(schedule(), sampleItems(), 'hoofdaanneming');
+  it('hoofdaanneming toont het hoofdstuktotaal alleen in de totaalregel', async () => {
+    const html = await generatePrintHtml(schedule(), sampleItems(), 'hoofdaanneming');
     // 2.320,00 hoort exact één keer voor te komen: in "Totaal excl. BTW" —
     // niet ook nog eens naast de hoofdstukregel.
     const hits = html.match(/2\.320,00/g) ?? [];

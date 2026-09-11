@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { itemsForReport } from '@/services/print/printService';
+import { getReportLabels } from '@/i18n/reportI18n';
 import ProgressModal from '@/components/common/ProgressModal';
 
 /** Get Tauri invoke function */
@@ -17,7 +18,10 @@ async function getTauriInvoke(): Promise<((cmd: string, args?: any) => Promise<a
 }
 
 export const ReportPreview: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  // Rapporttaal (instelling) — bij "auto" volgt hij i18n.language; beide
+  // horen in de afhankelijkheden zodat de preview meewisselt.
+  const reportLocale = useAppStore((s) => s.settings.reportLocale);
   const {
     schedule, items, reportView, showHoeveelheid, toggleHoeveelheid, companyInfo,
     pageOrientation, pageSize, includeCover, includeSummary, setSchedule,
@@ -119,6 +123,8 @@ export const ReportPreview: React.FC = () => {
           companyInfo: companyInfo || null,
           includeCover,
           includeSummary,
+          // Rapportteksten in de rapporttaal; Rust valt per key terug op Nederlands.
+          labels: await getReportLabels(),
         };
 
         // IBIS-stijl en de directiebegroting delen de IBIS Typst-generator
@@ -150,7 +156,7 @@ export const ReportPreview: React.FC = () => {
     return () => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
     };
-  }, [schedule, items, reportView, pageSize, pageOrientation, showHoeveelheid, companyInfo, includeCover, includeSummary]);
+  }, [schedule, items, reportView, pageSize, pageOrientation, showHoeveelheid, companyInfo, includeCover, includeSummary, reportLocale, i18n.language]);
 
   // Cleanup blob URL on unmount
   useEffect(() => {

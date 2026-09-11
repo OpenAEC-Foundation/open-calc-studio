@@ -31,6 +31,7 @@ import { useAppStore } from "./state/appStore";
 import { deserializeProject } from "./services/file/fileService";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
 import { useFileOperations } from "./hooks/useFileOperations";
+import { showImportWarnings } from "./components/common/ImportWarningsDialog";
 import { loadAllExtensions } from "./extensions";
 import { registerBuiltinExtensions } from "./extensions/builtinExtensions";
 import i18next, { changeLanguage } from "./i18n/config";
@@ -221,6 +222,7 @@ function App() {
                 const id = crypto.randomUUID();
                 store.addDocument({ id, filePath, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: false, items: result.items, schedule: result.schedule });
                 if (result.companyInfo) store.setCompanyInfo(result.companyInfo);
+                showImportWarnings(result, fileName);
               }
             }
           } catch (err) {
@@ -269,6 +271,7 @@ function App() {
                   const id = crypto.randomUUID();
                   store.addDocument({ id, filePath, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: false, items: result.items, schedule: result.schedule });
                   if (result.companyInfo) store.setCompanyInfo(result.companyInfo);
+                  showImportWarnings(result, fileName);
                 }
               }
             } catch (e) {

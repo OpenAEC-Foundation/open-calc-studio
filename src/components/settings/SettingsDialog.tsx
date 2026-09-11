@@ -30,6 +30,11 @@ export function applyTheme(theme: string) {
   try { localStorage.setItem("ocs-theme", resolved); } catch { /* ignore */ }
 }
 
+/** Rapporttaal uit de instellingen: een bekende taalcode, anders "auto" (= volg de interface). */
+function normalizeReportLang(code: string | undefined): string {
+  return code && code !== "auto" && LANGUAGES.some((l) => l.code === code) ? code : "auto";
+}
+
 interface SettingsDialogProps {
   open: boolean;
   onClose: () => void;
@@ -42,7 +47,9 @@ export default function SettingsDialog({ open, onClose, theme, onThemeChange }: 
   const { t: tCommon } = useTranslation("common");
   const updateSettings = useAppStore((s) => s.updateSettings);
   const savedLocale = useAppStore((s) => s.settings.locale);
+  const savedReportLocale = useAppStore((s) => s.settings.reportLocale);
   const [activeTab, setActiveTab] = useState("general");
+  const [draftReportLang, setDraftReportLang] = useState(() => normalizeReportLang(savedReportLocale));
   const [draftTheme, setDraftTheme] = useState(theme);
   const [draftLang, setDraftLang] = useState(() => {
     // Map stored locale to language code
@@ -57,8 +64,9 @@ export default function SettingsDialog({ open, onClose, theme, onThemeChange }: 
       setDraftTheme(theme);
       const lang = i18next.language || savedLocale?.split("-")[0] || "auto";
       setDraftLang(LANGUAGES.some((l) => l.code === lang) ? lang : "auto");
+      setDraftReportLang(normalizeReportLang(savedReportLocale));
     }
-  }, [open, theme, savedLocale]);
+  }, [open, theme, savedLocale, savedReportLocale]);
 
   const handleCancel = () => {
     setDraftTheme(originalTheme.current);
@@ -69,7 +77,7 @@ export default function SettingsDialog({ open, onClose, theme, onThemeChange }: 
     onThemeChange(draftTheme);
     applyTheme(draftTheme);
     changeLanguage(draftLang);
-    updateSettings({ locale: draftLang });
+    updateSettings({ locale: draftLang, reportLocale: draftReportLang });
     onClose();
   };
 
@@ -107,6 +115,23 @@ export default function SettingsDialog({ open, onClose, theme, onThemeChange }: 
                   ))}
                 </select>
               </div>
+              <div className="settings-row">
+                <span className="settings-label">{t("general.reportLanguage")}</span>
+                <select
+                  className="settings-select"
+                  value={draftReportLang}
+                  onChange={(e) => setDraftReportLang(e.target.value)}
+                  style={{ width: 180 }}
+                >
+                  <option value="auto">{t("general.reportLanguageAuto")}</option>
+                  {LANGUAGES.filter((l) => l.code !== "auto").map((l) => (
+                    <option key={l.code} value={l.code}>{l.name}</option>
+                  ))}
+                </select>
+              </div>
+              <p style={{ fontSize: 11, marginTop: 4, color: "var(--theme-dialog-content-secondary)" }}>
+                {t("general.reportLanguageHelp")}
+              </p>
             </div>
           )}
           {activeTab === "appearance" && (

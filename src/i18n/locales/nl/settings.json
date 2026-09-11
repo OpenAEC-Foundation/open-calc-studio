@@ -14,6 +14,9 @@
   "general": {
     "application": "Applicatie",
     "language": "Taal",
+    "reportLanguage": "Rapporttaal",
+    "reportLanguageAuto": "Zelfde als interface",
+    "reportLanguageHelp": "Taal van afdrukken en PDF-rapporten. Handig als de interfacetaal afwijkt van de taal van uw opdrachtgever.",
     "startup": "Opstarten",
     "restoreSession": "Sessie herstellen bij opstarten",
     "checkUpdates": "Controleer op updates",

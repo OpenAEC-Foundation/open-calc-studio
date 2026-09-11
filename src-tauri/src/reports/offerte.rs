@@ -3,7 +3,7 @@
 use openaec_layout::*;
 use std::path::Path;
 
-use super::OfferteReportRequest;
+use super::{OfferteReportRequest, OfferteSection};
 use super::generator::fmt_currency;
 
 #[derive(Debug, Clone)]
@@ -67,7 +67,8 @@ pub fn generate_bytes(request: &OfferteReportRequest) -> Result<Vec<u8>, String>
     let template = PageTemplate::new("offerte", page, frame).with_callback(Box::new(callback));
 
     let mut doc = DocTemplate::new(
-        format!("Offerte {}", request.offerte.offerte_nummer), fonts.clone(),
+        request.lbl_fmt("offerte.title", "Offerte {{number}}", &[("number", &request.offerte.offerte_nummer)]),
+        fonts.clone(),
     );
     doc.add_page_template(template);
 
@@ -80,8 +81,8 @@ pub fn generate_bytes(request: &OfferteReportRequest) -> Result<Vec<u8>, String>
     // Sections
     for section in &request.offerte.secties {
         match section.section_type.as_str() {
-            "technisch" => build_technical_section(section, &mut flowables),
-            "meerwerk" => build_meerwerk_section(section, &mut flowables),
+            "technisch" => build_technical_section(request, section, &mut flowables),
+            "meerwerk" => build_meerwerk_section(request, section, &mut flowables),
             "opdrachtgever" => build_opdrachtgever_section(section, &mut flowables),
             "vrij" => build_vrij_section(section, &mut flowables),
             _ => {}
@@ -94,7 +95,7 @@ pub fn generate_bytes(request: &OfferteReportRequest) -> Result<Vec<u8>, String>
     // Payment terms
     if !request.offerte.betalingstermijnen.is_empty() {
         flowables.push(Box::new(Spacer::from_mm(8.0)));
-        flowables.push(Box::new(Paragraph::new("Betalingstermijnen", section_title_style())));
+        flowables.push(Box::new(Paragraph::new(request.lbl("offerte.paymentTerms", "Betalingstermijnen"), section_title_style())));
         for (i, term) in request.offerte.betalingstermijnen.iter().enumerate() {
             flowables.push(Box::new(Paragraph::new(
                 &format!("{}. {} — {}%", i + 1, term.beschrijving, term.percentage), body_style(),
@@ -108,7 +109,7 @@ pub fn generate_bytes(request: &OfferteReportRequest) -> Result<Vec<u8>, String>
     // Warranties
     if !request.offerte.garanties.is_empty() {
         flowables.push(Box::new(Spacer::from_mm(8.0)));
-        flowables.push(Box::new(Paragraph::new("Garanties", section_title_style())));
+        flowables.push(Box::new(Paragraph::new(request.lbl("offerte.guarantees", "Garanties"), section_title_style())));
         for g in &request.offerte.garanties {
             flowables.push(Box::new(Paragraph::new(
                 &format!("• {} — {}", g.onderdeel, g.termijn), body_style(),
@@ -122,19 +123,23 @@ pub fn generate_bytes(request: &OfferteReportRequest) -> Result<Vec<u8>, String>
     // Conditions
     if !request.offerte.voorwaarden.is_empty() {
         flowables.push(Box::new(Spacer::from_mm(8.0)));
-        flowables.push(Box::new(Paragraph::new("Voorwaarden", section_title_style())));
+        flowables.push(Box::new(Paragraph::new(request.lbl("offerte.conditions", "Voorwaarden"), section_title_style())));
         for line in request.offerte.voorwaarden.lines() {
             flowables.push(Box::new(Paragraph::new(line, body_style())));
         }
         flowables.push(Box::new(Paragraph::new(
-            &format!("Deze offerte is {} dagen geldig.", request.offerte.geldigheid),
+            &request.lbl_fmt(
+                "offerte.validity",
+                "Deze offerte is {{days}} dagen geldig.",
+                &[("days", &request.offerte.geldigheid.to_string())],
+            ),
             ParagraphStyle { bold: true, ..body_style() },
         )));
     }
 
     // Signature
     flowables.push(Box::new(Spacer::from_mm(12.0)));
-    flowables.push(Box::new(Paragraph::new("Voor akkoord:", ParagraphStyle {
+    flowables.push(Box::new(Paragraph::new(request.lbl("offerte.approval", "Voor akkoord:"), ParagraphStyle {
         font_size: Pt(10.0), leading: Pt(14.0), bold: true, space_after: Pt(20.0),
         ..Default::default()
     })));
@@ -171,7 +176,11 @@ fn build_cover(request: &OfferteReportRequest, flowables: &mut Vec<Box<dyn Flowa
         ParagraphStyle { space_after: Pt(12.0), ..body_style() },
     )));
     flowables.push(Box::new(Paragraph::new(
-        &format!("Offerte {} — {}", request.offerte.offerte_nummer, request.offerte.offerte_datum),
+        &request.lbl_fmt(
+            "offerte.heading",
+            "Offerte {{number}} — {{date}}",
+            &[("number", &request.offerte.offerte_nummer), ("date", &request.offerte.offerte_datum)],
+        ),
         ParagraphStyle { bold: true, font_size: Pt(11.0), leading: Pt(15.0), space_after: Pt(12.0), ..Default::default() },
     )));
     for line in request.offerte.begeleidend_schrijven.lines() {
@@ -183,7 +192,7 @@ fn build_cover(request: &OfferteReportRequest, flowables: &mut Vec<Box<dyn Flowa
     }
 }
 
-fn build_technical_section(section: &super::OfferteSection, flowables: &mut Vec<Box<dyn Flowable>>) {
+fn build_technical_section(request: &OfferteReportRequest, section: &OfferteSection, flowables: &mut Vec<Box<dyn Flowable>>) {
     flowables.push(Box::new(Spacer::from_mm(6.0)));
     flowables.push(Box::new(Paragraph::new(&section.titel, section_title_style())));
     if !section.begeleidende_tekst.is_empty() {
@@ -191,17 +200,25 @@ fn build_technical_section(section: &super::OfferteSection, flowables: &mut Vec<
     }
     if section.items.is_empty() { return; }
 
-    let headers = vec!["Onderdeel".to_string(), "Omschrijving".to_string(), "Afbeelding".to_string()];
+    let headers = vec![
+        request.lbl("columns.component", "Onderdeel").to_string(),
+        request.lbl("columns.description", "Omschrijving").to_string(),
+        request.lbl("columns.image", "Afbeelding").to_string(),
+    ];
     let col_widths_mm = vec![30.0, 50.0, 50.0];
 
     let rows: Vec<Vec<String>> = section.items.iter().map(|item| {
         let mut desc_parts = vec![item.omschrijving.clone()];
         for sub in &item.sub_items { desc_parts.push(format!("• {}", sub)); }
         for prop in &item.properties {
-            let unit = prop.unit.as_deref().unwrap_or("");
+            let unit = request.unit(prop.unit.as_deref().unwrap_or(""));
             desc_parts.push(format!("{}: {} {}", prop.name, prop.value, unit).trim().to_string());
         }
-        let img_label = if item.afbeeldingen.is_empty() { String::new() } else { format!("[{} afb.]", item.afbeeldingen.len()) };
+        let img_label = if item.afbeeldingen.is_empty() {
+            String::new()
+        } else {
+            request.lbl_fmt("offerte.images", "[{{count}} afb.]", &[("count", &item.afbeeldingen.len().to_string())])
+        };
         vec![item.onderdeel.clone(), desc_parts.join("\n"), img_label]
     }).collect();
 
@@ -224,16 +241,20 @@ fn build_technical_section(section: &super::OfferteSection, flowables: &mut Vec<
     ));
 }
 
-fn build_meerwerk_section(section: &super::OfferteSection, flowables: &mut Vec<Box<dyn Flowable>>) {
+fn build_meerwerk_section(request: &OfferteReportRequest, section: &OfferteSection, flowables: &mut Vec<Box<dyn Flowable>>) {
     flowables.push(Box::new(Spacer::from_mm(6.0)));
     flowables.push(Box::new(Paragraph::new(&section.titel, section_title_style())));
     if section.items.is_empty() { return; }
 
-    let headers = vec!["Onderdeel".to_string(), "Omschrijving".to_string(), "Prijs".to_string()];
+    let headers = vec![
+        request.lbl("columns.component", "Onderdeel").to_string(),
+        request.lbl("columns.description", "Omschrijving").to_string(),
+        request.lbl("columns.price", "Prijs").to_string(),
+    ];
     let col_widths_mm = vec![40.0, 60.0, 30.0];
     let rows: Vec<Vec<String>> = section.items.iter().map(|item| {
         let price = item.price_override.or(item.price_per_unit).map(|p| fmt_currency(p)).unwrap_or_default();
-        let unit = item.price_unit.clone().unwrap_or_default();
+        let unit = request.unit(item.price_unit.as_deref().unwrap_or(""));
         let price_str = if unit.is_empty() { price } else { format!("{} / {}", price, unit) };
         vec![item.onderdeel.clone(), item.omschrijving.clone(), price_str]
     }).collect();
@@ -257,7 +278,7 @@ fn build_meerwerk_section(section: &super::OfferteSection, flowables: &mut Vec<B
     ));
 }
 
-fn build_opdrachtgever_section(section: &super::OfferteSection, flowables: &mut Vec<Box<dyn Flowable>>) {
+fn build_opdrachtgever_section(section: &OfferteSection, flowables: &mut Vec<Box<dyn Flowable>>) {
     flowables.push(Box::new(Spacer::from_mm(6.0)));
     flowables.push(Box::new(Paragraph::new(&section.titel, section_title_style())));
     for item in &section.items {
@@ -267,7 +288,7 @@ fn build_opdrachtgever_section(section: &super::OfferteSection, flowables: &mut 
     }
 }
 
-fn build_vrij_section(section: &super::OfferteSection, flowables: &mut Vec<Box<dyn Flowable>>) {
+fn build_vrij_section(section: &OfferteSection, flowables: &mut Vec<Box<dyn Flowable>>) {
     flowables.push(Box::new(Spacer::from_mm(6.0)));
     flowables.push(Box::new(Paragraph::new(&section.titel, section_title_style())));
     if !section.begeleidende_tekst.is_empty() {
@@ -294,8 +315,55 @@ fn build_total_price(request: &OfferteReportRequest, flowables: &mut Vec<Box<dyn
 
     flowables.push(Box::new(Spacer::from_mm(12.0)));
     flowables.push(Box::new(Paragraph::new(
-        &format!("Wij kunnen deze werkzaamheden verzorgen voor: {}", fmt_currency(total_incl)),
+        &request.lbl_fmt(
+            "offerte.totalOffer",
+            "Wij kunnen deze werkzaamheden verzorgen voor: {{amount}}",
+            &[("amount", &fmt_currency(total_incl))],
+        ),
         ParagraphStyle { font_size: Pt(11.0), leading: Pt(15.0), bold: true, space_after: Pt(4.0), ..Default::default() },
     )));
-    flowables.push(Box::new(Paragraph::new("Dit bedrag is inclusief BTW (21%).", small_style())));
+    flowables.push(Box::new(Paragraph::new(
+        request.lbl("offerte.inclVatNote", "Dit bedrag is inclusief BTW (21%)."),
+        small_style(),
+    )));
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn request(labels: serde_json::Value) -> OfferteReportRequest {
+        serde_json::from_value(serde_json::json!({
+            "offerte": {
+                "offerteNummer": "2026-001", "offerteDatum": "11-09-2026", "geldigheid": 30,
+                "geadresseerde": { "naam": "Gemeente", "adres": "Straat 1", "postcode": "1234 AB", "plaats": "Plaats" },
+                "begeleidendSchrijven": "Geachte heer,",
+                "secties": [{ "titel": "Werk", "type": "technisch", "begeleidendeTekst": "",
+                              "items": [{ "onderdeel": "Dak", "omschrijving": "Vervangen", "isSelected": true }] }],
+                "betalingstermijnen": [{ "beschrijving": "Oplevering", "percentage": 100.0 }],
+                "garanties": [], "voorwaarden": "Algemene voorwaarden", "ondertekening": []
+            },
+            "schedule": { "name": "Test" },
+            "items": [],
+            "labels": labels,
+        }))
+        .expect("OfferteReportRequest parsen")
+    }
+
+    #[test]
+    fn offerte_met_en_zonder_labels() {
+        let en = serde_json::json!({
+            "offerte.title": "Quotation {{number}}",
+            "offerte.validity": "This quotation is valid for {{days}} days.",
+            "offerte.paymentTerms": "Payment terms"
+        });
+        let req = request(en.clone());
+        assert_eq!(req.lbl_fmt("offerte.validity", "Deze offerte is {{days}} dagen geldig.", &[("days", "30")]),
+                   "This quotation is valid for 30 days.");
+        assert_eq!(request(serde_json::json!({})).lbl("offerte.paymentTerms", "Betalingstermijnen"), "Betalingstermijnen");
+        for labels in [serde_json::json!({}), en] {
+            let pdf = generate_bytes(&request(labels)).expect("PDF");
+            assert_eq!(&pdf[0..4], b"%PDF");
+        }
+    }
 }

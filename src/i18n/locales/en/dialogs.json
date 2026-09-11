@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "Preview — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Import notices",
+    "intro_one": "The import of {{source}} finished with {{count}} notice:",
+    "intro_other": "The import of {{source}} finished with {{count}} notices:",
+    "copy": "Copy",
+    "copied": "Copied",
+    "close": "Close",
+    "bc3": {
+      "unknownConceptInDecomposition": "Unknown concept '{{concept}}' in the breakdown of '{{parent}}' — skipped.",
+      "unknownConceptUnder": "Unknown concept '{{concept}}' under '{{parent}}' — skipped.",
+      "zeroYieldDecomposition": "One or more items have a breakdown without yields — the unit price from the ~C record was used for those.",
+      "noRootStructure": "No root structure (##) with a breakdown found — separate branches were imported at the top level.",
+      "noProjectStructure": "No project structure (##/#) found — concepts were imported as a price book under a single chapter.",
+      "priceMismatch_one": "For {{count}} item the sum of the breakdown differs by more than 2% from the unit price in the ~C record ({{examples}}). The breakdown was used.",
+      "priceMismatch_other": "For {{count}} items the sum of the breakdown differs by more than 2% from the unit price in the ~C record (e.g. {{examples}}). The breakdown was used.",
+      "noPrices": "This file contains no prices — only descriptions and quantities (like a measurements library). The total therefore remains 0.00.",
+      "moreWarnings_one": "… and {{count}} more similar notice.",
+      "moreWarnings_other": "… and {{count}} more similar notices."
+    }
   }
 }

@@ -24,7 +24,7 @@
  */
 import { makeCostItem, parseNumber, normalizeUnit, genId } from './core';
 import { decodeCp850 } from './dncImporter';
-import type { ImportResult } from './types';
+import type { ImportResult, ImportWarningCode } from './types';
 import type { CostItem, CostUnit, ResourceType } from '@/types/costModel';
 
 // ── Recordmodel ─────────────────────────────────────────────────────────────
@@ -61,12 +61,11 @@ interface Bc3Data {
   variants: Map<string, Bc3Concept[]>;
   order: Bc3Concept[];                 // alle concepten in declaratievolgorde
   measurements: Map<string, number>;   // "ouder::kind" of "kind" → totaal
-  warnings: string[];
 }
 
 /**
  * Lookup-key voor een concept-code. Let op de volgorde: eerst witruimte weg,
- * dán de #-suffix. Presto/Arquímedes breken lange records af met CRLF vlak
+ * dán de #-suffix. Sommige exporteurs breken lange records af met CRLF vlak
  * vóór een scheidingsteken (`~D|WORTEL##\r\n|KIND#\1\1\|`), waardoor de code
  * met een newline eindigt en `#+$` anders niet zou aanslaan.
  */
@@ -94,7 +93,6 @@ function parseBc3(text: string): Bc3Data {
     variants: new Map(),
     order: [],
     measurements: new Map(),
-    warnings: [],
   };
 
   const variantsOf = (key: string): Bc3Concept[] => {
@@ -242,8 +240,22 @@ function parseBc3(text: string): Bc3Data {
 
 export function importBc3(text: string): ImportResult {
   const data = parseBc3(text);
-  const { variants, order, measurements, warnings } = data;
+  const { variants, order, measurements } = data;
   const items: CostItem[] = [];
+
+  /**
+   * Meldingen komen in twee vormen: de Nederlandse tekst in `warnings` (die
+   * blijft de terugval en wordt door bestaande tests gecontroleerd) en een
+   * code met parameters in `codes`, zodat de UI hem in de taal van de
+   * gebruiker kan tonen (`dialogs:importWarnings.bc3.<code>`). Beide lijsten
+   * lopen index-voor-index gelijk.
+   */
+  const warnings: string[] = [];
+  const codes: ImportWarningCode[] = [];
+  const warn = (code: string, text: string, params?: ImportWarningCode['params']): void => {
+    warnings.push(text);
+    codes.push(params ? { code, params } : { code });
+  };
   let sort = 0;
 
   const add = (partial: Partial<CostItem> & { rowType: CostItem['rowType'] }): CostItem => {
@@ -347,7 +359,11 @@ export function importBc3(text: string): ImportResult {
     for (const ch of parent.children) {
       const c = resolve(ch.key);
       if (!c) {
-        warnings.push(`Onbekend concept '${ch.key}' in decompositie van '${parent.code}' — overgeslagen.`);
+        warn(
+          'unknownConceptInDecomposition',
+          `Onbekend concept '${ch.key}' in decompositie van '${parent.code}' — overgeslagen.`,
+          { concept: ch.key, parent: parent.code },
+        );
         continue;
       }
       if (isPercentageRow(c)) {
@@ -434,7 +450,10 @@ export function importBc3(text: string): ImportResult {
     if (Math.abs(unitCost) < 0.005 && Math.abs(c.price) >= 0.005) {
       items.length = first;
       post.normUnitPrice = c.price;
-      warnings.push('Eén of meer partida\'s hebben een samenstelling zonder rendementen — daar is de eenheidsprijs van het ~C-record aangehouden.');
+      warn(
+        'zeroYieldDecomposition',
+        'Eén of meer partida\'s hebben een samenstelling zonder rendementen — daar is de eenheidsprijs van het ~C-record aangehouden.',
+      );
       return;
     }
     // Prijs op het ~C-record en de som van de samenstelling horen gelijk te
@@ -449,7 +468,11 @@ export function importBc3(text: string): ImportResult {
     parent.children.forEach((ch, i) => {
       const c = resolve(ch.key);
       if (!c) {
-        warnings.push(`Onbekend concept '${ch.key}' onder '${parent.code}' — overgeslagen.`);
+        warn(
+          'unknownConceptUnder',
+          `Onbekend concept '${ch.key}' onder '${parent.code}' — overgeslagen.`,
+          { concept: ch.key, parent: parent.code },
+        );
         return;
       }
       emit(parentItem, parent.key, c, ch, [...path, i + 1], depth);
@@ -469,10 +492,16 @@ export function importBc3(text: string): ImportResult {
     // nergens als kind voorkomen. Anders: een prijzenboek zonder structuur.
     const tops = all.filter((c) => !childKeys.has(c.key) && c.children.length > 0 && !c.isRoot);
     if (tops.length > 0) {
-      warnings.push('Geen wortelstructuur (##) met samenstelling gevonden — losse takken op het hoogste niveau geïmporteerd.');
+      warn(
+        'noRootStructure',
+        'Geen wortelstructuur (##) met samenstelling gevonden — losse takken op het hoogste niveau geïmporteerd.',
+      );
       tops.forEach((c, i) => emit(null, '', c, null, [i + 1], 0));
     } else {
-      warnings.push('Geen projectstructuur (##/#) gevonden — concepten als prijzenboek onder één hoofdstuk geïmporteerd.');
+      warn(
+        'noProjectStructure',
+        'Geen projectstructuur (##/#) gevonden — concepten als prijzenboek onder één hoofdstuk geïmporteerd.',
+      );
       const chapter = add({ rowType: 'chapter', parentId: null, depth: 0, code: '01', description: 'Prijzenboek', id: genId() });
       for (const c of all) {
         if (c.isRoot) continue;
@@ -492,9 +521,12 @@ export function importBc3(text: string): ImportResult {
   }
 
   if (mismatched.length > 0) {
-    warnings.push(
+    const examples = mismatched.slice(0, 5).join(', ');
+    warn(
+      'priceMismatch',
       `Bij ${mismatched.length} partida('s) wijkt de som van de samenstelling meer dan 2% af van de eenheidsprijs op het ~C-record `
-      + `(o.a. ${mismatched.slice(0, 5).join(', ')}). De samenstelling is aangehouden.`,
+      + `(o.a. ${examples}). De samenstelling is aangehouden.`,
+      { count: mismatched.length, examples },
     );
   }
 
@@ -502,23 +534,32 @@ export function importBc3(text: string): ImportResult {
   // hoeveelheden maar zónder prijzen) levert anders zwijgend € 0 op. Zeg dat
   // erbij, anders lijkt de import mislukt.
   if (items.length > 0 && items.every((i) => (i.normUnitPrice ?? 0) === 0 && (i.unitPrice ?? 0) === 0)) {
-    warnings.push(
+    warn(
+      'noPrices',
       'Dit bestand bevat geen prijzen — alleen omschrijvingen en hoeveelheden '
       + '(zoals een mediciones-bibliotheek). Het totaal blijft daarom € 0,00.',
     );
   }
 
-  // Waarschuwingen ontdubbelen: één regel per soort probleem is genoeg.
+  // Waarschuwingen ontdubbelen: één regel per soort probleem is genoeg. De
+  // codes gaan index-voor-index mee, zodat beide lijsten gelijk blijven lopen.
   const seen = new Set<string>();
   const unique: string[] = [];
-  for (const w of warnings) {
-    if (seen.has(w)) continue;
+  const uniqueCodes: ImportWarningCode[] = [];
+  warnings.forEach((w, i) => {
+    if (seen.has(w)) return;
     seen.add(w);
     unique.push(w);
-  }
-  const capped = unique.length > 50
-    ? [...unique.slice(0, 50), `… en nog ${unique.length - 50} vergelijkbare meldingen.`]
+    uniqueCodes.push(codes[i]);
+  });
+  const MAX_WARNINGS = 50;
+  const rest = unique.length - MAX_WARNINGS;
+  const capped = rest > 0
+    ? [...unique.slice(0, MAX_WARNINGS), `… en nog ${rest} vergelijkbare meldingen.`]
     : unique;
+  const cappedCodes: ImportWarningCode[] = rest > 0
+    ? [...uniqueCodes.slice(0, MAX_WARNINGS), { code: 'moreWarnings', params: { count: rest } }]
+    : uniqueCodes;
 
   return {
     schedule: {
@@ -528,6 +569,7 @@ export function importBc3(text: string): ImportResult {
     },
     items,
     warnings: capped,
+    warningCodes: cappedCodes,
     format: 'bc3',
   };
 }
@@ -537,8 +579,8 @@ export function importBc3(text: string): ImportResult {
 /**
  * Is dit een geldige UTF-8-stroom met minstens één multibyte-teken?
  * Zo ja, dan is de kans op toeval verwaarloosbaar en is het bestand UTF-8 —
- * ook als het ~V-record iets anders beweert (Presto 22 schrijft UTF-8 maar
- * zet er "ANSI" boven).
+ * ook als het ~V-record iets anders beweert (sommige exporteurs schrijven UTF-8 maar
+ * zetten er "ANSI" boven).
  */
 function looksLikeUtf8(bytes: Uint8Array): boolean {
   let multibyte = false;

@@ -4,6 +4,15 @@
 
 #let data = json("data.json")
 
+// Rapportteksten in de rapporttaal (data.labels, platte keys uit de
+// report-namespace). Zonder labels (of bij een lege vertaling) de
+// Nederlandse tekst, zodat het sjabloon ook zonder frontend werkt.
+#let labels = data.at("labels", default: (:))
+#let L(key, nl) = {
+  let v = labels.at(key, default: nl)
+  if v == none or v == "" { nl } else { v }
+}
+
 // Page setup: dynamic size and orientation from data
 #let page-size = if data.at("page_size", default: "a4") == "a3" { "a3" } else { "a4" }
 #let is-landscape = data.at("page_orientation", default: "landscape") == "landscape"
@@ -27,13 +36,13 @@
             column-gutter: 3pt,
             row-gutter: 1.5pt,
             align: (right, left),
-            text("Volgnr.:"), text(data.project_number),
-            text("T.b.v.:"), text(data.client),
-            text("Project:"), text(data.project_name),
-            text("Auteur:"), text(data.author),
+            text(L("meta.sequenceNo", "Volgnr.") + ":"), text(data.project_number),
+            text(L("meta.forAttentionOf", "T.b.v.") + ":"), text(data.client),
+            text(L("meta.project", "Project") + ":"), text(data.project_name),
+            text(L("meta.author", "Auteur") + ":"), text(data.author),
           )
           v(2pt)
-          text(size: 10pt, weight: "bold", "Begroting")
+          text(size: 10pt, weight: "bold", L("views.budget", "Begroting"))
         },
         image("logo-right.png", width: 60pt),
       )
@@ -44,9 +53,9 @@
     set text(size: 6pt, fill: rgb("#000"), font: "Arial")
     line(length: 100%, stroke: 0.3pt + rgb("#b0b0b0"))
     v(2pt)
-    text(size: 6pt, "Op al onze offertes zijn de algemene voorwaarden van toepassing. Deze voorwaarden zijn bij dit document als bijlage bijgesloten.")
+    text(size: 6pt, L("footer.terms", "Op al onze offertes zijn de algemene voorwaarden van toepassing. Deze voorwaarden zijn bij dit document als bijlage bijgesloten."))
     linebreak()
-    text(size: 6pt, "Bouw 1 - Open Calc Studio voorbeeld huisstijl")
+    text(size: 6pt, L("footer.sampleBrand", "Bouw 1 - Open Calc Studio voorbeeld huisstijl"))
     h(1fr)
     set text(size: 7pt)
     [#counter(page).display() - #counter(page).final().at(0)]
@@ -66,7 +75,25 @@
 #let col-widths = (10fr, 10fr, 22fr, 168fr, 40fr, 18fr, 18fr, 8fr, 40fr, 34fr, 34fr, 36fr, 32fr, 36fr, 38fr, 46fr, 60fr)
 
 // Table headers
-#let headers = ("Hst", "Par", "Nr", "Omschrijving", "Aantal Eh.", "Norm", "Uren", "Tar.", "Loon", "Prijs", "Materiaal", "Materieel", "Stelpost", "Ond.aann.", "Kosten/eh", "Subtotaal", "Totaal")
+#let headers = (
+  L("columns.chapterShort", "Hst"),
+  L("columns.paragraphShort", "Par"),
+  L("columns.nr", "Nr"),
+  L("columns.description", "Omschrijving"),
+  L("columns.countUnit", "Aantal Eh."),
+  L("columns.norm", "Norm"),
+  L("columns.hours", "Uren"),
+  L("columns.rateShort", "Tar."),
+  L("columns.labour", "Loon"),
+  L("columns.price", "Prijs"),
+  L("columns.material", "Materiaal"),
+  L("columns.equipment", "Materieel"),
+  L("columns.provisionalSum", "Stelpost"),
+  L("columns.subcontract", "Ond.aann."),
+  L("columns.costPerUnit", "Kosten/eh"),
+  L("columns.subtotal", "Subtotaal"),
+  L("columns.total", "Totaal"),
+)
 
 // Right-aligned column indices (0-based): Loon(8), Prijs(9), Materiaal(10), Materieel(11), Stelpost(12), Ond.aann(13), Kosten/eh(14), Subtotaal(15), Totaal(16)
 #let right-cols = (8, 9, 10, 11, 12, 13, 14, 15, 16)
@@ -132,11 +159,22 @@
 
 // Totalen section
 #let render-totalen(totalen) = {
-  text(size: 10pt, weight: "bold", "TOTALEN")
+  text(size: 10pt, weight: "bold", L("summary.totalsTitle", "TOTALEN"))
   v(3pt)
 
   let tot-widths = (160fr, 30fr, 50fr, 50fr, 50fr, 50fr, 50fr, 50fr, 50fr, 60fr)
-  let tot-headers = ("Omschrijving", "%", "Loon", "Materiaal", "Materieel", "Stelpost", "Ond.Aann.", "Bedrag", "Post", "Totaal")
+  let tot-headers = (
+    L("columns.description", "Omschrijving"),
+    "%",
+    L("columns.labour", "Loon"),
+    L("columns.material", "Materiaal"),
+    L("columns.equipment", "Materieel"),
+    L("columns.provisionalSum", "Stelpost"),
+    L("columns.subcontract", "Ond.Aann."),
+    L("columns.amount", "Bedrag"),
+    L("columns.post", "Post"),
+    L("columns.total", "Totaal"),
+  )
 
   table(
     columns: tot-widths,
@@ -170,7 +208,7 @@
 // === Main document ===
 
 // Rapportdatum (alleen op eerste pagina, rechtsboven in body)
-#align(right)[#text(size: 7pt, weight: "bold")[Datum: #data.at("report_date", default: "")]]
+#align(right)[#text(size: 7pt, weight: "bold")[#(L("meta.date", "Datum") + ":") #data.at("report_date", default: "")]]
 #v(2pt)
 
 // Chapters

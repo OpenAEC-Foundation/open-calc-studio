@@ -58,16 +58,19 @@ fn today_str() -> String {
     format!("{:04}", y)
 }
 
-fn view_title(view: &str) -> &str {
-    match view {
-        "werkbeschrijving" => "Werkbeschrijving",
-        "hoofdaanneming" => "Hoofdaanneming",
-        "onderaanneming" => "Onderaanneming",
-        "inschrijfstaat" => "Inschrijfstaat",
-        "nacalculatie" => "Nacalculatie",
-        "bouw1" => "Bouw 1 begroting",
-        "ibis" => "IBIS-stijl begroting",
-        _ => "Rapport",
+/// Titel van de rapportview in de rapporttaal (Nederlands zonder labels).
+fn view_title(request: &ReportRequest) -> &str {
+    match request.report_view.as_str() {
+        "werkbeschrijving" => request.lbl("views.werkbeschrijving", "Werkbeschrijving"),
+        "hoofdaanneming" => request.lbl("views.hoofdaanneming", "Hoofdaanneming"),
+        "onderaanneming" => request.lbl("views.onderaanneming", "Onderaanneming"),
+        "inschrijfstaat" => request.lbl("views.inschrijfstaat", "Inschrijfstaat"),
+        "nacalculatie" => request.lbl("views.nacalculatie", "Nacalculatie"),
+        // bouw1/ibis lopen via de Typst-sjablonen (zie generate_bytes) en
+        // komen hier in de praktijk niet langs.
+        "bouw1" => request.lbl("views.bouw1", "Bouw 1 begroting"),
+        "ibis" => request.lbl("views.bouw2", "IBIS-stijl begroting"),
+        _ => request.lbl("views.report", "Rapport"),
     }
 }
 
@@ -75,6 +78,9 @@ fn view_title(view: &str) -> &str {
 
 struct Col {
     key: &'static str,
+    /// Key in de `report`-namespace voor de kolomkop.
+    label_key: &'static str,
+    /// Nederlandse kolomkop (standaard zonder labels).
     label: &'static str,
     width_mm: f64,
 }
@@ -84,26 +90,26 @@ fn get_columns(view: &str, show_hoeveelheid: bool) -> Vec<Col> {
     let cols: Vec<Col> = match view {
         // Besteksopmaak: smalle codekolom, brede omschrijving (ook op staand A4)
         "werkbeschrijving" => vec![
-            Col { key: "code", label: "Code", width_mm: 18.0 },
-            Col { key: "description", label: "Omschrijving", width_mm: 0.0 },
-            Col { key: "quantity", label: "Hoeveelheid", width_mm: 22.0 },
-            Col { key: "unit", label: "Eh.", width_mm: 12.0 },
-            Col { key: "verrekenbaar", label: "S", width_mm: 8.0 },
+            Col { key: "code", label_key: "columns.code", label: "Code", width_mm: 18.0 },
+            Col { key: "description", label_key: "columns.description", label: "Omschrijving", width_mm: 0.0 },
+            Col { key: "quantity", label_key: "columns.quantity", label: "Hoeveelheid", width_mm: 22.0 },
+            Col { key: "unit", label_key: "columns.unitShort", label: "Eh.", width_mm: 12.0 },
+            Col { key: "verrekenbaar", label_key: "columns.verrekenbaarS", label: "S", width_mm: 8.0 },
         ],
         "hoofdaanneming" => vec![
-            Col { key: "code", label: "Code", width_mm: 18.0 },
-            Col { key: "description", label: "Omschrijving", width_mm: 0.0 },
-            Col { key: "quantity", label: "Hoeveelheid", width_mm: 20.0 },
-            Col { key: "unit", label: "Eh.", width_mm: 12.0 },
-            Col { key: "verrekenbaar", label: "S", width_mm: 8.0 },
-            Col { key: "unitPrice", label: "Eh. Prijs", width_mm: 24.0 },
-            Col { key: "total", label: "Bedrag", width_mm: 26.0 },
+            Col { key: "code", label_key: "columns.code", label: "Code", width_mm: 18.0 },
+            Col { key: "description", label_key: "columns.description", label: "Omschrijving", width_mm: 0.0 },
+            Col { key: "quantity", label_key: "columns.quantity", label: "Hoeveelheid", width_mm: 20.0 },
+            Col { key: "unit", label_key: "columns.unitShort", label: "Eh.", width_mm: 12.0 },
+            Col { key: "verrekenbaar", label_key: "columns.verrekenbaarS", label: "S", width_mm: 8.0 },
+            Col { key: "unitPrice", label_key: "columns.unitPriceShort", label: "Eh. Prijs", width_mm: 24.0 },
+            Col { key: "total", label_key: "columns.amount", label: "Bedrag", width_mm: 26.0 },
         ],
         "onderaanneming" => vec![
-            Col { key: "nr", label: "Nr", width_mm: 30.0 },
-            Col { key: "code", label: "Code", width_mm: 45.0 },
-            Col { key: "description", label: "Omschrijving", width_mm: 0.0 },
-            Col { key: "total", label: "Bedrag", width_mm: 35.0 },
+            Col { key: "nr", label_key: "columns.nr", label: "Nr", width_mm: 30.0 },
+            Col { key: "code", label_key: "columns.code", label: "Code", width_mm: 45.0 },
+            Col { key: "description", label_key: "columns.description", label: "Omschrijving", width_mm: 0.0 },
+            Col { key: "total", label_key: "columns.amount", label: "Bedrag", width_mm: 35.0 },
         ],
         // Inschrijfstaat: de klassieke besteksvolgorde — bestekspostnummer,
         // omschrijving, eenheid, hoeveelheid, verrekenbaarheid, prijs, bedrag.
@@ -114,27 +120,27 @@ fn get_columns(view: &str, show_hoeveelheid: bool) -> Vec<Col> {
         // over en de tekst werd dwars over de hoeveelheid- en eenheidkolom
         // getekend.
         "inschrijfstaat" => vec![
-            Col { key: "code", label: "Bestekspost", width_mm: 20.0 },
-            Col { key: "description", label: "Omschrijving", width_mm: 0.0 },
-            Col { key: "unit", label: "Eh.", width_mm: 12.0 },
-            Col { key: "quantity", label: "Hoeveelheid", width_mm: 20.0 },
-            Col { key: "verrekenbaar", label: "S", width_mm: 8.0 },
-            Col { key: "unitPrice", label: "Prijs per eh.", width_mm: 24.0 },
-            Col { key: "total", label: "Totaal bedrag", width_mm: 26.0 },
+            Col { key: "code", label_key: "columns.specItem", label: "Bestekspost", width_mm: 20.0 },
+            Col { key: "description", label_key: "columns.description", label: "Omschrijving", width_mm: 0.0 },
+            Col { key: "unit", label_key: "columns.unitShort", label: "Eh.", width_mm: 12.0 },
+            Col { key: "quantity", label_key: "columns.quantity", label: "Hoeveelheid", width_mm: 20.0 },
+            Col { key: "verrekenbaar", label_key: "columns.verrekenbaarS", label: "S", width_mm: 8.0 },
+            Col { key: "unitPrice", label_key: "columns.pricePerUnit", label: "Prijs per eh.", width_mm: 24.0 },
+            Col { key: "total", label_key: "columns.totalAmount", label: "Totaal bedrag", width_mm: 26.0 },
         ],
         "nacalculatie" => vec![
-            Col { key: "nr", label: "Nr", width_mm: 25.0 },
-            Col { key: "code", label: "Code", width_mm: 40.0 },
-            Col { key: "description", label: "Omschrijving", width_mm: 0.0 },
-            Col { key: "quantity", label: "Hoeveelheid", width_mm: 25.0 },
-            Col { key: "unit", label: "Eenheid", width_mm: 20.0 },
-            Col { key: "normUnitPrice", label: "Prijs/middel", width_mm: 28.0 },
-            Col { key: "unitPrice", label: "Eenheidsprijs", width_mm: 30.0 },
-            Col { key: "total", label: "Bedrag", width_mm: 35.0 },
+            Col { key: "nr", label_key: "columns.nr", label: "Nr", width_mm: 25.0 },
+            Col { key: "code", label_key: "columns.code", label: "Code", width_mm: 40.0 },
+            Col { key: "description", label_key: "columns.description", label: "Omschrijving", width_mm: 0.0 },
+            Col { key: "quantity", label_key: "columns.quantity", label: "Hoeveelheid", width_mm: 25.0 },
+            Col { key: "unit", label_key: "columns.unit", label: "Eenheid", width_mm: 20.0 },
+            Col { key: "normUnitPrice", label_key: "columns.pricePerResource", label: "Prijs/middel", width_mm: 28.0 },
+            Col { key: "unitPrice", label_key: "columns.unitPrice", label: "Eenheidsprijs", width_mm: 30.0 },
+            Col { key: "total", label_key: "columns.amount", label: "Bedrag", width_mm: 35.0 },
         ],
         _ => vec![
-            Col { key: "description", label: "Omschrijving", width_mm: 0.0 },
-            Col { key: "total", label: "Totaal", width_mm: 35.0 },
+            Col { key: "description", label_key: "columns.description", label: "Omschrijving", width_mm: 0.0 },
+            Col { key: "total", label_key: "columns.total", label: "Totaal", width_mm: 35.0 },
         ],
     };
     if !show_hoeveelheid {
@@ -217,13 +223,13 @@ fn indent_for(depth: u32) -> String {
     "  ".repeat(depth as usize)
 }
 
-fn get_cell_value(item: &CostItem, key: &str) -> String {
+fn get_cell_value(request: &ReportRequest, item: &CostItem, key: &str) -> String {
     match key {
         "nr" => item.nr.clone().unwrap_or_default(),
         "code" => item.code.clone(),
         "description" => item.description.clone(),
         "quantity" => fmt_number(item.quantity),
-        "unit" => item.unit.clone().unwrap_or_default(),
+        "unit" => request.unit(item.unit.as_deref().unwrap_or("")),
         // V/N/… per regel — ook op posten (S-kolom in de besteksopmaak)
         "verrekenbaar" => item.verrekenbaar.clone().unwrap_or_default(),
         "normUnitPrice" => fmt_number(item.norm_unit_price),
@@ -271,6 +277,8 @@ struct ReportPageCallback {
     header_height_mm: f32,
     /// Kleur van de accentlijn.
     header_line_color: Color,
+    /// Paginanummer-sjabloon in de rapporttaal ("Pagina {{page}} / {{total}}").
+    page_template: String,
 }
 
 impl PageCallback for ReportPageCallback {
@@ -343,7 +351,10 @@ impl PageCallback for ReportPageCallback {
         draw_list.draw_text(margin, footer_text_y, &self.company_name);
 
         // Page number (bottom right)
-        let page_text = format!("Pagina {} / {}", page_num, total_pages);
+        let page_text = self
+            .page_template
+            .replace("{{page}}", &page_num.to_string())
+            .replace("{{total}}", &total_pages.to_string());
         draw_list.draw_text_right(right_edge, footer_text_y, &page_text);
     }
 }
@@ -511,18 +522,19 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
 
     let callback = ReportPageCallback {
         project_name: request.schedule.project_name.clone(),
-        report_title: view_title(&request.report_view).to_string(),
+        report_title: view_title(request).to_string(),
         company_name,
         logo_right,
         header_height_mm,
         header_line_color,
+        page_template: request.lbl("footer.page", "Pagina {{page}} / {{total}}").to_string(),
     };
 
     let template = PageTemplate::new("content", page, frame)
         .with_callback(Box::new(callback));
 
     let mut doc = DocTemplate::new(
-        format!("{} - {}", request.schedule.project_name, view_title(&request.report_view)),
+        format!("{} - {}", request.schedule.project_name, view_title(request)),
         fonts.clone(),
     );
     doc.add_page_template(template);
@@ -552,7 +564,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
             ..Default::default()
         };
         flowables.push(Box::new(Paragraph::new(
-            view_title(&request.report_view),
+            view_title(request),
             subtitle_style.clone(),
         )));
         flowables.push(Box::new(Paragraph::new(
@@ -598,7 +610,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
     };
 
     // Build headers
-    let headers: Vec<String> = columns.iter().map(|c| c.label.to_string()).collect();
+    let headers: Vec<String> = columns.iter().map(|c| request.lbl(c.label_key, c.label).to_string()).collect();
 
     // Calculate column widths in mm
     let content_width_mm: f64 = match request.page_orientation.as_str() {
@@ -646,7 +658,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
                         verr_of.get(item.id.as_str()).cloned().unwrap_or_default()
                     }
                     "verrekenbaar" => String::new(),
-                    key => get_cell_value(item, key),
+                    key => get_cell_value(request, item, key),
                 })
                 .collect()
         })
@@ -656,7 +668,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
     let title_text = format!(
         "{} — {}",
         request.schedule.project_name,
-        view_title(&request.report_view),
+        view_title(request),
     );
     flowables.push(Box::new(Paragraph::new(&title_text, ParagraphStyle {
         font_size: Pt(12.0),
@@ -668,9 +680,9 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
 
     // Metadata line
     let meta_parts: Vec<String> = [
-        (!request.schedule.project_number.is_empty()).then(|| format!("Projectnummer: {}", request.schedule.project_number)),
-        (!request.schedule.client.is_empty()).then(|| format!("Opdrachtgever: {}", request.schedule.client)),
-        (!request.schedule.author.is_empty()).then(|| format!("Auteur: {}", request.schedule.author)),
+        (!request.schedule.project_number.is_empty()).then(|| format!("{}: {}", request.lbl("meta.projectNumber", "Projectnummer"), request.schedule.project_number)),
+        (!request.schedule.client.is_empty()).then(|| format!("{}: {}", request.lbl("meta.client", "Opdrachtgever"), request.schedule.client)),
+        (!request.schedule.author.is_empty()).then(|| format!("{}: {}", request.lbl("meta.author", "Auteur"), request.schedule.author)),
     ].into_iter().flatten().collect();
 
     if !meta_parts.is_empty() {
@@ -684,7 +696,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
     }
 
     if rows.is_empty() {
-        flowables.push(Box::new(Paragraph::plain("Geen items gevonden voor deze rapportage view.")));
+        flowables.push(Box::new(Paragraph::plain(request.lbl("headings.noItems", "Geen items gevonden voor deze rapportage view."))));
     }
 
     // ── Build table(s) with view-specific logic ──
@@ -755,6 +767,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
         let desc_idx = columns.iter().position(|c| c.key == "description").unwrap_or(1);
         let total_idx = columns.iter().position(|c| c.key == "total");
         let n_cols = columns.len();
+        let subtotal_label = request.lbl("totals.subtotal", "Subtotaal");
 
         let mut body_rows: Vec<Vec<String>> = Vec::new();
         let mut overrides: Vec<Option<RowOverride>> = Vec::new();
@@ -768,7 +781,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
                 return;
             }
             let mut r = vec![String::new(); n_cols];
-            r[desc_idx] = format!("{}Subtotaal", indent_for(1));
+            r[desc_idx] = format!("{}{}", indent_for(1), subtotal_label);
             if let Some(t) = total_idx {
                 r[t] = fmt_bedrag(sum);
             }
@@ -803,7 +816,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
                         "total" => fmt_bedrag(item.total),
                         // S-kolom (V/N) alleen op posten, niet op hoofdstukken
                         "verrekenbaar" => String::new(),
-                        key => get_cell_value(item, key),
+                        key => get_cell_value(request, item, key),
                     })
                     .collect();
                 body_rows.push(row);
@@ -827,7 +840,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
                             verr_of.get(item.id.as_str()).cloned().unwrap_or_default()
                         }
                         "verrekenbaar" => String::new(),
-                        key => get_cell_value(item, key),
+                        key => get_cell_value(request, item, key),
                     })
                     .collect();
                 body_rows.push(row);
@@ -881,7 +894,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
             .sum();
 
         flowables.push(Box::new(Paragraph::new(
-            &format!("Subtotaal directe kosten (Kostprijs): {}", fmt_currency(kostprijs)),
+            &format!("{}: {}", request.lbl("totals.directCosts", "Subtotaal directe kosten (Kostprijs)"), fmt_currency(kostprijs)),
             ParagraphStyle {
                 font_size: Pt(8.0),
                 leading: Pt(11.0),
@@ -926,7 +939,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
         let aanneemsom_incl = aanneemsom_excl + btw_amount;
         flowables.push(Box::new(Spacer::from_mm(2.0)));
         flowables.push(Box::new(Paragraph::new(
-            &format!("Aanneemsom excl. BTW: {}", fmt_currency(aanneemsom_excl)),
+            &format!("{}: {}", request.lbl("totals.contractSumExclVat", "Aanneemsom excl. BTW"), fmt_currency(aanneemsom_excl)),
             ParagraphStyle {
                 font_size: Pt(9.0),
                 leading: Pt(12.0),
@@ -942,7 +955,11 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
                     .and_then(|i| i.staart_percentage)
                     .unwrap_or(9.0);
                 flowables.push(Box::new(Paragraph::new(
-                    &format!("BTW laag {:.0}%: {}", laag_pct, fmt_currency(btw_laag)),
+                    &format!(
+                        "{}: {}",
+                        request.lbl_fmt("totals.vatLowPct", "BTW laag {{pct}}%", &[("pct", &format!("{:.0}", laag_pct))]),
+                        fmt_currency(btw_laag)
+                    ),
                     ParagraphStyle {
                         font_size: Pt(8.0),
                         leading: Pt(11.0),
@@ -956,7 +973,11 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
                 .and_then(|i| i.staart_percentage)
                 .unwrap_or(21.0);
             flowables.push(Box::new(Paragraph::new(
-                &format!("BTW {:.0}%: {}", hoog_pct, fmt_currency(btw_hoog)),
+                &format!(
+                    "{}: {}",
+                    request.lbl_fmt("totals.vatPct", "BTW {{pct}}%", &[("pct", &format!("{:.0}", hoog_pct))]),
+                    fmt_currency(btw_hoog)
+                ),
                 ParagraphStyle {
                     font_size: Pt(8.0),
                     leading: Pt(11.0),
@@ -965,7 +986,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
                 },
             )));
             flowables.push(Box::new(Paragraph::new(
-                &format!("Totaal incl. BTW: {}", fmt_currency(aanneemsom_incl)),
+                &format!("{}: {}", request.lbl("totals.totalInclVat", "Totaal incl. BTW"), fmt_currency(aanneemsom_incl)),
                 ParagraphStyle {
                     font_size: Pt(9.0),
                     leading: Pt(12.0),
@@ -985,7 +1006,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
         if grand_total != 0.0 {
             flowables.push(Box::new(Spacer::from_mm(4.0)));
             flowables.push(Box::new(Paragraph::new(
-                &format!("Totaal excl. BTW: {}", fmt_currency(grand_total)),
+                &format!("{}: {}", request.lbl("totals.totalExclVat", "Totaal excl. BTW"), fmt_currency(grand_total)),
                 ParagraphStyle {
                     font_size: Pt(9.0),
                     leading: Pt(12.0),
@@ -1003,4 +1024,61 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
 pub fn generate(request: &ReportRequest, output_path: &str) -> Result<(), String> {
     let pdf_bytes = generate_bytes(request)?;
     std::fs::write(Path::new(output_path), pdf_bytes).map_err(|e| e.to_string())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn request(view: &str, labels: serde_json::Value) -> ReportRequest {
+        serde_json::from_value(serde_json::json!({
+            "schedule": { "name": "Test", "projectName": "Testproject", "client": "Gemeente" },
+            "items": [
+                { "id": "ch1", "code": "1", "description": "GRONDWERK", "rowType": "chapter",
+                  "depth": 0, "parentId": null, "total": 800.0 },
+                { "id": "p1", "code": "100010", "description": "graven", "rowType": "begrotingspost",
+                  "depth": 1, "parentId": "ch1", "quantity": 10.0, "unit": "uur",
+                  "unitPrice": 80.0, "total": 800.0 }
+            ],
+            "reportView": view,
+            "labels": labels,
+        }))
+        .expect("ReportRequest parsen")
+    }
+
+    #[test]
+    fn kolomkoppen_titels_en_eenheden_volgen_labels() {
+        let nl = request("inschrijfstaat", serde_json::json!({}));
+        assert_eq!(view_title(&nl), "Inschrijfstaat");
+        let cols = get_columns("inschrijfstaat", true);
+        let heads: Vec<&str> = cols.iter().map(|c| nl.lbl(c.label_key, c.label)).collect();
+        assert!(heads.contains(&"Omschrijving") && heads.contains(&"Bestekspost"));
+        assert_eq!(get_cell_value(&nl, &nl.items[1], "unit"), "uur");
+
+        let en = request("inschrijfstaat", serde_json::json!({
+            "views.inschrijfstaat": "Tender schedule",
+            "columns.description": "Description",
+            "columns.specItem": "Spec. item",
+            "units.uur": "h"
+        }));
+        assert_eq!(view_title(&en), "Tender schedule");
+        let heads: Vec<&str> = cols.iter().map(|c| en.lbl(c.label_key, c.label)).collect();
+        assert!(heads.contains(&"Description") && heads.contains(&"Spec. item"));
+        // Niet-vertaalde keys vallen terug op Nederlands
+        assert!(heads.contains(&"Hoeveelheid"));
+        assert_eq!(get_cell_value(&en, &en.items[1], "unit"), "h");
+    }
+
+    #[test]
+    fn pdf_met_labels_wordt_gegenereerd() {
+        let labels = serde_json::json!({
+            "footer.page": "Page {{page}} of {{total}}",
+            "totals.totalExclVat": "Total excl. VAT",
+            "totals.subtotal": "Subtotal"
+        });
+        for view in ["hoofdaanneming", "werkbeschrijving", "nacalculatie"] {
+            let pdf = generate_bytes(&request(view, labels.clone())).expect("PDF");
+            assert_eq!(&pdf[0..4], b"%PDF");
+        }
+    }
 }

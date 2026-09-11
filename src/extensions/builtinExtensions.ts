@@ -206,6 +206,8 @@ export function registerBuiltinExtensions(): void {
         schedule: result.schedule,
         items: recalculateItems(result.items),
         companyInfo: result.companyInfo,
+        warnings: result.warnings,
+        format: result.format,
       };
     },
   });
@@ -268,6 +270,7 @@ export function registerBuiltinExtensions(): void {
       return {
         schedule: result.schedule,
         items: recalculateItems(result.items, result.schedule.tarieven),
+        warnings: result.warnings,
       };
     },
   });
@@ -293,6 +296,7 @@ export function registerBuiltinExtensions(): void {
       return {
         schedule: result.schedule,
         items: recalculateItems(result.items),
+        warnings: result.warnings,
       };
     },
   });
@@ -318,6 +322,10 @@ export function registerBuiltinExtensions(): void {
       return {
         schedule: result.schedule,
         items: recalculateItems(result.items),
+        // Meldingen (o.a. "geen prijzen") + vertaalbare codes naar de UI.
+        warnings: result.warnings,
+        warningCodes: result.warningCodes,
+        format: result.format,
       };
     },
   });

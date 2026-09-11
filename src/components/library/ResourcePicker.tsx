@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import type { ResourceLibraryItem, ResourceType } from '@/types/costModel';
 import { formatCurrency } from '@/utils/formatting';
+import { formatUnit } from '@/i18n/formatUnit';
 import '../panels/panels.css';
 
 const RESOURCE_TYPE_COLORS: Record<ResourceType, string> = {
@@ -195,7 +196,7 @@ export const ResourcePicker: React.FC = () => {
                     {t(`dialogs:resourceTypes.${item.resourceType}`)}
                   </span>
                 </span>
-                <span className="rp-col-unit">{item.unit}</span>
+                <span className="rp-col-unit">{formatUnit(item.unit, t)}</span>
                 <span className="rp-col-price">
                   {item.defaultUnitPrice !== null ? formatCurrency(item.defaultUnitPrice) : '-'}
                 </span>

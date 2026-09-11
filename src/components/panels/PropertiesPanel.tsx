@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { formatCurrency, formatNumber } from '@/utils/formatting';
 import { isFooterRow } from '@/services/grid/gridRows';
+import { formatUnit } from '@/i18n/formatUnit';
 import { BranchTreeEditor } from './BranchTreeEditor';
 import type { FieldChange } from '@/types/costModel';
 import './panels.css';
@@ -49,6 +50,9 @@ const ItemHistoryView: React.FC<{ history?: FieldChange[] }> = ({ history }) => 
   const { t } = useTranslation();
   const [open, setOpen] = useState(true);
   const fieldLabel = (f: string) => (FIELD_KEYS.has(f) ? t(`propertiesPanel.fields.${f}`) : f);
+  // Eenheden staan als code in de historie ('uur', 'st'); toon ze vertaald.
+  const fmtVal = (field: string, v: string | number | boolean | null): string =>
+    field === 'unit' && typeof v === 'string' && v !== '' ? formatUnit(v, t) : fmtHistVal(v);
 
   if (!history || history.length === 0) {
     return (
@@ -83,9 +87,9 @@ const ItemHistoryView: React.FC<{ history?: FieldChange[] }> = ({ history }) => 
                 <span style={{ color: 'var(--theme-text-secondary)', whiteSpace: 'nowrap' }}>{fmtHistDate(e.timestamp)}</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-                <span style={{ textDecoration: 'line-through', color: 'var(--theme-text-secondary)' }}>{fmtHistVal(e.oldValue)}</span>
+                <span style={{ textDecoration: 'line-through', color: 'var(--theme-text-secondary)' }}>{fmtVal(e.field, e.oldValue)}</span>
                 <span style={{ color: 'var(--theme-text-secondary)' }}>→</span>
-                <span style={{ color: 'var(--theme-editable-text, var(--theme-text))', fontWeight: 500 }}>{fmtHistVal(e.newValue)}</span>
+                <span style={{ color: 'var(--theme-editable-text, var(--theme-text))', fontWeight: 500 }}>{fmtVal(e.field, e.newValue)}</span>
               </div>
               <div style={{ color: 'var(--theme-text-secondary)', fontSize: 10 }}>
                 <span title={t('propertiesPanel.windowsUser')}>👤 {e.user}</span>

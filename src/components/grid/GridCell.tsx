@@ -6,6 +6,7 @@ import { isContainerRowType } from '@/types/costModel';
 import { formatNumber, formatCurrency } from '@/utils/formatting';
 import { isCellEditable } from './gridConstants';
 import { useAppStore } from '@/state/appStore';
+import { formatUnit } from '@/i18n/formatUnit';
 
 interface Props {
   item: CostItem;
@@ -152,7 +153,8 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
         return '';
       }
       case 'unit':
-        return (isBgr || isBwk || isRegel || rt === 'tekstregel') ? String(item.unit ?? '') : '';
+        // Opslag blijft de code ('uur', 'st', …); alleen de weergave is vertaald.
+        return (isBgr || isBwk || isRegel || rt === 'tekstregel') ? formatUnit(item.unit, t) : '';
       case 'verrekenbaar':
         return rt === 'chapter' ? (item.verrekenbaar ?? '') : '';
       case 'normUnitPrice': {

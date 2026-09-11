@@ -52,6 +52,9 @@ struct IbisReportData {
     /// Of gewijzigde regels in de PDF gemarkeerd worden.
     #[serde(default)]
     report_show_changes: bool,
+    /// Rapportteksten in de rapporttaal (platte keys); het sjabloon valt per
+    /// key terug op de Nederlandse tekst.
+    labels: std::collections::HashMap<String, String>,
 }
 
 #[derive(serde::Serialize)]
@@ -162,9 +165,9 @@ fn compute_parent_breakdown(parent_id: &str, all_items: &[&CostItem]) -> Resourc
 }
 
 /// IBIS Stabucode: the original code as-is (e.g. "00", "0001", "1032").
-fn build_ibis_row(item: &CostItem, level: u8, all_items: &[&CostItem]) -> IbisRow {
+fn build_ibis_row(request: &ReportRequest, item: &CostItem, level: u8, all_items: &[&CostItem]) -> IbisRow {
     let qty_s = item.quantity.map(|q| fmt_number(Some(q))).unwrap_or_default();
-    let unit = item.unit.clone().unwrap_or_default();
+    let unit = request.unit(item.unit.as_deref().unwrap_or(""));
 
     let price_s = if item.unit_price != 0.0 { fmt_currency(item.unit_price) } else { String::new() };
     let total_s = if item.total != 0.0 { fmt_currency(item.total) } else { String::new() };
@@ -274,7 +277,7 @@ fn build_ibis_data(request: &ReportRequest) -> IbisReportData {
                 "begrotingspost" | "bewakingspost" => 1,
                 _ => 2,
             };
-            let mut row = build_ibis_row(item, level, &visible);
+            let mut row = build_ibis_row(request, item, level, &visible);
             row.changed = show_changes && item.changed_since(&since);
             ch_rows.push(row);
         }
@@ -310,8 +313,13 @@ fn build_ibis_data(request: &ReportRequest) -> IbisReportData {
         page_size: String::new(),
         page_orientation: String::new(),
         style: if is_directie { "directie".into() } else { "ibis".into() },
-        report_title: if is_directie { "Bouwkundige directiebegroting".into() } else { String::new() },
+        report_title: if is_directie {
+            request.lbl("views.directieTitle", "Bouwkundige directiebegroting").into()
+        } else {
+            String::new()
+        },
         report_show_changes: show_changes,
+        labels: request.labels.clone(),
     }
 }
 
@@ -349,7 +357,7 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
     // @ Alle kosten
     rows.push(IbisTotalenRow {
         symbol: "@".into(),
-        label: "Alle kosten".into(),
+        label: request.lbl("staart.allCosts", "Alle kosten").into(),
         percentage: String::new(),
         bedrag: String::new(),
         post: String::new(),
@@ -412,7 +420,7 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
     let transport = cumulative;
     rows.push(IbisTotalenRow {
         symbol: "+".into(),
-        label: "(Transport)".into(),
+        label: request.lbl("staart.transport", "(Transport)").into(),
         percentage: String::new(),
         bedrag: String::new(),
         post: String::new(),
@@ -425,7 +433,7 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
         cumulative += af.total;
         rows.push(IbisTotalenRow {
             symbol: "$".into(),
-            label: "Afronding".into(),
+            label: request.lbl("staart.rounding", "Afronding").into(),
             percentage: String::new(),
             bedrag: String::new(),
             post: fmt_currency(af.total),
@@ -438,7 +446,7 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
     let excl_btw = cumulative;
     rows.push(IbisTotalenRow {
         symbol: "*".into(),
-        label: "Totaal excl BTW".into(),
+        label: request.lbl("staart.totalExclVat", "Totaal excl BTW").into(),
         percentage: String::new(),
         bedrag: String::new(),
         post: String::new(),
@@ -497,7 +505,11 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
 
         rows.push(IbisTotalenRow {
             symbol: g_sym.into(),
-            label: if kind.is_empty() { "Grondslag BTW".into() } else { format!("Grondslag BTW {}", kind) },
+            label: match kind {
+                "hoog" => request.lbl("staart.vatBaseHigh", "Grondslag BTW hoog").into(),
+                "laag" => request.lbl("staart.vatBaseLow", "Grondslag BTW laag").into(),
+                _ => request.lbl("staart.vatBase", "Grondslag BTW").into(),
+            },
             percentage: pct_str,
             bedrag: fmt_currency(grondslag),
             post: String::new(),
@@ -506,7 +518,11 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
         });
         rows.push(IbisTotalenRow {
             symbol: b_sym.into(),
-            label: if kind.is_empty() { clean_label(&bi.description) } else { format!("BTW {}", kind) },
+            label: match kind {
+                "hoog" => request.lbl("staart.vatHigh", "BTW hoog").into(),
+                "laag" => request.lbl("staart.vatLow", "BTW laag").into(),
+                _ => clean_label(&bi.description),
+            },
             percentage: String::new(),
             bedrag: String::new(),
             post: fmt_currency(btw_amt),
@@ -518,7 +534,7 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
     // BT Totaal BTW
     rows.push(IbisTotalenRow {
         symbol: "BT".into(),
-        label: "Totaal BTW".into(),
+        label: request.lbl("staart.totalVat", "Totaal BTW").into(),
         percentage: String::new(),
         bedrag: String::new(),
         post: fmt_currency(total_btw),
@@ -530,7 +546,7 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
     let incl_btw = excl_btw + total_btw;
     rows.push(IbisTotalenRow {
         symbol: "*".into(),
-        label: "Totaal incl BTW".into(),
+        label: request.lbl("staart.totalInclVat", "Totaal incl BTW").into(),
         percentage: String::new(),
         bedrag: String::new(),
         post: String::new(),
@@ -620,4 +636,83 @@ pub fn generate_ibis_typst(request: &ReportRequest) -> Result<Vec<u8>, String> {
         .map_err(|errs| format!("Typst PDF errors: {:?}", errs))?;
 
     Ok(pdf)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn request(view: &str, labels: serde_json::Value) -> ReportRequest {
+        serde_json::from_value(serde_json::json!({
+            "schedule": { "name": "Test", "projectName": "Testproject" },
+            "items": [
+                { "id": "ch1", "code": "10", "description": "GRONDWERK", "rowType": "chapter",
+                  "depth": 0, "parentId": null, "total": 800.0 },
+                { "id": "r1", "code": "1000", "description": "graven", "rowType": "regel",
+                  "depth": 1, "parentId": "ch1", "quantity": 10.0, "unit": "uur",
+                  "unitPrice": 80.0, "total": 800.0, "resourceType": "arbeid" },
+                { "id": "s1", "code": "", "description": "Algemene kosten:", "rowType": "staart_ak",
+                  "depth": 0, "parentId": null, "staartPercentage": 6.0, "total": 48.0 },
+                { "id": "s2", "code": "", "description": "Btw hoog:", "rowType": "staart_btw",
+                  "depth": 0, "parentId": null, "staartPercentage": 21.0, "total": 178.08 }
+            ],
+            "reportView": view,
+            "labels": labels,
+        }))
+        .expect("ReportRequest parsen")
+    }
+
+    fn en_labels() -> serde_json::Value {
+        serde_json::json!({
+            "staart.allCosts": "All costs",
+            "staart.transport": "(Carried forward)",
+            "staart.totalExclVat": "Total excl. VAT",
+            "staart.vatBaseHigh": "VAT base high",
+            "staart.vatHigh": "VAT high",
+            "staart.totalVat": "Total VAT",
+            "staart.totalInclVat": "Total incl. VAT",
+            "staart.title": "Markups",
+            "views.directieTitle": "Client budget estimate",
+            "columns.description": "Description",
+            "footer.pageOf": "Page: {{page}} of {{total}}",
+            "units.uur": "h"
+        })
+    }
+
+    fn totalen_labels(data: &IbisReportData) -> Vec<String> {
+        data.totalen.as_ref().unwrap().rows.iter().map(|r| r.label.clone()).collect()
+    }
+
+    #[test]
+    fn zonder_labels_nederlands() {
+        let data = build_ibis_data(&request("directie", serde_json::json!({})));
+        let labels = totalen_labels(&data);
+        assert!(labels.iter().any(|l| l == "Alle kosten"), "{:?}", labels);
+        assert!(labels.iter().any(|l| l == "Grondslag BTW hoog"), "{:?}", labels);
+        assert!(labels.iter().any(|l| l == "Totaal incl BTW"), "{:?}", labels);
+        assert_eq!(data.report_title, "Bouwkundige directiebegroting");
+        assert_eq!(data.chapters[0].rows[0].eh, "uur");
+    }
+
+    #[test]
+    fn labels_vertalen_staart_titel_en_eenheden() {
+        let data = build_ibis_data(&request("directie", en_labels()));
+        let labels = totalen_labels(&data);
+        assert!(labels.iter().any(|l| l == "All costs"), "{:?}", labels);
+        assert!(labels.iter().any(|l| l == "VAT base high"), "{:?}", labels);
+        assert!(labels.iter().any(|l| l == "Total incl. VAT"), "{:?}", labels);
+        // Staartomschrijvingen zijn gebruikersdata en blijven zoals ingevoerd
+        assert!(labels.iter().any(|l| l == "Algemene kosten"), "{:?}", labels);
+        assert_eq!(data.report_title, "Client budget estimate");
+        assert_eq!(data.chapters[0].rows[0].eh, "h");
+        assert_eq!(data.labels.get("columns.description").map(String::as_str), Some("Description"));
+    }
+
+    #[test]
+    fn sjabloon_compileert_met_en_zonder_labels() {
+        for labels in [serde_json::json!({}), en_labels()] {
+            let pdf = generate_ibis_typst(&request("ibis", labels)).expect("Typst-compilatie");
+            assert_eq!(&pdf[0..4], b"%PDF");
+        }
+    }
 }

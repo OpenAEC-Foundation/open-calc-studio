@@ -116,6 +116,12 @@ export interface ImportResult {
   schedule: any;
   items: any[];
   companyInfo?: any;
+  /** Meldingen van de importer; worden na de import aan de gebruiker getoond. */
+  warnings?: string[];
+  /** Optioneel, parallel aan `warnings`: vertaalbare codes (zie services/importers/types). */
+  warningCodes?: { code: string; params?: Record<string, string | number> }[];
+  /** Formaat-aanduiding ('bc3', …); bepaalt de vertaalsleutels van `warningCodes`. */
+  format?: string;
 }
 
 // ── UI Registration Types ──

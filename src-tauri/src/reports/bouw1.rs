@@ -35,6 +35,9 @@ struct Bouw1ReportData {
     page_size: String,
     #[serde(default)]
     page_orientation: String,
+    /// Rapportteksten in de rapporttaal (platte keys); het sjabloon valt per
+    /// key terug op de Nederlandse tekst.
+    labels: std::collections::HashMap<String, String>,
 }
 
 #[derive(serde::Serialize)]
@@ -154,7 +157,7 @@ fn compute_parent_breakdown(parent_id: &str, all_items: &[&CostItem]) -> Resourc
     bd
 }
 
-fn build_bouw1_row(item: &CostItem, is_chapter: bool, all_items: &[&CostItem]) -> Bouw1Row {
+fn build_bouw1_row(request: &ReportRequest, item: &CostItem, is_chapter: bool, all_items: &[&CostItem]) -> Bouw1Row {
     let code = &item.code;
     let (hst, par, nr_val) = if code.len() >= 6 {
         (code[..1].to_string(), code[1..3].to_string(), code[3..].to_string())
@@ -165,7 +168,7 @@ fn build_bouw1_row(item: &CostItem, is_chapter: bool, all_items: &[&CostItem]) -
     };
 
     let qty_s = item.quantity.map(|q| fmt_number(Some(q))).unwrap_or_default();
-    let unit = item.unit.clone().unwrap_or_default();
+    let unit = request.unit(item.unit.as_deref().unwrap_or(""));
     let aantal_eh = if qty_s.is_empty() { String::new() } else { format!("{} {}", qty_s, unit) };
     let labor = item.labor_price.unwrap_or(0.0);
     let labor_s = if labor != 0.0 { fmt_currency(labor) } else { String::new() };
@@ -271,7 +274,7 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
             // Skip begrotingspost/bewakingspost that has children - children shown instead
             continue;
         } else {
-            ch_rows.push(build_bouw1_row(item, item.row_type == "chapter", &visible));
+            ch_rows.push(build_bouw1_row(request, item, item.row_type == "chapter", &visible));
         }
     }
     if let Some(ch) = cur_ch {
@@ -329,7 +332,7 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
 
         // Header: "Totaal kolommen"
         all_rows.push(Bouw1TotalenRow {
-            label: "Totaal kolommen:".into(),
+            label: request.lbl("summary.columnTotals", "Totaal kolommen:").into(),
             percentage: String::new(),
             loon: fmt_currency(kp_loon),
             materiaal: fmt_currency(kp_mat),
@@ -386,7 +389,7 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
 
             if is_winst_phase && !after_kostprijs {
                 all_rows.push(Bouw1TotalenRow {
-                    label: "Totaal kostprijs:".into(),
+                    label: request.lbl("summary.totalCostPrice", "Totaal kostprijs:").into(),
                     percentage: String::new(),
                     loon: String::new(), materiaal: String::new(), materieel: String::new(),
                     stelpost: String::new(), ond_aann: String::new(), bedrag: String::new(),
@@ -398,7 +401,7 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
             }
             if is_btw && !after_excl {
                 all_rows.push(Bouw1TotalenRow {
-                    label: "Totaal excl. btw.:".into(),
+                    label: request.lbl("summary.totalExclVat", "Totaal excl. btw.:").into(),
                     percentage: String::new(),
                     loon: String::new(), materiaal: String::new(), materieel: String::new(),
                     stelpost: String::new(), ond_aann: String::new(), bedrag: String::new(),
@@ -509,7 +512,7 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
 
         // Finally: "Totaalprijs incl. btw." with last cumulative
         all_rows.push(Bouw1TotalenRow {
-            label: "Totaalprijs incl. btw.:".into(),
+            label: request.lbl("summary.totalInclVat", "Totaalprijs incl. btw.:").into(),
             percentage: String::new(),
             loon: String::new(), materiaal: String::new(), materieel: String::new(),
             stelpost: String::new(), ond_aann: String::new(), bedrag: String::new(),
@@ -539,6 +542,7 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
         totalen,
         page_size: String::new(),
         page_orientation: String::new(),
+        labels: request.labels.clone(),
     }
 }
 
@@ -622,4 +626,68 @@ pub fn generate_bouw1_typst(request: &ReportRequest) -> Result<Vec<u8>, String> 
         .map_err(|errs| format!("Typst PDF errors: {:?}", errs))?;
 
     Ok(pdf)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn request(labels: serde_json::Value) -> ReportRequest {
+        serde_json::from_value(serde_json::json!({
+            "schedule": { "name": "Test", "projectName": "Testproject" },
+            "items": [
+                { "id": "ch1", "code": "1", "description": "GRONDWERK", "rowType": "chapter",
+                  "depth": 0, "parentId": null, "total": 800.0 },
+                { "id": "r1", "code": "100010", "description": "graven", "rowType": "regel",
+                  "depth": 1, "parentId": "ch1", "quantity": 10.0, "unit": "uur",
+                  "unitPrice": 80.0, "total": 800.0, "resourceType": "arbeid" },
+                { "id": "s1", "code": "", "description": "Winst:", "rowType": "staart_winst",
+                  "depth": 0, "parentId": null, "staartPercentage": 5.0, "total": 40.0 },
+                { "id": "s2", "code": "", "description": "Btw hoog:", "rowType": "staart_btw",
+                  "depth": 0, "parentId": null, "staartPercentage": 21.0, "total": 176.4 }
+            ],
+            "reportView": "bouw1",
+            "labels": labels,
+        }))
+        .expect("ReportRequest parsen")
+    }
+
+    fn en_labels() -> serde_json::Value {
+        serde_json::json!({
+            "summary.columnTotals": "Column totals:",
+            "summary.totalCostPrice": "Total cost price:",
+            "summary.totalExclVat": "Total excl. VAT:",
+            "summary.totalInclVat": "Total price incl. VAT:",
+            "summary.totalsTitle": "TOTALS",
+            "meta.sequenceNo": "Ref. no.",
+            "columns.description": "Description",
+            "units.uur": "h"
+        })
+    }
+
+    #[test]
+    fn totalen_en_eenheden_volgen_labels() {
+        let nl = build_bouw1_data(&request(serde_json::json!({})));
+        let rows = &nl.totalen.as_ref().unwrap().rows;
+        assert_eq!(rows.first().unwrap().label, "Totaal kolommen:");
+        assert!(rows.iter().any(|r| r.label == "Totaal kostprijs:"));
+        assert_eq!(rows.last().unwrap().label, "Totaalprijs incl. btw.:");
+        assert_eq!(nl.chapters[0].rows[0].aantal_eh, "10,00 uur");
+
+        let en = build_bouw1_data(&request(en_labels()));
+        let rows = &en.totalen.as_ref().unwrap().rows;
+        assert_eq!(rows.first().unwrap().label, "Column totals:");
+        assert!(rows.iter().any(|r| r.label == "Total cost price:"));
+        assert!(rows.iter().any(|r| r.label == "Total excl. VAT:"));
+        assert_eq!(rows.last().unwrap().label, "Total price incl. VAT:");
+        assert_eq!(en.chapters[0].rows[0].aantal_eh, "10,00 h");
+    }
+
+    #[test]
+    fn sjabloon_compileert_met_en_zonder_labels() {
+        for labels in [serde_json::json!({}), en_labels()] {
+            let pdf = generate_bouw1_typst(&request(labels)).expect("Typst-compilatie");
+            assert_eq!(&pdf[0..4], b"%PDF");
+        }
+    }
 }

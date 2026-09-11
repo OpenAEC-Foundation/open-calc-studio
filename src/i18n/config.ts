@@ -15,6 +15,8 @@ import enFeedback from "./locales/en/feedback.json";
 import enGrid from "./locales/en/grid.json";
 import enDialogs from "./locales/en/dialogs.json";
 import enReleases from "./locales/en/releases.json";
+import enReport from "./locales/en/report.json";
+import enUnits from "./locales/en/units.json";
 import nlCommon from "./locales/nl/common.json";
 import nlRibbon from "./locales/nl/ribbon.json";
 import nlBackstage from "./locales/nl/backstage.json";
@@ -23,6 +25,8 @@ import nlFeedback from "./locales/nl/feedback.json";
 import nlGrid from "./locales/nl/grid.json";
 import nlDialogs from "./locales/nl/dialogs.json";
 import nlReleases from "./locales/nl/releases.json";
+import nlReport from "./locales/nl/report.json";
+import nlUnits from "./locales/nl/units.json";
 
 export interface LanguageDef {
   code: string;
@@ -81,7 +85,7 @@ export function isRTL(lang: string): boolean {
   return RTL_LANGUAGES.includes(lang.split("-")[0]);
 }
 
-const ns = ["common", "ribbon", "backstage", "settings", "feedback", "grid", "dialogs", "releases"];
+const ns = ["common", "ribbon", "backstage", "settings", "feedback", "grid", "dialogs", "releases", "report", "units"];
 
 // Alle locale-bestanden als lazy importers; Vite splitst ze in aparte chunks.
 const localeModules = import.meta.glob("./locales/*/*.json") as Record<
@@ -123,8 +127,8 @@ i18next
   .use(initReactI18next)
   .init({
     resources: {
-      en: { common: enCommon, ribbon: enRibbon, backstage: enBackstage, settings: enSettings, feedback: enFeedback, grid: enGrid, dialogs: enDialogs, releases: enReleases },
-      nl: { common: nlCommon, ribbon: nlRibbon, backstage: nlBackstage, settings: nlSettings, feedback: nlFeedback, grid: nlGrid, dialogs: nlDialogs, releases: nlReleases },
+      en: { common: enCommon, ribbon: enRibbon, backstage: enBackstage, settings: enSettings, feedback: enFeedback, grid: enGrid, dialogs: enDialogs, releases: enReleases, report: enReport, units: enUnits },
+      nl: { common: nlCommon, ribbon: nlRibbon, backstage: nlBackstage, settings: nlSettings, feedback: nlFeedback, grid: nlGrid, dialogs: nlDialogs, releases: nlReleases, report: nlReport, units: nlUnits },
     },
     ns,
     defaultNS: "common",

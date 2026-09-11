@@ -19,6 +19,7 @@ import { exportCuf, exportTradxml, exportRsx, type ExportInput, type ExportResul
 import ExtensionManagerPanel from "./ExtensionManagerPanel";
 import { CloudPanel } from "./CloudPanel";
 import ColumnMappingDialog from "./ColumnMappingDialog";
+import { showImportWarnings } from "../common/ImportWarningsDialog";
 import { OPENAEC_ENABLED } from "../../services/buildFlags";
 import "./Backstage.css";
 
@@ -132,7 +133,8 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         const content = reader.result as string;
         // .ifcx is JSON (IfcX-alpha), .ifc is STEP — kies op extensie/inhoud.
         const isIfcx = /\.ifcx$/i.test(file.name) || content.trimStart().startsWith('{');
-        const { schedule: s, items: i } = isIfcx ? importIfcx(content) : parseIfcCostFile(content);
+        const imported = isIfcx ? importIfcx(content) : parseIfcCostFile(content);
+        const { schedule: s, items: i } = imported;
         newFile();
         const store = useAppStore.getState();
         store.setSchedule(s);
@@ -141,6 +143,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
           fileName: file.name.replace(/\.ifcx?$/i, ''),
           isModified: true,
         });
+        if ('warnings' in imported) showImportWarnings(imported, file.name);
       };
       reader.readAsText(file);
     };
@@ -154,7 +157,10 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
     onClose();
 
     // Helper: after handler returns data, load it into the app
-    const loadImportResult = (result: { schedule: any; items: any; companyInfo?: any }, fileName: string) => {
+    const loadImportResult = (
+      result: { schedule: any; items: any; companyInfo?: any; warnings?: string[]; warningCodes?: ImportResult['warningCodes']; format?: string },
+      fileName: string,
+    ) => {
       // First create a new document via newFile so everything is properly initialized
       newFile();
       // Now set the imported data
@@ -166,6 +172,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         fileName,
         isModified: true,
       });
+      showImportWarnings(result, fileName);
     };
 
     try {
@@ -234,6 +241,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         store.setResourceLibrary(Array.from(byCode.values()));
         if (result.warnings.length > 0) {
           console.warn(`[Import ZSX] ${result.warnings.length} waarschuwingen:`, result.warnings);
+          showImportWarnings(result, fileName);
         }
         console.log(`[Import ZSX] ${result.resources.length} middelen geladen uit ${fileName}`);
       } catch (err: any) {
@@ -281,6 +289,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         console.log(`[Import NSX] ${result.norms.length} normen geladen uit ${fileName}`, result);
         if (result.warnings.length > 0) {
           console.warn(`[Import NSX] ${result.warnings.length} waarschuwingen:`, result.warnings);
+          showImportWarnings(result, fileName);
         }
         alert(t('importPanel.nsxImported', { count: result.norms.length }));
       } catch (err: any) {
@@ -362,7 +371,10 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
     store.setSchedule(result.schedule);
     store.setItems(recalculateItems(result.items));
     store.updateDocument(store.activeDocumentId, { fileName: mappingData.sourceName, isModified: true });
-    if (result.warnings.length > 0) console.warn('[Import Excel/CSV] waarschuwingen:', result.warnings);
+    if (result.warnings.length > 0) {
+      console.warn('[Import Excel/CSV] waarschuwingen:', result.warnings);
+      showImportWarnings(result, mappingData.sourceName);
+    }
     setMappingData(null);
     onClose();
   }, [mappingData, newFile, onClose]);
@@ -377,7 +389,10 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         const byCode = new Map(store.resourceLibrary.map((r) => [r.code, r]));
         for (const r of result.resources) byCode.set(r.code, r);
         store.setResourceLibrary(Array.from(byCode.values()));
-        if (result.warnings.length > 0) console.warn('[Import BMEcat] waarschuwingen:', result.warnings);
+        if (result.warnings.length > 0) {
+          console.warn('[Import BMEcat] waarschuwingen:', result.warnings);
+          showImportWarnings(result, fileName);
+        }
         console.log(`[Import BMEcat] ${result.resources.length} middelen geladen uit ${fileName}`);
       } catch (err: any) {
         console.error('[Import BMEcat] failed:', err);
@@ -425,6 +440,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         });
         if (result.warnings.length > 0) {
           console.warn(`[Import ${formatLabel}] ${result.warnings.length} waarschuwingen:`, result.warnings);
+          showImportWarnings(result, fileName || formatLabel);
         }
       };
 
@@ -476,6 +492,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
       store.updateDocument(store.activeDocumentId, { fileName, isModified: true });
       if (result.warnings.length > 0) {
         console.warn(`[Import FIEBDC-3] ${result.warnings.length} waarschuwingen:`, result.warnings);
+        showImportWarnings(result, fileName || 'FIEBDC-3');
       }
     };
     try {

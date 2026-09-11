@@ -1,7 +1,15 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import { buildBouw1Html } from '@/services/print/bouw1PrintService';
 import { createDefaultSchedule, createDefaultItems } from '@/data/defaultBudget';
 import { recalculateItems } from '@/services/calculation/calculator';
+import { useAppStore } from '@/state/appStore';
+
+// Deze tests controleren de Nederlandse rapportteksten: zet de rapporttaal
+// expliciet op Nederlands (de testomgeving detecteert anders Engels).
+beforeAll(() => {
+  const { settings, setSettings } = useAppStore.getState();
+  setSettings({ ...settings, reportLocale: 'nl' });
+});
 
 // i18next is niet geïnitialiseerd in de testomgeving → schedule.name is undefined.
 // In de echte app heeft de begroting altijd een naam; geef er hier dus één mee

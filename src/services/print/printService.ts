@@ -2,22 +2,43 @@ import type { CostItem, CostSchedule, CompanyInfo } from '@/types/costModel';
 import type { ReportView, PageOrientation, PageSize } from '@/state/slices/uiSlice';
 import { getStaartBreakdown } from '@/services/calculation/calculator';
 import { buildBouw1Html } from './bouw1PrintService';
+import { getReportContext, type ReportContext } from '@/i18n/reportI18n';
 
 function escapeHtml(text: string): string {
   return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-function fmtCurrency(value: number): string {
-  return new Intl.NumberFormat('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value);
+/** Getalnotatie in de rapporttaal (twee decimalen). */
+interface ReportFormatters {
+  currency: (value: number) => string;
+  number: (value: number | null) => string;
+  percentage: (value: number) => string;
 }
 
-function fmtNumber(value: number | null): string {
-  if (value === null || value === 0) return '';
-  return new Intl.NumberFormat('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value);
+function makeFormatters(ctx: ReportContext): ReportFormatters {
+  const nf = new Intl.NumberFormat(ctx.intlLocale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return {
+    currency: (value) => nf.format(value),
+    number: (value) => (value === null || value === 0 ? '' : nf.format(value)),
+    percentage: (value) => nf.format(value) + '%',
+  };
 }
 
-function fmtPercentage(value: number): string {
-  return new Intl.NumberFormat('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) + '%';
+/** Tekst als CSS-string ("…"), voor `content:` in de stylesheet. */
+function cssString(text: string): string {
+  return `"${text.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/[\r\n]+/g, ' ')}"`;
+}
+
+/**
+ * Paginanummer-sjabloon ("Pagina {{page}} / {{total}}") als CSS-content:
+ * `"Pagina " counter(page) " / " counter(pages)`.
+ */
+export function cssPageCounter(template: string): string {
+  return template
+    .split(/(\{\{page\}\}|\{\{total\}\})/)
+    .filter((part) => part !== '')
+    .map((part) => (part === '{{page}}' ? 'counter(page)' : part === '{{total}}' ? 'counter(pages)' : cssString(part)))
+    .join(' ');
 }
 
 /** Column definition for report views */
@@ -27,56 +48,56 @@ interface ReportCol {
   cssClass: string;
 }
 
-function getColumnsForView(view: ReportView, showHoeveelheid = true): ReportCol[] {
+function getColumnsForView(view: ReportView, t: ReportContext['t'], showHoeveelheid = true): ReportCol[] {
   const filterQty = (cols: ReportCol[]) =>
     showHoeveelheid ? cols : cols.filter(c => c.key !== 'quantity' && c.key !== 'unit' && c.key !== 'unitPrice' && c.key !== 'normUnitPrice');
   switch (view) {
     case 'werkbeschrijving':
       return filterQty([
-        { key: 'code', label: 'Code', cssClass: 'code' },
-        { key: 'description', label: 'Omschrijving', cssClass: 'desc' },
-        { key: 'quantity', label: 'Hoeveelheid', cssClass: 'number' },
-        { key: 'unit', label: 'Eenheid', cssClass: 'center' },
-        { key: 'verrekenbaar', label: 'Verr.', cssClass: 'center' },
+        { key: 'code', label: t('columns.code'), cssClass: 'code' },
+        { key: 'description', label: t('columns.description'), cssClass: 'desc' },
+        { key: 'quantity', label: t('columns.quantity'), cssClass: 'number' },
+        { key: 'unit', label: t('columns.unit'), cssClass: 'center' },
+        { key: 'verrekenbaar', label: t('columns.verrekenbaarShort'), cssClass: 'center' },
       ]);
     case 'hoofdaanneming':
       return filterQty([
-        { key: 'code', label: 'Code', cssClass: 'code' },
-        { key: 'description', label: 'Omschrijving', cssClass: 'desc' },
-        { key: 'quantity', label: 'Hoeveelheid', cssClass: 'number' },
-        { key: 'unit', label: 'Eh.', cssClass: 'center' },
-        { key: 'verrekenbaar', label: 'S', cssClass: 'center' },
-        { key: 'unitPrice', label: 'Eh. Prijs', cssClass: 'number' },
-        { key: 'total', label: 'Bedrag', cssClass: 'number' },
+        { key: 'code', label: t('columns.code'), cssClass: 'code' },
+        { key: 'description', label: t('columns.description'), cssClass: 'desc' },
+        { key: 'quantity', label: t('columns.quantity'), cssClass: 'number' },
+        { key: 'unit', label: t('columns.unitShort'), cssClass: 'center' },
+        { key: 'verrekenbaar', label: t('columns.verrekenbaarS'), cssClass: 'center' },
+        { key: 'unitPrice', label: t('columns.unitPriceShort'), cssClass: 'number' },
+        { key: 'total', label: t('columns.amount'), cssClass: 'number' },
       ]);
     case 'onderaanneming':
       return filterQty([
-        { key: 'nr', label: 'Nr', cssClass: 'nr' },
-        { key: 'code', label: 'Code', cssClass: 'code' },
-        { key: 'description', label: 'Omschrijving', cssClass: 'desc' },
-        { key: 'total', label: 'Bedrag', cssClass: 'number' },
+        { key: 'nr', label: t('columns.nr'), cssClass: 'nr' },
+        { key: 'code', label: t('columns.code'), cssClass: 'code' },
+        { key: 'description', label: t('columns.description'), cssClass: 'desc' },
+        { key: 'total', label: t('columns.amount'), cssClass: 'number' },
       ]);
     case 'inschrijfstaat':
       return filterQty([
-        { key: 'nr', label: 'Nr', cssClass: 'nr' },
-        { key: 'code', label: 'Code', cssClass: 'code' },
-        { key: 'description', label: 'Omschrijving', cssClass: 'desc' },
-        { key: 'quantity', label: 'Hoeveelheid', cssClass: 'number' },
-        { key: 'unit', label: 'Eenheid', cssClass: 'center' },
-        { key: 'verrekenbaar', label: 'Verr.', cssClass: 'center' },
-        { key: 'unitPrice', label: 'Eenheidsprijs', cssClass: 'number' },
-        { key: 'total', label: 'Bedrag', cssClass: 'number' },
+        { key: 'nr', label: t('columns.nr'), cssClass: 'nr' },
+        { key: 'code', label: t('columns.code'), cssClass: 'code' },
+        { key: 'description', label: t('columns.description'), cssClass: 'desc' },
+        { key: 'quantity', label: t('columns.quantity'), cssClass: 'number' },
+        { key: 'unit', label: t('columns.unit'), cssClass: 'center' },
+        { key: 'verrekenbaar', label: t('columns.verrekenbaarShort'), cssClass: 'center' },
+        { key: 'unitPrice', label: t('columns.unitPrice'), cssClass: 'number' },
+        { key: 'total', label: t('columns.amount'), cssClass: 'number' },
       ]);
     case 'nacalculatie':
       return filterQty([
-        { key: 'nr', label: 'Nr', cssClass: 'nr' },
-        { key: 'code', label: 'Code', cssClass: 'code' },
-        { key: 'description', label: 'Omschrijving', cssClass: 'desc' },
-        { key: 'quantity', label: 'Hoeveelheid', cssClass: 'number' },
-        { key: 'unit', label: 'Eenheid', cssClass: 'center' },
-        { key: 'normUnitPrice', label: 'Prijs/middel', cssClass: 'number' },
-        { key: 'unitPrice', label: 'Eenheidsprijs', cssClass: 'number' },
-        { key: 'total', label: 'Bedrag', cssClass: 'number' },
+        { key: 'nr', label: t('columns.nr'), cssClass: 'nr' },
+        { key: 'code', label: t('columns.code'), cssClass: 'code' },
+        { key: 'description', label: t('columns.description'), cssClass: 'desc' },
+        { key: 'quantity', label: t('columns.quantity'), cssClass: 'number' },
+        { key: 'unit', label: t('columns.unit'), cssClass: 'center' },
+        { key: 'normUnitPrice', label: t('columns.pricePerResource'), cssClass: 'number' },
+        { key: 'unitPrice', label: t('columns.unitPrice'), cssClass: 'number' },
+        { key: 'total', label: t('columns.amount'), cssClass: 'number' },
       ]);
     case 'bouw1':
     case 'ibis':
@@ -84,23 +105,23 @@ function getColumnsForView(view: ReportView, showHoeveelheid = true): ReportCol[
     case 'offerte':
       // These use their own builders; return minimal cols for type safety
       return [
-        { key: 'description', label: 'Omschrijving', cssClass: 'desc' },
-        { key: 'total', label: 'Totaal', cssClass: 'number' },
+        { key: 'description', label: t('columns.description'), cssClass: 'desc' },
+        { key: 'total', label: t('columns.total'), cssClass: 'number' },
       ];
   }
 }
 
-function getViewTitle(view: ReportView): string {
+function getViewTitle(view: ReportView, t: ReportContext['t']): string {
   switch (view) {
-    case 'werkbeschrijving': return 'Werkbeschrijving';
-    case 'hoofdaanneming': return 'Hoofdaanneming';
-    case 'onderaanneming': return 'Onderaanneming';
-    case 'inschrijfstaat': return 'Inschrijfstaat';
-    case 'nacalculatie': return 'Nacalculatie';
-    case 'bouw1': return 'Bouw 1 Begroting';
-    case 'ibis': return 'IBIS-stijl Begroting';
-    case 'directie': return 'Directiebegroting';
-    case 'offerte': return 'Offerte';
+    case 'werkbeschrijving': return t('views.werkbeschrijving');
+    case 'hoofdaanneming': return t('views.hoofdaanneming');
+    case 'onderaanneming': return t('views.onderaanneming');
+    case 'inschrijfstaat': return t('views.inschrijfstaat');
+    case 'nacalculatie': return t('views.nacalculatie');
+    case 'bouw1': return t('views.bouw1');
+    case 'ibis': return t('views.bouw2');
+    case 'directie': return t('views.directie');
+    case 'offerte': return t('views.offerte');
   }
 }
 
@@ -128,13 +149,14 @@ function filterItems(items: CostItem[], view: ReportView): CostItem[] {
   return filtered;
 }
 
-function getCellValue(item: CostItem, key: string, _view: ReportView): string {
+function getCellValue(item: CostItem, key: string, ctx: ReportContext, fmt: ReportFormatters): string {
+  const fmtCurrency = fmt.currency;
   switch (key) {
     case 'nr': return item.nr ?? '';
     case 'code': return escapeHtml(item.code);
     case 'description': return escapeHtml(item.description);
-    case 'quantity': return fmtNumber(item.quantity);
-    case 'unit': return escapeHtml(String(item.unit ?? ''));
+    case 'quantity': return fmt.number(item.quantity);
+    case 'unit': return escapeHtml(ctx.unit(item.unit));
     // V/N/… per regel — ook op posten (S-kolom in de besteksopmaak)
     case 'verrekenbaar': return item.verrekenbaar ?? '';
     case 'normUnitPrice': return item.normUnitPrice != null ? fmtCurrency(item.normUnitPrice) : '';
@@ -155,6 +177,7 @@ export function itemsForReport(schedule: CostSchedule, items: CostItem[]): CostI
 }
 
 function buildHtml(
+  ctx: ReportContext,
   schedule: CostSchedule,
   itemsIn: CostItem[],
   view: ReportView,
@@ -165,29 +188,33 @@ function buildHtml(
   orientation: PageOrientation = 'landscape',
   paperSize: PageSize = 'A4',
 ): string {
+  const { t } = ctx;
+  const fmt = makeFormatters(ctx);
+  const fmtCurrency = fmt.currency;
+  const fmtPercentage = fmt.percentage;
   const items = itemsForReport(schedule, itemsIn);
   // Bouw 1 view uses its own dedicated builder (always landscape).
   // IBIS-stijl en directiebegroting renderen als PDF via de Rust/Typst-
   // template; de browser-print (zonder Tauri) valt terug op de Bouw 1
   // HTML-builder als vangnet.
   if (view === 'bouw1' || view === 'ibis' || view === 'directie') {
-    return buildBouw1Html(schedule, items, includeActions, companyInfo, logoDataUrl);
+    return buildBouw1Html(schedule, items, includeActions, companyInfo, logoDataUrl, ctx);
   }
   const pageSizeCss = `${paperSize} ${orientation}`;
-  const title = getViewTitle(view);
+  const title = getViewTitle(view, t);
   // Calculate content height per page for page-break visualization
   const pageHeightMm = orientation === 'landscape'
     ? (paperSize === 'A3' ? 297 : 210)
     : (paperSize === 'A3' ? 420 : 297);
   const pageContentHeightMm = pageHeightMm - 35; // 15mm top + 20mm bottom margin
-  let columns = getColumnsForView(view, showHoeveelheid);
+  let columns = getColumnsForView(view, t, showHoeveelheid);
   // Verrekenbaar-kolom is optioneel (rapport-eigenschap); default aan.
   if (schedule.reportShowVerrekenbaar === false) {
     columns = columns.filter(c => c.key !== 'verrekenbaar');
   }
   const colCount = columns.length;
   const hasTotalCol = columns.some(c => c.key === 'total');
-  const today = new Date().toLocaleDateString('nl-NL', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const today = new Date().toLocaleDateString(ctx.intlLocale, { day: '2-digit', month: '2-digit', year: 'numeric' });
 
   const hasStaart = items.some(item => item.rowType.startsWith('staart_'));
   const breakdown = hasStaart ? getStaartBreakdown(items) : null;
@@ -197,7 +224,7 @@ function buildHtml(
 
   const normalItems = filterItems(items, view);
 
-  const headers = columns.map(c => `<th class="${c.cssClass}">${c.label}</th>`).join('');
+  const headers = columns.map(c => `<th class="${c.cssClass}">${escapeHtml(c.label)}</th>`).join('');
 
   let tableRows = '';
   let rowNum = 0;
@@ -241,7 +268,7 @@ function buildHtml(
     pendingSubtotalParentId = null;
     if (!parent || parent.total === 0) return '';
     return `<tr class="subtotal-row">
-      <td colspan="${colCount - 1}" class="total-label">Subtotaal</td>
+      <td colspan="${colCount - 1}" class="total-label">${escapeHtml(t('totals.subtotal'))}</td>
       <td class="amount">${fmtCurrency(parent.total)}</td>
     </tr><tr class="spacer-row"><td colspan="${colCount}">&nbsp;</td></tr>`;
   };
@@ -280,7 +307,7 @@ function buildHtml(
     } else if (item.rowType === 'tekstregel') {
       const cells = columns.map(c => {
         if (c.key === 'description') return `<td class="desc tekst-desc"${indentStyle}>${escapeHtml(item.description)}</td>`;
-        return `<td class="${c.cssClass}">${getCellValue(item, c.key, view)}</td>`;
+        return `<td class="${c.cssClass}">${getCellValue(item, c.key, ctx, fmt)}</td>`;
       }).join('');
       tableRows += `<tr class="tekstregel-row${zebraClass ? ' even' : ''}">${cells}</tr>`;
     } else {
@@ -288,7 +315,7 @@ function buildHtml(
         if (c.key === 'description') return `<td class="desc"${indentStyle}>${escapeHtml(item.description)}</td>`;
         if (c.key === 'verrekenbaar') return `<td class="${c.cssClass}">${item.rowType === 'witregel' ? '' : verrOf(item)}</td>`;
         if ((c.key === 'total' || c.key === 'unitPrice') && hideLineAmounts) return `<td class="${c.cssClass}"></td>`;
-        return `<td class="${c.cssClass}">${getCellValue(item, c.key, view)}</td>`;
+        return `<td class="${c.cssClass}">${getCellValue(item, c.key, ctx, fmt)}</td>`;
       }).join('');
       tableRows += `<tr${zebraClass ? ' class="even"' : ''}>${cells}</tr>`;
     }
@@ -302,7 +329,7 @@ function buildHtml(
     const totalLabelColspan = colCount - 1;
 
     tableRows += `<tr class="subtotal-row">
-      <td colspan="${totalLabelColspan}" class="total-label">Subtotaal directe kosten (Kostprijs)</td>
+      <td colspan="${totalLabelColspan}" class="total-label">${escapeHtml(t('totals.directCosts'))}</td>
       <td class="amount">${fmtCurrency(breakdown.kostprijs)}</td>
     </tr>`;
 
@@ -324,12 +351,12 @@ function buildHtml(
 
         if (item.rowType === 'staart_ukk') {
           tableRows += `<tr class="subtotal-row">
-            <td colspan="${totalLabelColspan}" class="total-label">Subtotaal 1</td>
+            <td colspan="${totalLabelColspan}" class="total-label">${escapeHtml(t('totals.subtotal1'))}</td>
             <td class="amount">${fmtCurrency(breakdown.subtotaal1)}</td>
           </tr>`;
         } else if (item.rowType === 'staart_ak') {
           tableRows += `<tr class="subtotal-row">
-            <td colspan="${totalLabelColspan}" class="total-label">Subtotaal 2</td>
+            <td colspan="${totalLabelColspan}" class="total-label">${escapeHtml(t('totals.subtotal2'))}</td>
             <td class="amount">${fmtCurrency(breakdown.subtotaal2)}</td>
           </tr>`;
         }
@@ -340,36 +367,36 @@ function buildHtml(
     // aanneemsomAfgerond en hoort niet onder dit label).
     const finalTotal = breakdown.aanneemsom + breakdown.afronding;
     tableRows += `<tr class="total-row">
-      <td colspan="${totalLabelColspan}" class="total-label">Aanneemsom excl. BTW</td>
+      <td colspan="${totalLabelColspan}" class="total-label">${escapeHtml(t('totals.contractSumExclVat'))}</td>
       <td class="amount">${fmtCurrency(finalTotal)}</td>
     </tr>`;
   } else if (hasTotalCol) {
     const totalLabelColspan = colCount - 1;
     tableRows += `<tr class="total-row">
-      <td colspan="${totalLabelColspan}" class="total-label">Totaal excl. BTW</td>
+      <td colspan="${totalLabelColspan}" class="total-label">${escapeHtml(t('totals.totalExclVat'))}</td>
       <td class="amount">${fmtCurrency(grandTotal)}</td>
     </tr>`;
   }
 
   const actionsHtml = includeActions
     ? `<div class="print-actions">
-  <button class="print-btn" onclick="window.print()">Afdrukken</button>
-  <button class="close-btn" onclick="window.close()">Sluiten</button>
+  <button class="print-btn" onclick="window.print()">${escapeHtml(t('actions.print'))}</button>
+  <button class="close-btn" onclick="window.close()">${escapeHtml(t('actions.close'))}</button>
 </div>`
     : '';
 
   return `<!DOCTYPE html>
-<html lang="nl">
+<html lang="${ctx.lang}">
 <head>
 <meta charset="UTF-8">
-<title>${title} - ${escapeHtml(schedule.projectName || schedule.name)}</title>
+<title>${escapeHtml(title)} - ${escapeHtml(schedule.projectName || schedule.name)}</title>
 <style>
 /* OpenAEC Style Book */
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap');
 @page {
   size: ${pageSizeCss};
   margin: 15mm 12mm 20mm 12mm;
-  @bottom-right { content: "Pagina " counter(page) " / " counter(pages); font-family: 'Inter', sans-serif; font-size: 8pt; color: #A1A1AA; }
+  @bottom-right { content: ${cssPageCounter(t('footer.page'))}; font-family: 'Inter', sans-serif; font-size: 8pt; color: #A1A1AA; }
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Inter', 'Segoe UI', sans-serif; font-size: 9pt; color: #36363E; line-height: 1.4; padding: 10mm; background: white; }
@@ -439,7 +466,7 @@ ${!includeActions ? `
   position: relative;
 }
 .page-break-line::after {
-  content: 'pagina-einde';
+  content: ${cssString(t('footer.pageBreak'))};
   position: absolute;
   right: 0;
   top: -10px;
@@ -474,26 +501,26 @@ ${actionsHtml}
 ${companyInfo?.logoRight ? `<img class="report-logo-right" src="${companyInfo.logoRight}" alt="">` : ''}
 <div class="header"${companyInfo?.logoRight ? ' style="margin-top:12mm"' : ''}>
   <div class="header-left">
-    <h1>${escapeHtml(schedule.projectName || schedule.name || 'Begroting')}</h1>
-    <div class="subtitle">${title}</div>
+    <h1>${escapeHtml(schedule.projectName || schedule.name || t('views.budget'))}</h1>
+    <div class="subtitle">${escapeHtml(title)}</div>
   </div>
   <div class="header-right">
-    <div><span class="label">Datum: </span>${today}</div>
-    <div><span class="label">Status: </span>${schedule.status}</div>
+    <div><span class="label">${escapeHtml(t('meta.date'))}: </span>${today}</div>
+    <div><span class="label">${escapeHtml(t('meta.status'))}: </span>${escapeHtml(t(`status.${schedule.status}`, { defaultValue: String(schedule.status ?? '') }))}</div>
   </div>
 </div>
 <div class="meta">
-  ${schedule.projectNumber ? `<span class="label">Projectnummer:</span><span>${escapeHtml(schedule.projectNumber)}</span>` : ''}
-  ${schedule.client ? `<span class="label">Opdrachtgever:</span><span>${escapeHtml(schedule.client)}</span>` : ''}
-  ${schedule.author ? `<span class="label">Auteur:</span><span>${escapeHtml(schedule.author)}</span>` : ''}
-  ${schedule.description ? `<span class="label">Omschrijving:</span><span>${escapeHtml(schedule.description)}</span>` : ''}
+  ${schedule.projectNumber ? `<span class="label">${escapeHtml(t('meta.projectNumber'))}:</span><span>${escapeHtml(schedule.projectNumber)}</span>` : ''}
+  ${schedule.client ? `<span class="label">${escapeHtml(t('meta.client'))}:</span><span>${escapeHtml(schedule.client)}</span>` : ''}
+  ${schedule.author ? `<span class="label">${escapeHtml(t('meta.author'))}:</span><span>${escapeHtml(schedule.author)}</span>` : ''}
+  ${schedule.description ? `<span class="label">${escapeHtml(t('meta.description'))}:</span><span>${escapeHtml(schedule.description)}</span>` : ''}
 </div>
 <table>
   <thead><tr>${headers}</tr></thead>
   <tbody>${tableRows}</tbody>
 </table>
 <div class="footer">
-  <span>Open Calc Studio - ${escapeHtml(schedule.name || 'Begroting')}</span>
+  <span>Open Calc Studio - ${escapeHtml(schedule.name || t('views.budget'))}</span>
   <span>${today}</span>
 </div>
 ${!includeActions ? `<script>
@@ -525,16 +552,27 @@ ${!includeActions ? `<script>
 </html>`;
 }
 
-export function printBudget(schedule: CostSchedule, items: CostItem[], view: ReportView, showHoeveelheid = true, companyInfo?: CompanyInfo, logoDataUrl?: string, orientation: PageOrientation = 'landscape', paperSize: PageSize = 'A4'): void {
-  const html = buildHtml(schedule, items, view, true, showHoeveelheid, companyInfo, logoDataUrl, orientation, paperSize);
+/**
+ * Open de afdruk in een nieuw venster, in de rapporttaal. Het venster gaat
+ * direct (synchroon) open — nog binnen de klik — zodat een popup-blokker het
+ * niet tegenhoudt; de inhoud volgt zodra de rapporttaal geladen is.
+ */
+export async function printBudget(schedule: CostSchedule, items: CostItem[], view: ReportView, showHoeveelheid = true, companyInfo?: CompanyInfo, logoDataUrl?: string, orientation: PageOrientation = 'landscape', paperSize: PageSize = 'A4'): Promise<void> {
   const printWindow = window.open('', '_blank');
+  const ctx = await getReportContext();
+  const html = buildHtml(ctx, schedule, items, view, true, showHoeveelheid, companyInfo, logoDataUrl, orientation, paperSize);
   if (printWindow) {
     printWindow.document.write(html);
     printWindow.document.close();
   }
 }
 
-/** Generate print HTML string without opening a window (for file export / testing) */
-export function generatePrintHtml(schedule: CostSchedule, items: CostItem[], view: ReportView, showHoeveelheid = true, companyInfo?: CompanyInfo, logoDataUrl?: string, orientation: PageOrientation = 'landscape', paperSize: PageSize = 'A4'): string {
-  return buildHtml(schedule, items, view, false, showHoeveelheid, companyInfo, logoDataUrl, orientation, paperSize);
+/**
+ * Generate print HTML string without opening a window (for file export /
+ * testing), in de rapporttaal. `reportLocale` overschrijft de instelling
+ * (bv. "nl" of "en"); weglaten = instelling `reportLocale` / interfacetaal.
+ */
+export async function generatePrintHtml(schedule: CostSchedule, items: CostItem[], view: ReportView, showHoeveelheid = true, companyInfo?: CompanyInfo, logoDataUrl?: string, orientation: PageOrientation = 'landscape', paperSize: PageSize = 'A4', reportLocale?: string): Promise<string> {
+  const ctx = await getReportContext(reportLocale);
+  return buildHtml(ctx, schedule, items, view, false, showHoeveelheid, companyInfo, logoDataUrl, orientation, paperSize);
 }

@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "Preview — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Importmeldingen",
+    "intro_one": "De import van {{source}} is voltooid met {{count}} melding:",
+    "intro_other": "De import van {{source}} is voltooid met {{count}} meldingen:",
+    "copy": "Kopiëren",
+    "copied": "Gekopieerd",
+    "close": "Sluiten",
+    "bc3": {
+      "unknownConceptInDecomposition": "Onbekend concept '{{concept}}' in decompositie van '{{parent}}' — overgeslagen.",
+      "unknownConceptUnder": "Onbekend concept '{{concept}}' onder '{{parent}}' — overgeslagen.",
+      "zeroYieldDecomposition": "Eén of meer partida's hebben een samenstelling zonder rendementen — daar is de eenheidsprijs van het ~C-record aangehouden.",
+      "noRootStructure": "Geen wortelstructuur (##) met samenstelling gevonden — losse takken op het hoogste niveau geïmporteerd.",
+      "noProjectStructure": "Geen projectstructuur (##/#) gevonden — concepten als prijzenboek onder één hoofdstuk geïmporteerd.",
+      "priceMismatch_one": "Bij {{count}} partida wijkt de som van de samenstelling meer dan 2% af van de eenheidsprijs op het ~C-record ({{examples}}). De samenstelling is aangehouden.",
+      "priceMismatch_other": "Bij {{count}} partida's wijkt de som van de samenstelling meer dan 2% af van de eenheidsprijs op het ~C-record (o.a. {{examples}}). De samenstelling is aangehouden.",
+      "noPrices": "Dit bestand bevat geen prijzen — alleen omschrijvingen en hoeveelheden (zoals een mediciones-bibliotheek). Het totaal blijft daarom € 0,00.",
+      "moreWarnings_one": "… en nog {{count}} vergelijkbare melding.",
+      "moreWarnings_other": "… en nog {{count}} vergelijkbare meldingen."
+    }
   }
 }

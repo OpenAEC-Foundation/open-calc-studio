@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { COST_UNITS, getColumnsForView, isCellEditable } from './gridConstants';
+import { formatUnit } from '@/i18n/formatUnit';
 import { formatNumberForEdit } from '@/utils/formatting';
 import { useAppStore } from '@/state/appStore';
 import { isContainerRowType } from '@/types/costModel';
@@ -16,6 +18,7 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
   const inputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const selectRef = useRef<HTMLSelectElement>(null);
+  const { t } = useTranslation('grid');
   const { editValue, selectOnFocus, stopEditing, startEditing, setActiveCell, activeRow, gridView, schedule } = useAppStore();
   // Mét branchesEnabled: kolomindices moeten gelijk lopen met het gerenderde grid.
   const columns = getColumnsForView(gridView, !!schedule.branchesEnabled);
@@ -145,8 +148,12 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
   }
 
   if (isSelect) {
+    const isUnit = col.type === 'unit-select';
     const options: string[] = col.type === 'tarief-select' ? ['A', 'B', 'C'] : col.type === 'vn-select' ? ['V', 'A', 'N', 'F'] : [...COST_UNITS];
     const defaultVal = col.type === 'tarief-select' ? (item.tariefGroep ?? 'A') : col.type === 'vn-select' ? (item.verrekenbaar ?? 'V') : String(item.unit);
+    // Een afwijkende eenheid (bv. uit een oudere import) als optie behouden,
+    // anders toont de keuzelijst ongemerkt de eerste eenheid.
+    if (isUnit && defaultVal && !options.includes(defaultVal)) options.push(defaultVal);
     return (
       <select
         ref={selectRef}
@@ -188,8 +195,9 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
           }
         }}
       >
+        {/* Eenheden: vertaald label, maar de CODE is de waarde die opgeslagen wordt. */}
         {options.map((u) => (
-          <option key={u} value={u}>{u}</option>
+          <option key={u} value={u}>{isUnit ? formatUnit(u, t) : u}</option>
         ))}
       </select>
     );

@@ -24,6 +24,54 @@ pub struct ReportRequest {
     pub include_cover: Option<bool>,
     #[serde(default)]
     pub include_summary: Option<bool>,
+    /// Rapportteksten in de rapporttaal: platte keys uit de `report`-namespace
+    /// ("totals.contractSumExclVat") plus eenheden als "units.<code>". Leeg of
+    /// afwezig (CLI, MCP-server) = de Nederlandse standaardteksten.
+    #[serde(default)]
+    pub labels: HashMap<String, String>,
+}
+
+impl ReportRequest {
+    /// Rapporttekst voor `key`, met de Nederlandse tekst als standaard.
+    pub fn lbl<'a>(&'a self, key: &str, nl_default: &'a str) -> &'a str {
+        label(&self.labels, key, nl_default)
+    }
+
+    /// Als [`lbl`](Self::lbl), met `{{naam}}`-placeholders ingevuld.
+    pub fn lbl_fmt(&self, key: &str, nl_default: &str, args: &[(&str, &str)]) -> String {
+        label_fmt(&self.labels, key, nl_default, args)
+    }
+
+    /// Eenheidscode (st, uur, m², …) in de rapporttaal; onbekend = ongewijzigd.
+    pub fn unit(&self, code: &str) -> String {
+        unit_label(&self.labels, code)
+    }
+}
+
+/// Zoek een rapporttekst op; ontbreekt hij (of is hij leeg), dan de
+/// Nederlandse standaardtekst — zo blijft een request zonder labels werken.
+pub fn label<'a>(labels: &'a HashMap<String, String>, key: &str, nl_default: &'a str) -> &'a str {
+    match labels.get(key) {
+        Some(v) if !v.is_empty() => v.as_str(),
+        _ => nl_default,
+    }
+}
+
+/// Rapporttekst met `{{naam}}`-placeholders (zelfde syntax als i18next).
+pub fn label_fmt(labels: &HashMap<String, String>, key: &str, nl_default: &str, args: &[(&str, &str)]) -> String {
+    let mut out = label(labels, key, nl_default).to_string();
+    for (name, value) in args {
+        out = out.replace(&format!("{{{{{}}}}}", name), value);
+    }
+    out
+}
+
+/// Eenheid in de rapporttaal via "units.<code>"; zonder vertaling de code zelf.
+pub fn unit_label(labels: &HashMap<String, String>, code: &str) -> String {
+    if code.is_empty() {
+        return String::new();
+    }
+    label(labels, &format!("units.{}", code), code).to_string()
 }
 
 fn default_page_size() -> String { "A4".into() }
@@ -243,6 +291,26 @@ pub struct OfferteReportRequest {
     pub company_info: Option<CompanyInfo>,
     #[serde(default)]
     pub briefhoofd_path: Option<String>,
+    /// Rapportteksten in de rapporttaal (zie [`ReportRequest::labels`]).
+    #[serde(default)]
+    pub labels: HashMap<String, String>,
+}
+
+impl OfferteReportRequest {
+    /// Rapporttekst voor `key`, met de Nederlandse tekst als standaard.
+    pub fn lbl<'a>(&'a self, key: &str, nl_default: &'a str) -> &'a str {
+        label(&self.labels, key, nl_default)
+    }
+
+    /// Als [`lbl`](Self::lbl), met `{{naam}}`-placeholders ingevuld.
+    pub fn lbl_fmt(&self, key: &str, nl_default: &str, args: &[(&str, &str)]) -> String {
+        label_fmt(&self.labels, key, nl_default, args)
+    }
+
+    /// Eenheidscode in de rapporttaal; onbekend = ongewijzigd.
+    pub fn unit(&self, code: &str) -> String {
+        unit_label(&self.labels, code)
+    }
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -432,4 +500,38 @@ pub fn direct_totaal(items: &[CostItem]) -> f64 {
         .filter(|i| i.parent_id.is_none() && !i.row_type.starts_with("staart_"))
         .map(|i| i.total)
         .sum()
+}
+
+#[cfg(test)]
+mod label_tests {
+    use super::*;
+
+    #[test]
+    fn label_valt_terug_op_nederlands() {
+        let empty = HashMap::new();
+        assert_eq!(label(&empty, "totals.totalExclVat", "Totaal excl. BTW"), "Totaal excl. BTW");
+        let mut en = HashMap::new();
+        en.insert("totals.totalExclVat".to_string(), "Total excl. VAT".to_string());
+        en.insert("totals.empty".to_string(), String::new());
+        assert_eq!(label(&en, "totals.totalExclVat", "Totaal excl. BTW"), "Total excl. VAT");
+        assert_eq!(label(&en, "totals.empty", "Leeg"), "Leeg");
+    }
+
+    #[test]
+    fn label_fmt_vult_placeholders() {
+        let mut en = HashMap::new();
+        en.insert("footer.page".to_string(), "Page {{page}} of {{total}}".to_string());
+        assert_eq!(label_fmt(&en, "footer.page", "Pagina {{page}} / {{total}}", &[("page", "2"), ("total", "5")]), "Page 2 of 5");
+        let empty = HashMap::new();
+        assert_eq!(label_fmt(&empty, "footer.page", "Pagina {{page}} / {{total}}", &[("page", "2"), ("total", "5")]), "Pagina 2 / 5");
+    }
+
+    #[test]
+    fn unit_label_vertaalt_codes() {
+        let mut en = HashMap::new();
+        en.insert("units.uur".to_string(), "h".to_string());
+        assert_eq!(unit_label(&en, "uur"), "h");
+        assert_eq!(unit_label(&en, "m²"), "m²");
+        assert_eq!(unit_label(&en, ""), "");
+    }
 }

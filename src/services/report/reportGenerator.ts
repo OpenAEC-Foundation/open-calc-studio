@@ -1,13 +1,23 @@
 import type { CostItem, CostSchedule } from '../../types/costModel';
-import { formatCurrency, formatNumber } from '../../utils/formatting';
+import { makeReportContext, type ReportContext } from '@/i18n/reportI18n';
 
 /**
  * Generates an HTML report for a cost schedule.
  * The report is self-contained (inline CSS) and can be opened in a browser or printed to PDF.
+ *
+ * Teksten, getallen en datum volgen de rapporttaal (instelling `reportLocale`).
+ * Zonder `ctx` wordt de rapporttaal gebruikt zoals die op dat moment geladen
+ * is; `await getReportContext()` garandeert dat een lazy geladen taal klaarstaat.
  */
-export function generateReport(schedule: CostSchedule, items: CostItem[]): string {
+export function generateReport(schedule: CostSchedule, items: CostItem[], ctx: ReportContext = makeReportContext()): string {
+  const { t } = ctx;
+  const nf = new Intl.NumberFormat(ctx.intlLocale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  // Zelfde gedrag als utils/formatting: 0 en null blijven leeg.
+  const formatCurrency = (value: number | null): string => (value === null || value === 0 ? '' : nf.format(value));
+  const formatNumber = formatCurrency;
+  const L = (key: string): string => escapeHtml(t(key));
   const now = new Date();
-  const dateStr = now.toLocaleDateString('nl-NL', { year: 'numeric', month: 'long', day: 'numeric' });
+  const dateStr = now.toLocaleDateString(ctx.intlLocale, { year: 'numeric', month: 'long', day: 'numeric' });
 
   // Calculate grand total
   const topLevelItems = items.filter(i => i.parentId === null);
@@ -39,7 +49,7 @@ export function generateReport(schedule: CostSchedule, items: CostItem[]): strin
         <td>${idx + 1}</td>
         <td>${escapeHtml(item.code)}</td>
         <td style="padding-left: ${indent + 8}px">${escapeHtml(item.description)}</td>
-        <td>${escapeHtml(item.unit)}</td>
+        <td>${escapeHtml(ctx.unit(item.unit))}</td>
         <td class="num">${item.quantity !== null ? formatNumber(item.quantity) : ''}</td>
         <td class="num">${item.materialPrice !== null ? formatCurrency(item.materialPrice) : ''}</td>
         <td class="num">${item.laborPrice !== null ? formatCurrency(item.laborPrice) : ''}</td>
@@ -49,11 +59,11 @@ export function generateReport(schedule: CostSchedule, items: CostItem[]): strin
   });
 
   return `<!DOCTYPE html>
-<html lang="nl">
+<html lang="${ctx.lang}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${escapeHtml(schedule.name)} - Begrotingsrapport</title>
+  <title>${escapeHtml(schedule.name)} - ${L('views.budgetReport')}</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -167,73 +177,73 @@ export function generateReport(schedule: CostSchedule, items: CostItem[]): strin
       <div class="subtitle">${escapeHtml(schedule.description)}</div>
     </div>
     <div class="meta">
-      <div>Datum: ${dateStr}</div>
-      <div>Status: ${escapeHtml(schedule.status)}</div>
-      <div>Type: ${escapeHtml(schedule.predefinedType)}</div>
+      <div>${L('meta.date')}: ${dateStr}</div>
+      <div>${L('meta.status')}: ${escapeHtml(t(`status.${schedule.status}`, { defaultValue: String(schedule.status ?? '') }))}</div>
+      <div>${L('meta.type')}: ${escapeHtml(schedule.predefinedType)}</div>
     </div>
   </div>
 
   <div class="info-grid">
-    <span class="label">Project:</span>
+    <span class="label">${L('meta.project')}:</span>
     <span class="value">${escapeHtml(schedule.projectName)}</span>
-    <span class="label">Projectnr:</span>
+    <span class="label">${L('meta.projectNumberShort')}:</span>
     <span class="value">${escapeHtml(schedule.projectNumber)}</span>
-    <span class="label">Opdrachtgever:</span>
+    <span class="label">${L('meta.client')}:</span>
     <span class="value">${escapeHtml(schedule.client)}</span>
-    <span class="label">Opgesteld door:</span>
+    <span class="label">${L('meta.preparedBy')}:</span>
     <span class="value">${escapeHtml(schedule.author)}</span>
   </div>
 
-  <div class="section-title">Samenvatting per hoofdstuk</div>
+  <div class="section-title">${L('headings.chapterSummary')}</div>
   <table>
     <thead>
       <tr>
-        <th style="width:30px">Nr</th>
-        <th style="width:80px">Code</th>
-        <th>Omschrijving</th>
-        <th style="width:120px" class="num">Totaal</th>
+        <th style="width:30px">${L('columns.nr')}</th>
+        <th style="width:80px">${L('columns.code')}</th>
+        <th>${L('columns.description')}</th>
+        <th style="width:120px" class="num">${L('columns.total')}</th>
       </tr>
     </thead>
     <tbody>
       ${chapterRows}
       <tr class="total-row">
-        <td colspan="3">Totaal begroting</td>
+        <td colspan="3">${L('totals.budgetTotal')}</td>
         <td class="num">${formatCurrency(grandTotal)}</td>
       </tr>
     </tbody>
   </table>
 
-  <div class="section-title">Gedetailleerde specificatie</div>
+  <div class="section-title">${L('headings.detailedSpec')}</div>
   <table>
     <thead>
       <tr>
-        <th style="width:30px">Nr</th>
-        <th style="width:60px">Code</th>
-        <th>Omschrijving</th>
-        <th style="width:40px">Eenheid</th>
-        <th style="width:70px" class="num">Hoev.</th>
-        <th style="width:80px" class="num">Materiaal</th>
-        <th style="width:80px" class="num">Arbeid</th>
-        <th style="width:80px" class="num">Eenh.prijs</th>
-        <th style="width:90px" class="num">Totaal</th>
+        <th style="width:30px">${L('columns.nr')}</th>
+        <th style="width:60px">${L('columns.code')}</th>
+        <th>${L('columns.description')}</th>
+        <th style="width:40px">${L('columns.unit')}</th>
+        <th style="width:70px" class="num">${L('columns.quantityShort')}</th>
+        <th style="width:80px" class="num">${L('columns.material')}</th>
+        <th style="width:80px" class="num">${L('columns.labourCost')}</th>
+        <th style="width:80px" class="num">${L('columns.unitPriceAbbr')}</th>
+        <th style="width:90px" class="num">${L('columns.total')}</th>
       </tr>
     </thead>
     <tbody>
       ${detailRows}
       <tr class="total-row">
-        <td colspan="8">Totaal begroting</td>
+        <td colspan="8">${L('totals.budgetTotal')}</td>
         <td class="num">${formatCurrency(grandTotal)}</td>
       </tr>
     </tbody>
   </table>
 
   <div class="summary-box">
-    <span class="label">Totaal begroting (excl. BTW)</span>
+    <span class="label">${L('totals.budgetTotalExclVat')}</span>
     <span class="amount">${formatCurrency(grandTotal)}</span>
   </div>
 
   <div class="footer">
-    <span>Gegenereerd door Open Calc Studio v${__APP_VERSION__}</span>
+    <span>${escapeHtml(t('footer.generatedBy', { version: __APP_VERSION__ }))}</span>
     <span>${dateStr}</span>
   </div>
 </body>

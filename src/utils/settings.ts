@@ -3,6 +3,12 @@ import { storeGet, storeSet } from './store';
 export interface AppSettings {
   theme: string;
   locale: string;
+  /**
+   * Taal van afdrukken en PDF-rapporten. "auto" = volg de interfacetaal;
+   * anders een taalcode uit LANGUAGES. Los van `locale`, zodat een bureau
+   * met een Engelse interface toch Nederlandse rapporten kan afdrukken.
+   */
+  reportLocale: string;
   currency: string;
   autoSave: boolean;
   autoSaveInterval: number;
@@ -17,6 +23,7 @@ export const defaultSettings: AppSettings = {
   // iedereen in dezelfde, internationaal leesbare taal. Wie een eerdere
   // keuze heeft opgeslagen, houdt die.
   locale: 'en',
+  reportLocale: 'auto',
   currency: 'EUR',
   autoSave: false,
   autoSaveInterval: 300000,

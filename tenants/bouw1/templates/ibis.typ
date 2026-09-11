@@ -5,6 +5,15 @@
 
 #let data = json("data.json")
 
+// Rapportteksten in de rapporttaal (data.labels, platte keys uit de
+// report-namespace). Zonder labels (of bij een lege vertaling) de
+// Nederlandse tekst, zodat het sjabloon ook zonder frontend werkt.
+#let labels = data.at("labels", default: (:))
+#let L(key, nl) = {
+  let v = labels.at(key, default: nl)
+  if v == none or v == "" { nl } else { v }
+}
+
 // Page setup: dynamic size and orientation from data
 #let page-size = if data.at("page_size", default: "a4") == "a3" { "a3" } else { "a4" }
 #let is-landscape = data.at("page_orientation", default: "landscape") == "landscape"
@@ -36,9 +45,9 @@
             column-gutter: 4pt,
             row-gutter: 1.2pt,
             align: (left, left),
-            text(weight: "bold", "Documentnaam"), text(data.at("document_name", default: "")),
-            text(weight: "bold", "Project"), text(data.project_name),
-            text(weight: "bold", "Projectnummer"), text(data.project_number),
+            text(weight: "bold", L("meta.documentName", "Documentnaam")), text(data.at("document_name", default: "")),
+            text(weight: "bold", L("meta.project", "Project")), text(data.project_name),
+            text(weight: "bold", L("meta.projectNumber", "Projectnummer")), text(data.project_number),
           )
           v(1.5pt)
           grid(
@@ -46,10 +55,10 @@
             column-gutter: 4pt,
             row-gutter: 1.2pt,
             align: (left, left, left, left, left),
-            text(weight: "bold", "Peildatum:"), text(data.at("report_date", default: "")), [],
-              text(weight: "bold", "Opdrachtgever:"), text(data.client),
-            text(weight: "bold", "Calculator"), text(data.author), [],
-              text(weight: "bold", "Expert:"), text(data.at("expert", default: "")),
+            text(weight: "bold", L("meta.referenceDate", "Peildatum") + ":"), text(data.at("report_date", default: "")), [],
+              text(weight: "bold", L("meta.client", "Opdrachtgever") + ":"), text(data.client),
+            text(weight: "bold", L("meta.estimator", "Calculator")), text(data.author), [],
+              text(weight: "bold", L("meta.expert", "Expert") + ":"), text(data.at("expert", default: "")),
           )
         },
         // Right: logo
@@ -67,7 +76,9 @@
       columns: (1fr, auto),
       align: (left, right),
       text(size: 6pt, data.at("document_name", default: "")),
-      [#text(size: 7pt)[Pagina: #counter(page).display() van #counter(page).final().at(0)]],
+      text(size: 7pt, L("footer.pageOf", "Pagina: {{page}} van {{total}}")
+        .replace("{{page}}", str(counter(page).get().first()))
+        .replace("{{total}}", str(counter(page).final().first()))),
     )
   },
 )
@@ -94,7 +105,22 @@
 } else {
   (34fr, 8fr, 230fr, 36fr, 22fr, 30fr, 30fr, 46fr, 46fr, 46fr, 48fr, 52fr)
 }
-#let headers = (if is-directie { "StabuKalk" } else { "Stabucode" }, "S", "Omschrijving", "Hoeveelheid", "Eh", "Uurnorm", "Uren", "Materiaal", "Materieel", "Onderaan.", "Eenheidsprijs", "TOTAAL")
+// De codekolom draagt de naam van het Nederlandse coderingsstelsel en blijft
+// daarom onvertaald.
+#let headers = (
+  if is-directie { "StabuKalk" } else { "Stabucode" },
+  L("columns.verrekenbaarS", "S"),
+  L("columns.description", "Omschrijving"),
+  L("columns.quantity", "Hoeveelheid"),
+  L("columns.unitShort", "Eh"),
+  L("columns.hoursNorm", "Uurnorm"),
+  L("columns.hours", "Uren"),
+  L("columns.material", "Materiaal"),
+  L("columns.equipment", "Materieel"),
+  L("columns.subcontractLong", "Onderaan."),
+  L("columns.unitPrice", "Eenheidsprijs"),
+  L("columns.totalUpper", "TOTAAL"),
+)
 
 // Right-aligned numeric columns (0-based): Hoeveelheid(3), Uurnorm(5), Uren(6),
 // Materiaal(7), Materieel(8), Onderaan(9), Eenheidsprijs(10), TOTAAL(11)
@@ -188,12 +214,12 @@
 #let render-totalen(totalen) = {
   v(4pt)
   // Header bar
-  text(size: 8pt, weight: "bold", "Staart")
+  text(size: 8pt, weight: "bold", L("staart.title", "Staart"))
   v(2pt)
 
   // Symbol | Omschrijving | % / grondslag | Post (Totaal) | Totaal generaal
   let tot-widths = (16fr, 200fr, 60fr, 70fr, 80fr)
-  let tot-headers = ("", "Omschrijving", "%", "Totaal", "Totaal generaal")
+  let tot-headers = ("", L("columns.description", "Omschrijving"), "%", L("columns.total", "Totaal"), L("columns.grandTotal", "Totaal generaal"))
 
   table(
     columns: tot-widths,

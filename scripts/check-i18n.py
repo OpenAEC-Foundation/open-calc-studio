@@ -18,7 +18,7 @@ import sys
 
 SRC = "src/i18n/locales/en"
 ROOT = "src/i18n/locales"
-NS = ["common", "ribbon", "backstage", "settings", "feedback", "grid", "dialogs", "releases"]
+NS = ["common", "ribbon", "backstage", "settings", "feedback", "grid", "dialogs", "releases", "report", "units"]
 PLURAL_SUFFIXES = ("_zero", "_one", "_two", "_few", "_many", "_other", "_plural")
 
 

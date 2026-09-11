@@ -9,6 +9,7 @@ import {
   saveFileToPath,
   showError,
 } from '@/services/file/nativeFileService';
+import { showImportWarnings } from '@/components/common/ImportWarningsDialog';
 
 function fileNameFromPath(filePath: string): string {
   const segments = filePath.replace(/\\/g, '/').split('/');
@@ -212,6 +213,7 @@ export function useFileOperations() {
           const id = crypto.randomUUID();
           addDocument({ id, filePath: result.path, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: false, items: importResult.items, schedule: importResult.schedule });
           if (importResult.companyInfo) setCompanyInfo(importResult.companyInfo);
+          showImportWarnings(importResult, fileName);
           addToRecentFiles(result.path);
           return;
         }
@@ -228,6 +230,7 @@ export function useFileOperations() {
           const id = crypto.randomUUID();
           addDocument({ id, filePath: result.path, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: false, items: importResult.items, schedule: importResult.schedule });
           if (importResult.companyInfo) setCompanyInfo(importResult.companyInfo);
+          showImportWarnings(importResult, fileName);
           addToRecentFiles(result.path);
           return;
         }
@@ -286,6 +289,7 @@ export function useFileOperations() {
         const id = crypto.randomUUID();
         addDocument({ id, filePath, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: false, items: importResult.items, schedule: importResult.schedule });
         if (importResult.companyInfo) setCompanyInfo(importResult.companyInfo);
+        showImportWarnings(importResult, fileName);
         addToRecentFiles(filePath);
         return;
       }
@@ -304,6 +308,7 @@ export function useFileOperations() {
         const id = crypto.randomUUID();
         addDocument({ id, filePath, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: false, items: importResult.items, schedule: importResult.schedule });
         if (importResult.companyInfo) setCompanyInfo(importResult.companyInfo);
+        showImportWarnings(importResult, fileName);
         addToRecentFiles(filePath);
         return;
       }
@@ -357,6 +362,7 @@ export function useFileOperations() {
           const id = crypto.randomUUID();
           addDocument({ id, filePath: null, fileName: file.name.replace(/\.[^.]+$/, ''), isModified: false, items: importResult.items, schedule: importResult.schedule });
           if (importResult.companyInfo) setCompanyInfo(importResult.companyInfo);
+          showImportWarnings(importResult, file.name);
           return;
         }
         // Native formaat (.ifcCalc/.ifcx/.ocs/.json)

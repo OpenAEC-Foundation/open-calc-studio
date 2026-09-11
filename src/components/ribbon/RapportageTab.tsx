@@ -26,6 +26,7 @@ import {
 import "./rapportProps.css";
 import { useAppStore } from "../../state/appStore";
 import { printBudget, itemsForReport } from "../../services/print/printService";
+import { getReportLabels } from "../../i18n/reportI18n";
 import { generateIfcCostFile } from "../../services/ifc/ifcCostGenerator";
 import type { ReportView } from "../../state/slices/uiSlice";
 
@@ -71,17 +72,17 @@ export default function RapportageTab() {
       try {
         const tempPath = `${await tauri.invoke('plugin:fs|resolve_path', { path: '', directory: 'Temp' }).catch(() => 'C:/Users/rickd/AppData/Local/Temp')}/ocs-print-${Date.now()}.pdf`;
         await tauri.invoke('generate_pdf_report', {
-          request: { schedule, items: itemsForReport(schedule, items), reportView, pageSize, pageOrientation, showHoeveelheid, companyInfo, includeCover: false, includeSummary: false },
+          request: { schedule, items: itemsForReport(schedule, items), reportView, pageSize, pageOrientation, showHoeveelheid, companyInfo, includeCover: false, includeSummary: false, labels: await getReportLabels() },
           outputPath: tempPath,
         });
         const { openPath } = await import('@tauri-apps/plugin-opener');
         await openPath(tempPath);
       } catch (err) {
         // Fallback to HTML print
-        printBudget(schedule, items, reportView, showHoeveelheid, companyInfo, undefined, pageOrientation, pageSize);
+        void printBudget(schedule, items, reportView, showHoeveelheid, companyInfo, undefined, pageOrientation, pageSize);
       }
     } else {
-      printBudget(schedule, items, reportView, showHoeveelheid, companyInfo, undefined, pageOrientation, pageSize);
+      void printBudget(schedule, items, reportView, showHoeveelheid, companyInfo, undefined, pageOrientation, pageSize);
     }
   };
 
@@ -103,7 +104,7 @@ export default function RapportageTab() {
           defaultPath,
         });
         if (!outputPath) return;
-        const request = { schedule, items: itemsForReport(schedule, items), reportView, pageSize, pageOrientation, showHoeveelheid, companyInfo, includeCover: false, includeSummary: false };
+        const request = { schedule, items: itemsForReport(schedule, items), reportView, pageSize, pageOrientation, showHoeveelheid, companyInfo, includeCover: false, includeSummary: false, labels: await getReportLabels() };
         // IBIS-stijl en directiebegroting delen de IBIS Typst-generator.
         const command = (reportView === 'ibis' || reportView === 'directie') ? 'generate_ibis_report' : 'generate_pdf_report';
         await tauri.invoke(command, { request, outputPath });
@@ -114,7 +115,7 @@ export default function RapportageTab() {
         alert(`${t("rapportage.pdfExportFailed")}: ${err}`);
       }
     } else {
-      printBudget(schedule, items, reportView, showHoeveelheid, companyInfo, undefined, pageOrientation, pageSize);
+      void printBudget(schedule, items, reportView, showHoeveelheid, companyInfo, undefined, pageOrientation, pageSize);
     }
   };
 

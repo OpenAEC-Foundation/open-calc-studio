@@ -1,8 +1,16 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import { itemsForReport, generatePrintHtml } from '@/services/print/printService';
 import { createDefaultSchedule } from '@/data/defaultBudget';
 import { makeCostItem } from '@/services/importers/core';
 import type { CompanyInfo } from '@/types/costModel';
+import { useAppStore } from '@/state/appStore';
+
+// Deze tests controleren de Nederlandse rapportteksten: zet de rapporttaal
+// expliciet op Nederlands (de testomgeving detecteert anders Engels).
+beforeAll(() => {
+  const { settings, setSettings } = useAppStore.getState();
+  setSettings({ ...settings, reportLocale: 'nl' });
+});
 
 // i18next is hier niet geïnitialiseerd; geef de naamvelden expliciet mee.
 function mkSchedule(extra: Record<string, unknown> = {}) {
@@ -34,36 +42,36 @@ describe('itemsForReport — alleen subtotaal per hoofdstuk', () => {
 describe('rapportkop-logo in de HTML-print', () => {
   const logo = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUg==';
 
-  it('logoRight rendert als vaste koptekst-afbeelding rechtsboven', () => {
+  it('logoRight rendert als vaste koptekst-afbeelding rechtsboven', async () => {
     const schedule = mkSchedule();
     const companyInfo = { name: 'Test BV', logoRight: logo } as CompanyInfo;
-    const html = generatePrintHtml(schedule, sample(), 'hoofdaanneming', true, companyInfo);
+    const html = await generatePrintHtml(schedule, sample(), 'hoofdaanneming', true, companyInfo);
     expect(html).toContain('<img class="report-logo-right"');
     expect(html).toContain(logo);
   });
 
-  it('zonder logo geen logo-element', () => {
+  it('zonder logo geen logo-element', async () => {
     const schedule = mkSchedule();
-    const html = generatePrintHtml(schedule, sample(), 'hoofdaanneming', true, { name: 'Test BV', logoRight: '' } as CompanyInfo);
+    const html = await generatePrintHtml(schedule, sample(), 'hoofdaanneming', true, { name: 'Test BV', logoRight: '' } as CompanyInfo);
     expect(html).not.toContain('<img class="report-logo-right"');
   });
 
-  it('vinkje filtert posten en regels uit de print', () => {
+  it('vinkje filtert posten en regels uit de print', async () => {
     const schedule = mkSchedule({ reportChapterTotalsOnly: true });
-    const html = generatePrintHtml(schedule, sample(), 'hoofdaanneming', true);
+    const html = await generatePrintHtml(schedule, sample(), 'hoofdaanneming', true);
     expect(html).toContain('Grondwerk');
     expect(html).not.toContain('Graafmachine');
   });
 
-  it('alleen subtotaal-bedragen: regelbedragen leeg, hoeveelheden zichtbaar', () => {
+  it('alleen subtotaal-bedragen: regelbedragen leeg, hoeveelheden zichtbaar', async () => {
     const items = sample();
     const regel = items.find(i => i.rowType === 'regel')!;
     regel.total = 640; regel.unitPrice = 640;
     const post = items.find(i => i.rowType === 'begrotingspost')!;
     post.total = 640;
-    const zonder = generatePrintHtml(mkSchedule(), items, 'hoofdaanneming', true);
+    const zonder = await generatePrintHtml(mkSchedule(), items, 'hoofdaanneming', true);
     expect(zonder).toContain('640,00'); // regelbedrag zichtbaar zonder vinkje
-    const met = generatePrintHtml(mkSchedule({ reportAmountsSubtotalsOnly: true }), items, 'hoofdaanneming', true);
+    const met = await generatePrintHtml(mkSchedule({ reportAmountsSubtotalsOnly: true }), items, 'hoofdaanneming', true);
     expect(met).not.toContain('640,00'); // regelbedrag verborgen
     expect(met).toContain('10,00'); // hoeveelheid (op de post) blijft staan
   });

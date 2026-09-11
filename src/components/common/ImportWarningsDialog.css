@@ -1,0 +1,103 @@
+/* ImportWarningsDialog — niet-blokkerend meldingenpaneel rechtsonder.
+   Zelfde tokens als de Modal-dialogen, maar zonder overlay: de gebruiker kan
+   direct verder werken in de geïmporteerde begroting. */
+.import-warnings-panel {
+  position: fixed;
+  bottom: 40px;
+  inset-inline-end: 16px;
+  width: 460px;
+  max-width: calc(100vw - 32px);
+  max-height: 55vh;
+  z-index: 9000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--theme-dialog-bg);
+  border: 1px solid var(--theme-dialog-border);
+  border-radius: 4px;
+  box-shadow: var(--theme-dialog-shadow);
+  font-family: 'Inter', system-ui, sans-serif;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.15s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.import-warnings-panel.import-warnings-open {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.import-warnings-panel .modal-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.import-warnings-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px 8px;
+  color: var(--theme-dialog-content-text);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.import-warnings-intro {
+  margin: 0 0 6px;
+  overflow-wrap: anywhere;
+}
+
+.import-warnings-list {
+  margin: 0;
+  padding-inline-start: 18px;
+  overflow-y: auto;
+  user-select: text;
+}
+
+.import-warnings-list li {
+  margin-bottom: 4px;
+  overflow-wrap: anywhere;
+}
+
+.import-warnings-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 8px 14px;
+  border-top: 1px solid var(--theme-dialog-border);
+  background: var(--theme-dialog-sidebar-bg);
+}
+
+.import-warnings-btn {
+  padding: 5px 16px;
+  border: 1.5px solid var(--theme-dialog-input-border);
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'Inter', system-ui, sans-serif;
+  cursor: default;
+  transition: all 0.15s ease;
+  min-width: 80px;
+}
+
+.import-warnings-btn-primary {
+  background: var(--theme-btn-primary-bg);
+  color: var(--theme-btn-primary-text);
+  border-color: var(--theme-btn-primary-border);
+}
+
+.import-warnings-btn-primary:hover {
+  background: var(--theme-btn-primary-hover-bg);
+}
+
+.import-warnings-btn-secondary {
+  background: var(--theme-btn-secondary-bg);
+  color: var(--theme-btn-secondary-text);
+}
+
+.import-warnings-btn-secondary:hover {
+  background: var(--theme-btn-secondary-hover-bg);
+  border-color: var(--theme-btn-secondary-hover-border);
+}
