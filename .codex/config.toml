@@ -1,0 +1,6 @@
+[mcp_servers.open-calc-studio]
+command = "npx"
+args = [
+    "tsx",
+    "mcp-server/src/index.ts",
+]
