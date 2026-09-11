@@ -7,6 +7,17 @@ pub mod ws_bridge;
 use std::sync::{Arc, Mutex};
 use tauri::Manager;
 
+/// De webview meldt hier het resultaat van een export die via de REST API
+/// is aangevraagd (zie `api::emit_and_await`).
+#[tauri::command]
+fn api_export_result(
+    pending: tauri::State<'_, api::PendingResults>,
+    request_id: String,
+    result: serde_json::Value,
+) {
+    api::resolve_pending(&pending, &request_id, result);
+}
+
 /// Frontend pushes its current state snapshot here whenever it changes,
 /// so REST GET endpoints can return live data.
 #[tauri::command]
@@ -144,6 +155,7 @@ pub fn run() {
         open_new_window,
         get_os_username,
         api_push_state,
+        api_export_result,
         accounts::accounts_sign_in,
         accounts::accounts_get_user,
         accounts::accounts_sign_out,
@@ -166,7 +178,9 @@ pub fn run() {
       // Initialize shared API snapshot and start the local REST API server.
       let snapshot: api::SharedSnapshot = Arc::new(Mutex::new(api::ApiSnapshot::default()));
       app.manage(snapshot.clone());
-      api::start_api_server(app.handle().clone(), snapshot);
+      let pending: api::PendingResults = Arc::new(Mutex::new(std::collections::HashMap::new()));
+      app.manage(pending.clone());
+      api::start_api_server(app.handle().clone(), snapshot, pending);
 
       // Write MCP server config so Claude Code can discover it
       write_mcp_config(app);

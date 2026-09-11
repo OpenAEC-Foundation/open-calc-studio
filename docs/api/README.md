@@ -154,14 +154,16 @@ curl -X POST http://127.0.0.1:9742/api/v1/save \
   -H "Content-Type: application/json" \
   -d '{"filePath": "C:/Users/me/Documents/project.ocs"}'
 
-# Export a PDF (uses the standard Bouw 1 report layout)
-curl -X POST http://127.0.0.1:9742/api/v1/export/pdf \
-  -H "Content-Type: application/json" \
-  -d '{"report_view": "bouw1", "output_path": "C:/Users/me/Documents/begroting.pdf"}'
+# Export a PDF. The app renders it in the report language (labels and
+# number/date notation) and answers when the file is written:
+#   { "success": true, "outputPath": "C:/Users/me/Documents/begroting.pdf" }
+# Errors come back as 500 (e.g. "no budget loaded") or 504 when the app
+# window does not respond within 90 s. Without output_path the file is
+# written next to the open budget (or in the temp folder).
+curl -X POST http://127.0.0.1:9742/api/v1/export/pdf   -H "Content-Type: application/json"   -d '{"report_view": "bouw1", "output_path": "C:/Users/me/Documents/begroting.pdf"}'
 
-# Export IFC
-curl -X POST http://127.0.0.1:9742/api/v1/export/ifc \
-  -H "Content-Type: application/json" -d '{}'
+# Export IFC (same response shape; output_path optional)
+curl -X POST http://127.0.0.1:9742/api/v1/export/ifc   -H "Content-Type: application/json" -d '{"output_path": "C:/Users/me/Documents/begroting.ifc"}'
 
 # Import a CUF-XML body
 curl -X POST http://127.0.0.1:9742/api/v1/import/cuf \

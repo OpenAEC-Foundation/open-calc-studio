@@ -21,6 +21,7 @@ use axum::{
 use log::{error, info, warn};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
+use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
 use tauri::{AppHandle, Emitter};
 
@@ -48,17 +49,27 @@ pub struct ApiSnapshot {
 
 pub type SharedSnapshot = Arc<Mutex<ApiSnapshot>>;
 
+/// Antwoorden waarop een REST-aanroep wacht, per `requestId`. Exports
+/// (PDF, IFC) worden door de webview uitgevoerd; die meldt het resultaat
+/// terug via het Tauri-commando `api_export_result` (lib.rs), zodat de
+/// aanroeper een echte fout ziet in plaats van altijd "success".
+pub type PendingResults = Arc<Mutex<HashMap<String, tokio::sync::oneshot::Sender<Value>>>>;
+
+/// Hoelang een export-aanroep op de webview wacht.
+const EXPORT_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(90);
+
 #[derive(Clone)]
 struct AppState {
     app: AppHandle,
     snapshot: SharedSnapshot,
     token: Option<String>,
+    pending: PendingResults,
 }
 
 /// Spawn the REST API server on a background tokio task.
-pub fn start_api_server(app: AppHandle, snapshot: SharedSnapshot) {
+pub fn start_api_server(app: AppHandle, snapshot: SharedSnapshot, pending: PendingResults) {
     let token = std::env::var("OCS_API_TOKEN").ok().filter(|s| !s.is_empty());
-    let state = AppState { app, snapshot, token };
+    let state = AppState { app, snapshot, token, pending };
 
     tauri::async_runtime::spawn(async move {
         let app = build_router(state);
@@ -191,6 +202,53 @@ fn emit_mutation(state: &AppState, action: &str, data: Value) -> Result<(), ApiE
             warn!("[REST API] emit failed for action {}: {}", action, e);
             ApiError::new(StatusCode::INTERNAL_SERVER_ERROR, format!("emit failed: {}", e))
         })
+}
+
+/// Stuur een mutatie naar de webview en wacht op het resultaat dat die via
+/// `api_export_result` terugmeldt. `data` krijgt een `requestId` mee.
+/// Fout uit de webview → 500 met de melding; geen antwoord → 504.
+async fn emit_and_await(state: &AppState, action: &str, mut data: Value) -> Result<Value, ApiError> {
+    let request_id = format!("{:016x}{:016x}", rand::random::<u64>(), rand::random::<u64>());
+    let (tx, rx) = tokio::sync::oneshot::channel();
+    state
+        .pending
+        .lock()
+        .map_err(|_| ApiError::new(StatusCode::INTERNAL_SERVER_ERROR, "pending lock poisoned"))?
+        .insert(request_id.clone(), tx);
+    if let Value::Object(map) = &mut data {
+        map.insert("requestId".into(), Value::String(request_id.clone()));
+    }
+    if let Err(e) = emit_mutation(state, action, data) {
+        if let Ok(mut p) = state.pending.lock() { p.remove(&request_id); }
+        return Err(e);
+    }
+    match tokio::time::timeout(EXPORT_TIMEOUT, rx).await {
+        Ok(Ok(result)) => {
+            if result.get("success").and_then(|v| v.as_bool()).unwrap_or(false) {
+                Ok(result)
+            } else {
+                let msg = result.get("error").and_then(|v| v.as_str()).unwrap_or("export failed");
+                Err(ApiError::new(StatusCode::INTERNAL_SERVER_ERROR, msg))
+            }
+        }
+        Ok(Err(_)) => Err(ApiError::new(StatusCode::INTERNAL_SERVER_ERROR, "UI dropped the request")),
+        Err(_) => {
+            if let Ok(mut p) = state.pending.lock() { p.remove(&request_id); }
+            Err(ApiError::new(
+                StatusCode::GATEWAY_TIMEOUT,
+                "no response from the UI within 90 s (is the app window open and a budget loaded?)",
+            ))
+        }
+    }
+}
+
+/// Aangeroepen vanuit het Tauri-commando `api_export_result`: lever het
+/// antwoord af bij de wachtende REST-aanroep. Onbekende ids (time-out al
+/// verstreken) worden genegeerd.
+pub fn resolve_pending(pending: &PendingResults, request_id: &str, result: Value) {
+    if let Some(tx) = pending.lock().ok().and_then(|mut p| p.remove(request_id)) {
+        let _ = tx.send(result);
+    }
 }
 
 fn snapshot_or_unavailable(state: &AppState) -> Result<std::sync::MutexGuard<'_, ApiSnapshot>, ApiError> {
@@ -626,13 +684,13 @@ async fn post_export_pdf(
     Json(body): Json<ExportPdfBody>,
 ) -> Result<Json<Value>, ApiError> {
     check_auth(&state, &headers)?;
-    emit_mutation(&state, "export_pdf_request", json!({
+    let result = emit_and_await(&state, "export_pdf_request", json!({
         "reportView": body.report_view,
         "outputPath": body.output_path,
         "pageSize": body.page_size,
         "pageOrientation": body.page_orientation,
-    }))?;
-    Ok(Json(json!({ "success": true })))
+    })).await?;
+    Ok(Json(result))
 }
 
 async fn post_export_ifc(
@@ -641,8 +699,10 @@ async fn post_export_ifc(
     Json(body): Json<Value>,
 ) -> Result<Json<Value>, ApiError> {
     check_auth(&state, &headers)?;
-    emit_mutation(&state, "export_ifc_request", body)?;
-    Ok(Json(json!({ "success": true })))
+    // Body: { "output_path": "..." } (optioneel; anders naast de begroting)
+    let data = if body.is_object() { body } else { json!({}) };
+    let result = emit_and_await(&state, "export_ifc_request", data).await?;
+    Ok(Json(result))
 }
 
 async fn post_import_cuf(

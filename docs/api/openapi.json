@@ -577,8 +577,8 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "report_view": { "type": "string", "enum": ["werkbeschrijving", "hoofdaanneming", "onderaanneming", "inschrijfstaat", "nacalculatie", "bouw1", "offerte"] },
-                  "output_path": { "type": "string" },
+                  "report_view": { "type": "string", "enum": ["werkbeschrijving", "hoofdaanneming", "onderaanneming", "inschrijfstaat", "nacalculatie", "bouw1", "ibis", "directie", "offerte"] },
+                  "output_path": { "type": "string", "description": "Optional; defaults to next to the open budget, else the temp folder" },
                   "page_size": { "type": "string", "enum": ["A4", "A3", "Letter"] },
                   "page_orientation": { "type": "string", "enum": ["portrait", "landscape"] }
                 }
@@ -586,13 +586,32 @@
             }
           }
         },
-        "responses": { "200": { "description": "Queued" } }
+        "responses": {
+          "200": { "description": "File written", "content": { "application/json": { "schema": { "type": "object", "properties": { "success": { "type": "boolean" }, "outputPath": { "type": "string" } } } } } },
+          "500": { "description": "Export failed in the app (e.g. no budget loaded)" },
+          "504": { "description": "No response from the app window within 90 s" }
+        }
       }
     },
     "/api/v1/export/ifc": {
       "post": {
         "summary": "Export current budget as IFC4X3 STEP",
-        "responses": { "200": { "description": "Queued" } }
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": { "output_path": { "type": "string", "description": "Optional; defaults to next to the open budget, else the temp folder" } }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "File written", "content": { "application/json": { "schema": { "type": "object", "properties": { "success": { "type": "boolean" }, "outputPath": { "type": "string" } } } } } },
+          "500": { "description": "Export failed in the app (e.g. no budget loaded)" },
+          "504": { "description": "No response from the app window within 90 s" }
+        }
       }
     },
     "/api/v1/import/cuf": {

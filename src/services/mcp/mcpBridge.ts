@@ -4,6 +4,7 @@
  */
 import { useAppStore } from '@/state/appStore';
 import type { CostItem, ResourceLibraryItem, SubSheetCell } from '@/types/costModel';
+import { handleApiExport } from './apiExports';
 
 /** Shape of the payload emitted by the Rust WS bridge. */
 interface McpMutation {
@@ -381,6 +382,12 @@ function handleMutation(mutation: McpMutation) {
     // ── Misc no-op / logging passthroughs ──
     case 'import_nsx':
       console.log('[MCP Bridge] NSX import received; no integration slice yet');
+      break;
+
+    // REST API: PDF/IFC-export; het resultaat gaat terug via api_export_result.
+    case 'export_pdf_request':
+    case 'export_ifc_request':
+      void handleApiExport(action, data);
       break;
 
     default:
