@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.1": "Numbers and dates in PDF reports follow the report language",
     "v0.12.0": "Reports and units in your own language",
     "v0.11.0": "39 languages + Spanish FIEBDC-3 (.bc3)",
     "v0.10.3": "Standard and reduced VAT — selectable per item",
@@ -17,6 +18,12 @@
     "v0.7.10": "OpenAEC account + bottom-bar navigation"
   },
   "highlights": {
+    "v0.12.1": [
+      "PDF reports write amounts, quantities, percentages and dates in the notation of the report language — for example 1.234,56 € and DD/MM/YYYY in Spanish, 1 234,56 € in French",
+      "A VAT rate such as 5.5% was rounded to 6% in the report — fixed",
+      "FIEBDC-3 (.bc3) round trip verified on 21 real files: after import → export → re-import, every amount, description, quantity and text comes back unchanged; the exporter now writes numbers without rounding, keeps line breaks in texts, shares identical resources as one concept and no longer counts money for resources with a 0 yield",
+      "REST API: the PDF and IFC exports (/api/v1/export/…) reported success but wrote no file; the file is now written in the report language and the caller gets the path, or a real error message"
+    ],
     "v0.12.0": [
       "Printed and PDF reports appear in your own language, with a separate \"Report language\" setting (Preferences → General) that follows the interface language by default",
       "Units are shown translated, for example \"h\" instead of \"uur\" — saved files stay unchanged",

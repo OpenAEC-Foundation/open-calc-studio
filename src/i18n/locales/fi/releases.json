@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.1": "Luvut ja päivämäärät PDF-raporteissa raporttien kielellä",
     "v0.12.0": "Raportit ja yksiköt omalla kielelläsi",
     "v0.11.0": "39 kieltä + espanjalainen FIEBDC-3 (.bc3)",
     "v0.10.3": "Yleinen ja alennettu alv — valittavissa osittain",
@@ -17,6 +18,12 @@
     "v0.7.10": "OpenAEC-tili + alapalkin navigointi"
   },
   "highlights": {
+    "v0.12.1": [
+      "PDF-raportit kirjoittavat summat, määrät, prosentit ja päivämäärät raporttien kielen merkintätavalla — esimerkiksi 1.234,56 € ja PP/KK/VVVV espanjaksi, 1 234,56 € ranskaksi",
+      "Alv-kanta kuten 5,5 % pyöristyi raportissa 6 %:iin — korjattu",
+      "FIEBDC-3 (.bc3) -edestakainen siirto tarkistettu 21 oikealla tiedostolla: tuonnin → viennin → uudelleentuonnin jälkeen kaikki summat, kuvaukset, määrät ja tekstit palaavat muuttumattomina; vienti kirjoittaa nyt luvut pyöristämättä, säilyttää rivinvaihdot teksteissä, yhdistää samanlaiset panokset yhdeksi käsitteeksi eikä enää laske rahaa panoksille, joiden tuotto on 0",
+      "REST API: PDF- ja IFC-viennit (/api/v1/export/…) ilmoittivat onnistuneensa, mutta eivät kirjoittaneet tiedostoa; tiedosto kirjoitetaan nyt raporttien kielellä ja kutsuja saa polun tai oikean virheilmoituksen"
+    ],
     "v0.12.0": [
       "Tulostetut ja PDF-raportit näkyvät omalla kielelläsi, ja erillinen \"Raporttien kieli\" -asetus (Asetukset → Yleiset) seuraa oletuksena käyttöliittymän kieltä",
       "Yksiköt näytetään käännettyinä, esimerkiksi \"h\" eikä \"uur\" — tallennetut tiedostot pysyvät ennallaan",

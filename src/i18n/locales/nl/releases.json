@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.1": "Getallen en datums in PDF-rapporten in de rapporttaal",
     "v0.12.0": "Rapporten en eenheden in je eigen taal",
     "v0.11.0": "39 talen + Spaans FIEBDC-3 (.bc3)",
     "v0.10.3": "Btw hoog én laag — per onderdeel selecteerbaar",
@@ -17,6 +18,12 @@
     "v0.7.10": "OpenAEC-account + onderbalk-navigatie"
   },
   "highlights": {
+    "v0.12.1": [
+      "PDF-rapporten schrijven bedragen, hoeveelheden, percentages en datums in de notatie van de rapporttaal — bijvoorbeeld 1.234,56 € en DD/MM/JJJJ in het Spaans, 1 234,56 € in het Frans",
+      "Een btw-tarief zoals 5,5% werd in het rapport afgerond tot 6% — opgelost",
+      "FIEBDC-3 (.bc3) rondreis geverifieerd op 21 echte bestanden: na importeren → exporteren → opnieuw importeren komen alle bedragen, omschrijvingen, hoeveelheden en teksten ongewijzigd terug; de exporter schrijft getallen nu zonder afronding, houdt regeleinden in teksten, deelt gelijke middelen als één concept en telt geen geld meer bij middelen met rendement 0",
+      "REST API: de PDF- en IFC-export (/api/v1/export/…) meldden succes maar schreven geen bestand; het bestand wordt nu in de rapporttaal geschreven en de aanroeper krijgt het pad, of een echte foutmelding"
+    ],
     "v0.12.0": [
       "Afdrukken en PDF-rapporten verschijnen in je eigen taal, met een aparte instelling \"Rapporttaal\" (Voorkeuren → Algemeen) die standaard de interfacetaal volgt",
       "Eenheden worden vertaald weergegeven, bijvoorbeeld \"h\" in plaats van \"uur\" — opgeslagen bestanden blijven ongewijzigd",

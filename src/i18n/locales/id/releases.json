@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.1": "Angka dan tanggal di laporan PDF mengikuti bahasa laporan",
     "v0.12.0": "Laporan dan satuan dalam bahasa Anda sendiri",
     "v0.11.0": "39 bahasa + FIEBDC-3 Spanyol (.bc3)",
     "v0.10.3": "PPN normal dan rendah — dapat dipilih per bagian",
@@ -17,6 +18,12 @@
     "v0.7.10": "Akun OpenAEC + navigasi bilah bawah"
   },
   "highlights": {
+    "v0.12.1": [
+      "Laporan PDF menulis jumlah, volume, persentase, dan tanggal dalam notasi bahasa laporan — misalnya 1.234,56 € dan DD/MM/YYYY dalam bahasa Spanyol, 1 234,56 € dalam bahasa Prancis",
+      "Tarif PPN seperti 5,5% dibulatkan menjadi 6% di laporan — diperbaiki",
+      "Perjalanan bolak-balik FIEBDC-3 (.bc3) diverifikasi pada 21 file nyata: setelah impor → ekspor → impor ulang, setiap jumlah, uraian, volume, dan teks kembali tanpa perubahan; pengekspor kini menulis angka tanpa pembulatan, mempertahankan pemisah baris dalam teks, membagikan sumber daya yang identik sebagai satu konsep, dan tidak lagi menghitung uang untuk sumber daya dengan hasil 0",
+      "REST API: ekspor PDF dan IFC (/api/v1/export/…) melaporkan berhasil tetapi tidak menulis file; file kini ditulis dalam bahasa laporan dan pemanggil menerima jalurnya, atau pesan kesalahan yang sebenarnya"
+    ],
     "v0.12.0": [
       "Laporan cetak dan PDF tampil dalam bahasa Anda sendiri, dengan pengaturan terpisah \"Bahasa laporan\" (Preferensi → Umum) yang secara bawaan mengikuti bahasa antarmuka",
       "Satuan ditampilkan dalam terjemahan, misalnya \"jam\" sebagai ganti \"uur\" — file yang disimpan tetap tidak berubah",

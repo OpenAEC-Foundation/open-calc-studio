@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.1": "Számok és dátumok a PDF-jelentésekben a jelentések nyelvén",
     "v0.12.0": "Jelentések és mértékegységek a saját nyelvén",
     "v0.11.0": "39 nyelv + spanyol FIEBDC-3 (.bc3)",
     "v0.10.3": "Normál és kedvezményes áfa — részenként választható",
@@ -17,6 +18,12 @@
     "v0.7.10": "OpenAEC-fiók + alsó sávos navigáció"
   },
   "highlights": {
+    "v0.12.1": [
+      "A PDF-jelentések az összegeket, mennyiségeket, százalékokat és dátumokat a jelentések nyelvének írásmódjával írják — például 1.234,56 € és NN/HH/ÉÉÉÉ spanyolul, 1 234,56 € franciául",
+      "Egy 5,5%-os áfakulcs a jelentésben 6%-ra kerekedett — javítva",
+      "A FIEBDC-3 (.bc3) oda-vissza átalakítás 21 valódi fájlon ellenőrizve: importálás → exportálás → újraimportálás után minden összeg, megnevezés, mennyiség és szöveg változatlanul tér vissza; az exportáló mostantól kerekítés nélkül írja a számokat, megőrzi a sortöréseket a szövegekben, az azonos erőforrásokat egy fogalomként osztja meg, és nem számol többé pénzt a 0 kihozatalú erőforrásoknál",
+      "REST API: a PDF- és IFC-exportálás (/api/v1/export/…) sikert jelzett, de nem írt fájlt; a fájl mostantól a jelentések nyelvén íródik, és a hívó megkapja az elérési utat, vagy egy valódi hibaüzenetet"
+    ],
     "v0.12.0": [
       "A nyomtatott és PDF-jelentések a saját nyelvén jelennek meg, külön „Jelentések nyelve” beállítással (Beállítások → Általános), amely alapértelmezés szerint a felület nyelvét követi",
       "A mértékegységek lefordítva jelennek meg, például „óra” az „uur” helyett — a mentett fájlok változatlanok maradnak",

@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.1": "Čísla a data v PDF sestavách v jazyce sestav",
     "v0.12.0": "Sestavy a jednotky ve vašem jazyce",
     "v0.11.0": "39 jazyků + španělský FIEBDC-3 (.bc3)",
     "v0.10.3": "Základní a snížená sazba DPH — volitelná u každé části",
@@ -17,6 +18,12 @@
     "v0.7.10": "Účet OpenAEC + navigace ve spodní liště"
   },
   "highlights": {
+    "v0.12.1": [
+      "PDF sestavy zapisují částky, množství, procenta a data v zápisu jazyka sestav — například 1.234,56 € a DD/MM/RRRR ve španělštině, 1 234,56 € ve francouzštině",
+      "Sazba DPH jako 5,5 % se v sestavě zaokrouhlovala na 6 % — opraveno",
+      "Obousměrný převod FIEBDC-3 (.bc3) ověřen na 21 skutečných souborech: po importu → exportu → opětovném importu se všechny částky, popisy, množství a texty vrátí beze změny; export nyní zapisuje čísla bez zaokrouhlování, zachovává zalomení řádků v textech, sdílí shodné zdroje jako jeden koncept a už nezapočítává peníze u zdrojů s výtěžností 0",
+      "REST API: export do PDF a IFC (/api/v1/export/…) hlásil úspěch, ale žádný soubor nezapsal; soubor se nyní zapisuje v jazyce sestav a volající dostane cestu, nebo skutečnou chybovou zprávu"
+    ],
     "v0.12.0": [
       "Tištěné a PDF sestavy se zobrazují ve vašem jazyce, se samostatným nastavením „Jazyk sestav“ (Předvolby → Obecné), které ve výchozím stavu sleduje jazyk rozhraní",
       "Jednotky se zobrazují přeložené, například „hod“ místo „uur“ — uložené soubory zůstávají beze změny",

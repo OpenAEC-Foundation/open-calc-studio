@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.1": "Brojevi i datumi u PDF izvještajima na jeziku izvještaja",
     "v0.12.0": "Izvještaji i jedinice na vašem jeziku",
     "v0.11.0": "39 jezika + španjolski FIEBDC-3 (.bc3)",
     "v0.10.3": "Opća i snižena stopa PDV-a — po stavci",
@@ -17,6 +18,12 @@
     "v0.7.10": "OpenAEC račun + navigacija u donjoj traci"
   },
   "highlights": {
+    "v0.12.1": [
+      "PDF izvještaji zapisuju iznose, količine, postotke i datume u zapisu jezika izvještaja — na primjer 1.234,56 € i DD/MM/GGGG na španjolskom, 1 234,56 € na francuskom",
+      "Stopa PDV-a poput 5,5 % zaokruživala se u izvještaju na 6 % — ispravljeno",
+      "Kružni put FIEBDC-3 (.bc3) provjeren na 21 stvarnoj datoteci: nakon uvoza → izvoza → ponovnog uvoza svi iznosi, opisi, količine i tekstovi vraćaju se nepromijenjeni; izvoz sada zapisuje brojeve bez zaokruživanja, čuva prijelome redaka u tekstovima, dijeli jednake resurse kao jedan pojam i više ne računa novac za resurse s učinkom 0",
+      "REST API: izvoz u PDF i IFC (/api/v1/export/…) javljao je uspjeh, ali nije zapisao datoteku; datoteka se sada zapisuje na jeziku izvještaja, a pozivatelj dobiva putanju ili stvarnu poruku o pogrešci"
+    ],
     "v0.12.0": [
       "Ispisani i PDF izvještaji prikazuju se na vašem jeziku, uz zasebnu postavku \"Jezik izvještaja\" (Postavke → Općenito) koja prema zadanim postavkama slijedi jezik sučelja",
       "Jedinice se prikazuju prevedene, na primjer \"sat\" umjesto \"uur\" — spremljene datoteke ostaju nepromijenjene",

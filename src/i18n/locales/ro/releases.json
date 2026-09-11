@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.1": "Numere și date în rapoartele PDF în limba rapoartelor",
     "v0.12.0": "Rapoarte și unități în limba dumneavoastră",
     "v0.11.0": "39 de limbi + FIEBDC-3 spaniol (.bc3)",
     "v0.10.3": "TVA standard și redus — selectabil pe fiecare parte",
@@ -17,6 +18,12 @@
     "v0.7.10": "Cont OpenAEC + navigare din bara de jos"
   },
   "highlights": {
+    "v0.12.1": [
+      "Rapoartele PDF scriu valorile, cantitățile, procentele și datele în notația limbii rapoartelor — de exemplu 1.234,56 € și ZZ/LL/AAAA în spaniolă, 1 234,56 € în franceză",
+      "O cotă de TVA precum 5,5% era rotunjită la 6% în raport — rezolvat",
+      "Dus-întors FIEBDC-3 (.bc3) verificat pe 21 de fișiere reale: după import → export → reimport, toate valorile, denumirile, cantitățile și textele revin neschimbate; exportatorul scrie acum numerele fără rotunjire, păstrează întreruperile de rând din texte, partajează resursele identice ca un singur concept și nu mai contabilizează bani pentru resursele cu randament 0",
+      "REST API: exporturile PDF și IFC (/api/v1/export/…) raportau succes, dar nu scriau niciun fișier; fișierul este acum scris în limba rapoartelor, iar apelantul primește calea sau un mesaj de eroare real"
+    ],
     "v0.12.0": [
       "Rapoartele tipărite și PDF apar în limba dumneavoastră, cu o setare separată „Limba rapoartelor” (Preferințe → General) care urmează implicit limba interfeței",
       "Unitățile sunt afișate traduse, de exemplu „h” în loc de „uur” — fișierele salvate rămân neschimbate",

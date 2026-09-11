@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.1": "Nambari na tarehe katika ripoti za PDF kwa lugha ya ripoti",
     "v0.12.0": "Ripoti na vipimo kwa lugha yako",
     "v0.11.0": "Lugha 39 + FIEBDC-3 ya Uhispania (.bc3)",
     "v0.10.3": "VAT ya kawaida na ya chini — huchaguliwa kwa kila kipengele",
@@ -17,6 +18,12 @@
     "v0.7.10": "Akaunti ya OpenAEC + urambazaji wa upau wa chini"
   },
   "highlights": {
+    "v0.12.1": [
+      "Ripoti za PDF huandika kiasi cha fedha, kiasi, asilimia na tarehe kwa mtindo wa lugha ya ripoti — kwa mfano 1.234,56 € na DD/MM/YYYY kwa Kihispania, 1 234,56 € kwa Kifaransa",
+      "Kiwango cha VAT kama 5.5% kilikuwa kikikadiriwa kuwa 6% kwenye ripoti — kimerekebishwa",
+      "Safari ya kwenda na kurudi ya FIEBDC-3 (.bc3) imethibitishwa kwenye faili 21 halisi: baada ya kuingiza → kuhamisha → kuingiza tena, kila kiasi cha fedha, maelezo, kiasi na maandishi hurudi bila kubadilika; kihamishaji sasa huandika nambari bila kukadiria, huhifadhi mikato ya mistari katika maandishi, hushirikisha rasilimali zinazofanana kama dhana moja na hakihesabu tena fedha kwa rasilimali zenye mavuno 0",
+      "REST API: uhamishaji wa PDF na IFC (/api/v1/export/…) uliripoti mafanikio lakini haukuandika faili; sasa faili huandikwa kwa lugha ya ripoti na aliyeita hupata njia, au ujumbe halisi wa hitilafu"
+    ],
     "v0.12.0": [
       "Ripoti zilizochapishwa na za PDF zinaonekana kwa lugha yako, pamoja na mpangilio tofauti wa \"Lugha ya ripoti\" (Mapendeleo → Ujumla) ambao kwa chaguo-msingi hufuata lugha ya kiolesura",
       "Vipimo huonyeshwa vikiwa vimetafsiriwa, kwa mfano \"saa\" badala ya \"uur\" — faili zilizohifadhiwa hazibadiliki",

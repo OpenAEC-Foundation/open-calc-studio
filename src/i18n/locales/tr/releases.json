@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.1": "PDF raporlarında sayılar ve tarihler rapor dilinde",
     "v0.12.0": "Kendi dilinizde raporlar ve birimler",
     "v0.11.0": "39 dil + İspanyol FIEBDC-3 (.bc3)",
     "v0.10.3": "Yüksek ve düşük KDV — kısım bazında seçilebilir",
@@ -17,6 +18,12 @@
     "v0.7.10": "OpenAEC hesabı + alt çubuk gezinmesi"
   },
   "highlights": {
+    "v0.12.1": [
+      "PDF raporları tutarları, miktarları, yüzdeleri ve tarihleri rapor dilinin gösterimiyle yazar — örneğin İspanyolcada 1.234,56 € ve GG/AA/YYYY, Fransızcada 1 234,56 €",
+      "%5,5 gibi bir KDV oranı raporda %6'ya yuvarlanıyordu — düzeltildi",
+      "FIEBDC-3 (.bc3) gidiş-dönüş 21 gerçek dosyada doğrulandı: içe aktarma → dışa aktarma → yeniden içe aktarma sonrasında tüm tutarlar, açıklamalar, miktarlar ve metinler değişmeden geri geliyor; dışa aktarıcı artık sayıları yuvarlamadan yazıyor, metinlerdeki satır sonlarını koruyor, aynı kaynakları tek bir kavram olarak paylaşıyor ve verimi 0 olan kaynaklar için artık para saymıyor",
+      "REST API: PDF ve IFC dışa aktarmaları (/api/v1/export/…) başarı bildiriyor ama dosya yazmıyordu; dosya artık rapor dilinde yazılıyor ve çağıran taraf yolu ya da gerçek bir hata mesajı alıyor"
+    ],
     "v0.12.0": [
       "Basılı ve PDF raporlar kendi dilinizde görünür; ayrı bir \"Rapor dili\" ayarı (Tercihler → Genel) varsayılan olarak arayüz dilini izler",
       "Birimler çevrilmiş olarak gösterilir, örneğin \"uur\" yerine \"sa\" — kaydedilen dosyalar değişmeden kalır",

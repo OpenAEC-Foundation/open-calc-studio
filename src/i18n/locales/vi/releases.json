@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.1": "Số và ngày trong báo cáo PDF theo ngôn ngữ báo cáo",
     "v0.12.0": "Báo cáo và đơn vị bằng ngôn ngữ của bạn",
     "v0.11.0": "39 ngôn ngữ + FIEBDC-3 (.bc3) của Tây Ban Nha",
     "v0.10.3": "Thuế GTGT chuẩn và thấp — chọn được cho từng mục",
@@ -17,6 +18,12 @@
     "v0.7.10": "Tài khoản OpenAEC + điều hướng ở thanh dưới"
   },
   "highlights": {
+    "v0.12.1": [
+      "Báo cáo PDF ghi thành tiền, khối lượng, tỷ lệ phần trăm và ngày theo ký hiệu của ngôn ngữ báo cáo — ví dụ 1.234,56 € và DD/MM/YYYY trong tiếng Tây Ban Nha, 1 234,56 € trong tiếng Pháp",
+      "Thuế suất GTGT như 5,5% bị làm tròn thành 6% trong báo cáo — đã sửa",
+      "Vòng nhập-xuất FIEBDC-3 (.bc3) đã được kiểm chứng trên 21 tệp thật: sau khi nhập → xuất → nhập lại, mọi thành tiền, mô tả, khối lượng và văn bản trở về không đổi; trình xuất nay ghi số không làm tròn, giữ ngắt dòng trong văn bản, gộp các nguồn lực giống nhau thành một khái niệm và không còn tính tiền cho nguồn lực có hiệu suất 0",
+      "REST API: xuất PDF và IFC (/api/v1/export/…) báo thành công nhưng không ghi tệp; nay tệp được ghi bằng ngôn ngữ báo cáo và bên gọi nhận được đường dẫn, hoặc một thông báo lỗi thực sự"
+    ],
     "v0.12.0": [
       "Báo cáo in và PDF hiển thị bằng ngôn ngữ của bạn, với thiết lập riêng \"Ngôn ngữ báo cáo\" (Tùy chọn → Chung) mặc định theo ngôn ngữ giao diện",
       "Đơn vị được hiển thị theo bản dịch, ví dụ \"giờ\" thay cho \"uur\" — tệp đã lưu vẫn giữ nguyên",

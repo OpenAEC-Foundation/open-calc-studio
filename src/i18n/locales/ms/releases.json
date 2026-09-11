@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.1": "Nombor dan tarikh dalam laporan PDF mengikut bahasa laporan",
     "v0.12.0": "Laporan dan unit dalam bahasa anda sendiri",
     "v0.11.0": "39 bahasa + FIEBDC-3 Sepanyol (.bc3)",
     "v0.10.3": "GST biasa dan rendah — boleh dipilih bagi setiap bahagian",
@@ -17,6 +18,12 @@
     "v0.7.10": "Akaun OpenAEC + navigasi bar bawah"
   },
   "highlights": {
+    "v0.12.1": [
+      "Laporan PDF menulis amaun, kuantiti, peratusan dan tarikh dalam tatatanda bahasa laporan — contohnya 1.234,56 € dan DD/MM/YYYY dalam bahasa Sepanyol, 1 234,56 € dalam bahasa Perancis",
+      "Kadar GST seperti 5.5% dibundarkan kepada 6% dalam laporan — dibetulkan",
+      "Pusingan FIEBDC-3 (.bc3) disahkan pada 21 fail sebenar: selepas import → eksport → import semula, setiap amaun, huraian, kuantiti dan teks kembali tanpa perubahan; pengeksport kini menulis nombor tanpa pembundaran, mengekalkan pemisah baris dalam teks, berkongsi sumber yang sama sebagai satu konsep dan tidak lagi mengira wang untuk sumber dengan hasil 0",
+      "REST API: eksport PDF dan IFC (/api/v1/export/…) melaporkan berjaya tetapi tidak menulis fail; fail kini ditulis dalam bahasa laporan dan pemanggil menerima laluannya, atau mesej ralat sebenar"
+    ],
     "v0.12.0": [
       "Laporan bercetak dan PDF dipaparkan dalam bahasa anda sendiri, dengan tetapan berasingan \"Bahasa laporan\" (Keutamaan → Umum) yang secara lalai mengikut bahasa antara muka",
       "Unit dipaparkan dalam terjemahan, contohnya \"jam\" dan bukannya \"uur\" — fail yang disimpan kekal tidak berubah",

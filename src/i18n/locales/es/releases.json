@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.1": "Números y fechas de los informes PDF en el idioma de los informes",
     "v0.12.0": "Informes y unidades en tu idioma",
     "v0.11.0": "39 idiomas + FIEBDC-3 (.bc3)",
     "v0.10.3": "IVA general y reducido — seleccionable por elemento",
@@ -17,6 +18,12 @@
     "v0.7.10": "Cuenta OpenAEC + navegación en la barra inferior"
   },
   "highlights": {
+    "v0.12.1": [
+      "Los informes PDF escriben importes, mediciones, porcentajes y fechas con la notación del idioma de los informes — por ejemplo 1.234,56 € y DD/MM/AAAA en español, 1 234,56 € en francés",
+      "Un tipo de IVA como 5,5 % se redondeaba a 6 % en el informe — corregido",
+      "Ida y vuelta FIEBDC-3 (.bc3) verificada con 21 archivos reales: tras importar → exportar → volver a importar, todos los importes, descripciones, mediciones y textos vuelven sin cambios; el exportador ahora escribe los números sin redondear, conserva los saltos de línea en los textos, comparte los recursos idénticos como un solo concepto y ya no cuenta dinero en los recursos con rendimiento 0",
+      "REST API: las exportaciones a PDF e IFC (/api/v1/export/…) informaban de éxito pero no escribían ningún archivo; ahora el archivo se escribe en el idioma de los informes y quien llama recibe la ruta, o un mensaje de error real"
+    ],
     "v0.12.0": [
       "Los informes impresos y en PDF aparecen en tu idioma, con un ajuste propio «Idioma de los informes» (Preferencias → General) que por defecto sigue el idioma de la interfaz",
       "Las unidades se muestran traducidas, por ejemplo «h» en lugar de «uur» — los archivos guardados no cambian",

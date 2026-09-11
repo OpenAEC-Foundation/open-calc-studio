@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.1": "Tal og datoer i PDF-rapporter følger rapportsproget",
     "v0.12.0": "Rapporter og enheder på dit eget sprog",
     "v0.11.0": "39 sprog + spansk FIEBDC-3 (.bc3)",
     "v0.10.3": "Høj og lav momssats — kan vælges pr. post",
@@ -17,6 +18,12 @@
     "v0.7.10": "OpenAEC-konto + navigation i bundlinjen"
   },
   "highlights": {
+    "v0.12.1": [
+      "PDF-rapporter skriver beløb, mængder, procenter og datoer i rapportsprogets notation — for eksempel 1.234,56 € og DD/MM/ÅÅÅÅ på spansk, 1 234,56 € på fransk",
+      "En momssats som 5,5 % blev afrundet til 6 % i rapporten — rettet",
+      "FIEBDC-3 (.bc3) rundtur verificeret på 21 rigtige filer: efter import → eksport → ny import kommer alle beløb, beskrivelser, mængder og tekster uændrede tilbage; eksporten skriver nu tal uden afrunding, bevarer linjeskift i tekster, deler ens ressourcer som ét begreb og tæller ikke længere penge for ressourcer med udbytte 0",
+      "REST API: PDF- og IFC-eksporten (/api/v1/export/…) meldte succes, men skrev ingen fil; filen skrives nu på rapportsproget, og kalderen får stien eller en rigtig fejlmeddelelse"
+    ],
     "v0.12.0": [
       "Udskrevne rapporter og PDF-rapporter vises på dit eget sprog, med en separat indstilling “Rapportsprog” (Indstillinger → Generelt), der som standard følger brugerfladens sprog",
       "Enheder vises oversat, for eksempel “t” i stedet for “uur” — gemte filer forbliver uændrede",

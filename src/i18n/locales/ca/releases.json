@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.1": "Nombres i dates dels informes PDF en l’idioma dels informes",
     "v0.12.0": "Informes i unitats en el vostre idioma",
     "v0.11.0": "39 idiomes + FIEBDC-3 (.bc3)",
     "v0.10.3": "IVA general i reduït — seleccionable per element",
@@ -17,6 +18,12 @@
     "v0.7.10": "Compte OpenAEC + navegació a la barra inferior"
   },
   "highlights": {
+    "v0.12.1": [
+      "Els informes PDF escriuen imports, amidaments, percentatges i dates amb la notació de l’idioma dels informes — per exemple 1.234,56 € i DD/MM/AAAA en castellà, 1 234,56 € en francès",
+      "Un tipus d’IVA com ara 5,5 % s’arrodonia a 6 % a l’informe — corregit",
+      "Anada i tornada FIEBDC-3 (.bc3) verificada amb 21 fitxers reals: després d’importar → exportar → tornar a importar, tots els imports, descripcions, amidaments i textos tornen sense canvis; l’exportador ara escriu els nombres sense arrodonir, conserva els salts de línia dels textos, comparteix els recursos idèntics com un sol concepte i ja no compta diners per als recursos amb rendiment 0",
+      "REST API: les exportacions a PDF i IFC (/api/v1/export/…) informaven d’èxit però no escrivien cap fitxer; ara el fitxer s’escriu en l’idioma dels informes i qui fa la crida rep el camí, o bé un missatge d’error real"
+    ],
     "v0.12.0": [
       "Els informes impresos i en PDF apareixen en el vostre idioma, amb una opció pròpia «Idioma dels informes» (Preferències → General) que per defecte segueix l’idioma de la interfície",
       "Les unitats es mostren traduïdes, per exemple «h» en lloc de «uur» — els fitxers desats no canvien",

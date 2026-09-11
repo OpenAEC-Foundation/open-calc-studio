@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.1": "Numeri e date nei report PDF nella lingua dei report",
     "v0.12.0": "Report e unità nella tua lingua",
     "v0.11.0": "39 lingue + FIEBDC-3 spagnolo (.bc3)",
     "v0.10.3": "IVA ordinaria e ridotta — selezionabile per singolo elemento",
@@ -17,6 +18,12 @@
     "v0.7.10": "Account OpenAEC + navigazione nella barra inferiore"
   },
   "highlights": {
+    "v0.12.1": [
+      "I report PDF scrivono importi, quantità, percentuali e date con la notazione della lingua dei report — per esempio 1.234,56 € e GG/MM/AAAA in spagnolo, 1 234,56 € in francese",
+      "Un'aliquota IVA come 5,5% veniva arrotondata a 6% nel report — risolto",
+      "Andata e ritorno FIEBDC-3 (.bc3) verificati su 21 file reali: dopo importazione → esportazione → nuova importazione, tutti gli importi, le descrizioni, le quantità e i testi tornano invariati; l'esportatore ora scrive i numeri senza arrotondare, conserva gli a capo nei testi, condivide le risorse identiche come un unico concetto e non conta più denaro per le risorse con resa 0",
+      "REST API: le esportazioni PDF e IFC (/api/v1/export/…) segnalavano successo ma non scrivevano alcun file; ora il file viene scritto nella lingua dei report e il chiamante riceve il percorso, oppure un vero messaggio di errore"
+    ],
     "v0.12.0": [
       "I report stampati e in PDF compaiono nella tua lingua, con un'impostazione separata «Lingua dei report» (Preferenze → Generale) che per impostazione predefinita segue la lingua dell'interfaccia",
       "Le unità sono mostrate tradotte, per esempio «h» invece di «uur» — i file salvati restano invariati",

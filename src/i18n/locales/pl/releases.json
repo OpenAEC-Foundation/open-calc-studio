@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.1": "Liczby i daty w raportach PDF w języku raportów",
     "v0.12.0": "Raporty i jednostki w Twoim języku",
     "v0.11.0": "39 języków + hiszpański FIEBDC-3 (.bc3)",
     "v0.10.3": "Podstawowa i obniżona stawka VAT — wybierana dla każdego elementu",
@@ -17,6 +18,12 @@
     "v0.7.10": "Konto OpenAEC + nawigacja na dolnym pasku"
   },
   "highlights": {
+    "v0.12.1": [
+      "Raporty PDF zapisują kwoty, ilości, procenty i daty w notacji języka raportów — na przykład 1.234,56 € i DD/MM/RRRR po hiszpańsku, 1 234,56 € po francusku",
+      "Stawka VAT taka jak 5,5% była w raporcie zaokrąglana do 6% — naprawione",
+      "Obieg FIEBDC-3 (.bc3) w obie strony sprawdzony na 21 prawdziwych plikach: po imporcie → eksporcie → ponownym imporcie wszystkie kwoty, opisy, ilości i teksty wracają bez zmian; eksporter zapisuje teraz liczby bez zaokrąglania, zachowuje podziały wierszy w tekstach, łączy identyczne zasoby w jedno pojęcie i nie nalicza już pieniędzy dla zasobów o wydajności 0",
+      "REST API: eksport do PDF i IFC (/api/v1/export/…) zgłaszał sukces, ale nie zapisywał pliku; plik jest teraz zapisywany w języku raportów, a wywołujący otrzymuje ścieżkę lub prawdziwy komunikat o błędzie"
+    ],
     "v0.12.0": [
       "Raporty drukowane i PDF wyświetlają się w Twoim języku, z osobnym ustawieniem „Język raportów” (Preferencje → Ogólne), które domyślnie podąża za językiem interfejsu",
       "Jednostki są wyświetlane w tłumaczeniu, na przykład „godz.” zamiast „uur” — zapisane pliki pozostają bez zmian",
