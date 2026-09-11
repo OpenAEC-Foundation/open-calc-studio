@@ -1,0 +1,1605 @@
+~V|Iturribizia, S.L.|FIEBDC-3/95|ppl 0.1|
+~C|%7||Costes indirectos |7|040400|1|
+~T|%7|Costes indirectos |
+~C|01002|H|Capataz. |838|040400|1|
+~T|01002|Capataz. |
+~C|01003|H|Oficial 1¦ |834|040400|1|
+~T|01003|Oficial 1¦ |
+~C|01004|H|Oficial 2¦ |830|040400|1|
+~T|01004|Oficial 2¦ |
+~C|01005|H|Ayudante |826|040400|1|
+~T|01005|Ayudante |
+~C|01006|H|Pe¢n especializado. |823|040400|1|
+~T|01006|Pe¢n especializado. |
+~C|01007|H|Pe¢n ordinario. |819|040400|1|
+~T|01007|Pe¢n ordinario. |
+~C|01008|ML|Montaje tuber¡as di metro 1200 mm. |4200|040400|1|
+~T|01008|Montaje tuber¡as di metro 1200 mm. |
+~C|01009|Ml|Montaje tuber¡as í1300mm. y í1400 mm. |4550|040400|1|
+~T|01009|Montaje tuber¡as í1300mm. y í1400 mm. |
+~C|01010|Ml|Montaje tubs. í1500 mm. y í1600 mm. |4900|040400|1|
+~T|01010|Montaje tubs. í1500 mm. y í1600 mm. |
+~C|01011|Ml|Montaje tubs. í600 mm. a í800 mm. |2800|040400|1|
+~T|01011|Montaje tubs. í600 mm. a í800 mm. |
+~C|01012|Ml|Montaje tuber¡a í 1000 mm. |3300|040400|1|
+~T|01012|Montaje tuber¡a í 1000 mm. |
+~C|01013|Ud|Montaje apoyo de alineaci¢n. |23392|040400|1|
+~T|01013|Montaje apoyo de alineaci¢n. |
+~C|01014|Ud|Montaje apoyo de entronque. |64288|040400|1|
+~T|01014|Montaje apoyo de entronque. |
+~C|01015|Ud|Montaje apoyo de  ngulo. |30368|040400|1|
+~T|01015|Montaje apoyo de  ngulo. |
+~C|01016|Ud|Montaje apoyo y transformador. |136288|040400|1|
+~T|01016|Montaje apoyo y transformador. |
+~C|01017|Ud|Montaje de pararrayos. |5248|040400|1|
+~T|01017|Montaje de pararrayos. |
+~C|01018|Ud|Montaje v lvula í1500 mm. |760480|040400|1|
+~T|01018|Montaje v lvula í1500 mm. |
+~C|01019|Ud|Montaje v lvula í1200 mm. |522000|040400|1|
+~T|01019|Montaje v lvula í1200 mm. |
+~C|01020|Ud|Montaje v lvula í1000 mm. |429115|040400|1|
+~T|01020|Montaje v lvula í1000 mm. |
+~C|01021|Ud|Montaje v lvula í700 mm. |252940|040400|1|
+~T|01021|Montaje v lvula í700 mm. |
+~C|01022|Ud|Montaje v lvula í600 mm. |84960|040400|1|
+~T|01022|Montaje v lvula í600 mm. |
+~C|01023|Ud|Montaje v lvula í500 mm. |70800|040400|1|
+~T|01023|Montaje v lvula í500 mm. |
+~C|01024|Ud|Montaje v lvula í400 mm. |56640|040400|1|
+~T|01024|Montaje v lvula í400 mm. |
+~C|01025|Ud|Montaje v lvula í300 mm. |42480|040400|1|
+~T|01025|Montaje v lvula í300 mm. |
+~C|01026|Ud|Montaje v lvula í250 mm. |33680|040400|1|
+~T|01026|Montaje v lvula í250 mm. |
+~C|01027|Ud|Montaje v lvula í200 mm. |30480|040400|1|
+~T|01027|Montaje v lvula í200 mm. |
+~C|01028|Ud|Montaje v lvula í800 mm. |344000|040400|1|
+~T|01028|Montaje v lvula í800 mm. |
+~C|01029|Ud|Montaje medidor caudal í1400 mm. |420160|040400|1|
+~T|01029|Montaje medidor caudal í1400 mm. |
+~C|01030|Ud|Montaje medidor caudal í1000 mm. |184250|040400|1|
+~T|01030|Montaje medidor caudal í1000 mm. |
+~C|01031|Ud|Montaje medidor caudal í700 mm. |121120|040400|1|
+~T|01031|Montaje medidor caudal í700 mm. |
+~C|01032|Ud|Montaje medidor caudal í600 mm. |100855|040400|1|
+~T|01032|Montaje medidor caudal í600 mm. |
+~C|01033|Ud|Montaje medidor caudal í500 mm. |87405|040400|1|
+~T|01033|Montaje medidor caudal í500 mm. |
+~C|01034|Ud|Montaje medidor caudal í400 mm. |78805|040400|1|
+~T|01034|Montaje medidor caudal í400 mm. |
+~C|01035|Ud|Montaje medidor caudal í300 mm. |63270|040400|1|
+~T|01035|Montaje medidor caudal í300 mm. |
+~C|01036|Ud|Montaje medidor caudal í250 mm. |51895|040400|1|
+~T|01036|Montaje medidor caudal í250 mm. |
+~C|01037|Ud|Montaje medidor caudal í200 mm. |48120|040400|1|
+~T|01037|Montaje medidor caudal í200 mm. |
+~C|01038|Ud|Montaje ventosa í150 mm. |32160|040400|1|
+~T|01038|Montaje ventosa í150 mm. |
+~C|01040|Ml|Montaje tuber¡a fundici¢n í200 mm. |1200|040400|1|
+~T|01040|Montaje tuber¡a fundici¢n í200 mm. |
+~C|01041|Ml|Montaje tuber¡a fundici¢n í250 mm. |1555|040400|1|
+~T|01041|Montaje tuber¡a fundici¢n í250 mm. |
+~C|01042|Ml|Montaje tuber¡a fundici¢n í300 mm. |1950|040400|1|
+~T|01042|Montaje tuber¡a fundici¢n í300 mm. |
+~C|01043|Ml|Montaje tuber¡a fundici¢n í400 mm. |2700|040400|1|
+~T|01043|Montaje tuber¡a fundici¢n í400 mm. |
+~C|01044|Ml|Montaje tuber¡a fundici¢n í500 mm. |3425|040400|1|
+~T|01044|Montaje tuber¡a fundici¢n í500 mm. |
+~C|01045|Ud|Montaje v lvula í600 mm. |344000|040400|1|
+~T|01045|Montaje v lvula í600 mm. |
+~C|02001|H| Bandeja vibrante 8 C.V.|1256|040400|2|
+~T|02001| Bandeja vibrante 8 C.V.|
+~C|02002|H|Barredora de pistas |1314|040400|2|
+~T|02002|Barredora de pistas |
+~C|02004|H|Bomba hormigonado s/cami¢n |6875|040400|2|
+~T|02004|Bomba hormigonado s/cami¢n |
+~C|02006|H|Cami¢n basculante 6 m3 |3375|040400|2|
+~T|02006|Cami¢n basculante 6 m3 |
+~C|02007|H|Cami¢n basculante 8 m3 |3416|040400|2|
+~T|02007|Cami¢n basculante 8 m3 |
+~C|02008|H|Cami¢n basculante 10 m3 |3486|040400|2|
+~T|02008|Cami¢n basculante 10 m3 |
+~C|02010|H|Cami¢n hormigonera 6 m3 |2875|040400|2|
+~T|02010|Cami¢n hormigonera 6 m3 |
+~C|02011|H|Cisterna de agua 9 m3 |2763|040400|2|
+~T|02011|Cisterna de agua 9 m3 |
+~C|02012|H|Cisterna riego asf ltico 8 m3. |4294|040400|2|
+~T|02012|Cisterna riego asf ltico 8 m3. |
+~C|02014|H|Compactador autopropuls. 8 T. |2270|040400|2|
+~T|02014|Compactador autopropuls. 8 T. |
+~C|02017|H|Compactador vibrante 15 T. |7547|040400|2|
+~T|02017|Compactador vibrante 15 T. |
+~C|02018|H|Compresor con dos martillos. |2813|040400|2|
+~T|02018|Compresor con dos martillos. |
+~C|02019|H|Compresor 9,5 m3/min. |1625|040400|2|
+~T|02019|Compresor 9,5 m3/min. |
+~C|02023|H|Excavadora s/orugas 58 C.V. |3281|040400|2|
+~T|02023|Excavadora s/orugas 58 C.V. |
+~C|02026|H|Gr£a automotriz 5 T. |3500|040400|2|
+~T|02026|Gr£a automotriz 5 T. |
+~C|02027|H|Gr£a automotriz 15 T. |5250|040400|2|
+~T|02027|Gr£a automotriz 15 T. |
+~C|02031|H|M quina hinca postes |3875|040400|2|
+~T|02031|M quina hinca postes |
+~C|02034|H|Motoniveladora 150 C.V. |7260|040400|2|
+~T|02034|Motoniveladora 150 C.V. |
+~C|02035|H|Motoniveladora 180 C.V. |7500|040400|2|
+~T|02035|Motoniveladora 180 C.V. |
+~C|02037|H|Pala cargadora s/neum. 170 C.V. |5550|040400|2|
+~T|02037|Pala cargadora s/neum. 170 C.V. |
+~C|02040|H|Pis¢n vibrante. |637|040400|2|
+~T|02040|Pis¢n vibrante. |
+~C|02043|H|Planta hormig¢n 25 m3/h |4675|040400|2|
+~T|02043|Planta hormig¢n 25 m3/h |
+~C|02046|H|Retroexcavadora s/rued. 50 CV. |3175|040400|2|
+~T|02046|Retroexcavadora s/rued. 50 CV. |
+~C|02047|H|Retroexcavadora s/orug. 80 CV. |4375|040400|2|
+~T|02047|Retroexcavadora s/orug. 80 CV. |
+~C|02048|H|Tractor bulld. s/orug. 140 CV. |4726|040400|2|
+~T|02048|Tractor bulld. s/orug. 140 CV. |
+~C|02049|H|Tractor bulld. s/orug. 300 CV. |12875|040400|2|
+~T|02049|Tractor bulld. s/orug. 300 CV. |
+~C|02051|H|Tractor doble tracci¢n 68 CV. |2448|040400|2|
+~T|02051|Tractor doble tracci¢n 68 CV. |
+~C|02054|H|Vibrador de aguja. |510|040400|2|
+~T|02054|Vibrador de aguja. |
+~C|02055|Ml|Montaje tuber¡a í1200 mm. |1800|040400|2|
+~T|02055|Montaje tuber¡a í1200 mm. |
+~C|02056|Ml|Montaje tuber¡as í1300mm. y í1400 mm. |1950|040400|2|
+~T|02056|Montaje tuber¡as í1300mm. y í1400 mm. |
+~C|02057|Ml|Montaje tubs. í1500 mm. y í1600 mm. |2100|040400|2|
+~T|02057|Montaje tubs. í1500 mm. y í1600 mm. |
+~C|02058|Ml|Montaje tubs. í600 mm. a í800 mm. |1200|040400|2|
+~T|02058|Montaje tubs. í600 mm. a í800 mm. |
+~C|02059|Ml|Montaje tuber¡a í 1000 mm. |1500|040400|2|
+~T|02059|Montaje tuber¡a í 1000 mm. |
+~C|02060|H|Bomba de agua. |2000|040400|2|
+~T|02060|Bomba de agua. |
+~C|04001|M3|AGUA |40|040400|3|
+~T|04001|AGUA |
+~C|04002|M3|ARENA |1000|040400|3|
+~T|04002|ARENA |
+~C|04004|M3|µrido doble tratamiento superficial. |1290|040400|3|
+~T|04004|µrido doble tratamiento superficial. |
+~C|04005|M3|µrido grueso. |850|040400|3|
+~T|04005|µrido grueso. |
+~C|04007|Tm|µrido para riegos de imprimaci¢n. |853|040400|3|
+~T|04007|µrido para riegos de imprimaci¢n. |
+~C|04009|Tm|Bet£n asf ltico. |30400|040400|3|
+~T|04009|Bet£n asf ltico. |
+~C|04010|Tm|Cemento CEM-I. |10400|040400|3|
+~T|04010|Cemento CEM-I. |
+~C|04011|Tm|Emulsi¢n asf ltica doble t. ECR-1. |24463|040400|3|
+~T|04011|Emulsi¢n asf ltica doble t. ECR-1. |
+~C|04013|Tm|Emulsi¢n asf. riegos adheren. |23000|040400|3|
+~T|04013|Emulsi¢n asf. riegos adheren. |
+~C|04014|Tm|Emulsi¢n asf. riegos imprimaci¢n. |19900|040400|3|
+~T|04014|Emulsi¢n asf. riegos imprimaci¢n. |
+~C|04015|Tm|Grava. |700|040400|3|
+~T|04015|Grava. |
+~C|04022|M3|Material filtrante. |770|040400|3|
+~T|04022|Material filtrante. |
+~C|04023|M3|Material seleccionado. |370|040400|3|
+~T|04023|Material seleccionado. |
+~C|04024|M3|Material para subbase. |980|040400|3|
+~T|04024|Material para subbase. |
+~C|04025|M3|Piedra para encachados. |1100|040400|3|
+~T|04025|Piedra para encachados. |
+~C|04026|M3|Zahorra artificial. |1100|040400|3|
+~T|04026|Zahorra artificial. |
+~C|04029|KG|Plastificante para hormigones. |84|040400|3|
+~T|04029|Plastificante para hormigones. |
+~C|04030|KG|Producto film¢geno de curado. |105|040400|3|
+~T|04030|Producto film¢geno de curado. |
+~C|04031|M3|Piedra caliza de mamposter¡a. |5750|040400|3|
+~T|04031|Piedra caliza de mamposter¡a. |
+~C|04032|M3|Suelo cohesivo . |215|040400|3|
+~T|04032|Suelo cohesivo . |
+~C|04033|Tm|Mezcla bituminosa tipo G-25 |2870|040400|3|
+~T|04033|Mezcla bituminosa tipo G-25 |
+~C|04034|Tm|Mezcla bituminosa tipo D-20 |2990|040400|3|
+~T|04034|Mezcla bituminosa tipo D-20 |
+~C|05007|Ml|Tubo de acero galvaniz. pint. di metro 48 mm. |1155|040400|3|
+~T|05007|Tubo de acero galvaniz. pint. di metro 48 mm. |
+~C|05013|Ud|V lvula compuerta di metro 250 mm. |47500|040400|3|
+~T|05013|V lvula compuerta di metro 250 mm. |
+~C|05014|Ml|Tubo hormig¢n vibroprensado di metro 40 cm. |2089|040400|3|
+~T|05014|Tubo hormig¢n vibroprensado di metro 40 cm. |
+~C|05016|Ml|Tubo hormig¢n vibroprensado di metro 100 cm. |9211|040400|3|
+~T|05016|Tubo hormig¢n vibroprensado di metro 100 cm. |
+~C|05017|Ml|Tubo hormig¢n vibroprensado di metro 20 cm. |434|040400|3|
+~T|05017|Tubo hormig¢n vibroprensado di metro 20 cm. |
+~C|05018|Ml|Tubo hormig¢n vibroprensado di metro 60 cm. |2556|040400|3|
+~T|05018|Tubo hormig¢n vibroprensado di metro 60 cm. |
+~C|05019|Ml|Tubo hormig¢n vibroprensado di metro 50 cm. |2042|040400|3|
+~T|05019|Tubo hormig¢n vibroprensado di metro 50 cm. |
+~C|05023|Ml|Tubo hormig¢n vibroprensado di metro 30 cm. |669|040400|3|
+~T|05023|Tubo hormig¢n vibroprensado di metro 30 cm. |
+~C|05025|Ml|Tubo hormig¢n vibroprensado di metro 25 cm. |495|040400|3|
+~T|05025|Tubo hormig¢n vibroprensado di metro 25 cm. |
+~C|05026|Ml|Tubo dren di metro 90 mm. |709|040400|3|
+~T|05026|Tubo dren di metro 90 mm. |
+~C|05027|Ml|Tubo dren di metro 63 mm. |551|040400|3|
+~T|05027|Tubo dren di metro 63 mm. |
+~C|05029|Ml|Tubo fibrocemento di metro 50 mm. |456|040400|3|
+~T|05029|Tubo fibrocemento di metro 50 mm. |
+~C|05030|Ml|Tubo hormig¢n armado di metro 2,00 m. |121326|040400|3|
+~T|05030|Tubo hormig¢n armado di metro 2,00 m. |
+~C|05031|Ml| Tubo hormig¢n armado di metro 1,70 m.|85982|040400|3|
+~T|05031| Tubo hormig¢n armado di metro 1,70 m.|
+~C|05032|Ml| Tubo hormig¢n armado di metro 1,60 m.|84538|040400|3|
+~T|05032| Tubo hormig¢n armado di metro 1,60 m.|
+~C|05033|Ml| Tubo hormig¢n armado di metro 1,50 m.|83140|040400|3|
+~T|05033| Tubo hormig¢n armado di metro 1,50 m.|
+~C|05034|Ml|Tubo hormig¢n armado di metro 1,30 m. |79557|040400|3|
+~T|05034|Tubo hormig¢n armado di metro 1,30 m. |
+~C|05035|Ml|Tubo hormig¢n armado di metro 1,20 m. |77066|040400|3|
+~T|05035|Tubo hormig¢n armado di metro 1,20 m. |
+~C|05036|Ml|Tubo hormig¢n armado di metro 0,80 m. |47128|040400|3|
+~T|05036|Tubo hormig¢n armado di metro 0,80 m. |
+~C|05037|Ml|Tubo hormig¢n armado di metro 0,70 m. |44897|040400|3|
+~T|05037|Tubo hormig¢n armado di metro 0,70 m. |
+~C|05038|Ml|Tubo hormig¢n armado di metro 0,60 m. |43496|040400|3|
+~T|05038|Tubo hormig¢n armado di metro 0,60 m. |
+~C|05039|Ml|Tubo acero di metro 250 mm. |127331|040400|3|
+~T|05039|Tubo acero di metro 250 mm. |
+~C|05040|Ud|P.P. piezas especia. di metro 250 mm. |15798|040400|3|
+~T|05040|P.P. piezas especia. di metro 250 mm. |
+~C|05041|Ml|Tubo fibrocemento di metro 250 mm. |2656|040400|3|
+~T|05041|Tubo fibrocemento di metro 250 mm. |
+~C|05044|Ud|Compuerta di metro 40 cm. |80882|040400|3|
+~T|05044|Compuerta di metro 40 cm. |
+~C|05053|Ud|V lvula compuerta di metro 30 cm. |84316|040400|3|
+~T|05053|V lvula compuerta di metro 30 cm. |
+~C|05054|Ud|V lvula compuerta di metro 50 cm. |214505|040400|3|
+~T|05054|V lvula compuerta di metro 50 cm. |
+~C|05055|Ud|V lvula compuerta di metro 60 cm. |289590|040400|3|
+~T|05055|V lvula compuerta di metro 60 cm. |
+~C|05056|Ud|V lvula compuerta di metro 25 cm. |81000|040400|3|
+~T|05056|V lvula compuerta di metro 25 cm. |
+~C|05057|Ud|V lvula compuerta di metro 40 cm. |98600|040400|3|
+~T|05057|V lvula compuerta di metro 40 cm. |
+~C|05058|Ml|Tubo de fundici¢n, di metro 400 mm. |9520|040400|3|
+~T|05058|Tubo de fundici¢n, di metro 400 mm. |
+~C|05059|Ml|Tubo de hormig¢n poroso y perforado de 0,5 m de di metro. |1880|040400|3|
+~T|05059|Tubo de hormig¢n poroso y perforado de 0,5 m de di metro. |
+~C|05060|Ml|Tuber¡a de acero helicosoldado í1200 mm. (e=7.1 mm.), incluso revestimiento exterior e interior. |36130|040400|3|
+~T|05060|Tuber¡a de acero helicosoldado í1200 mm. (e=7.1 mm.), incluso revestimiento exterior e interior. |
+~C|05061|Ml|Tuber¡a de acero helicosoldado í1300 mm. (e=7.9 mm.), incluso revestimiento exterior e interior. |45790|040400|3|
+~T|05061|Tuber¡a de acero helicosoldado í1300 mm. (e=7.9 mm.), incluso revestimiento exterior e interior. |
+~C|05062|Ml|Tuber¡a de acero helicosoldado í1400 mm. (e=7.9 mm.), incluso revestimiento exterior e interior. |48648|040400|3|
+~T|05062|Tuber¡a de acero helicosoldado í1400 mm. (e=7.9 mm.), incluso revestimiento exterior e interior. |
+~C|05063|Ml|Tuber¡a de acero helicosoldado í1500 mm. (e=7.9 mm.), incluso revestimiento exterior e interior. |50894|040400|3|
+~T|05063|Tuber¡a de acero helicosoldado í1500 mm. (e=7.9 mm.), incluso revestimiento exterior e interior. |
+~C|05064|Ml|Tuber¡a de acero helicosoldado í1600 mm. (e=7.9 mm.), incluso revestimiento exterior e interior. |55128|040400|3|
+~T|05064|Tuber¡a de acero helicosoldado í1600 mm. (e=7.9 mm.), incluso revestimiento exterior e interior. |
+~C|05065|Ml|Tuber¡a de acero helicosoldado í600 mm. (e=5,0 mm.), incluso revestimiento exterior e interior. |16349|040400|3|
+~T|05065|Tuber¡a de acero helicosoldado í600 mm. (e=5,0 mm.), incluso revestimiento exterior e interior. |
+~C|05066|Ml|Tuber¡a de acero helicosoldado í700 mm. (e=5,6 mm.), incluso revestimiento exterior e interior. |18292|040400|3|
+~T|05066|Tuber¡a de acero helicosoldado í700 mm. (e=5,6 mm.), incluso revestimiento exterior e interior. |
+~C|05067|Ml|Tuber¡a de acero helicosoldado í800 mm. (e=6,4 mm.), incluso revestimiento exterior e interior. |22153|040400|3|
+~T|05067|Tuber¡a de acero helicosoldado í800 mm. (e=6,4 mm.), incluso revestimiento exterior e interior. |
+~C|05068|Ml|Tuber¡a de acero helicosoldado í1000 mm. (e=7,1 mm.), incluso revestimiento exterior e interior. |30144|040400|3|
+~T|05068|Tuber¡a de acero helicosoldado í1000 mm. (e=7,1 mm.), incluso revestimiento exterior e interior. |
+~C|05069|Ud|Cono de reducci¢n en acero helicosoldado de 1600 mm. (e=7,9) a 1400 mm. (e=7,9), incluso revestimiento interior y exterior. |152682|040400|3|
+~T|05069|Cono de reducci¢n en acero helicosoldado de 1600 mm. (e=7,9) a 1400 mm. (e=7,9), incluso revestimiento interior y exterior. |
+~C|05070|Ud|Cono de reducci¢n en acero helicosoldado de 1600 mm. (e=7,9) a 1500 mm. (e=7,9), incluso revestimiento interior y exterior. |159033|040400|3|
+~T|05070|Cono de reducci¢n en acero helicosoldado de 1600 mm. (e=7,9) a 1500 mm. (e=7,9), incluso revestimiento interior y exterior. |
+~C|05071|Ud|Cono de reducci¢n en acero helicosoldado de 1500 mm. (e=7,9) a 1400 mm. (e=7,9), incluso revestimiento interior y exterior. |141657|040400|3|
+~T|05071|Cono de reducci¢n en acero helicosoldado de 1500 mm. (e=7,9) a 1400 mm. (e=7,9), incluso revestimiento interior y exterior. |
+~C|05072|Ud|Cono de reducci¢n en acero helicosoldado de 1400 mm. (e=7,9) a 1200 mm. (e=7,1), incluso revestimiento interior y exterior. |137340|040400|3|
+~T|05072|Cono de reducci¢n en acero helicosoldado de 1400 mm. (e=7,9) a 1200 mm. (e=7,1), incluso revestimiento interior y exterior. |
+~C|05073|Ud|V lvula mariposa í1500 mm. motorizada (con transporte). |3916472|040400|3|
+~T|05073|V lvula mariposa í1500 mm. motorizada (con transporte). |
+~C|05074|Ud|V lvula mariposa í1200 mm. motorizada (con transporte). |2688300|040400|3|
+~T|05074|V lvula mariposa í1200 mm. motorizada (con transporte). |
+~C|05075|Ud|V lvula mariposa í1000 mm. motorizada (con transporte). |2209947|040400|3|
+~T|05075|V lvula mariposa í1000 mm. motorizada (con transporte). |
+~C|05076|Ud|V lvula mariposa í700 mm. motorizada (con transporte). |1302641|040400|3|
+~T|05076|V lvula mariposa í700 mm. motorizada (con transporte). |
+~C|05077|Ud|V lvula mariposa í600 mm. motorizada (con transporte). |437544|040400|3|
+~T|05077|V lvula mariposa í600 mm. motorizada (con transporte). |
+~C|05078|Ud|V lvula mariposa í500 mm. motorizada (con transporte). |364620|040400|3|
+~T|05078|V lvula mariposa í500 mm. motorizada (con transporte). |
+~C|05079|Ud|V lvula mariposa í400 mm. motorizada (con transporte). |291696|040400|3|
+~T|05079|V lvula mariposa í400 mm. motorizada (con transporte). |
+~C|05080|Ud|V lvula mariposa í300 mm. motorizada (con transporte). |218722|040400|3|
+~T|05080|V lvula mariposa í300 mm. motorizada (con transporte). |
+~C|05081|Ud|V lvula mariposa í250 mm. motorizada (con transporte). |173452|040400|3|
+~T|05081|V lvula mariposa í250 mm. motorizada (con transporte). |
+~C|05082|Ud|V lvula mariposa í200 mm. motorizada (con transporte). |156972|040400|3|
+~T|05082|V lvula mariposa í200 mm. motorizada (con transporte). |
+~C|05083|Ud|V lvula mariposa í800 mm. motorizada (con transporte). |1771600|040400|3|
+~T|05083|V lvula mariposa í800 mm. motorizada (con transporte). |
+~C|05084|Ud|Ventosa autom tica trifuncional í150 mm. y PN-10. |165624|040400|3|
+~T|05084|Ventosa autom tica trifuncional í150 mm. y PN-10. |
+~C|05085|Ud|Equipo medida de caudal í1400 mm. (con transporte). |2163824|040400|3|
+~T|05085|Equipo medida de caudal í1400 mm. (con transporte). |
+~C|05086|Ud|Equipo medida de caudal í1000 mm. (con transporte). |948888|040400|3|
+~T|05086|Equipo medida de caudal í1000 mm. (con transporte). |
+~C|05087|Ud|Equipo medida de caudal í700 mm. (con transporte). |624170|040400|3|
+~T|05087|Equipo medida de caudal í700 mm. (con transporte). |
+~C|05088|Ud|Equipo medida de caudal í600 mm. (con transporte). |519141|040400|3|
+~T|05088|Equipo medida de caudal í600 mm. (con transporte). |
+~C|05089|Ud|Equipo medida de caudal í500 mm. (con transporte). |450141|040400|3|
+~T|05089|Equipo medida de caudal í500 mm. (con transporte). |
+~C|05090|Ud|Equipo medida de caudal í400 mm. (con transporte). |405841|040400|3|
+~T|05090|Equipo medida de caudal í400 mm. (con transporte). |
+~C|05091|Ud|Equipo medida de caudal í300 mm. (con transporte). |325851|040400|3|
+~T|05091|Equipo medida de caudal í300 mm. (con transporte). |
+~C|05092|Ud|Equipo medida de caudal í250 mm. (con transporte). |267275|040400|3|
+~T|05092|Equipo medida de caudal í250 mm. (con transporte). |
+~C|05093|Ud|Equipo medida de caudal í200 mm. (con transporte). |247839|040400|3|
+~T|05093|Equipo medida de caudal í200 mm. (con transporte). |
+~C|05094|Ml|Tuber¡a fundici¢n d£ctil k-9 í200 mm. |6000|040400|3|
+~T|05094|Tuber¡a fundici¢n d£ctil k-9 í200 mm. |
+~C|05095|Ml|Tuber¡a fundici¢n d£ctil k-9 í250 mm. |7402|040400|3|
+~T|05095|Tuber¡a fundici¢n d£ctil k-9 í250 mm. |
+~C|05096|Ml|Tuber¡a fundici¢n d£ctil k-9 í300 mm. |8863|040400|3|
+~T|05096|Tuber¡a fundici¢n d£ctil k-9 í300 mm. |
+~C|05097|Ml|Tuber¡a fundici¢n d£ctil k-9 í400 mm. |11739|040400|3|
+~T|05097|Tuber¡a fundici¢n d£ctil k-9 í400 mm. |
+~C|05098|Ml|Tuber¡a fundici¢n d£ctil k-9 í500 mm. |14262|040400|3|
+~T|05098|Tuber¡a fundici¢n d£ctil k-9 í500 mm. |
+~C|05099|Ud|Cono de reducci¢n en acero helicosoldado de 800 mm. (e=6,4) a 700 mm. (e=5,6), incluso revestimiento interior y exterior. |60667|040400|3|
+~T|05099|Cono de reducci¢n en acero helicosoldado de 800 mm. (e=6,4) a 700 mm. (e=5,6), incluso revestimiento interior y exterior. |
+~C|05100|Ud|Cono de reducci¢n en acero helicosoldado de 700 mm. (e=5,6) a 600 mm. (e=5,0), incluso revestimiento interior y exterior. |51960|040400|3|
+~T|05100|Cono de reducci¢n en acero helicosoldado de 700 mm. (e=5,6) a 600 mm. (e=5,0), incluso revestimiento interior y exterior. |
+~C|05101|Ud|V lvula mariposa í800 mm. motorizada (con transporte). |695044|040400|3|
+~T|05101|V lvula mariposa í800 mm. motorizada (con transporte). |
+~C|05102|Ud|Cono de reduccion en acero helicosoldado de 1200 mm (e= 7.1) a 800 mm (e=6.4), incluso revestimiento exterior e interior. |90432|040400|3|
+~T|05102|Cono de reduccion en acero helicosoldado de 1200 mm (e= 7.1) a 800 mm (e=6.4), incluso revestimiento exterior e interior. |
+~C|06001|KG|Acero en barras lisas AE-22-L |53|040400|3|
+~T|06001|Acero en barras lisas AE-22-L |
+~C|06002|KG|Acero en redondos B-500 S. |70|040400|3|
+~T|06002|Acero en redondos B-500 S. |
+~C|06004|KG|Acero tipo A-42b |64|040400|3|
+~T|06004|Acero tipo A-42b |
+~C|06005|KG|Alambre de atar |120|040400|3|
+~T|06005|Alambre de atar |
+~C|06008|L|Desencofrante |215|040400|3|
+~T|06008|Desencofrante |
+~C|06010|M3|Madera para encofrado |12000|040400|3|
+~T|06010|Madera para encofrado |
+~C|06011|M3|Madera en tablones |14000|040400|3|
+~T|06011|Madera en tablones |
+~C|06012|Ml|Masilla asf ltica. |120|040400|3|
+~T|06012|Masilla asf ltica. |
+~C|06013|Ml|Masilla de cuadro polisulfuro |912|040400|3|
+~T|06013|Masilla de cuadro polisulfuro |
+~C|06018|Ud|Placa de neopreno zunchado |4600|040400|3|
+~T|06018|Placa de neopreno zunchado |
+~C|06019|M2|Placa de poliestireno expandido 2 cm. |123|040400|3|
+~T|06019|Placa de poliestireno expandido 2 cm. |
+~C|06020|KG|Puntas y clavaz¢n |90|040400|3|
+~T|06020|Puntas y clavaz¢n |
+~C|06024|KG|Imprimaci¢n preparac. juntas |812|040400|3|
+~T|06024|Imprimaci¢n preparac. juntas |
+~C|06025|Ml|Junta de PVC de 200 mm. |1250|040400|3|
+~T|06025|Junta de PVC de 200 mm. |
+~C|06026|Ml|Barandilla met lica |5376|040400|3|
+~T|06026|Barandilla met lica |
+~C|06027|M2|Tapa doble chapa lisa ciega |9850|040400|3|
+~T|06027|Tapa doble chapa lisa ciega |
+~C|07005|Ml|Banda bionda |1500|040400|3|
+~T|07005|Banda bionda |
+~C|07040|Ml|Soporte doble T de 14 galvanizado |1200|040400|3|
+~T|07040|Soporte doble T de 14 galvanizado |
+~C|07048|Ud|Torniller¡a barrera de seguridad |215|040400|3|
+~T|07048|Torniller¡a barrera de seguridad |
+~C|07050|Ml|Valla contenci¢n tipo rural |585|040400|3|
+~T|07050|Valla contenci¢n tipo rural |
+~C|08001|Ml|Protecci¢n cat¢dica tuber¡a í1200 mm. |723|040400|3|
+~T|08001|Protecci¢n cat¢dica tuber¡a í1200 mm. |
+~C|08002|Ml|Protecci¢n cat¢dica tuber¡a í1300 mm. |916|040400|3|
+~T|08002|Protecci¢n cat¢dica tuber¡a í1300 mm. |
+~C|08003|Ml|Protecci¢n cat¢dica tuber¡a í1400 mm. |973|040400|3|
+~T|08003|Protecci¢n cat¢dica tuber¡a í1400 mm. |
+~C|08004|Ml|Protecci¢n cat¢dica tuber¡a í1500 mm. |1018|040400|3|
+~T|08004|Protecci¢n cat¢dica tuber¡a í1500 mm. |
+~C|08005|Ml|Protecci¢n cat¢dica tuber¡a í1600 mm. |1103|040400|3|
+~T|08005|Protecci¢n cat¢dica tuber¡a í1600 mm. |
+~C|08006|Ml|Protecci¢n cat¢dica tuber¡a í600 mm. |329|040400|3|
+~T|08006|Protecci¢n cat¢dica tuber¡a í600 mm. |
+~C|08007|Ml|Protecci¢n cat¢dica tuber¡a í700 mm. |366|040400|3|
+~T|08007|Protecci¢n cat¢dica tuber¡a í700 mm. |
+~C|08008|Ml|Protecci¢n cat¢dica tuber¡a í800 mm. |443|040400|3|
+~T|08008|Protecci¢n cat¢dica tuber¡a í800 mm. |
+~C|08009|Ml|Protecci¢n cat¢dica tuber¡a í1000 mm. |603|040400|3|
+~T|08009|Protecci¢n cat¢dica tuber¡a í1000 mm. |
+~C|09003|Kg|Explosivos con pp. detonador. |260|040400|2|
+~T|09003|Explosivos con pp. detonador. |
+~C|10001|Ud|Apoyo principio de l¡nea el‚ctrica o apoyo de alineaci¢n (con transporte). |150568|040400|3|
+~T|10001|Apoyo principio de l¡nea el‚ctrica o apoyo de alineaci¢n (con transporte). |
+~C|10002|Ud|Apoyo de entronque y seccionamiento l¡nea el‚ctrica (con transporte). |413854|040400|3|
+~T|10002|Apoyo de entronque y seccionamiento l¡nea el‚ctrica (con transporte). |
+~C|10003|Ud|Apoyo de  ngulo l¡nea el‚ctrica (con transporte). |195494|040400|3|
+~T|10003|Apoyo de  ngulo l¡nea el‚ctrica (con transporte). |
+~C|10004|Ud|Apoyo para sustentaci¢n con transformador intemperie (con transporte). |877354|040400|3|
+~T|10004|Apoyo para sustentaci¢n con transformador intemperie (con transporte). |
+~C|10005|Ud|Pararrayos exterior (con transporte). |33784|040400|3|
+~T|10005|Pararrayos exterior (con transporte). |
+~C|A|M3|Excavaci¢n de tierra en zanja |237|040400|2|
+~T|A|Excavaci¢n de tierra en zanja |
+~C|E-2|M2|Encofrado plano E-2. |1419|040400|2|
+~T|E-2|Encofrado plano E-2. |
+~C|H|M3|Hormig¢n en masa tipo HM-15. |7217|040400|3|
+~T|H|Hormig¢n en masa tipo HM-15. |
+~C|HM20|M3|Hormig¢n en masa tipo HM-20. |8332|040400|3|
+~T|HM20|Hormig¢n en masa tipo HM-20. |
+~C|M|M3|Mortero de cemento M-600. |11320|040400|3|
+~T|M|Mortero de cemento M-600. |
+~C|RC|M3|Relleno compactado. |206|040400|3|
+~T|RC|Relleno compactado. |
+~C|SINDESCO|***|Unidad sin descompuesto|1|040400|1|
+~T|SINDESCO|Unidad sin descompuesto|
+~C|02.001|M3|Excavaci¢n en tierra vegetal, incluso carga y transporte a vertedero hasta tres kil¢metros de distancia. |158.3390006358|040400|0|
+~T|02.001|Excavaci¢n en tierra vegetal, incluso carga y transporte a vertedero hasta tres kil¢metros de distancia. |
+~D|02.001|02048\1\0.004999999888241\02037\1\0.004999999888241\02008\1\0.02500000037253\01003\1\0.002499999944121\01005\1\0.004999999888241\01007\1\0.01600000075996\%7\1\0.07000000029802\|
+~C|02.002|M3|Exavaci¢n en tierra en explanaci¢n general, incluso transporte a vertedero o lugar de empleo hasta tres kil¢metros de distancia. |225.9589924458|040400|0|
+~T|02.002|Exavaci¢n en tierra en explanaci¢n general, incluso transporte a vertedero o lugar de empleo hasta tres kil¢metros de distancia. |
+~D|02.002|02049\1\0.00899999961257\02037\1\0.00899999961257\02007\1\0.009999999776483\01002\1\0.004999999888241\01007\1\0.02600000053644\%7\1\0.07000000029802\|
+~C|02.003|M3|Excavaci¢n en roca en explanaci¢n general, con refino de taludes, incluso transporte a vertedero o lugar de empleo hasta tres kil¢metros de distancia. |595.8900124193|040400|0|
+~T|02.003|Excavaci¢n en roca en explanaci¢n general, con refino de taludes, incluso transporte a vertedero o lugar de empleo hasta tres kil¢metros de distancia. |
+~D|02.003|09003\1\0.3600000143051\02018\1\0.09000000357628\02037\1\0.01700000092387\02007\1\0.03599999845028\01002\1\0.002000000094995\01006\1\0.03599999845028\%7\1\0.07000000029802\|
+~C|02.004|M3|Excavaci¢n en tierra en zanjas, incluso transporte a vertedero o lugar de empleo hasta tres kil¢metros de distancia. |263.114503582|040400|0|
+~T|02.004|Excavaci¢n en tierra en zanjas, incluso transporte a vertedero o lugar de empleo hasta tres kil¢metros de distancia. |
+~D|02.004|02047\1\0.01250000018626\02037\1\0.01250000018626\02006\1\0.02500000037253\01002\1\0.007000000216067\01007\1\0.05900000035763\%7\1\0.07000000029802\|
+~C|02.005|M3|Excavaci¢n en roca con precorte y refino en zanjas, incluso transporte a vertedero o lugar de empleo hasta tres kil¢metros de distancia. |1183.133008819|040400|0|
+~T|02.005|Excavaci¢n en roca con precorte y refino en zanjas, incluso transporte a vertedero o lugar de empleo hasta tres kil¢metros de distancia. |
+~D|02.005|02046\1\0.2000000029802\02037\1\0.02500000037253\02008\1\0.06549999862909\01002\1\0.01999999955297\01007\1\0.2000000029802\%7\1\0.07000000029802\|
+~C|02.006|M3|Excavaci¢n en tierra para cimentaciones de obras de f brica y muros, incluso agotamientos, entibaci¢n y transporte de tierras hasta tres kil¢metros de distancia. |282.6300019752|040400|0|
+~T|02.006|Excavaci¢n en tierra para cimentaciones de obras de f brica y muros, incluso agotamientos, entibaci¢n y transporte de tierras hasta tres kil¢metros de distancia. |
+~D|02.006|06011\1\0.00289999996312\06020\1\0.004999999888241\02047\1\0.02500000037253\02037\1\0.004999999888241\02007\1\0.009999999776483\01002\1\0.009999999776483\01007\1\0.07500000298023\%7\1\0.07000000029802\|
+~C|02.007|M3|Excavaci¢n en roca para cimentaciones de obras de f brica y muros, incluso transporte de tierras a vertedero o lugar de empleo hasta tres kil¢metros de distancia. |1507.190015238|040400|0|
+~T|02.007|Excavaci¢n en roca para cimentaciones de obras de f brica y muros, incluso transporte de tierras a vertedero o lugar de empleo hasta tres kil¢metros de distancia. |
+~D|02.007|09003\1\0.3549999892712\02018\1\0.2000000029802\02037\1\0.05000000074506\02008\1\0.1000000014901\01002\1\0.02500000037253\01007\1\0.25\%7\1\0.07000000029802\|
+~C|02.010|M3|Terrapl‚n extendido y compactado con material procedente de la excavaci¢n. |126.513404124|040400|0|
+~T|02.010|Terrapl‚n extendido y compactado con material procedente de la excavaci¢n. |
+~D|02.010|04001\1\0.1000000014901\02034\1\0.003000000026077\02011\1\0.009100000374019\02017\1\0.009100000374019\01002\1\0.00179999996908\01007\1\0.006000000052154\%7\1\0.07000000029802\|
+~C|02.011|M3|Relleno compactado con productos procedentes de la excavaci¢n, en cimentaciones y zanjas. |206.3290038016|040400|0|
+~T|02.011|Relleno compactado con productos procedentes de la excavaci¢n, en cimentaciones y zanjas. |
+~D|02.011|04001\1\0.05000000074506\02046\1\0.01250000018626\02001\1\0.05000000074506\02011\1\0.01250000018626\01002\1\0.02500000037253\01007\1\0.05600000172853\%7\1\0.07000000029802\|
+~C|02.012|M3|Relleno compactado con material seleccionado en pozos y zanjas. |581.4820153564|040400|0|
+~T|02.012|Relleno compactado con material seleccionado en pozos y zanjas. |
+~D|02.012|04023\1\1.200000047684\04001\1\0.1000000014901\02046\1\0.009999999776483\02011\1\0.009999999776483\02040\1\0.01999999955297\01002\1\0.01400000043213\01007\1\0.0599999986589\%7\1\0.07000000029802\|
+~C|02.013|M3|Relleno de material filtrante, incluso colocaci¢n. |1577.731055029|040400|0|
+~T|02.013|Relleno de material filtrante, incluso colocaci¢n. |
+~D|02.013|04022\1\1.200000047684\04001\1\0.1000000014901\02023\1\0.01999999955297\02011\1\0.01700000092387\02001\1\0.1000000014901\01002\1\0.05000000074506\01006\1\0.1500000059605\01007\1\0.3000000119209\%7\1\0.07000000029802\|
+~C|02.014|M3|Demolici¢n de muro existente, incluso transporte de materiales a vertedero. |7287.239976063|040400|0|
+~T|02.014|Demolici¢n de muro existente, incluso transporte de materiales a vertedero. |
+~D|02.014|02018\1\1\02037\1\0.1199999973178\02006\1\0.1199999973178\01002\1\0.125\01003\1\1\01005\1\1\01007\1\2\%7\1\0.07000000029802\|
+~C|02.015|UD|Destronque de  rboles, incluso transporte de materiales a vertedero. |513.5950103868|040400|0|
+~T|02.015|Destronque de  rboles, incluso transporte de materiales a vertedero. |
+~D|02.015|02046\1\0.05000000074506\02037\1\0.02500000037253\02006\1\0.02500000037253\01002\1\0.009999999776483\01007\1\0.1500000059605\%7\1\0.07000000029802\|
+~C|02.016|M3|Excavaci¢n en tierra en zanja, incluso agotamiento, transporte a vertedero o lugar de empleo hasta tres kil¢metros de distancia. |312.8045034027|040400|0|
+~T|02.016|Excavaci¢n en tierra en zanja, incluso agotamiento, transporte a vertedero o lugar de empleo hasta tres kil¢metros de distancia. |
+~D|02.016|01002\1\0.007000000216067\01006\1\0.02999999932945\01007\1\0.05900000035763\02047\1\0.01250000018626\02037\1\0.01250000018626\02006\1\0.02500000037253\02060\1\0.01250000018626\%7\1\0.07000000029802\|
+~C|02.017|M3|Excavaci¢n en tierra en zanja, incluso entibaci¢n, transporte a vertedero o lugar de empleo hasta tres kil¢metros de distancia. |749.1644942509|040400|0|
+~T|02.017|Excavaci¢n en tierra en zanja, incluso entibaci¢n, transporte a vertedero o lugar de empleo hasta tres kil¢metros de distancia. |
+~D|02.017|01002\1\0.007000000216067\01004\1\0.02999999932945\01006\1\0.05000000074506\01007\1\0.05900000035763\02047\1\0.01250000018626\02037\1\0.01250000018626\02006\1\0.02500000037253\06011\1\0.02999999932945\%7\1\0.07000000029802\|
+~C|02.018|M3|Excavaci¢n en tierra en zanja, incluso agotamiento y entibaci¢n, transporte a vertedero o lugar de empleo hasta tres kil¢metros de distancia. |798.8544925386|040400|0|
+~T|02.018|Excavaci¢n en tierra en zanja, incluso agotamiento y entibaci¢n, transporte a vertedero o lugar de empleo hasta tres kil¢metros de distancia. |
+~D|02.018|01002\1\0.007000000216067\01004\1\0.02999999932945\01006\1\0.07999999821186\01007\1\0.05900000035763\02047\1\0.01250000018626\02037\1\0.01250000018626\02006\1\0.02500000037253\02060\1\0.01250000018626\06011\1\0.02999999932945\%7\1\0.07000000029802\|
+~C|02.019|M3|Escollera para protecci¢n del cauce, incluido transporte y colocaci¢n. |1156|040400|0|
+~T|02.019|Escollera para protecci¢n del cauce, incluido transporte y colocaci¢n. |
+~D|02.019|SINDESCO\1\1156\|
+~C|02.020|M3|Material seleccionado en filtro, incluido transporte, extendido, riego y aplanado. |1733|040400|0|
+~T|02.020|Material seleccionado en filtro, incluido transporte, extendido, riego y aplanado. |
+~D|02.020|SINDESCO\1\1733\|
+~C|03.002|M3|Suelo seleccionado para explanada mejorada en fondos de desmontes, incluso extendido y compactaci¢n. |680.5320145506|040400|0|
+~T|03.002|Suelo seleccionado para explanada mejorada en fondos de desmontes, incluso extendido y compactaci¢n. |
+~D|03.002|04023\1\1.200000047684\04001\1\0.09000000357628\02035\1\0.009999999776483\02011\1\0.009999999776483\02014\1\0.02500000037253\01002\1\0.00899999961257\01007\1\0.07999999821186\%7\1\0.07000000029802\|
+~C|03.004|M3|Sub-base granular, incluso extendido, humectaci¢n, compactaci¢n y remates. |1324|040400|0|
+~T|03.004|Sub-base granular, incluso extendido, humectaci¢n, compactaci¢n y remates. |
+~D|03.004|SINDESCO\1\1324\|
+~C|03.005|M3|Macadam, incluso extendido, humectaci¢n compactaci¢n y remates. |1690|040400|0|
+~T|03.005|Macadam, incluso extendido, humectaci¢n compactaci¢n y remates. |
+~D|03.005|SINDESCO\1\1690\|
+~C|03.006|TM|Arido para doble tratamiento superficial. |2688.690001346|040400|0|
+~T|03.006|Arido para doble tratamiento superficial. |
+~D|03.006|04004\1\0.03999999910593\01002\1\0.2000000029802\01006\1\3\%7\1\0.07000000029802\|
+~C|03.007|TM|Arido para riegos de imprimaci¢n. |969.8700184524|040400|0|
+~T|03.007|Arido para riegos de imprimaci¢n. |
+~D|03.007|04007\1\0.5\01002\1\0.0599999986589\01006\1\0.3000000119209\01007\1\0.3000000119209\%7\1\0.07000000029802\|
+~C|03.008|TM|Ligante bituminoso para doble tratamiento superficial y riegos de imprimaci¢n. |30393.63886695|040400|0|
+~T|03.008|Ligante bituminoso para doble tratamiento superficial y riegos de imprimaci¢n. |
+~D|03.008|04011\1\1.049999952316\02012\1\0.4000000059605\02051\1\0.4000000059605\02002\1\0.4000000059605\01002\1\0.4000000059605\01006\1\0.6999999880791\01007\1\0.6999999880791\%7\1\0.07000000029802\|
+~C|03.009|ML|Cuneta sin revestir (seg£n planos), en coronaci¢n de desmonte. |283.6899967231|040400|0|
+~T|03.009|Cuneta sin revestir (seg£n planos), en coronaci¢n de desmonte. |
+~D|03.009|A\1\0.1599999964237\02047\1\0.01999999955297\02006\1\0.01999999955297\01002\1\0.009999999776483\01007\1\0.1000000014901\%7\1\0.07000000029802\|
+~C|03.010|ML|Cunetilla de hormig¢n HM-15 (seg£n planos), para coronaci¢n de muros, incluso materiales y colocaci¢n. |709.5450056419|040400|0|
+~T|03.010|Cunetilla de hormig¢n HM-15 (seg£n planos), para coronaci¢n de muros, incluso materiales y colocaci¢n. |
+~D|03.010|A\1\0.09000000357628\H\1\0.08500000089407\01002\1\0.02999999932945\01007\1\0.0599999986589\%7\1\0.07000000029802\|
+~C|03.011|ML|Reposici¢n de firme existente, para una calzada de siete metros de ancho. |25797.97497367|040400|0|
+~T|03.011|Reposici¢n de firme existente, para una calzada de siete metros de ancho. |
+~D|03.011|04032\1\0.2599999904633\04026\1\3.049999952316\04014\1\0.01700000092387\04007\1\0.1449999958277\04033\1\2.730000019073\04013\1\0.007699999958277\04034\1\1.480000019073\04009\1\0.2179999947548\04010\1\0.2750000059605\%7\1\0.07000000029802\|
+~C|04.001|M3|Hormig¢n en masa tipo HM-12.5 en nivelaci¢n y rellenos, con 150 KG/M3 de cemento CEM-I, incluidos materiales y colocaci¢n. |6669.057022236|040400|0|
+~T|04.001|Hormig¢n en masa tipo HM-12.5 en nivelaci¢n y rellenos, con 150 KG/M3 de cemento CEM-I, incluidos materiales y colocaci¢n. |
+~D|04.001|04010\1\0.1500000059605\04001\1\0.25\04002\1\0.7049999833107\04015\1\1.409999966621\02010\1\0.5\02043\1\0.125\01002\1\0.1840000003576\01006\1\0.5\01007\1\1\%7\1\0.07000000029802\|
+~C|04.002|M3|Hormig¢n en masa tipo HM-17,5 en ca¤os, cimentaciones y soleras de obras de f brica, con 200 KG/M3 de cemento CEM-I, incluidos materiales y colocaci¢n. |7610.903975271|040400|0|
+~T|04.002|Hormig¢n en masa tipo HM-17,5 en ca¤os, cimentaciones y soleras de obras de f brica, con 200 KG/M3 de cemento CEM-I, incluidos materiales y colocaci¢n. |
+~D|04.002|04010\1\0.2000000029802\04001\1\0.25\04002\1\0.6750000119209\04015\1\1.360000014305\02010\1\0.4799999892712\02043\1\0.2199999988079\01002\1\0.2000000029802\01006\1\0.5\01007\1\1.105999946594\%7\1\0.07000000029802\|
+~C|04.003|M3|Hormig¢n en masa tipo HM-20 en alzados de obras de f brica y muros, con 250 KG/M3 de cemento CEM-I, incluidos materiales y colocaci¢n. |8327.837024681|040400|0|
+~T|04.003|Hormig¢n en masa tipo HM-20 en alzados de obras de f brica y muros, con 250 KG/M3 de cemento CEM-I, incluidos materiales y colocaci¢n. |
+~D|04.003|04010\1\0.25\04001\1\0.25\04002\1\0.6750000119209\04015\1\1.350000023842\02010\1\0.25\02004\1\0.140000000596\02043\1\0.2000000029802\01002\1\0.1599999964237\01006\1\0.3499999940395\01007\1\1.292999982834\%7\1\0.07000000029802\|
+~C|04.004|M3|Hormig¢n en masa tipo HM-20 en soleras y alzados, con 250 KG/M3 de cemento CEM-I, incluidos materiales y colocaci¢n. |8560.885122977|040400|0|
+~T|04.004|Hormig¢n en masa tipo HM-20 en soleras y alzados, con 250 KG/M3 de cemento CEM-I, incluidos materiales y colocaci¢n. |
+~D|04.004|04010\1\0.25\04001\1\0.25\04002\1\0.6750000119209\04015\1\1.350000023842\02010\1\0.2700000107288\02004\1\0.1500000059605\02043\1\0.1800000071526\01002\1\0.2599999904633\01006\1\0.4000000059605\01007\1\1.384999990463\%7\1\0.07000000029802\|
+~C|04.005|M3|Hormig¢n en masa tipo HM-20 en b¢vedas de obras de f brica, con 250 KG/M3 de cemento CEM-I, incluidos materiales y colocaci¢n. |8793.524057902|040400|0|
+~T|04.005|Hormig¢n en masa tipo HM-20 en b¢vedas de obras de f brica, con 250 KG/M3 de cemento CEM-I, incluidos materiales y colocaci¢n. |
+~D|04.005|04010\1\0.25\04001\1\0.25\04002\1\0.6750000119209\04015\1\1.350000023842\02010\1\0.25\02004\1\0.1500000059605\02043\1\0.2000000029802\01002\1\0.2000000029802\01006\1\0.5\01007\1\1.585999965668\%7\1\0.07000000029802\|
+~C|04.007|M3|Hormig¢n para armar tipo HA-20 en soleras y alzados, con 300 KG/M3 de cemento CEM-I, incluidos materiales y colocaci¢n. |9647.401113145|040400|0|
+~T|04.007|Hormig¢n para armar tipo HA-20 en soleras y alzados, con 300 KG/M3 de cemento CEM-I, incluidos materiales y colocaci¢n. |
+~D|04.007|04010\1\0.3000000119209\04001\1\0.2700000107288\04002\1\0.6800000071526\04015\1\1.350000023842\02010\1\0.2599999904633\02004\1\0.1500000059605\02043\1\0.2099999934435\02019\1\0.2099999934435\02054\1\0.2099999934435\01002\1\0.1500000059605\01006\1\0.3199999928474\01007\1\1.578999996185\%7\1\0.07000000029802\|
+~C|04.008|M3|Hormig¢n para armar tipo HA-25 en elementos horizontales e impostas, con 350 KG/M3 de cemento CEM-I, incluidos materiales y colocaci¢n. |10014.26006539|040400|0|
+~T|04.008|Hormig¢n para armar tipo HA-25 en elementos horizontales e impostas, con 350 KG/M3 de cemento CEM-I, incluidos materiales y colocaci¢n. |
+~D|04.008|04010\1\0.3499999940395\04001\1\0.25\04002\1\0.6700000166893\04015\1\1.340000033379\04029\1\1.100000023842\04030\1\0.5\02010\1\0.2750000059605\02004\1\0.1000000014901\02043\1\0.2000000029802\02019\1\0.2000000029802\02054\1\0.2000000029802\01002\1\0.2000000029802\01006\1\0.5\01007\1\1.455000042915\%7\1\0.07000000029802\|
+~C|04.009|M2|Encofrado plano en elementos ocultos, (E-1). |1168.916002486|040400|0|
+~T|04.009|Encofrado plano en elementos ocultos, (E-1). |
+~D|04.009|06011\1\0.01499999966472\06010\1\0.004999999888241\06005\1\0.009999999776483\06020\1\0.05000000074506\06008\1\0.07999999821186\02026\1\0.125\01002\1\0.01200000010431\01003\1\0.109999999404\01006\1\0.109999999404\01007\1\0.3000000119209\%7\1\0.07000000029802\|
+~C|04.010|M2|Encofrado plano en paramentos vistos, (E-2). |1419.223990478|040400|0|
+~T|04.010|Encofrado plano en paramentos vistos, (E-2). |
+~D|04.010|06011\1\0.01799999922514\06010\1\0.006000000052154\06005\1\0.01200000010431\06020\1\0.07000000029802\06008\1\0.1000000014901\02026\1\0.125\01002\1\0.01300000026822\01003\1\0.1500000059605\01006\1\0.1500000059605\01007\1\0.4499999880791\%7\1\0.07000000029802\|
+~C|04.011|M2|Encofrado curvo en paramentos vistos, incluso cimbrado y descimbrado. |2202.661988795|040400|0|
+~T|04.011|Encofrado curvo en paramentos vistos, incluso cimbrado y descimbrado. |
+~D|04.011|06011\1\0.02999999932945\06010\1\0.00800000037998\06005\1\0.140000000596\06020\1\0.07000000029802\06008\1\0.1000000014901\02026\1\0.2000000029802\01002\1\0.02199999988079\01003\1\0.222000002861\01006\1\0.222000002861\01007\1\0.6779999732971\%7\1\0.07000000029802\|
+~C|04.013|KG|Acero corrugado en redondos B-500 S para armaduras, colocado. |130.6190000952|040400|0|
+~T|04.013|Acero corrugado en redondos B-500 S para armaduras, colocado. |
+~D|04.013|06002\1\1.02999997139\06005\1\0.009999999776483\02026\1\0.00800000037998\01002\1\0.001000000047497\01003\1\0.007000000216067\01006\1\0.009999999776483\01007\1\0.01700000092387\%7\1\0.07000000029802\|
+~C|04.015|KG|Acero en perfiles laminados tipo A-42 b, colocado. |159.8209977159|040400|0|
+~T|04.015|Acero en perfiles laminados tipo A-42 b, colocado. |
+~D|04.015|06004\1\1\02006\1\0.004999999888241\02026\1\0.004999999888241\01002\1\0.004999999888241\01003\1\0.00899999961257\01006\1\0.02999999932945\01007\1\0.02999999932945\%7\1\0.07000000029802\|
+~C|04.016|UD|Neopreno zunchado para aparatos de apoyo, totalmente colocado, incluso chapas gofradas, nivelaci¢n y mortero Epoxi de adherencia. |6967.685004368|040400|0|
+~T|04.016|Neopreno zunchado para aparatos de apoyo, totalmente colocado, incluso chapas gofradas, nivelaci¢n y mortero Epoxi de adherencia. |
+~D|04.016|06018\1\1\M\1\0.004999999888241\01002\1\0.6999999880791\01007\1\2.105000019073\%7\1\0.07000000029802\|
+~C|04.018|ML|Junta de dilataci¢n en muros, incluso material de relleno y sellado, terminada. |1084.522014195|040400|0|
+~T|04.018|Junta de dilataci¢n en muros, incluso material de relleno y sellado, terminada. |
+~D|04.018|06019\1\0.8000000119209\06013\1\0.8000000119209\06024\1\0.00400000018999\01002\1\0.02800000086427\01007\1\0.2800000011921\%7\1\0.07000000029802\|
+~C|04.019|ML|Junta de masilla asf ltica y mortero de cemento, incluso encofrado. |832.2500011325|040400|0|
+~T|04.019|Junta de masilla asf ltica y mortero de cemento, incluso encofrado. |
+~D|04.019|06012\1\1\M\1\0.0230000000447\01002\1\0.05000000074506\01007\1\0.5\%7\1\0.07000000029802\|
+~C|04.020|ML|Junta estanca con cinta de PVC de 20 cm. de anchura, material de relleno y sellado, colocada, incluso encofrado. |2057.397000335|040400|0|
+~T|04.020|Junta estanca con cinta de PVC de 20 cm. de anchura, material de relleno y sellado, colocada, incluso encofrado. |
+~D|04.020|06025\1\1\01002\1\0.07500000298023\01003\1\0.3000000119209\01007\1\0.602999985218\%7\1\0.07000000029802\|
+~C|04.021|ML|Barrera de seguridad, incluso colocaci¢n, anclaje y cimentaci¢n. |4373.680006206|040400|0|
+~T|04.021|Barrera de seguridad, incluso colocaci¢n, anclaje y cimentaci¢n. |
+~D|04.021|07005\1\1\07040\1\0.6999999880791\07048\1\1\HM20\1\0.1000000014901\02031\1\0.09000000357628\02006\1\0.03999999910593\01002\1\0.1049999967217\01003\1\0.25\01007\1\0.25\%7\1\0.07000000029802\|
+~C|04.022|ML|Barandilla met lica, incluso anclajes y montaje. |5734.180000704|040400|0|
+~T|04.022|Barandilla met lica, incluso anclajes y montaje. |
+~D|04.022|06026\1\1\06004\1\1.5\06001\1\0.6000000238419\01002\1\0.02999999932945\01007\1\0.25\%7\1\0.07000000029802\|
+~C|04.024|UD|Arqueta para drenaje hormigonada "in situ", totalmente acabada. |42256.04836958|040400|0|
+~T|04.024|Arqueta para drenaje hormigonada "in situ", totalmente acabada. |
+~D|04.024|A\1\4.5\E-2\1\9\H\1\2.599999904633\01002\1\0.4000000059605\01003\1\1.600000023842\01006\1\3.233000040054\01007\1\6.5\%7\1\0.07000000029802\|
+~C|04.025|M3|Encachado de piedra, colocado. |1794.715934558|040400|0|
+~T|04.025|Encachado de piedra, colocado. |
+~D|04.025|04025\1\1.049999952316\02006\1\0.02999999932945\01002\1\0.02999999932945\01003\1\0.3089999854565\01006\1\0.3100000023842\%7\1\0.07000000029802\|
+~C|04.026|M2|Madera en tablones formando dos capas de 0,15 M. de espesor total, en atagu¡as. |5863.845842205|040400|0|
+~T|04.026|Madera en tablones formando dos capas de 0,15 M. de espesor total, en atagu¡as. |
+~D|04.026|06011\1\0.1599999964237\06020\1\0.5\06005\1\0.5\02006\1\0.1500000059605\01002\1\0.4869999885559\01003\1\1.049999952316\01006\1\2.099999904633\%7\1\0.07000000029802\|
+~C|04.027|M3|Mamposter¡a ordinaria de piedra caliza a una cara vista recibida con mortero de cemento y arena de r¡o en muros hasta 50 cm. de espesor, i/ preparaci¢n de piedras, asiento, recibido, rejuntado y limpieza. |17152.88978194|040400|0|
+~T|04.027|Mamposter¡a ordinaria de piedra caliza a una cara vista recibida con mortero de cemento y arena de r¡o en muros hasta 50 cm. de espesor, i/ preparaci¢n de piedras, asiento, recibido, rejuntado y limpieza. |
+~D|04.027|01003\1\3.799999952316\01007\1\3.799999952316\04031\1\1.299999952316\M\1\0.3000000119209\%7\1\0.07000000029802\|
+~C|04.028|M3|Arena en cama de asiento vertida y extendida en zanjas para apoyo de tuber¡as. |2205.710015155|040400|0|
+~T|04.028|Arena en cama de asiento vertida y extendida en zanjas para apoyo de tuber¡as. |
+~D|04.028|01007\1\0.3000000119209\04002\1\1\02046\1\0.2000000029802\02007\1\0.09499999880791\%7\1\0.07000000029802\|
+~C|04.029|M2|Tapa de doble chapa lisa de acero de 1 mm. de espesor enbatillada, realizada en dos bandejas con rigidizadores de tubo rectangular, incluso patillas para recibir en f brica y herrajes. |10099.4900099|040400|0|
+~T|04.029|Tapa de doble chapa lisa de acero de 1 mm. de espesor enbatillada, realizada en dos bandejas con rigidizadores de tubo rectangular, incluso patillas para recibir en f brica y herrajes. |
+~D|04.029|01003\1\0.1500000059605\01005\1\0.1500000059605\06027\1\1\%7\1\0.07000000029802\|
+~C|04.030|M3|Hormig¢n en masa tipo HM-15 en nivelaci¢n y rellenos, con 175 KG/M3 de cemento CEM-1, incluidos materiales y colocaci¢n. |7139.980464108|040400|0|
+~T|04.030|Hormig¢n en masa tipo HM-15 en nivelaci¢n y rellenos, con 175 KG/M3 de cemento CEM-1, incluidos materiales y colocaci¢n. |
+~D|04.030|01002\1\0.1920000016689\01006\1\0.5\01007\1\1.052999973297\04001\1\0.25\04010\1\0.1749999970198\04002\1\0.6899999976158\04015\1\1.384999990463\02010\1\0.4900000095367\02043\1\0.172499999404\%7\1\0.07000000029802\|
+~C|04.031|Ud|Pasa-muros de cualquier material de di metro 200<Dó500 mm., incluidas todas las operaciones necesarias para el correcto acabado de la unidad. |14375|040400|0|
+~T|04.031|Pasa-muros de cualquier material de di metro 200<Dó500 mm., incluidas todas las operaciones necesarias para el correcto acabado de la unidad. |
+~D|04.031|SINDESCO\1\14375\|
+~C|04.032|Ud|Pasa-muros de cualquier material de di metro 500<Dó1000 mm., incluidas todas las operaciones necesarias para el correcto acabado de la unidad. |18400|040400|0|
+~T|04.032|Pasa-muros de cualquier material de di metro 500<Dó1000 mm., incluidas todas las operaciones necesarias para el correcto acabado de la unidad. |
+~D|04.032|SINDESCO\1\18400\|
+~C|04.033|Ud|Pasa-muros de cualquier material de di metro 1000<Dó2000 mm., incluidas todas las operaciones necesarias para el correcto acabado de la unidad. |22425|040400|0|
+~T|04.033|Pasa-muros de cualquier material de di metro 1000<Dó2000 mm., incluidas todas las operaciones necesarias para el correcto acabado de la unidad. |
+~D|04.033|SINDESCO\1\22425\|
+~C|04.034|Ud|Pate de polipropileno de 30 mm. de di metro, colocado. |1438|040400|0|
+~T|04.034|Pate de polipropileno de 30 mm. de di metro, colocado. |
+~D|04.034|SINDESCO\1\1438\|
+~C|04.035|M2|Impermeabilizaci¢n de paramentos con dos manos de pintura asf ltica. |978|040400|0|
+~T|04.035|Impermeabilizaci¢n de paramentos con dos manos de pintura asf ltica. |
+~D|04.035|SINDESCO\1\978\|
+~C|05.001|ML|Tuber¡a de hormig¢n vibroprensado de 40 cm. de di metro, incluso excavaci¢n, relleno, solera y envolvente de hormig¢n y p.p. de boquillas y aletas. |3748.886011764|040400|0|
+~T|05.001|Tuber¡a de hormig¢n vibroprensado de 40 cm. de di metro, incluso excavaci¢n, relleno, solera y envolvente de hormig¢n y p.p. de boquillas y aletas. |
+~D|05.001|05014\1\1\H\1\0.1000000014901\02008\1\0.06599999964237\02027\1\0.06599999964237\01002\1\0.03999999910593\01007\1\0.4000000059605\%7\1\0.07000000029802\|
+~C|05.002|ML|Tuber¡a de hormig¢n vibroprensado de 40 cm. de di metro, colocada, incluso base de hormig¢n HA-15. |3613.466007944|040400|0|
+~T|05.002|Tuber¡a de hormig¢n vibroprensado de 40 cm. de di metro, colocada, incluso base de hormig¢n HA-15. |
+~D|05.002|05014\1\1\H\1\0.1000000014901\02008\1\0.06599999964237\02027\1\0.06599999964237\01002\1\0.02500000037253\01007\1\0.25\%7\1\0.07000000029802\|
+~C|05.003|ML|Tuber¡a de hormig¢n vibroprensado de 100 cm. de di metro, incluso excavaci¢n, relleno, solera y envolvente de hormig¢n y p.p. de boquillas y aletas. |17157.68489867|040400|0|
+~T|05.003|Tuber¡a de hormig¢n vibroprensado de 100 cm. de di metro, incluso excavaci¢n, relleno, solera y envolvente de hormig¢n y p.p. de boquillas y aletas. |
+~D|05.003|05016\1\1\H\1\0.1800000071526\02008\1\0.4269999861717\02027\1\0.4269999861717\01002\1\0.3230000138283\01007\1\3.230999946594\%7\1\0.07000000029802\|
+~C|05.004|ML|Tuber¡a de hormig¢n vibroprensado de 20 cm. de di metro, colocada, incluso base de hormig¢n HA-15. |1768.985986039|040400|0|
+~T|05.004|Tuber¡a de hormig¢n vibroprensado de 20 cm. de di metro, colocada, incluso base de hormig¢n HA-15. |
+~D|05.004|05017\1\1\H\1\0.07999999821186\02008\1\0.06599999964237\02027\1\0.06599999964237\01002\1\0.01999999955297\01007\1\0.2000000029802\%7\1\0.07000000029802\|
+~C|05.005|ML|Tuber¡a de hormig¢n vibroprensado de 60 cm de di metro, colocada, incluso base de hormig¢n HA-15. |4360.225981653|040400|0|
+~T|05.005|Tuber¡a de hormig¢n vibroprensado de 60 cm de di metro, colocada, incluso base de hormig¢n HA-15. |
+~D|05.005|05018\1\1\H\1\0.1199999973178\02008\1\0.06599999964237\02027\1\0.06599999964237\01002\1\0.03999999910593\01007\1\0.4000000059605\%7\1\0.07000000029802\|
+~C|05.008|ML|Tubo drenante de 90 mm. de di metro, tipo "Tubodren" o similar, incluso colocaci¢n. |833.5200002808|040400|0|
+~T|05.008|Tubo drenante de 90 mm. de di metro, tipo "Tubodren" o similar, incluso colocaci¢n. |
+~D|05.008|05026\1\1\02006\1\0.009999999776483\01002\1\0.009999999776483\01007\1\0.1000000014901\%7\1\0.07000000029802\|
+~C|05.009|ML|Tubo drenante de 63 mm. de di metro, tipo "tubodren" o similar, incluso colocaci¢n. |675.5200002808|040400|0|
+~T|05.009|Tubo drenante de 63 mm. de di metro, tipo "tubodren" o similar, incluso colocaci¢n. |
+~D|05.009|05027\1\1\02006\1\0.009999999776483\01002\1\0.009999999776483\01007\1\0.1000000014901\%7\1\0.07000000029802\|
+~C|05.011|\L|Tuber¡a de fibrocemento de 50 mm. de di metro, de 5 kg. de p.n. |745.820002744|040400|0|
+~T|05.011|Tuber¡a de fibrocemento de 50 mm. de di metro, de 5 kg. de p.n. |
+~D|05.011|05029\1\1\02006\1\0.009999999776483\01002\1\0.009999999776483\01003\1\0.1000000014901\01007\1\0.2000000029802\%7\1\0.07000000029802\|
+~C|05.012|ML|Tuber¡a de hormig¢n armado con camisa de chapa de 2,00 M. de di metro, para una presi¢n nominal de 2 atm., incluso p.p. de juntas y piezas especiales, colocada y totalmente terminada. |124788.3900006|040400|0|
+~T|05.012|Tuber¡a de hormig¢n armado con camisa de chapa de 2,00 M. de di metro, para una presi¢n nominal de 2 atm., incluso p.p. de juntas y piezas especiales, colocada y totalmente terminada. |
+~D|05.012|05030\1\1\02008\1\0.25\02027\1\0.25\01002\1\0.05000000074506\01003\1\0.5\01007\1\1\%7\1\0.07000000029802\|
+~C|05.013|ML|Tuber¡a de hormig¢n armado con camisa de chapa de 1,70 M. de di metro, para una presi¢n nominal de 2 atm., incluso p.p. de juntas y piezas especiales, colocada y totalmente terminada. |89444.39000063|040400|0|
+~T|05.013|Tuber¡a de hormig¢n armado con camisa de chapa de 1,70 M. de di metro, para una presi¢n nominal de 2 atm., incluso p.p. de juntas y piezas especiales, colocada y totalmente terminada. |
+~D|05.013|05031\1\1\02008\1\0.25\02027\1\0.25\01002\1\0.05000000074506\01003\1\0.5\01007\1\1\%7\1\0.07000000029802\|
+~C|05.014|ML|Tuber¡a de hormig¢n armado con camisa de chapa de 1,60 M. de di metro, para una presi¢n nominal de 1 atm., incluso p.p. de juntas y piezas especiales, colocada y totalmente terminada. |88000.39000063|040400|0|
+~T|05.014|Tuber¡a de hormig¢n armado con camisa de chapa de 1,60 M. de di metro, para una presi¢n nominal de 1 atm., incluso p.p. de juntas y piezas especiales, colocada y totalmente terminada. |
+~D|05.014|05032\1\1\02008\1\0.25\02027\1\0.25\01002\1\0.05000000074506\01003\1\0.5\01007\1\1\%7\1\0.07000000029802\|
+~C|05.015|ML|Tuber¡a de hormig¢n armado con camisa de chapa de 1,50 M. de di metro, para una presi¢n nominal de 4 atm., incluso p.p. de juntas y piezas especiales, colocada y totalmente terminada. |86602.39000063|040400|0|
+~T|05.015|Tuber¡a de hormig¢n armado con camisa de chapa de 1,50 M. de di metro, para una presi¢n nominal de 4 atm., incluso p.p. de juntas y piezas especiales, colocada y totalmente terminada. |
+~D|05.015|05033\1\1\02008\1\0.25\02027\1\0.25\01002\1\0.05000000074506\01003\1\0.5\01007\1\1\%7\1\0.07000000029802\|
+~C|05.016|ML|Tuber¡a de hormig¢n armado con camisa de chapa de 1,30 M. de di metro, para una presi¢n nominal de 1 atm., incluso p.p. de juntas y piezas especiales, colocada y totalmente terminada. |83019.39000063|040400|0|
+~T|05.016|Tuber¡a de hormig¢n armado con camisa de chapa de 1,30 M. de di metro, para una presi¢n nominal de 1 atm., incluso p.p. de juntas y piezas especiales, colocada y totalmente terminada. |
+~D|05.016|05034\1\1\02008\1\0.25\02027\1\0.25\01002\1\0.05000000074506\01003\1\0.5\01007\1\1\%7\1\0.07000000029802\|
+~C|05.017|ML|Tuber¡a de hormig¢n armado con camisa de chapa de 1,20 M. de di metro, para una presi¢n nominal de 2 atm., incluso p.p. de juntas y piezas especiales, colocada y totalmente terminada. |80528.39000063|040400|0|
+~T|05.017|Tuber¡a de hormig¢n armado con camisa de chapa de 1,20 M. de di metro, para una presi¢n nominal de 2 atm., incluso p.p. de juntas y piezas especiales, colocada y totalmente terminada. |
+~D|05.017|05035\1\1\02008\1\0.25\02027\1\0.25\01002\1\0.05000000074506\01003\1\0.5\01007\1\1\%7\1\0.07000000029802\|
+~C|05.018|ML|Tuber¡a de hormig¢n armado con camisa de chapa de 0,80 M. de di metro, para una presi¢n nominal de 3,5 atm., incluso p.p. de juntas y piezas especiales, colocada y totalmente terminada. |50590.39000063|040400|0|
+~T|05.018|Tuber¡a de hormig¢n armado con camisa de chapa de 0,80 M. de di metro, para una presi¢n nominal de 3,5 atm., incluso p.p. de juntas y piezas especiales, colocada y totalmente terminada. |
+~D|05.018|05036\1\1\02008\1\0.25\02027\1\0.25\01002\1\0.05000000074506\01003\1\0.5\01007\1\1\%7\1\0.07000000029802\|
+~C|05.019|ML|Tuber¡a de hormig¢n armado con camisa de chapa de 0,70 M. de di metro, para una presi¢n nominal de 3 atm., incluso p.p. de juntas y piezas especiales, colocada y totalmente terminada. |48359.39000063|040400|0|
+~T|05.019|Tuber¡a de hormig¢n armado con camisa de chapa de 0,70 M. de di metro, para una presi¢n nominal de 3 atm., incluso p.p. de juntas y piezas especiales, colocada y totalmente terminada. |
+~D|05.019|05037\1\1\02008\1\0.25\02027\1\0.25\01002\1\0.05000000074506\01003\1\0.5\01007\1\1\%7\1\0.07000000029802\|
+~C|05.020|ML|Tuber¡a de hormig¢n armado con camisa de chapa de 0,60 M. de di metro, para una presi¢n nominal de 3 atm., incluso p.p. de juntas y piezas especiales, colocada y totalmente terminada. |46958.39000063|040400|0|
+~T|05.020|Tuber¡a de hormig¢n armado con camisa de chapa de 0,60 M. de di metro, para una presi¢n nominal de 3 atm., incluso p.p. de juntas y piezas especiales, colocada y totalmente terminada. |
+~D|05.020|05038\1\1\02008\1\0.25\02027\1\0.25\01002\1\0.05000000074506\01003\1\0.5\01007\1\1\%7\1\0.07000000029802\|
+~C|05.021|ML|Tuber¡a de acero de 250 mm. de di metro, colocada, incluso piezas especiales. |145436.3499992|040400|0|
+~T|05.021|Tuber¡a de acero de 250 mm. de di metro, colocada, incluso piezas especiales. |
+~D|05.021|05039\1\1\05040\1\1\02008\1\0.009999999776483\01002\1\0.25\01003\1\1\01007\1\1.5\%7\1\0.07000000029802\|
+~C|05.022|ML|Tuber¡a de fibrocemento de 250 mm. de di metro, colocada, incluso piezas especiales. |2945.820002744|040400|0|
+~T|05.022|Tuber¡a de fibrocemento de 250 mm. de di metro, colocada, incluso piezas especiales. |
+~D|05.022|05041\1\1\02006\1\0.009999999776483\01002\1\0.009999999776483\01003\1\0.1000000014901\01007\1\0.2000000029802\%7\1\0.07000000029802\|
+~C|05.026|ML|Tuber¡a de hormig¢n vibroprensado de 30 cm. de di metro, colocada, incluso base de hormig¢n HA-15. |2076.156024754|040400|0|
+~T|05.026|Tuber¡a de hormig¢n vibroprensado de 30 cm. de di metro, colocada, incluso base de hormig¢n HA-15. |
+~D|05.026|05023\1\1\H\1\0.09000000357628\02008\1\0.06599999964237\02027\1\0.06599999964237\01002\1\0.01999999955297\01007\1\0.2000000029802\%7\1\0.07000000029802\|
+~C|05.028|ML|Tuber¡a de hormig¢n vibroprensado de 50 cm. de di metro, incluso excavaci¢n, relleno, solera y envolvente de hormig¢n y p.p. de boquillas y aletas. |3774.055996709|040400|0|
+~T|05.028|Tuber¡a de hormig¢n vibroprensado de 50 cm. de di metro, incluso excavaci¢n, relleno, solera y envolvente de hormig¢n y p.p. de boquillas y aletas. |
+~D|05.028|05019\1\1\H\1\0.109999999404\02008\1\0.06599999964237\02027\1\0.06599999964237\01002\1\0.03999999910593\01007\1\0.4000000059605\%7\1\0.07000000029802\|
+~C|05.029|ML|Reposici¢n de acequia, incluso tuber¡a, arquetas de entrada y salida, totalmente terminada. |13013.65999859|040400|0|
+~T|05.029|Reposici¢n de acequia, incluso tuber¡a, arquetas de entrada y salida, totalmente terminada. |
+~D|05.029|A\1\0.8500000238419\H\1\0.07000000029802\HM20\1\0.25\E-2\1\0.3199999928474\RC\1\0.8100000023842\05058\1\1\02006\1\0.004999999888241\01002\1\0.004999999888241\01006\1\0.02500000037253\01007\1\0.05000000074506\%7\1\0.07000000029802\|
+~C|05.030|ML|Tuber¡a de hormig¢n vibroprensado de 25 cm. de di metro, colocado, incluso base de hormig¢n HA-15. |1829.985986039|040400|0|
+~T|05.030|Tuber¡a de hormig¢n vibroprensado de 25 cm. de di metro, colocado, incluso base de hormig¢n HA-15. |
+~D|05.030|05025\1\1\H\1\0.07999999821186\02008\1\0.06599999964237\02027\1\0.06599999964237\01002\1\0.01999999955297\01007\1\0.2000000029802\%7\1\0.07000000029802\|
+~C|05.031|Ml|Tuber¡a de PVC de 63 mm. de di metro para conducci¢n de cable de fibra ¢ptica, incluso colocaci¢n y piezas especiales. |650|040400|0|
+~T|05.031|Tuber¡a de PVC de 63 mm. de di metro para conducci¢n de cable de fibra ¢ptica, incluso colocaci¢n y piezas especiales. |
+~D|05.031|SINDESCO\1\650\|
+~C|05.032|Ml|Tuber¡a de acero helicosoldado de di metro exterior 610 mm. y espesor 5,0 mm.; incluso revestimiento interior de 200 micras de Epoxi Alimentario, revestimiento exterior de 200 micras de Brea-Epoxi, transporte, montaje, piezas especiales y pruebas. |20678.49|040400|0|
+~T|05.032|Tuber¡a de acero helicosoldado de di metro exterior 610 mm. y espesor 5,0 mm.; incluso revestimiento interior de 200 micras de Epoxi Alimentario, revestimiento exterior de 200 micras de Brea-Epoxi, transporte, montaje, piezas especiales y pruebas. |
+~D|05.032|01011\1\1\05065\1\1\08006\1\1\02058\1\1\%7\1\0.07000000029802\|
+~C|05.033|Ml|Tuber¡a de acero helicosoldado de di metro exterior 711 mm. y espesor 5,6 mm.; incluso revestimiento interior de 200 micras de Epoxi Alimentario, revestimiento exterior de 200 micras de Brea-Epoxi, transporte, montaje, piezas especiales y pruebas. |22658.49|040400|0|
+~T|05.033|Tuber¡a de acero helicosoldado de di metro exterior 711 mm. y espesor 5,6 mm.; incluso revestimiento interior de 200 micras de Epoxi Alimentario, revestimiento exterior de 200 micras de Brea-Epoxi, transporte, montaje, piezas especiales y pruebas. |
+~D|05.033|01011\1\1\05066\1\1\08007\1\1\02058\1\1\%7\1\0.07000000029802\|
+~C|05.034|Ml|Tuber¡a de acero helicosoldado de di metro exterior 813 mm. y espesor 6,4 mm.; incluso revestimiento interior de 200 micras de Epoxi Alimentario, revestimiento exterior de 200 micras de Brea-Epoxi, transporte, montaje, piezas especiales y pruebas. |26596.49|040400|0|
+~T|05.034|Tuber¡a de acero helicosoldado de di metro exterior 813 mm. y espesor 6,4 mm.; incluso revestimiento interior de 200 micras de Epoxi Alimentario, revestimiento exterior de 200 micras de Brea-Epoxi, transporte, montaje, piezas especiales y pruebas. |
+~D|05.034|01011\1\1\05067\1\1\08008\1\1\02058\1\1\%7\1\0.07000000029802\|
+~C|05.035|Ml|Tuber¡a de acero helicosoldado de di metro exterior 1016 mm. y espesor 7,1 mm.; incluso revestimiento interior de 200 micras de Epoxi Alimentario, revestimiento exterior de 200 micras de Brea-Epoxi, transporte, montaje, piezas especiales y pruebas. |35547.49|040400|0|
+~T|05.035|Tuber¡a de acero helicosoldado de di metro exterior 1016 mm. y espesor 7,1 mm.; incluso revestimiento interior de 200 micras de Epoxi Alimentario, revestimiento exterior de 200 micras de Brea-Epoxi, transporte, montaje, piezas especiales y pruebas. |
+~D|05.035|01012\1\1\05068\1\1\08009\1\1\02059\1\1\%7\1\0.07000000029802\|
+~C|05.036|Ml|Tuber¡a de acero helicosoldado de di metro exterior 1219 mm. y espesor 7,1 mm.; incluso revestimiento interior de 200 micras de Epoxi Alimentario, revestimiento exterior de 200 micras de Brea-Epoxi, transporte, montaje, piezas especiales y pruebas. |42853.49|040400|0|
+~T|05.036|Tuber¡a de acero helicosoldado de di metro exterior 1219 mm. y espesor 7,1 mm.; incluso revestimiento interior de 200 micras de Epoxi Alimentario, revestimiento exterior de 200 micras de Brea-Epoxi, transporte, montaje, piezas especiales y pruebas. |
+~D|05.036|01008\1\1\05060\1\1\08001\1\1\02055\1\1\%7\1\0.07000000029802\|
+~C|05.037|Ml|Tuber¡a de acero helicosoldado de di metro exterior 1321 mm. y espesor 7,9 mm.; incluso revestimiento interior de 200 micras de Epoxi Alimentario, revestimiento exterior de 200 micras de Brea-Epoxi, transporte, montaje, piezas especiales y pruebas. |53206.49|040400|0|
+~T|05.037|Tuber¡a de acero helicosoldado de di metro exterior 1321 mm. y espesor 7,9 mm.; incluso revestimiento interior de 200 micras de Epoxi Alimentario, revestimiento exterior de 200 micras de Brea-Epoxi, transporte, montaje, piezas especiales y pruebas. |
+~D|05.037|01009\1\1\05061\1\1\08002\1\1\02056\1\1\%7\1\0.07000000029802\|
+~C|05.038|Ml|Tuber¡a de acero helicosoldado de di metro exterior 1422 mm. y espesor 7,9 mm.; incluso revestimiento interior de 200 micras de Epoxi Alimentario, revestimiento exterior de 200 micras de Brea-Epoxi, transporte, montaje, piezas especiales y pruebas. |56121.49|040400|0|
+~T|05.038|Tuber¡a de acero helicosoldado de di metro exterior 1422 mm. y espesor 7,9 mm.; incluso revestimiento interior de 200 micras de Epoxi Alimentario, revestimiento exterior de 200 micras de Brea-Epoxi, transporte, montaje, piezas especiales y pruebas. |
+~D|05.038|01009\1\1\05062\1\1\08003\1\1\02056\1\1\%7\1\0.07000000029802\|
+~C|05.039|Ml|Tuber¡a de acero helicosoldado de di metro exterior 1524 mm. y espesor 7,9 mm.; incluso revestimiento interior de 200 micras de Epoxi Alimentario, revestimiento exterior de 200 micras de Brea-Epoxi, transporte, montaje, piezas especiales y pruebas. |58912.49|040400|0|
+~T|05.039|Tuber¡a de acero helicosoldado de di metro exterior 1524 mm. y espesor 7,9 mm.; incluso revestimiento interior de 200 micras de Epoxi Alimentario, revestimiento exterior de 200 micras de Brea-Epoxi, transporte, montaje, piezas especiales y pruebas. |
+~D|05.039|01010\1\1\05063\1\1\08004\1\1\02057\1\1\%7\1\0.07000000029802\|
+~C|05.040|Ml|Tuber¡a de acero helicosoldado de di metro exterior 1626 mm. y espesor 7,9 mm.; incluso revestimiento interior de 200 micras de Epoxi Alimentario, revestimiento exterior de 200 micras de Brea-Epoxi, transporte, montaje, piezas especiales y pruebas. |63231.49|040400|0|
+~T|05.040|Tuber¡a de acero helicosoldado de di metro exterior 1626 mm. y espesor 7,9 mm.; incluso revestimiento interior de 200 micras de Epoxi Alimentario, revestimiento exterior de 200 micras de Brea-Epoxi, transporte, montaje, piezas especiales y pruebas. |
+~D|05.040|01010\1\1\05064\1\1\08005\1\1\02057\1\1\%7\1\0.07000000029802\|
+~C|05.041|Ud|Cono de reducci¢n en acero helicosoldado de 1626 X 7,9 mm. a 1422 X 7,9 mm., incluso revestimiento interior de 200 micras de Epoxi alimentario, revestimiento exerior de 200 micras de Brea-Epoxi, transporte, montaje y pruebas. |176736.49|040400|0|
+~T|05.041|Cono de reducci¢n en acero helicosoldado de 1626 X 7,9 mm. a 1422 X 7,9 mm., incluso revestimiento interior de 200 micras de Epoxi alimentario, revestimiento exerior de 200 micras de Brea-Epoxi, transporte, montaje y pruebas. |
+~D|05.041|01010\1\3\05069\1\1\08004\1\3\02057\1\3\%7\1\0.07000000029802\|
+~C|05.042|Ud|Cono de reducci¢n en acero helicosoldado de 1626 X 7,9 mm. a 1524 X 7,9 mm., incluso revestimiento interior de 200 micras de Epoxi alimentario, revestimiento exerior de 200 micras de Brea-Epoxi, transporte, montaje y pruebas. |165519.99|040400|0|
+~T|05.042|Cono de reducci¢n en acero helicosoldado de 1626 X 7,9 mm. a 1524 X 7,9 mm., incluso revestimiento interior de 200 micras de Epoxi alimentario, revestimiento exerior de 200 micras de Brea-Epoxi, transporte, montaje y pruebas. |
+~D|05.042|01010\1\3\05071\1\1\08002\1\3.125\02057\1\3\%7\1\0.07000000029802\|
+~C|05.043|Ud|Cono de reducci¢n en acero helicosoldado de 1524 X 7,9 mm. a 1422 X 7,9 mm., incluso revestimiento interior de 200 micras de Epoxi alimentario, revestimiento exerior de 200 micras de Brea-Epoxi, transporte, montaje y pruebas. |164143.6270056|040400|0|
+~T|05.043|Cono de reducci¢n en acero helicosoldado de 1524 X 7,9 mm. a 1422 X 7,9 mm., incluso revestimiento interior de 200 micras de Epoxi alimentario, revestimiento exerior de 200 micras de Brea-Epoxi, transporte, montaje y pruebas. |
+~D|05.043|01009\1\3\05071\1\1\08003\1\3.069000005722\02056\1\3\%7\1\0.07000000029802\|
+~C|05.044|Ud|Cono de reducci¢n en acero helicosoldado de 1422 X 7,9 mm. a 1219 X 7,1 mm., incluso revestimiento interior de 200 micras de Epoxi alimentario, revestimiento exerior de 200 micras de Brea-Epoxi, transporte, montaje y pruebas. |159588.49|040400|0|
+~T|05.044|Cono de reducci¢n en acero helicosoldado de 1422 X 7,9 mm. a 1219 X 7,1 mm., incluso revestimiento interior de 200 micras de Epoxi alimentario, revestimiento exerior de 200 micras de Brea-Epoxi, transporte, montaje y pruebas. |
+~D|05.044|01009\1\3\05072\1\1\08002\1\3\02056\1\3\%7\1\0.07000000029802\|
+~C|05.045|Ml|Tuber¡a de fundici¢n d£ctil k-9 de di metro 200 mm., incluso transporte, colocaci¢n, p.p. de piezas especiales y pruebas. |8602.490000002|040400|0|
+~T|05.045|Tuber¡a de fundici¢n d£ctil k-9 de di metro 200 mm., incluso transporte, colocaci¢n, p.p. de piezas especiales y pruebas. |
+~D|05.045|01040\1\1\05095\1\1\%7\1\0.07000000029802\|
+~C|05.046|Ml|Tuber¡a de fundici¢n d£ctil k-9 de di metro 250 mm., incluso transporte, colocaci¢n, p.p. de piezas especiales y pruebas. |8957.490000002|040400|0|
+~T|05.046|Tuber¡a de fundici¢n d£ctil k-9 de di metro 250 mm., incluso transporte, colocaci¢n, p.p. de piezas especiales y pruebas. |
+~D|05.046|01041\1\1\05095\1\1\%7\1\0.07000000029802\|
+~C|05.047|Ml|Tuber¡a de fundici¢n d£ctil k-9 de di metro 300 mm., incluso transporte, colocaci¢n, p.p. de piezas especiales y pruebas. |10813.49|040400|0|
+~T|05.047|Tuber¡a de fundici¢n d£ctil k-9 de di metro 300 mm., incluso transporte, colocaci¢n, p.p. de piezas especiales y pruebas. |
+~D|05.047|01042\1\1\05096\1\1\%7\1\0.07000000029802\|
+~C|05.048|Ml|Tuber¡a de fundici¢n d£ctil k-9 de di metro 400 mm., incluso transporte, colocaci¢n, p.p. de piezas especiales y pruebas. |14439.49|040400|0|
+~T|05.048|Tuber¡a de fundici¢n d£ctil k-9 de di metro 400 mm., incluso transporte, colocaci¢n, p.p. de piezas especiales y pruebas. |
+~D|05.048|01043\1\1\05097\1\1\%7\1\0.07000000029802\|
+~C|05.049|Ml|Tuber¡a de fundici¢n d£ctil k-9 de di metro 500 mm., incluso transporte, colocaci¢n, p.p. de piezas especiales y pruebas. |17687.49|040400|0|
+~T|05.049|Tuber¡a de fundici¢n d£ctil k-9 de di metro 500 mm., incluso transporte, colocaci¢n, p.p. de piezas especiales y pruebas. |
+~D|05.049|01044\1\1\05098\1\1\%7\1\0.07000000029802\|
+~C|05.050||Cono de reducci¢n en acero helicosoldado de 813 X 6,4 mm. a 711 X 5,6 mm., incluso revestimiento interior de 200 micras de Epoxi alimentario, revestimiento exerior de 200 micras de Brea-Epoxi, transporte montaje y pruebas. |69067.49|040400|0|
+~T|05.050|Cono de reducci¢n en acero helicosoldado de 813 X 6,4 mm. a 711 X 5,6 mm., incluso revestimiento interior de 200 micras de Epoxi alimentario, revestimiento exerior de 200 micras de Brea-Epoxi, transporte montaje y pruebas. |
+~D|05.050|01011\1\3\05099\1\1\%7\1\0.07000000029802\|
+~C|05.051||Cono de reducci¢n en acero helicosoldado de 711 X 5,6 mm. a 610 X 5,0 mm., incluso revestimiento interior de 200 micras de Epoxi alimentario, revestimiento exerior de 200 micras de Brea-Epoxi, transporte montaje y pruebas. |60360.49|040400|0|
+~T|05.051|Cono de reducci¢n en acero helicosoldado de 711 X 5,6 mm. a 610 X 5,0 mm., incluso revestimiento interior de 200 micras de Epoxi alimentario, revestimiento exerior de 200 micras de Brea-Epoxi, transporte montaje y pruebas. |
+~D|05.051|01011\1\3\05100\1\1\%7\1\0.07000000029802\|
+~C|05.052|Ml|Tuber¡a de fibrocemento de 100 mm. de di metro, colocada, incluso piezas especiales. |1261|040400|0|
+~T|05.052|Tuber¡a de fibrocemento de 100 mm. de di metro, colocada, incluso piezas especiales. |
+~D|05.052|SINDESCO\1\1261\|
+~C|05.053|Ml|Hinca con tuber¡a de di metro í800, para paso de tuber¡a de acero helicosoldada de 610x5,0 mm., incluyendo tuber¡a perforaci¢n, soldadura y medios auxiliares. |94200|040400|0|
+~T|05.053|Hinca con tuber¡a de di metro í800, para paso de tuber¡a de acero helicosoldada de 610x5,0 mm., incluyendo tuber¡a perforaci¢n, soldadura y medios auxiliares. |
+~D|05.053|SINDESCO\1\94200\|
+~C|05.054|Ml|Hinca con tuber¡a de di metro í1300, para paso de tuber¡a de acero helicosoldada de 1219x7,1 mm., incluyendo tuber¡a perforaci¢n, soldadura y medios auxiliares. |151000|040400|0|
+~T|05.054|Hinca con tuber¡a de di metro í1300, para paso de tuber¡a de acero helicosoldada de 1219x7,1 mm., incluyendo tuber¡a perforaci¢n, soldadura y medios auxiliares. |
+~D|05.054|SINDESCO\1\151000\|
+~C|05.055|Ud|Cono de reduccion en acero helicosoldado de 1626 x 7.9 mm a 813 x 6.4 mm, incluso revestimiento interior de 200 micras de Epoxi alimentario, revestimiento exterior de 200 micras de Brea-Epoxi, transporte, montaje y pruebas. |104832.49|040400|0|
+~T|05.055|Cono de reduccion en acero helicosoldado de 1626 x 7.9 mm a 813 x 6.4 mm, incluso revestimiento interior de 200 micras de Epoxi alimentario, revestimiento exterior de 200 micras de Brea-Epoxi, transporte, montaje y pruebas. |
+~D|05.055|01012\1\3\02059\1\3\05102\1\1\%7\1\0.07000000029802\|
+~C|06.003|UD|Compuerta de acondicionamiento manual para di metro de 40 cm., instalada. |88148.89000999|040400|0|
+~T|06.003|Compuerta de acondicionamiento manual para di metro de 40 cm., instalada. |
+~D|06.003|05044\1\1\01002\1\0.8000000119209\01003\1\2\01005\1\2\01007\1\4\%7\1\0.07000000029802\|
+~C|06.004|UD|V lvula de compuerta de 250 mm. de di metro, colocada. |48380.36003496|040400|0|
+~T|06.004|V lvula de compuerta de 250 mm. de di metro, colocada. |
+~D|06.004|05013\1\1\01002\1\0.1650000065565\01003\1\0.3000000119209\01007\1\0.6000000238419\%7\1\0.07000000029802\|
+~C|06.013|UD|V lvula compuerta para di metro de 30 cm., instalada. |92217.04984569|040400|0|
+~T|06.013|V lvula compuerta para di metro de 30 cm., instalada. |
+~D|06.013|05053\1\1\01002\1\0.8700000047684\01003\1\2.099999904633\01005\1\2.099999904633\01007\1\4.5\%7\1\0.07000000029802\|
+~C|06.014|UD|V lvula compuerta para di metro de 50 cm., instalada. |222406.0498457|040400|0|
+~T|06.014|V lvula compuerta para di metro de 50 cm., instalada. |
+~D|06.014|05054\1\1\01002\1\0.8700000047684\01003\1\2.099999904633\01005\1\2.099999904633\01007\1\4.5\%7\1\0.07000000029802\|
+~C|06.015|UD|V lvula compuerta para di metro de 60 cm., instalada. |297491.0498457|040400|0|
+~T|06.015|V lvula compuerta para di metro de 60 cm., instalada. |
+~D|06.015|05055\1\1\01002\1\0.8700000047684\01003\1\2.099999904633\01005\1\2.099999904633\01007\1\4.5\%7\1\0.07000000029802\|
+~C|06.016|UD|V lvula compuerta para di metro de 25 cm., instalada. |88901.04984569|040400|0|
+~T|06.016|V lvula compuerta para di metro de 25 cm., instalada. |
+~D|06.016|05056\1\1\01002\1\0.8700000047684\01003\1\2.099999904633\01005\1\2.099999904633\01007\1\4.5\%7\1\0.07000000029802\|
+~C|06.017|UD|V lvula compuerta para di metro de 40 cm., instalada. |106501.0498457|040400|0|
+~T|06.017|V lvula compuerta para di metro de 40 cm., instalada. |
+~D|06.017|05057\1\1\01002\1\0.8700000047684\01003\1\2.099999904633\01005\1\2.099999904633\01007\1\4.5\%7\1\0.07000000029802\|
+~C|06.018|Ud|Ventosa autom tica trifuncional de í150 mm. y PN-10, de un s¢lo cuerpo, con las caracter¡sticas indicadas en las especificaciones t‚cnicas de equipos mec nicos, incluso colocaci¢n y pruebas. |197784.49|040400|0|
+~T|06.018|Ventosa autom tica trifuncional de í150 mm. y PN-10, de un s¢lo cuerpo, con las caracter¡sticas indicadas en las especificaciones t‚cnicas de equipos mec nicos, incluso colocaci¢n y pruebas. |
+~D|06.018|01038\1\1\05084\1\1\%7\1\0.07000000029802\|
+~C|06.019|Ud|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : motorizado todo/nada - Presi¢n nominal: PN-10 - Di metro nominal: DN-1500 |4676952.49|040400|0|
+~T|06.019|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : motorizado todo/nada - Presi¢n nominal: PN-10 - Di metro nominal: DN-1500 |
+~D|06.019|01018\1\1\05073\1\1\%7\1\0.07000000029802\|
+~C|06.020|Ud|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : motorizado todo/nada - Presi¢n nominal: PN-10 - Di metro nominal: DN-1200 |3210300.49|040400|0|
+~T|06.020|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : motorizado todo/nada - Presi¢n nominal: PN-10 - Di metro nominal: DN-1200 |
+~D|06.020|01019\1\1\05074\1\1\%7\1\0.07000000029802\|
+~C|06.021|Ud|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : motorizado todo/nada - Presi¢n nominal: PN-10 - Di metro nominal: DN-1000 |2639062.49|040400|0|
+~T|06.021|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : motorizado todo/nada - Presi¢n nominal: PN-10 - Di metro nominal: DN-1000 |
+~D|06.021|01020\1\1\05075\1\1\%7\1\0.07000000029802\|
+~C|06.022|Ud|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : motorizado - Presi¢n nominal: PN-10 - Di metro nominal: DN-700 |1555581.49|040400|0|
+~T|06.022|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : motorizado - Presi¢n nominal: PN-10 - Di metro nominal: DN-700 |
+~D|06.022|01021\1\1\05076\1\1\%7\1\0.07000000029802\|
+~C|06.023|Ud|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : manual por reductor con volante - Presi¢n nominal: PN-10 - Di metro nominal: DN-600 |522504.49|040400|0|
+~T|06.023|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : manual por reductor con volante - Presi¢n nominal: PN-10 - Di metro nominal: DN-600 |
+~D|06.023|01022\1\1\05077\1\1\%7\1\0.07000000029802\|
+~C|06.024|Ud|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : manual por reductor con volante - Presi¢n nominal: PN-10 - Di metro nominal: DN-500 |435420.49|040400|0|
+~T|06.024|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : manual por reductor con volante - Presi¢n nominal: PN-10 - Di metro nominal: DN-500 |
+~D|06.024|01023\1\1\05078\1\1\%7\1\0.07000000029802\|
+~C|06.025|Ud|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : manual por reductor con volante - Presi¢n nominal: PN-10 - Di metro nominal: DN-400 |348336.49|040400|0|
+~T|06.025|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : manual por reductor con volante - Presi¢n nominal: PN-10 - Di metro nominal: DN-400 |
+~D|06.025|01024\1\1\05079\1\1\%7\1\0.07000000029802\|
+~C|06.026|Ud|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : manual por reductor con volante - Presi¢n nominal: PN-10 - Di metro nominal: DN-300 |261202.49|040400|0|
+~T|06.026|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : manual por reductor con volante - Presi¢n nominal: PN-10 - Di metro nominal: DN-300 |
+~D|06.026|01025\1\1\05080\1\1\%7\1\0.07000000029802\|
+~C|06.027|Ud|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : manual por reductor con volante - Presi¢n nominal: PN-10 - Di metro nominal: DN-250 |207132.49|040400|0|
+~T|06.027|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : manual por reductor con volante - Presi¢n nominal: PN-10 - Di metro nominal: DN-250 |
+~D|06.027|01026\1\1\05081\1\1\%7\1\0.07000000029802\|
+~C|06.028|Ud|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-1500 |540800|040400|0|
+~T|06.028|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-1500 |
+~D|06.028|SINDESCO\1\540800\|
+~C|06.029|Ud|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-1200 |398568|040400|0|
+~T|06.029|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-1200 |
+~D|06.029|SINDESCO\1\398568\|
+~C|06.030|Ud|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-1000 |296981|040400|0|
+~T|06.030|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-1000 |
+~D|06.030|SINDESCO\1\296981\|
+~C|06.031|Ud|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-700 |173433|040400|0|
+~T|06.031|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-700 |
+~D|06.031|SINDESCO\1\173433\|
+~C|06.032|Ud|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-600 |155316|040400|0|
+~T|06.032|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-600 |
+~D|06.032|SINDESCO\1\155316\|
+~C|06.033|Ud|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-500 |110582|040400|0|
+~T|06.033|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-500 |
+~D|06.033|SINDESCO\1\110582\|
+~C|06.034|Ud|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-400 |78130|040400|0|
+~T|06.034|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-400 |
+~D|06.034|SINDESCO\1\78130\|
+~C|06.035|Ud|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-300 |46280|040400|0|
+~T|06.035|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-300 |
+~D|06.035|SINDESCO\1\46280\|
+~C|06.036|Ud|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-250 |48880|040400|0|
+~T|06.036|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-250 |
+~D|06.036|SINDESCO\1\48880\|
+~C|06.037|Ud|Equipo de medida de caudal en tuber¡a, principio electromagn‚tico, compuesto por: - Instalaci¢n tuber¡a í1400 mm. - Caudal a medir: 4,2 m/s - Alimentaci¢n : 24 V - Proceso : agua bruta |2583984.49|040400|0|
+~T|06.037|Equipo de medida de caudal en tuber¡a, principio electromagn‚tico, compuesto por: - Instalaci¢n tuber¡a í1400 mm. - Caudal a medir: 4,2 m/s - Alimentaci¢n : 24 V - Proceso : agua bruta |
+~D|06.037|01029\1\1\05085\1\1\%7\1\0.07000000029802\|
+~C|06.038|Ud|Equipo de medida de caudal en tuber¡a, principio electromagn‚tico, compuesto por: - Instalaci¢n tuber¡a í1000 mm. - Caudal a medir: 1,33 m/s - Alimentaci¢n : 24 V - Proceso : agua bruta: toma 10 |1133138.49|040400|0|
+~T|06.038|Equipo de medida de caudal en tuber¡a, principio electromagn‚tico, compuesto por: - Instalaci¢n tuber¡a í1000 mm. - Caudal a medir: 1,33 m/s - Alimentaci¢n : 24 V - Proceso : agua bruta: toma 10 |
+~D|06.038|01030\1\1\05086\1\1\%7\1\0.07000000029802\|
+~C|06.039|Ud|Equipo de medida de caudal en tuber¡a, principio electromagn‚tico, compuesto por: - Instalaci¢n tuber¡a í700 mm. - Caudal a medir:0,511 m/s - Alimentaci¢n : 24 V - Proceso : agua bruta: toma 8 |745290.49|040400|0|
+~T|06.039|Equipo de medida de caudal en tuber¡a, principio electromagn‚tico, compuesto por: - Instalaci¢n tuber¡a í700 mm. - Caudal a medir:0,511 m/s - Alimentaci¢n : 24 V - Proceso : agua bruta: toma 8 |
+~D|06.039|01031\1\1\05087\1\1\%7\1\0.07000000029802\|
+~C|06.040|Ud|Equipo de medida de caudal en tuber¡a, principio electromagn‚tico, compuesto por: - Instalaci¢n tuber¡a í600 mm. - Caudal a medir:0,520; 0,443; 0,365 m/s - Alimentaci¢n : 24 V - Proceso : agua bruta: tomas 4, 12 y 16 |619996.49|040400|0|
+~T|06.040|Equipo de medida de caudal en tuber¡a, principio electromagn‚tico, compuesto por: - Instalaci¢n tuber¡a í600 mm. - Caudal a medir:0,520; 0,443; 0,365 m/s - Alimentaci¢n : 24 V - Proceso : agua bruta: tomas 4, 12 y 16 |
+~D|06.040|01032\1\1\05088\1\1\%7\1\0.07000000029802\|
+~C|06.041|Ud|Equipo de medida de caudal en tuber¡a, principio electromagn‚tico, compuesto por: - Instalaci¢n tuber¡a í500 mm. - Caudal a medir:0,430; 0,335; 0,242 m/s - Alimentaci¢n : 24 V - Proceso : agua bruta: tomas 1, 5 y 9 |537546.49|040400|0|
+~T|06.041|Equipo de medida de caudal en tuber¡a, principio electromagn‚tico, compuesto por: - Instalaci¢n tuber¡a í500 mm. - Caudal a medir:0,430; 0,335; 0,242 m/s - Alimentaci¢n : 24 V - Proceso : agua bruta: tomas 1, 5 y 9 |
+~D|06.041|01033\1\1\05089\1\1\%7\1\0.07000000029802\|
+~C|06.042|Ud|Equipo de medida de caudal en tuber¡a, principio electromagn‚tico, compuesto por: - Instalaci¢n tuber¡a í400 mm. - Caudal a medir:0,210 m/s - Alimentaci¢n : 24 V - Proceso : agua bruta: toma 14 |484646.49|040400|0|
+~T|06.042|Equipo de medida de caudal en tuber¡a, principio electromagn‚tico, compuesto por: - Instalaci¢n tuber¡a í400 mm. - Caudal a medir:0,210 m/s - Alimentaci¢n : 24 V - Proceso : agua bruta: toma 14 |
+~D|06.042|01034\1\1\05090\1\1\%7\1\0.07000000029802\|
+~C|06.043|Ud|Equipo de medida de caudal en tuber¡a, principio electromagn‚tico, compuesto por: - Instalaci¢n tuber¡a í300 mm. - Caudal a medir:0,176 y 0, 115 m3/s - Alimentaci¢n : 24 V - Proceso : agua bruta: tomas 3 y 13 |389121.49|040400|0|
+~T|06.043|Equipo de medida de caudal en tuber¡a, principio electromagn‚tico, compuesto por: - Instalaci¢n tuber¡a í300 mm. - Caudal a medir:0,176 y 0, 115 m3/s - Alimentaci¢n : 24 V - Proceso : agua bruta: tomas 3 y 13 |
+~D|06.043|01035\1\1\05091\1\1\%7\1\0.07000000029802\|
+~C|06.044|Ud|Equipo de medida de caudal en tuber¡a, principio electromagn‚tico, compuesto por: - Instalaci¢n tuber¡a í250 mm. - Caudal a medir:0,102; 0,078; 0,083 y 0,077 m3/s - Alimentaci¢n : 24 V - Proceso : agua bruta: tomas 2, 6, 11 y 15 |319170.49|040400|0|
+~T|06.044|Equipo de medida de caudal en tuber¡a, principio electromagn‚tico, compuesto por: - Instalaci¢n tuber¡a í250 mm. - Caudal a medir:0,102; 0,078; 0,083 y 0,077 m3/s - Alimentaci¢n : 24 V - Proceso : agua bruta: tomas 2, 6, 11 y 15 |
+~D|06.044|01036\1\1\05092\1\1\%7\1\0.07000000029802\|
+~C|06.045|Ud|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-200 |30693|040400|0|
+~T|06.045|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-200 |
+~D|06.045|SINDESCO\1\30693\|
+~C|06.046|Ud|Equipo de medida de caudal en tuber¡a, principio electromagn‚tico, compuesto por: - Instalaci¢n tuber¡a í200 mm. - Caudal a medir:0,053 m3/s - Alimentaci¢n : 24 V - Proceso : agua bruta: toma 7 |295959.49|040400|0|
+~T|06.046|Equipo de medida de caudal en tuber¡a, principio electromagn‚tico, compuesto por: - Instalaci¢n tuber¡a í200 mm. - Caudal a medir:0,053 m3/s - Alimentaci¢n : 24 V - Proceso : agua bruta: toma 7 |
+~D|06.046|01037\1\1\05093\1\1\%7\1\0.07000000029802\|
+~C|06.047|Ud|Carrete de acero galvanizado con bridas: - Di metro nominal: 1000 mm. - Longitud : 500 mm. |88400|040400|0|
+~T|06.047|Carrete de acero galvanizado con bridas: - Di metro nominal: 1000 mm. - Longitud : 500 mm. |
+~D|06.047|SINDESCO\1\88400\|
+~C|06.048|Ud|Carrete de acero galvanizado con bridas: - Di metro nominal: 700 mm. - Longitud : 500 mm. |80990|040400|0|
+~T|06.048|Carrete de acero galvanizado con bridas: - Di metro nominal: 700 mm. - Longitud : 500 mm. |
+~D|06.048|SINDESCO\1\80990\|
+~C|06.049|Ud|Carrete de acero galvanizado con bridas: - Di metro nominal: 600 mm. - Longitud : 500 mm. |76856|040400|0|
+~T|06.049|Carrete de acero galvanizado con bridas: - Di metro nominal: 600 mm. - Longitud : 500 mm. |
+~D|06.049|SINDESCO\1\76856\|
+~C|06.050|Ud|Carrete de acero galvanizado con bridas: - Di metro nominal: 500 mm. - Longitud : 500 mm. |70460|040400|0|
+~T|06.050|Carrete de acero galvanizado con bridas: - Di metro nominal: 500 mm. - Longitud : 500 mm. |
+~D|06.050|SINDESCO\1\70460\|
+~C|06.051|Ud|Carrete de acero galvanizado con bridas: - Di metro nominal: 400 mm. - Longitud : 500 mm. |65130|040400|0|
+~T|06.051|Carrete de acero galvanizado con bridas: - Di metro nominal: 400 mm. - Longitud : 500 mm. |
+~D|06.051|SINDESCO\1\65130\|
+~C|06.052|Ud|Carrete de acero galvanizado con bridas: - Di metro nominal: 300 mm. - Longitud : 500 mm. |54106|040400|0|
+~T|06.052|Carrete de acero galvanizado con bridas: - Di metro nominal: 300 mm. - Longitud : 500 mm. |
+~D|06.052|SINDESCO\1\54106\|
+~C|06.053|Ud|Carrete de acero galvanizado con bridas: - Di metro nominal: 250 mm. - Longitud : 500 mm. |51285|040400|0|
+~T|06.053|Carrete de acero galvanizado con bridas: - Di metro nominal: 250 mm. - Longitud : 500 mm. |
+~D|06.053|SINDESCO\1\51285\|
+~C|06.054|Ud|Carrete de acero galvanizado con bridas: - Di metro nominal: 200 mm. - Longitud : 500 mm. |44746|040400|0|
+~T|06.054|Carrete de acero galvanizado con bridas: - Di metro nominal: 200 mm. - Longitud : 500 mm. |
+~D|06.054|SINDESCO\1\44746\|
+~C|06.055|Ud|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : motorizado todo/nada - Presi¢n nominal: PN-10 - Di metro nominal: DN-600 |344000.49|040400|0|
+~T|06.055|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : motorizado todo/nada - Presi¢n nominal: PN-10 - Di metro nominal: DN-600 |
+~D|06.055|01045\1\1\05101\1\0\%7\1\0.07000000029802\|
+~C|06.056|Ud|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : motorizado - Presi¢n nominal: PN-10 - Di metro nominal: DN-800 |2115600.49|040400|0|
+~T|06.056|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : motorizado - Presi¢n nominal: PN-10 - Di metro nominal: DN-800 |
+~D|06.056|01028\1\1\05083\1\1\%7\1\0.07000000029802\|
+~C|06.057|Ud|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-800 |237900|040400|0|
+~T|06.057|Carrete de desmontaje en acero galvanizado. - Brida-brida - Presi¢n nominal: PN-10 - Di metro nominal: DN-800 |
+~D|06.057|SINDESCO\1\237900\|
+~C|06.058|Ud|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : manual por reductor con volante - Presi¢n nominal: PN-10 - Di metro nominal: DN-200 |221631|040400|0|
+~T|06.058|V lvula de mariposa bi-exc‚ntrica y bidireccionable con junta de estanqueidad recambiable y bridas. - Velocidad del fluido m xima : 5 m/s - Cuerpo y disco: acero mecanosoldado:ST-52.3 DIN-17100 - Asiento: acero inoxidable 1.4301 DIN 17440 - Eje y clavija: acero inoxidable 1.4057 DIN 17455 - Cojinetes: autolubricados - Junta de estanqueidad: E.P.D.M. - Aro fijaci¢n junta: acero inoxidable 1.4301 DIN 17440 - Torniller¡a: acero inoxidable 304 (A2) - Acondicionamiento : manual por reductor con volante - Presi¢n nominal: PN-10 - Di metro nominal: DN-200 |
+~D|06.058|SINDESCO\1\221631\|
+~C|06.059|Ud|Desmontaje v lvula Howell-Bunger existente |800000|040400|0|
+~T|06.059|Desmontaje v lvula Howell-Bunger existente |
+~D|06.059|SINDESCO\1\800000\|
+~C|06.060|Ud|V lvula compuerta de 15 cm., instalada. |57074|040400|0|
+~T|06.060|V lvula compuerta de 15 cm., instalada. |
+~D|06.060|SINDESCO\1\57074\|
+~C|07.001|ML|Valla de cerramiento tipo rural, incluso p.p. de postes de apoyo, totalmente colocada. |1606.385020535|040400|0|
+~T|07.001|Valla de cerramiento tipo rural, incluso p.p. de postes de apoyo, totalmente colocada. |
+~D|07.001|07050\1\1\05007\1\0.3000000119209\HM20\1\0.01999999955297\02006\1\0.07500000298023\01002\1\0.009999999776483\01004\1\0.05000000074506\01007\1\0.25\%7\1\0.07000000029802\|
+~C|07.002|M2|Chapa estriada para tapas, incluso marcos y estructura auxiliar totalmente instalada. |1|040400|0|
+~T|07.002|Chapa estriada para tapas, incluso marcos y estructura auxiliar totalmente instalada. |
+~D|07.002|SINDESCO\1\1\|
+~C|08.001|Ud|Apoyo de principio de l¡nea constitu¡do por: - Poste met lico galvanizado de 12 m. de altura y 1000 kg. de esfuerzo en punta - Armado realizado en angular de hierro galvanizado - Cadenas de aisladores y herrajes correspondientes - Sistema de puesta a tierra del apoyo (Resto de caracter¡sticas seg£n Esp. T‚c. 3.01.00.00) |173960.49|040400|0|
+~T|08.001|Apoyo de principio de l¡nea constitu¡do por: - Poste met lico galvanizado de 12 m. de altura y 1000 kg. de esfuerzo en punta - Armado realizado en angular de hierro galvanizado - Cadenas de aisladores y herrajes correspondientes - Sistema de puesta a tierra del apoyo (Resto de caracter¡sticas seg£n Esp. T‚c. 3.01.00.00) |
+~D|08.001|01013\1\1\10001\1\1\%7\1\0.07000000029802\|
+~C|08.002|Ud|Apoyo de entronque y seccionamiento constitu¡do por: - Poste met lico galvanizado de 12 m. de altura y 2000 kg. de esfuerzo en punta - Armado realizado en angular de hierro galvanizado - Cadenas de aisladores y herrajes correspondientes - Seccionador tripolar servicio exterior  + Tipo: 24 kV  + Intensidad: 400 A  + Accionamiento: manual  + Fusibles de expulsi¢n - Sistema de puesta a tierra del apoyo (Resto de caracter¡sticas seg£n Esp. T‚c. 3.01.01.00) |478142.49|040400|0|
+~T|08.002|Apoyo de entronque y seccionamiento constitu¡do por: - Poste met lico galvanizado de 12 m. de altura y 2000 kg. de esfuerzo en punta - Armado realizado en angular de hierro galvanizado - Cadenas de aisladores y herrajes correspondientes - Seccionador tripolar servicio exterior  + Tipo: 24 kV  + Intensidad: 400 A  + Accionamiento: manual  + Fusibles de expulsi¢n - Sistema de puesta a tierra del apoyo (Resto de caracter¡sticas seg£n Esp. T‚c. 3.01.01.00) |
+~D|08.002|01014\1\1\10002\1\1\%7\1\0.07000000029802\|
+~C|08.003|Ud|Apoyo de alineaci¢n constitu¡do por: - Poste met lico galvanizado de 12 m. de altura y 1000 kg. de esfuerzo en punta - Armado realizado en angular de hierro galvanizado - Cadenas de aisladores y herrajes correspondientes - Sistema de puesta a tierra del apoyo (Resto de caracter¡sticas seg£n Esp. T‚c. 3.01.02.00) |173960.49|040400|0|
+~T|08.003|Apoyo de alineaci¢n constitu¡do por: - Poste met lico galvanizado de 12 m. de altura y 1000 kg. de esfuerzo en punta - Armado realizado en angular de hierro galvanizado - Cadenas de aisladores y herrajes correspondientes - Sistema de puesta a tierra del apoyo (Resto de caracter¡sticas seg£n Esp. T‚c. 3.01.02.00) |
+~D|08.003|01013\1\1\10001\1\1\%7\1\0.07000000029802\|
+~C|08.004|Ud|Apoyo de  ngulo conteniendo: - Poste met lico galvanizado de 12 m. de altura y 2000 kg. de esfuerzo en punta - Cruceta realizada en angular de hierro galvanizado - Cadenas de aisladores y herrajes correspondientes - Sistema de puesta a tierra del apoyo (Resto de caracter¡sticas seg£n Esp. T‚c. 3.01.03.00) |225862.49|040400|0|
+~T|08.004|Apoyo de  ngulo conteniendo: - Poste met lico galvanizado de 12 m. de altura y 2000 kg. de esfuerzo en punta - Cruceta realizada en angular de hierro galvanizado - Cadenas de aisladores y herrajes correspondientes - Sistema de puesta a tierra del apoyo (Resto de caracter¡sticas seg£n Esp. T‚c. 3.01.03.00) |
+~D|08.004|01015\1\1\10003\1\1\%7\1\0.07000000029802\|
+~C|08.005|Ud|Apoyo para sustentaci¢n con transformador intemperie: - Poste met lico galvanizado de 12 m. de altura y 2000 kg. de esfuerzo en punta - Cruceta realizada en angular de hierro galvanizado - Cadenas de aisladores y herrajes correspondientes - Seccionadorcon fusibles exteriores tripolares  + Tipo: 24 kV  + Intensidad: 200 A  + Accionamiento: manual  + Transformador de potencia de 5 kVA  + Tensi¢n primaria 24 kV  + Tensi¢n secundaria 400/230 V - Sistema de puesta a tierra del apoyo y transformador |1013642.49|040400|0|
+~T|08.005|Apoyo para sustentaci¢n con transformador intemperie: - Poste met lico galvanizado de 12 m. de altura y 2000 kg. de esfuerzo en punta - Cruceta realizada en angular de hierro galvanizado - Cadenas de aisladores y herrajes correspondientes - Seccionadorcon fusibles exteriores tripolares  + Tipo: 24 kV  + Intensidad: 200 A  + Accionamiento: manual  + Transformador de potencia de 5 kVA  + Tensi¢n primaria 24 kV  + Tensi¢n secundaria 400/230 V - Sistema de puesta a tierra del apoyo y transformador |
+~D|08.005|01016\1\1\10004\1\1\%7\1\0.07000000029802\|
+~C|08.006|Ml|Cable: - Tipo: LA-56 - Conductores: 1 ud. - Secci¢n unitaria: 54,6 mm2 - Material: aluminio-acero (Resto de caracter¡sticas seg£n Esp. T‚c. 3.01.19.00) |450|040400|0|
+~T|08.006|Cable: - Tipo: LA-56 - Conductores: 1 ud. - Secci¢n unitaria: 54,6 mm2 - Material: aluminio-acero (Resto de caracter¡sticas seg£n Esp. T‚c. 3.01.19.00) |
+~D|08.006|SINDESCO\1\450\|
+~C|08.007|Ud|Pararrayos para montaje exterior: - Corriente nominal de descarga: 10 kA - Tensi¢n nominal red: 20 kV - Tensi¢n m xima de servicio: 24 kV - Frecuencia nominal: 50 Hz - Resistencia a la explosi¢n (Resto de caracter¡sticas seg£n Esp. T‚c.) |39032.49|040400|0|
+~T|08.007|Pararrayos para montaje exterior: - Corriente nominal de descarga: 10 kA - Tensi¢n nominal red: 20 kV - Tensi¢n m xima de servicio: 24 kV - Frecuencia nominal: 50 Hz - Resistencia a la explosi¢n (Resto de caracter¡sticas seg£n Esp. T‚c.) |
+~D|08.007|01017\1\1\10005\1\1\%7\1\0.07000000029802\|
+~C|08.009|Ud|Puesta a tierra para herrajes y autov lvulas. |25000|040400|0|
+~T|08.009|Puesta a tierra para herrajes y autov lvulas. |
+~D|08.009|SINDESCO\1\25000\|
+~C|08.010|Ud|Chapa en forma de omega para protecci¢n bajada de cables. |28000|040400|0|
+~T|08.010|Chapa en forma de omega para protecci¢n bajada de cables. |
+~D|08.010|SINDESCO\1\28000\|
+~C|08.011|Ml|Tubo de PVC r¡gido para canalizaci¢n subterr nea. Di metro 160 mm. |1553|040400|0|
+~T|08.011|Tubo de PVC r¡gido para canalizaci¢n subterr nea. Di metro 160 mm. |
+~D|08.011|SINDESCO\1\1553\|
+~C|08.012|Ml|Banda de se¤alizaci¢n: - Ancho 250 mm. - Material : PVC (Resto de caracter¡sticas seg£n Esp. T‚c. 3.02.02.00) |325|040400|0|
+~T|08.012|Banda de se¤alizaci¢n: - Ancho 250 mm. - Material : PVC (Resto de caracter¡sticas seg£n Esp. T‚c. 3.02.02.00) |
+~D|08.012|SINDESCO\1\325\|
+~C|08.013|Ud|Conjunto peque¤o material para la l¡nea a‚rea de A.T. |187500|040400|0|
+~T|08.013|Conjunto peque¤o material para la l¡nea a‚rea de A.T. |
+~D|08.013|SINDESCO\1\187500\|
+~C|08.014|Ud|Conjunto peque¤o material para la l¡nea a‚rea de A.T. |300000|040400|0|
+~T|08.014|Conjunto peque¤o material para la l¡nea a‚rea de A.T. |
+~D|08.014|SINDESCO\1\300000\|
+~C|08.015|Ml|Tubo de PVC r¡gido, roscado:  Pg 13 (Resto de caracter¡sticas seg£n Esp. T‚c.) |978|040400|0|
+~T|08.015|Tubo de PVC r¡gido, roscado:  Pg 13 (Resto de caracter¡sticas seg£n Esp. T‚c.) |
+~D|08.015|SINDESCO\1\978\|
+~C|08.016|Ml|Tubo de PVC r¡gido, roscado:  Pg 16 (Resto de caracter¡sticas seg£n Esp. T‚c.) |1081|040400|0|
+~T|08.016|Tubo de PVC r¡gido, roscado:  Pg 16 (Resto de caracter¡sticas seg£n Esp. T‚c.) |
+~D|08.016|SINDESCO\1\1081\|
+~C|08.017|Ml|Tubo de PVC r¡gido, roscado:  Pg 21 (Resto de caracter¡sticas seg£n Esp. T‚c.) |1195|040400|0|
+~T|08.017|Tubo de PVC r¡gido, roscado:  Pg 21 (Resto de caracter¡sticas seg£n Esp. T‚c.) |
+~D|08.017|SINDESCO\1\1195\|
+~C|08.019|Ml|Tubo de PVC r¡gido, para canalizaci¢n subterr nea: - Di metro 100 mm. |775|040400|0|
+~T|08.019|Tubo de PVC r¡gido, para canalizaci¢n subterr nea: - Di metro 100 mm. |
+~D|08.019|SINDESCO\1\775\|
+~C|08.020|Ud|Caja de distribuci¢n estanca de superficie, con bornas - Tipo: plexo IP 55 - Dimensiones: 105x105x65 - Tubos: hasta Pg 21 (Resto de caracter¡sticas seg£n Esp. T‚c.) |1445|040400|0|
+~T|08.020|Caja de distribuci¢n estanca de superficie, con bornas - Tipo: plexo IP 55 - Dimensiones: 105x105x65 - Tubos: hasta Pg 21 (Resto de caracter¡sticas seg£n Esp. T‚c.) |
+~D|08.020|SINDESCO\1\1445\|
+~C|08.021|Ud|Caja de distribuci¢n estanca de superficie, con bornas - Tipo: plexo IP 55 - Dimensiones: 220x170x104 mm. - Tubos: hasta Pg 36 (Resto de caracter¡sticas seg£n Esp. T‚c.) |2839|040400|0|
+~T|08.021|Caja de distribuci¢n estanca de superficie, con bornas - Tipo: plexo IP 55 - Dimensiones: 220x170x104 mm. - Tubos: hasta Pg 36 (Resto de caracter¡sticas seg£n Esp. T‚c.) |
+~D|08.021|SINDESCO\1\2839\|
+~C|08.022|Ml|Cable: - Tipo: RV 0,6/1 kV - Conductores: 3 ud. - Secci¢n unitaria: 1,5 mm2 - Material: cobre (Resto de caracter¡sticas seg£n Esp. T‚c.) |166|040400|0|
+~T|08.022|Cable: - Tipo: RV 0,6/1 kV - Conductores: 3 ud. - Secci¢n unitaria: 1,5 mm2 - Material: cobre (Resto de caracter¡sticas seg£n Esp. T‚c.) |
+~D|08.022|SINDESCO\1\166\|
+~C|08.023|Ml|Cable: - Tipo: RV 0,6/1 kV - Conductores: 3 ud. - Secci¢n unitaria: 2,5 mm2 - Material: cobre (Resto de caracter¡sticas seg£n Esp. T‚c.) |216|040400|0|
+~T|08.023|Cable: - Tipo: RV 0,6/1 kV - Conductores: 3 ud. - Secci¢n unitaria: 2,5 mm2 - Material: cobre (Resto de caracter¡sticas seg£n Esp. T‚c.) |
+~D|08.023|SINDESCO\1\216\|
+~C|08.024|Ml|Cable: - Tipo: RV 0,6/1 kV - Conductores: 4 ud. - Secci¢n unitaria: 2,5 mm2 - Material: cobre (Resto de caracter¡sticas seg£n Esp. T‚c.) |255|040400|0|
+~T|08.024|Cable: - Tipo: RV 0,6/1 kV - Conductores: 4 ud. - Secci¢n unitaria: 2,5 mm2 - Material: cobre (Resto de caracter¡sticas seg£n Esp. T‚c.) |
+~D|08.024|SINDESCO\1\255\|
+~C|08.025|Ml|Cable: - Tipo: fibra ¢ptica - Modelo: EMHE-6C2 - M ximo n£mero de fibras : 4 |938|040400|0|
+~T|08.025|Cable: - Tipo: fibra ¢ptica - Modelo: EMHE-6C2 - M ximo n£mero de fibras : 4 |
+~D|08.025|SINDESCO\1\938\|
+~C|08.026|Ml|Cable: - Tipo: RV 0,6/1 kV - Conductores: 3 ud. - Secci¢n unitaria: 4 mm2 - Material: cobre (Resto de caracter¡sticas seg£n Esp. T‚c.) |293|040400|0|
+~T|08.026|Cable: - Tipo: RV 0,6/1 kV - Conductores: 3 ud. - Secci¢n unitaria: 4 mm2 - Material: cobre (Resto de caracter¡sticas seg£n Esp. T‚c.) |
+~D|08.026|SINDESCO\1\293\|
+~C|08.027|Ml|Cable: - Tipo: RV 0,6/1 kV - Conductores: 4 ud. - Secci¢n unitaria: 4 mm2 - Material: cobre (Resto de caracter¡sticas seg£n Esp. T‚c.) |344|040400|0|
+~T|08.027|Cable: - Tipo: RV 0,6/1 kV - Conductores: 4 ud. - Secci¢n unitaria: 4 mm2 - Material: cobre (Resto de caracter¡sticas seg£n Esp. T‚c.) |
+~D|08.027|SINDESCO\1\344\|
+~C|08.028|Ml|Cable: - Tipo: RV 0,6/1 kV - Conductores: 3 ud. - Secci¢n unitaria: 6 mm2 - Material: cobre (Resto de caracter¡sticas seg£n Esp. T‚c.) |373|040400|0|
+~T|08.028|Cable: - Tipo: RV 0,6/1 kV - Conductores: 3 ud. - Secci¢n unitaria: 6 mm2 - Material: cobre (Resto de caracter¡sticas seg£n Esp. T‚c.) |
+~D|08.028|SINDESCO\1\373\|
+~C|08.029|Ml|Cable: - Tipo: RV 0,6/1 kV - Conductores: 4 ud. - Secci¢n unitaria: 6 mm2 - Material: cobre (Resto de caracter¡sticas seg£n Esp. T‚c.) |439|040400|0|
+~T|08.029|Cable: - Tipo: RV 0,6/1 kV - Conductores: 4 ud. - Secci¢n unitaria: 6 mm2 - Material: cobre (Resto de caracter¡sticas seg£n Esp. T‚c.) |
+~D|08.029|SINDESCO\1\439\|
+~C|08.030|Ml|Cable: - Tipo: RV 0,6/1 kV - Conductores: 3 ud. - Secci¢n unitaria: 10 mm2 - Material: cobre (Resto de caracter¡sticas seg£n Esp. T‚c.) |535|040400|0|
+~T|08.030|Cable: - Tipo: RV 0,6/1 kV - Conductores: 3 ud. - Secci¢n unitaria: 10 mm2 - Material: cobre (Resto de caracter¡sticas seg£n Esp. T‚c.) |
+~D|08.030|SINDESCO\1\535\|
+~C|08.031|Ml|Cable: - Tipo: RV 0,6/1 kV - Conductores: 4 ud. - Secci¢n unitaria: 10 mm2 - Material: cobre (Resto de caracter¡sticas seg£n Esp. T‚c.) |630|040400|0|
+~T|08.031|Cable: - Tipo: RV 0,6/1 kV - Conductores: 4 ud. - Secci¢n unitaria: 10 mm2 - Material: cobre (Resto de caracter¡sticas seg£n Esp. T‚c.) |
+~D|08.031|SINDESCO\1\630\|
+~C|08.032|Ml|Cable: - Tipo: OYCY 0,3/0,5 kV - Caracter¡sticas: apantallado - Conductores: 2 ud. - Secci¢n unitaria: 1,5 mm2 - Material: cobre |406|040400|0|
+~T|08.032|Cable: - Tipo: OYCY 0,3/0,5 kV - Caracter¡sticas: apantallado - Conductores: 2 ud. - Secci¢n unitaria: 1,5 mm2 - Material: cobre |
+~D|08.032|SINDESCO\1\406\|
+~C|08.033|Ml|Cable: - Tipo: RV 0,6/1 kV - Conductores: 4 ud. - Secci¢n unitaria: 16 mm2 - Material: cobre |905|040400|0|
+~T|08.033|Cable: - Tipo: RV 0,6/1 kV - Conductores: 4 ud. - Secci¢n unitaria: 16 mm2 - Material: cobre |
+~D|08.033|SINDESCO\1\905\|
+~C|08.034|Ml|Cable: - Tipo: RV 0,6/1 kV - Conductores: 4 ud. - Secci¢n unitaria: 25 mm2 - Material: cobre |1180|040400|0|
+~T|08.034|Cable: - Tipo: RV 0,6/1 kV - Conductores: 4 ud. - Secci¢n unitaria: 25 mm2 - Material: cobre |
+~D|08.034|SINDESCO\1\1180\|
+~C|08.035|Ud|Conjunto de peque¤o material, para alimentaciones a receptores - Suplementos: fijaciones soportes, brazaderas racores, etc. |93750|040400|0|
+~T|08.035|Conjunto de peque¤o material, para alimentaciones a receptores - Suplementos: fijaciones soportes, brazaderas racores, etc. |
+~D|08.035|SINDESCO\1\93750\|
+~C|08.036|Ml|Cable de cobre, desnudo: - Secci¢n: 35 mm2. (Resto de caracter¡sticas seg£n Esp. T‚c. 3.54.02.00) |446|040400|0|
+~T|08.036|Cable de cobre, desnudo: - Secci¢n: 35 mm2. (Resto de caracter¡sticas seg£n Esp. T‚c. 3.54.02.00) |
+~D|08.036|SINDESCO\1\446\|
+~C|08.037|Ud|Pica de tierra: - Material: acero cobrizado - Longitud: 2000 mm. - Di metro: 18,3 mm. - Suplemento: grapas de fijaci¢n (Resto de caracter¡sticas seg£n Esp.T‚c. 3.54.04.00). |5776|040400|0|
+~T|08.037|Pica de tierra: - Material: acero cobrizado - Longitud: 2000 mm. - Di metro: 18,3 mm. - Suplemento: grapas de fijaci¢n (Resto de caracter¡sticas seg£n Esp.T‚c. 3.54.04.00). |
+~D|08.037|SINDESCO\1\5776\|
+~C|08.038|Ud|Soldadura aluminot‚rmica: - Forma: en T - Cable: 30/35 mm2. (Resto de caracter¡sticas seg£n Esp. T‚c. 3.54.00.00). |2454|040400|0|
+~T|08.038|Soldadura aluminot‚rmica: - Forma: en T - Cable: 30/35 mm2. (Resto de caracter¡sticas seg£n Esp. T‚c. 3.54.00.00). |
+~D|08.038|SINDESCO\1\2454\|
+~C|08.039|Ud|Puesta a tierra de estructuras met licas y redondo de la armadura de hormig¢n, incluso pletinas de hierro para conexi¢n. |2796|040400|0|
+~T|08.039|Puesta a tierra de estructuras met licas y redondo de la armadura de hormig¢n, incluso pletinas de hierro para conexi¢n. |
+~D|08.039|SINDESCO\1\2796\|
+~C|08.040|Ud|Conjunto de peque¤o material, para instalaci¢n de red de puesta a tierra - Suplementos: fijaciones soportes, brazaderas racores, etc. |25000|040400|0|
+~T|08.040|Conjunto de peque¤o material, para instalaci¢n de red de puesta a tierra - Suplementos: fijaciones soportes, brazaderas racores, etc. |
+~D|08.040|SINDESCO\1\25000\|
+~C|09.001|Ud|Cuadro de protecci¢n y medida, de dimensiones aproximadas 516x536x227 mm., de material poli‚ster reforzado con fibra de vidrio, conteniendo: - 3 fusibles de protecci¢n - 1 equipo de medida trif sico con neutro |243750|040400|0|
+~T|09.001|Cuadro de protecci¢n y medida, de dimensiones aproximadas 516x536x227 mm., de material poli‚ster reforzado con fibra de vidrio, conteniendo: - 3 fusibles de protecci¢n - 1 equipo de medida trif sico con neutro |
+~D|09.001|SINDESCO\1\243750\|
+~C|09.002|Ud|Caja modular de doble aislamiento, conteniendo: - 1 Interruptor autom tico monof sico de 10 A, para alimentar medidor de caudal. - 1 Interruptor autom tico bipolar para usos varios - Peque¤o material de conexi¢n con el microprocesador y m¢dem telef¢nico. |109500|040400|0|
+~T|09.002|Caja modular de doble aislamiento, conteniendo: - 1 Interruptor autom tico monof sico de 10 A, para alimentar medidor de caudal. - 1 Interruptor autom tico bipolar para usos varios - Peque¤o material de conexi¢n con el microprocesador y m¢dem telef¢nico. |
+~D|09.002|SINDESCO\1\109500\|
+~C|09.003|Ud|Cuadro de protecci¢n y mando, construido en chapa de poli‚ster reforzado con fibra de vidrio, conteniendo el siguente material: - 1Interruptor autom tico tetrapolar - 2 Salidas con inversor t‚rmico diferencial y magn‚tico para motor trif sico hasta 4 kW - 1 Interruptor autom tico monof sico de 10 A - 1 Volt¡metro con conmutador - 1 Transformador de mando 400/24 V - Conjunto de peque¤o material para conexi¢n con el microprocesador y m¢dem telef¢nico en tomas 9 y 10, y Ramal de Guadix. |468750|040400|0|
+~T|09.003|Cuadro de protecci¢n y mando, construido en chapa de poli‚ster reforzado con fibra de vidrio, conteniendo el siguente material: - 1Interruptor autom tico tetrapolar - 2 Salidas con inversor t‚rmico diferencial y magn‚tico para motor trif sico hasta 4 kW - 1 Interruptor autom tico monof sico de 10 A - 1 Volt¡metro con conmutador - 1 Transformador de mando 400/24 V - Conjunto de peque¤o material para conexi¢n con el microprocesador y m¢dem telef¢nico en tomas 9 y 10, y Ramal de Guadix. |
+~D|09.003|SINDESCO\1\468750\|
+~C|09.004|Ud|Cuadro de protecci¢n y mando, construido en chapa de poli‚ster reforzado con fibra de vidrio, conteniendo el siguente material: - 1Interruptor autom tico tetrapolar - 2 Salidas con inversor t‚rmico diferencial y magn‚tico para motor trif sico hasta 4 kW - 1 Interruptor autom tico monof sico de 10 A - 1 Volt¡metro con conmutador - 1 Transformador de mando 400/24 V - Conjunto de peque¤o material para conexi¢n con el microprocesador y m¢dem telef¢nico en toma 8. |370125|040400|0|
+~T|09.004|Cuadro de protecci¢n y mando, construido en chapa de poli‚ster reforzado con fibra de vidrio, conteniendo el siguente material: - 1Interruptor autom tico tetrapolar - 2 Salidas con inversor t‚rmico diferencial y magn‚tico para motor trif sico hasta 4 kW - 1 Interruptor autom tico monof sico de 10 A - 1 Volt¡metro con conmutador - 1 Transformador de mando 400/24 V - Conjunto de peque¤o material para conexi¢n con el microprocesador y m¢dem telef¢nico en toma 8. |
+~D|09.004|SINDESCO\1\370125\|
+~C|09.005|Ud|Controlador programable Micrologix modelo 17161 L20 BW B 5A de 12 entradas digitales, 8 salidas digitales, 4 entradas anal¢gicas, 1 salida anal¢gica, 1 conjuto de cableado y programaci¢n del microprocesador v¡a m¢dem. |233250|040400|0|
+~T|09.005|Controlador programable Micrologix modelo 17161 L20 BW B 5A de 12 entradas digitales, 8 salidas digitales, 4 entradas anal¢gicas, 1 salida anal¢gica, 1 conjuto de cableado y programaci¢n del microprocesador v¡a m¢dem. |
+~D|09.005|SINDESCO\1\233250\|
+~C|09.006|Ud|M¢dem para transmisi¢n a trav‚s de fibra ¢ptica v¡a telef¢nica de 185 kbandios. |100000|040400|0|
+~T|09.006|M¢dem para transmisi¢n a trav‚s de fibra ¢ptica v¡a telef¢nica de 185 kbandios. |
+~D|09.006|SINDESCO\1\100000\|
+~C|09.007|Ud|Ampliaci¢n del cuadro existente de la v lvula de compuerta. |90050|040400|0|
+~T|09.007|Ampliaci¢n del cuadro existente de la v lvula de compuerta. |
+~D|09.007|SINDESCO\1\90050\|
+~C|09.008|Ud|M¢dulo fotovoltaico de 12 V cc, 55 W pico, conectado en paralelo para las v lvulas de corte (V.C). |215000|040400|0|
+~T|09.008|M¢dulo fotovoltaico de 12 V cc, 55 W pico, conectado en paralelo para las v lvulas de corte (V.C). |
+~D|09.008|SINDESCO\1\215000\|
+~C|09.009|Ud|Estructura soporte en acero galvanizado con torniller¡a en acero inoxidable tipo L para dos m¢dulos. |40125|040400|0|
+~T|09.009|Estructura soporte en acero galvanizado con torniller¡a en acero inoxidable tipo L para dos m¢dulos. |
+~D|09.009|SINDESCO\1\40125\|
+~C|09.010|Ud|Regulador de tensi¢n 12/24 V para corriente m xima producida por el campo solar 15 A. |248000|040400|0|
+~T|09.010|Regulador de tensi¢n 12/24 V para corriente m xima producida por el campo solar 15 A. |
+~D|09.010|SINDESCO\1\248000\|
+~C|09.011|Ud|Bater¡a estacionaria para 480 A/h de seis vasos de 2 V, especial, dise¤ada para energ¡a solar. |197500|040400|0|
+~T|09.011|Bater¡a estacionaria para 480 A/h de seis vasos de 2 V, especial, dise¤ada para energ¡a solar. |
+~D|09.011|SINDESCO\1\197500\|
+~C|09.012|Ud|Convertidor de tensi¢n 1800W-24Vcc/230Vca con automatismo de bater¡a baja. |312500|040400|0|
+~T|09.012|Convertidor de tensi¢n 1800W-24Vcc/230Vca con automatismo de bater¡a baja. |
+~D|09.012|SINDESCO\1\312500\|
+~C|09.013|Ud|Estructura soporte en acero galvanizado con torniller¡a en acero inoxidable tipo L para dos m¢dulos. |40000|040400|0|
+~T|09.013|Estructura soporte en acero galvanizado con torniller¡a en acero inoxidable tipo L para dos m¢dulos. |
+~D|09.013|SINDESCO\1\40000\|
+~C|09.014|Ud|Bater¡a estacionaria para 350 A/h de seis vasos de 2 V, especial, dise¤ada para energ¡a solar. |150000|040400|0|
+~T|09.014|Bater¡a estacionaria para 350 A/h de seis vasos de 2 V, especial, dise¤ada para energ¡a solar. |
+~D|09.014|SINDESCO\1\150000\|
+~C|09.015|Ud|Convertidor de tensi¢n 300W-24Vcc/230Vca con automatismo de bater¡a baja. |312500|040400|0|
+~T|09.015|Convertidor de tensi¢n 300W-24Vcc/230Vca con automatismo de bater¡a baja. |
+~D|09.015|SINDESCO\1\312500\|
+~C|09.016|Ud|Sinoptico de mosaico, de dimensiones 1500 x 1000 mm, con bastidor y leds de se¤alizacion del estado de la conduccion y de las tomas, incluso instalacion. |900000|040400|0|
+~T|09.016|Sinoptico de mosaico, de dimensiones 1500 x 1000 mm, con bastidor y leds de se¤alizacion del estado de la conduccion y de las tomas, incluso instalacion. |
+~D|09.016|SINDESCO\1\900000\|
+~C|09.017|Ud|Automata controlador del sinoptico, con 92 entradas, 165 salidas y 20 se¤ales de entrada analogica, incluido cuadro. |1200000|040400|0|
+~T|09.017|Automata controlador del sinoptico, con 92 entradas, 165 salidas y 20 se¤ales de entrada analogica, incluido cuadro. |
+~D|09.017|SINDESCO\1\1200000\|
+~C|09.018|Ud|Ordenador con microprocesador Intel Pentium II a 250 MHz, 64 MB de memoria RAM, disco duro de 4.2 GB, unidad para discos flexibles de 3 pulgadas y media, monitor super VGA de 19 pulgadas, software, impresora laser A4, ingenieria, documentacion y puesta en marcha |1875000|040400|0|
+~T|09.018|Ordenador con microprocesador Intel Pentium II a 250 MHz, 64 MB de memoria RAM, disco duro de 4.2 GB, unidad para discos flexibles de 3 pulgadas y media, monitor super VGA de 19 pulgadas, software, impresora laser A4, ingenieria, documentacion y puesta en marcha |
+~D|09.018|SINDESCO\1\1875000\|
+~C|10.001|PA|Reposici¢n de l¡nea el‚ctrica de baja tensi¢n. |3500000|040400|0|
+~T|10.001|Reposici¢n de l¡nea el‚ctrica de baja tensi¢n. |
+~D|10.001|SINDESCO\1\3500000\|
+~C|10.002||Reposici¢n de l¡nea telef¢nica. |2200000|040400|0|
+~T|10.002|Reposici¢n de l¡nea telef¢nica. |
+~D|10.002|SINDESCO\1\2200000\|
+~C|PR##||Prueba|1474153876.249|040400|0|
+~D|PR##|1\1\1\2\1\1\3\1\1\4\1\1\5\1\1\6\1\1\|
+~C|1#||Tuber¡a y camino de servicio.|1050791851.196|040400|0|
+~D|1|1_1\1\1\1_2\1\1\1_3\1\1\1_4\1\1\1_5\1\1\|
+~C|1_1||Movimiento de tierras.|177679644.3957|040400|0|
+~Y|1_1|02.001\1\98751.2\02.004\1\91084.1\02.005\1\1222.29\02.016\1\6057.1\02.017\1\31364.5\02.018\1\53354.3\02.010\1\8892\04.028\1\5265.9\02.011\1\97973.4\02.012\1\60266.3\02.015\1\227\02.014\1\68.9602\|
+~M|1_1\02.001|1\1\1\|98751.2|\s/med auxiliar\1\50702.4\0\0\\Plataforma de\0\0\0\0\\trabajo\1\13360.5\7\0.5\\Bajo terraplen\1\22\117\0.5\\\0\0\0\0\|
+~M|1_1\02.004|1\1\2\|91084.1|\s/med auxiliar\0\0\0\0\\2+465 a 3+170\1\0\9318\0\\3+170 a 3+680\0.85\0\4535.7\0\\4+100 a 4+600\0.85\0\4254.9\0\\4+600 a 4+680\1\0\873.1\0\\4+680 a 4+900\1\0\1434\0\\4+900 a 5+040\1\0\1815.2\0\\5+860 a 5+940\1\0\540.9\0\\5+940 a 6+340\1\0\5810.8\0\\7+100 a 8+380\1\0\20323.2\0\\8+380 a 8+600\1\0\1727\0\\8+600 a 9+480\1\0\9402.9\0\\9+480 a 10+580\1\0\15099.2\0\\10+580 a 10+660\0.9\0\313.2\0\\10+660 a 12+100\1\0\16985.9\0\\\0\0\0\0\|
+~M|1_1\02.005|1\1\3\|1222.29|\s/med auxiliar\0\0\0\0\\0+000 a 0+040\1\0\484.7\0\\3+170 a 3+680\0.15\0\453.57\0\\4+100 a 4+600\0.15\0\4254.9\0\\10+580 a 10+660\0.1\0\313.2\0\\\0\0\0\0\|
+~M|1_1\02.016|1\1\4\|6057.1|\s/med auxiliar\0\0\0\0\\3+680 a 4+100\1\0\6057.1\0\\\0\0\0\0\|
+~M|1_1\02.017|1\1\5\|31364.5|\s/med auxiliar\0\0\0\0\\6+340 a 7+100\1\0\8755.9\0\\12+100 a 13+652\1\0\22608.6\0\\\0\0\0\0\|
+~M|1_1\02.018|1\1\6\|53354.3|\s/med auxiliar\0\0\0\0\\0+040 a 2+465\1\0\40487.8\0\\5+040 a 5+860\1\0\12866.5\0\\\0\0\0\0\|
+~M|1_1\02.010|1\1\7\|8892|\Terraplen\1\117\15.2\5\\\0\0\0\0\|
+~M|1_1\04.028|1\1\8\|5265.9|\s/med auxiliar\1\5265.9\0\0\\\0\0\0\0\|
+~M|1_1\02.011|1\1\9\|97973.4|\s/med auxiliar\1\91982.3\0\0\\\1\91982.3\0\0\\\-1\5265.9\0\0\\\-1\3170\4.04\1.9\\\-1\2770\3.03\1.8\\\-1\1160\3.79\1.7\\\-1\6552.5\3.44\1.5\\\0\0\0\0\|
+~M|1_1\02.012|1\1\10\|60266.3|\0+000 a 3+170\1\3170\4.04\1.9\\\-1\3170\3.14\0.64\\3+170 a 5+940\1\2770\3.03\1.8\\\-1\2770\3.14\0.563\\5+940 a 7+100\1\1160\3.79\1.7\\\-1\1160\3.14\0.49\\7+100 a 13+652\1\6552.5\3.44\1.5\\\-1\6552.5\3.14\0.36\\\0\0\0\0\|
+~M|1_1\02.015|1\1\11\|227|\Tocones\227\1\1\1\\\0\0\0\0\|
+~M|1_1\02.014|1\1\12\|68.9602|\Demolicion\0\0\0\0\\Salida\1\3.14\0.723\1\\Rio Guadix\2\1\12.35\2.7\\\0\0\0\0\|
+~C|1_2||Tuber¡a y piezas especiales, desages y ventosas|740537138.611|040400|0|
+~Y|1_2|05.040\1\3209\05.039\1\2798\05.038\1\1175\05.036\1\6617.5\05.041\1\1\05.042\1\1\05.043\1\1\05.044\1\1\06.059\1\1\05.054\1\30\05.031\1\14010\05.055\1\1\06.053\1\16\06.016\1\16\05.046\1\48\05.022\1\530\06.018\1\15\06.060\1\15\|
+~M|1_2\05.040|1\2\1\|3209|\\1\3170\0\0\\\1\5\0\0\\\1\2\0\0\\\1\32\0\0\\\0\0\0\0\|
+~M|1_2\05.039|1\2\2\|2798|\\1\2770\0\0\\\1\28\0\0\\\0\0\0\0\|
+~M|1_2\05.038|1\2\3\|1175|\\1\1160\0\0\\\1\15\0\0\\\0\0\0\0\|
+~M|1_2\05.036|1\2\4\|6617.5|\\1\6552.5\0\0\\\1\65\0\0\\\0\0\0\0\|
+~M|1_2\05.041|1\2\5\|1|\\1\0\0\0\|
+~M|1_2\05.042|1\2\6\|1|\\1\0\0\0\|
+~M|1_2\05.043|1\2\7\|1|\\1\0\0\0\|
+~M|1_2\05.044|1\2\8\|1|\\1\0\0\0\|
+~M|1_2\06.059|1\2\9\|1|\\1\0\0\0\|
+~M|1_2\05.054|1\2\10\|30|\\1\30\0\0\|
+~M|1_2\05.031|1\2\11\|14010|\Conduccion\1\13655\0\0\\Presa\1\355\0\0\\\0\0\0\0\|
+~M|1_2\05.055|1\2\12\|1|\\1\0\0\0\\\0\0\0\0\|
+~M|1_2\06.053|1\2\13\|16|\Desages\16\0\0\0\\\0\0\0\0\|
+~M|1_2\06.016|1\2\14\|16|\Desages\16\0\0\0\\\0\0\0\0\|
+~M|1_2\05.046|1\2\15\|48|\Desages\16\3\0\0\\\0\0\0\0\|
+~M|1_2\05.022|1\2\16\|530|\Desagues\0\0\0\0\\0+450\1\5\0\0\\2+300\1\90\0\0\\3+594\1\20\0\0\\4+040\1\55\0\0\\Resto\12\30\0\0\\\0\0\0\0\|
+~M|1_2\06.018|1\2\17\|15|\\15\0\0\0\\\0\0\0\0\|
+~M|1_2\06.060|1\2\18\|15|\Ventosas\15\0\0\0\\\0\0\0\0\|
+~C|1_3||Estructuras y arquetas.|20152134.65248|040400|0|
+~D|1_3|1_3_1\1\1\1_3_2\1\1\1_3_3\1\1\1_3_4\1\1\1_3_5\1\1\1_3_6\1\1\|
+~C|1_3_1||Desages|10826793.93616|040400|0|
+~Y|1_3_1|02.006\1\2587.2\02.011\1\3759.06\04.001\1\16\04.007\1\206.74\04.008\1\27.904\04.009\1\826.56\04.010\1\994.912\04.011\1\17.592\04.035\1\826.56\04.013\1\18959\04.029\1\10.24\04.034\1\224\05.052\1\160\04.015\1\240\02.016\1\1828.5\|
+~M|1_3_1\02.006|1\3\1\1\|2587.2|\Excavacion\16\7\5.5\4.2\\\0\0\0\0\|
+~M|1_3_1\02.011|1\3\1\2\|3759.06|\Relleno\16\7\5.5\4.2\\A deducir\-16\4\2.5\0.1\\\-16\3.9\2.4\4.1\\Desagues\1\530\2.3\1.5\\\-1\530\3.14\0.016\\\0\0\0\0\|
+~M|1_3_1\04.001|1\3\1\3\|16|\H-125\16\4\2.5\0.1\\\0\0\0\0\|
+~M|1_3_1\04.007|1\3\1\4\|206.74|\H-200\16\3.9\2.4\0.3\\Solera\32\3.9\3.8\0.2\\Alzados\32\2\3.8\0.2\\Apoyos\32\1\1.8\0.25\\\32\1.8\0.7\0.25\\A deducir\-32\0.5\1.539\0.25\\\0\0\0\0\|
+~M|1_3_1\04.008|1\3\1\5\|27.904|\H-250 losa\16\3.9\2.4\0.2\\A deducir\-16\0.8\0.8\0.2\\\0\0\0\0\|
+~M|1_3_1\04.009|1\3\1\6\|826.56|\Encofrado ocult\32\3.9\4.1\1\\\32\2.4\4.1\1\\\0\0\0\0\|
+~M|1_3_1\04.010|1\3\1\7\|994.912|\Encofrado visto\32\3.5\3.8\1\\\32\2\3.8\1\\\32\3.9\0.2\1\\\32\2.4\0.2\1\\\16\3.5\2\1\\A deducir\-16\0.8\0.8\1\\\64\0.8\0.2\1\\\64\1.7\0.25\1\\\64\1.8\1\1\\\64\1.8\0.7\1\\\-64\0.5\1.539\1\\\0\0\0\0\|
+~M|1_3_1\04.011|1\3\1\8\|17.592|\Encofrado curvo\32\2.199\0.25\1\\\0\0\0\0\|
+~M|1_3_1\04.035|1\3\1\9\|826.56|\Impermeabiliz.\32\3.9\4.1\1\\\32\2.4\4.1\1\\\0\0\0\0\|
+~M|1_3_1\04.013|1\3\1\10\|18959|\Acero\0\0\0\0\\Solera\16\2.808\57\1\\Alzados\16\8.969\87\1\\Losa\16\1.744\91\1\\Apoyos\16\1.145\75\1\\\0\0\0\0\|
+~M|1_3_1\04.029|1\3\1\11\|10.24|\Tapa chapa estr\16\0.8\0.8\0\\\0\0\0\0\|
+~M|1_3_1\04.034|1\3\1\12\|224|\Pates\224\0\0\0\\\0\0\0\0\|
+~M|1_3_1\05.052|1\3\1\13\|160|\\16\10\0\0\\\0\0\0\0\|
+~M|1_3_1\04.015|1\3\1\14\|240|\A42b\16\15\0\0\\\0\0\0\0\|
+~M|1_3_1\02.016|1\3\1\15\|1828.5|\\1\530\2.3\1.5\\\0\0\0\0\|
+~C|1_3_2||Ventosas|6426848.653556|040400|0|
+~Y|1_3_2|02.006\1\1493.56\02.011\1\1087.49\04.001\1\12.95\04.007\1\134.124\04.008\1\22.4\04.009\1\545.664\04.010\1\606.508\04.011\1\15.393\04.035\1\546\04.013\1\12507.1\04.029\1\8.96\04.034\1\154\04.015\1\140\05.052\1\112\|
+~M|1_3_2\02.006|1\3\2\1\|1493.56|\\14\6.275\5.075\3.35\\\0\0\0\0\|
+~M|1_3_2\02.011|1\3\2\2\|1087.49|\\14\6.275\5.075\3.35\\A deducir\-14\3.7\2.5\0.1\\\-14\3.6\2.4\3.25\\\0\0\0\0\|
+~M|1_3_2\04.001|1\3\2\3\|12.95|\\14\3.7\2.5\0.1\\\0\0\0\0\|
+~M|1_3_2\04.007|1\3\2\4\|134.124|\Solera\14\3.6\2.4\0.3\\Alzados\28\3.6\2.95\0.2\\\28\2\2.95\0.2\\Apoyos\28\1.8\0.15\0.25\\\28\1.8\0.7\0.25\\A deducir\-28\0.5\1.539\0.25\\\0\0\0\0\|
+~M|1_3_2\04.008|1\3\2\5\|22.4|\\14\3.6\2.4\0.2\\\-14\0.8\0.8\0.2\\\0\0\0\0\|
+~M|1_3_2\04.009|1\3\2\6\|545.664|\\28\3.6\3.25\0\\\28\2.4\3.245\0\\\0\0\0\0\|
+~M|1_3_2\04.010|1\3\2\7\|606.508|\\28\3.2\2.95\0\\\28\2\2.95\0\\\28\3.6\0.2\0\\\28\2.4\0.2\0\\\14\3.2\2\0\\A deducir\-14\0.8\0.8\0\\\56\0.8\0.2\0\\\56\0.8\0.25\0\\\56\1.8\0.15\0\\\56\1.8\0.7\0\\\-56\0.5\1.539\0\\\0\0\0\0\|
+~M|1_3_2\04.011|1\3\2\8\|15.393|\\28\2.199\0.25\0\\\0\0\0\0\|
+~M|1_3_2\04.035|1\3\2\9\|546|\\28\3.6\3.25\0\\\28\2.4\3.25\0\\\0\0\0\0\|
+~M|1_3_2\04.013|1\3\2\10\|12507.1|\Solera\14\2.592\57\0\\Alzados\14\6.608\87\0\\Losa\14\1.6\91\0\\Apoyos\14\0.335\75\0\\\0\0\0\0\|
+~M|1_3_2\04.029|1\3\2\11\|8.96|\\14\0.8\0.8\0\\\0\0\0\0\|
+~M|1_3_2\04.034|1\3\2\12\|154|\\154\0\0\0\\\0\0\0\0\|
+~M|1_3_2\04.015|1\3\2\13\|140|\A42b\14\10\0\0\\\0\0\0\0\|
+~M|1_3_2\05.052|1\3\2\14\|112|\\14\8\0\0\\\0\0\0\0\|
+~C|1_3_3||V lvula corte di metro 1500 mm|649700.4983684|040400|0|
+~Y|1_3_3|02.006\1\155.04\02.011\1\109.027\04.001\1\1.28\04.007\1\13.3488\04.008\1\1.84\04.009\1\53.2\04.010\1\60.096\04.011\1\1.178\04.035\1\53.2\04.013\1\1194.13\04.029\1\2.89\04.034\1\12\05.052\1\12\04.015\1\50\|
+~M|1_3_3\02.006|1\3\3\1\|155.04|\\1\6.8\6\3.8\\\0\0\0\0\|
+~M|1_3_3\02.011|1\3\3\2\|109.027|\\1\6.8\6\3.8\\A deducir\-1\4\3.2\0.1\\\-1\3.9\3.1\3.7\\\0\0\0\0\|
+~M|1_3_3\04.001|1\3\3\3\|1.28|\\1\4\3.2\0.1\\\0\0\0\0\|
+~M|1_3_3\04.007|1\3\3\4\|13.3488|\Solera\1\3.9\3.1\0.3\\Alzados\2\3.9\3.4\0.2\\\2\2.7\3.4\0.2\\Apoyos\2\0.5\1.9\0.25\\\2\1.9\0.75\0.25\\A deducir\-2\0.5\1.767\0.25\\\0\0\0\0\|
+~M|1_3_3\04.008|1\3\3\5\|1.84|\Losa\1\3.9\3.1\0.2\\A deducir\-1\1.7\1.7\0.2\\\0\0\0\0\|
+~M|1_3_3\04.009|1\3\3\6\|53.2|\\2\3.9\3.8\0\\\2\3.1\3.8\0\\\0\0\0\0\|
+~M|1_3_3\04.010|1\3\3\7\|60.096|\\2\3.5\3.4\0\\\2\2.7\3.4\0\\\2\3.9\0.2\0\\\2\3.1\0.2\0\\\1\3.5\2.7\0\\A deducir\-1\1.7\1.7\0\\\4\1.7\0.2\0\\\4\1.25\0.25\0\\\4\1.9\0.5\0\\\4\1.9\0.75\0\\A deducir\-4\0.5\1.767\0\\\0\0\0\0\|
+~M|1_3_3\04.011|1\3\3\8\|1.178|\\2\2.356\0.25\0\\\0\0\0\0\|
+~M|1_3_3\04.035|1\3\3\9\|53.2|\\2\3.9\3.8\0\\\2\3.1\3.8\0\\\0\0\0\0\|
+~M|1_3_3\04.013|1\3\3\10\|1194.13|\Solera\1\3.627\57\0\\Alzados\1\8.697\87\0\\Losa\1\1.84\95\0\\Apoyos\1\0.746\75\0\\\0\0\0\0\|
+~M|1_3_3\04.029|1\3\3\11\|2.89|\\1\1.7\1.7\0\\\0\0\0\0\|
+~M|1_3_3\04.034|1\3\3\12\|12|\\12\0\0\0\\\0\0\0\0\|
+~M|1_3_3\05.052|1\3\3\13\|12|\\1\12\0\0\\\0\0\0\0\|
+~M|1_3_3\04.015|1\3\3\14\|50|\\1\50\0\0\\\0\0\0\0\|
+~C|1_3_4||V lvula corte di metro 1200 mm|1228678.882203|040400|0|
+~Y|1_3_4|02.006\1\296.4\02.011\1\211.448\04.001\1\2.368\04.007\1\25.0265\04.008\1\3.44\04.009\1\101.84\04.010\1\112.076\04.011\1\1.885\04.035\1\101.84\04.013\1\2285.05\04.029\1\5.12\04.034\1\24\05.052\1\24\04.015\1\80\|
+~M|1_3_4\02.006|1\3\4\1\|296.4|\\2\6.5\6\3.8\\\0\0\0\0\|
+~M|1_3_4\02.011|1\3\4\2\|211.448|\\2\6.5\6\3.8\\A deducir\-2\3.7\3.2\0.1\\\-2\3.6\3.1\3.7\\\0\0\0\0\|
+~M|1_3_4\04.001|1\3\4\3\|2.368|\\2\3.7\3.2\0.1\\\0\0\0\0\|
+~M|1_3_4\04.007|1\3\4\4\|25.0265|\Solera\2\3.6\3.1\0.3\\Alzados\4\3.6\3.4\0.2\\\4\2.7\3.4\0.2\\Apoyos\4\0.5\1.6\0.25\\\4\1.6\0.6\0.25\\A deducir\-4\0.5\1.131\0.25\\\0\0\0\0\|
+~M|1_3_4\04.008|1\3\4\5\|3.44|\Losa\2\3.6\3.1\0.2\\A deducir\-2\1.6\1.6\0.2\\\0\0\0\0\|
+~M|1_3_4\04.009|1\3\4\6\|101.84|\\4\3.6\3.8\0\\\4\3.1\3.8\0\\\0\0\0\0\|
+~M|1_3_4\04.010|1\3\4\7\|112.076|\\4\3.2\3.4\0\\\4\2.7\3.4\0\\\4\3.6\0.2\0\\\4\3.1\0.2\0\\\2\3.2\2.7\0\\A deducir\-2\1.6\1.6\0\\\8\1.6\0.2\0\\\8\1.1\0.25\0\\\8\1.6\0.5\0\\\8\1.6\0.6\0\\A deducir\-8\0.5\1.131\0\\\0\0\0\0\|
+~M|1_3_4\04.011|1\3\4\8\|1.885|\\4\1.885\0.25\0\\\0\0\0\0\|
+~M|1_3_4\04.035|1\3\4\9\|101.84|\\4\3.6\3.8\0\\\4\3.1\3.8\0\\\0\0\0\0\|
+~M|1_3_4\04.013|1\3\4\10\|2285.05|\Solera\2\3.348\57\0\\Alzados\2\8.568\87\0\\Losa\2\1.7\95\0\\Apoyos\2\0.597\75\0\\\0\0\0\0\|
+~M|1_3_4\04.029|1\3\4\11\|5.12|\\2\1.6\1.6\0\\\0\0\0\0\|
+~M|1_3_4\04.034|1\3\4\12\|24|\\24\0\0\0\\\0\0\0\0\|
+~M|1_3_4\05.052|1\3\4\13\|24|\\2\12\0\0\\\0\0\0\0\|
+~M|1_3_4\04.015|1\3\4\14\|80|\\2\40\0\0\\\0\0\0\0\|
+~C|1_3_5||V lvula corte di metro 800 mm|523146.2280556|040400|0|
+~Y|1_3_5|02.006\1\129.808\02.011\1\96.916\04.001\1\0.924\04.007\1\10.4863\04.008\1\1.44\04.009\1\44.84\04.010\1\48.134\04.011\1\0.6285\04.035\1\44.84\04.013\1\966.354\04.029\1\1.44\04.034\1\12\05.052\1\12\04.015\1\35\|
+~M|1_3_5\02.006|1\3\5\1\|129.808|\\1\6.1\5.6\3.8\\\0\0\0\0\|
+~M|1_3_5\02.011|1\3\5\2\|96.916|\\1\6.1\5.6\3.8\\A deducir\-1\3.3\2.8\0.1\\\-1\3.2\2.7\3.7\\\0\0\0\0\|
+~M|1_3_5\04.001|1\3\5\3\|0.924|\\1\3.3\2.8\0.1\\\0\0\0\0\|
+~M|1_3_5\04.007|1\3\5\4\|10.4863|\Solera\1\3.2\2.7\0.3\\Alzados\2\3.2\3.4\0.2\\\2\2.3\3.4\0.2\\Apoyos\2\0.5\1.2\0.25\\\2\1.2\0.4\0.25\\A deducir\-2\0.5\0.503\0.25\\\0\0\0\0\|
+~M|1_3_5\04.008|1\3\5\5\|1.44|\Losa\1\3.2\2.7\0.2\\A deducir\-1\1.2\1.2\0.2\\\0\0\0\0\|
+~M|1_3_5\04.009|1\3\5\6\|44.84|\\2\3.2\3.8\0\\\2\2.7\3.8\0\|
+~M|1_3_5\04.010|1\3\5\7\|48.134|\\2\2.8\3.4\0\\\2\2.3\3.4\0\\\2\3.2\0.2\0\\\2\2.7\0.2\0\\\1\3.2\2.3\0\\A deducir\-1\1.2\1.2\0\\\4\1.2\0.2\0\\\4\0.9\0.25\0\\\4\1.2\0.5\0\\\4\1.2\0.4\0\\A deducir\-4\0.5\0.503\0\\\0\0\0\0\|
+~M|1_3_5\04.011|1\3\5\8\|0.6285|\\2\1.257\0.25\0\\\0\0\0\0\|
+~M|1_3_5\04.035|1\3\5\9\|44.84|\\2\3.2\3.8\0\\\2\2.7\3.8\0\\\0\0\0\0\|
+~M|1_3_5\04.013|1\3\5\10\|966.354|\Solera\1\2.592\57\0\\Alzados\1\7.48\87\0\\Losa\1\1.44\95\0\\Apoyos\1\0.414\75\0\\\0\0\0\0\|
+~M|1_3_5\04.029|1\3\5\11\|1.44|\\1\1.2\1.2\0\\\0\0\0\0\|
+~M|1_3_5\04.034|1\3\5\12\|12|\\12\0\0\0\\\0\0\0\0\|
+~M|1_3_5\05.052|1\3\5\13\|12|\\1\12\0\0\\\0\0\0\0\|
+~M|1_3_5\04.015|1\3\5\14\|35|\\1\35\0\0\\\0\0\0\0\|
+~C|1_3_6||V lvula corte di metro 600 mm|496966.4541403|040400|0|
+~Y|1_3_6|02.006\1\125.552\02.011\1\94.714\04.001\1\0.868\04.007\1\9.96725\04.008\1\1.42\04.009\1\43.32\04.010\1\44.814\04.011\1\0.4715\04.035\1\43.32\04.013\1\925.181\04.029\1\1\04.034\1\12\05.052\1\12\04.015\1\30\|
+~M|1_3_6\02.006|1\3\6\1\|125.552|\\1\5.9\5.6\3.8\\\0\0\0\0\|
+~M|1_3_6\02.011|1\3\6\2\|94.714|\\1\5.9\5.6\3.8\\A deducir\-1\3.1\2.8\0.1\\\-1\3\2.7\3.7\\\0\0\0\0\|
+~M|1_3_6\04.001|1\3\6\3\|0.868|\\1\3.1\2.8\0.1\\\0\0\0\0\|
+~M|1_3_6\04.007|1\3\6\4\|9.96725|\Solera\1\3\2.7\0.3\\Alzados\2\3\3.4\0.2\\\2\2.3\3.4\0.2\\Apoyos\2\0.5\1\0.25\\\2\1\0.3\0.25\\A deducir\-2\0.5\0.283\0.25\\\0\0\0\0\|
+~M|1_3_6\04.008|1\3\6\5\|1.42|\Losa\1\3\2.7\0.2\\A deducir\-1\1\1\0.2\\\0\0\0\0\|
+~M|1_3_6\04.009|1\3\6\6\|43.32|\\2\3\3.8\0\\\2\2.7\3.8\0\\\0\0\0\0\|
+~M|1_3_6\04.010|1\3\6\7\|44.814|\\2\2.6\3.4\0\\\2\2.3\3.4\0\\\2\3\0.2\0\\\2\2.7\0.2\0\\\1\2.6\2.3\0\\A deducir\-1\1\1\0\\\4\1\0.2\0\\\4\0.8\0.25\0\\\4\1\0.5\0\\\4\1\0.3\0\\A deducir\-4\0.5\0.283\0\\\0\0\0\0\|
+~M|1_3_6\04.011|1\3\6\8\|0.4715|\\2\0.943\0.25\0\\\0\0\0\0\|
+~M|1_3_6\04.035|1\3\6\9\|43.32|\\2\3\3.8\0\\\2\2.7\3.8\0\\\0\0\0\0\|
+~M|1_3_6\04.013|1\3\6\10\|925.181|\Solera\1\2.43\57\0\\Alzados\1\7.208\87\0\\Losa\1\1.42\95\0\\Apoyos\1\0.329\75\0\\\0\0\0\0\|
+~M|1_3_6\04.029|1\3\6\11\|1|\\1\1\1\0\\\0\0\0\0\|
+~M|1_3_6\04.034|1\3\6\12\|12|\\12\0\0\0\\\0\0\0\0\|
+~M|1_3_6\05.052|1\3\6\13\|12|\\1\12\0\0\\\0\0\0\0\|
+~M|1_3_6\04.015|1\3\6\14\|30|\\1\30\0\0\\\0\0\0\0\|
+~C|1_4||Firmes.|53774318.74039|040400|0|
+~Y|1_4|03.002\1\10551.6\03.004\1\10725\03.005\1\10065\03.006\1\2839.38\03.007\1\818.125\03.008\1\216.563\03.011\1\14.5\|
+~M|1_4\03.002|1\4\1\|10551.6|\\1\4885\4.32\0.5\\\0\0\0\0\|
+~M|1_4\03.004|1\4\2\|10725|\\1\13750\3.9\0.2\\\0\0\0\0\|
+~M|1_4\03.005|1\4\3\|10065|\\1\13750\3.66\0.2\\\0\0\0\0\|
+~M|1_4\03.006|1\4\4\|2839.38|\1a. aplic\13750\3.5\0.38\0.1\\2a. aplic\13750\3.5\0.21\0.1\\\0\0\0\0\|
+~M|1_4\03.007|1\4\5\|818.125|\Riego\13750\3.5\0.17\0.1\\\0\0\0\0\|
+~M|1_4\03.008|1\4\6\|216.563|\Riego\13750\3.5\0.01\0.1\\D.T.S.\13750\3.5\0.02\0.1\\\13750\3.5\0.15\0.01\\\0\0\0\0\|
+~M|1_4\03.011|1\4\7\|14.5|\\1\14.5\0\0\\\0\0\0\0\|
+~C|1_5||Refuerzos, protecciones y drenaje.|58648614.79653|040400|0|
+~D|1_5|1_5_1\1\1\1_5_2\1\1\|
+~C|1_5_1||Refuerzos y protecciones.|54788195.98705|040400|0|
+~Y|1_5_1|02.002\1\731\02.019\1\619\02.020\1\392\04.030\1\6117.67\04.009\1\7528.95\04.007\1\34.0752\04.010\1\142.384\04.011\1\37.68\04.013\1\1022.4\|
+~M|1_5_1\02.002|1\5\1\1\|731|\0+060\1\23\14\2.5\\\-1\23\12\1.5\\0+260\1\10\8.5\2.5\\\-1\10\6.5\1.5\\0+390\1\10\8\2.5\\\-1\10\6\1.5\\0+680\1\10\8.5\2.5\\\-1\10\6.5\1.5\\\0\0\0\0\|
+~M|1_5_1\02.019|1\5\1\2\|619|\0+060\1\23\13\2\\\-1\23\12\1.5\\0+260\1\10\7.5\2\\\-1\10\6.5\1.5\\0+390\1\10\7\2\\\-1\10\6\1.5\\0+680\1\10\7.5\2\\\-1\10\6.5\1.5\\2+080 a 2+140\1\112\2.5\1\\\0\0\0\0\|
+~M|1_5_1\02.020|1\5\1\3\|392|\0+060\1\23\14\2.5\\\-1\23\13\2\\0+260\1\10\8.5\2.5\\\-1\10\7.5\2\\0+390\1\10\8\2.5\\\-1\10\7\2\\0+680\1\10\8.5\2.5\\\-1\10\7.5\2\\\0\0\0\0\|
+~M|1_5_1\04.030|1\5\1\4\|6117.67|\Refuerzos para\0\0\0\0\\flotacion.\0\0\0\0\\0+040 a 2+480\350\4.3\2.1\1\\\-350\3.14\0.64\1\\codos\95\3.4\4.5\2.8\\\-95\3.14\0.49\2.8\\\0\0\0\0\|
+~M|1_5_1\04.009|1\5\1\5\|7528.95|\\700\4.3\2.1\0\\\-700\3.14\0.64\0\\codos\190\3.4\4.5\0\\\-190\3.14\0.49\0\\\0\0\0\0\|
+~M|1_5_1\04.007|1\5\1\6\|34.0752|\\20\2\1.2\0.6\\\20\0.5\3.14\0.6\\\-20\3.14\0.36\0.6\\\0\0\0\0\|
+~M|1_5_1\04.010|1\5\1\7\|142.384|\\40\1.2\0.6\0\\\40\1.2\2\0\\\40\0.5\3.14\0\\\-40\3.14\0.36\0\\\0\0\0\0\|
+~M|1_5_1\04.011|1\5\1\8\|37.68|\\20\3.14\0.6\0\\\0\0\0\0\|
+~M|1_5_1\04.013|1\5\1\9\|1022.4|\\20\1.704\30\0\\\0\0\0\0\|
+~C|1_5_2||Drenaje transversal.|3860418.80948|040400|0|
+~Y|1_5_2|02.006\1\49.3875\04.001\1\3.1416\04.002\1\270.658\04.009\1\313.308\04.010\1\36.17\04.025\1\523.559\05.003\1\23.8\|
+~M|1_5_2\02.006|1\5\2\1\|49.3875|\C-3\1\23.8\1.5\1\\pozos\1\1.5\1.5\3.75\\\1\5\1.5\0.7\\\0\0\0\0\|
+~M|1_5_2\04.001|1\5\2\2\|3.1416|\\1\23.8\1.32\0.1\\\0\0\0\0\|
+~M|1_5_2\04.002|1\5\2\3\|270.658|\C-3\1\23.8\0.77\1\\Pozo C-3\1\1.9\1.9\0.2\\\4\1.7\3.75\0.2\\Bajante C-3\1\5\2.35\0.2\\Pasos ramblas\0\0\0\0\\camino\1\33\4.2\0.2\\\2\33\0.4\0.35\\\6\20\4.2\0.2\\\12\20\0.4\0.35\\\2\15\4.2\0.2\\\4\15\0.4\0.35\\\1\10\4.2\0.2\\\2\10\0.4\0.35\\\1\25\4.2\0.2\\\2\25\0.4\0.35\\\0\0\0\0\|
+~M|1_5_2\04.009|1\5\2\4\|313.308|\C-3\1\23.8\0.66\0\\pasos camino\2\248\0.6\0\\\0\0\0\0\|
+~M|1_5_2\04.010|1\5\2\5\|36.17|\C-3\2\0.96\1\0\\Pozo C-3\4\1.5\3.75\0\\Bajante C-3\1\5\2.35\0\\\0\0\0\0\|
+~M|1_5_2\04.025|1\5\2\6\|523.559|\C-3\1\1.34\1.34\0.2\\Pasos ramblas\1\33\6\0.4\\\6\20\6\0.4\\\2\15\6\0.4\\\1\10\6\0.4\\\1\25\6\0.4\\\0\0\0\0\\\0\0\0\0\|
+~M|1_5_2\05.003|1\5\2\7\|23.8|\C-3\1\23.8\0\0\\\0\0\0\0\|
+~C|2#||Tomas.|18109763.12488|040400|0|
+~D|2|2_1\1\1\2_2\1\1\2_3\1\1\2_4\1\1\|
+~C|2_1||Tomas T-2, T-3, T-6, T-7, T-11, T-13 Y T-15.|12211328.60429|040400|0|
+~Y|2_1|02.006\1\871.794\02.011\1\2505.62\04.001\1\5.632\04.007\1\67.99\04.008\1\9.392\04.009\1\299.52\04.010\1\304.304\04.011\1\1.884\04.013\1\6218.1\04.029\1\5.12\04.034\1\96\04.035\1\299.52\05.052\1\120\04.031\1\16\04.015\1\80\05.031\1\740\05.046\1\718\05.045\1\8\05.047\1\10\04.028\1\63\02.004\1\2415\02.012\1\552.832\|
+~M|2_1\02.006|2\1\1\|871.794|\\8\5.95\4.95\3.7\\\0\0\0\0\|
+~M|2_1\02.011|2\1\2\|2505.62|\\8\5.95\4.95\3.7\\a deducir\-8\3.2\2.22\0.1\\\-8\3.1\2.1\3.6\\T-2\1\700\2.9\0.9\\\0\0\0\0\|
+~M|2_1\04.001|2\1\3\|5.632|\\8\3.2\2.2\0.1\\\0\0\0\0\|
+~M|2_1\04.007|2\1\4\|67.99|\Solera\8\3.1\2.1\0.3\\Alzados\16\3.1\3.3\0.2\\\16\1.7\3.3\0.2\\Apoyos\16\0.7\0.5\0.25\\\16\0.7\0.15\0.25\\A deducir\-16\0.5\0.071\0.25\\\0\0\0\0\|
+~M|2_1\04.008|2\1\5\|9.392|\\8\3.1\2.1\0.2\\a deducir\-8\0.8\0.8\0.2\\\0\0\0\0\|
+~M|2_1\04.009|2\1\6\|299.52|\\16\3.1\3.6\0\\\16\2.1\3.6\0\|
+~M|2_1\04.010|2\1\7\|304.304|\\16\2.7\3.3\0\\\16\1.7\3.3\0\\\16\3.1\0.2\0\\\16\2.1\0.2\0\\\8\2.7\1.7\0\\a deducir\-8\0.8\0.8\0\\\32\0.8\0.2\0\\\32\0.65\0.25\0\\\32\0.5\0.7\0\\\32\0.7\0.15\0\\a deducir\-32\0.5\0.071\0\\\0\0\0\0\|
+~M|2_1\04.011|2\1\8\|1.884|\\16\0.471\0.25\0\\\0\0\0\0\|
+~M|2_1\04.013|2\1\9\|6218.1|\Solera\8\1.953\57\0\\Alzados\8\6.336\87\0\\Losa\8\1.174\91\0\\Apoyos\8\0.105\75\0\\\0\0\0\0\|
+~M|2_1\04.029|2\1\10\|5.12|\\8\0.8\0.8\0\\\0\0\0\0\|
+~M|2_1\04.034|2\1\11\|96|\\96\0\0\0\|
+~M|2_1\04.035|2\1\12\|299.52|\\16\3.1\3.6\0\\\16\2.1\3.6\0\\\0\0\0\0\|
+~M|2_1\05.052|2\1\13\|120|\\8\15\0\0\|
+~M|2_1\04.031|2\1\14\|16|\\16\0\0\0\|
+~M|2_1\04.015|2\1\15\|80|\\8\10\0\0\|
+~M|2_1\05.031|2\1\16\|740|\\1\705\0\0\\\7\5\0\0\\\0\0\0\0\|
+~M|2_1\05.046|2\1\17\|718|\T-2\1\700\0\0\\\1\4.5\0\0\\T-6\1\4.5\0\0\\T-11\1\4.5\0\0\\T-15\1\4.5\0\0\\\0\0\0\0\|
+~M|2_1\05.045|2\1\18\|8|\T-1\1\4\0\0\\T-7\1\4\0\0\|
+~M|2_1\05.047|2\1\19\|10|\T-3\1\5\0\0\\T-13\1\5\0\0\|
+~M|2_1\04.028|2\1\20\|63|\\1\700\0.9\0.1\\\0\0\0\0\|
+~M|2_1\02.004|2\1\21\|2415|\\1\700\2.3\1.5\\\0\0\0\0\|
+~M|2_1\02.012|2\1\22\|552.832|\\1\700\1.4\0.6\\a deducir\-1\700\3.14\0.016\\\0\0\0\0\|
+~C|2_2||Tomas T-5, T-9 Y T-14.|1842696.732498|040400|0|
+~Y|2_2|02.006\1\351.565\02.011\1\267.145\04.001\1\2.346\04.007\1\28.2885\04.008\1\4.068\04.009\1\120.96\04.010\1\127.194\04.011\1\1.1775\04.013\1\2616.08\04.029\1\2.43\05.052\1\45\04.034\1\36\04.035\1\120.96\04.031\1\6\04.015\1\45\05.049\1\14\05.048\1\6\05.031\1\21\|
+~M|2_2\02.006|2\2\1\|351.565|\\3\6.15\5.15\3.7\\\0\0\0\0\|
+~M|2_2\02.011|2\2\2\|267.145|\\3\6.15\5.15\3.7\\a deducir\-3\3.4\2.4\0.1\\\-3\3.3\2.3\3.6\\\0\0\0\0\|
+~M|2_2\04.001|2\2\3\|2.346|\\3\3.4\2.3\0.1\\\0\0\0\0\|
+~M|2_2\04.007|2\2\4\|28.2885|\Solera\3\3.3\2.3\0.3\\Alzados\6\3.3\3.3\0.2\\\6\1.9\3.3\0.2\\Apoyos\6\0.9\0.5\0.25\\\6\0.9\0.25\0.25\\a deducir\-6\0.5\0.196\0.25\\\0\0\0\0\|
+~M|2_2\04.008|2\2\5\|4.068|\\3\3.3\2.3\0.2\\a deducir\-3\0.9\0.9\0.2\\\0\0\0\0\|
+~M|2_2\04.009|2\2\6\|120.96|\\6\3.3\3.6\0\\\6\2.3\3.6\0\|
+~M|2_2\04.010|2\2\7\|127.194|\\6\2.9\3.3\0\\\6\1.9\3.3\0\\\6\3.3\0.2\0\\\6\2.3\0.2\0\\\3\2.9\1.9\0\\\-3\0.9\0.9\0\\\12\0.9\0.2\0\\\12\0.75\0.25\0\\\12\0.5\0.9\0\\\12\0.9\0.25\0\\\-12\0.5\0.196\0\\\0\0\0\0\|
+~M|2_2\04.011|2\2\8\|1.1775|\\6\0.785\0.25\0\\\0\0\0\0\|
+~M|2_2\04.013|2\2\9\|2616.08|\Solera\3\2.277\57\0\\Alzados\3\6.864\87\0\\Losa\3\1.356\91\0\\Apoyos\3\0.289\75\0\\\0\0\0\0\|
+~M|2_2\04.029|2\2\10\|2.43|\\3\0.9\0.9\0\\\0\0\0\0\\\0\0\0\0\|
+~M|2_2\05.052|2\2\11\|45|\\3\15\0\0\|
+~M|2_2\04.034|2\2\12\|36|\\36\0\0\0\|
+~M|2_2\04.035|2\2\13\|120.96|\\6\3.3\3.6\0\\\6\2.3\3.6\0\\\0\0\0\0\|
+~M|2_2\04.031|2\2\14\|6|\\6\0\0\0\|
+~M|2_2\04.015|2\2\15\|45|\\3\15\0\0\|
+~M|2_2\05.049|2\2\16\|14|\T-5\1\7\0\0\\T-9\1\7\0\0\|
+~M|2_2\05.048|2\2\17\|6|\T-14\1\6\0\0\|
+~M|2_2\05.031|2\2\18\|21|\\3\7\0\0\|
+~C|2_3||Tomas T-4, T-8, T-12 Y T-16.|2934331.217371|040400|0|
+~Y|2_3|02.006\1\529.803\02.011\1\385.691\04.001\1\4.144\04.007\1\44.351\04.008\1\6.808\04.009\1\181.44\04.010\1\199.08\04.011\1\2.2\04.013\1\4109.8\04.029\1\3.63\04.034\1\42\04.035\1\90.72\05.052\1\60\04.032\1\8\04.015\1\80\05.031\1\36\05.032\1\24\05.033\1\9\|
+~M|2_3\02.006|2\3\1\|529.803|\\4\6.45\5.55\3.7\\\0\0\0\0\|
+~M|2_3\02.011|2\3\2\|385.691|\\4\6.45\5.55\3.7\\a deducir\-4\3.7\2.8\0.1\\\-4\3.6\2.7\3.6\\\0\0\0\0\|
+~M|2_3\04.001|2\3\3\|4.144|\\4\3.7\2.8\0.1\\\0\0\0\0\|
+~M|2_3\04.007|2\3\4\|44.351|\Solera\4\3.6\2.7\0.3\\Alzados\8\3.6\3.3\0.2\\\8\2.3\3.3\0.2\\Apoyos\8\1.1\0.5\0.25\\\8\1.1\0.35\0.25\\a deducir\-8\0.5\0.335\0.25\\\0\0\0\0\|
+~M|2_3\04.008|2\3\5\|6.808|\\4\3.6\2.7\0.2\\\-4\1.1\1.1\0.2\\\0\0\0\0\|
+~M|2_3\04.009|2\3\6\|181.44|\\8\3.6\3.6\0\\\8\2.7\3.6\0\|
+~M|2_3\04.010|2\3\7\|199.08|\\8\3.2\3.3\0\\\8\2.3\3.3\0\\\8\3.6\0.2\0\\\8\2.7\0.2\0\\\4\3.2\2.3\0\\\-4\1.1\1.1\0\\\16\1.1\0.2\0\\\16\0.85\0.25\0\\\16\0.5\1.1\0\\\16\1.1\0.35\0\\\-16\0.5\0.335\0\\\0\0\0\0\|
+~M|2_3\04.011|2\3\8\|2.2|\\8\1.1\0.25\0\\\0\0\0\0\|
+~M|2_3\04.013|2\3\9\|4109.8|\Solera\4\2.916\57\0\\Alzados\4\7.788\87\0\\Losa \4\1.702\91\0\\Apoyos\4\0.384\75\0\\\0\0\0\0\|
+~M|2_3\04.029|2\3\10\|3.63|\\3\1.1\1.1\0\\\0\0\0\0\|
+~M|2_3\04.034|2\3\11\|42|\\42\0\0\0\|
+~M|2_3\04.035|2\3\12\|90.72|\\4\3.6\3.6\0\\\4\2.7\3.6\0\\\0\0\0\0\|
+~M|2_3\05.052|2\3\13\|60|\\4\15\0\0\|
+~M|2_3\04.032|2\3\14\|8|\\8\0\0\0\|
+~M|2_3\04.015|2\3\15\|80|\\4\20\0\0\|
+~M|2_3\05.031|2\3\16\|36|\\4\9\0\0\|
+~M|2_3\05.032|2\3\17\|24|\T-4\1\8\0\0\\T-12\1\8\0\0\\T-16\1\8\0\0\\\0\0\0\0\|
+~M|2_3\05.033|2\3\18\|9|\T-8\1\9\0\0\|
+~C|2_4||Toma T-10.|1121406.570718|040400|0|
+~Y|2_4|02.006\1\141.775\02.011\1\100.637\04.001\1\1.178\04.007\1\12.1498\04.008\1\1.77\04.009\1\48.24\04.010\1\57.32\04.011\1\0.7855\04.013\1\1146.66\04.029\1\2.25\04.034\1\12\04.035\1\48.24\05.052\1\15\04.033\1\2\04.015\1\40\05.031\1\14\05.035\1\13\|
+~M|2_4\02.006|2\4\1\|141.775|\\1\6.55\5.85\3.7\|
+~M|2_4\02.011|2\4\2\|100.637|\\1\6.55\5.85\3.7\\a deducir\-1\3.8\3.1\0.1\\\-1\3.7\3\3.6\\\0\0\0\0\|
+~M|2_4\04.001|2\4\3\|1.178|\\1\3.8\3.1\0.1\\\0\0\0\0\|
+~M|2_4\04.007|2\4\4\|12.1498|\Solera\1\3.7\3\0.3\\Alzados\2\3.7\3.3\0.2\\\2\2.6\3.3\0.2\\Apoyos\2\1.4\0.5\0.25\\\2\1.4\0.5\0.25\\a deducir\-2\0.5\0.785\0.25\\\0\0\0\0\|
+~M|2_4\04.008|2\4\5\|1.77|\\1\3.7\3\0.2\\A deducir\-1\1.5\1.5\0.2\\\0\0\0\0\|
+~M|2_4\04.009|2\4\6\|48.24|\\2\3.7\3.6\0\\\2\3\3.6\0\|
+~M|2_4\04.010|2\4\7\|57.32|\\2\3.3\3.3\0\\\2\2.6\3.3\0\\\2\3.7\0.2\0\\\2\3\0.2\0\\\1\3.3\2.6\0\\\-1\1.5\1.5\0\\\4\1.5\0.2\0\\\4\1\0.25\0\\\4\0.5\1.4\0\\\4\1.4\0.5\0\\\4\0.5\0.785\0\\\0\0\0\0\|
+~M|2_4\04.011|2\4\8\|0.7855|\\2\1.571\0.25\0\\\0\0\0\0\|
+~M|2_4\04.013|2\4\9\|1146.66|\Solera\1\3.33\57\0\\Alzados\1\8.631\87\0\\Losa\1\1.77\95\0\\Apoyos\1\0.504\75\0\\\0\0\0\0\|
+~M|2_4\04.029|2\4\10\|2.25|\\1\1.5\1.5\0\|
+~M|2_4\04.034|2\4\11\|12|\\12\0\0\0\|
+~M|2_4\04.035|2\4\12\|48.24|\\2\3.7\3.6\0\\\2\3\3.6\0\\\0\0\0\0\|
+~M|2_4\05.052|2\4\13\|15|\\1\15\0\0\|
+~M|2_4\04.033|2\4\14\|2|\\2\0\0\0\|
+~M|2_4\04.015|2\4\15\|40|\\1\40\0\0\\\0\0\0\0\|
+~M|2_4\05.031|2\4\16\|14|\\1\14\0\0\|
+~M|2_4\05.035|2\4\17\|13|\T-10\1\13\0\0\|
+~C|3#||Ramales.|159240346.2125|040400|0|
+~D|3|3_1\1\1\3_2\1\1\|
+~C|3_1||Ramal del R¡o Alhama.|58939323.26312|040400|0|
+~Y|3_1|02.001\1\8408\02.004\1\22099\02.005\1\109\02.006\1\86.39\04.001\1\90.125\04.028\1\1030.24\02.011\1\21176.3\02.012\1\6875.91\04.007\1\1.035\04.008\1\0.8\04.009\1\6\04.010\1\8.8\04.013\1\96.36\05.002\1\10\05.032\1\1880\05.046\1\5\06.016\1\1\05.022\1\10\04.029\1\4.2\05.031\1\1895\|
+~M|3_1\02.001|3\1\1\|8408|\s/med auxiliar\1\8408\0\0\\\0\0\0\0\|
+~M|3_1\02.004|3\1\2\|22099|\s/med auxiliar\1\22099\0\0\\\0\0\0\0\|
+~M|3_1\02.005|3\1\3\|109|\s&med auxiliar\1\109\0\0\\\0\0\0\0\|
+~M|3_1\02.006|3\1\4\|86.39|\\1\8.15\4\2.65\\\0\0\0\0\|
+~M|3_1\04.001|3\1\5\|90.125|\\1\5.5\3.5\0.1\\Tuber¡a\1\200\2.94\0.15\\\0\0\0\0\|
+~M|3_1\04.028|3\1\6\|1030.24|\\1\1880\2.74\0.2\\\0\0\0\0\|
+~M|3_1\02.011|3\1\7\|21176.3|\\1\1880\7.04\1.6\\\0\0\0\0\|
+~M|3_1\02.012|3\1\8\|6875.91|\\1\1880\3.94\1\\\-1\1880\3.14\0.09\\\0\0\0\0\|
+~M|3_1\04.007|3\1\9\|1.035|\Desages de \0\0\0\0\\fondo:\2\1.3\0.15\1.5\\\2\1\0.15\1.5\\\0\0\0\0\|
+~M|3_1\04.008|3\1\10\|0.8|\Desages \0\0\0\0\\de fondo:\1\1\1\0.8\\\0\0\0\0\|
+~M|3_1\04.009|3\1\11\|6|\Desages\0\0\0\0\\de fondo:\4\1\1.5\0\\\0\0\0\0\\\0\0\0\0\|
+~M|3_1\04.010|3\1\12\|8.8|\Desages\0\0\0\0\\de fondo:\4\1.3\1.5\0\\\1\1\1\0\\\0\0\0\0\|
+~M|3_1\04.013|3\1\13\|96.36|\Desages\0\0\0\0\\de fondo:\48\0\0\0\\\48.36\0\0\0\\\0\0\0\0\|
+~M|3_1\05.002|3\1\14\|10|\Entrada:\1\10\0\0\|
+~M|3_1\05.032|3\1\15\|1880|\\1\1880\0\0\\\0\0\0\0\|
+~M|3_1\05.046|3\1\16\|5|\\1\5\0\0\\\0\0\0\0\|
+~M|3_1\06.016|3\1\17\|1|\Desages\0\0\0\0\\de fondo:\1\0\0\0\|
+~M|3_1\05.022|3\1\18\|10|\Desages\0\0\0\0\\de fondo:\1\10\0\0\|
+~M|3_1\04.029|3\1\19\|4.2|\\1\2.1\2\0\\\0\0\0\0\|
+~M|3_1\05.031|3\1\20\|1895|\\1\1895\0\0\\\0\0\0\0\|
+~C|3_2||Ramal del R¡o Guadix.|100301022.9494|040400|0|
+~Y|3_2|02.001\1\13264\02.004\1\36754\02.005\1\557\02.006\1\159.39\04.001\1\20.305\04.028\1\1641.4\02.011\1\38340.9\02.012\1\8994.64\04.007\1\1.035\04.008\1\0.8\04.009\1\6\04.010\1\8.8\04.013\1\96.36\05.002\1\10\05.034\1\541\05.033\1\355\05.032\1\2004\05.046\1\5\06.016\1\1\05.022\1\10\04.029\1\4.2\05.050\1\1\05.051\1\1\05.031\1\2963\05.053\1\50\|
+~M|3_2\02.001|3\2\1\|13264|\s/med auxiliar\1\13455\1\1\\\-1\191\0\0\\\0\0\0\0\|
+~M|3_2\02.004|3\2\2\|36754|\s/med auxiliar\1\37317\0\0\\\-1\563\0\0\\\0\0\0\0\|
+~M|3_2\02.005|3\2\3\|557|\s/med auxiliar\1\557\0\0\\\0\0\0\0\|
+~M|3_2\02.006|3\2\4\|159.39|\\1\12.65\4\3.15\\\0\0\0\0\|
+~M|3_2\04.001|3\2\5\|20.305|\\1\9.5\3.5\0.1\\Tuber¡a\1\40\2.83\0.15\\\0\0\0\0\|
+~M|3_2\04.028|3\2\6\|1641.4|\\1\2900\2.83\0.2\\\0\0\0\0\|
+~M|3_2\02.011|3\2\7\|38340.9|\\1\2900\6.78\1.95\\\0\0\0\0\|
+~M|3_2\02.012|3\2\8\|8994.64|\\1\2900\3.83\0.9\\\-1\2900\3.14\0.11\\\0\0\0\0\|
+~M|3_2\04.007|3\2\9\|1.035|\Desages \0\0\0\0\\de fondo:\2\1.3\0.15\1.5\\\2\1\0.15\1.5\\\0\0\0\0\|
+~M|3_2\04.008|3\2\10\|0.8|\Desages\0\0\0\0\\de fondo:\1\1\1\0.8\\\0\0\0\0\|
+~M|3_2\04.009|3\2\11\|6|\Desages\0\0\0\0\\de fondo:\4\1\1.5\0\\\0\0\0\0\|
+~M|3_2\04.010|3\2\12\|8.8|\Desages \0\0\0\0\\de fondo:\4\1.3\1.5\0\\\1\1\1\0\\\0\0\0\0\|
+~M|3_2\04.013|3\2\13\|96.36|\Desages\0\0\0\0\\de fondo:\48\0\0\0\\\48.36\0\0\0\\\0\0\0\0\|
+~M|3_2\05.002|3\2\14\|10|\\1\10\0\0\\\0\0\0\0\|
+~M|3_2\05.034|3\2\15\|541|\1\1\541\0\0\\\0\0\0\0\|
+~M|3_2\05.033|3\2\16\|355|\\1\355\0\0\|
+~M|3_2\05.032|3\2\17\|2004|\\1\2004\0\0\\\0\0\0\0\|
+~M|3_2\05.046|3\2\18\|5|\\1\5\0\0\\\0\0\0\0\|
+~M|3_2\06.016|3\2\19\|1|\Desages\0\0\0\0\\de fondo:\1\0\0\0\|
+~M|3_2\05.022|3\2\20\|10|\Desages  \0\0\0\0\\de fondo:\1\10\0\0\|
+~M|3_2\04.029|3\2\21\|4.2|\\1\2.1\2\0\\\0\0\0\0\|
+~M|3_2\05.050|3\2\22\|1|\\1\0\0\0\|
+~M|3_2\05.051|3\2\23\|1|\\1\0\0\0\|
+~M|3_2\05.031|3\2\24\|2963|\\1\2963\0\0\|
+~M|3_2\05.053|3\2\25\|50|\\1\50\0\0\\\0\0\0\0\|
+~C|4#||Equipos mec nicos.|38782344.13|040400|0|
+~D|4|4_1\1\1\4_2\1\1\4_3\1\1\4_4\1\1\4_5\1\1\4_6\1\1\4_7\1\1\4_8\1\1\4_9\1\1\4_10\1\1\4_11\1\1\|
+~C|4_1||V lvulas de corte.|15019473.96|040400|0|
+~Y|4_1|06.019\1\1\06.028\1\1\06.037\1\1\06.020\1\2\06.029\1\2\|
+~M|4_1\06.019|4\1\1\|1|\\1\0\0\0\|
+~M|4_1\06.028|4\1\2\|1|\\1\0\0\0\|
+~M|4_1\06.037|4\1\3\|1|\\1\0\0\0\\\0\0\0\0\\\0\0\0\0\\\0\0\0\0\|
+~M|4_1\06.020|4\1\4\|2|\\2\0\0\0\|
+~M|4_1\06.029|4\1\5\|2|\\2\0\0\0\|
+~C|4_2||Tomas 1, 5 y 9.|3673406.94|040400|0|
+~Y|4_2|06.024\1\3\06.033\1\3\06.041\1\3\06.050\1\6\|
+~M|4_2\06.024|4\2\1\|3|\\3\0\0\0\|
+~M|4_2\06.033|4\2\2\|3|\\3\0\0\0\|
+~M|4_2\06.041|4\2\3\|3|\\3\0\0\0\|
+~M|4_2\06.050|4\2\4\|6|\\6\0\0\0\|
+~C|4_3||Tomas 2, 6, 11 y 15.|2711011.92|040400|0|
+~Y|4_3|06.027\1\4\06.036\1\4\06.044\1\4\06.053\1\8\|
+~M|4_3\06.027|4\3\1\|4|\\4\0\0\0\|
+~M|4_3\06.036|4\3\2\|4|\\4\0\0\0\\\0\0\0\0\|
+~M|4_3\06.044|4\3\3\|4|\\4\0\0\0\|
+~M|4_3\06.053|4\3\4\|8|\\8\0\0\0\|
+~C|4_4||Tomas 3 y 13|1609631.96|040400|0|
+~Y|4_4|06.026\1\2\06.035\1\2\06.043\1\2\06.052\1\4\|
+~M|4_4\06.026|4\4\1\|2|\\2\0\0\0\|
+~M|4_4\06.035|4\4\2\|2|\\2\0\0\0\|
+~M|4_4\06.043|4\4\3\|2|\\2\0\0\0\|
+~M|4_4\06.052|4\4\4\|4|\\4\0\0\0\|
+~C|4_5||Tomas 4, 12 y 16|4354586.94|040400|0|
+~Y|4_5|06.023\1\3\06.032\1\3\06.040\1\3\06.049\1\6\|
+~M|4_5\06.023|4\5\1\|3|\\3\0\0\0\|
+~M|4_5\06.032|4\5\2\|3|\\3\0\0\0\|
+~M|4_5\06.040|4\5\3\|3|\\3\0\0\0\|
+~M|4_5\06.049|4\5\4\|6|\\6\0\0\0\|
+~C|4_6||Toma 7.|637775.49|040400|0|
+~Y|4_6|06.058\1\1\06.045\1\1\06.046\1\1\06.054\1\2\|
+~M|4_6\06.058|4\6\1\|1|\\1\0\0\0\|
+~M|4_6\06.045|4\6\2\|1|\\1\0\0\0\|
+~M|4_6\06.046|4\6\3\|1|\\1\0\0\0\|
+~M|4_6\06.054|4\6\4\|2|\\2\0\0\0\|
+~C|4_7||Toma 8.|2636284.98|040400|0|
+~Y|4_7|06.022\1\1\06.031\1\1\06.039\1\1\06.048\1\2\|
+~M|4_7\06.022|4\7\1\|1|\\1\0\0\0\|
+~M|4_7\06.031|4\7\2\|1|\\1\0\0\0\|
+~M|4_7\06.039|4\7\3\|1|\\1\0\0\0\|
+~M|4_7\06.048|4\7\4\|2|\\2\0\0\0\|
+~C|4_8||Toma 10.|4245981.98|040400|0|
+~Y|4_8|06.021\1\1\06.030\1\1\06.038\1\1\06.047\1\2\|
+~M|4_8\06.021|4\8\1\|1|\\1\0\0\0\|
+~M|4_8\06.030|4\8\2\|1|\\1\0\0\0\|
+~M|4_8\06.038|4\8\3\|1|\\1\0\0\0\|
+~M|4_8\06.047|4\8\4\|2|\\2\0\0\0\|
+~C|4_9||Toma 14.|1041372.98|040400|0|
+~Y|4_9|06.025\1\1\06.034\1\1\06.042\1\1\06.051\1\2\|
+~M|4_9\06.025|4\9\1\|1|\\1\0\0\0\|
+~M|4_9\06.034|4\9\2\|1|\\1\0\0\0\|
+~M|4_9\06.042|4\9\3\|1|\\1\0\0\0\|
+~M|4_9\06.051|4\9\4\|2|\\2\0\0\0\|
+~C|4_10||Ramal de Alhama.|499316.49|040400|0|
+~Y|4_10|06.055\1\1\06.032\1\1\|
+~M|4_10\06.055|4\10\1\|1|\\1\0\0\0\|
+~M|4_10\06.032|4\10\2\|1|\\1\0\0\0\|
+~C|4_11||Ramal de Guadix.|2353500.49|040400|0|
+~Y|4_11|06.056\1\1\06.057\1\1\|
+~M|4_11\06.056|4\11\1\|1|\\1\0\0\0\|
+~M|4_11\06.057|4\11\2\|1|\\1\0\0\0\|
+~C|5#||L¡neas a‚reas, alimentaci¢n y automatismos.|76289745.3|040400|0|
+~D|5|5_1\1\1\5_2\1\1\5_3\1\1\5_4\1\1\5_5\1\1\5_6\1\1\5_7\1\1\5_8\1\1\|
+~C|5_1||L¡nea de media tensi¢n (1,88 km.).|8509462.78|040400|0|
+~Y|5_1|08.001\1\1\08.002\1\1\08.003\1\10\08.004\1\5\08.005\1\2\08.006\1\5640\08.007\1\3\08.009\1\1\08.010\1\2\08.011\1\20\08.012\1\20\08.013\1\1\|
+~M|5_1\08.001|5\1\1\|1|\\0\1\0\0\|
+~M|5_1\08.002|5\1\2\|1|\\1\0\0\0\|
+~M|5_1\08.003|5\1\3\|10|\\10\0\0\0\|
+~M|5_1\08.004|5\1\4\|5|\\5\0\0\0\|
+~M|5_1\08.005|5\1\5\|2|\\2\0\0\0\|
+~M|5_1\08.006|5\1\6\|5640|\\5640\0\0\0\|
+~M|5_1\08.007|5\1\7\|3|\\3\0\0\0\|
+~M|5_1\08.009|5\1\8\|1|\\1\0\0\0\|
+~M|5_1\08.010|5\1\9\|2|\\2\0\0\0\|
+~M|5_1\08.011|5\1\10\|20|\\1\20\0\0\\\0\0\0\0\|
+~M|5_1\08.012|5\1\11\|20|\\1\20\0\0\\\0\0\0\0\|
+~M|5_1\08.013|5\1\12\|1|\\1\0\0\0\|
+~C|5_2||L¡nea de media tensi¢n (4,55 km.).|21443955.52|040400|0|
+~Y|5_2|08.001\1\1\08.002\1\1\08.003\1\26\08.004\1\10\08.005\1\7\08.006\1\13656\08.007\1\3\08.009\1\1\08.010\1\7\08.011\1\70\08.012\1\70\08.014\1\1\|
+~M|5_2\08.001|5\2\1\|1|\\1\0\0\0\|
+~M|5_2\08.002|5\2\2\|1|\\1\0\0\0\|
+~M|5_2\08.003|5\2\3\|26|\\26\0\0\0\|
+~M|5_2\08.004|5\2\4\|10|\\10\0\0\0\|
+~M|5_2\08.005|5\2\5\|7|\\7\0\0\0\|
+~M|5_2\08.006|5\2\6\|13656|\\1\13656\0\0\\\0\0\0\0\|
+~M|5_2\08.007|5\2\7\|3|\\3\0\0\0\|
+~M|5_2\08.009|5\2\8\|1|\\1\0\0\0\|
+~M|5_2\08.010|5\2\9\|7|\\1\7\0\0\|
+~M|5_2\08.011|5\2\10\|70|\\70\0\0\0\|
+~M|5_2\08.012|5\2\11\|70|\\1\70\0\0\\\0\0\0\0\|
+~M|5_2\08.014|5\2\12\|1|\\1\0\0\0\|
+~C|5_3||Alimentaci¢n a receptores.|20733900|040400|0|
+~Y|5_3|08.015\1\80\08.016\1\200\08.017\1\160\08.019\1\300\08.020\1\20\08.021\1\20\08.022\1\540\08.023\1\120\08.024\1\50\08.025\1\19710\08.026\1\100\08.027\1\80\08.028\1\180\08.029\1\120\08.030\1\260\08.031\1\320\08.032\1\200\08.033\1\100\08.034\1\450\08.035\1\1\|
+~M|5_3\08.015|5\3\1\|80|\\1\80\0\0\\\0\0\0\0\|
+~M|5_3\08.016|5\3\2\|200|\\1\200\0\0\|
+~M|5_3\08.017|5\3\3\|160|\\1\160\0\0\|
+~M|5_3\08.019|5\3\4\|300|\\1\300\0\0\\\0\0\0\0\|
+~M|5_3\08.020|5\3\5\|20|\\20\0\0\0\|
+~M|5_3\08.021|5\3\6\|20|\\20\0\0\0\|
+~M|5_3\08.022|5\3\7\|540|\\1\540\0\0\\\0\0\0\0\|
+~M|5_3\08.023|5\3\8\|120|\\1\120\0\0\|
+~M|5_3\08.024|5\3\9\|50|\\1\50\0\0\|
+~M|5_3\08.025|5\3\10\|19710|\\1\19710\0\0\\\0\0\0\0\|
+~M|5_3\08.026|5\3\11\|100|\\1\100\0\0\\\0\0\0\0\|
+~M|5_3\08.027|5\3\12\|80|\\1\80\0\0\\\0\0\0\0\|
+~M|5_3\08.028|5\3\13\|180|\\1\180\0\0\\\0\0\0\0\|
+~M|5_3\08.029|5\3\14\|120|\\1\120\0\0\\\0\0\0\0\|
+~M|5_3\08.030|5\3\15\|260|\\1\260\0\0\\\0\0\0\0\|
+~M|5_3\08.031|5\3\16\|320|\\1\320\0\0\\\0\0\0\0\|
+~M|5_3\08.032|5\3\17\|200|\\1\200\0\0\\\0\0\0\0\|
+~M|5_3\08.033|5\3\18\|100|\\1\100\0\0\\\0\0\0\0\|
+~M|5_3\08.034|5\3\19\|450|\\1\450\0\0\\\0\0\0\0\|
+~M|5_3\08.035|5\3\20\|1|\\1\0\0\0\|
+~C|5_4||Red de puesta a tierra.|393752|040400|0|
+~Y|5_4|08.036\1\330\08.037\1\22\08.038\1\18\08.039\1\18\08.040\1\1\|
+~M|5_4\08.036|5\4\1\|330|\\1\330\0\0\\\0\0\0\0\|
+~M|5_4\08.037|5\4\2\|22|\\22\0\0\0\|
+~M|5_4\08.038|5\4\3\|18|\\18\0\0\0\|
+~M|5_4\08.039|5\4\4\|18|\\18\0\0\0\|
+~M|5_4\08.040|5\4\5\|1|\\1\0\0\0\|
+~C|5_5||Cuadros y automatismos.|11689425|040400|0|
+~Y|5_5|09.001\1\9\09.002\1\7\09.003\1\2\09.004\1\1\09.005\1\22\09.006\1\22\09.007\1\1\|
+~M|5_5\09.001|5\5\1\|9|\\9\0\0\0\|
+~M|5_5\09.002|5\5\2\|7|\\7\0\0\0\|
+~M|5_5\09.003|5\5\3\|2|\\2\0\0\0\|
+~M|5_5\09.004|5\5\4\|1|\\1\0\0\0\|
+~M|5_5\09.005|5\5\5\|22|\\22\0\0\0\|
+~M|5_5\09.006|5\5\6\|22|\\22\0\0\0\|
+~M|5_5\09.007|5\5\7\|1|\\1\0\0\0\|
+~C|5_6||V lvulas de corte.|2851250|040400|0|
+~Y|5_6|09.008\1\4\09.009\1\2\09.010\1\2\09.011\1\4\09.012\1\2\|
+~M|5_6\09.008|5\6\1\|4|\\4\0\0\0\|
+~M|5_6\09.009|5\6\2\|2|\\2\0\0\0\|
+~M|5_6\09.010|5\6\3\|2|\\2\0\0\0\|
+~M|5_6\09.011|5\6\4\|4|\\4\0\0\0\|
+~M|5_6\09.012|5\6\5\|2|\\2\0\0\0\|
+~C|5_7||Tomas 3, 4, 5, 6, 7, 11 y 12.|6693000|040400|0|
+~Y|5_7|09.008\1\6\09.013\1\6\09.010\1\6\09.014\1\12\09.015\1\6\|
+~M|5_7\09.008|5\7\1\|6|\\6\0\0\0\|
+~M|5_7\09.013|5\7\2\|6|\\6\0\0\0\|
+~M|5_7\09.010|5\7\3\|6|\\6\0\0\0\|
+~M|5_7\09.014|5\7\4\|12|\\12\0\0\0\|
+~M|5_7\09.015|5\7\5\|6|\\6\0\0\0\|
+~C|5_8||Control|3975000|040400|0|
+~Y|5_8|09.016\1\1\09.017\1\1\09.018\1\1\|
+~M|5_8\09.016|5\8\1\|1|\\1\0\0\0\\\0\0\0\0\|
+~M|5_8\09.017|5\8\2\|1|\\1\0\0\0\|
+~M|5_8\09.018|5\8\3\|1|\\1\0\0\0\|
+~C|6#||Varios.|130939826.2852|040400|0|
+~D|6|6_1\1\1\6_2\1\1\6_3\1\1\6_4\1\1\6_5\1\1\6_6\1\1\6_7\1\1\|
+~C|6_1||Reposici¢n de acequias.|8836714.5879|040400|0|
+~Y|6_1|04.009\1\1585.45\04.010\1\2812\04.019\1\703\05.029\1\185\|
+~M|6_1\04.009|6\1\1\|1585.45|\\2\740\1\0\\\185\3.8\0.15\0\\\0\0\0\0\|
+~M|6_1\04.010|6\1\2\|2812|\\1\740\3.8\0\\\0\0\0\0\|
+~M|6_1\04.019|6\1\3\|703|\\185\3.8\0\0\\\0\0\0\0\|
+~M|6_1\05.029|6\1\4\|185|\\1\185\0\0\\\0\0\0\0\|
+~C|6_2||Cerramiento.|3940113.049878|040400|0|
+~Y|6_2|02.006\1\300\07.001\1\2400\|
+~M|6_2\02.006|6\2\1\|300|\\1200\0.5\0.5\1\\\0\0\0\0\|
+~M|6_2\07.001|6\2\2\|2400|\\1\2400\0\0\\\0\0\0\0\|
+~C|6_3||Reposici¢n l¡nea el‚ctrica.|3500000|040400|0|
+~Y|6_3|10.001\1\1\|
+~M|6_3\10.001|6\3\1\|1|\\1\0\0\0\\\0\0\0\0\|
+~C|6_4||Reposici¢n l¡nea telef¢nica.|2200000|040400|0|
+~Y|6_4|10.002\1\1\|
+~M|6_4\10.002|6\4\1\|1|\\1\0\0\0\\\0\0\0\0\|
+~C|6_5||Revestimiento de cuneta.|20215363.04653|040400|0|
+~Y|6_5|02.002\1\4500\04.002\1\1485\04.019\1\4500\04.010\1\2925\|
+~M|6_5\02.002|6\5\1\|4500|\\1\4500\2\0.5\\\0\0\0\0\|
+~M|6_5\04.002|6\5\2\|1485|\\1\4500\2.2\0.15\\\0\0\0\0\|
+~M|6_5\04.019|6\5\3\|4500|\\2250\2\0\0\\\0\0\0\0\|
+~M|6_5\04.010|6\5\4\|2925|\\1\4500\0.5\0\\\2250\2\0.15\0\\\0\0\0\0\|
+~C|6_6||Reposici¢n caminos rurales.|28792475.21001|040400|0|
+~Y|6_6|02.002\1\9000\02.010\1\7595\03.011\1\1000\|
+~M|6_6\02.002|6\6\1\|9000|\\9000\1\1\1\\\0\0\0\0\|
+~M|6_6\02.010|6\6\2\|7595|\\7595\1\1\1\\\0\0\0\0\|
+~M|6_6\03.011|6\6\3\|1000|\\20\50\0\0\\\0\0\0\0\|
+~C|6_7||Camino de servicio de los ramales.|63455160.39093|040400|0|
+~D|6_7|6_7_1\1\1\6_7_2\1\1\|
+~C|6_7_1||Ramal de Alhama|11947339.90278|040400|0|
+~Y|6_7_1|02.015\1\80\02.001\1\2040\02.002\1\10970\03.002\1\2720\03.004\1\795.6\03.005\1\497.76\04.002\1\230.64\04.019\1\680\04.010\1\1462\03.008\1\10.71\03.006\1\140.42\03.007\1\40.46\02.011\1\40.8\04.001\1\1.68\04.009\1\37.68\05.005\1\30\04.025\1\14.4\|
+~M|6_7_1\02.015|6\7\1\1\|80|\\80\0\0\0\\\0\0\0\0\|
+~M|6_7_1\02.001|6\7\1\2\|2040|\\1\680\5\0.6\\\0\0\0\0\|
+~M|6_7_1\02.002|6\7\1\3\|10970|\Alhama\1\680\5\3\\Cuneta\1\680\2\0.5\\Drenaje\6\4\2.5\1.5\\\0\0\0\0\|
+~M|6_7_1\03.002|6\7\1\4\|2720|\\1\680\4\1\\\0\0\0\0\|
+~M|6_7_1\03.004|6\7\1\5\|795.6|\\1\680\3.9\0.3\\\0\0\0\0\|
+~M|6_7_1\03.005|6\7\1\6\|497.76|\\1\680\3.66\0.2\\\0\0\0\0\|
+~M|6_7_1\04.002|6\7\1\7\|230.64|\Cuneta\1\680\2.2\0.15\\Dique\12\0.52\1\1\\\0\0\0\0\|
+~M|6_7_1\04.019|6\7\1\8\|680|\Cuneta\340\2\0\0\\\0\0\0\0\|
+~M|6_7_1\04.010|6\7\1\9\|1462|\Cuneta\1\680\2\0\\\340\2\0.15\0\\\0\0\0\0\|
+~M|6_7_1\03.008|6\7\1\10\|10.71|\D.T.S.\0\0\0\0\\1a. aplic\680\3.5\0.02\0.1\\2a. aplic\680\3.5\0.15\0.01\\Riego\680\3.5\0.01\0.1\\\0\0\0\0\|
+~M|6_7_1\03.006|6\7\1\11\|140.42|\1a. aplic.\680\3.5\0.38\0.1\\2a. aplic.\680\3.5\0.21\0.1\\\0\0\0\0\|
+~M|6_7_1\03.007|6\7\1\12\|40.46|\\680\3.5\0.17\0.1\\\0\0\0\0\|
+~M|6_7_1\02.011|6\7\1\13\|40.8|\\6\4\2\0.85\\\0\0\0\0\|
+~M|6_7_1\04.001|6\7\1\14\|1.68|\\1\24\0.7\0.1\\\0\0\0\0\|
+~M|6_7_1\04.009|6\7\1\15\|37.68|\Drenaje\12\3.14\1\0\\\0\0\0\0\|
+~M|6_7_1\05.005|6\7\1\16\|30|\\1\30\0\0\\\0\0\0\0\|
+~M|6_7_1\04.025|6\7\1\17\|14.4|\\12\1.5\2\0.4\\\0\0\0\0\|
+~C|6_7_2||Ramal de Guadix|51507820.48815|040400|0|
+~Y|6_7_2|02.015\1\240\02.001\1\8700\02.002\1\46925\03.002\1\11600\03.004\1\3393\03.005\1\2122.8\04.002\1\998.6\04.019\1\2900\04.010\1\6235\03.008\1\45.675\03.006\1\598.85\03.007\1\162.4\02.011\1\272\04.001\1\11.2\04.009\1\251.2\05.005\1\200\04.025\1\64\|
+~M|6_7_2\02.015|6\7\2\1\|240|\\240\0\0\0\\\0\0\0\0\|
+~M|6_7_2\02.001|6\7\2\2\|8700|\\1\2900\5\0.6\\\0\0\0\0\|
+~M|6_7_2\02.002|6\7\2\3\|46925|\Guadix\1\2900\5\3\\Cuneta\1\2900\2\0.5\\Drenaje\40\3.5\2.5\1.5\\\0\0\0\0\|
+~M|6_7_2\03.002|6\7\2\4\|11600|\\1\2900\4\1\\\0\0\0\0\|
+~M|6_7_2\03.004|6\7\2\5\|3393|\\1\2900\3.9\0.3\\\0\0\0\0\|
+~M|6_7_2\03.005|6\7\2\6\|2122.8|\\1\2900\3.66\0.2\\\0\0\0\0\|
+~M|6_7_2\04.002|6\7\2\7\|998.6|\Cuneta\1\2900\2.2\0.15\\Drenaje\40\2\0.52\1\\\0\0\0\0\|
+~M|6_7_2\04.019|6\7\2\8\|2900|\\1450\2\0\0\\\0\0\0\0\|
+~M|6_7_2\04.010|6\7\2\9\|6235|\Cuneta\1\2900\2\0\\\1450\2\0.15\0\\\0\0\0\0\|
+~M|6_7_2\03.008|6\7\2\10\|45.675|\D.T.S.\0\0\0\0\\1a. aplic.\2900\3.5\0.02\0.1\\2a. aplic.\2900\3.5\0.15\0.01\\Riego\2900\3.5\0.01\0.1\\\0\0\0\0\|
+~M|6_7_2\03.006|6\7\2\11\|598.85|\1a. aplic.\2900\3.5\0.38\0.1\\2a. aplic\2900\3.5\0.21\0.1\\\0\0\0\0\|
+~M|6_7_2\03.007|6\7\2\12\|162.4|\\2900\3.5\0.16\0.1\\\0\0\0\0\|
+~M|6_7_2\02.011|6\7\2\13\|272|\\40\4\2\0.85\\\0\0\0\0\|
+~M|6_7_2\04.001|6\7\2\14\|11.2|\Drenaje\40\4\0.7\0.1\\\0\0\0\0\|
+~M|6_7_2\04.009|6\7\2\15\|251.2|\\40\2\3.14\0\\\0\0\0\0\|
+~M|6_7_2\05.005|6\7\2\16\|200|\\40\5\0\0\\\0\0\0\0\|
+~M|6_7_2\04.025|6\7\2\17\|64|\\80\1\2\0.4\\\0\0\0\0\|

@@ -5,17 +5,20 @@ import { handleApiExport } from '@/services/mcp/apiExports';
 
 // De Tauri-modules bestaan niet in de testomgeving; we onderscheppen ze en
 // controleren wat de export eraan doorgeeft.
-const invoke = vi.fn(async () => undefined);
-const writeTextFile = vi.fn(async () => undefined);
-vi.mock('@tauri-apps/api/core', () => ({ invoke: (...a: unknown[]) => invoke(...(a as [])) }));
-vi.mock('@tauri-apps/plugin-fs', () => ({ writeTextFile: (...a: unknown[]) => writeTextFile(...(a as [])) }));
+const invoke = vi.fn(async (..._args: unknown[]): Promise<unknown> => undefined);
+const writeTextFile = vi.fn(async (..._args: unknown[]): Promise<void> => undefined);
+vi.mock('@tauri-apps/api/core', () => ({ invoke: (...a: unknown[]) => invoke(...a) }));
+vi.mock('@tauri-apps/plugin-fs', () => ({ writeTextFile: (...a: unknown[]) => writeTextFile(...a) }));
 vi.mock('@tauri-apps/api/path', () => ({
   tempDir: async () => 'C:/tmp',
   join: async (...parts: string[]) => parts.join('/'),
 }));
 
-const calls = (name: string) => invoke.mock.calls.filter((c: unknown[]) => c[0] === name);
-const lastResult = () => calls('api_export_result').at(-1)?.[1] as { requestId: string; result: Record<string, unknown> };
+const calls = (name: string) => invoke.mock.calls.filter((c) => c[0] === name);
+const lastResult = () => {
+  const all = calls('api_export_result');
+  return all[all.length - 1]?.[1] as { requestId: string; result: Record<string, unknown> };
+};
 
 describe('REST-export via de MCP-bridge (export_pdf_request / export_ifc_request)', () => {
   beforeEach(() => {
@@ -33,7 +36,7 @@ describe('REST-export via de MCP-bridge (export_pdf_request / export_ifc_request
 
   it('maakt de PDF met labels en getalnotatie in de rapporttaal en meldt het pad terug', async () => {
     await handleApiExport('export_pdf_request', { requestId: 'r2', reportView: 'hoofdaanneming', outputPath: 'C:/uit/begroting.pdf', pageSize: 'A3' });
-    const [, args] = calls('generate_pdf_report')[0] as [string, { request: Record<string, unknown>; outputPath: string }];
+    const [, args] = calls('generate_pdf_report')[0] as unknown as [string, { request: Record<string, unknown>; outputPath: string }];
     expect(args.outputPath).toBe('C:/uit/begroting.pdf');
     expect(args.request.reportView).toBe('hoofdaanneming');
     expect(args.request.pageSize).toBe('A3');

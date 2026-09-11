@@ -1,0 +1,13 @@
+~V||FIEBDC-3/2004|Open Calc Studio||ANSI|||||
+~C|PROY##||Proyecto de prueba|119.50||0|
+~C|CAP01#||Movimiento de tierras|119.50||0|
+~C|PART1|m3|Excavación en zanja|11.75||0|
+~C|PART2|ud|Partida alzada|1.00||0|
+~C|MO001|h|Peón ordinario|15.50||1|
+~C|MAT01|m3|Arena de río|20.00||3|
+~D|PROY##|CAP01#\1\1\|
+~D|CAP01#|PART1\1\1\PART2\1\1\|
+~D|PART1|MO001\1\0.5\MAT01\1\0.2\|
+~M|CAP01#\PART1||10.00||
+~M|CAP01#\PART2||2.00||
+~T|PART1|Excavación mecánica en terreno compacto.|

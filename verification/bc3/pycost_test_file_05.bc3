@@ -1,0 +1,2027 @@
+~V|CYPE INGENIEROS, S.A.|FIEBDC-3/2004|ARQUIMEDES||ANSI|Presupuesto|2|
+~K|-9\2\3\3\2\2\2\2\EUR\|2\13\6\\21|\2\\\3\\2\2\2\-9\2\3\EUR\||
+~C|URBANIZACION_CIUDAD_DE_LA_JUSTICIA##||PROYECTO DE URBANIZACION DE LA PLAZA CIUDAD DE LA JUSTICIA|697444.6|010602|0|
+~D|URBANIZACION_CIUDAD_DE_LA_JUSTICIA##
+|CAPITULO1#\\1
+\CAPITULO2#\\1
+\CAPITULO3#\\1
+\|
+~C|CAPITULO1#||URBANIZACIÓN DE LA PLAZA|648877.97|021110|0|
+~T|CAPITULO1#|URBANIZACIÓN DE LA PLAZA|
+~D|CAPITULO1#
+|CAP1.1#\\1
+\CAP1.2#\\1
+\CAP1.3#\\1
+\CAP1.4#\\1
+\CAP1.5#\\1
+\CAP1.6#\\1
+\CAP1.7#\\1
+\CAP1.8#\\1
+\CAP1.9#\\1
+\CAP1.10#\\1
+\|
+~C|CAP1.1#||MOVIMIENTO DE TIERRAS|38433.52|120312|0|
+~T|CAP1.1#|MOVIMIENTO DE TIERRAS|
+~D|CAP1.1#
+|DMOVI3001\\5210
+\DSELECRI\\4689
+\RELL0301\\2125
+\DTERCAMINOS\\521
+\DTRTIERRAS\\605.605
+\DEMpav04a\\102
+\|
+~C|DMOVI3001|M3|Excavación general del terreno existente a maquina, incluso cimentaciones de edificios antiguos, medición carga del material seleccionado, según criterio de la Dirección facultativa, y trasporte a zona de cribado, machaqueo y mezcla en obra.|2.53||0|
+~T|DMOVI3001|Excavación general del terreno existente a maquina , medición carga del material seleccionado, según criterio de la Dirección facultativa, y trasporte a zona de cribado, machaqueo y mezcla en obra.|
+~D|DMOVI3001
+|MQRETR0102\\0.03
+\PEON\\0.03
+\MQCAMI0101\\0.03
+\%003\\0.03
+\|
+~C|MQRETR0102|H.|Retroexcavadora con martillo hidráulico, sobre cadenas.|43.38|210512|2|
+~C|PEON|H|Peón Ordinario|12.7||1|
+~C|MQCAMI0101|H.|Camión volquete de 20 Tm.|26.02|210512|2|
+~C|%003|%|3 % Medios auxiliares|0|280507|%|
+~C|DSELECRI|M3|Selección, cribado, machaqueo y mezcla de los mejores suelos de la excavación para obtener suelo adecuado y emplearlo en los terraplenes de la obra y elaboracion de tierra vegetal.|2.07|150312|0|
+~T|DSELECRI|Selección, cribado, machaqueo y mezcla de los mejores suelos de la excavación para obtener suelo adecuado y emplearlo en los terraplenes de la obra y elaboracion de tierra vegetal.|
+~D|DSELECRI
+|PEON\\0.015
+\UTAMIZ\\0.03
+\UPALA0101\\0.03
+\UTRITU\\0.03
+\%003\\0.03
+\|
+~C|UTAMIZ|H|Tamiz|13.35|210512|2|
+~T|UTAMIZ|Tamiz|
+~C|UPALA0101|H.|Pala Cargadora sobre neumáticos|31.28|210512|2|
+~C|UTRITU|H|Tritutadora de mandíbulas o similar|16.02|210512|2|
+~T|UTRITU|Tritutadora de mandíbulas o similar|
+~C|RELL0301|M3.|Formación de terraplén, en tongadas no superiores a 20 cms., con suelos adecuados, acopiados en la zona de cribado, incluso carga y transporte a su lugar de empleo, extendidos, humectados o desecados, rasanteados y compactados al 98 % del Proctor Modificado. Incluso compactado previo de la base del terreno natural.|2.5||0|
+~T|RELL0301|Formación de terraplén, en tongadas no superiores a 20 cms., con suelos adecuados, acopiados en la zona de cribado, incluso carga y transporte a su lugar de empleo, extendidos, humectados o desecados, rasanteados y compactados al 98 % del Proctor Modificado. Incluso compactado previo de la base del terreno natural.|
+~D|RELL0301
+|PEON\\0.015
+\UCOMP0202\\0.015
+\UCAMI0201\\0.015
+\UPALA0101\\0.015
+\MQCAMI0101\\0.015
+\UMOTO0102\\0.015
+\%003\\0.03
+\|
+~C|UCOMP0202|H.|Compactador vibratorio autopropulsado.|23.46|210512|2|
+~C|UCAMI0201|H.|Camión cisterna 6 m3.|20.85|210512|2|
+~C|UMOTO0102|H.|Motoniveladora 150 CV.|47.71|210512|2|
+~C|DTERCAMINOS|M3|Formación de terraplén, por medios mecánicos, en tongadas no superiores a 20 cms., con suelo adecuado procedente de préstamo, extendidos, humectados o desecados, rasanteados y compactados al 98 % del Proctor Modificado, incluso compactado de la base del terreno natural.|5.37|150312|0|
+~T|DTERCAMINOS|Formación de terraplén, por medios mecánicos, en tongadas no superiores a 20 cms., con suelo adecuado procedente de préstamo, extendidos, humectados o desecados, rasanteados y compactados al 98 % del Proctor Modificado, incluso compactado de la base del terreno natural.|
+~D|DTERCAMINOS
+|PEON\\0.015
+\USUELADEC0101\\1
+\UPALA0101\\0.015
+\UCOMP0202\\0.015
+\UCAMI0201\\0.015
+\UMOTO0102\\0.015
+\%003\\0.03
+\|
+~C|USUELADEC0101|M3.|Suelo adecuado procedente de préstamo|3.17|151110|3|
+~T|USUELADEC0101|Suelo adecuado procedente de préstamo|
+~C|DTRTIERRAS|M3|Carga mediante máquina de sillares y mampuestos de piedra arenisca y caliza, transporte hasta finca municipal  "Els Reiets" ( hasta 10 Km de distancia ) y descarga en lugar de almacenaje.|10.43|220312|0|
+~T|DTRTIERRAS|Carga mediante máquina de sillares y mampuestos de piedra arenisca y caliza, transporte hasta finca municipal  "Els Reiets" ( hasta 10 Km de distancia ) y descarga en lugar de almacenaje.|
+~D|DTRTIERRAS
+|UPALA0101\\0.2
+\PEON\\0.1
+\MQCAMI0101\\0.1
+\%003\\0.03
+\|
+~C|DEMpav04a|M2|Demolición de pavimentación existente( aceras, calzadas, y bordillos )incluso precorte de límites y carga y transporte a vertedero del material porcedente de la demolición, incluido canon de vertido.|3.66|151110|0|
+~T|DEMpav04a|Demolición de pavimentación existente( aceras, calzadas, y bordillos )incluso precorte de límites y carga y transporte a vertedero del material porcedente de la demolición, incluido canon de vertido.|
+~D|DEMpav04a
+|PEON\\0.097
+\MQRETR0102\\0.015
+\UPALA0101\\0.02
+\MQCAMI0101\\0.04
+\%003\\0.03
+\|
+~C|CAP1.2#||RED DE DRENAJE|27344.12|260516|0|
+~T|CAP1.2#|RED DE DRENAJE|
+~D|CAP1.2#
+|DEXZANJAT\\209.85
+\DARENA6\\59.7
+\DZAHORRAS\\125.85
+\POZO0202\\3
+\DPOMIXTO110\\2
+\DTUBO160HA\\30
+\DTUBO200HA\\55
+\DTUBO315HA\\55
+\CANALACO26\\82
+\CANALACO3.1\\87
+\CANALACO36\\12.6
+\CATATUB\\1
+\|
+~C|DEXZANJAT|M3|Excavación en zanja, pozo o zapatas de muros, a máquina, en todo tipo de terreno, incluso perfilado de la sección y p.p. de excavación a mano en terreno próximo a servicios.|3.06|161211|0|
+~T|DEXZANJAT|Excavación en zanja, pozo o zapatas de muros, a máquina, en todo tipo de terreno, incluso perfilado de la sección y p.p. de excavación a mano en terreno próximo a servicios.|
+~D|DEXZANJAT
+|PEON\\0.025
+\URETR0101\\0.1
+\%003\\0.03
+\|
+~C|URETR0101|H.|Retroexcavadora sobre neumáticos.|26.48|210512|2|
+~C|DARENA6|M3.|Suministro y extendido de arena humeda ( 10% agua en peso ), de 6 mm de tamaño máximo, elaborada mediante machaqueo de roca caliza, en asiento y proteccion de tuberias.|14.78|151110|0|
+~T|DARENA6|Suministro y extendido de arena humeda ( 10% agua en peso ), de 6 mm de tamaño máximo, elaborada mediante machaqueo de roca caliza, en asiento y proteccion de tuberias.|
+~D|DARENA6
+|PEON\\0.075
+\UPALA0101\\0.05
+\UBAND\\0.1
+\UAREN0101\\1
+\%003\\0.03
+\|
+~C|UBAND|H|Bandeja compactadora/vibratoria|18.07|210512|2|
+~T|UBAND|Bandeja compactadora/vibratoria|
+~C|UAREN0101|M3.|Arena gruesa de 6 mm de tamaño máximo de grano, humedecida.|10.03|210512|3|
+~C|DZAHORRAS|M3.|Relleno y compactación de zanjas por medios mecánicos, con zahorras artificiales, en capas no superiores a 30 cm. compactadas al 98% del Proctor Modificado.|16.44|151110|0|
+~T|DZAHORRAS|Relleno y compactación de zanjas por medios mecánicos, con zahorras artificiales, en capas no superiores a 30 cm. compactadas al 98% del Proctor Modificado.|
+~D|DZAHORRAS
+|PEON\\0.097
+\UCOMP0202\\0.05
+\UPALA0101\\0.01
+\UZAHO0102\\1.05
+\%UMAUX0103\\0.03
+\|
+~C|UZAHO0102|M3.|Zahorra artificial.|12.62|210512|3|
+~C|%UMAUX0103|%|3 % Medios auxiliares|0||%|
+~C|POZO0202|Ud|Suministro y montaje de pozo de registro prefabricado, formado piezas prefabricadas, clase R, según las normas UNE 127917 y UNE-EN 1917, de 1.20 m. de diámetro interior para tuberías de DN 200 y  DN 3150, formado por módulo base con orificios de fábrica y juntas para montaje de tubos de PVC estructurado, módulo de recrecido, módulo cónico escentrico y anillo de ajuste, incluso juntas de goma, media sección de PVC, formación de bancada con HM-20, pates de polipropileno reforzado interiormente, marco recibido con mortero especial de apoyo y fijación, de 50 N/mm2 de resistencia a compresión Sika Fastfix-138 TP, o equivalente, y  marco y tapa de fundición de 60 cm. de diámetro, fabricada según la norma EN 124, modelo PAMREX de Saint Gobain o equivalente, totalmente acabado, según plano y especificaciones del Pliego.|821.63||0|
+~T|POZO0202|Suministro y montaje de pozo de registro prefabricado, formado piezas prefabricadas, clase R, según las normas UNE 127917 y UNE-EN 1917, de 1.20 m. de diámetro interior para tuberías de DN 200 y  DN 3150, formado por módulo base con orificios de fábrica y juntas para montaje de tubos de PVC estructurado, módulo de recrecido, módulo cónico escentrico y anillo de ajuste, incluso juntas de goma, media sección de PVC, formación de bancada con HM-20, pates de polipropileno reforzado interiormente, marco recibido con mortero especial de apoyo y fijación, de 50 N/mm2 de resistencia a compresión Sika Fastfix-138 TP, o equivalente, y  marco y tapa de fundición de 60 cm. de diámetro, fabricada según la norma EN 124, modelo PAMREX de Saint Gobain o equivalente, totalmente acabado, según plano y especificaciones del Pliego.|
+~D|POZO0202
+|PEON\\1.5
+\OFIC\\1.5
+\ANILLO01\\1
+\ANILLO02\\1
+\ANILLO04\\1
+\UPATE0101\\6
+\UTAPA0101\\1
+\AHM20\\0.14
+\UPIE1300\\1
+\UPIE4300\\50
+\AMORT5\\0.05
+\USIKA\\0.03
+\UCOMR0101\\0.25
+\MQCAMI0301\\1
+\%003\\0.03
+\|
+~C|OFIC|H.|Oficial 1ª|14.57||1|
+~C|ANILLO01|Ud|Módulo base prefabricado de hormigón armado, con orificios para entrada-salida de tuberías de DN 400 a DN 800 de altura comprendida entre 0,70 m y 1,30 m, clase R, norma UNE-EN 1917, UNE 127917|82.05|210512|3|
+~T|ANILLO01|Módulo base prefabricado de hormigón armado, con orificios para entrada-salida de tuberías de DN 400 a DN 800 de altura comprendida entre 0,70 m y 1,30 m, clase R, norma UNE-EN 1917, UNE 127917|
+~C|ANILLO02|Ud|Módulo de recrecido con parte superior cónico asimétrico, prefabricado de hormigón armado, de altura comprendida entre 1,50 m y 2,10 m , clase R, norma UNE-EN 1917, UNE 127917|194.85|210512|3|
+~T|ANILLO02|Módulo de recrecido con parte superior cónico asimétrico, prefabricado de hormigón armado, de altura comprendida entre 1,50 m y 2,10 m , clase R, norma UNE-EN 1917, UNE 127917|
+~C|ANILLO04|Ud|Anillo de ajuste de 10/8/6 cm de altura y diámetro 60 cm, prefabricado de hormigón armado, clase R, norma UNE-EN 1917, UNE 127917|14.09|210512|3|
+~T|ANILLO04|Anillo de ajuste de 10/8/6 cm de altura y diámetro 60 cm, prefabricado de hormigón armado, clase R, norma UNE-EN 1917, UNE 127917|
+~C|UPATE0101|Ud.|Pate polipropileno, alma de acero, norma EN13101|6.8|210512|3|
+~T|UPATE0101|Pate polipropileno, alma de acero, norma EN13101|
+~C|UTAPA0101|Ud.|Marco circular y tapa de pozo de registro Ø 60 cms. de fundición dúctil, clase D400 según Norma EN-124, peso mínimo del conjunto 85 Kg.|192.1|210512|3|
+~T|UTAPA0101|Registro de fundición clase C 250, según la norma EN 124, modelo HCIP 830 S NF, de EJ, con kit de acerrojado, o equivalente, según plano y especificaciones del Pliego|
+~C|AHM20|M3.|Hormigón HM-20 suministrado de central, vertido, en relleno de zanjas, pozos, soleras, cimentaciones, arquetas y formación de bancadas, incluso vibrado y acabado superficial.|53.07||0|
+~T|AHM20|Hormigón HM-20 suministrado de central, vertido, en relleno de zanjas, pozos, soleras, cimentaciones, arquetas y formación de bancadas, incluso vibrado y acabado superficial.|
+~D|AHM20
+|PEON\\0.15
+\UHM20\\1
+\%UMAUX0103\\0.03
+\|
+~C|UHM20|M3.|Hormigón HM-20/P/20/I|49.61|210512|3|
+~C|UPIE1300|Ud.|Media sección de gres de 0,60 m de longitud, norma EN 295|55.27|210512|3|
+~T|UPIE1300|Media sección de gres de 0,60 m de longitud, norma EN 295|
+~C|UPIE4300|Ud|Suministro y colocación de plaqueta de grés vitrificado 240x115x20mm EN-295 tomado con mortero de cemento M-5, para revestimiento de pozo de registro según detalle, incluso rejuntado con mortero de resinas y carga de cuarzo.|2.25|210512|3|
+~T|UPIE4300|Suministro y colocación de plaqueta de grés vitrificado 240x115x20mm EN-295 tomado con mortero de cemento M-5, para revestimiento de pozo de registro según detalle, incluso rejuntado con mortero de resinas y carga de cuarzo.|
+~C|AMORT5|M3|Mortero de cemento M5, suministrado de central|71.9|200411|0|
+~T|AMORT5|Mortero de cemento M5,  suministrado de central|
+~D|AMORT5
+|PEON\\0.15
+\UMORT5\\1
+\|
+~C|UMORT5|M3|Mortero M5|69.99|210512|3|
+~T|UMORT5|Mortero M5|
+~C|USIKA|M3|Mortero especial de apoyo y fijación de tapa, de 50 N/mm2 de resistencia a compresión Sika Fastfix-138 TP|914.06|210512|3|
+~T|USIKA|Mortero especial de apoyo y fijación de tapa, de 50 N/mm2 de resistencia a compresión Sika Fastfix-138 TP|
+~C|UCOMR0101|H.||10.01|210512|2|
+~T|UCOMR0101|Martillo eléctrico rompedor y generador insonorizado|
+~C|MQCAMI0301|H.|Camión grúa 10 Tn|24.18|210512|2|
+~T|MQCAMI0301|Camión grúa 10 Tn|
+~C|DPOMIXTO110|Ud|Ud. arqueta de 75x75x100 cm de dimensiones interiores y paredes y solera de 20 cm de espesor, construida con hormigón en masa tipo HA-30/B/20/IIIa+Qb, encofrado a dos caras, según planos de detalle, con registro de fundición clase C 250, según la norma EN 124, modelo HCIP 830 S NF, de EJ, con kit de acerrojado, o equivalente, según plano y especificaciones del Pliego.|881.12|150411|0|
+~T|DPOMIXTO110|Ud. arqueta de 75x75x100 cm de dimensiones interiores y paredes y solera de 20 cm de espesor, construida con hormigón en masa tipo HA-30/B/20/IIIa+Qb, encofrado a dos caras, según planos de detalle, con registro de fundición clase C 250, según la norma EN 124, modelo HCIP 830 S NF, de EJ, con kit de acerrojado, o equivalente, según plano y especificaciones del Pliego.|
+~D|DPOMIXTO110
+|ENCOF0202\\7.6
+\PEON\\1
+\UOFIC0101\\1
+\AHM20\\1.16
+\UTAPA110\\1
+\USIKA\\0.03
+\MQCAMI0301\\1
+\%003\\0.03
+\|
+~C|ENCOF0202|M2.|Encofrado y desencofrado plano en formacion de zapatas.|22.43||0|
+~T|ENCOF0202|Encofrado y desencofrado plano en formación de zapatas
+.|
+~D|ENCOF0202
+|OFICENC\\0.25
+\PEONENC\\0.25
+\MAENCO0103\\1
+\%003\\0.03
+\|
+~C|OFICENC|H|Oficial encofrador|18.14|140312|1|
+~T|OFICENC|Oficial encofrador|
+~C|PEONENC|H|Peón encofrador|13.75|140312|1|
+~T|PEONENC|Peón encofrador|
+~C|MAENCO0103|M2.|Encofrado y desencofrado plano en alzados de superficies vistas de muros, cámaras y arquetas.|13.8|210512|3|
+~T|MAENCO0103|Encofrado y desencofrado plano en alzados de superficies vistas de muros, cámaras y arquetas.|
+~C|UOFIC0101|H|Oficial 1ª|14.57||1|
+~C|UTAPA110|Ud|Registro de fundición clase C 250, según la norma EN 124, modelo HCIP 830 S NF, de EJ, con kit de acerrojado, o equivalente, según plano y especificaciones del Pliego|544.56|270516|3|
+~T|UTAPA110|Registro de fundición clase C 250, según la norma EN 124, modelo HCIP 830 S NF, de EJ, con kit de acerrojado, o equivalente, según plano y especificaciones del Pliego|
+~C|DTUBO160HA|Ml|Suministro y colocación de tubería de doble pared de PVC corrugado, DN 160 mm, fabricado según la norma UNE-EN 13476, clase SN 8, resistencia circunferencial específica 8 kN/m2, superficie estructurada, lisa la interior y corrugada la exterior, unión por copa con junta elástica, color teja, incluso parte proporcional de uniones, juntas, lubricante para juntas, codos y piezas especiales de conexión a pozos de registro de cualquier tipo o a tubo, según planos|17.91|240412|0|
+~T|DTUBO160HA|Suministro y colocación de tubería de doble pared de PVC corrugado, DN 160 mm, fabricado según la norma UNE-EN 13476, clase SN 8, resistencia circunferencial específica 8 kN/m2, superficie estructurada, lisa la interior y corrugada la exterior, unión por copa con junta elástica, color teja, incluso parte proporcional de uniones, juntas, lubricante para juntas, codos y piezas especiales de conexión a pozos de registro de cualquier tipo o a tubo, según planos|
+~D|DTUBO160HA
+|OFIC\\0.05
+\PEON\\0.05
+\UUPVC600\\1
+\%003\\0.03
+\|
+~C|UUPVC600|Ml|Tubería de UPVC DN 160 mm fabricado según la norma UNE-EN 295, clase SN 8, incluso parte proporcional de codos, enlaces y juntas.|16.02|210512|3|
+~T|UUPVC600|ubería de UPVC DN 160 mm fabricado según la norma UNE-EN 295, clase SN 8, incluso parte proporcional de codos, enlaces y juntas.|
+~C|DTUBO200HA|Ml|Suministro y colocación de tubería de doble pared de PVC corrugado, DN 200 mm, fabricado según la norma UNE-EN 13476, clase SN 8, resistencia circunferencial específica 8 kN/m2, superficie estructurada, lisa la interior y corrugada la exterior, unión por copa con junta elástica, color teja, incluso parte proporcional de uniones, juntas, lubricante para juntas, codos y piezas especiales de conexión a pozos de registro de cualquier tipo o a tubo, según planos|21.97|240412|0|
+~T|DTUBO200HA|Suministro y colocación de tubería de doble pared de PVC corrugado, DN 200 mm, fabricado según la norma UNE-EN 13476, clase SN 8, resistencia circunferencial específica 8 kN/m2, superficie estructurada, lisa la interior y corrugada la exterior, unión por copa con junta elástica, color teja, incluso parte proporcional de uniones, juntas, lubricante para juntas, codos y piezas especiales de conexión a pozos de registro de cualquier tipo o a tubo, según planos|
+~D|DTUBO200HA
+|OFIC\\0.1
+\PEON\\0.1
+\UUPVC601\\1
+\%003\\0.03
+\|
+~C|UUPVC601|Ml|Tubería de UPVC DN 200 mm fabricado según la norma UNE-EN 295, clase SN 8, incluso parte proporcional de codos, enlaces y juntas.|18.6|210512|3|
+~T|UUPVC601|Tubería de UPVC DN 200 mm fabricado según la norma UNE-EN 295, clase SN 8, incluso parte proporcional de codos, enlaces y juntas.|
+~C|DTUBO315HA|Ml|Suministro y colocación de tubería de doble pared de PVC corrugado, DN 315 mm, fabricado según la norma UNE-EN 13476, clase SN 8, resistencia circunferencial específica 8 kN/m2, superficie estructurada, lisa la interior y corrugada la exterior, unión por copa con junta elástica, color teja, incluso parte proporcional de uniones, juntas, lubricante para juntas, codos y piezas especiales de conexión a pozos de registro de cualquier tipo o a tubo, según planos|52.9|240412|0|
+~T|DTUBO315HA|Suministro y colocación de tubería de doble pared de PVC corrugado, DN 315 mm, fabricado según la norma UNE-EN 13476, clase SN 8, resistencia circunferencial específica 8 kN/m2, superficie estructurada, lisa la interior y corrugada la exterior, unión por copa con junta elástica, color teja, incluso parte proporcional de uniones, juntas, lubricante para juntas, codos y piezas especiales de conexión a pozos de registro de cualquier tipo o a tubo, según planos|
+~D|DTUBO315HA
+|OFIC\\0.4
+\PEON\\0.4
+\UUPVC602\\1
+\%003\\0.03
+\|
+~C|UUPVC602|Ml|Tubería de UPVC DN 315 mm fabricado según la norma UNE-EN 295, clase SN 8, incluso parte proporcional de codos, enlaces y juntas.|40.45|210512|3|
+~T|UUPVC602|Tubería de UPVC DN 315 mm fabricado según la norma UNE-EN 295, clase SN 8, incluso parte proporcional de codos, enlaces y juntas.|
+~C|CANALACO26|Ml|Suminsitro e instalación de canal  de drenaje lineal para instalación enterradas de hormigón polímero, de clase de carga C250, con reja de fundición con sistema de fijación rápida Drainlock sin tornillos montado en bastidor empotrado al canal, tipo ACO DR|71.02|151110|0|
+~T|CANALACO26|Suminsitro e instalación de canal  de drenaje lineal para instalación enterradas de hormigón polímero, de clase de carga C250, con reja de fundición con sistema de fijación rápida Drainlock sin tornillos montado en bastidor empotrado al canal, tipo ACO DRAIN MD200 o equivalente, con sección en "V" con efecto autolimpieza, con espacio para junta de sellado. Con certificado de homologación CE y cumplimineto íntegro de toda la norma EN1433. Canal de altura total 26,5 cm, ancho total de 23,50 cm y ancho interior 200 mm, y longitud total de 100 cm. Totalmente instalado, y rematado con el pavimento colindante, incluyendo p.p. de excavación, encofrado, tapas y adaptadores de salida con junta labiolaberíntica, carrete DN 200, codo de 45º/90º, tubo de PVC DN 160,  pieza de entronque con la tubería de DN400 y pequeño material para dejar la unidad totalmente terminada. Con dado de hormigón HM-20/P/20/I alrededor del canal de espesor mínimo de 15 cm y altura de 23 cm.|
+~D|CANALACO26
+|ENCOFbase\\2
+\AHM20\\0.12
+\PEON\\0.195
+\UNICANAL\\1
+\OFIC\\0.146
+\%010\\0.1
+\%003\\0.03
+\|
+~C|ENCOFbase|Ml.|Encofrado metálico a una cara para cimentación de canal|0.85|151110|3|
+~C|UNICANAL|Ml|Canal MD200, de ancho exterior 235 mm, altura exteriro 265 mm, clase C250 con reja de fundición|50|151110|3|
+~T|UNICANAL|Canal MD200, de ancho exterior 235 mm, altura exteriro 265 mm, clase C250 con reja de fundición|
+~C|%010|%|10 % Materiales auxiliares y p.p. pequeños elementos (codos, juntas, piezas de conexión...)|0|280507|%|
+~C|CANALACO3.1|Ml|Suminsitro e instalación de canal  de drenaje lineal para instalación enterradas de hormigón polímero, de clase de carga C250, con reja de fundición con sistema de fijación rápida Drainlock sin tornillos montado en bastidor empotrado al canal, tipo ACO DRAIN|80.37|151110|0|
+~T|CANALACO3.1|Suminsitro e instalación de canal  de drenaje lineal para instalación enterradas de hormigón polímero, de clase de carga C250, con reja de fundición con sistema de fijación rápida Drainlock sin tornillos montado en bastidor empotrado al canal, tipo ACO DRAIN MD200 o equivalente, con sección en "V" con efecto autolimpieza, con espacio para junta de sellado. Con certificado de homologación CE y cumplimineto íntegro de toda la norma EN1433. Canal de altura total 31.5 cm, ancho total de 23,50 cm y ancho interior 200 mm, y longitud total de 100 cm. Totalmente instalado, y rematado con el pavimento colindante, incluyendo p.p. de excavación, encofrado, tapas y adaptadores de salida con junta labiolaberíntica, carrete DN 200, codo de 45º/90º, tubo de PVC DN 160,  pieza de entronque con la tubería de DN400 y pequeño material para dejar la unidad totalmente terminada. Con dado de hormigón HM-20/P/20/I alrededor del canal de espesor mínimo de 15 cm y altura de 23 cm.|
+~D|CANALACO3.1
+|ENCOFbase\\2
+\AHM20\\0.125
+\PEON\\0.195
+\UNICANAL-2\\1
+\OFIC\\0.146
+\%010\\0.1
+\%003\\0.03
+\|
+~C|UNICANAL-2|Ml|Canal MD200, de ancho exterior 315 mm, altura exteriro 315mm, clase C250 con reja de fundición|58|151110|3|
+~T|UNICANAL-2|Canal MD200, de ancho exterior 315 mm, altura exteriro 265 mm, clase C250 con reja de fundición|
+~C|CANALACO36|Ml|Suminsitro e instalación de canal  de drenaje lineal para instalación enterradas de hormigón polímero, de clase de carga C250, con reja de fundición con sistema de fijación rápida Drainlock sin tornillos montado en bastidor empotrado al canal, tipo ACO DRAIN MD200 o equivalente, con sección en "V" con efecto autolimpieza, con espacio para junta de sellado. Con certificado de homologación CE y cumplimineto íntegro de toda la norma EN1433. Canal de altura total 31.5 cm, ancho total de 23,50 cm y ancho interior 200 mm, y longitud total de 100 cm. Totalmente instalado, y rematado con el pavimento colindante, incluyendo p.p. de excavación, encofrado, tapas y adaptadores de salida con junta labiolaberíntica, carrete DN 200, codo de 45º/90º, tubo de PVC DN 160,  pieza de entronque con la tubería de DN400 y pequeño material para dejar la unidad totalmente terminada. Con dado de hormigón HM-20/P/20/I alrededor del canal de espesor mínimo de 15 cm y altura de 23 cm.|84.9|151110|0|
+~T|CANALACO36|Suminsitro e instalación de canal  de drenaje lineal para instalación enterradas de hormigón polímero, de clase de carga C250, con reja de fundición con sistema de fijación rápida Drainlock sin tornillos montado en bastidor empotrado al canal, tipo ACO DRAIN MD200 o equivalente, con sección en "V" con efecto autolimpieza, con espacio para junta de sellado. Con certificado de homologación CE y cumplimineto íntegro de toda la norma EN1433. Canal de altura total 31.5 cm, ancho total de 23,50 cm y ancho interior 200 mm, y longitud total de 100 cm. Totalmente instalado, y rematado con el pavimento colindante, incluyendo p.p. de excavación, encofrado, tapas y adaptadores de salida con junta labiolaberíntica, carrete DN 200, codo de 45º/90º, tubo de PVC DN 160,  pieza de entronque con la tubería de DN400 y pequeño material para dejar la unidad totalmente terminada. Con dado de hormigón HM-20/P/20/I alrededor del canal de espesor mínimo de 15 cm y altura de 23 cm.|
+~D|CANALACO36
+|ENCOFbase\\2
+\AHM20\\0.125
+\PEON\\0.195
+\UNICANAL-32\\1
+\OFIC\\0.146
+\%010\\0.1
+\%003\\0.03
+\|
+~C|UNICANAL-32|Ml|Canal MD200, de ancho exterior 315 mm, altura exteriro 365mm, clase C250 con reja de fundición|62|151110|3|
+~T|UNICANAL-32|Canal MD200, de ancho exterior 315 mm, altura exteriro 365 mm, clase C250 con reja de fundición|
+~C|CATATUB|PA|Conexión a tubo de alcantarillado existente DN 400 mm y desvio de aguas, incluyendo corte de tubo existente para formación de bancada y canal, vertido de hormigón HM-20 y aplacado con losetas cerámicas.|446.08|191211|0|
+~T|CATATUB|Conexión a tubo de alcantrillado existente DN 400 mm y desvio de aguas, incluyendo corte de tubo existente para formación de bancada y canal, vertido de hormigón HM-20 y aplacado con losetas cerámicas.|
+~C|CAP1.3#||MUROS DE HORMIGON|58055.51|270516|0|
+~T|CAP1.3#|MUROS DE HORMIGON|
+~D|CAP1.3#
+|DEXZANJAT\\415.682
+\DTRTIERRAS1\\415.56
+\CRL0310\\46.251
+\DHA30\\424.616
+\ENCOzapatas\\346.402
+\ENCOFenol1\\141.984
+\ACERO0103\\5789.474
+\BERE0001\\300
+\|
+~C|DTRTIERRAS1|M3|Carga mediante máquina y transporte de material procedente de la excavación a zona de triturado y mezcla.|2.29|220312|0|
+~T|DTRTIERRAS1|Carga mediante máquina y transporte de material procedente de la excavación a zona de triturado y mezcla.|
+~D|DTRTIERRAS1
+|UPALA0101\\0.015
+\MQCAMI0101\\0.04
+\UCOMP0202\\0.01
+\UMOTO0102\\0.01
+\%003\\0.03
+\|
+~C|CRL0310|M3|Hormigón de limpieza HL-15/B/20 fabricado en central y vertido con cubilote, de 10 cm de espesor.|50.02||0|
+~T|CRL0310|Hormigón de limpieza HL-15/B/20 fabricado en central y vertido con cubilote, de 10 cm de espesor.|
+~D|CRL0310
+|OFIC\\0.069
+\PEON\\0.069
+\mt10hmf011\\1
+\%003\\0.03
+\|
+~C|mt10hmf011|m³|Hormigón de limpieza HL-15/B/20, fabricado en central, vertido con cubilote.|46.67|210512|3|
+~T|mt10hmf011|Hormigón de limpieza HL-15/B/20, fabricado en central, vertido con cubilote.|
+~C|DHA30|M3|Hormigón HA-30/B/20/IIIa+Qb, en formación de zapatas, soleras, alzados de muro, losas, vigas y cámaras, fabricado en central con cemento SR puesto en obra, vertido con cubilote y grua, incluso vibrado y curado.|81.14|020312|0|
+~T|DHA30|Hormigón HA-30/B/20/IIIa+Qb, en formación de zapatas, soleras, alzados de muro, losas y vigas y cámaras, fabricado en central con cemento SR puesto en obra, vertido con cubilote y grua, incluso vibrado y curado.|
+~D|DHA30
+|OFIC\\0.547
+\PEON\\0.547
+\UHA30\\1.05
+\%003\\0.03
+\|
+~C|UHA30|M3|Hormigón HA-30/B/20/IIIa+Qb, fabricado en central con cemento SR, vertido con cubilote.|60.82|210512|3|
+~C|ENCOzapatas|M2.|Encofrado y desencofrado plano en formacion de zapatas.|14.01||0|
+~T|ENCOzapatas|Encofrado y desencofrado plano en formación de zapatas
+.|
+~D|ENCOzapatas
+|OFICENC\\0.05
+\PEONENC\\0.05
+\MAENCO0111\\1
+\%003\\0.03
+\|
+~C|MAENCO0111|M2.|Encofrado y desencofrado plano en alzados de superficies vistas de muros, cámaras y arquetas.|12|210512|3|
+~T|MAENCO0111|Encofrado y desencofrado plano en alzados de superficies vistas de muros, cámaras y arquetas.|
+~C|ENCOFenol1|M2.|Encofrado y desencofrado plano en alzados de superficies vistas de muros,a dos caras, con acabado visto con textura lisa, realizado con tablero contrachapado fenólico con bastidor metálico, amortizable en 20 usos,hasta 3 m de altura.|36.78||0|
+~T|ENCOFenol1|Encofrado y desencofro planos en alzados de superficies vistas de muros, a dos caras, con acabado visto con textura lisa, realizado con tablero contrachapado fenólico con bastidor metálico, amortizable en 20 usos,hasta 3 m de altura.|
+~D|ENCOFenol1
+|OFICENC\\0.25
+\Monatage100\\0.007
+\DESMOLDEA1\\0.013
+\PEONENC\\0.3
+\MAENCO0110\\0.1
+\%003\\0.03
+\|
+~C|Monatage100|Ud|Estructura soporte encofrado|275|080616|0|
+~T|Monatage100|Estructura soporte encofrado de sistema de encofrado vertical, para muro de hormigón a dos caras , de hasta 3 m. de altura, formado por tornapuntas metálicos para estabilización y aplomado de la superficie encofrante del muro.|
+~C|DESMOLDEA1|l|Agente desmoldeante biodegradable en fase acuosa para hormigones con acabado visto.|8.15|080616|0|
+~T|DESMOLDEA1|Agente desmoldeante biodegradable en fase acuosa para hormigones con acabado visto.|
+~C|MAENCO0110|M2.|Encofrado y desencofrado plano en alzados de superficies vistas de muros, cámaras y arquetas.|250|210512|3|
+~T|MAENCO0110|Encofrado y desencofrado plano con tablero fenólico de pino con bastidor metálico, para encofrar muros de hormigón de hasta 3 m de altura.|
+~C|ACERO0103|Kg.|Acero en barras corrugadas, UNE-EN 10080 B 500 SD, incluso corte, ferrallado, colocación y p.p. de atado con alambre recocido, despuntes, incluso separadores de plástico rígidos, elaborado en taller y colocado en obra, diámetros varios.|1.13||0|
+~T|ACERO0103|Acero en barras corrugadas, UNE-EN 10080 B 500 SD, incluso corte, ferrallado, colocación y p.p. de atado con alambre recocido, despuntes, incluso separadores de plástico rígidos, elaborado en taller y colocado en obra, diámetros varios.|
+~D|ACERO0103
+|OFICFER\\0.015
+\PEONES\\0.015
+\MAACE0201\\1
+\%003\\0.03
+\|
+~C|OFICFER|H|Oficial ferrallista|18.14|210211|1|
+~T|OFICFER|OFICIAL PRIMERA FERRALLISTA|
+~A|OFICFER|oficial\|
+~C|PEONES|H|Peón especializado|13.75||1|
+~T|PEONES|Peón especializado|
+~C|MAACE0201|KG.||0.62|210512|3|
+~T|MAACE0201|Acero AEH-500N en barras corrugadas, para elementos de hormigón, incluso corte, ferrallado, colocación y pp. de atado con alambre recocido y separadores, según instrucción EH-91, medido en peso nominal.|
+~C|BERE0001|ml|Suministro y colocación de berenjeno decorativo en alzados laterales de muros de hormigon en masa, incluso retirada y repaso de acabado, para obtención de superfices lisas.|4.41|010616|0|
+~T|BERE0001|Suministro y colocación de berenjeno decorativo en alzados laterales de muros de hormigon en masa, incluso retirada y repaso de acabado, para obtención de superfices lisas.|
+~D|BERE0001
+|OFICENCb\\0.05
+\UBAMIR1\\1
+\020004\\0.05
+\%003\\0
+\|
+~C|OFICENCb|H|Oficial encofrador|18.14|140312|1|
+~T|OFICENCb|Oficial encofrador|
+~C|UBAMIR1|Ml|Berenjeno decorativo de madera de pino o abeto, para su incorporación en alzados de muros, según indicaciones de la D.F.|3|210512|3|
+~T|UBAMIR1|Berenjeno decorativo de madera de pino o abeto, para su incorporación en alzados de muros, según indicaciones de la D.F.|
+~C|020004|H|Peón especializado|10||1|
+~T|020004|Peón especializado|
+~C|CAP1.4#||ALUMBRADO|50304.66|120312|0|
+~T|CAP1.4#|ALUMBRADO|
+~D|CAP1.4#
+|DEXZANJAT\\59.74
+\DCANA1203\\319
+\DCANA1208\\45
+\DCANA1204\\55
+\COLUMN4\\18
+\COLUMN8\\3
+\COLUMN9\\2
+\DESATLA1\\4
+\DCANA4001\\26
+\DCANA4020\\8
+\CIMENTA01\\18
+\CIMENTA02\\5
+\DALCB0110\\430
+\DALCB0406\\220
+\cable1-6\\625
+\DALCB0225\\183
+\DALCA0201\\4
+\PAELEC1\\1
+\PAELEC2\\1
+\|
+~C|DCANA1203|Ml.|Canalización 3 Ø 90 mm, en prisma de hormigón HM-20 en aceras, de Polietileno corrugado doble pared, Clase N según norma EN-50086, para alojamiento de cables, incluso guía de alambre galvanizado y cinta de atención.|13.21||0|
+~T|DCANA1203|Canalización 3 Ø 90 mm, en prisma de hormigón HM-20 en aceras, de Polietileno corrugado doble pared, Clase N según norma EN-50086, para alojamiento de cables, incluso guía de alambre galvanizado y cinta de atención.|
+~D|DCANA1203
+|OFIC\\0.08
+\PEON\\0.08
+\UACER0501\\2
+\UTPOL0102\\3
+\UCINC0101\\1
+\AHM20\\0.03
+\%003\\0.03
+\|
+~C|UACER0501|Ml.|Guía de alambre de acero galvanizado Ø 1 mm.|0.08|210512|3|
+~C|UTPOL0102|Ml|Canalización DN 90 mm de Polietileno corrugado doble pared clase N, , según norma EN 50086.|2.95|210512|3|
+~T|UTPOL0102|Canalización DN 90 mm de Polietileno corrugado doble pared clase N, según norma EN 50086|
+~C|UCINC0101|Ml.|Cinta de "atención cable"|0.04|210512|3|
+~C|DCANA1208|Ml.|Canalización 2 Ø 90 mm, en prisma de hormigón HM-20 en aceras, de Polietileno corrugado doble pared, Clase N según norma EN-50086, para alojamiento de cables, incluso guía de alambre galvanizado y cinta de atención.|9.6||0|
+~T|DCANA1208|Canalización 2 Ø 90 mm, en prisma de hormigón HM-20 en aceras, de Polietileno corrugado doble pared, Clase N según norma EN-50086, para alojamiento de cables, incluso guía de alambre galvanizado y cinta de atención.|
+~D|DCANA1208
+|OFIC\\0.06
+\PEON\\0.06
+\UACER0501\\2
+\UTPOL0105\\2
+\UCINC0101\\1
+\AHM20\\0.03
+\%003\\0.03
+\|
+~C|UTPOL0105|Ml|Canalización DN 90 mm de Polietileno corrugado doble pared clase N, , según norma EN 50086.|2.95|210512|3|
+~T|UTPOL0105|Canalización DN 90 mm de Polietileno corrugado doble pared clase N, según norma EN 50086|
+~C|DCANA1204|Ml.|Canalización 1 Ø 90 mm, en prisma de hormigón HM-20 en aceras, de Polietileno corrugado doble pared, Clase N según norma EN-50086, para alojamiento de cables, incluso guía de alambre galvanizado y cinta de atención.|6||0|
+~T|DCANA1204|Canalización 1 Ø 90 mm, en prisma de hormigón HM-20 en aceras, de Polietileno corrugado doble pared, Clase N según norma EN-50086, para alojamiento de cables, incluso guía de alambre galvanizado y cinta de atención.|
+~D|DCANA1204
+|OFIC\\0.04
+\PEON\\0.04
+\UACER0501\\2
+\UTPOL0103\\1
+\UCINC0101\\1
+\AHM20\\0.03
+\%003\\0.03
+\|
+~C|UTPOL0103|Ml|Canalización DN 90 mm de Polietileno corrugado doble pared clase N, , según norma EN 50086.|2.95|210512|3|
+~T|UTPOL0103|Canalización DN 90 mm de Polietileno corrugado doble pared clase N, según norma EN 50086|
+~C|COLUMN4|Ud.|Suministro e instalación de Punto de luz compuesto por columna cilíndrica modelo CASTILLA de Socelec o equivalente, de 4 m de altura., de acero S235JR, según UNE 10025, brazo con perfil normalizado, fuste y brazo galvanizados por inmersión en caliente, imprimados y pintados con pintura en polvo de resina de polieseter y secado en horno, color GRIS 600 SAND BLASTED; con luninaria modelo CITEA LED MIDI NG, de Socelec o equivalente, equipada con 16 leds blanco neutro de alta potencia, 26 W de consumo total, 100.000 horas de vida, sistema de protección contra sobretensiones hasta 10 kV, luneta placa de acero galvanizado y pintado, protector de vidrio plano IK08, bloque óptico y auxiliares P 65, tensión nominal 230 V, clase eléctrica II, pintada del mismo color que el soporte, incluso placa de anclaje y p.p. de pequeño material, totalmente instalado.|1319.93|151110|0|
+~T|COLUMN4|Punto de luz compuesto por columna cilíndrica modelo CASTILLA de Socelec o equivalente, de 4 m de altura, de acero S235JR, según UNE 10025, brazo con perfil normalizado, fuste y brazo galvanizados por inmersión en caliente, imprimados y pintados con pintura en polvo de resina de polieseter y secado en horno, color GRIS 600 SAND BLASTED; con luninaria modelo CITEA LED MIDI NG, de Socelec o equivalente, equipada con 16 leds blanco neutro de alta potencia, 26 W de consumo total, 100.000 horas de vida, sistema de protección contra sobretensiones hasta 10 kV, luneta placa de acero galvanizado y pintado, protector de vidrio plano IK08, bloque óptico y auxiliares IP 65, tensión nominal 230 V, clase eléctrica II,  pintada del mismo color que el soporte, incluso placa  y pernos de anclaje y p.p. de pequeño material, totalmente instalado.|
+~D|COLUMN4
+|OFIELEC\\0.9
+\PEONES\\0.9
+\UPMAT0102\\0.7
+\UBORN0301\\1
+\UCABL0202\\7
+\QCAMGRUA\\0.3
+\UCOLCAST4\\1
+\UPERPLAC\\1
+\UTPVC0101\\1
+\%UMAUX0103\\0.03
+\|
+~C|OFIELEC|H|Oficial 1ª electricista|16.04|041110|1|
+~T|OFIELEC|Oficial 1ª electricista|
+~C|UPMAT0102|Ud.|Pequeño material y transporte.|10.52|210512|3|
+~C|UBORN0301|Ud.|Caja de bornes con dos cortacircuitos y fusibles calibrados.|15.44|210512|3|
+~T|UBORN0301|Caja de bornes con dos cortacircuitos y fusibles calibrados.|
+~C|UCABL0202|Ml.|Cable tipo RV-0,6/1 KV de 2 x 2,5 mm2., subterráneo.|0.63|210512|3|
+~C|QCAMGRUA|H|CAMION GRUA|40.1|210211|2|
+~T|QCAMGRUA|CAMION GRUA|
+~A|QCAMGRUA|camion\grua\|
+~C|UCOLCAST4|Ud.|Punto de luz compuesto por columna cilíndrica modelo CASTILLA de Socelec o equivalente, de 4 m de altura, de acero S235JR, según UNE 10025, brazo con perfil normalizado, fuste y brazo galvanizados por inmersión en caliente, imprimados y pintados con pintura en polvo de resina de polieseter y secado en horno, color GRIS 600 SAND BLASTED; con luninaria modelo CITEA LED MIDI NG, de Socelec o equivalente, equipada con 16 leds blanco neutro de alta potencia, 26 W de consumo total, 100.000 horas de vida, sistema de protección contra sobretensiones hasta 10 kV, luneta placa de acero galvanizado y pintado, protector de vidrio plano IK08, bloque óptico y auxiliares P 65, tensión nominal 230 V, clase eléctrica II, con equipo programable para reducción de flujo, pintada del mismo color que el soporte, incluso placa de anclaje y p.p. de pequeño material, totalmente instalado..|1180|210512|3|
+~T|UCOLCAST4|Punto de luz compuesto por columna cilíndrica modelo CASTILLA de Socelec o equivalente, de 4 m de altura, de acero S235JR, según UNE 10025, brazo con perfil normalizado, fuste y brazo galvanizados por inmersión en caliente, imprimados y pintados con pintura en polvo de resina de polieseter y secado en horno, color GRIS 600 SAND BLASTED; con luninaria modelo CITEA LED MIDI NG, de Socelec o equivalente, equipada con 16 leds blanco neutro de alta potencia, 26 W de consumo total, 100.000 horas de vida, sistema de protección contra sobretensiones hasta 10 kV, luneta placa de acero galvanizado y pintado, protector de vidrio plano IK08, bloque óptico y auxiliares P 65, tensión nominal 230 V, clase eléctrica II, con equipo programable para reducción de flujo, pintada del mismo color que el soporte, incluso placa de anclaje y p.p. de pequeño material, totalmente instalado..|
+~C|UPERPLAC|Ud|Placa de anclaje, pernos, cercos y tornillería|33.93|210512|3|
+~T|UPERPLAC|Placa de anclaje, pernos y cercos y tornillería|
+~C|UTPVC0101|Ml.|Tubo PVC Ø 110 mm. corrugado|1.5|210512|3|
+~C|COLUMN8|Ud.|Suministro e instalación de luz compuesto por columna cilíndrica modelo CASTILLA de Socelec o equivalente, de 8 m de altura, de acero S235JR, según UNE 10025, brazo con perfil normalizado, fuste y brazo galvanizados por inmersión en caliente, imprimados y pintados con pintura en polvo de resina de polieseter y secado en horno, color GRIS 600 SAND BLASTED; con luninaria modelo CITEA LED MIDI NG, de Socelec o equivalente, equipada con 64 leds blanco neutro de alta potencia, 99 W de consumo total, 100.000 horas de vida, sistema de protección contra sobretensiones hasta 10 kV, luneta placa de acero galvanizado y pintado, protector de vidrio plano IK08, bloque óptico y auxiliares P 65, tensión nominal 230 V, clase eléctrica II,  pintada del mismo color que el soporte, incluso placa de anclaje y p.p. de pequeño material, totalmente instalado.|1722.65|151110|0|
+~T|COLUMN8|Punto de luz compuesto por columna cilíndrica modelo CASTILLA de Socelec o equivalente, de 8 m de altura, de acero S235JR, según UNE 10025, brazo con perfil normalizado, fuste y brazo galvanizados por inmersión en caliente, imprimados y pintados con pintura en polvo de resina de polieseter y secado en horno, color GRIS 600 SAND BLASTED; con luninaria modelo CITEA LED MIDI NG, de Socelec o equivalente, equipada con 64 leds blanco neutro de alta potencia, 99 W de consumo total, 100.000 horas de vida, sistema de protección contra sobretensiones hasta 10 kV, luneta placa de acero galvanizado y pintado, protector de vidrio plano IK08, bloque óptico y auxiliares IP 65, tensión nominal 230 V, clase eléctrica II,  pintada del mismo color que el soporte, incluso placa y pernos de anclaje de anclaje y p.p. de pequeño material, totalmente instalado.|
+~D|COLUMN8
+|OFIELEC\\1
+\PEONES\\1
+\UPMAT0102\\0.7
+\UBORN0301\\1
+\UCABL0202\\7
+\UCOLCAST8\\1
+\QCAMGRUA\\0.5
+\UPERPLAC\\1
+\UTPVC0101\\1
+\%UMAUX0103\\0.03
+\|
+~C|UCOLCAST8|Ud.|Punto de luz compuesto por columna cilíndrica modelo CASTILLA de Socelec o equivalente, de 8 m de altura, de acero S235JR, según UNE 10025, brazo con perfil normalizado, fuste y brazo galvanizados por inmersión en caliente, imprimados y pintados con pintura en polvo de resina de polieseter y secado en horno, color GRIS 600 SAND BLASTED; con luninaria modelo CITEA LED MIDI NG, de Socelec o equivalente, equipada con 64 leds blanco neutro de alta potencia, 99 W de consumo total, 100.000 horas de vida, sistema de protección contra sobretensiones hasta 10 kV, luneta placa de acero galvanizado y pintado, protector de vidrio plano IK08, bloque óptico y auxiliares P 65, tensión nominal 230 V, clase eléctrica II, pintada del mismo color que el soporte, incluso placa de anclaje y p.p. de pequeño material, totalmente instalado.|1560|210512|3|
+~T|UCOLCAST8|Punto de luz compuesto por columna cilíndrica modelo CASTILLA de Socelec o equivalente, de 8 m de altura, de acero S235JR, según UNE 10025, brazo con perfil normalizado, fuste y brazo galvanizados por inmersión en caliente, imprimados y pintados con pintura en polvo de resina de polieseter y secado en horno, color GRIS 600 SAND BLASTED; con luninaria modelo CITEA LED MIDI NG, de Socelec o equivalente, equipada con 64 leds blanco neutro de alta potencia, 99 W de consumo total, 100.000 horas de vida, sistema de protección contra sobretensiones hasta 10 kV, luneta placa de acero galvanizado y pintado, protector de vidrio plano IK08, bloque óptico y auxiliares P 65, tensión nominal 230 V, clase eléctrica II, pintada del mismo color que el soporte, incluso placa de anclaje y p.p. de pequeño material, totalmente instalado.|
+~C|COLUMN9|Ud.|Suministro e instalación de punto de luz PRON de Socelec o equivalente, compuesto de columna troncocónica curvada de 9 metros de altura, con tres brazos orientables, de acero galvanizado por inmersión en caliente, imprimado y pintado con proceso de pintura Hightech, color  GRIS 600 SAND BLASTED, con 3 Proyectores herméticos, tipo NEOS 2 LED, de Socelec o equivalente, cuerpo y marco de aluminio inyectado pintado, protector de vidrio IK08, pintados del mismo color, 75 W de consumo total, 100.000 horas de vida, bloque óptico y auxiliares IP 66, con mecanismo de regulación de la inclinación, incluso caja de conexiones, placa de anclaje y p.p. de pequeño material, totalmente instalado.|2674.25|151110|0|
+~T|COLUMN9|Punto de luz PRON de Socelec o equivalente, compuesto de columna troncocónica curvada de 9 metros de altura, con tres brazos orientables, de acero galvanizado por inmersión en caliente, imprimado y pintado con proceso de pintura Hightech, color  GRIS 600 SAND BLASTED, con 3 Proyectores herméticos, tipo NEOS 2 LED, de Socelec o equivalente, cuerpo y marco de aluminio inyectado pintado, protector de vidrio IK08, pintados del mismo color, 75 W de consumo total, 100.000 horas de vida, bloque óptico y auxiliares IP 66, con mecanismo de regulación de la inclinación, incluso caja de conexiones, placa y pernos de anclaje y p.p. de pequeño material, totalmente instalado.|
+~D|COLUMN9
+|OFIELEC\\2
+\PEONES\\2
+\UPMAT0102\\1
+\UBORN0301\\3
+\UCABL0202\\7
+\QCAMGRUA\\1
+\UCOLCAST10\\1
+\UPERPLAC\\1
+\UTPVC0101\\1
+\%UMAUX0103\\0.03
+\|
+~C|UCOLCAST10|Ud.|Punto de luz PRON de Socelec o equivalente, compuesto de columna troncocónica curvada de 9 metros de altura, con tres brazos orientables, de acero galvanizado por inmersión en caliente, imprimado y pintado con proceso de pintura Hightech, color  GRIS 600 SAND BLASTED, con 3 Proyectores herméticos, tipo NEOS 2 LED, de Socelec o equivalente, cuerpo y marco de aluminio inyectado pintado, protector de vidrio IK08, pintados del mismo color, 75 W de consumo total, 100.000 horas de vida, bloque óptico y auxiliares IP 66, con mecanismo de regulación de la inclinación, incluso  caja de conexiones,cimentación, placa de anclaje y p.p. de pequeño material, totalmente instalado.|2400|210512|3|
+~T|UCOLCAST10|Punto de luz PRON de Socelec o equivalente, compuesto de columna troncocónica curvada de 9 metros de altura, con tres brazos orientables, de acero galvanizado por inmersión en caliente, imprimado y pintado con proceso de pintura Hightech, color  GRIS 600 SAND BLASTED, con 3 Proyectores herméticos, tipo NEOS 2 LED, de Socelec o equivalente, cuerpo y marco de aluminio inyectado pintado, protector de vidrio IK08, pintados del mismo color, 75 W de consumo total, 100.000 horas de vida, bloque óptico y auxiliares IP 66, con mecanismo de regulación de la inclinación, incluso  caja de conexiones,cimentación, placa de anclaje y p.p. de pequeño material, totalmente instalado.|
+~C|DESATLA1|Ud|Suministro e instalación de punto de luz BLOCO de Socelec, versión Directo opal cuadrado o equivalente, compuesto por cuerpo de aleación de aluminnio inyectado, protector de vidrio, color negro AKZO 200 enarenado, bloque óptico IP 66, grado de resistencia a los impactos IK 10, clase eléctrica I, equipado con LED de alta potencia, 8 W de consumo total, incluso caja de conexiones y p.p. de pequeño material, totalmente instalado,|196.84|270112|0|
+~T|DESATLA1|Punto de luz BLOCO de Socelec, versión Directo opal cuadrado o equivalente, compuesto por cuerpo de aleación de aluminnio inyectado, protector de vidrio, color negro AKZO 200 enarenado, bloque óptico IP 66, grado de resistencia a los impactos IK 10, clase eléctrica I, equipado con LED de alta potencia, 8 W de consumo total, incluso caja de conexiones y p.p. de pequeño material, totalmente instalado,|
+~D|DESATLA1
+|PEONES\\0.5
+\OFIELEC\\0.5
+\UPMAT0102\\0.5
+\BLOCO\\1
+\UCABL0202\\1.5
+\%UMAUX0103\\0.03
+\|
+~C|BLOCO|Ud|Punto de luz BLOCO de Socelec, versión Directo opal cuadrado o equivalente, compuesto por cuerpo de aleación de aluminnio inyectado, protector de vidrio, color negro AKZO 200 enarenado, bloque óptico IP 66, grado de resistencia a los impactos IK 10, clase eléctrica I, equipado con LED de alta potencia, 8 W de consumo total, incluso caja de conexiones y p.p. de pequeño material, totalmente instalado,|170|210512|3|
+~T|BLOCO|Punto de luz BLOCO de Socelec, versión Directo opal cuadrado o equivalente, compuesto por cuerpo de aleación de aluminnio inyectado, protector de vidrio, color negro AKZO 200 enarenado, bloque óptico IP 66, grado de resistencia a los impactos IK 10, clase eléctrica I, equipado con LED de alta potencia, 8 W de consumo total, incluso caja de conexiones y p.p. de pequeño material, totalmente instalado,|
+~C|DCANA4001|Ud.|Arqueta de 40x40x60 cm. ejecutada con HM-20, según planos de detalle.|85.03|151110|0|
+~T|DCANA4001|Arqueta de 40x40x60 cm. ejecutada con HM-20, según planos de detalle.|
+~D|DCANA4001
+|PEON\\1
+\OFIC\\1
+\UENCO4001\\1
+\LADPANAL5\\2
+\UTAPA4001\\1
+\DEXZANJAT\\0.486
+\MAHOR0101\\0.096
+\USIKA\\0.005
+\PEON\\0.073
+\%003\\0.03
+\|
+~C|UENCO4001|Ud.|Encofrado y desencofrado metálico, a dos caras para arqueta de 30*30 cm interior.|22.18|210512|3|
+~T|UENCO4001|Encofrado y desencofrado metálico, a dos caras para arqueta de 30*30 cm interior.|
+~C|LADPANAL5|Ud|Ladrillo Panal|0.3|010616|3|
+~T|LADPANAL5|Ladrillo cerámico panal de 25*12.5*8|
+~C|UTAPA4001|Ud.|Marco y tapa de 40x40 cms. de fundición.|21.45|210512|3|
+~C|MAHOR0101|M3.|Hormigón HM-20/P/20/I, suministrado de central, incluso transporte.|42.25|210512|3|
+~T|MAHOR0101|Hormigón HM-20/P/20/I, suministrado de central, incluso transporte.|
+~C|DCANA4020|Ud.|Arqueta de 60x60x60 cm. ejecutada con HM-20, según planos de detalle.|214.66|151110|0|
+~T|DCANA4020|Arqueta de 60x60x60 cm. ejecutada con HM-20, según planos de detalle.|
+~D|DCANA4020
+|PEON\\2
+\OFIC\\2
+\UENCO4002\\2
+\LADPANAL5\\8
+\UTAPA4004\\1
+\DEXZANJAT\\0.6
+\MAHOR0101\\0.312
+\USIKA\\0.02
+\PEON\\0.073
+\%003\\0.03
+\|
+~C|UENCO4002|Ud.|Encofrado y desencofrado metálico para arqueta de 60x60 cms.|15.76|210512|3|
+~T|UENCO4002|Encofrado y desencofrado metálico para arqueta de 60x60 cms.|
+~C|UTAPA4004|Ud.|Marco y tapa de 60x60 cms. de fundición.|85.72|210512|3|
+~C|CIMENTA01|Ud.|Cimentación de farola de 50*50*70, según planos de detalle.|90.06|151110|0|
+~T|CIMENTA01|Cimentación de farola de 50*50*70, según planos de detalle, incluso relleno de la sobreexcavación con hormigón.|
+~D|CIMENTA01
+|PEON\\1
+\OFIC\\1
+\UENCO4020\\2
+\DEXZANJAT-1\\0.567
+\UTPOL0105\\1
+\MAHOR0101\\0.567
+\%003\\0.03
+\|
+~C|UENCO4020|Ud.|Encofrado y desencofrado metálico para cimentación de 50*50*70 cms.|15.76|210512|3|
+~T|UENCO4020|Encofrado y desencofrado metálico para arqueta de 60x60 cms.|
+~C|DEXZANJAT-1|M3|Excavación en zanja, pozo o zapatas de muros, a máquina, en todo tipo de terreno, incluso perfilado de la sección y p.p. de excavación a mano en terreno próximo a servicios.|3.06|161211|0|
+~T|DEXZANJAT-1|Excavación en zanja, pozo o zapatas de muros, a máquina, en todo tipo de terreno, incluso perfilado de la sección y p.p. de excavación a mano en terreno próximo a servicios.|
+~D|DEXZANJAT-1
+|PEON\\0.025
+\URETR0101\\0.1
+\%003\\0.03
+\|
+~C|CIMENTA02|Ud.|Cimentación de farola de 80*80*80, según planos de detalle.|151.67|151110|0|
+~T|CIMENTA02|Cimentación de farola de 80*80*80, según planos de detalle, incluso relleno de la sobreexcavación con hormigón.|
+~D|CIMENTA02
+|PEON\\1.3
+\OFIC\\1.3
+\UENCO4021\\3.6
+\DEXZANJAT-1\\1.15
+\UTPOL0105\\1
+\MAHOR0101\\1.15
+\%003\\0.03
+\|
+~C|UENCO4021|Ud.|Encofrado y desencofrado metálico para cimentación de 80*80*80 cms.|15.76|210512|3|
+~T|UENCO4021|Encofrado y desencofrado metálico para arqueta de 60x60 cms.|
+~C|DALCB0110|Ml.|Cable unipolar tierra verde-amarillo, de tensor asignada 450/750V. de sección 16 mm2, segun hoja de cálculo CDT.|1.33|151110|0|
+~T|DALCB0110|Cable unipolar tierra verde-amarillo, de tensor asignada 450/750V. de sección 16 mm2. colocado bajo tubo en instalación subterránea.|
+~D|DALCB0110
+|PEONES\\0.015
+\cable10\\1
+\%UMAUX0103\\0.03
+\|
+~C|cable10|Ml.|Cable tipo unipolar tierra verde-amarillo, de tensor asignada 450/750 V. de sección 16 mm2.|1.08|210512|3|
+~C|DALCB0406|Ml.|Cable RV-0,6/1KV de 4 x 6 mm2. colocado bajo tubo en instalación subterránea, medición segun hoja de cálculo CDT.|2.69||0|
+~T|DALCB0406|Cable RV-0,6/1KV de 4 x 6 mm2. colocado bajo tubo en instalación subterránea.|
+~D|DALCB0406
+|PEONES\\0.015
+\UCABL0406\\1
+\%UMAUX0103\\0.03
+\|
+~C|UCABL0406|Ml.|Cable tipo RV-0,6/1 KV de 4 x 6 mm2., subterráneo.|2.4|210512|3|
+~C|cable1-6|Ml.|Cable RV-0,6/1KV de 1 x 6 mm2. colocado bajo tubo en instalación subterránea, medición según hoja de cálculo CDT.|1.61||0|
+~T|cable1-6|Cable RV-0,6/1KV de 1 x 6 mm2. colocado bajo tubo en instalación subterránea.|
+~D|cable1-6
+|PEONES\\0.015
+\UCABL0420\\1
+\%UMAUX0103\\0.03
+\|
+~C|UCABL0420|Ml.|Cable tipo RV-0,6/1 KV de 1 x 6 mm2., subterráneo.|1.35|210512|3|
+~C|DALCB0225|Ml.|Cable RV-0.6/1KV. de 2 x 2.5 mm2 colocado bajo tubo|0.87|151110|0|
+~T|DALCB0225|Cable RV-0.6/1KV. de 2 x 2.5 mm2 colocado bajo tubo en instalación subterránea para conexión de las luminarias.|
+~D|DALCB0225
+|PEONES\\0.015
+\UCABL0202\\1
+\%UMAUX0103\\0.03
+\|
+~C|DALCA0201|Ud.|Piqueta toma de tierra formada por barra cilíndrica de 2m.|15.52|151110|0|
+~T|DALCA0201|Piqueta toma de tierra formada por barra cilíndrica de acero de 2 mts. de largo recubierta por capa uniforme de cobre, colocada con cable y bornas de conexión.|
+~D|DALCA0201
+|OFIELEC\\0.487
+\UPICA0101\\1
+\%UMAUX0103\\0.03
+\|
+~C|UPICA0101|Ud.|Pica de toma tierra de 1,5 mts. de longitud, incluso piezas|7.26|210512|3|
+~T|UPICA0101|Pica de toma tierra de 1,5 mts. de longitud, incluso piezas especiales de conexión.|
+~C|PAELEC1|Ud|Acometida cuadro existente|250|070616|0|
+~T|PAELEC1|P.A. de abono íntegro para la adaptación del cuadro de protección y maniobra existente y la conexión de los nuevos circuitos de la Plaza, incluyendo elementos de protección y maniobra, conexiones y material auxiliar|
+~C|PAELEC2|Ud|Boletin instalador|150|070616|0|
+~T|PAELEC2|P.A. de abono íntegro para la legalización de la instalación eléctrica, incluyendo proyecto, en su caso, boletín del instalador, gestiones y tasas.|
+~C|CAP1.5#||RED DE RIEGO|22334.76|020312|0|
+~T|CAP1.5#|RED DE RIEGO|
+~D|CAP1.5#
+|FFB19450\\897
+\FFB26455\\145
+\FFB26425\\120
+\DRIESUB\\3118
+\DCANA1203\\33.25
+\DCANA1208\\31.75
+\DCANA1204\\32.7
+\DCMAND\\182
+\PVC03\\6
+\PV04\\1
+\PV05\\1
+\PV06\\1
+\PAAGUA1\\1
+\PAAGUA2\\1
+\|
+~C|FFB19450|M|Suministro y colocación de tubería PEAD DN 50, PN 10, serie SDR 17, fabricada según UNE-EN 12201-2, banda morada o marrón, incluso  p.p. de accesorios necesarios: uniones, codos, tés, bridas, etc.|6.13||0|
+~T|FFB19450|Suministro y colocación de tubería PEAD DN 50, PN 10, serie SDR 17, fabricada según UNE-EN 12201-2, banda morada o marrón, incluso  p.p. de accesorios necesarios: uniones, codos, tés, bridas, etc.|
+~D|FFB19450
+|OFICMON\\0.1
+\PEONES\\0.1
+\BFB19400\\1.02
+\BFWB1942\\0.3
+\DEXZANJAT\\0.12
+\%UMAUX0103\\0.03
+\|
+~C|OFICMON|H|Oficial 1a montador|18.14||1|
+~T|OFICMON|Oficial 1a montador|
+~C|BFB19400|M|Tubería PEAD DN 50, PN 10, serie SDR 17, fabricada según UNE-EN 12201-2, banda morada o marrón, con uniones soldadas|1.81|210512|3|
+~T|BFB19400|Tubería PEAD DN 63, PN 10, serie SDR 17, fabricada según UNE-EN 12201-2, banda morada o marrón, con uniones soldadas|
+~C|BFWB1942|Ud|Accesorio p/tubos poliet.alta dens.DN=63mm, plást.,10bar,p/soldar|1.81|210512|3|
+~T|BFWB1942|Accesorio para tubos de polietileno de alta densidad, de 63 mm de diámetro nominal exterior, de plástico, 10 bar de presió nominal, para soldar|
+~C|FFB26455|M|Suministro y colocación de tubería PEAD DN 32, PN 10, serie SDR 17, fabricada según UNE-EN 12201-2, banda morada o marrón, incluso  p.p. de accesorios necesarios: uniones, codos, tés, bridas, etc.|4.35||0|
+~T|FFB26455|Suministro y colocación de tubería PEAD DN 32, PN 10, serie SDR 17, fabricada según UNE-EN 12201-2, banda morada o marrón, incluso  p.p. de accesorios necesarios: uniones, codos, tés, bridas, etc.|
+~D|FFB26455
+|OFICMON\\0.07
+\PEONES\\0.07
+\BFB26400\\1.02
+\BFWB2605\\0.3
+\DEXZANJAT\\0.12
+\%UMAUX0103\\0.03
+\|
+~C|BFB26400|M|Tubería PEAD DN 32, PN 10, serie SDR 17, fabricada según UNE-EN 12201-2, banda morada o marrón, con uniones soldadas|0.85|210512|3|
+~T|BFB26400|Tubería PEAD DN 32, PN 10, serie SDR 17, fabricada según UNE-EN 12201-2, banda morada o marrón, con uniones soldadas|
+~C|BFWB2605|Ud|Accesorio p/tubos PE baja dens.DN=32mm, plást.,p/conec.presión|2.51|210512|3|
+~T|BFWB2605|Accesorio para tubos de polietileno de baja densidad, de 32 mm de diámetro nominal exterior, de plástico, para conectar a presión|
+~C|FFB26425|M|Suministro y colocación de tubería PEAD DN 25, PN 10, serie SDR 17, fabricada según UNE-EN 12201-2, banda morada o marrón, incluso  p.p. de accesorios necesarios: uniones, codos, tés, bridas, etc.|3.43||0|
+~T|FFB26425|Suministro y colocación de tubería PEAD DN 25, PN 10, serie SDR 17, fabricada según UNE-EN 12201-2, banda morada o marrón,  incluso  p.p. de accesorios necesarios: uniones, codos, tés, bridas, etc.|
+~D|FFB26425
+|OFICMON\\0.05
+\PEONES\\0.05
+\BFB26425\\1.02
+\BFWB2605\\0.3
+\DEXZANJAT-1\\0.12
+\%UMAUX0103\\0.03
+\|
+~C|BFB26425|M|Tubería PEAD DN 25, PN 10, serie SDR 17, fabricada según UNE-EN 12201-2, banda morada o marrón, con uniones soldadas|0.6|210512|3|
+~T|BFB26425|Tubería PEAD DN 25, PN 10, serie SDR 17, fabricada según UNE-EN 12201-2, banda morada o marrón, con uniones soldadas|
+~C|DRIESUB|M2|Instalación de riego por goteo subterráneo, con tuberías de polietileno de 17 mm de diámetro nominal, color morado, con emisores autocompensantes y antisuccionantes, de 2,3 l/h de caudal nominal, insertados en el interior de la tubería, cada 40 cm. Las tuberías colocadas en paralelo con una separación variable entre 55 y 85 cm, según  la  pendiente del terreno, y a una profundidad de 12 a 15 cm. Incluye esta unidad la p.p. de piezas especiales de conexión de las tuberías portaemisores entre sí y con los colectores de alimentación  y drenaje|2.75|030412|0|
+~T|DRIESUB|Instalación de riego por goteo subterráneo, con tuberías de polietileno de 17 mm de diámetro nominal, color morado, con emisores autocompensantes y antisuccionantes, de 2,3 l/h de caudal nominal, insertados en el interior de la tubería, cada 40 cm. Las tuberías colocadas en paralelo con una separación variable entre 55 y 85 cm, según  la  pendiente del terreno, y a una profundidad de 12 a 15 cm. Incluye esta unidad la p.p. de piezas especiales de conexión de las tuberías portaemisores entre sí y con los colectores de alimentación  y drenaje|
+~D|DRIESUB
+|OFICMON\\0.02
+\PEONES\\0.02
+\TH66072\\1.9
+\TK26300\\0.02
+\Q004\\0.012
+\Q003\\0.002
+\%UMAUX0103\\0.03
+\|
+~C|TH66072|ML|MANG.UNIBIOLINE 17/120 2,3L/H 40CM|0.94|210512|3|
+~T|TH66072|MANG.UNIBIOLINE 17/120 2,3L/H 40CM|
+~C|TK26300|Ud|Accesorios varios|4.23|210512|3|
+~T|TK26300|Accesorios varios|
+~C|Q004|H|Dich-Witch 255 tech-line.|10.7|210512|2|
+~C|Q003|H|Mini-Retroexcavadora.|14.76|210512|2|
+~A|Q003|retroexcavadora\|
+~C|DCMAND|M|Suministro y colocación de cable eléctrico de mando, de 4 x 1,5 mm2 de sección, tipo RV 1000 V, para conexión de unidades de campo.|1.52|030412|0|
+~T|DCMAND|Suministro y colocación de cable eléctrico de mando, de 4 x 1,5 mm2 de sección, tipo RV 1000 V, para conexión de unidades de campo.|
+~D|DCMAND
+|OFIELEC\\0.015
+\PEONES\\0.015
+\UCAMAN\\1
+\%UMAUX0103\\0.03
+\|
+~C|UCAMAN|Ml|Cable eléctrico de mando, de 4 x 1,5 mm2 de sección, tipo RV 1000 V|1.03|210512|3|
+~T|UCAMAN|Cable eléctrico de mando, de 4 x 1,5 mm2 de sección, tipo RV 1000 V|
+~C|PVC03|Ud|Válvula de diafragma DN 50 mm, modelo GALsol de Regaber, o equivalente, con soleoide incorporado de 24 VAC, construida en poliamida reforzada con fibra de vidrio, diafrafma de caucho y tornillos de acero inoxidable, conexiones rosca hembra normalizadas.|73.53|130616|0|
+~T|PVC03|Válvula de diafragma DN 50mm, modelo GALsol de Regaber, o equivalente, con soleoide incorporado de 24 VAC, construida en poliamida reforzada con fibra de vidrio, diafrafma de caucho y tornillos de acero inoxidable, conexiones rosca hembra normalizadas.|
+~C|PV04|Ud|Válvula de cierre manual GAER DN50.|100|270616|0|
+~T|PV04|Válvula de cierre manual modelo GAER de Regaber, o equivalente DN50, cuerpo de fundición, compuerta de fundición, recubierta de EPDM, tornillo de acero inoxidable, anillo y cojinetes de latón cz134 y juntas tóricas de NBR.|
+~C|PV05|Ud|Válvula reductora de presión y caudalímetro, hidranteBM de Regaber, DN50.|200|270616|0|
+~T|PV05|Válvula reductora de presión y caudalímetro, hidrante modelo BM de Regaber, o equivalente,  DN50, cuerpo de fundición, unión rosca hembra.|
+~C|PV06|Ud|Programador TMC-424 TORO de 24 estaciones con sistema de comunicación TRICOMM|2500|270616|0|
+~T|PV06|Programador TMC-424 TORO de 24 estaciones con sistema de comunicación TRICOMM, según prescripciones del P.P.T.P.|
+~C|PAAGUA1|UD|P.A. Taponamiento acometida agua potable antiguo cuartel militar.|310|270616|0|
+~T|PAAGUA1|P.A. Taponamiento acometida agua potable antiguo cuartel militar, según presupuesto A.M.A.E.M. ( 11/04/2016)|
+~C|PAAGUA2|Ud|P.A. de acometida agua potable a Red de Riego DN50.|2000|270616|0|
+~T|PAAGUA2|P.A. de acometida agua potable a Red de Riego DN50, según presupuesto A.M.A.E.M. ( 11/04/2016).|
+~C|CAP1.6#||JARDINERIA|87596.64|020312|0|
+~T|CAP1.6#|JARDINERIA|
+~D|CAP1.6#
+|CAP1.6.1#\\1
+\CAP1.6.2#\\1
+\CAP1.6.3#\\1
+\|
+~C|CAP1.6.1#||TAREAS PREVIAS Y PREPARACIÓN  DEL TERRENO|31282.28|020312|0|
+~T|CAP1.6.1#|TAREAS PREVIAS Y PREPARACIÓN  DEL TERRENO|
+~D|CAP1.6.1#
+|USJT10abz\\2716
+\TERRNATU\\106.599
+\ARENA10\\800
+\HUMUSLOMB\\115
+\UCPM.10\\1350
+\SSTRATO10\\155.5
+\|
+~C|USJT10abz|m2|Preparación del terreno, entrecava desmenuzado, limpieza y nivelado para plantación, realizada por medios mecánicos, incluso extracción de piedras de tamaño superior a 5 cm. Medida la superficie ejecutada en obra.|0.65|150709|0|
+~T|USJT10abz|Preparación del terreno, entrecava desmenuzado, limpieza y nivelado para plantación, realizada por medios mecánicos, incluso extracción de piedras de tamaño superior a 5 cm. Medida la superficie ejecutada en obra.|
+~D|USJT10abz
+|OFICJAR\\0.015
+\PEONES\\0.015
+\MMME.6a\\0.015
+\%UMAUX0103\\0.03
+\|
+~A|USJT10abz|medio\limpieza\terreno\nivel\mecanico\preparacion\equipamiento\abono\plantacion\desmenuzado\|
+~C|OFICJAR|H|Oficial jardinero|18.14|050697|1|
+~T|OFICJAR|Oficial jardinero.|
+~A|OFICJAR|mano\obra\jardineria\oficial\|
+~C|MMME.6a|h|Tractor agrícola neumáticos 70cv|9.68|210512|2|
+~T|MMME.6a|Tractor agrícola sobre neumáticos de 70 CV.|
+~A|MMME.6a|neumatico\maquinaria\agricola\tractor\|
+~C|TERRNATU|M3|Tierra natural de prestamo|15.69|100616|0|
+~T|TERRNATU|Tierra natural de textura francoarenosa, procedente de prestamo de hasta 60 km.|
+~C|ARENA10|Tn|Arena caliza puesta en obra|7|100616|0|
+~T|ARENA10|Arena caliza puesta en obra|
+~C|HUMUSLOMB|Tn|Humus de lombriz.|154.5|100616|0|
+~T|HUMUSLOMB|Tn de Humus de lombriz suministrado en lugar de empleo, en obra.|
+~D|HUMUSLOMB
+|HUMUSLOMB1\\1
+\%UMAUX0103\\0.03
+\|
+~C|HUMUSLOMB1|Tn|Humus ds lombriz|150|100616|3|
+~T|HUMUSLOMB1|Tn Humus de lombriz suministrada en lugar de empleo.|
+~C|UCPM.10|m3|Elaboración de "tierra vegetal" en obra, con tierra natural procedente de préstamo o elaborada en obra.|2.44|150709|0|
+~T|UCPM.10|Elaboración de "tierra vegetal" en obra, con tierra natural de textura francoarenosa procedente de préstamo o elaborada en obra, extendida en lugar de empleo y mezclada mediante procedimientos mecánicos con arena y humus en las cantidades que  determin la D.F., según carácteristicas del Pliego de Prescripciones, incluso incorporación al terreno con pase cruzado de arado, y retirada de piedras y restos, medido el volumen ejecutado en obra.|
+~D|UCPM.10
+|PEONES\\0.1
+\MATO03a\\0.005
+\MMME.6a\\0.1
+\%UMAUX0103\\0.03
+\|
+~C|MATO03a|h|Dumper autocargable 1.500 kg|3.83|210512|2|
+~T|MATO03a|Dumper autocargable 1.500 kg.|
+~C|SSTRATO10|m3|Elaboración de "sustrato de plantación".|3.71|090616|0|
+~T|SSTRATO10|Elaboración de "sustrato de plantación" en obra, con tierra natural de textura francoarenosa procedente de préstamo o elaborada en obra, y transporte mediante pala hasta hoyos de plantación y arriates, medido el volumen ejecutado en obra.|
+~D|SSTRATO10
+|PEONES\\0.08
+\UPALA0101\\0.08
+\%UMAUX0103\\0.03
+\|
+~C|CAP1.6.2#||ARBOLADO|19228.24|020312|0|
+~T|CAP1.6.2#|ARBOLADO|
+~D|CAP1.6.2#
+|POPALB\\37
+\CELAUS\\54
+\CERSIL\\4
+\QUEIL\\2
+\FICUS1\\1
+\|
+~C|POPALB|Ud|Populus alba "Bolleana" 20-25 cm CP|119.16|240212|0|
+~T|POPALB|Suministro y plantación de Populus alba "Bolleana" de 20-25 cm de perímetro de tronco medido a 1 m del suelo, cruz mínima 2,5-3 m de altura, suministrado en cepellón según NTJ, servido en obra, copa perfectamente formada - flechada y repicado dos veces en vivero, libre de enfermedades o lesiones visualmente probables, seleccionado por la Dirección de Obra en campo, incluso plantación consistente en apertura de hoyo de 0,8x0,8x0,8 m, desfonde si existiera material rocoso en el fondo, transporte a vertedero de la tierra extraida, relleno con tierra vegetal cribada y fertilizda con materia orgánica no ácida, incluso tapado y apretado, riegos de plantación con manguera según pliego de condiciones y hasta el funcionamiento normalizado de la instalación de riego,  incluso colocación de triple tutor(unidos entre sí) de madera tratada con autoclave de 250 cm altura y 100 mm de diámetro, anclado antes de tapar sobre terreno asentado, unido mediante doble cinta de caucho a una distancia mínima de 15 cm, así como cuidados hasta la recepción, medida la unidad ejecutada en obra.|
+~D|POPALB
+|A0013\\1
+\OFICJAR\\0.15
+\PEONES\\0.15
+\PR001\\0.05
+\JPP047\\1
+\PTES\\1
+\%UMAUX0103\\0.03
+\|
+~C|A0013|Ud|Populus alba "Bolleana" 20-25 cm CP|93.01|210512|3|
+~T|A0013|Populus alba "Bolleana" 20-25 cm CP|
+~C|PR001|H|Primer riego de plantación.|9.9|210512|0|
+~C|JPP047|UD|ENTUTORADO DE ÁRBOL CON TUTOR TRIPLE DE MADERA TRATADA EN AUTOCLAVE, DE 2.5 M DE LONGITUD Y 10 CM DE DIÁMETRO, INCLUSO COLOCACIÓN (60-80 CM ENTERRADO) Y AMARRE DE ÁRBOL MEDIANTE TRES ABRAZADERAS DE GOMA DE USO ESPECÍFICO PARA ENTUTORAR.|16.5|130710|0|
+~T|JPP047|ENTUTORADO DE ÁRBOL CON TUTOR TRIPLE DE MADERA TRATADA EN AUTOCLAVE, DE 2.5 M DE LONGITUD Y 10 CM DE DIÁMETRO, INCLUSO COLOCACIÓN (60-80 CM ENTERRADO) Y AMARRE DE ÁRBOL MEDIANTE TRES ABRAZADERAS DE GOMA DE USO ESPECÍFICO PARA ENTUTORAR.|
+~D|JPP047
+|JMTPP047\\3
+\AP1\\0
+\PEONES\\0.035
+\MO\\0
+\|
+~C|JMTPP047|ud|Entutorado de árbol con tutor de madera tratada en autoclave, de 2.5 m de longitud y 10 cm de diámetro, incluso tres abrazaderas de goma de uso específico para entutorar.|5.34|210512|3|
+~T|JMTPP047|Entutorado de árbol con tutor de madera tratada en autoclave, de 2.5 m de longitud y 10 cm de diámetro, incluso tres abrazaderas de goma de uso específico para entutorar.|
+~C|AP1||MATERIALES|0||6|
+~C|MO||MANO DE OBRA|0||6|
+~C|PTES|H|Portes|0.9|210512|0|
+~C|CELAUS|Ud|Celtis australis 20-25 cm CP|193.93|240212|0|
+~T|CELAUS|Suministro y plantación de Celtis australis de 20-25 cm de perímetro de tronco medido a 1 m del suelo, cruz mínima 2,5-3 m de altura, suministrado en cepellón según NTJ, servido en obra, copa perfectamente formada - flechada y repicado dos veces en vivero, libre de enfermedades o lesiones visualmente probables, seleccionado por la Dirección de Obra en campo, incluso plantación consistente en apertura de hoyo de 0,8x0,8x0,8 m, desfonde si existiera material rocoso en el fondo, transporte a vertedero de la tierra extraida, relleno con tierra vegetal cribada y fertilizda con materia orgánica no ácida, incluso tapado y apretado, riegos de plantación con manguera según pliego de condiciones y hasta el funcionamiento normalizado de la instalación de riego,  incluso colocación de triple tutor(unidos entre sí) de madera tratada con autoclave de 250 cm altura y 100 mm de diámetro, anclado antes de tapar sobre terreno asentado, unido mediante doble cinta de caucho a una distancia mínima de 15 cm, así como cuidados hasta la recepción, medida la unidad ejecutada en obra.|
+~D|CELAUS
+|A0014\\1
+\OFICJAR\\0.15
+\PEONES\\0.15
+\PR001\\0.05
+\JPP047\\1
+\PTES\\1
+\%UMAUX0103\\0.03
+\|
+~C|A0014|Ud|Celtis australis 20-25 cm CP|165.6|210512|3|
+~T|A0014|Celtis australis 20-25 cm CP|
+~C|CERSIL|Ud|Ceratonia siliqua 30/40 cm CT70|173.22|240212|0|
+~T|CERSIL|Suministro y plantación de Ceratonia siliqua de 30-40 cm de perímetro de tronco medido a 1 m del suelo, suministrado en contenedor de 130 litros según NTJ, servido en obra, copa perfectamente formada - flechada y repicado dos veces en vivero, libre de enfermedades o lesiones visualmente probables, seleccionado por la Dirección de Obra en campo, incluso plantación consistente en apertura de hoyo de 0,8x0,8x0,8 m, desfonde si existiera material rocoso en el fondo, transporte a vertedero de la tierra extraida, relleno con tierra vegetal cribada y fertilizda con materia orgánica no ácida, incluso tapado y apretado, riegos de plantación con manguera según pliego de condiciones y hasta el funcionamiento normalizado de la instalación de riego, así como cuidados hasta la recepción, medida la unidad ejecutada en obra.|
+~D|CERSIL
+|A0019\\1
+\OFICJAR\\0.15
+\PEONES\\0.15
+\PR001\\0.05
+\PTES\\1
+\%UMAUX0103\\0.03
+\|
+~C|A0019|Ud|Ceratonia siliqua 30-40 cm CT70|161.99|210512|3|
+~T|A0019|Ceratonia siliqua 30-40 CT70|
+~C|QUEIL|Ud|Quercus ilex 20-25 cm|136.65|280212|0|
+~T|QUEIL|Suministro y plantación de Quercus ilex de 20-25 cm de perímetro de tronco medido a 1 m del suelo, cruz mínima 2,5-3 m de altura, suministrado en cepellón según NTJ, servido en obra, copa perfectamente formada - flechada y repicado dos veces en vivero, libre de enfermedades o lesiones visualmente probables, seleccionado por la Dirección de Obra en campo, incluso plantación consistente en apertura de hoyo de 0,8x0,8x0,8 m, desfonde si existiera material rocoso en el fondo, transporte a vertedero de la tierra extraida, relleno con tierra vegetal cribada y fertilizda con materia orgánica no ácida, incluso tapado y apretado, riegos de plantación con manguera según pliego de condiciones y hasta el funcionamiento normalizado de la instalación de riego,  incluso colocación de triple tutor(unidos entre sí) de madera tratada con autoclave de 250 cm altura y 100 mm de diámetro, anclado antes de tapar sobre terreno asentado, unido mediante doble cinta de caucho a una distancia mínima de 15 cm, así como cuidados hasta la recepción, medida la unidad ejecutada en obra.|
+~D|QUEIL
+|QUEIL01\\1
+\OFICJAR\\0.15
+\PEONES\\0.15
+\PR001\\0.05
+\JPP047\\1
+\PTES\\1
+\%UMAUX0103\\0.03
+\|
+~C|QUEIL01|Ud|Ud. Quercus ilex 20-25 cm|109.99|210512|2|
+~T|QUEIL01|Suministro y plantación de Quercus ilex de 20-25 cm de perímetro de tronco medido a 1 m del suelo, cruz mínima 2,5-3 m de altura, suministrado en cepellón según NTJ, servido en obra, copa perfectamente formada - flechada y repicado dos veces en vivero, libre de enfermedades o lesiones visualmente probables, seleccionado por la Dirección de Obra en campo, incluso plantación consistente en apertura de hoyo de 0,8x0,8x0,8 m, desfonde si existiera material rocoso en el fondo, transporte a vertedero de la tierra extraida, relleno con tierra vegetal cribada y fertilizda con materia orgánica no ácida, incluso tapado y apretado, riegos de plantación con manguera según pliego de condiciones y hasta el funcionamiento normalizado de la instalación de riego,  incluso colocación de triple tutor(unidos entre sí) de madera tratada con autoclave de 250 cm altura y 100 mm de diámetro, anclado antes de tapar sobre terreno asentado, unido mediante doble cinta de caucho a una distancia mínima de 15 cm, así como cuidados hasta la recepción, medida la unidad ejecutada en obra.|
+~C|FICUS1|Ud.|Ficus ejemplar|3003.96|280212|0|
+~T|FICUS1|Suministro y plantación de Ficus ejemplar de 100-150 cm de perímetro de tronco medido a 1 m del suelo y altura total de 7 metros, suministrado en cepellón, servido en obra, copa perfectamente formada - flechada y repicado en vivero, libre de enfermedades o lesiones visualmente probables, seleccionado por la Dirección de Obra en campo, incluso escavación de hoyo necesario, desfonde si existiera material rocoso en el fondo, transporte a vertedero de la tierra extraida, relleno con tierra vegetal cribada y fertilizda con materia orgánica no ácida, incluso tapado y apretado, riegos de plantación con manguera según pliego de condiciones y hasta el funcionamiento normalizado de la instalación de riego,  incluido todos los medios mecánicos necesarios para su correcta plantación, así como cuidados hasta la recepción, medida la unidad ejecutada en obra.|
+~D|FICUS1
+|PIN01\\1
+\OFICJAR\\3
+\PEONES\\3
+\PR001\\0.05
+\QCAMGRUA\\3
+\%UMAUX0103\\0.03
+\|
+~C|PIN01|Ud|Ficus ejemplar|2700|210512|3|
+~T|PIN01|Pinus pinea de 5 metros escayolado|
+~C|CAP1.6.3#||ARBUSTIVAS Y TAPIZANTES|37086.12|020312|0|
+~T|CAP1.6.3#|ARBUSTIVAS Y TAPIZANTES|
+~D|CAP1.6.3#
+|SIEMBRA\\2550
+\LANCAM\\348
+\AR0008b\\348
+\AR0009b\\185
+\AR0011bb\\1056
+\AR0012bb\\348
+\AR0013bbb\\88
+\AR0014bb\\185
+\AR0005b\\185
+\PLARIB\\1000
+\|
+~C|SIEMBRA|m2|Siembra de césped Zoysia japónica el Toro|3.84|230707|0|
+~T|SIEMBRA|Siembra de césped Zoysia japónica el Toro, previo preparación del terreno, consitiendo las tareas de manera cronológica en:
+- Eliminación de hierbas de manera química y pase de herbicida preemergente (no incluida en esta unidad).
+- Abonado orgánico (no ácido) en cantidad de 3-5 kg/m2 (no incluida en esta unidad).
+- Pase de rotovator a los 20-25 cm primeros centímetros del suelo (no incluida en esta unidad).
+- Despedregado y retirada manual de elementos gruesos mayores a 3-4 cm (no incluida en esta unidad).
+- Rastrillado y emparejado del suelo (no incluida en esta unidad).
+- Siembra de semilla y tapado con mantillo (SI INCLUIDO EN ESTA UNIDAD).
+- Abonado de toda la superfície con abono órgano-mineral a razón de 60 gr/m2 (SI INCLUIDO EN ESTA UNIDAD)
+- Pase de rulo a la totalidad de la superficie (SI INCLUIDO EN ESTA UNIDAD).|
+~D|SIEMBRA
+|ElToro-1\\0.08
+\OFICJAR\\0.023
+\PEONES\\0.15
+\BR3A7000\\0.06
+\BR3PAN00\\0.2
+\%\\0.03
+\|
+~A|SIEMBRA|suministro\colocacion\preparacion\terreno\suelo\manual\superficie\|
+~C|ElToro-1|Kg|Semillas Zoysia japónica.|13.13|210512|3|
+~T|ElToro-1|Semillas Zoysia japónica.|
+~A|ElToro-1|suministro\colocacion\|
+~C|BR3A7000|kg|Abono órgano-mineral granulado liberación lenta|0.85|210512|3|
+~T|BR3A7000|Abono órgano-mineral granulado liberación lenta|
+~C|BR3PAN00|kg|Mantillo vegetal|0.74|210512|3|
+~T|BR3PAN00|Mantillo vegetal|
+~C|%|%|Medios auxiliares|0||%|
+~T|%|Medios auxiliares|
+~C|LANCAM|Ud|Lantana camara rose C-1L|2.93|031114|0|
+~T|LANCAM|Suministro y plantación de Lantana camara rose en C-1L.perfectamente enraizado y formado, con un mínimo de tres meses de cultivo en el contenedor presentado. Libre de lesión o enfermedad alguna, aprobado y seleccionado en origen por la dirección facultativa. Apertura de hoyo de 0,50x0,50x0,50, retirada de la excavación y relleno con sustrato de plantación compuesto de 60% de arena de sílice 0,1 a 4 mm, 20% compost de origen vegetal, 20% tierra vegetal de textura franco arenosa (Porcentajes en peso) y una conductividad eléctrica menor de 0,8 dS/m según NTJ 05T,incluso tapado y apretado, riegos de plantación con manguera según pliego de condiciones y hasta el funcionamiento normalizado de la instalación de riego, medida la unidad suministrada en obra.|
+~D|LANCAM
+|lantana\\1
+\OFICJAR\\0.022
+\PEONES\\0.085
+\MAMV01a\\0.01
+\PBGA01a\\0.02
+\%\\0.03
+\|
+~C|lantana|Ud|Lantana camara rose C-1L|1.25|031114|3|
+~T|lantana|Lantana camara rose C-1L|
+~C|MAMV01a|h|Motocultor 60/80 cm|1.13|210512|2|
+~T|MAMV01a|Motocultor 60/80 cm.|
+~C|PBGA01a|m3|Agua potable en obra|0.65|210512|3|
+~T|PBGA01a|Agua potable en obra.|
+~A|PBGA01a|agua\obra\|
+~C|AR0008b|Ud|Callistemon laevisi C-5L 80 cm altura|9.77|060516|0|
+~T|AR0008b|Suministro y plantación de Callistemon laevis C-5L  80 cm de alltura.perfectamente enraizado y formado, con un mínimo de tres meses de cultivo en el contenedor presentado. Libre de lesión o enfermedad alguna, aprobado y seleccionado en origen por la dirección facultativa. Apertura de hoyo de 0,60x,0,60x0,60, retirada de la excavación y relleno con sustrato de plantación compuesto de 60% de arena de sílice 0,1 a 4 mm, 20% compost de origen vegetal, 20% tierra vegetal de textura franco arenosa (Porcentajes en peso) y una conductividad eléctrica menor de 0,8 dS/m según NTJ 05T,incluso tapado y apretado, riegos de plantación con manguera según pliego de condiciones y hasta el funcionamiento normalizado de la instalación de riego, medida la unidad suministrada en obra.|
+~D|AR0008b
+|OFICJAR\\0.02
+\PEONES\\0.03
+\CALL5L\\1
+\MAMV01a\\0.01
+\PBGA01a\\0.02
+\%\\0.03
+\|
+~C|CALL5L|ud|Callistemon laevis C-5L 80 cm altura|8.7|060516|3|
+~T|CALL5L|Callistemon laevis C-5L 80 cm altura|
+~C|AR0009b|Ud|Echium candicans C-5L 50 cm altura|10.97|060516|0|
+~T|AR0009b|Suministro y plantación de Echium candicans C-5L  50 cm de alltura.perfectamente enraizado y formado, con un mínimo de tres meses de cultivo en el contenedor presentado. Libre de lesión o enfermedad alguna, aprobado y seleccionado en origen por la dirección facultativa. Apertura de hoyo de 0,60x,0,60x0,60, retirada de la excavación y relleno con sustrato de plantación compuesto de 60% de arena de sílice 0,1 a 4 mm, 20% compost de origen vegetal, 20% tierra vegetal de textura franco arenosa (Porcentajes en peso) y una conductividad eléctrica menor de 0,8 dS/m según NTJ 05T,incluso tapado y apretado, riegos de plantación con manguera según pliego de condiciones y hasta el funcionamiento normalizado de la instalación de riego, medida la unidad suministrada en obra.|
+~D|AR0009b
+|OFICJAR\\0.02
+\PEONES\\0.03
+\ECH5L\\1
+\MAMV01a\\0.01
+\PBGA01a\\0.02
+\%\\0.03
+\|
+~C|ECH5L|ud|Echium candicans C-5L 50 cm altura|9.86|060516|3|
+~T|ECH5L|Echium candicans C-5L 50 cm altura|
+~C|AR0011bb|Ud|Pistacea lentiscus C-5L 60 cm altura|9.26|270616|0|
+~T|AR0011bb|Suministro y plantación de Perovskia atripicifolia C-5L  60 cm de alltura.perfectamente enraizado y formado, con un mínimo de tres meses de cultivo en el contenedor presentado. Libre de lesión o enfermedad alguna, aprobado y seleccionado en origen por la dirección facultativa. Apertura de hoyo de 0,60x,0,60x0,60, retirada de la excavación y relleno con sustrato de plantación compuesto de 60% de arena de sílice 0,1 a 4 mm, 20% compost de origen vegetal, 20% tierra vegetal de textura franco arenosa (Porcentajes en peso) y una conductividad eléctrica menor de 0,8 dS/m según NTJ 05T,incluso tapado y apretado, riegos de plantación con manguera según pliego de condiciones y hasta el funcionamiento normalizado de la instalación de riego, medida la unidad suministrada en obra.|
+~D|AR0011bb
+|OFICJAR\\0.02
+\PEONES\\0.03
+\PIS5L\\1
+\MAMV01a\\0.01
+\PBGA01a\\0.02
+\%\\0.03
+\|
+~C|PIS5L|ud|Pistacea lentiscus C-5L 60 cm altura|8.2|270616|3|
+~T|PIS5L|Pistacea lentiscus C-5L 60 cm altura|
+~C|AR0012bb|Ud|Gaillardia grandiflora C-3L|6.38|270616|0|
+~T|AR0012bb|Suministro y plantación de Gaillardia grandiflora rose en C-3L.perfectamente enraizado y formado, con un mínimo de tres meses de cultivo en el contenedor presentado. Libre de lesión o enfermedad alguna, aprobado y seleccionado en origen por la dirección facultativa. Apertura de hoyo de 0,50x0,50x0,50, retirada de la excavación y relleno con sustrato de plantación compuesto de 60% de arena de sílice 0,1 a 4 mm, 20% compost de origen vegetal, 20% tierra vegetal de textura franco arenosa (Porcentajes en peso) y una conductividad eléctrica menor de 0,8 dS/m según NTJ 05T,incluso tapado y apretado, riegos de plantación con manguera según pliego de condiciones y hasta el funcionamiento normalizado de la instalación de riego, medida la unidad suministrada en obra.|
+~D|AR0012bb
+|GAI1l\\1
+\OFICJAR\\0.022
+\PEONES\\0.085
+\MAMV01a\\0.01
+\PBGA01a\\0.02
+\%\\0.03
+\|
+~C|GAI1l|ud|Gaillardia grandiflora C-3L|4.6|270616|3|
+~T|GAI1l|Gaillardia grandiflora C-3L|
+~C|AR0013bbb|Ud|Rosmarinus postratus C-1L|3.7|270616|0|
+~T|AR0013bbb|Suministro y plantación de Rosmarinus postratus en C-1L.perfectamente enraizado y formado, con un mínimo de tres meses de cultivo en el contenedor presentado. Libre de lesión o enfermedad alguna, aprobado y seleccionado en origen por la dirección facultativa. Apertura de hoyo de 0,50x0,50x0,50, retirada de la excavación y relleno con sustrato de plantación compuesto de 60% de arena de sílice 0,1 a 4 mm, 20% compost de origen vegetal, 20% tierra vegetal de textura franco arenosa (Porcentajes en peso) y una conductividad eléctrica menor de 0,8 dS/m según NTJ 05T,incluso tapado y apretado, riegos de plantación con manguera según pliego de condiciones y hasta el funcionamiento normalizado de la instalación de riego, medida la unidad suministrada en obra.|
+~D|AR0013bbb
+|ROS1L\\1
+\OFICJAR\\0.022
+\PEONES\\0.085
+\MAMV01a\\0.01
+\PBGA01a\\0.02
+\%\\0.03
+\|
+~C|ROS1L|ud|Rosmarinus prostatus C-1L|2|270616|3|
+~T|ROS1L|Rosmarinus prostatus C-1L|
+~C|AR0014bb|Ud|Mirtus comunis C-3L 60 cm altura|6.63|270616|0|
+~T|AR0014bb|Suministro y plantación de Mirtus comunis en C-3L.perfectamente enraizado y formado, con un mínimo de tres meses de cultivo en el contenedor presentado. Libre de lesión o enfermedad alguna, aprobado y seleccionado en origen por la dirección facultativa. Apertura de hoyo de 0,50x0,50x0,50, retirada de la excavación y relleno con sustrato de plantación compuesto de 60% de arena de sílice 0,1 a 4 mm, 20% compost de origen vegetal, 20% tierra vegetal de textura franco arenosa (Porcentajes en peso) y una conductividad eléctrica menor de 0,8 dS/m según NTJ 05T,incluso tapado y apretado, riegos de plantación con manguera según pliego de condiciones y hasta el funcionamiento normalizado de la instalación de riego, medida la unidad suministrada en obra.|
+~D|AR0014bb
+|MIR3l\\1
+\OFICJAR\\0.022
+\PEONES\\0.085
+\MAMV01a\\0.01
+\PBGA01a\\0.02
+\%\\0.03
+\|
+~C|MIR3l|ud|Mirtus comunis C-3L 60 cm altura|4.85|270616|3|
+~T|MIR3l|Mirtus comunis C-3L 60 cm altura|
+~C|AR0005b|Ud|Verbena bonaerensis C-3L 40 cm altura|4.52|060516|0|
+~T|AR0005b|Suministro y plantación de Verbena bonaerensis  C-3L  40 cm de alltura.perfectamente enraizado y formado, con un mínimo de tres meses de cultivo en el contenedor presentado. Libre de lesión o enfermedad alguna, aprobado y seleccionado en origen por la dirección facultativa. Apertura de hoyo de 0,60x,0,60x0,60, retirada de la excavación y relleno con sustrato de plantación compuesto de 60% de arena de sílice 0,1 a 4 mm, 20% compost de origen vegetal, 20% tierra vegetal de textura franco arenosa (Porcentajes en peso) y una conductividad eléctrica menor de 0,8 dS/m según NTJ 05T,incluso tapado y apretado, riegos de plantación con manguera según pliego de condiciones y hasta el funcionamiento normalizado de la instalación de riego, medida la unidad suministrada en obra.|
+~D|AR0005b
+|OFICJAR\\0.02
+\PEONES\\0.03
+\VER3l\\1
+\MAMV01a\\0.01
+\PBGA01a\\0.02
+\%\\0.03
+\|
+~C|VER3l|ud|Verbena bonaerensis C-3L|3.6|060516|3|
+~T|VER3l|Verbena bonaerensis C-3L|
+~C|PLARIB|ud|Suministro y plantación de planta de Ribera a definir por la DF en C-17|5.72|280212|0|
+~T|PLARIB|Suministro y plantación de Planta de Ribera en C-17 a definir por la DF a plantar en la zona de estanque acondicionada para ello entre la s siguientes especies: Salicornia, Arthrocnemum, Juncus conglomeratus, Juncus acutusm, Iris pseudocorus, Iris sibirica, carex pendula,Pontederia cordata, Glyceria máxima, Acanthus mollis, Equisetum hyemale, Vinca mayor, Galium palustre, Carex elata, Calistegia sepium, Lythrum salicaria, Hydrocotile vulgaris, Nerium oleander nana, Hemerocalli sp, Cyperus papyrus, Zantesdechia aethiopica, Acorus calamus,etc. Perfectamente enraizado y formado, con un mínimo de tres meses de cultivo en el contenedor presentado. Libre de lesión o enfermedad alguna, aprobado y seleccionado en origen por la dirección facultativa.Apertura de hoyo de 0.5x0.5x0.5, riegos de plantación con manguera según pligo de condiciones y hasta el funcionamiento normalizado de la instalación de riego. Medida la unidad suministrada en obra.|
+~D|PLARIB
+|OFICJAR\\0.01
+\PEONES\\0.029
+\MAMV01a\\0.01
+\PLARIB01\\1
+\PBGA01a\\0.02
+\%\\0.03
+\|
+~C|PLARIB01|Ud|Planta de ribera a definir por la DF en C-17|4.95|210512|3|
+~T|PLARIB01|Planta de ribera a definir por la DF en C-17|
+~C|CAP1.7#||ESTANQUE|34462.08|120312|0|
+~T|CAP1.7#|ESTANQUE|
+~D|CAP1.7#
+|DEXZANJAT\\100
+\OFRE02\\82.387
+\DGEOTEX300\\463.131
+\DLAMINA\\473.181
+\DGEOTEX125\\146.48
+\DGEOTEX3\\402.64
+\TRINTER10\\124
+\TRINTER11\\146.48
+\TERRNATU\\106.599
+\TERRANATU2\\37.912
+\AHM20\\16
+\CAP.1.7.1#\\1
+\|
+~C|OFRE02|M3.|Extendido y compactación de zahorras artificiales Huso ZA-20, por medios mecánicos, en capas una capa de 15 cm de espesor, en formación de base de caminos, compactadas al 98% del Proctor Modificado.|15||0|
+~T|OFRE02|Extendido y compactación de zahorras artificiales Huso ZA-20, por medios mecánicos, en capas una capa de 15 cm de espesor, en formación de base de caminos, compactadas al 98% del Proctor Modificado.|
+~D|OFRE02
+|PEON\\0.05
+\UCOMP0202\\0.05
+\UPALA0301\\0.005
+\UZAHO0102\\1
+\%003\\0.03
+\|
+~C|UPALA0301|H.|Pala cargadora-retroexcavadora.|26.64|210512|2|
+~C|DGEOTEX300|M2|Suministro y colocación flotante sobre la base de zahorras compactadas, de geotextil separador 100% fibras vírgenes de polipropileno de alta tenacidad con tratamiento anti-UV, unidas mecánicamente por un  proceso de ahujado con posterior termofusión, de 300 gr/m2, espesor 2,6-3.2 mm,resistentencia a tracción 26.5 KN/m y resistencia al punzonamiento estático CBR de 3.200 N mínimo, y demás características según Pliego de Condiciones. Solape entre piezas de 10 cm, incluso mermas por despieces y solapes.|1.75|030412|0|
+~T|DGEOTEX300|Suministro y colocación flotante sobre la base de zahorras compactadas, de geotextil separador 100% fibras vírgenes de polipropileno de alta tenacidad con tratamiento anti-UV, unidas mecánicamente por un  proceso de ahujado con posterior termofusión, de 300 gr/m2, espesor 2,6-3.2 mm,resistentencia a tracción 26.5 KN/m y resistencia al punzonamiento estático CBR de 3.200 N mínimo, y demás características según Pliego de Condiciones. Solape entre piezas de 10 cm, incluso mermas por despieces y solapes.|
+~D|DGEOTEX300
+|OFIC\\0.01
+\PEON\\0.01
+\UGEOTEX1\\1.05
+\%003\\0.03
+\|
+~C|UGEOTEX1|M2|Geotextil separador 100% fibras vírgenes de polipropileno de alta tenacidad con tratamiento anti-UV, unidas mecánicamente por un  proceso de ahujado con posterior termofusión, de 300 gr/m2, espesor 2,6-3.2 mm,resistentencia a tracción 26.5 KN/m y resistencia al punzonamiento estático CBR de 3.200 N mínimo, y demás características según Pliego de Condiciones|1.35|210512|3|
+~T|UGEOTEX1|Geotextil separador 100% fibras vírgenes de polipropileno de alta tenacidad con tratamiento anti-UV, unidas mecánicamente por un  proceso de ahujado con posterior termofusión, de 300 gr/m2, espesor 2,6-3.2 mm,resistentencia a tracción 26.5 KN/m y resistencia al punzonamiento estático CBR de 3.200 N mínimo, y demás características según Pliego de Condiciones|
+~C|DLAMINA|M2|Suministro y colocación flotante de lámina impermeable de caucho EPDM Geomembrana de FIRESTONE o equivalente de 1,1 mm. de espesor, con densidad 1.288 gr/m2, suministrada en módulos prefabricados de 30,5 m., 45,75 m y 61 m. de longitud por 12,20 m. de ancho, según plano de despiece, con elongación del 300%, resistencia a la tracción 9 N/mm2 según ISO R 527, resistencia al punzonamiento estático 0,7 kN según EN ISO12236, resistencia a la penetración de raíces según CEN/TS 14416, marcado CE, certificado ISO14001 e ISO9001, incluso Unión química entre módulos mediante solape de 200 mm, aplicación a las dos caras del solape de la imprimación del sistema QuickPrime Plus e interposición de Junta rápida autoadhesiva de 152 mm y sellado del borde, según plano de detalle y pliego del proyecto. Incluye uniones, mermas, cortes, remates, refuerzos y sellados para la instalación de las boquillas de aspiración de fondo. Medida según superficie realmente impermeabilizada.|9.05|120312|0|
+~T|DLAMINA|Suministro y colocación flotante de lámina impermeable de caucho EPDM Geomembrana de FIRESTONE o equivalente de 1,1 mm. de espesor, con densidad 1.288 gr/m2, suministrada en módulos prefabricados de 30,5 m., 45,75 m y 61 m. de longitud por 12,20 m. de ancho, según plano de despiece, con elongación del 300%, resistencia a la tracción 9 N/mm2 según ISO R 527, resistencia al punzonamiento estático 0,7 kN según EN ISO12236, resistencia a la penetración de raíces según CEN/TS 14416, marcado CE, certificado ISO14001 e ISO9001, incluso Unión química entre módulos mediante solape de 200 mm, aplicación a las dos caras del solape de la imprimación del sistema QuickPrime Plus e interposición de Junta rápida autoadhesiva de 152 mm y sellado del borde, según plano de detalle y pliego del proyecto. Incluye uniones, mermas, cortes, remates, refuerzos y sellados para la instalación de las boquillas de aspiración de fondo. Medida según superficie realmente impermeabilizada.|
+~D|DLAMINA
+|PEON\\0.07
+\OFIC\\0.07
+\ULAMI\\1.05
+\%003\\0.03
+\|
+~C|ULAMI|M2|Lámina impermeable de caucho EPDM Geomembrana de FIRESTONE o equivalente de 1,1mm. de espesor, con densidad 1.288 gr/m2, suministrada en módulos prefabricados de 30,5 m., 45,75 m y 61 m. de longitud por 12,20 m. de ancho, según plano de despiece, con elongación del 300%, resistencia a la tracción 9N/mm2 según ISO R 527, resistencia al punzonamiento estático 0,7kN según EN ISO12236, resistencia a la penetración de raíces según CEN/TS 14416, marcado CE, certificado ISO14001 e ISO9001, incluso Unión química entre módulos mediante solape de 200 mm. aplicación a las dos caras del solape de la imprimación del sistema QuickPrime Plus e interposición de Junta rápida autoadhesiva de 152 mm y sellado del borde, según plano de detalle y pliego del proyecto.|6.55|210512|3|
+~T|ULAMI|Lámina impermeable de caucho EPDM Geomembrana de FIRESTONE o equivalente de 1,1mm. de espesor, con densidad 1.288 gr/m2, suministrada en módulos prefabricados de 30,5 m., 45,75 m y 61 m. de longitud por 12,20 m. de ancho, según plano de despiece, con elongación del 300%, resistencia a la tracción 9N/mm2 según ISO R 527, resistencia al punzonamiento estático 0,7kN según EN ISO12236, resistencia a la penetración de raíces según CEN/TS 14416, marcado CE, certificado ISO14001 e ISO9001, incluso Unión química entre módulos mediante solape de 200 mm. aplicación a las dos caras del solape de la imprimación del sistema QuickPrime Plus e interposición de Junta rápida autoadhesiva de 152 mm y sellado del borde, según plano de detalle y pliego del proyecto.|
+~C|DGEOTEX125|M2|Suministro y colocación, en protección de apoyo de muros, de flotante de geotextil Typar SF-37 o equivalente, 100% polipropileno termosoldado, de 125 gr/m2 y precomprimido para evitar la colmatación debido a su delgada estructura en la que no quedan retenidos finos formando una red puente de partículas más grandes en la zona adyacente, resistencia la oxidación según EN ISO 13438,  resistencia química según EN 14030, resistencia microbiológica según EN 12225 y resistencia al punzonamiento estático CBR según EN 12236 de 1275 N mínimo, solapados un mínimo de 100 mm. Incluye  mermas por solape.|1.65|120312|0|
+~T|DGEOTEX125|Suministro y colocación, en protección de apoyo de muros, de flotante de geotextil Typar SF-37 o equivalente, 100% polipropileno termosoldado, de 125 gr/m2 y precomprimido para evitar la colmatación debido a su delgada estructura en la que no quedan retenidos finos formando una red puente de partículas más grandes en la zona adyacente, resistencia la oxidación según EN ISO 13438,  resistencia química según EN 14030, resistencia microbiológica según EN 12225 y resistencia al punzonamiento estático CBR según EN 12236 de 1275 N mínimo, solapados un mínimo de 100 mm. Incluye  mermas por solape.|
+~D|DGEOTEX125
+|OFIC\\0.01
+\PEON\\0.01
+\ULAMGEOTEX\\1.05
+\%003\\0.03
+\|
+~C|ULAMGEOTEX|M2|Flotante de geotextil Typar SF-37 o equivalente, 100% polipropileno termosoldado, de 180 gr/m2 y precomprimido para evitar la colmatación debido a su delgada estructura en la que no quedan retenidos finos formando una red puente de partículas más grandes en la zona adyacente, resistencia la oxidación según EN ISO 13438,  resistencia química según EN 14030, resistencia microbiológica según EN 12225 y resistencia al punzonamiento estático CBR 1200 N mínimo|1.26|210512|3|
+~T|ULAMGEOTEX|Flotante de geotextil Typar SF-37 o equivalente, 100% polipropileno termosoldado, de 180 gr/m2 y precomprimido para evitar la colmatación debido a su delgada estructura en la que no quedan retenidos finos formando una red puente de partículas más grandes en la zona adyacente, resistencia la oxidación según EN ISO 13438,  resistencia química según EN 14030, resistencia microbiológica según EN 12225 y resistencia al punzonamiento estático CBR 1200 N mínimo|
+~C|DGEOTEX3|M2|Suministro y colocación flotante de geotextil antiraices, tipo RootBarrier Pro o equivalente,  con acabado liso e impenetrable a las mismas, impermeable al agua, con una estructura de polipropileno 100% no tejida, de 0.8 mm de espesor, 325 gr/m2 de peso, resistencia a tracción según EN ISO 10319 de 22 KN/m, alargamiento a la máxima tensión del 50 % según EN ISO 10319, resistencia a la rotura de 60 kg según ASTM D4533-91, resistencia a las perforaciones de 3500 N según norma EN ISO 12236 50mm y perforación dinámica de 12 mm según norma EN ISO 13433, suministrado en rollos de 30 m de largo, incluso solape y adherencia con cintas adhesivas de doble cara y procedimineto según pliego del fabricante y del proyecto. Incluye  mermas por solape.|6.72|030412|0|
+~T|DGEOTEX3|Suministro y colocación flotante de geotextil antiraices, tipo RootBarrier Pro o equivalente,  con acabado liso e impenetrable a las mismas, impermeable al agua, con una estructura de polipropileno 100% no tejida, de 0.8 mm de espesor, 325 gr/m2 de peso, resistencia a tracción según EN ISO 10319 de 22 KN/m, alargamiento a la máxima tensión del 50 % según EN ISO 10319, resistencia a la rotura de 60 kg según ASTM D4533-91, resistencia a las perforaciones de 3500 N según norma EN ISO 12236 50mm y perforación dinámica de 12 mm según norma EN ISO 13433, suministrado en rollos de 30 m de largo, incluso solape y adherencia con cintas adhesivas de doble cara y procedimineto según pliego del fabricante y del proyecto. Incluye  mermas por solape.|
+~D|DGEOTEX3
+|OFIC\\0.05
+\PEON\\0.05
+\UGEOTX3\\1.05
+\%003\\0.03
+\|
+~C|UGEOTX3|M2|Flotante de geotextil antiraices con acabado liso e impenetrable a las mismas, impermeable al agua, con una estructura de polipropileno 100% no tejida, de 0.8 mm de espesor, 325 gr/m2 de peso, resistencia a tracción según EN ISO 10319 de 22 Kn/m, alargamiento a la máxima tensión del 50 % según EN ISO 10319, resistencia a la rotura de 60 kg según ASTM D4533-91, resistencia a las perforaciones de 3500 N según norma EN ISO 12236 50mm y perforación dinámica de 12 mm según norma EN ISO 13433.|4.9|210512|3|
+~T|UGEOTX3|Flotante de geotextil antiraices con acabado liso e impenetrable a las mismas, impermeable al agua, con una estructura de polipropileno 100% no tejida, de 0.8 mm de espesor, 325 gr/m2 de peso, resistencia a tracción según EN ISO 10319 de 22 Kn/m, alargamiento a la máxima tensión del 50 % según EN ISO 10319, resistencia a la rotura de 60 kg según ASTM D4533-91, resistencia a las perforaciones de 3500 N según norma EN ISO 12236 50mm y perforación dinámica de 12 mm según norma EN ISO 13433.|
+~C|TRINTER10|m2|Colocación de malla volumétrica de 30 cm.|10.94|291208|0|
+~T|TRINTER10|Suministro y colocación, sobre la lámina de protección contra raíces, de malla volumétrica de confinamiento celular formada por celdas perforadas fabricadas con polietileno de alta densidad (mínimo 0.940 gr/cm3), espesor nominal de la lámina 1,25 mm, 35 celdas/m2, de 30 cm de altura, suministrada en pliegos de 2.56 x 6.52 m, de color marrón, modelo EGA 20 de AQUANEA, o equivalente, incluso relleno de las celdas con grava natural de 2 cm de tamaño máximo.|
+~D|TRINTER10
+|malla10vol\\1
+\OFICJAR\\0.15
+\PEONES\\0.15
+\%\\0.015
+\|
+~C|malla10vol|m2|Malla volumétrica de confinamiento celular formada por celdas perforadas fabricadas con polietileno de alta densidad (mínimo 0.940 gr/cm3), espesor nominal de la lámina 1,25 mm, 35 celdas/m2, de 30 cm de altura, suministrada en pliegos de 2.56 x 6.52 m, de color marrón, modelo EGA 20 de AQUANEA, o equivalente, incluso relleno de las celdas con grava natural de 2 cm de tamaño máximo.|6|210512|3|
+~T|malla10vol|Suministro y colocación, sobre la lámina de protección contra raíces, de malla volumétrica de confinamiento celular formada por celdas perforadas fabricadas con polietileno de alta densidad (mínimo 0.940 gr/cm3), espesor nominal de la lámina 1,25 mm, 35 celdas/m2, de 30 cm de altura, suministrada en pliegos de 2.56 x 6.52 m, de color marrón, modelo EGA 20 de AQUANEA, o equivalente, incluso relleno de las celdas con grava natural de 2 cm de tamaño máximo.|
+~C|TRINTER11|m2|Colocación de malla volumétrica de 20 cm.|8.65|291208|0|
+~T|TRINTER11|Suministro y colocación, sobre la lámina de protección contra raíces, de malla volumétrica de confinamiento celular formada por celdas perforadas fabricadas con polietileno de alta densidad (mínimo 0.940 gr/cm3), espesor nominal de la lámina 1,25 mm, 35 celdas/m2, de 30 cm de altura, suministrada en pliegos de 2.56 x 6.52 m, de color marrón, modelo EGA 20 de AQUANEA, o equivalente, incluso relleno de las celdas con grava natural de 2 cm de tamaño máximo.|
+~D|TRINTER11
+|malla11vol\\1
+\OFICJAR\\0.15
+\PEONES\\0.15
+\%\\0.015
+\|
+~C|malla11vol|m2|malla volumétrica de confinamiento celular formada por celdas perforadas fabricadas con polietileno de alta densidad (mínimo 0.940 gr/cm3), espesor nominal de la lámina 1,25 mm, 35 celdas/m2, de 20 cm de altura, suministrada en pliegos de 2.56 x 6.52 m, de color marrón, modelo EGA 20 de AQUANEA, o equivalente, incluso relleno de las celdas con grava natural de 5 cm de tamaño máximo.|3.74|210512|3|
+~T|malla11vol|Suministro y colocación, sobre la lámina de protección TYPAR, de malla volumétrica de confinamiento celular formada por celdas perforadas fabricadas con polietileno de alta densidad (mínimo 0.940 gr/cm3), espesor nominal de la lámina 1,25 mm, 35 celdas/m2, de 20 cm de altura, suministrada en pliegos de 2.56 x 6.52 m, de color marrón, modelo EGA 20 de AQUANEA, o equivalente, incluso relleno de las celdas con grava natural de 5 cm de tamaño máximo.|
+~C|TERRANATU2|m3|Zahoora natural tamaño 20/50 mm.|24.72|210616|0|
+~T|TERRANATU2|Zahoora natrural tamaño 20/50 mm, de origen fluvial, lavada y sumistrada en lugar de empleo en obra.|
+~D|TERRANATU2
+|TERRAAYU\\1
+\%003\\0.03
+\|
+~C|TERRAAYU|m3|Zahoora natural 20/50 mm.|24|210616|0|
+~T|TERRAAYU|Zahoora natural 20/50 mm.|
+~C|CAP.1.7.1#||CAMARA DE INSTALACIONES|18485.72|130616|0|
+~T|CAP.1.7.1#|CAMARA DE INSTALACIONES|
+~D|CAP.1.7.1#
+|DHA30\\20.37
+\DENCVIGAS\\70
+\ACERO0103\\1527.75
+\UTAPA201\\4
+\DBONMACH11\\1
+\DBOMDOS\\2
+\DBOMACH\\1
+\FILTROARENA\\1
+\DDEPHIPO\\2
+\PVC01\\1
+\PVC02\\2
+\PVC04\\3
+\PVC05\\4
+\PVC06\\3
+\PVC07\\2
+\PVC03\\6
+\PASAINO01\\3
+\PASAIN02\\3
+\PASAIN03\\2
+\PASAPVC01\\4
+\INSTALAFONT\\1
+\INSTELEC01\\1
+\INSTELEC02\\1
+\INSTELEC03\\1
+\INSTELEC04\\4
+\INSTELEC05\\3
+\INSTELEC06\\3
+\cable1-6\\220
+\INSTALAELEC\\1
+\ESCAL1\\1
+\chimenea\\2
+\|
+~C|DENCVIGAS|M2|Encofrado y desencofrado de vigas y losas, incluyendo fondo, laterales, sopandas  y apuntalamientos|30.21|140312|0|
+~T|DENCVIGAS|Encofrado y desencofrado en vigas y losas, incluyendo fondo, laterales, sopandas  y apuntalamientos|
+~D|DENCVIGAS
+|PEONENC\\0.5
+\OFICENC\\0.5
+\DOBRC0505\\1
+\%\\0.02
+\|
+~C|DOBRC0505|m2.|Tablas y tablones, clavos de acero y apuntalamientos|13.67|210512|3|
+~T|DOBRC0505|Tablas y tablones, clavos de acero y apuntalamientos|
+~C|UTAPA201|Ud|Registro fundición C250 de 75*75 cm.|602.22|130616|0|
+~T|UTAPA201|Registro fundición C250 de 75*75 cm, segun plano y Pliego de prescripciones.|
+~D|UTAPA201
+|UTAPA110\\1
+\PEON\\1
+\USIKA\\0.03
+\%003\\0.03
+\|
+~C|DBONMACH11|Ud.|Suministro e instalacion Bomba Viron 320 de Astra o equivalente.|1233.49|130616|0|
+~T|DBONMACH11|Ud. suministro e instalación de motobomba Viron 320 de Astra, o equivalente, con regulador de frecuencia incorporado y ajuste de la velocidad, 4 velocidades programables por día, pantalla LCD, corrección del factor de potencia, con prefiltor incorporado, fabricada con termoplásticos de última generación.|
+~D|DBONMACH11
+|BOMBA\\1
+\PEONES\\4
+\OFIFON\\4
+\%003\\0.03
+\|
+~C|BOMBA|Ud|Ud. suministro e instalación de motobomba Viron 320 de Astra, o equivalente, con regulador de frecuencia incorporado y ajuste de la velocidad, 4 velocidades programables por día, pantalla LCD, corrección del factor de potencia, con prefiltor incorporado, fabricada con termoplásticos de última generación.|1070|130616|0|
+~T|BOMBA|Ud. suministro e instalación de motobomba Viron 320 de Astra, o equivalente, con regulador de frecuencia incorporado y ajuste de la velocidad, 4 velocidades programables por día, pantalla LCD, corrección del factor de potencia, con prefiltor incorporado, fabricada con termoplásticos de última generación.|
+~C|OFIFON|H|Oficial especialista fontanería|18.14|201211|1|
+~T|OFIFON|Oficial especialista fontanería|
+~C|DBOMDOS|Ud|Suminsitro e instalación de  Bomba dosificadora de membrana autoaspirante, modelo DMS-A, de Grundfoss, o equivalente, de 2,5 l/h de capacidad y 11 bar de presión máxima, tensión nominal 230 V, potencia máxima 20 W, grado de protección IP 65, clase de aislamiento F, totalmente instalada y regulada.|1061.77|140212|0|
+~T|DBOMDOS|Suminsitro e instalación de  Bomba dosificadora de membrana autoaspirante, modelo DMS-A, de Grundfoss, o equivalente, de 2,5 l/h de capacidad y 11 bar de presión máxima, tensión nominal 230 V, potencia máxima 20 W, grado de protección IP 65, clase de aislamiento F, totalmente instalada y regulada.|
+~D|DBOMDOS
+|PEON\\1
+\OFIFON\\1
+\UBOMDOS1\\1
+\%003\\0.03
+\|
+~C|UBOMDOS1|Ud|Bomba dosificadora de membrana autoaspirante, modelo DMS-A, de Grundfoss, o equivalente, de 2,5 l/h de capacidad y 11 bar de presión máxima, tensión nominal 230 V, potencia máxima 20 W, grado de protección IP 65, clase de aislamiento F.|1000|210512|3|
+~T|UBOMDOS1|Bomba dosificadora de membrana autoaspirante, modelo DMS-A, de Grundfoss, o equivalente, de 2,5 l/h de capacidad y 11 bar de presión máxima, tensión nominal 230 V, potencia máxima 20 W, grado de protección IP 65, clase de aislamiento F.|
+~C|DBOMACH|Ud|Suministro e instalación de bomba de achique de acero inoxidable, de 0,5 kW de potencia, conexión de descarga 2", monofásica a 230 V y 2690 rpm, incluso boya y 10 m de cable H07RN, modelo JUMBO 5W de ABS o equivalente.|440.91|100212|0|
+~T|DBOMACH|Suministro e instalación de bomba de achique de acero inoxidable, de 0,5 kW de potencia, conexión de descarga 2", monofásica a 230 V y 2690 rpm, incluso boya y 10 m de cable H07RN, modelo JUMBO 5W de ABS o equivalente.|
+~D|DBOMACH
+|PEONES\\1
+\OFIFON\\1
+\UBOMACH\\1
+\%003\\0.03
+\|
+~C|UBOMACH|Ud|Bomba de achique de acero inoxidable, de 0,5 kW de potencia, conexión de descarga 2", monofásica a 230 V y 2690 rpm, incluso boya y 10 m de cable H07RN, modelo JUMBO 5W de ABS o equivalente.|396.18|210512|2|
+~T|UBOMACH|Bomba de achique de acero inoxidable, de 0,5 kW de potencia, conexión de descarga 2", monofásica a 230 V y 2690 rpm, incluso boya y 10 m de cable H07RN, modelo JUMBO 5W de ABS o equivalente.|
+~C|FILTROARENA|Ud|Filtro de Arena Rapidpool Lateral de Astral o eqivalente, incluso llenado de arena.|381.97|130616|0|
+~T|FILTROARENA|Ud. filtro de arena de alto rendimiento, Rapidpool Lateral de Astral, o equivalente, de 650 mm de diámetro y 1.126 mm de altura, con capacidad de filtración de un volumen de 120 m3 en 8 horas, cuerpo de poliéster reforzado con fibra de vidrio, pie de polipropileno, tapa sin tornillos, tapón de vaciado, manómetro y purgador, sin válvula manual de selectora, para funcionamiento automático, según esquema hidráulico mostrado en plano, incluso arena filtrante.|
+~D|FILTROARENA
+|FILTRO\\1
+\ARENA100\\0.1
+\OFIFON\\1
+\PEON\\1
+\%003\\0.03
+\|
+~C|FILTRO|1|Filtro Arena|325|130616|3|
+~T|FILTRO|Ud. filtro de arena de alto rendimiento, Rapidpool Lateral de Astral, o equivalente, de 650 mm de diámetro y 1.126 mm de altura, con capacidad de filtración de un volumen de 120 m3 en 8 horas, cuerpo de poliéster reforzado con fibra de vidrio, pie de polipropileno, tapa sin tornillos, tapón de vaciado, manómetro y purgador, sin válvula manual de selectora, para funcionamiento automático, según esquema hidráulico mostrado en plano, incluso arena filtrante.|
+~C|ARENA100|m3|Arena granítica especial para filtro de agua|150|130616|3|
+~T|ARENA100|Arena granítica especial para filtro de agua|
+~C|DDEPHIPO|Ud|Suministro y colocación de depósito 60 litros, para hipoclorito sódico, de polietileno, de doble pared, homologado.|289.27|140212|0|
+~T|DDEPHIPO|Suministro y colocación de depósito 60 litros, para hipoclorito sódico, de polietileno, de doble pared, homologado, con toma rescada para tuberia de PVC DN 12.5 mm.|
+~D|DDEPHIPO
+|PEON\\1
+\OFIFON\\1
+\UDEPHIPO1\\1
+\%003\\0.03
+\|
+~C|UDEPHIPO1|Ud|Depósito 60 litros, para hipoclorito sódico, de polietileno, de doble pared, homologado.|250|210512|3|
+~T|UDEPHIPO1|Depósito 60 litros, para hipoclorito sódico, de polietileno, de doble pared, homologado.|
+~C|PVC01|Ud|Válvula de esfera normalizada de PVC, DN 90 mm, PN 10.|166.23|130616|0|
+~T|PVC01|Válvula de esfera normalizada de PVC, DN 90 mm, PN 10.|
+~C|PVC02|Ud|Válvula de esfera normalizada de PVC, DN 63 mm, PN 10.|34.81|130616|0|
+~T|PVC02|Válvula de esfera normalizada de PVC, DN 63 mm, PN 10.|
+~C|PVC04|Ud|Válvula de esfera normalizada de PVC, DN 50 mm, PN 10.|25|130616|0|
+~T|PVC04|válvula de esfera normalizada de PVC, DN 50 mm, PN 10.|
+~C|PVC05|Ud|Válvula de esfera normalizada de PVC, DN 1/2, PN 10, roscada.|11|130616|0|
+~T|PVC05|Válvula de esfera normalizada de PVC, DN 1/2, PN 10, roscada.|
+~C|PVC06|Ud|Válvula de retención normalizada de PVC, DN 50 mm, PN 10.|24.51|130616|0|
+~T|PVC06|Válvula de retención normalizada de PVC, DN 50 mm, PN 10.|
+~C|PVC07|Ud|Válvula de retención normalizada de PVC, DN 1/2, PN 10, roscada.|11|130616|0|
+~T|PVC07|Válvula de retención normalizada de PVC, DN 1/2, PN 10, roscada.|
+~C|PASAINO01|Ud|Ud. suministro e instalación de pasamuros de acero inoxidable AISI 304 L, DN 3, OD 88,9 mm, de 30 cm de longitud.|50|130616|0|
+~T|PASAINO01|Ud. suministro e instalación de pasamuros de acero inoxidable AISI 304 L, DN 3, OD 88,9 mm, de 30 cm de longitud, incluso corona circular de cierre de chapa del mismo material y espesor, de 10 cm de anchura, y manguito para conexión de enlace rosca hembra de tubo de PVC DN 110 mm, colocado en obra durante el hormigonado de la estructura y posteriormente soldado al manguito.|
+~C|PASAIN02|Ud|Ud. suministro e instalación de pasamuros de acero inoxidable AISI 304 L, DN 1 1/2, OD 48,3 mm, de 30 cm de longitud.|30|130616|0|
+~T|PASAIN02|Ud. suministro e instalación de pasamuros de acero inoxidable AISI 304 L, DN 1 1/2, OD 48,3 mm, de 30 cm de longitud, incluso corona circular de cierre de chapa del mismo material y espesor, de 10 cm de anchura, y manguitos para conexión de enlace rosca hembra de tubo de PVC DN 110 mm, colocado en obra durante el hormigonado de la estructura y posteriormente soldado al manguito.|
+~C|PASAIN03|Ud|Ud. suministro e instalación de pasamuros de acero inoxidable AISI 304 L, DN 1/2, OD 21,3 mm, de 30 cm de longitud.|30|130616|0|
+~T|PASAIN03|Ud. suministro e instalación de pasamuros de acero inoxidable AISI 304 L, DN 1/2, OD 21,3 mm, de 30 cm de longitud, incluso corona circular de cierre de chapa del mismo material y espesor, de 10 cm de anchura, y manguitos para conexión de enlace rosca hembra de tubo de PVC DN 110 mm, colocado en obra durante el hormigonado de la estructura y posteriormente soldado al manguito.|
+~C|PASAPVC01|Ud|Ud. suministro e instalación de pasamuros de PVC, de DN 160 mm, PN 10.|30|130616|0|
+~T|PASAPVC01|Ud. suministro e instalación de pasamuros de PVC, de DN 160 mm, PN 10.|
+~C|INSTALAFONT|Ud|Instalación completa de fontanería. según planos, incluyendo tuberías y accesorios de PVC de DN 25, 50, 63 y 90 mm.|500|130616|0|
+~T|INSTALAFONT|Instalación completa de fontanería. según planos, incluyendo tuberías y accesorios de PVC de DN 25, 50, 63 y 90 mm.|
+~C|INSTELEC01|Ud|Interruptor magnetotérmico 1P+N, de 20 A, serie Acti 9, iK60N, de Schneider, o equivalente, poder de corte 6 kA, curva C, clase 2, fabricado según UNE-EN 60898.|22.92|130616|0|
+~T|INSTELEC01|Interruptor magnetotérmico 1P+N, de 20 A, serie Acti 9, iK60N, de Schneider, o equivalente, poder de corte 6 kA, curva C, clase 2, fabricado según UNE-EN 60898.|
+~C|INSTELEC02|Ud|Interruptor magnetotérmico 1P+N, de 16 A, serie Acti 9, iK60N, de Schneider, o equivalente, poder de corte 6 kA, curva C, clase 2, fabricado según UNE-EN 60898.|22.37|130616|0|
+~T|INSTELEC02|Interruptor magnetotérmico 1P+N, de 16 A, serie Acti 9, iK60N, de Schneider, o equivalente, poder de corte 6 kA, curva C, clase 2, fabricado según UNE-EN 60898.|
+~C|INSTELEC03|Ud|Interruptor diferenical 2P de 25 A y 30 mA de sensibilidad, serie Acti 9 de Schneider, o equivalente, clase AC,con indicador de defecto, fabricado según UNE-EN 60898|72.38|130616|0|
+~T|INSTELEC03|Interruptor diferenical 2P de 25 A y 30 mA de sensibilidad, serie Acti 9 de Schneider, o equivalente, clase AC,con indicador de defecto, fabricado según UNE-EN 60898|
+~C|INSTELEC04|Ud|Interruptor magnetotérmico 1P+N, de 10 A, serie Acti 9, iK60N, de Schneider, o equivalente, poder de corte 6 kA, curva C, clase 2, fabricado según UNE-EN 60898.|21.98|130616|0|
+~T|INSTELEC04|Interruptor magnetotérmico 1P+N, de 10 A, serie Acti 9, iK60N, de Schneider, o equivalente, poder de corte 6 kA, curva C, clase 2, fabricado según UNE-EN 60898.|
+~C|INSTELEC05|Ud|Interruptor magnetotérmico 1P+N, de 6 A, serie Acti 9, iK60N, de Schneider, o equivalente, poder de corte 6 kA, curva C, clase 2, fabricado según UNE-EN 60898.|53.21|130616|0|
+~T|INSTELEC05|Interruptor magnetotérmico 1P+N, de 6 A, serie Acti 9, iK60N, de Schneider, o equivalente, poder de corte 6 kA, curva C, clase 2, fabricado según UNE-EN 60898.|
+~C|INSTELEC06|Ud|Guardamotor-contactor para bomba de potencia 1 kW.|75|130616|0|
+~T|INSTELEC06|Guardamotor-contactor para bomba de potencia 1 kW.|
+~C|INSTALAELEC|Ud|Instalación eléctrica completa según esquema, incluso envolvente normalizada.|500|130616|0|
+~T|INSTALAELEC|Instalación eléctrica completa según esquema, incluso envolvente normalizada, accesorios y pequeño material..|
+~C|ESCAL1|Ud|Escalera de seguridad de acero inox.|1960.78|010716|0|
+~T|ESCAL1|Suministro y colocación de escalera de seguridad de acero inoxidable,según norma EN 14396/2001, para acceso acceso a camara instalaciones, de 2 m. de altura con fijaciones al muro y dispositivo de embarque plegable, con pasamanos de 60 cm. de longitud,|
+~C|chimenea|Ud|Chimenea ventilación camara|125|010716|0|
+~T|chimenea|Chimenea ventilación camara, según planos y P.P.T.P.|
+~C|CAP1.8#||PAVIMENTACION|107278.11|130616|0|
+~T|CAP1.8#|PAVIMENTACION|
+~D|CAP1.8#
+|OFRE02\\585.3
+\DPAVHORPUL\\1396
+\FORMAESCALA\\141
+\PAVMARMOL1\\503
+\PAVMARMOL20\\45
+\DPAVA0510\\809
+\DALPEDR\\1168
+\|
+~C|DPAVHORPUL|M2|Pavimento de hormigón HM-25/P/20/IIa de consistencia plástica, tamaño máximo del árido 20 mm, reforzado con fibra de acero, ejecutado en dos capas de 10 y 5 cm, esparcido desde camión, tendido y vibrado manual, fratasado y pulido mecánico con helicóptero de la última capa, incluso la incorporación en la última capa de una cuantía aproximada de 4 Kg/m2 de polvo de cuarzo gris, y la ejecución de los cortes necesarios para la formación de juntas estructurales y de retración, previa ejecución de muestras para la aprobación por la D.F.|20.4|151110|0|
+~T|DPAVHORPUL|Pavimento de hormigón HM-25/P/20/IIa de consistencia plástica, tamaño máximo del árido 20 mm, reforzado con fibra de acero, ejecutado en dos capas de 10 y 5 cm, esparcido desde camión, tendido y vibrado manual, fratasado y pulido mecánico con helicóptero de la última capa, incluso la incorporación en la última capa de una cuantía aproximada de 4 Kg/m2 de polvo de cuarzo gris, y la ejecución de los cortes necesarios para la formación de juntas estructurales y de retración, previa ejecución de muestras para la aprobación por la D.F.|
+~D|DPAVHORPUL
+|MO0101\\0.195
+\MO0201\\0.292
+\UHORACERO\\0.15
+\C2003000\\0.075
+\PULI\\0.15
+\%003\\0.03
+\|
+~C|MO0101|H.|Peón Ordinario|12.7||1|
+~C|MO0201|H.|Oficial 1ª|14.57||1|
+~C|UHORACERO|M3|Hormigón HM-25/P/20/IIa de consistencia plástica, tamaño máximo del árido 20 mm, reforzado con fibra de acero, suministrado de central|70.51|151110|3|
+~T|UHORACERO|hormigón HM-25/P/20/IIa de consistencia plástica, tamaño máximo del árido 20 mm, reforzado con fibra de acero, suministrado de central, incluso extendido de la p.p. de polvo de cuarzo gris.|
+~C|C2003000|H|Fratás mecánico|4.17|151110|2|
+~T|C2003000|Fratás mecánico|
+~C|PULI|H|Pulidora/helicóptero mecánica|14.62|151110|2|
+~T|PULI|Pulidora/helicóptero mecánica|
+~C|FORMAESCALA|M2|Pavimento de hormigón HM-25/P/20/IIa , en formacion de escaleras, de consistencia plástica, tamaño máximo del árido 20 mm, reforzado con fibra de acero, ejecutado en dos capas de 10 y 5 cm, esparcido desde camión, tendido y vibrado manual, fratasado y pulido mecánico con helicóptero|26.12|151110|0|
+~T|FORMAESCALA|Pavimento de hormigón HM-25/P/20/IIa,  en formacion de escaleras de consistencia plástica, tamaño máximo del árido 20 mm, reforzado con fibra de acero, ejecutado en dos capas de 10 y 5 cm, esparcido desde camión, tendido y vibrado manual, fratasado y pulido mecánico con helicóptero de la última capa, incluso la incorporación en la última capa de una cuantía aproximada de 4 Kg/m2 de polvo de cuarzo gris, y la ejecución de los cortes necesarios para la formación de juntas estructurales y de retración, previa ejecución de muestras para la aprobación por la D.F.|
+~D|FORMAESCALA
+|PEON\\0.45
+\OFIC\\0.45
+\UHORACERO\\0.15
+\C2003000\\0.075
+\PULI\\0.15
+\%003\\0.03
+\|
+~C|PAVMARMOL1|m2|Pavimento tipo calzada portuguesa realizado con piezas de granito berrocal 8*8.|67.29|130616|0|
+~T|PAVMARMOL1|Pavimento tipo calzada portuguesa realizado con piezas de granito berrocal, de tamaño 8 x 8 *5 cm, sobre capa de mortero M40a de 3 cm de espesor, rejuntado con mortero con juntas de 2 cm de espesor, incluso rasanteado de las piezas, en cualquier geometría y disposición de las mismas, formando trabazón o diseños decorativos, incluso limpieza posterior, todo ello según muestras previas aprobadas por la D.F.|
+~D|PAVMARMOL1
+|MARMOL1\\1.05
+\AHM20\\0.08
+\UHOR55\\0.048
+\PEON\\0.3
+\OFIC\\0.3
+\UBAND\\0.1
+\%003\\0.03
+\|
+~C|MARMOL1|m2|Pieza de granito berrocal gris oscura, tamaño máximo 8*8*5 cm.|45|130616|3|
+~T|MARMOL1|Pieza de granito berrocal gris oscura, tamaño máximo 8*8*5 cm.|
+~C|UHOR55|m3|Mortero de cementos blanco y gris 1:4.|80|150616|0|
+~T|UHOR55|Mortero de cementos blanco y gris 1:4., de arena gruesa 6mm, contenido mínimo 350 Kg/m^3. Elaborado en obra.|
+~C|PAVMARMOL20|m2|Pavimento tipo calzada portuguesa realizado en formacion de escaleras, con piezas de granito berrocal 8*8.|86.95|130616|0|
+~T|PAVMARMOL20|Pavimento tipo calzada portuguesa realizado con piezas de granito berrocal de color gris oscuro, de tamaño 8 x 8*5 cm, sobre capa de mortero M40a de 3 cm de espesor, rejuntado con mortero con juntas de 2 cm de espesor, incluso rasanteado de las piezas, en cualquier geometría y disposición de las mismas, formando trabazón o diseños decorativos, incluso limpieza posterior, todo ello según muestras previas aprobadas por la D.F.|
+~D|PAVMARMOL20
+|MARMOL1\\1.05
+\AHM20\\0.08
+\UHOR55\\0.048
+\PEON\\1
+\OFIC\\1
+\UBAND\\0.1
+\%003\\0.03
+\|
+~C|DPAVA0510|M2.|Pavimento de aceras con adoquín prefabricado de hormigón bicapa color gris, de 20x20x6 cm, norma UNE-EN 1338 CLASE H, tomados con mortero M40-a sobre solera de 15 cm hormigón HM-20, extendida sobre capa de 10 cms. de zahorra artificial compactada al 98 % del Proctor Modificado, incluido humectación de la pieza, espolvoreado de cemento, recortes con máquina de disco al agua, formación de ingletes, rebajes y rejuntado. Todo el conjunto totalmente acabado.|23.62||0|
+~T|DPAVA0510|Pavimento de aceras con adoquín prefabricado de hormigón bicapa color gris, de 20x20x6 cm, norma UNE-EN 1338 CLASE H, tomados con mortero M40-a sobre solera de 15 cm hormigón HM-20, extendida sobre capa de 10 cms. de zahorra artificial compactada al 98 % del Proctor Modificado, incluido humectación de la pieza, espolvoreado de cemento, recortes con máquina de disco al agua, formación de ingletes, rebajes y rejuntado. Todo el conjunto totalmente acabado.|
+~D|DPAVA0510
+|PEON\\0.1
+\OFIC\\0.1
+\UBALD0110\\25
+\AMORT0101\\0.04
+\AHM20\\0.15
+\RELL0401\\0.1
+\%UMAUX0103\\0.03
+\|
+~C|UBALD0110|Ud|Adoquín de hormigón bicapa color gris, de 20x20x6 cm, norma UNE EN-1338:2004 CLASE H|0.32|210512|3|
+~T|UBALD0110|Adoquín de hormigón bicapa color gris, de 20x20x6 cm, norma UNE EN-1338:2004 CLASE H|
+~C|AMORT0101|M3.|Mortero c.p. M-40:a (1:6), suministrado de central.|70.74||0|
+~T|AMORT0101|Mortero c.p. M-40:a (1:6), suministrado de central.|
+~D|AMORT0101
+|PEON\\0.15
+\UMORT\\1
+\|
+~C|UMORT|M3|Mortero c.p. M-40:a (1:6)|68.83|210512|3|
+~T|UMORT|Mortero c.p. M-40:a (1:6)|
+~C|RELL0401|M3|Extendido y compactado de zahorra artificial artificial, compactado al 95% del Proctor Modificado, en capas de 10 cms. de espesor medio en regularización de superficies.|14.06||0|
+~T|RELL0401|Extendido y compactado de zahorra artificial artificial, compactado al 95% del Proctor Modificado, en capas de 10 cms. de espesor medio en regularización de superficies.|
+~D|RELL0401
+|OFIC\\0.015
+\PEON\\0.015
+\UZAHO0102\\1
+\UPALA0301\\0.01
+\UCOMP0202\\0.015
+\%003\\0.03
+\|
+~C|DALPEDR|M2.|Pavimento formado por arena de Albero de 10 cm de espesor, extendida, rasanteada y compactada, previa ejecución de muestra para la aprobación por la D.F.|6.3|151110|0|
+~T|DALPEDR|Pavimento formado por arena de Albero de 10 cm de espesor, extendida, rasanteada y compactada, previa ejecución de muestra para la aprobación por la D.F.|
+~D|DALPEDR
+|UZAHO0102\\0.15
+\UBULL0101\\0.01
+\UMOTO0102\\0.01
+\UCAMI0201\\0.01
+\UCOMP0202\\0.02
+\MO0201\\0.019
+\MO0101\\0.015
+\UPALA0101\\0.01
+\UCOMP0202\\0.02
+\UAREN0103\\0.1
+\%003\\0.03
+\|
+~C|UBULL0101|H.|Bulldozer 140 CV (D-6) sobre orugas.|41.67|210512|2|
+~C|UAREN0103|M3.|Arena tipo Albero.|13.96|210512|3|
+~C|CAP1.9#||CERRAJERIA|106535.04|290616|0|
+~T|CAP1.9#|CERRAJERIA|
+~D|CAP1.9#
+|barand01\\201
+\D5.2\\855.34
+\pefil1\\178.23
+\puerta1\\1
+\|
+~C|barand01|ml|Barandilla de 1 m. de altura de acero inoxidable tipo AISI 316.|250.48|290616|0|
+~T|barand01|Suministro y colocación de barandilla de 1 m. de altura de acero inoxidable tipo AISI 316, con los siguientes elementos, Placa de anclaje realizada con pletina 120 mm de anchura  y 8 mm de espesor, montantes realizados con barras de 12 mm de diámetro. Pasamanos tubular de 30 mmm de díametro y 1.5 mm de espesor. Según planos y P.P.T.P.|
+~D|barand01
+|ACEROX1\\1
+\OFIC\\2.5
+\PEON\\2.5
+\%003\\0.03
+\|
+~C|ACEROX1|Kg|Acero Inóxidable AISI 316.|175|290616|0|
+~T|ACEROX1|Acero Inóxidable AISI 316.|
+~C|D5.2|Ml|Suministro y colocación de pletina de acero de 100 mm de anchura y 10 mm de espesor, en tramos rectos de longitud variable, según planos, con varillas soldadas de acero en barras corrugadas de DN 10 mm, de 30 cm de longitud, soldadas a la pletina cada 0,70/0,80 metro de longitud y refuerzos en los extremos, galvanizado el conjunto en baño caliente hasta alcanzar una capa de zinc de 450 g/m2, equivalente a 65 µm, incluso pletina de unión de 20 cm de longitud 4 cm de altura y 4 mm de espesor, para colocación del conjunto mediante hinca sobre la capa base de zahorra de los pavimentos. (Peso total conjunto de 5 m de longitud: 25,41 kg).|33.24|120312|0|
+~T|D5.2|Suministro y colocación de pletina de acero de 100 mm de anchura y 10 mm de espesor, en tramos rectos de longitud variable, según planos, con varillas soldadas de acero en barras corrugadas de DN 10 mm, de 30 cm de longitud, soldadas a la pletina cada 0,70/0,80 metro de longitud y refuerzos en los extremos, galvanizado el conjunto en baño caliente hasta alcanzar una capa de zinc de 450 g/m2, equivalente a 65 µm, incluso pletina de unión de 20 cm de longitud 4 cm de altura y 4 mm de espesor, para colocación del conjunto mediante hinca sobre la capa base de zahorra de los pavimentos. (Peso total conjunto de 5 m de longitud: 25,41 kg).|
+~D|D5.2
+|OFIC\\0.25
+\PEON\\0.25
+\MAHOR0101\\0.002
+\UPLEACOR\\1
+\MAACE0201\\0.6
+\%003\\0.03
+\|
+~C|UPLEACOR|Ml|Pletina de acero galvanizado  de 100 x 10 mm|25|210512|3|
+~T|UPLEACOR|Pletina de acero galvanizado de 100 x 8 mm|
+~C|pefil1|ml|Perfil normalizado de acero galvanizado LPN140.|133.06|290616|0|
+~T|pefil1|Suministro y colocación de perfil de acero galvanizado en caliente LPN140, en formación de escalones y remate de pavimento de hormigón.|
+~D|pefil1
+|PGALVA1\\1
+\OFIC\\0.3
+\PEON\\0.3
+\%003\\0.03
+\|
+~C|PGALVA1|ml|Perfil LPN 140.|121|290616|0|
+~T|PGALVA1|Perfil LPN 140.|
+~C|puerta1|Ud|Reconstruccion de antigua puerta cuartel Militar.|1957|010716|0|
+~T|puerta1|Reconstrucción de antigua puerta cuartel militar, mediante reparación, decapado y aplicación de una capa de imprimación, sobre umbral reconstruido de los antiguos sillares acopiados en obra.|
+~D|puerta1
+|sillares\\1
+\puerta\\1
+\%003\\0.03
+\|
+~C|sillares|Ud|Reconstruccion de umbral.|500|010716|0|
+~T|sillares|Selección, colocación de antiguos sillares para formación de umbral|
+~C|puerta|Ud|Reparación y colocación de puerta.|1400|010716|0|
+~T|puerta|Reparación, decapado y aplicación de una capa de imprimación y dos capas de pintura Oxidon Gris, en taller. Incluso transportes desde acopio a taller y a obra, cimentación de dimensiones 1.20*5*0.8|
+~C|CAP1.10#||MOBILIARIO URBANO|116533.53|150616|0|
+~T|CAP1.10#|MOBILIARIO URBANO|
+~D|CAP1.10#
+|DBANCOIND16\\26
+\DBANCOIND201\\1
+\DBANCOIND18\\2
+\DBANCOIND19\\9
+\DMOBI2701\\2
+\DMOBI2601\\22
+\juegotipo1\\1
+\juegotipo2\\1
+\juegotipo3\\1
+\juegotipo4\\1
+\juegotipo5\\1
+\juegotipo6\\1
+\juegotipo7\\1
+\juegotipo8\\1
+\juegotipo9\\1
+\juegotipo10\\1
+\DESPAVCAUCHO\\165
+\|
+~C|DBANCOIND16|Ud|Suministro y colocación de banco de 1.80m de longitud con respaldo|1744.59|170512|0|
+~T|DBANCOIND16|Ud. Banco MOON de SANTA & COLE, o equivalente, de 1,80m de longitud con respaldo. Asiento y respaldo formado por listones de madera tropical con certificado FSC, tratada con aceite protector, de 45x45mm y remates de 45x200mm. La tornillería de fijación de los listones es de acero inoxidable. Patas de fundición de hierro con imprimación antioxidante y pintadas en polvo color negro. Los perfiles de unión de los listones con las patas son de acero con imprimación antioxidante y pintura en polvo color negro.|
+~D|DBANCOIND16
+|PEON\\0.487
+\OFIC\\0.244
+\UBANMOD\\1
+\DEXZANJAT-1\\0.072
+\AHM20\\0.072
+\%003\\0.03
+\|
+~C|UBANMOD|Ud|Ud. banco modelo Moon de Santa y Cole, o equivalente; de 1.80 m. de longitud con respaldo.|1680|210512|3|
+~T|UBANMOD|Ud. Banco MOON de SANTA & COLE, o equivalente, de 1,80m de longitud con respaldo. Asiento y respaldo formado por listones de madera tropical con certificado FSC, tratada con aceite protector, de 45x45mm y remates de 45x200mm. La tornillería de fijación de los listones es de acero inoxidable. Patas de fundición de hierro con imprimación antioxidante y pintadas en polvo color negro. Los perfiles de unión de los listones con las patas son de acero con imprimación antioxidante y pintura en polvo color negro.|
+~C|DBANCOIND201|Ud|Suministro y colocación de banco modular de 3.00 sobre muro.|2589.19|170512|0|
+~T|DBANCOIND201|Ud. banco modelo Moon de Santa y Cole, o equivalente; con patas de fundición de hierro con imprimación antioxidante y capa de pintura en polvo, color negro; perfiles de unión de los listones con las patas, de acero con imprimación antioxidante y capa de pintura en polvo, color negro; c) tornillería de anclaje de los listones, de acero con protección antioxidante; asiento y respaldo formado por listones de 45 x 45 mm de sección, longitudes de 1,80 m y remates de 45 x 200 mm de sección, de madera tropical, con certificado FSC, protegida con aceite de dos componentes, incluso anclaje formado por dos pernos de acero por pata tratados con protección antioxidante.|
+~D|DBANCOIND201
+|PEON\\0.487
+\OFIC\\0.244
+\UBANMOD-1\\1
+\DEXZANJAT-1\\0.072
+\AHM20\\0.072
+\%003\\0.03
+\|
+~C|UBANMOD-1|Ud|Ud. banco modelo Moon de Santa y Cole, o equivalente; con patas de fundición de hierro con imprimación antioxidante y capa de pintura en polvo, color negro; perfiles de unión de los listones con las patas, de acero con imprimación antioxidante y capa de|2500|210512|3|
+~T|UBANMOD-1| Banco modular individual de  de dimensiones 0,60x0,40x0,45 m de color tosca o gris a decidir por la D.F., de aproximadamente 250 Kg de peso, textura lisa, aristas biseladas y con armaduras de acero galvanizado, anclado mediante 4 pernos de acero inoxidable a cimentación de hormigón|
+~C|DBANCOIND18|Ud|Suministro y colocación de banco de 3.00 m de longitud con respaldo|2589.37|170512|0|
+~T|DBANCOIND18|Ud. Banco MOON de SANTA & COLE, o equivalente, de 3.00m de longitud con respaldo. Asiento y respaldo formado por listones de madera tropical con certificado FSC, tratada con aceite protector, de 45x45mm y remates de 45x200mm. La tornillería de fijación de los listones es de acero inoxidable. Patas de fundición de hierro con imprimación antioxidante y pintadas en polvo color negro. Los perfiles de unión de los listones con las patas son de acero con imprimación antioxidante y pintura en polvo color negro.|
+~D|DBANCOIND18
+|PEON\\0.5
+\OFIC\\0.244
+\UBANMOD-2\\1
+\DEXZANJAT-1\\0.072
+\AHM20\\0.072
+\%003\\0.03
+\|
+~C|UBANMOD-2|Ud|Ud. banco modelo Moon de Santa y Cole, o equivalente; de 3.00 m. de longitud con respaldo.|2500|210512|3|
+~T|UBANMOD-2|Ud. Banco MOON de SANTA & COLE, o equivalente, de 3.000m de longitud con respaldo. Asiento y respaldo formado por listones de madera tropical con certificado FSC, tratada con aceite protector, de 45x45mm y remates de 45x200mm. La tornillería de fijación de los listones es de acero inoxidable. Patas de fundición de hierro con imprimación antioxidante y pintadas en polvo color negro. Los perfiles de unión de los listones con las patas son de acero con imprimación antioxidante y pintura en polvo color negro.|
+~C|DBANCOIND19|Ud|Suministro y colocación de banco de 3.00 m de longitud sin respaldo|2069.22|170512|0|
+~T|DBANCOIND19|Ud. Banco MOON de SANTA & COLE, o equivalente, de 3.00m de longitud sin respaldo. Asiento formado por listones de madera tropical con certificado FSC, tratada con aceite protector, de 45x45mm y remates de 45x200mm. La tornillería de fijación de los listones es de acero inoxidable. Patas de fundición de hierro con imprimación antioxidante y pintadas en polvo color negro. Los perfiles de unión de los listones con las patas son de acero con imprimación antioxidante y pintura en polvo color negro.|
+~D|DBANCOIND19
+|PEON\\0.5
+\OFIC\\0.244
+\UBANMOD-22\\1
+\DEXZANJAT-1\\0.072
+\AHM20\\0.072
+\%003\\0.03
+\|
+~C|UBANMOD-22|Ud|Ud. banco modelo Moon de Santa y Cole, o equivalente; de 3.00 m. de longitud sin respaldo.|1995|210512|3|
+~T|UBANMOD-22|Ud. Banco MOON de SANTA & COLE, o equivalente, de 3.000m de longitud sin respaldo. Asiento formado por listones de madera tropical con certificado FSC, tratada con aceite protector, de 45x45mm y remates de 45x200mm. La tornillería de fijación de los listones es de acero inoxidable. Patas de fundición de hierro con imprimación antioxidante y pintadas en polvo color negro. Los perfiles de unión de los listones con las patas son de acero con imprimación antioxidante y pintura en polvo color negro.|
+~C|DMOBI2701|Ud.|Suministro e instalación de fuente bebedero de agua, con fuste de acero inoxidable marino de 190 mm de diámetro, provisto de dos grifos antivandálicos de bronce cromado sujetos al fuste a diferente altura, pulsadores temporizados marca Presto o equivalente, rejilla circular inferior de acero inoxidable o fundición dúctil, en dos piezas, sobre cerco del mismo material recibido sobre hormigón, formación de pendientes en base de hormigón terminado con pintura impermeabilizante de clorocaucho, colocación de dos sumideros sifónicos de salida horizontal provistos de rejilla de acero inoxidable, incluyendo la cimentación necesaria para su correcto anclaje, conexiones a la red de agua potable con llave de corte y arqueta para su alojamiento, y las tuberías de desagüe hasta vertido a definir por la D.F., completamente acabado y en funcionamiento.|366.09|151110|0|
+~T|DMOBI2701|Suministro e instalación de fuente bebedero de agua, con fuste de acero inoxidable marino de 190 mm de diámetro, provisto de dos grifos antivandálicos de bronce cromado sujetos al fuste a diferente altura, pulsadores temporizados marca Presto o equivalente, rejilla circular inferior de acero inoxidable o fundición dúctil, en dos piezas, sobre cerco del mismo material recibido sobre hormigón, formación de pendientes en base de hormigón terminado con pintura impermeabilizante de clorocaucho, colocación de dos sumideros sifónicos de salida horizontal provistos de rejilla de acero inoxidable, incluyendo la cimentación necesaria para su correcto anclaje, conexiones a la red de agua potable con llave de corte y arqueta para su alojamiento, y las tuberías de desagüe hasta vertido a definir por la D.F., completamente acabado y en funcionamiento.|
+~D|DMOBI2701
+|PEON\\1.5
+\OFIC\\1.5
+\UBEBE0101\\1
+\DCANA3301\\1
+\DMOVI2001a\\0.108
+\MAHOR0101\\0.108
+\DTUPVC110\\5
+\%003\\0.03
+\|
+~C|UBEBE0101|Ud.|Fuente bebedero de agua, con fuste de acero inoxidable marino de 190 mm de diámetro, provisto de dos grifos antivandálicos de bronce cromado sujetos al fuste a diferente altura, pulsadores temporizados marca Presto o equivalente, conexiones a la red de agua potable con llave de corte, rejilla circular inferior de acero inoxidable o fundición dúctil, en dos piezas, sobre cerco del mismo material recibido sobre hormigón, incluso formación de pendientes en base de hormigón terminado con pintura impermeabilizante de clorocaucho, colocación de dos sumideros sifónicos de salida horizontal provistos de rejilla de acero inoxidable.|220.57|210512|3|
+~T|UBEBE0101|Fuente bebedero de agua, con fuste de acero inoxidable marino de 190 mm de diámetro, provisto de dos grifos antivandálicos de bronce cromado sujetos al fuste a diferente altura, pulsadores temporizados marca Presto o equivalente, conexiones a la red de agua potable con llave de corte, rejilla circular inferior de acero inoxidable o fundición dúctil, en dos piezas, sobre cerco del mismo material recibido sobre hormigón, incluso formación de pendientes en base de hormigón terminado con pintura impermeabilizante de clorocaucho, colocación de dos sumideros sifónicos de salida horizontal provistos de rejilla de acero inoxidable.|
+~C|DCANA3301|Ud.|Arqueta de 33x33x50 cm. en aceras ejecutada con HM-20, según planos de detalle.|72.12||0|
+~T|DCANA3301|Arqueta de 33x33x50 cm. en aceras ejecutada con HM-20, según planos de detalle.|
+~D|DCANA3301
+|PEON\\1
+\OFIC\\1
+\UENCO3301\\1
+\UTAPA3301\\1
+\MAHOR0101\\0.045
+\DMOVI2001a\\0.3
+\%003\\0.03
+\|
+~C|UENCO3301|Ud.|Encofrado y desencofrado metálico para arqueta de 33x33 cms.|15.4|210512|3|
+~T|UENCO3301|Encofrado y desencofrado metálico para arqueta de 33x33 cms.|
+~C|UTAPA3301|Ud.|Marco y tapa de 33x33 cms. de fundición.|21.65|210512|3|
+~C|DMOVI2001a|M3.|Excavación en zanja, arqueta o pozo a máquina, en cualquier tipo de terreno, incluso roca, hasta una profundidad de 5 metros, incluso perfilado de la sección y retirada de la obra del material procedente de la excavación.|12.67|151110|0|
+~T|DMOVI2001a|Excavación en zanja, arqueta o pozo a máquina, en cualquier tipo de terreno, incluso roca, hasta una profundidad de 5 metros, incluso perfilado de la sección y retirada de la obra del material procedente de la excavación.|
+~D|DMOVI2001a
+|PEON\\0.097
+\MQRETR0101\\0.15
+\MQRETR0102\\0.15
+\MQCAMI0101\\0.04
+\%003\\0.03
+\|
+~C|MQRETR0101|H.|Retroexcavadora sobre neumáticos.|23.46|210512|2|
+~C|DTUPVC110|Ml|Canalización 1 Ø 110 mm. PVC rígido en drenaje de muros colocado según plano de detalle.|3.18|140312|0|
+~T|DTUPVC110|Canalización 1 Ø 110 mm. PVC rígido en drenaje de muros colocado según plano de detalle.|
+~D|DTUPVC110
+|OFIC\\0.02
+\PEON\\0.02
+\UTPVC0203\\1
+\%003\\0.03
+\|
+~C|UTPVC0203|Ml.||2.55|210512|3|
+~T|UTPVC0203|Tubo PVC DN 110 mm. rígido|
+~C|DMOBI2601|Ud.|Suministro y colocación de papelera sencilla con estructura y chapa de revestimiento de acero galvanizado en caliente, pintada al horno, con puerta y cerradura, modelo a elegir por la D. F., totalmente instalada.|141.84|151110|0|
+~T|DMOBI2601|Suministro y colocación de papelera sencilla con estructura y chapa de revestimiento de acero galvanizado en caliente, pintada al horno, con puerta y cerradura, modelo a elegir por la D. F., totalmente instalada.|
+~D|DMOBI2601
+|PEON\\0.487
+\OFIC\\0.244
+\UPAPE0101\\1
+\DMOVI2001a\\0.048
+\MAHOR0101\\0.048
+\%003\\0.03
+\|
+~C|UPAPE0101|Ud.|Papelera sencilla con estructura y chapa de revestimiento de acero galvanizado en caliente, pintada al horno, con puerta y cerradura|125.33|210512|3|
+~T|UPAPE0101|Papelera sencilla con estructura y chapa de revestimiento de acero galvanizado en caliente, pintada al horno, con puerta y cerradura|
+~C|juegotipo1|ud|Bicicleta estática|767.09|210616|0|
+~T|juegotipo1|Suministro y montaje de bicicleta estática mod 491 A, de HPC o equivalente, color gris, según especificaciones de P.P.T.P.|
+~D|juegotipo1
+|BICI1\\1
+\OFIC\\1
+\PEON\\1.5
+\MAHOR0101\\0.5
+\%003\\0.03
+\|
+~C|BICI1|Ud|Bicicleta estática.|690|210616|0|
+~T|BICI1|Bicicleta estática mod 491 A, de HPC o equivalente, color gris, según especificaciones de P.P.T.P.|
+~C|juegotipo2|Ud|Juego de patines|906.37|210616|0|
+~T|juegotipo2|Suministro y montaje de juego de patines mod 409 A de HPC, o equivalente, color gris, según especificaciones del P.P.T.P.|
+~D|juegotipo2
+|PATIN1\\1
+\OFIC\\1
+\PEON\\1.5
+\MAHOR0101\\0.6
+\%003\\0.03
+\|
+~C|PATIN1|Ud|Juego de patines.|821|210616|0|
+~T|PATIN1|Juego de patines mod 409 A de HPC, o equivalente, color gris, según especificaciones del P.P.T.P.|
+~C|juegotipo3|ud|Rueda grande|707.35|210616|0|
+~T|juegotipo3|Suministro y montaje de Rueda grande mod. 488 A de HPC o equivalente, color gris, según especificaciones de P.P.T.P.|
+~D|juegotipo3
+|Rueda\\1
+\OFIC\\1
+\PEON\\1.5
+\MAHOR0101\\0.5
+\%003\\0.03
+\|
+~C|Rueda|Ud|Rueda grande.|632|210616|0|
+~T|Rueda|
+Rueda grande mod. 488 A de HPC o equivalente, color gris, según especificaciones de P.P.T.P.|
+~C|juegotipo4|Un|Barras de estiramientos|354.06|210616|0|
+~T|juegotipo4|Suministro y montaje de barras de estiramientos mod. 467 A de HPC, o equivalente, color gris, según especificaciones del P.P.T.P.|
+~D|juegotipo4
+|ESTIRA1\\1
+\OFIC\\1
+\PEON\\1.5
+\MAHOR0101\\0.5
+\%003\\0.03
+\|
+~C|ESTIRA1|Ud289|Barras de estiramientos|289|210616|0|
+~T|ESTIRA1|Barras de estiramientos mod. 467 A de HPC, o equivalente, color gris, según especificaciones del P.P.T.P.|
+~C|juegotipo5|Ud|Juego Infantil 1.|10741.44|280616|0|
+~T|juegotipo5|Suministro y montaje de juego infantil mod Ixo J2523 M, de HPC, o equivalente, según especificaciones del P.P.T.P.|
+~D|juegotipo5
+|juego11\\1
+\OFIC\\14
+\PEON\\28
+\MAHOR0101\\4
+\%003\\0.03
+\|
+~C|juego11|Ud|Juego tipo 1|9700|280616|0|
+~T|juego11|Juego infantil mod. Ixo J2523M de Hpc o equivalente.|
+~C|juegotipo6|Ud|Columpio basic Asientos Plano y cuna.|1511.8|280616|0|
+~T|juegotipo6|Suministro y montaje de Columpio basic Asientos Plano y cuna, mod J472PC de HPC, o equivalente, segun P.P.T.P.|
+~D|juegotipo6
+|Juego22\\1
+\PEON\\3
+\OFIC\\6
+\MAHOR0101\\1
+\%003\\0.03
+\|
+~C|Juego22|Ud|Columpio basic Asientos Plano y cuna, mod J472PC de HPC, o equivalente, segun P.P.T.P.|1300|280616|0|
+~T|Juego22|Columpio basic Asientos Plano y cuna, mod J472PC de HPC, o equivalente, segun P.P.T.P.|
+~C|juegotipo7|Ud|Juego Muelle Tandem|922.11|280616|0|
+~T|juegotipo7|Suministro y montaje de Muelle Tanden mod. J852 A de HPC o equivalente, segun especificaciones de P.P.T.P.|
+~D|juegotipo7
+|juego24\\1
+\PEON\\2
+\OFIC\\1
+\MAHOR0101\\0.125
+\%003\\0.03
+\|
+~C|juego24|Ud|Muelle Tandem|850|280616|0|
+~T|juego24| Muelle Tanden mod. J852 A de HPC o equivalente, segun especificaciones de P.P.T.P.|
+~C|juegotipo8|Ud|Cyclo|688.3|280616|0|
+~T|juegotipo8|Suministro y montaje de Cyclo mod J828A de HPC o equivalente, según especificaciones de P.P.T.P.|
+~D|juegotipo8
+|juego25\\1
+\OFIC\\1
+\PEON\\2
+\MAHOR0101\\0.125
+\%003\\0.03
+\|
+~C|juego25|Ud|Cyclo|623|280616|0|
+~T|juego25| Cyclo mod J828A de HPC o equivalente, según especificaciones de P.P.T.P.|
+~C|juegotipo9|Ud|El vagon Ludic|1133.55|280616|0|
+~T|juegotipo9|Suministro y montaje de Vagón Ludic mod J2619A de HPC, o equivalente, según especificaciones de P.P.T.P.|
+~D|juegotipo9
+|juego26\\1
+\OFIC\\1
+\PEON\\2
+\MAHOR0101\\0.25
+\%003\\0.03
+\|
+~C|juego26|Ud|El vagón Ludic|1050|280616|0|
+~T|juego26| Vagón Ludic mod J2619A de HPC, o equivalente, según especificaciones de P.P.T.P.|
+~C|juegotipo10|Ud|Teléfono|1501.82|280616|0|
+~T|juegotipo10|Suministro y montaje de telefono mod.J3410A  de HPC o equivalente, según especificaciones del P.P.T.P.|
+~D|juegotipo10
+|juego27\\1
+\OFIC\\2
+\PEON\\3
+\MAHOR0101\\0.375
+\%003\\0.03
+\|
+~C|juego27|Ud|Teléfono|1375|280616|0|
+~T|juego27|Telefono mod.J3410A  de HPC o equivalente, según especificaciones del P.P.T.P.|
+~C|DESPAVCAUCHO|M2|Suministro y extendido de pavimento confortplay o equivalente, segun especificaciones del P.P.T.P.|117.65|151110|0|
+~T|DESPAVCAUCHO|Suministro y extendido de pavimento confortplay o equivalente, segun especificaciones del P.P.T.P., incluso preparación del terreno y elementos de remate.|
+~C|CAPITULO2#||GESTION DE RESIDUOS|18720|120312|0|
+~T|CAPITULO2#|GESTION DE RESIDUOS|
+~D|CAPITULO2#
+|ESRESIDUOS\\1
+\|
+~C|ESRESIDUOS|Ud|Estudio Gestión de Residuos|18352.94|160312|0|
+~T|ESRESIDUOS|Estudio Gestión de Residuos|
+~C|CAPITULO3#||SEGURIDAD Y SALUD|29846.63|120312|0|
+~T|CAPITULO3#|SEGURIDAD Y SALUD|
+~D|CAPITULO3#
+|ESSESA\\1
+\|
+~C|ESSESA|Ud|Estudio Seguridad y Salud|29261.4|160312|0|
+~T|ESSESA|Estudio Seguridad y Salud|
+~M|CAP1.1#\DMOVI3001|1\1\1\|5210|
+\Cubicación capa primeros 0.50 m, medidis según perfil\1\3970.00\\\
+\Cubicación hasta obtención de base explanada, medida según perfil\1\1240.00\\\|
+~M|CAP1.1#\DSELECRI|1\1\2\|4689|
+\Total estimado 90% suelo excavado\0.9\5210.00\\\|
+~M|CAP1.1#\RELL0301|1\1\3\|2125|
+\Terraplen total medido sobre perfil\1\2125.00\\\|
+~M|CAP1.1#\DTERCAMINOS|1\1\4\|521|
+\Partida estimada equivalente al volumen de escombros\0.1\5210.00\\\|
+~M|CAP1.1#\DTRTIERRAS|1\1\5\|605.605|
+\Acopio piedra\1\121.00\4.55\1.10\|
+~M|CAP1.1#\DEMpav04a|1\1\6\|102|
+\Demolicion zonas exteriorres en construccion de muros \1\180.00\0.40\\
+\Demolicion de acometida de saneamiento\1\10.00\3.00\\|
+~M|CAP1.2#\DEXZANJAT|1\2\1\|209.85|
+\Tramo DN315\1\55.00\\1.83\
+\Tramo DN200\1\55.00\\1.20\
+\Tramo Dn160\1\25.00\\1.00\
+\Escavacion canaletas \1\182.00\0.50\0.20\|
+~M|CAP1.2#\DARENA6|1\2\2\|59.7|
+\Tramo DN315\1\55.00\0.90\0.70\
+\Tuberia a descontar\-1\55.00\\0.08\
+\Tramo DN200\1\55.00\0.70\0.60\
+\Tubería a descontar\-1\55.00\\0.03\
+\Tuberia DN160\1\20.00\0.70\0.60\
+\Tubería a descontar\-1\20.00\\0.02\|
+~M|CAP1.2#\DZAHORRAS|1\2\3\|125.85|
+\Relleno zanja DN315 ( Excavacion -relleno arena)\1\66.05\\\
+\Relleno zanja DN200 ( Excavacion -relleno arena)\1\42.90\\\
+\Relleno zanja DN160 ( Excavacion -relleno arena)\1\16.90\\\|
+~M|CAP1.2#\POZO0202|1\2\4\|3|
+\\3\\\\|
+~M|CAP1.2#\DPOMIXTO110|1\2\5\|2|
+\\2\\\\|
+~M|CAP1.2#\CATATUB|1\2\12\|1|
+\\1\\\\|
+~M|CAP1.3#\DEXZANJAT|1\3\1\|415.682|
+\Excavación zapatas Muro 1\1\32.03\0.70\1.20\
+\Excavación zapatas Muro 2\1\38.32\0.70\1.20\
+\Excavación zapatas Muro 3 \1\47.78\0.70\1.20\
+\Excavación zapatas Muro 4\1\57.54\0.70\1.20\
+\Excavación zapatas Muro 5\1\36.65\0.70\1.20\
+\Excavación zapatas Muro 6\1\49.87\0.70\1.20\
+\Excavación zapatas Muro 7\1\38.33\0.70\1.20\
+\Excavación zapatas Muro 8\1\28.98\0.70\1.20\
+\Excavación zapatas Muro 9 \1\25.45\0.70\1.20\
+\Excavación zapatas Muro 10\1\46.38\0.70\1.20\
+\Excavación zapatas Muro 11\1\85.27\0.70\1.20\
+\Excavación zapatas Muro 11\1\8.26\0.70\1.20\|
+~M|CAP1.3#\DTRTIERRAS1|1\3\2\|415.56|
+\Materia excavación\1\415.56\1.00\1.00\|
+~M|CAP1.3#\CRL0310|1\3\3\|46.251|
+\Superficie medida en alzado Muro nº 1 de 0.80 metros \1\1.56\0.80\\
+\Superficie medida en alzado Muro nº 1 de1.10 metros \1\1.62\1.10\\
+\Superficie medida en alzado Muro nº 2 de 0.80 metros \1\1.34\0.80\\
+\Superficie medida en alzado Muro nº 2 de 1.10 metros \1\2.52\1.10\\
+\Superficie medida en alzado Muro nº3 de 0.80 metros \1\1.63\0.80\\
+\Superficie medida en alzado Muro nº3 de 1.10 metros \1\2.80\1.10\\
+\Superficie medida en alzado Muro nº4 de 0.80 metros \1\1.56\0.80\\
+\Superficie medida en alzado Muro nº4 de 1.10 metros \1\4.11\1.10\\
+\Superficie medida en alzado Muro nº 5 de 0.80 metros \1\1.57\0.80\\
+\Superficie medida en alzado Muro nº 5 de 1.10 metros \1\2.07\1.10\\
+\Superficie medida en alzado Muro nº 6 de 0.80 metros \1\2.07\0.80\\
+\Superficie medida en alzado Muro nº6 de 1.10 metros \1\2.90\1.10\\
+\Superficie medida en alzado Muro nº 7 de 0.80 metros \1\3.83\0.80\\
+\Superficie medida en alzado Muro nº 8 de 0.80 metros \1\2.89\0.80\\
+\Superficie medida en alzado Muro nº 9 de 0.80 metros \1\2.53\0.80\\
+\Superficie medida en alzado Muro nº10 de 0.80 metros \1\2.54\0.80\\
+\Superficie medida en alzado Muro nº 10 de 1.10 metros \1\2.55\1.10\\
+\Superficie medida en alzado Muro nº 11 de 0.80 metros \1\5.54\0.80\\
+\Superficie medida en alzado Muro nº 11 de 1.10 metros \1\3.20\1.10\\
+\Superficie medida en alzado Muro nº 12 de 0.80 metros \1\0.82\0.80\\|
+~M|CAP1.3#\DHA30|1\3\4\|424.616|
+\Hormigon en formación de zapatas\\\\\
+\Superficie medida en alzado Muro nº 1 de 0.80 metros \1\10.09\0.80\\
+\Superficie medida en alzado Muro nº 1 de1.10 metros \1\9.74\1.10\\
+\Superficie medida en alzado Muro nº 2 de 0.80 metros \1\8.79\0.80\\
+\Superficie medida en alzado Muro nº 2 de 1.10 metros \1\15.18\1.10\\
+\Superficie medida en alzado Muro nº3 de 0.80 metros \1\10.62\0.80\\
+\Superficie medida en alzado Muro nº3 de 1.10 metros \1\16.85\1.10\\
+\Superficie medida en alzado Muro nº4 de 0.80 metros \1\9.98\0.80\\
+\Superficie medida en alzado Muro nº4 de 1.10 metros \1\25.51\1.10\\
+\Superficie medida en alzado Muro nº 5 de 0.80 metros \1\9.96\0.80\\
+\Superficie medida en alzado Muro nº 5 de 1.10 metros \1\12.44\1.10\\
+\Superficie medida en alzado Muro nº 6 de 0.80 metros \1\12.98\0.80\\
+\Superficie medida en alzado Muro nº6 de 1.10 metros \1\17.42\1.10\\
+\Superficie medida en alzado Muro nº 7 de 0.80 metros \1\22.99\0.80\\
+\Superficie medida en alzado Muro nº 8 de 0.80 metros \1\17.38\0.80\\
+\Superficie medida en alzado Muro nº 9 de 0.80 metros \1\15.40\0.80\\
+\Superficie medida en alzado Muro nº10 de 0.80 metros \1\15.66\0.80\\
+\Superficie medida en alzado Muro nº 10 de 1.10 metros \1\15.31\1.10\\
+\Superficie medida en alzado Muro nº 11 de 0.80 metros \1\33.55\0.80\\
+\Superficie medida en alzado Muro nº 11 de 1.10 metros \1\19.31\1.10\\
+\Superficie medida en alzado Muro nº 12 de 0.80 metros \1\4.72\0.80\\
+\Hormigon en formación de alzados\\\\\
+\Superficie Alzado M1\1\31.67\0.30\\
+\Superficie Alzado M2\1\44.07\0.30\\
+\Superficie Alzado M3\1\52.77\0.30\\
+\Superficie Alzado M4\1\69.28\0.30\\
+\Superficie Alzado M5\1\31.56\0.30\\
+\Superficie Alzado M6\1\42.19\0.30\\
+\Superficie Alzado M7\1\32.52\0.30\\
+\Superficie Alzado M8\1\25.53\0.30\\
+\Superficie Alzado M9\1\19.14\0.30\\
+\Superficie Alzado M10\1\49.60\0.30\\
+\Superficie Alzado M11\1\66.07\0.30\\
+\Superficie Alzado M12\1\8.88\0.30\\|
+~M|CAP1.3#\ENCOzapatas|1\3\5\|346.402|
+\ zapatas Muro 1\1\32.03\0.70\1.00\
+\ zapatas Muro 2\1\38.32\0.70\1.00\
+\ zapatas Muro 3 \1\47.78\0.70\1.00\
+\ zapatas Muro 4\1\57.54\0.70\1.00\
+\zapatas Muro 5\1\36.65\0.70\1.00\
+\ zapatas Muro 6\1\49.87\0.70\1.00\
+\ zapatas Muro 7\1\38.33\0.70\1.00\
+\ zapatas Muro 8\1\28.98\0.70\1.00\
+\ zapatas Muro 9 \1\25.45\0.70\1.00\
+\zapatas Muro 10\1\46.38\0.70\1.00\
+\ zapatas Muro 11\1\85.27\0.70\1.00\
+\ zapatas Muro 12\1\8.26\0.70\1.00\|
+~M|CAP1.3#\ENCOFenol1|1\3\6\|141.984|
+\Superficie Alzado M1\1\31.67\0.30\\
+\Superficie Alzado M2\1\44.07\0.30\\
+\Superficie Alzado M3\1\52.77\0.30\\
+\Superficie Alzado M4\1\69.28\0.30\\
+\Superficie Alzado M5\1\31.56\0.30\\
+\Superficie Alzado M6\1\42.19\0.30\\
+\Superficie Alzado M7\1\32.52\0.30\\
+\Superficie Alzado M8\1\25.53\0.30\\
+\Superficie Alzado M9\1\19.14\0.30\\
+\Superficie Alzado M10\1\49.60\0.30\\
+\Superficie Alzado M11\1\66.07\0.30\\
+\Superficie Alzado M12\1\8.88\0.30\\|
+~M|CAP1.3#\ACERO0103|1\3\7\|5789.474|
+\ zapatasTipo 1\0.62\192.11\4.69\5.00\
+\ zapatas Tipo 2\0.62\224.65\4.15\5.00\
+\ zapatas Tipo 3 \0.62\8.26\4.15\5.00\|
+~M|CAP1.4#\DEXZANJAT|1\4\1\|59.74|
+\Canalización tipo 1\1\55.00\0.30\0.20\
+\Canalización tipo 2\1\45.00\0.30\0.40\
+\Canalización tipo 3\1\319.00\0.40\0.40\|
+~M|CAP1.4#\DCANA1203|1\4\2\|319|
+\Canaliozación tipo 3\1\319.00\\\|
+~M|CAP1.4#\DCANA1208|1\4\3\|45|
+\Canalización Tipo 2\1\45.00\\\|
+~M|CAP1.4#\DCANA1204|1\4\4\|55|
+\Canalización tipo 1\1\55.00\\\|
+~M|CAP1.4#\DCANA4001|1\4\9\|26|
+\\26\\\\|
+~M|CAP1.4#\DCANA4020|1\4\10\|8|
+\\8\\\\|
+~M|CAP1.4#\CIMENTA01|1\4\11\|18|
+\\18\\\\|
+~M|CAP1.4#\CIMENTA02|1\4\12\|5|
+\\5\\\\|
+~M|CAP1.4#\DALCB0225|1\4\16\|183|
+\\18\5.00\\\
+\\3\9.00\\\
+\\2\9.00\3.00\\
+\\4\3.00\\\|
+~M|CAP1.5#\FFB19450|1\5\1\|897|
+\Acometida\1\88.00\\\
+\Circuito 1\1\107.00\\\
+\Circuito 2\1\44.00\\\
+\Circuito 3\1\104.00\\\
+\Circuito 4\1\118.00\\\
+\Circuito 5\1\96.00\\\
+\Circuito 6\1\192.00\\\
+\Colectores\1\148.00\\\|
+~M|CAP1.5#\FFB26455|1\5\2\|145|
+\Mazizos arbustivas\1\145.00\\\|
+~M|CAP1.5#\FFB26425|1\5\3\|120|
+\Red de alcorques\1\50.00\\\
+\Fuentes  bebedero\1\70.00\\\|
+~M|CAP1.5#\DRIESUB|1\5\4\|3118|
+\Mazizo 1\1\65.00\\\
+\Pradera 1\1\287.00\\\
+\Pradera 2\1\45.00\\\
+\Pradera 3\1\223.00\\\
+\Pradera 4\1\131.00\\\
+\Mazizo 2\1\84.00\\\
+\Pradera 5\1\133.00\\\
+\Pradera 6\1\592.00\\\
+\Mazizo 3\1\128.00\\\
+\Pradera 7\1\202.00\\\
+\Pradera 8\1\360.00\\\
+\Pradera 9\1\275.00\\\
+\Pradera 10\1\136.00\\\
+\Pradera 11\1\161.00\\\
+\Alcorques\1\80.00\\\
+\mazizos parterres\1\216.00\\\|
+~M|CAP1.6.1#\USJT10abz|1\6\1\1\|2716|
+\Mazizo 1\1\65.00\\\
+\Pradera 1\1\287.00\\\
+\Pradera 2\1\45.00\\\
+\Pradera 3\1\223.00\\\
+\Pradera 4\1\131.00\\\
+\Mazizo 2\1\44.00\\\
+\Pradera 5\1\133.00\\\
+\Pradera 6\1\592.00\\\
+\Mazizo 3\1\62.00\\\
+\Pradera 7\1\202.00\\\
+\Pradera 8\1\360.00\\\
+\Pradera 9\1\275.00\\\
+\Pradera 10\1\136.00\\\
+\Pradera 11\1\161.00\\\|
+~M|CAP1.6.1#\TERRNATU|1\6\1\2\|106.599|
+\Formación de ribera del estanque.\\\\\
+\- Zona tramo recto\2\0.84\38.00\\
+\- Zona esquimer\2\0.86\8.60\\
+\- Zona surtidor\1\0.86\32.52\\|
+~M|CAP1.6.1#\ARENA10|1\6\1\3\|800|
+\Arena para elaboración de tierra vegetal\650\\\\
+\Arena para elaboracion de sustrato de plantación de arbolado\150\\\\|
+~M|CAP1.6.1#\HUMUSLOMB|1\6\1\4\|115|
+\Humus para elaboración de tierra vegeta\100\\\\
+\Humus para elaboración de sustrato de plantación\15\\\\|
+~M|CAP1.6.1#\SSTRATO10|1\6\1\6\|155.5|
+\Arbolado\97\1.50\\\
+\Ficus ejemplar y quercus\1\10.00\\\|
+~M|CAP1.7#\OFRE02|1\7\2\|82.387|
+\Tramo recto\38.2\1.20\\\
+\Zona esquimer\8.6\1.62\\\
+\Zona Surtidor\13.96\1.62\\\|
+~M|CAP1.7#\DGEOTEX300|1\7\3\|463.131|
+\Zona tramo recto\1\38.20\6.85\\
+\Zona Esquimer\1\8.93\8.60\\
+\Zona Surtidor\1\8.93\13.96\\|
+~M|CAP1.7#\DLAMINA|1\7\4\|473.181|
+\Zona tramo recto\1\38.20\6.85\\
+\Zona Esquimer\1\8.93\8.60\\
+\Zona Surtidor\1\8.93\13.96\\
+\Zona losa cámara instalaciones\1\3.35\3.00\\|
+~M|CAP1.7#\DGEOTEX125|1\7\5\|146.48|
+\Zona tramo recto\1\76.40\1.00\\
+\Zona Esquimer\1\31.80\1.00\\
+\Zona Surtidor\1\38.28\1.00\\|
+~M|CAP1.7#\DGEOTEX3|1\7\6\|402.64|
+\Zona tramo recto\1\213.64\1.00\\
+\Zona Esquimer\1\70.00\1.00\\
+\Zona Surtidor\1\119.00\1.00\\|
+~M|CAP1.7#\TRINTER10|1\7\7\|124|
+\Zona tramo recto\2\38.20\1.00\\
+\Zona Esquimer\1\30.00\1.00\\
+\Zona Surtidor\1\17.60\1.00\\|
+~M|CAP1.7#\TRINTER11|1\7\8\|146.48|
+\Zona canal\2\38.20\1.00\\
+\Zona Surtidor\1\31.80\1.00\\
+\Zona Esquimer\1\38.28\1.00\\|
+~M|CAP1.7#\TERRNATU|1\7\9\|106.599|
+\Formación de ribera del estanque.\\\\\
+\- Zona tramo recto\2\0.84\38.00\\
+\- Zona esquimer\2\0.86\8.60\\
+\- Zona surtidor\1\0.86\32.52\\|
+~M|CAP1.7#\TERRANATU2|1\7\10\|37.912|
+\- Zona canal\1\0.52\38.20\\
+\- Zona esquimer\1\0.80\8.60\\
+\- Zona surtidor\1\0.80\13.96\\|
+~M|CAP.1.7.1#\DHA30|1\7\1\12\|20.37|
+\Solera cámara\1\8.27\\\
+\Alzados\1\8.35\\\
+\Arqueta drenaje\1\1.01\\\
+\Arqueta obturador y esquimer\1\1.06\\\
+\Losa superior\1\1.68\\\|
+~M|CAP.1.7.1#\ACERO0103|1\7\1\13\|1527.75|
+\Medición por cuantía 75 kg/m^3\1\75.00\20.37\\|
+~M|CAP1.8#\OFRE02|1\8\1\|585.3|
+\Zona de Hormogón dos capas\1\1349.00\\0.15\
+\Zona de Hormigón dos capas escaleras\1\141.00\\0.15\
+\Zona Calzada portugueas\1\500.00\\0.15\
+\Zona Calzada portuguesa escalera\1\45.00\\0.15\
+\Zona adoquin\1\737.00\\0.15\
+\Zona albero\1\1130.00\\0.15\|
+~M|CAP1.8#\DPAVHORPUL|1\8\2\|1396|
+\Zona paseos y escenario\1\1396.00\\\
+\\\\\\|
+~M|CAP1.8#\FORMAESCALA|1\8\3\|141|
+\Zona de escaleras\1\141.00\\\|
+~M|CAP1.8#\PAVMARMOL1|1\8\4\|503|
+\Zona de sendas\1\500.00\\\
+\Zona cámara de instalaciones\1\3.00\\\
+\\\\\\|
+~M|CAP1.8#\PAVMARMOL20|1\8\5\|45|
+\Zona de escaleras\1\45.00\\\|
+~M|CAP1.8#\DPAVA0510|1\8\6\|809|
+\Zona de reposiciones de muros\1\72.00\\\
+\Nuevas zonas accesos a plaza\1\737.00\\\|
+~M|CAP1.8#\DALPEDR|1\8\7\|1168|
+\Zona de albero 1\1\74.00\\\
+\Zona de albero 2\1\204.00\\\
+\Zona de albero 3\1\593.00\\\
+\Zona de albero 4\1\297.00\\\|
+~M|CAP1.9#\barand01|1\9\1\|201|
+\Estanque 1\1\70.00\\\
+\Estanque 2\1\47.00\\\
+\Estanque 3\1\39.00\\\
+\Estrado 1\1\33.00\\\
+\Estrado 2\1\9.00\\\
+\Estrado escalera\1\3.00\\\|
+~M|CAP1.9#\D5.2|1\9\2\|855.34|
+\Medición según despiece de planos\1\855.34\\\|
+~M|CAP1.9#\pefil1|1\9\3\|178.23|
+\Rampa acceso estrado\1\18.68\\\
+\Perímetro estrado\1\84.32\\\
+\Escalera estrado\1\75.23\\\|
+~M|CAP1.10#\DESPAVCAUCHO|1\10\17\|165|
+\Pavimento juego tipo 1\1\88.00\\\
+\Pavimento juego tipo 2	\1\77.00\\\|

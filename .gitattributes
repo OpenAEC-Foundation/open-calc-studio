@@ -1,0 +1,2 @@
+# Verificatiebestanden byte-voor-byte bewaren (CRLF en tekenset zijn deel van de test).
+verification/bc3/*.bc3 -text

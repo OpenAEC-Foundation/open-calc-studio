@@ -1,0 +1,657 @@
+~V|Iturribizia, S.L.|FIEBDC-3/95|ppl 0.1|
+~C|SINDESCO|***|Unidad sin descompuesto|1.0000000000000|040400|1|
+~C|010.001|PA|Demolici¢n de hangar.|300000.0000000000000|040400|0|
+~T|010.001|Demolici¢n de hangar.|
+~D|010.001|SINDESCO\1\300000.0000000000000\|
+~C|010.002|m2|Demolici¢n de hormig¢n en losas.|2200.0000000000000|040400|0|
+~T|010.002|Demolici¢n de hormig¢n en losas.|
+~D|010.002|SINDESCO\1\2200.0000000000000\|
+~C|010.003|ud|Demolici¢n de zapatas.|10000.0000000000000|040400|0|
+~T|010.003|Demolici¢n de zapatas.|
+~D|010.003|SINDESCO\1\10000.0000000000000\|
+~C|020.001|m2|Desbroce y limpieza del terreno por medios mec nicos.|100.0000000000000|040400|0|
+~T|020.001|Desbroce y limpieza del terreno por medios mec nicos.|
+~D|020.001|SINDESCO\1\100.0000000000000\|
+~C|020.002|m3|Excavaci¢n a cielo abierto en terreno de consistencia media, con excavadora de 2 M3 de capacidad de cuchara, en vaciado seg£n NTE/ADV, medido sobre perfil, sin transporte.|400.0000000000000|040400|0|
+~T|020.002|Excavaci¢n a cielo abierto en terreno de consistencia media, con excavadora de 2 M3 de capacidad de cuchara, en vaciado seg£n NTE/ADV, medido sobre perfil, sin transporte.|
+~D|020.002|SINDESCO\1\400.0000000000000\|
+~C|020.003|m3|Excavaci¢n con retroexcavadora, en terreno de consistencia media en apertura de zanjas, hasta 1,5 m de profundidad, con extracci¢n de tierras a los bordes.|600.0000000000000|040400|0|
+~T|020.003|Excavaci¢n con retroexcavadora, en terreno de consistencia media en apertura de zanjas, hasta 1,5 m de profundidad, con extracci¢n de tierras a los bordes.|
+~D|020.003|SINDESCO\1\600.0000000000000\|
+~C|020.004|m3|Excavaci¢n de zanjas en cimientos y pozos en tierras, incluso carga y transporte del material sobrante a vertedero.|758.0000000000000|040400|0|
+~T|020.004|Excavaci¢n de zanjas en cimientos y pozos en tierras, incluso carga y transporte del material sobrante a vertedero.|
+~D|020.004|SINDESCO\1\758.0000000000000\|
+~C|020.005|m3|Transporte de tierras procedentes de excavaci¢n, a vertedero a una distancia entre 5 y 10 km, con cami¢n volquete de 8 t y con carga por medios mec nicos, i/p.p. de canon de vertido, medido sobre perfil.|450.0000000000000|040400|0|
+~T|020.005|Transporte de tierras procedentes de excavaci¢n, a vertedero a una distancia entre 5 y 10 km, con cami¢n volquete de 8 t y con carga por medios mec nicos, i/p.p. de canon de vertido, medido sobre perfil.|
+~D|020.005|SINDESCO\1\450.0000000000000\|
+~C|020.006|m3|Relleno, extendido y compactaci¢n de tierras, en zanjas de canalizaciones, por medios manuales, con apisonadora manual tipo rana, en tongadas de 30 cm de espesor, i/regado de las mismas, con material de la propia excavaci¢n.|300.0000000000000|040400|0|
+~T|020.006|Relleno, extendido y compactaci¢n de tierras, en zanjas de canalizaciones, por medios manuales, con apisonadora manual tipo rana, en tongadas de 30 cm de espesor, i/regado de las mismas, con material de la propia excavaci¢n.|
+~D|020.006|SINDESCO\1\300.0000000000000\|
+~C|020.007|m3|Relleno y compactaci¢n del trasd¢s de muros con materiales procedentes de excavaci¢n, con bandeja vibratoria.|1800.0000000000000|040400|0|
+~T|020.007|Relleno y compactaci¢n del trasd¢s de muros con materiales procedentes de excavaci¢n, con bandeja vibratoria.|
+~D|020.007|SINDESCO\1\1800.0000000000000\|
+~C|020.008|m3|Relleno extendido y apisonado con tierras de pr‚stamo a cielo abierto, por medios mec nicos, en tongadas de 30 cm., de espesor, hasta conseguir un grado de compactaci¢n del 95% del proctor normal, con aporte de tierras, incluso regado de las mismas y refino de taludes, y con p.p. de medios auxiliares.|2000.0000000000000|040400|0|
+~T|020.008|Relleno extendido y apisonado con tierras de pr‚stamo a cielo abierto, por medios mec nicos, en tongadas de 30 cm., de espesor, hasta conseguir un grado de compactaci¢n del 95% del proctor normal, con aporte de tierras, incluso regado de las mismas y refino de taludes, y con p.p. de medios auxiliares.|
+~D|020.008|SINDESCO\1\2000.0000000000000\|
+~C|020.009|m2|L mina de polietileno de 2 mil¡metros de espesor incluso colocaci¢n y anclaje.|650.0000000000000|040400|0|
+~T|020.009|L mina de polietileno de 2 mil¡metros de espesor incluso colocaci¢n y anclaje.|
+~D|020.009|SINDESCO\1\650.0000000000000\|
+~C|020.010|m2|Extendido y compactaci¢n de capa de arcilla de 10 cm de espesor.|220.0000000000000|040400|0|
+~T|020.010|Extendido y compactaci¢n de capa de arcilla de 10 cm de espesor.|
+~D|020.010|SINDESCO\1\220.0000000000000\|
+~C|020.011|m2|Refino y compactaci¢n del terreno natural|220.0000000000000|040400|0|
+~T|020.011|Refino y compactaci¢n del terreno natural.|
+~D|020.011|SINDESCO\1\220.0000000000000\|
+~C|020.012|m3|Arena de r¡o (0-5 mm) en formaci¢n de cama de arena en zanjas|2100.0000000000000|040400|0|
+~T|020.012|Arena de r¡o (0-5 mm) en formaci¢n de cama de arena en zanjas|
+~D|020.012|SINDESCO\1\2100.0000000000000\|
+~C|030.001|m3|Hormig¢n en masa H-100 kp/cm2. Tm x.  rido 40 mm elaborado en obra para limpieza y nivelado de fondos de cimentaci¢n, incluso vertido por medios manuales y colocaci¢n.|8000.0000000000000|040400|0|
+~T|030.001|Hormig¢n en masa H-100 kp/cm2. Tm x.  rido 40 mm elaborado en obra para limpieza y nivelado de fondos de cimentaci¢n, incluso vertido por medios manuales y colocaci¢n.|
+~D|030.001|SINDESCO\1\8000.0000000000000\|
+~C|030.002|m3|Hormig¢n H-150 kg/cm2, Tm x.  rido 40 mm, elaborado en central en formaci¢n de pendientes y capa impermeabilizadora.|9000.0000000000000|040400|0|
+~T|030.002|Hormig¢n H-150 kg/cm2, Tm x.  rido 40 mm, elaborado en central en formaci¢n de pendientes y capa impermeabilizadora.|
+~D|030.002|SINDESCO\1\9000.0000000000000\|
+~C|030.003|m3|Hormig¢n H-250 kg/cm2 con Tm x.  rido 20 mm, elaborado en central para relleno de zanjas, incluso armadura AEH-500S, encofrado y desencofrado, vertido por medio de cami¢n bomba, vibrado y colocado.|16000.0000000000000|040400|0|
+~T|030.003|Hormig¢n H-250 kg/cm2 con Tm x.  rido 20 mm, elaborado en central para relleno de zanjas, incluso armadura AEH-500S, encofrado y desencofrado, vertido por medio de cami¢n bomba, vibrado y colocado.|
+~D|030.003|SINDESCO\1\16000.0000000000000\|
+~C|030.003.1|m3|Hormig¢n HA-25 con Tm x.  rido 20 mm, elaborado en central.|16000.0000000000000|040400|0|
+~T|030.003.1|Hormig¢n HA-25 con Tm x.  rido 20 mm, elaborado en central.|
+~D|030.003.1|SINDESCO\1\16000.0000000000000\|
+~C|030.004|m3|Hormig¢n H-250 kg/cm2 con Tm x.  rido 20 mm, elaborado en central para relleno de zanjas, incluso armadura AEH-500S, encofrado y desencofrado, vertido por medio de cami¢n bomba, vibrado y colocado, en zapatas corridas e individuales.|34000.0000000000000|040400|0|
+~T|030.004|Hormig¢n H-250 kg/cm2 con Tm x.  rido 20 mm, elaborado en central para relleno de zanjas, incluso armadura AEH-500S, encofrado y desencofrado, vertido por medio de cami¢n bomba, vibrado y colocado, en zapatas corridas e individuales.|
+~D|030.004|SINDESCO\1\34000.0000000000000\|
+~C|030.004.1|m3|Hormig¢n H-250 kg/cm2 con Tm x.  rido 20 mm, elaborado en central para relleno de muros, incluso armadura AEH-500S, encofrado y desencofrado, vertido por medio de cami¢n bomba, vibrado y colocado.|-0.0000000000000|040400|0|
+~T|030.004.1|Hormig¢n H-250 kg/cm2 con Tm x.  rido 20 mm, elaborado en central para relleno de muros, incluso armadura AEH-500S, encofrado y desencofrado, vertido por medio de cami¢n bomba, vibrado y colocado.|
+~D|030.004.1|SINDESCO\1\0.0000000000000\|
+~C|030.004.2|m2|Hormig¢n H-250 kg/cm2 con Tm x.  rido 20 mm, elaborado en central para relleno de muros, incluso armadura AEH-400S, encofrado y desencofrado, vertido por medio de cami¢n bomba, vibrado y colocado.|34000.0000000000000|040400|0|
+~T|030.004.2|Hormig¢n H-250 kg/cm2 con Tm x.  rido 20 mm, elaborado en central para relleno de muros, incluso armadura AEH-400S, encofrado y desencofrado, vertido por medio de cami¢n bomba, vibrado y colocado.|
+~D|030.004.2|SINDESCO\1\34000.0000000000000\|
+~C|030.007|Ud|Dado de cimentaci¢n para poste de iluminaci¢n de 0,65x0,65 m de base y 0,8 m de profundidad construido en hormig¢n H-150 kg/cm2 incluso pernos de anclaje de acero y tubos de PVC flexible para paso de cables, incluso p.p. De excavaci¢n, mano de obra y medios auxiliares.|5000.0000000000000|040400|0|
+~T|030.007|Dado de cimentaci¢n para poste de iluminaci¢n de 0,65x0,65 m de base y 0,8 m de profundidad construido en hormig¢n H-150 kg/cm2 incluso pernos de anclaje de acero y tubos de PVC flexible para paso de cables, incluso p.p. De excavaci¢n, mano de obra y medios auxiliares.|
+~D|030.007|SINDESCO\1\5000.0000000000000\|
+~C|030.008|Kg|Acero corrugado B500S, doblado, armado y colocado en obra, incluso parte proporcional de despuntes. Seg£n EHE|195.0000000000000|040400|0|
+~T|030.008|Acero corrugado B500S, doblado, armado y colocado en obra, incluso parte proporcional de despuntes. Seg£n EHE|
+~D|030.008|SINDESCO\1\195.0000000000000\|
+~C|030.009|m2|Encofrado y desencofrado con madera suelta en zanjas y vigas considerando 4 posturas. Seg£n NTE-EME|4500.0000000000000|040400|0|
+~T|030.009|Encofrado y desencofrado con madera suelta en zanjas y vigas considerando 4 posturas. Seg£n NTE-EME|
+~D|030.009|SINDESCO\1\4500.0000000000000\|
+~C|038.227|m3|Zahorra natural, incluso extensi¢n y compactaci¢n en formaci¢n subbase cimentaciones|776.0000000000000|040400|0|
+~T|038.227|Zahorra natural, incluso extensi¢n y compactaci¢n en formaci¢n subbase cimentaciones|
+~D|038.227|SINDESCO\1\776.0000000000000\|
+~C|040.001|Kg|Estructura met lica electrosoldada formada por pilares, vigas, correas y cerchas a base de perfiles de acero laminado A-42b incluso parte proporcional De despuntes, 2 manos de imprimaci¢n con pintura de minio de plomo y una de esmalte graso, totalmente montado S/NTE-EAS/EAV.|260.0000000000000|040400|0|
+~T|040.001|Estructura met lica electrosoldada formada por pilares, vigas, correas y cerchas a base de perfiles de acero laminado A-42b incluso parte proporcional De despuntes, 2 manos de imprimaci¢n con pintura de minio de plomo y una de esmalte graso, totalmente montado S/NTE-EAS/EAV.|
+~D|040.001|SINDESCO\1\260.0000000000000\|
+~C|060.001|m2|Cubierta completa formada por chapa de acero de 0,6 mm de espesor con perfil tipo PERFRISA o similar, prelacada, anclada a la estructura incluso parte proporcional de remates de montaje, piezas especiales de cualquier tipo y medios auxiliares y medios de seguridad utilizados, seg£n NTE/QTG-7.|2700.0000000000000|040400|0|
+~T|060.001|Cubierta completa formada por chapa de acero de 0,6 mm de espesor con perfil tipo PERFRISA o similar, prelacada, anclada a la estructura incluso parte proporcional de remates de montaje, piezas especiales de cualquier tipo y medios auxiliares y medios de seguridad utilizados, seg£n NTE/QTG-7.|
+~D|060.001|SINDESCO\1\2700.0000000000000\|
+~C|070.001|m2|Cerramiento exterior de 2 m de altura, formado por base de obra de hormig¢n sobre cimiento corrido de hormig¢n de secci¢n 0,4x0,4 m, f brica de bloques huecos decorativos de hormig¢n Split, en color crema de 40x20x15 cm, colocado a una cara vista, recibido con mortero de cemento blanco y arena de r¡o 2/6, incluso formaci¢n de dinteles, zunchos, jambas, ejecuci¢n de encuentros y piezas especiales, rejuntado limpieza y medios auxiliares, deduciendo huecos mayores a 3 m2 seg£n NTE-FFB-6, reja en emparrillado construida por malla de 62x132 mm de cruces con perfil vertical en pletina de 30x4 mm y horizontal en redondo de 6 mm de di metro, con un peso aproximado de 22,8 kg/m2, garras de 12 cm elanorada en taller y esmaltada en blanco, as¡ como montaje en obra.|6000.0000000000000|040400|0|
+~T|070.001|Cerramiento exterior de 2 m de altura, formado por base de obra de hormig¢n sobre cimiento corrido de hormig¢n de secci¢n 0,4x0,4 m, f brica de bloques huecos decorativos de hormig¢n Split, en color crema de 40x20x15 cm, colocado a una cara vista, recibido con mortero de cemento blanco y arena de r¡o 2/6, incluso formaci¢n de dinteles, zunchos, jambas, ejecuci¢n de encuentros y piezas especiales, rejuntado limpieza y medios auxiliares, deduciendo huecos mayores a 3 m2 seg£n NTE-FFB-6, reja en emparrillado construida por malla de 62x132 mm de cruces con perfil vertical en pletina de 30x4 mm y horizontal en redondo de 6 mm de di metro, con un peso aproximado de 22,8 kg/m2, garras de 12 cm elanorada en taller y esmaltada en blanco, as¡ como montaje en obra.|
+~D|070.001|SINDESCO\1\6000.0000000000000\|
+~C|070.002|m|Cerramiento exterior de 2 m de altura formado por zapatas de hormig¢n H-175 kg/cm2 (incluso excavaci¢n por medios mec nicos) y enrejado met lico galvanizado de malla simple torsi¢n, trama 40/14 y postes de tubo de acero galvanizado por inmersi¢n de 48 mm y tornapuntas de 32 mm, totalmente montada, incluso replanteo y recibido, tensores, grupillas y accesorios.|3500.0000000000000|040400|0|
+~T|070.002|Cerramiento exterior de 2 m de altura formado por zapatas de hormig¢n H-175 kg/cm2 (incluso excavaci¢n por medios mec nicos) y enrejado met lico galvanizado de malla simple torsi¢n, trama 40/14 y postes de tubo de acero galvanizado por inmersi¢n de 48 mm y tornapuntas de 32 mm, totalmente montada, incluso replanteo y recibido, tensores, grupillas y accesorios.|
+~D|070.002|SINDESCO\1\3500.0000000000000\|
+~C|070.003|m2|Tabic¢n de ladrillo hueco doble de 25x12x8 cm recibido con mortero de cemento II-Z/35A y arena de rio 1/6, i/p.p. de replanteo, aplomado y recibido de cercos roturas, humedecido de las piezas, limpieza y medios auxiliares, s/NTE-PTL y NBE-FL-90, medido deduciendo huecos superiores a 2 m2.|1957.0000000000000|040400|0|
+~T|070.003|Tabic¢n de ladrillo hueco doble de 25x12x8 cm recibido con mortero de cemento II-Z/35A y arena de rio 1/6, i/p.p. de replanteo, aplomado y recibido de cercos roturas, humedecido de las piezas, limpieza y medios auxiliares, s/NTE-PTL y NBE-FL-90, medido deduciendo huecos superiores a 2 m2.|
+~D|070.003|SINDESCO\1\1957.0000000000000\|
+~C|070.005|m2|Cerramiento de fachada formado por f brica de 1/2 pie de espesor de ladrillo hueco doble de 25x12x9 cm, sentada con mortero de cemento (II-Z/35A) y arena de rio 1:6 (M-40), enfoscado interiormente con mortero de cemento y arena de r¡o 1:4, c mara de aire de 5 cm y tabique de ladrillo hueco sencillo, recibido con mortero de cemento (II-Z/35A)  y arena de rio 1:6 (M-40), i/p.p. aplomado, nivelaci¢n, roturas, remates y piezas especiales, s/NTE-FFL, PTL y MV-201|4572.0000000000000|040400|0|
+~T|070.005|Cerramiento de fachada formado por f brica de 1/2 pie de espesor de ladrillo hueco doble de 25x12x9 cm, sentada con mortero de cemento (II-Z/35A) y arena de rio 1:6 (M-40), enfoscado interiormente con mortero de cemento y arena de r¡o 1:4, c mara de aire de 5 cm y tabique de ladrillo hueco sencillo, recibido con mortero de cemento (II-Z/35A)  y arena de rio 1:6 (M-40), i/p.p. aplomado, nivelaci¢n, roturas, remates y piezas especiales, s/NTE-FFL, PTL y MV-201|
+~D|070.005|SINDESCO\1\4572.0000000000000\|
+~C|070.006|m2|Tabique de ladrillo hueco sencillo 25x12x4 cm recibido con mortero de cemento (II-Z/35A) y arena de rio 1:6 (M-40), i/p.p. replanteo, roturas, humedecido de las piezas y limpieza|1700.0000000000000|040400|0|
+~T|070.006|Tabique de ladrillo hueco sencillo 25x12x4 cm recibido con mortero de cemento (II-Z/35A) y arena de rio 1:6 (M-40), i/p.p. replanteo, roturas, humedecido de las piezas y limpieza|
+~D|070.006|SINDESCO\1\1700.0000000000000\|
+~C|070.007|m2|F brica de bloques de hormig¢n color gris de medidas 40x20x15 cm, para terminaci¢n posterior, i/relleno de hormig¢n HM-15 y armadura en zona seg£n normativa y recibido con mortero de cemento y arena de r¡o 1/6, i/p.p. de piezas especiales, roturas, aplomados, nivelado y limpieza de todo ello seg£n NTE-FFB-6|3676.0000000000000|040400|0|
+~T|070.007|F brica de bloques de hormig¢n color gris de medidas 40x20x15 cm, para terminaci¢n posterior, i/relleno de hormig¢n HM-15 y armadura en zona seg£n normativa y recibido con mortero de cemento y arena de r¡o 1/6, i/p.p. de piezas especiales, roturas, aplomados, nivelado y limpieza de todo ello seg£n NTE-FFB-6|
+~D|070.007|SINDESCO\1\3676.0000000000000\|
+~C|080.001|m|Bordillo de hormig¢n prefabricado tipo 3 de 12x25 cm para tramos rectos sobre solera de hormig¢n H-50 kg/cm2, de 10 cm de espesor, Tm x.  rido 40 mm, incluso excavaci¢n necesaria, replanteo y totalmente colocado.|2000.0000000000000|040400|0|
+~T|080.001|Bordillo de hormig¢n prefabricado tipo 3 de 12x25 cm para tramos rectos sobre solera de hormig¢n H-50 kg/cm2, de 10 cm de espesor, Tm x.  rido 40 mm, incluso excavaci¢n necesaria, replanteo y totalmente colocado.|
+~D|080.001|SINDESCO\1\2000.0000000000000\|
+~C|080.002|m|Bordillo de hormig¢n prefabricado tipo 2 montable de 20x22 cm para tramos rectos sobre solera de hormig¢n H-50 kg/cm2, de 10 cm de espesor, Tm x.  rido 40 mm, incluso excavaci¢n necesaria, replanteo y totalmente colocado.|2800.0000000000000|040400|0|
+~T|080.002|Bordillo de hormig¢n prefabricado tipo 2 montable de 20x22 cm para tramos rectos sobre solera de hormig¢n H-50 kg/cm2, de 10 cm de espesor, Tm x.  rido 40 mm, incluso excavaci¢n necesaria, replanteo y totalmente colocado.|
+~D|080.002|SINDESCO\1\2800.0000000000000\|
+~C|080.003|m|Se¤al cuadrada incluso parte proporcional de poste galvanizado,
+torniller¡a, cimentaci¢n y anclaje totalmente colocada|33400.0000000000000|040400|0|
+~T|080.003|Se¤al cuadrada incluso parte proporcional de poste galvanizado,
+torniller¡a, cimentaci¢n y anclaje totalmente colocada|
+~D|080.003|SINDESCO\1\33400.0000000000000\|
+~C|090.001|m2|Recibido y aplomado de cercos met licos o de madera, en muros exteriores y tabiques interiores, con mortero de cemento II-Z/35A y arena de r¡o 1/8 (m-20), incluso parte proporcional, de caballetes, limas, medios auxiliares y elementos de seguridad, S/NTE-QTT-12, medida en verdadera magnitud|2215.0000000000000|040400|0|
+~T|090.001|Recibido y aplomado de cercos met licos o de madera, en muros exteriores y tabiques interiores, con mortero de cemento II-Z/35A y arena de r¡o 1/8 (m-20), incluso parte proporcional, de caballetes, limas, medios auxiliares y elementos de seguridad, S/NTE-QTT-12, medida en verdadera magnitud|
+~D|090.001|SINDESCO\1\2215.0000000000000\|
+~C|090.002|m2|Recibido y aplomado de cercos met licos o de madera en muros exteriores y tabiques interiores, con mortero de cemento II-Z/35A y arena de r¡o 1/4.|1675.0000000000000|040400|0|
+~T|090.002|Recibido y aplomado de cercos met licos o de madera en muros exteriores y tabiques interiores, con mortero de cemento II-Z/35A y arena de r¡o 1/4.|
+~D|090.002|SINDESCO\1\1675.0000000000000\|
+~C|100.001|m2|Guarnecido maestreado con yeso negro y enlucido con yeso blanco en par metros verticales y horizontales de 15 mm de espesor, con maestras cada 3 m , incluso formaci¢n de rincones, guarniciones de huecos, remates con pavimento, parte proporcional de guardavivos de pl stico y metal y colocaci¢n de andamios, s/NTE-RPG, medido deduciendo huecos superiores a 2 m2.|1025.0000000000000|040400|0|
+~T|100.001|Guarnecido maestreado con yeso negro y enlucido con yeso blanco en par metros verticales y horizontales de 15 mm de espesor, con maestras cada 3 m , incluso formaci¢n de rincones, guarniciones de huecos, remates con pavimento, parte proporcional de guardavivos de pl stico y metal y colocaci¢n de andamios, s/NTE-RPG, medido deduciendo huecos superiores a 2 m2.|
+~D|100.001|SINDESCO\1\1025.0000000000000\|
+~C|100.002|m2|Enfoscado maestrado y fratasado de 20 mm de espesor en superficies verticales con mortero de cal y arena 1/4, con cualquier tipo de remate final, i/p.p. de medios auxiliares con empleo, en su caso, de peque¤o andamiaje, as¡ como distribuci¢n de material en tajo, s/NTE/RPE-5|1686.0000000000000|040400|0|
+~T|100.002|Enfoscado maestrado y fratasado de 20 mm de espesor en superficies verticales con mortero de cal y arena 1/4, con cualquier tipo de remate final, i/p.p. de medios auxiliares con empleo, en su caso, de peque¤o andamiaje, as¡ como distribuci¢n de material en tajo, s/NTE/RPE-5|
+~D|100.002|SINDESCO\1\1686.0000000000000\|
+~C|110.001|M2|Falso techo modular desmontable de escayola aligerada “Fonotec” o similar fisurado en placas de 120x60 cm., suspendido de perfiler¡a vista lacada en blanco de 24 mm de ancho, incluso parte proporcional de accesorios de fijaci¢n, montaje y desmontaje de andamios, instalado s/NTE-RTP-17, medido deduciendo huecos superiores a 2 m2.|1495.0000000000000|040400|0|
+~T|110.001|Falso techo modular desmontable de escayola aligerada “Fonotec” o similar fisurado en placas de 120x60 cm., suspendido de perfiler¡a vista lacada en blanco de 24 mm de ancho, incluso parte proporcional de accesorios de fijaci¢n, montaje y desmontaje de andamios, instalado s/NTE-RTP-17, medido deduciendo huecos superiores a 2 m2.|
+~D|110.001|SINDESCO\1\1495.0000000000000\|
+~C|120.001|m2|Aislamiento de suelos por barrera de vapor realizada con l mina de polietileno de 1 mm de espesor, totalmente instalada, incluso medios auxilizares y costes indirectos|1650.0000000000000|040400|0|
+~T|120.001|Aislamiento de suelos por barrera de vapor realizada con l mina de polietileno de 1 mm de espesor, totalmente instalada, incluso medios auxilizares y costes indirectos|
+~D|120.001|SINDESCO\1\1650.0000000000000\|
+~C|120.002|m2|Aislamiento con planchas de poliestireno de 30 mm de espesor y 20 kg/m3 de densidad, autoextinguible, tipo IV-F-20 en c maras de aire, incluso parte proporcional de elementos de fijaci¢n, corte y colocaci¢n, medido deduciendo huecos superiores a 1 m2 en pilares y solera|722.0000000000000|040400|0|
+~T|120.002|Aislamiento con planchas de poliestireno de 30 mm de espesor y 20 kg/m3 de densidad, autoextinguible, tipo IV-F-20 en c maras de aire, incluso parte proporcional de elementos de fijaci¢n, corte y colocaci¢n, medido deduciendo huecos superiores a 1 m2 en pilares y solera|
+~D|120.002|SINDESCO\1\722.0000000000000\|
+~C|120.003|m2|Aislamiento t‚rmico mediante espuma r¡gida de poliuretano fabricada “in situ” realizado por proyecci¢n sobre la cara interior del cerramiento de fachada, con una densidad m¡nima de 30 kg/m3 y 3 cm de espesor medio, previo al tabique, incluso maquinaria auxiliar y medios auxiliares, medido a cinta corrida, descontando huecos superiores a 2 m2.|894.0000000000000|040400|0|
+~T|120.003|Aislamiento t‚rmico mediante espuma r¡gida de poliuretano fabricada “in situ” realizado por proyecci¢n sobre la cara interior del cerramiento de fachada, con una densidad m¡nima de 30 kg/m3 y 3 cm de espesor medio, previo al tabique, incluso maquinaria auxiliar y medios auxiliares, medido a cinta corrida, descontando huecos superiores a 2 m2.|
+~D|120.003|SINDESCO\1\894.0000000000000\|
+~C|130.001|m2|Impermeabilizaci¢n con copol¡meros acr¡licos en emulsi¢n con 1,5 kg/cm2 sobre superficies de hormig¢n, totalmente aplicado y terminado.|1200.0000000000000|040400|0|
+~T|130.001|Impermeabilizaci¢n con copol¡meros acr¡licos en emulsi¢n con 1,5 kg/cm2 sobre superficies de hormig¢n, totalmente aplicado y terminado.|
+~D|130.001|SINDESCO\1\1200.0000000000000\|
+~C|130.002|m2|Suministro y colocaci¢n de l mina de geotextil para formaci¢n y regularizaci¢n de superficie de hormig¢n de limpieza H-125 kg/cm2, de 60 km/m tipo Lotrak o similar.|500.0000000000000|040400|0|
+~T|130.002|Suministro y colocaci¢n de l mina de geotextil para formaci¢n y regularizaci¢n de superficie de hormig¢n de limpieza H-125 kg/cm2, de 60 km/m tipo Lotrak o similar.|
+~D|130.002|SINDESCO\1\500.0000000000000\|
+~C|140.001|m2|Gneiss irregular 3-4 cm para chapado exterior del edificio en franja inferior, excepto escalera y rampa.|3330.0000000000000|040400|0|
+~T|140.001|Gneiss irregular 3-4 cm para chapado exterior del edificio en franja inferior, excepto escalera y rampa.|
+~D|140.001|SINDESCO\1\3330.0000000000000\|
+~C|140.002|m2|Solado de terrazo 30x30 cm microgramo, pulido en f brica, recibido con mortero de cemento II-Z/35A y arena de miga 1/6, incluso cama de arena de 2 cm de espesor, rejuntado con lechada de cemento blanco V-B/20 y limpieza, s/NTE-RSR-6 y NTE-RSR-26, medido en superficie realmente ejecutada.|2590.0000000000000|040400|0|
+~T|140.002|Solado de terrazo 30x30 cm microgramo, pulido en f brica, recibido con mortero de cemento II-Z/35A y arena de miga 1/6, incluso cama de arena de 2 cm de espesor, rejuntado con lechada de cemento blanco V-B/20 y limpieza, s/NTE-RSR-6 y NTE-RSR-26, medido en superficie realmente ejecutada.|
+~D|140.002|SINDESCO\1\2590.0000000000000\|
+~C|140.003|m2|Alicatado con azulejo blanco 15x15 cm tipo £nico, recibido con mortero de cemento II-Z/35A y arena de miga 1/6, incluso parte proporcional de cortes, ingleses, piezas especiales, rejuntado con lechada de cemento blanco V-B/20 y limpieza, s/NTE-RPA-3, medido deduciendo huecos superiores a 1 m2.|3211.0000000000000|040400|0|
+~T|140.003|Alicatado con azulejo blanco 15x15 cm tipo £nico, recibido con mortero de cemento II-Z/35A y arena de miga 1/6, incluso parte proporcional de cortes, ingleses, piezas especiales, rejuntado con lechada de cemento blanco V-B/20 y limpieza, s/NTE-RPA-3, medido deduciendo huecos superiores a 1 m2.|
+~D|140.003|SINDESCO\1\3211.0000000000000\|
+~C|150.001|t|Mezcla bituminosa en caliente con incorporaci¢n de  rido de Tmax. 5 mm, para impermeabilizaci¢n de superficie, incluso mezcla, mano de obra y medios auxiliares, totalmente aplicado y terminado.|7000.0000000000000|040400|0|
+~T|150.001|Mezcla bituminosa en caliente con incorporaci¢n de  rido de Tmax. 5 mm, para impermeabilizaci¢n de superficie, incluso mezcla, mano de obra y medios auxiliares, totalmente aplicado y terminado.|
+~D|150.001|SINDESCO\1\7000.0000000000000\|
+~C|150.002|m3|Base de zahorra artificial clasificada Z-1, incluso transporte a pie de obra, extendido, regado y compactado con pis¢n mec nico, incluso nivelaci¢n para formaci¢n de pendientes.|3800.0000000000000|040400|0|
+~T|150.002|Base de zahorra artificial clasificada Z-1, incluso transporte a pie de obra, extendido, regado y compactado con pis¢n mec nico, incluso nivelaci¢n para formaci¢n de pendientes.|
+~D|150.002|SINDESCO\1\3800.0000000000000\|
+~C|150.003|m2|Pavimento de hormig¢n H-250 kg/cm2 Tmax.  rido 20 mm, de 25 cm de espesor sobre  base de 20 cm de zahorra artificial clase Z-1 (previamente transportada a pie de obra, extendida, regada, compactada y nivelada para formaci¢n de pendientes) sobre sub-base de terreno  compactado, incluso suministro y colocado y armadura de acero corrugado AEH-400N con una cuant¡a (13 kg/cm2), parte proporcional de juntas, aserrado de las mismas y fratasado.|7000.0000000000000|040400|0|
+~T|150.003|Pavimento de hormig¢n H-250 kg/cm2 Tmax.  rido 20 mm, de 25 cm de espesor sobre  base de 20 cm de zahorra artificial clase Z-1 (previamente transportada a pie de obra, extendida, regada, compactada y nivelada para formaci¢n de pendientes) sobre sub-base de terreno  compactado, incluso suministro y colocado y armadura de acero corrugado AEH-400N con una cuant¡a (13 kg/cm2), parte proporcional de juntas, aserrado de las mismas y fratasado.|
+~D|150.003|SINDESCO\1\7000.0000000000000\|
+~C|150.003.1|m3|Hormig¢n vibrado HP-40 seg£n PG3 incluso juntas.|20000.0000000000000|040400|0|
+~T|150.003.1|Hormig¢n vibrado HP-40 seg£n PG3 incluso juntas.|
+~D|150.003.1|SINDESCO\1\20000.0000000000000\|
+~C|150.004|m2|Recubrimiento monol¡tico coloreado a base de agregados minerales para pavimentos de hormig¢n MASTERTOP 100 de HALESA MBT.|1115.0000000000000|040400|0|
+~T|150.004|Recubrimiento monol¡tico coloreado a base de agregados minerales para pavimentos de hormig¢n MASTERTOP 100 de HALESA MBT.|
+~D|150.004|SINDESCO\1\1115.0000000000000\|
+~C|160.001|m2|Puerta de paso ciega normalizada, serie econ¢mica, lisa hueca (CLH) de sapelly para barnizar, con cerco directo de sapelly macizo 70x50 mm, tapajuntas lisos de DM rechapados de sapelly 70x10 mm en ambas caras y herrajes de colgar y de cierre latonados, totalmente montada, incluso parte proporcional de medios auxiliares.|11970.0000000000000|040400|0|
+~T|160.001|Puerta de paso ciega normalizada, serie econ¢mica, lisa hueca (CLH) de sapelly para barnizar, con cerco directo de sapelly macizo 70x50 mm, tapajuntas lisos de DM rechapados de sapelly 70x10 mm en ambas caras y herrajes de colgar y de cierre latonados, totalmente montada, incluso parte proporcional de medios auxiliares.|
+~D|160.001|SINDESCO\1\11970.0000000000000\|
+~C|170.001|m2|Carpinter¡a de aluminio anodizado en color natural de 15 micras, en ventanas correderas de 3 hojas mayores de 2 m2 y menores de 3 m2 y menores de 3 m2 de superficie total, compuesta por cerco, hojas y herrajes de deslizamiento y de seguridad, totalmente instalada sobre precerco de aluminio, sellado de juntas y limpieza, incluso con parte proporcional de medios auxiliares, s/NTE-FCL-5.|9780.0000000000000|040400|0|
+~T|170.001|Carpinter¡a de aluminio anodizado en color natural de 15 micras, en ventanas correderas de 3 hojas mayores de 2 m2 y menores de 3 m2 y menores de 3 m2 de superficie total, compuesta por cerco, hojas y herrajes de deslizamiento y de seguridad, totalmente instalada sobre precerco de aluminio, sellado de juntas y limpieza, incluso con parte proporcional de medios auxiliares, s/NTE-FCL-5.|
+~D|170.001|SINDESCO\1\9780.0000000000000\|
+~C|170.002|m2|Puerta basculante plegable accionada manualmente y compensada por muelles helicoidales de acero, hoja ciega con bastidor y refuerzos de hoja formados por tubos huecos rectangulares de acero laminado en fr¡o y chapa tipo Pegaso; con cerco de angular met lico, provisto de garras para anclaje a obra, gu¡as, cierre, cerradura y dem s accesorios, totalmente instalada, incluso acabado de capa de pintura epoxi polimerizada al horno (sin incluir recibido de alba¤iler¡a).|10745.0000000000000|040400|0|
+~T|170.002|Puerta basculante plegable accionada manualmente y compensada por muelles helicoidales de acero, hoja ciega con bastidor y refuerzos de hoja formados por tubos huecos rectangulares de acero laminado en fr¡o y chapa tipo Pegaso; con cerco de angular met lico, provisto de garras para anclaje a obra, gu¡as, cierre, cerradura y dem s accesorios, totalmente instalada, incluso acabado de capa de pintura epoxi polimerizada al horno (sin incluir recibido de alba¤iler¡a).|
+~D|170.002|SINDESCO\1\10745.0000000000000\|
+~C|170.003|m2|Persianas de aluminio t‚rmico con lamas de 44 mm.|4639.0000000000000|040400|0|
+~T|170.003|Persianas de aluminio t‚rmico con lamas de 44 mm.|
+~D|170.003|SINDESCO\1\4639.0000000000000\|
+~C|170.004|m2|Puerta de chapa lisa de acero de 1 mm de espesor, engatillada, realizada en dos bandejas, con rigidizadores de tubo rectangular, i/patillas para recibir en f bricas, y herrajes de colgar y de seguridad.|9054.0000000000000|040400|0|
+~T|170.004|Puerta de chapa lisa de acero de 1 mm de espesor, engatillada, realizada en dos bandejas, con rigidizadores de tubo rectangular, i/patillas para recibir en f bricas, y herrajes de colgar y de seguridad.|
+~D|170.004|SINDESCO\1\9054.0000000000000\|
+~C|170.005|m2|Ventanal fijo de aluminio anodizado en su color de 13 micras, perfil 50x40 mm. y 1.5 mm de espesor, con junquillos para fijaci¢n de vidrio|7800.0000000000000|040400|0|
+~T|170.005|Ventanal fijo de aluminio anodizado en su color de 13 micras, perfil 50x40 mm. y 1.5 mm de espesor, con junquillos para fijaci¢n de vidrio|
+~D|170.005|SINDESCO\1\7800.0000000000000\|
+~C|180.001|m2|Acristalamiento doble tipo Climalit formado por dos lunas de 5 mm y c mara de aire deshidratada de 6, 8 o 12 mm., con perfil separador de aluminio y doble sellado perimetral (junta pl stica), fijaci¢n sobre carpinter¡a con acu¤ado mediante calzos perimetales y laterales y sellado en fr¡o con silicona incolora, incluso colocaci¢n de junquillos, seg£n NTE-FVP.|6316.0000000000000|040400|0|
+~T|180.001|Acristalamiento doble tipo Climalit formado por dos lunas de 5 mm y c mara de aire deshidratada de 6, 8 o 12 mm., con perfil separador de aluminio y doble sellado perimetral (junta pl stica), fijaci¢n sobre carpinter¡a con acu¤ado mediante calzos perimetales y laterales y sellado en fr¡o con silicona incolora, incluso colocaci¢n de junquillos, seg£n NTE-FVP.|
+~D|180.001|SINDESCO\1\6316.0000000000000\|
+~C|180.002|ud|Claraboya parab¢lica monovalva, fabricada en polimetacrilato de metilo (PMMA), de dimensiones 60x60 cm, con z¢calo de poli‚ster de h=15 cm, para sistema de colocaci¢n fijo, i/recibido y remates de la misma a elementos de cubierta.|25407.0000000000000|040400|0|
+~T|180.002|Claraboya parab¢lica monovalva, fabricada en polimetacrilato de metilo (PMMA), de dimensiones 60x60 cm, con z¢calo de poli‚ster de h=15 cm, para sistema de colocaci¢n fijo, i/recibido y remates de la misma a elementos de cubierta.|
+~D|180.002|SINDESCO\1\25407.0000000000000\|
+~C|190.001|m2|Lavamanos de porcelana blanco, mural, de 44x31 cm., colocado mediante anclajes de fijaci¢n a la pared con grifo de repisa, con rompechorros, incluso v lvula de desagüe de 32 mm., llaves de escuadra de media pulgada cromadas, y latiguillos flexibles de 20 cm y de media pulgada, totalmente instalado y funcionando|6395.0000000000000|040400|0|
+~T|190.001|Lavamanos de porcelana blanco, mural, de 44x31 cm., colocado mediante anclajes de fijaci¢n a la pared con grifo de repisa, con rompechorros, incluso v lvula de desagüe de 32 mm., llaves de escuadra de media pulgada cromadas, y latiguillos flexibles de 20 cm y de media pulgada, totalmente instalado y funcionando|
+~D|190.001|SINDESCO\1\6395.0000000000000\|
+~C|190.002|Ud|Inodoro de porcelana vitrificada blanco de tanque alto, colocado mediante tacos y tornillos al solado, incluso sellado con silicona y compuesto por: taza, tanque alto de pl stico con mecanismos, tubo y curva de PVC de 32 mm., para bajada de agua desde el tanque, y asiento con tapa de pl stico, con bisagras de nylon, totalmente instalado, incluso con llave de escuadra de media pulgada cromada y latiguillo flexible de 20 cm y de media pulgada, funcionando. (El manguet¢n est  incluido en las instalaciones de desagüe).|12585.0000000000000|040400|0|
+~T|190.002|Inodoro de porcelana vitrificada blanco de tanque alto, colocado mediante tacos y tornillos al solado, incluso sellado con silicona y compuesto por: taza, tanque alto de pl stico con mecanismos, tubo y curva de PVC de 32 mm., para bajada de agua desde el tanque, y asiento con tapa de pl stico, con bisagras de nylon, totalmente instalado, incluso con llave de escuadra de media pulgada cromada y latiguillo flexible de 20 cm y de media pulgada, funcionando. (El manguet¢n est  incluido en las instalaciones de desagüe).|
+~D|190.002|SINDESCO\1\12585.0000000000000\|
+~C|190.003|Ud|Urito mural de porcelana vitrificada blanco, colocado mediante anclajes de fijaci¢n a la pared, instalado con grifo temporizador, modelo Tempostop de RS para urinarios, incluso enlace de media pulgada y llave de escuadra de media pulgada, funcionando. (El sif¢n est  incluido en las instalaciones de desagüe).|9820.0000000000000|040400|0|
+~T|190.003|Urito mural de porcelana vitrificada blanco, colocado mediante anclajes de fijaci¢n a la pared, instalado con grifo temporizador, modelo Tempostop de RS para urinarios, incluso enlace de media pulgada y llave de escuadra de media pulgada, funcionando. (El sif¢n est  incluido en las instalaciones de desagüe).|
+~D|190.003|SINDESCO\1\9820.0000000000000\|
+~C|190.004|Ud|Plato de ducha de porcelana de 70x70 cm., blanco, con grifer¡a mezcladora exterior monobloc, con ducha tel‚fono, flexible de 150 cm y soporte articulado, incluso v lvula de desagüe sif¢nica, con salida horizontal de 40 mm., totalmente instalada y funcionando.|16025.0000000000000|040400|0|
+~T|190.004|Plato de ducha de porcelana de 70x70 cm., blanco, con grifer¡a mezcladora exterior monobloc, con ducha tel‚fono, flexible de 150 cm y soporte articulado, incluso v lvula de desagüe sif¢nica, con salida horizontal de 40 mm., totalmente instalada y funcionando.|
+~D|190.004|SINDESCO\1\16025.0000000000000\|
+~C|190.005|Ud|Termo el‚ctrico con capacidad para 50 litros de agua, de marca reconocida, colocado mediante anclajes de fijaci¢n a la pared, con termostato indicador de temperatura, luz piloto de control y dem s elementos de seguridad, instalado con llaves de corte de esfera de media pulgada y latiguillos flexibles de 20 cm y de media pulgada, tanto en la entrada de agua, como en la salida , sin incluir la toma el‚ctrica, funcionando.|28505.0000000000000|040400|0|
+~T|190.005|Termo el‚ctrico con capacidad para 50 litros de agua, de marca reconocida, colocado mediante anclajes de fijaci¢n a la pared, con termostato indicador de temperatura, luz piloto de control y dem s elementos de seguridad, instalado con llaves de corte de esfera de media pulgada y latiguillos flexibles de 20 cm y de media pulgada, tanto en la entrada de agua, como en la salida , sin incluir la toma el‚ctrica, funcionando.|
+~D|190.005|SINDESCO\1\28505.0000000000000\|
+~C|190.006|Ud|Suministro y colocaci¢n de espejo para ba¤o, con los bordes biselados, totalmente colocado|16080.0000000000000|040400|0|
+~T|190.006|Suministro y colocaci¢n de espejo para ba¤o, con los bordes biselados, totalmente colocado|
+~D|190.006|SINDESCO\1\16080.0000000000000\|
+~C|200.001|m2|Pintura al temple liso blanco, en par metros verticales y horizontales, dos manos, incluso aparejado, plastecido, lijado y dos manos|220.0000000000000|040400|0|
+~T|200.001|Pintura al temple liso blanco, en par metros verticales y horizontales, dos manos, incluso aparejado, plastecido, lijado y dos manos|
+~D|200.001|SINDESCO\1\220.0000000000000\|
+~C|200.002|m2|Pintura p‚trea Juno-red o similar a base de resinas de polimerizaci¢n acr¡lica, aplicada con rodillo sobre paramentos verticales y horizontales de fachada, dos manos color|1217.0000000000000|040400|0|
+~T|200.002|Pintura p‚trea Juno-red o similar a base de resinas de polimerizaci¢n acr¡lica, aplicada con rodillo sobre paramentos verticales y horizontales de fachada, dos manos color|
+~D|200.002|SINDESCO\1\1217.0000000000000\|
+~C|210.001|Ud|Suministro, apertura de hoyo, plantaci¢n y primer riego de Platanus Orientalis de 14 a 16 cm de per¡metro a 1 m del suelo (3 a 3,5 m de altura) con cepell¢n en container.|5000.0000000000000|040400|0|
+~T|210.001|Suministro, apertura de hoyo, plantaci¢n y primer riego de Platanus Orientalis de 14 a 16 cm de per¡metro a 1 m del suelo (3 a 3,5 m de altura) con cepell¢n en container.|
+~D|210.001|SINDESCO\1\5000.0000000000000\|
+~C|210.002|m|Suministro, apertura de zanja, plantaci¢n y primer riego de Ligustrum Japonicum de 1,0 a 1,2 m de altura con cepell¢n en container (4 Ud/m).|3000.0000000000000|040400|0|
+~T|210.002|Suministro, apertura de zanja, plantaci¢n y primer riego de Ligustrum Japonicum de 1,0 a 1,2 m de altura con cepell¢n en container (4 Ud/m).|
+~D|210.002|SINDESCO\1\3000.0000000000000\|
+~C|220.001|Ml|Tuber¡a PVC para evacuaci¢n y desagüe en canalizaciones subterr neas tipo SAENGER serie KE, de 200 mm de di metro y 4,9 mm de espesor, uni¢n por junta el stica, colocada sobre solera de hormig¢n H-125 Kg/cm2, incluso p.p de piezas especiales.|3900.0000000000000|040400|0|
+~T|220.001|Tuber¡a PVC para evacuaci¢n y desagüe en canalizaciones subterr neas tipo SAENGER serie KE, de 200 mm de di metro y 4,9 mm de espesor, uni¢n por junta el stica, colocada sobre solera de hormig¢n H-125 Kg/cm2, incluso p.p de piezas especiales.|
+~D|220.001|SINDESCO\1\3900.0000000000000\|
+~C|220.002|Ud|Arqueta de registro de 51x51x80 cm realizada con f brica de ladrillo macizo de medio pie de espesor recibido con mortero de cemento 1/6, enfoscada y bru¤ida en su interior incluso solera de hormig¢n H-175 kg/cm2 y tapa de hormig¢n, S/NTE-ISS-51|55000.0000000000000|040400|0|
+~T|220.002|Arqueta de registro de 51x51x80 cm realizada con f brica de ladrillo macizo de medio pie de espesor recibido con mortero de cemento 1/6, enfoscada y bru¤ida en su interior incluso solera de hormig¢n H-175 kg/cm2 y tapa de hormig¢n, S/NTE-ISS-51|
+~D|220.002|SINDESCO\1\55000.0000000000000\|
+~C|220.003|Ud|Arqueta de registro de 51x51x80 cm realizada con f brica de ladrillo macizo de medio pie de espesor recibido con mortero de cemento 1/6, enfoscada y bru¤ida en su interior incluso solera de hormig¢n H-175 kg/cm2 y tapa de hormig¢n, incluso v lvula de cierre manual, S/NTE-ISS-18-51|55000.0000000000000|040400|0|
+~T|220.003|Arqueta de registro de 51x51x80 cm realizada con f brica de ladrillo macizo de ½ pie de espesor recibido con mortero de cemento 1/6, enfoscada y bru¤ida en su interior incluso solera de hormig¢n H-175 kg/cm2 y tapa de hormig¢n, incluso v lvula de cierre manual, S/NTE-ISS-18-51|
+~D|220.003|SINDESCO\1\55000.0000000000000\|
+~C|220.004|Ud|Arqueta sumidero sif¢nico de 20x50 cm realizada con f brica de ladrillo macizo de medio pie de espesor, enfoscada y bru¤ida en su interior incluso solera de hormig¢n H-125 kg/cm2 de 10 cm de espesor y rejilla plana desmontable de hierro fundido con cerco, S/NTE-ISS-53.|35000.0000000000000|040400|0|
+~T|220.004|Arqueta sumidero sif¢nico de 20x50 cm realizada con f brica de ladrillo macizo de medio pie de espesor, enfoscada y bru¤ida en su interior incluso solera de hormig¢n H-125 kg/cm2 de 10 cm de espesor y rejilla plana desmontable de hierro fundido con cerco, S/NTE-ISS-53.|
+~D|220.004|SINDESCO\1\35000.0000000000000\|
+~C|220.005|Ud|Arqueta sif¢nica de 38x38x50 cm realizada con f brica de ladrillo macizo de medio pie de espesor, recibido con mortero de cemento 1/6, enfoscada y bru¤ida en su interior incluso solera de hormig¢n H-100 kg/cm2, tapa de hormig¢n armado y sif¢n de PVC,  seg£n NTE-ISS-52.|33000.0000000000000|040400|0|
+~T|220.005|Arqueta sif¢nica de 38x38x50 cm realizada con f brica de ladrillo macizo de medio pie de espesor, recibido con mortero de cemento 1/6, enfoscada y bru¤ida en su interior incluso solera de hormig¢n H-100 kg/cm2, tapa de hormig¢n armado y sif¢n de PVC,  seg£n NTE-ISS-52.|
+~D|220.005|SINDESCO\1\33000.0000000000000\|
+~C|220.006|Ud|Sumidero sif¢nico de salida vertical en lat¢n con espesor de 3 mm de 20x20 cm, totalmente instalado seg£n NTE-ISS-13|45000.0000000000000|040400|0|
+~T|220.006|Sumidero sif¢nico de salida vertical en lat¢n con espesor de 3 mm de 20x20 cm, totalmente instalado seg£n NTE-ISS-13|
+~D|220.006|SINDESCO\1\45000.0000000000000\|
+~C|220.007|Ud|Imbornal 90x50x50 cm de hormig¢n prefabricado, recibido con mortero de cemento y arena de r¡o 1&6 totalmente instalado.|54000.0000000000000|040400|0|
+~T|220.007|Imbornal 90x50x50 cm de hormig¢n prefabricado, recibido con mortero de cemento y arena de r¡o 1&6 totalmente instalado.|
+~D|220.007|SINDESCO\1\54000.0000000000000\|
+~C|220.008|Ud|Separador de grasas de 100x80x150 cm realizado con muros de ladrillo macizo de 1 pie de espesor, enfoscado y bru¤ido en su interior, sobre solera de hormig¢n H-125 kg/cm2.|155000.0000000000000|040400|0|
+~T|220.008|Separador de grasas de 100x80x150 cm realizado con muros de ladrillo macizo de 1 pie de espesor, enfoscado y bru¤ido en su interior, sobre solera de hormig¢n H-125 kg/cm2.|
+~D|220.008|SINDESCO\1\155000.0000000000000\|
+~C|220.009|m|Canaleta de hormig¢n pol¡mero para recogida de aguas de 300 mm de altura ALFA-DRAIN, para cargas ligeras y medias con rejilla de fundici¢n d£ctil, i/solera de hormig¢n y medios auxiliares para la correcta ejecuci¢n de los trabajos|7200.0000000000000|040400|0|
+~T|220.009|Canaleta de hormig¢n pol¡mero para recogida de aguas de 300 mm de altura ALFA-DRAIN, para cargas ligeras y medias con rejilla de fundici¢n d£ctil, i/solera de hormig¢n y medios auxiliares para la correcta ejecuci¢n de los trabajos|
+~D|220.009|SINDESCO\1\7200.0000000000000\|
+~C|230.001|Ml|Tuber¡a de polietileno de alta densidad, flexible, di metro interior de 38 mm, para 10 Atm. Serie Hersalit de Saenger en color negro, UNE 53.131-ISO 161/1, incluso parte proporcional De piezas especiales, totalmente instalada.|2000.0000000000000|040400|0|
+~T|230.001|Tuber¡a de polietileno de alta densidad, flexible, di metro interior de 38 mm, para 10 Atm. Serie Hersalit de Saenger en color negro, UNE 53.131-ISO 161/1, incluso parte proporcional De piezas especiales, totalmente instalada.|
+~D|230.001|SINDESCO\1\2000.0000000000000\|
+~C|230.001.2|Ml|Tuber¡a de polietileno de alta densidad, flexible, di metro nominal de 120 mm, para 10 Atm.|7800.0000000000000|040400|0|
+~T|230.001.2|Tuber¡a de polietileno de alta densidad, flexible, di metro nominal de 120 mm, para 10 Atm.|
+~D|230.001.2|SINDESCO\1\7800.0000000000000\|
+~C|230.001.3|Ml|Tuber¡a de polietileno de alta densidad, flexible, di metro nominal de 25 mm, para 10 Atm.|1200.0000000000000|040400|0|
+~T|230.001.3|Tuber¡a de polietileno de alta densidad, flexible, di metro nominal de 25 mm, para 10 Atm.|
+~D|230.001.3|SINDESCO\1\1200.0000000000000\|
+~C|230.001.4|Ml|Tuber¡a de polietileno de alta densidad, flexible, di metro nominal de 80 mm, para 10 Atm.|3500.0000000000000|040400|0|
+~T|230.001.4|Tuber¡a de polietileno de alta densidad, flexible, di metro nominal de 80 mm, para 10 Atm.|
+~D|230.001.4|SINDESCO\1\3500.0000000000000\|
+~C|230.002|Ud|Llave de esfera de pulgada y media   de lat¢n especial S/DIN 17660.|15000.0000000000000|040400|0|
+~T|230.002|Llave de esfera de pulgada y media   de lat¢n especial S/DIN 17660.|
+~D|230.002|SINDESCO\1\15000.0000000000000\|
+~C|230.003|Ud|Grifo de lat¢n boca roscada de 3/4  , totalmente instalado.|28000.0000000000000|040400|0|
+~T|230.003|Grifo de lat¢n boca roscada de 3/4  , totalmente instalado.|
+~D|230.003|SINDESCO\1\28000.0000000000000\|
+~C|230.004|Ud|Arqueta de registro de 38x26x50 cm, realizada con f brica de ladrillo macizo de medio pie de espesor recibido con mortero de cemento 1/6, enfoscada y bru¤ida en su interior, incluso solera de hormig¢n H-175 Kg/cm2 y tapa de hormig¢n armado, S/NTE-ISS-51; y llave de esfera de  pulgada y media de lat¢n especial S/DIN 17660.|50000.0000000000000|040400|0|
+~T|230.004|Arqueta de registro de 38x26x50 cm, realizada con f brica de ladrillo macizo de medio pie de espesor recibido con mortero de cemento 1/6, enfoscada y bru¤ida en su interior, incluso solera de hormig¢n H-175 Kg/cm2 y tapa de hormig¢n armado, S/NTE-ISS-51; y llave de esfera de  pulgada y media de lat¢n especial S/DIN 17660.|
+~D|230.004|SINDESCO\1\50000.0000000000000\|
+~C|230.005|Ml|Tuber¡a de cobre UNE 22 mm incluso codos, manguitos y dem s accesorios, colocados y parte proporcional de tubo corrugado de d=23 mm, totalmente instalada seg£n normativa vigente.|2500.0000000000000|040400|0|
+~T|230.005|Tuber¡a de cobre UNE 22 mm incluso codos, manguitos y dem s accesorios, colocados y parte proporcional de tubo corrugado de d=23 mm, totalmente instalada seg£n normativa vigente.|
+~D|230.005|SINDESCO\1\2500.0000000000000\|
+~C|230.006|Ud|Distribuidor de lat¢n o fundici¢n para 4 salidas de agua, incluso parte proporcional de piezas especiales, totalmente instalado.|50000.0000000000000|040400|0|
+~T|230.006|Distribuidor de lat¢n o fundici¢n para 4 salidas de agua, incluso parte proporcional de piezas especiales, totalmente instalado.|
+~D|230.006|SINDESCO\1\50000.0000000000000\|
+~C|230.007|m|Canal¢n visto de chapa galvanizada de 33 cm de desarrollo, fijado con abrazaderas al tejado cada 50 cm, i/p.p. de soldadura y piezas especiales de conexi¢n a la bajante|2493.0000000000000|040400|0|
+~T|230.007|Canal¢n visto de chapa galvanizada de 33 cm de desarrollo, fijado con abrazaderas al tejado cada 50 cm, i/p.p. de soldadura y piezas especiales de conexi¢n a la bajante|
+~D|230.007|SINDESCO\1\2493.0000000000000\|
+~C|230.008|m|Bajante de aluminio prelacado en color, de 120 mm de di metro, para evacuaci¢n de aguas pluviales, fijada con abrazaderas a la pared, i/codos y piezas especiales, medios auxiliares y de seguridad, totalmente colocada|2657.0000000000000|040400|0|
+~T|230.008|Bajante de aluminio prelacado en color, de 120 mm de di metro, para evacuaci¢n de aguas pluviales, fijada con abrazaderas a la pared, i/codos y piezas especiales, medios auxiliares y de seguridad, totalmente colocada|
+~D|230.008|SINDESCO\1\2657.0000000000000\|
+~C|240.001|m2|Arqueta de instalaci¢n el‚ctrica de dimensiones interiores de 0,60x0,6x0,95 m con solera de hormig¢n H-150 kg/cm2 con paredes de f brica de ladrillo de 1/2 pie enfoscado interiormente con mortero de cemento 1/6, coronaci¢n en hormig¢n y tapa de chapa de acero nervada y galvanizada, incluso base de 10 cm de grava sobre solera y parte proporcional de excavaci¢n, mano de obra y mediciones auxiliares, totalmente terminadas.|35000.0000000000000|040400|0|
+~T|240.001|Arqueta de instalaci¢n el‚ctrica de dimensiones interiores de 0,60x0,6x0,95 m con solera de hormig¢n H-150 kg/cm2 con paredes de f brica de ladrillo de 1/2 pie enfoscado interiormente con mortero de cemento 1/6, coronaci¢n en hormig¢n y tapa de chapa de acero nervada y galvanizada, incluso base de 10 cm de grava sobre solera y parte proporcional de excavaci¢n, mano de obra y mediciones auxiliares, totalmente terminadas.|
+~D|240.001|SINDESCO\1\35000.0000000000000\|
+~C|240.002|Ml|Canalizaci¢n (Tipo 1) reforzada para alojamiento de l¡neas el‚ctricas de 0,6 x 0,85 m de secci¢n con 2 tubos de d=15 cm de PVC, capa inferior de 25 cm de hormig¢n  H-125 kg/cm2 para protecci¢n y anclaje de las canalizaciones y relleno superior de tierra compactada, incluso cobertura de aviso presencia de cables, alojamiento de cable de acero para trazado de l¡neas el‚ctricas, p.p de excavaci¢n, mano de obra, materiales y medios auxiliares.|3800.0000000000000|040400|0|
+~T|240.002|Canalizaci¢n (Tipo 1) reforzada para alojamiento de l¡neas el‚ctricas de 0,6 x 0,85 m de secci¢n con 2 tubos de d=15 cm de PVC, capa inferior de 25 cm de hormig¢n  H-125 kg/cm2 para protecci¢n y anclaje de las canalizaciones y relleno superior de tierra compactada, incluso cobertura de aviso presencia de cables, alojamiento de cable de acero para trazado de l¡neas el‚ctricas, p.p de excavaci¢n, mano de obra, materiales y medios auxiliares.|
+~D|240.002|SINDESCO\1\3800.0000000000000\|
+~C|240.003|Ml|Canalizaci¢n (Tipo 2) reforzada para alojamiento de l¡neas el‚ctricas de 0,6 x 0,85 m de secci¢n con 2 tubos de d=15 cm de PVC, capa inferior de 25 cm de hormig¢n  H-125 kg/cm2 para protecci¢n y anclaje de las canalizaciones y relleno superior de tierra compactada, incluso cobertura de aviso presencia de cables, alojamiento de cable de acero para trazado de l¡neas el‚ctricas, p.p de excavaci¢n, mano de obra, materiales y medios auxiliares.|3800.0000000000000|040400|0|
+~T|240.003|Canalizaci¢n (Tipo 2) reforzada para alojamiento de l¡neas el‚ctricas de 0,6 x 0,85 m de secci¢n con 2 tubos de d=15 cm de PVC, capa inferior de 25 cm de hormig¢n  H-125 kg/cm2 para protecci¢n y anclaje de las canalizaciones y relleno superior de tierra compactada, incluso cobertura de aviso presencia de cables, alojamiento de cable de acero para trazado de l¡neas el‚ctricas, p.p de excavaci¢n, mano de obra, materiales y medios auxiliares.|
+~D|240.003|SINDESCO\1\3800.0000000000000\|
+~C|240.004|Ml|Canalizaci¢n para alojamiento de l¡nea de alumbrado de 0,6x0,35 m de reacci¢n con 1 tubo de d=15 cm de PVC y relleno con tierra compactada, incluso  cobertura de aviso de presencia de cables, acoplamiento con dados de cimentaci¢n, poste de luz y parte proporcional De excavaci¢n, mano de obra, materiales y medios auxiliares.|2500.0000000000000|040400|0|
+~T|240.004|Canalizaci¢n para alojamiento de l¡nea de alumbrado de 0,6x0,35 m de reacci¢n con 1 tubo de d=15 cm de PVC y relleno con tierra compactada, incluso  cobertura de aviso de presencia de cables, acoplamiento con dados de cimentaci¢n, poste de luz y parte proporcional De excavaci¢n, mano de obra, materiales y medios auxiliares.|
+~D|240.004|SINDESCO\1\2500.0000000000000\|
+~C|240.005|Ud|Cuadro General de Baja Tensi¢n en chapa de acero de 2.5 mm2 de espesor, acabado mediante desengrasado, imprimaci¢n y pintura en polvo epoxi-poliester de 60 micras de espesor m¡nimo, conteniendo en su interior debidamente montado y cableado el aparellaje que a continuaci¢n se especifica: 1,00 Ud Interruptor tetrap. 40 A, 4,00 Ud Interruptor tetrap., hasta 32 A, 11,00 Ud Interruptor bipolar hasta 32 A, 1,00 Ud Interr. Dif. Tetra 40 A 30 mA, 2.00 Ud Interr. Dif. Tetra 25 A 300 mA, 1,00 Ud Interr. Dif. Tetra 25 A 30 mA, 1,00 PA Cuadro, mano de obra y cableado.|336355.0000000000000|040400|0|
+~T|240.005|Cuadro General de Baja Tensi¢n en chapa de acero de 2.5 mm2 de espesor, acabado mediante desengrasado, imprimaci¢n y pintura en polvo epoxi-poliester de 60 micras de espesor m¡nimo, conteniendo en su interior debidamente montado y cableado el aparellaje que a continuaci¢n se especifica:1,00 Ud Interruptor tetrap. 40 A, 4,00 Ud Interruptor tetrap., hasta 32 A, 11,00 Ud Interruptor bipolar hasta 32 A, 1,00 Ud Interr. Dif. Tetra 40 A 30 mA, 2.00 Ud Interr. Dif. Tetra 25 A 300 mA, 1,00 Ud Interr. Dif. Tetra 25 A 30 mA, 1,00 PA Cuadro, mano de obra y cableado.|
+~D|240.005|SINDESCO\1\336355.0000000000000\|
+~C|240.006|Ud|Luminaria empotrable para falsos techos perfil visto, serie IET de Indalux o similar, para l mparas fluorescentes 4x18 W, incluso estas, reflector y lamas de acero en blanco, unidad totalmente montada y conexionada.|15200.0000000000000|040400|0|
+~T|240.006|Luminaria empotrable para falsos techos perfil visto, serie IET de Indalux o similar, para l mparas fluorescentes 4x18 W, incluso estas, reflector y lamas de acero en blanco, unidad totalmente montada y conexionada.|
+~D|240.006|SINDESCO\1\15200.0000000000000\|
+~C|240.007|Ud|Luminaria de se¤alizaci¢n y emergencia estanca IP-55, tipo h‚rcules de Zemper o similar con l mpara fluorescentes de 9 W y bater¡as para una autonom¡a de 1 h.|17500.0000000000000|040400|0|
+~T|240.007|Luminaria de se¤alizaci¢n y emergencia estanca IP-55, tipo h‚rcules de Zemper o similar con l mpara fluorescentes de 9 W y bater¡as para una autonom¡a de 1 h.|
+~D|240.007|SINDESCO\1\17500.0000000000000\|
+~C|240.008|Ud|Luminaria para exterior IP-55 tipo ba¤ador de pared, adosada, de cuerpo en pl stico y reflector de aluminio abrillantado y oxidado y difusor de cristal templado para l mpara de VSAP de 70 W, en fachada de edificio, incluso parte proporcional de conductor y caja de derivaci¢n, unidad totalmente montada y conexionada.|18450.0000000000000|040400|0|
+~T|240.008|Luminaria para exterior IP-55 tipo ba¤ador de pared, adosada, de cuerpo en pl stico y reflector de aluminio abrillantado y oxidado y difusor de cristal templado para l mpara de VSAP de 70 W, en fachada de edificio, incluso parte proporcional de conductor y caja de derivaci¢n, unidad totalmente montada y conexionada.|
+~D|240.008|SINDESCO\1\18450.0000000000000\|
+~C|240.009|Ud|Regleta fluorescente estanca, tipo NLW-500 de Philips o similar, para 1 tubo fluorescente de 36 W, incluso estos, unidad totalmente montada y conexionada.|8850.0000000000000|040400|0|
+~T|240.009|Regleta fluorescente estanca, tipo NLW-500 de Philips o similar, para 1 tubo fluorescente de 36 W, incluso estos, unidad totalmente montada y conexionada.|
+~D|240.009|SINDESCO\1\8850.0000000000000\|
+~C|240.010|Ud|Regleta fluorescente estanca, tipo NLW-500 de Philips o similar, para 2 tubos fluorescentes de 36 W, incluso estos, unidad totalmente montada y conexionada.|21040.0000000000000|040400|0|
+~T|240.010|Regleta fluorescente estanca, tipo NLW-500 de Philips o similar, para 2 tubos fluorescentes de 36 W, incluso estos, unidad totalmente montada y conexionada.|
+~D|240.010|SINDESCO\1\21040.0000000000000\|
+~C|240.011|Ud|Interruptor unipolar simple para mando alumbrado, incluso parte proporcional de conductor, montado y conexionado.|4100.0000000000000|040400|0|
+~T|240.011|Interruptor unipolar simple para mando alumbrado, incluso parte proporcional de conductor, montado y conexionado.|
+~D|240.011|SINDESCO\1\4100.0000000000000\|
+~C|240.012|Ud|Interruptor unipolar simple estanco para mando alumbrado, incluso parte proporcional de conductor, montado y conexionado|5400.0000000000000|040400|0|
+~T|240.012|Interruptor unipolar simple estanco para mando alumbrado, incluso parte proporcional de conductor, montado y conexionado|
+~D|240.012|SINDESCO\1\5400.0000000000000\|
+~C|240.013|Ud|Toma de corriente trif sica con tierra de 16 A, con caja y parte proporcional de l¡nea de alimentaci¢n|5300.0000000000000|040400|0|
+~T|240.013|Toma de corriente trif sica con tierra de 16 A, con caja y parte proporcional de l¡nea de alimentaci¢n|
+~D|240.013|SINDESCO\1\5300.0000000000000\|
+~C|240.014|Ud|Toma de corriente trif sica con tierra de 32 A, con caja y parte proporcional de l¡nea de alimentaci¢n|7900.0000000000000|040400|0|
+~T|240.014|Toma de corriente trif sica con tierra de 32 A, con caja y parte proporcional de l¡nea de alimentaci¢n|
+~D|240.014|SINDESCO\1\7900.0000000000000\|
+~C|240.015|Ud|Arqueta de puesta a tierra registrable para pica de 2 m, seg£n planos, terminada.|36200.0000000000000|040400|0|
+~T|240.015|Arqueta de puesta a tierra registrable para pica de 2 m, seg£n planos, terminada.|
+~D|240.015|SINDESCO\1\36200.0000000000000\|
+~C|240.016|Ud|Pica de Acero cobrizado de 2 m de longitud y 14 mm de di metro, incluyendo colocaci¢n, para puesta a tierra|8900.0000000000000|040400|0|
+~T|240.016|Pica de Acero cobrizado de 2 m de longitud y 14 mm de di metro, incluyendo colocaci¢n, para puesta a tierra|
+~D|240.016|SINDESCO\1\8900.0000000000000\|
+~C|240.017|Ud|Cable de Cu desnudo enterrado de 50 mm2|1630.0000000000000|040400|0|
+~T|240.017|Cable de Cu desnudo enterrado de 50 mm2|
+~D|240.017|SINDESCO\1\1630.0000000000000\|
+~C|240.018|m|Cable de Cu RV 0.6/1 kV de xx1.5 mm2 + T tendido en tubo o bandeja|195.0000000000000|040400|0|
+~T|240.018|Cable de Cu RV 0.6/1 kV de xx1.5 mm2 + T tendido en tubo o bandeja|
+~D|240.018|SINDESCO\1\195.0000000000000\|
+~C|240.019|m|Cable de Cu H07V-K 750 V de 2x1.5 mm2 + T tendido en tubo o bandeja|160.0000000000000|040400|0|
+~T|240.019|Cable de Cu H07V-K 750 V de 2x1.5 mm2 + T tendido en tubo o bandeja|
+~D|240.019|SINDESCO\1\160.0000000000000\|
+~C|240.020|m|Cable de Cu H07V-K de 2x2.5mm2 +T, tendido en tubo o bandeja|210.0000000000000|040400|0|
+~T|240.020|Cable de Cu H07V-K de 2x2.5mm2 +T, tendido en tubo o bandeja|
+~D|240.020|SINDESCO\1\210.0000000000000\|
+~C|240.021|m|Cable de Cu RV 0.6/1 kV de 2x4 mm2 + T, tendido en tubo o bandeja|240.0000000000000|040400|0|
+~T|240.021|Cable de Cu RV 0.6/1 kV de 2x4 mm2 + T, tendido en tubo o bandeja|
+~D|240.021|SINDESCO\1\240.0000000000000\|
+~C|240.022|m|Cable de Cu RV 0.6/1 kV de 4x10 mm2, tendido en tubo o bandeja, Ac CGBT|520.0000000000000|040400|0|
+~T|240.022|Cable de Cu RV 0.6/1 kV de 4x10 mm2, tendido en tubo o bandeja, Ac CGBT|
+~D|240.022|SINDESCO\1\520.0000000000000\|
+~C|250.001|PA|Suministro e Instalaci¢n de riego automatizado por goteo y/o microdifusores, para hilera de 20  rboles en una longitud de 120 m y para 50 m de seto, incluso regulador de presi¢n, electrov lvula, cable el‚ctrico antihumedad, programador electr¢nico de 4 zonas, llaves de paso, zanjas y arquetas necesarias.|250000.0000000000000|040400|0|
+~T|250.001|Suministro e Instalaci¢n de riego automatizado por goteo y/o microdifusores, para hilera de 20  rboles en una longitud de 120 m y para 50 m de seto, incluso regulador de presi¢n, electrov lvula, cable el‚ctrico antihumedad, programador electr¢nico de 4 zonas, llaves de paso, zanjas y arquetas necesarias.|
+~D|250.001|SINDESCO\1\250000.0000000000000\|
+~C|250.002|Ud|Suministro e instalaci¢n de boca de riego de acople r pido de ¾” con cuerpo y tapa de bronce, totalmente terminado.|39000.0000000000000|040400|0|
+~T|250.002|Suministro e instalaci¢n de boca de riego de acople r pido de ¾” con cuerpo y tapa de bronce, totalmente terminado.|
+~D|250.002|SINDESCO\1\39000.0000000000000\|
+~C|260.001|PA|Realizaci¢n proyecto de construcci¢n y de Seguridad y Salud, a partir del proyecto t‚cnico suministrado, incluyendo la realizaci¢n de los ensayos geot‚cnicos y dem s que se consideron necesarios.|4000000.0000000000000|040400|0|
+~T|260.001|Realizaci¢n proyecto de construcci¢n y de Seguridad y Salud, a partir del proyecto t‚cnico suministrado, incluyendo la realizaci¢n de los ensayos geot‚cnicos y dem s que se consideron necesarios.|
+~D|260.001|SINDESCO\1\4000000.0000000000000\|
+~C|260.002|PA|Levantamiento topogr fico de los terrenos|250000.0000000000000|040400|0|
+~T|260.002|Levantamiento topogr fico de los terrenos|
+~D|260.002|SINDESCO\1\250000.0000000000000\|
+~C|270.001|Ud|Extractor helicoidal para su instalaci¢n en cerramiento del taller de di metro 214 mm. Caudal extractor 400 m3/h, potencia 32 W y tensi¢n de alimentaci¢n 220 V, totalmente instalado.|4200.0000000000000|040400|0|
+~T|270.001|Extractor helicoidal para su instalaci¢n en cerramiento del taller de di metro 214 mm. Caudal extractor 400 m3/h, potencia 32 W y tensi¢n de alimentaci¢n 220 V, totalmente instalado.|
+~D|270.001|SINDESCO\1\4200.0000000000000\|
+~C|270.002|Ud|Extractor helicocentr¡fugo para instalar en zona de aseos, para conducto sobre techo, fi 100 x 215 mm, de caudal 160 m3/h 35 W de potencia y tensi¢n 220 V.|6870.0000000000000|040400|0|
+~T|270.002|Extractor helicocentr¡fugo para instalar en zona de aseos, para conducto sobre techo, fi 100 x 215 mm, de caudal 160 m3/h 35 W de potencia y tensi¢n 220 V.|
+~D|270.002|SINDESCO\1\6870.0000000000000\|
+~C|270.003|Ud|Bocas de aspiraci¢n instaladas sobre falso techo de aseos de di metros 100 mm.|2000.0000000000000|040400|0|
+~T|270.003|Bocas de aspiraci¢n instaladas sobre falso techo de aseos de di metros 100 mm.|
+~D|270.003|SINDESCO\1\2000.0000000000000\|
+~C|270.004|Ud|Rejilla de aluminio para instalaci¢n a muro de dimensiones 130 x 130mm.|300.0000000000000|040400|0|
+~T|270.004|Rejilla de aluminio para instalaci¢n a muro de dimensiones 130 x 130mm.|
+~D|270.004|SINDESCO\1\300.0000000000000\|
+~C|280.001|Ud|Sumini., apert. hoyo, plantaci¢n y primer riego de Pinus pinea|19725.0000000000000|040400|0|
+~T|280.001|Suministro, apertura de hoyo, plantaci¢n y primer riego de Pinus pinea (Pino) de 1.5 a 2.0 m de altura con cepell¢n escayolado|
+~D|280.001|SINDESCO\1\19725.0000000000000\|
+~C|280.002|Ud|Sumini., apert. hoyo, plantaci¢n y primer riego de Olea europaea|86439.0000000000000|040400|0|
+~T|280.002|Suministro, apertura de hoyo, plantaci¢n y primer riego de Olea europaea (Olivo) ejemplar centenario con cepell¢n|
+~D|280.002|SINDESCO\1\86439.0000000000000\|
+~C|280.003|Ud|Sumini., apert. hoyo, plantaci¢n y primer riego de Acacia dealbata|5951.0000000000000|040400|0|
+~T|280.003|Suministro, apertura de hoyo, plantaci¢n y primer riego de Acacia dealbata (Mimosa) de 14 16 cm de circunferencia a 1 m del suelo con cepell¢n en container|
+~D|280.003|SINDESCO\1\5951.0000000000000\|
+~C|280.004|Ud|Sumini., apert. hoyo, plantaci¢n y primer riego de Arbutus unedo|2115.0000000000000|040400|0|
+~T|280.004|Suministro, apertura de hoyo, plantaci¢n y primer riego de Arbutus unedo (Madro¤o) de 0.8 a 1.0 m de altura con cepell¢n en conatiner.|
+~D|280.004|SINDESCO\1\2115.0000000000000\|
+~C|280.005|Ud|Sumini., apert. hoyo, plantaci¢n y primer riego de Prunus dulcis|5703.0000000000000|040400|0|
+~T|280.005|Suministro, apertura de hoyo, plantaci¢n y primer riego de Prunus dulcis (Almendro) de 2.0 a 2.5 m de altura con cepell¢n en container.|
+~D|280.005|SINDESCO\1\5703.0000000000000\|
+~C|280.006|Ud|Sumini., apert. hoyo, plantaci¢n y primer riego de Rosa spp.|1923.0000000000000|040400|0|
+~T|280.006|Suministro, apertura de hoyo, plantaci¢n y primer riego de Rosa spp. (Rosa) de pie bajo de 0.3 a 0.4 m de altura con cepell¢n en conatiner.|
+~D|280.006|SINDESCO\1\1923.0000000000000\|
+~C|280.007|Ud|Sumini., apert. hoyo, plantaci¢n y primer riego de Syringa vulgaris|2721.0000000000000|040400|0|
+~T|280.007|Suministro, apertura de hoyo, plantaci¢n y primer riego de Syringa vulgaris (Lilo) de 0.6 a 0.8 m de altura con cepell¢n en conatiner.|
+~D|280.007|SINDESCO\1\2721.0000000000000\|
+~C|280.008|Ud|Sumini., apert. hoyo, plantaci¢n y primer riego de Cytissus scoparius|1711.0000000000000|040400|0|
+~T|280.008|Suministro, apertura de hoyo, plantaci¢n y primer riego de Cytissus scoparius (Retama) de 0.6 a 0.8 m de altura con cepell¢n en conatiner.|
+~D|280.008|SINDESCO\1\1711.0000000000000\|
+~C|280.009|Ud|Sumini., apert. hoyo, plantaci¢n y primer riego de Cytissus multiflorus|1711.0000000000000|040400|0|
+~T|280.009|Suministro, apertura de hoyo, plantaci¢n y primer riego de Cytissus multiflorus (Escoba blanca) de 0.6 a 0.8 m de altura con cepell¢n en conatiner.|
+~D|280.009|SINDESCO\1\1711.0000000000000\|
+~C|280.010|Ud|Sumini., apert. hoyo, plantaci¢n y primer riego de Ulex europaeus|1822.0000000000000|040400|0|
+~T|280.010|Suministro, apertura de hoyo, plantaci¢n y primer riego de Ulex europaeus (Tojo) de 0.6 a 0.8 m de altura con cepell¢n en container.|
+~D|280.010|SINDESCO\1\1822.0000000000000\|
+~C|280.011|m|Sumini., apert. zanja, plantaci¢n y primer riego de Cupressus arizonica|3351.0000000000000|040400|0|
+~T|280.011|Suministro, apertura de zanja, plantaci¢n y primer riego de Cupressus arizonica (Ariz¢nica) de 0.6 a 0.8 m de altura con cepell¢n en conatiner (3 Ud/m).|
+~D|280.011|SINDESCO\1\3351.0000000000000\|
+~C|280.012|Ud|Sumini., apert. hoyo, plantaci¢n y primer riego de Lavandula stoechas|436.0000000000000|040400|0|
+~T|280.012|Suministro, apertura de hoyo, plantaci¢n y primer riego de Lavandula stoechas (Lavanda) de 0.1 a 0.2 m de altura con cepell¢n en maceta.|
+~D|280.012|SINDESCO\1\436.0000000000000\|
+~C|280.013|Ud|Sumini., apert. hoyo, plantaci¢n y primer riego de Rosmarinus officinalis|436.0000000000000|040400|0|
+~T|280.013|Suministro, apertura de hoyo, plantaci¢n y primer riego de Rosmarinus officinalis (Romero) de 0.2 a 0.3 m de altura con cepell¢n en maceta.|
+~D|280.013|SINDESCO\1\436.0000000000000\|
+~C|280.014|Ud|Sumini., apert. hoyo, plantaci¢n y primer riego de bulbosas gran flora.|327.0000000000000|040400|0|
+~T|280.014|Suministro, apertura de hoyo, plantaci¢n y primer riego de plantas bulbosas de gran floraci¢n con cepell¢n en maceta.|
+~D|280.014|SINDESCO\1\327.0000000000000\|
+~C|280.015|Ud|Sumini. y coloca. de papelera de madera|18830.0000000000000|040400|0|
+~T|280.015|Suministro y colocaci¢n de papelera de madera, 30 l de capacidad, con pie, incluida cimentaci¢n.|
+~D|280.015|SINDESCO\1\18830.0000000000000\|
+~C|280.016|m2|Sumini. y extendido de gravilla de e=3cm|400.0000000000000|040400|0|
+~T|280.016|Suministro y extendido a mano de gravilla con un espesor de 3 cm.|
+~D|280.016|SINDESCO\1\400.0000000000000\|
+~C|280.017|m2|Solado de losetas de hormig¢n|3830.0000000000000|040400|0|
+~T|280.017|Solado de losetas de hormig¢n envejecido, recibidas con mortero cemento y arena de r¡o, rejuntado y limpieza de superficie.|
+~D|280.017|SINDESCO\1\3830.0000000000000\|
+~C|280.018|m|Sumini. coloca. y puesta en ejec. de tuber¡a goteros|180.0000000000000|040400|0|
+~T|280.018|Suministro, colocaci¢n y puesta en ejecuci¢n de tuber¡a goteros interlinea con distancia entre ellos de 0.5 m, i/p.p. de piezas especiales..|
+~D|280.018|SINDESCO\1\180.0000000000000\|
+~C|290.001|m|Cuneta revestida (profundidad 0.4 m)|4800.0000000000000|040400|0|
+~T|290.001|Cuneta revestida (profundidad 0.4 m)|
+~D|290.001|SINDESCO\1\4800.0000000000000\|
+~C|290.002|m|Colector PVC de 30 cm de di metro incluso excavaci¢n, colocaci¢n y relleno|3700.0000000000000|040400|0|
+~T|290.002|Colector PVC de 30 cm de di metro incluso excavaci¢n, colocaci¢n y relleno|
+~D|290.002|SINDESCO\1\3700.0000000000000\|
+~C|290.003|m|Colector PVC de 40 cm de di metro incluso excavaci¢n, colocaci¢n y relleno|5600.0000000000000|040400|0|
+~T|290.003|Colector PVC de 40 cm de di metro incluso excavaci¢n, colocaci¢n y relleno|
+~D|290.003|SINDESCO\1\5600.0000000000000\|
+~C|290.004|ud|Pozo de registro (altura m xima 3m)|90000.0000000000000|040400|0|
+~T|290.004|Pozo de registro (altura m xima 3m)|
+~D|290.004|SINDESCO\1\90000.0000000000000\|
+~C|300.001|m2|Panel r¡gido para la protecci¢n contraincendios, de 1.20x1.20 m, con RF-120, compuesto por vermiculita y silicato de calcio|9000.0000000000000|040400|0|
+~T|300.001|Panel r¡gido para la protecci¢n contraincendios, de 1.20x1.20 m, con RF-120, compuesto por vermiculita y silicato de calcio|
+~D|300.001|SINDESCO\1\9000.0000000000000\|
+~C|310.001|ud|Botiqu¡n instalado|9500.0000000000000|040400|0|
+~T|310.001|Botiqu¡n instalado|
+~D|310.001|SINDESCO\1\9500.0000000000000\|
+~C|310.002|m|Banco vestuario realizado con tres tablones de madera de pino pintados de 7x4 cm atornillados a escuadra realizado con tubo 60x40 recibidas a la pared i/perchero realizado con tabla 15x3 cm, atornillados a la pared con ganchos para cualgue de ropa, totalmente terminado y montado|9242.0000000000000|040400|0|
+~T|310.002|Banco vestuario realizado con tres tablones de madera de pino pintados de 7x4 cm atornillados a escuadra realizado con tubo 60x40 recibidas a la pared i/perchero realizado con tabla 15x3 cm, atornillados a la pared con ganchos para cualgue de ropa, totalmente terminado y montado|
+~D|310.002|SINDESCO\1\9242.0000000000000\|
+~C|310.003|ud|Taquilla met lica para dos personas "Mecalux" color, medidas 1.80x0.50x0.25 m, totalmente montada e instalada en vestuarios|15359.0000000000000|040400|0|
+~T|310.003|Taquilla met lica para dos personas "Mecalux" color, medidas 1.80x0.50x0.25 m, totalmente montada e instalada en vestuarios|
+~D|310.003|SINDESCO\1\15359.0000000000000\|
+~C|PBlending##||Planta "Blending" Recitermia|119237089.0351000010996|040400|0|
+~D|PBlending|0\1\1.0000000000000\1\1\1.0000000000000\2\1\1.0000000000000\2\1\1.0000000000000\3\1\1.0000000000000\31\1\1.0000000000000\4\1\1.0000000000000\6\1\1.0000000000000\7\1\1.0000000000000\8\1\1.0000000000000\9\1\1.0000000000000\10\1\1.0000000000000\11\1\1.0000000000000\12\1\1.0000000000000\13\1\1.0000000000000\14\1\1.0000000000000\15\1\1.0000000000000\|
+~C|0#||Demoliciones|3730000.0000000000000|040400|0|
+~Y|0|010.001\1\1\010.002\1\1450\010.003\1\24\|
+~M|0\010.001|1\1\|1|\\1\0\0\0\|
+~M|0\010.002|1\2\|1450|\\1450\0\0\0\|
+~M|0\010.003|1\3\|24|\\24\0\0\0\|
+~C|1#||Explanaci¢n|12365716.9400000005953|040400|0|
+~Y|1|020.001\1\9800\020.002\1\6961.6\020.005\1\6961.6\020.009\1\4685.1\020.010\1\4685.1\020.011\1\6328.73\|
+~M|1\020.001|2\1\|9800|\\1\9800\0\0\|
+~M|1\020.002|2\2\|6961.6|\\1\6961.6\0\0\|
+~M|1\020.005|2\3\|6961.6|\\1\6961.6\0\0\|
+~M|1\020.009|2\4\|4685.1|\\1\4685.1\0\0\|
+~M|1\020.010|2\5\|4685.1|\\1\4685.1\0\0\|
+~M|1\020.011|2\6\|6328.73|\\1\6328.73\0\0\|
+~C|2#||Viales|23074659.9999999992979|040400|0|
+~Y|2|150.003.1\1\736.68\150.002\1\701.6\020.008\1\2455.6\080.001\1\315.09\080.003\1\4\|
+~M|2\150.003.1|3\1\|736.68|\\1\3508\0\0.21\|
+~M|2\150.002|3\2\|701.6|\\1\3508\0.2\0\|
+~M|2\020.008|3\3\|2455.6|\\1\3508\0.7\0\|
+~M|2\080.001|3\4\|315.09|\\1\253.09\0\0\\\2\15\0\0\\\1\32\0\0\|
+~M|2\080.003|3\5\|4|\\4\1\1\1\|
+~C|2#||Abastecimiento de agua|1618506.8499999999992|040400|0|
+~Y|2|230.001\1\390\230.001.3\1\39\020.003\1\262.454\020.006\1\280.78\220.003\1\10\|
+~M|2\230.001|4\1\|390|\\1\22\0\0\\\1\20\0\0\\\1\45\0\0\\\1\53\0\0\\\1\30\0\0\\\1\26\0\0\\\1\53\0\0\\\1\45\0\0\\\1\13\0\0\\\1\30\0\0\\\1\22\0\0\\\1\14\0\0\\\1\17\0\0\|
+~M|2\230.001.3|4\2\|39|\\1\15\0\0\\\1\13\0\0\\\1\11\0\0\|
+~M|2\020.003|4\3\|262.454|\\1\22\0.77\0.85\\\1\20\0.77\0.85\\\1\45\0.77\0.85\\\1\53\0.77\0.85\\\1\30\0.77\0.85\\\1\26\0.77\0.85\\\1\53\0.77\0.85\\\1\45\0.77\0.85\\\1\13\0.77\0.85\\\1\30\0.77\0.85\\\1\22\0.77\0.85\\\1\14\0.77\0.85\\\1\17\0.77\0.85\\\1\11\0.77\0.85\|
+~M|2\020.006|4\4\|280.78|\\1\22\0.77\0.85\\\1\20\0.77\0.85\\\1\45\0.77\0.85\\\1\53\0.77\0.85\\\1\30\0.77\0.85\\\1\26\0.77\0.85\\\1\53\0.77\0.85\\\1\45\0.77\0.85\\\1\13\0.77\0.85\\\1\30\0.77\0.85\\\1\22\0.77\0.85\\\1\14\0.77\0.85\\\1\17\0.77\0.85\\\1\15\0.77\0.85\\\1\13\0.77\0.85\\\1\11\0.77\0.85\|
+~M|2\220.003|4\5\|10|\\10\0\0\0\|
+~C|3#||Red contra incendios|5525010.9174999999873|040400|0|
+~Y|3|230.001.2\1\628.01\230.001.4\1\64.71\020.003\1\16.8141\020.006\1\16.5315\220.003\1\7\|
+~M|3\230.001.2|5\1\|628.01|\\1\20.54\0\0\\\1\20.56\0\0\\\1\35.9\0\0\\\1\10.69\0\0\\\1\25.64\0\0\\\1\26.77\0\0\\\1\28.52\0\0\\\1\19.06\0\0\\\1\55.24\0\0\\\1\39.9\0\0\\\1\15.06\0\0\\\1\78.95\0\0\\\1\15\0\0\\\1\13.39\0\0\\\1\77.79\0\0\\\1\8\0\0\\\1\51.9\0\0\\\1\70.1\0\0\\\1\9\0\0\\\1\6\0\0\|
+~M|3\230.001.4|5\2\|64.71|\\1\15.58\0\0\\\1\9.13\0\0\\\1\30\0\0\\\1\10\0\0\|
+~M|3\020.003|5\3\|16.8141|\\1\6\0.77\0.85\\\1\9\0.77\0.85\\\1\10.69\0.77\0.85\|
+~M|3\020.006|5\4\|16.5315|\\1\6\0.77\0.85\\\1\9\0.77\0.85\\\1\10.69\0.77\0.85\\a deducir\-1\25.69\0.011\0\|
+~M|3\220.003|5\5\|7|\\7\0\0\0\|
+~C|31#||Saneamiento|5186270.0000000000268|040400|0|
+~Y|31|290.001\1\170\290.002\1\292.8\290.003\1\190\220.007\1\15\220.004\1\12\220.002\1\2\290.004\1\3\220.008\1\1\220.008\1\1\020.012\1\13.2\020.006\1\917.3\|
+~M|31\290.001|6\1\|170|\\1\170\0\0\|
+~M|31\290.002|6\2\|292.8|\\1\292.8\0\0\|
+~M|31\290.003|6\3\|190|\\1\190\0\0\|
+~M|31\220.007|6\4\|15|\\15\1\0\0\|
+~M|31\220.004|6\5\|12|\\12\1\0\0\|
+~M|31\220.002|6\6\|2|\\2\0\0\0\|
+~M|31\290.004|6\7\|3|\\3\1\0\0\|
+~M|31\220.008|6\8\|1|\\1\0\0\0\|
+~M|31\220.008|6\9\|1|\\1\0\0\0\|
+~M|31\020.012|6\10\|13.2|\\1\13.2\0\0\|
+~M|31\020.006|6\11\|917.3|\\1\917.3\0\0\|
+~C|4#||Red el‚ctrica|1656972.0000000000205|040400|0|
+~D|4|4.1\1\1.0000000000000\4.1\1\1.0000000000000\|
+~C|4.1#||Alumbrado|891450.0000000000224|040400|0|
+~Y|4.1|240.004\1\310.58\240.001\1\1\030.007\1\16\|
+~M|4.1\240.004|7\1\1\|310.58|\\14.22\0\0\0\\\33.27\0\0\0\\\23.67\0\0\0\\\24.48\0\0\0\\\22.61\0\0\0\\\17.22\0\0\0\\\16.96\0\0\0\\\9.15\0\0\0\\\20.62\0\0\0\\\20.42\0\0\0\\\21.72\0\0\0\\\21.85\0\0\0\\\10.93\0\0\0\\\19.54\0\0\0\\\14.82\0\0\0\\\19.1\0\0\0\|
+~M|4.1\240.001|7\1\2\|1|\\1\0\0\0\|
+~M|4.1\030.007|7\1\3\|16|\\16\0\0\0\|
+~C|4.1#||Fuerza|765521.9999999999981|040400|0|
+~Y|4.1|240.002\1\146.19\240.001\1\6\|
+~M|4.1\240.002|7\2\1\|146.19|\\1\32.05\0\0\\\1\13.75\0\0\\\1\45.6\0\0\\\1\37.6\0\0\\\1\5.59\0\0\\\1\11.6\0\0\|
+~M|4.1\240.001|7\2\2\|6|\\6\0\0\0\|
+~C|6#||Cerramiento|1142090.0000000000034|040400|0|
+~Y|6|070.002\1\173.5\070.001\1\89.14\|
+~M|6\070.002|8\1\|173.5|\\55.94\0\0\0\\\117.56\0\0\0\|
+~M|6\070.001|8\2\|89.14|\\89.14\0\0\0\|
+~C|7#||Parque de tanques|19767990.2008000006244|040400|0|
+~Y|7|030.001\1\84.4\030.003.1\1\458.275\030.009\1\349.66\030.008\1\44085.9\038.227\1\301\130.001\1\1058.16\030.001\1\10.85\|
+~M|7\030.001|9\1\|84.4|\\1\844\0.1\1\|
+~M|7\030.003.1|9\2\|458.275|\\1\844\0.4\1\\\1\844\0.035\1\\\1\98.33\0.25\1\\\10\11.92\1.1\0.3\\\4\15.12\1.5\0.3\|
+~M|7\030.009|9\3\|349.66|\Muro\1\5.13\1\1\\\1\4.96\1\1\\\1\2.89\1\1\\\1\25.58\1\1\\\1\25.84\1\1\\\1\12.85\1\1\\\1\2.96\1\1\\\1\2.75\1\1\\\1\12.44\1\1\\\1\12.85\1\1\\\1\2.75\1\1\\\1\25.58\1\1\\\1\3.01\1\1\\\1\2.89\1\1\\\1\4.96\1\1\\\1\5.13\1\1\\\1\4.3\1\1\\\1\15.01\1\1\\\1\15.51\1\1\\Soportes tanques\10\8.46\0.3\1\\\10\15.38\0.3\1\\\10\10.41\0.3\1\\\10\19.84\0.3\1\|
+~M|7\030.008|9\4\|44085.9|\Losa\1\883.332\37.92\1\\T.R.\120\11.92\1.58\1\\T.R.\610\2.5\1.58\1\\T.M.\64\15.12\1.58\1\\T.M.\308\2.9\1.58\1\\Muro\1314\1.75\0.62\1\\\16\98.33\0.62\1\\\318\1.75\0.62\1\\\16\23.6\0.62\1\|
+~M|7\038.227|9\5\|301|\\1\301\0\0\|
+~M|7\130.001|9\6\|1058.16|\Losa\1\883.332\1\1\\Muros\1\174.83\1\1\|
+~M|7\030.001|9\7\|10.85|\Limpieza\1\15.5\7\0.1\|
+~C|8#||Edificio de bombas|5225468.5450000000910|040400|0|
+~Y|8|040.001\1\2455.79\060.001\1\239.91\030.001\1\10.85\030.003.1\1\58.9875\030.009\1\211.5\030.008\1\3954.64\070.007\1\93.74\170.004\1\1.7425\140.003\1\99.64\100.002\1\78.26\200.002\1\78.26\220.004\1\1\220.001\1\9\180.002\1\2\150.004\1\94.72\230.007\1\15.4\230.008\1\5\|
+~M|8\040.001|10\1\|2455.79|\según medición auxiliar\2088\1\1\1\\correas\3\14.7\8.34\0\|
+~M|8\060.001|10\2\|239.91|\\1\15.4\6.98\1\\\1\15.4\2.75\1\\\2\6.96\2.75\1\\\1\6.96\0.5\1\\\1\15.4\3.25\1\\\-1\2.05\0.85\1\|
+~M|8\030.001|10\3\|10.85|\Limpieza\1\15.5\7\0.1\|
+~M|8\030.003.1|10\4\|58.9875|\Losa\1\15.5\7\0.3\\Muros\1\45\0.25\2.35\|
+~M|8\030.009|10\5\|211.5|\Muros\1\90\2.35\1\|
+~M|8\030.008|10\6\|3954.64|\Losa\1\108.5\21.36\1\\Refuerzos\8\7.94\1\1\\Muro\1\105.75\14.88\1\|
+~M|8\070.007|10\7\|93.74|\\2\15.1\2.15\1\\\2\6.7\2.15\1\|
+~M|8\170.004|10\8\|1.7425|\\1\2.05\0.85\0\|
+~M|8\140.003|10\9\|99.64|\\2\14.8\2.35\0\\\2\6.4\2.35\0\|
+~M|8\100.002|10\10\|78.26|\\2\15.4\1.75\0\\\2\6.96\1.75\0\|
+~M|8\200.002|10\11\|78.26|\\2\15.4\1.75\0\\\2\6.96\1.75\0\|
+~M|8\220.004|10\12\|1|\\1\0\0\0\|
+~M|8\220.001|10\13\|9|\\9\0\0\0\|
+~M|8\180.002|10\14\|2|\\2\0\0\0\|
+~M|8\150.004|10\15\|94.72|\\1\14.8\6.4\0\|
+~M|8\230.007|10\16\|15.4|\\1\15.4\0\0\|
+~M|8\230.008|10\17\|5|\\1\5\0\0\|
+~C|9#||Plataformas de carga y descarga|3062493.6000000000308|040400|0|
+~Y|9|040.001\1\4200\060.001\1\261\030.001\1\13.6\030.003.1\1\27.2\030.009\1\10\030.008\1\1452.48\150.002\1\27.2\220.003\1\1\130.001\1\136\220.009\1\10\|
+~M|9\040.001|11\1\|4200|\según medición auxiliar\1\4200\1\1\|
+~M|9\060.001|11\2\|261|\\1\261\1\1\|
+~M|9\030.001|11\3\|13.6|\\1\8\17\0.1\|
+~M|9\030.003.1|11\4\|27.2|\\1\8\17\0.2\|
+~M|9\030.009|11\5\|10|\\1\50\0.2\1\|
+~M|9\030.008|11\6\|1452.48|\\1\8\17\10.68\|
+~M|9\150.002|11\7\|27.2|\\1\8\17\0.2\|
+~M|9\220.003|11\8\|1|\\1\1\1\1\|
+~M|9\130.001|11\9\|136|\Losa\1\8\17\1\|
+~M|9\220.009|11\10\|10|\\1\10\1\1\|
+~C|10#||Nave almacenamiento de bidones|25794083.7020000006214|040400|0|
+~Y|10|040.001\1\33250.6\060.001\1\1080\030.001\1\162\030.003.1\1\360\030.009\1\64.8\030.008\1\17451.2\038.227\1\544\230.007\1\72\230.008\1\27\070.003\1\141.25\100.002\1\232.5\200.002\1\232.5\300.001\1\206.4\|
+~M|10\040.001|12\1\|33250.6|\según medición auxiliar\1\28855\1\1\\correas\11\36\11.1\1\|
+~M|10\060.001|12\2\|1080|\\2\13\36\1\\\1\4\36\1\|
+~M|10\030.001|12\3\|162|\\1\36\25\0.1\\Nivelación\1\36\25\0.08\|
+~M|10\030.003.1|12\4\|360|\\1\36\25\0.4\|
+~M|10\030.009|12\5\|64.8|\\1\122\0.4\1\\Canaletas\3\19\0.2\1\\Canaletas\1\23\0.2\1\|
+~M|10\030.008|12\6\|17451.2|\\258\36.7\0.888\0\\\368\25.8\0.888\0\\Refuerzos\4\16\1.3\0.888\\\10\16\2\0.888\\\10\22\1.3\0.888\|
+~M|10\038.227|12\7\|544|\\1\544\0\0\|
+~M|10\230.007|12\8\|72|\\2\36\0\0\|
+~M|10\230.008|12\9\|27|\\6\4.5\0\0\|
+~M|10\070.003|12\10\|141.25|\\1\36.5\2.5\0\\\1\12.5\4\0\|
+~M|10\100.002|12\11\|232.5|\\1\36.5\2.5\0\\\1\12.5\4\0\\\1\36.5\2.5\0\|
+~M|10\200.002|12\12\|232.5|\\1\36.5\2.5\0\\\1\12.5\4\0\\\1\36.5\2.5\0\|
+~M|10\300.001|12\13\|206.4|\\2\25.8\4\0\|
+~C|11#||Vestuarios, almac‚n y taller|4461020.0684999998489|040400|0|
+~Y|11|040.001\1\1282.67\060.001\1\151.32\030.001\1\9.25\030.003.1\1\27.75\030.009\1\20.55\030.008\1\1588.4\070.005\1\113.672\070.006\1\92.545\070.007\1\10.37\100.002\1\321.39\200.002\1\59.5525\140.003\1\81.435\200.001\1\161.94\110.001\1\83.49\170.004\1\3.485\160.001\1\15.375\170.002\1\6.9\140.002\1\27.2\150.004\1\64.94\220.004\1\3\220.001\1\16.5\220.005\1\1\190.001\1\2\190.002\1\4\190.004\1\4\190.005\1\1\190.006\1\0.5\310.001\1\1\310.002\1\1.5\310.003\1\6\230.007\1\25.8\230.008\1\7\170.005\1\2\180.001\1\2\270.001\1\1\270.002\1\2\270.003\1\2\|
+~M|11\040.001|13\1\|1282.67|\según medición auxiliar\1\1070\1\1\\correas\1\25.5\8.34\1\|
+~M|11\060.001|13\2\|151.32|\\1\25.8\3.8\1\\\1\25.8\0.5\1\\\1\25.8\1.3\1\\\2\3.8\0.5\1\\\1\3.8\0.8\1\|
+~M|11\030.001|13\3\|9.25|\\1\25\3.7\0.1\|
+~M|11\030.003.1|13\4\|27.75|\\1\25\3.7\0.3\|
+~M|11\030.009|13\5\|20.55|\\5\3.7\1\0.3\\\2\25\1\0.3\|
+~M|11\030.008|13\6\|1588.4|\\32\25.8\0.888\0\\\206\4.1\0.888\0\\Refuerzos\4\8\0.85\0.617\\Refuerzos\6\14\0.85\0.617\\Refuerzos\6\8\1.5\0.617\|
+~M|11\070.005|13\7\|113.672|\\2\25.5\2.05\1\\\2\3.5\2.05\1\\\-3\0.85\2.05\1\|
+~M|11\070.006|13\8\|92.545|\\2\25.4\0.5\0\\\2\3.4\0.5\0\\\1\3.4\3.05\0\\\3\1\3.05\0\\\8\1.5\3.05\0\\\1\2.5\3.05\0\|
+~M|11\070.007|13\9\|10.37|\\1\3.4\3.05\0\|
+~M|11\100.002|13\10\|321.39|\\2\25.5\2.05\0\\\2\3.05\2.05\0\\\-2\0.85\2.05\0\\\-1\2.3\3\0\\\2\25.3\3.05\0\\\2\3.3\3.05\0\\\4\3.3\3.05\0\|
+~M|11\200.002|13\11\|59.5525|\\1\25.5\2.05\0\\\2\3.05\2.05\0\\\-3\0.85\2.05\0\|
+~M|11\140.003|13\12\|81.435|\\2\6\3.05\0\\\4\3.3\3.05\0\\\1\1.5\3.05\0\|
+~M|11\200.001|13\13\|161.94|\\2\1.5\3.05\0\\\2\1\3.05\0\\\2\5.9\3.05\0\\\2\13.25\3.05\0\\\4\3.3\3.05\0\\\-2\0.85\2.05\0\\\-1\2.3\3\0\|
+~M|11\110.001|13\14\|83.49|\\1\25.3\3.3\0\|
+~M|11\170.004|13\15\|3.485|\\2\2.05\0.85\0\|
+~M|11\160.001|13\16\|15.375|\\10\0.75\2.05\0\|
+~M|11\170.002|13\17\|6.9|\\1\2.3\3\0\|
+~M|11\140.002|13\18\|27.2|\\1\8\3.4\0\|
+~M|11\150.004|13\19\|64.94|\\1\5.9\3.4\0\\\1\13.2\3.4\0\|
+~M|11\220.004|13\20\|3|\\3\0\0\0\|
+~M|11\220.001|13\21\|16.5|\\16.5\0\0\0\|
+~M|11\220.005|13\22\|1|\\1\0\0\0\|
+~M|11\190.001|13\23\|2|\\2\0\0\0\|
+~M|11\190.002|13\24\|4|\\4\0\0\0\|
+~M|11\190.004|13\25\|4|\\4\0\0\0\|
+~M|11\190.005|13\26\|1|\\1\0\0\0\|
+~M|11\190.006|13\27\|0.5|\\2\0.5\0.5\0\|
+~M|11\310.001|13\28\|1|\\1\0\0\0\|
+~M|11\310.002|13\29\|1.5|\\1\1.5\0\0\|
+~M|11\310.003|13\30\|6|\\6\0\0\0\|
+~M|11\230.007|13\31\|25.8|\\1\25.8\0\0\|
+~M|11\230.008|13\32\|7|\\2\3.5\0\0\|
+~M|11\170.005|13\33\|2|\\8\0.5\0.5\0\|
+~M|11\180.001|13\34\|2|\\8\0.5\0.5\0\|
+~M|11\270.001|13\35\|1|\\1\0\0\0\|
+~M|11\270.002|13\36\|2|\\2\0\0\0\|
+~M|11\270.003|13\37\|2|\\2\0\0\0\|
+~C|12#||Cimentaci¢n tanques THB|1289381.8500000000342|040400|0|
+~Y|12|030.001\1\7.5\030.003.1\1\32.826\030.009\1\71.304\030.008\1\1965.63\|
+~M|12\030.001|14\1\|7.5|\\1\12.5\6\0.1\|
+~M|12\030.003.1|14\2\|32.826|\\1\12.5\6\0.4\\\2\4.71\0.3\1\|
+~M|12\030.009|14\3\|71.304|\\2\12.5\6\0.4\\\2\6.28\1.25\0.3\\\2\6.28\1.75\0.3\|
+~M|12\030.008|14\4\|1965.63|\\2\12.5\6\10.68\\\189\2.5\0.62\1\\\6\19\0.62\1\|
+~C|13#||Parque de bombas, c. elec. y vaciado bidones|2664470.4529999999465|040400|0|
+~Y|13|040.001\1\1391.54\030.001\1\7.54\030.003.1\1\22.62\030.009\1\10.86\030.008\1\1134.08\060.001\1\119.22\070.007\1\103.24\100.002\1\206.48\200.002\1\40.385\140.003\1\81.6075\200.001\1\90.6275\170.004\1\3.485\170.002\1\6.9\150.004\1\67.71\230.007\1\12.6\230.008\1\3.8\170.005\1\0.5\180.001\1\0.5\|
+~M|13\040.001|15\1\|1391.54|\según medición auxiliar\1102\0\0\0\\correas\3\11.6\8.32\0\|
+~M|13\030.001|15\2\|7.54|\\1\6.5\11.6\0.1\|
+~M|13\030.003.1|15\3\|22.62|\\1\6.5\11.6\0.3\|
+~M|13\030.009|15\4\|10.86|\\2\11.6\0.3\0\\\2\6.5\0.3\0\|
+~M|13\030.008|15\5\|1134.08|\\50\11.8\0.888\0\\\94\6.7\0.888\0\\\4\10\1.25\0.617\\\2\7\1.25\0.617\\\2\5\1.5\0.617\|
+~M|13\060.001|15\6\|119.22|\\1\11.6\6.4\0\\\1\11.6\1.45\0\\\2\6.4\1.45\0\\\1\6.4\1.5\0\|
+~M|13\070.007|15\7\|103.24|\\1\11.6\2.05\0\\\1\5.2\4\0\\\2\6.4\2.05\0\\\-2\0.85\2.05\0\\\-1\3\2.05\0\\\1\6.1\3.3\0\\\0.5\6.1\0.5\0\\\1\6\3.4\0\|
+~M|13\100.002|15\8\|206.48|\\2\11.6\2.05\0\\\2\5.2\4\0\\\4\6.4\2.05\0\\\-4\0.85\2.05\0\\\-2\3\2.05\0\\\2\6.1\3.3\0\\\1\6.1\0.5\0\\\2\6\3.4\0\|
+~M|13\200.002|15\9\|40.385|\\1\11.6\2.05\0\\\2\6.4\2.05\0\\\-2\0.85\2.05\0\\\-1\3\2.05\0\|
+~M|13\140.003|15\10\|81.6075|\\2\5.2\2.5\0\\\2\6.1\2.5\0\\\2\3.6\2.5\0\\\1\6\2.5\0\\\-1\0.85\2.05\0\\\-1\3\2.05\0\|
+~M|13\200.001|15\11\|90.6275|\\1\5.2\0.8\0\\\1\5.2\1.3\0\\\2\6.1\0.8\0\\\1\6.1\0.5\0\\\1\6\0.8\0\\\2\3.6\0.8\0\\\1\3.6\0.5\0\\\1\5.9\3.3\0\\\1\5.9\3.4\0\\\2\2.5\3.35\0\\\-1\0.85\2.05\0\|
+~M|13\170.004|15\12\|3.485|\\2\2.05\0.85\0\|
+~M|13\170.002|15\13\|6.9|\\1\2.3\3\0\|
+~M|13\150.004|15\14\|67.71|\\1\6.1\5.2\0\\\1\2.5\5.9\0\\\1\3.6\5.9\0\|
+~M|13\230.007|15\15\|12.6|\\1\12.6\0\0\|
+~M|13\230.008|15\16\|3.8|\\1\3.8\0\0\|
+~M|13\170.005|15\17\|0.5|\\2\0.5\0.5\0\|
+~M|13\180.001|15\18\|0.5|\\2\0.5\0.5\0\|
+~C|14#||B scula|1228307.2600000000182|040400|0|
+~Y|14|020.002\1\117.6\020.004\1\11.84\020.005\1\130\030.001\1\6.6\030.002\1\3.696\038.227\1\6.6\030.003.1\1\30.6816\030.009\1\44.48\030.008\1\1700.21\|
+~M|14\020.002|16\1\|117.6|\\1\1\98\1.2\|
+~M|14\020.004|16\2\|11.84|\\1\4\7.4\0.4\|
+~M|14\020.005|16\3\|130|\\1\1\130\1\|
+~M|14\030.001|16\4\|6.6|\\8\1.5\1.5\0.1\\\1\16\3\0.1\|
+~M|14\030.002|16\5\|3.696|\\1\15.4\2.4\0.1\|
+~M|14\038.227|16\6\|6.6|\\8\1.5\1.5\0.1\\\1\16\3\0.1\|
+~M|14\030.003.1|16\7\|30.6816|\\8\1.5\1.5\0.5\\\1\16\3\0.2\\\2\16\0.79\0.3\\\2\2.4\0.79\0.3\\\8\0.5\0.6\0.6\\\2\16\0.3\0.2\|
+~M|14\030.009|16\8\|44.48|\\1\2\16\1\\\1\2\3\1\\\1\8\0.6\0.6\\\1\12\0.5\0.6\|
+~M|14\030.008|16\9\|1700.21|\en zapatas\8\18\1.7\1.578\\en pilares\8\10\0.8\0.888\\en pilares\8\4\22\0.395\\en losa\1\30\16.2\0.395\\en losa\1\162\3.2\0.395\\en muro\1\368\1.4\0.395\\en muro\1\5\35.6\0.395\\en muro\1\5\38\0.395\\dintel\1\246\1\0.395\\dintel\1\6\36.8\0.617\|
+~C|15#||Dep¢sito contra incendios|1444646.6482999999591|040400|0|
+~Y|15|020.004\1\81.4212\020.005\1\81.5\038.227\1\25.13\020.007\1\29.9047\030.001\1\3.7695\030.003.1\1\26.3865\030.009\1\35.182\030.008\1\1960.34\240.001\1\8\|
+~M|15\020.004|17\1\|81.4212|\\1\25.13\2.7\1.2\|
+~M|15\020.005|17\2\|81.5|\\1\81.5\1\1\|
+~M|15\038.227|17\3\|25.13|\\1\25.13\2\0.5\|
+~M|15\020.007|17\4\|29.9047|\\1\25.13\3.2\0.7\\\-1\25.13\1.5\0.7\|
+~M|15\030.001|17\5\|3.7695|\\1\25.13\1.5\0.1\|
+~M|15\030.003.1|17\6\|26.3865|\\1\25.13\1.5\0.7\|
+~M|15\030.009|17\7\|35.182|\\1\1\20.42\0.7\\\1\1\29.84\0.7\|
+~M|15\030.008|17\8\|1960.34|\\1\16\25.13\1.578\\\1\11\25.13\1.578\\\1\126\4.25\1.578\\\1\1\20.42\0.888\\\1\1\29.84\0.888\|
+~M|15\240.001|17\9\|8|\\8\1\1\1\|

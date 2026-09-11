@@ -1,0 +1,97 @@
+~V|TEST|FIEBDC-3/2016|TEST||850|Presupuesto|2|
+~K|-9\3\3\3\2\3\2\2\EUR\|0\13\6\\21|3\2\\3\3\\2\2\2\-9\3\3\3\2\EUR\||
+~C|PRESUPUESTO_PASARELA_ALCORCON##||Pasarela Alcorcon.|390352.04|040400|0|
+~C|%CIND|%|Costes indirectos|0|040400|%|
+~T|%CIND|Costes indirectos|
+~C|%PM0100|%|Pequeno Material|0|040400|%|
+~C|MOC0000100|h|CAPATAZ|21.98|040400|1|
+~C|MOC0000200|h|OFICIAL 1A|21.51|040400|1|
+~C|MOC0000100cp|h|CAPATAZ|22.37|040400|1|
+~C|MOC0000500|h|PEON|19.92|040400|1|
+~C|MOC0000500po|h|Peon ordinario|18.1|040400|1|
+~C|MOC0000600|h|Ayudante|18.92|040400|1|
+~C|MOC0000400|h|Peon especializado|18.64|040400|1|
+~C|CM1M06MI020|h|Martillo picador electrico 16,8 J 11 kg|2.31|040400|2|
+~C|CM1M06MR010|h|Martillo rompedor electrico 26 J 13 kg|3.62|040400|2|
+~C|CM1M06MR230|h|Martillo rompedor hidraulico 600 kg|9.82|040400|2|
+~C|CM1M05EN030|h|Retroexcavadora hidraulica neumaticos 100 CV|43.85|040400|2|
+~C|CM1M12R010|h|Radial Disco 230 mm 1900 W|0.77|040400|2|
+~C|CM1M06CP010|h|Compresor portatil diesel 10 m3/min 12 bar|17.51|040400|2|
+~C|CM1M06MI010|h|Martillo manual picador neumatico 9 kg|2.31|040400|2|
+~C|CM1M11HC050|m|Corte c/sierra disco hormigon viejo|5.78|040400|2|
+~C|CM1M08RB020|h|Bandeja vibrante 300 kg|4.19|040400|2|
+~C|CM1M08RI010|h|Pison compactador 70 kg|2.71|040400|2|
+~C|CM1P01ARH010|t|Arena de miga reciclada|4.56|040400|3|
+~C|CM1P02THM010|m|Tubo HM junta machihembrada D=200 mm|4.51|040400|3|
+~C|CM1P01MC040|m3|Mortero cemento gris CEM-II/B-M 32,5 M-5|59.28|040400|3|
+~C|CM1P01DW050|m3|Agua|1.18|040400|3|
+~C|MN11080005|ud|KIT PROTECTOR TRONCO EN OBRA C/TABLAS|21.15|040400|3|
+~C|CM1E02SZ070|m3|RELLENO/COMPACTADO ZANJA C/RANA S/APORTE|26.74|040400|0|
+~T|CM1E02SZ070|Relleno, extendido y compactado de tierras propias en zanjas, por medios manuales, con pison compactador manual tipo rana, en tongadas de 30 cm de espesor, sin aporte de tierras, incluido regado de las mismas y con parte proporcional de medios auxiliares. Segun CTE DB-SE-C y NTE-ADZ. Base de precios de la Construccion de la Comunidad de Madrid. Precio particularizado para el Area1.|
+~D|CM1E02SZ070
+|MOC0000500po\\1.3
+\CM1M08RI010\\0.75
+\CM1P01DW050\\1
+\|
+~C|CM1A03H050|m3|HORMIGON HA-25/B/15/I DOSIFICACION 250 kg/m3 CEMENTO Tmax.15 mm|71.96|040400|0|
+~T|CM1A03H050|Hormigon HM-25 realizado con dosificacion de 250 kg/m3 de cemento CEM II/B-L 42,5 N en sacos, arena de rio y arido rodado Tmax 20 mm, de consistencia plastica; realizado por procedimientos manuales en obra con hormigonera portatil de 200 litros, preparado para posterior puesta en obra, vertido y vibrado si procediera (no incluidos). Base de precios de la Construccion de la Comunidad de Madrid. Precio particularizado para el Area1.|
+~D|CM1A03H050
+~C|CM1E02SC040|m3|RELLENO/COMPACTADO ARENA DE MIGA RECICLADA EN ZANJAS|21.2|040400|0|
+~T|CM1E02SC040|Relleno, extendido y compactado de zanjas con arena de miga reciclada, por medios manuales, con bandeja vibrante de 300 kg, considerando el arido a pie de tajo y con parte proporcional de medios auxiliares. Segun CTE-DB-SE-C y NTE-ADZ. Base de precios de la Construccion de la Comunidad de Madrid. Precio particularizado para el Area1.|
+~D|CM1E02SC040
+|MOC0000500po\\0.72
+\CM1M08RB020\\0.1
+\CM1P01ARH010\\1.7
+\|
+~C|CM1E02ZA080|m3|EXCAVACION ZANJA SANEAMIENTO A MANO TERRENO DURO C/RELLENO Y APISONADO|65.52|040400|0|
+~T|CM1E02ZA080|Excavacion en zanjas de saneamiento, en terrenos de consistencia dura por medios manuales, con extraccion de tierras a los bordes, y con posterior relleno y apisonado de las tierras procedentes de la excavacion. Incluida parte proporcional de medios auxiliares. Segun CTE DB-SE-C y NTE-ADZ. Base de precios de la Construccion de la Comunidad de Madrid. Precio particularizado para el Area1.|
+~D|CM1E02ZA080
+|MOC0000500po\\3.5
+\CM1M08RI010\\0.8
+\|
+~C|CM1U00U020|u|DESMONTAJE PAPELERA MADERA/METAL CON POSTE|12.82|040400|0|
+~T|CM1U00U020|Desmontaje de papelera con poste de sujeccion, fabricada en madera/metal, empotrada o atornillada al pavimento; incluyendo la rotura del pavimento y la retirada de materiales hasta punto cercano en la obra para su posterior tratamiento y retirada de los mismos, sin incluir transporte a almacen, seg£n NTE/ADD-18. Base de precios de la Construccion de la Comunidad de Madrid. Precio particularizado para el Area1.|
+~D|CM1U00U020
+|MOC0000600\\0.333
+\MOC0000400\\0.333
+\CM1M06MI020\\0.133
+\|
+~C|CM1U00U070|m|RETIRADA BARANDILLA URBANA h<1,20 m|6.48|040400|0|
+~T|CM1U00U070|Retirada de barandilla urbana de proteccion de peatones, con una altura maxima de 120 cm, atornillada o empotrada en el pavimento, realizada por medios manuales y/o mecanicos, incluyendo p.p. de rotura de pavimento, corte y/o desatornillado de postes y transporte a pie de carga para su posterior tratamiento o desecho; no se incluye transporte a almacen o punto de reciclaje. Conforme a NTE ADD-18. Base de precios de la Construccion de la Comunidad de Madrid. Precio particularizado para el Area1.|
+~D|CM1U00U070
+|MOC0000600\\0.167
+\MOC0000500po\\0.167
+\CM1M06MR010\\0.08
+\CM1M12R010\\0.01
+\|
+~C|GAG030|ud|Proteccion de arbolado con tablones de madera|33.2|040400|0|
+~T|GAG030|Proteccion de tronco de arbol en obra con entablamiento de 2,00 m de altura total realizado con tabla nueva de pino cosida con hiladas de alambre galvanizado cada 15 cm, separadas del tronco por tacos de poliestireno de alta densidad de 10x10x5 cm e hincadas en el terreno 10 cm sin danar a las raices ni a las ramas bajas.|
+~D|GAG030
+|MOC0000100\\0.05
+\MOC0000500\\0.5
+\MN11080005\\1
+\%CIND\\0.06
+\|
+~C|CM1U01AOF010|m3|DEMOLICION MURO DE LADRILLO MACIZO >1/2 PIE A MAQUINA SIN TRANSPORTE|4.09|040400|0|
+~T|CM1U01AOF010|Demolicion de muro de ladrillo de mas de medio pie macizo, a maquina, incluso limpieza y retirada de escombros a pie de carga, sin transporte a vertedero o planta de reciclaje y con parte proporcional de medios auxiliares, sin medidas de proteccion colectivas. Medicion de volumen realmente ejecutado. Conforme a ORDEN FOM/1382/2002-PG3-Art.301 y NTE ADD-13. Base de precios de la Construccion de la Comunidad de Madrid. Precio particularizado para el Area1.|
+~D|CM1U01AOF010
+|MOC0000100cp\\0.02
+\MOC0000500po\\0.04
+\CM1M05EN030\\0.06
+\CM1M06MR230\\0.03
+\|
+~C|CM1E03MH010|u|ACOMETIDA RED GENERAL SANEAMIENTO HM D=200 mm RELLENO DE ARENA|926.06|040400|0|
+~T|CM1E03MH010|Acometida domiciliaria de saneamiento a la red general municipal, hasta una distancia maxima de 8 m, formada por: corte de pavimento por medio de sierra de disco, rotura del pavimento con martillo picador, excavacion manual de zanjas de saneamiento en terrenos de consistencia dura, rotura, conexion y reparacion del colector existente, colocacion de tuberia de hormigon machihembrado de 200 mm de diametro interior. Colocado en zanja, sobre una solera de hormigon HM-20/P/40/I de 10 cm de espesor, con corchetes de hormigon en masa HM-20/P/40/I, y relleno lateral y superior hasta 15 cm por encima de la generatriz con la misma arena; compactando esta hasta los rinones y reposicion del pavimento con hormigon en masa de dosificacion 250 kg/m3 de cemento, sin incluir formacion del pozo en el punto de acometida y con p.p. de medios auxiliares. S/normativa municipal. Base de precios de la Construccion de la Comunidad de Madrid. Precio particularizado para el Area1.|
+~D|CM1E03MH010
+|MOC0000200\\2.5
+\MOC0000400\\2.5
+\CM1M06CP010\\1
+\CM1M06MI010\\1
+\CM1M11HC050\\16
+\CM1E02ZA080\\7.2
+\CM1E02SC040\\2.4
+\CM1E02SZ070\\3.36
+\CM1A03H050\\0.72
+\CM1P02THM010\\8.8
+\CM1P01MC040\\0.004
+\|

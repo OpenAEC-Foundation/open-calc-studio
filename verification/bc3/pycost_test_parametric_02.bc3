@@ -1,0 +1,120 @@
+~V||FIEBDC-3/2007\70722|pyCost 1.0|\|utf-8||
+~C|ROOT##||BASE PRECIOS||12082022||
+~C|A#||ARQUITECTURA||23112018||
+~C|AA#||ACTUACIONES PREVIAS||||
+~C|AAA#||CONSOLIDACIONES||||
+~D|AAA#|OCA090$\\1.0000\AAA020$\\1.0000\AAA030$\\1.0000\|
+~C|OCA090$|m|MICROPILOTE ARMADO CON ARMADURA TUBULAR DE ACERO||31102018||
+~P|AAA010$|#1 Definición Parámetros
+\DIÁMETRO PERFORACIÓN\=<0,15 m\>0,15 m - 0,20 m\>0,20 m - 0,30 m\
+\ARMADURA TUBULAR\tubo acero 60,3 mm diámetro exterior y 5,5 mm de espesor\tubo acero 73,0 mm diámetro exterior y 6 mm de espesor\tubo acero 88,9 mm diámetro exterior y 6 mm de espesor\tubo acero 88,9 mm diámetro exterior y 7,5 mm de espesor\tubo acero 88,9 mm diámetro exterior y 9,5 mm de espesor\tubo acero 101,6 mm diámetro exterior y 7 mm de espesor\tubo acero 101,6 mm diámetro exterior y 9 mm de espesor\tubo acero 114,3 mm diámetro exterior y 7 mm de espesor\tubo acero 114,3 mm diámetro exterior y 9 mm de espesor\
+\TRABAJO\Diurno\Nocturno\Cualquier franja horaria\
+\BANDA DE MANTENIMIENTO\ i >= 5 horas\3 <= i < 5 horas\i < 3 horas\No necesita intervalo\
+\CONDICIONES DE EJECUCIÓN\Volumen relevante\Volumen escaso\Cualquier condición de ejecución\
+
+#Combinaciones no válidas 
+$E = "Combinación no válida"
+%E = (%A=a & %B>e) + (%A=b & %B<c)+ (%A=c & %B<h) 
+
+#Declaraciones
+#Banda de mantenimiento
+	%O(4)=1.1,1.2,1.3,1
+#Texto
+$L(3)="D","N","-"
+$M(4)=">5","3 a 5","<3","NNI"
+$N(3)="R","E","-"
+
+#Rendimiento maquinaria
+	#Maquina perforación, grupo electrógeno
+	%T(3,9)=0.0667, 0.0667, 0.0667, 0.0667, 0.0667, 0.0000, 0.0000, 0.0000, 0.0000,
+		0.0000, 0.0000, 0.1333, 0.1333, 0.1333, 0.1333, 0.1333, 0.1333, 0.1333,
+		0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.2000, 0.2000		 	 
+
+#Rendimiento materiales
+#Rendimiento agua
+	%V(3,9)=0.011, 0.011, 0.011, 0.011, 0.011, 0.000, 0.000, 0.000, 0.000, 
+		0.000, 0.000, 0.013, 0.013, 0.013, 0.013, 0.013, 0.013, 0.013, 
+		0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.016, 0.016
+		 
+#Rendimiento cemento
+	%W(3,9)=0.027, 0.027, 0.027, 0.027, 0.027, 0.000, 0.000, 0.000, 0.000, 
+		0.000, 0.000, 0.034, 0.034, 0.034, 0.034, 0.034, 0.034, 0.034,
+		0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.040, 0.040
+		
+#Descompuesto
+#Mano de obra diurna
+	MOC0000100: 0.100 *2 *%T(%A,%B) *(%C=a) * %O(%D)
+	MOC0000200: 1*%T(%A,%B) *(%C=a) * %O(%D)
+	MOC0000400: 2*%T(%A,%B) *(%C=a) * %O(%D) 
+#Mano de obra nocturna
+	MOC0000101: 0.100 *2 *%T(%A,%B) *(%C=b) * %O(%D)
+	MOC0000201: 1*%T(%A,%B) *(%C=b) * %O(%D)
+	MOC0000401: 2*%T(%A,%B) *(%C=b) * %O(%D) 
+#Mano de obra cualquier franja horaria = diurno (2/3 del rendimiento total) + nocturna (1/3 del rendimiento total)
+	MOC0000100: 0.100 *2 *%T(%A,%B) *(%C=c) * %O(%D)*0.66
+	MOC0000200: 1*%T(%A,%B) *(%C=c) * %O(%D)*0.66
+	MOC0000400: 2*%T(%A,%B) *(%C=c) * %O(%D)*0.66 
+
+	MOC0000101: 0.100 *2 *%T(%A,%B) *(%C=c) * %O(%D)*0.34
+	MOC0000201: 1*%T(%A,%B) *(%C=c) * %O(%D)*0.34
+	MOC0000401: 2*%T(%A,%B) *(%C=c) * %O(%D)*0.34	
+#Maquinaria
+	MQ03060500: %T(%A,%B) * %O(%D) #Máquina perforación
+	MQ0100A030: %T(%A,%B) * %O(%D) #Grupo electrógeno 
+	MQ06020200: 0.0060 * %O(%D) #Camión 
+	MQ06050000: 0.0200 * %O(%D) #Camión cisterna
+ 
+#Materiales
+	MN01010001: %V(%A,%B)	#Agua
+	MP01050002: %W(%A,%B)	#Cemento
+	MN02020001: 1.02 * (%B=a)
+	MN02020002: 1.02 * (%B=b)
+	MN02020003: 1.02 * (%B=c)
+	MN02020004: 1.02 * (%B=d)
+	MN02020005: 1.02 * (%B=e)
+	MN02020006: 1.02 * (%B=f)
+	MN02020007: 1.02 * (%B=g)
+	MN02020008: 1.02 * (%B=h)
+	MN02020009: 1.02 * (%B=i)
+	MN02020100: 1 		#Válvula
+
+#Sobrecoste por volumen escaso
+
+	%%VOL: 0.20 * (%F=b)
+
+#Costes indirectos
+	%%CIND: 0.06
+
+#texto corto
+
+\RESUMEN\Perforación de micropilote de diámetro $A, armado con $B. ($L(%C)/$M(%D)/$N(%F)).\
+
+#texto largo
+
+\TEXTO\Perforación de micropilote de diámetro $A compuesto por $B con rosca de cualquier tipo de acero, ejecutado con cualquier ángulo y en cualquier terreno, i/ ensayos previos y en ejecución.
+Trabajo: $C. 
+Banda de mantenimiento: $D. 
+Condiciones de ejecución: $F.\|
+~C|MOC0000200|h|OFICIAL 1A|21.51|15111998|1|
+~C|MOC0000500|h|PEÓN|19.92|15111998|1|
+~C|MOC0000600|h|AYUDANTE|20.42|07082018|1|
+~C|MOC0000101|h|CAPATAZ NOCTURNO|27.48||1|
+~C|MOC0000201|h|OFICIAL 1A NOCTURNO|26.89|15111998|1|
+~C|MOC0000501|h|PEÓN NOCTURNO|24.9|15111998|1|
+~C|MOC0000401|h|PEÓN ESPECIALISTA NOCTURNO|25.21|15111998|1|
+~C|MOC0000601|h|AYUDANTE NOCTURNO|25.53|07082018|1|
+~C|MN01010001|m³|AGUA|0.52|15111998|3|
+~C|MN26123064|ud|CONJUNTO METÁLICO PARA APEOS|1.94||3|
+~C|MN01123001|m³|MADERA DE PINO PARA ENTIBACIONES|231.15||3|
+~T|MN01123001|MADERA DE PINO PARA ENTIBACIONES|
+~C|MP01050002|t|CEMENTO PORTLAND CEM II/B-S/42,5|125.24|15111998|3|
+~C|MN01120024|kg|PUNTAS DE ACERO DE 20X100 MM|10.18|15111998|3|
+~T|MN01120024|PUNTAS DE ACERO DE 20X100 MM|
+~C|MN02020005|m|TUBO DE ACERO DE 88,9 MM DE DIÁMETRO Y 9,5 MM DE ESPESOR DE PARED|26.15|15111998|3|
+~C|MN02020100|ud|VÁLVULA PARA INYECCIÓN Y REINYECCIÓN DE LECHADA DE CEMENTO|4.06|14012011|3|
+~C|MQ06020200|h|CAMIÓN CON CAJA BASCULANTE 4X2, DE 199 KW DE POTENCIA|93.2|27122017|2|
+~C|MQ06050000|h|CAMIÓN CON TANQUE PARA AGUA DE 10 M3|72.6|27122017|2|
+~C|MQ03060500|h|EQUIPO PARA INYECCIONES PROFUNDAS CON BOMBA Y CARRO PARA BARRENAS|280.57|15111998|2|
+~C|MQ0100A030|h|GRUPO ELECTRÓGENO, MOTOR DIESEL DE 100 KVA|27.05|27122017|2|
+~C|%VOL|%|Sobrecoste por volumen escaso||16102018|%|
+~C|%CIND|%|Costes indirectos|||%|

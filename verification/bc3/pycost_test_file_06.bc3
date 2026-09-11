@@ -1,0 +1,114 @@
+~V|CYPE Ingenieros S.A.|FIEBDC-3/2016\13072022|Generador de precios de la construcción. CYPE Ingenieros, S.A.||ANSI||2||||
+~K|2\3\3\3\3\2\2\2\EUR\|3\0\0\0\21\|3\2\\3\3\\2\3\2\2\3\3\3\2\EUR\||
+~L||MS\Medidas para asegurar la compatibilidad entre los diferentes productos, elementos y sistemas constructivos que componen la unidad de obra.
+\CT\Características técnicas
+\NA\Normativa de aplicación
+\CMP\Criterio de medición en Proyecto
+\CPS\Condiciones que ha de cumplir el soporte antes de comenzar la ejecución de la unidad de obra
+\CPA\Condiciones ambientales que han de cumplirse durante la ejecución de la unidad de obra
+\CPC\Condiciones a exigir al contratista antes de comenzar la ejecución de la unidad de obra
+\PEF\Fases del proceso de ejecución
+\PEC\Condiciones de terminación del proceso de ejecución
+\PS\Pruebas de servicio
+\EN\Ensayos
+\CM\Conservación y mantenimiento
+\CMO\Criterio de medición en obra y condiciones de abono
+\CVE\Criterio de valoración económica
+\|
+~X||ce\Coste energético\MJ
+\eCO2\Emisión de CO2\kg
+\ler\Código LER\
+\m\Masa del elemento\kg
+\v\Volumen\m3
+\|
+~C|root##|||||0|
+~D|root##|
+E\1\1\
+|
+~C|E#||Estructuras|||0|
+~D|E#|
+EA\1\1\
+|
+~C|EA#||Acero|||0|
+~D|EA#|
+EAS\1\1\
+|
+~C|EAS#||Pilares|||0|
+~D|EAS#|
+EAS010\1\1\
+|
+~M|EAS#\EAS010|1\1\1\1\|1||
+|
+~C|EAS010|kg|Acero en pilares.|0\||0|
+~T|EAS010|Acero UNE-EN 10025 S275JR, en pilares formados por piezas simples de perfiles laminados en caliente de las series IPN, IPE, HEB, HEA, HEM o UPN, acabado con imprimación antioxidante, colocado con uniones soldadas en obra, a una altura de hasta 3 m.
+Criterio de valoración económica: El precio incluye las soldaduras, los cortes, los despuntes, las piezas especiales, las placas de arranque y de transición de pilar inferior a superior, los casquillos y los elementos auxiliares de montaje.
+Incluye: Limpieza y preparación del plano de apoyo. Replanteo y marcado de los ejes. Colocación y fijación provisional del pilar. Aplomado y nivelación. Ejecución de las uniones soldadas.
+Criterio de medición de proyecto: Peso nominal medido según documentación gráfica de Proyecto.
+Criterio de medición de obra: Se determinará, a partir del peso obtenido en báscula oficial de las unidades llegadas a obra, el peso de las unidades realmente ejecutadas según especificaciones de Proyecto.
+|
+~D|EAS010|
+mt07ala010dab\1\1\
+mq08sol020\1\0.015\
+mo047\1\0.015\
+mo094\1\0.015\
+%\1\0.02\
+|
+~R|EAS010|3\re150101\r\0\\|
+3\re150104\r\0\\|
+3\re170201\r\0\\|
+3\re170203\r\0\\|
+3\re170604\r\0\\|
+0\mt07ala010dab\rp\0.0168\\|
+|
+~C|re150101|kg|Envases de papel y cartón.|0\||4|
+~T|re150101|Envases de papel y cartón.|
+~X|re150101|ler\15 01 01
+\m\1.000000
+\v\0.001333
+\|
+~C|re150104|kg|Envases metálicos.|0\||4|
+~T|re150104|Envases metálicos.|
+~X|re150104|ler\15 01 04
+\m\1.000000
+\v\0.001667
+\|
+~C|re170201|kg|Madera.|0\||4|
+~T|re170201|Madera.|
+~X|re170201|ler\17 02 01
+\m\1.000000
+\v\0.000909
+\|
+~C|re170203|kg|Plástico.|0\||4|
+~T|re170203|Plástico.|
+~X|re170203|ler\17 02 03
+\m\1.000000
+\v\0.001667
+\|
+~C|re170604|kg|Materiales de aislamiento distintos de los especificados en los códigos 17 06 01 y 17 06 03.|0\||4|
+~T|re170604|Materiales de aislamiento distintos de los especificados en los códigos 17 06 01 y 17 06 03.|
+~X|re170604|ler\17 06 04
+\m\1.000000
+\v\0.001667
+\|
+~C|mt07ala010dab|kg|Acero laminado UNE-EN 10025 S275JR, en perfiles laminados en caliente, piezas simples, para aplicaciones estructurales, de las series IPN, IPE, HEB, HEA, HEM o UPN, acabado con imprimación antioxidante. Trabajado y montado en taller, para colocar con uniones soldadas en obra.|1.44\||3|
+~T|mt07ala010dab|Acero laminado UNE-EN 10025 S275JR, en perfiles laminados en caliente, piezas simples, para aplicaciones estructurales, de las series IPN, IPE, HEB, HEA, HEM o UPN, acabado con imprimación antioxidante. Trabajado y montado en taller, para colocar con uniones soldadas en obra.|
+~X|mt07ala010dab|ce\9.830
+\eCO2\0.510
+\ler\17 04 05
+\m\1.000000
+\v\0.000476
+\|
+~R|mt07ala010dab|3\re150101\r\0\\|
+3\re150104\r\0\\|
+3\re170201\r\0\\|
+3\re170203\r\0\\|
+3\re170604\r\0\\|
+|
+~C|mq08sol020|h|Equipo y elementos auxiliares para soldadura eléctrica.|3.42\||2|
+~T|mq08sol020|Equipo y elementos auxiliares para soldadura eléctrica.|
+~C|mo047|h|Oficial 1ª montador de estructura metálica.|20.74\||1|
+~T|mo047|Oficial 1ª montador de estructura metálica.|
+~C|mo094|h|Ayudante montador de estructura metálica.|19.68\||1|
+~T|mo094|Ayudante montador de estructura metálica.|
+~C|%|%|Costes directos complementarios|0\||0|
+~T|%|Costes directos complementarios|

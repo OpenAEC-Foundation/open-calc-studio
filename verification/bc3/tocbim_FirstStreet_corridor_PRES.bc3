@@ -1,0 +1,49 @@
+~V||FIEBDC-3/2012\260321|IFC2BC3_Claude||ANSI||2||||
+~K|3\3\3\3\4\2\2\2\EUR\|0\13\6\0\0|\2\\3\4\\2\5\2\3\3\3\3\5\EUR\||
+~C|PROY##\||PRESUPUESTO FIRSTSTREET_CORRIDOR_RCECLASS_PRES|162087.65\|\||
+~D|PROY##|02#\1\39863.49\03#\1\27807.85\05#\1\15135.10\01#\1\41888.61\04#\1\37392.60\||
+~C|02#\||FIRMES Y PAVIMENTOS|39863.49\|\||
+~D|02#|02.04\1\ 77.860\02.03\1\ 77.860\02.02\1\ 311.430\02.01\1\ 934.300\||
+~T|02#|FIRMES Y PAVIMENTOS||
+~C|03#\||ACERAS BORDILLOS Y RIGOLAS|27807.85\|\||
+~D|03#|03.01\1\ 890.300\03.02\1\ 133.380\||
+~T|03#|ACERAS BORDILLOS Y RIGOLAS||
+~C|05#\||MEDIO AMBIENTE Y RESTAURACION|15135.10\|\||
+~D|05#|05.01\1\ 1780.600\||
+~T|05#|MEDIO AMBIENTE Y RESTAURACION||
+~C|01#\||MOVIMIENTO DE TIERRAS|41888.61\|\||
+~D|01#|01.02\1\ 5786.950\01.01\1\ 1335.450\||
+~T|01#|MOVIMIENTO DE TIERRAS||
+~C|04#\||DRENAJE Y SANEAMIENTO|37392.60\|\||
+~D|04#|04.01\1\ 1335.450\||
+~T|04#|DRENAJE Y SANEAMIENTO||
+~C|02.04\|m3|Mezcla bituminosa en caliente tipo AC16 surf D para capa de rodadura|48.00\|\||
+~T|02.04|Mezcla bituminosa en caliente tipo AC16 surf D para capa de rodadura||
+~C|02.03\|m3|Mezcla bituminosa en caliente tipo AC22 bin S para capa intermedia|42.00\|\||
+~T|02.03|Mezcla bituminosa en caliente tipo AC22 bin S para capa intermedia||
+~C|02.02\|m3|Mezcla bituminosa en caliente tipo AC22 base G para capa de base|38.00\|\||
+~T|02.02|Mezcla bituminosa en caliente tipo AC22 base G para capa de base||
+~C|02.01\|m3|Sub-base granular de zahorra artificial ZA-25 extendido humectacion y compactacion|22.50\|\||
+~T|02.01|Sub-base granular de zahorra artificial ZA-25 extendido humectacion y compactacion||
+~C|03.01\|m|Bordillo prefabricado de hormigon bicapa seccion 15x25 cm colocado sobre base de hormigon HM-20|18.50\|\||
+~T|03.01|Bordillo prefabricado de hormigon bicapa seccion 15x25 cm colocado sobre base de hormigon HM-20||
+~C|03.02\|m3|Pavimento de acera con baldosa hidraulica de 40x40x4 cm sobre base de hormigon HM-20|85.00\|\||
+~T|03.02|Pavimento de acera con baldosa hidraulica de 40x40x4 cm sobre base de hormigon HM-20||
+~C|05.01\|m|Tierra vegetal colocada procedente de acopio incluso extendido y perfilado|8.50\|\||
+~T|05.01|Tierra vegetal colocada procedente de acopio incluso extendido y perfilado||
+~C|01.02\|m3|Terraplen con material seleccionado procedente de prestamos incluso extendido humectacion y compacta|6.20\|\||
+~T|01.02|Terraplen con material seleccionado procedente de prestamos incluso extendido humectacion y compacta||
+~C|04.01\|m|Cuneta triangular revestida de hormigon HM-20 seccion tipo V 0.50x0.25 m|28.00\|\||
+~T|04.01|Cuneta triangular revestida de hormigon HM-20 seccion tipo V 0.50x0.25 m||
+~C|01.01\|m3|Excavacion en desmonte en cualquier tipo de terreno con medios mecanicos incluso carga sobre camion|4.50\|\||
+~T|01.01|Excavacion en desmonte en cualquier tipo de terreno con medios mecanicos incluso carga sobre camion||
+~M|02#\02.04|001\| 77.860|\Nivel 1: MB_Capa_Rodadura:MB_Capa_Rodadura:73 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005Ql\38.850\\\\\Nivel 1: MB_Capa_Rodadura:MB_Capa_Rodadura:9163 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005R7\39.010\\\\||
+~M|02#\02.03|002\| 77.860|\Nivel 1: MB_Capa_Intermedia:MB_Capa_Intermedia:1418 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005Qo\38.850\\\\\Nivel 1: MB_Capa_Intermedia:MB_Capa_Intermedia:10503 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005R9\39.010\\\\||
+~M|02#\02.02|003\| 311.430|\Nivel 1: MB_Capa_Base:MB_Capa_Base:2757 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005Qp\155.400\\\\\Nivel 1: MB_Capa_Base:MB_Capa_Base:11839 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005RA\156.030\\\\||
+~M|02#\02.01|004\| 934.300|\Nivel 1: Zahorra_Artificial:Zahorra_Artificial:4094 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005Qq\466.210\\\\\Nivel 1: Zahorra_Artificial:Zahorra_Artificial:13172 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005RB\468.090\\\\||
+~M|03#\03.01|001\| 890.300|\Nivel 1: Bordillo_Prefabricado:Bordillo_Prefabricado:5434 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005Qr\445.150\\\\\Nivel 1: Bordillo_Prefabricado:Bordillo_Prefabricado:14505 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005RC\445.150\\\\||
+~M|03#\03.02|002\| 133.380|\Nivel 1: Pavimento_Acera:Pavimento_Acera:7680 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005Qt\66.280\\\\\Nivel 1: Pavimento_Acera:Pavimento_Acera:16747 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005RE\67.100\\\\||
+~M|05#\05.01|001\| 1780.600|\Nivel 1: Tierra_Vegetal:Tierra_Vegetal:28055 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005Qv\445.150\\\\\Nivel 1: Tierra_Vegetal:Tierra_Vegetal:28659 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005Qw\445.150\\\\\Nivel 1: Tierra_Vegetal:Tierra_Vegetal:30527 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005RG\445.150\\\\\Nivel 1: Tierra_Vegetal:Tierra_Vegetal:31131 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005RH\445.150\\\\||
+~M|01#\01.02|001\| 5786.950|\Nivel 1: Terraplen:Terraplen:29263 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005Qx\445.150\\\\\Nivel 1: Terraplen:Terraplen:29466 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005Qz\445.150\\\\\Nivel 1: Terraplen:Terraplen:29799 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005Q_\445.150\\\\\Nivel 1: Terraplen:Terraplen:29878 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005Q$\445.150\\\\\Nivel 1: Terraplen:Terraplen:29986 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005R0\445.150\\\\\Nivel 1: Terraplen:Terraplen:30210 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005R3\445.150\\\\\Nivel 1: Terraplen:Terraplen:30318 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005R4\445.150\\\\\Nivel 1: Terraplen:Terraplen:31735 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005RI\445.150\\\\\Nivel 1: Terraplen:Terraplen:31796 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005RK\445.150\\\\\Nivel 1: Terraplen:Terraplen:31927 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005RL\445.150\\\\\Nivel 1: Terraplen:Terraplen:32215 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005RM\445.150\\\\\Nivel 1: Terraplen:Terraplen:32302 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005RN\445.150\\\\\Nivel 1: Terraplen:Terraplen:32654 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005RP\445.150\\\\||
+~M|01#\01.01|002\| 1335.450|\Nivel 1: Excavacion_Desmonte:Excavacion_Desmonte:30376 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005R5\445.150\\\\\Nivel 1: Excavacion_Desmonte:Excavacion_Desmonte:30469 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005R6\445.150\\\\\Nivel 1: Excavacion_Desmonte:Excavacion_Desmonte:32830 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005RQ\445.150\\\\||
+~M|04#\04.01|001\| 1335.450|\Nivel 1: Cuneta_Triangular:Cuneta_Triangular:30044 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005R1\445.150\\\\\Nivel 1: Cuneta_Triangular:Cuneta_Triangular:30152 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005R2\445.150\\\\\Nivel 1: Cuneta_Triangular:Cuneta_Triangular:32478 IFCBUILDINGELEMENTPROXY #276tNuG5mlAm00000005RO\445.150\\\\||

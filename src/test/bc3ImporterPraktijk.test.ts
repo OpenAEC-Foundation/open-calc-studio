@@ -215,6 +215,71 @@ describe('FIEBDC-3 (.bc3) praktijkafwijkingen', () => {
     expect(getKostprijs(recalculateItems(res.items))).toBeCloseTo(10, 2);
   });
 
+  it('telt een decompositieregel met rendement 0 niet mee', () => {
+    // BCCA, Arquímedes: één regel van de samenstelling heeft rendement 0 en
+    // telt in het bestand niet mee. De calculator leest norm 0 als "directe
+    // prijs" (aantal × prijs); daarom krijgt zo'n regel aantal 0.
+    const src = [
+      '~V||FIEBDC-3/2004|X||ANSI|',
+      '~C|PR##||Obra|20||0|',
+      '~C|CAP#||Capítulo|20||0|',
+      '~C|0001|m2|Partida|10||0|',
+      '~C|MO|h|Peón|10||1|',
+      '~C|MAT|kg|Cemento|99||3|',
+      '~C|%003|%|3 % Medios auxiliares|0||%|',
+      '~D|PR##|CAP#\\1\\1\\|',
+      '~D|CAP#|0001\\1\\1\\|',
+      '~D|0001|MO\\1\\1\\MAT\\1\\0\\%003\\1\\0\\|',
+      '~M|CAP#\\0001|1\\1\\|2|',
+    ].join('\r\n');
+    const items = recalculateItems(importBc3(src).items);
+    expect(items.filter((i) => i.rowType === 'regel').map((i) => `${i.code}:${i.quantity}:${i.total}`))
+      .toEqual(['MO:2:20', 'MAT:0:0', '%003:0:0']);
+    expect(getKostprijs(items)).toBeCloseTo(20, 2);
+  });
+
+  it('herstelt stuurtekens uit dubbel gecodeerde UTF-8', () => {
+    // Arquímedes-export die als ISO-8859-1 is gelezen en als UTF-8 is
+    // weggeschreven: 0x93/0x94 (“ ”) werden U+0093/U+0094.
+    const src = Buffer.from('~V||FIEBDC-3/2004|ARQUIMEDES||ANSI|\r\n~C|A|ud|versión \u0093Directo\u0094|1||0|\r\n', 'utf-8');
+    expect(decodeBc3(src.buffer.slice(src.byteOffset, src.byteOffset + src.byteLength) as ArrayBuffer)).toContain('versión “Directo”');
+  });
+
+  it('leest Windows-1252-specials (€, “ ”) onafhankelijk van de omgeving', () => {
+    // Buiten de browser valt TextDecoder('windows-1252') terug op ISO-8859-1.
+    const src = '~V||FIEBDC-3/2004|X||ANSI|\r\n~C|A|ud|12 \x80 \x93ok\x94|1||0|\r\n';
+    expect(decodeBc3(bytes(src))).toContain('12 € “ok”');
+  });
+
+  it('haalt een regeleinde uit de korte omschrijving en houdt LF in de tekst', () => {
+    const src = [
+      '~V|Iturribizia, S.L.|FIEBDC-3/95|ppl 0.1|',
+      '~C|A|ud|Señal cuadrada\r\ntornillos incluidos|1||0|',
+      '~T|A|Primera línea.\r\nSegunda línea.|',
+    ].join('\r\n');
+    const item = importBc3(src).items.find((i) => i.code === 'A')!;
+    expect(item.description).toBe('Señal cuadrada tornillos incluidos');
+    expect(item.notes).toBe('Primera línea.\nSegunda línea.');
+  });
+
+  it('geeft een opslagregel de eenheid % zodat hij na export herkenbaar blijft', () => {
+    const src = [
+      '~V||FIEBDC-3/2004|X||ANSI|',
+      '~C|PR##||Obra|10.3||0|',
+      '~C|CAP#||Capítulo|10.3||0|',
+      '~C|0001|m2|Partida|10.3||0|',
+      '~C|MO|h|Peón|10||1|',
+      '~C|IS13|%|Perfilería complementaria|29.45||0|',
+      '~D|PR##|CAP#\\1\\1\\|',
+      '~D|CAP#|0001\\1\\1\\|',
+      '~D|0001|MO\\1\\1\\IS13\\1\\0.03\\|',
+      '~M|CAP#\\0001|1\\1\\|1|',
+    ].join('\r\n');
+    const opslag = recalculateItems(importBc3(src).items).find((i) => i.code === 'IS13')!;
+    expect(opslag.unit).toBe('%');
+    expect(opslag.total).toBeCloseTo(0.3, 2);
+  });
+
   it('importeert een bestand met een UTF-8 BOM', () => {
     const src = '﻿~V||FIEBDC-3/2016|X||UTF-8|||\r\n~C|A1|ud|Concepto ñ|5.00||0|\r\n';
     const res = importBc3File(new TextEncoder().encode(src).buffer as ArrayBuffer);

@@ -24,6 +24,7 @@
  */
 import { makeCostItem, parseNumber, normalizeUnit, genId } from './core';
 import { decodeCp850 } from './dncImporter';
+import { decodeWindows1252 } from './windows1252';
 import type { ImportResult, ImportWarningCode } from './types';
 import type { CostItem, CostUnit, ResourceType } from '@/types/costModel';
 
@@ -71,13 +72,14 @@ interface Bc3Data {
  */
 const keyOf = (code: string): string => code.trim().replace(/#+$/, '').trim().toUpperCase();
 
-/** Spaanse eenheden die normalizeUnit niet kent. */
+/** Spaanse eenheden die normalizeUnit niet kent (na verwijdering van een slotpunt). */
 const BC3_UNITS: Record<string, CostUnit> = {
-  ud: 'st', u: 'st', un: 'st', ml: 'm', pa: 'post', mes: 'mnd', h: 'uur',
+  ud: 'st', u: 'st', un: 'st', ut: 'st', ml: 'm', pa: 'post', mes: 'mnd',
+  h: 'uur', hr: 'uur', t: 'ton', tn: 'ton', tm: 'ton', d: 'dgn',
 };
 function bc3Unit(raw: string): CostUnit {
-  const s = raw.trim().toLowerCase();
-  return BC3_UNITS[s] ?? normalizeUnit(raw);
+  const s = raw.trim().toLowerCase().replace(/\.+$/, '');
+  return BC3_UNITS[s] ?? normalizeUnit(s);
 }
 
 const RESOURCE_BY_TYPE: Record<string, ResourceType> = {
@@ -142,7 +144,9 @@ function parseBc3(text: string): Bc3Data {
           code,
           key,
           unit: (fields[1] ?? '').trim(),
-          summary: (fields[2] ?? '').trim(),
+          // Sommige schrijvers laten een regeleinde in de korte omschrijving
+          // staan; de omschrijving is bij ons één regel.
+          summary: (fields[2] ?? '').replace(/\s*\r?\n\s*/g, ' ').trim(),
           price: parseNumber(priceRaw),
           type: conceptType,
           isRoot: /##\s*$/.test(code),
@@ -224,7 +228,9 @@ function parseBc3(text: string): Bc3Data {
         const list = data.variants.get(key);
         const concept = list?.[list.length - 1];
         if (concept) {
-          const txt = (fields[1] ?? '').trim();
+          // Regeleinden in de tekst blijven staan, maar als LF: zo komt het
+          // in de notities zoals de rest van de app ze schrijft.
+          const txt = (fields[1] ?? '').replace(/\r\n?/g, '\n').trim();
           concept.text = concept.text ? `${concept.text}\n${txt}` : txt;
         }
         break;
@@ -372,14 +378,16 @@ export function importBc3(text: string): ImportResult {
         // schrijvers noteren 3 in plaats van 0,03.
         const raw = ch.factor * ch.yield_;
         const pct = Math.abs(raw) >= 1 ? raw / 100 : raw;
+        // Eenheid '%' is de markering die BC3 zelf gebruikt (UNIDAD = %);
+        // zo blijft de regel ook na een export herkenbaar als opslag.
         add({
           rowType: 'regel',
           parentId: post.id,
           depth,
           code: c.code,
           description: c.summary || c.code,
-          unit: 'post',
-          quantity: postQty,
+          unit: '%',
+          quantity: pct === 0 ? 0 : postQty, // 0 % telt niet mee (zie hieronder)
           normQuantity: pct,
           normFactor: 1,
           normUnitPrice: unitCost,
@@ -391,6 +399,10 @@ export function importBc3(text: string): ImportResult {
       }
       const norm = ch.factor * ch.yield_;
       unitCost += norm * c.price;
+      // Rendement 0 betekent in het bestand: dit middel telt niet mee. De
+      // calculator leest norm 0 echter als "directe prijs" (aantal × prijs),
+      // wat geld zou toevoegen dat er niet is. Aantal 0 houdt de regel
+      // zichtbaar en het bedrag op nul.
       add({
         rowType: 'regel',
         parentId: post.id,
@@ -398,7 +410,7 @@ export function importBc3(text: string): ImportResult {
         code: c.code,
         description: c.summary || c.code,
         unit: bc3Unit(c.unit),
-        quantity: postQty,
+        quantity: norm === 0 ? 0 : postQty,
         normQuantity: norm,
         normFactor: 1,
         normUnitPrice: c.price,
@@ -611,15 +623,23 @@ function looksLikeUtf8(bytes: Uint8Array): boolean {
  */
 export function decodeBc3(buffer: ArrayBuffer): string {
   const bytes = new Uint8Array(buffer);
+  /**
+   * UTF-8, met herstel van "dubbel gecodeerde" tekst: bestanden die eerst als
+   * ISO-8859-1 zijn gelezen en daarna als UTF-8 weggeschreven bevatten de
+   * stuurtekens U+0080–U+009F waar Windows-1252 “ ” – … bedoelde. Die
+   * stuurtekens komen in echte tekst nooit voor, dus terugvertalen is veilig.
+   */
+  const utf8 = (b: Uint8Array): string => new TextDecoder('utf-8').decode(b)
+    .replace(/[\u0080-\u009f]/g, (c) => decodeWindows1252(Uint8Array.of(c.charCodeAt(0))));
   if (bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf) {
-    return new TextDecoder('utf-8').decode(bytes.subarray(3));
+    return utf8(bytes.subarray(3));
   }
-  const ansi = new TextDecoder('windows-1252').decode(bytes);
+  const ansi = decodeWindows1252(bytes);
   // Tekenset staat in ~V veld 5 (1-based na het recordtype).
   const v = /~V\|([^~]*)/.exec(ansi);
   const charset = v ? (v[1].split('|')[4] ?? '').trim().toUpperCase().replace(/[\s-]/g, '') : '';
-  if (charset === 'UTF8') return new TextDecoder('utf-8').decode(bytes);
-  if (looksLikeUtf8(bytes)) return new TextDecoder('utf-8').decode(bytes);
+  if (charset === 'UTF8') return utf8(bytes);
+  if (looksLikeUtf8(bytes)) return utf8(bytes);
   if (charset === '850' || charset === '437' || charset === 'OEM' || charset === 'DOS') {
     return decodeCp850(bytes, 0, bytes.length);
   }

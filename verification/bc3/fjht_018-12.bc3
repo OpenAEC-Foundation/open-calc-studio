@@ -1,0 +1,622 @@
+~V|SOFT S.A.|FIEBDC-3/2002|Presto 11.02||ANSI|
+~K|\2\3\3\2\2\2\2\EUR\|0|
+~C|0##|||434687.42|170712|0|
+~D|0##|01\1\1\02\1\1\03\1\1\04\1\1\05\1\1\06\1\1\07\1\1\08\1\1\09\1\1\|
+~C|01#||Obra Civil Abastecimiento|55462.6|170712|0|
+~D|01#|01.01\1\138.24\01.02\1\207.36\01.03\1\216\01.04\1\124.416\01.05\1\138.24\01.06\1\207.36\01.07\1\345.6\01.08\1\343.008\01.09\1\572\01.10\1\560\01.11\1\144\01.12\1\288\01.13\1\288\01.14\1\4\01.15\1\1\01.16\1\4\01.17\1\5\01.18\1\1\01.19\1\1\01.20\1\1\01.21\1\1\01.22\1\2\01.23\1\2\01.24\1\2\01.25\1\3\01.26\1\1\01.27\1\4\01.28\1\2\01.29\1\3\01.30\1\1\01.31\1\1\01.32\1\8\01.33\1\8\01.34\1\120\01.35\1\6\01.36\1\1\01.37\1\1\01.38\1\443.7\|
+~C|01.01|m3||2.15|170712|0|
+~T|01.01|Excavación mecánica de zanja en zona urbanizada y en cualquier clase de terreno a excepción de roca, para profundidades no superiores a 2,50 m, incluyendo la p.p. de ayuda manual, la extracción de tierras a los bordes, la protección y apeo de los servicios existentes y la entibación simple mediante tablones verticales,correas y codales de madera, así como la entibación, agotamiento y refino del fondo y taludes de la zanja.|
+~C|01.02|m3||12.53|170712|0|
+~T|01.02|Excavación manual de zanja en zona urbanizada y en cualquier clase de terreno a excepción de roca, para profundidades no superiores a 2,50 m, incluyendo la extracción de tierras a los bordes, la protección y apeo de los servicios existentes y la entibación simple mediante tablones verticales,correas y codales de madera, así como el agotamiento y refino del fondo y taludes de la zanja.|
+~C|01.03|m3||6.39|170712|0|
+~T|01.03|Relleno de zanjas con suelo de albero,realizado en tongadas de 20 cm de espesor y compactado al 95% Proctor Modificado.|
+~C|01.04|m3||4.35|170712|0|
+~T|01.04|Relleno de zanjas de material granular, realizado en tongadas de 20 cm de espesor y compactado al 95% Proctor Modificado|
+~C|01.05|m3||0.24|170712|0|
+~T|01.05|Carga mecánica de tierras sobre camión o similar, medido sobre el perfil teórico de excavación, sin esponjamiento.|
+~C|01.06|m3||4.69|170712|0|
+~T|01.06|Carga manual de tierras sobre camión o similar, medido sobre el perfil teórico de excavación, sin esponjamiento.|
+~C|01.07|m3||4.54|170712|0|
+~T|01.07|Transporte de tierras a vertedero autorizado, medido sobre el perfil teórico de excavación, sin esponjamiento.|
+~C|01.08|m3||6.96|170712|0|
+~T|01.08|Retranqueo de tierras, con medios mecánicos de bajo rendimiento, desde borde de zanja hasta lugar de acopio, para su posterior transporte a vertedero, o retranqueo del material de relleno, desde lugar de acopio hasta borde de zanja, i/pp de cargas y descargas necesarias.|
+~C|01.09|m||2.84|170712|0|
+~T|01.09|Levantado y retirada de tubería de fibrocemento existente, hasta un diámetro de 300 mm, incluso preparado de la carga y transporte especial a vertedero autorizado según Reglamento sobre trabajos con Riesgo de Amianto.|
+~C|01.10|m||10.71|170712|0|
+~T|01.10|Conducción provisional de polietileno de alta densidad de diametro exterior 90mm, i/ suministro, transporte y colocación de tuberia, conexión y adaptación de acometidas, accesorios de laton, collarines, llaves, reducciones, tapones y demas elementos necesarios para su correcta conexión a la red de alimentación. Se incluye la desconexion y desmontaje de la tuberia, así como las operaciones de desinfección y lavado de la misma. Medida la unidad en planta completamente instalada.|
+~C|01.11|m||1.55|170712|0|
+~T|01.11|Retranqueo de tuberías para abastecimiento y/o riego con medios manuales o mecánicos de bajo rendimiento desde lugar de acopio hasta lugar de colocación.|
+~C|01.12|m||3.27|170712|0|
+~T|01.12|Transporte y colocación de tubería de fundición dúctil con unión flexible para abastecimiento, DN / ID 150 mm, incluyendo el suministro y colocación de todas las piezas especiales que no estén expresamente recogidas en el presupuesto, la ejecución de las pruebas de presión y estanqueidad y el levantamiento de los planos de la tubería instalada.|
+~C|01.13|m||0.15|170712|0|
+~T|01.13|Suministro, transporte y colocación de banda identificativa de tubería instalada, en material plástico y de color azul con la leyenda "RED DE ABASTECIMIENTO - EMASESA", colocada sobre la generatriz superior a una distancia vertical de 50 cm., de acuerdo a las I.T. vigentes|
+~C|01.14|ud||163.89|170712|0|
+~T|01.14|Transporte y colocación de válvula de compuerta de cierre elástico DN 150mm, PN 16, enterrada, incluyendo suministro y colocación de empalme universal (pieza B-E), juntas de estanqueidad, tornillería bicromatada y anclajes necesarios, así como transporte y colocación de trampillón y conjunto de accionamiento manual, medida la unidad completamente terminada.|
+~C|01.15|ud||169.66|170712|0|
+~T|01.15|Transporte y colocación de válvula de compuerta de cierre elástico DN 150mm, PN 16, instalada en pozo de registro , incluyendo suministro y colocación de bridas de empalme universal (pieza B-E), juntas de estanqueidad, tornillería bicromatada y anclajes necesarios, así como eje para el accionamiento manual sujeto mediante pletinas fijadas a las paredes del pozo, medida la unidad completamente terminada.|
+~C|01.16|ud||9.75|170712|0|
+~T|01.16|Transporte y colocación de unidad de trampillón para válvulas enterradas, formada por cuerpo y tapa de fundicion dúctil con pintura de protección anticorrosiva de color negro, según diseño y dimensiones especificadas en el plano de detalle, teniendo el conjunto una resistencia equivalente a la clase B 125 s/UNE EN 124, anagrama de Emasesa y rótulo de nylon embutido en la tapa de color azul (Ral 5017) con la leyenda "RED DE ABASTECIMIENTO"|
+~C|01.17|ud||105.7|170712|0|
+~T|01.17|Demolición de pozo de registro existente con transporte de productos sobrantes a vertedero, incluso retirada de tapa, picado de pozo y relleno con y hormigón fluido HM-15.|
+~C|01.18|ud||502.41|170712|0|
+~T|01.18|Desagüe en DN 80 mm instalado en tubería de FD de diámetro inferior a 300 mm, según plano de detalle del proyecto, incluyendo el transporte y colocación de la válvula de compuerta DN 80 mm, PN 16, así como el suministro y colocación de: T de derivación y piezas especiales de fundición dúctil con unión embridada, carrete de desmontaje de la válvula, junta de estanqueidad, tornillería bicromatada y eje para el accionamiento manual de la válvula sujeto mediante pletinas fijadas a las paredes del pozo, además de los anclajes necesarios.|
+~C|01.19|ud||1313.12|170712|0|
+~T|01.19|Conjunto de pozo de desagüe y pozo de descompresión prefabricado, para vaciado de tuberías de diámetro no superior a 500 mm, de 1,20 m de diámetro interior y profundidad < 1,50m, incluyendo el transporte y colocación de pates de polipropileno, así como todas las operaciones precisas para la ejecución de la acometida DN 300 mm conectada a la red de saneamiento.|
+~C|01.20|ud||161.04|170712|0|
+~T|01.20|Transporte y colocación de ventosa trifuncional PN 16, con enlace embriado DN 50 mm, incluyendo el transporte y colocación de válvula de compuerta DN 50 mm para el aislamiento de la ventosa, así como el suministro y colocación de pieza en T de derivación, juntas de estanqueidad, tornillería bicromatada y anclajes necesarios, i/fichas GIS para elementos de abastecimiento.|
+~C|01.21|ud||91|170712|0|
+~T|01.21|Ventosa trifuncional DN 50 mm, PN 16, con cuerpo de fundición dúctil y enlace embridado.|
+~C|01.22|ud||1786.24|170712|0|
+~T|01.22|Hidrante para incendios con racord de latón o bronce, de toma de enchufe rápido, DN 100 mm., tipo Barcelona, según plano de detalle, válvula de compuerta DN 100 mm., PN 16, "T" embridada con derivación Ø 100 mm., carretes de fundición dúctil con unión embridada, adaptadores deslizantes para conexion de "T", juntas de estanqueidad, tornillería bicromatada, eje para el accionamiento manual de la válvula sujeto mediante pletinas de acero al carbono fijadas a las paredes del pozo, anclajes necesarios, demolición de pavimento necesario, excavación de tierras, transporte a vertedero, relleno con albero y reposición del pavimento, incluso corte de la tubería existente, desagües y conexión y puesta en servicio, totalmente terminado, incluyendo el suministro y transporte de los materiales necesarios descritos anteriormente excepto la válvula de compuerta de D=100 mm.|
+~C|01.23|ud||52.33|170712|0|
+~T|01.23|Señalización de hidrante consistente en pintado de bordillo en una longitud de 12 m con pintura amarilla, incluso pintado de la tapa de pozo con pintura de color rojo RAL 3020 . Incluye la unidad la limpieza del pozo, manipulación de la válvula del hidrante para comprobación de funcionamiento correcto y colocación o sustitución de pates.|
+~C|01.24|ud||138.56|170712|0|
+~T|01.24|Colocación de señal de prohibición de aparcar acompañada de una placa con la leyenda "INCENDIOS" incluso demolición de pavimento, movimiento de tierras necesario y reposición de pavimento existente para la correcta colocación de la misma. Incluye la unidad la limpieza del pozo, manipulación de la válvula del hidrante para comprobación de funcionamiento correcto y colocación o sustitución de pates.|
+~C|01.25|ud||260.65|170712|0|
+~T|01.25|Pozo de registro de hormigón prefabricado para alojamiento de válvula de compuerta o ventosa, de 1,20 m de diámetro interior y cualquier profundidad, según plano de detalle del proyecto y en conformidad con las prescripciones del PPTG de EMASESA, incluyendo el transporte y colocación de pates de polipropileno.|
+~C|01.26|ud||572.17|170712|0|
+~T|01.26|Pozo de registro de fábrica de ladrillo macizo enfoscado interiormente para alojamiento de válvula de compuerta o ventosa, de 1,20 m de diámetro interior y profundidad máxima de 1.50 m, según plano de detalle del proyecto, incluyendo el transporte y colocación de pates de polipropileno.|
+~C|01.27|ud||14.73|170712|0|
+~T|01.27|Transporte y colocación del conjunto cerco / tapa de fundición dúctil, con cota de paso 600 mm y clase resistente D 400, con la inscripción "ABASTECIMIENTO".|
+~C|01.28|ud||14.73|170712|0|
+~T|01.28|Transporte y colocación del conjunto cerco / tapa de fundición dúctil, con cota de paso 600 mm y clase resistente D 400, con la inscripción "INCENDIOS".|
+~C|01.29|ud||951.32|170712|0|
+~T|01.29|Conexión de tubería proyectada de FD DN 150 mm con una existente de FD o FC DN 150 mm, incluyendo desagüe, bombeo, cortes, demoliciones, desmontaje de piezas, transporte, suministro y colocación de piezas especiales, anclajes, movimiento de tierras necesario, demolición y reposición de pavimentos.
+Totalmente terminado.|
+~C|01.30|ud||1005.88|170712|0|
+~T|01.30|Conexión de tubería proyectada de FD DN 150 mm con una existente de FD o FC DN 250 mm, incluyendo desagüe, bombeo, cortes, demoliciones, desmontaje de piezas, transporte, suministro y colocación de piezas especiales, anclajes, movimiento de tierras necesario, demolición y reposición de pavimentos.
+Totalmente terminado.|
+~C|01.31|ud||920.64|170712|0|
+~T|01.31|Conexión de tubería proyectada de FD DN 150 mm con una existente de FC DN 300 mm, incluyendo desagüe, bombeo, cortes, demoliciones, desmontaje de piezas, transporte, suministro y colocación de piezas especiales, anclajes, movimiento de tierras necesario, demolición y reposición de pavimentos.
+Totalmente terminado.|
+~C|01.32|ud||228.05|170712|0|
+~T|01.32|Taponamientos provisionales o definitivos en redes existentes o proyectadas de FD, D= 125-150 mm, incluso desagüe, bombeo, cortes, demoliciones, desmontaje de piezas, transporte, suministro y colocación de piezas especiales, anclajes, movimiento de tierras necesario y demolición y reposición de pavimentos. Medida la unidad instalada.|
+~C|01.33|ud||135|170712|0|
+~T|01.33|Anclajes provisionales o definitivos de redes existentes.|
+~C|01.34|h||33.69|170712|0|
+~T|01.34|Arqueologo|
+~C|01.35|ud||53.21|170712|0|
+~T|01.35|Carga y transporte de materiales aprovechables, sobrantes o recuperados en las obras, hasta los almacenes de EMASESA, aplicándose la unidad a cada expedición sobre camión que se realice.|
+~C|01.36|PA||5025|170712|0|
+~T|01.36|P.A., a justificar, por habilitación provisional con medios necesarios para permitir el acceso a viviendas afectadas por las obras de instalación de red de abastecimiento|
+~C|01.37|PA||10250|170712|0|
+~T|01.37|A justificar para la localización de servicios, reposición y/o desvio de servicios afectados en la zona afectada por las obras de instalación de red de abastecimiento|
+~C|01.38|m3||1.52|170712|0|
+~T|01.38|Canón de vertido de tierras de excavación, en plata de tratamiento autorizada por la Junta de Andalucia, incluso p.p de gestión documental.|
+~C|02#||Obra Civil Saneamiento|85290.02|170712|0|
+~D|02#|02.01\1\545.538\02.02\1\363.692\02.03\1\363.692\02.04\1\545.538\02.05\1\909.23\02.06\1\882.265\02.07\1\624.78\02.08\1\230.52\02.09\1\1284.663\02.10\1\454.615\02.11\1\169.12\02.12\1\185.11\02.13\1\185.11\02.14\1\92.555\02.15\1\12\02.16\1\6\02.17\1\12\02.18\1\6\02.19\1\3\02.20\1\1\02.21\1\5\02.22\1\4\02.23\1\14\02.24\1\52\02.25\1\8\02.26\1\12\02.27\1\185.11\02.28\1\185.11\02.29\1\2\02.30\1\240\02.31\1\1\02.32\1\1\02.33\1\1160.4\02.34\1\29.137\|
+~C|02.01|m3||3|170712|0|
+~T|02.01|Excavación mecánica de zanja en zona urbanizada y en cualquier clase de terreno a excepción de roca, para profundidades superiores a 2,50 m, incluyendo la p.p. de ayuda manual, la extracción de tierras a los bordes, la protección y apeo de los servicios existentes y la entibación simple mediante tablones verticales,correas y codales de madera, así como la entibación, agotamiento y refino del fondo y taludes de la zanja.|
+~C|02.02|m3||17.23|170712|0|
+~T|02.02|Excavación manual de zanja en zona urbanizada y en cualquier clase de terreno a excepción de roca, para profundidades superiores a 2,50 m, incluyendo la extracción de tierras a los bordes, la protección y apeo de los servicios existentes y la entibación simple mediante tablones verticales, correas y codales de madera, así como el agotamiento y refino del fondo y taludes de la zanja.|
+~C|02.03|m3||4.69|170712|0|
+~T|02.03|Carga manual de tierras sobre camión o similar, medido sobre el perfil teórico de excavación, sin esponjamiento.|
+~C|02.04|m3||0.24|170712|0|
+~T|02.04|Carga mecánica de tierras sobre camión o similar, medido sobre el perfil teórico de excavación, sin esponjamiento.|
+~C|02.05|m3||4.54|170712|0|
+~T|02.05|Transporte de tierras a vertedero autorizado, medido sobre el perfil teórico de excavación, sin esponjamiento.|
+~C|02.06|m3||6.96|170712|0|
+~T|02.06|Retranqueo de tierras, con medios mecánicos de bajo rendimiento, desde borde de zanja hasta lugar de acopio, para su posterior transporte a vertedero, o retranqueo del material de relleno, desde lugar de acopio hasta borde de zanja, i/pp de cargas y descargas necesarias.|
+~C|02.07|m3||6.39|170712|0|
+~T|02.07|Relleno de zanjas con suelo de albero, realizado en tongadas de 20 cm de espesor y compactado al 95% Proctor Modificado.|
+~C|02.08|m3||4.35|170712|0|
+~T|02.08|Relleno de zanjas de material granular, realizado en tongadas de 20 cm de espesor y compactado al 95% Proctor Modificado.|
+~C|02.09|m2||3.74|170712|0|
+~T|02.09|Entibación blindada de vaciados, zanjas y pozos, mediante paneles de chapa de acero, correas y codales metálicos, incluyendo parte proporcional de medios auxiliares necesarios.|
+~C|02.10|m3||3.85|170712|0|
+~T|02.10|P.p. de achique de agua por m3 de excavación, por medio de bomba sumergible, generador y personal necesario.|
+~C|02.11| ud||3.52|170712|0|
+~T|02.11|Desmontaje de tuberia existente, hasta un diámetro de 600 mm, incluso preparado de la carga y transporte especial a vertedero autorizado.
+|
+~C|02.12|m||13.87|170712|0|
+~T|02.12|Transporte y colocación de tubería de gres vitrificado DN / ID= 500 mm de enchufe y campana, con unión elástica mediante junta de goma fijada al tubo, de cualquier clase resistente, con las piezas especiales que pudieran resultar necesarias, incluyendo la ejecución de las pruebas de estanqueidad y funcionamiento y el levantamiento de los planos de la tubería instalada.|
+~C|02.13|m||0.15|170712|0|
+~T|02.13|Suministro, transporte y colocación de banda identificativa de tubería instalada, en material plástico y de color marrón con la leyenda "RED DE SANEAMIENTO - EMASESA", colocada sobre la generatriz superior a una distancia vertical de 50 cm, de acuerdo a las I.T. vigentes.|
+~C|02.14|m||4.25|170712|0|
+~T|02.14|Retranqueo de tuberías para saneamiento con medios manuales o mecánicos de bajo rendimiento, desde lugar de acopio hasta lugar de colocación.|
+~C|02.15|ud||192.4|170712|0|
+~T|02.15|Imbornal para recogida de aguas pluviales de cualquier longitud, en hormigón prefabricado de 0,60 x 0,30 m de luz libre interior y profundidad mínima de 1,10 m, construido según planos de detalle y especificaciones del PPTG de EMASESA.Se incluye en la unidad el suministro, transporte y colocación de tuberia, la ejecución de la acometida de conexión a la red de saneamiento con tubería, codo de 90º y manguitos de PVC de DN 200 mm, el movimiento de tierras , la rotura y reposición de pavimentos que resulte necesario, así como el suministro, transporte y colocación del conjunto cerco / rejilla de fundición dúctil.|
+~C|02.16|ud||678.38|170712|0|
+~T|02.16|Imbornal para recogida de aguas pluviales de cualquier longitud, en fábrica de ladrillo macizo de 1/2 pié de espesor de 0,60 x 0,30 m de luz libre interior y profundidad mínima de 1,10 m, construido según planos de detalle y especificaciones del PPTG de EMASESA.Se incluye en la unidad el suministro, transporte y colocación de tuberia, la ejecución de la acometida de conexión a la red de saneamiento con tubería, codo de 90º y manguitos de PVC de DN 200 mm, el movimiento de tierras , la rotura y reposición de pavimentos que resulte necesario, así como el suministro, transporte y colocación del conjunto cerco / rejilla de fundición dúctil.|
+~C|02.17|ud||41.75|170712|0|
+~T|02.17|Demolición de imbornal y tubería de conexión a pozo realizada con medios mecánicos y manuales, comprendiendo el el levantado del pavimento existente, excavaciones, recuperación de material, carga y transporte, compactación del fondo de la excavación, relleno de albero y compactado al 95% P.M. en tongadas de 30 cm máximo; 20 cm de espesor de hormigón de HM-20 hasta cota inferior del pavimento final, reparaciones en pozo afectado. Totalmente terminado. Medida la unidad ejecutada.|
+~C|02.18|ud||606.03|170712|0|
+~T|02.18|Pozo de registro prefabricado completo en red de saneamiento, para colectores de diametro igual o inferior a 500 mm, de 120 cm. de diámetro interior y profundidad comprendida entre 2,50 y 3,50 m., formado por base prefabricada de hormigón armado de 16 cms de espesor y alturas comprendidas entre 0.80 y 1,00 m, incluso p.p de taladros necesariaos para la conexión de colectores a la base, anillos prefabricados de hormigón armado de 16 cm espesor, de borde machihembrado, y cono asimétrico para formación de brocal del pozo, construido según plano de detalle, especificaciones del PPTG de EMASESA y normativa UNE/127917. Se incluyen en la unidad el transporte y colocación de pates de polipropileno y el conjunto cerco / tapa de fundición dúctil, de c.p. 600 mm, con la inscripción " SANEAMIENTO".|
+~C|02.19|ud||1140.38|170712|0|
+~T|02.19|Pozo de registro de fábrica de ladrillo macizo en red de saneamiento de 1,20 m de diámetro interior y profundidad comprendida entre 2,50 y 3,50 m, construido según plano de detalle y especificaciones del PPTG de EMASESA. Se incluyen en la unidad el transporte y colocación de pates de polipropileno y el conjunto cerco / tapa de fundición dúctil, de c.p. 600 mm, con la inscripción " SANEAMIENTO".|
+~C|02.20|ud||1087.18|170712|0|
+~T|02.20|Pozo de resalto circular de 1.20 m de diámetro y 6 m de profundidad máxima, con desvío interior formado por: solera de hormigón HM-20 de 30 cm de espesor con canaleta de fondo, tubería de desvío de gres de DN 300 mm vitrificado con p.p.de piezas especiales y envoltura de hormigón hm-20; fabrica de ladrillo perforado de 1 pie de espesor o prefabricado de hormigón, enfoscado y bruñido por el interior, tapa y cerco de hierro fundido y pates de polipropileno según modelos municipales; incluso excavación, relleno y transporte de tierras a vertedero; construido según NTE/ISA-16 y ordenanza municipal.
+Medida la unidad terminada.|
+~C|02.21|ud||111.71|170712|0|
+~T|02.21|Retranqueo de materiales para ejecución de pozos de registro, desde lugar de acopio a lugar de utilización, con medios manuales o mecánicos de bajo rendimiento.|
+~C|02.22|ud||154.63|170712|0|
+~T|02.22|Acondicionamiento de pozo de registro existente, incluyendo conexiones de redes, formación de canal y banquetas, demolición y reconstrucción de coronación de pozo, desmontaje y acopio de tapa y cerco, transporte y colocación de nuevo conjunto tapa / cerco en fundición dúctil de c.p. 600 mm, con la inscripción " SANEAMIENTO" y de los pates de polipropileno necesarios, picado de paramentos verticales y posterior enfoscado de los mismos con mortero de cemento M-450, medida la unidad completamente terminada.|
+~C|02.23|ud||14.73|170712|0|
+~T|02.23|Transporte y colocación del conjunto cerco / tapa de fundición dúctil, con cota de paso 600 mm y clase resistente D 400 , con la inscripción " SANEAMIENTO ".|
+~C|02.24|ud||68.53|170712|0|
+~T|02.24|Localización y toma de datos de acometida domiciliaria de saneamiento, previa a la ejecución de las obras, para determinar la rasante hidráulica de la misma, consistiendo dichos trabajos en la recogida de datos mediante apertura de las arquetas sifónicas, previa autorización de propietario, o mediante la correspondiente apertura de calicata con medios mecánicos y manuales que permita confirmar la validez o no del perfil longitudinal proyectado, incluyendo los trabajos de topografía necesarios así como la demolición de los pavimentos, excavación, carga y transporte del material sobrante a vertedero, así como el relleno provisional posterior con material sobrante de la excavación y señalización de la calicata correspondiente.|
+~C|02.25|ud||429.38|170712|0|
+~T|02.25|Arqueta de registro en red de saneamiento de fábrica de ladrillo macizo de un pié de espesor, de dimensiones interiores A X B m, profundidad C m y losa de cubrición de HA, desmontable y de resistencia adecuada a las cargas que deberá soportar, construida según los planos de detalles y especificaciones del PPTG de EMASESA.Se incluye en la unidad el transporte y colocación de los pates de polipropileno y el de los dos conjuntos cerco / tapa de fundición dúctil, de c. p. 600 mm, con la inscripción "SANEAMIENTO".|
+~C|02.26|ud||45.03|170712|0|
+~T|02.26|Carga y transporte de materiales aprovechables, sobrantes o recuperados en las obras, hasta los almacenes de EMASESA, aplicándose la unidad a cada expedición sobre camión que se realice.|
+~C|02.27|m||1.35|170712|0|
+~T|02.27|Limpieza de tuberias de la red de saneamiento, d<=600 mm, mediante aspiración y/o agua a presión desde pozo de registro, incluso transporte a vertedero controlado del material resultante.|
+~C|02.28|m||1.93|170712|0|
+~T|02.28|Inspección y diagnostico de redes, mediante cámara de TV robotizada, con longitudes en planta superiores a los 150 m, de cualquier tipo de sección y nueva instalación, con alturas o diámetros superiores a los 150 mm e iguales o inferiores a los 600 mm, incluso p.p desplazamiento y vuelta de equipos necesarios y p.p. del informe respectivo de diagnostico, en soporte papel y CD-ROM y/o formato para su incorporación al GIS de EMASESA, según PPTP de proyecto.|
+~C|02.29|ud||201.37|170712|0|
+~T|02.29|Desplazamiento del equipo completo de cámara de tv, desde centro de trabajo a emplazamiento de obra y vuelta, para la inspección de colectores de saneamiento con longitudes en planta inferiores a los 150 m.|
+~C|02.30|h||33.69|170712|0|
+~T|02.30|Arqueologo|
+~C|02.31|PA||12025|170712|0|
+~T|02.31|A justificar para la localización de servicios, reposición y/o desvio de servicios afectados en la zona afectada por las obras.|
+~C|02.32|PA||2950|170712|0|
+~T|02.32|Partida Alzada a justificar para bombeo de aguas residuales durante la ejecución de las obras.|
+~C|02.33|m3||1.52|170712|0|
+~T|02.33|Canón de vertido de tierras de excavación, en plata de tratamiento autorizada por la Junta de Andalucia, incluso p.p de gestión documental.|
+~C|02.34|M3||12.59|170712|0|
+~T|02.34|Canón de vertido de residuo de construcción y demolición mixtos, en plata de tratamiento autorizada por la Junta de Andalucia, incluso p.p de gestión documental.|
+~C|03#||OBRA CIVIL RED DE RIEGO Y BALDEO|23925.94|170712|0|
+~D|03#|03.01\1\129.6\03.02\1\194.4\03.03\1\199.8\03.04\1\118.8\03.05\1\129.6\03.06\1\194.4\03.07\1\324\03.08\1\321.3\03.09\1\135\03.10\1\270\03.11\1\270\03.12\1\2\03.13\1\3\03.14\1\3\03.15\1\2\03.16\1\7\03.17\1\7\03.18\1\1\03.19\1\1\03.20\1\401.8\|
+~C|03.01|m3||2.15|170712|0|
+~T|03.01|Excavación mecánica de zanja en zona urbanizada y en cualquier clase de terreno a excepción de roca, para profundidades no superiores a 2,50 m, incluyendo la p.p. de ayuda manual, la extracción de tierras a los bordes, la protección y apeo de los servicios existentes y la entibación simple mediante tablones verticales,correas y codales de madera, así como la entibación, agotamiento y refino del fondo y taludes de la zanja.|
+~C|03.02|m3||12.53|170712|0|
+~T|03.02|Excavación manual de zanja en zona urbanizada y en cualquier clase de terreno a excepción de roca, para profundidades no superiores a 2,50 m, incluyendo la extracción de tierras a los bordes, la protección y apeo de los servicios existentes y la entibación simple mediante tablones verticales,correas y codales de madera, así como el agotamiento y refino del fondo y taludes de la zanja.|
+~C|03.03|m3||6.39|170712|0|
+~T|03.03|Relleno de zanjas con suelo de albero,realizado en tongadas de 20 cm de espesor y compactado al 95% Proctor Modificado.|
+~C|03.04|m3||4.35|170712|0|
+~T|03.04|Relleno de zanjas de material granular, realizado en tongadas de 20 cm de espesor y compactado al 95% Proctor Modificado|
+~C|03.05|m3||0.24|170712|0|
+~T|03.05|Carga mecánica de tierras sobre camión o similar, medido sobre el perfil teórico de excavación, sin esponjamiento.|
+~C|03.06|m3||4.69|170712|0|
+~T|03.06|Carga manual de tierras sobre camión o similar, medido sobre el perfil teórico de excavación, sin esponjamiento.|
+~C|03.07|m3||4.54|170712|0|
+~T|03.07|Transporte de tierras a vertedero autorizado, medido sobre el perfil teórico de excavación, sin esponjamiento.|
+~C|03.08|m3||6.96|170712|0|
+~T|03.08|Retranqueo de tierras, con medios mecánicos de bajo rendimiento, desde borde de zanja hasta lugar de acopio, para su posterior transporte a vertedero, o retranqueo del material de relleno, desde lugar de acopio hasta borde de zanja, i/pp de cargas y descargas necesarias.|
+~C|03.09|m||1.55|170712|0|
+~T|03.09|Retranqueo de tuberías para abastecimiento y/o riego con medios manuales o mecánicos de bajo rendimiento desde lugar de acopio hasta lugar de colocación.|
+~C|03.10|m||8.23|170712|0|
+~T|03.10|Transporte y colocación de tubería de polietileno para suministro de agua, del tipo PE 100, PN 10, de DN / OD= 160 mm, incluyendo el suministro y la colocación de los accesorios de unión y/o derivación, las pruebas de presión y estanqueidad y el levantamiento de los planos de la tubería instalada.|
+~C|03.11|m||0.15|170712|0|
+~T|03.11|Suministro, transporte y colocación de banda identificativa de tubería instalada, en material plástico y de color VERDE con la leyenda "RED DE RIEGO - EMASESA", colocada sobre la generatriz superior a una distancia vertical de 50 cm., de acuerdo a las I.T. vigentes|
+~C|03.12|ud||87.48|170712|0|
+~T|03.12|Boca de riego 40 mm instalada en red de agua no potable, brida de anclaje roscada, junta plana de goma, conexión a la red de PE mediante collarín Ø 160/50 mm y manguito Ø50mm ambos electrosoldables de PE, i/ ramal de PE 80 Ø 50 mm de PE con banda marrón, arqueta de alojamiento con su correspondiente conjunto de cerco y tapa de fundición, así como el conjunto de operaciones precisas para su instalación.|
+~C|03.13|ud||163.89|170712|0|
+~T|03.13|Transporte y colocación de válvula de compuerta de cierre elástico DN 150mm, PN 16, enterrada, incluyendo suministro y colocación de empalme universal (pieza B-E), juntas de estanqueidad, tornillería bicromatada y anclajes necesarios, así como transporte y colocación de trampillón y conjunto de accionamiento manual, medida la unidad completamente terminada.|
+~C|03.14|ud||9.75|170712|0|
+~T|03.14|Transporte y colocación de unidad de trampillón para válvulas enterradas, formada por cuerpo y tapa de fundicion dúctil con pintura de protección anticorrosiva de color negro, según diseño y dimensiones especificadas en el plano de detalle, teniendo el conjunto una resistencia equivalente a la clase B 125 s/UNE EN 124, anagrama de Emasesa y rótulo de nylon embutido en la tapa de color verde (Ral 6020) con la leyenda "AGUA NO POTABLE".|
+~C|03.15|ud||105.7|170712|0|
+~T|03.15|Demolición de pozo de registro existente con transporte de productos sobrantes a vertedero, incluso retirada de tapa, picado de pozo y relleno con y hormigón fluido HM-15.|
+~C|03.16|ud||176.15|170712|0|
+~T|03.16|Taponamientos provisionales o definitivos en redes proyectadas de pead, D= 160 mm, incluso desagüe, bombeo, cortes, demoliciones, desmontaje de piezas, transporte, suministro y colocación de piezas especiales, anclaje y, movimiento de tierras necesario. Medida la unidad instalada.|
+~C|03.17|ud||135|170712|0|
+~T|03.17|Anclajes provisionales o definitivos de redes existentes.|
+~C|03.18|PA||2525|170712|0|
+~T|03.18|P.A., a justificar, por habilitación provisional con medios necesarios para permitir el acceso a viviendas afectadas por las obras de instalación de red de riego|
+~C|03.19|PA||6075|170712|0|
+~T|03.19|A justificar para la localización de servicios, reposición y/o desvio de servicios afectados en la zona afectada por las obras de instalación de red de riego|
+~C|03.20|m3||1.52|170712|0|
+~T|03.20|Canón de vertido de tierras de excavación, en plata de tratamiento autorizada por la Junta de Andalucia, incluso p.p de gestión documental.|
+~C|04#||Pavimentación Abastecimiento|65848.14|170712|0|
+~D|04#|04.01\1\609\04.02\1\221\04.03\1\221\04.04\1\550\04.05\1\196\04.06\1\5\04.07\1\20\04.08\1\2\04.09\1\287.5\04.10\1\287.5\04.11\1\287.5\04.12\1\273.125\04.13\1\172.5\04.14\1\86.25\04.15\1\25\04.16\1\25\04.17\1\25\04.18\1\575\04.19\1\25\04.20\1\25\04.21\1\18\04.22\1\10\04.23\1\12\04.24\1\75\04.25\1\20\04.26\1\20\04.27\1\20\04.28\1\10\04.29\1\40\04.30\1\1\04.31\1\1\04.32\1\172.14\04.33\1\356.5\|
+~C|04.01|m2||3.82|170712|0|
+~T|04.01|Demolición de acerado formado por losa sobre base de hormigón, incluso rotura, carga y transporte de productos resultantes a vertedero.|
+~C|04.02|m||2.96|170712|0|
+~T|04.02|Levantado de bordillo granítico sobre base de hormigón,incluyendo acopio y limpieza de las piezas aprovechables para su posterior utilización así como la rotura, carga y transporte a vertedero de productos resultantes.|
+~C|04.03|m||4.08|170712|0|
+~T|04.03|Levantado de adoquín granítico de corriente,incluyendo acopio y limpieza de adoquines para su posterior utilización, así como la rotura, carga y transporte a vertedero de productos resultantes.|
+~C|04.04|m2||9.2|170712|0|
+~T|04.04|Solado con baldosa hidráulica de taco exagonal de 3 cm de espesor, asentada sobre capa de mortero de cemento M-40 (1:6) con un espesor comprendido entre 2-5 cm, rejuntado con lechada de cemento (600 kg/m3) y arena, con una anchura máxima de juntas de 0,2 cm, incluyendo remates de alcorques, parte proporcional de losas cuadradas de 20 x 20 cm, encuentros con tapas de registro existentes y limpieza, medida la unidad completamente terminada.|
+~C|04.05|m||27.88|170712|0|
+~T|04.05|Bordillo de granito gris abujardado de 28X12 cm. de selección y 40 cm. de longitud mínima, asentado sobre base de hormigón HM-20, incluso p.p. de rejuntado con mortero (1:1); construido según NTE/RSP-17. Medida la longitud ejecutada.|
+~C|04.06|m2||40.37|170712|0|
+~T|04.06|Pavimento de adoquín granítico incluyendo: suministro de piezas de 10x10x10cm, con cualquier tipo de corte, labrado, terminación y color asentadas sobre lecho de mortero de cemento en seco M-5 (1:6) preparado en central, con un espesor máximo de 4 cm, nivelado y retacado de 2 cm; rejuntado de 8 cms de profundidad y de 1 a 2 cms de ancho mediante lechada de cemento CEM II/B-P 32,5 N 1/2, amasada a mano, s/RC-08; barrido, regado con agua, limpieza y curado. Medida la unidad completamente terminada.|
+~C|04.07|m2||22.85|170712|0|
+~T|04.07|Acerado con baldosas de hormigón prefabricado granallado rojo con resaltos cilíndricos tipo botón, de 60x40 cm. y 4.9 cm. de espesor, recibidas con mortero m-4 (1:6), incluso transporte de material a pie de obra, nivelado con capa de arena de 2 cm. de espesor medio, formación de juntas, enlechado y limpieza del pavimento; construído según nte/rst. medida la superficie ejecutada.|
+~C|04.08|ud||332.47|170712|0|
+~T|04.08|Unidad de paso deprimido para acceso a garage o minusválido, de dimensiones según prescripciones de GU, conformado con tacos de granito abujardado a cara vista de dimensiones 10x10x6 asentadas sobre lecho de mortero de cemento M-5 (1:6), en seco preparado en central, con un espesor máximo de 4 cm, incluyendo nivelación y retacado de 2 cm, rejuntado, de 8 cms de profundidad y de 1 a 2 cms de espesor, ejecutado a piquera, mediante lechada de cemento CEM II/B-P 32,5 N 1/2, amasada a mano, s/RC-08, i/pp de cambio de rasante de bordillos, base y subbase, según proyecto, y mortero de agarre e=4cm. Unidad totalmente terminada.|
+~C|04.09|m3||1.86|170712|0|
+~T|04.09|Excavación a cielo abierto, con medios mecánicos, en vaciados, incluyendo la p.p. de ayuda manual, la protección y apeo de los servicios existentes, la entibación y agotamientos necesarios, así como la nivelación, compactación y saneado de la superficie del fondo de la excavación|
+~C|04.10|m3||0.24|170712|0|
+~T|04.10|Carga mecánica de tierras sobre camión o similar, medido sobre el perfil teórico de excavación, sin esponjamiento.|
+~C|04.11|m3||4.54|170712|0|
+~T|04.11|Transporte de tierras a vertedero autorizado, medido sobre el perfil teórico de excavación, sin esponjamiento.|
+~C|04.12|m3||6.96|170712|0|
+~T|04.12|Retranqueo de tierras, con medios mecánicos de bajo rendimiento, desde borde de zanja hasta lugar de acopio, para su posterior transporte a vertedero, o retranqueo del material de relleno, desde lugar de acopio hasta borde de zanja, i/pp de cargas y descargas necesarias.|
+~C|04.13|m3||6.81|170712|0|
+~T|04.13|Explanada o sub-base de albero, i/aporte de material, extendido, nivelado, regado y compactado al 100% PM en tongadas de 30 cm como máximo.|
+~C|04.14|m3||54.44|170712|0|
+~T|04.14|Base de hormigón en masa en firmes de acerados, con hormigón en masa HM-20, extendido y vibrado manual con acabado maestreado, medida la unidad completamente terminada.|
+~C|04.15|m2||12.01|170712|0|
+~T|04.15|Reposición de acerado formado por losa hidráulica de cualquier tipo, cenefa perimetral, junta de dilatación y cortes y enlechado, con base de hormigón HM-20 de 20cm de espesor, juntas de dilatación, vibrado y curado.|
+~C|04.16|m||7.81|170712|0|
+~T|04.16|Bordillo de granito con piezas procedentes de recuperación asentado sobre base de cimentación y amparo de hormigón en masa HM-20, rejuntado con mortero de cemento M-80 (1:4), con una anchura máxima de juntas de 0,5 cm y avitolado, medida la unidad completamente terminada.|
+~C|04.17|m||2.77|170712|0|
+~T|04.17|Corriente de doble hilada de adoquín granítico con piezas procedentes de recuperación, asentadas sobre base de cimentación de hormigón en masa de 20N/mm2 de resistencia característica especificada, con consistencia plástica, tamaño máximo de árido 40 mm y ambiente con una exposición específica Qa, incluyendo rejuntado con lechada de cemento (1:1) ejecutada a piquera, limpieza y avitolado, medida la unidad completamente terminada.|
+~C|04.18|m2||2.86|170712|0|
+~T|04.18|Retranqueo de pavimentos desde la zona de acopio o desde lugar de máxima penetración de camiones en las calles del entorno de las obras, incluyendo mano de obra y maquinaria de bajo rendimiento utilizada para la descarga y transporte interior hasta pié de tajo.|
+~C|04.19|m||14.32|170712|0|
+~T|04.19|Doble carga, transporte y descarga, a zona de acopio con una distancia superior a 1 km e inferior a 20 Km, de bordillo granítico, de cualquier peso o tamaño, para posterior recuperación y reposición de pavimentos en viales y/o acerados, incluso p.p de limpieza a mano, eliminando cascotes, detritus y adheridos,incluye la retirada y transporte de escombros y material de detritus.|
+~C|04.20|m2||18.08|170712|0|
+~T|04.20|Doble carga, transporte y descarga, a zona de acopio con una distancia superior a 1 km e inferior a los 20 Km, de adoquín granítico, de cualquier peso o tamaño, para posterior recuperación y reposición de pavimentos en viales y/o acerados, incluso p.p de limpieza a mano, eliminando cascotes, detritus y adheridos, incluye la retirada y transporte de escombros y material de detritus.|
+~C|04.21|ud||382.55|170712|0|
+~T|04.21|Arqueta de paso de tipo A2-R del tipo normalizado por Compañía Sevillana de Electricidad con 2 tapas de hormigón armado con cerco de perfil laminado PN L 80.80.8 de 1250x733 mm., marco de tapa en perfil de iguales características de 1250x733 mm. con garras de fijación, obra de fábrica de ladrillo cerá mico perforado recibido con mortero M-40 1:6, construida según detalle recogido en planos, solera de hormigón H-150, sobre lecho de arena, incluso conexión de tubos en entrada y salida, excavación, y transporte de tierras sobrantes a vertedero, medios auxiliares, material complementario, pequeño material y mano de obra. Medida la unidad ejecutada.|
+~C|04.22|ud||100.88|170712|0|
+~T|04.22|Arqueta registrable de 45x45 cm. (interior) realizada con solera de grava gruesa apisonada de 15 cm de espesor; paredes de fábrica de ladrillo perforado, tomado con mortero de cemento 1:6 en lobor de citara, 15 cm de hormigón HM-20 en cimentación y 20 cm en formación de brocal; salidas con tubo corrugado, enfoscado fratasado fino por el interior con el mismo mortero, con una profundidad libre de 70 com, acabado con cerco y tapa de fundición dúctil de 55x55 cm modelo municipal; incluso excavación y transporte de productos sobrantes a vertedero, según detalle del P.C. de alumbrado medida la unidad térmica.|
+~C|04.23|ud||172|170712|0|
+~T|04.23|Arqueta de registro normalizada tipo D, formada por: excavación, carga y transporte, compactación del fondo al 95 % PN, solera y paredes de hormigón HA-25 con armaduras de acero B-400-S, encofrado y desencofrado, incluso formación de pendiente sobre solera, desagüe y embocaduras de tubos, cerco metálico y tapa, construida según normas de la compañía suministradora. Medida la unidad terminada.|
+~C|04.24|ud||97.97|170712|0|
+~T|04.24|Suministro, transporte y colocación de pilón de fundición dúctil.|
+~C|04.25|ud||12|170712|0|
+~T|04.25|Poda de árbol, incluso retirada de ramas cortadas y transporte a vertedero.|
+~C|04.26|ud||24.79|170712|0|
+~T|04.26|Protección provisional o entablillado del tronco del arbol mediante el atado con alambre de costeros de madera o de material que impida el deterioro de la corteza motivado por los golpes de la maquinaria durante el transcurso de las obras. Incluye el transporte, carga, descarga y suministro del material, así como la mano de obra necesaria para montaje y desmontaje de dicho elemento desde la base hasta 2 m de altura. Medida la unidad terminada.|
+~C|04.27|ud||155.26|170712|0|
+~T|04.27|Trasplante y traslado de árboles ubicados en la zona afectada, realizado con retroexcavadora, sobre camión, incluso trabajos de poda y tratamiento antitranspirante, así como suministro y colocación de anclajes, en un radio máximo de acción interurbano. medida la unidad transplantada|
+~C|04.28|ud||206.93|170712|0|
+~T|04.28|Transplante de árboles ubicados en la zona de acopio temporal, realizado con retroexcavadora, sobre camión, incluidos: poda de acondicionamiento, aplicación de antitranspirante, apertura de hoyo, regado de hoyo y nueva plantación, medida la unidad transplantada.|
+~C|04.29|ud||6.56|170712|0|
+~T|04.29|Bordillo prefabricado de hormigón bicapa de dimensiones 10 x 20 x 100 cm, clase R5, asentado sobre base de cimentación y amparo de hormigón en masa de HM-20, rejuntado con mortero de cemento M-80 (1:4), con una anchura máxima de juntas de 0,5 cm y avitolado, medida la unidad completamente terminada.|
+~C|04.30|PA||8250|170712|0|
+~T|04.30|P.A. por afección, retirada y conservación de señalizacion y mobiliario urbano.|
+~C|04.31|PA||2980|170712|0|
+~T|04.31|Partida alzada a justificar para reparacion de zocalos y pelda¤os de acceso a viviendas, comprendiendo el revestido con materiales iguales a los existentes, conun desarrollo de hasta 30 cm., p.p. de desmontajes, picados y trabajos complementarios necesarios, asi como el transporte de sobrantes a vertedero.|
+~C|04.32|m3||12.59|170712|0|
+~T|04.32|Canón de vertido de residuo de construcción y demolición mixtos, en plata de tratamiento autorizada por la Junta de Andalucia, incluso p.p de gestión documental.|
+~C|04.33|m3||1.52|170712|0|
+~T|04.33|Canón de vertido de tierras de excavación, en plata de tratamiento autorizada por la Junta de Andalucia, incluso p.p de gestión documental.|
+~C|05#||Pavimentación Saneamiento|115158.02|170712|0|
+~D|05#|05.01\1\1476\05.02\1\83\05.03\1\206\05.04\1\206\05.05\1\88\05.06\1\83\05.07\1\50\05.08\1\50\05.09\1\133\05.10\1\50\05.11\1\88\05.12\1\76\05.13\1\20\05.14\1\480\05.15\1\78\05.16\1\542\05.17\1\320\05.18\1\40.6\05.19\1\29\05.20\1\947.8\05.21\1\947.8\05.22\1\947.8\05.23\1\494.3\05.24\1\13.2\05.25\1\112.6\05.26\1\116\05.27\1\841.95\05.28\1\775.5\05.29\1\825\05.30\1\40\05.31\1\60\05.32\1\15\05.33\1\10\05.34\1\12\05.35\1\1\05.36\1\799.29\05.37\1\1175.3\|
+~C|05.01|m2||14.13|170712|0|
+~T|05.01|Levantado de pavimento formado por aglomerado,adoquín y hormigón en masa,incluyendo acopio y limpieza de adoquines para su posterior utilización así como la rotura,carga y transporte a vertedero de productos resultantes.|
+~C|05.02|m2||12.51|170712|0|
+~T|05.02|Levantado de pavimento formado por adoquín visto sobre base de hormigón en masa, mortero y lechada de cemento para rejuntado, incluyendo acopio y limpieza de adoquines para su posterior utilización así como la rotura, carga y transporte a vertedero de productos resultantes.|
+~C|05.03|||2.96|170712|0|
+~T|05.03|Levantado de bordillo granítico sobre base de hormigón,incluyendo acopio y limpieza de las piezas aprovechables para su posterior utilización así como la rotura, carga y transporte a vertedero de productos resultantes.|
+~C|05.04|m||4.08|170712|0|
+~T|05.04|Levantado de adoquín granítico de corriente,incluyendo acopio y limpieza de adoquines para su posterior utilización, así como la rotura, carga y transporte a vertedero de productos resultantes.|
+~C|05.05|m2||3.82|170712|0|
+~T|05.05|Demolición de acerado formado por losa sobre base de hormigón, incluso
+rotura, carga y transporte de productos resultantes a vertedero.|
+~C|05.06|m2||20.45|170712|0|
+~T|05.06|Pavimento de adoquín granítico procedente de recuperación, con piezas 35x20x20 cm,, asentadas sobre lecho de mortero de cemento M-5 (1:6), en seco preparado en central, con un espesor máximo de 8 cm; nivelación y retacado de 4 cm; rejuntado de 16 cms de profundidad y de 1 a 2 cms de ancho, mediante lechada de cemento CEM II/B-P 32,5 N 1/2, amasada a mano, s/RC-08; barrido, regado con agua, limpieza y curado. Medida la unidad completamente terminada.|
+~C|05.07|m||2.77|170712|0|
+~T|05.07|Corriente de doble hilada de adoquín granítico con piezas procedentes de recuperación, asentadas sobre base de cimentación de hormigón en masa de 20N/mm2 de resistencia característica especificada, con consistencia plástica, tamaño máximo de árido 40 mm y ambiente con una exposición específica Qa, incluyendo rejuntado con lechada de cemento (1:1) ejecutada a piquera, limpieza y avitolado, medida la unidad completamente terminada.|
+~C|05.08|m||7.81|170712|0|
+~T|05.08|Bordillo de granito con piezas procedentes de recuperación asentado sobre base de cimentación y amparo de hormigón en masa HM-20, rejuntado con mortero de cemento M-80 (1:4), con una anchura máxima de juntas de 0,5 cm y avitolado, medida la unidad completamente terminada.|
+~C|05.09|m2||18.08|170712|0|
+~T|05.09|Doble carga, transporte y descarga, a zona de acopio con una distancia superior a 1 km e inferior a los 20 Km, de adoquín granítico, de cualquier peso o tamaño, para posterior recuperación y reposición de pavimentos en viales y/o acerados, incluso p.p de limpieza a mano, eliminando cascotes, detritus y adheridos, incluye la retirada y transporte de escombros y material de detritus.|
+~C|05.10|m||14.32|170712|0|
+~T|05.10|Doble carga, transporte y descarga, a zona de acopio con una distancia superior a 1 km e inferior a 20 Km, de bordillo granítico, de cualquier peso o tamaño, para posterior recuperación y reposición de pavimentos en viales y/o acerados, incluso p.p de limpieza a mano, eliminando cascotes, detritus y adheridos,incluye la retirada y transporte de escombros y material de detritus.|
+~C|05.11|m2||12.01|170712|0|
+~T|05.11|Reposición de acerado formado por losa hidráulica de cualquier tipo, cenefa perimetral, junta de dilatación y cortes y enlechado, con base de hormigón HM-20 de 20cm de espesor, juntas de dilatación, vibrado y curado.|
+~C|05.12|m2||47.22|170712|0|
+~T|05.12|Reposición de pavimento de calzada similar al exitente, incluso nivelación, extendido y compactación mecánica de base de firme y aglomerado según PG-3/75 del M.O.P.U. Medida la unidad terminada y realmente ejecutada.|
+~C|05.13|m2||40.37|170712|0|
+~T|05.13|Pavimento de adoquín granítico incluyendo: suministro de piezas de 10x10x10cm, con cualquier tipo de corte, labrado, terminación y color asentadas sobre lecho de mortero de cemento en seco M-5 (1:6) preparado en central, con un espesor máximo de 4 cm, nivelado y retacado de 2 cm; rejuntado de 8 cms de profundidad y de 1 a 2 cms de ancho mediante lechada de cemento CEM II/B-P 32,5 N 1/2, amasada a mano, s/RC-08; barrido, regado con agua, limpieza y curado. Medida la unidad completamente terminada.|
+~C|05.14|m2||36.88|170712|0|
+~T|05.14|Pavimento de adoquín granítico incluyendo: suministro de piezas de 20x10x10cm, con cualquier tipo de corte, labrado, terminación y color asentadas sobre lecho de mortero de cemento en seco M-5 (1:6) preparado en central, con un espesor máximo de 4 cm, nivelado y retacado de 2 cm; rejuntado de 8 cms de profundidad y de 1 a 2 cms de ancho mediante lechada de cemento CEM II/B-P 32,5 N 1/2, amasada a mano, s/RC-08; barrido, regado con agua, limpieza y curado. Medida la unidad completamente terminada.|
+~C|05.15|m||7.29|170712|0|
+~T|05.15|Corriente de doble hilada de adoquín granítico de 10 x 20 x 12 cm, asentados sobre base de cimentación de hormigón en masa HM-20, incluyendo rejuntado con lechada de cemento (1:1) ejecutada a piquera, limpieza y avitolado, medida la unidad completamente terminada.|
+~C|05.16|m||4.57|170712|0|
+~T|05.16|Corriente o encintado de adoquín de granito de 20X10X12 cm gris quintana acabado rústico, en simple hilada, asentados sobre base de cimentación de hormigón en masa HM-20, incluyendo rejuntado con lechada de cemento (1:1) ejecutada a piquera, limpieza y avitolado, medida la unidad completamente terminada.|
+~C|05.17|m2||11.14|170712|0|
+~T|05.17|Pavimento de hormigón en masa de 20 cm de espesor, en aparcamientos, con hormigón en masa HM-20, incluyendo parte proporcional de juntas y fratasado mecánico, medida la unidad completamente terminada y descontando alcorques y bordillos.|
+~C|05.18|m3||57.57|170712|0|
+~T|05.18|Pavimento de aglomerado asfáltico tipo D-8, con árido de procedencia porfídica o basáltica y riego de imprimación / adherencia con betún 40-50 / 50-60, incluyendo la nivelación, extendido y compactación del aglomerado s/ PG-3 vigente, medida la ud. completamente terminada.|
+~C|05.19|m3||99.36|170712|0|
+~T|05.19|Pavimento de aglomerado asfáltico antideslizante de 7 cm de espesor, tipo AC 16 surf S, con árido de procedencia porfídica o basáltica y riego de imprimación / adherencia con betún 40-50 / 50-60, incluyendo la nivelación, extendido y compactación del aglomerado s/ PG-3 vigente y 8UNE 13 108-1 y 2, medida la ud. completamente terminada|
+~C|05.20|m3||1.86|170712|0|
+~T|05.20|Excavación a cielo abierto, con medios mecánicos, en vaciados, incluyendo la p.p. de ayuda manual, la protección y apeo de los servicios existentes, la entibación y agotamientos necesarios, así como la nivelación, compactación y saneado de la superficie del fondo de la excavación|
+~C|05.21|m3||0.24|170712|0|
+~T|05.21|Carga mecánica de tierras sobre camión o similar, medido sobre el perfil teórico de excavación, sin esponjamiento.|
+~C|05.22|m3||4.54|170712|0|
+~T|05.22|Transporte de tierras a vertedero autorizado, medido sobre el perfil teórico de excavación, sin esponjamiento.|
+~C|05.23|m3||6.81|170712|0|
+~T|05.23|Explanada o sub-base de albero, i/aporte de material, extendido, nivelado, regado y compactado al 100% PM en tongadas de 30 cm como máximo.|
+~C|05.24|m3||54.44|170712|0|
+~T|05.24|Base de hormigón en masa en firmes de acerados, con hormigón en masa HM-20, extendido y vibrado manual con acabado maestreado, medida la unidad completamente terminada.|
+~C|05.25|m3||52|170712|0|
+~T|05.25|Base de hormigón en masa en firmes de calzadas, con hormigón en masa HM-20, extendido y vibrado manual con acabado maestreado, medida la unidad completamente terminada.|
+~C|05.26|m3||16.72|170712|0|
+~T|05.26|Base granular de zahorra artificial, extendida en capas de 10 cm. de espesor, regada y compactada al 100% del ensayo Próctor Modificado; incluso transporte compactación.|
+~C|05.27|m3||6.96|170712|0|
+~T|05.27|Retranqueo de tierras, con medios mecánicos de bajo rendimiento, desde borde de zanja hasta lugar de acopio, para su posterior transporte a vertedero, o retranqueo del material de relleno, desde lugar de acopio hasta borde de zanja, i/pp de cargas y descargas necesarias.|
+~C|05.28|m2||2.86|170712|0|
+~T|05.28|Retranqueo de pavimentos desde la zona de acopio o desde lugar de máxima penetración de camiones en las calles del entorno de las obras, incluyendo mano de obra y maquinaria de bajo rendimiento utilizada para la descarga y transporte interior hasta pié de tajo.|
+~C|05.29|m||0.66|170712|0|
+~T|05.29|Marca vial reflectante de 10 cm de ancho, con pintura reflectante y microesferas de vidrio, con máquina autopropulsada. Incluso replanteo, limpieza, premarcaje y esferas de vidrio medida la longitud realmente ejecutada.|
+~C|05.30|m2||8.19|170712|0|
+~T|05.30|Pintura reflexiva acrílica en cebreados, realmente pintado, incluso barrido y premarcaje sobre el pavimento.|
+~C|05.31|m2||6.16|170712|0|
+~T|05.31|Superficie realmente pintada con pintura reflectante en flechas, inscripciones, símbolos, cebreados, etc. Incluso preparación de superficie, premarcaje y microesferas de vidrio, totalmente terminado.|
+~C|05.32|ud||74.82|170712|0|
+~T|05.32|Señal de seguridad circular, de 60cm de diámetro, normalizada, con soporte metálico de acero galvanizado de 80x40x2mm y 1,2m de altura, amortizable en 5 años, incluso p.p. de apertura de pozo, hormigonado, colocación y desmontaje.|
+~C|05.33|ud||82.54|170712|0|
+~T|05.33|Señal de seguridad cuadrada, de 60x60cm, normalizada, con soporte de acero galvanizado de 80x40x2mm y 1,2m de altura, amortizable en 5 años, incluso p.p. de apertura de pozo, hormigonado, colocación y desmontaje.|
+~C|05.34|ud||60.93|170712|0|
+~T|05.34|Señal de seguridad triangular, de 70cm de lado, normalizada, con trípode tubular, amortizable en 5 años, incluso colocación y desmontaje.|
+~C|05.35|PA||9125|170712|0|
+~T|05.35|Partida alzada a justificar para la conformación de los desvíos de tráfico necesarios para la ejecución de las obras, incluyendo el traslado de semáforos, suministro colocación y posterior retirada de semáforos provisionales, obras complementarias necesarias para la conformación de los desvíos e instalación de semáforos, cableados provisionales, conexiones a redes, señalización vertical y horizontal necesaria (incluida la cartelería de obras descrita en anexo correspondiente), medios de contención y desvíos, así como cuantas necesidades surjan al efecto durante el transcurso de las obras.|
+~C|05.36|m3||12.59|170712|0|
+~T|05.36|Canón de vertido de residuo de construcción y demolición mixtos, en plata de tratamiento autorizada por la Junta de Andalucia, incluso p.p de gestión documental.|
+~C|05.37|m3||1.52|170712|0|
+~T|05.37|Canón de vertido de tierras de excavación, en plata de tratamiento autorizada por la Junta de Andalucia, incluso p.p de gestión documental.|
+~C|06#||PAVIMENTACION RED DE RIEGO Y BALDEO|46779.91|170712|0|
+~D|06#|06.01\1\550\06.02\1\190\06.03\1\190\06.04\1\425\06.05\1\190\06.06\1\5\06.07\1\15\06.08\1\1\06.09\1\222.5\06.10\1\222.5\06.11\1\222.5\06.12\1\211.375\06.13\1\133.5\06.14\1\66.75\06.15\1\445\06.16\1\15\06.17\1\6\06.18\1\8\06.19\1\75\06.20\1\16\06.21\1\16\06.22\1\16\06.23\1\10\06.24\1\40\06.25\1\1\06.26\1\154.6\06.27\1\275.9\|
+~C|06.01|m2||3.82|170712|0|
+~T|06.01|Demolición de acerado formado por losa sobre base de hormigón, incluso rotura, carga y transporte de productos resultantes a vertedero.|
+~C|06.02|m||2.96|170712|0|
+~T|06.02|Levantado de bordillo granítico sobre base de hormigón,incluyendo acopio y limpieza de las piezas aprovechables para su posterior utilización así como la rotura, carga y transporte a vertedero de productos resultantes.|
+~C|06.03|m||4.08|170712|0|
+~T|06.03|Levantado de adoquín granítico de corriente,incluyendo acopio y limpieza de adoquines para su posterior utilización, así como la rotura, carga y transporte a vertedero de productos resultantes.|
+~C|06.04|m2||9.2|170712|0|
+~T|06.04|Solado con baldosa hidráulica de taco exagonal de 3 cm de espesor, asentada sobre capa de mortero de cemento M-40 (1:6) con un espesor comprendido entre 2-5 cm, rejuntado con lechada de cemento (600 kg/m3) y arena, con una anchura máxima de juntas de 0,2 cm, incluyendo remates de alcorques, parte proporcional de losas cuadradas de 20 x 20 cm, encuentros con tapas de registro existentes y limpieza, medida la unidad completamente terminada.|
+~C|06.05|m||27.88|170712|0|
+~T|06.05|Bordillo de granito gris abujardado de 28X12 cm. de selección y 40 cm. de longitud mínima, asentado sobre base de hormigón HM-20, incluso p.p. de rejuntado con mortero (1:1); construido según NTE/RSP-17. Medida la longitud ejecutada.|
+~C|06.06|m2||40.37|170712|0|
+~T|06.06|Pavimento de adoquín granítico incluyendo: suministro de piezas de 10x10x10cm, con cualquier tipo de corte, labrado, terminación y color asentadas sobre lecho de mortero de cemento en seco M-5 (1:6) preparado en central, con un espesor máximo de 4 cm, nivelado y retacado de 2 cm; rejuntado de 8 cms de profundidad y de 1 a 2 cms de ancho mediante lechada de cemento CEM II/B-P 32,5 N 1/2, amasada a mano, s/RC-08; barrido, regado con agua, limpieza y curado. Medida la unidad completamente terminada.|
+~C|06.07|m2||22.85|170712|0|
+~T|06.07|Acerado con baldosas de hormigón prefabricado granallado rojo con resaltos cilíndricos tipo botón, de 60x40 cm. y 4.9 cm. de espesor, recibidas con mortero m-4 (1:6), incluso transporte de material a pie de obra, nivelado con capa de arena de 2 cm. de espesor medio, formación de juntas, enlechado y limpieza del pavimento; construído según nte/rst. medida la superficie ejecutada.|
+~C|06.08|ud||332.47|170712|0|
+~T|06.08|Unidad de paso deprimido para acceso a garage o minusválido, de dimensiones según prescripciones de GU, conformado con tacos de granito abujardado a cara vista de dimensiones 10x10x6 asentadas sobre lecho de mortero de cemento M-5 (1:6), en seco preparado en central, con un espesor máximo de 4 cm, incluyendo nivelación y retacado de 2 cm, rejuntado, de 8 cms de profundidad y de 1 a 2 cms de espesor, ejecutado a piquera, mediante lechada de cemento CEM II/B-P 32,5 N 1/2, amasada a mano, s/RC-08, i/pp de cambio de rasante de bordillos, base y subbase, según proyecto, y mortero de agarre e=4cm. Unidad totalmente terminada.|
+~C|06.09|m3||1.86|170712|0|
+~T|06.09|Excavación a cielo abierto, con medios mecánicos, en vaciados, incluyendo la p.p. de ayuda manual, la protección y apeo de los servicios existentes, la entibación y agotamientos necesarios, así como la nivelación, compactación y saneado de la superficie del fondo de la excavación|
+~C|06.10|m3||0.24|170712|0|
+~T|06.10|Carga mecánica de tierras sobre camión o similar, medido sobre el perfil teórico de excavación, sin esponjamiento.|
+~C|06.11|m3||4.54|170712|0|
+~T|06.11|Transporte de tierras a vertedero autorizado, medido sobre el perfil teórico de excavación, sin esponjamiento.|
+~C|06.12|m3||6.96|170712|0|
+~T|06.12|Retranqueo de tierras, con medios mecánicos de bajo rendimiento, desde borde de zanja hasta lugar de acopio, para su posterior transporte a vertedero, o retranqueo del material de relleno, desde lugar de acopio hasta borde de zanja, i/pp de cargas y descargas necesarias.|
+~C|06.13|m3||6.81|170712|0|
+~T|06.13|Explanada o sub-base de albero, i/aporte de material, extendido, nivelado, regado y compactado al 100% PM en tongadas de 30 cm como máximo.|
+~C|06.14|m3||54.44|170712|0|
+~T|06.14|Base de hormigón en masa en firmes de acerados, con hormigón en masa HM-20, extendido y vibrado manual con acabado maestreado, medida la unidad completamente terminada.|
+~C|06.15|m2||2.86|170712|0|
+~T|06.15|Retranqueo de pavimentos desde la zona de acopio o desde lugar de máxima penetración de camiones en las calles del entorno de las obras, incluyendo mano de obra y maquinaria de bajo rendimiento utilizada para la descarga y transporte interior hasta pié de tajo.|
+~C|06.16|ud||236.23|170712|0|
+~T|06.16|Suministro y montaje de arqueta de conexión eléctrica prefabricada de hormigón, sin fondo, registrable, troncopiramidal, tipo A-1 de 90,5x81,5 cm de medidas interiores y 62,5x53,5 cm en la boca, con paredes rebajadas para la entrada de hasta 4 tubos por cara de diámetro exterior máximo de 205 mm, capaz de soportar una carga de 400 kN, según norma ONSE 01.01-16B, con marco de acero y tapa de fundición dúctil, de 72x62x8 cm, para arqueta de conexión eléctrica tipo A-1, capaz de soportar una carga de 400 kN, según norma ONSE 01.01-14C. Incluso excavación mecánica y relleno del trasdós con material granular, conexiones de tubos y remates. Completamente terminada.|
+~C|06.17|ud||100.88|170712|0|
+~T|06.17|Arqueta registrable de 45x45 cm. (interior) realizada con solera de grava gruesa apisonada de 15 cm de espesor; paredes de fábrica de ladrillo perforado, tomado con mortero de cemento 1:6 en lobor de citara, 15 cm de hormigón HM-20 en cimentación y 20 cm en formación de brocal; salidas con tubo corrugado, enfoscado fratasado fino por el interior con el mismo mortero, con una profundidad libre de 70 com, acabado con cerco y tapa de fundición dúctil de 55x55 cm modelo municipal; incluso excavación y transporte de productos sobrantes a vertedero, según detalle del P.C. de alumbrado medida la unidad térmica.|
+~C|06.18|ud||172|170712|0|
+~T|06.18|Arqueta de registro normalizada tipo D, formada por: excavación, carga y transporte, compactación del fondo al 95 % PN, solera y paredes de hormigón HA-25 con armaduras de acero B-400-S, encofrado y desencofrado, incluso formación de pendiente sobre solera, desagüe y embocaduras de tubos, cerco metálico y tapa, construida según normas de la compañía suministradora. Medida la unidad terminada.|
+~C|06.19|ud||97.97|170712|0|
+~T|06.19|Suministro, transporte y colocación de pilón de fundición dúctil.|
+~C|06.20|ud||12|170712|0|
+~T|06.20|Poda de árbol, incluso retirada de ramas cortadas y transporte a vertedero.|
+~C|06.21|ud||24.79|170712|0|
+~T|06.21|Protección provisional o entablillado del tronco del arbol mediante el atado con alambre de costeros de madera o de material que impida el deterioro de la corteza motivado por los golpes de la maquinaria durante el transcurso de las obras. Incluye el transporte, carga, descarga y suministro del material, así como la mano de obra necesaria para montaje y desmontaje de dicho elemento desde la base hasta 2 m de altura. Medida la unidad terminada.|
+~C|06.22|ud||155.26|170712|0|
+~T|06.22|Trasplante y traslado de árboles ubicados en la zona afectada, realizado con retroexcavadora, sobre camión, incluso trabajos de poda y tratamiento antitranspirante, así como suministro y colocación de anclajes, en un radio máximo de acción interurbano. medida la unidad transplantada.|
+~C|06.23|ud||206.93|170712|0|
+~T|06.23|Transplante de árboles ubicados en la zona de acopio temporal, realizado con retroexcavadora, sobre camión, incluidos: poda de acondicionamiento, aplicación de antitranspirante, apertura de hoyo, regado de hoyo y nueva plantación, medida la unidad transplantada.|
+~C|06.24|m||6.56|170712|0|
+~T|06.24|Bordillo prefabricado de hormigón bicapa de dimensiones 10 x 20 x 100 cm, clase R5, asentado sobre base de cimentación y amparo de hormigón en masa de HM-20, rejuntado con mortero de cemento M-80 (1:4), con una anchura máxima de juntas de 0,5 cm y avitolado, medida la unidad completamente terminada.|
+~C|06.25|PA||3850|170712|0|
+~T|06.25|P.A. por afección, retirada y conservación de señalizacion y mobiliario urbano.|
+~C|06.26|m3||12.59|170712|0|
+~T|06.26|Canón de vertido de residuo de construcción y demolición mixtos, en plata de tratamiento autorizada por la Junta de Andalucia, incluso p.p de gestión documental.|
+~C|06.27|m3||1.52|170712|0|
+~T|06.27|Canón de vertido de tierras de excavación, en plata de tratamiento autorizada por la Junta de Andalucia, incluso p.p de gestión documental.|
+~C|07#||ACOMETIDAS ABASTECIMIENTO|11565.56|170712|0|
+~D|07#|07.01\1\30\07.02\1\26\07.03\1\199.99\07.04\1\50.4\|
+~C|07.01|ud||173.76|170712|0|
+~T|07.01|Sustitución de acometida domiciliaria existente de hasta 63 mm de diametro exterior y longitud < 6 m por nueva acometida de polietileno PE 80 con un DN/OD comprendido entre 32 y 63 mm, conectada a la red mediante collarín con dispositivo de corte adecuado en función de tuberia existente, i/ suministro, transporte y colocación de tuberia, collarin, valvula de compuerta para acometida, trampillon y p.p de elementos de laton necesarios para realizar la conexión. Incluye p.p. de demolición de pavimentos afectados, excavación necesaria, carga y transporte de tierras a vertedero autorizado, así como los rellenos según el P.P.T.G. de EMASESA. Medida la unidad terminada.|
+~C|07.02|ud||208.24|170712|0|
+~T|07.02|Sustitución de acometida domiciliaria existente de hasta 63 mm de diametro exterior y longitud > 6 m por nueva acometida de polietileno PE 80 con un DN/OD comprendido entre 32 y 63 mm, conectada a la red mediante collarín con dispositivo de corte adecuado en función de tuberia existente, i/ suministro, transporte y colocación de tuberia, collarin, valvula de compuerta para acometida, trampillon y p.p de elementos de laton necesarios para realizar la conexión. Incluye p.p. de demolición de pavimentos afectados, excavación necesaria, carga y transporte de tierras a vertedero autorizado, así como los rellenos según el P.P.T.G. de EMASESA. Medida la unidad terminada.|
+~C|07.03|m3||1.52|170712|0|
+~T|07.03|Canón de vertido de tierras de excavación, en plata de tratamiento autorizada por la Junta de Andalucia, incluso p.p de gestión documental.|
+~C|07.04|m3||12.59|170712|0|
+~T|07.04|Canón de vertido de residuo de construcción y demolición mixtos, en plata de tratamiento autorizada por la Junta de Andalucia, incluso p.p de gestión documental.|
+~C|08#||ACOMETIDAS SANEAMIENTO|17157.23|170712|0|
+~D|08#|08.01\1\40\08.02\1\12\08.03\1\696.38\08.04\1\56.16\|
+~C|08.01|ud||270.6|170712|0|
+~T|08.01|Acometida domiciliaria de saneamiento, de longitud superior a 3 m e inferior a 6 m, realizada con tubería de PVC, estructurada o compacta y con paredes (interior y exterior) lisas, DN/OD = 200 mm. Incluye suministro, transporte y colocación de tuberia, suministro de la pieza especial de conexión con la red general y del anillo adaptador o manguito de unión con el tubo de salida del edificio, la perforación de la tubería receptora, p.p. de demolición de pavimentos afectados, excavación necesaria, carga y transporte de tierras a vertedero autorizado, así como los rellenos según el P.P.T.G. de EMASESA. Medida la unidad terminada.|
+~C|08.02|ud||380.64|170712|0|
+~T|08.02|Acometida domiciliaria de saneamiento, de longitud igual o superior 6 m, realizada con tubería de PVC, estructurada o compacta y con paredes (interior y exterior) lisas, DN/OD = 200 mm. Incluye suministro, transporte y colocación de tuberia, suministro de la pieza especial de conexión con la red general y del anillo adaptador o manguito de unión con el tubo de salida del edificio, la perforación de la tubería receptora, p.p. de demolición de pavimentos afectados, excavación necesaria, carga y transporte de tierras a vertedero autorizado, así como los rellenos según el P.P.T.G. de EMASESA. Medida la unidad terminada.|
+~C|08.03|m3||1.52|170712|0|
+~T|08.03|Canón de vertido de tierras de excavación, en plata de tratamiento autorizada por la Junta de Andalucia, incluso p.p de gestión documental.|
+~C|08.04|m3||12.59|170712|0|
+~T|08.04|Canón de vertido de residuo de construcción y demolición mixtos, en plata de tratamiento autorizada por la Junta de Andalucia, incluso p.p de gestión documental.|
+~C|09#||Seguridad y Salud|13500|170712|0|
+~D|09#|09.01\1\1\|
+~C|09.01|ud|Medidas de Seguridad y Salud en obras.|13500|170712|0|
+~T|09.01|Medidas de Seguridad y Salud en obras.|
+~M|01\01.01|1\1\|138.24||
+~M|01\01.02|1\2\|207.36||
+~M|01\01.03|1\3\|216||
+~M|01\01.04|1\4\|124.416||
+~M|01\01.05|1\5\|138.24||
+~M|01\01.06|1\6\|207.36||
+~M|01\01.07|1\7\|345.6||
+~M|01\01.08|1\8\|343.008||
+~M|01\01.09|1\9\|572||
+~M|01\01.10|1\10\|560||
+~M|01\01.11|1\11\|144||
+~M|01\01.12|1\12\|288||
+~M|01\01.13|1\13\|288||
+~M|01\01.14|1\14\|4||
+~M|01\01.15|1\15\|1||
+~M|01\01.16|1\16\|4||
+~M|01\01.17|1\17\|5||
+~M|01\01.18|1\18\|1||
+~M|01\01.19|1\19\|1||
+~M|01\01.20|1\20\|1||
+~M|01\01.21|1\21\|1||
+~M|01\01.22|1\22\|2||
+~M|01\01.23|1\23\|2||
+~M|01\01.24|1\24\|2||
+~M|01\01.25|1\25\|3||
+~M|01\01.26|1\26\|1||
+~M|01\01.27|1\27\|4||
+~M|01\01.28|1\28\|2||
+~M|01\01.29|1\29\|3||
+~M|01\01.30|1\30\|1||
+~M|01\01.31|1\31\|1||
+~M|01\01.32|1\32\|8||
+~M|01\01.33|1\33\|8||
+~M|01\01.34|1\34\|120||
+~M|01\01.35|1\35\|6||
+~M|01\01.36|1\36\|1||
+~M|01\01.37|1\37\|1||
+~M|01\01.38|1\38\|443.7||
+~M|02\02.01|2\1\|545.538||
+~M|02\02.02|2\2\|363.692||
+~M|02\02.03|2\3\|363.692||
+~M|02\02.04|2\4\|545.538||
+~M|02\02.05|2\5\|909.23||
+~M|02\02.06|2\6\|882.265||
+~M|02\02.07|2\7\|624.78||
+~M|02\02.08|2\8\|230.52||
+~M|02\02.09|2\9\|1284.663||
+~M|02\02.10|2\10\|454.615||
+~M|02\02.11|2\11\|169.12||
+~M|02\02.12|2\12\|185.11||
+~M|02\02.13|2\13\|185.11||
+~M|02\02.14|2\14\|92.555||
+~M|02\02.15|2\15\|12||
+~M|02\02.16|2\16\|6||
+~M|02\02.17|2\17\|12||
+~M|02\02.18|2\18\|6||
+~M|02\02.19|2\19\|3||
+~M|02\02.20|2\20\|1||
+~M|02\02.21|2\21\|5||
+~M|02\02.22|2\22\|4||
+~M|02\02.23|2\23\|14||
+~M|02\02.24|2\24\|52||
+~M|02\02.25|2\25\|8||
+~M|02\02.26|2\26\|12||
+~M|02\02.27|2\27\|185.11||
+~M|02\02.28|2\28\|185.11||
+~M|02\02.29|2\29\|2||
+~M|02\02.30|2\30\|240||
+~M|02\02.31|2\31\|1||
+~M|02\02.32|2\32\|1||
+~M|02\02.33|2\33\|1160.4||
+~M|02\02.34|2\34\|29.137||
+~M|03\03.01|3\1\|129.6||
+~M|03\03.02|3\2\|194.4||
+~M|03\03.03|3\3\|199.8||
+~M|03\03.04|3\4\|118.8||
+~M|03\03.05|3\5\|129.6||
+~M|03\03.06|3\6\|194.4||
+~M|03\03.07|3\7\|324||
+~M|03\03.08|3\8\|321.3||
+~M|03\03.09|3\9\|135||
+~M|03\03.10|3\10\|270||
+~M|03\03.11|3\11\|270||
+~M|03\03.12|3\12\|2||
+~M|03\03.13|3\13\|3||
+~M|03\03.14|3\14\|3||
+~M|03\03.15|3\15\|2||
+~M|03\03.16|3\16\|7||
+~M|03\03.17|3\17\|7||
+~M|03\03.18|3\18\|1||
+~M|03\03.19|3\19\|1||
+~M|03\03.20|3\20\|401.8||
+~M|04\04.01|4\1\|609||
+~M|04\04.02|4\2\|221||
+~M|04\04.03|4\3\|221||
+~M|04\04.04|4\4\|550||
+~M|04\04.05|4\5\|196||
+~M|04\04.06|4\6\|5||
+~M|04\04.07|4\7\|20||
+~M|04\04.08|4\8\|2||
+~M|04\04.09|4\9\|287.5||
+~M|04\04.10|4\10\|287.5||
+~M|04\04.11|4\11\|287.5||
+~M|04\04.12|4\12\|273.125||
+~M|04\04.13|4\13\|172.5||
+~M|04\04.14|4\14\|86.25||
+~M|04\04.15|4\15\|25||
+~M|04\04.16|4\16\|25||
+~M|04\04.17|4\17\|25||
+~M|04\04.18|4\18\|575||
+~M|04\04.19|4\19\|25||
+~M|04\04.20|4\20\|25||
+~M|04\04.21|4\21\|18||
+~M|04\04.22|4\22\|10||
+~M|04\04.23|4\23\|12||
+~M|04\04.24|4\24\|75||
+~M|04\04.25|4\25\|20||
+~M|04\04.26|4\26\|20||
+~M|04\04.27|4\27\|20||
+~M|04\04.28|4\28\|10||
+~M|04\04.29|4\29\|40||
+~M|04\04.30|4\30\|1||
+~M|04\04.31|4\31\|1||
+~M|04\04.32|4\32\|172.14||
+~M|04\04.33|4\33\|356.5||
+~M|05\05.01|5\1\|1476||
+~M|05\05.02|5\2\|83||
+~M|05\05.03|5\3\|206||
+~M|05\05.04|5\4\|206||
+~M|05\05.05|5\5\|88||
+~M|05\05.06|5\6\|83||
+~M|05\05.07|5\7\|50||
+~M|05\05.08|5\8\|50||
+~M|05\05.09|5\9\|133||
+~M|05\05.10|5\10\|50||
+~M|05\05.11|5\11\|88||
+~M|05\05.12|5\12\|76||
+~M|05\05.13|5\13\|20||
+~M|05\05.14|5\14\|480||
+~M|05\05.15|5\15\|78||
+~M|05\05.16|5\16\|542||
+~M|05\05.17|5\17\|320||
+~M|05\05.18|5\18\|40.6||
+~M|05\05.19|5\19\|29||
+~M|05\05.20|5\20\|947.8||
+~M|05\05.21|5\21\|947.8||
+~M|05\05.22|5\22\|947.8||
+~M|05\05.23|5\23\|494.3||
+~M|05\05.24|5\24\|13.2||
+~M|05\05.25|5\25\|112.6||
+~M|05\05.26|5\26\|116||
+~M|05\05.27|5\27\|841.95||
+~M|05\05.28|5\28\|775.5||
+~M|05\05.29|5\29\|825||
+~M|05\05.30|5\30\|40||
+~M|05\05.31|5\31\|60||
+~M|05\05.32|5\32\|15||
+~M|05\05.33|5\33\|10||
+~M|05\05.34|5\34\|12||
+~M|05\05.35|5\35\|1||
+~M|05\05.36|5\36\|799.29||
+~M|05\05.37|5\37\|1175.3||
+~M|06\06.01|6\1\|550||
+~M|06\06.02|6\2\|190||
+~M|06\06.03|6\3\|190||
+~M|06\06.04|6\4\|425||
+~M|06\06.05|6\5\|190||
+~M|06\06.06|6\6\|5||
+~M|06\06.07|6\7\|15||
+~M|06\06.08|6\8\|1||
+~M|06\06.09|6\9\|222.5||
+~M|06\06.10|6\10\|222.5||
+~M|06\06.11|6\11\|222.5||
+~M|06\06.12|6\12\|211.375||
+~M|06\06.13|6\13\|133.5||
+~M|06\06.14|6\14\|66.75||
+~M|06\06.15|6\15\|445||
+~M|06\06.16|6\16\|15||
+~M|06\06.17|6\17\|6||
+~M|06\06.18|6\18\|8||
+~M|06\06.19|6\19\|75||
+~M|06\06.20|6\20\|16||
+~M|06\06.21|6\21\|16||
+~M|06\06.22|6\22\|16||
+~M|06\06.23|6\23\|10||
+~M|06\06.24|6\24\|40||
+~M|06\06.25|6\25\|1||
+~M|06\06.26|6\26\|154.6||
+~M|06\06.27|6\27\|275.9||
+~M|07\07.01|7\1\|30||
+~M|07\07.02|7\2\|26||
+~M|07\07.03|7\3\|199.99||
+~M|07\07.04|7\4\|50.4||
+~M|08\08.01|8\1\|40||
+~M|08\08.02|8\2\|12||
+~M|08\08.03|8\3\|696.38||
+~M|08\08.04|8\4\|56.16||
+~M|09\09.01|9\1\|1||

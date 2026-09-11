@@ -1,0 +1,546 @@
+~V|SOFT S.A.|FIEBDC-3/2002|Presto 8.8||ANSI|
+~K|\2\2\3\2\2\2\2\EUR\|0|
+~C|%CI|%|Costes indirectos..(s/total)|86|080208|0|
+~C|00#||ACTUACIONES PREVIAS|13978.25|040716|0|
+~D|00#|PREV001\1\1\00.01\1\1\ACPR020\1\1\00.02\1\1\00.03\1\1\ACPR021\1\1\|
+~C|00.01|UD|REORGANIZACIÃ“N INSTALACIÃ“N GAS Y FONTANERIA|789.02|190825|0|
+~C|00.02|UD|REORGANIZACIÃ“N INSTALACIÃ“N TELECOMUNICACIONES|315.22|190825|0|
+~C|00.03|UD|REORGANIZACIÃ“N INSTALACIÃ“N ELECTRICIDAD|638|040716|0|
+~C|01-00|ud|PROYECTO DE ANDAMIO|446|190825|0|
+~C|01-03|ud|VALLADO DE OBRA ZONA MONTACARGAS-ACOPIO|471.89|190825|0|
+~C|01.01|Ud|INSTALACIÃ“N AGUA PARA OBRA|315|190825|0|
+~C|01.02|Ud|INSTALACIÃ“N ELÃ‰CTRICA PARA OBRA|315|190825|0|
+~C|02.03|ml|VISERA DE PROTECCIÃ“N|4988.04|190825|0|
+~C|07.01|Ud|PLAN DE SEGURIDAD Y SALUD|134|190825|0|
+~C|07.02|UD|COORDINACION DE SEGURIDAD Y SALUD|652|040716|0|
+~C|10.001|UD|PRUEBA DE SERVICIO DE FACHADA|1493|190825|0|
+~C|10.002|UD|PRUEBA DE SERVICIO DE CUBIERTA|4893|190825|0|
+~C|15.01|M2|PINTURA LAVABLE EN TECHOS|909.87|190825|0|
+~D|15.01|P017\1\0\|
+~C|15.02|M2|PINTURA PLAST. LAVABLE EN PAREDES|181.72|190825|0|
+~D|15.02|P018\1\0\|
+~A|15.02|liso\mate\horizontal\acrÃ­lico\plÃ¡stico\pintura\blanco\vertical\mano\imprimaciÃ³n\pasta\colorante\paramento\lavadero\|
+~C|15.03|M2|SATE STOTHERM CLASSIC 8CM|2485.63|190825|0|
+~C|15.05|ML|CAJEADOS DE PLADUR EN PORTAL|6543.4|190825|0|
+~C|17.02|UD|PUERTA CUARTO ELEC.|7703.80|190825|0|
+~C|17.04|UD|PUERTA ARMARIO GAS|1460.78|190825|0|
+~C|30.01|m2|CUBIERTA NÃšCLEO ASCENSOR|1783.18|190825|0|
+~C|30.02|PA|REMATES EN CUBIERTA INCLINADA TEJA|109.02|190825|0|
+~C|A01JF002|M3|MORTERO CEMENTO 1/2|371.40|080208|3|
+~D|A01JF002|U01AA011\1\1.82\U04CA001\1\0.6\U04AA001\1\0.88\U04PY001\1\0.265\A03LA005\1\0.4\|
+~C|A01JF004|M3|MORTERO CEMENTO (1/4) M 10|368.98|080208|3|
+~D|A01JF004|U01AA011\1\1.82\U04CA001\1\0.3\U04AA001\1\1.1\U04PY001\1\0.26\A03LA005\1\0.65\|
+~C|A01JF007|M3|MORTERO CEMENTO (1/8) M 2,5|19.87|080208|3|
+~D|A01JF007|U01AA011\1\1.82\U04CA001\1\0.19\U04AA001\1\1.13\U04PY001\1\0.255\A03LA005\1\0.4\|
+~C|A01JF206|M3|MORTERO CEM. (1/6) M 5 c/ A. MIGA|612.91|080208|3|
+~D|A01JF206|U01AA011\1\1.82\U04CA001\1\0.25\U04AA005\1\1.1\U04PY001\1\0.255\A03LA005\1\0.4\|
+~C|A02FA723|M3|HORM. HA-25/P/20/ IIa CENTRAL|106.27|080208|3|
+~D|A02FA723|U04MA723\1\1\|
+~C|A03CA005|Hr|CARGADORA S/NEUMÃTICOS C=1,30 M3|356.04|080208|3|
+~D|A03CA005|U02FA001\1\1\U%10\1\0.1\U01AA015\1\1\U02SW001\1\15\|
+~C|A03FB010|Hr|CAMIÃ“N BASCULANTE   10 Tn.|378.42|080208|3|
+~D|A03FB010|U02JA003\1\1\U%10\1\0.1\U01AA015\1\1\U02SW001\1\16\|
+~C|A03LA005|Hr|HORMIGONERA ELÃ‰CTRICA 250 L.|524.0|080208|3|
+~D|A03LA005|U02LA201\1\1\U%10\1\0.1\U02SW005\1\3.5\|
+~C|ACPR002|M2|MONTAJE Y DESMONTAJE ANDAMIO 12M<H<22M|364.71|190825|0|
+~C|ACPR020|pa|DESMONTAJE Y SUSTITUCIÃ“N DE ARMARIO DE GAS|401.91|190825|0|
+~C|ACPR021|ud|SUSTITUCIÃ“N CONTADORES ELÃ‰CTRICOS|4734.16|190825|0|
+~C|ASDF|PA|MODIFICACIÃ“N RED SANEAMIENTO PLUVIALES EXT|0|040716|0|
+~C|BOLETIN|PA|CERTIFICACION ELECTRICA DE LA INSTALACION / BOLETIN FINAL OBRA|385|190825|0|
+~C|C02.00#||URBANIZACIÃ“N|24965.54|040716|0|
+~D|C02.00#|ASDF\1\1\URB003\1\45.4\URB001\1\68.1\D02HF010\1\4.92\D04IX019\1\2.7\D04PS156\1\45.4\URB002\1\45.4\D02HA060\1\4.75\D02TF300\1\4.75\URB004\1\2\|
+~C|C02.01#||MEDIOS AUXILIARES|10663.85|190825|0|
+~D|C02.01#|ACPR002\1\128\02.03\1\8\01-03\1\1\01-00\1\1\01.01\1\1\01.02\1\1\|
+~C|C02.10#||ELECTRICIDAD Y ALUMBRADO|13317.92|190825|0|
+~D|C02.10#|CUADROGENERAL\1\1\LINEAS GENERA\1\1\ELECT001\1\18\ELECT002\1\1\ELECT003\1\5\ELECT004\1\1\ELECT005\1\21\ELECT006\1\1\ELECT007\1\31\ELECT009\1\6\ELECT013\1\1\ELETC010\1\21\ELECT011\1\12\ELECT012\1\8\ELECT020\1\4\ELECT024\1\1\ELECT025\1\1\ELECT014\1\1\ELECT023\1\1\BOLETIN\1\1\|
+~C|C02.12#||ASCENSOR|35900|190825|0|
+~D|C02.12#|E25TA110\1\1\|
+~C|C02.14#||DEMOLICIONES|14507.96|190825|0|
+~D|C02.14#|DEM005\1\35.2\DEM004\1\8.8\DEM003\1\29.04\DEM009\1\9.68\DEM006\1\1\DEM007\1\1\DEM010\1\11.44\DEM011\1\4.4\DEM012\1\2.2\DEM013\1\13.5\DEM014\1\1\|
+~C|C06#||SEGURIDAD Y SALUD|1765|040716|0|
+~D|C06#|07.01\1\1\07.02\1\6\SS01\1\1\|
+~C|C07#||GESTION DE RESIDUOS|5876.28|190825|0|
+~D|C07#|C07.01\1\1\|
+~C|C07.01|UD|GESTION DE RESIDUOS|5876.28|190825|0|
+~C|C08#||CONTROL DE CALIDAD|720|190825|0|
+~D|C08#|10.001\1\1\10.002\1\1\|
+~C|C14#||ALBAÃ‘ILERIA|36575.7|190825|0|
+~D|C14#|D07GE010\1\46.58\D19AA010\1\58.91\D19HH010\1\67.5\D19HA005\1\58.91\|
+~C|C15#||REVESTIMIENTOS|48338.18|190825|0|
+~D|C15#|15.03\1\108.3\TIGNF\1\110.3\TAB04\1\20.8\15.05\1\15.25\PINT001QW\1\140\E08PEM010\1\105.07\REV001\1\71.03\15.01\1\110.3\15.02\1\247.26\REV002\1\71.03\PROT11\1\1\FP1\1\1\|
+~C|C16#||HERRERIA|10788.66|190825|0|
+~D|C16#|D23IA005\1\18.4\|
+~C|C17#||CARPINTERIAS|33770.14|190825|0|
+~D|C17#|D21LE115\1\10\D21LF115\1\1\17.02\1\1\17.04\1\1\CARP001\1\1\|
+~C|C21#||PROTECCIÃ“N CONTRA INCENDIOS|2653.66|190825|0|
+~D|C21#|E26FEC100\1\5\E26FJ360\1\5\ELECT008\1\21\ELECT007A\1\7\E18GNA020\1\7\|
+~C|C24#||CUBIERTAS|3310.47|190825|0|
+~D|C24#|REH019\1\6\30.01\1\4.2\30.02\1\1\CUB001\1\1\|
+~C|C25#||ESTRUCTURA|41057.85|190825|0|
+~D|C25#|E001\1\12\E002\1\9\E003\1\1\E004\1\4\E010\1\1\E011\1\2\E005\1\4.2\E006\1\1\E007\1\5\E008\1\4.4\E009\1\6.82\|
+~C|CARP001|UD|CIERRE HUECO ASCENSOR CRISTAL STADIP 3+3|14733.61|190825|0|
+~C|CUADROGENERAL|PA|CUADRO DE PROTECCIONES|316.68|190825|0|
+~C|CUB001|UD|CHIMENEA VENTILACIÃ“N ASCENSOR|720.85|190825|0|
+~C|D02HA060|M3|EXCAVACION ZANJAS INSTALACIONES|122.42|190825|0|
+~D|D02HA060|U01AA011\1\0\%CI\1\0.03\|
+~C|D02HF010|M3|EXCAVACION ZAPATAS CORRIDAS|122.42|190825|0|
+~D|D02HF010|U01AA011\1\0\U02FK205\1\0\%CI\1\0.03\|
+~C|D02TF300|M3|RELLENO MANUAL DE ZANJAS CON GRAVA|91.29|190825|0|
+~D|D02TF300|U01AA011\1\0\U04PY001\1\0\U04AP001\1\0\A03CA005\1\0\A03FB010\1\0\U02FP001\1\0\%CI\1\0.03\|
+~C|D04AA201|Kg|ACERO CORRUGADO B 500-S|1.24|080208|0|
+~D|D04AA201|U01FA201\1\0.015\U01FA204\1\0.015\U06AA001\1\0.005\U06GG001\1\1.05\%CI\1\0.03\|
+~C|D04GX004|M3|HOR. HA-25/P/20/IIa MUROS V. M. CEN.|119.41|080208|0|
+~D|D04GX004|U01AA011\1\2.35\A02FA723\1\1\%CI\1\0.03\|
+~C|D04IX019|M3|HORMIGON ARMADO MUROS ACCESO GARAJE|996.34|190825|0|
+~D|D04IX019|D04GX004\1\0\D04AA201\1\0\%CI\1\0.03\|
+~C|D04PF501|M2|ENCACHADO PIEDRA 40/80 e=15 cm.|6.29|080208|0|
+~D|D04PF501|U01AA011\1\0.15\U04AF201\1\0.15\%CI\1\0.03\|
+~C|D04PH015|M2|MALLAZO ELECTROS. 15X15 D=6|2.44|080208|0|
+~D|D04PH015|U01FA201\1\0.008\U01FA204\1\0.008\U06AA001\1\0.015\U06HA015\1\1.2\%CI\1\0.03\|
+~C|D04PM156|M2|SOLERA HA-25 #150*150*6 15 CM.|21.35|080208|0|
+~D|D04PM156|U01AA007\1\0.2\U01AA011\1\0.2\D04PH015\1\1\A02FA723\1\0.15\%CI\1\0.03\|
+~C|D04PS156|M2|SOLERA HORMIGON ARMADO ACCESO GARAJE|102.37|190825|0|
+~D|D04PS156|D04PF501\1\0\D04PM156\1\0\U16DA001\1\0\%CI\1\0.03\|
+~C|D07GE010|M2|FACHADA ESCALERAS BLOQUE TERMOARCILLA..|124.77|190825|0|
+~D|D07GE010|U01AA007\1\0\U01AA009\1\0\U10GE010\1\0\U10GE011\1\0\A01JF004\1\0\%CI\1\0.03\|
+~C|D19AA010|M2|RECRECIDO MORTERO NIVELACION|53.69|190825|0|
+~D|D19AA010|U01AA007\1\0\U01AA009\1\0\U01AA011\1\0\A01JF007\1\0\A01JF002\1\0\%CI\1\0.03\|
+~C|D19HA005|M2|PAVIMENTO MÃRMOL ZONAS INTERIORES|205.14|190825|0|
+~D|D19HA005|U01FS015\1\0\U01AA011\1\0\U17DA003\1\0\A01JF206\1\0\U04AA001\1\0\U04CF005\1\0\%CI\1\0.03\|
+~C|D19HH010|Ml|PELDAÃ‘OS MÃRMOL ESC. INTERIORES|229.87|190825|0|
+~D|D19HH010|U01FS115\1\0\U01AA008\1\0\U01AA011\1\0\U17DG005\1\0\U17DJ005\1\0\A01JF206\1\0\%CI\1\0.03\|
+~C|D21LE115|UD|VENTANA DE ESCALERAS|1406.98|190825|0|
+~C|D21LF115|UD|PUERTA PORTAL|3101.57|190825|0|
+~C|D23IA005|Ml|BARANDAS INTERIORES INOXIDABLE|586.34|190825|0|
+~D|D23IA005|U01FX001\1\0\U01FX003\1\0\U22AI101\1\0\%CI\1\0.03\|
+~C|DEM003|m2|DEMOLICIÃ“N DE ESCALERA EXISTENTE|221.09|190825|0|
+~C|DEM004|ml|DEMOLICION VIGA-ZUNCHO H.A. ESCALERA|108.37|190825|0|
+~C|DEM005|m2|DERRIBO TABIQUE 1/2 ASTA  + VIDRIO|68.5|190825|0|
+~C|DEM006|UD|ELIMINACIÃ“N DE PUERTA DE PORTAL|278.55|190825|0|
+~C|DEM007|UD|ELIMINACIÃ“N DE BUZONES|38.1|190825|0|
+~C|DEM009|m2|DEMOLICIÃ“N SOLADO DE TERRAZO|42.02|190825|0|
+~C|DEM010|M2|DEMOLICIÃ“N FORJADO ACCESO/PORTAL|122.38|190825|0|
+~C|DEM011|ML|DEMOLICIÃ“N VIGA DE CANTO ACCESO/PORTAL|127.35|190825|0|
+~C|DEM012|ML|DEMOLICIÃ“N CORONACIÃ“N DE MURO ACCESO/PORTAL|121.03|190825|0|
+~C|DEM013|M2|DEMOLICION RAMPA DE GARAJE|108.42|190825|0|
+~C|DEM014|UD|ELIMINACIÃ“N PUERTA GARAJE|308.94|190825|0|
+~C|E001|M2|FORJADO PORTAL COTA -0.13|186.39|190825|0|
+~C|E002|M2|FORJADO PORTAL COTA +0.90|186.39|190825|0|
+~C|E003|UD|ESCALERA COTA -0.13 A +0.90|1277.42|190825|0|
+~C|E004|UD|ESCALERA ENTRE PLANTAS|3661.28|190825|0|
+~C|E005|M2|CUBIERTA ESCALERAS|397.01|190825|0|
+~C|E006|UD|ESTRUCTURA FOSO ASCENSOR H.A.|4254.12|190825|0|
+~C|E007|UD|CASTILLETE ASCENSOR|777.14|190825|0|
+~C|E008|ML|REFUERZO ESTRUCTURA EXISTENTE|240.16|190825|0|
+~C|E009|M2|NUEVA RAMPA GARAJE|266.51|190825|0|
+~C|E010|UD|ESTRUCTURA NUEVO NÃšCLEO DE ESCALERAS|5607.42|190825|0|
+~C|E011|UD|ZAPATA H.A. ESTRUCTURA NÃšCLEO ESCALERAS|1466.07|190825|0|
+~C|E08PEM010|M2|GUARNECIDO MAESTREADO Y ENLUCIDO PAREDES|53.29|190825|0|
+~D|E08PEM010|P016\1\0\|
+~A|E08PEM010|horizontal\paramento\vertical\enlucido\rincÃ³n\andamio\guarnecido\plÃ¡stico\blanco\maestra\negro\hueco\mediciÃ³n\metal\guardavivo\pavimentaciÃ³n\remate\yeso\colocaciÃ³n\|
+~C|E18GNA020||BLOQ.AUT.EMERG.AUTOTESTEABLE EA-300|137.9|190825|0|
+~D|E18GNA020|O01OB200\1\0\P16ENA020\1\0\P01DW090\1\0\|
+~C|E25TA110|ud|ASCENSOR NORMAL 5 PARADAS 8 PER.|35900|190825|0|
+~D|E25TA110|P24AE110\1\0\|
+~C|E26FEC100|ud|EXTINTOR POLVO ABC 6 kg. AUTOM.|86.5|190825|0|
+~D|E26FEC100|O01OA060\1\0\P23FJ190\1\0\|
+~C|E26FJ360|ud|SEÃ‘AL ALUMINIO420x420mm.FOTOLUM.|12.5|190825|0|
+~D|E26FJ360|O01OA060\1\0\P23FK330\1\0\|
+~C|ELECT001|ml|CIRCUITO 750v 3X10mm2|57.12|190825|0|
+~C|ELECT002|ud|EXPEDIENTE INSTALACION ASCENSOR|385|190825|0|
+~C|ELECT003|ml|LINEA REPARTIDORA CAJA DE PROTECCIÃ“N-CONTADOR|323.05|190825|0|
+~C|ELECT004|ud|MODULO DE CONTADOR TRIFÃSICO|337.61|190825|0|
+~C|ELECT005|ml|DERIVACIÃ“N INDIVIDUAL 5x10mm2 CONTADOR-CUADRO|61.88|190825|0|
+~C|ELECT006|ud|TOMA DE TIERRA GENERAL|398.58|190825|0|
+~C|ELECT007|ml|CIRCUITO GENERAL TELEFONO|13.65|190825|0|
+~C|ELECT007A|ud|PUNTO DE EMERGENCIA|58.1|190825|0|
+~C|ELECT008|ud|CIRCUITO GENERAL DE EMERGENCIA|37.46|190825|0|
+~C|ELECT009|ud|ALUMBRADO PROVISIONAL OBRAS NUEVAS ESCALERAS|57.33|190825|0|
+~C|ELECT011|ud|PUNTO DE LUZ CON DETECTOR|74.26|190825|0|
+~C|ELECT012|ud|EQUIPO DE ILUMINACIÃ“N PLANTAS ALTAS|112.36|190825|0|
+~C|ELECT013|ud|CUADRO ELECTRICO ESCALERA|474.11|190825|0|
+~C|ELECT014|ud|MODIFICACIÃ“N CIRCUITO DE PORTERO AUTOMÃTICO|241.35|190825|0|
+~C|ELECT020|ud|EQUIPO DE ILUMINACIÃ“N EN PORTAL|112.36|190825|0|
+~C|ELECT023|UD|PORTERO AUTOMÃTICO|1639.42|190825|0|
+~C|ELECT024|ud|PUNTO DE LUZ CON INTERRUPTOR CUARTO CONTADORES|74.26|190825|0|
+~C|ELECT025|ud|LUMINARIA ESTANCA CUARTO CONTADORES|133.56|190825|0|
+~C|ELETC010|ml|CIRCUITO GENERAL ALUMBRADO Y OTROS USOS|30.03|190825|0|
+~C|FP1|UD|FORMACIÃ“N DE HUECO PARA FELPUDO|1288.45|190825|0|
+~C|LINEAS GENERA|PA|LINEA REPARTIDORA 0,6/1KV 4x35mm2|1352.26|190825|0|
+~C|O01OA060|h.|PeÃ³n especializado|16.43|230311|1|
+~C|O01OB200|h.|Oficial 1Âª electricista|18.59|230311|1|
+~C|P013||estimacion|39.25|260516|0|
+~C|P014||estimacion|39.25|100616|0|
+~C|P015||estimacion|3.92|260516|0|
+~C|P016|||9.41|260516|0|
+~C|P017|||6.87|260516|0|
+~C|P018|||6.87|260516|0|
+~C|P019||estimacion|65.41|260516|0|
+~C|P01DW090|ud|PequeÃ±o material|1.25|201009|3|
+~C|P16ENA020|ud|D-150 sup./emp. IP42 Ã³ IP65 IK04 140lm.1h.|36.61|260311|3|
+~C|P23FJ190|ud|Extintor polvo ABC 6 kg. autom.|95.02|270311|3|
+~C|P23FK330|ud|SeÃ±al alumin. 420x420mm.fotolumi.|11.9|270311|3|
+~C|P24AE110|ud|Ascensor normal 5 para.8 pers.2v|27009|240616|3|
+~C|PA11##||INSTALACION DE ASCENSOR|298189.46|040716|0|
+~D|PA11##|C02.00\1\1\C02.01\1\1\00\1\1\C02.14\1\1\C25\1\1\C14\1\1\C15\1\1\C24\1\1\C16\1\1\C17\1\1\C02.10\1\1\C21\1\1\C02.12\1\1\C06\1\1\C07\1\1\C08\1\1\|
+~C|PINT001QW|M2|ELIMINACION GOTELÃ‰ Y LUCIDO PAREDES|52.98|190825|0|
+~D|PINT001QW|P015\1\0\|
+~A|PINT001QW|liso\mate\horizontal\acrÃ­lico\plÃ¡stico\pintura\blanco\vertical\mano\imprimaciÃ³n\pasta\colorante\paramento\lavadero\|
+~C|PREV001|PA|PROTECCIÃ“N CARPINTERIA EXTERIOR / INTERIOR|344|190825|0|
+~C|PROT11|PA|REPARACION PUERTAS VIVIENDAS|189.66|190825|0|
+~D|PROT11|P019\1\0\|
+~C|REH019|ml|ALBARDILLA CUBIERTA_ALUCOBONDÂ®Plus / ALPOLICÂ®/fr (des. 500 mm)|121.03|190825|0|
+~C|REV001|M2|ENFOSCADO DE MORTERO PAREDES GARAJE|38.94|190825|0|
+~C|REV002|M2|PINTURA PAREDES GARAJE|16.85|190825|0|
+~C|SS01|ud|Medidas de seguridad y salud|1280|190825|0|
+~C|TAB04|ML|FRENTE DE PLADUR IGNIFUGO H=40 CM PARA FORRADO CANTOS|93.74|190825|0|
+~D|TAB04|P014\1\0\|
+~C|TIGNF|M2|TECHO CONTINUO IGNIFUGO PLADUR..|88.75|190825|0|
+~D|TIGNF|P013\1\0\|
+~C|U%10|%|AmortizaciÃ³n y otros gastos|10|080208|0|
+~C|U01AA007|Hr|Oficial primera|14.11|080208|1|
+~C|U01AA008|Hr|Oficial segunda|13.38|080208|1|
+~C|U01AA009|Hr|Ayudante|12.95|080208|1|
+~C|U01AA011|Hr|PeÃ³n suelto|12.57|080208|1|
+~C|U01AA015|Hr|Maquinista o conductor|12.91|080208|1|
+~C|U01FA201|Hr|Oficial 1Âª ferralla|15.7|080208|1|
+~C|U01FA204|Hr|Ayudante ferralla|14.39|080208|1|
+~C|U01FS015|M2|Mano obra solado mÃ¡rmol|12.39|080208|1|
+~C|U01FS115|Ml|Mano obra peldaÃ±o mÃ¡rmol|10.47|080208|1|
+~C|U01FX001|Hr|Oficial cerrajerÃ­a|13.87|080208|1|
+~C|U01FX003|Hr|Ayudante cerrajerÃ­a|12.03|080208|1|
+~C|U02FA001|Hr|Pala cargadora 1,30 M3.|19.19|080208|2|
+~C|U02FK205|Hr|Mini retroexcavadora|24.42|080208|2|
+~C|U02FP001|Hr|Apisonadora manual|21.28|080208|2|
+~C|U02JA003|Hr|CamiÃ³n 10  T. basculante|29.65|080208|2|
+~C|U02LA201|Hr|Hormigonera 250 l.|1.13|080208|2|
+~C|U02SW001|Lt|GasÃ³leo A|0.93|080208|0|
+~C|U02SW005|Ud|Kilowatio|0.13|080208|0|
+~C|U04AA001|M3|Arena de rÃ­o (0-5mm)|21.37|080208|3|
+~C|U04AA005|M3|Arena de miga cribada|17.44|080208|3|
+~C|U04AF201|M3|Grava 40/80 mm.|28.16|080208|3|
+~C|U04AP001|M3|Tierra|2.79|080208|3|
+~C|U04CA001|Tm|Cemento CEM II/B-P 32,5 R Granel|94.36|080208|3|
+~C|U04CF005|Tm|Cemento blanco BL-II 42,5 R Granel|202.85|080208|3|
+~C|U04MA723|M3|HormigÃ³n HA-25/P/20/ IIa central|86.39|080208|3|
+~C|U04PY001|M3|Agua|1.26|080208|3|
+~C|U06AA001|Kg|Alambre atar 1,3 mm.|0.98|080208|3|
+~C|U06GG001|Kg|Acero corrugado B 500-S|0.7|080208|3|
+~C|U06HA015|M2|Mallazo electrosoldado 15x15 d=6|1.76|080208|3|
+~C|U10GE010|Ud|Bloque termoarcilla base 30x19x14|0.49|080208|3|
+~C|U10GE011|M2|Piezas especiales bloque 30x19x14|1.52|080208|3|
+~C|U16DA001|M2|LÃ¡mina PVC Danopol H 1,5 mm.|6.1|080208|3|
+~C|U17DA003|M2|MÃ¡rmol nacional 2 cm.|38.27|080208|3|
+~C|U17DG005|Ml|PeldaÃ±o marmol nacional t/h.|27.34|080208|3|
+~C|U17DJ005|Ml|ZanquÃ­n marmol nacion 42x17cm|10.95|080208|3|
+~C|U22AI101|Ml|Baranda escalera hierro tubo|50.64|080208|3|
+~C|URB001|M3|EXCAVACIÃ“N RAMPA ACCESO GARAJE|122.42|190825|0|
+~C|URB002|M2|REVESTIMIENTO DE HORMIGÃ“N IMPRESO EN SOLERA|70.15|190825|0|
+~C|URB003|M2|DEMOLICIÃ“N SOLERA ACCESO GARAJE|64.72|190825|0|
+~C|URB004|pa|MODIFICACIÃ“N DE PARTERRES|775.24|190825|0|
+~T|00.01|Desmontado provisional de la acometida general y la instalacion de GAS durante la obra, realizando trabajos y modificaciones necesarias de las instalaciones y redes existentes en fachada, incluso desmontado de conducciones y derivaciones de gas individuales, comprobaciones de uso y fugas antes de finalizar la obra, pequeÃ±o material, reorganizado de las instalaciones y conducciones de GAS por disposiciÃ³n de hueco de ascensor-escalera segÃºn recomendaciones de empresa instaladora y suministradora de GAS, instalaciÃ³n totalmente terminadas y en funcionamiento colocadas ancladas sobre raseo de fachada o sistema de aislamiento tÃ©rmico SATE mediante anclajes especiales, precio por hora empleada de oficial fontanero incluido parte proporcional de material utilizado, partida prevista a justificar en obra mediante partes de administraciÃ³n firmadas por la Direccion Facultativa. 
+
+Por la importancia de esta partida, se deberÃ¡ revisar la instalaciÃ³n previamente por empresa especialista en GAS para determinar la mejor forma de proceder, elaborado un presupuesto previo en caso de determinar previamente las modificaciones necesarias para la derivaciÃ³n de las conducciones. |
+~T|00.02|Desmontado provisional durante la obra y montaje posterior al finalizar las obras, de las distintas redes de instalacion de ANTENA DE TV y centralita de TELECOMUNICACIONES (euskaltel, telefonica, etc...) en fachada y nueva reorganizaciÃ³n en exterior/interior del edificio mediante canaletas (en su caso), considerando nuevo cableado o conexiones nuevas que fueran necesarias para su correcto funcionamiento y comprobaciones de uso, pequeÃ±o material, totalemente terminado, precio por hora empleada incluido material utilizado, partida a justificar en obra mediante partes de administraciÃ³n y firmadas por la Direccion Facultativa.
+
+Por la importancia de esta partida, se deberÃ¡ revisar la instalaciÃ³n previamente por las empresas afectadas (euskatel, telefonica, etc...) para determinar la mejor forma de proceder, elaborado un presupuesto previo en caso de determinar previamente las modificaciones necesarias para la derivaciÃ³n de las conducciones. |
+~T|00.03|Desmontado provisional durante la obra y montaje posterior al finalizar las obras, de las distintas redes de instalacion de ELECTRICIDAD en la fachada afectada y nueva reorganizaciÃ³n en el interior de las canaletas previstas (en su caso), considerando nuevo cableado o conexiones nuevas que fueran necesarias para su correcto funcionamiento y comprobaciones de uso, pequeÃ±o material, totalemente terminado, precio por hora empleada incluido material utilizado, partida a justificar en obra mediante partes de administraciÃ³n y firmadas por la Direccion Facultativa.
+
+Por la importancia de esta partida, se deberÃ¡ revisar la instalaciÃ³n previamente por las empresas afectadas (iberdrola, etc...) para determinar la mejor forma de proceder, elaborado un presupuesto previo en caso de determinar previamente las modificaciones necesarias para la derivaciÃ³n de las conducciones. |
+~T|01-00|Proyecto de andamio redactado por tÃ©cnico competente, incluso visado en colegio profesional correspondiente.
+|
+~T|01-03|Vallado perimetral en acceso a obra en zona de andamio acceso y montacargas, asÃ­ como acopio de material en acera, realizado mediante tablero de madera de 3cms de grosor o sistema de vallado similar homologado, cerrado sin huecos hasta 2 m de altura incluyendo puerta de paso con visagras y con cierre, medido la unidad de vallado del nucleo considerando un cerco de dimensiones medias en planta de 3,5x2,5x3,5m abarcando una superficie de unos 19m2 para acopio de material de obra, herramientas y otros enseres necesarios para la ejecuciÃ³n de las obras descritas, incluyendo montado y desmontado a fin de obra y limpieza de superficies de acera o calzada sobre la que se ha colocado.
+
+|
+~T|01.01|Trabajo para acometida provisional de fontanerÃ­a para la obra desde el punto mÃ¡s cercano, realizada con tubo de polietileno de 15 mm de diÃ¡metro, de alta densidad y para 10 atmÃ³sferas de presiÃ³n mÃ¡xima con collarÃ­n de toma de fundiciÃ³n, i/ p.p. de piezas especiales de polietileno y tapÃ³n roscado, limpieza con p.p. de medios auxiliares, pequeÃ±o material etc. terminada y en perfecto funcionamiento.|
+~T|01.02|InstalaciÃ³n elÃ©ctrica para obra formada por canalizaciÃ³n y lÃ­nea de enlace 3F+N+T, tendido aÃ©reo desde armario del portal, cuadro general de obra para una potencia mÃ¡xima de 15 kW, compuesto por armario metÃ¡lico con revestimiento de poliÃ©ster, Ã­ndice de protecciÃ³n IP 559, con cerradura, interruptor automÃ¡tico magnetotÃ©rmico, interruptores diferenciales, bases de enchufe IP 447 DE 400 V. 16 A. 3p+T y de 230 V, incluyendo cableado, rÃ³tulos de identificaciÃ³n de circuitos, bornes de salida y p.p. de conexiÃ³n a tierra, para una resistencia no superior a 80 Ohmios, instalado, s/ R.D. 486/97. No incluido el consumo electrico, que deberÃ¡ ser abonado por la Comunidad de propietarios.|
+~T|02.03|InstalaciÃ³n y alquiler de visera de protecciÃ³n sobre garajes, locales comerciales y portal. Se ha estimado el entablado en el 100% del perÃ­metro de la planta baja.|
+~T|07.01|ElaboraciÃ³n de plan de seguridad y salud, redactado por Servicio de PrevenciÃ³n ajeno a la empresa contratada.|
+~T|10.001|Prueba de servicio a realizar por laboratorio acreditado en el Ã¡rea tÃ©cnica correspondiente, para comprobar la estanqueidad de una zona de fachada, realizada una vez ejecutada la hoja exterior del cerramiento y antes de colocar el aislamiento, mediante simulaciÃ³n de lluvia sobre una superficie de 3 m de anchura aproximadamente y altura correspondiente a la distancia entre forjados. Incluso desplazamiento a obra e informe de resultados
+
+|
+~T|10.002|Prueba de servicio a realizar por laboratorio acreditado en el Ã¡rea tÃ©cnica correspondiente, para comprobar la estanqueidad de una cubierta plana de hasta 100 mÂ² de superficie mediante inundaciÃ³n de toda su superficie. Incluso desplazamiento a obra e informe de resultados. 
+|
+~T|15.01|Pintura plÃ¡stica acrÃ­lica lisa mate lavable profesional, en blanco o pigmentada, sobre paramentos horizontales en techos de vivienda, imprimaciÃ³n, plastecido y dos manos de acabado, incluso parte proporcional de molduras existentes en techos.|
+~T|15.02|Plastecido, aplicaciÃ³n de una mano de fondo, lijado y acabado con dos manos de pintura plÃ¡stica acrÃ­lica lisa mate lavable profesional, en color a elegir, incluso encintado de paramentos en separaciÃ³n de materiales distintos, liimpieza, totalmente terminado.|
+~T|15.03|RehabilitaciÃ³n energÃ©tica de fachada, mediante aislamiento tÃ©rmico por su cara exterior: SISTEMA STO THERM CLASSIC AISLAMIENTO TÃ‰RMICO 8 cms - FIJACIÃ“N MEDIANTE PEGADO + ESPIGAS ACABADO REVOQUE ORGANICO + PINTADO STOCOLOR LOTUSAN-K O X-BLACK (Stolit K 1,5 + pintado 2 manos StoColorMaxicryl o Stolit K 2 + pintado 2 manos X-Black).
+- Sistema compuesto de Aislameinto Termico Exterior para fachadas SISTEMA STO THERM CLASSIC REVOQUE: con clasificaciÃ³n de protecciÃ³n contra incendios B-s2, d0 segÃºn EN 13 501-1. Constituido por paneles de espuma rÃ­gida de poliestireno STO PANEL EPS TOP 32 segÃºn EN 13163, (tipo de calidad WDVS, tipo de aplicaciÃ³n ACERMI), conductividad tÃ©rmica 0,032 W/m.K, formato: 100 x 50 cm, borde de panel: plano y espesor de 8cm. En las zonas de jambas y retornos de la pared el espesor mÃ­nimo del EPS Top 32 serÃ¡ de 4 cm.
+Pegado con mortero de encolado Sto ADH-B (Sto-Baukleber) de conductividad tÃ©rmica 0,87 W/m.K segÃºn DIN 4108 y resistencia a la flexiÃ³n de 3,0 4,0 N/mm2 (DIN EN 196) cubriendo por lo menos el 40 % del panel. Ensamblados, de forma plana lisa y uno junto a otro totalmente a presiÃ³n en el proceso de encolado. En toda la zona, fijaciÃ³n adicional de los paneles aislantes con Sto Espiga de platillo VEZ 8/60 / LEZ 8/60, diÃ¡metro del platillo 60 mm, tornillo de expansiÃ³n de acero galvanizado. Verificar el anclaje de las espigas en la base resistente. La cabeza de la espiga se cubrirÃ¡ con StoTapa redonda de EPS gris que quedarÃ¡ a ras de la superficie del material aislante. DistribuciÃ³n de fijaciÃ³n con espigas de conformidad con las directrices de tratamiento de 6,0 unidades/mÂ² en la zona frontal. En la zona de bordes (ancho zona de bordes: 1/8 x ancho del edificio = 2 m), segÃºn la altura de la edificaciÃ³n de la siguiente forma: De 0 - 8 m de altura 8,0 unidades/mÂ², de 8 - 20 m de altura 10,0 unidades/mÂ² y mÃ¡s de 20 m de altura 14,0 unidades/mÂ². Y en base a las carga de viento / altura de la edificaciÃ³n y ensayos de tracciÃ³n pull-off de las espigas realizadas in-situ y en base a Informe TÃ©cnico a suministrar por el fabricante ex profeso. Revisando si han quedado juntas abiertas en las superficies tendidas y con pequeÃ±os desniveles, rellenando las posibles juntas con Sto Espuma para pistola hasta 2mm o con material EPS para aberturas mayores a 2mm y rectificando plano con una plancha esmeriladora o mecÃ¡nicamente con lijadora Inoplan. ColocaciÃ³n de los perfiles especiales de refuerzo como Sto Perfil Antigoteo y Sto Malla Cantonera. Aplicar en toda la superficie mortero armadura, LIBRE DE CEMENTO StoArmat Classic de densidad 1,5 g/cm3 segÃºn DIN 53 217. Introducir presionando la malla de armadura Sto Malla de Fibra de Vidrio (con resistencia a fisuraciÃ³n > 1750 N/50 mm segÃºn DIN EN ISO 13934-1) y alisarla con la llana. Solapar las juntas de malla de 10 cm inclusive con los accesorios. AplicaciÃ³n de la capa de acabado Revoque orgÃ¡nico libre de cemento Stolit K 1,5 tintado C1 Stolit K 2 tintado C2; pintado final Sto Lotusan-K o X-Black tintado C1 o C2 respectivamente (2 manos).
+Color a aprobar por propiedad y decifir por la D.F.: Gris claro o colores "vivos". Para colores oscuros deberÃ¡ usarse el StoColor X-Black (sin sobrecoste) y llegar asÃ­ hasta un 10% de luminosidad. Para resto de colores mas "vivos" (gama de verdes, etc.) el lÃ­mite de luminosidad estÃ¡ en 20%.
+EstarÃ¡ incluido dentro del precio:
+- ImprimaciÃ³n previa de tratamiento con StoPrep Contact para un buen agarre del sate con el paramento existente.
+- Se requerirÃ¡n diferentes espesores, con un mÃ­nimo de 8 cm. buscando un acabado totalmente vertical y aplomado en ambos sentidos, vertical y horizontal. Previa a la colocaciÃ³n, se realizarÃ¡ un relleno de los huecos, hundimientos, y pequeÃ±os retranqueos existentes en la fachada mediante la colocaciÃ³n de aislamiento de 2-3cm. dependiendo del caso, buscando uniformidad de la fachada, para posterior colocaciÃ³n de aislamiento continuo de 8 cm. En las zonas que exista el contacto entre aislamientos la uniÃ³n se realizara con Sto Level Uni.
+- Sellado de juntas abiertas con StoEspuma PU o tiras de EPS, si la abertura es menor de 2mm o si es mayor de 2mm respectivamente.
+- Las Fijaciones mecÃ¡nica con Sto-Termoespiga + StoTapÃ³n de EPS segÃºn pliego de condiciones de STO.
+- ColocaciÃ³n de la StoCinta de Sellado 2D en todos los encuentros del sistema con otros elementos.
+- ColocaciÃ³n de StoPerfil GoterÃ³n y StoMalla Cantonera en todas las esquinas con el mortero armadura. Acabado Stolit K 1,5 + StoColor Maxicryl o Stolit K 2 + X-Black.
+- El arranque del Sistema se realizara mediante Stoperfil de ZÃ³calo de PVC.
+- En mochetas donde no es posible colocar 4 cm. de EPS en encuentro con la carpinteria se colocarÃ¡ perfil de arranque stostarprofil ph-k.
+- Sstema para fijaciÃ³n sin puente tÃ©rmico StoFIx Zyrillo replanteado "in situ" en zonas donde se preveÃ¡ fijar a posteiori (electricidad, telecomunicaciones, gas, etc.).
+Resumen del Sistema:
+StoTherm Classic con acabado revoque,
+Tratamiento: StoPrep Contact
+Aislamiento: Sto-Panel EPS Top 32, 10cm (a plomo)
+FijaciÃ³n: StoLevell Uni + Sto-Termoespiga (i.tapÃ³n EPS)
+Armadura: StoArmat Classic + StoMalla Fibra de Vidrio F
+
+Medida la superficie a cinta corrida sin descontar huecos|
+~T|15.05|CAJEADOS / FOSEADOS CON PLADUR EN PERÃMETRO DE PORTAL FORMADO POR UNA PLACA DE YESO, COLOCADA SOBRE UNA ESTRUCTURA OCULTA DE ACERO GALVANIZADO, FORMADA POR PERFILES T/C DE 40mm CADA 40cm Y PERFILERIA U DE 34X31X34mm, INCLUSO REPLANTEO AUXILIAR, ACCESORIOS DE FIJACION, NIVELACION Y REPASO DE JUNTAS CON CINTA Y PASTA. MEDIDA LA LONGITUD EJECUTADA|
+~T|17.02|Suministro y colocaciÃ³n de puerta de paso de una hoja de 38 mm de espesor, 800x2050 mm de luz y altura de paso, acabado lacado en color blanco formada por dos chapas de acero galvanizado de 0,5 mm de espesor plegadas, ensambladas y montadas, con cÃ¡mara intermedia rellena de poliuretano, sobre cerco de acero galvanizado de 1,5 mm de espesor con garras de anclaje a obra. Cerradura y manilla en ambas caras. Elaborada en taller, con ajuste y fijaciÃ³n en obra. Totalmente montada y probada por la empresa instaladora mediante las correspondientes pruebas de servicio (incluidas en este precio).
+|
+~T|17.04|Suministro y colocaciÃ³n de puerta de contadores de gas formada por dos hojas de  0,57x 1,65 metros de acero galvanizado acabado lacado en color a definir por la D.F. sobre cerco de acero galvanizado lacado en mismo color de 1,5 mm de espesor con garras de anclaje a obra. Con cerradura. Elaborada en taller, con ajuste y fijaciÃ³n en obra. Totalmente montada y probada por la empresa instaladora mediante las correspondientes pruebas de servicio (incluidas en este precio).|
+~T|30.01|FormaciÃ³n de cubierta plana no transitable, no ventilada, con grava, tipo invertida, pendiente del 1% al 5%, compuesta de los siguientes elementos: FORMACIÃ“N DE PENDIENTES: mediante encintado de limatesas, limahoyas y juntas con maestras de ladrillo cerÃ¡mico hueco doble y capa de 10 cm de espesor medio a base de hormigÃ³n celular de cemento espumado, a base de cemento CEM II/A-P 32,5 R y aditivo aireante, resistencia a compresiÃ³n mayor o igual a 0,2 MPa, densidad 350 kg/mÂ³ y conductividad tÃ©rmica 0,093 W/(mK); acabado con capa de regularizaciÃ³n de mortero de cemento, industrial, M-5 de 2 cm de espesor, fratasada y limpia; IMPERMEABILIZACIÃ“N: tipo monocapa, no adherida, formada por una lÃ¡mina impermeabilizante flexible tipo EVAC, compuesta de una doble hoja de poliolefina termoplÃ¡stica con acetato de vinil etileno, con ambas caras revestidas de fibras de poliÃ©ster no tejidas, de 0,8 mm de espesor y 600 g/mÂ², fijada al soporte en perÃ­metro y juntas mediante adhesivo cementoso mejorado C2 E, y solapes fijados con adhesivo cementoso mejorado C2 E S1; AISLAMIENTO TÃ‰RMICO: panel rÃ­gido de poliestireno extruido, de superficie lisa y mecanizado lateral a media madera, de 80 mm de espesor, resistencia a compresiÃ³n >= 300 kPa, conductividad tÃ©rmica 0,034 W/(mK); CAPA SEPARADORA BAJO PROTECCIÃ“N: geotextil no tejido sintÃ©tico, termosoldado, de polipropileno-polietileno, de 200 g/mÂ²; CAPA DE PROTECCIÃ“N: Capa de canto rodado de 16 a 32 mm de diÃ¡metro, exenta de finos, extendida con un espesor medio de 10 cm.
+Incluso realizaciÃ³n de medias caÃ±as y ejecuciÃ³n de remates con paramentos verticales. P.p. de accesorios y medios auxiliares. Totalmente terminada.
+|
+~T|30.02|Partida alzada para ejecuciÃ³n de remates necesarios entre la cubierta plana del nÃºcleo de escaleras y la cubierta de teja existente para conseguir una total estanqueidad del conjunto. Incluso sistema de evacuaciÃ³n de aguas conectado al existente. P.p. de accesorios, piezas necesarias y medios auxiliares. Totalmente terminado.
+
+|
+~T|A01JF002|M3. Mortero de cemento CEM II/A-P 32,5 R y arena de rÃ­o de dosificaciÃ³n 1/2 confeccionado con hormigonera de 250 l.|
+~T|A01JF004|M3. Mortero de cemento CEM II/A-P 32,5 R y arena de rÃ­o M 10 con una resistencia a compresiÃ³n de 10 N/mm2 segÃºn norma UNE-EN 998-2, confeccionado con hormigonera de 250 l. (DosificaciÃ³n 1/4)|
+~T|A01JF007|M3. Mortero de cemento CEM II/A-P 32,5 R y arena de rÃ­o M 2,5 con una resistencia a compresiÃ³n de 2,5 N/mm2 segÃºn norma UNE-EN 998-2, confeccionado con hormigonera de 250 l. (DosificaciÃ³n 1/8)|
+~T|A01JF206|M3. Mortero de cemento CEM II/A-P 32,5 R y arena de miga (dosificaciÃ³n 1/6) M 5 con una resistencia a compresiÃ³n de 5 N/mm2 segÃºn norma UNE-EN 998-2, confeccionado con hormigonera de 250 l.|
+~T|A02FA723|M3. HormigÃ³n para armar de resistencia 25/P/20/ IIa  Nmm2, con cemento CEM II/A-P 32,5 R arena de rÃ­o y Ã¡rido rodado tamaÃ±o mÃ¡ximo 20 mm., de central para vibrar y consistencia plÃ¡stica, puesto en obra, con p.p. de mermas y cargas incompletas. SegÃºn EHE.|
+~T|A03CA005|Hr. Pala cargadora sobre neumÃ¡ticos con una potencia de 81 CV (110 Kw) con cuchara dentada de capacidad 1,30 m3, con un peso total de 9.410 Kg, de la casa Volvo Ã³ similar, con un alcance de descarga de 3.710 mm, altura de descarga a 45Âº de 2640 mm, fueza de elevaciÃ³n a altura mÃ¡xima de 113,2 KN, fuerza de arranque 113,2 KN, capacidad colmada 1,30 m3, Ã¡ngulo mÃ¡ximo de excavaciÃ³n a 95Âº, fuerza hidraÃºlica de elevaciÃ³n a nivel del suelo 114,4 Kn, longitud total de la mÃ¡quina 6.550 mm, altura sobre el nivel del suelo de 293 mm, control por palanca Ãºnica, direcciÃ³n controlada por la transmisiÃ³n Ã³ por los frenos, i/ retirada y colocaciÃ³n del lugar de las obras.|
+~T|A03FB010|Hr. CamiÃ³n basculante de dos ejes con una potencia de 138 CV DIN (102Kw), y capacidad para un peso total a tierra de 10 Tn con 4 tiempos y 4 cilindros en linea, de la casa Iveco Ã³ similar, capaz de desarrollar una velocidad mÃ¡xima cargada de 50 Km/h, una carga de 10,9 Tn y una capacidad de caja a ras de 5 m3 y de 9 m3 colmada, con un radio de giro de 5,35 mts, longitud total mÃ¡xima de 6.125 mm, anchura total mÃ¡xima de 2.120 mm, distancia entre ejes 3.200 mm, suspensiÃ³n mediante ballestas parabÃ³licas, barra de torsiÃ³n estabilizadora de diÃ¡metro 45 mm, frenos tipo duplex y duoservo con recuperaciÃ³n automÃ¡tica.|
+~T|A03LA005|Hr. Hormigonera elÃ©ctrica de 250 Lts con un motor elÃ©ctrico de 3CV, con bastidor y cabina de acero, pala mezcladoras, adecuadas para asegurar una mezcla rÃ¡pida y homogenea, mecanismos protegidos hermÃ©ticamente, con un peso en vacio de 290Kg y un rendimineto aproximado de 3,4m3.|
+~T|ACPR002|Montaje y desmontaje de andamio tubular cubriendo toda la superficie del hueco de ascensor y escalera, con andamio homologado hd-1000 tipo ULMA, fijado a los frentes de forjado / pilares y con un mÃ¡ximo de separaciÃ³n de 6 m entre anclajes, colocaciÃ³n de husillos roscados de nivelaciÃ³n, cÃ¡ncamos para cables tensados, topes de separaciÃ³n con tubo y abrazadera, colocacion de plataformas de trabajo en cada planta para realizacion de trabajos correspondientes, con mÃ©nsula cada 2 mts de altura, elementos volados, retranqueos de balcones, barandillas de 2 barras horizontales, zocalos de madera o metalicos en cada plataforma de trabajo, incluso parte proporcional de instalacion de marquesina de proteccion de via publica en todo el perimetro de trabajo con tablero cuajado segÃºn ordenanzas municipales del ayuntamiento de Irun, escaleras de acceso entre plataformas, rigidizadores, vigas de celosia de 4m para pasos de personas a local taller de reparaciÃ³n de automoviles existente en planta baja, toda la superficie del andamio cubierta por redes de protecciÃ³n en poliamida en perfecto estado y sujeciÃ³n segÃºn normativa municipal etc. incluso realizacion de proyecto de andamios en caso necesario o presupuestar a parte, transporte a obra, montaje y desmontaje, obtencion de todos los permisos municipales, incluso limpieza de todas las persianas, ventanas y acera una vez terminados los trabajos de rehabilitaciÃ³n de fachada.
+
+Alquiler de andamio tubular presupuestado durante todo el periodo de obra, independientemente del tiempo utilizado para la realizacion de los trabajos descritos, mediciones segÃºn superficie y detalle descrito en anterior partida, incluso costes de tasas municipales, precio cerrado durante la obra.
+|
+~T|ACPR020|Desmontaje y posterior colocaciÃ³n de baterÃ­as de centralizaciÃ³n de contadores y su armario.
+- Desmontaje con medios manuales y con recuperaciÃ³n del material para su posterior re-ubicaciÃ³n, siendo el orden de ejecuciÃ³n del proceso inverso al de su instalaciÃ³n.Incluso p/p de limpieza, acopio, retirada y carga manual del material desmontado y de los restos de obra producidos durante los trabajos, sobre camiÃ³n o contenedor y transporte a vertedero.
+- Posterior colocaciÃ³n de baterÃ­as de gas natural para centralizaciÃ³n en el armario (suministrando uno nuevo), conectadas a los montantes individuales y a la instalaciÃ³n comÃºn, y recolocaciÃ³n de los contadores. Incluso accesorios (soportes para la baterÃ­a, colector, llaves de corte, limitadores de caudal, soportes de contador, tomas de presiÃ³n y placas
+de indicaciÃ³n).
+Totalmente montada, conexionada y probada. Partida Alzada.|
+~T|ACPR021|Desmontado y eliminaciÃ³n de contadores elÃ©ctricos existentes y suministro de nuevos contadores adaptados a normativa actual y colocaciÃ³n de los mismos en nuevo cuarto de contadores. Incluso p/p de conexiones de la lÃ­nea repartidora y de las derivaciones individuales a sus correspondientes bornes y embarrados, cableado y cuantos accesorios sean necesarios para su correcta instalaciÃ³n. Totalmente montados, conexionados y probados. 
+|
+~T|ASDF|ModificaciÃ³n de red de saneamiento horizontal de pluviales existente en zona exterior del edificio a verificar previamente por trabajos de catas y excavaciones puntuales de la zona de actuaciÃ³n, incluyendo desmontado de arquetas de saneamiento de 60x60cms, arquetas de desague exteriores, tapas de fundiciÃ³n y cualquier otro elemento de la red de saneamiento existente, modificaciÃ³n de la ubicaciÃ³n de las arquetas y canalizaciÃ³n segÃºn indicaciones de la DirecciÃ³n Facultativa, colocaciÃ³n de 2 nuevas arqueta de 60x60cms y hasta 100cms de profundidad, realizaciÃ³n de excavaciones necesarias, hormigÃ³n de limpieza, fondo, suministro e instalaciÃ³n de 2 arquetas de hormigÃ³n prefabricado, colocaciÃ³n de conductos de red horizontal de saneamiento aproximadamente 10metros lineales de tubo de diametro 200mm, conexiones a arquetas, tubos, apertura de rozas en nuevas arquetas, recibido, suministro y colocaciÃ³n de 2 uds de arqueta-sumidero para recogida y evacuaciÃ³n de aguas pluviales, arqueta y tapa de 30x30 de registro, trabajos totalmente terminados y en funcionamiento con revisiÃ³n de niveles y pendientes, realizaciÃ³n de cama de arena para conductos horizontales, posterior relleno de zanjas con material propio de la excavaciÃ³n, compactado y acabado. 
+
+Por la importancia de esta partida, se deberÃ¡ revisar la instalaciÃ³n de la red de saneamiento existente previamente, para determinar la mejor forma de proceder, siendo comunicadas y consultadas las modificaciones a Aguas de Txingudi para proceder a los tramites necesarios para su modificaciÃ³n si fuera necesario, elaborado un presupuesto ajustado en caso de determinar previamente las modificaciones necesarias para la derivaciÃ³n de las conducciones. |
+~T|CUADROGENERAL|Cuadro para Protecciones de 160A empotrado y con puerta, alojando un interruptor general bipolar y protecciones tÃ©rmicas y diferenciales para los diversos circuitos, incluida mano de obra de instalaciÃ³n y accesorios.|
+~T|CUB001|EjecuciÃ³n de chimenea de fÃ¡brica para ventilaciÃ³n de hueco ascensor en cubierta de teja existente. Trabajos y materiales necesarios para apertura de hueco en cubierta de teja existente formada por tablero celetip, ejecuciÃ³n de chimenea formada por cerramiento de fÃ¡brica de LHD revestida al exterior por enfoscado maestreado con mortero de reperfilado BMB 6012 de Beissier, espesor medio 30 mm, previa aplicaciÃ³n de resina-puente de uniÃ³n en toda la superficie con producto Nivelpol Ar de Beissier y colocaciÃ³n de remate de chimenea formado por sombrero de lamas de aluminio lacado. Incluso ejecuciÃ³n de remates de plomo en perÃ­metro de chimenea y suministro y colocaciÃ³n de conducto necesario para conexiÃ³n del espacio del ascensor con el exterior. P.p. de accesorios, conductos, remates, herrajes y medios auxiliares. Totalmente terminado y en funcionamiento.|
+~T|D02HA060|ExcavaciÃ³n manual de zanjas para alojar instalaciones, en terreno de consistencia media i/posterior relleno y apisonado de tierras procedentes de la excavaciÃ³n y p.p. de costes indirectos, con extracciÃ³n de tierras sobrantes incluida carga, transporte a vertedero y medios auxiliares.|
+~T|D02HF010|ExcavaciÃ³n, con mini-retroexcavadora, de terrenos de consistencia media en apertura de zanjas para cimentaciones corridas, con extracciÃ³n de tierras, con transporte a punto de carga y medios auxiliares.|
+~T|D02TF300|Relleno y extendido de zanjas con grava, por medios manuales o mecÃ¡nicos, considerando la grava a pie de tajo y con parte proporcional de medios auxiliares.|
+~T|D04AA201|Kg. Acero corrugado B 500-S incluso cortado, doblado, armado y colocado en obra, i/p.p. de mermas y despuntes.|
+~T|D04GX004|M3. HormigÃ³n en masa para armar HA-25/P/20/ IIa  N/mm2, con tamaÃ±o mÃ¡ximo del Ã¡rido de 20 mm. elaborado en central en muros de cimentaciÃ³n, incluso vertido por medios manuales, vibrado y colocado. SegÃºn CTE/DB-SE-C y EHE.|
+~T|D04IX019|HormigÃ³n armado HA-25/P/20/ IIa, con tamaÃ±o mÃ¡ximo del Ã¡rido de 20 mm., elaborado en central en relleno de alzados de muros, incluso armadura B-500 S (60 kgs/m3), replanteo, colocaciÃ³n y vertido de hormigÃ³n por medios manuales o mecÃ¡nicos con pluma, vibrado y colocado en obra segÃºn normas NTE-CSL, EHE y CTE-SE-C, medido el volumen de hormigÃ³n ejecutado. Incluyendo parte proporcional de encofrado y desencofrado a dos caras con paneles metÃ¡licos, i/aplicaciÃ³n de desencofrante. En alzados de muros de rampa (hasta cota de aceras -1,22).|
+~T|D04PF501|M2. Encachado de piedra caliza 40/80 de 15 cm. de espesor en sub-base de solera, i/extendido y compactado con pisÃ³n.|
+~T|D04PH015|M2. Mallazo electrosoldado haciendo cuadrÃ­cula de 15x15 cm. d=6 mm, con acero corrugado B 500 T, incluso p.p. de solapes y alambre de atar, colocado. SegÃºn EHE.|
+~T|D04PM156|M2. Solera de 15 cm. de espesor, realizada con hormigÃ³n HA-25/P/20/IIa N/mm2., tamaÃ±o mÃ¡ximo del Ã¡rido 20 mm. elaborado en central, i/vertido, colocaciÃ³n y armado con mallazo electrosoldado #150*150*6 mm., incluso p.p. de juntas, aserrado de las mismas y fratasado. SegÃºn EHE.|
+~T|D04PS156|Solera de 15cms de HormigÃ³n armado, realizada con hormigÃ³n HA-25N/mm2, consistencia plastica TmÃ¡x Ã¡rido 20mm para ambiente agresivo, elaborado en central para relleno de soleras, incluso armadura necesaria mallazo 15x15x6 segÃºn documentaciÃ³n, incluso parte proporcional de encofrados de madera necesarios para la realizaciÃ³n de la solera, replanteo, colocaciÃ³n y vertido de hormigÃ³n por medios manuales o mecÃ¡nicos con pluma, vibrado y colocado en obra segÃºn normas NTE-CSL, EHE y CTE-SE-C, medida la superficie de solera de hormigÃ³n ejecutada.|
+~T|D07GE010|FÃ¡brica de 14 cm. de espesor con bloque cerÃ¡mico de arcilla aligerada machiembrado (Termoarcilla) de medidas 30x19x14 cm., sentado con mortero de cemento CEM II/A-P 32,5 R y arena de rÃ­o M 10 segÃºn UNE-EN 998-2 para posterior terminaciÃ³n, incluso suministro y colocaciÃ³n de armadura vertical en esquinas, p.p. de roturas, replanteo, aplomado y nivelaciÃ³n, i/p.p. de cortes y piezas especiales, p.p. de formaciÃ³n de dinteles, zunchos, jambas, ejecuciÃ³n de encuentros, piezas especiales, incluso realizaciÃ³n de junta de dilataciÃ³n con edificio existente, anclaje al mismo mediante barras de acero de D12, taladradas al forjado en cada planta, acabado con junta de dilataciÃ³n sellado estanco elÃ¡stico especial para juntas de dilataciÃ³n al exterior de edificios, incluso parte proporcional de roturas de piezas, replanteo, nivelaciÃ³n, aplomado, limpieza y medios auxiliares, s/NTE-FFB-11 y CTE-SE-F, medida deduciendo huecos superiores a 1 m2. SegÃºn CTE/ DB-SE-F. En cerramiento de caja de ascensor y tabiquerÃ­a de cuartos de planta baja.|
+~T|D19AA010|RealizaciÃ³n de recrecido nivelaciÃ³n para soporte de pavimentos en plataformas horizontales nuevas y/o antiguas, realizado con mortero de cemento CEM II/A-P 32,5R de aproximadamente 4 cm de espesor medio, para nivelaciÃ³n de las distintas alturas entre los descansillos de las escaleras actuales y las nuevas escaleras, incluso armado de mortero con fibras de polipropileno antifisuras tipo SAt FIlls (Satecma) maestreado y fratasado medida la superficie de nivelaciÃ³n realmente ejecutada en obra. En descansillos de escalera, pasos a viviendas y descansillos de hormigÃ³n de entrada a viviendas.|
+~T|D19HA005|Suministro y colocaciÃ³n de solado de mÃ¡rmol a elegir por la DirecciÃ³n Facultativa en solados interiores, con espesor 2 cm, tipo de baldosa antideslizante resistencia al deslizamiento Rd>45  s/ UNE-ENV 12633 CLASE 3 primera calidad segÃºn muestra en obra, cortes de piezas en obra en remate con anclajes de barandillas, incluso parte proporcional de esquineros de peldaÃ±o especiales para rematar frente de peldaÃ±os, parte proporcional de piezas especiales, colocaciÃ³n de zÃ³calo perimetral en mismo material para de 12cm de altura para remate en encuentros con cerramientos de tabiques interiores de escalera, formaciÃ³n de esquinas, parte proporcional de nivelaciÃ³n de superficies, recibido con mortero de cemento y arena de miga 1/6, rejuntado con lechada de cemento en color a elegir por la D.F. y limpieza, medida en superficie de descansillo realmente ejecutado y terminado.|
+~T|D19HH010|Suministro y colocaciÃ³n de solado de mÃ¡rmol a elegir por la DirecciÃ³n Facultativa en formaciÃ³n de peldaÃ±os de escalera, con espesor 2 cm, tipo de baldosa antideslizante resistencia al deslizamiento Rd>45  s/ UNE-ENV 12633 CLASE 3 primera calidad segÃºn muestra en obra, cortes de piezas en obra en remate con anclajes de barandillas, incluso parte proporcional de esquineros de peldaÃ±o especiales para rematar frente de peldaÃ±os, parte proporcional de piezas especiales, colocaciÃ³n de zÃ³calo perimetral en mismo material para de 12cm de altura para remate en encuentros con cerramientos de tabiques interiores de escalera, formaciÃ³n de esquinas, parte proporcional de nivelaciÃ³n de superficies, recibido con mortero de cemento y arena de miga 1/6, rejuntado con lechada de cemento en color a elegir por la D.F. y limpieza, medida en superficie de descansillo realmente ejecutado y terminado.|
+~T|D21LE115|Ventana WD gama Elite 70 de 1 hoja con fijos de dimensiones 700x2550 con doble acristalamiento 3+3 butiral gris-16-6 Planitherm XN transparente. Incluye el forrado de los frentes de forjado mediante chapa de aluminio-composite y aislamiento de poliestireno extruido de 3cm de espesor. Ventana totalmente terminada instalada sobre precerco de aluminio, incluso sellado de vidrio y ventana con muro de fachada, sellado de juntas y limpieza, incluso con p.p. de medios auxiliares. s/NTE-FCL-3 y 5|
+~T|D21LF115|Puerta de portal WD gama Elite 70 de 1 hoja con fijos de dimensiones 1700x2600 con doble acristalamiento 3+3 butiral gris-16-6 Planitherm XN transparente, ventana totalmente terminada instalada sobre precerco de aluminio, incluso sellado de vidrio y ventana con muro de fachada, sellado de juntas y limpieza, incluso con p.p. de medios auxiliares. s/NTE-FCL-3 y 5|
+~T|D23IA005|Barandilla de escalera de 110 cm. de altura en acero inoxidable 316 AISI, composiciÃ³n segÃºn planos de detalle. En rampas de escalera y pasarelas interiores.|
+~T|DEM003|Picado y eliminaciÃ³n de forjado o losa inclinada de hormigÃ³n armado en formaciÃ³n de escaleras de aproximadamente 15cms de espesor. Incluso eliminaciÃ³n previa del forrado de peldaÃ±o mediante baldosa / terrazo y su correspondiente zÃ³calo, picado de peldaÃ±o de albaÃ±ilerÃ­a, dejando la losa /forjado totalmente limpio y listo para derribar. Trabajos ejecutados por procedimientos manuales o mecÃ¡nicos mediante martillo neumÃ¡tico accionado con un compresor portÃ¡til, incluso corte longitudinal de losa con rotaflex o sierra de agua, parte proporcinal de eliminaciÃ³n y corte de armado interior formado por barras de hierro de cualquier diÃ¡metro, incluso eliminaciÃ³n de zuncho perimetral, viguetillas prefabricadas, bovedillas de hormigÃ³n o cualquier otro elemento existente en la losa/forjado, dejando los cortes perfectamente terminados y lisos, carga de escombros sobre contenedor o camiÃ³n. Incluye apuntalado necesario de los elementos a mantener.
+Estos trabajos se ejecutarÃ¡n por plantas y de forma simultÃ¡nea (en la misma jornada) a la colocaciÃ³n de la nueva escalera y descansillo de acero.
+|
+~T|DEM004|Picado y eliminaciÃ³n de zuncho / viga de hormigÃ³n armado en formaciÃ³n de estructura portante de escalera de aproximadamente 15x30cms de secciÃ³n, hasta la completa eliminaciÃ³n del elemento constructivo, incluyendo apuntalado necesario mediante puntales metÃ¡licos o de madera, protecciÃ³n de los elementos, trabajos ejecutados por procedimientos manuales o mecÃ¡nicos mediante martillo neumÃ¡tico accionado con un compresor portÃ¡til, incluso corte longitudinal de losa inclinada con rotaflex o sierra de agua, parte proporcinal de eliminaciÃ³n y corte de armado interior formado por barras de hierro de cualquier diÃ¡metro, dejando los cortes perfectamente terminados y lisos, carga de escombros sobre contenedor o camiÃ³n, medida la longitud de zuncho eliminado.|
+~T|DEM005|Picado y eliminaciÃ³n de fÃ¡brica de ladrillo hueco doble o perforado colocado a 1/2 asta en fachada de escaleras, comprendiendo la eliminaciÃ³n, desmontado o picado por medios manuales o mecÃ¡nicos de todas las carpinterÃ­as y sus vidrios, eliminaciÃ³n de las superficies sueltas hasta llegar a la base de hormigÃ³n armado si existiera, trabajos ejecutados por procedimientos manuales o mecÃ¡nicos mediante pequeÃ±o martillo neumÃ¡tico accionado con un compresor portÃ¡til, colocaciÃ³n de cierre provisional una vez derribado el tabique mediante colocaciÃ³n de tabique provisional de pladur + perfilerÃ­a metÃ¡lica o cerramiento similar en toda la superficie del tabique eliminado, dejandolo durante la ejecuciÃ³n de las obras de la escalera y hasta proceder a la colocaciÃ³n de las nuevas escaleras, retirada posterior de tabique de pladur provisional montado, carga de escombros sobre contenedor o camiÃ³n. Medida la superficie de fachada a cinta corrida sin descontar huecos.
+|
+~T|DEM006|Desmontado y eliminaciÃ³n de puerta portal de aluminio existente y sustituciÃ³n por una nueva puerta provisional en caso necesario por medios manuales o mecÃ¡nicos. P.p. de herrajes, accesorios y medios auxiliares. Incluso transporte a contenedor o punto de carga.
+
+|
+~T|DEM009|Picado y eliminaciÃ³n de pavimentos existentes descansillos de escalera, eliminando totalmente la baldosa/piedra/terrazo o material similar existente, picado de recrecidos si fuera necesario y zÃ³calos perimetrales de escalera en zonas horizontales. Trabajos ejecutados por procedimientos manuales o mecÃ¡nicos mediante pequeÃ±o martillo neumÃ¡tico accionado con compresor portÃ¡til, incluso retirada y carga de escombros sobre contenedor o camiÃ³n. Medida la superficie realmente eliminada en obra.
+|
+~T|DEM010|DemoliciÃ³n de forjado de planta baja en portal formado por forjado unidireccional de hormigÃ³n armado con viguetas prefabricadas de hormigÃ³n, entrevigado de bovedillas cerÃ¡micas o de hormigÃ³n y capa de compresiÃ³n de hormigÃ³n, con medios manuales, martillo neumÃ¡tico y equipo de oxicorte, previo levantado del pavimento y su base (incluido en este precio). Incluso p/p de limpieza, acopio, retirada y carga manual de escombros sobre camiÃ³n o contenedor
+|
+~T|DEM011|Picado y eliminaciÃ³n de viga de hormigÃ³n armado en formaciÃ³n de estructura portante de escalera de planta baja, hasta la completa eliminaciÃ³n del elemento constructivo, incluyendo apuntalado necesario mediante puntales metÃ¡licos o de madera, protecciÃ³n de los elementos, trabajos ejecutados por procedimientos manuales o mecÃ¡nicos mediante martillo neumÃ¡tico accionado con un compresor portÃ¡til, incluso corte longitudinal de losa inclinada con rotaflex o sierra de agua, parte proporcinal de eliminaciÃ³n y corte de armado interior formado por barras de hierro de cualquier diÃ¡metro, dejando los cortes perfectamente terminados y lisos, carga de escombros sobre contenedor o camiÃ³n, medida la longitud de zuncho eliminado.
+|
+~T|DEM012|DemoliciÃ³n de coronaciÃ³n de muro de hormigÃ³n armado de planta sÃ³tano con medios manuales, martillo neumÃ¡tico y equipo de oxicorte. Incluso p/p de limpieza, acopio, retirada y carga manual de escombros sobre camiÃ³n o contenedor
+|
+~T|DEM013|DemoliciÃ³n de rampa de acceso a garaje formado por losa maciza de hormigÃ³n armado de hasta 20 cm de canto total, con medios manuales, martillo neumÃ¡tico y equipo de oxicorte, previo levantado del pavimento y su base (incluido en este precio). Incluso p/p de limpieza, acopio, retirada y carga manual de escombros sobre camiÃ³n o contenedor.
+|
+~T|DEM014|Desmontado y eliminaciÃ³n de puerta de acceso a garaje y sustituciÃ³n por puerta provisional en caso necesario por medios manuales o mecÃ¡nicos. P.p. de herrajes, accesorios y medios auxiliares. Incluso transporte a contenedor o punto de carga.|
+~T|E001|FormaciÃ³n de forjado mixto en acceso portal cota -0.13 realizada a base de plancha metÃ¡lica nervada galvanizada de 0,7 mm. de espesor, con capa de compresiÃ³n de 4 cm. de hormigÃ³n HA-25 N/mm2, TmÃ¡x.20 mm., consistencia plÃ¡stica, elaborado en central certificada, en caso de ser elaborado en obra se exigirÃ¡ hormigÃ³n predosificado, con control de calidad y realizaciÃ³n de probetas "in situ" por laboratorio certificado, incluso suministro y colocaciÃ³n de mallazo-armadura antirretracciÃ³n y de reparto a razÃ³n de 1,70 kg/m2, diÃ¡metro mÃ­nimo 6 mm, colocaciÃ³n de apeos, encofrados, andamios en obra para vertido de hormigÃ³n, acabado fratasado, utilizaciÃ³n de aditivos en caso necesario o resinas de terminaciÃ³n de hormigÃ³n, totalmente terminado para pintar en caso necesario, incluso utilizaciÃ³n de medios auxiliares, camiÃ³n bomba en caso necesario y andamios para su ejecuciÃ³n, segÃºn normas NTE y EHE. Incluso p.p. de perfiles estructurales laminados en caliente para apoyo del forjado mixto.
+|
+~T|E002|FormaciÃ³n de forjado mixto en portal cota +0.90 realizada a base de plancha metÃ¡lica nervada galvanizada de 0,7 mm. de espesor, con capa de compresiÃ³n de 4 cm. de hormigÃ³n HA-25 N/mm2, TmÃ¡x.20 mm., consistencia plÃ¡stica, elaborado en central certificada, en caso de ser elaborado en obra se exigirÃ¡ hormigÃ³n predosificado, con control de calidad y realizaciÃ³n de probetas "in situ" por laboratorio certificado, incluso suministro y colocaciÃ³n de mallazo-armadura antirretracciÃ³n y de reparto a razÃ³n de 1,70 kg/m2, diÃ¡metro mÃ­nimo 6 mm, colocaciÃ³n de apeos, encofrados, andamios en obra para vertido de hormigÃ³n, acabado fratasado, utilizaciÃ³n de aditivos en caso necesario o resinas de terminaciÃ³n de hormigÃ³n, totalmente terminado para pintar en caso necesario, incluso utilizaciÃ³n de medios auxiliares, camiÃ³n bomba en caso necesario y andamios para su ejecuciÃ³n, segÃºn normas NTE y EHE. Incluso p.p. de perfiles estructurales laminados en caliente para apoyo del forjado mixto.|
+~T|E003|Unidad de rampa de escalera de cota +0.00 a cota +0.90formada por los siguientes elementos, todos ellos soldados en taller segÃºn disposiciÃ³n de planos de estructura:
+- vigas principales HEB100 (8,10 m.l.)
+- formaciÃ³n de peldaÃ±os (huella y contrahuella) con chapa lagrimada 4/6 en la superficie indicada
+
+La pieza se suministrarÃ¡ totalmente montada y pintada (incluidos los peldaÃ±os de chapa lagrimada) para su colocaciÃ³n en obra sobre los soportes indicados y se fijarÃ¡ despuÃ©s mediante atornillado y posterior soldadura. La partida incluirÃ¡ los elementos de fjaciÃ³n de las uniones atornilladas, el soldado de la pieza a los anclajes segÃºn NTE-EA/EAV y CTE-DB-SE-A y el lijado y pintado de la uniÃ³n con dos manos de imprimaciÃ³n anticorrosiva a base de resinas alcÃ­dicas modificadas.
+|
+~T|E004|Unidad de rampa de escalera de dos tramos entre dos plantas salvando una altura de 2,70 formada por los siguientes elementos, todos ellos soldados en taller segÃºn disposiciÃ³n de planos de estructura:
+- vigas principales HEB100 (8,10 m.l.) en rampas de escalera y formaciÃ³n de peldaÃ±os (huella y contrahuella) con chapa lagrimada 4/6 en la superficie indicada
+- entramado de tubo 100.3 (10,50 m.l.) en descansillos y formaciÃ³n de piso con chapa lagrimada 4/6 en la superficie indicada, soldada a la perfilerÃ­a metÃ¡lica
+
+La pieza se suministrarÃ¡ totalmente montada y pintada (incluidos los peldaÃ±os de chapa lagrimada) para su colocaciÃ³n en obra sobre los soportes indicados y se fijarÃ¡ despuÃ©s mediante atornillado y posterior soldadura. La partida incluirÃ¡ los elementos de fjaciÃ³n de las uniones atornilladas, el soldado de la pieza a los anclajes segÃºn NTE-EA/EAV y CTE-DB-SE-A y el lijado y pintado de la uniÃ³n con dos manos de imprimaciÃ³n anticorrosiva a base de resinas alcÃ­dicas modificadas.|
+~T|E005|FormaciÃ³n de forjado mixto en cubierta de caja de escaleras realizada a base de plancha metÃ¡lica nervada galvanizada de 0,7 mm. de espesor, con capa de compresiÃ³n de 4 cm. de hormigÃ³n HA-25 N/mm2, TmÃ¡x.20 mm., consistencia plÃ¡stica, elaborado en central certificada, en caso de ser elaborado en obra se exigirÃ¡ hormigÃ³n predosificado, con control de calidad y realizaciÃ³n de probetas "in situ" por laboratorio certificado, incluso suministro y colocaciÃ³n de mallazo-armadura antirretracciÃ³n y de reparto a razÃ³n de 1,70 kg/m2, diÃ¡metro mÃ­nimo 6 mm, colocaciÃ³n de apeos, encofrados, andamios en obra para vertido de hormigÃ³n, acabado fratasado, utilizaciÃ³n de aditivos en caso necesario o resinas de terminaciÃ³n de hormigÃ³n, totalmente terminado para pintar en caso necesario, incluso utilizaciÃ³n de medios auxiliares, camiÃ³n bomba en caso necesario y andamios para su ejecuciÃ³n, segÃºn normas NTE y EHE.|
+~T|E006|FormaciÃ³n de foso de ascensor colgado de planta baja, mediante vaso de hormigÃ³n armado, realizado con hormigÃ³n HA-25/B/20/IIa fabricado en central, y vertido desde camiÃ³n, y acero UNE-EN 10080 B 500 S, con una cuantÃ­a aproximada de 50 kg/mÂ³ y montaje y desmontaje del sistema de encofrado con paneles metÃ¡licos recuperables. Incluso p/p de refuerzos, zunchos de borde, elaboraciÃ³n de la ferralla (corte, doblado y conformado de elementos) en taller industrial y montaje en el lugar definitivo de su colocaciÃ³n en obra, separadores, armaduras de espera y aplicaciÃ³n de lÃ­quido desencofrante.
+|
+~T|E007|Suministro y montaje de estructura metÃ¡lica autoportante para la formaciÃ³n del hueco de ascensor formada por:
+- cuatro pies derechos formados por tubo de acero 100.50.5
+- chapas de anclaje de 150.150.10 para el apoyo de la estructura de acero en el foso
+- fijaciÃ³n de la estructura al frente de los descansillos en cada planta mediante angulares 80.80.10 y tacos de expansiÃ³n
+Medida la unidad de castillete por planta.
+|
+~T|E008|Suministro y colocaciÃ³n de arriostramiento de estructura de hormigÃ³n existente en el lugar de las vigas de canto eliminadas ejecutado mediante perfiles S275 de acero laminado, colocado en elementos estructurales aislados con variedad de perfiles laminados en caliente IPN, IPE, UPN, L, T, TUBO ESTRUCTURAL, con parte proporcional de vigas, pilares y zunchos metÃ¡licos de ataco, realizado mediante uniones soldadas, incluso soldaduras, cortes de piezas especiales, despuntes y dos manos con imprimaciÃ³n anticorrosiva a base de resinas alcÃ­dicas modificadas, suministrado a obra, montado de perfiles segÃºn planos de documentaciÃ³n grÃ¡fica, soldado en obra segÃºn normas NTE-EA/EAV y CTE-DB-SE-A.|
+~T|E009|FormaciÃ³n de losa maciza de hormigÃ³n armado en rampa interior de garaje, inclinada, con altura libre de planta de hasta 3 m, canto 20 cm, realizada con hormigÃ³n HA-25/B/20/IIa fabricado en central, y vertido con cubilote, y acero UNE-EN 10080 B 500 S, con una cuantÃ­a aproximada de 22 kg/mÂ²; montaje y desmontaje del sistema de encofrado continuo con puntales, sopandas metÃ¡licas y superficie encofrante de madera tratada reforzada con varillas y perfiles. Incluso p/p de nervios y zunchos perimetrales de planta y huecos. Incluso conexiones a estructura existente mediante placas de anclaje de acero segÃºn planos. 
+|
+~T|E010|Acero laminado en perfiles S275, colocado en elementos estructurales aislados con variedad de perfiles laminados en caliente IPN, IPE, UPN, L, T, TUBO ESTRUCTURAL, con parte proporcional de vigas, pilares y zunchos metÃ¡licos de ataco, realizado mediante uniones soldadas, incluso soldaduras, cortes de piezas especiales, despuntes y dos manos con imprimaciÃ³n anticorrosiva a base de resinas alcÃ­dicas modificadas, suministrado a obra, montado de perfiles segÃºn planos de documentaciÃ³n grÃ¡fica, soldado en obra segÃºn normas NTE-EA/EAV y CTE-DB-SE-A.
+|
+~T|E011|FormaciÃ³n de zapata de cimentaciÃ³n de hormigÃ³n armado, realizada con hormigÃ³n HA-25/B/20/IIa fabricado en central, y vertido desde camiÃ³n, y acero UNE-EN 10080 B 500 S, con una cuantÃ­a aproximada de 50 kg/mÂ³, incluyendo encofrado. Incluso p/p de elaboraciÃ³n de la ferralla (corte, doblado y conformado de elementos) en taller industrial y montaje en el lugar definitivo de su colocaciÃ³n en obra, separadores, y armaduras de espera del pilar.
+|
+~T|E08PEM010|Guarnecido maestreado con yeso negro y enlucido con yeso blanco en paramentos verticales y horizontales de 15 mm. de espesor en acabado interior de hueco de escalera y ascensor, con maestras cada 1,50 m., incluso formaciÃ³n de rincones, guarniciones de huecos, remates con pavimento, p.p. de guardavivos de plÃ¡stico y metal y colocaciÃ³n de andamios, s/NTE-RPG, terminado para pintar, medido deduciendo huecos superiores a 2 m2.|
+~T|E18GNA020|Bloque autÃ³nomo de alumbrado de emergencia Autotesteable de 361x163x81 cm. tubo F8T5 (8W), polivalente para superficie, empotrada en techo y pared, con o sin banderola, entrada de cable con canaleta o tubo M-20, con un grado de protecciÃ³n  IP 42, IK 04, flujo luminoso 300 lm. AutonomÃ­a de una hora con baterÃ­a Ni.Cd. 7,2v/1,5Ah. segÃºn norma CEI EN 60598.2.22 - UNE 20392.93.|
+~T|E25TA110| InstalaciÃ³n completa de ascensor elÃ©ctrico de adherencia en calidad normal con dos velocidades 1 m/s. y 0,25 m/s., 5 paradas, 630 kg. de carga nominal para un mÃ¡ximo de 8 personas, cabina con paredes en laminado plÃ¡stico con medio espejo color natural, placa de botonera en acero inoxidable, piso vinilo color, con rodapiÃ©, embocadura y pasamanos en acero inoxidable, puerta automÃ¡tica telescÃ³pica en cabina y automÃ¡tica en piso de acero inoxidable satinado, maniobra universal simple, instalado, con pruebas y ajustes. s/R.D. 1314/97|
+~T|E26FEC100|Extintor automÃ¡tico de polvo quÃ­mico ABC polivalente antibrasa, de 6 kg. de agente extintor con presiÃ³n incorporada, con soporte, manÃ³metro comprobable y rociador en boquilla de apertura automÃ¡tica por temperatura, segÃºn Norma UNE. Medida la unidad instalada.|
+~T|E26FJ360|SeÃ±alizaciÃ³n de equipos contra incendios fotoluminiscente, de riesgo diverso, advertencia de peligro, prohibiciÃ³n, evacuaciÃ³n y salvamento, en aluminio  de 0,5 mm. fotoluminiscente, de dimensiones 420x420 mm. Medida la unidad instalada.|
+~T|ELECT001|Circuito de alimentaciÃ³n con cable flexible aislado de 750V de 3x10mm2 de secciÃ³n, libre de halÃ³genos, instalado bajo tuberÃ­a empotrada, incluido rozas necesarias.|
+~T|ELECT002|PresentaciÃ³n de botelin de instalaciones elÃ©ctricas y gestiones con Iberdrola necesarias para la nueva contrataciÃ³n de instalaciÃ³n elÃ©ctrica de Ascensor, incluido solicitud previa y revisiÃ³n de la instalaciÃ³n (contrato de ascensor).|
+~T|ELECT003|Linea repartidora de caja de protecciÃ³n a mÃ³dulo de contador con cable flexible aislado de 750V de 5x10mm2 de secciÃ³n, libre de halÃ³genos, empotrado bajo tubo de PVC flexible tipo Forroplast, incluido elementos de fijaciÃ³n y conexionado.|
+~T|ELECT004|MÃ³dulo para un contador trifÃ¡sico de hasta 63A, Fref BIR homologado por la compaÃ±ia suministradora, instalado, incluyendo cableado y elementos de protecciÃ³n, contador de la compaÃ±ia.|
+~T|ELECT005|DerivaciÃ³n individual de mÃ³dulo de contador a cuadro de distribuciÃ³n con cable flexible aislado 0,6/1KV de 5x10mm2 de secciÃ³n, libre de halÃ³genos, empotrado bajo tubo PVC flexible tipo Forroplast, incluido elementos de fijaciÃ³n, rozas necesarias y conexionado.|
+~T|ELECT006|Toma de tierra general compuesta por 2 picas de cobre de 2 metros, manguito roscado, grapa empalme de 70mm2 y 5 metros de cable desnudo de tierra de 35mm2 de secciÃ³n.|
+~T|ELECT007|Circuito general de 1 linea de telefono con cable de 4x0,5mm2 bajo tubo flexible tipo Fergondur grapeado por el exterior.|
+~T|ELECT007A|Punto de emergencia instalado con cable de 1,5mm2 de secciÃ³n, empotrado y aislado con tubo flexible de 13mm, incluso rozas necesarias para empotrar instalaciÃ³n.|
+~T|ELECT008|Circuito general de emergencia de 1 linea realizado con cable de 1,5mm2 empotrado y aislado con tubo flexible, incluidas rozas necesarias para su montaje y realizaciÃ³n.|
+~T|ELECT009|Alumbrado provisional de obra en nuevas escaleras, montaje y desmontaje del mismo.|
+~T|ELECT011|Punto de luz encendido con detector, instalado con cable de 1,5mm2 de secciÃ³n, empotrado y aislado con tubo flexible de 13mm, incluido detector DMTEC003 de la marca DINUY, incluido rozas necesarias en tabiques y techos.|
+~T|ELECT012|Equipo de iluminaciÃ³n, incluido colocaciÃ³n, conexiÃ³n, lÃ¡mparas, pruebas necesarias y p.p. de medios auxiliares.|
+~T|ELECT013|Suministro y colocaciÃ³n de cuadro de protecciÃ³n de escalera compuesto por:
+
+VX24C caja empotrar ICP+24
+VZ165 puerta opaca ICP + 24
+MagnetotÃ©rmico II25A
+Diferencial II40A 30mA
+MagnetotÃ©rmico II10A
+Temporizador
+MagnetotÃ©rmico II 10A EB 60
+Cablado 6mm2, 2,5mm2 y 1,5mm2
+Punteras y seÃ±alizaciones.|
+~T|ELECT014|ModificaciÃ³n de circuito de portero automÃ¡tico hasta nueva posiciÃ³n. Incluso cableado, conexiones, rozas necesarias en tabiques y techos, pruebas necesarias y p.p. de medios auxiliares.
+|
+~T|ELECT020|Equipo de iluminaciÃ³n, incluido colocaciÃ³n, conexiÃ³n, lÃ¡mparas, pruebas necesarias y p.p de medios auxiliares.
+|
+~T|ELECT023|Suministro y colocaciÃ³n de nuevo portero automÃ¡tico, conexiÃ³n, pruebas necesarias y p.p de medios auxiliares.|
+~T|ELECT024|Punto de luz encendido con interruptor para zona de acceso exterior, instalado con cable de 1,5mm2 de secciÃ³n, empotrado y aislado con tubo flexible de 13mm, incluido rozas necesarias en tabiques y techos.|
+~T|ELECT025|Suministro y colocaciÃ³n de luminaria estanca fluorescente AF con lÃ¡mpara TL-D S-80 58W. Incluso accesorios, conexiones, pruebas necesarias y p.p. de medios auxiliares.|
+~T|ELETC010|Circuito general con 2 lineas de alumbrado con cable de 1,5mm2 y una linea de otros usos con cable de 2,5mm2 empotrado y aislado con tubo flexible de 16mm.|
+~T|FP1|FormaciÃ³n de hueco 1200x700 para felpudo en acceso a portal, incluyendo suministro y colocaciÃ³n de felpudo de calidad a elegir por la DirecciÃ³n Facultativa|
+~T|LINEAS GENERA|Linea repartidora de caja de protecciÃ³n a mÃ³dulo de contador con cable flexible aislado de 0,9/1KV de 4x35mm2 de secciÃ³n, libre de halÃ³genos, grapeado por el exterior.|
+~T|PINT001QW|EliminaciÃ³n de gotelÃ© existente en paramentos verticales realizado mediante medios manuales y mecÃ¡nicos, con lija especial, incluso preparaciÃ³n posterior de las superficies y lucido de paredes en mal estado, plastecido de golpes y fisuras, aplicaciÃ³n de mallazo o venda selladora en grietas y lijado de las mismas, incluso colocaciÃ³n de papel protector y cartones en el interior de la vivienda, asÃ­ como en portal, escalera y ascensor si fuera necesario.|
+~T|PREV001|ProtecciÃ³n durante la obra de la carpinterÃ­a interior y o exterior de aluminio, madera o cualquier otro material existentes, protegiendo los perfiles, vidrios, cajas de persianas mediante cinta adhesiva o similar, suministro de cartones, plÃ¡sticos o tableros de DM, incluso protecciÃ³n de zÃ³calos, marcos y esquinas incluyendo una limpieza de final una vez acabada la obra, utilizaciÃ³n de productos de limpieza especiales para cada caso, incluso parte proporcional de realizaciÃ³n de reparaciones y ajustes varios en caso de HABER PRODUCIDO ALGÃšN DESPERFECTO durante la ejecuciÃ³n de las obras en el interior/exterior de las viviendas o en las carpinterÃ­as de aluminio/madera, previa realizaciÃ³n de documentaciÃ³n fotogrÃ¡fica de todos los elementos de obra susceptibres de ser daÃ±ados.|
+~T|PROT11|ReparaciÃ³n de los posibles daÃ±os causados en las puertas de acceso a viviendas (araÃ±azos, golpes etc) debidos a los  trabajos |
+~T|REH019|Suministro y colocaciÃ³n de remate ALBARDILLA en remate de cubierta de ascensor y escaleras realizado mediante panel composite tipo ALUCOBONDÂ®Plus o ALPOLICÂ®fr, en forma de "U" con goterÃ³n exterior e interior segÃºn detalles de documentaciÃ³n grÃ¡fica de proyecto, impermeabilizacion previa de las superficies con lÃ¡mina impermeabilizante tipo SchlÃ¼terÂ®-KERDI, pegada directamente a la superficie saneada con cemento cola H-40, sellado de encuentros y recibido con zapatas de carpinterias existentes con material elÃ¡stico SikaFlex, posterior colocaciÃ³n acabado de albardilla realizado en pieza de ALUCOBONDÂ®Plus o ALPOLICÂ®fr en forma de U, en color a elegir por la Direccion Facultativa, realizado a base de panel de aluminio plegado en taller cubriendo un desarrollo total de hasta 500mm, panel compuesto de dos chapas de aluminio y nÃºcleo mineral de espesor total 4mm, con alta relaciÃ³n peso/resistencia a flexiÃ³n y montado con sellado-cola tipo SikaFlex, colocado sobre perfileria auxiliar (incluida) con pendiente hacia el interior, parte proporcional de piezas de enganche, toma de datos en obra, doblado de piezas en taller, despiezado y montado en obra, incluso replanteo, nivelado, cortes en inglete, cortes intermedios para ajuste con llanta de espera de barandillas de inox, ajuste de piezas en obra con fachada ventilada y baldosa interior de balcon, realizaciÃ³n de goterones int. y ext. de 40mm con la propia plancha de aluminio, remates laterales de goterÃ³n, piezas especiales de esquina, ingletes y remates realizadas en el mismo material, sellados con carpinterias exteriores y otros materiales mediante sellado elÃ stico tipo SikaFlex de color a elegir, totalmente terminado y limpio, medicion por metro lineal de albardilla realmente colocado, totalmente terminado, limpio y sin golpes ni rayas, no aceptÃ¡ndose ninguna pieza colocada que se encuentre defectuosa, golpeada o daÃ±ada por la obra. |
+~T|REV001|FormaciÃ³n de revestimiento continuo de mortero de cemento M-10, maestreado, de 15 mm de espesor, aplicado sobre un paramento vertical interior hasta 3 m de altura, acabado superficial fratasado. Incluso p/p de colocaciÃ³n de malla de fibra de vidrio antiÃ¡lcalis para refuerzo de encuentros entre materiales diferentes y en los frentes de forjado, en un 20% de la superficie del paramento, formaciÃ³n de juntas, rincones, maestras con separaciÃ³n entre ellas no superior a un metro, aristas, mochetas, jambas, dinteles, remates en los encuentros con paramentos, revestimientos u otros elementos recibidos en su superficie.
+|
+~T|SS01|Partida alzada a justificar en base al estudio de seguridad y salud  que se adjunta en este proyecto y compuesta entre otros por cuadro general de obra, extintores de polvo quÃ­mico ABC de 6kg, cascos de seguridad, cinturones de seguridad de suspensiÃ³n con un punto de amarre, equipos de arnÃ©s simple de seguridad anticaÃ­das, gafas de protecciÃ³n contra impactos, par de guantes latex anticorte, par de guantes para electricista, aislantes hasta 5000v, cascos protector auditivos, pares de botas de seguridad con puntera metÃ¡lica, fajas de protecciÃ³n lumbar, semimascarillas anti polvo de un filtro, mascarillas desechables antipolvo de un filtro, botiquÃ­n de urgencia, cintas bicolor para balizamiento, conos reflectantes para balizamiento de 70cm de altura, carteles indicativo de riesgos con soporte, placa de seÃ±alizaciÃ³n de riesgos. Incluso parte proporcional de equipos de protecciÃ³n individual para la DirecciÃ³n Facultativa ( con un mÃ­nimo de cascos de protecciÃ³n y botas de seguridad).
+Nota:(La empresa contratista de las obras deberÃ¡ garantizar y/o sufragar la necesidad de caseta prefabricada para aseos en obra, su acometida provisional de fontanerÃ­a y saneamiento y taquillas.)
+
+|
+~T|TAB04|RealizaciÃ³n de frente formado por dos placas ingnÃ­fugas de 15 mm de espesor proporcionando una resistencia al fuego E-60 de hasta 40 cm de altura aproximadamente para forrado de laterales de zancas de escalera, pasillos y descansillo, incluso perfilerÃ­a de chapa u omegas en caso necesario, pegado con masilla especial o atornillado al soporte mediante anclaje por tornillos sobre perfiles de vigas metÃ¡licas u hormigÃ³n en frentes de zancas de escalera, colocaciÃ³n de cantoneras de aluminio en todos sus vertices y esquinas, plastecido de uniones y tirafondos, totalmente acabado para pintar, limpieza al terminar los trabajos, montaje y desmontaje de andamios necesarios para su realizaciÃ³n, s/NTE-RTC-16.|
+~T|TIGNF|Techo continuo formado por dos placas ingnÃ­fugas de 15 mm de espesor proporcionando una resistencia al fuego E-60, atornilladas a una estructura metÃ¡lica de acero galvanizado de maestras primarias 60x27x0,6 mm. moduladas a 1000 mm e/e y suspendidas del forjado o elemento soporte mediante cuelgues combinados cada 900 mm. y maestras secundarias fijadas perpendicularmente a las primarias y a distinto nivel mediante caballetes y moduladas a 500 mm. e/e, incluso p.p. de tornillerÃ­a, pasta de juntas y fijaciones, totalmente acabado y listo para imprimar y decorar. Falsos techos colocados sobre estructura metÃ¡lica de pasarelas, descansillos y rampas.|
+~T|URB001|ExcavaciÃ³n a cielo abierto, en terreno de consistencia media realizado por medios manuales o mediante mini retroexcavadora, con extracciÃ³n de tierras, con transporte a punto de carga y medios auxiliares. ExplanaciÃ³n general de la zona para construcciÃ³n de solera
+|
+~T|URB002|FormaciÃ³n de pavimento continuo de hormigÃ³n impreso, con juntas, de 10 mm de espesor, para uso peatonal, realizado con hormigÃ³n HM-20/B/20/I fabricado en central y vertido desde camiÃ³n; coloreado y endurecido superficialmente mediante espolvoreo con mortero decorativo de rodadura para pavimento de hormigÃ³n color gris, compuesto de cemento, Ã¡ridos de sÃ­lice, aditivos orgÃ¡nicos y pigmentos, rendimiento 4,5 kg/mÂ²; acabado impreso en relieve mediante estampaciÃ³n con moldes de goma, previa aplicaciÃ³n de desmoldeante en polvo color blanco. Incluso p/p de preparaciÃ³n de la superficie de apoyo del hormigÃ³n; colocaciÃ³n y retirada de encofrados, ejecuciÃ³n de juntas de construcciÃ³n; emboquillado o conexiÃ³n de los elementos exteriores (cercos de arquetas, sumideros, botes sifÃ³nicos, etc.) de las redes de instalaciones ejecutadas bajo el pavimento; extendido, regleado, aplicaciÃ³n de aditivos y curado del hormigÃ³n. Limpieza final del hormigÃ³n mediante proyecciÃ³n de agua a presiÃ³n y sellado final mediante aplicaciÃ³n de resina impermeabilizante de acabado. 
+|
+~T|URB003|DemoliciÃ³n de solera de hormigÃ³n armado de hasta 20 cm de canto total, con medios manuales, martillo neumÃ¡tico y equipo de oxicorte, previo levantado del pavimento y su base. Incluso p/p de limpieza, acopio, retirada y carga manual de escombros sobre camiÃ³n o contenedor.
+|
+~M|C02.00#\ASDF|1\1\|1|\\1\\\\|
+~M|C02.00#\URB003|1\2\|45.4|\\1\45.4\\\|
+~M|C02.00#\URB001|1\3\|68.1|\\1\45.4\\1.5\|
+~M|C02.00#\D02HF010|1\4\|4.92|\\1\6.75\1\0.4\\\1\5.55\1\0.4\|
+~M|C02.00#\D04IX019|1\5\|2.7|\\1\6.75\0.2\1.1\\\1\5.5\0.2\1.1\|
+~M|C02.00#\D04PS156|1\6\|45.4|\\1\45.4\\\|
+~M|C02.00#\URB002|1\7\|45.4|\\1\45.4\\\|
+~M|C02.00#\D02HA060|1\8\|4.75|\\1\7\0.5\0.5\\\1\12\0.5\0.5\|
+~M|C02.00#\D02TF300|1\9\|4.75|\\1\7\0.5\0.5\\\1\12\0.5\0.5\|
+~M|C02.00#\URB004|1\10\|2||
+~M|C02.01#\ACPR002|2\1\|128|\\1\8\\16\|
+~M|C02.01#\02.03|2\2\|8||
+~M|C02.01#\01-03|2\3\|1||
+~M|C02.01#\01-00|2\4\|1||
+~M|C02.01#\01.01|2\5\|1||
+~M|C02.01#\01.02|2\6\|1||
+~M|00#\PREV001|3\1\|1||
+~M|00#\00.01|3\2\|1||
+~M|00#\ACPR020|3\3\|1||
+~M|00#\00.02|3\4\|1||
+~M|00#\00.03|3\5\|1||
+~M|00#\ACPR021|3\6\|1||
+~M|C02.14#\DEM005|4\1\|35.2|\frontal\1\2.2\\16\|
+~M|C02.14#\DEM004|4\2\|8.8|\\4\2.2\\\|
+~M|C02.14#\DEM003|4\3\|29.04|\PB-P1\1\3.3\2.2\\\P1-P2\1\3.3\2.2\\\P2-P3\1\3.3\2.2\\\P3-P4\1\3.3\2.2\\|
+~M|C02.14#\DEM009|4\4\|9.68|\\4\1.1\2.2\\|
+~M|C02.14#\DEM006|4\5\|1||
+~M|C02.14#\DEM007|4\6\|1||
+~M|C02.14#\DEM010|4\7\|11.44|\\1\5.2\2.2\\|
+~M|C02.14#\DEM011|4\8\|4.4|\\2\2.2\\\|
+~M|C02.14#\DEM012|4\9\|2.2||
+~M|C02.14#\DEM013|4\10\|13.5|\\1\5\2.7\\|
+~M|C02.14#\DEM014|4\11\|1||
+~M|C25#\E001|5\1\|12||
+~M|C25#\E002|5\2\|9||
+~M|C25#\E003|5\3\|1||
+~M|C25#\E004|5\4\|4||
+~M|C25#\E010|5\5\|1||
+~M|C25#\E011|5\6\|2||
+~M|C25#\E005|5\7\|4.2||
+~M|C25#\E006|5\8\|1||
+~M|C25#\E007|5\9\|5||
+~M|C25#\E008|5\10\|4.4|\\2\2.2\\\|
+~M|C25#\E009|5\11\|6.82|\\1\3.1\2.2\\|
+~M|C14#\D07GE010|6\1\|46.58|\\1\2.7\\17.25\|
+~M|C14#\D19AA010|6\2\|58.91|\PORTAL COTA -0.13\1\12\\\\PORTAL COTA +0.90\1\8.75\\\\DESCANSILLOS\4\2.84\\\\DESEMBARQUES\4\6.7\\\|
+~M|C14#\D19HH010|6\3\|67.5|\nÂº peldaÃ±os pb\1\5\0.9\\\nÂº peldaÃ±os resto\4\15\1.05\\|
+~M|C14#\D19HA005|6\4\|58.91|\PORTAL COTA -0.13\1\12\\\\PORTAL COTA +0.90\1\8.75\\\\DESCANSILLOS\4\2.84\\\\DESEMBARQUES\4\6.7\\\|
+~M|C15#\15.03|7\1\|108.3|\\2\30\\\\\1\2.8\\17.25\|
+~M|C15#\TIGNF|7\2\|110.3|\techo sotano\1\11\2.2\\\techo portal / PB\1\11\2.2\\\techo P1\1\6.7\\\\techo P2\1\6.7\\\\techo P3\1\6.7\\\\techo P4\1\7\2.2\\\techo escalera PB-P1\1\3\2.2\\\techo escalera P1-P2\1\3\2.2\\\techo escalera P2-P3\1\3\2.2\\\techo escalera P3-P4\1\3\2.2\\|
+~M|C15#\TAB04|7\3\|20.8|\escalera PB-P1\2\2.6\\\\escalera P1-P2\2\2.6\\\\escalera P2-P3\2\2.6\\\\escalera P3-P4\2\2.6\\\|
+~M|C15#\15.05|7\4\|15.25||
+~M|C15#\PINT001QW|7\5\|140|\\2\70\\\|
+~M|C15#\E08PEM010|7\6\|105.07|\\1\7.9\\13.3\|
+~M|C15#\REV001|7\7\|71.03|\\2\20.65\\\\\1\2.2\\3.15\\\2\11.4\\\|
+~M|C15#\15.01|7\8\|110.3|\techo sotano\1\11\2.2\\\techo portal / PB\1\11\2.2\\\techo P1\1\6.7\\\\techo P2\1\6.7\\\\techo P3\1\6.7\\\\techo P4\1\7\2.2\\\techo escalera PB-P1\1\3\2.2\\\techo escalera P1-P2\1\3\2.2\\\techo escalera P2-P3\1\3\2.2\\\techo escalera P3-P4\1\3\2.2\\|
+~M|C15#\15.02|7\9\|247.26|\\2\109\\\\\1\2.2\\13.3\|
+~M|C15#\REV002|7\10\|71.03|\\2\20.65\\\\\1\2.2\\3.15\\\2\11.4\\\|
+~M|C15#\PROT11|7\11\|1||
+~M|C15#\FP1|7\12\|1||
+~M|C24#\REH019|8\1\|6||
+~M|C24#\30.01|8\2\|4.2||
+~M|C24#\30.02|8\3\|1||
+~M|C24#\CUB001|8\4\|1||
+~M|C16#\D23IA005|9\1\|18.4|\\4\2.3\2\\|
+~M|C17#\D21LE115|10\1\|10||
+~M|C17#\D21LF115|10\2\|1||
+~M|C17#\17.02|10\3\|1||
+~M|C17#\17.04|10\4\|1||
+~M|C17#\CARP001|10\5\|1||
+~M|C02.10#\CUADROGENERAL|11\1\|1|\\1\\\\|
+~M|C02.10#\LINEAS GENERA|11\2\|1|\\1\\\\|
+~M|C02.10#\ELECT001|11\3\|18|\\1\18\\\|
+~M|C02.10#\ELECT002|11\4\|1|\\1\\\\|
+~M|C02.10#\ELECT003|11\5\|5|\\1\5\\\|
+~M|C02.10#\ELECT004|11\6\|1|\\1\\\\|
+~M|C02.10#\ELECT005|11\7\|21|\\21\\\\|
+~M|C02.10#\ELECT006|11\8\|1|\\1\\\\|
+~M|C02.10#\ELECT007|11\9\|31|\\1\31\\\|
+~M|C02.10#\ELECT009|11\10\|6|\\6\\\\|
+~M|C02.10#\ELECT013|11\11\|1|\\1\\\\|
+~M|C02.10#\ELETC010|11\12\|21|\\1\21\\\|
+~M|C02.10#\ELECT011|11\13\|12|\portal\1\4\\\\p. altas\4\2\\\|
+~M|C02.10#\ELECT012|11\14\|8|\p. altas\2\4\\\|
+~M|C02.10#\ELECT020|11\15\|4||
+~M|C02.10#\ELECT024|11\16\|1||
+~M|C02.10#\ELECT025|11\17\|1||
+~M|C02.10#\ELECT014|11\18\|1|\\1\\\\|
+~M|C02.10#\ELECT023|11\19\|1||
+~M|C02.10#\BOLETIN|11\20\|1|\\1\\\\|
+~M|C21#\E26FEC100|12\1\|5||
+~M|C21#\E26FJ360|12\2\|5||
+~M|C21#\ELECT008|12\3\|21|\\1\21\\\|
+~M|C21#\ELECT007A|12\4\|7||
+~M|C21#\E18GNA020|12\5\|7||
+~M|C02.12#\E25TA110|13\1\|1||
+~M|C06#\07.01|14\1\|1||
+~M|C06#\07.02|14\2\|6||
+~M|C06#\SS01|14\3\|1||
+~M|C07#\C07.01|15\1\|1||
+~M|C08#\10.001|16\1\|1||
+~M|C08#\10.002|16\2\|1||

@@ -1,0 +1,1525 @@
+~V|Iturribizia, S.L.|FIEBDC-3/95|ppl 0.1|
+~C|SINDESCO|***|Unidad sin descompuesto|1|040400|1|
+~T|SINDESCO|Unidad sin descompuesto|
+~C|01.001|m3|Hormig¢n en masa H-100, incluso vertido y curado. |7202|040400|0|
+~T|01.001|Hormig¢n en masa H-100, incluso vertido y curado. |
+~D|01.001|SINDESCO\1\7202\|
+~C|01.002|m3|Hormig¢n en masa H-150, incluso vertido, vibrado y curado. |7858|040400|0|
+~T|01.002|Hormig¢n en masa H-150, incluso vertido, vibrado y curado. |
+~D|01.002|SINDESCO\1\7858\|
+~C|01.003|m3|Hormig¢n en masa H-200 en cimientos, incluso vertido, vibrado y curado. |8347|040400|0|
+~T|01.003|Hormig¢n en masa H-200 en cimientos, incluso vertido, vibrado y curado. |
+~D|01.003|SINDESCO\1\8347\|
+~C|01.005|m3|Hormig¢n para armar H-200 en cimientos, incluso vertido, vibrado y curado. |8487|040400|0|
+~T|01.005|Hormig¢n para armar H-200 en cimientos, incluso vertido, vibrado y curado. |
+~D|01.005|SINDESCO\1\8487\|
+~C|01.006|m3|Hormig¢n para armar H-200 en alzados, incluso vertido, vibrado y curado. |8895|040400|0|
+~T|01.006|Hormig¢n para armar H-200 en alzados, incluso vertido, vibrado y curado. |
+~D|01.006|SINDESCO\1\8895\|
+~C|01.007|m3|Hormig¢n para armar H-200 en losas planas, incluso vertido, vibrado y curado. |8997|040400|0|
+~T|01.007|Hormig¢n para armar H-200 en losas planas, incluso vertido, vibrado y curado. |
+~D|01.007|SINDESCO\1\8997\|
+~C|01.008|m3|Hormig¢n segunda fase. |18717|040400|0|
+~T|01.008|Hormig¢n segunda fase. |
+~D|01.008|SINDESCO\1\18717\|
+~C|01.009|m3|Hormig¢n para armar H-250 en alzados, incluso vertido, vibrado y curado. |14057|040400|0|
+~T|01.009|Hormig¢n para armar H-250 en alzados, incluso vertido, vibrado y curado. |
+~D|01.009|SINDESCO\1\14057\|
+~C|01.010|m3|Hormig¢n para armar H-250 en tablero, incluso vertido, vibrado y curado. |10683|040400|0|
+~T|01.010|Hormig¢n para armar H-250 en tablero, incluso vertido, vibrado y curado. |
+~D|01.010|SINDESCO\1\10683\|
+~C|01.013|kg|Aditivo aireante o plastificante para hormig¢n. |247|040400|0|
+~T|01.013|Aditivo aireante o plastificante para hormig¢n. |
+~D|01.013|SINDESCO\1\247\|
+~C|01.014|m2|Curado de paramentos de hormig¢n. |48|040400|0|
+~T|01.014|Curado de paramentos de hormig¢n. |
+~D|01.014|SINDESCO\1\48\|
+~C|01.015|m3|Hormig¢n H-200 en revestimiento de canal. |9588|040400|0|
+~T|01.015|Hormig¢n H-200 en revestimiento de canal. |
+~D|01.015|SINDESCO\1\9588\|
+~C|01.017|ud|Apoyos de Teflon de 40x35 cm. |15675|040400|0|
+~T|01.017|Apoyos de Teflon de 40x35 cm. |
+~D|01.017|SINDESCO\1\15675\|
+~C|01.018|m2|Pantalla de bentonita cemento de 45 cm de espesor, incluso colocaci¢n, suministro y colocaci¢n del material. |13128|040400|0|
+~T|01.018|Pantalla de bentonita cemento de 45 cm de espesor, incluso colocaci¢n, suministro y colocaci¢n del material. |
+~D|01.018|SINDESCO\1\13128\|
+~C|01.019|m2|Edificio de central elÇctrica y control, totalmente terminado. |48162|040400|0|
+~T|01.019|Edificio de central elÇctrica y control, totalmente terminado. |
+~D|01.019|SINDESCO\1\48162\|
+~C|01.020|m|Vigas prefabricadas Puma o similar de 0,60 m de canto, incluso apoyos de neopreno, transporte lanzamiento y colocaci¢n. |31334|040400|0|
+~T|01.020|Vigas prefabricadas Puma o similar de 0,60 m de canto, incluso apoyos de neopreno, transporte lanzamiento y colocaci¢n. |
+~D|01.020|SINDESCO\1\31334\|
+~C|01.021|m|Junta de PVC de 250 mm. |2040|040400|0|
+~T|01.021|Junta de PVC de 250 mm. |
+~D|01.021|SINDESCO\1\2040\|
+~C|01.022|m2|Tapa met†lica en chapa estriada, galvanizada, incluidos cercos de apoyo y recibido, colocada y pintada. |10787|040400|0|
+~T|01.022|Tapa met†lica en chapa estriada, galvanizada, incluidos cercos de apoyo y recibido, colocada y pintada. |
+~D|01.022|SINDESCO\1\10787\|
+~C|01.023|m3|Capa de gravilla de 10 cm. |144|040400|0|
+~T|01.023|Capa de gravilla de 10 cm. |
+~D|01.023|SINDESCO\1\144\|
+~C|01.024|m|Carril tipo renfe de 45 kg/m. |8266|040400|0|
+~T|01.024|Carril tipo renfe de 45 kg/m. |
+~D|01.024|SINDESCO\1\8266\|
+~C|01.025|m3|Excavaci¢n en cualquier clase de terreno, excepto roca, incluso transporte a lugar de empleo o vertedero hasta 2,5 km. |217|040400|0|
+~T|01.025|Excavaci¢n en cualquier clase de terreno, excepto roca, incluso transporte a lugar de empleo o vertedero hasta 2,5 km. |
+~D|01.025|SINDESCO\1\217\|
+~C|01.026|m|Canalizaci¢n para zanja para conductos elÇctricos inclu°dos dos tubos de di†metro 110 mm. |3115|040400|0|
+~T|01.026|Canalizaci¢n para zanja para conductos elÇctricos inclu°dos dos tubos de di†metro 110 mm. |
+~D|01.026|SINDESCO\1\3115\|
+~C|01.027|m2|Encofrado ordinario plano en cimientos y soleras, incluso colocaci¢n, fijaci¢n y desencofrado. |2209|040400|0|
+~T|01.027|Encofrado ordinario plano en cimientos y soleras, incluso colocaci¢n, fijaci¢n y desencofrado. |
+~D|01.027|SINDESCO\1\2209\|
+~C|01.028|m2|Encofrado ordinario curvo, incluso colocaci¢n, fijaci¢n y desencofrado. |3683|040400|0|
+~T|01.028|Encofrado ordinario curvo, incluso colocaci¢n, fijaci¢n y desencofrado. |
+~D|01.028|SINDESCO\1\3683\|
+~C|01.029|m2|Encofrado ordinario de paramentos planos, incluso colocaci¢n, fijaci¢n y desencofrado. |2720|040400|0|
+~T|01.029|Encofrado ordinario de paramentos planos, incluso colocaci¢n, fijaci¢n y desencofrado. |
+~D|01.029|SINDESCO\1\2720\|
+~C|01.030|m2|Encofrado ordinario en losas planas, incluso colocaci¢n, fijaci¢n y desencofrado. |2323|040400|0|
+~T|01.030|Encofrado ordinario en losas planas, incluso colocaci¢n, fijaci¢n y desencofrado. |
+~D|01.030|SINDESCO\1\2323\|
+~C|01.037|kg|Acero AEH-500N en armaduras, preparado y colocado. |111|040400|0|
+~T|01.037|Acero AEH-500N en armaduras, preparado y colocado. |
+~D|01.037|SINDESCO\1\111\|
+~C|01.045|m|Sellado de junta con polisulfuro de caucho. |863|040400|0|
+~T|01.045|Sellado de junta con polisulfuro de caucho. |
+~D|01.045|SINDESCO\1\863\|
+~C|01.046|m2|Impermeabilizaci¢n de tablero con mastic bituminoso en fr°o. |1983|040400|0|
+~T|01.046|Impermeabilizaci¢n de tablero con mastic bituminoso en fr°o. |
+~D|01.046|SINDESCO\1\1983\|
+~C|01.047|m|Apertura de junta longitudinal en el canal. |212|040400|0|
+~T|01.047|Apertura de junta longitudinal en el canal. |
+~D|01.047|SINDESCO\1\212\|
+~C|01.053|m|Barandilla met†lica galvanizada, colocada y terminada. |7344|040400|0|
+~T|01.053|Barandilla met†lica galvanizada, colocada y terminada. |
+~D|01.053|SINDESCO\1\7344\|
+~C|01.056|m2|L†mina geotextil anticontaminante de 290 g/m2 colocada en obra. |320|040400|0|
+~T|01.056|L†mina geotextil anticontaminante de 290 g/m2 colocada en obra. |
+~D|01.056|SINDESCO\1\320\|
+~C|01.060|m|Tuber°a drenante ranurada de PVC de 200 mm de di†metro, bajo canal. |985|040400|0|
+~T|01.060|Tuber°a drenante ranurada de PVC de 200 mm de di†metro, bajo canal. |
+~D|01.060|SINDESCO\1\985\|
+~C|01.083|m2|Doble tratamiento superficial. |295|040400|0|
+~T|01.083|Doble tratamiento superficial. |
+~D|01.083|SINDESCO\1\295\|
+~C|01.085|T|Base con zahorra artificial. Totalmente colocada y terminada. |2317|040400|0|
+~T|01.085|Base con zahorra artificial. Totalmente colocada y terminada. |
+~D|01.085|SINDESCO\1\2317\|
+~C|01.086|T|Ligante empleado en riesgos de imprimaci¢n, |31137|040400|0|
+~T|01.086|Ligante empleado en riesgos de imprimaci¢n, |
+~D|01.086|SINDESCO\1\31137\|
+~C|01.088|m3|µridos empleados en simples y dobles tratamientos superficiales. |3959|040400|0|
+~T|01.088|µridos empleados en simples y dobles tratamientos superficiales. |
+~D|01.088|SINDESCO\1\3959\|
+~C|01.102|m|Cerramiento de malla met†lica de 2,5 m de altura, incluso postes de sustentaci¢n y parte proporcional de puertas en los pasos de caminos, completamente terminado. |3165|040400|0|
+~T|01.102|Cerramiento de malla met†lica de 2,5 m de altura, incluso postes de sustentaci¢n y parte proporcional de puertas en los pasos de caminos, completamente terminado. |
+~D|01.102|SINDESCO\1\3165\|
+~C|02.001|m2|Despeje y desbroce incluso transporte a vertedero, arraque †rboles, destoconado y retirada de le§a. |45|040400|0|
+~T|02.001|Despeje y desbroce incluso transporte a vertedero, arraque †rboles, destoconado y retirada de le§a. |
+~D|02.001|SINDESCO\1\45\|
+~C|02.002|m3|Demolici¢n de obras de f†brica, incluso carga y transporte de los productos resultantes a vertederos. |4040|040400|0|
+~T|02.002|Demolici¢n de obras de f†brica, incluso carga y transporte de los productos resultantes a vertederos. |
+~D|02.002|SINDESCO\1\4040\|
+~C|02.004|m3|Excavaci¢n en explanaci¢n realizada en terreno suelto, incluso transporte a su lugar de empleo o vertedero hasta 2-5 km. |217|040400|0|
+~T|02.004|Excavaci¢n en explanaci¢n realizada en terreno suelto, incluso transporte a su lugar de empleo o vertedero hasta 2-5 km. |
+~D|02.004|SINDESCO\1\217\|
+~C|02.007|m3|Excavaci¢n en prÇstamos, incluso transporte a lugar de empleo hasta una distancia m†xima de transporte de 2,5 km. |204|040400|0|
+~T|02.007|Excavaci¢n en prÇstamos, incluso transporte a lugar de empleo hasta una distancia m†xima de transporte de 2,5 km. |
+~D|02.007|SINDESCO\1\204\|
+~C|02.008|m3|Excavaci¢n en caja de canal en cualquier clase de terreno, excepto roca, incluso transporte a lugar de empleo o vertedero hasta 2,5 km. |295|040400|0|
+~T|02.008|Excavaci¢n en caja de canal en cualquier clase de terreno, excepto roca, incluso transporte a lugar de empleo o vertedero hasta 2,5 km. |
+~D|02.008|SINDESCO\1\295\|
+~C|02.010|m3|Excavaci¢n en zanjas, incluso transporte a vertedero o lugar de empleo hasta 2,5 km. |345|040400|0|
+~T|02.010|Excavaci¢n en zanjas, incluso transporte a vertedero o lugar de empleo hasta 2,5 km. |
+~D|02.010|SINDESCO\1\345\|
+~C|02.011|m3|Excavaci¢n para cimientos o pozos obras de f†brica, incluso agotamiento y transporte de productos sobrantes a vertedero hasta 2,5 km. |538|040400|0|
+~T|02.011|Excavaci¢n para cimientos o pozos obras de f†brica, incluso agotamiento y transporte de productos sobrantes a vertedero hasta 2,5 km. |
+~D|02.011|SINDESCO\1\538\|
+~C|02.013|ud|Reposici¢n acequia existente. |79432|040400|0|
+~T|02.013|Reposici¢n acequia existente. |
+~D|02.013|SINDESCO\1\79432\|
+~C|02.018|m3|TerraplÇn compactado hasta un 100 % del proctos normal o 95 % del proctor modificado con tierras procedentes de excavaci¢n o prÇstamos. |146|040400|0|
+~T|02.018|TerraplÇn compactado hasta un 100 % del proctos normal o 95 % del proctor modificado con tierras procedentes de excavaci¢n o prÇstamos. |
+~D|02.018|SINDESCO\1\146\|
+~C|02.020|m2|Refino de la superficie de la caja de canal, incluso transporte de escombros a lugar de empleo o vertedero hasta 2-5 km. |132|040400|0|
+~T|02.020|Refino de la superficie de la caja de canal, incluso transporte de escombros a lugar de empleo o vertedero hasta 2-5 km. |
+~D|02.020|SINDESCO\1\132\|
+~C|02.023|m3|Relleno con material procedente de la excavaci¢n, incluso extendido y colocaci¢n. |245|040400|0|
+~T|02.023|Relleno con material procedente de la excavaci¢n, incluso extendido y colocaci¢n. |
+~D|02.023|SINDESCO\1\245\|
+~C|02.026|T|Escollera de piedra, colocada en obra. |2097|040400|0|
+~T|02.026|Escollera de piedra, colocada en obra. |
+~D|02.026|SINDESCO\1\2097\|
+~C|02.033|m3|TerraplÇn compactado hasta un 100 % de Proctor normal o 95 % de Proctor modificado con material procedente de la excavaci¢n o prÇstamos, para formaci¢n de plataforma del canal. |135|040400|0|
+~T|02.033|TerraplÇn compactado hasta un 100 % de Proctor normal o 95 % de Proctor modificado con material procedente de la excavaci¢n o prÇstamos, para formaci¢n de plataforma del canal. |
+~D|02.033|SINDESCO\1\135\|
+~C|02.034|m3|Material filtrante en dren longitudinal del canal. |1886|040400|0|
+~T|02.034|Material filtrante en dren longitudinal del canal. |
+~D|02.034|SINDESCO\1\1886\|
+~C|04.017|m|Cuneta triangular revestida de 70 cm de ancho por 40 cm de profundidad completamente terminada. |2097|040400|0|
+~T|04.017|Cuneta triangular revestida de 70 cm de ancho por 40 cm de profundidad completamente terminada. |
+~D|04.017|SINDESCO\1\2097\|
+~C|05.039|ud|Arqueta para descarga de drenaje profundo bajo canal, totalmente terminada. |206962|040400|0|
+~T|05.039|Arqueta para descarga de drenaje profundo bajo canal, totalmente terminada. |
+~D|05.039|SINDESCO\1\206962\|
+~C|05.040|m|Conducto de descarga del drenaje profundo bajo canal, inclu°das excavaciones, rellenos y p.p. de obra bajo canal y refuerzo en embocadura. |4608|040400|0|
+~T|05.040|Conducto de descarga del drenaje profundo bajo canal, inclu°das excavaciones, rellenos y p.p. de obra bajo canal y refuerzo en embocadura. |
+~D|05.040|SINDESCO\1\4608\|
+~C|09.001|ud|Casco de seguridad homologado. |214|040400|0|
+~T|09.001|Casco de seguridad homologado. |
+~D|09.001|SINDESCO\1\214\|
+~C|09.002|ud|Pantalla de seguridad para soldador de elÇctrica. |1429|040400|0|
+~T|09.002|Pantalla de seguridad para soldador de elÇctrica. |
+~D|09.002|SINDESCO\1\1429\|
+~C|09.003|ud|Gafas de seguridad antipolvo y anti-impactos. |1116|040400|0|
+~T|09.003|Gafas de seguridad antipolvo y anti-impactos. |
+~D|09.003|SINDESCO\1\1116\|
+~C|09.004|ud|Gafas de seguridad para oxicorte. |536|040400|0|
+~T|09.004|Gafas de seguridad para oxicorte. |
+~D|09.004|SINDESCO\1\536\|
+~C|09.005|ud|Mascarilla de respiraci¢n antipolvo incluso filtro. |1303|040400|0|
+~T|09.005|Mascarilla de respiraci¢n antipolvo incluso filtro. |
+~D|09.005|SINDESCO\1\1303\|
+~C|09.006|ud|Protector auditivo. |1518|040400|0|
+~T|09.006|Protector auditivo. |
+~D|09.006|SINDESCO\1\1518\|
+~C|09.007|ud|Cintur¢n de seguridad. |2456|040400|0|
+~T|09.007|Cintur¢n de seguridad. |
+~D|09.007|SINDESCO\1\2456\|
+~C|09.008|ud|Cintur¢n de seguridad antivibratorio. |2144|040400|0|
+~T|09.008|Cintur¢n de seguridad antivibratorio. |
+~D|09.008|SINDESCO\1\2144\|
+~C|09.009|ud|Mono o buzo de trabajo. |1696|040400|0|
+~T|09.009|Mono o buzo de trabajo. |
+~D|09.009|SINDESCO\1\1696\|
+~C|09.010|ud|Impermeable. |1608|040400|0|
+~T|09.010|Impermeable. |
+~D|09.010|SINDESCO\1\1608\|
+~C|09.011|ud|Mandil de seguridad de cuero para soldador. |1429|040400|0|
+~T|09.011|Mandil de seguridad de cuero para soldador. |
+~D|09.011|SINDESCO\1\1429\|
+~C|09.012|ud|Par manguitos de seguridad para soldador. |490|040400|0|
+~T|09.012|Par manguitos de seguridad para soldador. |
+~D|09.012|SINDESCO\1\490\|
+~C|09.013|ud|Par polainas de seguridad para soldador. |624|040400|0|
+~T|09.013|Par polainas de seguridad para soldador. |
+~D|09.013|SINDESCO\1\624\|
+~C|09.014|ud|Par guantes de seguridad para soldador. |759|040400|0|
+~T|09.014|Par guantes de seguridad para soldador. |
+~D|09.014|SINDESCO\1\759\|
+~C|09.015|ud|Par guantes de seguridad dielÇctricos. |3126|040400|0|
+~T|09.015|Par guantes de seguridad dielÇctricos. |
+~D|09.015|SINDESCO\1\3126\|
+~C|09.016|ud|Par de guantes de seguridad de goma finos. |224|040400|0|
+~T|09.016|Par de guantes de seguridad de goma finos. |
+~D|09.016|SINDESCO\1\224\|
+~C|09.017|ud|Par guantes de seguridad de cuero. |312|040400|0|
+~T|09.017|Par guantes de seguridad de cuero. |
+~D|09.017|SINDESCO\1\312\|
+~C|09.018|ud|Par botas de seguridad impermeables al agua y a la humedad. |1160|040400|0|
+~T|09.018|Par botas de seguridad impermeables al agua y a la humedad. |
+~D|09.018|SINDESCO\1\1160\|
+~C|09.019|ud|Par botas de seguridad de lona. |2501|040400|0|
+~T|09.019|Par botas de seguridad de lona. |
+~D|09.019|SINDESCO\1\2501\|
+~C|09.020|ud|Par botas de seguridad de cuero. |2860|040400|0|
+~T|09.020|Par botas de seguridad de cuero. |
+~D|09.020|SINDESCO\1\2860\|
+~C|09.021|ud|Par botas de seguridad dielÇctricas. |3573|040400|0|
+~T|09.021|Par botas de seguridad dielÇctricas. |
+~D|09.021|SINDESCO\1\3573\|
+~C|09.022|ud|Se§al reflexiva normalizada de STOP con poste de sustentaci¢n, para tres usos, inclu°da colocaci¢n. |24028|040400|0|
+~T|09.022|Se§al reflexiva normalizada de STOP con poste de sustentaci¢n, para tres usos, inclu°da colocaci¢n. |
+~D|09.022|SINDESCO\1\24028\|
+~C|09.023|ud|Se§al reflexiva triangular de 90 cm de lado con poste de sustentaci¢n, para tres usos. Incluso colocaci¢n. |14907|040400|0|
+~T|09.023|Se§al reflexiva triangular de 90 cm de lado con poste de sustentaci¢n, para tres usos. Incluso colocaci¢n. |
+~D|09.023|SINDESCO\1\14907\|
+~C|09.024|ud|Se§al reflexiva circular de 60 cm de di†metro con poste de sustentaci¢n para tres usos. Incluso colocaci¢n. |13677|040400|0|
+~T|09.024|Se§al reflexiva circular de 60 cm de di†metro con poste de sustentaci¢n para tres usos. Incluso colocaci¢n. |
+~D|09.024|SINDESCO\1\13677\|
+~C|09.025|ud|Cartel indicativo de tr†fico sin soporte met†lico, un solo uso. Incluso colocaci¢n. |334|040400|0|
+~T|09.025|Cartel indicativo de tr†fico sin soporte met†lico, un solo uso. Incluso colocaci¢n. |
+~D|09.025|SINDESCO\1\334\|
+~C|09.026|ud|Cartel indicativo de riesgo para un solo uso, en soporte met†lico, tres usos. Incluso colocaci¢n y desmontaje. |947|040400|0|
+~T|09.026|Cartel indicativo de riesgo para un solo uso, en soporte met†lico, tres usos. Incluso colocaci¢n y desmontaje. |
+~D|09.026|SINDESCO\1\947\|
+~C|09.027|m|Cord¢n de balizamiento reflectante, para un uso, inclu°do soporte met†lico, tres usos, incluso colocaci¢n y desmontaje. |206|040400|0|
+~T|09.027|Cord¢n de balizamiento reflectante, para un uso, inclu°do soporte met†lico, tres usos, incluso colocaci¢n y desmontaje. |
+~D|09.027|SINDESCO\1\206\|
+~C|09.028|ud|Valla aut¢noma met†lica de 2,5 m de longitud para contenci¢n de peatones, cuatro usos, incluso colocaci¢n y desmontaje. |3197|040400|0|
+~T|09.028|Valla aut¢noma met†lica de 2,5 m de longitud para contenci¢n de peatones, cuatro usos, incluso colocaci¢n y desmontaje. |
+~D|09.028|SINDESCO\1\3197\|
+~C|09.029|ud|Valla normalizada de desviaci¢n de tr†fico, para dos usos, incluso colocaci¢n y desmontaje. |9705|040400|0|
+~T|09.029|Valla normalizada de desviaci¢n de tr†fico, para dos usos, incluso colocaci¢n y desmontaje. |
+~D|09.029|SINDESCO\1\9705\|
+~C|09.030|ud|Baliza luminosa intermitente para dos usos. Incluso colocaci¢n. |3912|040400|0|
+~T|09.030|Baliza luminosa intermitente para dos usos. Incluso colocaci¢n. |
+~D|09.030|SINDESCO\1\3912\|
+~C|09.031|ud|Jal¢n de se§alizaci¢n para un solo uso. Incluso colocaci¢n. |1165|040400|0|
+~T|09.031|Jal¢n de se§alizaci¢n para un solo uso. Incluso colocaci¢n. |
+~D|09.031|SINDESCO\1\1165\|
+~C|09.032|ud|P¢rtico de limitaci¢n de altura a 4 m compuesto por dos perfiles met†licos y cable horizontal con banderolas, inclu°do montaje y desmontaje. |38205|040400|0|
+~T|09.032|P¢rtico de limitaci¢n de altura a 4 m compuesto por dos perfiles met†licos y cable horizontal con banderolas, inclu°do montaje y desmontaje. |
+~D|09.032|SINDESCO\1\38205\|
+~C|09.033|m2|Red horizontal de protecci¢n de vanos laterales en pasos elevados. Incluso montaje y desmontaje. |418|040400|0|
+~T|09.033|Red horizontal de protecci¢n de vanos laterales en pasos elevados. Incluso montaje y desmontaje. |
+~D|09.033|SINDESCO\1\418\|
+~C|09.034|m|Tubo en vigas vano central para sujecci¢n de cintur¢n de seguridad, apoyado en tubos horizontales de 1 m de altura, placas de anclaje, montaje y desmontaje. |1033|040400|0|
+~T|09.034|Tubo en vigas vano central para sujecci¢n de cintur¢n de seguridad, apoyado en tubos horizontales de 1 m de altura, placas de anclaje, montaje y desmontaje. |
+~D|09.034|SINDESCO\1\1033\|
+~C|09.035|m2|Mallazo resistente como protecci¢n de huecos, incluso colocaci¢n. |318|040400|0|
+~T|09.035|Mallazo resistente como protecci¢n de huecos, incluso colocaci¢n. |
+~D|09.035|SINDESCO\1\318\|
+~C|09.036|m|Cable de seguridad para anclaje de cintur¢n de seguridad en la cubierta. |331|040400|0|
+~T|09.036|Cable de seguridad para anclaje de cintur¢n de seguridad en la cubierta. |
+~D|09.036|SINDESCO\1\331\|
+~C|09.037|h|Cami¢n de riego. |3002|040400|0|
+~T|09.037|Cami¢n de riego. |
+~D|09.037|SINDESCO\1\3002\|
+~C|09.038|h|Mano de obra de se§alista. |1169|040400|0|
+~T|09.038|Mano de obra de se§alista. |
+~D|09.038|SINDESCO\1\1169\|
+~C|09.039|h|Mano de obra de brigada de seguridad empleada en mantenimiento y reposici¢n de protecciones. |1249|040400|0|
+~T|09.039|Mano de obra de brigada de seguridad empleada en mantenimiento y reposici¢n de protecciones. |
+~D|09.039|SINDESCO\1\1249\|
+~C|09.040|ud|Extintor de polvo polivalente, dos usos, incluso soporte y colocaci¢n. |13325|040400|0|
+~T|09.040|Extintor de polvo polivalente, dos usos, incluso soporte y colocaci¢n. |
+~D|09.040|SINDESCO\1\13325\|
+~C|09.041|ud|Instalaci¢n de puesta a tierra compuesta por cable de cobre, elÇctrodo, etc. |17874|040400|0|
+~T|09.041|Instalaci¢n de puesta a tierra compuesta por cable de cobre, elÇctrodo, etc. |
+~D|09.041|SINDESCO\1\17874\|
+~C|09.042|ud|Interruptor diferencial de media sensibilidad de 300 mA, inclu°da instalaci¢n. |12524|040400|0|
+~T|09.042|Interruptor diferencial de media sensibilidad de 300 mA, inclu°da instalaci¢n. |
+~D|09.042|SINDESCO\1\12524\|
+~C|09.043|ud|Interruptor diferencial de alta sensibilidad de 300 mA, inclu°da instalaci¢n. |12524|040400|0|
+~T|09.043|Interruptor diferencial de alta sensibilidad de 300 mA, inclu°da instalaci¢n. |
+~D|09.043|SINDESCO\1\12524\|
+~C|09.044|ud|Mes de alquiler de barrac¢n para comedor. |29320|040400|0|
+~T|09.044|Mes de alquiler de barrac¢n para comedor. |
+~D|09.044|SINDESCO\1\29320\|
+~C|09.045|ud|Mes de alquiler de barrac¢n para vestuarios. |29320|040400|0|
+~T|09.045|Mes de alquiler de barrac¢n para vestuarios. |
+~D|09.045|SINDESCO\1\29320\|
+~C|09.046|ud|Mes de alquiler de barrac¢n para aseos. |29320|040400|0|
+~T|09.046|Mes de alquiler de barrac¢n para aseos. |
+~D|09.046|SINDESCO\1\29320\|
+~C|09.047|m2|Acondicionamiento de local para comedor. |4467|040400|0|
+~T|09.047|Acondicionamiento de local para comedor. |
+~D|09.047|SINDESCO\1\4467\|
+~C|09.048|m2|Acondicionamiento de local para vestuario. |4468|040400|0|
+~T|09.048|Acondicionamiento de local para vestuario. |
+~D|09.048|SINDESCO\1\4468\|
+~C|09.049|m2|Acondicionamiento de local para aseos. |4468|040400|0|
+~T|09.049|Acondicionamiento de local para aseos. |
+~D|09.049|SINDESCO\1\4468\|
+~C|09.050|ud|Mesa de madera con capacidad para 10 personas. |13506|040400|0|
+~T|09.050|Mesa de madera con capacidad para 10 personas. |
+~D|09.050|SINDESCO\1\13506\|
+~C|09.051|ud|Banco de madera con capacidad para 5 personas. |5097|040400|0|
+~T|09.051|Banco de madera con capacidad para 5 personas. |
+~D|09.051|SINDESCO\1\5097\|
+~C|09.052|ud|Taquilla met†lica individual con llave, dos usos. Colocada. |2950|040400|0|
+~T|09.052|Taquilla met†lica individual con llave, dos usos. Colocada. |
+~D|09.052|SINDESCO\1\2950\|
+~C|09.053|ud|Calientacomidas, cuatro usos, para 50 servicios. |27048|040400|0|
+~T|09.053|Calientacomidas, cuatro usos, para 50 servicios. |
+~D|09.053|SINDESCO\1\27048\|
+~C|09.054|ud|Radiador de infrarrojos, dos usos, de 1000 W, totalmente instalado. |3878|040400|0|
+~T|09.054|Radiador de infrarrojos, dos usos, de 1000 W, totalmente instalado. |
+~D|09.054|SINDESCO\1\3878\|
+~C|09.055|ud|Pileta constru°da en obra con 5 grifos. |21851|040400|0|
+~T|09.055|Pileta constru°da en obra con 5 grifos. |
+~D|09.055|SINDESCO\1\21851\|
+~C|09.056|ud|Acometida de agua y energ°a elÇctrica en instalaci¢n de comedor, totalmente terminada y en servicio. |18764|040400|0|
+~T|09.056|Acometida de agua y energ°a elÇctrica en instalaci¢n de comedor, totalmente terminada y en servicio. |
+~D|09.056|SINDESCO\1\18764\|
+~C|09.057|ud|Acometida de agua para aseos y energ°a elÇctrica para vestuarios y aseos, totalmente terminada y en servicio. |19656|040400|0|
+~T|09.057|Acometida de agua para aseos y energ°a elÇctrica para vestuarios y aseos, totalmente terminada y en servicio. |
+~D|09.057|SINDESCO\1\19656\|
+~C|09.058|ud|Recipiente para recogida de basura. |2680|040400|0|
+~T|09.058|Recipiente para recogida de basura. |
+~D|09.058|SINDESCO\1\2680\|
+~C|09.059|ud|Ducha instalada con agua fr°a y caliente. |12959|040400|0|
+~T|09.059|Ducha instalada con agua fr°a y caliente. |
+~D|09.059|SINDESCO\1\12959\|
+~C|09.060|ud|Inodoro instalado. |10515|040400|0|
+~T|09.060|Inodoro instalado. |
+~D|09.060|SINDESCO\1\10515\|
+~C|09.061|ud|Lavabo instalado con agua fr°a y caliente. |11877|040400|0|
+~T|09.061|Lavabo instalado con agua fr°a y caliente. |
+~D|09.061|SINDESCO\1\11877\|
+~C|09.062|ud|Espejo instalado en aseos. |1754|040400|0|
+~T|09.062|Espejo instalado en aseos. |
+~D|09.062|SINDESCO\1\1754\|
+~C|09.063|ud|Percha en cabina para ducha y W.c. |140|040400|0|
+~T|09.063|Percha en cabina para ducha y W.c. |
+~D|09.063|SINDESCO\1\140\|
+~C|09.064|ud|Calentador de agua de 50 litros de capacidad, dos usos, totalmente instalado. |9752|040400|0|
+~T|09.064|Calentador de agua de 50 litros de capacidad, dos usos, totalmente instalado. |
+~D|09.064|SINDESCO\1\9752\|
+~C|09.065|h|Mano de obra en limpieza y conservaci¢n de instalaciones de personal. |1227|040400|0|
+~T|09.065|Mano de obra en limpieza y conservaci¢n de instalaciones de personal. |
+~D|09.065|SINDESCO\1\1227\|
+~C|09.066|ud|Botiqu°n instalado en obra. |5361|040400|0|
+~T|09.066|Botiqu°n instalado en obra. |
+~D|09.066|SINDESCO\1\5361\|
+~C|09.067|ud|Reposici¢n de material sanitario durante el transcurso de la obra. |13221|040400|0|
+~T|09.067|Reposici¢n de material sanitario durante el transcurso de la obra. |
+~D|09.067|SINDESCO\1\13221\|
+~C|09.068|ud|Reconocimiento mÇdico obligatorio. |1060|040400|0|
+~T|09.068|Reconocimiento mÇdico obligatorio. |
+~D|09.068|SINDESCO\1\1060\|
+~C|09.069|ud|Reuni¢n mensual del ComitÇ de seguridad e higiene en el trabajo. |11365|040400|0|
+~T|09.069|Reuni¢n mensual del ComitÇ de seguridad e higiene en el trabajo. |
+~D|09.069|SINDESCO\1\11365\|
+~C|09.070|h|Formaci¢n en seguridad e higiene en el trabajo. |1109|040400|0|
+~T|09.070|Formaci¢n en seguridad e higiene en el trabajo. |
+~D|09.070|SINDESCO\1\1109\|
+~C|10.008|kg|Acero estructural en perfiles laminados tipo A-42 b, elaborado y montado con dos manos de pintura antioxidante. |430|040400|0|
+~T|10.008|Acero estructural en perfiles laminados tipo A-42 b, elaborado y montado con dos manos de pintura antioxidante. |
+~D|10.008|SINDESCO\1\430\|
+~C|10.063|ud|Arqueta de 80x80x80 cm formada por solera de hormig¢n de 15 cm de espesor, f†brica de ladrillo macizo de 1/2 pie sentado con mortero de cemento, enfoscado y bru§ido interiormente y tapa prefabricada de hormig¢n armado. |22241|040400|0|
+~T|10.063|Arqueta de 80x80x80 cm formada por solera de hormig¢n de 15 cm de espesor, f†brica de ladrillo macizo de 1/2 pie sentado con mortero de cemento, enfoscado y bru§ido interiormente y tapa prefabricada de hormig¢n armado. |
+~D|10.063|SINDESCO\1\22241\|
+~C|10.066|ud|Dep¢sito recogida de aceite de 3,00x2,65x2,85 m a exteriores, constru°do a base de f†brica de ladrillo macizo de 1 pie a revestir, enfoscada, incluso solera de 20 cm de espesor de hormig¢n H-200 con mallazo 20x20x6, tapa con forjado de bovedillas entre viguetas, capa de compresi¢n de 10 cm entrada de hombre de 70x70 cm incluso tapa, excavaci¢n y posterior relleno, totalmente terminada. |277854|040400|0|
+~T|10.066|Dep¢sito recogida de aceite de 3,00x2,65x2,85 m a exteriores, constru°do a base de f†brica de ladrillo macizo de 1 pie a revestir, enfoscada, incluso solera de 20 cm de espesor de hormig¢n H-200 con mallazo 20x20x6, tapa con forjado de bovedillas entre viguetas, capa de compresi¢n de 10 cm entrada de hombre de 70x70 cm incluso tapa, excavaci¢n y posterior relleno, totalmente terminada. |
+~D|10.066|SINDESCO\1\277854\|
+~C|10.069|m|Cerramiento colocado sobre zanja de hormig¢n de 0,60x0,40 m y z¢calo de 0,25x0,35 m p.p. de encofrado y armaduras excavaci¢n y relleno, ejecutado con postes de acero galvanizado D = 50 mm cada 3,00 m, malla galvanizada de simple torsi¢n de 2,50 m de altura, inclu°do cuatro hiladas de alambre guia, elementos de atirantado, dos alambres de espino y p.p. de elementos de rigidez colocada. |14128|040400|0|
+~T|10.069|Cerramiento colocado sobre zanja de hormig¢n de 0,60x0,40 m y z¢calo de 0,25x0,35 m p.p. de encofrado y armaduras excavaci¢n y relleno, ejecutado con postes de acero galvanizado D = 50 mm cada 3,00 m, malla galvanizada de simple torsi¢n de 2,50 m de altura, inclu°do cuatro hiladas de alambre guia, elementos de atirantado, dos alambres de espino y p.p. de elementos de rigidez colocada. |
+~D|10.069|SINDESCO\1\14128\|
+~C|10.070|ud|Puerta met†lica doble hoja realizada con perfiles de hierro y malla met†lica galvanizada s.t. 50x16, totalmente acabada y colocada. |225587|040400|0|
+~T|10.070|Puerta met†lica doble hoja realizada con perfiles de hierro y malla met†lica galvanizada s.t. 50x16, totalmente acabada y colocada. |
+~D|10.070|SINDESCO\1\225587\|
+~C|10.071|ud|Arqueta de 50x50x50 cm formada por solera de hormig¢n de 15 cm de espesor, f†brica de ladrillo macizo de 1/2 pie sentado con mortero de cemento, enfoscado y bru§ido interiormente y tapa prefabricada de hormig¢n armado. |21989|040400|0|
+~T|10.071|Arqueta de 50x50x50 cm formada por solera de hormig¢n de 15 cm de espesor, f†brica de ladrillo macizo de 1/2 pie sentado con mortero de cemento, enfoscado y bru§ido interiormente y tapa prefabricada de hormig¢n armado. |
+~D|10.071|SINDESCO\1\21989\|
+~C|10.072|m2|Formaci¢n de acera con baldosa, formada por solera de hormig¢n H-100 de 10 cm de espesor, loseta de cemento de 20x20x3 cm de cuatro pastillas de color gris, incluso p.p. de juntas. |3278|040400|0|
+~T|10.072|Formaci¢n de acera con baldosa, formada por solera de hormig¢n H-100 de 10 cm de espesor, loseta de cemento de 20x20x3 cm de cuatro pastillas de color gris, incluso p.p. de juntas. |
+~D|10.072|SINDESCO\1\3278\|
+~C|10.073|m|Suministro y colocaci¢n tuber°a PVC di†metro 20 mm , DIN-1230, clase N. Junta tipo L, sobre cama de arena de 15 cm de espesor incluso p.p. de piezas especiales. |1758|040400|0|
+~T|10.073|Suministro y colocaci¢n tuber°a PVC di†metro 20 mm , DIN-1230, clase N. Junta tipo L, sobre cama de arena de 15 cm de espesor incluso p.p. de piezas especiales. |
+~D|10.073|SINDESCO\1\1758\|
+~C|10.074|m|Suministro y colocaci¢n tuber°a de PVC di†metro 40 mm, adin-1230, clase N. Junta tipo K, sobre cama de arena de 15 cm de espesor incluso p.p. de piezas especiales. |2418|040400|0|
+~T|10.074|Suministro y colocaci¢n tuber°a de PVC di†metro 40 mm, adin-1230, clase N. Junta tipo K, sobre cama de arena de 15 cm de espesor incluso p.p. de piezas especiales. |
+~D|10.074|SINDESCO\1\2418\|
+~C|10.078|m|Bordillo recto o curvo prefabricado de hormig¢n, incluso hormig¢n de asiento y colocaci¢n. |2657|040400|0|
+~T|10.078|Bordillo recto o curvo prefabricado de hormig¢n, incluso hormig¢n de asiento y colocaci¢n. |
+~D|10.078|SINDESCO\1\2657\|
+~C|10.079|m2|Pavimento flexible compuesto por sub-base granular de 0,25 m de espesor, capa de macadam recebado de 0,20 m, riego de imprimaci¢n con 1,50 kg/m2 y doble tratamiento superficial. |1649|040400|0|
+~T|10.079|Pavimento flexible compuesto por sub-base granular de 0,25 m de espesor, capa de macadam recebado de 0,20 m, riego de imprimaci¢n con 1,50 kg/m2 y doble tratamiento superficial. |
+~D|10.079|SINDESCO\1\1649\|
+~C|10.080|m|Canalizaci¢n para zanja de alumbrado y fuerza, inclu°da banda de se§alizaci¢n. |1154|040400|0|
+~T|10.080|Canalizaci¢n para zanja de alumbrado y fuerza, inclu°da banda de se§alizaci¢n. |
+~D|10.080|SINDESCO\1\1154\|
+~C|10.081|ud|Arqueta de registro, junto a b†culo de iluminaci¢n. |12855|040400|0|
+~T|10.081|Arqueta de registro, junto a b†culo de iluminaci¢n. |
+~D|10.081|SINDESCO\1\12855\|
+~C|10.082|ud|Dado de hormig¢n de cimentaci¢n de b†culo de iluminaci¢n. |12169|040400|0|
+~T|10.082|Dado de hormig¢n de cimentaci¢n de b†culo de iluminaci¢n. |
+~D|10.082|SINDESCO\1\12169\|
+~C|10.087|ud|Pernos de anclaje M-30 de 1,47 m de desarrollo, en apoyos, s/d planos. |3735|040400|0|
+~T|10.087|Pernos de anclaje M-30 de 1,47 m de desarrollo, en apoyos, s/d planos. |
+~D|10.087|SINDESCO\1\3735\|
+~C|10.088|ud|Pernos de anclaje M-20 de desarrollo 0.85 m en apoyos, s/d planos. |1299|040400|0|
+~T|10.088|Pernos de anclaje M-20 de desarrollo 0.85 m en apoyos, s/d planos. |
+~D|10.088|SINDESCO\1\1299\|
+~C|10.089|ud|Pernos de anclaje M-36 de 1,06 m de desarrollo, en apoyos, s/d planos. |3334|040400|0|
+~T|10.089|Pernos de anclaje M-36 de 1,06 m de desarrollo, en apoyos, s/d planos. |
+~D|10.089|SINDESCO\1\3334\|
+~C|1000|ud|Compuerta de contrapeso de dimensiones 4700x4500 mm, dise§ada y calculada para una carga de 3,3 m.c.a., constru°da en acero A-42b, cierre a tres aristas, mediante perfil de neopreno, accionamiento manual, tratamiento anticorrosivo, hierros fijos, con pasarela y escalera de acceso al puente de maniobra. Montada y probada en obra. |5347297|040400|0|
+~T|1000|Compuerta de contrapeso de dimensiones 4700x4500 mm, dise§ada y calculada para una carga de 3,3 m.c.a., constru°da en acero A-42b, cierre a tres aristas, mediante perfil de neopreno, accionamiento manual, tratamiento anticorrosivo, hierros fijos, con pasarela y escalera de acceso al puente de maniobra. Montada y probada en obra. |
+~D|1000|SINDESCO\1\5347297\|
+~C|1002|ud|Reja met†lica constru°da con pletina de acero, separaci¢n entre pletinas de 45 mm, de dimensiones 7,5x5,5 m. Montada y probada en obra. |2632379|040400|0|
+~T|1002|Reja met†lica constru°da con pletina de acero, separaci¢n entre pletinas de 45 mm, de dimensiones 7,5x5,5 m. Montada y probada en obra. |
+~D|1002|SINDESCO\1\2632379\|
+~C|1004|ud|Equipo limpiarrejas de funcionamiento autom†tico, con sistema de eliminaci¢n de broza y cuadro elÇctrico de maniobra. Montado y probado en obra. |6256115|040400|0|
+~T|1004|Equipo limpiarrejas de funcionamiento autom†tico, con sistema de eliminaci¢n de broza y cuadro elÇctrico de maniobra. Montado y probado en obra. |
+~D|1004|SINDESCO\1\6256115\|
+~C|1006|ud|Compuerta de paramento, de dimensiones 3400x3400 mm, dise§ada y calculada para una carga de 10,5 m, constru°da en acero A-42b, cierre a cuatro aristas del tipo metal-metal, accionamiento mediante servomotor con central oleohidr†ulica, tratamiento anticorrosivo, cuadro elÇctrico de maniobra e instalaci¢n elÇctrica e hidra£lica. Montada y probada en obra. |8821025|040400|0|
+~T|1006|Compuerta de paramento, de dimensiones 3400x3400 mm, dise§ada y calculada para una carga de 10,5 m, constru°da en acero A-42b, cierre a cuatro aristas del tipo metal-metal, accionamiento mediante servomotor con central oleohidr†ulica, tratamiento anticorrosivo, cuadro elÇctrico de maniobra e instalaci¢n elÇctrica e hidra£lica. Montada y probada en obra. |
+~D|1006|SINDESCO\1\8821025\|
+~C|1026|kg|Chapa de acero en calidad A-42b para la construcci¢n de la tuber°a de di†metro igual o inferior a 1000 mm, en distintos espesores, incluso tratamiento anticorrosivo. Montado y probado en obra. |378|040400|0|
+~T|1026|Chapa de acero en calidad A-42b para la construcci¢n de la tuber°a de di†metro igual o inferior a 1000 mm, en distintos espesores, incluso tratamiento anticorrosivo. Montado y probado en obra. |
+~D|1026|SINDESCO\1\378\|
+~C|1030|kg|Perfiles laminados en acero calidad A-42b para la construcci¢n de herrajes soportes de tuber°as, accesorios y aparatos. Montado y probado en obra. |251|040400|0|
+~T|1030|Perfiles laminados en acero calidad A-42b para la construcci¢n de herrajes soportes de tuber°as, accesorios y aparatos. Montado y probado en obra. |
+~D|1030|SINDESCO\1\251\|
+~C|1032|kg|Tratamiento galv†nico de zinc en acero, calidad A-42b, medida en peso de acero. Montado y probado en obra. |74|040400|0|
+~T|1032|Tratamiento galv†nico de zinc en acero, calidad A-42b, medida en peso de acero. Montado y probado en obra. |
+~D|1032|SINDESCO\1\74\|
+~C|1034|kg|Aceite para circu°to oleohidr†ulico de la compuerta. Montado y probado en obra. |490|040400|0|
+~T|1034|Aceite para circu°to oleohidr†ulico de la compuerta. Montado y probado en obra. |
+~D|1034|SINDESCO\1\490\|
+~C|1036|ud|V†lvula de compuerta para vaciado de la c†mara de carga. DN 400, PN 6. Montada y probado en obra. |381916|040400|0|
+~T|1036|V†lvula de compuerta para vaciado de la c†mara de carga. DN 400, PN 6. Montada y probado en obra. |
+~D|1036|SINDESCO\1\381916\|
+~C|1038|ud|Armario de distribuci¢n 380/220 V para los servicios de la c†mara de carga. Montado y probado en obra. |103995|040400|0|
+~T|1038|Armario de distribuci¢n 380/220 V para los servicios de la c†mara de carga. Montado y probado en obra. |
+~D|1038|SINDESCO\1\103995\|
+~C|1040|ml|Cable multipar apantallado, aislamiento de polietilino y cubierta EAPSP, con armadura, con conductores de cobre de 11x2x0,9 mm2 de secci¢n para instalaci¢n directamente enterrada. Montado y probado en obra. |687|040400|0|
+~T|1040|Cable multipar apantallado, aislamiento de polietilino y cubierta EAPSP, con armadura, con conductores de cobre de 11x2x0,9 mm2 de secci¢n para instalaci¢n directamente enterrada. Montado y probado en obra. |
+~D|1040|SINDESCO\1\687\|
+~C|1042|ml|Cable de fuerza 0,6/1 KV para alimentaci¢n a los servicios de la c†mara de carga, instalaci¢n directamente enterrada de 3,5x70 mm2 de secci¢n, con conductores de cobre. Montado y probado en obra. |2384|040400|0|
+~T|1042|Cable de fuerza 0,6/1 KV para alimentaci¢n a los servicios de la c†mara de carga, instalaci¢n directamente enterrada de 3,5x70 mm2 de secci¢n, con conductores de cobre. Montado y probado en obra. |
+~D|1042|SINDESCO\1\2384\|
+~C|1044|kg|Cable de cobre, aislado, para uni¢n de la malla de tierra de la central con la de la c†mara de carga. Montado y probado en obra. |1232|040400|0|
+~T|1044|Cable de cobre, aislado, para uni¢n de la malla de tierra de la central con la de la c†mara de carga. Montado y probado en obra. |
+~D|1044|SINDESCO\1\1232\|
+~C|1046|ud|Punto de luz para alumbrado exterior de la zona de la c†mara de carga, formado por luminaria de bola opal, con l†mpara de v.m. de 250 W y su equipo elÇctrico, instalada sobre poste de 3 m de altura. Montado y probado en obra. |47820|040400|0|
+~T|1046|Punto de luz para alumbrado exterior de la zona de la c†mara de carga, formado por luminaria de bola opal, con l†mpara de v.m. de 250 W y su equipo elÇctrico, instalada sobre poste de 3 m de altura. Montado y probado en obra. |
+~D|1046|SINDESCO\1\47820\|
+~C|1048|ud|Punto de luz para alumbrado interior de la caseta de la c†mara de carga, formado por luminaria estanca con un tubo fluorescente de 1x36 W, incluso reactancia y portal†mpara. Montado y probado de obra. |11548|040400|0|
+~T|1048|Punto de luz para alumbrado interior de la caseta de la c†mara de carga, formado por luminaria estanca con un tubo fluorescente de 1x36 W, incluso reactancia y portal†mpara. Montado y probado de obra. |
+~D|1048|SINDESCO\1\11548\|
+~C|1050|ud|Red de tierra para la c†mara de carga con cable de cobre desnudo. Montada y probada en obra. |144283|040400|0|
+~T|1050|Red de tierra para la c†mara de carga con cable de cobre desnudo. Montada y probada en obra. |
+~D|1050|SINDESCO\1\144283\|
+~C|1100|kg|Chapa de acero en calidad A-42b para la construcci¢n de colectores y piezas especiales entre el final de la tuber°a forzada y las v†lvulas de guarda de las turbinas, en distintos espesores. Montado y probado en obra. |308|040400|0|
+~T|1100|Chapa de acero en calidad A-42b para la construcci¢n de colectores y piezas especiales entre el final de la tuber°a forzada y las v†lvulas de guarda de las turbinas, en distintos espesores. Montado y probado en obra. |
+~D|1100|SINDESCO\1\308\|
+~C|1102|kg|Chapa de acero en calidad A-42b para la construcci¢n del tramo final de los tubos de aspiraci¢n de las turbinas, en distintos espesores. Montado y probado en obra. |276|040400|0|
+~T|1102|Chapa de acero en calidad A-42b para la construcci¢n del tramo final de los tubos de aspiraci¢n de las turbinas, en distintos espesores. Montado y probado en obra. |
+~D|1102|SINDESCO\1\276\|
+~C|1104|ud|V†lvula de aguja de accionamiento manual por volante, para vaciado de la tuber°a forzada, DN 250, PN 10. Montada y probada en obra. |74790|040400|0|
+~T|1104|V†lvula de aguja de accionamiento manual por volante, para vaciado de la tuber°a forzada, DN 250, PN 10. Montada y probada en obra. |
+~D|1104|SINDESCO\1\74790\|
+~C|1106|kg|Chapa de acero en calidad A-42b para construcci¢n de tuber°a de di†metro igual o menor de 300 mm, en distintos espesores. Montado y probado en obra. |410|040400|0|
+~T|1106|Chapa de acero en calidad A-42b para construcci¢n de tuber°a de di†metro igual o menor de 300 mm, en distintos espesores. Montado y probado en obra. |
+~D|1106|SINDESCO\1\410\|
+~C|1108|kg|Torniller°a en acero calidad 5,6 cadmiado. Montado y probado en obra. |645|040400|0|
+~T|1108|Torniller°a en acero calidad 5,6 cadmiado. Montado y probado en obra. |
+~D|1108|SINDESCO\1\645\|
+~C|1110|m2|Tratamiento anticorrosivo para el exterior de tuber°a met†lica, para herrajes bancadas met†licas, de acuerdo con laas caracter°sticas indicadas en el Pliego de Condiciones TÇcnicas. Montado y probado en obra. |1487|040400|0|
+~T|1110|Tratamiento anticorrosivo para el exterior de tuber°a met†lica, para herrajes bancadas met†licas, de acuerdo con laas caracter°sticas indicadas en el Pliego de Condiciones TÇcnicas. Montado y probado en obra. |
+~D|1110|SINDESCO\1\1487\|
+~C|1112|m2|Tratamiento anticorrosivo para el interior de tuber°a met†lica, para herrajes bancadas met†licas, de acuerdo con laas caracter°sticas indicadas en el Pliego de Condiciones TÇcnicas. Montado y probado en obra. |2230|040400|0|
+~T|1112|Tratamiento anticorrosivo para el interior de tuber°a met†lica, para herrajes bancadas met†licas, de acuerdo con laas caracter°sticas indicadas en el Pliego de Condiciones TÇcnicas. Montado y probado en obra. |
+~D|1112|SINDESCO\1\2230\|
+~C|1118|ud|Puente gr£a de 40 T de capacidad, luz entre ejes de carriles 11,5 m, longitud de v°as 26 m recorrido del gancho 16 m. Accionamientos elÇctricos. Caracter°sticas seg£n Pliego de Prescripciones TÇcnicas. Montado y probado en obra. |7427331|040400|0|
+~T|1118|Puente gr£a de 40 T de capacidad, luz entre ejes de carriles 11,5 m, longitud de v°as 26 m recorrido del gancho 16 m. Accionamientos elÇctricos. Caracter°sticas seg£n Pliego de Prescripciones TÇcnicas. Montado y probado en obra. |
+~D|1118|SINDESCO\1\7427331\|
+~C|1122|ml|Carril de rodadura para el puente gr£a de la central. Montado y probado. |5098|040400|0|
+~T|1122|Carril de rodadura para el puente gr£a de la central. Montado y probado. |
+~D|1122|SINDESCO\1\5098\|
+~C|1124|ud|Monorrail de 10 T de capacidad para el manejo de la atagu°as en la descarga de las turbinas. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Montado y probado en obra. |441452|040400|0|
+~T|1124|Monorrail de 10 T de capacidad para el manejo de la atagu°as en la descarga de las turbinas. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Montado y probado en obra. |
+~D|1124|SINDESCO\1\441452\|
+~C|1126|kg|Hierros fijos para deslizamiento y cierre de las atagu°as en la descarga de las turbinas. Montado y probado en obra. |1376|040400|0|
+~T|1126|Hierros fijos para deslizamiento y cierre de las atagu°as en la descarga de las turbinas. Montado y probado en obra. |
+~D|1126|SINDESCO\1\1376\|
+~C|1128|ud|Atagu°a met†lica para la descarga de la turbina de 27 m3/s, con sistema de cierre a cuatro aristas y sistema de enganche. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Montada y probada en obra. |3802130|040400|0|
+~T|1128|Atagu°a met†lica para la descarga de la turbina de 27 m3/s, con sistema de cierre a cuatro aristas y sistema de enganche. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Montada y probada en obra. |
+~D|1128|SINDESCO\1\3802130\|
+~C|1130|ud|Atagu°a met†lica para la descarga de la turbina de 13 m3/s, con sistema de cierre a cuatro aristas y sistema de enganche. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Montada y probada en obra. |2534399|040400|0|
+~T|1130|Atagu°a met†lica para la descarga de la turbina de 13 m3/s, con sistema de cierre a cuatro aristas y sistema de enganche. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Montada y probada en obra. |
+~D|1130|SINDESCO\1\2534399\|
+~C|1134|ud|Sistema de agua de refrigeraci¢n para grupo de eje vertical de 27 m3/s, con toma de la tuber°a forzada, v†lvula de mariposa motorizada, filtros, presostato, detectores de flujo y material auxiliar. Montado y probado en obra. |2301142|040400|0|
+~T|1134|Sistema de agua de refrigeraci¢n para grupo de eje vertical de 27 m3/s, con toma de la tuber°a forzada, v†lvula de mariposa motorizada, filtros, presostato, detectores de flujo y material auxiliar. Montado y probado en obra. |
+~D|1134|SINDESCO\1\2301142\|
+~C|1138|ud|Sistema de agua de refrigeraci¢n para grupo de 13 m3/s, con toma de la tuber°a forzada, v†lvula de mariposa motorizada, filtros, presostato, detectores de flujo y material auxiliar. Montado y probado en obra. |2056882|040400|0|
+~T|1138|Sistema de agua de refrigeraci¢n para grupo de 13 m3/s, con toma de la tuber°a forzada, v†lvula de mariposa motorizada, filtros, presostato, detectores de flujo y material auxiliar. Montado y probado en obra. |
+~D|1138|SINDESCO\1\2056882\|
+~C|1142|ud|Sistema de achique de la central constitu°do por dos (2) grupos de electrobombas, v†lvulas, incluso cuatro (4) detectores de nivel. Montado y probado en obra. |1413734|040400|0|
+~T|1142|Sistema de achique de la central constitu°do por dos (2) grupos de electrobombas, v†lvulas, incluso cuatro (4) detectores de nivel. Montado y probado en obra. |
+~D|1142|SINDESCO\1\1413734\|
+~C|1144|ud|Ventilador helicoidal para extracci¢n de aire de la sala de m†quinas de 20000 m3/h de capacidad, con rejillas. Montado y probado en obra. |250759|040400|0|
+~T|1144|Ventilador helicoidal para extracci¢n de aire de la sala de m†quinas de 20000 m3/h de capacidad, con rejillas. Montado y probado en obra. |
+~D|1144|SINDESCO\1\250759\|
+~C|1146|kg|Chapa de acero galvanizada para construcci¢n de conductos de ventilaci¢n. Montado y probado en obra. |837|040400|0|
+~T|1146|Chapa de acero galvanizada para construcci¢n de conductos de ventilaci¢n. Montado y probado en obra. |
+~D|1146|SINDESCO\1\837\|
+~C|1148|kg|Chapa de acero inoxidable de calidad AISI-316 para contrucci¢n de tuber°as. Montado y probado en obra. |1907|040400|0|
+~T|1148|Chapa de acero inoxidable de calidad AISI-316 para contrucci¢n de tuber°as. Montado y probado en obra. |
+~D|1148|SINDESCO\1\1907\|
+~C|1150|ud|Extintor port†til de polvo seco, de 10 Kg de capacidad, equipado con botll°n de CO2. Montado y probado en obra. |47709|040400|0|
+~T|1150|Extintor port†til de polvo seco, de 10 Kg de capacidad, equipado con botll°n de CO2. Montado y probado en obra. |
+~D|1150|SINDESCO\1\47709\|
+~C|1152|ud|Extintor port†til de polvo seco, de 5 Kg de capacidad, equipado con botll°n de CO2. Montado y probado en obra. |36027|040400|0|
+~T|1152|Extintor port†til de polvo seco, de 5 Kg de capacidad, equipado con botll°n de CO2. Montado y probado en obra. |
+~D|1152|SINDESCO\1\36027\|
+~C|1154|m2|Pintura de retoques y final de obra en elementos met†licos de los grupos turbina-alternador. |2018|040400|0|
+~T|1154|Pintura de retoques y final de obra en elementos met†licos de los grupos turbina-alternador. |
+~D|1154|SINDESCO\1\2018\|
+~C|1201|ud|Turbina Francis de eje vertical, caudal m†ximo 27 m3/s, velocidad 333,33 r.p.m., con cojinete gu°a y eje intermedio. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Montada y probada en obra. |1|040400|0|
+~T|1201|Turbina Francis de eje vertical, caudal m†ximo 27 m3/s, velocidad 333,33 r.p.m., con cojinete gu°a y eje intermedio. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Montada y probada en obra. |
+~D|1201|SINDESCO\1\134299606\|
+~C|1202|ud|V†lvula mariposa DN 2300, de guarda de la turbina. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Montada y probada en obra. |21717560|040400|0|
+~T|1202|V†lvula mariposa DN 2300, de guarda de la turbina. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Montada y probada en obra. |
+~D|1202|SINDESCO\1\21717560\|
+~C|1205|ud|Generador s°ncrono trif†sico de eje vertical 333,33 r.p.m. 14300 KVA, forma W-41. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Montado y probado en obra. |1|040400|0|
+~T|1205|Generador s°ncrono trif†sico de eje vertical 333,33 r.p.m. 14300 KVA, forma W-41. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Montado y probado en obra. |
+~D|1205|SINDESCO\1\136495886\|
+~C|1206|ud|Turbina Francis de eje vertical, caudal m†ximo 13 m3/s, velocidad 500 r.p.m., con cojinete gu°a y eje intermedio. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Montada y probada en obra. |85464664|040400|0|
+~T|1206|Turbina Francis de eje vertical, caudal m†ximo 13 m3/s, velocidad 500 r.p.m., con cojinete gu°a y eje intermedio. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Montada y probada en obra. |
+~D|1206|SINDESCO\1\85464664\|
+~C|1208|ud|V†lvula mariposa DN 1650, de guarda de la turbina. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Montada y probada en obra. |13138214|040400|0|
+~T|1208|V†lvula mariposa DN 1650, de guarda de la turbina. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Montada y probada en obra. |
+~D|1208|SINDESCO\1\13138214\|
+~C|1210|ud|Generador s°ncrono trif†sico de eje vertical 500 r.p.m. 6900 KVA, forma W-41. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Montado y probado en obra. |71107272|040400|0|
+~T|1210|Generador s°ncrono trif†sico de eje vertical 500 r.p.m. 6900 KVA, forma W-41. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Montado y probado en obra. |
+~D|1210|SINDESCO\1\71107272\|
+~C|1232|ud|Regulador electr¢nico PID dise§ado espec°ficamente para turbinas Francis. Resto de carecter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Montado y probado en obra. |3446827|040400|0|
+~T|1232|Regulador electr¢nico PID dise§ado espec°ficamente para turbinas Francis. Resto de carecter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Montado y probado en obra. |
+~D|1232|SINDESCO\1\3446827\|
+~C|1234|ud|Equipo de regulador de tensi¢n y de factor de potencia, dise§ado espec°ficamente para generadores s°ncronos. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Montado y probado en obra. |3118244|040400|0|
+~T|1234|Equipo de regulador de tensi¢n y de factor de potencia, dise§ado espec°ficamente para generadores s°ncronos. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Montado y probado en obra. |
+~D|1234|SINDESCO\1\3118244\|
+~C|1239|ud|Realizaci¢n en obra, de los ensayos de rendimiento para la Central equipada con dos (2) turbinas. |3186000|040400|0|
+~T|1239|Realizaci¢n en obra, de los ensayos de rendimiento para la Central equipada con dos (2) turbinas. |
+~D|1239|SINDESCO\1\3186000\|
+~C|1300|ud|Cabina met†lica de 6,6 KV en ejecuci¢n interior para salida a transformador principal, instalada y probada. Resto de carecter°sticas seg£n Pliego de Prescripciones TÇcnicas. |1126336|040400|0|
+~T|1300|Cabina met†lica de 6,6 KV en ejecuci¢n interior para salida a transformador principal, instalada y probada. Resto de carecter°sticas seg£n Pliego de Prescripciones TÇcnicas. |
+~D|1300|SINDESCO\1\1126336\|
+~C|1302|ud|Cabina met†lica de 6,6 KV en ejecuci¢n interior para protecci¢n de generador, instalada y probada. Resto de carecter°sticas seg£n Pliego de Prescripciones TÇcnicas. |3590410|040400|0|
+~T|1302|Cabina met†lica de 6,6 KV en ejecuci¢n interior para protecci¢n de generador, instalada y probada. Resto de carecter°sticas seg£n Pliego de Prescripciones TÇcnicas. |
+~D|1302|SINDESCO\1\3590410\|
+~C|1304|ud|Cabina met†lica de 6,6 KV en ejecuci¢n interior para alojar el equipo de protecci¢n contra sobretensiones, instalada y probada. Resto de carecter°sticas seg£n Pliego de Prescripciones TÇcnicas. |546123|040400|0|
+~T|1304|Cabina met†lica de 6,6 KV en ejecuci¢n interior para alojar el equipo de protecci¢n contra sobretensiones, instalada y probada. Resto de carecter°sticas seg£n Pliego de Prescripciones TÇcnicas. |
+~D|1304|SINDESCO\1\546123\|
+~C|1306|ud|Cabina met†lica de 6,6 KV en ejecuci¢n interior para protecci¢n del equipo de puesta a tierra, instalada y probada. Resto de carecter°sticas seg£n Pliego de Prescripciones TÇcnicas. |599371|040400|0|
+~T|1306|Cabina met†lica de 6,6 KV en ejecuci¢n interior para protecci¢n del equipo de puesta a tierra, instalada y probada. Resto de carecter°sticas seg£n Pliego de Prescripciones TÇcnicas. |
+~D|1306|SINDESCO\1\599371\|
+~C|1308|ud|Cabina met†lica de 6,6 KV en ejecuci¢n interior para protecci¢n del transformador del servicios auxiliares. Instalada y probada. Resto de carecter°sticas seg£n Pliego de Prescripciones TÇcnicas. |600115|040400|0|
+~T|1308|Cabina met†lica de 6,6 KV en ejecuci¢n interior para protecci¢n del transformador del servicios auxiliares. Instalada y probada. Resto de carecter°sticas seg£n Pliego de Prescripciones TÇcnicas. |
+~D|1308|SINDESCO\1\600115\|
+~C|1310|ud|Cabina met†lica de 6,6 KV en ejecuci¢n interior prevista para alojar el transformador de servicios auxiliares. Instalada y probada. Resto de carecter°sticas seg£n Pliego de Prescripciones TÇcnicas. |337907|040400|0|
+~T|1310|Cabina met†lica de 6,6 KV en ejecuci¢n interior prevista para alojar el transformador de servicios auxiliares. Instalada y probada. Resto de carecter°sticas seg£n Pliego de Prescripciones TÇcnicas. |
+~D|1310|SINDESCO\1\337907\|
+~C|1312|ud|Cabina met†lica de 6,6 KV en ejecuci¢n interior prevista para alojar el equipo de puesta a tierra, instalada y probada. Resto de carecter°sticas seg£n Pliego de Prescripciones TÇcnicas. |405408|040400|0|
+~T|1312|Cabina met†lica de 6,6 KV en ejecuci¢n interior prevista para alojar el equipo de puesta a tierra, instalada y probada. Resto de carecter°sticas seg£n Pliego de Prescripciones TÇcnicas. |
+~D|1312|SINDESCO\1\405408\|
+~C|1314|ud|Cabina met†lica de 6,6 KV en ejecuci¢n interior prevista para alojar los transformadores de excitaci¢n de los generadores, instalada y probada. Resto de carecter°sticas seg£n Pliego de Prescripciones TÇcnicas. |445233|040400|0|
+~T|1314|Cabina met†lica de 6,6 KV en ejecuci¢n interior prevista para alojar los transformadores de excitaci¢n de los generadores, instalada y probada. Resto de carecter°sticas seg£n Pliego de Prescripciones TÇcnicas. |
+~D|1314|SINDESCO\1\445233\|
+~C|1350|ud|Pararrayos 7,2 KV,10 KA, instalado y probado en obra. |10314|040400|0|
+~T|1350|Pararrayos 7,2 KV,10 KA, instalado y probado en obra. |
+~D|1350|SINDESCO\1\10314\|
+~C|1352|ud|Condensador espec°fico para protecci¢n frente a sobretensiones en m†quinas rotativas, 6,9 KV, capacidad 0,5 microfaradios, instalado y probado. |99522|040400|0|
+~T|1352|Condensador espec°fico para protecci¢n frente a sobretensiones en m†quinas rotativas, 6,9 KV, capacidad 0,5 microfaradios, instalado y probado. |
+~D|1352|SINDESCO\1\99522\|
+~C|1354|ud|Reactancia trif†sica, en conexi¢n zig-zag, aislamiento seco, tensi¢n nominal entre fases 6,9 KV, potencia trif†sica 60 KVA durante 30 minutos, instalada y probada. |821521|040400|0|
+~T|1354|Reactancia trif†sica, en conexi¢n zig-zag, aislamiento seco, tensi¢n nominal entre fases 6,9 KV, potencia trif†sica 60 KVA durante 30 minutos, instalada y probada. |
+~D|1354|SINDESCO\1\821521\|
+~C|1356|ud|Resistencia de puesta a tierra de neutro, valor ¢hmico 400 ohmios, intensidad 8 A durante 5 minutos, instalada sobre chasis aislado a 7,2 KV montada y probada. |395820|040400|0|
+~T|1356|Resistencia de puesta a tierra de neutro, valor ¢hmico 400 ohmios, intensidad 8 A durante 5 minutos, instalada sobre chasis aislado a 7,2 KV montada y probada. |
+~D|1356|SINDESCO\1\395820\|
+~C|1358|ud|Transformador de potencia, para servicios auxiliares, de aislamiento seco, potencia nominal 250 KVA, relaci¢n 6600+-2,5+-5% V / 400-231 V. Grupo de conexi¢n Dyn 11, instalado y probado. |1288923|040400|0|
+~T|1358|Transformador de potencia, para servicios auxiliares, de aislamiento seco, potencia nominal 250 KVA, relaci¢n 6600+-2,5+-5% V / 400-231 V. Grupo de conexi¢n Dyn 11, instalado y probado. |
+~D|1358|SINDESCO\1\1288923\|
+~C|1362|ml|Conductor designaci¢n UNE RHV 6/10 KV de 1x240 mm2 de secci¢n en cobre,instalado y probado. |3097|040400|0|
+~T|1362|Conductor designaci¢n UNE RHV 6/10 KV de 1x240 mm2 de secci¢n en cobre,instalado y probado. |
+~D|1362|SINDESCO\1\3097\|
+~C|1366|ml|Conductor designaci¢n UNE RHV 6/10 KV de 1x95 mm2 de secci¢n en cobre,instalado y probado. |1705|040400|0|
+~T|1366|Conductor designaci¢n UNE RHV 6/10 KV de 1x95 mm2 de secci¢n en cobre,instalado y probado. |
+~D|1366|SINDESCO\1\1705\|
+~C|1368|ud|Terminaci¢n unipolar de exterior para conductor RHV 6/10 KV de 1x240 mm2, instalado y probado. |20234|040400|0|
+~T|1368|Terminaci¢n unipolar de exterior para conductor RHV 6/10 KV de 1x240 mm2, instalado y probado. |
+~D|1368|SINDESCO\1\20234\|
+~C|1372|ud|Terminaci¢n unipolar de interior para conductor RHV 6/10 KV de 1x240 mm2, instalado y probado. |12941|040400|0|
+~T|1372|Terminaci¢n unipolar de interior para conductor RHV 6/10 KV de 1x240 mm2, instalado y probado. |
+~D|1372|SINDESCO\1\12941\|
+~C|1376|ud|Terminaci¢n unipolar de interior para conductor RHV 6/10 KV de 1x95 mm2, instalado y probado. |10503|040400|0|
+~T|1376|Terminaci¢n unipolar de interior para conductor RHV 6/10 KV de 1x95 mm2, instalado y probado. |
+~D|1376|SINDESCO\1\10503\|
+~C|1380|ud|Equipo de seguridad y primeros auxilios, instalado y probado. |78332|040400|0|
+~T|1380|Equipo de seguridad y primeros auxilios, instalado y probado. |
+~D|1380|SINDESCO\1\78332\|
+~C|1382|ud|Castillete de acero galvanizado con protecci¢n met†lica, aisladores y pletinas de cobre para conexi¢n de los cables de 6,6 KV al tranformador de potencia de 21,2 MVA, instalado y probado. |673320|040400|0|
+~T|1382|Castillete de acero galvanizado con protecci¢n met†lica, aisladores y pletinas de cobre para conexi¢n de los cables de 6,6 KV al tranformador de potencia de 21,2 MVA, instalado y probado. |
+~D|1382|SINDESCO\1\673320\|
+~C|1400|ud|Grupo Diesel, constitu°do por motor diesel, generador s°ncrono de 75 KVA, 400/231 V, de arranque autom†tico, completo con todos los sistemas auxiliares, incluso cuadro elÇctrico de protecci¢n y conmutaci¢n. Montado y probado en obra. |2607677|040400|0|
+~T|1400|Grupo Diesel, constitu°do por motor diesel, generador s°ncrono de 75 KVA, 400/231 V, de arranque autom†tico, completo con todos los sistemas auxiliares, incluso cuadro elÇctrico de protecci¢n y conmutaci¢n. Montado y probado en obra. |
+~D|1400|SINDESCO\1\2607677\|
+~C|1402|ud|Sistema de detecci¢n de incendios en la caseta del grupo diesel. Montado y probado en obra. |101548|040400|0|
+~T|1402|Sistema de detecci¢n de incendios en la caseta del grupo diesel. Montado y probado en obra. |
+~D|1402|SINDESCO\1\101548\|
+~C|1404|ud|Dep¢sito semanal de combustible, paraa grupo diesel, incluso sistema de llenado y trasiego. Montado y probado en obra. |175081|040400|0|
+~T|1404|Dep¢sito semanal de combustible, paraa grupo diesel, incluso sistema de llenado y trasiego. Montado y probado en obra. |
+~D|1404|SINDESCO\1\175081\|
+~C|1408|ud|Cuadro de distribuci¢n y maniobra de motores de los servicios auxiliares 380/220 V para la Central equipada con dos grupos generadores. Montado y probado en obra. |2492769|040400|0|
+~T|1408|Cuadro de distribuci¢n y maniobra de motores de los servicios auxiliares 380/220 V para la Central equipada con dos grupos generadores. Montado y probado en obra. |
+~D|1408|SINDESCO\1\2492769\|
+~C|1412|ud|Equipo de medida en baja tensi¢n, de acuerdo con el Pliego de Prescripciones TÇcnicas, instalado y probado. |510953|040400|0|
+~T|1412|Equipo de medida en baja tensi¢n, de acuerdo con el Pliego de Prescripciones TÇcnicas, instalado y probado. |
+~D|1412|SINDESCO\1\510953\|
+~C|1414|ud|Equipo rectificador-bateria de 125 V (cc) y 112 Ah. con dos (2) rectificadores. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas, instalado y probado. |2532785|040400|0|
+~T|1414|Equipo rectificador-bateria de 125 V (cc) y 112 Ah. con dos (2) rectificadores. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas, instalado y probado. |
+~D|1414|SINDESCO\1\2532785\|
+~C|1418|ud|Armario de distribuci¢n de los servicios auxiliares 125 V (cc), para la central equipada con dos (2) grupos generadores. Montado y probado en obra. |243776|040400|0|
+~T|1418|Armario de distribuci¢n de los servicios auxiliares 125 V (cc), para la central equipada con dos (2) grupos generadores. Montado y probado en obra. |
+~D|1418|SINDESCO\1\243776\|
+~C|1422|ml|Conductor UNE RV 0,6/1 KV de 1x240 mm2 de secci¢n en cobre, instalado y probado. |2032|040400|0|
+~T|1422|Conductor UNE RV 0,6/1 KV de 1x240 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1422|SINDESCO\1\2032\|
+~C|1424|ml|Conductor UNE RV 0,6/1 KV de 1x120 mm2 de secci¢n en cobre, instalado y probado. |1197|040400|0|
+~T|1424|Conductor UNE RV 0,6/1 KV de 1x120 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1424|SINDESCO\1\1197\|
+~C|1427|ml|Conductor UNE RV 0,6/1 KV de 3,5x50 mm2 de secci¢n en cobre, instalado y probado. |1795|040400|0|
+~T|1427|Conductor UNE RV 0,6/1 KV de 3,5x50 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1427|SINDESCO\1\1795\|
+~C|1428|ml|Conductor UNE RV 0,6/1 KV de 3,5x35 mm2 de secci¢n en cobre, instalado y probado. |1409|040400|0|
+~T|1428|Conductor UNE RV 0,6/1 KV de 3,5x35 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1428|SINDESCO\1\1409\|
+~C|1429|ml|Conductor UNE RV 0,6/1 KV de 3,5x25 mm2 de secci¢n en cobre, instalado y probado. |1156|040400|0|
+~T|1429|Conductor UNE RV 0,6/1 KV de 3,5x25 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1429|SINDESCO\1\1156\|
+~C|1430|ml|Conductor UNE RV 0,6/1 KV de 3,5x16 mm2 de secci¢n en cobre, instalado y probado. |888|040400|0|
+~T|1430|Conductor UNE RV 0,6/1 KV de 3,5x16 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1430|SINDESCO\1\888\|
+~C|1433|ml|Conductor UNE RV 0,6/1 KV de 1x35 mm2 de secci¢n en cobre, instalado y probado. |562|040400|0|
+~T|1433|Conductor UNE RV 0,6/1 KV de 1x35 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1433|SINDESCO\1\562\|
+~C|1435|ml|Conductor UNE RV 0,6/1 KV de 1x16 mm2 de secci¢n en cobre, instalado y probado. |403|040400|0|
+~T|1435|Conductor UNE RV 0,6/1 KV de 1x16 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1435|SINDESCO\1\403\|
+~C|1440|ml|Conductor UNE RV 0,6/1 KV de 2x10 mm2 de secci¢n en cobre, instalado y probado. |475|040400|0|
+~T|1440|Conductor UNE RV 0,6/1 KV de 2x10 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1440|SINDESCO\1\475\|
+~C|1441|ml|Conductor UNE RV 0,6/1 KV de 2x6 mm2 de secci¢n en cobre, instalado y probado. |408|040400|0|
+~T|1441|Conductor UNE RV 0,6/1 KV de 2x6 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1441|SINDESCO\1\408\|
+~C|1442|ml|Conductor UNE RV 0,6/1 KV de 4x6 mm2 de secci¢n en cobre, instalado y probado. |554|040400|0|
+~T|1442|Conductor UNE RV 0,6/1 KV de 4x6 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1442|SINDESCO\1\554\|
+~C|1444|ml|Conductor UNE RV 0,6/1 KV de 4x4 mm2 de secci¢n en cobre, instalado y probado. |463|040400|0|
+~T|1444|Conductor UNE RV 0,6/1 KV de 4x4 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1444|SINDESCO\1\463\|
+~C|1445|ml|Conductor UNE RV 0,6/1 KV de 2x4 mm2 de secci¢n en cobre, instalado y probado. |345|040400|0|
+~T|1445|Conductor UNE RV 0,6/1 KV de 2x4 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1445|SINDESCO\1\345\|
+~C|1450|ml|Conductor UNE RV 0,6/1 KV de 4x2,5 mm2 de secci¢n en cobre, instalado y probado. |417|040400|0|
+~T|1450|Conductor UNE RV 0,6/1 KV de 4x2,5 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1450|SINDESCO\1\417\|
+~C|1451|ml|Conductor UNE RV 0,6/1 KV de 3x2,5 mm2 de secci¢n en cobre, instalado y probado. |363|040400|0|
+~T|1451|Conductor UNE RV 0,6/1 KV de 3x2,5 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1451|SINDESCO\1\363\|
+~C|1452|ml|Conductor UNE RV 0,6/1 KV de 2x2,5 mm2 de secci¢n en cobre, instalado y probado. |317|040400|0|
+~T|1452|Conductor UNE RV 0,6/1 KV de 2x2,5 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1452|SINDESCO\1\317\|
+~C|1456|ml|Conductor UNE VOV 0,6/1 KV de 3x1,5 mm2 de secci¢n en cobre, instalado y probado. |471|040400|0|
+~T|1456|Conductor UNE VOV 0,6/1 KV de 3x1,5 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1456|SINDESCO\1\471\|
+~C|1457|ml|Conductor UNE VOV 0,6/1 KV de 2x1,5 mm2 de secci¢n en cobre, instalado y probado. |425|040400|0|
+~T|1457|Conductor UNE VOV 0,6/1 KV de 2x1,5 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1457|SINDESCO\1\425\|
+~C|1460|ml|Conductor UNE RVK 0,6/1 KV de 6x2,5 mm2 de secci¢n en cobre, instalado y probado. |580|040400|0|
+~T|1460|Conductor UNE RVK 0,6/1 KV de 6x2,5 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1460|SINDESCO\1\580\|
+~C|1462|ml|Conductor UNE RVK 0,6/1 KV de 10x2,5 mm2 de secci¢n en cobre, instalado y probado. |747|040400|0|
+~T|1462|Conductor UNE RVK 0,6/1 KV de 10x2,5 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1462|SINDESCO\1\747\|
+~C|1465|ml|Conductor UNE RVK 0,6/1 KV de 6x2,5X1,5 mm2 de secci¢n en cobre, instalado y probado. |807|040400|0|
+~T|1465|Conductor UNE RVK 0,6/1 KV de 6x2,5X1,5 mm2 de secci¢n en cobre, instalado y probado. |
+~D|1465|SINDESCO\1\807\|
+~C|1470|ml|Bandeja de rejilla galvanizada en caliente de 600 mm, incluso p.p. de soportes y accesorios. Montado y probado. |6077|040400|0|
+~T|1470|Bandeja de rejilla galvanizada en caliente de 600 mm, incluso p.p. de soportes y accesorios. Montado y probado. |
+~D|1470|SINDESCO\1\6077\|
+~C|1471|ml|Bandeja de rejilla galvanizada en caliente de 450 mm, incluso p.p. de soportes y accesorios. Montado y probado. |4833|040400|0|
+~T|1471|Bandeja de rejilla galvanizada en caliente de 450 mm, incluso p.p. de soportes y accesorios. Montado y probado. |
+~D|1471|SINDESCO\1\4833\|
+~C|1472|ml|Bandeja de rejilla galvanizada en caliente de 200 mm, incluso p.p. de soportes y accesorios. Montado y probado. |3560|040400|0|
+~T|1472|Bandeja de rejilla galvanizada en caliente de 200 mm, incluso p.p. de soportes y accesorios. Montado y probado. |
+~D|1472|SINDESCO\1\3560\|
+~C|1475|ml|Tubo de acero galvanizado Pg-42, incluso p.p. de manguitos y accesorios. Montado y probado. |2883|040400|0|
+~T|1475|Tubo de acero galvanizado Pg-42, incluso p.p. de manguitos y accesorios. Montado y probado. |
+~D|1475|SINDESCO\1\2883\|
+~C|1476|ml|Tubo de acero galvanizado Pg-36, incluso p.p. de manguitos y accesorios. Montado y probado. |2315|040400|0|
+~T|1476|Tubo de acero galvanizado Pg-36, incluso p.p. de manguitos y accesorios. Montado y probado. |
+~D|1476|SINDESCO\1\2315\|
+~C|1477|ml|Tubo de acero galvanizado Pg-29, incluso p.p. de manguitos y accesorios. Montado y probado. |2007|040400|0|
+~T|1477|Tubo de acero galvanizado Pg-29, incluso p.p. de manguitos y accesorios. Montado y probado. |
+~D|1477|SINDESCO\1\2007\|
+~C|1478|ml|Tubo de acero galvanizado Pg-21, incluso p.p. de manguitos y accesorios. Montado y probado. |1768|040400|0|
+~T|1478|Tubo de acero galvanizado Pg-21, incluso p.p. de manguitos y accesorios. Montado y probado. |
+~D|1478|SINDESCO\1\1768\|
+~C|1479|ml|Tubo de acero galvanizado Pg-16, incluso p.p. de manguitos y accesorios. Montado y probado. |1556|040400|0|
+~T|1479|Tubo de acero galvanizado Pg-16, incluso p.p. de manguitos y accesorios. Montado y probado. |
+~D|1479|SINDESCO\1\1556\|
+~C|1480|ml|Tubo flexo de acero con cubierta de PVC Pg 29, incluso p.p. de manguitos y accesorios, instalado y probado. |1991|040400|0|
+~T|1480|Tubo flexo de acero con cubierta de PVC Pg 29, incluso p.p. de manguitos y accesorios, instalado y probado. |
+~D|1480|SINDESCO\1\1991\|
+~C|1481|ml|Tubo flexo de acero con cubierta de PVC Pg 21, incluso p.p. de manguitos y accesorios, instalado y probado. |1531|040400|0|
+~T|1481|Tubo flexo de acero con cubierta de PVC Pg 21, incluso p.p. de manguitos y accesorios, instalado y probado. |
+~D|1481|SINDESCO\1\1531\|
+~C|1482|ml|Tubo flexo de acero con cubierta de PVC Pg 16, incluso p.p. de manguitos y accesorios, instalado y probado. |1111|040400|0|
+~T|1482|Tubo flexo de acero con cubierta de PVC Pg 16, incluso p.p. de manguitos y accesorios, instalado y probado. |
+~D|1482|SINDESCO\1\1111\|
+~C|1483|ud|Caja estanca de poliester para conexiones de control, instalada y probada. |24664|040400|0|
+~T|1483|Caja estanca de poliester para conexiones de control, instalada y probada. |
+~D|1483|SINDESCO\1\24664\|
+~C|1484|ud|Caja estanca de fundici¢n para formaci¢n de circu°tos de intensidad y tensi¢n. |40169|040400|0|
+~T|1484|Caja estanca de fundici¢n para formaci¢n de circu°tos de intensidad y tensi¢n. |
+~D|1484|SINDESCO\1\40169\|
+~C|1490|kg|Cable de cobre electrol°tico de 70 mm2 de secci¢n, instalado y probado. |1121|040400|0|
+~T|1490|Cable de cobre electrol°tico de 70 mm2 de secci¢n, instalado y probado. |
+~D|1490|SINDESCO\1\1121\|
+~C|1491|kg|Cable de cobre electrol°tico de 50 mm2 de secci¢n, instalado y probado. |1063|040400|0|
+~T|1491|Cable de cobre electrol°tico de 50 mm2 de secci¢n, instalado y probado. |
+~D|1491|SINDESCO\1\1063\|
+~C|1492|ud|Soldadura aluminotÇrmica para cable de cobre de 50 a 70 mm2. |3222|040400|0|
+~T|1492|Soldadura aluminotÇrmica para cable de cobre de 50 a 70 mm2. |
+~D|1492|SINDESCO\1\3222\|
+~C|1493|ud|Electrodo de tierra de acero con recubrimiento de cobre de 2,50 m de longitud y 19 mm Ì, incluso grapa de conexi¢n a cable, instalado y probado. |7629|040400|0|
+~T|1493|Electrodo de tierra de acero con recubrimiento de cobre de 2,50 m de longitud y 19 mm Ì, incluso grapa de conexi¢n a cable, instalado y probado. |
+~D|1493|SINDESCO\1\7629\|
+~C|1494|ud|Grapa paralela para derivaci¢n de cobre instalada y probada. |1207|040400|0|
+~T|1494|Grapa paralela para derivaci¢n de cobre instalada y probada. |
+~D|1494|SINDESCO\1\1207\|
+~C|1495|ud|Grapa de fijaci¢n de cable de cobre por estructura met†lica, instalada y probada. |1302|040400|0|
+~T|1495|Grapa de fijaci¢n de cable de cobre por estructura met†lica, instalada y probada. |
+~D|1495|SINDESCO\1\1302\|
+~C|1496|ud|Terminal para conexi¢n a tierra de herrajes y equipos, instalado y probado. |948|040400|0|
+~T|1496|Terminal para conexi¢n a tierra de herrajes y equipos, instalado y probado. |
+~D|1496|SINDESCO\1\948\|
+~C|1497|ud|Arqueta de registro prefabricada para electrodo de tierra, instalada y probada. |5800|040400|0|
+~T|1497|Arqueta de registro prefabricada para electrodo de tierra, instalada y probada. |
+~D|1497|SINDESCO\1\5800\|
+~C|1499|ud|Grapa de uni¢n a tierra de cerca met†lica. Instalada y probada. |1830|040400|0|
+~T|1499|Grapa de uni¢n a tierra de cerca met†lica. Instalada y probada. |
+~D|1499|SINDESCO\1\1830\|
+~C|1500|ud|Cuadro de protecci¢n y mando de alumbrado, realizado con un armario met†lico para adosar a pared conteniendo interruptores autom†ticos y diferenciales para la protecci¢n de los diversos servicios, instalado y probado. |295619|040400|0|
+~T|1500|Cuadro de protecci¢n y mando de alumbrado, realizado con un armario met†lico para adosar a pared conteniendo interruptores autom†ticos y diferenciales para la protecci¢n de los diversos servicios, instalado y probado. |
+~D|1500|SINDESCO\1\295619\|
+~C|1502|ud|Luminaria estanca equipada en A.F., con dos l†mparas fluorescentes de 36 W, con p.p. de l°nea de alimentaci¢n, instalada y probada. |11426|040400|0|
+~T|1502|Luminaria estanca equipada en A.F., con dos l†mparas fluorescentes de 36 W, con p.p. de l°nea de alimentaci¢n, instalada y probada. |
+~D|1502|SINDESCO\1\11426\|
+~C|1504|ud|Luminaria tipo ojo de buey con l†mpara incandescente de 100 W, con p.p. de l°nea de alimentaci¢n, instalada y probada. |11124|040400|0|
+~T|1504|Luminaria tipo ojo de buey con l†mpara incandescente de 100 W, con p.p. de l°nea de alimentaci¢n, instalada y probada. |
+~D|1504|SINDESCO\1\11124\|
+~C|1506|ud|Luminaria industrial, con equipo elÇctrico,para l†mpara de v.m. 400 W, con soporte y p.p. de l°nea de alimentaci¢n, instalada y probada. |47647|040400|0|
+~T|1506|Luminaria industrial, con equipo elÇctrico,para l†mpara de v.m. 400 W, con soporte y p.p. de l°nea de alimentaci¢n, instalada y probada. |
+~D|1506|SINDESCO\1\47647\|
+~C|1508|ud|Aplique circular para l†mpara incandescente de 100 W , con p.p. de l°nea de alimentaci¢n, instalada y probada. |8564|040400|0|
+~T|1508|Aplique circular para l†mpara incandescente de 100 W , con p.p. de l°nea de alimentaci¢n, instalada y probada. |
+~D|1508|SINDESCO\1\8564\|
+~C|1510|ud|Luminaria de empotrar, con difusor de lamas y de uve central esmaltada en blanco para tubos fluorescentes de 4x18 W, equipo incorporado y p.p. de l°nea de alimentaci¢n, instalada y probada. |18427|040400|0|
+~T|1510|Luminaria de empotrar, con difusor de lamas y de uve central esmaltada en blanco para tubos fluorescentes de 4x18 W, equipo incorporado y p.p. de l°nea de alimentaci¢n, instalada y probada. |
+~D|1510|SINDESCO\1\18427\|
+~C|1512|ud|Punto de luz para alumbrado exterior formado por luminarias de bola opal, l†mpara v.m. de 250 W equipo elÇctrico instalado sobre poste de 3 m de altura, inclu°da p.p. de l°nea de alimentaci¢n, instalada y probada. |45045|040400|0|
+~T|1512|Punto de luz para alumbrado exterior formado por luminarias de bola opal, l†mpara v.m. de 250 W equipo elÇctrico instalado sobre poste de 3 m de altura, inclu°da p.p. de l°nea de alimentaci¢n, instalada y probada. |
+~D|1512|SINDESCO\1\45045\|
+~C|1514|ud|Punto de luz para iluminaci¢n de fachadas,formado por luminaria estanca, l†mpara de vapor de sodio de 70 W, equipo elÇctrico, protegida por cubeta de cierre de policarbonato transparente, inclu°da p.p. de l°nea de alimentaci¢n, instalada y probada. |33926|040400|0|
+~T|1514|Punto de luz para iluminaci¢n de fachadas,formado por luminaria estanca, l†mpara de vapor de sodio de 70 W, equipo elÇctrico, protegida por cubeta de cierre de policarbonato transparente, inclu°da p.p. de l°nea de alimentaci¢n, instalada y probada. |
+~D|1514|SINDESCO\1\33926\|
+~C|1515|ud|Columna met†lica de acero galvanizado de 2,00 m de altura, con herrajes y dos proyectores cerrados y equipos para l†mparas de 250 W, con p.p. de l°nea de alimentaci¢n, instalada probada. |116453|040400|0|
+~T|1515|Columna met†lica de acero galvanizado de 2,00 m de altura, con herrajes y dos proyectores cerrados y equipos para l†mparas de 250 W, con p.p. de l°nea de alimentaci¢n, instalada probada. |
+~D|1515|SINDESCO\1\116453\|
+~C|1516|ud|Aparato para alumbrado de emergencia y se§alizaci¢n, fluorescente y estanco, con p.p. de l°nea de alimentaci¢n, instalado y probado. |15271|040400|0|
+~T|1516|Aparato para alumbrado de emergencia y se§alizaci¢n, fluorescente y estanco, con p.p. de l°nea de alimentaci¢n, instalado y probado. |
+~D|1516|SINDESCO\1\15271\|
+~C|1517|ud|Luminaria decorativa sobre pie de 0,30 m, con equipos de encendido para l†mpara de 125 W v.m., con p.p. de l°nea de alimentaci¢n, instalada y probada. |27640|040400|0|
+~T|1517|Luminaria decorativa sobre pie de 0,30 m, con equipos de encendido para l†mpara de 125 W v.m., con p.p. de l°nea de alimentaci¢n, instalada y probada. |
+~D|1517|SINDESCO\1\27640\|
+~C|1518|ud|Toma de corriente III+T de 63 A, con p.p. de l°nea de alimentaci¢n, instalada y probada. |7696|040400|0|
+~T|1518|Toma de corriente III+T de 63 A, con p.p. de l°nea de alimentaci¢n, instalada y probada. |
+~D|1518|SINDESCO\1\7696\|
+~C|1519|ud|Caja estanca con base de enchufe III+T de 32 A, con p.p. de l°nea de alimentaci¢n, instalada y probada. |11618|040400|0|
+~T|1519|Caja estanca con base de enchufe III+T de 32 A, con p.p. de l°nea de alimentaci¢n, instalada y probada. |
+~D|1519|SINDESCO\1\11618\|
+~C|1520|ud|Toma de corriente II+T de 16 A, con p.p. de l°nea de alimentaci¢n, instalada y probada. |5701|040400|0|
+~T|1520|Toma de corriente II+T de 16 A, con p.p. de l°nea de alimentaci¢n, instalada y probada. |
+~D|1520|SINDESCO\1\5701\|
+~C|1521|ud|Caja estanca con base de enchufe II+T de 16 A, con p.p. de l°nea de alimentaci¢n, instalada y probada. |7766|040400|0|
+~T|1521|Caja estanca con base de enchufe II+T de 16 A, con p.p. de l°nea de alimentaci¢n, instalada y probada. |
+~D|1521|SINDESCO\1\7766\|
+~C|1530|ud|Equipo de telefon°a para comunicaci¢n interior de la Central, instalado y probado. |429303|040400|0|
+~T|1530|Equipo de telefon°a para comunicaci¢n interior de la Central, instalado y probado. |
+~D|1530|SINDESCO\1\429303\|
+~C|1532|ud|Sistema de alarma contra robo e intrusos y detecci¢n de incendios, instalado y probado, de las caracter°sticas indicadas en el Pliego de Prescripciones TÇcnicas. |273847|040400|0|
+~T|1532|Sistema de alarma contra robo e intrusos y detecci¢n de incendios, instalado y probado, de las caracter°sticas indicadas en el Pliego de Prescripciones TÇcnicas. |
+~D|1532|SINDESCO\1\273847\|
+~C|1534|ud|Sistema de protecci¢n contra descargas atmosfÇricas en el edificio de la Central, instalado y probado. |220805|040400|0|
+~T|1534|Sistema de protecci¢n contra descargas atmosfÇricas en el edificio de la Central, instalado y probado. |
+~D|1534|SINDESCO\1\220805\|
+~C|1600|ud|Equipo de medida de nivel en la c†mara de carga compuesto por captador de nivel, con se§al de salida en c¢digo GRAY, dispositivo calefactor, flotador y contrapeso, soporte, tubo tranquilizador. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas, instalado y probado. |413267|040400|0|
+~T|1600|Equipo de medida de nivel en la c†mara de carga compuesto por captador de nivel, con se§al de salida en c¢digo GRAY, dispositivo calefactor, flotador y contrapeso, soporte, tubo tranquilizador. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas, instalado y probado. |
+~D|1600|SINDESCO\1\413267\|
+~C|1603|ud|Caudal°metro por ultrasonidos RITTMEYER, incluyendo sondas, caja de campo, convertidor de se§al con salida 4-20 mA, electr¢nica de tratamiento de se§al, protector contra sobretensiones y cable para conexi¢n de los sensores. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas, instalado y probado. |1578387|040400|0|
+~T|1603|Caudal°metro por ultrasonidos RITTMEYER, incluyendo sondas, caja de campo, convertidor de se§al con salida 4-20 mA, electr¢nica de tratamiento de se§al, protector contra sobretensiones y cable para conexi¢n de los sensores. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas, instalado y probado. |
+~D|1603|SINDESCO\1\1578387\|
+~C|1604|ud|Sistema de detecci¢n de vibraciones para grupo turbina-generador en un punto, tres direcciones. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Montado y probado. |276698|040400|0|
+~T|1604|Sistema de detecci¢n de vibraciones para grupo turbina-generador en un punto, tres direcciones. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Montado y probado. |
+~D|1604|SINDESCO\1\276698\|
+~C|1606|ud|Sonda detectora de nivel m†ximo en la descarga de las turbinas, del tipo de ampolla basculante de mercurio. Montada y probada. |11907|040400|0|
+~T|1606|Sonda detectora de nivel m†ximo en la descarga de las turbinas, del tipo de ampolla basculante de mercurio. Montada y probada. |
+~D|1606|SINDESCO\1\11907\|
+~C|1608|ud|Equipo de medida de 132 KV de acuerdo con el Pliego de Prescripciones TÇcnicas, instalado y probado. |1241043|040400|0|
+~T|1608|Equipo de medida de 132 KV de acuerdo con el Pliego de Prescripciones TÇcnicas, instalado y probado. |
+~D|1608|SINDESCO\1\1241043\|
+~C|1611|ud|Conjunto de paneles de control de sistemas generales compuesto por: . Panel de control programable de servicios. . Panel de control de transformador y l°nea. . Panel de protecciones y alarmas comunes. Con sistemaa SAINCO y protecciones digitales. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Instalado y probado. |12856954|040400|0|
+~T|1611|Conjunto de paneles de control de sistemas generales compuesto por: . Panel de control programable de servicios. . Panel de control de transformador y l°nea. . Panel de protecciones y alarmas comunes. Con sistemaa SAINCO y protecciones digitales. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Instalado y probado. |
+~D|1611|SINDESCO\1\12856954\|
+~C|1613|ud|Conjunto de paneles de control de sistemas generales compuesto por: . Panel de control programable de servicios. . Panel de control de transformador y l°nea. . Panel de protecciones y alarmas comunes. Con sistema SAINCO y protecciones digitales. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Instalado y probado. |15939006|040400|0|
+~T|1613|Conjunto de paneles de control de sistemas generales compuesto por: . Panel de control programable de servicios. . Panel de control de transformador y l°nea. . Panel de protecciones y alarmas comunes. Con sistema SAINCO y protecciones digitales. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Instalado y probado. |
+~D|1613|SINDESCO\1\15939006\|
+~C|1620|ud|Ordenador personal industrial para presentaci¢n y registro de informaci¢n de la Central. Incluyendo monitor color, teclado y track-ball, conectado al aut¢mata de funciones generales. Incluyendo sofware para supervisi¢n y control. Instalado y probado. |3801153|040400|0|
+~T|1620|Ordenador personal industrial para presentaci¢n y registro de informaci¢n de la Central. Incluyendo monitor color, teclado y track-ball, conectado al aut¢mata de funciones generales. Incluyendo sofware para supervisi¢n y control. Instalado y probado. |
+~D|1620|SINDESCO\1\3801153\|
+~C|1622|ud|Mobiliario espec°fico para ordenador e impresora, instalado. |163081|040400|0|
+~T|1622|Mobiliario espec°fico para ordenador e impresora, instalado. |
+~D|1622|SINDESCO\1\163081\|
+~C|1626|ud|Impresora para registro de alarmas e incidencias. Instalada y probada. |197065|040400|0|
+~T|1626|Impresora para registro de alarmas e incidencias. Instalada y probada. |
+~D|1626|SINDESCO\1\197065\|
+~C|1628|ud|Modem telef¢nico, programado, instalado y probado. |36027|040400|0|
+~T|1628|Modem telef¢nico, programado, instalado y probado. |
+~D|1628|SINDESCO\1\36027\|
+~C|1630|ud|Tarjeta de comunicaciones para enlace por radio, instalada y probada. |83061|040400|0|
+~T|1630|Tarjeta de comunicaciones para enlace por radio, instalada y probada. |
+~D|1630|SINDESCO\1\83061\|
+~C|1632|ml|L°nea telef¢nica para la conexi¢n de la Central a la red de la C.T.N.E. existente en la zona. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Instalado y probado |727|040400|0|
+~T|1632|L°nea telef¢nica para la conexi¢n de la Central a la red de la C.T.N.E. existente en la zona. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Instalado y probado |
+~D|1632|SINDESCO\1\727\|
+~C|1633|ud|Sistema de telealarmas conectado a la red telef¢nica conmutada, con capacidad m†xima para 16 mensajes distintos. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Instalado y probado. |744037|040400|0|
+~T|1633|Sistema de telealarmas conectado a la red telef¢nica conmutada, con capacidad m†xima para 16 mensajes distintos. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Instalado y probado. |
+~D|1633|SINDESCO\1\744037\|
+~C|1634|ud|Sistema de comunicaci¢n via radio para el enlace con la red de la C.H. del Duero. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Instalado y probado. |887407|040400|0|
+~T|1634|Sistema de comunicaci¢n via radio para el enlace con la red de la C.H. del Duero. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Instalado y probado. |
+~D|1634|SINDESCO\1\887407\|
+~C|1700|ud|Conjunto de repuestos para dos a§os de operaci¢n, correspondientes a la turbina de 27 m3/s, de acuerdo con lo indicado en el Pliego de Prescripciones TÇcnicas. |1070364|040400|0|
+~T|1700|Conjunto de repuestos para dos a§os de operaci¢n, correspondientes a la turbina de 27 m3/s, de acuerdo con lo indicado en el Pliego de Prescripciones TÇcnicas. |
+~D|1700|SINDESCO\1\1070364\|
+~C|1702|ud|Conjunto de repuestos para dos a§os de operaci¢n, correspondientes a la turbina de 13 m3/s, de acuerdo con lo indicado en el Pliego de Prescripciones TÇcnicas. |888958|040400|0|
+~T|1702|Conjunto de repuestos para dos a§os de operaci¢n, correspondientes a la turbina de 13 m3/s, de acuerdo con lo indicado en el Pliego de Prescripciones TÇcnicas. |
+~D|1702|SINDESCO\1\888958\|
+~C|1706|ud|Conjunto de repuestos para dos a§os de operaci¢n, correspondientes al generador de 14300 KVA de eje vertical, de acuerdo con lo indicado en el Pliego de Prescripciones TÇcnicas. |3186000|040400|0|
+~T|1706|Conjunto de repuestos para dos a§os de operaci¢n, correspondientes al generador de 14300 KVA de eje vertical, de acuerdo con lo indicado en el Pliego de Prescripciones TÇcnicas. |
+~D|1706|SINDESCO\1\3186000\|
+~C|1708|ud|Conjunto de repuestos para dos a§os de operaci¢n, correspondientes al generador de 6,9 MVA ¢ 7 MVA, de acuerdo con lo indicado en el Pliego de Prescripciones TÇcnicas. |2389500|040400|0|
+~T|1708|Conjunto de repuestos para dos a§os de operaci¢n, correspondientes al generador de 6,9 MVA ¢ 7 MVA, de acuerdo con lo indicado en el Pliego de Prescripciones TÇcnicas. |
+~D|1708|SINDESCO\1\2389500\|
+~C|1712|ud|Conjunto de repuestos para dos a§os de operaci¢n, correspondiente al transformador de 21200 KVA, de acuerdo con lo indicado en el Pliego de Prescripciones TÇcnicas. |985217|040400|0|
+~T|1712|Conjunto de repuestos para dos a§os de operaci¢n, correspondiente al transformador de 21200 KVA, de acuerdo con lo indicado en el Pliego de Prescripciones TÇcnicas. |
+~D|1712|SINDESCO\1\985217\|
+~C|1716|ud|Conjunto de repuestos para dos a§os de operaci¢n, correspondiente al interruptor autom†tico tripolar, de acuerdo con lo indicado en el Pliego de Prescripciones TÇcnicas. |74871|040400|0|
+~T|1716|Conjunto de repuestos para dos a§os de operaci¢n, correspondiente al interruptor autom†tico tripolar, de acuerdo con lo indicado en el Pliego de Prescripciones TÇcnicas. |
+~D|1716|SINDESCO\1\74871\|
+~C|1718|ud|Conjunto de repuestos para dos a§os de operaci¢n, correspondiente a los seccionadores tripolares de 145 KV, de acuerdo con lo indicado en el Pliego de Prescripciones TÇcnicas. |501253|040400|0|
+~T|1718|Conjunto de repuestos para dos a§os de operaci¢n, correspondiente a los seccionadores tripolares de 145 KV, de acuerdo con lo indicado en el Pliego de Prescripciones TÇcnicas. |
+~D|1718|SINDESCO\1\501253\|
+~C|1720|ud|Conjunto de repuestos para dos a§os de operaci¢n, correspondiente a las cabinas de 6,9 KV, de acuerdo con lo indicado en el Pliego de Prescripciones TÇcnicas. |258108|040400|0|
+~T|1720|Conjunto de repuestos para dos a§os de operaci¢n, correspondiente a las cabinas de 6,9 KV, de acuerdo con lo indicado en el Pliego de Prescripciones TÇcnicas. |
+~D|1720|SINDESCO\1\258108\|
+~C|1722|ud|Conjunto de repuestos para dos a§os de operaci¢n, correspondiente al sistema de control y automatizaci¢n de la Central, de acuerdo con lo indicado en el Pliego de Prescripciones TÇcnicas. |1168200|040400|0|
+~T|1722|Conjunto de repuestos para dos a§os de operaci¢n, correspondiente al sistema de control y automatizaci¢n de la Central, de acuerdo con lo indicado en el Pliego de Prescripciones TÇcnicas. |
+~D|1722|SINDESCO\1\1168200\|
+~C|2002|ud|Transformador trif†sico de potencia, 21200 KVA ONAF, relacci¢n 136000+-2,5+-5%/6600 V, en ba§o de aceite, conexi¢n Ynd11. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Instalado y probado en obra. |42410228|040400|0|
+~T|2002|Transformador trif†sico de potencia, 21200 KVA ONAF, relacci¢n 136000+-2,5+-5%/6600 V, en ba§o de aceite, conexi¢n Ynd11. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Instalado y probado en obra. |
+~D|2002|SINDESCO\1\42410228\|
+~C|2006|ud|Transformador de intendidad para el neutro de 135 KV del transformador de potencia, tipo toroidal de relaci¢n 300/5 A y potencia 30 va, 5P20. Instalado y probado. |47364|040400|0|
+~T|2006|Transformador de intendidad para el neutro de 135 KV del transformador de potencia, tipo toroidal de relaci¢n 300/5 A y potencia 30 va, 5P20. Instalado y probado. |
+~D|2006|SINDESCO\1\47364\|
+~C|2008|ud|Interruptor tripolar de gas SF6, servicio intemperie, tendi¢n 145 KV, intensidad 2000 A, poder de corte 31,5 KA, equipado con mando elÇctrico. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Instalado y probado en obra. |4451054|040400|0|
+~T|2008|Interruptor tripolar de gas SF6, servicio intemperie, tendi¢n 145 KV, intensidad 2000 A, poder de corte 31,5 KA, equipado con mando elÇctrico. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Instalado y probado en obra. |
+~D|2008|SINDESCO\1\4451054\|
+~C|2010|ud|Seccionador tripolar de dos columnas por polo, montaje intemperie, tensi¢n nominal 145 KV, intensidad nominal 800 A, equipado con cuchillas de puesta a tierra, dos (2) cajas de contactos auxiliares y cerradura de enclavamiento. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Instalado y probado. |1297703|040400|0|
+~T|2010|Seccionador tripolar de dos columnas por polo, montaje intemperie, tensi¢n nominal 145 KV, intensidad nominal 800 A, equipado con cuchillas de puesta a tierra, dos (2) cajas de contactos auxiliares y cerradura de enclavamiento. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Instalado y probado. |
+~D|2010|SINDESCO\1\1297703\|
+~C|2011|ud|Seccionador tripolar de dos columnas por polo, montaje intemperie, tensi¢n nominal 145 KV, intensidad nominal 800 A, equipado con cuchillas de puesta a tierra, accionamiento motorizado para cuchillas principales y manual pra las de puesta a tierra y una (1) caja de contactos auxiliares. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Instalado y probado. |1569388|040400|0|
+~T|2011|Seccionador tripolar de dos columnas por polo, montaje intemperie, tensi¢n nominal 145 KV, intensidad nominal 800 A, equipado con cuchillas de puesta a tierra, accionamiento motorizado para cuchillas principales y manual pra las de puesta a tierra y una (1) caja de contactos auxiliares. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Instalado y probado. |
+~D|2011|SINDESCO\1\1569388\|
+~C|2012|ud|Transformador de tensi¢n capacitivo, servicio exterior, para 145 KV, relaci¢n 132000:˚3/110:˚3/110:˚3. Potencia 50 VA, cl.0,5 y 50 VA cl 0,5. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Instalado y probado en obra. |1044153|040400|0|
+~T|2012|Transformador de tensi¢n capacitivo, servicio exterior, para 145 KV, relaci¢n 132000:˚3/110:˚3/110:˚3. Potencia 50 VA, cl.0,5 y 50 VA cl 0,5. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Instalado y probado en obra. |
+~D|2012|SINDESCO\1\1044153\|
+~C|2013|ud|Transformador de tensi¢n inductivo, servicio exterior, para 145 KV, relaci¢n 132000:˚3/110:˚3-110:˚3-110:3 V. Potencias 50 VA, cl.0,2, 50 VA, cl 0,5 y 50 VA cl. 0,5. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Instalado y probado en obra. |992555|040400|0|
+~T|2013|Transformador de tensi¢n inductivo, servicio exterior, para 145 KV, relaci¢n 132000:˚3/110:˚3-110:˚3-110:3 V. Potencias 50 VA, cl.0,2, 50 VA, cl 0,5 y 50 VA cl. 0,5. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Instalado y probado en obra. |
+~D|2013|SINDESCO\1\992555\|
+~C|2017|ud|Transformador de intensidad, servicio exterior, para 145 KV, relaci¢n 200-100/5-5-5-5 A. Potencias 30 VA, cl. 0,2 S, 30 VA cl. 0,5, 30 VA 5p20 y 30 VA 5p20. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Instalado y probado en obra. |1076703|040400|0|
+~T|2017|Transformador de intensidad, servicio exterior, para 145 KV, relaci¢n 200-100/5-5-5-5 A. Potencias 30 VA, cl. 0,2 S, 30 VA cl. 0,5, 30 VA 5p20 y 30 VA 5p20. Resto de caracter°sticas seg£n el Pliego de Prescripciones TÇcnicas. Instalado y probado en obra. |
+~D|2017|SINDESCO\1\1076703\|
+~C|2022|ud|Pararrayos de Zno, montaje exterior, tensi¢n nominal 120 KV, intensidad de descarga nominal 10 KA. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Instalado y probado en obra. |241971|040400|0|
+~T|2022|Pararrayos de Zno, montaje exterior, tensi¢n nominal 120 KV, intensidad de descarga nominal 10 KA. Resto de caracter°sticas de acuerdo con el Pliego de Prescripciones TÇcnicas. Instalado y probado en obra. |
+~D|2022|SINDESCO\1\241971\|
+~C|2024|ud|Aislador de apoyo de 36 KV y 400 Kg de esfuerzo en punta. Instalado y probado. |19523|040400|0|
+~T|2024|Aislador de apoyo de 36 KV y 400 Kg de esfuerzo en punta. Instalado y probado. |
+~D|2024|SINDESCO\1\19523\|
+~C|2026|kg|Acero en perfiles normalizados de calidad A-42b, galvanizado en caliente, para soportes de equipos y estructuras altas de la subestaci¢n, instalado y probado. |290|040400|0|
+~T|2026|Acero en perfiles normalizados de calidad A-42b, galvanizado en caliente, para soportes de equipos y estructuras altas de la subestaci¢n, instalado y probado. |
+~D|2026|SINDESCO\1\290\|
+~C|2028|kg|Tubo de cobre electrol°tico de 45/50 mm de di†metro, instalado y probado. |2012|040400|0|
+~T|2028|Tubo de cobre electrol°tico de 45/50 mm de di†metro, instalado y probado. |
+~D|2028|SINDESCO\1\2012\|
+~C|2030|kg|Cable de cobre electrol°tico de 150 mm2 de secci¢n, instalaci¢n y probado. |1351|040400|0|
+~T|2030|Cable de cobre electrol°tico de 150 mm2 de secci¢n, instalaci¢n y probado. |
+~D|2030|SINDESCO\1\1351\|
+~C|2033|ud|Cadena de aisladores para 136 KV, formada por once elementos de vidrio templado y herrajes galvanizados, instalada y probada. |38729|040400|0|
+~T|2033|Cadena de aisladores para 136 KV, formada por once elementos de vidrio templado y herrajes galvanizados, instalada y probada. |
+~D|2033|SINDESCO\1\38729\|
+~C|2034|ud|Racor de conexi¢n de diversos tipos para derivaciones de embarrados y uniones a equipos de A.T., instalado y probado. |7146|040400|0|
+~T|2034|Racor de conexi¢n de diversos tipos para derivaciones de embarrados y uniones a equipos de A.T., instalado y probado. |
+~D|2034|SINDESCO\1\7146\|
+~C|2038|ud|Pararrayos tipo Franklin, para protecci¢n contra descargas atmosfÇricas, instalado y probado. |107198|040400|0|
+~T|2038|Pararrayos tipo Franklin, para protecci¢n contra descargas atmosfÇricas, instalado y probado. |
+~D|2038|SINDESCO\1\107198\|
+~C|2040|ud|Bobina de bloqueo para conexi¢n a una fase de l°nea de A.T., de 630 A y 0,2 mH, instalada y probada. |300875|040400|0|
+~T|2040|Bobina de bloqueo para conexi¢n a una fase de l°nea de A.T., de 630 A y 0,2 mH, instalada y probada. |
+~D|2040|SINDESCO\1\300875\|
+~C|2041|ud|Terminal monocanal programable de onda portadora, alimentaci¢n a 48 V (CC), potencia de salida 40 W, equipado con m¢dulo de teleprotecci¢n, instalado en armario mural. Instalado y probado. |2383909|040400|0|
+~T|2041|Terminal monocanal programable de onda portadora, alimentaci¢n a 48 V (CC), potencia de salida 40 W, equipado con m¢dulo de teleprotecci¢n, instalado en armario mural. Instalado y probado. |
+~D|2041|SINDESCO\1\2383909\|
+~C|2042|ud|Acoplamiento para la conexi¢n del equipo de onda portadora a una fase de la l°nea de A.T., instalada en caja de ejecuci¢n exterior. Instalada y probada. |194728|040400|0|
+~T|2042|Acoplamiento para la conexi¢n del equipo de onda portadora a una fase de la l°nea de A.T., instalada en caja de ejecuci¢n exterior. Instalada y probada. |
+~D|2042|SINDESCO\1\194728\|
+~C|2043|ud|M¢dem s°ncrono incluso protocolo de comunicaciones. Instalado y probado. |2083282|040400|0|
+~T|2043|M¢dem s°ncrono incluso protocolo de comunicaciones. Instalado y probado. |
+~D|2043|SINDESCO\1\2083282\|
+~C|2044|ud|Convertidor 125 V (cc)/48 V (cc) de 200 W de potencia de salida, instalado en armario mural. Instalado y probado. |118120|040400|0|
+~T|2044|Convertidor 125 V (cc)/48 V (cc) de 200 W de potencia de salida, instalado en armario mural. Instalado y probado. |
+~D|2044|SINDESCO\1\118120\|
+~C|2045|ml|Cable coaxial tipo RG-11 de 75 ohm, instalado y probado. |367|040400|0|
+~T|2045|Cable coaxial tipo RG-11 de 75 ohm, instalado y probado. |
+~D|2045|SINDESCO\1\367\|
+~C|25.019|m3|Hormig¢n en masa H-100, en central, incluso vertido y curado. |9455|040400|0|
+~T|25.019|Hormig¢n en masa H-100, en central, incluso vertido y curado. |
+~D|25.019|SINDESCO\1\9455\|
+~C|25.032|m3|Hormig¢n para armar H-200 en cimientos de central, incluso vertido, vibrado y curado. |12810|040400|0|
+~T|25.032|Hormig¢n para armar H-200 en cimientos de central, incluso vertido, vibrado y curado. |
+~D|25.032|SINDESCO\1\12810\|
+~C|25.039|m2|Encofrado ordinario de paramentos planos en central, incluso colocaci¢n, fijaci¢n y desencofado. |4195|040400|0|
+~T|25.039|Encofrado ordinario de paramentos planos en central, incluso colocaci¢n, fijaci¢n y desencofado. |
+~D|25.039|SINDESCO\1\4195\|
+~C|26.001|PA|Seg£n anejo Nß11, Impacto Ambiental, afectado por el coeficiente de adjudicaci¢n. |3327863|040400|0|
+~T|26.001|Seg£n anejo Nß11, Impacto Ambiental, afectado por el coeficiente de adjudicaci¢n. |
+~D|26.001|SINDESCO\1\3327863\|
+~C|29.001|ud|Unidad de explotaci¢n mensual de la central durante los dos primeros a§os de servicio incluyendo personal de operaci¢n y mantenimiento, de acuerdo con lo especificado en el Pliego de Especificaciones TÇcnicas. |2044055|040400|0|
+~T|29.001|Unidad de explotaci¢n mensual de la central durante los dos primeros a§os de servicio incluyendo personal de operaci¢n y mantenimiento, de acuerdo con lo especificado en el Pliego de Especificaciones TÇcnicas. |
+~D|29.001|SINDESCO\1\2044055\|
+~C|29.002|ud|Unidad de formaci¢n de personal de la Confederaci¢n Hidrogr†fica del Duero en los trabajos de operaci¢n y mantenimiento de la central. |1588642|040400|0|
+~T|29.002|Unidad de formaci¢n de personal de la Confederaci¢n Hidrogr†fica del Duero en los trabajos de operaci¢n y mantenimiento de la central. |
+~D|29.002|SINDESCO\1\1588642\|
+~C|29.003|ud|Unidad de preparaci¢n del Personal de Operaci¢n durante 4 meses antes de la puesta en marcha con formaci¢n espec°fica de maquinaria, sistemas y funcionamiento de la instalaci¢n. |8366854|040400|0|
+~T|29.003|Unidad de preparaci¢n del Personal de Operaci¢n durante 4 meses antes de la puesta en marcha con formaci¢n espec°fica de maquinaria, sistemas y funcionamiento de la instalaci¢n. |
+~D|29.003|SINDESCO\1\8366854\|
+~C|29.004|ud|Unidad de peque§o material necesario cada mes para la operaci¢n, mantenimiento y limpieza de las instalaciones de acuerdo con lo establecido en el Pliego de Especificaciones TÇcnicas. |158864|040400|0|
+~T|29.004|Unidad de peque§o material necesario cada mes para la operaci¢n, mantenimiento y limpieza de las instalaciones de acuerdo con lo establecido en el Pliego de Especificaciones TÇcnicas. |
+~D|29.004|SINDESCO\1\158864\|
+~C|3008|ud|Apoyo de estructura met†lica galvanizada, de †ngulo-derivaci¢n, para l°nea de doble circu°to de 136 KV, con conductor HAWK, tipo DRAGO 2500.24.H51E ¢ similar, equipado con 18 cadenas de amarre con 10 elementos de vidrio, tipo E100/127, con sus herrajes galvanizados correspondientes, conjunto de amarre para cable de tierra, tomas de tierra y placas de peligro de muerte, incluso fundaci¢n, totalmente instalado. |6053400|040400|0|
+~T|3008|Apoyo de estructura met†lica galvanizada, de †ngulo-derivaci¢n, para l°nea de doble circu°to de 136 KV, con conductor HAWK, tipo DRAGO 2500.24.H51E ¢ similar, equipado con 18 cadenas de amarre con 10 elementos de vidrio, tipo E100/127, con sus herrajes galvanizados correspondientes, conjunto de amarre para cable de tierra, tomas de tierra y placas de peligro de muerte, incluso fundaci¢n, totalmente instalado. |
+~D|3008|SINDESCO\1\6053400\|
+~C|3010|ud|Apoyo de estructura met†lica galvanizada, de †ngulo-fuerte (hasta 60ß), para l°nea de doble circu°to de 136 KV, con conductor HAWK, tipo ARCE 1800.23.H51 ¢ similar, equipado con 12 cadenas de amarre con 10 elementos de vidrio, tipo E100/127, con sus herrajes galvanizados correspondientes, conjunto de amarre para cable de tierra, tomas de tierra y placas de peligro de muerte, incluso fundaci¢n, totalmente instalado. |4205520|040400|0|
+~T|3010|Apoyo de estructura met†lica galvanizada, de †ngulo-fuerte (hasta 60ß), para l°nea de doble circu°to de 136 KV, con conductor HAWK, tipo ARCE 1800.23.H51 ¢ similar, equipado con 12 cadenas de amarre con 10 elementos de vidrio, tipo E100/127, con sus herrajes galvanizados correspondientes, conjunto de amarre para cable de tierra, tomas de tierra y placas de peligro de muerte, incluso fundaci¢n, totalmente instalado. |
+~D|3010|SINDESCO\1\4205520\|
+~C|3012|ud|Apoyo de estructura met†lica galvanizada, de amarre-†ngulo (hasta 30ß), para l°nea de doble circu°to de 136 KV, con conductor HAWK, tipo ARCE 1400.23.H51 ¢ similar, equipado con 12 cadenas de amarre con 10 elementos de vidrio, tipo E100/127, con sus herrajes galvanizados correspondientes, conjunto de amarre para cable de tierra, tomas de tierra y placas de peligro de muerte, incluso fundaci¢n, totalmente instalado. |3706380|040400|0|
+~T|3012|Apoyo de estructura met†lica galvanizada, de amarre-†ngulo (hasta 30ß), para l°nea de doble circu°to de 136 KV, con conductor HAWK, tipo ARCE 1400.23.H51 ¢ similar, equipado con 12 cadenas de amarre con 10 elementos de vidrio, tipo E100/127, con sus herrajes galvanizados correspondientes, conjunto de amarre para cable de tierra, tomas de tierra y placas de peligro de muerte, incluso fundaci¢n, totalmente instalado. |
+~D|3012|SINDESCO\1\3706380\|
+~C|3014|ud|Apoyo de estructura met†lica galvanizada, de suspensi¢n, para l°nea de doble circu°to de 136 KV, con conductor HAWH, tipo M25.30,5.D31E.T1 ¢ similar, equipado con 6 cadenas de suspensi¢n con 10 elementos de vidrio, tipo E100/127, con sus herrajes galvanizados correspondientes, conjunto de amarre para cable de tierra, tomas de tierra y placas de peligro de muerte, incluso fundaci¢n, totalmente instalado. |1720440|040400|0|
+~T|3014|Apoyo de estructura met†lica galvanizada, de suspensi¢n, para l°nea de doble circu°to de 136 KV, con conductor HAWH, tipo M25.30,5.D31E.T1 ¢ similar, equipado con 6 cadenas de suspensi¢n con 10 elementos de vidrio, tipo E100/127, con sus herrajes galvanizados correspondientes, conjunto de amarre para cable de tierra, tomas de tierra y placas de peligro de muerte, incluso fundaci¢n, totalmente instalado. |
+~D|3014|SINDESCO\1\1720440\|
+~C|3018|km|Tendido, tensado, regulado y engrapado de 6 conductores tipo HAWK y un cable de tierra de acero galvanizado de 9 mm de di†metro, incluso el suministro de los mismos y la topograf°a y estudio de la l°nea. |4885200|040400|0|
+~T|3018|Tendido, tensado, regulado y engrapado de 6 conductores tipo HAWK y un cable de tierra de acero galvanizado de 9 mm de di†metro, incluso el suministro de los mismos y la topograf°a y estudio de la l°nea. |
+~D|3018|SINDESCO\1\4885200\|
+~C|3020|ud|Antivibrador para conductor HAWK, instalado. |13275|040400|0|
+~T|3020|Antivibrador para conductor HAWK, instalado. |
+~D|3020|SINDESCO\1\13275\|
+~C|PR##||Prueba|1132583228.561|040400|0|
+~D|PR##|1\1\1\2\1\1\3\1\1\4\1\1\5\1\1\6\1\1\|
+~C|1#||OBRA CIVIL|490476651.5033|040400|0|
+~D|1|1_1\1\1\1_2\1\1\1_3\1\1\1_4\1\1\1_5\1\1\1_6\1\1\1_7\1\1\1_8\1\1\1_9\1\1\|
+~C|1_1||OBRA DE TOMA|18050834.85709|040400|0|
+~Y|1_1|02.002\1\98.445\02.001\1\504.25\01.025\1\1377.88\02.033\1\355.32\01.001\1\41.625\01.005\1\328.068\01.006\1\464.798\01.029\1\573.87\01.028\1\25.4905\01.037\1\30626.8\01.020\1\137.6\01.010\1\20.64\01.046\1\108\01.053\1\36\|
+~M|1_1\02.002|1\1\1\|98.445|\\1\17\1\3.36\\\1\14.5\1\2.85\\\0\0\0\0\|
+~M|1_1\02.001|1\1\2\|504.25|\\1\14.5\14.5\0\\\1\14\21\0\\\0\0\0\0\|
+~M|1_1\01.025|1\1\3\|1377.88|\\1\13\14.25\3.6\\\1\13.8\16\3.22\\\0\0\0\0\|
+~M|1_1\02.033|1\1\4\|355.32|\\2\28\2.7\2.35\\\0\0\0\0\|
+~M|1_1\01.001|1\1\5\|41.625|\\1\15.3\13\0.1\\\1\15.75\13.8\0.1\\\0\0\0\0\|
+~M|1_1\01.005|1\1\6\|328.068|\\1\15.3\13\1\\\1\13.8\15.6\0.6\\\0\0\0\0\|
+~M|1_1\01.006|1\1\7\|464.798|\\2\15\1\4.51\\\1\3.5\1.8\4.51\\\1\3.14\0.81\4.51\\\2\14.5\0.6\4.51\\\2\13.8\3.4\2.25\\\0\0\0\0\|
+~M|1_1\01.029|1\1\8\|573.87|\Embocadura\2\15.5\4.51\0\\\2\15.5\5.51\0\\\2\1\5.51\0\\\1\11\1\0\\\2\3.5\4.51\0\\\2\14.5\5.2\0\\\1\19\0.6\0\\\2\4.15\4.6\0\\Puente\2\17.2\0.2\0\\\2\6\0.2\0\\\0\0\0\0\|
+~M|1_1\01.028|1\1\9\|25.4905|\\1\6.28\0.9\4.51\\\0\0\0\0\|
+~M|1_1\01.037|1\1\10\|30626.8|\Igual medici¢n\0\0\0\0\\hormig¢n\0\0\0\0\\cimientos\1\328.07\40\0\\alzados\1\464.8\35\0\\tablero\1\20.6\60\0\\\0\0\0\0\|
+~M|1_1\01.020|1\1\11\|137.6|\\8\17.2\0\0\\\0\0\0\0\|
+~M|1_1\01.010|1\1\12\|20.64|\\1\17.2\6\0.2\\\0\0\0\0\|
+~M|1_1\01.046|1\1\13\|108|\\1\18\6\0\\\0\0\0\0\|
+~M|1_1\01.053|1\1\14\|36|\\2\18\0\0\\\0\0\0\0\|
+~C|1_2||CANAL DE TOMA|82477888.14209|040400|0|
+~D|1_2|1_2_1\1\1\1_2_2\1\1\1_2_3\1\1\|
+~C|1_2_1||CANAL|75466807.78778|040400|0|
+~Y|1_2_1|02.001\1\29493.4\02.007\1\61646.5\02.008\1\11202.7\02.033\1\60519.9\02.020\1\13798.5\01.015\1\2820.7\01.013\1\2115.52\01.029\1\729.62\01.047\1\3049.4\01.045\1\6678.4\01.014\1\13341.1\01.083\1\12197.6\01.085\1\1245.68\01.086\1\8.00468\01.088\1\26.6823\01.102\1\1524.7\|
+~M|1_2_1\02.001|1\2\1\1\|29493.4|\\1\352.6\36\0\\\1\409.75\41\0\\\0\0\0\0\|
+~M|1_2_1\02.007|1\2\1\2\|61646.5|\Igual medici¢n\0\0\0\0\\terrapÇn\1\60519.9\1\1\\A deducir\0\0\0\0\\excavaci¢n\-1\11202.7\1\1\\25% no £til\0.25\49317.2\1\1\\\0\0\0\0\|
+~M|1_2_1\02.008|1\2\1\3\|11202.7|\\1\352.6\5.95\1.3\\\1\409.75\5\1\\Sobreancho\0\0\0\0\\terraplÇn\2\352.6\0.8\5\\\2\409.75\0.8\5.5\\\0\0\0\0\|
+~M|1_2_1\02.033|1\2\1\4\|60519.9|\M.D.\1\352.6\11.95\3.4\\\1\409.75\12.1\3.75\\M.I.\1\352.6\9.95\3.4\\\1\409.75\10.2\3.75\\\0\0\0\0\|
+~M|1_2_1\02.020|1\2\1\5\|13798.5|\\2\762.35\7.05\0\\\1\762.35\4\0\\\0\0\0\0\|
+~M|1_2_1\01.015|1\2\1\6\|2820.7|\\2\762.35\0.5\0.2\\\2\762.35\0.2\6.75\\\1\762.35\4\0.2\\\0\0\0\0\|
+~M|1_2_1\01.013|1\2\1\7\|2115.52|\Igual medici¢n\0\0\0\0\\revestimiento\0\0\0\0\\0.75 kg/m3H\0\0\0\0\\\1\2820.7\0.75\0\\\0\0\0\0\|
+~M|1_2_1\01.029|1\2\1\8\|729.62|\\191\0.2\19.1\0\\\0\0\0\0\|
+~M|1_2_1\01.047|1\2\1\9\|3049.4|\\4\762.35\0\0\\\0\0\0\0\|
+~M|1_2_1\01.045|1\2\1\10\|6678.4|\\191\19\0\0\\\4\762.35\0\0\\\0\0\0\0\|
+~M|1_2_1\01.014|1\2\1\11\|13341.1|\\1\762.35\17.5\0\\\0\0\0\0\|
+~M|1_2_1\01.083|1\2\1\12\|12197.6|\\2\762.35\5\0\\\2\762.35\3\0\\\0\0\0\0\|
+~M|1_2_1\01.085|1\2\1\13\|1245.68|\Densidad\0\0\0\0\\1.90 kg/m3\0\0\0\0\\Secc.T.1\1.9\762.35\3.44\0.25\\\0\0\0\0\|
+~M|1_2_1\01.086|1\2\1\14\|8.00468|\1.50 kg/m2\0\0\0\0\\Secc.T.1\0.15\762.35\3.5\0.01\\\0.15\762.35\3.5\0.01\\\0\0\0\0\|
+~M|1_2_1\01.088|1\2\1\15\|26.6823|\5 litros\0\0\0\0\\\0.1\762.35\3.5\0.05\\\0.1\762.35\3.5\0.05\\\0\0\0\0\|
+~M|1_2_1\01.102|1\2\1\16\|1524.7|\\2\762.35\0\0\\\0\0\0\0\|
+~C|1_2_2||DRENAJE|6619884.17181|040400|0|
+~D|1_2_2|1_2_2_1\1\1\1_2_2_2\1\1\|
+~C|1_2_2_1||DRENAJE LONGITUDINAL|3498896|040400|0|
+~Y|1_2_2_1|05.039\1\8\05.040\1\400\|
+~M|1_2_2_1\05.039|1\2\2\1\1\|8|\\8\0\0\0\\\0\0\0\0\|
+~M|1_2_2_1\05.040|1\2\2\1\2\|400|\\400\1\0\0\\\0\0\0\0\|
+~C|1_2_2_2||DRENAJE PROFUNDO|3120988.17181|040400|0|
+~Y|1_2_2_2|02.010\1\667.056\02.034\1\643.118\01.056\1\2896.93\01.060\1\762.35\|
+~M|1_2_2_2\02.010|1\2\2\2\1\|667.056|\\1\762.35\1.75\0.5\\\0\0\0\0\|
+~M|1_2_2_2\02.034|1\2\2\2\2\|643.118|\\1\762.35\1.75\0.5\\A deducir\-1\762.35\3.14\0.01\\\0\0\0\0\|
+~M|1_2_2_2\01.056|1\2\2\2\3\|2896.93|\\1\762.35\3.8\0\\\0\0\0\0\|
+~M|1_2_2_2\01.060|1\2\2\2\4\|762.35|\\1\762.35\0\0\\\0\0\0\0\|
+~C|1_2_3||RAMPA DE ACCESO|391196.1825|040400|0|
+~Y|1_2_3|02.001\1\110.01\02.008\1\379.328\02.020\1\109.95\01.015\1\21.99\01.029\1\5.4\01.047\1\27\01.045\1\27\01.014\1\109.95\|
+~M|1_2_3\02.001|1\2\3\1\|110.01|\\1\36.67\3\0\\\0\0\0\0\|
+~M|1_2_3\02.008|1\2\3\2\|379.328|\\1\36.65\3\3.45\\\0\0\0\0\|
+~M|1_2_3\02.020|1\2\3\3\|109.95|\\1\36.65\3\0\\\0\0\0\0\|
+~M|1_2_3\01.015|1\2\3\4\|21.99|\\1\36.65\3\0.2\\\0\0\0\0\|
+~M|1_2_3\01.029|1\2\3\5\|5.4|\\9\3\0.2\0\\\0\0\0\0\|
+~M|1_2_3\01.047|1\2\3\6\|27|\\1\27\0\0\\\0\0\0\0\|
+~M|1_2_3\01.045|1\2\3\7\|27|\\9\3\0\0\\\0\0\0\0\|
+~M|1_2_3\01.014|1\2\3\8\|109.95|\\1\36.65\3\0\\\0\0\0\0\|
+~C|1_3||CµMARA DE CARGA|80481233.41662|040400|0|
+~Y|1_3|02.001\1\3945.88\01.025\1\8133.9\02.018\1\1474.5\01.001\1\276.023\01.005\1\2474.61\01.006\1\2046.31\01.007\1\171.75\01.027\1\408.94\01.029\1\3808.1\01.028\1\29.673\01.030\1\244.76\01.037\1\195348\01.021\1\228.6\01.045\1\228.6\01.085\1\175.958\01.083\1\546\01.086\1\1.638\01.088\1\5.46\01.102\1\208\|
+~M|1_3\02.001|1\3\1\|3945.88|\Transici¢n\1\40\45.5\0\\C†mara\1\31\56\0\\\1\10.26\38\0\\\0\0\0\0\|
+~M|1_3\01.025|1\3\2\|8133.9|\Cimentos\0\0\0\0\\\2\30.74\7.25\0.5\\\2\15\7.25\0.5\\\1\17\7.25\0.5\\Transici¢n\1\40\28\1.7\\C†mara\1\30.74\40.5\2.6\\\1\9.26\28.75\2.6\\Toma t£ber\1\14.3\16\2.25\\\1\14.3\5\4.5\\\1\13.6\17.5\4.5\\\0\0\0\0\|
+~M|1_3\02.018|1\3\3\|1474.5|\Form. vial\1\40\8.7\1.8\\\1\33\8.5\1.6\\\1\110\2.2\1.65\\\0\0\0\0\|
+~M|1_3\01.001|1\3\4\|276.023|\Transici¢n\1\40\28\0.1\\C†mara\0\0\0\0\\\2\30.74\7.25\0.1\\\1\30.74\25\0.1\\\1\13\7.25\0.1\\\1\15\7.25\0.1\\\1\17\5\0.1\\\1\13.6\5\0.1\\\1\10\7\0.1\\\0\0\0\0\|
+~M|1_3\01.005|1\3\5\|2474.61|\Cimientos\0\0\0\0\\\2\37.74\7.25\1\\\1\13.5\7.25\1\\\1\14.5\5.75\1\\Solera\1\40\30.5\0.7\\\1\30.74\25\0.5\\\1\6.5\20\0.5\\\1\13.4\21\0.5\\\1\14.6\12.2\1.5\\\2\5\7\0.5\\\0\0\0\0\|
+~M|1_3\01.006|1\3\6\|2046.31|\Transici¢n\2\40.5\0.5\6.9\\\2\40.5\3.38\3.45\\C†mara\0\0\0\0\\\2\30.74\1\3\\\2\30.74\0.5\5.2\\\1\14.5\1\3\\\1\14.5\0.5\5.2\\\1\16.5\1\3.1\\\1\16.5\0.5\5.2\\\2\2.5\0.8\4\\\1\15\0.5\6\\\1\7\0.5\7\\\2\7\0.5\8\\\2\16\0.7\2\\\2\5\0.7\4\\\2\12\0.7\3.6\\Aletas\2\5\0.7\4\\\0\0\0\0\|
+~M|1_3\01.007|1\3\7\|171.75|\\1\4\14.5\1\\\1\4.7\7\0.8\\\1\5\7\0.8\\\1\6.4\6.4\0.5\\\1\7\4.5\0.5\\\1\14.5\3.2\0.5\\\0\0\0\0\|
+~M|1_3\01.027|1\3\8\|408.94|\\1\19.5\0.7\0\\\3\40.5\0.7\0\\\2\7.25\1\0\\\4\30.74\1\0\\\1\16\1\0\\\1\9.7\1\0\\\1\17.5\1\0\\\1\1\1\0\\\1\13\0.5\0\\\2\25\0.5\0\\\5\7.25\1\0\\\2\12.2\1.5\0\\\2\5.3\0.8\0\\\1\7\0.8\0\\\1\14.5\0.7\0\\\0\0\0\0\|
+~M|1_3\01.029|1\3\9\|3808.1|\Transici¢n\2\40.5\6.9\0\\\2\42\7.6\0\\\2\3.85\6.9\0\\C†mara\0\0\0\0\\\4\30.74\3\0\\\4\30.74\5.2\0\\\2\14.5\3\0\\\2\14.5\5.2\0\\\2\16.5\3\0\\\2\16.5\5.2\0\\\2\21.95\2\0\\\4\2.5\4\0\\\2\15\6\0\\\2\7\7\0\\\4\7\8\0\\\4\16\2\0\\\4\5\4\0\\\2\12\3.5\0\\\4\5\4\0\\\7\1\3\0\\\7\0.5\5.2\0\\\0\0\0\0\|
+~M|1_3\01.028|1\3\10\|29.673|\\1\6.28\0.4\4\\\0.5\12.5\6.28\0.5\\\0\0\0\0\|
+~M|1_3\01.030|1\3\11\|244.76|\\1\14.5\4\0\\\1\4.7\7\0\\\1\5\7\0\\\1\6.4\6.4\0\\\1\7\4.5\0\\\1\14.5\3.2\0\\\0\0\0\0\|
+~M|1_3\01.037|1\3\12\|195348|\Igual medici¢n\0\0\0\0\\hormig¢n:\0\0\0\0\\cimientos\1\728.48\50\0\\soleras\1\1746.13\40\0\\alzados\1\822.32\60\0\\Transici¢n\0\0\0\0\\m2\1\1300\20\0\\losas\1\171.75\80\0\\\0\0\0\0\|
+~M|1_3\01.021|1\3\13\|228.6|\\2\40\0\0\\\1\13\0\0\\\2\28\0\0\\\1\14\0\0\\\8\8.2\0\0\\\0\0\0\0\|
+~M|1_3\01.045|1\3\14\|228.6|\\2\40\0\0\\\1\13\0\0\\\2\28\0\0\\\1\14\0\0\\\8\8.2\0\0\\\0\0\0\0\|
+~M|1_3\01.085|1\3\15\|175.958|\Densidad\0\0\0\0\\1.90 kg/m3\0\0\0\0\\\1.9\78\3.83\0.31\\\0\0\0\0\|
+~M|1_3\01.083|1\3\16\|546|\\2\78\3.5\0\\\0\0\0\0\|
+~M|1_3\01.086|1\3\17\|1.638|\1.50 kg/m2\0\0\0\0\\\0.15\78\3.5\0.04\\\0\0\0\0\|
+~M|1_3\01.088|1\3\18\|5.46|\5 litros\0\0\0\0\\\0.4\78\3.5\0.05\\\0\0\0\0\|
+~M|1_3\01.102|1\3\19\|208|\\2\40\0\0\\\2\32\0\0\\\2\22\0\0\\\1\20\0\0\\\0\0\0\0\|
+~C|1_4||TUBER÷A FORZADA|149228545.273|040400|0|
+~Y|1_4|02.001\1\901.8\02.010\1\5009.82\02.023\1\3484.47\01.001\1\36.81\01.005\1\485.583\01.027\1\457.171\01.037\1\9711.6\10.008\1\314782\01.017\1\38\01.085\1\891.628\01.083\1\2610\01.086\1\7.83\01.088\1\26.1\01.026\1\320\|
+~M|1_4\02.001|1\4\1\|901.8|\\1\48.8\6\0\\\1\87\7\0\\\0\0\0\0\|
+~M|1_4\02.010|1\4\2\|5009.82|\\1\48\3.4\1.7\\\2\48\1.7\1.7\\\1\87\3.4\5.2\\\2\87\5.2\2.6\\\19\6\4.5\1.1\\\0\0\0\0\|
+~M|1_4\02.023|1\4\3\|3484.47|\Igual medici¢n\0\0\0\0\\excavaci¢n\1\5009.82\1\1\\A deducir\0\0\0\0\\\-19\5.7\3\1.1\\\-0.5\48\3.14\2.89\\\-1\79\3.14\2.89\\\-1\8\5.4\5.4\\\0\0\0\0\|
+~M|1_4\01.001|1\4\4\|36.81|\\19\5.7\3\0.1\\\1\8\5.4\0.1\\\0\0\0\0\|
+~M|1_4\01.005|1\4\5\|485.583|\\19\5.7\3\1\\\1\8\5.4\5.4\\A deducir\0\0\0\0\\\-1\8\3.14\2.89\\\0\0\0\0\|
+~M|1_4\01.027|1\4\6\|457.171|\\38\5.7\1\0\\\38\3\1\0\\\2\8\5.4\0\\\2\5.4\5.4\0\\A deducir\0\0\0\0\\\-2\3.14\2.89\0\\\0\0\0\0\|
+~M|1_4\01.037|1\4\7\|9711.6|\Igual medici¢n\0\0\0\0\\hormig¢n\1\485.58\20\0\\\0\0\0\0\|
+~M|1_4\10.008|1\4\8\|314782|\\173.841\6.28\1.7\93.42\\\111.25\6.28\1.7\99.7\\\98\6.28\1.84\14.3\\\882\0.14\0.1\62.8\\\168\1.1\0.14\62.8\\\84\1.1\0.5\62.8\\\42\0.4\0.35\78.5\\\42\0.45\0.4\94.2\\\168\1.2\1.58\1\\\0\0\0\0\|
+~M|1_4\01.017|1\4\9\|38|\\38\0\0\0\\\0\0\0\0\|
+~M|1_4\01.085|1\4\10\|891.628|\\1.9\261\5.8\0.31\\\0\0\0\0\|
+~M|1_4\01.083|1\4\11\|2610|\\2\261\5\0\\\0\0\0\0\|
+~M|1_4\01.086|1\4\12\|7.83|\\0.15\261\5\0.04\\\0\0\0\0\|
+~M|1_4\01.088|1\4\13\|26.1|\\0.4\261\5\0.05\\\0\0\0\0\|
+~M|1_4\01.026|1\4\14\|320|\\1\320\0\0\\\0\0\0\0\|
+~C|1_5||CENTRAL HIDROELêCTRICA|134310237.2214|040400|0|
+~Y|1_5|02.001\1\4022\02.004\1\10640\02.011\1\18954.2\02.023\1\20896.7\01.018\1\773.5\25.019\1\104.07\25.032\1\1432.86\01.009\1\2456.82\25.039\1\3393.67\01.028\1\37.052\01.030\1\377.933\01.037\1\156295\01.022\1\15.7\01.053\1\74\01.102\1\160\01.019\1\387.35\|
+~M|1_5\02.001|1\5\1\|4022|\\1\81\21\0\\\1\52\20\0\\\1\61\21\0\\\0\0\0\0\|
+~M|1_5\02.004|1\5\2\|10640|\\1\80\20\2.8\\\1\50\20\2.8\\\1\60\20\2.8\\\0\0\0\0\|
+~M|1_5\02.011|1\5\3\|18954.2|\\1\28\10\12.95\\\1\28\8\10.84\\\1\20\30\6.45\\\1\20\25\6.45\\\2\30\15\6.45\\\0\0\0\0\|
+~M|1_5\02.023|1\5\4\|20896.7|\Igual medici¢n\0\0\0\0\\excavaci¢n\0\0\0\0\\\1\11020\1\1\\\1\18954.2\1\1\\A deducir\0\0\0\0\\\-1\14.5\8.2\9.35\\\-1\14.5\7\7.3\\\-1\14.5\8\15.8\\\-1\8\10\15.8\\\-1\7\10\15.8\\\-2\9.5\5\5\\\-2\34\4.5\4.5\\\-1\20\15\3.9\\\0\0\0\0\|
+~M|1_5\01.018|1\5\5\|773.5|\\2\45\3.5\0\\\2\30\3.5\0\\\2\12\3.5\0\\\1\17\3.5\0\\\1\30\3.5\0\\\0\0\0\0\|
+~M|1_5\25.019|1\5\6\|104.07|\\1\8\17\0.1\\\1\7\11.5\0.1\\\1\7\8\0.1\\\1\8\4\0.1\\\1\15\1.37\0.1\\\1\14\26.5\0.1\\\1\7\4\0.1\\\1\9.5\5\0.1\\\1\21\4.5\0.1\\\1\26\3.4\0.1\\\1\11.5\7.5\0.1\\\0\0\0\0\|
+~M|1_5\25.032|1\5\7\|1432.86|\Recubrimiento\0\0\0\0\\tuber°a\1\9.4\5.8\5.8\\\1\20\4.4\4.4\\\1\7\4.95\4.95\\\1\25\3.55\3.55\\\1\12\1.7\4.95\\\1\9\12\4.95\\A deducir\0\0\0\0\\tuber°a\-1\42\3.14\1.96\\\-1\45\3.14\0.95\\\0\0\0\0\|
+~M|1_5\01.009|1\5\8\|2456.82|\Alzados\1\12\0.8\8\\\1\21\0.8\13\\\1\21\0.8\7.5\\\1\12\0.8\4.5\\\2\6\0.8\4\\\1\6\0.8\4\\\1\9.2\0.8\3.6\\\1\5.8\0.8\10\\\1\8.4\0.8\11.36\\\1\9\0.8\3.6\\\1\1.7\0.8\9.2\\\1\12.4\0.8\9.45\\\1\3.14\2.52\2.5\\\1\3.14\3.02\2.5\\\2\2\0.8\7.5\\C†mara de\1\16\0.5\0.9\\aspiraci¢n\1\16\1\0.5\\\1\7\0.6\10\\\1\8\0.6\15\\\1\8\7\0.6\\\1\8\3\0.6\\\1\8\0.6\1\\\1\8\1\0.9\\\1\7\2.8\1.2\\Cab.6.6 kv\0\0\0\0\\\1\13.5\5\0.6\\Aspirador\0\0\0\0\\\1\6.8\4.4\4.8\\\1\3.7\3.3\4.8\\\1\4.4\1.4\3.4\\\1\8\19.5\5.6\\\1\8\9\2.2\\\1\4.8\19.5\0.8\\A deducir\0\0\0\0\\\-1\3.14\1.44\1.7\\\-1\2\4\5\\\-1\6\7.5\2\\\-1\3\1.6\3.5\\\-1\5\4.4\1.3\\Losas\0\0\0\0\\858.20\1\24.5\12\0.6\\859.80\1\17\2.5\0.4\\escaleras\2\1.2\0.2\6\\\2\1.2\0.2\7\\A deducir\0\0\0\0\\\-1\3\1.5\0.6\\\-1\3.5\1.3\0.6\\\-1\2.4\1.8\0.6\\\-2\3.14\1.56\0.6\\\0\0\0\0\|
+~M|1_5\25.039|1\5\9\|3393.67|\\1\17\1\0\\\1\17\0.4\0\\\1\9.5\3.7\0\\\1\9.3\3.6\0\\\1\10.6\5.8\0\\\1\10\5.8\0\\\1\8.3\11.8\0\\\1\4\11.2\0\\\1\4.3\8\0\\\1\9.5\3.85\0\\\1\9.2\3.6\0\\\1\1.7\9.3\0\\\1\1.7\9\0\\\1\12.4\10\0\\\1\12.4\9.4\0\\\1\12.8\4.5\0\\\2\5\4.5\0\\\1\12.8\4\0\\\1\12\3.6\0\\\2\5\3.6\0\\\2\21.1\13\0\\\2\19.5\12\0\\\2\5.5\12.8\0\\\2\5\12.2\0\\\2\8\15\0\\\2\8\7\0\\\4\2.2\8\0\\Recubrimiento\0\0\0\0\\tuber°a\2\9.4\5.8\0\\\2\20\4.4\0\\\2\7\4.95\0\\\2\25\3.55\0\\\1\12\4.95\0\\\1\13\4.95\0\\\1\6\4.95\0\\\1\5.4\4.95\0\\\1\7\4.95\0\\A deducir\-1\3.14\1.96\0\\\-1\3.14\0.95\0\\\-1\3.14\2.89\0\\\0\0\0\0\\\0\0\0\0\\\0\0\0\0\\\0\0\0\0\\\0\0\0\0\|
+~M|1_5\01.028|1\5\10\|37.052|\\1\6.28\0.4\7.5\\\0.5\6.28\1\3.4\\\2\6.28\1\0.6\\\0\0\0\0\|
+~M|1_5\01.030|1\5\11\|377.933|\\1\24.5\12\0\\\1\17\2.5\0\\\1\17\0.4\0\\\2\1.2\6\0\\\4\0.2\6\0\\\2\1.2\7\0\\\4\0.2\7\0\\\2\3\0.6\0\\\2\1.5\0.6\0\\\2\3.5\0.6\0\\\2\1.3\0.6\0\\\2\2.4\0.6\0\\\2\1.8\0.6\0\\A deducir\-1\3\1.5\0\\\-1\3.5\1.3\0\\\-1\2.4\1.8\0\\\-2\3.14\1.56\0\\\0\0\0\0\|
+~M|1_5\01.037|1\5\12\|156295|\Igual medici¢n\0\0\0\0\\Alzados\1\870.9\65\0\\Losas\1\185.74\80\0\\Cimientos\1\1400.18\35\0\\Rec. tuber°a\1\1432.86\25\0\\\0\0\0\0\|
+~M|1_5\01.022|1\5\13\|15.7|\+858.20\1\2.5\1.4\0\\\1\2.4\1.8\0\\\1\2.9\1.6\0\\+854.40\1\1.8\1.8\0\\\0\0\0\0\|
+~M|1_5\01.053|1\5\14\|74|\\2\20\0\0\\\1\16\0\0\\\1\18\0\0\\\0\0\0\0\|
+~M|1_5\01.102|1\5\15\|160|\\1\160\0\0\\\0\0\0\0\|
+~M|1_5\01.019|1\5\16\|387.35|\\1\25.5\12.7\0\\\1\5\12.7\0\\\0\0\0\0\|
+~C|1_6||SUBESTACI‡N|5100924.843|040400|0|
+~Y|1_6|02.001\1\1080\02.011\1\352.122\02.010\1\217.01\02.023\1\339.988\01.023\1\105.957\01.001\1\6\01.002\1\4.455\01.005\1\41.215\01.003\1\144.518\01.008\1\7.48\01.027\1\404.84\01.029\1\195.6\01.037\1\1854.9\10.087\1\24\10.088\1\72\10.089\1\8\10.066\1\1\10.071\1\2\10.063\1\1\01.024\1\14\01.102\1\122.5\10.070\1\1\|
+~M|1_6\02.001|1\6\1\|1080|\\1\36\30\0\\\0\0\0\0\|
+~M|1_6\02.011|1\6\2\|352.122|\Apoyos 1\5\5\4\1.7\\\6\2.7\2.2\1.2\\\2\2.3\2.3\1.2\\\8\2.1\2.1\1.1\\\3\2.1\2.1\1\\\2\2.7\1\1.3\\Tranforma.\1\6.5\8\1.3\\\0\0\0\0\|
+~M|1_6\02.010|1\6\3\|217.01|\Cerramientos\2\35.5\0.7\0.5\\\2\29\0.7\0.5\\Zanja para\0\0\0\0\\red de tierra\8.5\29\0.5\0.6\\\7\35\0.5\0.6\\Canal de \0\0\0\0\\cables\1\43\0.5\0.7\\Tubos\1\8\0.9\1.3\\\0\0\0\0\|
+~M|1_6\02.023|1\6\4\|339.988|\Apoyos 1\5\5\4\1.7\\\6\2.7\2.2\1.2\\\2\2.3\2.3\1.2\\\8\2.1\2.1\1.1\\\3\2.1\2.1\1\\\2\2.7\1\1.3\\transforma.\1\6.5\8\1.3\\Cerramientos\2\35.5\0.7\0.5\\\2\29\0.7\0.5\\Canal para\0\0\0\0\\cables\8.5\29\0.5\0.6\\\7\35\0.5\0.6\\A deducir\0\0\0\0\\Apoyos 1\-5\4\3\1.7\\Apoyos 2\-6\1.6\1.2\1.2\\Soportes 3\-2\1.3\1.3\1.2\\Soportes 4\-8\1.1\1.1\1.1\\Soportes 5\-3\1.1\1.1\1\\Soportes 6\-2\1.7\0.3\1.3\\Cerramientos\-2\35\0.3\0.5\\\-2\29\0.3\0.5\\Transform.\-1\7\5.5\1.3\\\0\0\0\0\|
+~M|1_6\01.023|1\6\5\|105.957|\\1\34.7\28.7\0.1\\\5\4\3\0.2\\\6\1.6\1.2\0.2\\\2\1.3\1.3\0.2\\\8\1.1\1.1\0.2\\\3\1.1\1.1\0.2\\A deducir\0\0\0\0\\\-1\6\7\0.1\\\-1\2.65\3\0.1\\\-5\2\1\0.2\\\-6\1.3\0.6\0.2\\\-2\0.7\0.7\0.2\\\-8\0.7\0.7\0.2\\\-3\0.6\0.6\0.2\\Can. cable\-1\17\0.5\0.1\\\-1\16.7\0.5\0.1\\\-1\5\0.5\0.1\\\-2\0.75\0.75\0.1\\\-1\1\1\0.1\\\0\0\0\0\|
+~M|1_6\01.001|1\6\6\|6|\Transform.\1\7\5.5\0.1\\canal cab.\1\43\0.5\0.1\\\0\0\0\0\|
+~M|1_6\01.002|1\6\7\|4.455|\\1\8.25\0.9\0.6\\\0\0\0\0\|
+~M|1_6\01.005|1\6\8\|41.215|\Transform.\1\7\5.5\0.5\\\2\7\0.3\0.5\\\2\7\0.25\0.3\\\2\5\0.25\0.8\\\2\6.5\0.6\0.5\\\2\6.5\0.5\0.3\\Canal de\0\0\0\0\\cables\1\43\0.5\0.15\\\2\43\0.15\0.6\\\0\0\0\0\|
+~M|1_6\01.003|1\6\9\|144.518|\Apoyos 1\5\4\3\1.5\\Apoyos 2\6\1.6\1.2\1\\Soporte 3\2\1.3\1.3\1\\" 4\8\1.1\1.1\0.9\\" 5\3\1.1\1.1\0.8\\" 6\2\1.7\0.3\1.1\\Cerramientos\2\35\0.3\0.7\\\2\29\0.3\0.7\\\0\0\0\0\|
+~M|1_6\01.008|1\6\10\|7.48|\Apoyos 1\5\2\1\0.4\\" 2\6\1.3\0.6\0.4\\Soportes 3\2\0.7\0.7\0.4\\" 4\4\0.7\0.7\0.4\\" 5\3\0.6\0.6\0.4\\\0\0\0\0\|
+~M|1_6\01.027|1\6\11\|404.84|\Apoyos\10\4\1.5\0\\\10\3\1.5\0\\\12\1.6\1\0\\\12\1.2\1\0\\\8\1.3\1\0\\\32\1.1\0.9\0\\\12\1.1\0.8\0\\\4\1.7\1.1\0\\\4\0.3\1.1\0\\Cerramientos\4\35\0.8\0\\\4\29\0.8\0\\\0\0\0\0\|
+~M|1_6\01.029|1\6\12\|195.6|\Transform.\2\7\1.3\0\\\2\5.5\1.3\0\\\6\6.5\0.8\0\\\4\1.4\0.8\0\\\2\1.2\0.8\0\\Apoyos\10\2\0.4\0\\\10\1\0.4\0\\\12\1.3\0.4\0\\\12\0.6\0.4\0\\\8\0.7\0.4\0\\\32\0.7\0.4\0\\\12\0.6\0.4\0\\Canal\2\43\0.6\0\\\2\43\0.45\0\\\0\0\0\0\|
+~M|1_6\01.037|1\6\13\|1854.9|\Igual medici¢n\0\0\0\0\\hormig¢n\1\41.22\45\0\\\0\0\0\0\|
+~M|1_6\10.087|1\6\14\|24|\\24\0\0\0\\\0\0\0\0\|
+~M|1_6\10.088|1\6\15\|72|\\72\0\0\0\\\0\0\0\0\|
+~M|1_6\10.089|1\6\16\|8|\\8\0\0\0\\\0\0\0\0\|
+~M|1_6\10.066|1\6\17\|1|\\1\0\0\0\|
+~M|1_6\10.071|1\6\18\|2|\\2\0\0\0\|
+~M|1_6\10.063|1\6\19\|1|\\1\0\0\0\|
+~M|1_6\01.024|1\6\20\|14|\\2\7\0\0\\\0\0\0\0\|
+~M|1_6\01.102|1\6\21\|122.5|\\2\35\0\0\\\2\29\0\0\\A deducir\0\0\0\0\\\-1\5.5\0\0\\\0\0\0\0\|
+~M|1_6\10.070|1\6\22\|1|\\1\0\0\0\|
+~C|1_7||CANAL DE DESAGöE|9317628.55005|040400|0|
+~Y|1_7|02.001\1\3399.59\02.004\1\6884.94\02.008\1\6269.61\02.026\1\2775.91\|
+~M|1_7\02.001|1\7\1\|3399.59|\\1\86.85\34.48\0\\\1\15\27\0\\\0\0\0\0\|
+~M|1_7\02.004|1\7\2\|6884.94|\\1\68\29.09\3.25\\\1\10\26.06\1.75\\\0\0\0\0\|
+~M|1_7\02.008|1\7\3\|6269.61|\\1\86.85\13.05\4.6\\\1\15\17.6\4\\\0\0\0\0\|
+~M|1_7\02.026|1\7\4\|2775.91|\\3.6\8\3\0.7\\\1.8\85.35\6.85\0.7\\\3.6\86.85\7.15\0.7\\\1.8\15\15.9\0.7\\\3.6\15\3\0.7\\\0\0\0\0\|
+~C|1_8||URBANIZACI‡N|8181496.2|040400|0|
+~D|1_8|1_8_1\1\1\1_8_2\1\1\1_8_3\1\1\1_8_4\1\1\|
+~C|1_8_1||ACCESOS|675182.4|040400|0|
+~Y|1_8_1|02.001\1\320\02.004\1\115.2\10.079\1\256\04.017\1\64\02.013\1\1\|
+~M|1_8_1\02.001|1\8\1\1\|320|\\1\32\10\0\\\0\0\0\0\|
+~M|1_8_1\02.004|1\8\1\2\|115.2|\\1\32\9\0.4\\\0\0\0\0\|
+~M|1_8_1\10.079|1\8\1\3\|256|\\1\32\8\0\|
+~M|1_8_1\04.017|1\8\1\4\|64|\\2\32\0\0\|
+~M|1_8_1\02.013|1\8\1\5\|1|\\1\0\0\0\|
+~C|1_8_2||VIALES Y ACERAS|4482998.8|040400|0|
+~Y|1_8_2|02.001\1\1756\02.004\1\702.4\10.079\1\1677\10.072\1\378\10.078\1\93\|
+~M|1_8_2\02.001|1\8\2\1\|1756|\\1\23\20\0\\\1\12\17\0\\\1\42\26\0\|
+~M|1_8_2\02.004|1\8\2\2\|702.4|\\1\23\20\0.4\\\1\12\17\0.4\\\1\42\26\0.4\\\0\0\0\0\|
+~M|1_8_2\10.079|1\8\2\3\|1677|\\1\22\20\0\\\1\17\11\0\\\1\42\25\0\\\0\0\0\0\|
+~M|1_8_2\10.072|1\8\2\4\|378|\\1\10\6\0\\\1\20\6\0\\\1\28\6\0\\\1\5\6\0\\\0\0\0\0\|
+~M|1_8_2\10.078|1\8\2\5\|93|\\1\16\0\0\\\1\30\0\0\\\1\37\0\0\\\1\10\0\0\\\0\0\0\0\|
+~C|1_8_3||CERRAMIENTO|2415427|040400|0|
+~Y|1_8_3|10.069\1\155\10.070\1\1\|
+~M|1_8_3\10.069|1\8\3\1\|155|\\1\155\0\0\|
+~M|1_8_3\10.070|1\8\3\2\|1|\\1\0\0\0\|
+~C|1_8_4||ILUMINACI‡N|607888|040400|0|
+~Y|1_8_4|10.080\1\135\10.081\1\7\10.082\1\7\10.073\1\75\10.074\1\60\|
+~M|1_8_4\10.080|1\8\4\1\|135|\\1\135\0\0\\\0\0\0\0\|
+~M|1_8_4\10.081|1\8\4\2\|7|\\7\0\0\0\\\0\0\0\0\|
+~M|1_8_4\10.082|1\8\4\3\|7|\\7\0\0\0\|
+~M|1_8_4\10.073|1\8\4\4\|75|\\1\75\0\0\\\0\0\0\0\|
+~M|1_8_4\10.074|1\8\4\5\|60|\\1\60\0\0\\\0\0\0\0\|
+~C|1_9||IMPACTO AMBIENTAL|3327863|040400|0|
+~Y|1_9|26.001\1\1\|
+~M|1_9\26.001|1\9\1\|1|\\1\0\0\0\|
+~C|2#||EQUIPOS ELECTROMECµNICOS|395409789|040400|0|
+~D|2|2_1\1\1\2_2\1\1\2_3\1\1\2_4\1\1\2_5\1\1\2_6\1\1\2_7\1\1\|
+~C|2_1||CANAL DE TOMA Y CµMARA DE DESCARGA|34125876|040400|0|
+~Y|2_1|1000\1\2\1002\1\2\1004\1\1\1006\1\1\1026\1\1155\1108\1\100\1030\1\120\1032\1\190\1034\1\400\1036\1\1\1038\1\1\1040\1\380\1042\1\380\1044\1\312\1046\1\3\1048\1\2\1050\1\1\|
+~M|2_1\1000|2\1\1\|2|\\2\0\0\0\\\0\0\0\0\|
+~M|2_1\1002|2\1\2\|2|\\2\0\0\0\|
+~M|2_1\1004|2\1\3\|1|\\1\0\0\0\|
+~M|2_1\1006|2\1\4\|1|\\1\0\0\0\|
+~M|2_1\1026|2\1\5\|1155|\\1155\0\0\0\\\0\0\0\0\|
+~M|2_1\1108|2\1\6\|100|\\100\0\0\0\|
+~M|2_1\1030|2\1\7\|120|\\120\0\0\0\|
+~M|2_1\1032|2\1\8\|190|\\190\0\0\0\|
+~M|2_1\1034|2\1\9\|400|\\400\0\0\0\|
+~M|2_1\1036|2\1\10\|1|\\1\0\0\0\|
+~M|2_1\1038|2\1\11\|1|\\1\0\0\0\|
+~M|2_1\1040|2\1\12\|380|\\380\0\0\0\|
+~M|2_1\1042|2\1\13\|380|\\380\0\0\0\|
+~M|2_1\1044|2\1\14\|312|\\312\0\0\0\|
+~M|2_1\1046|2\1\15\|3|\\3\0\0\0\|
+~M|2_1\1048|2\1\16\|2|\\2\0\0\0\|
+~M|2_1\1050|2\1\17\|1|\\1\0\0\0\|
+~C|2_2||EQUIPOS HIDROMECµNICOS DE LA CENTRAL|45277073|040400|0|
+~Y|2_2|1100\1\54347\1102\1\9780\1104\1\1\1106\1\245\1108\1\490\1110\1\50\1112\1\665\1030\1\450\1032\1\1600\1118\1\1\1122\1\52\1124\1\1\1126\1\1100\1128\1\1\1130\1\1\1134\1\1\1138\1\1\1142\1\1\1144\1\2\1146\1\240\1148\1\150\1150\1\3\1152\1\8\1154\1\190\|
+~M|2_2\1100|2\2\1\|54347|\\54347\0\0\0\|
+~M|2_2\1102|2\2\2\|9780|\\9780\0\0\0\|
+~M|2_2\1104|2\2\3\|1|\\1\0\0\0\|
+~M|2_2\1106|2\2\4\|245|\\245\0\0\0\|
+~M|2_2\1108|2\2\5\|490|\\490\0\0\0\|
+~M|2_2\1110|2\2\6\|50|\\50\0\0\0\|
+~M|2_2\1112|2\2\7\|665|\\665\0\0\0\|
+~M|2_2\1030|2\2\8\|450|\\450\0\0\0\|
+~M|2_2\1032|2\2\9\|1600|\\1600\0\0\0\|
+~M|2_2\1118|2\2\10\|1|\\1\0\0\0\|
+~M|2_2\1122|2\2\11\|52|\\52\0\0\0\|
+~M|2_2\1124|2\2\12\|1|\\1\0\0\0\|
+~M|2_2\1126|2\2\13\|1100|\\1100\0\0\0\|
+~M|2_2\1128|2\2\14\|1|\\1\0\0\0\|
+~M|2_2\1130|2\2\15\|1|\\1\0\0\0\|
+~M|2_2\1134|2\2\16\|1|\\1\0\0\0\|
+~M|2_2\1138|2\2\17\|1|\\1\0\0\0\|
+~M|2_2\1142|2\2\18\|1|\\1\0\0\0\|
+~M|2_2\1144|2\2\19\|2|\\2\0\0\0\|
+~M|2_2\1146|2\2\20\|240|\\240\0\0\0\|
+~M|2_2\1148|2\2\21\|150|\\150\0\0\0\|
+~M|2_2\1150|2\2\22\|3|\\3\0\0\0\|
+~M|2_2\1152|2\2\23\|8|\\8\0\0\0\|
+~M|2_2\1154|2\2\24\|190|\\190\0\0\0\|
+~C|2_3||GRUPOS TURBINA-ALTERNADOR|207743854|040400|0|
+~Y|2_3|1201\1\1\1202\1\1\1205\1\1\1206\1\1\1208\1\1\1210\1\1\1232\1\2\1234\1\2\1239\1\1\|
+~M|2_3\1201|2\3\1\|1|\\1\0\0\0\|
+~M|2_3\1202|2\3\2\|1|\\1\0\0\0\|
+~M|2_3\1205|2\3\3\|1|\\1\0\0\0\|
+~M|2_3\1206|2\3\4\|1|\\1\0\0\0\|
+~M|2_3\1208|2\3\5\|1|\\1\0\0\0\|
+~M|2_3\1210|2\3\6\|1|\\1\0\0\0\|
+~M|2_3\1232|2\3\7\|2|\\2\0\0\0\|
+~M|2_3\1234|2\3\8\|2|\\2\0\0\0\|
+~M|2_3\1239|2\3\9\|1|\\1\0\0\0\|
+~C|2_4||INSTALACIONES DE MEDIA TENSI‡N|19500646|040400|0|
+~Y|2_4|1300\1\1\1302\1\2\1304\1\1\1306\1\1\1308\1\1\1310\1\1\1312\1\1\1314\1\2\1350\1\3\1352\1\3\1354\1\1\1356\1\1\1358\1\1\1362\1\1005\1366\1\60\1368\1\15\1372\1\45\1376\1\12\1380\1\1\1382\1\1\|
+~M|2_4\1300|2\4\1\|1|\\1\0\0\0\|
+~M|2_4\1302|2\4\2\|2|\\2\0\0\0\|
+~M|2_4\1304|2\4\3\|1|\\1\0\0\0\|
+~M|2_4\1306|2\4\4\|1|\\1\0\0\0\|
+~M|2_4\1308|2\4\5\|1|\\1\0\0\0\|
+~M|2_4\1310|2\4\6\|1|\\1\0\0\0\|
+~M|2_4\1312|2\4\7\|1|\\1\0\0\0\|
+~M|2_4\1314|2\4\8\|2|\\2\0\0\0\|
+~M|2_4\1350|2\4\9\|3|\\3\0\0\0\|
+~M|2_4\1352|2\4\10\|3|\\3\0\0\0\|
+~M|2_4\1354|2\4\11\|1|\\1\0\0\0\|
+~M|2_4\1356|2\4\12\|1|\\1\0\0\0\|
+~M|2_4\1358|2\4\13\|1|\\1\0\0\0\|
+~M|2_4\1362|2\4\14\|1005|\\1\1005\0\0\|
+~M|2_4\1366|2\4\15\|60|\\1\60\0\0\|
+~M|2_4\1368|2\4\16\|15|\\15\0\0\0\|
+~M|2_4\1372|2\4\17\|45|\\45\0\0\0\|
+~M|2_4\1376|2\4\18\|12|\\12\0\0\0\|
+~M|2_4\1380|2\4\19\|1|\\1\0\0\0\|
+~M|2_4\1382|2\4\20\|1|\\1\0\0\0\|
+~C|2_5||INSTALACIONES DE BAJA TENSI‡N|19852043|040400|0|
+~Y|2_5|1400\1\1\1402\1\1\1404\1\1\1408\1\1\1412\1\1\1414\1\1\1418\1\1\1422\1\45\1424\1\15\1427\1\57\1428\1\300\1429\1\69\1430\1\290\1433\1\40\1435\1\335\1440\1\65\1441\1\45\1444\1\1216\1445\1\587\1450\1\760\1451\1\1494\1452\1\1401\1456\1\790\1457\1\946\1460\1\1029\1462\1\1136\1465\1\405\1470\1\16\1471\1\50\1472\1\80\1475\1\20\1476\1\40\1477\1\30\1478\1\50\1479\1\20\1480\1\30\1481\1\18\1482\1\10\1483\1\7\1490\1\165\1491\1\130\1492\1\25\1493\1\4\1494\1\25\1495\1\100\1496\1\50\1497\1\4\1500\1\1\1502\1\20\1504\1\2\1506\1\8\1508\1\2\1510\1\8\1512\1\14\1514\1\10\1515\1\2\1516\1\9\1517\1\2\1518\1\2\1519\1\1\1520\1\6\1521\1\4\1530\1\1\1532\1\1\1534\1\1\|
+~M|2_5\1400|2\5\1\|1|\\1\0\0\0\|
+~M|2_5\1402|2\5\2\|1|\\1\0\0\0\|
+~M|2_5\1404|2\5\3\|1|\\1\0\0\0\|
+~M|2_5\1408|2\5\4\|1|\\1\0\0\0\|
+~M|2_5\1412|2\5\5\|1|\\1\0\0\0\|
+~M|2_5\1414|2\5\6\|1|\\1\0\0\0\|
+~M|2_5\1418|2\5\7\|1|\\1\0\0\0\|
+~M|2_5\1422|2\5\8\|45|\\1\45\0\0\|
+~M|2_5\1424|2\5\9\|15|\\1\15\0\0\|
+~M|2_5\1427|2\5\10\|57|\\1\57\0\0\|
+~M|2_5\1428|2\5\11\|300|\\1\300\0\0\|
+~M|2_5\1429|2\5\12\|69|\\1\69\0\0\|
+~M|2_5\1430|2\5\13\|290|\\1\290\0\0\|
+~M|2_5\1433|2\5\14\|40|\\1\40\0\0\|
+~M|2_5\1435|2\5\15\|335|\\1\335\0\0\|
+~M|2_5\1440|2\5\16\|65|\\1\65\0\0\|
+~M|2_5\1441|2\5\17\|45|\\1\45\0\0\|
+~M|2_5\1444|2\5\18\|1216|\\1\1216\0\0\|
+~M|2_5\1445|2\5\19\|587|\\1\587\0\0\|
+~M|2_5\1450|2\5\20\|760|\\1\760\0\0\|
+~M|2_5\1451|2\5\21\|1494|\\1\1494\0\0\|
+~M|2_5\1452|2\5\22\|1401|\\1\1401\0\0\|
+~M|2_5\1456|2\5\23\|790|\\1\790\0\0\|
+~M|2_5\1457|2\5\24\|946|\\1\946\0\0\|
+~M|2_5\1460|2\5\25\|1029|\\1\1029\0\0\|
+~M|2_5\1462|2\5\26\|1136|\\1\1136\0\0\|
+~M|2_5\1465|2\5\27\|405|\\1\405\0\0\|
+~M|2_5\1470|2\5\28\|16|\\1\16\0\0\|
+~M|2_5\1471|2\5\29\|50|\\1\50\0\0\|
+~M|2_5\1472|2\5\30\|80|\\1\80\0\0\|
+~M|2_5\1475|2\5\31\|20|\\1\20\0\0\|
+~M|2_5\1476|2\5\32\|40|\\1\40\0\0\|
+~M|2_5\1477|2\5\33\|30|\\1\30\0\0\|
+~M|2_5\1478|2\5\34\|50|\\1\50\0\0\|
+~M|2_5\1479|2\5\35\|20|\\1\20\0\0\|
+~M|2_5\1480|2\5\36\|30|\\1\30\0\0\|
+~M|2_5\1481|2\5\37\|18|\\1\18\0\0\|
+~M|2_5\1482|2\5\38\|10|\\1\10\0\0\|
+~M|2_5\1483|2\5\39\|7|\\7\0\0\0\|
+~M|2_5\1490|2\5\40\|165|\\165\0\0\0\|
+~M|2_5\1491|2\5\41\|130|\\130\0\0\0\|
+~M|2_5\1492|2\5\42\|25|\\25\0\0\0\|
+~M|2_5\1493|2\5\43\|4|\\4\0\0\0\|
+~M|2_5\1494|2\5\44\|25|\\25\0\0\0\|
+~M|2_5\1495|2\5\45\|100|\\100\0\0\0\|
+~M|2_5\1496|2\5\46\|50|\\50\0\0\0\|
+~M|2_5\1497|2\5\47\|4|\\4\0\0\0\|
+~M|2_5\1500|2\5\48\|1|\\1\0\0\0\|
+~M|2_5\1502|2\5\49\|20|\\20\0\0\0\|
+~M|2_5\1504|2\5\50\|2|\\2\0\0\0\|
+~M|2_5\1506|2\5\51\|8|\\8\0\0\0\|
+~M|2_5\1508|2\5\52\|2|\\2\0\0\0\|
+~M|2_5\1510|2\5\53\|8|\\8\0\0\0\|
+~M|2_5\1512|2\5\54\|14|\\14\0\0\0\|
+~M|2_5\1514|2\5\55\|10|\\10\0\0\0\|
+~M|2_5\1515|2\5\56\|2|\\2\0\0\0\|
+~M|2_5\1516|2\5\57\|9|\\9\0\0\0\|
+~M|2_5\1517|2\5\58\|2|\\2\0\0\0\|
+~M|2_5\1518|2\5\59\|2|\\2\0\0\0\|
+~M|2_5\1519|2\5\60\|1|\\1\0\0\0\|
+~M|2_5\1520|2\5\61\|6|\\6\0\0\0\|
+~M|2_5\1521|2\5\62\|4|\\4\0\0\0\|
+~M|2_5\1530|2\5\63\|1|\\1\0\0\0\|
+~M|2_5\1532|2\5\64\|1|\\1\0\0\0\|
+~M|2_5\1534|2\5\65\|1|\\1\0\0\0\|
+~C|2_6||INSTRUMENT., CONTROL, AUTOMATISMO Y COMUNICACI‡N|58387826|040400|0|
+~Y|2_6|1600\1\1\1603\1\1\1604\1\2\1606\1\2\1611\1\1\1613\1\2\1620\1\1\1622\1\1\1626\1\1\1628\1\1\1630\1\1\1632\1\500\1633\1\1\1634\1\1\2041\1\1\2042\1\1\2043\1\1\2044\1\1\2045\1\78\|
+~M|2_6\1600|2\6\1\|1|\\1\0\0\0\|
+~M|2_6\1603|2\6\2\|1|\\1\0\0\0\|
+~M|2_6\1604|2\6\3\|2|\\2\0\0\0\|
+~M|2_6\1606|2\6\4\|2|\\2\0\0\0\|
+~M|2_6\1611|2\6\5\|1|\\1\0\0\0\|
+~M|2_6\1613|2\6\6\|2|\\2\0\0\0\|
+~M|2_6\1620|2\6\7\|1|\\1\0\0\0\|
+~M|2_6\1622|2\6\8\|1|\\1\0\0\0\|
+~M|2_6\1626|2\6\9\|1|\\1\0\0\0\|
+~M|2_6\1628|2\6\10\|1|\\1\0\0\0\|
+~M|2_6\1630|2\6\11\|1|\\1\0\0\0\|
+~M|2_6\1632|2\6\12\|500|\\1\500\0\0\|
+~M|2_6\1633|2\6\13\|1|\\1\0\0\0\|
+~M|2_6\1634|2\6\14\|1|\\1\0\0\0\|
+~M|2_6\2041|2\6\15\|1|\\1\0\0\0\|
+~M|2_6\2042|2\6\16\|1|\\1\0\0\0\|
+~M|2_6\2043|2\6\17\|1|\\1\0\0\0\|
+~M|2_6\2044|2\6\18\|1|\\1\0\0\0\|
+~M|2_6\2045|2\6\19\|78|\\1\78\0\0\|
+~C|2_7||REPUESTOS|10522471|040400|0|
+~Y|2_7|1700\1\1\1702\1\1\1706\1\1\1708\1\1\1712\1\1\1716\1\1\1718\1\1\1720\1\1\1722\1\1\|
+~M|2_7\1700|2\7\1\|1|\\1\0\0\0\|
+~M|2_7\1702|2\7\2\|1|\\1\0\0\0\|
+~M|2_7\1706|2\7\3\|1|\\1\0\0\0\|
+~M|2_7\1708|2\7\4\|1|\\1\0\0\0\|
+~M|2_7\1712|2\7\5\|1|\\1\0\0\0\|
+~M|2_7\1716|2\7\6\|1|\\1\0\0\0\|
+~M|2_7\1718|2\7\7\|1|\\1\0\0\0\|
+~M|2_7\1720|2\7\8\|1|\\1\0\0\0\|
+~M|2_7\1722|2\7\9\|1|\\1\0\0\0\|
+~C|3#||SUBESTACI‡N TRANSFORMADORA|70519123|040400|0|
+~D|3|3_1\1\1\3_2\1\1\3_3\1\1\|
+~C|3_1||APARELLAJE A.T.|18210401|040400|0|
+~Y|3_1|2008\1\1\2010\1\1\2011\1\2\2012\1\2\2013\1\3\2017\1\3\2022\1\3\2040\1\1\|
+~M|3_1\2008|3\1\1\|1|\\1\0\0\0\|
+~M|3_1\2010|3\1\2\|1|\\1\0\0\0\|
+~M|3_1\2011|3\1\3\|2|\\2\0\0\0\|
+~M|3_1\2012|3\1\4\|2|\\2\0\0\0\|
+~M|3_1\2013|3\1\5\|3|\\3\0\0\0\|
+~M|3_1\2017|3\1\6\|3|\\3\0\0\0\|
+~M|3_1\2022|3\1\7\|3|\\3\0\0\0\|
+~M|3_1\2040|3\1\8\|1|\\1\0\0\0\|
+~C|3_2||TRANSFORMADOR|42477115|040400|0|
+~Y|3_2|2002\1\1\2006\1\1\2024\1\1\|
+~M|3_2\2002|3\2\1\|1|\\1\0\0\0\|
+~M|3_2\2006|3\2\2\|1|\\1\0\0\0\|
+~M|3_2\2024|3\2\3\|1|\\1\0\0\0\|
+~C|3_3||MATERIAL DE INSTALACI‡N|9831607|040400|0|
+~Y|3_3|2026\1\13800\2028\1\55\2030\1\236\2033\1\18\2034\1\51\2038\1\2\1490\1\514\1492\1\68\1493\1\7\1494\1\38\1495\1\187\1496\1\74\1497\1\7\1499\1\14\1515\1\4\1517\1\2\1519\1\1\1430\1\30\1441\1\455\1442\1\96\1444\1\96\1445\1\274\1452\1\167\1456\1\301\1460\1\115\1462\1\182\1475\1\6\1476\1\5\1477\1\8\1478\1\15\1479\1\10\1480\1\5\1481\1\5\1482\1\8\1484\1\4\1608\1\1\|
+~M|3_3\2026|3\3\1\|13800|\\13800\0\0\0\\\0\0\0\0\|
+~M|3_3\2028|3\3\2\|55|\\55\0\0\0\|
+~M|3_3\2030|3\3\3\|236|\\236\0\0\0\|
+~M|3_3\2033|3\3\4\|18|\\18\0\0\0\|
+~M|3_3\2034|3\3\5\|51|\\51\0\0\0\|
+~M|3_3\2038|3\3\6\|2|\\2\0\0\0\|
+~M|3_3\1490|3\3\7\|514|\\514\0\0\0\|
+~M|3_3\1492|3\3\8\|68|\\68\0\0\0\|
+~M|3_3\1493|3\3\9\|7|\\7\0\0\0\|
+~M|3_3\1494|3\3\10\|38|\\38\0\0\0\|
+~M|3_3\1495|3\3\11\|187|\\187\0\0\0\|
+~M|3_3\1496|3\3\12\|74|\\74\0\0\0\|
+~M|3_3\1497|3\3\13\|7|\\7\0\0\0\|
+~M|3_3\1499|3\3\14\|14|\\14\0\0\0\|
+~M|3_3\1515|3\3\15\|4|\\4\0\0\0\|
+~M|3_3\1517|3\3\16\|2|\\2\0\0\0\|
+~M|3_3\1519|3\3\17\|1|\\1\0\0\0\|
+~M|3_3\1430|3\3\18\|30|\\1\30\0\0\|
+~M|3_3\1441|3\3\19\|455|\\1\455\0\0\|
+~M|3_3\1442|3\3\20\|96|\\1\96\0\0\|
+~M|3_3\1444|3\3\21\|96|\\1\96\0\0\|
+~M|3_3\1445|3\3\22\|274|\\1\274\0\0\|
+~M|3_3\1452|3\3\23\|167|\\1\167\0\0\|
+~M|3_3\1456|3\3\24\|301|\\1\301\0\0\|
+~M|3_3\1460|3\3\25\|115|\\1\115\0\0\|
+~M|3_3\1462|3\3\26\|182|\\1\182\0\0\|
+~M|3_3\1475|3\3\27\|6|\\1\6\0\0\|
+~M|3_3\1476|3\3\28\|5|\\1\5\0\0\|
+~M|3_3\1477|3\3\29\|8|\\1\8\0\0\|
+~M|3_3\1478|3\3\30\|15|\\1\15\0\0\|
+~M|3_3\1479|3\3\31\|10|\\1\10\0\0\|
+~M|3_3\1480|3\3\32\|5|\\1\5\0\0\|
+~M|3_3\1481|3\3\33\|5|\\1\5\0\0\|
+~M|3_3\1482|3\3\34\|8|\\1\8\0\0\|
+~M|3_3\1484|3\3\35\|4|\\4\0\0\0\|
+~M|3_3\1608|3\3\36\|1|\\1\0\0\0\|
+~C|4#||L÷NEA ELêCTRICA DE ALTA TENSI‡N|91108980|040400|0|
+~Y|4|3008\1\1\3010\1\3\3012\1\3\3014\1\16\3018\1\6.2\3020\1\264\|
+~M|4\3008|4\1\|1|\\1\0\0\0\|
+~M|4\3010|4\2\|3|\\3\0\0\0\|
+~M|4\3012|4\3\|3|\\3\0\0\0\|
+~M|4\3014|4\4\|16|\\16\0\0\0\|
+~M|4\3018|4\5\|6.2|\\0\6.2\0\0\\\0\0\0\0\|
+~M|4\3020|4\6\|264|\\264\0\0\0\|
+~C|5#||EXPLOTACI‡N Y CONSERVACI‡N|62825552|040400|0|
+~Y|5|29.001\1\24\29.002\1\1\29.003\1\1\29.004\1\24\|
+~M|5\29.001|5\1\|24|\\24\0\0\0\|
+~M|5\29.002|5\2\|1|\\1\0\0\0\|
+~M|5\29.003|5\3\|1|\\1\0\0\0\|
+~M|5\29.004|5\4\|24|\\24\0\0\0\|
+~C|6#||SEGURIDAD Y SALUD|22243133.058|040400|0|
+~D|6|6_1\1\1\6_2\1\1\6_3\1\1\6_4\1\1\6_5\1\1\6_6\1\1\6_7\1\1\|
+~C|6_1||PROTECCIONES INDIVIDUALES|1866864|040400|0|
+~Y|6_1|09.001\1\300\09.002\1\20\09.003\1\130\09.004\1\20\09.005\1\24\09.006\1\20\09.007\1\24\09.008\1\24\09.009\1\130\09.010\1\130\09.011\1\20\09.012\1\20\09.013\1\20\09.014\1\38\09.015\1\20\09.016\1\360\09.017\1\240\09.018\1\130\09.019\1\130\09.020\1\60\09.021\1\20\|
+~M|6_1\09.001|6\1\1\|300|\\300\0\0\0\|
+~M|6_1\09.002|6\1\2\|20|\\20\0\0\0\|
+~M|6_1\09.003|6\1\3\|130|\\130\0\0\0\|
+~M|6_1\09.004|6\1\4\|20|\\20\0\0\0\|
+~M|6_1\09.005|6\1\5\|24|\\24\0\0\0\|
+~M|6_1\09.006|6\1\6\|20|\\20\0\0\0\|
+~M|6_1\09.007|6\1\7\|24|\\24\0\0\0\|
+~M|6_1\09.008|6\1\8\|24|\\24\0\0\0\|
+~M|6_1\09.009|6\1\9\|130|\\130\0\0\0\|
+~M|6_1\09.010|6\1\10\|130|\\130\0\0\0\|
+~M|6_1\09.011|6\1\11\|20|\\20\0\0\0\|
+~M|6_1\09.012|6\1\12\|20|\\20\0\0\0\|
+~M|6_1\09.013|6\1\13\|20|\\20\0\0\0\|
+~M|6_1\09.014|6\1\14\|38|\\38\0\0\0\|
+~M|6_1\09.015|6\1\15\|20|\\20\0\0\0\|
+~M|6_1\09.016|6\1\16\|360|\\360\0\0\0\|
+~M|6_1\09.017|6\1\17\|240|\\240\0\0\0\|
+~M|6_1\09.018|6\1\18\|130|\\130\0\0\0\|
+~M|6_1\09.019|6\1\19\|130|\\130\0\0\0\|
+~M|6_1\09.020|6\1\20\|60|\\60\0\0\0\|
+~M|6_1\09.021|6\1\21\|20|\\20\0\0\0\|
+~C|6_2||PROTECCIONES COLECTIVAS|10652490.058|040400|0|
+~Y|6_2|09.022\1\15\09.023\1\64\09.024\1\36\09.025\1\25\09.026\1\40\09.027\1\13211.2\09.028\1\52\09.029\1\64\09.030\1\64\09.031\1\26\09.032\1\3\09.033\1\2500\09.034\1\200\09.035\1\400\09.036\1\1000\09.037\1\200\09.038\1\832\09.039\1\1291\|
+~M|6_2\09.022|6\2\1\|15|\\15\0\0\0\|
+~M|6_2\09.023|6\2\2\|64|\\64\0\0\0\|
+~M|6_2\09.024|6\2\3\|36|\\36\0\0\0\|
+~M|6_2\09.025|6\2\4\|25|\\25\0\0\0\|
+~M|6_2\09.026|6\2\5\|40|\\40\0\0\0\|
+~M|6_2\09.027|6\2\6\|13211.2|\\1\13211.2\0\0\|
+~M|6_2\09.028|6\2\7\|52|\\52\0\0\0\|
+~M|6_2\09.029|6\2\8\|64|\\64\0\0\0\|
+~M|6_2\09.030|6\2\9\|64|\\64\0\0\0\|
+~M|6_2\09.031|6\2\10\|26|\\26\0\0\0\|
+~M|6_2\09.032|6\2\11\|3|\\3\0\0\0\|
+~M|6_2\09.033|6\2\12\|2500|\\2500\0\0\0\|
+~M|6_2\09.034|6\2\13\|200|\\1\200\0\0\\\0\0\0\0\\\0\0\0\0\|
+~M|6_2\09.035|6\2\14\|400|\\400\0\0\0\|
+~M|6_2\09.036|6\2\15\|1000|\\1\1000\0\0\|
+~M|6_2\09.037|6\2\16\|200|\\200\0\0\0\|
+~M|6_2\09.038|6\2\17\|832|\\832\0\0\0\|
+~M|6_2\09.039|6\2\18\|1291|\\1291\0\0\0\|
+~C|6_3||EXTINCI‡N DE INCENDIOS|319800|040400|0|
+~Y|6_3|09.040\1\24\|
+~M|6_3\09.040|6\3\1\|24|\\24\0\0\0\|
+~C|6_4||PROTECCI‡N DE INSTALACIONES ELêCTRICAS|85844|040400|0|
+~Y|6_4|09.041\1\2\09.042\1\2\09.043\1\2\|
+~M|6_4\09.041|6\4\1\|2|\\2\0\0\0\|
+~M|6_4\09.042|6\4\2\|2|\\2\0\0\0\|
+~M|6_4\09.043|6\4\3\|2|\\2\0\0\0\|
+~C|6_5||INSTALACI‡N DE HIGIENE Y BIENESTAR|6627622|040400|0|
+~Y|6_5|09.044\1\20\09.045\1\20\09.046\1\20\09.047\1\60\09.048\1\84\09.049\1\36\09.050\1\12\09.051\1\24\09.052\1\120\09.053\1\8\09.054\1\24\09.055\1\4\09.056\1\1\09.057\1\1\09.058\1\4\09.059\1\12\09.060\1\6\09.061\1\4\09.062\1\12\09.063\1\24\09.064\1\4\09.065\1\2160\|
+~M|6_5\09.044|6\5\1\|20|\\20\0\0\0\|
+~M|6_5\09.045|6\5\2\|20|\\20\0\0\0\|
+~M|6_5\09.046|6\5\3\|20|\\20\0\0\0\|
+~M|6_5\09.047|6\5\4\|60|\\60\0\0\0\|
+~M|6_5\09.048|6\5\5\|84|\\84\0\0\0\|
+~M|6_5\09.049|6\5\6\|36|\\36\0\0\0\|
+~M|6_5\09.050|6\5\7\|12|\\12\0\0\0\|
+~M|6_5\09.051|6\5\8\|24|\\24\0\0\0\|
+~M|6_5\09.052|6\5\9\|120|\\120\0\0\0\|
+~M|6_5\09.053|6\5\10\|8|\\8\0\0\0\|
+~M|6_5\09.054|6\5\11\|24|\\24\0\0\0\|
+~M|6_5\09.055|6\5\12\|4|\\4\0\0\0\|
+~M|6_5\09.056|6\5\13\|1|\\1\0\0\0\|
+~M|6_5\09.057|6\5\14\|1|\\1\0\0\0\|
+~M|6_5\09.058|6\5\15\|4|\\4\0\0\0\|
+~M|6_5\09.059|6\5\16\|12|\\12\0\0\0\|
+~M|6_5\09.060|6\5\17\|6|\\6\0\0\0\|
+~M|6_5\09.061|6\5\18\|4|\\4\0\0\0\|
+~M|6_5\09.062|6\5\19\|12|\\12\0\0\0\|
+~M|6_5\09.063|6\5\20\|24|\\24\0\0\0\|
+~M|6_5\09.064|6\5\21\|4|\\4\0\0\0\|
+~M|6_5\09.065|6\5\22\|2160|\\2160\0\0\0\|
+~C|6_6||MEDICINA PREVENTIVA. 1ß AUXILIOS|467013|040400|0|
+~Y|6_6|09.066\1\11\09.067\1\2\09.068\1\360\|
+~M|6_6\09.066|6\6\1\|11|\\11\0\0\0\|
+~M|6_6\09.067|6\6\2\|2|\\2\0\0\0\|
+~M|6_6\09.068|6\6\3\|360|\\360\0\0\0\|
+~C|6_7||FORMACI‡N, REUNIONES O CUMPLIMIENTO|2223500|040400|0|
+~Y|6_7|09.069\1\20\09.070\1\1800\|
+~M|6_7\09.069|6\7\1\|20|\\20\0\0\0\|
+~M|6_7\09.070|6\7\2\|1800|\\1800\0\0\0\|
