@@ -128,13 +128,14 @@ i18next
     },
     ns,
     defaultNS: "common",
-    // Geen vaste lng: de LanguageDetector kiest de opgeslagen voorkeur of
-    // anders de browsertaal. Niet-ondersteunde talen vallen terug op Engels
-    // — Nederlands alleen wanneer daar expliciet voor gekozen is.
+    // Standaard Engels. Alleen een eerder gemaakte keuze (localStorage) wint;
+    // de browsertaal telt bewust niet mee, zodat de live demo en een nieuwe
+    // installatie voor iedereen in het Engels openen. Wie de browsertaal wil
+    // volgen, kiest "Auto-detect" in de voorkeuren.
     fallbackLng: "en",
     interpolation: { escapeValue: false },
     detection: {
-      order: ["localStorage", "navigator"],
+      order: ["localStorage"],
       lookupLocalStorage: "i18nextLng",
       caches: ["localStorage"],
     },

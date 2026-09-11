@@ -13,7 +13,10 @@ const SETTINGS_KEY = 'settings';
 
 export const defaultSettings: AppSettings = {
   theme: 'light',
-  locale: 'nl',
+  // Engels als standaard: de live demo en nieuwe installaties openen voor
+  // iedereen in dezelfde, internationaal leesbare taal. Wie een eerdere
+  // keuze heeft opgeslagen, houdt die.
+  locale: 'en',
   currency: 'EUR',
   autoSave: false,
   autoSaveInterval: 300000,

@@ -33,7 +33,7 @@ import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
 import { useFileOperations } from "./hooks/useFileOperations";
 import { loadAllExtensions } from "./extensions";
 import { registerBuiltinExtensions } from "./extensions/builtinExtensions";
-import { changeLanguage } from "./i18n/config";
+import i18next, { changeLanguage } from "./i18n/config";
 import { loadSettings } from "./utils/settings";
 import { initMcpBridge } from "./services/mcp/mcpBridge";
 import { initOsUsername } from "./services/system/osUser";
@@ -42,6 +42,22 @@ import "./styles/fonts.css";
 import "./styles/themes.css";
 import "./components/layout/layout.css";
 import "./styles/globals.css";
+
+/**
+ * Open de meegeleverde voorbeeldbegroting in de taal van de interface:
+ * de Nederlandse voor nl, anders de Engelse. Beide hebben dezelfde getallen
+ * en structuur; alleen omschrijvingen en projectgegevens verschillen.
+ */
+async function openSampleBudget(): Promise<void> {
+  const lang = (i18next.language || 'en').split('-')[0];
+  const resp = await fetch(lang === 'nl' ? '/data/voorbeeld.ifcCalc' : '/data/sample-en.ifcCalc');
+  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+  const parsed = deserializeProject(await resp.text());
+  const store = useAppStore.getState();
+  store.addDocument({ id: crypto.randomUUID(), filePath: null, fileName: i18next.t('app.sampleBudget'), isModified: false, items: parsed.items, schedule: parsed.schedule });
+  if (parsed.companyInfo) store.setCompanyInfo(parsed.companyInfo);
+  if (parsed.spreadsheets?.sheets) store.setSubSheets(parsed.spreadsheets.sheets);
+}
 
 function App() {
   const { t } = useTranslation();
@@ -167,16 +183,8 @@ function App() {
         try {
           // Wait a tick so settings/extensions are initialised first
           await new Promise(r => setTimeout(r, 50));
-          const store = useAppStore.getState();
-          if (store.documents.length > 0) return;
-          const resp = await fetch('/data/voorbeeld.ifcCalc');
-          if (!resp.ok) return;
-          const json = await resp.text();
-          const parsed = deserializeProject(json);
-          const id = crypto.randomUUID();
-          store.addDocument({ id, filePath: null, fileName: 'Voorbeeldbegroting', isModified: false, items: parsed.items, schedule: parsed.schedule });
-          if (parsed.companyInfo) store.setCompanyInfo(parsed.companyInfo);
-          if (parsed.spreadsheets?.sheets) store.setSubSheets(parsed.spreadsheets.sheets);
+          if (useAppStore.getState().documents.length > 0) return;
+          await openSampleBudget();
         } catch (err) {
           console.warn('[App] Could not auto-load voorbeeldbegroting:', err);
         }
@@ -284,14 +292,7 @@ function App() {
   // Load bundled sample voorbeeldbegroting
   const loadVoorbeeldBudget = useCallback(async () => {
     try {
-      const resp = await fetch('/data/voorbeeld.ifcCalc');
-      const json = await resp.text();
-      const parsed = deserializeProject(json);
-      const id = crypto.randomUUID();
-      const store = useAppStore.getState();
-      store.addDocument({ id, filePath: null, fileName: 'Voorbeeldbegroting', isModified: false, items: parsed.items, schedule: parsed.schedule });
-      if (parsed.companyInfo) store.setCompanyInfo(parsed.companyInfo);
-      if (parsed.spreadsheets?.sheets) store.setSubSheets(parsed.spreadsheets.sheets);
+      await openSampleBudget();
     } catch (e) {
       console.error('Failed to load voorbeeldbegroting:', e);
     }
