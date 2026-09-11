@@ -14,6 +14,9 @@
   "general": {
     "application": "برنامه",
     "language": "زبان",
+    "reportLanguage": "زبان گزارش",
+    "reportLanguageAuto": "همانند رابط",
+    "reportLanguageHelp": "زبان چاپ‌ها و گزارش‌های PDF. زمانی مفید است که زبان رابط با زبان کارفرمای شما متفاوت باشد.",
     "startup": "راه‌اندازی",
     "restoreSession": "بازیابی نشست هنگام راه‌اندازی",
     "checkUpdates": "بررسی به‌روزرسانی‌ها",

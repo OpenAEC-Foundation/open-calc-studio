@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.0": "Reports and units in your own language",
     "v0.11.0": "39 languages + Spanish FIEBDC-3 (.bc3)",
     "v0.10.3": "Standard and reduced VAT — selectable per item",
     "v0.10.0": "Logo in the report header + formulas in cells",
@@ -16,6 +17,13 @@
     "v0.7.10": "OpenAEC account + bottom-bar navigation"
   },
   "highlights": {
+    "v0.12.0": [
+      "Printed and PDF reports appear in your own language, with a separate \"Report language\" setting (Preferences → General) that follows the interface language by default",
+      "Units are shown translated, for example \"h\" instead of \"uur\" — saved files stay unchanged",
+      "Import messages now appear on screen; those from FIEBDC-3 (.bc3) in your own language",
+      "English is the default language for new installations and the online demo, with an English sample estimate",
+      "Long button names in the ribbon now break at a syllable instead of mid-word"
+    ],
     "v0.11.0": [
       "The interface is now available in 39 languages — pick yours under Preferences → General, or let the app follow your system language",
       "Right-to-left support for Arabic, Farsi, Hebrew and Urdu: the whole layout mirrors along",

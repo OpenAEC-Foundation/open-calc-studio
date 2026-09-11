@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.0": "Relatórios e unidades no seu idioma",
     "v0.11.0": "39 idiomas + FIEBDC-3 espanhol (.bc3)",
     "v0.10.3": "IVA à taxa normal e reduzida — selecionável por elemento",
     "v0.10.0": "Logótipo no cabeçalho do relatório + fórmulas nas células",
@@ -16,6 +17,13 @@
     "v0.7.10": "Conta OpenAEC + navegação na barra inferior"
   },
   "highlights": {
+    "v0.12.0": [
+      "Os relatórios impressos e em PDF aparecem no seu idioma, com uma definição própria «Idioma dos relatórios» (Preferências → Geral) que, por predefinição, segue o idioma da interface",
+      "As unidades são apresentadas traduzidas, por exemplo «h» em vez de «uur» — os ficheiros guardados ficam inalterados",
+      "As mensagens de importação aparecem agora no ecrã; as de FIEBDC-3 (.bc3) no seu idioma",
+      "O inglês é o idioma predefinido para novas instalações e para a demonstração online, com um orçamento de exemplo em inglês",
+      "Os nomes longos dos botões no friso quebram agora numa sílaba em vez de a meio da palavra"
+    ],
     "v0.11.0": [
       "A interface está agora disponível em 39 idiomas — escolha o seu em Preferências → Geral, ou deixe a aplicação seguir o idioma do sistema",
       "Suporte da direita para a esquerda para árabe, farsi, hebraico e urdu: todo o esquema é espelhado",

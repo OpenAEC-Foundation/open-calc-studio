@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "Pré-visualização — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Avisos de importação",
+    "intro_one": "A importação de {{source}} terminou com {{count}} aviso:",
+    "intro_other": "A importação de {{source}} terminou com {{count}} avisos:",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "close": "Fechar",
+    "bc3": {
+      "unknownConceptInDecomposition": "Conceito desconhecido «{{concept}}» na decomposição de «{{parent}}» — ignorado.",
+      "unknownConceptUnder": "Conceito desconhecido «{{concept}}» em «{{parent}}» — ignorado.",
+      "zeroYieldDecomposition": "Um ou mais artigos têm uma decomposição sem rendimentos — nesses casos foi usado o preço unitário do registo ~C.",
+      "noRootStructure": "Não foi encontrada nenhuma estrutura raiz (##) com decomposição — os ramos soltos foram importados no nível superior.",
+      "noProjectStructure": "Não foi encontrada nenhuma estrutura de obra (##/#) — os conceitos foram importados como base de preços num único capítulo.",
+      "priceMismatch_one": "Em {{count}} artigo, a soma da decomposição difere mais de 2% do preço unitário do registo ~C ({{examples}}). Foi usada a decomposição.",
+      "priceMismatch_other": "Em {{count}} artigos, a soma da decomposição difere mais de 2% do preço unitário do registo ~C (p. ex. {{examples}}). Foi usada a decomposição.",
+      "noPrices": "Este ficheiro não contém preços — apenas designações e quantidades (como uma biblioteca de medições). Por isso, o total continua a ser 0,00.",
+      "moreWarnings_one": "… e mais {{count}} aviso semelhante.",
+      "moreWarnings_other": "… e mais {{count}} avisos semelhantes."
+    }
   }
 }

@@ -14,6 +14,9 @@
   "general": {
     "application": "Aplikácia",
     "language": "Jazyk",
+    "reportLanguage": "Jazyk zostáv",
+    "reportLanguageAuto": "Rovnaký ako rozhranie",
+    "reportLanguageHelp": "Jazyk výtlačkov a zostáv PDF. Užitočné, keď sa jazyk rozhrania líši od jazyka vášho objednávateľa.",
     "startup": "Spustenie",
     "restoreSession": "Obnoviť reláciu pri spustení",
     "checkUpdates": "Kontrolovať aktualizácie",

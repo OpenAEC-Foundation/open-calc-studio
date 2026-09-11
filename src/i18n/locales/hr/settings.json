@@ -14,6 +14,9 @@
   "general": {
     "application": "Aplikacija",
     "language": "Jezik",
+    "reportLanguage": "Jezik izvještaja",
+    "reportLanguageAuto": "Isto kao sučelje",
+    "reportLanguageHelp": "Jezik ispisa i PDF izvještaja. Korisno kada se jezik sučelja razlikuje od jezika vašeg naručitelja.",
     "startup": "Pokretanje",
     "restoreSession": "Vrati sesiju pri pokretanju",
     "checkUpdates": "Provjeri ima li ažuriranja",

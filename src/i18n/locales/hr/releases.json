@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.0": "Izvještaji i jedinice na vašem jeziku",
     "v0.11.0": "39 jezika + španjolski FIEBDC-3 (.bc3)",
     "v0.10.3": "Opća i snižena stopa PDV-a — po stavci",
     "v0.10.0": "Logotip u zaglavlju izvještaja + formule u ćelijama",
@@ -16,6 +17,13 @@
     "v0.7.10": "OpenAEC račun + navigacija u donjoj traci"
   },
   "highlights": {
+    "v0.12.0": [
+      "Ispisani i PDF izvještaji prikazuju se na vašem jeziku, uz zasebnu postavku \"Jezik izvještaja\" (Postavke → Općenito) koja prema zadanim postavkama slijedi jezik sučelja",
+      "Jedinice se prikazuju prevedene, na primjer \"sat\" umjesto \"uur\" — spremljene datoteke ostaju nepromijenjene",
+      "Poruke pri uvozu sada se prikazuju na zaslonu; one iz FIEBDC-3 (.bc3) na vašem jeziku",
+      "Engleski je zadani jezik za nove instalacije i mrežni demo, s engleskim oglednim troškovnikom",
+      "Dugi nazivi gumba na vrpci sada se lome na slogu umjesto usred riječi"
+    ],
     "v0.11.0": [
       "Sučelje je sada dostupno na 39 jezika — odaberite svoj u Postavke → Općenito ili prepustite aplikaciji da slijedi jezik sustava",
       "Podrška za pisanje zdesna nalijevo za arapski, farsi, hebrejski i urdski: cijeli se raspored zrcali",

@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "Vista previa — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Avisos de importación",
+    "intro_one": "La importación de {{source}} ha finalizado con {{count}} aviso:",
+    "intro_other": "La importación de {{source}} ha finalizado con {{count}} avisos:",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "close": "Cerrar",
+    "bc3": {
+      "unknownConceptInDecomposition": "Concepto desconocido «{{concept}}» en la descomposición de «{{parent}}»: se ha omitido.",
+      "unknownConceptUnder": "Concepto desconocido «{{concept}}» bajo «{{parent}}»: se ha omitido.",
+      "zeroYieldDecomposition": "Una o varias partidas tienen una descomposición sin rendimientos: para ellas se ha usado el precio unitario del registro ~C.",
+      "noRootStructure": "No se ha encontrado una estructura raíz (##) con descomposición: las ramas sueltas se han importado en el nivel superior.",
+      "noProjectStructure": "No se ha encontrado una estructura de proyecto (##/#): los conceptos se han importado como banco de precios bajo un único capítulo.",
+      "priceMismatch_one": "En {{count}} partida, la suma de la descomposición difiere más de un 2 % del precio unitario del registro ~C ({{examples}}). Se ha usado la descomposición.",
+      "priceMismatch_other": "En {{count}} partidas, la suma de la descomposición difiere más de un 2 % del precio unitario del registro ~C (p. ej. {{examples}}). Se ha usado la descomposición.",
+      "noPrices": "Este archivo no contiene precios, solo descripciones y mediciones (como una biblioteca de mediciones). Por eso el total sigue siendo 0,00.",
+      "moreWarnings_one": "… y {{count}} aviso similar más.",
+      "moreWarnings_other": "… y {{count}} avisos similares más."
+    }
   }
 }

@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.0": "Rapoarte și unități în limba dumneavoastră",
     "v0.11.0": "39 de limbi + FIEBDC-3 spaniol (.bc3)",
     "v0.10.3": "TVA standard și redus — selectabil pe fiecare parte",
     "v0.10.0": "Logo în antetul raportului + formule în celule",
@@ -16,6 +17,13 @@
     "v0.7.10": "Cont OpenAEC + navigare din bara de jos"
   },
   "highlights": {
+    "v0.12.0": [
+      "Rapoartele tipărite și PDF apar în limba dumneavoastră, cu o setare separată „Limba rapoartelor” (Preferințe → General) care urmează implicit limba interfeței",
+      "Unitățile sunt afișate traduse, de exemplu „h” în loc de „uur” — fișierele salvate rămân neschimbate",
+      "Mesajele de import apar acum pe ecran; cele din FIEBDC-3 (.bc3) în limba dumneavoastră",
+      "Engleza este limba implicită pentru instalările noi și pentru demo-ul online, cu un deviz exemplu în engleză",
+      "Numele lungi ale butoanelor din panglică se despart acum la o silabă, nu la mijlocul cuvântului"
+    ],
     "v0.11.0": [
       "Interfața este acum disponibilă în 39 de limbi — alegeți-o pe a dumneavoastră din Preferințe → General sau lăsați aplicația să urmeze limba sistemului",
       "Suport pentru scriere de la dreapta la stânga pentru arabă, farsi, ebraică și urdu: întreaga structură se oglindește",

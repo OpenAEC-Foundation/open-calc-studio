@@ -14,6 +14,9 @@
   "general": {
     "application": "应用程序",
     "language": "语言",
+    "reportLanguage": "报表语言",
+    "reportLanguageAuto": "与界面相同",
+    "reportLanguageHelp": "打印件和 PDF 报表所用的语言。当界面语言与业主使用的语言不同时十分有用。",
     "startup": "启动",
     "restoreSession": "启动时恢复上次会话",
     "checkUpdates": "检查更新",

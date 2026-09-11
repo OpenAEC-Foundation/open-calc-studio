@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.0": "Zostavy a jednotky vo vašom jazyku",
     "v0.11.0": "39 jazykov + španielsky FIEBDC-3 (.bc3)",
     "v0.10.3": "Základná a znížená sadzba DPH — voliteľná pri každej časti",
     "v0.10.0": "Logo v hlavičke zostavy + vzorce v bunkách",
@@ -16,6 +17,13 @@
     "v0.7.10": "Účet OpenAEC + navigácia v spodnej lište"
   },
   "highlights": {
+    "v0.12.0": [
+      "Tlačené a PDF zostavy sa zobrazujú vo vašom jazyku, so samostatným nastavením „Jazyk zostáv“ (Predvoľby → Všeobecné), ktoré predvolene sleduje jazyk rozhrania",
+      "Jednotky sa zobrazujú preložené, napríklad „hod“ namiesto „uur“ — uložené súbory zostávajú nezmenené",
+      "Hlásenia pri importe sa teraz zobrazujú na obrazovke; hlásenia z FIEBDC-3 (.bc3) vo vašom jazyku",
+      "Angličtina je predvoleným jazykom pre nové inštalácie a online demo, s anglickým ukážkovým rozpočtom",
+      "Dlhé názvy tlačidiel na páse s nástrojmi sa teraz delia na hranici slabiky, nie uprostred slova"
+    ],
     "v0.11.0": [
       "Rozhranie je teraz dostupné v 39 jazykoch — svoj si vyberte v Predvoľby → Všeobecné, alebo nechajte aplikáciu sledovať jazyk systému",
       "Podpora písma sprava doľava pre arabčinu, perzštinu, hebrejčinu a urdčinu: zrkadlí sa celé rozloženie",

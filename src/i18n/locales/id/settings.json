@@ -14,6 +14,9 @@
   "general": {
     "application": "Aplikasi",
     "language": "Bahasa",
+    "reportLanguage": "Bahasa laporan",
+    "reportLanguageAuto": "Sama dengan antarmuka",
+    "reportLanguageHelp": "Bahasa untuk hasil cetak dan laporan PDF. Berguna jika bahasa antarmuka berbeda dengan bahasa pemberi tugas Anda.",
     "startup": "Saat mulai",
     "restoreSession": "Pulihkan sesi saat aplikasi dijalankan",
     "checkUpdates": "Periksa pembaruan",

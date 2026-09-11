@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "미리보기 — {{name}}"
+  },
+  "importWarnings": {
+    "title": "가져오기 알림",
+    "intro_one": "{{source}} 가져오기가 완료되었습니다(알림 {{count}}건):",
+    "intro_other": "{{source}} 가져오기가 완료되었습니다(알림 {{count}}건):",
+    "copy": "복사",
+    "copied": "복사됨",
+    "close": "닫기",
+    "bc3": {
+      "unknownConceptInDecomposition": "'{{parent}}'의 구성 명세에 알 수 없는 항목 '{{concept}}'이(가) 있습니다 — 건너뛰었습니다.",
+      "unknownConceptUnder": "'{{parent}}' 아래에 알 수 없는 항목 '{{concept}}'이(가) 있습니다 — 건너뛰었습니다.",
+      "zeroYieldDecomposition": "하나 이상의 내역 항목에 소요량이 없는 구성 명세가 있습니다 — 해당 항목에는 ~C 레코드의 단가를 사용했습니다.",
+      "noRootStructure": "구성 명세가 있는 최상위 구조(##)를 찾지 못했습니다 — 개별 분기를 최상위 수준으로 가져왔습니다.",
+      "noProjectStructure": "공사 구조(##/#)를 찾지 못했습니다 — 항목을 단가집으로 하나의 장 아래에 가져왔습니다.",
+      "priceMismatch_one": "내역 항목 {{count}}건에서 구성 명세 합계가 ~C 레코드의 단가와 2% 넘게 차이 납니다({{examples}}). 구성 명세를 적용했습니다.",
+      "priceMismatch_other": "내역 항목 {{count}}건에서 구성 명세 합계가 ~C 레코드의 단가와 2% 넘게 차이 납니다(예: {{examples}}). 구성 명세를 적용했습니다.",
+      "noPrices": "이 파일에는 가격이 없습니다 — 명칭과 수량만 있습니다(수량 라이브러리처럼). 따라서 합계는 0.00으로 유지됩니다.",
+      "moreWarnings_one": "… 그 밖에 비슷한 알림 {{count}}건이 더 있습니다.",
+      "moreWarnings_other": "… 그 밖에 비슷한 알림 {{count}}건이 더 있습니다."
+    }
   }
 }

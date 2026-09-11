@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "Xem trước — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Thông báo nhập",
+    "intro_one": "Quá trình nhập {{source}} đã hoàn tất với {{count}} thông báo:",
+    "intro_other": "Quá trình nhập {{source}} đã hoàn tất với {{count}} thông báo:",
+    "copy": "Sao chép",
+    "copied": "Đã sao chép",
+    "close": "Đóng",
+    "bc3": {
+      "unknownConceptInDecomposition": "Mục không xác định '{{concept}}' trong phân tích đơn giá của '{{parent}}' — đã bỏ qua.",
+      "unknownConceptUnder": "Mục không xác định '{{concept}}' dưới '{{parent}}' — đã bỏ qua.",
+      "zeroYieldDecomposition": "Một hoặc nhiều công tác có phân tích đơn giá không có định mức — với các công tác đó, đơn giá từ bản ghi ~C đã được sử dụng.",
+      "noRootStructure": "Không tìm thấy cấu trúc gốc (##) có phân tích đơn giá — các nhánh riêng lẻ đã được nhập ở cấp cao nhất.",
+      "noProjectStructure": "Không tìm thấy cấu trúc dự án (##/#) — các mục đã được nhập như một bảng giá trong một chương duy nhất.",
+      "priceMismatch_one": "Ở {{count}} công tác, tổng phân tích đơn giá chênh hơn 2% so với đơn giá trong bản ghi ~C ({{examples}}). Đã sử dụng phân tích đơn giá.",
+      "priceMismatch_other": "Ở {{count}} công tác, tổng phân tích đơn giá chênh hơn 2% so với đơn giá trong bản ghi ~C (vd. {{examples}}). Đã sử dụng phân tích đơn giá.",
+      "noPrices": "Tệp này không chứa giá — chỉ có mô tả và khối lượng (như một thư viện khối lượng). Vì vậy tổng vẫn là 0.00.",
+      "moreWarnings_one": "… và thêm {{count}} thông báo tương tự.",
+      "moreWarnings_other": "… và thêm {{count}} thông báo tương tự."
+    }
   }
 }

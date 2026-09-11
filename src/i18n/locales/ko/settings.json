@@ -14,6 +14,9 @@
   "general": {
     "application": "애플리케이션",
     "language": "언어",
+    "reportLanguage": "보고서 언어",
+    "reportLanguageAuto": "인터페이스와 동일",
+    "reportLanguageHelp": "인쇄물과 PDF 보고서의 언어입니다. 인터페이스 언어가 발주처의 언어와 다를 때 유용합니다.",
     "startup": "시작",
     "restoreSession": "시작할 때 세션 복원",
     "checkUpdates": "업데이트 확인",

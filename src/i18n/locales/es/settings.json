@@ -14,6 +14,9 @@
   "general": {
     "application": "Aplicación",
     "language": "Idioma",
+    "reportLanguage": "Idioma de los informes",
+    "reportLanguageAuto": "Igual que la interfaz",
+    "reportLanguageHelp": "Idioma de las impresiones y de los informes en PDF. Útil cuando el idioma de la interfaz no coincide con el de su cliente.",
     "startup": "Inicio",
     "restoreSession": "Restaurar la sesión al iniciar",
     "checkUpdates": "Buscar actualizaciones",

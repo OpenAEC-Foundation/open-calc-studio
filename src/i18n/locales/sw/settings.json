@@ -14,6 +14,9 @@
   "general": {
     "application": "Programu",
     "language": "Lugha",
+    "reportLanguage": "Lugha ya ripoti",
+    "reportLanguageAuto": "Sawa na kiolesura",
+    "reportLanguageHelp": "Lugha ya nakala zilizochapishwa na ripoti za PDF. Inafaa pale lugha ya kiolesura inapotofautiana na lugha ya mteja wako.",
     "startup": "Uanzishaji",
     "restoreSession": "Rejesha kipindi wakati wa kuanzisha",
     "checkUpdates": "Angalia masasisho",

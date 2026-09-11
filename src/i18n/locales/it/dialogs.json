@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "Anteprima — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Avvisi di importazione",
+    "intro_one": "L'importazione di {{source}} si è conclusa con {{count}} avviso:",
+    "intro_other": "L'importazione di {{source}} si è conclusa con {{count}} avvisi:",
+    "copy": "Copia",
+    "copied": "Copiato",
+    "close": "Chiudi",
+    "bc3": {
+      "unknownConceptInDecomposition": "Concetto sconosciuto «{{concept}}» nella scomposizione di «{{parent}}» — ignorato.",
+      "unknownConceptUnder": "Concetto sconosciuto «{{concept}}» sotto «{{parent}}» — ignorato.",
+      "zeroYieldDecomposition": "Una o più voci hanno una scomposizione senza rendimenti — per queste è stato usato il prezzo unitario del record ~C.",
+      "noRootStructure": "Nessuna struttura radice (##) con scomposizione trovata — i rami separati sono stati importati al livello superiore.",
+      "noProjectStructure": "Nessuna struttura di progetto (##/#) trovata — i concetti sono stati importati come prezzario in un unico capitolo.",
+      "priceMismatch_one": "Per {{count}} voce la somma della scomposizione differisce di oltre il 2% dal prezzo unitario del record ~C ({{examples}}). È stata usata la scomposizione.",
+      "priceMismatch_other": "Per {{count}} voci la somma della scomposizione differisce di oltre il 2% dal prezzo unitario del record ~C (ad es. {{examples}}). È stata usata la scomposizione.",
+      "noPrices": "Questo file non contiene prezzi — solo descrizioni e quantità (come una libreria di misurazioni). Il totale resta quindi 0,00.",
+      "moreWarnings_one": "… e ancora {{count}} avviso simile.",
+      "moreWarnings_other": "… e altri {{count}} avvisi simili."
+    }
   }
 }

@@ -20,6 +20,7 @@ const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours
 // releases. Bijwerken bij elke release; titels en bullets staan vertaald in
 // de `releases`-namespace (src/i18n/locales/<taal>/releases.json).
 const BUNDLED_RELEASES: Release[] = [
+  { tag_name: 'v0.12.0', name: 'Rapporten en eenheden in je eigen taal', body: '', published_at: '2026-09-11T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.12.0` },
   { tag_name: 'v0.11.0', name: '39 talen + Spaans FIEBDC-3 (.bc3)', body: '', published_at: '2026-09-10T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.11.0` },
   { tag_name: 'v0.10.3', name: 'Btw hoog én laag — per onderdeel selecteerbaar', body: '', published_at: '2026-09-10T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.10.3` },
   { tag_name: 'v0.10.0', name: 'Logo in de rapportkop + formules in cellen', body: '', published_at: '2026-07-16T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.10.0` },

@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.0": "Berichte und Einheiten in Ihrer eigenen Sprache",
     "v0.11.0": "39 Sprachen + spanisches FIEBDC-3 (.bc3)",
     "v0.10.3": "Voller und ermäßigter MwSt.-Satz — je Position wählbar",
     "v0.10.0": "Logo in der Berichtskopfzeile + Formeln in Zellen",
@@ -16,6 +17,13 @@
     "v0.7.10": "OpenAEC-Konto + Navigation in der Fußleiste"
   },
   "highlights": {
+    "v0.12.0": [
+      "Gedruckte und PDF-Berichte erscheinen in Ihrer eigenen Sprache, mit einer separaten Einstellung „Berichtssprache“ (Einstellungen → Allgemein), die standardmäßig der Oberflächensprache folgt",
+      "Einheiten werden übersetzt angezeigt, zum Beispiel „Std“ statt „uur“ — gespeicherte Dateien bleiben unverändert",
+      "Importmeldungen erscheinen jetzt auf dem Bildschirm; die von FIEBDC-3 (.bc3) in Ihrer eigenen Sprache",
+      "Englisch ist die Standardsprache für neue Installationen und die Online-Demo, mit einer englischen Beispielkalkulation",
+      "Lange Schaltflächennamen im Menüband werden jetzt an einer Silbe getrennt statt mitten im Wort"
+    ],
     "v0.11.0": [
       "Die Oberfläche ist jetzt in 39 Sprachen verfügbar — wählen Sie Ihre unter Einstellungen → Allgemein, oder lassen Sie die App der Systemsprache folgen",
       "Unterstützung für Rechts-nach-links bei Arabisch, Farsi, Hebräisch und Urdu: das gesamte Layout spiegelt mit",

@@ -14,6 +14,9 @@
   "general": {
     "application": "Ứng dụng",
     "language": "Ngôn ngữ",
+    "reportLanguage": "Ngôn ngữ báo cáo",
+    "reportLanguageAuto": "Giống giao diện",
+    "reportLanguageHelp": "Ngôn ngữ của bản in và báo cáo PDF. Hữu ích khi ngôn ngữ giao diện khác với ngôn ngữ của chủ đầu tư.",
     "startup": "Khởi động",
     "restoreSession": "Khôi phục phiên làm việc khi khởi động",
     "checkUpdates": "Kiểm tra cập nhật",

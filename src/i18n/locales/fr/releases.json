@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.0": "Rapports et unités dans votre langue",
     "v0.11.0": "39 langues + FIEBDC-3 espagnol (.bc3)",
     "v0.10.3": "TVA taux normal et taux réduit — au choix par élément",
     "v0.10.0": "Logo dans l'en-tête du rapport + formules dans les cellules",
@@ -16,6 +17,13 @@
     "v0.7.10": "Compte OpenAEC + navigation dans la barre inférieure"
   },
   "highlights": {
+    "v0.12.0": [
+      "Les rapports imprimés et PDF s'affichent dans votre langue, avec un réglage distinct « Langue des rapports » (Préférences → Général) qui suit par défaut la langue de l'interface",
+      "Les unités s'affichent traduites, par exemple « h » au lieu de « uur » — les fichiers enregistrés restent inchangés",
+      "Les messages d'importation s'affichent désormais à l'écran ; ceux de FIEBDC-3 (.bc3) dans votre langue",
+      "L'anglais est la langue par défaut des nouvelles installations et de la démo en ligne, avec un devis d'exemple en anglais",
+      "Les noms de boutons longs du ruban se coupent désormais à une syllabe plutôt qu'au milieu d'un mot"
+    ],
     "v0.11.0": [
       "L'interface est désormais disponible en 39 langues — choisissez la vôtre dans Préférences → Général, ou laissez l'application suivre la langue du système",
       "Prise en charge de l'écriture de droite à gauche pour l'arabe, le farsi, l'hébreu et l'ourdou : toute la mise en page est mise en miroir",

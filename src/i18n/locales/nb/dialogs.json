@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "Forhåndsvisning — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Importmeldinger",
+    "intro_one": "Importen av {{source}} ble fullført med {{count}} melding:",
+    "intro_other": "Importen av {{source}} ble fullført med {{count}} meldinger:",
+    "copy": "Kopier",
+    "copied": "Kopiert",
+    "close": "Lukk",
+    "bc3": {
+      "unknownConceptInDecomposition": "Ukjent kode '{{concept}}' i oppdelingen av '{{parent}}' — hoppet over.",
+      "unknownConceptUnder": "Ukjent kode '{{concept}}' under '{{parent}}' — hoppet over.",
+      "zeroYieldDecomposition": "Én eller flere poster har en oppdeling uten mengder — for disse ble enhetsprisen fra ~C-linjen brukt.",
+      "noRootStructure": "Ingen rotstruktur (##) med oppdeling funnet — separate grener ble importert på øverste nivå.",
+      "noProjectStructure": "Ingen prosjektstruktur (##/#) funnet — elementene ble importert som prisbok under ett enkelt kapittel.",
+      "priceMismatch_one": "For {{count}} post avviker summen av oppdelingen med mer enn 2 % fra enhetsprisen i ~C-linjen ({{examples}}). Oppdelingen ble brukt.",
+      "priceMismatch_other": "For {{count}} poster avviker summen av oppdelingen med mer enn 2 % fra enhetsprisen i ~C-linjen (f.eks. {{examples}}). Oppdelingen ble brukt.",
+      "noPrices": "Denne filen inneholder ingen priser — bare beskrivelser og mengder (som et mengdebibliotek). Totalen blir derfor 0,00.",
+      "moreWarnings_one": "… og {{count}} lignende melding til.",
+      "moreWarnings_other": "… og {{count}} lignende meldinger til."
+    }
   }
 }

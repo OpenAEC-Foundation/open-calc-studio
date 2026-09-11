@@ -62,5 +62,28 @@
   },
   "wizard": {
     "previewTitle": "Pregled — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Obavijesti o uvozu",
+    "intro_one": "Uvoz {{source}} završen je s {{count}} obaviješću:",
+    "intro_few": "Uvoz {{source}} završen je s {{count}} obavijesti:",
+    "intro_other": "Uvoz {{source}} završen je s {{count}} obavijesti:",
+    "copy": "Kopiraj",
+    "copied": "Kopirano",
+    "close": "Zatvori",
+    "bc3": {
+      "unknownConceptInDecomposition": "Nepoznata stavka „{{concept}}” u raščlambi „{{parent}}” — preskočeno.",
+      "unknownConceptUnder": "Nepoznata stavka „{{concept}}” pod „{{parent}}” — preskočeno.",
+      "zeroYieldDecomposition": "Jedna ili više stavki ima raščlambu bez količina — za njih je upotrijebljena jedinična cijena iz zapisa ~C.",
+      "noRootStructure": "Nije pronađena korijenska struktura (##) s raščlambom — pojedine grane uvezene su na najvišu razinu.",
+      "noProjectStructure": "Nije pronađena struktura projekta (##/#) — stavke su uvezene kao cjenik u jedno poglavlje.",
+      "priceMismatch_one": "Za {{count}} stavku zbroj raščlambe razlikuje se za više od 2 % od jedinične cijene u zapisu ~C ({{examples}}). Upotrijebljena je raščlamba.",
+      "priceMismatch_few": "Za {{count}} stavke zbroj raščlambe razlikuje se za više od 2 % od jedinične cijene u zapisu ~C (npr. {{examples}}). Upotrijebljena je raščlamba.",
+      "priceMismatch_other": "Za {{count}} stavki zbroj raščlambe razlikuje se za više od 2 % od jedinične cijene u zapisu ~C (npr. {{examples}}). Upotrijebljena je raščlamba.",
+      "noPrices": "Ova datoteka ne sadrži cijene — samo opise i količine (poput knjižnice izmjera). Ukupni iznos stoga ostaje 0,00.",
+      "moreWarnings_one": "… i još {{count}} slična obavijest.",
+      "moreWarnings_few": "… i još {{count}} slične obavijesti.",
+      "moreWarnings_other": "… i još {{count}} sličnih obavijesti."
+    }
   }
 }

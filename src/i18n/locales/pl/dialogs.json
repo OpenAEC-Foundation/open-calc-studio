@@ -63,5 +63,31 @@
   },
   "wizard": {
     "previewTitle": "Podgląd — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Komunikaty importu",
+    "intro_one": "Import {{source}} zakończono z {{count}} komunikatem:",
+    "intro_few": "Import {{source}} zakończono z {{count}} komunikatami:",
+    "intro_many": "Import {{source}} zakończono z {{count}} komunikatami:",
+    "intro_other": "Import {{source}} zakończono z {{count}} komunikatami:",
+    "copy": "Kopiuj",
+    "copied": "Skopiowano",
+    "close": "Zamknij",
+    "bc3": {
+      "unknownConceptInDecomposition": "Nieznana pozycja „{{concept}}” w rozbiciu „{{parent}}” — pominięto.",
+      "unknownConceptUnder": "Nieznana pozycja „{{concept}}” pod „{{parent}}” — pominięto.",
+      "zeroYieldDecomposition": "Co najmniej jedna pozycja ma rozbicie bez ilości nakładów — dla tych pozycji użyto ceny jednostkowej z rekordu ~C.",
+      "noRootStructure": "Nie znaleziono struktury głównej (##) z rozbiciem — poszczególne gałęzie zaimportowano na najwyższym poziomie.",
+      "noProjectStructure": "Nie znaleziono struktury projektu (##/#) — pozycje zaimportowano jako cennik w jednym dziale.",
+      "priceMismatch_one": "Dla {{count}} pozycji suma rozbicia różni się o ponad 2% od ceny jednostkowej w rekordzie ~C ({{examples}}). Użyto rozbicia.",
+      "priceMismatch_few": "Dla {{count}} pozycji suma rozbicia różni się o ponad 2% od ceny jednostkowej w rekordzie ~C (np. {{examples}}). Użyto rozbicia.",
+      "priceMismatch_many": "Dla {{count}} pozycji suma rozbicia różni się o ponad 2% od ceny jednostkowej w rekordzie ~C (np. {{examples}}). Użyto rozbicia.",
+      "priceMismatch_other": "Dla {{count}} pozycji suma rozbicia różni się o ponad 2% od ceny jednostkowej w rekordzie ~C (np. {{examples}}). Użyto rozbicia.",
+      "noPrices": "Ten plik nie zawiera cen — tylko opisy i ilości (jak biblioteka przedmiarów). Suma wynosi więc 0,00.",
+      "moreWarnings_one": "… i jeszcze {{count}} podobny komunikat.",
+      "moreWarnings_few": "… i jeszcze {{count}} podobne komunikaty.",
+      "moreWarnings_many": "… i jeszcze {{count}} podobnych komunikatów.",
+      "moreWarnings_other": "… i jeszcze {{count}} podobnych komunikatów."
+    }
   }
 }

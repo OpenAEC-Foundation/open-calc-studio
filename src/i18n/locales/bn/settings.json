@@ -14,6 +14,9 @@
   "general": {
     "application": "অ্যাপ্লিকেশন",
     "language": "ভাষা",
+    "reportLanguage": "রিপোর্টের ভাষা",
+    "reportLanguageAuto": "ইন্টারফেসের মতো",
+    "reportLanguageHelp": "প্রিন্টআউট ও PDF রিপোর্টের ভাষা। কাজে লাগে যখন ইন্টারফেসের ভাষা আপনার ক্লায়েন্টের ভাষা থেকে আলাদা।",
     "startup": "শুরু",
     "restoreSession": "শুরুতে আগের সেশন পুনরুদ্ধার করুন",
     "checkUpdates": "আপডেট পরীক্ষা করুন",

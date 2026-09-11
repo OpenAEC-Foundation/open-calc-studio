@@ -63,5 +63,31 @@
   },
   "wizard": {
     "previewTitle": "Náhled — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Upozornění importu",
+    "intro_one": "Import {{source}} skončil s {{count}} upozorněním:",
+    "intro_few": "Import {{source}} skončil s {{count}} upozorněními:",
+    "intro_many": "Import {{source}} skončil s {{count}} upozorněními:",
+    "intro_other": "Import {{source}} skončil s {{count}} upozorněními:",
+    "copy": "Kopírovat",
+    "copied": "Zkopírováno",
+    "close": "Zavřít",
+    "bc3": {
+      "unknownConceptInDecomposition": "Neznámá položka „{{concept}}“ v rozpadu „{{parent}}“ — přeskočeno.",
+      "unknownConceptUnder": "Neznámá položka „{{concept}}“ pod „{{parent}}“ — přeskočeno.",
+      "zeroYieldDecomposition": "Jedna nebo více položek má rozpad bez množství — pro ně byla použita jednotková cena ze záznamu ~C.",
+      "noRootStructure": "Nebyla nalezena kořenová struktura (##) s rozpadem — jednotlivé větve byly importovány na nejvyšší úroveň.",
+      "noProjectStructure": "Nebyla nalezena struktura projektu (##/#) — položky byly importovány jako ceník do jedné kapitoly.",
+      "priceMismatch_one": "U {{count}} položky se součet rozpadu liší o více než 2 % od jednotkové ceny v záznamu ~C ({{examples}}). Byl použit rozpad.",
+      "priceMismatch_few": "U {{count}} položek se součet rozpadu liší o více než 2 % od jednotkové ceny v záznamu ~C (např. {{examples}}). Byl použit rozpad.",
+      "priceMismatch_many": "U {{count}} položky se součet rozpadu liší o více než 2 % od jednotkové ceny v záznamu ~C (např. {{examples}}). Byl použit rozpad.",
+      "priceMismatch_other": "U {{count}} položek se součet rozpadu liší o více než 2 % od jednotkové ceny v záznamu ~C (např. {{examples}}). Byl použit rozpad.",
+      "noPrices": "Tento soubor neobsahuje žádné ceny — pouze popisy a množství (jako knihovna výměr). Celková částka proto zůstává 0,00.",
+      "moreWarnings_one": "… a ještě {{count}} podobné upozornění.",
+      "moreWarnings_few": "… a ještě {{count}} podobná upozornění.",
+      "moreWarnings_many": "… a ještě {{count}} podobného upozornění.",
+      "moreWarnings_other": "… a ještě {{count}} podobných upozornění."
+    }
   }
 }

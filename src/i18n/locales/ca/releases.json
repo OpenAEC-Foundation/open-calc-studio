@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.0": "Informes i unitats en el vostre idioma",
     "v0.11.0": "39 idiomes + FIEBDC-3 (.bc3)",
     "v0.10.3": "IVA general i reduït — seleccionable per element",
     "v0.10.0": "Logotip a la capçalera de l'informe + fórmules a les cel·les",
@@ -16,6 +17,13 @@
     "v0.7.10": "Compte OpenAEC + navegació a la barra inferior"
   },
   "highlights": {
+    "v0.12.0": [
+      "Els informes impresos i en PDF apareixen en el vostre idioma, amb una opció pròpia «Idioma dels informes» (Preferències → General) que per defecte segueix l’idioma de la interfície",
+      "Les unitats es mostren traduïdes, per exemple «h» en lloc de «uur» — els fitxers desats no canvien",
+      "Els missatges d’importació ara apareixen a la pantalla; els de FIEBDC-3 (.bc3), en el vostre idioma",
+      "L’anglès és l’idioma per defecte de les instal·lacions noves i de la demo en línia, amb un pressupost d’exemple en anglès",
+      "Els noms llargs dels botons de la cinta ara es parteixen per una síl·laba en lloc de pel mig d’una paraula"
+    ],
     "v0.11.0": [
       "La interfície està disponible en 39 idiomes — trieu el vostre a Preferències → General, o deixeu que l’aplicació segueixi l’idioma del sistema",
       "Compatibilitat de dreta a esquerra per a àrab, farsi, hebreu i urdú: tota la disposició es reflecteix",

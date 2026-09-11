@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.0": "Rapporter og enheder på dit eget sprog",
     "v0.11.0": "39 sprog + spansk FIEBDC-3 (.bc3)",
     "v0.10.3": "Høj og lav momssats — kan vælges pr. post",
     "v0.10.0": "Logo i rapportens sidehoved + formler i celler",
@@ -16,6 +17,13 @@
     "v0.7.10": "OpenAEC-konto + navigation i bundlinjen"
   },
   "highlights": {
+    "v0.12.0": [
+      "Udskrevne rapporter og PDF-rapporter vises på dit eget sprog, med en separat indstilling “Rapportsprog” (Indstillinger → Generelt), der som standard følger brugerfladens sprog",
+      "Enheder vises oversat, for eksempel “t” i stedet for “uur” — gemte filer forbliver uændrede",
+      "Importmeddelelser vises nu på skærmen; dem fra FIEBDC-3 (.bc3) på dit eget sprog",
+      "Engelsk er standardsproget for nye installationer og onlinedemoen, med et engelsk eksempelbudget",
+      "Lange knapnavne i båndet brydes nu ved en stavelse i stedet for midt i et ord"
+    ],
     "v0.11.0": [
       "Brugerfladen findes nu på 39 sprog — vælg dit under Indstillinger → Generelt, eller lad programmet følge systemsproget",
       "Understøttelse af højre-mod-venstre for arabisk, farsi, hebraisk og urdu: hele layoutet spejlvendes med",

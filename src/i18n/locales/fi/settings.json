@@ -14,6 +14,9 @@
   "general": {
     "application": "Sovellus",
     "language": "Kieli",
+    "reportLanguage": "Raporttien kieli",
+    "reportLanguageAuto": "Sama kuin käyttöliittymä",
+    "reportLanguageHelp": "Tulosteiden ja PDF-raporttien kieli. Kätevä, kun käyttöliittymän kieli poikkeaa tilaajasi kielestä.",
     "startup": "Käynnistys",
     "restoreSession": "Palauta istunto käynnistettäessä",
     "checkUpdates": "Tarkista päivitykset",

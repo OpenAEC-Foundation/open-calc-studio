@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.0": "Sestavy a jednotky ve vašem jazyce",
     "v0.11.0": "39 jazyků + španělský FIEBDC-3 (.bc3)",
     "v0.10.3": "Základní a snížená sazba DPH — volitelná u každé části",
     "v0.10.0": "Logo v záhlaví sestavy + vzorce v buňkách",
@@ -16,6 +17,13 @@
     "v0.7.10": "Účet OpenAEC + navigace ve spodní liště"
   },
   "highlights": {
+    "v0.12.0": [
+      "Tištěné a PDF sestavy se zobrazují ve vašem jazyce, se samostatným nastavením „Jazyk sestav“ (Předvolby → Obecné), které ve výchozím stavu sleduje jazyk rozhraní",
+      "Jednotky se zobrazují přeložené, například „hod“ místo „uur“ — uložené soubory zůstávají beze změny",
+      "Hlášení při importu se nyní zobrazují na obrazovce; hlášení z FIEBDC-3 (.bc3) ve vašem jazyce",
+      "Angličtina je výchozím jazykem pro nové instalace a online demo, s anglickým ukázkovým rozpočtem",
+      "Dlouhé názvy tlačítek na pásu karet se nyní dělí na hranici slabiky, ne uprostřed slova"
+    ],
     "v0.11.0": [
       "Rozhraní je nyní dostupné ve 39 jazycích — svůj si vyberte v Předvolby → Obecné, nebo nechte aplikaci sledovat jazyk systému",
       "Podpora psaní zprava doleva pro arabštinu, perštinu, hebrejštinu a urdštinu: zrcadlí se celé rozvržení",

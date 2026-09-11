@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "Förhandsgranskning — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Importmeddelanden",
+    "intro_one": "Importen av {{source}} slutfördes med {{count}} meddelande:",
+    "intro_other": "Importen av {{source}} slutfördes med {{count}} meddelanden:",
+    "copy": "Kopiera",
+    "copied": "Kopierat",
+    "close": "Stäng",
+    "bc3": {
+      "unknownConceptInDecomposition": "Okänd kod '{{concept}}' i uppdelningen av '{{parent}}' — hoppades över.",
+      "unknownConceptUnder": "Okänd kod '{{concept}}' under '{{parent}}' — hoppades över.",
+      "zeroYieldDecomposition": "En eller flera poster har en uppdelning utan åtgångar — för dessa användes enhetspriset från ~C-raden.",
+      "noRootStructure": "Ingen rotstruktur (##) med uppdelning hittades — separata grenar importerades på översta nivån.",
+      "noProjectStructure": "Ingen projektstruktur (##/#) hittades — elementen importerades som prisbok under ett enda kapitel.",
+      "priceMismatch_one": "För {{count}} post avviker summan av uppdelningen med mer än 2 % från enhetspriset i ~C-raden ({{examples}}). Uppdelningen användes.",
+      "priceMismatch_other": "För {{count}} poster avviker summan av uppdelningen med mer än 2 % från enhetspriset i ~C-raden (t.ex. {{examples}}). Uppdelningen användes.",
+      "noPrices": "Den här filen innehåller inga priser — endast beskrivningar och mängder (som ett mängdbibliotek). Totalen blir därför 0,00.",
+      "moreWarnings_one": "… och {{count}} ytterligare liknande meddelande.",
+      "moreWarnings_other": "… och {{count}} ytterligare liknande meddelanden."
+    }
   }
 }

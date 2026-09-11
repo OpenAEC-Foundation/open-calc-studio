@@ -506,7 +506,7 @@ ${companyInfo?.logoRight ? `<img class="report-logo-right" src="${companyInfo.lo
   </div>
   <div class="header-right">
     <div><span class="label">${escapeHtml(t('meta.date'))}: </span>${today}</div>
-    <div><span class="label">${escapeHtml(t('meta.status'))}: </span>${escapeHtml(t(`status.${schedule.status}`, { defaultValue: String(schedule.status ?? '') }))}</div>
+    ${schedule.status ? `<div><span class="label">${escapeHtml(t('meta.status'))}: </span>${escapeHtml(t(`status.${schedule.status}`, { defaultValue: String(schedule.status) }))}</div>` : ''}
   </div>
 </div>
 <div class="meta">

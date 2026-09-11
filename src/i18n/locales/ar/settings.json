@@ -14,6 +14,9 @@
   "general": {
     "application": "التطبيق",
     "language": "اللغة",
+    "reportLanguage": "لغة التقارير",
+    "reportLanguageAuto": "مثل لغة الواجهة",
+    "reportLanguageHelp": "لغة المطبوعات وتقارير PDF. مفيدة عندما تختلف لغة الواجهة عن لغة عميلك.",
     "startup": "بدء التشغيل",
     "restoreSession": "استعادة الجلسة عند بدء التشغيل",
     "checkUpdates": "البحث عن تحديثات",

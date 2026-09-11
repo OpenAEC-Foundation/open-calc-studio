@@ -14,6 +14,9 @@
   "general": {
     "application": "Uygulama",
     "language": "Dil",
+    "reportLanguage": "Rapor dili",
+    "reportLanguageAuto": "Arayüzle aynı",
+    "reportLanguageHelp": "Çıktıların ve PDF raporlarının dili. Arayüz dili işvereninizin dilinden farklı olduğunda kullanışlıdır.",
     "startup": "Başlangıç",
     "restoreSession": "Başlangıçta oturumu geri yükle",
     "checkUpdates": "Güncellemeleri denetle",

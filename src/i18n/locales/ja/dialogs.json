@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "プレビュー — {{name}}"
+  },
+  "importWarnings": {
+    "title": "インポートの通知",
+    "intro_one": "{{source}} のインポートが完了しました（通知 {{count}} 件）：",
+    "intro_other": "{{source}} のインポートが完了しました（通知 {{count}} 件）：",
+    "copy": "コピー",
+    "copied": "コピーしました",
+    "close": "閉じる",
+    "bc3": {
+      "unknownConceptInDecomposition": "「{{parent}}」の構成明細に不明な項目「{{concept}}」があります — スキップしました。",
+      "unknownConceptUnder": "「{{parent}}」の下に不明な項目「{{concept}}」があります — スキップしました。",
+      "zeroYieldDecomposition": "1 件以上の内訳項目の構成明細に数量（歩掛）がありません — それらには ~C レコードの単価を使用しました。",
+      "noRootStructure": "構成明細を持つルート構造（##）が見つかりません — 個々の分岐を最上位にインポートしました。",
+      "noProjectStructure": "工事構造（##/#）が見つかりません — 項目を単価表として 1 つの章の下にインポートしました。",
+      "priceMismatch_one": "{{count}} 件の内訳項目で、構成明細の合計が ~C レコードの単価と 2% を超えて異なります（{{examples}}）。構成明細を採用しました。",
+      "priceMismatch_other": "{{count}} 件の内訳項目で、構成明細の合計が ~C レコードの単価と 2% を超えて異なります（例：{{examples}}）。構成明細を採用しました。",
+      "noPrices": "このファイルには価格が含まれていません — 名称と数量のみです（数量ライブラリなど）。そのため合計は 0.00 のままです。",
+      "moreWarnings_one": "…ほかに同様の通知が {{count}} 件あります。",
+      "moreWarnings_other": "…ほかに同様の通知が {{count}} 件あります。"
+    }
   }
 }

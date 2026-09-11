@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.0": "Raportit ja yksiköt omalla kielelläsi",
     "v0.11.0": "39 kieltä + espanjalainen FIEBDC-3 (.bc3)",
     "v0.10.3": "Yleinen ja alennettu alv — valittavissa osittain",
     "v0.10.0": "Logo raportin ylätunnisteessa + kaavat soluihin",
@@ -16,6 +17,13 @@
     "v0.7.10": "OpenAEC-tili + alapalkin navigointi"
   },
   "highlights": {
+    "v0.12.0": [
+      "Tulostetut ja PDF-raportit näkyvät omalla kielelläsi, ja erillinen \"Raporttien kieli\" -asetus (Asetukset → Yleiset) seuraa oletuksena käyttöliittymän kieltä",
+      "Yksiköt näytetään käännettyinä, esimerkiksi \"h\" eikä \"uur\" — tallennetut tiedostot pysyvät ennallaan",
+      "Tuontiviestit näkyvät nyt näytöllä; FIEBDC-3 (.bc3) -tuonnin viestit omalla kielelläsi",
+      "Englanti on oletuskieli uusissa asennuksissa ja verkkodemossa, ja mukana on englanninkielinen esimerkkikustannusarvio",
+      "Valintanauhan pitkät painikenimet katkeavat nyt tavurajalta eivätkä keskeltä sanaa"
+    ],
     "v0.11.0": [
       "Käyttöliittymä on nyt saatavilla 39 kielellä — valitse omasi kohdasta Asetukset → Yleiset tai anna sovelluksen seurata järjestelmän kieltä",
       "Oikealta vasemmalle -tuki arabialle, farsille, hepreaksi ja urdulle: koko asettelu peilautuu mukana",

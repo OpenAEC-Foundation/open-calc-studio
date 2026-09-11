@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "Previsualització — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Avisos d'importació",
+    "intro_one": "La importació de {{source}} ha finalitzat amb {{count}} avís:",
+    "intro_other": "La importació de {{source}} ha finalitzat amb {{count}} avisos:",
+    "copy": "Copia",
+    "copied": "Copiat",
+    "close": "Tanca",
+    "bc3": {
+      "unknownConceptInDecomposition": "Concepte desconegut «{{concept}}» a la descomposició de «{{parent}}»: s'ha omès.",
+      "unknownConceptUnder": "Concepte desconegut «{{concept}}» sota «{{parent}}»: s'ha omès.",
+      "zeroYieldDecomposition": "Una o diverses partides tenen una descomposició sense rendiments: per a aquestes s'ha fet servir el preu unitari del registre ~C.",
+      "noRootStructure": "No s'ha trobat cap estructura arrel (##) amb descomposició: les branques soltes s'han importat al nivell superior.",
+      "noProjectStructure": "No s'ha trobat cap estructura de projecte (##/#): els conceptes s'han importat com a banc de preus sota un únic capítol.",
+      "priceMismatch_one": "En {{count}} partida, la suma de la descomposició difereix més d'un 2 % del preu unitari del registre ~C ({{examples}}). S'ha fet servir la descomposició.",
+      "priceMismatch_other": "En {{count}} partides, la suma de la descomposició difereix més d'un 2 % del preu unitari del registre ~C (p. ex. {{examples}}). S'ha fet servir la descomposició.",
+      "noPrices": "Aquest fitxer no conté preus, només descripcions i amidaments (com una biblioteca d'amidaments). Per això el total continua sent 0,00.",
+      "moreWarnings_one": "… i {{count}} avís similar més.",
+      "moreWarnings_other": "… i {{count}} avisos similars més."
+    }
   }
 }

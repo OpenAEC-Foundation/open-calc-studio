@@ -14,6 +14,9 @@
   "general": {
     "application": "アプリケーション",
     "language": "言語",
+    "reportLanguage": "帳票の言語",
+    "reportLanguageAuto": "インターフェースと同じ",
+    "reportLanguageHelp": "印刷物と PDF 帳票の言語です。インターフェースの言語が発注者の言語と異なる場合に便利です。",
     "startup": "起動",
     "restoreSession": "起動時にセッションを復元する",
     "checkUpdates": "更新を確認する",

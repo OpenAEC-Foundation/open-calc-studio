@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "Önizleme — {{name}}"
+  },
+  "importWarnings": {
+    "title": "İçe aktarma bildirimleri",
+    "intro_one": "{{source}} içe aktarımı {{count}} bildirimle tamamlandı:",
+    "intro_other": "{{source}} içe aktarımı {{count}} bildirimle tamamlandı:",
+    "copy": "Kopyala",
+    "copied": "Kopyalandı",
+    "close": "Kapat",
+    "bc3": {
+      "unknownConceptInDecomposition": "'{{parent}}' analizinde bilinmeyen öğe '{{concept}}' — atlandı.",
+      "unknownConceptUnder": "'{{parent}}' altında bilinmeyen öğe '{{concept}}' — atlandı.",
+      "zeroYieldDecomposition": "Bir veya daha fazla pozun analizinde miktar katsayısı yok — bunlar için ~C kaydındaki birim fiyat kullanıldı.",
+      "noRootStructure": "Analiz içeren bir kök yapı (##) bulunamadı — ayrı dallar en üst düzeye aktarıldı.",
+      "noProjectStructure": "Proje yapısı (##/#) bulunamadı — öğeler tek bir bölüm altında fiyat kitabı olarak aktarıldı.",
+      "priceMismatch_one": "{{count}} pozda analiz toplamı ~C kaydındaki birim fiyattan %2'den fazla farklı ({{examples}}). Analiz kullanıldı.",
+      "priceMismatch_other": "{{count}} pozda analiz toplamı ~C kaydındaki birim fiyattan %2'den fazla farklı (örn. {{examples}}). Analiz kullanıldı.",
+      "noPrices": "Bu dosya fiyat içermiyor — yalnızca açıklamalar ve miktarlar var (bir metraj kütüphanesi gibi). Bu nedenle toplam 0,00 olarak kalır.",
+      "moreWarnings_one": "… ve {{count}} benzer bildirim daha.",
+      "moreWarnings_other": "… ve {{count}} benzer bildirim daha."
+    }
   }
 }

@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "预览 —— {{name}}"
+  },
+  "importWarnings": {
+    "title": "导入提示",
+    "intro_one": "{{source}} 导入完成，共有 {{count}} 条提示：",
+    "intro_other": "{{source}} 导入完成，共有 {{count}} 条提示：",
+    "copy": "复制",
+    "copied": "已复制",
+    "close": "关闭",
+    "bc3": {
+      "unknownConceptInDecomposition": "“{{parent}}”的组成明细中存在未知条目“{{concept}}”——已跳过。",
+      "unknownConceptUnder": "“{{parent}}”下存在未知条目“{{concept}}”——已跳过。",
+      "zeroYieldDecomposition": "有一个或多个清单项的组成明细没有消耗量——这些清单项采用了 ~C 记录中的单价。",
+      "noRootStructure": "未找到带组成明细的根结构（##）——各独立分支已导入到最高层级。",
+      "noProjectStructure": "未找到项目结构（##/#）——条目已作为价格库导入到同一章节下。",
+      "priceMismatch_one": "有 {{count}} 个清单项的组成明细合计与 ~C 记录中的单价相差超过 2%（{{examples}}）。已采用组成明细。",
+      "priceMismatch_other": "有 {{count}} 个清单项的组成明细合计与 ~C 记录中的单价相差超过 2%（例如 {{examples}}）。已采用组成明细。",
+      "noPrices": "此文件不含任何价格——只有名称和工程量（类似工程量库）。因此合计仍为 0.00。",
+      "moreWarnings_one": "……另有 {{count}} 条类似提示。",
+      "moreWarnings_other": "……另有 {{count}} 条类似提示。"
+    }
   }
 }

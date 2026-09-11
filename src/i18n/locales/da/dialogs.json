@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "Forhåndsvisning — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Importmeddelelser",
+    "intro_one": "Importen af {{source}} blev afsluttet med {{count}} meddelelse:",
+    "intro_other": "Importen af {{source}} blev afsluttet med {{count}} meddelelser:",
+    "copy": "Kopier",
+    "copied": "Kopieret",
+    "close": "Luk",
+    "bc3": {
+      "unknownConceptInDecomposition": "Ukendt kode '{{concept}}' i opdelingen af '{{parent}}' — sprunget over.",
+      "unknownConceptUnder": "Ukendt kode '{{concept}}' under '{{parent}}' — sprunget over.",
+      "zeroYieldDecomposition": "En eller flere poster har en opdeling uden mængder — for disse blev enhedsprisen fra ~C-linjen brugt.",
+      "noRootStructure": "Ingen rodstruktur (##) med opdeling fundet — separate grene blev importeret på øverste niveau.",
+      "noProjectStructure": "Ingen projektstruktur (##/#) fundet — elementerne blev importeret som prisbog under ét kapitel.",
+      "priceMismatch_one": "For {{count}} post afviger summen af opdelingen mere end 2 % fra enhedsprisen i ~C-linjen ({{examples}}). Opdelingen blev brugt.",
+      "priceMismatch_other": "For {{count}} poster afviger summen af opdelingen mere end 2 % fra enhedsprisen i ~C-linjen (f.eks. {{examples}}). Opdelingen blev brugt.",
+      "noPrices": "Denne fil indeholder ingen priser — kun beskrivelser og mængder (som et opmålingsbibliotek). Totalen forbliver derfor 0,00.",
+      "moreWarnings_one": "… og {{count}} yderligere lignende meddelelse.",
+      "moreWarnings_other": "… og {{count}} yderligere lignende meddelelser."
+    }
   }
 }

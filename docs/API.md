@@ -288,6 +288,7 @@ Het exportproces:
 | `companyInfo` | `CompanyInfo` | `null` | Bedrijfsgegevens voor koptekst |
 | `includeCover` | `boolean` | `false` | Voorblad genereren |
 | `includeSummary` | `boolean` | `false` | Samenvattingspagina genereren |
+| `labels` | `Record<string, string>` | `{}` | Rapportteksten in de rapporttaal: platte keys uit de `report`-namespace (bv. `"totals.contractSumExclVat"`) plus eenheden als `"units.<code>"`. Ontbrekende of lege keys vallen terug op de Nederlandse standaardtekst, dus een request zonder `labels` levert een Nederlands rapport. De app vult dit met `getReportLabels()` uit `src/i18n/reportI18n.ts`. |
 
 ---
 

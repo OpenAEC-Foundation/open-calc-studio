@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.0": "Kendi dilinizde raporlar ve birimler",
     "v0.11.0": "39 dil + İspanyol FIEBDC-3 (.bc3)",
     "v0.10.3": "Yüksek ve düşük KDV — kısım bazında seçilebilir",
     "v0.10.0": "Rapor başlığında logo + hücrelerde formüller",
@@ -16,6 +17,13 @@
     "v0.7.10": "OpenAEC hesabı + alt çubuk gezinmesi"
   },
   "highlights": {
+    "v0.12.0": [
+      "Basılı ve PDF raporlar kendi dilinizde görünür; ayrı bir \"Rapor dili\" ayarı (Tercihler → Genel) varsayılan olarak arayüz dilini izler",
+      "Birimler çevrilmiş olarak gösterilir, örneğin \"uur\" yerine \"sa\" — kaydedilen dosyalar değişmeden kalır",
+      "İçe aktarma mesajları artık ekranda görünüyor; FIEBDC-3 (.bc3) mesajları kendi dilinizde",
+      "Yeni kurulumlar ve çevrimiçi demo için varsayılan dil İngilizce; İngilizce bir örnek keşif de dahil",
+      "Şeritteki uzun düğme adları artık kelimenin ortasından değil, hece sınırından bölünüyor"
+    ],
     "v0.11.0": [
       "Arayüz artık 39 dilde kullanılabiliyor — dilinizi Tercihler → Genel altından seçin veya uygulamanın sistem dilinizi izlemesine izin verin",
       "Arapça, Farsça, İbranice ve Urduca için sağdan sola desteği: tüm düzen birlikte aynalanıyor",

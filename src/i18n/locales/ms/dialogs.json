@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "Pratonton — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Notis import",
+    "intro_one": "Import {{source}} selesai dengan {{count}} notis:",
+    "intro_other": "Import {{source}} selesai dengan {{count}} notis:",
+    "copy": "Salin",
+    "copied": "Disalin",
+    "close": "Tutup",
+    "bc3": {
+      "unknownConceptInDecomposition": "Konsep tidak dikenali '{{concept}}' dalam pecahan '{{parent}}' — dilangkau.",
+      "unknownConceptUnder": "Konsep tidak dikenali '{{concept}}' di bawah '{{parent}}' — dilangkau.",
+      "zeroYieldDecomposition": "Satu atau lebih butiran mempunyai pecahan tanpa pekali — harga seunit daripada rekod ~C digunakan bagi butiran tersebut.",
+      "noRootStructure": "Tiada struktur akar (##) dengan pecahan ditemui — cabang berasingan diimport pada peringkat teratas.",
+      "noProjectStructure": "Tiada struktur projek (##/#) ditemui — konsep diimport sebagai buku harga di bawah satu bab.",
+      "priceMismatch_one": "Bagi {{count}} butiran, jumlah pecahan berbeza lebih daripada 2% daripada harga seunit dalam rekod ~C (cth. {{examples}}). Pecahan telah digunakan.",
+      "priceMismatch_other": "Bagi {{count}} butiran, jumlah pecahan berbeza lebih daripada 2% daripada harga seunit dalam rekod ~C (cth. {{examples}}). Pecahan telah digunakan.",
+      "noPrices": "Fail ini tidak mengandungi harga — hanya huraian dan kuantiti (seperti pustaka ukuran). Oleh itu jumlahnya kekal 0.00.",
+      "moreWarnings_one": "… dan {{count}} lagi notis yang serupa.",
+      "moreWarnings_other": "… dan {{count}} lagi notis yang serupa."
+    }
   }
 }

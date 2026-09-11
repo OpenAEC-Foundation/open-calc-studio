@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "Vorschau — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Importhinweise",
+    "intro_one": "Der Import von {{source}} wurde mit {{count}} Hinweis abgeschlossen:",
+    "intro_other": "Der Import von {{source}} wurde mit {{count}} Hinweisen abgeschlossen:",
+    "copy": "Kopieren",
+    "copied": "Kopiert",
+    "close": "Schließen",
+    "bc3": {
+      "unknownConceptInDecomposition": "Unbekannter Code „{{concept}}“ in der Zerlegung von „{{parent}}“ — übersprungen.",
+      "unknownConceptUnder": "Unbekannter Code „{{concept}}“ unter „{{parent}}“ — übersprungen.",
+      "zeroYieldDecomposition": "Eine oder mehrere Positionen haben eine Zerlegung ohne Mengenansätze — für diese wurde der Einheitspreis aus dem ~C-Datensatz verwendet.",
+      "noRootStructure": "Keine Stammstruktur (##) mit Zerlegung gefunden — einzelne Zweige wurden auf oberster Ebene importiert.",
+      "noProjectStructure": "Keine Projektstruktur (##/#) gefunden — die Einträge wurden als Preisdatenbank unter einem einzigen Titel importiert.",
+      "priceMismatch_one": "Bei {{count}} Position weicht die Summe der Zerlegung um mehr als 2 % vom Einheitspreis im ~C-Datensatz ab ({{examples}}). Die Zerlegung wurde verwendet.",
+      "priceMismatch_other": "Bei {{count}} Positionen weicht die Summe der Zerlegung um mehr als 2 % vom Einheitspreis im ~C-Datensatz ab (z. B. {{examples}}). Die Zerlegung wurde verwendet.",
+      "noPrices": "Diese Datei enthält keine Preise — nur Beschreibungen und Mengen (wie eine Aufmaßbibliothek). Die Summe bleibt daher 0,00.",
+      "moreWarnings_one": "… und {{count}} weiterer ähnlicher Hinweis.",
+      "moreWarnings_other": "… und {{count}} weitere ähnliche Hinweise."
+    }
   }
 }

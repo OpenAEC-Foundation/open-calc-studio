@@ -251,12 +251,20 @@
   color: var(--theme-ribbon-btn-label);
   text-align: center;
   line-height: 1.15;
-  max-width: 58px;
+  max-width: 64px;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  word-break: break-word;
+  /* Lange woorden (in veel talen langer dan het Engels) eerst op een
+     lettergreep afbreken, in de taal van <html lang>; alleen als dat niet
+     lukt midden in het woord knippen. `anywhere` (niet `break-word`) houdt
+     het label krimpbaar als er geen afbreekwoordenboek is, anders loopt het
+     lint in een smal venster rechts buiten beeld. */
+  word-break: normal;
+  overflow-wrap: anywhere;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
 
 .ribbon-btn:hover .ribbon-btn-label { color: var(--theme-ribbon-text-hover); }

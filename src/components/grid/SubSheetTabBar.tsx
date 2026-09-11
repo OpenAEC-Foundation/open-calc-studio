@@ -86,7 +86,7 @@ export function SubSheetTabBar() {
           className={`subsheet-tab subsheet-tab-main${activeContentTab === 'spreadsheet' ? ' active' : ''}`}
           onClick={handleAdd}
         >
-          Spreadsheet
+          {t('ribbon:tabs.spreadsheet')}
         </button>
       )}
       {subSheets.map((ss) => {

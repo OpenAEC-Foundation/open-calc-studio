@@ -14,6 +14,9 @@
   "general": {
     "application": "Aplikace",
     "language": "Jazyk",
+    "reportLanguage": "Jazyk sestav",
+    "reportLanguageAuto": "Stejný jako rozhraní",
+    "reportLanguageHelp": "Jazyk tisků a sestav PDF. Užitečné, když se jazyk rozhraní liší od jazyka vašeho objednatele.",
     "startup": "Spuštění",
     "restoreSession": "Obnovit relaci při spuštění",
     "checkUpdates": "Kontrolovat aktualizace",

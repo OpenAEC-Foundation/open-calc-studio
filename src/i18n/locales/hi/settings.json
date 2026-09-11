@@ -14,6 +14,9 @@
   "general": {
     "application": "एप्लिकेशन",
     "language": "भाषा",
+    "reportLanguage": "रिपोर्ट की भाषा",
+    "reportLanguageAuto": "इंटरफ़ेस के समान",
+    "reportLanguageHelp": "प्रिंटआउट और PDF रिपोर्ट की भाषा। उपयोगी, जब इंटरफ़ेस की भाषा आपके ग्राहक की भाषा से अलग हो।",
     "startup": "प्रारंभ",
     "restoreSession": "प्रारंभ पर पिछला सत्र पुनर्स्थापित करें",
     "checkUpdates": "अपडेट जाँचें",

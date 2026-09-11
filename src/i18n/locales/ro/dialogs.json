@@ -62,5 +62,28 @@
   },
   "wizard": {
     "previewTitle": "Previzualizare — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Mesaje de import",
+    "intro_one": "Importul {{source}} s-a încheiat cu {{count}} mesaj:",
+    "intro_few": "Importul {{source}} s-a încheiat cu {{count}} mesaje:",
+    "intro_other": "Importul {{source}} s-a încheiat cu {{count}} de mesaje:",
+    "copy": "Copiere",
+    "copied": "Copiat",
+    "close": "Închidere",
+    "bc3": {
+      "unknownConceptInDecomposition": "Element necunoscut „{{concept}}” în descompunerea lui „{{parent}}” — omis.",
+      "unknownConceptUnder": "Element necunoscut „{{concept}}” sub „{{parent}}” — omis.",
+      "zeroYieldDecomposition": "Unul sau mai multe articole au o descompunere fără consumuri specifice — pentru acestea s-a folosit prețul unitar din înregistrarea ~C.",
+      "noRootStructure": "Nu a fost găsită o structură rădăcină (##) cu descompunere — ramurile separate au fost importate la nivelul superior.",
+      "noProjectStructure": "Nu a fost găsită o structură de proiect (##/#) — elementele au fost importate ca un catalog de prețuri sub un singur capitol.",
+      "priceMismatch_one": "La {{count}} articol, suma descompunerii diferă cu peste 2% de prețul unitar din înregistrarea ~C ({{examples}}). S-a folosit descompunerea.",
+      "priceMismatch_few": "La {{count}} articole, suma descompunerii diferă cu peste 2% de prețul unitar din înregistrarea ~C (de ex. {{examples}}). S-a folosit descompunerea.",
+      "priceMismatch_other": "La {{count}} de articole, suma descompunerii diferă cu peste 2% de prețul unitar din înregistrarea ~C (de ex. {{examples}}). S-a folosit descompunerea.",
+      "noPrices": "Acest fișier nu conține prețuri — doar denumiri și cantități (ca o bibliotecă de antemăsurători). Prin urmare, totalul rămâne 0,00.",
+      "moreWarnings_one": "… și încă {{count}} mesaj similar.",
+      "moreWarnings_few": "… și încă {{count}} mesaje similare.",
+      "moreWarnings_other": "… și încă {{count}} de mesaje similare."
+    }
   }
 }

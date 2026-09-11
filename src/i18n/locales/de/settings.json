@@ -14,6 +14,9 @@
   "general": {
     "application": "Anwendung",
     "language": "Sprache",
+    "reportLanguage": "Berichtssprache",
+    "reportLanguageAuto": "Wie Oberfläche",
+    "reportLanguageHelp": "Sprache von Ausdrucken und PDF-Berichten. Praktisch, wenn die Sprache der Oberfläche von der Sprache Ihres Auftraggebers abweicht.",
     "startup": "Programmstart",
     "restoreSession": "Sitzung beim Start wiederherstellen",
     "checkUpdates": "Nach Updates suchen",

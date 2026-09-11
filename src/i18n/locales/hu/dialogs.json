@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "Előnézet — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Importálási üzenetek",
+    "intro_one": "A(z) {{source}} importálása {{count}} üzenettel zárult:",
+    "intro_other": "A(z) {{source}} importálása {{count}} üzenettel zárult:",
+    "copy": "Másolás",
+    "copied": "Másolva",
+    "close": "Bezárás",
+    "bc3": {
+      "unknownConceptInDecomposition": "Ismeretlen elem („{{concept}}”) a(z) „{{parent}}” bontásában — kihagyva.",
+      "unknownConceptUnder": "Ismeretlen elem („{{concept}}”) a(z) „{{parent}}” alatt — kihagyva.",
+      "zeroYieldDecomposition": "Egy vagy több tétel bontása nem tartalmaz mennyiségi szorzókat — ezeknél a ~C rekord egységárát használtuk.",
+      "noRootStructure": "Nem található bontással rendelkező gyökérstruktúra (##) — a különálló ágak a legfelső szintre kerültek.",
+      "noProjectStructure": "Nem található projektstruktúra (##/#) — az elemek árjegyzékként, egyetlen fejezet alá kerültek.",
+      "priceMismatch_one": "{{count}} tételnél a bontás összege több mint 2%-kal eltér a ~C rekord egységárától ({{examples}}). A bontást használtuk.",
+      "priceMismatch_other": "{{count}} tételnél a bontás összege több mint 2%-kal eltér a ~C rekord egységárától (pl. {{examples}}). A bontást használtuk.",
+      "noPrices": "Ez a fájl nem tartalmaz árakat — csak megnevezéseket és mennyiségeket (mint egy felmérési könyvtár). Ezért a végösszeg 0,00 marad.",
+      "moreWarnings_one": "… és még {{count}} hasonló üzenet.",
+      "moreWarnings_other": "… és még {{count}} hasonló üzenet."
+    }
   }
 }

@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "Hakiki — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Taarifa za uingizaji",
+    "intro_one": "Uingizaji wa {{source}} umekamilika na taarifa {{count}}:",
+    "intro_other": "Uingizaji wa {{source}} umekamilika na taarifa {{count}}:",
+    "copy": "Nakili",
+    "copied": "Imenakiliwa",
+    "close": "Funga",
+    "bc3": {
+      "unknownConceptInDecomposition": "Kipengele kisichojulikana '{{concept}}' katika uchanganuzi wa '{{parent}}' — kimerukwa.",
+      "unknownConceptUnder": "Kipengele kisichojulikana '{{concept}}' chini ya '{{parent}}' — kimerukwa.",
+      "zeroYieldDecomposition": "Kipengele kimoja au zaidi kina uchanganuzi usio na viwango vya matumizi — bei ya kipimo kutoka rekodi ya ~C imetumika kwa vipengele hivyo.",
+      "noRootStructure": "Hakuna muundo mkuu (##) wenye uchanganuzi uliopatikana — matawi tofauti yameingizwa kwenye ngazi ya juu.",
+      "noProjectStructure": "Hakuna muundo wa mradi (##/#) uliopatikana — vipengele vimeingizwa kama kitabu cha bei chini ya sura moja.",
+      "priceMismatch_one": "Kwa kipengele {{count}}, jumla ya uchanganuzi inatofautiana kwa zaidi ya 2% na bei ya kipimo katika rekodi ya ~C ({{examples}}). Uchanganuzi umetumika.",
+      "priceMismatch_other": "Kwa vipengele {{count}}, jumla ya uchanganuzi inatofautiana kwa zaidi ya 2% na bei ya kipimo katika rekodi ya ~C (k.m. {{examples}}). Uchanganuzi umetumika.",
+      "noPrices": "Faili hii haina bei — ina maelezo na viasi tu (kama maktaba ya vipimo). Kwa hiyo jumla inabaki 0.00.",
+      "moreWarnings_one": "… na taarifa {{count}} nyingine inayofanana.",
+      "moreWarnings_other": "… na taarifa {{count}} nyingine zinazofanana."
+    }
   }
 }

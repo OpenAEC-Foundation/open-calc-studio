@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "Esikatselu — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Tuonnin ilmoitukset",
+    "intro_one": "Tiedoston {{source}} tuonti valmistui {{count}} ilmoituksella:",
+    "intro_other": "Tiedoston {{source}} tuonti valmistui {{count}} ilmoituksella:",
+    "copy": "Kopioi",
+    "copied": "Kopioitu",
+    "close": "Sulje",
+    "bc3": {
+      "unknownConceptInDecomposition": "Tuntematon koodi '{{concept}}' nimikkeen '{{parent}}' erittelyssä — ohitettu.",
+      "unknownConceptUnder": "Tuntematon koodi '{{concept}}' kohteen '{{parent}}' alla — ohitettu.",
+      "zeroYieldDecomposition": "Yhdellä tai useammalla nimikkeellä on erittely ilman menekkejä — niille käytettiin ~C-tietueen yksikköhintaa.",
+      "noRootStructure": "Juurirakennetta (##) erittelyineen ei löytynyt — erilliset haarat tuotiin ylimmälle tasolle.",
+      "noProjectStructure": "Projektirakennetta (##/#) ei löytynyt — nimikkeet tuotiin hintakirjastona yhden luvun alle.",
+      "priceMismatch_one": "{{count}} nimikkeen erittelyn summa poikkeaa yli 2 % ~C-tietueen yksikköhinnasta ({{examples}}). Erittelyä käytettiin.",
+      "priceMismatch_other": "{{count}} nimikkeen erittelyn summa poikkeaa yli 2 % ~C-tietueen yksikköhinnasta (esim. {{examples}}). Erittelyä käytettiin.",
+      "noPrices": "Tiedosto ei sisällä hintoja — vain kuvauksia ja määriä (kuten määräkirjasto). Loppusumma on siksi 0,00.",
+      "moreWarnings_one": "… ja {{count}} muu samankaltainen ilmoitus.",
+      "moreWarnings_other": "… ja {{count}} muuta samankaltaista ilmoitusta."
+    }
   }
 }

@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.0": "Laporan dan unit dalam bahasa anda sendiri",
     "v0.11.0": "39 bahasa + FIEBDC-3 Sepanyol (.bc3)",
     "v0.10.3": "GST biasa dan rendah — boleh dipilih bagi setiap bahagian",
     "v0.10.0": "Logo dalam pengepala laporan + formula dalam sel",
@@ -16,6 +17,13 @@
     "v0.7.10": "Akaun OpenAEC + navigasi bar bawah"
   },
   "highlights": {
+    "v0.12.0": [
+      "Laporan bercetak dan PDF dipaparkan dalam bahasa anda sendiri, dengan tetapan berasingan \"Bahasa laporan\" (Keutamaan → Umum) yang secara lalai mengikut bahasa antara muka",
+      "Unit dipaparkan dalam terjemahan, contohnya \"jam\" dan bukannya \"uur\" — fail yang disimpan kekal tidak berubah",
+      "Mesej import kini dipaparkan pada skrin; mesej daripada FIEBDC-3 (.bc3) dalam bahasa anda sendiri",
+      "Bahasa Inggeris ialah bahasa lalai untuk pemasangan baharu dan demo dalam talian, dengan contoh anggaran dalam bahasa Inggeris",
+      "Nama butang yang panjang pada reben kini dipisahkan pada suku kata dan bukannya di tengah perkataan"
+    ],
     "v0.11.0": [
       "Antara muka kini tersedia dalam 39 bahasa — pilih bahasa anda di Keutamaan → Umum, atau biarkan aplikasi mengikut bahasa sistem anda",
       "Sokongan kanan ke kiri untuk bahasa Arab, Farsi, Ibrani dan Urdu: keseluruhan susun atur turut dicerminkan",

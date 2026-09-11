@@ -14,6 +14,9 @@
   "general": {
     "application": "ایپلی کیشن",
     "language": "زبان",
+    "reportLanguage": "رپورٹ کی زبان",
+    "reportLanguageAuto": "انٹرفیس جیسی",
+    "reportLanguageHelp": "پرنٹ اور PDF رپورٹوں کی زبان۔ اس وقت مفید جب انٹرفیس کی زبان آپ کے کلائنٹ کی زبان سے مختلف ہو۔",
     "startup": "آغاز",
     "restoreSession": "آغاز پر سیشن بحال کریں",
     "checkUpdates": "اپ ڈیٹس دیکھیں",

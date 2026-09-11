@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.0": "Jelentések és mértékegységek a saját nyelvén",
     "v0.11.0": "39 nyelv + spanyol FIEBDC-3 (.bc3)",
     "v0.10.3": "Normál és kedvezményes áfa — részenként választható",
     "v0.10.0": "Logó a jelentés fejlécében + képletek a cellákban",
@@ -16,6 +17,13 @@
     "v0.7.10": "OpenAEC-fiók + alsó sávos navigáció"
   },
   "highlights": {
+    "v0.12.0": [
+      "A nyomtatott és PDF-jelentések a saját nyelvén jelennek meg, külön „Jelentések nyelve” beállítással (Beállítások → Általános), amely alapértelmezés szerint a felület nyelvét követi",
+      "A mértékegységek lefordítva jelennek meg, például „óra” az „uur” helyett — a mentett fájlok változatlanok maradnak",
+      "Az importálási üzenetek mostantól megjelennek a képernyőn; a FIEBDC-3 (.bc3) üzenetei az Ön nyelvén",
+      "Az új telepítések és az online demó alapértelmezett nyelve az angol, angol nyelvű mintaköltségvetéssel",
+      "A menüszalag hosszú gombnevei mostantól szótaghatáron törnek, nem a szó közepén"
+    ],
     "v0.11.0": [
       "A felület mostantól 39 nyelven érhető el — válassza ki a sajátját a Beállítások → Általános pontban, vagy hagyja, hogy az alkalmazás a rendszernyelvet kövesse",
       "Jobbról balra írás támogatása arab, fárszi, héber és urdu nyelvhez: a teljes elrendezés tükröződik",

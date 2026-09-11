@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.12.0": "Ripoti na vipimo kwa lugha yako",
     "v0.11.0": "Lugha 39 + FIEBDC-3 ya Uhispania (.bc3)",
     "v0.10.3": "VAT ya kawaida na ya chini — huchaguliwa kwa kila kipengele",
     "v0.10.0": "Nembo kichwani mwa ripoti + fomula kwenye visanduku",
@@ -16,6 +17,13 @@
     "v0.7.10": "Akaunti ya OpenAEC + urambazaji wa upau wa chini"
   },
   "highlights": {
+    "v0.12.0": [
+      "Ripoti zilizochapishwa na za PDF zinaonekana kwa lugha yako, pamoja na mpangilio tofauti wa \"Lugha ya ripoti\" (Mapendeleo → Ujumla) ambao kwa chaguo-msingi hufuata lugha ya kiolesura",
+      "Vipimo huonyeshwa vikiwa vimetafsiriwa, kwa mfano \"saa\" badala ya \"uur\" — faili zilizohifadhiwa hazibadiliki",
+      "Ujumbe wa uingizaji sasa huonekana kwenye skrini; ule wa FIEBDC-3 (.bc3) kwa lugha yako",
+      "Kiingereza ndiyo lugha chaguo-msingi kwa usakinishaji mpya na onyesho la mtandaoni, pamoja na makadirio ya mfano kwa Kiingereza",
+      "Majina marefu ya vitufe kwenye utepe sasa hukatwa kwenye silabi badala ya katikati ya neno"
+    ],
     "v0.11.0": [
       "Kiolesura sasa kinapatikana katika lugha 39 — chagua yako chini ya Mapendeleo → Ujumla, au acha programu ifuate lugha ya mfumo wako",
       "Msaada wa kuandika kutoka kulia kwenda kushoto kwa Kiarabu, Kifarsi, Kiebrania na Kiurdu: mpangilio mzima hugeuzwa pia",

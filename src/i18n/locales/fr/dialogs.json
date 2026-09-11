@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "Aperçu — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Avertissements d'importation",
+    "intro_one": "L'importation de {{source}} s'est terminée avec {{count}} avertissement :",
+    "intro_other": "L'importation de {{source}} s'est terminée avec {{count}} avertissements :",
+    "copy": "Copier",
+    "copied": "Copié",
+    "close": "Fermer",
+    "bc3": {
+      "unknownConceptInDecomposition": "Concept inconnu « {{concept}} » dans la décomposition de « {{parent}} » — ignoré.",
+      "unknownConceptUnder": "Concept inconnu « {{concept}} » sous « {{parent}} » — ignoré.",
+      "zeroYieldDecomposition": "Un ou plusieurs ouvrages ont une décomposition sans rendements — le prix unitaire de l'enregistrement ~C a été utilisé pour ceux-ci.",
+      "noRootStructure": "Aucune structure racine (##) avec décomposition trouvée — les branches isolées ont été importées au niveau supérieur.",
+      "noProjectStructure": "Aucune structure de projet (##/#) trouvée — les concepts ont été importés comme bibliothèque de prix dans un seul lot.",
+      "priceMismatch_one": "Pour {{count}} ouvrage, la somme de la décomposition diffère de plus de 2 % du prix unitaire de l'enregistrement ~C ({{examples}}). La décomposition a été utilisée.",
+      "priceMismatch_other": "Pour {{count}} ouvrages, la somme de la décomposition diffère de plus de 2 % du prix unitaire de l'enregistrement ~C (p. ex. {{examples}}). La décomposition a été utilisée.",
+      "noPrices": "Ce fichier ne contient aucun prix — uniquement des désignations et des quantités (comme une bibliothèque de métrés). Le total reste donc à 0,00.",
+      "moreWarnings_one": "… et {{count}} autre avertissement similaire.",
+      "moreWarnings_other": "… et {{count}} autres avertissements similaires."
+    }
   }
 }

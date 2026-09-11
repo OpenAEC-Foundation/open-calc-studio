@@ -61,5 +61,25 @@
   },
   "wizard": {
     "previewTitle": "Pratinjau — {{name}}"
+  },
+  "importWarnings": {
+    "title": "Catatan impor",
+    "intro_one": "Impor {{source}} selesai dengan {{count}} catatan:",
+    "intro_other": "Impor {{source}} selesai dengan {{count}} catatan:",
+    "copy": "Salin",
+    "copied": "Tersalin",
+    "close": "Tutup",
+    "bc3": {
+      "unknownConceptInDecomposition": "Konsep tidak dikenal '{{concept}}' dalam rincian '{{parent}}' — dilewati.",
+      "unknownConceptUnder": "Konsep tidak dikenal '{{concept}}' di bawah '{{parent}}' — dilewati.",
+      "zeroYieldDecomposition": "Satu atau beberapa item memiliki rincian tanpa koefisien — untuk item tersebut digunakan harga satuan dari rekaman ~C.",
+      "noRootStructure": "Tidak ditemukan struktur akar (##) dengan rincian — cabang-cabang terpisah diimpor di tingkat teratas.",
+      "noProjectStructure": "Tidak ditemukan struktur proyek (##/#) — konsep diimpor sebagai buku harga di bawah satu bab.",
+      "priceMismatch_one": "Untuk {{count}} item, jumlah rincian berbeda lebih dari 2% dari harga satuan pada rekaman ~C (mis. {{examples}}). Rincian yang digunakan.",
+      "priceMismatch_other": "Untuk {{count}} item, jumlah rincian berbeda lebih dari 2% dari harga satuan pada rekaman ~C (mis. {{examples}}). Rincian yang digunakan.",
+      "noPrices": "Berkas ini tidak memuat harga — hanya uraian dan volume (seperti pustaka pengukuran). Karena itu total tetap 0,00.",
+      "moreWarnings_one": "… dan {{count}} catatan serupa lainnya.",
+      "moreWarnings_other": "… dan {{count}} catatan serupa lainnya."
+    }
   }
 }
