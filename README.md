@@ -73,20 +73,32 @@ Open Calc Studio brengt professionele kostencalculatie voor de bouw naar een ope
 ### Download
 Download de installer voor jouw platform vanaf de [releases pagina](https://github.com/OpenAEC-Foundation/open-calc-studio/releases). Windows MSI/NSIS, macOS DMG, en Linux AppImage/DEB worden gepubliceerd per release.
 
-#### macOS: "Open Calc Studio is damaged and can't be opened"
+#### macOS: de app wordt geblokkeerd bij de eerste start
 
-De macOS-builds zijn (nog) niet door Apple genotariseerd, waardoor
-Gatekeeper de gedownloade app kan blokkeren. Start de app de eerste keer
-via **rechtsklik → Open** (daarna normaal te openen), of verwijder het
-quarantaine-attribuut in de Terminal:
+De macOS-builds zijn ad-hoc ondertekend maar (nog) niet door Apple
+genotariseerd. Gatekeeper blokkeert de gedownloade app daarom bij de
+eerste keer openen. Eenmalig vrijgeven, afhankelijk van je macOS-versie:
+
+- **macOS 15 (Sequoia) en nieuwer** — probeer de app te openen, klik de
+  melding weg, en ga naar *Systeeminstellingen → Privacy en beveiliging*.
+  Onderaan staat Open Calc Studio met de knop **"Toch openen"**.
+- **macOS 14 en ouder** — **rechtsklik** op de app → **Open**, en
+  bevestig.
+- **Alle versies** — verwijder het quarantaine-kenmerk in de Terminal:
 
 ```sh
 xattr -cr "/Applications/Open Calc Studio.app"
 ```
 
-*The macOS builds are not yet notarized by Apple, so Gatekeeper may block
-the downloaded app as "damaged". Launch it once via right-click → Open, or
-remove the quarantine attribute with the command above.*
+Daarna start de app gewoon. Meldt macOS dat de app "beschadigd" is, dan
+gaat het om een oudere release (vóór v0.11.0): gebruik het
+`xattr`-commando of download de nieuwste versie.
+
+*The macOS builds are ad-hoc signed but not yet notarized by Apple, so
+Gatekeeper blocks the app on first launch. On macOS 15 (Sequoia) and later:
+try to open it, dismiss the warning, then go to System Settings → Privacy &
+Security and click "Open Anyway". On macOS 14 and earlier: right-click the
+app → Open. On any version you can also run the `xattr` command above.*
 
 ### Build from source
 

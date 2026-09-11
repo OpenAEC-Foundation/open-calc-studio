@@ -249,17 +249,23 @@ jobs:
             - **macOS:** `.dmg` (Apple Silicon)
             - **Linux:** `.AppImage` / `.deb` / `.rpm`
 
-            **macOS: "Open Calc Studio is damaged and can't be opened"**
+            **macOS: the app is blocked on first launch**
 
-            This is macOS Gatekeeper blocking a download that is not notarized
-            by Apple — the app itself is fine. Launch it once via
-            **right-click → Open**, or remove the quarantine attribute:
+            The macOS build is ad-hoc signed but not yet notarized by Apple,
+            so Gatekeeper blocks it the first time — the app itself is fine.
+            Allow it once:
+
+            - **macOS 15 (Sequoia) and later:** try to open the app, dismiss
+              the warning, then go to *System Settings → Privacy & Security*
+              and click **"Open Anyway"**.
+            - **macOS 14 and earlier:** **right-click** the app → **Open**.
+            - **Any version:** remove the quarantine attribute:
 
             ```sh
             xattr -cr "/Applications/Open Calc Studio.app"
             ```
 
-            (NL: deze melding komt van Gatekeeper omdat de download niet
-            genotariseerd is; open de app eenmalig via rechtsklik → Open of
-            verwijder het quarantaine-kenmerk met bovenstaand commando.)
+            (NL: de app is ad-hoc ondertekend maar niet genotariseerd. macOS 15+:
+            Systeeminstellingen → Privacy en beveiliging → "Toch openen".
+            macOS 14 en ouder: rechtsklik → Open. Of gebruik het xattr-commando.)
           files: release/*
