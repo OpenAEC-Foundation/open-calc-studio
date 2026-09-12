@@ -11,11 +11,11 @@ import { exportWpCalcFile } from "../../services/export/wpcalcExporter";
 import { printBudget } from "../../services/print/printService";
 import { isTauriEnvironment } from "../../services/file/nativeFileService";
 import {
-  importCuf, importTradxml, importRsx, importRsu, importZsx, importNsx, importS01, importSufx, importBmecat,
+  importCuf, importTradxml, importRsx, importRsu, importZsx, importNsx, importS01, importSufx, importBmecat, importOnlv,
   parseCsv, parseXlsxTabular, buildFromMapping,
   type ImportResult, type TabularData, type ColumnMapping,
 } from "../../services/importers";
-import { exportCuf, exportTradxml, exportRsx, type ExportInput, type ExportResult } from "../../services/exporters";
+import { exportCuf, exportTradxml, exportRsx, exportOnlv, type ExportInput, type ExportResult } from "../../services/exporters";
 import ExtensionManagerPanel from "./ExtensionManagerPanel";
 import { CloudPanel } from "./CloudPanel";
 import ColumnMappingDialog from "./ColumnMappingDialog";
@@ -553,11 +553,11 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
   };
 
   const handleXmlExport = async (
-    format: 'cuf' | 'tradxml' | 'rsx',
+    format: 'cuf' | 'tradxml' | 'rsx' | 'onlv',
     formatLabel: string,
   ) => {
     onClose();
-    const ext = format === 'rsx' ? 'rsx' : format === 'tradxml' ? 'xml' : 'cuf';
+    const ext = format === 'rsx' ? 'rsx' : format === 'tradxml' ? 'xml' : format === 'onlv' ? 'onlv' : 'cuf';
     const baseName = (schedule.projectName || schedule.name || 'begroting').replace(/\.(ifcCalc|ifcx|ocs)$/i, '');
     const defaultPath = `${baseName}.${ext}`;
 
@@ -567,6 +567,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
       result =
         format === 'cuf' ? exportCuf(input) :
         format === 'tradxml' ? exportTradxml(input) :
+        format === 'onlv' ? exportOnlv(input) :
         exportRsx(input);
     } catch (err: any) {
       console.error(`[Export ${formatLabel}] failed:`, err);
@@ -788,6 +789,16 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
               </button>
               <button
                 className="bs-panel-option"
+                onClick={() => void handleXmlImport('ÖNORM A 2063', ['onlv', 'onlb'], importOnlv)}
+              >
+                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                <div className="bs-panel-option-text">
+                  <strong>ÖNORM A 2063 (.onlv, .onlb)</strong>
+                  <span>{t("importPanel.onlvDesc")}</span>
+                </div>
+              </button>
+              <button
+                className="bs-panel-option"
                 onClick={() => void handleZsxImport()}
               >
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
@@ -868,6 +879,16 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
                 <div className="bs-panel-option-text">
                   <strong>FIEBDC-3 (.bc3)</strong>
                   <span>{t("exportPanel.bc3Desc")}</span>
+                </div>
+              </button>
+              <button
+                className="bs-panel-option"
+                onClick={() => void handleXmlExport('onlv', 'ÖNORM A 2063')}
+              >
+                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.export }} />
+                <div className="bs-panel-option-text">
+                  <strong>ÖNORM A 2063 (.onlv)</strong>
+                  <span>{t("exportPanel.onlvDesc")}</span>
                 </div>
               </button>
               <button

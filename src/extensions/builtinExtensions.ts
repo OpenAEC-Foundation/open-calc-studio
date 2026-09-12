@@ -26,6 +26,20 @@ const bc3Manifest: ExtensionManifest = {
   icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>',
 };
 
+const onlvManifest: ExtensionManifest = {
+  id: 'builtin-onlv-importer',
+  name: 'ÖNORM A 2063 Importer',
+  version: '1.0.0',
+  minAppVersion: __APP_VERSION__,
+  author: 'Open Calc Studio',
+  description: 'Importeer Oostenrijkse ÖNORM A 2063-bestanden: Leistungsverzeichnisse (.onlv) met Leistungsgruppen, posities, hoeveelheden en Lohn/Sonstiges-prijzen, en Leistungsbücher (.onlb) als catalogus van standaardteksten.',
+  category: 'Import/Export',
+  main: 'builtin',
+  permissions: ['commands', 'events'],
+  tags: ['onlv', 'onlb', 'önorm', 'a2063', 'oostenrijk', 'import'],
+  icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#b91c1c" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M8 12h8M8 15h8M8 18h5"/></svg>',
+};
+
 // ── BasCalc Importer ──
 
 const bascalcManifest: ExtensionManifest = {
@@ -323,6 +337,34 @@ export function registerBuiltinExtensions(): void {
         schedule: result.schedule,
         items: recalculateItems(result.items),
         // Meldingen (o.a. "geen prijzen") + vertaalbare codes naar de UI.
+        warnings: result.warnings,
+        warningCodes: result.warningCodes,
+        format: result.format,
+      };
+    },
+  });
+
+  // ÖNORM A 2063 (.onlv / .onlb) Importer
+  const onlvExt: InstalledExtension = {
+    id: 'builtin-onlv-importer',
+    manifest: onlvManifest,
+    status: 'enabled',
+  };
+  store.registerExtension(onlvExt);
+  store.addExtensionImporter({
+    extensionId: 'builtin-onlv-importer',
+    id: 'onlv-import',
+    name: 'ÖNORM A 2063 (.onlv, .onlb)',
+    description: 'Importeer Oostenrijkse Leistungsverzeichnisse (.onlv) en Leistungsbücher (.onlb)',
+    fileExtensions: ['.onlv', '.onlb'],
+    icon: onlvManifest.icon,
+    handler: async (file: File) => {
+      const { importOnlvFile } = await import('../services/importers/onlvImporter');
+      // Als bytes lezen: UTF-8 met of zonder BOM (en UTF-16 met BOM).
+      const result = importOnlvFile(await file.arrayBuffer());
+      return {
+        schedule: result.schedule,
+        items: recalculateItems(result.items),
         warnings: result.warnings,
         warningCodes: result.warningCodes,
         format: result.format,

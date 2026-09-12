@@ -80,6 +80,17 @@
       "noPrices": "Fail ini tidak mengandungi harga — hanya huraian dan kuantiti (seperti pustaka ukuran). Oleh itu jumlahnya kekal 0.00.",
       "moreWarnings_one": "… dan {{count}} lagi notis yang serupa.",
       "moreWarnings_other": "… dan {{count}} lagi notis yang serupa."
+    },
+    "onlv": {
+      "leistungsbuch": "Ini ialah Leistungsbuch (katalog teks piawai) tanpa kuantiti dan harga — semua item diimport dengan kuantiti 0.",
+      "wahlEventual_one": "{{count}} item pilihan (Wahl-/Eventualposition) menurut ÖNORM tidak dikira dalam jumlah. Ia diimport dengan kuantiti dan harga, ditanda dalam nota dan ditetapkan kepada N dalam lajur penyelesaian; jumlah di sini merangkuminya.",
+      "wahlEventual_other": "{{count}} item pilihan (Wahl-/Eventualpositionen) menurut ÖNORM tidak dikira dalam jumlah. Ia diimport dengan kuantiti dan harga, ditanda dalam nota dan ditetapkan kepada N dalam lajur penyelesaian; jumlah di sini merangkuminya.",
+      "sumMismatch": "Jumlah dalam fail ({{file}}) berbeza daripada jumlah item yang dikira ({{calculated}}).",
+      "unknownUnit_one": "{{count}} unit tanpa padanan dikekalkan tanpa perubahan: {{examples}}.",
+      "unknownUnit_other": "{{count}} unit tanpa padanan dikekalkan tanpa perubahan: {{examples}}.",
+      "noPrices": "Fail ini tidak mengandungi harga — hanya teks dan kuantiti (cth. sebuah Ausschreibungs-LV). Oleh itu jumlah kekal 0.00.",
+      "luecken_one": "{{count}} item mengandungi ruang kosong untuk diisi (Ausschreiber-/Bieterlücken); dipaparkan sebagai ____ dalam nota.",
+      "luecken_other": "{{count}} item mengandungi ruang kosong untuk diisi (Ausschreiber-/Bieterlücken); dipaparkan sebagai ____ dalam nota."
     }
   }
 }

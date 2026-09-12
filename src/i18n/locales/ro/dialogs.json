@@ -84,6 +84,20 @@
       "moreWarnings_one": "… și încă {{count}} mesaj similar.",
       "moreWarnings_few": "… și încă {{count}} mesaje similare.",
       "moreWarnings_other": "… și încă {{count}} de mesaje similare."
+    },
+    "onlv": {
+      "leistungsbuch": "Acesta este un Leistungsbuch (catalog de texte standard) fără cantități și prețuri — toate pozițiile au fost importate cu cantitatea 0.",
+      "wahlEventual_one": "{{count}} poziție opțională (Wahl-/Eventualposition) nu se include în totalul caietului conform ÖNORM. A fost importată cu cantitate și preț, marcată în note și setată pe N în coloana de decontare; totalul de aici o include.",
+      "wahlEventual_other": "{{count}} de poziții opționale (Wahl-/Eventualpositionen) nu se includ în totalul caietului conform ÖNORM. Au fost importate cu cantitate și preț, marcate în note și setate pe N în coloana de decontare; totalul de aici le include.",
+      "wahlEventual_few": "{{count}} poziții opționale (Wahl-/Eventualpositionen) nu se includ în totalul caietului conform ÖNORM. Au fost importate cu cantitate și preț, marcate în note și setate pe N în coloana de decontare; totalul de aici le include.",
+      "sumMismatch": "Totalul caietului din fișier ({{file}}) diferă de suma calculată a pozițiilor ({{calculated}}).",
+      "unknownUnit_one": "{{count}} unitate fără echivalent a fost păstrată neschimbată: {{examples}}.",
+      "unknownUnit_other": "{{count}} de unități fără echivalent au fost păstrate neschimbate: {{examples}}.",
+      "unknownUnit_few": "{{count}} unități fără echivalent au fost păstrate neschimbate: {{examples}}.",
+      "noPrices": "Acest fișier nu conține prețuri — doar texte și cantități (de ex. un Ausschreibungs-LV). Totalul rămâne așadar 0,00.",
+      "luecken_one": "{{count}} poziție conține spații de completat (Ausschreiber-/Bieterlücken); apar ca ____ în note.",
+      "luecken_other": "{{count}} de poziții conțin spații de completat (Ausschreiber-/Bieterlücken); apar ca ____ în note.",
+      "luecken_few": "{{count}} poziții conțin spații de completat (Ausschreiber-/Bieterlücken); apar ca ____ în note."
     }
   }
 }

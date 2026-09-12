@@ -80,6 +80,17 @@
       "noPrices": "このファイルには価格が含まれていません — 名称と数量のみです（数量ライブラリなど）。そのため合計は 0.00 のままです。",
       "moreWarnings_one": "…ほかに同様の通知が {{count}} 件あります。",
       "moreWarnings_other": "…ほかに同様の通知が {{count}} 件あります。"
+    },
+    "onlv": {
+      "leistungsbuch": "これは数量と価格を持たない Leistungsbuch（標準文カタログ）です — すべての項目を数量 0 で取り込みました。",
+      "wahlEventual_one": "{{count}} 件の任意項目（Wahl-/Eventualposition）は ÖNORM では合計に含まれません。数量と価格付きで取り込み、メモに印を付け、精算列を N にしました。ここでの合計には含まれています。",
+      "wahlEventual_other": "{{count}} 件の任意項目（Wahl-/Eventualpositionen）は ÖNORM では合計に含まれません。数量と価格付きで取り込み、メモに印を付け、精算列を N にしました。ここでの合計には含まれています。",
+      "sumMismatch": "ファイル内の合計（{{file}}）が項目の計算合計（{{calculated}}）と異なります。",
+      "unknownUnit_one": "対応する単位のない {{count}} 件の単位をそのまま保持しました: {{examples}}。",
+      "unknownUnit_other": "対応する単位のない {{count}} 件の単位をそのまま保持しました: {{examples}}。",
+      "noPrices": "このファイルには価格が含まれていません — テキストと数量のみです（例: Ausschreibungs-LV）。そのため合計は 0.00 のままです。",
+      "luecken_one": "{{count}} 件の項目に記入すべき空欄（Ausschreiber-/Bieterlücken）があります。メモでは ____ と表示されます。",
+      "luecken_other": "{{count}} 件の項目に記入すべき空欄（Ausschreiber-/Bieterlücken）があります。メモでは ____ と表示されます。"
     }
   }
 }

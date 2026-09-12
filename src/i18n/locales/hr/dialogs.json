@@ -84,6 +84,20 @@
       "moreWarnings_one": "… i još {{count}} slična obavijest.",
       "moreWarnings_few": "… i još {{count}} slične obavijesti.",
       "moreWarnings_other": "… i još {{count}} sličnih obavijesti."
+    },
+    "onlv": {
+      "leistungsbuch": "Ovo je Leistungsbuch (katalog standardnih tekstova) bez količina i cijena — sve su stavke uvezene s količinom 0.",
+      "wahlEventual_one": "{{count}} izborna stavka (Wahl-/Eventualposition) prema ÖNORM-u ne ulazi u ukupni iznos troškovnika. Uvezena je s količinom i cijenom, označena u bilješkama i postavljena na N u stupcu obračuna; ovdašnji ukupni iznos je uključuje.",
+      "wahlEventual_other": "{{count}} izbornih stavki (Wahl-/Eventualpositionen) prema ÖNORM-u ne ulazi u ukupni iznos troškovnika. Uvezene su s količinom i cijenom, označene u bilješkama i postavljene na N u stupcu obračuna; ovdašnji ukupni iznos ih uključuje.",
+      "wahlEventual_few": "{{count}} izborne stavke (Wahl-/Eventualpositionen) prema ÖNORM-u ne ulaze u ukupni iznos troškovnika. Uvezene su s količinom i cijenom, označene u bilješkama i postavljene na N u stupcu obračuna; ovdašnji ukupni iznos ih uključuje.",
+      "sumMismatch": "Ukupni iznos troškovnika u datoteci ({{file}}) razlikuje se od izračunatog zbroja stavki ({{calculated}}).",
+      "unknownUnit_one": "{{count}} jedinica bez odgovarajuće jedinice zadržana je nepromijenjena: {{examples}}.",
+      "unknownUnit_other": "{{count}} jedinica bez odgovarajuće jedinice zadržano je nepromijenjeno: {{examples}}.",
+      "unknownUnit_few": "{{count}} jedinice bez odgovarajuće jedinice zadržane su nepromijenjene: {{examples}}.",
+      "noPrices": "Ova datoteka ne sadrži cijene — samo tekstove i količine (npr. Ausschreibungs-LV). Ukupni iznos stoga ostaje 0,00.",
+      "luecken_one": "{{count}} stavka sadrži praznine za popunjavanje (Ausschreiber-/Bieterlücken); u bilješkama su prikazane kao ____.",
+      "luecken_other": "{{count}} stavki sadrži praznine za popunjavanje (Ausschreiber-/Bieterlücken); u bilješkama su prikazane kao ____.",
+      "luecken_few": "{{count}} stavke sadrže praznine za popunjavanje (Ausschreiber-/Bieterlücken); u bilješkama su prikazane kao ____."
     }
   }
 }

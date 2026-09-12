@@ -80,6 +80,17 @@
       "noPrices": "Berkas ini tidak memuat harga — hanya uraian dan volume (seperti pustaka pengukuran). Karena itu total tetap 0,00.",
       "moreWarnings_one": "… dan {{count}} catatan serupa lainnya.",
       "moreWarnings_other": "… dan {{count}} catatan serupa lainnya."
+    },
+    "onlv": {
+      "leistungsbuch": "Ini adalah Leistungsbuch (katalog teks standar) tanpa volume dan harga — semua item diimpor dengan kuantitas 0.",
+      "wahlEventual_one": "{{count}} item opsional (Wahl-/Eventualposition) menurut ÖNORM tidak dihitung dalam total. Item diimpor dengan kuantitas dan harga, ditandai di catatan, dan diatur ke N di kolom penyelesaian; total di sini menyertakannya.",
+      "wahlEventual_other": "{{count}} item opsional (Wahl-/Eventualpositionen) menurut ÖNORM tidak dihitung dalam total. Item-item diimpor dengan kuantitas dan harga, ditandai di catatan, dan diatur ke N di kolom penyelesaian; total di sini menyertakannya.",
+      "sumMismatch": "Total dalam berkas ({{file}}) berbeda dari jumlah item yang dihitung ({{calculated}}).",
+      "unknownUnit_one": "{{count}} satuan tanpa padanan dipertahankan apa adanya: {{examples}}.",
+      "unknownUnit_other": "{{count}} satuan tanpa padanan dipertahankan apa adanya: {{examples}}.",
+      "noPrices": "Berkas ini tidak memuat harga — hanya teks dan kuantitas (mis. sebuah Ausschreibungs-LV). Karena itu total tetap 0,00.",
+      "luecken_one": "{{count}} item berisi bagian kosong untuk diisi (Ausschreiber-/Bieterlücken); ditampilkan sebagai ____ di catatan.",
+      "luecken_other": "{{count}} item berisi bagian kosong untuk diisi (Ausschreiber-/Bieterlücken); ditampilkan sebagai ____ di catatan."
     }
   }
 }

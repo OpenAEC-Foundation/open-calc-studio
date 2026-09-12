@@ -212,7 +212,7 @@ function App() {
               store.addDocument({ id, filePath, fileName: displayName, isModified: false, items: parsed.items, schedule: parsed.schedule });
               if (parsed.companyInfo) store.setCompanyInfo(parsed.companyInfo);
               if (parsed.spreadsheets?.sheets) store.setSubSheets(parsed.spreadsheets.sheets);
-            } else if (ext === 'calc' || ext === 'xtb' || ext === 'dnc') {
+            } else if (ext === 'calc' || ext === 'xtb' || ext === 'dnc' || ext === 'bc3' || ext === 'onlv' || ext === 'onlb') {
               const data = await readFile(filePath);
               const importers = store.extensionImporters;
               const imp = importers.find((i: any) => i.fileExtensions.some((fe: string) => fe.replace(/^\./, '') === ext));
@@ -260,8 +260,8 @@ function App() {
                 store.addDocument({ id, filePath, fileName: displayName, isModified: false, items: parsed.items, schedule: parsed.schedule });
                 if (parsed.companyInfo) store.setCompanyInfo(parsed.companyInfo);
                 if (parsed.spreadsheets?.sheets) store.setSubSheets(parsed.spreadsheets.sheets);
-              } else if (ext === 'calc' || ext === 'mdb' || ext === 'xls' || ext === 'xlsx' || ext === 'xtb' || ext === 'dnc') {
-                // Binary import via extension importers
+              } else if (ext === 'calc' || ext === 'mdb' || ext === 'xls' || ext === 'xlsx' || ext === 'xtb' || ext === 'dnc' || ext === 'bc3' || ext === 'onlv' || ext === 'onlb') {
+                // Import via extension importers (binair én tekst — de handler leest de bytes zelf)
                 const data = await readFile(filePath);
                 const importers = store.extensionImporters;
                 const imp = importers.find((i: any) => i.fileExtensions.some((fe: string) => fe.replace(/^\./, '') === ext));

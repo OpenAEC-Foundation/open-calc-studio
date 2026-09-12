@@ -80,6 +80,17 @@
       "noPrices": "此文件不含任何价格——只有名称和工程量（类似工程量库）。因此合计仍为 0.00。",
       "moreWarnings_one": "……另有 {{count}} 条类似提示。",
       "moreWarnings_other": "……另有 {{count}} 条类似提示。"
+    },
+    "onlv": {
+      "leistungsbuch": "这是一个没有工程量和价格的 Leistungsbuch（标准文本目录）——所有项目均以数量 0 导入。",
+      "wahlEventual_one": "{{count}} 个可选项目（Wahl-/Eventualposition）按 ÖNORM 不计入清单合计。已连同数量和价格导入，在备注中标记，并在结算列中设为 N；此处的合计包含它。",
+      "wahlEventual_other": "{{count}} 个可选项目（Wahl-/Eventualpositionen）按 ÖNORM 不计入清单合计。已连同数量和价格导入，在备注中标记，并在结算列中设为 N；此处的合计包含它们。",
+      "sumMismatch": "文件中的清单合计（{{file}}）与项目的计算合计（{{calculated}}）不一致。",
+      "unknownUnit_one": "{{count}} 个没有对应单位的单位已原样保留：{{examples}}。",
+      "unknownUnit_other": "{{count}} 个没有对应单位的单位已原样保留：{{examples}}。",
+      "noPrices": "此文件不含价格——只有文本和工程量（例如 Ausschreibungs-LV）。因此合计仍为 0.00。",
+      "luecken_one": "{{count}} 个项目包含待填写的空白（Ausschreiber-/Bieterlücken）；在备注中显示为 ____。",
+      "luecken_other": "{{count}} 个项目包含待填写的空白（Ausschreiber-/Bieterlücken）；在备注中显示为 ____。"
     }
   }
 }

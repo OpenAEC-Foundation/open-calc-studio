@@ -80,6 +80,17 @@
       "noPrices": "Bu dosya fiyat içermiyor — yalnızca açıklamalar ve miktarlar var (bir metraj kütüphanesi gibi). Bu nedenle toplam 0,00 olarak kalır.",
       "moreWarnings_one": "… ve {{count}} benzer bildirim daha.",
       "moreWarnings_other": "… ve {{count}} benzer bildirim daha."
+    },
+    "onlv": {
+      "leistungsbuch": "Bu bir Leistungsbuch (standart metin kataloğu); miktar ve fiyat içermez — tüm pozisyonlar 0 miktarla içe aktarıldı.",
+      "wahlEventual_one": "{{count}} isteğe bağlı pozisyon (Wahl-/Eventualposition) ÖNORM'a göre toplama dahil değildir. Miktar ve fiyatıyla içe aktarıldı, notlarda işaretlendi ve hakediş sütununda N olarak ayarlandı; buradaki toplam onu içerir.",
+      "wahlEventual_other": "{{count}} isteğe bağlı pozisyon (Wahl-/Eventualpositionen) ÖNORM'a göre toplama dahil değildir. Miktar ve fiyatlarıyla içe aktarıldı, notlarda işaretlendi ve hakediş sütununda N olarak ayarlandı; buradaki toplam onları içerir.",
+      "sumMismatch": "Dosyadaki toplam ({{file}}) pozisyonların hesaplanan toplamından ({{calculated}}) farklı.",
+      "unknownUnit_one": "Karşılığı olmayan {{count}} birim değiştirilmeden korundu: {{examples}}.",
+      "unknownUnit_other": "Karşılığı olmayan {{count}} birim değiştirilmeden korundu: {{examples}}.",
+      "noPrices": "Bu dosya fiyat içermiyor — yalnızca metinler ve miktarlar (ör. bir Ausschreibungs-LV). Bu nedenle toplam 0,00 olarak kalır.",
+      "luecken_one": "{{count}} pozisyon doldurulacak boşluklar içeriyor (Ausschreiber-/Bieterlücken); notlarda ____ olarak görünür.",
+      "luecken_other": "{{count}} pozisyon doldurulacak boşluklar içeriyor (Ausschreiber-/Bieterlücken); notlarda ____ olarak görünür."
     }
   }
 }

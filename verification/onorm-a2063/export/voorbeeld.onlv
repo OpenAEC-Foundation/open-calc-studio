@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<onlv xmlns="http://www.oenorm.at/schema/A2063/2021-03-01">
+  <metadaten>
+    <erstelltam>2026-01-15T12:00:00</erstelltam>
+    <dateiname>voorbeeld.onlv</dateiname>
+    <programmsystem>Open Calc Studio</programmsystem>
+    <programmversion>0.12.1</programmversion>
+  </metadaten>
+  <leistungsteiltabelle>
+    <leistungsteil nr="1">
+      <bezeichnung>Gesamte Leistung</bezeichnung>
+      <definition-preisanteil1>
+        <festpreise/>
+      </definition-preisanteil1>
+      <definition-preisanteil2>
+        <festpreise/>
+      </definition-preisanteil2>
+    </leistungsteil>
+  </leistungsteiltabelle>
+  <zugelassenenachlaesse>
+    <aufsummen/>
+    <hierarchiestufen/>
+  </zugelassenenachlaesse>
+  <kostenschaetzungs-lv>
+    <kenndaten>
+      <lvcode>VB-2026-001</lvcode>
+      <vorhaben>Eengezinswoning Demoproject</vorhaben>
+      <lvbezeichnung>Voorbeeldbegroting</lvbezeichnung>
+      <auftraggeber>
+        <firma>
+          <name>Voorbeeld Opdrachtgever B.V.</name>
+        </firma>
+      </auftraggeber>
+      <lversteller>
+        <person>
+          <nachname>OpenAEC</nachname>
+        </person>
+      </lversteller>
+      <preisanteilmodell>
+        <preisanteile/>
+      </preisanteilmodell>
+      <wkz>EUR</wkz>
+      <preisbasis>2026-01-15</preisbasis>
+    </kenndaten>
+    <gliederung-lg>
+      <preiserstellungsverfahren>Preisangebotsverfahren</preiserstellungsverfahren>
+      <lb>
+        <bezeichnung>Frei formulierte Positionen</bezeichnung>
+        <herausgeber>
+          <firma>
+            <name>Open Calc Studio</name>
+          </firma>
+        </herausgeber>
+        <lbkennung>OCS</lbkennung>
+        <versionsnummer>1</versionsnummer>
+        <versionsdatum>2026-01-15</versionsdatum>
+        <status>freigegeben</status>
+      </lb>
+      <svb>
+        <vorbemerkung>
+          <p>Voorbeeld eengezinswoning ter demonstratie</p>
+        </vorbemerkung>
+        <herkunftskennzeichen>Z</herkunftskennzeichen>
+      </svb>
+      <lg-liste>
+        <lg nr="01">
+          <lg-eigenschaften>
+            <ueberschrift>Grondwerk</ueberschrift>
+            <herkunftskennzeichen>Z</herkunftskennzeichen>
+          </lg-eigenschaften>
+          <ulg-liste>
+            <ulg nr="01">
+              <ulg-eigenschaften>
+                <ueberschrift>Grondwerk</ueberschrift>
+                <herkunftskennzeichen>Z</herkunftskennzeichen>
+              </ulg-eigenschaften>
+              <positionen>
+                <grundtextnr nr="01">
+                  <ungeteilteposition mfv="">
+                    <pos-eigenschaften>
+                      <stichwort>Ontgraven bouwput</stichwort>
+                      <herkunftskennzeichen>Z</herkunftskennzeichen>
+                      <einheit>m³</einheit>
+                      <pzzv>
+                        <normalposition/>
+                      </pzzv>
+                      <leistungsteil>1</leistungsteil>
+                      <lvmenge>92.00</lvmenge>
+                      <preis>
+                        <preisanteil1>9.13</preisanteil1>
+                        <preisanteil2>15.65</preisanteil2>
+                        <gesamt>24.78</gesamt>
+                      </preis>
+                      <pospreis>2279.76</pospreis>
+                    </pos-eigenschaften>
+                  </ungeteilteposition>
+                </grundtextnr>
+              </positionen>
+              <ulg-summe>
+                <summe>
+                  <preisanteil1>839.96</preisanteil1>
+                  <preisanteil2>1439.80</preisanteil2>
+                  <gesamt>2279.76</gesamt>
+                </summe>
+                <summe-inkl-na>
+                  <preisanteil1>839.96</preisanteil1>
+                  <preisanteil2>1439.80</preisanteil2>
+                  <gesamt>2279.76</gesamt>
+                </summe-inkl-na>
+              </ulg-summe>
+            </ulg>
+          </ulg-liste>
+          <lg-summe>
+            <summe>
+              <preisanteil1>839.96</preisanteil1>
+              <preisanteil2>1439.80</preisanteil2>
+              <gesamt>2279.76</gesamt>
+            </summe>
+            <summe-inkl-na>
+              <preisanteil1>839.96</preisanteil1>
+              <preisanteil2>1439.80</preisanteil2>
+              <gesamt>2279.76</gesamt>
+            </summe-inkl-na>
+          </lg-summe>
+        </lg>
+        <lg nr="21">
+          <lg-eigenschaften>
+            <ueberschrift>Betonwerk</ueberschrift>
+            <herkunftskennzeichen>Z</herkunftskennzeichen>
+          </lg-eigenschaften>
+          <ulg-liste>
+            <ulg nr="01">
+              <ulg-eigenschaften>
+                <ueberschrift>Betonwerk</ueberschrift>
+                <herkunftskennzeichen>Z</herkunftskennzeichen>
+              </ulg-eigenschaften>
+              <positionen>
+                <grundtextnr nr="01">
+                  <ungeteilteposition mfv="">
+                    <pos-eigenschaften>
+                      <stichwort>Funderingsbalken C25/30</stichwort>
+                      <herkunftskennzeichen>Z</herkunftskennzeichen>
+                      <einheit>m³</einheit>
+                      <pzzv>
+                        <normalposition/>
+                      </pzzv>
+                      <leistungsteil>1</leistungsteil>
+                      <lvmenge>14.00</lvmenge>
+                      <preis>
+                        <preisanteil1>0.00</preisanteil1>
+                        <preisanteil2>225.64</preisanteil2>
+                        <gesamt>225.64</gesamt>
+                      </preis>
+                      <pospreis>3158.96</pospreis>
+                    </pos-eigenschaften>
+                  </ungeteilteposition>
+                </grundtextnr>
+              </positionen>
+              <ulg-summe>
+                <summe>
+                  <preisanteil1>0.00</preisanteil1>
+                  <preisanteil2>3158.96</preisanteil2>
+                  <gesamt>3158.96</gesamt>
+                </summe>
+                <summe-inkl-na>
+                  <preisanteil1>0.00</preisanteil1>
+                  <preisanteil2>3158.96</preisanteil2>
+                  <gesamt>3158.96</gesamt>
+                </summe-inkl-na>
+              </ulg-summe>
+            </ulg>
+          </ulg-liste>
+          <lg-summe>
+            <summe>
+              <preisanteil1>0.00</preisanteil1>
+              <preisanteil2>3158.96</preisanteil2>
+              <gesamt>3158.96</gesamt>
+            </summe>
+            <summe-inkl-na>
+              <preisanteil1>0.00</preisanteil1>
+              <preisanteil2>3158.96</preisanteil2>
+              <gesamt>3158.96</gesamt>
+            </summe-inkl-na>
+          </lg-summe>
+        </lg>
+        <lg nr="23">
+          <lg-eigenschaften>
+            <ueberschrift>Ruwbouw timmerwerk</ueberschrift>
+            <herkunftskennzeichen>Z</herkunftskennzeichen>
+          </lg-eigenschaften>
+          <ulg-liste>
+            <ulg nr="01">
+              <ulg-eigenschaften>
+                <ueberschrift>Ruwbouw timmerwerk</ueberschrift>
+                <herkunftskennzeichen>Z</herkunftskennzeichen>
+              </ulg-eigenschaften>
+              <positionen>
+                <grundtextnr nr="01">
+                  <ungeteilteposition mfv="">
+                    <pos-eigenschaften>
+                      <stichwort>Houtskeletbouw wanden begane grond</stichwort>
+                      <herkunftskennzeichen>Z</herkunftskennzeichen>
+                      <einheit>m²</einheit>
+                      <pzzv>
+                        <normalposition/>
+                      </pzzv>
+                      <leistungsteil>1</leistungsteil>
+                      <lvmenge>86.00</lvmenge>
+                      <preis>
+                        <preisanteil1>57.21</preisanteil1>
+                        <preisanteil2>38.00</preisanteil2>
+                        <gesamt>95.21</gesamt>
+                      </preis>
+                      <pospreis>8188.06</pospreis>
+                    </pos-eigenschaften>
+                  </ungeteilteposition>
+                </grundtextnr>
+              </positionen>
+              <ulg-summe>
+                <summe>
+                  <preisanteil1>4920.06</preisanteil1>
+                  <preisanteil2>3268.00</preisanteil2>
+                  <gesamt>8188.06</gesamt>
+                </summe>
+                <summe-inkl-na>
+                  <preisanteil1>4920.06</preisanteil1>
+                  <preisanteil2>3268.00</preisanteil2>
+                  <gesamt>8188.06</gesamt>
+                </summe-inkl-na>
+              </ulg-summe>
+            </ulg>
+          </ulg-liste>
+          <lg-summe>
+            <summe>
+              <preisanteil1>4920.06</preisanteil1>
+              <preisanteil2>3268.00</preisanteil2>
+              <gesamt>8188.06</gesamt>
+            </summe>
+            <summe-inkl-na>
+              <preisanteil1>4920.06</preisanteil1>
+              <preisanteil2>3268.00</preisanteil2>
+              <gesamt>8188.06</gesamt>
+            </summe-inkl-na>
+          </lg-summe>
+        </lg>
+        <lg nr="30">
+          <lg-eigenschaften>
+            <ueberschrift>Isolatie en luchtdichting</ueberschrift>
+            <herkunftskennzeichen>Z</herkunftskennzeichen>
+          </lg-eigenschaften>
+          <ulg-liste>
+            <ulg nr="01">
+              <ulg-eigenschaften>
+                <ueberschrift>Isolatie en luchtdichting</ueberschrift>
+                <herkunftskennzeichen>Z</herkunftskennzeichen>
+              </ulg-eigenschaften>
+              <positionen>
+                <grundtextnr nr="01">
+                  <ungeteilteposition mfv="">
+                    <pos-eigenschaften>
+                      <stichwort>Spouwisolatie minerale wol Rd 4.5</stichwort>
+                      <herkunftskennzeichen>Z</herkunftskennzeichen>
+                      <einheit>m²</einheit>
+                      <pzzv>
+                        <normalposition/>
+                      </pzzv>
+                      <leistungsteil>1</leistungsteil>
+                      <lvmenge>124.00</lvmenge>
+                      <preis>
+                        <preisanteil1>0.00</preisanteil1>
+                        <preisanteil2>18.00</preisanteil2>
+                        <gesamt>18.00</gesamt>
+                      </preis>
+                      <pospreis>2232.00</pospreis>
+                    </pos-eigenschaften>
+                  </ungeteilteposition>
+                </grundtextnr>
+              </positionen>
+              <ulg-summe>
+                <summe>
+                  <preisanteil1>0.00</preisanteil1>
+                  <preisanteil2>2232.00</preisanteil2>
+                  <gesamt>2232.00</gesamt>
+                </summe>
+                <summe-inkl-na>
+                  <preisanteil1>0.00</preisanteil1>
+                  <preisanteil2>2232.00</preisanteil2>
+                  <gesamt>2232.00</gesamt>
+                </summe-inkl-na>
+              </ulg-summe>
+            </ulg>
+          </ulg-liste>
+          <lg-summe>
+            <summe>
+              <preisanteil1>0.00</preisanteil1>
+              <preisanteil2>2232.00</preisanteil2>
+              <gesamt>2232.00</gesamt>
+            </summe>
+            <summe-inkl-na>
+              <preisanteil1>0.00</preisanteil1>
+              <preisanteil2>2232.00</preisanteil2>
+              <gesamt>2232.00</gesamt>
+            </summe-inkl-na>
+          </lg-summe>
+        </lg>
+        <lg nr="70">
+          <lg-eigenschaften>
+            <ueberschrift>Elektrotechnische installaties</ueberschrift>
+            <herkunftskennzeichen>Z</herkunftskennzeichen>
+          </lg-eigenschaften>
+          <ulg-liste>
+            <ulg nr="01">
+              <ulg-eigenschaften>
+                <ueberschrift>Elektrotechnische installaties</ueberschrift>
+                <herkunftskennzeichen>Z</herkunftskennzeichen>
+              </ulg-eigenschaften>
+              <positionen>
+                <grundtextnr nr="01">
+                  <ungeteilteposition mfv="">
+                    <pos-eigenschaften>
+                      <stichwort>E-installatie inclusief materiaal</stichwort>
+                      <herkunftskennzeichen>Z</herkunftskennzeichen>
+                      <einheit>PA</einheit>
+                      <pzzv>
+                        <normalposition/>
+                      </pzzv>
+                      <leistungsteil>1</leistungsteil>
+                      <lvmenge>1.00</lvmenge>
+                      <preis>
+                        <preisanteil1>0.00</preisanteil1>
+                        <preisanteil2>9250.00</preisanteil2>
+                        <gesamt>9250.00</gesamt>
+                      </preis>
+                      <pospreis>9250.00</pospreis>
+                    </pos-eigenschaften>
+                  </ungeteilteposition>
+                </grundtextnr>
+              </positionen>
+              <ulg-summe>
+                <summe>
+                  <preisanteil1>0.00</preisanteil1>
+                  <preisanteil2>9250.00</preisanteil2>
+                  <gesamt>9250.00</gesamt>
+                </summe>
+                <summe-inkl-na>
+                  <preisanteil1>0.00</preisanteil1>
+                  <preisanteil2>9250.00</preisanteil2>
+                  <gesamt>9250.00</gesamt>
+                </summe-inkl-na>
+              </ulg-summe>
+            </ulg>
+          </ulg-liste>
+          <lg-summe>
+            <summe>
+              <preisanteil1>0.00</preisanteil1>
+              <preisanteil2>9250.00</preisanteil2>
+              <gesamt>9250.00</gesamt>
+            </summe>
+            <summe-inkl-na>
+              <preisanteil1>0.00</preisanteil1>
+              <preisanteil2>9250.00</preisanteil2>
+              <gesamt>9250.00</gesamt>
+            </summe-inkl-na>
+          </lg-summe>
+        </lg>
+        <lg nr="85">
+          <lg-eigenschaften>
+            <ueberschrift>Schilder- en afwerkwerk</ueberschrift>
+            <herkunftskennzeichen>Z</herkunftskennzeichen>
+          </lg-eigenschaften>
+          <ulg-liste>
+            <ulg nr="01">
+              <ulg-eigenschaften>
+                <ueberschrift>Schilder- en afwerkwerk</ueberschrift>
+                <herkunftskennzeichen>Z</herkunftskennzeichen>
+              </ulg-eigenschaften>
+              <positionen>
+                <grundtextnr nr="01">
+                  <ungeteilteposition mfv="">
+                    <pos-eigenschaften>
+                      <stichwort>Binnenschilderwerk wanden en plafonds</stichwort>
+                      <herkunftskennzeichen>Z</herkunftskennzeichen>
+                      <einheit>m²</einheit>
+                      <pzzv>
+                        <normalposition/>
+                      </pzzv>
+                      <leistungsteil>1</leistungsteil>
+                      <lvmenge>240.00</lvmenge>
+                      <preis>
+                        <preisanteil1>0.00</preisanteil1>
+                        <preisanteil2>12.50</preisanteil2>
+                        <gesamt>12.50</gesamt>
+                      </preis>
+                      <pospreis>3000.00</pospreis>
+                    </pos-eigenschaften>
+                  </ungeteilteposition>
+                </grundtextnr>
+              </positionen>
+              <ulg-summe>
+                <summe>
+                  <preisanteil1>0.00</preisanteil1>
+                  <preisanteil2>3000.00</preisanteil2>
+                  <gesamt>3000.00</gesamt>
+                </summe>
+                <summe-inkl-na>
+                  <preisanteil1>0.00</preisanteil1>
+                  <preisanteil2>3000.00</preisanteil2>
+                  <gesamt>3000.00</gesamt>
+                </summe-inkl-na>
+              </ulg-summe>
+            </ulg>
+          </ulg-liste>
+          <lg-summe>
+            <summe>
+              <preisanteil1>0.00</preisanteil1>
+              <preisanteil2>3000.00</preisanteil2>
+              <gesamt>3000.00</gesamt>
+            </summe>
+            <summe-inkl-na>
+              <preisanteil1>0.00</preisanteil1>
+              <preisanteil2>3000.00</preisanteil2>
+              <gesamt>3000.00</gesamt>
+            </summe-inkl-na>
+          </lg-summe>
+        </lg>
+      </lg-liste>
+    </gliederung-lg>
+    <lv-summe>
+      <summe>
+        <preisanteil1>5760.02</preisanteil1>
+        <preisanteil2>22348.76</preisanteil2>
+        <gesamt>28108.78</gesamt>
+      </summe>
+      <summe-inkl-na>
+        <preisanteil1>5760.02</preisanteil1>
+        <preisanteil2>22348.76</preisanteil2>
+        <gesamt>28108.78</gesamt>
+      </summe-inkl-na>
+    </lv-summe>
+    <summenormalausfuehrung>
+      <summe-des-lv>28108.78</summe-des-lv>
+      <summe-nachlaesse>0.00</summe-nachlaesse>
+      <gesamtpreis>28108.78</gesamtpreis>
+      <ust>
+        <ustsatz>21.00</ustsatz>
+        <ustbetrag>5902.84</ustbetrag>
+      </ust>
+      <angebotspreis>34011.62</angebotspreis>
+    </summenormalausfuehrung>
+  </kostenschaetzungs-lv>
+</onlv>

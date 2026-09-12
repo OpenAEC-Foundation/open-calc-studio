@@ -80,6 +80,17 @@
       "noPrices": "Questo file non contiene prezzi — solo descrizioni e quantità (come una libreria di misurazioni). Il totale resta quindi 0,00.",
       "moreWarnings_one": "… e ancora {{count}} avviso simile.",
       "moreWarnings_other": "… e altri {{count}} avvisi simili."
+    },
+    "onlv": {
+      "leistungsbuch": "Questo è un Leistungsbuch (catalogo di testi standard) senza quantità né prezzi — tutte le posizioni sono state importate con quantità 0.",
+      "wahlEventual_one": "{{count}} posizione opzionale (Wahl-/Eventualposition) non conta nel totale del capitolato secondo ÖNORM. È stata importata con quantità e prezzo, segnalata nelle note e impostata su N nella colonna di contabilizzazione; il totale qui la include.",
+      "wahlEventual_other": "{{count}} posizioni opzionali (Wahl-/Eventualpositionen) non contano nel totale del capitolato secondo ÖNORM. Sono state importate con quantità e prezzo, segnalate nelle note e impostate su N nella colonna di contabilizzazione; il totale qui le include.",
+      "sumMismatch": "Il totale del capitolato nel file ({{file}}) differisce dalla somma calcolata delle posizioni ({{calculated}}).",
+      "unknownUnit_one": "{{count}} unità senza equivalente è stata mantenuta invariata: {{examples}}.",
+      "unknownUnit_other": "{{count}} unità senza equivalente sono state mantenute invariate: {{examples}}.",
+      "noPrices": "Questo file non contiene prezzi — solo testi e quantità (ad es. un Ausschreibungs-LV). Il totale resta quindi 0,00.",
+      "luecken_one": "{{count}} posizione contiene campi da compilare (Ausschreiber-/Bieterlücken); compaiono come ____ nelle note.",
+      "luecken_other": "{{count}} posizioni contengono campi da compilare (Ausschreiber-/Bieterlücken); compaiono come ____ nelle note."
     }
   }
 }

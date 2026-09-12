@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<onlv xmlns="http://www.oenorm.at/schema/A2063/2021-03-01">
+  <metadaten>
+    <erstelltam>2026-01-15T12:00:00</erstelltam>
+    <dateiname>lb-schoko-lv.onlv</dateiname>
+    <programmsystem>Open Calc Studio</programmsystem>
+    <programmversion>0.12.1</programmversion>
+  </metadaten>
+  <leistungsteiltabelle>
+    <leistungsteil nr="1">
+      <bezeichnung>Gesamte Leistung</bezeichnung>
+      <definition-preisanteil1>
+        <festpreise/>
+      </definition-preisanteil1>
+      <definition-preisanteil2>
+        <festpreise/>
+      </definition-preisanteil2>
+    </leistungsteil>
+  </leistungsteiltabelle>
+  <zugelassenenachlaesse>
+    <aufsummen/>
+    <hierarchiestufen/>
+  </zugelassenenachlaesse>
+  <kostenschaetzungs-lv>
+    <kenndaten>
+      <lvcode>SCHOKO-LV-1</lvcode>
+      <vorhaben>Schokolade</vorhaben>
+      <lvbezeichnung>Schokolade</lvbezeichnung>
+      <auftraggeber>
+        <firma>
+          <name>Konditorei Muster GmbH</name>
+        </firma>
+      </auftraggeber>
+      <lversteller>
+        <person>
+          <nachname>NEVARIS Bausoftware GmbH</nachname>
+        </person>
+      </lversteller>
+      <preisanteilmodell>
+        <preisanteile/>
+      </preisanteilmodell>
+      <wkz>EUR</wkz>
+      <preisbasis>2026-01-15</preisbasis>
+    </kenndaten>
+    <gliederung-lg>
+      <preiserstellungsverfahren>Preisangebotsverfahren</preiserstellungsverfahren>
+      <lb>
+        <bezeichnung>Frei formulierte Positionen</bezeichnung>
+        <herausgeber>
+          <firma>
+            <name>Open Calc Studio</name>
+          </firma>
+        </herausgeber>
+        <lbkennung>OCS</lbkennung>
+        <versionsnummer>1</versionsnummer>
+        <versionsdatum>2026-01-15</versionsdatum>
+        <status>freigegeben</status>
+      </lb>
+      <svb>
+        <vorbemerkung>
+          <p>Ständige Vorbemerkung für Schokolade: Schmeckt immer gut!</p>
+          <p>Soweit in Vorbemerkungen oder Positionstexten nicht anders angegeben, gelten folgende Regelungen:</p>
+          <p>1. Standardisierte Leistungsbeschreibung:</p>
+          <p>Dieses Leistungsverzeichnis (LV) wurde mit der Standardisierten Leistungsbeschreibung Schoko, Version 01, 2015-12, herausgegeben von der ib-data Gmbh, für Testzwecke erstellt.</p>
+          <p>2. Unklarheiten, Widersprüche:</p>
+          <p>Bei etwaigen Unklarheiten oder Widersprüchen in den Formulierungen gilt nachstehende Reihenfolge:</p>
+          <p>1. Folgetext einer Position (vor dem zugehörigen Grundtext)</p>
+          <p>2. Positionstext (vor den Vorbemerkungen)</p>
+          <p>3. Vorbemerkungen der Unterleistungsgruppe</p>
+          <p>4. Vorbemerkungen der Leistungsgruppe</p>
+          <p>5. Vorbemerkungen der Leistungsbeschreibung</p>
+        </vorbemerkung>
+        <herkunftskennzeichen>Z</herkunftskennzeichen>
+      </svb>
+      <lg-liste>
+        <lg nr="01">
+          <lg-eigenschaften>
+            <ueberschrift>Trinkschokolade</ueberschrift>
+            <vorbemerkung>
+              <p>Als Trinkschokolade, Heiße Schokolade, Schokomilch oder Kakaogetränk bezeichnet man eine Gruppe von Getränken, die mit kakaohaltigen Produkten auf Basis von Wasser und/oder Milch zubereitet werden. Je nach Zubereitungsart wird hierzu Kakaopulver, (Tafel-)Schokolade, ein kakao- bzw. schokoladehaltiges Instantpulver oder eine Art Sirup verwendet. Das Endprodukt wird sowohl heiß als auch kalt getrunken.</p>
+            </vorbemerkung>
+            <herkunftskennzeichen>Z</herkunftskennzeichen>
+          </lg-eigenschaften>
+          <ulg-liste>
+            <ulg nr="01">
+              <ulg-eigenschaften>
+                <ueberschrift>Trinkschokolade mit Geschmacksrichtung</ueberschrift>
+                <vorbemerkung>
+                  <p>Alle genannten Zubereitungsarten können zusätzlich aromatisiert werden. Üblich sind die traditionellen Gewürze Vanille oder Zimt, in jüngster Zeit auch in Europa (wieder) in Mode gekommen die Zubereitung mit Chili. Darüber hinaus werden Kakaogetränke auch mit Spirituosen aromatisiert. Häufig wird Weinbrand, Wodka oder Rum verwendet. Ein bekanntes Kakaogetränk mit Rum ist der Lumumba.</p>
+                </vorbemerkung>
+                <herkunftskennzeichen>Z</herkunftskennzeichen>
+              </ulg-eigenschaften>
+              <positionen>
+                <grundtextnr nr="01">
+                  <grundtext>
+                    <herkunftskennzeichen>Z</herkunftskennzeichen>
+                  </grundtext>
+                  <folgeposition ftnr="A" mfv="">
+                    <pos-eigenschaften>
+                      <stichwort>Trinkschokolade Chilli</stichwort>
+                      <langtext>
+                        <p>Trinkschokolade: Variation Klassik</p>
+                        <p>Bird´s Eye Chili</p>
+                        <p>Nährwert: ____</p>
+                        <p>Verpackungsgröße:____</p>
+                        <p>Enthält Soja: ____</p>
+                        <p>Angebotenes Erzeugnis: ____</p>
+                        <p>Beschreibung: ____</p>
+                      </langtext>
+                      <herkunftskennzeichen>Z</herkunftskennzeichen>
+                      <einheit>kg</einheit>
+                      <pzzv>
+                        <normalposition/>
+                      </pzzv>
+                      <leistungsteil>1</leistungsteil>
+                      <lvmenge>597.06</lvmenge>
+                      <preis>
+                        <preisanteil1>59.85</preisanteil1>
+                        <preisanteil2>271.15</preisanteil2>
+                        <gesamt>331.00</gesamt>
+                      </preis>
+                      <pospreis>197626.86</pospreis>
+                    </pos-eigenschaften>
+                  </folgeposition>
+                  <folgeposition ftnr="B" mfv="">
+                    <pos-eigenschaften>
+                      <stichwort>Trinkschokolade Vanille</stichwort>
+                      <langtext>
+                        <p>Trinkschokolade: Variation Klassik</p>
+                        <p>African Vanille</p>
+                        <p>Nährwert: ____</p>
+                        <p>Verpackungsgröße:____</p>
+                        <p>Enthält Soja: ____</p>
+                        <p>Angebotenes Erzeugnis: ____</p>
+                        <p>Beschreibung: ____</p>
+                      </langtext>
+                      <herkunftskennzeichen>Z</herkunftskennzeichen>
+                      <einheit>kg</einheit>
+                      <pzzv>
+                        <normalposition/>
+                      </pzzv>
+                      <leistungsteil>1</leistungsteil>
+                      <lvmenge>987.09</lvmenge>
+                      <preis>
+                        <preisanteil1>134.44</preisanteil1>
+                        <preisanteil2>264.60</preisanteil2>
+                        <gesamt>399.04</gesamt>
+                      </preis>
+                      <pospreis>393888.39</pospreis>
+                    </pos-eigenschaften>
+                  </folgeposition>
+                  <folgeposition ftnr="C" mfv="">
+                    <pos-eigenschaften>
+                      <stichwort>Trinkschokolade Mint</stichwort>
+                      <langtext>
+                        <p>Trinkschokolade: Variation Klassik</p>
+                        <p>Bird´s Eye Mint</p>
+                        <p>Nährwert: ____</p>
+                        <p>Verpackungsgröße: ____</p>
+                        <p>Enthält Soja: ____</p>
+                        <p>Angebotenes Erzeugnis: ____</p>
+                        <p>Beschreibung: ____</p>
+                      </langtext>
+                      <herkunftskennzeichen>Z</herkunftskennzeichen>
+                      <einheit>kg</einheit>
+                      <pzzv>
+                        <normalposition/>
+                      </pzzv>
+                      <leistungsteil>1</leistungsteil>
+                      <lvmenge>869.89</lvmenge>
+                      <preis>
+                        <preisanteil1>183.07</preisanteil1>
+                        <preisanteil2>37.28</preisanteil2>
+                        <gesamt>220.35</gesamt>
+                      </preis>
+                      <pospreis>191680.26</pospreis>
+                    </pos-eigenschaften>
+                  </folgeposition>
+                </grundtextnr>
+              </positionen>
+              <ulg-summe>
+                <summe>
+                  <preisanteil1>327689.18</preisanteil1>
+                  <preisanteil2>455506.33</preisanteil2>
+                  <gesamt>783195.51</gesamt>
+                </summe>
+                <summe-inkl-na>
+                  <preisanteil1>327689.18</preisanteil1>
+                  <preisanteil2>455506.33</preisanteil2>
+                  <gesamt>783195.51</gesamt>
+                </summe-inkl-na>
+              </ulg-summe>
+            </ulg>
+            <ulg nr="02">
+              <ulg-eigenschaften>
+                <ueberschrift>Trinkschokolade mit Bitter- oder Milchschokolade</ueberschrift>
+                <vorbemerkung>
+                  <p>Bei der Zubereitungen des Heißgetränks werden Bitter- oder Milchschokolade verwendet. Die Schokolade wird mit Wasser, Milch oder einer Mischung aus beidem zubereitet und ist geeignet schaumig aufgeschlagen zu werden.</p>
+                </vorbemerkung>
+                <herkunftskennzeichen>Z</herkunftskennzeichen>
+              </ulg-eigenschaften>
+              <positionen>
+                <grundtextnr nr="01">
+                  <grundtext>
+                    <herkunftskennzeichen>Z</herkunftskennzeichen>
+                  </grundtext>
+                  <folgeposition ftnr="A" mfv="">
+                    <pos-eigenschaften>
+                      <stichwort>Trinschokolade Vollmilch 40% Kakako</stichwort>
+                      <langtext>
+                        <p>Trinkschokolade aus Vollmilch,</p>
+                        <p>Kakaoanteil 40</p>
+                        <p>Nährwert:____</p>
+                        <p>Verpackungsgröße:____</p>
+                        <p>Enthält Soja:____</p>
+                        <p>Angebotenes Erzeugnis:____</p>
+                        <p>Beschreibung: ____</p>
+                      </langtext>
+                      <herkunftskennzeichen>Z</herkunftskennzeichen>
+                      <einheit>kg</einheit>
+                      <pzzv>
+                        <normalposition/>
+                      </pzzv>
+                      <leistungsteil>1</leistungsteil>
+                      <lvmenge>997.37</lvmenge>
+                      <preis>
+                        <preisanteil1>41.93</preisanteil1>
+                        <preisanteil2>96.68</preisanteil2>
+                        <gesamt>138.61</gesamt>
+                      </preis>
+                      <pospreis>138245.46</pospreis>
+                    </pos-eigenschaften>
+                  </folgeposition>
+                  <folgeposition ftnr="B" mfv="">
+                    <pos-eigenschaften>
+                      <stichwort>Trinschokolade Vollmilch 50% Kakako</stichwort>
+                      <langtext>
+                        <p>Trinkschokolade aus Vollmilch,</p>
+                        <p>Kakaoanteil 50</p>
+                        <p>Nährwert:____</p>
+                        <p>Verpackungsgröße:____</p>
+                        <p>Enthält Soja:____</p>
+                        <p>Angebotenes Erzeugnis:____</p>
+                        <p>Beschreibung: ____</p>
+                      </langtext>
+                      <herkunftskennzeichen>Z</herkunftskennzeichen>
+                      <einheit>kg</einheit>
+                      <pzzv>
+                        <normalposition/>
+                      </pzzv>
+                      <leistungsteil>1</leistungsteil>
+                      <lvmenge>992.76</lvmenge>
+                      <preis>
+                        <preisanteil1>11.81</preisanteil1>
+                        <preisanteil2>192.03</preisanteil2>
+                        <gesamt>203.84</gesamt>
+                      </preis>
+                      <pospreis>202364.20</pospreis>
+                    </pos-eigenschaften>
+                  </folgeposition>
+                </grundtextnr>
+              </positionen>
+              <ulg-summe>
+                <summe>
+                  <preisanteil1>53544.22</preisanteil1>
+                  <preisanteil2>287065.44</preisanteil2>
+                  <gesamt>340609.66</gesamt>
+                </summe>
+                <summe-inkl-na>
+                  <preisanteil1>53544.22</preisanteil1>
+                  <preisanteil2>287065.44</preisanteil2>
+                  <gesamt>340609.66</gesamt>
+                </summe-inkl-na>
+              </ulg-summe>
+            </ulg>
+          </ulg-liste>
+          <lg-summe>
+            <summe>
+              <preisanteil1>381233.40</preisanteil1>
+              <preisanteil2>742571.77</preisanteil2>
+              <gesamt>1123805.17</gesamt>
+            </summe>
+            <summe-inkl-na>
+              <preisanteil1>381233.40</preisanteil1>
+              <preisanteil2>742571.77</preisanteil2>
+              <gesamt>1123805.17</gesamt>
+            </summe-inkl-na>
+          </lg-summe>
+        </lg>
+      </lg-liste>
+    </gliederung-lg>
+    <lv-summe>
+      <summe>
+        <preisanteil1>381233.40</preisanteil1>
+        <preisanteil2>742571.77</preisanteil2>
+        <gesamt>1123805.17</gesamt>
+      </summe>
+      <summe-inkl-na>
+        <preisanteil1>381233.40</preisanteil1>
+        <preisanteil2>742571.77</preisanteil2>
+        <gesamt>1123805.17</gesamt>
+      </summe-inkl-na>
+    </lv-summe>
+    <summenormalausfuehrung>
+      <summe-des-lv>1123805.17</summe-des-lv>
+      <summe-nachlaesse>0.00</summe-nachlaesse>
+      <gesamtpreis>1123805.17</gesamtpreis>
+      <ust>
+        <ustsatz>20.00</ustsatz>
+        <ustbetrag>224761.03</ustbetrag>
+      </ust>
+      <angebotspreis>1348566.20</angebotspreis>
+    </summenormalausfuehrung>
+  </kostenschaetzungs-lv>
+</onlv>

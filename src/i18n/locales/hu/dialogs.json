@@ -80,6 +80,17 @@
       "noPrices": "Ez a fájl nem tartalmaz árakat — csak megnevezéseket és mennyiségeket (mint egy felmérési könyvtár). Ezért a végösszeg 0,00 marad.",
       "moreWarnings_one": "… és még {{count}} hasonló üzenet.",
       "moreWarnings_other": "… és még {{count}} hasonló üzenet."
+    },
+    "onlv": {
+      "leistungsbuch": "Ez egy Leistungsbuch (szabványszövegek katalógusa) mennyiségek és árak nélkül — minden tétel 0 mennyiséggel lett importálva.",
+      "wahlEventual_one": "{{count}} választható tétel (Wahl-/Eventualposition) az ÖNORM szerint nem számít bele a kiírás összegébe. Mennyiséggel és árral lett importálva, a jegyzetekben megjelölve és az elszámolás oszlopban N-re állítva; az itteni összeg tartalmazza.",
+      "wahlEventual_other": "{{count}} választható tétel (Wahl-/Eventualpositionen) az ÖNORM szerint nem számít bele a kiírás összegébe. Mennyiséggel és árral lettek importálva, a jegyzetekben megjelölve és az elszámolás oszlopban N-re állítva; az itteni összeg tartalmazza őket.",
+      "sumMismatch": "A fájlban szereplő kiírási összeg ({{file}}) eltér a tételek számított összegétől ({{calculated}}).",
+      "unknownUnit_one": "{{count}} megfelelő nélküli egység változatlanul átvéve: {{examples}}.",
+      "unknownUnit_other": "{{count}} megfelelő nélküli egység változatlanul átvéve: {{examples}}.",
+      "noPrices": "Ez a fájl nem tartalmaz árakat — csak szövegeket és mennyiségeket (pl. Ausschreibungs-LV). Az összeg ezért 0,00 marad.",
+      "luecken_one": "{{count}} tétel kitöltendő hézagokat tartalmaz (Ausschreiber-/Bieterlücken); a jegyzetekben ____ jelöli őket.",
+      "luecken_other": "{{count}} tétel kitöltendő hézagokat tartalmaz (Ausschreiber-/Bieterlücken); a jegyzetekben ____ jelöli őket."
     }
   }
 }

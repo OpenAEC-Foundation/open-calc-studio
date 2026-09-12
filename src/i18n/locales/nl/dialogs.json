@@ -80,6 +80,17 @@
       "noPrices": "Dit bestand bevat geen prijzen — alleen omschrijvingen en hoeveelheden (zoals een mediciones-bibliotheek). Het totaal blijft daarom € 0,00.",
       "moreWarnings_one": "… en nog {{count}} vergelijkbare melding.",
       "moreWarnings_other": "… en nog {{count}} vergelijkbare meldingen."
+    },
+    "onlv": {
+      "leistungsbuch": "Dit is een Leistungsbuch (catalogus van standaardteksten) zonder hoeveelheden en prijzen — alle posities zijn met hoeveelheid 0 geïmporteerd.",
+      "wahlEventual_one": "{{count}} keuzepositie (Wahl-/Eventualposition) telt in ÖNORM niet mee in de LV-som. Ze is mét hoeveelheid en prijs geïmporteerd, in de notities gemarkeerd en in de verrekenbaar-kolom op N gezet; het totaal hier bevat haar wél.",
+      "wahlEventual_other": "{{count}} keuzeposities (Wahl-/Eventualpositionen) tellen in ÖNORM niet mee in de LV-som. Ze zijn mét hoeveelheid en prijs geïmporteerd, in de notities gemarkeerd en in de verrekenbaar-kolom op N gezet; het totaal hier bevat ze wél.",
+      "sumMismatch": "De LV-som in het bestand ({{file}}) wijkt af van de berekende som van de posities ({{calculated}}).",
+      "unknownUnit_one": "{{count}} eenheid zonder tegenhanger is ongewijzigd overgenomen: {{examples}}.",
+      "unknownUnit_other": "{{count}} eenheden zonder tegenhanger zijn ongewijzigd overgenomen: {{examples}}.",
+      "noPrices": "Dit bestand bevat geen prijzen — alleen teksten en hoeveelheden (bv. een Ausschreibungs-LV). Het totaal blijft daarom 0,00.",
+      "luecken_one": "{{count}} positie bevat in te vullen Lücken (Ausschreiber-/Bieterlücken); die staan als ____ in de notities.",
+      "luecken_other": "{{count}} posities bevatten in te vullen Lücken (Ausschreiber-/Bieterlücken); die staan als ____ in de notities."
     }
   }
 }

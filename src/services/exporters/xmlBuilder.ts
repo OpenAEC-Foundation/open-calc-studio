@@ -6,14 +6,20 @@ export interface XmlNode {
   children?: (XmlNode | string)[];
 }
 
-export function buildXml(root: XmlNode, opts?: { xmlns?: string }): string {
+export interface XmlBuildOptions {
+  xmlns?: string;
+  /** Schrijf ook attributen met een lege waarde (`mfv=""`); standaard worden die weggelaten. */
+  keepEmptyAttrs?: boolean;
+}
+
+export function buildXml(root: XmlNode, opts?: XmlBuildOptions): string {
   return '<?xml version="1.0" encoding="UTF-8"?>\n' + renderNode(root, 0, opts);
 }
 
-function renderNode(node: XmlNode | string, indent: number, opts?: { xmlns?: string }): string {
+function renderNode(node: XmlNode | string, indent: number, opts?: XmlBuildOptions): string {
   if (typeof node === 'string') return escapeXml(node);
   const pad = '  '.repeat(indent);
-  const attrs = renderAttrs(node.attrs, indent === 0 ? opts?.xmlns : undefined);
+  const attrs = renderAttrs(node.attrs, indent === 0 ? opts?.xmlns : undefined, opts?.keepEmptyAttrs);
   const children = node.children ?? [];
   if (children.length === 0) return `${pad}<${node.tag}${attrs}/>`;
   if (children.length === 1 && typeof children[0] === 'string') {
@@ -23,12 +29,12 @@ function renderNode(node: XmlNode | string, indent: number, opts?: { xmlns?: str
   return `${pad}<${node.tag}${attrs}>\n${inner}\n${pad}</${node.tag}>`;
 }
 
-function renderAttrs(attrs?: XmlAttrs, xmlns?: string): string {
+function renderAttrs(attrs?: XmlAttrs, xmlns?: string, keepEmpty = false): string {
   const parts: string[] = [];
   if (xmlns) parts.push(`xmlns="${escapeXml(xmlns)}"`);
   if (attrs) {
     for (const [k, v] of Object.entries(attrs)) {
-      if (v === undefined || v === null || v === '') continue;
+      if (v === undefined || v === null || (v === '' && !keepEmpty)) continue;
       parts.push(`${k}="${escapeXml(String(v))}"`);
     }
   }

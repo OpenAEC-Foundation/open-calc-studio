@@ -88,6 +88,23 @@
       "moreWarnings_two": "… ועוד שתי הודעות דומות.",
       "moreWarnings_many": "… ועוד {{count}} הודעות דומות.",
       "moreWarnings_other": "… ועוד {{count}} הודעות דומות."
+    },
+    "onlv": {
+      "leistungsbuch": "זהו Leistungsbuch (קטלוג טקסטים תקניים) ללא כמויות ומחירים — כל הסעיפים יובאו עם כמות 0.",
+      "wahlEventual_one": "{{count}} סעיף אופציונלי (Wahl-/Eventualposition) אינו נכלל בסכום כתב הכמויות לפי ÖNORM. הוא יובא עם כמות ומחיר, סומן בהערות והוגדר ל-N בעמודת ההתחשבנות; הסכום כאן כולל אותו.",
+      "wahlEventual_other": "{{count}} סעיפים אופציונליים (Wahl-/Eventualpositionen) אינם נכללים בסכום כתב הכמויות לפי ÖNORM. הם יובאו עם כמות ומחיר, סומנו בהערות והוגדרו ל-N בעמודת ההתחשבנות; הסכום כאן כולל אותם.",
+      "wahlEventual_two": "שני סעיפים אופציונליים (Wahl-/Eventualpositionen) אינם נכללים בסכום כתב הכמויות לפי ÖNORM. הם יובאו עם כמות ומחיר, סומנו בהערות והוגדרו ל-N בעמודת ההתחשבנות; הסכום כאן כולל אותם.",
+      "wahlEventual_many": "{{count}} סעיפים אופציונליים (Wahl-/Eventualpositionen) אינם נכללים בסכום כתב הכמויות לפי ÖNORM. הם יובאו עם כמות ומחיר, סומנו בהערות והוגדרו ל-N בעמודת ההתחשבנות; הסכום כאן כולל אותם.",
+      "sumMismatch": "סכום כתב הכמויות בקובץ ({{file}}) שונה מהסכום המחושב של הסעיפים ({{calculated}}).",
+      "unknownUnit_one": "{{count}} יחידה ללא מקבילה נשמרה ללא שינוי: {{examples}}.",
+      "unknownUnit_other": "{{count}} יחידות ללא מקבילה נשמרו ללא שינוי: {{examples}}.",
+      "unknownUnit_two": "שתי יחידות ללא מקבילה נשמרו ללא שינוי: {{examples}}.",
+      "unknownUnit_many": "{{count}} יחידות ללא מקבילה נשמרו ללא שינוי: {{examples}}.",
+      "noPrices": "קובץ זה אינו מכיל מחירים — רק טקסטים וכמויות (למשל Ausschreibungs-LV). לכן הסכום נשאר 0.00.",
+      "luecken_one": "{{count}} סעיף מכיל שדות למילוי (Ausschreiber-/Bieterlücken); הם מופיעים כ-____ בהערות.",
+      "luecken_other": "{{count}} סעיפים מכילים שדות למילוי (Ausschreiber-/Bieterlücken); הם מופיעים כ-____ בהערות.",
+      "luecken_two": "שני סעיפים מכילים שדות למילוי (Ausschreiber-/Bieterlücken); הם מופיעים כ-____ בהערות.",
+      "luecken_many": "{{count}} סעיפים מכילים שדות למילוי (Ausschreiber-/Bieterlücken); הם מופיעים כ-____ בהערות."
     }
   }
 }

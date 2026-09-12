@@ -218,11 +218,11 @@ export function useFileOperations() {
           return;
         }
 
-        // Text import: .rsx
-        if (ext === 'rsx') {
+        // Text import: .rsx, .onlv, .onlb
+        if (ext === 'rsx' || ext === 'onlv' || ext === 'onlb') {
           const store = useAppStore.getState();
-          const imp = store.extensionImporters.find(i => i.fileExtensions.some(fe => fe.replace(/^\./, '') === 'rsx'));
-          if (!imp) { await showError('Geen importer gevonden voor .rsx bestanden'); return; }
+          const imp = store.extensionImporters.find(i => i.fileExtensions.some(fe => fe.replace(/^\./, '') === ext));
+          if (!imp) { await showError(`Geen importer gevonden voor .${ext} bestanden`); return; }
 
           const file = new File([result.content], fileName, { type: 'text/plain' });
           const importResult = await imp.handler(file);
@@ -294,13 +294,13 @@ export function useFileOperations() {
         return;
       }
 
-      // Text import: .rsx
-      if (ext === 'rsx') {
+      // Text import: .rsx, .onlv, .onlb
+      if (ext === 'rsx' || ext === 'onlv' || ext === 'onlb') {
         const { readTextFile } = await import('@tauri-apps/plugin-fs');
         const content = await readTextFile(filePath);
         const store = useAppStore.getState();
-        const imp = store.extensionImporters.find(i => i.fileExtensions.some(fe => fe.replace(/^\./, '') === 'rsx'));
-        if (!imp) { await showError('Geen importer gevonden voor .rsx bestanden'); return; }
+        const imp = store.extensionImporters.find(i => i.fileExtensions.some(fe => fe.replace(/^\./, '') === ext));
+        if (!imp) { await showError(`Geen importer gevonden voor .${ext} bestanden`); return; }
 
         const file = new File([content], fileName, { type: 'text/plain' });
         const importResult = await imp.handler(file);
@@ -347,7 +347,7 @@ export function useFileOperations() {
   function openFileBrowser() {
     const input = document.createElement('input');
     input.type = 'file';
-    input.accept = '.ifcCalc,.ifcx,.ocs,.json,.calc,.mdb,.xls,.xlsx,.xtb,.rsx,.dnc,.bc3';
+    input.accept = '.ifcCalc,.ifcx,.ocs,.json,.calc,.mdb,.xls,.xlsx,.xtb,.rsx,.dnc,.bc3,.onlv,.onlb';
     input.onchange = async (e) => {
       const file = (e.target as HTMLInputElement).files?.[0];
       if (!file) return;

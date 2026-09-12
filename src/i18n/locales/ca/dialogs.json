@@ -80,6 +80,17 @@
       "noPrices": "Aquest fitxer no conté preus, només descripcions i amidaments (com una biblioteca d'amidaments). Per això el total continua sent 0,00.",
       "moreWarnings_one": "… i {{count}} avís similar més.",
       "moreWarnings_other": "… i {{count}} avisos similars més."
+    },
+    "onlv": {
+      "leistungsbuch": "Això és un Leistungsbuch (catàleg de textos estàndard) sense amidaments ni preus — totes les posicions s'han importat amb quantitat 0.",
+      "wahlEventual_one": "{{count}} posició opcional (Wahl-/Eventualposition) no compta en el total del plec segons ÖNORM. S'ha importat amb quantitat i preu, s'ha marcat a les notes i s'ha posat a N a la columna de liquidació; el total aquí sí que la inclou.",
+      "wahlEventual_other": "{{count}} posicions opcionals (Wahl-/Eventualpositionen) no compten en el total del plec segons ÖNORM. S'han importat amb quantitat i preu, s'han marcat a les notes i s'han posat a N a la columna de liquidació; el total aquí sí que les inclou.",
+      "sumMismatch": "El total del plec al fitxer ({{file}}) difereix de la suma calculada de les posicions ({{calculated}}).",
+      "unknownUnit_one": "{{count}} unitat sense equivalent s'ha conservat sense canvis: {{examples}}.",
+      "unknownUnit_other": "{{count}} unitats sense equivalent s'han conservat sense canvis: {{examples}}.",
+      "noPrices": "Aquest fitxer no conté preus, només textos i amidaments (p. ex. un Ausschreibungs-LV). El total es manté en 0,00.",
+      "luecken_one": "{{count}} posició conté buits per omplir (Ausschreiber-/Bieterlücken); apareixen com a ____ a les notes.",
+      "luecken_other": "{{count}} posicions contenen buits per omplir (Ausschreiber-/Bieterlücken); apareixen com a ____ a les notes."
     }
   }
 }

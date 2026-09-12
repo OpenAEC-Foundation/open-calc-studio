@@ -96,6 +96,29 @@
       "moreWarnings_few": "… و{{count}} ملاحظات أخرى مماثلة.",
       "moreWarnings_many": "… و{{count}} ملاحظة أخرى مماثلة.",
       "moreWarnings_other": "… و{{count}} ملاحظة أخرى مماثلة."
+    },
+    "onlv": {
+      "leistungsbuch": "هذا Leistungsbuch (فهرس نصوص قياسية) بدون كميات أو أسعار — تم استيراد جميع البنود بكمية 0.",
+      "wahlEventual_one": "{{count}} بند اختياري (Wahl-/Eventualposition) لا يُحتسب في إجمالي الجدول وفق ÖNORM. تم استيراده بالكمية والسعر، ووُضعت علامة في الملاحظات وضُبط على N في عمود التسوية؛ الإجمالي هنا يشمله.",
+      "wahlEventual_other": "{{count}} بند اختياري (Wahl-/Eventualpositionen) لا تُحتسب في إجمالي الجدول وفق ÖNORM. تم استيرادها بالكمية والسعر، ووُضعت علامة في الملاحظات وضُبطت على N في عمود التسوية؛ الإجمالي هنا يشملها.",
+      "wahlEventual_zero": "لا توجد بنود اختيارية.",
+      "wahlEventual_two": "بندان اختياريان (Wahl-/Eventualpositionen) لا يُحتسبان في إجمالي الجدول وفق ÖNORM. تم استيرادهما بالكمية والسعر، ووُضعت علامة في الملاحظات وضُبطا على N في عمود التسوية؛ الإجمالي هنا يشملهما.",
+      "wahlEventual_few": "{{count}} بنود اختيارية (Wahl-/Eventualpositionen) لا تُحتسب في إجمالي الجدول وفق ÖNORM. تم استيرادها بالكمية والسعر، ووُضعت علامة في الملاحظات وضُبطت على N في عمود التسوية؛ الإجمالي هنا يشملها.",
+      "wahlEventual_many": "{{count}} بندًا اختياريًا (Wahl-/Eventualpositionen) لا تُحتسب في إجمالي الجدول وفق ÖNORM. تم استيرادها بالكمية والسعر، ووُضعت علامة في الملاحظات وضُبطت على N في عمود التسوية؛ الإجمالي هنا يشملها.",
+      "sumMismatch": "إجمالي الجدول في الملف ({{file}}) يختلف عن المجموع المحسوب للبنود ({{calculated}}).",
+      "unknownUnit_one": "تم الاحتفاظ بـ {{count}} وحدة بلا مقابل دون تغيير: {{examples}}.",
+      "unknownUnit_other": "تم الاحتفاظ بـ {{count}} وحدة بلا مقابل دون تغيير: {{examples}}.",
+      "unknownUnit_zero": "لا توجد وحدات بلا مقابل.",
+      "unknownUnit_two": "تم الاحتفاظ بوحدتين بلا مقابل دون تغيير: {{examples}}.",
+      "unknownUnit_few": "تم الاحتفاظ بـ {{count}} وحدات بلا مقابل دون تغيير: {{examples}}.",
+      "unknownUnit_many": "تم الاحتفاظ بـ {{count}} وحدة بلا مقابل دون تغيير: {{examples}}.",
+      "noPrices": "لا يحتوي هذا الملف على أسعار — فقط نصوص وكميات (مثل Ausschreibungs-LV). لذلك يبقى الإجمالي 0.00.",
+      "luecken_one": "{{count}} بند يحتوي على فراغات للتعبئة (Ausschreiber-/Bieterlücken)؛ تظهر كـ ____ في الملاحظات.",
+      "luecken_other": "{{count}} بند تحتوي على فراغات للتعبئة (Ausschreiber-/Bieterlücken)؛ تظهر كـ ____ في الملاحظات.",
+      "luecken_zero": "لا توجد بنود بفراغات.",
+      "luecken_two": "بندان يحتويان على فراغات للتعبئة (Ausschreiber-/Bieterlücken)؛ تظهر كـ ____ في الملاحظات.",
+      "luecken_few": "{{count}} بنود تحتوي على فراغات للتعبئة (Ausschreiber-/Bieterlücken)؛ تظهر كـ ____ في الملاحظات.",
+      "luecken_many": "{{count}} بندًا تحتوي على فراغات للتعبئة (Ausschreiber-/Bieterlücken)؛ تظهر كـ ____ في الملاحظات."
     }
   }
 }

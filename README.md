@@ -34,6 +34,8 @@ Open Calc Studio brengt professionele kostencalculatie voor de bouw naar een ope
 - **WPCalc** (.calc) — round-trip (lezen + schrijven)
 - **IBIS-TRAD** (.xtb) — import (SQLite), inclusief middelen en uurloon-codes
 - **IFC 4.x** (IfcCostSchedule + IfcCostItem) — import en export, custom STEP generator (geen WASM)
+- **FIEBDC-3** (.bc3, Spanje) — import en export
+- **ÖNORM A 2063** (.onlv Leistungsverzeichnis, .onlb Leistungsbuch, Oostenrijk) — import en export, gevalideerd tegen de officiële XSD's
 - **CUF-XML / TRADXML / RAW RSX** — exporters
 - **ZSX / NSX** — prijs- en normbestanden
 - **Excel** (.xlsx) — spreadsheet import

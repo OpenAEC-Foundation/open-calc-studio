@@ -80,6 +80,17 @@
       "noPrices": "Diese Datei enthält keine Preise — nur Beschreibungen und Mengen (wie eine Aufmaßbibliothek). Die Summe bleibt daher 0,00.",
       "moreWarnings_one": "… und {{count}} weiterer ähnlicher Hinweis.",
       "moreWarnings_other": "… und {{count}} weitere ähnliche Hinweise."
+    },
+    "onlv": {
+      "leistungsbuch": "Dies ist ein Leistungsbuch (Katalog standardisierter Texte) ohne Mengen und Preise — alle Positionen wurden mit Menge 0 importiert.",
+      "wahlEventual_one": "{{count}} Wahl-/Eventualposition zählt in der ÖNORM nicht zur LV-Summe. Sie wurde mit Menge und Preis importiert, in den Notizen markiert und in der Spalte Verrechenbar auf N gesetzt; die Summe hier enthält sie jedoch.",
+      "wahlEventual_other": "{{count}} Wahl-/Eventualpositionen zählen in der ÖNORM nicht zur LV-Summe. Sie wurden mit Menge und Preis importiert, in den Notizen markiert und in der Spalte Verrechenbar auf N gesetzt; die Summe hier enthält sie jedoch.",
+      "sumMismatch": "Die LV-Summe in der Datei ({{file}}) weicht von der berechneten Summe der Positionen ({{calculated}}) ab.",
+      "unknownUnit_one": "{{count}} Einheit ohne Entsprechung wurde unverändert übernommen: {{examples}}.",
+      "unknownUnit_other": "{{count}} Einheiten ohne Entsprechung wurden unverändert übernommen: {{examples}}.",
+      "noPrices": "Diese Datei enthält keine Preise — nur Texte und Mengen (z. B. ein Ausschreibungs-LV). Die Summe bleibt daher 0,00.",
+      "luecken_one": "{{count}} Position enthält auszufüllende Lücken (Ausschreiber-/Bieterlücken); sie erscheinen als ____ in den Notizen.",
+      "luecken_other": "{{count}} Positionen enthalten auszufüllende Lücken (Ausschreiber-/Bieterlücken); sie erscheinen als ____ in den Notizen."
     }
   }
 }

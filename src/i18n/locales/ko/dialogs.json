@@ -80,6 +80,17 @@
       "noPrices": "이 파일에는 가격이 없습니다 — 명칭과 수량만 있습니다(수량 라이브러리처럼). 따라서 합계는 0.00으로 유지됩니다.",
       "moreWarnings_one": "… 그 밖에 비슷한 알림 {{count}}건이 더 있습니다.",
       "moreWarnings_other": "… 그 밖에 비슷한 알림 {{count}}건이 더 있습니다."
+    },
+    "onlv": {
+      "leistungsbuch": "이 파일은 수량과 가격이 없는 Leistungsbuch(표준 문안 카탈로그)입니다 — 모든 항목을 수량 0으로 가져왔습니다.",
+      "wahlEventual_one": "선택 항목 {{count}}건(Wahl-/Eventualposition)은 ÖNORM에서 합계에 포함되지 않습니다. 수량과 가격을 포함해 가져왔고, 메모에 표시하고 정산 열을 N으로 설정했습니다. 여기의 합계에는 포함되어 있습니다.",
+      "wahlEventual_other": "선택 항목 {{count}}건(Wahl-/Eventualpositionen)은 ÖNORM에서 합계에 포함되지 않습니다. 수량과 가격을 포함해 가져왔고, 메모에 표시하고 정산 열을 N으로 설정했습니다. 여기의 합계에는 포함되어 있습니다.",
+      "sumMismatch": "파일의 합계({{file}})가 항목의 계산된 합계({{calculated}})와 다릅니다.",
+      "unknownUnit_one": "대응 단위가 없는 단위 {{count}}개를 그대로 유지했습니다: {{examples}}.",
+      "unknownUnit_other": "대응 단위가 없는 단위 {{count}}개를 그대로 유지했습니다: {{examples}}.",
+      "noPrices": "이 파일에는 가격이 없습니다 — 문안과 수량만 있습니다(예: Ausschreibungs-LV). 따라서 합계는 0.00으로 유지됩니다.",
+      "luecken_one": "항목 {{count}}건에 채워야 할 빈칸(Ausschreiber-/Bieterlücken)이 있습니다. 메모에 ____로 표시됩니다.",
+      "luecken_other": "항목 {{count}}건에 채워야 할 빈칸(Ausschreiber-/Bieterlücken)이 있습니다. 메모에 ____로 표시됩니다."
     }
   }
 }

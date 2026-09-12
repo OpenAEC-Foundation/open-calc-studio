@@ -7,6 +7,6 @@ export interface ExportInput {
 
 export interface ExportResult {
   xml: string;
-  format: 'cuf' | 'tradxml' | 'rsx';
+  format: 'cuf' | 'tradxml' | 'rsx' | 'onlv';
   warnings: string[];
 }

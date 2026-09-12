@@ -80,6 +80,17 @@
       "noPrices": "Den här filen innehåller inga priser — endast beskrivningar och mängder (som ett mängdbibliotek). Totalen blir därför 0,00.",
       "moreWarnings_one": "… och {{count}} ytterligare liknande meddelande.",
       "moreWarnings_other": "… och {{count}} ytterligare liknande meddelanden."
+    },
+    "onlv": {
+      "leistungsbuch": "Detta är ett Leistungsbuch (katalog med standardtexter) utan mängder och priser — alla positioner har importerats med mängd 0.",
+      "wahlEventual_one": "{{count}} valfri position (Wahl-/Eventualposition) räknas enligt ÖNORM inte in i totalsumman. Den har importerats med mängd och pris, markerats i anteckningarna och satts till N i avräkningskolumnen; totalen här inkluderar den.",
+      "wahlEventual_other": "{{count}} valfria positioner (Wahl-/Eventualpositionen) räknas enligt ÖNORM inte in i totalsumman. De har importerats med mängd och pris, markerats i anteckningarna och satts till N i avräkningskolumnen; totalen här inkluderar dem.",
+      "sumMismatch": "Totalsumman i filen ({{file}}) avviker från den beräknade summan av positionerna ({{calculated}}).",
+      "unknownUnit_one": "{{count}} enhet utan motsvarighet har behållits oförändrad: {{examples}}.",
+      "unknownUnit_other": "{{count}} enheter utan motsvarighet har behållits oförändrade: {{examples}}.",
+      "noPrices": "Den här filen innehåller inga priser — endast texter och mängder (t.ex. ett Ausschreibungs-LV). Totalen förblir därför 0,00.",
+      "luecken_one": "{{count}} position innehåller luckor att fylla i (Ausschreiber-/Bieterlücken); de visas som ____ i anteckningarna.",
+      "luecken_other": "{{count}} positioner innehåller luckor att fylla i (Ausschreiber-/Bieterlücken); de visas som ____ i anteckningarna."
     }
   }
 }

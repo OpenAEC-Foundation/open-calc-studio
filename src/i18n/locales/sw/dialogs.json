@@ -80,6 +80,17 @@
       "noPrices": "Faili hii haina bei — ina maelezo na viasi tu (kama maktaba ya vipimo). Kwa hiyo jumla inabaki 0.00.",
       "moreWarnings_one": "… na taarifa {{count}} nyingine inayofanana.",
       "moreWarnings_other": "… na taarifa {{count}} nyingine zinazofanana."
+    },
+    "onlv": {
+      "leistungsbuch": "Hii ni Leistungsbuch (katalogi ya maandishi sanifu) bila viasi wala bei — vipengele vyote vimeingizwa kwa kiasi 0.",
+      "wahlEventual_one": "Kipengele {{count}} cha hiari (Wahl-/Eventualposition) hakihesabiwi kwenye jumla kulingana na ÖNORM. Kimeingizwa na kiasi na bei, kimewekewa alama kwenye maelezo na kuwekwa N kwenye safu ya malipo; jumla hapa inakijumuisha.",
+      "wahlEventual_other": "Vipengele {{count}} vya hiari (Wahl-/Eventualpositionen) havihesabiwi kwenye jumla kulingana na ÖNORM. Vimeingizwa na kiasi na bei, vimewekewa alama kwenye maelezo na kuwekwa N kwenye safu ya malipo; jumla hapa inavijumuisha.",
+      "sumMismatch": "Jumla katika faili ({{file}}) inatofautiana na jumla iliyokokotolewa ya vipengele ({{calculated}}).",
+      "unknownUnit_one": "Kipimo {{count}} kisicho na kilinganifu kimehifadhiwa bila mabadiliko: {{examples}}.",
+      "unknownUnit_other": "Vipimo {{count}} visivyo na vilinganifu vimehifadhiwa bila mabadiliko: {{examples}}.",
+      "noPrices": "Faili hii haina bei — ina maandishi na viasi tu (k.m. Ausschreibungs-LV). Kwa hivyo jumla inabaki 0.00.",
+      "luecken_one": "Kipengele {{count}} kina nafasi za kujaza (Ausschreiber-/Bieterlücken); zinaonekana kama ____ kwenye maelezo.",
+      "luecken_other": "Vipengele {{count}} vina nafasi za kujaza (Ausschreiber-/Bieterlücken); zinaonekana kama ____ kwenye maelezo."
     }
   }
 }

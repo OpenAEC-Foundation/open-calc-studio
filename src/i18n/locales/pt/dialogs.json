@@ -80,6 +80,17 @@
       "noPrices": "Este ficheiro não contém preços — apenas designações e quantidades (como uma biblioteca de medições). Por isso, o total continua a ser 0,00.",
       "moreWarnings_one": "… e mais {{count}} aviso semelhante.",
       "moreWarnings_other": "… e mais {{count}} avisos semelhantes."
+    },
+    "onlv": {
+      "leistungsbuch": "Isto é um Leistungsbuch (catálogo de textos-padrão) sem quantidades nem preços — todas as posições foram importadas com quantidade 0.",
+      "wahlEventual_one": "{{count}} posição opcional (Wahl-/Eventualposition) não conta para o total do caderno segundo a ÖNORM. Foi importada com quantidade e preço, assinalada nas notas e colocada em N na coluna de medição; o total aqui inclui-a.",
+      "wahlEventual_other": "{{count}} posições opcionais (Wahl-/Eventualpositionen) não contam para o total do caderno segundo a ÖNORM. Foram importadas com quantidade e preço, assinaladas nas notas e colocadas em N na coluna de medição; o total aqui inclui-as.",
+      "sumMismatch": "O total do caderno no ficheiro ({{file}}) difere da soma calculada das posições ({{calculated}}).",
+      "unknownUnit_one": "{{count}} unidade sem equivalente foi mantida inalterada: {{examples}}.",
+      "unknownUnit_other": "{{count}} unidades sem equivalente foram mantidas inalteradas: {{examples}}.",
+      "noPrices": "Este ficheiro não contém preços — apenas textos e quantidades (p. ex. um Ausschreibungs-LV). O total permanece assim em 0,00.",
+      "luecken_one": "{{count}} posição contém lacunas a preencher (Ausschreiber-/Bieterlücken); aparecem como ____ nas notas.",
+      "luecken_other": "{{count}} posições contêm lacunas a preencher (Ausschreiber-/Bieterlücken); aparecem como ____ nas notas."
     }
   }
 }

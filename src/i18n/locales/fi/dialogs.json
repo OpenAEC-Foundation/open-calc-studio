@@ -80,6 +80,17 @@
       "noPrices": "Tiedosto ei sisällä hintoja — vain kuvauksia ja määriä (kuten määräkirjasto). Loppusumma on siksi 0,00.",
       "moreWarnings_one": "… ja {{count}} muu samankaltainen ilmoitus.",
       "moreWarnings_other": "… ja {{count}} muuta samankaltaista ilmoitusta."
+    },
+    "onlv": {
+      "leistungsbuch": "Tämä on Leistungsbuch (vakiotekstien luettelo) ilman määriä ja hintoja — kaikki positiot tuotiin määrällä 0.",
+      "wahlEventual_one": "{{count}} valinnainen positio (Wahl-/Eventualposition) ei ÖNORMin mukaan kuulu erittelyn loppusummaan. Se tuotiin määrineen ja hintoineen, merkittiin muistiinpanoihin ja asetettiin arvoon N tilityssarakkeessa; tämän ohjelman summa sisältää sen.",
+      "wahlEventual_other": "{{count}} valinnaista positiota (Wahl-/Eventualpositionen) eivät ÖNORMin mukaan kuulu erittelyn loppusummaan. Ne tuotiin määrineen ja hintoineen, merkittiin muistiinpanoihin ja asetettiin arvoon N tilityssarakkeessa; tämän ohjelman summa sisältää ne.",
+      "sumMismatch": "Tiedoston loppusumma ({{file}}) poikkeaa positioiden lasketusta summasta ({{calculated}}).",
+      "unknownUnit_one": "{{count}} yksikkö ilman vastinetta säilytettiin sellaisenaan: {{examples}}.",
+      "unknownUnit_other": "{{count}} yksikköä ilman vastinetta säilytettiin sellaisenaan: {{examples}}.",
+      "noPrices": "Tiedosto ei sisällä hintoja — vain tekstejä ja määriä (esim. Ausschreibungs-LV). Summa pysyy siksi arvossa 0,00.",
+      "luecken_one": "{{count}} positio sisältää täytettäviä kohtia (Ausschreiber-/Bieterlücken); ne näkyvät muistiinpanoissa merkintänä ____.",
+      "luecken_other": "{{count}} positiota sisältää täytettäviä kohtia (Ausschreiber-/Bieterlücken); ne näkyvät muistiinpanoissa merkintänä ____."
     }
   }
 }

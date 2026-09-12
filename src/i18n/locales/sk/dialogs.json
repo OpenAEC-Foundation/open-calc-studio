@@ -88,6 +88,23 @@
       "moreWarnings_few": "… a ešte {{count}} podobné upozornenia.",
       "moreWarnings_many": "… a ešte {{count}} podobného upozornenia.",
       "moreWarnings_other": "… a ešte {{count}} podobných upozornení."
+    },
+    "onlv": {
+      "leistungsbuch": "Toto je Leistungsbuch (katalóg štandardných textov) bez množstiev a cien — všetky položky boli importované s množstvom 0.",
+      "wahlEventual_one": "{{count}} voliteľná položka (Wahl-/Eventualposition) sa podľa ÖNORM nezapočítava do súčtu výkazu. Bola importovaná s množstvom a cenou, označená v poznámkach a nastavená na N v stĺpci zúčtovania; tunajší súčet ju zahŕňa.",
+      "wahlEventual_other": "{{count}} voliteľných položiek (Wahl-/Eventualpositionen) sa podľa ÖNORM nezapočítava do súčtu výkazu. Boli importované s množstvom a cenou, označené v poznámkach a nastavené na N v stĺpci zúčtovania; tunajší súčet ich zahŕňa.",
+      "wahlEventual_few": "{{count}} voliteľné položky (Wahl-/Eventualpositionen) sa podľa ÖNORM nezapočítavajú do súčtu výkazu. Boli importované s množstvom a cenou, označené v poznámkach a nastavené na N v stĺpci zúčtovania; tunajší súčet ich zahŕňa.",
+      "wahlEventual_many": "{{count}} voliteľných položiek (Wahl-/Eventualpositionen) sa podľa ÖNORM nezapočítava do súčtu výkazu. Boli importované s množstvom a cenou, označené v poznámkach a nastavené na N v stĺpci zúčtovania; tunajší súčet ich zahŕňa.",
+      "sumMismatch": "Súčet výkazu v súbore ({{file}}) sa líši od vypočítaného súčtu položiek ({{calculated}}).",
+      "unknownUnit_one": "{{count}} jednotka bez náprotivku bola ponechaná bez zmeny: {{examples}}.",
+      "unknownUnit_other": "{{count}} jednotiek bez náprotivku bolo ponechaných bez zmeny: {{examples}}.",
+      "unknownUnit_few": "{{count}} jednotky bez náprotivku boli ponechané bez zmeny: {{examples}}.",
+      "unknownUnit_many": "{{count}} jednotiek bez náprotivku bolo ponechaných bez zmeny: {{examples}}.",
+      "noPrices": "Tento súbor neobsahuje žiadne ceny — iba texty a množstvá (napr. Ausschreibungs-LV). Súčet preto zostáva 0,00.",
+      "luecken_one": "{{count}} položka obsahuje medzery na vyplnenie (Ausschreiber-/Bieterlücken); v poznámkach sú uvedené ako ____.",
+      "luecken_other": "{{count}} položiek obsahuje medzery na vyplnenie (Ausschreiber-/Bieterlücken); v poznámkach sú uvedené ako ____.",
+      "luecken_few": "{{count}} položky obsahujú medzery na vyplnenie (Ausschreiber-/Bieterlücken); v poznámkach sú uvedené ako ____.",
+      "luecken_many": "{{count}} položiek obsahuje medzery na vyplnenie (Ausschreiber-/Bieterlücken); v poznámkach sú uvedené ako ____."
     }
   }
 }

@@ -80,6 +80,17 @@
       "noPrices": "Tệp này không chứa giá — chỉ có mô tả và khối lượng (như một thư viện khối lượng). Vì vậy tổng vẫn là 0.00.",
       "moreWarnings_one": "… và thêm {{count}} thông báo tương tự.",
       "moreWarnings_other": "… và thêm {{count}} thông báo tương tự."
+    },
+    "onlv": {
+      "leistungsbuch": "Đây là một Leistungsbuch (danh mục văn bản chuẩn) không có khối lượng và giá — tất cả hạng mục được nhập với khối lượng 0.",
+      "wahlEventual_one": "{{count}} hạng mục tùy chọn (Wahl-/Eventualposition) theo ÖNORM không tính vào tổng. Nó được nhập kèm khối lượng và giá, được đánh dấu trong ghi chú và đặt thành N ở cột thanh toán; tổng ở đây có bao gồm nó.",
+      "wahlEventual_other": "{{count}} hạng mục tùy chọn (Wahl-/Eventualpositionen) theo ÖNORM không tính vào tổng. Chúng được nhập kèm khối lượng và giá, được đánh dấu trong ghi chú và đặt thành N ở cột thanh toán; tổng ở đây có bao gồm chúng.",
+      "sumMismatch": "Tổng trong tệp ({{file}}) khác với tổng tính toán của các hạng mục ({{calculated}}).",
+      "unknownUnit_one": "{{count}} đơn vị không có đơn vị tương ứng được giữ nguyên: {{examples}}.",
+      "unknownUnit_other": "{{count}} đơn vị không có đơn vị tương ứng được giữ nguyên: {{examples}}.",
+      "noPrices": "Tệp này không chứa giá — chỉ có văn bản và khối lượng (ví dụ một Ausschreibungs-LV). Do đó tổng vẫn là 0,00.",
+      "luecken_one": "{{count}} hạng mục có chỗ trống cần điền (Ausschreiber-/Bieterlücken); chúng hiển thị là ____ trong ghi chú.",
+      "luecken_other": "{{count}} hạng mục có chỗ trống cần điền (Ausschreiber-/Bieterlücken); chúng hiển thị là ____ trong ghi chú."
     }
   }
 }

@@ -80,6 +80,17 @@
       "noPrices": "This file contains no prices — only descriptions and quantities (like a measurements library). The total therefore remains 0.00.",
       "moreWarnings_one": "… and {{count}} more similar notice.",
       "moreWarnings_other": "… and {{count}} more similar notices."
+    },
+    "onlv": {
+      "leistungsbuch": "This is a Leistungsbuch (catalogue of standard texts) without quantities or prices — all positions were imported with quantity 0.",
+      "wahlEventual_one": "{{count}} optional position (Wahl-/Eventualposition) does not count towards the LV total in ÖNORM. It was imported with quantity and price, marked in the notes and set to N in the settlement column; the total here does include it.",
+      "wahlEventual_other": "{{count}} optional positions (Wahl-/Eventualpositionen) do not count towards the LV total in ÖNORM. They were imported with quantity and price, marked in the notes and set to N in the settlement column; the total here does include them.",
+      "sumMismatch": "The LV total in the file ({{file}}) differs from the calculated sum of the positions ({{calculated}}).",
+      "unknownUnit_one": "{{count}} unit without an equivalent here was kept unchanged: {{examples}}.",
+      "unknownUnit_other": "{{count}} units without an equivalent here were kept unchanged: {{examples}}.",
+      "noPrices": "This file contains no prices — only texts and quantities (e.g. an Ausschreibungs-LV). The total therefore remains 0.00.",
+      "luecken_one": "{{count}} position contains gaps to fill in (Ausschreiber-/Bieterlücken); they appear as ____ in the notes.",
+      "luecken_other": "{{count}} positions contain gaps to fill in (Ausschreiber-/Bieterlücken); they appear as ____ in the notes."
     }
   }
 }

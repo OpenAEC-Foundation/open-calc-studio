@@ -80,6 +80,17 @@
       "noPrices": "Este archivo no contiene precios, solo descripciones y mediciones (como una biblioteca de mediciones). Por eso el total sigue siendo 0,00.",
       "moreWarnings_one": "… y {{count}} aviso similar más.",
       "moreWarnings_other": "… y {{count}} avisos similares más."
+    },
+    "onlv": {
+      "leistungsbuch": "Esto es un Leistungsbuch (catálogo de textos estándar) sin mediciones ni precios — todas las posiciones se importaron con cantidad 0.",
+      "wahlEventual_one": "{{count}} posición opcional (Wahl-/Eventualposition) no cuenta en el total del pliego según ÖNORM. Se importó con cantidad y precio, se marcó en las notas y se puso en N en la columna de liquidación; el total aquí sí la incluye.",
+      "wahlEventual_other": "{{count}} posiciones opcionales (Wahl-/Eventualpositionen) no cuentan en el total del pliego según ÖNORM. Se importaron con cantidad y precio, se marcaron en las notas y se pusieron en N en la columna de liquidación; el total aquí sí las incluye.",
+      "sumMismatch": "El total del pliego en el archivo ({{file}}) difiere de la suma calculada de las posiciones ({{calculated}}).",
+      "unknownUnit_one": "{{count}} unidad sin equivalente se conservó sin cambios: {{examples}}.",
+      "unknownUnit_other": "{{count}} unidades sin equivalente se conservaron sin cambios: {{examples}}.",
+      "noPrices": "Este archivo no contiene precios, solo textos y mediciones (p. ej. un Ausschreibungs-LV). El total permanece en 0,00.",
+      "luecken_one": "{{count}} posición contiene huecos por rellenar (Ausschreiber-/Bieterlücken); aparecen como ____ en las notas.",
+      "luecken_other": "{{count}} posiciones contienen huecos por rellenar (Ausschreiber-/Bieterlücken); aparecen como ____ en las notas."
     }
   }
 }

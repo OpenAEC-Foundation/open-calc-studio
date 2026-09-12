@@ -80,6 +80,17 @@
       "noPrices": "Denne filen inneholder ingen priser — bare beskrivelser og mengder (som et mengdebibliotek). Totalen blir derfor 0,00.",
       "moreWarnings_one": "… og {{count}} lignende melding til.",
       "moreWarnings_other": "… og {{count}} lignende meldinger til."
+    },
+    "onlv": {
+      "leistungsbuch": "Dette er et Leistungsbuch (katalog over standardtekster) uten mengder og priser — alle posisjoner er importert med mengde 0.",
+      "wahlEventual_one": "{{count}} valgfri posisjon (Wahl-/Eventualposition) teller ifølge ÖNORM ikke med i totalsummen. Den er importert med mengde og pris, merket i notatene og satt til N i avregningskolonnen; totalen her inkluderer den.",
+      "wahlEventual_other": "{{count}} valgfrie posisjoner (Wahl-/Eventualpositionen) teller ifølge ÖNORM ikke med i totalsummen. De er importert med mengde og pris, merket i notatene og satt til N i avregningskolonnen; totalen her inkluderer dem.",
+      "sumMismatch": "Totalsummen i filen ({{file}}) avviker fra den beregnede summen av posisjonene ({{calculated}}).",
+      "unknownUnit_one": "{{count}} enhet uten motstykke er beholdt uendret: {{examples}}.",
+      "unknownUnit_other": "{{count}} enheter uten motstykke er beholdt uendret: {{examples}}.",
+      "noPrices": "Denne filen inneholder ingen priser — bare tekster og mengder (f.eks. et Ausschreibungs-LV). Totalen forblir derfor 0,00.",
+      "luecken_one": "{{count}} posisjon inneholder felt som skal fylles ut (Ausschreiber-/Bieterlücken); de vises som ____ i notatene.",
+      "luecken_other": "{{count}} posisjoner inneholder felt som skal fylles ut (Ausschreiber-/Bieterlücken); de vises som ____ i notatene."
     }
   }
 }

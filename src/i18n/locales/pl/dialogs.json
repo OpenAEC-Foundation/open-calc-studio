@@ -88,6 +88,23 @@
       "moreWarnings_few": "… i jeszcze {{count}} podobne komunikaty.",
       "moreWarnings_many": "… i jeszcze {{count}} podobnych komunikatów.",
       "moreWarnings_other": "… i jeszcze {{count}} podobnych komunikatów."
+    },
+    "onlv": {
+      "leistungsbuch": "To jest Leistungsbuch (katalog tekstów standardowych) bez ilości i cen — wszystkie pozycje zaimportowano z ilością 0.",
+      "wahlEventual_one": "{{count}} pozycja opcjonalna (Wahl-/Eventualposition) według ÖNORM nie wlicza się do sumy przedmiaru. Zaimportowano ją z ilością i ceną, oznaczono w notatkach i ustawiono na N w kolumnie rozliczenia; suma tutaj ją zawiera.",
+      "wahlEventual_other": "{{count}} pozycji opcjonalnych (Wahl-/Eventualpositionen) według ÖNORM nie wlicza się do sumy przedmiaru. Zaimportowano je z ilością i ceną, oznaczono w notatkach i ustawiono na N w kolumnie rozliczenia; suma tutaj je zawiera.",
+      "wahlEventual_few": "{{count}} pozycje opcjonalne (Wahl-/Eventualpositionen) według ÖNORM nie wliczają się do sumy przedmiaru. Zaimportowano je z ilością i ceną, oznaczono w notatkach i ustawiono na N w kolumnie rozliczenia; suma tutaj je zawiera.",
+      "wahlEventual_many": "{{count}} pozycji opcjonalnych (Wahl-/Eventualpositionen) według ÖNORM nie wlicza się do sumy przedmiaru. Zaimportowano je z ilością i ceną, oznaczono w notatkach i ustawiono na N w kolumnie rozliczenia; suma tutaj je zawiera.",
+      "sumMismatch": "Suma przedmiaru w pliku ({{file}}) różni się od obliczonej sumy pozycji ({{calculated}}).",
+      "unknownUnit_one": "{{count}} jednostkę bez odpowiednika zachowano bez zmian: {{examples}}.",
+      "unknownUnit_other": "{{count}} jednostek bez odpowiednika zachowano bez zmian: {{examples}}.",
+      "unknownUnit_few": "{{count}} jednostki bez odpowiednika zachowano bez zmian: {{examples}}.",
+      "unknownUnit_many": "{{count}} jednostek bez odpowiednika zachowano bez zmian: {{examples}}.",
+      "noPrices": "Ten plik nie zawiera cen — tylko teksty i ilości (np. Ausschreibungs-LV). Suma pozostaje więc 0,00.",
+      "luecken_one": "{{count}} pozycja zawiera luki do wypełnienia (Ausschreiber-/Bieterlücken); w notatkach widnieją jako ____.",
+      "luecken_other": "{{count}} pozycji zawiera luki do wypełnienia (Ausschreiber-/Bieterlücken); w notatkach widnieją jako ____.",
+      "luecken_few": "{{count}} pozycje zawierają luki do wypełnienia (Ausschreiber-/Bieterlücken); w notatkach widnieją jako ____.",
+      "luecken_many": "{{count}} pozycji zawiera luki do wypełnienia (Ausschreiber-/Bieterlücken); w notatkach widnieją jako ____."
     }
   }
 }
