@@ -40,23 +40,41 @@ const budget = (postQty: number, regels: Partial<CostItem>[], post: Partial<Cost
 };
 
 describe('FIEBDC-3 (.bc3) export', () => {
-  it('schrijft rendementen, prijzen en hoeveelheden zonder af te ronden', () => {
-    // Echte bestanden hebben rendementen met 4–15 decimalen; afronden op 3
-    // decimalen verschoof totalen in de miljoenen met tientallen euro's.
+  it('schrijft getallen zonder drijvende-kommaruis en zonder overbodige nullen', () => {
+    // Een opgetelde kostprijs als 434687.42649000004 hoort als 434687.42649
+    // in het bestand (6 decimalen zodra die het getal reproduceren). Echte
+    // bestanden hebben rendementen met 4–15 decimalen; afronden op 3 (of
+    // altijd op 6) verschuift totalen in de miljoenen met centen tot
+    // tientallen euro's, dus een getal dat echt meer decimalen heeft houdt ze.
     const { text, first, second } = roundtrip(budget(12.3456, [
       { normQuantity: 0.0025, normUnitPrice: 14000 },
       { normQuantity: 0.02999999932945, normUnitPrice: 1234.5678 },
+      { normQuantity: 0.119760479041916, normUnitPrice: 874523 },
+      { normQuantity: 1, normUnitPrice: 434687.42649000004 },
+      { normQuantity: 2.5, normUnitPrice: 100 },
     ]));
     expect(text).toContain('\\1\\0.0025\\');
     expect(text).toContain('\\1\\0.02999999932945\\');
+    expect(text).toContain('\\1\\0.119760479041916\\');
+    expect(text).toContain('|434687.42649||');
+    expect(text).toContain('\\1\\2.5\\');
+    expect(text).toContain('|100||');
     expect(text).toContain('|12.3456||');
+    // Nergens een 16e/17e ruisdigit (kostprijs van post en hoofdstuk).
+    expect(text).not.toMatch(/\d\.\d{16,}/);
+    expect(text).not.toMatch(/\d{7,}\.\d{10,}/);
     expect(getKostprijs(second)).toBeCloseTo(getKostprijs(first), 6);
+    expect(second.map((i) => i.total.toFixed(2))).toEqual(first.map((i) => i.total.toFixed(2)));
   });
 
-  it('schrijft geen exponentnotatie voor heel kleine getallen', () => {
-    const { text } = roundtrip(budget(1, [{ normQuantity: 0.0000001, normUnitPrice: 10 }]));
-    expect(text).not.toMatch(/e-\d/);
-    expect(text).toContain('\\1\\0.0000001\\');
+  it('schrijft geen exponentnotatie voor heel kleine of heel grote getallen', () => {
+    const { text } = roundtrip(budget(1, [
+      { normQuantity: 0.0000009, normUnitPrice: 10 },
+      { normQuantity: 1, normUnitPrice: 1234567890123.5 },
+    ]));
+    expect(text).not.toMatch(/\d[eE][+-]?\d/);
+    expect(text).toContain('\\1\\0.0000009\\');
+    expect(text).toContain('|1234567890123.5||');
   });
 
   it('houdt regeleinden in ~T-teksten', () => {
@@ -169,6 +187,80 @@ describe('FIEBDC-3 (.bc3) export', () => {
     const back = importBc3File(bytes.buffer as ArrayBuffer);
     expect(decodeBc3(bytes.buffer as ArrayBuffer)).toContain('~V||FIEBDC-3/2004|Open Calc Studio||UTF-8|');
     expect(back.items.some((i) => i.description === 'Płyta ≤ 5 mm')).toBe(true);
+  });
+
+  it('schrijft een hulpprijs die als post én als middel voorkomt als één concept met de middelprijs', () => {
+    // BCCA/Arquímedes: DEXZANJAT staat als partida met samenstelling
+    // (3,054465) in het ene hoofdstuk en als middel met de op 2 decimalen
+    // afgeronde catalogusprijs 3,06 in andere partida's. Dat is één concept;
+    // een `_1`-suffix zou de code veranderen zonder dat er iets anders is.
+    const src = [
+      '~V||FIEBDC-3/2004|ARQUIMEDES||ANSI|',
+      '~C|OBRA##||Obra|0||0|',
+      '~C|CAP1.2#||Drenaje|0||0|',
+      '~C|CAP1.4#||Alumbrado|0||0|',
+      '~C|DEXZANJAT|M3|Excavación en zanja|3.06||0|',
+      '~C|PEON|H|Peón Ordinario|12.7||1|',
+      '~C|URETR0101|H.|Retroexcavadora|26.48||2|',
+      '~C|CIMENTA01|Ud.|Cimentación de farola|90.06||0|',
+      '~D|OBRA##|CAP1.2\\1\\1\\CAP1.4\\1\\1\\|',
+      '~D|CAP1.2#|DEXZANJAT\\\\209.85\\|',
+      '~D|CAP1.4#|CIMENTA01\\\\18\\|',
+      '~D|DEXZANJAT|PEON\\\\0.025\\URETR0101\\\\0.1\\|',
+      '~D|CIMENTA01|PEON\\\\1.3\\DEXZANJAT\\\\0.6\\|',
+    ].join('\r\n');
+    const first = recalculateItems(importBc3(src).items);
+    const text = buildBc3(schedule(), first);
+    expect(text.match(/~C\|DEXZANJAT\|/g)).toHaveLength(1);
+    expect(text).toContain('~C|DEXZANJAT|m³|Excavación en zanja|3.06||');
+    expect(text).toContain('~D|DEXZANJAT|PEON\\1\\0.025\\URETR0101\\1\\0.1\\|');
+    expect(text).not.toContain('DEXZANJAT_1');
+    const second = recalculateItems(importBc3(text).items);
+    expect(second.map((i) => i.code)).toEqual(first.map((i) => i.code));
+    expect(second.map((i) => i.total.toFixed(6))).toEqual(first.map((i) => i.total.toFixed(6)));
+    // De post rekent bottom-up (0,025 × 12,70 + 0,1 × 26,48 = 2,9655), het middel met 3,06.
+    expect(second.find((i) => i.rowType === 'begrotingspost' && i.code === 'DEXZANJAT')!.unitPrice).toBeCloseTo(2.9655, 6);
+    expect(second.find((i) => i.rowType === 'regel' && i.code === 'DEXZANJAT')!.normUnitPrice).toBeCloseTo(3.06, 6);
+  });
+
+  it('laat een kale post zijn eigen prijs houden naast een middel met dezelfde code', () => {
+    // Zelfde kop, andere prijs, géén samenstelling: bij herimport zou de post
+    // anders de middelprijs krijgen. Dan liever een suffix.
+    const chapter = makeCostItem({ rowType: 'chapter', code: '01', description: 'H' });
+    const bare = makeCostItem({ rowType: 'begrotingspost', parentId: chapter.id, code: 'A', description: 'Ding', unit: 'st', quantity: 2, normUnitPrice: 10 });
+    const post = makeCostItem({ rowType: 'begrotingspost', parentId: chapter.id, code: 'P', description: 'Post', unit: 'st', quantity: 1 });
+    const regel = makeCostItem({
+      rowType: 'regel', parentId: post.id, code: 'A', description: 'Ding', unit: 'st',
+      quantity: 1, normQuantity: 1, normFactor: 1, normUnitPrice: 12, resourceType: 'materiaal',
+    });
+    const { first, second } = roundtrip([chapter, bare, post, regel]);
+    expect(getKostprijs(first)).toBeCloseTo(32, 2);
+    expect(getKostprijs(second)).toBeCloseTo(32, 2);
+    expect(second.find((i) => i.rowType === 'begrotingspost' && i.code === 'A')!.unitPrice).toBeCloseTo(10, 2);
+  });
+
+  it('houdt een opslag over alleen de arbeid (TCQ A%) na de rondreis', () => {
+    const src = [
+      '~V||FIEBDC-3/98|TCQ 2.1||ANSI|',
+      '~C|01##||Obra|||',
+      '~C|C1\\||Capítulo|||',
+      '~C|EE1\\|ML|Demolición|6607||0|',
+      '~C|A1|H|Oficial|1418||1|',
+      '~C|B1|M3|Arena|350||3|',
+      '~C|A%NAAC||Despeses auxiliars|1||3|',
+      '~D|01##|C1\\\\\\|',
+      '~D|C1|EE1\\1\\2\\|',
+      '~D|EE1|A1\\1\\1\\B1\\1\\1\\A%NAAC\\1\\.04\\|',
+      '~M|C1\\EE1|1\\1\\|2|',
+    ].join('\r\n');
+    const first = recalculateItems(importBc3(src).items);
+    expect(getKostprijs(first)).toBeCloseTo(2 * (1418 + 350 + 0.04 * 1418), 2);
+    const text = buildBc3(schedule(), first);
+    expect(text).toContain('~C|A%NAAC|%|Despeses auxiliars|0||0|');
+    expect(text).toContain('A1\\1\\1\\B1\\1\\1\\A%NAAC\\1\\0.04\\|');
+    const second = recalculateItems(importBc3(text).items);
+    expect(getKostprijs(second)).toBeCloseTo(getKostprijs(first), 6);
+    expect(second.find((i) => i.code === 'A%NAAC')!.resourceType).toBe('overig');
   });
 
   it('houdt spaties in codes en verwijdert alleen #', () => {

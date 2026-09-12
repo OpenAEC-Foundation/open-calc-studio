@@ -190,8 +190,112 @@ describe('FIEBDC-3 (.bc3) praktijkafwijkingen', () => {
       '~M|CAP#\\1201|1\\1\\|1|',
     ].join('\r\n');
     const res = importBc3(src);
-    expect(res.warnings.some((w) => w.includes('1201'))).toBe(true);
+    // Beide bedragen in de melding: wat het bronprogramma toonde (~C) en wat
+    // de samenstelling oplevert (~D).
+    expect(res.warnings.some((w) => w.includes('1201 (~C 1.00, ~D 134299606.00)'))).toBe(true);
+    expect(res.warningCodes?.some((c) => c.code === 'priceMismatch' && String(c.params?.examples).includes('~D 134299606.00'))).toBe(true);
     expect(recalculateItems(res.items).find((i) => i.code === '1201')!.total).toBeCloseTo(134299606, 0);
+  });
+
+  it('neemt geen meting uit een ander hoofdstuk over voor een post zonder eigen ~M', () => {
+    // Arquímedes schrijft alleen ~M voor posten met meetregels; staat dezelfde
+    // partida ook in een ander hoofdstuk, dan is daar het rendement in de ~D
+    // de hoeveelheid. Voorheen kreeg dat tweede voorkomen de ~M van het eerste.
+    const src = [
+      '~V||FIEBDC-3/2004|ARQUIMEDES||ANSI|',
+      '~C|OBRA##||Obra|0||0|',
+      '~C|CAP1.4#||Alumbrado|0||0|',
+      '~C|CAP1.5#||Riego|0||0|',
+      '~C|DCANA1208|M|Canalización|9.6||0|',
+      '~D|OBRA##|CAP1.4\\1\\1\\CAP1.5\\1\\1\\|',
+      '~D|CAP1.4#|DCANA1208\\\\45\\|',
+      '~D|CAP1.5#|DCANA1208\\\\31.75\\|',
+      '~M|CAP1.4#\\DCANA1208|1\\4\\1\\|45|',
+    ].join('\r\n');
+    const items = recalculateItems(importBc3(src).items);
+    expect(items.filter((i) => i.code === 'DCANA1208').map((i) => i.quantity)).toEqual([45, 31.75]);
+    expect(getKostprijs(items)).toBeCloseTo(9.6 * (45 + 31.75), 2);
+  });
+
+  it('ziet een gemeten concept zonder eenheid als partida, niet als hoofdstuk', () => {
+    // Presto 8.8: partida zonder eenheid, samenstelling met rendement 0 en een
+    // ~M met hoeveelheid 7. Voorheen werd hij een hoofdstuk met zijn middelen
+    // als posten (1 × prijs), zodat 7 × 137,90 verdween.
+    const src = [
+      '~V|SOFT S.A.|FIEBDC-3/2002|Presto 8.8||ANSI|',
+      '~C|PA11##||Obra|965.30||0|',
+      '~C|C21#||PROTECCIÓN CONTRA INCENDIOS|965.30||0|',
+      '~C|E18GNA020||BLOQ.AUT.EMERG.AUTOTESTEABLE EA-300|137.9||0|',
+      '~C|O01OB200|h|Oficial 1ª electricista|18.59||1|',
+      '~C|P16ENA020|ud|Bloque emergencia|36.61||3|',
+      '~C|P01DW090|ud|Pequeño material|1.25||3|',
+      '~D|PA11##|C21\\1\\1\\|',
+      '~D|C21#|E18GNA020\\1\\7\\|',
+      '~D|E18GNA020|O01OB200\\1\\0\\P16ENA020\\1\\0\\P01DW090\\1\\0\\|',
+      '~M|C21#\\E18GNA020|12\\5\\|7||',
+    ].join('\r\n');
+    const items = recalculateItems(importBc3(src).items);
+    expect(items.map((i) => `${i.rowType}:${i.code}`)).toEqual(['chapter:C21', 'begrotingspost:E18GNA020']);
+    expect(items[1].quantity).toBe(7);
+    expect(getKostprijs(items)).toBeCloseTo(965.3, 2);
+  });
+
+  it('leest een %-eenheid mét prijs als prijs × rendement als de ~C-prijs dat zegt', () => {
+    // Presto 7: 03.284 heeft eenheid % en prijs 2,5, maar de prijs van de
+    // partida (16.378,28) komt alleen uit als 2,5 × 0,025 = 0,0625 wordt
+    // opgeteld; als 2,5 % over de voorgaande regels zou het 16.715,25 zijn.
+    // %CI blijft een echte opslag (6 %).
+    const src = [
+      '~V|SOFT S.A.|FIEBDC-3/95|Presto 7.00|',
+      '~C|PR##||Obra|16378.28|181099|0|',
+      '~C|412#||Conducciones|16378.28|181099|0|',
+      '~C|0191|Ml|Tubo de hormigón armado|16378.28|181099|0|',
+      '~C|03.307|Ml|Tubería de hormigón armado|12718|181099|0|',
+      '~C|03.284|%|Pruebas según P.P.T.P.|2.5|181099|0|',
+      '~C|01.002|H|Oficial 1ª albañilería.|1208|181099|0|',
+      '~C|01.004|H|Peón albañilería.|1125|181099|0|',
+      '~C|02.005|H|Grua 15/20 Tn.|5800|181099|0|',
+      '~C|%CI||COSTE INDIRECTO.|6|181099|2|',
+      '~D|PR##|412\\1\\1\\|',
+      '~D|412#|0191\\1\\1\\|',
+      '~D|0191|03.307\\1\\1\\03.284\\1\\.025\\01.002\\1\\.55\\01.004\\1\\.55\\02.005\\1\\.25\\%CI\\1\\.06\\|',
+      '~M|412#\\0191|1\\1\\|1|',
+    ].join('\r\n');
+    const res = importBc3(src);
+    const items = recalculateItems(res.items);
+    expect(items.find((i) => i.code === '0191')!.total).toBeCloseTo(16378.29, 2);
+    expect(items.find((i) => i.code === '03.284')!.resourceType).not.toBe('overig');
+    expect(items.find((i) => i.code === '%CI')!.resourceType).toBe('overig');
+    expect(res.warnings.some((w) => w.includes('wijkt de som'))).toBe(false);
+  });
+
+  it('rekent een TCQ-opslag "despeses auxiliars" (A%) alleen over de arbeid', () => {
+    // TCQ/BEDEC: A%… is een percentage over de mà d'obra, niet over alle
+    // voorgaande regels. Alleen die lezing geeft de ~C-prijs 6.607.
+    const src = [
+      '~V||FIEBDC-3/98\\180900|TCQ 2.1||ANSI|',
+      '~C|01##||Obra|\\|\\||',
+      '~C|01.01.01.01\\|| Demoliciones|\\|\\||',
+      '~C|EE101020\\|ML|DEMOLICION DE COLECTORES|6607||0|',
+      '~C|A1000010|H|Oficial 1a|1418||1|',
+      '~C|A1000070|H|Peón|1257||1|',
+      '~C|B0400ARM|M3|Arena|350||3|',
+      '~C|C00202MQ|H|Retroexcavadora|5800||0|',
+      '~C|C00233MQ|H|Camión|1405||0|',
+      '~C|A%NAAC||Despeses auxiliars|1||3|',
+      '~D|01##|01.01.01.01\\\\\\|',
+      '~D|01.01.01.01|EE101020\\1\\ 25\\|',
+      '~D|EE101020|A1000010\\ 1\\ .1\\A1000070\\ 1\\ .5\\B0400ARM\\\\ 7.5\\C00202MQ\\\\ .5\\C00233MQ\\\\ .2\\A%NAAC\\ 1\\ .04\\|',
+      '~M|01.01.01.01\\EE101020|001\\| 25|\\\\25.000\\\\\\\\|',
+    ].join('\r\n');
+    const items = recalculateItems(importBc3(src).items);
+    const post = items.find((i) => i.code === 'EE101020')!;
+    // 141,80 + 628,50 + 2.625 + 2.900 + 281 = 6.576,30; + 4 % van 770,30 = 6.607,11
+    expect(post.unitPrice).toBeCloseTo(6607.11, 2);
+    expect(post.quantity).toBe(25);
+    const opslag = items.find((i) => i.code === 'A%NAAC')!;
+    expect(opslag.unit).toBe('%');
+    expect(opslag.normUnitPrice).toBeCloseTo(770.3, 2);
   });
 
   it('crasht niet op records die de importer niet kent', () => {
@@ -260,6 +364,40 @@ describe('FIEBDC-3 (.bc3) praktijkafwijkingen', () => {
     const item = importBc3(src).items.find((i) => i.code === 'A')!;
     expect(item.description).toBe('Señal cuadrada tornillos incluidos');
     expect(item.notes).toBe('Primera línea.\nSegunda línea.');
+  });
+
+  it('neemt de eerste regel van ~T als omschrijving als ~C er geen heeft', () => {
+    // Presto 11 (`fjht_018-12`): alle 198 partida's hebben een lege korte
+    // omschrijving en de volledige tekst in ~T; in het raster verscheen dan
+    // de code als omschrijving. De volledige tekst blijft in de notities.
+    const long = 'Excavación mecánica de zanja en zona urbanizada y en cualquier clase de terreno '
+      + 'a excepción de roca, para profundidades superiores a 2,50 m, incluyendo la p.p. de ayuda manual.';
+    const src = [
+      '~V|SOFT S.A.|FIEBDC-3/2002|Presto 11.02||ANSI|',
+      '~C|PR##||Obra|3||0|',
+      '~C|02#||Red de saneamiento|3||0|',
+      '~C|02.01|m3||3|170712|0|',
+      '~C|02.02|m2||5|170712|0|',
+      '~C|02.03|ud||7|170712|0|',
+      '~C|MO|h||10|170712|1|',
+      '~D|PR##|02\\1\\1\\|',
+      '~D|02#|02.01\\1\\1\\02.02\\1\\1\\02.03\\1\\1\\|',
+      '~D|02.03|MO\\1\\0.7\\|',
+      `~T|02.01|${long}|`,
+      '~T|02.02|Corta.\r\nTweede regel hoort niet in de omschrijving.|',
+      '~T|MO|Oficial primera.|',
+      '~M|02#\\02.01|1\\1\\|545.538||',
+    ].join('\r\n');
+    const items = importBc3(src).items;
+    const first = items.find((i) => i.code === '02.01')!;
+    expect(first.description.length).toBeLessThanOrEqual(121);
+    expect(first.description).toMatch(/^Excavación mecánica de zanja .*…$/);
+    expect(first.description).not.toMatch(/ …$/);
+    expect(first.notes).toBe(long);
+    expect(items.find((i) => i.code === '02.02')!.description).toBe('Corta.');
+    expect(items.find((i) => i.code === '02.02')!.notes).toBe('Corta.\nTweede regel hoort niet in de omschrijving.');
+    expect(items.find((i) => i.code === '02.03')!.description).toBe('02.03'); // geen ~T: de code
+    expect(items.find((i) => i.rowType === 'regel' && i.code === 'MO')!.description).toBe('Oficial primera.');
   });
 
   it('geeft een opslagregel de eenheid % zodat hij na export herkenbaar blijft', () => {

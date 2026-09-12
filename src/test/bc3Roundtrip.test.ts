@@ -4,7 +4,7 @@ import path from 'node:path';
 import { importBc3File, decodeBc3 } from '@/services/importers/bc3Importer';
 import { buildBc3, buildBc3Bytes } from '@/services/export/bc3Exporter';
 import { recalculateItems, getKostprijs } from '@/services/calculation/calculator';
-import type { ImportResult } from '@/services/importers/types';
+import type { ImportResult, ImportWarningCode } from '@/services/importers/types';
 import type { CostItem, CostSchedule } from '@/types/costModel';
 
 /**
@@ -12,12 +12,19 @@ import type { CostItem, CostSchedule } from '@/types/costModel';
  * opnieuw importeren (B) → A en B regel voor regel vergelijken. De bestanden
  * staan in `verification/bc3/` (zie de README daar voor de herkomst); als de
  * map ontbreekt wordt de hele suite overgeslagen. Het overzicht komt in
- * `verification/bc3/RAPPORT.md`.
+ * `verification/bc3/RAPPORT.md` (Engels: de repo is internationaal en het
+ * rapport is vanaf de website gelinkt).
+ *
+ * Naast A-tegenover-B meet de test ook A tegenover het bestand zelf: de
+ * prijzen op de ~C-records van hoofdstukken en partida's tegenover onze
+ * bottom-up berekening. Dat maakt zichtbaar waar een bronbestand intern
+ * inconsistent is of waar het bronprogramma anders afrondt.
  */
 
 // vitest draait vanuit de projectwortel (jsdom kent geen file-URL's).
 const DIR = path.resolve(process.cwd(), 'verification', 'bc3');
 const REPORT = path.join(DIR, 'RAPPORT.md');
+const EN_DIALOGS = path.resolve(process.cwd(), 'src', 'i18n', 'locales', 'en', 'dialogs.json');
 const TOL = 0.01;
 
 const files = existsSync(DIR)
@@ -57,6 +64,24 @@ const headerInfo = (text: string): { owner: string; version: string; program: st
   };
 };
 
+const keyOf = (code: string): string => code.trim().replace(/#+$/, '').trim().toUpperCase();
+
+/** Eerste prijs per ~C-code (zonder #, hoofdletterongevoelig), in declaratievolgorde per code. */
+const conceptPrices = (text: string): Map<string, number[]> => {
+  const prices = new Map<string, number[]>();
+  for (const chunk of text.split('~')) {
+    if (chunk.charAt(0) !== 'C' || chunk.charAt(1) !== '|') continue;
+    const f = chunk.slice(2).split('|');
+    const key = keyOf((f[0] ?? '').split('\\')[0]);
+    if (!key) continue;
+    const price = parseFloat(((f[3] ?? '').split('\\')[0] ?? '').trim());
+    const list = prices.get(key) ?? [];
+    list.push(Number.isFinite(price) ? price : 0);
+    prices.set(key, list);
+  }
+  return prices;
+};
+
 /** Prijs op het wortelconcept (##) van het originele bestand, of null. */
 const rootPriceOf = (text: string): number | null => {
   for (const m of text.matchAll(/~C\|([^|]*)\|[^|]*\|[^|]*\|([^|]*)\|/g)) {
@@ -68,6 +93,27 @@ const rootPriceOf = (text: string): number | null => {
   }
   return null;
 };
+
+/**
+ * Importmeldingen in het Engels, uit de vertaalbestanden van de app
+ * (`dialogs:importWarnings.bc3.<code>`); de Nederlandse tekst is de terugval.
+ */
+const englishWarnings = (() => {
+  let table: Record<string, string> = {};
+  try {
+    const json = JSON.parse(readFileSync(EN_DIALOGS, 'utf-8')) as { importWarnings?: { bc3?: Record<string, string> } };
+    table = json.importWarnings?.bc3 ?? {};
+  } catch { /* geen vertaling beschikbaar */ }
+  return (warnings: string[], codes: ImportWarningCode[] | undefined): string[] =>
+    warnings.map((w, i) => {
+      const c = codes?.[i];
+      if (!c) return w;
+      const count = typeof c.params?.count === 'number' ? c.params.count : undefined;
+      const template = (count === 1 ? table[`${c.code}_one`] : table[`${c.code}_other`]) ?? table[c.code];
+      if (!template) return w;
+      return template.replace(/\{\{(\w+)\}\}/g, (_, k: string) => String(c.params?.[k] ?? ''));
+    });
+})();
 
 interface Snapshot {
   rowType: string; code: string; description: string; unit: string;
@@ -119,18 +165,67 @@ const compare = (a: Snapshot[], b: Snapshot[]): Diff[] => {
   return diffs;
 };
 
-const fmt = (n: number): string => n.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-const pct = (n: number): string => `${(n * 100).toFixed(2).replace('.', ',')} %`;
+/**
+ * A tegenover het bestand: per hoofdstuk het totaal tegenover de ~C-prijs
+ * (alleen waar het bestand een prijs ≠ 0 geeft), per partida de eenheidsprijs
+ * tegenover de ~C-prijs. Dubbel gebruikte codes worden in volgorde uitgedeeld,
+ * zoals de importer dat doet.
+ */
+interface FileCheck {
+  chaptersPriced: number; chaptersOff: number; chapterMaxOff: number; chapterMaxOffCode: string;
+  postsPriced: number; postsOff: number; postsNet: number; postsMaxOff: number; postsMaxOffCode: string;
+}
+const checkAgainstFile = (items: CostItem[], prices: Map<string, number[]>): FileCheck => {
+  const seen = new Map<string, number>();
+  const priceFor = (code: string): number | undefined => {
+    const key = keyOf(code);
+    const list = prices.get(key);
+    if (!list || list.length === 0) return undefined;
+    const n = seen.get(key) ?? 0;
+    seen.set(key, n + 1);
+    return list[Math.min(n, list.length - 1)];
+  };
+  const r: FileCheck = {
+    chaptersPriced: 0, chaptersOff: 0, chapterMaxOff: 0, chapterMaxOffCode: '',
+    postsPriced: 0, postsOff: 0, postsNet: 0, postsMaxOff: 0, postsMaxOffCode: '',
+  };
+  for (const it of items) {
+    if (it.rowType !== 'chapter' && it.rowType !== 'begrotingspost') continue;
+    const p = priceFor(it.code);
+    if (p == null || Math.abs(p) < 0.005) continue;
+    if (it.rowType === 'chapter') {
+      r.chaptersPriced++;
+      const d = it.total - p;
+      if (Math.abs(d) > TOL) r.chaptersOff++;
+      if (Math.abs(d) > Math.abs(r.chapterMaxOff)) { r.chapterMaxOff = d; r.chapterMaxOffCode = it.code; }
+    } else {
+      r.postsPriced++;
+      const d = it.unitPrice - p;
+      if (Math.abs(d) > 0.005) r.postsOff++;
+      // Ook verschillen onder 0,005 tellen mee: een prijs per kg die 0,002
+      // afwijkt telt bij 124.000 kg voor honderden euro's.
+      r.postsNet += d * (it.quantity ?? 0);
+      if (Math.abs(d) > Math.abs(r.postsMaxOff)) { r.postsMaxOff = d; r.postsMaxOffCode = it.code; }
+    }
+  }
+  return r;
+};
+
+const fmt = (n: number): string => n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const pct = (n: number): string => `${(n * 100).toFixed(2)} %`;
 const cell = (s: string | number): string => String(s).replace(/\|/g, '\\|').replace(/\n/g, ' ').slice(0, 60);
 
 interface Row {
   file: string; size: number; lines: number; header: ReturnType<typeof headerInfo>;
   itemsA: number; itemsB: number; totalA: number; totalB: number;
   rootPrice: number | null; diffs: Diff[]; diffRows: number; warningsA: string[]; warningsB: string[];
+  /** Waarom de wortelprijs niet met onze kostprijs te vergelijken is, of null. */
+  fragment: string | null;
   countsIn: Record<string, number>; countsOut: Record<string, number>;
   notesA: number; notesB: number; multilineA: number; multilineB: number;
   chapterDiffs: number; typeCounts: Record<string, number>;
   charset: string;
+  check: FileCheck;
 }
 const rows: Row[] = [];
 
@@ -167,8 +262,15 @@ const roundtrip = (file: string): Row => {
     rootPrice: rootPriceOf(original),
     diffs,
     diffRows: new Set(diffs.map((d) => d.index)).size,
-    warningsA: A.warnings,
-    warningsB: B.warnings,
+    warningsA: englishWarnings(A.warnings, A.warningCodes),
+    warningsB: englishWarnings(B.warnings, B.warningCodes),
+    fragment: (() => {
+      const codes = A.warningCodes ?? [];
+      const missing = codes.filter((c) => c.code === 'unknownConceptUnder' || c.code === 'unknownConceptInDecomposition').length;
+      if (missing > 0) return `fragment: ${missing} referenced concepts missing`;
+      if (codes.some((c) => c.code === 'noRootStructure')) return 'fragment: root has no breakdown';
+      return null;
+    })(),
     countsIn: recordCounts(original),
     countsOut: recordCounts(text),
     notesA: itemsA.filter((it) => it.notes).length,
@@ -178,6 +280,7 @@ const roundtrip = (file: string): Row => {
     chapterDiffs,
     typeCounts,
     charset,
+    check: checkAgainstFile(itemsA, conceptPrices(original)),
   };
 };
 
@@ -229,7 +332,7 @@ describe.skipIf(files.length === 0)('FIEBDC-3 rondreis over verification/bc3', (
   afterAll(() => {
     if (rows.length === 0) return;
     // Alleen het gegenereerde blok wordt ververst; de handgeschreven analyse
-    // eromheen (wat verloren gaat, eindoordeel) blijft staan.
+    // eromheen (wat verloren gaat, afwijkingen verklaard, eindoordeel) blijft.
     const START = '<!-- gegenereerd:begin -->';
     const END = '<!-- gegenereerd:einde -->';
     const generated = `${START}\n${buildReport(rows)}${END}`;
@@ -238,74 +341,95 @@ describe.skipIf(files.length === 0)('FIEBDC-3 rondreis over verification/bc3', (
     const e = existing.indexOf(END);
     const next = s >= 0 && e > s
       ? existing.slice(0, s) + generated + existing.slice(e + END.length)
-      : `# FIEBDC-3 rondreis — rapport\n\n${generated}\n`;
+      : `# FIEBDC-3 round trip — report\n\n${generated}\n`;
     writeFileSync(REPORT, next.replace(/\r\n/g, '\n'), { encoding: 'utf-8' });
   });
 });
 
-// ── Rapport ─────────────────────────────────────────────────────────────────
+// ── Rapport (Engels) ────────────────────────────────────────────────────────
 
 function buildReport(rows: Row[]): string {
   const out: string[] = [];
   const lossless = rows.filter((r) => r.diffs.length === 0 && r.itemsA === r.itemsB);
   const moneyOk = rows.filter((r) => Math.abs(r.totalA - r.totalB) <= TOL && r.itemsA === r.itemsB
     && r.diffs.every((d) => d.field === 'code'));
-  out.push('## Meetresultaten');
+  const withRoot = rows.filter((r) => r.rootPrice != null && Math.abs(r.rootPrice) >= 0.005 && r.fragment == null);
+  const rootOk = withRoot.filter((r) => Math.abs(r.totalA - (r.rootPrice ?? 0)) / Math.abs(r.rootPrice ?? 1) <= 0.0001);
+  const fragments = rows.filter((r) => r.fragment != null);
+  const rootDev = (r: Row): string => r.rootPrice == null ? 'n/a'
+    : Math.abs(r.rootPrice) < 0.005 ? 'no root price (0)'
+    : `${pct((r.totalA - r.rootPrice) / r.rootPrice)}${r.fragment ? ` (${r.fragment})` : ''}`;
+
+  out.push('## Measurements');
   out.push('');
-  out.push('Automatisch gegenereerd door `src/test/bc3Roundtrip.test.ts` (`npx vitest run src/test/bc3Roundtrip.test.ts`).');
-  out.push('Rondreis: bestand importeren (A) → exporteren als .bc3 (Windows-1252) → opnieuw importeren (B) → A en B regel voor regel vergelijken.');
-  out.push('Tolerantie voor bedragen: 0,01. "Items" telt hoofdstukken, posten en rekenregels na `recalculateItems`.');
+  out.push('Generated by `src/test/bc3Roundtrip.test.ts` (`npx vitest run src/test/bc3Roundtrip.test.ts`).');
+  out.push('Round trip: import the file (A) → export as .bc3 (Windows-1252) → import again (B) → compare A and B row by row.');
+  out.push('Tolerance for amounts: 0.01. "Items" counts chapters, items and resource rows after `recalculateItems`.');
+  out.push('"Root price in file" is the price on the `##` concept of the original file; "Deviation" compares our bottom-up direct cost (A) with it.');
   out.push('');
-  out.push('## Samenvatting');
+  out.push('## Summary');
   out.push('');
-  out.push(`- Bestanden: ${rows.length}`);
-  out.push(`- Volledig identiek na de rondreis (geen enkel veldverschil): ${lossless.length}`);
-  out.push(`- Bedragen, omschrijvingen, hoeveelheden en structuur gelijk, alleen een code met \`_n\`-suffix: ${moneyOk.length - lossless.length}`);
-  out.push(`- Met andere afwijkingen: ${rows.length - moneyOk.length}`);
+  out.push(`- Files: ${rows.length}`);
+  out.push(`- Identical after the round trip (no field differs): ${lossless.length}`);
+  out.push(`- Amounts, descriptions, quantities and structure equal, only a code with an \`_n\` suffix: ${moneyOk.length - lossless.length}`);
+  out.push(`- With other differences: ${rows.length - moneyOk.length}`);
+  out.push(`- Files with a usable root price (non-zero, no missing concepts): ${withRoot.length}, of which within 0.01 % of our direct cost: ${rootOk.length}`);
+  out.push(`- Fragments (the file references concepts it does not contain, or its root has no breakdown): ${fragments.length}${fragments.length > 0 ? ` (${fragments.map((r) => `\`${r.file}\``).join(', ')})` : ''}`);
   out.push('');
 
-  out.push('## Per bestand');
+  out.push('## Per file');
   out.push('');
-  out.push('| Bestand | Programma / versie | Tekenset | Items A | Items B | Kostprijs A | Kostprijs B | Regels met verschil | Wortelprijs in bestand | Afwijking import t.o.v. bestand |');
+  out.push('| File | Program / version | Charset | Items A | Items B | Direct cost A | Direct cost B | Rows differing | Root price in file | Deviation of import vs. file |');
   out.push('| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |');
   for (const r of rows) {
-    const rootCmp = r.rootPrice == null ? 'n.v.t.'
-      : Math.abs(r.rootPrice) < 0.005 ? 'geen wortelprijs (0)'
-      : pct((r.totalA - r.rootPrice) / r.rootPrice);
-    out.push(`| \`${r.file}\` | ${cell(`${r.header.program || '?'} — ${r.header.version || '?'}`)} | ${r.header.charset || '(geen)'} | ${r.itemsA} | ${r.itemsB} | ${fmt(r.totalA)} | ${fmt(r.totalB)} | ${r.diffRows} | ${r.rootPrice == null ? 'n.v.t.' : fmt(r.rootPrice)} | ${rootCmp} |`);
+    out.push(`| \`${r.file}\` | ${cell(`${r.header.program || '?'} — ${r.header.version || '?'}`)} | ${r.header.charset || '(none)'} | ${r.itemsA} | ${r.itemsB} | ${fmt(r.totalA)} | ${fmt(r.totalB)} | ${r.diffRows} | ${r.rootPrice == null ? 'n/a' : fmt(r.rootPrice)} | ${rootDev(r)} |`);
+  }
+  out.push('');
+
+  out.push('## Import against the file itself');
+  out.push('');
+  out.push('Chapters: our total against the `~C` price of the chapter (only chapters with a non-zero price in the file). Items: our bottom-up unit price against the `~C` price of the item; "net effect" is Σ(difference × quantity) over all priced items, i.e. what the stored unit prices would add to or remove from our direct cost.');
+  out.push('');
+  out.push('| File | Chapters priced | Chapters differing (> 0.01) | Largest chapter difference | Items priced | Items differing (> 0.005) | Net effect on direct cost | Largest item difference |');
+  out.push('| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |');
+  for (const r of rows) {
+    const c = r.check;
+    out.push(`| \`${r.file}\` | ${c.chaptersPriced} | ${c.chaptersOff} | ${c.chaptersPriced ? `${fmt(c.chapterMaxOff)} (\`${c.chapterMaxOffCode}\`)` : '—'} | ${c.postsPriced} | ${c.postsOff} | ${fmt(c.postsNet)} | ${c.postsPriced ? `${c.postsMaxOff.toFixed(4)} (\`${c.postsMaxOffCode}\`)` : '—'} |`);
   }
   out.push('');
 
   for (const r of rows) {
     out.push(`### ${r.file}`);
     out.push('');
-    out.push(`- Schrijver: ${r.header.owner || '(leeg)'}; programma: ${r.header.program || '(leeg)'}; formaat: ${r.header.version || '(leeg)'}; tekenset: ${r.header.charset || '(niet opgegeven)'}`);
-    out.push(`- Grootte: ${r.size.toLocaleString('nl-NL')} bytes, ${r.lines.toLocaleString('nl-NL')} regels`);
+    out.push(`- Owner: ${r.header.owner || '(empty)'}; program: ${r.header.program || '(empty)'}; format: ${r.header.version || '(empty)'}; charset: ${r.header.charset || '(not declared)'}`);
+    out.push(`- Size: ${r.size.toLocaleString('en-US')} bytes, ${r.lines.toLocaleString('en-US')} lines`);
     out.push(`- Items A: ${r.itemsA} (${Object.entries(r.typeCounts).map(([k, v]) => `${k} ${v}`).join(', ')}); items B: ${r.itemsB}`);
-    out.push(`- Kostprijs A: ${fmt(r.totalA)}; B: ${fmt(r.totalB)}; verschil: ${fmt(r.totalB - r.totalA)}`);
-    if (r.rootPrice != null) out.push(`- Wortelprijs volgens het bestand zelf: ${fmt(r.rootPrice)} (import wijkt ${Math.abs(r.rootPrice) < 0.005 ? 'n.v.t.' : pct((r.totalA - r.rootPrice) / r.rootPrice)} af)`);
-    out.push(`- Teksten (~T) als notities: A ${r.notesA} items (${r.multilineA} meerregelig), B ${r.notesB} (${r.multilineB} meerregelig)`);
-    out.push(`- Hoofdstuktotalen met verschil: ${r.chapterDiffs}`);
-    out.push(`- Tekenset van de export: ${r.charset}${r.charset === 'UTF-8' ? ' (tekst past niet in Windows-1252)' : ''}`);
+    out.push(`- Direct cost A: ${fmt(r.totalA)}; B: ${fmt(r.totalB)}; difference: ${fmt(r.totalB - r.totalA)}`);
+    if (r.rootPrice != null) out.push(`- Root price according to the file: ${fmt(r.rootPrice)} (import deviates ${rootDev(r)})`);
+    out.push(`- Chapters with a price in the file: ${r.check.chaptersPriced}, differing from our total: ${r.check.chaptersOff}${r.check.chaptersPriced ? ` (largest: ${fmt(r.check.chapterMaxOff)} on \`${r.check.chapterMaxOffCode}\`)` : ''}`);
+    out.push(`- Items with a price in the file: ${r.check.postsPriced}, unit price differing from the composition: ${r.check.postsOff}${r.check.postsPriced ? ` (net effect ${fmt(r.check.postsNet)}; largest ${r.check.postsMaxOff.toFixed(4)} on \`${r.check.postsMaxOffCode}\`)` : ''}`);
+    out.push(`- Texts (~T) as notes: A ${r.notesA} items (${r.multilineA} multi-line), B ${r.notesB} (${r.multilineB} multi-line)`);
+    out.push(`- Chapter totals differing between A and B: ${r.chapterDiffs}`);
+    out.push(`- Charset of the export: ${r.charset}${r.charset === 'UTF-8' ? ' (text does not fit Windows-1252)' : ''}`);
     const rec = (c: Record<string, number>): string => Object.keys(c).sort().map((k) => `~${k} ${c[k]}`).join(', ') || '—';
-    out.push(`- Recordtypen origineel: ${rec(r.countsIn)}`);
-    out.push(`- Recordtypen export: ${rec(r.countsOut)}`);
+    out.push(`- Record types in the original: ${rec(r.countsIn)}`);
+    out.push(`- Record types in the export: ${rec(r.countsOut)}`);
     if (r.warningsA.length > 0) {
-      out.push(`- Waarschuwingen bij import A (${r.warningsA.length}):`);
+      out.push(`- Warnings on import A (${r.warningsA.length}):`);
       for (const w of r.warningsA.slice(0, 6)) out.push(`  - ${cell(w).slice(0, 60)}${w.length > 60 ? '…' : ''}`);
     } else {
-      out.push('- Waarschuwingen bij import A: geen');
+      out.push('- Warnings on import A: none');
     }
     if (r.warningsB.length > 0) {
-      out.push(`- Waarschuwingen bij import B (${r.warningsB.length}): ${r.warningsB.map((w) => cell(w).slice(0, 60)).join(' / ')}`);
+      out.push(`- Warnings on import B (${r.warningsB.length}): ${r.warningsB.map((w) => cell(w).slice(0, 60)).join(' / ')}`);
     }
     if (r.diffs.length > 0) {
       const byField: Record<string, number> = {};
       for (const d of r.diffs) byField[d.field] = (byField[d.field] ?? 0) + 1;
-      out.push(`- Afwijkingen: ${r.diffRows} regel(s), per veld: ${Object.entries(byField).map(([k, v]) => `${k} ${v}`).join(', ')}`);
+      out.push(`- Differences A vs. B: ${r.diffRows} row(s), per field: ${Object.entries(byField).map(([k, v]) => `${k} ${v}`).join(', ')}`);
       for (const d of r.diffs.slice(0, 3)) out.push(`  - item #${d.index} ${d.field}: \`${cell(d.a)}\` → \`${cell(d.b)}\``);
     } else {
-      out.push('- Afwijkingen: geen');
+      out.push('- Differences A vs. B: none');
     }
     out.push('');
   }

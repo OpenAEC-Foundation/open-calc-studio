@@ -23,17 +23,23 @@ import type { CostItem, CostSchedule } from '@/types/costModel';
 import { encodeWindows1252, fitsWindows1252 } from '@/services/importers/windows1252';
 
 /**
- * Getal als BC3-tekst: punt als decimaalteken, geen exponentnotatie en de
- * kortste schrijfwijze die het getal exact teruggeeft. Afronden (bv. op 3
- * decimalen) verschuift totalen: echte bestanden hebben rendementen met
- * 4–15 decimalen en bedragen in de miljoenen.
+ * Getal als BC3-tekst: punt als decimaalteken, geen exponentnotatie, geen
+ * overbodige nullen en geen drijvende-kommaruis. Ten hoogste 6 decimalen
+ * zodra die het getal reproduceren (relatief binnen 1e-9): een opgetelde
+ * kostprijs `434687.42649000004` wordt `434687.42649`. Een getal dat echt
+ * meer decimalen heeft (TCQ-rendement `0.119760479041916`, ppl-prijs
+ * `282.6300019752`) houdt ze — afronden op 6 decimalen verschuift bij
+ * pesetabedragen in de miljoenen de rijtotalen met meer dan 0,01 — maar op
+ * 15 significante cijfers, zodat de ruis van de 16e/17e digit wegvalt.
  */
 const num = (n: number | null | undefined): string => {
   const v = n ?? 0;
   if (!Number.isFinite(v) || v === 0) return '0';
-  const s = String(v);
-  if (!/e/i.test(s)) return s;
-  const fixed = v.toFixed(15).replace(/\.?0+$/, '');
+  const six = Math.round(v * 1e6) / 1e6;
+  const clean = Math.abs(six - v) <= 1e-9 * Math.abs(v) ? six : Number(v.toPrecision(15));
+  const s = String(clean);
+  if (!/e/i.test(s)) return s === '-0' ? '0' : s;
+  const fixed = clean.toFixed(20).replace(/\.?0+$/, '');
   return fixed === '' || fixed === '-0' ? '0' : fixed;
 };
 
@@ -114,29 +120,65 @@ export function buildBc3(schedule: CostSchedule, items: CostItem[], charset: Bc3
    *
    * Een rekenregel kent geen samenstelling. Verwijst hij naar een concept
    * dat elders wél samengesteld is (een hulpprijs uit een prijzenbank), dan
-   * deelt hij dat concept: de kop is gelijk en de ~D hoort bij het concept,
-   * niet bij de regel. Andersom krijgt een kaal concept alsnog zijn ~D als
-   * dezelfde kop later mét samenstelling langskomt.
+   * deelt hij dat concept — ook als zijn prijs afwijkt van wat de
+   * samenstelling oplevert: prijzenbanken (BCCA, Arquímedes) gebruiken de
+   * op 2 decimalen afgeronde catalogusprijs als middel terwijl de
+   * samenstelling meer decimalen geeft. De ~C-prijs is dan die van het
+   * middel (zoals in het origineel), de ~D levert de post-prijs; bij
+   * herimport komen beide bedragen ongewijzigd terug. Andersom krijgt een
+   * concept dat als middel begon alsnog zijn ~D als dezelfde kop later mét
+   * samenstelling langskomt.
+   *
+   * Een kale post (zonder samenstelling) deelt nooit een concept waarvan de
+   * ~C-prijs van zijn eigen prijs afwijkt: bij herimport zou hij anders
+   * een ander bedrag krijgen.
    */
   const withParts = new Set<string>();
+  const fromRegel = new Set<string>();   // concepten aangemaakt door een rekenregel
+  const fromPost = new Set<string>();    // concepten (ook) gebruikt door een kale post
+  const catalog = new Map<string, number>(); // ~C-prijs als die van een middel komt
+  const byBase = new Map<string, string[]>(); // kop zonder prijs → codes
   const concept = (it: CostItem, unit: string, price: number, type: string, parts: string[]): string => {
-    const head = [it.code, unit, esc(it.description), num(price), escText(it.notes)].join(SEP);
+    const isRegel = it.rowType === 'regel';
+    const base = [it.code, unit, esc(it.description), escText(it.notes)].join(SEP);
+    const head = [base, num(price)].join(SEP);
     const sig = parts.length > 0 ? [head, ...parts].join(SEP) : head;
     let known = bySignature.get(sig);
+    if (known && parts.length === 0 && !isRegel && catalog.has(known) && catalog.get(known) !== price) {
+      known = undefined; // kale post: eigen prijs moet de ~C-prijs blijven
+    }
     if (!known) {
       const byHead = bySignature.get(head);
       if (byHead && parts.length === 0) {
         known = byHead;
-      } else if (byHead && !withParts.has(byHead)) {
-        dRecords.push(`~D|${byHead}|${parts.join('\\')}\\|`);
-        withParts.add(byHead);
-        bySignature.set(sig, byHead);
-        known = byHead;
+      } else if (parts.length > 0) {
+        // Samengestelde post: een concept met dezelfde kop dat nog geen ~D
+        // heeft (zelfde prijs, of als middel met catalogusprijs).
+        const candidate = byHead && !withParts.has(byHead) ? byHead
+          : (byBase.get(base) ?? []).find((c) => !withParts.has(c) && fromRegel.has(c) && !fromPost.has(c));
+        if (candidate) {
+          dRecords.push(`~D|${candidate}|${parts.join('\\')}\\|`);
+          withParts.add(candidate);
+          if (candidate !== byHead) catalog.set(candidate, Number(cLines[lineOf.get(candidate)!].split('|')[4]));
+          bySignature.set(sig, candidate);
+          known = candidate;
+        }
+      } else if (isRegel) {
+        // Rekenregel: een samengesteld concept met dezelfde kop dat nog
+        // geen middelprijs heeft, krijgt die van deze regel in zijn ~C.
+        const candidate = (byBase.get(base) ?? []).find((c) => withParts.has(c) && !catalog.has(c) && !fromPost.has(c));
+        if (candidate) {
+          cLines[lineOf.get(candidate)!] = conceptLine(candidate, unit, it.description, price, type !== '0' ? type : typeOf.get(candidate) ?? '0');
+          catalog.set(candidate, price);
+          bySignature.set(head, candidate);
+          known = candidate;
+        }
       }
     }
     if (known) {
+      if (isRegel) fromRegel.add(known); else if (parts.length === 0) fromPost.add(known);
       if (type !== '0' && typeOf.get(known) === '0') {
-        cLines[lineOf.get(known)!] = conceptLine(known, unit, it.description, price, type);
+        cLines[lineOf.get(known)!] = conceptLine(known, unit, it.description, catalog.get(known) ?? price, type);
         typeOf.set(known, type);
       }
       return known;
@@ -144,6 +186,8 @@ export function buildBc3(schedule: CostSchedule, items: CostItem[], charset: Bc3
     const code = allocate(it.code);
     bySignature.set(sig, code);
     bySignature.set(head, code);
+    byBase.set(base, [...(byBase.get(base) ?? []), code]);
+    if (isRegel) fromRegel.add(code); else if (parts.length === 0) fromPost.add(code);
     lineOf.set(code, cLines.length);
     typeOf.set(code, type);
     cLines.push(conceptLine(code, unit, it.description, price, type));
@@ -187,13 +231,20 @@ export function buildBc3(schedule: CostSchedule, items: CostItem[], charset: Bc3
 
   /**
    * Opslagregel zoals de BC3-importer hem aanmaakt: eenheid '%', norm = het
-   * percentage als fractie en prijs/middel = de som van de voorgaande regels.
-   * Die laatste eigenschap is de toets — een gewone regel die toevallig '%'
-   * als eenheid heeft rekent norm × prijs en blijft een gewone regel.
+   * percentage als fractie en prijs/middel = de grondslag (de som van de
+   * voorgaande regels, of — TCQ-conventie — alleen de arbeid daarin). Die
+   * laatste eigenschap is de toets — een gewone regel die toevallig '%' als
+   * eenheid heeft rekent norm × prijs en blijft een gewone regel. Geeft de
+   * grondslag terug, of null.
    */
-  const isPercentageRow = (k: CostItem, running: number): boolean =>
-    k.unit === '%' && (k.laborPrice ?? 0) === 0
-    && Math.abs((k.normUnitPrice ?? 0) - running) <= 0.005 * Math.max(1, Math.abs(running));
+  const percentageBase = (k: CostItem, running: number, labour: number): number | null => {
+    if (k.unit !== '%' || (k.laborPrice ?? 0) !== 0) return null;
+    const nup = k.normUnitPrice ?? 0;
+    const near = (b: number): boolean => Math.abs(nup - b) <= 0.005 * Math.max(1, Math.abs(b));
+    if (near(running)) return running;
+    if (near(labour)) return labour;
+    return null;
+  };
 
   // ── Samengestelde concepten (posten, geneste bewakingsposten) ────────────
 
@@ -207,20 +258,23 @@ export function buildBc3(schedule: CostSchedule, items: CostItem[], charset: Bc3
   const compose = (post: CostItem, postQty: number): Composition => {
     const parts: string[] = [];
     let unitCost = 0;
+    let labour = 0;
     for (const k of byParent.get(post.id) ?? []) {
       if (k.rowType === 'regel') {
-        if (isPercentageRow(k, unitCost)) {
+        const base = percentageBase(k, unitCost, labour);
+        if (base != null) {
           // Percentage-concept: prijs 0 in ~C (de grondslag is per partida
           // anders en hoort niet bij het concept), de fractie in ~D.
           const pct = k.normQuantity ?? 0;
           parts.push(`${concept(k, '%', 0, '0', [])}\\1\\${num(pct)}`);
-          unitCost += unitCost * pct;
+          unitCost += base * pct;
           continue;
         }
         const price = regelPrice(k);
         const rend = regelYield(k, postQty, price);
         parts.push(`${concept(k, k.unit, price, TYPE_BY_RESOURCE[k.resourceType ?? ''] ?? '0', [])}\\1\\${num(rend)}`);
         unitCost += rend * price;
+        if (k.resourceType === 'arbeid') labour += rend * price;
       } else if (k.rowType === 'bewakingspost' || k.rowType === 'begrotingspost') {
         const perUnit = postQty !== 0 ? k.total / postQty : k.total;
         const { parts: sub } = compose(k, postQty !== 0 ? postQty : 1);

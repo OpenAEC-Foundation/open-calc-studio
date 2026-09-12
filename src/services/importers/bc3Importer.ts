@@ -61,7 +61,8 @@ interface Bc3Data {
    */
   variants: Map<string, Bc3Concept[]>;
   order: Bc3Concept[];                 // alle concepten in declaratievolgorde
-  measurements: Map<string, number>;   // "ouder::kind" of "kind" → totaal
+  measurements: Map<string, number>;   // "#pad", "ouder::kind::positie", "ouder::kind" of "*::kind" → totaal
+  measured: Set<string>;               // kind-keys waarvoor een ~M/~N bestaat
 }
 
 /**
@@ -71,6 +72,17 @@ interface Bc3Data {
  * met een newline eindigt en `#+$` anders niet zou aanslaan.
  */
 const keyOf = (code: string): string => code.trim().replace(/#+$/, '').trim().toUpperCase();
+
+/**
+ * Code zoals hij in de begroting komt: zonder de #-markering. Die is in BC3
+ * een structuurteken (## wortel, # hoofdstuk), geen deel van de code — en
+ * sommige prijzenbanken zetten hem ook op een partida of middel (BCCA
+ * `18CPI000301#`, eenheid `u`).
+ */
+const plainCode = (code: string): string => code.trim().replace(/#+$/, '').trim();
+
+/** Lengte waarop een uit ~T afgeleide omschrijving wordt afgekapt (zie `summaryOf`). */
+const SUMMARY_MAX = 120;
 
 /** Spaanse eenheden die normalizeUnit niet kent (na verwijdering van een slotpunt). */
 const BC3_UNITS: Record<string, CostUnit> = {
@@ -95,6 +107,7 @@ function parseBc3(text: string): Bc3Data {
     variants: new Map(),
     order: [],
     measurements: new Map(),
+    measured: new Set(),
   };
 
   const variantsOf = (key: string): Bc3Concept[] => {
@@ -211,15 +224,20 @@ function parseBc3(text: string): Bc3Data {
         const bump = (k: string): void => {
           data.measurements.set(k, (data.measurements.get(k) ?? 0) + total);
         };
+        data.measured.add(childKey);
         if (!parentKey) {
-          bump(childKey);
+          // Meting zonder pad: hoort bij elk voorkomen van dit concept.
+          bump(`*::${childKey}`);
           break;
         }
         if (pos.length > 0) bump(`#${pos.join('.')}`);
         if (Number.isFinite(index)) bump(`${parentKey}::${childKey}::${index}`);
         bump(`${parentKey}::${childKey}`);
-        // Fallback zonder ouder — alleen zetten als er nog niets staat.
-        if (!data.measurements.has(childKey)) data.measurements.set(childKey, total);
+        // Géén terugval op alleen de kindcode: een partida die in twee
+        // hoofdstukken staat en maar in één daarvan een ~M heeft, zou anders
+        // in het andere hoofdstuk de meting van het eerste krijgen, terwijl
+        // het bestand daar het rendement in de ~D als hoeveelheid bedoelt
+        // (Arquímedes schrijft alleen ~M voor posten met meetregels).
         break;
       }
       case 'T': {
@@ -246,7 +264,7 @@ function parseBc3(text: string): Bc3Data {
 
 export function importBc3(text: string): ImportResult {
   const data = parseBc3(text);
-  const { variants, order, measurements } = data;
+  const { variants, order, measurements, measured } = data;
   const items: CostItem[] = [];
 
   /**
@@ -291,47 +309,99 @@ export function importBc3(text: string): ImportResult {
   const firstOf = (key: string): Bc3Concept | undefined => variants.get(key)?.[0];
 
   /**
+   * Omschrijving van een concept. Sommige schrijvers (Presto 11, ARPO) laten
+   * de korte omschrijving in ~C leeg en zetten alles in ~T; in het raster zou
+   * dan de code als omschrijving verschijnen. Dan is de eerste regel van die
+   * tekst de omschrijving — afgekapt op een woordgrens rond SUMMARY_MAX
+   * tekens — en blijft de volledige tekst in de notities. Zonder tekst: de
+   * code. Een export schrijft die afgeleide omschrijving in ~C, zodat een
+   * herimport dezelfde omschrijving oplevert.
+   */
+  const summaryOf = (c: Bc3Concept): string => {
+    if (c.summary) return c.summary;
+    const line = (c.text ?? '').split('\n').map((s) => s.trim()).find(Boolean) ?? '';
+    if (!line) return c.code;
+    if (line.length <= SUMMARY_MAX) return line;
+    const cut = line.slice(0, SUMMARY_MAX);
+    const space = cut.lastIndexOf(' ');
+    return `${(space > SUMMARY_MAX / 2 ? cut.slice(0, space) : cut).trimEnd()}…`;
+  };
+
+  /**
+   * Percentage als fractie: sommige schrijvers noteren 3 in plaats van 0,03.
+   */
+  const asFraction = (rend: number): number => (Math.abs(rend) >= 1 ? rend / 100 : rend);
+
+  /**
+   * TCQ/BEDEC-conventie: een `A%…`-concept "despeses auxiliars" is een opslag
+   * over de arbeid in de samenstelling, niet over alle voorgaande regels.
+   * De ~C-prijzen van de partida's in zulke bestanden reproduceren alleen
+   * met die lezing (op de indirecte kosten na, die TCQ buiten het bestand
+   * houdt).
+   */
+  const labourOnly = (c: Bc3Concept): boolean => /^A%/i.test(c.code.trim()) && /auxiliar/i.test(c.summary);
+
+  /**
    * Concepten met een code die met `%` begint zijn meestal opslagen: hun
    * rendement is een percentage over de som van de voorgaande regels. Maar
    * niet altijd — sommige exporteurs gebruiken `%…` gewoon als codeprefix en
-   * rekenen rendement × prijs. Alleen `TIPO = %` of `UNIDAD = %` is een harde
-   * markering; in de overige gevallen wordt per concept uitgeprobeerd welke
-   * lezing de prijzen op de ~C-records van de gebruikende partida's het beste
-   * reproduceert.
+   * rekenen rendement × prijs. `TIPO = %` is een harde markering, net als
+   * `UNIDAD = %` zonder prijs; een concept met `UNIDAD = %` én een prijs
+   * (Presto 7: `03.284|%|Pruebas|2.5` met rendement 0,025) rekende het
+   * bronprogramma soms tóch als prijs × rendement. Daarom wordt per concept
+   * uitgeprobeerd welke lezing de prijzen op de ~C-records van de gebruikende
+   * partida's het beste reproduceert; andere opslagregels in dezelfde
+   * samenstelling houden daarbij hun voor de hand liggende lezing.
    */
   const percentageKeys = new Set<string>();
   {
+    const hard = (c: Bc3Concept): boolean => c.type === '%' || (c.explicitPercentage && Math.abs(c.price) < 0.005);
+    const assumed = (c: Bc3Concept): boolean => hard(c) || c.explicitPercentage || c.code.startsWith('%');
+    /** Prijs van een samenstelling waarin `subject` als percentage (of niet) wordt gelezen. */
+    const priceWith = (parent: Bc3Concept, subject: Bc3Child, subjectAsPct: boolean): number => {
+      let cumul = 0;
+      let labour = 0;
+      for (const ch of parent.children) {
+        const sub = firstOf(ch.key);
+        if (!sub) return NaN;
+        const rend = ch.factor * ch.yield_;
+        const pct = sub.isPercentage && (ch === subject ? subjectAsPct : assumed(sub));
+        if (pct) {
+          cumul += (labourOnly(sub) ? labour : cumul) * asFraction(rend);
+        } else {
+          const amount = rend * sub.price;
+          cumul += amount;
+          if (sub.type === '1') labour += amount;
+        }
+      }
+      return cumul;
+    };
     const votes = new Map<string, { pct: number; flat: number }>();
     for (const parent of order) {
       if (parent.children.length === 0) continue;
-      const marked = parent.children.filter((ch) => firstOf(ch.key)?.isPercentage);
-      if (marked.length !== 1) continue;
-      const only = marked[0];
-      const c = firstOf(only.key);
-      if (!c || c.explicitPercentage) continue;
       if (!Number.isFinite(parent.price) || Math.abs(parent.price) < 0.005) continue;
-      let base = 0;
       for (const ch of parent.children) {
-        if (ch === only) continue;
-        const sub = firstOf(ch.key);
-        if (!sub || sub.isPercentage) { base = NaN; break; }
-        base += ch.factor * ch.yield_ * sub.price;
+        const c = firstOf(ch.key);
+        if (!c || !c.isPercentage || hard(c)) continue;
+        const pctPrice = priceWith(parent, ch, true);
+        // Zonder grondslag (alle rendementen 0, zie zeroYieldDecomposition)
+        // zegt de vergelijking niets.
+        if (!Number.isFinite(pctPrice) || Math.abs(pctPrice) < 0.005) continue;
+        const asPct = Math.abs(pctPrice - parent.price);
+        const asFlat = Math.abs(priceWith(parent, ch, false) - parent.price);
+        if (!Number.isFinite(asFlat)) continue;
+        const v = votes.get(ch.key) ?? { pct: 0, flat: 0 };
+        if (asPct < asFlat) v.pct++;
+        else if (asFlat < asPct) v.flat++;
+        votes.set(ch.key, v);
       }
-      if (!Number.isFinite(base) || base === 0) continue;
-      const rend = only.factor * only.yield_;
-      const asPct = Math.abs(base * (1 + (Math.abs(rend) >= 1 ? rend / 100 : rend)) - parent.price);
-      const asFlat = Math.abs(base + rend * c.price - parent.price);
-      const v = votes.get(only.key) ?? { pct: 0, flat: 0 };
-      if (asPct < asFlat) v.pct++;
-      else if (asFlat < asPct) v.flat++;
-      votes.set(only.key, v);
     }
     for (const c of order) {
       if (!c.isPercentage) continue;
-      if (c.explicitPercentage) { percentageKeys.add(c.key); continue; }
+      if (hard(c)) { percentageKeys.add(c.key); continue; }
       const v = votes.get(c.key);
-      const prefixed = c.code.startsWith('%');
-      if (v ? v.pct > v.flat || (v.pct === v.flat && prefixed) : prefixed) percentageKeys.add(c.key);
+      const dflt = assumed(c);
+      if (v ? v.pct > v.flat || (v.pct === v.flat && dflt) : dflt) percentageKeys.add(c.key);
     }
   }
   const isPercentageRow = (c: Bc3Concept): boolean => c.isPercentage && percentageKeys.has(c.key);
@@ -345,14 +415,20 @@ export function importBc3(text: string): ImportResult {
   const isContainer = (c: Bc3Concept): boolean => {
     if (c.isChapter) return true;
     if (c.unit || c.isPercentage || RESOURCE_BY_TYPE[c.type]) return false;
-    return c.children.length > 0;
+    if (c.children.length === 0) return false;
+    // Een concept met een meting (~M) is een partida, ook zonder eenheid
+    // (Presto 8: partida zonder eenheid met een samenstelling waarin alle
+    // rendementen 0 zijn); hoofdstukken worden nooit gemeten. Rendement 0
+    // alleen is geen kenmerk: prijzenbanken zetten ook onder subhoofdstukken
+    // zonder #-suffix rendement 0 (BCCA `18ISS`).
+    return !measured.has(c.key);
   };
 
   const measurementFor = (path: number[], parentKey: string, childKey: string, index: number, fallback: number): number =>
     measurements.get(`#${path.join('.')}`)
     ?? measurements.get(`${parentKey}::${childKey}::${index}`)
     ?? measurements.get(`${parentKey}::${childKey}`)
-    ?? measurements.get(childKey)
+    ?? measurements.get(`*::${childKey}`)
     ?? fallback;
 
   /**
@@ -362,6 +438,7 @@ export function importBc3(text: string): ImportResult {
    */
   const addRegels = (post: CostItem, parent: Bc3Concept, postQty: number, depth: number): number => {
     let unitCost = 0;
+    let labourCost = 0;
     for (const ch of parent.children) {
       const c = resolve(ch.key);
       if (!c) {
@@ -376,29 +453,31 @@ export function importBc3(text: string): ImportResult {
         // Percentageregel: het rendement is een percentage over de som van de
         // voorgaande regels, niet een hoeveelheid maal een prijs. Sommige
         // schrijvers noteren 3 in plaats van 0,03.
-        const raw = ch.factor * ch.yield_;
-        const pct = Math.abs(raw) >= 1 ? raw / 100 : raw;
-        // Eenheid '%' is de markering die BC3 zelf gebruikt (UNIDAD = %);
-        // zo blijft de regel ook na een export herkenbaar als opslag.
+        const pct = asFraction(ch.factor * ch.yield_);
+        // Grondslag: de som van de voorgaande regels, of (TCQ) alleen de
+        // arbeid daarin. Eenheid '%' is de markering die BC3 zelf gebruikt
+        // (UNIDAD = %); zo blijft de regel ook na een export herkenbaar.
+        const base = labourOnly(c) ? labourCost : unitCost;
         add({
           rowType: 'regel',
           parentId: post.id,
           depth,
           code: c.code,
-          description: c.summary || c.code,
+          description: summaryOf(c),
           unit: '%',
           quantity: pct === 0 ? 0 : postQty, // 0 % telt niet mee (zie hieronder)
           normQuantity: pct,
           normFactor: 1,
-          normUnitPrice: unitCost,
+          normUnitPrice: base,
           resourceType: 'overig',
           notes: c.text ?? '',
         });
-        unitCost += unitCost * pct;
+        unitCost += base * pct;
         continue;
       }
       const norm = ch.factor * ch.yield_;
       unitCost += norm * c.price;
+      if (c.type === '1') labourCost += norm * c.price;
       // Rendement 0 betekent in het bestand: dit middel telt niet mee. De
       // calculator leest norm 0 echter als "directe prijs" (aantal × prijs),
       // wat geld zou toevoegen dat er niet is. Aantal 0 houdt de regel
@@ -407,8 +486,8 @@ export function importBc3(text: string): ImportResult {
         rowType: 'regel',
         parentId: post.id,
         depth,
-        code: c.code,
-        description: c.summary || c.code,
+        code: plainCode(c.code),
+        description: summaryOf(c),
         unit: bc3Unit(c.unit),
         quantity: norm === 0 ? 0 : postQty,
         normQuantity: norm,
@@ -431,8 +510,8 @@ export function importBc3(text: string): ImportResult {
         rowType: 'chapter',
         parentId: parentItem?.id ?? null,
         depth,
-        code: c.code.replace(/#+$/, ''),
-        description: c.summary || c.code,
+        code: plainCode(c.code),
+        description: summaryOf(c),
         notes: c.text ?? '',
       });
       addBranch(chapter, c, path, depth + 1);
@@ -445,8 +524,8 @@ export function importBc3(text: string): ImportResult {
       rowType: 'begrotingspost',
       parentId: parentItem?.id ?? null,
       depth,
-      code: c.code,
-      description: c.summary || c.code,
+      code: plainCode(c.code),
+      description: summaryOf(c),
       unit: bc3Unit(c.unit),
       quantity: qty,
       normUnitPrice: c.children.length > 0 ? null : c.price,
@@ -472,7 +551,13 @@ export function importBc3(text: string): ImportResult {
     // zijn. Staat er iets anders, dan is het bestand intern inconsistent
     // (verouderde prijzen); wij rekenen bottom-up en melden het.
     if (Math.abs(c.price) >= 0.005 && Math.abs(unitCost - c.price) / Math.abs(c.price) > 0.02) {
-      mismatched.push(c.code);
+      // Beide bedragen erbij: de gebruiker kan dan zelf zien welk getal het
+      // bronprogramma toonde (~C) en wat de samenstelling oplevert (~D). Twee
+      // decimalen, of meer als het verschil anders niet zichtbaar is
+      // (BCCA `15JWW90004`: 0,13 tegenover 0,1274).
+      const [a, b] = [2, 4, 6].map((d) => [c.price.toFixed(d), unitCost.toFixed(d)]).find(([x, y]) => x !== y)
+        ?? [c.price.toFixed(6), unitCost.toFixed(6)];
+      mismatched.push(`${c.code} (~C ${a}, ~D ${b})`);
     }
   };
 
@@ -522,7 +607,7 @@ export function importBc3(text: string): ImportResult {
           parentId: chapter.id,
           depth: 1,
           code: c.code,
-          description: c.summary || c.code,
+          description: summaryOf(c),
           unit: bc3Unit(c.unit),
           quantity: 1,
           normUnitPrice: c.price,
