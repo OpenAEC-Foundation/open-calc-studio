@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.13.0": "Avusturya ÖNORM A 2063 (.onlv/.onlb) + BC3 gidiş-dönüş kanıtlandı",
     "v0.12.1": "PDF raporlarında sayılar ve tarihler rapor dilinde",
     "v0.12.0": "Kendi dilinizde raporlar ve birimler",
     "v0.11.0": "39 dil + İspanyol FIEBDC-3 (.bc3)",
@@ -18,6 +19,13 @@
     "v0.7.10": "OpenAEC hesabı + alt çubuk gezinmesi"
   },
   "highlights": {
+    "v0.13.0": [
+      "ÖNORM A 2063, Avusturya değişim biçimi: birim fiyat cetvellerini (.onlv) keşif olarak, standart hizmet kitaplarını (.onlb, BMWET'in LB-Hochbau ve LB-Haustechnik gibi) katalog olarak içe aktarın; .onlv olarak dışa aktarma, resmi XML şemalarına göre geçerli",
+      "FIEBDC-3 (.bc3): 22 dosyadaki gidiş-dönüş artık 21'inde alan alan özdeş; kaynak dosyalarla her fark raporda açıklandı, kanıt olarak ekran görüntüleriyle",
+      ".bc3 dosyalarındaki boş kısa açıklamalar uzun metnin ilk satırını alıyor; dışa aktarma sayıları kayan nokta gürültüsü olmadan yazıyor",
+      "Üstünde bölüm olmayan bir poz veya izleme pozu da artık türetilmiş birim fiyat alıyor",
+      "İngilizce, Felemenkçe ve Almanca yeni ekran görüntüleri"
+    ],
     "v0.12.1": [
       "PDF raporları tutarları, miktarları, yüzdeleri ve tarihleri rapor dilinin gösterimiyle yazar — örneğin İspanyolcada 1.234,56 € ve GG/AA/YYYY, Fransızcada 1 234,56 €",
       "%5,5 gibi bir KDV oranı raporda %6'ya yuvarlanıyordu — düzeltildi",

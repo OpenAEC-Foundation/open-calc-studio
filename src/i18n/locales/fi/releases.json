@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.13.0": "Itävaltalainen ÖNORM A 2063 (.onlv/.onlb) + BC3-edestakainen siirto todennettu",
     "v0.12.1": "Luvut ja päivämäärät PDF-raporteissa raporttien kielellä",
     "v0.12.0": "Raportit ja yksiköt omalla kielelläsi",
     "v0.11.0": "39 kieltä + espanjalainen FIEBDC-3 (.bc3)",
@@ -18,6 +19,13 @@
     "v0.7.10": "OpenAEC-tili + alapalkin navigointi"
   },
   "highlights": {
+    "v0.13.0": [
+      "ÖNORM A 2063, itävaltalainen vaihtomuoto: tuo määräluettelot (.onlv) kustannusarvioksi ja vakiosuoritekirjat (.onlb, kuten BMWET:n LB-Hochbau ja LB-Haustechnik) luetteloksi; vienti .onlv-muotoon, kelvollinen virallisia XML-skeemoja vastaan",
+      "FIEBDC-3 (.bc3): edestakainen siirto 22 tiedostolla on nyt kenttä kentältä identtinen 21:ssä; jokainen ero lähdetiedostoihin on selitetty raportissa, kuvakaappaukset todisteena",
+      "Tyhjät lyhyet kuvaukset .bc3-tiedostoissa saavat pitkän tekstin ensimmäisen rivin; vienti kirjoittaa luvut ilman liukulukukohinaa",
+      "Kustannus- tai seurantanimike ilman yläpuolista lukua saa nyt myös johdetun yksikköhinnan",
+      "Uudet kuvakaappaukset englanniksi, hollanniksi ja saksaksi"
+    ],
     "v0.12.1": [
       "PDF-raportit kirjoittavat summat, määrät, prosentit ja päivämäärät raporttien kielen merkintätavalla — esimerkiksi 1.234,56 € ja PP/KK/VVVV espanjaksi, 1 234,56 € ranskaksi",
       "Alv-kanta kuten 5,5 % pyöristyi raportissa 6 %:iin — korjattu",

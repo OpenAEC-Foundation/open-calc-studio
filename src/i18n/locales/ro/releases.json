@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.13.0": "ÖNORM A 2063 austriac (.onlv/.onlb) + dus-întors BC3 dovedit",
     "v0.12.1": "Numere și date în rapoartele PDF în limba rapoartelor",
     "v0.12.0": "Rapoarte și unități în limba dumneavoastră",
     "v0.11.0": "39 de limbi + FIEBDC-3 spaniol (.bc3)",
@@ -18,6 +19,13 @@
     "v0.7.10": "Cont OpenAEC + navigare din bara de jos"
   },
   "highlights": {
+    "v0.13.0": [
+      "ÖNORM A 2063, formatul de schimb austriac: import de liste de cantități (.onlv) ca deviz și de cărți de servicii standard (.onlb, precum LB-Hochbau și LB-Haustechnik de la BMWET) drept catalog; export ca .onlv, valid față de schemele XML oficiale",
+      "FIEBDC-3 (.bc3): dus-întorsul pe 22 de fișiere este acum identic câmp cu câmp la 21; fiecare diferență față de fișierele sursă este explicată în raport, cu capturi de ecran drept dovadă",
+      "Denumirile scurte goale din fișierele .bc3 preiau primul rând al textului lung; exportul scrie numerele fără zgomot de virgulă mobilă",
+      "Un articol sau articol de urmărire fără capitol deasupra primește acum și el un preț unitar derivat",
+      "Capturi de ecran noi în engleză, neerlandeză și germană"
+    ],
     "v0.12.1": [
       "Rapoartele PDF scriu valorile, cantitățile, procentele și datele în notația limbii rapoartelor — de exemplu 1.234,56 € și ZZ/LL/AAAA în spaniolă, 1 234,56 € în franceză",
       "O cotă de TVA precum 5,5% era rotunjită la 6% în raport — rezolvat",

@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.13.0": "ÖNORM A 2063 Austria (.onlv/.onlb) + perjalanan bolak-balik BC3 terbukti",
     "v0.12.1": "Angka dan tanggal di laporan PDF mengikuti bahasa laporan",
     "v0.12.0": "Laporan dan satuan dalam bahasa Anda sendiri",
     "v0.11.0": "39 bahasa + FIEBDC-3 Spanyol (.bc3)",
@@ -18,6 +19,13 @@
     "v0.7.10": "Akun OpenAEC + navigasi bilah bawah"
   },
   "highlights": {
+    "v0.13.0": [
+      "ÖNORM A 2063, format pertukaran Austria: impor daftar kuantitas (.onlv) sebagai anggaran dan buku layanan standar (.onlb, seperti LB-Hochbau dan LB-Haustechnik dari BMWET) sebagai katalog; ekspor sebagai .onlv, valid terhadap skema XML resmi",
+      "FIEBDC-3 (.bc3): perjalanan bolak-balik pada 22 file kini identik bidang demi bidang pada 21 di antaranya; setiap perbedaan dengan file sumber dijelaskan dalam laporan, dengan tangkapan layar sebagai bukti",
+      "Uraian singkat yang kosong dalam file .bc3 mengambil baris pertama teks panjang; ekspor menulis angka tanpa derau floating-point",
+      "Pos anggaran atau pos pengawasan tanpa bab di atasnya kini juga mendapat harga satuan turunan",
+      "Tangkapan layar baru dalam bahasa Inggris, Belanda, dan Jerman"
+    ],
     "v0.12.1": [
       "Laporan PDF menulis jumlah, volume, persentase, dan tanggal dalam notasi bahasa laporan — misalnya 1.234,56 € dan DD/MM/YYYY dalam bahasa Spanyol, 1 234,56 € dalam bahasa Prancis",
       "Tarif PPN seperti 5,5% dibulatkan menjadi 6% di laporan — diperbaiki",

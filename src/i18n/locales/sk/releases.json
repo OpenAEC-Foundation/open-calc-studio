@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.13.0": "Rakúsky ÖNORM A 2063 (.onlv/.onlb) + obojsmerný prevod BC3 preukázaný",
     "v0.12.1": "Čísla a dátumy v PDF zostavách v jazyku zostáv",
     "v0.12.0": "Zostavy a jednotky vo vašom jazyku",
     "v0.11.0": "39 jazykov + španielsky FIEBDC-3 (.bc3)",
@@ -18,6 +19,13 @@
     "v0.7.10": "Účet OpenAEC + navigácia v spodnej lište"
   },
   "highlights": {
+    "v0.13.0": [
+      "ÖNORM A 2063, rakúsky výmenný formát: import výkazov výmer (.onlv) ako rozpočtu a štandardných katalógov prác (.onlb, napríklad LB-Hochbau a LB-Haustechnik od BMWET) ako katalógu; export ako .onlv, platný voči oficiálnym XML schémam",
+      "FIEBDC-3 (.bc3): obojsmerný prevod na 22 súboroch je teraz pri 21 zhodný pole po poli; každý rozdiel oproti zdrojovým súborom je vysvetlený v správe, so snímkami obrazovky ako dôkazom",
+      "Prázdne krátke popisy v súboroch .bc3 preberajú prvý riadok dlhého textu; export zapisuje čísla bez šumu plávajúcej čiarky",
+      "Rozpočtová alebo kontrolná položka bez kapitoly nad sebou teraz tiež dostane odvodenú jednotkovú cenu",
+      "Nové snímky obrazovky v angličtine, holandčine a nemčine"
+    ],
     "v0.12.1": [
       "PDF zostavy zapisujú sumy, množstvá, percentá a dátumy v zápise jazyka zostáv — napríklad 1.234,56 € a DD/MM/RRRR v španielčine, 1 234,56 € vo francúzštine",
       "Sadzba DPH ako 5,5 % sa v zostave zaokrúhľovala na 6 % — opravené",

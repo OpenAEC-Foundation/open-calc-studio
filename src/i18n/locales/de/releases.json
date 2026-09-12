@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.13.0": "Österreichische ÖNORM A 2063 (.onlv/.onlb) + BC3-Hin- und Rückweg belegt",
     "v0.12.1": "Zahlen und Datumsangaben in PDF-Berichten in der Berichtssprache",
     "v0.12.0": "Berichte und Einheiten in Ihrer eigenen Sprache",
     "v0.11.0": "39 Sprachen + spanisches FIEBDC-3 (.bc3)",
@@ -18,6 +19,13 @@
     "v0.7.10": "OpenAEC-Konto + Navigation in der Fußleiste"
   },
   "highlights": {
+    "v0.13.0": [
+      "ÖNORM A 2063, das österreichische Austauschformat: Leistungsverzeichnisse (.onlv) als Kalkulation und Leistungsbücher (.onlb, etwa LB-Hochbau und LB-Haustechnik des BMWET) als Katalog importieren; Export als .onlv, gültig gegen die offiziellen XML-Schemata",
+      "FIEBDC-3 (.bc3): der Hin- und Rückweg an 22 Dateien ist jetzt bei 21 Feld für Feld identisch; jede Abweichung von den Quelldateien ist im Bericht erklärt, mit Screenshots als Beleg",
+      "Leere Kurztexte in .bc3-Dateien übernehmen die erste Zeile des Langtexts; der Export schreibt Zahlen ohne Gleitkomma-Rauschen",
+      "Eine Position oder Teilleistung ohne Titel darüber erhält jetzt ebenfalls einen abgeleiteten Einheitspreis",
+      "Neue Screenshots auf Englisch, Niederländisch und Deutsch"
+    ],
     "v0.12.1": [
       "PDF-Berichte schreiben Beträge, Mengen, Prozentsätze und Datumsangaben in der Schreibweise der Berichtssprache — zum Beispiel 1.234,56 € und TT/MM/JJJJ auf Spanisch, 1 234,56 € auf Französisch",
       "Ein MwSt.-Satz wie 5,5 % wurde im Bericht auf 6 % gerundet — behoben",

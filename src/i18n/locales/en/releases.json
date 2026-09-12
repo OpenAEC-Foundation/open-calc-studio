@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.13.0": "Austrian ÖNORM A 2063 (.onlv/.onlb) + BC3 round trip proven",
     "v0.12.1": "Numbers and dates in PDF reports follow the report language",
     "v0.12.0": "Reports and units in your own language",
     "v0.11.0": "39 languages + Spanish FIEBDC-3 (.bc3)",
@@ -18,6 +19,13 @@
     "v0.7.10": "OpenAEC account + bottom-bar navigation"
   },
   "highlights": {
+    "v0.13.0": [
+      "ÖNORM A 2063, the Austrian exchange format: import bills of quantities (.onlv) as an estimate and standard service books (.onlb, such as LB-Hochbau and LB-Haustechnik from the BMWET) as a catalogue; export as .onlv, valid against the official XML schemas",
+      "FIEBDC-3 (.bc3): the round trip on 22 files is now field-for-field identical in 21; every difference with the source files is explained in the report, with screenshots as evidence",
+      "Empty short descriptions in .bc3 files take the first line of the long text; the export writes numbers without floating-point noise",
+      "An estimate or monitoring item without a chapter above it now also gets a derived unit price",
+      "New screenshots in English, Dutch and German"
+    ],
     "v0.12.1": [
       "PDF reports write amounts, quantities, percentages and dates in the notation of the report language — for example 1.234,56 € and DD/MM/YYYY in Spanish, 1 234,56 € in French",
       "A VAT rate such as 5.5% was rounded to 6% in the report — fixed",

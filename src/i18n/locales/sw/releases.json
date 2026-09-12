@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.13.0": "ÖNORM A 2063 ya Austria (.onlv/.onlb) + safari ya kwenda na kurudi ya BC3 imethibitishwa",
     "v0.12.1": "Nambari na tarehe katika ripoti za PDF kwa lugha ya ripoti",
     "v0.12.0": "Ripoti na vipimo kwa lugha yako",
     "v0.11.0": "Lugha 39 + FIEBDC-3 ya Uhispania (.bc3)",
@@ -18,6 +19,13 @@
     "v0.7.10": "Akaunti ya OpenAEC + urambazaji wa upau wa chini"
   },
   "highlights": {
+    "v0.13.0": [
+      "ÖNORM A 2063, mfumo wa kubadilishana wa Austria: ingiza orodha za viwango (.onlv) kama makadirio na vitabu vya huduma vya kawaida (.onlb, kama LB-Hochbau na LB-Haustechnik kutoka BMWET) kama katalogi; hamisha kama .onlv, halali dhidi ya skima rasmi za XML",
+      "FIEBDC-3 (.bc3): safari ya kwenda na kurudi kwenye faili 22 sasa inafanana sehemu kwa sehemu katika 21; kila tofauti na faili za asili imeelezwa katika ripoti, pamoja na picha za skrini kama ushahidi",
+      "Maelezo mafupi matupu katika faili za .bc3 huchukua mstari wa kwanza wa maandishi marefu; uhamishaji huandika nambari bila kelele ya nukta-elea",
+      "Kipengele cha makadirio au cha ufuatiliaji kisicho na sura juu yake sasa pia hupata bei ya kipimo iliyotokana",
+      "Picha mpya za skrini kwa Kiingereza, Kiholanzi na Kijerumani"
+    ],
     "v0.12.1": [
       "Ripoti za PDF huandika kiasi cha fedha, kiasi, asilimia na tarehe kwa mtindo wa lugha ya ripoti — kwa mfano 1.234,56 € na DD/MM/YYYY kwa Kihispania, 1 234,56 € kwa Kifaransa",
       "Kiwango cha VAT kama 5.5% kilikuwa kikikadiriwa kuwa 6% kwenye ripoti — kimerekebishwa",

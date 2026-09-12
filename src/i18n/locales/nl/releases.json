@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.13.0": "Oostenrijks ÖNORM A 2063 (.onlv/.onlb) + BC3-rondreis bewezen",
     "v0.12.1": "Getallen en datums in PDF-rapporten in de rapporttaal",
     "v0.12.0": "Rapporten en eenheden in je eigen taal",
     "v0.11.0": "39 talen + Spaans FIEBDC-3 (.bc3)",
@@ -18,6 +19,13 @@
     "v0.7.10": "OpenAEC-account + onderbalk-navigatie"
   },
   "highlights": {
+    "v0.13.0": [
+      "ÖNORM A 2063, het Oostenrijkse uitwisselformaat: Leistungsverzeichnisse (.onlv) importeren als begroting en Leistungsbücher (.onlb, zoals LB-Hochbau en LB-Haustechnik van het BMWET) als catalogus; exporteren als .onlv, geldig tegen de officiële XML-schema's",
+      "FIEBDC-3 (.bc3): rondreis op 22 bestanden nu 21 keer veld voor veld identiek; elk verschil met de bronbestanden is in het rapport verklaard, met schermafbeeldingen als bewijs",
+      "Lege korte omschrijvingen in .bc3 krijgen de eerste regel van de lange tekst; de export schrijft getallen zonder drijvende-kommaruis",
+      "Een begrotings- of bewakingspost zonder hoofdstuk erboven krijgt nu ook een afgeleide eenheidsprijs",
+      "Nieuwe schermafbeeldingen in het Engels, Nederlands en Duits"
+    ],
     "v0.12.1": [
       "PDF-rapporten schrijven bedragen, hoeveelheden, percentages en datums in de notatie van de rapporttaal — bijvoorbeeld 1.234,56 € en DD/MM/JJJJ in het Spaans, 1 234,56 € in het Frans",
       "Een btw-tarief zoals 5,5% werd in het rapport afgerond tot 6% — opgelost",

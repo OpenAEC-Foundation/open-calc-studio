@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.13.0": "Austrijski ÖNORM A 2063 (.onlv/.onlb) + dokazan kružni put BC3",
     "v0.12.1": "Brojevi i datumi u PDF izvještajima na jeziku izvještaja",
     "v0.12.0": "Izvještaji i jedinice na vašem jeziku",
     "v0.11.0": "39 jezika + španjolski FIEBDC-3 (.bc3)",
@@ -18,6 +19,13 @@
     "v0.7.10": "OpenAEC račun + navigacija u donjoj traci"
   },
   "highlights": {
+    "v0.13.0": [
+      "ÖNORM A 2063, austrijski format razmjene: uvoz popisa radova (.onlv) kao troškovnika i standardnih knjiga usluga (.onlb, poput LB-Hochbau i LB-Haustechnik iz BMWET-a) kao kataloga; izvoz kao .onlv, valjan prema službenim XML shemama",
+      "FIEBDC-3 (.bc3): kružni put na 22 datoteke sada je polje po polje identičan u 21; svaka razlika u odnosu na izvorne datoteke objašnjena je u izvještaju, sa snimkama zaslona kao dokazom",
+      "Prazni kratki opisi u .bc3 datotekama preuzimaju prvi redak dugog teksta; izvoz zapisuje brojeve bez šuma pomičnog zareza",
+      "Troškovnička ili kontrolna stavka bez poglavlja iznad sebe sada također dobiva izvedenu jediničnu cijenu",
+      "Nove snimke zaslona na engleskom, nizozemskom i njemačkom"
+    ],
     "v0.12.1": [
       "PDF izvještaji zapisuju iznose, količine, postotke i datume u zapisu jezika izvještaja — na primjer 1.234,56 € i DD/MM/GGGG na španjolskom, 1 234,56 € na francuskom",
       "Stopa PDV-a poput 5,5 % zaokruživala se u izvještaju na 6 % — ispravljeno",

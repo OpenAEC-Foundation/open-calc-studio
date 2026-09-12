@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.13.0": "Osztrák ÖNORM A 2063 (.onlv/.onlb) + igazolt BC3 oda-vissza átalakítás",
     "v0.12.1": "Számok és dátumok a PDF-jelentésekben a jelentések nyelvén",
     "v0.12.0": "Jelentések és mértékegységek a saját nyelvén",
     "v0.11.0": "39 nyelv + spanyol FIEBDC-3 (.bc3)",
@@ -18,6 +19,13 @@
     "v0.7.10": "OpenAEC-fiók + alsó sávos navigáció"
   },
   "highlights": {
+    "v0.13.0": [
+      "ÖNORM A 2063, az osztrák csereformátum: tételjegyzékek (.onlv) importálása költségvetésként és szabványos szolgáltatáskönyvek (.onlb, például a BMWET LB-Hochbau és LB-Haustechnik kiadványai) importálása katalógusként; exportálás .onlv formátumba, érvényes a hivatalos XML-sémák szerint",
+      "FIEBDC-3 (.bc3): a 22 fájlon végzett oda-vissza átalakítás már 21-nél mezőről mezőre azonos; a forrásfájloktól való minden eltérést a jelentés elmagyaráz, képernyőképekkel bizonyítékként",
+      "A .bc3 fájlok üres rövid megnevezései a hosszú szöveg első sorát kapják; az exportálás lebegőpontos zaj nélkül írja a számokat",
+      "A fölötte fejezet nélküli tétel vagy ellenőrző tétel mostantól szintén származtatott egységárat kap",
+      "Új képernyőképek angolul, hollandul és németül"
+    ],
     "v0.12.1": [
       "A PDF-jelentések az összegeket, mennyiségeket, százalékokat és dátumokat a jelentések nyelvének írásmódjával írják — például 1.234,56 € és NN/HH/ÉÉÉÉ spanyolul, 1 234,56 € franciául",
       "Egy 5,5%-os áfakulcs a jelentésben 6%-ra kerekedett — javítva",

@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.13.0": "Østrigsk ÖNORM A 2063 (.onlv/.onlb) + BC3-rundtur bevist",
     "v0.12.1": "Tal og datoer i PDF-rapporter følger rapportsproget",
     "v0.12.0": "Rapporter og enheder på dit eget sprog",
     "v0.11.0": "39 sprog + spansk FIEBDC-3 (.bc3)",
@@ -18,6 +19,13 @@
     "v0.7.10": "OpenAEC-konto + navigation i bundlinjen"
   },
   "highlights": {
+    "v0.13.0": [
+      "ÖNORM A 2063, det østrigske udvekslingsformat: importér tilbudslister (.onlv) som budget og standardydelsesbøger (.onlb, som LB-Hochbau og LB-Haustechnik fra BMWET) som katalog; eksportér som .onlv, gyldig mod de officielle XML-skemaer",
+      "FIEBDC-3 (.bc3): rundturen på 22 filer er nu identisk felt for felt i 21; hver forskel fra kildefilerne er forklaret i rapporten, med skærmbilleder som bevis",
+      "Tomme korte beskrivelser i .bc3-filer får første linje af den lange tekst; eksporten skriver tal uden flydende-komma-støj",
+      "En post eller styringspost uden kapitel over sig får nu også en afledt enhedspris",
+      "Nye skærmbilleder på engelsk, hollandsk og tysk"
+    ],
     "v0.12.1": [
       "PDF-rapporter skriver beløb, mængder, procenter og datoer i rapportsprogets notation — for eksempel 1.234,56 € og DD/MM/ÅÅÅÅ på spansk, 1 234,56 € på fransk",
       "En momssats som 5,5 % blev afrundet til 6 % i rapporten — rettet",

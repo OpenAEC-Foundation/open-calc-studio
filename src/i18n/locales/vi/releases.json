@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.13.0": "ÖNORM A 2063 của Áo (.onlv/.onlb) + vòng nhập-xuất BC3 đã được chứng minh",
     "v0.12.1": "Số và ngày trong báo cáo PDF theo ngôn ngữ báo cáo",
     "v0.12.0": "Báo cáo và đơn vị bằng ngôn ngữ của bạn",
     "v0.11.0": "39 ngôn ngữ + FIEBDC-3 (.bc3) của Tây Ban Nha",
@@ -18,6 +19,13 @@
     "v0.7.10": "Tài khoản OpenAEC + điều hướng ở thanh dưới"
   },
   "highlights": {
+    "v0.13.0": [
+      "ÖNORM A 2063, định dạng trao đổi của Áo: nhập bảng khối lượng (.onlv) làm dự toán và sổ dịch vụ tiêu chuẩn (.onlb, như LB-Hochbau và LB-Haustechnik của BMWET) làm danh mục; xuất ra .onlv, hợp lệ theo các lược đồ XML chính thức",
+      "FIEBDC-3 (.bc3): vòng nhập-xuất trên 22 tệp nay giống hệt từng trường ở 21 tệp; mọi khác biệt so với tệp nguồn đều được giải thích trong báo cáo, kèm ảnh chụp màn hình làm bằng chứng",
+      "Mô tả ngắn trống trong tệp .bc3 lấy dòng đầu của văn bản dài; trình xuất ghi số không có nhiễu dấu phẩy động",
+      "Công tác hoặc mục theo dõi không có chương phía trên nay cũng nhận được đơn giá dẫn xuất",
+      "Ảnh chụp màn hình mới bằng tiếng Anh, tiếng Hà Lan và tiếng Đức"
+    ],
     "v0.12.1": [
       "Báo cáo PDF ghi thành tiền, khối lượng, tỷ lệ phần trăm và ngày theo ký hiệu của ngôn ngữ báo cáo — ví dụ 1.234,56 € và DD/MM/YYYY trong tiếng Tây Ban Nha, 1 234,56 € trong tiếng Pháp",
       "Thuế suất GTGT như 5,5% bị làm tròn thành 6% trong báo cáo — đã sửa",

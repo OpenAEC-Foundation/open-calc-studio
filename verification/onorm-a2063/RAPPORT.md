@@ -69,18 +69,18 @@ Counts of lg/ulg/grundtextnr/positions are taken from the raw XML (independent o
 | File | Namespace | Size | lg | ulg | grundtextnr | folgepositionen | ungeteilte | Chapters | Positions | Text rows | Positions with gaps | Wahl/Eventual | Units used | Units without equivalent | Import |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | ---: |
 | `LB-SCHOKO_V2021.onlb` | 2021-03-01 | 0.1 MB | 1 | 2 | 2 | 5 | 0 | 3 | 5 | 0 | 5 | 0 | 1 | none | 1 ms |
-| `LB-HB-023-2021.onlb` | 2021-03-01 | 9.1 MB | 59 | 725 | 5,777 | 19,648 | 40 | 784 | 19,019 | 669 | 5,633 | 0 | 13 | VE, l | 573 ms |
-| `LB-HB-023-2015.onlb` | 2015-07-15 | 9.1 MB | 59 | 725 | 5,777 | 19,648 | 40 | 784 | 19,019 | 669 | 5,633 | 0 | 13 | VE, l | 539 ms |
-| `LB-HT-014-2021.onlb` | 2021-03-01 | 9.6 MB | 50 | 469 | 4,625 | 26,439 | 4 | 519 | 25,923 | 520 | 6,894 | 0 | 10 | VE, l | 609 ms |
-| `LB-HT-014-2015.onlb` | 2015-07-15 | 9.6 MB | 50 | 469 | 4,625 | 26,439 | 4 | 519 | 25,923 | 520 | 6,894 | 0 | 10 | VE, l | 680 ms |
+| `LB-HB-023-2021.onlb` | 2021-03-01 | 9.1 MB | 59 | 725 | 5,777 | 19,648 | 40 | 784 | 19,019 | 669 | 5,633 | 0 | 13 | VE, l | 562 ms |
+| `LB-HB-023-2015.onlb` | 2015-07-15 | 9.1 MB | 59 | 725 | 5,777 | 19,648 | 40 | 784 | 19,019 | 669 | 5,633 | 0 | 13 | VE, l | 811 ms |
+| `LB-HT-014-2021.onlb` | 2021-03-01 | 9.6 MB | 50 | 469 | 4,625 | 26,439 | 4 | 519 | 25,923 | 520 | 6,894 | 0 | 10 | VE, l | 903 ms |
+| `LB-HT-014-2015.onlb` | 2015-07-15 | 9.6 MB | 50 | 469 | 4,625 | 26,439 | 4 | 519 | 25,923 | 520 | 6,894 | 0 | 10 | VE, l | 1176 ms |
 
 ### Round trip
 
 | LV | Source | LV type | Items A | Items B | Positions | Text rows | Direct cost A | Direct cost B | Difference | Rows differing | Export (bytes) | Export | Import | Schema |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| `lb-schoko-lv.onlv` | LB-SCHOKO_V2021.onlb | kostenschaetzungs-lv | 8 | 8 | 5 | 0 | 1,123,805.17 | 1,123,805.17 | 0.00 | 0 | 13,993 | 4 ms | 2 ms | valid (0 errors) |
-| `lb-hb-deel-lv.onlv` | LB-HB-023-2021.onlb (LG 00–03) | kostenschaetzungs-lv | 1444 | 1444 | 1260 | 133 | 218,019,972.91 | 218,019,972.91 | 0.00 | 0 | 1,863,132 | 136 ms | 70 ms | valid (0 errors) |
-| `voorbeeld.onlv` | public/data/voorbeeld.ifcCalc | kostenschaetzungs-lv | 31 | 18 | 6 | 0 | 28,109.00 | 28,108.78 | -0.22 (explained rounding, 3 positions) | totals only (see below) | 16,863 | 1 ms | 1 ms | valid (0 errors) |
+| `lb-schoko-lv.onlv` | LB-SCHOKO_V2021.onlb | kostenschaetzungs-lv | 8 | 8 | 5 | 0 | 1,123,805.17 | 1,123,805.17 | 0.00 | 0 | 13,993 | 7 ms | 3 ms | valid (0 errors) |
+| `lb-hb-deel-lv.onlv` | LB-HB-023-2021.onlb (LG 00–03) | kostenschaetzungs-lv | 1444 | 1444 | 1260 | 133 | 218,019,972.91 | 218,019,972.91 | 0.00 | 0 | 1,863,132 | 118 ms | 72 ms | valid (0 errors) |
+| `voorbeeld.onlv` | public/data/voorbeeld.ifcCalc | kostenschaetzungs-lv | 31 | 18 | 6 | 0 | 28,109.00 | 28,108.78 | -0.22 (explained rounding, 3 positions) | totals only (see below) | 16,863 | 2 ms | 1 ms | valid (0 errors) |
 
 #### lb-schoko-lv.onlv
 

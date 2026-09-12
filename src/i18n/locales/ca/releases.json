@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.13.0": "ÖNORM A 2063 austríac (.onlv/.onlb) + anada i tornada BC3 demostrada",
     "v0.12.1": "Nombres i dates dels informes PDF en l’idioma dels informes",
     "v0.12.0": "Informes i unitats en el vostre idioma",
     "v0.11.0": "39 idiomes + FIEBDC-3 (.bc3)",
@@ -18,6 +19,13 @@
     "v0.7.10": "Compte OpenAEC + navegació a la barra inferior"
   },
   "highlights": {
+    "v0.13.0": [
+      "ÖNORM A 2063, el format d’intercanvi austríac: importació d’amidaments (.onlv) com a pressupost i de llibres de serveis estàndard (.onlb, com ara LB-Hochbau i LB-Haustechnik del BMWET) com a catàleg; exportació com a .onlv, vàlida contra els esquemes XML oficials",
+      "FIEBDC-3 (.bc3): l’anada i tornada amb 22 fitxers ara és idèntica camp per camp en 21; cada diferència amb els fitxers d’origen s’explica a l’informe, amb captures de pantalla com a prova",
+      "Les descripcions curtes buides als fitxers .bc3 prenen la primera línia del text llarg; l’exportació escriu els nombres sense soroll de coma flotant",
+      "Una partida o partida de control sense capítol a sobre ara també rep un preu unitari derivat",
+      "Noves captures de pantalla en anglès, neerlandès i alemany"
+    ],
     "v0.12.1": [
       "Els informes PDF escriuen imports, amidaments, percentatges i dates amb la notació de l’idioma dels informes — per exemple 1.234,56 € i DD/MM/AAAA en castellà, 1 234,56 € en francès",
       "Un tipus d’IVA com ara 5,5 % s’arrodonia a 6 % a l’informe — corregit",

@@ -1,5 +1,6 @@
 {
   "names": {
+    "v0.13.0": "ÖNORM A 2063 austríaco (.onlv/.onlb) + ida e volta BC3 comprovada",
     "v0.12.1": "Números e datas nos relatórios PDF no idioma dos relatórios",
     "v0.12.0": "Relatórios e unidades no seu idioma",
     "v0.11.0": "39 idiomas + FIEBDC-3 espanhol (.bc3)",
@@ -18,6 +19,13 @@
     "v0.7.10": "Conta OpenAEC + navegação na barra inferior"
   },
   "highlights": {
+    "v0.13.0": [
+      "ÖNORM A 2063, o formato de intercâmbio austríaco: importação de mapas de quantidades (.onlv) como orçamento e de livros de serviços padrão (.onlb, como LB-Hochbau e LB-Haustechnik do BMWET) como catálogo; exportação como .onlv, válida face aos esquemas XML oficiais",
+      "FIEBDC-3 (.bc3): a ida e volta em 22 ficheiros é agora idêntica campo a campo em 21; cada diferença face aos ficheiros de origem é explicada no relatório, com capturas de ecrã como prova",
+      "As designações curtas vazias em ficheiros .bc3 recebem a primeira linha do texto longo; a exportação escreve os números sem ruído de vírgula flutuante",
+      "Um artigo ou artigo de controlo sem capítulo acima recebe agora também um preço unitário derivado",
+      "Novas capturas de ecrã em inglês, neerlandês e alemão"
+    ],
     "v0.12.1": [
       "Os relatórios PDF escrevem valores, quantidades, percentagens e datas na notação do idioma dos relatórios — por exemplo 1.234,56 € e DD/MM/AAAA em espanhol, 1 234,56 € em francês",
       "Uma taxa de IVA como 5,5% era arredondada para 6% no relatório — corrigido",
