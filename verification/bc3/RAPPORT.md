@@ -86,7 +86,7 @@ Chapters: our total against the `~C` price of the chapter (only chapters with a 
 | `pycost_sispre_puebla-oc.bc3` | 0 | 0 | — | 249 | 244 | -5,080.96 | -10.6157 (`EE104165`) |
 | `pycost_test_file_05.bc3` | 17 | 17 | -12,732.16 (`CAPITULO1`) | 152 | 49 | -18.57 | -0.0183 (`ENCOFenol1`) |
 | `pycost_test_file_06.bc3` | 0 | 0 | — | 0 | 0 | 0.00 | — |
-| `pycost_test_file_11.bc3` | 0 | 0 | — | 5 | 5 | -982.65 | -926.0600 (`CM1E03MH010`) |
+| `pycost_test_file_11.bc3` | 0 | 0 | — | 5 | 4 | -8.24 | -9.1783 (`CM1E03MH010`) |
 | `pycost_test_parametric_02.bc3` | 0 | 0 | — | 0 | 0 | 0.00 | — |
 | `synthetisch-voorbeeld.bc3` | 1 | 0 | 0.00 (``) | 2 | 0 | 0.00 | 0.0000 (``) |
 | `tocbim_FirstStreet_corridor_PRES.bc3` | 5 | 0 | 0.00 (`01`) | 10 | 0 | 0.00 | 0.0000 (``) |
@@ -401,7 +401,7 @@ Chapters: our total against the `~C` price of the chapter (only chapters with a 
 - Direct cost A: 974.41; B: 974.41; difference: 0.00
 - Root price according to the file: 390,352.04 (import deviates -99.75 % (fragment: root has no breakdown))
 - Chapters with a price in the file: 0, differing from our total: 0
-- Items with a price in the file: 5, unit price differing from the composition: 5 (net effect -982.65; largest -926.0600 on `CM1E03MH010`)
+- Items with a price in the file: 5, unit price differing from the composition: 4 (net effect -8.24; largest -9.1783 on `CM1E03MH010`)
 - Texts (~T) as notes: A 10 items (0 multi-line), B 10 (0 multi-line)
 - Chapter totals differing between A and B: 0
 - Charset of the export: ANSI
@@ -684,10 +684,11 @@ up:
 
 The composition gives 34.14; the importer reports "GAG030 (~C 33.20, ~D
 34.14)". `CM1E03MH010` gives 916.88 against a stored 926.06 (−1.0 %, below
-the 2 % threshold). The table "Import against the file itself" shows
-−926.06 for that item because an item at the top level, without a chapter,
-gets no derived unit price in our calculator (its total, 916.88, is
-correct); the table compares unit prices.
+the 2 % threshold); the table "Import against the file itself" shows that
+−9.18 as the largest unit-price difference. (An earlier version of this
+table showed −926.06 here: an item at the top level, without a chapter,
+got no derived unit price in the calculator. Fixed — the top level now uses
+the same roll-up as nested items.)
 
 ### `pycost_test_parametric_02.bc3` — fragment
 

@@ -102,3 +102,31 @@ describe('getGrandTotal', () => {
     expect(getGrandTotal([])).toBe(0);
   });
 });
+
+describe('begrotingspost op het hoogste niveau (zonder hoofdstuk)', () => {
+  it('krijgt een afgeleide eenheidsprijs = totaal / hoeveelheid, net als onder een hoofdstuk', () => {
+    const post = makeItem({ id: 'p', rowType: 'begrotingspost', quantity: 4, unit: 'm²' });
+    const regel = makeItem({ id: 'r', parentId: 'p', depth: 1, rowType: 'regel', quantity: 1, normQuantity: 0, normUnitPrice: 250, laborPrice: 0 });
+    const [top] = recalculateItems([post, regel]);
+    expect(top.total).toBe(250);
+    expect(top.unitPrice).toBe(62.5);
+  });
+
+  it('bewakingspost op het hoogste niveau telt de eenheidsprijzen van zijn kinderen op', () => {
+    const bew = makeItem({ id: 'b', rowType: 'bewakingspost', quantity: 2 });
+    const r1 = makeItem({ id: 'r1', parentId: 'b', depth: 1, rowType: 'regel', quantity: 1, normQuantity: 0, normUnitPrice: 10 });
+    const r2 = makeItem({ id: 'r2', parentId: 'b', depth: 1, rowType: 'regel', quantity: 1, normQuantity: 0, normUnitPrice: 5 });
+    const [top] = recalculateItems([bew, r1, r2]);
+    expect(top.total).toBe(15);
+    expect(top.unitPrice).toBe(15);
+  });
+
+  it('valt terug op de eigen postprijs als de kinderen niets opleveren', () => {
+    const post = makeItem({ id: 'p', rowType: 'begrotingspost', quantity: 3, normUnitPrice: 100 });
+    const tekst = makeItem({ id: 't', parentId: 'p', depth: 1, rowType: 'tekstregel' });
+    const [top] = recalculateItems([post, tekst]);
+    expect(top.total).toBe(300);
+    expect(top.unitPrice).toBe(100);
+  });
+});
+

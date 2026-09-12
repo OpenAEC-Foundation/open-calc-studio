@@ -138,44 +138,48 @@ export function recalculateItems(items: CostItem[], tarieven?: Record<string, nu
   // Must be done before second pass so the bewakingspost subtree total is correct
   // (handled in second pass after child summation)
 
-  // Second pass: bottom-up summation for containers
+  // Second pass: bottom-up summation for containers.
+  //
+  // `rollup` bepaalt totaal en eenheidsprijs van één container (hoofdstuk,
+  // begrotingspost of bewakingspost) uit zijn kinderen. Dezelfde functie
+  // dient voor geneste containers én voor items op het hoogste niveau: een
+  // begrotingspost zonder hoofdstuk erboven (bv. uit een geïmporteerde
+  // prijsdatabase) kreeg voorheen wél een totaal maar geen afgeleide
+  // eenheidsprijs, omdat alleen de kind-tak die afleiding kende.
+  function rollup(item: CostItem): void {
+    const children = childrenMap.get(item.id) ?? [];
+    if (children.length === 0) return;
+    const childSum = calcTotal(item.id);
+    const own = (item.rowType !== 'chapter' && childSum === 0) ? ownTotal(item) : 0;
+    if (own !== 0) {
+      // Kinderen leveren (nog) niets op: de eigen post-prijs telt door.
+      item.total = own;
+      item.unitPrice = item.quantity ? own / item.quantity : own;
+      return;
+    }
+    // Total is always the bottom-up sum of children
+    item.total = childSum;
+    const childUnitPrices = () => children
+      .filter(c => !isStagartRowType(c.rowType))
+      .reduce((s, c) => s + (c.unitPrice ?? 0), 0);
+    if (item.rowType === 'bewakingspost') {
+      // Bewakingspost: unitPrice = sum of child unitPrices
+      item.unitPrice = childUnitPrices();
+    } else if (item.rowType === 'begrotingspost') {
+      // Begrotingspost: unitPrice = total / quantity (afgeleide waarde voor weergave)
+      item.unitPrice = (item.quantity != null && item.quantity !== 0)
+        ? childSum / item.quantity
+        : childUnitPrices();
+    }
+  }
+
   function calcTotal(parentId: string): number {
     const children = childrenMap.get(parentId) ?? [];
     let sum = 0;
     for (const child of children) {
       if (child.rowType === 'chapter' || child.rowType === 'begrotingspost' || child.rowType === 'bewakingspost') {
-        const childChildren = childrenMap.get(child.id) ?? [];
-        if (childChildren.length > 0) {
-          let childSum = calcTotal(child.id);
-          const own = (child.rowType !== 'chapter' && childSum === 0) ? ownTotal(child) : 0;
-          if (own !== 0) {
-            // Kinderen leveren (nog) niets op: de eigen post-prijs telt door.
-            child.total = own;
-            child.unitPrice = child.quantity ? own / child.quantity : own;
-            childSum = own;
-          } else {
-            // Total is always the bottom-up sum of children
-            child.total = childSum;
-            // Eenheidsprijs rollup
-            if (child.rowType === 'bewakingspost') {
-              // Bewakingspost: unitPrice = sum of child unitPrices
-              child.unitPrice = childChildren
-                .filter(c => !isStagartRowType(c.rowType))
-                .reduce((s, c) => s + (c.unitPrice ?? 0), 0);
-            } else if (child.rowType === 'begrotingspost') {
-              // Begrotingspost: unitPrice = total / quantity (afgeleide waarde voor weergave)
-              if (child.quantity != null && child.quantity !== 0) {
-                child.unitPrice = childSum / child.quantity;
-              } else {
-                child.unitPrice = childChildren
-                  .filter(c => !isStagartRowType(c.rowType))
-                  .reduce((s, c) => s + (c.unitPrice ?? 0), 0);
-              }
-            }
-          }
-        }
+        rollup(child);
       }
-
       // Only include non-staart items in parent sums
       if (!isStagartRowType(child.rowType)) {
         sum += child.total;
@@ -184,13 +188,10 @@ export function recalculateItems(items: CostItem[], tarieven?: Record<string, nu
     return sum;
   }
 
-  // Calculate totals for ALL top-level items (chapters) that have children
+  // Totals (and derived unit prices) for ALL top-level items that have children
   for (const item of result) {
     if (item.parentId === null && !isStagartRowType(item.rowType)) {
-      const children = childrenMap.get(item.id) ?? [];
-      if (children.length > 0) {
-        item.total = calcTotal(item.id);
-      }
+      rollup(item);
     }
   }
 
