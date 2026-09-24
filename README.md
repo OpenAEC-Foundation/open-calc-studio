@@ -138,6 +138,31 @@ rustup default stable-x86_64-pc-windows-gnu
 npx tauri build
 ```
 
+## Inbouwen in je eigen site
+
+Open Calc Studio is er ook als npm-pakket: een React-component plus de
+bibliotheek (importers, exporters, calculator) — zie
+[packages/embed/README.md](packages/embed/README.md).
+
+```sh
+npm install @openaec/open-calc-studio react react-dom
+```
+
+```tsx
+import { OpenCalcStudio } from '@openaec/open-calc-studio';
+import '@openaec/open-calc-studio/style.css';
+
+<div style={{ height: 720 }}>
+  <OpenCalcStudio lang="nl" sample onChange={(project, json) => save(json)} />
+</div>
+```
+
+Elke GitHub-release levert het pakket ook als `open-calc-studio-<versie>.tgz`.
+Lokaal: `npm run build:lib` bouwt het pakket naar `packages/embed/dist`,
+`npm run dev:embed` opent een voorbeeld-gastpagina op http://localhost:4310.
+Alle CSS is gescoped onder `.ocs-embed`, sneltoetsen gelden alleen binnen de
+component en thema/taal staan op de wrapper, niet op `<html>`.
+
 ## Architectuur
 
 ```

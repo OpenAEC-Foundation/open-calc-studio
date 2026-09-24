@@ -16,6 +16,7 @@ void applyUiZoom(loadUiZoom());
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./i18n/config";
+import "./styles/fonts.css";
 import App from "./App";
 
 class ErrorBoundary extends React.Component<

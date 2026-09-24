@@ -1,3 +1,4 @@
+import { getPortalTarget } from '@/lib/hostRoot';
 import { useState, useEffect, useRef, useCallback, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import "./Modal.css";
@@ -112,6 +113,6 @@ export default function Modal({ open, onClose, title, className, children }: Mod
         </div>
       </div>
     </div>,
-    document.body,
+    getPortalTarget(),
   );
 }

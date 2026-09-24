@@ -1,3 +1,4 @@
+import { toHostCoords } from '@/lib/hostRoot';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
@@ -98,7 +99,7 @@ export function SubSheetTabBar() {
             onClick={() => handleSheetClick(ss.id)}
             onContextMenu={(e) => {
               e.preventDefault();
-              setMenu({ id: ss.id, x: e.clientX, y: e.clientY });
+              setMenu({ id: ss.id, ...toHostCoords(e.clientX, e.clientY) });
             }}
           >
             <span>{ss.name}</span>

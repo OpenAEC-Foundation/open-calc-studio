@@ -1,0 +1,23 @@
+/* Alleen voor de inbouwbibliotheek (vite.lib.config.ts). De selectors
+   beginnen met .ocs-embed en worden dus niet nog eens gescoped. */
+
+/* De wrapper neemt de rol van #root over: vult zijn vak en laat niets
+   naar buiten scrollen. De hoogte bepaalt de gastpagina. */
+.ocs-embed {
+  position: relative;
+  box-sizing: border-box;
+  min-height: 320px;
+  /* Maakt de wrapper het containing block van alles wat `position: fixed`
+     heeft: het Bestand-menu, de assistent en contextmenu's blijven zo
+     binnen het vak van de component in plaats van over de gastpagina.
+     Dialogen via createPortal staan buiten de wrapper en blijven
+     schermvullend, zoals een modal hoort. */
+  transform: translateZ(0);
+}
+
+/* Portal-wrapper onder <body>: alleen een drager voor klasse en thema,
+   zonder eigen vak — anders zou de #root-opmaak (height: 100%,
+   display: flex) een leeg blok onderaan de gastpagina zetten. */
+.ocs-embed.ocs-portal {
+  display: contents !important;
+}

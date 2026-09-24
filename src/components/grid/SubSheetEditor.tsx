@@ -1,3 +1,4 @@
+import { eventInsideHost, toHostCoords } from '@/lib/hostRoot';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
@@ -197,6 +198,7 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
   // bubble-phase undo handler does not also fire when focus is in the sheet.
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
+      if (!eventInsideHost(e)) return;
       const active = document.activeElement as HTMLElement | null;
       if (!active?.closest('.subsheet-container')) return;
 
@@ -441,7 +443,7 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
       onMouseLeave={() => setIsDragging(false)}
       onContextMenu={(e) => {
         e.preventDefault();
-        setCtxMenu({ x: e.clientX, y: e.clientY });
+        setCtxMenu(toHostCoords(e.clientX, e.clientY));
       }}
       onClick={() => ctxMenu && setCtxMenu(null)}
     >
@@ -517,7 +519,7 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
                     onContextMenu={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      setRowMenu({ row: rowIdx, x: e.clientX, y: e.clientY });
+                      setRowMenu({ row: rowIdx, ...toHostCoords(e.clientX, e.clientY) });
                     }}
                   >{rowNum}</td>
                   {Array.from({ length: sheet.columns }, (_, colIdx) => {

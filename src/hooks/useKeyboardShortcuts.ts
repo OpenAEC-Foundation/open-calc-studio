@@ -4,6 +4,7 @@ import { useAppStore } from '@/state/appStore';
 import { useFileOperations } from './useFileOperations';
 import { copyItemsToExcel } from '@/services/clipboard/excelClipboard';
 import { isFooterRow } from '@/services/grid/gridRows';
+import { eventInsideHost } from '@/lib/hostRoot';
 
 /** Get the selected items (multi-select or single active row).
  *  Selectie-indices zijn grid-rij-indices — vertalen via de gerenderde
@@ -29,6 +30,7 @@ export function useKeyboardShortcuts() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (!eventInsideHost(e)) return;
       const ctrl = e.ctrlKey || e.metaKey;
       const { isEditing } = useAppStore.getState();
       const isInInput = e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement;

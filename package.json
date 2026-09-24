@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:lib": "node scripts/embed-sync.mjs && vite build -c vite.lib.config.ts && node scripts/embed-sync.mjs post",
+    "pack:lib": "npm run build:lib && cd packages/embed && npm pack --pack-destination ../../release-embed",
+    "dev:embed": "vite -c packages/embed/example/vite.config.ts",
     "preview": "vite preview",
     "tauri": "tauri",
     "test": "vitest run",
@@ -47,6 +50,7 @@
     "jsdom": "^29.0.0",
     "typescript": "^5.9.3",
     "vite": "^7.3.1",
+    "vite-plugin-dts": "^5.1.1",
     "vitest": "^4.1.0"
   }
 }

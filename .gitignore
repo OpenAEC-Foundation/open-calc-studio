@@ -1,5 +1,7 @@
 node_modules
 dist
+packages/embed/dist
+release-embed/
 .vite/
 
 src-tauri/target

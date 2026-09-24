@@ -1,3 +1,4 @@
+import { eventInsideHost, toHostCoords } from '@/lib/hostRoot';
 import React, { useCallback, useRef, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './grid.css';
@@ -125,7 +126,8 @@ export const CostGrid: React.FC = () => {
       // delen CostGrid en GridContextMenu inmiddels dezelfde getGridRows-lijst.
       const clickedItem = visibleItems[rowIndex];
       if (!clickedItem) return;
-      setContextMenu({ x: e.clientX / zoomFactor, y: e.clientY / zoomFactor, rowIndex, itemId: clickedItem.id });
+      const hc = toHostCoords(e.clientX, e.clientY);
+      setContextMenu({ x: hc.x / zoomFactor, y: hc.y / zoomFactor, rowIndex, itemId: clickedItem.id });
     },
     [visibleItems, setActiveCell, activeCol, selectionStart, selectionEnd, gridZoom]
   );
@@ -385,6 +387,7 @@ export const CostGrid: React.FC = () => {
   const [showFindReplace, setShowFindReplace] = useState(false);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (!eventInsideHost(e)) return;
       if ((e.ctrlKey || e.metaKey) && (e.key === 'f' || e.key === 'F')) {
         e.preventDefault();
         setShowFindReplace(true);

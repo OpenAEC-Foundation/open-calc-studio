@@ -1,3 +1,4 @@
+import { getPortalTarget } from "@/lib/hostRoot";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { useTranslation } from "react-i18next";
@@ -79,7 +80,7 @@ function ensureHostMounted(): void {
   if (hostRoot || typeof document === "undefined") return;
   const el = document.createElement("div");
   el.id = "import-warnings-root";
-  document.body.appendChild(el);
+  getPortalTarget().appendChild(el);
   hostRoot = createRoot(el);
   hostRoot.render(<ImportWarningsHost />);
 }

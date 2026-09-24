@@ -38,8 +38,9 @@ import i18next, { changeLanguage } from "./i18n/config";
 import { loadSettings } from "./utils/settings";
 import { initMcpBridge } from "./services/mcp/mcpBridge";
 import { initOsUsername } from "./services/system/osUser";
+import { loadSampleBudgetText } from "./services/file/sampleBudget";
+import { isEmbedded, getEmbedOptions } from "./lib/hostRoot";
 import { sendDockRequest, onWindowBridgeMessage } from "./services/windowBridge";
-import "./styles/fonts.css";
 import "./styles/themes.css";
 import "./components/layout/layout.css";
 import "./styles/globals.css";
@@ -50,10 +51,7 @@ import "./styles/globals.css";
  * en structuur; alleen omschrijvingen en projectgegevens verschillen.
  */
 async function openSampleBudget(): Promise<void> {
-  const lang = (i18next.language || 'en').split('-')[0];
-  const resp = await fetch(lang === 'nl' ? '/data/voorbeeld.ifcCalc' : '/data/sample-en.ifcCalc');
-  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-  const parsed = deserializeProject(await resp.text());
+  const parsed = deserializeProject(await loadSampleBudgetText(i18next.language || 'en'));
   const store = useAppStore.getState();
   store.addDocument({ id: crypto.randomUUID(), filePath: null, fileName: i18next.t('app.sampleBudget'), isModified: false, items: parsed.items, schedule: parsed.schedule });
   if (parsed.companyInfo) store.setCompanyInfo(parsed.companyInfo);
@@ -131,7 +129,15 @@ function App() {
     if (defaultLoaded.current) return;
     defaultLoaded.current = true;
     // Load persisted settings from Tauri store
-    loadSettings().then((saved) => {
+    loadSettings().then((loaded) => {
+      // Ingebouwd in een andere site winnen het thema en de taal van de
+      // gastpagina van de opgeslagen voorkeur.
+      const embed = isEmbedded() ? getEmbedOptions() : {};
+      const saved = {
+        ...loaded,
+        ...(embed.theme ? { theme: embed.theme as typeof loaded.theme } : {}),
+        ...(embed.locale ? { locale: embed.locale as typeof loaded.locale } : {}),
+      };
       const store = useAppStore.getState();
       store.setSettings(saved);
       applyTheme(saved.theme);
@@ -156,7 +162,9 @@ function App() {
     initMcpBridge().then((cleanup) => { cleanupBridge = cleanup; });
 
     // Auto-open file from query parameter (used by "Open in nieuw venster")
-    const params = new URLSearchParams(window.location.search);
+    // Ingebouwd in een andere site is de query-string van de gastpagina;
+    // een ?file= daar is niet voor ons.
+    const params = new URLSearchParams(isEmbedded() ? '' : window.location.search);
     const fileParam = params.get('file');
     if (fileParam) {
       const filePath = decodeURIComponent(fileParam);
@@ -185,6 +193,8 @@ function App() {
           // Wait a tick so settings/extensions are initialised first
           await new Promise(r => setTimeout(r, 50));
           if (useAppStore.getState().documents.length > 0) return;
+          // Ingebouwd bepaalt de gastpagina of het voorbeeld opengaat.
+          if (isEmbedded() && !getEmbedOptions().autoSample) return;
           await openSampleBudget();
         } catch (err) {
           console.warn('[App] Could not auto-load voorbeeldbegroting:', err);

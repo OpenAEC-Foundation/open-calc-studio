@@ -1,3 +1,4 @@
+import { getPortalTarget } from '@/lib/hostRoot';
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
@@ -256,7 +257,7 @@ export default function HomeTab() {
                   </button>
                 ))}
               </div>,
-              document.body
+              getPortalTarget()
             )}
           </div>
           <RibbonButton icon={redoIcon} label={t("home.redo")} onClick={handleRedo} disabled={!canRedo()} />
@@ -319,7 +320,7 @@ export default function HomeTab() {
                   </button>
                 ))}
               </div>,
-              document.body
+              getPortalTarget()
             )}
           </div>
         </RibbonGroup>

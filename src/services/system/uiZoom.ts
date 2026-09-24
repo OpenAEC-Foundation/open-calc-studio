@@ -1,3 +1,5 @@
+import { getHostRoot } from '@/lib/hostRoot';
+
 /**
  * App-brede UI-zoom.
  *
@@ -60,7 +62,7 @@ export async function applyUiZoom(percent: number): Promise<void> {
       // Een eerder gezette CSS-zoom moet weg, anders stapelt hij op de
       // webview-zoom en zoomt de app dubbel.
       if (cssFallbackActief) {
-        document.documentElement.style.removeProperty('zoom');
+        getHostRoot().style.removeProperty('zoom');
         cssFallbackActief = false;
       }
       return;
@@ -69,6 +71,6 @@ export async function applyUiZoom(percent: number): Promise<void> {
     }
   }
 
-  document.documentElement.style.zoom = String(factor);
+  getHostRoot().style.zoom = String(factor);
   cssFallbackActief = true;
 }

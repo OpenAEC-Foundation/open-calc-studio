@@ -1,3 +1,4 @@
+import { setHostAttribute } from "@/lib/hostRoot";
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
@@ -26,7 +27,7 @@ function resolveTheme(theme: string): string {
 
 export function applyTheme(theme: string) {
   const resolved = resolveTheme(theme);
-  document.documentElement.setAttribute("data-theme", resolved);
+  setHostAttribute("data-theme", resolved);
   try { localStorage.setItem("ocs-theme", resolved); } catch { /* ignore */ }
 }
 

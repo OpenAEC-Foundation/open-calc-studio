@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Host page — Open Calc Studio embedded</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      /* Opmaak van de gastpagina: bewust "gewoon" (serif, eigen kleuren,
+         eigen .content-klasse) om te zien dat de component er niets van
+         overneemt en er niets aan verandert. */
+      body { margin: 0; font-family: Georgia, serif; color: #1f2937; background: #f3f4f6; }
+      header { position: sticky; top: 0; background: #1e3a5f; color: #fff; padding: 14px 32px; font-size: 18px; z-index: 5; }
+      main { max-width: 1400px; margin: 0 auto; padding: 24px 32px 80px; }
+      .content { background: #fff; border: 1px solid #d1d5db; border-radius: 8px; padding: 16px 20px; margin: 16px 0; line-height: 1.6; }
+      .toolbar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 12px 0; font-size: 14px; }
+      .toolbar label { display: flex; gap: 6px; align-items: center; }
+      #estimate { height: 720px; border: 2px dashed #9ca3af; border-radius: 8px; overflow: hidden; }
+      footer { background: #e5e7eb; padding: 40px 32px; color: #4b5563; }
+      pre { background: #111827; color: #e5e7eb; padding: 12px; border-radius: 6px; font-size: 12px; max-height: 200px; overflow: auto; }
+    </style>
+  </head>
+  <body>
+    <header>My construction company — project portal (host page)</header>
+    <main>
+      <div class="content">
+        <h1>Estimate for project 2026-042</h1>
+        <p>This page belongs to the host site. Below, Open Calc Studio is embedded as a React component
+          from the npm package <code>@openaec/open-calc-studio</code>. The text you are reading, the header
+          and the footer must keep their own styling, and the page must keep scrolling normally.</p>
+        <p>Try: Ctrl+Z in the input field below must not undo anything in the estimate; inside the
+          estimate it must.</p>
+        <input placeholder="a host-page input field" style="padding:6px;width:320px" />
+      </div>
+      <div id="controls" class="toolbar"></div>
+      <div id="estimate"></div>
+      <div class="content">
+        <h2>Last change reported by <code>onChange</code></h2>
+        <pre id="out">— no changes yet —</pre>
+      </div>
+      <div class="content"><p>More host content so the page is taller than the viewport. Lorem ipsum dolor sit
+        amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+    </main>
+    <footer>Host footer — © My construction company</footer>
+    <script type="module" src="./main.tsx"></script>
+  </body>
+</html>

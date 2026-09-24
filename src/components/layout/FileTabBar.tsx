@@ -1,3 +1,4 @@
+import { toHostCoords } from '@/lib/hostRoot';
 import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
@@ -62,7 +63,7 @@ export const FileTabBar: React.FC = () => {
   const handleContextMenu = useCallback((e: React.MouseEvent, docId: string) => {
     e.preventDefault();
     e.stopPropagation();
-    setContextMenu({ x: e.clientX, y: e.clientY, docId });
+    setContextMenu({ ...toHostCoords(e.clientX, e.clientY), docId });
   }, []);
 
   // Close context menu on click outside or Escape

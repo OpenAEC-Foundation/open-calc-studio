@@ -32,6 +32,42 @@ jobs:
       - run: npm test || true
       - run: npm run build
 
+  # ── 1b. Inbouwpakket (@openaec/open-calc-studio) ────────────
+  # Bouwt de React-component/bibliotheek als npm-pakket bij elke push; op een
+  # tag gaat de .tgz mee als release-asset en, als er een NPM_TOKEN-secret is,
+  # naar npm.
+  embed:
+    name: Embed package
+    needs: check
+    runs-on: ubuntu-latest
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.18.0
+      - run: npm install
+      - run: npm run build:lib
+      - name: Pack
+        run: |
+          mkdir -p release-embed
+          (cd packages/embed && npm pack --pack-destination ../../release-embed)
+          ls -la release-embed
+      - name: Upload package
+        uses: actions/upload-artifact@v4
+        with:
+          name: open-calc-studio-embed
+          path: release-embed/*.tgz
+          retention-days: 14
+      - name: Publish to npm
+        if: startsWith(github.ref, 'refs/tags/v') && env.NPM_TOKEN != ''
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+          cd packages/embed && npm publish --access public
+
   # ── 2. Build installers (only on tag push) ──────────────────
   build:
     needs: check
@@ -208,7 +244,7 @@ jobs:
   # ── 3. Publish release (only on tag push) ───────────────────
   publish:
     name: Publish Release
-    needs: build
+    needs: [build, embed]
     # Publiceer zolang de build-matrix niet is geannuleerd én ten minste
     # gedeeltelijk draaide. Zo blokkeert een falende leg (bv. macOS zonder
     # geldig signing-certificaat) niet de Windows- en Linux-installers: de
@@ -233,6 +269,7 @@ jobs:
           find artifacts -name '*.AppImage' -exec cp {} release/ \;
           find artifacts -name '*.deb' -exec cp {} release/ \;
           find artifacts -name '*.rpm' -exec cp {} release/ \;
+          find artifacts -name '*.tgz' -exec cp {} release/ \;
           ls -la release/
 
       - name: Publish release
@@ -248,6 +285,7 @@ jobs:
             - **Windows:** `.exe` (NSIS installer) / `.msi`
             - **macOS:** `.dmg` (Apple Silicon)
             - **Linux:** `.AppImage` / `.deb` / `.rpm`
+            - **Embed in your own site:** `open-calc-studio-<version>.tgz` — npm package `@openaec/open-calc-studio` (React component + library, see `packages/embed/README.md`)
 
             **macOS: the app is blocked on first launch**
 

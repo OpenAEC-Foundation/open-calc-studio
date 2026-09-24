@@ -1,3 +1,4 @@
+import { getHostRoot, toHostCoords } from '@/lib/hostRoot';
 import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ROW_HEIGHT, getColumnsForView, isColumnHidden } from './gridConstants';
@@ -53,12 +54,12 @@ export const GridHeader: React.FC = () => {
         resizing.current = null;
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
-        document.documentElement.classList.remove('cursor-col-resizing');
+        getHostRoot().classList.remove('cursor-col-resizing');
       };
 
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
-      document.documentElement.classList.add('cursor-col-resizing');
+      getHostRoot().classList.add('cursor-col-resizing');
     },
     [columnWidths, setColumnWidth, columns]
   );
@@ -81,7 +82,7 @@ export const GridHeader: React.FC = () => {
       if (!selectedColumns.includes(col.key)) {
         selectColumn(col.key, 'set', zichtbareKeys);
       }
-      setMenu({ x: e.clientX, y: e.clientY, column: col });
+      setMenu({ ...toHostCoords(e.clientX, e.clientY), column: col });
     },
     [selectedColumns, selectColumn, zichtbareKeys]
   );

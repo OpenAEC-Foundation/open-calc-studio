@@ -1,0 +1,74 @@
+{
+  "name": "@openaec/open-calc-studio",
+  "version": "0.13.0",
+  "description": "Open Calc Studio as an embeddable React component and library: construction cost estimating with import/export of .ifcCalc, FIEBDC-3 (.bc3), ÖNORM A 2063 (.onlv/.onlb), CUF, IBIS-TRAD and more.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/lib/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./style.css": {
+      "types": "./dist/style.css.d.ts",
+      "default": "./dist/style.css"
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": true,
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OpenAEC-Foundation/open-calc-studio",
+    "directory": "packages/embed"
+  },
+  "homepage": "https://open-aec.com/open-calc-studio/",
+  "bugs": "https://github.com/OpenAEC-Foundation/open-calc-studio/issues",
+  "keywords": [
+    "construction",
+    "cost-estimating",
+    "bill-of-quantities",
+    "bc3",
+    "fiebdc",
+    "onorm-a2063",
+    "onlv",
+    "ifc",
+    "react",
+    "openaec"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.10.1",
+    "@tauri-apps/plugin-dialog": "^2.6.0",
+    "@tauri-apps/plugin-fs": "^2.4.5",
+    "@tauri-apps/plugin-opener": "^2.5.3",
+    "@tauri-apps/plugin-os": "^2.3.2",
+    "@tauri-apps/plugin-store": "^2.4.2",
+    "@thatopen/components": "^3.4.1",
+    "@thatopen/components-front": "^3.4.1",
+    "@thatopen/fragments": "^3.4.1",
+    "7z-wasm": "^1.2.0",
+    "buffer": "^6.0.3",
+    "i18next": "^25.8.18",
+    "i18next-browser-languagedetector": "^8.2.1",
+    "mdb-reader": "^3.2.0",
+    "pdfjs-dist": "^5.6.205",
+    "react-i18next": "^16.5.8",
+    "sql.js": "^1.14.1",
+    "three": "^0.184.0",
+    "xlsx": "^0.18.5",
+    "zustand": "^5.0.12"
+  }
+}

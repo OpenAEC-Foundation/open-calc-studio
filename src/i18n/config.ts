@@ -1,3 +1,4 @@
+import { setHostAttribute } from "@/lib/hostRoot";
 import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
@@ -157,9 +158,9 @@ i18next
 void loadLocale(i18next.language);
 
 i18next.on("languageChanged", (lng) => {
-  document.documentElement.setAttribute("lang", lng);
+  setHostAttribute("lang", lng);
   // RTL-talen (Arabisch, Farsi, Hebreeuws, Urdu) spiegelen de hele layout.
-  document.documentElement.setAttribute("dir", isRTL(lng) ? "rtl" : "ltr");
+  setHostAttribute("dir", isRTL(lng) ? "rtl" : "ltr");
 });
 
 /**
