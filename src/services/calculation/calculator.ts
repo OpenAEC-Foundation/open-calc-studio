@@ -1,5 +1,5 @@
-import type { CostItem } from '@/types/costModel';
-import { isStagartRowType } from '@/types/costModel';
+import type { CostItem } from '../../types/costModel';
+import { isStagartRowType } from '../../types/costModel';
 
 /**
  * Canonieke item-volgorde: depth-first per parentId, zodat kinderen altijd
@@ -452,7 +452,7 @@ export function computeStaartItemBreakdowns(items: CostItem[]): CostItem[] {
   // Resource-column running totals also accumulate
   const running = { ...kostprijs };
 
-  type BD = import('@/types/costModel').StaartItemBreakdown;
+  type BD = import('../../types/costModel').StaartItemBreakdown;
   const bdOf = new Map<string, BD>();
   const staartItems = items.filter(i => i.rowType?.startsWith('staart_'));
 

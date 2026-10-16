@@ -1,184 +1,71 @@
-/**
- * 3D IFC Viewer using @thatopen/components (That Open Company).
- * This is NOT a custom viewer — it wraps the That Open Components library.
- *
- * Features:
- * - Load .ifc files (drag & drop or file picker)
- * - Navigate 3D model (orbit, pan, zoom)
- * - Select elements and view their properties
- * - Extract quantities (volume, area, length) to push into the budget
- */
-import { useEffect, useRef, useState, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import i18next from 'i18next';
+/** IFC-Lite geometry and quantities, rendered with Three.js/WebGL in a split workspace. */
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import * as THREE from 'three';
-import * as OBC from '@thatopen/components';
-import * as OBF from '@thatopen/components-front';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { useAppStore } from '@/state/appStore';
+import { CostGrid } from '@/components/grid/CostGrid';
+import { getIfcSession, subscribeIfc, ifcRevision, ifcCommand, loadIfcModel } from '@/services/ifc/ifcLiteWorkspace';
+import { aggregateTakeoff } from '@/services/ifc/ifcTakeoff';
+import './ThreeDViewer.css';
 
 export function ThreeDViewer() {
-  const { t } = useTranslation();
-  const containerRef = useRef<HTMLDivElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const componentsRef = useRef<OBC.Components | null>(null);
-  const worldRef = useRef<any>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [selectedInfo] = useState<{
-    name?: string;
-    quantities?: Record<string, number>;
-  } | null>(null);
+  const docId=useAppStore(s=>s.activeDocumentId);
+  const targetId=useAppStore(s=>s.activeItemId);
+  const items=useAppStore(s=>s.items);
+  const revision=useSyncExternalStore(subscribeIfc,ifcRevision);
+  const session=getIfcSession(docId);
+  const mount=useRef<HTMLDivElement>(null);
+  const rendererState=useRef<{scene:THREE.Scene;camera:THREE.PerspectiveCamera;controls:OrbitControls;group:THREE.Group;fit:()=>void}|null>(null);
+  const input=useRef<HTMLInputElement>(null);
+  const [error,setError]=useState(''); const [loading,setLoading]=useState(false);
+  const [search,setSearch]=useState(''); const [key,setKey]=useState('__count__'); const width=useAppStore(s=>s.ifcSplitPercent); const setWidth=useAppStore(s=>s.setIfcSplitPercent);
+  const selected=session?.selected??[];
+  const first=session?.model.elements.find(e=>e.expressId===selected[0]);
+  const options=first?.quantities.filter(q=>selected.every(id=>session?.model.elements.find(e=>e.expressId===id)?.quantities.some(v=>v.key===q.key&&v.kind===q.kind)))??[];
+  const metric=key==='__count__'||options.some(q=>q.key===key)?key:'__count__';
+  const total=session&&selected.length?aggregateTakeoff(session.model,selected,metric):null;
+  const target=items.find(i=>i.id===targetId);
+  const eligible=!!target&&['regel','begrotingspost','bewakingspost'].includes(target.rowType);
+  const run=async(action:string,params:Record<string,unknown>={})=>{try{setError('');await ifcCommand(action,params);}catch(e){setError(String(e));}};
+  const load=async(file:File)=>{if(loading)return;setLoading(true);setError('');try{if(file.size>100*1024*1024)throw Error('Gebruik een IFC tot 100 MB.');await loadIfcModel(await file.arrayBuffer(),file.name);}catch(e){setError(String(e));}finally{setLoading(false);}};
 
-  // Initialize viewer once
-  useEffect(() => {
-    if (!containerRef.current) return;
-    const container = containerRef.current;
-
-    const components = new OBC.Components();
-    componentsRef.current = components;
-
-    const worlds = components.get(OBC.Worlds);
-    const world = worlds.create<
-      OBC.SimpleScene,
-      OBC.SimpleCamera,
-      OBF.PostproductionRenderer
-    >();
-
-    world.scene = new OBC.SimpleScene(components);
-    world.renderer = new OBF.PostproductionRenderer(components, container);
-    world.camera = new OBC.SimpleCamera(components);
-
-    components.init();
-
-    world.scene.setup();
-    world.scene.three.background = new THREE.Color(0xf0f0f0);
-
-    const grid = components.get(OBC.Grids);
-    grid.create(world);
-
-    world.camera.controls.setLookAt(12, 6, 8, 0, 0, -10);
-
-    worldRef.current = world;
-
-    // Cleanup
-    return () => {
-      components.dispose();
-      componentsRef.current = null;
-      worldRef.current = null;
-    };
-  }, []);
-
-  const loadIfc = useCallback(async (file: File) => {
-    if (!componentsRef.current || !worldRef.current) return;
-    setLoading(true);
-    setError(null);
-    try {
-      const ifcLoader = componentsRef.current.get(OBC.IfcLoader);
-      await ifcLoader.setup({
-        autoSetWasm: false,
-        wasm: {
-          path: 'https://unpkg.com/web-ifc@0.0.68/',
-          absolute: true,
-        },
-      });
-
-      const buffer = await file.arrayBuffer();
-      const model = await ifcLoader.load(new Uint8Array(buffer), true, file.name);
-      worldRef.current.scene.three.add(model.object);
-
-      // Fit camera to model
-      const box = new THREE.Box3().setFromObject(model.object);
-      const center = box.getCenter(new THREE.Vector3());
-      const size = box.getSize(new THREE.Vector3()).length();
-      worldRef.current.camera.controls.setLookAt(
-        center.x + size, center.y + size * 0.5, center.z + size,
-        center.x, center.y, center.z,
-      );
-    } catch (e: any) {
-      setError(i18next.t('viewer3d.loadFailed', { message: String(e.message || e) }));
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) loadIfc(file);
-    e.target.value = '';
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    const file = e.dataTransfer.files?.[0];
-    if (file && file.name.toLowerCase().endsWith('.ifc')) loadIfc(file);
-  };
-
-  return (
-    <div
-      style={{ position: 'relative', width: '100%', height: '100%', background: '#f0f0f0' }}
-      onDragOver={(e) => e.preventDefault()}
-      onDrop={handleDrop}
-    >
-      {/* Toolbar */}
-      <div style={{
-        position: 'absolute', top: 10, left: 10, zIndex: 10,
-        display: 'flex', gap: 8, alignItems: 'center',
-        background: 'rgba(255,255,255,0.9)', padding: 8, borderRadius: 6,
-        boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-      }}>
-        <button
-          onClick={() => fileInputRef.current?.click()}
-          style={{ padding: '6px 12px', fontSize: 12, background: 'var(--theme-accent)', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer' }}
-        >
-          {t('viewer3d.openIfc')}
-        </button>
-        <span style={{ fontSize: 11, color: '#555' }}>{t('viewer3d.dropHint')}</span>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".ifc"
-          style={{ display: 'none' }}
-          onChange={handleFileChange}
-        />
-      </div>
-
-      {loading && (
-        <div style={{
-          position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-          background: 'rgba(255,255,255,0.95)', padding: 20, borderRadius: 8,
-          fontSize: 14, zIndex: 20,
-        }}>
-          {t('viewer3d.loading')}
-        </div>
-      )}
-
-      {error && (
-        <div style={{
-          position: 'absolute', bottom: 20, left: 20, right: 20, zIndex: 20,
-          background: '#fee', color: '#900', padding: 12, borderRadius: 6, fontSize: 12,
-          border: '1px solid #fcc',
-        }}>
-          {error}
-        </div>
-      )}
-
-      {selectedInfo && (
-        <div style={{
-          position: 'absolute', top: 10, right: 10, zIndex: 10,
-          background: 'rgba(255,255,255,0.95)', padding: 12, borderRadius: 6,
-          boxShadow: '0 2px 8px rgba(0,0,0,0.15)', minWidth: 200, fontSize: 12,
-        }}>
-          <div style={{ fontWeight: 600, marginBottom: 6 }}>{selectedInfo.name}</div>
-          {selectedInfo.quantities && Object.entries(selectedInfo.quantities).map(([k, v]) => (
-            <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
-              <span>{k}:</span>
-              <span>{v.toFixed(2)}</span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* 3D canvas container */}
-      <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
+  useEffect(()=>{
+    const container=mount.current;if(!container)return;
+    let renderer:THREE.WebGLRenderer;
+    try{renderer=new THREE.WebGLRenderer({antialias:true,logarithmicDepthBuffer:true});}catch(e){setError(`3D-weergave niet beschikbaar: ${String(e)}`);return;}
+    renderer.setPixelRatio(Math.min(devicePixelRatio,2));container.appendChild(renderer.domElement);
+    const scene=new THREE.Scene();scene.background=new THREE.Color('#e6edf3');
+    scene.add(new THREE.HemisphereLight(0xffffff,0x617181,2));const light=new THREE.DirectionalLight(0xffffff,2);light.position.set(10,20,10);scene.add(light);
+    const camera=new THREE.PerspectiveCamera(45,1,0.01,100000);camera.position.set(10,10,10);
+    const controls=new OrbitControls(camera,renderer.domElement);const group=new THREE.Group();scene.add(group);
+    const render=()=>renderer.render(scene,camera);controls.addEventListener('change',render);
+    const fit=()=>{const box=new THREE.Box3().setFromObject(group);if(box.isEmpty())return;const center=box.getCenter(new THREE.Vector3());const distance=Math.max(box.getSize(new THREE.Vector3()).length(),1);controls.target.copy(center);camera.position.copy(center).add(new THREE.Vector3(distance,distance*.7,distance));camera.near=Math.max(distance/10000,.001);camera.far=Math.max(distance*100,1000);camera.updateProjectionMatrix();controls.update();render();};
+    const resize=new ResizeObserver(()=>{const w=container.clientWidth,h=container.clientHeight;if(w&&h){renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();render();}});resize.observe(container);
+    let down={x:0,y:0};const pointerDown=(e:PointerEvent)=>{down={x:e.clientX,y:e.clientY};};
+    const click=(e:MouseEvent)=>{if(Math.hypot(e.clientX-down.x,e.clientY-down.y)>4)return;const bounds=renderer.domElement.getBoundingClientRect();const ray=new THREE.Raycaster();ray.setFromCamera(new THREE.Vector2((e.clientX-bounds.left)/bounds.width*2-1,-(e.clientY-bounds.top)/bounds.height*2+1),camera);const hit=ray.intersectObjects(group.children).find(h=>h.object.visible);const current=getIfcSession(docId);if(!current)return;const id=hit?.object.userData.expressId as number|undefined;let ids=id?[id]:[];if(id&&(e.ctrlKey||e.metaKey))ids=current.selected.includes(id)?current.selected.filter(v=>v!==id):[...current.selected,id];void run('select',{elementIds:ids});};
+    renderer.domElement.addEventListener('pointerdown',pointerDown);renderer.domElement.addEventListener('click',click);
+    rendererState.current={scene,camera,controls,group,fit};render();
+    return()=>{resize.disconnect();controls.dispose();renderer.domElement.removeEventListener('pointerdown',pointerDown);renderer.domElement.removeEventListener('click',click);group.traverse(o=>{if(o instanceof THREE.Mesh){o.geometry.dispose();(o.material as THREE.Material).dispose();}});renderer.dispose();renderer.domElement.remove();rendererState.current=null;};
+  },[docId]);
+  useEffect(()=>{
+    const r=rendererState.current;if(!r)return;
+    for(const child of [...r.group.children]){if(child instanceof THREE.Mesh){child.geometry.dispose();(child.material as THREE.Material).dispose();}r.group.remove(child);}
+    for(const m of session?.meshes??[]){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(m.positions,3));g.setAttribute('normal',new THREE.BufferAttribute(m.normals,3));g.setIndex(new THREE.BufferAttribute(m.indices,1));const material=new THREE.MeshStandardMaterial({color:new THREE.Color(m.color[0],m.color[1],m.color[2]),opacity:m.color[3],transparent:m.color[3]<1,side:THREE.DoubleSide,roughness:.8});const mesh=new THREE.Mesh(g,material);if(m.origin)mesh.position.fromArray(m.origin);mesh.userData.expressId=m.expressId;r.group.add(mesh);}
+    r.fit();r.controls.dispatchEvent({type:'change'});
+  },[docId,session?.meshes]);
+  useEffect(()=>{const r=rendererState.current;if(!r)return;for(const o of r.group.children){const m=o as THREE.Mesh<THREE.BufferGeometry,THREE.MeshStandardMaterial>;const isSelected=selected.includes(m.userData.expressId);m.material.emissive.set(isSelected?0x006699:0x000000);m.visible=!session?.isolated||isSelected;}r.controls.dispatchEvent({type:'change'});},[revision,docId]);
+  useEffect(()=>{rendererState.current?.fit();},[session?.cameraRevision]);
+  return <div className="ifc-workspace">
+    <header><strong>3D & Begroting · IFC-Lite</strong><button disabled={loading} onClick={()=>input.current?.click()}>IFC openen</button><input ref={input} type="file" accept=".ifc" hidden onChange={e=>{const file=e.target.files?.[0];if(file)void load(file);e.target.value='';}}/><button onClick={()=>run('fit')} disabled={!session}>Alles in beeld</button><button onClick={()=>run('isolate',{enabled:!session?.isolated})} disabled={!selected.length}>Selectie isoleren</button><label>Verdeling <input type="range" min="30" max="70" value={width} onChange={e=>setWidth(Number(e.target.value))}/></label></header>
+    {error&&<div role="alert" className="ifc-error">{error}</div>}
+    <div className="ifc-columns">
+      <section className="ifc-model" style={{width:`${width}%`}} aria-label="IFC-model" onDragOver={e=>{e.preventDefault();e.stopPropagation();}} onDrop={e=>{e.preventDefault();e.stopPropagation();const file=e.dataTransfer.files[0];if(file)void load(file);}}>
+        <div className="ifc-canvas" ref={mount}/>
+        {(!session||loading)&&<div className="ifc-status" role="status">{loading?'IFC-Lite laadt geometrie en hoeveelheden…':'Open of sleep een IFC-bestand. Klik op een element; Ctrl/⌘-klik voor meerdere.'}</div>}
+        <div className="ifc-elements"><input aria-label="Elementen zoeken" placeholder="Zoek naam of IFC-type" value={search} onChange={e=>setSearch(e.target.value)}/><span>{session?.model.fileName} · {selected.length} geselecteerd</span><div className="ifc-element-list">{session?.model.elements.filter(e=>`${e.name} ${e.type}`.toLowerCase().includes(search.toLowerCase())).slice(0,300).map(e=><label key={e.id}><input type="checkbox" checked={selected.includes(e.expressId)} onChange={()=>run('select',{elementIds:selected.includes(e.expressId)?selected.filter(id=>id!==e.expressId):[...selected,e.expressId]})}/>{e.type} · {e.name}</label>)}</div></div>
+        <div className="ifc-takeoff"><select aria-label="IFC-hoeveelheid" value={metric} onChange={e=>setKey(e.target.value)}><option value="__count__">Aantal elementen</option>{options.map(q=><option key={q.key} value={q.key}>{q.label} ({q.unit})</option>)}</select><strong>{total?`${total.value.toLocaleString('nl-NL',{maximumFractionDigits:4})} ${total.unit}`:'Selecteer elementen'}</strong><button disabled={!total||!eligible} onClick={()=>run('takeoff',{quantityKey:metric,itemId:targetId})}>Overnemen in geselecteerde post</button><small>{eligible?`${target?.nr} ${target?.description}`:'Selecteer rechts een begrotingspost of rekenregel.'} Hoeveelheden komen uit IFC-quantitysets; controleer bruto/netto.</small></div>
+      </section>
+      <section className="ifc-budget" aria-label="Begroting naast IFC"><CostGrid/></section>
     </div>
-  );
+  </div>;
 }

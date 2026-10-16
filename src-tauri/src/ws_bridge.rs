@@ -45,7 +45,8 @@ pub struct McpResponse {
 /// This must be called from within a tokio runtime (Tauri 2 runs on tokio).
 pub fn start_ws_bridge(app: AppHandle) {
     tauri::async_runtime::spawn(async move {
-        let addr = format!("127.0.0.1:{}", WS_PORT);
+        let port = std::env::var("OCS_WS_PORT").ok().and_then(|v| v.parse::<u16>().ok()).unwrap_or(WS_PORT);
+        let addr = format!("127.0.0.1:{}", port);
         let listener = match TcpListener::bind(&addr).await {
             Ok(l) => {
                 info!("[WS Bridge] Listening on ws://{}", addr);
@@ -127,6 +128,9 @@ fn process_message(text: &str, app: &AppHandle) -> McpResponse {
     };
 
     let action = mutation.action.clone();
+    if action == "desktop_command_request" {
+        return McpResponse { success: false, error: Some("Use authenticated HTTP command endpoint".into()), action };
+    }
 
     // Forward to the frontend via Tauri event system
     match app.emit("mcp-mutation", &mutation) {

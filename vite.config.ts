@@ -1,12 +1,15 @@
+import { browserAliases } from './build/browserAliases';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import pkg from './package.json' with { type: 'json' };
 
 export default defineConfig({
+  worker: { format: 'es' },
   plugins: [react()],
   resolve: {
     alias: {
+      ...browserAliases,
       '@': path.resolve(__dirname, './src'),
     },
   },

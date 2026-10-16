@@ -1,3 +1,4 @@
+import { registerAppTools } from './appTools';
 // De shebang + createRequire-shim worden door build.mjs (esbuild-banner) aan de bundle toegevoegd.
 /**
  * Open Calc Studio MCP Server
@@ -12,11 +13,23 @@
  *
  * Resources: budget://current, budget://schedule, budget://items
  */
+import { recalculateItems, getStaartBreakdown } from '../../src/services/calculation/calculator';
+import { deserializeProject } from '../../src/services/file/fileService';
+import { importBc3File } from '../../src/services/importers/bc3Importer';
+import { importOnlvFile } from '../../src/services/importers/onlvImporter';
+import { applyGaebX84, importGaeb } from '../../src/services/importers/gaebImporter';
+import { buildBc3Bytes } from '../../src/services/export/bc3Exporter';
+import { exportOnlv } from '../../src/services/export/onlvExporter';
+import { exportCuf } from '../../src/services/exporters/cufExporter';
+import { exportTradxml } from '../../src/services/exporters/tradxmlExporter';
+import { exportRsx } from '../../src/services/exporters/rsxExporter';
+import type { CostItem } from '../../src/types/costModel';
+
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { execFile } from "node:child_process";
-import { readFileSync, writeFileSync, accessSync } from "node:fs";
+import { readFileSync, writeFileSync, accessSync, existsSync } from "node:fs";
 import { createRequire } from "node:module";
 import * as crypto from "node:crypto";
 import { basename, dirname, extname, join, resolve } from "node:path";
@@ -73,6 +86,7 @@ function connectBridge() {
 }
 
 function scheduleReconnect() {
+  if (process.env.OCS_DISABLE_BRIDGE === '1') return;
   if (wsReconnectTimer) return;
   wsReconnectTimer = setTimeout(() => {
     wsReconnectTimer = null;
@@ -82,6 +96,7 @@ function scheduleReconnect() {
 
 /** Send a mutation to the Tauri app via WebSocket (fire-and-forget). */
 function sendBridgeMutation(action: string, data: Record<string, unknown> = {}) {
+  if (process.env.OCS_DISABLE_BRIDGE === '1') return;
   if (!wsBridge || wsBridge.readyState !== WebSocket.OPEN) {
     // Try to connect for future mutations
     connectBridge();
@@ -94,8 +109,8 @@ function sendBridgeMutation(action: string, data: Record<string, unknown> = {}) 
   }
 }
 
-// Attempt initial connection
-connectBridge();
+// Integration tests must not mutate a running desktop app through the bridge.
+if (process.env.OCS_DISABLE_BRIDGE !== '1') connectBridge();
 
 // ===========================================================================
 // Types (mirrored from src/types/costModel.ts to avoid browser deps)
@@ -106,18 +121,6 @@ type RowType = 'chapter'|'begrotingspost'|'bewakingspost'|'regel'|'tekstregel'|'
 type ResourceType = 'onderaannemer'|'materieel'|'materiaal'|'arbeid'|'overig';
 type Verrekenbaarheid = 'V'|'A'|'N'|'F'|null;
 
-interface CostItem {
-  id: string; parentId: string | null; sortOrder: number;
-  code: string; description: string; unit: CostUnit;
-  quantity: number | null; materialPrice: number | null; laborPrice: number | null;
-  unitPrice: number; total: number; isCollapsed: boolean; depth: number;
-  notes: string; ifcGuid: string; rowType: RowType;
-  staartPercentage: number | null; nr: string;
-  normQuantity: number | null; normFactor: number | null;
-  normDivisor: number | null; normUnitPrice: number | null;
-  resourceType: ResourceType | null; resourceLibraryId: string | null;
-  tariefGroep: 'A'|'B'|'C'|null; verrekenbaar: Verrekenbaarheid;
-}
 
 interface CostSchedule {
   id: string; name: string; description: string;
@@ -146,6 +149,7 @@ interface ProjectFile {
 // Huidige .ifcCalc-formaatversie — gelijk houden aan FILE_FORMAT_VERSION in
 // src/services/file/fileService.ts (zie docs/ifccalc-formaat.md).
 const FILE_FORMAT_VERSION = '2.2.0';
+const NATIVE_BUDGET_EXTENSIONS = new Set(['.ifccalc', '.ocs', '.json', '.ifcx']);
 
 // ===========================================================================
 // Helpers
@@ -168,319 +172,6 @@ function ifcGuid(): string {
 
 function ok(data: unknown) { return { content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }] }; }
 function err(msg: string) { return { content: [{ type: "text" as const, text: `Error: ${msg}` }], isError: true as const }; }
-
-// ===========================================================================
-// Calculator (faithful port of src/services/calculation/calculator.ts)
-// ===========================================================================
-
-/**
- * Canonieke item-volgorde (port van normalizeItemOrder in de frontend):
- * depth-first per parentId zodat kinderen aaneengesloten onder hun ouder
- * staan. add_item voegt plat (achteraan) toe; zonder deze normalisatie
- * belanden regels in rapportages/exports onder het verkeerde hoofdstuk.
- * Sibling-volgorde = bestaande relatieve volgorde; depth her-afgeleid;
- * sortOrder = sibling-index; wezen behouden; staart_* achteraan.
- */
-function normalizeItemOrder(items: CostItem[]): CostItem[] {
-  const byParent = new Map<string | null, CostItem[]>();
-  const staart: CostItem[] = [];
-  for (const item of items) {
-    if (item.parentId === undefined) item.parentId = null;
-    if (item.rowType.startsWith('staart_')) {
-      staart.push(item);
-      continue;
-    }
-    const key = item.parentId;
-    const list = byParent.get(key);
-    if (list) list.push(item);
-    else byParent.set(key, [item]);
-  }
-
-  const ordered: CostItem[] = [];
-  const seen = new Set<string>();
-  const walk = (parentId: string | null, depth: number) => {
-    const kids = byParent.get(parentId);
-    if (!kids) return;
-    for (let i = 0; i < kids.length; i++) {
-      const item = kids[i];
-      if (seen.has(item.id)) continue; // cyclus-guard
-      seen.add(item.id);
-      item.depth = depth;
-      item.sortOrder = i;
-      ordered.push(item);
-      walk(item.id, depth + 1);
-    }
-  };
-  walk(null, 0);
-
-  for (const item of items) {
-    if (!item.rowType.startsWith('staart_') && !seen.has(item.id)) {
-      seen.add(item.id);
-      ordered.push(item);
-    }
-  }
-
-  return [...ordered, ...staart];
-}
-
-function recalculateItems(items: CostItem[], tarieven?: Record<string, number>): CostItem[] {
-  const result = normalizeItemOrder(items.map(item => ({ ...item })));
-
-  // Recompute laborPrice from tariefGroep
-  if (tarieven) {
-    for (const item of result) {
-      if (item.rowType === 'regel' && item.tariefGroep) {
-        item.laborPrice = (item.normQuantity ?? 0) * (tarieven[item.tariefGroep] ?? 0);
-      }
-    }
-  }
-
-  // Build parent->children map
-  const childrenMap = new Map<string | null, CostItem[]>();
-  for (const item of result) {
-    const list = childrenMap.get(item.parentId) ?? [];
-    list.push(item);
-    childrenMap.set(item.parentId, list);
-  }
-
-  // First pass: leaf items
-  for (const item of result) {
-    if (item.rowType === 'regel') {
-      const qty = item.quantity ?? 0;
-      const norm = item.normQuantity ?? 0;
-      const cap = item.normFactor ?? 1;
-      const nup = item.normUnitPrice ?? 0;
-      const lab = item.laborPrice ?? 0;
-      const hoeveelheid = qty * norm / (cap || 1);
-      if (lab > 0 || norm === 0) {
-        item.unitPrice = qty * (nup + lab);
-      } else {
-        item.unitPrice = hoeveelheid * nup;
-      }
-      item.total = item.unitPrice;
-    } else if (item.rowType === 'begrotingspost') {
-      const children = childrenMap.get(item.id) ?? [];
-      if (children.length === 0) {
-        const mat = item.materialPrice ?? 0;
-        const lab = item.laborPrice ?? 0;
-        item.unitPrice = mat + lab;
-        item.total = (item.quantity ?? 0) * item.unitPrice;
-      }
-    }
-  }
-
-  // Second pass: bottom-up summation for containers
-  function calcTotal(parentId: string): number {
-    const children = childrenMap.get(parentId) ?? [];
-    let sum = 0;
-    for (const child of children) {
-      if (child.rowType === 'chapter' || child.rowType === 'begrotingspost' || child.rowType === 'bewakingspost') {
-        const cc = childrenMap.get(child.id) ?? [];
-        if (cc.length > 0) {
-          const childSum = calcTotal(child.id);
-          child.total = childSum;
-          if (child.rowType === 'bewakingspost') {
-            child.unitPrice = cc.filter(c => !isStagart(c.rowType)).reduce((s, c) => s + (c.unitPrice ?? 0), 0);
-          } else if (child.rowType === 'begrotingspost') {
-            if (child.quantity != null && child.quantity !== 0) {
-              child.unitPrice = childSum / child.quantity;
-            } else {
-              child.unitPrice = cc.filter(c => !isStagart(c.rowType)).reduce((s, c) => s + (c.unitPrice ?? 0), 0);
-            }
-          }
-        }
-      }
-      if (!isStagart(child.rowType)) sum += child.total;
-    }
-    return sum;
-  }
-
-  for (const item of result) {
-    if (item.parentId === null && !isStagart(item.rowType)) {
-      const children = childrenMap.get(item.id) ?? [];
-      if (children.length > 0) item.total = calcTotal(item.id);
-    }
-  }
-
-  // Third pass: staartkosten (cascading surcharges)
-  const totaalKolommen = result
-    .filter(item => item.parentId === null && !isStagart(item.rowType))
-    .reduce((sum, item) => sum + item.total, 0);
-
-  const oaPortie = result
-    .filter(item => item.rowType === 'regel' && item.resourceType === 'onderaannemer')
-    .reduce((sum, item) => sum + item.total, 0);
-
-  let kostprijs = totaalKolommen;
-  let btwExclBasis: number | null = null;
-  let btwLaagBasisSum = 0;
-  // Per-onderdeel btw-markering: laag-belaste directe kosten via leaf-walk
-  // (kinderen erven het tarief van hun ouder; default hoog).
-  const _childrenOf = new Map<string | null, CostItem[]>();
-  for (const it of result) {
-    if (it.rowType.startsWith('staart_')) continue;
-    const l = _childrenOf.get(it.parentId) ?? []; l.push(it); _childrenOf.set(it.parentId, l);
-  }
-  const _walkLaag = (node: CostItem, inherited: 'hoog' | 'laag'): number => {
-    const eff = node.btwTarief ?? inherited;
-    const kids = _childrenOf.get(node.id);
-    if (!kids || kids.length === 0) return eff === 'laag' ? node.total : 0;
-    return kids.reduce((s, k) => s + _walkLaag(k, eff), 0);
-  };
-  const btwLaagDirect = (_childrenOf.get(null) ?? []).reduce((s, t) => s + _walkLaag(t, 'hoog'), 0);
-  const btwDirectTotaal = (_childrenOf.get(null) ?? []).reduce((s, t) => s + t.total, 0);
-  let runningTotal = totaalKolommen;
-  for (const item of result) {
-    if (!isStagart(item.rowType)) continue;
-    const pct = item.staartPercentage ?? 0;
-    // Legacy types
-    if (item.rowType === 'staart_ukk') {
-      item.quantity = pct; item.unit = '%'; item.unitPrice = totaalKolommen / 100;
-      item.total = totaalKolommen * (pct / 100); runningTotal = totaalKolommen + item.total; kostprijs = runningTotal;
-    } else if (item.rowType === 'staart_ak') {
-      const base = runningTotal;
-      item.quantity = pct; item.unit = '%'; item.unitPrice = base / 100;
-      item.total = base * (pct / 100); runningTotal += item.total; kostprijs = runningTotal;
-    } else if (item.rowType === 'staart_wr') {
-      const base = runningTotal;
-      item.quantity = pct; item.unit = '%'; item.unitPrice = base / 100;
-      item.total = base * (pct / 100); runningTotal += item.total;
-    // Bouw 1 staart model: phase 1 (over totaal kolommen)
-    } else if (item.rowType === 'staart_ak_oa') {
-      item.quantity = pct; item.unit = '%'; item.unitPrice = oaPortie / 100;
-      item.total = oaPortie * (pct / 100); kostprijs = totaalKolommen + item.total; runningTotal = kostprijs;
-    } else if (item.rowType === 'staart_abk') {
-      item.quantity = pct; item.unit = '%'; item.unitPrice = totaalKolommen / 100;
-      item.total = totaalKolommen * (pct / 100); kostprijs += item.total; runningTotal = kostprijs;
-    } else if (item.rowType === 'staart_garanties') {
-      item.quantity = pct; item.unit = '%'; item.unitPrice = totaalKolommen / 100;
-      item.total = totaalKolommen * (pct / 100); kostprijs += item.total; runningTotal = kostprijs;
-    } else if (item.rowType === 'staart_wvpm') {
-      item.quantity = pct; item.unit = '%'; item.unitPrice = totaalKolommen / 100;
-      item.total = totaalKolommen * (pct / 100); kostprijs += item.total; runningTotal = kostprijs;
-    // Bouw 1 staart model: phase 2 (over kostprijs)
-    } else if (item.rowType === 'staart_risico') {
-      item.quantity = pct; item.unit = '%'; item.unitPrice = kostprijs / 100;
-      item.total = kostprijs * (pct / 100); runningTotal += item.total;
-    } else if (item.rowType === 'staart_winst') {
-      item.quantity = pct; item.unit = '%'; item.unitPrice = kostprijs / 100;
-      item.total = kostprijs * (pct / 100); runningTotal += item.total;
-    } else if (item.rowType === 'staart_verzekering') {
-      item.quantity = pct; item.unit = '%'; item.unitPrice = kostprijs / 100;
-      item.total = kostprijs * (pct / 100); runningTotal += item.total;
-    // Bouw 1 staart model: phase 3 (BTW over aanneemsom)
-    // Laag tarief over de ingevulde grondslag; hoog tarief over de rest.
-    } else if (item.rowType === 'staart_btw_laag') {
-      if (btwExclBasis === null) btwExclBasis = runningTotal;
-      const rawBasis = btwLaagDirect > 0 && btwDirectTotaal > 0
-        ? (btwLaagDirect / btwDirectTotaal) * btwExclBasis
-        : (item.staartBtwBasis ?? 0);
-      const basis = Math.min(Math.max(rawBasis, 0), Math.max(btwExclBasis - btwLaagBasisSum, 0));
-      btwLaagBasisSum += basis;
-      item.quantity = pct; item.unit = '%'; item.unitPrice = basis / 100;
-      item.total = basis * (pct / 100); runningTotal += item.total;
-    } else if (item.rowType === 'staart_btw') {
-      if (btwExclBasis === null) btwExclBasis = runningTotal;
-      const aanneemsomExcl = btwExclBasis - btwLaagBasisSum;
-      item.quantity = pct; item.unit = '%'; item.unitPrice = aanneemsomExcl / 100;
-      item.total = aanneemsomExcl * (pct / 100); runningTotal += item.total;
-    // Afronding (shared)
-    } else if (item.rowType === 'staart_afronding') {
-      const rounded = Math.round(runningTotal / 10) * 10;
-      item.total = rounded - runningTotal; item.quantity = null; item.unitPrice = 0;
-      runningTotal = rounded;
-    }
-  }
-
-  // Fourth pass: hierarchical Nr values
-  const siblingGroups = new Map<string | null, CostItem[]>();
-  for (const item of result) {
-    const list = siblingGroups.get(item.parentId) ?? [];
-    list.push(item);
-    siblingGroups.set(item.parentId, list);
-  }
-
-  function assignNr(parentId: string | null, parentNr: string) {
-    const siblings = siblingGroups.get(parentId) ?? [];
-    let counter = 0;
-    for (const item of siblings) {
-      if (isStagart(item.rowType) || item.rowType === 'tekstregel' || item.rowType === 'witregel') {
-        item.nr = ''; continue;
-      }
-      counter++;
-      const segment = (!parentId && item.rowType === 'chapter' && item.code)
-        ? item.code : String(counter).padStart(2, '0');
-      item.nr = parentNr ? `${parentNr}.${segment}` : segment;
-      if (isContainer(item.rowType)) assignNr(item.id, item.nr);
-    }
-  }
-  assignNr(null, '');
-
-  return result;
-}
-
-interface StaartBreakdown {
-  kostprijs: number; ukkAmount: number; ukkPercentage: number; subtotaal1: number;
-  akAmount: number; akPercentage: number; subtotaal2: number;
-  wrAmount: number; wrPercentage: number;
-  aanneemsom: number; afronding: number; aanneemsomAfgerond: number;
-  totaalKolommen: number;
-  akOaAmount: number; akOaPercentage: number;
-  abkAmount: number; abkPercentage: number;
-  garantiesAmount: number; garantiesPercentage: number;
-  wvpmAmount: number; wvpmPercentage: number;
-  kostprijsBouw1: number;
-  risicoAmount: number; risicoPercentage: number;
-  winstAmount: number; winstPercentage: number;
-  verzekeringAmount: number; verzekeringPercentage: number;
-  aanneemsomExcl: number;
-  btwAmount: number; btwPercentage: number;
-  btwLaagAmount: number; btwLaagPercentage: number;
-}
-
-function getStaartBreakdown(items: CostItem[]): StaartBreakdown {
-  const totaalKolommen = items
-    .filter(i => i.parentId === null && !isStagart(i.rowType))
-    .reduce((s, i) => s + i.total, 0);
-  let uA = 0, uP = 0, aA = 0, aP = 0, wA = 0, wP = 0, af = 0;
-  let aoA = 0, aoP = 0, abA = 0, abP = 0, gaA = 0, gaP = 0, wvA = 0, wvP = 0;
-  let riA = 0, riP = 0, wiA = 0, wiP = 0, veA = 0, veP = 0, btA = 0, btP = 0, btlA = 0, btlP = 0;
-  for (const i of items) {
-    if (i.rowType === 'staart_ukk') { uA = i.total; uP = i.staartPercentage ?? 0; }
-    if (i.rowType === 'staart_ak') { aA = i.total; aP = i.staartPercentage ?? 0; }
-    if (i.rowType === 'staart_wr') { wA = i.total; wP = i.staartPercentage ?? 0; }
-    if (i.rowType === 'staart_ak_oa') { aoA = i.total; aoP = i.staartPercentage ?? 0; }
-    if (i.rowType === 'staart_abk') { abA = i.total; abP = i.staartPercentage ?? 0; }
-    if (i.rowType === 'staart_garanties') { gaA = i.total; gaP = i.staartPercentage ?? 0; }
-    if (i.rowType === 'staart_wvpm') { wvA = i.total; wvP = i.staartPercentage ?? 0; }
-    if (i.rowType === 'staart_risico') { riA = i.total; riP = i.staartPercentage ?? 0; }
-    if (i.rowType === 'staart_winst') { wiA = i.total; wiP = i.staartPercentage ?? 0; }
-    if (i.rowType === 'staart_verzekering') { veA = i.total; veP = i.staartPercentage ?? 0; }
-    if (i.rowType === 'staart_btw') { btA = i.total; btP = i.staartPercentage ?? 0; }
-    if (i.rowType === 'staart_btw_laag') { btlA = i.total; btlP = i.staartPercentage ?? 0; }
-    if (i.rowType === 'staart_afronding') { af = i.total; }
-  }
-  const s1 = totaalKolommen + uA, s2 = s1 + aA;
-  const kostprijsBouw1 = totaalKolommen + aoA + abA + gaA + wvA;
-  const aanneemsomExcl = kostprijsBouw1 + riA + wiA + veA;
-  const aanneemsom = s2 + wA + aoA + abA + gaA + wvA + riA + wiA + veA;
-  return {
-    kostprijs: totaalKolommen, totaalKolommen,
-    ukkAmount: uA, ukkPercentage: uP, subtotaal1: s1,
-    akAmount: aA, akPercentage: aP, subtotaal2: s2,
-    wrAmount: wA, wrPercentage: wP,
-    aanneemsom, afronding: af, aanneemsomAfgerond: aanneemsom + btA + btlA + af,
-    akOaAmount: aoA, akOaPercentage: aoP,
-    abkAmount: abA, abkPercentage: abP,
-    garantiesAmount: gaA, garantiesPercentage: gaP,
-    wvpmAmount: wvA, wvpmPercentage: wvP,
-    kostprijsBouw1, risicoAmount: riA, risicoPercentage: riP,
-    winstAmount: wiA, winstPercentage: wiP,
-    verzekeringAmount: veA, verzekeringPercentage: veP,
-    aanneemsomExcl, btwAmount: btA, btwPercentage: btP,
-    btwLaagAmount: btlA, btwLaagPercentage: btlP,
-  };
-}
 
 // ===========================================================================
 // File Service
@@ -1009,35 +700,15 @@ function findCalcParentId(
   return chapterIds.get(row.groep) || null;
 }
 
-function deserializeProject(json: string): ProjectFile {
-  const parsed = JSON.parse(json);
-  if (!parsed.schedule || !Array.isArray(parsed.items)) throw new Error('Invalid file format');
-  if (!parsed.version || parsed.version.startsWith('1.')) {
-    parsed.version = '2.0.0';
-    parsed.resourceLibrary = parsed.resourceLibrary ?? [];
-  }
-
-  // v0.6.2 migration: inject staart_* items if missing
-  // (Required so live staart calculation has items to operate on.)
-  const hasStaartItems = parsed.items.some(
-    (it: any) => typeof it?.rowType === 'string' && it.rowType.startsWith('staart_'),
-  );
-  if (!hasStaartItems) {
-    parsed.items = [...parsed.items, ...synthesizeStaartItems(parsed.schedule)];
-  }
-
-  return parsed as ProjectFile;
-}
-
 /**
  * Load a budget file from any supported format:
  *   .ifcCalc / .ocs / .json / .ifcx → JSON ProjectFile
  *   .xtb                            → IBIS-TRAD SQLite (sql.js)
  *   .calc / .mdb                    → WpCalc / Access (mdb-reader)
  */
-async function loadProjectFile(filePath: string): Promise<ProjectFile> {
+async function loadProjectFile(filePath: string): Promise<{ project: ProjectFile; warnings: string[] }> {
   const ext = extname(filePath).toLowerCase();
-  if (ext === '.xtb') return loadXtbProject(filePath);
+  if (ext === '.xtb') return { project: await loadXtbProject(filePath), warnings: [] };
   if (ext === '.calc' || ext === '.mdb') {
     // Inhoud-sniff: sommige bestanden dragen een .calc/.mdb-extensie maar zijn
     // in werkelijkheid een native OCS-project (JSON). Open die als native i.p.v.
@@ -1045,11 +716,33 @@ async function loadProjectFile(filePath: string): Promise<ProjectFile> {
     const raw = readFileSync(filePath);
     let i = 0;
     while (i < raw.length && [0x20, 0x09, 0x0a, 0x0d, 0xef, 0xbb, 0xbf].includes(raw[i])) i++;
-    if (raw[i] === 0x7b) return deserializeProject(raw.toString('utf-8'));
-    return loadCalcProject(filePath);
+    if (raw[i] === 0x7b) return { project: deserializeProject(raw.toString('utf-8')), warnings: [] };
+    return { project: await loadCalcProject(filePath), warnings: [] };
   }
-  // Default: JSON (.ifcCalc, .ocs, .json, .ifcx)
-  return deserializeProject(readFileSync(filePath, 'utf-8'));
+  if (['.bc3', '.onlv', '.onlb', '.cuf', '.rsx', '.x81', '.x82', '.x83', '.x84', '.x86', '.x87'].includes(ext)) {
+    const buffer = readFileSync(filePath);
+    const data = buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength) as ArrayBuffer;
+    const imported: { schedule: Partial<CostSchedule>; items: CostItem[]; warnings: string[]; companyInfo?: Partial<CompanyInfo> } = ext === '.bc3' ? importBc3File(data)
+      : ext === '.onlv' || ext === '.onlb' ? importOnlvFile(data)
+      : ext === '.cuf' ? importCufXml(buffer.toString('utf-8'))
+      : ext === '.rsx' ? importRsxXml(buffer.toString('utf-8'))
+      : importGaeb(buffer.toString('utf-8'));
+    const now = new Date().toISOString();
+    return {
+      project: {
+        version: FILE_FORMAT_VERSION,
+        schedule: { ...defaultSchedule(), ...imported.schedule },
+        items: imported.items,
+        companyInfo: { ...emptyCompanyInfo(), ...imported.companyInfo },
+        resourceLibrary: [], spreadsheets: { sheets: [], activeSheetId: null },
+        createdAt: now, modifiedAt: now,
+      },
+      warnings: imported.warnings,
+    };
+  }
+  if (!NATIVE_BUDGET_EXTENSIONS.has(ext)) throw new Error(`Niet-ondersteund begrotingsformaat: ${ext || '(geen extensie)'}`);
+  // Native JSON (.ifcCalc, .ocs, .json, .ifcx)
+  return { project: deserializeProject(readFileSync(filePath, 'utf-8')), warnings: [] };
 }
 
 function makeStaartItem(rowType: string, description: string, pct: number | null, sortOrder: number): any {
@@ -1349,6 +1042,8 @@ const server = new McpServer({
   version: "1.0.0",
 });
 
+registerAppTools(server, loadProjectFile);
+
 // â”€â”€ Resources â”€â”€
 
 server.resource('budget://current', 'budget://current', async (uri) => {
@@ -1368,28 +1063,55 @@ server.resource('budget://items', 'budget://items', async (uri) => {
 
 // â”€â”€ Tools â”€â”€
 
-server.tool("open_budget", "Open a budget file and load it into memory. Supported formats: .ifcCalc / .ocs / .json / .ifcx (OCS native), .xtb (IBIS-TRAD SQLite), .calc / .mdb (WpCalc / Access).", {
-  filePath: z.string().describe("Path to the budget file (.ifcCalc, .ocs, .json, .ifcx, .xtb, .calc, .mdb)"),
+server.tool('get_capabilities', 'List supported exchange formats and known MCP limitations.', {}, async () => ok({
+  native: ['.ifcCalc', '.ocs', '.json', '.ifcx'],
+  importFiles: ['.xtb', '.calc', '.mdb', '.bc3', '.cuf', '.rsx', '.onlv', '.onlb', '.x81', '.x82', '.x83', '.x86', '.x87'],
+  importTools: ['import_excel_csv', 'import_cuf_xml', 'import_tradxml', 'import_rsx', 'import_zsx', 'import_nsx', 'apply_gaeb_x84'],
+  exportFiles: ['.bc3', '.onlv', '.cuf', 'TRADXML', '.rsx'],
+  otherExports: ['export_pdf', 'export_ifc', 'export_ifcx'],
+  limitations: [
+    'GAEB X84 requires a matching X83 budget and is applied as a price overlay.',
+    'GAEB import does not preserve every annex, alternative or free-text field; GAEB export is unavailable.',
+    'Desktop functions, PDF editing and IFC-Lite selection/takeoff use app_* tools and require the running app. Call app_list_actions for their catalogue.',
+    'SIA 451/CRBX, PriMus DCF/XPWE and On-Screen Takeoff OST/OSP are unsupported.',
+  ],
+}));
+
+server.tool("open_budget", "Open a budget file and load it into memory. Supports native files, IBIS/WpCalc, BC3, CUF, RAW RSX, ÖNORM ONLV/ONLB and GAEB X81/X82/X83/X86/X87. Price-only X84 requires its matching X83 and is rejected.", {
+  filePath: z.string().describe("Absolute path to a supported budget file"),
 }, async ({ filePath }) => {
   try {
     const p = resolve(filePath);
-    const project = await loadProjectFile(p);
+    const { project, warnings } = await loadProjectFile(p);
     const items = recalculateItems(project.items, project.schedule.tarieven);
-    currentBudget = { filePath: p, project, items, schedule: project.schedule };
+    const nativePath = NATIVE_BUDGET_EXTENSIONS.has(extname(p).toLowerCase()) ? p : '';
+    currentBudget = { filePath: nativePath, project, items, schedule: project.schedule };
 
     const bd = getStaartBreakdown(items);
     const chapters = items.filter(i => i.parentId === null && i.rowType === 'chapter')
       .map(c => ({ nr: c.nr, code: c.code, description: c.description, total: c.total }));
 
     // Push full budget to Tauri app
-    sendBridgeMutation("open_budget", { schedule: project.schedule, items, fileName: project.schedule.name || project.schedule.projectName || basename(p), filePath: p });
+    sendBridgeMutation("open_budget", { schedule: project.schedule, items, fileName: project.schedule.name || project.schedule.projectName || basename(p), filePath: nativePath || null });
 
     return ok({
       success: true, filePath: p,
       name: project.schedule.name, projectName: project.schedule.projectName,
       itemCount: items.length, chapterCount: chapters.length, chapters,
-      grandTotal: bd.aanneemsomAfgerond, kostprijs: bd.kostprijs,
+      grandTotal: bd.aanneemsomAfgerond, kostprijs: bd.kostprijs, warnings,
     });
+  } catch (e: unknown) { return err((e as Error).message); }
+});
+
+server.tool("apply_gaeb_x84", "Apply prices from a GAEB X84 offer to the matching item numbers in the currently opened X83 budget. Fails atomically on unmatched items or existing resource breakdowns.", {
+  filePath: z.string().describe('Path to the X84 offer file'),
+}, async ({ filePath }) => {
+  try {
+    const b = req();
+    const merged = applyGaebX84(readFileSync(resolve(filePath), 'utf-8'), b.items);
+    b.items = recalculateItems(merged.items, b.schedule.tarieven);
+    sendBridgeMutation('set_items', { items: b.items });
+    return ok({ success: true, pricedCount: merged.pricedCount, warnings: merged.warnings });
   } catch (e: unknown) { return err((e as Error).message); }
 });
 
@@ -1657,6 +1379,9 @@ server.tool("save_budget", "Save current budget to an .ifcx file", {
     const b = req();
     const out = filePath ? resolve(filePath) : b.filePath;
     if (!out) throw new Error('No file path specified');
+    if (!NATIVE_BUDGET_EXTENSIONS.has(extname(out).toLowerCase())) {
+      throw new Error('save_budget schrijft uitsluitend .ifcCalc, .ocs, .json of .ifcx. Kies een nieuw native bestandspad.');
+    }
     const pf: ProjectFile = {
       version: FILE_FORMAT_VERSION, schedule: b.schedule, items: b.items,
       resourceLibrary: b.project.resourceLibrary ?? [],
@@ -1687,6 +1412,32 @@ server.tool("export_ifc", "Export current budget as IFC STEP format (IFC4X3)", {
 server.tool("export_ifcx", "Export current budget as IfcX JSON format (IFC5-development alpha)", {}, async () => {
   try {
     return { content: [{ type: "text" as const, text: generateIfcxJson(req().schedule, req().items) }] };
+  } catch (e: unknown) { return err((e as Error).message); }
+});
+
+server.tool("export_exchange_file", "Write the current budget to a new BC3, ÖNORM ONLV, CUF-XML, TRADXML or RAW RSX exchange file. Does not overwrite an existing file.", {
+  format: z.enum(['bc3', 'onlv', 'cuf', 'tradxml', 'rsx']),
+  outputPath: z.string().describe('Absolute path for the new exchange file'),
+}, async ({ format, outputPath }) => {
+  try {
+    const b = req();
+    const out = resolve(outputPath);
+    if (existsSync(out)) throw new Error(`Bestand bestaat al: ${out}`);
+    let warnings: string[] = [];
+    let bytes: Uint8Array;
+    if (format === 'bc3') {
+      bytes = buildBc3Bytes(b.schedule, b.items).bytes;
+    } else {
+      const input = { schedule: b.schedule, items: b.items };
+      const result = format === 'onlv' ? exportOnlv(input)
+        : format === 'cuf' ? exportCuf(input)
+        : format === 'tradxml' ? exportTradxml(input)
+        : exportRsx(input);
+      bytes = new TextEncoder().encode(result.xml);
+      warnings = result.warnings;
+    }
+    writeFileSync(out, bytes, { flag: 'wx' });
+    return ok({ success: true, format, filePath: out, byteCount: bytes.byteLength, warnings });
   } catch (e: unknown) { return err((e as Error).message); }
 });
 
@@ -3275,7 +3026,7 @@ function importRsxXml(xml: string): { items: CostItem[]; schedule: Partial<CostS
         code: rv.getAttribute('besteksnummer') ?? '',
         description: xmlGetText(rv, 'Omschrijving'),
         quantity: qty, unit: normalizeUnitXml(xmlGetText(rv, 'Eenheid')),
-        unitPrice: price, total: qty * price,
+        normUnitPrice: price, unitPrice: price, total: qty * price,
       }));
     }
   }

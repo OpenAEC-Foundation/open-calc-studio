@@ -66,7 +66,7 @@ Toegestane acties (verwijs altijd met het exacte "nr" uit de begrotingsregels):
 - {"type":"update","nr":"21.01.01","veld":"aantal","waarde":14} — velden: aantal, prijs (materiaal/inkoop per eenheid), omschrijving, eenheid, norm (uren per eenheid), tariefgroep (A/B/C), code
 - {"type":"add_hoofdstuk","code":"32","omschrijving":"Trappen"}
 - {"type":"add_post","onderNr":"21","omschrijving":"Fundering"}
-- {"type":"add_regel","onderNr":"21.01","omschrijving":"Beton C30","aantal":12,"eenheid":"m3","prijs":145,"resourceType":"materiaal"} — resourceType: arbeid | materiaal | materieel | onderaannemer | overig. Voor uren-regels: eenheid "uur" en tariefgroep meegeven; het loon wordt automatisch via de tariefgroep gerekend (geef GEEN prijs op).
+- {"type":"add_regel","onderNr":"21.01","omschrijving":"Beton C30","aantal":12,"eenheid":"m³","prijs":145,"resourceType":"materiaal"} — resourceType: arbeid | materiaal | materieel | onderaannemer | overig. Voor uren-regels: eenheid "uur" en tariefgroep meegeven; het loon wordt automatisch via de tariefgroep gerekend (geef GEEN prijs op).
 - {"type":"verwijder","nr":"21.01.02"}
 
 Regels: alleen een acties-blok opnemen als de gebruiker echt een wijziging vraagt. Leg in gewone tekst kort uit wat je doet. Bedragen zijn excl. btw. Verzin geen nr's die niet in de lijst staan.`;
@@ -76,6 +76,59 @@ Regels: alleen een acties-blok opnemen als de gebruiker echt een wijziging vraag
 export interface AssistantActie {
   type: string;
   [key: string]: unknown;
+}
+
+function normaliseerEenheid(value: unknown): CostItem['unit'] {
+  const unit = String(value ?? 'st').trim();
+  return ({ m1: 'm', m2: 'm²', m3: 'm³' } as Record<string, CostItem['unit']>)[unit] ?? unit as CostItem['unit'];
+}
+
+/** Reject a malformed or stale AI batch before changing any budget row. */
+export function validateActies(acties: AssistantActie[], items: CostItem[]): string[] {
+  const errors: string[] = [];
+  const byNr = (nr: unknown) => items.find(i => i.nr === String(nr ?? '').trim());
+  const units = new Set(['st', 'm', 'm²', 'm³', 'kg', 'ton', 'uur', 'dgn', 'km', 'keer', 'ls', 'week', 'mnd', 'post', '%', 'pm']);
+  const resources = new Set(['arbeid', 'materiaal', 'materieel', 'onderaannemer', 'overig']);
+  const numeric = (value: unknown) => value == null || value === '' || (typeof value === 'number' && Number.isFinite(value));
+  if (acties.length > 100) return ['Te veel voorgestelde wijzigingen (maximaal 100).'];
+  acties.forEach((a, index) => {
+    const prefix = `Actie ${index + 1}`;
+    if (!a || typeof a !== 'object') { errors.push(`${prefix}: ongeldige actie.`); return; }
+    const parent = byNr(a.onderNr);
+    switch (a.type) {
+      case 'update':
+        if (!byNr(a.nr)) errors.push(`${prefix}: nr ${String(a.nr)} bestaat niet.`);
+        if (!VELD_MAP[String(a.veld ?? '').toLowerCase()]) errors.push(`${prefix}: onbekend veld.`);
+        if (['aantal', 'hoeveelheid', 'prijs', 'norm'].includes(String(a.veld).toLowerCase()) && !numeric(a.waarde)) errors.push(`${prefix}: waarde moet een eindig getal zijn.`);
+        if (String(a.veld).toLowerCase() === 'eenheid' && !units.has(normaliseerEenheid(a.waarde))) errors.push(`${prefix}: onbekende eenheid.`);
+        if (String(a.veld).toLowerCase() === 'tariefgroep' && !['A', 'B', 'C'].includes(String(a.waarde))) errors.push(`${prefix}: onbekende tariefgroep.`);
+        if (['omschrijving', 'code'].includes(String(a.veld).toLowerCase()) && typeof a.waarde !== 'string') errors.push(`${prefix}: tekstwaarde ontbreekt.`);
+        break;
+      case 'add_hoofdstuk':
+        if (typeof a.omschrijving !== 'string' || !a.omschrijving.trim()) errors.push(`${prefix}: omschrijving ontbreekt.`);
+        break;
+      case 'add_post':
+        if (!parent || parent.rowType !== 'chapter') errors.push(`${prefix}: kies een bestaand hoofdstuk als ouder.`);
+        if (typeof a.omschrijving !== 'string' || !a.omschrijving.trim()) errors.push(`${prefix}: omschrijving ontbreekt.`);
+        if (!numeric(a.aantal)) errors.push(`${prefix}: aantal moet een eindig getal zijn.`);
+        if (a.eenheid != null && !units.has(normaliseerEenheid(a.eenheid))) errors.push(`${prefix}: onbekende eenheid.`);
+        break;
+      case 'add_regel':
+        if (!parent || !['begrotingspost', 'bewakingspost'].includes(parent.rowType)) errors.push(`${prefix}: kies een bestaande begrotingspost als ouder.`);
+        if (typeof a.omschrijving !== 'string' || !a.omschrijving.trim()) errors.push(`${prefix}: omschrijving ontbreekt.`);
+        if (!numeric(a.aantal) || !numeric(a.prijs) || !numeric(a.norm)) errors.push(`${prefix}: aantal, prijs en norm moeten eindige getallen zijn.`);
+        if (a.eenheid != null && !units.has(normaliseerEenheid(a.eenheid))) errors.push(`${prefix}: onbekende eenheid.`);
+        if (a.resourceType != null && !resources.has(String(a.resourceType))) errors.push(`${prefix}: onbekend middeltype.`);
+        if (a.tariefgroep != null && !['A', 'B', 'C'].includes(String(a.tariefgroep).toUpperCase())) errors.push(`${prefix}: onbekende tariefgroep.`);
+        break;
+      case 'verwijder':
+        if (!byNr(a.nr)) errors.push(`${prefix}: nr ${String(a.nr)} bestaat niet.`);
+        break;
+      default:
+        errors.push(`${prefix}: onbekende actie ${String(a.type)}.`);
+    }
+  });
+  return errors;
 }
 
 export function parseActies(text: string): { acties: AssistantActie[]; cleanText: string } {
@@ -89,6 +142,20 @@ export function parseActies(text: string): { acties: AssistantActie[]; cleanText
   } catch {
     return { acties: [], cleanText: text };
   }
+}
+
+/** Small offline grammar for a common estimating command; all other freeform
+ * requests still use the configured AI provider. The result uses the same
+ * review and validation path as an AI proposal. */
+export function parseLocalBudgetCommand(text: string): AssistantActie[] | null {
+  const match = text.trim().match(/^voeg\s+onder\s+(\d+(?:\.\d+)*)\s+(?:een\s+)?regel\s+toe\s*:\s*(\d+(?:[.,]\d+)?)\s+(\S+)\s+(.+?)\s+(?:à|tegen)\s*€?\s*(\d+(?:[.,]\d+)?)\s*$/i);
+  if (!match) return null;
+  const [, onderNr, aantal, eenheid, omschrijving, prijs] = match;
+  const unit = normaliseerEenheid(eenheid);
+  // Hourly labor uses the tariff-group model, so a free price here would be
+  // ignored by applyActies. Leave that case to the full assistant instead.
+  if (unit === 'uur') return null;
+  return [{ type: 'add_regel', onderNr, aantal: Number(aantal.replace(',', '.')), eenheid: unit, omschrijving: omschrijving.trim(), prijs: Number(prijs.replace(',', '.')) }];
 }
 
 // ── 3. Uitvoeren ────────────────────────────────────────────────────────
@@ -142,6 +209,9 @@ export function applyActies(acties: AssistantActie[]): string[] {
   if (acties.length === 0) return resultaten;
 
   const store = useAppStore.getState();
+  const errors = validateActies(acties, store.items);
+  if (errors.length) return errors.map(error => `✖ ${error}`);
+  const before = { items: store.items, documents: store.documents, undoStack: store.undoStack, redoStack: store.redoStack };
   store.pushHistory(store.items, 'Calculatieassistent');
 
   const tarieven = store.schedule.tarieven ?? { A: 66, B: 46, C: 82 };
@@ -157,6 +227,7 @@ export function applyActies(acties: AssistantActie[]): string[] {
           const veld = VELD_MAP[String(actie.veld ?? '').toLowerCase()];
           if (!veld) throw new Error(`onbekend veld "${actie.veld}"`);
           let waarde: unknown = actie.waarde;
+          if (veld === 'unit') waarde = normaliseerEenheid(waarde);
           if (['quantity', 'normUnitPrice', 'normQuantity'].includes(veld)) {
             waarde = waarde == null || waarde === '' ? null : Number(waarde);
             if (waarde !== null && isNaN(waarde as number)) throw new Error('waarde is geen getal');
@@ -180,7 +251,7 @@ export function applyActies(acties: AssistantActie[]): string[] {
           const item = nieuwItem('begrotingspost', ouder.id, {
             description: String(actie.omschrijving ?? 'Nieuwe post'),
             quantity: actie.aantal != null ? Number(actie.aantal) : null,
-            unit: (actie.eenheid as CostItem['unit']) ?? 'st',
+            unit: normaliseerEenheid(actie.eenheid),
           });
           useAppStore.getState().setItems([...useAppStore.getState().items, item]);
           resultaten.push(`✔ Post "${item.description}" toegevoegd onder ${actie.onderNr}`);
@@ -189,7 +260,7 @@ export function applyActies(acties: AssistantActie[]): string[] {
         case 'add_regel': {
           const ouder = vindOpNr(actie.onderNr);
           if (!ouder) throw new Error(`onderNr ${actie.onderNr} niet gevonden`);
-          const eenheid = String(actie.eenheid ?? 'st');
+          const eenheid = normaliseerEenheid(actie.eenheid);
           const groep = (String(actie.tariefgroep ?? 'A').toUpperCase() as 'A' | 'B' | 'C');
           const isUren = eenheid.toLowerCase() === 'uur';
           // Uur-regels volgen de vaste calculatieregels: norm 1, loon via de
@@ -198,7 +269,7 @@ export function applyActies(acties: AssistantActie[]): string[] {
           const item = nieuwItem('regel', ouder.id, {
             description: String(actie.omschrijving ?? 'Nieuwe regel'),
             quantity: actie.aantal != null ? Number(actie.aantal) : null,
-            unit: eenheid as CostItem['unit'],
+            unit: eenheid,
             ...(isUren
               ? {
                   normQuantity: 1,
@@ -247,6 +318,13 @@ export function applyActies(acties: AssistantActie[]): string[] {
     }
   }
 
+  const failed = resultaten.filter(result => result.startsWith('✖'));
+  if (failed.length) {
+    useAppStore.setState(before);
+    return [...failed, '✖ Geen wijzigingen toegepast.'];
+  }
   useAppStore.getState().recalculate();
+  const after = useAppStore.getState();
+  if (after.activeDocumentId) after.updateDocument(after.activeDocumentId, { isModified: true });
   return resultaten;
 }

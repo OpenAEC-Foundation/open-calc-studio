@@ -1,0 +1,44 @@
+[
+  {
+    "number": 12,
+    "title": "Request for User Manual / Official Documentation",
+    "state": "open",
+    "url": "https://github.com/OpenAEC-Foundation/open-calc-studio/issues/12"
+  },
+  {
+    "number": 11,
+    "title": "Add Spanish language support (Perú)",
+    "state": "closed",
+    "url": "https://github.com/OpenAEC-Foundation/open-calc-studio/issues/11"
+  },
+  {
+    "number": 9,
+    "title": "Interface not fully translated in English",
+    "state": "closed",
+    "url": "https://github.com/OpenAEC-Foundation/open-calc-studio/issues/9"
+  },
+  {
+    "number": 4,
+    "title": "[0.8.7] Move window titlebar control away from standard controls provided by the OS",
+    "state": "closed",
+    "url": "https://github.com/OpenAEC-Foundation/open-calc-studio/issues/4"
+  },
+  {
+    "number": 3,
+    "title": "[0.8.7] Provide UI zoom in/out/reset",
+    "state": "closed",
+    "url": "https://github.com/OpenAEC-Foundation/open-calc-studio/issues/3"
+  },
+  {
+    "number": 2,
+    "title": "[0.8.7] Fails to start due to an incorrect configuration of the macOS quarantine extended attribute",
+    "state": "open",
+    "url": "https://github.com/OpenAEC-Foundation/open-calc-studio/issues/2"
+  },
+  {
+    "number": 1,
+    "title": "CUF bestand word leeg ingelezen",
+    "state": "closed",
+    "url": "https://github.com/OpenAEC-Foundation/open-calc-studio/issues/1"
+  }
+]

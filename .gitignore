@@ -1,7 +1,11 @@
 node_modules
 dist
+dist-dev/
 packages/embed/dist
 release-embed/
+release-native/
+release-artifacts/
+/host.obj
 .vite/
 
 src-tauri/target
@@ -33,3 +37,6 @@ output/
 # Agent-tooling (lokaal)
 .agents/
 .codex/
+
+# Generated standalone library demo assets
+/packages/embed/example/public/calc-studio/

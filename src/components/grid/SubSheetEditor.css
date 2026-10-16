@@ -185,6 +185,31 @@
 }
 
 /* Sub-sheet tabs (shown below main FileTabBar) */
+.subsheet-return-bar {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  flex-shrink: 0;
+  background: var(--theme-surface);
+  border-bottom: 1px solid var(--theme-border);
+}
+
+.subsheet-return-button {
+  padding: 4px 10px;
+  border: 1px solid var(--theme-border);
+  border-radius: 4px;
+  background: var(--theme-bg);
+  color: var(--theme-text);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+}
+
+.subsheet-return-button:hover,
+.subsheet-return-button:focus-visible {
+  background: var(--theme-hover);
+}
+
 .subsheet-tab-bar {
   display: flex;
   align-items: center;
@@ -195,6 +220,8 @@
   padding: 0 4px;
   gap: 2px;
   flex-shrink: 0;
+  min-width: 0;
+  overflow-x: auto;
 }
 
 .subsheet-tab {
@@ -210,6 +237,18 @@
   border-radius: 3px 3px 0 0;
   cursor: default;
   height: 22px;
+  flex-shrink: 0;
+}
+
+.subsheet-tab-bar > .subsheet-tab:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: var(--theme-surface);
+}
+
+.subsheet-tab-bar > .subsheet-tab:first-child.active {
+  background: var(--theme-bg);
 }
 
 .subsheet-tab:hover {
@@ -262,6 +301,7 @@
   color: var(--theme-text-secondary);
   cursor: default;
   border-radius: 3px;
+  flex-shrink: 0;
 }
 
 .subsheet-tab-add:hover {

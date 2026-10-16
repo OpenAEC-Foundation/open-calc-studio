@@ -9,6 +9,7 @@ export { importNsx } from './nsxImporter';
 export { importBmecat } from './bmecatImporter';
 export { importBc3 } from './bc3Importer';
 export { importOnlv } from './onlvImporter';
+export { importGaeb } from './gaebImporter';
 export {
   parseCsv,
   parseXlsxTabular,

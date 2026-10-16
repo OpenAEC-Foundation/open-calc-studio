@@ -22,6 +22,8 @@
  */
 import type { CostItem, CostSchedule, ResourceType } from '@/types/costModel';
 import { makeCostItem, parseNumber, normalizeUnit, genId } from './core';
+import { decodeCp850 } from './cp850';
+export { decodeCp850 } from './cp850';
 
 // ── dBASE (DBF/DBT) parser ────────────────────────────────────────────────
 
@@ -35,22 +37,6 @@ export type DbfRecord = Record<string, string>;
 export interface DbfTable {
   fields: DbfField[];
   records: DbfRecord[];
-}
-
-// CP850 (DOS Latin-1) hoge helft (0x80–0xFF) → Unicode. dBASE-tekst uit deze
-// begrotingstool is CP850-gecodeerd (Nederlandse accenten, ï/é/ë).
-const CP850_HIGH =
-  'ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜø£Ø×ƒáíóúñÑªº¿®¬½¼¡«»' +
-  '░▒▓│┤ÁÂÀ©╣║╗╝¢¥┐└┴┬├─┼ãÃ╚╔╩╦╠═╬¤ðÐÊËÈıÍÎÏ┘┌█▄¦Ì▀' +
-  'ÓßÔÒõÕµþÞÚÛÙýÝ¯´­±‗¾¶§÷¸°¨·¹³²■ ';
-
-export function decodeCp850(bytes: Uint8Array, start: number, len: number): string {
-  let s = '';
-  for (let i = start; i < start + len; i++) {
-    const b = bytes[i];
-    s += b < 0x80 ? String.fromCharCode(b) : CP850_HIGH[b - 0x80] ?? '�';
-  }
-  return s;
 }
 
 /** Lees een memo-blok (.DBT) op tekst, dBASE III/IV. */

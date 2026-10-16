@@ -1,3 +1,4 @@
+import appIcon from '../../assets/app-icon.svg';
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppStore } from "../../state/appStore";
@@ -158,7 +159,7 @@ function TitleBar({ onSettingsClick, onFeedbackClick }: TitleBarProps) {
 
       <div className="titlebar-left">
         <div className="titlebar-icon">
-          <img src="/app-icon.svg" alt="" width="16" height="16" draggable={false} />
+          <img src={appIcon} alt="" width="16" height="16" draggable={false} />
         </div>
 
         <div className="titlebar-quick-access">

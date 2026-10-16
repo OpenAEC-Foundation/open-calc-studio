@@ -6,16 +6,21 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:lib": "node scripts/embed-sync.mjs && vite build -c vite.lib.config.ts && node scripts/embed-sync.mjs post",
-    "pack:lib": "npm run build:lib && cd packages/embed && npm pack --pack-destination ../../release-embed",
-    "dev:embed": "vite -c packages/embed/example/vite.config.ts",
+    "build:lib": "node scripts/embed-sync.mjs && vite build -c vite.lib.config.ts && vite build -c vite.frame.config.ts && node scripts/embed-sync.mjs post",
+    "pack:lib": "npm run build:lib && node -e \"require('node:fs').mkdirSync('release-embed', { recursive: true })\" && cd packages/embed && npm pack --pack-destination ../../release-embed",
+    "dev:embed": "node packages/embed/copy-assets.mjs packages/embed/example/public/calc-studio && vite -c packages/embed/example/vite.config.ts",
     "preview": "vite preview",
     "tauri": "tauri",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:lib:browser": "npm run build:lib && playwright test -c playwright.library.config.ts",
+    "generate:mcp-actions": "node scripts/generate-mcp-actions.mjs",
+    "convert:budget": "node scripts/convert-budget.mjs"
   },
   "dependencies": {
-    "@tauri-apps/api": "^2.10.1",
+    "@ifc-lite/geometry": "^7.6.0",
+    "@ifc-lite/parser": "^9.1.0",
+    "@tauri-apps/api": "2.10.1",
     "@tauri-apps/plugin-dialog": "^2.6.0",
     "@tauri-apps/plugin-fs": "^2.4.5",
     "@tauri-apps/plugin-opener": "^2.5.3",
@@ -27,6 +32,7 @@
     "@types/three": "^0.184.0",
     "7z-wasm": "^1.2.0",
     "buffer": "^6.0.3",
+    "events": "^3.3.0",
     "i18next": "^25.8.18",
     "i18next-browser-languagedetector": "^8.2.1",
     "mdb-reader": "^3.2.0",
@@ -35,6 +41,7 @@
     "react-dom": "^19.2.4",
     "react-i18next": "^16.5.8",
     "sql.js": "^1.14.1",
+    "stream-browserify": "^3.0.0",
     "three": "^0.184.0",
     "xlsx": "^0.18.5",
     "zustand": "^5.0.12"

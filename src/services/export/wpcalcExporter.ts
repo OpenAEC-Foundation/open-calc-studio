@@ -51,7 +51,7 @@ export async function exportWpCalcFile(
  * Transform the app's data model into the WpCalcExportRequest format
  * expected by the Rust backend.
  */
-function buildExportRequest(
+export function buildExportRequest(
   schedule: CostSchedule,
   items: CostItem[],
   companyInfo?: CompanyInfo | null,

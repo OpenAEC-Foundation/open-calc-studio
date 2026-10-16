@@ -16,7 +16,7 @@ default-run = "open-calc-studio"
 
 [lib]
 name = "app_lib"
-crate-type = ["staticlib", "rlib"]
+crate-type = ["cdylib", "staticlib", "rlib"]
 
 [build-dependencies]
 tauri-build = { version = "2.5.6", features = [] }

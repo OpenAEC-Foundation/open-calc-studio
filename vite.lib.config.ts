@@ -1,3 +1,4 @@
+import { browserAliases } from './build/browserAliases';
 /**
  * Build van het inbouwpakket `@openaec/open-calc-studio` (packages/embed).
  *
@@ -19,13 +20,14 @@ import pkg from './package.json' with { type: 'json' };
 import { cssScopePlugin } from './src/lib/cssScope';
 
 const externals = [
-  ...Object.keys(pkg.dependencies).filter((n) => !n.startsWith('@types/')),
+  ...Object.keys(pkg.dependencies).filter((n) => !n.startsWith('@types/') && !['mdb-reader', 'events', 'stream-browserify'].includes(n)),
   'react/jsx-runtime',
   'react-dom/client',
 ];
 const isExternal = (id: string) => externals.some((n) => id === n || id.startsWith(`${n}/`));
 
 export default defineConfig({
+  worker: { format: 'es' },
   plugins: [
     react(),
     dts({
@@ -39,7 +41,7 @@ export default defineConfig({
   // Geen kopie van public/ (fonts, voorbeelddata, icoon): die horen bij de app.
   publicDir: false,
   resolve: {
-    alias: { '@': path.resolve(__dirname, './src') },
+    alias: { ...browserAliases, '@': path.resolve(__dirname, './src') },
   },
   define: {
     global: 'globalThis',
@@ -59,9 +61,15 @@ export default defineConfig({
     target: 'es2020',
     chunkSizeWarningLimit: 2048,
     lib: {
-      entry: path.resolve(__dirname, 'src/lib/index.tsx'),
+      entry: {
+        index: path.resolve(__dirname, 'src/lib/index.tsx'),
+        core: path.resolve(__dirname, 'src/lib/core.ts'),
+        isolated: path.resolve(__dirname, 'src/lib/isolated.ts'),
+        importers: path.resolve(__dirname, 'src/lib/importers.ts'),
+        converters: path.resolve(__dirname, 'src/lib/converters.ts'),
+      },
       formats: ['es'],
-      fileName: () => 'index.js',
+      fileName: (_format, entryName) => `${entryName}.js`,
       cssFileName: 'style',
     },
     rollupOptions: {

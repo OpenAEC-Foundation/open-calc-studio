@@ -133,7 +133,16 @@
   user-select: text;
   -webkit-user-select: text;
   cursor: text;
+  white-space: pre-wrap;
 }
+
+.chat-panel-embedded { border-radius: 0; }
+.chat-proposal { margin-top: 10px; padding: 9px; border: 1px solid var(--theme-border); border-radius: 8px; background: var(--theme-bg); }
+.chat-proposal ul { margin: 6px 0 10px; padding-left: 18px; }
+.chat-proposal-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.chat-proposal-actions button { border: 1px solid var(--theme-border); border-radius: 6px; padding: 5px 9px; cursor: pointer; background: var(--theme-surface); color: var(--theme-text); }
+.chat-proposal-actions button:first-child { background: #d97706; border-color: #d97706; color: white; }
+.chat-proposal-stale { color: var(--theme-danger-color, #dc2626); }
 
 .chat-bubble code {
   background: rgba(0,0,0,0.1);

@@ -58,6 +58,7 @@ function importSimpleRsx(doc: Document): ImportResult {
           description: getText(rv, 'Omschrijving'),
           quantity: qty,
           unit: normalizeUnit(getText(rv, 'Eenheid')),
+          normUnitPrice: price,
           unitPrice: price,
           total: qty * price,
         }),

@@ -241,7 +241,7 @@ export function useFileOperations() {
 
         addDocument({ id, filePath: result.path, fileName, isModified: false, items: parsed.items, schedule: parsed.schedule });
         if (parsed.companyInfo) setCompanyInfo(parsed.companyInfo);
-        if (parsed.subSheets) setSubSheets(parsed.subSheets);
+        setSubSheets(parsed.spreadsheets?.sheets ?? parsed.subSheets ?? []);
         if (parsed.offerte) setOfferte(parsed.offerte);
         if (parsed.schedule.projectInfo) setProjectInfo(parsed.schedule.projectInfo);
         addToRecentFiles(result.path);
@@ -321,7 +321,7 @@ export function useFileOperations() {
 
       addDocument({ id, filePath, fileName, isModified: false, items: parsed.items, schedule: parsed.schedule });
       if (parsed.companyInfo) setCompanyInfo(parsed.companyInfo);
-      if (parsed.subSheets) setSubSheets(parsed.subSheets);
+      setSubSheets(parsed.spreadsheets?.sheets ?? parsed.subSheets ?? []);
       if (parsed.offerte) setOfferte(parsed.offerte);
       if (parsed.schedule.projectInfo) setProjectInfo(parsed.schedule.projectInfo);
       addToRecentFiles(filePath);
@@ -340,15 +340,22 @@ export function useFileOperations() {
     const a = document.createElement('a');
     a.href = url;
     a.download = `${name}.ifcCalc`;
+    document.body.appendChild(a);
     a.click();
-    URL.revokeObjectURL(url);
+    a.remove();
+    // Mobile browsers may start the download after the click handler returns.
+    window.setTimeout(() => URL.revokeObjectURL(url), 60_000);
   }
 
   function openFileBrowser() {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = '.ifcCalc,.ifcx,.ocs,.json,.calc,.mdb,.xls,.xlsx,.xtb,.rsx,.dnc,.bc3,.onlv,.onlb';
+    input.style.display = 'none';
+    document.body.appendChild(input);
+    input.addEventListener('cancel', () => input.remove(), { once: true });
     input.onchange = async (e) => {
+      input.remove();
       const file = (e.target as HTMLInputElement).files?.[0];
       if (!file) return;
       try {
@@ -371,7 +378,7 @@ export function useFileOperations() {
         const fileName = file.name.replace(/\.(ifcCalc|ifcx|ocs|json)$/i, '');
         addDocument({ id, filePath: null, fileName, isModified: false, items: parsed.items, schedule: parsed.schedule });
         if (parsed.companyInfo) setCompanyInfo(parsed.companyInfo);
-        if (parsed.subSheets) setSubSheets(parsed.subSheets);
+        setSubSheets(parsed.spreadsheets?.sheets ?? parsed.subSheets ?? []);
         if (parsed.offerte) setOfferte(parsed.offerte);
         if (parsed.schedule.projectInfo) setProjectInfo(parsed.schedule.projectInfo);
       } catch (err) {

@@ -3,7 +3,14 @@
     "open-calc-studio": {
       "type": "stdio",
       "command": "npx",
-      "args": ["tsx", "mcp-server/src/index.ts"]
+      "args": [
+        "tsx",
+        "mcp-server/src/index.ts"
+      ],
+      "env": {
+        "OCS_DISABLE_BRIDGE": "1",
+        "OCS_DESKTOP_API_URL": "http://127.0.0.1:9742"
+      }
     }
   }
 }

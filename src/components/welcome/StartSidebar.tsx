@@ -1,3 +1,4 @@
+import appIcon from '../../assets/app-icon.svg';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { useFileOperations } from '@/hooks/useFileOperations';
@@ -32,7 +33,7 @@ export function StartSidebar({ onLoadVoorbeeld, onClose }: StartSidebarProps) {
 
       <div className="start-sidebar-body">
         <div className="start-brand">
-          <img src="/app-icon.svg" alt="" width="40" height="40" className="start-brand-icon" />
+          <img src={appIcon} alt="" width="40" height="40" className="start-brand-icon" />
           <div className="start-brand-text">
             <h2>{t('appName')}</h2>
             <p>{t('noDocumentHint')}</p>

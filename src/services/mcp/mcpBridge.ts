@@ -102,6 +102,17 @@ function handleMutation(mutation: McpMutation) {
   }
 
   switch (action) {
+    case 'desktop_command_request':
+      void (async () => {
+        const { invoke } = await import('@tauri-apps/api/core');
+        let result: Record<string, unknown>;
+        try {
+          const { executeDesktopCommand } = await import('./desktopCommand');
+          result = { success: true, result: await executeDesktopCommand(String(data.action), (data.params ?? {}) as Record<string, unknown>) };
+        } catch (e) { result = { success: false, error: e instanceof Error ? e.message : String(e) }; }
+        await invoke('api_export_result', { requestId: data.requestId, result });
+      })();
+      break;
     case 'set_items':
       // Replace all items — ensure a document exists first
       if (Array.isArray(data.items)) {

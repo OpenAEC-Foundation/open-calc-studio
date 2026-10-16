@@ -4,6 +4,23 @@ import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import './SubSheetEditor.css';
 
+export function SpreadsheetReturnBar() {
+  const { t } = useTranslation('grid');
+  const setActiveContentTab = useAppStore((s) => s.setActiveContentTab);
+  const setActiveSubSheet = useAppStore((s) => s.setActiveSubSheet);
+
+  return (
+    <div className="subsheet-return-bar">
+      <button type="button" className="subsheet-return-button" onClick={() => {
+        setActiveSubSheet(null);
+        setActiveContentTab('grid');
+      }}>
+        ← {t('subsheet.backToBudget')}
+      </button>
+    </div>
+  );
+}
+
 export function SubSheetTabBar() {
   const { t } = useTranslation();
   const subSheets = useAppStore((s) => s.subSheets);
@@ -31,7 +48,7 @@ export function SubSheetTabBar() {
   const budgetActive = activeContentTab === 'grid';
 
   /** Navigate to a non-spreadsheet content view (clears active sub-sheet). */
-  const goTo = (tab: 'grid' | 'urenstaart' | 'rapport' | 'ifc') => {
+  const goTo = (tab: 'grid' | 'promptBudget' | 'urenstaart' | 'rapport' | 'ifc' | 'pdf' | 'viewer3d') => {
     setActiveSubSheet(null);
     setActiveContentTab(tab);
   };
@@ -68,6 +85,7 @@ export function SubSheetTabBar() {
       >
         {t('wpcalc.tabData')}
       </button>
+      <button className={`subsheet-tab subsheet-tab-main${activeContentTab === 'promptBudget' ? ' active' : ''}`} onClick={() => goTo('promptBudget')}>Prompt &amp; Begroot</button>
       <button
         className={`subsheet-tab subsheet-tab-main${activeContentTab === 'urenstaart' ? ' active' : ''}`}
         onClick={() => goTo('urenstaart')}
@@ -81,7 +99,9 @@ export function SubSheetTabBar() {
         {t('wpcalc.tabReport')}
       </button>
 
+      <button className={`subsheet-tab subsheet-tab-main${activeContentTab === 'viewer3d' ? ' active' : ''}`} onClick={() => goTo('viewer3d')}>3D &amp; Begroting</button>
       {/* Spreadsheet: one tab per sub-sheet (or a starter tab when none exist) */}
+      <button className={`subsheet-tab subsheet-tab-main${activeContentTab === 'pdf' ? ' active' : ''}`} onClick={() => goTo('pdf')}>PDF &amp; metingen</button>
       {subSheets.length === 0 && (
         <button
           className={`subsheet-tab subsheet-tab-main${activeContentTab === 'spreadsheet' ? ' active' : ''}`}

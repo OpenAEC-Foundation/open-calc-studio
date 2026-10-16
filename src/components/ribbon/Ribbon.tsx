@@ -18,7 +18,7 @@ const HIDE_EXP = import.meta.env.VITE_HIDE_EXPERIMENTAL === 'true';
 const ALL_TABS = ["home", "offerte", "rapportage", "spreadsheet", "viewer3d", "pdf", "ifc", "tekstopmaak"] as const;
 /** Contextueel: verschijnt alleen als de cursor op een tekst- of witregel staat. */
 const CONTEXT_TABS = ["tekstopmaak"] as const;
-const EXPERIMENTAL_TABS = ["offerte", "viewer3d", "pdf"] as const;
+const EXPERIMENTAL_TABS = ["offerte"] as const;
 const BASE_TABS = (HIDE_EXP
   ? ALL_TABS.filter((t) => !(EXPERIMENTAL_TABS as readonly string[]).includes(t))
   : ALL_TABS

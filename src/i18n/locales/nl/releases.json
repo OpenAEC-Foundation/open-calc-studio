@@ -1,5 +1,7 @@
 {
+  "status": { "unreleased": "In ontwikkeling" },
   "names": {
+    "unreleased": "Mobiele webapp voor begrotingen",
     "v0.13.0": "Oostenrijks ÖNORM A 2063 (.onlv/.onlb) + BC3-rondreis bewezen",
     "v0.12.1": "Getallen en datums in PDF-rapporten in de rapporttaal",
     "v0.12.0": "Rapporten en eenheden in je eigen taal",
@@ -19,6 +21,11 @@
     "v0.7.10": "OpenAEC-account + onderbalk-navigatie"
   },
   "highlights": {
+    "unreleased": [
+      "Bewerk begrotingen op Android en iPhone in een compacte weergave: hoofdstukken, posten, rekenregels, hoeveelheden en prijzen",
+      "Open en download .ifcCalc-bestanden, bewerk deelbladcellen en gebruik Prompt & Begroot op de telefoon",
+      "Het laatste actieve project wordt lokaal als concept hersteld; voor een overdraagbare kopie gebruik je Opslaan"
+    ],
     "v0.13.0": [
       "ÖNORM A 2063, het Oostenrijkse uitwisselformaat: Leistungsverzeichnisse (.onlv) importeren als begroting en Leistungsbücher (.onlb, zoals LB-Hochbau en LB-Haustechnik van het BMWET) als catalogus; exporteren als .onlv, geldig tegen de officiële XML-schema's",
       "FIEBDC-3 (.bc3): rondreis op 22 bestanden nu 21 keer veld voor veld identiek; elk verschil met de bronbestanden is in het rapport verklaard, met schermafbeeldingen als bewijs",

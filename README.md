@@ -7,13 +7,27 @@
 [![Tauri](https://img.shields.io/badge/Tauri-2-24C8DB)](https://v2.tauri.app/)
 [![React](https://img.shields.io/badge/React-18-61DAFB)](https://react.dev/)
 
-![Open Calc Studio](docs/screenshot.png)
+![Open Calc Studio](docs/screenshots/nl/1-begroting.png)
 
 Open Calc Studio brengt professionele kostencalculatie voor de bouw naar een open, modern platform. Geen vendor-lock-in, geen abonnement, geen verborgen formaten — een desktop app met Tauri (Rust + React) en een open bestandsformaat dat je zelf kunt inspecteren.
 
 ## Status
 
 **Public testing** — actief in ontwikkeling. Stabiel genoeg voor echt gebruik, maar verwacht nog ruwe randjes en breaking changes tussen minor versies.
+
+## Gebruikershandleiding / User guide
+
+Begin met de [Nederlandse gebruikershandleiding](docs/gebruikershandleiding.md) of de [English user guide](docs/user-guide.md): installatie, je eerste begroting, uren en staart, opslaan, import/export en rapportage. Een [wiki-indeling](wiki/Home.md) met Nederlandstalige pagina's is voorbereid voor publicatie op de GitHub-wiki.
+
+Voor begroten met tekstprompts naast het raster: [Prompt & Begroot](docs/prompt-begroot.md).
+
+Voor bewerken op Android of iPhone: [mobiele webapp](docs/mobiele-webapp.md).
+
+Voor ondersteunde buitenlandse begrotingsbestanden en beperkingen: [Internationale bestandsuitwisseling](docs/wereldwijde-uitwisseling.md).
+
+Voor tekeningen, kalibratie en hoeveelhedenkoppelingen: [PDF-metingen en Open PDF Studio](docs/pdf-studio-integration.md). Voor AI- of automatiseringsclients: [desktopbediening via MCP](docs/mcp-desktop.md). Voor modelhoeveelheden: [3D & Begroting met IFC-Lite](docs/ifc-lite-splitview.md).
+
+Start de app niet op macOS? Zie de [macOS-opstartinstructies](docs/macos-startup.md).
 
 ## Features
 
@@ -36,7 +50,8 @@ Open Calc Studio brengt professionele kostencalculatie voor de bouw naar een ope
 - **IFC 4.x** (IfcCostSchedule + IfcCostItem) — import en export, custom STEP generator (geen WASM)
 - **FIEBDC-3** (.bc3, Spanje) — import en export
 - **ÖNORM A 2063** (.onlv Leistungsverzeichnis, .onlb Leistungsbuch, Oostenrijk) — import en export, gevalideerd tegen de officiële XSD's
-- **CUF-XML / TRADXML / RAW RSX** — exporters
+- **GAEB DA XML** (.x81/.x82/.x83/.x86/.x87, Duitsland) — bestekimport; .x84-aanbiedingsprijzen kunnen op een geopend .x83-bestek worden toegepast
+- **CUF-XML / RAW RSX** — import en export; **TRADXML** — export
 - **ZSX / NSX** — prijs- en normbestanden
 - **Excel** (.xlsx) — spreadsheet import
 - **Inschrijfstaat** — RAW-conforme export
@@ -49,8 +64,12 @@ Open Calc Studio brengt professionele kostencalculatie voor de bouw naar een ope
 - Cover-page en samenvatting opt-in
 
 ### UI
+- Mobiele webapp met aanraakvriendelijke begrotingseditor, deelbladcellen, Prompt & Begroot en lokaal conceptherstel
 - Office-stijl ribbon voor commando's (Bestand, Begroting, Rapportage, Spreadsheet, IFC)
-- **Onderbalk-navigatie per document**: Data · Uren & Staart · Rapport · Spreadsheet · IFC
+- **Onderbalk-navigatie per document**: Data · Uren & Staart · Rapport · Spreadsheet · IFC · 3D & Begroting · PDF & metingen · Prompt & Begroot
+- Gesplitste 3D-weergave met IFC-Lite: selecteer elementen en koppel benoemde hoeveelheden aan begrotingsregels
+- PDF-tekeningen, schaal en metingen worden in het native begrotingsbestand bewaard; koppeling met Open PDF Studio via expliciete export/import
+- Prompt & Begroot toont voorgestelde wijzigingen vóór toepassing in de begroting
 - Bestand-menu als links uitklappend paneel (niet schermvullend)
 - Rijen selecteren en verslepen via de grip-gutter links — ook naar een ander hoofdstuk
 - Persistent start sidebar met release notes en recente bestanden
@@ -66,7 +85,7 @@ Open Calc Studio brengt professionele kostencalculatie voor de bouw naar een ope
 - **AI-assistent op accounttegoed** — de ingebouwde chat gebruikt AI-credits van je OpenAEC-account (met live saldo), zonder eigen API-sleutel
 
 ### Extensions
-- MCP server (`mcp-server/`) voor Claude / agentic gebruik — bouw je begroting via natural language
+- MCP server (`mcp-server/`) voor MCP-clients — begrotingen bewerken, berekenen en geselecteerde formaten uitwisselen; [functies en beperkingen](wiki/MCP-server.md)
 - Plugin-architectuur voor custom importers en domain features
 - Ingebouwde importers (WPCalc, IBIS-TRAD, BasCalc, RSX, inschrijfstaat) staan standaard aan
 
@@ -77,30 +96,7 @@ Download de installer voor jouw platform vanaf de [releases pagina](https://gith
 
 #### macOS: de app wordt geblokkeerd bij de eerste start
 
-De macOS-builds zijn ad-hoc ondertekend maar (nog) niet door Apple
-genotariseerd. Gatekeeper blokkeert de gedownloade app daarom bij de
-eerste keer openen. Eenmalig vrijgeven, afhankelijk van je macOS-versie:
-
-- **macOS 15 (Sequoia) en nieuwer** — probeer de app te openen, klik de
-  melding weg, en ga naar *Systeeminstellingen → Privacy en beveiliging*.
-  Onderaan staat Open Calc Studio met de knop **"Toch openen"**.
-- **macOS 14 en ouder** — **rechtsklik** op de app → **Open**, en
-  bevestig.
-- **Alle versies** — verwijder het quarantaine-kenmerk in de Terminal:
-
-```sh
-xattr -cr "/Applications/Open Calc Studio.app"
-```
-
-Daarna start de app gewoon. Meldt macOS dat de app "beschadigd" is, dan
-gaat het om een oudere release (vóór v0.11.0): gebruik het
-`xattr`-commando of download de nieuwste versie.
-
-*The macOS builds are ad-hoc signed but not yet notarized by Apple, so
-Gatekeeper blocks the app on first launch. On macOS 15 (Sequoia) and later:
-try to open it, dismiss the warning, then go to System Settings → Privacy &
-Security and click "Open Anyway". On macOS 14 and earlier: right-click the
-app → Open. On any version you can also run the `xattr` command above.*
+Lokale builds gebruiken standaard ad-hoc ondertekening. De [desktopworkflow](docs/desktop-builds.md) vereist voor CI een Developer ID-certificaat en Apple-notarisation en controleert de app uit de DMG. Controleer bij een download of die build daadwerkelijk geslaagd is. Volg de [macOS-opstartinstructies (Nederlands / English)](docs/macos-startup.md) voor hulp bij geblokkeerde oudere of lokale builds.
 
 ### Build from source
 
@@ -201,11 +197,11 @@ open-calc-studio/
 
 ## Bestandsformaat
 
-Open Calc Studio gebruikt een open JSON-formaat (`.ocs` / `.ifcCalc`), huidige formaatversie **2.1.0**. Het formaat is gedocumenteerd in [`docs/ifccalc-formaat.md`](docs/ifccalc-formaat.md) (structuur, versiebeleid en migratiegaranties); de API in [`docs/API.md`](docs/API.md). Oudere bestanden openen altijd (automatische migratie); bestanden uit een nieuwere major-versie worden met een duidelijke melding geweigerd.
+Open Calc Studio gebruikt een open JSON-formaat (`.ocs` / `.ifcCalc`), huidige formaatversie **2.2.0**. Het formaat is gedocumenteerd in [`docs/ifccalc-formaat.md`](docs/ifccalc-formaat.md) (structuur, versiebeleid en migratiegaranties); de API in [`docs/API.md`](docs/API.md). Oudere bestanden openen altijd (automatische migratie); bestanden uit een nieuwere major-versie worden met een duidelijke melding geweigerd.
 
 ```json
 {
-  "version": "2.1.0",
+  "version": "2.2.0",
   "schedule": { "name": "...", "projectName": "...", ... },
   "items": [{ "id": "...", "rowType": "chapter", ... }, ...],
   "companyInfo": { ... },
@@ -219,9 +215,23 @@ Open Calc Studio gebruikt een open JSON-formaat (`.ocs` / `.ifcCalc`), huidige f
 
 Bij eerste start opent Open Calc Studio automatisch een voorbeeldbegroting (`public/data/voorbeeld.ifcCalc`). 21 items, 6 hoofdstukken, kostprijs ≈ €44k. Sluit het tabblad om door te gaan met je eigen werk.
 
+## Native DLL en applicatiebuild
+
+De volledige desktopapp kan als native bibliotheek worden gebouwd: `OpenCalcStudio.dll`
+op Windows en `libOpenCalcStudio.so` op Linux. De C-entrypoint `ocs_run()` opent een
+eigen applicatievenster en keert bij sluiten terug naar de host. Dit is geen .NET-
+assembly of inbouwbaar child-window control. Gebruik de [native handleiding](packages/native/README.md)
+voor de C-header, voorbeeldhost, buildstappen en levensduurvoorwaarden. De bestaande
+MCP/API blijft beschikbaar zolang het venster draait.
+
+De workflow `Native DLL and library builds` levert ongetekende testpakketten;
+`Signed desktop test builds` levert bij geldige signing-secrets ook een
+ondertekend Windows-DLL-pakket. Een lokale Windows-crossbuild controleert de
+bestandsstructuur en exports, maar bewijst geen werking van de Windows-interface.
+
 ## MCP server
 
-In `mcp-server/` zit een Model Context Protocol server zodat je Open Calc Studio kunt aansturen vanuit Claude (of andere MCP clients). Je kunt items toevoegen, hoofdstukken bouwen, staart instellen en PDF genereren — allemaal vanuit een conversatie. Zie [`mcp-server/README.md`](mcp-server/README.md).
+In `mcp-server/` zit een Model Context Protocol-server voor Claude en andere MCP-clients. Je kunt begrotingen openen en bewerken, rekenen en onder meer BC3, ÖNORM, CUF, RAW en GAEB importeren. `get_capabilities` geeft de actuele lijst. De `app_*`-tools bedienen de draaiende desktopapp, inclusief PDF-metingen en IFC-Lite-selectie en hoeveelhedenovername. `app_list_actions` beschrijft 202 store-acties plus de bestands- en vieweropdrachten. GAEB-export en de nog niet geïmplementeerde leveranciersformaten blijven buiten het bereik. Zie de [gebruikerspagina](wiki/MCP-server.md) en de [technische instructies](mcp-server/README.md).
 
 ## Contributing
 

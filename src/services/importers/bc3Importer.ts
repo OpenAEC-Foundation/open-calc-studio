@@ -23,7 +23,7 @@
  * opmerkingen bij `keyOf`, `isContainer`, `decodeBc3` en de variantafhandeling.
  */
 import { makeCostItem, parseNumber, normalizeUnit, genId } from './core';
-import { decodeCp850 } from './dncImporter';
+import { decodeCp850 } from './cp850';
 import { decodeWindows1252 } from './windows1252';
 import type { ImportResult, ImportWarningCode } from './types';
 import type { CostItem, CostUnit, ResourceType } from '@/types/costModel';

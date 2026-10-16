@@ -1,3 +1,4 @@
+import { importXmlBudget, exportXmlBudget } from '../../services/exchange/xmlBudget';
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppStore } from "../../state/appStore";
@@ -11,11 +12,12 @@ import { exportWpCalcFile } from "../../services/export/wpcalcExporter";
 import { printBudget } from "../../services/print/printService";
 import { isTauriEnvironment } from "../../services/file/nativeFileService";
 import {
-  importCuf, importTradxml, importRsx, importRsu, importZsx, importNsx, importS01, importSufx, importBmecat, importOnlv,
+  importCuf, importTradxml, importRsx, importRsu, importZsx, importNsx, importS01, importSufx, importBmecat, importOnlv, importGaeb,
   parseCsv, parseXlsxTabular, buildFromMapping,
   type ImportResult, type TabularData, type ColumnMapping,
 } from "../../services/importers";
 import { exportCuf, exportTradxml, exportRsx, exportOnlv, type ExportInput, type ExportResult } from "../../services/exporters";
+import { applyGaebX84 } from '../../services/importers/gaebImporter';
 import ExtensionManagerPanel from "./ExtensionManagerPanel";
 import { CloudPanel } from "./CloudPanel";
 import ColumnMappingDialog from "./ColumnMappingDialog";
@@ -478,6 +480,36 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
     [newFile, onClose, t],
   );
 
+  const handleGaebOffer = useCallback(async () => {
+    const apply = (xml: string) => {
+      const store = useAppStore.getState();
+      if (!store.activeDocumentId) throw new Error('Open eerst het bijbehorende GAEB X83-bestek.');
+      const result = applyGaebX84(xml, store.items);
+      store.setItems(recalculateItems(result.items, store.schedule.tarieven));
+      store.updateDocument(store.activeDocumentId, { isModified: true });
+      onClose();
+      alert(`${result.pricedCount} GAEB-aanbiedingsprijzen overgenomen.${result.warnings.length ? '\n' + result.warnings.join('\n') : ''}`);
+    };
+    try {
+      if (isTauriEnvironment()) {
+        const { openTextFileNative } = await import('../../services/file/nativeFileService');
+        const selected = await openTextFileNative('GAEB X84-aanbieding', ['x84']);
+        if (selected) apply(selected.content);
+      } else {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.x84';
+        input.onchange = async () => {
+          const file = input.files?.[0];
+          if (!file) return;
+          try { apply(await file.text()); }
+          catch (error) { alert((error as Error).message); }
+        };
+        input.click();
+      }
+    } catch (error) { alert((error as Error).message); }
+  }, [onClose]);
+
   // FIEBDC-3 (.bc3) is Windows-1252/CP850-gecodeerd → als bytes lezen en de
   // tekenset uit het ~V-record laten bepalen (importBc3File).
   const handleBc3Import = useCallback(async () => {
@@ -553,18 +585,21 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
   };
 
   const handleXmlExport = async (
-    format: 'cuf' | 'tradxml' | 'rsx' | 'onlv',
+    format: 'cuf' | 'tradxml' | 'rsx' | 'onlv' | 'xpwe' | 'xc4',
     formatLabel: string,
   ) => {
     onClose();
-    const ext = format === 'rsx' ? 'rsx' : format === 'tradxml' ? 'xml' : format === 'onlv' ? 'onlv' : 'cuf';
+    const ext = format === 'xpwe' ? 'xpwe' : format === 'xc4' ? 'xml' : format === 'rsx' ? 'rsx' : format === 'tradxml' ? 'xml' : format === 'onlv' ? 'onlv' : 'cuf';
     const baseName = (schedule.projectName || schedule.name || 'begroting').replace(/\.(ifcCalc|ifcx|ocs)$/i, '');
     const defaultPath = `${baseName}.${ext}`;
 
     const input: ExportInput = { schedule, items };
-    let result: ExportResult;
+    let result: Pick<ExportResult, 'xml' | 'warnings'>;
     try {
-      result =
+      if (format === 'xpwe' || format === 'xc4') {
+        const converted = exportXmlBudget(schedule,items,format);
+        result = {xml:converted.text,warnings:converted.warnings};
+      } else result =
         format === 'cuf' ? exportCuf(input) :
         format === 'tradxml' ? exportTradxml(input) :
         format === 'onlv' ? exportOnlv(input) :
@@ -596,6 +631,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
       }
       if (result.warnings.length > 0) {
         console.warn(`[Export ${formatLabel}] ${result.warnings.length} waarschuwingen:`, result.warnings);
+        alert(result.warnings.join('\n'));
       }
     } catch (err: any) {
       console.error(`[Export ${formatLabel}] failed:`, err);
@@ -799,6 +835,30 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
               </button>
               <button
                 className="bs-panel-option"
+                onClick={() => void handleXmlImport('GAEB DA XML', ['x81', 'x82', 'x83', 'x84', 'x86', 'x87'], importGaeb)}
+              >
+                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                <div className="bs-panel-option-text">
+                  <strong>GAEB DA XML (.x83)</strong>
+                  <span>Duits bestek importeren; X84-prijzen vereisen het bijbehorende X83-bestek.</span>
+                </div>
+              </button>
+              <button className="bs-panel-option" onClick={() => void handleXmlImport('XPWE / XC4', ['xpwe', 'xc4', 'xml'], importXmlBudget)}>
+                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                <div className="bs-panel-option-text">
+                  <strong>XPWE / XC4</strong>
+                  <span>Italiaanse en Tsjechische begrotingen met bronbestand voor terugexport.</span>
+                </div>
+              </button>
+              <button className="bs-panel-option" onClick={() => void handleGaebOffer()}>
+                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                <div className="bs-panel-option-text">
+                  <strong>GAEB-aanbieding (.x84)</strong>
+                  <span>Neem biedprijzen over in het geopende X83-bestek.</span>
+                </div>
+              </button>
+              <button
+                className="bs-panel-option"
                 onClick={() => void handleZsxImport()}
               >
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
@@ -857,6 +917,15 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
                   <span>{t("exportPanel.asImageDesc")}</span>
                 </div>
               </button>
+              {schedule.budgetExchange && (
+                <button className="bs-panel-option" onClick={() => void handleXmlExport(schedule.budgetExchange!.format, 'XPWE / XC4')}>
+                  <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.export }} />
+                  <div className="bs-panel-option-text">
+                    <strong>Terug naar {schedule.budgetExchange.format.toUpperCase()}</strong>
+                    <span>Schrijf ondersteunde wijzigingen terug naar het bronbestand.</span>
+                  </div>
+                </button>
+              )}
               <button
                 className="bs-panel-option"
                 onClick={() => void handleXmlExport('cuf', 'CUF-XML')}

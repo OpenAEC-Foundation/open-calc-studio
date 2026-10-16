@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { lazy, Suspense, useState, useEffect, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import TitleBar from "./components/layout/TitleBar";
 import Ribbon from "./components/ribbon/Ribbon";
@@ -16,19 +16,23 @@ import { OfferteView } from "./components/offerte/OfferteView";
 import { SchedulePanel } from "./components/panels/SchedulePanel";
 import { PropertiesPanel } from "./components/panels/PropertiesPanel";
 import { ResourcePicker } from "./components/library/ResourcePicker";
-import { SubSheetTabBar } from "./components/grid/SubSheetTabBar";
+import { SpreadsheetReturnBar, SubSheetTabBar } from "./components/grid/SubSheetTabBar";
 import WizardModal from "./components/wizard/WizardModal";
 import { SubSheetEditor } from "./components/grid/SubSheetEditor";
 import { SplitGridPane } from "./components/grid/SplitGridPane";
 import { ChatPanel } from "./components/chat/ChatPanel";
-import { ThreeDViewer } from "./components/viewers/ThreeDViewer";
-import { PdfViewer } from "./components/viewers/PdfViewer";
+import { PromptBudgetWorkspace } from "./components/chat/PromptBudgetWorkspace";
+import { MobileWorkspace } from "./components/mobile/MobileWorkspace";
+import { restoreMobileDraft, saveMobileDraft } from "./components/mobile/mobileDraft";
+const ThreeDViewer = lazy(() => import("./components/viewers/ThreeDViewer").then(m => ({ default: m.ThreeDViewer })));
+const PdfViewer = lazy(() => import("./components/viewers/PdfViewer").then(m => ({ default: m.PdfViewer })));
 import { StartSidebar } from "./components/welcome/StartSidebar";
 import "./components/welcome/StartSidebar.css";
 import { UrenStaartView } from "./components/grid/WpCalcBottomPanel";
 import { useQuantityLinkSync } from "./hooks/useQuantityLinkSync";
 import { useAppStore } from "./state/appStore";
 import { deserializeProject } from "./services/file/fileService";
+import { createDefaultSchedule } from "./data/defaultBudget";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
 import { useFileOperations } from "./hooks/useFileOperations";
 import { showImportWarnings } from "./components/common/ImportWarningsDialog";
@@ -58,12 +62,21 @@ async function openSampleBudget(): Promise<void> {
   if (parsed.spreadsheets?.sheets) store.setSubSheets(parsed.spreadsheets.sheets);
 }
 
+const MOBILE_QUERY = '(max-width: 760px), (pointer: coarse) and (max-width: 1024px)';
+
 function App() {
   const { t } = useTranslation();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [backstageOpen, setBackstageOpen] = useState(false);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [unsavedDialog, setUnsavedDialog] = useState({ open: false, fileName: "" });
+  const [isMobile, setIsMobile] = useState(() => window.matchMedia(MOBILE_QUERY).matches);
+  useEffect(() => {
+    const media = window.matchMedia(MOBILE_QUERY);
+    const onChange = () => setIsMobile(media.matches);
+    media.addEventListener('change', onChange);
+    return () => media.removeEventListener('change', onChange);
+  }, []);
   useEffect(() => { registerUnsavedDialogSetter(setUnsavedDialog); }, []);
   const updateSettings = useAppStore((s) => s.updateSettings);
   useQuantityLinkSync();
@@ -178,7 +191,7 @@ function App() {
           const store = useAppStore.getState();
           store.addDocument({ id, filePath, fileName, isModified: false, items: parsed.items, schedule: parsed.schedule });
           if (parsed.companyInfo) store.setCompanyInfo(parsed.companyInfo);
-          if (parsed.subSheets) store.setSubSheets(parsed.subSheets);
+          store.setSubSheets(parsed.spreadsheets?.sheets ?? parsed.subSheets ?? []);
           if (parsed.offerte) store.setOfferte(parsed.offerte);
           if (parsed.schedule.projectInfo) store.setProjectInfo(parsed.schedule.projectInfo);
         } catch (err) {
@@ -186,13 +199,14 @@ function App() {
         }
       })();
     } else {
+      const restoredDraft = isMobile && !('__TAURI_INTERNALS__' in window) && restoreMobileDraft();
       // No file param: auto-open the bundled voorbeeldbegroting on first launch
       // so users see immediate context. Skipped if user has already opened a doc.
       (async () => {
         try {
           // Wait a tick so settings/extensions are initialised first
           await new Promise(r => setTimeout(r, 50));
-          if (useAppStore.getState().documents.length > 0) return;
+          if (restoredDraft || useAppStore.getState().documents.length > 0) return;
           // Ingebouwd bepaalt de gastpagina of het voorbeeld opengaat.
           if (isEmbedded() && !getEmbedOptions().autoSample) return;
           await openSampleBudget();
@@ -222,6 +236,11 @@ function App() {
               store.addDocument({ id, filePath, fileName: displayName, isModified: false, items: parsed.items, schedule: parsed.schedule });
               if (parsed.companyInfo) store.setCompanyInfo(parsed.companyInfo);
               if (parsed.spreadsheets?.sheets) store.setSubSheets(parsed.spreadsheets.sheets);
+            } else if (['x81', 'x82', 'x83', 'x84', 'x86', 'x87'].includes(ext ?? '')) {
+              const { importGaeb } = await import('./services/importers/gaebImporter');
+              const result = importGaeb(await readTextFile(filePath));
+              store.addDocument({ id: crypto.randomUUID(), filePath: null, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: true, items: result.items, schedule: { ...createDefaultSchedule(), ...result.schedule } });
+              showImportWarnings(result, fileName);
             } else if (ext === 'calc' || ext === 'xtb' || ext === 'dnc' || ext === 'bc3' || ext === 'onlv' || ext === 'onlb') {
               const data = await readFile(filePath);
               const importers = store.extensionImporters;
@@ -270,6 +289,11 @@ function App() {
                 store.addDocument({ id, filePath, fileName: displayName, isModified: false, items: parsed.items, schedule: parsed.schedule });
                 if (parsed.companyInfo) store.setCompanyInfo(parsed.companyInfo);
                 if (parsed.spreadsheets?.sheets) store.setSubSheets(parsed.spreadsheets.sheets);
+              } else if (['x81', 'x82', 'x83', 'x84', 'x86', 'x87'].includes(ext ?? '')) {
+                const { importGaeb } = await import('./services/importers/gaebImporter');
+                const result = importGaeb(await readTextFile(filePath));
+                store.addDocument({ id: crypto.randomUUID(), filePath: null, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: true, items: result.items, schedule: { ...createDefaultSchedule(), ...result.schedule } });
+                showImportWarnings(result, fileName);
               } else if (ext === 'calc' || ext === 'mdb' || ext === 'xls' || ext === 'xlsx' || ext === 'xtb' || ext === 'dnc' || ext === 'bc3' || ext === 'onlv' || ext === 'onlb') {
                 // Import via extension importers (binair én tekst — de handler leest de bytes zelf)
                 const data = await readFile(filePath);
@@ -301,6 +325,24 @@ function App() {
       unlistenAssoc?.();
     };
   }, []);
+
+  useEffect(() => {
+    if (!isMobile || '__TAURI_INTERNALS__' in window) return;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const schedule = () => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(saveMobileDraft, 700);
+    };
+    const unsubscribe = useAppStore.subscribe((state, previous) => {
+      if (state.items !== previous.items || state.schedule !== previous.schedule || state.subSheets !== previous.subSheets || state.companyInfo !== previous.companyInfo || state.offerte !== previous.offerte || state.projectInfo !== previous.projectInfo || state.activeDocumentId !== previous.activeDocumentId || state.documents !== previous.documents) schedule();
+    });
+    window.addEventListener('pagehide', saveMobileDraft);
+    return () => {
+      if (timer) clearTimeout(timer);
+      unsubscribe();
+      window.removeEventListener('pagehide', saveMobileDraft);
+    };
+  }, [isMobile]);
 
   // Load bundled sample voorbeeldbegroting
   const loadVoorbeeldBudget = useCallback(async () => {
@@ -439,6 +481,15 @@ function App() {
     document.addEventListener("mouseup", handleMouseUp);
   }, []);
 
+  if (isMobile && !isDetachedWindow) {
+    return (
+      <>
+        <MobileWorkspace />
+        <UnsavedChangesDialog open={unsavedDialog.open} fileName={unsavedDialog.fileName} onResult={handleUnsavedResult} />
+      </>
+    );
+  }
+
   return (
     <>
       <TitleBar onSettingsClick={() => setSettingsOpen(true)} onFeedbackClick={() => setFeedbackOpen(true)} />
@@ -516,6 +567,7 @@ function App() {
         )}
 
         <main className="main-view">
+          {activeContentTab === 'spreadsheet' && <SpreadsheetReturnBar />}
           {activeContentTab === 'spreadsheet' ? (
             activeSubSheetId && subSheets.some(s => s.id === activeSubSheetId) ? (
               <SubSheetEditor sheetId={activeSubSheetId} />
@@ -547,13 +599,14 @@ function App() {
           ) : (
             <>
               {activeContentTab === 'grid' && <CostGrid />}
+              {activeContentTab === 'promptBudget' && <PromptBudgetWorkspace />}
               {activeContentTab === 'urenstaart' && <UrenStaartView />}
               {activeContentTab === 'rapport' && <ReportPreview />}
               {activeContentTab === 'samenvatting' && <SummaryPanel />}
               {activeContentTab === 'ifc' && <IfcPreview />}
               {activeContentTab === 'offerte' && <OfferteView />}
-              {activeContentTab === 'viewer3d' && <ThreeDViewer />}
-              {activeContentTab === 'pdf' && <PdfViewer />}
+              {activeContentTab === 'viewer3d' && <Suspense fallback={<div role="status">…</div>}><ThreeDViewer /></Suspense>}
+              {activeContentTab === 'pdf' && <Suspense fallback={<div role="status">…</div>}><PdfViewer /></Suspense>}
             </>
           )}
           {/* Bottom tab bar: Begroting + Blad N + "+" — shown on grid & spreadsheet views */}
@@ -595,7 +648,7 @@ function App() {
         )}
       </div>
       {/* Floating chat button + panel — bottom right */}
-      {!showChatPanel && (
+      {!showChatPanel && activeContentTab !== 'promptBudget' && (
         <button
           className="chat-fab"
           onClick={() => useAppStore.getState().toggleChatPanel()}
@@ -605,7 +658,7 @@ function App() {
           💬
         </button>
       )}
-      {showChatPanel && (
+      {showChatPanel && activeContentTab !== 'promptBudget' && (
         <div className="chat-floating">
           <ChatPanel />
         </div>
