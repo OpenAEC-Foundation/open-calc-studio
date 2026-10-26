@@ -58,6 +58,9 @@ gepubliceerde release. De lokale uitgangstak was schoon op `e5bff21`.
 - De Windows-nativecheck vond loaderfout 127 op de schone runner. MSVC-pakketten
   nemen nu de bijbehorende app-local C++-redistributables mee; de workflow
   registreert bij een laadfout ook de imports en behoudt het diagnosepakket.
+- De importdiagnose identificeerde `TaskDialogIndirect`: het externe C-hostprogramma
+  moet Common Controls 6 activeren voordat de product-DLL laadt. Het voorbeeld
+  embedt deze afhankelijkheid nu; een los manifest voor eigen C/C#-hosts gaat mee.
 
 Docker en AWS CLI zijn hier niet beschikbaar. De lokale browserautomatisering
 werd door de automatische goedkeuringscontrole geweigerd; er is geen visuele

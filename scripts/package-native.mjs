@@ -33,7 +33,7 @@ if (process.env.NATIVE_STRIP) {
     if (stripped.error || stripped.status !== 0) throw Error(`Failed to strip ${name}`);
   }
 }
-for (const file of ['README.md', 'open_calc_studio.h', 'host.c', 'Host.cs']) copyFileSync(join(root, 'packages/native', file), join(output, file));
+for (const file of ['README.md', 'open_calc_studio.h', 'host.c', 'host.manifest', 'Host.cs']) copyFileSync(join(root, 'packages/native', file), join(output, file));
 writeFileSync(join(output, 'README.md'), readFileSync(join(output, 'README.md'), 'utf8').replace('../../docs/mcp-desktop.md', 'docs/mcp-desktop.md'));
 mkdirSync(join(output, 'docs'), { recursive: true });
 for (const file of ['mcp-desktop.md', 'ifc-lite-splitview.md']) copyFileSync(join(root, 'docs', file), join(output, 'docs', file));

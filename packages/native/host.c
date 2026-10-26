@@ -5,6 +5,12 @@
 #ifdef _WIN32
 #include <windows.h>
 #include <wchar.h>
+#ifdef _MSC_VER
+/* TaskDialogIndirect and the window subclass APIs require Common Controls 6.
+ * This must be active before LoadLibrary resolves the product DLL imports. */
+#pragma comment(linker, "/MANIFEST:EMBED")
+#pragma comment(linker, "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+#endif
 #define CALL __cdecl
 #else
 #include <dlfcn.h>

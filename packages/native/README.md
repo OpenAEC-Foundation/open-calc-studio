@@ -45,6 +45,16 @@ system runtime (Windows loader error 127). Package from a Visual Studio
 developer shell, or set `OCS_VC_REDIST_DIR` to its `Microsoft.VC*.CRT` directory.
 The redistributables retain their Microsoft license and signatures.
 
+The **host executable must activate Windows Common Controls 6 before loading
+the DLL**. The product imports `TaskDialogIndirect`; without this manifest,
+Windows selects Common Controls 5 and loading fails with error 127. The MSVC
+`host.c` example embeds the dependency with linker directives. For your own
+host, merge `host.manifest` into its application manifest; a .NET project can
+set `<ApplicationManifest>host.manifest</ApplicationManifest>`. For MinGW,
+compile it as a resource with `windres` and link the resulting object into the
+host. Do not copy a system `comctl32.dll` into the application directory.
+See [Microsoft's Common Controls manifest guidance](https://learn.microsoft.com/windows/win32/controls/cookbook-overview).
+
 Environment variables must be set before `ocs_run`: `OCS_API_PORT` (default 9742),
 `OCS_WS_PORT` (9741), optional `OCS_API_TOKEN`, `OPEN_CALC_NODE` and
 `OCS_SKIP_MCP_CONFIG=1` to suppress automatic MCP configuration installation.
