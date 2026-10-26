@@ -33,7 +33,8 @@ export function prepareUniversalBinaries({
   for (const plan of plans) {
     mkdirSync(resolve(plan.output, '..'), { recursive: true });
     execute('lipo', ['-create', ...plan.inputs, '-output', plan.output], { stdio: 'inherit' });
-    execute('lipo', ['-verify_arch', 'x86_64', 'arm64', plan.output], { stdio: 'inherit' });
+    const architectures = execute('lipo', ['-archs', plan.output], { encoding: 'utf8' }).trim().split(/\s+/);
+    if (!['x86_64', 'arm64'].every(arch => architectures.includes(arch))) throw new Error(`Auxiliary binary is not universal: ${plan.name}`);
     chmodSync(plan.output, statSync(plan.inputs[0]).mode & 0o777);
   }
   return plans.map(p => p.name);

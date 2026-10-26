@@ -66,7 +66,7 @@ gepubliceerde release. De lokale uitgangstak was schoon op `e5bff21`.
   geslaagd (run 40351838266, Windows-job); installers, DLL en host zijn gecontroleerd.
 - De universele macOS-app miste de meegebouwde PDF-hulpprogramma's in de
   gecombineerde uitvoermap. Een bundelhaak combineert nu beide architecturen
-  voor deze binaries; drie lokale bundelhaaktests slagen. Een nieuwe
+  voor deze binaries; vier lokale bundelhaaktests slagen. Een nieuwe
   macOS-signingrun moet de volledige notarisation-/DMG-controle bevestigen.
 
 Docker en AWS CLI zijn hier niet beschikbaar. De lokale browserautomatisering

@@ -23,11 +23,21 @@ test('combines both architectures for auxiliary bins and verifies them before pa
   try {
     const names = prepareUniversalBinaries({ ...config, execute: (command, args) => {
       calls.push([command, args]); if (args[0] === '-create') writeFileSync(args.at(-1), 'universal fixture');
+      if (args[0] === '-archs') return 'x86_64 arm64\n';
     } });
     assert.deepEqual(names, ['gen_pdf']);
     assert.deepEqual(calls[0][1].slice(0, 3), ['-create', ...config.inputs]);
-    assert.deepEqual(calls[1][1].slice(0, 3), ['-verify_arch', 'x86_64', 'arm64']);
+    assert.equal(calls[1][1][0], '-archs');
     assert.ok(!existsSync(join(config.root, 'src-tauri/target/universal-apple-darwin/release/test-studio')));
+  } finally { rmSync(config.root, { recursive: true, force: true }); }
+});
+test('refuses a merged helper that still lacks an architecture', () => {
+  const config = fixture();
+  try {
+    assert.throws(() => prepareUniversalBinaries({ ...config, execute: (_command, args) => {
+      if (args[0] === '-create') writeFileSync(args.at(-1), 'thin fixture');
+      if (args[0] === '-archs') return 'x86_64\n';
+    } }), /not universal/);
   } finally { rmSync(config.root, { recursive: true, force: true }); }
 });
 test('missing architecture input fails before creating a partial universal package', () => {

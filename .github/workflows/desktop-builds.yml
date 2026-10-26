@@ -131,6 +131,7 @@ jobs:
         with:
           workspaces: src-tauri -> target
           key: ${{ matrix.target }}
+          cache-on-failure: true
       - name: Install Linux dependencies
         if: runner.os == 'Linux'
         run: |
