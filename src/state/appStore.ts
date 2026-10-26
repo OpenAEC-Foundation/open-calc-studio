@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { pdfQuantities } from '@/services/pdf/pdfWorkspace';
 import { createCostScheduleSlice, type CostScheduleSlice } from './slices/costScheduleSlice';
 import { createCostItemsSlice, type CostItemsSlice } from './slices/costItemsSlice';
 import { createSelectionSlice, type SelectionSlice } from './slices/selectionSlice';
@@ -63,6 +64,17 @@ export const useAppStore = create<AppStore>()((...a) => ({
   ...createAccountsSlice(...a),
   ...createCodeLibrarySlice(...a),
 }));
+
+// PDF quantities are derived from the active, serialized document. Switching
+// tabs or opening a project restores them without mounting the PDF viewer.
+useAppStore.subscribe((state, previous) => {
+  if (state.schedule.ifcTakeoff !== previous.schedule.ifcTakeoff) {
+    useAppStore.setState({ ifcQuantities: state.schedule.ifcTakeoff?.entries ?? [] });
+  }
+  if (state.schedule.pdfWorkspace !== previous.schedule.pdfWorkspace) {
+    useAppStore.setState({ pdfMeasurements: pdfQuantities(state.schedule.pdfWorkspace) });
+  }
+});
 
 // Debug: expose store on window in dev mode
 if (import.meta.env.DEV) {

@@ -39,6 +39,8 @@ export interface OpenCalcStudioProps {
   onChange?: (project: ProjectFile, json: string) => void;
   /** Debounce voor `onChange` in ms (standaard 300). */
   onChangeDelay?: number;
+  /** Errors while opening a project or sample (e.g. invalid JSON). */
+  onError?: (error: Error) => void;
   className?: string;
   style?: CSSProperties;
 }
@@ -57,12 +59,21 @@ export function OpenCalcStudio({
   sample = false,
   onChange,
   onChangeDelay = 300,
+  onError,
   className,
   style,
 }: OpenCalcStudioProps) {
   // Opties die App bij het opstarten leest (thema/taal winnen van de
   // opgeslagen voorkeur; voorbeeld alleen op verzoek). Idempotent.
   markEmbedded({ autoSample: sample, theme, locale: lang });
+
+  const onErrorRef = useRef(onError);
+  onErrorRef.current = onError;
+  const reportError = (error: unknown) => {
+    const cause = error instanceof Error ? error : new Error(String(error));
+    if (onErrorRef.current) onErrorRef.current(cause);
+    else console.error('[OpenCalcStudio]', cause);
+  };
 
   const hostRef = useRef<HTMLDivElement | null>(null);
   const attachHost = useCallback((el: HTMLDivElement | null) => {
@@ -97,25 +108,25 @@ export function OpenCalcStudio({
       }
       if (cancelled) return;
       openProjectInStore(parsed, name ?? parsed.schedule?.name ?? 'Estimate');
-    })().catch((e) => console.error('[OpenCalcStudio] project could not be opened:', e));
+    })().catch((e) => { if (!cancelled) reportError(e); });
     return () => {
       cancelled = true;
     };
   }, [project, fileName]);
 
   useEffect(() => {
-    if (!sample) return;
+    if (!sample || project != null) return;
     let cancelled = false;
     (async () => {
       if (useAppStore.getState().documents.length > 0) return;
       const text = await loadSampleBudgetText(lang ?? i18next.language);
       if (cancelled || useAppStore.getState().documents.length > 0) return;
       openProjectInStore(deserializeProject(text), i18next.t('app.sampleBudget'));
-    })().catch((e) => console.error('[OpenCalcStudio] sample could not be opened:', e));
+    })().catch((e) => { if (!cancelled) reportError(e); });
     return () => {
       cancelled = true;
     };
-  }, [sample, lang]);
+  }, [sample, lang, project]);
 
   useEffect(() => {
     if (!onChange) return;
@@ -156,6 +167,8 @@ export function OpenCalcStudio({
 export interface MountedOpenCalcStudio {
   /** Eigenschappen bijwerken (alleen de meegegeven velden veranderen). */
   update(props: Partial<OpenCalcStudioProps>): void;
+  /** Export the currently active document as native project JSON. */
+  getProjectJson(): string;
   unmount(): void;
 }
 
@@ -171,6 +184,7 @@ export function mount(el: HTMLElement, props: OpenCalcStudioProps = {}): Mounted
   const render = () => root.render(React.createElement(OpenCalcStudio, current));
   render();
   return {
+    getProjectJson,
     update(next) {
       current = { ...current, ...next };
       render();
@@ -213,3 +227,5 @@ export type {
 } from '../types/costModel';
 export { LANGUAGES } from '../i18n/config';
 export { EMBED_CLASS } from './hostRoot';
+
+export { calculateProject } from './core';

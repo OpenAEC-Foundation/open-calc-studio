@@ -1,0 +1,242 @@
+name: Signed desktop test builds
+
+on:
+  workflow_dispatch:
+  workflow_call:
+  push:
+    branches: [codex/signed-test-builds]
+
+# Signing only runs for explicitly dispatched/trusted branch builds and releases,
+# never for pull_request_target or unreviewed fork code.
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+
+concurrency:
+  group: signed-desktop-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.18.0
+          cache: npm
+      - run: npm ci
+      - run: npm test -- --maxWorkers=2 --testTimeout=20000
+
+  build:
+    needs: test
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows-latest
+            target: x86_64-pc-windows-msvc
+            label: Windows
+          - platform: ubuntu-22.04
+            target: x86_64-unknown-linux-gnu
+            label: Linux
+          - platform: macos-latest
+            target: universal-apple-darwin
+            label: macOS-universal
+    name: Build and verify – ${{ matrix.label }}
+    runs-on: ${{ matrix.platform }}
+    env:
+      CARGO_TERM_COLOR: always
+      APPIMAGE_EXTRACT_AND_RUN: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.18.0
+          cache: npm
+
+      - name: Require Windows signing credentials
+        if: runner.os == 'Windows'
+        shell: pwsh
+        env:
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_ENDPOINT: ${{ secrets.AZURE_ENDPOINT }}
+          AZURE_TRUSTED_SIGNING_ACCOUNT_NAME: ${{ secrets.AZURE_TRUSTED_SIGNING_ACCOUNT_NAME }}
+          AZURE_CERTIFICATE_PROFILE_NAME: ${{ secrets.AZURE_CERTIFICATE_PROFILE_NAME }}
+        run: |
+          $required = 'AZURE_TENANT_ID','AZURE_CLIENT_ID','AZURE_CLIENT_SECRET','AZURE_ENDPOINT','AZURE_TRUSTED_SIGNING_ACCOUNT_NAME','AZURE_CERTIFICATE_PROFILE_NAME'
+          $missing = @($required | Where-Object { [string]::IsNullOrWhiteSpace([Environment]::GetEnvironmentVariable($_)) })
+          if ($missing.Count) { throw "Missing signing secrets: $($missing -join ', ')" }
+
+      - name: Require Apple signing and notarization credentials
+        if: runner.os == 'macOS'
+        shell: bash
+        env:
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+          APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
+          APPLE_API_KEY: ${{ secrets.APPLE_API_KEY }}
+          APPLE_API_KEY_CONTENT: ${{ secrets.APPLE_API_KEY_CONTENT }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          set -euo pipefail
+          for name in APPLE_CERTIFICATE APPLE_CERTIFICATE_PASSWORD APPLE_SIGNING_IDENTITY APPLE_API_ISSUER APPLE_API_KEY APPLE_API_KEY_CONTENT APPLE_TEAM_ID; do
+            if [ -z "${!name}" ]; then echo "::error::Missing signing secret: $name"; exit 1; fi
+          done
+          if [[ "$APPLE_SIGNING_IDENTITY" != "Developer ID Application:"* ]]; then
+            echo '::error::A Developer ID Application identity is required; ad-hoc signing is not accepted.'
+            exit 1
+          fi
+          umask 077
+          printf '%s' "$APPLE_API_KEY_CONTENT" > "$RUNNER_TEMP/apple-api-key.p8"
+          node --input-type=module -e 'import fs from "node:fs"; fs.writeFileSync("src-tauri/tauri.signing.conf.json", JSON.stringify({bundle:{macOS:{signingIdentity:process.env.APPLE_SIGNING_IDENTITY,hardenedRuntime:true}}}));'
+
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install macOS universal targets
+        if: runner.os == 'macOS'
+        run: rustup target add aarch64-apple-darwin x86_64-apple-darwin
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri -> target
+          key: ${{ matrix.target }}
+      - name: Install Linux dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential pkg-config libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf libfuse2 rpm
+      - name: Install and bundle JavaScript dependencies
+        run: |
+          npm ci
+          npm --prefix mcp-server ci
+          npm --prefix mcp-server run bundle
+
+      - name: Compile Windows app before installing signing tools
+        if: runner.os == 'Windows'
+        run: npm run tauri -- build --target x86_64-pc-windows-msvc --no-bundle
+      - name: Compile full Windows DLL
+        if: runner.os == 'Windows'
+        run: cargo build --manifest-path src-tauri/Cargo.toml --release --target x86_64-pc-windows-msvc --lib --features tauri/custom-protocol
+      - uses: ilammy/msvc-dev-cmd@v1
+        if: runner.os == 'Windows'
+      - name: Compile native DLL host
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          cl /nologo packages/native/host.c /Fe:src-tauri/target/x86_64-pc-windows-msvc/release/OpenCalcStudioHost.exe
+          if ($LASTEXITCODE -ne 0) { throw 'C host compilation failed' }
+      # This also installs signtool and the Azure dlib. Tauri signs again during
+      # bundling, after patching the executable, and signs the uninstaller too.
+      - name: Install Azure signing tools and sign compiled app
+        if: runner.os == 'Windows'
+        uses: azure/trusted-signing-action@v1
+        with:
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          endpoint: ${{ secrets.AZURE_ENDPOINT }}
+          signing-account-name: ${{ secrets.AZURE_TRUSTED_SIGNING_ACCOUNT_NAME }}
+          certificate-profile-name: ${{ secrets.AZURE_CERTIFICATE_PROFILE_NAME }}
+          files-folder: ${{ github.workspace }}/src-tauri/target/x86_64-pc-windows-msvc/release
+          files-folder-filter: exe,dll
+          files-folder-depth: 1
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+          cache-dependencies: false
+      - name: Configure signing during Windows bundling
+        if: runner.os == 'Windows'
+        shell: pwsh
+        env:
+          AZURE_ENDPOINT: ${{ secrets.AZURE_ENDPOINT }}
+          AZURE_ACCOUNT: ${{ secrets.AZURE_TRUSTED_SIGNING_ACCOUNT_NAME }}
+          AZURE_PROFILE: ${{ secrets.AZURE_CERTIFICATE_PROFILE_NAME }}
+        run: ./scripts/ci/configure-windows-signing.ps1
+      - name: Bundle signed Windows installers
+        if: runner.os == 'Windows'
+        env:
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        run: npm run tauri -- bundle --target x86_64-pc-windows-msvc --config src-tauri/tauri.signing.conf.json --bundles nsis,msi
+      - name: Verify Windows installers and installed binaries
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./scripts/ci/verify-windows-signing.ps1
+
+      - name: Build signed and notarized macOS universal app
+        if: runner.os == 'macOS'
+        uses: tauri-apps/tauri-action@action-v0.6.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+          APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
+          APPLE_API_KEY: ${{ secrets.APPLE_API_KEY }}
+          APPLE_API_KEY_PATH: ${{ runner.temp }}/apple-api-key.p8
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        with:
+          args: --target universal-apple-darwin --bundles dmg --config src-tauri/tauri.signing.conf.json
+      - name: Verify the macOS app delivered inside the DMG
+        if: runner.os == 'macOS'
+        run: bash scripts/ci/verify-macos-signing.sh
+      - name: Remove temporary Apple API key
+        if: always() && runner.os == 'macOS'
+        run: rm -f "$RUNNER_TEMP/apple-api-key.p8"
+
+      - name: Build Linux packages
+        if: runner.os == 'Linux'
+        run: npm run tauri -- build --target x86_64-unknown-linux-gnu --bundles appimage,deb,rpm
+
+      - name: Collect installers and checksums
+        env:
+          BUILD_TARGET: ${{ matrix.target }}
+        run: node scripts/ci/collect-artifacts.mjs
+      - name: Package and verify signed native Windows DLL
+        if: runner.os == 'Windows'
+        shell: pwsh
+        env:
+          BUILD_TARGET: x86_64-pc-windows-msvc
+          BUILD_PROFILE: release
+        run: |
+          node scripts/package-native.mjs
+          if ($LASTEXITCODE -ne 0) { throw 'Native packaging failed' }
+          $package = 'release-native/x86_64-pc-windows-msvc-release'
+          foreach ($name in @('OpenCalcStudio.dll','OpenCalcStudio.exe','OpenCalcStudioHost.exe')) {
+            if ((Get-AuthenticodeSignature "$package/$name").Status -ne 'Valid') { throw "Invalid signature: $name" }
+          }
+          & "$package/OpenCalcStudioHost.exe" --abi-check
+          if ($LASTEXITCODE -ne 0) { throw 'Signed DLL load test failed' }
+          $info = Get-Content "$package/build-info.json" | ConvertFrom-Json
+          $info.signed = $true
+          $info | ConvertTo-Json | Set-Content "$package/build-info.json"
+          Get-ChildItem $package -File -Recurse | Where-Object Name -ne 'SHA256SUMS' | Sort-Object FullName | ForEach-Object {
+            $relative = [IO.Path]::GetRelativePath((Resolve-Path $package).Path, $_.FullName).Replace('\','/')
+            "$((Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower())  $relative"
+          } | Set-Content "$package/SHA256SUMS"
+          $archive = 'release-artifacts/open-calc-studio-native-windows-x64-signed.zip'
+          Compress-Archive -Path "$package/*" -DestinationPath $archive
+          "$((Get-FileHash $archive -Algorithm SHA256).Hash.ToLower())  $([IO.Path]::GetFileName($archive))" | Add-Content release-artifacts/SHA256SUMS.txt
+      # Linux has no Apple/Authenticode equivalent. All platform artifacts get
+      # a signed GitHub/Sigstore provenance attestation, not a fictitious GPG key.
+      - name: Attest verified build artifacts
+        uses: actions/attest-build-provenance@v3
+        with:
+          subject-path: release-artifacts/*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: open-calc-studio-${{ matrix.label }}
+          path: release-artifacts/*
+          if-no-files-found: error
+          retention-days: 14

@@ -16,12 +16,29 @@
       "types": "./dist/style.css.d.ts",
       "default": "./dist/style.css"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./core": {
+      "types": "./dist/lib/core.d.ts",
+      "import": "./dist/core.js"
+    },
+    "./isolated": {
+      "types": "./dist/lib/isolated.d.ts",
+      "import": "./dist/isolated.js"
+    },
+    "./importers": {
+      "types": "./dist/lib/importers.d.ts",
+      "import": "./dist/importers.js"
+    },
+    "./converters": {
+      "types": "./dist/lib/converters.d.ts",
+      "import": "./dist/converters.js"
+    }
   },
   "sideEffects": true,
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "copy-assets.mjs"
   ],
   "repository": {
     "type": "git",
@@ -50,7 +67,9 @@
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "dependencies": {
-    "@tauri-apps/api": "^2.10.1",
+    "@ifc-lite/geometry": "^7.6.0",
+    "@ifc-lite/parser": "^9.1.0",
+    "@tauri-apps/api": "2.10.1",
     "@tauri-apps/plugin-dialog": "^2.6.0",
     "@tauri-apps/plugin-fs": "^2.4.5",
     "@tauri-apps/plugin-opener": "^2.5.3",
@@ -61,14 +80,19 @@
     "@thatopen/fragments": "^3.4.1",
     "7z-wasm": "^1.2.0",
     "buffer": "^6.0.3",
+    "events": "^3.3.0",
     "i18next": "^25.8.18",
     "i18next-browser-languagedetector": "^8.2.1",
     "mdb-reader": "^3.2.0",
     "pdfjs-dist": "^5.6.205",
     "react-i18next": "^16.5.8",
     "sql.js": "^1.14.1",
+    "stream-browserify": "^3.0.0",
     "three": "^0.184.0",
     "xlsx": "^0.18.5",
     "zustand": "^5.0.12"
+  },
+  "bin": {
+    "ocs-copy-assets": "./copy-assets.mjs"
   }
 }

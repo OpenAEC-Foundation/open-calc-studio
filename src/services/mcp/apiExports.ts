@@ -36,7 +36,7 @@ async function resolveOutputPath(requested: unknown, baseName: string, ext: stri
   return join(await tempDir(), `${safeBase}.${ext}`);
 }
 
-async function exportPdf(data: Record<string, unknown>): Promise<string> {
+export async function exportPdf(data: Record<string, unknown>): Promise<string> {
   const { invoke } = await import('@tauri-apps/api/core');
   const store = useAppStore.getState();
   const { schedule, items, companyInfo, showHoeveelheid } = store;
@@ -69,7 +69,7 @@ async function exportPdf(data: Record<string, unknown>): Promise<string> {
   return outputPath;
 }
 
-async function exportIfc(data: Record<string, unknown>): Promise<string> {
+export async function exportIfc(data: Record<string, unknown>): Promise<string> {
   const { schedule, items, offerte } = useAppStore.getState();
   if (!schedule || items.length === 0) throw new Error('no budget loaded');
   const outputPath = await resolveOutputPath(data.outputPath ?? data.output_path, schedule.name || 'begroting', 'ifc');

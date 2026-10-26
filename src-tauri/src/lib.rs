@@ -3,6 +3,8 @@ pub mod api;
 pub mod reports;
 pub mod wpcalc_export;
 pub mod ws_bridge;
+#[cfg(desktop)]
+mod native_library;
 
 use std::sync::{Arc, Mutex};
 use tauri::Manager;
@@ -112,20 +114,67 @@ fn get_os_username() -> String {
 
 /// Write MCP server configuration to ~/.claude/ so Claude Code can discover it
 fn write_mcp_config(app: &tauri::App) {
+    if std::env::var("OCS_SKIP_MCP_CONFIG").as_deref() == Ok("1") { return; }
     use std::io::Write;
+    use sha2::{Digest, Sha256};
     use tauri::Manager;
     let resource_dir = app.path().resource_dir().unwrap_or_default();
-    let mcp_path = resource_dir.join("ocs-mcp.mjs");
-    let mcp_path_str = mcp_path.to_string_lossy().replace('\\', "/");
+    // Tauri maps a bundled resource outside src-tauri (`../mcp-server/...`)
+    // under `_up_` in the installed resource directory.
+    let mcp_path = [
+        resource_dir.join("_up_").join("mcp-server").join("dist").join("ocs-mcp.mjs"),
+        resource_dir.join("ocs-mcp.mjs"),
+        std::env::current_exe().ok().and_then(|p| p.parent().map(|p| p.join("ocs-mcp.mjs"))).unwrap_or_default(),
+    ]
+    .into_iter()
+    .find(|path| path.is_file());
+    let Some(mcp_path) = mcp_path else {
+        log::warn!("[MCP Config] Bundled ocs-mcp.mjs not found in {}", resource_dir.display());
+        return;
+    };
+    let node_command = std::env::var("OPEN_CALC_NODE").unwrap_or_else(|_| "node".to_string());
 
     // Write to ~/.claude/open-calc-studio-mcp.json
     if let Some(home) = dirs::home_dir() {
+        // AppImage resources are extracted into a temporary directory. Copy the
+        // bundled server to a content-addressed, persistent user path first.
+        let bytes = match std::fs::read(&mcp_path) {
+            Ok(bytes) => bytes,
+            Err(e) => {
+                log::warn!("[MCP Config] Cannot read bundled server: {}", e);
+                return;
+            }
+        };
+        let hash = format!("{:x}", Sha256::digest(&bytes));
+        let data_dir = dirs::data_local_dir().unwrap_or_else(|| home.join(".local").join("share"));
+        let mcp_dir = data_dir.join("open-calc-studio").join("mcp");
+        if let Err(e) = std::fs::create_dir_all(&mcp_dir) {
+            log::warn!("[MCP Config] Cannot create {}: {}", mcp_dir.display(), e);
+            return;
+        }
+        let installed_mcp = mcp_dir.join(format!("ocs-mcp-{}.mjs", hash));
+        if !installed_mcp.is_file() {
+            if let Err(e) = std::fs::write(&installed_mcp, &bytes) {
+                log::warn!("[MCP Config] Cannot install server at {}: {}", installed_mcp.display(), e);
+                return;
+            }
+        }
+        let mcp_path_str = installed_mcp.to_string_lossy().replace('\\', "/");
         let claude_dir = home.join(".claude");
         let _ = std::fs::create_dir_all(&claude_dir);
         let config_path = claude_dir.join("open-calc-studio-mcp.json");
-        let config = format!(
-            "{{\"mcpServers\":{{\"open-calc-studio\":{{\"command\":\"node\",\"args\":[\"{}\"]}}}}}}", mcp_path_str
-        );
+        let config = serde_json::json!({
+            "mcpServers": {
+                "open-calc-studio": {
+                    "command": node_command,
+                    "args": [mcp_path_str],
+                    "env": {
+                        "OCS_DESKTOP_API_URL": format!("http://127.0.0.1:{}", std::env::var("OCS_API_PORT").unwrap_or_else(|_| "9742".into())),
+                        "OCS_DISABLE_BRIDGE": "1"
+                    }
+                }
+            }
+        }).to_string();
         if let Ok(mut f) = std::fs::File::create(&config_path) {
             let _ = f.write_all(config.as_bytes());
             log::info!("[MCP Config] Written to {}", config_path.display());
@@ -135,6 +184,19 @@ fn write_mcp_config(app: &tauri::App) {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+  run_return().expect("error while running tauri application");
+}
+
+/// Shared entry for the executable and C ABI. Closing the window returns to
+/// the caller; it must not terminate a program that loaded our DLL.
+pub fn run_return() -> Result<i32, tauri::Error> {
+  #[cfg(target_os = "windows")]
+  if std::env::var_os("WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS").is_none() {
+    std::env::set_var(
+      "WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS",
+      "--disable-gpu --disable-features=CalculateNativeWinOcclusion",
+    );
+  }
   tauri::Builder::default()
     .plugin(tauri_plugin_dialog::init())
     .plugin(tauri_plugin_fs::init())
@@ -216,6 +278,6 @@ pub fn run() {
       }
       _ => {}
     })
-    .run(tauri::generate_context!())
-    .expect("error while running tauri application");
+    .build(tauri::generate_context!())
+    .map(|app| app.run_return(|_, _| {}))
 }

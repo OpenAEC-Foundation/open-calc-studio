@@ -1,5 +1,5 @@
-import type { CostItem } from '@/types/costModel';
-import { isStagartRowType } from '@/types/costModel';
+import type { CostItem } from '../../types/costModel';
+import { isStagartRowType } from '../../types/costModel';
 
 /**
  * Canonieke item-volgorde: depth-first per parentId, zodat kinderen altijd
@@ -362,7 +362,7 @@ export interface KostprijsBreakdown {
   onderaanneming: number;
 }
 
-/** Group regel totals by resourceType to produce kostprijs columns
+/** Group priced rows by resourceType to produce kostprijs columns
  *  (loon, materiaal, materieel, stelpost, onderaanneming).
  *
  *  Splits a regel with a separate laborPrice into a loon part and a
@@ -371,11 +371,19 @@ export function computeKostprijsBreakdown(items: CostItem[]): KostprijsBreakdown
   const out: KostprijsBreakdown = {
     loon: 0, materiaal: 0, materieel: 0, stelpost: 0, onderaanneming: 0,
   };
+  const childTotals = new Map<string, number>();
   for (const item of items) {
-    if (item.rowType !== 'regel') continue;
+    if (item.parentId && !isStagartRowType(item.rowType)) {
+      childTotals.set(item.parentId, (childTotals.get(item.parentId) ?? 0) + item.total);
+    }
+  }
+  for (const item of items) {
+    const ownPost = (item.rowType === 'begrotingspost' || item.rowType === 'bewakingspost')
+      && (childTotals.get(item.id) ?? 0) === 0;
+    if (item.rowType !== 'regel' && !ownPost) continue;
     const qty = item.quantity ?? 0;
     const lab = item.laborPrice ?? 0;
-    const matPrice = item.normUnitPrice ?? 0;
+    const matPrice = (item.normUnitPrice ?? 0) + (ownPost ? item.materialPrice ?? 0 : 0);
     const total = item.total ?? 0;
 
     if (item.resourceType === 'onderaannemer') {
@@ -452,7 +460,7 @@ export function computeStaartItemBreakdowns(items: CostItem[]): CostItem[] {
   // Resource-column running totals also accumulate
   const running = { ...kostprijs };
 
-  type BD = import('@/types/costModel').StaartItemBreakdown;
+  type BD = import('../../types/costModel').StaartItemBreakdown;
   const bdOf = new Map<string, BD>();
   const staartItems = items.filter(i => i.rowType?.startsWith('staart_'));
 

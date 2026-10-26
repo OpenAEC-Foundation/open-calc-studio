@@ -160,6 +160,7 @@
     "unitPriceShort": "Unit pr."
   },
   "subsheet": {
+    "backToBudget": "Back to estimate",
     "rowColor": "Row color",
     "colorNone": "None",
     "colorAmber": "Amber",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Set VAT base",
     "finalAmountSet": "Set final amount",
     "roundingStep": "Rounding step"
-  }
+  },
+  "pdfLinkMissing": "PDF source measurement is missing; the last known quantity is retained. Relink the measurement."
 }

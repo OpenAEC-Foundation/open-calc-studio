@@ -159,6 +159,12 @@ export interface ExcelLink {
 }
 
 export interface CostSchedule {
+  /** Explicit direct-cost exchange: do not synthesize Dutch staart on load. */
+  directCostsOnly?: boolean;
+  budgetExchange?: import('../services/exchange/types').BudgetExchangeSource;
+  /** Embedded PDFs, calibrated geometry and external measurement provenance. */
+  pdfWorkspace?: import('./pdfWorkspace').PdfWorkspace;
+  ifcTakeoff?: import('../services/ifc/ifcTakeoff').IfcTakeoff;
   id: string;
   name: string;
   description: string;
@@ -269,6 +275,11 @@ export interface CompanyInfo {
 }
 
 export interface ResourceLibraryItem {
+  source?: string;
+  priceDate?: string | null;
+  referenceUnitPrice?: number | null;
+  originalUnit?: string;
+  unitSupported?: boolean;
   id: string;
   code: string;
   description: string;

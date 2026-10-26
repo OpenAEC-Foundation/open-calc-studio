@@ -50,7 +50,9 @@ export const createDocumentSlice: StateCreator<DocumentSlice> = (set, get) => ({
 
   removeDocument: (id) => {
     const state = get() as any;
-    const filtered = state.documents.filter((d: DocumentTab) => d.id !== id);
+    const filtered = state.documents
+      .map((d: DocumentTab) => d.id === state.activeDocumentId ? { ...d, items: state.items, schedule: state.schedule } : d)
+      .filter((d: DocumentTab) => d.id !== id);
     if (filtered.length === 0) {
       set({
         documents: [],

@@ -1,0 +1,58 @@
+[
+  {
+    "key": "01-persist-takeoff",
+    "title": "Complete persistent PDF takeoff with revision identity and source recovery",
+    "priority": "P1",
+    "body_file": "issues/01-persist-takeoff.md",
+    "status": "draft-awaiting-github-auth",
+    "url": null
+  },
+  {
+    "key": "02-catalogue-updates",
+    "title": "Add versioned resource catalogues with a price-update preview",
+    "priority": "P1",
+    "body_file": "issues/02-catalogue-updates.md",
+    "status": "draft-awaiting-github-auth",
+    "url": null
+  },
+  {
+    "key": "03-bid-comparison",
+    "title": "Add supplier and subcontractor bid comparison with controlled estimate write-back",
+    "priority": "P2",
+    "body_file": "issues/03-bid-comparison.md",
+    "status": "draft-awaiting-github-auth",
+    "url": null
+  },
+  {
+    "key": "04-drawing-revisions",
+    "title": "Compare PDF drawing revisions and preview their quantity and cost impact",
+    "priority": "P2",
+    "body_file": "issues/04-drawing-revisions.md",
+    "status": "draft-awaiting-github-auth",
+    "url": null
+  },
+  {
+    "key": "05-actual-costs",
+    "title": "Add actual-cost and hours imports for budget-versus-actual reporting",
+    "priority": "P2",
+    "body_file": "issues/05-actual-costs.md",
+    "status": "draft-awaiting-github-auth",
+    "url": null
+  },
+  {
+    "key": "06-planning-export",
+    "title": "Export estimate work packages and labour effort to planning tools",
+    "priority": "P3",
+    "body_file": "issues/06-planning-export.md",
+    "status": "draft-awaiting-github-auth",
+    "url": null
+  },
+  {
+    "key": "07-embodied-carbon",
+    "title": "Add an optional embodied-carbon calculation alongside resource costs",
+    "priority": "P3",
+    "body_file": "issues/07-embodied-carbon.md",
+    "status": "draft-awaiting-github-auth",
+    "url": null
+  }
+]

@@ -234,6 +234,12 @@ export default function HomeTab() {
           </RibbonButtonStack>
         </RibbonGroup>
 
+        <RibbonGroup label="Prijzen">
+          <RibbonButton icon={companyIcon} label="Prijsbibliotheek NL" onClick={() => {
+            const parent = activeItem && ['chapter', 'begrotingspost', 'bewakingspost'].includes(activeItem.rowType) ? activeItem.id : activeItem?.parentId ?? null;
+            useAppStore.getState().openResourcePicker(parent);
+          }} />
+        </RibbonGroup>
         <RibbonGroup label={t("home.history")}>
           <RibbonButton icon={undoIcon} label={t("home.undo")} onClick={handleUndo} disabled={!canUndo()} />
           <div className="ribbon-undo-dropdown-wrap">

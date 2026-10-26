@@ -7,6 +7,7 @@ import { formatNumber, formatCurrency } from '@/utils/formatting';
 import { isCellEditable } from './gridConstants';
 import { useAppStore } from '@/state/appStore';
 import { formatUnit } from '@/i18n/formatUnit';
+import { resolvePdfQuantity } from '@/services/pdf/pdfWorkspace';
 
 interface Props {
   item: CostItem;
@@ -29,6 +30,9 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
   const { t } = useTranslation('grid');
   const gridView = useAppStore((s) => s.gridView);
   const items = useAppStore((s) => s.items);
+  const pdfWorkspace = useAppStore((s) =>
+    (column.key === 'hoeveelheid' || column.key === 'quantity') && item.quantityLink?.source === 'pdf'
+      ? s.schedule.pdfWorkspace : undefined);
 
   const getRowTypeAbbr = (): string => {
     switch (item.rowType) {
@@ -320,6 +324,8 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
   const isHoeveelheidCol = column.key === 'hoeveelheid' || column.key === 'quantity';
   const showExcelIcon = isHoeveelheidCol && !!item.excelLink;
   const showQuantityLinkIcon = isHoeveelheidCol && !!item.quantityLink;
+  const unresolvedPdfLink = showQuantityLinkIcon && item.quantityLink?.source === 'pdf'
+    && resolvePdfQuantity(item.quantityLink, pdfWorkspace) === null;
   const cellTooltip = getCellTooltip();
 
   // Sommen op posten zijn afgeleide waarden (optelling van onderliggende
@@ -369,7 +375,12 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
         </svg>
       )}
       {showQuantityLinkIcon && (
-        <span title={`🔗 ${item.quantityLink!.source}`} style={{ fontSize: 9, marginRight: 2, color: '#3b82f6' }}>🔗</span>
+        <span title={unresolvedPdfLink ? t('pdfLinkMissing') : `🔗 ${item.quantityLink!.source}`}
+          role={unresolvedPdfLink ? 'img' : undefined}
+          aria-label={unresolvedPdfLink ? t('pdfLinkMissing') : undefined}
+          style={{ fontSize: 9, marginRight: 2, color: unresolvedPdfLink ? '#b45309' : '#3b82f6' }}>
+          {unresolvedPdfLink ? '⚠' : '🔗'}
+        </span>
       )}
       {(isWitregel || item.rowType === 'tekstregel') && isDescCol ? (
         // Wit- en tekstregels: terugloop — de rij groeit mee (getRowHeight).

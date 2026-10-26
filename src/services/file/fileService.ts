@@ -168,7 +168,7 @@ export function deserializeProject(json: string): ProjectFile {
     const hasStaartItems = parsed.items.some(
       (it: any) => typeof it?.rowType === 'string' && it.rowType.startsWith('staart_'),
     );
-    if (!hasStaartItems) {
+    if (!hasStaartItems && !parsed.schedule.budgetExchange?.directCostsOnly && !parsed.schedule.directCostsOnly) {
       const staartItems = synthesizeStaartItems(parsed.schedule);
       parsed.items = [...parsed.items, ...staartItems];
     }

@@ -136,9 +136,10 @@ fn find_template(app: &tauri::AppHandle) -> Result<std::path::PathBuf, String> {
         .path()
         .resource_dir()
         .map_err(|e| format!("Could not find resource dir: {}", e))?;
-    let prod_path = resource_dir.join("wpcalc-template.calc");
-    if prod_path.exists() {
-        return Ok(prod_path);
+    for prod_path in [resource_dir.join("resources/wpcalc-template.calc"), resource_dir.join("wpcalc-template.calc")] {
+        if prod_path.exists() {
+            return Ok(prod_path);
+        }
     }
 
     Err("WPCalc template file not found".to_string())

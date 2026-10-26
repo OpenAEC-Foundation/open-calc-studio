@@ -1,3 +1,4 @@
+import appIcon from '../../assets/app-icon.svg';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { useFileOperations } from '@/hooks/useFileOperations';
@@ -32,15 +33,18 @@ export function StartSidebar({ onLoadVoorbeeld, onClose }: StartSidebarProps) {
 
       <div className="start-sidebar-body">
         <div className="start-brand">
-          <img src="/app-icon.svg" alt="" width="40" height="40" className="start-brand-icon" />
+          <img src={appIcon} alt="" width="40" height="40" className="start-brand-icon" />
           <div className="start-brand-text">
-            <h2>{t('appName')}</h2>
+            <div className="start-brand-heading">
+              <h2>{t('appName')}</h2>
+              <span className="start-brand-version">v{__APP_VERSION__}</span>
+            </div>
             <p>{t('noDocumentHint')}</p>
           </div>
         </div>
 
         <div className="start-actions">
-          <button className="start-action-btn" onClick={newFile}>
+          <button className="start-action-btn start-action-btn--primary" onClick={newFile}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
               <path d="M14 2v6h6" />
@@ -54,7 +58,7 @@ export function StartSidebar({ onLoadVoorbeeld, onClose }: StartSidebarProps) {
             </svg>
             <span>{t('open')}</span>
           </button>
-          <button className="start-action-btn" onClick={onLoadVoorbeeld}>
+          <button className="start-action-btn start-action-btn--quiet" onClick={onLoadVoorbeeld}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M9 11H5a2 2 0 00-2 2v7a2 2 0 002 2h14a2 2 0 002-2v-7a2 2 0 00-2-2h-4M12 2v13M9 6l3-3 3 3" />
             </svg>

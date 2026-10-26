@@ -3,7 +3,7 @@ import { applyUiZoom, clampUiZoom, loadUiZoom, nextUiZoom, saveUiZoom } from '@/
 
 export type ThemeName = 'default' | 'light' | 'dark' | 'blue' | 'amber-navy' | 'warm-ember' | 'highContrast';
 export type DialogType = 'settings' | 'about' | 'company' | 'wizard' | null;
-export type ContentTab = 'grid' | 'urenstaart' | 'rapport' | 'samenvatting' | 'ifc' | 'offerte' | 'spreadsheet' | 'viewer3d' | 'pdf';
+export type ContentTab = 'grid' | 'promptBudget' | 'urenstaart' | 'rapport' | 'samenvatting' | 'ifc' | 'offerte' | 'spreadsheet' | 'viewer3d' | 'pdf';
 export type ReportMode = 'client' | 'internal';
 export type ReportView = 'werkbeschrijving' | 'hoofdaanneming' | 'onderaanneming' | 'inschrijfstaat' | 'nacalculatie' | 'bouw1' | 'ibis' | 'directie' | 'offerte';
 export type PageOrientation = 'portrait' | 'landscape';
@@ -11,6 +11,14 @@ export type PageSize = 'A4' | 'A3';
 export type GridView = 'st' | 'wpcalc' | 'inschrijfstaat' | 'simple';
 
 export interface UiSlice {
+  pdfPage: number;
+  pdfZoom: number;
+  pdfTool: 'pan' | 'length' | 'area' | 'calibrate';
+  ifcSplitPercent: number;
+  setPdfPage: (page: number) => void;
+  setPdfZoom: (zoom: number) => void;
+  setPdfTool: (tool: 'pan' | 'length' | 'area' | 'calibrate') => void;
+  setIfcSplitPercent: (percent: number) => void;
   theme: ThemeName;
   activeDialog: DialogType;
   activeContentTab: ContentTab;
@@ -62,6 +70,11 @@ export interface UiSlice {
 }
 
 export const createUiSlice: StateCreator<UiSlice> = (set, get) => ({
+  pdfPage: 1, pdfZoom: 1.5, pdfTool: 'pan', ifcSplitPercent: 50,
+  setPdfPage: (page) => set({pdfPage: Math.max(1, Math.floor(page))}),
+  setPdfZoom: (zoom) => set({pdfZoom: Math.max(0.25, Math.min(5,zoom))}),
+  setPdfTool: (tool) => set({pdfTool: tool}),
+  setIfcSplitPercent: (percent) => set({ifcSplitPercent: Math.max(30,Math.min(70,percent))}),
   theme: 'light',
   activeDialog: null,
   activeContentTab: 'grid',
@@ -133,7 +146,7 @@ export const createUiSlice: StateCreator<UiSlice> = (set, get) => ({
   },
   setActiveContentTab: (activeContentTab) => {
     const HIDE_EXP = import.meta.env.VITE_HIDE_EXPERIMENTAL === 'true';
-    if (HIDE_EXP && (['pdf', 'viewer3d', 'offerte'] as ContentTab[]).includes(activeContentTab)) {
+    if (HIDE_EXP && (['offerte'] as ContentTab[]).includes(activeContentTab)) {
       set({ activeContentTab: 'grid' });
       return;
     }

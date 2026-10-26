@@ -74,7 +74,8 @@ pub fn start_api_server(app: AppHandle, snapshot: SharedSnapshot, pending: Pendi
     tauri::async_runtime::spawn(async move {
         let app = build_router(state);
 
-        let addr = format!("127.0.0.1:{}", API_PORT);
+        let port = std::env::var("OCS_API_PORT").ok().and_then(|v| v.parse::<u16>().ok()).unwrap_or(API_PORT);
+        let addr = format!("127.0.0.1:{}", port);
         match tokio::net::TcpListener::bind(&addr).await {
             Ok(listener) => {
                 info!("[REST API] Listening on http://{}", addr);
@@ -93,6 +94,7 @@ fn build_router(state: AppState) -> Router {
     Router::new()
         // Meta
         .route("/api/v1/health", get(health))
+        .route("/api/v1/command", post(post_command).layer(axum::extract::DefaultBodyLimit::max(150 * 1024 * 1024)))
         .route("/api/v1/openapi.json", get(openapi_spec))
         // Budget
         .route("/api/v1/budget", get(get_budget))
@@ -753,4 +755,18 @@ async fn delete_document(
     check_auth(&state, &headers)?;
     emit_mutation(&state, "remove_document", json!({ "id": id }))?;
     Ok(Json(json!({ "success": true, "id": id })))
+}
+
+/// Acknowledged desktop action: reply only after the webview has executed it.
+async fn post_command(State(state): State<AppState>, headers: HeaderMap, Json(data): Json<Value>) -> Result<Json<Value>, ApiError> {
+    check_auth(&state, &headers)?;
+    // MCP uses Node HTTP without Origin. Browser pages must never invoke this
+    // broad local desktop API using the user's ambient network access.
+    if headers.contains_key("origin") {
+        return Err(ApiError::new(StatusCode::FORBIDDEN, "desktop commands require a local MCP client"));
+    }
+    if !data.get("action").and_then(Value::as_str).is_some() {
+        return Err(ApiError::new(StatusCode::BAD_REQUEST, "action is required"));
+    }
+    Ok(Json(emit_and_await(&state, "desktop_command_request", data).await?))
 }

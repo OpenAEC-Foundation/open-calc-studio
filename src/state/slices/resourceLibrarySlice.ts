@@ -1,6 +1,6 @@
 import type { StateCreator } from 'zustand';
 import type { ResourceLibraryItem, ResourceType, CostUnit } from '@/types/costModel';
-import { createDefaultResourceLibrary } from '@/data/defaultResourceLibrary';
+import dutchLibrary from '@/data/nl-price-library.json';
 
 export interface ResourceLibrarySlice {
   resourceLibrary: ResourceLibraryItem[];
@@ -8,7 +8,7 @@ export interface ResourceLibrarySlice {
   resourcePickerParentId: string | null;
   setResourceLibrary: (items: ResourceLibraryItem[]) => void;
   loadLibraryFromJson: (json: unknown) => void;
-  openResourcePicker: (parentId: string) => void;
+  openResourcePicker: (parentId: string | null) => void;
   closeResourcePicker: () => void;
 }
 
@@ -28,8 +28,8 @@ function mapLibraryUnit(unit: string): CostUnit {
   switch (u) {
     case 'uur': return 'uur';
     case 'm': case 'm1': return 'm';
-    case 'm2': return 'm²';
-    case 'm3': return 'm³';
+    case 'm2': case 'm²': return 'm²';
+    case 'm3': case 'm³': return 'm³';
     case 'kg': return 'kg';
     case 'ton': return 'ton';
     case 'st': case 'stuk': return 'st';
@@ -47,39 +47,31 @@ function mapLibraryUnit(unit: string): CostUnit {
 }
 
 /** Parse a library JSON file (from public/libraries/) into ResourceLibraryItem[] */
-function parseLibraryJson(json: unknown): ResourceLibraryItem[] {
+export function parseLibraryJson(json: unknown): ResourceLibraryItem[] {
   if (!json || typeof json !== 'object') return [];
   const data = json as Record<string, unknown>;
   const resources = data.resources;
   if (!Array.isArray(resources)) return [];
 
   return resources.map((r: Record<string, unknown>, i: number) => ({
+    source: typeof r.source === 'string' ? r.source : undefined,
+    priceDate: typeof r.priceDate === 'string' ? r.priceDate : null,
+    referenceUnitPrice: typeof r.referenceUnitPrice === 'number' ? r.referenceUnitPrice : null,
+    originalUnit: String(r.unit ?? 'st'),
+    unitSupported: ['uur','m','m1','m2','m²','m3','m³','kg','ton','st','stuk','dag','dgn','km','week','mnd','post','ls','%','pm','keer'].includes(String(r.unit ?? 'st').toLowerCase().trim()),
     id: `lib-${i}-${String(r.code ?? '')}`,
     code: String(r.code ?? ''),
     description: String(r.description ?? ''),
     unit: mapLibraryUnit(String(r.unit ?? 'st')),
-    resourceType: mapCategoryToResourceType(String(r.category ?? '')),
+    resourceType: ['arbeid','materiaal','materieel','onderaannemer','overig'].includes(String(r.resourceType)) ? r.resourceType as ResourceType : mapCategoryToResourceType(String(r.category ?? '')),
     defaultUnitPrice: typeof r.defaultUnitPrice === 'number' ? r.defaultUnitPrice : null,
     category: r.subCategory ? String(r.subCategory) : String(r.category ?? ''),
   }));
 }
 
 export const createResourceLibrarySlice: StateCreator<ResourceLibrarySlice> = (set) => {
-  // Try to load the GWW library from public/libraries/ at startup
-  fetch('/libraries/middelen-gww.json')
-    .then((res) => res.ok ? res.json() : null)
-    .then((json) => {
-      if (json) {
-        const items = parseLibraryJson(json);
-        if (items.length > 0) {
-          set({ resourceLibrary: items });
-        }
-      }
-    })
-    .catch(() => {/* fallback to defaults */});
-
   return {
-    resourceLibrary: createDefaultResourceLibrary(),
+    resourceLibrary: parseLibraryJson(dutchLibrary),
     resourcePickerOpen: false,
     resourcePickerParentId: null,
     setResourceLibrary: (resourceLibrary) => set({ resourceLibrary }),

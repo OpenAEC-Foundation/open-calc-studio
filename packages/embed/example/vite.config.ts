@@ -18,6 +18,9 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
+      '@openaec/open-calc-studio/isolated': path.join(dist, 'isolated.js'),
+      '@openaec/open-calc-studio/importers': path.join(dist, 'importers.js'),
+      '@openaec/open-calc-studio/core': path.join(dist, 'core.js'),
       '@openaec/open-calc-studio/style.css': path.join(dist, 'style.css'),
       '@openaec/open-calc-studio': path.join(dist, 'index.js'),
     },

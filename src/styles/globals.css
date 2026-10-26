@@ -173,6 +173,24 @@ html, body, #root {
 ::-webkit-scrollbar-thumb:hover { background: var(--theme-accent); }
 ::-webkit-scrollbar-corner { background: var(--theme-content-bg); }
 
+/* OpenAEC UI 0.4: make keyboard navigation visible on every interactive surface. */
+:focus-visible {
+  outline: 2px solid var(--theme-focus-color, var(--theme-accent));
+  outline-offset: 2px;
+}
+
+button:not(:disabled) { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* Hide decorum plugin's overlay titlebar buttons (we use our own) */
 div[data-tauri-decorum-tb] { display: none !important; }
 

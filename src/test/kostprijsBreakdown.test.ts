@@ -83,4 +83,23 @@ describe('computeKostprijsBreakdown', () => {
     const b = computeKostprijsBreakdown([ch]);
     expect(b.loon).toBe(0);
   });
+
+  it('includes an own post price with empty children, including imported material and labour', () => {
+    const post = { ...mkRegel('materiaal', 800), id: 'post', rowType: 'begrotingspost' as const,
+      quantity: 10, materialPrice: 50, laborPrice: 30 };
+    const empty = { ...mkRegel('', 0, 'post'), rowType: 'bewakingspost' as const };
+    const b = computeKostprijsBreakdown([post, empty]);
+    expect(b.materiaal).toBe(500);
+    expect(b.loon).toBe(300);
+  });
+
+  it('counts priced descendants once when an ancestor also has an own price', () => {
+    const post = { ...mkRegel('materiaal', 200), id: 'post', rowType: 'begrotingspost' as const,
+      normUnitPrice: 550 };
+    const monitor = { ...mkRegel('onderaannemer', 200, 'post'), id: 'monitor', rowType: 'bewakingspost' as const };
+    const rule = mkRegel('arbeid', 200, 'monitor');
+    expect(computeKostprijsBreakdown([post, monitor, rule])).toEqual({
+      loon: 200, materiaal: 0, materieel: 0, stelpost: 0, onderaanneming: 0,
+    });
+  });
 });

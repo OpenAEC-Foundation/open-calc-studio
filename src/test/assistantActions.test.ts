@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { useAppStore } from '@/state/appStore';
-import { parseActies, applyActies, buildBudgetContext } from '@/services/assistant/assistantActions';
+import { parseActies, parseLocalBudgetCommand, applyActies, buildBudgetContext } from '@/services/assistant/assistantActions';
 import type { CostItem } from '@/types/costModel';
 
 function mk(id: string, rowType: CostItem['rowType'], parentId: string | null, extra: Partial<CostItem> = {}): CostItem {
@@ -38,6 +38,15 @@ describe('parseActies', () => {
   it('geeft lege lijst zonder blok of bij kapotte JSON', () => {
     expect(parseActies('Gewoon een antwoord.').acties).toHaveLength(0);
     expect(parseActies('```ocs-acties\n{kapot}\n```').acties).toHaveLength(0);
+  });
+});
+
+describe('lokale prompt', () => {
+  it('maakt een beoordeelbaar voorstel met Nederlandse decimalen zonder AI-account', () => {
+    const voorstel = parseLocalBudgetCommand('Voeg onder 21.01 een regel toe: 12,5 m3 Beton C30 à €145,50');
+    expect(voorstel).toEqual([{ type: 'add_regel', onderNr: '21.01', aantal: 12.5, eenheid: 'm³', omschrijving: 'Beton C30', prijs: 145.5 }]);
+    expect(useAppStore.getState().items.find(i => i.description === 'Beton C30')).toBeUndefined();
+    expect(parseLocalBudgetCommand('Voeg onder 21.01 een regel toe: 5 uur Montage à €50')).toBeNull();
   });
 });
 
@@ -81,14 +90,40 @@ describe('applyActies', () => {
     expect(items.some(i => i.id === 'ch')).toBe(true);
   });
 
-  it('meldt fouten per actie zonder de rest te blokkeren', () => {
+  it('weigert een ongeldige batch geheel, zodat een voorstel niets gedeeltelijk toepast', () => {
+    const before = useAppStore.getState().items;
     const res = applyActies([
       { type: 'update', nr: '99.99', veld: 'aantal', waarde: 1 },
       { type: 'update', nr: '21.01.01', veld: 'aantal', waarde: 5 },
     ]);
     expect(res[0]).toContain('✖');
-    expect(res[1]).toContain('✔');
-    expect(useAppStore.getState().items.find(i => i.id === 'r1')!.quantity).toBe(5);
+    expect(useAppStore.getState().items).toBe(before);
+    expect(useAppStore.getState().items.find(i => i.id === 'r1')!.quantity).toBe(12);
+  });
+
+  it('weigert ongeldige getallen en onbekende eenheden vóór de wijziging', () => {
+    const before = useAppStore.getState().items;
+    const res = applyActies([
+      { type: 'add_regel', onderNr: '21.01', omschrijving: 'Fout', aantal: Infinity, eenheid: 'lichtjaar', prijs: 12 },
+    ]);
+    expect(res.join(' ')).toContain('✖');
+    expect(useAppStore.getState().items).toBe(before);
+  });
+
+  it('accepteert gangbare m3-notatie en bewaart de canonieke eenheid', () => {
+    const res = applyActies([{ type: 'add_regel', onderNr: '21.01', omschrijving: 'Beton', aantal: 12, eenheid: 'm3', prijs: 145 }]);
+    expect(res[0]).toContain('✔');
+    expect(useAppStore.getState().items.find(i => i.description === 'Beton')?.unit).toBe('m³');
+  });
+
+  it('draait de hele batch terug als een latere actie na verwijderen niet meer kan', () => {
+    const before = useAppStore.getState().items;
+    const res = applyActies([
+      { type: 'verwijder', nr: '21.01' },
+      { type: 'update', nr: '21.01.01', veld: 'aantal', waarde: 5 },
+    ]);
+    expect(res.join(' ')).toContain('Geen wijzigingen toegepast');
+    expect(useAppStore.getState().items).toBe(before);
   });
 });
 

@@ -68,188 +68,24 @@ jobs:
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
           cd packages/embed && npm publish --access public
 
-  # ── 2. Build installers (only on tag push) ──────────────────
+  # Signed installers for tagged releases and manual test runs.
   build:
     needs: check
-    if: startsWith(github.ref, 'refs/tags/v')
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - platform: windows-latest
-            rust-target: x86_64-pc-windows-msvc
-            label: Windows
-          - platform: ubuntu-22.04
-            rust-target: x86_64-unknown-linux-gnu
-            label: Linux
-            args: --bundles appimage,deb,rpm
-          - platform: macos-latest
-            rust-target: aarch64-apple-darwin
-            label: macOS (ARM)
-
-    name: Build – ${{ matrix.label }}
-    runs-on: ${{ matrix.platform }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: true
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22.18.0
-          cache: npm
-
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.rust-target }}
-
-      - name: Rust cache
-        uses: swatinem/rust-cache@v2
-        with:
-          workspaces: src-tauri -> target
-
-      - name: Install Linux dependencies
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libwebkit2gtk-4.1-dev \
-            libappindicator3-dev \
-            librsvg2-dev \
-            patchelf \
-            libfuse2
-        # libfuse2: het AppImage-gereedschap (linuxdeploy) is zelf een
-        # AppImage en heeft FUSE 2 nodig. Ubuntu 22.04 levert alleen fuse3,
-        # dus zonder dit pakket kan de bundelstap stuklopen. De build-job
-        # draait alleen op een release-tag, waar zo'n fout de hele Linux-
-        # release zou kosten — vandaar dat we het niet op goed geluk doen.
-
-      # Vangnet voor dezelfde stap: laat het AppImage-gereedschap zichzelf
-      # uitpakken in plaats van via FUSE te mounten.
-      - name: Enable AppImage extract-and-run
-        if: runner.os == 'Linux'
-        run: echo "APPIMAGE_EXTRACT_AND_RUN=1" >> "$GITHUB_ENV"
-
-      - name: Install npm dependencies
-        run: npm install
-
-      # De Tauri-bundle vereist de gebundelde MCP-server als resource
-      # (src-tauri/tauri.conf.json → ../mcp-server/dist/ocs-mcp.mjs);
-      # zonder deze stap faalt het build-script op alle platforms.
-      - name: Bundle MCP server
-        run: |
-          npm --prefix mcp-server install
-          npm --prefix mcp-server run bundle
-
-      - name: Build Tauri app
-        uses: tauri-apps/tauri-action@v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # LET OP — geen APPLE_*-variabelen hier zetten zolang er geen echt
-          # Apple Developer ID-certificaat is. Een ontbrekend secret levert een
-          # LEGE maar wél gezette omgevingsvariabele op, en de Tauri-bundler
-          # leest die als "onderteken met certificaat" → `security import`
-          # faalt op lege data en de hele macOS-build breekt af
-          # (SecKeychainItemImport: One or more parameters … were not valid).
-          # De app wordt nu ad-hoc ondertekend via bundle.macOS.signingIdentity
-          # ("-") in tauri.conf.json: Gatekeeper meldt dan "onbekende
-          # ontwikkelaar" (te openen via rechtsklik → Open) in plaats van het
-          # fatale "beschadigd". Voor echte notarisatie: certificaat als
-          # secrets toevoegen én dit env-blok terugzetten.
-        with:
-          args: --target ${{ matrix.rust-target }} ${{ matrix.args || '' }}
-
-      # Controleert of de .dmg daadwerkelijk door Gatekeeper komt. Faalt de
-      # build niet op — bij ontbrekende secrets is "rejected" het verwachte
-      # resultaat en dient de uitvoer als zichtbare bevestiging daarvan.
-      - name: Verify macOS notarization
-        if: runner.os == 'macOS'
-        continue-on-error: true
-        run: |
-          for dmg in src-tauri/target/${{ matrix.rust-target }}/release/bundle/dmg/*.dmg; do
-            [ -e "$dmg" ] || continue
-            echo "== $dmg"
-            spctl -a -t open --context context:primary-signature -v "$dmg" || true
-          done
-
-      # ── Sign Windows binaries ──────────────────────────────
-      - name: Sign Windows exe
-        if: runner.os == 'Windows'
-        uses: azure/trusted-signing-action@v0
-        with:
-          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-          endpoint: ${{ secrets.AZURE_ENDPOINT }}
-          trusted-signing-account-name: ${{ secrets.AZURE_TRUSTED_SIGNING_ACCOUNT_NAME }}
-          certificate-profile-name: ${{ secrets.AZURE_CERTIFICATE_PROFILE_NAME }}
-          files-folder: src-tauri/target/${{ matrix.rust-target }}/release
-          files-folder-filter: exe
-          file-digest: SHA256
-          timestamp-rfc3161: http://timestamp.acs.microsoft.com
-          timestamp-digest: SHA256
-
-      - name: Sign Windows NSIS installer
-        if: runner.os == 'Windows'
-        uses: azure/trusted-signing-action@v0
-        with:
-          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-          endpoint: ${{ secrets.AZURE_ENDPOINT }}
-          trusted-signing-account-name: ${{ secrets.AZURE_TRUSTED_SIGNING_ACCOUNT_NAME }}
-          certificate-profile-name: ${{ secrets.AZURE_CERTIFICATE_PROFILE_NAME }}
-          files-folder: src-tauri/target/${{ matrix.rust-target }}/release/bundle/nsis
-          files-folder-filter: exe
-          file-digest: SHA256
-          timestamp-rfc3161: http://timestamp.acs.microsoft.com
-          timestamp-digest: SHA256
-
-      - name: Sign Windows MSI installer
-        if: runner.os == 'Windows'
-        uses: azure/trusted-signing-action@v0
-        with:
-          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-          endpoint: ${{ secrets.AZURE_ENDPOINT }}
-          trusted-signing-account-name: ${{ secrets.AZURE_TRUSTED_SIGNING_ACCOUNT_NAME }}
-          certificate-profile-name: ${{ secrets.AZURE_CERTIFICATE_PROFILE_NAME }}
-          files-folder: src-tauri/target/${{ matrix.rust-target }}/release/bundle/msi
-          files-folder-filter: msi
-          file-digest: SHA256
-          timestamp-rfc3161: http://timestamp.acs.microsoft.com
-          timestamp-digest: SHA256
-
-      # ── Upload artifacts ───────────────────────────────────
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: open-calc-studio-${{ matrix.label }}
-          path: |
-            src-tauri/target/${{ matrix.rust-target }}/release/bundle/nsis/*.exe
-            src-tauri/target/${{ matrix.rust-target }}/release/bundle/msi/*.msi
-            src-tauri/target/${{ matrix.rust-target }}/release/bundle/dmg/*.dmg
-            src-tauri/target/${{ matrix.rust-target }}/release/bundle/macos/*.app
-            src-tauri/target/${{ matrix.rust-target }}/release/bundle/appimage/*.AppImage
-            src-tauri/target/${{ matrix.rust-target }}/release/bundle/deb/*.deb
-            src-tauri/target/${{ matrix.rust-target }}/release/bundle/rpm/*.rpm
-          if-no-files-found: ignore
-          retention-days: 14
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    uses: ./.github/workflows/desktop-builds.yml
+    secrets: inherit
 
   # ── 3. Publish release (only on tag push) ───────────────────
   publish:
     name: Publish Release
     needs: [build, embed]
-    # Publiceer zolang de build-matrix niet is geannuleerd én ten minste
-    # gedeeltelijk draaide. Zo blokkeert een falende leg (bv. macOS zonder
-    # geldig signing-certificaat) niet de Windows- en Linux-installers: de
-    # release krijgt de artefacten die wél gebouwd zijn.
-    if: ${{ !cancelled() && needs.build.result != 'skipped' }}
+    # A manual test build never creates a release. Only verified, successful
+    # platform builds may enter the draft release.
+    if: startsWith(github.ref, 'refs/tags/v') && needs.build.result == 'success' && needs.embed.result == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -283,27 +119,13 @@ jobs:
           body: |
             **Downloads:**
             - **Windows:** `.exe` (NSIS installer) / `.msi`
-            - **macOS:** `.dmg` (Apple Silicon)
+            - **macOS:** `.dmg` (universal: Apple Silicon + Intel)
             - **Linux:** `.AppImage` / `.deb` / `.rpm`
             - **Embed in your own site:** `open-calc-studio-<version>.tgz` — npm package `@openaec/open-calc-studio` (React component + library, see `packages/embed/README.md`)
 
-            **macOS: the app is blocked on first launch**
-
-            The macOS build is ad-hoc signed but not yet notarized by Apple,
-            so Gatekeeper blocks it the first time — the app itself is fine.
-            Allow it once:
-
-            - **macOS 15 (Sequoia) and later:** try to open the app, dismiss
-              the warning, then go to *System Settings → Privacy & Security*
-              and click **"Open Anyway"**.
-            - **macOS 14 and earlier:** **right-click** the app → **Open**.
-            - **Any version:** remove the quarantine attribute:
-
-            ```sh
-            xattr -cr "/Applications/Open Calc Studio.app"
-            ```
-
-            (NL: de app is ad-hoc ondertekend maar niet genotariseerd. macOS 15+:
-            Systeeminstellingen → Privacy en beveiliging → "Toch openen".
-            macOS 14 en ouder: rechtsklik → Open. Of gebruik het xattr-commando.)
+            Windows installers and installed app binaries are Authenticode-signed.
+            The macOS app is Developer ID-signed and notarized; verification checks
+            the app extracted from the delivered DMG.
+            All platform installers have GitHub build-provenance attestations.
+            See docs/desktop-builds.md for verification and test-build downloads.
           files: release/*

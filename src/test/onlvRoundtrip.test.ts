@@ -315,6 +315,11 @@ describe.skipIf(!existsSync(SCHOKO))('ÖNORM A 2063 rondreis — LV uit LB-SCHOK
 });
 
 describe.skipIf(!existsSync(LB_HB))('ÖNORM A 2063 rondreis — LV uit een deel van LB-HB-023-2021', () => {
+  // Vitest still collects skipped suites; do not read an absent optional fixture.
+  if (!existsSync(LB_HB)) {
+    it.skip('requires the optional LB-HB fixture', () => {});
+    return;
+  }
   const A = importOnlv(readFileSync(LB_HB, 'utf-8'));
   // Een deel: de eerste vier Leistungsgruppen met alles eronder (incl. de
   // wählbare Vorbemerkungen van LG 00 en de ungeteilte posities van LG 01).

@@ -1,14 +1,15 @@
 /**
  * Auto-sync CostItem.quantity from quantityLink sources.
- * Runs globally; triggers when subSheets, pdfMeasurements or ifcQuantities change.
+ * Runs globally; triggers when subSheets, the PDF workspace or ifcQuantities change.
  */
 import { useEffect } from 'react';
 import { useAppStore } from '@/state/appStore';
+import { resolvePdfQuantity } from '@/services/pdf/pdfWorkspace';
 
 export function useQuantityLinkSync() {
   const items = useAppStore(s => s.items);
   const subSheets = useAppStore(s => s.subSheets);
-  const pdfMeasurements = useAppStore(s => s.pdfMeasurements);
+  const pdfWorkspace = useAppStore(s => s.schedule.pdfWorkspace);
   const ifcQuantities = useAppStore(s => s.ifcQuantities);
   const updateItem = useAppStore(s => s.updateItem);
 
@@ -27,14 +28,7 @@ export function useQuantityLinkSync() {
           if (!isFinite(newValue)) newValue = null;
         }
       } else if (link.source === 'pdf') {
-        if (link.kind === 'sum-length') {
-          newValue = pdfMeasurements.filter(m => m.type === 'length').reduce((s, m) => s + m.value, 0);
-        } else if (link.kind === 'sum-area') {
-          newValue = pdfMeasurements.filter(m => m.type === 'area').reduce((s, m) => s + m.value, 0);
-        } else {
-          const m = pdfMeasurements.find(m => m.id === link.measurementId);
-          if (m) newValue = m.value;
-        }
+        newValue = resolvePdfQuantity(link, pdfWorkspace);
       } else if (link.source === 'ifc') {
         const q = ifcQuantities.find(q => q.fragmentId === link.fragmentId);
         if (q) newValue = q[link.quantity] ?? null;
@@ -45,5 +39,5 @@ export function useQuantityLinkSync() {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [subSheets, pdfMeasurements, ifcQuantities]);
+  }, [subSheets, ifcQuantities, pdfWorkspace]);
 }

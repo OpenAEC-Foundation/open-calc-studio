@@ -82,7 +82,7 @@ export const ResourcePicker: React.FC = () => {
   }, [selectedIndex]);
 
   const handleSelect = useCallback((item: ResourceLibraryItem) => {
-    if (!resourcePickerParentId) return;
+    if (!resourcePickerParentId || item.unitSupported === false) return;
 
     pushHistory(items, t('dialogs:undo.addResource'));
     const newId = addRegel(resourcePickerParentId);
@@ -94,6 +94,10 @@ export const ResourcePicker: React.FC = () => {
       store.updateItem(newId, 'unit', item.unit);
       store.updateItem(newId, 'resourceType', item.resourceType);
       store.updateItem(newId, 'resourceLibraryId', item.id);
+      if (item.defaultUnitPrice === null) {
+        store.updateItem(newId, 'normUnitPrice', null);
+        store.updateItem(newId, 'notes', 'Prijs ontbreekt: vul een gecontroleerde prijs en bron in.');
+      }
       if (item.defaultUnitPrice !== null) {
         store.updateItem(newId, 'normUnitPrice', item.defaultUnitPrice);
         store.updateItem(newId, 'normQuantity', 1);
@@ -136,6 +140,7 @@ export const ResourcePicker: React.FC = () => {
         </div>
 
         <div className="resource-picker-search">
+          <p>Nederlandse basisbibliotheek. Controleer prijs en peildatum vóór calculatie. Een ontbrekende prijs wordt niet als geverifieerde prijs overgenomen.</p>
           <input
             ref={searchRef}
             type="text"
@@ -196,9 +201,9 @@ export const ResourcePicker: React.FC = () => {
                     {t(`dialogs:resourceTypes.${item.resourceType}`)}
                   </span>
                 </span>
-                <span className="rp-col-unit">{formatUnit(item.unit, t)}</span>
+                <span className="rp-col-unit">{item.unitSupported === false ? item.originalUnit : formatUnit(item.unit, t)}</span>
                 <span className="rp-col-price">
-                  {item.defaultUnitPrice !== null ? formatCurrency(item.defaultUnitPrice) : '-'}
+                  {item.defaultUnitPrice !== null ? formatCurrency(item.defaultUnitPrice) : 'Invullen'}
                 </span>
               </div>
             ))}
@@ -206,12 +211,18 @@ export const ResourcePicker: React.FC = () => {
         </div>
 
         <div className="resource-picker-footer">
+          <div style={{ fontSize: 11, maxWidth: '65%' }}>
+            {filtered[selectedIndex]?.source && <div>Bron: {filtered[selectedIndex].source}</div>}
+            {filtered[selectedIndex]?.referenceUnitPrice != null && <div>Ongeverifieerde referentie: {formatCurrency(filtered[selectedIndex].referenceUnitPrice!)} per {filtered[selectedIndex].originalUnit}. Peildatum en btw-basis onbekend.</div>}
+            {filtered[selectedIndex]?.unitSupported === false && <div>Deze broneenheid vereist handmatige omzetting; toevoegen is geblokkeerd.</div>}
+            {!resourcePickerParentId && <div>Selecteer eerst een begrotingspost om een middel toe te voegen.</div>}
+          </div>
           <span className="resource-picker-hint">
             {t('resourceHint', { count: filtered.length })}
           </span>
           <button
             className="resource-picker-add-btn"
-            disabled={filtered.length === 0}
+            disabled={filtered.length === 0 || !resourcePickerParentId || filtered[selectedIndex]?.unitSupported === false}
             onClick={() => filtered[selectedIndex] && handleSelect(filtered[selectedIndex])}
           >
             {t('add')}

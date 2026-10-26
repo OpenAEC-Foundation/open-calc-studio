@@ -2,14 +2,26 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { useAppStore } from '@/state/appStore';
-import { buildBudgetContext, ACTIE_PROTOCOL, parseActies, applyActies } from '@/services/assistant/assistantActions';
+import { buildBudgetContext, ACTIE_PROTOCOL, parseActies, parseLocalBudgetCommand, applyActies, validateActies } from '@/services/assistant/assistantActions';
 import { BEGROTEN_KENNIS } from '@/services/assistant/begrotenKennis';
 import { OPENAEC_ENABLED } from '@/services/buildFlags';
 import './ChatPanel.css';
 
 import type { ChatMessage } from '@/state/slices/chatSlice';
+import type { AssistantActie } from '@/services/assistant/assistantActions';
 
 const EMPTY_MESSAGES: ChatMessage[] = [];
+
+function describeProposal(action: AssistantActie): string {
+  switch (action.type) {
+    case 'add_hoofdstuk': return `Nieuw hoofdstuk: ${String(action.code ?? '')} ${String(action.omschrijving ?? '')}`;
+    case 'add_post': return `Nieuwe post onder ${String(action.onderNr)}: ${String(action.omschrijving ?? '')}`;
+    case 'add_regel': return `Nieuwe regel onder ${String(action.onderNr)}: ${String(action.aantal ?? '?')} ${String(action.eenheid ?? 'st')} ${String(action.omschrijving ?? '')}${action.prijs != null ? ` à €${String(action.prijs)}` : ''}`;
+    case 'update': return `Nr ${String(action.nr)}: ${String(action.veld)} → ${String(action.waarde)}`;
+    case 'verwijder': return `Verwijder nr ${String(action.nr)} inclusief onderliggende regels`;
+    default: return String(action.type);
+  }
+}
 
 /**
  * Maakt van een ruwe AI-aanroepfout een specifieke, diagnosticeerbare melding.
@@ -45,7 +57,7 @@ function describeAiError(err: unknown): string {
   return i18next.t('chat.errGeneric', { statusSuffix: status ? ` (${status})` : '', detail });
 }
 
-export function ChatPanel() {
+export function ChatPanel({ embedded = false }: { embedded?: boolean }) {
   const { t } = useTranslation();
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -53,6 +65,7 @@ export function ChatPanel() {
   const toggleChatPanel = useAppStore(s => s.toggleChatPanel);
   const activeDocId = useAppStore(s => s.activeDocumentId);
   const activeDocName = useAppStore(s => s.documents.find(d => d.id === s.activeDocumentId)?.fileName);
+  const firstPostNr = useAppStore(s => s.items.find(i => i.rowType === 'begrotingspost')?.nr);
   const accountsUser = useAppStore(s => s.accountsUser);
   const aiCredits = useAppStore(s => s.aiCredits);
   const accountsAiComplete = useAppStore(s => s.accountsAiComplete);
@@ -80,7 +93,7 @@ export function ChatPanel() {
   const buildSystemPrompt = useCallback(() => {
     return `Je bent de OpenAEC calculatieassistent in Open Calc Studio (begrotingsprogramma voor de Nederlandse bouw). Je werkt in het document dat nu open staat; de actuele inhoud staat in het gebruikersbericht.
 ${ACTIE_PROTOCOL}
-Antwoord in het Nederlands, bondig en praktisch; bedragen excl. btw tenzij anders gevraagd.`;
+Antwoord in het Nederlands, bondig en praktisch; bedragen excl. btw tenzij anders gevraagd. Wijzigingen zijn voorstellen die de gebruiker eerst beoordeelt.`;
   }, []);
 
   // Dynamische context (vakkennis + actuele begroting) — gaat in het
@@ -137,6 +150,8 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
     }
 
     // (2) geen AI — lokaal antwoord uit de snapshot
+    const localActions = parseLocalBudgetCommand(text);
+    if (localActions) return `Ik stel één begrotingsregel voor. Controleer de gegevens en klik daarna op Toepassen.\n\n\`\`\`ocs-acties\n${JSON.stringify({ acties: localActions })}\n\`\`\``;
     const total = chapters.reduce((s, c) => s + c.total, 0);
     const lower = text.toLowerCase();
     const fmtTotal = Math.round(total).toLocaleString('nl-NL');
@@ -189,20 +204,27 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
     try {
       const raw = await computeAnswer(text, historyText, chatHistory, contextBlock, chapters, bvo);
       const { acties, cleanText } = parseActies(raw);
-      let resultaten: string[] = [];
-      if (acties.length) {
-        if (useAppStore.getState().activeDocumentId === docId) {
-          resultaten = applyActies(acties);
-        } else {
-          resultaten = [i18next.t('chat.notApplied')];
-        }
-      }
-      const inhoud = [cleanText || (resultaten.length ? '' : raw), resultaten.join('\n')].filter(Boolean).join('\n\n');
-      updateChatMessage(docId, pendingId, { content: inhoud || i18next.t('chat.noAnswer'), status: 'done' });
+      const errors = validateActies(acties, store.items);
+      const inhoud = [cleanText || (acties.length ? '' : raw), errors.map(error => `✖ ${error}`).join('\n')].filter(Boolean).join('\n\n');
+      updateChatMessage(docId, pendingId, {
+        content: inhoud || (acties.length ? 'Controleer de voorgestelde begrotingswijzigingen.' : i18next.t('chat.noAnswer')),
+        status: 'done',
+        ...(acties.length && !errors.length ? { proposedActions: acties, proposalItems: store.items, proposalSchedule: store.schedule, proposalStatus: 'ready' as const } : {}),
+      });
     } catch (err: any) {
       updateChatMessage(docId, pendingId, { content: describeAiError(err), status: 'error' });
     }
   }, [input, activeDocId, buildContextBlock, computeAnswer, appendChatMessage, updateChatMessage]);
+
+  const applyProposal = (msg: ChatMessage) => {
+    const current = useAppStore.getState();
+    if (current.activeDocumentId !== activeDocId || current.items !== msg.proposalItems || current.schedule !== msg.proposalSchedule) {
+      updateChatMessage(activeDocId, msg.id, { proposalStatus: 'stale', proposedActions: undefined, proposalItems: undefined, proposalSchedule: undefined });
+      return;
+    }
+    const results = applyActies(msg.proposedActions ?? []);
+    updateChatMessage(activeDocId, msg.id, { content: `${msg.content}\n\n${results.join('\n')}`, proposalStatus: results.every(r => r.startsWith('✔')) ? 'applied' : 'failed', proposedActions: undefined, proposalItems: undefined, proposalSchedule: undefined });
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -211,16 +233,8 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
     }
   };
 
-  // Simple markdown-like rendering
-  const renderContent = (text: string) => {
-    return text
-      .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
-      .replace(/`(.+?)`/g, '<code>$1</code>')
-      .replace(/\n/g, '<br>');
-  };
-
   return (
-    <div className="chat-panel">
+    <div className={`chat-panel${embedded ? ' chat-panel-embedded' : ''}`}>
       <div className="chat-header">
         <div className="chat-header-titles">
           <span className="chat-title">✨ {t('chat.title')}</span>
@@ -234,12 +248,12 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
             {t('chat.tokens', { amount: aiCredits.toLocaleString('nl-NL') })}
           </span>
         )}
-        <button className="chat-close" onClick={toggleChatPanel}>✕</button>
+        {!embedded && <button className="chat-close" onClick={toggleChatPanel}>✕</button>}
       </div>
       <div className="chat-messages">
         {messages.length === 0 && (
           <div className="chat-message chat-assistant">
-            <div className="chat-bubble" dangerouslySetInnerHTML={{ __html: renderContent(t('chat.welcome')) }} />
+            <div className="chat-bubble">{t('chat.welcome')}</div>
           </div>
         )}
         {messages.map((msg) => (
@@ -247,10 +261,20 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
             {msg.status === 'pending' ? (
               <div className="chat-bubble chat-typing">{t('chat.thinking')}</div>
             ) : (
-              <div
-                className={`chat-bubble${msg.status === 'error' ? ' chat-error' : ''}`}
-                dangerouslySetInnerHTML={{ __html: renderContent(msg.content) }}
-              />
+              <div className={`chat-bubble${msg.status === 'error' ? ' chat-error' : ''}`}>
+                <div>{msg.content}</div>
+                {msg.proposalStatus === 'ready' && <div className="chat-proposal">
+                  <strong>{msg.proposedActions?.length} voorgestelde wijziging(en)</strong>
+                  <ul>{msg.proposedActions?.map((action, index) => <li key={index}>{describeProposal(action)}</li>)}</ul>
+                  <div className="chat-proposal-actions">
+                    <button type="button" onClick={() => applyProposal(msg)}>Toepassen in begroting</button>
+                    <button type="button" onClick={() => updateChatMessage(activeDocId, msg.id, { proposalStatus: 'discarded', proposedActions: undefined, proposalItems: undefined, proposalSchedule: undefined })}>Verwerpen</button>
+                  </div>
+                </div>}
+                {msg.proposalStatus === 'stale' && <p className="chat-proposal-stale">De begroting is veranderd sinds dit voorstel. Stel de opdracht opnieuw.</p>}
+                {msg.proposalStatus === 'discarded' && <p>Voorstel verworpen.</p>}
+                {msg.proposalStatus === 'failed' && <p className="chat-proposal-stale">Voorstel niet volledig toegepast. Controleer de meldingen en gebruik Ongedaan maken indien nodig.</p>}
+              </div>
             )}
           </div>
         ))}
@@ -262,6 +286,7 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
             t('chat.chip1'),
             t('chat.chip2'),
             t('chat.chip3'),
+            ...(firstPostNr ? [`Voeg onder ${firstPostNr} een regel toe: 12 m³ Beton C30 à €145`] : []),
           ].map((s) => (
             <button key={s} className="chat-chip" onClick={() => { setInput(s); inputRef.current?.focus(); }}>
               {s}
@@ -282,7 +307,7 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
         <button
           className="chat-send"
           onClick={handleSend}
-          disabled={!input.trim()}
+          disabled={!input.trim() || !activeDocId}
         >
           ➤
         </button>

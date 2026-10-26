@@ -160,6 +160,7 @@
     "unitPriceShort": "Ehprs"
   },
   "subsheet": {
+    "backToBudget": "Terug naar begroting",
     "rowColor": "Rijkleur",
     "colorNone": "Geen",
     "colorAmber": "Amber",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Btw-grondslag invullen",
     "finalAmountSet": "Eindbedrag invullen",
     "roundingStep": "Afrondingsstap"
-  }
+  },
+  "pdfLinkMissing": "PDF-bronmeting ontbreekt; de laatst bekende hoeveelheid blijft staan. Koppel de meting opnieuw."
 }

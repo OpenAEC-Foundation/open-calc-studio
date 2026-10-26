@@ -1,0 +1,46 @@
+import {Client} from '@modelcontextprotocol/sdk/client/index.js';
+import {StdioClientTransport} from '@modelcontextprotocol/sdk/client/stdio.js';
+import {fileURLToPath} from 'node:url';
+import {mkdtemp,readFile,writeFile,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join,resolve} from 'node:path';
+import assert from 'node:assert/strict';
+// Never run this mutation test against the user's normal desktop endpoint.
+const endpoint=process.env.OCS_DESKTOP_API_URL;
+if(!['http://127.0.0.1:19742','http://127.0.0.1:29742'].includes(endpoint))throw Error('Start an isolated desktop on port 19742 or an isolated native-library host on port 29742; set OCS_DESKTOP_API_URL accordingly.');
+const cwd=fileURLToPath(new URL('..',import.meta.url));const root=resolve(cwd,'..');
+const tmp=await mkdtemp(join(tmpdir(),'ocs-desktop-mcp-'));
+const client=new Client({name:'desktop-integration-test',version:'1.0.0'});
+await client.connect(new StdioClientTransport({command:process.execPath,args:[join(cwd,'dist/ocs-mcp.mjs')],env:{...process.env,OCS_DISABLE_BRIDGE:'1'}}));
+const call=async(name,args={})=>{const r=await client.callTool({name,arguments:args},undefined,{timeout:120000});assert.ok(!r.isError,JSON.stringify(r));return JSON.parse(r.content[0].text);};
+const act=(action,params={})=>call('app_action',{action,params});
+let testDoc;
+try {
+ const catalogue=await call('app_list_actions');assert.ok(Object.keys(catalogue.actions).length>=198);
+ const opened=await call('app_open_budget',{filePath:join(root,'public/data/voorbeeld.ifcCalc')});testDoc=opened.result.documentId;
+ const sheet=await act('addSubSheet',{name:'MCP integration'});await act('setSubSheetCell',{sheetId:sheet.result,cellRef:'A1',value:'123.5'});
+ const before=await call('app_get_state');assert.equal(before.subSheets.find(s=>s.id===sheet.result).cells.A1.value,'123.5');
+ const row=before.items.find(i=>i.rowType==='regel');assert.ok(row);
+ const model=await call('app_open_ifc',{filePath:join(root,'test/fixtures/ifc-lite/wall-quantities.ifc')});assert.ok(model.meshCount>0);assert.equal(model.elementCount,2);
+ await act('ifc.select',{elementIds:[20,30]});
+ assert.deepEqual((await act('ifc.getSelection')).elementIds,[20,30]);
+ await act('ifc.takeoff',{quantityKey:'Qto_WallBaseQuantities/NetVolume',itemId:row.id});
+ assert.ok(Math.abs((await call('app_get_state')).items.find(i=>i.id===row.id).quantity-3.6)<1e-9);
+ console.log('PASS IFC-Lite: real geometry, selection, SI takeoff and budget link');
+ const pdf='%PDF-1.4\n1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj\n2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj\n3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << >> >> endobj\ntrailer << /Root 1 0 R >>\n%%EOF';
+ const pdfPath=join(tmp,'drawing.pdf');await writeFile(pdfPath,pdf);
+ const source=await call('app_open_pdf',{filePath:pdfPath});
+ await act('pdf.calibrate',{sourceId:source.sourceId,page:1,points:[{x:0,y:0},{x:100,y:0}],distanceMeters:2});
+ const measurement=await act('pdf.measure',{sourceId:source.sourceId,page:1,type:'area',points:[{x:0,y:0},{x:100,y:0},{x:100,y:100},{x:0,y:100}],label:'Test area'});assert.equal(measurement.value,4);
+ await act('pdf.link',{sourceId:source.sourceId,measurementId:measurement.id,itemId:row.id});
+ await act('pdf.calibrate',{sourceId:source.sourceId,page:1,points:[{x:0,y:0},{x:100,y:0}],distanceMeters:4});
+ const state=await call('app_get_state');assert.equal(state.items.find(i=>i.id===row.id).quantity,16);assert.ok(!('dataBase64' in state.schedule.pdfWorkspace.sources[0]));
+ console.log('PASS PDF: embed, calibrate, measure, link and live recalculation');
+ const path=join(tmp,'saved.ifcCalc');await call('app_save_budget',{filePath:path});const saved=JSON.parse(await readFile(path,'utf8'));assert.ok(saved.schedule.pdfWorkspace.sources[0].dataBase64);assert.equal(saved.schedule.ifcTakeoff.models[0].elements.length,2);assert.ok(saved.spreadsheets.sheets.some(s=>s.id===sheet.result));
+ const bc3=join(tmp,'desktop.bc3');await act('file.export',{format:'bc3',outputPath:bc3});assert.ok((await readFile(bc3)).length>100);
+ const xlsx=join(tmp,'desktop.xlsx');await act('file.export',{format:'inschrijfstaat',outputPath:xlsx});assert.equal((await readFile(xlsx)).subarray(0,2).toString(),'PK');
+ console.log('PASS desktop BC3 and spreadsheet exports');
+ const invalid=await client.callTool({name:'app_action',arguments:{action:'setGridZoom',params:{zoom:'bad'}}});assert.equal(invalid.isError,true);
+ const blocked=await fetch(`${endpoint}/api/v1/command`,{method:'POST',headers:{'content-type':'application/json',origin:'https://example.com'},body:JSON.stringify({action:'getState'})});assert.equal(blocked.status,403);
+ console.log('PASS native persistence, validation and browser-origin rejection');
+}finally{if(testDoc)await act('removeDocument',{id:testDoc}).catch(()=>{});await client.close();await rm(tmp,{recursive:true,force:true});}

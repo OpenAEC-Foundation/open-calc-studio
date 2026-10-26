@@ -1,0 +1,8 @@
+{
+  "id": "open-calc-measurements",
+  "name": "Open Calc — metingen",
+  "version": "0.1.0",
+  "description": "Exporteer gekalibreerde PDF-metingen naar Open Calc Studio.",
+  "author": "Open Calc Studio",
+  "entry": "index.js"
+}

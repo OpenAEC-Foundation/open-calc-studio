@@ -5,7 +5,7 @@
 
 const OCS_FILTER = { name: 'Open Calc Studio', extensions: ['ifcCalc', 'ifcx', 'ocs'] };
 const JSON_FILTER = { name: 'JSON', extensions: ['json'] };
-const ALL_SUPPORTED_FILTER = { name: 'Alle ondersteunde bestanden', extensions: ['ifcCalc', 'ifcx', 'ocs', 'json', 'calc', 'mdb', 'xtb', 'xls', 'xlsx', 'rsx', 'dnc', 'bc3', 'onlv', 'onlb'] };
+const ALL_SUPPORTED_FILTER = { name: 'Alle ondersteunde bestanden', extensions: ['ifcCalc', 'ifcx', 'ocs', 'json', 'calc', 'mdb', 'xtb', 'xls', 'xlsx', 'csv', 'rsx', 'dnc', 'bc3', 'onlv', 'onlb', 'x81', 'x82', 'x83', 'x84', 'x86', 'x87'] };
 const WPCALC_FILTER = { name: 'WpCalc', extensions: ['calc', 'mdb'] };
 const XTB_FILTER = { name: 'IBIS-TRAD', extensions: ['xtb'] };
 const EXCEL_FILTER = { name: 'Excel', extensions: ['xls', 'xlsx'] };
@@ -13,6 +13,7 @@ const RSX_FILTER = { name: 'RAW Bestek', extensions: ['rsx'] };
 const DNC_FILTER = { name: 'STABU-directiebegroting', extensions: ['dnc'] };
 const BC3_FILTER = { name: 'FIEBDC-3 (Spanje)', extensions: ['bc3'] };
 const ONLV_FILTER = { name: 'ÖNORM A 2063 (Oostenrijk)', extensions: ['onlv', 'onlb'] };
+const GAEB_FILTER = { name: 'GAEB DA XML (Duitsland)', extensions: ['x81', 'x82', 'x83', 'x84', 'x86', 'x87'] };
 
 export function isTauriEnvironment(): boolean {
   return '__TAURI_INTERNALS__' in window;
@@ -48,7 +49,7 @@ export async function openFileNative(): Promise<{ path: string; content: string 
   if (!_dialog || !_fs) return null;
   const selected = await _dialog.open({
     multiple: false,
-    filters: [ALL_SUPPORTED_FILTER, OCS_FILTER, WPCALC_FILTER, XTB_FILTER, EXCEL_FILTER, RSX_FILTER, DNC_FILTER, BC3_FILTER, ONLV_FILTER, JSON_FILTER],
+    filters: [ALL_SUPPORTED_FILTER, OCS_FILTER, WPCALC_FILTER, XTB_FILTER, EXCEL_FILTER, RSX_FILTER, DNC_FILTER, BC3_FILTER, ONLV_FILTER, GAEB_FILTER, JSON_FILTER],
   });
   if (!selected) return null;
   const filePath = typeof selected === 'string' ? selected : selected;

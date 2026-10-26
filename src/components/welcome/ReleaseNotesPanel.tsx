@@ -20,6 +20,7 @@ const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours
 // releases. Bijwerken bij elke release; titels en bullets staan vertaald in
 // de `releases`-namespace (src/i18n/locales/<taal>/releases.json).
 const BUNDLED_RELEASES: Release[] = [
+  { tag_name: 'unreleased', name: 'Mobiele webapp voor begrotingen', body: '', published_at: '', html_url: `https://github.com/${REPO}/issues/25` },
   { tag_name: 'v0.13.0', name: 'Oostenrijks ÖNORM A 2063 (.onlv/.onlb) + BC3-rondreis bewezen', body: '', published_at: '2026-09-12T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.13.0` },
   { tag_name: 'v0.12.1', name: 'Getallen en datums in PDF-rapporten in de rapporttaal', body: '', published_at: '2026-09-11T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.12.1` },
   { tag_name: 'v0.12.0', name: 'Rapporten en eenheden in je eigen taal', body: '', published_at: '2026-09-11T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.12.0` },
@@ -56,6 +57,8 @@ function dedupeByTag(list: Release[]): Release[] {
 
 /** Semver-desc: v0.8.5 vóór v0.8.4 vóór v0.7.10. */
 function compareVersionDesc(a: Release, b: Release): number {
+  if (a.tag_name === 'unreleased') return -1;
+  if (b.tag_name === 'unreleased') return 1;
   const parse = (t: string) => (t || '').replace(/^v/i, '').split('.').map((n) => parseInt(n, 10) || 0);
   const pa = parse(a.tag_name);
   const pb = parse(b.tag_name);
@@ -154,12 +157,11 @@ export function ReleaseNotesPanel() {
           return (
             <article key={r.tag_name} className="welcome-release">
               <header>
-                <a href={r.html_url} target="_blank" rel="noopener noreferrer" className="welcome-release-tag">
-                  {r.tag_name}
-                </a>
-                <time className="welcome-release-date">
+                {r.html_url ? <a href={r.html_url} target="_blank" rel="noopener noreferrer" className="welcome-release-tag">{r.tag_name === 'unreleased' ? tRel('status.unreleased') : r.tag_name}</a>
+                  : <span className="welcome-release-tag">{tRel('status.unreleased')}</span>}
+                {r.published_at && <time className="welcome-release-date">
                   {new Date(r.published_at).toLocaleDateString(i18n.language, { year: 'numeric', month: 'short', day: 'numeric' })}
-                </time>
+                </time>}
               </header>
               <h4 className="welcome-release-title">{releaseName(r.tag_name, r.name)}</h4>
               {bullets ? (

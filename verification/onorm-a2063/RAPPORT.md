@@ -68,19 +68,14 @@ Counts of lg/ulg/grundtextnr/positions are taken from the raw XML (independent o
 
 | File | Namespace | Size | lg | ulg | grundtextnr | folgepositionen | ungeteilte | Chapters | Positions | Text rows | Positions with gaps | Wahl/Eventual | Units used | Units without equivalent | Import |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | ---: |
-| `LB-SCHOKO_V2021.onlb` | 2021-03-01 | 0.1 MB | 1 | 2 | 2 | 5 | 0 | 3 | 5 | 0 | 5 | 0 | 1 | none | 2 ms |
-| `LB-HB-023-2021.onlb` | 2021-03-01 | 9.1 MB | 59 | 725 | 5,777 | 19,648 | 40 | 784 | 19,019 | 669 | 5,633 | 0 | 13 | VE, l | 570 ms |
-| `LB-HB-023-2015.onlb` | 2015-07-15 | 9.1 MB | 59 | 725 | 5,777 | 19,648 | 40 | 784 | 19,019 | 669 | 5,633 | 0 | 13 | VE, l | 468 ms |
-| `LB-HT-014-2021.onlb` | 2021-03-01 | 9.6 MB | 50 | 469 | 4,625 | 26,439 | 4 | 519 | 25,923 | 520 | 6,894 | 0 | 10 | VE, l | 536 ms |
-| `LB-HT-014-2015.onlb` | 2015-07-15 | 9.6 MB | 50 | 469 | 4,625 | 26,439 | 4 | 519 | 25,923 | 520 | 6,894 | 0 | 10 | VE, l | 488 ms |
+| `LB-SCHOKO_V2021.onlb` | 2021-03-01 | 0.1 MB | 1 | 2 | 2 | 5 | 0 | 3 | 5 | 0 | 5 | 0 | 1 | none | 3 ms |
 
 ### Round trip
 
 | LV | Source | LV type | Items A | Items B | Positions | Text rows | Direct cost A | Direct cost B | Difference | Rows differing | Export (bytes) | Export | Import | Schema |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| `lb-schoko-lv.onlv` | LB-SCHOKO_V2021.onlb | kostenschaetzungs-lv | 8 | 8 | 5 | 0 | 1,123,805.17 | 1,123,805.17 | 0.00 | 0 | 13,993 | 5 ms | 2 ms | valid (0 errors) |
-| `lb-hb-deel-lv.onlv` | LB-HB-023-2021.onlb (LG 00–03) | kostenschaetzungs-lv | 1444 | 1444 | 1260 | 133 | 218,019,972.91 | 218,019,972.91 | 0.00 | 0 | 1,863,132 | 104 ms | 70 ms | valid (0 errors) |
-| `voorbeeld.onlv` | public/data/voorbeeld.ifcCalc | kostenschaetzungs-lv | 31 | 18 | 6 | 0 | 28,109.00 | 28,108.78 | -0.22 (explained rounding, 3 positions) | totals only (see below) | 16,863 | 1 ms | 1 ms | valid (0 errors) |
+| `lb-schoko-lv.onlv` | LB-SCHOKO_V2021.onlb | kostenschaetzungs-lv | 8 | 8 | 5 | 0 | 1,123,805.17 | 1,123,805.17 | 0.00 | 0 | 13,993 | 9 ms | 7 ms | skipped (python not found) |
+| `voorbeeld.onlv` | public/data/voorbeeld.ifcCalc | kostenschaetzungs-lv | 31 | 18 | 6 | 0 | 28,109.00 | 28,108.78 | -0.22 (explained rounding, 3 positions) | totals only (see below) | 16,863 | 3 ms | 3 ms | skipped (python not found) |
 
 #### lb-schoko-lv.onlv
 
@@ -88,16 +83,8 @@ Counts of lg/ulg/grundtextnr/positions are taken from the raw XML (independent o
 - Differences: none
 - Export warnings: none
 - Import warnings on B: none
-- Schema validation: valid (0 errors)
+- Schema validation: skipped (python not found)
 - Output kept as example: `verification/onorm-a2063/export/lb-schoko-lv.onlv`
-
-#### lb-hb-deel-lv.onlv
-
-- Direct cost A: 218,019,972.91; B: 218,019,972.91; difference: 0.00
-- Differences: none
-- Export warnings: none
-- Import warnings on B: 126 Wahl-/Eventualposition(s) tellen in ÖNORM niet mee in de / 1 eenheid/eenheden zonder tegenhanger zijn ongewijzigd overg
-- Schema validation: valid (0 errors)
 
 #### voorbeeld.onlv
 
@@ -113,16 +100,8 @@ Counts of lg/ulg/grundtextnr/positions are taken from the raw XML (independent o
 
 - Export warnings: 10 staartregel(s) niet geëxporteerd — ÖNORM A 2063 kent geen / 9 rekenregel(s) zijn in de eenheidsprijs van hun post opgega
 - Import warnings on B: none
-- Schema validation: valid (0 errors)
+- Schema validation: skipped (python not found)
 - Output kept as example: `verification/onorm-a2063/export/voorbeeld.onlv`
-
-### Check of the validator itself
-
-The validator must accept the official files and reject a file with a deliberate schema error, otherwise "valid" above would mean nothing.
-
-- LB-SCHOKO_V2021.onlb: valid (0 errors)
-- LB-HB-023-2021.onlb: valid (0 errors)
-- LB-SCHOKO with unit "zak" (deliberately invalid, negative control): INVALID
 
 <!-- generated:end -->
 

@@ -1,0 +1,73 @@
+name: Native DLL and library builds
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['src-tauri/**', 'src/**', 'packages/native/**', 'scripts/package-native.mjs', '.github/workflows/native-library.yml']
+  pull_request:
+    paths: ['src-tauri/**', 'src/**', 'packages/native/**', 'scripts/package-native.mjs', '.github/workflows/native-library.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  native:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-22.04]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
+    env:
+      CARGO_PROFILE_DEV_DEBUG: '0'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.18.0
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri -> target
+      - name: Linux dependencies
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y build-essential pkg-config libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev
+      - name: Build embedded frontend and MCP server
+        run: |
+          npm ci
+          npm --prefix mcp-server ci
+          npm --prefix mcp-server run bundle
+          npm run build
+      - name: Test C ABI metadata
+        run: cargo test --manifest-path src-tauri/Cargo.toml --lib native_library::tests --features tauri/custom-protocol
+      - name: Build full native library and application
+        run: cargo build --manifest-path src-tauri/Cargo.toml --lib --bin open-calc-studio --features tauri/custom-protocol
+      - run: node scripts/package-native.mjs
+      - uses: ilammy/msvc-dev-cmd@v1
+        if: runner.os == 'Windows'
+      - name: Load Windows DLL from C host
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          cl /nologo packages/native/host.c /Fe:release-native/win32-debug/OpenCalcStudioHost.exe
+          if ($LASTEXITCODE -ne 0) { throw 'C host compilation failed' }
+          & ./release-native/win32-debug/OpenCalcStudioHost.exe --abi-check
+          if ($LASTEXITCODE -ne 0) { throw 'DLL loading or ABI check failed' }
+      - name: Load Linux library from C host
+        if: runner.os == 'Linux'
+        run: |
+          cc packages/native/host.c -ldl -o release-native/linux-debug/OpenCalcStudioHost
+          cd release-native/linux-debug
+          ./OpenCalcStudioHost --abi-check
+      - name: Update package checksums including host
+        run: node scripts/package-native.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: open-calc-studio-native-${{ runner.os }}-unsigned
+          path: release-native/
+          if-no-files-found: error
+          retention-days: 14
