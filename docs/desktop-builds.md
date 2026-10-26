@@ -65,7 +65,8 @@ steps, including on failure.
 - **All platforms:** SHA-256 checksums and GitHub build-provenance attestations
   cover the final packages. These attestations are cryptographically signed
   claims connecting each artifact to this repository's build. Tagged Linux releases require `OPENAEC_GPG_PRIVATE_KEY` and optionally
-  `OPENAEC_GPG_PASSPHRASE`; the workflow creates and verifies detached `.asc`
+  `OPENAEC_GPG_PASSPHRASE`, plus the pinned repository/organization variable
+  `OPENAEC_GPG_FINGERPRINT`; the workflow creates and verifies detached `.asc`
   signatures and exports the public key/fingerprint. A manual build without
   the key is explicitly recorded as unsigned. No successful release signing
   with these credentials is claimed by this source change.

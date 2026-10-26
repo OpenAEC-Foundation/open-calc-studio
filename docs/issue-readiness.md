@@ -83,3 +83,10 @@ in een frame zonder allow-same-origin. Registreer netwerkverkeer bij starten,
 import en print. Test installers en native hosts op schone OS-images. Bewaar
 artifactversie, commit, checksums, signer en testresultaten voordat de
 overkoepelende issues gesloten worden.
+
+De handmatige Linux-installerbuild uit run 40351838266 is geslaagd. Het artifact
+registreert expliciet `signed: false`: de OpenAEC OpenPGP-sleutel ontbreekt.
+GitHub-provenance is aangemaakt. De signingcode is met een wegwerptestkey
+functioneel gecontroleerd: installer-/checksumhandtekeningen, verkeerde
+fingerprint, ontbrekende tagconfiguratie en de expliciete unsigned devmodus.
+Deze testkey is niet voor projectreleases gebruikt en is verwijderd.

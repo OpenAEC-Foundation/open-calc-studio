@@ -229,6 +229,7 @@ jobs:
         env:
           OPENAEC_GPG_PRIVATE_KEY: ${{ secrets.OPENAEC_GPG_PRIVATE_KEY }}
           OPENAEC_GPG_PASSPHRASE: ${{ secrets.OPENAEC_GPG_PASSPHRASE }}
+          OPENAEC_GPG_FINGERPRINT: ${{ vars.OPENAEC_GPG_FINGERPRINT }}
         run: bash scripts/ci/sign-linux.sh
       - name: Package and verify signed native Windows DLL
         if: runner.os == 'Windows'
