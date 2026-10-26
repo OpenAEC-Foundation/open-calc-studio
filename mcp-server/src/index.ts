@@ -1,3 +1,4 @@
+import { APP_VERSION } from './version.js';
 import { registerAppTools } from './appTools';
 // De shebang + createRequire-shim worden door build.mjs (esbuild-banner) aan de bundle toegevoegd.
 /**
@@ -1039,7 +1040,7 @@ function makeItem(opts: {
 
 const server = new McpServer({
   name: "open-calc-studio",
-  version: "1.0.0",
+  version: APP_VERSION,
 });
 
 registerAppTools(server, loadProjectFile);

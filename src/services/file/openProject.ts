@@ -14,7 +14,8 @@ export function openProjectInStore(parsed: ProjectFile, fileName: string, filePa
   const id = crypto.randomUUID();
   store.addDocument({ id, filePath, fileName, isModified: false, items: parsed.items, schedule: parsed.schedule });
   if (parsed.companyInfo) store.setCompanyInfo(parsed.companyInfo);
-  if (parsed.spreadsheets?.sheets) store.setSubSheets(parsed.spreadsheets.sheets);
+  store.setSubSheets(parsed.spreadsheets?.sheets ?? parsed.subSheets ?? []);
+  store.setSnapshots(parsed.snapshots ?? []);
   if (parsed.offerte) store.setOfferte(parsed.offerte);
   if (parsed.schedule.projectInfo) store.setProjectInfo(parsed.schedule.projectInfo);
   return id;

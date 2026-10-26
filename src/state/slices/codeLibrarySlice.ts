@@ -1,3 +1,4 @@
+import { localStore } from '@/utils/browserStorage';
 import type { StateCreator } from 'zustand';
 import { BUILTIN_CODES, type CodeEntry, type CodeScheme } from '@/data/codeLibrary';
 
@@ -21,7 +22,7 @@ function isCodeEntry(e: unknown): e is CodeEntry {
 
 function loadCustom(): CodeEntry[] {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStore.getItem(STORAGE_KEY);
     if (!raw) return [];
     const arr = JSON.parse(raw);
     return Array.isArray(arr) ? arr.filter(isCodeEntry) : [];
@@ -32,7 +33,7 @@ function loadCustom(): CodeEntry[] {
 
 function saveCustom(list: CodeEntry[]): void {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    localStore.setItem(STORAGE_KEY, JSON.stringify(list));
   } catch {
     /* opslag niet beschikbaar — coderingen blijven dan alleen voor deze sessie */
   }

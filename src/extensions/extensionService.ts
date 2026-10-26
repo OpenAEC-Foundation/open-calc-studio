@@ -1,3 +1,5 @@
+import { localStore } from '@/utils/browserStorage';
+import { USER_EXTENSIONS_ENABLED, allowsExternalServices } from '@/services/buildFlags';
 /**
  * Extension installation, removal, and catalog management.
  */
@@ -18,6 +20,7 @@ const CATALOG_URL =
 const CATALOG_CACHE_MS = 30 * 60 * 1000; // 30 min
 
 export async function fetchCatalog(): Promise<void> {
+  if (!USER_EXTENSIONS_ENABLED || !allowsExternalServices()) return;
   const store = useAppStore.getState();
   const now = Date.now();
 
@@ -42,6 +45,7 @@ export async function fetchCatalog(): Promise<void> {
 // ── Install from Catalog ──
 
 export async function installFromCatalog(entry: CatalogEntry): Promise<boolean> {
+  if (!USER_EXTENSIONS_ENABLED || !allowsExternalServices()) return false;
   try {
     const res = await fetch(entry.downloadUrl);
     if (!res.ok) throw new Error(`Download failed: HTTP ${res.status}`);
@@ -57,6 +61,7 @@ export async function installFromCatalog(entry: CatalogEntry): Promise<boolean> 
 // ── Install from local ZIP file ──
 
 export async function installFromFile(): Promise<boolean> {
+  if (!USER_EXTENSIONS_ENABLED || !allowsExternalServices()) return false;
   return new Promise((resolve) => {
     const input = document.createElement('input');
     input.type = 'file';
@@ -74,6 +79,7 @@ export async function installFromFile(): Promise<boolean> {
 // ── Install from raw JS file (for simple extensions) ──
 
 export async function installFromJsFile(): Promise<boolean> {
+  if (!USER_EXTENSIONS_ENABLED || !allowsExternalServices()) return false;
   return new Promise((resolve) => {
     const input = document.createElement('input');
     input.type = 'file';
@@ -275,11 +281,11 @@ export async function removeExtension(id: string): Promise<void> {
   useAppStore.getState().unregisterExtension(id);
 
   // Clear settings
-  const prefix = `ext:${id}:`;
+  const prefix = `ocs-ext:${id}:`;
   const keysToRemove: string[] = [];
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
+  for (let i = 0; i < localStore.length; i++) {
+    const key = localStore.key(i);
     if (key?.startsWith(prefix)) keysToRemove.push(key);
   }
-  keysToRemove.forEach((k) => localStorage.removeItem(k));
+  keysToRemove.forEach((k) => localStore.removeItem(k));
 }

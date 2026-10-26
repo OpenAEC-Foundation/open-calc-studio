@@ -3,6 +3,7 @@ import { resolve, join } from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
+import { copyNotices, buildInfo } from './distribution-notices.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const target = process.env.BUILD_TARGET || '';
@@ -10,20 +11,24 @@ const profile = process.env.BUILD_PROFILE || 'debug';
 if (!['debug', 'release'].includes(profile)) throw Error('BUILD_PROFILE must be debug or release.');
 if (target && !/^[a-zA-Z0-9_-]+$/.test(target)) throw Error('Invalid BUILD_TARGET.');
 const windows = target ? target.includes('windows') : process.platform === 'win32';
-if (!windows && process.platform !== 'linux') throw Error('This packager supports Windows and Linux.');
+const macos = target ? target.includes('apple') : process.platform === 'darwin';
+if (!windows && !macos && process.platform !== 'linux') throw Error('This packager supports Windows, macOS and Linux.');
 const source = resolve(root, 'src-tauri/target', target, profile);
 const output = resolve(root, 'release-native', `${target || process.platform}-${profile}`);
-const library = join(source, windows ? 'app_lib.dll' : 'libapp_lib.so');
+const libraryName = windows ? 'OpenCalcStudio.dll' : macos ? 'libOpenCalcStudio.dylib' : 'libOpenCalcStudio.so';
+const library = join(source, windows ? 'app_lib.dll' : macos ? 'libapp_lib.dylib' : 'libapp_lib.so');
 const binary = [windows ? 'open-calc-studio.exe' : 'open-calc-studio', windows ? 'Open Calc Studio.exe' : 'Open Calc Studio']
   .map(name => join(source, name)).find(existsSync);
 if (!existsSync(library) || !binary) throw Error(`Build the library and executable first: ${source}`);
 mkdirSync(output, { recursive: true });
-copyFileSync(library, join(output, windows ? 'OpenCalcStudio.dll' : 'libOpenCalcStudio.so'));
+copyNotices(output);
+if (existsSync(join(root, 'dist/THIRD-PARTY-NOTICES.txt'))) copyFileSync(join(root, 'dist/THIRD-PARTY-NOTICES.txt'), join(output, 'THIRD-PARTY-NOTICES.txt'));
+copyFileSync(library, join(output, libraryName));
 copyFileSync(binary, join(output, windows ? 'OpenCalcStudio.exe' : 'OpenCalcStudio'));
 const hostName = windows ? 'OpenCalcStudioHost.exe' : 'OpenCalcStudioHost';
 if (existsSync(join(source, hostName))) copyFileSync(join(source, hostName), join(output, hostName));
 if (process.env.NATIVE_STRIP) {
-  for (const name of [windows ? 'OpenCalcStudio.dll' : 'libOpenCalcStudio.so', windows ? 'OpenCalcStudio.exe' : 'OpenCalcStudio']) {
+  for (const name of [libraryName, windows ? 'OpenCalcStudio.exe' : 'OpenCalcStudio']) {
     const stripped = spawnSync(process.env.NATIVE_STRIP, ['--strip-debug', join(output, name)], { stdio: 'inherit' });
     if (stripped.error || stripped.status !== 0) throw Error(`Failed to strip ${name}`);
   }
@@ -38,7 +43,7 @@ mkdirSync(join(output, 'icons'), { recursive: true });
 copyFileSync(join(root, 'src-tauri/icons/icon.png'), join(output, 'icons/icon.png'));
 if (windows) copyFileSync(join(root, 'src-tauri/WebView2Loader.dll'), join(output, 'WebView2Loader.dll'));
 const version = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).version;
-writeFileSync(join(output, 'build-info.json'), JSON.stringify({ version, abi: 1, target: target || process.platform, profile, signed: false }, null, 2) + '\n');
+writeFileSync(join(output, 'build-info.json'), JSON.stringify({ ...buildInfo('native'), version, abi: 1, target: target || process.platform, architecture: target ? target.split('-')[0] : process.arch, profile, signed: false }, null, 2) + '\n');
 // Re-run after compiling the example host if it should be included in checksums.
 function files(dir) {
   return readdirSync(dir).flatMap(name => {

@@ -3,7 +3,7 @@ import { applyUiZoom, clampUiZoom, loadUiZoom, nextUiZoom, saveUiZoom } from '@/
 
 export type ThemeName = 'default' | 'light' | 'dark' | 'blue' | 'amber-navy' | 'warm-ember' | 'highContrast';
 export type DialogType = 'settings' | 'about' | 'company' | 'wizard' | null;
-export type ContentTab = 'grid' | 'promptBudget' | 'urenstaart' | 'rapport' | 'samenvatting' | 'ifc' | 'offerte' | 'spreadsheet' | 'viewer3d' | 'pdf';
+export type ContentTab = 'wizard' | 'grid' | 'promptBudget' | 'urenstaart' | 'rapport' | 'samenvatting' | 'ifc' | 'offerte' | 'spreadsheet' | 'viewer3d' | 'pdf';
 export type ReportMode = 'client' | 'internal';
 export type ReportView = 'werkbeschrijving' | 'hoofdaanneming' | 'onderaanneming' | 'inschrijfstaat' | 'nacalculatie' | 'bouw1' | 'ibis' | 'directie' | 'offerte';
 export type PageOrientation = 'portrait' | 'landscape';

@@ -203,6 +203,12 @@ jobs:
         env:
           BUILD_TARGET: ${{ matrix.target }}
         run: node scripts/ci/collect-artifacts.mjs
+      - name: Sign Linux release packages with OpenPGP
+        if: runner.os == 'Linux'
+        env:
+          OPENAEC_GPG_PRIVATE_KEY: ${{ secrets.OPENAEC_GPG_PRIVATE_KEY }}
+          OPENAEC_GPG_PASSPHRASE: ${{ secrets.OPENAEC_GPG_PASSPHRASE }}
+        run: bash scripts/ci/sign-linux.sh
       - name: Package and verify signed native Windows DLL
         if: runner.os == 'Windows'
         shell: pwsh
@@ -228,8 +234,8 @@ jobs:
           $archive = 'release-artifacts/open-calc-studio-native-windows-x64-signed.zip'
           Compress-Archive -Path "$package/*" -DestinationPath $archive
           "$((Get-FileHash $archive -Algorithm SHA256).Hash.ToLower())  $([IO.Path]::GetFileName($archive))" | Add-Content release-artifacts/SHA256SUMS.txt
-      # Linux has no Apple/Authenticode equivalent. All platform artifacts get
-      # a signed GitHub/Sigstore provenance attestation, not a fictitious GPG key.
+      # OpenPGP verifies Linux package bytes. Provenance links each platform
+      # artifact to this build; it does not replace platform signing.
       - name: Attest verified build artifacts
         uses: actions/attest-build-provenance@v3
         with:

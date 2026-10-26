@@ -512,5 +512,48 @@
     "delete": "Delete",
     "cutPaste": "Cut and paste",
     "paste": "Paste"
+  },
+  "wizardUI": {
+    "title": "Guided estimate",
+    "shortTitle": "Wizard",
+    "intro": "Work through your estimate step by step. Every change is also available in the full editor.",
+    "editor": "Open full editor",
+    "projectName": "Project name",
+    "projectNumber": "Project number",
+    "client": "Client",
+    "description": "Scope and assumptions",
+    "allChapters": "All chapters",
+    "quantitiesHelp": "Add work sections and quantities. Existing nested rows are preserved.",
+    "costsHelp": "Edit the underlying prices and labour costs. Rows with children derive their price from those children.",
+    "surchargesHelp": "These are the same surcharges and VAT rates used by the full editor. Check their calculation bases in Hours & surcharges.",
+    "reviewHelp": "Check quantities, prices and assumptions. Saving uses the current storage destination. All existing import and export formats remain in the full editor.",
+    "unitPrice": "Price per unit",
+    "labor": "Labour per unit",
+    "material": "Material per unit",
+    "norm": "Production norm",
+    "total": "Total",
+    "more": "Show more rows",
+    "noPosts": "No cost items yet. Add items in step 2.",
+    "missingPrices": "Some items have no description or price. Review them before using this estimate.",
+    "exclTax": "Total excluding VAT",
+    "back": "Back",
+    "next": "Next",
+    "invalidNumber": "Enter a complete number, for example {{example}}.",
+    "steps": {
+      "project": "Project",
+      "quantities": "Quantities",
+      "costs": "Costs",
+      "surcharges": "Surcharges & VAT",
+      "review": "Review"
+    }
+  },
+  "host": {
+    "files": "Site files",
+    "file": "Site file",
+    "loading": "Loading files…",
+    "empty": "No files available.",
+    "openLatest": "Open latest version",
+    "versions": "Versions",
+    "version": "Version {{version}}"
   }
 }

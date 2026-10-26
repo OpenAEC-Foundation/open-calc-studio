@@ -1,3 +1,4 @@
+import { printFontCss } from './browserPrint';
 ﻿/**
  * Bouw 1 style begroting report generator.
  *
@@ -688,7 +689,7 @@ function buildSummarySection(
 function getBouw1Styles(): string {
   return `
 /* OpenAEC Style Book â€” Design Tokens */
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap');
+${printFontCss()}
 
 :root {
   --oaec-accent: #D97706;

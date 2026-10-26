@@ -64,8 +64,11 @@ steps, including on failure.
   confirms both CPU architectures. No `continue-on-error` bypass is used.
 - **All platforms:** SHA-256 checksums and GitHub build-provenance attestations
   cover the final packages. These attestations are cryptographically signed
-  claims connecting each artifact to this repository's build. Linux packages
-  do not receive a native GPG package signature; no private GPG key is configured.
+  claims connecting each artifact to this repository's build. Tagged Linux releases require `OPENAEC_GPG_PRIVATE_KEY` and optionally
+  `OPENAEC_GPG_PASSPHRASE`; the workflow creates and verifies detached `.asc`
+  signatures and exports the public key/fingerprint. A manual build without
+  the key is explicitly recorded as unsigned. No successful release signing
+  with these credentials is claimed by this source change.
   An attestation does not replace Apple notarization or Windows Authenticode.
 
 Verify a downloaded installer (substitute its real filename):
@@ -90,3 +93,7 @@ it is not a full interactive test of every application feature.
 References: [Tauri Windows signing](https://v2.tauri.app/distribute/sign/windows/),
 [Tauri macOS signing](https://v2.tauri.app/distribute/sign/macos/),
 [GitHub artifact attestations](https://docs.github.com/en/actions/concepts/security/artifact-attestations).
+
+## Calendar versions
+
+`node scripts/version.mjs next` chooses the next patch in the current ISO week; `set YYYY.W.N` synchronizes all product packages and MSI mapping. The Prepare calendar release workflow proposes these changes in a PR. Tag builds fail if any package disagrees with the tag. The file-format version remains independent. Platform and API artifacts include licenses and build metadata; the platform workflow tests its container before a tag publishes it to GHCR. See [acceptance evidence](issue-readiness.md).

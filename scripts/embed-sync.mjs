@@ -25,7 +25,7 @@ const dependencies = Object.fromEntries(
     .sort(([a], [b]) => a.localeCompare(b)),
 );
 
-const next = { ...embed, version: root.version, dependencies };
+const next = { ...embed, version: root.version, license: root.license, dependencies };
 const json = JSON.stringify(next, null, 2) + '\n';
 if (json !== readFileSync(path, 'utf8')) {
   writeFileSync(path, json);

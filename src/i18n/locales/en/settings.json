@@ -34,7 +34,10 @@
     "warmEmber": "Warm Ember",
     "highContrast": "High Contrast",
     "font": "Font",
-    "uiFontSize": "UI font size"
+    "uiFontSize": "UI font size",
+    "blueprint": "Blueprint",
+    "highContrastDark": "High contrast dark",
+    "highContrastLight": "High contrast light"
   },
   "grid": {
     "general": "Grid",

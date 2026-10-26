@@ -18,6 +18,7 @@ import dts from 'vite-plugin-dts';
 import path from 'path';
 import pkg from './package.json' with { type: 'json' };
 import { cssScopePlugin } from './src/lib/cssScope';
+import { distributionPlugin } from './scripts/distribution-notices.mjs';
 
 const externals = [
   ...Object.keys(pkg.dependencies).filter((n) => !n.startsWith('@types/') && !['mdb-reader', 'events', 'stream-browserify'].includes(n)),
@@ -30,6 +31,7 @@ export default defineConfig({
   worker: { format: 'es' },
   plugins: [
     react(),
+    distributionPlugin('embed'),
     dts({
       include: ['src'],
       exclude: ['src/test/**', 'src/main.tsx'],

@@ -1,3 +1,9 @@
+import { CalculationWizard } from './components/wizard/CalculationWizard';
+import { HostFileDialog } from './components/common/HostFileDialog';
+import { getSiteHost, observeSiteHost, hostRecentPath, type SiteHost } from './services/file/siteHost';
+import { openHostedFile } from './services/file/hostFileActions';
+import { PLATFORM_BUILD } from './services/buildFlags';
+import { localStore } from '@/utils/browserStorage';
 import { lazy, Suspense, useState, useEffect, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import TitleBar from "./components/layout/TitleBar";
@@ -48,6 +54,10 @@ import { sendDockRequest, onWindowBridgeMessage } from "./services/windowBridge"
 import "./styles/themes.css";
 import "./components/layout/layout.css";
 import "./styles/globals.css";
+import "./styles/blueprint/openaec-tokens.css";
+import "./styles/blueprint/openaec-fonts.css";
+import "./styles/blueprint/openaec-components.css";
+import "./styles/blueprintBridge.css";
 
 /**
  * Open de meegeleverde voorbeeldbegroting in de taal van de interface:
@@ -66,6 +76,25 @@ const MOBILE_QUERY = '(max-width: 760px), (pointer: coarse) and (max-width: 1024
 
 function App() {
   const { t } = useTranslation();
+  const [hostError, setHostError] = useState('');
+  const [settingsReady, setSettingsReady] = useState(false);
+  const openedHosts = useRef(new WeakSet<SiteHost>());
+  useEffect(() => {
+    if (!settingsReady) return;
+    return observeSiteHost(host => {
+    if (!host || openedHosts.current.has(host)) return;
+    openedHosts.current.add(host);
+    Promise.resolve().then(() => host.list()).then(files => {
+      const state = useAppStore.getState();
+      const paths = [...files].sort((a, b) => b.modified.localeCompare(a.modified)).slice(0, 10).map(file => {
+        localStore.setItem('ocs-host-name:' + file.id, file.name);
+        return hostRecentPath(file.id);
+      });
+      state.updateSettings({ recentFiles: [...new Set([...paths, ...(state.settings.recentFiles ?? [])])].slice(0, 10) });
+    }).catch(error => setHostError(String(error)));
+    if (host.initialFileId) void openHostedFile(host.initialFileId).catch(error => setHostError(String(error)));
+    });
+  }, [settingsReady]);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [backstageOpen, setBackstageOpen] = useState(false);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
@@ -80,7 +109,7 @@ function App() {
   useEffect(() => { registerUnsavedDialogSetter(setUnsavedDialog); }, []);
   const updateSettings = useAppStore((s) => s.updateSettings);
   useQuantityLinkSync();
-  const [theme, setTheme] = useState<string>(localStorage.getItem("ocs-theme") || "light");
+  const [theme, setTheme] = useState<string>(localStore.getItem("ocs-theme") || "light");
   const { showSchedulePanel, showPropertiesPanel, showChatPanel, activeContentTab, activeDialog, closeDialog, documents, splitView, splitDocumentId, setSplitDocumentId } = useAppStore();
   const activeSubSheetId = useAppStore((s) => s.activeSubSheetId);
   const subSheets = useAppStore((s) => s.subSheets);
@@ -158,7 +187,7 @@ function App() {
       if (saved.locale && saved.locale !== 'auto') {
         changeLanguage(saved.locale);
       }
-    });
+    }).catch(error => setHostError(String(error))).finally(() => setSettingsReady(true));
 
     // Resolve the Windows username once, so edit-history entries are attributed
     // to the right person (cached synchronously for the store's updateItem).
@@ -206,7 +235,7 @@ function App() {
         try {
           // Wait a tick so settings/extensions are initialised first
           await new Promise(r => setTimeout(r, 50));
-          if (restoredDraft || useAppStore.getState().documents.length > 0) return;
+          if (PLATFORM_BUILD || getSiteHost() || restoredDraft || useAppStore.getState().documents.length > 0) return;
           // Ingebouwd bepaalt de gastpagina of het voorbeeld opengaat.
           if (isEmbedded() && !getEmbedOptions().autoSample) return;
           await openSampleBudget();
@@ -402,11 +431,11 @@ function App() {
 
   // Start sidebar state — persistent welcome/start screen on the far left
   const [startSidebarOpen, setStartSidebarOpen] = useState<boolean>(() => {
-    const stored = localStorage.getItem("ocs-start-sidebar-open");
+    const stored = localStore.getItem("ocs-start-sidebar-open");
     return stored === null ? true : stored === "true";
   });
   useEffect(() => {
-    localStorage.setItem("ocs-start-sidebar-open", String(startSidebarOpen));
+    localStore.setItem("ocs-start-sidebar-open", String(startSidebarOpen));
   }, [startSidebarOpen]);
 
   // Left panel state
@@ -484,6 +513,8 @@ function App() {
   if (isMobile && !isDetachedWindow) {
     return (
       <>
+        <HostFileDialog />
+        {hostError && <div className="oa-banner" role="alert">{hostError}</div>}
         <MobileWorkspace />
         <UnsavedChangesDialog open={unsavedDialog.open} fileName={unsavedDialog.fileName} onResult={handleUnsavedResult} />
       </>
@@ -492,6 +523,8 @@ function App() {
 
   return (
     <>
+      <HostFileDialog />
+      {hostError && <div className="oa-banner" role="alert">{hostError}</div>}
       <TitleBar onSettingsClick={() => setSettingsOpen(true)} onFeedbackClick={() => setFeedbackOpen(true)} />
       <Ribbon onFileTabClick={() => setBackstageOpen(true)} />
       <FileTabBar />
@@ -600,6 +633,7 @@ function App() {
             <>
               {activeContentTab === 'grid' && <CostGrid />}
               {activeContentTab === 'promptBudget' && <PromptBudgetWorkspace />}
+              {activeContentTab === 'wizard' && <CalculationWizard />}
               {activeContentTab === 'urenstaart' && <UrenStaartView />}
               {activeContentTab === 'rapport' && <ReportPreview />}
               {activeContentTab === 'samenvatting' && <SummaryPanel />}

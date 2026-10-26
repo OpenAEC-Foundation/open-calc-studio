@@ -48,7 +48,7 @@ export function SubSheetTabBar() {
   const budgetActive = activeContentTab === 'grid';
 
   /** Navigate to a non-spreadsheet content view (clears active sub-sheet). */
-  const goTo = (tab: 'grid' | 'promptBudget' | 'urenstaart' | 'rapport' | 'ifc' | 'pdf' | 'viewer3d') => {
+  const goTo = (tab: 'wizard' | 'grid' | 'promptBudget' | 'urenstaart' | 'rapport' | 'ifc' | 'pdf' | 'viewer3d') => {
     setActiveSubSheet(null);
     setActiveContentTab(tab);
   };
@@ -85,6 +85,7 @@ export function SubSheetTabBar() {
       >
         {t('wpcalc.tabData')}
       </button>
+      <button className={`subsheet-tab subsheet-tab-main${activeContentTab === 'wizard' ? ' active' : ''}`} onClick={() => goTo('wizard')}>{t('wizardUI.shortTitle')}</button>
       <button className={`subsheet-tab subsheet-tab-main${activeContentTab === 'promptBudget' ? ' active' : ''}`} onClick={() => goTo('promptBudget')}>Prompt &amp; Begroot</button>
       <button
         className={`subsheet-tab subsheet-tab-main${activeContentTab === 'urenstaart' ? ' active' : ''}`}

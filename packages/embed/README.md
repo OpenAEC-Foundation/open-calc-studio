@@ -28,7 +28,7 @@ For a local build (no npm publication required):
 npm ci
 npm run pack:lib
 # In your own project (adjust the path)
-npm install /path/to/open-calc-studio/release-embed/openaec-open-calc-studio-0.13.0.tgz
+npm install /path/to/open-calc-studio/release-embed/openaec-open-calc-studio-2026.44.0.tgz
 ```
 
 Use the root entry for the UI; use `@openaec/open-calc-studio/core` for
@@ -147,7 +147,7 @@ package as `open-calc-studio-<version>.tgz` as well.
 
 ## Licence
 
-MIT — see the repository.
+LGPL-3.0-only — see the repository LICENSE. Blueprint CSS and fonts have separate CC-BY-SA-4.0/OFL-1.1 notices in the distribution.
 
 ## Multiple independent instances (recommended for embedding)
 

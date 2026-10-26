@@ -1,0 +1,36 @@
+name: Prepare calendar release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Optional YYYY.W.N; leave empty to choose the next ISO-week version'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.18.0
+      - name: Update all product versions
+        env:
+          REQUESTED_VERSION: ${{ inputs.version }}
+        run: |
+          if [ -n "$REQUESTED_VERSION" ]; then node scripts/version.mjs set "$REQUESTED_VERSION"; else node scripts/version.mjs next; fi
+          node scripts/version.mjs check
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: codex/prepare-calendar-release
+          commit-message: 'chore: synchronize calendar release version'
+          title: 'chore: prepare next calendar release'
+          body: 'Synchronizes application, embed, MCP, Cargo and MSI versions. Review release notes and run the required checks before merging and tagging; this workflow does not publish a release.'

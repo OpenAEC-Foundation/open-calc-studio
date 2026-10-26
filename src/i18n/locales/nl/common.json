@@ -512,5 +512,48 @@
     "delete": "Verwijderen",
     "cutPaste": "Knippen en plakken",
     "paste": "Plakken"
+  },
+  "wizardUI": {
+    "title": "Begeleid begroten",
+    "shortTitle": "Wizard",
+    "intro": "Werk stap voor stap aan je begroting. Elke wijziging staat ook in de volledige editor.",
+    "editor": "Volledige editor openen",
+    "projectName": "Projectnaam",
+    "projectNumber": "Projectnummer",
+    "client": "Opdrachtgever",
+    "description": "Scope en aannames",
+    "allChapters": "Alle hoofdstukken",
+    "quantitiesHelp": "Voeg werkonderdelen en hoeveelheden toe. Bestaande onderliggende regels blijven behouden.",
+    "costsHelp": "Pas de onderliggende prijzen en loonkosten aan. Posten met kinderen krijgen hun prijs uit die onderliggende regels.",
+    "surchargesHelp": "Dit zijn dezelfde opslagen en btw-tarieven als in de volledige editor. Controleer de grondslagen bij Uren & Staart.",
+    "reviewHelp": "Controleer hoeveelheden, prijzen en aannames. Opslaan gebruikt het gekozen opslagdoel. Alle bestaande import- en exportformaten blijven beschikbaar in de volledige editor.",
+    "unitPrice": "Prijs per eenheid",
+    "labor": "Loon per eenheid",
+    "material": "Materiaal per eenheid",
+    "norm": "Productienorm",
+    "total": "Totaal",
+    "more": "Meer regels tonen",
+    "noPosts": "Nog geen begrotingsposten. Voeg posten toe in stap 2.",
+    "missingPrices": "Sommige posten hebben geen omschrijving of prijs. Controleer deze voordat je de begroting gebruikt.",
+    "exclTax": "Totaal exclusief btw",
+    "back": "Vorige",
+    "next": "Volgende",
+    "invalidNumber": "Voer een volledig getal in, bijvoorbeeld {{example}}.",
+    "steps": {
+      "project": "Project",
+      "quantities": "Hoeveelheden",
+      "costs": "Kosten",
+      "surcharges": "Opslagen en btw",
+      "review": "Controle"
+    }
+  },
+  "host": {
+    "files": "Bestanden op de site",
+    "file": "Sitebestand",
+    "loading": "Bestanden laden…",
+    "empty": "Geen bestanden beschikbaar.",
+    "openLatest": "Nieuwste versie openen",
+    "versions": "Versies",
+    "version": "Versie {{version}}"
   }
 }

@@ -1,3 +1,6 @@
+import { allowsExternalServices } from '@/services/buildFlags';
+import { isTauriEnvironment } from '@/services/file/nativeFileService';
+import { localStore } from '@/utils/browserStorage';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { renderMarkdown, truncateMarkdown, stripReleaseBoilerplate } from './renderMarkdown';
@@ -20,6 +23,7 @@ const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours
 // releases. Bijwerken bij elke release; titels en bullets staan vertaald in
 // de `releases`-namespace (src/i18n/locales/<taal>/releases.json).
 const BUNDLED_RELEASES: Release[] = [
+  { tag_name: 'v2026.44.0-dev', name: 'Blueprint, calculation wizard and hosted storage (development)', body: 'Development build: five Blueprint themes, a guided estimate editor, host file versions and an independent REST/HTTP-MCP calculator. Release acceptance is still pending.', published_at: '', html_url: `https://github.com/${REPO}/blob/main/docs/release-notes/v2026.44.0.md` },
   { tag_name: 'unreleased', name: 'Mobiele webapp voor begrotingen', body: '', published_at: '', html_url: `https://github.com/${REPO}/issues/25` },
   { tag_name: 'v0.13.0', name: 'Oostenrijks ÖNORM A 2063 (.onlv/.onlb) + BC3-rondreis bewezen', body: '', published_at: '2026-09-12T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.13.0` },
   { tag_name: 'v0.12.1', name: 'Getallen en datums in PDF-rapporten in de rapporttaal', body: '', published_at: '2026-09-11T00:00:00Z', html_url: `https://github.com/${REPO}/releases/tag/v0.12.1` },
@@ -101,11 +105,12 @@ export function ReleaseNotesPanel() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!allowsExternalServices() || !isTauriEnvironment()) { setReleases(mergeReleases([])); return; }
     let aborted = false;
     (async () => {
       // Try cache first
       try {
-        const cached = localStorage.getItem(CACHE_KEY);
+        const cached = localStore.getItem(CACHE_KEY);
         if (cached) {
           const { data, ts } = JSON.parse(cached);
           if (Date.now() - ts < CACHE_TTL_MS && Array.isArray(data)) {
@@ -121,7 +126,7 @@ export function ReleaseNotesPanel() {
         const data: Release[] = await resp.json();
         if (aborted) return;
         setReleases(mergeReleases(data));
-        localStorage.setItem(CACHE_KEY, JSON.stringify({ data, ts: Date.now() }));
+        localStore.setItem(CACHE_KEY, JSON.stringify({ data, ts: Date.now() }));
       } catch (e: any) {
         // Network/CORS failure — fall back to bundled list. Never leave UI empty.
         console.warn('[ReleaseNotes] GitHub fetch failed, using bundled fallback:', e);

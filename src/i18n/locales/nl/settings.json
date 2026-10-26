@@ -34,7 +34,10 @@
     "warmEmber": "Warme gloed",
     "highContrast": "Hoog contrast",
     "font": "Lettertype",
-    "uiFontSize": "UI lettergrootte"
+    "uiFontSize": "UI lettergrootte",
+    "blueprint": "Blueprint",
+    "highContrastDark": "Hoog contrast donker",
+    "highContrastLight": "Hoog contrast licht"
   },
   "grid": {
     "general": "Raster",

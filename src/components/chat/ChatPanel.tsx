@@ -1,10 +1,11 @@
+import { localStore } from '@/utils/browserStorage';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { useAppStore } from '@/state/appStore';
 import { buildBudgetContext, ACTIE_PROTOCOL, parseActies, parseLocalBudgetCommand, applyActies, validateActies } from '@/services/assistant/assistantActions';
 import { BEGROTEN_KENNIS } from '@/services/assistant/begrotenKennis';
-import { OPENAEC_ENABLED } from '@/services/buildFlags';
+import { OPENAEC_ENABLED, allowsExternalServices } from '@/services/buildFlags';
 import './ChatPanel.css';
 
 import type { ChatMessage } from '@/state/slices/chatSlice';
@@ -119,10 +120,10 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
     chapters: { code: string; description: string; total: number }[],
     bvo: number | undefined,
   ): Promise<string> => {
-    const apiKey = localStorage.getItem('ocs-anthropic-key') || '';
+    const apiKey = allowsExternalServices() ? (localStore.getItem('ocs-anthropic-key') || '') : '';
 
     // (1) OpenAEC-account
-    if (OPENAEC_ENABLED && accountsUser) {
+    if (OPENAEC_ENABLED && allowsExternalServices() && accountsUser) {
       const prompt = `${contextBlock}\n\n${historyText}\n\nAssistent:`;
       return (await accountsAiComplete(prompt, buildSystemPrompt())) || i18next.t('chat.noAnswer');
     }

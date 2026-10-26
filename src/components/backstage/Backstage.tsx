@@ -22,7 +22,7 @@ import ExtensionManagerPanel from "./ExtensionManagerPanel";
 import { CloudPanel } from "./CloudPanel";
 import ColumnMappingDialog from "./ColumnMappingDialog";
 import { showImportWarnings } from "../common/ImportWarningsDialog";
-import { OPENAEC_ENABLED } from "../../services/buildFlags";
+import { OPENAEC_ENABLED, USER_EXTENSIONS_ENABLED, allowsExternalServices } from "../../services/buildFlags";
 import "./Backstage.css";
 
 const ICONS = {
@@ -674,11 +674,11 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
           <Divider />
           <MenuItem icon={ICONS.import} label={t("import")} active={activePanel === "import"} onClick={() => setActivePanel("import")} />
           <MenuItem icon={ICONS.export} label={t("export")} active={activePanel === "export"} onClick={() => setActivePanel("export")} />
-          {OPENAEC_ENABLED && (
+          {OPENAEC_ENABLED && allowsExternalServices() && (
             <MenuItem icon={ICONS.cloud} label="OpenAEC Cloud" active={activePanel === "cloud"} onClick={() => setActivePanel("cloud")} />
           )}
           <Divider />
-          <MenuItem icon={ICONS.extensions} label={t("extensions")} active={activePanel === "extensions"} onClick={() => setActivePanel("extensions")} />
+          {USER_EXTENSIONS_ENABLED && allowsExternalServices() && <MenuItem icon={ICONS.extensions} label={t("extensions")} active={activePanel === "extensions"} onClick={() => setActivePanel("extensions")} />}
           <Divider />
           <MenuItem icon={ICONS.preferences} label={t("preferences")} shortcut="Ctrl+," onClick={() => actionAndClose(onOpenSettings)} />
           <Divider />
@@ -733,8 +733,8 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
           </div>
         )}
         {activePanel === "about" && <AboutPanel />}
-        {activePanel === "extensions" && <ExtensionManagerPanel />}
-        {activePanel === "cloud" && <CloudPanel onClose={onClose} />}
+        {USER_EXTENSIONS_ENABLED && allowsExternalServices() && activePanel === "extensions" && <ExtensionManagerPanel />}
+        {OPENAEC_ENABLED && allowsExternalServices() && activePanel === "cloud" && <CloudPanel onClose={onClose} />}
         {activePanel === "import" && (
           <div className="bs-panel">
             <h2 className="bs-panel-title">{t("importPanel.title")}</h2>

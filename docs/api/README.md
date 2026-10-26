@@ -1,4 +1,6 @@
-# Open Calc Studio — Local API
+# Open Calc Studio — Local desktop API
+
+For the separate authenticated headless REST and HTTP-MCP calculation service, see [Cloud API](../cloud-api.md). It runs without the desktop on port 8080 and follows the shared `/v1` contract.
 
 The desktop app exposes two local-only servers when running:
 

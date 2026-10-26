@@ -1,6 +1,6 @@
 # Gebruikershandleiding Open Calc Studio
 
-Voor versie 0.13.0. [English user guide](user-guide.md) · [Projectoverzicht](../README.md)
+Voor de ontwikkelversie 2026.44.0. [English user guide](user-guide.md) · [Projectoverzicht](../README.md)
 
 ## Installeren en starten
 
@@ -11,6 +11,12 @@ Blokkeert macOS de app? Volg de [instructies voor macOS](macos-startup.md). Een 
 Het lint bovenaan bevat de opdrachten. Bestand opent het bestandsmenu; documenttabbladen wisselen tussen begrotingen. De onderbalk wisselt tussen Data, Uren & Staart, Rapport, Spreadsheet, IFC, PDF & metingen en Prompt & Begroot binnen het actieve document. De taal is instelbaar via Bestand → Voorkeuren.
 
 ![Begrotingsscherm](screenshots/nl/1-begroting.png)
+
+## Wizard en gehoste bestanden
+
+Kies **Calculatiewizard** op het startscherm of in de onderbalk voor vijf stappen: project, hoeveelheden, kosten, toeslagen en controle. De wizard bewerkt dezelfde begroting als Data. **Volledige editor** brengt je terug zonder opnieuw te importeren. Zie de [wizardhandleiding](calculation-wizard.md).
+
+In de gehoste platformbuild regelt de werkplek het openen en opslaan. **Openen** toont bestanden en versies van de host. **Opslaan** controleert de geopende versie; een conflict bewaart je wijzigingen. Gebruik **Opslaan als** voor een bewerkbare kopie van een historische alleen-lezen versie. Zonder host blijf je bestanden lokaal openen en downloaden. Zie het [hostcontract](supercloud.md).
 
 ## Je eerste begroting
 

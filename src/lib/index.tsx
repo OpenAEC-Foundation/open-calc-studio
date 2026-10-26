@@ -21,7 +21,9 @@ import { loadSampleBudgetText } from '../services/file/sampleBudget';
 import type { ProjectFile } from '../types/costModel';
 
 export interface OpenCalcStudioProps {
-  /** Thema: `light`, `dark`, `blue`, `amber-navy`, `warm-ember`, `highContrast` of `system`. */
+  /** Optional guided view, using the same project and calculator as the editor. */
+  mode?: 'editor' | 'wizard';
+  /** Blueprint theme: light, dark, blueprint, high-contrast-dark, high-contrast-light, or system. */
   theme?: string;
   /** Interfacetaal (een van de 39 codes, bv. `en`, `nl`, `es`, `de`) of `auto`. */
   lang?: string;
@@ -48,10 +50,11 @@ export interface OpenCalcStudioProps {
 /** Het huidige project uit de store, zoals het in een .ifcCalc-bestand komt. */
 export function getProjectJson(): string {
   const s = useAppStore.getState();
-  return serializeProject(s.schedule, s.items, s.companyInfo, s.subSheets, s.offerte);
+  return serializeProject({ ...s.schedule, projectInfo: s.projectInfo }, s.items, s.companyInfo, s.subSheets, s.offerte, s.snapshots);
 }
 
 export function OpenCalcStudio({
+  mode = 'editor',
   theme = 'light',
   lang,
   project,
@@ -66,6 +69,8 @@ export function OpenCalcStudio({
   // Opties die App bij het opstarten leest (thema/taal winnen van de
   // opgeslagen voorkeur; voorbeeld alleen op verzoek). Idempotent.
   markEmbedded({ autoSample: sample, theme, locale: lang });
+
+  useEffect(() => { useAppStore.getState().setActiveContentTab(mode === 'wizard' ? 'wizard' : 'grid'); }, [mode]);
 
   const onErrorRef = useRef(onError);
   onErrorRef.current = onError;
@@ -136,6 +141,8 @@ export function OpenCalcStudio({
         s.items === prev.items &&
         s.schedule === prev.schedule &&
         s.companyInfo === prev.companyInfo &&
+        s.projectInfo === prev.projectInfo &&
+        s.snapshots === prev.snapshots &&
         s.subSheets === prev.subSheets &&
         s.offerte === prev.offerte
       ) return;
@@ -155,7 +162,7 @@ export function OpenCalcStudio({
   return (
     <div
       ref={attachHost}
-      className={className ? `${EMBED_CLASS} ${className}` : EMBED_CLASS}
+      className={className ? `${EMBED_CLASS} oa-app ${className}` : `${EMBED_CLASS} oa-app`}
       data-theme={theme === 'system' ? undefined : theme}
       style={{ height: '100%', ...style }}
     >
@@ -229,3 +236,5 @@ export { LANGUAGES } from '../i18n/config';
 export { EMBED_CLASS } from './hostRoot';
 
 export { calculateProject } from './core';
+
+export type { SiteHost, HostFileRef, HostVersion } from '../services/file/siteHost';

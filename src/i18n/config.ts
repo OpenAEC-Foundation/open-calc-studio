@@ -141,7 +141,7 @@ i18next
     interpolation: { escapeValue: false },
     detection: {
       order: ["localStorage"],
-      lookupLocalStorage: "i18nextLng",
+      lookupLocalStorage: "ocs-i18nextLng",
       caches: ["localStorage"],
     },
     react: {

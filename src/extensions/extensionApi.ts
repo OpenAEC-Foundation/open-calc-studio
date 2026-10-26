@@ -1,3 +1,4 @@
+import { localStore } from '@/utils/browserStorage';
 /**
  * Creates a scoped API instance for each extension.
  * Provides controlled access to app functionality.
@@ -34,7 +35,7 @@ export function createExtensionApi(
   }
 
   // Scoped settings storage (localStorage-based)
-  const settingsPrefix = `ext:${extensionId}:`;
+  const settingsPrefix = `ocs-ext:${extensionId}:`;
 
   const api: ExtensionApi = {
     extensionId,
@@ -122,14 +123,14 @@ export function createExtensionApi(
     settings: {
       get<T>(key: string, defaultValue: T): T {
         try {
-          const raw = localStorage.getItem(settingsPrefix + key);
+          const raw = localStore.getItem(settingsPrefix + key);
           return raw !== null ? JSON.parse(raw) : defaultValue;
         } catch {
           return defaultValue;
         }
       },
       set<T>(key: string, value: T) {
-        localStorage.setItem(settingsPrefix + key, JSON.stringify(value));
+        localStore.setItem(settingsPrefix + key, JSON.stringify(value));
       },
     },
 

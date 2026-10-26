@@ -1,3 +1,5 @@
+import appIcon from '@/assets/app-icon.svg';
+import { CalculationWizard } from '@/components/wizard/CalculationWizard';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { CostItem, CostUnit } from '@/types/costModel';
@@ -8,7 +10,7 @@ import { formatNumberForEdit, parseNlNumber } from '@/utils/formatting';
 import { PromptBudgetWorkspace } from '@/components/chat/PromptBudgetWorkspace';
 import './MobileWorkspace.css';
 
-type MobileTab = 'budget' | 'sheets' | 'prompt';
+type MobileTab = 'wizard' | 'budget' | 'sheets' | 'prompt';
 const units: CostUnit[] = ['st', 'm', 'm²', 'm³', 'kg', 'ton', 'uur', 'dgn', 'km', 'keer', 'ls', 'week', 'mnd', 'post', '%', 'pm'];
 const money = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' });
 
@@ -155,7 +157,7 @@ function MobileSheets() {
 
 export function MobileWorkspace() {
   const { t } = useTranslation();
-  const { newFile, openFile, saveFile } = useFileOperations();
+  const { newFile, openFile, saveFile, saveFileAs } = useFileOperations();
   const documents = useAppStore((s) => s.documents);
   const activeDocumentId = useAppStore((s) => s.activeDocumentId);
   const setActiveDocument = useAppStore((s) => s.setActiveDocument);
@@ -165,6 +167,8 @@ export function MobileWorkspace() {
   const insertRule = useAppStore((s) => s.insertRegelBelow);
   const activeDoc = documents.find((doc) => doc.id === activeDocumentId);
   const [tab, setTab] = useState<MobileTab>('budget');
+  const contentTab = useAppStore(s => s.activeContentTab);
+  useEffect(() => { if (contentTab === 'wizard') setTab('wizard'); }, [contentTab]);
   const [query, setQuery] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<Set<string>>(() => new Set());
@@ -222,12 +226,13 @@ export function MobileWorkspace() {
 
   return <div className="mobile-workspace">
     <header className="mobile-header">
-      <div className="mobile-brand"><img src="/app-icon.svg" alt="" /><div><strong>Open Calc Studio</strong><small>{t('mobile.subtitle')}</small></div></div>
+      <div className="mobile-brand"><img src={appIcon} alt="" /><div><strong>Open Calc Studio <small>v{__APP_VERSION__}</small></strong><small>{t('mobile.subtitle')}</small></div></div>
       {documents.length > 1 ? <select className="mobile-document-select" aria-label={t('mobile.document')} value={activeDocumentId} onChange={(e) => setActiveDocument(e.target.value)}>{documents.map((doc) => <option key={doc.id} value={doc.id}>{doc.fileName}{doc.isModified ? ' •' : ''}</option>)}</select> : <div className="mobile-document-name">{activeDoc?.fileName ?? t('noDocumentOpen')}{activeDoc?.isModified ? ' •' : ''}</div>}
       <div className="mobile-file-actions">
         <button type="button" onClick={newFile}>{t('mobile.new')}</button>
         <button type="button" onClick={() => void openFile()}>{t('open')}</button>
         <button type="button" className="mobile-primary" disabled={!activeDoc} onClick={() => void saveFile()}>{t('save')}</button>
+        {activeDoc?.hostFile?.readOnly && <button type="button" onClick={() => void saveFileAs()}>{t('saveAs')}</button>}
       </div>
     </header>
     {activeDoc ? <>
@@ -247,10 +252,12 @@ export function MobileWorkspace() {
           {visible.length > pageLimit && <button className="mobile-load-more" type="button" onClick={() => setPageLimit((limit) => limit + 120)}>{t('mobile.showMore', { count: visible.length - pageLimit })}</button>}
           {visible.length === 0 && <p className="mobile-empty-note">{query ? t('mobile.noResults') : t('mobile.noItems')}</p>}
         </div>}
+        {tab === 'wizard' && <CalculationWizard onEditor={() => setTab('budget')} />}
         {tab === 'sheets' && <MobileSheets />}
         {tab === 'prompt' && <div className="mobile-prompt"><PromptBudgetWorkspace /></div>}
       </main>
       <nav className="mobile-nav" aria-label={t('mobile.navigation')}>
+        <button type="button" aria-current={tab === 'wizard' ? 'page' : undefined} onClick={() => setTab('wizard')}>{t('wizardUI.shortTitle')}</button>
         <button type="button" aria-current={tab === 'budget' ? 'page' : undefined} onClick={() => setTab('budget')}>{t('mobile.budget')}</button>
         <button type="button" aria-current={tab === 'sheets' ? 'page' : undefined} onClick={() => setTab('sheets')}>{t('mobile.sheets')}</button>
         <button type="button" aria-current={tab === 'prompt' ? 'page' : undefined} onClick={() => setTab('prompt')}>{t('mobile.prompt')}</button>

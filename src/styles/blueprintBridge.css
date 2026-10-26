@@ -1,0 +1,178 @@
+/* Adapter from the existing Calc selectors to pinned OpenAEC Blueprint UI 0.4. */
+:root, [data-theme] {
+  --theme-bg: var(--oa-frame);
+  --theme-surface: var(--oa-panel);
+  --theme-bg-lighter: var(--oa-raised);
+  --theme-content-bg: var(--oa-workspace);
+  --theme-docbar-bg: var(--oa-docbar);
+  --theme-border: var(--oa-border);
+  --theme-border-subtle: var(--oa-border);
+  --theme-grid-vline: var(--oa-border);
+  --theme-text: var(--oa-text);
+  --theme-text-secondary: var(--oa-text-secondary);
+  --theme-text-muted: var(--oa-text-secondary);
+  --theme-text-faint: var(--oa-text-disabled);
+  --theme-accent: var(--oa-accent);
+  --theme-accent-hover: var(--oa-accent-hover);
+  --theme-active: var(--oa-selected);
+  --theme-hover: var(--oa-hover);
+  --theme-hover-strong: var(--oa-pressed);
+  --theme-accent-text: var(--oa-text-on-accent);
+  --theme-accent-soft: var(--oa-selected);
+  --theme-accent-tint: var(--oa-accent);
+  --theme-focus-color: var(--oa-focus);
+  --theme-danger-color: var(--oa-error);
+  --theme-danger-hover: var(--oa-error);
+  --theme-editable-text: var(--oa-accent-text);
+  --theme-editable-bg: var(--oa-selected);
+  --theme-dialog-shadow: var(--oa-shadow-dialog);
+  --theme-panel-shadow: var(--oa-shadow-panel);
+  --theme-popover-shadow: var(--oa-shadow-popup);
+  --theme-btn-primary-bg: var(--oa-accent);
+  --theme-btn-primary-text: var(--oa-text-on-accent);
+  --theme-btn-primary-border: var(--oa-accent);
+  --theme-btn-primary-hover-bg: var(--oa-accent-hover);
+  --theme-btn-primary-hover-text: var(--oa-text-on-accent);
+  --theme-file-tab-bg: var(--oa-accent);
+  --theme-file-tab-hover: var(--oa-accent-hover);
+  --theme-file-tab-text: var(--oa-text-on-accent);
+  --theme-titlebar-bg: var(--oa-frame);
+  --theme-ribbon-bg: var(--oa-frame);
+  --theme-status-bg: var(--oa-statusbar);
+  --theme-panel-bg: var(--oa-panel);
+  --theme-tab-bg: var(--oa-docbar);
+  --theme-app-menu-bg: var(--oa-panel);
+  --theme-dialog-bg: var(--oa-panel);
+  --theme-titlebar-bg-start: var(--oa-frame);
+  --theme-titlebar-bg-end: var(--oa-frame);
+  --theme-titlebar-border: var(--oa-border);
+  --theme-titlebar-text: var(--oa-text);
+  --theme-titlebar-text-secondary: var(--oa-text-secondary);
+  --theme-titlebar-btn-color: var(--oa-text);
+  --theme-titlebar-btn-hover: var(--oa-hover);
+  --theme-titlebar-btn-active: var(--oa-pressed);
+  --theme-titlebar-quick-color: var(--oa-text-secondary);
+  --theme-titlebar-quick-hover-color: var(--oa-text);
+  --theme-titlebar-quick-hover-bg: var(--oa-hover);
+  --theme-titlebar-quick-border: var(--oa-border);
+  --theme-titlebar-btn-disabled: var(--oa-text-disabled);
+  --theme-ribbon-bg-start: var(--oa-frame);
+  --theme-ribbon-bg-end: var(--oa-frame);
+  --theme-ribbon-border: var(--oa-border);
+  --theme-ribbon-tabs-bg-start: var(--oa-frame);
+  --theme-ribbon-tabs-bg-end: var(--oa-frame);
+  --theme-ribbon-content-bg: var(--oa-panel);
+  --theme-ribbon-text: var(--oa-text-secondary);
+  --theme-ribbon-text-hover: var(--oa-text);
+  --theme-ribbon-tab-hover: var(--oa-hover);
+  --theme-ribbon-tab-active-bg: var(--oa-panel);
+  --theme-ribbon-tab-active-border: var(--oa-border);
+  --theme-ribbon-btn-hover: var(--oa-hover);
+  --theme-ribbon-btn-hover-border: var(--oa-border-strong);
+  --theme-ribbon-btn-active-bg: var(--oa-selected);
+  --theme-ribbon-btn-active-border: var(--oa-selected-bar);
+  --theme-ribbon-btn-active-text: var(--oa-accent-text);
+  --theme-ribbon-icon-stroke: var(--oa-text-secondary);
+  --theme-ribbon-icon-hover: var(--oa-text);
+  --theme-ribbon-icon-active: var(--oa-accent-text);
+  --theme-ribbon-group-label: var(--oa-text-secondary);
+  --theme-ribbon-group-border: var(--oa-border);
+  --theme-ribbon-input-bg: var(--oa-raised);
+  --theme-ribbon-input-border: var(--oa-border-strong);
+  --theme-ribbon-input-text: var(--oa-text);
+  --theme-ribbon-input-focus-border: var(--oa-focus);
+  --theme-ribbon-input-focus-bg: var(--oa-raised);
+  --theme-ribbon-input-label: var(--oa-text-secondary);
+  --theme-ribbon-dropdown-arrow: var(--oa-text-secondary);
+  --theme-ribbon-btn-label: var(--oa-text-secondary);
+  --theme-tab-border: var(--oa-border);
+  --theme-tab-hover: var(--oa-hover);
+  --theme-tab-active-bg: var(--oa-panel);
+  --theme-tab-active-accent: var(--oa-selected-bar);
+  --theme-tab-text: var(--oa-text-secondary);
+  --theme-tab-active-text: var(--oa-text);
+  --theme-tab-close-color: var(--oa-text-secondary);
+  --theme-tab-modified: var(--oa-accent-text);
+  --theme-tab-empty-text: var(--oa-text-disabled);
+  --theme-tab-add-color: var(--oa-text-secondary);
+  --theme-tab-add-border: var(--oa-border);
+  --theme-tab-add-hover: var(--oa-hover);
+  --theme-status-border: var(--oa-border);
+  --theme-status-text: var(--oa-statusbar-text);
+  --theme-status-text-label: var(--oa-statusbar-text);
+  --theme-status-text-value: var(--oa-text);
+  --theme-status-hover: var(--oa-hover);
+  --theme-status-separator: var(--oa-border);
+  --theme-status-nav-text: var(--oa-text);
+  --theme-status-nav-hover: var(--oa-hover);
+  --theme-panel-border: var(--oa-border);
+  --theme-panel-tab-bg: var(--oa-frame);
+  --theme-panel-tab-text: var(--oa-text-secondary);
+  --theme-panel-tab-hover: var(--oa-hover);
+  --theme-panel-tab-hover-text: var(--oa-text);
+  --theme-panel-tab-active-bg: var(--oa-panel);
+  --theme-panel-tab-active-text: var(--oa-text);
+  --theme-panel-accent: var(--oa-accent-text);
+  --theme-panel-header-text: var(--oa-text);
+  --theme-panel-toggle-bg: var(--oa-hover);
+  --theme-panel-toggle-hover: var(--oa-pressed);
+  --theme-panel-toggle-text: var(--oa-text);
+  --theme-panel-resize: var(--oa-border);
+  --theme-panel-resize-hover: var(--oa-accent);
+  --theme-dialog-overlay: var(--oa-overlay);
+  --theme-dialog-border: var(--oa-border);
+  --theme-dialog-header-bg: var(--oa-panel);
+  --theme-dialog-header-text: var(--oa-text);
+  --theme-dialog-sidebar-bg: var(--oa-frame);
+  --theme-dialog-sidebar-border: var(--oa-border);
+  --theme-dialog-tab-text: var(--oa-text-secondary);
+  --theme-dialog-tab-hover: var(--oa-hover);
+  --theme-dialog-tab-hover-text: var(--oa-text);
+  --theme-dialog-tab-active-bg: var(--oa-selected);
+  --theme-dialog-tab-active-text: var(--oa-accent-text);
+  --theme-dialog-tab-active-accent: var(--oa-selected-bar);
+  --theme-dialog-content-bg: var(--oa-panel);
+  --theme-dialog-content-text: var(--oa-text);
+  --theme-dialog-content-secondary: var(--oa-text-secondary);
+  --theme-dialog-input-bg: var(--oa-raised);
+  --theme-dialog-input-border: var(--oa-border-strong);
+  --theme-dialog-input-text: var(--oa-text);
+  --theme-dialog-btn-bg: var(--oa-accent);
+  --theme-dialog-btn-text: var(--oa-text-on-accent);
+  --theme-dialog-btn-hover: var(--oa-accent-hover);
+  --theme-dialog-section-border: var(--oa-border);
+  --theme-app-menu-sidebar: var(--oa-frame);
+  --theme-app-menu-sidebar-border: var(--oa-border);
+  --theme-app-menu-text: var(--oa-text);
+  --theme-app-menu-item-hover: var(--oa-hover);
+  --theme-app-menu-item-hover-text: var(--oa-text);
+  --theme-app-menu-icon: var(--oa-text-secondary);
+  --theme-app-menu-shortcut: var(--oa-text-secondary);
+  --theme-app-menu-shortcut-hover: var(--oa-text);
+  --theme-app-menu-divider: var(--oa-border);
+}
+
+.start-sidebar { background: var(--oa-panel); }
+.start-sidebar-title, .start-recent-title, .left-panel-title, .right-panel-title {
+  font-family: var(--oa-font-mono); font-size: var(--oa-size-label);
+  letter-spacing: var(--oa-letter-spacing-mono-label); font-weight: 400;
+}
+.start-brand-text h2 { font-family: var(--oa-font-heading); font-weight: 500; }
+.start-brand-version { font-family: var(--oa-font-mono); }
+.grid-cell.align-right { font-family: var(--oa-font-numbers); font-variant-numeric: tabular-nums; }
+.start-action-btn { border-radius: var(--oa-radius-medium); gap: var(--oa-space-md); transform: none; }
+.start-action-btn:hover { transform: none; }
+.start-action-btn--primary { background: var(--oa-accent); color: var(--oa-text-on-accent); box-shadow: none; }
+.start-action-btn--primary:hover { background: var(--oa-accent-hover); color: var(--oa-text-on-accent); box-shadow: none; }
+.start-action-btn:active { background: var(--oa-pressed); }
+.start-action-btn--primary:active { background: var(--oa-accent-pressed); }
+.titlebar::after { background: var(--oa-accent); height: 1px; bottom: -1px; }
+.titlebar-version { opacity: 1; color: var(--oa-text-secondary); }
+.titlebar { height: var(--oa-shell-titlebar); }
+.status-bar { height: var(--oa-shell-statusbar); }
+.host-file-picker { min-width: min(480px, 75vw); display:flex; flex-direction:column; gap:var(--oa-space-md); padding:var(--oa-space-lg); }
+.host-file-list { display:flex; flex-direction:column; gap:var(--oa-space-sm); max-height:35vh; overflow:auto; }
+.host-file-list .oa-button { justify-content:space-between; height:auto; min-height:36px; text-align:left; gap:var(--oa-space-md); }
+.host-file-list small { color:var(--oa-text-secondary); }
+[data-oa-theme^="high-contrast"] :is(button, input, select, textarea) { border-width:2px; box-shadow:none; }
+[data-oa-theme^="high-contrast"] .start-action-btn { transform:none; }

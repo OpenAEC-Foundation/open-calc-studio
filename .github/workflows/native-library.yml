@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-22.04]
+        os: [windows-latest, ubuntu-22.04, macos-latest]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 120
     env:
@@ -62,6 +62,12 @@ jobs:
         run: |
           cc packages/native/host.c -ldl -o release-native/linux-debug/OpenCalcStudioHost
           cd release-native/linux-debug
+          ./OpenCalcStudioHost --abi-check
+      - name: Load macOS library from C host
+        if: runner.os == 'macOS'
+        run: |
+          cc packages/native/host.c -o release-native/darwin-debug/OpenCalcStudioHost
+          cd release-native/darwin-debug
           ./OpenCalcStudioHost --abi-check
       - name: Update package checksums including host
         run: node scripts/package-native.mjs

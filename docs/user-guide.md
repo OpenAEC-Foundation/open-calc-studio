@@ -107,3 +107,7 @@ Use Command instead of Ctrl on macOS. Browser or operating-system shortcuts may 
 - **Still stuck:** [open an issue](https://github.com/OpenAEC-Foundation/open-calc-studio/issues) with the app version, operating system, reproduction steps and expected/actual result. Use a small anonymised sample instead of confidential project data.
 
 Developers can use the [API documentation](API.md), [native file format](ifccalc-formaat.md) and [build instructions](../README.md#build-from-source).
+
+## Guided and hosted use
+
+Choose Calculation wizard from the start page or bottom navigation. Its five steps share the editor project and calculation engine; Full editor returns to the grid. In a hosted workspace, Open shows host files and versions; Save passes the expected version and retains edits on conflicts. A read-only version can be saved as a new copy. See [wizard](calculation-wizard.md) and [host contract](supercloud.md).

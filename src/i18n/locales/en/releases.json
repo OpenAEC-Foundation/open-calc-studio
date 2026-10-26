@@ -1,5 +1,7 @@
 {
-  "status": { "unreleased": "In development" },
+  "status": {
+    "unreleased": "In development"
+  },
   "names": {
     "unreleased": "Mobile web app for estimates",
     "v0.13.0": "Austrian ÖNORM A 2063 (.onlv/.onlb) + BC3 round trip proven",
@@ -18,7 +20,8 @@
     "v0.8.2": "OpenAEC behind a feature flag",
     "v0.8.1": "OpenAEC sign-in + assistant improvements",
     "v0.8.0": "Assistant applies changes directly",
-    "v0.7.10": "OpenAEC account + bottom-bar navigation"
+    "v0.7.10": "OpenAEC account + bottom-bar navigation",
+    "v2026.44.0-dev": "2026.44.0 development: Blueprint, wizard and hosted storage"
   },
   "highlights": {
     "unreleased": [
@@ -119,6 +122,12 @@
       "OpenAEC account and bottom-bar navigation",
       "Hide/show columns by right-clicking the column header",
       "Hours and Markups tabs combined; IBIS-style report (Bouw 2)"
+    ],
+    "v2026.44.0-dev": [
+      "Five official Blueprint themes with local fonts and the shared calculation UI",
+      "Optional five-step estimate wizard with a direct return to the full editor",
+      "Host files and versions with conflict protection, plus a separate REST/HTTP-MCP calculator",
+      "Development build: device, signing and AWS acceptance are still pending"
     ]
   }
 }

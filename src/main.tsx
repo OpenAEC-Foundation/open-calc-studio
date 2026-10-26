@@ -1,11 +1,14 @@
+import { blueprintTheme } from './utils/blueprintTheme';
+import { localStore } from '@/utils/browserStorage';
 import { Buffer } from 'buffer';
 (window as any).Buffer = Buffer;
 (globalThis as any).Buffer = Buffer;
 
 // Apply saved theme synchronously before first render to prevent flash
 try {
-  const saved = localStorage.getItem("ocs-theme");
-  document.documentElement.setAttribute("data-theme", saved || "light");
+  const saved = localStore.getItem("ocs-theme");
+  document.documentElement.setAttribute("data-theme", blueprintTheme(saved || "light"));
+  document.documentElement.setAttribute("data-oa-theme", blueprintTheme(saved || "light"));
 } catch { /* ignore */ }
 
 // Bewaarde interface-zoom meteen toepassen, zodat de app niet eerst op
@@ -57,7 +60,7 @@ class ErrorBoundary extends React.Component<
 }
 
 // Production: disable context menu and browser dev shortcuts
-if (import.meta.env.PROD) {
+if (import.meta.env.PROD && '__TAURI_INTERNALS__' in window) {
   document.addEventListener("contextmenu", (e) => e.preventDefault());
 
   document.addEventListener("keydown", (e) => {

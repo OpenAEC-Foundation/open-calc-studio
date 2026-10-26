@@ -27,9 +27,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22.18.0
-      - run: npm install
-      - run: npx tsc --noEmit || true
-      - run: npm test || true
+      - run: npm ci
+      - run: npx tsc --noEmit
+      - run: npm test -- --maxWorkers=2 --testTimeout=20000
+      - run: npm run version:check
+      - run: npm run test:version
+      - run: npm run check:blueprint
+      - name: Match release tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: node scripts/version.mjs check "${{ github.ref_name }}"
       - run: npm run build
 
   # ── 1b. Inbouwpakket (@openaec/open-calc-studio) ────────────
@@ -49,7 +55,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22.18.0
-      - run: npm install
+      - run: npm ci
       - run: npm run build:lib
       - name: Pack
         run: |
@@ -79,18 +85,28 @@ jobs:
     uses: ./.github/workflows/desktop-builds.yml
     secrets: inherit
 
+  platform:
+    needs: check
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+    uses: ./.github/workflows/platform-builds.yml
+
   # ── 3. Publish release (only on tag push) ───────────────────
   publish:
     name: Publish Release
-    needs: [build, embed]
+    needs: [build, embed, platform]
     # A manual test build never creates a release. Only verified, successful
     # platform builds may enter the draft release.
-    if: startsWith(github.ref, 'refs/tags/v') && needs.build.result == 'success' && needs.embed.result == 'success'
+    if: startsWith(github.ref, 'refs/tags/v') && needs.build.result == 'success' && needs.embed.result == 'success' && needs.platform.result == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: write
 
     steps:
+      - uses: actions/checkout@v4
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
@@ -106,6 +122,12 @@ jobs:
           find artifacts -name '*.deb' -exec cp {} release/ \;
           find artifacts -name '*.rpm' -exec cp {} release/ \;
           find artifacts -name '*.tgz' -exec cp {} release/ \;
+          find artifacts -name '*.zip' -exec cp {} release/ \;
+          find artifacts -name '*.tar.gz' -exec cp {} release/ \;
+          find artifacts -name '*.asc' -exec cp {} release/ \;
+          find artifacts -name '*evidence.json' -exec cp {} release/ \;
+          cp LICENSE COPYING NOTICE.md release/
+          (cd release && sha256sum * > SHA256SUMS.txt)
           ls -la release/
 
       - name: Publish release
@@ -122,6 +144,10 @@ jobs:
             - **macOS:** `.dmg` (universal: Apple Silicon + Intel)
             - **Linux:** `.AppImage` / `.deb` / `.rpm`
             - **Embed in your own site:** `open-calc-studio-<version>.tgz` — npm package `@openaec/open-calc-studio` (React component + library, see `packages/embed/README.md`)
+
+            - **Hosted web:** versioned platform archive with manifest and license notices.
+            - **Headless API:** Node.js archive; REST and MCP use inline project data.
+            - **Native Windows DLL:** signed archive including C ABI and host examples.
 
             Windows installers and installed app binaries are Authenticode-signed.
             The macOS app is Developer ID-signed and notarized; verification checks

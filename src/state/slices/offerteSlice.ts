@@ -34,7 +34,7 @@ const defaultOndertekening: Ondertekenaar[] = [
   { naam: '', functie: '', email: '', telefoon: '' },
 ];
 
-function createDefaultOfferte(): OfferteDocument {
+export function createDefaultOfferte(): OfferteDocument {
   return {
     id: genId(),
     type: 'particulier',

@@ -1,3 +1,5 @@
+import { blueprintTheme } from '@/utils/blueprintTheme';
+import { localStore } from '@/utils/browserStorage';
 import { setHostAttribute } from "@/lib/hostRoot";
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
@@ -8,13 +10,11 @@ import Modal from "../common/Modal";
 import "./SettingsDialog.css";
 
 const THEME_OPTIONS = [
-  { value: "default", labelKey: "appearance.default", swatches: ["#36363E", "#44444C", "#D97706", "#FAFAF9"] },
-  { value: "light", labelKey: "appearance.light", swatches: ["#ffffff", "#f5f5f5", "#D97706", "#1a1a1a"] },
-  { value: "dark", labelKey: "appearance.dark", swatches: ["#1a1a2e", "#242445", "#D97706", "#C4B199"] },
-  { value: "blue", labelKey: "appearance.blue", swatches: ["#0d1b2a", "#1b263b", "#0077b6", "#e0e1dd"] },
-  { value: "amber-navy", labelKey: "appearance.amberNavy", swatches: ["#1a1a2e", "#242445", "#D97706", "#C4B199"] },
-  { value: "warm-ember", labelKey: "appearance.warmEmber", swatches: ["#3E3636", "#4a4242", "#D97706", "#F5F0EB"] },
-  { value: "highContrast", labelKey: "appearance.highContrast", swatches: ["#000000", "#141414", "#ffff00", "#ffffff"] },
+  { value: "light", labelKey: "appearance.light" },
+  { value: "dark", labelKey: "appearance.dark" },
+  { value: "blueprint", labelKey: "appearance.blueprint" },
+  { value: "high-contrast-dark", labelKey: "appearance.highContrastDark" },
+  { value: "high-contrast-light", labelKey: "appearance.highContrastLight" },
 ];
 
 function getSystemTheme(): string {
@@ -26,9 +26,10 @@ function resolveTheme(theme: string): string {
 }
 
 export function applyTheme(theme: string) {
-  const resolved = resolveTheme(theme);
+  const resolved = blueprintTheme(resolveTheme(theme));
   setHostAttribute("data-theme", resolved);
-  try { localStorage.setItem("ocs-theme", resolved); } catch { /* ignore */ }
+  setHostAttribute("data-oa-theme", resolved);
+  try { localStore.setItem("ocs-theme", resolved); } catch { /* ignore */ }
 }
 
 /** Rapporttaal uit de instellingen: een bekende taalcode, anders "auto" (= volg de interface). */
@@ -51,7 +52,7 @@ export default function SettingsDialog({ open, onClose, theme, onThemeChange }: 
   const savedReportLocale = useAppStore((s) => s.settings.reportLocale);
   const [activeTab, setActiveTab] = useState("general");
   const [draftReportLang, setDraftReportLang] = useState(() => normalizeReportLang(savedReportLocale));
-  const [draftTheme, setDraftTheme] = useState(theme);
+  const [draftTheme, setDraftTheme] = useState(blueprintTheme(theme));
   const [draftLang, setDraftLang] = useState(() => {
     // Map stored locale to language code
     const lang = i18next.language || savedLocale?.split("-")[0] || "auto";
@@ -62,7 +63,7 @@ export default function SettingsDialog({ open, onClose, theme, onThemeChange }: 
   useEffect(() => {
     if (open) {
       originalTheme.current = theme;
-      setDraftTheme(theme);
+      setDraftTheme(blueprintTheme(theme));
       const lang = i18next.language || savedLocale?.split("-")[0] || "auto";
       setDraftLang(LANGUAGES.some((l) => l.code === lang) ? lang : "auto");
       setDraftReportLang(normalizeReportLang(savedReportLocale));

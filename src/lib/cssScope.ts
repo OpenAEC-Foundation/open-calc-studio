@@ -41,7 +41,7 @@ export function scopeSelector(selector: string, scope = '.ocs-embed'): string {
   if (s.startsWith(scope)) return s;
   if (ROOT_LIKE.test(s)) return s.replace(ROOT_LIKE, scope);
   if (s === '*') return `${scope} *`;
-  if (s.startsWith('[data-theme')) return `${scope}${s}`;
+  if (s.startsWith('[data-theme') || s.startsWith('[data-oa-')) return `${scope}${s}`;
   return `${scope} ${s}`;
 }
 

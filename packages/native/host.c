@@ -31,7 +31,13 @@ int main(int argc, char **argv) {
 #define SYMBOL(name) GetProcAddress(library, name)
 #else
     const char *path = getenv("OCS_LIBRARY_PATH");
-    if (!path) path = "./libOpenCalcStudio.so";
+    if (!path) {
+#ifdef __APPLE__
+        path = "./libOpenCalcStudio.dylib";
+#else
+        path = "./libOpenCalcStudio.so";
+#endif
+    }
     void *library = dlopen(path, RTLD_NOW | RTLD_LOCAL);
     if (!library) { fprintf(stderr, "%s\n", dlerror()); return 11; }
 #define SYMBOL(name) dlsym(library, name)

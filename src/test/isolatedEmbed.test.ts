@@ -2,9 +2,9 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { mountIsolated, type IsolatedStudio } from '../lib/isolated';
 const instances: IsolatedStudio[] = [];
 afterEach(() => { instances.splice(0).forEach(i => i.unmount()); document.body.innerHTML = ''; vi.useRealTimers(); });
-function setup() {
+function setup(opaque = false) {
   const host = document.createElement('div'); document.body.append(host);
-  const instance = mountIsolated(host, { src: 'https://calc.example/frame/index.html' });
+  const instance = mountIsolated(host, { src: 'https://calc.example/frame/index.html', opaque });
   instances.push(instance);
   const send = vi.spyOn(instance.iframe.contentWindow!, 'postMessage');
   instance.iframe.dispatchEvent(new Event('load'));
@@ -15,6 +15,18 @@ function setup() {
   return { instance, send, deliver };
 }
 describe('isolated embedding protocol', () => {
+  it('uses an opaque sandbox and accepts only its own null-origin channel', async () => {
+    const a = setup(true), b = setup(true);
+    expect(a.instance.iframe.getAttribute('sandbox')).toBe('allow-scripts allow-downloads allow-modals');
+    expect(a.send.mock.calls[0][1]).toBe('*');
+    let ready = false; void a.instance.ready.then(() => { ready = true; });
+    a.deliver({ type: 'ready' });
+    a.deliver({ type: 'ready' }, 'null', b.instance.iframe.contentWindow);
+    a.deliver({ type: 'ready', channel: 'different-channel' }, 'null');
+    await Promise.resolve(); expect(ready).toBe(false);
+    a.deliver({ type: 'ready' }, 'null'); await a.instance.ready;
+    expect(ready).toBe(true);
+  });
   it('keeps frames and response channels independent', async () => {
     const a = setup(), b = setup();
     a.deliver({ type: 'ready' }); b.deliver({ type: 'ready' });

@@ -1,3 +1,4 @@
+import { localStore } from '@/utils/browserStorage';
 import { deserializeProject, serializeProject } from '@/services/file/fileService';
 import { useAppStore } from '@/state/appStore';
 
@@ -6,7 +7,7 @@ const KEY = 'ocs-mobile-draft-v1';
 /** Restore the last active browser document before the bundled example loads. */
 export function restoreMobileDraft(): boolean {
   try {
-    const raw = localStorage.getItem(KEY);
+    const raw = localStore.getItem(KEY);
     if (!raw) return false;
     const draft = JSON.parse(raw) as { fileName: string; project: string };
     if (!draft.fileName || !draft.project) return false;
@@ -31,7 +32,7 @@ export function saveMobileDraft(): boolean {
     const doc = state.documents.find((candidate) => candidate.id === state.activeDocumentId);
     if (!doc) return false;
     const project = serializeProject({ ...state.schedule, projectInfo: state.projectInfo }, state.items, state.companyInfo, state.subSheets, state.offerte);
-    localStorage.setItem(KEY, JSON.stringify({ fileName: doc.fileName, project }));
+    localStore.setItem(KEY, JSON.stringify({ fileName: doc.fileName, project }));
     return true;
   } catch (error) {
     console.warn('[Mobile] Draft could not be saved:', error);

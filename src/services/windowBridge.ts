@@ -18,16 +18,16 @@ export type WindowBridgeMessage = DockRequestMessage | CloseDetachedMessage;
 
 let channel: BroadcastChannel | null = null;
 
-function getChannel(): BroadcastChannel {
+function getChannel(): BroadcastChannel | null {
   if (!channel) {
-    channel = new BroadcastChannel('open-calc-studio');
+    try { channel = new BroadcastChannel('ocs-window-bridge'); } catch { return null; }
   }
   return channel;
 }
 
 /** Send a dock request from a detached window to the main window */
 export function sendDockRequest(filePath: string, windowLabel: string): void {
-  getChannel().postMessage({
+  getChannel()?.postMessage({
     type: 'dock-request',
     filePath,
     windowLabel,
@@ -36,7 +36,7 @@ export function sendDockRequest(filePath: string, windowLabel: string): void {
 
 /** Send a close message to a specific detached window */
 export function sendCloseDetached(windowLabel: string): void {
-  getChannel().postMessage({
+  getChannel()?.postMessage({
     type: 'close-detached',
     windowLabel,
   } satisfies CloseDetachedMessage);
@@ -47,6 +47,7 @@ export function onWindowBridgeMessage(
   callback: (msg: WindowBridgeMessage) => void
 ): () => void {
   const ch = getChannel();
+  if (!ch) return () => {};
   const handler = (e: MessageEvent) => {
     if (e.data?.type) {
       callback(e.data as WindowBridgeMessage);

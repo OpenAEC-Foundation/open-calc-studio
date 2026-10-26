@@ -63,6 +63,6 @@ node scripts/package-native.mjs
 
 On Windows, use a Visual Studio developer shell, compile `host.c` with `cl`,
 and copy the resulting executable to the package directory. The native workflow
-automates building, ABI checking and packaging on Windows and Linux. The existing
+automates building, ABI checking and packaging on Windows, Linux and macOS. macOS uses `libOpenCalcStudio.dylib`; native CI archives are unsigned development builds. The existing
 signed desktop workflow also builds, Authenticode-signs and verifies the Windows
 DLL and host when the required Azure signing secrets are configured.

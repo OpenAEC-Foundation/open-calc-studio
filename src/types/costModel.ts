@@ -12,6 +12,11 @@ export type RowType =
 
 export type ResourceType = 'onderaannemer' | 'materieel' | 'materiaal' | 'arbeid' | 'overig';
 
+/** Runtime boundary validation for API consumers; file-format row names are stable. */
+export const COST_ROW_TYPES: readonly RowType[] = ['chapter', 'begrotingspost', 'bewakingspost', 'regel', 'tekstregel', 'witregel',
+  'staart_ukk', 'staart_ak', 'staart_wr', 'staart_afronding', 'staart_ak_oa', 'staart_abk', 'staart_garanties',
+  'staart_wvpm', 'staart_risico', 'staart_winst', 'staart_verzekering', 'staart_btw', 'staart_btw_laag'];
+
 /** RAW verrekenbaarheid: V=verrekenbaar, A=aanbod(vast), N=niet verrekenbaar */
 export type Verrekenbaarheid = 'V' | 'A' | 'N' | 'F' | null;
 
@@ -350,6 +355,12 @@ export interface DocumentTab {
   filePath: string | null;
   fileName: string;
   isModified: boolean;
+  /** @internal Host identity is managed by the adapter, not by MCP arguments. */
+  hostFile?: { id: string; version: string | number; readOnly: boolean };
+  /** @internal Original file metadata retained for lossless host saves. */
+  hostProject?: ProjectFile;
+  /** @internal Per-tab UI/history context; use the individual store actions. */
+  context?: Omit<DocumentData, 'items' | 'schedule'>;
   items: CostItem[];
   schedule: CostSchedule;
 }
@@ -361,6 +372,9 @@ export interface DocumentData {
   companyInfo: CompanyInfo;
   subSheets: SubSheet[];
   activeSubSheetId: string | null;
+  offerte: OfferteDocument;
+  projectInfo: ProjectInfo;
+  snapshots: ProjectSnapshot[];
   undoStack: { items: CostItem[]; description: string }[];
   redoStack: { items: CostItem[]; description: string }[];
   activeRow: number;
