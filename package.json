@@ -24,7 +24,8 @@
     "build:server": "node scripts/build-server.mjs",
     "start:server": "node dist-server/server.mjs",
     "test:server": "npm run build:server && node --test server/api.node-test.mjs",
-    "check:blueprint": "node scripts/verify-blueprint.mjs"
+    "check:blueprint": "node scripts/verify-blueprint.mjs",
+    "test:bundle": "node --test scripts/prepare-universal-binaries.node-test.mjs"
   },
   "dependencies": {
     "@ifc-lite/geometry": "^7.6.0",

@@ -2,7 +2,19 @@ name: Signed desktop test builds
 
 on:
   workflow_dispatch:
+    inputs:
+      platform:
+        description: Platform for this manual test build
+        type: choice
+        options: [all, windows, linux, macos]
+        default: all
   workflow_call:
+    inputs:
+      platform:
+        description: Selected platform; releases use the default all
+        type: string
+        default: all
+        required: false
   push:
     branches: [codex/signed-test-builds]
 
@@ -14,12 +26,14 @@ permissions:
   attestations: write
 
 concurrency:
-  group: signed-desktop-${{ github.ref }}
+  group: signed-desktop-${{ github.ref }}-${{ inputs.platform || 'all' }}
   cancel-in-progress: false
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.platforms.outputs.matrix }}
     permissions:
       contents: read
     steps:
@@ -30,6 +44,23 @@ jobs:
         with:
           node-version: 22.18.0
           cache: npm
+      - name: Select platforms
+        id: platforms
+        env:
+          SELECTED_PLATFORM: ${{ inputs.platform || 'all' }}
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const platforms = {
+            windows: { platform: 'windows-latest', target: 'x86_64-pc-windows-msvc', label: 'Windows' },
+            linux: { platform: 'ubuntu-22.04', target: 'x86_64-unknown-linux-gnu', label: 'Linux' },
+            macos: { platform: 'macos-latest', target: 'universal-apple-darwin', label: 'macOS-universal' },
+          };
+          const choice = process.env.SELECTED_PLATFORM;
+          if (choice !== 'all' && !Object.hasOwn(platforms, choice)) throw new Error('Unknown desktop platform');
+          const include = choice === 'all' ? Object.values(platforms) : [platforms[choice]];
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `matrix=${JSON.stringify({include})}\n`);
+          NODE
       - run: npm ci
       - run: npm test -- --maxWorkers=2 --testTimeout=20000
 
@@ -38,17 +69,7 @@ jobs:
     timeout-minutes: 180
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - platform: windows-latest
-            target: x86_64-pc-windows-msvc
-            label: Windows
-          - platform: ubuntu-22.04
-            target: x86_64-unknown-linux-gnu
-            label: Linux
-          - platform: macos-latest
-            target: universal-apple-darwin
-            label: macOS-universal
+      matrix: ${{ fromJSON(needs.test.outputs.matrix) }}
     name: Build and verify – ${{ matrix.label }}
     runs-on: ${{ matrix.platform }}
     env:

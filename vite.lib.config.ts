@@ -9,7 +9,7 @@ import { browserAliases } from './build/browserAliases';
  *   de gastsite installeert die zelf via package.json;
  * - alle CSS gescoped onder `.ocs-embed` (src/lib/cssScope.ts), zodat de
  *   opmaak van de app de gastpagina niet raakt;
- * - geen lettertypen: de gastsite levert Inter (of laat het systeemfont);
+ * - lokale Blueprintfonts, zonder externe fontservice;
  * - typedeclaraties via vite-plugin-dts.
  */
 import { defineConfig } from 'vite';
@@ -40,7 +40,7 @@ export default defineConfig({
       tsconfigPath: './tsconfig.json',
     }),
   ],
-  // Geen kopie van public/ (fonts, voorbeelddata, icoon): die horen bij de app.
+  // Geen automatische public/-kopie; benodigde assets worden expliciet geïmporteerd.
   publicDir: false,
   resolve: {
     alias: { ...browserAliases, '@': path.resolve(__dirname, './src') },

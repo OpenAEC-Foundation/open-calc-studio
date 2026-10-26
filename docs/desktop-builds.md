@@ -97,3 +97,16 @@ References: [Tauri Windows signing](https://v2.tauri.app/distribute/sign/windows
 ## Calendar versions
 
 `node scripts/version.mjs next` chooses the next patch in the current ISO week; `set YYYY.W.N` synchronizes all product packages and MSI mapping. The Prepare calendar release workflow proposes these changes in a PR. Tag builds fail if any package disagrees with the tag. The file-format version remains independent. Platform and API artifacts include licenses and build metadata; the platform workflow tests its container before a tag publishes it to GHCR. See [acceptance evidence](issue-readiness.md).
+
+## Retest one platform
+
+Manual desktop builds accept `platform=windows`, `linux`, `macos` or `all`:
+
+```sh
+gh workflow run desktop-builds.yml --ref YOUR_BRANCH -f platform=macos
+```
+
+The release workflow keeps the default `all`. macOS universal packaging runs
+`prepare-universal-binaries.mjs` after compilation and before bundling. It
+combines both architectures of every additional Cargo binary (including the
+PDF utilities), verifies the slices and retains them in the signed app.

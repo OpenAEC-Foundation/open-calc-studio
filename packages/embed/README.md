@@ -132,8 +132,11 @@ available as `useOpenCalcStore` for advanced use.
 - Keyboard shortcuts (Ctrl+Z, Ctrl+F, Delete, …) only react when the focus
   is inside the component.
 - Theme, language and text direction are set on the wrapper, not on `<html>`.
-- Fonts are not bundled. Load Inter yourself (e.g. Google Fonts) for the
-  same look as the app; otherwise the system UI font is used.
+- Blueprint fonts are bundled locally; no external font provider is needed.
+  The library stylesheet can inline font data, so allow `data:` in `font-src`
+  when using it directly with a Content Security Policy. Font family names
+  are shared by the page; use the isolated frame for independent font/CSS
+  registries. The frame bundle serves its fonts as local assets.
 - Settings (theme, language, zoom) persist in `localStorage` of your origin.
 - Direct React/mount entry: one instance per page (shared store). For multiple instances use the isolated entry below.
 - Full-screen overlays (file menu, dialogs) are `position: fixed` and cover

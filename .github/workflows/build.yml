@@ -32,6 +32,7 @@ jobs:
       - run: npm test -- --maxWorkers=2 --testTimeout=20000
       - run: npm run version:check
       - run: npm run test:version
+      - run: npm run test:bundle
       - run: npm run check:blueprint
       - name: Match release tag
         if: startsWith(github.ref, 'refs/tags/v')
