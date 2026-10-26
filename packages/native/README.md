@@ -38,6 +38,13 @@ the MCP stdio server, not for opening the app. WpCalc export still needs the
 Windows Access driver. The local cross-compiled development package is **unsigned**
 and has not been run on Windows; a PE/export-table check is not a Windows UI test.
 
+MSVC packages also include the app-local Microsoft Visual C++ runtime from
+the matching Visual Studio redistributable directory. Keep these DLLs beside
+the app/library: a newer build can require entry points absent from an older
+system runtime (Windows loader error 127). Package from a Visual Studio
+developer shell, or set `OCS_VC_REDIST_DIR` to its `Microsoft.VC*.CRT` directory.
+The redistributables retain their Microsoft license and signatures.
+
 Environment variables must be set before `ocs_run`: `OCS_API_PORT` (default 9742),
 `OCS_WS_PORT` (9741), optional `OCS_API_TOKEN`, `OPEN_CALC_NODE` and
 `OCS_SKIP_MCP_CONFIG=1` to suppress automatic MCP configuration installation.

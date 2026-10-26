@@ -11,6 +11,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: native-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   native:
     strategy:
@@ -33,6 +37,9 @@ jobs:
       - uses: swatinem/rust-cache@v2
         with:
           workspaces: src-tauri -> target
+          cache-on-failure: true
+      - uses: ilammy/msvc-dev-cmd@v1
+        if: runner.os == 'Windows'
       - name: Linux dependencies
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install -y build-essential pkg-config libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev
@@ -47,8 +54,6 @@ jobs:
       - name: Build full native library and application
         run: cargo build --manifest-path src-tauri/Cargo.toml --lib --bin open-calc-studio --features tauri/custom-protocol
       - run: node scripts/package-native.mjs
-      - uses: ilammy/msvc-dev-cmd@v1
-        if: runner.os == 'Windows'
       - name: Load Windows DLL from C host
         if: runner.os == 'Windows'
         shell: pwsh
@@ -56,7 +61,12 @@ jobs:
           cl /nologo packages/native/host.c /Fe:release-native/win32-debug/OpenCalcStudioHost.exe
           if ($LASTEXITCODE -ne 0) { throw 'C host compilation failed' }
           & ./release-native/win32-debug/OpenCalcStudioHost.exe --abi-check
-          if ($LASTEXITCODE -ne 0) { throw 'DLL loading or ABI check failed' }
+          if ($LASTEXITCODE -ne 0) {
+            dumpbin /dependents release-native/win32-debug/OpenCalcStudio.dll
+            dumpbin /imports release-native/win32-debug/OpenCalcStudio.dll
+            Get-ChildItem release-native/win32-debug/*.dll | Select-Object Name,@{Name='Version';Expression={$_.VersionInfo.FileVersion}}
+            throw 'DLL loading or ABI check failed'
+          }
       - name: Load Linux library from C host
         if: runner.os == 'Linux'
         run: |
@@ -72,6 +82,7 @@ jobs:
       - name: Update package checksums including host
         run: node scripts/package-native.mjs
       - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('release-native/**/build-info.json') != ''
         with:
           name: open-calc-studio-native-${{ runner.os }}-unsigned
           path: release-native/

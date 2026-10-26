@@ -27,10 +27,15 @@
     <script>
       (function () {
         var COUNT = "ocs-wsr-count";
+        var counterStore;
+        // Opaque host frames deliberately have no browser storage. Retrying
+        // without a persistent counter would create an unbounded reload loop.
+        try { counterStore = window.sessionStorage; counterStore.getItem(COUNT); }
+        catch (_) { return; }
         var MAX = 4;               // max opeenvolgende reloads voor we opgeven
         var done = false;
 
-        function tries() { return Number(sessionStorage.getItem(COUNT) || 0); }
+        function tries() { try { return Number(counterStore.getItem(COUNT) || 0); } catch (_) { return MAX; } }
 
         function recover(reason) {
           if (done) return;
@@ -38,7 +43,7 @@
           var n = tries();
           if (n >= MAX) return;    // opgeven: laat het witte scherm staan i.p.v. eindeloos herladen
           done = true;
-          sessionStorage.setItem(COUNT, String(n + 1));
+          try { counterStore.setItem(COUNT, String(n + 1)); } catch (_) { return; }
           // cache-bust zodat de webview niet dezelfde half-geoptimaliseerde
           // module opnieuw uit z'n cache serveert
           var u = new URL(window.location.href);
@@ -67,7 +72,7 @@
         var iv = setInterval(function () {
           var root = document.getElementById("root");
           if (root && root.childElementCount > 0) {
-            sessionStorage.removeItem(COUNT);
+            try { counterStore.removeItem(COUNT); } catch (_) { /* storage became unavailable */ }
             clearInterval(iv);
             return;
           }

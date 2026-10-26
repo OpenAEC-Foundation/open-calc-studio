@@ -42,6 +42,20 @@ cpSync(join(root, 'src-tauri/resources'), join(output, 'resources'), { recursive
 mkdirSync(join(output, 'icons'), { recursive: true });
 copyFileSync(join(root, 'src-tauri/icons/icon.png'), join(output, 'icons/icon.png'));
 if (windows) copyFileSync(join(root, 'src-tauri/WebView2Loader.dll'), join(output, 'WebView2Loader.dll'));
+if (windows && !target.includes('gnu')) {
+  // The DLL can import newer C++ runtime entry points than the runner's
+  // system installation. Ship the redistributable matching the build tools.
+  const cpu = target.startsWith('aarch64') || (!target && process.arch === 'arm64') ? 'arm64' : target.startsWith('i686') ? 'x86' : 'x64';
+  const roots = [process.env.OCS_VC_REDIST_DIR, process.env.VCToolsRedistDir].filter(Boolean);
+  const candidates = roots.flatMap(dir => {
+    const base = join(dir, cpu);
+    return [dir, ...(existsSync(base) ? readdirSync(base).filter(name => /^Microsoft\.VC\d+\.CRT$/i.test(name)).map(name => join(base, name)) : [])];
+  });
+  const crt = candidates.find(dir => existsSync(join(dir, 'vcruntime140.dll')) && existsSync(join(dir, 'msvcp140.dll')));
+  if (!crt) throw Error('Run packaging in a Visual Studio developer shell, or set OCS_VC_REDIST_DIR to the matching Microsoft.VC*.CRT directory.');
+  for (const name of readdirSync(crt).filter(name => /\.dll$/i.test(name))) copyFileSync(join(crt, name), join(output, name));
+  writeFileSync(join(output, 'licenses/MSVC-RUNTIME-NOTICE.txt'), 'Microsoft Visual C++ runtime redistributables are distributed alongside this Windows build under their Microsoft terms, not the Open Calc Studio LGPL license.\nhttps://learn.microsoft.com/cpp/windows/redistributing-visual-cpp-files\n');
+}
 const version = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).version;
 writeFileSync(join(output, 'build-info.json'), JSON.stringify({ ...buildInfo('native'), version, abi: 1, target: target || process.platform, architecture: target ? target.split('-')[0] : process.arch, profile, signed: false }, null, 2) + '\n');
 // Re-run after compiling the example host if it should be included in checksums.

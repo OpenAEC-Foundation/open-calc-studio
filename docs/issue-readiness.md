@@ -26,9 +26,11 @@ gepubliceerde release. De lokale uitgangstak was schoon op `e5bff21`.
 ## Uitgevoerde controles
 
 - TypeScript `npx tsc --noEmit`: geslaagd.
-- Volledige Vitest-suite: **626 geslaagd**, 6 overgeslagen, 82 testbestanden
+- Volledige Vitest-suite: **628 geslaagd**, 6 overgeslagen, 82 testbestanden
   geslaagd en 1 overgeslagen. Een skip is geen acceptatiebewijs.
-- Nieuwe host/opaque-frame/wizard/mobile/storage-selectie plus desktop-commandotests: 25 geslaagd.
+- De host-/storagecontroles omvatten ook de inline opstartcode, zodat geweigerde
+  sessionStorage geen foutlus veroorzaakt na het mounten of een oneindige
+  herstelpoging start.
 - Node-API-integratie: **9 geslaagd**, inclusief officiële externe MCP SDK-client,
   inline-projectpariteit, authenticatie, schema, 413/503/504 en geweigerde origin.
 - Externe stdio-MCP: gelijke rekenuitkomsten voor standaard/tarief/gemengde btw
@@ -53,6 +55,9 @@ gepubliceerde release. De lokale uitgangstak was schoon op `e5bff21`.
   ES2020-taaldoelstelling; de gebruikte bundler wordt expliciet vastgelegd.
   Browserfeatures blijven afzonderlijke runtimevereisten en moeten op de
   bedoelde apparaten worden gecontroleerd.
+- De Windows-nativecheck vond loaderfout 127 op de schone runner. MSVC-pakketten
+  nemen nu de bijbehorende app-local C++-redistributables mee; de workflow
+  registreert bij een laadfout ook de imports en behoudt het diagnosepakket.
 
 Docker en AWS CLI zijn hier niet beschikbaar. De lokale browserautomatisering
 werd door de automatische goedkeuringscontrole geweigerd; er is geen visuele
