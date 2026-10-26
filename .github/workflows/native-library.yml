@@ -58,7 +58,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          cl /nologo packages/native/host.c /Fe:release-native/win32-debug/OpenCalcStudioHost.exe
+          cl /nologo packages/native/host.c /Fe:release-native/win32-debug/OpenCalcStudioHost.exe /link /MANIFEST:EMBED
           if ($LASTEXITCODE -ne 0) { throw 'C host compilation failed' }
           & ./release-native/win32-debug/OpenCalcStudioHost.exe --abi-check
           if ($LASTEXITCODE -ne 0) {

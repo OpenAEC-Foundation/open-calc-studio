@@ -48,7 +48,14 @@ The redistributables retain their Microsoft license and signatures.
 The **host executable must activate Windows Common Controls 6 before loading
 the DLL**. The product imports `TaskDialogIndirect`; without this manifest,
 Windows selects Common Controls 5 and loading fails with error 127. The MSVC
-`host.c` example embeds the dependency with linker directives. For your own
+`host.c` example declares the dependency with a linker directive. Embed the
+generated manifest when compiling it:
+
+```bat
+cl /nologo host.c /Fe:OpenCalcStudioHost.exe /link /MANIFEST:EMBED
+```
+
+For your own
 host, merge `host.manifest` into its application manifest; a .NET project can
 set `<ApplicationManifest>host.manifest</ApplicationManifest>`. For MinGW,
 compile it as a resource with `windres` and link the resulting object into the

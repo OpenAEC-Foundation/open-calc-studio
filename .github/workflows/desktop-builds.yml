@@ -133,7 +133,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          cl /nologo packages/native/host.c /Fe:src-tauri/target/x86_64-pc-windows-msvc/release/OpenCalcStudioHost.exe
+          cl /nologo packages/native/host.c /Fe:src-tauri/target/x86_64-pc-windows-msvc/release/OpenCalcStudioHost.exe /link /MANIFEST:EMBED
           if ($LASTEXITCODE -ne 0) { throw 'C host compilation failed' }
       # This also installs signtool and the Azure dlib. Tauri signs again during
       # bundling, after patching the executable, and signs the uninstaller too.
