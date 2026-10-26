@@ -79,7 +79,9 @@ De execution role krijgt alleen het genoemde secret naast de ECS-execution
 rechten. Lever bestaande VPC/subnets, een certificaat, een digest-pinned
 image-URI en een secret-ARN met de digestlijst aan. Private subnets vereisen
 uitgaand registry-/Secrets Manager-/loggingverkeer via NAT of endpoints;
-een eigen KMS-key voor het secret vereist aanvullende, gericht ingestelde
+gebruik een openbaar containerimage of spiegel het image naar ECR. Privé-GHCR
+vereist extra registrycredentials, die dit template niet instelt. Een eigen
+KMS-key voor het secret vereist aanvullende, gericht ingestelde
 decryptrechten. De ALB-hostnaam moet bij het certificaat en je DNS passen.
 
 Dit is geen automatische productiedeploy. Het template slaagt voor

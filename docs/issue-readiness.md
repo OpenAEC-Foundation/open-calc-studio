@@ -48,6 +48,11 @@ gepubliceerde release. De lokale uitgangstak was schoon op `e5bff21`.
   `Open Calc Studio 2026.44.0; ABI 1`. Dit controleert het laden en de ABI,
   niet het visueel functioneren van het venster. Het lokale pakket is unsigned.
 - De vijf aangepaste GitHub-workflows zijn gecontroleerd met `actionlint`.
+- De eerste schone CI-installatie vond een IFC-workertransformatiefout bij
+  het oude Safari 13-bouwdoel. App, platform en embed gebruiken nu dezelfde
+  ES2020-taaldoelstelling; de gebruikte bundler wordt expliciet vastgelegd.
+  Browserfeatures blijven afzonderlijke runtimevereisten en moeten op de
+  bedoelde apparaten worden gecontroleerd.
 
 Docker en AWS CLI zijn hier niet beschikbaar. De lokale browserautomatisering
 werd door de automatische goedkeuringscontrole geweigerd; er is geen visuele

@@ -45,7 +45,9 @@ export default defineConfig({
   },
   build: {
     manifest: true,
-    target: process.env.TAURI_PLATFORM === 'windows' ? 'chrome105' : 'safari13',
+    // Same language baseline as the SDK/frame. Older Safari-target lowering
+    // cannot transform the IFC worker's destructuring with current esbuild.
+    target: 'es2020',
     minify: !process.env.TAURI_DEBUG ? 'esbuild' : false,
     sourcemap: !!process.env.TAURI_DEBUG,
     chunkSizeWarningLimit: 2048,
