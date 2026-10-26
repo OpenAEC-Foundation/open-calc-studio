@@ -11,7 +11,7 @@ function storage(area: 'localStorage' | 'sessionStorage'): Storage {
     setItem(key, value) {
       const store = native();
       if (!store) { fallback.set(key, String(value)); return; }
-      try { store.setItem(key, String(value)); } catch { fallback.set(key, String(value)); }
+      try { store.setItem(key, String(value)); fallback.delete(key); } catch { fallback.set(key, String(value)); }
     },
     removeItem(key) { fallback.delete(key); try { native()?.removeItem(key); } catch { /* unavailable */ } },
     clear() { fallback.clear(); try { native()?.clear(); } catch { /* unavailable */ } },

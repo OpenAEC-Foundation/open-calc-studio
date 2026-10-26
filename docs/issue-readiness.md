@@ -7,7 +7,7 @@ gepubliceerde release. De lokale uitgangstak was schoon op `e5bff21`.
 | --- | --- | --- |
 | [#28](https://github.com/OpenAEC-Foundation/open-calc-studio/issues/28) Hostcontract | Optionele en later geïnjecteerde `openaecHost`, initialFileId, open/save/list/versions, foutafhandeling en opaque-frameondersteuning | Werkelijke SuperCloud/Frappe-brug, browser- en printtest in de exacte sandbox, gehost releaseartifact publiceren |
 | [#27](https://github.com/OpenAEC-Foundation/open-calc-studio/issues/27) Versies | Alle productpakketten 2026.44.0; ISO-weekscript, MSI 26.44.0, version-PR en tagcontrole | Volgende releasetag via deze workflow uitvoeren |
-| [#26](https://github.com/OpenAEC-Foundation/open-calc-studio/issues/26) Ecosysteem | Capabilitymatrix, pure rekenservice, extern geteste HTTP/stdio-MCP, native buildmatrix, Blueprint-bronpin, release- en AWS-definities | Schone Windows/macOS/Linux-installaties, echte ondertekende artifacts, Claude Desktop/Code acceptatie, container-CI en AWS-runtimebewijs |
+| [#26](https://github.com/OpenAEC-Foundation/open-calc-studio/issues/26) Ecosysteem | Capabilitymatrix, pure rekenservice, extern geteste HTTP/stdio-MCP, native buildmatrix, geteste container-CI, Blueprint-bronpin, release- en AWS-definities | Schone Windows/macOS/Linux-installaties, complete releaseondertekening, Claude Desktop/Code acceptatie en AWS-runtimebewijs |
 | [#25](https://github.com/OpenAEC-Foundation/open-calc-studio/issues/25) Mobiel | Bestaande mobiele editor behouden; wizard toegevoegd en gedeelde bestands-/rekenkern gebruikt | Android Chrome en iPhone Safari via HTTPS; bestanden, terugkeer, concept en touch handmatig verifiëren |
 | [#24](https://github.com/OpenAEC-Foundation/open-calc-studio/issues/24) Licentie | LICENSE/COPYING/NOTICE, LGPL-3.0-only in eigen manifests, Blueprint/fontnotices en gebundelde npm-notices | Distributiecontrole van de echte release blijft onderdeel van publicatie |
 | [#23](https://github.com/OpenAEC-Foundation/open-calc-studio/issues/23) F12/contextmenu | Blokkade uitsluitend in productie binnen Tauri | Browserbediening visueel controleren |
@@ -26,11 +26,12 @@ gepubliceerde release. De lokale uitgangstak was schoon op `e5bff21`.
 ## Uitgevoerde controles
 
 - TypeScript `npx tsc --noEmit`: geslaagd.
-- Volledige Vitest-suite: **628 geslaagd**, 6 overgeslagen, 82 testbestanden
+- Volledige Vitest-suite: **629 geslaagd**, 6 overgeslagen, 82 testbestanden
   geslaagd en 1 overgeslagen. Een skip is geen acceptatiebewijs.
 - De host-/storagecontroles omvatten ook de inline opstartcode, zodat geweigerde
   sessionStorage geen foutlus veroorzaakt na het mounten of een oneindige
-  herstelpoging start.
+  herstelpoging start. Een voorkeur die na een tijdelijke opslagfout alsnog
+  naar browserstorage wordt geschreven, vervangt ook de oude geheugenwaarde.
 - Node-API-integratie: **9 geslaagd**, inclusief officiële externe MCP SDK-client,
   inline-projectpariteit, authenticatie, schema, 413/503/504 en geweigerde origin.
 - Externe stdio-MCP: gelijke rekenuitkomsten voor standaard/tarief/gemengde btw
@@ -44,6 +45,8 @@ gepubliceerde release. De lokale uitgangstak was schoon op `e5bff21`.
 - ISO-week-/versietests en manifestcontrole; workflow-YAML en Linux-signingshell
   syntactisch gecontroleerd. GitHub-uitvoering is afzonderlijk bewijs.
 - Fargate CloudFormation: `cfn-lint` geslaagd; geen echte AWS-deploy uitgevoerd.
+- GitHub-containercontrole geslaagd: non-root, read-only bestandssysteem,
+  healthcheck, geweigerd verzoek zonder sleutel en echte inline-calculatie.
 
 - Linux x64 native app én `.so` gebouwd, Rust ABI-metadata-/thread-local-test
   geslaagd en de nieuwe bibliotheek geladen vanuit de C-host:

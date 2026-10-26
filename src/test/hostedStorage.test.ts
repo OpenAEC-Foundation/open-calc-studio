@@ -11,6 +11,23 @@ it('continues with in-memory preferences when an opaque origin denies browser st
   localStore.removeItem('ocs-hosted-test');
   expect(localStore.getItem('ocs-hosted-test')).toBeNull();
 });
+it('uses the latest preference after browser storage becomes writable again', () => {
+  const key = 'ocs-storage-recovery';
+  const values = new Map<string, string>();
+  let blocked = true;
+  vi.stubGlobal('localStorage', {
+    setItem(name: string, value: string) { if (blocked) throw new DOMException('Full', 'QuotaExceededError'); values.set(name, value); },
+    getItem: (name: string) => values.get(name) ?? null,
+    removeItem: (name: string) => values.delete(name),
+  });
+  localStore.setItem(key, 'previous');
+  expect(localStore.getItem(key)).toBe('previous');
+  blocked = false;
+  localStore.setItem(key, 'current');
+  expect(localStore.getItem(key)).toBe('current');
+  expect(values.get(key)).toBe('current');
+  localStore.removeItem(key);
+});
 it('loads public assets beneath a configured Frappe subpath', () => {
   vi.stubEnv('BASE_URL', '/assets/tools/calc/');
   expect(publicAsset('/data/voorbeeld.ifcCalc')).toBe('/assets/tools/calc/data/voorbeeld.ifcCalc');
