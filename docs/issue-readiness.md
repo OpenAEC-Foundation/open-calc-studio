@@ -21,7 +21,7 @@ gepubliceerde release. De lokale uitgangstak was schoon op `e5bff21`.
 | [#15](https://github.com/OpenAEC-Foundation/open-calc-studio/issues/15) DynLex | Scope-inventarisatie, uitvoerbare huidige baseline, prototypecontract, meet-/migratieplan | DynLex-prototype, grote UI-metingen en onderbouwd go/no-go; geen herschrijving afgerond |
 | [#14](https://github.com/OpenAEC-Foundation/open-calc-studio/issues/14) Wizard | Vijf stappen, dezelfde store/calculator, foutinvoer, terugkeer, mobiel en embed mode | Visuele/toegankelijkheidsacceptatie met echte gebruikers en apparaten |
 | [#12](https://github.com/OpenAEC-Foundation/open-calc-studio/issues/12) Handleiding | README, NL/EN-handleiding, wizard-, host-, Blueprint- en API-documentatie; wiki-bron bijgewerkt | De afzonderlijke GitHub-wiki publiceren/controleren |
-| [#2](https://github.com/OpenAEC-Foundation/open-calc-studio/issues/2) macOS | Bestaande Developer ID/notarisatieverificatie blijft verplicht; nieuwe bronversie erdoorheen | Met echte Apple-credentials een DMG bouwen, de geleverde app verifiëren en op een schone Mac starten |
+| [#2](https://github.com/OpenAEC-Foundation/open-calc-studio/issues/2) macOS | Developer ID, Apple-notarisatie en gestapeld ticket geverifieerd; volledige DMG-controle controleert ook beide PDF-hulpprogramma's | Volledige DMG-run moet groen zijn; daarna starten en functies testen op een schone Mac |
 
 ## Uitgevoerde controles
 
@@ -69,8 +69,16 @@ gepubliceerde release. De lokale uitgangstak was schoon op `e5bff21`.
   geslaagd (run 40351838266, Windows-job); installers, DLL en host zijn gecontroleerd.
 - De universele macOS-app miste de meegebouwde PDF-hulpprogramma's in de
   gecombineerde uitvoermap. Een bundelhaak combineert nu beide architecturen
-  voor deze binaries; vier lokale bundelhaaktests slagen. Een nieuwe
-  macOS-signingrun moet de volledige notarisation-/DMG-controle bevestigen.
+  voor deze binaries; vier lokale bundelhaaktests slagen. Beide Cargo-targets
+  staan expliciet in het manifest, zodat Tauri niet één automatisch ontdekt
+  hulpprogramma overslaat.
+- [Run 40365958317](https://github.com/OpenAEC-Foundation/open-calc-studio/actions/runs/40365958317)
+  kreeg Apple-status `Accepted`; strict codesign, Gatekeeper (`Notarized Developer ID`)
+  en ticketvalidatie slaagden op de app uit het DMG. De complete pakketcontrole
+  vond vervolgens de ontbrekende `gen_pdf` en weigerde het artifact.
+  De [herhaalde DMG-controle](https://github.com/OpenAEC-Foundation/open-calc-studio/actions/runs/40370648122)
+  controleert na de manifestfix alle drie de executables. Alleen een volledig
+  groene run telt als bewijs voor het complete installatiepakket.
 
 Docker en AWS CLI zijn hier niet beschikbaar. De lokale browserautomatisering
 werd door de automatische goedkeuringscontrole geweigerd; er is geen visuele
