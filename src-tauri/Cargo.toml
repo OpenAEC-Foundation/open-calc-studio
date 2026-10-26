@@ -14,6 +14,16 @@ rust-version = "1.77.2"
 
 default-run = "open-calc-studio"
 
+# Tauri's automatic src/bin discovery can omit an auxiliary executable when
+# several binaries have no explicit source path. Keep both PDF tools in bundles.
+[[bin]]
+name = "gen_pdf"
+path = "src/bin/gen_pdf.rs"
+
+[[bin]]
+name = "render_view_pdf"
+path = "src/bin/render_view_pdf.rs"
+
 [lib]
 name = "app_lib"
 crate-type = ["cdylib", "staticlib", "rlib"]
