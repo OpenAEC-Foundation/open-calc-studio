@@ -61,6 +61,7 @@ export const LANGUAGES: LanguageDef[] = [
   { code: "it", name: "Italiano", englishName: "Italian" },
   { code: "ja", name: "日本語", englishName: "Japanese" },
   { code: "ko", name: "한국어", englishName: "Korean" },
+  { code: "lo", name: "Lao (ພາສາລາວ)", englishName: "Lao" },
   { code: "ms", name: "Bahasa Melayu", englishName: "Malay" },
   { code: "nb", name: "Norsk", englishName: "Norwegian" },
   { code: "pl", name: "Polski", englishName: "Polish" },

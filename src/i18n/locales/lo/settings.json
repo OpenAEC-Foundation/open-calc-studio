@@ -1,0 +1,69 @@
+{
+  "title": "ການຕັ້ງຄ່າ",
+  "resetToDefaults": "ຕັ້ງຄ່າຄືນເປັນຄ່າເລີ່ມຕົ້ນ",
+  "resetConfirm": "ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການຕັ້ງຄ່າທັງໝົດຄືນໃໝ່?",
+  "tabs": {
+    "general": "ທົ່ວໄປ",
+    "appearance": "ຮູບລັກສະນະ",
+    "grid": "ຕາໜ່າງ",
+    "files": "ໄຟລ໌",
+    "shortcuts": "ປຸ່ມລັດ",
+    "plugins": "ປລັກອິນ",
+    "about": "ກ່ຽວກັບ"
+  },
+  "general": {
+    "application": "ແອັບພລິເຄຊັນ",
+    "language": "ພາສາ",
+    "reportLanguage": "ພາສາລາຍງານ",
+    "reportLanguageAuto": "ຄືກັນກັບສ່ວນຕິດຕໍ່ຜູ້ໃຊ້",
+    "reportLanguageHelp": "ພາສາສຳລັບເອກະສານພິມອອກ ແລະ ລາຍງານ PDF. ສະດວກໃນເວລາທີ່ພາສາສ່ວນຕິດຕໍ່ຜູ້ໃຊ້ແຕກຕ່າງຈາກພາສາຂອງລູກຄ້າ.",
+    "startup": "ຕອນເລີ່ມຕົ້ນ",
+    "restoreSession": "ກູ້ຄືນເຊສຊັນຕອນເລີ່ມຕົ້ນ",
+    "checkUpdates": "ກວດສອບການອັບເດດ",
+    "author": "ຜູ້ສ້າງ",
+    "authorName": "ຊື່"
+  },
+  "appearance": {
+    "theme": "ຮູບແບບສີສັນ",
+    "system": "ຕາມລະບົບ",
+    "default": "ຄ່າເລີ່ມຕົ້ນ",
+    "dark": "ມືດ",
+    "light": "ແຈ້ງ",
+    "blue": "ສີຟ້າ",
+    "amberNavy": "ສີອຳພັນ-ກົມມະທ່າ",
+    "warmEmber": "ສີຖ່ານໄຟອຸ່ນ",
+    "highContrast": "ຄວາມຄົມຊັດສູງ",
+    "font": "ຕົວອັກສອນ",
+    "uiFontSize": "ຂະໜາດຕົວອັກສອນ UI"
+  },
+  "grid": {
+    "general": "ຕາໜ່າງ",
+    "showRowNumbers": "ສະແດງເລກແຖວ",
+    "alternateRowColors": "ສະຫຼັບສີແຖວ"
+  },
+  "files": {
+    "autoSave": "ບັນທຶກອັດຕະໂນມັດ",
+    "autoSaveOption": "ບັນທຶກອັດຕະໂນມັດ",
+    "off": "ປິດ",
+    "afterDelay": "ຫຼັງຈາກໜ່ວງເວລາ",
+    "onFocusChange": "ເມື່ອປ່ຽນຈຸດໂຟກັສ",
+    "onWindowChange": "ເມື່ອປ່ຽນໜ້າຕ່າງ",
+    "encoding": "ການເຂົ້າລະຫັດຕົວອັກສອນ",
+    "defaultEncoding": "ການເຂົ້າລະຫັດເລີ່ມຕົ້ນ",
+    "backup": "ສຳຮອງຂໍ້ມູນ",
+    "autoBackup": "ສຳຮອງຂໍ້ມູນອັດຕະໂນມັດ"
+  },
+  "shortcuts": {
+    "placeholder": "ປຸ່ມລັດຈະຖືກກຳນົດຄ່າຢູ່ນີ້"
+  },
+  "plugins": {
+    "placeholder": "ປລັກອິນຈະຖືກຈັດການຢູ່ນີ້"
+  },
+  "about": {
+    "appName": "Open Calc Studio",
+    "version": "ເວີຊັນ",
+    "framework": "ເຟຣມເວິກ",
+    "license": "ໃບອະນຸຍາດ",
+    "description": "ໂປຣແກຣມຄິດໄລ່ງົບປະມານແບບໂອເພນຊອສ ສຳລັບວຽກງານກໍ່ສ້າງເນເທີແລນ. ບັນທຶກຂໍ້ມູນໃນຮູບແບບ IFC."
+  }
+}
