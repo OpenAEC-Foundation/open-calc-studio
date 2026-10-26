@@ -22,5 +22,14 @@ mounted=false
 codesign --verify --deep --strict --verbose=2 "$app"
 spctl --assess --type execute --verbose=4 "$app"
 xcrun stapler validate "$app"
-# The artifact must really contain both Intel and Apple Silicon code.
-lipo -verify_arch x86_64 arm64 "$app/Contents/MacOS/Open Calc Studio"
+# Check the delivered app and PDF helpers, rather than just their build inputs.
+for executable in 'Open Calc Studio' gen_pdf render_view_pdf; do
+  binary="$app/Contents/MacOS/$executable"
+  architectures="$(lipo -archs "$binary")"
+  for architecture in x86_64 arm64; do
+    if [[ " $architectures " != *" $architecture "* ]]; then
+      echo "::error::$executable is missing $architecture"
+      exit 1
+    fi
+  done
+done
