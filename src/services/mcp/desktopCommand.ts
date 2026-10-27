@@ -113,8 +113,11 @@ export async function executeDesktopCommand(action: string, params: Record<strin
     const result = await fn(...args);
     if (action === 'undo' || action === 'redo') { if (Array.isArray(result)) useAppStore.setState({items:recalculateItems(result,store.schedule.tarieven)}); }
     const current = useAppStore.getState();
-    if (current.items !== before.items && !['undo','redo'].includes(action) && current.undoStack === before.undoStack) current.pushHistory(before.items, `MCP: ${action}`);
-    if (current.items !== before.items || current.schedule !== before.schedule || current.offerte !== before.offerte || current.subSheets !== before.subSheets || current.snapshots !== before.snapshots) {
+    // Document navigation restores that document's own history. Treating the
+    // newly active rows as an edit would put another document into its undo stack.
+    const documentNavigation = ['addDocument', 'removeDocument', 'setActiveDocument'].includes(action);
+    if (!documentNavigation && current.items !== before.items && !['undo','redo'].includes(action) && current.undoStack === before.undoStack) current.pushHistory(before.items, `MCP: ${action}`);
+    if (!documentNavigation && (current.items !== before.items || current.schedule !== before.schedule || current.offerte !== before.offerte || current.subSheets !== before.subSheets || current.snapshots !== before.snapshots)) {
       if (current.activeDocumentId) current.updateDocument(current.activeDocumentId,{isModified:true});
     }
     return { result:result ?? null, activeDocumentId:current.activeDocumentId };

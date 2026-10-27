@@ -5,6 +5,17 @@ import catalogue from '../services/mcp/desktopActions.json';
 const initial=useAppStore.getState();
 beforeEach(()=>{useAppStore.setState(initial,true);useAppStore.getState().addDocument({fileName:'MCP test',items:[]});});
 describe('MCP desktop command boundary',()=>{
+ it('keeps document navigation out of the target document undo history and dirty state',async()=>{
+  const original=useAppStore.getState().activeDocumentId;
+  const second=await executeDesktopCommand('addDocument',{tab:{fileName:'Second estimate',items:[]}}) as {activeDocumentId:string};
+  await executeDesktopCommand('addChapter',{parentId:null});
+  await executeDesktopCommand('setActiveDocument',{id:original});
+  expect(useAppStore.getState().undoStack).toHaveLength(0);
+  expect(useAppStore.getState().documents.find(doc=>doc.id===original)?.isModified).toBe(false);
+  await executeDesktopCommand('removeDocument',{id:second.activeDocumentId});
+  expect(useAppStore.getState().undoStack).toHaveLength(0);
+  expect(useAppStore.getState().documents.find(doc=>doc.id===original)?.isModified).toBe(false);
+ });
  it('covers every JSON-callable store action and explicitly lists callback-only hooks',()=>{
   const methods=Object.keys(useAppStore.getState()).filter(k=>typeof(useAppStore.getState() as any)[k]==='function');
   expect(methods.filter(k=>!(k in catalogue.actions)&&!(k in catalogue.excluded))).toEqual([]);
