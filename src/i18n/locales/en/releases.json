@@ -124,6 +124,7 @@
       "Hours and Markups tabs combined; IBIS-style report (Bouw 2)"
     ],
     "v2026.44.0-dev": [
+      "New workspace with persistent navigation, project header and live estimate total; official Blueprint typography across controls, without competing font registrations.",
       "Five official Blueprint themes with local fonts and the shared calculation UI",
       "Optional five-step estimate wizard with a direct return to the full editor",
       "Host files and versions with conflict protection, plus a separate REST/HTTP-MCP calculator",

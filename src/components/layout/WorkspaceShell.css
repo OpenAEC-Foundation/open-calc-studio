@@ -1,0 +1,125 @@
+/* Product layout built with Blueprint 0.4 roles; the vendored source is unchanged. */
+.calc-studio-shell {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+}
+.workspace-nav {
+  display: flex;
+  flex-direction: column;
+  width: 208px;
+  flex: 0 0 208px;
+  padding: var(--oa-space-lg) var(--oa-space-sm) var(--oa-space-sm);
+  background: var(--oa-frame);
+  border-right: 1px solid var(--oa-border);
+  overflow: auto;
+}
+.workspace-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--oa-space-md);
+  padding: 4px 8px 20px;
+  border: 0;
+  background: transparent;
+  color: var(--oa-text);
+  text-align: left;
+  cursor: pointer;
+}
+.workspace-brand strong { display: block; font: 500 20px / 1.2 var(--oa-font-heading); letter-spacing: var(--oa-letter-spacing-heading); }
+.workspace-brand small { display: block; margin-top: 3px; color: var(--oa-text-secondary); font: 10px / 1.4 var(--oa-font-mono); }
+.workspace-open { justify-content: center; margin: 0 4px 20px; min-height: 32px; }
+.workspace-nav-sections { flex: 1; }
+.workspace-nav section + section { margin-top: var(--oa-space-xl); }
+.workspace-nav h2 { padding: 0 12px; margin: 0 0 8px; font-weight: 400; }
+.workspace-nav-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 36px;
+  margin: 2px 0;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: var(--oa-radius-medium);
+  color: var(--oa-text-secondary);
+  background: transparent;
+  font: 500 var(--oa-size-body) / 1.4 var(--oa-font-body);
+  text-align: left;
+  cursor: pointer;
+}
+.workspace-nav-item:hover { color: var(--oa-text); background: var(--oa-hover); }
+.workspace-nav-item[aria-current="page"] { background: var(--oa-selected); color: var(--oa-accent-text); box-shadow: inset 3px 0 var(--oa-selected-bar); font-weight: 600; }
+.workspace-nav-item:disabled { color: var(--oa-text-disabled); cursor: default; background: transparent; box-shadow: none; }
+.workspace-nav-item .oa-icon { width: 18px; height: 18px; }
+.workspace-nav-footer { border-top: 1px solid var(--oa-border); margin-top: 20px; padding-top: 8px; }
+.workspace-version { display: block; padding: 8px 12px; color: var(--oa-text-secondary); font: 9px / 1.5 var(--oa-font-mono); }
+.workspace-header {
+  display: flex;
+  align-items: center;
+  gap: var(--oa-space-xl);
+  min-height: 100px;
+  flex-shrink: 0;
+  padding: 16px 24px;
+  background: var(--oa-panel);
+  border-bottom: 1px solid var(--oa-border);
+}
+.workspace-heading { flex: 1; min-width: 0; }
+.workspace-breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; font: 10px / 1.4 var(--oa-font-mono); color: var(--oa-text-secondary); }
+.workspace-breadcrumb > span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.workspace-heading h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.25; }
+.workspace-document-status { display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; color: var(--oa-text-secondary); font-size: 11px; }
+.workspace-status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--oa-text-secondary); }
+.workspace-status-dot.is-modified { background: var(--oa-accent); }
+.workspace-total { display: flex; flex-direction: column; gap: 4px; text-align: right; }
+.workspace-total > strong { font-size: 22px; font-weight: 600; letter-spacing: -.02em; white-space: nowrap; }
+.workspace-save { flex-shrink: 0; }
+.workspace-body { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+.workspace-body > .cost-grid-wrapper { flex: 1; height: auto; min-height: 0; }
+.workspace-project-drawer { position: absolute; inset: 0; z-index: 200; display: flex; }
+.workspace-drawer-scrim { position: absolute; inset: 0; border: 0; background: var(--oa-overlay); cursor: pointer; }
+.workspace-project-drawer .start-sidebar { width: min(380px, 85vw); box-shadow: var(--oa-shadow-dialog); }
+.calc-studio-shell .start-empty-main { gap: 12px; }
+
+/* Apply the Blueprint typography to the existing chrome as well as new components. */
+:root { font-family: var(--oa-font-body); }
+:where(button, input, select, textarea) { font-family: var(--oa-font-body); }
+.calc-studio-shell .titlebar-title { font-family: var(--oa-font-heading); font-weight: 500; }
+.calc-studio-shell .ribbon-tab { font-family: var(--oa-font-body); font-size: var(--oa-size-body); border-radius: 0; }
+.calc-studio-shell .ribbon-tabs { align-items: stretch; border-bottom-color: var(--oa-border); }
+.calc-studio-shell .ribbon-tab.active { margin-bottom: 0; padding-bottom: 6px; box-shadow: inset 0 -2px var(--oa-accent); }
+.calc-studio-shell .ribbon-tab-border, .calc-studio-shell .ribbon-tab-gap { display: none; }
+.calc-studio-shell .ribbon-group-label { font: 400 9px / 1.4 var(--oa-font-mono); letter-spacing: var(--oa-letter-spacing-mono-label); }
+.calc-studio-shell .file-tab-bar { height: var(--oa-shell-document-tabs); padding: 0 8px; gap: 0; }
+.calc-studio-shell .file-tab { height: var(--oa-shell-document-tabs); border: 0; border-right: 1px solid var(--oa-border); border-radius: 0; padding: 0 10px; margin: 0; font-family: var(--oa-font-body); }
+.calc-studio-shell .file-tab.active { background: var(--oa-panel); box-shadow: inset 0 2px var(--oa-accent); color: var(--oa-text); }
+.calc-studio-shell .grid-header-cell { font-family: var(--oa-font-mono); font-weight: 400; }
+.calc-studio-shell .grid-header { background: var(--oa-panel); border-bottom-color: var(--oa-border-strong); }
+.calc-studio-shell .grid-cell.align-right { font-family: var(--oa-font-numbers); font-variant-numeric: tabular-nums; }
+.calc-studio-shell .grid-row.grid-row-active { box-shadow: inset 3px 0 var(--oa-selected-bar); background: var(--oa-selected); }
+.calc-studio-shell .grid-view-wpcalc .grid-row-active { box-shadow: inset 3px 0 var(--oa-selected-bar) !important; }
+.calc-studio-shell .modal-title { font-family: var(--oa-font-heading); font-weight: 500; }
+.calc-studio-shell .subsheet-tab-bar { background: var(--oa-panel); border-top: 1px solid var(--oa-border); }
+.calc-studio-shell .subsheet-tab { font-family: var(--oa-font-body); }
+@media (max-width: 1200px) {
+  .workspace-nav { width: 184px; flex-basis: 184px; }
+  .workspace-nav-item { gap: 8px; padding: 8px; }
+  .workspace-header { padding: 12px 16px; gap: 16px; }
+  .workspace-total > strong { font-size: 19px; }
+}
+@media (max-width: 980px) {
+  .workspace-nav { width: 64px; flex-basis: 64px; padding: 12px 6px; }
+  .workspace-brand { justify-content: center; padding: 4px 0 16px; }
+  .workspace-brand > span, .workspace-nav h2, .workspace-nav-item > span, .workspace-version { display: none; }
+  .workspace-nav-item { justify-content: center; padding: 10px; }
+  .workspace-open { font-size: 0; padding: 0; margin: 0 0 16px; }
+  .workspace-open .oa-icon { width: 18px; height: 18px; }
+  .workspace-total .oa-mono-label { max-width: 140px; font-size: 9px; }
+  .workspace-heading h1 { font-size: 18px; }
+}
+@media (forced-colors: active) {
+  .workspace-nav-item[aria-current="page"] { color: HighlightText; background: Highlight; border-left: 3px solid Highlight; box-shadow: none; }
+  .workspace-status-dot { background: CanvasText; }
+}

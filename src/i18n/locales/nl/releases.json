@@ -124,6 +124,7 @@
       "Uren- en Staart-tab gecombineerd; IBIS-stijl rapport (Bouw 2)"
     ],
     "v2026.44.0-dev": [
+      "Nieuwe werkruimte met vaste navigatie, projectkop en live begrotingstotaal; officiële Blueprint-lettertypen in alle bedieningselementen, zonder dubbele fontdefinities.",
       "Vijf officiële Blueprint-thema’s met lokaal meegeleverde fonts en dezelfde calculatie-UI",
       "Optionele calculatiewizard in vijf stappen; direct terug naar de volledige editor",
       "Hostbestanden en versies met conflictbescherming, plus een aparte REST/HTTP-MCP-rekenservice",

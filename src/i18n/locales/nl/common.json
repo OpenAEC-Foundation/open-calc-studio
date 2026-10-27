@@ -949,6 +949,27 @@
     },
     "extensionNames": {
       "builtin-inschrijfstaat-importer": "Inschrijfstaat Importer"
+    },
+    "shell": {
+      "navigation": "Werkruimtenavigatie",
+      "estimate": "Begroting",
+      "prompt": "Prompt & Begroot",
+      "wizard": "Begeleid begroten",
+      "hours": "Uren & opslagen",
+      "report": "Rapporten",
+      "model": "3D & hoeveelheden",
+      "pdf": "PDF & metingen",
+      "sheets": "Rekenbladen",
+      "ifc": "IFC-gegevens",
+      "quotation": "Offerte",
+      "summary": "Samenvatting",
+      "projects": "Projecten & bestanden",
+      "workspace": "Werkruimte",
+      "sources": "Tekeningen & gegevens",
+      "unsaved": "Niet-opgeslagen wijzigingen",
+      "saved": "Opgeslagen",
+      "local": "Lokaal document",
+      "total": "Begroting · excl. btw"
     }
   }
 }

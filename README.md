@@ -35,7 +35,7 @@ For the mobile browser, serve a web build over HTTPS. Android and iPhone use the
 - Optional five-step **calculation wizard** sharing the editor's project and calculator, with a direct return to the full editor.
 - **Prompt & Begroot** for reviewing proposed estimate changes before applying them.
 - Import/export for native `.ifcCalc`, BC3, ÖNORM A 2063, CUF/RSX and IFC; importers for legacy Dutch tools, GAEB, IBIS-TRAD and spreadsheets. See [format support and limitations](docs/wereldwijde-uitwisseling.md).
-- Official [OpenAEC Blueprint](docs/blueprint-alignment.md) web tokens, local fonts and five themes, with product-specific calculation components.
+- A workspace with persistent navigation, a project header and live estimate total, using official [OpenAEC Blueprint](docs/blueprint-alignment.md) typography, local fonts and five themes. Project files open in a drawer; spreadsheet tabs stay beside the estimate.
 - Hosted platform build with optional `window.openaecHost` storage, file versions and conflict protection; no own accounts, user extensions or personal AI keys in this build.
 - React/JavaScript SDK, isolated iframe embedding, standalone stdio MCP, desktop automation API, and a separate authenticated headless REST/HTTP-MCP calculation service.
 

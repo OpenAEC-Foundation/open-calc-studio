@@ -7,6 +7,8 @@ import { localStore } from '@/utils/browserStorage';
 import { lazy, Suspense, useState, useEffect, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import TitleBar from "./components/layout/TitleBar";
+import { WorkspaceNavigation } from './components/layout/WorkspaceNavigation';
+import { WorkspaceHeader } from './components/layout/WorkspaceHeader';
 import Ribbon from "./components/ribbon/Ribbon";
 import StatusBar from "./components/layout/StatusBar";
 import Backstage from "./components/backstage/Backstage";
@@ -58,6 +60,7 @@ import "./styles/blueprint/openaec-tokens.css";
 import "./styles/blueprint/openaec-fonts.css";
 import "./styles/blueprint/openaec-components.css";
 import "./styles/blueprintBridge.css";
+import "./components/layout/WorkspaceShell.css";
 
 /**
  * Open de meegeleverde voorbeeldbegroting in de taal van de interface:
@@ -429,13 +432,23 @@ function App() {
     return () => { unlisten?.(); };
   }, [t]);
 
-  // Start sidebar state — persistent welcome/start screen on the far left
-  const [startSidebarOpen, setStartSidebarOpen] = useState<boolean>(() => {
-    const stored = localStore.getItem("ocs-start-sidebar-open");
-    return stored === null ? true : stored === "true";
-  });
+  const [startSidebarOpen, setStartSidebarOpen] = useState(false);
+  const projectDrawerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    localStore.setItem("ocs-start-sidebar-open", String(startSidebarOpen));
+    if (!startSidebarOpen) return;
+    const previousFocus = document.activeElement as HTMLElement | null;
+    projectDrawerRef.current?.querySelector<HTMLButtonElement>('.start-sidebar-close-btn')?.focus();
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); setStartSidebarOpen(false); }
+      if (event.key !== 'Tab') return;
+      const buttons = projectDrawerRef.current?.querySelectorAll<HTMLButtonElement>('button:not(:disabled)');
+      if (!buttons?.length) return;
+      const first = buttons[0], last = buttons[buttons.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    };
+    document.addEventListener('keydown', handleKey, true);
+    return () => { document.removeEventListener('keydown', handleKey, true); previousFocus?.focus(); };
   }, [startSidebarOpen]);
 
   // Left panel state
@@ -465,13 +478,14 @@ function App() {
   // Left panel resize handler
   const handleLeftResizeMouseDown = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
+    const panelLeft = e.currentTarget.parentElement?.getBoundingClientRect().left ?? 0;
     isLeftResizing.current = true;
     document.body.style.cursor = "col-resize";
     document.body.style.userSelect = "none";
 
     const handleMouseMove = (ev: MouseEvent) => {
       if (!isLeftResizing.current) return;
-      setLeftPanelWidth(Math.max(160, Math.min(480, ev.clientX)));
+      setLeftPanelWidth(Math.max(160, Math.min(480, ev.clientX - panelLeft)));
     };
 
     const handleMouseUp = () => {
@@ -522,7 +536,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className="oa-app calc-studio-shell">
       <HostFileDialog />
       {hostError && <div className="oa-banner" role="alert">{hostError}</div>}
       <TitleBar onSettingsClick={() => setSettingsOpen(true)} onFeedbackClick={() => setFeedbackOpen(true)} />
@@ -543,27 +557,19 @@ function App() {
         </div>
       )}
       <div className="content">
-        {/* Start sidebar — always visible (collapsible) */}
-        {!startSidebarOpen && (
-          <button
-            className="start-sidebar-collapsed-tab"
-            onClick={() => setStartSidebarOpen(true)}
-            title={t('start')}
-          >
-            <span>{t('start')}</span>
-          </button>
-        )}
+        <WorkspaceNavigation onStart={() => setStartSidebarOpen(value => !value)} onSettings={() => setSettingsOpen(true)} />
         {startSidebarOpen && (
-          <StartSidebar
-            onLoadVoorbeeld={loadVoorbeeldBudget}
-            onClose={() => setStartSidebarOpen(false)}
-          />
+          <div className="workspace-project-drawer" ref={projectDrawerRef} role="dialog" aria-modal="true" aria-label={t('start')}>
+            <button className="workspace-drawer-scrim" aria-label={t('close')} onClick={() => setStartSidebarOpen(false)} />
+            <StartSidebar onLoadVoorbeeld={() => { loadVoorbeeldBudget(); setStartSidebarOpen(false); }} onClose={() => setStartSidebarOpen(false)} />
+          </div>
         )}
 
         {documents.length === 0 ? (
           <div className="start-empty-main">
             <h3>{t("appName")}</h3>
             <p>{t('app.noBudgetOpen')}</p>
+            <button className="oa-button oa-button--primary" onClick={() => setStartSidebarOpen(true)}>{t('open')}</button>
           </div>
         ) : (
         <>
@@ -600,6 +606,8 @@ function App() {
         )}
 
         <main className="main-view">
+          <WorkspaceHeader />
+          <div className="workspace-body">
           {activeContentTab === 'spreadsheet' && <SpreadsheetReturnBar />}
           {activeContentTab === 'spreadsheet' ? (
             activeSubSheetId && subSheets.some(s => s.id === activeSubSheetId) ? (
@@ -644,7 +652,8 @@ function App() {
             </>
           )}
           {/* Bottom tab bar: Begroting + Blad N + "+" — shown on grid & spreadsheet views */}
-          <SubSheetTabBar />
+          <SubSheetTabBar sheetsOnly />
+          </div>
         </main>
 
         {/* Right panel — Properties */}
@@ -713,7 +722,7 @@ function App() {
       <UnsavedChangesDialog open={unsavedDialog.open} fileName={unsavedDialog.fileName} onResult={handleUnsavedResult} />
       <ResourcePicker />
       <WizardModal open={activeDialog === 'wizard'} onClose={closeDialog} />
-    </>
+    </div>
   );
 }
 

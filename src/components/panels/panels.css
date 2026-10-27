@@ -13,7 +13,7 @@
   border-radius: 4px;
   padding: 6px 10px;
   font-size: 11px;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--oa-font-body);
   outline: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
@@ -31,7 +31,7 @@
   border-radius: 4px;
   padding: 6px 10px;
   font-size: 11px;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--oa-font-body);
   outline: none;
   resize: none;
   height: 64px;
@@ -110,7 +110,7 @@
   border-radius: 4px;
   color: var(--theme-text-secondary);
   font-size: 11px;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--oa-font-body);
   cursor: pointer;
   text-align: center;
   transition: border-color 0.15s ease, color 0.15s ease;
@@ -164,7 +164,7 @@
   max-height: 80vh;
   display: flex;
   flex-direction: column;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--oa-font-body);
 }
 
 .resource-picker-header {
@@ -207,7 +207,7 @@
   border-radius: 8px;
   color: var(--theme-dialog-input-text);
   font-size: 13px;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--oa-font-body);
   outline: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
@@ -327,7 +327,7 @@
   border: 1.5px solid var(--theme-btn-primary-border);
   border-radius: 8px;
   font-size: 12px;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--oa-font-body);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.15s ease;

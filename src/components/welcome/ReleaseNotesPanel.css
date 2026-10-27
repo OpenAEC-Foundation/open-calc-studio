@@ -6,14 +6,14 @@
   padding: 24px 20px;
   overflow-y: auto;
   flex-shrink: 0;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--oa-font-body);
 }
 
 .welcome-brand h3 {
   margin: 0 0 4px;
-  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  font-family: var(--oa-font-heading);
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: -0.01em;
   color: var(--theme-text);
 }
@@ -32,9 +32,9 @@
 }
 .welcome-releases h3 {
   margin: 0 0 12px;
-  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  font-family: var(--oa-font-heading);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--theme-text-secondary);
@@ -54,7 +54,7 @@
   margin-bottom: 4px;
 }
 .welcome-release-tag {
-  font-family: 'JetBrains Mono', 'Inter', monospace;
+  font-family: var(--oa-font-mono);
   font-size: 11px;
   font-weight: 600;
   color: #D97706;
@@ -73,9 +73,9 @@
 .welcome-release-title {
   margin: 4px 0 8px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--theme-text);
-  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  font-family: var(--oa-font-heading);
   letter-spacing: -0.005em;
 }
 
@@ -113,7 +113,7 @@
   font-style: italic;
 }
 .welcome-release-body code {
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: var(--oa-font-mono);
   font-size: 10.5px;
   background: var(--theme-hover, rgba(217, 119, 6, 0.10));
   border-radius: 3px;

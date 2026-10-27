@@ -19,8 +19,16 @@ high-contrast-light. Oud opgeslagen themanamen worden omgezet. Het
 spreadsheetraster, de ribbon en de IFC/PDF-werkruimten blijven productspecifieke
 componenten; dit is geen volledige vervanging van alle widgets.
 
-Inter AEC levert de interfacecijfers, Space Grotesk de koppen en JetBrains Mono
-technische labels. Fonts en WASM blijven lokale buildassets. Het npm-pakket
+De desktopwerkruimte heeft vaste navigatie voor begroten, assistent, wizard,
+rapporten, PDF, 3D en rekenbladen. Een projectkop toont de projectnaam,
+opslagstatus en het live totaal exclusief btw. Projecten en bestanden openen
+in een uitschuifpaneel; de onderbalk bevat de begroting en de echte rekenbladen.
+
+Inter levert interfacetekst, Inter AEC de cijfers, Space Grotesk Medium (500)
+de koppen en JetBrains Mono technische labels. De volledige desktopwerkruimte
+gebruikt `oa-app`; invoervelden en knoppen erven daardoor de juiste fonts.
+Er is één fontregistratie uit Blueprint, zonder de oude concurrerende
+`/fonts/*.ttf`-definities. Fonts en WASM blijven lokale buildassets. Het npm-pakket
 scopeert de selectors onder `.ocs-embed`, inclusief `data-oa-theme` op de
 wrapper. Afzonderlijke iframe-instanties behouden hun eigen store en thema.
 

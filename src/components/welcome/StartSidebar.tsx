@@ -46,7 +46,7 @@ export function StartSidebar({ onLoadVoorbeeld, onClose }: StartSidebarProps) {
         </div>
 
         <div className="start-actions">
-          <button className="oa-button oa-button--primary start-action-btn start-action-btn--primary" onClick={newFile}>
+          <button className="oa-button oa-button--primary start-action-btn start-action-btn--primary" onClick={() => { newFile(); onClose(); }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
               <path d="M14 2v6h6" />
@@ -54,7 +54,7 @@ export function StartSidebar({ onLoadVoorbeeld, onClose }: StartSidebarProps) {
             </svg>
             <span>{t('newBudget')}</span>
           </button>
-          <button className="oa-button start-action-btn" onClick={() => void openFile()}>
+          <button className="oa-button start-action-btn" onClick={() => { void openFile(); onClose(); }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
             </svg>
@@ -66,7 +66,7 @@ export function StartSidebar({ onLoadVoorbeeld, onClose }: StartSidebarProps) {
             </svg>
             <span>{t('app.sampleBudget')}</span>
           </button>
-          <button className="oa-button oa-button--quiet start-action-btn" onClick={() => { if (!useAppStore.getState().documents.length) newFile(); useAppStore.getState().setActiveContentTab('wizard'); }}>{t('wizardUI.title')}</button>
+          <button className="oa-button oa-button--quiet start-action-btn" onClick={() => { if (!useAppStore.getState().documents.length) newFile(); useAppStore.getState().setActiveContentTab('wizard'); onClose(); }}>{t('wizardUI.title')}</button>
         </div>
 
         {(settings.recentFiles?.length ?? 0) > 0 && (
@@ -81,7 +81,7 @@ export function StartSidebar({ onLoadVoorbeeld, onClose }: StartSidebarProps) {
                   <button
                     key={filePath}
                     className="start-recent-item"
-                    onClick={() => void openRecentFile(filePath)}
+                    onClick={() => { void openRecentFile(filePath); onClose(); }}
                     title={filePath}
                   >
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

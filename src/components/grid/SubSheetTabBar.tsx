@@ -22,7 +22,7 @@ export function SpreadsheetReturnBar() {
   );
 }
 
-export function SubSheetTabBar() {
+export function SubSheetTabBar({ sheetsOnly = false }: { sheetsOnly?: boolean }) {
   const { t } = useTranslation();
   const subSheets = useAppStore((s) => s.subSheets);
   const activeSubSheetId = useAppStore((s) => s.activeSubSheetId);
@@ -86,6 +86,7 @@ export function SubSheetTabBar() {
       >
         {t('wpcalc.tabData')}
       </button>
+      {!sheetsOnly && <>
       <button className={`subsheet-tab subsheet-tab-main${activeContentTab === 'wizard' ? ' active' : ''}`} onClick={() => goTo('wizard')}>{t('wizardUI.shortTitle')}</button>
       <button className={`subsheet-tab subsheet-tab-main${activeContentTab === 'promptBudget' ? ' active' : ''}`} onClick={() => goTo('promptBudget')}>{uiText('prompt.title', 'Prompt & Estimate')}</button>
       <button
@@ -104,6 +105,7 @@ export function SubSheetTabBar() {
       <button className={`subsheet-tab subsheet-tab-main${activeContentTab === 'viewer3d' ? ' active' : ''}`} onClick={() => goTo('viewer3d')}>{uiText('ifc.tab', '3D & Estimate')}</button>
       {/* Spreadsheet: one tab per sub-sheet (or a starter tab when none exist) */}
       <button className={`subsheet-tab subsheet-tab-main${activeContentTab === 'pdf' ? ' active' : ''}`} onClick={() => goTo('pdf')}>{uiText('pdf.tab', 'PDF & measurements')}</button>
+      </>}
       {subSheets.length === 0 && (
         <button
           className={`subsheet-tab subsheet-tab-main${activeContentTab === 'spreadsheet' ? ' active' : ''}`}
@@ -141,12 +143,12 @@ export function SubSheetTabBar() {
         </svg>
       </button>
 
-      <button
+      {!sheetsOnly && <button
         className={`subsheet-tab subsheet-tab-main${activeContentTab === 'ifc' ? ' active' : ''}`}
         onClick={() => goTo('ifc')}
       >
         IFC
-      </button>
+      </button>}
 
       {menu && (
         <div

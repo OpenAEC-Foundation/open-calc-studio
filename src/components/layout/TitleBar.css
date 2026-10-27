@@ -10,7 +10,7 @@
   -webkit-user-select: none;
   flex-shrink: 0;
   z-index: 9999;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--oa-font-body);
   position: relative;
 }
 
@@ -61,7 +61,7 @@
   transform: translateX(-50%);
   font-size: 13px;
   font-weight: 500;
-  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  font-family: var(--oa-font-heading);
   letter-spacing: -0.01em;
   color: var(--theme-titlebar-text);
   white-space: nowrap;
@@ -188,7 +188,7 @@
   color: var(--theme-accent);
   font-size: 11px;
   font-weight: 600;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--oa-font-body);
   cursor: default;
   transition: all 0.15s ease;
   white-space: nowrap;
@@ -209,7 +209,7 @@
   background: transparent;
   color: var(--theme-titlebar-text);
   font-size: 11px;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--oa-font-body);
   cursor: default;
   transition: background 0.15s ease;
   align-self: center;

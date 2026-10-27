@@ -77,7 +77,7 @@
 }
 
 .cost-picker-code {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--oa-font-mono);
   font-size: 10px;
   color: var(--theme-text-secondary);
   min-width: 50px;

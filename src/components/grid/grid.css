@@ -459,7 +459,7 @@ select.grid-cell-editor option {
   border-radius: 8px;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   padding: 4px 0;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--oa-font-body);
 }
 
 .grid-context-menu-item {
@@ -498,13 +498,13 @@ select.grid-cell-editor option {
   border-radius: 8px;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   padding: 4px 0;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--oa-font-body);
 }
 
 .grid-context-menu-shortcut {
   margin-left: 24px;
   font-size: 11px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--oa-font-mono);
   color: var(--theme-text-secondary);
 }
 

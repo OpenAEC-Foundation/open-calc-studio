@@ -44,7 +44,7 @@
 
 .excel-picker-ref {
   font-size: 11px;
-  font-family: 'JetBrains Mono', 'Consolas', monospace;
+  font-family: var(--oa-font-mono);
   color: var(--theme-accent);
   font-weight: 600;
   white-space: nowrap;
@@ -85,7 +85,7 @@
 .excel-picker-grid {
   border-collapse: collapse;
   font-size: 11px;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--oa-font-body);
   min-width: 100%;
 }
 

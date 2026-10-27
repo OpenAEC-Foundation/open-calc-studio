@@ -949,6 +949,27 @@
     },
     "extensionNames": {
       "builtin-inschrijfstaat-importer": "RAW bid schedule importer"
+    },
+    "shell": {
+      "navigation": "Workspace navigation",
+      "estimate": "Estimate",
+      "prompt": "Prompt & Estimate",
+      "wizard": "Guided estimate",
+      "hours": "Hours & markups",
+      "report": "Reports",
+      "model": "3D & quantities",
+      "pdf": "PDF & measurements",
+      "sheets": "Spreadsheets",
+      "ifc": "IFC data",
+      "quotation": "Quotation",
+      "summary": "Summary",
+      "projects": "Projects & files",
+      "workspace": "Workspace",
+      "sources": "Drawings & data",
+      "unsaved": "Unsaved changes",
+      "saved": "Saved",
+      "local": "Local document",
+      "total": "Estimate · excl. VAT"
     }
   }
 }

@@ -64,8 +64,8 @@
 
 .chat-title {
   font-size: 13px;
-  font-weight: 700;
-  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  font-weight: 500;
+  font-family: var(--oa-font-heading);
   color: var(--theme-text);
   white-space: nowrap;
 }

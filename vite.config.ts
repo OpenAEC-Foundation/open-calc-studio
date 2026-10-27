@@ -1,4 +1,5 @@
 import { browserAliases } from './build/browserAliases';
+import { hostedHtmlPolicy } from './build/hostedHtmlPolicy';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
@@ -8,7 +9,7 @@ import { distributionPlugin } from './scripts/distribution-notices.mjs';
 export default defineConfig({
   base: './',
   worker: { format: 'es' },
-  plugins: [react(), distributionPlugin('web')],
+  plugins: [react(), hostedHtmlPolicy(), distributionPlugin('web')],
   resolve: {
     alias: {
       ...browserAliases,
