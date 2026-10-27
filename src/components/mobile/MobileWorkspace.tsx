@@ -222,7 +222,7 @@ export function MobileWorkspace() {
 
   return <div className="mobile-workspace">
     <header className="mobile-header">
-      <div className="mobile-brand"><img src="/app-icon.svg" alt="" /><div><strong>Open Calc Studio</strong><small>{t('mobile.subtitle')}</small></div></div>
+      <div className="mobile-brand"><img src={`${import.meta.env.BASE_URL}app-icon.svg`} alt="" /><div><strong>Open Calc Studio</strong><small>{t('mobile.subtitle')}</small></div></div>
       {documents.length > 1 ? <select className="mobile-document-select" aria-label={t('mobile.document')} value={activeDocumentId} onChange={(e) => setActiveDocument(e.target.value)}>{documents.map((doc) => <option key={doc.id} value={doc.id}>{doc.fileName}{doc.isModified ? ' •' : ''}</option>)}</select> : <div className="mobile-document-name">{activeDoc?.fileName ?? t('noDocumentOpen')}{activeDoc?.isModified ? ' •' : ''}</div>}
       <div className="mobile-file-actions">
         <button type="button" onClick={newFile}>{t('mobile.new')}</button>

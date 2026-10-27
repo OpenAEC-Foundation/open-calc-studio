@@ -15,7 +15,7 @@ export async function loadSampleBudgetText(lang: string): Promise<string> {
       : await import('@/data/samples/sample-en.ifcCalc?raw');
     return mod.default;
   }
-  const resp = await fetch(nl ? '/data/voorbeeld.ifcCalc' : '/data/sample-en.ifcCalc');
+  const resp = await fetch(`${import.meta.env.BASE_URL}data/${nl ? 'voorbeeld.ifcCalc' : 'sample-en.ifcCalc'}`);
   if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
   return resp.text();
 }
