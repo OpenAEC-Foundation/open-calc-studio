@@ -66,3 +66,27 @@ Volledige functionele gelijkheid met de interface is nog niet aangetoond. Bij br
 - De cloudaanmelding vereist gebruikersinteractie. De beschikbaarheid in de catalogus is geen bewijs dat alle account-/cloudpaden zijn getest.
 
 Een visuele UI-test is in deze sessie niet uitgevoerd: native desktopbediening was niet beschikbaar en de opgeslagen browsertoestemming blokkeerde het openen van de lokale webinterface. API- en unit-tests vervangen die visuele controle niet.
+
+## Werkplekken, brongegevens en financiële voorstellen (2026.44.1)
+
+- `workspace.layouts` geeft de ingebouwde en eigen werkplekken. Gebruik
+  `applyWorkspaceLayout`, `saveWorkspaceLayout` en `deleteWorkspaceLayout`
+  met de parameters uit `app_list_actions` om dezelfde indelingen te beheren.
+- `workspace.openSecondScreen` opent een alleen-lezen tweede venster voor PDF
+  en hoeveelheidherkomst. De begroting wordt uitsluitend in het hoofdvenster bewerkt.
+- `quantity.origin { itemId }` leest bronidentiteit, pagina/objecten, formule,
+  koppelwaarde en waarschuwingen zonder bronbytes. `quantity.openSource`
+  navigeert met `itemId` en een optionele nulgebaseerde `sourceIndex`.
+- `assistant.preview { actions }` berekent een voorstel zonder begrotingsmutatie
+  en geeft een `id`, gewijzigde regels, aannames en financiële totalen terug.
+- `assistant.apply { proposalId }` keurt dat voorbereide voorstel expliciet goed.
+  De volledige begrotingswijziging krijgt één undo-stap. Een inmiddels gewijzigde
+  begroting of een ander actief document wordt geweigerd.
+- `assistant.discard { proposalId }` verwerpt het voorstel.
+- `assistant.undo { proposalId }` draait de hele toegepaste wijziging terug,
+  mits er geen latere bewerkingen zijn en het oorspronkelijke document actief is.
+
+Voorstel-ID's zijn sessiegebonden en eenmalig voor toepassing. De server bewaart
+maximaal 50 voorbereide voorstellen; bereid verlopen voorstellen opnieuw voor.
+Deze functies gebruiken het actuele desktopdocument. De aparte headless rekenservice
+blijft een onafhankelijke rekeninterface en opent geen vensters.

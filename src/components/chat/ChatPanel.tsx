@@ -5,7 +5,9 @@ import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { buildAssistantSystemPrompt } from '@/services/assistant/promptLanguage';
 import { useAppStore } from '@/state/appStore';
-import { buildBudgetContext, ACTIE_PROTOCOL, parseActies, parseLocalBudgetCommand, applyActies, validateActies } from '@/services/assistant/assistantActions';
+import { buildBudgetContext, ACTIE_PROTOCOL, parseActies, parseLocalBudgetCommand, validateActies } from '@/services/assistant/assistantActions';
+import { stageAssistantProposal, summarizeAssistantProposal, applyAssistantProposal, discardAssistantProposal, canUndoAssistantProposal, undoAssistantProposal } from '@/services/assistant/assistantProposal';
+import { ProposalPreview } from './ProposalPreview';
 import { BEGROTEN_KENNIS } from '@/services/assistant/begrotenKennis';
 import { OPENAEC_ENABLED, allowsExternalServices } from '@/services/buildFlags';
 import './ChatPanel.css';
@@ -79,6 +81,9 @@ export function ChatPanel({ embedded = false }: { embedded?: boolean }) {
   const messages = useAppStore(s => s.chats[activeDocId] ?? EMPTY_MESSAGES);
   const appendChatMessage = useAppStore(s => s.appendChatMessage);
   const updateChatMessage = useAppStore(s => s.updateChatMessage);
+  // Keep the batch undo button in sync with subsequent edits and undo/redo.
+  useAppStore(s => s.items);
+  useAppStore(s => s.undoStack);
   const pendingCount = messages.filter(m => m.status === 'pending').length;
 
   useEffect(() => {
@@ -208,9 +213,9 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
       const errors = validateActies(acties, store.items);
       const inhoud = [cleanText || (acties.length ? '' : raw), errors.map(error => `✖ ${error}`).join('\n')].filter(Boolean).join('\n\n');
       updateChatMessage(docId, pendingId, {
-        content: inhoud || (acties.length ? 'Controleer de voorgestelde begrotingswijzigingen.' : i18next.t('chat.noAnswer')),
+        content: inhoud || (acties.length ? uiText('proposal.review', 'Review the proposed estimate changes.') : i18next.t('chat.noAnswer')),
         status: 'done',
-        ...(acties.length && !errors.length ? { proposedActions: acties, proposalItems: store.items, proposalSchedule: store.schedule, proposalStatus: 'ready' as const } : {}),
+        ...(acties.length && !errors.length ? { proposedActions: acties, proposal: summarizeAssistantProposal(stageAssistantProposal(acties, docId, store.items, store.schedule)), proposalStatus: 'ready' as const } : {}),
       });
     } catch (err: any) {
       updateChatMessage(docId, pendingId, { content: describeAiError(err), status: 'error' });
@@ -218,13 +223,18 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
   }, [input, activeDocId, buildContextBlock, computeAnswer, appendChatMessage, updateChatMessage]);
 
   const applyProposal = (msg: ChatMessage) => {
-    const current = useAppStore.getState();
-    if (current.activeDocumentId !== activeDocId || current.items !== msg.proposalItems || current.schedule !== msg.proposalSchedule) {
-      updateChatMessage(activeDocId, msg.id, { proposalStatus: 'stale', proposedActions: undefined, proposalItems: undefined, proposalSchedule: undefined });
-      return;
+    if (!msg.proposal) return;
+    try {
+      const proposal = applyAssistantProposal(msg.proposal.id);
+      updateChatMessage(activeDocId, msg.id, { content: `${msg.content}\n\n${proposal.results.join('\n')}`, proposalStatus: 'applied', proposedActions: undefined });
+    } catch (error) {
+      updateChatMessage(activeDocId, msg.id, { content: `${msg.content}\n\n${(error as Error).message}`, proposalStatus: 'stale' });
     }
-    const results = applyActies(msg.proposedActions ?? []);
-    updateChatMessage(activeDocId, msg.id, { content: `${msg.content}\n\n${results.join('\n')}`, proposalStatus: results.every(r => r.startsWith('✔')) ? 'applied' : 'failed', proposedActions: undefined, proposalItems: undefined, proposalSchedule: undefined });
+  };
+  const undoProposal = (msg: ChatMessage) => {
+    if (!msg.proposal) return;
+    try { undoAssistantProposal(msg.proposal.id); updateChatMessage(activeDocId, msg.id, { proposalStatus: 'undone' }); }
+    catch (error) { updateChatMessage(activeDocId, msg.id, { content: `${msg.content}\n${(error as Error).message}` }); }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -264,12 +274,15 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
             ) : (
               <div className={`chat-bubble${msg.status === 'error' ? ' chat-error' : ''}`}>
                 <div>{msg.content}</div>
+                {msg.proposal && ['ready', 'applied', 'undone'].includes(msg.proposalStatus ?? '') && <ProposalPreview proposal={msg.proposal} />}
+                {msg.proposalStatus === 'applied' && msg.proposal && <button className="oa-button" type="button" disabled={!canUndoAssistantProposal(msg.proposal.id)} title={uiText('proposal.undoBlocked', 'Undo later edits first, then undo this proposal.')} onClick={() => undoProposal(msg)}>{uiText('proposal.undo', 'Undo entire proposal')}</button>}
+                {msg.proposalStatus === 'undone' && <p role="status">{uiText('proposal.undone', 'The entire proposal was undone.')}</p>}
                 {msg.proposalStatus === 'ready' && <div className="chat-proposal">
                   <strong>{uiText('chat.count', 'Proposed changes: {{count}}', { count: msg.proposedActions?.length ?? 0 })}</strong>
                   <ul>{msg.proposedActions?.map((action, index) => <li key={index}>{describeProposal(action)}</li>)}</ul>
                   <div className="chat-proposal-actions">
-                    <button type="button" onClick={() => applyProposal(msg)}>{uiText("chat.apply", "Apply to estimate")}</button>
-                    <button type="button" onClick={() => updateChatMessage(activeDocId, msg.id, { proposalStatus: 'discarded', proposedActions: undefined, proposalItems: undefined, proposalSchedule: undefined })}>{uiText("chat.discard", "Discard")}</button>
+                    <button type="button" disabled={!msg.proposal || !!msg.proposal.errors.length} onClick={() => applyProposal(msg)}>{uiText("chat.apply", "Apply to estimate")}</button>
+                    <button type="button" onClick={() => { if (msg.proposal) discardAssistantProposal(msg.proposal.id); updateChatMessage(activeDocId, msg.id, { proposalStatus: 'discarded', proposedActions: undefined, proposal: undefined }); }}>{uiText("chat.discard", "Discard")}</button>
                   </div>
                 </div>}
                 {msg.proposalStatus === 'stale' && <p className="chat-proposal-stale">{uiText("chat.stale", "The estimate has changed since this proposal. Send the request again.")}</p>}

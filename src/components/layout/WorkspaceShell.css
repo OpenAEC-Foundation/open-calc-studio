@@ -76,6 +76,16 @@
 .workspace-total { display: flex; flex-direction: column; gap: 4px; text-align: right; }
 .workspace-total > strong { font-size: 22px; font-weight: 600; letter-spacing: -.02em; white-space: nowrap; }
 .workspace-save { flex-shrink: 0; }
+.workspace-layout-bar { display:flex; align-items:center; flex-wrap:wrap; gap:8px; padding:6px 16px; flex-shrink:0; background:var(--oa-panel); border-bottom:1px solid var(--oa-border); }
+.workspace-layout-presets { display:flex; gap:2px; }
+.workspace-layout-presets [aria-pressed="true"] { background:var(--oa-selected); color:var(--oa-accent-text); box-shadow:inset 0 -2px var(--oa-selected-bar); }
+.workspace-layout-bar > select { max-width:180px; height:26px; padding:0 6px; }
+.workspace-layout-editor { position:relative; margin-left:auto; }
+.workspace-layout-editor > summary { list-style:none; }
+.workspace-layout-editor > summary::-webkit-details-marker { display:none; }
+.workspace-layout-popover { position:absolute; right:0; top:32px; z-index:150; width:min(300px,75vw); padding:16px; display:grid; gap:12px; background:var(--oa-panel); color:var(--oa-text); border:1px solid var(--oa-border); border-radius:var(--oa-radius-medium); box-shadow:var(--oa-shadow-popup); }
+.workspace-layout-popover p { color:var(--oa-text-secondary); }
+.workspace-layout-popover label { display:grid; gap:6px; }
 .workspace-body { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
 .workspace-body > .cost-grid-wrapper { flex: 1; height: auto; min-height: 0; }
 .workspace-project-drawer { position: absolute; inset: 0; z-index: 200; display: flex; }
@@ -123,3 +133,11 @@
   .workspace-nav-item[aria-current="page"] { color: HighlightText; background: Highlight; border-left: 3px solid Highlight; box-shadow: none; }
   .workspace-status-dot { background: CanvasText; }
 }
+
+.companion-workspace { display:flex; flex-direction:column; height:100%; overflow:hidden; }
+.companion-workspace > header { display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:12px 16px; border-bottom:1px solid var(--oa-border); }
+.companion-workspace > header > div { margin-right:auto; }
+.companion-workspace > header span { color:var(--oa-text-secondary); font-size:11px; }
+.companion-workspace > div { flex:1; min-height:0; overflow:auto; }
+.companion-origin { padding:16px; }
+.workspace-layout-message { font-size:11px; color:var(--oa-text-secondary); }

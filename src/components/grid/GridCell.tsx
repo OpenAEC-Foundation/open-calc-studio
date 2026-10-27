@@ -8,6 +8,7 @@ import { isCellEditable } from './gridConstants';
 import { useAppStore } from '@/state/appStore';
 import { formatUnit } from '@/i18n/formatUnit';
 import { resolvePdfQuantity } from '@/services/pdf/pdfWorkspace';
+import { uiText } from '@/i18n/uiText';
 
 interface Props {
   item: CostItem;
@@ -375,12 +376,12 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
         </svg>
       )}
       {showQuantityLinkIcon && (
-        <span title={unresolvedPdfLink ? t('pdfLinkMissing') : `🔗 ${item.quantityLink!.source}`}
-          role={unresolvedPdfLink ? 'img' : undefined}
-          aria-label={unresolvedPdfLink ? t('pdfLinkMissing') : undefined}
-          style={{ fontSize: 9, marginRight: 2, color: unresolvedPdfLink ? '#b45309' : '#3b82f6' }}>
+        <button type="button" className="grid-quantity-origin" title={unresolvedPdfLink ? t('pdfLinkMissing') : uiText('origin.title', 'Quantity origin')}
+          aria-label={uiText('origin.title', 'Quantity origin')}
+          onMouseDown={event => event.stopPropagation()} onDoubleClick={event => event.stopPropagation()}
+          onClick={event => { event.stopPropagation(); useAppStore.getState().showQuantityOrigin(item.id); }}>
           {unresolvedPdfLink ? '⚠' : '🔗'}
-        </span>
+        </button>
       )}
       {(isWitregel || item.rowType === 'tekstregel') && isDescCol ? (
         // Wit- en tekstregels: terugloop — de rij groeit mee (getRowHeight).

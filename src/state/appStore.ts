@@ -20,6 +20,7 @@ import { createSpreadsheetHistorySlice, type SpreadsheetHistorySlice } from './s
 import { createAccountsSlice, type AccountsSlice } from './slices/accountsSlice';
 import { createChatSlice, type ChatSlice } from './slices/chatSlice';
 import { createCodeLibrarySlice, type CodeLibrarySlice } from './slices/codeLibrarySlice';
+import { createWorkspaceSlice, type WorkspaceSlice } from './slices/workspaceSlice';
 
 export type AppStore = CostScheduleSlice &
   CostItemsSlice &
@@ -40,7 +41,7 @@ export type AppStore = CostScheduleSlice &
   SpreadsheetHistorySlice &
   AccountsSlice &
   ChatSlice &
-  CodeLibrarySlice;
+  CodeLibrarySlice & WorkspaceSlice;
 
 export const useAppStore = create<AppStore>()((...a) => ({
   ...createCostScheduleSlice(...a),
@@ -63,6 +64,7 @@ export const useAppStore = create<AppStore>()((...a) => ({
   ...createSpreadsheetHistorySlice(...a),
   ...createAccountsSlice(...a),
   ...createCodeLibrarySlice(...a),
+  ...createWorkspaceSlice(...a),
 }));
 
 // PDF quantities are derived from the active, serialized document. Switching

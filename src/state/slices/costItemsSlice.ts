@@ -7,6 +7,7 @@ import { createDefaultItems } from '@/data/defaultBudget';
 import { appendHistory, shouldTrackField } from '@/services/history/itemHistory';
 import { getCachedOsUsername } from '@/services/system/osUser';
 import { buildGridRows } from '@/services/grid/gridRows';
+import { captureQuantityOrigin } from '@/services/quantity/quantityOrigin';
 
 function generateId(): string {
   return crypto.randomUUID();
@@ -340,6 +341,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
         s.items.map((item: any) => {
           if (item.id !== id) return item;
           const updated = { ...item, [field]: value };
+          if (field === 'quantityLink') updated.quantityOrigin = value ? captureQuantityOrigin(value as QuantityLink, s) : undefined;
           // Wijzigingshistorie: leg bewerkbare waarde-velden vast (wie/wanneer/wat)
           if (shouldTrackField(field)) {
             updated.history = appendHistory(item, field, item[field], value, historyUser, historyNow);

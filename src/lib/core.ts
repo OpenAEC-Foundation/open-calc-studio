@@ -16,6 +16,8 @@ export {
 } from '../services/calculation/calculator';
 export type { KostprijsBreakdown, StaartBreakdown } from '../services/calculation/calculator';
 export { serializeProject, deserializeProject } from '../services/file/fileService';
+export { getQuantityOrigin, resolveQuantityOrigin, captureQuantityOrigin } from '../services/quantity/quantityOrigin';
+export type { QuantityOrigin, QuantityOriginInfo, QuantityOriginContext } from '../services/quantity/quantityOrigin';
 export type {
   ProjectFile, CostItem, CostSchedule, CompanyInfo, CostUnit, RowType,
   ResourceType, SubSheet, SpreadsheetsData,

@@ -1,6 +1,6 @@
 # Open Calc Studio user guide
 
-For Open Calc Studio 0.13.0. [Nederlandse handleiding](gebruikershandleiding.md) · [Project overview](../README.md)
+For Open Calc Studio development version 2026.44.1. [Nederlandse handleiding](gebruikershandleiding.md) · [Project overview](../README.md)
 
 ## Contents
 
@@ -111,3 +111,48 @@ Developers can use the [API documentation](API.md), [native file format](ifccalc
 ## Guided and hosted use
 
 Choose Calculation wizard from the start page or bottom navigation. Its five steps share the editor project and calculation engine; Full editor returns to the grid. In a hosted workspace, Open shows host files and versions; Save passes the expected version and retains edits on conflicts. A read-only version can be saved as a new copy. See [wizard](calculation-wizard.md) and [host contract](supercloud.md).
+
+## Task workspaces and a second screen
+
+Under the project header, choose **Measure**, **Estimate** or **Review**.
+Use **Save / manage** to save the current view, panel widths, grid/PDF zoom
+and visible columns as your own workspace. Choose a saved workspace to restore
+it, update it after rearranging, or delete it. Your last selected workspace
+is restored at the next startup. These preferences do not modify your estimate.
+
+**Second screen** opens a separate read-only window following the main
+window's active estimate. Move it to another monitor and choose **PDF drawing**
+or **Quantity origin**. Selecting a linked PDF quantity in the main window
+focuses its drawing/page in the second window. Edit quantities and measurements
+in the main window. If the main window disconnects, the second window labels
+its data as the last received copy. A browser may require allowing the popup;
+this feature is available in standalone web and desktop, not embedded frames.
+
+## Inspect a quantity's origin
+
+Click the link icon next to a quantity, or use **Quantity origin** in the
+Properties panel. PDF sources show the drawing identity, page and measurement;
+IFC sources show model identity, element IDs and the named quantity;
+spreadsheet links show the sheet, cell and formula. **Open source** returns
+to that page/cell or selects the IFC objects when the geometry is loaded.
+Saved IFC quantities retain their metadata; reopening the original model may
+be necessary to highlight geometry. External Excel references are shown
+without claiming that their files have been checked.
+
+Source metadata is saved with the estimate. If a source disappears, the card
+keeps the captured identity and the estimate keeps its last known quantity.
+A unit mismatch is a warning, not an implicit conversion.
+
+## Review an assistant proposal
+
+In **Prompt & Estimate**, send a request or try the example chip. The proposal
+shows before/after direct costs, totals excluding VAT, VAT and totals including
+VAT, together with changed rows and assumptions. Parent totals also appear in
+the row list; their differences must not be added to their children's differences.
+
+**Apply to estimate** approves the complete proposal with one undo entry.
+**Discard** leaves the estimate unchanged. **Undo entire proposal** restores
+all of its rows together; undo subsequent edits first if the button is disabled.
+Changed input data or a different active document invalidate the proposal.
+Proposals are session-local and must be prepared again after restarting.
+Linked quantities must be changed at their source or unlinked before overriding.

@@ -1,6 +1,9 @@
 import { uiText } from '../../i18n/uiText';
 import type { CostItem, CostSchedule, RowType } from '@/types/costModel';
 import { useAppStore } from '@/state/appStore';
+import { createStore } from 'zustand/vanilla';
+import { createCostItemsSlice, type CostItemsSlice } from '@/state/slices/costItemsSlice';
+import { recalculateItems } from '@/services/calculation/calculator';
 
 /**
  * Calculatieassistent — de brug tussen het taalmodel en het geopende document.
@@ -87,7 +90,7 @@ function normaliseerEenheid(value: unknown): CostItem['unit'] {
 /** Reject a malformed or stale AI batch before changing any budget row. */
 export function validateActies(acties: AssistantActie[], items: CostItem[]): string[] {
   const errors: string[] = [];
-  const byNr = (nr: unknown) => items.find(i => i.nr === String(nr ?? '').trim());
+  const byNr = (nr: unknown) => String(nr ?? '').trim() ? items.find(i => i.nr === String(nr).trim()) : undefined;
   const units = new Set(['st', 'm', 'm²', 'm³', 'kg', 'ton', 'uur', 'dgn', 'km', 'keer', 'ls', 'week', 'mnd', 'post', '%', 'pm']);
   const resources = new Set(['arbeid', 'materiaal', 'materieel', 'onderaannemer', 'overig']);
   const numeric = (value: unknown) => value == null || value === '' || (typeof value === 'number' && Number.isFinite(value));
@@ -98,6 +101,7 @@ export function validateActies(acties: AssistantActie[], items: CostItem[]): str
     const parent = byNr(a.onderNr);
     switch (a.type) {
       case 'update':
+        if (['aantal', 'hoeveelheid', 'eenheid'].includes(String(a.veld).toLowerCase()) && byNr(a.nr)?.quantityLink) errors.push(uiText('proposal.linkedQuantity', 'This quantity is linked to a source. Change the source or unlink it before overriding the quantity or unit.'));
         if (!byNr(a.nr)) errors.push(uiText("chat.actions.missing", "{{p0}}: no. {{p1}} does not exist.", { p0: prefix, p1: String(a.nr) }));
         if (!VELD_MAP[String(a.veld ?? '').toLowerCase()]) errors.push(uiText("chat.actions.field", "{{p0}}: unknown field.", { p0: prefix }));
         if (['aantal', 'hoeveelheid', 'prijs', 'norm'].includes(String(a.veld).toLowerCase()) && !numeric(a.waarde)) errors.push(uiText("chat.actions.finite", "{{p0}}: the value must be a finite number.", { p0: prefix }));
@@ -205,20 +209,26 @@ function nieuwItem(rowType: RowType, parentId: string | null, overrides: Partial
   } as CostItem;
 }
 
-/** Voer de acties uit op het actieve document. Geeft per actie een resultaatregel. */
-export function applyActies(acties: AssistantActie[]): string[] {
+/** Calculate a batch in isolation, using the same mutations as the editor. */
+export function simulateActies(acties: AssistantActie[], items: CostItem[], schedule: CostSchedule): { items: CostItem[]; results: string[] } {
   const resultaten: string[] = [];
-  if (acties.length === 0) return resultaten;
+  if (acties.length === 0) return { items, results: resultaten };
 
-  const store = useAppStore.getState();
-  const errors = validateActies(acties, store.items);
-  if (errors.length) return errors.map(error => `✖ ${error}`);
-  const before = { items: store.items, documents: store.documents, undoStack: store.undoStack, redoStack: store.redoStack };
-  store.pushHistory(store.items, uiText("chat.actions.history", "Estimating assistant"));
+  const errors = validateActies(acties, items);
+  if (errors.length) return { items, results: errors.map(error => `✖ ${error}`) };
+  // Use the normal item mutations and calculator in an isolated store. A preview
+  // never publishes intermediate changes, history entries or dirty flags.
+  const isolated = createStore<CostItemsSlice & { schedule: CostSchedule }>()((...args) => ({
+    ...createCostItemsSlice(...args), schedule, items: structuredClone(items),
+  }));
+  const store = isolated.getState();
 
   const tarieven = store.schedule.tarieven ?? { A: 66, B: 46, C: 82 };
+  // Resolve against original identities: deleting a sibling renumbers later
+  // rows, which must never redirect the rest of a proposal to other objects.
+  const identities = new Map(items.map(item => [item.nr, item.id]));
   const vindOpNr = (nr: unknown): CostItem | undefined =>
-    useAppStore.getState().items.find((i) => i.nr === String(nr ?? '').trim());
+    isolated.getState().items.find(item => item.id === identities.get(String(nr ?? '').trim()));
 
   for (const actie of acties) {
     try {
@@ -234,7 +244,7 @@ export function applyActies(acties: AssistantActie[]): string[] {
             waarde = waarde == null || waarde === '' ? null : Number(waarde);
             if (waarde !== null && isNaN(waarde as number)) throw new Error(uiText("diagnostics.assistantActions.theValueIsNotANumber", "The value is not a number"));
           }
-          useAppStore.getState().updateItem(item.id, veld, waarde as never);
+          isolated.getState().updateItem(item.id, veld, waarde as never);
           resultaten.push(`✔ ${actie.nr}: ${String(actie.veld)} → ${actie.waarde}`);
           break;
         }
@@ -243,7 +253,7 @@ export function applyActies(acties: AssistantActie[]): string[] {
             code: String(actie.code ?? ''),
             description: String(actie.omschrijving ?? uiText("chat.actions.newChapter", "New chapter")),
           });
-          useAppStore.getState().setItems([...useAppStore.getState().items, item]);
+          isolated.getState().setItems([...isolated.getState().items, item]);
           resultaten.push(uiText("chat.actions.chapterAdded", "✔ Chapter {{p0}} \"{{p1}}\" added", { p0: item.code, p1: item.description }));
           break;
         }
@@ -255,7 +265,7 @@ export function applyActies(acties: AssistantActie[]): string[] {
             quantity: actie.aantal != null ? Number(actie.aantal) : null,
             unit: normaliseerEenheid(actie.eenheid),
           });
-          useAppStore.getState().setItems([...useAppStore.getState().items, item]);
+          isolated.getState().setItems([...isolated.getState().items, item]);
           resultaten.push(uiText("chat.actions.postAdded", "✔ Item \"{{p0}}\" added under {{p1}}", { p0: item.description, p1: actie.onderNr }));
           break;
         }
@@ -288,7 +298,7 @@ export function applyActies(acties: AssistantActie[]): string[] {
                   resourceType: (actie.resourceType as CostItem['resourceType']) ?? null,
                 }),
           });
-          useAppStore.getState().setItems([...useAppStore.getState().items, item]);
+          isolated.getState().setItems([...isolated.getState().items, item]);
           resultaten.push(uiText("chat.actions.lineAdded", "✔ Line \"{{p0}}\" added under {{p1}}", { p0: item.description, p1: actie.onderNr }));
           break;
         }
@@ -296,7 +306,7 @@ export function applyActies(acties: AssistantActie[]): string[] {
           const item = vindOpNr(actie.nr);
           if (!item) throw new Error(uiText("diagnostics.assistantActions.noWasNotFound", "No. {{p0}} was not found", { p0: actie.nr }));
           // Verwijder inclusief alle afstammelingen
-          const huidige = useAppStore.getState().items;
+          const huidige = isolated.getState().items;
           const weg = new Set<string>([item.id]);
           let groeit = true;
           while (groeit) {
@@ -308,7 +318,7 @@ export function applyActies(acties: AssistantActie[]): string[] {
               }
             }
           }
-          useAppStore.getState().setItems(huidige.filter((i) => !weg.has(i.id)));
+          isolated.getState().setItems(huidige.filter((i) => !weg.has(i.id)));
           resultaten.push(uiText("chat.actions.deleted", "✔ {{p0}} \"{{p1}}\" removed (rows: {{p2}})", { p0: actie.nr, p1: item.description, p2: weg.size, p3: weg.size === 1 ? '' : 's' }));
           break;
         }
@@ -322,11 +332,28 @@ export function applyActies(acties: AssistantActie[]): string[] {
 
   const failed = resultaten.filter(result => result.startsWith('✖'));
   if (failed.length) {
-    useAppStore.setState(before);
-    return [...failed, uiText("chat.actions.none", "✖ No changes applied.")];
+    return { items, results: [...failed, uiText("chat.actions.none", "✖ No changes applied.")] };
   }
-  useAppStore.getState().recalculate();
-  const after = useAppStore.getState();
-  if (after.activeDocumentId) after.updateDocument(after.activeDocumentId, { isModified: true });
-  return resultaten;
+  const calculated = recalculateItems(isolated.getState().items, schedule.tarieven);
+  if (calculated.some(item => [item.quantity, item.total, item.unitPrice, item.normUnitPrice, item.laborPrice, item.materialPrice].some(value => value != null && !Number.isFinite(value)))) {
+    return { items, results: [`✖ ${uiText('proposal.overflow', 'The proposed calculation exceeds the supported numeric range. No changes applied.')}`] };
+  }
+  return { items: calculated, results: resultaten };
+}
+
+/** Apply one validated batch, publishing its items and undo entry together. */
+export function applyActies(acties: AssistantActie[]): string[] {
+  const state = useAppStore.getState();
+  const result = simulateActies(acties, state.items, state.schedule);
+  if (!acties.length || result.results.some(line => line.startsWith('✖'))) return result.results;
+  commitAssistantItems(result.items, uiText('chat.actions.history', 'Estimating assistant'));
+  return result.results;
+}
+
+export function commitAssistantItems(items: CostItem[], description: string): void {
+  const state = useAppStore.getState();
+  useAppStore.setState({ items,
+    undoStack: [...state.undoStack.slice(-49), { items: structuredClone(state.items), description }], redoStack: [],
+    documents: state.documents.map(doc => doc.id === state.activeDocumentId ? { ...doc, isModified: true } : doc),
+  });
 }

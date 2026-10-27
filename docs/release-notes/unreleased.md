@@ -1,5 +1,30 @@
 # Open Calc Studio — aankomende release
 
+## 2026.44.1: werkplekken, herkomst en financiële voorstellen
+
+- Kies Meten, Begroten of Controleren onder de projectkop. Bewaar eigen
+  indelingen met paneelbreedten, zichtbare kolommen, rasterzoom en PDF-zoom.
+  De laatst gekozen werkplek wordt bij de volgende start hersteld.
+- Tweede scherm opent een gesynchroniseerd, alleen-lezen venster voor
+  PDF-tekeningen of de herkomst van de geselecteerde hoeveelheid. Plaats het
+  venster op de gewenste monitor. Bewerk de begroting in het hoofdvenster.
+  Ingebouwde frames ondersteunen dit extra venster niet.
+- De herkomstkaart toont PDF-bestand en pagina, IFC-model en elementselectie,
+  of rekenbladcel en formule. Bronidentiteit en koppelwaarde blijven in het
+  project bewaard. Ontbrekende bronnen behouden de laatst bekende hoeveelheid;
+  afwijkende eenheden krijgen een waarschuwing. Externe Excel-bestanden worden
+  als niet-gecontroleerde verwijzing getoond.
+- Assistentvoorstellen tonen directe kosten, totaal exclusief btw, btw en
+  totaal inclusief btw vóór en na de wijziging, plus gewijzigde regels en
+  aannames. Voorbereiden verandert de begroting niet. Goedkeuren publiceert
+  de hele wijziging met één undo-stap; verouderde voorstellen worden geweigerd.
+  Een verwijdering mag latere verwijzingen niet naar een hernummerde buurregel
+  omleiden. Gekoppelde hoeveelheden kunnen niet door een voorstel worden overschreven.
+- Nieuwe MCP-acties maken dezelfde werkplekken, bronkaarten en
+  voorbereiden/goedkeuren/ongedaan-maken-werkwijze beschikbaar.
+- Productversie 2026.44.1, MSI 26.44.1; additief native bestandsformaat 2.3.0
+  voor optionele `quantityOrigin`-gegevens. Oudere projecten blijven leesbaar.
+
 ## 2026.44.0: Blueprint, wizard en gehost gebruik
 
 De ontwikkeltak volgt nu OpenAEC Blueprint met vijf thema's en lokaal

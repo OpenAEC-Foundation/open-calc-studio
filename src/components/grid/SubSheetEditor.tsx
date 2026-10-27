@@ -48,6 +48,14 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
   const [editValue, setEditValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const targetCell = useAppStore(s => s.sheetTargetCell);
+  useEffect(() => {
+    if (targetCell?.sheetId === sheetId) {
+      setActiveCell(targetCell.cellRef);
+      setSelectionEnd(null);
+      containerRef.current?.focus();
+    }
+  }, [targetCell, sheetId]);
 
   // Parse cell ref to col/row indices
   const parseRef = (ref: string) => {

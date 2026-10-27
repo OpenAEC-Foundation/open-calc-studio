@@ -11,7 +11,7 @@ import { synthesizeStaartItems, ensureBtwLaagItem } from '@/services/calculation
  * - major omhoog = breaking (oudere apps weigeren met nette melding)
  * - minor omhoog = additief (oudere bestanden migreren automatisch mee)
  */
-const FILE_FORMAT_VERSION = '2.2.0';
+const FILE_FORMAT_VERSION = '2.3.0';
 
 function createProjectFile(
   schedule: CostSchedule,

@@ -1,5 +1,13 @@
 /** Named parameters for the file/viewer commands outside Zustand. */
 export const workspaceActions = {
+  'workspace.layouts': { parameters: {}, description: 'List built-in and saved task layouts. Apply/save/delete through applyWorkspaceLayout, saveWorkspaceLayout and deleteWorkspaceLayout.' },
+  'workspace.openSecondScreen': { parameters: {}, description: 'Open a read-only second screen for PDF drawings and selected quantity origins, synchronized with the main estimate.' },
+  'quantity.origin': { parameters: { itemId: 'estimate row ID' }, description: 'Read quantity source, file/model identity, page/elements, calculation, saved capture and missing-source/unit warnings without source bytes.' },
+  'quantity.openSource': { parameters: { itemId: 'estimate row ID', sourceIndex: 'optional zero-based source index for a PDF sum' }, description: 'Navigate to the linked PDF page, spreadsheet cell or IFC selection without changing estimate values.' },
+  'assistant.preview': { parameters: { actions: 'array of estimating assistant actions' }, description: 'Prepare a session-local proposal without changing the estimate. Returns proposal ID, changed rows, assumptions and before/after financial totals.' },
+  'assistant.apply': { parameters: { proposalId: 'ID returned by assistant.preview' }, description: 'Explicitly approve a prepared proposal as one undoable transaction; rejects changed documents and stale inputs.' },
+  'assistant.discard': { parameters: { proposalId: 'prepared proposal ID' }, description: 'Discard a proposal without changing the estimate.' },
+  'assistant.undo': { parameters: { proposalId: 'applied proposal ID' }, description: 'Undo the complete proposal only when it is the latest unchanged edit in its original document.' },
   'export.pdf': { parameters: {outputPath:'absolute PDF output path',reportView:'optional: bouw1, ibis, directie, offerte, werkbeschrijving, hoofdaanneming, onderaanneming, inschrijfstaat, nacalculatie'}, description:'Generate a PDF from the active desktop budget.' },
   'export.ifc': { parameters: {outputPath:'absolute IFC output path'}, description:'Export the active budget as IFC cost structure.' },
   'file.import': {parameters:{fileName:'string',dataBase64:'file bytes as base64',format:'optional XML format: cuf,tradxml,rsx,s01,sufx,rsu,zsx,nsx,bmecat'},description:'Use the desktop importers; open budget or merge resource library.'},

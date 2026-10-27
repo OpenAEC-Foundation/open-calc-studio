@@ -9,7 +9,7 @@ import type { PdfPoint, PdfSource, PdfWorkspace } from '@/types/pdfWorkspace';
 import { createPdfSource, emptyPdfWorkspace, importOpenPdfMeasurements, measurePoints, replaceOpenPdfMeasurements } from '@/services/pdf/pdfWorkspace';
 
 const EMPTY = emptyPdfWorkspace();
-export function PdfViewer() {
+export function PdfViewer({ readOnly = false }: { readOnly?: boolean }) {
   const { i18n } = useTranslation();
   const documentId = useAppStore(s => s.activeDocumentId);
   const workspace = useAppStore(s => s.schedule.pdfWorkspace) ?? EMPTY;
@@ -20,6 +20,7 @@ export function PdfViewer() {
   const zoom = useAppStore(s => s.pdfZoom);
   const setZoom = useAppStore(s => s.setPdfZoom);
   const tool = useAppStore(s => s.pdfTool);
+  const targetMeasurementId = useAppStore(s => s.pdfTargetMeasurementId);
   const setTool = useAppStore(s => s.setPdfTool);
   const [points, setPoints] = useState<PdfPoint[]>([]);
   const [error, setError] = useState('');
@@ -33,7 +34,7 @@ export function PdfViewer() {
 
   function changeWorkspace(change: (w: PdfWorkspace) => PdfWorkspace) {
     const state = useAppStore.getState();
-    if (state.activeDocumentId !== documentId) return;
+    if (readOnly || state.activeDocumentId !== documentId) return;
     state.setSchedule({ pdfWorkspace: change(state.schedule.pdfWorkspace ?? emptyPdfWorkspace()) });
     state.updateDocument(documentId, { isModified: true });
   }
@@ -43,7 +44,8 @@ export function PdfViewer() {
   }
 
   useEffect(() => {
-    setPdf(null); setPage(1); setPoints([]); setError(''); setTool('pan');
+    const target = source?.measurements.find(measurement => measurement.id === useAppStore.getState().pdfTargetMeasurementId);
+    setPdf(null); setPage(target?.page ?? 1); setPoints([]); setError(''); setTool('pan');
     if (!source) return;
     let cancelled = false;
     let task: ReturnType<typeof import('pdfjs-dist').getDocument> | undefined;
@@ -58,6 +60,11 @@ export function PdfViewer() {
     })().catch(e => { if (!cancelled) setError(String(e)); });
     return () => { cancelled = true; void task?.destroy(); };
   }, [source?.id, source?.dataBase64, documentId]);
+
+  useEffect(() => {
+    const target = source?.measurements.find(measurement => measurement.id === targetMeasurementId);
+    if (target) setPage(target.page);
+  }, [targetMeasurementId, source?.id, documentId]);
 
   useEffect(() => {
     if (!pdf || !canvas.current || !overlay.current) return;
@@ -92,9 +99,9 @@ export function PdfViewer() {
       ctx.stroke();
       ps.forEach(p => { ctx.fillStyle = color; ctx.beginPath(); ctx.arc(p.x * zoom, p.y * zoom, 3, 0, Math.PI * 2); ctx.fill(); });
     };
-    source?.measurements.filter(m => m.page === page).forEach(m => draw(m.points, m.type === 'area', m.type === 'area' ? '#1680a5' : '#c33'));
+    source?.measurements.filter(m => m.page === page).forEach(m => draw(m.points, m.type === 'area', m.id === targetMeasurementId ? '#d97706' : m.type === 'area' ? '#1680a5' : '#c33'));
     draw(points, false, '#e90');
-  }, [source?.measurements, points, page, zoom, rendered]);
+  }, [source?.measurements, points, page, zoom, rendered, targetMeasurementId]);
 
   async function openPdf(file: File) {
     try {
@@ -142,7 +149,11 @@ export function PdfViewer() {
           ? uiText("pdf.calibrationHint", "First calibrate this page using two points and a known distance. You can also import Open PDF measurements directly.")
           : uiText("pdf.measureHint", "Choose Length or Area and click the measurement points on the drawing.");
   return <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: 'var(--theme-bg)', color: 'var(--theme-text)' }}>
-    <div role="status" style={{ padding: '10px 12px', background: 'var(--theme-surface)', borderBottom: '1px solid var(--theme-border)' }}><strong>{uiText("pdf.title", "PDF measurements")}</strong> — {stepHint}</div>
+    <div role="status" style={{ padding: '10px 12px', background: 'var(--theme-surface)', borderBottom: '1px solid var(--theme-border)' }}><strong>{uiText("pdf.title", "PDF measurements")}</strong> — {readOnly ? uiText('companion.readOnly', 'Read-only · follows the active estimate') : stepHint}</div>
+    {readOnly ? <div style={{ padding: 10 }}><select aria-label={uiText('pdf.source', 'PDF source')} value={source?.id ?? ''} onChange={event => {
+      const state = useAppStore.getState();
+      state.setSchedule({ pdfWorkspace: { ...(state.schedule.pdfWorkspace ?? EMPTY), activeSourceId: event.target.value } });
+    }}><option value="" disabled>{uiText('pdf.choose', 'Choose a PDF')}</option>{workspace.sources.map(source => <option key={source.id} value={source.id}>{source.fileName}</option>)}</select></div> : <>
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, padding: 10, borderBottom: '1px solid var(--theme-border)' }}>
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 6 }}><strong>{uiText("pdf.drawing", "1. Drawing")}</strong>
       {button(uiText("pdf.add", "Add PDF"), () => pdfInput.current?.click(), !documentId)}
@@ -164,6 +175,7 @@ export function PdfViewer() {
       {button(uiText("cancel", "Cancel"), () => setPoints([]), !points.length)}
       </div>
     </div>
+    </>}
     <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8, padding: '6px 10px', borderBottom: '1px solid var(--theme-border)' }}>
       {button('−', () => setZoom(Math.max(.5, zoom - .25)))}<span>{Math.round(zoom * 100)}%</span>{button('+', () => setZoom(Math.min(4, zoom + .25)))}
       {button(uiText("pdf.previous", "Previous page"), () => { setPage(page - 1); setPoints([]); }, page <= 1)}
@@ -171,7 +183,7 @@ export function PdfViewer() {
       {button(uiText("pdf.next", "Next page"), () => { setPage(page + 1); setPoints([]); }, !pdf || page >= pdf.numPages)}
     </div>
     <div style={{ padding: '6px 10px', fontSize: 12 }}>
-      {uiText("pdf.saved", "The PDF and measurements are saved with the estimate (Ctrl+S).")}{source && <span> {uiText("pdf.externalScale", "Open PDF measurements retain their own scale and are transferred as quantities.")}</span>}
+      {!readOnly && uiText("pdf.saved", "The PDF and measurements are saved with the estimate (Ctrl+S).")}{source && <span> {uiText("pdf.externalScale", "Open PDF measurements retain their own scale and are transferred as quantities.")}</span>}
     </div>
     {error && <div role="alert" style={{ padding: 10, color: '#b42318' }}>{error}</div>}
     <div style={{ flex: 1, overflow: 'auto', padding: 16, background: '#e5e7eb' }}>
@@ -179,7 +191,7 @@ export function PdfViewer() {
       <div style={{ position: 'relative', width: 'fit-content', display: source ? 'block' : 'none' }}>
         <canvas ref={canvas} style={{ display: 'block' }} />
         <canvas ref={overlay} style={{ position: 'absolute', left: 0, top: 0, cursor: tool === 'pan' ? 'default' : 'crosshair' }} onClick={e => {
-          if (tool === 'pan' || rendering || !pdf || !overlay.current) return;
+          if (readOnly || tool === 'pan' || rendering || !pdf || !overlay.current) return;
           if (tool === 'calibrate' && points.length >= 2) return;
           if (tool !== 'calibrate' && !scale) { setError(uiText("pdf.calibratePage", "Calibrate this page first.")); return; }
           const c = overlay.current, r = c.getBoundingClientRect();
@@ -191,7 +203,7 @@ export function PdfViewer() {
       {source.measurements.map(m => <div key={m.id} style={{ display: 'flex', gap: 10, padding: 3 }}>
         <span>{m.label} — p. {m.page} — {m.origin === 'open-pdf-studio' ? 'Open PDF Studio' : 'Open Calc Studio'}</span>
         <strong style={{ marginLeft: 'auto' }}>{m.value.toLocaleString(i18n.language, { minimumFractionDigits: 3, maximumFractionDigits: 3 })} {m.type === 'area' ? 'm²' : 'm'}</strong>
-        {button(uiText("remove", "Remove"), () => { if (window.confirm(uiText("pdf.removeConfirm", "Remove measurement? A linked individual quantity keeps its last known value; a linked total changes."))) changeSource(s => ({ ...s, measurements: s.measurements.filter(x => x.id !== m.id) })); })}
+        {!readOnly && button(uiText("remove", "Remove"), () => { if (window.confirm(uiText("pdf.removeConfirm", "Remove measurement? A linked individual quantity keeps its last known value; a linked total changes."))) changeSource(s => ({ ...s, measurements: s.measurements.filter(x => x.id !== m.id) })); })}
       </div>)}
     </div>}
   </div>;

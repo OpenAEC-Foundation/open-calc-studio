@@ -9,6 +9,7 @@ import { getStaartBreakdown } from '@/services/calculation/calculator';
 import { formatNumberForEdit, parseNlNumber } from '@/utils/formatting';
 import { PromptBudgetWorkspace } from '@/components/chat/PromptBudgetWorkspace';
 import './MobileWorkspace.css';
+import { QuantityOriginCard } from '@/components/common/QuantityOriginCard';
 
 type MobileTab = 'wizard' | 'budget' | 'sheets' | 'prompt';
 const units: CostUnit[] = ['st', 'm', 'm²', 'm³', 'kg', 'ton', 'uur', 'dgn', 'km', 'keer', 'ls', 'week', 'mnd', 'post', '%', 'pm'];
@@ -81,6 +82,7 @@ function MobileItemEditor({ item, onClose }: { item: CostItem; onClose: () => vo
           {canPrice && <label>{t('mobile.pricePerUnit')}<input inputMode="decimal" value={price} onChange={(e) => setPrice(e.target.value)} /></label>}
           {item.rowType === 'regel' && <label>{t('mobile.productionNorm')}<input inputMode="decimal" value={norm} onChange={(e) => setNorm(e.target.value)} /></label>}
           <label>{t('notes')}<textarea rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} /></label>
+          {item.quantityLink && <QuantityOriginCard item={item} allowNavigate={false} />}
           {error && <p className="mobile-edit-error" role="alert">{error}</p>}
         </div>
         <div className="mobile-edit-actions">

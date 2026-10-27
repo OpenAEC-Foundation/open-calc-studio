@@ -21,7 +21,8 @@
     "v0.8.1": "OpenAEC sign-in + assistant improvements",
     "v0.8.0": "Assistant applies changes directly",
     "v0.7.10": "OpenAEC account + bottom-bar navigation",
-    "v2026.44.0-dev": "2026.44.0 development: Blueprint, wizard and hosted storage"
+    "v2026.44.0-dev": "2026.44.0 development: Blueprint, wizard and hosted storage",
+    "v2026.44.1-dev": "Workspaces, quantity origins and financial previews"
   },
   "highlights": {
     "unreleased": [
@@ -130,6 +131,13 @@
       "Host files and versions with conflict protection, plus a separate REST/HTTP-MCP calculator",
       "Development build: device, signing and AWS acceptance are still pending",
       "English and Dutch translations now cover PDF measurements, the IFC split view, assistant proposals, the price library and validation messages."
+    ],
+    "v2026.44.1-dev": [
+      "Save task workspaces for measuring, estimating and review, including panel widths, zoom and columns.",
+      "A second window shows PDF drawings and the selected quantity origin without editing the estimate.",
+      "Inspect source file and identity, page or IFC selection, formula and the original linked value for each quantity.",
+      "Review financial totals before and after an assistant proposal, including markups and VAT; apply or undo the whole proposal together.",
+      "All new functions are available through the live MCP server. The native file format adds optional provenance in version 2.3.0."
     ]
   }
 }

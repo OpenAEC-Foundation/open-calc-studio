@@ -149,7 +149,7 @@ interface ProjectFile {
 
 // Huidige .ifcCalc-formaatversie — gelijk houden aan FILE_FORMAT_VERSION in
 // src/services/file/fileService.ts (zie docs/ifccalc-formaat.md).
-const FILE_FORMAT_VERSION = '2.2.0';
+const FILE_FORMAT_VERSION = '2.3.0';
 const NATIVE_BUDGET_EXTENSIONS = new Set(['.ifccalc', '.ocs', '.json', '.ifcx']);
 
 // ===========================================================================

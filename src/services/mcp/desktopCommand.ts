@@ -49,6 +49,34 @@ export async function executeDesktopCommand(action: string, params: Record<strin
   const store = useAppStore.getState();
   if (action === 'getState') return desktopState();
   if (action === 'listActions') return { ...catalogue, workspaceActions };
+  if (action === 'workspace.layouts') {
+    const { builtinWorkspaceLayouts } = await import('@/state/slices/workspaceSlice');
+    return { current: store.activeWorkspaceLayoutId, builtins: builtinWorkspaceLayouts(), saved: store.settings.workspaceLayouts ?? [] };
+  }
+  if (action === 'workspace.openSecondScreen') {
+    await (await import('@/services/workspaces/companion')).openCompanionWindow();
+    return { opened: true, readOnly: true };
+  }
+  if (action === 'quantity.origin' || action === 'quantity.openSource') {
+    const item = store.items.find(item => item.id === params.itemId);
+    if (!item) throw Error('Unknown itemId');
+    if (action === 'quantity.origin') return (await import('@/services/quantity/quantityOrigin')).getQuantityOrigin(item, store);
+    if (params.sourceIndex !== undefined && (!Number.isInteger(params.sourceIndex) || Number(params.sourceIndex) < 0)) throw Error('sourceIndex must be a non-negative integer');
+    return (await import('@/services/quantity/quantitySourceActions')).openQuantitySource(item.id, params.sourceIndex as number | undefined);
+  }
+  if (action.startsWith('assistant.')) {
+    const proposals = await import('@/services/assistant/assistantProposal');
+    if (action === 'assistant.preview') {
+      if (!Array.isArray(params.actions)) throw Error('actions must be an array');
+      const proposal = proposals.stageAssistantProposal(params.actions);
+      return proposals.summarizeAssistantProposal(proposal);
+    }
+    if (typeof params.proposalId !== 'string') throw Error('proposalId is required');
+    if (action === 'assistant.apply') { const proposal = proposals.applyAssistantProposal(params.proposalId); return { applied: true, proposalId: proposal.id, totals: proposal.afterTotals }; }
+    if (action === 'assistant.discard') { proposals.discardAssistantProposal(params.proposalId); return { discarded: true }; }
+    if (action === 'assistant.undo') { proposals.undoAssistantProposal(params.proposalId); return { undone: true }; }
+    throw Error('Unknown assistant action');
+  }
   if (action === 'getProject') {
     const p = JSON.parse(serializeProject(store.schedule, store.items, store.companyInfo, {sheets:store.subSheets,activeSheetId:store.activeSubSheetId}, store.offerte, store.snapshots));
     p.resourceLibrary = store.resourceLibrary;

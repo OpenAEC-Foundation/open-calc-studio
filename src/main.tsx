@@ -21,6 +21,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./i18n/config";
 import App from "./App";
+import { CompanionWindow } from "./components/layout/CompanionWindow";
+const companionId = new URLSearchParams(window.location.search).get("companion");
 
 class ErrorBoundary extends React.Component<
   { children: React.ReactNode },
@@ -74,7 +76,7 @@ if (import.meta.env.PROD && '__TAURI_INTERNALS__' in window) {
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ErrorBoundary>
-      <App />
+      {companionId ? <CompanionWindow id={companionId} /> : <App />}
     </ErrorBoundary>
   </React.StrictMode>,
 );

@@ -128,6 +128,8 @@ export interface CostItem {
 
   // Hoeveelheid-link: pick waarde uit spreadsheet / PDF meting / IFC quantity
   quantityLink?: QuantityLink | null;
+  /** Saved source metadata, so a missing source remains identifiable. */
+  quantityOrigin?: import('../services/quantity/quantityOrigin').QuantityOrigin;
 
   /**
    * Wijzigingshistorie van deze regel: per veldwijziging de oude/nieuwe waarde,

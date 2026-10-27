@@ -9,6 +9,8 @@ import { useTranslation } from "react-i18next";
 import TitleBar from "./components/layout/TitleBar";
 import { WorkspaceNavigation } from './components/layout/WorkspaceNavigation';
 import { WorkspaceHeader } from './components/layout/WorkspaceHeader';
+import { WorkspaceLayoutBar } from './components/layout/WorkspaceLayoutBar';
+import { QuantityOriginDialog } from './components/common/QuantityOriginCard';
 import Ribbon from "./components/ribbon/Ribbon";
 import StatusBar from "./components/layout/StatusBar";
 import Backstage from "./components/backstage/Backstage";
@@ -185,6 +187,9 @@ function App() {
       };
       const store = useAppStore.getState();
       store.setSettings(saved);
+      if (!isEmbedded() && saved.lastWorkspaceLayoutId) {
+        try { store.applyWorkspaceLayout(saved.lastWorkspaceLayoutId); } catch { /* Removed or invalid saved layout: keep the default editor. */ }
+      }
       applyTheme(saved.theme);
       setTheme(saved.theme);
       if (saved.locale && saved.locale !== 'auto') {
@@ -451,25 +456,16 @@ function App() {
     return () => { document.removeEventListener('keydown', handleKey, true); previousFocus?.focus(); };
   }, [startSidebarOpen]);
 
-  // Left panel state
-  const [leftPanelWidth, setLeftPanelWidth] = useState(220);
-  const [leftPanelOpen, setLeftPanelOpen] = useState(false);
+  const leftPanelWidth = useAppStore(s => s.leftPanelWidth);
+  const setLeftPanelWidth = useAppStore(s => s.setLeftPanelWidth);
+  const leftPanelOpen = showSchedulePanel;
+  const setLeftPanelOpen = (open: boolean) => useAppStore.setState({ showSchedulePanel: open });
   const isLeftResizing = useRef(false);
-
-  // Right panel state
-  const [rightPanelWidth, setRightPanelWidth] = useState(240);
-  const [rightPanelOpen, setRightPanelOpen] = useState(false);
+  const rightPanelWidth = useAppStore(s => s.rightPanelWidth);
+  const setRightPanelWidth = useAppStore(s => s.setRightPanelWidth);
+  const rightPanelOpen = showPropertiesPanel;
+  const setRightPanelOpen = (open: boolean) => useAppStore.setState({ showPropertiesPanel: open });
   const isRightResizing = useRef(false);
-
-  // Sync panel open state with store
-  // Panels are always visible as collapsible tabs. Open state is controlled
-  // by leftPanelOpen/rightPanelOpen which the user can toggle via the collapse
-  // tabs and close buttons. We only sync once at initial mount.
-  useEffect(() => {
-    setLeftPanelOpen(showSchedulePanel);
-    setRightPanelOpen(showPropertiesPanel);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     applyTheme(theme);
@@ -509,7 +505,7 @@ function App() {
 
     const handleMouseMove = (ev: MouseEvent) => {
       if (!isRightResizing.current) return;
-      setRightPanelWidth(Math.max(160, Math.min(480, window.innerWidth - ev.clientX)));
+      setRightPanelWidth(Math.max(200, Math.min(540, window.innerWidth - ev.clientX)));
     };
 
     const handleMouseUp = () => {
@@ -607,6 +603,7 @@ function App() {
 
         <main className="main-view">
           <WorkspaceHeader />
+          <WorkspaceLayoutBar />
           <div className="workspace-body">
           {activeContentTab === 'spreadsheet' && <SpreadsheetReturnBar />}
           {activeContentTab === 'spreadsheet' ? (
@@ -721,6 +718,7 @@ function App() {
       <FeedbackDialog open={feedbackOpen} onClose={() => setFeedbackOpen(false)} />
       <UnsavedChangesDialog open={unsavedDialog.open} fileName={unsavedDialog.fileName} onResult={handleUnsavedResult} />
       <ResourcePicker />
+      <QuantityOriginDialog />
       <WizardModal open={activeDialog === 'wizard'} onClose={closeDialog} />
     </div>
   );
