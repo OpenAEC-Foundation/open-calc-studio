@@ -15,10 +15,10 @@ describe('templateService', () => {
     const templates = getBuiltInTemplates();
     const ww = templates.find(t => t.projectType === 'waterwoning')!;
     const titles = ww.sections.map(s => s.titel);
-    expect(titles).toContain('Ruwbouw');
-    expect(titles).toContain('Afbouw');
-    expect(titles).toContain('Installaties');
-    expect(titles).toContain('Meerwerk');
+    expect(titles).toContain('Structural shell');
+    expect(titles).toContain('Finishing work');
+    expect(titles).toContain('Building services');
+    expect(titles).toContain('Additional work');
   });
 
   it('applyTemplate creates offerte sections with defaults', () => {
@@ -40,8 +40,8 @@ describe('templateService', () => {
       { id: 'ch10', code: '10', description: 'Funderingen', rowType: 'chapter', parentId: null, depth: 0, quantity: null, unit: 'm²', unitPrice: 0, total: 50000, normUnitPrice: null, normQuantity: null, normFactor: null, normDivisor: null, laborPrice: null, resourceType: null, tariefGroep: null, materialPrice: null, isCollapsed: false, sortOrder: 0, notes: '', ifcGuid: '', staartPercentage: null, nr: '01', resourceLibraryId: null, verrekenbaar: null },
     ];
     const result = applyTemplate(ww, items);
-    // Ruwbouw section has linkedChapterCodes ['10', '21', '24', '30', '31', '33'] — should match ch10
-    const ruwbouw = result.secties!.find(s => s.titel === 'Ruwbouw')!;
+    // Structural shell section has linkedChapterCodes ['10', '21', '24', '30', '31', '33'] — should match ch10
+    const ruwbouw = result.secties!.find(s => s.titel === 'Structural shell')!;
     expect(ruwbouw.linkedChapterId).toBe('ch10');
   });
 });

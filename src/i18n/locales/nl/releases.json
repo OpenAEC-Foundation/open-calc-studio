@@ -127,7 +127,8 @@
       "Vijf officiële Blueprint-thema’s met lokaal meegeleverde fonts en dezelfde calculatie-UI",
       "Optionele calculatiewizard in vijf stappen; direct terug naar de volledige editor",
       "Hostbestanden en versies met conflictbescherming, plus een aparte REST/HTTP-MCP-rekenservice",
-      "Ontwikkelbuild: apparaat-, signing- en AWS-acceptatie zijn nog niet afgerond"
+      "Ontwikkelbuild: apparaat-, signing- en AWS-acceptatie zijn nog niet afgerond",
+      "Engelse en Nederlandse vertalingen uitgebreid voor PDF-metingen, IFC-splitsweergave, assistentvoorstellen, prijsbibliotheek en validatiemeldingen."
     ]
   }
 }

@@ -1,3 +1,4 @@
+import { uiText } from '@/i18n/uiText';
 import { importXmlBudget, exportXmlBudget } from '../../services/exchange/xmlBudget';
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -483,7 +484,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
   const handleGaebOffer = useCallback(async () => {
     const apply = (xml: string) => {
       const store = useAppStore.getState();
-      if (!store.activeDocumentId) throw new Error('Open eerst het bijbehorende GAEB X83-bestek.');
+      if (!store.activeDocumentId) throw new Error(uiText("import.gaebBase", "Open the matching GAEB X83 bill of quantities first."));
       const result = applyGaebX84(xml, store.items);
       store.setItems(recalculateItems(result.items, store.schedule.tarieven));
       store.updateDocument(store.activeDocumentId, { isModified: true });
@@ -840,21 +841,21 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
                 <div className="bs-panel-option-text">
                   <strong>GAEB DA XML (.x83)</strong>
-                  <span>Duits bestek importeren; X84-prijzen vereisen het bijbehorende X83-bestek.</span>
+                  <span>{uiText("import.gaebHelp", "Import a German bill of quantities; X84 prices require the matching X83 file.")}</span>
                 </div>
               </button>
               <button className="bs-panel-option" onClick={() => void handleXmlImport('XPWE / XC4', ['xpwe', 'xc4', 'xml'], importXmlBudget)}>
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
                 <div className="bs-panel-option-text">
                   <strong>XPWE / XC4</strong>
-                  <span>Italiaanse en Tsjechische begrotingen met bronbestand voor terugexport.</span>
+                  <span>{uiText("import.xmlHelp", "Italian and Czech estimates, retaining the source file for export.")}</span>
                 </div>
               </button>
               <button className="bs-panel-option" onClick={() => void handleGaebOffer()}>
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
                 <div className="bs-panel-option-text">
-                  <strong>GAEB-aanbieding (.x84)</strong>
-                  <span>Neem biedprijzen over in het geopende X83-bestek.</span>
+                  <strong>{uiText("import.offer", "GAEB offer (.x84)")}</strong>
+                  <span>{uiText("import.offerHelp", "Apply bid prices to the open X83 bill of quantities.")}</span>
                 </div>
               </button>
               <button
@@ -921,8 +922,8 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
                 <button className="bs-panel-option" onClick={() => void handleXmlExport(schedule.budgetExchange!.format, 'XPWE / XC4')}>
                   <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.export }} />
                   <div className="bs-panel-option-text">
-                    <strong>Terug naar {schedule.budgetExchange.format.toUpperCase()}</strong>
-                    <span>Schrijf ondersteunde wijzigingen terug naar het bronbestand.</span>
+                    <strong>{uiText("export.back", "Back to")}{schedule.budgetExchange.format.toUpperCase()}</strong>
+                    <span>{uiText("export.sourceHelp", "Write supported changes back to the source file.")}</span>
                   </div>
                 </button>
               )}

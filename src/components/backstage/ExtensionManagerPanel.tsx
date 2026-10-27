@@ -1,3 +1,4 @@
+import { uiText } from '@/i18n/uiText';
 import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '../../state/appStore';
@@ -88,7 +89,7 @@ function InstalledTab({ search }: { search: string }) {
     const q = search.toLowerCase();
     return (
       ext.manifest.name.toLowerCase().includes(q) ||
-      ext.manifest.description.toLowerCase().includes(q) ||
+      uiText('extensions.' + ext.manifest.id, ext.manifest.description).toLowerCase().includes(q) ||
       ext.manifest.author.toLowerCase().includes(q) ||
       ext.manifest.tags?.some((t) => t.toLowerCase().includes(q))
     );
@@ -153,7 +154,7 @@ function InstalledExtensionCard({ ext }: { ext: InstalledExtension }) {
 
       <div className="ext-card-body">
         <div className="ext-card-header">
-          <span className="ext-card-name">{ext.manifest.name}</span>
+          <span className="ext-card-name">{uiText('extensionNames.' + ext.manifest.id, ext.manifest.name)}</span>
           <span className="ext-card-version">v{ext.manifest.version}</span>
           <span
             className="ext-card-category"
@@ -162,7 +163,7 @@ function InstalledExtensionCard({ ext }: { ext: InstalledExtension }) {
             {ext.manifest.category}
           </span>
         </div>
-        <p className="ext-card-desc">{ext.manifest.description}</p>
+        <p className="ext-card-desc">{uiText('extensions.' + ext.manifest.id, ext.manifest.description)}</p>
         <span className="ext-card-author">{ext.manifest.author}</span>
         {isError && ext.error && (
           <p className="ext-card-error-msg">{ext.error}</p>

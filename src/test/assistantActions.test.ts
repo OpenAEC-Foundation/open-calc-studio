@@ -122,7 +122,7 @@ describe('applyActies', () => {
       { type: 'verwijder', nr: '21.01' },
       { type: 'update', nr: '21.01.01', veld: 'aantal', waarde: 5 },
     ]);
-    expect(res.join(' ')).toContain('Geen wijzigingen toegepast');
+    expect(res.join(' ')).toContain('No changes applied');
     expect(useAppStore.getState().items).toBe(before);
   });
 });

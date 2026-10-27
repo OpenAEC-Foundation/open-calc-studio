@@ -1,3 +1,4 @@
+import { uiText } from '@/i18n/uiText';
 import type { StateCreator } from 'zustand';
 import type { DocumentTab } from '@/types/costModel';
 import { createDefaultSchedule } from '@/data/defaultBudget';
@@ -38,7 +39,7 @@ function makeEmptyDoc(overrides?: Partial<DocumentTab>): DocumentTab {
   return {
     id: crypto.randomUUID(),
     filePath: null,
-    fileName: 'Nieuwe begroting',
+    fileName: uiText("newBudget", "New estimate"),
     isModified: false,
     items: [],
     schedule: createDefaultSchedule(),

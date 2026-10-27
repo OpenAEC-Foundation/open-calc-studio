@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 import { parseXml, getText, getNumberOrDefault, children } from './xmlHelpers';
 
 export interface NormEntry {
@@ -37,13 +38,13 @@ export function importNsx(xml: string): NsxImportResult {
   const norms: NormEntry[] = [];
 
   if (!root) {
-    warnings.push('NSX document heeft geen root element.');
+    warnings.push(uiText("diagnostics.nsxImporter.theNSXDocumentHasNoRootElement", "The NSX document has no root element."));
     return { norms, warnings };
   }
 
   const entries = children(root, 'Norm');
   if (entries.length === 0) {
-    warnings.push('NSX bevat geen <Norm> elementen.');
+    warnings.push(uiText("diagnostics.nsxImporter.nsxContainsNoNormElements", "NSX contains no <Norm> elements."));
   }
 
   entries.forEach((n) => {

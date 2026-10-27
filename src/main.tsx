@@ -1,3 +1,4 @@
+import { uiText } from '@/i18n/uiText';
 import { blueprintTheme } from './utils/blueprintTheme';
 import { localStore } from '@/utils/browserStorage';
 import { Buffer } from 'buffer';
@@ -39,7 +40,7 @@ class ErrorBoundary extends React.Component<
     if (this.state.hasError) {
       return (
         <div style={{ padding: 40, color: '#eaeaea', background: '#1a1a2e', height: '100vh' }}>
-          <h1 style={{ color: '#e94560', marginBottom: 16 }}>Er is een fout opgetreden</h1>
+          <h1 style={{ color: '#e94560', marginBottom: 16 }}>{uiText("error.title", "An error occurred")}</h1>
           <pre style={{ fontSize: 12, color: '#a0a0a0', whiteSpace: 'pre-wrap' }}>
             {this.state.error?.message}
           </pre>
@@ -50,8 +51,7 @@ class ErrorBoundary extends React.Component<
             }}
             onClick={() => window.location.reload()}
           >
-            Herlaad applicatie
-          </button>
+            {uiText("error.reload", "Reload application")}</button>
         </div>
       );
     }

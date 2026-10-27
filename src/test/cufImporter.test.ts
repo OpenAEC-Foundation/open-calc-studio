@@ -68,7 +68,7 @@ describe('CUF importer', () => {
     expect((arbeid as any).normDivisor).toBe(1);
     const materiaal = middelen.find((m) => m.description === 'Beton C20/25');
     expect((materiaal as any).resourceType).toBe('materiaal');
-    expect(result.warnings.some((w) => w.toLowerCase().includes('toeslag'))).toBe(true);
+    expect(result.warnings.some((w) => w.toLowerCase().includes('surcharge'))).toBe(true);
   });
 });
 
@@ -111,7 +111,7 @@ describe('CUF importer — standaard 4.003 schema', () => {
     expect(oa).toBeDefined();
     // Uurtarief "513" → € 51,30 (geen tarieventabel in CUF), met waarschuwing.
     expect(result.schedule.tarieven?.A).toBeCloseTo(51.3);
-    expect(result.warnings.some((w) => w.toLowerCase().includes('uurtarief'))).toBe(true);
+    expect(result.warnings.some((w) => w.toLowerCase().includes('hourly rate'))).toBe(true);
   });
 
   it('computes line totals via the standard regel formula', () => {

@@ -65,8 +65,8 @@ describe('analyzeIfcxFolder', () => {
       { name: 'kapot.ifcx', content: '{ niet: geldig' },
       { name: 'leeg.ifcx' },
     ]);
-    expect(a.files.find(f => f.name === 'kapot.ifcx')?.error).toMatch(/onleesbaar/);
-    expect(a.files.find(f => f.name === 'leeg.ifcx')?.error).toBe('niet geladen');
+    expect(a.files.find(f => f.name === 'kapot.ifcx')?.error).toMatch(/Unreadable/);
+    expect(a.files.find(f => f.name === 'leeg.ifcx')?.error).toBe('Not loaded');
     expect(a.files.find(f => f.name === 'goed.ifcx')?.objectCount).toBe(4);
   });
 

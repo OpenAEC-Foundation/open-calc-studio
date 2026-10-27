@@ -1,3 +1,4 @@
+import { uiText } from '@/i18n/uiText';
 import { toHostCoords } from '@/lib/hostRoot';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -86,7 +87,7 @@ export function SubSheetTabBar() {
         {t('wpcalc.tabData')}
       </button>
       <button className={`subsheet-tab subsheet-tab-main${activeContentTab === 'wizard' ? ' active' : ''}`} onClick={() => goTo('wizard')}>{t('wizardUI.shortTitle')}</button>
-      <button className={`subsheet-tab subsheet-tab-main${activeContentTab === 'promptBudget' ? ' active' : ''}`} onClick={() => goTo('promptBudget')}>Prompt &amp; Begroot</button>
+      <button className={`subsheet-tab subsheet-tab-main${activeContentTab === 'promptBudget' ? ' active' : ''}`} onClick={() => goTo('promptBudget')}>{uiText('prompt.title', 'Prompt & Estimate')}</button>
       <button
         className={`subsheet-tab subsheet-tab-main${activeContentTab === 'urenstaart' ? ' active' : ''}`}
         onClick={() => goTo('urenstaart')}
@@ -100,9 +101,9 @@ export function SubSheetTabBar() {
         {t('wpcalc.tabReport')}
       </button>
 
-      <button className={`subsheet-tab subsheet-tab-main${activeContentTab === 'viewer3d' ? ' active' : ''}`} onClick={() => goTo('viewer3d')}>3D &amp; Begroting</button>
+      <button className={`subsheet-tab subsheet-tab-main${activeContentTab === 'viewer3d' ? ' active' : ''}`} onClick={() => goTo('viewer3d')}>{uiText('ifc.tab', '3D & Estimate')}</button>
       {/* Spreadsheet: one tab per sub-sheet (or a starter tab when none exist) */}
-      <button className={`subsheet-tab subsheet-tab-main${activeContentTab === 'pdf' ? ' active' : ''}`} onClick={() => goTo('pdf')}>PDF &amp; metingen</button>
+      <button className={`subsheet-tab subsheet-tab-main${activeContentTab === 'pdf' ? ' active' : ''}`} onClick={() => goTo('pdf')}>{uiText('pdf.tab', 'PDF & measurements')}</button>
       {subSheets.length === 0 && (
         <button
           className={`subsheet-tab subsheet-tab-main${activeContentTab === 'spreadsheet' ? ' active' : ''}`}

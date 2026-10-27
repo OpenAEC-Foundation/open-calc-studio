@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 import type { StateCreator } from 'zustand';
 import type {
   OfferteDocument, OfferteType, OfferteSection, OfferteSectionItem,
@@ -12,23 +13,23 @@ function genId(): string {
 
 // ── Default templates ──
 
-const defaultBetalingstermijnen: BetalingsTermijn[] = [
-  { id: genId(), beschrijving: 'Bij tekenen intentieovereenkomst', percentage: 4, toelichting: '' },
-  { id: genId(), beschrijving: 'Bij opdracht', percentage: 21, toelichting: '' },
-  { id: genId(), beschrijving: 'Bij start werkzaamheden', percentage: 25, toelichting: '' },
-  { id: genId(), beschrijving: 'Bij gereed ruwbouw', percentage: 25, toelichting: '' },
-  { id: genId(), beschrijving: 'Bij wind- en waterdicht', percentage: 10, toelichting: '' },
-  { id: genId(), beschrijving: 'Bij oplevering', percentage: 12, toelichting: '' },
-  { id: genId(), beschrijving: 'Na onderhoudstermijn (3 maanden)', percentage: 3, toelichting: '' },
-];
+function defaultBetalingstermijnen(): BetalingsTermijn[] { return [
+  { id: genId(), beschrijving: uiText('quotationDefaults.intent', "On signing the letter of intent"), percentage: 4, toelichting: '' },
+  { id: genId(), beschrijving: uiText('quotationDefaults.order', "On order confirmation"), percentage: 21, toelichting: '' },
+  { id: genId(), beschrijving: uiText('quotationDefaults.start', "On starting work"), percentage: 25, toelichting: '' },
+  { id: genId(), beschrijving: uiText('quotationDefaults.shell', "On completing the structural shell"), percentage: 25, toelichting: '' },
+  { id: genId(), beschrijving: uiText('quotationDefaults.weathertight', "When wind- and watertight"), percentage: 10, toelichting: '' },
+  { id: genId(), beschrijving: uiText('quotationDefaults.handover', "On handover"), percentage: 12, toelichting: '' },
+  { id: genId(), beschrijving: uiText('quotationDefaults.maintenance', "After the maintenance period (3 months)"), percentage: 3, toelichting: '' },
+]; }
 
-const defaultGaranties: Garantie[] = [
-  { id: genId(), onderdeel: 'Betonwerk', termijn: '20 jaar', toelichting: '', linkedCostItemIds: [] },
-  { id: genId(), onderdeel: 'Kozijnen en ramen (werking)', termijn: '3 jaar', toelichting: '', linkedCostItemIds: [] },
-  { id: genId(), onderdeel: 'Dakbedekking', termijn: '10 jaar', toelichting: '', linkedCostItemIds: [] },
-  { id: genId(), onderdeel: 'Schilderwerk', termijn: '3 jaar', toelichting: '', linkedCostItemIds: [] },
-  { id: genId(), onderdeel: 'Installaties', termijn: '2 jaar', toelichting: '', linkedCostItemIds: [] },
-];
+function defaultGaranties(): Garantie[] { return [
+  { id: genId(), onderdeel: uiText('quotationDefaults.concrete', "Concrete work"), termijn: uiText('quotationDefaults.years20', "20 years"), toelichting: '', linkedCostItemIds: [] },
+  { id: genId(), onderdeel: uiText('quotationDefaults.windows', "Window frames and windows (operation)"), termijn: uiText('quotationDefaults.years3', "3 years"), toelichting: '', linkedCostItemIds: [] },
+  { id: genId(), onderdeel: uiText('quotationDefaults.roof', "Roof covering"), termijn: uiText('quotationDefaults.years10', "10 years"), toelichting: '', linkedCostItemIds: [] },
+  { id: genId(), onderdeel: uiText('quotationDefaults.paint', "Painting"), termijn: uiText('quotationDefaults.years3', "3 years"), toelichting: '', linkedCostItemIds: [] },
+  { id: genId(), onderdeel: uiText('quotationDefaults.services', "Building services"), termijn: uiText('quotationDefaults.years2', "2 years"), toelichting: '', linkedCostItemIds: [] },
+]; }
 
 const defaultOndertekening: Ondertekenaar[] = [
   { naam: '', functie: '', email: '', telefoon: '' },
@@ -44,9 +45,9 @@ export function createDefaultOfferte(): OfferteDocument {
     geadresseerde: { naam: '', adres: '', postcode: '', plaats: '' },
     begeleidendSchrijven: '',
     secties: [],
-    betalingstermijnen: [...defaultBetalingstermijnen],
-    garanties: [...defaultGaranties],
-    voorwaarden: 'Op al onze aanbiedingen zijn de UAV 2012 en onze algemene voorwaarden van toepassing.',
+    betalingstermijnen: [...defaultBetalingstermijnen()],
+    garanties: [...defaultGaranties()],
+    voorwaarden: uiText('quotationDefaults.terms', "All our offers are subject to UAV 2012 and our general terms and conditions."),
     ondertekening: [...defaultOndertekening],
   };
 }
@@ -152,20 +153,20 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
   addSection: (type, titel) => {
     const id = genId();
     const defaultTitels: Record<string, string> = {
-      technisch: 'Technische omschrijving',
-      opties: 'Opties / Meerwerk',
-      opdrachtgever: 'Te regelen door opdrachtgever',
-      betalingstermijnen: 'Betalingstermijnen',
-      garanties: 'Garanties',
-      vrij: 'Vrije sectie',
-      meerwerk: 'Meerwerk',
+      technisch: uiText('quotationDefaults.technical', "Technical specification"),
+      opties: uiText('quotationDefaults.options', "Options / additional work"),
+      opdrachtgever: uiText('quotationDefaults.client', "To be arranged by the client"),
+      betalingstermijnen: uiText('quotationDefaults.payments', "Payment schedule"),
+      garanties: uiText('quotationDefaults.guarantees', "Guarantees"),
+      vrij: uiText('quotationDefaults.free', "Custom section"),
+      meerwerk: uiText('quotationDefaults.extra', "Additional work"),
     };
     set((s) => ({
       offerte: {
         ...s.offerte,
         secties: [...s.offerte.secties, {
           id,
-          titel: titel || defaultTitels[type] || 'Nieuwe sectie',
+          titel: titel || defaultTitels[type] || uiText('quotationDefaults.newSection', "New section"),
           type,
           linkedChapterId: null,
           begeleidendeTekst: '',
@@ -548,7 +549,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
   offerteSettings: {
     staartInEP: true, afrondingNiveau: 0.01, globaleKorting: 0, btwPercentage: 21,
     offerteNummer: '', offerteDatum: new Date().toISOString().split('T')[0],
-    geldigheid: 30, betreft: '', opdrachtgever: '', voorwaarden: 'Op al onze aanbiedingen zijn de UAV 2012 en onze algemene voorwaarden van toepassing.',
+    geldigheid: 30, betreft: '', opdrachtgever: '', voorwaarden: uiText('quotationDefaults.terms', "All our offers are subject to UAV 2012 and our general terms and conditions."),
     ondertekeningNaam: '', ondertekeningFunctie: '',
   },
   offerteOverrides: {},

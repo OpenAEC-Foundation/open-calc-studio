@@ -353,8 +353,8 @@ describe.skipIf(!existsSync(VOORBEELD))('ÖNORM A 2063 rondreis — OCS-voorbeel
     const postsB = itemsB.filter((i) => i.rowType === 'begrotingspost');
     expect(postsB.map((p) => p.description)).toEqual(postsA.map((p) => p.description));
     expect(postsB.map((p) => `${p.unit}:${p.quantity}`)).toEqual(postsA.map((p) => `${p.unit}:${p.quantity}`));
-    expect(row.exportWarnings.some((w) => w.includes('rekenregel'))).toBe(true);
-    expect(row.exportWarnings.some((w) => w.includes('staartregel'))).toBe(true);
+    expect(row.exportWarnings.some((w) => w.includes('calculation lines'))).toBe(true);
+    expect(row.exportWarnings.some((w) => w.includes('surcharge rows'))).toBe(true);
   });
 
   it('wijkt in kostprijs precies de voorspelde afronding af: eenheidsprijzen staan in het schema op 2 decimalen (betrag.type)', () => {

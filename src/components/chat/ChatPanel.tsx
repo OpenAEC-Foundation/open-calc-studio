@@ -1,7 +1,9 @@
+import { uiText } from '@/i18n/uiText';
 import { localStore } from '@/utils/browserStorage';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
+import { buildAssistantSystemPrompt } from '@/services/assistant/promptLanguage';
 import { useAppStore } from '@/state/appStore';
 import { buildBudgetContext, ACTIE_PROTOCOL, parseActies, parseLocalBudgetCommand, applyActies, validateActies } from '@/services/assistant/assistantActions';
 import { BEGROTEN_KENNIS } from '@/services/assistant/begrotenKennis';
@@ -15,11 +17,11 @@ const EMPTY_MESSAGES: ChatMessage[] = [];
 
 function describeProposal(action: AssistantActie): string {
   switch (action.type) {
-    case 'add_hoofdstuk': return `Nieuw hoofdstuk: ${String(action.code ?? '')} ${String(action.omschrijving ?? '')}`;
-    case 'add_post': return `Nieuwe post onder ${String(action.onderNr)}: ${String(action.omschrijving ?? '')}`;
-    case 'add_regel': return `Nieuwe regel onder ${String(action.onderNr)}: ${String(action.aantal ?? '?')} ${String(action.eenheid ?? 'st')} ${String(action.omschrijving ?? '')}${action.prijs != null ? ` à €${String(action.prijs)}` : ''}`;
-    case 'update': return `Nr ${String(action.nr)}: ${String(action.veld)} → ${String(action.waarde)}`;
-    case 'verwijder': return `Verwijder nr ${String(action.nr)} inclusief onderliggende regels`;
+    case 'add_hoofdstuk': return uiText('chat.chapter', 'New chapter: {{code}} {{description}}', { code: String(action.code ?? ''), description: String(action.omschrijving ?? '') });
+    case 'add_post': return uiText('chat.post', 'New item under {{parent}}: {{description}}', { parent: String(action.onderNr), description: String(action.omschrijving ?? '') });
+    case 'add_regel': return uiText('chat.line', 'New line under {{parent}}: {{quantity}} {{unit}} {{description}}{{price}}', { parent: String(action.onderNr), quantity: String(action.aantal ?? '?'), unit: String(action.eenheid ?? 'st'), description: String(action.omschrijving ?? ''), price: action.prijs != null ? ` @ €${String(action.prijs)}` : '' });
+    case 'update': return uiText('chat.update', 'No. {{number}}: {{field}} → {{value}}', { number: action.nr, field: uiText('chat.fields.' + String(action.veld), String(action.veld)), value: action.waarde });
+    case 'verwijder': return uiText('chat.delete', 'Remove no. {{number}}, including child rows', { number: String(action.nr) });
     default: return String(action.type);
   }
 }
@@ -59,7 +61,7 @@ function describeAiError(err: unknown): string {
 }
 
 export function ChatPanel({ embedded = false }: { embedded?: boolean }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -92,10 +94,8 @@ export function ChatPanel({ embedded = false }: { embedded?: boolean }) {
   // command-line-argument mee (cmd.exe limiteert dat tot ~8K), dus de grote,
   // dynamische begrotingsinhoud zit NIET hier maar in het user-bericht (stdin).
   const buildSystemPrompt = useCallback(() => {
-    return `Je bent de OpenAEC calculatieassistent in Open Calc Studio (begrotingsprogramma voor de Nederlandse bouw). Je werkt in het document dat nu open staat; de actuele inhoud staat in het gebruikersbericht.
-${ACTIE_PROTOCOL}
-Antwoord in het Nederlands, bondig en praktisch; bedragen excl. btw tenzij anders gevraagd. Wijzigingen zijn voorstellen die de gebruiker eerst beoordeelt.`;
-  }, []);
+    return buildAssistantSystemPrompt(i18n.language, ACTIE_PROTOCOL);
+  }, [i18n.language]);
 
   // Dynamische context (vakkennis + actuele begroting) — gaat in het
   // user-bericht zodat het niet tegen de command-line-limiet van de bridge aanloopt.
@@ -152,25 +152,25 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
 
     // (2) geen AI — lokaal antwoord uit de snapshot
     const localActions = parseLocalBudgetCommand(text);
-    if (localActions) return `Ik stel één begrotingsregel voor. Controleer de gegevens en klik daarna op Toepassen.\n\n\`\`\`ocs-acties\n${JSON.stringify({ acties: localActions })}\n\`\`\``;
+    if (localActions) return `${uiText('chat.localProposal', 'I propose one estimate line. Check the details, then click Apply.')}\n\n\`\`\`ocs-acties\n${JSON.stringify({ acties: localActions })}\n\`\`\``;
     const total = chapters.reduce((s, c) => s + c.total, 0);
     const lower = text.toLowerCase();
-    const fmtTotal = Math.round(total).toLocaleString('nl-NL');
-    const chapterList = chapters.map(c => `- ${c.code} ${c.description}: €${Math.round(c.total).toLocaleString('nl-NL')}`).join('\n');
-    if (lower.includes('totaal') || lower.includes('kosten') || lower.includes('prijs')) {
+    const fmtTotal = Math.round(total).toLocaleString(i18next.resolvedLanguage || 'en');
+    const chapterList = chapters.map(c => `- ${c.code} ${c.description}: €${Math.round(c.total).toLocaleString(i18next.resolvedLanguage || 'en')}`).join('\n');
+    if (lower.includes('totaal') || lower.includes('kosten') || lower.includes('prijs') || /\b(total|costs?|prices?)\b/.test(lower)) {
       return i18next.t('chat.localTotal', { total: fmtTotal, list: chapterList });
     }
-    if (lower.includes('hoofdstuk') || lower.includes('overzicht')) {
+    if (lower.includes('hoofdstuk') || lower.includes('overzicht') || /\b(chapters?|overview)\b/.test(lower)) {
       return i18next.t('chat.localChapters', { count: chapters.length, list: chapterList, total: fmtTotal });
     }
-    if (lower.includes('duurste') || lower.includes('grootste')) {
+    if (lower.includes('duurste') || lower.includes('grootste') || /\b(largest|biggest|expensive)\b/.test(lower)) {
       const sorted = [...chapters].sort((a, b) => b.total - a.total);
-      const list = sorted.slice(0, 5).map((c, i) => `${i + 1}. ${c.code} ${c.description}: €${Math.round(c.total).toLocaleString('nl-NL')} (${total ? Math.round(c.total / total * 100) : 0}%)`).join('\n');
+      const list = sorted.slice(0, 5).map((c, i) => `${i + 1}. ${c.code} ${c.description}: €${Math.round(c.total).toLocaleString(i18next.resolvedLanguage || 'en')} (${total ? Math.round(c.total / total * 100) : 0}%)`).join('\n');
       return i18next.t('chat.localTop', { list });
     }
-    if (lower.includes('m2') || lower.includes('per vierkante meter') || lower.includes('bvo')) {
+    if (lower.includes('m2') || lower.includes('per vierkante meter') || lower.includes('bvo') || /per square met(er|re)/.test(lower)) {
       return bvo && bvo > 0
-        ? i18next.t('chat.localBvo', { bvo, value: Math.round(total / bvo).toLocaleString('nl-NL') })
+        ? i18next.t('chat.localBvo', { bvo, value: Math.round(total / bvo).toLocaleString(i18next.resolvedLanguage || 'en') })
         : i18next.t('chat.localNoBvo');
     }
     return i18next.t('chat.localHelp');
@@ -246,7 +246,7 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
             className="chat-credits"
             title={t('chat.creditsTitle')}
           >
-            {t('chat.tokens', { amount: aiCredits.toLocaleString('nl-NL') })}
+            {t('chat.tokens', { amount: aiCredits.toLocaleString(i18next.resolvedLanguage || 'en') })}
           </span>
         )}
         {!embedded && <button className="chat-close" onClick={toggleChatPanel}>✕</button>}
@@ -265,16 +265,16 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
               <div className={`chat-bubble${msg.status === 'error' ? ' chat-error' : ''}`}>
                 <div>{msg.content}</div>
                 {msg.proposalStatus === 'ready' && <div className="chat-proposal">
-                  <strong>{msg.proposedActions?.length} voorgestelde wijziging(en)</strong>
+                  <strong>{uiText('chat.count', 'Proposed changes: {{count}}', { count: msg.proposedActions?.length ?? 0 })}</strong>
                   <ul>{msg.proposedActions?.map((action, index) => <li key={index}>{describeProposal(action)}</li>)}</ul>
                   <div className="chat-proposal-actions">
-                    <button type="button" onClick={() => applyProposal(msg)}>Toepassen in begroting</button>
-                    <button type="button" onClick={() => updateChatMessage(activeDocId, msg.id, { proposalStatus: 'discarded', proposedActions: undefined, proposalItems: undefined, proposalSchedule: undefined })}>Verwerpen</button>
+                    <button type="button" onClick={() => applyProposal(msg)}>{uiText("chat.apply", "Apply to estimate")}</button>
+                    <button type="button" onClick={() => updateChatMessage(activeDocId, msg.id, { proposalStatus: 'discarded', proposedActions: undefined, proposalItems: undefined, proposalSchedule: undefined })}>{uiText("chat.discard", "Discard")}</button>
                   </div>
                 </div>}
-                {msg.proposalStatus === 'stale' && <p className="chat-proposal-stale">De begroting is veranderd sinds dit voorstel. Stel de opdracht opnieuw.</p>}
-                {msg.proposalStatus === 'discarded' && <p>Voorstel verworpen.</p>}
-                {msg.proposalStatus === 'failed' && <p className="chat-proposal-stale">Voorstel niet volledig toegepast. Controleer de meldingen en gebruik Ongedaan maken indien nodig.</p>}
+                {msg.proposalStatus === 'stale' && <p className="chat-proposal-stale">{uiText("chat.stale", "The estimate has changed since this proposal. Send the request again.")}</p>}
+                {msg.proposalStatus === 'discarded' && <p>{uiText("chat.discarded", "Proposal discarded.")}</p>}
+                {msg.proposalStatus === 'failed' && <p className="chat-proposal-stale">{uiText("chat.failed", "The proposal was not fully applied. Review the messages and use Undo if needed.")}</p>}
               </div>
             )}
           </div>
@@ -287,7 +287,7 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
             t('chat.chip1'),
             t('chat.chip2'),
             t('chat.chip3'),
-            ...(firstPostNr ? [`Voeg onder ${firstPostNr} een regel toe: 12 m³ Beton C30 à €145`] : []),
+            ...(firstPostNr ? [uiText('chat.example', 'Add under {{parent}} a line: 12 m³ Concrete C30 at €145', { parent: firstPostNr })] : []),
           ].map((s) => (
             <button key={s} className="chat-chip" onClick={() => { setInput(s); inputRef.current?.focus(); }}>
               {s}

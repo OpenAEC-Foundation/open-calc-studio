@@ -10,6 +10,10 @@ Zie [de ontwikkelreleasenotes](v2026.44.0.md) en
 [de issue-/acceptatiematrix](../issue-readiness.md) voor wat is gebouwd,
 getest en nog moet worden geverifieerd.
 
+## Vollediger vertaald naar Engels en Nederlands
+
+PDF-metingen, de IFC-splitsweergave, Prompt & Begroot, de prijsbibliotheek, assistentvoorstellen en fout-/importmeldingen volgen nu de gekozen interfacetaal. Nieuwe begrotingen en offertes krijgen vertaalde standaardteksten. De assistent antwoordt in de gekozen taal en begrijpt ook het Engelse voorbeeldcommando. Bestaande documentinhoud wordt niet automatisch herschreven.
+
 ## Mobiele webapp voor Android en iPhone
 
 Open Calc Studio heeft een compacte telefoonweergave waarin je dezelfde `.ifcCalc`-begroting als op de desktop kunt aanpassen. Hoofdstukken, begrotingsposten en rekenregels zijn als kaarten te zoeken en te bewerken; hoeveelheden, eenheden, prijzen, productienormen en notities rekenen mee met de bestaande calculatiemotor. Ook deelbladcellen en Prompt & Begroot zijn bereikbaar.

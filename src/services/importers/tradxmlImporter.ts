@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 import { parseXml, getText, getNumber, children, normalizeUnit, makeCostItem } from './xmlHelpers';
 import type { ImportResult } from './types';
 import type { CostItem } from '@/types/costModel';
@@ -56,7 +57,7 @@ export function importTradxml(xml: string): ImportResult {
     children(h, 'Activiteit').forEach((a) => addActivity(a, hId, 1));
   });
 
-  if (items.length === 0) warnings.push('TRADXML bevat geen hoofdstukken.');
+  if (items.length === 0) warnings.push(uiText("diagnostics.tradxmlImporter.tradxmlContainsNoChapters", "TRADXML contains no chapters."));
 
   return { schedule: { name }, items, warnings, format: 'tradxml' };
 }

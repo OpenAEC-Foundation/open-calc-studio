@@ -11,7 +11,7 @@ describe('IFC-Lite quantity takeoff',()=>{
   expect(aggregateTakeoff(model,[20,30],'Qto_WallBaseQuantities/NetSideArea').value).toBe(18);
   expect(aggregateTakeoff(model,[20,30],'Qto_WallBaseQuantities/NetVolume').value).toBeCloseTo(3.6);
   expect(aggregateTakeoff(model,[20,30,20],'__count__').value).toBe(2);
-  expect(()=>aggregateTakeoff(model,[20,999],'__count__')).toThrow('Onbekend');
-  expect(()=>aggregateTakeoff(model,[20],'GrossVolume')).toThrow('niet');
+  expect(()=>aggregateTakeoff(model,[20,999],'__count__')).toThrow('Unknown');
+  expect(()=>aggregateTakeoff(model,[20],'GrossVolume')).toThrow('does not have');
  });
 });

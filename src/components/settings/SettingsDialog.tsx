@@ -157,7 +157,7 @@ export default function SettingsDialog({ open, onClose, theme, onThemeChange }: 
               <div style={{ fontSize: 11, lineHeight: 1.8 }}>
                 <p><strong>{t("about.version")}:</strong> {__APP_VERSION__}</p>
                 <p><strong>{t("about.framework")}:</strong> Tauri + React + TypeScript</p>
-                <p><strong>{t("about.license")}:</strong> MIT</p>
+                <p><strong>{t("about.license")}:</strong> LGPL-3.0-only</p>
                 <p style={{ marginTop: 8, color: "var(--theme-dialog-content-secondary)" }}>{t("about.description")}</p>
               </div>
             </div>

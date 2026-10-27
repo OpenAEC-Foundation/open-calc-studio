@@ -51,7 +51,7 @@ describe('extractStructure', () => {
   });
 
   it('overleeft onleesbare inhoud', () => {
-    expect(extractStructure('x.ifcx', '{ kapot').error).toMatch(/onleesbaar/);
-    expect(extractStructure('y.ifcx', undefined).error).toBe('niet geladen');
+    expect(extractStructure('x.ifcx', '{ kapot').error).toMatch(/Unreadable/);
+    expect(extractStructure('y.ifcx', undefined).error).toBe('Not loaded');
   });
 });

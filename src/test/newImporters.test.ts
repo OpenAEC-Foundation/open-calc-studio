@@ -129,6 +129,6 @@ describe('Legacy RAW RSU', () => {
   it('geeft een duidelijke melding bij het oude niet-XML formaat', () => {
     const r = importRsu('RSU 2.0\n001 010100 Ontgraven 100 m3');
     expect(r.items.length).toBe(0);
-    expect(r.warnings.join(' ')).toMatch(/niet-XML RSU/i);
+    expect(r.warnings.join(' ')).toMatch(/non-XML RSU/i);
   });
 });

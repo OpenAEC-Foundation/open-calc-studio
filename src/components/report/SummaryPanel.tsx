@@ -1,3 +1,4 @@
+import { uiText } from '@/i18n/uiText';
 import './summary.css';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -55,7 +56,7 @@ export const SummaryPanel: React.FC = () => {
             {breakdown.ukkPercentage > 0 && (
               <>
                 <div className="summary-row">
-                  <span>UKK ({breakdown.ukkPercentage}%)</span>
+                  <span>{uiText("summary.siteCosts", "Site costs")} ({breakdown.ukkPercentage}%)</span>
                   <span>{formatCurrency(breakdown.ukkAmount)}</span>
                 </div>
                 <div className="summary-row summary-row-subtotal">
@@ -67,7 +68,7 @@ export const SummaryPanel: React.FC = () => {
             {breakdown.akPercentage > 0 && (
               <>
                 <div className="summary-row">
-                  <span>AK ({breakdown.akPercentage}%)</span>
+                  <span>{uiText("summary.overheads", "Overheads")} ({breakdown.akPercentage}%)</span>
                   <span>{formatCurrency(breakdown.akAmount)}</span>
                 </div>
                 <div className="summary-row summary-row-subtotal">
@@ -78,7 +79,7 @@ export const SummaryPanel: React.FC = () => {
             )}
             {breakdown.wrPercentage > 0 && (
               <div className="summary-row">
-                <span>W&amp;R ({breakdown.wrPercentage}%)</span>
+                <span>{uiText("summary.profitRisk", "Profit & risk")} ({breakdown.wrPercentage}%)</span>
                 <span>{formatCurrency(breakdown.wrAmount)}</span>
               </div>
             )}

@@ -555,5 +555,400 @@
     "openLatest": "Open latest version",
     "versions": "Versions",
     "version": "Version {{version}}"
+  },
+  "workspace": {
+    "prompt": {
+      "title": "Prompt & Estimate",
+      "help": "Describe the work on the left; review and edit the estimate on the right.",
+      "assistant": "Estimating assistant"
+    },
+    "budget": "Estimate",
+    "newBudget": "New estimate",
+    "ifc": {
+      "title": "3D & Estimate · IFC-Lite",
+      "open": "Open IFC",
+      "fit": "Fit all",
+      "isolate": "Isolate selection",
+      "split": "Split",
+      "model": "IFC model",
+      "loading": "IFC-Lite is loading geometry and quantities…",
+      "drop": "Open or drop an IFC file. Click an element; Ctrl/⌘-click to select several.",
+      "search": "Search elements",
+      "searchHint": "Search by name or IFC type",
+      "quantity": "IFC quantity",
+      "count": "Element count",
+      "select": "Select elements",
+      "takeoff": "Apply to selected item",
+      "target": "Select an estimate item or calculation line on the right.",
+      "quantityHelp": "Quantities come from IFC quantity sets; check gross/net values.",
+      "budgetLabel": "Estimate beside IFC",
+      "maxSize": "Use an IFC file up to 100 MB.",
+      "error": {
+        "openBudget": "Open an estimate first.",
+        "documentChanged": "The active estimate changed while loading; reload the model.",
+        "data": "fileName and dataBase64 are required.",
+        "size": "The IFC file exceeds 100 MB.",
+        "load": "Load an IFC model first, or provide a saved modelId.",
+        "openModel": "Open the model in the 3D view first.",
+        "openView": "Open the model in the 3D view.",
+        "selection": "Invalid element selection.",
+        "ids": "elementIds is required.",
+        "target": "Select an estimate item or calculation line.",
+        "children": "Invalid calculation line with child rows.",
+        "empty": "Select at least one IFC element.",
+        "dimensions": "Quantities have different dimensions.",
+        "unknown": "Unknown element #{{id}}.",
+        "missingQuantity": "{{name}} does not have this quantity; nothing was applied.",
+        "action": "Unknown IFC action: {{action}}"
+      },
+      "history": "Apply IFC quantity",
+      "tab": "3D & Estimate",
+      "unavailable": "3D view unavailable: {{error}}",
+      "selected": "{{count}} selected",
+      "entry": "{{file}} · {{label}} ({{count}} elements)",
+      "entry_one": "{{file}} · {{label}} ({{count}} element)",
+      "entry_other": "{{file}} · {{label}} ({{count}} elements)"
+    },
+    "pdf": {
+      "twoPoints": "Choose exactly two points at a known distance.",
+      "distancePrompt": "Actual distance between these points, in metres:",
+      "positiveDistance": "Enter a positive distance.",
+      "length": "Length",
+      "area": "Area",
+      "start": "Start by adding a PDF drawing.",
+      "opening": "Opening the drawing.",
+      "calibrationHint": "First calibrate this page using two points and a known distance. You can also import Open PDF measurements directly.",
+      "measureHint": "Choose Length or Area and click the measurement points on the drawing.",
+      "title": "PDF measurements",
+      "drawing": "1. Drawing",
+      "add": "Add PDF",
+      "source": "PDF source",
+      "choose": "Choose a PDF",
+      "import": "Import Open PDF measurements",
+      "scale": "2. Scale",
+      "choosePoints": "Choose two points",
+      "uncalibrated": "Not calibrated yet",
+      "measure": "3. Measure",
+      "pan": "Pan",
+      "finish": "Finish measurement",
+      "previous": "Previous page",
+      "next": "Next page",
+      "saved": "The PDF and measurements are saved with the estimate (Ctrl+S).",
+      "externalScale": "Open PDF measurements retain their own scale and are transferred as quantities.",
+      "empty": "Add a PDF to measure or link saved measurements from Open PDF Studio.",
+      "calibratePage": "Calibrate this page first.",
+      "removeConfirm": "Remove measurement? A linked individual quantity keeps its last known value; a linked total changes.",
+      "error": {
+        "calibrate": "Calibrate the scale first.",
+        "points": "Not enough valid measurement points.",
+        "size": "Use an embedded PDF up to 30 MB.",
+        "notPdf": "This file is not a PDF.",
+        "export": "Use the measurement export from the Open Calc integration in Open PDF Studio.",
+        "drawing": "The exported PDF name does not match the selected PDF.",
+        "annotation": "Invalid annotation.",
+        "id": "Unknown measurement type or duplicate measurement ID.",
+        "page": "The measurement refers to an invalid PDF page.",
+        "value": "The measurement has no valid value or calibrated unit.",
+        "geometry": "The distance measurement has an invalid custom scale or geometry.",
+        "tooLarge": "The measured value is too large."
+      },
+      "tab": "PDF & measurements",
+      "importConfirm": "Import {{count}} measurements for {{file}}? Check that the drawing and revision match. Previous Open PDF measurements for this source will be replaced; existing measurement IDs stay linked.",
+      "pointsChosen": "Selected points: {{count}}. Click “Finish measurement” when the shape is complete.",
+      "scaleValue": "{{value}} mm per PDF point",
+      "pointsChosen_one": "{{count}} point selected. Click “Finish measurement” when the shape is complete.",
+      "pointsChosen_other": "{{count}} points selected. Click “Finish measurement” when the shape is complete."
+    },
+    "cancel": "Cancel",
+    "remove": "Remove",
+    "pricing": {
+      "missing": "Price missing: enter a verified price and source.",
+      "notice": "Dutch starter library. Check prices and reference dates before estimating. A missing price is not treated as verified.",
+      "enter": "Enter price",
+      "source": "Source:",
+      "conversion": "This source unit requires manual conversion; adding it is disabled.",
+      "selectParent": "Select an estimate item before adding a resource.",
+      "reference": "Unverified reference: {{price}} per {{unit}}. Reference date and VAT basis unknown.",
+      "title": "Prices",
+      "library": "Dutch price library"
+    },
+    "import": {
+      "gaebBase": "Open the matching GAEB X83 bill of quantities first.",
+      "gaebHelp": "Import a German bill of quantities; X84 prices require the matching X83 file.",
+      "xmlHelp": "Italian and Czech estimates, retaining the source file for export.",
+      "offer": "GAEB offer (.x84)",
+      "offerHelp": "Apply bid prices to the open X83 bill of quantities."
+    },
+    "export": {
+      "back": "Back to",
+      "sourceHelp": "Write supported changes back to the source file."
+    },
+    "chat": {
+      "apply": "Apply to estimate",
+      "discard": "Discard",
+      "discarded": "Proposal discarded.",
+      "stale": "The estimate has changed since this proposal. Send the request again.",
+      "failed": "The proposal was not fully applied. Review the messages and use Undo if needed.",
+      "chapter": "New chapter: {{code}} {{description}}",
+      "post": "New item under {{parent}}: {{description}}",
+      "line": "New line under {{parent}}: {{quantity}} {{unit}} {{description}}{{price}}",
+      "delete": "Remove no. {{number}}, including child rows",
+      "count": "Proposed changes: {{count}}",
+      "localProposal": "I propose one estimate line. Check the details, then click Apply.",
+      "example": "Add under {{parent}} a line: 12 m³ Concrete C30 at €145",
+      "actions": {
+        "tooMany": "Too many proposed changes (maximum 100).",
+        "action": "Action {{p0}}",
+        "invalid": "{{p0}}: invalid action.",
+        "missing": "{{p0}}: no. {{p1}} does not exist.",
+        "field": "{{p0}}: unknown field.",
+        "finite": "{{p0}}: the value must be a finite number.",
+        "unit": "{{p0}}: unknown unit.",
+        "rate": "{{p0}}: unknown rate group.",
+        "text": "{{p0}}: text value missing.",
+        "description": "{{p0}}: description missing.",
+        "parentChapter": "{{p0}}: select an existing parent chapter.",
+        "quantity": "{{p0}}: quantity must be a finite number.",
+        "parentItem": "{{p0}}: select an existing parent estimate item.",
+        "numbers": "{{p0}}: quantity, price and labour norm must be finite numbers.",
+        "resource": "{{p0}}: unknown resource type.",
+        "unknown": "{{p0}}: unknown action {{p1}}.",
+        "history": "Estimating assistant",
+        "newChapter": "New chapter",
+        "newPost": "New item",
+        "newLine": "New line",
+        "chapterAdded": "✔ Chapter {{p0}} \"{{p1}}\" added",
+        "postAdded": "✔ Item \"{{p0}}\" added under {{p1}}",
+        "lineAdded": "✔ Line \"{{p0}}\" added under {{p1}}",
+        "deleted": "✔ {{p0}} \"{{p1}}\" removed (rows: {{p2}})",
+        "unknownAction": "Unknown action \"{{p0}}\"",
+        "none": "✖ No changes applied."
+      },
+      "update": "No. {{number}}: {{field}} → {{value}}",
+      "fields": {
+        "aantal": "Quantity",
+        "hoeveelheid": "Quantity",
+        "prijs": "Unit price",
+        "omschrijving": "Description",
+        "eenheid": "Unit",
+        "norm": "Labour norm",
+        "tariefgroep": "Rate group",
+        "code": "Code"
+      }
+    },
+    "error": {
+      "title": "An error occurred",
+      "reload": "Reload application"
+    },
+    "files": {
+      "noImporter": "No importer found for .{{extension}} files",
+      "openFailed": "Cannot open file: {{error}}"
+    },
+    "summary": {
+      "siteCosts": "Site costs",
+      "overheads": "Overheads",
+      "profitRisk": "Profit & risk"
+    },
+    "defaults": {
+      "subcontractOverhead": "Overheads on subcontracting:",
+      "generalOverhead": "General overheads:",
+      "guarantees": "Guarantees:",
+      "preparation": "Work preparation & project management",
+      "risk": "Risk:",
+      "profit": "Profit:",
+      "insurance": "Insurance:",
+      "vatLow": "Low VAT:",
+      "vatHigh": "High VAT:",
+      "rounding": "Rounding"
+    },
+    "diagnostics": {
+      "onlvExporter": {
+        "surchargeRowsWereNotExportedNORMA": "{{p0}} surcharge rows were not exported: ÖNORM A 2063 has no per-BoQ surcharges; the recipient calculates their own indirect costs.",
+        "chaptersDeeperThanLevelsWereFlattenedInto": "{{p0}} chapters deeper than {{p1}} levels were flattened into their Unterleistungsgruppe; headings are retained as optional preliminary remarks.",
+        "notesForMainGroupWereNotExported": "Notes for main group \"{{p0}}\" were not exported: A 2063 only supports a heading for this group.",
+        "calculationLinesWereIncludedInTheirItem": "{{p0}} calculation lines were included in their item unit prices; A 2063 does not support item compositions.",
+        "itemsWithUnitsUnsupportedByA2063": "{{p0}} items with units unsupported by A 2063 were exported as Stk."
+      },
+      "assistantActions": {
+        "noWasNotFound": "No. {{p0}} was not found",
+        "unknownField": "Unknown field \"{{p0}}\"",
+        "theValueIsNotANumber": "The value is not a number",
+        "parentNoWasNotFound": "Parent no. {{p0}} was not found"
+      },
+      "fileService": {
+        "thisFileUsesANewerIfcCalcFormat": "This file uses a newer .ifcCalc format ({{p0}}) than this app supports (up to {{p1}}). Update Open Calc Studio to open it."
+      },
+      "gaebImporter": {
+        "notAGAEBDAXMLFile": "Not a GAEB DA XML file.",
+        "gaebExchangePhaseIsNotSupportedAs": "GAEB exchange phase {{p0}} is not supported as a bill of quantities.",
+        "theGAEBFileHasNoBoQBody": "The GAEB file has no BoQBody.",
+        "theGAEBBillOfQuantitiesHasMore": "The GAEB bill of quantities has more than 30 hierarchy levels.",
+        "theGAEBFileContainsNoEstimateItems": "The GAEB file contains no estimate items.",
+        "gaebX84ContainsBidPricesOnlyImport": "GAEB X84 contains bid prices only. Import the matching X83 file first; X84 merging is not available here.",
+        "gaebItemsHadNoDescriptionCheckThem": "{{p0}} GAEB items had no description; check them after import.",
+        "gaebItemsHadNoQuantityCheckThem": "{{p0}} GAEB items had no quantity; check them after import.",
+        "gaebSpecificAttachmentsAlternativesAndFreeText": "GAEB-specific attachments, alternatives and free-text fields were not fully preserved. Keep the source file.",
+        "selectAGAEBX84BidFile": "Select a GAEB X84 bid file.",
+        "gaebX84HasNoBoQBody": "GAEB X84 has no BoQBody.",
+        "gaebX84ContainsANegativePriceAt": "GAEB X84 contains a negative price at {{p0}}.",
+        "gaebX84ContainsDuplicateItemNumber": "GAEB X84 contains duplicate item number {{p0}}.",
+        "gaebX84ContainsNoUsableUnitPrices": "GAEB X84 contains no usable unit prices.",
+        "theEstimateContainsDuplicateItemNumber": "The estimate contains duplicate item number {{p0}}.",
+        "gaebX84ItemIsMissingFromThe": "GAEB X84 item {{p0}} is missing from the current estimate. Import the matching X83 file first.",
+        "gaebX84ItemHasCalculationLinesDo": "GAEB X84 item {{p0}} has calculation lines; do not overwrite an existing composition with a bid price."
+      },
+      "tradxmlImporter": {
+        "tradxmlContainsNoChapters": "TRADXML contains no chapters."
+      },
+      "sufxImporter": {
+        "noRecognizableSTABUItemsFoundInThe": "No recognizable STABU items found in the SUFX file.",
+        "theSUFXSpecificationWasImportedAsAn": "The SUFX specification was imported as an unpriced estimate structure without quantities or prices. Check against the source file."
+      },
+      "xtbImporter": {
+        "noBegrotingRecordFoundInTheXtb": "No Begroting record found in the .xtb file.",
+        "noItemsFoundThisMayBeAn": "No items found. This may be an empty .xtb file."
+      },
+      "dncImporter": {
+        "noKKTableItemsFoundInThe": "No KK table (items) found in the .DNC file."
+      },
+      "bmecatImporter": {
+        "noARTICLEPRODUCTElementsFoundIsThis": "No <ARTICLE>/<PRODUCT> elements found. Is this a BMEcat/DICO catalogue?",
+        "noUsableArticlesWithACodeOr": "No usable articles with a code or description found."
+      },
+      "cufImporter": {
+        "noBEGROTINGFoundInTheCUFFile": "No <BEGROTING> found in the CUF file.",
+        "hourlyRateWasDerivedFromTheFile": "Hourly rate € {{p0}} was derived from the file, which has no rate table. Check the rate if needed.",
+        "theCUFFileContainsNoItemsOr": "The CUF file contains no items or lines.",
+        "surchargeWasNotImportedItIsUnsupported": "Surcharge \"{{p0}}\" was not imported: it is unsupported by the OCS model.",
+        "theCUFFileContainsNoChaptersOr": "The CUF file contains no chapters or items."
+      },
+      "s01Importer": {
+        "theS01FileContainsNoRecognizableSpecification": "The S01 file contains no recognizable specification items.",
+        "theSTABUSpecificationWasImportedAsAn": "The STABU specification was imported as an unpriced estimate structure; the source file has no quantities or prices."
+      },
+      "nsxImporter": {
+        "theNSXDocumentHasNoRootElement": "The NSX document has no root element.",
+        "nsxContainsNoNormElements": "NSX contains no <Norm> elements."
+      },
+      "ifcxImporter": {
+        "invalidIfcxFileNotValidJSON": "Invalid ifcx file: not valid JSON.",
+        "theIfcxFileContainsNoCostItems": "The ifcx file contains no cost items."
+      },
+      "genericTabularImporter": {
+        "noColumnIsMappedToDescription": "No column is mapped to Description.",
+        "noPriceOrQuantityColumnIsMapped": "No price or quantity column is mapped; everything will be imported as chapters.",
+        "noUsableRowsFoundWithThisColumn": "No usable rows found with this column mapping."
+      },
+      "rsxImporter": {
+        "rsxContainsNoSubEstimates": "RSX contains no sub-estimates.",
+        "rsxContainsNoSpecificationItems": "RSX contains no specification items."
+      },
+      "bascalcImporter": {
+        "noKostprijsSheetFoundInTheBasCalc": "No \"Kostprijs\" sheet found in the BasCalc file."
+      },
+      "zsxImporter": {
+        "theZSXDocumentHasNoRootElement": "The ZSX document has no root element.",
+        "zsxContainsNoMiddelElements": "ZSX contains no <Middel> elements."
+      },
+      "onlvImporter": {
+        "notAnNORMA2063FileRoot": "Not an ÖNORM A 2063 file: root element <{{p0}}> (expected <onlv> or <onlb>).",
+        "normA2063NoLVElementEntwurfs": "ÖNORM A 2063: no LV element (entwurfs-lv, ausschreibungs-lv, …) found."
+      },
+      "dncSharedCode": "Item {{code}} shares its code with another item; resources were summarized rather than itemized.",
+      "onlvTruncated": "{{count}} descriptions longer than 60 characters were shortened in the stichwort; the complete text is retained in the langtext.",
+      "rsxFlattened": "RSX: nested chapters under \"{{name}}\" were flattened; CROW RSX supports one sub-estimate level.",
+      "xmlError": "XML parse error: {{message}} (line {{line}})",
+      "xml": {
+        "entity": "Unknown entity {{p0}}",
+        "character": "Invalid character reference &{{p0}};",
+        "text": "Text outside the root element",
+        "closing": "Unterminated closing tag",
+        "mismatch": "Closing tag </{{p0}}> does not match <{{p1}}>",
+        "instruction": "Unterminated processing instruction",
+        "comment": "Unterminated comment",
+        "cdata": "Unterminated CDATA",
+        "cdataRoot": "CDATA outside the root element",
+        "doctype": "Unterminated DOCTYPE",
+        "markup": "Unknown markup",
+        "element": "Missing element name",
+        "start": "Unterminated opening tag",
+        "attribute": "Missing attribute name",
+        "attributeValue": "Attribute {{p0}} has no value",
+        "attributeQuote": "Attribute {{p0}} is not quoted",
+        "attributeEnd": "Attribute {{p0}} is not terminated",
+        "opening": "Opening tag is not terminated with >",
+        "multipleRoots": "More than one root element",
+        "unclosed": "Element <{{p0}}> is not closed",
+        "noRoot": "Missing root element",
+        "notLoaded": "Not loaded",
+        "unreadable": "Unreadable: {{p0}}",
+        "rsuXml": "RSU was read using the RSX/RAW XML reader.",
+        "rsuLegacy": "This appears to be the older non-XML RSU format (RAW 2005 or earlier); its record format is not publicly specified.",
+        "rsuExample": "Provide a sample RSU in verification-files for exact support, or convert the file to RSX XML first."
+      }
+    },
+    "extensions": {
+      "builtin-bc3-importer": "Import Spanish FIEBDC-3 estimates and price books (.bc3): chapters, items with measurements and labour, equipment and material compositions.",
+      "builtin-onlv-importer": "Import Austrian ÖNORM A 2063 bills of quantities (.onlv), including groups, items, quantities and labour/other prices, and standard-text catalogues (.onlb).",
+      "builtin-bascalc-importer": "Import estimates from BasCalc/BasData Excel files (.xls, .xlsx), including direct costs, surcharges and company details.",
+      "builtin-wpcalc-importer": "Import WpCalc (.calc) estimates, including chapters, items, surcharges and rate groups from the Access database.",
+      "builtin-inschrijfstaat-importer": "Import RAW bid schedules from Excel files (.xls, .xlsx), including specification items, quantities and prices.",
+      "builtin-wpcalc-exporter": "Export estimates to WpCalc (.calc) Access files, including chapters, items, surcharges and rate groups.",
+      "builtin-xtb-importer": "Import IBIS-TRAD (.xtb) SQLite estimates, including chapters, items, resources and hourly-rate codes.",
+      "builtin-dnc-importer": "Import STABU estimates from .dnc archives, including chapters, items, labour, materials, subcontracting, hourly rates and surcharges.",
+      "builtin-rsx-importer": "Import RAW specifications from .rsx files and convert specification items, chapters and quantities to Open Calc Studio format."
+    },
+    "quotationDefaults": {
+      "intent": "On signing the letter of intent",
+      "order": "On order confirmation",
+      "start": "On starting work",
+      "shell": "On completing the structural shell",
+      "weathertight": "When wind- and watertight",
+      "handover": "On handover",
+      "maintenance": "After the maintenance period (3 months)",
+      "concrete": "Concrete work",
+      "windows": "Window frames and windows (operation)",
+      "roof": "Roof covering",
+      "paint": "Painting",
+      "services": "Building services",
+      "years20": "20 years",
+      "years3": "3 years",
+      "years10": "10 years",
+      "years2": "2 years",
+      "terms": "All our offers are subject to UAV 2012 and our general terms and conditions.",
+      "technical": "Technical specification",
+      "options": "Options / additional work",
+      "client": "To be arranged by the client",
+      "payments": "Payment schedule",
+      "guarantees": "Guarantees",
+      "free": "Custom section",
+      "extra": "Additional work",
+      "newSection": "New section",
+      "waterHome": "Floating home",
+      "yard": "Construction yard",
+      "structure": "Structural shell",
+      "finishes": "Finishing work",
+      "allowances": "Provisional sums",
+      "home": "House",
+      "site": "Construction site",
+      "renovation": "Renovation",
+      "demolition": "Demolition"
+    },
+    "versions": {
+      "removed": "Removed: {{p0}} {{p1}}",
+      "added": "Added: {{p0}} {{p1}}",
+      "changed": "{{p0}} {{p1}}: {{p2}} changed",
+      "version": "Version {{p0}}",
+      "description": "Description",
+      "quantity": "Quantity",
+      "unitPrice": "Unit price",
+      "total": "Total",
+      "materials": "Material price",
+      "labour": "Labour price",
+      "unit": "Unit"
+    },
+    "extensionNames": {
+      "builtin-inschrijfstaat-importer": "RAW bid schedule importer"
+    }
   }
 }

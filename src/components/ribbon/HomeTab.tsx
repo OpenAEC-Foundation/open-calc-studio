@@ -1,3 +1,4 @@
+import { uiText } from '@/i18n/uiText';
 import { getPortalTarget } from '@/lib/hostRoot';
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
@@ -234,8 +235,8 @@ export default function HomeTab() {
           </RibbonButtonStack>
         </RibbonGroup>
 
-        <RibbonGroup label="Prijzen">
-          <RibbonButton icon={companyIcon} label="Prijsbibliotheek NL" onClick={() => {
+        <RibbonGroup label={uiText("pricing.title", "Prices")}>
+          <RibbonButton icon={companyIcon} label={uiText("pricing.library", "Dutch price library")} onClick={() => {
             const parent = activeItem && ['chapter', 'begrotingspost', 'bewakingspost'].includes(activeItem.rowType) ? activeItem.id : activeItem?.parentId ?? null;
             useAppStore.getState().openResourcePicker(parent);
           }} />

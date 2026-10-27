@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 /**
  * ÖNORM A 2063 exporter — schrijft de begroting als Oostenrijks
  * Leistungsverzeichnis (.onlv) in de namespace 2021-03-01, geldig tegen
@@ -184,7 +185,7 @@ export function buildOnlv(schedule: CostSchedule, items: CostItem[], opts: OnlvB
     list.push(it);
     byParent.set(it.parentId, list);
   }
-  if (staartCount > 0) warnings.push(`${staartCount} staartregel(s) niet geëxporteerd — ÖNORM A 2063 kent geen opslagen per LV; de ontvanger rekent zijn eigen indirecte kosten.`);
+  if (staartCount > 0) warnings.push(uiText("diagnostics.onlvExporter.surchargeRowsWereNotExportedNORMA", "{{p0}} surcharge rows were not exported: ÖNORM A 2063 has no per-BoQ surcharges; the recipient calculates their own indirect costs.", { p0: staartCount }));
 
   // ── Aantal niveaus: 2 (lg/ulg) t/m 4 (hg/og/lg/ulg) ──
   const chapterDepth = (parentId: string | null): number => {
@@ -279,7 +280,7 @@ export function buildOnlv(schedule: CostSchedule, items: CostItem[], opts: OnlvB
       roots.push(g);
     }
   }
-  if (flattened > 0) warnings.push(`${flattened} hoofdstuk(ken) dieper dan ${L} niveaus zijn in hun Unterleistungsgruppe platgeslagen; de kop staat er als wählbare Vorbemerkung.`);
+  if (flattened > 0) warnings.push(uiText("diagnostics.onlvExporter.chaptersDeeperThanLevelsWereFlattenedInto", "{{p0}} chapters deeper than {{p1}} levels were flattened into their Unterleistungsgruppe; headings are retained as optional preliminary remarks.", { p0: flattened, p1: L }));
 
   // ── Prijzen ──
 
@@ -505,7 +506,7 @@ export function buildOnlv(schedule: CostSchedule, items: CostItem[], opts: OnlvB
   };
 
   const hgNode = (g: Group, lvVorbemerkung: string): { node: XmlNode; sum: Sum } => {
-    if (g.notes) warnings.push(`Notities van hoofdgroep '${g.title}' niet geëxporteerd — een hg kent in A 2063 alleen een kop.`);
+    if (g.notes) warnings.push(uiText("diagnostics.onlvExporter.notesForMainGroupWereNotExported", "Notes for main group \"{{p0}}\" were not exported: A 2063 only supports a heading for this group.", { p0: g.title }));
     const { node, sum } = ogListe(g.groups, lvVorbemerkung);
     const children = [el('hg-eigenschaften', [text('ueberschrift', t60(g.title, g.nr))]), node];
     if (priced) children.push(gruppensumme('hg-summe', sum));
@@ -530,9 +531,9 @@ export function buildOnlv(schedule: CostSchedule, items: CostItem[], opts: OnlvB
     lvSum = sum;
   }
 
-  if (foldedRegels > 0) warnings.push(`${foldedRegels} rekenregel(s) zijn in de eenheidsprijs van hun post opgegaan — A 2063 kent geen samenstelling per positie.`);
-  if (truncated > 0) warnings.push(`${truncated} omschrijving(en) langer dan 60 tekens zijn in het stichwort ingekort; de volledige tekst staat in de langtext.`);
-  if (unknownUnits > 0) warnings.push(`${unknownUnits} positie(s) met een eenheid die A 2063 niet kent zijn als Stk geëxporteerd.`);
+  if (foldedRegels > 0) warnings.push(uiText("diagnostics.onlvExporter.calculationLinesWereIncludedInTheirItem", "{{p0}} calculation lines were included in their item unit prices; A 2063 does not support item compositions.", { p0: foldedRegels }));
+  if (truncated > 0) warnings.push(uiText('diagnostics.onlvTruncated', "{{count}} descriptions longer than 60 characters were shortened in the stichwort; the complete text is retained in the langtext.", { count: truncated }));
+  if (unknownUnits > 0) warnings.push(uiText("diagnostics.onlvExporter.itemsWithUnitsUnsupportedByA2063", "{{p0}} items with units unsupported by A 2063 were exported as Stk.", { p0: unknownUnits }));
 
   // ── Kop en kenndaten ──
 

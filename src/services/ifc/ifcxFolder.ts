@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 /**
  * Mapoverzicht / federatie van meerdere bestanden in dezelfde (cloud)map.
  *
@@ -85,7 +86,7 @@ export function analyzeIfcxFolder(files: { name: string; content?: string }[]): 
       continue;
     }
     if (f.content == null) {
-      summaries.push({ name: f.name, objectCount: 0, objectTypes: [], guids: [], error: 'niet geladen' });
+      summaries.push({ name: f.name, objectCount: 0, objectTypes: [], guids: [], error: uiText('diagnostics.xml.notLoaded', "Not loaded") });
       continue;
     }
     try {
@@ -104,7 +105,7 @@ export function analyzeIfcxFolder(files: { name: string; content?: string }[]): 
         guidToFiles.set(g, set);
       }
     } catch (e) {
-      summaries.push({ name: f.name, objectCount: 0, objectTypes: [], guids: [], error: `onleesbaar: ${(e as Error).message}` });
+      summaries.push({ name: f.name, objectCount: 0, objectTypes: [], guids: [], error: uiText('diagnostics.xml.unreadable', "Unreadable: {{p0}}", { p0: (e as Error).message }) });
     }
   }
 

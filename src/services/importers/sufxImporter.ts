@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 import { parseXml } from './xmlHelpers';
 import { BudgetBuilder } from './core';
 import type { ImportResult } from './types';
@@ -109,8 +110,8 @@ export function importSufx(xml: string): ImportResult {
     }
   }
 
-  if (builder.length === 0) warnings.push('Geen herkenbare STABU-besteksposten gevonden in het SUFX-bestand.');
-  warnings.push('SUFX-bestek geïmporteerd als prijsloze skelet-begroting (geen hoeveelheden/prijzen). Controleer tegen het bronbestand.');
+  if (builder.length === 0) warnings.push(uiText("diagnostics.sufxImporter.noRecognizableSTABUItemsFoundInThe", "No recognizable STABU items found in the SUFX file."));
+  warnings.push(uiText("diagnostics.sufxImporter.theSUFXSpecificationWasImportedAsAn", "The SUFX specification was imported as an unpriced estimate structure without quantities or prices. Check against the source file."));
 
   return { schedule: { name: 'STABU-bestek (SUFX)' }, items: builder.items, warnings, format: 'sufx' };
 }

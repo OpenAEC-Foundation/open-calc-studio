@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 import type { CostItem, CostSchedule, RowType } from '@/types/costModel';
 import { useAppStore } from '@/state/appStore';
 
@@ -90,42 +91,42 @@ export function validateActies(acties: AssistantActie[], items: CostItem[]): str
   const units = new Set(['st', 'm', 'm²', 'm³', 'kg', 'ton', 'uur', 'dgn', 'km', 'keer', 'ls', 'week', 'mnd', 'post', '%', 'pm']);
   const resources = new Set(['arbeid', 'materiaal', 'materieel', 'onderaannemer', 'overig']);
   const numeric = (value: unknown) => value == null || value === '' || (typeof value === 'number' && Number.isFinite(value));
-  if (acties.length > 100) return ['Te veel voorgestelde wijzigingen (maximaal 100).'];
+  if (acties.length > 100) return [uiText("chat.actions.tooMany", "Too many proposed changes (maximum 100).")];
   acties.forEach((a, index) => {
-    const prefix = `Actie ${index + 1}`;
-    if (!a || typeof a !== 'object') { errors.push(`${prefix}: ongeldige actie.`); return; }
+    const prefix = uiText("chat.actions.action", "Action {{p0}}", { p0: index + 1 });
+    if (!a || typeof a !== 'object') { errors.push(uiText("chat.actions.invalid", "{{p0}}: invalid action.", { p0: prefix })); return; }
     const parent = byNr(a.onderNr);
     switch (a.type) {
       case 'update':
-        if (!byNr(a.nr)) errors.push(`${prefix}: nr ${String(a.nr)} bestaat niet.`);
-        if (!VELD_MAP[String(a.veld ?? '').toLowerCase()]) errors.push(`${prefix}: onbekend veld.`);
-        if (['aantal', 'hoeveelheid', 'prijs', 'norm'].includes(String(a.veld).toLowerCase()) && !numeric(a.waarde)) errors.push(`${prefix}: waarde moet een eindig getal zijn.`);
-        if (String(a.veld).toLowerCase() === 'eenheid' && !units.has(normaliseerEenheid(a.waarde))) errors.push(`${prefix}: onbekende eenheid.`);
-        if (String(a.veld).toLowerCase() === 'tariefgroep' && !['A', 'B', 'C'].includes(String(a.waarde))) errors.push(`${prefix}: onbekende tariefgroep.`);
-        if (['omschrijving', 'code'].includes(String(a.veld).toLowerCase()) && typeof a.waarde !== 'string') errors.push(`${prefix}: tekstwaarde ontbreekt.`);
+        if (!byNr(a.nr)) errors.push(uiText("chat.actions.missing", "{{p0}}: no. {{p1}} does not exist.", { p0: prefix, p1: String(a.nr) }));
+        if (!VELD_MAP[String(a.veld ?? '').toLowerCase()]) errors.push(uiText("chat.actions.field", "{{p0}}: unknown field.", { p0: prefix }));
+        if (['aantal', 'hoeveelheid', 'prijs', 'norm'].includes(String(a.veld).toLowerCase()) && !numeric(a.waarde)) errors.push(uiText("chat.actions.finite", "{{p0}}: the value must be a finite number.", { p0: prefix }));
+        if (String(a.veld).toLowerCase() === 'eenheid' && !units.has(normaliseerEenheid(a.waarde))) errors.push(uiText("chat.actions.unit", "{{p0}}: unknown unit.", { p0: prefix }));
+        if (String(a.veld).toLowerCase() === 'tariefgroep' && !['A', 'B', 'C'].includes(String(a.waarde))) errors.push(uiText("chat.actions.rate", "{{p0}}: unknown rate group.", { p0: prefix }));
+        if (['omschrijving', 'code'].includes(String(a.veld).toLowerCase()) && typeof a.waarde !== 'string') errors.push(uiText("chat.actions.text", "{{p0}}: text value missing.", { p0: prefix }));
         break;
       case 'add_hoofdstuk':
-        if (typeof a.omschrijving !== 'string' || !a.omschrijving.trim()) errors.push(`${prefix}: omschrijving ontbreekt.`);
+        if (typeof a.omschrijving !== 'string' || !a.omschrijving.trim()) errors.push(uiText("chat.actions.description", "{{p0}}: description missing.", { p0: prefix }));
         break;
       case 'add_post':
-        if (!parent || parent.rowType !== 'chapter') errors.push(`${prefix}: kies een bestaand hoofdstuk als ouder.`);
-        if (typeof a.omschrijving !== 'string' || !a.omschrijving.trim()) errors.push(`${prefix}: omschrijving ontbreekt.`);
-        if (!numeric(a.aantal)) errors.push(`${prefix}: aantal moet een eindig getal zijn.`);
-        if (a.eenheid != null && !units.has(normaliseerEenheid(a.eenheid))) errors.push(`${prefix}: onbekende eenheid.`);
+        if (!parent || parent.rowType !== 'chapter') errors.push(uiText("chat.actions.parentChapter", "{{p0}}: select an existing parent chapter.", { p0: prefix }));
+        if (typeof a.omschrijving !== 'string' || !a.omschrijving.trim()) errors.push(uiText("chat.actions.description", "{{p0}}: description missing.", { p0: prefix }));
+        if (!numeric(a.aantal)) errors.push(uiText("chat.actions.quantity", "{{p0}}: quantity must be a finite number.", { p0: prefix }));
+        if (a.eenheid != null && !units.has(normaliseerEenheid(a.eenheid))) errors.push(uiText("chat.actions.unit", "{{p0}}: unknown unit.", { p0: prefix }));
         break;
       case 'add_regel':
-        if (!parent || !['begrotingspost', 'bewakingspost'].includes(parent.rowType)) errors.push(`${prefix}: kies een bestaande begrotingspost als ouder.`);
-        if (typeof a.omschrijving !== 'string' || !a.omschrijving.trim()) errors.push(`${prefix}: omschrijving ontbreekt.`);
-        if (!numeric(a.aantal) || !numeric(a.prijs) || !numeric(a.norm)) errors.push(`${prefix}: aantal, prijs en norm moeten eindige getallen zijn.`);
-        if (a.eenheid != null && !units.has(normaliseerEenheid(a.eenheid))) errors.push(`${prefix}: onbekende eenheid.`);
-        if (a.resourceType != null && !resources.has(String(a.resourceType))) errors.push(`${prefix}: onbekend middeltype.`);
-        if (a.tariefgroep != null && !['A', 'B', 'C'].includes(String(a.tariefgroep).toUpperCase())) errors.push(`${prefix}: onbekende tariefgroep.`);
+        if (!parent || !['begrotingspost', 'bewakingspost'].includes(parent.rowType)) errors.push(uiText("chat.actions.parentItem", "{{p0}}: select an existing parent estimate item.", { p0: prefix }));
+        if (typeof a.omschrijving !== 'string' || !a.omschrijving.trim()) errors.push(uiText("chat.actions.description", "{{p0}}: description missing.", { p0: prefix }));
+        if (!numeric(a.aantal) || !numeric(a.prijs) || !numeric(a.norm)) errors.push(uiText("chat.actions.numbers", "{{p0}}: quantity, price and labour norm must be finite numbers.", { p0: prefix }));
+        if (a.eenheid != null && !units.has(normaliseerEenheid(a.eenheid))) errors.push(uiText("chat.actions.unit", "{{p0}}: unknown unit.", { p0: prefix }));
+        if (a.resourceType != null && !resources.has(String(a.resourceType))) errors.push(uiText("chat.actions.resource", "{{p0}}: unknown resource type.", { p0: prefix }));
+        if (a.tariefgroep != null && !['A', 'B', 'C'].includes(String(a.tariefgroep).toUpperCase())) errors.push(uiText("chat.actions.rate", "{{p0}}: unknown rate group.", { p0: prefix }));
         break;
       case 'verwijder':
-        if (!byNr(a.nr)) errors.push(`${prefix}: nr ${String(a.nr)} bestaat niet.`);
+        if (!byNr(a.nr)) errors.push(uiText("chat.actions.missing", "{{p0}}: no. {{p1}} does not exist.", { p0: prefix, p1: String(a.nr) }));
         break;
       default:
-        errors.push(`${prefix}: onbekende actie ${String(a.type)}.`);
+        errors.push(uiText("chat.actions.unknown", "{{p0}}: unknown action {{p1}}.", { p0: prefix, p1: String(a.type) }));
     }
   });
   return errors;
@@ -149,8 +150,9 @@ export function parseActies(text: string): { acties: AssistantActie[]; cleanText
  * review and validation path as an AI proposal. */
 export function parseLocalBudgetCommand(text: string): AssistantActie[] | null {
   const match = text.trim().match(/^voeg\s+onder\s+(\d+(?:\.\d+)*)\s+(?:een\s+)?regel\s+toe\s*:\s*(\d+(?:[.,]\d+)?)\s+(\S+)\s+(.+?)\s+(?:à|tegen)\s*€?\s*(\d+(?:[.,]\d+)?)\s*$/i);
-  if (!match) return null;
-  const [, onderNr, aantal, eenheid, omschrijving, prijs] = match;
+  const parsed = match ?? text.trim().match(/^add\s+under\s+(\d+(?:\.\d+)*)\s+(?:a\s+)?line\s*:\s*(\d+(?:[.,]\d+)?)\s+(\S+)\s+(.+?)\s+(?:at|@)\s*€?\s*(\d+(?:[.,]\d+)?)\s*$/i);
+  if (!parsed) return null;
+  const [, onderNr, aantal, eenheid, omschrijving, prijs] = parsed;
   const unit = normaliseerEenheid(eenheid);
   // Hourly labor uses the tariff-group model, so a free price here would be
   // ignored by applyActies. Leave that case to the full assistant instead.
@@ -212,7 +214,7 @@ export function applyActies(acties: AssistantActie[]): string[] {
   const errors = validateActies(acties, store.items);
   if (errors.length) return errors.map(error => `✖ ${error}`);
   const before = { items: store.items, documents: store.documents, undoStack: store.undoStack, redoStack: store.redoStack };
-  store.pushHistory(store.items, 'Calculatieassistent');
+  store.pushHistory(store.items, uiText("chat.actions.history", "Estimating assistant"));
 
   const tarieven = store.schedule.tarieven ?? { A: 66, B: 46, C: 82 };
   const vindOpNr = (nr: unknown): CostItem | undefined =>
@@ -223,14 +225,14 @@ export function applyActies(acties: AssistantActie[]): string[] {
       switch (actie.type) {
         case 'update': {
           const item = vindOpNr(actie.nr);
-          if (!item) throw new Error(`nr ${actie.nr} niet gevonden`);
+          if (!item) throw new Error(uiText("diagnostics.assistantActions.noWasNotFound", "No. {{p0}} was not found", { p0: actie.nr }));
           const veld = VELD_MAP[String(actie.veld ?? '').toLowerCase()];
-          if (!veld) throw new Error(`onbekend veld "${actie.veld}"`);
+          if (!veld) throw new Error(uiText("diagnostics.assistantActions.unknownField", "Unknown field \"{{p0}}\"", { p0: actie.veld }));
           let waarde: unknown = actie.waarde;
           if (veld === 'unit') waarde = normaliseerEenheid(waarde);
           if (['quantity', 'normUnitPrice', 'normQuantity'].includes(veld)) {
             waarde = waarde == null || waarde === '' ? null : Number(waarde);
-            if (waarde !== null && isNaN(waarde as number)) throw new Error('waarde is geen getal');
+            if (waarde !== null && isNaN(waarde as number)) throw new Error(uiText("diagnostics.assistantActions.theValueIsNotANumber", "The value is not a number"));
           }
           useAppStore.getState().updateItem(item.id, veld, waarde as never);
           resultaten.push(`✔ ${actie.nr}: ${String(actie.veld)} → ${actie.waarde}`);
@@ -239,27 +241,27 @@ export function applyActies(acties: AssistantActie[]): string[] {
         case 'add_hoofdstuk': {
           const item = nieuwItem('chapter', null, {
             code: String(actie.code ?? ''),
-            description: String(actie.omschrijving ?? 'Nieuw hoofdstuk'),
+            description: String(actie.omschrijving ?? uiText("chat.actions.newChapter", "New chapter")),
           });
           useAppStore.getState().setItems([...useAppStore.getState().items, item]);
-          resultaten.push(`✔ Hoofdstuk ${item.code} "${item.description}" toegevoegd`);
+          resultaten.push(uiText("chat.actions.chapterAdded", "✔ Chapter {{p0}} \"{{p1}}\" added", { p0: item.code, p1: item.description }));
           break;
         }
         case 'add_post': {
           const ouder = vindOpNr(actie.onderNr);
-          if (!ouder) throw new Error(`onderNr ${actie.onderNr} niet gevonden`);
+          if (!ouder) throw new Error(uiText("diagnostics.assistantActions.parentNoWasNotFound", "Parent no. {{p0}} was not found", { p0: actie.onderNr }));
           const item = nieuwItem('begrotingspost', ouder.id, {
-            description: String(actie.omschrijving ?? 'Nieuwe post'),
+            description: String(actie.omschrijving ?? uiText("chat.actions.newPost", "New item")),
             quantity: actie.aantal != null ? Number(actie.aantal) : null,
             unit: normaliseerEenheid(actie.eenheid),
           });
           useAppStore.getState().setItems([...useAppStore.getState().items, item]);
-          resultaten.push(`✔ Post "${item.description}" toegevoegd onder ${actie.onderNr}`);
+          resultaten.push(uiText("chat.actions.postAdded", "✔ Item \"{{p0}}\" added under {{p1}}", { p0: item.description, p1: actie.onderNr }));
           break;
         }
         case 'add_regel': {
           const ouder = vindOpNr(actie.onderNr);
-          if (!ouder) throw new Error(`onderNr ${actie.onderNr} niet gevonden`);
+          if (!ouder) throw new Error(uiText("diagnostics.assistantActions.parentNoWasNotFound", "Parent no. {{p0}} was not found", { p0: actie.onderNr }));
           const eenheid = normaliseerEenheid(actie.eenheid);
           const groep = (String(actie.tariefgroep ?? 'A').toUpperCase() as 'A' | 'B' | 'C');
           const isUren = eenheid.toLowerCase() === 'uur';
@@ -267,7 +269,7 @@ export function applyActies(acties: AssistantActie[]): string[] {
           // tariefgroep, géén materiaalprijs — anders belandt loon in de
           // materiaalkolom.
           const item = nieuwItem('regel', ouder.id, {
-            description: String(actie.omschrijving ?? 'Nieuwe regel'),
+            description: String(actie.omschrijving ?? uiText("chat.actions.newLine", "New line")),
             quantity: actie.aantal != null ? Number(actie.aantal) : null,
             unit: eenheid,
             ...(isUren
@@ -287,12 +289,12 @@ export function applyActies(acties: AssistantActie[]): string[] {
                 }),
           });
           useAppStore.getState().setItems([...useAppStore.getState().items, item]);
-          resultaten.push(`✔ Regel "${item.description}" toegevoegd onder ${actie.onderNr}`);
+          resultaten.push(uiText("chat.actions.lineAdded", "✔ Line \"{{p0}}\" added under {{p1}}", { p0: item.description, p1: actie.onderNr }));
           break;
         }
         case 'verwijder': {
           const item = vindOpNr(actie.nr);
-          if (!item) throw new Error(`nr ${actie.nr} niet gevonden`);
+          if (!item) throw new Error(uiText("diagnostics.assistantActions.noWasNotFound", "No. {{p0}} was not found", { p0: actie.nr }));
           // Verwijder inclusief alle afstammelingen
           const huidige = useAppStore.getState().items;
           const weg = new Set<string>([item.id]);
@@ -307,11 +309,11 @@ export function applyActies(acties: AssistantActie[]): string[] {
             }
           }
           useAppStore.getState().setItems(huidige.filter((i) => !weg.has(i.id)));
-          resultaten.push(`✔ ${actie.nr} "${item.description}" verwijderd (${weg.size} regel${weg.size === 1 ? '' : 's'})`);
+          resultaten.push(uiText("chat.actions.deleted", "✔ {{p0}} \"{{p1}}\" removed (rows: {{p2}})", { p0: actie.nr, p1: item.description, p2: weg.size, p3: weg.size === 1 ? '' : 's' }));
           break;
         }
         default:
-          throw new Error(`onbekende actie "${actie.type}"`);
+          throw new Error(uiText("chat.actions.unknownAction", "Unknown action \"{{p0}}\"", { p0: actie.type }));
       }
     } catch (e) {
       resultaten.push(`✖ ${actie.type}: ${(e as Error).message}`);
@@ -321,7 +323,7 @@ export function applyActies(acties: AssistantActie[]): string[] {
   const failed = resultaten.filter(result => result.startsWith('✖'));
   if (failed.length) {
     useAppStore.setState(before);
-    return [...failed, '✖ Geen wijzigingen toegepast.'];
+    return [...failed, uiText("chat.actions.none", "✖ No changes applied.")];
   }
   useAppStore.getState().recalculate();
   const after = useAppStore.getState();

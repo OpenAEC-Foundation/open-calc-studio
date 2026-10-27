@@ -33,7 +33,7 @@ describe('GAEB DA XML import', () => {
   it('rejects a price-only X84 instead of inventing item descriptions', () => {
     const x84 = x83.replace('DA83', 'DA84').replace('<DP>83</DP>', '<DP>84</DP>')
       .replace(/<Description>[\s\S]*?<\/Description>/, '<UP>145.50</UP>');
-    expect(() => importGaeb(x84)).toThrow(/X84 bevat alleen aanbiedingsprijzen/);
+    expect(() => importGaeb(x84)).toThrow(/X84 contains bid prices only/);
   });
 
   it('applies an X84 unit price only to the matching X83 item', () => {
@@ -45,6 +45,6 @@ describe('GAEB DA XML import', () => {
     expect(merged.items[1].quantity).toBe(12.5);
     expect(merged.items[1].total).toBe(1818.75);
     expect(source.items[1].materialPrice).toBeNull();
-    expect(() => applyGaebX84(x84.replace('0010', '9999'), source.items)).toThrow(/ontbreekt/);
+    expect(() => applyGaebX84(x84.replace('0010', '9999'), source.items)).toThrow(/missing/);
   });
 });

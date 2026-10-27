@@ -127,7 +127,8 @@
       "Five official Blueprint themes with local fonts and the shared calculation UI",
       "Optional five-step estimate wizard with a direct return to the full editor",
       "Host files and versions with conflict protection, plus a separate REST/HTTP-MCP calculator",
-      "Development build: device, signing and AWS acceptance are still pending"
+      "Development build: device, signing and AWS acceptance are still pending",
+      "English and Dutch translations now cover PDF measurements, the IFC split view, assistant proposals, the price library and validation messages."
     ]
   }
 }

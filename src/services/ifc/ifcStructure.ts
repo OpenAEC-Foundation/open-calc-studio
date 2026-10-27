@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 /**
  * Structuur-extractie: zet een ifcx-familiebestand (JSON) om in een boom van
  * IFC-OBJECTEN — niet de ruwe code, maar "wat zit erin": een IfcProject, een
@@ -116,7 +117,7 @@ export interface IfcSourceStructure {
 }
 
 export function extractStructure(name: string, content: string | undefined): IfcSourceStructure {
-  if (content == null) return { name, roots: [], objectCount: 0, error: 'niet geladen' };
+  if (content == null) return { name, roots: [], objectCount: 0, error: uiText('diagnostics.xml.notLoaded', "Not loaded") };
   try {
     const json = JSON.parse(content);
     const roots: IfcStructureNode[] = [];
@@ -126,7 +127,7 @@ export function extractStructure(name: string, content: string | undefined): Ifc
     roots.forEach(tally);
     return { name, roots, objectCount: count };
   } catch (e) {
-    return { name, roots: [], objectCount: 0, error: `onleesbaar: ${(e as Error).message}` };
+    return { name, roots: [], objectCount: 0, error: uiText('diagnostics.xml.unreadable', "Unreadable: {{p0}}", { p0: (e as Error).message }) };
   }
 }
 

@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 import { parseXml, getText, getNumber, children, normalizeUnit } from './xmlHelpers';
 import type { ResourceLibraryItem, ResourceType } from '@/types/costModel';
 
@@ -33,13 +34,13 @@ export function importZsx(xml: string): ZsxImportResult {
   const resources: ResourceLibraryItem[] = [];
 
   if (!root) {
-    warnings.push('ZSX document heeft geen root element.');
+    warnings.push(uiText("diagnostics.zsxImporter.theZSXDocumentHasNoRootElement", "The ZSX document has no root element."));
     return { resources, warnings };
   }
 
   const middelen = children(root, 'Middel');
   if (middelen.length === 0) {
-    warnings.push('ZSX bevat geen <Middel> elementen.');
+    warnings.push(uiText("diagnostics.zsxImporter.zsxContainsNoMiddelElements", "ZSX contains no <Middel> elements."));
   }
 
   middelen.forEach((m) => {

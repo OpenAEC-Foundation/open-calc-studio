@@ -1,3 +1,4 @@
+import { uiText } from '@/i18n/uiText';
 import { createDefaultItems } from '@/data/defaultBudget';
 import { getSiteHost, HOST_RECENT_PREFIX } from '@/services/file/siteHost';
 import { openHostedFile, saveHostedFile } from '@/services/file/hostFileActions';
@@ -225,7 +226,7 @@ export function useFileOperations() {
           const store = useAppStore.getState();
           const importers = store.extensionImporters;
           const imp = importers.find(i => i.fileExtensions.some(fe => fe.replace(/^\./, '') === ext));
-          if (!imp) { await showError(`Geen importer gevonden voor .${ext} bestanden`); return; }
+          if (!imp) { await showError(uiText('files.noImporter', 'No importer found for .{{extension}} files', { extension: ext })); return; }
 
           const file = new File([data], fileName);
           const importResult = await imp.handler(file);
@@ -242,7 +243,7 @@ export function useFileOperations() {
         if (ext === 'rsx' || ext === 'onlv' || ext === 'onlb') {
           const store = useAppStore.getState();
           const imp = store.extensionImporters.find(i => i.fileExtensions.some(fe => fe.replace(/^\./, '') === ext));
-          if (!imp) { await showError(`Geen importer gevonden voor .${ext} bestanden`); return; }
+          if (!imp) { await showError(uiText('files.noImporter', 'No importer found for .{{extension}} files', { extension: ext })); return; }
 
           const file = new File([result.content], fileName, { type: 'text/plain' });
           const importResult = await imp.handler(file);
@@ -308,7 +309,7 @@ export function useFileOperations() {
         const store = useAppStore.getState();
         const importers = store.extensionImporters;
         const imp = importers.find(i => i.fileExtensions.some(fe => fe.replace(/^\./, '') === ext));
-        if (!imp) { await showError(`Geen importer gevonden voor .${ext} bestanden`); return; }
+        if (!imp) { await showError(uiText('files.noImporter', 'No importer found for .{{extension}} files', { extension: ext })); return; }
 
         const file = new File([data], fileName);
         const importResult = await imp.handler(file);
@@ -327,7 +328,7 @@ export function useFileOperations() {
         const content = await readTextFile(filePath);
         const store = useAppStore.getState();
         const imp = store.extensionImporters.find(i => i.fileExtensions.some(fe => fe.replace(/^\./, '') === ext));
-        if (!imp) { await showError(`Geen importer gevonden voor .${ext} bestanden`); return; }
+        if (!imp) { await showError(uiText('files.noImporter', 'No importer found for .{{extension}} files', { extension: ext })); return; }
 
         const file = new File([content], fileName, { type: 'text/plain' });
         const importResult = await imp.handler(file);
@@ -357,7 +358,7 @@ export function useFileOperations() {
       // Remove invalid path from recent files
       const current = settings.recentFiles ?? [];
       updateSettings({ recentFiles: current.filter((p: string) => p !== filePath) });
-      await showError(`Kan bestand niet openen: ${err}`);
+      await showError(uiText('files.openFailed', 'Cannot open file: {{error}}', { error: String(err) }));
     }
   }, [addDocument, setCompanyInfo, setSubSheets, setOfferte, setProjectInfo, setSnapshots, addToRecentFiles, settings.recentFiles, updateSettings]);
 
