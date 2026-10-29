@@ -106,6 +106,7 @@ jobs:
           find artifacts -name '*.deb' -exec cp {} release/ \;
           find artifacts -name '*.rpm' -exec cp {} release/ \;
           find artifacts -name '*.tgz' -exec cp {} release/ \;
+          find artifacts -name '*.sig' -exec cp {} release/ \;
           ls -la release/
 
       - name: Publish release

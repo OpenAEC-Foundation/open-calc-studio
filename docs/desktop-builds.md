@@ -51,6 +51,25 @@ Developer ID identity and enables the hardened runtime. The App Store Connect
 key is written to a runner-private temporary file and removed after the macOS
 steps, including on failure.
 
+## Updates through the OpenAEC Installer
+
+The OpenAEC Installer updates Open Calc Studio silently and only after it has
+checked a minisign signature ([OpenAEC-Blueprint#33](https://github.com/OpenAEC-Foundation/OpenAEC-Blueprint/issues/33)):
+
+- `bundle.createUpdaterArtifacts` is on, so the build writes a `.sig` next to
+  the NSIS installer, the MSI and the AppImage. It signs with the repository
+  secrets `TAURI_SIGNING_PRIVATE_KEY` and `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`;
+  the public key is the repository variable `UPDATER_PUBKEY`.
+- The `.sig` files go into the release next to the installers.
+- When a release is published, `.github/workflows/latest-json.yml` runs the
+  [release kit](https://github.com/OpenAEC-Foundation/openaec-installer/tree/main/release-kit):
+  it checks every signature against `UPDATER_PUBKEY`, checks that the tag equals
+  the version in `src-tauri/tauri.conf.json`, refuses drafts and pre-releases,
+  and attaches `latest.json` last. Run it by hand with a tag to make it again.
+
+The signing key is kept offline by the OpenAEC Foundation. Without it, no update
+can be published that the installer accepts.
+
 ## What gets verified
 
 - **Windows:** Azure signing is installed after compilation. Tauri's
