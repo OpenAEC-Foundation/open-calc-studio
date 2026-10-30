@@ -31,7 +31,9 @@ onverenigbare eenheden/valuta leiden niet tot een geschatte koppeling.
 
 ## Validatie
 
-De volledige suite slaagt met **888 tests en 6 overgeslagen tests**. De
+De volledige lokale suite slaagt met **888 tests en 6 overgeslagen tests**;
+twee aanvullende regressiegevallen zijn daarna afzonderlijk gecontroleerd.
+De GitHub-controles draaien op de complete broncommit. De
 platformsuite slaagt met zes tests; de headless API met negen tests. Daarnaast
 slagen de zelfstandige MCP-reken-/uitwisselings-/HTTP-proeven en de Rust-proef
 voor native bestandsvervanging. TypeScript, webbuild en library/framebuild zijn
@@ -59,15 +61,15 @@ Bronnen voor de updates:
 
 | Bewerking | Rekenregels | Mediaan van drie runs | Grootste gemeten RSS-toename |
 | --- | ---: | ---: | ---: |
-| budget-recalculate | 1000 | 4.5 ms | 0.6 MiB |
-| project-save-open | 1000 | 11.8 ms | 1 MiB |
-| price-preview | 1000 | 12.7 ms | 0.1 MiB |
-| budget-recalculate | 10000 | 29.3 ms | 6.1 MiB |
-| project-save-open | 10000 | 161.1 ms | 35.4 MiB |
-| price-preview | 10000 | 131.7 ms | 29.4 MiB |
-| budget-recalculate | 50000 | 138.1 ms | 12.4 MiB |
-| project-save-open | 50000 | 723.6 ms | 54.7 MiB |
-| price-preview | 50000 | 851.4 ms | 87.8 MiB |
+| budget-recalculate | 1000 | 3.5 ms | 0.6 MiB |
+| project-save-open | 1000 | 12.7 ms | 1 MiB |
+| price-preview | 1000 | 14.4 ms | 0.5 MiB |
+| budget-recalculate | 10000 | 26.9 ms | 9.3 MiB |
+| project-save-open | 10000 | 109 ms | 28.8 MiB |
+| price-preview | 10000 | 107.2 ms | 29.5 MiB |
+| budget-recalculate | 50000 | 99.7 ms | 12.6 MiB |
+| project-save-open | 50000 | 536.9 ms | 54.1 MiB |
+| price-preview | 50000 | 577 ms | 90.1 MiB |
 
 De volledige meetreeks, runtimes, hardware en beperkingen staan in
 [performance.json](performance.json). De meting gebruikt Node op deze Linux-host

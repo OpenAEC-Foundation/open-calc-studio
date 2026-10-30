@@ -1,7 +1,7 @@
 {
   "version": "2026.44.6",
-  "commit": "cb496fe02332b49ab801ccbffbfcf0ed8335ebd5",
-  "dirty": true,
+  "commit": "f17f6b375c624328cb14016058f987e78b1cac7c",
+  "dirty": false,
   "environment": {
     "node": "v24.21.0",
     "platform": "linux",
@@ -21,140 +21,140 @@
       "name": "budget-recalculate",
       "size": 1000,
       "runsMs": [
-        9.4,
-        4.5,
-        3.7
+        8.3,
+        3.4,
+        3.5
       ],
-      "medianMs": 4.5,
+      "medianMs": 3.5,
       "maxRssIncreaseMiB": 0.6
     },
     {
       "name": "project-save-open",
       "size": 1000,
       "runsMs": [
-        12.1,
-        11.8,
-        11.8
+        13.3,
+        12.7,
+        12
       ],
-      "medianMs": 11.8,
+      "medianMs": 12.7,
       "maxRssIncreaseMiB": 1
     },
     {
       "name": "price-preview",
       "size": 1000,
       "runsMs": [
-        17.1,
-        12.7,
-        12.4
+        19.8,
+        14.4,
+        12.6
       ],
-      "medianMs": 12.7,
-      "maxRssIncreaseMiB": 0.1
+      "medianMs": 14.4,
+      "maxRssIncreaseMiB": 0.5
     },
     {
       "name": "project-size",
       "rows": 1000,
       "bytes": 1098333,
-      "processRssMiB": 121.8
+      "processRssMiB": 124.7
     },
     {
       "name": "budget-recalculate",
       "size": 10000,
       "runsMs": [
-        29.3,
-        29.8,
-        24.2
+        24,
+        40.7,
+        26.9
       ],
-      "medianMs": 29.3,
-      "maxRssIncreaseMiB": 6.1
+      "medianMs": 26.9,
+      "maxRssIncreaseMiB": 9.3
     },
     {
       "name": "project-save-open",
       "size": 10000,
       "runsMs": [
-        165.2,
-        121.9,
-        161.1
+        136.7,
+        109,
+        104.5
       ],
-      "medianMs": 161.1,
-      "maxRssIncreaseMiB": 35.4
+      "medianMs": 109,
+      "maxRssIncreaseMiB": 28.8
     },
     {
       "name": "price-preview",
       "size": 10000,
       "runsMs": [
-        177.7,
-        131.7,
-        98.8
+        121.6,
+        107.2,
+        87.4
       ],
-      "medianMs": 131.7,
-      "maxRssIncreaseMiB": 29.4
+      "medianMs": 107.2,
+      "maxRssIncreaseMiB": 29.5
     },
     {
       "name": "project-size",
       "rows": 10000,
       "bytes": 10987623,
-      "processRssMiB": 219.5
+      "processRssMiB": 211.6
     },
     {
       "name": "budget-recalculate",
       "size": 50000,
       "runsMs": [
-        177.1,
-        138.1,
-        132
+        120.9,
+        98,
+        99.7
       ],
-      "medianMs": 138.1,
-      "maxRssIncreaseMiB": 12.4
+      "medianMs": 99.7,
+      "maxRssIncreaseMiB": 12.6
     },
     {
       "name": "project-save-open",
       "size": 50000,
       "runsMs": [
-        723.6,
-        680,
-        774.7
+        536.9,
+        530.5,
+        574.5
       ],
-      "medianMs": 723.6,
-      "maxRssIncreaseMiB": 54.7
+      "medianMs": 536.9,
+      "maxRssIncreaseMiB": 54.1
     },
     {
       "name": "price-preview",
       "size": 50000,
       "runsMs": [
-        932.4,
-        851.4,
-        725.3
+        617.1,
+        577,
+        533.9
       ],
-      "medianMs": 851.4,
-      "maxRssIncreaseMiB": 87.8
+      "medianMs": 577,
+      "maxRssIncreaseMiB": 90.1
     },
     {
       "name": "project-size",
       "rows": 50000,
       "bytes": 55020823,
-      "processRssMiB": 446.5
+      "processRssMiB": 447.2
     },
     {
       "name": "ifc-parse-quantities",
       "elements": 1000,
       "bytes": 299142,
       "runsMs": [
-        133.3,
-        67.1,
-        47.9
+        113.3,
+        45.2,
+        34.6
       ],
-      "medianMs": 67.1,
+      "medianMs": 45.2,
       "includesGeometryRendering": false
     },
     {
       "name": "ifc-revision-comparison",
       "size": 1000,
       "runsMs": [
-        6.4,
-        5.5,
-        3.9
+        4.6,
+        4,
+        3.5
       ],
-      "medianMs": 5.5,
+      "medianMs": 4,
       "maxRssIncreaseMiB": 0
     },
     {
@@ -162,55 +162,55 @@
       "elements": 5000,
       "bytes": 1527142,
       "runsMs": [
-        227.1,
-        172.7,
-        155.5
+        215,
+        132,
+        128.2
       ],
-      "medianMs": 172.7,
+      "medianMs": 132,
       "includesGeometryRendering": false
     },
     {
       "name": "ifc-revision-comparison",
       "size": 5000,
       "runsMs": [
-        22,
         17.7,
-        18
+        15.7,
+        17.2
       ],
-      "medianMs": 18,
+      "medianMs": 17.2,
       "maxRssIncreaseMiB": 0.5
     },
     {
       "name": "embedded-pdf-project-save-open",
       "size": 1,
       "runsMs": [
-        5.8,
-        7.6,
-        6.9
+        7.1,
+        7,
+        6.5
       ],
-      "medianMs": 6.9,
+      "medianMs": 7,
       "maxRssIncreaseMiB": 2.6
     },
     {
       "name": "embedded-pdf-project-save-open",
       "size": 10,
       "runsMs": [
-        64.1,
-        54.6,
-        51.3
+        58.7,
+        51,
+        53.2
       ],
-      "medianMs": 54.6,
-      "maxRssIncreaseMiB": 40
+      "medianMs": 53.2,
+      "maxRssIncreaseMiB": 39.9
     },
     {
       "name": "embedded-pdf-project-save-open",
       "size": 30,
       "runsMs": [
-        174.2,
-        162.9,
-        160.1
+        177.1,
+        178.4,
+        181.9
       ],
-      "medianMs": 162.9,
+      "medianMs": 178.4,
       "maxRssIncreaseMiB": 79.9
     }
   ]
