@@ -132,7 +132,11 @@ export function PdfViewer({ readOnly = false }: { readOnly?: boolean }) {
   async function importMeasurements(file: File) {
     if (!source || !pdf) return;
     try {
-      const imported = importOpenPdfMeasurements(JSON.parse(await file.text()), source, pdf.numPages);
+      if (file.size > 10 * 1024 * 1024) throw Error('Measurement export exceeds 10 MiB.');
+      const exported = JSON.parse(await file.text());
+      const unverified = exported.sourceHash == null && exported.pdfSha256 == null;
+      if (unverified && !window.confirm(uiText('pdf.unverifiedConfirm', 'This export has no PDF hash. Are you certain that the drawing and revision match? Imported measurements will be marked unverified.'))) return;
+      const imported = importOpenPdfMeasurements(exported, source, pdf.numPages, { allowUnverifiedSource: unverified });
       if (!window.confirm(uiText('pdf.importConfirm', 'Import {{count}} measurements for {{file}}? Check that the drawing and revision match. Previous Open PDF measurements for this source will be replaced; existing measurement IDs stay linked.', { count: imported.length, file: source.fileName }))) return;
       changeSource(s => replaceOpenPdfMeasurements(s, imported));
       setError('');
@@ -201,7 +205,7 @@ export function PdfViewer({ readOnly = false }: { readOnly?: boolean }) {
     </div>
     {!!source?.measurements.length && <div style={{ maxHeight: 170, overflow: 'auto', padding: 10 }}>
       {source.measurements.map(m => <div key={m.id} style={{ display: 'flex', gap: 10, padding: 3 }}>
-        <span>{m.label} — p. {m.page} — {m.origin === 'open-pdf-studio' ? 'Open PDF Studio' : 'Open Calc Studio'}</span>
+        <span>{m.label} — p. {m.page} — {m.origin === 'open-pdf-studio' ? 'Open PDF Studio' : 'Open Calc Studio'} {m.origin === 'open-pdf-studio' && !m.sourceVerified && `· ${uiText('revisions.unverified', 'Review source identity')}`}</span>
         <strong style={{ marginLeft: 'auto' }}>{m.value.toLocaleString(i18n.language, { minimumFractionDigits: 3, maximumFractionDigits: 3 })} {m.type === 'area' ? 'm²' : 'm'}</strong>
         {!readOnly && button(uiText("remove", "Remove"), () => { if (window.confirm(uiText("pdf.removeConfirm", "Remove measurement? A linked individual quantity keeps its last known value; a linked total changes."))) changeSource(s => ({ ...s, measurements: s.measurements.filter(x => x.id !== m.id) })); })}
       </div>)}

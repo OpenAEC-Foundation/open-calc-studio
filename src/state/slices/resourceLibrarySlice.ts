@@ -53,20 +53,34 @@ export function parseLibraryJson(json: unknown): ResourceLibraryItem[] {
   const resources = data.resources;
   if (!Array.isArray(resources)) return [];
 
-  return resources.map((r: Record<string, unknown>, i: number) => ({
+  const catalogueId = String(data.id ?? data.catalogueId ?? data.name ?? 'user-library');
+  const ids = new Set<string>();
+  return resources.map((raw: unknown) => {
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) throw Error('Invalid catalogue article.');
+    const r = raw as Record<string, unknown>;
+    const articleId = String(r.id ?? r.code ?? '');
+    if (!articleId) throw Error('Each catalogue article requires an id or code.');
+    const id = `${encodeURIComponent(catalogueId)}:${encodeURIComponent(articleId)}`;
+    if (ids.has(id)) throw Error(`Duplicate catalogue article: ${articleId}`);
+    ids.add(id);
+    if (r.defaultUnitPrice != null && (typeof r.defaultUnitPrice !== 'number' || !Number.isFinite(r.defaultUnitPrice) || r.defaultUnitPrice < 0)) throw Error('Catalogue prices must be finite, nonnegative numbers.');
+    return {
+    catalogueId,
+    catalogueVersion: String(data.version ?? 'unversioned'),
+    currency: typeof (r.currency ?? data.currency) === 'string' ? String(r.currency ?? data.currency) : undefined,
     source: typeof r.source === 'string' ? r.source : undefined,
     priceDate: typeof r.priceDate === 'string' ? r.priceDate : null,
     referenceUnitPrice: typeof r.referenceUnitPrice === 'number' ? r.referenceUnitPrice : null,
     originalUnit: String(r.unit ?? 'st'),
     unitSupported: ['uur','m','m1','m2','m²','m3','m³','kg','ton','st','stuk','dag','dgn','km','week','mnd','post','ls','%','pm','keer'].includes(String(r.unit ?? 'st').toLowerCase().trim()),
-    id: `lib-${i}-${String(r.code ?? '')}`,
+    id,
     code: String(r.code ?? ''),
     description: String(r.description ?? ''),
     unit: mapLibraryUnit(String(r.unit ?? 'st')),
     resourceType: ['arbeid','materiaal','materieel','onderaannemer','overig'].includes(String(r.resourceType)) ? r.resourceType as ResourceType : mapCategoryToResourceType(String(r.category ?? '')),
     defaultUnitPrice: typeof r.defaultUnitPrice === 'number' ? r.defaultUnitPrice : null,
     category: r.subCategory ? String(r.subCategory) : String(r.category ?? ''),
-  }));
+  }; });
 }
 
 export const createResourceLibrarySlice: StateCreator<ResourceLibrarySlice> = (set) => {

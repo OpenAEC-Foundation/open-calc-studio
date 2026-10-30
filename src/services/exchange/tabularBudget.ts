@@ -1,3 +1,4 @@
+import { readWorkbook } from '@/services/importers/safeWorkbook';
 import * as XLSX from 'xlsx';
 import type { CostSchedule, CostItem, CostUnit, ProjectFile } from '../../types/costModel';
 import { BudgetBuilder, genId, genIfcGuid } from '../importers/core';
@@ -33,8 +34,8 @@ function schedule(name: string, currency: string): CostSchedule {
 /** Regional spreadsheets require a reviewed profile. XLS is readable but never re-created as a tender template. */
 export function importBudgetTable(data: Uint8Array, fileName: string, profile?: BudgetTableProfile): { project: ProjectFile; warnings: string[] } {
   const wb = /\.csv$/i.test(fileName)
-    ? XLSX.read(new TextDecoder('utf-8',{fatal:true}).decode(data),{type:'string',raw:true})
-    : XLSX.read(data,{type:'array',raw:true});
+    ? readWorkbook(new TextDecoder('utf-8',{fatal:true}).decode(data),{type:'string',raw:true})
+    : readWorkbook(data,{type:'array',raw:true});
   const warnings: string[] = ['Normalized direct costs only: original layout, formulas, macros, taxes and overhead are not reproduced.'];
   const b = new BudgetBuilder();
   let currency: string;

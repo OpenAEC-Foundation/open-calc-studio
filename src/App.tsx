@@ -1,3 +1,4 @@
+import { resolveUnsavedDocuments } from './services/file/closeDocuments';
 import { useOwnAssistant } from './hooks/useOwnAssistant';
 import { useHostPresentation } from './hooks/useHostPresentation';
 import { CalculationWizard } from './components/wizard/CalculationWizard';
@@ -14,6 +15,9 @@ import { WorkspaceHeader } from './components/layout/WorkspaceHeader';
 import { WorkspaceLayoutBar } from './components/layout/WorkspaceLayoutBar';
 import { ReviewCenter, ReviewReturnBar } from './components/review/ReviewCenter';
 import { QuantityOriginDialog } from './components/common/QuantityOriginCard';
+import { RecoveryBar } from './components/common/RecoveryBar';
+import { RevisionDialog } from './components/common/RevisionDialog';
+import { PriceUpdateDialog } from './components/library/PriceUpdateDialog';
 import Ribbon from "./components/ribbon/Ribbon";
 import StatusBar from "./components/layout/StatusBar";
 import Backstage from "./components/backstage/Backstage";
@@ -36,7 +40,7 @@ import { SplitGridPane } from "./components/grid/SplitGridPane";
 import { ChatPanel } from "./components/chat/ChatPanel";
 import { PromptBudgetWorkspace } from "./components/chat/PromptBudgetWorkspace";
 import { MobileWorkspace } from "./components/mobile/MobileWorkspace";
-import { restoreMobileDraft, saveMobileDraft } from "./components/mobile/mobileDraft";
+import { restoreMobileDraft } from "./components/mobile/mobileDraft";
 const ThreeDViewer = lazy(() => import("./components/viewers/ThreeDViewer").then(m => ({ default: m.ThreeDViewer })));
 const PdfViewer = lazy(() => import("./components/viewers/PdfViewer").then(m => ({ default: m.PdfViewer })));
 import { StartSidebar } from "./components/welcome/StartSidebar";
@@ -86,6 +90,7 @@ function App() {
   const { t } = useTranslation();
   const ownAssistant = useOwnAssistant();
   const [hostError, setHostError] = useState('');
+  const closingWindow = useRef(false);
   const [settingsReady, setSettingsReady] = useState(false);
   const openedHosts = useRef(new WeakSet<SiteHost>());
   useEffect(() => {
@@ -368,23 +373,6 @@ function App() {
     };
   }, []);
 
-  useEffect(() => {
-    if (!isMobile || '__TAURI_INTERNALS__' in window) return;
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    const schedule = () => {
-      if (timer) clearTimeout(timer);
-      timer = setTimeout(saveMobileDraft, 700);
-    };
-    const unsubscribe = useAppStore.subscribe((state, previous) => {
-      if (state.items !== previous.items || state.schedule !== previous.schedule || state.subSheets !== previous.subSheets || state.companyInfo !== previous.companyInfo || state.offerte !== previous.offerte || state.projectInfo !== previous.projectInfo || state.activeDocumentId !== previous.activeDocumentId || state.documents !== previous.documents) schedule();
-    });
-    window.addEventListener('pagehide', saveMobileDraft);
-    return () => {
-      if (timer) clearTimeout(timer);
-      unsubscribe();
-      window.removeEventListener('pagehide', saveMobileDraft);
-    };
-  }, [isMobile]);
 
   // Load bundled sample voorbeeldbegroting
   const loadVoorbeeldBudget = useCallback(async () => {
@@ -406,10 +394,10 @@ function App() {
     const id = setInterval(() => {
       const s = useAppStore.getState();
       const doc = s.documents.find((d) => d.id === s.activeDocumentId);
-      if (doc?.isModified && doc.filePath) {
+      if (s.settings.autoSave && doc?.isModified && doc.filePath) {
         void saveFileForClose();
       }
-    }, 120_000);
+    }, Math.max(30_000, useAppStore.getState().settings.autoSaveInterval || 120_000));
     return () => clearInterval(id);
   }, [saveFileForClose]);
   useEffect(() => {
@@ -419,21 +407,13 @@ function App() {
         const { getCurrentWindow } = await import("@tauri-apps/api/window");
         const win = getCurrentWindow();
         unlisten = await win.onCloseRequested(async (event) => {
-          const docs = useAppStore.getState().documents;
-          const unsavedDoc = docs.find((d) => d.isModified);
-          if (unsavedDoc) {
-            event.preventDefault();
-            const result = await showUnsavedChangesDialog(unsavedDoc.fileName);
-            if (result === 'cancel') return;
-            if (result === 'save') {
-              await saveFileForClose();
-              // Check if still modified (user may have cancelled save-as)
-              const refreshed = useAppStore.getState().documents.find((d) => d.id === unsavedDoc.id);
-              if (refreshed?.isModified) return;
-            }
-            // 'discard' or successful save — close the window
-            win.destroy();
-          }
+          if (!useAppStore.getState().documents.some(d => d.isModified)) return;
+          event.preventDefault();
+          if (closingWindow.current) return;
+          closingWindow.current = true;
+          try {
+            if (await resolveUnsavedDocuments(showUnsavedChangesDialog, saveFileForClose)) await win.destroy();
+          } finally { closingWindow.current = false; }
         });
       } catch {
         // Not in Tauri environment
@@ -529,6 +509,9 @@ function App() {
     return (
       <>
         <HostFileDialog />
+        <RecoveryBar />
+        {activeDialog === 'priceUpdates' && <PriceUpdateDialog />}
+        {activeDialog === 'revisions' && <RevisionDialog />}
         {hostError && <div className="oa-banner" role="alert">{hostError}</div>}
         <MobileWorkspace />
         <UnsavedChangesDialog open={unsavedDialog.open} fileName={unsavedDialog.fileName} onResult={handleUnsavedResult} />
@@ -539,6 +522,9 @@ function App() {
   return (
     <div className="oa-app calc-studio-shell">
       <HostFileDialog />
+      <RecoveryBar />
+      {activeDialog === 'priceUpdates' && <PriceUpdateDialog />}
+      {activeDialog === 'revisions' && <RevisionDialog />}
       {hostError && <div className="oa-banner" role="alert">{hostError}</div>}
       {!hostedPresentation && <TitleBar onSettingsClick={() => setSettingsOpen(true)} onFeedbackClick={() => setFeedbackOpen(true)} />}
       <Ribbon onFileTabClick={() => setBackstageOpen(true)} />

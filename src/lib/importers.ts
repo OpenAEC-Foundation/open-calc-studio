@@ -4,6 +4,9 @@ export type { ImportResult } from '../services/importers/types';
 /** Browser import API: load only the parser needed for the selected file. */
 export async function importBudget(data: ArrayBuffer, fileName: string): Promise<ImportResult> {
   const extension = fileName.split('.').pop()?.toLowerCase();
+  if (['xls', 'xlsx', 'csv'].includes(extension ?? '') && typeof document !== 'undefined' && typeof Worker !== 'undefined') {
+    return (await import('../services/importers/importWorkerClient')).runImportWorker<ImportResult>('budget', data, fileName);
+  }
   const text = () => new TextDecoder().decode(data);
   // Some legacy .calc/.mdb files actually contain a native JSON project.
   if (['ocs', 'ifccalc', 'ifcx', 'json'].includes(extension ?? '') ||

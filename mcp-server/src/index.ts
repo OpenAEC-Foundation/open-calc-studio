@@ -16,7 +16,7 @@ import { registerAppTools } from './appTools';
  * Resources: budget://current, budget://schedule, budget://items
  */
 import { recalculateItems, getStaartBreakdown } from '../../src/services/calculation/calculator';
-import { deserializeProject } from '../../src/services/file/fileService';
+import { deserializeProject, FILE_FORMAT_VERSION } from '../../src/services/file/fileService';
 import { importBc3File } from '../../src/services/importers/bc3Importer';
 import { importOnlvFile } from '../../src/services/importers/onlvImporter';
 import { applyGaebX84, importGaeb } from '../../src/services/importers/gaebImporter';
@@ -148,9 +148,6 @@ interface ProjectFile {
   brandSlug?: string; createdAt: string; modifiedAt: string;
 }
 
-// Huidige .ifcCalc-formaatversie — gelijk houden aan FILE_FORMAT_VERSION in
-// src/services/file/fileService.ts (zie docs/ifccalc-formaat.md).
-const FILE_FORMAT_VERSION = '2.3.0';
 const NATIVE_BUDGET_EXTENSIONS = new Set(['.ifccalc', '.ocs', '.json', '.ifcx']);
 
 // ===========================================================================

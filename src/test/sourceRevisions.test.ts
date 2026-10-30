@@ -1,0 +1,43 @@
+import { beforeEach, expect, it } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { useAppStore } from '@/state/appStore';
+import { parseTakeoff } from '@/services/ifc/ifcTakeoff';
+import { compareIfcRevisions } from '@/services/revisions/ifcRevisions';
+import { revisionCommand, type RevisionPreview } from '@/services/revisions/revisionCommands';
+import { importOpenPdfMeasurements } from '@/services/pdf/pdfWorkspace';
+import { executeDesktopCommand } from '@/services/mcp/desktopCommand';
+const initial = useAppStore.getState();
+beforeEach(() => useAppStore.setState(initial, true));
+it('matches real IFC revisions by GlobalId when Express IDs and quantities change', async () => {
+  const text = readFileSync('test/fixtures/ifc-lite/wall-quantities.ifc', 'utf8');
+  const old = await parseTakeoff(new TextEncoder().encode(text).buffer, 'walls.ifc');
+  const next = await parseTakeoff(new TextEncoder().encode(text.replace(/#20\b/g, '#120').replace("'NetVolume',$,$,2.4", "'NetVolume',$,$,4.8")).buffer, 'walls.ifc');
+  const diff = compareIfcRevisions(old, next).find(row => row.oldId === 20)!;
+  expect(diff).toMatchObject({ newId: 120, status: 'changed' });
+  expect(diff.quantities.find(q => q.key.endsWith('/NetVolume'))).toMatchObject({ before: 2.4, after: 4.8 });
+  const s = useAppStore.getState(); s.addDocument(); const chapter = s.addChapter(null), post = s.addItem(chapter), id = s.addRegel(post);
+  s.setSchedule({ ifcTakeoff: { models: [old, next], entries: [{ fragmentId: 'old', modelId: old.id, label: 'Wall A', elementIds: [20], quantityKey: 'Qto_WallBaseQuantities/NetVolume', volume: 2.4 }] } });
+  s.updateItem(id, 'unit', 'm³'); s.updateItem(id, 'quantity', 2.4); s.updateItem(id, 'quantityLink', { source: 'ifc', fragmentId: 'old', quantity: 'volume' });
+  const before = useAppStore.getState().items;
+  const plan = revisionCommand('preview', { previousId: old.id, nextId: next.id }) as RevisionPreview;
+  expect(plan.rows[0]).toMatchObject({ status: 'changed', after: 4.8 }); expect(useAppStore.getState().items).toBe(before);
+  revisionCommand('apply', { proposalId: plan.proposalId, itemIds: [id] });
+  const item = useAppStore.getState().items.find(item => item.id === id)!;
+  expect(item.quantity).toBe(4.8); expect(item.quantityOrigin?.sources[0].elementIds).toEqual([120]);
+  await executeDesktopCommand('undo'); expect(useAppStore.getState().items.find(item => item.id === id)?.quantity).toBe(2.4);
+  expect(useAppStore.getState().items.find(item => item.id === id)?.quantityLink).toMatchObject({ fragmentId: 'old' });
+});
+it('marks duplicate or missing GlobalIds ambiguous instead of matching by description', () => {
+  const element = { id: 'a', expressId: 1, globalId: 'guid', name: 'Wall', type: 'IfcWall', quantities: [] };
+  expect(compareIfcRevisions({ id: 'old', fileName: 'm.ifc', elements: [element] }, { id: 'new', fileName: 'm.ifc', elements: [element, { ...element, expressId: 2 }] })[0].status).toBe('ambiguous');
+});
+it('rejects a same-named PDF with a different hash and requires approval for legacy measurement exports', () => {
+  const source = { id: 'sha-a', fileName: 'plan.pdf', dataBase64: '', measurements: [], pageScales: {} };
+  const exported = { format: 'open-pdf-studio-measurements', version: 1, fileName: 'plan.pdf', sourceHash: 'sha-b', annotations: [{ id: 'line', type: 'measureDistance', page: 1, measureValue: 3, measureUnit: 'm' }] };
+  expect(() => importOpenPdfMeasurements(exported, source, 1)).toThrow('different PDF revision');
+  const { sourceHash, ...legacy } = exported;
+  expect(sourceHash).toBe('sha-b');
+  expect(() => importOpenPdfMeasurements(legacy, source, 1)).toThrow('no PDF hash');
+  expect(importOpenPdfMeasurements(legacy, source, 1, { allowUnverifiedSource: true })[0].sourceVerified).toBe(false);
+  expect(importOpenPdfMeasurements({ ...exported, sourceHash: source.id }, source, 1)[0].sourceVerified).toBe(true);
+});

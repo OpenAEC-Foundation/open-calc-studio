@@ -1,3 +1,4 @@
+import { readWorkbook } from '@/services/importers/safeWorkbook';
 import { uiText } from '../../i18n/uiText';
 import * as XLSX from 'xlsx';
 import type { CostItem, CostSchedule, RowType, CompanyInfo, ResourceType } from '@/types/costModel';
@@ -53,7 +54,7 @@ function sheetByName(wb: XLSX.WorkBook, naam: string): XLSX.WorkSheet | undefine
 }
 
 export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSchedule; items: CostItem[]; companyInfo: CompanyInfo } {
-  const wb = XLSX.read(arrayBuffer, { type: 'array' });
+  const wb = readWorkbook(arrayBuffer, { type: 'array' });
 
   // --- Read Menu sheet for project info and company data ---
   let projectName = '';

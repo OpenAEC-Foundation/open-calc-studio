@@ -1,6 +1,6 @@
 # Open Calc Studio user guide
 
-For Open Calc Studio development version 2026.44.5. [Nederlandse handleiding](gebruikershandleiding.md) · [Project overview](../README.md)
+For Open Calc Studio development version 2026.44.6. [Nederlandse handleiding](gebruikershandleiding.md) · [Project overview](../README.md)
 
 ## Contents
 
@@ -194,3 +194,83 @@ restores valid input. The full editor remains reachable.
 model counts. **Select all results** includes every matching element across
 all pages. Check the selection count before applying quantities. **Clear
 selection** resets it. The MCP equivalent is `ifc.selectFiltered {search}`.
+
+## Recovery and safe saving since 2026.44.6
+
+When an estimate has unsaved changes, a separate IndexedDB journal retains all
+open documents, sheets, source data and snapshots. **Recovery saved** means the
+transaction completed. Storage failures appear at the top: save a project file
+in that case. Abrupt process loss may still lose edits made after the last
+checkpoint. Recovery is additional protection, not a replacement for backups.
+
+At the next start choose **Restore as new estimates**. Original files are not
+overwritten; use **Save as** afterwards. **Discard recovery** deletes the selected
+journal. Embedded PDF bytes, calibration and measurements are preserved. Saved
+IFC quantities remain available; reload the correct original IFC file for the
+3D geometry. Clearing browser data also removes recovery journals.
+
+Native saving keeps the previous version as `filename.ifcCalc.bak`. Copy it to a
+new `.ifcCalc` name to open it if needed. A temporary file is written before the
+destination is replaced. Autosave to an existing file follows settings; a new
+estimate without a path still needs an explicit save. Closing handles every
+modified document. Edits made during a pending save remain marked as modified.
+
+## Price sources and catalogue updates
+
+Applied catalogue prices retain their source, price date, catalogue version and
+currency on the estimate row. Inspect these in the properties panel. Manual
+price edits protect the row from catalogue refreshes.
+
+Open **Review center → Review price updates** (on a phone, open **Review** first).
+The resource picker also links to price updates. Import a newer JSON catalogue
+or choose **Compare loaded catalogue**. Keep catalogue and article IDs stable
+between versions; row order is not identity. Example:
+
+```json
+{
+  "id": "my-prices", "version": "2026-11", "currency": "EUR",
+  "resources": [{
+    "id": "brick-01", "code": "M.01", "description": "Brick",
+    "unit": "st", "resourceType": "materiaal", "category": "Masonry",
+    "source": "Own supplier quotation", "priceDate": "2026-10-30",
+    "defaultUnitPrice": 1.25
+  }]
+}
+```
+
+The preview shows old/new prices and the chapter/total impact of all compatible
+changes, including VAT in the estimate total. Check individual rows, then choose
+**Apply selected prices**. Only checked rows change; **Undo** reverses the action.
+Project overrides, tariff groups, inactive variants and incompatible or missing
+units/currencies are protected. Legacy rows without price provenance are excluded from
+automatic refresh. Changing the estimate invalidates a prepared preview.
+
+## Compare source revisions
+
+Add both source files in **PDF & measurements** or **3D & quantities**. Open
+**Review center → Compare source revisions**, choose PDF or IFC and select both
+revisions. The short hash distinguishes files sharing the same name.
+
+IFC comparisons use unique GlobalIds and the exact named quantity key. A new
+Express ID alone does not establish a new object. Review linked estimate rows,
+check compatible updates and choose **Apply selected quantity links**. Missing
+or duplicate objects, unit mismatches, manual quantities and inactive variants
+remain for review. Undo restores previous quantities and links. Geometry-only
+changes require inspection in the 3D viewer.
+
+PDF comparisons show imported measurement values. Review page identity, scale,
+rotation and geometry in the drawing; coordinates are not automatically moved
+to another revision. An Open PDF Studio export carrying `sourceHash` must match
+the selected PDF. Mismatched hashes are rejected. Legacy exports without a hash
+require explicit confirmation and remain visibly unverified in the measurements
+and Review center.
+
+## Large spreadsheet imports
+
+Workbook imports are limited to 64 MiB input, 256 MiB declared expanded ZIP data,
+100,000 rows, 1,024 columns and a combined budget of two million cells/range
+positions. The UI runs imports in a worker with a 30-second deadline. Rejected
+imports do not replace the estimate with partial data. Synchronous library
+functions enforce the workbook bounds; the UI worker deadline is not a deadline
+for every external caller. Use native `.ifcCalc` for complete projects with source
+attachments and metadata.

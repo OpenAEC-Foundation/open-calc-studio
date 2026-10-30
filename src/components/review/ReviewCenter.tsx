@@ -26,6 +26,10 @@ export function ReviewCenter({ onOpenItem }: { onOpenItem?: (itemId: string) => 
     catch (error) { setError((error as Error).message); }
   }
   return <section className="review-center" aria-label={t('review.title')}>
+    <div className="review-filters">
+      <button className="oa-button" onClick={() => useAppStore.getState().openDialog('priceUpdates')}>{i18n.language.startsWith('nl') ? 'Prijsupdates beoordelen' : 'Review price updates'}</button>
+      <button className="oa-button" onClick={() => useAppStore.getState().openDialog('revisions')}>{i18n.language.startsWith('nl') ? 'Bronrevisies vergelijken' : 'Compare source revisions'}</button>
+    </div>
     <header className="review-heading"><h2 className="oa-heading oa-heading--section">{t('review.title')}</h2><p role="status">{t('review.summary', { count: report.counts.all, rows: report.rowCount, affected: report.affectedRows })}</p><p>{t('review.scope')}</p></header>
     <div className="review-filters" role="group" aria-label={t('review.filterLabel')}>
       {categories.map(category => <button key={category} type="button" className="oa-button oa-button--quiet" aria-pressed={filter === category} onClick={() => useAppStore.getState().setReviewFilter(category)}>{t(`review.filters.${category}`)} <span className="oa-number">{report.counts[category]}</span></button>)}

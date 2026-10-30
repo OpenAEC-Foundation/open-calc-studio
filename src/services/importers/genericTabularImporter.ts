@@ -1,3 +1,4 @@
+import { readWorkbook, WORKBOOK_LIMITS } from '@/services/importers/safeWorkbook';
 import { uiText } from '../../i18n/uiText';
 import * as XLSX from 'xlsx';
 import { BudgetBuilder, parseNumber, normalizeUnit } from './core';
@@ -74,6 +75,7 @@ function parseCsvLine(line: string, delim: string): string[] {
       inQuotes = true;
     } else if (ch === delim) {
       out.push(cur); cur = '';
+      if (out.length >= WORKBOOK_LIMITS.columns) throw Error('CSV exceeds 1,024 columns.');
     } else {
       cur += ch;
     }
@@ -83,17 +85,24 @@ function parseCsvLine(line: string, delim: string): string[] {
 }
 
 export function parseCsv(text: string, sourceName = 'CSV-import'): TabularData {
+  if (text.length * 2 > WORKBOOK_LIMITS.bytes) throw Error('CSV exceeds the supported size.');
   const clean = text.replace(/^﻿/, ''); // strip BOM
   const lines = clean.split(/\r?\n/).filter((l) => l.trim().length > 0);
+  if (lines.length > WORKBOOK_LIMITS.rows) throw Error('CSV exceeds 100,000 rows.');
   if (lines.length === 0) return { headers: [], rows: [], sourceName };
   const delim = detectDelimiter(lines[0]);
   const headers = parseCsvLine(lines[0], delim);
-  const rows = lines.slice(1).map((l) => parseCsvLine(l, delim));
+  const rows: string[][] = []; let cells = headers.length;
+  for (const line of lines.slice(1)) {
+    const row = parseCsvLine(line, delim); cells += row.length;
+    if (cells > WORKBOOK_LIMITS.cells) throw Error('CSV exceeds two million cells.');
+    rows.push(row);
+  }
   return { headers, rows, sourceName };
 }
 
 export function parseXlsxTabular(buf: ArrayBuffer | Uint8Array, sourceName = 'Excel-import'): TabularData {
-  const wb = XLSX.read(buf instanceof Uint8Array ? buf : new Uint8Array(buf), { type: 'array' });
+  const wb = readWorkbook(buf instanceof Uint8Array ? buf : new Uint8Array(buf), { type: 'array' });
   // Kies het tabblad met de meeste rijen — dat is doorgaans de databladzijde.
   let best: unknown[][] | null = null;
   for (const name of wb.SheetNames) {

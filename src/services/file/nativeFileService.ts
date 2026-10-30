@@ -134,7 +134,8 @@ export async function saveFileAsNative(content: string, defaultPathOrName: strin
     defaultPath: nativeDialogDefaultPath(defaultPath),
   });
   if (!filePath) return null;
-  await _fs.writeTextFile(filePath, content);
+  const { invoke } = await import('@tauri-apps/api/core');
+  await invoke('save_project_atomic', { path: filePath, content });
   return filePath;
 }
 
@@ -142,7 +143,8 @@ export async function saveFileAsNative(content: string, defaultPathOrName: strin
 export async function saveFileToPath(path: string, content: string): Promise<void> {
   await loadTauriApis();
   if (!_fs) throw new Error('File system not available in browser mode');
-  await _fs.writeTextFile(path, content);
+  const { invoke } = await import('@tauri-apps/api/core');
+  await invoke('save_project_atomic', { path, content });
 }
 
 /** Show an error message dialog. */

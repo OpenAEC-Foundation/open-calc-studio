@@ -19,6 +19,10 @@ export { serializeProject, deserializeProject } from '../services/file/fileServi
 export { getQuantityOrigin, resolveQuantityOrigin, captureQuantityOrigin } from '../services/quantity/quantityOrigin';
 export type { QuantityOrigin, QuantityOriginInfo, QuantityOriginContext } from '../services/quantity/quantityOrigin';
 export { reviewBudget } from '../services/review/budgetReview';
+export { capturePriceOrigin, previewPriceUpdates, applyPriceUpdateRows } from '../services/pricing/priceUpdates';
+export type { PriceUpdatePlan, PriceUpdateRow, PriceUpdateStatus } from '../services/pricing/priceUpdates';
+export { compareIfcRevisions } from '../services/revisions/ifcRevisions';
+export type { IfcRevisionDifference } from '../services/revisions/ifcRevisions';
 export type { BudgetReviewReport, BudgetReviewIssue, BudgetReviewContext, ReviewCode, ReviewCategory, ReviewFilter } from '../services/review/budgetReview';
 export type {
   ProjectFile, CostItem, CostSchedule, CompanyInfo, CostUnit, RowType,

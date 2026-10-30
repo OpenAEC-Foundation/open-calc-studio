@@ -1,0 +1,3 @@
+PASS native capacity 1000 rows: 609 ms to synchronized state; RSS 1479.6 MiB; PSS 1301
+PASS native capacity 10000 rows: 2195 ms to synchronized state; RSS 1477.7 MiB; PSS 1299.1
+PASS native capacity 50000 rows: 9440 ms to synchronized state; RSS 1707.5 MiB; PSS 1529.1

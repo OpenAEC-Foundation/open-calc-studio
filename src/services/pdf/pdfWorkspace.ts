@@ -59,13 +59,16 @@ export async function createPdfSource(file: File): Promise<PdfSource> {
   const id = Array.from(new Uint8Array(digest), b => b.toString(16).padStart(2, '0')).join('');
   let binary = '';
   for (let i = 0; i < data.length; i += 8192) binary += String.fromCharCode(...data.subarray(i, i + 8192));
-  return { id, fileName: file.name, dataBase64: btoa(binary), pageScales: {}, measurements: [] };
+  return { id, fileName: file.name, dataBase64: btoa(binary), pageScales: {}, measurements: [], revision: { label: file.name, importedAt: new Date().toISOString() } };
 }
 /** Preserve Open PDF Studio's authoritative values (including holes and arcs). */
-export function importOpenPdfMeasurements(json: unknown, source: PdfSource, pageCount: number): SavedPdfMeasurement[] {
+export function importOpenPdfMeasurements(json: unknown, source: PdfSource, pageCount: number, options: { allowUnverifiedSource?: boolean } = {}): SavedPdfMeasurement[] {
   const input = json as Record<string, unknown> | null;
   if (!input || input.format !== 'open-pdf-studio-measurements' || input.version !== 1 || !Array.isArray(input.annotations)) throw new Error(uiText("pdf.error.export", "Use the measurement export from the Open Calc integration in Open PDF Studio."));
   if (input.fileName !== source.fileName) throw new Error(uiText("pdf.error.drawing", "The exported PDF name does not match the selected PDF."));
+  const hash = input.sourceHash ?? input.pdfSha256;
+  if (hash != null && (typeof hash !== 'string' || hash.toLowerCase() !== source.id.toLowerCase())) throw new Error(uiText('pdf.error.hash', 'The measurement export belongs to a different PDF revision.'));
+  if (hash == null && options.allowUnverifiedSource !== true) throw new Error(uiText('pdf.error.unverified', 'This export has no PDF hash. Explicitly confirm the drawing and revision before importing.'));
   const seen = new Set<string>();
   const factors: Record<string, number> = { mm: .001, cm: .01, m: 1, in: .0254, ft: .3048 };
   return input.annotations.map((raw: unknown) => {
@@ -91,7 +94,7 @@ export function importOpenPdfMeasurements(json: unknown, source: PdfSource, page
     }
     value *= factor ** (type === 'area' ? 2 : 1);
     if (!Number.isFinite(value)) throw new Error(uiText("pdf.error.tooLarge", "The measured value is too large."));
-    return { id: `${source.id}:opps:${a.id}`, annotationId: a.id, label: String(a.subject || a.label || a.text || a.type), type, page: Number(a.page), value, points: [], mmPerPoint: null, origin: 'open-pdf-studio', originalAnnotation: raw };
+    return { id: `${source.id}:opps:${a.id}`, annotationId: a.id, label: String(a.subject || a.label || a.text || a.type), type, page: Number(a.page), value, points: [], mmPerPoint: null, origin: 'open-pdf-studio', originalAnnotation: raw, sourceVerified: hash != null };
   });
 }
 export function replaceOpenPdfMeasurements(source: PdfSource, measurements: SavedPdfMeasurement[]): PdfSource {

@@ -10,6 +10,7 @@ export interface SavedPdfMeasurement {
   origin: 'open-calc-studio' | 'open-pdf-studio';
   annotationId?: string;
   originalAnnotation?: unknown;
+  sourceVerified?: boolean;
 }
 export interface PdfSource {
   id: string;
@@ -17,6 +18,7 @@ export interface PdfSource {
   dataBase64: string;
   pageScales: Record<string, number>;
   measurements: SavedPdfMeasurement[];
+  revision?: { label: string; previousSourceId?: string; importedAt: string };
 }
 export interface PdfWorkspace {
   version: 1;

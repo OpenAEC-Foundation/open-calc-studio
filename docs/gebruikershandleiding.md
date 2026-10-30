@@ -1,6 +1,6 @@
 # Gebruikershandleiding Open Calc Studio
 
-Voor de ontwikkelversie 2026.44.5. [English user guide](user-guide.md) · [Projectoverzicht](../README.md)
+Voor de ontwikkelversie 2026.44.6. [English user guide](user-guide.md) · [Projectoverzicht](../README.md)
 
 ## Installeren en starten
 
@@ -198,3 +198,92 @@ In **3D & hoeveelheden** kun je alle IFC-elementen via pagina's van 100
 bereiken. De teller toont zoekresultaten en het modeltotaal. **Alle resultaten
 selecteren** omvat ook de andere pagina's; controleer de selectieteller vóór
 het overnemen van een hoeveelheid. **Selectie wissen** maakt de selectie leeg.
+
+## Herstel en veilig opslaan vanaf 2026.44.6
+
+Zodra een begroting gewijzigd is, bewaart de app een afzonderlijk hersteljournal
+met alle open tabbladen, rekenbladen, brongegevens en snapshots. **Herstel
+opgeslagen** verschijnt na een geslaagde IndexedDB-transactie. Een opslagfout
+verschijnt bovenaan: sla dan zelf een projectbestand op. De laatste wijzigingen
+voor abrupt procesverlies kunnen nog buiten het laatste checkpoint vallen.
+Herstelopslag vervangt een eigen back-up niet.
+
+Bij een volgende start kun je **Herstellen als nieuwe begrotingen** kiezen.
+De oorspronkelijke bestanden worden niet overschreven; gebruik daarna
+**Opslaan als**. **Herstelgegevens verwijderen** verwijdert het gekozen journal.
+PDF-bytes, kalibratie en metingen blijven aanwezig. De IFC-uittrekstaat blijft
+beschikbaar; laad het juiste oorspronkelijke IFC-bestand opnieuw voor de
+3D-geometrie. Browsergegevens wissen verwijdert ook het journal.
+
+Native opslaan bewaart de vorige versie als `bestandsnaam.ifcCalc.bak` naast het
+project. Kopieer deze zo nodig naar een nieuwe `.ifcCalc`-naam en open die.
+Eerst wordt een tijdelijk bestand geschreven; daarna wordt het doel vervangen.
+Autosave naar het bestaande bestand volgt de instellingen; een nieuw document
+zonder pad vraagt expliciet opslaan. Bij sluiten worden alle gewijzigde
+begrotingen behandeld. Bewerken tijdens opslaan maakt de nieuwe wijzigingen
+niet stilzwijgend ongewijzigd.
+
+## Prijsherkomst en prijsupdates
+
+Een toegepaste bibliotheekprijs bewaart bron, peildatum, catalogusversie en
+valuta op de begrotingsregel. Je ziet deze gegevens bij de eigenschappen.
+Handmatige prijswijzigingen beschermen die regel tegen catalogusupdates.
+
+Open **Controlecentrum → Prijsupdates beoordelen**. Op een telefoon open je
+**Controle**; vanuit de middelenkiezer is er ook een knop naar prijsupdates.
+Laad een nieuwere JSON-catalogus of kies **Geladen catalogus vergelijken**.
+Catalogus-ID en artikel-ID moeten gelijk blijven tussen versies; lijstvolgorde
+is geen identiteit. Voorbeeld:
+
+```json
+{
+  "id": "mijn-prijzen", "version": "2026-11", "currency": "EUR",
+  "resources": [{
+    "id": "baksteen-01", "code": "M.01", "description": "Baksteen",
+    "unit": "st", "resourceType": "materiaal", "category": "Metselwerk",
+    "source": "Eigen leveranciersofferte", "priceDate": "2026-10-30",
+    "defaultUnitPrice": 1.25
+  }]
+}
+```
+
+De preview toont oude en nieuwe prijzen en het effect van alle passende
+wijzigingen op hoofdstukken en totaal inclusief btw. Vink de gewenste regels
+individueel aan en kies **Geselecteerde prijzen toepassen**. Alleen die regels
+wijzigen. **Ongedaan maken** draait de actie terug.
+Eigen prijzen, tariefgroepen, andere varianten en afwijkende of ontbrekende
+valuta/eenheden worden niet stilzwijgend vervangen. Oude regels zonder
+prijsherkomst worden uitgesloten van automatische verversing. Na een tussentijdse wijziging
+van de begroting moet je de preview opnieuw maken.
+
+## Bronrevisies vergelijken
+
+Voeg de oude en nieuwe bron eerst toe via **PDF & metingen** of **3D &
+hoeveelheden**. Open **Controlecentrum → Bronrevisies vergelijken**, kies PDF
+of IFC en selecteer beide revisies. De verkorte hash onderscheidt bestanden
+met dezelfde naam.
+
+Bij IFC worden unieke GlobalIds en de exacte hoeveelheidssleutel vergeleken.
+Een ander Express-regelnummer is op zichzelf geen nieuw object. Controleer de
+begrotingsregels, vink passende koppelingen aan en kies **Geselecteerde
+hoeveelheidskoppelingen toepassen**. Ontbrekende of dubbele objecten, andere
+eenheden, eigen hoeveelheden en andere varianten blijven ter beoordeling staan.
+Undo herstelt de vorige hoeveelheden en koppelingen. Geometriewijzigingen
+zonder gewijzigde hoeveelheden vragen controle in de 3D-viewer.
+
+Bij PDF toont de vergelijking geïmporteerde meetwaarden. Controleer pagina,
+schaal, rotatie en geometrie in de tekening; meetpunten worden niet automatisch
+naar een andere revisie overgezet. Een Open PDF Studio-export met `sourceHash`
+moet bij de geselecteerde PDF horen. Een verkeerde hash wordt geweigerd. Een
+oudere export zonder hash vraagt bevestiging en blijft als onbevestigde bron
+zichtbaar in de metingen en het Controlecentrum.
+
+## Grote bestanden importeren
+
+Spreadsheetimport begrenst de invoer op 64 MiB, gedeclareerde uitgepakte ZIP-inhoud
+op 256 MiB, rijen op 100.000, kolommen op 1.024 en het totale cel-/bereikbudget
+op twee miljoen. De interface verwerkt imports in een worker en stopt deze na
+30 seconden. Bij afwijzing vervangt een gedeeltelijk resultaat de begroting
+niet. Synchrone libraryfuncties controleren dezelfde workbookgrenzen; de
+workerdeadline geldt voor de interface, niet voor iedere externe aanroeper.
+Gebruik native `.ifcCalc` voor een compleet project met bronnen en metadata.

@@ -1,3 +1,4 @@
+import { runImportWorker } from '@/services/importers/importWorkerClient';
 import { uiText } from '@/i18n/uiText';
 import { importXmlBudget, exportXmlBudget } from '../../services/exchange/xmlBudget';
 import { useState, useEffect, useCallback, useMemo } from "react";
@@ -14,7 +15,7 @@ import { outputCurrentReport } from "@/services/report/reportOutput";
 import { isTauriEnvironment } from "../../services/file/nativeFileService";
 import {
   importCuf, importTradxml, importRsx, importRsu, importZsx, importNsx, importS01, importSufx, importBmecat, importOnlv, importGaeb,
-  parseCsv, parseXlsxTabular, buildFromMapping,
+  buildFromMapping,
   type ImportResult, type TabularData, type ColumnMapping,
 } from "../../services/importers";
 import { exportCuf, exportTradxml, exportRsx, exportOnlv, type ExportInput, type ExportResult } from "../../services/exporters";
@@ -337,11 +338,8 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         const res = await openBinaryFileNative('Excel/CSV', extensions);
         if (!res) return;
         const fileName = res.path.split(/[\\/]/).pop() || 'import';
-        const base = fileName.replace(/\.[^.]+$/, '');
         const bytes = res.data instanceof Uint8Array ? res.data : new Uint8Array(res.data);
-        const data = /\.csv$/i.test(fileName)
-          ? parseCsv(new TextDecoder().decode(bytes), base)
-          : parseXlsxTabular(bytes, base);
+        const data = await runImportWorker<TabularData>('tabular', Uint8Array.from(bytes).buffer, fileName);
         if (data.headers.length === 0) { alert(t('importPanel.noColumnsFound')); return; }
         setMappingData(data);
       } else {
@@ -351,10 +349,8 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         input.onchange = async (e) => {
           const file = (e.target as HTMLInputElement).files?.[0];
           if (!file) return;
-          const base = file.name.replace(/\.[^.]+$/, '');
-          const data = /\.csv$/i.test(file.name)
-            ? parseCsv(await file.text(), base)
-            : parseXlsxTabular(await file.arrayBuffer(), base);
+          if (file.size > 64 * 1024 * 1024) { alert(t('importPanel.importFailed', { error: 'Spreadsheet exceeds 64 MiB.' })); return; }
+          const data = await runImportWorker<TabularData>('tabular', await file.arrayBuffer(), file.name);
           if (data.headers.length === 0) { alert(t('importPanel.noColumnsFound')); return; }
           setMappingData(data);
         };

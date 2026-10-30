@@ -1,5 +1,33 @@
 # Open Calc Studio — aankomende release
 
+## 2026.44.6: herstel, prijsbronnen en revisiecontrole
+
+- Herstelopslag via IndexedDB bewaart alle open documenten en snapshots wanneer
+  er gewijzigd werk is. Opslagfouten zijn zichtbaar. Herstellen opent nieuwe
+  begrotingen en overschrijft geen oorspronkelijke bestanden. De 3D-geometrie
+  vraagt na herstart nog het oorspronkelijke IFC-bestand.
+- Native opslaan gebruikt een tijdelijk bestand, bewaart de vorige versie als
+  `.bak` en behoudt nieuwe edits tijdens een lopende schrijfactie. Bij sluiten
+  worden alle gewijzigde documenten behandeld; autosave volgt de instellingen.
+- Catalogusartikelen hebben vaste ID's. Toegepaste prijzen bewaren hun bron,
+  peildatum, versie en valuta. De eigenschappen tonen die prijsherkomst.
+- Het Controlecentrum biedt een prijsupdatepreview met hoofdstuk-/totaaleffect,
+  expliciete regelselectie en undo. Eigen prijzen, tariefgroepen, afwijkende
+  eenheden/valuta en inactieve varianten worden beschermd.
+- Bronrevisies vergelijken koppelt IFC-objecten via unieke GlobalIds en dezelfde
+  hoeveelheidssleutel. Beoordeelde hoeveelheidskoppelingen zijn selectief toe
+  te passen en terug te draaien. PDF-metingen en kalibratie blijven handmatig
+  te beoordelen; geometrische overlays zijn geen onderdeel van deze vergelijking.
+- PDF-meetimport weigert een verkeerde bronhash. Oudere exports zonder hash
+  vragen expliciete bevestiging en krijgen een zichtbare controlemelding.
+- SheetJS 0.20.3 wordt uit de officiële, vastgelegde tarball gebouwd; PDF.js
+  is bijgewerkt naar 6.4.299. Ongebruikte ThatOpen-afhankelijkheden zijn verwijderd.
+  Spreadsheetimport heeft grootte-/ZIP-/celgrenzen en de UI gebruikt een worker
+  met een deadline van 30 seconden. App en MCP zijn apart geaudit en getest.
+- Prijsupdates, revisies en herstel zijn ook via de desktop-MCP-acties beschikbaar;
+  de library exporteert de pure prijs- en IFC-vergelijkingsfuncties.
+- Productversie 2026.44.6, MSI 26.44.6; optionele bronvelden in bestandsformaat 2.4.0.
+
 ## 2026.44.5: SuperCloud, containers en releasevoorbereiding
 
 - Gehoste sessies volgen taal en thema van `openaecHost` (`locale`/`theme` of

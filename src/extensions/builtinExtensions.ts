@@ -5,7 +5,8 @@
  */
 import type { InstalledExtension, ExtensionManifest } from './types';
 import { useAppStore } from '../state/appStore';
-import { importBasCalcFile } from '../services/importers/bascalcImporter';
+import { runImportWorker } from '../services/importers/importWorkerClient';
+import type { ImportResult } from '../services/importers/types';
 import { importRsx } from '../services/importers/rsxImporter';
 // WpCalc importer is lazy-loaded because mdb-reader needs Buffer polyfill
 // import { importWpCalcFile } from '../services/importers/wpcalcImporter';
@@ -163,8 +164,9 @@ export function registerBuiltinExtensions(): void {
     fileExtensions: ['.xls', '.xlsx'],
     icon: bascalcManifest.icon,
     handler: async (file: File) => {
+      if (file.size > 64 * 1024 * 1024) throw Error('Spreadsheet exceeds 64 MiB.');
       const buffer = await file.arrayBuffer();
-      const result = importBasCalcFile(buffer);
+      const result = await runImportWorker<ImportResult>('bascalc', buffer, file.name);
       return {
         schedule: result.schedule,
         items: recalculateItems(result.items),
@@ -241,9 +243,9 @@ export function registerBuiltinExtensions(): void {
     fileExtensions: ['.xls', '.xlsx'],
     icon: inschrijfstaatManifest.icon,
     handler: async (file: File) => {
-      const { importInschrijfstaatFile } = await import('../services/importers/inschrijfstaatImporter');
+      if (file.size > 64 * 1024 * 1024) throw Error('Spreadsheet exceeds 64 MiB.');
       const buffer = await file.arrayBuffer();
-      const result = await importInschrijfstaatFile(buffer);
+      const result = await runImportWorker<ImportResult>('inschrijfstaat', buffer, file.name);
       return {
         schedule: result.schedule,
         items: recalculateItems(result.items),

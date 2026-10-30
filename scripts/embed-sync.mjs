@@ -26,7 +26,7 @@ const embed = JSON.parse(readFileSync(path, 'utf8'));
 const peers = new Set(['react', 'react-dom']);
 const dependencies = Object.fromEntries(
   Object.entries(root.dependencies)
-    .filter(([name]) => !peers.has(name) && !name.startsWith('@types/'))
+    .filter(([name]) => !peers.has(name) && name !== 'xlsx' && !name.startsWith('@types/'))
     .sort(([a], [b]) => a.localeCompare(b)),
 );
 

@@ -341,6 +341,9 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
         s.items.map((item: any) => {
           if (item.id !== id) return item;
           const updated = { ...item, [field]: value };
+          if (item.priceOrigin && ['normUnitPrice', 'materialPrice', 'laborPrice', 'unit'].includes(field) && item[field] !== value) {
+            updated.priceOrigin = { ...item.priceOrigin, locked: true };
+          }
           if (field === 'quantityLink') updated.quantityOrigin = value ? captureQuantityOrigin(value as QuantityLink, s) : undefined;
           // Wijzigingshistorie: leg bewerkbare waarde-velden vast (wie/wanneer/wat)
           if (shouldTrackField(field)) {

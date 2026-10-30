@@ -4,6 +4,7 @@ import { getSiteHost, HOST_RECENT_PREFIX } from '@/services/file/siteHost';
 import { openHostedFile, saveHostedFile } from '@/services/file/hostFileActions';
 import { pickHostFile } from '@/components/common/HostFileDialog';
 import { useCallback } from 'react';
+import { documentChangedSince } from '@/services/file/documentSnapshot';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { serializeProject, deserializeProject } from '@/services/file/fileService';
@@ -119,7 +120,7 @@ export function useFileOperations() {
     if (doc.filePath && isNativeSavePath(doc.filePath) && isTauriEnvironment()) {
       try {
         await saveFileToPath(doc.filePath, json);
-        updateDocument(activeId, { isModified: false });
+        updateDocument(activeId, { isModified: documentChangedSince(useAppStore.getState(), activeId, json) });
       } catch (err) {
         await showError(`Failed to save: ${err}`);
       }
@@ -134,7 +135,7 @@ export function useFileOperations() {
           updateDocument(activeId, {
             filePath: savedPath,
             fileName: fileNameFromPath(savedPath),
-            isModified: false,
+            isModified: documentChangedSince(useAppStore.getState(), activeId, json),
           });
           addToRecentFiles(savedPath);
         }
@@ -175,7 +176,7 @@ export function useFileOperations() {
           updateDocument(activeId, {
             filePath: savedPath,
             fileName: fileNameFromPath(savedPath),
-            isModified: false,
+            isModified: documentChangedSince(useAppStore.getState(), activeId, json),
           });
           addToRecentFiles(savedPath);
         }

@@ -21,7 +21,7 @@ import { cssScopePlugin } from './src/lib/cssScope';
 import { distributionPlugin } from './scripts/distribution-notices.mjs';
 
 const externals = [
-  ...Object.keys(pkg.dependencies).filter((n) => !n.startsWith('@types/') && !['mdb-reader', 'events', 'stream-browserify'].includes(n)),
+  ...Object.keys(pkg.dependencies).filter((n) => !n.startsWith('@types/') && !['xlsx', 'mdb-reader', 'events', 'stream-browserify'].includes(n)),
   'react/jsx-runtime',
   'react-dom/client',
 ];

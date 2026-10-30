@@ -1,0 +1,56 @@
+{
+  "version": "2026.44.6",
+  "fileFormat": "2.4.0",
+  "implementationCommit": "f17f6b375c624328cb14016058f987e78b1cac7c",
+  "containerFixCommit": "820b5274e9509d7d3af4648c42e207ff3367e6cd",
+  "localFullSuite": {
+    "passed": 888,
+    "skipped": 6
+  },
+  "additionalRegressionsPassed": 2,
+  "platformTestsPassed": 6,
+  "apiTestsPassed": 9,
+  "nativeRustSaveTestPassed": true,
+  "nativeMcpTests": {
+    "existingPdfIfcExports": true,
+    "priceUpdatesUndoAndProvenance": true,
+    "multiDocumentIndexedDbRecoveryAndSnapshots": true,
+    "ifcRevisionsUndo": true
+  },
+  "productionAudit": {
+    "appVulnerablePackages": 0,
+    "mcpVulnerablePackages": 0
+  },
+  "builds": {
+    "web": true,
+    "sdkAndFrame": true,
+    "nativeLinuxDevelopment": true,
+    "signed": false
+  },
+  "sdkConsumerUnicodeSpreadsheetSmoke": true,
+  "githubCi": {
+    "run": "https://github.com/OpenAEC-Foundation/open-calc-studio/actions/runs/41073081401",
+    "conclusion": "success",
+    "nativeApiPlatforms": [
+      "windows-latest",
+      "macos-latest",
+      "ubuntu-22.04"
+    ],
+    "fullSuite": {
+      "passed": 890,
+      "skipped": 6
+    }
+  },
+  "pullRequest": "https://github.com/OpenAEC-Foundation/open-calc-studio/pull/43",
+  "existingUserAppPreserved": {
+    "version": "2026.44.4",
+    "port": 9742
+  },
+  "isolatedTestAppStopped": true,
+  "limitations": [
+    "No visual GPU acceptance or FPS measurement",
+    "No real Android/iPhone or final SuperCloud sandbox acceptance",
+    "Native capacity records are single-run programmatic load/state measurements in a debug build; process memory can retain earlier heaps",
+    "Development packages are unsigned; no public release or image publication"
+  ]
+}

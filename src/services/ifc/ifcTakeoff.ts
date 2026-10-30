@@ -3,10 +3,11 @@ import { IfcParser, extractQuantitiesOnDemand, extractProjectUnits } from '@ifc-
 export type QuantityKind = 'volume' | 'area' | 'length' | 'count';
 export interface TakeoffQuantity { key:string; label:string; kind:QuantityKind; value:number; unit:string }
 export interface TakeoffElement { id:string; expressId:number; globalId:string; name:string; type:string; quantities:TakeoffQuantity[] }
-export interface TakeoffModel { id:string; fileName:string; elements:TakeoffElement[] }
+export interface TakeoffModel { id:string; fileName:string; elements:TakeoffElement[]; revision?: { label: string; previousModelId?: string; importedAt: string } }
 export interface TakeoffEntry { fragmentId:string; label:string; modelId:string; elementIds:number[]; quantityKey:string; volume?:number; area?:number; length?:number; count?:number }
 export interface IfcTakeoff { models:TakeoffModel[]; entries:TakeoffEntry[] }
 export async function parseTakeoff(buffer:ArrayBuffer, fileName:string):Promise<TakeoffModel> {
+  if (buffer.byteLength > 100 * 1024 * 1024) throw Error('IFC exceeds 100 MiB.');
   const hash=await crypto.subtle.digest('SHA-256',buffer);
   const id=Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,'0')).join('');
   const store=await new IfcParser().parseColumnar(buffer);
@@ -24,7 +25,7 @@ export async function parseTakeoff(buffer:ArrayBuffer, fileName:string):Promise<
     if(!store.entities.hasGeometry(expressId)&&!quantities.length)continue;
     elements.push({id:`${id}:${expressId}`,expressId,globalId:store.entities.getGlobalId(expressId),name:store.entities.getName(expressId)||`#${expressId}`,type:store.entities.getTypeName(expressId),quantities});
   }
-  return {id,fileName,elements};
+  return {id,fileName,elements,revision:{label:fileName,importedAt:new Date().toISOString()}};
 }
 export function aggregateTakeoff(model:TakeoffModel, ids:number[], key:string):TakeoffQuantity {
   const unique=[...new Set(ids)]; if(!unique.length)throw Error(uiText("ifc.error.empty", "Select at least one IFC element."));

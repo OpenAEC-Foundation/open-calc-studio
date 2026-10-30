@@ -699,6 +699,153 @@
                             }
                           ]
                         },
+                        "priceOrigin": {
+                          "type": "object",
+                          "properties": {
+                            "itemId": {
+                              "type": "string"
+                            },
+                            "catalogueId": {
+                              "type": "string"
+                            },
+                            "catalogueVersion": {
+                              "type": "string"
+                            },
+                            "source": {
+                              "type": "string"
+                            },
+                            "priceDate": {
+                              "anyOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "currency": {
+                              "type": "string"
+                            },
+                            "unit": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    "st"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "m"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "m²"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "m³"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "kg"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "ton"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "uur"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "dgn"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "km"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "keer"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "ls"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "week"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "mnd"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "post"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "%"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "pm"
+                                  ]
+                                }
+                              ]
+                            },
+                            "price": {
+                              "type": "number"
+                            },
+                            "appliedAt": {
+                              "type": "string"
+                            },
+                            "locked": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    false
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    true
+                                  ]
+                                }
+                              ]
+                            }
+                          },
+                          "required": [
+                            "itemId",
+                            "catalogueId",
+                            "catalogueVersion",
+                            "source",
+                            "priceDate",
+                            "currency",
+                            "unit",
+                            "price",
+                            "appliedAt",
+                            "locked"
+                          ],
+                          "additionalProperties": false
+                        },
                         "tariefGroep": {
                           "anyOf": [
                             {
@@ -1255,7 +1402,21 @@
                               "annotationId": {
                                 "type": "string"
                               },
-                              "originalAnnotation": {}
+                              "originalAnnotation": {},
+                              "sourceVerified": {
+                                "anyOf": [
+                                  {
+                                    "enum": [
+                                      false
+                                    ]
+                                  },
+                                  {
+                                    "enum": [
+                                      true
+                                    ]
+                                  }
+                                ]
+                              }
                             },
                             "required": [
                               "id",
@@ -1269,6 +1430,25 @@
                             ],
                             "additionalProperties": false
                           }
+                        },
+                        "revision": {
+                          "type": "object",
+                          "properties": {
+                            "label": {
+                              "type": "string"
+                            },
+                            "previousSourceId": {
+                              "type": "string"
+                            },
+                            "importedAt": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "label",
+                            "importedAt"
+                          ],
+                          "additionalProperties": false
                         }
                       },
                       "required": [
@@ -1386,6 +1566,25 @@
                             ],
                             "additionalProperties": false
                           }
+                        },
+                        "revision": {
+                          "type": "object",
+                          "properties": {
+                            "label": {
+                              "type": "string"
+                            },
+                            "previousModelId": {
+                              "type": "string"
+                            },
+                            "importedAt": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "label",
+                            "importedAt"
+                          ],
+                          "additionalProperties": false
                         }
                       },
                       "required": [
@@ -2333,6 +2532,16 @@
               {
                 "enum": [
                   "wizard"
+                ]
+              },
+              {
+                "enum": [
+                  "priceUpdates"
+                ]
+              },
+              {
+                "enum": [
+                  "revisions"
                 ]
               }
             ]
@@ -3348,6 +3557,153 @@
                       "type": "string"
                     }
                   ]
+                },
+                "priceOrigin": {
+                  "type": "object",
+                  "properties": {
+                    "itemId": {
+                      "type": "string"
+                    },
+                    "catalogueId": {
+                      "type": "string"
+                    },
+                    "catalogueVersion": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string"
+                    },
+                    "priceDate": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "currency": {
+                      "type": "string"
+                    },
+                    "unit": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            "st"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "m"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "m²"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "m³"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "kg"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "ton"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "uur"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "dgn"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "km"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "keer"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "ls"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "week"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "mnd"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "post"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "%"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "pm"
+                          ]
+                        }
+                      ]
+                    },
+                    "price": {
+                      "type": "number"
+                    },
+                    "appliedAt": {
+                      "type": "string"
+                    },
+                    "locked": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            false
+                          ]
+                        },
+                        {
+                          "enum": [
+                            true
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "itemId",
+                    "catalogueId",
+                    "catalogueVersion",
+                    "source",
+                    "priceDate",
+                    "currency",
+                    "unit",
+                    "price",
+                    "appliedAt",
+                    "locked"
+                  ],
+                  "additionalProperties": false
                 },
                 "tariefGroep": {
                   "anyOf": [
@@ -5159,6 +5515,153 @@
                     }
                   ]
                 },
+                "priceOrigin": {
+                  "type": "object",
+                  "properties": {
+                    "itemId": {
+                      "type": "string"
+                    },
+                    "catalogueId": {
+                      "type": "string"
+                    },
+                    "catalogueVersion": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string"
+                    },
+                    "priceDate": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "currency": {
+                      "type": "string"
+                    },
+                    "unit": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            "st"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "m"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "m²"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "m³"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "kg"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "ton"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "uur"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "dgn"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "km"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "keer"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "ls"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "week"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "mnd"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "post"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "%"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "pm"
+                          ]
+                        }
+                      ]
+                    },
+                    "price": {
+                      "type": "number"
+                    },
+                    "appliedAt": {
+                      "type": "string"
+                    },
+                    "locked": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            false
+                          ]
+                        },
+                        {
+                          "enum": [
+                            true
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "itemId",
+                    "catalogueId",
+                    "catalogueVersion",
+                    "source",
+                    "priceDate",
+                    "currency",
+                    "unit",
+                    "price",
+                    "appliedAt",
+                    "locked"
+                  ],
+                  "additionalProperties": false
+                },
                 "tariefGroep": {
                   "anyOf": [
                     {
@@ -6668,6 +7171,153 @@
                     }
                   ]
                 },
+                "priceOrigin": {
+                  "type": "object",
+                  "properties": {
+                    "itemId": {
+                      "type": "string"
+                    },
+                    "catalogueId": {
+                      "type": "string"
+                    },
+                    "catalogueVersion": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string"
+                    },
+                    "priceDate": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "currency": {
+                      "type": "string"
+                    },
+                    "unit": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            "st"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "m"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "m²"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "m³"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "kg"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "ton"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "uur"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "dgn"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "km"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "keer"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "ls"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "week"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "mnd"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "post"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "%"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "pm"
+                          ]
+                        }
+                      ]
+                    },
+                    "price": {
+                      "type": "number"
+                    },
+                    "appliedAt": {
+                      "type": "string"
+                    },
+                    "locked": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            false
+                          ]
+                        },
+                        {
+                          "enum": [
+                            true
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "itemId",
+                    "catalogueId",
+                    "catalogueVersion",
+                    "source",
+                    "priceDate",
+                    "currency",
+                    "unit",
+                    "price",
+                    "appliedAt",
+                    "locked"
+                  ],
+                  "additionalProperties": false
+                },
                 "tariefGroep": {
                   "anyOf": [
                     {
@@ -7629,6 +8279,153 @@
                       "type": "string"
                     }
                   ]
+                },
+                "priceOrigin": {
+                  "type": "object",
+                  "properties": {
+                    "itemId": {
+                      "type": "string"
+                    },
+                    "catalogueId": {
+                      "type": "string"
+                    },
+                    "catalogueVersion": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string"
+                    },
+                    "priceDate": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "currency": {
+                      "type": "string"
+                    },
+                    "unit": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            "st"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "m"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "m²"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "m³"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "kg"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "ton"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "uur"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "dgn"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "km"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "keer"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "ls"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "week"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "mnd"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "post"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "%"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "pm"
+                          ]
+                        }
+                      ]
+                    },
+                    "price": {
+                      "type": "number"
+                    },
+                    "appliedAt": {
+                      "type": "string"
+                    },
+                    "locked": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            false
+                          ]
+                        },
+                        {
+                          "enum": [
+                            true
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "itemId",
+                    "catalogueId",
+                    "catalogueVersion",
+                    "source",
+                    "priceDate",
+                    "currency",
+                    "unit",
+                    "price",
+                    "appliedAt",
+                    "locked"
+                  ],
+                  "additionalProperties": false
                 },
                 "tariefGroep": {
                   "anyOf": [
@@ -11435,6 +12232,153 @@
                         }
                       ]
                     },
+                    "priceOrigin": {
+                      "type": "object",
+                      "properties": {
+                        "itemId": {
+                          "type": "string"
+                        },
+                        "catalogueId": {
+                          "type": "string"
+                        },
+                        "catalogueVersion": {
+                          "type": "string"
+                        },
+                        "source": {
+                          "type": "string"
+                        },
+                        "priceDate": {
+                          "anyOf": [
+                            {
+                              "type": "null"
+                            },
+                            {
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "currency": {
+                          "type": "string"
+                        },
+                        "unit": {
+                          "anyOf": [
+                            {
+                              "enum": [
+                                "st"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "m"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "m²"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "m³"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "kg"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "ton"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "uur"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "dgn"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "km"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "keer"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "ls"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "week"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "mnd"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "post"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "%"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "pm"
+                              ]
+                            }
+                          ]
+                        },
+                        "price": {
+                          "type": "number"
+                        },
+                        "appliedAt": {
+                          "type": "string"
+                        },
+                        "locked": {
+                          "anyOf": [
+                            {
+                              "enum": [
+                                false
+                              ]
+                            },
+                            {
+                              "enum": [
+                                true
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "itemId",
+                        "catalogueId",
+                        "catalogueVersion",
+                        "source",
+                        "priceDate",
+                        "currency",
+                        "unit",
+                        "price",
+                        "appliedAt",
+                        "locked"
+                      ],
+                      "additionalProperties": false
+                    },
                     "tariefGroep": {
                       "anyOf": [
                         {
@@ -12437,6 +13381,153 @@
                                 }
                               ]
                             },
+                            "priceOrigin": {
+                              "type": "object",
+                              "properties": {
+                                "itemId": {
+                                  "type": "string"
+                                },
+                                "catalogueId": {
+                                  "type": "string"
+                                },
+                                "catalogueVersion": {
+                                  "type": "string"
+                                },
+                                "source": {
+                                  "type": "string"
+                                },
+                                "priceDate": {
+                                  "anyOf": [
+                                    {
+                                      "type": "null"
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                },
+                                "currency": {
+                                  "type": "string"
+                                },
+                                "unit": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        "st"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m²"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m³"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "kg"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "ton"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "uur"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "dgn"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "km"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "keer"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "ls"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "week"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "mnd"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "post"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "%"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "pm"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "price": {
+                                  "type": "number"
+                                },
+                                "appliedAt": {
+                                  "type": "string"
+                                },
+                                "locked": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        false
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "itemId",
+                                "catalogueId",
+                                "catalogueVersion",
+                                "source",
+                                "priceDate",
+                                "currency",
+                                "unit",
+                                "price",
+                                "appliedAt",
+                                "locked"
+                              ],
+                              "additionalProperties": false
+                            },
                             "tariefGroep": {
                               "anyOf": [
                                 {
@@ -12993,7 +14084,21 @@
                                   "annotationId": {
                                     "type": "string"
                                   },
-                                  "originalAnnotation": {}
+                                  "originalAnnotation": {},
+                                  "sourceVerified": {
+                                    "anyOf": [
+                                      {
+                                        "enum": [
+                                          false
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          true
+                                        ]
+                                      }
+                                    ]
+                                  }
                                 },
                                 "required": [
                                   "id",
@@ -13007,6 +14112,25 @@
                                 ],
                                 "additionalProperties": false
                               }
+                            },
+                            "revision": {
+                              "type": "object",
+                              "properties": {
+                                "label": {
+                                  "type": "string"
+                                },
+                                "previousSourceId": {
+                                  "type": "string"
+                                },
+                                "importedAt": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "label",
+                                "importedAt"
+                              ],
+                              "additionalProperties": false
                             }
                           },
                           "required": [
@@ -13124,6 +14248,25 @@
                                 ],
                                 "additionalProperties": false
                               }
+                            },
+                            "revision": {
+                              "type": "object",
+                              "properties": {
+                                "label": {
+                                  "type": "string"
+                                },
+                                "previousModelId": {
+                                  "type": "string"
+                                },
+                                "importedAt": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "label",
+                                "importedAt"
+                              ],
+                              "additionalProperties": false
                             }
                           },
                           "required": [
@@ -14332,6 +15475,153 @@
                         }
                       ]
                     },
+                    "priceOrigin": {
+                      "type": "object",
+                      "properties": {
+                        "itemId": {
+                          "type": "string"
+                        },
+                        "catalogueId": {
+                          "type": "string"
+                        },
+                        "catalogueVersion": {
+                          "type": "string"
+                        },
+                        "source": {
+                          "type": "string"
+                        },
+                        "priceDate": {
+                          "anyOf": [
+                            {
+                              "type": "null"
+                            },
+                            {
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "currency": {
+                          "type": "string"
+                        },
+                        "unit": {
+                          "anyOf": [
+                            {
+                              "enum": [
+                                "st"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "m"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "m²"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "m³"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "kg"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "ton"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "uur"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "dgn"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "km"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "keer"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "ls"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "week"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "mnd"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "post"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "%"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "pm"
+                              ]
+                            }
+                          ]
+                        },
+                        "price": {
+                          "type": "number"
+                        },
+                        "appliedAt": {
+                          "type": "string"
+                        },
+                        "locked": {
+                          "anyOf": [
+                            {
+                              "enum": [
+                                false
+                              ]
+                            },
+                            {
+                              "enum": [
+                                true
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "itemId",
+                        "catalogueId",
+                        "catalogueVersion",
+                        "source",
+                        "priceDate",
+                        "currency",
+                        "unit",
+                        "price",
+                        "appliedAt",
+                        "locked"
+                      ],
+                      "additionalProperties": false
+                    },
                     "tariefGroep": {
                       "anyOf": [
                         {
@@ -15334,6 +16624,153 @@
                                 }
                               ]
                             },
+                            "priceOrigin": {
+                              "type": "object",
+                              "properties": {
+                                "itemId": {
+                                  "type": "string"
+                                },
+                                "catalogueId": {
+                                  "type": "string"
+                                },
+                                "catalogueVersion": {
+                                  "type": "string"
+                                },
+                                "source": {
+                                  "type": "string"
+                                },
+                                "priceDate": {
+                                  "anyOf": [
+                                    {
+                                      "type": "null"
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                },
+                                "currency": {
+                                  "type": "string"
+                                },
+                                "unit": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        "st"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m²"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m³"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "kg"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "ton"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "uur"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "dgn"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "km"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "keer"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "ls"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "week"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "mnd"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "post"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "%"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "pm"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "price": {
+                                  "type": "number"
+                                },
+                                "appliedAt": {
+                                  "type": "string"
+                                },
+                                "locked": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        false
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "itemId",
+                                "catalogueId",
+                                "catalogueVersion",
+                                "source",
+                                "priceDate",
+                                "currency",
+                                "unit",
+                                "price",
+                                "appliedAt",
+                                "locked"
+                              ],
+                              "additionalProperties": false
+                            },
                             "tariefGroep": {
                               "anyOf": [
                                 {
@@ -15890,7 +17327,21 @@
                                   "annotationId": {
                                     "type": "string"
                                   },
-                                  "originalAnnotation": {}
+                                  "originalAnnotation": {},
+                                  "sourceVerified": {
+                                    "anyOf": [
+                                      {
+                                        "enum": [
+                                          false
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          true
+                                        ]
+                                      }
+                                    ]
+                                  }
                                 },
                                 "required": [
                                   "id",
@@ -15904,6 +17355,25 @@
                                 ],
                                 "additionalProperties": false
                               }
+                            },
+                            "revision": {
+                              "type": "object",
+                              "properties": {
+                                "label": {
+                                  "type": "string"
+                                },
+                                "previousSourceId": {
+                                  "type": "string"
+                                },
+                                "importedAt": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "label",
+                                "importedAt"
+                              ],
+                              "additionalProperties": false
                             }
                           },
                           "required": [
@@ -16021,6 +17491,25 @@
                                 ],
                                 "additionalProperties": false
                               }
+                            },
+                            "revision": {
+                              "type": "object",
+                              "properties": {
+                                "label": {
+                                  "type": "string"
+                                },
+                                "previousModelId": {
+                                  "type": "string"
+                                },
+                                "importedAt": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "label",
+                                "importedAt"
+                              ],
+                              "additionalProperties": false
                             }
                           },
                           "required": [
@@ -16619,6 +18108,15 @@
             "items": {
               "type": "object",
               "properties": {
+                "catalogueId": {
+                  "type": "string"
+                },
+                "catalogueVersion": {
+                  "type": "string"
+                },
+                "currency": {
+                  "type": "string"
+                },
                 "source": {
                   "type": "string"
                 },
@@ -19384,6 +20882,153 @@
                                   }
                                 ]
                               },
+                              "priceOrigin": {
+                                "type": "object",
+                                "properties": {
+                                  "itemId": {
+                                    "type": "string"
+                                  },
+                                  "catalogueId": {
+                                    "type": "string"
+                                  },
+                                  "catalogueVersion": {
+                                    "type": "string"
+                                  },
+                                  "source": {
+                                    "type": "string"
+                                  },
+                                  "priceDate": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "string"
+                                      }
+                                    ]
+                                  },
+                                  "currency": {
+                                    "type": "string"
+                                  },
+                                  "unit": {
+                                    "anyOf": [
+                                      {
+                                        "enum": [
+                                          "st"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "m"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "m²"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "m³"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "kg"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "ton"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "uur"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "dgn"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "km"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "keer"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "ls"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "week"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "mnd"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "post"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "%"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "pm"
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "price": {
+                                    "type": "number"
+                                  },
+                                  "appliedAt": {
+                                    "type": "string"
+                                  },
+                                  "locked": {
+                                    "anyOf": [
+                                      {
+                                        "enum": [
+                                          false
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          true
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "itemId",
+                                  "catalogueId",
+                                  "catalogueVersion",
+                                  "source",
+                                  "priceDate",
+                                  "currency",
+                                  "unit",
+                                  "price",
+                                  "appliedAt",
+                                  "locked"
+                                ],
+                                "additionalProperties": false
+                              },
                               "tariefGroep": {
                                 "anyOf": [
                                   {
@@ -19940,7 +21585,21 @@
                                     "annotationId": {
                                       "type": "string"
                                     },
-                                    "originalAnnotation": {}
+                                    "originalAnnotation": {},
+                                    "sourceVerified": {
+                                      "anyOf": [
+                                        {
+                                          "enum": [
+                                            false
+                                          ]
+                                        },
+                                        {
+                                          "enum": [
+                                            true
+                                          ]
+                                        }
+                                      ]
+                                    }
                                   },
                                   "required": [
                                     "id",
@@ -19954,6 +21613,25 @@
                                   ],
                                   "additionalProperties": false
                                 }
+                              },
+                              "revision": {
+                                "type": "object",
+                                "properties": {
+                                  "label": {
+                                    "type": "string"
+                                  },
+                                  "previousSourceId": {
+                                    "type": "string"
+                                  },
+                                  "importedAt": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "label",
+                                  "importedAt"
+                                ],
+                                "additionalProperties": false
                               }
                             },
                             "required": [
@@ -20071,6 +21749,25 @@
                                   ],
                                   "additionalProperties": false
                                 }
+                              },
+                              "revision": {
+                                "type": "object",
+                                "properties": {
+                                  "label": {
+                                    "type": "string"
+                                  },
+                                  "previousModelId": {
+                                    "type": "string"
+                                  },
+                                  "importedAt": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "label",
+                                  "importedAt"
+                                ],
+                                "additionalProperties": false
                               }
                             },
                             "required": [
@@ -21198,6 +22895,153 @@
                             "type": "string"
                           }
                         ]
+                      },
+                      "priceOrigin": {
+                        "type": "object",
+                        "properties": {
+                          "itemId": {
+                            "type": "string"
+                          },
+                          "catalogueId": {
+                            "type": "string"
+                          },
+                          "catalogueVersion": {
+                            "type": "string"
+                          },
+                          "source": {
+                            "type": "string"
+                          },
+                          "priceDate": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "string"
+                              }
+                            ]
+                          },
+                          "currency": {
+                            "type": "string"
+                          },
+                          "unit": {
+                            "anyOf": [
+                              {
+                                "enum": [
+                                  "st"
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  "m"
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  "m²"
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  "m³"
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  "kg"
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  "ton"
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  "uur"
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  "dgn"
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  "km"
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  "keer"
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  "ls"
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  "week"
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  "mnd"
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  "post"
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  "%"
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  "pm"
+                                ]
+                              }
+                            ]
+                          },
+                          "price": {
+                            "type": "number"
+                          },
+                          "appliedAt": {
+                            "type": "string"
+                          },
+                          "locked": {
+                            "anyOf": [
+                              {
+                                "enum": [
+                                  false
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  true
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "itemId",
+                          "catalogueId",
+                          "catalogueVersion",
+                          "source",
+                          "priceDate",
+                          "currency",
+                          "unit",
+                          "price",
+                          "appliedAt",
+                          "locked"
+                        ],
+                        "additionalProperties": false
                       },
                       "tariefGroep": {
                         "anyOf": [
@@ -23234,6 +25078,153 @@
                         }
                       ]
                     },
+                    "priceOrigin": {
+                      "type": "object",
+                      "properties": {
+                        "itemId": {
+                          "type": "string"
+                        },
+                        "catalogueId": {
+                          "type": "string"
+                        },
+                        "catalogueVersion": {
+                          "type": "string"
+                        },
+                        "source": {
+                          "type": "string"
+                        },
+                        "priceDate": {
+                          "anyOf": [
+                            {
+                              "type": "null"
+                            },
+                            {
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "currency": {
+                          "type": "string"
+                        },
+                        "unit": {
+                          "anyOf": [
+                            {
+                              "enum": [
+                                "st"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "m"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "m²"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "m³"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "kg"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "ton"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "uur"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "dgn"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "km"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "keer"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "ls"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "week"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "mnd"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "post"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "%"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "pm"
+                              ]
+                            }
+                          ]
+                        },
+                        "price": {
+                          "type": "number"
+                        },
+                        "appliedAt": {
+                          "type": "string"
+                        },
+                        "locked": {
+                          "anyOf": [
+                            {
+                              "enum": [
+                                false
+                              ]
+                            },
+                            {
+                              "enum": [
+                                true
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "itemId",
+                        "catalogueId",
+                        "catalogueVersion",
+                        "source",
+                        "priceDate",
+                        "currency",
+                        "unit",
+                        "price",
+                        "appliedAt",
+                        "locked"
+                      ],
+                      "additionalProperties": false
+                    },
                     "tariefGroep": {
                       "anyOf": [
                         {
@@ -24236,6 +26227,153 @@
                                 }
                               ]
                             },
+                            "priceOrigin": {
+                              "type": "object",
+                              "properties": {
+                                "itemId": {
+                                  "type": "string"
+                                },
+                                "catalogueId": {
+                                  "type": "string"
+                                },
+                                "catalogueVersion": {
+                                  "type": "string"
+                                },
+                                "source": {
+                                  "type": "string"
+                                },
+                                "priceDate": {
+                                  "anyOf": [
+                                    {
+                                      "type": "null"
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                },
+                                "currency": {
+                                  "type": "string"
+                                },
+                                "unit": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        "st"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m²"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m³"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "kg"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "ton"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "uur"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "dgn"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "km"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "keer"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "ls"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "week"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "mnd"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "post"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "%"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "pm"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "price": {
+                                  "type": "number"
+                                },
+                                "appliedAt": {
+                                  "type": "string"
+                                },
+                                "locked": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        false
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "itemId",
+                                "catalogueId",
+                                "catalogueVersion",
+                                "source",
+                                "priceDate",
+                                "currency",
+                                "unit",
+                                "price",
+                                "appliedAt",
+                                "locked"
+                              ],
+                              "additionalProperties": false
+                            },
                             "tariefGroep": {
                               "anyOf": [
                                 {
@@ -24792,7 +26930,21 @@
                                   "annotationId": {
                                     "type": "string"
                                   },
-                                  "originalAnnotation": {}
+                                  "originalAnnotation": {},
+                                  "sourceVerified": {
+                                    "anyOf": [
+                                      {
+                                        "enum": [
+                                          false
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          true
+                                        ]
+                                      }
+                                    ]
+                                  }
                                 },
                                 "required": [
                                   "id",
@@ -24806,6 +26958,25 @@
                                 ],
                                 "additionalProperties": false
                               }
+                            },
+                            "revision": {
+                              "type": "object",
+                              "properties": {
+                                "label": {
+                                  "type": "string"
+                                },
+                                "previousSourceId": {
+                                  "type": "string"
+                                },
+                                "importedAt": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "label",
+                                "importedAt"
+                              ],
+                              "additionalProperties": false
                             }
                           },
                           "required": [
@@ -24923,6 +27094,25 @@
                                 ],
                                 "additionalProperties": false
                               }
+                            },
+                            "revision": {
+                              "type": "object",
+                              "properties": {
+                                "label": {
+                                  "type": "string"
+                                },
+                                "previousModelId": {
+                                  "type": "string"
+                                },
+                                "importedAt": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "label",
+                                "importedAt"
+                              ],
+                              "additionalProperties": false
                             }
                           },
                           "required": [
@@ -26200,6 +28390,153 @@
                                 }
                               ]
                             },
+                            "priceOrigin": {
+                              "type": "object",
+                              "properties": {
+                                "itemId": {
+                                  "type": "string"
+                                },
+                                "catalogueId": {
+                                  "type": "string"
+                                },
+                                "catalogueVersion": {
+                                  "type": "string"
+                                },
+                                "source": {
+                                  "type": "string"
+                                },
+                                "priceDate": {
+                                  "anyOf": [
+                                    {
+                                      "type": "null"
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                },
+                                "currency": {
+                                  "type": "string"
+                                },
+                                "unit": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        "st"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m²"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m³"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "kg"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "ton"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "uur"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "dgn"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "km"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "keer"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "ls"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "week"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "mnd"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "post"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "%"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "pm"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "price": {
+                                  "type": "number"
+                                },
+                                "appliedAt": {
+                                  "type": "string"
+                                },
+                                "locked": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        false
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "itemId",
+                                "catalogueId",
+                                "catalogueVersion",
+                                "source",
+                                "priceDate",
+                                "currency",
+                                "unit",
+                                "price",
+                                "appliedAt",
+                                "locked"
+                              ],
+                              "additionalProperties": false
+                            },
                             "tariefGroep": {
                               "anyOf": [
                                 {
@@ -27148,6 +29485,153 @@
                                   "type": "string"
                                 }
                               ]
+                            },
+                            "priceOrigin": {
+                              "type": "object",
+                              "properties": {
+                                "itemId": {
+                                  "type": "string"
+                                },
+                                "catalogueId": {
+                                  "type": "string"
+                                },
+                                "catalogueVersion": {
+                                  "type": "string"
+                                },
+                                "source": {
+                                  "type": "string"
+                                },
+                                "priceDate": {
+                                  "anyOf": [
+                                    {
+                                      "type": "null"
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                },
+                                "currency": {
+                                  "type": "string"
+                                },
+                                "unit": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        "st"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m²"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m³"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "kg"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "ton"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "uur"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "dgn"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "km"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "keer"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "ls"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "week"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "mnd"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "post"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "%"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "pm"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "price": {
+                                  "type": "number"
+                                },
+                                "appliedAt": {
+                                  "type": "string"
+                                },
+                                "locked": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        false
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "itemId",
+                                "catalogueId",
+                                "catalogueVersion",
+                                "source",
+                                "priceDate",
+                                "currency",
+                                "unit",
+                                "price",
+                                "appliedAt",
+                                "locked"
+                              ],
+                              "additionalProperties": false
                             },
                             "tariefGroep": {
                               "anyOf": [
@@ -28223,6 +30707,153 @@
                         }
                       ]
                     },
+                    "priceOrigin": {
+                      "type": "object",
+                      "properties": {
+                        "itemId": {
+                          "type": "string"
+                        },
+                        "catalogueId": {
+                          "type": "string"
+                        },
+                        "catalogueVersion": {
+                          "type": "string"
+                        },
+                        "source": {
+                          "type": "string"
+                        },
+                        "priceDate": {
+                          "anyOf": [
+                            {
+                              "type": "null"
+                            },
+                            {
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "currency": {
+                          "type": "string"
+                        },
+                        "unit": {
+                          "anyOf": [
+                            {
+                              "enum": [
+                                "st"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "m"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "m²"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "m³"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "kg"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "ton"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "uur"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "dgn"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "km"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "keer"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "ls"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "week"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "mnd"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "post"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "%"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "pm"
+                              ]
+                            }
+                          ]
+                        },
+                        "price": {
+                          "type": "number"
+                        },
+                        "appliedAt": {
+                          "type": "string"
+                        },
+                        "locked": {
+                          "anyOf": [
+                            {
+                              "enum": [
+                                false
+                              ]
+                            },
+                            {
+                              "enum": [
+                                true
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "itemId",
+                        "catalogueId",
+                        "catalogueVersion",
+                        "source",
+                        "priceDate",
+                        "currency",
+                        "unit",
+                        "price",
+                        "appliedAt",
+                        "locked"
+                      ],
+                      "additionalProperties": false
+                    },
                     "tariefGroep": {
                       "anyOf": [
                         {
@@ -29225,6 +31856,153 @@
                                 }
                               ]
                             },
+                            "priceOrigin": {
+                              "type": "object",
+                              "properties": {
+                                "itemId": {
+                                  "type": "string"
+                                },
+                                "catalogueId": {
+                                  "type": "string"
+                                },
+                                "catalogueVersion": {
+                                  "type": "string"
+                                },
+                                "source": {
+                                  "type": "string"
+                                },
+                                "priceDate": {
+                                  "anyOf": [
+                                    {
+                                      "type": "null"
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                },
+                                "currency": {
+                                  "type": "string"
+                                },
+                                "unit": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        "st"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m²"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m³"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "kg"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "ton"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "uur"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "dgn"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "km"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "keer"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "ls"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "week"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "mnd"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "post"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "%"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "pm"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "price": {
+                                  "type": "number"
+                                },
+                                "appliedAt": {
+                                  "type": "string"
+                                },
+                                "locked": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        false
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "itemId",
+                                "catalogueId",
+                                "catalogueVersion",
+                                "source",
+                                "priceDate",
+                                "currency",
+                                "unit",
+                                "price",
+                                "appliedAt",
+                                "locked"
+                              ],
+                              "additionalProperties": false
+                            },
                             "tariefGroep": {
                               "anyOf": [
                                 {
@@ -29781,7 +32559,21 @@
                                   "annotationId": {
                                     "type": "string"
                                   },
-                                  "originalAnnotation": {}
+                                  "originalAnnotation": {},
+                                  "sourceVerified": {
+                                    "anyOf": [
+                                      {
+                                        "enum": [
+                                          false
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          true
+                                        ]
+                                      }
+                                    ]
+                                  }
                                 },
                                 "required": [
                                   "id",
@@ -29795,6 +32587,25 @@
                                 ],
                                 "additionalProperties": false
                               }
+                            },
+                            "revision": {
+                              "type": "object",
+                              "properties": {
+                                "label": {
+                                  "type": "string"
+                                },
+                                "previousSourceId": {
+                                  "type": "string"
+                                },
+                                "importedAt": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "label",
+                                "importedAt"
+                              ],
+                              "additionalProperties": false
                             }
                           },
                           "required": [
@@ -29912,6 +32723,25 @@
                                 ],
                                 "additionalProperties": false
                               }
+                            },
+                            "revision": {
+                              "type": "object",
+                              "properties": {
+                                "label": {
+                                  "type": "string"
+                                },
+                                "previousModelId": {
+                                  "type": "string"
+                                },
+                                "importedAt": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "label",
+                                "importedAt"
+                              ],
+                              "additionalProperties": false
                             }
                           },
                           "required": [
@@ -31189,6 +34019,153 @@
                                 }
                               ]
                             },
+                            "priceOrigin": {
+                              "type": "object",
+                              "properties": {
+                                "itemId": {
+                                  "type": "string"
+                                },
+                                "catalogueId": {
+                                  "type": "string"
+                                },
+                                "catalogueVersion": {
+                                  "type": "string"
+                                },
+                                "source": {
+                                  "type": "string"
+                                },
+                                "priceDate": {
+                                  "anyOf": [
+                                    {
+                                      "type": "null"
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                },
+                                "currency": {
+                                  "type": "string"
+                                },
+                                "unit": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        "st"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m²"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m³"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "kg"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "ton"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "uur"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "dgn"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "km"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "keer"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "ls"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "week"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "mnd"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "post"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "%"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "pm"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "price": {
+                                  "type": "number"
+                                },
+                                "appliedAt": {
+                                  "type": "string"
+                                },
+                                "locked": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        false
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "itemId",
+                                "catalogueId",
+                                "catalogueVersion",
+                                "source",
+                                "priceDate",
+                                "currency",
+                                "unit",
+                                "price",
+                                "appliedAt",
+                                "locked"
+                              ],
+                              "additionalProperties": false
+                            },
                             "tariefGroep": {
                               "anyOf": [
                                 {
@@ -32137,6 +35114,153 @@
                                   "type": "string"
                                 }
                               ]
+                            },
+                            "priceOrigin": {
+                              "type": "object",
+                              "properties": {
+                                "itemId": {
+                                  "type": "string"
+                                },
+                                "catalogueId": {
+                                  "type": "string"
+                                },
+                                "catalogueVersion": {
+                                  "type": "string"
+                                },
+                                "source": {
+                                  "type": "string"
+                                },
+                                "priceDate": {
+                                  "anyOf": [
+                                    {
+                                      "type": "null"
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                },
+                                "currency": {
+                                  "type": "string"
+                                },
+                                "unit": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        "st"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m²"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "m³"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "kg"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "ton"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "uur"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "dgn"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "km"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "keer"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "ls"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "week"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "mnd"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "post"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "%"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "pm"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "price": {
+                                  "type": "number"
+                                },
+                                "appliedAt": {
+                                  "type": "string"
+                                },
+                                "locked": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        false
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "itemId",
+                                "catalogueId",
+                                "catalogueVersion",
+                                "source",
+                                "priceDate",
+                                "currency",
+                                "unit",
+                                "price",
+                                "appliedAt",
+                                "locked"
+                              ],
+                              "additionalProperties": false
                             },
                             "tariefGroep": {
                               "anyOf": [

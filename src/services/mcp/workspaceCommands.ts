@@ -40,7 +40,7 @@ export async function pdfCommand(action:string,p:Record<string,unknown>) {
   const task=pdfjs.getDocument({data:Uint8Array.from(atob(source.dataBase64),c=>c.charCodeAt(0))});
   const doc=await task.promise;
   try {
-    if(action==='importMeasurements') {w.sources[index]=replaceOpenPdfMeasurements(source,importOpenPdfMeasurements(p.export,source,doc.numPages));commit();return {count:w.sources[index].measurements.length};}
+    if(action==='importMeasurements') {w.sources[index]=replaceOpenPdfMeasurements(source,importOpenPdfMeasurements(p.export,source,doc.numPages,{allowUnverifiedSource:p.allowUnverifiedSource===true}));commit();return {count:w.sources[index].measurements.length};}
     const page=Number(p.page);if(!Number.isInteger(page)||page<1||page>doc.numPages)throw Error('Ongeldige PDF-pagina.');
     if(action==='calibrate') {
       const points=p.points as PdfPoint[];const distance=Number(p.distanceMeters);

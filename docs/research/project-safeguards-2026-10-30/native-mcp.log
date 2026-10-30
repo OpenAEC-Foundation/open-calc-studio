@@ -1,0 +1,5 @@
+Open Calc Studio MCP server running on stdio
+PASS IFC-Lite: real geometry, selection, SI takeoff and budget link
+PASS PDF: embed, calibrate, measure, link and live recalculation
+PASS desktop BC3 and spreadsheet exports
+PASS native persistence, validation and browser-origin rejection

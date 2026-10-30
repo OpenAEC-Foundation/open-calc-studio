@@ -1,0 +1,217 @@
+{
+  "version": "2026.44.6",
+  "commit": "f17f6b375c624328cb14016058f987e78b1cac7c",
+  "dirty": false,
+  "environment": {
+    "node": "v24.21.0",
+    "platform": "linux",
+    "arch": "x64",
+    "cpu": "AMD Ryzen 7 3700U with Radeon Vega Mobile Gfx",
+    "memoryGiB": 14
+  },
+  "limitations": [
+    "Synthetic generated budgets and IFC data; no user files",
+    "PDF test measures embedded bytes serialization, not PDF rendering",
+    "IFC tests parse quantities and compare metadata, not GPU mesh rendering",
+    "Process RSS delta is not a peak or phone/cloud capacity guarantee",
+    "Three runs per measurement; no statistical performance guarantee"
+  ],
+  "results": [
+    {
+      "name": "budget-recalculate",
+      "size": 1000,
+      "runsMs": [
+        8.3,
+        3.4,
+        3.5
+      ],
+      "medianMs": 3.5,
+      "maxRssIncreaseMiB": 0.6
+    },
+    {
+      "name": "project-save-open",
+      "size": 1000,
+      "runsMs": [
+        13.3,
+        12.7,
+        12
+      ],
+      "medianMs": 12.7,
+      "maxRssIncreaseMiB": 1
+    },
+    {
+      "name": "price-preview",
+      "size": 1000,
+      "runsMs": [
+        19.8,
+        14.4,
+        12.6
+      ],
+      "medianMs": 14.4,
+      "maxRssIncreaseMiB": 0.5
+    },
+    {
+      "name": "project-size",
+      "rows": 1000,
+      "bytes": 1098333,
+      "processRssMiB": 124.7
+    },
+    {
+      "name": "budget-recalculate",
+      "size": 10000,
+      "runsMs": [
+        24,
+        40.7,
+        26.9
+      ],
+      "medianMs": 26.9,
+      "maxRssIncreaseMiB": 9.3
+    },
+    {
+      "name": "project-save-open",
+      "size": 10000,
+      "runsMs": [
+        136.7,
+        109,
+        104.5
+      ],
+      "medianMs": 109,
+      "maxRssIncreaseMiB": 28.8
+    },
+    {
+      "name": "price-preview",
+      "size": 10000,
+      "runsMs": [
+        121.6,
+        107.2,
+        87.4
+      ],
+      "medianMs": 107.2,
+      "maxRssIncreaseMiB": 29.5
+    },
+    {
+      "name": "project-size",
+      "rows": 10000,
+      "bytes": 10987623,
+      "processRssMiB": 211.6
+    },
+    {
+      "name": "budget-recalculate",
+      "size": 50000,
+      "runsMs": [
+        120.9,
+        98,
+        99.7
+      ],
+      "medianMs": 99.7,
+      "maxRssIncreaseMiB": 12.6
+    },
+    {
+      "name": "project-save-open",
+      "size": 50000,
+      "runsMs": [
+        536.9,
+        530.5,
+        574.5
+      ],
+      "medianMs": 536.9,
+      "maxRssIncreaseMiB": 54.1
+    },
+    {
+      "name": "price-preview",
+      "size": 50000,
+      "runsMs": [
+        617.1,
+        577,
+        533.9
+      ],
+      "medianMs": 577,
+      "maxRssIncreaseMiB": 90.1
+    },
+    {
+      "name": "project-size",
+      "rows": 50000,
+      "bytes": 55020823,
+      "processRssMiB": 447.2
+    },
+    {
+      "name": "ifc-parse-quantities",
+      "elements": 1000,
+      "bytes": 299142,
+      "runsMs": [
+        113.3,
+        45.2,
+        34.6
+      ],
+      "medianMs": 45.2,
+      "includesGeometryRendering": false
+    },
+    {
+      "name": "ifc-revision-comparison",
+      "size": 1000,
+      "runsMs": [
+        4.6,
+        4,
+        3.5
+      ],
+      "medianMs": 4,
+      "maxRssIncreaseMiB": 0
+    },
+    {
+      "name": "ifc-parse-quantities",
+      "elements": 5000,
+      "bytes": 1527142,
+      "runsMs": [
+        215,
+        132,
+        128.2
+      ],
+      "medianMs": 132,
+      "includesGeometryRendering": false
+    },
+    {
+      "name": "ifc-revision-comparison",
+      "size": 5000,
+      "runsMs": [
+        17.7,
+        15.7,
+        17.2
+      ],
+      "medianMs": 17.2,
+      "maxRssIncreaseMiB": 0.5
+    },
+    {
+      "name": "embedded-pdf-project-save-open",
+      "size": 1,
+      "runsMs": [
+        7.1,
+        7,
+        6.5
+      ],
+      "medianMs": 7,
+      "maxRssIncreaseMiB": 2.6
+    },
+    {
+      "name": "embedded-pdf-project-save-open",
+      "size": 10,
+      "runsMs": [
+        58.7,
+        51,
+        53.2
+      ],
+      "medianMs": 53.2,
+      "maxRssIncreaseMiB": 39.9
+    },
+    {
+      "name": "embedded-pdf-project-save-open",
+      "size": 30,
+      "runsMs": [
+        177.1,
+        178.4,
+        181.9
+      ],
+      "medianMs": 178.4,
+      "maxRssIncreaseMiB": 79.9
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+.safeguard-dialog { color: var(--theme-text); gap: 12px; }
+.safeguard-dialog header { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.safeguard-dialog h2, .safeguard-dialog h3, .safeguard-dialog p { margin: 0; }
+.safeguard-dialog h2 { font: 600 1.25rem var(--oa-font-heading, var(--oa-font-body)); }
+.safeguard-dialog button { font: inherit; padding: 8px 12px; min-height: 36px; border: 1px solid var(--theme-border); border-radius: 6px; color: var(--theme-text); background: var(--theme-surface); cursor: pointer; }
+.safeguard-dialog button:disabled { opacity: .5; cursor: default; }
+.safeguard-dialog button:focus-visible, .safeguard-dialog select:focus-visible, .safeguard-dialog input:focus-visible { outline: 2px solid var(--theme-accent, #d97706); outline-offset: 2px; }
+.safeguard-dialog label { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.safeguard-dialog input, .safeguard-dialog select { font: inherit; color: var(--theme-text); background: var(--theme-input-bg, var(--theme-surface)); border: 1px solid var(--theme-border); padding: 6px; min-width: 0; max-width: 100%; }
+.safeguard-dialog table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.safeguard-dialog th, .safeguard-dialog td { border-bottom: 1px solid var(--theme-border); padding: 8px; text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+.safeguard-dialog th { font-weight: 600; }
+@media (pointer: coarse) { .safeguard-dialog button, .safeguard-dialog select { min-height: 44px; } }

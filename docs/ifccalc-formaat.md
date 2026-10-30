@@ -48,7 +48,7 @@ worden bij openen automatisch in deze volgorde gezet.
 ## Versiebeleid
 
 Het `version`-veld identificeert het **formaat** (los van de app-versie).
-Huidige formaatversie: **2.3.0** — één bron van waarheid in code:
+Huidige formaatversie: **2.4.0** — één bron van waarheid in code:
 `FILE_FORMAT_VERSION` in `src/services/file/fileService.ts` (de MCP-server
 spiegelt deze waarde).
 
@@ -77,7 +77,8 @@ Regels:
 | **1.x** | `isChapter`-boolean, `resources[]` per post, `rowType: 'normal'` | `isChapter`→`rowType:'chapter'`, `normal`→`begrotingspost`, normvelden aangevuld |
 | **2.0.0** | Datamodel v2: `rowType`-enum, normvelden, `resourceType`, `tariefGroep`, `resourceLibrary`, `subSheets[]`, `offerte` | `subSheets[]` → `spreadsheets`-object; `projectInfo`/`branches` aangevuld; legacy `schedule.staartRows` → `staart_*`-rijen |
 | **2.1.0** | `spreadsheets`-object (bladen + actief blad), `projectInfo` (kengetallen) op schedule, `branches`-velden, `snapshots` | — |
-| **2.3.0** *(huidig)* | `quantityOrigin` op CostItem: bewaarde bronidentiteit, bestandsnaam, pagina/objectselectie, berekening, eenheid en koppelwaarde | Additief; oudere koppelingen worden uit aanwezige bronnen gelezen en krijgen een vastlegging wanneer ze opnieuw gekoppeld worden |
+| **2.4.0** *(huidig)* | `priceOrigin` op regels; gebruikte bronartikelen in `resourceLibrary`; PDF/IFC-revisiemetadata en verificatiestatus bij PDF-meetimport | Additief; oude regels zonder bronrecord blijven bruikbaar maar worden niet automatisch aan een nieuwe catalogus gekoppeld |
+| **2.3.0** | `quantityOrigin` op CostItem: bewaarde bronidentiteit, bestandsnaam, pagina/objectselectie, berekening, eenheid en koppelwaarde | Additief; oudere koppelingen worden uit aanwezige bronnen gelezen en krijgen een vastlegging wanneer ze opnieuw gekoppeld worden |
 | **2.2.0** | `history` op CostItem: wijzigingshistorie per regel (veld, oud/nieuw, tijd, Windows-gebruiker) | — (additief; oudere bestanden hebben geen historie) |
 
 ## Relatie met IFC
