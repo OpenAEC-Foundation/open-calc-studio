@@ -2,7 +2,7 @@ import type { StateCreator } from 'zustand';
 import { applyUiZoom, clampUiZoom, loadUiZoom, nextUiZoom, saveUiZoom } from '@/services/system/uiZoom';
 
 export type ThemeName = 'default' | 'light' | 'dark' | 'blue' | 'amber-navy' | 'warm-ember' | 'highContrast';
-export type DialogType = 'settings' | 'about' | 'company' | 'wizard' | null;
+export type DialogType = 'settings' | 'about' | 'company' | 'wizard' | 'priceUpdates' | 'revisions' | null;
 export type ContentTab = 'wizard' | 'grid' | 'review' | 'promptBudget' | 'urenstaart' | 'rapport' | 'samenvatting' | 'ifc' | 'offerte' | 'spreadsheet' | 'viewer3d' | 'pdf';
 export type ReportMode = 'client' | 'internal';
 export type ReportView = 'werkbeschrijving' | 'hoofdaanneming' | 'onderaanneming' | 'inschrijfstaat' | 'nacalculatie' | 'bouw1' | 'ibis' | 'directie' | 'offerte';

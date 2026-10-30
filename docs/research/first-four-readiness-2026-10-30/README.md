@@ -6,8 +6,10 @@ Onderzoek van 30 oktober 2026 voor Open Calc Studio 2026.44.5, basiscommit
 De eerste verbeteringen moeten verlies van werk en onjuiste bronkoppelingen
 voorkomen. Prioriteit hebben de Excel-afhankelijkheid, betrouwbare herstelopslag,
 vaste artikelidentiteiten en controle van de PDF-identiteit bij meetimport.
-De vier onderzoeken zijn uitgevoerd; de voorgestelde productwijzigingen zijn
-nog niet geïmplementeerd.
+De vier onderzoeken beschrijven de uitgangssituatie van 2026.44.5. De latere
+[implementatie en validatie van 2026.44.6](../project-safeguards-2026-10-30/README.md)
+werkt deze bevindingen uit; de oude observatieproeven zijn geen acceptatietests
+voor de inmiddels gewijzigde code.
 
 ## Uitgevoerde controles
 

@@ -3,6 +3,12 @@ import { deserializeProject, serializeProject } from '@/services/file/fileServic
 import { useAppStore } from '@/state/appStore';
 
 const KEY = 'ocs-mobile-draft-v1';
+let legacyRestored = false;
+/** Called only after the complete replacement journal has committed. */
+export function completeLegacyDraftMigration(): void {
+  if (!legacyRestored) return;
+  try { window.localStorage.removeItem(KEY); legacyRestored = false; } catch { /* Keep the legacy copy if removal is unavailable. */ }
+}
 
 /** Restore the last active browser document before the bundled example loads. */
 export function restoreMobileDraft(): boolean {
@@ -17,7 +23,9 @@ export function restoreMobileDraft(): boolean {
     if (parsed.companyInfo) store.setCompanyInfo(parsed.companyInfo);
     store.setSubSheets(parsed.spreadsheets?.sheets ?? parsed.subSheets ?? []);
     if (parsed.offerte) store.setOfferte(parsed.offerte);
+    store.setSnapshots(parsed.snapshots ?? []);
     if (parsed.schedule.projectInfo) store.setProjectInfo(parsed.schedule.projectInfo);
+    legacyRestored = true;
     return true;
   } catch (error) {
     console.warn('[Mobile] Draft could not be restored:', error);
@@ -31,8 +39,9 @@ export function saveMobileDraft(): boolean {
     const state = useAppStore.getState();
     const doc = state.documents.find((candidate) => candidate.id === state.activeDocumentId);
     if (!doc) return false;
-    const project = serializeProject({ ...state.schedule, projectInfo: state.projectInfo }, state.items, state.companyInfo, state.subSheets, state.offerte);
-    localStore.setItem(KEY, JSON.stringify({ fileName: doc.fileName, project }));
+    const project = serializeProject({ ...state.schedule, projectInfo: state.projectInfo }, state.items, state.companyInfo, state.subSheets, state.offerte, state.snapshots);
+    // Legacy migration helper only. Never report the preferences memory fallback as durable.
+    window.localStorage.setItem(KEY, JSON.stringify({ fileName: doc.fileName, project }));
     return true;
   } catch (error) {
     console.warn('[Mobile] Draft could not be saved:', error);

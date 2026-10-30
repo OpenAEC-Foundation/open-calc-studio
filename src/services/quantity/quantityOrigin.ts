@@ -10,6 +10,7 @@ export interface QuantityOrigin {
   value: number | null;
   unit: string;
   capturedAt?: string;
+  verified?: boolean;
 }
 const pdfOrigins = new WeakMap<PdfQuantityResolver, Map<string, QuantityOrigin | null>>();
 
@@ -38,7 +39,7 @@ export function resolveQuantityOrigin(link: QuantityLink, context: QuantityOrigi
     const sources = resolver.measurements(link);
     const value = resolver.resolve(link);
     if (value === null || !sources.length) return null;
-    const origin: QuantityOrigin = { source: 'pdf', label: summed ? `Σ ${kind}` : sources[0].measurement.label, sources: sources.map(({ source, measurement }) => ({ id: source.id, name: source.fileName, page: measurement.page, measurementId: measurement.id })),
+    const origin: QuantityOrigin = { source: 'pdf', verified: sources.every(({ measurement }) => measurement.origin !== 'open-pdf-studio' || measurement.sourceVerified === true), label: summed ? `Σ ${kind}` : sources[0].measurement.label, sources: sources.map(({ source, measurement }) => ({ id: source.id, name: source.fileName, page: measurement.page, measurementId: measurement.id })),
       formula: summed ? sources.map(({ measurement }) => measurement.value).join(' + ') : sources[0].measurement.origin === 'open-pdf-studio' ? `Open PDF Studio · #${sources[0].measurement.annotationId ?? sources[0].measurement.id}` : `${kind === 'area' ? 'polygonArea' : 'polylineLength'}(PDF points) × (${sources[0].measurement.mmPerPoint}/1000)${kind === 'area' ? '²' : ''}`, value, unit: kind === 'area' ? 'm²' : 'm' };
     cache.set(cacheKey, origin); return origin;
   }

@@ -661,14 +661,17 @@
         "page": "The measurement refers to an invalid PDF page.",
         "value": "The measurement has no valid value or calibrated unit.",
         "geometry": "The distance measurement has an invalid custom scale or geometry.",
-        "tooLarge": "The measured value is too large."
+        "tooLarge": "The measured value is too large.",
+        "hash": "The measurement export belongs to a different PDF revision.",
+        "unverified": "This export has no PDF hash. Explicitly confirm the drawing and revision before importing."
       },
       "tab": "PDF & measurements",
       "importConfirm": "Import {{count}} measurements for {{file}}? Check that the drawing and revision match. Previous Open PDF measurements for this source will be replaced; existing measurement IDs stay linked.",
       "pointsChosen": "Selected points: {{count}}. Click “Finish measurement” when the shape is complete.",
       "scaleValue": "{{value}} mm per PDF point",
       "pointsChosen_one": "{{count}} point selected. Click “Finish measurement” when the shape is complete.",
-      "pointsChosen_other": "{{count}} points selected. Click “Finish measurement” when the shape is complete."
+      "pointsChosen_other": "{{count}} points selected. Click “Finish measurement” when the shape is complete.",
+      "unverifiedConfirm": "This export has no PDF hash. Are you certain that the drawing and revision match? Imported measurements will be marked unverified."
     },
     "cancel": "Cancel",
     "remove": "Remove",
@@ -681,7 +684,35 @@
       "selectParent": "Select an estimate item before adding a resource.",
       "reference": "Unverified reference: {{price}} per {{unit}}. Reference date and VAT basis unknown.",
       "title": "Prices",
-      "library": "Dutch price library"
+      "library": "Dutch price library",
+      "select": "Select",
+      "updates": "Review price updates",
+      "explain": "Import a newer JSON catalogue with the same catalogue and article IDs. Select compatible changes to apply. Project overrides are preserved.",
+      "catalogue": "Catalogue JSON",
+      "current": "Compare loaded catalogue",
+      "total": "Estimate total including VAT, all compatible changes:",
+      "selectionPreview": "The total above assumes every compatible change; only checked rows will be applied.",
+      "article": "Article",
+      "old": "Old",
+      "new": "New",
+      "statusLabel": "Status",
+      "apply": "Apply selected prices",
+      "status": {
+        "changed": "Changed",
+        "unchanged": "Unchanged",
+        "unmatched": "Unmatched",
+        "ambiguous": "Ambiguous",
+        "override": "Override",
+        "inactive": "Inactive",
+        "unit": "Unit",
+        "currency": "Currency",
+        "missing-price": "Missing price",
+        "tariff": "Tariff"
+      },
+      "origin": "Price source",
+      "catalogueLabel": "Catalogue",
+      "date": "Price date",
+      "applied": "Applied source price"
     },
     "import": {
       "gaebBase": "Open the matching GAEB X83 bill of quantities first.",
@@ -1078,7 +1109,44 @@
     "report": {
       "quotationDesktopRequired": "Quotation PDFs require the desktop application.",
       "documentChanged": "The active document changed. Try again in the intended estimate."
-    }
+    },
+    "recovery": {
+      "title": "Recovery",
+      "failed": "Recovery could not be saved. Save your estimate to a file.",
+      "available": "Recoverable estimates:",
+      "restore": "Restore as new estimates",
+      "discard": "Discard recovery",
+      "saved": "Recovery saved"
+    },
+    "revisions": {
+      "title": "Compare source revisions",
+      "explain": "Add both source files first. IFC matches use unique GlobalIds and the exact quantity key. PDF comparisons show imported measurements; calibration and geometry require review in the drawing.",
+      "type": "Source type",
+      "previous": "Previous revision",
+      "next": "New revision",
+      "compare": "Compare",
+      "objects": "IFC quantity and identity differences",
+      "name": "Name",
+      "statusLabel": "Status",
+      "values": "Quantities",
+      "linked": "Linked estimate rows",
+      "apply": "Apply selected quantity links",
+      "unverified": "Review source identity",
+      "more": "Show more",
+      "status": {
+        "changed": "Changed",
+        "unchanged": "Unchanged",
+        "renumbered": "Renumbered",
+        "added": "Added",
+        "removed": "Removed",
+        "ambiguous": "Ambiguous",
+        "missing": "Missing",
+        "override": "Override",
+        "unit": "Unit",
+        "inactive": "Inactive"
+      }
+    },
+    "close": "Close"
   },
   "review": {
     "title": "Review center",
@@ -1132,6 +1200,10 @@
       "unit-mismatch": {
         "title": "Source and row units differ",
         "detail": "The source and estimate row use different units. Check the selected quantity or an explicit conversion. No automatic unit conversion is assumed."
+      },
+      "unverified-source": {
+        "title": "PDF source identity unverified",
+        "detail": "The measurement export has no verified PDF hash. Review the drawing and revision before using the quantity."
       }
     },
     "mobile": "Review"

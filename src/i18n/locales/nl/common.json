@@ -661,14 +661,17 @@
         "page": "Meting verwijst naar een ongeldige PDF-pagina.",
         "value": "Meting mist een geldige waarde of gekalibreerde eenheid.",
         "geometry": "Afstandsmeting heeft een ongeldige aangepaste schaal of geometrie.",
-        "tooLarge": "Meetwaarde is te groot."
+        "tooLarge": "Meetwaarde is te groot.",
+        "hash": "De meetexport hoort bij een andere PDF-revisie.",
+        "unverified": "Deze export heeft geen PDF-hash. Bevestig eerst de tekening en revisie."
       },
       "tab": "PDF & metingen",
       "importConfirm": "{{count}} metingen overnemen voor {{file}}? Controleer dat dit dezelfde tekening en revisie is. De vorige Open PDF-metingen van deze bron worden vervangen; bestaande meet-ID's blijven gekoppeld.",
       "pointsChosen": "{{count}} punten gekozen. Klik op “Meting afronden” wanneer de vorm compleet is.",
       "scaleValue": "{{value}} mm per PDF-punt",
       "pointsChosen_one": "{{count}} punt gekozen. Klik op “Meting afronden” wanneer de vorm compleet is.",
-      "pointsChosen_other": "{{count}} punten gekozen. Klik op “Meting afronden” wanneer de vorm compleet is."
+      "pointsChosen_other": "{{count}} punten gekozen. Klik op “Meting afronden” wanneer de vorm compleet is.",
+      "unverifiedConfirm": "Deze export heeft geen PDF-hash. Weet u zeker dat tekening en revisie overeenkomen? Geïmporteerde metingen worden als onbevestigd gemarkeerd."
     },
     "cancel": "Annuleren",
     "remove": "Verwijder",
@@ -681,7 +684,35 @@
       "selectParent": "Selecteer eerst een begrotingspost om een middel toe te voegen.",
       "reference": "Ongeverifieerde referentie: {{price}} per {{unit}}. Peildatum en btw-basis onbekend.",
       "title": "Prijzen",
-      "library": "Prijsbibliotheek NL"
+      "library": "Prijsbibliotheek NL",
+      "updates": "Prijsupdates beoordelen",
+      "explain": "Importeer een nieuwere JSON-catalogus met dezelfde catalogus- en artikel-ID’s. Selecteer passende wijzigingen. Eigen prijsafspraken blijven behouden.",
+      "catalogue": "Catalogus JSON",
+      "current": "Geladen catalogus vergelijken",
+      "total": "Begroting inclusief btw bij alle passende wijzigingen:",
+      "selectionPreview": "Het totaal hierboven gaat uit van alle passende wijzigingen; alleen aangevinkte regels worden toegepast.",
+      "select": "Selecteren",
+      "article": "Artikel",
+      "old": "Oud",
+      "new": "Nieuw",
+      "statusLabel": "Status",
+      "apply": "Geselecteerde prijzen toepassen",
+      "status": {
+        "changed": "Gewijzigd",
+        "unchanged": "Ongewijzigd",
+        "unmatched": "Geen zekere koppeling",
+        "ambiguous": "Dubbelzinnig",
+        "override": "Eigen prijs behouden",
+        "inactive": "Andere variant",
+        "unit": "Afwijkende eenheid",
+        "currency": "Afwijkende of ontbrekende valuta",
+        "missing-price": "Prijs ontbreekt",
+        "tariff": "Tariefgroep behouden"
+      },
+      "origin": "Prijsherkomst",
+      "catalogueLabel": "Catalogus",
+      "date": "Prijspeildatum",
+      "applied": "Toegepaste bronprijs"
     },
     "import": {
       "gaebBase": "Open eerst het bijbehorende GAEB X83-bestek.",
@@ -1078,7 +1109,44 @@
     "report": {
       "quotationDesktopRequired": "Offerte-PDF vereist de desktopapplicatie.",
       "documentChanged": "Het actieve document is gewijzigd. Probeer opnieuw in de bedoelde begroting."
-    }
+    },
+    "recovery": {
+      "title": "Herstel",
+      "failed": "Herstel kon niet worden opgeslagen. Sla uw begroting op.",
+      "available": "Herstelbare begrotingen:",
+      "restore": "Herstellen als nieuwe begrotingen",
+      "discard": "Herstelgegevens verwijderen",
+      "saved": "Herstel opgeslagen"
+    },
+    "revisions": {
+      "title": "Bronrevisies vergelijken",
+      "explain": "Voeg eerst beide bronbestanden toe. IFC-koppelingen gebruiken unieke GlobalIds en de exacte hoeveelheidssleutel. Bij PDF worden geïmporteerde metingen vergeleken; kalibratie en geometrie moeten in de tekening worden beoordeeld.",
+      "type": "Brontype",
+      "previous": "Vorige revisie",
+      "next": "Nieuwe revisie",
+      "compare": "Vergelijken",
+      "objects": "IFC-verschillen in hoeveelheden en identiteit",
+      "name": "Naam",
+      "statusLabel": "Status",
+      "values": "Hoeveelheden",
+      "linked": "Gekoppelde begrotingsregels",
+      "apply": "Geselecteerde hoeveelheidskoppelingen toepassen",
+      "unverified": "Bronidentiteit controleren",
+      "more": "Meer tonen",
+      "status": {
+        "changed": "Gewijzigd",
+        "unchanged": "Ongewijzigd",
+        "renumbered": "Hernummerd",
+        "added": "Toegevoegd",
+        "removed": "Verwijderd",
+        "ambiguous": "Dubbelzinnig",
+        "missing": "Bron ontbreekt",
+        "override": "Eigen hoeveelheid behouden",
+        "unit": "Afwijkende eenheid",
+        "inactive": "Andere variant"
+      }
+    },
+    "close": "Sluiten"
   },
   "review": {
     "title": "Controlecentrum",
@@ -1132,6 +1200,10 @@
       "unit-mismatch": {
         "title": "Bron en regel gebruiken andere eenheden",
         "detail": "De bron en begrotingsregel gebruiken verschillende eenheden. Controleer de gekozen hoeveelheid of een expliciete omrekening. Er vindt geen automatische eenheidsconversie plaats."
+      },
+      "unverified-source": {
+        "title": "PDF-bronidentiteit onbevestigd",
+        "detail": "Deze meetexport bevat geen gecontroleerde PDF-hash. Controleer de tekening en revisie voordat u de hoeveelheid gebruikt."
       }
     },
     "mobile": "Controle"

@@ -3,6 +3,7 @@ import type { ProjectFile, CostSchedule, CostItem, CompanyInfo, SubSheet, Spread
 import { defaultCompanyInfo } from '@/state/slices/companySlice';
 import { createDefaultProjectInfo } from '@/types/costModel';
 import { synthesizeStaartItems, ensureBtwLaagItem } from '@/services/calculation/staartDefaults';
+import { usedPriceArticles } from '@/services/pricing/priceUpdates';
 
 /**
  * Huidige versie van het .ifcCalc-bestandsformaat (major.minor.patch).
@@ -11,7 +12,7 @@ import { synthesizeStaartItems, ensureBtwLaagItem } from '@/services/calculation
  * - major omhoog = breaking (oudere apps weigeren met nette melding)
  * - minor omhoog = additief (oudere bestanden migreren automatisch mee)
  */
-const FILE_FORMAT_VERSION = '2.3.0';
+export const FILE_FORMAT_VERSION = '2.4.0';
 
 function createProjectFile(
   schedule: CostSchedule,
@@ -28,7 +29,7 @@ function createProjectFile(
     version: FILE_FORMAT_VERSION,
     schedule,
     items,
-    resourceLibrary: [],
+    resourceLibrary: usedPriceArticles(items),
     companyInfo: companyInfo ?? { ...defaultCompanyInfo },
     spreadsheets: spreadsheetsData,
     offerte,

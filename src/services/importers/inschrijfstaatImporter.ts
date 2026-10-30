@@ -1,3 +1,4 @@
+import { readWorkbook } from '@/services/importers/safeWorkbook';
 /**
  * Import an Inschrijfstaat RAW Excel file (.xls/.xlsx).
  * Reads the format produced by WpCalc/BasCalc/Open Calc Studio:
@@ -78,7 +79,7 @@ export async function importInschrijfstaatFile(buffer: ArrayBuffer): Promise<{
   companyInfo?: CompanyInfo;
 }> {
   const XLSX = await import('xlsx');
-  const wb = XLSX.read(buffer, { type: 'array' });
+  const wb = readWorkbook(buffer, { type: 'array' });
   const ws = wb.Sheets[wb.SheetNames[0]];
   const data: any[][] = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
 

@@ -46,7 +46,7 @@ For the mobile browser, serve a web build over HTTPS. Android and iPhone use the
 
 ## Versions and delivery status
 
-The current development version is **2026.44.5**, using `year.ISOweek.patch`. Product packages, Cargo and MCP share this version. MSI uses `26.44.5` to fit the Windows major-version limit. The `.ifcCalc` **file format is 2.3.0**; it has its own compatibility policy and is not a product release number.
+The current development version is **2026.44.6**, using `year.ISOweek.patch`. Product packages, Cargo and MCP share this version. MSI uses `26.44.6` to fit the Windows major-version limit. The `.ifcCalc` **file format is 2.4.0**; it has its own compatibility policy and is not a product release number.
 
 This source version does not imply an installer or npm publication already exists. [Release notes](docs/release-notes/unreleased.md) and the [issue acceptance matrix](docs/issue-readiness.md) record implementation, test evidence and remaining work. Signed releases require working signing credentials and verification of the delivered artifacts. Actual AWS deployment, clean-machine installation, real-phone tests and the DynLex prototype are still pending.
 
@@ -124,3 +124,19 @@ Open Calc Studio code: **LGPL-3.0-only**, see [LICENSE](LICENSE) and [COPYING](C
 
 The embed npm package includes `LICENSE`, `COPYING` and `NOTICE.md` at its root;
 web distributions also provide the product, Blueprint and font notices in `licenses/`.
+
+### Recovery, catalogue updates and source revisions
+
+Open the **Review center** to compare catalogue prices or source revisions.
+Projects retain the applied price source, date and catalogue version. Price
+updates and IFC revision relinks are previewed, explicitly selected and undoable;
+manual overrides, incompatible units/currencies and inactive variants are preserved.
+PDF measurement exchange verifies `sourceHash`; legacy exports need explicit
+approval and remain visibly unverified. IFC comparisons cover identity and named
+quantities, not geometry-only changes.
+
+A separate IndexedDB journal retains all open documents and snapshots when work
+is modified. Recovery opens new estimates, without overwriting original files.
+Native saves keep the previous version as `.bak` and replace the destination
+through a temporary file. See the [user guide](docs/user-guide.md) and
+[validation and performance evidence](docs/research/project-safeguards-2026-10-30/README.md).

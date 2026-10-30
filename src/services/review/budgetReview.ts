@@ -5,7 +5,7 @@ import { getQuantityOrigin, type QuantityOriginContext, type QuantityOriginInfo 
 
 export type ReviewCategory = 'price' | 'source' | 'unit';
 export type ReviewFilter = 'all' | ReviewCategory;
-export type ReviewCode = 'missing-price' | 'missing-source' | 'unchecked-excel' | 'different-quantity' | 'unit-mismatch';
+export type ReviewCode = 'missing-price' | 'missing-source' | 'unchecked-excel' | 'unverified-source' | 'different-quantity' | 'unit-mismatch';
 export interface BudgetReviewIssue {
   id: string;
   itemId: string;
@@ -57,6 +57,7 @@ export function reviewBudget(input: BudgetReviewContext): BudgetReviewReport {
     if (origin.source === 'excel') add(item, 'unchecked-excel', 'source', 'info', origin);
     else if (origin.status === 'missing') add(item, 'missing-source', 'source', 'error', origin);
     else if (origin.status === 'different') add(item, 'different-quantity', 'source', 'warning', origin);
+    if (origin.verified === false && origin.status !== 'missing') add(item, 'unverified-source', 'source', 'warning', origin);
     if (origin.unitMismatch) add(item, 'unit-mismatch', 'unit', 'warning', origin);
   }
   const priority = { error: 0, warning: 1, info: 2 };

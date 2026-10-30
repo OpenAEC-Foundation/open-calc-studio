@@ -25,6 +25,7 @@ export function QuantityOriginCard({ item, onNavigate, allowNavigate = true }: {
     <h3 className="oa-heading oa-heading--panel">{uiText('origin.title', 'Quantity origin')}</h3>
     <div className="quantity-origin-value oa-number">{number(item.quantity)} {item.unit}</div>
     <span className="oa-chip">{uiText(`origin.kind.${origin.source}`, origin.source)}</span>
+    {origin.verified === false && <p role="status" className="quantity-origin-warning">{uiText('revisions.unverified', 'Review source identity')}</p>}
     {origin.status === 'manual' && <p>{uiText('origin.manual', 'Entered manually; no live source is linked.')}</p>}
     {origin.source === 'excel' && <p>{uiText('origin.externalExcel', 'External Excel reference. The source file has not been checked here.')}</p>}
     {origin.status === 'missing' && origin.source !== 'excel' && <p role="alert" className="quantity-origin-warning">{uiText('origin.sourceMissing', 'The source is unavailable. The last known quantity has been retained.')}</p>}

@@ -3,6 +3,7 @@ pub mod api;
 pub mod reports;
 pub mod wpcalc_export;
 pub mod ws_bridge;
+mod project_save;
 #[cfg(desktop)]
 mod native_library;
 
@@ -210,6 +211,7 @@ pub fn run_return() -> Result<i32, tauri::Error> {
     // voor de stoplichtknoppen van het systeem.
     .plugin(tauri_plugin_os::init())
     .invoke_handler(tauri::generate_handler![
+        project_save::save_project_atomic,
         reports::generate_pdf_report,
         reports::generate_pdf_preview,
         reports::generate_ibis_report,

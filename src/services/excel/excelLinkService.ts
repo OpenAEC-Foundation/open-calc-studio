@@ -1,3 +1,4 @@
+import { readWorkbook } from '@/services/importers/safeWorkbook';
 import * as XLSX from 'xlsx';
 import type { CostItem } from '../../types/costModel';
 
@@ -7,7 +8,7 @@ export async function parseExcelFile(file: File): Promise<{
   sheets: Record<string, { data: (string | number | null)[][]; ref: string }>;
 }> {
   const buf = await file.arrayBuffer();
-  const wb = XLSX.read(buf, { type: 'array' });
+  const wb = readWorkbook(buf, { type: 'array' });
   const sheets: Record<string, { data: (string | number | null)[][]; ref: string }> = {};
 
   for (const name of wb.SheetNames) {
@@ -31,7 +32,7 @@ export async function parseExcelFileFromPath(filePath: string): Promise<{
   try {
     const tauriFs = await import('@tauri-apps/plugin-fs');
     const bytes = await tauriFs.readFile(filePath);
-    const wb = XLSX.read(bytes, { type: 'array' });
+    const wb = readWorkbook(bytes, { type: 'array' });
     const sheets: Record<string, { data: (string | number | null)[][]; ref: string }> = {};
 
     for (const name of wb.SheetNames) {
@@ -91,7 +92,7 @@ export async function updateAllExcelLinks(items: CostItem[]): Promise<{
           try {
             const tauriFs = await import('@tauri-apps/plugin-fs');
             const bytes = await tauriFs.readFile(filePath);
-            wb = XLSX.read(bytes, { type: 'array' });
+            wb = readWorkbook(bytes, { type: 'array' });
           } catch {
             wb = null;
           }

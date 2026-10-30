@@ -5,6 +5,7 @@ import { useAppStore } from '@/state/appStore';
 import type { ResourceLibraryItem, ResourceType } from '@/types/costModel';
 import { formatCurrency } from '@/utils/formatting';
 import { formatUnit } from '@/i18n/formatUnit';
+import { capturePriceOrigin } from '@/services/pricing/priceUpdates';
 import '../panels/panels.css';
 
 const RESOURCE_TYPE_COLORS: Record<ResourceType, string> = {
@@ -28,6 +29,7 @@ export const ResourcePicker: React.FC = () => {
   } = useAppStore();
 
   const [search, setSearch] = useState('');
+  const [error, setError] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const searchRef = useRef<HTMLInputElement>(null);
@@ -84,6 +86,9 @@ export const ResourcePicker: React.FC = () => {
 
   const handleSelect = useCallback((item: ResourceLibraryItem) => {
     if (!resourcePickerParentId || item.unitSupported === false) return;
+    let priceOrigin;
+    try { priceOrigin = item.defaultUnitPrice === null ? undefined : capturePriceOrigin(item, useAppStore.getState().schedule.currency); }
+    catch (e) { setError(String(e)); return; }
 
     pushHistory(items, t('dialogs:undo.addResource'));
     const newId = addRegel(resourcePickerParentId);
@@ -95,6 +100,8 @@ export const ResourcePicker: React.FC = () => {
       store.updateItem(newId, 'unit', item.unit);
       store.updateItem(newId, 'resourceType', item.resourceType);
       store.updateItem(newId, 'resourceLibraryId', item.id);
+      // An unknown catalogue labour price must not silently become tariff A.
+      store.updateItem(newId, 'tariefGroep', null);
       if (item.defaultUnitPrice === null) {
         store.updateItem(newId, 'normUnitPrice', null);
         store.updateItem(newId, 'notes', uiText("pricing.missing", "Price missing: enter a verified price and source."));
@@ -105,6 +112,7 @@ export const ResourcePicker: React.FC = () => {
         store.updateItem(newId, 'normFactor', 1);
         store.updateItem(newId, 'normDivisor', 1);
       }
+      useAppStore.setState(s => ({ items: s.items.map(row => row.id === newId ? { ...row, priceOrigin } : row) }));
     }
     closeResourcePicker();
   }, [resourcePickerParentId, pushHistory, items, addRegel, closeResourcePicker, t]);
@@ -133,6 +141,8 @@ export const ResourcePicker: React.FC = () => {
       <div className="resource-picker" onClick={e => e.stopPropagation()} onKeyDown={handleKeyDown}>
         <div className="resource-picker-header">
           <h2>{t('chooseResource')}</h2>
+          <button onClick={() => { closeResourcePicker(); useAppStore.getState().openDialog('priceUpdates'); }}>{uiText('pricing.updates', 'Review price updates')}</button>
+          {error && <p role="alert">{error}</p>}
           <button className="resource-picker-close" onClick={closeResourcePicker}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
               <path d="M12.78 4.28a.75.75 0 00-1.06-1.06L8 6.94 4.28 3.22a.75.75 0 00-1.06 1.06L6.94 8l-3.72 3.72a.75.75 0 101.06 1.06L8 9.06l3.72 3.72a.75.75 0 101.06-1.06L9.06 8l3.72-3.72z" />

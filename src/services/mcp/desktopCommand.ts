@@ -47,6 +47,16 @@ export function desktopState() {
 /** JSON-only action boundary. Dispatches the same store methods used by the UI. */
 export async function executeDesktopCommand(action: string, params: Record<string, unknown> = {}): Promise<unknown> {
   const store = useAppStore.getState();
+  if (action.startsWith('pricing.')) return (await import('../pricing/priceUpdateCommands')).priceUpdateCommand(action.slice(8), params);
+  if (action.startsWith('revisions.')) return (await import('../revisions/revisionCommands')).revisionCommand(action.slice(10), params);
+  if (action.startsWith('recovery.')) {
+    const recovery = await import('../file/recovery');
+    if (action === 'recovery.list') return (await recovery.listRecovery()).map(({ documents, ...record }) => ({ ...record, documents: documents.map(({ fileName }) => ({ fileName })) }));
+    if (typeof params.id !== 'string') throw Error('Recovery id is required.');
+    if (action === 'recovery.discard') { await recovery.removeRecovery(params.id); return { discarded: true }; }
+    if (action === 'recovery.restore') { const record = (await recovery.listRecovery()).find(r => r.id === params.id); if (!record) throw Error('Unknown recovery id.'); return { documentIds: recovery.restoreRecovery(record) }; }
+    throw Error('Unknown recovery action.');
+  }
   if (action === 'getState') return desktopState();
   if (action === 'listActions') return { ...catalogue, workspaceActions };
   if (action.startsWith('review.')) {

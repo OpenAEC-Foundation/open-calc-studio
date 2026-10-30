@@ -6,7 +6,7 @@ import { serializeProject, deserializeProject } from '@/services/file/fileServic
 import { createDefaultSchedule } from '@/data/defaultBudget';
 
 const source: PdfSource = { id: 'drawing-sha', fileName: 'tekening.pdf', dataBase64: 'JVBERi0xLjQ=', pageScales: { '1': 10 }, measurements: [] };
-const payload = (value = 2500) => ({ format: 'open-pdf-studio-measurements', version: 1, fileName: source.fileName, annotations: [
+const payload = (value = 2500) => ({ format: 'open-pdf-studio-measurements', version: 1, fileName: source.fileName, sourceHash: source.id, annotations: [
   { id: 'line-1', type: 'measureDistance', page: 1, measureValue: value, measureUnit: 'mm' },
   { id: 'area-1', type: 'measureArea', page: 2, measureValue: 12000000, measureUnit: 'mm²', holes: [[{ x: 1, y: 2 }]] },
 ] });

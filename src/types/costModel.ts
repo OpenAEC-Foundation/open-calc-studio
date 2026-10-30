@@ -113,6 +113,8 @@ export interface CostItem {
   // Middelclassificatie (alleen voor 'regel' rijen)
   resourceType: ResourceType | null;
   resourceLibraryId: string | null;
+  /** Self-contained, immutable source record for the last applied catalogue price. */
+  priceOrigin?: PriceOrigin;
 
   // Tariefgroep (A/B/C) voor loonberekening
   tariefGroep: 'A' | 'B' | 'C' | null;
@@ -282,6 +284,9 @@ export interface CompanyInfo {
 }
 
 export interface ResourceLibraryItem {
+  catalogueId?: string;
+  catalogueVersion?: string;
+  currency?: string;
   source?: string;
   priceDate?: string | null;
   referenceUnitPrice?: number | null;
@@ -294,6 +299,19 @@ export interface ResourceLibraryItem {
   resourceType: ResourceType;
   defaultUnitPrice: number | null;
   category: string;
+}
+
+export interface PriceOrigin {
+  itemId: string;
+  catalogueId: string;
+  catalogueVersion: string;
+  source: string;
+  priceDate: string | null;
+  currency: string;
+  unit: CostUnit;
+  price: number;
+  appliedAt: string;
+  locked: boolean;
 }
 
 export interface GridColumn {
