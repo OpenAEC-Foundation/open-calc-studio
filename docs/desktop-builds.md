@@ -130,3 +130,21 @@ The release workflow keeps the default `all`. macOS universal packaging runs
 `prepare-universal-binaries.mjs` after compilation and before bundling. It
 combines both architectures of every additional Cargo binary (including the
 PDF utilities), verifies the slices and retains them in the signed app.
+
+## Updater verification before upload
+
+Updater artifacts require `plugins.updater.pubkey` in the Tauri configuration,
+using the existing public `UPDATER_PUBKEY`. The pre-build check rejects a missing,
+malformed or different key. This configuration does not enable automatic update
+requests in the app; updates are handled by the OpenAEC Installer.
+
+The collector names the macOS archive `<app>_<version>_universal.app.tar.gz`
+so the Installer can discover both Intel and Apple Silicon. Renaming preserves
+the signed bytes. Each platform then verifies the actual archive/installer
+bytes and trusted signature comment against the public key using the pinned
+OpenAEC Installer release kit before upload. Distinct
+`updater-<target>-verification-evidence.json` files retain their hashes.
+
+Local unsigned development builds can explicitly use
+`npm run tauri -- build --debug --no-sign`. Such a build is not release-signing
+evidence and cannot pass the signed artifact collector.

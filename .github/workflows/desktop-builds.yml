@@ -233,6 +233,18 @@ jobs:
         env:
           BUILD_TARGET: ${{ matrix.target }}
         run: node scripts/ci/collect-artifacts.mjs
+      - name: Get the pinned OpenAEC signature verifier
+        uses: actions/checkout@v4
+        with:
+          repository: OpenAEC-Foundation/openaec-installer
+          ref: 9858fdd281db1397504d8253ca8020a47495a19c
+          path: .release-kit
+          sparse-checkout: release-kit
+          persist-credentials: false
+      - name: Verify delivered updater bytes and platform discovery
+        env:
+          BUILD_TARGET: ${{ matrix.target }}
+        run: node scripts/ci/verify-updater-assets.mjs
       - name: Sign Linux release packages with OpenPGP
         if: runner.os == 'Linux'
         env:

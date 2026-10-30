@@ -9,6 +9,7 @@ const script = fileURLToPath(new URL('collect-artifacts.mjs', import.meta.url));
 
 function run(target, files) {
   const root = mkdtempSync(join(tmpdir(), 'ocs-collect-'));
+  writeFileSync(join(root, 'package.json'), JSON.stringify({ version: '2026.44.5' }));
   for (const [path, content] of Object.entries(files)) {
     const file = join(root, 'src-tauri/target', target, 'release/bundle', path);
     mkdirSync(join(file, '..'), { recursive: true }); writeFileSync(file, content);
@@ -24,9 +25,13 @@ for (const [target, files] of cases) test(`collects actual installers and update
   const { root, result } = run(target, files);
   try {
     assert.equal(result.status, 0, result.stderr);
-    for (const [path, content] of Object.entries(files)) assert.equal(readFileSync(join(root, 'release-artifacts', path.split('/').at(-1)), 'utf8'), content);
+    for (const [path, content] of Object.entries(files)) {
+      let name = path.split('/').at(-1);
+      if (target === 'universal-apple-darwin' && name.includes('.app.tar.gz')) name = name.replace('.app.tar.gz', '_2026.44.5_universal.app.tar.gz');
+      assert.equal(readFileSync(join(root, 'release-artifacts', name), 'utf8'), content);
+    }
     const sums = readFileSync(join(root, 'release-artifacts/SHA256SUMS.txt'), 'utf8');
-    if (target === 'universal-apple-darwin') assert.ok(sums.includes('App.app.tar.gz.sig'));
+    if (target === 'universal-apple-darwin') assert.ok(sums.includes('App_2026.44.5_universal.app.tar.gz.sig'));
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
 test('refuses Linux publication when the updater signature is missing', () => {

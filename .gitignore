@@ -53,3 +53,4 @@ output/
 /packages/embed/NOTICE.md
 
 __pycache__/
+/.release-kit/

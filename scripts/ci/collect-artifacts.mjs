@@ -33,10 +33,13 @@ if (target === 'universal-apple-darwin') {
   const source = path.join('src-tauri', 'target', target, 'release', 'bundle', 'macos');
   const archives = (await readdir(source)).filter(name => name.endsWith('.app.tar.gz'));
   if (archives.length !== 1) throw new Error(`Expected one macOS updater archive, found ${archives.length}`);
+  const version = JSON.parse(await readFile('package.json', 'utf8')).version;
+  const published = `${archives[0].slice(0, -'.app.tar.gz'.length)}_${version}_universal.app.tar.gz`;
   for (const name of [archives[0], `${archives[0]}.sig`]) {
     const bytes = await readFile(path.join(source, name));
-    await copyFile(path.join(source, name), path.join(output, name));
-    checksums.push(`${createHash('sha256').update(bytes).digest('hex')}  ${name}`);
+    const destination = published + (name.endsWith('.sig') ? '.sig' : '');
+    await copyFile(path.join(source, name), path.join(output, destination));
+    checksums.push(`${createHash('sha256').update(bytes).digest('hex')}  ${destination}`);
   }
 }
 await writeFile(path.join(output, 'SHA256SUMS.txt'), checksums.join('\n') + '\n');
