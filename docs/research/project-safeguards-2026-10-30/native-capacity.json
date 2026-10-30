@@ -1,0 +1,65 @@
+{
+  "version": "2026.44.6",
+  "measurementsPerSize": 1,
+  "limitations": [
+    "Native programmatic load/state checks, not a visual frame-rate test",
+    "Linux process-tree memory; no forced GC; sequential datasets may retain previous heap capacity",
+    "Shared-page RSS can double count; PSS is provided when accessible",
+    "No real phone or cloud capacity claim"
+  ],
+  "results": [
+    {
+      "baseline": "No capacity dataset open; heap may be retained from prior integration checks",
+      "memory": {
+        "available": true,
+        "processesMeasured": 4,
+        "pssProcessesMeasured": 4,
+        "treeProcesses": 4,
+        "rssMiB": 1653.9,
+        "pssMiB": 1475.3
+      }
+    },
+    {
+      "rows": 1000,
+      "projectBytes": 522100,
+      "loadAndSyncMs": 609,
+      "total": 20000,
+      "memory": {
+        "available": true,
+        "processesMeasured": 4,
+        "pssProcessesMeasured": 4,
+        "treeProcesses": 4,
+        "rssMiB": 1479.6,
+        "pssMiB": 1301
+      }
+    },
+    {
+      "rows": 10000,
+      "projectBytes": 5235041,
+      "loadAndSyncMs": 2195,
+      "total": 200000,
+      "memory": {
+        "available": true,
+        "processesMeasured": 4,
+        "pssProcessesMeasured": 4,
+        "treeProcesses": 4,
+        "rssMiB": 1477.7,
+        "pssMiB": 1299.1
+      }
+    },
+    {
+      "rows": 50000,
+      "projectBytes": 26262241,
+      "loadAndSyncMs": 9440,
+      "total": 1000000,
+      "memory": {
+        "available": true,
+        "processesMeasured": 4,
+        "pssProcessesMeasured": 4,
+        "treeProcesses": 4,
+        "rssMiB": 1707.5,
+        "pssMiB": 1529.1
+      }
+    }
+  ]
+}

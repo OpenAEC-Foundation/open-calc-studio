@@ -22,16 +22,28 @@ async function memory() {
   }
   const ids = new Set([pid]); let changed = true;
   while (changed) { changed = false; for (const [child, parent] of parents) if (ids.has(parent) && !ids.has(child)) { ids.add(child); changed = true; } }
-  let rss = 0, pss = 0, measured = 0;
+  let rss = 0, pss = 0, rssMeasured = 0, pssMeasured = 0;
   for (const id of ids) {
-    try { const text = await readFile(`/proc/${id}/smaps_rollup`, 'utf8'); rss += Number(/^Rss:\s+(\d+)/m.exec(text)?.[1] ?? 0); pss += Number(/^Pss:\s+(\d+)/m.exec(text)?.[1] ?? 0); measured++; } catch { /* access restricted or process exited */ }
+    try {
+      const text = await readFile(`/proc/${id}/smaps_rollup`, 'utf8');
+      rss += Number(/^Rss:\s+(\d+)/m.exec(text)?.[1] ?? 0);
+      pss += Number(/^Pss:\s+(\d+)/m.exec(text)?.[1] ?? 0); rssMeasured++; pssMeasured++;
+    } catch {
+      try {
+        const text = await readFile(`/proc/${id}/status`, 'utf8'), match = /^VmRSS:\s+(\d+)/m.exec(text);
+        if (match) { rss += Number(match[1]); rssMeasured++; }
+      } catch { /* process exited or access denied */ }
+    }
   }
-  return { available: measured > 0, processesMeasured: measured, treeProcesses: ids.size, rssMiB: Math.round(rss/1024*10)/10, pssMiB: Math.round(pss/1024*10)/10 };
+  return { available: rssMeasured > 0, processesMeasured: rssMeasured, pssProcessesMeasured: pssMeasured, treeProcesses: ids.size,
+    rssMiB: rssMeasured ? Math.round(rss/1024*10)/10 : null,
+    pssMiB: pssMeasured > 0 && pssMeasured === rssMeasured ? Math.round(pss/1024*10)/10 : null };
+
 }
 const results = []; let documentId;
 try {
   await command('setActiveContentTab', { tab: 'grid' });
-  results.push({ rows: 0, memory: await memory() });
+  results.push({ baseline: 'No capacity dataset open; heap may be retained from prior integration checks', memory: await memory() });
   for (const count of [1000, 10_000, 50_000]) {
     const items = [];
     for (let i = 0; i < count; i++) {
@@ -53,7 +65,7 @@ try {
     const loadAndSyncMs = Math.round(performance.now() - start);
     await new Promise(resolve => setTimeout(resolve, 1000));
     const usage = await memory(); results.push({ rows: count, projectBytes: Buffer.byteLength(json), loadAndSyncMs, total, memory: usage });
-    console.log(`PASS native capacity ${count} rows: ${loadAndSyncMs} ms to synchronized state; PSS ${usage.pssMiB ?? 'unavailable'} MiB`);
+    console.log(`PASS native capacity ${count} rows: ${loadAndSyncMs} ms to synchronized state; RSS ${usage.rssMiB ?? 'unavailable'} MiB; PSS ${usage.pssMiB ?? 'unavailable'}`);
     await command('removeDocument', { id: documentId }); documentId = undefined;
   }
   await writeFile(process.argv[2] ?? '/tmp/ocs-native-capacity.json', JSON.stringify({ version: '2026.44.6', measurementsPerSize: 1, limitations: ['Native programmatic load/state checks, not a visual frame-rate test', 'Linux process-tree memory; no forced GC; sequential datasets may retain previous heap capacity', 'Shared-page RSS can double count; PSS is provided when accessible', 'No real phone or cloud capacity claim'], results }, null, 2) + '\n');

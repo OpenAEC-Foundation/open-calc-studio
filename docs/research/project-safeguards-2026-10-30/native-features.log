@@ -1,0 +1,3 @@
+Open Calc Studio MCP server running on stdio
+PASS native catalogue preview/apply/undo, price provenance and multi-document IndexedDB recovery with snapshots
+PASS native IFC GlobalId revision matching, selected relink and undo

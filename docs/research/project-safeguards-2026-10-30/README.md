@@ -33,7 +33,9 @@ onverenigbare eenheden/valuta leiden niet tot een geschatte koppeling.
 
 De volledige lokale suite slaagt met **888 tests en 6 overgeslagen tests**;
 twee aanvullende regressiegevallen zijn daarna afzonderlijk gecontroleerd.
-De GitHub-controles draaien op de complete broncommit. De
+De volledige GitHub-suite slaagt met **890 tests en 6 overgeslagen tests**.
+De native API-controles slagen op Windows, macOS en Linux; ook de containerbuild
+slaagt. Zie [GitHub CI](https://github.com/OpenAEC-Foundation/open-calc-studio/actions/runs/41073081401). De
 platformsuite slaagt met zes tests; de headless API met negen tests. Daarnaast
 slagen de zelfstandige MCP-reken-/uitwisselings-/HTTP-proeven en de Rust-proef
 voor native bestandsvervanging. TypeScript, webbuild en library/framebuild zijn
@@ -81,6 +83,31 @@ De IFC-proef parseert echte gegenereerde STEP-data en vergelijkt opgeslagen
 identiteit/hoeveelheden. Zij meet geen GPU-meshweergave. De PDF-proef meet het
 opslaan/heropenen van ingebedde bytes, geen renderkwaliteit of paginawisseling.
 Deze cijfers zijn geen telefoon- of cloudcapaciteitsgarantie.
+
+## Meting in de echte native app
+
+De ontwikkelbuild is daarnaast via de lokale native API gevuld en gecontroleerd.
+De meting loopt tot de nieuwe toestand beschikbaar is in de API; zij meet geen
+beeldsnelheid of interactietest. Per omvang is één laadactie gemeten.
+
+| Rekenregels | Laden en synchroniseren | RSS van procesboom | PSS van procesboom |
+| --- | ---: | ---: | ---: |
+| 1000 | 609 ms | 1479.6 MiB | 1301 MiB |
+| 10000 | 2195 ms | 1477.7 MiB | 1299.1 MiB |
+| 50000 | 9440 ms | 1707.5 MiB | 1529.1 MiB |
+
+De absolute waarden omvatten vier processen (app, sandboxwrapper en WebKit),
+een debugbuild en eerder gebruikte heapcapaciteit. Er is geen geforceerde GC
+uitgevoerd. RSS telt gedeelde pagina’s soms meerdere keren; PSS is afzonderlijk
+vastgelegd. De nulmeting is geen schone-startmeting en vormt geen betrouwbare
+basis voor een incrementele geheugenclaim. Een laadactie van circa 9,4 seconden
+bij 50.000 regels is merkbaar; de snelle kernberekening alleen voorspelt niet de
+volledige UI-laadtijd. Zie [native-capacity.json](native-capacity.json).
+
+De [native MCP-proeven](native-features.log) slagen ook op de echte app voor
+prijsupdates/undo, bronherkomst, meerdere herstelbare documenten met snapshots
+en IFC-revisiekoppelingen/undo. De tijdelijke app is daarna afgesloten; de
+bestaande gebruikersapp bleef draaien. Zie [verificatie](verification.json).
 
 ## Grenzen en resterende praktijktests
 
