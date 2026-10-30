@@ -3,7 +3,7 @@
 > Open-source begrotingsprogramma voor de Nederlandse bouw — een moderne, vrije opvolger van klassieke calculatietools (BasCalc, WPCalc).
 
 [![Status](https://img.shields.io/badge/status-public%20testing-orange)](https://github.com/OpenAEC-Foundation/open-calc-studio/releases)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-LGPL--3.0--only-blue.svg)](LICENSE)
 [![Tauri](https://img.shields.io/badge/Tauri-2-24C8DB)](https://v2.tauri.app/)
 [![React](https://img.shields.io/badge/React-18-61DAFB)](https://react.dev/)
 
@@ -244,7 +244,10 @@ Issues, ideeën en bugmeldingen graag via de [issue tracker](https://github.com/
 
 ## License
 
-MIT — zie [LICENSE](LICENSE).
+Open Calc Studio: **LGPL-3.0-only**. De volledige teksten zijn beschikbaar als
+[LICENSE](LICENSE) (LGPL versie 3) en [COPYING](COPYING) (GPL versie 3).
+Zie [NOTICE.md](NOTICE.md) voor de afbakening van de productlicentie en
+licenties van derden. Het inbouwpakket bevat deze drie bestanden ook.
 
 ## Acknowledgements
 

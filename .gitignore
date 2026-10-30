@@ -40,3 +40,8 @@ output/
 
 # Generated standalone library demo assets
 /packages/embed/example/public/calc-studio/
+
+# License copies generated for the npm package by embed-sync.mjs
+/packages/embed/LICENSE
+/packages/embed/COPYING
+/packages/embed/NOTICE.md

@@ -41,7 +41,10 @@
       "WebView2Loader.dll",
       "icons/icon.png",
       "resources/wpcalc-template.calc",
-      "../mcp-server/dist/ocs-mcp.mjs"
+      "../mcp-server/dist/ocs-mcp.mjs",
+      "../LICENSE",
+      "../COPYING",
+      "../NOTICE.md"
     ],
     "fileAssociations": [
       {
