@@ -1,4 +1,5 @@
 import { useOwnAssistant } from './hooks/useOwnAssistant';
+import { useHostPresentation } from './hooks/useHostPresentation';
 import { CalculationWizard } from './components/wizard/CalculationWizard';
 import { HostFileDialog } from './components/common/HostFileDialog';
 import { getSiteHost, observeSiteHost, hostRecentPath, type SiteHost } from './services/file/siteHost';
@@ -118,6 +119,7 @@ function App() {
   const updateSettings = useAppStore((s) => s.updateSettings);
   useQuantityLinkSync();
   const [theme, setTheme] = useState<string>(localStore.getItem("ocs-theme") || "light");
+  const hostedPresentation = useHostPresentation(settingsReady, setTheme);
   const { showSchedulePanel, showPropertiesPanel, showChatPanel, activeContentTab, activeDialog, closeDialog, documents, splitView, splitDocumentId, setSplitDocumentId } = useAppStore();
   const activeSubSheetId = useAppStore((s) => s.activeSubSheetId);
   const subSheets = useAppStore((s) => s.subSheets);
@@ -538,7 +540,7 @@ function App() {
     <div className="oa-app calc-studio-shell">
       <HostFileDialog />
       {hostError && <div className="oa-banner" role="alert">{hostError}</div>}
-      <TitleBar onSettingsClick={() => setSettingsOpen(true)} onFeedbackClick={() => setFeedbackOpen(true)} />
+      {!hostedPresentation && <TitleBar onSettingsClick={() => setSettingsOpen(true)} onFeedbackClick={() => setFeedbackOpen(true)} />}
       <Ribbon onFileTabClick={() => setBackstageOpen(true)} />
       <FileTabBar />
       {isDetachedWindow && (
