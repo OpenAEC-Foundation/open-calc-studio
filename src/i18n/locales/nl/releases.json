@@ -25,7 +25,8 @@
     "v2026.44.1-dev": "Werkplekken, herkomst en financiële voorstellen",
     "v2026.44.2-dev": "Controlecentrum voor prijzen, bronnen en eenheden",
     "v2026.44.3-dev": "Veilige invoer, toegankelijke dialogen en volledige IFC-selecties",
-    "v2026.44.4-dev": "Knopcontrole, veilige selectie en consistente afdrukken"
+    "v2026.44.4-dev": "Knopcontrole, veilige selectie en consistente afdrukken",
+    "v2026.44.5-dev": "SuperCloud-voorkeuren en containervoorbereiding"
   },
   "highlights": {
     "unreleased": [
@@ -162,6 +163,11 @@
       "Opslaan en een tweede venster gebruiken het juiste document; offerte- en rekenbladwijzigingen worden als onopgeslagen beschermd",
       "Afdrukken en PDF-export delen rapporttype en opties; offerte afdrukken werkt op desktop en fouten worden gemeld",
       "Knoppen zonder geldig doel zijn uitgeschakeld; lege instellingentabbladen zijn verwijderd en zoompresets werken met toetsenbordbediening"
+    ],
+    "v2026.44.5-dev": [
+      "Gehoste sessies volgen taal en thema zonder dubbele titelbalk.",
+      "Native desktopcontainer en privé-HTTP-MCP voorbereid; echte containeracceptatie en publicatie staan nog open.",
+      "Updaterhandtekeningen uitgebreid verzameld; klein DynLex-rekenprototype geverifieerd."
     ]
   }
 }

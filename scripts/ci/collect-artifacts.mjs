@@ -29,5 +29,15 @@ for (const [folder, extension] of Object.entries(formats[target])) {
     }
   }
 }
+if (target === 'universal-apple-darwin') {
+  const source = path.join('src-tauri', 'target', target, 'release', 'bundle', 'macos');
+  const archives = (await readdir(source)).filter(name => name.endsWith('.app.tar.gz'));
+  if (archives.length !== 1) throw new Error(`Expected one macOS updater archive, found ${archives.length}`);
+  for (const name of [archives[0], `${archives[0]}.sig`]) {
+    const bytes = await readFile(path.join(source, name));
+    await copyFile(path.join(source, name), path.join(output, name));
+    checksums.push(`${createHash('sha256').update(bytes).digest('hex')}  ${name}`);
+  }
+}
 await writeFile(path.join(output, 'SHA256SUMS.txt'), checksums.join('\n') + '\n');
 console.log(`Collected ${checksums.length} installers for ${target}`);

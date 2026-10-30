@@ -23,6 +23,34 @@ gepubliceerde release. De lokale uitgangstak was schoon op `e5bff21`.
 | [#12](https://github.com/OpenAEC-Foundation/open-calc-studio/issues/12) Handleiding | README, NL/EN-handleiding, wizard-, host-, Blueprint- en API-documentatie; wiki-bron bijgewerkt | De afzonderlijke GitHub-wiki publiceren/controleren |
 | [#2](https://github.com/OpenAEC-Foundation/open-calc-studio/issues/2) macOS | Developer ID, Apple-notarisatie en gestapeld ticket geverifieerd; volledige DMG-controle controleert ook beide PDF-hulpprogramma's | Volledige DMG-run moet groen zijn; daarna starten en functies testen op een schone Mac |
 
+## Aanvulling — 30 oktober 2026, 2026.44.5
+
+- #24 is via PR #33 samengevoegd; GitHub herkent LGPL-3.0. Volledige teksten
+  worden in het SDK-pakket en de native resources meegenomen.
+- #31: taal/thema, Nederlandse hostaliassen, voorkeurwijzigingen en het
+  weglaten van eigen titelbalk zijn geïmplementeerd. Gerichte tests slagen;
+  daadwerkelijke Frappe/sandboxacceptatie blijft nodig.
+- #35: grafische container uit dezelfde release-DEB, niet-root runtime,
+  noVNC op 3000, app-afhankelijke gezondheid, interne HTTP-MCP en een
+  Docker-smoketest zijn voorbereid. Release-CI blokkeert bij een mislukte
+  containerproef. Een eerste geslaagde run/publicatie ontbreekt nog. De in
+  het issue genoemde Blueprint-template/branch was op dit controlemoment
+  niet beschikbaar; deze Calc-runtime is nog niet met die template vergeleken.
+- #32: updater-signing uit PR #34 is geïntegreerd en de collector neemt ook
+  macOS-updaterarchief en handtekening mee. De werkelijk gepubliceerde
+  platformdownloads zijn hiermee nog niet vervangen of geverifieerd.
+- #15: een native DynLex 0.0.1 mini-prototype rekent vijf varianten met
+  hoeveelheden, uurloon, materiaal, opslag en btw door tegen de bestaande kern.
+  Het is geen volledige migratie; zie de aanvullende haalbaarheidsrapportage.
+- #26: Fargate-definitie en headless service blijven aanwezig. Er is nog
+  geen gekozen/toegankelijke AWS-testomgeving voor een echte runtimeproef.
+- De SuperCloud-brug in de lokale hostrepository gebruikt nog de eigen
+  tijdelijke `werkplekCalc`-koppeling. De definitieve `openaecHost`-koppeling
+  en praktijktests worden niet als afgerond aangemerkt op basis van Calc-tests.
+- De afzonderlijke GitHub-wikirepository kon niet worden opgehaald; de
+  gebruikershandleidingen in `docs/` bestaan wel. Publicatie van de wiki is
+  niet als geslaagd aangemerkt.
+
 ## Uitgevoerde controles
 
 - TypeScript `npx tsc --noEmit`: geslaagd.

@@ -46,7 +46,7 @@ For the mobile browser, serve a web build over HTTPS. Android and iPhone use the
 
 ## Versions and delivery status
 
-The current development version is **2026.44.4**, using `year.ISOweek.patch`. Product packages, Cargo and MCP share this version. MSI uses `26.44.4` to fit the Windows major-version limit. The `.ifcCalc` **file format is 2.3.0**; it has its own compatibility policy and is not a product release number.
+The current development version is **2026.44.5**, using `year.ISOweek.patch`. Product packages, Cargo and MCP share this version. MSI uses `26.44.5` to fit the Windows major-version limit. The `.ifcCalc` **file format is 2.3.0**; it has its own compatibility policy and is not a product release number.
 
 This source version does not imply an installer or npm publication already exists. [Release notes](docs/release-notes/unreleased.md) and the [issue acceptance matrix](docs/issue-readiness.md) record implementation, test evidence and remaining work. Signed releases require working signing credentials and verification of the delivered artifacts. Actual AWS deployment, clean-machine installation, real-phone tests and the DynLex prototype are still pending.
 
@@ -78,6 +78,41 @@ npm run test:server
 Use `npm run pack:lib` for the npm archive. Use `npm run build:server` for a standalone Node.js service; it refuses to start without configured key digests. Web, SDK, API and native distributions include notices and build metadata. [Library integration](docs/library-integration.md) explains independent instances and compatibility. [File format](docs/ifccalc-formaat.md) and [model/API reference](docs/API.md) describe the data boundary.
 
 Prepare a calendar version with `node scripts/version.mjs next` or `node scripts/version.mjs set 2026.44.1`. The **Prepare calendar release** GitHub workflow creates a version PR. Release CI checks `v<version>` against all packages, runs mandatory type/tests, builds platform/API/embed artifacts and requires verified desktop signing. It publishes a draft release on successful tagged builds. It does not deploy AWS.
+
+## Docker
+
+The graphical Linux app has a container build alongside the separate headless
+API image. The desktop image is prepared from the release's exact `.deb`, tested
+before release creation, and published after a stable release is published:
+
+```sh
+docker run --rm -p 3000:3000 -v /path/to/files:/openaec -v calc-config:/config \
+  -e OPENAEC_LANGUAGE=nl -e OPENAEC_THEME=light \
+  ghcr.io/openaec-foundation/open-calc-studio:latest
+```
+
+Open `http://localhost:3000`. The first desktop container release is still pending;
+this command requires a published image. The app runs as UID 1000, without FUSE,
+root privileges or a GPU. Mounted folders must be writable by UID 1000.
+`/config` persists settings; `/openaec` contains user files. Optional environment
+variables: `OPENAEC_START_FILE` (a file under `/openaec`), `OPENAEC_RESOLUTION`
+(default `1440x900`), `OPENAEC_LANGUAGE` (interface language code), and
+`OPENAEC_THEME` (`light`, `dark`, `blueprint`, `high-contrast-dark`,
+`high-contrast-light`, `system`). Existing preferences remain when no override is given.
+
+Health: `GET /gezond`; it fails when the app/display/MCP process is unavailable.
+The full MCP server listens at port **9743**, path `/mcp`, for the private container
+network. Do not publish that port with `-p`; optionally set `OCS_MCP_TOKEN` for
+Bearer authentication. REST/WS remain on container loopback. Optional analytics,
+account, feedback and release-fetch services are disabled; no outbound service is
+required for normal startup. The stream has no built-in account login: the
+SuperCloud reverse proxy supplies authentication and TLS.
+
+Runtime logs, an app screenshot and measured idle memory are uploaded as
+`open-calc-studio-desktop-container-evidence`. Published images are signed by
+cosign and have provenance/SBOM attestations. Container execution and publication
+must pass CI before this is considered delivered; local source checks alone do
+not establish that the image works.
 
 ## Contributing
 

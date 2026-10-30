@@ -1,6 +1,6 @@
 # Open Calc Studio user guide
 
-For Open Calc Studio development version 2026.44.4. [Nederlandse handleiding](gebruikershandleiding.md) · [Project overview](../README.md)
+For Open Calc Studio development version 2026.44.5. [Nederlandse handleiding](gebruikershandleiding.md) · [Project overview](../README.md)
 
 ## Contents
 
@@ -177,7 +177,7 @@ Changed input data or a different active document invalidate the proposal.
 Proposals are session-local and must be prepared again after restarting.
 Linked quantities must be changed at their source or unlinked before overriding.
 
-## Input, recovery and IFC selection (2026.44.4)
+## Input, recovery and IFC selection (2026.44.5)
 
 Mobile numbers follow the interface language: English `1.234` is a fraction;
 Dutch `1.234` is 1234, while `1,234` is a fraction. Zero is an explicit price;

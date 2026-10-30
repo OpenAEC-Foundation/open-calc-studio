@@ -23,6 +23,7 @@ const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours
 // releases. Bijwerken bij elke release; titels en bullets staan vertaald in
 // de `releases`-namespace (src/i18n/locales/<taal>/releases.json).
 const BUNDLED_RELEASES: Release[] = [
+  { tag_name: 'v2026.44.5-dev', name: 'SuperCloud preferences and desktop container preparation', body: '', published_at: '', html_url: `https://github.com/${REPO}/blob/main/docs/release-notes/unreleased.md` },
   { tag_name: 'v2026.44.4-dev', name: 'Button checks, safe selection and consistent printing', body: '', published_at: '', html_url: `https://github.com/${REPO}/blob/main/docs/release-notes/unreleased.md` },
   { tag_name: 'v2026.44.3-dev', name: 'Safer input, accessible dialogs and complete IFC selections', body: '', published_at: '', html_url: `https://github.com/${REPO}/blob/main/docs/release-notes/unreleased.md` },
   { tag_name: 'v2026.44.2-dev', name: 'Review center for prices, sources and units', body: '', published_at: '', html_url: `https://github.com/${REPO}/blob/main/docs/release-notes/unreleased.md` },

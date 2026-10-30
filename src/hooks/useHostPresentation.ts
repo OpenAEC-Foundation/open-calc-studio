@@ -28,6 +28,7 @@ export function useHostPresentation(ready: boolean, setTheme: Dispatch<SetStateA
   const [hosted, setHosted] = useState(isHostedPresentation);
   useEffect(() => {
     let active = true;
+    let languageChange: Promise<unknown> = Promise.resolve();
     const sync = () => {
       const next = isHostedPresentation();
       setHosted(next);
@@ -36,7 +37,11 @@ export function useHostPresentation(ready: boolean, setTheme: Dispatch<SetStateA
       const state = useAppStore.getState();
       state.setSettings({ ...state.settings, theme: prefs.theme, ...(prefs.locale ? { locale: prefs.locale } : {}) });
       setTheme(prefs.theme);
-      if (prefs.locale) void changeLanguage(prefs.locale).catch(error => { if (active) console.error('Host language could not be applied', error); });
+      if (prefs.locale) {
+        const locale = prefs.locale;
+        languageChange = languageChange.then(() => active ? changeLanguage(locale) : undefined)
+          .catch(error => { if (active) console.error('Host language could not be applied', error); });
+      }
     };
     const stop = observeSiteHost(sync);
     window.addEventListener('hashchange', sync);

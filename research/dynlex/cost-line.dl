@@ -1,0 +1,15 @@
+import lib/std.dl
+
+# Exploratory single-line estimator. Six editable numbers arrive over stdin:
+# quantity, hours per unit, hourly rate, material per unit, markup %, VAT %.
+set quantity to 0.0
+set norm to 0.0
+set hourly to 0.0
+set material to 0.0
+set markup to 0.0
+set vat to 0.0
+set count to @intrinsic("call", "libc", "scanf", an integer, "%lf %lf %lf %lf %lf %lf", the address of quantity, the address of norm, the address of hourly, the address of material, the address of markup, the address of vat)
+set direct to quantity * (norm * hourly + material)
+set excluding to direct * (1.0 + markup / 100.0)
+set including to excluding * (1.0 + vat / 100.0)
+discard @intrinsic("call", "libc", "printf", an integer, "%.10f %.10f %.10f\n", direct, excluding, including)

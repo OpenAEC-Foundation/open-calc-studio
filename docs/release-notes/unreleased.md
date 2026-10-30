@@ -1,5 +1,25 @@
 # Open Calc Studio — aankomende release
 
+## 2026.44.5: SuperCloud, containers en releasevoorbereiding
+
+- Gehoste sessies volgen taal en thema van `openaecHost` (`locale`/`theme` of
+  `taal`/`thema`), ook bij late injectie en voorkeurwijzigingen. De eigen
+  titelbalk vervalt in gehoste en ingebouwde weergave.
+- Grafische Docker-runtime voorbereid vanuit het bestaande Linux-DEB:
+  één fullscreen app, geen root/FUSE/GPU, `/openaec` en `/config`, gezondheid
+  op `/gezond`, privé-MCP op poort 9743 en controles vóór publicatie.
+  Een echte containeruitvoering en eerste publicatie zijn nog niet aangetoond.
+- De volledige MCP-server ondersteunt optioneel stateful HTTP met echte
+  SDK-sessies, Bearer-authenticatie, aanvraaglimiet en browser-originweigering.
+  Stdio blijft de standaard. Native containerdialogen starten in `/openaec`;
+  externe accounts, releaseverzoeken, feedback en analytics blijven uit.
+- De updater-signingaanvulling uit PR #34 is geïntegreerd; ook het macOS
+  updaterarchief en zijn handtekening worden verzameld. Release-signingbewijs
+  blijft per platform en werkelijk aangeboden artifact nodig.
+- Klein native DynLex-prototype uitgevoerd met vijf vergelijkingen tegen de
+  bestaande kern. Dit is geen herschrijving of aangetoonde prestatiewinst.
+- Productversie 2026.44.5, MSI 26.44.5; bestandsformaat blijft 2.3.0.
+
 ## 2026.44.4: knopcontrole en herstel
 
 - Licentieteksten zijn ook rechtstreeks in de hoofdmap van het npm-inbouwpakket

@@ -60,6 +60,25 @@ browserdownloads en Tauri-bestandsdialogen werken.
 
 ## Iframe met opaque origin
 
+### Presentatie van de host
+
+Naast bestandsopslag mag `window.openaecHost` optioneel `locale` en `theme`
+aanbieden. De bestaande SuperCloud-namen `taal` en `thema` werken ook.
+Een later geïnjecteerde host wordt herkend via `openaec-host-ready` of de
+bestaande controlelus. Wijzigingen op hetzelfde hostobject meldt de brug met
+`window.dispatchEvent(new Event('openaec-host-preferences'))`.
+
+De app neemt deze voorkeuren na het laden van instellingen over. Zonder thema
+start een gehoste sessie licht. De hashparameters `taal` en `thema` dienen als
+terugval in de werkplek; gewone zelfstandige sessies negeren die parameters.
+De React-inbouwvariant behoudt haar eigen `lang`- en `theme`-props.
+In gehoste/inbouwmodus verschijnt geen tweede eigen titelbalk en geen eigen
+zwevende assistent. Bestandsacties en instellingen blijven via het lint en
+het Bestand-menu bereikbaar.
+
+De echte Frappe-brug moet dit contract nog aanbieden en met de exacte
+sandbox/CSP worden getest; componenttests alleen bewijzen die koppeling niet.
+
 Het ondersteunde sandboxattribuut is:
 
 ```html

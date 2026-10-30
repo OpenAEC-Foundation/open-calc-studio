@@ -25,7 +25,8 @@
     "v2026.44.1-dev": "Workspaces, quantity origins and financial previews",
     "v2026.44.2-dev": "Review center for prices, sources and units",
     "v2026.44.3-dev": "Safer input, accessible dialogs and complete IFC selections",
-    "v2026.44.4-dev": "Button checks, safe selection and consistent printing"
+    "v2026.44.4-dev": "Button checks, safe selection and consistent printing",
+    "v2026.44.5-dev": "SuperCloud preferences and container preparation"
   },
   "highlights": {
     "unreleased": [
@@ -162,6 +163,11 @@
       "Save and second-window actions target the right document; quotation and spreadsheet edits receive unsaved-changes protection",
       "Printing and PDF export share report types and options; desktop quotation printing works and reports failures",
       "Commands without valid targets are disabled; empty settings tabs are removed and zoom presets support keyboard activation"
+    ],
+    "v2026.44.5-dev": [
+      "Hosted sessions follow language and theme without a duplicate title bar.",
+      "Native desktop container and private HTTP MCP prepared; real container acceptance and publication remain pending.",
+      "Updater signature collection extended; a small DynLex arithmetic prototype has been verified."
     ]
   }
 }

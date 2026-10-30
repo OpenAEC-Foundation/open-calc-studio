@@ -1,6 +1,6 @@
 {
   "name": "open-calc-studio-mcp",
-  "version": "2026.44.4",
+  "version": "2026.44.5",
   "description": "MCP server for Open Calc Studio budget files",
   "private": true,
   "type": "module",

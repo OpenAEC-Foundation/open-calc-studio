@@ -1,6 +1,6 @@
 # Gebruikershandleiding Open Calc Studio
 
-Voor de ontwikkelversie 2026.44.4. [English user guide](user-guide.md) · [Projectoverzicht](../README.md)
+Voor de ontwikkelversie 2026.44.5. [English user guide](user-guide.md) · [Projectoverzicht](../README.md)
 
 ## Installeren en starten
 
@@ -179,7 +179,7 @@ moet je het voorstel opnieuw voorbereiden. Voorstellen blijven alleen deze
 sessie beschikbaar. Wijzig gekoppelde hoeveelheden bij de bron of ontkoppel
 ze voordat je ze overschrijft.
 
-## Invoer, herstel en IFC-selectie (2026.44.4)
+## Invoer, herstel en IFC-selectie (2026.44.5)
 
 Op mobiel volgt de getalinvoer je interfacetaal: Engels `1.234` betekent
 1,234 eenheden; Nederlands `1.234` betekent 1234 eenheden. Voor een

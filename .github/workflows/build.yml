@@ -34,6 +34,7 @@ jobs:
       - run: npm run test:version
       - run: npm run test:bundle
       - run: npm run test:signing
+      - run: node --test scripts/ci/collect-artifacts.node-test.mjs
       - run: npm run check:blueprint
       - run: python3 packaging/docker/test_preferences.py
       - name: Match release tag
@@ -136,15 +137,20 @@ jobs:
           find artifacts -name '*.deb' -exec cp {} release/ \;
           find artifacts -name '*.rpm' -exec cp {} release/ \;
           find artifacts -name '*.tgz' -exec cp {} release/ \;
+          find artifacts -name '*.sig' -exec cp {} release/ \;
           find artifacts -name '*.zip' -exec cp {} release/ \;
           find artifacts -name '*.tar.gz' -exec cp {} release/ \;
           find artifacts -name '*.asc' -exec cp {} release/ \;
           find artifacts -name '*evidence.json' -exec cp {} release/ \;
           find artifacts -name 'SHA256SUMS-linux.txt' -exec cp {} release/ \;
+          find artifacts -name 'memory-idle.txt' -exec cp {} release/desktop-container-idle-memory.txt \;
           cp LICENSE COPYING NOTICE.md release/
           (cd release && sha256sum * > SHA256SUMS.txt)
-          find artifacts -name '*.sig' -exec cp {} release/ \;
           ls -la release/
+
+      - name: Read container memory evidence
+        id: memory
+        run: echo "value=$(cat release/desktop-container-idle-memory.txt)" >> "$GITHUB_OUTPUT"
 
       - name: Publish release
         uses: softprops/action-gh-release@v2
@@ -164,6 +170,7 @@ jobs:
             - **Hosted web:** versioned platform archive with manifest and license notices.
             - **Headless API:** Node.js archive; REST and MCP use inline project data.
             - **Native Windows DLL:** signed archive including C ABI and host examples.
+            - **Graphical Linux container:** idle memory measured in CI: ${{ steps.memory.outputs.value }}. The signed image is published after this stable release is published.
 
             Windows installers and installed app binaries are Authenticode-signed.
             The macOS app is Developer ID-signed and notarized; verification checks

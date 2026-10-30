@@ -48,6 +48,31 @@ native/WASM-module in een bewerkbaar prototypescherm geplaatst.
 
 ## Fasering en beslismomenten
 
+### Uitgevoerd native mini-prototype — 30 oktober 2026
+
+`research/dynlex/cost-line.dl` compileert met de bestaande DynLex-release 0.0.1.
+De Linux-tarball is gecontroleerd tegen de gepubliceerde `SHA256SUMS`:
+`922d6b0ba714a8d152a7ee30f22f4edc92d176cb3f3d1aeb00b3d6e2efe5a5f8`.
+Het programma leest hoeveelheid, uren per eenheid, uurloon, materiaalprijs,
+opslag en btw via stdin. De invoer kan zonder hercompilatie worden aangepast.
+`scripts/check-dynlex-prototype.mjs` vergelijkt vijf gevallen met de huidige
+SDK-rekenkern, inclusief nulwaarden en gewijzigde hoeveelheden/prijzen.
+De verschillen blijven binnen een halve cent. Het meetresultaat staat in
+`dynlex-prototype.json`.
+
+```sh
+DYNLEX_COMPILER=/path/to/dynlex/bin/dynlex \
+DYNLEX_LIBRARY=/path/to/dynlex/share/dynlex \
+node scripts/check-dynlex-prototype.mjs result.json
+```
+
+Dit is extra haalbaarheidsbewijs voor een enkele kostenregel met opslag/btw.
+Het is geen volledige begrotingsimport, genest rekenmodel, gemengde btw,
+bewerkbare grafische UI of DLL. De compiler van de huidige master is niet
+gebouwd. Processtarttijd en de grootte van dit kleine programma mogen niet
+met de gehele app of een warme JavaScript-berekening worden vergeleken.
+Issue #15 blijft daarom open voor de overige fasen en het go/no-go-besluit.
+
 1. Pin een bouwbare DynLex-toolchain en leg compiler-/stdliblicenties vast.
 2. Bouw het beschreven rekenprototype en laat alle rekenregressies slagen.
 3. Meet koud opstarten, p50/p95-bewerken op 1k/10k/50k regels, RSS en complete
