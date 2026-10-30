@@ -19,6 +19,14 @@ export function isTauriEnvironment(): boolean {
   return '__TAURI_INTERNALS__' in window;
 }
 
+/** Container dialogs start in the mounted user folder, never the image HOME. */
+export function nativeDialogDefaultPath(path?: string): string | undefined {
+  if (!window.__OCS_CONTAINER__) return path;
+  if (!path) return '/openaec/';
+  if (path.startsWith('/openaec/')) return path;
+  return '/openaec/' + (path.split(/[\\/]/).pop() || 'Budget.ifcCalc');
+}
+
 // Lazy-loaded Tauri APIs — null when running in browser
 let _dialog: typeof import('@tauri-apps/plugin-dialog') | null = null;
 let _fs: typeof import('@tauri-apps/plugin-fs') | null = null;
@@ -49,6 +57,7 @@ export async function openFileNative(): Promise<{ path: string; content: string 
   if (!_dialog || !_fs) return null;
   const selected = await _dialog.open({
     multiple: false,
+    defaultPath: nativeDialogDefaultPath(),
     filters: [ALL_SUPPORTED_FILTER, OCS_FILTER, WPCALC_FILTER, XTB_FILTER, EXCEL_FILTER, RSX_FILTER, DNC_FILTER, BC3_FILTER, ONLV_FILTER, GAEB_FILTER, JSON_FILTER],
   });
   if (!selected) return null;
@@ -81,6 +90,7 @@ export async function openBinaryFileNative(
   if (!_dialog || !_fs) return null;
   const selected = await _dialog.open({
     multiple: false,
+    defaultPath: nativeDialogDefaultPath(),
     filters: [{ name: filterName, extensions }],
   });
   if (!selected) return null;
@@ -99,6 +109,7 @@ export async function openTextFileNative(
   if (!_dialog || !_fs) return null;
   const selected = await _dialog.open({
     multiple: false,
+    defaultPath: nativeDialogDefaultPath(),
     filters: [{ name: filterName, extensions }],
   });
   if (!selected) return null;
@@ -120,7 +131,7 @@ export async function saveFileAsNative(content: string, defaultPathOrName: strin
   const defaultPath = looksLikePath ? defaultPathOrName : `${defaultPathOrName}.ifcCalc`;
   const filePath = await _dialog.save({
     filters: [OCS_FILTER],
-    defaultPath,
+    defaultPath: nativeDialogDefaultPath(defaultPath),
   });
   if (!filePath) return null;
   await _fs.writeTextFile(filePath, content);

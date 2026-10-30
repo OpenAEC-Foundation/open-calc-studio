@@ -42,6 +42,7 @@ jobs:
           npm --prefix mcp-server run bundle
           npm --prefix mcp-server run test:calculator -- --bundled
           npm --prefix mcp-server run test:exchange -- --bundled
+          npm --prefix mcp-server run test:http
       - name: Read product version
         id: version
         run: echo "value=$(node -p 'require("./package.json").version')" >> "$GITHUB_OUTPUT"

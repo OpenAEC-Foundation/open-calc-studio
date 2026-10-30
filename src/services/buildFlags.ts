@@ -13,7 +13,9 @@ export const PLATFORM_BUILD = import.meta.env.VITE_PLATFORM_BUILD === 'true';
 export const OPENAEC_ENABLED = !PLATFORM_BUILD && import.meta.env.VITE_OPENAEC_ENABLED === 'true';
 export const USER_EXTENSIONS_ENABLED = !PLATFORM_BUILD;
 
+declare global { interface Window { __OCS_CONTAINER__?: boolean } }
+
 /** A site host owns authentication and network access in the hosted release. */
 export function allowsExternalServices(): boolean {
-  return !PLATFORM_BUILD && !(typeof window !== 'undefined' && (window.openaecHost || window.origin === 'null'));
+  return !PLATFORM_BUILD && !(typeof window !== 'undefined' && (window.__OCS_CONTAINER__ || window.openaecHost || window.origin === 'null'));
 }

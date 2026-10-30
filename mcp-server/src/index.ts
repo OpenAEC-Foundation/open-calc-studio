@@ -1,4 +1,5 @@
 import { APP_VERSION } from './version.js';
+import { createHttpMcp } from './httpTransport';
 import { registerAppTools } from './appTools';
 // De shebang + createRequire-shim worden door build.mjs (esbuild-banner) aan de bundle toegevoegd.
 /**
@@ -707,44 +708,6 @@ function findCalcParentId(
  *   .xtb                            → IBIS-TRAD SQLite (sql.js)
  *   .calc / .mdb                    → WpCalc / Access (mdb-reader)
  */
-async function loadProjectFile(filePath: string): Promise<{ project: ProjectFile; warnings: string[] }> {
-  const ext = extname(filePath).toLowerCase();
-  if (ext === '.xtb') return { project: await loadXtbProject(filePath), warnings: [] };
-  if (ext === '.calc' || ext === '.mdb') {
-    // Inhoud-sniff: sommige bestanden dragen een .calc/.mdb-extensie maar zijn
-    // in werkelijkheid een native OCS-project (JSON). Open die als native i.p.v.
-    // ze door mdb-reader te duwen (faalt met "Wrong page type ...").
-    const raw = readFileSync(filePath);
-    let i = 0;
-    while (i < raw.length && [0x20, 0x09, 0x0a, 0x0d, 0xef, 0xbb, 0xbf].includes(raw[i])) i++;
-    if (raw[i] === 0x7b) return { project: deserializeProject(raw.toString('utf-8')), warnings: [] };
-    return { project: await loadCalcProject(filePath), warnings: [] };
-  }
-  if (['.bc3', '.onlv', '.onlb', '.cuf', '.rsx', '.x81', '.x82', '.x83', '.x84', '.x86', '.x87'].includes(ext)) {
-    const buffer = readFileSync(filePath);
-    const data = buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength) as ArrayBuffer;
-    const imported: { schedule: Partial<CostSchedule>; items: CostItem[]; warnings: string[]; companyInfo?: Partial<CompanyInfo> } = ext === '.bc3' ? importBc3File(data)
-      : ext === '.onlv' || ext === '.onlb' ? importOnlvFile(data)
-      : ext === '.cuf' ? importCufXml(buffer.toString('utf-8'))
-      : ext === '.rsx' ? importRsxXml(buffer.toString('utf-8'))
-      : importGaeb(buffer.toString('utf-8'));
-    const now = new Date().toISOString();
-    return {
-      project: {
-        version: FILE_FORMAT_VERSION,
-        schedule: { ...defaultSchedule(), ...imported.schedule },
-        items: imported.items,
-        companyInfo: { ...emptyCompanyInfo(), ...imported.companyInfo },
-        resourceLibrary: [], spreadsheets: { sheets: [], activeSheetId: null },
-        createdAt: now, modifiedAt: now,
-      },
-      warnings: imported.warnings,
-    };
-  }
-  if (!NATIVE_BUDGET_EXTENSIONS.has(ext)) throw new Error(`Niet-ondersteund begrotingsformaat: ${ext || '(geen extensie)'}`);
-  // Native JSON (.ifcCalc, .ocs, .json, .ifcx)
-  return { project: deserializeProject(readFileSync(filePath, 'utf-8')), warnings: [] };
-}
 
 function makeStaartItem(rowType: string, description: string, pct: number | null, sortOrder: number): any {
   return {
@@ -1037,6 +1000,47 @@ function makeItem(opts: {
 // ===========================================================================
 // MCP Server
 // ===========================================================================
+
+function createServer() {
+async function loadProjectFile(filePath: string): Promise<{ project: ProjectFile; warnings: string[] }> {
+  const ext = extname(filePath).toLowerCase();
+  if (ext === '.xtb') return { project: await loadXtbProject(filePath), warnings: [] };
+  if (ext === '.calc' || ext === '.mdb') {
+    // Inhoud-sniff: sommige bestanden dragen een .calc/.mdb-extensie maar zijn
+    // in werkelijkheid een native OCS-project (JSON). Open die als native i.p.v.
+    // ze door mdb-reader te duwen (faalt met "Wrong page type ...").
+    const raw = readFileSync(filePath);
+    let i = 0;
+    while (i < raw.length && [0x20, 0x09, 0x0a, 0x0d, 0xef, 0xbb, 0xbf].includes(raw[i])) i++;
+    if (raw[i] === 0x7b) return { project: deserializeProject(raw.toString('utf-8')), warnings: [] };
+    return { project: await loadCalcProject(filePath), warnings: [] };
+  }
+  if (['.bc3', '.onlv', '.onlb', '.cuf', '.rsx', '.x81', '.x82', '.x83', '.x84', '.x86', '.x87'].includes(ext)) {
+    const buffer = readFileSync(filePath);
+    const data = buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength) as ArrayBuffer;
+    const imported: { schedule: Partial<CostSchedule>; items: CostItem[]; warnings: string[]; companyInfo?: Partial<CompanyInfo> } = ext === '.bc3' ? importBc3File(data)
+      : ext === '.onlv' || ext === '.onlb' ? importOnlvFile(data)
+      : ext === '.cuf' ? importCufXml(buffer.toString('utf-8'))
+      : ext === '.rsx' ? importRsxXml(buffer.toString('utf-8'))
+      : importGaeb(buffer.toString('utf-8'));
+    const now = new Date().toISOString();
+    return {
+      project: {
+        version: FILE_FORMAT_VERSION,
+        schedule: { ...defaultSchedule(), ...imported.schedule },
+        items: imported.items,
+        companyInfo: { ...emptyCompanyInfo(), ...imported.companyInfo },
+        resourceLibrary: [], spreadsheets: { sheets: [], activeSheetId: null },
+        createdAt: now, modifiedAt: now,
+      },
+      warnings: imported.warnings,
+    };
+  }
+  if (!NATIVE_BUDGET_EXTENSIONS.has(ext)) throw new Error(`Niet-ondersteund begrotingsformaat: ${ext || '(geen extensie)'}`);
+  // Native JSON (.ifcCalc, .ocs, .json, .ifcx)
+  return { project: deserializeProject(readFileSync(filePath, 'utf-8')), warnings: [] };
+}
+
 
 const server = new McpServer({
   name: "open-calc-studio",
@@ -3262,11 +3266,24 @@ server.tool("import_nsx", "Import an NSX normenbestand (norms file). Returns par
   } catch (e: unknown) { return err((e as Error).message); }
 });
 
+return server;
+}
+
 // ===========================================================================
 // Start
 // ===========================================================================
 
 async function main() {
+  if (process.env.OCS_MCP_TRANSPORT === 'http') {
+    const port = Number(process.env.OCS_MCP_PORT ?? 9743);
+    if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('Invalid OCS_MCP_PORT');
+    const http = createHttpMcp(createServer);
+    http.listen(port, process.env.OCS_MCP_HOST ?? '127.0.0.1', () => console.error(`Open Calc Studio MCP HTTP listening on port ${port}`));
+    const close = () => { http.close(); http.closeAllConnections(); };
+    process.once('SIGTERM', close); process.once('SIGINT', close);
+    return;
+  }
+  const server = createServer();
   const transport = new StdioServerTransport();
   await server.connect(transport);
   console.error('Open Calc Studio MCP server running on stdio');

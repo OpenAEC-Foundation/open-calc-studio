@@ -1,5 +1,5 @@
 import { useAppStore } from '@/state/appStore';
-import { isTauriEnvironment } from '@/services/file/nativeFileService';
+import { isTauriEnvironment, nativeDialogDefaultPath } from '@/services/file/nativeFileService';
 import { exportPdf } from '@/services/mcp/apiExports';
 import { printBudget } from '@/services/print/printService';
 import { uiText } from '@/i18n/uiText';
@@ -26,7 +26,7 @@ export async function outputCurrentReport(mode: 'print' | 'export', view?: Repor
       if (directory) defaultPath = `${directory}${separator}${defaultPath}`;
     }
     const { save } = await import('@tauri-apps/plugin-dialog');
-    outputPath = await save({ defaultPath, filters: [{ name: 'PDF', extensions: ['pdf'] }] });
+    outputPath = await save({ defaultPath: nativeDialogDefaultPath(defaultPath), filters: [{ name: 'PDF', extensions: ['pdf'] }] });
   }
   if (!outputPath) return;
   if (useAppStore.getState().activeDocumentId !== state.activeDocumentId) throw new Error(uiText('report.documentChanged', 'The active document changed. Try again in the intended estimate.'));

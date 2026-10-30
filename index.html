@@ -10,7 +10,14 @@
     <!-- Brand fonts are self-hosted (see src/styles/fonts.css) so the desktop
          app renders correctly offline, with no Google Fonts CDN dependency. -->
     <title>Open Calc Studio</title>
-    <script id="openaec-analytics-loader" defer src="https://open-aec.com/shared/analytics.js?v=20261026"></script>
+    <script id="openaec-analytics-loader">
+      if (!window.__OCS_CONTAINER__) {
+        const analytics = document.createElement('script');
+        analytics.src = 'https://open-aec.com/shared/analytics.js?v=20261026';
+        analytics.defer = true;
+        document.head.appendChild(analytics);
+      }
+    </script>
 </head>
   <body>
     <div id="root" class="oa-app"></div>

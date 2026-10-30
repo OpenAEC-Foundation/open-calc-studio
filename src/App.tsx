@@ -248,7 +248,7 @@ function App() {
         try {
           // Wait a tick so settings/extensions are initialised first
           await new Promise(r => setTimeout(r, 50));
-          if (PLATFORM_BUILD || getSiteHost() || restoredDraft || useAppStore.getState().documents.length > 0) return;
+          if (window.__OCS_CONTAINER__ || PLATFORM_BUILD || getSiteHost() || restoredDraft || useAppStore.getState().documents.length > 0) return;
           // Ingebouwd bepaalt de gastpagina of het voorbeeld opengaat.
           if (isEmbedded() && !getEmbedOptions().autoSample) return;
           await openSampleBudget();

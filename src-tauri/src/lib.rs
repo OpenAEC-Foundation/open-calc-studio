@@ -198,6 +198,9 @@ pub fn run_return() -> Result<i32, tauri::Error> {
     );
   }
   tauri::Builder::default()
+    .append_invoke_initialization_script(if std::env::var("OCS_CONTAINER").as_deref() == Ok("1") {
+      "window.__OCS_CONTAINER__ = true;"
+    } else { "" })
     .plugin(tauri_plugin_dialog::init())
     .plugin(tauri_plugin_fs::init())
     .plugin(tauri_plugin_store::Builder::default().build())
@@ -226,6 +229,11 @@ pub fn run_return() -> Result<i32, tauri::Error> {
         accounts::accounts_download_file
     ])
     .setup(|app| {
+      if std::env::var("OCS_CONTAINER").as_deref() == Ok("1") {
+        if let Some(window) = app.get_webview_window("main") {
+          window.set_fullscreen(true)?;
+        }
+      }
       if cfg!(debug_assertions) {
         app.handle().plugin(
           tauri_plugin_log::Builder::default()
