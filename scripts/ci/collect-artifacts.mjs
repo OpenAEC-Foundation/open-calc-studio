@@ -21,6 +21,12 @@ for (const [folder, extension] of Object.entries(formats[target])) {
     const hash = createHash('sha256').update(await readFile(from)).digest('hex');
     await copyFile(from, path.join(output, name));
     checksums.push(`${hash}  ${name}`);
+    // The updater signature of the installer, for latest.json (OpenAEC Installer).
+    if (['nsis', 'msi', 'appimage'].includes(folder)) {
+      const sig = `${name}.sig`;
+      if (!(await readdir(source)).includes(sig)) throw new Error(`Missing updater signature ${sig} in ${source}`);
+      await copyFile(path.join(source, sig), path.join(output, sig));
+    }
   }
 }
 await writeFile(path.join(output, 'SHA256SUMS.txt'), checksums.join('\n') + '\n');

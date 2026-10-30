@@ -143,6 +143,7 @@ jobs:
           find artifacts -name 'SHA256SUMS-linux.txt' -exec cp {} release/ \;
           cp LICENSE COPYING NOTICE.md release/
           (cd release && sha256sum * > SHA256SUMS.txt)
+          find artifacts -name '*.sig' -exec cp {} release/ \;
           ls -la release/
 
       - name: Publish release
