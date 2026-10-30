@@ -1,7 +1,8 @@
+import { IfcElementBrowser } from './IfcElementBrowser';
 import { useTranslation } from 'react-i18next';
 import { uiText } from '@/i18n/uiText';
 /** IFC-Lite geometry and quantities, rendered with Three.js/WebGL in a split workspace. */
-import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { useAppStore } from '@/state/appStore';
@@ -21,10 +22,11 @@ export function ThreeDViewer() {
   const rendererState=useRef<{scene:THREE.Scene;camera:THREE.PerspectiveCamera;controls:OrbitControls;group:THREE.Group;fit:()=>void}|null>(null);
   const input=useRef<HTMLInputElement>(null);
   const [error,setError]=useState(''); const [loading,setLoading]=useState(false);
-  const [search,setSearch]=useState(''); const [key,setKey]=useState('__count__'); const width=useAppStore(s=>s.ifcSplitPercent); const setWidth=useAppStore(s=>s.setIfcSplitPercent);
+  const [key,setKey]=useState('__count__'); const width=useAppStore(s=>s.ifcSplitPercent); const setWidth=useAppStore(s=>s.setIfcSplitPercent);
   const selected=session?.selected??[];
-  const first=session?.model.elements.find(e=>e.expressId===selected[0]);
-  const options=first?.quantities.filter(q=>selected.every(id=>session?.model.elements.find(e=>e.expressId===id)?.quantities.some(v=>v.key===q.key&&v.kind===q.kind)))??[];
+  const elementIndex = useMemo(() => new Map(session?.model.elements.map(element => [element.expressId, element]) ?? []), [session?.model.elements]);
+  const first=elementIndex.get(selected[0]);
+  const options=first?.quantities.filter(q=>selected.every(id=>elementIndex.get(id)?.quantities.some(v=>v.key===q.key&&v.kind===q.kind)))??[];
   const metric=key==='__count__'||options.some(q=>q.key===key)?key:'__count__';
   const total=session&&selected.length?aggregateTakeoff(session.model,selected,metric):null;
   const target=items.find(i=>i.id===targetId);
@@ -56,7 +58,7 @@ export function ThreeDViewer() {
     for(const m of session?.meshes??[]){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(m.positions,3));g.setAttribute('normal',new THREE.BufferAttribute(m.normals,3));g.setIndex(new THREE.BufferAttribute(m.indices,1));const material=new THREE.MeshStandardMaterial({color:new THREE.Color(m.color[0],m.color[1],m.color[2]),opacity:m.color[3],transparent:m.color[3]<1,side:THREE.DoubleSide,roughness:.8});const mesh=new THREE.Mesh(g,material);if(m.origin)mesh.position.fromArray(m.origin);mesh.userData.expressId=m.expressId;r.group.add(mesh);}
     r.fit();r.controls.dispatchEvent({type:'change'});
   },[docId,session?.meshes]);
-  useEffect(()=>{const r=rendererState.current;if(!r)return;for(const o of r.group.children){const m=o as THREE.Mesh<THREE.BufferGeometry,THREE.MeshStandardMaterial>;const isSelected=selected.includes(m.userData.expressId);m.material.emissive.set(isSelected?0x006699:0x000000);m.visible=!session?.isolated||isSelected;}r.controls.dispatchEvent({type:'change'});},[revision,docId]);
+  useEffect(()=>{const r=rendererState.current;if(!r)return;const selectedSet=new Set(selected);for(const o of r.group.children){const m=o as THREE.Mesh<THREE.BufferGeometry,THREE.MeshStandardMaterial>;const isSelected=selectedSet.has(m.userData.expressId);m.material.emissive.set(isSelected?0x006699:0x000000);m.visible=!session?.isolated||isSelected;}r.controls.dispatchEvent({type:'change'});},[revision,docId]);
   useEffect(()=>{rendererState.current?.fit();},[session?.cameraRevision]);
   return <div className="ifc-workspace">
     <header><strong>{uiText("ifc.title", "3D & Estimate · IFC-Lite")}</strong><button disabled={loading} onClick={()=>input.current?.click()}>{uiText("ifc.open", "Open IFC")}</button><input ref={input} type="file" accept=".ifc" hidden onChange={e=>{const file=e.target.files?.[0];if(file)void load(file);e.target.value='';}}/><button onClick={()=>run('fit')} disabled={!session}>{uiText("ifc.fit", "Fit all")}</button><button onClick={()=>run('isolate',{enabled:!session?.isolated})} disabled={!selected.length}>{uiText("ifc.isolate", "Isolate selection")}</button><label>{uiText("ifc.split", "Split")}<input type="range" min="30" max="70" value={width} onChange={e=>setWidth(Number(e.target.value))}/></label></header>
@@ -65,7 +67,7 @@ export function ThreeDViewer() {
       <section className="ifc-model" style={{width:`${width}%`}} aria-label={uiText("ifc.model", "IFC model")} onDragOver={e=>{e.preventDefault();e.stopPropagation();}} onDrop={e=>{e.preventDefault();e.stopPropagation();const file=e.dataTransfer.files[0];if(file)void load(file);}}>
         <div className="ifc-canvas" ref={mount}/>
         {(!session||loading)&&<div className="ifc-status" role="status">{loading?uiText("ifc.loading", "IFC-Lite is loading geometry and quantities…"):uiText("ifc.drop", "Open or drop an IFC file. Click an element; Ctrl/⌘-click to select several.")}</div>}
-        <div className="ifc-elements"><input aria-label={uiText("ifc.search", "Search elements")} placeholder={uiText("ifc.searchHint", "Search by name or IFC type")} value={search} onChange={e=>setSearch(e.target.value)}/><span>{session?.model.fileName} · {uiText('ifc.selected', '{{count}} selected', { count: selected.length })}</span><div className="ifc-element-list">{session?.model.elements.filter(e=>`${e.name} ${e.type}`.toLowerCase().includes(search.toLowerCase())).slice(0,300).map(e=><label key={e.id}><input type="checkbox" checked={selected.includes(e.expressId)} onChange={()=>run('select',{elementIds:selected.includes(e.expressId)?selected.filter(id=>id!==e.expressId):[...selected,e.expressId]})}/>{e.type} · {e.name}</label>)}</div></div>
+        {session && <IfcElementBrowser key={`${docId}:${session.model.id}`} model={session.model} selected={selected} run={run} />}
         <div className="ifc-takeoff"><select aria-label={uiText("ifc.quantity", "IFC quantity")} value={metric} onChange={e=>setKey(e.target.value)}><option value="__count__">{uiText("ifc.count", "Element count")}</option>{options.map(q=><option key={q.key} value={q.key}>{q.label} ({q.unit})</option>)}</select><strong>{total?`${total.value.toLocaleString(i18n.language,{maximumFractionDigits:4})} ${total.unit}`:uiText("ifc.select", "Select elements")}</strong><button disabled={!total||!eligible} onClick={()=>run('takeoff',{quantityKey:metric,itemId:targetId})}>{uiText("ifc.takeoff", "Apply to selected item")}</button><small>{eligible?`${target?.nr} ${target?.description}`:uiText("ifc.target", "Select an estimate item or calculation line on the right.")} {uiText("ifc.quantityHelp", "Quantities come from IFC quantity sets; check gross/net values.")}</small></div>
       </section>
       <section className="ifc-budget" aria-label={uiText("ifc.budgetLabel", "Estimate beside IFC")}><CostGrid/></section>

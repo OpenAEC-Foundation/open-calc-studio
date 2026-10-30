@@ -1,0 +1,27 @@
+import { act } from 'react';
+import { createRoot,type Root } from 'react-dom/client';
+import { beforeEach,afterEach,it,expect,vi } from 'vitest';
+import SettingsDialog from '@/components/settings/SettingsDialog';
+import FeedbackDialog from '@/components/common/FeedbackDialog';
+import { useAppStore } from '@/state/appStore';
+import i18next from '@/i18n/config';
+const mocks=vi.hoisted(()=>({fetch:vi.fn(async()=>({ok:true,status:200})),set:vi.fn(async()=>{}),del:vi.fn(async()=>{})}));
+vi.mock('@/utils/store',()=>({storeGet:async()=>null,storeSet:mocks.set,storeDelete:mocks.del}));
+vi.mock('@/utils/platform',()=>({getAppVersion:async()=>'synthetic',buildUserAgent:async()=>'Synthetic-test-adapter'}));
+const initial=useAppStore.getState();let node:HTMLDivElement,root:Root;
+async function mount(component:React.ReactNode){await act(async()=>root.render(component));}
+async function click(element:HTMLElement){expect(element).toBeTruthy();await act(async()=>element.click());}
+async function input(element:HTMLInputElement|HTMLTextAreaElement,value:string){await act(async()=>{Object.getOwnPropertyDescriptor(element instanceof HTMLTextAreaElement?HTMLTextAreaElement.prototype:HTMLInputElement.prototype,'value')!.set!.call(element,value);element.dispatchEvent(new Event('input',{bubbles:true}));});}
+beforeEach(async()=>{(globalThis as {IS_REACT_ACT_ENVIRONMENT?:boolean}).IS_REACT_ACT_ENVIRONMENT=true;await i18next.changeLanguage('en');useAppStore.setState(initial,true);node=document.createElement('div');document.body.append(node);root=createRoot(node);vi.clearAllMocks();vi.stubGlobal('fetch',mocks.fetch);});
+afterEach(async()=>{await act(async()=>root.unmount());node.remove();vi.restoreAllMocks();vi.unstubAllGlobals();});
+it('settings navigation exposes actual populated sections rather than blank tabs',async()=>{await mount(<SettingsDialog open theme="light" onClose={vi.fn()} onThemeChange={vi.fn()}/>);const tabs=document.querySelectorAll<HTMLButtonElement>('.settings-tab');expect(tabs).toHaveLength(3);for(const tab of tabs){await click(tab);expect(document.querySelector('.settings-content')!.textContent!.trim().length).toBeGreaterThan(10);expect(tab).toHaveClass('active');}});
+it('settings Save applies the selected theme and Cancel preserves the original theme',async()=>{
+ const theme=vi.fn(),close=vi.fn();await mount(<SettingsDialog open theme="light" onClose={close} onThemeChange={theme}/>);await click(document.querySelectorAll<HTMLButtonElement>('.settings-tab')[1]);const select=document.querySelector<HTMLSelectElement>('.settings-content select')!;await act(async()=>{select.value='dark';select.dispatchEvent(new Event('change',{bubbles:true}));});await click(document.querySelector('.settings-btn-primary')!);expect(theme).toHaveBeenCalledWith('dark');expect(close).toHaveBeenCalledOnce();expect(document.documentElement).toHaveAttribute('data-theme','dark');
+ theme.mockClear();await mount(<SettingsDialog key="cancel" open theme="dark" onClose={close} onThemeChange={theme}/>);await click(document.querySelector('.settings-btn-secondary')!);expect(theme).not.toHaveBeenCalled();expect(document.documentElement).toHaveAttribute('data-theme','dark');
+});
+it('feedback validates, selects category/sentiment, submits only through a stub transport and resets',async()=>{
+ await mount(<FeedbackDialog open onClose={vi.fn()}/>);expect(document.querySelector('.feedback-submit-btn')).toBeDisabled();const fields=document.querySelectorAll<HTMLInputElement>('.feedback-input');await input(fields[0],'synthetic@example.invalid');await input(document.querySelector('textarea')!,'Synthetic button regression, no actual feedback sent.');await click(document.querySelectorAll<HTMLButtonElement>('.feedback-category-btn')[1]);await click(document.querySelectorAll<HTMLButtonElement>('.feedback-sentiment-btn')[2]);await click(document.querySelector('.feedback-submit-btn')!);await vi.waitFor(()=>expect(mocks.fetch).toHaveBeenCalledOnce());const args=mocks.fetch.mock.calls[0] as unknown as [string,{body:string}];expect(JSON.parse(args[1].body)).toMatchObject({email:'synthetic@example.invalid',category:'bug'});await click(document.querySelector('.feedback-submit-btn')!);expect(document.querySelector('textarea')).toHaveValue('');await click(document.querySelector('.feedback-clear-saved')!);expect(mocks.del).toHaveBeenCalledOnce();
+});
+it('feedback attachment and image removal stay local until Submit; close invokes the parent',async()=>{
+ if(!URL.createObjectURL)URL.createObjectURL=()=>'';if(!URL.revokeObjectURL)URL.revokeObjectURL=()=>{};vi.spyOn(URL,'createObjectURL').mockReturnValue('blob:synthetic-image');const revoke=vi.spyOn(URL,'revokeObjectURL').mockImplementation(()=>{});const picker=vi.spyOn(HTMLInputElement.prototype,'click').mockImplementation(()=>{});const close=vi.fn();await mount(<FeedbackDialog open onClose={close}/>);await click(document.querySelector('.feedback-attach-btn')!);expect(picker).toHaveBeenCalledOnce();const fileInput=document.querySelector<HTMLInputElement>('input[type=file]')!;Object.defineProperty(fileInput,'files',{value:[new File(['fixture'],'synthetic.png',{type:'image/png'})]});await act(async()=>fileInput.dispatchEvent(new Event('change',{bubbles:true})));await click(document.querySelector('.feedback-image-remove')!);expect(revoke).toHaveBeenCalledWith('blob:synthetic-image');expect(mocks.fetch).not.toHaveBeenCalled();await click(document.querySelector('.modal-close-btn')!);expect(close).toHaveBeenCalledOnce();
+});

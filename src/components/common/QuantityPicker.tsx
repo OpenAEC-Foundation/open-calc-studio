@@ -28,10 +28,11 @@ export function QuantityPicker({ onPick, onClose }: Props) {
 
   const pickSpreadsheet = () => {
     if (!activeSheet || !cellRef) return;
-    const cell = activeSheet.cells[cellRef.toUpperCase()];
-    const value = cell?.computed ?? parseFloat(cell?.value ?? '0');
-    if (!isFinite(value)) { alert(t('quantityPicker.cellNotNumeric')); return; }
-    onPick({ source: 'spreadsheet', sheetId: selectedSheet, cellRef: cellRef.toUpperCase() }, value);
+    const ref = cellRef.trim().toUpperCase();
+    const cell = activeSheet.cells[ref];
+    const value = cell?.computed ?? (cell?.value.trim() ? Number(cell.value) : NaN);
+    if (!cell || !/^[A-Z]+[1-9]\d*$/.test(ref) || !Number.isFinite(value)) { alert(t('quantityPicker.cellNotNumeric')); return; }
+    onPick({ source: 'spreadsheet', sheetId: selectedSheet, cellRef: ref }, value);
     onClose();
   };
 
@@ -41,6 +42,7 @@ export function QuantityPicker({ onPick, onClose }: Props) {
   };
 
   const pickPdfSum = (kind: 'length' | 'area') => {
+    if (!pdfMeasurements.some(measurement => measurement.type === kind)) return;
     const total = pdfMeasurements
       .filter(m => m.type === kind)
       .reduce((s, m) => s + m.value, 0);
@@ -134,11 +136,11 @@ export function QuantityPicker({ onPick, onClose }: Props) {
                 <>
                   <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
                     <button
-                      onClick={() => pickPdfSum('length')}
+                      disabled={!pdfMeasurements.some(m => m.type === 'length')} onClick={() => pickPdfSum('length')}
                       style={{ flex: 1, padding: '8px', background: 'var(--theme-surface)', border: '1px solid var(--theme-border)', borderRadius: 4, cursor: 'pointer', fontSize: 12, color: 'var(--theme-text)' }}
                     >{t('quantityPicker.sumLengths')}</button>
                     <button
-                      onClick={() => pickPdfSum('area')}
+                      disabled={!pdfMeasurements.some(m => m.type === 'area')} onClick={() => pickPdfSum('area')}
                       style={{ flex: 1, padding: '8px', background: 'var(--theme-surface)', border: '1px solid var(--theme-border)', borderRadius: 4, cursor: 'pointer', fontSize: 12, color: 'var(--theme-text)' }}
                     >{t('quantityPicker.sumAreas')}</button>
                   </div>

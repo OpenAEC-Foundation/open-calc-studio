@@ -83,7 +83,7 @@ export default function SettingsDialog({ open, onClose, theme, onThemeChange }: 
     onClose();
   };
 
-  const TAB_IDS = ["general", "appearance", "grid", "files", "about"] as const;
+  const TAB_IDS = ["general", "appearance", "about"] as const;
 
   return (
     <Modal open={open} onClose={handleCancel} title={t("title")} className="settings-dialog">

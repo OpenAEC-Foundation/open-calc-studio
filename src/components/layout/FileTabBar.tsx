@@ -30,9 +30,11 @@ export const FileTabBar: React.FC = () => {
       const result = await showUnsavedChangesDialog(doc.fileName);
       if (result === 'cancel') return;
       if (result === 'save') {
-        if (useAppStore.getState().activeDocumentId === id) {
-          await saveFile();
-        }
+        const previousId = useAppStore.getState().activeDocumentId;
+        if (previousId !== id) setActiveDocument(id);
+        await saveFile();
+        const saved = useAppStore.getState().documents.find(d => d.id === id);
+        if (!saved?.isModified && previousId !== id && useAppStore.getState().activeDocumentId === id && useAppStore.getState().documents.some(d => d.id === previousId)) setActiveDocument(previousId);
         // If still modified after save (e.g. user cancelled save-as), don't close
         const refreshed = useAppStore.getState().documents.find((d) => d.id === id);
         if (refreshed?.isModified) return;
@@ -40,7 +42,7 @@ export const FileTabBar: React.FC = () => {
       // 'discard' falls through
     }
     removeDocument(id);
-  }, [removeDocument, saveFile]);
+  }, [removeDocument, saveFile, setActiveDocument]);
 
   const handleClose = useCallback((e: React.MouseEvent, id: string) => {
     e.stopPropagation();
@@ -116,8 +118,11 @@ export const FileTabBar: React.FC = () => {
         filePath = `${dir}/${doc.fileName || 'begroting'}.ifcx`;
         const store = useAppStore.getState();
         const { serializeProject } = await import('@/services/file/fileService');
-        const scheduleWithProjectInfo = { ...store.schedule, projectInfo: store.projectInfo };
-        const json = serializeProject(scheduleWithProjectInfo, store.items, store.companyInfo, store.subSheets, store.offerte);
+        const active = doc.id === store.activeDocumentId;
+        const context = active ? store : doc.context;
+        const schedule = active ? store.schedule : doc.schedule;
+        const scheduleWithProjectInfo = { ...schedule, projectInfo: context?.projectInfo ?? schedule.projectInfo };
+        const json = serializeProject(scheduleWithProjectInfo, active ? store.items : doc.items, context?.companyInfo, context?.subSheets, context?.offerte, context?.snapshots);
         await writeTextFile(filePath, json);
       } catch (err) {
         console.error('[FileTabBar] Failed to save temp file:', err);

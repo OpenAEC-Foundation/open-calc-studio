@@ -1,5 +1,87 @@
 # Open Calc Studio — aankomende release
 
+## 2026.44.4: knopcontrole en herstel
+
+- Licentieteksten zijn ook rechtstreeks in de hoofdmap van het npm-inbouwpakket
+  beschikbaar als `LICENSE`, `COPYING` en `NOTICE.md`. De Blueprint-bronvermelding
+  verwijst naar de daadwerkelijk gebruikte commit.
+- Kopiëren, knippen en verwijderen in het lint volgen de volledige selectie,
+  ook als het selectie-eindpunt een berekende hoofdstukfooter is. Kopiëren en
+  knippen nemen onderliggende rekenregels mee bij ingeklapte posten.
+- Knoppen zonder geldig doel worden uitgeschakeld: bewakingspost zonder
+  bovenliggende begrotingspost, opmaak zonder actief rekenblad, ongeldige
+  prijsschaalfactor en bronselecties zonder gegevens. Een ontbrekende cel
+  wordt niet langer als een fictieve nulhoeveelheid gekoppeld.
+- Zoeken opent ingeklapte ouders zonder de begroting als gewijzigd te markeren.
+  Wijzigingen aan offerte, rekenblad, varianten en projectkengetallen krijgen
+  juist wel de wijzigingsstatus, zodat sluiten niet stilzwijgend data verliest.
+- Opslaan bij sluiten van een inactief tabblad bewaart dat tabblad. Een
+  tweede venster krijgt de gekozen begroting en bijbehorende bedrijfsgegevens.
+- Afdrukken, PDF-export en MCP gebruiken dezelfde PDF-generator en gekozen
+  rapportopties, inclusief voorblad en samenvatting. IBIS/directie-afdrukken
+  gebruiken de juiste generator en het tijdelijke pad van het besturingssysteem.
+- Offerte afdrukken werkt in de desktopapp; browserknoppen tonen de
+  desktopvereiste. PDF-fouten worden zichtbaar gemeld. Wisselen van document
+  tijdens een opslaan-dialoog leidt niet tot export van de verkeerde begroting.
+- Zoompresets reageren ook op toetsenbordactivering. De twee lege
+  instellingentabbladen Raster/Bestanden zijn verwijderd. Afsluiten is in
+  de browser uitgeschakeld; decoratieve linticonen zijn verborgen voor
+  schermlezers. Ook oudere dialoogknoppen houden een eigen sneltoetscontext.
+- Automatische knoptests gebruiken echte React-componenten en de echte
+  applicatiestore met geïsoleerde bestands-, netwerk- en vensteradapters.
+  Er is geen echte feedback verstuurd en geen cloudaccount gewijzigd.
+  GPU-weergave, native bestandsdialogen, fysieke printers en live browser-
+  bediening vereisen aanvullende controle in een bestuurbare omgeving.
+- Productversie 2026.44.4, MSI 26.44.4; bestandsformaat blijft 2.3.0.
+
+## 2026.44.3: invoer herstellen en efficiënter werken
+
+- Mobiel bewaart expliciete nulprijzen, verwerkt getallen volgens de
+  interfacetaal en toont de projectvaluta. Bewerkingen en verwijderen krijgen
+  één undo-stap; de kop bevat knoppen voor ongedaan maken en opnieuw uitvoeren.
+- Gekoppelde hoeveelheden en eenheden zijn alleen-lezen. Kies **Hoeveelheid
+  ontkoppelen**, voer de handmatige waarde in en bevestig met **Gereed**.
+  Annuleren behoudt de koppeling; undo herstelt de oude koppeling en waarde.
+- Mobiele lijst, wizard, raster en controlecentrum gebruiken dezelfde actieve
+  variantselectie. De financiële rekenregels blijven ongewijzigd.
+- Delete, knippen, plakken en nieuwe regels via het toetsenbord vereisen focus
+  in het raster. Tekstvelden behouden hun eigen undo; dialogen hebben hun
+  eigen toetsenbordcontext.
+- De wizard toont een foutoverzicht met **Ga naar ongeldig veld** en
+  **Ongeldige invoer verwijderen**. Ongeldige concepten bewaren de laatst
+  geldige financiële waarde. De volledige editor blijft bereikbaar.
+  Nulprijzen tellen in de wizard en het controlecentrum als ingevuld.
+- Gedeelde dialogen en mobiele bewerkvensters hebben een naam, focusbeheer,
+  Tab-begrenzing, Escape en focusterugkeer, ook bij geneste dialogen.
+- IFC: 100 elementen per pagina, resultaat- en modelaantallen, vorige/volgende
+  pagina en **Alle resultaten selecteren** over alle pagina's. MCP:
+  `ifc.selectFiltered {search?: string}`; bestaande `ifc.select` wist de
+  selectie met `elementIds: []`.
+- PDF-broncontrole indexeert de workspace één keer per controle,
+  in plaats van alle metingen opnieuw per begrotingsregel te doorlopen.
+- De eigen zwevende assistent wordt verborgen in de ingebouwde/hostomgeving,
+  ook wanneer de SuperCloud-host pas na het opstarten wordt gekoppeld.
+- Productversie 2026.44.3, MSI 26.44.3. Bestandsformaat blijft 2.3.0.
+
+## 2026.44.2: controlecentrum
+
+- Nieuwe ingang **Controlecentrum** met actuele meldingenteller in de
+  linkerzijbalk. Op mobiel staat **Controle** in de onderste navigatie.
+- Filter ontbrekende prijsinvoer, bronproblemen en afwijkende eenheden;
+  inspecteer een melding en ga naar de exacte begrotingsregel. Ingeklapte
+  ouders worden geopend. Terugkeren bewaart de categorie en melding.
+- Controles omvatten de actieve variant. Expliciete nulprijzen zijn geldig;
+  tekst, pro-memoria en opgetelde bovenliggende regels worden niet onterecht
+  als ongeprijsd gemeld. Externe Excel-verwijzingen zijn niet geverifieerd;
+  opgeslagen IFC-hoeveelheden vereisen geen geladen geometrie.
+- Inspectie behoudt financiële waarden, wijzigingsstatus en undo. Opgeloste
+  meldingen verdwijnen automatisch. Dit is geen volledigheidsverklaring
+  of toets van marktprijzen.
+- MCP: `review.list`, `review.open`, `review.openItem`; ook beschikbaar als
+  pure SDK-functie `reviewBudget`. 211 JSON-aanroepbare store-acties.
+- Productversie 2026.44.2, MSI 26.44.2. Bestandsformaat blijft 2.3.0;
+  de controlecontext wordt niet in het project opgeslagen.
+
 ## 2026.44.1: werkplekken, herkomst en financiële voorstellen
 
 - Kies Meten, Begroten of Controleren onder de projectkop. Bewaar eigen

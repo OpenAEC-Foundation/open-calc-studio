@@ -3,9 +3,11 @@ import { useAppStore } from '@/state/appStore';
 import type { ContentTab } from '@/state/slices/uiSlice';
 import { uiText } from '@/i18n/uiText';
 import appIcon from '@/assets/app-icon.svg';
+import { useBudgetReview } from '@/components/review/useBudgetReview';
 
 const views: { tab: ContentTab; key: string; label: string; path: string; group: 'estimate' | 'sources' }[] = [
   { tab: 'grid', key: 'estimate', label: 'Estimate', path: 'M3 3h18v18H3zM3 9h18M9 3v18M3 15h18', group: 'estimate' },
+  { tab: 'review', key: 'review', label: 'Review center', path: 'M12 3 3 7v6c0 5 9 9 9 9s9-4 9-9V7zM8 12l3 3 5-6', group: 'estimate' },
   { tab: 'promptBudget', key: 'prompt', label: 'Prompt & Estimate', path: 'M4 4h16v12H9l-5 4zM8 8h8M8 12h5', group: 'estimate' },
   { tab: 'wizard', key: 'wizard', label: 'Guided estimate', path: 'M4 6h16M4 12h16M4 18h16M8 3v6M16 9v6M10 15v6', group: 'estimate' },
   { tab: 'urenstaart', key: 'hours', label: 'Hours & markups', path: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18M12 7v5l3 2', group: 'estimate' },
@@ -29,6 +31,7 @@ export function WorkspaceNavigation({ onStart, onSettings }: { onStart: () => vo
   const { t } = useTranslation();
   const active = useAppStore(s => s.activeContentTab);
   const hasDocument = useAppStore(s => s.documents.length > 0);
+  const report = useBudgetReview();
   const navigate = (tab: ContentTab) => {
     const state = useAppStore.getState();
     if (tab === 'spreadsheet') state.setActiveSubSheet(state.activeSubSheetId ?? state.subSheets[0]?.id ?? state.addSubSheet());
@@ -46,6 +49,7 @@ export function WorkspaceNavigation({ onStart, onSettings }: { onStart: () => vo
         <h2 className="oa-mono-label">{group === 'estimate' ? uiText('shell.workspace', 'Workspace') : uiText('shell.sources', 'Drawings & data')}</h2>
         {views.filter(v => v.group === group).map(view => <button key={view.tab} className="workspace-nav-item" disabled={!hasDocument} aria-label={uiText(`shell.${view.key}`, view.label)} title={uiText(`shell.${view.key}`, view.label)} aria-current={active === view.tab && hasDocument ? 'page' : undefined} onClick={() => navigate(view.tab)}>
           <WorkspaceIcon path={view.path} /><span>{uiText(`shell.${view.key}`, view.label)}</span>
+          {view.tab === 'review' && hasDocument && <small className="workspace-review-count" aria-label={uiText('review.badge', '{{count}} review issues', { count: report.counts.all })}>{report.counts.all}</small>}
         </button>)}
       </section>)}
     </div>

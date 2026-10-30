@@ -1,6 +1,6 @@
 # Gebruikershandleiding Open Calc Studio
 
-Voor de ontwikkelversie 2026.44.1. [English user guide](user-guide.md) · [Projectoverzicht](../README.md)
+Voor de ontwikkelversie 2026.44.4. [English user guide](user-guide.md) · [Projectoverzicht](../README.md)
 
 ## Installeren en starten
 
@@ -128,6 +128,29 @@ Bij een verbroken verbinding staat erbij dat de laatst ontvangen gegevens
 worden getoond. Sta zo nodig het extra venster toe in de browser; de functie
 werkt in de zelfstandige desktop- en webapp, niet in ingebouwde frames.
 
+## Controlecentrum
+
+Klik links op **Controlecentrum**; de teller toont het aantal actuele
+meldingen. Op een telefoon kies je **Controle** in de onderste navigatie.
+Filter op **Prijzen**, **Bronnen** of **Eenheden**, selecteer een melding en
+kies **Toon regel**. De juiste regel wordt geselecteerd en bovenliggende
+regels worden zo nodig uitgeklapt. Op mobiel opent het regelvenster.
+**Terug naar controlecentrum** bewaart je categorie en melding. Wisselen
+van document wist deze navigatiecontext.
+
+De controles omvatten de actieve variant, inclusief ingeklapte regels.
+Ontbrekende prijsinvoer wordt gemeld bij kostenregels met een hoeveelheid
+ongelijk aan nul. Opgetelde bovenliggende regels, tekst, pro-memoria en
+nulhoeveelheden krijgen hiervoor geen melding. Een expliciete nulprijs
+geldt als ingevuld. Broncontroles melden ontbrekende/niet-numerieke
+verwijzingen, afwijkende bronwaarden en verschillende eenheden. Bewaarde
+IFC-hoeveelheden blijven bruikbaar zonder geladen geometrie. Externe
+Excel-verwijzingen staan als niet-gecontroleerde informatie vermeld.
+
+Deze controles bewijzen geen marktconforme prijzen of volledige begroting.
+Bekijken wijzigt geen waarden, wijzigingsstatus of undo-geschiedenis.
+Opgeloste meldingen verdwijnen automatisch.
+
 ## De herkomst van een hoeveelheid bekijken
 
 Klik op het koppelingsicoon bij een hoeveelheid of bekijk de kaart
@@ -155,3 +178,23 @@ niet beschikbaar is. Bij gewijzigde invoer of een andere actieve begroting
 moet je het voorstel opnieuw voorbereiden. Voorstellen blijven alleen deze
 sessie beschikbaar. Wijzig gekoppelde hoeveelheden bij de bron of ontkoppel
 ze voordat je ze overschrijft.
+
+## Invoer, herstel en IFC-selectie (2026.44.4)
+
+Op mobiel volgt de getalinvoer je interfacetaal: Engels `1.234` betekent
+1,234 eenheden; Nederlands `1.234` betekent 1234 eenheden. Voor een
+Nederlandse decimaal gebruik je `1,234`. Nul is een ingevulde prijs;
+een leeg veld betekent dat de prijs ontbreekt. Bedragen volgen de projectvaluta.
+Met **Ongedaan maken** en **Opnieuw uitvoeren** bovenin herstel je mobiele
+regelwijzigingen. Gekoppelde hoeveelheden kun je pas aanpassen na
+**Hoeveelheid ontkoppelen**; **Gereed** bevestigt dit, sluiten annuleert het.
+
+De wizard houdt ongeldige conceptinvoer apart van de begrotingswaarden.
+**Ga naar ongeldig veld** heropent ook een veld dat door een hoofdstukfilter
+verborgen is. **Ongeldige invoer verwijderen** herstelt de laatst geldige
+waarden. Je kunt altijd naar de volledige editor terug.
+
+In **3D & hoeveelheden** kun je alle IFC-elementen via pagina's van 100
+bereiken. De teller toont zoekresultaten en het modeltotaal. **Alle resultaten
+selecteren** omvat ook de andere pagina's; controleer de selectieteller vóór
+het overnemen van een hoeveelheid. **Selectie wissen** maakt de selectie leeg.

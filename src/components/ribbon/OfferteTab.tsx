@@ -3,8 +3,8 @@ import RibbonButton from "./RibbonButton";
 import RibbonGroup from "./RibbonGroup";
 import { reportIcon, settingsIcon, pdfExportIcon, printIcon, addChapterIcon, deleteIcon } from "./icons";
 import { useAppStore } from "../../state/appStore";
-import { getReportRequestLocale } from "../../i18n/reportI18n";
-import { buildOfferteRequest } from "../../services/offerte/offerteRequest";
+import { outputCurrentReport } from "@/services/report/reportOutput";
+import { isTauriEnvironment } from "@/services/file/nativeFileService";
 import { getBuiltInTemplates, applyTemplate } from '@/services/offerte/templateService';
 
 export default function OfferteTab() {
@@ -34,6 +34,11 @@ export default function OfferteTab() {
     const id = addSection('meerwerk');
     setActiveSectionId(id);
     setActiveContentTab('offerte');
+  };
+
+  const handleOutput = async (mode: 'print' | 'export') => {
+    try { await outputCurrentReport(mode, 'offerte'); }
+    catch (error) { alert(`${t('offerte.pdfFailed')}: ${error}`); }
   };
 
   return (
@@ -129,40 +134,8 @@ export default function OfferteTab() {
         </div>
 
         <RibbonGroup label={t("offerte.export")}>
-          <RibbonButton icon={pdfExportIcon} label={t("offerte.pdfQuotation")} onClick={async () => {
-              try {
-                const { invoke } = await import('@tauri-apps/api/core');
-                const { save } = await import('@tauri-apps/plugin-dialog');
-                const store = useAppStore.getState();
-
-                // Gebruik map van actieve begroting, met "Offerte_<nummer>" als bestandsnaam
-                const active = store.documents?.find((d) => d.id === store.activeDocumentId);
-                const fileBase = `Offerte_${store.offerte.offerteNummer || 'concept'}`;
-                let defaultPath = `${fileBase}.pdf`;
-                if (active?.filePath) {
-                  const sep = active.filePath.includes('\\') ? '\\' : '/';
-                  const dir = active.filePath.substring(0, active.filePath.lastIndexOf(sep));
-                  if (dir) defaultPath = `${dir}${sep}${fileBase}.pdf`;
-                }
-
-                const outputPath = await save({
-                  defaultPath,
-                  filters: [{ name: 'PDF', extensions: ['pdf'] }],
-                });
-                if (!outputPath) return;
-
-                const request = {
-                  ...buildOfferteRequest(store),
-                  // Teksten en notatie in de rapporttaal; Rust valt terug op Nederlands.
-                  ...(await getReportRequestLocale()),
-                };
-
-                await invoke('generate_offerte_pdf', { request, outputPath });
-              } catch (err) {
-                console.error('[Offerte] PDF export failed:', err);
-              }
-            }} />
-          <RibbonButton icon={printIcon} label={t("offerte.printBtn")} onClick={() => {}} disabled />
+          <RibbonButton icon={pdfExportIcon} label={t("offerte.pdfQuotation")} disabled={!isTauriEnvironment()} title={!isTauriEnvironment() ? t('offerte.desktopRequired') : undefined} onClick={() => void handleOutput('export')} />
+          <RibbonButton icon={printIcon} label={t("offerte.printBtn")} disabled={!isTauriEnvironment()} title={!isTauriEnvironment() ? t('offerte.desktopRequired') : undefined} onClick={() => void handleOutput('print')} />
         </RibbonGroup>
       </div>
     </div>

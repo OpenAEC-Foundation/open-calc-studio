@@ -52,10 +52,8 @@ function ZoomControl() {
     else if (e.key === "Escape") { setInputValue(String(gridZoom)); setEditing(false); }
   };
 
-  const presetClicked = useRef(false);
 
   const handlePresetClick = (value: number) => {
-    presetClicked.current = true;
     setGridZoom(value);
     setInputValue(String(value));
     setDropdownOpen(false);
@@ -73,7 +71,7 @@ function ZoomControl() {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value.replace(/[^0-9]/g, ""))}
             onKeyDown={handleKeyDown}
-            onBlur={() => { if (!presetClicked.current) commitValue(); presetClicked.current = false; }}
+            onBlur={event => { if (!(event.relatedTarget as HTMLElement | null)?.closest('.status-zoom-dropdown')) commitValue(); }}
             maxLength={3}
           />
         ) : (
@@ -90,7 +88,7 @@ function ZoomControl() {
               <button
                 key={val}
                 className={`status-zoom-preset${val === gridZoom ? ' active' : ''}`}
-                onMouseDown={() => handlePresetClick(val)}
+                onMouseDown={event => event.preventDefault()} onClick={() => handlePresetClick(val)}
               >
                 {val}%
               </button>

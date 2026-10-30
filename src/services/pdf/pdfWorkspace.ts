@@ -12,15 +12,37 @@ export function pdfQuantities(workspace?: PdfWorkspace) {
   })));
 }
 
-/** A missing PDF source never turns a saved estimate quantity into zero. */
+type PdfEntry = { source: PdfSource; measurement: SavedPdfMeasurement };
+export interface PdfQuantityResolver {
+  measurements(link: Extract<QuantityLink, { source: 'pdf' }>): readonly PdfEntry[];
+  resolve(link: Extract<QuantityLink, { source: 'pdf' }>): number | null;
+}
+/** Batch-local index. Create a fresh resolver after mutating its input workspace. */
+export function createPdfQuantityResolver(workspace?: PdfWorkspace): PdfQuantityResolver {
+  const byKind = new Map<string, PdfEntry[]>(), byId = new Map<string, PdfEntry[]>(), totals = new Map<string, number>();
+  let indexed = false;
+  const index = () => {
+    if (indexed) return; indexed = true;
+    for (const source of workspace?.sources ?? []) for (const measurement of source.measurements) {
+      const entry = { source, measurement }, key = `${measurement.type}:${measurement.id}`;
+      const group = byKind.get(measurement.type) ?? []; group.push(entry); byKind.set(measurement.type, group);
+      const matches = byId.get(key) ?? []; matches.push(entry); byId.set(key, matches);
+      totals.set(measurement.type, (totals.get(measurement.type) ?? 0) + measurement.value);
+    }
+  };
+  const measurements = (link: Extract<QuantityLink, { source: 'pdf' }>): readonly PdfEntry[] => {
+    index(); const kind = link.kind.replace('sum-', '');
+    return (link.kind.startsWith('sum-') ? byKind.get(kind) : byId.get(`${kind}:${link.measurementId}`)) ?? [];
+  };
+  return { measurements, resolve: link => {
+    index();
+    if (link.kind.startsWith('sum-')) return totals.get(link.kind.replace('sum-', '')) ?? null;
+    return measurements(link)[0]?.measurement.value ?? null;
+  } };
+}
+/** Standalone calls always see changes, including mutable SDK inputs. */
 export function resolvePdfQuantity(link: Extract<QuantityLink, { source: 'pdf' }>, workspace?: PdfWorkspace): number | null {
-  const measurements = workspace?.sources.flatMap(source => source.measurements) ?? [];
-  const kind = link.kind === 'sum-length' ? 'length' : link.kind === 'sum-area' ? 'area' : link.kind;
-  if (link.kind === 'sum-length' || link.kind === 'sum-area') {
-    const matching = measurements.filter(measurement => measurement.type === kind);
-    return matching.length ? matching.reduce((sum, measurement) => sum + measurement.value, 0) : null;
-  }
-  return measurements.find(measurement => measurement.id === link.measurementId && measurement.type === kind)?.value ?? null;
+  return createPdfQuantityResolver(workspace).resolve(link);
 }
 export function measurePoints(points: PdfPoint[], type: 'length' | 'area', mmPerPoint: number): number {
   if (!Number.isFinite(mmPerPoint) || mmPerPoint <= 0) throw new Error(uiText("pdf.error.calibrate", "Calibrate the scale first."));

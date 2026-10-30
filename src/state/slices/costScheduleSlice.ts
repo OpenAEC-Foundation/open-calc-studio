@@ -38,6 +38,8 @@ export const createCostScheduleSlice: StateCreator<CostScheduleSlice> = (set, ge
     }
   };
 
+  const edit = (patch: Partial<CostScheduleSlice> | ((state: CostScheduleSlice) => Partial<CostScheduleSlice>)) => { set(patch); markModified(); };
+
   return {
   schedule: createDefaultSchedule(),
   setSchedule: (partial) =>
@@ -71,14 +73,16 @@ export const createCostScheduleSlice: StateCreator<CostScheduleSlice> = (set, ge
     set((state) => ({ schedule: { ...state.schedule, reportShowChanges: show } }));
     markModified();
   },
-  updateProjectProperty: (id, field, value) =>
+  updateProjectProperty: (id, field, value) => {
     set((state) => {
       const props = (state.schedule.projectProperties ?? createDefaultProjectProperties()).map((p) =>
         p.id === id ? { ...p, [field]: value } : p,
       );
       return { schedule: { ...state.schedule, projectProperties: props } };
-    }),
-  addProjectProperty: () =>
+    });
+    markModified();
+  },
+  addProjectProperty: () => {
     set((state) => {
       const props = [...(state.schedule.projectProperties ?? createDefaultProjectProperties())];
       props.push({
@@ -89,16 +93,20 @@ export const createCostScheduleSlice: StateCreator<CostScheduleSlice> = (set, ge
         isDefault: false,
       });
       return { schedule: { ...state.schedule, projectProperties: props } };
-    }),
-  removeProjectProperty: (id) =>
+    });
+    markModified();
+  },
+  removeProjectProperty: (id) => {
     set((state) => {
       const props = (state.schedule.projectProperties ?? createDefaultProjectProperties()).filter(
         (p) => p.id !== id,
       );
       return { schedule: { ...state.schedule, projectProperties: props } };
-    }),
+    });
+    markModified();
+  },
   toggleBranchesEnabled: () =>
-    set((state) => ({
+    edit((state) => ({
       schedule: {
         ...state.schedule,
         branchesEnabled: !state.schedule.branchesEnabled,
@@ -111,7 +119,7 @@ export const createCostScheduleSlice: StateCreator<CostScheduleSlice> = (set, ge
   addBranch: (name, parentId) => {
     const id = crypto.randomUUID();
     const branch: Branch = { id, name, parentId };
-    set((state) => ({
+    edit((state) => ({
       schedule: {
         ...state.schedule,
         branches: [...(state.schedule.branches ?? []), branch],
@@ -120,7 +128,7 @@ export const createCostScheduleSlice: StateCreator<CostScheduleSlice> = (set, ge
     return id;
   },
   removeBranch: (id) =>
-    set((state) => {
+    edit((state) => {
       if (id === 'main') return state; // cannot remove main
       // Remove branch and all descendants
       const toRemove = new Set<string>([id]);
@@ -144,7 +152,7 @@ export const createCostScheduleSlice: StateCreator<CostScheduleSlice> = (set, ge
       };
     }),
   renameBranch: (id, name) =>
-    set((state) => ({
+    edit((state) => ({
       schedule: {
         ...state.schedule,
         branches: (state.schedule.branches ?? []).map(b => b.id === id ? { ...b, name } : b),

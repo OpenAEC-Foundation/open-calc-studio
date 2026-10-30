@@ -1,6 +1,6 @@
 # Open Calc Studio user guide
 
-For Open Calc Studio development version 2026.44.1. [Nederlandse handleiding](gebruikershandleiding.md) · [Project overview](../README.md)
+For Open Calc Studio development version 2026.44.4. [Nederlandse handleiding](gebruikershandleiding.md) · [Project overview](../README.md)
 
 ## Contents
 
@@ -12,6 +12,7 @@ For Open Calc Studio development version 2026.44.1. [Nederlandse handleiding](ge
 - [Import and export](#import-and-export)
 - [Reports and spreadsheets](#reports-and-spreadsheets)
 - [Keyboard shortcuts](#keyboard-shortcuts)
+- [Review center](#review-center)
 - [Troubleshooting](#troubleshooting)
 
 ## Install and start
@@ -128,6 +129,25 @@ in the main window. If the main window disconnects, the second window labels
 its data as the last received copy. A browser may require allowing the popup;
 this feature is available in standalone web and desktop, not embedded frames.
 
+## Review center
+
+Open **Review center** in the left sidebar; its badge counts current issues.
+On a phone, choose **Review** in the bottom navigation. Filter by **Prices**,
+**Sources** or **Units**, select an issue and choose **Show row**. The editor
+reveals the exact row, including collapsed parents; on mobile its editor opens.
+**Back to review center** retains the category and selected issue. Switching
+documents resets this navigation context.
+
+Checks cover the active estimate variant, including collapsed rows. Missing
+price inputs are checked on cost leaves with a nonzero quantity. Parent
+rollups, text, pro-memoria and zero-quantity rows are excluded; an explicit
+zero price counts as entered. Source checks report missing/non-numeric
+references, different linked values and unit mismatches. Saved IFC quantities
+remain valid without loaded geometry. External Excel references are labelled
+unchecked information, not broken links. These checks verify neither market
+prices nor estimate completeness. Values, dirty state and undo history are
+unchanged by inspecting an issue; fixed issues disappear automatically.
+
 ## Inspect a quantity's origin
 
 Click the link icon next to a quantity, or use **Quantity origin** in the
@@ -156,3 +176,21 @@ all of its rows together; undo subsequent edits first if the button is disabled.
 Changed input data or a different active document invalidate the proposal.
 Proposals are session-local and must be prepared again after restarting.
 Linked quantities must be changed at their source or unlinked before overriding.
+
+## Input, recovery and IFC selection (2026.44.4)
+
+Mobile numbers follow the interface language: English `1.234` is a fraction;
+Dutch `1.234` is 1234, while `1,234` is a fraction. Zero is an explicit price;
+a blank field means no price. Amounts use the project currency. Use **Undo**
+and **Redo** in the mobile header to recover row edits. Linked quantities are
+read-only until **Unlink quantity**; **Done** commits the change, closing
+cancels it. Undo restores the original value and link together.
+
+Wizard errors retain the last valid estimate values. **Go to invalid field**
+reveals a field hidden by the chapter filter; **Discard invalid drafts**
+restores valid input. The full editor remains reachable.
+
+**3D & quantities** displays IFC elements in pages of 100 with result and
+model counts. **Select all results** includes every matching element across
+all pages. Check the selection count before applying quantities. **Clear
+selection** resets it. The MCP equivalent is `ifc.selectFiltered {search}`.

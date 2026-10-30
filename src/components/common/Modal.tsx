@@ -1,7 +1,9 @@
 import { getPortalTarget } from '@/lib/hostRoot';
-import { useState, useEffect, useRef, useCallback, type ReactNode } from "react";
+import { useState, useEffect, useRef, useCallback, useId, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import "./Modal.css";
+import { useTranslation } from "react-i18next";
+import { useDialogFocus } from "@/hooks/useDialogFocus";
 
 interface ModalProps {
   open: boolean;
@@ -12,6 +14,8 @@ interface ModalProps {
 }
 
 export default function Modal({ open, onClose, title, className, children }: ModalProps) {
+  const titleId = useId();
+  const { t } = useTranslation();
   const overlayRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
@@ -19,6 +23,7 @@ export default function Modal({ open, onClose, title, className, children }: Mod
   const hasBeenDragged = useRef(false);
   const [visible, setVisible] = useState(false);
   const [animating, setAnimating] = useState(false);
+  useDialogFocus(dialogRef, open && visible, onClose);
 
   useEffect(() => {
     if (open) {
@@ -82,14 +87,11 @@ export default function Modal({ open, onClose, title, className, children }: Mod
     const handleMouseUp = () => {
       isDragging.current = false;
     };
-    const handleKeyDown = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
-    document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
-      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [visible, onClose]);
 
@@ -103,10 +105,11 @@ export default function Modal({ open, onClose, title, className, children }: Mod
       <div
         className={`modal-dialog${className ? ` ${className}` : ''}${animating ? ' modal-dialog-open' : ''}`}
         ref={dialogRef}
+        role="dialog" aria-modal="true" aria-hidden={!open || undefined} inert={!open} aria-labelledby={titleId} tabIndex={-1}
       >
         <div className="modal-header" onMouseDown={handleHeaderMouseDown}>
-          <h2>{title}</h2>
-          <button className="modal-close-btn" onClick={onClose}>&times;</button>
+          <h2 id={titleId}>{title}</h2>
+          <button className="modal-close-btn" aria-label={t("close")} onClick={onClose}>&times;</button>
         </div>
         <div className="modal-body">
           {children}

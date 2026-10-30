@@ -1,5 +1,5 @@
 import { useAppStore } from '@/state/appStore';
-import { createPdfSource, emptyPdfWorkspace, importOpenPdfMeasurements, measurePoints, replaceOpenPdfMeasurements, resolvePdfQuantity } from '@/services/pdf/pdfWorkspace';
+import { createPdfQuantityResolver, createPdfSource, emptyPdfWorkspace, importOpenPdfMeasurements, measurePoints, replaceOpenPdfMeasurements } from '@/services/pdf/pdfWorkspace';
 import type { PdfPoint, SavedPdfMeasurement } from '@/types/pdfWorkspace';
 import { recalculateItems } from '@/services/calculation/calculator';
 import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
@@ -10,8 +10,9 @@ export async function pdfCommand(action:string,p:Record<string,unknown>) {
   if(!docId)throw Error('Open eerst een begroting.');
   const w=structuredClone(s.schedule.pdfWorkspace??emptyPdfWorkspace());
   const commit=()=>{const current=useAppStore.getState();if(current.activeDocumentId!==docId||current.schedule.pdfWorkspace!==s.schedule.pdfWorkspace)throw Error('Begroting of PDF-workspace gewijzigd; probeer opnieuw.');current.setSchedule({pdfWorkspace:w});
+    const pdf = createPdfQuantityResolver(w);
     const items=current.items.map(item=>{const link=item.quantityLink;if(link?.source!=='pdf')return item;
-      const value=resolvePdfQuantity(link,w);
+      const value=pdf.resolve(link);
       return value===null?item:{...item,quantity:value};});
     useAppStore.setState({items:recalculateItems(items,current.schedule.tarieven)});
     current.updateDocument(docId,{isModified:true});};

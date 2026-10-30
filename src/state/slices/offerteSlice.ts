@@ -136,18 +136,26 @@ export interface OfferteSlice {
   setProjectInfo: (updates: Partial<ProjectInfo>) => void;
 }
 
-export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
+export const createOfferteSlice: StateCreator<OfferteSlice> = (set, get) => {
+  // Hydration and navigation keep their original setter; user edits must trigger Save/close protection.
+  const edit = (patch: Partial<OfferteSlice> | ((state: OfferteSlice) => Partial<OfferteSlice>)) => {
+    set(patch);
+    const state = get() as unknown as { activeDocumentId?: string; updateDocument?: (id: string, patch: { isModified: boolean }) => void };
+    if (state.activeDocumentId) state.updateDocument?.(state.activeDocumentId, { isModified: true });
+  };
+
+  return ({
   offerte: createDefaultOfferte(),
   activeSectionId: null,
 
   // Document-level
-  setOfferteType: (type) => set((s) => ({ offerte: { ...s.offerte, type } })),
-  setOfferteField: (field) => set((s) => ({ offerte: { ...s.offerte, ...field } })),
-  setGeadresseerde: (g) => set((s) => ({
+  setOfferteType: (type) => edit((s) => ({ offerte: { ...s.offerte, type } })),
+  setOfferteField: (field) => edit((s) => ({ offerte: { ...s.offerte, ...field } })),
+  setGeadresseerde: (g) => edit((s) => ({
     offerte: { ...s.offerte, geadresseerde: { ...s.offerte.geadresseerde, ...g } },
   })),
   setOfferte: (doc) => set({ offerte: doc }),
-  resetOfferte: () => set({ offerte: createDefaultOfferte() }),
+  resetOfferte: () => edit({ offerte: createDefaultOfferte() }),
 
   // Secties
   addSection: (type, titel) => {
@@ -161,7 +169,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
       vrij: uiText('quotationDefaults.free', "Custom section"),
       meerwerk: uiText('quotationDefaults.extra', "Additional work"),
     };
-    set((s) => ({
+    edit((s) => ({
       offerte: {
         ...s.offerte,
         secties: [...s.offerte.secties, {
@@ -177,18 +185,18 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
     return id;
   },
 
-  removeSection: (id) => set((s) => ({
+  removeSection: (id) => edit((s) => ({
     offerte: { ...s.offerte, secties: s.offerte.secties.filter((sec) => sec.id !== id) },
   })),
 
-  updateSection: (id, updates) => set((s) => ({
+  updateSection: (id, updates) => edit((s) => ({
     offerte: {
       ...s.offerte,
       secties: s.offerte.secties.map((sec) => sec.id === id ? { ...sec, ...updates } : sec),
     },
   })),
 
-  moveSectionUp: (id) => set((s) => {
+  moveSectionUp: (id) => edit((s) => {
     const idx = s.offerte.secties.findIndex((sec) => sec.id === id);
     if (idx <= 0) return s;
     const secties = [...s.offerte.secties];
@@ -196,7 +204,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
     return { offerte: { ...s.offerte, secties } };
   }),
 
-  moveSectionDown: (id) => set((s) => {
+  moveSectionDown: (id) => edit((s) => {
     const idx = s.offerte.secties.findIndex((sec) => sec.id === id);
     if (idx < 0 || idx >= s.offerte.secties.length - 1) return s;
     const secties = [...s.offerte.secties];
@@ -207,7 +215,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
   setActiveSectionId: (id) => set({ activeSectionId: id }),
 
   // Section items
-  addSectionItem: (sectionId) => set((s) => ({
+  addSectionItem: (sectionId) => edit((s) => ({
     offerte: {
       ...s.offerte,
       secties: s.offerte.secties.map((sec) =>
@@ -218,7 +226,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
     },
   })),
 
-  removeSectionItem: (sectionId, itemId) => set((s) => ({
+  removeSectionItem: (sectionId, itemId) => edit((s) => ({
     offerte: {
       ...s.offerte,
       secties: s.offerte.secties.map((sec) =>
@@ -229,7 +237,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
     },
   })),
 
-  updateSectionItem: (sectionId, itemId, updates) => set((s) => ({
+  updateSectionItem: (sectionId, itemId, updates) => edit((s) => ({
     offerte: {
       ...s.offerte,
       secties: s.offerte.secties.map((sec) =>
@@ -241,7 +249,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
   })),
 
   // Properties
-  addProperty: (sectionId, itemId) => set((s) => ({
+  addProperty: (sectionId, itemId) => edit((s) => ({
     offerte: {
       ...s.offerte,
       secties: s.offerte.secties.map((sec) =>
@@ -255,7 +263,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
     },
   })),
 
-  removeProperty: (sectionId, itemId, propertyId) => set((s) => ({
+  removeProperty: (sectionId, itemId, propertyId) => edit((s) => ({
     offerte: {
       ...s.offerte,
       secties: s.offerte.secties.map((sec) =>
@@ -269,7 +277,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
     },
   })),
 
-  updateProperty: (sectionId, itemId, propertyId, updates) => set((s) => ({
+  updateProperty: (sectionId, itemId, propertyId, updates) => edit((s) => ({
     offerte: {
       ...s.offerte,
       secties: s.offerte.secties.map((sec) =>
@@ -287,7 +295,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
   })),
 
   // Layers
-  addLayer: (sectionId, itemId) => set((s) => ({
+  addLayer: (sectionId, itemId) => edit((s) => ({
     offerte: {
       ...s.offerte,
       secties: s.offerte.secties.map((sec) =>
@@ -304,7 +312,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
     },
   })),
 
-  removeLayer: (sectionId, itemId, layerId) => set((s) => ({
+  removeLayer: (sectionId, itemId, layerId) => edit((s) => ({
     offerte: {
       ...s.offerte,
       secties: s.offerte.secties.map((sec) =>
@@ -318,7 +326,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
     },
   })),
 
-  updateLayer: (sectionId, itemId, layerId, updates) => set((s) => ({
+  updateLayer: (sectionId, itemId, layerId, updates) => edit((s) => ({
     offerte: {
       ...s.offerte,
       secties: s.offerte.secties.map((sec) =>
@@ -335,7 +343,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
     },
   })),
 
-  moveLayerUp: (sectionId, itemId, layerId) => set((s) => ({
+  moveLayerUp: (sectionId, itemId, layerId) => edit((s) => ({
     offerte: {
       ...s.offerte,
       secties: s.offerte.secties.map((sec) => {
@@ -355,7 +363,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
     },
   })),
 
-  moveLayerDown: (sectionId, itemId, layerId) => set((s) => ({
+  moveLayerDown: (sectionId, itemId, layerId) => edit((s) => ({
     offerte: {
       ...s.offerte,
       secties: s.offerte.secties.map((sec) => {
@@ -376,7 +384,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
   })),
 
   // Images
-  addImage: (sectionId, itemId, image) => set((s) => ({
+  addImage: (sectionId, itemId, image) => edit((s) => ({
     offerte: {
       ...s.offerte,
       secties: s.offerte.secties.map((sec) =>
@@ -390,7 +398,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
     },
   })),
 
-  removeImage: (sectionId, itemId, imageId) => set((s) => ({
+  removeImage: (sectionId, itemId, imageId) => edit((s) => ({
     offerte: {
       ...s.offerte,
       secties: s.offerte.secties.map((sec) =>
@@ -404,7 +412,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
     },
   })),
 
-  updateImage: (sectionId, itemId, imageId, updates) => set((s) => ({
+  updateImage: (sectionId, itemId, imageId, updates) => edit((s) => ({
     offerte: {
       ...s.offerte,
       secties: s.offerte.secties.map((sec) =>
@@ -422,7 +430,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
   })),
 
   // Sub-items
-  addSubItem: (sectionId, itemId, text) => set((s) => ({
+  addSubItem: (sectionId, itemId, text) => edit((s) => ({
     offerte: {
       ...s.offerte,
       secties: s.offerte.secties.map((sec) =>
@@ -436,7 +444,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
     },
   })),
 
-  removeSubItem: (sectionId, itemId, index) => set((s) => ({
+  removeSubItem: (sectionId, itemId, index) => edit((s) => ({
     offerte: {
       ...s.offerte,
       secties: s.offerte.secties.map((sec) =>
@@ -450,7 +458,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
     },
   })),
 
-  updateSubItem: (sectionId, itemId, index, text) => set((s) => ({
+  updateSubItem: (sectionId, itemId, index, text) => edit((s) => ({
     offerte: {
       ...s.offerte,
       secties: s.offerte.secties.map((sec) =>
@@ -465,7 +473,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
   })),
 
   // Linking (section item to cost item)
-  linkSectionItemToCostItem: (sectionId, itemId, costItemId) => set((s) => ({
+  linkSectionItemToCostItem: (sectionId, itemId, costItemId) => edit((s) => ({
     offerte: {
       ...s.offerte,
       secties: s.offerte.secties.map((sec) =>
@@ -479,7 +487,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
     },
   })),
 
-  unlinkSectionItemFromCostItem: (sectionId, itemId) => set((s) => ({
+  unlinkSectionItemFromCostItem: (sectionId, itemId) => edit((s) => ({
     offerte: {
       ...s.offerte,
       secties: s.offerte.secties.map((sec) =>
@@ -494,21 +502,21 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
   })),
 
   // Betalingstermijnen
-  addBetalingsTermijn: () => set((s) => ({
+  addBetalingsTermijn: () => edit((s) => ({
     offerte: {
       ...s.offerte,
       betalingstermijnen: [...s.offerte.betalingstermijnen, { id: genId(), beschrijving: '', percentage: 0, toelichting: '' }],
     },
   })),
 
-  removeBetalingsTermijn: (id) => set((s) => ({
+  removeBetalingsTermijn: (id) => edit((s) => ({
     offerte: {
       ...s.offerte,
       betalingstermijnen: s.offerte.betalingstermijnen.filter((t) => t.id !== id),
     },
   })),
 
-  updateBetalingsTermijn: (id, updates) => set((s) => ({
+  updateBetalingsTermijn: (id, updates) => edit((s) => ({
     offerte: {
       ...s.offerte,
       betalingstermijnen: s.offerte.betalingstermijnen.map((t) => t.id === id ? { ...t, ...updates } : t),
@@ -516,21 +524,21 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
   })),
 
   // Garanties
-  addGarantie: () => set((s) => ({
+  addGarantie: () => edit((s) => ({
     offerte: {
       ...s.offerte,
       garanties: [...s.offerte.garanties, { id: genId(), onderdeel: '', termijn: '', toelichting: '', linkedCostItemIds: [] }],
     },
   })),
 
-  removeGarantie: (id) => set((s) => ({
+  removeGarantie: (id) => edit((s) => ({
     offerte: {
       ...s.offerte,
       garanties: s.offerte.garanties.filter((g) => g.id !== id),
     },
   })),
 
-  updateGarantie: (id, updates) => set((s) => ({
+  updateGarantie: (id, updates) => edit((s) => ({
     offerte: {
       ...s.offerte,
       garanties: s.offerte.garanties.map((g) => g.id === id ? { ...g, ...updates } : g),
@@ -538,8 +546,8 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
   })),
 
   // Ondertekening
-  setOndertekening: (o) => set((s) => ({ offerte: { ...s.offerte, ondertekening: o } })),
-  updateOndertekenaar: (index, updates) => set((s) => {
+  setOndertekening: (o) => edit((s) => ({ offerte: { ...s.offerte, ondertekening: o } })),
+  updateOndertekenaar: (index, updates) => edit((s) => {
     const ond = [...s.offerte.ondertekening];
     ond[index] = { ...ond[index], ...updates };
     return { offerte: { ...s.offerte, ondertekening: ond } };
@@ -553,27 +561,27 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
     ondertekeningNaam: '', ondertekeningFunctie: '',
   },
   offerteOverrides: {},
-  setOfferteSettings: (partial) => set((s) => ({ offerteSettings: { ...s.offerteSettings, ...partial } })),
-  toggleOffertePost: (itemId) => set((s) => {
+  setOfferteSettings: (partial) => edit((s) => ({ offerteSettings: { ...s.offerteSettings, ...partial } })),
+  toggleOffertePost: (itemId) => edit((s) => {
     const current = s.offerteOverrides[itemId];
     const selected = current ? !current.selected : false;
     return { offerteOverrides: { ...s.offerteOverrides, [itemId]: { ...(current ?? { selected: true, kortingPct: 0, opslagPct: 0, offerteEP: null, verrekenprijs: null }), selected } } };
   }),
-  selectAllOffertePosts: () => set((s) => {
+  selectAllOffertePosts: () => edit((s) => {
     const updated = { ...s.offerteOverrides };
     for (const key of Object.keys(updated)) updated[key] = { ...updated[key], selected: true };
     return { offerteOverrides: updated };
   }),
-  deselectAllOffertePosts: () => set((s) => {
+  deselectAllOffertePosts: () => edit((s) => {
     const updated = { ...s.offerteOverrides };
     for (const key of Object.keys(updated)) updated[key] = { ...updated[key], selected: false };
     return { offerteOverrides: updated };
   }),
-  setPostOverride: (itemId, override) => set((s) => {
+  setPostOverride: (itemId, override) => edit((s) => {
     const current = s.offerteOverrides[itemId] ?? { selected: true, kortingPct: 0, opslagPct: 0, offerteEP: null, verrekenprijs: null };
     return { offerteOverrides: { ...s.offerteOverrides, [itemId]: { ...current, ...override } } };
   }),
-  initOfferteFromItems: (itemIds) => set((s) => {
+  initOfferteFromItems: (itemIds) => edit((s) => {
     const overrides: Record<string, any> = {};
     for (const id of itemIds) {
       overrides[id] = s.offerteOverrides[id] ?? { selected: true, kortingPct: 0, opslagPct: 0, offerteEP: null, verrekenprijs: null };
@@ -588,3 +596,4 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set) => ({
   projectInfo: createDefaultProjectInfo(),
   setProjectInfo: (updates) => set((s) => ({ projectInfo: { ...s.projectInfo, ...updates } })),
 });
+};

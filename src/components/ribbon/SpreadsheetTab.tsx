@@ -10,6 +10,9 @@ export default function SpreadsheetTab() {
     subSheets, addSubSheet, removeSubSheet, activeSubSheetId, setActiveSubSheet, setActiveContentTab,
   } = useAppStore();
 
+  const activeContentTab = useAppStore(s => s.activeContentTab);
+  const canFormat = activeContentTab === 'spreadsheet' && subSheets.some(sheet => sheet.id === activeSubSheetId);
+
   // Blad openen/aanmaken schakelt óók de content-weergave naar 'spreadsheet',
   // net als de onderbalk — anders raakt de navigatiestatus uit de pas en
   // lijkt er geen weg terug naar de begroting (Data-tab).
@@ -39,22 +42,22 @@ export default function SpreadsheetTab() {
 
         <RibbonGroup label={t('spreadsheet.format')}>
           <RibbonButtonStack>
-            <RibbonButton icon="𝐁" label={t('spreadsheet.bold')} size="small" onClick={() => {
+            <RibbonButton icon="𝐁" label={t('spreadsheet.bold')} size="small" disabled={!canFormat} onClick={() => {
               // Dispatch event to SubSheetEditor to toggle bold on selection
               document.dispatchEvent(new CustomEvent('spreadsheet-action', { detail: 'bold' }));
             }} />
-            <RibbonButton icon="𝐼" label={t('spreadsheet.italic')} size="small" onClick={() => {
+            <RibbonButton icon="𝐼" label={t('spreadsheet.italic')} size="small" disabled={!canFormat} onClick={() => {
               document.dispatchEvent(new CustomEvent('spreadsheet-action', { detail: 'italic' }));
             }} />
           </RibbonButtonStack>
           <RibbonButtonStack>
-            <RibbonButton icon="⬅" label={t('spreadsheet.alignLeft')} size="small" onClick={() => {
+            <RibbonButton icon="⬅" label={t('spreadsheet.alignLeft')} size="small" disabled={!canFormat} onClick={() => {
               document.dispatchEvent(new CustomEvent('spreadsheet-action', { detail: 'align-left' }));
             }} />
-            <RibbonButton icon="⬌" label={t('spreadsheet.alignCenter')} size="small" onClick={() => {
+            <RibbonButton icon="⬌" label={t('spreadsheet.alignCenter')} size="small" disabled={!canFormat} onClick={() => {
               document.dispatchEvent(new CustomEvent('spreadsheet-action', { detail: 'align-center' }));
             }} />
-            <RibbonButton icon="➡" label={t('spreadsheet.alignRight')} size="small" onClick={() => {
+            <RibbonButton icon="➡" label={t('spreadsheet.alignRight')} size="small" disabled={!canFormat} onClick={() => {
               document.dispatchEvent(new CustomEvent('spreadsheet-action', { detail: 'align-right' }));
             }} />
           </RibbonButtonStack>
@@ -63,7 +66,7 @@ export default function SpreadsheetTab() {
         <RibbonGroup label={t('spreadsheet.number')}>
           <select
             style={btnStyle}
-            defaultValue="auto"
+            defaultValue="auto" disabled={!canFormat}
             onChange={(e) => {
               document.dispatchEvent(new CustomEvent('spreadsheet-action', { detail: `format-${e.target.value}` }));
             }}
@@ -75,10 +78,10 @@ export default function SpreadsheetTab() {
             <option value="text">{t('spreadsheet.formatText')}</option>
           </select>
           <RibbonButtonStack>
-            <RibbonButton icon=".0" label={t('spreadsheet.decimalUp')} size="small" onClick={() => {
+            <RibbonButton icon=".0" label={t('spreadsheet.decimalUp')} size="small" disabled={!canFormat} onClick={() => {
               document.dispatchEvent(new CustomEvent('spreadsheet-action', { detail: 'decimals-up' }));
             }} />
-            <RibbonButton icon=".←" label={t('spreadsheet.decimalDown')} size="small" onClick={() => {
+            <RibbonButton icon=".←" label={t('spreadsheet.decimalDown')} size="small" disabled={!canFormat} onClick={() => {
               document.dispatchEvent(new CustomEvent('spreadsheet-action', { detail: 'decimals-down' }));
             }} />
           </RibbonButtonStack>
@@ -87,7 +90,7 @@ export default function SpreadsheetTab() {
         <RibbonGroup label={t('spreadsheet.textSize')}>
           <select
             style={btnStyle}
-            defaultValue="11"
+            defaultValue="11" disabled={!canFormat}
             onChange={(e) => {
               document.dispatchEvent(new CustomEvent('spreadsheet-action', { detail: `fontsize-${e.target.value}` }));
             }}

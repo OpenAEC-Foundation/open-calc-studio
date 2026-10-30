@@ -73,7 +73,10 @@
     "invalidCell": "Gebruik een celadres zoals A1 of B12.",
     "noResults": "Geen resultaten gevonden.",
     "showMore": "Toon meer (nog {{count}})",
-    "noItems": "Nog geen begrotingsregels. Voeg een hoofdstuk, post of rekenregel toe."
+    "noItems": "Nog geen begrotingsregels. Voeg een hoofdstuk, post of rekenregel toe.",
+    "linkedQuantity": "Deze hoeveelheid volgt de bron. Ontkoppel de bron om zelf een waarde in te voeren.",
+    "unlinkQuantity": "Hoeveelheid ontkoppelen",
+    "unlinkPending": "De koppeling wordt verwijderd zodra je op Gereed drukt."
   },
   "chapter": "Hoofdstuk",
   "budgetPost": "Begr.post",
@@ -235,7 +238,12 @@
     "thisBudget": "Deze begroting",
     "objectCount": "{{count}} objecten",
     "linkedVia": "Gekoppeld via {{guid}} — komt ook voor in: {{files}}",
-    "linkLabel": "link"
+    "linkLabel": "link",
+    "selectFiltered": "Alle resultaten selecteren ({{count}})",
+    "clearSelection": "Selectie wissen",
+    "shown": "{{from}}–{{to}} van {{count}} resultaten · {{total}} modelelementen",
+    "previousPage": "Vorige pagina",
+    "nextPage": "Volgende pagina"
   },
   "ifcxFolder": {
     "rootFolder": "/ (hoofdmap)",
@@ -545,7 +553,10 @@
       "costs": "Kosten",
       "surcharges": "Opslagen en btw",
       "review": "Controle"
-    }
+    },
+    "invalidSummary": "Corrigeer {{count}} ongeldige invoerveld(en), of verwijder hun conceptinvoer. De laatste geldige waarden blijven bewaard.",
+    "findInvalid": "Ga naar ongeldig veld",
+    "discardInvalid": "Ongeldige invoer verwijderen"
   },
   "host": {
     "files": "Bestanden op de site",
@@ -1063,6 +1074,69 @@
       "nameRequired": "Voer een naam voor de werkplek in.",
       "customOnly": "Alleen je eigen opgeslagen werkplekken kunnen worden overschreven.",
       "limit": "Je kunt maximaal 20 werkplekken opslaan."
+    },
+    "report": {
+      "quotationDesktopRequired": "Offerte-PDF vereist de desktopapplicatie.",
+      "documentChanged": "Het actieve document is gewijzigd. Probeer opnieuw in de bedoelde begroting."
     }
+  },
+  "review": {
+    "title": "Controlecentrum",
+    "badge": "{{count}} controlemeldingen",
+    "summary": "{{count}} meldingen in {{affected}} van {{rows}} begrotingsregels",
+    "scope": "Controleert de actieve variant, inclusief ingeklapte regels.",
+    "filterLabel": "Type controle",
+    "filters": {
+      "all": "Alles",
+      "price": "Prijzen",
+      "source": "Bronnen",
+      "unit": "Eenheden"
+    },
+    "issueList": "Controlemeldingen",
+    "details": "Geselecteerde melding",
+    "open": "Openstaand",
+    "row": "Begrotingsregel",
+    "quantity": "Huidige hoeveelheid",
+    "sourceValue": "Bronwaarde",
+    "showRow": "Toon regel {{number}}",
+    "back": "Terug naar controlecentrum",
+    "selected": "Geselecteerd vanuit controle: regel {{number}}",
+    "readOnly": "Deze controles wijzigen geen hoeveelheden of prijzen. Marktprijzen en externe Excel-bestanden worden niet geverifieerd.",
+    "empty": "Geen meldingen gevonden met deze controles.",
+    "emptyFilter": "Geen meldingen in deze categorie.",
+    "showMore": "Meer tonen (nog {{count}})",
+    "unavailable": "Deze regel heeft geen controlemelding meer in de actieve variant.",
+    "unreachable": "De regel heeft een ongeldige bovenliggende structuur en kan niet in het raster worden getoond.",
+    "severity": {
+      "error": "Fout",
+      "warning": "Controle",
+      "info": "Info"
+    },
+    "messages": {
+      "missing-price": {
+        "title": "Prijs niet ingevuld",
+        "detail": "Deze kostenregel heeft een hoeveelheid ongelijk aan nul, maar geen prijsinvoer. De kosten kunnen daardoor onvolledig zijn. Een expliciete nulprijs geldt als ingevuld; er wordt geen marktprijs aangenomen."
+      },
+      "missing-source": {
+        "title": "Hoeveelheidsbron niet beschikbaar",
+        "detail": "De gekoppelde bron ontbreekt of levert geen geldig getal. Controleer het bestand, de meting of de celverwijzing. De laatst bekende hoeveelheid blijft behouden."
+      },
+      "unchecked-excel": {
+        "title": "Externe Excel-verwijzing niet gecontroleerd",
+        "detail": "Deze regel verwijst naar een extern Excel-bestand. De beschikbaarheid en actuele waarde worden hier niet gecontroleerd. Dit is een informatiemelding, geen bewijs van een verbroken koppeling."
+      },
+      "different-quantity": {
+        "title": "Bronhoeveelheid wijkt af",
+        "detail": "De bron levert momenteel een andere hoeveelheid dan de begrotingsregel. Bekijk de bron en de bewaarde waarde voordat je iets wijzigt."
+      },
+      "unit-mismatch": {
+        "title": "Bron en regel gebruiken andere eenheden",
+        "detail": "De bron en begrotingsregel gebruiken verschillende eenheden. Controleer de gekozen hoeveelheid of een expliciete omrekening. Er vindt geen automatische eenheidsconversie plaats."
+      }
+    },
+    "mobile": "Controle"
+  },
+  "shell": {
+    "review": "Controlecentrum"
   }
 }

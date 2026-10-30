@@ -49,6 +49,27 @@ export async function executeDesktopCommand(action: string, params: Record<strin
   const store = useAppStore.getState();
   if (action === 'getState') return desktopState();
   if (action === 'listActions') return { ...catalogue, workspaceActions };
+  if (action.startsWith('review.')) {
+    if (!['review.list', 'review.open', 'review.openItem'].includes(action)) throw Error('Unknown review action');
+    const allowed = action === 'review.openItem' ? ['itemId'] : ['category'];
+    if (Object.keys(params).some(key => !allowed.includes(key))) throw Error('Unknown review parameter');
+    if (params.category !== undefined && !['all', 'price', 'source', 'unit'].includes(params.category as string)) throw Error('Unknown review category');
+    const { reviewBudget } = await import('@/services/review/budgetReview');
+    const current = useAppStore.getState();
+    if (!current.activeDocumentId) throw Error('No active document');
+    if (action === 'review.openItem') {
+      if (typeof params.itemId !== 'string') throw Error('itemId is required');
+      current.openReviewItem(params.itemId);
+      return { opened: true, itemId: params.itemId, view: 'grid' };
+    }
+    if (action === 'review.open') {
+      if (params.category !== undefined) current.setReviewFilter(params.category as 'all' | 'price' | 'source' | 'unit');
+      current.setActiveSubSheet(null); current.setActiveContentTab('review');
+      return { opened: true, view: 'review' };
+    }
+    const report = reviewBudget(current);
+    return { ...report, issues: report.issues.filter(issue => !params.category || params.category === 'all' || issue.category === params.category) };
+  }
   if (action === 'workspace.layouts') {
     const { builtinWorkspaceLayouts } = await import('@/state/slices/workspaceSlice');
     return { current: store.activeWorkspaceLayoutId, builtins: builtinWorkspaceLayouts(), saved: store.settings.workspaceLayouts ?? [] };
@@ -115,7 +136,7 @@ export async function executeDesktopCommand(action: string, params: Record<strin
     const current = useAppStore.getState();
     // Document navigation restores that document's own history. Treating the
     // newly active rows as an edit would put another document into its undo stack.
-    const documentNavigation = ['addDocument', 'removeDocument', 'setActiveDocument'].includes(action);
+    const documentNavigation = ['addDocument', 'removeDocument', 'setActiveDocument', 'openReviewItem'].includes(action);
     if (!documentNavigation && current.items !== before.items && !['undo','redo'].includes(action) && current.undoStack === before.undoStack) current.pushHistory(before.items, `MCP: ${action}`);
     if (!documentNavigation && (current.items !== before.items || current.schedule !== before.schedule || current.offerte !== before.offerte || current.subSheets !== before.subSheets || current.snapshots !== before.snapshots)) {
       if (current.activeDocumentId) current.updateDocument(current.activeDocumentId,{isModified:true});

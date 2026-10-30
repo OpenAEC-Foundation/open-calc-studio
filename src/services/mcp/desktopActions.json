@@ -2381,6 +2381,11 @@
               },
               {
                 "enum": [
+                  "review"
+                ]
+              },
+              {
+                "enum": [
                   "promptBudget"
                 ]
               },
@@ -5672,6 +5677,11 @@
                         },
                         {
                           "enum": [
+                            "review"
+                          ]
+                        },
+                        {
+                          "enum": [
                             "promptBudget"
                           ]
                         },
@@ -5927,6 +5937,11 @@
                         {
                           "enum": [
                             "grid"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "review"
                           ]
                         },
                         {
@@ -32737,6 +32752,73 @@
       "parameters": [
         {
           "name": "id",
+          "optional": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "setReviewFilter": {
+      "group": "Review",
+      "signature": "(filter: ReviewFilter) => void",
+      "parameters": [
+        {
+          "name": "filter",
+          "optional": false,
+          "schema": {
+            "anyOf": [
+              {
+                "enum": [
+                  "unit"
+                ]
+              },
+              {
+                "enum": [
+                  "all"
+                ]
+              },
+              {
+                "enum": [
+                  "price"
+                ]
+              },
+              {
+                "enum": [
+                  "source"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "setReviewIssue": {
+      "group": "Review",
+      "signature": "(id: string | null) => void",
+      "parameters": [
+        {
+          "name": "id",
+          "optional": false,
+          "schema": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "openReviewItem": {
+      "group": "Review",
+      "signature": "(itemId: string) => void",
+      "parameters": [
+        {
+          "name": "itemId",
           "optional": false,
           "schema": {
             "type": "string"

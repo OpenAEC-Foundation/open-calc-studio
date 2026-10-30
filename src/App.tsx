@@ -1,3 +1,4 @@
+import { useOwnAssistant } from './hooks/useOwnAssistant';
 import { CalculationWizard } from './components/wizard/CalculationWizard';
 import { HostFileDialog } from './components/common/HostFileDialog';
 import { getSiteHost, observeSiteHost, hostRecentPath, type SiteHost } from './services/file/siteHost';
@@ -10,6 +11,7 @@ import TitleBar from "./components/layout/TitleBar";
 import { WorkspaceNavigation } from './components/layout/WorkspaceNavigation';
 import { WorkspaceHeader } from './components/layout/WorkspaceHeader';
 import { WorkspaceLayoutBar } from './components/layout/WorkspaceLayoutBar';
+import { ReviewCenter, ReviewReturnBar } from './components/review/ReviewCenter';
 import { QuantityOriginDialog } from './components/common/QuantityOriginCard';
 import Ribbon from "./components/ribbon/Ribbon";
 import StatusBar from "./components/layout/StatusBar";
@@ -81,6 +83,7 @@ const MOBILE_QUERY = '(max-width: 760px), (pointer: coarse) and (max-width: 1024
 
 function App() {
   const { t } = useTranslation();
+  const ownAssistant = useOwnAssistant();
   const [hostError, setHostError] = useState('');
   const [settingsReady, setSettingsReady] = useState(false);
   const openedHosts = useRef(new WeakSet<SiteHost>());
@@ -605,6 +608,7 @@ function App() {
           <WorkspaceHeader />
           <WorkspaceLayoutBar />
           <div className="workspace-body">
+          {activeContentTab === 'grid' && <ReviewReturnBar />}
           {activeContentTab === 'spreadsheet' && <SpreadsheetReturnBar />}
           {activeContentTab === 'spreadsheet' ? (
             activeSubSheetId && subSheets.some(s => s.id === activeSubSheetId) ? (
@@ -637,6 +641,7 @@ function App() {
           ) : (
             <>
               {activeContentTab === 'grid' && <CostGrid />}
+              {activeContentTab === 'review' && <ReviewCenter />}
               {activeContentTab === 'promptBudget' && <PromptBudgetWorkspace />}
               {activeContentTab === 'wizard' && <CalculationWizard />}
               {activeContentTab === 'urenstaart' && <UrenStaartView />}
@@ -688,7 +693,7 @@ function App() {
         )}
       </div>
       {/* Floating chat button + panel — bottom right */}
-      {!showChatPanel && activeContentTab !== 'promptBudget' && (
+      {ownAssistant && !showChatPanel && activeContentTab !== 'promptBudget' && (
         <button
           className="chat-fab"
           onClick={() => useAppStore.getState().toggleChatPanel()}
@@ -698,7 +703,7 @@ function App() {
           💬
         </button>
       )}
-      {showChatPanel && activeContentTab !== 'promptBudget' && (
+      {ownAssistant && showChatPanel && activeContentTab !== 'promptBudget' && (
         <div className="chat-floating">
           <ChatPanel />
         </div>

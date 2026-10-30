@@ -1,3 +1,4 @@
+import { selectedGridItems } from '@/services/grid/selectedItems';
 import { uiText } from '@/i18n/uiText';
 import { getPortalTarget } from '@/lib/hostRoot';
 import { useState, useEffect, useRef } from "react";
@@ -69,7 +70,7 @@ export default function HomeTab() {
   };
 
   const handleScalePrices = () => {
-    const pct = parseFloat(pricePct.replace(',', '.'));
+    const pct = Number(pricePct.trim().replace(',', '.'));
     if (!Number.isFinite(pct) || pct === 0 || pct <= -100) return;
     pushHistory(items, t('home.pricesHistory', { pct: `${pct > 0 ? '+' : ''}${pct}` }));
     scaleAllPrices(1 + pct / 100);
@@ -109,6 +110,18 @@ export default function HomeTab() {
   }, [showUndoList]);
 
   const activeItem = activeItemId ? items.find(i => i.id === activeItemId) : null;
+  const state = useAppStore.getState();
+  const selectedItems = activeItem || state.selectionStart != null ? selectedGridItems(state.getGridRows(), state.getSelectedRowIndices()) : [];
+  const canAddMonitor = (() => {
+    let current = activeItem ?? undefined; const seen = new Set<string>();
+    while (current && !seen.has(current.id)) {
+      seen.add(current.id); if (current.rowType === 'begrotingspost') return true;
+      current = items.find(item => item.id === current?.parentId);
+    }
+    return false;
+  })();
+  const percentage = Number(pricePct.trim().replace(',', '.'));
+  const validPercentage = !!pricePct.trim() && Number.isFinite(percentage) && percentage !== 0 && percentage > -100;
 
   const handleAddChapter = () => {
     pushHistory(items, tCommon('newChapter'));
@@ -183,9 +196,9 @@ export default function HomeTab() {
   };
 
   const handleDelete = () => {
-    if (!activeItem) return;
+    if (!selectedItems.length) return;
     pushHistory(items, tCommon('delete'));
-    deleteItem(activeItem.id);
+    for (const item of [...selectedItems].reverse()) deleteItem(item.id);
   };
 
   const hasExcelLinks = items.some(i => !!i.excelLink);
@@ -211,7 +224,7 @@ export default function HomeTab() {
           <RibbonButtonStack>
             <RibbonButton icon={addChapterIcon} label={t('home.chapter')} size="small" onClick={handleAddChapter} />
             <RibbonButton icon={addBegrotingspostIcon} label={t('home.budgetPost')} size="small" onClick={handleAddBegrotingspost} />
-            <RibbonButton icon={addBewakingspostIcon} label={t('home.monitorPost')} size="small" onClick={handleAddBewakingspost} disabled={!activeItem} />
+            <RibbonButton icon={addBewakingspostIcon} label={t('home.monitorPost')} size="small" onClick={handleAddBewakingspost} disabled={!canAddMonitor} />
           </RibbonButtonStack>
           <RibbonButtonStack>
             <RibbonButton icon={addRegelIcon} label={t('home.calculationRule')} size="small" onClick={handleAddRegel} />
@@ -224,14 +237,14 @@ export default function HomeTab() {
             title={t('home.addRegelDirectTitle')}
             onClick={handleAddRegel}
           />
-          <RibbonButton icon={deleteIcon} label={t("budget.deleteRow")} onClick={handleDelete} disabled={!activeItem} />
+          <RibbonButton icon={deleteIcon} label={t("budget.deleteRow")} onClick={handleDelete} disabled={!selectedItems.length} />
         </RibbonGroup>
 
         <RibbonGroup label={t("home.clipboard")}>
           <RibbonButton icon={clipboardIcon} label={t("home.paste")} onClick={() => pasteItems()} disabled={clipboardItems.length === 0} />
           <RibbonButtonStack>
-            <RibbonButton icon={cutIcon} label={t("home.cut")} size="small" onClick={() => activeItem && cutItems([activeItem])} />
-            <RibbonButton icon={copyIcon} label={t("home.copy")} size="small" onClick={() => activeItem && copyItems([activeItem])} />
+            <RibbonButton icon={cutIcon} label={t("home.cut")} size="small" disabled={!selectedItems.length} onClick={() => cutItems(selectedItems)} />
+            <RibbonButton icon={copyIcon} label={t("home.copy")} size="small" disabled={!selectedItems.length} onClick={() => copyItems(selectedItems)} />
           </RibbonButtonStack>
         </RibbonGroup>
 
@@ -435,7 +448,7 @@ export default function HomeTab() {
               className="price-scale-input"
             />
             <span className="price-scale-pct">%</span>
-            <button className="cmd-btn cmd-btn-primary" onClick={handleScalePrices}>{t('home.apply')}</button>
+            <button className="cmd-btn cmd-btn-primary" disabled={!validPercentage} onClick={handleScalePrices}>{t('home.apply')}</button>
           </div>
         </div>
       </Modal>

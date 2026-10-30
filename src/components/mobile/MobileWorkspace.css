@@ -78,7 +78,8 @@
 .mobile-load-more { width: 100%; min-height: 44px; margin-top: 10px; border: 1px solid var(--theme-border); border-radius: 8px; background: var(--theme-surface); color: var(--theme-text); font-weight: 700; }
 
 .mobile-nav { flex: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 7px max(7px, env(safe-area-inset-right)) max(7px, env(safe-area-inset-bottom)) max(7px, env(safe-area-inset-left)); background: var(--theme-surface); border-top: 1px solid var(--theme-border); }
-.mobile-nav button { min-height: 49px; border: 0; border-radius: 8px; background: transparent; color: var(--theme-text-secondary); font-weight: 600; }
+.mobile-nav { grid-template-columns:repeat(5,minmax(0,1fr)); }
+.mobile-nav button { min-height: 49px; border: 0; border-radius: 8px; background: transparent; color: var(--theme-text-secondary); font-weight: 600; overflow-wrap:anywhere; }
 .mobile-nav button[aria-current="page"] { color: var(--mobile-accent); background: color-mix(in srgb, var(--mobile-accent) 12%, transparent); }
 .mobile-prompt { min-height: 100%; display: flex; }
 .mobile-prompt > * { flex: 1; min-width: 0; }

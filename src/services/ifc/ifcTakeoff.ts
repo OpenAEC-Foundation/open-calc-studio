@@ -28,7 +28,8 @@ export async function parseTakeoff(buffer:ArrayBuffer, fileName:string):Promise<
 }
 export function aggregateTakeoff(model:TakeoffModel, ids:number[], key:string):TakeoffQuantity {
   const unique=[...new Set(ids)]; if(!unique.length)throw Error(uiText("ifc.error.empty", "Select at least one IFC element."));
-  const elements=unique.map(id=>{const e=model.elements.find(e=>e.expressId===id);if(!e)throw Error(uiText('ifc.error.unknown', 'Unknown element #{{id}}.', { id }));return e;});
+  const elementIndex = new Map(model.elements.map(element => [element.expressId, element]));
+  const elements=unique.map(id=>{const e=elementIndex.get(id);if(!e)throw Error(uiText('ifc.error.unknown', 'Unknown element #{{id}}.', { id }));return e;});
   if(key==='__count__')return {key,label:uiText("ifc.count", "Element count"),kind:'count',value:elements.length,unit:'st'};
   const values=elements.map(e=>{const q=e.quantities.find(q=>q.key===key);if(!q)throw Error(uiText('ifc.error.missingQuantity', '{{name}} does not have this quantity; nothing was applied.', { name: e.name }));return q;});
   if(values.some(q=>q.kind!==values[0].kind))throw Error(uiText("ifc.error.dimensions", "Quantities have different dimensions."));

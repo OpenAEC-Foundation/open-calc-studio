@@ -1,5 +1,8 @@
 /** Named parameters for the file/viewer commands outside Zustand. */
 export const workspaceActions = {
+  'review.list': { parameters: { category: 'optional: all | price | source | unit' }, description: 'Read current-variant estimate checks, counts and affected rows. Does not edit values; explicit zero prices are valid. Omits source bytes.' },
+  'review.open': { parameters: { category: 'optional: all | price | source | unit' }, description: 'Open the review center and optionally select a category without editing the estimate.' },
+  'review.openItem': { parameters: { itemId: 'row ID from review.list' }, description: 'Reveal and select a flagged estimate row, expanding its parents. Preserves prices, quantities, dirty state and undo history.' },
   'workspace.layouts': { parameters: {}, description: 'List built-in and saved task layouts. Apply/save/delete through applyWorkspaceLayout, saveWorkspaceLayout and deleteWorkspaceLayout.' },
   'workspace.openSecondScreen': { parameters: {}, description: 'Open a read-only second screen for PDF drawings and selected quantity origins, synchronized with the main estimate.' },
   'quantity.origin': { parameters: { itemId: 'estimate row ID' }, description: 'Read quantity source, file/model identity, page/elements, calculation, saved capture and missing-source/unit warnings without source bytes.' },
@@ -27,6 +30,7 @@ export const workspaceActions = {
   'ifc.load': {parameters:{fileName:'string',dataBase64:'IFC bytes as base64'},description:'Load IFC-Lite geometry and quantity sets into the active document.'},
   'ifc.listModels': {parameters:{},description:'List saved IFC model metadata.'},
   'ifc.listElements': {parameters:{modelId:'optional saved model ID',search:'optional name/type filter'},description:'Read elements and their named quantities in SI units.'},
+  'ifc.selectFiltered': {parameters:{search:'optional name/type filter; empty selects all elements'},description:'Replace the current selection with all matching IFC elements, across every browser page. Requires the model open in the 3D view.'},
   'ifc.select': {parameters:{elementIds:'array of IFC express IDs'},description:'Select elements in the running 3D split view.'},
   'ifc.getSelection': {parameters:{},description:'Read the current IFC selection.'},
   'ifc.isolate': {parameters:{enabled:'boolean'},description:'Show only the selection or restore all geometry.'},

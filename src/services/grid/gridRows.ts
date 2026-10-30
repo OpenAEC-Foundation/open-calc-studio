@@ -1,3 +1,4 @@
+import { variantItems } from './variantScope';
 import type { CostItem, CostSchedule } from '@/types/costModel';
 import type { GridView } from '@/state/slices/uiSlice';
 
@@ -77,19 +78,7 @@ export function buildGridRows(
 ): CostItem[] {
   let visible = visibleItems.filter((i) => !i.rowType.startsWith('staart_'));
 
-  // Branch filter: if activeBranchId set, show only items matching or in ancestor chain
-  if (schedule.branchesEnabled && schedule.activeBranchId) {
-    const allBranches = schedule.branches ?? [];
-    // Collect active branch and all ancestors (main chain is always visible)
-    const ancestors = new Set<string>(['main']);
-    let cur: string | null | undefined = schedule.activeBranchId;
-    while (cur) {
-      ancestors.add(cur);
-      const b = allBranches.find((br) => br.id === cur);
-      cur = b?.parentId;
-    }
-    visible = visible.filter((i) => ancestors.has(i.branchId ?? 'main'));
-  }
+  visible = variantItems(visible, schedule);
 
   if (gridView !== 'wpcalc') return visible;
 

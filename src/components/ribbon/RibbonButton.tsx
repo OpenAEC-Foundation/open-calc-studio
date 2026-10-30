@@ -26,6 +26,7 @@ export default function RibbonButton({
     >
       <div
         className="ribbon-btn-icon"
+        aria-hidden="true"
         dangerouslySetInnerHTML={{ __html: icon }}
       />
       <span className="ribbon-btn-label">{label}</span>

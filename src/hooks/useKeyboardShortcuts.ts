@@ -3,7 +3,7 @@ import i18next from 'i18next';
 import { useAppStore } from '@/state/appStore';
 import { useFileOperations } from './useFileOperations';
 import { copyItemsToExcel } from '@/services/clipboard/excelClipboard';
-import { isFooterRow } from '@/services/grid/gridRows';
+import { selectedGridItems } from '@/services/grid/selectedItems';
 import { eventInsideHost } from '@/lib/hostRoot';
 
 /** Get the selected items (multi-select or single active row).
@@ -14,10 +14,7 @@ function getSelectedItems() {
   const state = useAppStore.getState();
   const gridRows = state.getGridRows();
   const indices = state.getSelectedRowIndices();
-  return indices
-    .filter((i) => i >= 0 && i < gridRows.length)
-    .map((i) => gridRows[i])
-    .filter((it) => !isFooterRow(it.id));
+  return selectedGridItems(gridRows, indices);
 }
 
 export function useKeyboardShortcuts() {
@@ -33,7 +30,13 @@ export function useKeyboardShortcuts() {
       if (!eventInsideHost(e)) return;
       const ctrl = e.ctrlKey || e.metaKey;
       const { isEditing } = useAppStore.getState();
-      const isInInput = e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement;
+      if (e.defaultPrevented) return;
+      const target = e.target instanceof Element ? e.target : null;
+      const isInInput = !!target?.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="textbox"]');
+      const inDialog = !!target?.closest('[role="dialog"], [role="alertdialog"], .modal-dialog, .backstage-overlay');
+      const inGrid = !!target?.closest('.cost-grid-wrapper') && ['grid', 'viewer3d'].includes(useAppStore.getState().activeContentTab);
+      // Text editors own undo and clipboard; dialogs own their keyboard scope.
+      if (inDialog || (isInInput && ctrl && ['z', 'y'].includes(e.key.toLowerCase()))) return;
 
       if (ctrl && e.key === 'z') {
         e.preventDefault();
@@ -56,7 +59,7 @@ export function useKeyboardShortcuts() {
         e.preventDefault();
         void openFile();
       } else if (ctrl && e.key === 'c') {
-        if (isEditing || isInInput) return;
+        if (isEditing || isInInput || !inGrid) return;
         e.preventDefault();
         const selected = getSelectedItems();
         if (selected.length > 0) {
@@ -65,12 +68,12 @@ export function useKeyboardShortcuts() {
           copyItemsToExcel(selected);
         }
       } else if (ctrl && e.key === 'x') {
-        if (isEditing || isInInput) return;
+        if (isEditing || isInInput || !inGrid) return;
         e.preventDefault();
         const selected = getSelectedItems();
         if (selected.length > 0) cutItems(selected);
       } else if (ctrl && e.key === 'v') {
-        if (isEditing || isInInput) return;
+        if (isEditing || isInInput || !inGrid) return;
         e.preventDefault();
         pasteItems();
       } else if (ctrl && (e.key === '+' || e.key === '=')) {
@@ -90,7 +93,7 @@ export function useKeyboardShortcuts() {
           const { reportView } = useAppStore.getState();
           printBudget(schedule, items, reportView);
         });
-      } else if (ctrl && e.key === 'Enter') {
+      } else if (ctrl && e.key === 'Enter' && inGrid && !isInInput) {
         e.preventDefault();
         // Nieuwe regel direct onder het actieve item — op identiteit, en via
         // de gedeelde insertRegelBelow (zelfde gedrag als de +-knop).
@@ -98,7 +101,7 @@ export function useKeyboardShortcuts() {
         const activeItem = cur.find((i) => i.id === activeItemId);
         pushHistory(items, i18next.t('history.newRow'));
         insertRegelBelow(activeItem?.id ?? null);
-      } else if (e.key === 'Delete' && !isEditing && !isInInput) {
+      } else if (e.key === 'Delete' && inGrid && !isEditing && !isInInput) {
         // Delete selected rows
         const selected = getSelectedItems();
         if (selected.length > 0) {

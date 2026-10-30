@@ -73,7 +73,10 @@
     "invalidCell": "Use a cell reference such as A1 or B12.",
     "noResults": "No results found.",
     "showMore": "Show more ({{count}} remaining)",
-    "noItems": "No estimate items yet. Add a chapter, item or calculation rule."
+    "noItems": "No estimate items yet. Add a chapter, item or calculation rule.",
+    "linkedQuantity": "This quantity follows its source. Unlink it to enter a manual value.",
+    "unlinkQuantity": "Unlink quantity",
+    "unlinkPending": "The link will be removed when you press Done."
   },
   "chapter": "Chapter",
   "budgetPost": "Budget post",
@@ -235,7 +238,12 @@
     "thisBudget": "This estimate",
     "objectCount": "{{count}} objects",
     "linkedVia": "Linked via {{guid}} — also occurs in: {{files}}",
-    "linkLabel": "link"
+    "linkLabel": "link",
+    "selectFiltered": "Select all results ({{count}})",
+    "clearSelection": "Clear selection",
+    "shown": "{{from}}–{{to}} of {{count}} results · {{total}} model elements",
+    "previousPage": "Previous page",
+    "nextPage": "Next page"
   },
   "ifcxFolder": {
     "rootFolder": "/ (root folder)",
@@ -545,7 +553,10 @@
       "costs": "Costs",
       "surcharges": "Surcharges & VAT",
       "review": "Review"
-    }
+    },
+    "invalidSummary": "Correct {{count}} invalid field(s), or discard their drafts. The last valid values are preserved.",
+    "findInvalid": "Go to invalid field",
+    "discardInvalid": "Discard invalid drafts"
   },
   "host": {
     "files": "Site files",
@@ -1063,6 +1074,69 @@
       "nameRequired": "Enter a workspace name.",
       "customOnly": "Only your saved workspaces can be overwritten.",
       "limit": "You can save up to 20 workspaces."
+    },
+    "report": {
+      "quotationDesktopRequired": "Quotation PDFs require the desktop application.",
+      "documentChanged": "The active document changed. Try again in the intended estimate."
     }
+  },
+  "review": {
+    "title": "Review center",
+    "badge": "{{count}} review issues",
+    "summary": "{{count}} issues in {{affected}} of {{rows}} estimate rows",
+    "scope": "Checks the active variant, including collapsed rows.",
+    "filterLabel": "Review category",
+    "filters": {
+      "all": "All",
+      "price": "Prices",
+      "source": "Sources",
+      "unit": "Units"
+    },
+    "issueList": "Review issues",
+    "details": "Selected issue",
+    "open": "Open",
+    "row": "Estimate row",
+    "quantity": "Current quantity",
+    "sourceValue": "Source value",
+    "showRow": "Show row {{number}}",
+    "back": "Back to review center",
+    "selected": "Selected from review: row {{number}}",
+    "readOnly": "These checks do not change quantities or prices. Market prices and external Excel files are not verified.",
+    "empty": "No issues found by these checks.",
+    "emptyFilter": "No issues in this category.",
+    "showMore": "Show more ({{count}} remaining)",
+    "unavailable": "This row no longer has a review issue in the active variant.",
+    "unreachable": "The row has an invalid parent structure and cannot be shown in the grid.",
+    "severity": {
+      "error": "Error",
+      "warning": "Check",
+      "info": "Info"
+    },
+    "messages": {
+      "missing-price": {
+        "title": "Price not entered",
+        "detail": "This cost row has a nonzero quantity but no price input. Its costs may be incomplete. An explicit zero price is accepted; no market price is assumed."
+      },
+      "missing-source": {
+        "title": "Quantity source unavailable",
+        "detail": "The linked source is missing or does not return a finite number. Check the file, measurement or cell reference. The last known quantity is retained."
+      },
+      "unchecked-excel": {
+        "title": "External Excel reference not checked",
+        "detail": "This row refers to an external Excel file. Its availability and current value cannot be verified by these checks. This is an information notice, not proof of a broken link."
+      },
+      "different-quantity": {
+        "title": "Source quantity differs",
+        "detail": "The source currently returns a different quantity from the estimate row. Inspect the source and the saved value before changing anything."
+      },
+      "unit-mismatch": {
+        "title": "Source and row units differ",
+        "detail": "The source and estimate row use different units. Check the selected quantity or an explicit conversion. No automatic unit conversion is assumed."
+      }
+    },
+    "mobile": "Review"
+  },
+  "shell": {
+    "review": "Review center"
   }
 }

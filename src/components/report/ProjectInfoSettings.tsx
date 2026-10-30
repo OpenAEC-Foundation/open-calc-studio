@@ -56,7 +56,7 @@ const EditableTextCell: React.FC<{ value: string; onChange: (v: string) => void;
 export const ProjectInfoSettings: React.FC = () => {
   const { t } = useTranslation();
   const schedule = useAppStore(s => s.schedule);
-  const setSchedule = useAppStore(s => s.setSchedule);
+  const setSchedule = (patch: Partial<typeof schedule>) => { const state = useAppStore.getState(); state.setSchedule(patch); state.updateDocument(state.activeDocumentId, { isModified: true }); };
   const items = useAppStore(s => s.items);
   const updateProjectProperty = useAppStore(s => s.updateProjectProperty);
   const addProjectProperty = useAppStore(s => s.addProjectProperty);

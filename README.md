@@ -36,6 +36,7 @@ For the mobile browser, serve a web build over HTTPS. Android and iPhone use the
 - **Prompt & Begroot** with financial previews, changed-row details and assumptions; approve or undo a complete proposal as one transaction.
 - Save task workspaces for measuring, estimating and review, including panel widths, zoom and columns. Open PDF drawings or quantity origins on a synchronized, read-only second screen.
 - Inspect quantity provenance from PDF, IFC or spreadsheet sources, with saved source identity, page/object references, calculation and missing-source/unit warnings.
+- **Review center** in the sidebar: live price, source and unit checks for the active variant, with category filters, exact row navigation and a return button. Also available on mobile, through desktop MCP and as the pure SDK function `reviewBudget`.
 - Import/export for native `.ifcCalc`, BC3, ÖNORM A 2063, CUF/RSX and IFC; importers for legacy Dutch tools, GAEB, IBIS-TRAD and spreadsheets. See [format support and limitations](docs/wereldwijde-uitwisseling.md).
 - A workspace with persistent navigation, a project header and live estimate total, using official [OpenAEC Blueprint](docs/blueprint-alignment.md) typography, local fonts and five themes. Project files open in a drawer; spreadsheet tabs stay beside the estimate.
 - Hosted platform build with optional `window.openaecHost` storage, file versions and conflict protection; no own accounts, user extensions or personal AI keys in this build.
@@ -45,7 +46,7 @@ For the mobile browser, serve a web build over HTTPS. Android and iPhone use the
 
 ## Versions and delivery status
 
-The current development version is **2026.44.1**, using `year.ISOweek.patch`. Product packages, Cargo and MCP share this version. MSI uses `26.44.1` to fit the Windows major-version limit. The `.ifcCalc` **file format is 2.3.0**; it has its own compatibility policy and is not a product release number.
+The current development version is **2026.44.4**, using `year.ISOweek.patch`. Product packages, Cargo and MCP share this version. MSI uses `26.44.4` to fit the Windows major-version limit. The `.ifcCalc` **file format is 2.3.0**; it has its own compatibility policy and is not a product release number.
 
 This source version does not imply an installer or npm publication already exists. [Release notes](docs/release-notes/unreleased.md) and the [issue acceptance matrix](docs/issue-readiness.md) record implementation, test evidence and remaining work. Signed releases require working signing credentials and verification of the delivered artifacts. Actual AWS deployment, clean-machine installation, real-phone tests and the DynLex prototype are still pending.
 
@@ -85,3 +86,6 @@ Please use [Issues](https://github.com/OpenAEC-Foundation/open-calc-studio/issue
 ## License
 
 Open Calc Studio code: **LGPL-3.0-only**, see [LICENSE](LICENSE) and [COPYING](COPYING). Blueprint CSS: **CC-BY-SA-4.0**; bundled fonts: **OFL-1.1**. Other bundled dependencies retain their respective licenses. [NOTICE.md](NOTICE.md) records attribution and distribution requirements. The Blueprint B2 icons have not been imported pending a clear license.
+
+The embed npm package includes `LICENSE`, `COPYING` and `NOTICE.md` at its root;
+web distributions also provide the product, Blueprint and font notices in `licenses/`.

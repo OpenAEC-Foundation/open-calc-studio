@@ -1,3 +1,4 @@
+import { filterIfcElements } from './elementFilter';
 import { uiText } from '@/i18n/uiText';
 import { useAppStore } from '@/state/appStore';
 import { parseTakeoff, aggregateTakeoff, type TakeoffModel } from './ifcTakeoff';
@@ -38,11 +39,18 @@ export async function ifcCommand(action:string,p:Record<string,unknown>) {
   if(action==='listModels')return s.schedule.ifcTakeoff?.models.map(m=>({id:m.id,fileName:m.fileName,elementCount:m.elements.length}))??[];
   const model=session?.model??s.schedule.ifcTakeoff?.models.find(m=>m.id===p.modelId);
   if(!model)throw Error(uiText("ifc.error.load", "Load an IFC model first, or provide a saved modelId."));
-  if(action==='listElements')return model.elements.filter(e=>!p.search||`${e.type} ${e.name}`.toLowerCase().includes(String(p.search).toLowerCase()));
+  if(action==='listElements')return filterIfcElements(model.elements, String(p.search ?? ''));
   if(action==='getSelection')return {modelId:model.id,elementIds:session?.selected??[]};
+  if(action==='selectFiltered') {
+    if(!session)throw Error(uiText('ifc.error.openModel', 'Open the model in the 3D view first.'));
+    if(p.search != null && typeof p.search !== 'string')throw Error('search must be a string');
+    session.selected = filterIfcElements(session.model.elements, String(p.search ?? '')).map(element => element.expressId);
+    notify();return { modelId: session.model.id, elementIds: session.selected };
+  }
   if(action==='select') {
     if(!session)throw Error(uiText("ifc.error.openModel", "Open the model in the 3D view first."));
-    if(!Array.isArray(p.elementIds)||p.elementIds.some(id=>!Number.isInteger(id)||!model.elements.some(e=>e.expressId===id)))throw Error(uiText("ifc.error.selection", "Invalid element selection."));
+    const validIds = new Set(session.model.elements.map(e=>e.expressId));
+    if(!Array.isArray(p.elementIds)||p.elementIds.some(id=>!Number.isInteger(id)||!validIds.has(id)))throw Error(uiText("ifc.error.selection", "Invalid element selection."));
     session.selected=[...new Set(p.elementIds as number[])];notify();return {elementIds:session.selected};
   }
   if(action==='isolate'||action==='fit') {if(!session)throw Error(uiText("ifc.error.openView", "Open the model in the 3D view."));if(action==='fit')session.cameraRevision++;else session.isolated=p.enabled!==false;notify();return {success:true};}

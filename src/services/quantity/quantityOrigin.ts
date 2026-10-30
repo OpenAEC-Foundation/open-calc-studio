@@ -1,6 +1,6 @@
 import type { CostItem, CostSchedule, QuantityLink, SubSheet } from '@/types/costModel';
 import type { IfcQuantity } from '@/state/slices/linkableSourcesSlice';
-import { resolvePdfQuantity } from '@/services/pdf/pdfWorkspace';
+import { createPdfQuantityResolver, type PdfQuantityResolver } from '@/services/pdf/pdfWorkspace';
 
 export interface QuantityOrigin {
   source: 'manual' | 'spreadsheet' | 'pdf' | 'ifc' | 'excel';
@@ -11,7 +11,9 @@ export interface QuantityOrigin {
   unit: string;
   capturedAt?: string;
 }
-export interface QuantityOriginContext { schedule: CostSchedule; subSheets: SubSheet[]; ifcQuantities?: IfcQuantity[] }
+const pdfOrigins = new WeakMap<PdfQuantityResolver, Map<string, QuantityOrigin | null>>();
+
+export interface QuantityOriginContext { schedule: CostSchedule; subSheets: SubSheet[]; ifcQuantities?: IfcQuantity[]; /** Internal, batch-local PDF index. */ pdfResolver?: PdfQuantityResolver }
 export interface QuantityOriginInfo extends QuantityOrigin { status: 'manual' | 'linked' | 'missing' | 'different'; currentValue: number | null; unitMismatch: boolean; captured?: QuantityOrigin }
 
 /** Metadata only: never embed PDF bytes, model geometry or spreadsheet contents. */
@@ -26,11 +28,19 @@ export function resolveQuantityOrigin(link: QuantityLink, context: QuantityOrigi
   if (link.source === 'pdf') {
     const kind = link.kind === 'sum-area' ? 'area' : link.kind === 'sum-length' ? 'length' : link.kind;
     const summed = link.kind.startsWith('sum-');
-    const sources = (context.schedule.pdfWorkspace?.sources ?? []).flatMap(source => source.measurements.filter(measurement => measurement.type === kind && (summed || measurement.id === link.measurementId)).map(measurement => ({ source, measurement })));
-    const value = resolvePdfQuantity(link, context.schedule.pdfWorkspace);
+    const workspace = context.schedule.pdfWorkspace;
+    if (!workspace) return null;
+    const resolver = context.pdfResolver ?? createPdfQuantityResolver(workspace);
+    let cache = pdfOrigins.get(resolver);
+    if (!cache) { cache = new Map(); pdfOrigins.set(resolver, cache); }
+    const cacheKey = JSON.stringify([link.kind, summed ? null : link.measurementId]);
+    if (cache.has(cacheKey)) return cache.get(cacheKey)!;
+    const sources = resolver.measurements(link);
+    const value = resolver.resolve(link);
     if (value === null || !sources.length) return null;
-    return { source: 'pdf', label: summed ? `Σ ${kind}` : sources[0].measurement.label, sources: sources.map(({ source, measurement }) => ({ id: source.id, name: source.fileName, page: measurement.page, measurementId: measurement.id })),
+    const origin: QuantityOrigin = { source: 'pdf', label: summed ? `Σ ${kind}` : sources[0].measurement.label, sources: sources.map(({ source, measurement }) => ({ id: source.id, name: source.fileName, page: measurement.page, measurementId: measurement.id })),
       formula: summed ? sources.map(({ measurement }) => measurement.value).join(' + ') : sources[0].measurement.origin === 'open-pdf-studio' ? `Open PDF Studio · #${sources[0].measurement.annotationId ?? sources[0].measurement.id}` : `${kind === 'area' ? 'polygonArea' : 'polylineLength'}(PDF points) × (${sources[0].measurement.mmPerPoint}/1000)${kind === 'area' ? '²' : ''}`, value, unit: kind === 'area' ? 'm²' : 'm' };
+    cache.set(cacheKey, origin); return origin;
   }
   const takeoff = context.schedule.ifcTakeoff;
   const entry = takeoff?.entries.find(entry => entry.fragmentId === link.fragmentId);

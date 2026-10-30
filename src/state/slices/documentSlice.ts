@@ -19,7 +19,7 @@ function captureDocument(state: AppStore, doc: DocumentTab): DocumentTab {
 }
 
 function documentContext(doc: DocumentTab) {
-  return { quantityOriginItemId: null, pdfTargetMeasurementId: null, sheetTargetCell: null, companyInfo: { ...defaultCompanyInfo }, subSheets: [], activeSubSheetId: null,
+  return { reviewFilter: 'all' as const, reviewIssueId: null, reviewReturnItemId: null, quantityOriginItemId: null, pdfTargetMeasurementId: null, sheetTargetCell: null, companyInfo: { ...defaultCompanyInfo }, subSheets: [], activeSubSheetId: null,
     offerte: createDefaultOfferte(), projectInfo: doc.schedule.projectInfo ?? createDefaultProjectInfo(), snapshots: [],
     undoStack: [], redoStack: [], activeRow: 0, activeCol: 0, selectionStart: null, selectionEnd: null, scrollTop: 0,
     ...doc.context, activeItemId: null, cellSelectionStart: null, cellSelectionEnd: null, spreadsheetUndo: [], spreadsheetRedo: [],

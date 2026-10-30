@@ -2,7 +2,12 @@
 // gelijk aan de app: versie en de runtime-afhankelijkheden (extern in de lib-build, dus de gastsite moet ze
 // installeren). React/ReactDOM zijn peer-afhankelijkheden; @types/* horen
 // niet in een runtime-pakket.
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, copyFileSync } from 'node:fs';
+
+// Keep the complete product license available at the npm package root.
+for (const name of ['LICENSE', 'COPYING', 'NOTICE.md']) {
+  copyFileSync(name, `packages/embed/${name}`);
+}
 
 // Ná de build (`node scripts/embed-sync.mjs post`): typedeclaratie voor de
 // side-effect-import van style.css, anders meldt TypeScript bij de gebruiker

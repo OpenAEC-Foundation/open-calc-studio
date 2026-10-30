@@ -23,6 +23,9 @@ const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours
 // releases. Bijwerken bij elke release; titels en bullets staan vertaald in
 // de `releases`-namespace (src/i18n/locales/<taal>/releases.json).
 const BUNDLED_RELEASES: Release[] = [
+  { tag_name: 'v2026.44.4-dev', name: 'Button checks, safe selection and consistent printing', body: '', published_at: '', html_url: `https://github.com/${REPO}/blob/main/docs/release-notes/unreleased.md` },
+  { tag_name: 'v2026.44.3-dev', name: 'Safer input, accessible dialogs and complete IFC selections', body: '', published_at: '', html_url: `https://github.com/${REPO}/blob/main/docs/release-notes/unreleased.md` },
+  { tag_name: 'v2026.44.2-dev', name: 'Review center for prices, sources and units', body: '', published_at: '', html_url: `https://github.com/${REPO}/blob/main/docs/release-notes/unreleased.md` },
   { tag_name: 'v2026.44.1-dev', name: 'Task workspaces, quantity provenance and financial previews', body: '', published_at: '', html_url: `https://github.com/${REPO}/blob/main/docs/release-notes/unreleased.md` },
   { tag_name: 'v2026.44.0-dev', name: 'Blueprint, calculation wizard and hosted storage (development)', body: 'Development build: five Blueprint themes, a guided estimate editor, host file versions and an independent REST/HTTP-MCP calculator. Release acceptance is still pending.', published_at: '', html_url: `https://github.com/${REPO}/blob/main/docs/release-notes/v2026.44.0.md` },
   { tag_name: 'unreleased', name: 'Mobiele webapp voor begrotingen', body: '', published_at: '', html_url: `https://github.com/${REPO}/issues/25` },

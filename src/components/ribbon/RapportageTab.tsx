@@ -25,28 +25,9 @@ import {
 } from "./icons";
 import "./rapportProps.css";
 import { useAppStore } from "../../state/appStore";
-import { printBudget, itemsForReport } from "../../services/print/printService";
-import { getReportRequestLocale } from "../../i18n/reportI18n";
+import { outputCurrentReport } from "@/services/report/reportOutput";
 import { generateIfcCostFile } from "../../services/ifc/ifcCostGenerator";
 import type { ReportView } from "../../state/slices/uiSlice";
-
-// Tauri API (lazy-loaded to support browser-only mode)
-const tauriApi = (() => {
-  let cached: { invoke: typeof import("@tauri-apps/api/core")["invoke"]; save: typeof import("@tauri-apps/plugin-dialog")["save"] } | null | undefined;
-  return async () => {
-    if (cached !== undefined) return cached;
-    try {
-      const [core, dialog] = await Promise.all([
-        import("@tauri-apps/api/core"),
-        import("@tauri-apps/plugin-dialog"),
-      ]);
-      cached = { invoke: core.invoke, save: dialog.save };
-    } catch {
-      cached = null;
-    }
-    return cached;
-  };
-})();
 
 const REPORT_VIEWS: { value: ReportView; labelKey: string; icon: string; titleKey: string }[] = [
   { value: 'werkbeschrijving', labelKey: 'rapportage.viewWerkbeschrijving', icon: reportWerkbeschrijvingIcon, titleKey: 'rapportage.viewWerkbeschrijvingTitle' },
@@ -61,62 +42,14 @@ const REPORT_VIEWS: { value: ReportView; labelKey: string; icon: string; titleKe
 
 export default function RapportageTab() {
   const { t } = useTranslation("ribbon");
-  const { schedule, items, offerte, setActiveContentTab, reportView, setReportView, showHoeveelheid, toggleHoeveelheid, companyInfo, pageOrientation, setPageOrientation, pageSize, setPageSize, setReportShowChanges, setSchedule } = useAppStore();
+  const { schedule, items, offerte, setActiveContentTab, reportView, setReportView, showHoeveelheid, toggleHoeveelheid, pageOrientation, setPageOrientation, pageSize, setPageSize, setReportShowChanges, setSchedule: setScheduleState } = useAppStore();
+  const setSchedule = (patch: Partial<typeof schedule>) => { setScheduleState(patch); const state = useAppStore.getState(); state.updateDocument(state.activeDocumentId, { isModified: true }); };
   const [showLogos, setShowLogos] = useState(false);
   const [showProps, setShowProps] = useState(false);
 
-  const handlePrint = async () => {
-    const tauri = await tauriApi();
-    if (tauri) {
-      // In Tauri: export to temp PDF and open it (OS print dialog)
-      try {
-        const tempPath = `${await tauri.invoke('plugin:fs|resolve_path', { path: '', directory: 'Temp' }).catch(() => 'C:/Users/rickd/AppData/Local/Temp')}/ocs-print-${Date.now()}.pdf`;
-        await tauri.invoke('generate_pdf_report', {
-          request: { schedule, items: itemsForReport(schedule, items), reportView, pageSize, pageOrientation, showHoeveelheid, companyInfo, includeCover: false, includeSummary: false, ...(await getReportRequestLocale()) },
-          outputPath: tempPath,
-        });
-        const { openPath } = await import('@tauri-apps/plugin-opener');
-        await openPath(tempPath);
-      } catch (err) {
-        // Fallback to HTML print
-        void printBudget(schedule, items, reportView, showHoeveelheid, companyInfo, undefined, pageOrientation, pageSize);
-      }
-    } else {
-      void printBudget(schedule, items, reportView, showHoeveelheid, companyInfo, undefined, pageOrientation, pageSize);
-    }
-  };
-
-  const handlePdfExport = async () => {
-    const tauri = await tauriApi();
-    if (tauri) {
-      try {
-        const store = useAppStore.getState();
-        const active = store.documents?.find((d) => d.id === store.activeDocumentId);
-        let defaultPath: string;
-        if (active?.filePath) {
-          defaultPath = active.filePath.replace(/\.(ocs|ifcCalc|ifcx)$/i, '.pdf');
-        } else {
-          const base = (active?.fileName ?? schedule.projectName ?? schedule.name ?? 'Begroting').replace(/\.(ocs|ifcCalc|ifcx)$/i, '');
-          defaultPath = `${base}.pdf`;
-        }
-        const outputPath = await tauri.save({
-          filters: [{ name: 'PDF', extensions: ['pdf'] }],
-          defaultPath,
-        });
-        if (!outputPath) return;
-        const request = { schedule, items: itemsForReport(schedule, items), reportView, pageSize, pageOrientation, showHoeveelheid, companyInfo, includeCover: false, includeSummary: false, ...(await getReportRequestLocale()) };
-        // IBIS-stijl en directiebegroting delen de IBIS Typst-generator.
-        const command = (reportView === 'ibis' || reportView === 'directie') ? 'generate_ibis_report' : 'generate_pdf_report';
-        await tauri.invoke(command, { request, outputPath });
-        // Open the exported PDF
-        const { openPath } = await import('@tauri-apps/plugin-opener');
-        await openPath(outputPath);
-      } catch (err) {
-        alert(`${t("rapportage.pdfExportFailed")}: ${err}`);
-      }
-    } else {
-      void printBudget(schedule, items, reportView, showHoeveelheid, companyInfo, undefined, pageOrientation, pageSize);
-    }
+  const handleOutput = async (mode: 'print' | 'export') => {
+    try { await outputCurrentReport(mode); }
+    catch (error) { alert(`${t('rapportage.pdfExportFailed')}: ${error}`); }
   };
 
   const handleExcelExport = async () => {
@@ -201,11 +134,11 @@ export default function RapportageTab() {
         </RibbonGroup>
 
         <RibbonGroup label={t("rapportage.printing")}>
-          <RibbonButton icon={printIcon} label={t("rapportage.print")} onClick={handlePrint} />
+          <RibbonButton icon={printIcon} label={t("rapportage.print")} onClick={() => void handleOutput('print')} />
         </RibbonGroup>
 
         <RibbonGroup label={t("rapportage.export")}>
-          <RibbonButton icon={pdfExportIcon} label={t("rapportage.pdfExport")} onClick={handlePdfExport} />
+          <RibbonButton icon={pdfExportIcon} label={t("rapportage.pdfExport")} onClick={() => void handleOutput('export')} />
           <RibbonButtonStack>
             <RibbonButton icon={excelExportIcon} label={t("rapportage.excelExport")} size="small" onClick={handleExcelExport} />
             <RibbonButton icon={exportIcon} label={t("rapportage.ifcExport")} size="small" onClick={handleIfcExport} />

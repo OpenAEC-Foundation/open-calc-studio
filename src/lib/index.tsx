@@ -236,5 +236,7 @@ export { LANGUAGES } from '../i18n/config';
 export { EMBED_CLASS } from './hostRoot';
 
 export { calculateProject } from './core';
+export { reviewBudget } from '../services/review/budgetReview';
+export type { BudgetReviewReport, BudgetReviewIssue, BudgetReviewContext, ReviewFilter, ReviewCode, ReviewCategory } from '../services/review/budgetReview';
 
 export type { SiteHost, HostFileRef, HostVersion } from '../services/file/siteHost';

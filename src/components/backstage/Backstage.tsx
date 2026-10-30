@@ -10,7 +10,7 @@ import { importIfcx } from "../../services/importers/ifcxImporter";
 import { recalculateItems } from "../../services/calculation/calculator";
 import { exportInschrijfstaatAsync } from "../../services/export/inschrijfstaatExporter";
 import { exportWpCalcFile } from "../../services/export/wpcalcExporter";
-import { printBudget } from "../../services/print/printService";
+import { outputCurrentReport } from "@/services/report/reportOutput";
 import { isTauriEnvironment } from "../../services/file/nativeFileService";
 import {
   importCuf, importTradxml, importRsx, importRsu, importZsx, importNsx, importS01, importSufx, importBmecat, importOnlv, importGaeb,
@@ -40,11 +40,11 @@ const ICONS = {
   extensions: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>',
 };
 
-function MenuItem({ icon, label, shortcut, active, onClick }: {
-  icon: string; label: string; shortcut?: string; active?: boolean; onClick: () => void;
+function MenuItem({ icon, label, shortcut, active, disabled, onClick }: {
+  icon: string; label: string; shortcut?: string; active?: boolean; disabled?: boolean; onClick: () => void;
 }) {
   return (
-    <button className={`backstage-item${active ? " active" : ""}`} onClick={onClick}>
+    <button className={`backstage-item${active ? " active" : ""}`} disabled={disabled} onClick={onClick}>
       <span className="backstage-item-icon" dangerouslySetInnerHTML={{ __html: icon }} />
       <span className="backstage-item-label">{label}</span>
       {shortcut && <span className="backstage-item-shortcut">{shortcut}</span>}
@@ -671,7 +671,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
           <MenuItem icon={ICONS.save} label={t("save")} shortcut="Ctrl+S" onClick={() => { onClose(); void saveFile(); }} />
           <MenuItem icon={ICONS.save} label={t("saveAs")} shortcut="Ctrl+Shift+S" onClick={() => { onClose(); void saveFileAs(); }} />
           <Divider />
-          <MenuItem icon={ICONS.print} label={t("printMenu")} shortcut="Ctrl+P" onClick={() => { printBudget(schedule, items, 'hoofdaanneming'); onClose(); }} />
+          <MenuItem icon={ICONS.print} label={t("printMenu")} shortcut="Ctrl+P" onClick={() => { onClose(); void outputCurrentReport('print').catch(error => alert(String(error))); }} />
           <Divider />
           <MenuItem icon={ICONS.import} label={t("import")} active={activePanel === "import"} onClick={() => setActivePanel("import")} />
           <MenuItem icon={ICONS.export} label={t("export")} active={activePanel === "export"} onClick={() => setActivePanel("export")} />
@@ -685,7 +685,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
           <Divider />
           <MenuItem icon={ICONS.about} label={t("about")} active={activePanel === "about"} onClick={() => setActivePanel("about")} />
           <Divider />
-          <MenuItem icon={ICONS.exit} label={t("exit")} shortcut="Alt+F4" onClick={() => {
+          <MenuItem icon={ICONS.exit} label={t("exit")} disabled={!isTauriEnvironment()} shortcut="Alt+F4" onClick={() => {
             onClose();
             import("@tauri-apps/api/window").then(({ getCurrentWindow }) => getCurrentWindow().close()).catch(() => {});
           }} />

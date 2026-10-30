@@ -17,6 +17,15 @@ Ontwikkelaars kunnen de server ook vanuit de broncode starten; zie de [technisch
 
 Voor een Duitse aanbieding: open eerst het passende GAEB X83-bestek met `open_budget`, voer dan `apply_gaeb_x84` uit met het X84-bestand en controleer de gewijzigde prijzen. Pas daarna bewaar je het project als native bestand. Bij een ontbrekend of dubbel positienummer worden geen gedeeltelijke wijzigingen toegepast.
 
+## Controlecentrum bedienen
+
+Gebruik `app_action` met `review.list` om prijs-, bron- en eenheidsmeldingen
+van de actieve variant te lezen. `review.open` opent hetzelfde overzicht in
+de app; beide accepteren optioneel `category`: `all`, `price`, `source` of
+`unit`. `review.openItem` met een teruggegeven `itemId` selecteert de regel.
+Controles wijzigen geen bedragen. Externe Excel-bronnen zijn niet geverifieerd.
+Zie de [desktop-MCP-handleiding](https://github.com/OpenAEC-Foundation/open-calc-studio/blob/main/docs/mcp-desktop.md#controlecentrum).
+
 ## Huidige grenzen
 
 - GAEB-export is nog niet beschikbaar; import bewaart niet elk GAEB-veld.
@@ -25,3 +34,7 @@ Voor een Duitse aanbieding: open eerst het passende GAEB X83-bestek met `open_bu
 - Een MCP-actie op een open desktopbegroting kan gevolgen hebben voor die sessie. Bewaar belangrijk werk voordat je externe automatisering gebruikt.
 
 Meld ontbrekende functies of problemen via de [issues](https://github.com/OpenAEC-Foundation/open-calc-studio/issues), liefst met een geanonimiseerd voorbeeldbestand en het verwachte resultaat.
+
+IFC-resultaten over alle pagina's selecteer je met `ifc.selectFiltered` en
+optioneel `search`. De selectie wordt vervangen; een lege zoektekst omvat
+het hele geopende model. Wissen kan met `ifc.select` en `elementIds: []`.

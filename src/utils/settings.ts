@@ -42,7 +42,7 @@ export async function loadSettings(): Promise<AppSettings> {
 
 export function sanitizeWorkspaceLayouts(input: unknown): WorkspaceLayout[] {
   if (!Array.isArray(input)) return [];
-  const views = new Set(['wizard', 'grid', 'promptBudget', 'urenstaart', 'rapport', 'samenvatting', 'ifc', 'offerte', 'spreadsheet', 'viewer3d', 'pdf']);
+  const views = new Set(['wizard', 'grid', 'review', 'promptBudget', 'urenstaart', 'rapport', 'samenvatting', 'ifc', 'offerte', 'spreadsheet', 'viewer3d', 'pdf']);
   const seen = new Set<string>(['measure', 'estimate', 'review']);
   return input.filter((layout): layout is WorkspaceLayout => {
     if (!layout || typeof layout !== 'object' || typeof layout.id !== 'string' || !layout.id || seen.has(layout.id) || typeof layout.name !== 'string' || !layout.name.trim() || !views.has(layout.activeContentTab)) return false;
