@@ -51,6 +51,22 @@ gepubliceerde release. De lokale uitgangstak was schoon op `e5bff21`.
   gebruikershandleidingen in `docs/` bestaan wel. Publicatie van de wiki is
   niet als geslaagd aangemerkt.
 
+## Platformacceptatie — 30 oktober 2026
+
+De aanvullende `npm run test:platform`-suite laadt daadwerkelijk `.env.platform`
+en controleert zes gevallen met echte React-componenten en applicatiestore:
+geen eigen login/feedback/cloud-/extensieroutes, geen netwerkgebruik van een
+oude persoonlijke AI-sleutel, geen laden van gebruikerscode uit IndexedDB en
+geen botsingen met generieke taal-/extensievoorkeuren van andere tools.
+Deze tests verifiëren de concrete code/UI-criteria van #20, #21 en #22.
+Ze claimen geen live CSP-/netwerkacceptatie van de volledige SuperCloud.
+
+De eerste ondertekende 2026.44.5-macOS-proef vond een ontbrekende
+`plugins.updater.pubkey` bij ingeschakelde updater-artifacts. De bestaande
+publieke repositoriesleutel is toegevoegd. Een verplichte controle vóór de
+build en vier regressietests voorkomen herhaling. Ondertekende bundels worden
+pas geaccepteerd nadat de herhaalde platformrun werkelijk slaagt.
+
 ## Uitgevoerde controles
 
 - TypeScript `npx tsc --noEmit`: geslaagd.

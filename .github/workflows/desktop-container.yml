@@ -2,6 +2,12 @@ name: Native desktop container
 
 on:
   workflow_call:
+  workflow_dispatch:
+    inputs:
+      installer_run_id:
+        description: Successful signed desktop build run containing the matching Linux DEB
+        type: number
+        required: true
   release:
     types: [published]
 
@@ -32,6 +38,8 @@ jobs:
         with:
           name: open-calc-studio-Linux
           path: release-artifacts/installers
+          run-id: ${{ inputs.installer_run_id || github.run_id }}
+          github-token: ${{ github.token }}
       - name: Download the published release package
         if: github.event_name == 'release'
         env:

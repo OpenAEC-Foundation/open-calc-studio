@@ -63,6 +63,10 @@ jobs:
           NODE
       - run: npm ci
       - run: npm test -- --maxWorkers=2 --testTimeout=20000
+      - name: Verify updater signing configuration before compiling
+        env:
+          UPDATER_PUBKEY: ${{ vars.UPDATER_PUBKEY }}
+        run: node scripts/ci/check-updater-config.mjs
 
   build:
     needs: test

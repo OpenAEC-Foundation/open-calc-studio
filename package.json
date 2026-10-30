@@ -13,6 +13,7 @@
     "tauri": "tauri",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:platform": "vitest run --mode platform --config vitest.platform.config.ts",
     "test:e2e": "playwright test",
     "test:lib:browser": "npm run build:lib && playwright test -c playwright.library.config.ts",
     "generate:mcp-actions": "node scripts/generate-mcp-actions.mjs",

@@ -30,11 +30,18 @@ jobs:
       - run: npm ci
       - run: npx tsc --noEmit
       - run: npm test -- --maxWorkers=2 --testTimeout=20000
+      - run: npm run test:platform
       - run: npm run version:check
       - run: npm run test:version
       - run: npm run test:bundle
       - run: npm run test:signing
       - run: node --test scripts/ci/collect-artifacts.node-test.mjs
+      - name: Verify updater signing configuration
+        env:
+          UPDATER_PUBKEY: ${{ vars.UPDATER_PUBKEY }}
+        run: |
+          node scripts/ci/check-updater-config.mjs
+          node --test scripts/ci/updater-config.node-test.mjs
       - run: npm run check:blueprint
       - run: python3 packaging/docker/test_preferences.py
       - name: Match release tag

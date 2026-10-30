@@ -1,6 +1,7 @@
 """Serve noVNC and app-aware health on the same HTTP port."""
 import json
 import os
+import subprocess
 from pathlib import Path
 import urllib.request
 from websockify.websocketproxy import ProxyRequestHandler, WebSocketProxy
@@ -20,9 +21,16 @@ def healthy():
     if not all(alive(name) for name in ['app', 'display', 'wm', 'vnc', 'mcp']):
         return False
     try:
-        with urllib.request.urlopen('http://127.0.0.1:9742/api/v1/health', timeout=2) as response:
-            return json.load(response).get('status') == 'ok'
-    except (OSError, ValueError):
+        windows = subprocess.run(['wmctrl', '-lp'], capture_output=True, text=True, timeout=2, check=True)
+        pid = Path('/run/ocs/app.pid').read_text().strip()
+        if not any(len(fields := line.split()) >= 3 and fields[2] == pid for line in windows.stdout.splitlines()):
+            return False
+        headers = {'Authorization': 'Bearer ' + os.environ['OCS_API_TOKEN']} if os.environ.get('OCS_API_TOKEN') else {}
+        # A snapshot exists only after the frontend has mounted and pushed state.
+        request = urllib.request.Request('http://127.0.0.1:9742/api/v1/budget/summary', headers=headers)
+        with urllib.request.urlopen(request, timeout=2) as response:
+            return json.load(response).get('schedule') is not None
+    except (OSError, ValueError, subprocess.SubprocessError):
         return False
 
 
