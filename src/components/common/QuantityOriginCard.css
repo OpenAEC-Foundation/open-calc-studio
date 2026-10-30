@@ -1,0 +1,9 @@
+.quantity-origin-card { display:grid; gap:10px; margin:12px 0; padding:12px; border:1px solid var(--oa-border); border-radius:var(--oa-radius-medium); background:var(--oa-raised); font-size:var(--oa-size-body); }
+.quantity-origin-card code { display:block; overflow-wrap:anywhere; font:10px/1.5 var(--oa-font-mono); margin-top:4px; }
+.quantity-origin-card li { display:grid; gap:4px; margin:8px 0; padding:8px; background:var(--oa-hover); border-radius:var(--oa-radius-small); }
+.quantity-origin-card ul { padding:0; list-style:none; max-height:240px; overflow:auto; }
+.quantity-origin-card summary { cursor:pointer; }
+.quantity-origin-value { font-size:20px; text-align:left; }
+.quantity-origin-warning { color:var(--oa-warning); }
+.quantity-origin-dialog { width:min(540px,90vw); }
+.grid-quantity-origin { border:0; background:transparent; font-size:11px; padding:0 3px; cursor:pointer; color:var(--oa-accent-text); }

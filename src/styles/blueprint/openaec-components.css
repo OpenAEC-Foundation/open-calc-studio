@@ -1,0 +1,400 @@
+/* OpenAEC UI 0.4 components for web apps.
+ * Needs openaec-tokens.css first. Mirrors crates/openaec-ui (design::widgets,
+ * tiles, workflow, chrome) and the website style of proposal E of the installer.
+ * Classes start with oa-, variants with --, states use aria attributes where HTML
+ * has them (aria-pressed, aria-selected, aria-current, aria-checked, aria-invalid).
+ * Overview and examples: componenten.html. */
+
+/* ---------- Base ---------- */
+
+:root {
+  /* Soft shadow of the website tiles: warm grey in light themes, black in dark ones. */
+  --oa-c-shadow: rgba(42, 42, 50, 0.2);
+  --oa-c-shine: rgba(255, 255, 255, 0.5);
+  --oa-c-glass: rgba(255, 255, 255, 0.07);
+  --oa-c-glass-border: rgba(255, 255, 255, 0.09);
+  --oa-c-chip: var(--oa-hover);
+}
+[data-oa-theme="dark"], [data-oa-theme="blueprint"] {
+  --oa-c-shadow: rgba(0, 0, 0, 0.44);
+  --oa-c-shine: rgba(255, 255, 255, 0.08);
+  --oa-c-chip: rgba(255, 255, 255, 0.06);
+}
+[data-oa-theme^="high-contrast"] {
+  --oa-c-shadow: transparent;
+  --oa-c-shine: transparent;
+}
+
+.oa-app {
+  margin: 0;
+  background: var(--oa-frame);
+  color: var(--oa-text);
+  font-family: var(--oa-font-body);
+  font-size: var(--oa-size-body);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+.oa-app *, .oa-app *::before, .oa-app *::after { box-sizing: border-box; }
+/* Form controls do not inherit the font in browsers; inputs and icon buttons were set in Arial (issue #26).
+   :where keeps this below every .oa- class, so their own sizes and weights still apply. */
+:where(.oa-app) :is(button, input, select, textarea) { font: inherit; }
+
+/* B2 icons inline: currentColor for the main colour, --icon-accent for the accent. */
+.oa-icon { width: 16px; height: 16px; flex: none; color: inherit; --icon-accent: var(--oa-accent-text); }
+.oa-icon--24 { width: 24px; height: 24px; }
+.oa-icon--mono { --icon-accent: currentColor; }
+
+/* The web can draw the outer focus ring that iced cannot. */
+.oa-app :focus-visible { outline: 2px solid var(--oa-focus); outline-offset: 2px; }
+
+/* ---------- Text ---------- */
+
+.oa-heading { margin: 0; font-family: var(--oa-font-heading); font-weight: var(--oa-weight-medium); /* Space Grotesk Medium, as openaec_ui::fonts::HEADING */ letter-spacing: var(--oa-letter-spacing-heading); color: var(--oa-text); }
+.oa-heading--page { font-size: var(--oa-size-page-heading); }
+.oa-heading--dialog { font-size: var(--oa-size-dialog-heading); }
+.oa-heading--panel { font-size: var(--oa-size-panel-heading); }
+.oa-secondary { color: var(--oa-text-secondary); }
+.oa-mono-label { font-family: var(--oa-font-mono); font-size: var(--oa-size-label); letter-spacing: var(--oa-letter-spacing-mono-label); text-transform: uppercase; color: var(--oa-text-secondary); }
+/* Numbers in Inter AEC: tabular figures and a distinct I and l without OpenType features (issue #28). */
+.oa-number { font-family: var(--oa-font-numbers); text-align: right; font-variant-numeric: tabular-nums; }
+.oa-divider { height: 1px; border: 0; margin: 0; background: var(--oa-border); }
+
+/* ---------- Buttons (besluit 1: 28 px, 24 px compact) ---------- */
+
+.oa-button {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 28px; padding: 0 12px;
+  border: 1px solid var(--oa-border-strong); border-radius: var(--oa-radius-medium);
+  background: var(--oa-raised); color: var(--oa-text);
+  font: var(--oa-weight-semibold) var(--oa-size-body) / 1 var(--oa-font-body);
+  white-space: nowrap; cursor: pointer; text-decoration: none;
+}
+.oa-button:hover { background: var(--oa-hover); }
+.oa-button:active { background: var(--oa-pressed); }
+.oa-button--compact { height: 24px; padding: 0 8px; }
+.oa-button--primary { background: var(--oa-accent); border-color: transparent; color: var(--oa-text-on-accent); }
+.oa-button--primary .oa-icon { --icon-accent: currentColor; }
+.oa-button--primary:hover { background: var(--oa-accent-hover); }
+.oa-button--primary:active { background: var(--oa-accent-pressed); }
+.oa-button--quiet { background: transparent; border-color: transparent; }
+.oa-button--danger { background: transparent; border-color: var(--oa-error); color: var(--oa-error); }
+.oa-button--danger .oa-icon { --icon-accent: currentColor; }
+.oa-button--danger:hover { background: color-mix(in srgb, var(--oa-error) 8%, var(--oa-panel)); }
+.oa-button--danger:active { background: color-mix(in srgb, var(--oa-error) 16%, var(--oa-panel)); }
+.oa-button:disabled, .oa-button[aria-disabled="true"] { background: var(--oa-raised); border-color: var(--oa-border); color: var(--oa-text-disabled); cursor: default; }
+.oa-button--primary:disabled { background: var(--oa-hover); }
+.oa-button--quiet:disabled, .oa-button--danger:disabled { background: transparent; }
+.oa-button:disabled .oa-icon { --icon-accent: currentColor; }
+
+/* Square icon button: 28 px, 20 px in a panel header. aria-pressed is a toggle. */
+.oa-icon-button {
+  display: inline-grid; place-items: center; width: 28px; height: 28px; padding: 0;
+  border: 1px solid transparent; border-radius: var(--oa-radius-small);
+  background: transparent; color: var(--oa-text); cursor: pointer;
+}
+.oa-icon-button--small { width: 20px; height: 20px; }
+.oa-icon-button:hover { background: var(--oa-hover); }
+.oa-icon-button:active { background: var(--oa-pressed); }
+.oa-icon-button[aria-pressed="true"] { background: var(--oa-selected); border-color: var(--oa-selected-bar); color: var(--oa-accent-text); }
+.oa-icon-button:disabled { background: transparent; color: var(--oa-text-disabled); cursor: default; }
+.oa-icon-button:disabled .oa-icon { --icon-accent: currentColor; }
+
+/* Tooltip on any element: data-oa-tip="Opslaan" data-oa-keys="Ctrl+S". It shows on hover and
+   on keyboard focus; a focused row also shows the tips of its cells. Escape hides it with
+   openaec-components.js (issue #7). */
+[data-oa-tip] { position: relative; }
+[data-oa-tip]:hover::after, [data-oa-tip]:focus-visible::after, :focus-visible > [data-oa-tip]::after {
+  content: attr(data-oa-tip) "  " attr(data-oa-keys);
+  position: absolute; left: 50%; top: calc(100% + 4px); transform: translateX(-50%); z-index: 20;
+  padding: 4px 8px; border-radius: var(--oa-radius-small); white-space: pre; pointer-events: none;
+  background: var(--oa-raised); color: var(--oa-text); box-shadow: var(--oa-shadow-popup);
+  font: var(--oa-weight-regular) var(--oa-size-label) / 1.3 var(--oa-font-body);
+}
+[data-oa-tip][data-oa-tip-hidden]::after, [data-oa-tip-hidden] > [data-oa-tip]::after { content: none; }
+
+/* Text that may not fit: cut off with "…". Put the full text in data-oa-tip on a parent (the
+   truncated element clips its own tooltip): a tab, or a table cell whose row is focusable, so it
+   can be read with mouse and keyboard (issue #7). */
+.oa-truncate { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+
+/* ---------- Website buttons (open-aec.com, installer E) ---------- */
+
+.oa-site-button {
+  display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px;
+  border: 1px solid var(--oa-border); border-radius: 8px;
+  background: linear-gradient(180deg, var(--oa-c-shine) 0, var(--oa-raised) 4%, color-mix(in srgb, var(--oa-frame) 30%, var(--oa-raised)) 100%);
+  color: var(--oa-text); box-shadow: 0 4px 12px -4px var(--oa-c-shadow);
+  font: var(--oa-weight-semibold) 14px / 1.2 var(--oa-font-body); white-space: nowrap; cursor: pointer; text-decoration: none;
+  transition: transform .15s, box-shadow .15s, border-color .15s;
+}
+.oa-site-button:hover { border-color: var(--oa-accent); transform: translateY(-1px); }
+.oa-site-button:active { transform: none; box-shadow: none; }
+.oa-site-button--small { padding: 7px 14px; font-size: 13px; }
+/* Text stays dark on amber: white fails the contrast check. */
+.oa-site-button--primary {
+  border-color: transparent; color: var(--oa-text-on-accent);
+  background: linear-gradient(180deg, color-mix(in srgb, #fff 35%, var(--oa-accent-hover)) 0, color-mix(in srgb, var(--oa-accent-hover) 60%, var(--oa-accent)) 4%, var(--oa-accent) 100%);
+  box-shadow: 0 7px 20px -6px color-mix(in srgb, var(--oa-accent) 70%, transparent);
+}
+.oa-site-button--primary .oa-icon { --icon-accent: currentColor; }
+.oa-site-button--primary:hover { border-color: transparent; background: linear-gradient(180deg, var(--oa-accent-hover), var(--oa-accent)); box-shadow: 0 9px 24px -6px color-mix(in srgb, var(--oa-accent) 85%, transparent); }
+.oa-site-button--primary:active { background: var(--oa-accent-pressed); }
+.oa-site-button--glass { border-color: var(--oa-c-glass-border); background: var(--oa-c-glass); color: #EDEBE8; box-shadow: none; }
+.oa-site-button:disabled { background: var(--oa-hover); border-color: var(--oa-border); color: var(--oa-text-disabled); box-shadow: none; transform: none; cursor: default; }
+
+/* Round 34 px icon button of the website tiles: source code, web tab, external. */
+.oa-round-icon {
+  display: inline-grid; place-items: center; width: 34px; height: 34px; padding: 0;
+  border: 1px solid var(--oa-border); border-radius: 50%;
+  background: var(--oa-raised); color: var(--oa-text); cursor: pointer; text-decoration: none;
+}
+[data-oa-theme="dark"] .oa-round-icon, [data-oa-theme="blueprint"] .oa-round-icon { background: color-mix(in srgb, var(--oa-raised) 50%, transparent); }
+.oa-round-icon:hover { background: var(--oa-hover); border-color: var(--oa-accent); }
+
+/* ---------- Form controls ---------- */
+
+.oa-field {
+  height: 28px; padding: 0 8px; min-width: 0;
+  border: 1px solid var(--oa-border-strong); border-radius: var(--oa-radius-medium);
+  background: var(--oa-raised); color: var(--oa-text);
+  font: var(--oa-weight-regular) var(--oa-size-body) / 1 var(--oa-font-body);
+}
+.oa-field--compact { height: 24px; }
+textarea.oa-field { height: auto; min-height: 64px; padding: 6px 8px; line-height: 1.4; resize: vertical; }
+.oa-field::placeholder { color: var(--oa-text-secondary); }
+.oa-field:hover { border-color: var(--oa-text); }
+.oa-field:focus { outline: none; border: 2px solid var(--oa-focus); padding: 0 7px; }
+textarea.oa-field:focus { padding: 5px 7px; }
+.oa-field[aria-invalid="true"] { border-color: var(--oa-error); }
+.oa-field:disabled { background: var(--oa-panel); border-color: var(--oa-border); color: var(--oa-text-disabled); }
+.oa-field-message { margin-top: 4px; font-size: var(--oa-size-label); color: var(--oa-error); }
+select.oa-field { padding-right: 24px; appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--oa-text) 50%), linear-gradient(135deg, var(--oa-text) 50%, transparent 50%); background-position: calc(100% - 12px) 12px, calc(100% - 8px) 12px; background-size: 4px 4px; background-repeat: no-repeat; }
+.oa-label { display: grid; gap: 4px; font-weight: var(--oa-weight-medium); }
+
+.oa-check { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+.oa-check input { width: 16px; height: 16px; margin: 0; accent-color: var(--oa-accent); }
+.oa-check:has(input:disabled) { color: var(--oa-text-disabled); cursor: default; }
+
+/* Switch: <label class="oa-switch"><input type="checkbox" role="switch"> Label</label> */
+.oa-switch { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+.oa-switch input { appearance: none; position: relative; width: 32px; height: 18px; margin: 0; border-radius: 9px; border: 1px solid var(--oa-border-strong); background: var(--oa-hover); cursor: pointer; transition: background .15s; }
+.oa-switch input::before { content: ""; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: var(--oa-text-secondary); transition: transform .15s; }
+.oa-switch input:checked { background: var(--oa-accent); border-color: var(--oa-accent); }
+.oa-switch input:checked::before { transform: translateX(14px); background: var(--oa-text-on-accent); }
+
+.oa-slider { accent-color: var(--oa-accent); }
+.oa-progress { height: 6px; border-radius: 3px; background: var(--oa-hover); overflow: hidden; }
+.oa-progress > span { display: block; height: 100%; border-radius: 3px; background: var(--oa-accent); }
+
+/* ---------- Labels: status, chip, pill ---------- */
+
+.oa-status, .oa-chip { display: inline-flex; align-items: center; gap: 4px; font: var(--oa-weight-regular) var(--oa-size-label) / 1.4 var(--oa-font-mono); white-space: nowrap; }
+.oa-status { padding: 1px 8px; border-radius: var(--oa-radius-full); border: 1px solid var(--oa-text-secondary); color: var(--oa-text-secondary); }
+.oa-chip { padding: 1px 7px; border-radius: 4px; border: 1px solid var(--oa-border); background: var(--oa-c-chip); color: var(--oa-text-secondary); text-transform: uppercase; }
+.oa-status--error, .oa-chip--error { border-color: var(--oa-error); background: var(--oa-error-tint); color: var(--oa-error); }
+.oa-status--warning, .oa-chip--warning { border-color: var(--oa-warning); background: var(--oa-warning-tint); color: var(--oa-warning); }
+.oa-status--success, .oa-chip--success { border-color: var(--oa-success); background: var(--oa-success-tint); color: var(--oa-success); }
+.oa-status--info, .oa-chip--info { border-color: var(--oa-info); background: var(--oa-info-tint); color: var(--oa-info); }
+
+/* Filter pill with a count, as on open-aec.com; aria-pressed="true" is the active one. */
+.oa-pill {
+  display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px;
+  border: 1px solid var(--oa-border); border-radius: var(--oa-radius-full);
+  background: var(--oa-raised); color: var(--oa-text); box-shadow: 0 2px 6px -2px var(--oa-c-shadow);
+  font: var(--oa-weight-semibold) 14px / 1.2 var(--oa-font-body); cursor: pointer;
+}
+.oa-pill:hover { border-color: var(--oa-accent); }
+.oa-pill[aria-pressed="true"] { border-color: transparent; color: var(--oa-text-on-accent); background: linear-gradient(180deg, var(--oa-accent-hover), var(--oa-accent)); box-shadow: 0 6px 16px -6px color-mix(in srgb, var(--oa-accent) 80%, transparent); }
+.oa-count { padding: 1px 7px; border-radius: var(--oa-radius-full); background: var(--oa-hover); font: var(--oa-weight-regular) 11px / 1.4 var(--oa-font-mono); }
+.oa-pill[aria-pressed="true"] .oa-count { background: rgba(28, 25, 23, 0.12); }
+.oa-pill-letter { padding: 0 5px; border: 1px solid var(--oa-border); border-radius: 4px; font: 10px / 1.5 var(--oa-font-mono); }
+.oa-pill[aria-pressed="true"] .oa-pill-letter { border-color: rgba(28, 25, 23, 0.2); }
+
+/* ---------- Tiles and cards (tiles never lift, the website cards do) ---------- */
+
+.oa-icon-tile {
+  display: inline-grid; place-items: center; flex: none; width: 40px; height: 40px;
+  border: 1px solid color-mix(in srgb, var(--oa-accent) 35%, var(--oa-raised)); border-radius: var(--oa-radius-medium);
+  background: var(--oa-selected); color: var(--oa-accent-text);
+}
+.oa-icon-tile .oa-icon { width: 22px; height: 22px; --icon-accent: currentColor; }
+.oa-icon-tile--compact { width: 32px; height: 32px; }
+.oa-icon-tile--compact .oa-icon { width: 18px; height: 18px; }
+/* The website's amber tile, also for app logos. */
+.oa-icon-tile--amber { border-color: color-mix(in srgb, var(--oa-accent) 25%, transparent); border-radius: 25%; background: linear-gradient(145deg, color-mix(in srgb, var(--oa-accent) 18%, transparent), color-mix(in srgb, var(--oa-accent) 5%, transparent)); }
+.oa-icon-tile img { width: 72%; height: 72%; object-fit: contain; }
+
+.oa-tile {
+  display: flex; gap: 12px; align-items: flex-start; width: 100%; padding: 12px 16px; text-align: left;
+  border: 1px solid var(--oa-border); border-radius: var(--oa-radius-large);
+  background: var(--oa-raised); color: var(--oa-text); font: inherit; cursor: pointer; text-decoration: none;
+}
+.oa-tile:hover { border-color: var(--oa-accent); }
+.oa-tile:active { background: var(--oa-selected); }
+.oa-tile[aria-checked="true"] { border: 2px solid var(--oa-selected-bar); padding: 11px 15px; }
+.oa-tile:disabled { border-color: var(--oa-border); color: var(--oa-text-disabled); cursor: default; }
+.oa-tile-title { font-size: var(--oa-size-panel-heading); font-weight: var(--oa-weight-semibold); }
+.oa-tile-text { color: var(--oa-text-secondary); }
+.oa-tile--choice { flex-direction: column; padding: 12px 14px; }
+.oa-tile--choice .oa-radio-dot { position: absolute; top: 12px; right: 14px; }
+.oa-tile--choice { position: relative; }
+.oa-radio-dot { width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--oa-border-strong); background: var(--oa-raised); }
+[aria-checked="true"] > .oa-radio-dot { border: 5px solid var(--oa-selected-bar); }
+
+.oa-project-card { display: flex; flex-direction: column; padding: 0; overflow: hidden; gap: 0; }
+.oa-project-card .oa-preview { height: 96px; display: grid; place-items: center; background: var(--oa-workspace); border-bottom: 1px solid var(--oa-border); }
+.oa-project-card .oa-preview img { width: 100%; height: 100%; object-fit: cover; }
+.oa-project-card .oa-card-body { display: grid; gap: 2px; padding: 10px 12px; }
+.oa-meta { font: var(--oa-size-label) / 1.4 var(--oa-font-mono); color: var(--oa-text-secondary); }
+
+.oa-info-card, .oa-figure-tile { padding: 14px 16px; border: 1px solid var(--oa-border); border-radius: var(--oa-radius-large); background: var(--oa-raised); }
+.oa-info-card dl { display: grid; grid-template-columns: 2fr 3fr; gap: 6px 8px; margin: 10px 0 0; }
+.oa-info-card dt { color: var(--oa-text-secondary); }
+.oa-info-card dd { margin: 0; font-weight: var(--oa-weight-medium); }
+.oa-figure { font: var(--oa-weight-medium) var(--oa-size-page-heading) / 1.2 var(--oa-font-heading); letter-spacing: var(--oa-letter-spacing-heading); }
+.oa-figure--accent { color: var(--oa-accent-text); }
+
+.oa-recent { border: 1px solid var(--oa-border); border-radius: var(--oa-radius-large); background: var(--oa-raised); overflow: hidden; }
+.oa-recent a { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; height: 40px; padding: 0 12px; color: inherit; text-decoration: none; }
+.oa-recent a + a { border-top: 1px solid var(--oa-border); }
+.oa-recent a:hover { background: var(--oa-hover); }
+.oa-recent b { font-weight: var(--oa-weight-medium); }
+
+/* Website card: white-to-warm gradient, light line on top, 12 px corners, deep soft shadow. */
+.oa-site-card {
+  display: flex; flex-direction: column; gap: 12px; padding: 18px;
+  border: 1px solid var(--oa-border); border-radius: 12px;
+  background: linear-gradient(180deg, var(--oa-c-shine) 0, var(--oa-raised) 2px, color-mix(in srgb, var(--oa-frame) 30%, var(--oa-raised)) 100%);
+  box-shadow: 0 14px 30px -12px var(--oa-c-shadow);
+  transition: transform .2s, box-shadow .2s;
+}
+.oa-site-card:hover { transform: translateY(-2px); box-shadow: 0 20px 40px -14px var(--oa-c-shadow); }
+.oa-site-card--featured { border: 2px solid var(--oa-accent); }
+.oa-site-card .oa-preview-image { display: block; width: 100%; border-radius: 8px; aspect-ratio: 640 / 304; object-fit: cover; -webkit-mask-image: linear-gradient(180deg, #000 66%, transparent); mask-image: linear-gradient(180deg, #000 66%, transparent); }
+.oa-card-actions { display: flex; align-items: center; gap: 8px; margin-top: auto; }
+
+/* The website's dark band and its glass cards. Always dark, whatever the theme. */
+.oa-dark-band { position: relative; padding: 32px; color: #EDEBE8; background: linear-gradient(180deg, color-mix(in srgb, #fff 6%, #33333C) 0, #2A2A32 70%); border-bottom: 3px solid var(--oa-brand-amber); }
+.oa-dark-band .oa-heading { color: #fff; }
+.oa-dark-band .oa-secondary, .oa-dark-band .oa-mono-label { color: #B8B5B0; }
+.oa-glass-card { padding: 18px; border: 1px solid var(--oa-c-glass-border); border-radius: 12px; background: linear-gradient(180deg, rgba(255,255,255,0.16) 0, var(--oa-c-glass) 2px, rgba(255,255,255,0.024) 100%); box-shadow: 0 16px 34px -12px rgba(0,0,0,0.5); }
+
+/* ---------- Notifications and dialogs ---------- */
+
+/* In-page banner: tint, 3 px bar, icon, bold word ("Let op."), text, close. */
+.oa-banner { display: flex; align-items: center; gap: 8px; min-height: 36px; padding: 6px 10px 6px 13px; border-left: 3px solid var(--oa-info); background: var(--oa-info-tint); color: var(--oa-text); }
+.oa-banner > b { font-weight: var(--oa-weight-semibold); }
+.oa-banner > span { flex: 1; }
+.oa-banner--error { border-color: var(--oa-error); background: var(--oa-error-tint); }
+.oa-banner--warning { border-color: var(--oa-warning); background: var(--oa-warning-tint); }
+.oa-banner--success { border-color: var(--oa-success); background: var(--oa-success-tint); }
+.oa-banner--error > .oa-icon { color: var(--oa-error); --icon-accent: currentColor; }
+.oa-banner--warning > .oa-icon { color: var(--oa-warning); --icon-accent: currentColor; }
+.oa-banner--success > .oa-icon { color: var(--oa-success); --icon-accent: currentColor; }
+.oa-banner--info > .oa-icon, .oa-banner > .oa-icon { color: var(--oa-info); --icon-accent: currentColor; }
+
+.oa-toast { display: flex; gap: 10px; width: 340px; padding: 12px; border-radius: var(--oa-radius-large); background: var(--oa-raised); box-shadow: var(--oa-shadow-popup); }
+.oa-toast > div { flex: 1; display: grid; gap: 2px; }
+.oa-toast b { font-weight: var(--oa-weight-semibold); }
+
+.oa-overlay { position: fixed; inset: 0; display: grid; place-items: center; background: var(--oa-overlay); z-index: 50; }
+.oa-dialog { width: min(440px, calc(100vw - 32px)); padding: 20px; border: 0; border-radius: var(--oa-radius-large); background: var(--oa-raised); color: var(--oa-text); box-shadow: var(--oa-shadow-dialog); }
+.oa-dialog::backdrop { background: var(--oa-overlay); }
+.oa-dialog-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+
+.oa-menu { min-width: 200px; padding: 4px; border-radius: var(--oa-radius-large); background: var(--oa-raised); box-shadow: var(--oa-shadow-popup); }
+.oa-menu button { display: flex; align-items: center; gap: 8px; width: 100%; height: 28px; padding: 0 8px; border: 0; border-radius: var(--oa-radius-small); background: none; color: var(--oa-text); font: inherit; text-align: left; cursor: pointer; }
+.oa-menu button:hover { background: var(--oa-hover); }
+.oa-menu kbd { margin-left: auto; font: var(--oa-size-label) var(--oa-font-mono); color: var(--oa-text-secondary); }
+.oa-menu hr { margin: 4px 0; border: 0; height: 1px; background: var(--oa-border); }
+.oa-menu .oa-danger { color: var(--oa-error); }
+
+.oa-empty { display: grid; justify-items: center; gap: 8px; padding: 32px; text-align: center; color: var(--oa-text-secondary); }
+
+/* ---------- Panels, tables, tabs ---------- */
+
+.oa-panel { display: flex; flex-direction: column; background: var(--oa-panel); border: 1px solid var(--oa-border); box-shadow: var(--oa-shadow-panel); }
+.oa-panel-header { display: flex; align-items: center; gap: 4px; height: var(--oa-shell-panel-header); padding: 0 8px; border-bottom: 1px solid var(--oa-border); }
+.oa-panel-header > .oa-mono-label { flex: 1; }
+.oa-property { display: grid; grid-template-columns: 2fr 3fr; align-items: center; gap: 8px; height: 28px; padding: 0 8px; }
+.oa-property > span:first-child { color: var(--oa-text-secondary); }
+
+/* Table: header 28 px with a strong line, rows 28 px with a line, no zebra stripes. */
+.oa-table { width: 100%; border-collapse: collapse; font-size: var(--oa-size-body); }
+.oa-table th { height: 28px; padding: 0 8px; text-align: left; border-bottom: 1px solid var(--oa-border-strong); font: var(--oa-size-label) var(--oa-font-mono); letter-spacing: var(--oa-letter-spacing-mono-label); text-transform: uppercase; color: var(--oa-text-secondary); font-weight: var(--oa-weight-regular); }
+.oa-table td { height: 28px; padding: 0 8px; border-bottom: 1px solid var(--oa-border); }
+.oa-table tbody tr:hover { background: var(--oa-hover); }
+.oa-table tr[aria-selected="true"] { background: var(--oa-selected); box-shadow: inset 3px 0 var(--oa-selected-bar); }
+.oa-table .oa-number { font-family: var(--oa-font-numbers); }
+
+/* Tabs with an amber underline (ribbon tabs, settings pages). */
+.oa-tabs { display: flex; gap: 0; height: var(--oa-shell-ribbon-tabs); border-bottom: 1px solid var(--oa-border); }
+.oa-tabs button, .oa-tabs a { position: relative; padding: 0 12px; border: 0; background: none; color: var(--oa-text-secondary); font: var(--oa-weight-medium) var(--oa-size-body) var(--oa-font-body); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+.oa-tabs button:hover, .oa-tabs a:hover { color: var(--oa-text); background: var(--oa-hover); }
+.oa-tabs [aria-selected="true"] { color: var(--oa-text); font-weight: var(--oa-weight-semibold); }
+.oa-tabs [aria-selected="true"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--oa-accent); }
+
+/* Document tabs: 30 px, active one in the panel colour with an accent line on top. */
+.oa-document-tabs { display: flex; height: var(--oa-shell-document-tabs); background: var(--oa-docbar); border-bottom: 1px solid var(--oa-border); }
+.oa-document-tab { display: inline-flex; align-items: center; gap: 6px; max-width: 220px; padding: 0 6px 0 12px; border-right: 1px solid var(--oa-border); color: var(--oa-text-secondary); cursor: pointer; }
+.oa-document-tab[aria-selected="true"] { background: var(--oa-panel); color: var(--oa-text); box-shadow: inset 0 2px var(--oa-accent); }
+.oa-document-tab .oa-dirty { width: 6px; height: 6px; border-radius: 50%; background: var(--oa-accent); }
+
+/* ---------- Workflow pages ---------- */
+
+.oa-workflow { display: grid; grid-template-columns: 220px 1fr; min-height: 100%; }
+.oa-sidebar { display: flex; flex-direction: column; gap: 2px; padding: 12px 8px; background: var(--oa-panel); border-right: 1px solid var(--oa-border); }
+.oa-sidebar a { display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 10px; border-radius: var(--oa-radius-medium); color: var(--oa-text); text-decoration: none; }
+.oa-sidebar a:hover { background: var(--oa-hover); }
+.oa-sidebar a[aria-current="page"] { background: var(--oa-selected); color: var(--oa-accent-text); font-weight: var(--oa-weight-semibold); box-shadow: inset 3px 0 var(--oa-selected-bar); }
+
+/* Step bar: 44 px, done steps with a check, the current one in amber. */
+.oa-steps { display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; margin: 0; list-style: none; background: var(--oa-panel); border-bottom: 1px solid var(--oa-border); counter-reset: oa-step; }
+.oa-steps li { display: flex; align-items: center; gap: 8px; color: var(--oa-text-secondary); counter-increment: oa-step; }
+.oa-steps li::before { content: counter(oa-step); display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--oa-border-strong); font: 11px var(--oa-font-mono); }
+.oa-steps li + li::after { order: -1; content: ""; width: 24px; height: 1px; background: var(--oa-border-strong); }
+.oa-steps [aria-current="step"] { color: var(--oa-text); font-weight: var(--oa-weight-semibold); }
+.oa-steps [aria-current="step"]::before { background: var(--oa-accent); border-color: var(--oa-accent); color: var(--oa-text-on-accent); }
+.oa-steps .oa-done::before { content: "✓"; background: var(--oa-selected); border-color: var(--oa-selected-bar); color: var(--oa-accent-text); }
+
+.oa-form-card { max-width: 720px; padding: 20px 24px; border: 1px solid var(--oa-border); border-radius: var(--oa-radius-large); background: var(--oa-raised); display: grid; gap: 12px; }
+.oa-action-bar { position: sticky; bottom: 0; display: flex; align-items: center; justify-content: flex-end; gap: 8px; height: 52px; padding: 0 16px; background: var(--oa-panel); border-top: 1px solid var(--oa-border); }
+.oa-action-bar > .oa-secondary { margin-right: auto; }
+
+.oa-statusbar { display: flex; align-items: center; gap: 16px; height: var(--oa-shell-statusbar); padding: 0 10px; background: var(--oa-statusbar); color: var(--oa-statusbar-text); border-top: 1px solid var(--oa-border); font: var(--oa-size-label) var(--oa-font-mono); }
+.oa-statusbar > .oa-spacer { flex: 1; }
+
+/* ---------- High contrast: no gradients, glows or lifts; borders get 2 px ---------- */
+
+[data-oa-theme^="high-contrast"] :is(.oa-site-button, .oa-site-card, .oa-pill, .oa-glass-card) { background: var(--oa-raised); box-shadow: none; transform: none; }
+[data-oa-theme^="high-contrast"] :is(.oa-site-button--primary, .oa-pill[aria-pressed="true"]) { background: var(--oa-accent); }
+[data-oa-theme^="high-contrast"] :is(.oa-button, .oa-icon-button, .oa-tile, .oa-site-button, .oa-pill, .oa-round-icon):hover { border-color: var(--oa-accent); box-shadow: inset 0 0 0 1px var(--oa-accent); }
+[data-oa-theme^="high-contrast"] .oa-button--primary:hover { border-color: var(--oa-text); }
+[data-oa-theme^="high-contrast"] .oa-tile:active { box-shadow: inset 0 0 0 3px var(--oa-accent); background: var(--oa-raised); }
+[data-oa-theme^="high-contrast"] .oa-icon-tile { background: var(--oa-panel); border-color: var(--oa-accent); }
+[data-oa-theme^="high-contrast"] :is(.oa-banner, .oa-status, .oa-chip) { background: var(--oa-panel); }
+[data-oa-theme^="high-contrast"] .oa-dark-band { background: var(--oa-panel); color: var(--oa-text); }
+[data-oa-theme^="high-contrast"] .oa-dark-band :is(.oa-heading, .oa-secondary, .oa-mono-label) { color: var(--oa-text); }
+
+/* ---------- Windows contrast themes (forced-colors): shadows and own colours are gone ---------- */
+
+/* A selection carried by a box-shadow or a tint alone would vanish (issue #6), so it
+   takes the system's Highlight colours; underlines and bars become borders. */
+@media (forced-colors: active) {
+  /* Pseudo-elements cannot go inside :is(), so the step marker has its own rule. */
+  :is(.oa-table tr[aria-selected="true"] > td, .oa-sidebar a[aria-current="page"], .oa-icon-button[aria-pressed="true"], .oa-pill[aria-pressed="true"]),
+  .oa-steps [aria-current="step"]::before {
+    forced-color-adjust: none; background: Highlight; color: HighlightText; border-color: HighlightText;
+  }
+  .oa-tabs [aria-selected="true"]::after { forced-color-adjust: none; background: Highlight; }
+  /* Borders are forced to the text colour here, so the top bar is its own strip. */
+  .oa-document-tab[aria-selected="true"] { position: relative; }
+  .oa-document-tab[aria-selected="true"]::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; forced-color-adjust: none; background: Highlight; }
+  :is(.oa-tile[aria-checked="true"], [aria-checked="true"] > .oa-radio-dot) { border-color: Highlight; }
+  .oa-icon { --icon-accent: currentColor; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oa-app * { transition: none !important; }
+  .oa-site-card:hover, .oa-site-button:hover { transform: none; }
+}

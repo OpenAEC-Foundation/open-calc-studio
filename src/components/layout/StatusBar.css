@@ -11,7 +11,7 @@
   user-select: none;
   cursor: default;
   font-size: 11px;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--oa-font-body);
 }
 
 .status-bar-left {
@@ -52,7 +52,7 @@
 
 .status-item-value {
   color: var(--theme-status-text);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--oa-font-mono);
   font-size: 10px;
 }
 
@@ -107,7 +107,7 @@
   background: none;
   border: none;
   color: var(--theme-status-text);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--oa-font-mono);
   font-size: 10px;
   padding: 1px 4px;
   min-width: 38px;
@@ -125,7 +125,7 @@
   background: var(--theme-bg);
   border: 1px solid var(--theme-accent);
   color: var(--theme-text);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--oa-font-mono);
   font-size: 10px;
   padding: 0 2px;
   text-align: center;
@@ -154,7 +154,7 @@
   background: none;
   border: none;
   color: var(--theme-text);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--oa-font-mono);
   font-size: 11px;
   padding: 3px 12px;
   text-align: right;

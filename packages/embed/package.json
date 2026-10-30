@@ -1,6 +1,6 @@
 {
   "name": "@openaec/open-calc-studio",
-  "version": "0.13.0",
+  "version": "2026.44.5",
   "description": "Open Calc Studio as an embeddable React component and library: construction cost estimating with import/export of .ifcCalc, FIEBDC-3 (.bc3), ÖNORM A 2063 (.onlv/.onlb), CUF, IBIS-TRAD and more.",
   "license": "LGPL-3.0-only",
   "type": "module",

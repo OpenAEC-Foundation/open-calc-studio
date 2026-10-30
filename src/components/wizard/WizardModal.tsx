@@ -63,6 +63,8 @@ export default function WizardModal({ open, onClose }: WizardModalProps) {
 
     const newItems = [...items, ...wizardItems];
     setItems(recalculateItems(newItems));
+    const state = useAppStore.getState();
+    state.updateDocument(state.activeDocumentId, { isModified: true });
     handleClose();
   };
 

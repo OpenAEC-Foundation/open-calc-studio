@@ -1,11 +1,15 @@
+import { uiText } from '@/i18n/uiText';
+import { blueprintTheme } from './utils/blueprintTheme';
+import { localStore } from '@/utils/browserStorage';
 import { Buffer } from 'buffer';
 (window as any).Buffer = Buffer;
 (globalThis as any).Buffer = Buffer;
 
 // Apply saved theme synchronously before first render to prevent flash
 try {
-  const saved = localStorage.getItem("ocs-theme");
-  document.documentElement.setAttribute("data-theme", saved || "light");
+  const saved = localStore.getItem("ocs-theme");
+  document.documentElement.setAttribute("data-theme", blueprintTheme(saved || "light"));
+  document.documentElement.setAttribute("data-oa-theme", blueprintTheme(saved || "light"));
 } catch { /* ignore */ }
 
 // Bewaarde interface-zoom meteen toepassen, zodat de app niet eerst op
@@ -16,8 +20,9 @@ void applyUiZoom(loadUiZoom());
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./i18n/config";
-import "./styles/fonts.css";
 import App from "./App";
+import { CompanionWindow } from "./components/layout/CompanionWindow";
+const companionId = new URLSearchParams(window.location.search).get("companion");
 
 class ErrorBoundary extends React.Component<
   { children: React.ReactNode },
@@ -36,7 +41,7 @@ class ErrorBoundary extends React.Component<
     if (this.state.hasError) {
       return (
         <div style={{ padding: 40, color: '#eaeaea', background: '#1a1a2e', height: '100vh' }}>
-          <h1 style={{ color: '#e94560', marginBottom: 16 }}>Er is een fout opgetreden</h1>
+          <h1 style={{ color: '#e94560', marginBottom: 16 }}>{uiText("error.title", "An error occurred")}</h1>
           <pre style={{ fontSize: 12, color: '#a0a0a0', whiteSpace: 'pre-wrap' }}>
             {this.state.error?.message}
           </pre>
@@ -47,8 +52,7 @@ class ErrorBoundary extends React.Component<
             }}
             onClick={() => window.location.reload()}
           >
-            Herlaad applicatie
-          </button>
+            {uiText("error.reload", "Reload application")}</button>
         </div>
       );
     }
@@ -57,7 +61,7 @@ class ErrorBoundary extends React.Component<
 }
 
 // Production: disable context menu and browser dev shortcuts
-if (import.meta.env.PROD) {
+if (import.meta.env.PROD && '__TAURI_INTERNALS__' in window) {
   document.addEventListener("contextmenu", (e) => e.preventDefault());
 
   document.addEventListener("keydown", (e) => {
@@ -72,7 +76,7 @@ if (import.meta.env.PROD) {
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ErrorBoundary>
-      <App />
+      {companionId ? <CompanionWindow id={companionId} /> : <App />}
     </ErrorBoundary>
   </React.StrictMode>,
 );

@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 import { importRsx } from './rsxImporter';
 import type { ImportResult } from './types';
 
@@ -20,15 +21,15 @@ export function importRsu(text: string): ImportResult {
     return {
       ...r,
       format: 'rsu',
-      warnings: [...r.warnings, 'RSU ingelezen via de RSX/RAW-XML-route.'],
+      warnings: [...r.warnings, uiText('diagnostics.xml.rsuXml', "RSU was read using the RSX/RAW XML reader.")],
     };
   }
   return {
     schedule: { name: 'RSU-import' },
     items: [],
     warnings: [
-      'Dit lijkt het oudere, niet-XML RSU-formaat (RAW 2005 of ouder); dat recordformaat is niet publiek gespecificeerd.',
-      'Lever een voorbeeld-RSU aan (map verification-files) voor exacte ondersteuning, of converteer het bestand eerst naar RSX (XML).',
+      uiText('diagnostics.xml.rsuLegacy', "This appears to be the older non-XML RSU format (RAW 2005 or earlier); its record format is not publicly specified."),
+      uiText('diagnostics.xml.rsuExample', "Provide a sample RSU in verification-files for exact support, or convert the file to RSX XML first."),
     ],
     format: 'rsu',
   };

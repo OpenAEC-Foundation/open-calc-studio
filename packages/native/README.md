@@ -38,6 +38,30 @@ the MCP stdio server, not for opening the app. WpCalc export still needs the
 Windows Access driver. The local cross-compiled development package is **unsigned**
 and has not been run on Windows; a PE/export-table check is not a Windows UI test.
 
+MSVC packages also include the app-local Microsoft Visual C++ runtime from
+the matching Visual Studio redistributable directory. Keep these DLLs beside
+the app/library: a newer build can require entry points absent from an older
+system runtime (Windows loader error 127). Package from a Visual Studio
+developer shell, or set `OCS_VC_REDIST_DIR` to its `Microsoft.VC*.CRT` directory.
+The redistributables retain their Microsoft license and signatures.
+
+The **host executable must activate Windows Common Controls 6 before loading
+the DLL**. The product imports `TaskDialogIndirect`; without this manifest,
+Windows selects Common Controls 5 and loading fails with error 127. The MSVC
+`host.c` example declares the dependency with a linker directive. Embed the
+generated manifest when compiling it:
+
+```bat
+cl /nologo host.c /Fe:OpenCalcStudioHost.exe /link /MANIFEST:EMBED
+```
+
+For your own
+host, merge `host.manifest` into its application manifest; a .NET project can
+set `<ApplicationManifest>host.manifest</ApplicationManifest>`. For MinGW,
+compile it as a resource with `windres` and link the resulting object into the
+host. Do not copy a system `comctl32.dll` into the application directory.
+See [Microsoft's Common Controls manifest guidance](https://learn.microsoft.com/windows/win32/controls/cookbook-overview).
+
 Environment variables must be set before `ocs_run`: `OCS_API_PORT` (default 9742),
 `OCS_WS_PORT` (9741), optional `OCS_API_TOKEN`, `OPEN_CALC_NODE` and
 `OCS_SKIP_MCP_CONFIG=1` to suppress automatic MCP configuration installation.
@@ -63,6 +87,6 @@ node scripts/package-native.mjs
 
 On Windows, use a Visual Studio developer shell, compile `host.c` with `cl`,
 and copy the resulting executable to the package directory. The native workflow
-automates building, ABI checking and packaging on Windows and Linux. The existing
+automates building, ABI checking and packaging on Windows, Linux and macOS. macOS uses `libOpenCalcStudio.dylib`; native CI archives are unsigned development builds. The existing
 signed desktop workflow also builds, Authenticode-signs and verifies the Windows
 DLL and host when the required Azure signing secrets are configured.

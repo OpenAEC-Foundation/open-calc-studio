@@ -219,7 +219,7 @@ export function OfferteView() {
 
           {/* ProjectInfo editor */}
           {activeSectionId === '__projectinfo' && (
-            <ProjectInfoEditor projectInfo={projectInfo} onChange={setProjectInfo} />
+            <ProjectInfoEditor projectInfo={projectInfo} onChange={updates => { setProjectInfo(updates); const state = useAppStore.getState(); state.updateDocument(state.activeDocumentId, { isModified: true }); }} />
           )}
 
           {/* Section editor */}

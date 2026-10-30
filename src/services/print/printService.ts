@@ -1,3 +1,4 @@
+import { printFontCss, printHtmlInPage } from './browserPrint';
 import type { CostItem, CostSchedule, CompanyInfo } from '@/types/costModel';
 import type { ReportView, PageOrientation, PageSize } from '@/state/slices/uiSlice';
 import { getStaartBreakdown } from '@/services/calculation/calculator';
@@ -392,7 +393,7 @@ function buildHtml(
 <title>${escapeHtml(title)} - ${escapeHtml(schedule.projectName || schedule.name)}</title>
 <style>
 /* OpenAEC Style Book */
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap');
+${printFontCss()}
 @page {
   size: ${pageSizeCss};
   margin: 15mm 12mm 20mm 12mm;
@@ -552,19 +553,10 @@ ${!includeActions ? `<script>
 </html>`;
 }
 
-/**
- * Open de afdruk in een nieuw venster, in de rapporttaal. Het venster gaat
- * direct (synchroon) open — nog binnen de klik — zodat een popup-blokker het
- * niet tegenhoudt; de inhoud volgt zodra de rapporttaal geladen is.
- */
+/** Print in the current page, including sandboxed host frames with allow-modals. */
 export async function printBudget(schedule: CostSchedule, items: CostItem[], view: ReportView, showHoeveelheid = true, companyInfo?: CompanyInfo, logoDataUrl?: string, orientation: PageOrientation = 'landscape', paperSize: PageSize = 'A4'): Promise<void> {
-  const printWindow = window.open('', '_blank');
   const ctx = await getReportContext();
-  const html = buildHtml(ctx, schedule, items, view, true, showHoeveelheid, companyInfo, logoDataUrl, orientation, paperSize);
-  if (printWindow) {
-    printWindow.document.write(html);
-    printWindow.document.close();
-  }
+  await printHtmlInPage(buildHtml(ctx, schedule, items, view, false, showHoeveelheid, companyInfo, logoDataUrl, orientation, paperSize));
 }
 
 /**

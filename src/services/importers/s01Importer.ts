@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 import { BudgetBuilder } from './core';
 import type { ImportResult } from './types';
 import type { CostItem } from '@/types/costModel';
@@ -123,9 +124,9 @@ export function importS01(text: string): ImportResult {
   flushPost();
 
   if (builder.length === 0) {
-    warnings.push('S01-bestand bevat geen herkenbare besteksposten.');
+    warnings.push(uiText("diagnostics.s01Importer.theS01FileContainsNoRecognizableSpecification", "The S01 file contains no recognizable specification items."));
   }
-  warnings.push('STABU-bestek geïmporteerd als prijsloze skelet-begroting (het bronbestand bevat geen hoeveelheden of prijzen).');
+  warnings.push(uiText("diagnostics.s01Importer.theSTABUSpecificationWasImportedAsAn", "The STABU specification was imported as an unpriced estimate structure; the source file has no quantities or prices."));
 
   return {
     schedule: { name: projectName || 'STABU-bestek', projectName, author },

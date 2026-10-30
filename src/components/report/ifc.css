@@ -24,8 +24,8 @@
   gap: 8px;
   padding: 6px 12px;
   cursor: pointer;
-  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
-  font-weight: 600;
+  font-family: var(--oa-font-heading);
+  font-weight: 500;
   font-size: 12.5px;
   color: var(--theme-text);
   background: linear-gradient(135deg, rgba(217,119,6,0.08), transparent);
@@ -81,8 +81,8 @@
   padding: 6px 12px;
   cursor: pointer;
   flex-shrink: 0;
-  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
-  font-weight: 600;
+  font-family: var(--oa-font-heading);
+  font-weight: 500;
   font-size: 12.5px;
   color: var(--theme-text);
   background: linear-gradient(135deg, rgba(217,119,6,0.06), transparent);
@@ -114,8 +114,8 @@
 .ifc-struct-row:hover { background: var(--theme-hover, rgba(217,119,6,0.04)); }
 .ifc-struct-twisty { color: var(--theme-text-secondary); font-size: 10px; width: 12px; cursor: pointer; flex-shrink: 0; }
 .ifc-struct-type {
-  color: var(--theme-accent, #D97706); font-weight: 600;
-  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif; flex-shrink: 0;
+  color: var(--theme-accent, #D97706); font-weight: 500;
+  font-family: var(--oa-font-heading); flex-shrink: 0;
 }
 .ifc-struct-name {
   color: var(--theme-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
@@ -171,7 +171,7 @@
 .ifc-toolbar-btn {
   padding: 4px 12px;
   font-size: 11px;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--oa-font-body);
   font-weight: 500;
   border: 1.5px solid var(--theme-border);
   border-radius: 8px;
@@ -188,7 +188,7 @@
   padding: 0;
   font-size: 12px;
   line-height: 1.6;
-  font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  font-family: var(--oa-font-mono);
   color: var(--theme-text);
   background: var(--theme-content-bg);
 }

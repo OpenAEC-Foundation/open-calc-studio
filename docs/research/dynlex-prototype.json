@@ -1,0 +1,113 @@
+{
+  "compilerVersion": "0.0.1",
+  "compileMs": 304.13383600000003,
+  "executableBytes": 15936,
+  "cases": [
+    {
+      "input": [
+        10,
+        1.5,
+        50,
+        12.34,
+        10,
+        21
+      ],
+      "actual": [
+        873.4,
+        960.74,
+        1162.4954
+      ],
+      "expected": [
+        873.4000000000001,
+        960.7400000000001,
+        1162.4954
+      ],
+      "processWallMs": 5.372205000000008
+    },
+    {
+      "input": [
+        42,
+        1.5,
+        50,
+        17.5,
+        10,
+        21
+      ],
+      "actual": [
+        3885,
+        4273.5,
+        5170.935
+      ],
+      "expected": [
+        3885,
+        4273.5,
+        5170.9349999999995
+      ],
+      "processWallMs": 4.099612999999977
+    },
+    {
+      "input": [
+        0,
+        2,
+        45,
+        20,
+        7,
+        21
+      ],
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "expected": [
+        0,
+        0,
+        0
+      ],
+      "processWallMs": 6.12582900000001
+    },
+    {
+      "input": [
+        12.5,
+        0.25,
+        43,
+        132,
+        5,
+        9
+      ],
+      "actual": [
+        1784.375,
+        1873.59375,
+        2042.2171875
+      ],
+      "expected": [
+        1784.375,
+        1873.59375,
+        2042.2171875
+      ],
+      "processWallMs": 3.4859220000000164
+    },
+    {
+      "input": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "actual": [
+        0,
+        0,
+        0
+      ],
+      "expected": [
+        0,
+        0,
+        0
+      ],
+      "processWallMs": 5.183052000000032
+    }
+  ],
+  "scope": "Exploratory native single-line arithmetic prototype; CLI input edits quantity/rates. Not full project import, UI, mixed VAT, nested cost model, DLL or migration. Process startup timings are not comparable to warm core timings."
+}

@@ -1,3 +1,8 @@
+import { uiText } from '@/i18n/uiText';
+import { createDefaultItems } from '@/data/defaultBudget';
+import { getSiteHost, HOST_RECENT_PREFIX } from '@/services/file/siteHost';
+import { openHostedFile, saveHostedFile } from '@/services/file/hostFileActions';
+import { pickHostFile } from '@/components/common/HostFileDialog';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
@@ -69,6 +74,7 @@ export function useFileOperations() {
     settings, updateSettings,
     setOfferte,
     setProjectInfo,
+    setSnapshots,
   } = useAppStore();
 
   const addToRecentFiles = useCallback((filePath: string) => {
@@ -91,7 +97,7 @@ export function useFileOperations() {
       fileName = `${baseName} ${counter}`;
       counter++;
     }
-    addDocument({ id, filePath: null, fileName, isModified: false });
+    addDocument({ id, filePath: null, fileName, isModified: false, items: createDefaultItems() });
   }, [addDocument, t]);
 
   // ─── SAVE (to existing path, or delegate to Save As) ───
@@ -103,7 +109,12 @@ export function useFileOperations() {
     if (!doc) return;
 
     const scheduleWithProjectInfo = { ...state.schedule, projectInfo: state.projectInfo };
-    const json = serializeProject(scheduleWithProjectInfo, state.items, state.companyInfo, state.subSheets, state.offerte);
+    const json = serializeProject(scheduleWithProjectInfo, state.items, state.companyInfo, state.subSheets, state.offerte, state.snapshots);
+
+    if (getSiteHost()) {
+      try { await saveHostedFile(activeId); } catch (err) { await showError(`Failed to save: ${err instanceof Error ? err.message : JSON.stringify(err)}`); }
+      return;
+    }
 
     if (doc.filePath && isNativeSavePath(doc.filePath) && isTauriEnvironment()) {
       try {
@@ -147,12 +158,16 @@ export function useFileOperations() {
     if (!doc) return;
 
     const scheduleWithProjectInfo = { ...state.schedule, projectInfo: state.projectInfo };
-    const json = serializeProject(scheduleWithProjectInfo, state.items, state.companyInfo, state.subSheets, state.offerte);
+    const json = serializeProject(scheduleWithProjectInfo, state.items, state.companyInfo, state.subSheets, state.offerte, state.snapshots);
     // Prefer the active tab's folder + filename, but always with .ifcCalc als
     // standaardformaat — ook als het document uit een import (.xls/.xtb/…)
     // komt. Opslaan-als schrijft immers altijd het native OCS-formaat.
     const defaultPath = toIfcCalcPath(doc.filePath, doc.fileName);
 
+    if (getSiteHost()) {
+      try { await saveHostedFile(activeId, true); } catch (err) { await showError(`Failed to save: ${err instanceof Error ? err.message : JSON.stringify(err)}`); }
+      return;
+    }
     if (isTauriEnvironment()) {
       try {
         const savedPath = await saveFileAsNative(json, defaultPath);
@@ -175,6 +190,11 @@ export function useFileOperations() {
 
   // ─── OPEN FILE ───
   const openFile = useCallback(async () => {
+    if (getSiteHost()) {
+      try { const file = await pickHostFile(); if (file) await openHostedFile(file.id, file.version); }
+      catch (err) { await showError(`Failed to open: ${err instanceof Error ? err.message : String(err)}`); }
+      return;
+    }
     if (isTauriEnvironment()) {
       try {
         const result = await openFileNative();
@@ -196,6 +216,7 @@ export function useFileOperations() {
             if (native.companyInfo) setCompanyInfo(native.companyInfo);
             if (native.subSheets) setSubSheets(native.subSheets);
             if (native.offerte) setOfferte(native.offerte);
+            setSnapshots(native.snapshots ?? []);
             if (native.schedule.projectInfo) setProjectInfo(native.schedule.projectInfo);
             addToRecentFiles(result.path);
             return;
@@ -205,7 +226,7 @@ export function useFileOperations() {
           const store = useAppStore.getState();
           const importers = store.extensionImporters;
           const imp = importers.find(i => i.fileExtensions.some(fe => fe.replace(/^\./, '') === ext));
-          if (!imp) { await showError(`Geen importer gevonden voor .${ext} bestanden`); return; }
+          if (!imp) { await showError(uiText('files.noImporter', 'No importer found for .{{extension}} files', { extension: ext })); return; }
 
           const file = new File([data], fileName);
           const importResult = await imp.handler(file);
@@ -222,7 +243,7 @@ export function useFileOperations() {
         if (ext === 'rsx' || ext === 'onlv' || ext === 'onlb') {
           const store = useAppStore.getState();
           const imp = store.extensionImporters.find(i => i.fileExtensions.some(fe => fe.replace(/^\./, '') === ext));
-          if (!imp) { await showError(`Geen importer gevonden voor .${ext} bestanden`); return; }
+          if (!imp) { await showError(uiText('files.noImporter', 'No importer found for .{{extension}} files', { extension: ext })); return; }
 
           const file = new File([result.content], fileName, { type: 'text/plain' });
           const importResult = await imp.handler(file);
@@ -243,6 +264,7 @@ export function useFileOperations() {
         if (parsed.companyInfo) setCompanyInfo(parsed.companyInfo);
         setSubSheets(parsed.spreadsheets?.sheets ?? parsed.subSheets ?? []);
         if (parsed.offerte) setOfferte(parsed.offerte);
+        setSnapshots(parsed.snapshots ?? []);
         if (parsed.schedule.projectInfo) setProjectInfo(parsed.schedule.projectInfo);
         addToRecentFiles(result.path);
       } catch (err) {
@@ -251,10 +273,15 @@ export function useFileOperations() {
     } else {
       openFileBrowser();
     }
-  }, [addDocument, setCompanyInfo, setSubSheets, setOfferte, setProjectInfo, addToRecentFiles]);
+  }, [addDocument, setCompanyInfo, setSubSheets, setOfferte, setProjectInfo, setSnapshots, addToRecentFiles]);
 
   // ─── OPEN RECENT FILE ───
   const openRecentFile = useCallback(async (filePath: string) => {
+    if (filePath.startsWith(HOST_RECENT_PREFIX)) {
+      try { await openHostedFile(decodeURIComponent(filePath.slice(HOST_RECENT_PREFIX.length))); }
+      catch (err) { await showError(`Failed to open: ${err instanceof Error ? err.message : String(err)}`); }
+      return;
+    }
     if (!isTauriEnvironment()) return;
     try {
       const ext = filePath.split('.').pop()?.toLowerCase() || '';
@@ -273,6 +300,7 @@ export function useFileOperations() {
           if (native.companyInfo) setCompanyInfo(native.companyInfo);
           if (native.subSheets) setSubSheets(native.subSheets);
           if (native.offerte) setOfferte(native.offerte);
+            setSnapshots(native.snapshots ?? []);
           if (native.schedule.projectInfo) setProjectInfo(native.schedule.projectInfo);
           addToRecentFiles(filePath);
           return;
@@ -281,7 +309,7 @@ export function useFileOperations() {
         const store = useAppStore.getState();
         const importers = store.extensionImporters;
         const imp = importers.find(i => i.fileExtensions.some(fe => fe.replace(/^\./, '') === ext));
-        if (!imp) { await showError(`Geen importer gevonden voor .${ext} bestanden`); return; }
+        if (!imp) { await showError(uiText('files.noImporter', 'No importer found for .{{extension}} files', { extension: ext })); return; }
 
         const file = new File([data], fileName);
         const importResult = await imp.handler(file);
@@ -300,7 +328,7 @@ export function useFileOperations() {
         const content = await readTextFile(filePath);
         const store = useAppStore.getState();
         const imp = store.extensionImporters.find(i => i.fileExtensions.some(fe => fe.replace(/^\./, '') === ext));
-        if (!imp) { await showError(`Geen importer gevonden voor .${ext} bestanden`); return; }
+        if (!imp) { await showError(uiText('files.noImporter', 'No importer found for .{{extension}} files', { extension: ext })); return; }
 
         const file = new File([content], fileName, { type: 'text/plain' });
         const importResult = await imp.handler(file);
@@ -323,15 +351,16 @@ export function useFileOperations() {
       if (parsed.companyInfo) setCompanyInfo(parsed.companyInfo);
       setSubSheets(parsed.spreadsheets?.sheets ?? parsed.subSheets ?? []);
       if (parsed.offerte) setOfferte(parsed.offerte);
+        setSnapshots(parsed.snapshots ?? []);
       if (parsed.schedule.projectInfo) setProjectInfo(parsed.schedule.projectInfo);
       addToRecentFiles(filePath);
     } catch (err) {
       // Remove invalid path from recent files
       const current = settings.recentFiles ?? [];
       updateSettings({ recentFiles: current.filter((p: string) => p !== filePath) });
-      await showError(`Kan bestand niet openen: ${err}`);
+      await showError(uiText('files.openFailed', 'Cannot open file: {{error}}', { error: String(err) }));
     }
-  }, [addDocument, setCompanyInfo, setSubSheets, setOfferte, setProjectInfo, addToRecentFiles, settings.recentFiles, updateSettings]);
+  }, [addDocument, setCompanyInfo, setSubSheets, setOfferte, setProjectInfo, setSnapshots, addToRecentFiles, settings.recentFiles, updateSettings]);
 
   // ─── Browser fallbacks ───
   function browserDownload(json: string, name: string) {
@@ -339,7 +368,7 @@ export function useFileOperations() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${name}.ifcCalc`;
+    a.download = toIfcCalcPath(null, name);
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -380,6 +409,7 @@ export function useFileOperations() {
         if (parsed.companyInfo) setCompanyInfo(parsed.companyInfo);
         setSubSheets(parsed.spreadsheets?.sheets ?? parsed.subSheets ?? []);
         if (parsed.offerte) setOfferte(parsed.offerte);
+        setSnapshots(parsed.snapshots ?? []);
         if (parsed.schedule.projectInfo) setProjectInfo(parsed.schedule.projectInfo);
       } catch (err) {
         await showError(`Failed to open file: ${err}`);

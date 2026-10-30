@@ -1,3 +1,4 @@
+import { localStore } from '@/utils/browserStorage';
 import { getHostRoot } from '@/lib/hostRoot';
 
 /**
@@ -28,7 +29,7 @@ export function clampUiZoom(percent: number): number {
 /** De opgeslagen voorkeur (blijft behouden tussen sessies). */
 export function loadUiZoom(): number {
   try {
-    const raw = localStorage.getItem(KEY);
+    const raw = localStore.getItem(KEY);
     if (!raw) return UI_ZOOM_DEFAULT;
     const n = Number(raw);
     return Number.isFinite(n) ? clampUiZoom(n) : UI_ZOOM_DEFAULT;
@@ -38,7 +39,7 @@ export function loadUiZoom(): number {
 }
 
 export function saveUiZoom(percent: number): void {
-  try { localStorage.setItem(KEY, String(clampUiZoom(percent))); } catch { /* private mode */ }
+  try { localStore.setItem(KEY, String(clampUiZoom(percent))); } catch { /* private mode */ }
 }
 
 /** Eerstvolgende stap omhoog/omlaag vanaf de huidige waarde. */

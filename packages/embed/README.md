@@ -28,7 +28,7 @@ For a local build (no npm publication required):
 npm ci
 npm run pack:lib
 # In your own project (adjust the path)
-npm install /path/to/open-calc-studio/release-embed/openaec-open-calc-studio-0.13.0.tgz
+npm install /path/to/open-calc-studio/release-embed/openaec-open-calc-studio-2026.44.0.tgz
 ```
 
 Use the root entry for the UI; use `@openaec/open-calc-studio/core` for
@@ -132,8 +132,11 @@ available as `useOpenCalcStore` for advanced use.
 - Keyboard shortcuts (Ctrl+Z, Ctrl+F, Delete, …) only react when the focus
   is inside the component.
 - Theme, language and text direction are set on the wrapper, not on `<html>`.
-- Fonts are not bundled. Load Inter yourself (e.g. Google Fonts) for the
-  same look as the app; otherwise the system UI font is used.
+- Blueprint fonts are bundled locally; no external font provider is needed.
+  The library stylesheet can inline font data, so allow `data:` in `font-src`
+  when using it directly with a Content Security Policy. Font family names
+  are shared by the page; use the isolated frame for independent font/CSS
+  registries. The frame bundle serves its fonts as local assets.
 - Settings (theme, language, zoom) persist in `localStorage` of your origin.
 - Direct React/mount entry: one instance per page (shared store). For multiple instances use the isolated entry below.
 - Full-screen overlays (file menu, dialogs) are `position: fixed` and cover
@@ -147,7 +150,7 @@ package as `open-calc-studio-<version>.tgz` as well.
 
 ## Licence
 
-MIT — see the repository.
+LGPL-3.0-only — see the repository LICENSE. Blueprint CSS and fonts have separate CC-BY-SA-4.0/OFL-1.1 notices in the distribution.
 
 ## Multiple independent instances (recommended for embedding)
 

@@ -1,3 +1,4 @@
+import { USER_EXTENSIONS_ENABLED, allowsExternalServices } from '@/services/buildFlags';
 /**
  * Extension loader — discovers, loads, enables, and disables extensions.
  *
@@ -81,6 +82,7 @@ async function getExtensionFromDb(id: string): Promise<StoredExtension | undefin
  * Execute extension code and return the plugin instance.
  */
 function executeExtensionCode(mainCode: string): ExtensionPlugin {
+  if (!USER_EXTENSIONS_ENABLED || !allowsExternalServices()) throw new Error('User extensions are disabled in the hosted build.');
   // Create a sandboxed module environment
   const moduleExports: Record<string, any> = {};
   const moduleObj = { exports: moduleExports };
@@ -178,6 +180,7 @@ export async function disableExtension(id: string): Promise<void> {
  * Load all installed extensions from IndexedDB on startup.
  */
 export async function loadAllExtensions(): Promise<void> {
+  if (!USER_EXTENSIONS_ENABLED || !allowsExternalServices()) return;
   try {
     const allExtensions = await getAllExtensionsFromDb();
 

@@ -252,6 +252,8 @@
     "pdfQuotation": "PDF Quotation",
     "printBtn": "Print",
     "applyTemplate": "Apply template...",
-    "templateGroup": "Template"
+    "templateGroup": "Template",
+    "desktopRequired": "Quotation PDF export and printing require the desktop application.",
+    "pdfFailed": "Quotation PDF could not be created"
   }
 }

@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 /**
  * Lichte XML-parser naar een platte boom van gewone objecten.
  *
@@ -32,17 +33,17 @@ const NAMED: Record<string, string> = { lt: '<', gt: '>', amp: '&', quot: '"', a
 
 function fail(message: string, xml: string, at: number): never {
   const line = xml.slice(0, at).split('\n').length;
-  throw new Error(`XML parse error: ${message} (regel ${line})`);
+  throw new Error(uiText('diagnostics.xmlError', "XML parse error: {{message}} (line {{line}})", { message, line }));
 }
 
 /** Entiteiten oplossen; een onbekende (`&foo;`) of losse `&` is een fout. */
 function decode(text: string, xml: string, at: number): string {
   if (text.indexOf('&') < 0) return text;
   return text.replace(ENTITY, (m: string, e: string | undefined) => {
-    if (e === undefined) fail(`onbekende entiteit ${m}`, xml, at);
+    if (e === undefined) fail(uiText('diagnostics.xml.entity', "Unknown entity {{p0}}", { p0: m }), xml, at);
     if (e[0] === '#') {
       const cp = e[1] === 'x' || e[1] === 'X' ? parseInt(e.slice(2), 16) : parseInt(e.slice(1), 10);
-      if (!Number.isFinite(cp) || cp < 0 || cp > 0x10ffff) fail(`ongeldige tekenverwijzing &${e};`, xml, at);
+      if (!Number.isFinite(cp) || cp < 0 || cp > 0x10ffff) fail(uiText('diagnostics.xml.character', "Invalid character reference &{{p0}};", { p0: e }), xml, at);
       return String.fromCodePoint(cp);
     }
     return NAMED[e];
@@ -70,7 +71,7 @@ export function parseLiteXml(input: string): XElement {
 
   const pushText = (raw: string, at: number): void => {
     if (stack.length === 0) {
-      if (raw.trim() !== '') fail('tekst buiten het wortelelement', xml, at);
+      if (raw.trim() !== '') fail(uiText('diagnostics.xml.text', "Text outside the root element"), xml, at);
       return;
     }
     const text = raw.indexOf('\r') >= 0 ? raw.replace(/\r\n?/g, '\n') : raw;
@@ -91,11 +92,11 @@ export function parseLiteXml(input: string): XElement {
     if (c === 47) {
       // ── Sluittag ──
       const gt = xml.indexOf('>', i);
-      if (gt < 0) fail('onafgesloten sluittag', xml, lt);
+      if (gt < 0) fail(uiText('diagnostics.xml.closing', "Unterminated closing tag"), xml, lt);
       const qname = xml.slice(i + 1, gt).trim();
       const expected = qnames.pop();
       const node = stack.pop();
-      if (!node || expected !== qname) fail(`sluittag </${qname}> past niet bij <${expected ?? '?'}>`, xml, lt);
+      if (!node || expected !== qname) fail(uiText('diagnostics.xml.mismatch', "Closing tag </{{p0}}> does not match <{{p1}}>", { p0: qname, p1: expected ?? '?' }), xml, lt);
       i = gt + 1;
       continue;
     }
@@ -103,7 +104,7 @@ export function parseLiteXml(input: string): XElement {
     if (c === 63) {
       // ── <?xml …?> / processing instruction ──
       const end = xml.indexOf('?>', i);
-      if (end < 0) fail('onafgesloten processing instruction', xml, lt);
+      if (end < 0) fail(uiText('diagnostics.xml.instruction', "Unterminated processing instruction"), xml, lt);
       i = end + 2;
       continue;
     }
@@ -111,14 +112,14 @@ export function parseLiteXml(input: string): XElement {
     if (c === 33) {
       if (xml.startsWith('--', i + 1)) {
         const end = xml.indexOf('-->', i + 3);
-        if (end < 0) fail('onafgesloten commentaar', xml, lt);
+        if (end < 0) fail(uiText('diagnostics.xml.comment', "Unterminated comment"), xml, lt);
         i = end + 3;
         continue;
       }
       if (xml.startsWith('[CDATA[', i + 1)) {
         const end = xml.indexOf(']]>', i + 8);
-        if (end < 0) fail('onafgesloten CDATA', xml, lt);
-        if (stack.length === 0) fail('CDATA buiten het wortelelement', xml, lt);
+        if (end < 0) fail(uiText('diagnostics.xml.cdata', "Unterminated CDATA"), xml, lt);
+        if (stack.length === 0) fail(uiText('diagnostics.xml.cdataRoot', "CDATA outside the root element"), xml, lt);
         stack[stack.length - 1].children.push(xml.slice(i + 8, end).replace(/\r\n?/g, '\n'));
         i = end + 3;
         continue;
@@ -133,17 +134,17 @@ export function parseLiteXml(input: string): XElement {
           else if (ch === 93 /* ] */) depth--;
           else if (ch === 62 /* > */ && depth <= 0) break;
         }
-        if (j >= n) fail('onafgesloten DOCTYPE', xml, lt);
+        if (j >= n) fail(uiText('diagnostics.xml.doctype', "Unterminated DOCTYPE"), xml, lt);
         i = j + 1;
         continue;
       }
-      fail('onbekende markup', xml, lt);
+      fail(uiText('diagnostics.xml.markup', "Unknown markup"), xml, lt);
     }
 
     // ── Starttag ──
     let j = i;
     while (j < n && !isNameEnd(xml.charCodeAt(j))) j++;
-    if (j === i) fail('elementnaam ontbreekt', xml, lt);
+    if (j === i) fail(uiText('diagnostics.xml.element', "Missing element name"), xml, lt);
     const qname = xml.slice(i, j);
     const node: XElement = { name: localName(qname), attrs: {}, children: [] };
     i = j;
@@ -151,22 +152,22 @@ export function parseLiteXml(input: string): XElement {
     // Attributen
     for (;;) {
       while (i < n && isSpace(xml.charCodeAt(i))) i++;
-      if (i >= n) fail('onafgesloten starttag', xml, lt);
+      if (i >= n) fail(uiText('diagnostics.xml.start', "Unterminated opening tag"), xml, lt);
       const ch = xml.charCodeAt(i);
       if (ch === 47 || ch === 62) break;
       j = i;
       while (j < n && !isNameEnd(xml.charCodeAt(j))) j++;
       const aname = xml.slice(i, j);
-      if (!aname) fail('attribuutnaam ontbreekt', xml, lt);
+      if (!aname) fail(uiText('diagnostics.xml.attribute', "Missing attribute name"), xml, lt);
       i = j;
       while (i < n && isSpace(xml.charCodeAt(i))) i++;
-      if (xml.charCodeAt(i) !== 61) fail(`attribuut ${aname} zonder waarde`, xml, lt);
+      if (xml.charCodeAt(i) !== 61) fail(uiText('diagnostics.xml.attributeValue', "Attribute {{p0}} has no value", { p0: aname }), xml, lt);
       i++;
       while (i < n && isSpace(xml.charCodeAt(i))) i++;
       const q = xml.charCodeAt(i);
-      if (q !== 34 && q !== 39) fail(`attribuut ${aname} zonder aanhalingstekens`, xml, lt);
+      if (q !== 34 && q !== 39) fail(uiText('diagnostics.xml.attributeQuote', "Attribute {{p0}} is not quoted", { p0: aname }), xml, lt);
       const end = xml.indexOf(String.fromCharCode(q), i + 1);
-      if (end < 0) fail(`attribuut ${aname} niet afgesloten`, xml, lt);
+      if (end < 0) fail(uiText('diagnostics.xml.attributeEnd', "Attribute {{p0}} is not terminated", { p0: aname }), xml, lt);
       const raw = xml.slice(i + 1, end);
       node.attrs[localName(aname)] = decode(raw, xml, lt).replace(/[\t\n\r]/g, ' ');
       i = end + 1;
@@ -174,13 +175,13 @@ export function parseLiteXml(input: string): XElement {
 
     const selfClosing = xml.charCodeAt(i) === 47;
     if (selfClosing) i++;
-    if (xml.charCodeAt(i) !== 62) fail('starttag niet afgesloten met >', xml, lt);
+    if (xml.charCodeAt(i) !== 62) fail(uiText('diagnostics.xml.opening', "Opening tag is not terminated with >"), xml, lt);
     i++;
 
     if (stack.length > 0) {
       stack[stack.length - 1].children.push(node);
     } else if (root) {
-      fail('meer dan één wortelelement', xml, lt);
+      fail(uiText('diagnostics.xml.multipleRoots', "More than one root element"), xml, lt);
     } else {
       root = node;
     }
@@ -190,8 +191,8 @@ export function parseLiteXml(input: string): XElement {
     }
   }
 
-  if (stack.length > 0) fail(`element <${qnames[qnames.length - 1]}> is niet gesloten`, xml, n);
-  if (!root) fail('geen wortelelement', xml, 0);
+  if (stack.length > 0) fail(uiText('diagnostics.xml.unclosed', "Element <{{p0}}> is not closed", { p0: qnames[qnames.length - 1] }), xml, n);
+  if (!root) fail(uiText('diagnostics.xml.noRoot', "Missing root element"), xml, 0);
   return root;
 }
 

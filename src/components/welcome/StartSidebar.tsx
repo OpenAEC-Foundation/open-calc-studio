@@ -1,3 +1,5 @@
+import { localStore } from '@/utils/browserStorage';
+import { HOST_RECENT_PREFIX } from '@/services/file/siteHost';
 import appIcon from '../../assets/app-icon.svg';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
@@ -16,7 +18,7 @@ export function StartSidebar({ onLoadVoorbeeld, onClose }: StartSidebarProps) {
   const { newFile, openFile, openRecentFile } = useFileOperations();
 
   return (
-    <aside className="start-sidebar">
+    <aside className="start-sidebar oa-app">
       <div className="start-sidebar-toolbar">
         <span className="start-sidebar-title">{t('start')}</span>
         <button
@@ -44,7 +46,7 @@ export function StartSidebar({ onLoadVoorbeeld, onClose }: StartSidebarProps) {
         </div>
 
         <div className="start-actions">
-          <button className="start-action-btn start-action-btn--primary" onClick={newFile}>
+          <button className="oa-button oa-button--primary start-action-btn start-action-btn--primary" onClick={() => { newFile(); onClose(); }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
               <path d="M14 2v6h6" />
@@ -52,18 +54,19 @@ export function StartSidebar({ onLoadVoorbeeld, onClose }: StartSidebarProps) {
             </svg>
             <span>{t('newBudget')}</span>
           </button>
-          <button className="start-action-btn" onClick={() => void openFile()}>
+          <button className="oa-button start-action-btn" onClick={() => { void openFile(); onClose(); }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
             </svg>
             <span>{t('open')}</span>
           </button>
-          <button className="start-action-btn start-action-btn--quiet" onClick={onLoadVoorbeeld}>
+          <button className="oa-button oa-button--quiet start-action-btn start-action-btn--quiet" onClick={onLoadVoorbeeld}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M9 11H5a2 2 0 00-2 2v7a2 2 0 002 2h14a2 2 0 002-2v-7a2 2 0 00-2-2h-4M12 2v13M9 6l3-3 3 3" />
             </svg>
             <span>{t('app.sampleBudget')}</span>
           </button>
+          <button className="oa-button oa-button--quiet start-action-btn" onClick={() => { if (!useAppStore.getState().documents.length) newFile(); useAppStore.getState().setActiveContentTab('wizard'); onClose(); }}>{t('wizardUI.title')}</button>
         </div>
 
         {(settings.recentFiles?.length ?? 0) > 0 && (
@@ -71,12 +74,14 @@ export function StartSidebar({ onLoadVoorbeeld, onClose }: StartSidebarProps) {
             <h3 className="start-recent-title">{t('backstage:recentFiles')}</h3>
             <div className="start-recent-list">
               {settings.recentFiles.map((filePath: string) => {
-                const name = filePath.replace(/\\/g, '/').split('/').pop()?.replace(/\.(ifcx|json|ocs|calc)$/i, '') ?? filePath;
+                const name = filePath.startsWith(HOST_RECENT_PREFIX)
+                  ? localStore.getItem('ocs-host-name:' + decodeURIComponent(filePath.slice(HOST_RECENT_PREFIX.length))) || t('host.file')
+                  : filePath.replace(/\\/g, '/').split('/').pop()?.replace(/\.(ifcx|json|ocs|calc)$/i, '') ?? filePath;
                 return (
                   <button
                     key={filePath}
                     className="start-recent-item"
-                    onClick={() => void openRecentFile(filePath)}
+                    onClick={() => { void openRecentFile(filePath); onClose(); }}
                     title={filePath}
                   >
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

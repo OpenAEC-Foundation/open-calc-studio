@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 import type {
   OfferteTemplate, OfferteDocument, OfferteSection,
   BetalingsTermijn, Garantie, CostItem,
@@ -7,74 +8,74 @@ function genId(): string {
   return `off_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 }
 
-const defaultBetalingstermijnen: BetalingsTermijn[] = [
-  { id: genId(), beschrijving: 'Bij tekenen intentieovereenkomst', percentage: 4, toelichting: '' },
-  { id: genId(), beschrijving: 'Bij opdracht', percentage: 21, toelichting: '' },
-  { id: genId(), beschrijving: 'Bij start werkzaamheden', percentage: 25, toelichting: '' },
-  { id: genId(), beschrijving: 'Bij gereed ruwbouw', percentage: 25, toelichting: '' },
-  { id: genId(), beschrijving: 'Bij wind- en waterdicht', percentage: 10, toelichting: '' },
-  { id: genId(), beschrijving: 'Bij oplevering', percentage: 12, toelichting: '' },
-  { id: genId(), beschrijving: 'Na onderhoudstermijn (3 maanden)', percentage: 3, toelichting: '' },
-];
+function defaultBetalingstermijnen(): BetalingsTermijn[] { return [
+  { id: genId(), beschrijving: uiText('quotationDefaults.intent', "On signing the letter of intent"), percentage: 4, toelichting: '' },
+  { id: genId(), beschrijving: uiText('quotationDefaults.order', "On order confirmation"), percentage: 21, toelichting: '' },
+  { id: genId(), beschrijving: uiText('quotationDefaults.start', "On starting work"), percentage: 25, toelichting: '' },
+  { id: genId(), beschrijving: uiText('quotationDefaults.shell', "On completing the structural shell"), percentage: 25, toelichting: '' },
+  { id: genId(), beschrijving: uiText('quotationDefaults.weathertight', "When wind- and watertight"), percentage: 10, toelichting: '' },
+  { id: genId(), beschrijving: uiText('quotationDefaults.handover', "On handover"), percentage: 12, toelichting: '' },
+  { id: genId(), beschrijving: uiText('quotationDefaults.maintenance', "After the maintenance period (3 months)"), percentage: 3, toelichting: '' },
+]; }
 
-const defaultGaranties: Garantie[] = [
-  { id: genId(), onderdeel: 'Betonwerk', termijn: '20 jaar', toelichting: '', linkedCostItemIds: [] },
-  { id: genId(), onderdeel: 'Kozijnen en ramen (werking)', termijn: '3 jaar', toelichting: '', linkedCostItemIds: [] },
-  { id: genId(), onderdeel: 'Dakbedekking', termijn: '10 jaar', toelichting: '', linkedCostItemIds: [] },
-  { id: genId(), onderdeel: 'Schilderwerk', termijn: '3 jaar', toelichting: '', linkedCostItemIds: [] },
-  { id: genId(), onderdeel: 'Installaties', termijn: '2 jaar', toelichting: '', linkedCostItemIds: [] },
-];
+function defaultGaranties(): Garantie[] { return [
+  { id: genId(), onderdeel: uiText('quotationDefaults.concrete', "Concrete work"), termijn: uiText('quotationDefaults.years20', "20 years"), toelichting: '', linkedCostItemIds: [] },
+  { id: genId(), onderdeel: uiText('quotationDefaults.windows', "Window frames and windows (operation)"), termijn: uiText('quotationDefaults.years3', "3 years"), toelichting: '', linkedCostItemIds: [] },
+  { id: genId(), onderdeel: uiText('quotationDefaults.roof', "Roof covering"), termijn: uiText('quotationDefaults.years10', "10 years"), toelichting: '', linkedCostItemIds: [] },
+  { id: genId(), onderdeel: uiText('quotationDefaults.paint', "Painting"), termijn: uiText('quotationDefaults.years3', "3 years"), toelichting: '', linkedCostItemIds: [] },
+  { id: genId(), onderdeel: uiText('quotationDefaults.services', "Building services"), termijn: uiText('quotationDefaults.years2', "2 years"), toelichting: '', linkedCostItemIds: [] },
+]; }
 
-const defaultVoorwaarden = 'Op al onze aanbiedingen zijn de UAV 2012 en onze algemene voorwaarden van toepassing.';
+const defaultVoorwaarden = () => uiText('quotationDefaults.terms', "All our offers are subject to UAV 2012 and our general terms and conditions.");
 
 export function getBuiltInTemplates(): OfferteTemplate[] {
   return [
     {
       id: 'tpl_waterwoning',
-      name: 'Waterwoning',
+      name: uiText('quotationDefaults.waterHome', "Floating home"),
       projectType: 'waterwoning',
       sections: [
-        { titel: 'Bouwwerf', type: 'technisch', linkedChapterCodes: ['05'] },
-        { titel: 'Ruwbouw', type: 'technisch', linkedChapterCodes: ['10', '21', '24', '30', '31', '33'] },
-        { titel: 'Afbouw', type: 'technisch', linkedChapterCodes: ['40', '41', '42', '45'] },
-        { titel: 'Installaties', type: 'technisch', linkedChapterCodes: ['51', '52', '60', '61', '70'] },
-        { titel: 'Stelposten', type: 'vrij', linkedChapterCodes: [] },
-        { titel: 'Meerwerk', type: 'meerwerk', linkedChapterCodes: [] },
-        { titel: 'Te regelen door opdrachtgever', type: 'opdrachtgever', linkedChapterCodes: [] },
+        { titel: uiText('quotationDefaults.yard', "Construction yard"), type: 'technisch', linkedChapterCodes: ['05'] },
+        { titel: uiText('quotationDefaults.structure', "Structural shell"), type: 'technisch', linkedChapterCodes: ['10', '21', '24', '30', '31', '33'] },
+        { titel: uiText('quotationDefaults.finishes', "Finishing work"), type: 'technisch', linkedChapterCodes: ['40', '41', '42', '45'] },
+        { titel: uiText('quotationDefaults.services', "Building services"), type: 'technisch', linkedChapterCodes: ['51', '52', '60', '61', '70'] },
+        { titel: uiText('quotationDefaults.allowances', "Provisional sums"), type: 'vrij', linkedChapterCodes: [] },
+        { titel: uiText('quotationDefaults.extra', "Additional work"), type: 'meerwerk', linkedChapterCodes: [] },
+        { titel: uiText('quotationDefaults.client', "To be arranged by the client"), type: 'opdrachtgever', linkedChapterCodes: [] },
       ],
-      defaultBetalingstermijnen: defaultBetalingstermijnen.map(t => ({ ...t, id: genId() })),
-      defaultGaranties: defaultGaranties.map(g => ({ ...g, id: genId() })),
-      defaultVoorwaarden,
+      defaultBetalingstermijnen: defaultBetalingstermijnen().map(t => ({ ...t, id: genId() })),
+      defaultGaranties: defaultGaranties().map(g => ({ ...g, id: genId() })),
+      defaultVoorwaarden: defaultVoorwaarden(),
     },
     {
       id: 'tpl_woning',
-      name: 'Woning',
+      name: uiText('quotationDefaults.home', "House"),
       projectType: 'woning',
       sections: [
-        { titel: 'Bouwplaats', type: 'technisch', linkedChapterCodes: ['05'] },
-        { titel: 'Ruwbouw', type: 'technisch', linkedChapterCodes: ['10', '21', '24', '25', '30', '33'] },
-        { titel: 'Afbouw', type: 'technisch', linkedChapterCodes: ['40', '41', '42', '45'] },
-        { titel: 'Installaties', type: 'technisch', linkedChapterCodes: ['51', '52', '60', '61', '70'] },
-        { titel: 'Meerwerk', type: 'meerwerk', linkedChapterCodes: [] },
+        { titel: uiText('quotationDefaults.site', "Construction site"), type: 'technisch', linkedChapterCodes: ['05'] },
+        { titel: uiText('quotationDefaults.structure', "Structural shell"), type: 'technisch', linkedChapterCodes: ['10', '21', '24', '25', '30', '33'] },
+        { titel: uiText('quotationDefaults.finishes', "Finishing work"), type: 'technisch', linkedChapterCodes: ['40', '41', '42', '45'] },
+        { titel: uiText('quotationDefaults.services', "Building services"), type: 'technisch', linkedChapterCodes: ['51', '52', '60', '61', '70'] },
+        { titel: uiText('quotationDefaults.extra', "Additional work"), type: 'meerwerk', linkedChapterCodes: [] },
       ],
-      defaultBetalingstermijnen: defaultBetalingstermijnen.map(t => ({ ...t, id: genId() })),
-      defaultGaranties: defaultGaranties.map(g => ({ ...g, id: genId() })),
-      defaultVoorwaarden,
+      defaultBetalingstermijnen: defaultBetalingstermijnen().map(t => ({ ...t, id: genId() })),
+      defaultGaranties: defaultGaranties().map(g => ({ ...g, id: genId() })),
+      defaultVoorwaarden: defaultVoorwaarden(),
     },
     {
       id: 'tpl_renovatie',
-      name: 'Renovatie',
+      name: uiText('quotationDefaults.renovation', "Renovation"),
       projectType: 'renovatie',
       sections: [
-        { titel: 'Sloop', type: 'technisch', linkedChapterCodes: ['01'] },
-        { titel: 'Ruwbouw', type: 'technisch', linkedChapterCodes: ['21', '24', '30'] },
-        { titel: 'Afbouw', type: 'technisch', linkedChapterCodes: ['40', '41', '42', '45'] },
-        { titel: 'Installaties', type: 'technisch', linkedChapterCodes: ['60', '70'] },
-        { titel: 'Meerwerk', type: 'meerwerk', linkedChapterCodes: [] },
+        { titel: uiText('quotationDefaults.demolition', "Demolition"), type: 'technisch', linkedChapterCodes: ['01'] },
+        { titel: uiText('quotationDefaults.structure', "Structural shell"), type: 'technisch', linkedChapterCodes: ['21', '24', '30'] },
+        { titel: uiText('quotationDefaults.finishes', "Finishing work"), type: 'technisch', linkedChapterCodes: ['40', '41', '42', '45'] },
+        { titel: uiText('quotationDefaults.services', "Building services"), type: 'technisch', linkedChapterCodes: ['60', '70'] },
+        { titel: uiText('quotationDefaults.extra', "Additional work"), type: 'meerwerk', linkedChapterCodes: [] },
       ],
-      defaultBetalingstermijnen: defaultBetalingstermijnen.map(t => ({ ...t, id: genId() })),
-      defaultGaranties: defaultGaranties.map(g => ({ ...g, id: genId() })),
-      defaultVoorwaarden,
+      defaultBetalingstermijnen: defaultBetalingstermijnen().map(t => ({ ...t, id: genId() })),
+      defaultGaranties: defaultGaranties().map(g => ({ ...g, id: genId() })),
+      defaultVoorwaarden: defaultVoorwaarden(),
     },
   ];
 }

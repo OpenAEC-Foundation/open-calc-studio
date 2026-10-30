@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 import * as XLSX from 'xlsx';
 import type { CostItem, CostSchedule, RowType, CompanyInfo, ResourceType } from '@/types/costModel';
 import { makeCostItem, normalizeUnit, genId, genIfcGuid } from './core';
@@ -137,7 +138,7 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
   // --- Read Kostprijs sheet ---
   const kostprijsSheet = sheetByName(wb, 'Kostprijs');
   if (!kostprijsSheet) {
-    throw new Error('Geen "Kostprijs" tabblad gevonden in het BasCalc bestand');
+    throw new Error(uiText("diagnostics.bascalcImporter.noKostprijsSheetFoundInTheBasCalc", "No \"Kostprijs\" sheet found in the BasCalc file."));
   }
 
   const data: unknown[][] = XLSX.utils.sheet_to_json(kostprijsSheet, { header: 1 });

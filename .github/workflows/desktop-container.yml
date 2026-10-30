@@ -1,0 +1,106 @@
+name: Native desktop container
+
+on:
+  workflow_call:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  actions: read
+  packages: write
+  id-token: write
+  attestations: write
+
+jobs:
+  docker:
+    if: github.event_name != 'release' || (!github.event.release.prerelease && !github.event.release.draft)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.18.0
+      - name: Read product version
+        id: version
+        run: echo "value=$(node -p 'require("./package.json").version')" >> "$GITHUB_OUTPUT"
+      - uses: actions/download-artifact@v4
+        if: github.event_name != 'release'
+        with:
+          name: open-calc-studio-Linux
+          path: release-artifacts/installers
+      - name: Download the published release package
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          mkdir -p release-artifacts/installers
+          gh release download "$RELEASE_TAG" --pattern '*amd64.deb' --dir release-artifacts/installers
+      - name: Prepare from the exact native installer
+        run: |
+          mapfile -d '' packages < <(find release-artifacts/installers -name '*amd64.deb' -print0)
+          test "${#packages[@]}" = 1
+          node packaging/docker/prepare-context.mjs "${packages[0]}"
+      - uses: docker/setup-buildx-action@v3
+      - name: Build the graphical image
+        run: |
+          docker build --build-arg VERSION='${{ steps.version.outputs.value }}' --build-arg REVISION='${{ github.sha }}' \
+            -t ghcr.io/openaec-foundation/open-calc-studio:${{ steps.version.outputs.value }} release-artifacts/docker-context
+      - name: Verify native app, browser stream, health, MCP and idle memory
+        run: bash packaging/docker/test-container.sh ghcr.io/openaec-foundation/open-calc-studio:${{ steps.version.outputs.value }}
+      - name: Record idle memory
+        run: |
+          echo '### Graphical desktop container idle memory' >> "$GITHUB_STEP_SUMMARY"
+          cat release-artifacts/docker-evidence/memory-idle.txt >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: open-calc-studio-desktop-container-evidence
+          path: release-artifacts/docker-evidence
+          if-no-files-found: warn
+      - uses: docker/login-action@v3
+        if: github.event_name == 'release'
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: Push tested release image
+        if: github.event_name == 'release'
+        id: push
+        run: |
+          image=ghcr.io/openaec-foundation/open-calc-studio
+          docker tag "$image:${{ steps.version.outputs.value }}" "$image:latest"
+          docker push "$image:${{ steps.version.outputs.value }}"
+          docker push "$image:latest"
+          reference=$(docker image inspect "$image:${{ steps.version.outputs.value }}" --format '{{index .RepoDigests 0}}')
+          echo "reference=$reference" >> "$GITHUB_OUTPUT"
+          echo "digest=${reference#*@}" >> "$GITHUB_OUTPUT"
+      - uses: sigstore/cosign-installer@v3
+        if: github.event_name == 'release'
+      - name: Sign immutable image digest
+        if: github.event_name == 'release'
+        env:
+          REFERENCE: ${{ steps.push.outputs.reference }}
+        run: cosign sign --yes "$REFERENCE"
+      - uses: anchore/sbom-action@v0
+        if: github.event_name == 'release'
+        with:
+          image: ${{ steps.push.outputs.reference }}
+          output-file: release-artifacts/docker-evidence/sbom.spdx.json
+      - uses: actions/attest-build-provenance@v3
+        if: github.event_name == 'release'
+        with:
+          subject-name: ghcr.io/openaec-foundation/open-calc-studio
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
+      - uses: actions/attest-sbom@v3
+        if: github.event_name == 'release'
+        with:
+          subject-name: ghcr.io/openaec-foundation/open-calc-studio
+          subject-digest: ${{ steps.push.outputs.digest }}
+          sbom-path: release-artifacts/docker-evidence/sbom.spdx.json
+          push-to-registry: true

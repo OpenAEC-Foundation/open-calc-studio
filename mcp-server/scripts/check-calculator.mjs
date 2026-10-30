@@ -10,7 +10,8 @@ import { calculateProject, deserializeProject, getStaartBreakdown } from '../../
 
 const cwd = fileURLToPath(new URL('..', import.meta.url));
 const tmp = await mkdtemp(join(tmpdir(), 'ocs-parity-'));
-const transport = new StdioClientTransport({ command: process.execPath, args: ['--import', 'tsx', 'src/index.ts'], cwd, stderr: 'pipe', env: { ...process.env, OCS_DISABLE_BRIDGE: '1' } });
+const args = process.argv.includes('--bundled') ? ['dist/ocs-mcp.mjs'] : ['--import', 'tsx', 'src/index.ts'];
+const transport = new StdioClientTransport({ command: process.execPath, args, cwd, stderr: 'pipe', env: { ...process.env, OCS_DISABLE_BRIDGE: '1' } });
 const client = new Client({ name: 'calculator-parity', version: '1.0.0' });
 async function call(name, args = {}) {
   const result = await client.callTool({ name, arguments: args });

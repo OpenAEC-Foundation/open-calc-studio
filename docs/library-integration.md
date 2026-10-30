@@ -17,7 +17,7 @@ npm run pack:lib
 Installeer in je eigen project (pas het pad aan):
 
 ```sh
-npm install /pad/naar/open-calc-studio/release-embed/openaec-open-calc-studio-0.13.0.tgz react react-dom
+npm install /pad/naar/open-calc-studio/release-embed/openaec-open-calc-studio-2026.44.0.tgz react react-dom
 ```
 
 Publiceren op npm is niet nodig.
@@ -92,3 +92,7 @@ const json = await a.getProjectJson();
 Elke iframe heeft eigen gegevens, taal, thema en sneltoetsen. De kleine loader
 laadt geen React of appcode in de gastpagina. Viewers en importers worden
 op verzoek geladen. Raadpleeg `packages/embed/README.md` voor alle opties.
+
+## Wizard en hostopslag
+
+`<OpenCalcStudio mode="wizard" />` of `mountIsolated(..., {mode: "wizard"})` opent dezelfde calculatie in vijf stappen. Thema’s volgen Blueprint: light, dark, blueprint, high-contrast-dark en high-contrast-light. `opaque: true` gebruikt een iframe zonder allow-same-origin; serveer publieke module- en fontassets met CORS. Een optionele `window.openaecHost` binnen het frame regelt bestanden, versies en versieconflicten. Zie [SuperCloud](supercloud.md) voor het volledige contract en de vereiste hostbootstrap. Het onafhankelijke REST/HTTP-MCP-rekenproces is apart verpakt; zie [cloud API](cloud-api.md).

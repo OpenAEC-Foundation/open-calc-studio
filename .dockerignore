@@ -1,0 +1,11 @@
+.git
+node_modules
+**/node_modules
+dist
+dist-*
+src-tauri/target
+libs
+.env*
+begrotingen
+output
+release-*

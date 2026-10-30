@@ -252,6 +252,8 @@
     "pdfQuotation": "PDF Offerte",
     "printBtn": "Afdrukken",
     "applyTemplate": "Template toepassen...",
-    "templateGroup": "Template"
+    "templateGroup": "Template",
+    "desktopRequired": "Offerte-PDF en afdrukken vereisen de desktopapplicatie.",
+    "pdfFailed": "Offerte-PDF kon niet worden gemaakt"
   }
 }

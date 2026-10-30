@@ -61,28 +61,29 @@ are not supported.
 
 ### `export_pdf`
 
-Generate a PDF report from an Open Calc Studio budget file (`.ifcx` or `.ocs`).
+Generate a PDF report from the standalone server's current project. Call
+`open_budget` first. This does not export the live desktop document.
 
 **Input:**
 
 | Parameter    | Type   | Required | Description |
 |-------------|--------|----------|-------------|
-| `filePath`  | string | Yes      | Absolute path to the input budget file (.ifcx or .ocs) |
-| `outputPath`| string | No       | Absolute path for the output PDF. Defaults to same directory as input with .pdf extension |
-| `reportView`| string | No       | Report layout: `werkbeschrijving`, `hoofdaanneming`, `bouw1` (default), or `inschrijfstaat` |
+| `outputPath`| string | Yes      | Output PDF path, resolved against the server's working directory |
+| `reportView`| string | No       | `werkbeschrijving`, `hoofdaanneming`, `onderaanneming`, `inschrijfstaat`, `nacalculatie`, `bouw1` (default), or `offerte` |
 
 **Output:**
 
 ```json
 {
-  "pdfPath": "/path/to/output.pdf",
-  "pageCount": 5
+  "success": true,
+  "pdfPath": "/path/to/output.pdf"
 }
 ```
 
 **How it works:**
 
-The tool uses the `gen_pdf` standalone binary (built from `src-tauri/src/bin/gen_pdf.rs`) to generate the PDF. The binary must be built first:
+The tool looks for `gen_pdf` in this repository's `src-tauri/target/release`
+or `debug` directory. Build it first:
 
 ```bash
 cd src-tauri
@@ -90,6 +91,11 @@ cargo build --release --bin gen_pdf
 ```
 
 The binary accepts: `gen_pdf <input.ifcx> <output.pdf>`
+
+The standalone tool does not currently discover the generator from an installed
+app or a relocated server bundle. For the running desktop document, use its
+[`POST /api/v1/export/pdf`](../docs/api/README.md) endpoint. The separate
+headless HTTP service provides calculation tools; it does not expose PDF export.
 
 ## Development
 

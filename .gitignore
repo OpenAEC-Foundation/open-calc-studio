@@ -41,7 +41,15 @@ output/
 # Generated standalone library demo assets
 /packages/embed/example/public/calc-studio/
 
+!.env.platform
+
+/dist-server/
+/dist-platform/
+!.env.production
+
 # License copies generated for the npm package by embed-sync.mjs
 /packages/embed/LICENSE
 /packages/embed/COPYING
 /packages/embed/NOTICE.md
+
+__pycache__/

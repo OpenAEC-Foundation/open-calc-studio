@@ -1,6 +1,7 @@
 import type { StateCreator } from 'zustand';
 import type { CostItem, CostSchedule } from '@/types/costModel';
 import type { AssistantActie } from '@/services/assistant/assistantActions';
+import type { AssistantProposalSummary } from '@/services/assistant/assistantProposal';
 
 /**
  * Chatgeschiedenis van de calculatieassistent — per begroting (document-id).
@@ -17,7 +18,8 @@ export interface ChatMessage {
   proposedActions?: AssistantActie[];
   proposalItems?: CostItem[];
   proposalSchedule?: CostSchedule;
-  proposalStatus?: 'ready' | 'applied' | 'discarded' | 'stale' | 'failed';
+  proposalStatus?: 'ready' | 'applied' | 'discarded' | 'stale' | 'failed' | 'undone';
+  proposal?: AssistantProposalSummary;
 }
 
 export interface ChatSlice {

@@ -1,6 +1,7 @@
 # Open Calc Studio — API Documentatie
 
-> Versie 2.1.0 | Stack: Vite 6 + React 18 + TypeScript 5.7 + Zustand 5 + Tauri 2
+> Product: 2026.44.0; native bestandsformaat: 2.2.0. Vite 7, React 19, TypeScript 5.9, Zustand 5, Tauri 2.
+> De onafhankelijke headless REST/HTTP-MCP-service staat in [cloud-api.md](cloud-api.md); de bestaande desktop-API staat in [api/README.md](api/README.md).
 
 ---
 

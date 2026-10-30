@@ -1,14 +1,15 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Open Calc Studio",
-  "version": "0.13.0",
+  "version": "2026.44.5",
   "identifier": "com.opencalcstudio.app",
   "mainBinaryName": "Open Calc Studio",
   "build": {
     "beforeDevCommand": "npm run dev",
     "beforeBuildCommand": "npm run build",
     "frontendDist": "../dist",
-    "devUrl": "http://localhost:4200"
+    "devUrl": "http://localhost:4200",
+    "beforeBundleCommand": "node scripts/prepare-universal-binaries.mjs"
   },
   "app": {
     "windows": [
@@ -29,6 +30,7 @@
   },
   "bundle": {
     "active": true,
+    "createUpdaterArtifacts": true,
     "targets": "all",
     "icon": [
       "icons/32x32.png",
@@ -44,7 +46,9 @@
       "../mcp-server/dist/ocs-mcp.mjs",
       "../LICENSE",
       "../COPYING",
-      "../NOTICE.md"
+      "../NOTICE.md",
+      "../dist/licenses/**/*",
+      "../dist/THIRD-PARTY-NOTICES.txt"
     ],
     "fileAssociations": [
       {
@@ -70,6 +74,9 @@
       "webviewInstallMode": {
         "type": "embedBootstrapper",
         "silent": true
+      },
+      "wix": {
+        "version": "26.44.5"
       }
     },
     "macOS": {

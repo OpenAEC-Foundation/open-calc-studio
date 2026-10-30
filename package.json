@@ -1,7 +1,7 @@
 {
   "name": "open-calc-studio",
   "private": true,
-  "version": "0.13.0",
+  "version": "2026.44.5",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -16,7 +16,17 @@
     "test:e2e": "playwright test",
     "test:lib:browser": "npm run build:lib && playwright test -c playwright.library.config.ts",
     "generate:mcp-actions": "node scripts/generate-mcp-actions.mjs",
-    "convert:budget": "node scripts/convert-budget.mjs"
+    "convert:budget": "node scripts/convert-budget.mjs",
+    "build:platform": "vite build --mode platform",
+    "version:check": "node scripts/version.mjs check",
+    "version:next": "node scripts/version.mjs next",
+    "test:version": "node --test scripts/version.node-test.mjs",
+    "build:server": "node scripts/build-server.mjs",
+    "start:server": "node dist-server/server.mjs",
+    "test:server": "npm run build:server && node --test server/api.node-test.mjs",
+    "check:blueprint": "node scripts/verify-blueprint.mjs",
+    "test:bundle": "node --test scripts/prepare-universal-binaries.node-test.mjs",
+    "test:signing": "node --test scripts/ci/sign-linux.node-test.mjs"
   },
   "dependencies": {
     "@ifc-lite/geometry": "^7.6.0",
@@ -48,6 +58,7 @@
     "zustand": "^5.0.12"
   },
   "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
     "@playwright/test": "^1.58.2",
     "@tauri-apps/cli": "^2.10.1",
     "@testing-library/jest-dom": "^6.9.1",
@@ -55,6 +66,7 @@
     "@types/react-dom": "^19.2.3",
     "@types/sql.js": "^1.4.11",
     "@vitejs/plugin-react": "^5.2.0",
+    "esbuild": "^0.27.7",
     "jsdom": "^29.0.0",
     "typescript": "^5.9.3",
     "vite": "^7.3.1",

@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 import type { ProjectFile, CostSchedule, CostItem, CompanyInfo, SubSheet, SpreadsheetsData, RowType, OfferteDocument, ProjectSnapshot } from '@/types/costModel';
 import { defaultCompanyInfo } from '@/state/slices/companySlice';
 import { createDefaultProjectInfo } from '@/types/costModel';
@@ -10,7 +11,7 @@ import { synthesizeStaartItems, ensureBtwLaagItem } from '@/services/calculation
  * - major omhoog = breaking (oudere apps weigeren met nette melding)
  * - minor omhoog = additief (oudere bestanden migreren automatisch mee)
  */
-const FILE_FORMAT_VERSION = '2.2.0';
+const FILE_FORMAT_VERSION = '2.3.0';
 
 function createProjectFile(
   schedule: CostSchedule,
@@ -111,7 +112,7 @@ export function deserializeProject(json: string): ProjectFile {
   const appMajor = parseInt(FILE_FORMAT_VERSION.split('.')[0], 10);
   if (!isNaN(fileMajor) && fileMajor > appMajor) {
     throw new Error(
-      `Dit bestand gebruikt een nieuwer .ifcCalc-formaat (${parsed.version}) dan deze app ondersteunt (t/m ${FILE_FORMAT_VERSION}). Werk Open Calc Studio bij om het te openen.`
+      uiText("diagnostics.fileService.thisFileUsesANewerIfcCalcFormat", "This file uses a newer .ifcCalc format ({{p0}}) than this app supports (up to {{p1}}). Update Open Calc Studio to open it.", { p0: parsed.version, p1: FILE_FORMAT_VERSION })
     );
   }
 

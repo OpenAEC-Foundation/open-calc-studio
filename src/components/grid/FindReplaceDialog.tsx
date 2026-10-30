@@ -19,6 +19,7 @@ export default function FindReplaceDialog({ open, onClose }: Props) {
   const { t } = useTranslation('grid');
   const items = useAppStore((s) => s.items);
   const updateItem = useAppStore((s) => s.updateItem);
+  const toggleCollapse = useAppStore(s => s.toggleCollapse);
   const pushHistory = useAppStore((s) => s.pushHistory);
   const setActiveCell = useAppStore((s) => s.setActiveCell);
   const getGridRows = useAppStore((s) => s.getGridRows);
@@ -58,8 +59,10 @@ export default function FindReplaceDialog({ open, onClose }: Props) {
     if (!item) return;
     // Ingeklapte ouders openen zodat de rij zichtbaar is
     let parent = items.find((i) => i.id === item.parentId);
-    while (parent) {
-      if (parent.isCollapsed) updateItem(parent.id, 'isCollapsed', false);
+    const seen = new Set<string>();
+    while (parent && !seen.has(parent.id)) {
+      seen.add(parent.id);
+      if (parent.isCollapsed) toggleCollapse(parent.id);
       parent = items.find((i) => i.id === parent!.parentId);
     }
     requestAnimationFrame(() => {
@@ -69,7 +72,7 @@ export default function FindReplaceDialog({ open, onClose }: Props) {
       const row = visible.findIndex((i) => i.id === match.id);
       if (row >= 0) setActiveCell(row, 2, match.id);
     });
-  }, [items, updateItem, getGridRows, setActiveCell]);
+  }, [items, toggleCollapse, getGridRows, setActiveCell]);
 
   const findNext = useCallback((dir: 1 | -1 = 1) => {
     if (matches.length === 0) return;

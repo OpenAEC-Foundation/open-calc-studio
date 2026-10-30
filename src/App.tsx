@@ -1,6 +1,19 @@
+import { useOwnAssistant } from './hooks/useOwnAssistant';
+import { useHostPresentation } from './hooks/useHostPresentation';
+import { CalculationWizard } from './components/wizard/CalculationWizard';
+import { HostFileDialog } from './components/common/HostFileDialog';
+import { getSiteHost, observeSiteHost, hostRecentPath, type SiteHost } from './services/file/siteHost';
+import { openHostedFile } from './services/file/hostFileActions';
+import { PLATFORM_BUILD } from './services/buildFlags';
+import { localStore } from '@/utils/browserStorage';
 import { lazy, Suspense, useState, useEffect, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import TitleBar from "./components/layout/TitleBar";
+import { WorkspaceNavigation } from './components/layout/WorkspaceNavigation';
+import { WorkspaceHeader } from './components/layout/WorkspaceHeader';
+import { WorkspaceLayoutBar } from './components/layout/WorkspaceLayoutBar';
+import { ReviewCenter, ReviewReturnBar } from './components/review/ReviewCenter';
+import { QuantityOriginDialog } from './components/common/QuantityOriginCard';
 import Ribbon from "./components/ribbon/Ribbon";
 import StatusBar from "./components/layout/StatusBar";
 import Backstage from "./components/backstage/Backstage";
@@ -48,6 +61,11 @@ import { sendDockRequest, onWindowBridgeMessage } from "./services/windowBridge"
 import "./styles/themes.css";
 import "./components/layout/layout.css";
 import "./styles/globals.css";
+import "./styles/blueprint/openaec-tokens.css";
+import "./styles/blueprint/openaec-fonts.css";
+import "./styles/blueprint/openaec-components.css";
+import "./styles/blueprintBridge.css";
+import "./components/layout/WorkspaceShell.css";
 
 /**
  * Open de meegeleverde voorbeeldbegroting in de taal van de interface:
@@ -66,6 +84,26 @@ const MOBILE_QUERY = '(max-width: 760px), (pointer: coarse) and (max-width: 1024
 
 function App() {
   const { t } = useTranslation();
+  const ownAssistant = useOwnAssistant();
+  const [hostError, setHostError] = useState('');
+  const [settingsReady, setSettingsReady] = useState(false);
+  const openedHosts = useRef(new WeakSet<SiteHost>());
+  useEffect(() => {
+    if (!settingsReady) return;
+    return observeSiteHost(host => {
+    if (!host || openedHosts.current.has(host)) return;
+    openedHosts.current.add(host);
+    Promise.resolve().then(() => host.list()).then(files => {
+      const state = useAppStore.getState();
+      const paths = [...files].sort((a, b) => b.modified.localeCompare(a.modified)).slice(0, 10).map(file => {
+        localStore.setItem('ocs-host-name:' + file.id, file.name);
+        return hostRecentPath(file.id);
+      });
+      state.updateSettings({ recentFiles: [...new Set([...paths, ...(state.settings.recentFiles ?? [])])].slice(0, 10) });
+    }).catch(error => setHostError(String(error)));
+    if (host.initialFileId) void openHostedFile(host.initialFileId).catch(error => setHostError(String(error)));
+    });
+  }, [settingsReady]);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [backstageOpen, setBackstageOpen] = useState(false);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
@@ -80,7 +118,8 @@ function App() {
   useEffect(() => { registerUnsavedDialogSetter(setUnsavedDialog); }, []);
   const updateSettings = useAppStore((s) => s.updateSettings);
   useQuantityLinkSync();
-  const [theme, setTheme] = useState<string>(localStorage.getItem("ocs-theme") || "light");
+  const [theme, setTheme] = useState<string>(localStore.getItem("ocs-theme") || "light");
+  const hostedPresentation = useHostPresentation(settingsReady, setTheme);
   const { showSchedulePanel, showPropertiesPanel, showChatPanel, activeContentTab, activeDialog, closeDialog, documents, splitView, splitDocumentId, setSplitDocumentId } = useAppStore();
   const activeSubSheetId = useAppStore((s) => s.activeSubSheetId);
   const subSheets = useAppStore((s) => s.subSheets);
@@ -153,12 +192,15 @@ function App() {
       };
       const store = useAppStore.getState();
       store.setSettings(saved);
+      if (!isEmbedded() && saved.lastWorkspaceLayoutId) {
+        try { store.applyWorkspaceLayout(saved.lastWorkspaceLayoutId); } catch { /* Removed or invalid saved layout: keep the default editor. */ }
+      }
       applyTheme(saved.theme);
       setTheme(saved.theme);
       if (saved.locale && saved.locale !== 'auto') {
         changeLanguage(saved.locale);
       }
-    });
+    }).catch(error => setHostError(String(error))).finally(() => setSettingsReady(true));
 
     // Resolve the Windows username once, so edit-history entries are attributed
     // to the right person (cached synchronously for the store's updateItem).
@@ -206,7 +248,7 @@ function App() {
         try {
           // Wait a tick so settings/extensions are initialised first
           await new Promise(r => setTimeout(r, 50));
-          if (restoredDraft || useAppStore.getState().documents.length > 0) return;
+          if (window.__OCS_CONTAINER__ || PLATFORM_BUILD || getSiteHost() || restoredDraft || useAppStore.getState().documents.length > 0) return;
           // Ingebouwd bepaalt de gastpagina of het voorbeeld opengaat.
           if (isEmbedded() && !getEmbedOptions().autoSample) return;
           await openSampleBudget();
@@ -400,34 +442,35 @@ function App() {
     return () => { unlisten?.(); };
   }, [t]);
 
-  // Start sidebar state — persistent welcome/start screen on the far left
-  const [startSidebarOpen, setStartSidebarOpen] = useState<boolean>(() => {
-    const stored = localStorage.getItem("ocs-start-sidebar-open");
-    return stored === null ? true : stored === "true";
-  });
+  const [startSidebarOpen, setStartSidebarOpen] = useState(false);
+  const projectDrawerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    localStorage.setItem("ocs-start-sidebar-open", String(startSidebarOpen));
+    if (!startSidebarOpen) return;
+    const previousFocus = document.activeElement as HTMLElement | null;
+    projectDrawerRef.current?.querySelector<HTMLButtonElement>('.start-sidebar-close-btn')?.focus();
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); setStartSidebarOpen(false); }
+      if (event.key !== 'Tab') return;
+      const buttons = projectDrawerRef.current?.querySelectorAll<HTMLButtonElement>('button:not(:disabled)');
+      if (!buttons?.length) return;
+      const first = buttons[0], last = buttons[buttons.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    };
+    document.addEventListener('keydown', handleKey, true);
+    return () => { document.removeEventListener('keydown', handleKey, true); previousFocus?.focus(); };
   }, [startSidebarOpen]);
 
-  // Left panel state
-  const [leftPanelWidth, setLeftPanelWidth] = useState(220);
-  const [leftPanelOpen, setLeftPanelOpen] = useState(false);
+  const leftPanelWidth = useAppStore(s => s.leftPanelWidth);
+  const setLeftPanelWidth = useAppStore(s => s.setLeftPanelWidth);
+  const leftPanelOpen = showSchedulePanel;
+  const setLeftPanelOpen = (open: boolean) => useAppStore.setState({ showSchedulePanel: open });
   const isLeftResizing = useRef(false);
-
-  // Right panel state
-  const [rightPanelWidth, setRightPanelWidth] = useState(240);
-  const [rightPanelOpen, setRightPanelOpen] = useState(false);
+  const rightPanelWidth = useAppStore(s => s.rightPanelWidth);
+  const setRightPanelWidth = useAppStore(s => s.setRightPanelWidth);
+  const rightPanelOpen = showPropertiesPanel;
+  const setRightPanelOpen = (open: boolean) => useAppStore.setState({ showPropertiesPanel: open });
   const isRightResizing = useRef(false);
-
-  // Sync panel open state with store
-  // Panels are always visible as collapsible tabs. Open state is controlled
-  // by leftPanelOpen/rightPanelOpen which the user can toggle via the collapse
-  // tabs and close buttons. We only sync once at initial mount.
-  useEffect(() => {
-    setLeftPanelOpen(showSchedulePanel);
-    setRightPanelOpen(showPropertiesPanel);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     applyTheme(theme);
@@ -436,13 +479,14 @@ function App() {
   // Left panel resize handler
   const handleLeftResizeMouseDown = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
+    const panelLeft = e.currentTarget.parentElement?.getBoundingClientRect().left ?? 0;
     isLeftResizing.current = true;
     document.body.style.cursor = "col-resize";
     document.body.style.userSelect = "none";
 
     const handleMouseMove = (ev: MouseEvent) => {
       if (!isLeftResizing.current) return;
-      setLeftPanelWidth(Math.max(160, Math.min(480, ev.clientX)));
+      setLeftPanelWidth(Math.max(160, Math.min(480, ev.clientX - panelLeft)));
     };
 
     const handleMouseUp = () => {
@@ -466,7 +510,7 @@ function App() {
 
     const handleMouseMove = (ev: MouseEvent) => {
       if (!isRightResizing.current) return;
-      setRightPanelWidth(Math.max(160, Math.min(480, window.innerWidth - ev.clientX)));
+      setRightPanelWidth(Math.max(200, Math.min(540, window.innerWidth - ev.clientX)));
     };
 
     const handleMouseUp = () => {
@@ -484,6 +528,8 @@ function App() {
   if (isMobile && !isDetachedWindow) {
     return (
       <>
+        <HostFileDialog />
+        {hostError && <div className="oa-banner" role="alert">{hostError}</div>}
         <MobileWorkspace />
         <UnsavedChangesDialog open={unsavedDialog.open} fileName={unsavedDialog.fileName} onResult={handleUnsavedResult} />
       </>
@@ -491,8 +537,10 @@ function App() {
   }
 
   return (
-    <>
-      <TitleBar onSettingsClick={() => setSettingsOpen(true)} onFeedbackClick={() => setFeedbackOpen(true)} />
+    <div className="oa-app calc-studio-shell">
+      <HostFileDialog />
+      {hostError && <div className="oa-banner" role="alert">{hostError}</div>}
+      {!hostedPresentation && <TitleBar onSettingsClick={() => setSettingsOpen(true)} onFeedbackClick={() => setFeedbackOpen(true)} />}
       <Ribbon onFileTabClick={() => setBackstageOpen(true)} />
       <FileTabBar />
       {isDetachedWindow && (
@@ -510,27 +558,19 @@ function App() {
         </div>
       )}
       <div className="content">
-        {/* Start sidebar — always visible (collapsible) */}
-        {!startSidebarOpen && (
-          <button
-            className="start-sidebar-collapsed-tab"
-            onClick={() => setStartSidebarOpen(true)}
-            title={t('start')}
-          >
-            <span>{t('start')}</span>
-          </button>
-        )}
+        <WorkspaceNavigation onStart={() => setStartSidebarOpen(value => !value)} onSettings={() => setSettingsOpen(true)} />
         {startSidebarOpen && (
-          <StartSidebar
-            onLoadVoorbeeld={loadVoorbeeldBudget}
-            onClose={() => setStartSidebarOpen(false)}
-          />
+          <div className="workspace-project-drawer" ref={projectDrawerRef} role="dialog" aria-modal="true" aria-label={t('start')}>
+            <button className="workspace-drawer-scrim" aria-label={t('close')} onClick={() => setStartSidebarOpen(false)} />
+            <StartSidebar onLoadVoorbeeld={() => { loadVoorbeeldBudget(); setStartSidebarOpen(false); }} onClose={() => setStartSidebarOpen(false)} />
+          </div>
         )}
 
         {documents.length === 0 ? (
           <div className="start-empty-main">
             <h3>{t("appName")}</h3>
             <p>{t('app.noBudgetOpen')}</p>
+            <button className="oa-button oa-button--primary" onClick={() => setStartSidebarOpen(true)}>{t('open')}</button>
           </div>
         ) : (
         <>
@@ -567,6 +607,10 @@ function App() {
         )}
 
         <main className="main-view">
+          <WorkspaceHeader />
+          <WorkspaceLayoutBar />
+          <div className="workspace-body">
+          {activeContentTab === 'grid' && <ReviewReturnBar />}
           {activeContentTab === 'spreadsheet' && <SpreadsheetReturnBar />}
           {activeContentTab === 'spreadsheet' ? (
             activeSubSheetId && subSheets.some(s => s.id === activeSubSheetId) ? (
@@ -599,7 +643,9 @@ function App() {
           ) : (
             <>
               {activeContentTab === 'grid' && <CostGrid />}
+              {activeContentTab === 'review' && <ReviewCenter />}
               {activeContentTab === 'promptBudget' && <PromptBudgetWorkspace />}
+              {activeContentTab === 'wizard' && <CalculationWizard />}
               {activeContentTab === 'urenstaart' && <UrenStaartView />}
               {activeContentTab === 'rapport' && <ReportPreview />}
               {activeContentTab === 'samenvatting' && <SummaryPanel />}
@@ -610,7 +656,8 @@ function App() {
             </>
           )}
           {/* Bottom tab bar: Begroting + Blad N + "+" — shown on grid & spreadsheet views */}
-          <SubSheetTabBar />
+          <SubSheetTabBar sheetsOnly />
+          </div>
         </main>
 
         {/* Right panel — Properties */}
@@ -648,7 +695,7 @@ function App() {
         )}
       </div>
       {/* Floating chat button + panel — bottom right */}
-      {!showChatPanel && activeContentTab !== 'promptBudget' && (
+      {ownAssistant && !showChatPanel && activeContentTab !== 'promptBudget' && (
         <button
           className="chat-fab"
           onClick={() => useAppStore.getState().toggleChatPanel()}
@@ -658,7 +705,7 @@ function App() {
           💬
         </button>
       )}
-      {showChatPanel && activeContentTab !== 'promptBudget' && (
+      {ownAssistant && showChatPanel && activeContentTab !== 'promptBudget' && (
         <div className="chat-floating">
           <ChatPanel />
         </div>
@@ -678,8 +725,9 @@ function App() {
       <FeedbackDialog open={feedbackOpen} onClose={() => setFeedbackOpen(false)} />
       <UnsavedChangesDialog open={unsavedDialog.open} fileName={unsavedDialog.fileName} onResult={handleUnsavedResult} />
       <ResourcePicker />
+      <QuantityOriginDialog />
       <WizardModal open={activeDialog === 'wizard'} onClose={closeDialog} />
-    </>
+    </div>
   );
 }
 

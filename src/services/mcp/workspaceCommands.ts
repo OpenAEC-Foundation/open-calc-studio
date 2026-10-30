@@ -1,16 +1,18 @@
 import { useAppStore } from '@/state/appStore';
-import { createPdfSource, emptyPdfWorkspace, importOpenPdfMeasurements, measurePoints, replaceOpenPdfMeasurements, resolvePdfQuantity } from '@/services/pdf/pdfWorkspace';
+import { createPdfQuantityResolver, createPdfSource, emptyPdfWorkspace, importOpenPdfMeasurements, measurePoints, replaceOpenPdfMeasurements } from '@/services/pdf/pdfWorkspace';
 import type { PdfPoint, SavedPdfMeasurement } from '@/types/pdfWorkspace';
 import { recalculateItems } from '@/services/calculation/calculator';
 import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
+import { captureQuantityOrigin } from '@/services/quantity/quantityOrigin';
 
 export async function pdfCommand(action:string,p:Record<string,unknown>) {
   const s=useAppStore.getState(); const docId=s.activeDocumentId;
   if(!docId)throw Error('Open eerst een begroting.');
   const w=structuredClone(s.schedule.pdfWorkspace??emptyPdfWorkspace());
   const commit=()=>{const current=useAppStore.getState();if(current.activeDocumentId!==docId||current.schedule.pdfWorkspace!==s.schedule.pdfWorkspace)throw Error('Begroting of PDF-workspace gewijzigd; probeer opnieuw.');current.setSchedule({pdfWorkspace:w});
+    const pdf = createPdfQuantityResolver(w);
     const items=current.items.map(item=>{const link=item.quantityLink;if(link?.source!=='pdf')return item;
-      const value=resolvePdfQuantity(link,w);
+      const value=pdf.resolve(link);
       return value===null?item:{...item,quantity:value};});
     useAppStore.setState({items:recalculateItems(items,current.schedule.tarieven)});
     current.updateDocument(docId,{isModified:true});};
@@ -30,7 +32,8 @@ export async function pdfCommand(action:string,p:Record<string,unknown>) {
     const measurement=source.measurements.find(m=>m.id===p.measurementId);if(!measurement)throw Error('Onbekende meting.');
     const item=s.items.find(i=>i.id===p.itemId);if(!item||!['regel','begrotingspost','bewakingspost'].includes(item.rowType))throw Error('Selecteer een begrotingspost of rekenregel.');
     s.pushHistory(s.items,'PDF-hoeveelheid koppelen');
-    useAppStore.setState({items:recalculateItems(s.items.map(i=>i.id===p.itemId?{...i,quantity:measurement.value,unit:measurement.type==='area'?'m²':'m',quantityLink:{source:'pdf',measurementId:measurement.id,kind:measurement.type}}:i),s.schedule.tarieven)});
+    const link = {source:'pdf' as const,measurementId:measurement.id,kind:measurement.type};
+    useAppStore.setState({items:recalculateItems(s.items.map(i=>i.id===p.itemId?{...i,quantity:measurement.value,unit:measurement.type==='area'?'m²':'m',quantityLink:link,quantityOrigin:captureQuantityOrigin(link,s)}:i),s.schedule.tarieven)});
     s.updateDocument(docId,{isModified:true});return {quantity:measurement.value};
   }
   const pdfjs=await import('pdfjs-dist');pdfjs.GlobalWorkerOptions.workerSrc=workerUrl;

@@ -6,3 +6,5 @@
 .ifc-canvas{flex:1;min-height:180px;overflow:hidden}.ifc-budget{flex:1;min-width:0;overflow:hidden}.ifc-status{position:absolute;top:30px;left:20px;right:20px;background:var(--theme-surface);padding:12px;border-radius:6px;font-size:12px;pointer-events:none}
 .ifc-elements{border-top:1px solid var(--theme-border);padding:8px;font-size:11px}.ifc-elements>input{width:45%;margin-right:8px}.ifc-element-list{max-height:115px;overflow:auto;margin-top:6px}.ifc-element-list label{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:2px}
 .ifc-takeoff{padding:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--theme-border);font-size:12px}.ifc-takeoff select{max-width:65%}.ifc-takeoff small{flex-basis:100%;color:var(--theme-text-muted)}.ifc-error{padding:8px;background:#fff0ed;color:#952d20;font-size:12px}
+
+.ifc-element-tools,.ifc-element-pages{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:6px}.ifc-elements p{margin:6px 0;color:var(--theme-text-muted)}

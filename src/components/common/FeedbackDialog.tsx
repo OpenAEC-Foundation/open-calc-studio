@@ -1,3 +1,4 @@
+import { allowsExternalServices } from '@/services/buildFlags';
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { getAppVersion, buildUserAgent } from "../../utils/platform";
@@ -108,6 +109,7 @@ export default function FeedbackDialog({ open, onClose }: FeedbackDialogProps) {
   }
 
   async function handleSubmit() {
+    if (!allowsExternalServices()) return;
     if (!canSubmit) return;
     setStatus("submitting");
     setErrorMsg("");

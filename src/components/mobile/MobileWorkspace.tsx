@@ -1,35 +1,39 @@
-import { useEffect, useMemo, useState } from 'react';
+import appIcon from '@/assets/app-icon.svg';
+import { CalculationWizard } from '@/components/wizard/CalculationWizard';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { CostItem, CostUnit } from '@/types/costModel';
 import { useAppStore } from '@/state/appStore';
 import { useFileOperations } from '@/hooks/useFileOperations';
 import { getStaartBreakdown } from '@/services/calculation/calculator';
-import { formatNumberForEdit, parseNlNumber } from '@/utils/formatting';
+import { formatInputNumber, parseLocaleNumber, usesDecimalComma } from '@/utils/numberInput';
+import { variantItems } from '@/services/grid/variantScope';
+import { useDialogFocus } from '@/hooks/useDialogFocus';
 import { PromptBudgetWorkspace } from '@/components/chat/PromptBudgetWorkspace';
 import './MobileWorkspace.css';
+import { QuantityOriginCard } from '@/components/common/QuantityOriginCard';
+import { ReviewCenter, ReviewReturnBar } from '@/components/review/ReviewCenter';
+import { useBudgetReview } from '@/components/review/useBudgetReview';
 
-type MobileTab = 'budget' | 'sheets' | 'prompt';
+type MobileTab = 'wizard' | 'budget' | 'sheets' | 'prompt' | 'review';
 const units: CostUnit[] = ['st', 'm', 'm²', 'm³', 'kg', 'ton', 'uur', 'dgn', 'km', 'keer', 'ls', 'week', 'mnd', 'post', '%', 'pm'];
-const money = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' });
-
-function parseDecimal(value: string): number | null | undefined {
-  if (!value.trim()) return null;
-  if (!/^-?\d+(?:\.\d{3})*(?:,\d+)?$/.test(value.trim()) && !/^-?\d+(?:\.\d+)?$/.test(value.trim())) return undefined;
-  const result = parseNlNumber(value);
-  return result !== null && Number.isFinite(result) ? result : undefined;
-}
-
 function MobileItemEditor({ item, onClose }: { item: CostItem; onClose: () => void }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const comma = usesDecimalComma(i18n.language);
+  const parseDecimal = (value: string) => parseLocaleNumber(value, comma);
+  const dialogRef = useRef<HTMLElement>(null);
+  useDialogFocus(dialogRef, true, onClose);
+  const [unlinked, setUnlinked] = useState(false);
+  const linked = !!item.quantityLink && !unlinked;
   const updateItem = useAppStore((s) => s.updateItem);
   const deleteItem = useAppStore((s) => s.deleteItem);
   const items = useAppStore((s) => s.items);
   const [description, setDescription] = useState(item.description);
   const [code, setCode] = useState(item.code);
   const [notes, setNotes] = useState(item.notes);
-  const [quantity, setQuantity] = useState(formatNumberForEdit(item.quantity));
-  const [price, setPrice] = useState(formatNumberForEdit(item.normUnitPrice));
-  const [norm, setNorm] = useState(formatNumberForEdit(item.normQuantity));
+  const [quantity, setQuantity] = useState(formatInputNumber(item.quantity, comma));
+  const [price, setPrice] = useState(formatInputNumber(item.normUnitPrice, comma));
+  const [norm, setNorm] = useState(formatInputNumber(item.normQuantity, comma));
   const [unit, setUnit] = useState<CostUnit>(item.unit);
   const [error, setError] = useState('');
   const hasPricedChildren = items.some((child) => child.parentId === item.id && child.total !== 0);
@@ -43,20 +47,28 @@ function MobileItemEditor({ item, onClose }: { item: CostItem; onClose: () => vo
       setError(t('mobile.invalidNumber'));
       return;
     }
-    if (description !== item.description) updateItem(item.id, 'description', description.trim());
-    if (code !== item.code) updateItem(item.id, 'code', code.trim());
-    if (notes !== item.notes) updateItem(item.id, 'notes', notes);
+    const changes: [string, unknown][] = [];
+    const change = (field: keyof CostItem, value: unknown) => { if (value !== item[field]) changes.push([field, value]); };
+    change('description', description.trim()); change('code', code.trim()); change('notes', notes);
     if (item.rowType !== 'chapter') {
-      if (unit !== item.unit) updateItem(item.id, 'unit', unit);
-      if (nextQuantity !== item.quantity) updateItem(item.id, 'quantity', nextQuantity!);
-      if (canPrice && nextPrice !== item.normUnitPrice) updateItem(item.id, 'normUnitPrice', nextPrice!);
-      if (item.rowType === 'regel' && nextNorm !== item.normQuantity) updateItem(item.id, 'normQuantity', nextNorm!);
+      change('unit', unit);
+      if (!linked) change('quantity', nextQuantity);
+      if (unlinked) { change('quantityLink', null); }
+      if (canPrice) change('normUnitPrice', nextPrice);
+      if (item.rowType === 'regel') change('normQuantity', nextNorm);
+    }
+    if (changes.length) {
+      const current = useAppStore.getState();
+      current.pushHistory(current.items, t('mobile.editItem'));
+      for (const [field, value] of changes) updateItem(item.id, field, value as Parameters<typeof updateItem>[2]);
     }
     onClose();
   }
 
   function remove() {
     if (window.confirm(t('mobile.deleteConfirm'))) {
+      const current = useAppStore.getState();
+      current.pushHistory(current.items, t('history.delete'));
       deleteItem(item.id);
       onClose();
     }
@@ -64,7 +76,7 @@ function MobileItemEditor({ item, onClose }: { item: CostItem; onClose: () => vo
 
   return (
     <div className="mobile-edit-backdrop" role="presentation" onClick={onClose}>
-      <section className="mobile-edit-sheet" role="dialog" aria-modal="true" aria-label={t('mobile.editItem')} onClick={(e) => e.stopPropagation()}>
+      <section ref={dialogRef} tabIndex={-1} className="mobile-edit-sheet" role="dialog" aria-modal="true" aria-label={t('mobile.editItem')} onClick={(e) => e.stopPropagation()}>
         <div className="mobile-edit-head">
           <h2>{t('mobile.editItem')}</h2>
           <button type="button" onClick={onClose} aria-label={t('close')}>×</button>
@@ -73,12 +85,14 @@ function MobileItemEditor({ item, onClose }: { item: CostItem; onClose: () => vo
           <label>{t('description')}<input autoFocus value={description} onChange={(e) => setDescription(e.target.value)} /></label>
           <label>{t('code')}<input value={code} onChange={(e) => setCode(e.target.value)} /></label>
           {item.rowType !== 'chapter' && <div className="mobile-edit-pair">
-            <label>{t('quantity')}<input inputMode="decimal" value={quantity} onChange={(e) => setQuantity(e.target.value)} /></label>
-            <label>{t('unit')}<select value={unit} onChange={(e) => setUnit(e.target.value as CostUnit)}>{units.map((value) => <option key={value} value={value}>{value}</option>)}</select></label>
+            <label>{t('quantity')}<input inputMode="decimal" readOnly={linked} aria-describedby={linked ? "mobile-linked-quantity" : undefined} value={quantity} onChange={(e) => setQuantity(e.target.value)} /></label>
+            <label>{t('unit')}<select disabled={linked} value={unit} onChange={(e) => setUnit(e.target.value as CostUnit)}>{units.map((value) => <option key={value} value={value}>{value}</option>)}</select></label>
           </div>}
           {canPrice && <label>{t('mobile.pricePerUnit')}<input inputMode="decimal" value={price} onChange={(e) => setPrice(e.target.value)} /></label>}
           {item.rowType === 'regel' && <label>{t('mobile.productionNorm')}<input inputMode="decimal" value={norm} onChange={(e) => setNorm(e.target.value)} /></label>}
           <label>{t('notes')}<textarea rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} /></label>
+          {linked && <><p id="mobile-linked-quantity">{t('mobile.linkedQuantity')}</p><QuantityOriginCard item={item} allowNavigate={false} /><button type="button" onClick={() => { setQuantity(formatInputNumber(item.quantity, comma)); setUnlinked(true); }}>{t('mobile.unlinkQuantity')}</button></>}
+          {unlinked && <p role="status">{t('mobile.unlinkPending')}</p>}
           {error && <p className="mobile-edit-error" role="alert">{error}</p>}
         </div>
         <div className="mobile-edit-actions">
@@ -154,8 +168,12 @@ function MobileSheets() {
 }
 
 export function MobileWorkspace() {
-  const { t } = useTranslation();
-  const { newFile, openFile, saveFile } = useFileOperations();
+  const { t, i18n } = useTranslation();
+  const undoCount = useAppStore(s => s.undoStack.length);
+  const redoCount = useAppStore(s => s.redoStack.length);
+  const schedule = useAppStore(s => s.schedule);
+  const money = useMemo(() => new Intl.NumberFormat(i18n.language, { style: 'currency', currency: schedule.currency || 'EUR' }), [i18n.language, schedule.currency]);
+  const { newFile, openFile, saveFile, saveFileAs } = useFileOperations();
   const documents = useAppStore((s) => s.documents);
   const activeDocumentId = useAppStore((s) => s.activeDocumentId);
   const setActiveDocument = useAppStore((s) => s.setActiveDocument);
@@ -165,12 +183,21 @@ export function MobileWorkspace() {
   const insertRule = useAppStore((s) => s.insertRegelBelow);
   const activeDoc = documents.find((doc) => doc.id === activeDocumentId);
   const [tab, setTab] = useState<MobileTab>('budget');
+  const contentTab = useAppStore(s => s.activeContentTab);
+  const returnItemId = useAppStore(s => s.reviewReturnItemId);
+  const review = useBudgetReview();
   const [query, setQuery] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
+  useEffect(() => {
+    if (contentTab === 'wizard') setTab('wizard');
+    if (contentTab === 'review') setTab('review');
+    if (contentTab === 'grid' && returnItemId) { setTab('budget'); setEditingId(returnItemId); }
+  }, [contentTab, returnItemId]);
   const [expanded, setExpanded] = useState<Set<string>>(() => new Set());
   const [addMenu, setAddMenu] = useState(false);
   const [pageLimit, setPageLimit] = useState(120);
   const editing = items.find((item) => item.id === editingId);
+  const scopedItems = useMemo(() => variantItems(items, schedule), [items, schedule.branchesEnabled, schedule.activeBranchId, schedule.branches]);
   const itemIndex = useMemo(() => new Map(items.map((item) => [item.id, item])), [items]);
   const childCounts = useMemo(() => {
     const counts = new Map<string, number>();
@@ -179,11 +206,13 @@ export function MobileWorkspace() {
   }, [items]);
   const visible = useMemo(() => {
     const text = query.trim().toLocaleLowerCase();
-    return items.filter((item) => {
+    return scopedItems.filter((item) => {
       if (item.rowType.startsWith('staart_')) return false;
       if (text) return `${item.code} ${item.description}`.toLocaleLowerCase().includes(text);
       let parentId = item.parentId;
-      while (parentId) {
+      const seen = new Set<string>();
+      while (parentId && !seen.has(parentId)) {
+        seen.add(parentId);
         const parent = itemIndex.get(parentId);
         if (!parent) break;
         if ((parent.rowType === 'begrotingspost' || parent.rowType === 'bewakingspost') && !expanded.has(parent.id)) return false;
@@ -191,7 +220,7 @@ export function MobileWorkspace() {
       }
       return true;
     });
-  }, [items, itemIndex, query, expanded]);
+  }, [scopedItems, itemIndex, query, expanded]);
   const total = useMemo(() => {
     const breakdown = getStaartBreakdown(items);
     return breakdown.aanneemsom + breakdown.afronding;
@@ -202,6 +231,7 @@ export function MobileWorkspace() {
 
   function add(kind: 'chapter' | 'post' | 'rule') {
     const store = useAppStore.getState();
+    store.pushHistory(store.items, t('mobile.add'));
     let id = '';
     if (kind === 'chapter') id = addChapter(null);
     else if (kind === 'post') {
@@ -222,17 +252,21 @@ export function MobileWorkspace() {
 
   return <div className="mobile-workspace">
     <header className="mobile-header">
-      <div className="mobile-brand"><img src={`${import.meta.env.BASE_URL}app-icon.svg`} alt="" /><div><strong>Open Calc Studio</strong><small>{t('mobile.subtitle')}</small></div></div>
+      <div className="mobile-brand"><img src={appIcon} alt="" /><div><strong>Open Calc Studio <small>v{__APP_VERSION__}</small></strong><small>{t('mobile.subtitle')}</small></div></div>
       {documents.length > 1 ? <select className="mobile-document-select" aria-label={t('mobile.document')} value={activeDocumentId} onChange={(e) => setActiveDocument(e.target.value)}>{documents.map((doc) => <option key={doc.id} value={doc.id}>{doc.fileName}{doc.isModified ? ' •' : ''}</option>)}</select> : <div className="mobile-document-name">{activeDoc?.fileName ?? t('noDocumentOpen')}{activeDoc?.isModified ? ' •' : ''}</div>}
       <div className="mobile-file-actions">
+        <button type="button" disabled={!undoCount} onClick={() => { const s = useAppStore.getState(); const restored = s.undo(); if (restored) s.setItems(restored); }}>{t('undo')}</button>
+        <button type="button" disabled={!redoCount} onClick={() => { const s = useAppStore.getState(); const restored = s.redo(); if (restored) s.setItems(restored); }}>{t('redo')}</button>
         <button type="button" onClick={newFile}>{t('mobile.new')}</button>
         <button type="button" onClick={() => void openFile()}>{t('open')}</button>
         <button type="button" className="mobile-primary" disabled={!activeDoc} onClick={() => void saveFile()}>{t('save')}</button>
+        {activeDoc?.hostFile?.readOnly && <button type="button" onClick={() => void saveFileAs()}>{t('saveAs')}</button>}
       </div>
     </header>
     {activeDoc ? <>
       <main className="mobile-main">
         {tab === 'budget' && <div className="mobile-panel">
+          <ReviewReturnBar />
           <div className="mobile-summary"><span>{t('mobile.estimateTotal')}</span><strong>{money.format(total)}</strong></div>
           <div className="mobile-budget-tools"><input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t('mobile.searchItems')} aria-label={t('mobile.searchItems')} /><button type="button" className="mobile-primary" aria-expanded={addMenu} onClick={() => setAddMenu((value) => !value)}>+ {t('mobile.add')}</button></div>
           {addMenu && <div className="mobile-add-menu"><button type="button" onClick={() => add('chapter')}>{t('mobile.addChapter')}</button><button type="button" onClick={() => add('post')}>{t('mobile.addPost')}</button><button type="button" onClick={() => add('rule')}>{t('mobile.addRule')}</button></div>}
@@ -247,11 +281,15 @@ export function MobileWorkspace() {
           {visible.length > pageLimit && <button className="mobile-load-more" type="button" onClick={() => setPageLimit((limit) => limit + 120)}>{t('mobile.showMore', { count: visible.length - pageLimit })}</button>}
           {visible.length === 0 && <p className="mobile-empty-note">{query ? t('mobile.noResults') : t('mobile.noItems')}</p>}
         </div>}
+        {tab === 'wizard' && <CalculationWizard onEditor={() => setTab('budget')} />}
         {tab === 'sheets' && <MobileSheets />}
         {tab === 'prompt' && <div className="mobile-prompt"><PromptBudgetWorkspace /></div>}
+        {tab === 'review' && <ReviewCenter onOpenItem={id => { setTab('budget'); setEditingId(id); }} />}
       </main>
       <nav className="mobile-nav" aria-label={t('mobile.navigation')}>
+        <button type="button" aria-current={tab === 'wizard' ? 'page' : undefined} onClick={() => setTab('wizard')}>{t('wizardUI.shortTitle')}</button>
         <button type="button" aria-current={tab === 'budget' ? 'page' : undefined} onClick={() => setTab('budget')}>{t('mobile.budget')}</button>
+        <button type="button" aria-current={tab === 'review' ? 'page' : undefined} onClick={() => { setTab('review'); useAppStore.getState().setActiveContentTab('review'); }}>{t('review.mobile')} ({review.counts.all})</button>
         <button type="button" aria-current={tab === 'sheets' ? 'page' : undefined} onClick={() => setTab('sheets')}>{t('mobile.sheets')}</button>
         <button type="button" aria-current={tab === 'prompt' ? 'page' : undefined} onClick={() => setTab('prompt')}>{t('mobile.prompt')}</button>
       </nav>

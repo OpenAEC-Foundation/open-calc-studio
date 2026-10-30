@@ -64,8 +64,8 @@
 
 .chat-title {
   font-size: 13px;
-  font-weight: 700;
-  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  font-weight: 500;
+  font-family: var(--oa-font-heading);
   color: var(--theme-text);
   white-space: nowrap;
 }
@@ -253,3 +253,15 @@
   background: var(--theme-border);
   cursor: not-allowed;
 }
+.proposal-preview { display:grid; gap:10px; margin:12px 0; font-size:11px; }
+.proposal-table-scroll { max-width:100%; overflow:auto; }
+.proposal-preview table { border-collapse:collapse; width:100%; text-align:left; }
+.proposal-preview th, .proposal-preview td { padding:6px; border-bottom:1px solid var(--oa-border); vertical-align:top; }
+.proposal-preview th { font-weight:500; }
+.proposal-preview td { white-space:nowrap; font-family:var(--oa-font-numbers); font-variant-numeric:tabular-nums; }
+.proposal-totals { min-width:420px; }
+.proposal-totals tbody th { white-space:nowrap; }
+.proposal-changes { min-width:620px; }
+.proposal-changes small { display:block; font-weight:400; }
+.proposal-preview details > summary { cursor:pointer; padding:4px 0; }
+.proposal-preview details > p { margin-top:6px; }

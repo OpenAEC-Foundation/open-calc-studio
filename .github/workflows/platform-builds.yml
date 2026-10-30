@@ -1,0 +1,109 @@
+name: Hosted web and headless API
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+  attestations: write
+
+jobs:
+  platform:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.18.0
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - run: npm run version:check && npm run check:blueprint
+      - name: Validate AWS infrastructure template
+        run: pip install cfn-lint && cfn-lint deploy/aws/fargate.json
+      - name: Build hosted release under the Frappe asset path
+        run: npm run build:platform -- --base /assets/open_aec/open-calc-studio/ --outDir dist-platform
+      - name: Verify generated manifest and packaged notices
+        run: node scripts/check-platform-build.mjs dist-platform /assets/open_aec/open-calc-studio/
+      - name: Test REST and external HTTP MCP parity
+        run: npm run test:server
+      - name: Test standalone stdio MCP with the packaged calculator
+        run: |
+          npm run build:lib
+          npm --prefix mcp-server ci
+          npm --prefix mcp-server run bundle
+          npm --prefix mcp-server run test:calculator -- --bundled
+          npm --prefix mcp-server run test:exchange -- --bundled
+          npm --prefix mcp-server run test:http
+      - name: Read product version
+        id: version
+        run: echo "value=$(node -p 'require("./package.json").version')" >> "$GITHUB_OUTPUT"
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        id: image
+        with:
+          context: .
+          load: true
+          tags: ghcr.io/openaec-foundation/open-calc-studio-api:${{ steps.version.outputs.value }}
+          build-args: |
+            VERSION=${{ steps.version.outputs.value }}
+            REVISION=${{ github.sha }}
+      - name: Smoke test container as non-root with a read-only filesystem
+        shell: bash
+        run: |
+          set -euo pipefail
+          image='ghcr.io/openaec-foundation/open-calc-studio-api:${{ steps.version.outputs.value }}'
+          test "$(docker image inspect "$image" --format '{{.Config.User}}')" = node
+          digest=$(printf '%s' 'ci-container-test-key' | sha256sum | cut -d' ' -f1)
+          container=$(docker run -d --read-only --tmpfs /tmp -p 127.0.0.1:8080:8080 -e OPENAEC_API_SLEUTELS="$digest" "$image")
+          trap 'docker logs "$container"; docker rm -f "$container"' EXIT
+          for attempt in {1..20}; do
+            if curl -fsS http://127.0.0.1:8080/v1/health; then break; fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:8080/v1/health
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8080/v1/tools)" = 401
+          node -e 'const fs=require("node:fs"); fs.writeFileSync("/tmp/ocs-api-input.json", JSON.stringify({project:JSON.parse(fs.readFileSync("public/data/voorbeeld.ifcCalc","utf8"))}));'
+          curl -fsS -H 'Authorization: Bearer ci-container-test-key' -H 'Content-Type: application/json' --data-binary @/tmp/ocs-api-input.json http://127.0.0.1:8080/v1/tools/calculate_project > /tmp/ocs-api-result.json
+          node -e 'if(!(require("/tmp/ocs-api-result.json").totals.aanneemsomAfgerond>0)) process.exit(1)'
+      - name: Push tested image on release tags
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: bash
+        run: |
+          set -euo pipefail
+          image='ghcr.io/openaec-foundation/open-calc-studio-api:${{ steps.version.outputs.value }}'
+          docker push "$image"
+          reference=$(docker image inspect "$image" --format '{{index .RepoDigests 0}}')
+          mkdir -p release-platform
+          REFERENCE="$reference" node --input-type=module -e 'import fs from "node:fs"; fs.writeFileSync("release-platform/api-image-evidence.json", JSON.stringify({image:process.env.REFERENCE, commit:process.env.GITHUB_SHA, containerSmokeTest:true},null,2)+"\n");'
+          echo "Tested image: $reference" >> "$GITHUB_STEP_SUMMARY"
+      - name: Archive hosted and Node.js distributions
+        run: |
+          mkdir -p release-platform
+          (cd dist-platform && zip -qr ../release-platform/open-calc-studio-platform-${{ steps.version.outputs.value }}.zip .)
+          (cd dist-server && zip -qr ../release-platform/open-calc-studio-api-${{ steps.version.outputs.value }}.zip .)
+          (cd release-platform && sha256sum *.zip > SHA256SUMS.txt)
+      - uses: actions/attest-build-provenance@v3
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          subject-path: release-platform/*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: open-calc-studio-platform-api
+          path: release-platform/*
+          if-no-files-found: error
+          retention-days: 14

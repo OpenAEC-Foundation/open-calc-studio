@@ -1,6 +1,6 @@
 # Gebruikershandleiding Open Calc Studio
 
-Voor versie 0.13.0. [English user guide](user-guide.md) · [Projectoverzicht](../README.md)
+Voor de ontwikkelversie 2026.44.5. [English user guide](user-guide.md) · [Projectoverzicht](../README.md)
 
 ## Installeren en starten
 
@@ -8,9 +8,15 @@ Download de passende installer voor je besturingssysteem en processor via de [re
 
 Blokkeert macOS de app? Volg de [instructies voor macOS](macos-startup.md). Een ontwikkelomgeving of OpenAEC-account is niet nodig voor lokale begrotingen. Cloudopslag en AI via accounttegoed zijn optioneel. Bewaar voor een upgrade een aparte kopie van belangrijke begrotingen; de app is in publieke testfase.
 
-Het lint bovenaan bevat de opdrachten. Bestand opent het bestandsmenu; documenttabbladen wisselen tussen begrotingen. De onderbalk wisselt tussen Data, Uren & Staart, Rapport, Spreadsheet, IFC, PDF & metingen en Prompt & Begroot binnen het actieve document. De taal is instelbaar via Bestand → Voorkeuren.
+Het lint bovenaan bevat de opdrachten. Bestand opent het bestandsmenu; documenttabbladen wisselen tussen begrotingen. De vaste navigatie links wisselt tussen de werkruimten; onderaan staan de begroting en de rekenbladen van het actieve document. De taal is instelbaar via Bestand → Voorkeuren.
 
 ![Begrotingsscherm](screenshots/nl/1-begroting.png)
+
+## Wizard en gehoste bestanden
+
+Kies **Calculatiewizard** op het startscherm of in de onderbalk voor vijf stappen: project, hoeveelheden, kosten, toeslagen en controle. De wizard bewerkt dezelfde begroting als Data. **Volledige editor** brengt je terug zonder opnieuw te importeren. Zie de [wizardhandleiding](calculation-wizard.md).
+
+In de gehoste platformbuild regelt de werkplek het openen en opslaan. **Openen** toont bestanden en versies van de host. **Opslaan** controleert de geopende versie; een conflict bewaart je wijzigingen. Gebruik **Opslaan als** voor een bewerkbare kopie van een historische alleen-lezen versie. Zonder host blijf je bestanden lokaal openen en downloaden. Zie het [hostcontract](supercloud.md).
 
 ## Je eerste begroting
 
@@ -105,3 +111,90 @@ Gebruik op macOS Command in plaats van Ctrl. Browser of besturingssysteem kan ee
 Klopt een totaal niet, controleer dan rijtype, structuur, aantal, norm, prijs, loon, tariefgroep en staart. Ontbreekt een importer, controleer extensies en het werkelijke bronformaat. Ontbreekt een opgeslagen bestand, controleer het actieve tabblad en de bestemming.
 
 Meld een probleem via de [issues](https://github.com/OpenAEC-Foundation/open-calc-studio/issues) met versie, besturingssysteem, stappen, verwacht en werkelijk resultaat. Gebruik een klein geanonimiseerd voorbeeld. Technische documentatie: [API](API.md) en [bestandsformaat](ifccalc-formaat.md).
+
+## Werkplekken en een tweede scherm
+
+Kies onder de projectkop **Meten**, **Begroten** of **Controleren**.
+Met **Opslaan / beheren** bewaar je de huidige weergave, paneelbreedten,
+raster- en PDF-zoom en zichtbare kolommen als eigen werkplek. Kies deze later
+uit de lijst, werk haar bij of verwijder haar. De laatst gekozen werkplek
+wordt bij het volgende starten hersteld. De begrotingsinhoud verandert niet.
+
+**Tweede scherm** opent een alleen-lezen venster dat de actieve begroting
+volgt. Zet het op een andere monitor en kies **PDF-tekening** of
+**Herkomst hoeveelheid**. Een geselecteerde PDF-koppeling in het hoofdvenster
+opent de juiste tekening/pagina. Bewerken doe je in het hoofdvenster.
+Bij een verbroken verbinding staat erbij dat de laatst ontvangen gegevens
+worden getoond. Sta zo nodig het extra venster toe in de browser; de functie
+werkt in de zelfstandige desktop- en webapp, niet in ingebouwde frames.
+
+## Controlecentrum
+
+Klik links op **Controlecentrum**; de teller toont het aantal actuele
+meldingen. Op een telefoon kies je **Controle** in de onderste navigatie.
+Filter op **Prijzen**, **Bronnen** of **Eenheden**, selecteer een melding en
+kies **Toon regel**. De juiste regel wordt geselecteerd en bovenliggende
+regels worden zo nodig uitgeklapt. Op mobiel opent het regelvenster.
+**Terug naar controlecentrum** bewaart je categorie en melding. Wisselen
+van document wist deze navigatiecontext.
+
+De controles omvatten de actieve variant, inclusief ingeklapte regels.
+Ontbrekende prijsinvoer wordt gemeld bij kostenregels met een hoeveelheid
+ongelijk aan nul. Opgetelde bovenliggende regels, tekst, pro-memoria en
+nulhoeveelheden krijgen hiervoor geen melding. Een expliciete nulprijs
+geldt als ingevuld. Broncontroles melden ontbrekende/niet-numerieke
+verwijzingen, afwijkende bronwaarden en verschillende eenheden. Bewaarde
+IFC-hoeveelheden blijven bruikbaar zonder geladen geometrie. Externe
+Excel-verwijzingen staan als niet-gecontroleerde informatie vermeld.
+
+Deze controles bewijzen geen marktconforme prijzen of volledige begroting.
+Bekijken wijzigt geen waarden, wijzigingsstatus of undo-geschiedenis.
+Opgeloste meldingen verdwijnen automatisch.
+
+## De herkomst van een hoeveelheid bekijken
+
+Klik op het koppelingsicoon bij een hoeveelheid of bekijk de kaart
+**Herkomst hoeveelheid** in Eigenschappen. Je ziet de PDF en pagina,
+het IFC-model met objectselectie en benoemde hoeveelheid, of de rekenbladcel
+met formule. **Bron openen** navigeert naar de bron. Voor markering van
+IFC-geometrie kan het nodig zijn het oorspronkelijke model opnieuw te openen.
+Externe Excel-bestanden staan als niet-gecontroleerde verwijzing vermeld.
+
+De bronidentiteit en de koppelwaarde worden met het project opgeslagen.
+Verdwijnt een bron, dan blijven die gegevens en de laatst bekende hoeveelheid
+bewaard. Een afwijkende eenheid levert een waarschuwing op, geen stille conversie.
+
+## Een assistentvoorstel beoordelen
+
+Een voorstel in **Prompt & Begroot** toont directe kosten, totaal exclusief
+btw, btw en totaal inclusief btw vóór en na de wijziging, plus gewijzigde
+regels en aannames. Ook bovenliggende totalen staan in de regellijst; tel
+hun verschillen niet bij de verschillen van onderliggende regels op.
+
+**Toepassen op begroting** verwerkt het volledige voorstel met één undo-stap.
+**Verwerpen** verandert niets. **Gehele voorstel ongedaan maken** draait de
+hele wijziging terug. Maak latere bewerkingen eerst ongedaan als die knop
+niet beschikbaar is. Bij gewijzigde invoer of een andere actieve begroting
+moet je het voorstel opnieuw voorbereiden. Voorstellen blijven alleen deze
+sessie beschikbaar. Wijzig gekoppelde hoeveelheden bij de bron of ontkoppel
+ze voordat je ze overschrijft.
+
+## Invoer, herstel en IFC-selectie (2026.44.5)
+
+Op mobiel volgt de getalinvoer je interfacetaal: Engels `1.234` betekent
+1,234 eenheden; Nederlands `1.234` betekent 1234 eenheden. Voor een
+Nederlandse decimaal gebruik je `1,234`. Nul is een ingevulde prijs;
+een leeg veld betekent dat de prijs ontbreekt. Bedragen volgen de projectvaluta.
+Met **Ongedaan maken** en **Opnieuw uitvoeren** bovenin herstel je mobiele
+regelwijzigingen. Gekoppelde hoeveelheden kun je pas aanpassen na
+**Hoeveelheid ontkoppelen**; **Gereed** bevestigt dit, sluiten annuleert het.
+
+De wizard houdt ongeldige conceptinvoer apart van de begrotingswaarden.
+**Ga naar ongeldig veld** heropent ook een veld dat door een hoofdstukfilter
+verborgen is. **Ongeldige invoer verwijderen** herstelt de laatst geldige
+waarden. Je kunt altijd naar de volledige editor terug.
+
+In **3D & hoeveelheden** kun je alle IFC-elementen via pagina's van 100
+bereiken. De teller toont zoekresultaten en het modeltotaal. **Alle resultaten
+selecteren** omvat ook de andere pagina's; controleer de selectieteller vóór
+het overnemen van een hoeveelheid. **Selectie wissen** maakt de selectie leeg.

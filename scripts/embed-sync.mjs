@@ -4,7 +4,7 @@
 // niet in een runtime-pakket.
 import { readFileSync, writeFileSync, existsSync, copyFileSync } from 'node:fs';
 
-// Het npm-pakket draagt de volledige productlicentie en bronvermelding mee.
+// Keep the complete product license available at the npm package root.
 for (const name of ['LICENSE', 'COPYING', 'NOTICE.md']) {
   copyFileSync(name, `packages/embed/${name}`);
 }

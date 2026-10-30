@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 import {
   parseXml,
   getText,
@@ -95,7 +96,7 @@ function importStandardCuf(doc: Document): ImportResult {
 
   const begroting = descendants(root, 'BEGROTING')[0];
   if (!begroting) {
-    warnings.push('Geen <BEGROTING> gevonden in het CUF-bestand.');
+    warnings.push(uiText("diagnostics.cufImporter.noBEGROTINGFoundInTheCUFFile", "No <BEGROTING> found in the CUF file."));
     return { schedule: { name }, items, warnings, format: 'cuf' };
   }
 
@@ -182,10 +183,10 @@ function importStandardCuf(doc: Document): ImportResult {
 
   if (usedDerivedTarief) {
     warnings.push(
-      `Uurtarief € ${uurtarief.toFixed(2)} afgeleid uit het bestand (CUF bevat geen tarieventabel); controleer dit zo nodig.`,
+      uiText("diagnostics.cufImporter.hourlyRateWasDerivedFromTheFile", "Hourly rate € {{p0}} was derived from the file, which has no rate table. Check the rate if needed.", { p0: uurtarief.toFixed(2) }),
     );
   }
-  if (items.length === 0) warnings.push('CUF-bestand bevat geen posten of regels.');
+  if (items.length === 0) warnings.push(uiText("diagnostics.cufImporter.theCUFFileContainsNoItemsOr", "The CUF file contains no items or lines."));
 
   const schedule = uurtarief > 0
     ? { name, projectName: name, tarieven: { A: uurtarief } }
@@ -261,13 +262,13 @@ function importLegacyCuf(doc: Document): ImportResult {
       children(p, 'Toeslag').forEach((t) => {
         const tCode = t.getAttribute('code') ?? '?';
         warnings.push(
-          `Toeslag "${tCode}" wordt niet geïmporteerd (niet ondersteund in OCS model)`,
+          uiText("diagnostics.cufImporter.surchargeWasNotImportedItIsUnsupported", "Surcharge \"{{p0}}\" was not imported: it is unsupported by the OCS model.", { p0: tCode }),
         );
       });
     });
   });
 
-  if (items.length === 0) warnings.push('CUF-bestand bevat geen hoofdstukken of posten.');
+  if (items.length === 0) warnings.push(uiText("diagnostics.cufImporter.theCUFFileContainsNoChaptersOr", "The CUF file contains no chapters or items."));
 
   return { schedule: { name }, items, warnings, format: 'cuf' };
 }

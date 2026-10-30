@@ -10,10 +10,17 @@
     <!-- Brand fonts are self-hosted (see src/styles/fonts.css) so the desktop
          app renders correctly offline, with no Google Fonts CDN dependency. -->
     <title>Open Calc Studio</title>
-    <script id="openaec-analytics-loader" defer src="https://open-aec.com/shared/analytics.js?v=20261026"></script>
+    <script id="openaec-analytics-loader">
+      if (!window.__OCS_CONTAINER__) {
+        const analytics = document.createElement('script');
+        analytics.src = 'https://open-aec.com/shared/analytics.js?v=20261026';
+        analytics.defer = true;
+        document.head.appendChild(analytics);
+      }
+    </script>
 </head>
   <body>
-    <div id="root"></div>
+    <div id="root" class="oa-app"></div>
     <!-- Zelfherstel bij wit scherm: dit script staat bewust BUITEN de bundle.
          Faalt het laden van de module-graph, dan draait geen enkele app-code
          meer — alleen dit inline script kan dan nog herladen.
@@ -28,10 +35,15 @@
     <script>
       (function () {
         var COUNT = "ocs-wsr-count";
+        var counterStore;
+        // Opaque host frames deliberately have no browser storage. Retrying
+        // without a persistent counter would create an unbounded reload loop.
+        try { counterStore = window.sessionStorage; counterStore.getItem(COUNT); }
+        catch (_) { return; }
         var MAX = 4;               // max opeenvolgende reloads voor we opgeven
         var done = false;
 
-        function tries() { return Number(sessionStorage.getItem(COUNT) || 0); }
+        function tries() { try { return Number(counterStore.getItem(COUNT) || 0); } catch (_) { return MAX; } }
 
         function recover(reason) {
           if (done) return;
@@ -39,7 +51,7 @@
           var n = tries();
           if (n >= MAX) return;    // opgeven: laat het witte scherm staan i.p.v. eindeloos herladen
           done = true;
-          sessionStorage.setItem(COUNT, String(n + 1));
+          try { counterStore.setItem(COUNT, String(n + 1)); } catch (_) { return; }
           // cache-bust zodat de webview niet dezelfde half-geoptimaliseerde
           // module opnieuw uit z'n cache serveert
           var u = new URL(window.location.href);
@@ -68,7 +80,7 @@
         var iv = setInterval(function () {
           var root = document.getElementById("root");
           if (root && root.childElementCount > 0) {
-            sessionStorage.removeItem(COUNT);
+            try { counterStore.removeItem(COUNT); } catch (_) { /* storage became unavailable */ }
             clearInterval(iv);
             return;
           }

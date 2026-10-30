@@ -1,0 +1,31 @@
+.calc-wizard { display:flex; flex-direction:column; flex:1; min-height:0; min-width:0; background:var(--oa-workspace); }
+.calc-wizard-heading { display:flex; justify-content:space-between; gap:var(--oa-space-lg); align-items:center; padding:var(--oa-space-lg) var(--oa-space-xl); background:var(--oa-panel); }
+.calc-wizard-heading h1 { font:500 var(--oa-size-page-heading)/1.3 var(--oa-font-heading); margin:4px 0; letter-spacing:var(--oa-letter-spacing-heading); }
+.calc-wizard-heading p { color:var(--oa-text-secondary); }
+.calc-wizard-steps { flex-shrink:0; overflow:auto; }
+.calc-wizard-steps li { white-space:nowrap; }
+.calc-wizard-steps button { font:inherit; color:inherit; border:0; background:transparent; padding:4px 0; }
+.calc-wizard-body { flex:1; overflow:auto; padding:var(--oa-space-xl); display:flex; flex-direction:column; align-items:center; gap:var(--oa-space-lg); }
+.calc-wizard-body > .oa-form-card { width:100%; max-width:1000px; }
+.calc-wizard-body h2 { font:500 16px var(--oa-font-heading); }
+.calc-wizard-body h3 { font:500 13px var(--oa-font-heading); }
+.calc-wizard-body p { color:var(--oa-text-secondary); }
+.calc-wizard-field { display:flex; flex:1; flex-direction:column; gap:var(--oa-space-xs); min-width:0; margin:8px 0; }
+.calc-wizard-field > span { font-weight:500; color:var(--oa-text-secondary); }
+.calc-wizard-field .oa-field { width:100%; }
+.calc-wizard-field [inputmode="decimal"] { font-family:var(--oa-font-numbers); font-variant-numeric:tabular-nums; }
+.calc-wizard-row, .calc-wizard-tools { display:flex; align-items:center; gap:var(--oa-space-md); flex-wrap:wrap; }
+.calc-wizard-row > :first-child { flex:2; }
+.calc-wizard-cost { border-bottom:1px solid var(--oa-border); padding:var(--oa-space-lg) 0; }
+.calc-wizard-footer { display:flex; align-items:center; justify-content:space-between; gap:var(--oa-space-lg); padding:var(--oa-space-md) var(--oa-space-xl); border-top:1px solid var(--oa-border); background:var(--oa-panel); }
+.calc-wizard-footer output { font-family:var(--oa-font-numbers); }
+@media(max-width:760px) {
+  .calc-wizard-heading, .calc-wizard-body { padding:var(--oa-space-md); }
+  .calc-wizard-heading { flex-wrap:wrap; }
+  .calc-wizard-heading h1 { font-size:18px; }
+  .calc-wizard-steps { padding:0 12px; }
+  .calc-wizard-row { display:grid; grid-template-columns:1fr; gap:0; }
+  .calc-wizard-footer { padding:12px; flex-wrap:wrap; gap:8px; }
+  .calc-wizard-footer output { order:-1; width:100%; }
+  .calc-wizard-footer .oa-button { min-height:40px; }
+}

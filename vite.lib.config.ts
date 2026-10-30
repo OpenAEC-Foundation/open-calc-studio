@@ -9,7 +9,7 @@ import { browserAliases } from './build/browserAliases';
  *   de gastsite installeert die zelf via package.json;
  * - alle CSS gescoped onder `.ocs-embed` (src/lib/cssScope.ts), zodat de
  *   opmaak van de app de gastpagina niet raakt;
- * - geen lettertypen: de gastsite levert Inter (of laat het systeemfont);
+ * - lokale Blueprintfonts, zonder externe fontservice;
  * - typedeclaraties via vite-plugin-dts.
  */
 import { defineConfig } from 'vite';
@@ -18,6 +18,7 @@ import dts from 'vite-plugin-dts';
 import path from 'path';
 import pkg from './package.json' with { type: 'json' };
 import { cssScopePlugin } from './src/lib/cssScope';
+import { distributionPlugin } from './scripts/distribution-notices.mjs';
 
 const externals = [
   ...Object.keys(pkg.dependencies).filter((n) => !n.startsWith('@types/') && !['mdb-reader', 'events', 'stream-browserify'].includes(n)),
@@ -30,6 +31,7 @@ export default defineConfig({
   worker: { format: 'es' },
   plugins: [
     react(),
+    distributionPlugin('embed'),
     dts({
       include: ['src'],
       exclude: ['src/test/**', 'src/main.tsx'],
@@ -38,7 +40,7 @@ export default defineConfig({
       tsconfigPath: './tsconfig.json',
     }),
   ],
-  // Geen kopie van public/ (fonts, voorbeelddata, icoon): die horen bij de app.
+  // Geen automatische public/-kopie; benodigde assets worden expliciet geïmporteerd.
   publicDir: false,
   resolve: {
     alias: { ...browserAliases, '@': path.resolve(__dirname, './src') },

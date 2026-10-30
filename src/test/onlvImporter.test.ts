@@ -349,7 +349,7 @@ describe('ÖNORM A 2063 (.onlv) export', () => {
     expect(xml).toContain('<lvmenge>10.50</lvmenge>');
     expect(xml).toContain('<stichwort>Let op de grondwaterstand.</stichwort>');
     expect(xml).toContain('<summe-des-lv>2300.00</summe-des-lv>');
-    expect(warnings.some((w) => w.includes('staartregel'))).toBe(true);
+    expect(warnings.some((w) => w.includes('surcharge rows'))).toBe(true);
 
     const back = importOnlv(xml);
     const items2 = recalculateItems(back.items);
@@ -419,7 +419,7 @@ describe('ÖNORM A 2063 (.onlv) export', () => {
     ]);
     const r = buildOnlv(schedule({ name: 'N' }), deep);
     expect(r.xml).toContain('<gliederung-hg>');
-    expect(r.warnings.some((w) => w.includes('platgeslagen'))).toBe(true);
+    expect(r.warnings.some((w) => w.includes('flattened'))).toBe(true);
     const b = importOnlv(r.xml);
     expect(b.items.map((i) => `${i.depth}:${i.rowType}:${i.code}:${i.description}`)).toEqual([
       '0:chapter:01:HG', '1:chapter:02:OG', '2:chapter:03:LG', '3:chapter:04:ULG',
@@ -450,8 +450,8 @@ describe('ÖNORM A 2063 (.onlv) export', () => {
     expect(xml).toContain('<preisanteil1>20.00</preisanteil1>');
     expect(xml).toContain('<preisanteil2>6.00</preisanteil2>');
     expect(xml).toContain('<pospreis>260.00</pospreis>');
-    expect(warnings.some((w) => w.includes('rekenregel'))).toBe(true);
-    expect(warnings.some((w) => w.includes('60 tekens'))).toBe(true);
+    expect(warnings.some((w) => w.includes('calculation lines'))).toBe(true);
+    expect(warnings.some((w) => w.includes('60 characters'))).toBe(true);
     const back = recalculateItems(importOnlv(xml).items);
     expect(getKostprijs(back)).toBeCloseTo(260, 2);
   });

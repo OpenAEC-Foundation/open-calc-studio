@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 import { parseXml, getText, normalizeUnit } from './xmlHelpers';
 import { genId } from './core';
 import type { ResourceLibraryItem, ResourceType } from '@/types/costModel';
@@ -44,7 +45,7 @@ export function importBmecat(xml: string): PriceImportResult {
     ...Array.from(doc.getElementsByTagName('PRODUCT')),
   ];
   if (nodes.length === 0) {
-    warnings.push('Geen <ARTICLE>/<PRODUCT> elementen gevonden — is dit een BMEcat/DICO-catalogus?');
+    warnings.push(uiText("diagnostics.bmecatImporter.noARTICLEPRODUCTElementsFoundIsThis", "No <ARTICLE>/<PRODUCT> elements found. Is this a BMEcat/DICO catalogue?"));
     return { resources, warnings, format: 'bmecat' };
   }
 
@@ -97,7 +98,7 @@ export function importBmecat(xml: string): PriceImportResult {
     });
   }
 
-  if (resources.length === 0) warnings.push('Geen bruikbare artikelen met code of omschrijving gevonden.');
+  if (resources.length === 0) warnings.push(uiText("diagnostics.bmecatImporter.noUsableArticlesWithACodeOr", "No usable articles with a code or description found."));
 
   return { resources, warnings, format: 'bmecat' };
 }

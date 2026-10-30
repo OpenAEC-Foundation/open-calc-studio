@@ -1,3 +1,4 @@
+import { uiText } from '@/i18n/uiText';
 import { IfcParser, extractQuantitiesOnDemand, extractProjectUnits } from '@ifc-lite/parser';
 export type QuantityKind = 'volume' | 'area' | 'length' | 'count';
 export interface TakeoffQuantity { key:string; label:string; kind:QuantityKind; value:number; unit:string }
@@ -26,10 +27,11 @@ export async function parseTakeoff(buffer:ArrayBuffer, fileName:string):Promise<
   return {id,fileName,elements};
 }
 export function aggregateTakeoff(model:TakeoffModel, ids:number[], key:string):TakeoffQuantity {
-  const unique=[...new Set(ids)]; if(!unique.length)throw Error('Selecteer ten minste één IFC-element.');
-  const elements=unique.map(id=>{const e=model.elements.find(e=>e.expressId===id);if(!e)throw Error(`Onbekend element #${id}.`);return e;});
-  if(key==='__count__')return {key,label:'Aantal elementen',kind:'count',value:elements.length,unit:'st'};
-  const values=elements.map(e=>{const q=e.quantities.find(q=>q.key===key);if(!q)throw Error(`${e.name} heeft deze hoeveelheid niet; er is niets overgenomen.`);return q;});
-  if(values.some(q=>q.kind!==values[0].kind))throw Error('Hoeveelheden hebben verschillende dimensies.');
+  const unique=[...new Set(ids)]; if(!unique.length)throw Error(uiText("ifc.error.empty", "Select at least one IFC element."));
+  const elementIndex = new Map(model.elements.map(element => [element.expressId, element]));
+  const elements=unique.map(id=>{const e=elementIndex.get(id);if(!e)throw Error(uiText('ifc.error.unknown', 'Unknown element #{{id}}.', { id }));return e;});
+  if(key==='__count__')return {key,label:uiText("ifc.count", "Element count"),kind:'count',value:elements.length,unit:'st'};
+  const values=elements.map(e=>{const q=e.quantities.find(q=>q.key===key);if(!q)throw Error(uiText('ifc.error.missingQuantity', '{{name}} does not have this quantity; nothing was applied.', { name: e.name }));return q;});
+  if(values.some(q=>q.kind!==values[0].kind))throw Error(uiText("ifc.error.dimensions", "Quantities have different dimensions."));
   return {...values[0],value:values.reduce((sum,q)=>sum+q.value,0)};
 }

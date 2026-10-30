@@ -1,3 +1,4 @@
+import { localStore } from '@/utils/browserStorage';
 /**
  * Persistent key-value store.
  * Uses Tauri's store plugin when available, falls back to localStorage in browser.
@@ -33,7 +34,7 @@ export async function storeGet<T>(key: string): Promise<T | null> {
   }
   // localStorage fallback
   try {
-    const raw = localStorage.getItem(LS_PREFIX + key);
+    const raw = localStore.getItem(LS_PREFIX + key);
     return raw ? JSON.parse(raw) : null;
   } catch { return null; }
 }
@@ -44,7 +45,7 @@ export async function storeSet<T>(key: string, value: T): Promise<void> {
     try { await store.set(key, value); } catch { /* ignore */ }
   }
   // Always mirror to localStorage for synchronous reads (theme flash prevention) and browser fallback
-  try { localStorage.setItem(LS_PREFIX + key, JSON.stringify(value)); } catch { /* ignore */ }
+  try { localStore.setItem(LS_PREFIX + key, JSON.stringify(value)); } catch { /* ignore */ }
 }
 
 export async function storeDelete(key: string): Promise<void> {
@@ -52,5 +53,5 @@ export async function storeDelete(key: string): Promise<void> {
   if (store) {
     try { await store.delete(key); } catch { /* ignore */ }
   }
-  try { localStorage.removeItem(LS_PREFIX + key); } catch { /* ignore */ }
+  try { localStore.removeItem(LS_PREFIX + key); } catch { /* ignore */ }
 }

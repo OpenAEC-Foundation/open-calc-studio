@@ -1,6 +1,6 @@
 {
   "name": "open-calc-studio-mcp",
-  "version": "1.0.0",
+  "version": "2026.44.5",
   "description": "MCP server for Open Calc Studio budget files",
   "private": true,
   "type": "module",
@@ -10,7 +10,8 @@
     "start": "tsx src/index.ts",
     "test:calculator": "node scripts/check-calculator.mjs",
     "test:exchange": "node scripts/check-exchange.mjs",
-    "test:desktop": "node scripts/check-desktop.mjs"
+    "test:desktop": "node scripts/check-desktop.mjs",
+    "test:http": "node scripts/check-http.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",

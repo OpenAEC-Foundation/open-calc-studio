@@ -1,3 +1,4 @@
+import { uiText } from '@/i18n/uiText';
 import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
@@ -96,7 +97,7 @@ export const ResourcePicker: React.FC = () => {
       store.updateItem(newId, 'resourceLibraryId', item.id);
       if (item.defaultUnitPrice === null) {
         store.updateItem(newId, 'normUnitPrice', null);
-        store.updateItem(newId, 'notes', 'Prijs ontbreekt: vul een gecontroleerde prijs en bron in.');
+        store.updateItem(newId, 'notes', uiText("pricing.missing", "Price missing: enter a verified price and source."));
       }
       if (item.defaultUnitPrice !== null) {
         store.updateItem(newId, 'normUnitPrice', item.defaultUnitPrice);
@@ -140,7 +141,7 @@ export const ResourcePicker: React.FC = () => {
         </div>
 
         <div className="resource-picker-search">
-          <p>Nederlandse basisbibliotheek. Controleer prijs en peildatum vóór calculatie. Een ontbrekende prijs wordt niet als geverifieerde prijs overgenomen.</p>
+          <p>{uiText("pricing.notice", "Dutch starter library. Check prices and reference dates before estimating. A missing price is not treated as verified.")}</p>
           <input
             ref={searchRef}
             type="text"
@@ -203,7 +204,7 @@ export const ResourcePicker: React.FC = () => {
                 </span>
                 <span className="rp-col-unit">{item.unitSupported === false ? item.originalUnit : formatUnit(item.unit, t)}</span>
                 <span className="rp-col-price">
-                  {item.defaultUnitPrice !== null ? formatCurrency(item.defaultUnitPrice) : 'Invullen'}
+                  {item.defaultUnitPrice !== null ? formatCurrency(item.defaultUnitPrice) : uiText("pricing.enter", "Enter price")}
                 </span>
               </div>
             ))}
@@ -212,10 +213,10 @@ export const ResourcePicker: React.FC = () => {
 
         <div className="resource-picker-footer">
           <div style={{ fontSize: 11, maxWidth: '65%' }}>
-            {filtered[selectedIndex]?.source && <div>Bron: {filtered[selectedIndex].source}</div>}
-            {filtered[selectedIndex]?.referenceUnitPrice != null && <div>Ongeverifieerde referentie: {formatCurrency(filtered[selectedIndex].referenceUnitPrice!)} per {filtered[selectedIndex].originalUnit}. Peildatum en btw-basis onbekend.</div>}
-            {filtered[selectedIndex]?.unitSupported === false && <div>Deze broneenheid vereist handmatige omzetting; toevoegen is geblokkeerd.</div>}
-            {!resourcePickerParentId && <div>Selecteer eerst een begrotingspost om een middel toe te voegen.</div>}
+            {filtered[selectedIndex]?.source && <div>{uiText("pricing.source", "Source:")} {filtered[selectedIndex].source}</div>}
+            {filtered[selectedIndex]?.referenceUnitPrice != null && <div>{uiText('pricing.reference', 'Unverified reference: {{price}} per {{unit}}. Reference date and VAT basis unknown.', { price: formatCurrency(filtered[selectedIndex].referenceUnitPrice!), unit: filtered[selectedIndex].originalUnit ?? filtered[selectedIndex].unit })}</div>}
+            {filtered[selectedIndex]?.unitSupported === false && <div>{uiText("pricing.conversion", "This source unit requires manual conversion; adding it is disabled.")}</div>}
+            {!resourcePickerParentId && <div>{uiText("pricing.selectParent", "Select an estimate item before adding a resource.")}</div>}
           </div>
           <span className="resource-picker-hint">
             {t('resourceHint', { count: filtered.length })}

@@ -15,7 +15,7 @@ import { recalculateItems } from '../services/calculation/calculator';
 const bc3Manifest: ExtensionManifest = {
   id: 'builtin-bc3-importer',
   name: 'FIEBDC-3 Importer',
-  version: '1.0.0',
+  version: __APP_VERSION__,
   minAppVersion: __APP_VERSION__,
   author: 'Open Calc Studio',
   description: 'Importeer Spaanse FIEBDC-3-begrotingen en prijzenboeken (.bc3): hoofdstukken, partida’s met metingen en decomposities met arbeid/materieel/materiaal.',
@@ -29,7 +29,7 @@ const bc3Manifest: ExtensionManifest = {
 const onlvManifest: ExtensionManifest = {
   id: 'builtin-onlv-importer',
   name: 'ÖNORM A 2063 Importer',
-  version: '1.0.0',
+  version: __APP_VERSION__,
   minAppVersion: __APP_VERSION__,
   author: 'Open Calc Studio',
   description: 'Importeer Oostenrijkse ÖNORM A 2063-bestanden: Leistungsverzeichnisse (.onlv) met Leistungsgruppen, posities, hoeveelheden en Lohn/Sonstiges-prijzen, en Leistungsbücher (.onlb) als catalogus van standaardteksten.',
@@ -45,7 +45,7 @@ const onlvManifest: ExtensionManifest = {
 const bascalcManifest: ExtensionManifest = {
   id: 'builtin-bascalc-importer',
   name: 'BasCalc Importer',
-  version: '1.0.0',
+  version: __APP_VERSION__,
   minAppVersion: __APP_VERSION__,
   author: 'Open Calc Studio',
   description: 'Importeer begrotingen uit BasCalc/BasData Excel-bestanden (.xls, .xlsx). Ondersteunt kostprijsblad, staartkosten en bedrijfsgegevens.',
@@ -59,7 +59,7 @@ const bascalcManifest: ExtensionManifest = {
 const wpcalcManifest: ExtensionManifest = {
   id: 'builtin-wpcalc-importer',
   name: 'WpCalc Importer',
-  version: '1.0.0',
+  version: __APP_VERSION__,
   minAppVersion: __APP_VERSION__,
   author: 'Open Calc Studio',
   description: 'Importeer begrotingen uit WpCalc (.calc) bestanden. Leest hoofdstukken, posten, staartkosten en tariefgroepen uit de Access-database.',
@@ -73,7 +73,7 @@ const wpcalcManifest: ExtensionManifest = {
 const inschrijfstaatManifest: ExtensionManifest = {
   id: 'builtin-inschrijfstaat-importer',
   name: 'Inschrijfstaat Importer',
-  version: '1.0.0',
+  version: __APP_VERSION__,
   minAppVersion: __APP_VERSION__,
   author: 'Open Calc Studio',
   description: 'Importeer inschrijfstaten uit RAW Excel-bestanden (.xls, .xlsx). Leest besteksposten, hoeveelheden en prijzen.',
@@ -87,7 +87,7 @@ const inschrijfstaatManifest: ExtensionManifest = {
 const wpcalcExporterManifest: ExtensionManifest = {
   id: 'builtin-wpcalc-exporter',
   name: 'WpCalc Exporter',
-  version: '1.0.0',
+  version: __APP_VERSION__,
   minAppVersion: __APP_VERSION__,
   author: 'Open Calc Studio',
   description: 'Exporteer begrotingen naar WpCalc (.calc) Access-bestanden. Schrijft hoofdstukken, posten, staartkosten en tariefgroepen.',
@@ -101,7 +101,7 @@ const wpcalcExporterManifest: ExtensionManifest = {
 const xtbManifest: ExtensionManifest = {
   id: 'builtin-xtb-importer',
   name: 'IBIS-TRAD Importer',
-  version: '1.0.0',
+  version: __APP_VERSION__,
   minAppVersion: __APP_VERSION__,
   author: 'Open Calc Studio',
   description: 'Importeer begrotingen uit IBIS-TRAD (.xtb) SQLite-bestanden. Leest hoofdstukken, posten, kostenposten, middelen (arbeid/materiaal/materieel/onderaanneming) en uurloon-codes.',
@@ -115,7 +115,7 @@ const xtbManifest: ExtensionManifest = {
 const dncManifest: ExtensionManifest = {
   id: 'builtin-dnc-importer',
   name: 'DNC Importer',
-  version: '1.0.0',
+  version: __APP_VERSION__,
   minAppVersion: __APP_VERSION__,
   author: 'Open Calc Studio',
   description: 'Importeer STABU-directiebegrotingen uit .dnc-bestanden (7z-archief met dBASE-tabellen). Leest hoofdstukken, posten en middelen (arbeid/materiaal/onderaanneming), uurtarief, staartpercentages en kengetallen.',
@@ -129,7 +129,7 @@ const dncManifest: ExtensionManifest = {
 const rsxManifest: ExtensionManifest = {
   id: 'builtin-rsx-importer',
   name: 'RAW Bestek Importer',
-  version: '1.0.0',
+  version: __APP_VERSION__,
   minAppVersion: __APP_VERSION__,
   author: 'Open Calc Studio',
   description: 'Importeer RAW bestekken uit .rsx bestanden. Converteert besteksposten, hoofdstukken en hoeveelheden naar Open Calc Studio formaat.',

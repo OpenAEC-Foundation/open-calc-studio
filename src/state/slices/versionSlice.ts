@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 import type { StateCreator } from 'zustand';
 import type { ProjectSnapshot, SnapshotDiff, CostItem } from '@/types/costModel';
 
@@ -21,7 +22,7 @@ function computeDiffs(oldItems: CostItem[], newItems: CostItem[]): SnapshotDiff[
       diffs.push({
         type: 'removed',
         itemId: old.id,
-        description: `Verwijderd: ${old.nr || ''} ${old.description}`,
+        description: uiText('versions.removed', "Removed: {{p0}} {{p1}}", { p0: old.nr || '', p1: old.description }),
       });
     }
   }
@@ -32,7 +33,7 @@ function computeDiffs(oldItems: CostItem[], newItems: CostItem[]): SnapshotDiff[
       diffs.push({
         type: 'added',
         itemId: item.id,
-        description: `Toegevoegd: ${item.nr || ''} ${item.description}`,
+        description: uiText('versions.added', "Added: {{p0}} {{p1}}", { p0: item.nr || '', p1: item.description }),
       });
     }
   }
@@ -44,13 +45,13 @@ function computeDiffs(oldItems: CostItem[], newItems: CostItem[]): SnapshotDiff[
 
     // Check key fields
     const fields: { key: keyof CostItem; label: string }[] = [
-      { key: 'description', label: 'Omschrijving' },
-      { key: 'quantity', label: 'Hoeveelheid' },
-      { key: 'unitPrice', label: 'Eenheidsprijs' },
-      { key: 'total', label: 'Totaal' },
-      { key: 'materialPrice', label: 'Materiaalprijs' },
-      { key: 'laborPrice', label: 'Arbeidsprijs' },
-      { key: 'unit', label: 'Eenheid' },
+      { key: 'description', label: uiText('versions.description', "Description") },
+      { key: 'quantity', label: uiText('versions.quantity', "Quantity") },
+      { key: 'unitPrice', label: uiText('versions.unitPrice', "Unit price") },
+      { key: 'total', label: uiText('versions.total', "Total") },
+      { key: 'materialPrice', label: uiText('versions.materials', "Material price") },
+      { key: 'laborPrice', label: uiText('versions.labour', "Labour price") },
+      { key: 'unit', label: uiText('versions.unit', "Unit") },
     ];
 
     for (const f of fields) {
@@ -63,7 +64,7 @@ function computeDiffs(oldItems: CostItem[], newItems: CostItem[]): SnapshotDiff[
           field: f.key,
           oldValue: oldVal as any,
           newValue: newVal as any,
-          description: `${item.nr || ''} ${item.description}: ${f.label} gewijzigd`,
+          description: uiText('versions.changed', "{{p0}} {{p1}}: {{p2}} changed", { p0: item.nr || '', p1: item.description, p2: f.label }),
         });
       }
     }
@@ -91,7 +92,7 @@ export const createVersionSlice: StateCreator<VersionSlice> = (set, get) => ({
   createSnapshot: (label, type, notitie) => {
     const state = get() as any; // Full AppStore at runtime
     const now = new Date();
-    const defaultLabel = label || `Versie ${fmtDate(now)}`;
+    const defaultLabel = label || uiText('versions.version', "Version {{p0}}", { p0: fmtDate(now) });
 
     // Calculate total
     const topChapters = state.items.filter((i: CostItem) => i.rowType === 'chapter' && i.depth === 0);

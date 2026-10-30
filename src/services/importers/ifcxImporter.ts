@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 import { makeCostItem, normalizeUnit } from './core';
 import type { ImportResult } from './types';
 import type { CostItem, CostSchedule, ResourceType, RowType } from '@/types/costModel';
@@ -28,7 +29,7 @@ export function importIfcx(jsonText: string): ImportResult {
   try {
     doc = JSON.parse(jsonText);
   } catch {
-    throw new Error('Ongeldig ifcx-bestand: geen geldige JSON.');
+    throw new Error(uiText("diagnostics.ifcxImporter.invalidIfcxFileNotValidJSON", "Invalid ifcx file: not valid JSON."));
   }
 
   const data = Array.isArray(doc.data) ? doc.data : [];
@@ -105,7 +106,7 @@ export function importIfcx(jsonText: string): ImportResult {
 
   for (const node of Object.values(scheduleNode?.children ?? {})) walk(node, null, 0);
 
-  if (items.length === 0) warnings.push('ifcx-bestand bevat geen kostenposten.');
+  if (items.length === 0) warnings.push(uiText("diagnostics.ifcxImporter.theIfcxFileContainsNoCostItems", "The ifcx file contains no cost items."));
 
   return { schedule, items, warnings, format: 'ifcx' };
 }

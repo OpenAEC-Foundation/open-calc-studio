@@ -1,5 +1,7 @@
 {
-  "status": { "unreleased": "In ontwikkeling" },
+  "status": {
+    "unreleased": "In ontwikkeling"
+  },
   "names": {
     "unreleased": "Mobiele webapp voor begrotingen",
     "v0.13.0": "Oostenrijks ÖNORM A 2063 (.onlv/.onlb) + BC3-rondreis bewezen",
@@ -18,7 +20,13 @@
     "v0.8.2": "OpenAEC achter een feature-flag",
     "v0.8.1": "OpenAEC-login + assistent-verbeteringen",
     "v0.8.0": "Assistent past wijzigingen direct toe",
-    "v0.7.10": "OpenAEC-account + onderbalk-navigatie"
+    "v0.7.10": "OpenAEC-account + onderbalk-navigatie",
+    "v2026.44.0-dev": "2026.44.0 in ontwikkeling: Blueprint, wizard en hostopslag",
+    "v2026.44.1-dev": "Werkplekken, herkomst en financiële voorstellen",
+    "v2026.44.2-dev": "Controlecentrum voor prijzen, bronnen en eenheden",
+    "v2026.44.3-dev": "Veilige invoer, toegankelijke dialogen en volledige IFC-selecties",
+    "v2026.44.4-dev": "Knopcontrole, veilige selectie en consistente afdrukken",
+    "v2026.44.5-dev": "SuperCloud-voorkeuren en containervoorbereiding"
   },
   "highlights": {
     "unreleased": [
@@ -119,6 +127,47 @@
       "OpenAEC-account en onderbalk-navigatie",
       "Kolommen verbergen/tonen via rechtsklik op de kolomkop",
       "Uren- en Staart-tab gecombineerd; IBIS-stijl rapport (Bouw 2)"
+    ],
+    "v2026.44.0-dev": [
+      "Nieuwe werkruimte met vaste navigatie, projectkop en live begrotingstotaal; officiële Blueprint-lettertypen in alle bedieningselementen, zonder dubbele fontdefinities.",
+      "Vijf officiële Blueprint-thema’s met lokaal meegeleverde fonts en dezelfde calculatie-UI",
+      "Optionele calculatiewizard in vijf stappen; direct terug naar de volledige editor",
+      "Hostbestanden en versies met conflictbescherming, plus een aparte REST/HTTP-MCP-rekenservice",
+      "Ontwikkelbuild: apparaat-, signing- en AWS-acceptatie zijn nog niet afgerond",
+      "Engelse en Nederlandse vertalingen uitgebreid voor PDF-metingen, IFC-splitsweergave, assistentvoorstellen, prijsbibliotheek en validatiemeldingen."
+    ],
+    "v2026.44.1-dev": [
+      "Bewaar taakgerichte werkplekken voor meten, begroten en controleren, inclusief paneelbreedten, zoom en kolommen.",
+      "Een tweede venster toont PDF-tekeningen en de herkomst van de geselecteerde hoeveelheid zonder de begroting te bewerken.",
+      "Bekijk bronbestand, bronidentiteit, pagina of IFC-selectie, formule en bewaarde koppelwaarde bij een hoeveelheid.",
+      "Bekijk bedragen voor en na een assistentvoorstel, inclusief opslagen en btw; pas alles toe als één terug te draaien wijziging.",
+      "Alle nieuwe functies zijn via de live MCP-server aan te sturen. Het native bestandsformaat is additief uitgebreid naar 2.3.0."
+    ],
+    "v2026.44.2-dev": [
+      "Open Controlecentrum in de zijbalk, of Controle op mobiel; de teller volgt de actuele meldingen.",
+      "Filter prijs-, bron- en eenheidscontroles; selecteer de exacte begrotingsregel en keer terug naar dezelfde controle.",
+      "Expliciete nulprijzen zijn geldig. Bekijken behoudt hoeveelheden, prijzen, wijzigingsstatus en undo.",
+      "Ook bereikbaar via desktop-MCP review.list, review.open en review.openItem en de pure SDK-functie reviewBudget."
+    ],
+    "v2026.44.3-dev": [
+      "Mobiele invoer bewaart nulprijzen, gebruikt de interfacetaal en projectvaluta en ondersteunt ongedaan maken en opnieuw uitvoeren",
+      "Gekoppelde hoeveelheden zijn alleen-lezen totdat je ze expliciet ontkoppelt; de koppeling en wijziging vormen één undo-stap",
+      "Delete, knippen en plakken werken binnen het begrotingsraster; tekstvelden behouden hun eigen undo",
+      "Wizardfouten zijn terug te vinden en conceptinvoer kan worden verwijderd; nulprijzen worden in beide controles hetzelfde behandeld",
+      "Dialogen hebben een toegankelijke naam, focusbeheer en ondersteuning voor geneste vensters",
+      "IFC-elementen zijn gepagineerd met aantallen en selectie van alle zoekresultaten, ook via ifc.selectFiltered in MCP",
+      "PDF-broncontroles gebruiken een index; de eigen zwevende assistent blijft verborgen wanneer de host die functie beheert"
+    ],
+    "v2026.44.4-dev": [
+      "Lintacties volgen meervoudige selectie; ingeklapte posten behouden hun rekenregels bij kopiëren en knippen",
+      "Opslaan en een tweede venster gebruiken het juiste document; offerte- en rekenbladwijzigingen worden als onopgeslagen beschermd",
+      "Afdrukken en PDF-export delen rapporttype en opties; offerte afdrukken werkt op desktop en fouten worden gemeld",
+      "Knoppen zonder geldig doel zijn uitgeschakeld; lege instellingentabbladen zijn verwijderd en zoompresets werken met toetsenbordbediening"
+    ],
+    "v2026.44.5-dev": [
+      "Gehoste sessies volgen taal en thema zonder dubbele titelbalk.",
+      "Native desktopcontainer en privé-HTTP-MCP voorbereid; echte containeracceptatie en publicatie staan nog open.",
+      "Updaterhandtekeningen uitgebreid verzameld; klein DynLex-rekenprototype geverifieerd."
     ]
   }
 }

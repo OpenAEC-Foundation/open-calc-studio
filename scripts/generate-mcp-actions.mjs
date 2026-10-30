@@ -25,6 +25,8 @@ function schema(t, seen = new Set()) {
   if(t.flags & ts.TypeFlags.Object || t.isIntersection()) {
     const properties={}, required=[];
     for(const p of t.getProperties()) {
+      // Session state is managed by the app/host, never writable MCP input.
+      if(p.getJsDocTags().some(tag=>tag.name==='internal'))continue;
       const decl=p.valueDeclaration??p.declarations?.[0]; if(!decl)continue;
       properties[p.name]=schema(checker.getTypeOfSymbolAtLocation(p,decl),next);
       if(!(p.flags&ts.SymbolFlags.Optional))required.push(p.name);

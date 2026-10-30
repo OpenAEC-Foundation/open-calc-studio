@@ -59,8 +59,8 @@ export async function exportPdf(data: Record<string, unknown>): Promise<string> 
     pageOrientation: (data.pageOrientation as string) || store.pageOrientation,
     showHoeveelheid,
     companyInfo,
-    includeCover: false,
-    includeSummary: false,
+    includeCover: store.includeCover,
+    includeSummary: store.includeSummary,
     ...locale,
   };
   // IBIS-stijl en directiebegroting delen de IBIS Typst-generator (zoals in de lint).

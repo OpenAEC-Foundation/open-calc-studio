@@ -5,6 +5,11 @@
 #ifdef _WIN32
 #include <windows.h>
 #include <wchar.h>
+#ifdef _MSC_VER
+/* TaskDialogIndirect and the window subclass APIs require Common Controls 6.
+ * This must be active before LoadLibrary resolves the product DLL imports. */
+#pragma comment(linker, "\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+#endif
 #define CALL __cdecl
 #else
 #include <dlfcn.h>
@@ -31,7 +36,13 @@ int main(int argc, char **argv) {
 #define SYMBOL(name) GetProcAddress(library, name)
 #else
     const char *path = getenv("OCS_LIBRARY_PATH");
-    if (!path) path = "./libOpenCalcStudio.so";
+    if (!path) {
+#ifdef __APPLE__
+        path = "./libOpenCalcStudio.dylib";
+#else
+        path = "./libOpenCalcStudio.so";
+#endif
+    }
     void *library = dlopen(path, RTLD_NOW | RTLD_LOCAL);
     if (!library) { fprintf(stderr, "%s\n", dlerror()); return 11; }
 #define SYMBOL(name) dlsym(library, name)

@@ -1,5 +1,7 @@
 {
-  "status": { "unreleased": "In development" },
+  "status": {
+    "unreleased": "In development"
+  },
   "names": {
     "unreleased": "Mobile web app for estimates",
     "v0.13.0": "Austrian ÖNORM A 2063 (.onlv/.onlb) + BC3 round trip proven",
@@ -18,7 +20,13 @@
     "v0.8.2": "OpenAEC behind a feature flag",
     "v0.8.1": "OpenAEC sign-in + assistant improvements",
     "v0.8.0": "Assistant applies changes directly",
-    "v0.7.10": "OpenAEC account + bottom-bar navigation"
+    "v0.7.10": "OpenAEC account + bottom-bar navigation",
+    "v2026.44.0-dev": "2026.44.0 development: Blueprint, wizard and hosted storage",
+    "v2026.44.1-dev": "Workspaces, quantity origins and financial previews",
+    "v2026.44.2-dev": "Review center for prices, sources and units",
+    "v2026.44.3-dev": "Safer input, accessible dialogs and complete IFC selections",
+    "v2026.44.4-dev": "Button checks, safe selection and consistent printing",
+    "v2026.44.5-dev": "SuperCloud preferences and container preparation"
   },
   "highlights": {
     "unreleased": [
@@ -119,6 +127,47 @@
       "OpenAEC account and bottom-bar navigation",
       "Hide/show columns by right-clicking the column header",
       "Hours and Markups tabs combined; IBIS-style report (Bouw 2)"
+    ],
+    "v2026.44.0-dev": [
+      "New workspace with persistent navigation, project header and live estimate total; official Blueprint typography across controls, without competing font registrations.",
+      "Five official Blueprint themes with local fonts and the shared calculation UI",
+      "Optional five-step estimate wizard with a direct return to the full editor",
+      "Host files and versions with conflict protection, plus a separate REST/HTTP-MCP calculator",
+      "Development build: device, signing and AWS acceptance are still pending",
+      "English and Dutch translations now cover PDF measurements, the IFC split view, assistant proposals, the price library and validation messages."
+    ],
+    "v2026.44.1-dev": [
+      "Save task workspaces for measuring, estimating and review, including panel widths, zoom and columns.",
+      "A second window shows PDF drawings and the selected quantity origin without editing the estimate.",
+      "Inspect source file and identity, page or IFC selection, formula and the original linked value for each quantity.",
+      "Review financial totals before and after an assistant proposal, including markups and VAT; apply or undo the whole proposal together.",
+      "All new functions are available through the live MCP server. The native file format adds optional provenance in version 2.3.0."
+    ],
+    "v2026.44.2-dev": [
+      "Open Review center in the sidebar, or Review on mobile; the badge follows current issues.",
+      "Filter price, source and unit checks; reveal the exact estimate row and return to the same review context.",
+      "Explicit zero prices are valid. Inspection preserves quantities, prices, dirty state and undo history.",
+      "Available through desktop MCP review.list, review.open and review.openItem, and the pure reviewBudget SDK function."
+    ],
+    "v2026.44.3-dev": [
+      "Mobile input preserves zero prices, follows the interface locale and project currency, and supports undo and redo",
+      "Linked quantities are read-only until explicitly unlinked; unlinking and editing form one undo step",
+      "Delete, cut and paste are scoped to the estimate grid; text fields retain native undo",
+      "Wizard errors can be located or discarded, and both review interfaces accept explicit zero prices",
+      "Dialogs have accessible names, focus management and support for nested windows",
+      "IFC elements have pagination, counts and selection of all search results, including ifc.selectFiltered in MCP",
+      "PDF source checks use an index; the independent floating assistant is hidden when hosted"
+    ],
+    "v2026.44.4-dev": [
+      "Ribbon actions respect multiple selection; copying or cutting collapsed cost items preserves their calculation lines",
+      "Save and second-window actions target the right document; quotation and spreadsheet edits receive unsaved-changes protection",
+      "Printing and PDF export share report types and options; desktop quotation printing works and reports failures",
+      "Commands without valid targets are disabled; empty settings tabs are removed and zoom presets support keyboard activation"
+    ],
+    "v2026.44.5-dev": [
+      "Hosted sessions follow language and theme without a duplicate title bar.",
+      "Native desktop container and private HTTP MCP prepared; real container acceptance and publication remain pending.",
+      "Updater signature collection extended; a small DynLex arithmetic prototype has been verified."
     ]
   }
 }

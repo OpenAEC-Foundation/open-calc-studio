@@ -9,4 +9,13 @@
  * platform-koppeling); zet `VITE_OPENAEC_ENABLED=true` in `.env.development`
  * of `.env.production` om hem aan te zetten in jouw eigen build.
  */
-export const OPENAEC_ENABLED = import.meta.env.VITE_OPENAEC_ENABLED === 'true';
+export const PLATFORM_BUILD = import.meta.env.VITE_PLATFORM_BUILD === 'true';
+export const OPENAEC_ENABLED = !PLATFORM_BUILD && import.meta.env.VITE_OPENAEC_ENABLED === 'true';
+export const USER_EXTENSIONS_ENABLED = !PLATFORM_BUILD;
+
+declare global { interface Window { __OCS_CONTAINER__?: boolean } }
+
+/** A site host owns authentication and network access in the hosted release. */
+export function allowsExternalServices(): boolean {
+  return !PLATFORM_BUILD && !(typeof window !== 'undefined' && (window.__OCS_CONTAINER__ || window.openaecHost || window.origin === 'null'));
+}

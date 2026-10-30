@@ -1,0 +1,20 @@
+import { cpSync, mkdirSync, copyFileSync, readFileSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { resolve, join } from 'node:path';
+
+const [deb, destination = 'release-artifacts/docker-context'] = process.argv.slice(2);
+if (!deb) throw Error('Usage: node packaging/docker/prepare-context.mjs <release.deb> [context]');
+const version = JSON.parse(readFileSync('package.json', 'utf8')).version;
+const actual = execFileSync('dpkg-deb', ['--field', resolve(deb), 'Version'], { encoding: 'utf8' }).trim();
+const arch = execFileSync('dpkg-deb', ['--field', resolve(deb), 'Architecture'], { encoding: 'utf8' }).trim();
+if (version !== actual || arch !== 'amd64') throw Error(`Release package mismatch: expected ${version}/amd64, got ${actual}/${arch}`);
+mkdirSync(destination, { recursive: true });
+copyFileSync(deb, join(destination, 'app.deb'));
+copyFileSync('packaging/docker/Dockerfile', join(destination, 'Dockerfile'));
+cpSync('packaging/docker/runtime', join(destination, 'runtime'), { recursive: true, filter: path => !path.includes('__pycache__') });
+mkdirSync(join(destination, 'licenses'), { recursive: true });
+for (const name of ['LICENSE', 'COPYING', 'NOTICE.md']) copyFileSync(name, join(destination, 'licenses', name));
+const sha256 = createHash('sha256').update(readFileSync(deb)).digest('hex');
+writeFileSync(join(destination, 'package-evidence.json'), JSON.stringify({ version, architecture: arch, sha256 }, null, 2) + '\n');
+console.log(`Prepared native desktop container context from release ${actual}`);

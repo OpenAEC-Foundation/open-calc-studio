@@ -4,7 +4,7 @@
  */
 import { useEffect } from 'react';
 import { useAppStore } from '@/state/appStore';
-import { resolvePdfQuantity } from '@/services/pdf/pdfWorkspace';
+import { createPdfQuantityResolver } from '@/services/pdf/pdfWorkspace';
 
 export function useQuantityLinkSync() {
   const items = useAppStore(s => s.items);
@@ -14,6 +14,7 @@ export function useQuantityLinkSync() {
   const updateItem = useAppStore(s => s.updateItem);
 
   useEffect(() => {
+    const pdf = createPdfQuantityResolver(pdfWorkspace);
     for (const item of items) {
       const link = item.quantityLink;
       if (!link) continue;
@@ -28,7 +29,7 @@ export function useQuantityLinkSync() {
           if (!isFinite(newValue)) newValue = null;
         }
       } else if (link.source === 'pdf') {
-        newValue = resolvePdfQuantity(link, pdfWorkspace);
+        newValue = pdf.resolve(link);
       } else if (link.source === 'ifc') {
         const q = ifcQuantities.find(q => q.fragmentId === link.fragmentId);
         if (q) newValue = q[link.quantity] ?? null;

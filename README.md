@@ -1,257 +1,126 @@
 # Open Calc Studio
 
-> Open-source begrotingsprogramma voor de Nederlandse bouw — een moderne, vrije opvolger van klassieke calculatietools (BasCalc, WPCalc).
+Open-source construction cost estimating for desktop, browser and embedded applications.
 
-[![Status](https://img.shields.io/badge/status-public%20testing-orange)](https://github.com/OpenAEC-Foundation/open-calc-studio/releases)
-[![License](https://img.shields.io/badge/license-LGPL--3.0--only-blue.svg)](LICENSE)
-[![Tauri](https://img.shields.io/badge/Tauri-2-24C8DB)](https://v2.tauri.app/)
-[![React](https://img.shields.io/badge/React-18-61DAFB)](https://react.dev/)
+[![License](https://img.shields.io/badge/license-LGPL--3.0--only-blue)](LICENSE)
+[![Build](https://github.com/OpenAEC-Foundation/open-calc-studio/actions/workflows/build.yml/badge.svg)](https://github.com/OpenAEC-Foundation/open-calc-studio/actions/workflows/build.yml)
 
-![Open Calc Studio](docs/screenshots/nl/1-begroting.png)
+![Estimate editor](docs/screenshots/nl/1-begroting.png)
 
-Open Calc Studio brengt professionele kostencalculatie voor de bouw naar een open, modern platform. Geen vendor-lock-in, geen abonnement, geen verborgen formaten — een desktop app met Tauri (Rust + React) en een open bestandsformaat dat je zelf kunt inspecteren.
+## Install
 
-## Status
+Download available Windows, macOS or Linux packages from [Releases](https://github.com/OpenAEC-Foundation/open-calc-studio/releases). Check the version, architecture, checksums and signing evidence for the artifact you download. The project is in public testing. [Desktop builds and signature verification](docs/desktop-builds.md) · [macOS startup help](docs/macos-startup.md).
 
-**Public testing** — actief in ontwikkeling. Stabiel genoeg voor echt gebruik, maar verwacht nog ruwe randjes en breaking changes tussen minor versies.
+For a local web application, install Node.js 22.18 or newer and run:
 
-## Gebruikershandleiding / User guide
+```sh
+npm ci
+npm run dev
+```
 
-Begin met de [Nederlandse gebruikershandleiding](docs/gebruikershandleiding.md) of de [English user guide](docs/user-guide.md): installatie, je eerste begroting, uren en staart, opslaan, import/export en rapportage. Een [wiki-indeling](wiki/Home.md) met Nederlandstalige pagina's is voorbereid voor publicatie op de GitHub-wiki.
+Open [localhost:4200](http://localhost:4200/). To package the desktop application, install Rust and the [Tauri system prerequisites](https://v2.tauri.app/start/prerequisites/), then run:
 
-Voor begroten met tekstprompts naast het raster: [Prompt & Begroot](docs/prompt-begroot.md).
+```sh
+npm --prefix mcp-server ci
+npm --prefix mcp-server run bundle
+npm run tauri -- build
+```
 
-Voor bewerken op Android of iPhone: [mobiele webapp](docs/mobiele-webapp.md).
-
-Voor ondersteunde buitenlandse begrotingsbestanden en beperkingen: [Internationale bestandsuitwisseling](docs/wereldwijde-uitwisseling.md).
-
-Voor tekeningen, kalibratie en hoeveelhedenkoppelingen: [PDF-metingen en Open PDF Studio](docs/pdf-studio-integration.md). Voor AI- of automatiseringsclients: [desktopbediening via MCP](docs/mcp-desktop.md). Voor modelhoeveelheden: [3D & Begroting met IFC-Lite](docs/ifc-lite-splitview.md).
-
-Start de app niet op macOS? Zie de [macOS-opstartinstructies](docs/macos-startup.md).
+For the mobile browser, serve a web build over HTTPS. Android and iPhone use the same project format and calculator. Native-only reporting and IFC/PDF workspaces remain in the desktop interface. [Mobile guide](docs/mobiele-webapp.md).
 
 ## Features
 
-### Calculatie
-- Hierarchische begrotingsstructuur (hoofdstuk → begrotingspost → bewakingspost → calculatieregel)
-- Cascading staartberekening: AK over onderaanneming → algemene bedrijfskosten → garanties → werkvoorbereiding → risico → winst → verzekering → BTW → afronding
-- Middelclassificatie (arbeid / materiaal / materieel / onderaannemer / overig)
-- Norm-berekening (productienorm, factor, deler) per regel
-- Tariefgroepen (A/B/C) met instelbare uurtarieven
-- Begrotingsvarianten (branches, git-achtig boommodel)
-- Uren naar rato: bewerk een uren-totaal (alles, per tariefgroep of per hoofdstuk) en de onderliggende normen schalen automatisch mee
-- Embedded spreadsheets voor deelberekeningen, met cell formules en cell-borders
-- Snapshots / versies van een begroting
-- Automatisch opslaan (elke 2 minuten, stil, voor documenten met een bestandslocatie)
+- Hierarchical estimates with chapters, cost items, production norms, hourly rates, resource classifications, overhead, profit, mixed VAT and rounding.
+- Editable grid, spreadsheets, variants, snapshots, reports, quantities from IFC-Lite and persisted PDF measurements.
+- Optional five-step **calculation wizard** sharing the editor's project and calculator, with a direct return to the full editor.
+- **Prompt & Begroot** with financial previews, changed-row details and assumptions; approve or undo a complete proposal as one transaction.
+- Save task workspaces for measuring, estimating and review, including panel widths, zoom and columns. Open PDF drawings or quantity origins on a synchronized, read-only second screen.
+- Inspect quantity provenance from PDF, IFC or spreadsheet sources, with saved source identity, page/object references, calculation and missing-source/unit warnings.
+- **Review center** in the sidebar: live price, source and unit checks for the active variant, with category filters, exact row navigation and a return button. Also available on mobile, through desktop MCP and as the pure SDK function `reviewBudget`.
+- Import/export for native `.ifcCalc`, BC3, ÖNORM A 2063, CUF/RSX and IFC; importers for legacy Dutch tools, GAEB, IBIS-TRAD and spreadsheets. See [format support and limitations](docs/wereldwijde-uitwisseling.md).
+- A workspace with persistent navigation, a project header and live estimate total, using official [OpenAEC Blueprint](docs/blueprint-alignment.md) typography, local fonts and five themes. Project files open in a drawer; spreadsheet tabs stay beside the estimate.
+- Hosted platform build with optional `window.openaecHost` storage, file versions and conflict protection; no own accounts, user extensions or personal AI keys in this build.
+- React/JavaScript SDK, isolated iframe embedding, standalone stdio MCP, desktop automation API, and a separate authenticated headless REST/HTTP-MCP calculation service.
 
-### Import & Export
-- **BasCalc** (.calc/.xls) — legacy MDB import
-- **WPCalc** (.calc) — round-trip (lezen + schrijven)
-- **IBIS-TRAD** (.xtb) — import (SQLite), inclusief middelen en uurloon-codes
-- **IFC 4.x** (IfcCostSchedule + IfcCostItem) — import en export, custom STEP generator (geen WASM)
-- **FIEBDC-3** (.bc3, Spanje) — import en export
-- **ÖNORM A 2063** (.onlv Leistungsverzeichnis, .onlb Leistungsbuch, Oostenrijk) — import en export, gevalideerd tegen de officiële XSD's
-- **GAEB DA XML** (.x81/.x82/.x83/.x86/.x87, Duitsland) — bestekimport; .x84-aanbiedingsprijzen kunnen op een geopend .x83-bestek worden toegepast
-- **CUF-XML / RAW RSX** — import en export; **TRADXML** — export
-- **ZSX / NSX** — prijs- en normbestanden
-- **Excel** (.xlsx) — spreadsheet import
-- **Inschrijfstaat** — RAW-conforme export
-- **Eigen formaat** — `.ocs` / `.ifcCalc` (open JSON, mens-leesbaar)
+[NL gebruikershandleiding](docs/gebruikershandleiding.md) · [English user guide](docs/user-guide.md) · [Wiki sources](wiki/Home.md) · [Wizard](docs/calculation-wizard.md) · [Prompt & Begroot](docs/prompt-begroot.md) · [IFC-Lite](docs/ifc-lite-splitview.md) · [PDF integration](docs/pdf-studio-integration.md).
 
-### Rapportage
-- 7 rapport-views: werkbeschrijving, hoofdaanneming, onderaanneming, inschrijfstaat, nacalculatie, Bouw 1 (18-koloms uitgebreid format) en Bouw 2 (IBIS-stijl)
-- Live preview, print en PDF-export
-- Configureerbare rapport-datum, paginering en oriëntatie
-- Cover-page en samenvatting opt-in
+## Versions and delivery status
 
-### UI
-- Mobiele webapp met aanraakvriendelijke begrotingseditor, deelbladcellen, Prompt & Begroot en lokaal conceptherstel
-- Office-stijl ribbon voor commando's (Bestand, Begroting, Rapportage, Spreadsheet, IFC)
-- **Onderbalk-navigatie per document**: Data · Uren & Staart · Rapport · Spreadsheet · IFC · 3D & Begroting · PDF & metingen · Prompt & Begroot
-- Gesplitste 3D-weergave met IFC-Lite: selecteer elementen en koppel benoemde hoeveelheden aan begrotingsregels
-- PDF-tekeningen, schaal en metingen worden in het native begrotingsbestand bewaard; koppeling met Open PDF Studio via expliciete export/import
-- Prompt & Begroot toont voorgestelde wijzigingen vóór toepassing in de begroting
-- Bestand-menu als links uitklappend paneel (niet schermvullend)
-- Rijen selecteren en verslepen via de grip-gutter links — ook naar een ander hoofdstuk
-- Persistent start sidebar met release notes en recente bestanden
-- Eigenschappenpaneel met item-type, kengetallen (€/eenheid excl. én incl. btw); structuurpaneel optioneel
-- Multi-document support met file tabs
-- Virtualized grid voor grote begrotingen
-- 4 themes (light, dark, blue, high-contrast)
-- Volledig keyboard-bedienbaar
+The current development version is **2026.44.5**, using `year.ISOweek.patch`. Product packages, Cargo and MCP share this version. MSI uses `26.44.5` to fit the Windows major-version limit. The `.ifcCalc` **file format is 2.3.0**; it has its own compatibility policy and is not a product release number.
 
-### OpenAEC-account (optioneel)
-- **Sign in with OpenAEC** — OIDC/PKCE-login via de systeembrowser; tokens veilig in de OS-keyring
-- **Cloud-opslag** met mappenbrowser: begrotingen opslaan, openen en beheren op je account
-- **AI-assistent op accounttegoed** — de ingebouwde chat gebruikt AI-credits van je OpenAEC-account (met live saldo), zonder eigen API-sleutel
+This source version does not imply an installer or npm publication already exists. [Release notes](docs/release-notes/unreleased.md) and the [issue acceptance matrix](docs/issue-readiness.md) record implementation, test evidence and remaining work. Signed releases require working signing credentials and verification of the delivered artifacts. Actual AWS deployment, clean-machine installation, real-phone tests and the DynLex prototype are still pending.
 
-### Extensions
-- MCP server (`mcp-server/`) voor MCP-clients — begrotingen bewerken, berekenen en geselecteerde formaten uitwisselen; [functies en beperkingen](wiki/MCP-server.md)
-- Plugin-architectuur voor custom importers en domain features
-- Ingebouwde importers (WPCalc, IBIS-TRAD, BasCalc, RSX, inschrijfstaat) staan standaard aan
+| Distribution | Interface and boundary | Documentation |
+| --- | --- | --- |
+| Desktop | Tauri 2; Windows x64, Linux x64, universal macOS installer workflows | [Build/signing](docs/desktop-builds.md) |
+| Hosted web/mobile | Static platform build; host-owned storage and authentication | [SuperCloud contract](docs/supercloud.md) |
+| React/JS SDK | `@openaec/open-calc-studio`, `/core`, `/isolated`, `/importers`, `/converters` | [Library integration](docs/library-integration.md) |
+| Native library | Public ABI 1; Windows DLL, Linux .so, macOS .dylib build matrix; runs the desktop UI | [C/C# examples](packages/native/README.md) |
+| Headless service | Two inline calculation tools over REST and HTTP-MCP; no desktop or server file access | [Cloud API / AWS template](docs/cloud-api.md) |
+| Standalone MCP | stdio; budget files, converters and an optional desktop bridge | [MCP setup](mcp-server/README.md), [desktop automation](docs/mcp-desktop.md) |
 
-## Quick start
+A native UI library is not the headless calculation API. An MCP server is not by itself an interactive Claude connector. See the acceptance matrix for what has actually been verified.
 
-### Download
-Download de installer voor jouw platform vanaf de [releases pagina](https://github.com/OpenAEC-Foundation/open-calc-studio/releases). Windows MSI/NSIS, macOS DMG, en Linux AppImage/DEB worden gepubliceerd per release.
-
-#### macOS: de app wordt geblokkeerd bij de eerste start
-
-Lokale builds gebruiken standaard ad-hoc ondertekening. De [desktopworkflow](docs/desktop-builds.md) vereist voor CI een Developer ID-certificaat en Apple-notarisation en controleert de app uit de DMG. Controleer bij een download of die build daadwerkelijk geslaagd is. Volg de [macOS-opstartinstructies (Nederlands / English)](docs/macos-startup.md) voor hulp bij geblokkeerde oudere of lokale builds.
-
-### Build from source
-
-Vereisten:
-- [Node.js](https://nodejs.org/) (LTS aanbevolen, zie `.nvmrc`)
-- [Rust](https://www.rust-lang.org/tools/install) 1.77.2 of nieuwer
-- [Tauri 2 prerequisites](https://v2.tauri.app/start/prerequisites/) voor jouw platform
-
-```bash
-# Clone (inclusief openaec-reports submodule)
-git clone --recurse-submodules https://github.com/OpenAEC-Foundation/open-calc-studio
-cd open-calc-studio
-
-# Dependencies
-npm install
-
-# Dev mode (browser only, snel)
-npm run dev
-
-# Dev mode (Tauri desktop)
-npm run tauri dev
-
-# Productie build
-npm run tauri build
-```
-
-De gebouwde applicatie staat in `src-tauri/target/release/`.
-
-#### Windows
-
-Op Windows: gebruik de **MinGW** Rust toolchain — geen Visual Studio nodig.
-
-```bash
-rustup default stable-x86_64-pc-windows-gnu
-npx tauri build
-```
-
-## Inbouwen in je eigen site
-
-Open Calc Studio is er ook als npm-pakket: een React-component plus de
-bibliotheek (importers, exporters, calculator) — zie
-[packages/embed/README.md](packages/embed/README.md).
+## Developers
 
 ```sh
-npm install @openaec/open-calc-studio react react-dom
+npm run version:check
+npm run test:version
+npm run check:blueprint
+npx tsc --noEmit
+npm test -- --maxWorkers=2 --testTimeout=20000
+npm run build
+npm run build:platform -- --base /assets/open_aec/open-calc-studio/ --outDir dist-platform
+npm run build:lib
+npm run test:server
 ```
 
-```tsx
-import { OpenCalcStudio } from '@openaec/open-calc-studio';
-import '@openaec/open-calc-studio/style.css';
+Use `npm run pack:lib` for the npm archive. Use `npm run build:server` for a standalone Node.js service; it refuses to start without configured key digests. Web, SDK, API and native distributions include notices and build metadata. [Library integration](docs/library-integration.md) explains independent instances and compatibility. [File format](docs/ifccalc-formaat.md) and [model/API reference](docs/API.md) describe the data boundary.
 
-<div style={{ height: 720 }}>
-  <OpenCalcStudio lang="nl" sample onChange={(project, json) => save(json)} />
-</div>
+Prepare a calendar version with `node scripts/version.mjs next` or `node scripts/version.mjs set 2026.44.1`. The **Prepare calendar release** GitHub workflow creates a version PR. Release CI checks `v<version>` against all packages, runs mandatory type/tests, builds platform/API/embed artifacts and requires verified desktop signing. It publishes a draft release on successful tagged builds. It does not deploy AWS.
+
+## Docker
+
+The graphical Linux app has a container build alongside the separate headless
+API image. The desktop image is prepared from the release's exact `.deb`, tested
+before release creation, and published after a stable release is published:
+
+```sh
+docker run --rm -p 3000:3000 -v /path/to/files:/openaec -v calc-config:/config \
+  -e OPENAEC_LANGUAGE=nl -e OPENAEC_THEME=light \
+  ghcr.io/openaec-foundation/open-calc-studio:latest
 ```
 
-Elke GitHub-release levert het pakket ook als `open-calc-studio-<versie>.tgz`.
-Lokaal: `npm run build:lib` bouwt het pakket naar `packages/embed/dist`,
-`npm run dev:embed` opent een voorbeeld-gastpagina op http://localhost:4310.
-Alle CSS is gescoped onder `.ocs-embed`, sneltoetsen gelden alleen binnen de
-component en thema/taal staan op de wrapper, niet op `<html>`.
+Open `http://localhost:3000`. The first desktop container release is still pending;
+this command requires a published image. The app runs as UID 1000, without FUSE,
+root privileges or a GPU. Mounted folders must be writable by UID 1000.
+`/config` persists settings; `/openaec` contains user files. Optional environment
+variables: `OPENAEC_START_FILE` (a file under `/openaec`), `OPENAEC_RESOLUTION`
+(default `1440x900`), `OPENAEC_LANGUAGE` (interface language code), and
+`OPENAEC_THEME` (`light`, `dark`, `blueprint`, `high-contrast-dark`,
+`high-contrast-light`, `system`). Existing preferences remain when no override is given.
 
-## Architectuur
+Health: `GET /gezond`; it fails when the app/display/MCP process is unavailable.
+The full MCP server listens at port **9743**, path `/mcp`, for the private container
+network. Do not publish that port with `-p`; optionally set `OCS_MCP_TOKEN` for
+Bearer authentication. REST/WS remain on container loopback. Optional analytics,
+account, feedback and release-fetch services are disabled; no outbound service is
+required for normal startup. The stream has no built-in account login: the
+SuperCloud reverse proxy supplies authentication and TLS.
 
-```
-open-calc-studio/
-├── src/                     # Frontend (React + TypeScript + Vite)
-│   ├── components/          # UI: ribbon, grid, panels, viewers
-│   ├── state/               # Zustand store (11 slices)
-│   ├── services/            # File I/O, calculation, import/export
-│   ├── types/               # TypeScript domain model
-│   └── i18n/                # nl-NL primair, en optioneel
-├── src-tauri/               # Tauri / Rust backend
-│   ├── src/
-│   │   ├── reports/         # PDF generatie (Typst + custom layout)
-│   │   ├── wpcalc_export.rs # WPCalc .calc round-trip
-│   │   └── bin/gen_pdf.rs   # Standalone PDF CLI
-│   └── tests/               # Rust integration tests
-├── tenants/                 # Brand templates (logo's, fonts, Typst)
-│   └── bouw1/               # Default Bouw 1 brand
-├── mcp-server/              # MCP server voor Claude / agents
-├── public/data/             # Sample begroting (voorbeeld.ifcCalc)
-├── libs/openaec-reports/    # Submodule: openaec-reports engine
-└── docs/                    # API documentatie en release notes
-```
-
-### Stack
-
-| Laag | Technologie |
-|------|------------|
-| Frontend | React 18, TypeScript 5.7, Vite 6 |
-| State | Zustand 5 + Immer |
-| Styling | Tailwind 3.4 + CSS variables (theming) |
-| Desktop | Tauri 2 (Rust 1.77+) |
-| PDF | Typst (templates), openaec-layout (Rust crate) |
-| Tests | Vitest (unit), Playwright (E2E), Rust `cargo test` |
-| MCP | `@modelcontextprotocol/sdk` |
-
-## Bestandsformaat
-
-Open Calc Studio gebruikt een open JSON-formaat (`.ocs` / `.ifcCalc`), huidige formaatversie **2.2.0**. Het formaat is gedocumenteerd in [`docs/ifccalc-formaat.md`](docs/ifccalc-formaat.md) (structuur, versiebeleid en migratiegaranties); de API in [`docs/API.md`](docs/API.md). Oudere bestanden openen altijd (automatische migratie); bestanden uit een nieuwere major-versie worden met een duidelijke melding geweigerd.
-
-```json
-{
-  "version": "2.2.0",
-  "schedule": { "name": "...", "projectName": "...", ... },
-  "items": [{ "id": "...", "rowType": "chapter", ... }, ...],
-  "companyInfo": { ... },
-  "spreadsheets": { ... }
-}
-```
-
-`rowType` is een enum: `chapter | begrotingspost | bewakingspost | regel | tekstregel | witregel | staart_*`. Staart rijen vormen de cascading toeslagen-keten.
-
-## Voorbeeldbegroting
-
-Bij eerste start opent Open Calc Studio automatisch een voorbeeldbegroting (`public/data/voorbeeld.ifcCalc`). 21 items, 6 hoofdstukken, kostprijs ≈ €44k. Sluit het tabblad om door te gaan met je eigen werk.
-
-## Native DLL en applicatiebuild
-
-De volledige desktopapp kan als native bibliotheek worden gebouwd: `OpenCalcStudio.dll`
-op Windows en `libOpenCalcStudio.so` op Linux. De C-entrypoint `ocs_run()` opent een
-eigen applicatievenster en keert bij sluiten terug naar de host. Dit is geen .NET-
-assembly of inbouwbaar child-window control. Gebruik de [native handleiding](packages/native/README.md)
-voor de C-header, voorbeeldhost, buildstappen en levensduurvoorwaarden. De bestaande
-MCP/API blijft beschikbaar zolang het venster draait.
-
-De workflow `Native DLL and library builds` levert ongetekende testpakketten;
-`Signed desktop test builds` levert bij geldige signing-secrets ook een
-ondertekend Windows-DLL-pakket. Een lokale Windows-crossbuild controleert de
-bestandsstructuur en exports, maar bewijst geen werking van de Windows-interface.
-
-## MCP server
-
-In `mcp-server/` zit een Model Context Protocol-server voor Claude en andere MCP-clients. Je kunt begrotingen openen en bewerken, rekenen en onder meer BC3, ÖNORM, CUF, RAW en GAEB importeren. `get_capabilities` geeft de actuele lijst. De `app_*`-tools bedienen de draaiende desktopapp, inclusief PDF-metingen en IFC-Lite-selectie en hoeveelhedenovername. `app_list_actions` beschrijft 202 store-acties plus de bestands- en vieweropdrachten. GAEB-export en de nog niet geïmplementeerde leveranciersformaten blijven buiten het bereik. Zie de [gebruikerspagina](wiki/MCP-server.md) en de [technische instructies](mcp-server/README.md).
+Runtime logs, an app screenshot and measured idle memory are uploaded as
+`open-calc-studio-desktop-container-evidence`. Published images are signed by
+cosign and have provenance/SBOM attestations. Container execution and publication
+must pass CI before this is considered delivered; local source checks alone do
+not establish that the image works.
 
 ## Contributing
 
-Pull requests welkom. Kleine tips:
-- Lees `docs/API.md` voor de domain model
-- TS en Rust moeten beide groen blijven (`npm test` + `cargo check`)
-- Geen vendor-specifieke logo's of brand data toevoegen — de `tenants/bouw1/` brand is een neutraal startpunt waar gebruikers op kunnen variëren
-
-Issues, ideeën en bugmeldingen graag via de [issue tracker](https://github.com/OpenAEC-Foundation/open-calc-studio/issues).
+Please use [Issues](https://github.com/OpenAEC-Foundation/open-calc-studio/issues) for reproducible bugs and proposals, and submit focused pull requests with relevant verification. Preserve calculator totals, native-file compatibility and host isolation. Use the pinned Blueprint assets and `--oa-*` roles; retain upstream license notices. Keep client estimates, credentials and generated build directories out of Git.
 
 ## License
 
-Open Calc Studio: **LGPL-3.0-only**. De volledige teksten zijn beschikbaar als
-[LICENSE](LICENSE) (LGPL versie 3) en [COPYING](COPYING) (GPL versie 3).
-Zie [NOTICE.md](NOTICE.md) voor de afbakening van de productlicentie en
-licenties van derden. Het inbouwpakket bevat deze drie bestanden ook.
+Open Calc Studio code: **LGPL-3.0-only**, see [LICENSE](LICENSE) and [COPYING](COPYING). Blueprint CSS: **CC-BY-SA-4.0**; bundled fonts: **OFL-1.1**. Other bundled dependencies retain their respective licenses. [NOTICE.md](NOTICE.md) records attribution and distribution requirements. The Blueprint B2 icons have not been imported pending a clear license.
 
-## Acknowledgements
-
-- [Tauri](https://tauri.app/) — een fantastisch lichtgewicht alternatief voor Electron
-- [Typst](https://typst.app/) — moderne typesetting voor onze PDF templates
-- De [buildingSMART](https://www.buildingsmart.org/) IFC-standaard voor cost schedules
-- Iedereen die geprobeerd heeft een open formaat in Nederland te krijgen voor bouwbegrotingen — dit project bouwt op die schouders
+The embed npm package includes `LICENSE`, `COPYING` and `NOTICE.md` at its root;
+web distributions also provide the product, Blueprint and font notices in `licenses/`.

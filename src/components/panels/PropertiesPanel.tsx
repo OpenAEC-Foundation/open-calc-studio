@@ -7,6 +7,7 @@ import { formatUnit } from '@/i18n/formatUnit';
 import { BranchTreeEditor } from './BranchTreeEditor';
 import type { FieldChange } from '@/types/costModel';
 import './panels.css';
+import { QuantityOriginCard } from '@/components/common/QuantityOriginCard';
 
 
 // OpenAEC section label style (JetBrains Mono, uppercase, amber on light)
@@ -174,6 +175,7 @@ export const PropertiesPanel: React.FC = () => {
           </div>
 
           <ItemHistoryView history={item.history} />
+          {!item.rowType.startsWith('staart_') && <QuantityOriginCard key={item.id} item={item} />}
         </>
       )}
 

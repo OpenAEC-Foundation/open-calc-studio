@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 /**
  * ÖNORM A 2063 importer — het Oostenrijkse uitwisselformaat voor
  * Leistungsbeschreibungen (.onlb) en Leistungsverzeichnisse (.onlv).
@@ -193,7 +194,7 @@ export function importOnlv(xml: string): ImportResult {
   const root = parseLiteXml(xml);
   const rootName = root.name;
   if (rootName !== 'onlv' && rootName !== 'onlb') {
-    throw new Error(`Geen ÖNORM A 2063-bestand: wortelelement <${rootName}> (verwacht <onlv> of <onlb>)`);
+    throw new Error(uiText("diagnostics.onlvImporter.notAnNORMA2063FileRoot", "Not an ÖNORM A 2063 file: root element <{{p0}}> (expected <onlv> or <onlb>).", { p0: rootName }));
   }
 
   const warnings: string[] = [];
@@ -397,7 +398,7 @@ export function importOnlv(xml: string): ImportResult {
   } else {
     // ── Leistungsverzeichnis ──
     const lv = kidEndingWith(root, '-lv');
-    if (!lv) throw new Error('ÖNORM A 2063: geen LV-element (entwurfs-lv, ausschreibungs-lv, …) gevonden');
+    if (!lv) throw new Error(uiText("diagnostics.onlvImporter.normA2063NoLVElementEntwurfs", "ÖNORM A 2063: no LV element (entwurfs-lv, ausschreibungs-lv, …) found."));
     const kenn = kid(lv, 'kenndaten');
     const bezeichnung = kidText(kenn, 'lvbezeichnung');
     const vorhaben = kidText(kenn, 'vorhaben');

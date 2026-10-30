@@ -1,6 +1,7 @@
 import type { ProjectFile } from '../types/costModel';
 
 export interface IsolatedProps {
+  mode?: 'editor' | 'wizard';
   project?: string | Blob | ProjectFile | null;
   fileName?: string;
   lang?: string;
@@ -9,6 +10,8 @@ export interface IsolatedProps {
   onChangeDelay?: number;
 }
 export interface IsolatedOptions extends IsolatedProps {
+  /** Opt in to an opaque origin; serve the frame assets with CORS enabled. */
+  opaque?: boolean;
   /** URL of the packaged frame/index.html, served by your website. */
   src: string;
   title?: string;
@@ -28,7 +31,7 @@ const protocol = 'open-calc-studio/v1';
 
 /** Independent documents, store, language, CSS and keyboard handling per frame. */
 export function mountIsolated(host: HTMLElement, options: IsolatedOptions): IsolatedStudio {
-  const { src, title = 'Open Calc Studio', timeout = 30000, onChange, onError, ...props } = options;
+  const { src, opaque = false, title = 'Open Calc Studio', timeout = 30000, onChange, onError, ...props } = options;
   const url = new URL(src, host.ownerDocument.baseURI);
   if (!['http:', 'https:'].includes(url.protocol)) throw new Error('Frame URL must use HTTP(S).');
   const win = host.ownerDocument.defaultView!;
@@ -36,12 +39,13 @@ export function mountIsolated(host: HTMLElement, options: IsolatedOptions): Isol
   const iframe = host.ownerDocument.createElement('iframe');
   iframe.title = title;
   iframe.style.cssText = 'width:100%;height:100%;border:0;display:block';
+  if (opaque) iframe.setAttribute('sandbox', 'allow-scripts allow-downloads allow-modals');
   iframe.src = url.href;
   let disposed = false;
   let initialized = false;
   let sequence = 0;
   const pending = new Map<number, { resolve: (value: any) => void; reject: (e: Error) => void; timer: ReturnType<typeof setTimeout> }>();
-  const send = (type: string, payload: unknown, id?: number) => iframe.contentWindow?.postMessage({ protocol, channel, type, payload, id }, url.origin);
+  const send = (type: string, payload: unknown, id?: number) => iframe.contentWindow?.postMessage({ protocol, channel, type, payload, id }, opaque ? '*' : url.origin);
   let resolveReady!: () => void;
   let rejectReady!: (e: Error) => void;
   const ready = new Promise<void>((resolve, reject) => { resolveReady = resolve; rejectReady = reject; });
@@ -52,7 +56,7 @@ export function mountIsolated(host: HTMLElement, options: IsolatedOptions): Isol
     rejectReady(error); onError?.(error);
   }, timeout);
   function receive(event: MessageEvent) {
-    if (disposed || event.source !== iframe.contentWindow || event.origin !== url.origin) return;
+    if (disposed || event.source !== iframe.contentWindow || event.origin !== (opaque ? 'null' : url.origin)) return;
     const message = event.data;
     if (!message || message.protocol !== protocol || message.channel !== channel) return;
     if (message.type === 'ready') {

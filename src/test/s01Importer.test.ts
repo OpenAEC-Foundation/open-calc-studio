@@ -44,6 +44,6 @@ describe('S01 importer (STABU-bestek)', () => {
 
     // Bestek zonder prijzen → prijsloos skelet.
     expect(posts.every((p) => p.total === 0)).toBe(true);
-    expect(res.warnings.some((w) => w.toLowerCase().includes('prijsloze'))).toBe(true);
+    expect(res.warnings.some((w) => w.toLowerCase().includes('unpriced'))).toBe(true);
   });
 });

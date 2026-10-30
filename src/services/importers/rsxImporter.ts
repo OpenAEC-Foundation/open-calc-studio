@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 import {
   parseXml,
   getText,
@@ -66,7 +67,7 @@ function importSimpleRsx(doc: Document): ImportResult {
     });
   });
 
-  if (items.length === 0) warnings.push('RSX bevat geen deelramingen.');
+  if (items.length === 0) warnings.push(uiText("diagnostics.rsxImporter.rsxContainsNoSubEstimates", "RSX contains no sub-estimates."));
 
   return { schedule: { name }, items, warnings, format: 'rsx' };
 }
@@ -212,7 +213,7 @@ function importRealRaw(doc: Document): ImportResult {
     }
   }
 
-  if (items.length === 0) warnings.push('RSX bevat geen besteksposten.');
+  if (items.length === 0) warnings.push(uiText("diagnostics.rsxImporter.rsxContainsNoSpecificationItems", "RSX contains no specification items."));
 
   return {
     schedule: {

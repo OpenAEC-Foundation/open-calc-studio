@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 /**
  * .DNC importer — een extern begrotingsformaat (STABU-directiebegroting).
  *
@@ -292,7 +293,7 @@ export function buildDncImport(
     } else {
       // Geen (eenduidige) KU-detail → samenvattende regels uit de KK-totalen,
       // zodat het posttotaal exact klopt (loon/materiaal/onderaanneming).
-      if (ambiguous && kuList) warnings.push(`Post ${code2} deelt zijn code met een andere post; middelen samengevat i.p.v. gedetailleerd.`);
+      if (ambiguous && kuList) warnings.push(uiText('diagnostics.dncSharedCode', "Item {{code}} shares its code with another item; resources were summarized rather than itemized.", { code: code2 }));
       let rsort = 0;
       const summary: Array<[ResourceType, number, string]> = [
         ['arbeid', tot1, 'Arbeid'],
@@ -349,7 +350,7 @@ export function buildDncImport(
     }));
   if (props.length) schedule.projectProperties = props;
 
-  if (!KK.length) warnings.push('Geen KK-tabel (posten) gevonden in het .DNC-bestand.');
+  if (!KK.length) warnings.push(uiText("diagnostics.dncImporter.noKKTableItemsFoundInThe", "No KK table (items) found in the .DNC file."));
   return { schedule, items, warnings };
 }
 

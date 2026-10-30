@@ -1,3 +1,4 @@
+import { uiText } from '../../i18n/uiText';
 import type { ExportInput, ExportResult } from './types';
 import type { CostItem } from '@/types/costModel';
 import { buildXml, formatDutch, denormalizeUnit, type XmlNode } from './xmlBuilder';
@@ -26,7 +27,7 @@ function renderDeelraming(ch: CostItem, all: CostItem[], warnings: string[]): Xm
   const subs = kids.filter((it) => it.rowType === 'chapter');
 
   if (subs.length > 0) {
-    warnings.push(`RSX: geneste chapters onder "${ch.description ?? ch.code}" worden afgevlakt (CROW RSX ondersteunt 1 niveau Deelraming)`);
+    warnings.push(uiText('diagnostics.rsxFlattened', "RSX: nested chapters under \"{{name}}\" were flattened; CROW RSX supports one sub-estimate level.", { name: ch.description ?? ch.code }));
   }
 
   return {

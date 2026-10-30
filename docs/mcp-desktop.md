@@ -1,6 +1,20 @@
 # Desktopfuncties via één MCP-server
 
-De bestaande Open Calc Studio MCP-server bevat zowel bestandsbewerkingen zonder venster als bediening van de draaiende desktopapp. De nieuwe `app_*`-tools gebruiken de actuele desktopbegroting. De 202 JSON-aanroepbare store-acties worden uit de TypeScript-interfaces gegenereerd; daarnaast zijn er opdrachten voor bestanden, PDF-metingen en IFC-Lite. Alleen drie interne uitbreidingshooks die JavaScript-functies als argument vereisen, zijn geen MCP-acties. Die hooks zijn geen gebruikerscommando's.
+De bestaande Open Calc Studio MCP-server bevat zowel bestandsbewerkingen zonder venster als bediening van de draaiende desktopapp. De nieuwe `app_*`-tools gebruiken de actuele desktopbegroting. De 211 JSON-aanroepbare store-acties worden uit de TypeScript-interfaces gegenereerd; daarnaast zijn er opdrachten voor bestanden, PDF-metingen, IFC-Lite en controlecentrum. Alleen drie interne uitbreidingshooks die JavaScript-functies als argument vereisen, zijn geen MCP-acties. Die hooks zijn geen gebruikerscommando's.
+
+## Controlecentrum
+
+`review.list` geeft meldingen, categorietellers en aantallen regels voor de
+actieve variant, inclusief ingeklapte regels. Optioneel: `category` met
+`all`, `price`, `source` of `unit`. De tellers beschrijven de hele controle;
+alleen `issues` wordt op de gekozen categorie gefilterd. Geen bronbytes.
+
+`review.open` opent het overzicht en kan dezelfde `category` instellen.
+`review.openItem` met `itemId` uit de meldingen selecteert de juiste regel
+en klapt ouders uit. Een inmiddels opgeloste of niet-actieve regel wordt
+geweigerd. Bedragen, wijzigingsstatus en undo blijven behouden.
+`setReviewFilter` en `setReviewIssue` zijn ook store-acties. De pure SDK
+exporteert `reviewBudget` voor dezelfde controles zonder desktopvenster.
 
 ## Verbinden
 
@@ -66,3 +80,36 @@ Volledige functionele gelijkheid met de interface is nog niet aangetoond. Bij br
 - De cloudaanmelding vereist gebruikersinteractie. De beschikbaarheid in de catalogus is geen bewijs dat alle account-/cloudpaden zijn getest.
 
 Een visuele UI-test is in deze sessie niet uitgevoerd: native desktopbediening was niet beschikbaar en de opgeslagen browsertoestemming blokkeerde het openen van de lokale webinterface. API- en unit-tests vervangen die visuele controle niet.
+
+## Werkplekken, brongegevens en financiële voorstellen (2026.44.1)
+
+- `workspace.layouts` geeft de ingebouwde en eigen werkplekken. Gebruik
+  `applyWorkspaceLayout`, `saveWorkspaceLayout` en `deleteWorkspaceLayout`
+  met de parameters uit `app_list_actions` om dezelfde indelingen te beheren.
+- `workspace.openSecondScreen` opent een alleen-lezen tweede venster voor PDF
+  en hoeveelheidherkomst. De begroting wordt uitsluitend in het hoofdvenster bewerkt.
+- `quantity.origin { itemId }` leest bronidentiteit, pagina/objecten, formule,
+  koppelwaarde en waarschuwingen zonder bronbytes. `quantity.openSource`
+  navigeert met `itemId` en een optionele nulgebaseerde `sourceIndex`.
+- `assistant.preview { actions }` berekent een voorstel zonder begrotingsmutatie
+  en geeft een `id`, gewijzigde regels, aannames en financiële totalen terug.
+- `assistant.apply { proposalId }` keurt dat voorbereide voorstel expliciet goed.
+  De volledige begrotingswijziging krijgt één undo-stap. Een inmiddels gewijzigde
+  begroting of een ander actief document wordt geweigerd.
+- `assistant.discard { proposalId }` verwerpt het voorstel.
+- `assistant.undo { proposalId }` draait de hele toegepaste wijziging terug,
+  mits er geen latere bewerkingen zijn en het oorspronkelijke document actief is.
+
+Voorstel-ID's zijn sessiegebonden en eenmalig voor toepassing. De server bewaart
+maximaal 50 voorbereide voorstellen; bereid verlopen voorstellen opnieuw voor.
+Deze functies gebruiken het actuele desktopdocument. De aparte headless rekenservice
+blijft een onafhankelijke rekeninterface en opent geen vensters.
+
+### IFC-resultaten in één keer selecteren
+
+`ifc.selectFiltered {search?: string}` vervangt de 3D-selectie door alle
+naam/type-overeenkomsten, onafhankelijk van de zichtbare pagina van 100
+elementen. Een lege zoektekst selecteert het hele geopende model.
+`ifc.select {elementIds: []}` wist de selectie. Met `ifc.getSelection`
+controleer je het resultaat; `ifc.listElements {search}` leest dezelfde
+zoekresultaten. Een geladen 3D-model is vereist voor selectie.

@@ -2,17 +2,27 @@
 # Unieke naam: de Cargo-default "app" botst met andere Tauri-projecten op deze
 # machine (zelfde dev-binarynaam app.exe) en werd daardoor extern gekild.
 name = "open-calc-studio"
-version = "0.13.0"
+version = "2026.44.5"
 description = "A Tauri App"
-authors = ["you"]
+authors = ["OpenAEC Foundation"]
 license = "LGPL-3.0-only"
-repository = ""
+repository = "https://github.com/OpenAEC-Foundation/open-calc-studio"
 edition = "2021"
 rust-version = "1.77.2"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 default-run = "open-calc-studio"
+
+# Tauri's automatic src/bin discovery can omit an auxiliary executable when
+# several binaries have no explicit source path. Keep both PDF tools in bundles.
+[[bin]]
+name = "gen_pdf"
+path = "src/bin/gen_pdf.rs"
+
+[[bin]]
+name = "render_view_pdf"
+path = "src/bin/render_view_pdf.rs"
 
 [lib]
 name = "app_lib"

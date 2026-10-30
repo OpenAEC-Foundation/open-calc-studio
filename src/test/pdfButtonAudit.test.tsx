@@ -1,0 +1,27 @@
+import { act } from 'react';
+import { createRoot,type Root } from 'react-dom/client';
+import { beforeEach,afterEach,it,expect,vi } from 'vitest';
+import { PdfViewer } from '@/components/viewers/PdfViewer';
+import { useAppStore } from '@/state/appStore';
+import i18next from '@/i18n/config';
+
+vi.mock('pdfjs-dist',()=>({GlobalWorkerOptions:{workerSrc:''},getDocument:()=>({promise:Promise.resolve({numPages:3,getPage:async()=>({getViewport:({scale}:{scale:number})=>({width:600*scale,height:800*scale}),render:()=>({promise:Promise.resolve(),cancel:()=>{}})})}),destroy:async()=>{}})}));
+const initial=useAppStore.getState();let root:Root,node:HTMLDivElement;
+const tr=(key:string)=>i18next.t('workspace.'+key,{defaultValue:i18next.t(key)});
+function button(key:string){const label=tr(key);const result=[...node.querySelectorAll<HTMLButtonElement>('button')].find(b=>b.textContent===label);expect(result,label).toBeTruthy();return result!;}
+const workspace=()=>useAppStore.getState().schedule.pdfWorkspace!;
+async function click(key:string){await act(async()=>button(key).click());}
+async function mount(){await act(async()=>root.render(<PdfViewer/>));await vi.waitFor(async()=>{await act(async()=>{await new Promise(resolve=>setTimeout(resolve,0));});expect(button('pdf.next')).not.toBeDisabled();});}
+async function point(x:number,y:number){const overlay=node.querySelectorAll('canvas')[1];await act(async()=>overlay.dispatchEvent(new MouseEvent('click',{clientX:x,clientY:y,bubbles:true})));}
+beforeEach(async()=>{(globalThis as {IS_REACT_ACT_ENVIRONMENT?:boolean}).IS_REACT_ACT_ENVIRONMENT=true;await i18next.changeLanguage('en');useAppStore.setState(initial,true);const s=useAppStore.getState();s.addDocument({id:'pdf-button-audit',items:[]});s.setSchedule({pdfWorkspace:{version:1,activeSourceId:'pdf',sources:[{id:'pdf',fileName:'Synthetic.pdf',dataBase64:'JVBERi0=',pageScales:{'1':1000},measurements:[]}]}});node=document.createElement('div');document.body.append(node);root=createRoot(node);
+ const context={clearRect:()=>{},beginPath:()=>{},moveTo:()=>{},lineTo:()=>{},closePath:()=>{},fill:()=>{},stroke:()=>{},arc:()=>{}};
+ vi.spyOn(HTMLCanvasElement.prototype,'getContext').mockReturnValue(context as unknown as CanvasRenderingContext2D);vi.spyOn(HTMLCanvasElement.prototype,'getBoundingClientRect').mockImplementation(function(this:HTMLCanvasElement){return {left:0,top:0,right:this.width,bottom:this.height,width:this.width,height:this.height,x:0,y:0,toJSON:()=>({})};});vi.spyOn(window,'prompt').mockReturnValue('5');vi.spyOn(window,'confirm').mockReturnValue(true);
+});
+afterEach(async()=>{await act(async()=>root.unmount());node.remove();vi.restoreAllMocks();});
+it('page and zoom controls change the actual viewer state and bound navigation',async()=>{await mount();expect(button('pdf.previous')).toBeDisabled();await click('pdf.next');expect(useAppStore.getState().pdfPage).toBe(2);await click('pdf.next');expect(useAppStore.getState().pdfPage).toBe(3);expect(button('pdf.next')).toBeDisabled();await click('pdf.previous');expect(useAppStore.getState().pdfPage).toBe(2);const zoom=useAppStore.getState().pdfZoom;await click('+');expect(useAppStore.getState().pdfZoom).toBe(zoom+.25);await click('−');expect(useAppStore.getState().pdfZoom).toBe(zoom);});
+it('length, Finish and confirmed Remove modify persisted measurements',async()=>{await mount();await click('pdf.length');await point(0,0);await point(150,0);await click('pdf.finish');expect(workspace().sources[0].measurements).toHaveLength(1);expect(workspace().sources[0].measurements[0]).toMatchObject({type:'length',value:100,page:1});expect(useAppStore.getState().documents[0].isModified).toBe(true);await click('remove');expect(workspace().sources[0].measurements).toHaveLength(0);});
+it('area and calibration use the chosen points and known distance',async()=>{await mount();await click('pdf.choosePoints');await point(0,0);await point(150,0);await click('pdf.finish');expect(workspace().sources[0].pageScales['1']).toBe(50);await click('pdf.area');await point(0,0);await point(30,0);await point(30,30);await click('pdf.finish');expect(workspace().sources[0].measurements[0].value).toBeCloseTo(.5);});
+it('Cancel clears pending points without adding a measurement',async()=>{await mount();await click('pdf.length');await point(0,0);await click('cancel');expect(workspace().sources[0].measurements).toHaveLength(0);expect(button('pdf.finish')).toBeDisabled();});
+it('invalid geometry displays an error instead of creating a measurement',async()=>{await mount();await click('pdf.area');await point(0,0);await point(150,0);await click('pdf.finish');expect(workspace().sources[0].measurements).toHaveLength(0);expect(node.querySelector('[role=alert]')).toBeTruthy();});
+it('file picker buttons request PDF and measurement JSON inputs',async()=>{const picker=vi.spyOn(HTMLInputElement.prototype,'click').mockImplementation(()=>{});await mount();await click('pdf.add');expect((picker.mock.contexts[0] as HTMLInputElement).accept).toBe('.pdf');await click('pdf.import');expect((picker.mock.contexts[1] as HTMLInputElement).accept).toBe('.json');});
+it('read-only companion has navigation controls but no destructive or measuring buttons',async()=>{await act(async()=>root.render(<PdfViewer readOnly/>));expect(node.querySelector('input[type=file]')).toBeNull();expect([...node.querySelectorAll('button')].some(b=>b.textContent===tr('pdf.length'))).toBe(false);expect([...node.querySelectorAll('button')].some(b=>b.textContent===tr('pdf.next'))).toBe(true);});

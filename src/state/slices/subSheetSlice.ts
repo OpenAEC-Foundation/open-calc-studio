@@ -31,6 +31,13 @@ export interface SubSheetSlice {
 }
 
 export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
+  // Hydration and navigation keep their original setter; user edits must trigger Save/close protection.
+  const edit = (patch: Partial<SubSheetSlice> | ((state: SubSheetSlice) => Partial<SubSheetSlice>)) => {
+    set(patch);
+    const state = get() as unknown as { activeDocumentId?: string; updateDocument?: (id: string, patch: { isModified: boolean }) => void };
+    if (state.activeDocumentId) state.updateDocument?.(state.activeDocumentId, { isModified: true });
+  };
+
   // Helper to push a snapshot of the current sheet state before mutation.
   // Uses `get() as any` to access the spreadsheetHistorySlice action since
   // slices are composed in appStore.ts.
@@ -60,7 +67,7 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
       rows: 50,
       cells: {},
     };
-    set((s) => ({
+    edit((s) => ({
       subSheets: [...s.subSheets, sheet],
       activeSubSheetId: id,
     }));
@@ -69,7 +76,7 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
 
   removeSubSheet: (id) => {
     snapshot(id);
-    set((s) => {
+    edit((s) => {
       const filtered = s.subSheets.filter((ss) => ss.id !== id);
       return {
         subSheets: filtered,
@@ -82,7 +89,7 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
 
   renameSubSheet: (id, name) => {
     snapshot(id);
-    set((s) => ({
+    edit((s) => ({
       subSheets: s.subSheets.map((ss) =>
         ss.id === id ? { ...ss, name } : ss
       ),
@@ -93,7 +100,7 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
 
   setSubSheetCell: (sheetId, cellRef, value) => {
     snapshot(sheetId);
-    set((s) => ({
+    edit((s) => ({
       subSheets: s.subSheets.map((ss) => {
         if (ss.id !== sheetId) return ss;
         const cell: SubSheetCell = { value };
@@ -116,7 +123,7 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
 
   setSubSheetCells: (sheetId, cells) => {
     snapshot(sheetId);
-    set((s) => ({
+    edit((s) => ({
       subSheets: s.subSheets.map((ss) =>
         ss.id === sheetId ? { ...ss, cells } : ss
       ),
@@ -125,7 +132,7 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
 
   toggleSubSheetCellBold: (sheetId, cellRef) => {
     snapshot(sheetId);
-    set((s) => ({
+    edit((s) => ({
       subSheets: s.subSheets.map((ss) => {
         if (ss.id !== sheetId) return ss;
         const cell = ss.cells[cellRef] || { value: '' };
@@ -136,7 +143,7 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
 
   toggleSubSheetCellItalic: (sheetId, cellRef) => {
     snapshot(sheetId);
-    set((s) => ({
+    edit((s) => ({
       subSheets: s.subSheets.map((ss) => {
         if (ss.id !== sheetId) return ss;
         const cell = ss.cells[cellRef] || { value: '' };
@@ -147,7 +154,7 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
 
   setSubSheetCellAlign: (sheetId, cellRef, align) => {
     snapshot(sheetId);
-    set((s) => ({
+    edit((s) => ({
       subSheets: s.subSheets.map((ss) => {
         if (ss.id !== sheetId) return ss;
         const cell = ss.cells[cellRef] || { value: '' };
@@ -158,7 +165,7 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
 
   setSubSheetCellFormat: (sheetId, cellRef, format) => {
     snapshot(sheetId);
-    set((s) => ({
+    edit((s) => ({
       subSheets: s.subSheets.map((ss) => {
         if (ss.id !== sheetId) return ss;
         const cell = ss.cells[cellRef] || { value: '' };
@@ -169,7 +176,7 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
 
   setSubSheetCellDecimals: (sheetId, cellRef, decimals) => {
     snapshot(sheetId);
-    set((s) => ({
+    edit((s) => ({
       subSheets: s.subSheets.map((ss) => {
         if (ss.id !== sheetId) return ss;
         const cell = ss.cells[cellRef] || { value: '' };
@@ -180,7 +187,7 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
 
   setSubSheetCellFontSize: (sheetId, cellRef, fontSize) => {
     snapshot(sheetId);
-    set((s) => ({
+    edit((s) => ({
       subSheets: s.subSheets.map((ss) => {
         if (ss.id !== sheetId) return ss;
         const cell = ss.cells[cellRef] || { value: '' };
@@ -191,7 +198,7 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
 
   setSubSheetRowColor: (sheetId, rowIndex, color) => {
     snapshot(sheetId);
-    set((s) => ({
+    edit((s) => ({
       subSheets: s.subSheets.map((ss) => {
         if (ss.id !== sheetId) return ss;
         const rowColors = { ...(ss.rowColors ?? {}) };
@@ -204,7 +211,7 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
 
   setSubSheetColumnWidth: (sheetId, col, width) => {
     snapshot(sheetId);
-    set((s) => ({
+    edit((s) => ({
       subSheets: s.subSheets.map((ss) =>
         ss.id === sheetId
           ? { ...ss, columnWidths: { ...(ss.columnWidths ?? {}), [col]: Math.max(40, width) } }
@@ -222,7 +229,7 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
 
   setSubSheetCellBorders: (sheetId, cellRef, borders) => {
     snapshot(sheetId);
-    set((s) => ({
+    edit((s) => ({
       subSheets: s.subSheets.map((ss) => {
         if (ss.id !== sheetId) return ss;
         const cell = ss.cells[cellRef] ?? { value: '' };
@@ -235,7 +242,7 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
     if (cellRefs.length === 0) return;
     snapshot(sheetId);
     const map = applyPreset(cellRefs, preset);
-    set((s) => ({
+    edit((s) => ({
       subSheets: s.subSheets.map((ss) => {
         if (ss.id !== sheetId) return ss;
         const newCells = { ...ss.cells };

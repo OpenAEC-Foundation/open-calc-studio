@@ -1,3 +1,4 @@
+import { uiText } from '@/i18n/uiText';
 import { importXmlBudget, exportXmlBudget } from '../../services/exchange/xmlBudget';
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -9,7 +10,7 @@ import { importIfcx } from "../../services/importers/ifcxImporter";
 import { recalculateItems } from "../../services/calculation/calculator";
 import { exportInschrijfstaatAsync } from "../../services/export/inschrijfstaatExporter";
 import { exportWpCalcFile } from "../../services/export/wpcalcExporter";
-import { printBudget } from "../../services/print/printService";
+import { outputCurrentReport } from "@/services/report/reportOutput";
 import { isTauriEnvironment } from "../../services/file/nativeFileService";
 import {
   importCuf, importTradxml, importRsx, importRsu, importZsx, importNsx, importS01, importSufx, importBmecat, importOnlv, importGaeb,
@@ -22,7 +23,7 @@ import ExtensionManagerPanel from "./ExtensionManagerPanel";
 import { CloudPanel } from "./CloudPanel";
 import ColumnMappingDialog from "./ColumnMappingDialog";
 import { showImportWarnings } from "../common/ImportWarningsDialog";
-import { OPENAEC_ENABLED } from "../../services/buildFlags";
+import { OPENAEC_ENABLED, USER_EXTENSIONS_ENABLED, allowsExternalServices } from "../../services/buildFlags";
 import "./Backstage.css";
 
 const ICONS = {
@@ -39,11 +40,11 @@ const ICONS = {
   extensions: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>',
 };
 
-function MenuItem({ icon, label, shortcut, active, onClick }: {
-  icon: string; label: string; shortcut?: string; active?: boolean; onClick: () => void;
+function MenuItem({ icon, label, shortcut, active, disabled, onClick }: {
+  icon: string; label: string; shortcut?: string; active?: boolean; disabled?: boolean; onClick: () => void;
 }) {
   return (
-    <button className={`backstage-item${active ? " active" : ""}`} onClick={onClick}>
+    <button className={`backstage-item${active ? " active" : ""}`} disabled={disabled} onClick={onClick}>
       <span className="backstage-item-icon" dangerouslySetInnerHTML={{ __html: icon }} />
       <span className="backstage-item-label">{label}</span>
       {shortcut && <span className="backstage-item-shortcut">{shortcut}</span>}
@@ -483,7 +484,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
   const handleGaebOffer = useCallback(async () => {
     const apply = (xml: string) => {
       const store = useAppStore.getState();
-      if (!store.activeDocumentId) throw new Error('Open eerst het bijbehorende GAEB X83-bestek.');
+      if (!store.activeDocumentId) throw new Error(uiText("import.gaebBase", "Open the matching GAEB X83 bill of quantities first."));
       const result = applyGaebX84(xml, store.items);
       store.setItems(recalculateItems(result.items, store.schedule.tarieven));
       store.updateDocument(store.activeDocumentId, { isModified: true });
@@ -670,21 +671,21 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
           <MenuItem icon={ICONS.save} label={t("save")} shortcut="Ctrl+S" onClick={() => { onClose(); void saveFile(); }} />
           <MenuItem icon={ICONS.save} label={t("saveAs")} shortcut="Ctrl+Shift+S" onClick={() => { onClose(); void saveFileAs(); }} />
           <Divider />
-          <MenuItem icon={ICONS.print} label={t("printMenu")} shortcut="Ctrl+P" onClick={() => { printBudget(schedule, items, 'hoofdaanneming'); onClose(); }} />
+          <MenuItem icon={ICONS.print} label={t("printMenu")} shortcut="Ctrl+P" onClick={() => { onClose(); void outputCurrentReport('print').catch(error => alert(String(error))); }} />
           <Divider />
           <MenuItem icon={ICONS.import} label={t("import")} active={activePanel === "import"} onClick={() => setActivePanel("import")} />
           <MenuItem icon={ICONS.export} label={t("export")} active={activePanel === "export"} onClick={() => setActivePanel("export")} />
-          {OPENAEC_ENABLED && (
+          {OPENAEC_ENABLED && allowsExternalServices() && (
             <MenuItem icon={ICONS.cloud} label="OpenAEC Cloud" active={activePanel === "cloud"} onClick={() => setActivePanel("cloud")} />
           )}
           <Divider />
-          <MenuItem icon={ICONS.extensions} label={t("extensions")} active={activePanel === "extensions"} onClick={() => setActivePanel("extensions")} />
+          {USER_EXTENSIONS_ENABLED && allowsExternalServices() && <MenuItem icon={ICONS.extensions} label={t("extensions")} active={activePanel === "extensions"} onClick={() => setActivePanel("extensions")} />}
           <Divider />
           <MenuItem icon={ICONS.preferences} label={t("preferences")} shortcut="Ctrl+," onClick={() => actionAndClose(onOpenSettings)} />
           <Divider />
           <MenuItem icon={ICONS.about} label={t("about")} active={activePanel === "about"} onClick={() => setActivePanel("about")} />
           <Divider />
-          <MenuItem icon={ICONS.exit} label={t("exit")} shortcut="Alt+F4" onClick={() => {
+          <MenuItem icon={ICONS.exit} label={t("exit")} disabled={!isTauriEnvironment()} shortcut="Alt+F4" onClick={() => {
             onClose();
             import("@tauri-apps/api/window").then(({ getCurrentWindow }) => getCurrentWindow().close()).catch(() => {});
           }} />
@@ -733,8 +734,8 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
           </div>
         )}
         {activePanel === "about" && <AboutPanel />}
-        {activePanel === "extensions" && <ExtensionManagerPanel />}
-        {activePanel === "cloud" && <CloudPanel onClose={onClose} />}
+        {USER_EXTENSIONS_ENABLED && allowsExternalServices() && activePanel === "extensions" && <ExtensionManagerPanel />}
+        {OPENAEC_ENABLED && allowsExternalServices() && activePanel === "cloud" && <CloudPanel onClose={onClose} />}
         {activePanel === "import" && (
           <div className="bs-panel">
             <h2 className="bs-panel-title">{t("importPanel.title")}</h2>
@@ -840,21 +841,21 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
                 <div className="bs-panel-option-text">
                   <strong>GAEB DA XML (.x83)</strong>
-                  <span>Duits bestek importeren; X84-prijzen vereisen het bijbehorende X83-bestek.</span>
+                  <span>{uiText("import.gaebHelp", "Import a German bill of quantities; X84 prices require the matching X83 file.")}</span>
                 </div>
               </button>
               <button className="bs-panel-option" onClick={() => void handleXmlImport('XPWE / XC4', ['xpwe', 'xc4', 'xml'], importXmlBudget)}>
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
                 <div className="bs-panel-option-text">
                   <strong>XPWE / XC4</strong>
-                  <span>Italiaanse en Tsjechische begrotingen met bronbestand voor terugexport.</span>
+                  <span>{uiText("import.xmlHelp", "Italian and Czech estimates, retaining the source file for export.")}</span>
                 </div>
               </button>
               <button className="bs-panel-option" onClick={() => void handleGaebOffer()}>
                 <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
                 <div className="bs-panel-option-text">
-                  <strong>GAEB-aanbieding (.x84)</strong>
-                  <span>Neem biedprijzen over in het geopende X83-bestek.</span>
+                  <strong>{uiText("import.offer", "GAEB offer (.x84)")}</strong>
+                  <span>{uiText("import.offerHelp", "Apply bid prices to the open X83 bill of quantities.")}</span>
                 </div>
               </button>
               <button
@@ -921,8 +922,8 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
                 <button className="bs-panel-option" onClick={() => void handleXmlExport(schedule.budgetExchange!.format, 'XPWE / XC4')}>
                   <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.export }} />
                   <div className="bs-panel-option-text">
-                    <strong>Terug naar {schedule.budgetExchange.format.toUpperCase()}</strong>
-                    <span>Schrijf ondersteunde wijzigingen terug naar het bronbestand.</span>
+                    <strong>{uiText("export.back", "Back to")}{schedule.budgetExchange.format.toUpperCase()}</strong>
+                    <span>{uiText("export.sourceHelp", "Write supported changes back to the source file.")}</span>
                   </div>
                 </button>
               )}

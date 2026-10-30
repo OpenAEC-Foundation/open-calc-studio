@@ -73,7 +73,10 @@
     "invalidCell": "Gebruik een celadres zoals A1 of B12.",
     "noResults": "Geen resultaten gevonden.",
     "showMore": "Toon meer (nog {{count}})",
-    "noItems": "Nog geen begrotingsregels. Voeg een hoofdstuk, post of rekenregel toe."
+    "noItems": "Nog geen begrotingsregels. Voeg een hoofdstuk, post of rekenregel toe.",
+    "linkedQuantity": "Deze hoeveelheid volgt de bron. Ontkoppel de bron om zelf een waarde in te voeren.",
+    "unlinkQuantity": "Hoeveelheid ontkoppelen",
+    "unlinkPending": "De koppeling wordt verwijderd zodra je op Gereed drukt."
   },
   "chapter": "Hoofdstuk",
   "budgetPost": "Begr.post",
@@ -235,7 +238,12 @@
     "thisBudget": "Deze begroting",
     "objectCount": "{{count}} objecten",
     "linkedVia": "Gekoppeld via {{guid}} — komt ook voor in: {{files}}",
-    "linkLabel": "link"
+    "linkLabel": "link",
+    "selectFiltered": "Alle resultaten selecteren ({{count}})",
+    "clearSelection": "Selectie wissen",
+    "shown": "{{from}}–{{to}} van {{count}} resultaten · {{total}} modelelementen",
+    "previousPage": "Vorige pagina",
+    "nextPage": "Volgende pagina"
   },
   "ifcxFolder": {
     "rootFolder": "/ (hoofdmap)",
@@ -512,5 +520,623 @@
     "delete": "Verwijderen",
     "cutPaste": "Knippen en plakken",
     "paste": "Plakken"
+  },
+  "wizardUI": {
+    "title": "Begeleid begroten",
+    "shortTitle": "Wizard",
+    "intro": "Werk stap voor stap aan je begroting. Elke wijziging staat ook in de volledige editor.",
+    "editor": "Volledige editor openen",
+    "projectName": "Projectnaam",
+    "projectNumber": "Projectnummer",
+    "client": "Opdrachtgever",
+    "description": "Scope en aannames",
+    "allChapters": "Alle hoofdstukken",
+    "quantitiesHelp": "Voeg werkonderdelen en hoeveelheden toe. Bestaande onderliggende regels blijven behouden.",
+    "costsHelp": "Pas de onderliggende prijzen en loonkosten aan. Posten met kinderen krijgen hun prijs uit die onderliggende regels.",
+    "surchargesHelp": "Dit zijn dezelfde opslagen en btw-tarieven als in de volledige editor. Controleer de grondslagen bij Uren & Staart.",
+    "reviewHelp": "Controleer hoeveelheden, prijzen en aannames. Opslaan gebruikt het gekozen opslagdoel. Alle bestaande import- en exportformaten blijven beschikbaar in de volledige editor.",
+    "unitPrice": "Prijs per eenheid",
+    "labor": "Loon per eenheid",
+    "material": "Materiaal per eenheid",
+    "norm": "Productienorm",
+    "total": "Totaal",
+    "more": "Meer regels tonen",
+    "noPosts": "Nog geen begrotingsposten. Voeg posten toe in stap 2.",
+    "missingPrices": "Sommige posten hebben geen omschrijving of prijs. Controleer deze voordat je de begroting gebruikt.",
+    "exclTax": "Totaal exclusief btw",
+    "back": "Vorige",
+    "next": "Volgende",
+    "invalidNumber": "Voer een volledig getal in, bijvoorbeeld {{example}}.",
+    "steps": {
+      "project": "Project",
+      "quantities": "Hoeveelheden",
+      "costs": "Kosten",
+      "surcharges": "Opslagen en btw",
+      "review": "Controle"
+    },
+    "invalidSummary": "Corrigeer {{count}} ongeldige invoerveld(en), of verwijder hun conceptinvoer. De laatste geldige waarden blijven bewaard.",
+    "findInvalid": "Ga naar ongeldig veld",
+    "discardInvalid": "Ongeldige invoer verwijderen"
+  },
+  "host": {
+    "files": "Bestanden op de site",
+    "file": "Sitebestand",
+    "loading": "Bestanden laden…",
+    "empty": "Geen bestanden beschikbaar.",
+    "openLatest": "Nieuwste versie openen",
+    "versions": "Versies",
+    "version": "Versie {{version}}"
+  },
+  "workspace": {
+    "prompt": {
+      "title": "Prompt & Begroot",
+      "help": "Beschrijf het werk links; bekijk en bewerk de begroting rechts.",
+      "assistant": "Calculatieassistent"
+    },
+    "budget": "Begroting",
+    "newBudget": "Nieuwe begroting",
+    "ifc": {
+      "title": "3D & Begroting · IFC-Lite",
+      "open": "IFC openen",
+      "fit": "Alles in beeld",
+      "isolate": "Selectie isoleren",
+      "split": "Verdeling",
+      "model": "IFC-model",
+      "loading": "IFC-Lite laadt geometrie en hoeveelheden…",
+      "drop": "Open of sleep een IFC-bestand. Klik op een element; Ctrl/⌘-klik voor meerdere.",
+      "search": "Elementen zoeken",
+      "searchHint": "Zoek naam of IFC-type",
+      "quantity": "IFC-hoeveelheid",
+      "count": "Aantal elementen",
+      "select": "Selecteer elementen",
+      "takeoff": "Overnemen in geselecteerde post",
+      "target": "Selecteer rechts een begrotingspost of rekenregel.",
+      "quantityHelp": "Hoeveelheden komen uit IFC-quantitysets; controleer bruto/netto.",
+      "budgetLabel": "Begroting naast IFC",
+      "maxSize": "Gebruik een IFC tot 100 MB.",
+      "error": {
+        "openBudget": "Open eerst een begroting.",
+        "documentChanged": "Actieve begroting is gewijzigd tijdens het laden; laad het model opnieuw.",
+        "data": "fileName en dataBase64 zijn verplicht.",
+        "size": "IFC is groter dan 100 MB.",
+        "load": "Laad eerst een IFC-model, of geef een opgeslagen modelId mee.",
+        "openModel": "Open het model eerst in de 3D-weergave.",
+        "openView": "Open het model in de 3D-weergave.",
+        "selection": "Ongeldige elementselectie.",
+        "ids": "elementIds is verplicht.",
+        "target": "Selecteer een begrotingspost of rekenregel.",
+        "children": "Ongeldige rekenregel met kinderen.",
+        "empty": "Selecteer ten minste één IFC-element.",
+        "dimensions": "Hoeveelheden hebben verschillende dimensies.",
+        "unknown": "Onbekend element #{{id}}.",
+        "missingQuantity": "{{name}} heeft deze hoeveelheid niet; er is niets overgenomen.",
+        "action": "Onbekende IFC-actie: {{action}}"
+      },
+      "history": "IFC-hoeveelheid overnemen",
+      "tab": "3D & Begroting",
+      "unavailable": "3D-weergave niet beschikbaar: {{error}}",
+      "selected": "{{count}} geselecteerd",
+      "entry": "{{file}} · {{label}} ({{count}} elementen)",
+      "entry_one": "{{file}} · {{label}} ({{count}} element)",
+      "entry_other": "{{file}} · {{label}} ({{count}} elementen)"
+    },
+    "pdf": {
+      "twoPoints": "Kies precies twee punten van een bekende afstand.",
+      "distancePrompt": "Werkelijke afstand tussen deze punten, in meter:",
+      "positiveDistance": "Voer een positieve afstand in.",
+      "length": "Lengte",
+      "area": "Oppervlakte",
+      "start": "Begin met een PDF-tekening toevoegen.",
+      "opening": "De tekening wordt geopend.",
+      "calibrationHint": "Kalibreer eerst deze pagina met twee punten en een bekende afstand. Open PDF-metingen kun je ook direct importeren.",
+      "measureHint": "Kies Lengte of Oppervlakte en klik de meetpunten op de tekening.",
+      "title": "PDF-metingen",
+      "drawing": "1. Tekening",
+      "add": "PDF toevoegen",
+      "source": "PDF-bron",
+      "choose": "Kies een PDF",
+      "import": "Importeer Open PDF-metingen",
+      "scale": "2. Schaal",
+      "choosePoints": "Twee punten kiezen",
+      "uncalibrated": "Nog niet gekalibreerd",
+      "measure": "3. Meten",
+      "pan": "Bekijken",
+      "finish": "Meting afronden",
+      "previous": "Vorige pagina",
+      "next": "Volgende pagina",
+      "saved": "PDF en metingen worden samen met de begroting opgeslagen (Ctrl+S).",
+      "externalScale": "Open PDF-metingen houden hun eigen schaal en worden als hoeveelheden overgenomen.",
+      "empty": "Voeg een PDF toe om te meten of opgeslagen metingen uit Open PDF Studio te koppelen.",
+      "calibratePage": "Kalibreer eerst deze pagina.",
+      "removeConfirm": "Meting verwijderen? Een gekoppelde losse hoeveelheid behoudt de laatst bekende waarde; een gekoppeld totaal verandert.",
+      "error": {
+        "calibrate": "Kalibreer eerst de schaal.",
+        "points": "Onvoldoende geldige meetpunten.",
+        "size": "Gebruik voor deze ingebedde PDF maximaal 30 MB.",
+        "notPdf": "Dit bestand is geen PDF.",
+        "export": "Gebruik de metingenexport van de Open Calc-koppeling in Open PDF Studio.",
+        "drawing": "De PDF-naam in de export komt niet overeen met de geselecteerde PDF.",
+        "annotation": "Ongeldige annotatie.",
+        "id": "Onbekend meettype of dubbele meet-ID.",
+        "page": "Meting verwijst naar een ongeldige PDF-pagina.",
+        "value": "Meting mist een geldige waarde of gekalibreerde eenheid.",
+        "geometry": "Afstandsmeting heeft een ongeldige aangepaste schaal of geometrie.",
+        "tooLarge": "Meetwaarde is te groot."
+      },
+      "tab": "PDF & metingen",
+      "importConfirm": "{{count}} metingen overnemen voor {{file}}? Controleer dat dit dezelfde tekening en revisie is. De vorige Open PDF-metingen van deze bron worden vervangen; bestaande meet-ID's blijven gekoppeld.",
+      "pointsChosen": "{{count}} punten gekozen. Klik op “Meting afronden” wanneer de vorm compleet is.",
+      "scaleValue": "{{value}} mm per PDF-punt",
+      "pointsChosen_one": "{{count}} punt gekozen. Klik op “Meting afronden” wanneer de vorm compleet is.",
+      "pointsChosen_other": "{{count}} punten gekozen. Klik op “Meting afronden” wanneer de vorm compleet is."
+    },
+    "cancel": "Annuleren",
+    "remove": "Verwijder",
+    "pricing": {
+      "missing": "Prijs ontbreekt: vul een gecontroleerde prijs en bron in.",
+      "notice": "Nederlandse basisbibliotheek. Controleer prijs en peildatum vóór calculatie. Een ontbrekende prijs wordt niet als geverifieerde prijs overgenomen.",
+      "enter": "Invullen",
+      "source": "Bron:",
+      "conversion": "Deze broneenheid vereist handmatige omzetting; toevoegen is geblokkeerd.",
+      "selectParent": "Selecteer eerst een begrotingspost om een middel toe te voegen.",
+      "reference": "Ongeverifieerde referentie: {{price}} per {{unit}}. Peildatum en btw-basis onbekend.",
+      "title": "Prijzen",
+      "library": "Prijsbibliotheek NL"
+    },
+    "import": {
+      "gaebBase": "Open eerst het bijbehorende GAEB X83-bestek.",
+      "gaebHelp": "Duits bestek importeren; X84-prijzen vereisen het bijbehorende X83-bestek.",
+      "xmlHelp": "Italiaanse en Tsjechische begrotingen met bronbestand voor terugexport.",
+      "offer": "GAEB-aanbieding (.x84)",
+      "offerHelp": "Neem biedprijzen over in het geopende X83-bestek."
+    },
+    "export": {
+      "back": "Terug naar",
+      "sourceHelp": "Schrijf ondersteunde wijzigingen terug naar het bronbestand."
+    },
+    "chat": {
+      "apply": "Toepassen in begroting",
+      "discard": "Verwerpen",
+      "discarded": "Voorstel verworpen.",
+      "stale": "De begroting is veranderd sinds dit voorstel. Stel de opdracht opnieuw.",
+      "failed": "Voorstel niet volledig toegepast. Controleer de meldingen en gebruik Ongedaan maken indien nodig.",
+      "chapter": "Nieuw hoofdstuk: {{code}} {{description}}",
+      "post": "Nieuwe post onder {{parent}}: {{description}}",
+      "line": "Nieuwe regel onder {{parent}}: {{quantity}} {{unit}} {{description}}{{price}}",
+      "delete": "Verwijder nr {{number}} inclusief onderliggende regels",
+      "count": "{{count}} voorgestelde wijziging(en)",
+      "localProposal": "Ik stel één begrotingsregel voor. Controleer de gegevens en klik daarna op Toepassen.",
+      "example": "Voeg onder {{parent}} een regel toe: 12 m³ Beton C30 à €145",
+      "actions": {
+        "tooMany": "Te veel voorgestelde wijzigingen (maximaal 100).",
+        "action": "Actie {{p0}}",
+        "invalid": "{{p0}}: ongeldige actie.",
+        "missing": "{{p0}}: nr {{p1}} bestaat niet.",
+        "field": "{{p0}}: onbekend veld.",
+        "finite": "{{p0}}: waarde moet een eindig getal zijn.",
+        "unit": "{{p0}}: onbekende eenheid.",
+        "rate": "{{p0}}: onbekende tariefgroep.",
+        "text": "{{p0}}: tekstwaarde ontbreekt.",
+        "description": "{{p0}}: omschrijving ontbreekt.",
+        "parentChapter": "{{p0}}: kies een bestaand hoofdstuk als ouder.",
+        "quantity": "{{p0}}: aantal moet een eindig getal zijn.",
+        "parentItem": "{{p0}}: kies een bestaande begrotingspost als ouder.",
+        "numbers": "{{p0}}: aantal, prijs en norm moeten eindige getallen zijn.",
+        "resource": "{{p0}}: onbekend middeltype.",
+        "unknown": "{{p0}}: onbekende actie {{p1}}.",
+        "history": "Calculatieassistent",
+        "newChapter": "Nieuw hoofdstuk",
+        "newPost": "Nieuwe post",
+        "newLine": "Nieuwe regel",
+        "chapterAdded": "✔ Hoofdstuk {{p0}} \"{{p1}}\" toegevoegd",
+        "postAdded": "✔ Post \"{{p0}}\" toegevoegd onder {{p1}}",
+        "lineAdded": "✔ Regel \"{{p0}}\" toegevoegd onder {{p1}}",
+        "deleted": "✔ {{p0}} \"{{p1}}\" verwijderd ({{p2}} regel{{p3}})",
+        "unknownAction": "onbekende actie \"{{p0}}\"",
+        "none": "✖ Geen wijzigingen toegepast."
+      },
+      "update": "Nr {{number}}: {{field}} → {{value}}",
+      "fields": {
+        "aantal": "Aantal",
+        "hoeveelheid": "Hoeveelheid",
+        "prijs": "Eenheidsprijs",
+        "omschrijving": "Omschrijving",
+        "eenheid": "Eenheid",
+        "norm": "Norm",
+        "tariefgroep": "Tariefgroep",
+        "code": "Code"
+      }
+    },
+    "error": {
+      "title": "Er is een fout opgetreden",
+      "reload": "Herlaad applicatie"
+    },
+    "files": {
+      "noImporter": "Geen importer gevonden voor .{{extension}} bestanden",
+      "openFailed": "Kan bestand niet openen: {{error}}"
+    },
+    "summary": {
+      "siteCosts": "UKK",
+      "overheads": "AK",
+      "profitRisk": "W&R"
+    },
+    "defaults": {
+      "subcontractOverhead": "Algemene kosten over onderaanneming:",
+      "generalOverhead": "Algemene bedrijfskosten:",
+      "guarantees": "Garanties:",
+      "preparation": "Werkvoorbereiding & projectmanagement",
+      "risk": "Risico:",
+      "profit": "Winst:",
+      "insurance": "Verzekering:",
+      "vatLow": "Btw laag:",
+      "vatHigh": "Btw hoog:",
+      "rounding": "Afronding"
+    },
+    "diagnostics": {
+      "onlvExporter": {
+        "surchargeRowsWereNotExportedNORMA": "{{p0}} staartregel(s) niet geëxporteerd — ÖNORM A 2063 kent geen opslagen per LV; de ontvanger rekent zijn eigen indirecte kosten.",
+        "chaptersDeeperThanLevelsWereFlattenedInto": "{{p0}} hoofdstuk(ken) dieper dan {{p1}} niveaus zijn in hun Unterleistungsgruppe platgeslagen; de kop staat er als wählbare Vorbemerkung.",
+        "notesForMainGroupWereNotExported": "Notities van hoofdgroep '{{p0}}' niet geëxporteerd — een hg kent in A 2063 alleen een kop.",
+        "calculationLinesWereIncludedInTheirItem": "{{p0}} rekenregel(s) zijn in de eenheidsprijs van hun post opgegaan — A 2063 kent geen samenstelling per positie.",
+        "itemsWithUnitsUnsupportedByA2063": "{{p0}} positie(s) met een eenheid die A 2063 niet kent zijn als Stk geëxporteerd."
+      },
+      "assistantActions": {
+        "noWasNotFound": "nr {{p0}} niet gevonden",
+        "unknownField": "onbekend veld \"{{p0}}\"",
+        "theValueIsNotANumber": "waarde is geen getal",
+        "parentNoWasNotFound": "onderNr {{p0}} niet gevonden"
+      },
+      "fileService": {
+        "thisFileUsesANewerIfcCalcFormat": "Dit bestand gebruikt een nieuwer .ifcCalc-formaat ({{p0}}) dan deze app ondersteunt (t/m {{p1}}). Werk Open Calc Studio bij om het te openen."
+      },
+      "gaebImporter": {
+        "notAGAEBDAXMLFile": "Geen GAEB DA XML-bestand.",
+        "gaebExchangePhaseIsNotSupportedAs": "GAEB-uitwisselfase {{p0}} wordt niet als bestek ondersteund.",
+        "theGAEBFileHasNoBoQBody": "GAEB-bestand bevat geen BoQBody.",
+        "theGAEBBillOfQuantitiesHasMore": "GAEB-bestek heeft meer dan 30 hiërarchieniveaus.",
+        "theGAEBFileContainsNoEstimateItems": "GAEB-bestand bevat geen begrotingsposten.",
+        "gaebX84ContainsBidPricesOnlyImport": "GAEB X84 bevat alleen aanbiedingsprijzen. Importeer eerst het bijbehorende X83-bestek; X84-samenvoeging is nog niet beschikbaar.",
+        "gaebItemsHadNoDescriptionCheckThem": "{{p0}} GAEB-posities hadden geen omschrijving; controleer deze na import.",
+        "gaebItemsHadNoQuantityCheckThem": "{{p0}} GAEB-posities hadden geen hoeveelheid; controleer deze na import.",
+        "gaebSpecificAttachmentsAlternativesAndFreeText": "GAEB-specifieke bijlagen, alternatieven en vrije tekstvelden zijn niet volledig overgenomen. Bewaar het bronbestand.",
+        "selectAGAEBX84BidFile": "Selecteer een GAEB X84-aanbiedingsbestand.",
+        "gaebX84HasNoBoQBody": "GAEB X84 bevat geen BoQBody.",
+        "gaebX84ContainsANegativePriceAt": "GAEB X84 bevat een negatieve prijs bij {{p0}}.",
+        "gaebX84ContainsDuplicateItemNumber": "GAEB X84 bevat dubbel positienummer {{p0}}.",
+        "gaebX84ContainsNoUsableUnitPrices": "GAEB X84 bevat geen bruikbare eenheidsprijzen.",
+        "theEstimateContainsDuplicateItemNumber": "Begroting bevat dubbel positienummer {{p0}}.",
+        "gaebX84ItemIsMissingFromThe": "GAEB X84-positie {{p0}} ontbreekt in de huidige begroting. Importeer eerst het bijbehorende X83-bestek.",
+        "gaebX84ItemHasCalculationLinesDo": "GAEB X84-positie {{p0}} heeft rekenregels; zet de aanbiedingsprijs niet over bestaande samenstellingen heen."
+      },
+      "tradxmlImporter": {
+        "tradxmlContainsNoChapters": "TRADXML bevat geen hoofdstukken."
+      },
+      "sufxImporter": {
+        "noRecognizableSTABUItemsFoundInThe": "Geen herkenbare STABU-besteksposten gevonden in het SUFX-bestand.",
+        "theSUFXSpecificationWasImportedAsAn": "SUFX-bestek geïmporteerd als prijsloze skelet-begroting (geen hoeveelheden/prijzen). Controleer tegen het bronbestand."
+      },
+      "xtbImporter": {
+        "noBegrotingRecordFoundInTheXtb": "Geen Begroting-record gevonden in .xtb bestand",
+        "noItemsFoundThisMayBeAn": "Geen items gevonden. Mogelijk is dit een leeg .xtb bestand."
+      },
+      "dncImporter": {
+        "noKKTableItemsFoundInThe": "Geen KK-tabel (posten) gevonden in het .DNC-bestand."
+      },
+      "bmecatImporter": {
+        "noARTICLEPRODUCTElementsFoundIsThis": "Geen <ARTICLE>/<PRODUCT> elementen gevonden — is dit een BMEcat/DICO-catalogus?",
+        "noUsableArticlesWithACodeOr": "Geen bruikbare artikelen met code of omschrijving gevonden."
+      },
+      "cufImporter": {
+        "noBEGROTINGFoundInTheCUFFile": "Geen <BEGROTING> gevonden in het CUF-bestand.",
+        "hourlyRateWasDerivedFromTheFile": "Uurtarief € {{p0}} afgeleid uit het bestand (CUF bevat geen tarieventabel); controleer dit zo nodig.",
+        "theCUFFileContainsNoItemsOr": "CUF-bestand bevat geen posten of regels.",
+        "surchargeWasNotImportedItIsUnsupported": "Toeslag \"{{p0}}\" wordt niet geïmporteerd (niet ondersteund in OCS model)",
+        "theCUFFileContainsNoChaptersOr": "CUF-bestand bevat geen hoofdstukken of posten."
+      },
+      "s01Importer": {
+        "theS01FileContainsNoRecognizableSpecification": "S01-bestand bevat geen herkenbare besteksposten.",
+        "theSTABUSpecificationWasImportedAsAn": "STABU-bestek geïmporteerd als prijsloze skelet-begroting (het bronbestand bevat geen hoeveelheden of prijzen)."
+      },
+      "nsxImporter": {
+        "theNSXDocumentHasNoRootElement": "NSX document heeft geen root element.",
+        "nsxContainsNoNormElements": "NSX bevat geen <Norm> elementen."
+      },
+      "ifcxImporter": {
+        "invalidIfcxFileNotValidJSON": "Ongeldig ifcx-bestand: geen geldige JSON.",
+        "theIfcxFileContainsNoCostItems": "ifcx-bestand bevat geen kostenposten."
+      },
+      "genericTabularImporter": {
+        "noColumnIsMappedToDescription": "Geen kolom aan \"Omschrijving\" gekoppeld.",
+        "noPriceOrQuantityColumnIsMapped": "Geen prijs- of hoeveelheidskolom gekoppeld — alles wordt als hoofdstuk ingelezen.",
+        "noUsableRowsFoundWithThisColumn": "Geen bruikbare rijen gevonden met deze kolomindeling."
+      },
+      "rsxImporter": {
+        "rsxContainsNoSubEstimates": "RSX bevat geen deelramingen.",
+        "rsxContainsNoSpecificationItems": "RSX bevat geen besteksposten."
+      },
+      "bascalcImporter": {
+        "noKostprijsSheetFoundInTheBasCalc": "Geen \"Kostprijs\" tabblad gevonden in het BasCalc bestand"
+      },
+      "zsxImporter": {
+        "theZSXDocumentHasNoRootElement": "ZSX document heeft geen root element.",
+        "zsxContainsNoMiddelElements": "ZSX bevat geen <Middel> elementen."
+      },
+      "onlvImporter": {
+        "notAnNORMA2063FileRoot": "Geen ÖNORM A 2063-bestand: wortelelement <{{p0}}> (verwacht <onlv> of <onlb>)",
+        "normA2063NoLVElementEntwurfs": "ÖNORM A 2063: geen LV-element (entwurfs-lv, ausschreibungs-lv, …) gevonden"
+      },
+      "dncSharedCode": "Post {{code}} deelt zijn code met een andere post; middelen samengevat i.p.v. gedetailleerd.",
+      "onlvTruncated": "{{count}} omschrijving(en) langer dan 60 tekens zijn in het stichwort ingekort; de volledige tekst staat in de langtext.",
+      "rsxFlattened": "RSX: geneste chapters onder \"{{name}}\" worden afgevlakt (CROW RSX ondersteunt 1 niveau Deelraming)",
+      "xmlError": "XML-parsefout: {{message}} (regel {{line}})",
+      "xml": {
+        "entity": "onbekende entiteit {{p0}}",
+        "character": "ongeldige tekenverwijzing &{{p0}};",
+        "text": "tekst buiten het wortelelement",
+        "closing": "onafgesloten sluittag",
+        "mismatch": "sluittag </{{p0}}> past niet bij <{{p1}}>",
+        "instruction": "onafgesloten processing instruction",
+        "comment": "onafgesloten commentaar",
+        "cdata": "onafgesloten CDATA",
+        "cdataRoot": "CDATA buiten het wortelelement",
+        "doctype": "onafgesloten DOCTYPE",
+        "markup": "onbekende markup",
+        "element": "elementnaam ontbreekt",
+        "start": "onafgesloten starttag",
+        "attribute": "attribuutnaam ontbreekt",
+        "attributeValue": "attribuut {{p0}} zonder waarde",
+        "attributeQuote": "attribuut {{p0}} zonder aanhalingstekens",
+        "attributeEnd": "attribuut {{p0}} niet afgesloten",
+        "opening": "starttag niet afgesloten met >",
+        "multipleRoots": "meer dan één wortelelement",
+        "unclosed": "element <{{p0}}> is niet gesloten",
+        "noRoot": "geen wortelelement",
+        "notLoaded": "niet geladen",
+        "unreadable": "onleesbaar: {{p0}}",
+        "rsuXml": "RSU ingelezen via de RSX/RAW-XML-route.",
+        "rsuLegacy": "Dit lijkt het oudere, niet-XML RSU-formaat (RAW 2005 of ouder); dat recordformaat is niet publiek gespecificeerd.",
+        "rsuExample": "Lever een voorbeeld-RSU aan (map verification-files) voor exacte ondersteuning, of converteer het bestand eerst naar RSX (XML)."
+      }
+    },
+    "extensions": {
+      "builtin-bc3-importer": "Importeer Spaanse FIEBDC-3-begrotingen en prijzenboeken (.bc3): hoofdstukken, partida’s met metingen en decomposities met arbeid/materieel/materiaal.",
+      "builtin-onlv-importer": "Importeer Oostenrijkse ÖNORM A 2063-bestanden: Leistungsverzeichnisse (.onlv) met Leistungsgruppen, posities, hoeveelheden en Lohn/Sonstiges-prijzen, en Leistungsbücher (.onlb) als catalogus van standaardteksten.",
+      "builtin-bascalc-importer": "Importeer begrotingen uit BasCalc/BasData Excel-bestanden (.xls, .xlsx). Ondersteunt kostprijsblad, staartkosten en bedrijfsgegevens.",
+      "builtin-wpcalc-importer": "Importeer begrotingen uit WpCalc (.calc) bestanden. Leest hoofdstukken, posten, staartkosten en tariefgroepen uit de Access-database.",
+      "builtin-inschrijfstaat-importer": "Importeer inschrijfstaten uit RAW Excel-bestanden (.xls, .xlsx). Leest besteksposten, hoeveelheden en prijzen.",
+      "builtin-wpcalc-exporter": "Exporteer begrotingen naar WpCalc (.calc) Access-bestanden. Schrijft hoofdstukken, posten, staartkosten en tariefgroepen.",
+      "builtin-xtb-importer": "Importeer begrotingen uit IBIS-TRAD (.xtb) SQLite-bestanden. Leest hoofdstukken, posten, kostenposten, middelen (arbeid/materiaal/materieel/onderaanneming) en uurloon-codes.",
+      "builtin-dnc-importer": "Importeer STABU-directiebegrotingen uit .dnc-bestanden (7z-archief met dBASE-tabellen). Leest hoofdstukken, posten en middelen (arbeid/materiaal/onderaanneming), uurtarief, staartpercentages en kengetallen.",
+      "builtin-rsx-importer": "Importeer RAW bestekken uit .rsx bestanden. Converteert besteksposten, hoofdstukken en hoeveelheden naar Open Calc Studio formaat."
+    },
+    "quotationDefaults": {
+      "intent": "Bij tekenen intentieovereenkomst",
+      "order": "Bij opdracht",
+      "start": "Bij start werkzaamheden",
+      "shell": "Bij gereed ruwbouw",
+      "weathertight": "Bij wind- en waterdicht",
+      "handover": "Bij oplevering",
+      "maintenance": "Na onderhoudstermijn (3 maanden)",
+      "concrete": "Betonwerk",
+      "windows": "Kozijnen en ramen (werking)",
+      "roof": "Dakbedekking",
+      "paint": "Schilderwerk",
+      "services": "Installaties",
+      "years20": "20 jaar",
+      "years3": "3 jaar",
+      "years10": "10 jaar",
+      "years2": "2 jaar",
+      "terms": "Op al onze aanbiedingen zijn de UAV 2012 en onze algemene voorwaarden van toepassing.",
+      "technical": "Technische omschrijving",
+      "options": "Opties / Meerwerk",
+      "client": "Te regelen door opdrachtgever",
+      "payments": "Betalingstermijnen",
+      "guarantees": "Garanties",
+      "free": "Vrije sectie",
+      "extra": "Meerwerk",
+      "newSection": "Nieuwe sectie",
+      "waterHome": "Waterwoning",
+      "yard": "Bouwwerf",
+      "structure": "Ruwbouw",
+      "finishes": "Afbouw",
+      "allowances": "Stelposten",
+      "home": "Woning",
+      "site": "Bouwplaats",
+      "renovation": "Renovatie",
+      "demolition": "Sloop"
+    },
+    "versions": {
+      "removed": "Verwijderd: {{p0}} {{p1}}",
+      "added": "Toegevoegd: {{p0}} {{p1}}",
+      "changed": "{{p0}} {{p1}}: {{p2}} gewijzigd",
+      "version": "Versie {{p0}}",
+      "description": "Omschrijving",
+      "quantity": "Hoeveelheid",
+      "unitPrice": "Eenheidsprijs",
+      "total": "Totaal",
+      "materials": "Materiaalprijs",
+      "labour": "Arbeidsprijs",
+      "unit": "Eenheid"
+    },
+    "extensionNames": {
+      "builtin-inschrijfstaat-importer": "Inschrijfstaat Importer"
+    },
+    "shell": {
+      "navigation": "Werkruimtenavigatie",
+      "estimate": "Begroting",
+      "prompt": "Prompt & Begroot",
+      "wizard": "Begeleid begroten",
+      "hours": "Uren & opslagen",
+      "report": "Rapporten",
+      "model": "3D & hoeveelheden",
+      "pdf": "PDF & metingen",
+      "sheets": "Rekenbladen",
+      "ifc": "IFC-gegevens",
+      "quotation": "Offerte",
+      "summary": "Samenvatting",
+      "projects": "Projecten & bestanden",
+      "workspace": "Werkruimte",
+      "sources": "Tekeningen & gegevens",
+      "unsaved": "Niet-opgeslagen wijzigingen",
+      "saved": "Opgeslagen",
+      "local": "Lokaal document",
+      "total": "Begroting · excl. btw"
+    },
+    "proposal": {
+      "review": "Controleer de voorgestelde begrotingswijzigingen.",
+      "undoBlocked": "Maak latere bewerkingen eerst ongedaan en draai daarna dit voorstel terug.",
+      "undo": "Gehele voorstel ongedaan maken",
+      "undone": "Het gehele voorstel is ongedaan gemaakt.",
+      "direct": "Directe kosten",
+      "excludingVat": "Totaal excl. btw",
+      "vat": "Btw",
+      "includingVat": "Totaal incl. btw",
+      "title": "Financieel voorstel",
+      "amount": "Bedrag",
+      "before": "Voor",
+      "after": "Na",
+      "difference": "Verschil",
+      "rows": "Gewijzigde regels: {{count}}",
+      "change": "Wijziging",
+      "row": "Begrotingsregel",
+      "quantity": "Hoeveelheid: voor → na",
+      "price": "Inkoopprijs: voor → na",
+      "rowTotal": "Regeltotaal: voor → na",
+      "norm": "Arbeidsnorm",
+      "rateGroup": "Tariefgroep",
+      "rollups": "Ook bovenliggende totalen en opslagen worden getoond; tel de regelverschillen niet bij elkaar op.",
+      "assumptions": "Aannames en prijsgrondslag",
+      "linkedQuantity": "Deze hoeveelheid is aan een bron gekoppeld. Wijzig de bron of ontkoppel deze voordat je de hoeveelheid of eenheid overschrijft.",
+      "existingRates": "De bestaande projecttarieven, opslagen, afronding en btw-regels worden gebruikt.",
+      "noMarketPrices": "Voorgestelde eenheidsprijzen zijn invoerwaarden; er is geen marktprijscontrole uitgevoerd.",
+      "defaultUnit": "‘{{name}}’: de eenheid is standaard stuks.",
+      "noPrice": "‘{{name}}’: er is geen eenheidsprijs opgegeven.",
+      "labourRate": "‘{{name}}’: arbeid gebruikt tariefgroep {{group}}.",
+      "openDocument": "Open een begroting voordat je een voorstel voorbereidt.",
+      "expired": "Dit voorstel is verlopen of al toegepast. Bereid het opnieuw voor.",
+      "added": "Toegevoegd",
+      "removed": "Verwijderd",
+      "changed": "Gewijzigd",
+      "actionLimit": "Geef tussen 1 en 100 voorgestelde wijzigingen op.",
+      "overflow": "De voorgestelde berekening overschrijdt het ondersteunde getalbereik. Er zijn geen wijzigingen toegepast."
+    },
+    "origin": {
+      "reloadIfc": "De modelgegevens zijn bewaard. Open het oorspronkelijke IFC-bestand opnieuw in de 3D-weergave om de geometrie te markeren.",
+      "title": "Herkomst hoeveelheid",
+      "manual": "Handmatig ingevoerd; er is geen actuele bron gekoppeld.",
+      "externalExcel": "Externe Excel-verwijzing. Het bronbestand is hier niet gecontroleerd.",
+      "sourceMissing": "De bron is niet beschikbaar. De laatst bekende hoeveelheid is behouden.",
+      "different": "De gekoppelde bron geeft momenteel {{value}} {{unit}} terug.",
+      "unitMismatch": "Broneenheid {{source}} verschilt van regeleenheid {{target}}. Controleer de eenheden; er wordt geen conversie aangenomen.",
+      "sources": "Bronnen ({{count}})",
+      "page": "Pagina {{page}}",
+      "open": "Bron openen",
+      "formula": "Berekening / verwijzing",
+      "captured": "Gekoppeld op {{date}} · bronwaarde {{value}} {{unit}}",
+      "itemMissing": "De begrotingsregel bestaat niet meer.",
+      "documentChanged": "De actieve begroting is gewijzigd. Open de bron opnieuw.",
+      "kind": {
+        "manual": "Handmatige invoer",
+        "pdf": "PDF-meting",
+        "ifc": "IFC-hoeveelheid",
+        "spreadsheet": "Rekenbladcel",
+        "excel": "Externe Excel-verwijzing"
+      }
+    },
+    "companion": {
+      "title": "Open Calc Studio — Tweede scherm",
+      "readOnly": "Alleen-lezen · volgt de actieve begroting",
+      "connected": "Verbonden",
+      "disconnected": "Verbinding verbroken — laatst ontvangen gegevens worden getoond",
+      "drawing": "PDF-tekening",
+      "waiting": "Wachten op het hoofdvenster…",
+      "select": "Selecteer een begrotingsregel in het hoofdvenster.",
+      "open": "Tweede scherm",
+      "standalone": "Open de zelfstandige app om een tweede scherm te gebruiken.",
+      "unsupported": "Deze omgeving kan geen tweede scherm synchroniseren.",
+      "blocked": "Sta het venster voor het tweede scherm toe in je browser en probeer opnieuw."
+    },
+    "layouts": {
+      "saved": "Werkplek opgeslagen.",
+      "title": "Werkplekken",
+      "savedList": "Opgeslagen werkplekken",
+      "manage": "Opslaan / beheren",
+      "includes": "Bewaar de huidige weergave, paneelbreedten, zoom en zichtbare kolommen.",
+      "name": "Naam werkplek",
+      "saveNew": "Als nieuwe werkplek opslaan",
+      "overwrite": "‘{{name}}’ bijwerken",
+      "deleted": "Werkplek verwijderd.",
+      "delete": "Werkplek verwijderen",
+      "measure": "Meten",
+      "estimate": "Begroten",
+      "review": "Controleren",
+      "missing": "Deze werkplek bestaat niet meer.",
+      "nameRequired": "Voer een naam voor de werkplek in.",
+      "customOnly": "Alleen je eigen opgeslagen werkplekken kunnen worden overschreven.",
+      "limit": "Je kunt maximaal 20 werkplekken opslaan."
+    },
+    "report": {
+      "quotationDesktopRequired": "Offerte-PDF vereist de desktopapplicatie.",
+      "documentChanged": "Het actieve document is gewijzigd. Probeer opnieuw in de bedoelde begroting."
+    }
+  },
+  "review": {
+    "title": "Controlecentrum",
+    "badge": "{{count}} controlemeldingen",
+    "summary": "{{count}} meldingen in {{affected}} van {{rows}} begrotingsregels",
+    "scope": "Controleert de actieve variant, inclusief ingeklapte regels.",
+    "filterLabel": "Type controle",
+    "filters": {
+      "all": "Alles",
+      "price": "Prijzen",
+      "source": "Bronnen",
+      "unit": "Eenheden"
+    },
+    "issueList": "Controlemeldingen",
+    "details": "Geselecteerde melding",
+    "open": "Openstaand",
+    "row": "Begrotingsregel",
+    "quantity": "Huidige hoeveelheid",
+    "sourceValue": "Bronwaarde",
+    "showRow": "Toon regel {{number}}",
+    "back": "Terug naar controlecentrum",
+    "selected": "Geselecteerd vanuit controle: regel {{number}}",
+    "readOnly": "Deze controles wijzigen geen hoeveelheden of prijzen. Marktprijzen en externe Excel-bestanden worden niet geverifieerd.",
+    "empty": "Geen meldingen gevonden met deze controles.",
+    "emptyFilter": "Geen meldingen in deze categorie.",
+    "showMore": "Meer tonen (nog {{count}})",
+    "unavailable": "Deze regel heeft geen controlemelding meer in de actieve variant.",
+    "unreachable": "De regel heeft een ongeldige bovenliggende structuur en kan niet in het raster worden getoond.",
+    "severity": {
+      "error": "Fout",
+      "warning": "Controle",
+      "info": "Info"
+    },
+    "messages": {
+      "missing-price": {
+        "title": "Prijs niet ingevuld",
+        "detail": "Deze kostenregel heeft een hoeveelheid ongelijk aan nul, maar geen prijsinvoer. De kosten kunnen daardoor onvolledig zijn. Een expliciete nulprijs geldt als ingevuld; er wordt geen marktprijs aangenomen."
+      },
+      "missing-source": {
+        "title": "Hoeveelheidsbron niet beschikbaar",
+        "detail": "De gekoppelde bron ontbreekt of levert geen geldig getal. Controleer het bestand, de meting of de celverwijzing. De laatst bekende hoeveelheid blijft behouden."
+      },
+      "unchecked-excel": {
+        "title": "Externe Excel-verwijzing niet gecontroleerd",
+        "detail": "Deze regel verwijst naar een extern Excel-bestand. De beschikbaarheid en actuele waarde worden hier niet gecontroleerd. Dit is een informatiemelding, geen bewijs van een verbroken koppeling."
+      },
+      "different-quantity": {
+        "title": "Bronhoeveelheid wijkt af",
+        "detail": "De bron levert momenteel een andere hoeveelheid dan de begrotingsregel. Bekijk de bron en de bewaarde waarde voordat je iets wijzigt."
+      },
+      "unit-mismatch": {
+        "title": "Bron en regel gebruiken andere eenheden",
+        "detail": "De bron en begrotingsregel gebruiken verschillende eenheden. Controleer de gekozen hoeveelheid of een expliciete omrekening. Er vindt geen automatische eenheidsconversie plaats."
+      }
+    },
+    "mobile": "Controle"
+  },
+  "shell": {
+    "review": "Controlecentrum"
   }
 }

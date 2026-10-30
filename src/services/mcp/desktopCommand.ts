@@ -49,6 +49,55 @@ export async function executeDesktopCommand(action: string, params: Record<strin
   const store = useAppStore.getState();
   if (action === 'getState') return desktopState();
   if (action === 'listActions') return { ...catalogue, workspaceActions };
+  if (action.startsWith('review.')) {
+    if (!['review.list', 'review.open', 'review.openItem'].includes(action)) throw Error('Unknown review action');
+    const allowed = action === 'review.openItem' ? ['itemId'] : ['category'];
+    if (Object.keys(params).some(key => !allowed.includes(key))) throw Error('Unknown review parameter');
+    if (params.category !== undefined && !['all', 'price', 'source', 'unit'].includes(params.category as string)) throw Error('Unknown review category');
+    const { reviewBudget } = await import('@/services/review/budgetReview');
+    const current = useAppStore.getState();
+    if (!current.activeDocumentId) throw Error('No active document');
+    if (action === 'review.openItem') {
+      if (typeof params.itemId !== 'string') throw Error('itemId is required');
+      current.openReviewItem(params.itemId);
+      return { opened: true, itemId: params.itemId, view: 'grid' };
+    }
+    if (action === 'review.open') {
+      if (params.category !== undefined) current.setReviewFilter(params.category as 'all' | 'price' | 'source' | 'unit');
+      current.setActiveSubSheet(null); current.setActiveContentTab('review');
+      return { opened: true, view: 'review' };
+    }
+    const report = reviewBudget(current);
+    return { ...report, issues: report.issues.filter(issue => !params.category || params.category === 'all' || issue.category === params.category) };
+  }
+  if (action === 'workspace.layouts') {
+    const { builtinWorkspaceLayouts } = await import('@/state/slices/workspaceSlice');
+    return { current: store.activeWorkspaceLayoutId, builtins: builtinWorkspaceLayouts(), saved: store.settings.workspaceLayouts ?? [] };
+  }
+  if (action === 'workspace.openSecondScreen') {
+    await (await import('@/services/workspaces/companion')).openCompanionWindow();
+    return { opened: true, readOnly: true };
+  }
+  if (action === 'quantity.origin' || action === 'quantity.openSource') {
+    const item = store.items.find(item => item.id === params.itemId);
+    if (!item) throw Error('Unknown itemId');
+    if (action === 'quantity.origin') return (await import('@/services/quantity/quantityOrigin')).getQuantityOrigin(item, store);
+    if (params.sourceIndex !== undefined && (!Number.isInteger(params.sourceIndex) || Number(params.sourceIndex) < 0)) throw Error('sourceIndex must be a non-negative integer');
+    return (await import('@/services/quantity/quantitySourceActions')).openQuantitySource(item.id, params.sourceIndex as number | undefined);
+  }
+  if (action.startsWith('assistant.')) {
+    const proposals = await import('@/services/assistant/assistantProposal');
+    if (action === 'assistant.preview') {
+      if (!Array.isArray(params.actions)) throw Error('actions must be an array');
+      const proposal = proposals.stageAssistantProposal(params.actions);
+      return proposals.summarizeAssistantProposal(proposal);
+    }
+    if (typeof params.proposalId !== 'string') throw Error('proposalId is required');
+    if (action === 'assistant.apply') { const proposal = proposals.applyAssistantProposal(params.proposalId); return { applied: true, proposalId: proposal.id, totals: proposal.afterTotals }; }
+    if (action === 'assistant.discard') { proposals.discardAssistantProposal(params.proposalId); return { discarded: true }; }
+    if (action === 'assistant.undo') { proposals.undoAssistantProposal(params.proposalId); return { undone: true }; }
+    throw Error('Unknown assistant action');
+  }
   if (action === 'getProject') {
     const p = JSON.parse(serializeProject(store.schedule, store.items, store.companyInfo, {sheets:store.subSheets,activeSheetId:store.activeSubSheetId}, store.offerte, store.snapshots));
     p.resourceLibrary = store.resourceLibrary;
@@ -85,8 +134,11 @@ export async function executeDesktopCommand(action: string, params: Record<strin
     const result = await fn(...args);
     if (action === 'undo' || action === 'redo') { if (Array.isArray(result)) useAppStore.setState({items:recalculateItems(result,store.schedule.tarieven)}); }
     const current = useAppStore.getState();
-    if (current.items !== before.items && !['undo','redo'].includes(action) && current.undoStack === before.undoStack) current.pushHistory(before.items, `MCP: ${action}`);
-    if (current.items !== before.items || current.schedule !== before.schedule || current.offerte !== before.offerte || current.subSheets !== before.subSheets || current.snapshots !== before.snapshots) {
+    // Document navigation restores that document's own history. Treating the
+    // newly active rows as an edit would put another document into its undo stack.
+    const documentNavigation = ['addDocument', 'removeDocument', 'setActiveDocument', 'openReviewItem'].includes(action);
+    if (!documentNavigation && current.items !== before.items && !['undo','redo'].includes(action) && current.undoStack === before.undoStack) current.pushHistory(before.items, `MCP: ${action}`);
+    if (!documentNavigation && (current.items !== before.items || current.schedule !== before.schedule || current.offerte !== before.offerte || current.subSheets !== before.subSheets || current.snapshots !== before.snapshots)) {
       if (current.activeDocumentId) current.updateDocument(current.activeDocumentId,{isModified:true});
     }
     return { result:result ?? null, activeDocumentId:current.activeDocumentId };

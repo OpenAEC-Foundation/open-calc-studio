@@ -1,3 +1,4 @@
+import { uiText } from '@/i18n/uiText';
 import type { CostItem, CostSchedule } from '@/types/costModel';
 import { createDefaultProjectProperties } from '@/types/costModel';
 import i18next from 'i18next';
@@ -80,16 +81,16 @@ export function createDefaultItems(): CostItem[] {
   });
 
   return [
-    makeItem('staart_ak_oa', 'Algemene kosten over onderaanneming:', 9, 9000),
-    makeItem('staart_abk', 'Algemene bedrijfskosten:', 6, 9001),
-    makeItem('staart_garanties', 'Garanties:', 2, 9002),
-    makeItem('staart_wvpm', 'Werkvoorbereiding & projectmanagement', 2, 9003),
-    makeItem('staart_risico', 'Risico:', 3, 9004),
-    makeItem('staart_winst', 'Winst:', 5, 9005),
-    makeItem('staart_verzekering', 'Verzekering:', 0.5, 9006),
-    makeItem('staart_btw_laag', 'Btw laag:', 9, 9007),
-    makeItem('staart_btw', 'Btw hoog:', 21, 9008),
-    makeItem('staart_afronding', 'Afronding', null, 9009),
+    makeItem('staart_ak_oa', uiText("defaults.subcontractOverhead", "Overheads on subcontracting:"), 9, 9000),
+    makeItem('staart_abk', uiText("defaults.generalOverhead", "General overheads:"), 6, 9001),
+    makeItem('staart_garanties', uiText("defaults.guarantees", "Guarantees:"), 2, 9002),
+    makeItem('staart_wvpm', uiText("defaults.preparation", "Work preparation & project management"), 2, 9003),
+    makeItem('staart_risico', uiText("defaults.risk", "Risk:"), 3, 9004),
+    makeItem('staart_winst', uiText("defaults.profit", "Profit:"), 5, 9005),
+    makeItem('staart_verzekering', uiText("defaults.insurance", "Insurance:"), 0.5, 9006),
+    makeItem('staart_btw_laag', uiText("defaults.vatLow", "Low VAT:"), 9, 9007),
+    makeItem('staart_btw', uiText("defaults.vatHigh", "High VAT:"), 21, 9008),
+    makeItem('staart_afronding', uiText("defaults.rounding", "Rounding"), null, 9009),
   ];
 }
 
