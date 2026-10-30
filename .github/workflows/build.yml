@@ -35,7 +35,7 @@ jobs:
       - run: npm run test:version
       - run: npm run test:bundle
       - run: npm run test:signing
-      - run: node --test scripts/ci/collect-artifacts.node-test.mjs
+      - run: node --test scripts/ci/collect-artifacts.node-test.mjs scripts/ci/verify-updater-assets.node-test.mjs
       - name: Verify updater signing configuration
         env:
           UPDATER_PUBKEY: ${{ vars.UPDATER_PUBKEY }}
