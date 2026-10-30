@@ -1,0 +1,9 @@
+
+ RUN  v4.1.2 /home/aia06/Documenten/GitHub/open-calc-studio
+
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  14:00:33
+   Duration  4.87s (transform 871ms, setup 260ms, import 1.98s, tests 135ms, environment 2.14s)
+
