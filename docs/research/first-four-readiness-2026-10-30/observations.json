@@ -1,0 +1,73 @@
+{
+  "sourceCommit": "d4b5082ee6154d2889f26262f816674326aa0a79",
+  "scope": "Synthetic in-process observations, not browser/OS crash or exploit tests",
+  "findings": [
+    {
+      "id": "R1",
+      "observed": {
+        "pdfCalibrationAndMeasurements": true,
+        "ifcTakeoff": true,
+        "spreadsheet": true
+      }
+    },
+    {
+      "id": "R2",
+      "observed": {
+        "documentsBefore": 2,
+        "documentsRecovered": 1,
+        "snapshotsBefore": 1,
+        "snapshotsRecovered": 0
+      }
+    },
+    {
+      "id": "R3",
+      "observed": {
+        "saveReportedSuccess": true,
+        "durableRecordExists": false,
+        "freshModuleCanReadDraft": false
+      }
+    },
+    {
+      "id": "P1",
+      "observed": {
+        "code": "A",
+        "idBefore": "lib-0-A",
+        "idAfterReorder": "lib-1-A"
+      }
+    },
+    {
+      "id": "P2",
+      "observed": {
+        "copiedPricePreserved": true,
+        "libraryReferencePreserved": true,
+        "catalogueAndItsSourceDatePreserved": false,
+        "caveat": "host save can preserve an original embedded hostProject catalogue"
+      }
+    },
+    {
+      "id": "P3",
+      "observed": {
+        "originalUnit": "pallet",
+        "selectionAllowed": false
+      }
+    },
+    {
+      "id": "V1",
+      "observed": {
+        "contentHashDistinguishesRevisions": true,
+        "externalMeasurementExportAcceptedForBothSameNamedRevisions": true,
+        "caveat": "synthetic PDF headers; this tests identity/import validation, not PDF rendering"
+      }
+    },
+    {
+      "id": "V2",
+      "observed": {
+        "unchangedGlobalId": "1YvctVUKr0kugbFTf53O9L",
+        "expressIdBefore": 20,
+        "expressIdAfter": 120,
+        "oldSelectionInvalidInNewRevision": true,
+        "netVolume": 2.4
+      }
+    }
+  ]
+}

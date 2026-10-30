@@ -2,6 +2,8 @@
 
 Onderzoeksdatum: 28 september 2026. Doel: bruikbare uitbreidingen voor Open Calc Studio, inclusief de herbruikbare library.
 
+**Actualisatie 30 oktober 2026:** het [onderzoek naar bestandsimport, herstel, prijsherkomst en revisies](../first-four-readiness-2026-10-30/README.md) toetst de huidige code met acht uitvoerbare onderzoeksproeven en 58 bestaande tests. De bevindingen hieronder over ontbrekende bronvelden en GitHub-toegang beschrijven eerdere onderzoeksmomenten; gebruik voor de huidige technische stand de actualisatie.
+
 **Publicatiestatus: zeven conceptissues klaar; nog niet op GitHub aangemaakt wegens ontbrekende aanmelding.** Zie [issues.json](issues.json) voor de afzonderlijke statussen en eventuele publicatie-URL's.
 
 **Actualisatie 5 oktober 2026:** het eerste concept is aangepast aan de inmiddels lokaal gebouwde PDF-workspace. De zeven voorstellen zijn opnieuw tegen de publieke GitHub-issuelijst gecontroleerd; er is nog geen nieuwe issue gepubliceerd. De browser is nog uitgelogd, de GitHub-CLI ontbreekt en er is geen GitHub-token in deze omgeving. De overige zes voorstellen blijven een backlog, geen toezegging dat de functies al gebouwd zijn.
