@@ -32,8 +32,11 @@ gepubliceerde release. De lokale uitgangstak was schoon op `e5bff21`.
   daadwerkelijke Frappe/sandboxacceptatie blijft nodig.
 - #35: grafische container uit dezelfde release-DEB, niet-root runtime,
   noVNC op 3000, app-afhankelijke gezondheid, interne HTTP-MCP en een
-  Docker-smoketest zijn voorbereid. Release-CI blokkeert bij een mislukte
-  containerproef. Een eerste geslaagde run/publicatie ontbreekt nog. De in
+  Docker-smoketest zijn uitgevoerd. De [grafische containerproef](https://github.com/OpenAEC-Foundation/open-calc-studio/actions/runs/41041765193)
+  slaagt zonder netwerk: native app, stream, MCP en crashdetectie werken.
+  Idle-gebruik van de volledige container: 255,7 MiB op de GitHub Linux-runner.
+  Release-CI blokkeert bij een mislukte containerproef; de eerste publieke
+  imagepublicatie ontbreekt nog. De in
   het issue genoemde Blueprint-template/branch was op dit controlemoment
   niet beschikbaar; deze Calc-runtime is nog niet met die template vergeleken.
 - #32: updater-signing uit PR #34 is geïntegreerd en de collector neemt ook

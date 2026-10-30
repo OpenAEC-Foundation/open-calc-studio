@@ -8,7 +8,10 @@
 - Grafische Docker-runtime voorbereid vanuit het bestaande Linux-DEB:
   één fullscreen app, geen root/FUSE/GPU, `/openaec` en `/config`, gezondheid
   op `/gezond`, privé-MCP op poort 9743 en controles vóór publicatie.
-  Een echte containeruitvoering en eerste publicatie zijn nog niet aangetoond.
+  De [containerproef](https://github.com/OpenAEC-Foundation/open-calc-studio/actions/runs/41041765193)
+  slaagt zonder netwerk, inclusief stream, MCP en crashdetectie. De volledige
+  container gebruikt in rust 255,7 MiB op de GitHub Linux-runner (geen bestand
+  geopend). De eerste publieke imagepublicatie is nog niet uitgevoerd.
 - De volledige MCP-server ondersteunt optioneel stateful HTTP met echte
   SDK-sessies, Bearer-authenticatie, aanvraaglimiet en browser-originweigering.
   Stdio blijft de standaard. Native containerdialogen starten in `/openaec`;
