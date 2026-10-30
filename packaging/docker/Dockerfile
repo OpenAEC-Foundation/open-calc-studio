@@ -9,7 +9,7 @@ LABEL org.opencontainers.image.title="Open Calc Studio" \
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates dbus-x11 xvfb x11vnc openbox wmctrl novnc python3-websockify \
     python3 curl nodejs libwebkit2gtk-4.1-0 libayatana-appindicator3-1 librsvg2-2 \
-    fonts-dejavu-core tini x11-utils imagemagick \
+    fonts-dejavu-core tini x11-utils imagemagick libgl1-mesa-dri libegl-mesa0 libglx-mesa0 \
     && rm -rf /var/lib/apt/lists/*
 # The context contains the exact DEB produced by the installer job, never source.
 COPY app.deb /tmp/app.deb
@@ -22,7 +22,7 @@ COPY licenses /opt/ocs-container/licenses
 ENV DISPLAY=:99 HOME=/config/home XDG_DATA_HOME=/config/data \
     XDG_CONFIG_HOME=/config/config XDG_CACHE_HOME=/config/cache \
     OCS_CONTAINER=1 OCS_MCP_TRANSPORT=http OCS_MCP_HOST=0.0.0.0 OCS_MCP_PORT=9743 \
-    WEBKIT_DISABLE_COMPOSITING_MODE=1 LIBGL_ALWAYS_SOFTWARE=1
+    WEBKIT_DISABLE_COMPOSITING_MODE=1 WEBKIT_DISABLE_DMABUF_RENDERER=1 LIBGL_ALWAYS_SOFTWARE=1
 USER calc
 WORKDIR /openaec
 EXPOSE 3000 9743
