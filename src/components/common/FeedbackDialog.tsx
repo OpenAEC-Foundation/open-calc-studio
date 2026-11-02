@@ -1,7 +1,7 @@
 import { allowsExternalServices } from '@/services/buildFlags';
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { getAppVersion, buildUserAgent } from "../../utils/platform";
+import { getAppVersion } from "../../utils/platform";
 import Modal from "./Modal";
 import "./FeedbackDialog.css";
 
@@ -35,12 +35,10 @@ export default function FeedbackDialog({ open, onClose }: FeedbackDialogProps) {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [appVersion, setAppVersion] = useState("");
-  const [userAgent, setUserAgent] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     getAppVersion().then(setAppVersion);
-    buildUserAgent().then(setUserAgent);
   }, []);
 
   // Load saved email/name when dialog opens
@@ -120,7 +118,9 @@ export default function FeedbackDialog({ open, onClose }: FeedbackDialogProps) {
       const nameVal = fullName.trim() || undefined;
       let response: Response;
 
-      const ua = userAgent || undefined;
+      // Geen eigen User-Agent-header: de feedback-API staat in CORS alleen
+      // Content-Type en Authorization toe. WebKit (macOS/Linux) en Firefox
+      // sturen die header wél mee, waarna de preflight het verzoek blokkeert.
       const ver = appVersion || undefined;
 
       if (images.length > 0) {
@@ -135,13 +135,12 @@ export default function FeedbackDialog({ open, onClose }: FeedbackDialogProps) {
         images.forEach((img) => formData.append("images", img.file));
         response = await fetch(API_URL, {
           method: "POST",
-          headers: ua ? { "User-Agent": ua } : {},
           body: formData,
         });
       } else {
         response = await fetch(API_URL, {
           method: "POST",
-          headers: { "Content-Type": "application/json", ...(ua ? { "User-Agent": ua } : {}) },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             app: APP_ID,
             email: emailVal,
@@ -154,7 +153,12 @@ export default function FeedbackDialog({ open, onClose }: FeedbackDialogProps) {
         });
       }
 
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      if (!response.ok) {
+        // De API antwoordt met { error: "..." }; toon die reden aan de gebruiker.
+        const body = await response.json().catch(() => null) as { error?: unknown } | null;
+        const reason = typeof body?.error === "string" ? `: ${body.error}` : "";
+        throw new Error(`HTTP ${response.status}${reason}`);
+      }
       // Persist email/name for next time
       void storeSet(FEEDBACK_IDENTITY_KEY, { email: email.trim(), fullName: fullName.trim() });
       setHasSavedIdentity(true);
@@ -162,7 +166,10 @@ export default function FeedbackDialog({ open, onClose }: FeedbackDialogProps) {
     } catch (e) {
       console.error("Feedback submission failed:", e);
       setStatus("error");
-      setErrorMsg(t("errorGeneric"));
+      // Netwerk- of CORS-fouten komen als TypeError ("Failed to fetch"); met
+      // de technische reden erbij kan een melder ons gericht helpen.
+      const detail = e instanceof Error ? e.message : String(e);
+      setErrorMsg(detail ? `${t("errorGeneric")} (${detail})` : t("errorGeneric"));
     }
   }
 
