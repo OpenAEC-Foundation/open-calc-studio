@@ -879,7 +879,10 @@
       "genericTabularImporter": {
         "noColumnIsMappedToDescription": "Geen kolom aan \"Omschrijving\" gekoppeld.",
         "noPriceOrQuantityColumnIsMapped": "Geen prijs- of hoeveelheidskolom gekoppeld — alles wordt als hoofdstuk ingelezen.",
-        "noUsableRowsFoundWithThisColumn": "Geen bruikbare rijen gevonden met deze kolomindeling."
+        "noUsableRowsFoundWithThisColumn": "Geen bruikbare rijen gevonden met deze kolomindeling.",
+        "labour": "Arbeid",
+        "material": "Materiaal",
+        "equipment": "Materieel"
       },
       "rsxImporter": {
         "rsxContainsNoSubEstimates": "RSX bevat geen deelramingen.",

@@ -8,7 +8,20 @@
     "rows": "{{count}} satır",
     "linkDescriptionFirst": "önce bir “Açıklama” sütunu eşleştirin",
     "cancel": "İptal",
-    "import": "İçe aktar"
+    "import": "İçe aktar",
+    "fields": {
+      "ignore": "— yok say —",
+      "code": "Kod",
+      "nr": "No",
+      "description": "Açıklama",
+      "unit": "Birim",
+      "quantity": "Miktar",
+      "materialPrice": "Malzeme (fiyat/birim)",
+      "laborPrice": "İşçilik (fiyat/birim)",
+      "equipmentPrice": "Makine (fiyat/birim)",
+      "unitPrice": "Birim fiyat",
+      "total": "Toplam (tutar)"
+    }
   },
   "quantityPicker": {
     "title": "Miktarı bağla",

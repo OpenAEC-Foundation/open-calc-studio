@@ -9,7 +9,20 @@
     "rows": "{{count}} rânduri",
     "linkDescriptionFirst": "asociați mai întâi o coloană „Denumire”",
     "cancel": "Anulare",
-    "import": "Import"
+    "import": "Import",
+    "fields": {
+      "ignore": "— ignoră —",
+      "code": "Cod",
+      "nr": "Nr.",
+      "description": "Descriere",
+      "unit": "Unitate",
+      "quantity": "Cantitate",
+      "materialPrice": "Materiale (preț/u.m.)",
+      "laborPrice": "Manoperă (preț/u.m.)",
+      "equipmentPrice": "Utilaje (preț/u.m.)",
+      "unitPrice": "Preț unitar",
+      "total": "Total (valoare)"
+    }
   },
   "quantityPicker": {
     "title": "Legare cantitate",

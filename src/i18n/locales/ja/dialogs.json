@@ -8,7 +8,20 @@
     "rows": "{{count}} 行",
     "linkDescriptionFirst": "先に「名称」列を対応付けてください",
     "cancel": "キャンセル",
-    "import": "インポート"
+    "import": "インポート",
+    "fields": {
+      "ignore": "— 無視 —",
+      "code": "コード",
+      "nr": "No.",
+      "description": "名称・摘要",
+      "unit": "単位",
+      "quantity": "数量",
+      "materialPrice": "材料費（単価）",
+      "laborPrice": "労務費（単価）",
+      "equipmentPrice": "機械経費（単価）",
+      "unitPrice": "単価",
+      "total": "合計（金額）"
+    }
   },
   "quantityPicker": {
     "title": "数量をリンク",

@@ -8,7 +8,20 @@
     "rows": "{{count}} γραμμές",
     "linkDescriptionFirst": "αντιστοιχίστε πρώτα μια στήλη “Περιγραφή”",
     "cancel": "Άκυρο",
-    "import": "Εισαγωγή"
+    "import": "Εισαγωγή",
+    "fields": {
+      "ignore": "— παράβλεψη —",
+      "code": "Κωδικός",
+      "nr": "Α/Α",
+      "description": "Περιγραφή",
+      "unit": "Μονάδα",
+      "quantity": "Ποσότητα",
+      "materialPrice": "Υλικά (τιμή/μον.)",
+      "laborPrice": "Εργασία (τιμή/μον.)",
+      "equipmentPrice": "Μηχανήματα (τιμή/μον.)",
+      "unitPrice": "Τιμή μονάδας",
+      "total": "Σύνολο (ποσό)"
+    }
   },
   "quantityPicker": {
     "title": "Σύνδεση ποσότητας",

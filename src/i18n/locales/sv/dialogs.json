@@ -8,7 +8,20 @@
     "rows": "{{count}} rader",
     "linkDescriptionFirst": "koppla först en ”Beskrivning”-kolumn",
     "cancel": "Avbryt",
-    "import": "Importera"
+    "import": "Importera",
+    "fields": {
+      "ignore": "— ignorera —",
+      "code": "Kod",
+      "nr": "Nr",
+      "description": "Beskrivning",
+      "unit": "Enhet",
+      "quantity": "Mängd",
+      "materialPrice": "Material (pris/enh.)",
+      "laborPrice": "Arbete (pris/enh.)",
+      "equipmentPrice": "Maskiner (pris/enh.)",
+      "unitPrice": "Enhetspris",
+      "total": "Totalt (belopp)"
+    }
   },
   "quantityPicker": {
     "title": "Koppla mängd",

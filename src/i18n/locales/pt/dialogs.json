@@ -8,7 +8,20 @@
     "rows": "{{count}} linhas",
     "linkDescriptionFirst": "associe primeiro uma coluna «Designação»",
     "cancel": "Cancelar",
-    "import": "Importar"
+    "import": "Importar",
+    "fields": {
+      "ignore": "— ignorar —",
+      "code": "Código",
+      "nr": "N.º",
+      "description": "Descrição",
+      "unit": "Unidade",
+      "quantity": "Quantidade",
+      "materialPrice": "Materiais (preço/un)",
+      "laborPrice": "Mão de obra (preço/un)",
+      "equipmentPrice": "Equipamentos (preço/un)",
+      "unitPrice": "Preço unitário",
+      "total": "Total (valor)"
+    }
   },
   "quantityPicker": {
     "title": "Ligar a quantidade",

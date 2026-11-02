@@ -12,7 +12,20 @@
     "rows": "{{count}} صف",
     "linkDescriptionFirst": "اربط عمود ”الوصف“ أولاً",
     "cancel": "إلغاء",
-    "import": "استيراد"
+    "import": "استيراد",
+    "fields": {
+      "ignore": "— تجاهل —",
+      "code": "الرمز",
+      "nr": "رقم",
+      "description": "الوصف",
+      "unit": "الوحدة",
+      "quantity": "الكمية",
+      "materialPrice": "المواد (سعر/وحدة)",
+      "laborPrice": "العمالة (سعر/وحدة)",
+      "equipmentPrice": "المعدات (سعر/وحدة)",
+      "unitPrice": "سعر الوحدة",
+      "total": "الإجمالي (المبلغ)"
+    }
   },
   "quantityPicker": {
     "title": "ربط الكمية",

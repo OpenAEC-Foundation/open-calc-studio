@@ -10,7 +10,20 @@
     "rows": "рядків: {{count}}",
     "linkDescriptionFirst": "спершу зіставте стовпець «Опис»",
     "cancel": "Скасувати",
-    "import": "Імпорт"
+    "import": "Імпорт",
+    "fields": {
+      "ignore": "— пропустити —",
+      "code": "Код",
+      "nr": "№",
+      "description": "Опис",
+      "unit": "Од. виміру",
+      "quantity": "Кількість",
+      "materialPrice": "Матеріали (ціна/од.)",
+      "laborPrice": "Праця (ціна/од.)",
+      "equipmentPrice": "Механізми (ціна/од.)",
+      "unitPrice": "Ціна за одиницю",
+      "total": "Разом (сума)"
+    }
   },
   "quantityPicker": {
     "title": "Пов'язати обсяг",

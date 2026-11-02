@@ -10,7 +10,20 @@
     "rows": "строк: {{count}}",
     "linkDescriptionFirst": "сначала сопоставьте столбец «Описание»",
     "cancel": "Отмена",
-    "import": "Импорт"
+    "import": "Импорт",
+    "fields": {
+      "ignore": "— пропустить —",
+      "code": "Код",
+      "nr": "№",
+      "description": "Описание",
+      "unit": "Ед. изм.",
+      "quantity": "Количество",
+      "materialPrice": "Материалы (цена/ед.)",
+      "laborPrice": "Труд (цена/ед.)",
+      "equipmentPrice": "Механизмы (цена/ед.)",
+      "unitPrice": "Цена за единицу",
+      "total": "Итого (сумма)"
+    }
   },
   "quantityPicker": {
     "title": "Связать объём",

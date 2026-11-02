@@ -8,7 +8,20 @@
     "rows": "Safu {{count}}",
     "linkDescriptionFirst": "unganisha safu wima ya “Maelezo” kwanza",
     "cancel": "Ghairi",
-    "import": "Ingiza"
+    "import": "Ingiza",
+    "fields": {
+      "ignore": "— puuza —",
+      "code": "Msimbo",
+      "nr": "Na.",
+      "description": "Maelezo",
+      "unit": "Kipimo",
+      "quantity": "Kiasi",
+      "materialPrice": "Vifaa (bei/kipimo)",
+      "laborPrice": "Kazi (bei/kipimo)",
+      "equipmentPrice": "Mitambo (bei/kipimo)",
+      "unitPrice": "Bei ya kipimo",
+      "total": "Jumla (kiasi cha pesa)"
+    }
   },
   "quantityPicker": {
     "title": "Unganisha kiasi",

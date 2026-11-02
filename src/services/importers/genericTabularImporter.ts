@@ -24,10 +24,14 @@ export type TargetField =
   | 'quantity'
   | 'materialPrice'
   | 'laborPrice'
+  | 'equipmentPrice'
   | 'unitPrice'
   | 'total';
 
-/** UI-labels voor de doelvelden (NL). Volgorde = volgorde in de dropdown. */
+/**
+ * Doelvelden in dropdown-volgorde. `label` is de NL-terugvaltekst; de dialoog
+ * vertaalt via `dialogs:columnMapping.fields.<field>`.
+ */
 export const TARGET_FIELDS: { field: TargetField; label: string }[] = [
   { field: 'ignore', label: '— negeren —' },
   { field: 'code', label: 'Code' },
@@ -37,6 +41,7 @@ export const TARGET_FIELDS: { field: TargetField; label: string }[] = [
   { field: 'quantity', label: 'Hoeveelheid' },
   { field: 'materialPrice', label: 'Materiaal (prijs/eh)' },
   { field: 'laborPrice', label: 'Arbeid (prijs/eh)' },
+  { field: 'equipmentPrice', label: 'Materieel (prijs/eh)' },
   { field: 'unitPrice', label: 'Eenheidsprijs' },
   { field: 'total', label: 'Totaal (bedrag)' },
 ];
@@ -118,23 +123,27 @@ export function parseXlsxTabular(buf: ArrayBuffer | Uint8Array, sourceName = 'Ex
 
 // ── Auto-detectie ───────────────────────────────────────────────────────────
 
+// Koppen worden vóór vergelijking genormaliseerd: kleine letters, zonder
+// accenten, spaties en leestekens ("Mano de obra" → "manodeobra",
+// "Medición" → "medicion", "Ud." → "ud"). Spaanse koppen volgen Presto/BC3 (#40).
 const HEADER_SYNONYMS: { field: TargetField; pattern: RegExp }[] = [
-  { field: 'code', pattern: /^(code|stabu|nlsfb|nl-sfb|besteksnr|besteknr|artikelnr|artikelcode)$/ },
-  { field: 'nr', pattern: /^(nr|nummer|regelnr|volgnr|positie|pos)$/ },
-  { field: 'description', pattern: /^(omschrijving|omschr|oms|description|benaming|naam|werk|activiteit)$/ },
-  { field: 'unit', pattern: /^(eh|ehd|eenheid|unit)$/ },
-  { field: 'quantity', pattern: /^(hoeveelheid|hoev|hvh|aantal|qty|quantity)$/ },
-  { field: 'materialPrice', pattern: /^(materiaal|materiaalprijs|mat|matprijs|material)$/ },
-  { field: 'laborPrice', pattern: /^(arbeid|arbeidsprijs|loon|loonprijs|labor|labour|uurprijs|urenprijs)$/ },
-  { field: 'unitPrice', pattern: /^(eenheidsprijs|ehprijs|ehprs|prijs|price|unitprice|stukprijs|tarief|prijspereh)$/ },
-  { field: 'total', pattern: /^(totaal|bedrag|total|amount|subtotaal|regeltotaal)$/ },
+  { field: 'code', pattern: /^(code|stabu|nlsfb|nl-sfb|besteksnr|besteknr|artikelnr|artikelcode|codigo|cod)$/ },
+  { field: 'nr', pattern: /^(nr|nummer|regelnr|volgnr|positie|pos|numero|num|nº|orden)$/ },
+  { field: 'description', pattern: /^(omschrijving|omschr|oms|description|benaming|naam|werk|activiteit|resumen|descripcion|concepto|designacion)$/ },
+  { field: 'unit', pattern: /^(eh|ehd|eenheid|unit|ud|uds|unidad|unidades)$/ },
+  { field: 'quantity', pattern: /^(hoeveelheid|hoev|hvh|aantal|qty|quantity|medicion|cantidad|cant)$/ },
+  { field: 'materialPrice', pattern: /^(materiaal|materiaalprijs|mat|matprijs|material|materiales)$/ },
+  { field: 'laborPrice', pattern: /^(arbeid|arbeidsprijs|loon|loonprijs|labor|labour|uurprijs|urenprijs|manodeobra|mo)$/ },
+  { field: 'equipmentPrice', pattern: /^(materieel|materieelprijs|equipment|machinery|plant|maquinaria|equipo|equipos)$/ },
+  { field: 'unitPrice', pattern: /^(eenheidsprijs|ehprijs|ehprs|prijs|price|unitprice|stukprijs|tarief|prijspereh|precio|preciounitario)$/ },
+  { field: 'total', pattern: /^(totaal|bedrag|total|amount|subtotaal|regeltotaal|importe)$/ },
 ];
 
 /** Raad per bronkolom een doelveld op basis van de kop. Elk veld max. één keer. */
 export function autoDetectMapping(headers: string[]): ColumnMapping {
   const used = new Set<TargetField>();
   return headers.map((h) => {
-    const norm = h.trim().toLowerCase().replace(/[\s._/]+/g, '');
+    const norm = h.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[\s._/]+/g, '');
     for (const syn of HEADER_SYNONYMS) {
       if (used.has(syn.field)) continue;
       if (syn.pattern.test(norm)) { used.add(syn.field); return syn.field; }
@@ -164,11 +173,12 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
   const cQty = colOf('quantity');
   const cMat = colOf('materialPrice');
   const cLab = colOf('laborPrice');
+  const cEq = colOf('equipmentPrice');
   const cUp = colOf('unitPrice');
   const cTot = colOf('total');
 
   if (cDesc < 0) warnings.push(uiText("diagnostics.genericTabularImporter.noColumnIsMappedToDescription", "No column is mapped to Description."));
-  if (cQty < 0 && cUp < 0 && cTot < 0 && cMat < 0 && cLab < 0) {
+  if (cQty < 0 && cUp < 0 && cTot < 0 && cMat < 0 && cLab < 0 && cEq < 0) {
     warnings.push(uiText("diagnostics.genericTabularImporter.noPriceOrQuantityColumnIsMapped", "No price or quantity column is mapped; everything will be imported as chapters."));
   }
 
@@ -185,11 +195,12 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
     const qtyRaw = cell(row, cQty);
     const matRaw = cell(row, cMat);
     const labRaw = cell(row, cLab);
+    const eqRaw = cell(row, cEq);
     const upRaw = cell(row, cUp);
     const totRaw = cell(row, cTot);
 
     const hasQty = qtyRaw !== '';
-    const hasMoney = [matRaw, labRaw, upRaw, totRaw].some((v) => v !== '');
+    const hasMoney = [matRaw, labRaw, eqRaw, upRaw, totRaw].some((v) => v !== '');
 
     if (!hasQty && !hasMoney) {
       const ch = builder.add({
@@ -202,7 +213,52 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
 
     let materialPrice = matRaw !== '' ? parseNumber(matRaw) : null;
     const laborPrice = labRaw !== '' ? parseNumber(labRaw) : null;
+    const equipmentPrice = eqRaw !== '' ? parseNumber(eqRaw) : null;
     let quantity = hasQty ? parseNumber(qtyRaw) : null;
+
+    // Met materieel (maquinaria) erbij past de splitsing niet meer op één
+    // kale post: die kent alleen loon plus één eigen prijs. Leg elke
+    // kostensoort dan vast als rekenregel onder de post, zodat Loon,
+    // Materiaal en Materieel elk in hun eigen kolom komen.
+    if (equipmentPrice != null) {
+      const post = builder.add({
+        parentId: currentChapterId,
+        depth: currentChapterId ? 1 : 0,
+        rowType: 'begrotingspost',
+        code,
+        nr: cell(row, cNr),
+        description,
+        unit: normalizeUnit(cell(row, cUnit)),
+        quantity,
+      });
+      const qty = quantity ?? 1;
+      const parts: { price: number | null; resourceType: 'arbeid' | 'materiaal' | 'materieel'; label: string }[] = [
+        { price: laborPrice, resourceType: 'arbeid', label: uiText('diagnostics.genericTabularImporter.labour', 'Labour') },
+        { price: materialPrice, resourceType: 'materiaal', label: uiText('diagnostics.genericTabularImporter.material', 'Material') },
+        { price: equipmentPrice, resourceType: 'materieel', label: uiText('diagnostics.genericTabularImporter.equipment', 'Equipment') },
+      ];
+      let postTotal = 0;
+      for (const part of parts) {
+        if (part.price == null) continue;
+        const total = qty * part.price;
+        postTotal += total;
+        builder.add({
+          parentId: post.id,
+          depth: post.depth + 1,
+          rowType: 'regel',
+          description: part.label,
+          unit: post.unit,
+          quantity: qty,
+          resourceType: part.resourceType,
+          ...(part.resourceType === 'arbeid' ? { laborPrice: part.price } : { normUnitPrice: part.price }),
+          unitPrice: total,
+          total,
+        });
+      }
+      post.total = postTotal;
+      post.unitPrice = quantity ? postTotal / quantity : postTotal;
+      continue;
+    }
     const explicitUnit = upRaw !== '' ? parseNumber(upRaw) : null;
     const explicitTotal = totRaw !== '' ? parseNumber(totRaw) : null;
 

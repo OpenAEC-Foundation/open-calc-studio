@@ -8,7 +8,20 @@
     "rows": "{{count}} sor",
     "linkDescriptionFirst": "előbb párosítson egy „Megnevezés” oszlopot",
     "cancel": "Mégse",
-    "import": "Importálás"
+    "import": "Importálás",
+    "fields": {
+      "ignore": "— kihagyás —",
+      "code": "Kód",
+      "nr": "Sz.",
+      "description": "Leírás",
+      "unit": "Egység",
+      "quantity": "Mennyiség",
+      "materialPrice": "Anyag (ár/egység)",
+      "laborPrice": "Munkadíj (ár/egység)",
+      "equipmentPrice": "Gépek (ár/egység)",
+      "unitPrice": "Egységár",
+      "total": "Összesen (összeg)"
+    }
   },
   "quantityPicker": {
     "title": "Mennyiség összekapcsolása",

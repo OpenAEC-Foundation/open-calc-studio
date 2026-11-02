@@ -8,7 +8,20 @@
     "rows": "{{count}} righe",
     "linkDescriptionFirst": "associa prima una colonna «Descrizione»",
     "cancel": "Annulla",
-    "import": "Importa"
+    "import": "Importa",
+    "fields": {
+      "ignore": "— ignora —",
+      "code": "Codice",
+      "nr": "N.",
+      "description": "Descrizione",
+      "unit": "Unità",
+      "quantity": "Quantità",
+      "materialPrice": "Materiali (prezzo/u)",
+      "laborPrice": "Manodopera (prezzo/u)",
+      "equipmentPrice": "Noli e attrezzature (prezzo/u)",
+      "unitPrice": "Prezzo unitario",
+      "total": "Totale (importo)"
+    }
   },
   "quantityPicker": {
     "title": "Collega la quantità",

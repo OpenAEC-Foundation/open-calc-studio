@@ -8,7 +8,20 @@
     "rows": "{{count}} linjer",
     "linkDescriptionFirst": "tilknyt først en “Beskrivelse”-kolonne",
     "cancel": "Annuller",
-    "import": "Importér"
+    "import": "Importér",
+    "fields": {
+      "ignore": "— ignorer —",
+      "code": "Kode",
+      "nr": "Nr.",
+      "description": "Beskrivelse",
+      "unit": "Enhed",
+      "quantity": "Mængde",
+      "materialPrice": "Materialer (pris/enh.)",
+      "laborPrice": "Arbejdsløn (pris/enh.)",
+      "equipmentPrice": "Materiel (pris/enh.)",
+      "unitPrice": "Enhedspris",
+      "total": "I alt (beløb)"
+    }
   },
   "quantityPicker": {
     "title": "Forbind mængde",

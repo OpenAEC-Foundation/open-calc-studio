@@ -8,7 +8,20 @@
     "rows": "{{count}} riviä",
     "linkDescriptionFirst": "yhdistä ensin ”Kuvaus”-sarake",
     "cancel": "Peruuta",
-    "import": "Tuo"
+    "import": "Tuo",
+    "fields": {
+      "ignore": "— ohita —",
+      "code": "Koodi",
+      "nr": "Nro",
+      "description": "Kuvaus",
+      "unit": "Yksikkö",
+      "quantity": "Määrä",
+      "materialPrice": "Materiaalit (hinta/yks.)",
+      "laborPrice": "Työ (hinta/yks.)",
+      "equipmentPrice": "Kalusto (hinta/yks.)",
+      "unitPrice": "Yksikköhinta",
+      "total": "Yhteensä (summa)"
+    }
   },
   "quantityPicker": {
     "title": "Linkitä määrä",

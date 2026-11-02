@@ -9,7 +9,20 @@
     "rows": "{{count}} редова",
     "linkDescriptionFirst": "прво повежите колону „Опис“",
     "cancel": "Откажи",
-    "import": "Увоз"
+    "import": "Увоз",
+    "fields": {
+      "ignore": "— занемари —",
+      "code": "Шифра",
+      "nr": "Бр.",
+      "description": "Опис",
+      "unit": "Јединица",
+      "quantity": "Количина",
+      "materialPrice": "Материјал (цена/јед.)",
+      "laborPrice": "Рад (цена/јед.)",
+      "equipmentPrice": "Механизација (цена/јед.)",
+      "unitPrice": "Јединична цена",
+      "total": "Укупно (износ)"
+    }
   },
   "quantityPicker": {
     "title": "Повезивање количине",

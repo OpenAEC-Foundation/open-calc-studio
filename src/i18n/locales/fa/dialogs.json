@@ -8,7 +8,20 @@
     "rows": "{{count}} سطر",
     "linkDescriptionFirst": "ابتدا یک ستون «شرح» را پیوند دهید",
     "cancel": "انصراف",
-    "import": "ورود"
+    "import": "ورود",
+    "fields": {
+      "ignore": "— نادیده گرفتن —",
+      "code": "کد",
+      "nr": "شماره",
+      "description": "شرح",
+      "unit": "واحد",
+      "quantity": "مقدار",
+      "materialPrice": "مصالح (قیمت/واحد)",
+      "laborPrice": "دستمزد (قیمت/واحد)",
+      "equipmentPrice": "ماشین‌آلات (قیمت/واحد)",
+      "unitPrice": "قیمت واحد",
+      "total": "جمع (مبلغ)"
+    }
   },
   "quantityPicker": {
     "title": "پیوند مقدار",

@@ -8,7 +8,20 @@
     "rows": "{{count}} سطریں",
     "linkDescriptionFirst": "پہلے کوئی ”تفصیل“ کالم منسلک کریں",
     "cancel": "منسوخ",
-    "import": "درآمد"
+    "import": "درآمد",
+    "fields": {
+      "ignore": "— نظر انداز کریں —",
+      "code": "کوڈ",
+      "nr": "نمبر",
+      "description": "تفصیل",
+      "unit": "اکائی",
+      "quantity": "مقدار",
+      "materialPrice": "مواد (قیمت/اکائی)",
+      "laborPrice": "مزدوری (قیمت/اکائی)",
+      "equipmentPrice": "مشینری (قیمت/اکائی)",
+      "unitPrice": "فی اکائی قیمت",
+      "total": "کل (رقم)"
+    }
   },
   "quantityPicker": {
     "title": "مقدار منسلک کریں",

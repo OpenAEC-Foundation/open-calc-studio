@@ -8,7 +8,20 @@
     "rows": "{{count}} rows",
     "linkDescriptionFirst": "link a “Description” column first",
     "cancel": "Cancel",
-    "import": "Import"
+    "import": "Import",
+    "fields": {
+      "ignore": "— ignore —",
+      "code": "Code",
+      "nr": "No.",
+      "description": "Description",
+      "unit": "Unit",
+      "quantity": "Quantity",
+      "materialPrice": "Material (price/unit)",
+      "laborPrice": "Labour (price/unit)",
+      "equipmentPrice": "Equipment (price/unit)",
+      "unitPrice": "Unit price",
+      "total": "Total (amount)"
+    }
   },
   "quantityPicker": {
     "title": "Link quantity",

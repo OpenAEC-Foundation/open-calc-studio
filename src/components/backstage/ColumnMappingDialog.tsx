@@ -72,8 +72,8 @@ export default function ColumnMappingDialog({ open, data, onClose, onConfirm }: 
                       value={mapping[i] ?? 'ignore'}
                       onChange={(e) => setCol(i, e.target.value as TargetField)}
                     >
-                      {TARGET_FIELDS.map((t) => (
-                        <option key={t.field} value={t.field}>{t.label}</option>
+                      {TARGET_FIELDS.map((f) => (
+                        <option key={f.field} value={f.field}>{t(`columnMapping.fields.${f.field}`, { defaultValue: f.label })}</option>
                       ))}
                     </select>
                   </th>
