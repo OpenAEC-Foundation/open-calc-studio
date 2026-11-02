@@ -75,6 +75,23 @@ describe('Spaanse Excel/CSV-import', () => {
     expect(byCode('01').total).toBeCloseTo(85 * 22.4 + 40 * 26.3 + 170 * 12.1);
   });
 
+  it('behoudt het restant van Precio als er alleen Maquinaria is gesplitst', () => {
+    const data = parseCsv(['Resumen;Medición;Maquinaria;Precio', 'Hormigón;10;7,50;120,50'].join('\n'), 'x');
+    const items = recalculateItems(buildFromMapping(data, autoDetectMapping(data.headers)).items);
+    const post = items.find((i) => i.rowType === 'begrotingspost')!;
+    expect(post.total).toBeCloseTo(1205);
+    expect(items.filter((i) => i.parentId === post.id).map((r) => r.resourceType)).toEqual(['materiaal', 'materieel']);
+  });
+
+  it('maakt geen lege regels voor kostensoorten met 0', () => {
+    const data = parseCsv(['Resumen;Medición;Mano de obra;Materiales;Maquinaria', 'Grúa;5;0;0;80', 'Acero;100;0,45;1,10;0'].join('\n'), 'x');
+    const items = buildFromMapping(data, autoDetectMapping(data.headers)).items;
+    expect(items.filter((i) => i.rowType === 'regel').map((r) => r.resourceType)).toEqual(['materieel']);
+    const acero = items.find((i) => i.description === 'Acero')!;
+    expect(acero.laborPrice).toBe(0.45);
+    expect(acero.materialPrice).toBe(1.1);
+  });
+
   it('laat posten zonder materieel ongewijzigd (één kale post)', () => {
     const data = parseCsv(['Resumen;Medición;Mano de obra;Materiales', 'Muro;10;20;30'].join('\n'), 'x');
     const items = buildFromMapping(data, autoDetectMapping(data.headers)).items;

@@ -144,7 +144,7 @@ const HEADER_SYNONYMS: { field: TargetField; pattern: RegExp }[] = [
 export function autoDetectMapping(headers: string[]): ColumnMapping {
   const used = new Set<TargetField>();
   return headers.map((h) => {
-    const norm = h.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[\s._/]+/g, '');
+    const norm = h.trim().toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/[\s._/]+/g, '');
     for (const syn of HEADER_SYNONYMS) {
       if (used.has(syn.field)) continue;
       if (syn.pattern.test(norm)) { used.add(syn.field); return syn.field; }
@@ -233,12 +233,14 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
     const laborPrice = labRaw !== '' ? parseNumber(labRaw) : null;
     const equipmentPrice = eqRaw !== '' ? parseNumber(eqRaw) : null;
     let quantity = hasQty ? parseNumber(qtyRaw) : null;
+    const explicitUnit = upRaw !== '' ? parseNumber(upRaw) : null;
+    const explicitTotal = totRaw !== '' ? parseNumber(totRaw) : null;
 
     // Met materieel (maquinaria) erbij past de splitsing niet meer op één
     // kale post: die kent alleen loon plus één eigen prijs. Leg elke
     // kostensoort dan vast als rekenregel onder de post, zodat Loon,
-    // Materiaal en Materieel elk in hun eigen kolom komen.
-    if (equipmentPrice != null) {
+    // Materiaal en Materieel elk in hun eigen kolom komen. Een 0 telt als leeg.
+    if (equipmentPrice) {
       const post = builder.add({
         ...under(parent),
         rowType: 'begrotingspost',
@@ -249,14 +251,21 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
         quantity,
       });
       const qty = quantity ?? 1;
+      // Zonder arbeid/materiaal kan een eenheidsprijs of totaal méér bevatten
+      // dan het materieel alleen; dat restant mag niet stil wegvallen.
+      let otherPrice = materialPrice;
+      if (!laborPrice && !materialPrice) {
+        const statedUnit = explicitUnit ?? (explicitTotal != null && quantity ? explicitTotal / quantity : null);
+        if (statedUnit != null && statedUnit > equipmentPrice) otherPrice = statedUnit - equipmentPrice;
+      }
       const parts: { price: number | null; resourceType: 'arbeid' | 'materiaal' | 'materieel'; label: string }[] = [
         { price: laborPrice, resourceType: 'arbeid', label: uiText('diagnostics.genericTabularImporter.labour', 'Labour') },
-        { price: materialPrice, resourceType: 'materiaal', label: uiText('diagnostics.genericTabularImporter.material', 'Material') },
+        { price: otherPrice, resourceType: 'materiaal', label: uiText('diagnostics.genericTabularImporter.material', 'Material') },
         { price: equipmentPrice, resourceType: 'materieel', label: uiText('diagnostics.genericTabularImporter.equipment', 'Equipment') },
       ];
       let postTotal = 0;
       for (const part of parts) {
-        if (part.price == null) continue;
+        if (!part.price) continue;
         const total = qty * part.price;
         postTotal += total;
         builder.add({
@@ -276,8 +285,6 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
       post.unitPrice = quantity ? postTotal / quantity : postTotal;
       continue;
     }
-    const explicitUnit = upRaw !== '' ? parseNumber(upRaw) : null;
-    const explicitTotal = totRaw !== '' ? parseNumber(totRaw) : null;
 
     // Een kale begrotingspost (zonder regels) haalt zijn totaal bij de
     // herberekening uit hoeveelheid × (materiaal + arbeid). Zit er geen
