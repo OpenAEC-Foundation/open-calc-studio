@@ -19,7 +19,12 @@ import type { TabularData } from '../services/importers/genericTabularImporter';
  * Zonder bruikbare kolommen blijft de oorspronkelijke BasCalc-fout staan.
  */
 async function importSpreadsheetTable(file: File, originalError: unknown): Promise<ImportResult> {
-  const table = await runImportWorker<TabularData>('tabular', await file.arrayBuffer(), file.name);
+  let table: TabularData;
+  try {
+    table = await runImportWorker<TabularData>('tabular', await file.arrayBuffer(), file.name);
+  } catch {
+    throw originalError; // ook als tabel onleesbaar: toon de oorspronkelijke fout
+  }
   if (table.headers.every((h) => !h)) throw originalError;
   const { buildFromMapping } = await import('../services/importers/genericTabularImporter');
   const { askColumnMapping, ImportCancelledError } = await import('../components/backstage/askColumnMapping');

@@ -23,7 +23,10 @@ export function askColumnMapping(data: TabularData): Promise<ColumnMapping | nul
     const el = document.createElement('div');
     getPortalTarget().appendChild(el);
     const root = createRoot(el);
+    let done = false;
     const finish = (mapping: ColumnMapping | null) => {
+      if (done) return; // sluiten na bevestigen mag niet nog eens annuleren
+      done = true;
       resolve(mapping);
       // Na de huidige render opruimen; unmount tijdens een event-handler waarschuwt React.
       queueMicrotask(() => { root.unmount(); el.remove(); });
