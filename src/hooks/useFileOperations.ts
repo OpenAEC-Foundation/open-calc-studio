@@ -17,6 +17,11 @@ import {
 } from '@/services/file/nativeFileService';
 import { showImportWarnings } from '@/components/common/ImportWarningsDialog';
 
+/** De gebruiker sloot het koppelvenster van een Excel-import: geen foutmelding. */
+function isImportCancelled(err: unknown): boolean {
+  return err instanceof Error && err.name === 'ImportCancelledError';
+}
+
 function fileNameFromPath(filePath: string): string {
   const segments = filePath.replace(/\\/g, '/').split('/');
   const fullName = segments[segments.length - 1];
@@ -269,6 +274,7 @@ export function useFileOperations() {
         if (parsed.schedule.projectInfo) setProjectInfo(parsed.schedule.projectInfo);
         addToRecentFiles(result.path);
       } catch (err) {
+        if (isImportCancelled(err)) return;
         await showError(`Failed to open file: ${err}`);
       }
     } else {
@@ -356,6 +362,7 @@ export function useFileOperations() {
       if (parsed.schedule.projectInfo) setProjectInfo(parsed.schedule.projectInfo);
       addToRecentFiles(filePath);
     } catch (err) {
+      if (isImportCancelled(err)) return;
       // Remove invalid path from recent files
       const current = settings.recentFiles ?? [];
       updateSettings({ recentFiles: current.filter((p: string) => p !== filePath) });
@@ -413,6 +420,7 @@ export function useFileOperations() {
         setSnapshots(parsed.snapshots ?? []);
         if (parsed.schedule.projectInfo) setProjectInfo(parsed.schedule.projectInfo);
       } catch (err) {
+        if (isImportCancelled(err)) return;
         await showError(`Failed to open file: ${err}`);
       }
     };

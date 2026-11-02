@@ -11,6 +11,23 @@ import { importRsx } from '../services/importers/rsxImporter';
 // WpCalc importer is lazy-loaded because mdb-reader needs Buffer polyfill
 // import { importWpCalcFile } from '../services/importers/wpcalcImporter';
 import { recalculateItems } from '../services/calculation/calculator';
+import type { TabularData } from '../services/importers/genericTabularImporter';
+
+/**
+ * Open een Excel-bestand dat geen BasCalc-bestand is als gewone tabel (#40):
+ * de gebruiker controleert de (vooraf geraden) kolommen in het koppelvenster.
+ * Zonder bruikbare kolommen blijft de oorspronkelijke BasCalc-fout staan.
+ */
+async function importSpreadsheetTable(file: File, originalError: unknown): Promise<ImportResult> {
+  const table = await runImportWorker<TabularData>('tabular', await file.arrayBuffer(), file.name);
+  if (table.headers.every((h) => !h)) throw originalError;
+  const { buildFromMapping } = await import('../services/importers/genericTabularImporter');
+  const { askColumnMapping, ImportCancelledError } = await import('../components/backstage/askColumnMapping');
+  const mapping = await askColumnMapping(table);
+  if (!mapping) throw new ImportCancelledError();
+  const result = buildFromMapping(table, mapping);
+  return { ...result, items: recalculateItems(result.items) };
+}
 
 
 const bc3Manifest: ExtensionManifest = {
@@ -165,8 +182,13 @@ export function registerBuiltinExtensions(): void {
     icon: bascalcManifest.icon,
     handler: async (file: File) => {
       if (file.size > 64 * 1024 * 1024) throw Error('Spreadsheet exceeds 64 MiB.');
-      const buffer = await file.arrayBuffer();
-      const result = await runImportWorker<ImportResult>('bascalc', buffer, file.name);
+      let result: ImportResult;
+      try {
+        result = await runImportWorker<ImportResult>('bascalc', await file.arrayBuffer(), file.name);
+      } catch (bascalcError) {
+        // Geen BasCalc-bestand: probeer het als gewone tabel (#40).
+        return importSpreadsheetTable(file, bascalcError);
+      }
       return {
         schedule: result.schedule,
         items: recalculateItems(result.items),
