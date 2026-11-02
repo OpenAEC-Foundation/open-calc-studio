@@ -20,5 +20,8 @@
   "successMessage": "Masukan Anda berhasil dikirim.",
   "sendAnother": "Kirim lagi",
   "errorGeneric": "Gagal mengirim masukan. Silakan coba lagi.",
+  "emailInvalid": "Masukkan alamat email yang valid.",
+  "messageTooShort": "Pesan terlalu pendek: minimal {{min}} karakter.",
+  "errorFallback": "Masih belum berhasil? Kirim email ke {{email}}.",
   "clearSaved": "Hapus email tersimpan"
 }

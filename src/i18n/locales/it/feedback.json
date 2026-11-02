@@ -20,5 +20,8 @@
   "successMessage": "Il tuo feedback è stato inviato correttamente.",
   "sendAnother": "Invia un altro",
   "errorGeneric": "Invio del feedback non riuscito. Riprova.",
+  "emailInvalid": "Inserisci un indirizzo email valido.",
+  "messageTooShort": "Il messaggio è troppo breve: almeno {{min}} caratteri.",
+  "errorFallback": "Non funziona ancora? Scrivici a {{email}}.",
   "clearSaved": "Cancella l'e-mail salvata"
 }

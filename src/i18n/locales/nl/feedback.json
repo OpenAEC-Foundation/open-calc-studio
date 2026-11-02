@@ -20,5 +20,8 @@
   "successMessage": "Uw feedback is succesvol verzonden.",
   "sendAnother": "Nog een verzenden",
   "errorGeneric": "Feedback verzenden mislukt. Probeer het opnieuw.",
+  "emailInvalid": "Vul een geldig e-mailadres in.",
+  "messageTooShort": "Bericht is te kort: minimaal {{min}} tekens.",
+  "errorFallback": "Lukt het nog steeds niet? Mail ons op {{email}}.",
   "clearSaved": "Opgeslagen e-mail wissen"
 }

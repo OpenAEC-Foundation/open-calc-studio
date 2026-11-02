@@ -20,5 +20,8 @@
   "successMessage": "O seu comentário foi enviado com sucesso.",
   "sendAnother": "Enviar outro",
   "errorGeneric": "Não foi possível enviar o comentário. Tente novamente.",
+  "emailInvalid": "Insira um endereço de e-mail válido.",
+  "messageTooShort": "A mensagem é muito curta: pelo menos {{min}} caracteres.",
+  "errorFallback": "Continua sem funcionar? Envie-nos um e-mail para {{email}}.",
   "clearSaved": "Limpar o e-mail guardado"
 }

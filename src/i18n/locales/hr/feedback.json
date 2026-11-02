@@ -20,5 +20,8 @@
   "successMessage": "Vaša povratna informacija uspješno je poslana.",
   "sendAnother": "Pošalji još jednu",
   "errorGeneric": "Slanje povratne informacije nije uspjelo. Pokušajte ponovno.",
+  "emailInvalid": "Unesite valjanu adresu e-pošte.",
+  "messageTooShort": "Poruka je prekratka: najmanje {{min}} znakova.",
+  "errorFallback": "I dalje ne radi? Pišite nam na {{email}}.",
   "clearSaved": "Očisti spremljenu e-poštu"
 }

@@ -20,5 +20,8 @@
   "successMessage": "Maklum balas anda berjaya dihantar.",
   "sendAnother": "Hantar satu lagi",
   "errorGeneric": "Maklum balas gagal dihantar. Sila cuba lagi.",
+  "emailInvalid": "Masukkan alamat e-mel yang sah.",
+  "messageTooShort": "Mesej terlalu pendek: sekurang-kurangnya {{min}} aksara.",
+  "errorFallback": "Masih tidak berjaya? E-mel kami di {{email}}.",
   "clearSaved": "Kosongkan e-mel tersimpan"
 }

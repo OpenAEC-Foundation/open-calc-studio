@@ -58,8 +58,23 @@ it('shows the server reason when the API rejects the feedback', async () => {
   await vi.waitFor(() => expect(document.querySelector('.feedback-error')).toHaveTextContent('HTTP 400: App identifier is required'));
 });
 
-it('shows the network error when the request is blocked', async () => {
+it('shows the network error and a mail fallback when the request is blocked', async () => {
   mocks.fetch.mockRejectedValue(new TypeError('Failed to fetch'));
   await fillAndSubmit();
   await vi.waitFor(() => expect(document.querySelector('.feedback-error')).toHaveTextContent('Failed to fetch'));
+  expect(document.querySelector('.feedback-error-fallback')).toHaveTextContent('info@open-aec.com');
+});
+
+it('explains what is missing only after Send is clicked', async () => {
+  await act(async () => root.render(<FeedbackDialog open onClose={vi.fn()} />));
+  await input(document.querySelector<HTMLInputElement>('.feedback-input')!, 'not-an-email');
+  await input(document.querySelector('textarea')!, 'Test');
+  expect(document.querySelector('.feedback-hint')).toBeNull();
+  await act(async () => document.querySelector<HTMLButtonElement>('.feedback-submit-btn')!.click());
+  const hints = [...document.querySelectorAll('.feedback-hint')].map((el) => el.textContent);
+  expect(hints).toEqual(['Enter a valid email address.', 'Message is too short: at least 10 characters.']);
+  expect(mocks.fetch).not.toHaveBeenCalled();
+  // Een hint verdwijnt zodra dat veld klopt.
+  await input(document.querySelector<HTMLInputElement>('.feedback-input')!, 'synthetic@example.invalid');
+  expect(document.querySelectorAll('.feedback-hint')).toHaveLength(1);
 });

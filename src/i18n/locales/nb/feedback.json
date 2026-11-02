@@ -20,5 +20,8 @@
   "successMessage": "Tilbakemeldingen din er sendt.",
   "sendAnother": "Send en til",
   "errorGeneric": "Tilbakemeldingen kunne ikke sendes. Prøv igjen.",
+  "emailInvalid": "Skriv inn en gyldig e-postadresse.",
+  "messageTooShort": "Meldingen er for kort: minst {{min}} tegn.",
+  "errorFallback": "Fungerer det fortsatt ikke? Send oss en e-post på {{email}}.",
   "clearSaved": "Tøm lagret e-postadresse"
 }

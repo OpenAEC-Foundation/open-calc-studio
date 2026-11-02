@@ -20,5 +20,8 @@
   "successMessage": "Your feedback has been sent successfully.",
   "sendAnother": "Send Another",
   "errorGeneric": "Failed to send feedback. Please try again.",
+  "emailInvalid": "Enter a valid email address.",
+  "messageTooShort": "Message is too short: at least {{min}} characters.",
+  "errorFallback": "Still not working? Email us at {{email}}.",
   "clearSaved": "Clear saved email"
 }

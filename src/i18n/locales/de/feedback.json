@@ -20,5 +20,8 @@
   "successMessage": "Ihr Feedback wurde erfolgreich gesendet.",
   "sendAnother": "Weiteres senden",
   "errorGeneric": "Feedback konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+  "emailInvalid": "Geben Sie eine gültige E-Mail-Adresse ein.",
+  "messageTooShort": "Die Nachricht ist zu kurz: mindestens {{min}} Zeichen.",
+  "errorFallback": "Funktioniert es weiterhin nicht? Schreiben Sie uns an {{email}}.",
   "clearSaved": "Gespeicherte E-Mail-Adresse löschen"
 }
