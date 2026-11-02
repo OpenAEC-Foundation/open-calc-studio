@@ -48,6 +48,33 @@ describe('Spaanse Excel/CSV-import', () => {
     expect(chapter.total).toBeCloseTo(1175);
   });
 
+  it('bouwt capítulos en subcapítulos op uit hiërarchische codes', () => {
+    const data = parseCsv([
+      'Código;Resumen;Ud.;Medición;Precio',
+      '01;ALBAÑILERÍA;;;',
+      '01.01;Fábricas;;;',
+      '01.01.001;Tabique de ladrillo;m2;85;22,40',
+      '01.01.002;Muro de bloque;m2;40;26,30',
+      '01.02;Revestimientos;;;',
+      '01.02.001;Enfoscado;m2;170;12,10',
+      '02;CARPINTERÍA;;;',
+      '02.001;Puerta de paso;ud;6;245,00',
+    ].join('\n'), 'x');
+    const items = recalculateItems(buildFromMapping(data, autoDetectMapping(data.headers)).items);
+    const byCode = (code: string) => items.find((i) => i.code === code)!;
+    const parentCode = (code: string) => items.find((i) => i.id === byCode(code).parentId)?.code ?? null;
+
+    expect(parentCode('01')).toBeNull();
+    expect(parentCode('01.01')).toBe('01');
+    expect(parentCode('01.01.001')).toBe('01.01');
+    expect(parentCode('01.02.001')).toBe('01.02');
+    expect(parentCode('02.001')).toBe('02');
+    expect(byCode('01.01').rowType).toBe('chapter');
+    expect(byCode('01.01.001').depth).toBe(2);
+    expect(byCode('01.01').total).toBeCloseTo(85 * 22.4 + 40 * 26.3);
+    expect(byCode('01').total).toBeCloseTo(85 * 22.4 + 40 * 26.3 + 170 * 12.1);
+  });
+
   it('laat posten zonder materieel ongewijzigd (één kale post)', () => {
     const data = parseCsv(['Resumen;Medición;Mano de obra;Materiales', 'Muro;10;20;30'].join('\n'), 'x');
     const items = buildFromMapping(data, autoDetectMapping(data.headers)).items;

@@ -3,6 +3,7 @@ import { uiText } from '../../i18n/uiText';
 import * as XLSX from 'xlsx';
 import { BudgetBuilder, parseNumber, normalizeUnit } from './core';
 import type { ImportResult } from './types';
+import type { CostItem } from '@/types/costModel';
 
 /**
  * Generieke Excel/CSV-importer met kolom-mapping.
@@ -159,7 +160,9 @@ export function autoDetectMapping(headers: string[]): ColumnMapping {
  *
  * Heuristiek voor de rijsoort: een rij met (alleen) code/omschrijving en géén
  * hoeveelheid of bedrag wordt een hoofdstuk; overige rijen worden een
- * begrotingspost onder het laatst geziene hoofdstuk.
+ * begrotingspost. De ouder volgt uit een hiërarchische code ("01.01.001"
+ * valt onder hoofdstuk "01.01", dat onder "01" valt); zonder zo'n code komt
+ * de rij onder het laatst geziene hoofdstuk.
  */
 export function buildFromMapping(data: TabularData, mapping: ColumnMapping): ImportResult {
   const builder = new BudgetBuilder();
@@ -183,7 +186,20 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
   }
 
   const cell = (row: string[], idx: number): string => (idx >= 0 ? (row[idx] ?? '').trim() : '');
-  let currentChapterId: string | null = null;
+  let currentChapter: CostItem | null = null;
+
+  // Hoofdstukken op code, zodat Spaanse capítulos/subcapítulos als boom
+  // binnenkomen (#40): zoek het langste voorvoegsel dat een hoofdstuk is.
+  const chaptersByCode = new Map<string, CostItem>();
+  const chapterForCode = (code: string): CostItem | null => {
+    const parts = code.split('.');
+    for (let n = parts.length - 1; n > 0; n--) {
+      const chapter = chaptersByCode.get(parts.slice(0, n).join('.'));
+      if (chapter) return chapter;
+    }
+    return null;
+  };
+  const under = (parent: CostItem | null) => ({ parentId: parent?.id ?? null, depth: parent ? parent.depth + 1 : 0 });
 
   for (const row of data.rows) {
     if (row.every((c) => !c || !c.trim())) continue;
@@ -204,12 +220,14 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
 
     if (!hasQty && !hasMoney) {
       const ch = builder.add({
-        parentId: null, depth: 0, rowType: 'chapter',
+        ...under(code ? chapterForCode(code) : null), rowType: 'chapter',
         code, description: description || code, unit: 'st',
       });
-      currentChapterId = ch.id;
+      if (code) chaptersByCode.set(code, ch);
+      currentChapter = ch;
       continue;
     }
+    const parent = (code ? chapterForCode(code) : null) ?? currentChapter;
 
     let materialPrice = matRaw !== '' ? parseNumber(matRaw) : null;
     const laborPrice = labRaw !== '' ? parseNumber(labRaw) : null;
@@ -222,8 +240,7 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
     // Materiaal en Materieel elk in hun eigen kolom komen.
     if (equipmentPrice != null) {
       const post = builder.add({
-        parentId: currentChapterId,
-        depth: currentChapterId ? 1 : 0,
+        ...under(parent),
         rowType: 'begrotingspost',
         code,
         nr: cell(row, cNr),
@@ -279,8 +296,7 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
     const total = (quantity ?? 0) * unitPrice;
 
     builder.add({
-      parentId: currentChapterId,
-      depth: currentChapterId ? 1 : 0,
+      ...under(parent),
       rowType: 'begrotingspost',
       code,
       nr: cell(row, cNr),
