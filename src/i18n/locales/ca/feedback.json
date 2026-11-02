@@ -20,5 +20,8 @@
   "successMessage": "Els vostres comentaris s'han enviat correctament.",
   "sendAnother": "Envia'n uns altres",
   "errorGeneric": "No s'han pogut enviar els comentaris. Torneu-ho a provar.",
+  "emailInvalid": "Introduïu una adreça electrònica vàlida.",
+  "messageTooShort": "El missatge és massa curt: com a mínim {{min}} caràcters.",
+  "errorFallback": "Encara no funciona? Escriviu-nos a {{email}}.",
   "clearSaved": "Esborra el correu desat"
 }

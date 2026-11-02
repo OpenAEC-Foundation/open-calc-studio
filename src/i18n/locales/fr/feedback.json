@@ -20,5 +20,8 @@
   "successMessage": "Votre commentaire a bien été envoyé.",
   "sendAnother": "En envoyer un autre",
   "errorGeneric": "L'envoi du commentaire a échoué. Veuillez réessayer.",
+  "emailInvalid": "Saisissez une adresse e-mail valide.",
+  "messageTooShort": "Le message est trop court : au moins {{min}} caractères.",
+  "errorFallback": "Toujours un problème ? Écrivez-nous à {{email}}.",
   "clearSaved": "Effacer l'e-mail enregistré"
 }

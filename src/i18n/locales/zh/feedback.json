@@ -20,5 +20,8 @@
   "successMessage": "您的反馈已成功发送。",
   "sendAnother": "再次发送",
   "errorGeneric": "反馈发送失败，请重试。",
+  "emailInvalid": "请输入有效的电子邮件地址。",
+  "messageTooShort": "消息太短：至少需要 {{min}} 个字符。",
+  "errorFallback": "仍然无法发送？请发送邮件至 {{email}}。",
   "clearSaved": "清除已保存的邮箱"
 }

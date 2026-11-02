@@ -20,5 +20,8 @@
   "successMessage": "Visszajelzését sikeresen elküldtük.",
   "sendAnother": "Újabb küldése",
   "errorGeneric": "A visszajelzés küldése nem sikerült. Kérjük, próbálja újra.",
+  "emailInvalid": "Adjon meg egy érvényes e-mail-címet.",
+  "messageTooShort": "Az üzenet túl rövid: legalább {{min}} karakter.",
+  "errorFallback": "Továbbra sem működik? Írjon nekünk: {{email}}.",
   "clearSaved": "Mentett e-mail törlése"
 }

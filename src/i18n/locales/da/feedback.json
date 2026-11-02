@@ -20,5 +20,8 @@
   "successMessage": "Din feedback er sendt.",
   "sendAnother": "Send en mere",
   "errorGeneric": "Feedbacken kunne ikke sendes. Prøv venligst igen.",
+  "emailInvalid": "Indtast en gyldig e-mailadresse.",
+  "messageTooShort": "Beskeden er for kort: mindst {{min}} tegn.",
+  "errorFallback": "Virker det stadig ikke? Skriv til os på {{email}}.",
   "clearSaved": "Ryd gemt e-mailadresse"
 }

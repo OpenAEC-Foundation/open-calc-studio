@@ -20,5 +20,8 @@
   "successMessage": "Feedbackul dumneavoastră a fost trimis cu succes.",
   "sendAnother": "Trimiteți altul",
   "errorGeneric": "Trimiterea feedbackului a eșuat. Vă rugăm să încercați din nou.",
+  "emailInvalid": "Introduceți o adresă de e-mail validă.",
+  "messageTooShort": "Mesajul este prea scurt: cel puțin {{min}} caractere.",
+  "errorFallback": "Tot nu funcționează? Scrieți-ne la {{email}}.",
   "clearSaved": "Ștergere e-mail salvat"
 }

@@ -20,5 +20,8 @@
   "successMessage": "Twoja opinia została wysłana.",
   "sendAnother": "Wyślij kolejną",
   "errorGeneric": "Nie udało się wysłać opinii. Spróbuj ponownie.",
+  "emailInvalid": "Wpisz prawidłowy adres e-mail.",
+  "messageTooShort": "Wiadomość jest za krótka: co najmniej {{min}} znaków.",
+  "errorFallback": "Nadal nie działa? Napisz do nas na {{email}}.",
   "clearSaved": "Wyczyść zapisany adres e-mail"
 }

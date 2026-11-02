@@ -20,5 +20,8 @@
   "successMessage": "Din feedback har skickats.",
   "sendAnother": "Skicka en till",
   "errorGeneric": "Feedbacken kunde inte skickas. Försök igen.",
+  "emailInvalid": "Ange en giltig e-postadress.",
+  "messageTooShort": "Meddelandet är för kort: minst {{min}} tecken.",
+  "errorFallback": "Fungerar det fortfarande inte? Mejla oss på {{email}}.",
   "clearSaved": "Rensa sparad e-postadress"
 }

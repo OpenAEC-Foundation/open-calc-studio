@@ -20,5 +20,8 @@
   "successMessage": "フィードバックを送信しました。",
   "sendAnother": "続けて送信",
   "errorGeneric": "フィードバックを送信できませんでした。もう一度お試しください。",
+  "emailInvalid": "有効なメールアドレスを入力してください。",
+  "messageTooShort": "メッセージが短すぎます（{{min}}文字以上）。",
+  "errorFallback": "それでも送信できない場合は、{{email}} までメールでお問い合わせください。",
   "clearSaved": "保存したメールアドレスを消去"
 }

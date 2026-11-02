@@ -20,5 +20,8 @@
   "successMessage": "Vaša spätná väzba bola úspešne odoslaná.",
   "sendAnother": "Odoslať ďalšiu",
   "errorGeneric": "Spätnú väzbu sa nepodarilo odoslať. Skúste to prosím znova.",
+  "emailInvalid": "Zadajte platnú e-mailovú adresu.",
+  "messageTooShort": "Správa je príliš krátka: aspoň {{min}} znakov.",
+  "errorFallback": "Stále to nefunguje? Napíšte nám na {{email}}.",
   "clearSaved": "Vymazať uložený e-mail"
 }

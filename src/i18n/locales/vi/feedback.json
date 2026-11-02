@@ -20,5 +20,8 @@
   "successMessage": "Phản hồi của bạn đã được gửi thành công.",
   "sendAnother": "Gửi phản hồi khác",
   "errorGeneric": "Không gửi được phản hồi. Vui lòng thử lại.",
+  "emailInvalid": "Nhập địa chỉ email hợp lệ.",
+  "messageTooShort": "Tin nhắn quá ngắn: tối thiểu {{min}} ký tự.",
+  "errorFallback": "Vẫn không được? Hãy gửi email cho chúng tôi theo địa chỉ {{email}}.",
   "clearSaved": "Xóa email đã lưu"
 }

@@ -213,3 +213,13 @@
   margin-top: 8px;
   text-align: center;
 }
+.feedback-error-fallback {
+  margin-top: 4px;
+  color: var(--theme-dialog-content-secondary, var(--theme-text-secondary));
+  user-select: text;
+}
+.feedback-hint {
+  color: #ff4444;
+  font-size: 11px;
+  margin-top: 2px;
+}

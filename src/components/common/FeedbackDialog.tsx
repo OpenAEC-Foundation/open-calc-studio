@@ -1,7 +1,7 @@
 import { allowsExternalServices } from '@/services/buildFlags';
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { getAppVersion, buildUserAgent } from "../../utils/platform";
+import { getAppVersion } from "../../utils/platform";
 import Modal from "./Modal";
 import "./FeedbackDialog.css";
 
@@ -11,6 +11,7 @@ const MAX_IMAGES = 3;
 const MAX_TOTAL_SIZE = 1024 * 1024; // 1MB
 const MAX_MESSAGE = 5000;
 const MIN_MESSAGE = 10;
+const FALLBACK_EMAIL = "info@open-aec.com";
 
 const SENTIMENT_KEYS: Record<number, string> = { 1: "sentimentFrustrated", 2: "sentimentNeutral", 3: "sentimentHappy" };
 
@@ -34,13 +35,12 @@ export default function FeedbackDialog({ open, onClose }: FeedbackDialogProps) {
   const [sentiment, setSentiment] = useState<number | null>(null);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [showHints, setShowHints] = useState(false);
   const [appVersion, setAppVersion] = useState("");
-  const [userAgent, setUserAgent] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     getAppVersion().then(setAppVersion);
-    buildUserAgent().then(setUserAgent);
   }, []);
 
   // Load saved email/name when dialog opens
@@ -64,7 +64,7 @@ export default function FeedbackDialog({ open, onClose }: FeedbackDialogProps) {
   };
 
   const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
-  const canSubmit = isValidEmail && message.length >= MIN_MESSAGE && message.length <= MAX_MESSAGE && status !== "submitting";
+  const isValidMessage = message.length >= MIN_MESSAGE && message.length <= MAX_MESSAGE;
 
   function handleAttach() {
     if (images.length >= MAX_IMAGES) return;
@@ -106,11 +106,18 @@ export default function FeedbackDialog({ open, onClose }: FeedbackDialogProps) {
     setSentiment(null);
     setStatus("idle");
     setErrorMsg("");
+    setShowHints(false);
   }
 
   async function handleSubmit() {
     if (!allowsExternalServices()) return;
-    if (!canSubmit) return;
+    if (status === "submitting") return;
+    // De knop blijft klikbaar: een grijze knop zonder uitleg leek "kapot"
+    // (#41). Bij een onvolledig formulier tonen we nu wat er ontbreekt.
+    if (!isValidEmail || !isValidMessage) {
+      setShowHints(true);
+      return;
+    }
     setStatus("submitting");
     setErrorMsg("");
 
@@ -120,7 +127,9 @@ export default function FeedbackDialog({ open, onClose }: FeedbackDialogProps) {
       const nameVal = fullName.trim() || undefined;
       let response: Response;
 
-      const ua = userAgent || undefined;
+      // Geen eigen User-Agent-header: de feedback-API staat in CORS alleen
+      // Content-Type en Authorization toe. WebKit (macOS/Linux) en Firefox
+      // sturen die header wél mee, waarna de preflight het verzoek blokkeert.
       const ver = appVersion || undefined;
 
       if (images.length > 0) {
@@ -135,13 +144,12 @@ export default function FeedbackDialog({ open, onClose }: FeedbackDialogProps) {
         images.forEach((img) => formData.append("images", img.file));
         response = await fetch(API_URL, {
           method: "POST",
-          headers: ua ? { "User-Agent": ua } : {},
           body: formData,
         });
       } else {
         response = await fetch(API_URL, {
           method: "POST",
-          headers: { "Content-Type": "application/json", ...(ua ? { "User-Agent": ua } : {}) },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             app: APP_ID,
             email: emailVal,
@@ -154,7 +162,12 @@ export default function FeedbackDialog({ open, onClose }: FeedbackDialogProps) {
         });
       }
 
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      if (!response.ok) {
+        // De API antwoordt met { error: "..." }; toon die reden aan de gebruiker.
+        const body = await response.json().catch(() => null) as { error?: unknown } | null;
+        const reason = typeof body?.error === "string" ? `: ${body.error}` : "";
+        throw new Error(`HTTP ${response.status}${reason}`);
+      }
       // Persist email/name for next time
       void storeSet(FEEDBACK_IDENTITY_KEY, { email: email.trim(), fullName: fullName.trim() });
       setHasSavedIdentity(true);
@@ -162,7 +175,10 @@ export default function FeedbackDialog({ open, onClose }: FeedbackDialogProps) {
     } catch (e) {
       console.error("Feedback submission failed:", e);
       setStatus("error");
-      setErrorMsg(t("errorGeneric"));
+      // Netwerk- of CORS-fouten komen als TypeError ("Failed to fetch"); met
+      // de technische reden erbij kan een melder ons gericht helpen.
+      const detail = e instanceof Error ? e.message : String(e);
+      setErrorMsg(detail ? `${t("errorGeneric")} (${detail})` : t("errorGeneric"));
     }
   }
 
@@ -197,6 +213,7 @@ export default function FeedbackDialog({ open, onClose }: FeedbackDialogProps) {
                 )}
               </label>
               <input type="email" className="feedback-input" placeholder={t("emailPlaceholder")} value={email} onChange={(e) => setEmail(e.target.value)} />
+              {showHints && !isValidEmail && <div className="feedback-hint">{t("emailInvalid")}</div>}
             </div>
             <div className="feedback-field-row">
               <label className="feedback-field-label">{t("fullName")}</label>
@@ -215,6 +232,7 @@ export default function FeedbackDialog({ open, onClose }: FeedbackDialogProps) {
           <div className="feedback-section">
             <textarea className="feedback-message" placeholder={t("messagePlaceholder")} maxLength={MAX_MESSAGE} value={message} onChange={(e) => setMessage(e.target.value)} />
             <div className={`feedback-char-count${message.length >= 4500 ? " warning" : ""}`}>{message.length} / {MAX_MESSAGE}</div>
+            {showHints && !isValidMessage && <div className="feedback-hint">{t("messageTooShort", { min: MIN_MESSAGE })}</div>}
           </div>
 
           <div className="feedback-section">
@@ -242,11 +260,16 @@ export default function FeedbackDialog({ open, onClose }: FeedbackDialogProps) {
             </div>
           </div>
 
-          <button className="feedback-submit-btn" disabled={!canSubmit} onClick={handleSubmit}>
+          <button className="feedback-submit-btn" disabled={status === "submitting"} onClick={handleSubmit}>
             {status === "submitting" ? t("submitting") : t("submit")}
           </button>
 
-          {status === "error" && <div className="feedback-error">{errorMsg}</div>}
+          {status === "error" && (
+            <div className="feedback-error">
+              {errorMsg}
+              <div className="feedback-error-fallback">{t("errorFallback", { email: FALLBACK_EMAIL })}</div>
+            </div>
+          )}
         </div>
       )}
     </Modal>

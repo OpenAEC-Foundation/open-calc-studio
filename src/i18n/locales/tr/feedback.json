@@ -20,5 +20,8 @@
   "successMessage": "Geri bildiriminiz başarıyla gönderildi.",
   "sendAnother": "Yeni bir tane gönder",
   "errorGeneric": "Geri bildirim gönderilemedi. Lütfen tekrar deneyin.",
+  "emailInvalid": "Geçerli bir e-posta adresi girin.",
+  "messageTooShort": "Mesaj çok kısa: en az {{min}} karakter.",
+  "errorFallback": "Hâlâ çalışmıyor mu? Bize {{email}} adresine e-posta gönderin.",
   "clearSaved": "Kayıtlı e-postayı temizle"
 }

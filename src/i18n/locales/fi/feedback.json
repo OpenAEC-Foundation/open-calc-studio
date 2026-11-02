@@ -20,5 +20,8 @@
   "successMessage": "Palautteesi on lähetetty onnistuneesti.",
   "sendAnother": "Lähetä uusi",
   "errorGeneric": "Palautteen lähetys epäonnistui. Yritä uudelleen.",
+  "emailInvalid": "Anna kelvollinen sähköpostiosoite.",
+  "messageTooShort": "Viesti on liian lyhyt: vähintään {{min}} merkkiä.",
+  "errorFallback": "Eikö se vieläkään toimi? Lähetä meille sähköpostia osoitteeseen {{email}}.",
   "clearSaved": "Tyhjennä tallennettu sähköpostiosoite"
 }

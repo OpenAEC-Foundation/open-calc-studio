@@ -20,5 +20,8 @@
   "successMessage": "Vaše zpětná vazba byla úspěšně odeslána.",
   "sendAnother": "Odeslat další",
   "errorGeneric": "Zpětnou vazbu se nepodařilo odeslat. Zkuste to prosím znovu.",
+  "emailInvalid": "Zadejte platnou e-mailovou adresu.",
+  "messageTooShort": "Zpráva je příliš krátká: alespoň {{min}} znaků.",
+  "errorFallback": "Stále to nefunguje? Napište nám na {{email}}.",
   "clearSaved": "Vymazat uložený e-mail"
 }

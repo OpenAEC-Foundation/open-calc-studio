@@ -20,5 +20,8 @@
   "successMessage": "המשוב שלך נשלח בהצלחה.",
   "sendAnother": "שליחת משוב נוסף",
   "errorGeneric": "שליחת המשוב נכשלה. נא לנסות שוב.",
+  "emailInvalid": "יש להזין כתובת דוא״ל תקינה.",
+  "messageTooShort": "ההודעה קצרה מדי: לפחות {{min}} תווים.",
+  "errorFallback": "עדיין לא עובד? כתבו לנו אל {{email}}.",
   "clearSaved": "ניקוי הדוא\"ל השמור"
 }

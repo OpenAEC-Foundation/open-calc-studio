@@ -20,5 +20,8 @@
   "successMessage": "Maoni yako yametumwa kwa mafanikio.",
   "sendAnother": "Tuma mengine",
   "errorGeneric": "Imeshindwa kutuma maoni. Tafadhali jaribu tena.",
+  "emailInvalid": "Weka anwani sahihi ya barua pepe.",
+  "messageTooShort": "Ujumbe ni mfupi mno: angalau herufi {{min}}.",
+  "errorFallback": "Bado haifanyi kazi? Tutumie barua pepe kwa {{email}}.",
   "clearSaved": "Futa barua pepe iliyohifadhiwa"
 }
