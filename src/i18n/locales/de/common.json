@@ -481,5 +481,11 @@
     "delete": "Löschen",
     "cutPaste": "Ausschneiden und einfügen",
     "paste": "Einfügen"
+  },
+  "workspace": {
+    "import": {
+      "offerApplied": "{{count}} GAEB-Angebotspreise übernommen.",
+      "offerFileType": "GAEB-X84-Angebot"
+    }
   }
 }

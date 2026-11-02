@@ -485,12 +485,13 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
       store.setItems(recalculateItems(result.items, store.schedule.tarieven));
       store.updateDocument(store.activeDocumentId, { isModified: true });
       onClose();
-      alert(`${result.pricedCount} GAEB-aanbiedingsprijzen overgenomen.${result.warnings.length ? '\n' + result.warnings.join('\n') : ''}`);
+      const applied = uiText("import.offerApplied", "{{count}} GAEB bid prices applied.", { count: result.pricedCount });
+      alert(`${applied}${result.warnings.length ? '\n' + result.warnings.join('\n') : ''}`);
     };
     try {
       if (isTauriEnvironment()) {
         const { openTextFileNative } = await import('../../services/file/nativeFileService');
-        const selected = await openTextFileNative('GAEB X84-aanbieding', ['x84']);
+        const selected = await openTextFileNative(uiText("import.offerFileType", "GAEB X84 bid"), ['x84']);
         if (selected) apply(selected.content);
       } else {
         const input = document.createElement('input');
