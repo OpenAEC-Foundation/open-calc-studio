@@ -114,3 +114,14 @@ describe('site app tools', () => {
     expect(await app.run('calc_get_items', { limit: 10 })).toHaveProperty('total', 2000);
   });
 });
+
+describe('opaque host frame', () => {
+  it('has no recovery journal', async () => {
+    const { recoveryAvailable } = await import('@/services/file/recovery');
+    expect(recoveryAvailable()).toBe(true);
+    const origin = Object.getOwnPropertyDescriptor(window, 'origin');
+    Object.defineProperty(window, 'origin', { configurable: true, value: 'null' });
+    try { expect(recoveryAvailable()).toBe(false); }
+    finally { if (origin) Object.defineProperty(window, 'origin', origin); else delete (window as { origin?: string }).origin; }
+  });
+});

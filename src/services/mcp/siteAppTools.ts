@@ -139,8 +139,11 @@ async function preview(args: Args) {
   };
   const summary = { proposalId: proposal.id, errors: proposal.errors, results: proposal.results, assumptions: proposal.assumptions,
     beforeTotals: proposal.beforeTotals, afterTotals: proposal.afterTotals,
-    changes: proposal.changes.map(({ kind, before, after }) => ({ kind, nr: after?.nr ?? before?.nr, description: after?.description ?? before?.description,
-      quantityBefore: before?.quantity, quantity: after?.quantity, totalBefore: before?.total, total: after?.total })) };
+    // Parents and tail costs change with every edit; the totals above cover those.
+    changes: proposal.changes.filter(({ kind, before, after }) => kind !== 'changed' || before?.quantity !== after?.quantity || before?.description !== after?.description
+      || before?.normUnitPrice !== after?.normUnitPrice || before?.normQuantity !== after?.normQuantity || before?.unit !== after?.unit || before?.tariefGroep !== after?.tariefGroep)
+      .slice(0, 50).map(({ kind, before, after }) => ({ kind, nr: after?.nr ?? before?.nr, description: after?.description ?? before?.description,
+        quantityBefore: before?.quantity, quantity: after?.quantity, totalBefore: before?.total, total: after?.total })) };
   if (args.apply !== true || proposal.errors.length) return { ...summary, applied: false };
   await executeDesktopCommand('assistant.apply', { proposalId: proposal.id });
   return { ...summary, applied: true };
