@@ -481,5 +481,14 @@
     "delete": "Löschen",
     "cutPaste": "Ausschneiden und einfügen",
     "paste": "Einfügen"
+  },
+  "workspace": {
+    "diagnostics": {
+      "genericTabularImporter": {
+        "labour": "Lohn",
+        "material": "Material",
+        "equipment": "Geräte"
+      }
+    }
   }
 }
