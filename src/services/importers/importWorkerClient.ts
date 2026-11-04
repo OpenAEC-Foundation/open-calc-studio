@@ -12,7 +12,12 @@ export function runImportWorker<T>(kind: 'tabular' | 'budget' | 'bascalc' | 'ins
       if (error) reject(error); else resolve(result!);
     };
     const timer = setTimeout(() => finish(Error('Spreadsheet import exceeded 30 seconds. No data was imported.')), 30_000);
-    worker.onmessage = event => event.data?.ok ? finish(undefined, event.data.result) : finish(Error(event.data?.error ?? 'Import failed.'));
+    worker.onmessage = event => {
+      if (event.data?.ok) return finish(undefined, event.data.result);
+      const error = Error(event.data?.error ?? 'Import failed.');
+      if (typeof event.data?.errorName === 'string') error.name = event.data.errorName;
+      finish(error);
+    };
     worker.onerror = () => finish(Error('Spreadsheet import worker failed. No data was imported.'));
     try { worker.postMessage({ kind, data, fileName }); } catch (e) { finish(e instanceof Error ? e : Error('Import failed.')); }
   });

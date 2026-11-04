@@ -2,6 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { parseCsv, autoDetectMapping, buildFromMapping } from '@/services/importers';
 import { recalculateItems } from '@/services/calculation/calculator';
 import { computeResourceTotals } from '@/services/grid/resourceTotals';
+import { importBasCalcFile, NotBasCalcError } from '@/services/importers/bascalcImporter';
+import * as XLSX from 'xlsx';
 
 // Issue #40: Spaanse begrotingen in Excel (kolomindeling zoals Presto/BC3),
 // met een splitsing in mano de obra, materiales en maquinaria.
@@ -98,5 +100,25 @@ describe('Spaanse Excel/CSV-import', () => {
     expect(items).toHaveLength(1);
     expect(items[0].laborPrice).toBe(20);
     expect(items[0].materialPrice).toBe(30);
+  });
+});
+
+// Openen valt alleen terug op het koppelvenster als het bestand geen
+// BasCalc-werkmap is; andere BasCalc-fouten moeten zichtbaar blijven (#40).
+describe('BasCalc-herkenning bij Openen', () => {
+  const workbook = (sheetNames: string[]): ArrayBuffer => {
+    const wb = XLSX.utils.book_new();
+    for (const name of sheetNames) XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([['Código', 'Resumen'], ['01', 'Capítulo']]), name);
+    return XLSX.write(wb, { type: 'array', bookType: 'xlsx' }) as ArrayBuffer;
+  };
+
+  it('geeft NotBasCalcError als het blad "Kostprijs" ontbreekt', () => {
+    expect(() => importBasCalcFile(workbook(['Presupuesto']))).toThrow(NotBasCalcError);
+  });
+
+  it('geeft geen NotBasCalcError voor een werkmap mét een Kostprijs-blad', () => {
+    let error: unknown;
+    try { importBasCalcFile(workbook(['Kostprijs'])); } catch (e) { error = e; }
+    expect(error).not.toBeInstanceOf(NotBasCalcError);
   });
 });

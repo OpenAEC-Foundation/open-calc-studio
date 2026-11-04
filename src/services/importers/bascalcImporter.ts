@@ -53,8 +53,24 @@ function sheetByName(wb: XLSX.WorkBook, naam: string): XLSX.WorkSheet | undefine
   return gevonden ? wb.Sheets[gevonden] : undefined;
 }
 
+/**
+ * Het bestand is geen BasCalc-werkmap (er is geen blad "Kostprijs").
+ * Alleen deze fout mag Openen laten terugvallen op het koppelvenster (#40);
+ * andere fouten in een echt BasCalc-bestand moeten zichtbaar blijven.
+ */
+export class NotBasCalcError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'NotBasCalcError';
+  }
+}
+
 export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSchedule; items: CostItem[]; companyInfo: CompanyInfo } {
   const wb = readWorkbook(arrayBuffer, { type: 'array' });
+
+  if (!sheetByName(wb, 'Kostprijs')) {
+    throw new NotBasCalcError(uiText("diagnostics.bascalcImporter.noKostprijsSheetFoundInTheBasCalc", "No \"Kostprijs\" sheet found in the BasCalc file."));
+  }
 
   // --- Read Menu sheet for project info and company data ---
   let projectName = '';
@@ -137,10 +153,7 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
   }
 
   // --- Read Kostprijs sheet ---
-  const kostprijsSheet = sheetByName(wb, 'Kostprijs');
-  if (!kostprijsSheet) {
-    throw new Error(uiText("diagnostics.bascalcImporter.noKostprijsSheetFoundInTheBasCalc", "No \"Kostprijs\" sheet found in the BasCalc file."));
-  }
+  const kostprijsSheet = sheetByName(wb, 'Kostprijs')!; // gecontroleerd bij het inlezen
 
   const data: unknown[][] = XLSX.utils.sheet_to_json(kostprijsSheet, { header: 1 });
 

@@ -191,7 +191,9 @@ export function registerBuiltinExtensions(): void {
       try {
         result = await runImportWorker<ImportResult>('bascalc', await file.arrayBuffer(), file.name);
       } catch (bascalcError) {
-        // Geen BasCalc-bestand: probeer het als gewone tabel (#40).
+        // Alleen als het geen BasCalc-bestand is: probeer het als gewone tabel (#40).
+        // Een echt BasCalc-bestand dat misgaat, toont de echte fout.
+        if (!(bascalcError instanceof Error) || bascalcError.name !== 'NotBasCalcError') throw bascalcError;
         return importSpreadsheetTable(file, bascalcError);
       }
       return {
