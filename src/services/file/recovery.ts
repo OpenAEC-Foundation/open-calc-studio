@@ -12,6 +12,8 @@ const STORE = 'windows';
 let database: Promise<IDBDatabase> | undefined;
 let windowId = '';
 export function recoveryWindowId(): string { return windowId ||= crypto.randomUUID(); }
+/** An opaque host frame has no browser storage at all: there is nothing to journal to, and the host keeps the files. */
+export function recoveryAvailable(): boolean { return typeof window === 'undefined' || window.origin !== 'null'; }
 export function openRecoveryDatabase(): Promise<IDBDatabase> {
   if (!database) database = new Promise<IDBDatabase>((resolve, reject) => {
     if (typeof indexedDB === 'undefined') { reject(Error('Persistent recovery storage is unavailable.')); return; }

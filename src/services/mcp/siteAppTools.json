@@ -1,0 +1,162 @@
+{
+  "tools": [
+    {
+      "name": "calc_get_budget_summary",
+      "description": "Open documents and, for the active estimate, project data, chapter totals, tail costs (staart) and the price breakdown. Same data as get_budget_summary of the MCP server.",
+      "inputSchema": { "type": "object", "properties": {}, "additionalProperties": false }
+    },
+    {
+      "name": "calc_get_items",
+      "description": "Estimate rows of the active document. Same filters as get_items of the MCP server (parentId, 'root' for the top level; rowType; search in description and code), plus limit (default 100, maximum 500) and offset.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "parentId": { "type": "string" },
+          "rowType": { "type": "string" },
+          "search": { "type": "string" },
+          "limit": { "type": "number" },
+          "offset": { "type": "number" }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "calc_new_budget",
+      "description": "Open a new empty estimate as a document tab, the same as New in the application. Saving stays with the user.",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "fileName": { "type": "string" } },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "calc_create_budget_structure",
+      "description": "Create chapters with posts and rules in the active estimate in one undoable step. Same structure as create_budget_structure of the MCP server.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "chapters": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": { "type": "string" },
+                "description": { "type": "string" },
+                "posts": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "description": { "type": "string" },
+                      "quantity": { "type": "number" },
+                      "unit": { "type": "string" },
+                      "rules": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "description": { "type": "string" },
+                            "quantity": { "type": "number" },
+                            "unit": { "type": "string" },
+                            "normUnitPrice": { "type": "number" },
+                            "normQuantity": { "type": "number" },
+                            "tariefGroep": { "type": "string", "enum": ["A", "B", "C"] },
+                            "resourceType": { "type": "string", "enum": ["arbeid", "materiaal", "materieel", "onderaannemer", "overig"] }
+                          },
+                          "required": ["description"],
+                          "additionalProperties": false
+                        }
+                      }
+                    },
+                    "required": ["description"],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": ["description"],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": ["chapters"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "calc_preview",
+      "description": "assistant.preview of the MCP server: prepare changes to existing rows without changing the estimate; returns proposalId, changed rows, assumptions, errors and totals before and after. With apply: true a proposal without errors is applied at once as one undoable step.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "actions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": { "type": "string", "enum": ["update", "add_hoofdstuk", "add_post", "add_regel", "verwijder"] },
+                "nr": { "type": "string" },
+                "veld": { "type": "string", "enum": ["aantal", "prijs", "omschrijving", "eenheid", "norm", "tariefgroep", "code"] },
+                "waarde": { "anyOf": [{ "type": "string" }, { "type": "number" }, { "type": "null" }] },
+                "code": { "type": "string" },
+                "onderNr": { "type": "string" },
+                "omschrijving": { "type": "string" },
+                "aantal": { "type": "number" },
+                "eenheid": { "type": "string" },
+                "prijs": { "type": "number" },
+                "norm": { "type": "number" },
+                "tariefgroep": { "type": "string", "enum": ["A", "B", "C"] },
+                "resourceType": { "type": "string", "enum": ["arbeid", "materiaal", "materieel", "onderaannemer", "overig"] }
+              },
+              "required": ["type"],
+              "additionalProperties": false
+            }
+          },
+          "apply": { "type": "boolean" }
+        },
+        "required": ["actions"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "calc_apply",
+      "description": "assistant.apply of the MCP server: apply a prepared proposal as one undoable step; refuses changed documents and stale inputs.",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "proposalId": { "type": "string" } },
+        "required": ["proposalId"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "calc_undo",
+      "description": "Undo the last change in the active estimate.",
+      "inputSchema": { "type": "object", "properties": {}, "additionalProperties": false }
+    },
+    {
+      "name": "calc_list_actions",
+      "description": "app_list_actions of the MCP server: the other functions of the application. Without arguments the groups; group or search: names with their signature; action: the exact named parameters of one function.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "group": { "type": "string" },
+          "search": { "type": "string" },
+          "action": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "calc_action",
+      "description": "app_action of the MCP server: execute a function from calc_list_actions with named parameters.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "action": { "type": "string" },
+          "params": { "type": "object" }
+        },
+        "required": ["action"],
+        "additionalProperties": false
+      }
+    }
+  ]
+}

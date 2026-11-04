@@ -12,6 +12,12 @@ export interface SiteHost {
   save(bytes: Uint8Array, options: { id?: string; name?: string; expectedVersion?: HostVersion }): Promise<HostFileRef>;
   list(): Promise<{ id: string; name: string; modified: string }[]>;
   versions(id: string): Promise<{ version: HostVersion; modified: string; author?: string }[]>;
+  /** Optional: settings kept by the host, for frames without browser storage. */
+  settings?: {
+    get(key: string): Promise<unknown>;
+    set(key: string, value: unknown): Promise<unknown>;
+    delete(key: string): Promise<unknown>;
+  };
 }
 declare global { interface Window { openaecHost?: SiteHost } }
 
