@@ -213,6 +213,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
             const name = file.name.replace(/\.[^.]+$/, '');
             loadImportResult(result, name);
           } catch (err: any) {
+            if (err?.name === 'ImportCancelledError') return; // koppelvenster gesloten (#40)
             console.error(`[Import] ${imp.name} failed:`, err);
             alert(t('importPanel.importFailed', { error: err?.message || err }));
           }
@@ -220,6 +221,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         input.click();
       }
     } catch (err: any) {
+      if (err?.name === 'ImportCancelledError') return; // koppelvenster gesloten (#40)
       console.error(`[Import] ${imp.name} failed:`, err);
       alert(t('importPanel.importFailed', { error: err?.message || err }));
     }
