@@ -80,4 +80,27 @@ describe('site-host files', () => {
     window.openaecHost = host(); window.dispatchEvent(new Event('openaec-host-ready'));
     expect(changed).toHaveBeenCalledTimes(2);
   });
+  it('opens another format as a new estimate that never saves over its source', async () => {
+    const bc3 = readFileSync('verification/bc3/fjht_prueba.bc3');
+    window.openaecHost = { ...host(), open: vi.fn(async () => ({ id: 'b', name: 'Begroting.bc3', version: 3, readOnly: false, bytes: new Uint8Array(bc3) })) };
+    await openHostedFile('b');
+    const state = useAppStore.getState();
+    const doc = state.documents.find(d => d.id === state.activeDocumentId)!;
+    expect(doc.fileName).toBe('Begroting');
+    expect(doc.hostFile).toBeUndefined();
+    expect(state.items.length).toBeGreaterThan(0);
+    await saveHostedFile(doc.id);
+    expect(vi.mocked(window.openaecHost!.save).mock.calls[0][1]).toEqual({ name: 'Begroting.ifcCalc' });
+  });
+  it('keeps settings with the host when the host offers them', async () => {
+    const values = new Map<string, unknown>([['settings', { recentFiles: ['x'] }]]);
+    const settings = { get: vi.fn(async (key: string) => values.get(key)), set: vi.fn(async (key: string, value: unknown) => values.set(key, value)), delete: vi.fn(async (key: string) => values.delete(key)) };
+    window.openaecHost = { ...host(), settings };
+    const { storeGet, storeSet, storeDelete } = await import('@/utils/store');
+    expect(await storeGet('settings')).toEqual({ recentFiles: ['x'] });
+    await storeSet('zoom', 120);
+    expect(values.get('zoom')).toBe(120);
+    await storeDelete('zoom');
+    expect(values.has('zoom')).toBe(false);
+  });
 });

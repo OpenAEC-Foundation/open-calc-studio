@@ -1,7 +1,8 @@
 import { localStore } from '@/utils/browserStorage';
+import { getSiteHost } from '@/services/file/siteHost';
 /**
  * Persistent key-value store.
- * Uses Tauri's store plugin when available, falls back to localStorage in browser.
+ * Uses the settings of a site host or Tauri's store plugin when available, falls back to localStorage in browser.
  */
 
 import type { Store } from '@tauri-apps/plugin-store';
@@ -25,6 +26,13 @@ async function getStore(): Promise<Store | null> {
 }
 
 export async function storeGet<T>(key: string): Promise<T | null> {
+  const hosted = getSiteHost()?.settings;
+  if (hosted) {
+    try {
+      const val = await hosted.get(key);
+      if (val !== null && val !== undefined) return val as T;
+    } catch { /* fall through to localStorage */ }
+  }
   const store = await getStore();
   if (store) {
     try {
@@ -40,6 +48,7 @@ export async function storeGet<T>(key: string): Promise<T | null> {
 }
 
 export async function storeSet<T>(key: string, value: T): Promise<void> {
+  getSiteHost()?.settings?.set(key, value).catch(() => { /* the copy below stays for this session */ });
   const store = await getStore();
   if (store) {
     try { await store.set(key, value); } catch { /* ignore */ }
@@ -49,6 +58,7 @@ export async function storeSet<T>(key: string, value: T): Promise<void> {
 }
 
 export async function storeDelete(key: string): Promise<void> {
+  getSiteHost()?.settings?.delete(key).catch(() => { /* the host keeps the old value */ });
   const store = await getStore();
   if (store) {
     try { await store.delete(key); } catch { /* ignore */ }

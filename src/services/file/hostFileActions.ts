@@ -2,6 +2,7 @@ import { localStore } from '@/utils/browserStorage';
 import { useAppStore } from '@/state/appStore';
 import { deserializeProject, serializeProject } from './fileService';
 import { getSiteHost, hostRecentPath, type HostVersion } from './siteHost';
+import { openImportResult, openProjectJson } from './openProject';
 
 function remember(id: string, name: string) {
   localStore.setItem('ocs-host-name:' + id, name);
@@ -14,6 +15,22 @@ export async function openHostedFile(id: string, version?: HostVersion): Promise
   const host = getSiteHost();
   if (!host) throw new Error('The site storage is not available.');
   const file = await host.open(id, version);
+  // Other formats open as a new estimate: their first save creates a native file beside the source, never over it.
+  if (!/\.ifccalc$/i.test(file.name)) {
+    const baseName = file.name.replace(/\.[^.]+$/, '');
+    if (/\.(ocs|ifcx|json)$/i.test(file.name)) {
+      openProjectJson(new TextDecoder().decode(file.bytes), baseName);
+    } else {
+      const bytes = file.bytes instanceof Uint8Array ? file.bytes : new Uint8Array(file.bytes);
+      const { importBudget } = await import('@/lib/importers');
+      const result = await importBudget(bytes.slice().buffer, file.name);
+      openImportResult(result, baseName);
+      const { showImportWarnings } = await import('@/components/common/ImportWarningsDialog');
+      showImportWarnings(result, file.name);
+    }
+    remember(file.id, file.name);
+    return;
+  }
   const project = deserializeProject(new TextDecoder().decode(file.bytes));
   const store = useAppStore.getState();
   store.addDocument({ id: crypto.randomUUID(), filePath: null, fileName: file.name, isModified: false,
