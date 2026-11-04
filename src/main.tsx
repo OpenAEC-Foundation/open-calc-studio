@@ -22,7 +22,12 @@ import ReactDOM from "react-dom/client";
 import "./i18n/config";
 import App from "./App";
 import { CompanionWindow } from "./components/layout/CompanionWindow";
+import { PLATFORM_BUILD } from "./services/buildFlags";
+import { installSiteAppTools } from "./services/mcp/siteAppTools";
 const companionId = new URLSearchParams(window.location.search).get("companion");
+
+// The assistant of the site operates the application through this interface: platform build only.
+if (PLATFORM_BUILD) installSiteAppTools();
 
 class ErrorBoundary extends React.Component<
   { children: React.ReactNode },

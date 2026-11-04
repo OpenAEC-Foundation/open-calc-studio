@@ -719,7 +719,9 @@
       "gaebHelp": "Duits bestek importeren; X84-prijzen vereisen het bijbehorende X83-bestek.",
       "xmlHelp": "Italiaanse en Tsjechische begrotingen met bronbestand voor terugexport.",
       "offer": "GAEB-aanbieding (.x84)",
-      "offerHelp": "Neem biedprijzen over in het geopende X83-bestek."
+      "offerHelp": "Neem biedprijzen over in het geopende X83-bestek.",
+      "offerApplied": "{{count}} GAEB-aanbiedingsprijzen overgenomen.",
+      "offerFileType": "GAEB X84-aanbieding"
     },
     "export": {
       "back": "Terug naar",

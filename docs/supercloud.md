@@ -44,6 +44,15 @@ na appstart verschijnen; een event versnelt detectie, daarnaast controleert
 de app elke 250 ms op vervanging. Na het laden van instellingen verschijnen
 de hostbestanden onder Recent. `initialFileId` opent het startbestand.
 
+Een ander formaat dan `.ifcCalc` opent via de importers als nieuwe begroting;
+het eerste Opslaan maakt een `.ifcCalc`-bestand ernaast en schrijft nooit over
+de bron.
+
+Optioneel biedt de host `settings` aan (`get`, `set`, `delete`, per sleutel een
+JSON-waarde). De instellingen van de app (`src/utils/store.ts`) lopen dan via de
+host, want een opaque frame heeft geen blijvende opslag. Zonder `settings` blijft
+alles zoals het was.
+
 Nieuw maakt een lokale begroting; Opslaan stuurt het native JSON als bytes
 naar `save`. Bij het eerste opslaan of Opslaan als ontbreekt `id`, zodat de
 host een nieuw bestand kan maken. Bij overschrijven gaat de geopende versie
@@ -76,8 +85,29 @@ In gehoste/inbouwmodus verschijnt geen tweede eigen titelbalk en geen eigen
 zwevende assistent. Bestandsacties en instellingen blijven via het lint en
 het Bestand-menu bereikbaar.
 
-De echte Frappe-brug moet dit contract nog aanbieden en met de exacte
-sandbox/CSP worden getest; componenttests alleen bewijzen die koppeling niet.
+De Frappe-brug biedt dit contract aan en is met de exacte sandbox/CSP getest
+(`scripts/werkplek-e2e/calc-proef.mjs` in openaec-bench): openen, opslaan,
+importeren, afdrukken, instellingen en de assistent.
+
+### De assistent van de site
+
+De platformbuild zet `window.__OPDS_APP__` neer (`src/services/mcp/siteAppTools.ts`):
+
+```ts
+window.__OPDS_APP__ = {
+  tools(): Promise<string[]>;
+  definitions(): Promise<{ name; description; inputSchema }[]>;  // siteAppTools.json
+  run(name, args?): Promise<unknown>;                            // een weigering wordt een fout
+};
+```
+
+Achter `run` zit dezelfde code als achter de desktop-MCP (`executeDesktopCommand`,
+de voorstellen van `assistant.preview` en de actiecatalogus), op het open document.
+De MCP-laag laadt als aparte chunk bij de eerste aanroep. Wat een bestandssysteem
+of een popup nodig heeft (`file.export`, `export.*`, `recovery.*`, het tweede
+scherm) geeft `niet_in_browser`; openen en opslaan lopen via het hostcontract,
+door de gebruiker. `src/services/mcp/siteAppTools.json` is de bron waar een host
+zijn tooldefinities van afleidt.
 
 Het ondersteunde sandboxattribuut is:
 
@@ -110,6 +140,6 @@ ook `mode="wizard"`. Zie [inbouwen](library-integration.md).
 
 HTML-rapporten printen in hetzelfde document, waarvoor `allow-modals` nodig
 is. De Typst-PDF-preview en native bestandsexporten blijven desktopfuncties.
-Test de uiteindelijke Frappe-werkplek met downloaden, printen, versieconflict,
-historische versie en herladen; die externe integratietest is nog niet
-uitgevoerd in deze wijziging.
+In een opaque frame kan crashherstel niet (geen IndexedDB): de balk daarvoor
+blijft dan weg. Versieconflict en historische versie zijn nog niet in de
+Frappe-werkplek getest.

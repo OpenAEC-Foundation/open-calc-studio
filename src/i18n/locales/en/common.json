@@ -719,7 +719,9 @@
       "gaebHelp": "Import a German bill of quantities; X84 prices require the matching X83 file.",
       "xmlHelp": "Italian and Czech estimates, retaining the source file for export.",
       "offer": "GAEB offer (.x84)",
-      "offerHelp": "Apply bid prices to the open X83 bill of quantities."
+      "offerHelp": "Apply bid prices to the open X83 bill of quantities.",
+      "offerApplied": "{{count}} GAEB bid prices applied.",
+      "offerFileType": "GAEB X84 bid"
     },
     "export": {
       "back": "Back to",

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAppStore } from '@/state/appStore';
-import { captureRecovery, listRecovery, removeRecovery, restoreRecovery, writeRecovery, recoveryWindowId, type RecoveryRecord } from '@/services/file/recovery';
+import { captureRecovery, listRecovery, recoveryAvailable, removeRecovery, restoreRecovery, writeRecovery, recoveryWindowId, type RecoveryRecord } from '@/services/file/recovery';
 import { uiText } from '@/i18n/uiText';
 import { completeLegacyDraftMigration } from '@/components/mobile/mobileDraft';
 
@@ -12,6 +12,7 @@ export function RecoveryBar() {
   const [savedAt, setSavedAt] = useState('');
   const pending = useRef(Promise.resolve());
   useEffect(() => {
+    if (!recoveryAvailable()) return;
     let disposed = false, timer: ReturnType<typeof setTimeout> | undefined, pendingSince = 0;
     void listRecovery().then(result => { if (!disposed) setRecords(result.filter(record => record.id !== id)); }).catch(e => { if (!disposed) setError(String(e)); });
     const flush = () => {
