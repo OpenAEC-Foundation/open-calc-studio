@@ -194,7 +194,8 @@ export function registerBuiltinExtensions(): void {
         // Alleen als het geen BasCalc-bestand is: probeer het als gewone tabel (#40).
         // Een echt BasCalc-bestand dat misgaat, toont de echte fout.
         if (!(bascalcError instanceof Error) || bascalcError.name !== 'NotBasCalcError') throw bascalcError;
-        return importSpreadsheetTable(file, bascalcError);
+        // Gewone Error, zodat een eventuele melding niet "NotBasCalcError: …" toont.
+        return importSpreadsheetTable(file, Error(bascalcError.message));
       }
       return {
         schedule: result.schedule,
