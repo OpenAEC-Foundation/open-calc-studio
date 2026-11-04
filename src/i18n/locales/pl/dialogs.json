@@ -10,7 +10,20 @@
     "rows": "{{count}} wierszy",
     "linkDescriptionFirst": "najpierw przypisz kolumnę „Opis”",
     "cancel": "Anuluj",
-    "import": "Importuj"
+    "import": "Importuj",
+    "fields": {
+      "ignore": "— pomiń —",
+      "code": "Kod",
+      "nr": "Nr",
+      "description": "Opis",
+      "unit": "Jednostka",
+      "quantity": "Ilość",
+      "materialPrice": "Materiały (cena/j.)",
+      "laborPrice": "Robocizna (cena/j.)",
+      "equipmentPrice": "Sprzęt (cena/j.)",
+      "unitPrice": "Cena jednostkowa",
+      "total": "Razem (kwota)"
+    }
   },
   "quantityPicker": {
     "title": "Powiąż ilość",

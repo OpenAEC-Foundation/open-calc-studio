@@ -8,7 +8,20 @@
     "rows": "{{count}} filas",
     "linkDescriptionFirst": "vincule primero una columna «Descripción»",
     "cancel": "Cancelar",
-    "import": "Importar"
+    "import": "Importar",
+    "fields": {
+      "ignore": "— ignorar —",
+      "code": "Código",
+      "nr": "Nº",
+      "description": "Descripción",
+      "unit": "Unidad",
+      "quantity": "Medición",
+      "materialPrice": "Materiales (precio/ud)",
+      "laborPrice": "Mano de obra (precio/ud)",
+      "equipmentPrice": "Maquinaria (precio/ud)",
+      "unitPrice": "Precio unitario",
+      "total": "Total (importe)"
+    }
   },
   "quantityPicker": {
     "title": "Vincular medición",

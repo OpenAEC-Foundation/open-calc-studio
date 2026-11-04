@@ -10,7 +10,20 @@
     "rows": "{{count}} riadkov",
     "linkDescriptionFirst": "najprv prepojte stĺpec „Popis“",
     "cancel": "Zrušiť",
-    "import": "Importovať"
+    "import": "Importovať",
+    "fields": {
+      "ignore": "— ignorovať —",
+      "code": "Kód",
+      "nr": "Č.",
+      "description": "Popis",
+      "unit": "Jednotka",
+      "quantity": "Množstvo",
+      "materialPrice": "Materiál (cena/j.)",
+      "laborPrice": "Práca (cena/j.)",
+      "equipmentPrice": "Stroje (cena/j.)",
+      "unitPrice": "Jednotková cena",
+      "total": "Spolu (suma)"
+    }
   },
   "quantityPicker": {
     "title": "Prepojiť množstvo",

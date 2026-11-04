@@ -8,7 +8,20 @@
     "rows": "{{count}} baris",
     "linkDescriptionFirst": "pautkan lajur “Huraian” terlebih dahulu",
     "cancel": "Batal",
-    "import": "Import"
+    "import": "Import",
+    "fields": {
+      "ignore": "— abaikan —",
+      "code": "Kod",
+      "nr": "No.",
+      "description": "Keterangan",
+      "unit": "Unit",
+      "quantity": "Kuantiti",
+      "materialPrice": "Bahan (harga/unit)",
+      "laborPrice": "Buruh (harga/unit)",
+      "equipmentPrice": "Jentera (harga/unit)",
+      "unitPrice": "Harga seunit",
+      "total": "Jumlah (amaun)"
+    }
   },
   "quantityPicker": {
     "title": "Pautkan kuantiti",

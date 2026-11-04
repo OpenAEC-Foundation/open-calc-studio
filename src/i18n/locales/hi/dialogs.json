@@ -8,7 +8,20 @@
     "rows": "{{count}} पंक्तियाँ",
     "linkDescriptionFirst": "पहले एक “विवरण” कॉलम जोड़ें",
     "cancel": "रद्द करें",
-    "import": "आयात करें"
+    "import": "आयात करें",
+    "fields": {
+      "ignore": "— अनदेखा करें —",
+      "code": "कोड",
+      "nr": "क्र.",
+      "description": "विवरण",
+      "unit": "इकाई",
+      "quantity": "मात्रा",
+      "materialPrice": "सामग्री (मूल्य/इकाई)",
+      "laborPrice": "श्रम (मूल्य/इकाई)",
+      "equipmentPrice": "उपकरण (मूल्य/इकाई)",
+      "unitPrice": "इकाई मूल्य",
+      "total": "कुल (राशि)"
+    }
   },
   "quantityPicker": {
     "title": "मात्रा जोड़ें",

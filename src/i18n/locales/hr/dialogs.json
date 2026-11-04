@@ -9,7 +9,20 @@
     "rows": "{{count}} redaka",
     "linkDescriptionFirst": "najprije povežite stupac „Opis”",
     "cancel": "Odustani",
-    "import": "Uvezi"
+    "import": "Uvezi",
+    "fields": {
+      "ignore": "— zanemari —",
+      "code": "Šifra",
+      "nr": "Br.",
+      "description": "Opis",
+      "unit": "Jedinica",
+      "quantity": "Količina",
+      "materialPrice": "Materijal (cijena/jed.)",
+      "laborPrice": "Rad (cijena/jed.)",
+      "equipmentPrice": "Strojevi (cijena/jed.)",
+      "unitPrice": "Jedinična cijena",
+      "total": "Ukupno (iznos)"
+    }
   },
   "quantityPicker": {
     "title": "Poveži količinu",

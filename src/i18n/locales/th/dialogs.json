@@ -8,7 +8,20 @@
     "rows": "{{count}} แถว",
     "linkDescriptionFirst": "กรุณาเชื่อมโยงคอลัมน์ “รายละเอียด” ก่อน",
     "cancel": "ยกเลิก",
-    "import": "นำเข้า"
+    "import": "นำเข้า",
+    "fields": {
+      "ignore": "— ข้าม —",
+      "code": "รหัส",
+      "nr": "ลำดับ",
+      "description": "รายการ",
+      "unit": "หน่วย",
+      "quantity": "ปริมาณ",
+      "materialPrice": "ค่าวัสดุ (ราคา/หน่วย)",
+      "laborPrice": "ค่าแรง (ราคา/หน่วย)",
+      "equipmentPrice": "ค่าเครื่องจักร (ราคา/หน่วย)",
+      "unitPrice": "ราคาต่อหน่วย",
+      "total": "รวม (จำนวนเงิน)"
+    }
   },
   "quantityPicker": {
     "title": "เชื่อมโยงปริมาณ",

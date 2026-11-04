@@ -8,7 +8,20 @@
     "rows": "{{count}} lignes",
     "linkDescriptionFirst": "associez d'abord une colonne « Désignation »",
     "cancel": "Annuler",
-    "import": "Importer"
+    "import": "Importer",
+    "fields": {
+      "ignore": "— ignorer —",
+      "code": "Code",
+      "nr": "N°",
+      "description": "Description",
+      "unit": "Unité",
+      "quantity": "Quantité",
+      "materialPrice": "Matériaux (prix/u)",
+      "laborPrice": "Main-d'œuvre (prix/u)",
+      "equipmentPrice": "Matériel (prix/u)",
+      "unitPrice": "Prix unitaire",
+      "total": "Total (montant)"
+    }
   },
   "quantityPicker": {
     "title": "Lier la quantité",

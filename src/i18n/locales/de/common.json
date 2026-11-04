@@ -483,6 +483,13 @@
     "paste": "Einfügen"
   },
   "workspace": {
+    "diagnostics": {
+      "genericTabularImporter": {
+        "labour": "Lohn",
+        "material": "Material",
+        "equipment": "Geräte"
+      }
+    },
     "import": {
       "offerApplied": "{{count}} GAEB-Angebotspreise übernommen.",
       "offerFileType": "GAEB-X84-Angebot"

@@ -8,7 +8,20 @@
     "rows": "{{count}} வரிசைகள்",
     "linkDescriptionFirst": "முதலில் ஒரு “விவரம்” நெடுவரிசையை இணைக்கவும்",
     "cancel": "ரத்து",
-    "import": "இறக்குமதி செய்"
+    "import": "இறக்குமதி செய்",
+    "fields": {
+      "ignore": "— புறக்கணி —",
+      "code": "குறியீடு",
+      "nr": "எண்",
+      "description": "விவரம்",
+      "unit": "அலகு",
+      "quantity": "அளவு",
+      "materialPrice": "பொருட்கள் (விலை/அலகு)",
+      "laborPrice": "கூலி (விலை/அலகு)",
+      "equipmentPrice": "இயந்திரங்கள் (விலை/அலகு)",
+      "unitPrice": "அலகு விலை",
+      "total": "மொத்தம் (தொகை)"
+    }
   },
   "quantityPicker": {
     "title": "அளவை இணை",

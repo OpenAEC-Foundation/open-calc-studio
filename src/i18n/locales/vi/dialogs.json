@@ -8,7 +8,20 @@
     "rows": "{{count}} dòng",
     "linkDescriptionFirst": "hãy liên kết một cột “Mô tả” trước",
     "cancel": "Hủy",
-    "import": "Nhập"
+    "import": "Nhập",
+    "fields": {
+      "ignore": "— bỏ qua —",
+      "code": "Mã",
+      "nr": "STT",
+      "description": "Mô tả",
+      "unit": "Đơn vị",
+      "quantity": "Khối lượng",
+      "materialPrice": "Vật liệu (giá/đv)",
+      "laborPrice": "Nhân công (giá/đv)",
+      "equipmentPrice": "Máy thi công (giá/đv)",
+      "unitPrice": "Đơn giá",
+      "total": "Thành tiền"
+    }
   },
   "quantityPicker": {
     "title": "Liên kết khối lượng",

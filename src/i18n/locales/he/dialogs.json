@@ -10,7 +10,20 @@
     "rows": "{{count}} שורות",
     "linkDescriptionFirst": "יש לקשר תחילה עמודת „תיאור”",
     "cancel": "ביטול",
-    "import": "ייבוא"
+    "import": "ייבוא",
+    "fields": {
+      "ignore": "— התעלם —",
+      "code": "קוד",
+      "nr": "מס'",
+      "description": "תיאור",
+      "unit": "יחידה",
+      "quantity": "כמות",
+      "materialPrice": "חומרים (מחיר/יח׳)",
+      "laborPrice": "עבודה (מחיר/יח׳)",
+      "equipmentPrice": "ציוד (מחיר/יח׳)",
+      "unitPrice": "מחיר ליחידה",
+      "total": "סה״כ (סכום)"
+    }
   },
   "quantityPicker": {
     "title": "קישור כמות",

@@ -8,7 +8,20 @@
     "rows": "{{count}}행",
     "linkDescriptionFirst": "먼저 “명칭” 열을 연결하세요",
     "cancel": "취소",
-    "import": "가져오기"
+    "import": "가져오기",
+    "fields": {
+      "ignore": "— 무시 —",
+      "code": "코드",
+      "nr": "번호",
+      "description": "설명",
+      "unit": "단위",
+      "quantity": "수량",
+      "materialPrice": "재료비 (단가)",
+      "laborPrice": "노무비 (단가)",
+      "equipmentPrice": "장비비 (단가)",
+      "unitPrice": "단가",
+      "total": "합계 (금액)"
+    }
   },
   "quantityPicker": {
     "title": "수량 연결",

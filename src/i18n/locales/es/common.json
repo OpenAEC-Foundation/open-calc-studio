@@ -481,5 +481,14 @@
     "delete": "Eliminar",
     "cutPaste": "Cortar y pegar",
     "paste": "Pegar"
+  },
+  "workspace": {
+    "diagnostics": {
+      "genericTabularImporter": {
+        "labour": "Mano de obra",
+        "material": "Materiales",
+        "equipment": "Maquinaria"
+      }
+    }
   }
 }

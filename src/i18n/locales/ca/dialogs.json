@@ -8,7 +8,20 @@
     "rows": "{{count}} files",
     "linkDescriptionFirst": "enllaceu primer una columna «Descripció»",
     "cancel": "Cancel·la",
-    "import": "Importa"
+    "import": "Importa",
+    "fields": {
+      "ignore": "— ignora —",
+      "code": "Codi",
+      "nr": "Núm.",
+      "description": "Descripció",
+      "unit": "Unitat",
+      "quantity": "Quantitat",
+      "materialPrice": "Materials (preu/ut)",
+      "laborPrice": "Mà d'obra (preu/ut)",
+      "equipmentPrice": "Maquinària (preu/ut)",
+      "unitPrice": "Preu unitari",
+      "total": "Total (import)"
+    }
   },
   "quantityPicker": {
     "title": "Enllaça l'amidament",

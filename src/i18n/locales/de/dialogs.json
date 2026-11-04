@@ -8,7 +8,20 @@
     "rows": "{{count}} Zeilen",
     "linkDescriptionFirst": "zuerst eine Spalte „Beschreibung“ zuordnen",
     "cancel": "Abbrechen",
-    "import": "Importieren"
+    "import": "Importieren",
+    "fields": {
+      "ignore": "— ignorieren —",
+      "code": "Code",
+      "nr": "Nr.",
+      "description": "Beschreibung",
+      "unit": "Einheit",
+      "quantity": "Menge",
+      "materialPrice": "Material (Preis/E)",
+      "laborPrice": "Lohn (Preis/E)",
+      "equipmentPrice": "Geräte (Preis/E)",
+      "unitPrice": "Einheitspreis",
+      "total": "Gesamt (Betrag)"
+    }
   },
   "quantityPicker": {
     "title": "Menge verknüpfen",

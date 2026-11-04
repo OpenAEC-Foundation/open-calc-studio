@@ -8,7 +8,20 @@
     "rows": "{{count}} linjer",
     "linkDescriptionFirst": "koble først en «Beskrivelse»-kolonne",
     "cancel": "Avbryt",
-    "import": "Importer"
+    "import": "Importer",
+    "fields": {
+      "ignore": "— ignorer —",
+      "code": "Kode",
+      "nr": "Nr.",
+      "description": "Beskrivelse",
+      "unit": "Enhet",
+      "quantity": "Mengde",
+      "materialPrice": "Materialer (pris/enh.)",
+      "laborPrice": "Arbeid (pris/enh.)",
+      "equipmentPrice": "Maskiner (pris/enh.)",
+      "unitPrice": "Enhetspris",
+      "total": "Totalt (beløp)"
+    }
   },
   "quantityPicker": {
     "title": "Koble mengde",

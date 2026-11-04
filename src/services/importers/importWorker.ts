@@ -11,5 +11,8 @@ self.onmessage = async (event: MessageEvent<{ kind: string; data: ArrayBuffer; f
       : kind === 'inschrijfstaat' ? await importInschrijfstaatFile(data)
       : await importBudget(data, fileName);
     self.postMessage({ ok: true, result });
-  } catch (error) { self.postMessage({ ok: false, error: error instanceof Error ? error.message : 'Import failed.' }); }
+  } catch (error) {
+    // De naam gaat mee, zodat de aanroeper bv. NotBasCalcError kan herkennen.
+    self.postMessage({ ok: false, error: error instanceof Error ? error.message : 'Import failed.', errorName: error instanceof Error ? error.name : undefined });
+  }
 };

@@ -8,7 +8,20 @@
     "rows": "{{count}} 行",
     "linkDescriptionFirst": "请先匹配一个“名称”列",
     "cancel": "取消",
-    "import": "导入"
+    "import": "导入",
+    "fields": {
+      "ignore": "— 忽略 —",
+      "code": "编码",
+      "nr": "序号",
+      "description": "描述",
+      "unit": "单位",
+      "quantity": "工程量",
+      "materialPrice": "材料费（单价）",
+      "laborPrice": "人工费（单价）",
+      "equipmentPrice": "机械费（单价）",
+      "unitPrice": "综合单价",
+      "total": "合计（金额）"
+    }
   },
   "quantityPicker": {
     "title": "关联工程量",

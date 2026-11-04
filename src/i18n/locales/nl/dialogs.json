@@ -8,7 +8,20 @@
     "rows": "{{count}} rijen",
     "linkDescriptionFirst": "koppel eerst een “Omschrijving”-kolom",
     "cancel": "Annuleren",
-    "import": "Importeren"
+    "import": "Importeren",
+    "fields": {
+      "ignore": "— negeren —",
+      "code": "Code",
+      "nr": "Nr",
+      "description": "Omschrijving",
+      "unit": "Eenheid",
+      "quantity": "Hoeveelheid",
+      "materialPrice": "Materiaal (prijs/eh)",
+      "laborPrice": "Arbeid (prijs/eh)",
+      "equipmentPrice": "Materieel (prijs/eh)",
+      "unitPrice": "Eenheidsprijs",
+      "total": "Totaal (bedrag)"
+    }
   },
   "quantityPicker": {
     "title": "Hoeveelheid linken",

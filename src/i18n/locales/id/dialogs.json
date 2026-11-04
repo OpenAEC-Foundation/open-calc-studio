@@ -8,7 +8,20 @@
     "rows": "{{count}} baris",
     "linkDescriptionFirst": "tautkan kolom “Uraian” terlebih dahulu",
     "cancel": "Batal",
-    "import": "Impor"
+    "import": "Impor",
+    "fields": {
+      "ignore": "— abaikan —",
+      "code": "Kode",
+      "nr": "No.",
+      "description": "Uraian",
+      "unit": "Satuan",
+      "quantity": "Volume",
+      "materialPrice": "Material (harga/sat)",
+      "laborPrice": "Upah (harga/sat)",
+      "equipmentPrice": "Peralatan (harga/sat)",
+      "unitPrice": "Harga satuan",
+      "total": "Total (jumlah)"
+    }
   },
   "quantityPicker": {
     "title": "Tautkan volume",

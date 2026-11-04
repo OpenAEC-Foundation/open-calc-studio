@@ -8,7 +8,20 @@
     "rows": "{{count}} সারি",
     "linkDescriptionFirst": "প্রথমে একটি “বিবরণ” কলাম যুক্ত করুন",
     "cancel": "বাতিল",
-    "import": "আমদানি করুন"
+    "import": "আমদানি করুন",
+    "fields": {
+      "ignore": "— উপেক্ষা করুন —",
+      "code": "কোড",
+      "nr": "নং",
+      "description": "বিবরণ",
+      "unit": "একক",
+      "quantity": "পরিমাণ",
+      "materialPrice": "উপকরণ (মূল্য/একক)",
+      "laborPrice": "শ্রম (মূল্য/একক)",
+      "equipmentPrice": "যন্ত্রপাতি (মূল্য/একক)",
+      "unitPrice": "একক মূল্য",
+      "total": "মোট (অঙ্ক)"
+    }
   },
   "quantityPicker": {
     "title": "পরিমাণ যুক্ত করুন",

@@ -8,7 +8,20 @@
     "rows": "{{count}} реда",
     "linkDescriptionFirst": "първо свържете колона „Описание“",
     "cancel": "Отказ",
-    "import": "Импорт"
+    "import": "Импорт",
+    "fields": {
+      "ignore": "— пропусни —",
+      "code": "Код",
+      "nr": "№",
+      "description": "Описание",
+      "unit": "Мярка",
+      "quantity": "Количество",
+      "materialPrice": "Материали (цена/ед.)",
+      "laborPrice": "Труд (цена/ед.)",
+      "equipmentPrice": "Механизация (цена/ед.)",
+      "unitPrice": "Единична цена",
+      "total": "Общо (сума)"
+    }
   },
   "quantityPicker": {
     "title": "Свързване на количество",
