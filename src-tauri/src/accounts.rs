@@ -28,30 +28,43 @@ pub struct AccountsConfig {
     pub accounts_api_url: String,
 }
 
-impl Default for AccountsConfig {
-    fn default() -> Self {
-        // Dev-waarden uit het integratiecontract; productie krijgt later een
-        // eigen issuer/API-domein (override via OPENAEC_ACCOUNTS_CONFIG).
-        Self {
-            issuer: "http://kubernetes.docker.internal:8088".into(),
-            client_id: "376959313182261253".into(),
-            redirect_uri: "http://localhost:53683/callback".into(),
-            scopes: "openid profile email offline_access".into(),
-            accounts_api_url: "http://localhost:4000".into(),
+fn parse_config(text: &str) -> Result<AccountsConfig, String> {
+    let cfg: AccountsConfig = serde_json::from_str(text)
+        .map_err(|_| "OpenAEC account configuration is invalid JSON or missing required fields.".to_string())?;
+    if cfg.client_id.trim().is_empty() || !cfg.scopes.split_whitespace().any(|s| s == "openid") {
+        return Err("OpenAEC account configuration requires a client ID and the openid scope.".into());
+    }
+    for value in [&cfg.issuer, &cfg.accounts_api_url] {
+        let url = reqwest::Url::parse(value).map_err(|_| "Invalid OpenAEC service URL.".to_string())?;
+        let loopback = matches!(url.host_str(), Some("localhost" | "127.0.0.1" | "[::1]"));
+        if !(url.scheme() == "https" || (url.scheme() == "http" && loopback))
+            || url.host_str().is_none() || !url.username().is_empty() || url.password().is_some()
+            || url.query().is_some() || url.fragment().is_some() {
+            return Err("OpenAEC service URLs require HTTPS (HTTP is allowed only on loopback for development).".into());
         }
     }
+    let redirect = reqwest::Url::parse(&cfg.redirect_uri)
+        .map_err(|_| "Invalid OpenAEC callback URL.".to_string())?;
+    if redirect.scheme() != "http" || !matches!(redirect.host_str(), Some("localhost" | "127.0.0.1"))
+        || redirect.path() != "/callback" || redirect.port().is_none()
+        || !redirect.username().is_empty() || redirect.password().is_some()
+        || redirect.query().is_some() || redirect.fragment().is_some() {
+        return Err("OpenAEC callback must be http://127.0.0.1:<port>/callback or http://localhost:<port>/callback.".into());
+    }
+    Ok(cfg)
 }
 
-fn load_config() -> AccountsConfig {
-    if let Ok(path) = std::env::var("OPENAEC_ACCOUNTS_CONFIG") {
-        if let Ok(text) = std::fs::read_to_string(&path) {
-            if let Ok(cfg) = serde_json::from_str::<AccountsConfig>(&text) {
-                return cfg;
-            }
-            log::warn!("[Accounts] Config op {} onleesbaar — dev-defaults gebruikt", path);
-        }
-    }
-    AccountsConfig::default()
+fn load_config() -> Result<AccountsConfig, String> {
+    let path = std::env::var("OPENAEC_ACCOUNTS_CONFIG")
+        .map_err(|_| "OpenAEC sign-in is not configured. Ask your administrator to provide OPENAEC_ACCOUNTS_CONFIG; local estimates remain available.".to_string())?;
+    let text = std::fs::read_to_string(path)
+        .map_err(|_| "OpenAEC account configuration could not be read. Check OPENAEC_ACCOUNTS_CONFIG.".to_string())?;
+    parse_config(&text)
+}
+
+fn accounts_client() -> reqwest::Client {
+    reqwest::Client::builder().timeout(std::time::Duration::from_secs(30))
+        .build().expect("TLS HTTP client")
 }
 
 // ── Token-opslag (keyring) ──────────────────────────────────────────────
@@ -142,6 +155,7 @@ async fn fetch_discovery(client: &reqwest::Client, issuer: &str) -> Result<Disco
         .get(format!("{issuer}/.well-known/openid-configuration"))
         .send()
         .await
+        .and_then(reqwest::Response::error_for_status)
         .map_err(|e| format!("OIDC-discovery onbereikbaar ({issuer}): {e}"))?
         .json::<Discovery>()
         .await
@@ -232,8 +246,8 @@ fn wait_for_callback(listener: TcpListener) -> Result<(String, String), String> 
 pub async fn accounts_sign_in(app: tauri::AppHandle) -> Result<UserInfo, String> {
     use tauri_plugin_opener::OpenerExt;
 
-    let cfg = load_config();
-    let client = reqwest::Client::new();
+    let cfg = load_config()?;
+    let client = accounts_client();
     let disco = fetch_discovery(&client, &cfg.issuer).await?;
 
     // PKCE-verifier + challenge (S256) en state
@@ -296,6 +310,7 @@ pub async fn accounts_sign_in(app: tauri::AppHandle) -> Result<UserInfo, String>
         .send()
         .await
         .map_err(|e| format!("token-exchange mislukt: {e}"))?
+        .error_for_status().map_err(|e| format!("token-exchange rejected: {e}"))?
         .json()
         .await
         .map_err(|e| format!("token-respons onleesbaar: {e}"))?;
@@ -343,6 +358,7 @@ async fn refresh_tokens(client: &reqwest::Client, cfg: &AccountsConfig) -> Resul
         .send()
         .await
         .map_err(|e| format!("token-refresh mislukt: {e}"))?
+        .error_for_status().map_err(|e| format!("token-refresh rejected: {e}"))?
         .json()
         .await
         .map_err(|e| format!("refresh-respons onleesbaar: {e}"))?;
@@ -365,8 +381,8 @@ async fn api_request(
     path: &str,
     body: ApiBody,
 ) -> Result<(u16, String), String> {
-    let cfg = load_config();
-    let client = reqwest::Client::new();
+    let cfg = load_config()?;
+    let client = accounts_client();
     let mut access = keyring_get("access_token").ok_or("niet ingelogd")?;
 
     for attempt in 0..2 {
@@ -457,4 +473,36 @@ pub async fn accounts_download_file(id: String) -> Result<String, String> {
         return Err(format!("download mislukt ({status}): {text}"));
     }
     Ok(text)
+}
+
+#[cfg(test)]
+mod config_tests {
+    use super::*;
+    fn config() -> serde_json::Value { serde_json::json!({
+        "issuer": "https://auth.example.com", "clientId": "registered-client",
+        "redirectUri": "http://127.0.0.1:53683/callback",
+        "scopes": "openid profile email offline_access", "accountsApiUrl": "https://accounts.example.com"
+    }) }
+    #[test]
+    fn accounts_config_accepts_registered_https_and_explicit_local_development() {
+        assert!(parse_config(&config().to_string()).is_ok());
+        let mut local = config(); local["issuer"] = "http://localhost:8088".into();
+        local["accountsApiUrl"] = "http://127.0.0.1:4000".into();
+        assert!(parse_config(&local.to_string()).is_ok());
+    }
+    #[test]
+    fn accounts_config_rejects_missing_identity_and_unsafe_endpoints() {
+        for (key, value) in [("clientId", ""), ("scopes", "profile"),
+            ("issuer", "http://kubernetes.docker.internal:8088"),
+            ("accountsApiUrl", "https://user:password@example.com"),
+            ("redirectUri", "http://example.com:53683/callback"),
+            ("redirectUri", "http://localhost:53683/callback-other"),
+            ("redirectUri", "http://localhost/callback"),
+            ("redirectUri", "http://localhost:53683/callback?code=secret")] {
+            let mut cfg = config(); cfg[key] = value.into();
+            assert!(parse_config(&cfg.to_string()).is_err(), "accepted {key}");
+        }
+        assert!(parse_config("{}").is_err());
+        assert!(parse_config("broken").is_err());
+    }
 }

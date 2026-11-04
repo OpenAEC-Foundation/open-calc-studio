@@ -1,3 +1,4 @@
+import { allowsAccounts } from '@/services/buildFlags';
 import type { StateCreator } from 'zustand';
 
 /**
@@ -68,6 +69,11 @@ export const createAccountsSlice: StateCreator<AccountsSlice> = (set, get) => ({
   lastCloudFolder: null,
 
   accountsSignIn: async () => {
+    if (!allowsAccounts()) {
+      const error = 'OpenAEC sign-in requires a configured desktop build. In the hosted app, sign in through the site.';
+      set({ accountsError: error, accountsBusy: false });
+      throw new Error(error);
+    }
     // Eén login tegelijk: de loopback-poort kan maar één listener hebben.
     if (get().accountsBusy) return;
     set({ accountsBusy: true, accountsError: null });

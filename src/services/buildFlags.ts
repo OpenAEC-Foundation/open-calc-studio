@@ -19,3 +19,8 @@ declare global { interface Window { __OCS_CONTAINER__?: boolean } }
 export function allowsExternalServices(): boolean {
   return !PLATFORM_BUILD && !(typeof window !== 'undefined' && (window.__OCS_CONTAINER__ || window.openaecHost || window.origin === 'null'));
 }
+
+/** Account commands require the native keyring and browser callback listener. */
+export function allowsAccounts(): boolean {
+  return OPENAEC_ENABLED && allowsExternalServices() && typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window;
+}

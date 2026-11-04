@@ -1,5 +1,26 @@
 # Open Calc Studio — aankomende release
 
+## 2026.45.0: Excel-import, platformassistent en accountcontrole
+
+- Algemene Excel-bestanden openen met een kolomkoppelvenster wanneer ze geen
+  BasCalc-bestand zijn. Spaanse kolommen, materieel en hiërarchische codes worden
+  ondersteund. De veldlabels zijn vertaald; annuleren geeft geen importfout.
+- De platformassistent krijgt het browserkoppelvlak `window.__OPDS_APP__`.
+  Hostinstellingen blijven via de site bewaard en geïmporteerde bestanden worden
+  als nieuwe `.ifcCalc` opgeslagen. Desktopacties die browseropslag of native
+  export nodig hebben blijven beschermd.
+- Feedback gebruikt geen CORS-blokkerende User-Agent-header meer. Het formulier
+  verklaart ontbrekende velden en biedt bij fouten een e-mailalternatief.
+- GAEB-aanbiedingsmeldingen volgen de gekozen taal.
+- Accounts worden alleen in een expliciet ingeschakelde native build aangeboden.
+  Ontbrekende of ongeldige accountconfiguratie geeft direct uitleg; er is geen
+  terugval meer op ontwikkelservers. Linux en macOS gebruiken hun eigen
+  keyringbackend. Netwerkverzoeken hebben een deadline en tokenfouten worden
+  op HTTP-status gecontroleerd.
+- De zelfstandige productielogin is nog niet bewezen met een geregistreerde
+  productieclient op alle drie platforms; issue #42 blijft daarom open.
+- Productversie 2026.45.0; MSI 26.45.0; bestandsformaat blijft 2.4.0.
+
 ## 2026.44.6: herstel, prijsbronnen en revisiecontrole
 
 - Herstelopslag via IndexedDB bewaart alle open documenten en snapshots wanneer
