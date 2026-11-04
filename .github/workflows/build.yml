@@ -155,6 +155,15 @@ jobs:
           find artifacts -name 'SHA256SUMS-linux.txt' -exec cp {} release/ \;
           find artifacts -name 'memory-idle.txt' -exec cp {} release/desktop-container-idle-memory.txt \;
           cp LICENSE COPYING NOTICE.md release/
+          # GitHub converts spaces in asset names to dots. Match those names
+          # before hashing, so downloaded files pass sha256sum -c directly.
+          for file in release/*; do
+            normalized="${file// /.}"
+            if [ "$file" != "$normalized" ]; then
+              test ! -e "$normalized"
+              mv -- "$file" "$normalized"
+            fi
+          done
           (cd release && sha256sum * > SHA256SUMS.txt)
           ls -la release/
 

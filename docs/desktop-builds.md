@@ -148,3 +148,9 @@ OpenAEC Installer release kit before upload. Distinct
 Local unsigned development builds can explicitly use
 `npm run tauri -- build --debug --no-sign`. Such a build is not release-signing
 evidence and cannot pass the signed artifact collector.
+
+
+Release assets use dots where native build filenames contained spaces, matching
+GitHub's asset naming. The release-level `SHA256SUMS.txt` uses those download
+names. Linux package `.asc` signatures verify the downloaded bytes directly;
+the signed `SHA256SUMS-linux.txt` preserves the original native build names.
