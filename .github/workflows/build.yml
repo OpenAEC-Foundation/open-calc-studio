@@ -129,9 +129,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Download all artifacts
+      - name: Download release artifacts
         uses: actions/download-artifact@v4
         with:
+          # Docker Buildx also uploads a .dockerbuild diagnostic record, which
+          # is not a ZIP archive. Only our release artifacts can be unpacked.
+          pattern: open-calc-studio-*
           path: artifacts
 
       - name: Collect installer files
