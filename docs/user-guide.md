@@ -1,6 +1,6 @@
 # Open Calc Studio user guide
 
-For Open Calc Studio development version 2026.44.6. [Nederlandse handleiding](gebruikershandleiding.md) · [Project overview](../README.md)
+For Open Calc Studio development version 2026.45.0. [Nederlandse handleiding](gebruikershandleiding.md) · [Project overview](../README.md)
 
 ## Contents
 

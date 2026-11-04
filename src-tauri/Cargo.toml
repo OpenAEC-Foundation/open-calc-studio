@@ -2,7 +2,7 @@
 # Unieke naam: de Cargo-default "app" botst met andere Tauri-projecten op deze
 # machine (zelfde dev-binarynaam app.exe) en werd daardoor extern gekild.
 name = "open-calc-studio"
-version = "2026.44.6"
+version = "2026.45.0"
 description = "A Tauri App"
 authors = ["OpenAEC Foundation"]
 license = "LGPL-3.0-only"
@@ -59,4 +59,11 @@ chrono = { version = "0.4", default-features = false, features = ["clock"] }
 reqwest = { version = "0.12", default-features = false, features = ["json", "multipart", "rustls-tls"] }
 sha2 = "0.10"
 rand = "0.8"
+[target.'cfg(target_os = "windows")'.dependencies]
 keyring = { version = "3", features = ["windows-native"] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+keyring = { version = "3", features = ["apple-native"] }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+keyring = { version = "3", features = ["sync-secret-service", "crypto-rust"] }

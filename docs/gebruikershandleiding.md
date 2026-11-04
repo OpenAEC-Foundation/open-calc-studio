@@ -1,6 +1,6 @@
 # Gebruikershandleiding Open Calc Studio
 
-Voor de ontwikkelversie 2026.44.6. [English user guide](user-guide.md) · [Projectoverzicht](../README.md)
+Voor de ontwikkelversie 2026.45.0. [English user guide](user-guide.md) · [Projectoverzicht](../README.md)
 
 ## Installeren en starten
 

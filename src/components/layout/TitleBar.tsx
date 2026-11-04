@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppStore } from "../../state/appStore";
 import { useFileOperations } from "../../hooks/useFileOperations";
-import { OPENAEC_ENABLED, allowsExternalServices } from "../../services/buildFlags";
+import { allowsAccounts, allowsExternalServices } from "../../services/buildFlags";
 import "./TitleBar.css";
 
 interface TitleBarProps {
@@ -31,7 +31,7 @@ function TitleBar({ onSettingsClick, onFeedbackClick }: TitleBarProps) {
   const accountsLoadUser = useAppStore((s) => s.accountsLoadUser);
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
 
-  useEffect(() => { if (OPENAEC_ENABLED && allowsExternalServices()) void accountsLoadUser(); }, [accountsLoadUser]);
+  useEffect(() => { if (allowsAccounts()) void accountsLoadUser(); }, [accountsLoadUser]);
 
   useEffect(() => {
     if (!accountMenuOpen) return;
@@ -196,7 +196,7 @@ function TitleBar({ onSettingsClick, onFeedbackClick }: TitleBarProps) {
       </span>
 
       <div className="titlebar-controls">
-        {OPENAEC_ENABLED && allowsExternalServices() && accountsUser ? (
+        {allowsAccounts() && accountsUser ? (
           <div className="openaec-account" onClick={(e) => e.stopPropagation()}>
             <button
               className="openaec-avatar-btn"
@@ -234,7 +234,7 @@ function TitleBar({ onSettingsClick, onFeedbackClick }: TitleBarProps) {
               </div>
             )}
           </div>
-        ) : OPENAEC_ENABLED && allowsExternalServices() ? (
+        ) : allowsAccounts() ? (
           <button className="openaec-signin-btn" onClick={handleSignIn} disabled={accountsBusy} tabIndex={-1}>
             {accountsBusy ? t('accounts.signingIn') : t('accounts.signIn')}
           </button>
