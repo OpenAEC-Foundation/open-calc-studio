@@ -11,7 +11,7 @@ import { useGridVirtualizer } from './useGridVirtualizer';
 import { useGridNavigation } from './useGridNavigation';
 import { useGridEditing } from './useGridEditing';
 import { useAppStore } from '@/state/appStore';
-import { ROW_HEIGHT, getColumnsForView, isCellEditable, isColumnHidden } from './gridConstants';
+import { ROW_HEIGHT, getColumnsForView, hiddenByQuantityToggle, isCellEditable, isColumnHidden } from './gridConstants';
 import { getGrandTotal } from '@/services/calculation/calculator';
 import { isFooterRow, computeParentIds } from '@/services/grid/gridRows';
 import { computeResourceTotals } from '@/services/grid/resourceTotals';
@@ -137,7 +137,7 @@ export const CostGrid: React.FC = () => {
   const hiddenColumns = useAppStore((s) => s.hiddenColumns);
   const effectiveColumnWidths = useMemo(() => {
     return columns.map((col, i) => {
-      if (col.key === 'hoeveelheid' && !showHoeveelheid) return 0;
+      if (hiddenByQuantityToggle(col.key, gridView, showHoeveelheid)) return 0;
       if (isColumnHidden(hiddenColumns, gridView, col.key)) return 0;
       return columnWidths[i] ?? col.width;
     });

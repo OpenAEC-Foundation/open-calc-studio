@@ -10,15 +10,25 @@ import "./StatusBar.css";
 
 const ZOOM_PRESETS = [50, 75, 100, 125, 150, 175, 200];
 
-function ZoomControl() {
-  const { gridZoom, setGridZoom } = useAppStore();
+interface ZoomPickerProps {
+  value: number;
+  onChange: (zoom: number) => void;
+  onStep: (direction: 1 | -1) => void;
+  label?: string;
+  title?: string;
+  smallerLabel?: string;
+  largerLabel?: string;
+}
+
+/** Zoomregelaar: − en +, en klikken op het percentage opent een invoerveld met vaste standen. */
+function ZoomPicker({ value, onChange, onStep, label, title, smallerLabel, largerLabel }: ZoomPickerProps) {
   const [editing, setEditing] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [inputValue, setInputValue] = useState(String(gridZoom));
+  const [inputValue, setInputValue] = useState(String(value));
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => { setInputValue(String(gridZoom)); }, [gridZoom]);
+  useEffect(() => { setInputValue(String(value)); }, [value]);
 
   useEffect(() => {
     if (editing) inputRef.current?.select();
@@ -39,30 +49,30 @@ function ZoomControl() {
   const commitValue = useCallback(() => {
     const num = parseInt(inputValue, 10);
     if (!isNaN(num) && num >= 50 && num <= 200) {
-      setGridZoom(num);
+      onChange(num);
     } else {
-      setInputValue(String(gridZoom));
+      setInputValue(String(value));
     }
     setEditing(false);
     setDropdownOpen(false);
-  }, [inputValue, gridZoom, setGridZoom]);
+  }, [inputValue, value, onChange]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") { commitValue(); }
-    else if (e.key === "Escape") { setInputValue(String(gridZoom)); setEditing(false); }
+    else if (e.key === "Escape") { setInputValue(String(value)); setEditing(false); }
   };
 
-
-  const handlePresetClick = (value: number) => {
-    setGridZoom(value);
-    setInputValue(String(value));
+  const handlePresetClick = (preset: number) => {
+    onChange(preset);
+    setInputValue(String(preset));
     setDropdownOpen(false);
     setEditing(false);
   };
 
   return (
-    <div className="status-zoom" ref={dropdownRef}>
-      <button className="status-zoom-btn" onClick={() => setGridZoom(gridZoom - 10)}>−</button>
+    <div className="status-zoom" ref={dropdownRef} title={title}>
+      {label && <span className="status-item-label">{label}</span>}
+      <button className="status-zoom-btn" onClick={() => onStep(-1)} aria-label={smallerLabel}>−</button>
       <div className="status-zoom-value-wrapper">
         {editing ? (
           <input
@@ -79,7 +89,7 @@ function ZoomControl() {
             className="status-zoom-value"
             onClick={() => { setEditing(true); setDropdownOpen(true); }}
           >
-            {gridZoom}%
+            {value}%
           </button>
         )}
         {dropdownOpen && (
@@ -87,7 +97,7 @@ function ZoomControl() {
             {ZOOM_PRESETS.map((val) => (
               <button
                 key={val}
-                className={`status-zoom-preset${val === gridZoom ? ' active' : ''}`}
+                className={`status-zoom-preset${val === value ? ' active' : ''}`}
                 onMouseDown={event => event.preventDefault()} onClick={() => handlePresetClick(val)}
               >
                 {val}%
@@ -96,9 +106,16 @@ function ZoomControl() {
           </div>
         )}
       </div>
-      <button className="status-zoom-btn" onClick={() => setGridZoom(gridZoom + 10)}>+</button>
+      <button className="status-zoom-btn" onClick={() => onStep(1)} aria-label={largerLabel}>+</button>
     </div>
   );
+}
+
+/** Zoom van alleen de begrotingstabel. */
+function ZoomControl() {
+  const gridZoom = useAppStore((s) => s.gridZoom);
+  const setGridZoom = useAppStore((s) => s.setGridZoom);
+  return <ZoomPicker value={gridZoom} onChange={setGridZoom} onStep={(direction) => setGridZoom(gridZoom + 10 * direction)} />;
 }
 
 /** Excel-achtige samenvatting van een celselectie: som, aantal en gemiddelde. */
@@ -163,18 +180,15 @@ function UiZoomControl() {
   const stepUiZoom = useAppStore((s) => s.stepUiZoom);
   const setUiZoom = useAppStore((s) => s.setUiZoom);
   return (
-    <div className="status-zoom" title={t('statusBar.uiZoomTitle')}>
-      <span className="status-item-label">UI:</span>
-      <button className="status-zoom-btn" onClick={() => stepUiZoom(-1)} aria-label={t('statusBar.uiSmaller')}>−</button>
-      <button
-        className="status-zoom-value"
-        onClick={() => setUiZoom(100)}
-        aria-label={t('statusBar.uiReset')}
-      >
-        {uiZoom}%
-      </button>
-      <button className="status-zoom-btn" onClick={() => stepUiZoom(1)} aria-label={t('statusBar.uiLarger')}>+</button>
-    </div>
+    <ZoomPicker
+      value={uiZoom}
+      onChange={setUiZoom}
+      onStep={stepUiZoom}
+      label="UI:"
+      title={t('statusBar.uiZoomTitle')}
+      smallerLabel={t('statusBar.uiSmaller')}
+      largerLabel={t('statusBar.uiLarger')}
+    />
   );
 }
 

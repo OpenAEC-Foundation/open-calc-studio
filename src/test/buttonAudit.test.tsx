@@ -58,7 +58,9 @@ describe('home ribbon button outcomes',()=>{
  });
  it.each([['home.viewUi1','st'],['home.viewUi2','wpcalc'],['home.viewUi3','simple']])('switches %s to %s',async(key,value)=>{await render(<HomeTab/>);await click(tr(key));expect(useAppStore.getState().gridView).toBe(value);});
  it('toggles quantity display and change tracking, and selects both mark styles',async()=>{
-  await render(<HomeTab/>);const before=useAppStore.getState().showHoeveelheid;await click(tr('home.quantity'));expect(useAppStore.getState().showHoeveelheid).toBe(!before);
+  // In UI-2 is de kolom met die sleutel Uren, dus daar staat de knop uit; in UI-1 werkt hij.
+  useAppStore.getState().setGridView('wpcalc');await render(<HomeTab/>);expect(button(tr('home.quantity'))).toBeDisabled();
+  await act(async()=>useAppStore.getState().setGridView('st'));const before=useAppStore.getState().showHoeveelheid;await click(tr('home.quantity'));expect(useAppStore.getState().showHoeveelheid).toBe(!before);
   await click(tr('home.trackChanges'));expect(useAppStore.getState().schedule.changeTrackingSince).toBeTruthy();await click(tr('home.cellOnly'));expect(useAppStore.getState().schedule.changeDisplayMode).toBe('cell');await click(tr('home.wholeRow'));expect(useAppStore.getState().schedule.changeDisplayMode).toBe('row');await click(tr('home.clearMarks'));expect(useAppStore.getState().schedule.changeTrackingSince).toBeTruthy();
  });
  it('creates a real option set and allows disabling variants',async()=>{
@@ -110,7 +112,7 @@ describe('pickers, search and project actions',()=>{
  it('add/remove key figures marks the project as modified',async()=>{await render(<ProjectInfoSettings/>);await click('+ '+tr('projectInfo.addKeyFigure','common'));expect(useAppStore.getState().documents[0].isModified).toBe(true);expect(useAppStore.getState().schedule.projectProperties?.some(p=>!p.isDefault)).toBe(true);await click(tr('delete','common'));expect(useAppStore.getState().schedule.projectProperties?.some(p=>!p.isDefault)).toBe(false);});
  it('all zoom buttons update their own zoom, including reset',async()=>{
   await render(<StatusBar/>);const ui=node.querySelectorAll('.status-zoom')[0],grid=node.querySelectorAll('.status-zoom')[1];
-  const buttons=ui.querySelectorAll('button');await act(async()=>buttons[2].click());expect(useAppStore.getState().uiZoom).toBeGreaterThan(100);await act(async()=>buttons[1].click());expect(useAppStore.getState().uiZoom).toBe(100);await act(async()=>buttons[0].click());expect(useAppStore.getState().uiZoom).toBeLessThan(100);
+  const buttons=ui.querySelectorAll('button');await act(async()=>buttons[2].click());expect(useAppStore.getState().uiZoom).toBeGreaterThan(100);await act(async()=>buttons[1].click());const preset=[...ui.querySelectorAll('.status-zoom-preset')].find(b=>b.textContent==='100%') as HTMLButtonElement;await act(async()=>preset.click());expect(useAppStore.getState().uiZoom).toBe(100);await act(async()=>buttons[0].click());expect(useAppStore.getState().uiZoom).toBeLessThan(100);
   const gb=grid.querySelectorAll('button');await act(async()=>gb[2].click());expect(useAppStore.getState().gridZoom).toBe(110);await act(async()=>gb[1].click());await click('100%');expect(useAppStore.getState().gridZoom).toBe(100);await act(async()=>gb[0].click());expect(useAppStore.getState().gridZoom).toBe(90);
  });
 });

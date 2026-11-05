@@ -8,6 +8,7 @@ import OfferteTab from "./OfferteTab";
 import SpreadsheetTab from "./SpreadsheetTab";
 import TekstopmaakTab, { isOpmaakbareRegel } from "./TekstopmaakTab";
 import { useAppStore } from "@/state/appStore";
+import { uiText } from "@/i18n/uiText";
 import "./Ribbon.css";
 
 interface RibbonProps {
@@ -105,6 +106,38 @@ export default function Ribbon({ onFileTabClick }: RibbonProps) {
     return () => window.removeEventListener("resize", updateHighlight);
   }, [updateHighlight]);
 
+  // Past het lint niet in het venster (bv. een laptop met 150% schaal), dan
+  // kun je het opzij schuiven met de pijltjes of het muiswiel. Anders vielen
+  // de groepen rechts weg en waren hun knoppen onbereikbaar.
+  const [panelEl, setPanelEl] = useState<HTMLDivElement | null>(null);
+  const [scrollable, setScrollable] = useState({ left: false, right: false });
+  const updateScrollable = useCallback(() => {
+    if (!panelEl) return;
+    const { scrollLeft, scrollWidth, clientWidth } = panelEl;
+    const left = scrollLeft > 1, right = scrollLeft + clientWidth < scrollWidth - 1;
+    setScrollable(s => (s.left === left && s.right === right ? s : { left, right }));
+  }, [panelEl]);
+
+  useEffect(() => {
+    if (!panelEl) return;
+    updateScrollable();
+    const observer = new ResizeObserver(updateScrollable);
+    observer.observe(panelEl);
+    if (panelEl.firstElementChild) observer.observe(panelEl.firstElementChild);
+    return () => observer.disconnect();
+  }, [panelEl, updateScrollable]);
+
+  const scrollRibbon = (direction: -1 | 1) => {
+    panelEl?.scrollBy({ left: direction * panelEl.clientWidth * 0.75, behavior: 'smooth' });
+  };
+
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    const el = e.currentTarget;
+    if (el.scrollWidth <= el.clientWidth || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+    // deltaMode 1 = regels i.p.v. pixels (o.a. Linux); reken om naar pixels.
+    el.scrollLeft += e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+  };
+
   useEffect(() => {
     if (!animating) return;
     const timer = setTimeout(() => {
@@ -155,9 +188,24 @@ export default function Ribbon({ onFileTabClick }: RibbonProps) {
         <div
           className={`ribbon-content-panel${animating ? ` ribbon-panel-enter-${direction}` : ""}`}
           key={`active-${activeTab}`}
+          ref={setPanelEl}
+          onScroll={updateScrollable}
+          onWheel={handleWheel}
         >
           {renderContent(activeTab)}
         </div>
+        {scrollable.left && (
+          <button className="ribbon-scroll-btn ribbon-scroll-left" tabIndex={-1} onClick={() => scrollRibbon(-1)}
+            aria-label={uiText("ribbon.scrollLeft", "Scroll ribbon left")} title={uiText("ribbon.scrollLeft", "Scroll ribbon left")}>
+            <svg width="10" height="16" viewBox="0 0 10 16" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M8 2 2 8l6 6" /></svg>
+          </button>
+        )}
+        {scrollable.right && (
+          <button className="ribbon-scroll-btn ribbon-scroll-right" tabIndex={-1} onClick={() => scrollRibbon(1)}
+            aria-label={uiText("ribbon.scrollRight", "Scroll ribbon right")} title={uiText("ribbon.scrollRight", "Scroll ribbon right")}>
+            <svg width="10" height="16" viewBox="0 0 10 16" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="m2 2 6 6-6 6" /></svg>
+          </button>
+        )}
       </div>
     </div>
   );

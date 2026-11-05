@@ -409,7 +409,6 @@
     "avg": "Gem.:",
     "uiZoomTitle": "Interface-zoom — Ctrl+= groter, Ctrl+- kleiner, Ctrl+0 terug naar 100%",
     "uiSmaller": "Interface kleiner",
-    "uiReset": "Interface-zoom terugzetten op 100%",
     "uiLarger": "Interface groter",
     "variant": "Variant:",
     "allVariants": "(alle)"
@@ -684,7 +683,7 @@
       "selectParent": "Selecteer eerst een begrotingspost om een middel toe te voegen.",
       "reference": "Ongeverifieerde referentie: {{price}} per {{unit}}. Peildatum en btw-basis onbekend.",
       "title": "Prijzen",
-      "library": "Prijsbibliotheek NL",
+      "library": "Prijsbiblio\u00adtheek NL",
       "updates": "Prijsupdates beoordelen",
       "explain": "Importeer een nieuwere JSON-catalogus met dezelfde catalogus- en artikel-ID’s. Selecteer passende wijzigingen. Eigen prijsafspraken blijven behouden.",
       "catalogue": "Catalogus JSON",
@@ -1016,7 +1015,10 @@
       "unsaved": "Niet-opgeslagen wijzigingen",
       "saved": "Opgeslagen",
       "local": "Lokaal document",
-      "total": "Begroting · excl. btw"
+      "total": "Begroting · excl. btw",
+      "review": "Controlecentrum",
+      "collapseNav": "Menu inklappen",
+      "expandNav": "Menu uitklappen"
     },
     "proposal": {
       "review": "Controleer de voorgestelde begrotingswijzigingen.",
@@ -1123,6 +1125,10 @@
       "discard": "Herstelgegevens verwijderen",
       "saved": "Herstel opgeslagen"
     },
+    "ribbon": {
+      "scrollLeft": "Lint naar links schuiven",
+      "scrollRight": "Lint naar rechts schuiven"
+    },
     "revisions": {
       "title": "Bronrevisies vergelijken",
       "explain": "Voeg eerst beide bronbestanden toe. IFC-koppelingen gebruiken unieke GlobalIds en de exacte hoeveelheidssleutel. Bij PDF worden geïmporteerde metingen vergeleken; kalibratie en geometrie moeten in de tekening worden beoordeeld.",
@@ -1151,7 +1157,12 @@
         "inactive": "Andere variant"
       }
     },
-    "close": "Sluiten"
+    "close": "Sluiten",
+    "review": {
+      "badge": "{{count}} controlemeldingen",
+      "unavailable": "Deze regel heeft geen controlemelding meer in de actieve variant.",
+      "unreachable": "De regel heeft een ongeldige bovenliggende structuur en kan niet in het raster worden getoond."
+    }
   },
   "review": {
     "title": "Controlecentrum",

@@ -39,7 +39,7 @@ async function resolveOutputPath(requested: unknown, baseName: string, ext: stri
 export async function exportPdf(data: Record<string, unknown>): Promise<string> {
   const { invoke } = await import('@tauri-apps/api/core');
   const store = useAppStore.getState();
-  const { schedule, items, companyInfo, showHoeveelheid } = store;
+  const { schedule, items, companyInfo, reportShowQuantities } = store;
   if (!schedule || items.length === 0) throw new Error('no budget loaded');
 
   const reportView = String(data.reportView || 'bouw1');
@@ -57,7 +57,7 @@ export async function exportPdf(data: Record<string, unknown>): Promise<string> 
     reportView,
     pageSize: (data.pageSize as string) || store.pageSize,
     pageOrientation: (data.pageOrientation as string) || store.pageOrientation,
-    showHoeveelheid,
+    showHoeveelheid: reportShowQuantities,
     companyInfo,
     includeCover: store.includeCover,
     includeSummary: store.includeSummary,

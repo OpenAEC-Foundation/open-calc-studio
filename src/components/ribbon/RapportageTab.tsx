@@ -42,7 +42,7 @@ const REPORT_VIEWS: { value: ReportView; labelKey: string; icon: string; titleKe
 
 export default function RapportageTab() {
   const { t } = useTranslation("ribbon");
-  const { schedule, items, offerte, setActiveContentTab, reportView, setReportView, showHoeveelheid, toggleHoeveelheid, pageOrientation, setPageOrientation, pageSize, setPageSize, setReportShowChanges, setSchedule: setScheduleState } = useAppStore();
+  const { schedule, items, offerte, setActiveContentTab, reportView, setReportView, reportShowQuantities, toggleReportShowQuantities, pageOrientation, setPageOrientation, pageSize, setPageSize, setReportShowChanges, setSchedule: setScheduleState } = useAppStore();
   const setSchedule = (patch: Partial<typeof schedule>) => { setScheduleState(patch); const state = useAppStore.getState(); state.updateDocument(state.activeDocumentId, { isModified: true }); };
   const [showLogos, setShowLogos] = useState(false);
   const [showProps, setShowProps] = useState(false);
@@ -155,8 +155,8 @@ export default function RapportageTab() {
           <label className="rapport-props-row">
             <input
               type="checkbox"
-              checked={showHoeveelheid}
-              onChange={toggleHoeveelheid}
+              checked={reportShowQuantities}
+              onChange={toggleReportShowQuantities}
             />
             <span>
               <strong>{t('rapportage.propShowQuantities')}</strong>

@@ -17,6 +17,10 @@ try {
 import { applyUiZoom, loadUiZoom } from "./services/system/uiZoom";
 void applyUiZoom(loadUiZoom());
 
+// Past het venster niet op het scherm (bv. een kleine laptop), dan maximaliseren.
+import { fitWindowToScreen } from "./services/system/fitWindow";
+void fitWindowToScreen();
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./i18n/config";

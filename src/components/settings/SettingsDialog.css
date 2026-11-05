@@ -2,6 +2,7 @@
 .settings-dialog {
   width: 560px;
   height: 500px;
+  max-height: calc(100vh - 32px);
 }
 
 .settings-body {

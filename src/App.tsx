@@ -61,6 +61,7 @@ import { initMcpBridge } from "./services/mcp/mcpBridge";
 import { initOsUsername } from "./services/system/osUser";
 import { loadSampleBudgetText } from "./services/file/sampleBudget";
 import { isEmbedded, getEmbedOptions } from "./lib/hostRoot";
+import { isTauriEnvironment } from "./services/file/nativeFileService";
 import { sendDockRequest, onWindowBridgeMessage } from "./services/windowBridge";
 import "./styles/themes.css";
 import "./components/layout/layout.css";
@@ -85,6 +86,11 @@ async function openSampleBudget(): Promise<void> {
 }
 
 const MOBILE_QUERY = '(max-width: 760px), (pointer: coarse) and (max-width: 1024px)';
+// De telefoonweergave is voor de webversie. In de desktop-app maakt inzoomen
+// (bv. 200%) het venster smal genoeg voor deze query, en dan verdween de
+// statusbalk met de zoomknop waarmee je terug kon.
+const isDesktopApp = isTauriEnvironment();
+const matchesMobile = () => !isDesktopApp && window.matchMedia(MOBILE_QUERY).matches;
 
 function App() {
   const { t } = useTranslation();
@@ -113,8 +119,9 @@ function App() {
   const [backstageOpen, setBackstageOpen] = useState(false);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [unsavedDialog, setUnsavedDialog] = useState({ open: false, fileName: "" });
-  const [isMobile, setIsMobile] = useState(() => window.matchMedia(MOBILE_QUERY).matches);
+  const [isMobile, setIsMobile] = useState(matchesMobile);
   useEffect(() => {
+    if (isDesktopApp) return;
     const media = window.matchMedia(MOBILE_QUERY);
     const onChange = () => setIsMobile(media.matches);
     media.addEventListener('change', onChange);
@@ -198,7 +205,10 @@ function App() {
       const store = useAppStore.getState();
       store.setSettings(saved);
       if (!isEmbedded() && saved.lastWorkspaceLayoutId) {
+        // De werkplek zet ook het eigenschappenpaneel; bij het opstarten wint de laatste eigen keuze van de gebruiker.
+        const propertiesPanel = store.showPropertiesPanel;
         try { store.applyWorkspaceLayout(saved.lastWorkspaceLayoutId); } catch { /* Removed or invalid saved layout: keep the default editor. */ }
+        if (useAppStore.getState().showPropertiesPanel !== propertiesPanel) useAppStore.setState({ showPropertiesPanel: propertiesPanel });
       }
       applyTheme(saved.theme);
       setTheme(saved.theme);
@@ -681,7 +691,7 @@ function App() {
         )}
       </div>
       {/* Floating chat button + panel — bottom right */}
-      {ownAssistant && !showChatPanel && activeContentTab !== 'promptBudget' && (
+      {ownAssistant && !showChatPanel && activeContentTab !== 'promptBudget' && activeContentTab !== 'wizard' && (
         <button
           className="chat-fab"
           onClick={() => useAppStore.getState().toggleChatPanel()}

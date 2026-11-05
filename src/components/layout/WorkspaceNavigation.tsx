@@ -1,5 +1,7 @@
+import { useState, useSyncExternalStore } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
+import { localStore } from '@/utils/browserStorage';
 import type { ContentTab } from '@/state/slices/uiSlice';
 import { uiText } from '@/i18n/uiText';
 import appIcon from '@/assets/app-icon.svg';
@@ -18,6 +20,9 @@ const views: { tab: ContentTab; key: string; label: string; path: string; group:
   { tab: 'ifc', key: 'ifc', label: 'IFC data', path: 'M4 4h16v16H4zM8 8h8M8 12h8M8 16h5', group: 'sources' },
 ];
 
+/** Tandwiel voor Voorkeuren (zelfde als in de titelbalk); de schuifjes zijn van Begeleid begroten. */
+const GEAR_PATH = 'M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z';
+
 export function WorkspaceIcon({ path }: { path: string }) {
   return <svg className="oa-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={path} /></svg>;
 }
@@ -27,34 +32,59 @@ export function workspaceTitle(tab: ContentTab): string {
   return view ? uiText(`shell.${view.key}`, view.label) : tab === 'offerte' ? uiText('shell.quotation', 'Quotation') : uiText('shell.summary', 'Summary');
 }
 
+const COLLAPSED_KEY = 'ocs-nav-collapsed';
+/** In een smal venster is de zijbalk altijd alleen icoontjes (dezelfde stijl als ingeklapt). */
+const NARROW_QUERY = '(max-width: 980px)';
+const subscribeNarrow = (notify: () => void) => {
+  const media = window.matchMedia?.(NARROW_QUERY);
+  media?.addEventListener('change', notify);
+  return () => media?.removeEventListener('change', notify);
+};
+const isNarrow = () => typeof window !== 'undefined' && !!window.matchMedia?.(NARROW_QUERY).matches;
+
 export function WorkspaceNavigation({ onStart, onSettings }: { onStart: () => void; onSettings: () => void }) {
   const { t } = useTranslation();
+  // Open of ingeklapt tot alleen icoontjes (meer breedte voor de begroting); de keuze blijft bewaard.
+  const [collapsed, setCollapsedState] = useState(() => localStore.getItem(COLLAPSED_KEY) === '1');
+  const setCollapsed = (value: boolean) => { setCollapsedState(value); localStore.setItem(COLLAPSED_KEY, value ? '1' : '0'); };
+  const toggleCollapsed = () => setCollapsed(!collapsed);
+  const narrow = useSyncExternalStore(subscribeNarrow, isNarrow, () => false);
+  const toggleLabel = collapsed ? uiText('shell.expandNav', 'Expand menu') : uiText('shell.collapseNav', 'Collapse menu');
   const active = useAppStore(s => s.activeContentTab);
   const hasDocument = useAppStore(s => s.documents.length > 0);
   const report = useBudgetReview();
+  // Alleen met icoontjes heeft een tooltip zin; open herhaalt hij de zichtbare tekst.
+  const iconsOnly = collapsed || narrow;
+  const tip = (label: string) => iconsOnly ? label : undefined;
   const navigate = (tab: ContentTab) => {
     const state = useAppStore.getState();
     if (tab === 'spreadsheet') state.setActiveSubSheet(state.activeSubSheetId ?? state.subSheets[0]?.id ?? state.addSubSheet());
     else state.setActiveSubSheet(null);
     state.setActiveContentTab(tab);
   };
-  return <nav className="workspace-nav" aria-label={uiText('shell.navigation', 'Workspace navigation')}>
+  const projectsLabel = uiText('shell.projects', 'Projects & files');
+  const settingsLabel = t('preferences');
+  return <nav className={`workspace-nav${iconsOnly ? ' is-collapsed' : ''}`} aria-label={uiText('shell.navigation', 'Workspace navigation')}>
     <button className="workspace-brand" onClick={onStart} title={t('start')}>
       <img src={appIcon} width="30" height="30" alt="" />
       <span><strong>Open Calc</strong><small>OpenAEC Studio</small></span>
     </button>
-    <button className="oa-button workspace-open" onClick={onStart} aria-label={uiText('shell.projects', 'Projects & files')} title={uiText('shell.projects', 'Projects & files')}><WorkspaceIcon path="M3 7h7l2 3h9v10H3zM3 7V4h6l2 3" />{uiText('shell.projects', 'Projects & files')}</button>
+    <button className="oa-button workspace-open" onClick={onStart} aria-label={projectsLabel} title={tip(projectsLabel)}><WorkspaceIcon path="M3 7h7l2 3h9v10H3zM3 7V4h6l2 3" /><span>{projectsLabel}</span></button>
     <div className="workspace-nav-sections">
       {(['estimate', 'sources'] as const).map(group => <section key={group}>
         <h2 className="oa-mono-label">{group === 'estimate' ? uiText('shell.workspace', 'Workspace') : uiText('shell.sources', 'Drawings & data')}</h2>
-        {views.filter(v => v.group === group).map(view => <button key={view.tab} className="workspace-nav-item" disabled={!hasDocument} aria-label={uiText(`shell.${view.key}`, view.label)} title={uiText(`shell.${view.key}`, view.label)} aria-current={active === view.tab && hasDocument ? 'page' : undefined} onClick={() => navigate(view.tab)}>
-          <WorkspaceIcon path={view.path} /><span>{uiText(`shell.${view.key}`, view.label)}</span>
-          {view.tab === 'review' && hasDocument && <small className="workspace-review-count" aria-label={uiText('review.badge', '{{count}} review issues', { count: report.counts.all })}>{report.counts.all}</small>}
-        </button>)}
+        {views.filter(v => v.group === group).map(view => {
+          const label = uiText(`shell.${view.key}`, view.label);
+          return <button key={view.tab} className="workspace-nav-item" disabled={!hasDocument} aria-label={label} title={tip(label)} aria-current={active === view.tab && hasDocument ? 'page' : undefined} onClick={() => navigate(view.tab)}>
+            <WorkspaceIcon path={view.path} /><span>{label}</span>
+            {view.tab === 'review' && hasDocument && <small className="workspace-review-count" aria-label={uiText('review.badge', '{{count}} review issues', { count: report.counts.all })}>{report.counts.all}</small>}
+          </button>;
+        })}
       </section>)}
     </div>
     <div className="workspace-nav-footer">
-      <button className="workspace-nav-item" onClick={onSettings} aria-label={t('preferences')} title={t('preferences')}><WorkspaceIcon path="M4 6h16M4 12h16M4 18h16M8 3v6M16 9v6M10 15v6" /><span>{t('preferences')}</span></button>
+      <button className="workspace-nav-item workspace-nav-toggle" onClick={toggleCollapsed} aria-expanded={!collapsed} aria-label={toggleLabel} title={tip(toggleLabel)}><WorkspaceIcon path={collapsed ? 'M6 6l6 6-6 6M13 6l6 6-6 6' : 'M18 6l-6 6 6 6M11 6l-6 6 6 6'} /><span>{toggleLabel}</span></button>
+      <button className="workspace-nav-item" onClick={onSettings} aria-label={settingsLabel} title={tip(settingsLabel)}><WorkspaceIcon path={GEAR_PATH} /><span>{settingsLabel}</span></button>
       <span className="workspace-version">Open Calc Studio · {__APP_VERSION__}</span>
     </div>
   </nav>;

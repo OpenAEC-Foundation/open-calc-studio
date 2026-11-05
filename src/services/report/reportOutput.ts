@@ -10,7 +10,7 @@ export async function outputCurrentReport(mode: 'print' | 'export', view?: Repor
   const state = useAppStore.getState(), reportView = view ?? state.reportView;
   if (!isTauriEnvironment()) {
     if (reportView === 'offerte') throw new Error(uiText('report.quotationDesktopRequired', 'Quotation PDFs require the desktop application.'));
-    await printBudget(state.schedule, state.items, reportView, state.showHoeveelheid, state.companyInfo, undefined, state.pageOrientation, state.pageSize);
+    await printBudget(state.schedule, state.items, reportView, state.reportShowQuantities, state.companyInfo, undefined, state.pageOrientation, state.pageSize);
     return;
   }
   const { join, tempDir } = await import('@tauri-apps/api/path');
