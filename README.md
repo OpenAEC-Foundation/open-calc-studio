@@ -3,17 +3,84 @@
 Open-source construction cost estimating for desktop, browser and embedded applications.
 
 [![License](https://img.shields.io/badge/license-LGPL--3.0--only-blue)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/OpenAEC-Foundation/open-calc-studio)](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/latest)
 [![Build](https://github.com/OpenAEC-Foundation/open-calc-studio/actions/workflows/build.yml/badge.svg)](https://github.com/OpenAEC-Foundation/open-calc-studio/actions/workflows/build.yml)
 
-![Estimate editor](docs/screenshots/nl/1-begroting.png)
+**[Download 2026.45.0](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/tag/v2026.45.0)** · **[Try the browser app](https://open-calc-studio.open-aec.com/)** · [User guide](docs/user-guide.md) · [Nederlandse handleiding](docs/gebruikershandleiding.md)
 
-## Install
+Build an estimate, bring in spreadsheet/PDF/IFC quantities, review the sources
+and prices, and prepare reports. Use the full editor or follow the guided
+workflow; both work on the same project.
 
-Download available Windows, macOS or Linux packages from [Releases](https://github.com/OpenAEC-Foundation/open-calc-studio/releases). Check the version, architecture, checksums and signing evidence for the artifact you download. The project is in public testing. [Desktop builds and signature verification](docs/desktop-builds.md) · [macOS startup help](docs/macos-startup.md).
+## Screenshots
+
+The current estimate editor, with the public single-family-house example:
+
+[![Open Calc Studio 2026.45.0 estimate editor with workspace navigation, cost lines and live project total](docs/screenshots/2026.45.0/estimate.jpg)](docs/screenshots/2026.45.0/estimate.jpg)
+
+<details>
+<summary>More screenshots: guided estimate, review center and Prompt &amp; Estimate</summary>
+
+### Guided estimate
+
+Choose **Guided estimate** in the sidebar to work through project details,
+quantities, costs, surcharges/VAT and review. Return with **Open full editor**.
+
+[![Guided estimate with five steps and the quantities workspace](docs/screenshots/2026.45.0/guided-estimate.jpg)](docs/screenshots/2026.45.0/guided-estimate.jpg)
+
+### Review center
+
+Choose **Review center** to inspect price, quantity-source and unit checks.
+The same workspace opens catalogue-price updates and source-revision comparisons.
+
+[![Review center with price, source and unit filters and revision and price-update actions](docs/screenshots/2026.45.0/review-center.jpg)](docs/screenshots/2026.45.0/review-center.jpg)
+
+### Prompt & Estimate
+
+Choose **Prompt & Estimate** to keep the estimating assistant beside the grid.
+Review a financial proposal before applying it; AI service configuration is required
+for assistant requests. The screenshot shows the interface without sending a prompt.
+
+[![Prompt and Estimate workspace with assistant examples beside the open estimate](docs/screenshots/2026.45.0/prompt-estimate.jpg)](docs/screenshots/2026.45.0/prompt-estimate.jpg)
+
+</details>
+
+Captured from the live web app on **5 November 2026**, version **2026.45.0**,
+using public sample data. [Screenshot sources](docs/screenshots/2026.45.0/README.md).
+
+## Start with a sample
+
+1. Open the [browser app](https://open-calc-studio.open-aec.com/) or install a desktop package below.
+2. Use **Projects & files** to open an estimate or the example project.
+3. Edit in **Estimate**, or choose **Guided estimate** for the five-step route.
+4. Use **Review center** to inspect sources, units and prices before delivery.
+5. Save a native `.ifcCalc` project. In a standalone browser, saving downloads a copy;
+   a hosted session saves through its site's storage contract.
+
+## Downloads
+
+The signed **2026.45.0** release is available for all three desktop platforms:
+
+| Platform | Packages | Verification |
+| --- | --- | --- |
+| Windows x64 | [EXE](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.45.0/Open.Calc.Studio_2026.45.0_x64-setup.exe), [MSI](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.45.0/Open.Calc.Studio_2026.45.0_x64_en-US.msi) | Authenticode; installed app, uninstaller and native DLL checked in CI |
+| macOS Intel + Apple Silicon | [Universal DMG](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.45.0/Open.Calc.Studio_2026.45.0_universal.dmg) | Developer ID, Apple notarization, Gatekeeper and stapled ticket |
+| Linux x64 | [AppImage](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.45.0/Open.Calc.Studio_2026.45.0_amd64.AppImage), [DEB](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.45.0/Open.Calc.Studio_2026.45.0_amd64.deb), [RPM](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.45.0/Open.Calc.Studio-2026.45.0-1.x86_64.rpm) | Detached OpenPGP signatures and the public key accompany the packages |
+
+The [release page](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/tag/v2026.45.0)
+also includes checksums, updater signatures/manifest, the signed Windows DLL
+archive, and SDK, hosted-web and headless-API packages. Snap **2026.45.0** was
+released to the stable channel as revision 7. The project remains in public testing.
+
+[Signature verification](docs/desktop-builds.md) · [macOS startup help](docs/macos-startup.md) · [Release notes](docs/release-notes/unreleased.md)
+
+## Run from source
 
 For a local web application, install Node.js 22.18 or newer and run:
 
 ```sh
+git clone --recurse-submodules https://github.com/OpenAEC-Foundation/open-calc-studio.git
+cd open-calc-studio
 npm ci
 npm run dev
 ```
@@ -32,6 +99,8 @@ For the mobile browser, serve a web build over HTTPS. Android and iPhone use the
 
 - Hierarchical estimates with chapters, cost items, production norms, hourly rates, resource classifications, overhead, profit, mixed VAT and rounding.
 - Editable grid, spreadsheets, variants, snapshots, reports, quantities from IFC-Lite and persisted PDF measurements.
+- General Excel/CSV column mapping, including Spanish headers, hierarchical chapter codes and labour/material/equipment cost splits.
+- Catalogue price provenance, selective price updates and source-revision review with undo; multi-document recovery and native saves with a previous-version backup.
 - Optional five-step **calculation wizard** sharing the editor's project and calculator, with a direct return to the full editor.
 - **Prompt & Begroot** with financial previews, changed-row details and assumptions; approve or undo a complete proposal as one transaction.
 - Save task workspaces for measuring, estimating and review, including panel widths, zoom and columns. Open PDF drawings or quantity origins on a synchronized, read-only second screen.
@@ -46,9 +115,17 @@ For the mobile browser, serve a web build over HTTPS. Android and iPhone use the
 
 ## Versions and delivery status
 
-The current development version is **2026.45.0**, using `year.ISOweek.patch`. Product packages, Cargo and MCP share this version. MSI uses `26.45.0` to fit the Windows major-version limit. The `.ifcCalc` **file format is 2.4.0**; it has its own compatibility policy and is not a product release number.
+The current published release is **[2026.45.0](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/tag/v2026.45.0)**, using `year.ISOweek.patch`. Product packages, Cargo and MCP share this version. MSI uses `26.45.0` to fit the Windows major-version limit. The `.ifcCalc` **file format is 2.4.0**; it has its own compatibility policy and is not a product release number.
 
-This source version does not imply an installer or npm publication already exists. [Release notes](docs/release-notes/unreleased.md) and the [issue acceptance matrix](docs/issue-readiness.md) record implementation, test evidence and remaining work. Signed releases require working signing credentials and verification of the delivered artifacts. Actual AWS deployment, clean-machine installation, real-phone tests and the DynLex prototype are still pending.
+The release source passed **923 tests** (six skipped), six platform-isolation tests,
+and native library/API checks on Windows, macOS and Linux. Signing and updater
+verification succeeded in [release CI](https://github.com/OpenAEC-Foundation/open-calc-studio/actions/runs/41806733501).
+An SDK archive is available; this does not assert publication to the npm registry.
+
+Real Android/iPhone acceptance, clean-machine installation and AWS deployment
+remain open. Standalone production account sign-in requires a registered account
+configuration. The DynLex work is a small research prototype, not a rewrite.
+[Release notes](docs/release-notes/unreleased.md) · [Issue acceptance matrix](docs/issue-readiness.md).
 
 | Distribution | Interface and boundary | Documentation |
 | --- | --- | --- |
@@ -60,6 +137,30 @@ This source version does not imply an installer or npm publication already exist
 | Standalone MCP | stdio; budget files, converters and an optional desktop bridge | [MCP setup](mcp-server/README.md), [desktop automation](docs/mcp-desktop.md) |
 
 A native UI library is not the headless calculation API. An MCP server is not by itself an interactive Claude connector. See the acceptance matrix for what has actually been verified.
+
+## Recovery, catalogue updates and source revisions
+
+Open the **Review center** to compare catalogue prices or source revisions.
+Projects retain the applied price source, date and catalogue version. Price
+updates and IFC revision relinks are previewed, explicitly selected and undoable;
+manual overrides, incompatible units/currencies and inactive variants are preserved.
+PDF measurement exchange verifies `sourceHash`; legacy exports need explicit
+approval and remain visibly unverified. IFC comparisons cover identity and named
+quantities, not geometry-only changes.
+
+A separate IndexedDB journal retains all open documents and snapshots when work
+is modified. Recovery opens new estimates, without overwriting original files.
+Native saves keep the previous version as `.bak` and replace the destination
+through a temporary file. See the [user guide](docs/user-guide.md) and
+[validation and performance evidence](docs/research/project-safeguards-2026-10-30/README.md).
+
+
+## Account sign-in
+
+Public builds keep standalone OpenAEC sign-in disabled. Hosted sessions use the
+site's authentication. An explicitly enabled desktop build requires a registered
+OIDC client and `OPENAEC_ACCOUNTS_CONFIG`; it no longer falls back to developer
+hosts. See [account configuration and verification](docs/accounts-sign-in.md).
 
 ## Developers
 
@@ -77,13 +178,17 @@ npm run test:server
 
 Use `npm run pack:lib` for the npm archive. Use `npm run build:server` for a standalone Node.js service; it refuses to start without configured key digests. Web, SDK, API and native distributions include notices and build metadata. [Library integration](docs/library-integration.md) explains independent instances and compatibility. [File format](docs/ifccalc-formaat.md) and [model/API reference](docs/API.md) describe the data boundary.
 
-Prepare a calendar version with `node scripts/version.mjs next` or `node scripts/version.mjs set 2026.44.1`. The **Prepare calendar release** GitHub workflow creates a version PR. Release CI checks `v<version>` against all packages, runs mandatory type/tests, builds platform/API/embed artifacts and requires verified desktop signing. It publishes a draft release on successful tagged builds. It does not deploy AWS.
+Prepare a calendar version with `node scripts/version.mjs next` or `node scripts/version.mjs set 2026.45.1`. The **Prepare calendar release** GitHub workflow creates a version PR. Release CI checks `v<version>` against all packages, runs mandatory type/tests, builds platform/API/embed artifacts and requires verified desktop signing. It publishes a draft release on successful tagged builds. It does not deploy AWS.
 
 ## Docker
 
 The graphical Linux app has a container build alongside the separate headless
 API image. The desktop image is prepared from the release's exact `.deb`, tested
-before release creation, and published after a stable release is published:
+before release creation, and configured for publication after a stable release.
+
+**Publication is pending:** the runtime tests pass, but
+[GHCR rejected the release push](https://github.com/OpenAEC-Foundation/open-calc-studio/actions/runs/41810707654)
+with `denied`. After a desktop image is published, run:
 
 ```sh
 docker run --rm -p 3000:3000 -v /path/to/files:/openaec -v calc-config:/config \
@@ -91,8 +196,7 @@ docker run --rm -p 3000:3000 -v /path/to/files:/openaec -v calc-config:/config \
   ghcr.io/openaec-foundation/open-calc-studio:latest
 ```
 
-Open `http://localhost:3000`. The first desktop container release is still pending;
-this command requires a published image. The app runs as UID 1000, without FUSE,
+Open `http://localhost:3000`. The app runs as UID 1000, without FUSE,
 root privileges or a GPU. Mounted folders must be writable by UID 1000.
 `/config` persists settings; `/openaec` contains user files. Optional environment
 variables: `OPENAEC_START_FILE` (a file under `/openaec`), `OPENAEC_RESOLUTION`
@@ -109,8 +213,8 @@ required for normal startup. The stream has no built-in account login: the
 SuperCloud reverse proxy supplies authentication and TLS.
 
 Runtime logs, an app screenshot and measured idle memory are uploaded as
-`open-calc-studio-desktop-container-evidence`. Published images are signed by
-cosign and have provenance/SBOM attestations. Container execution and publication
+`open-calc-studio-desktop-container-evidence`. The publication workflow is configured for cosign signatures and provenance/SBOM
+attestations; no successfully published, signed desktop image is claimed yet. Container execution and publication
 must pass CI before this is considered delivered; local source checks alone do
 not establish that the image works.
 
@@ -124,27 +228,3 @@ Open Calc Studio code: **LGPL-3.0-only**, see [LICENSE](LICENSE) and [COPYING](C
 
 The embed npm package includes `LICENSE`, `COPYING` and `NOTICE.md` at its root;
 web distributions also provide the product, Blueprint and font notices in `licenses/`.
-
-### Recovery, catalogue updates and source revisions
-
-Open the **Review center** to compare catalogue prices or source revisions.
-Projects retain the applied price source, date and catalogue version. Price
-updates and IFC revision relinks are previewed, explicitly selected and undoable;
-manual overrides, incompatible units/currencies and inactive variants are preserved.
-PDF measurement exchange verifies `sourceHash`; legacy exports need explicit
-approval and remain visibly unverified. IFC comparisons cover identity and named
-quantities, not geometry-only changes.
-
-A separate IndexedDB journal retains all open documents and snapshots when work
-is modified. Recovery opens new estimates, without overwriting original files.
-Native saves keep the previous version as `.bak` and replace the destination
-through a temporary file. See the [user guide](docs/user-guide.md) and
-[validation and performance evidence](docs/research/project-safeguards-2026-10-30/README.md).
-
-
-### Account sign-in
-
-Public builds keep standalone OpenAEC sign-in disabled. Hosted sessions use the
-site's authentication. An explicitly enabled desktop build requires a registered
-OIDC client and `OPENAEC_ACCOUNTS_CONFIG`; it no longer falls back to developer
-hosts. See [account configuration and verification](docs/accounts-sign-in.md).
