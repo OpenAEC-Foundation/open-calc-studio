@@ -409,7 +409,6 @@
     "avg": "Avg.:",
     "uiZoomTitle": "Interface zoom — Ctrl+= larger, Ctrl+- smaller, Ctrl+0 back to 100%",
     "uiSmaller": "Smaller interface",
-    "uiReset": "Reset interface zoom to 100%",
     "uiLarger": "Larger interface",
     "variant": "Variant:",
     "allVariants": "(all)"
@@ -1016,7 +1015,10 @@
       "unsaved": "Unsaved changes",
       "saved": "Saved",
       "local": "Local document",
-      "total": "Estimate · excl. VAT"
+      "total": "Estimate · excl. VAT",
+      "review": "Review center",
+      "collapseNav": "Collapse menu",
+      "expandNav": "Expand menu"
     },
     "proposal": {
       "review": "Review the proposed estimate changes.",
@@ -1123,6 +1125,10 @@
       "discard": "Discard recovery",
       "saved": "Recovery saved"
     },
+    "ribbon": {
+      "scrollLeft": "Scroll ribbon left",
+      "scrollRight": "Scroll ribbon right"
+    },
     "revisions": {
       "title": "Compare source revisions",
       "explain": "Add both source files first. IFC matches use unique GlobalIds and the exact quantity key. PDF comparisons show imported measurements; calibration and geometry require review in the drawing.",
@@ -1151,7 +1157,12 @@
         "inactive": "Inactive"
       }
     },
-    "close": "Close"
+    "close": "Close",
+    "review": {
+      "badge": "{{count}} review issues",
+      "unavailable": "This row no longer has a review issue in the active variant.",
+      "unreachable": "The row has an invalid parent structure and cannot be shown in the grid."
+    }
   },
   "review": {
     "title": "Review center",

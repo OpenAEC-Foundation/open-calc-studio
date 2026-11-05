@@ -370,7 +370,6 @@
     "avg": "Keskiarvo:",
     "uiZoomTitle": "Käyttöliittymän zoomaus — Ctrl+= suurempi, Ctrl+- pienempi, Ctrl+0 takaisin 100 %:iin",
     "uiSmaller": "Pienempi käyttöliittymä",
-    "uiReset": "Palauta käyttöliittymän zoomaus 100 %:iin",
     "uiLarger": "Suurempi käyttöliittymä",
     "variant": "Variantti:",
     "allVariants": "(kaikki)"

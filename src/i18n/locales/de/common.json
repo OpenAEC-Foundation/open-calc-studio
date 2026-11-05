@@ -370,7 +370,6 @@
     "avg": "Ø:",
     "uiZoomTitle": "Oberflächen-Zoom — Strg+= größer, Strg+- kleiner, Strg+0 zurück auf 100 %",
     "uiSmaller": "Oberfläche verkleinern",
-    "uiReset": "Oberflächen-Zoom auf 100 % zurücksetzen",
     "uiLarger": "Oberfläche vergrößern",
     "variant": "Variante:",
     "allVariants": "(alle)"
@@ -483,6 +482,10 @@
     "paste": "Einfügen"
   },
   "workspace": {
+    "ribbon": {
+      "scrollLeft": "Menüband nach links scrollen",
+      "scrollRight": "Menüband nach rechts scrollen"
+    },
     "diagnostics": {
       "genericTabularImporter": {
         "labour": "Lohn",
@@ -493,6 +496,82 @@
     "import": {
       "offerApplied": "{{count}} GAEB-Angebotspreise übernommen.",
       "offerFileType": "GAEB-X84-Angebot"
+    },
+    "pricing": {
+      "missing": "Preis fehlt: Geben Sie einen geprüften Preis und eine Quelle ein.",
+      "notice": "Niederländische Startbibliothek. Prüfen Sie Preise und Stichtage vor der Kalkulation. Ein fehlender Preis gilt nicht als geprüft.",
+      "enter": "Preis eingeben",
+      "source": "Quelle:",
+      "conversion": "Diese Quelleinheit erfordert eine manuelle Umrechnung; Hinzufügen ist deaktiviert.",
+      "selectParent": "Wählen Sie zuerst eine Kalkulationsposition, um eine Ressource hinzuzufügen.",
+      "reference": "Ungeprüfte Referenz: {{price}} pro {{unit}}. Stichtag und MwSt.-Basis unbekannt.",
+      "title": "Preise",
+      "library": "Preisbiblio\u00adthek NL",
+      "select": "Auswählen",
+      "updates": "Preisaktualisierungen prüfen",
+      "explain": "Importieren Sie einen neueren JSON-Katalog mit denselben Katalog- und Artikel-IDs. Wählen Sie die passenden Änderungen aus. Projektspezifische Preise bleiben erhalten.",
+      "catalogue": "Katalog-JSON",
+      "current": "Mit geladenem Katalog vergleichen",
+      "total": "Kalkulationssumme inkl. MwSt., alle passenden Änderungen:",
+      "selectionPreview": "Die Summe oben geht von allen passenden Änderungen aus; übernommen werden nur die markierten Zeilen.",
+      "article": "Artikel",
+      "old": "Alt",
+      "new": "Neu",
+      "statusLabel": "Status",
+      "apply": "Ausgewählte Preise übernehmen",
+      "status": {
+        "changed": "Geändert",
+        "unchanged": "Unverändert",
+        "unmatched": "Nicht zugeordnet",
+        "ambiguous": "Mehrdeutig",
+        "override": "Überschrieben",
+        "inactive": "Inaktiv",
+        "unit": "Einheit",
+        "currency": "Währung",
+        "missing-price": "Preis fehlt",
+        "tariff": "Tarif"
+      },
+      "origin": "Preisquelle",
+      "catalogueLabel": "Katalog",
+      "date": "Preisdatum",
+      "applied": "Übernommener Quellpreis"
+    },
+    "shell": {
+      "navigation": "Arbeitsbereich-Navigation",
+      "estimate": "Kalkulation",
+      "review": "Prüfzentrum",
+      "prompt": "Prompt & Kalkulation",
+      "wizard": "Geführte Kalkulation",
+      "hours": "Stunden & Zuschläge",
+      "report": "Berichte",
+      "model": "3D & Mengen",
+      "pdf": "PDF & Aufmaß",
+      "sheets": "Tabellen",
+      "ifc": "IFC-Daten",
+      "quotation": "Angebot",
+      "summary": "Zusammenfassung",
+      "projects": "Projekte & Dateien",
+      "workspace": "Arbeitsbereich",
+      "sources": "Zeichnungen & Daten",
+      "unsaved": "Nicht gespeicherte Änderungen",
+      "saved": "Gespeichert",
+      "local": "Lokales Dokument",
+      "total": "Kalkulation · exkl. MwSt.",
+      "collapseNav": "Menü einklappen",
+      "expandNav": "Menü ausklappen"
+    },
+    "recovery": {
+      "title": "Wiederherstellung",
+      "failed": "Die Wiederherstellung konnte nicht gespeichert werden. Speichern Sie Ihre Kalkulation in einer Datei.",
+      "available": "Wiederherstellbare Kalkulationen:",
+      "restore": "Als neue Kalkulationen wiederherstellen",
+      "discard": "Wiederherstellungsdaten verwerfen",
+      "saved": "Wiederherstellung gespeichert"
+    },
+    "review": {
+      "badge": "{{count}} Prüfhinweise",
+      "unavailable": "Diese Zeile hat in der aktiven Variante keinen Prüfhinweis mehr.",
+      "unreachable": "Die Zeile hat eine ungültige übergeordnete Struktur und kann in der Tabelle nicht angezeigt werden."
     }
   }
 }
