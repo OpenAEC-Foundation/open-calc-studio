@@ -22,7 +22,7 @@
 /* Lage schermen: kop, kaart en voet compacter, zodat de velden zelf de ruimte krijgen. */
 @media(max-height:760px) {
   .calc-wizard-heading { padding:var(--oa-space-sm) var(--oa-space-xl); }
-  .calc-wizard-heading p { display:none; }
+  .calc-wizard-heading .oa-mono-label { display:none; } /* versie staat al in de titelbalk; de intro blijft */
   .calc-wizard-heading h1 { font-size:16px; margin:0; }
   .calc-wizard-body { padding:var(--oa-space-md) var(--oa-space-xl); gap:var(--oa-space-md); }
   .calc-wizard-body > .oa-form-card { padding:12px 16px; gap:8px; }
