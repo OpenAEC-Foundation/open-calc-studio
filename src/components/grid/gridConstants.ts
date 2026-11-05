@@ -143,6 +143,15 @@ const NON_HIDEABLE_COLUMNS: ReadonlySet<string> = new Set([
   'rowType',
 ]);
 
+/**
+ * De knop Hoeveelheid in het lint toont of verbergt de kolom Hoeveelheid. In
+ * UI-2 hoort de sleutel 'hoeveelheid' bij de kolom Uren; die blijft staan,
+ * anders verdwenen de uren met die knop.
+ */
+export function hiddenByQuantityToggle(colKey: string, gridView: GridView, showHoeveelheid: boolean): boolean {
+  return colKey === 'hoeveelheid' && gridView !== 'wpcalc' && !showHoeveelheid;
+}
+
 /** Whether a column may be hidden by the user. */
 export function isColumnHideable(colKey: string): boolean {
   return !NON_HIDEABLE_COLUMNS.has(colKey);
