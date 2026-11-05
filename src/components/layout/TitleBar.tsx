@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useAppStore } from "../../state/appStore";
 import { useFileOperations } from "../../hooks/useFileOperations";
 import { allowsAccounts, allowsExternalServices } from "../../services/buildFlags";
+import { whenWindowFitted } from "../../services/system/fitWindow";
 import "./TitleBar.css";
 
 interface TitleBarProps {
@@ -106,6 +107,8 @@ function TitleBar({ onSettingsClick, onFeedbackClick }: TitleBarProps) {
 
   useEffect(() => {
     updateMaximizedState();
+    // Het venster kan bij het opstarten nog gemaximaliseerd worden (fitWindow).
+    void whenWindowFitted().then(updateMaximizedState);
     let cleanup: (() => void) | undefined;
     getWindow()
       .then((win) => win?.onResized(() => updateMaximizedState()))
