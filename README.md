@@ -16,7 +16,7 @@ workflow; both work on the same project.
 
 The current estimate editor, with the public single-family-house example:
 
-[![Open Calc Studio 2026.45.0 estimate editor with workspace navigation, cost lines and live project total](docs/screenshots/2026.45.0/estimate.png)](docs/screenshots/2026.45.0/estimate.png)
+[![Open Calc Studio 2026.45.0 estimate editor with workspace navigation, cost lines and live project total](docs/screenshots/2026.45.0/estimate.jpg)](docs/screenshots/2026.45.0/estimate.jpg)
 
 <details>
 <summary>More screenshots: guided estimate, review center and Prompt &amp; Estimate</summary>
@@ -26,14 +26,14 @@ The current estimate editor, with the public single-family-house example:
 Choose **Guided estimate** in the sidebar to work through project details,
 quantities, costs, surcharges/VAT and review. Return with **Open full editor**.
 
-[![Guided estimate with five steps and the quantities workspace](docs/screenshots/2026.45.0/guided-estimate.png)](docs/screenshots/2026.45.0/guided-estimate.png)
+[![Guided estimate with five steps and the quantities workspace](docs/screenshots/2026.45.0/guided-estimate.jpg)](docs/screenshots/2026.45.0/guided-estimate.jpg)
 
 ### Review center
 
 Choose **Review center** to inspect price, quantity-source and unit checks.
 The same workspace opens catalogue-price updates and source-revision comparisons.
 
-[![Review center with price, source and unit filters and revision and price-update actions](docs/screenshots/2026.45.0/review-center.png)](docs/screenshots/2026.45.0/review-center.png)
+[![Review center with price, source and unit filters and revision and price-update actions](docs/screenshots/2026.45.0/review-center.jpg)](docs/screenshots/2026.45.0/review-center.jpg)
 
 ### Prompt & Estimate
 
@@ -41,7 +41,7 @@ Choose **Prompt & Estimate** to keep the estimating assistant beside the grid.
 Review a financial proposal before applying it; AI service configuration is required
 for assistant requests. The screenshot shows the interface without sending a prompt.
 
-[![Prompt and Estimate workspace with assistant examples beside the open estimate](docs/screenshots/2026.45.0/prompt-estimate.png)](docs/screenshots/2026.45.0/prompt-estimate.png)
+[![Prompt and Estimate workspace with assistant examples beside the open estimate](docs/screenshots/2026.45.0/prompt-estimate.jpg)](docs/screenshots/2026.45.0/prompt-estimate.jpg)
 
 </details>
 

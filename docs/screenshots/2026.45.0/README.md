@@ -7,10 +7,10 @@ The visible version label is **2026.45.0**. Viewport: **1280 × 720**.
 
 | File | View |
 | --- | --- |
-| estimate.png | Estimate workspace, UI-2, properties collapsed for a wider grid |
-| guided-estimate.png | Guided estimate, Quantities step |
-| review-center.png | Review categories and entry points for price updates and revisions |
-| prompt-estimate.png | Assistant beside the grid; no prompt was submitted |
+| estimate.jpg | Estimate workspace, UI-2, properties collapsed for a wider grid |
+| guided-estimate.jpg | Guided estimate, Quantities step |
+| review-center.jpg | Review categories and entry points for price updates and revisions |
+| prompt-estimate.jpg | Assistant beside the grid; no prompt was submitted |
 
 These are unedited browser screenshots, not generated mockups. No customer data,
 account credentials or private projects were used. The sample estimate's displayed
