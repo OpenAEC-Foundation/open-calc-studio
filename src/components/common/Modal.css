@@ -26,6 +26,9 @@
   position: absolute;
   left: 50%;
   top: 50%;
+  /* Nooit hoger of breder dan het venster, anders vallen kop en sluitknop buiten beeld. */
+  max-height: calc(100vh - 16px);
+  max-width: calc(100vw - 16px);
   transform: translate(-50%, -50%) scale(0.95);
   user-select: none;
   font-family: var(--oa-font-body);
@@ -93,7 +96,9 @@
 
 .modal-body {
   flex: 1;
-  overflow: hidden;
+  min-height: 0;
+  /* Past de inhoud niet in een klein venster, dan scrol je in de dialoog. */
+  overflow: auto;
   display: flex;
   flex-direction: column;
 }

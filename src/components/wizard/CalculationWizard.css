@@ -19,6 +19,17 @@
 .calc-wizard-cost { border-bottom:1px solid var(--oa-border); padding:var(--oa-space-lg) 0; }
 .calc-wizard-footer { display:flex; align-items:center; justify-content:space-between; gap:var(--oa-space-lg); padding:var(--oa-space-md) var(--oa-space-xl); border-top:1px solid var(--oa-border); background:var(--oa-panel); }
 .calc-wizard-footer output { font-family:var(--oa-font-numbers); }
+/* Lage schermen: kop, kaart en voet compacter, zodat de velden zelf de ruimte krijgen. */
+@media(max-height:760px) {
+  .calc-wizard-heading { padding:var(--oa-space-sm) var(--oa-space-xl); }
+  .calc-wizard-heading p { display:none; }
+  .calc-wizard-heading h1 { font-size:16px; margin:0; }
+  .calc-wizard-body { padding:var(--oa-space-md) var(--oa-space-xl); gap:var(--oa-space-md); }
+  .calc-wizard-body > .oa-form-card { padding:12px 16px; gap:8px; }
+  .calc-wizard-field { margin:4px 0; }
+  .calc-wizard-cost { padding:var(--oa-space-sm) 0; }
+  .calc-wizard-footer { padding:var(--oa-space-sm) var(--oa-space-xl); }
+}
 @media(max-width:760px) {
   .calc-wizard-heading, .calc-wizard-body { padding:var(--oa-space-md); }
   .calc-wizard-heading { flex-wrap:wrap; }

@@ -52,7 +52,7 @@ export function RecoveryBar() {
     } catch (e) { pending.current = Promise.resolve(); setError(String(e)); }
   }
   if (!error && !savedAt && !records.length) return null;
-  return <aside className="oa-banner" aria-label={uiText('recovery.title', 'Recovery')}>
+  return <aside className="oa-banner recovery-bar" aria-label={uiText('recovery.title', 'Recovery')}>
     {error && <div role="alert">{uiText('recovery.failed', 'Recovery could not be saved. Save your estimate to a file.')} {error}</div>}
     {records.map(record => <div key={record.id}>
       {uiText('recovery.available', 'Recoverable estimates:')} {record.documents.map(d => d.fileName).join(', ')} · {new Date(record.savedAt).toLocaleString()}
