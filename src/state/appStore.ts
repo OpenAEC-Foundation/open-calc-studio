@@ -4,7 +4,7 @@ import { createCostScheduleSlice, type CostScheduleSlice } from './slices/costSc
 import { createCostItemsSlice, type CostItemsSlice } from './slices/costItemsSlice';
 import { createSelectionSlice, type SelectionSlice } from './slices/selectionSlice';
 import { createViewSlice, type ViewSlice } from './slices/viewSlice';
-import { createUiSlice, type UiSlice } from './slices/uiSlice';
+import { createUiSlice, savePropertiesPanel, type UiSlice } from './slices/uiSlice';
 import { createHistorySlice, type HistorySlice } from './slices/historySlice';
 import { createSettingsSlice, type SettingsSlice } from './slices/settingsSlice';
 import { createClipboardSlice, type ClipboardSlice } from './slices/clipboardSlice';
@@ -78,6 +78,8 @@ useAppStore.subscribe((state, previous) => {
   if (state.schedule.pdfWorkspace !== previous.schedule.pdfWorkspace) {
     useAppStore.setState({ pdfMeasurements: pdfQuantities(state.schedule.pdfWorkspace) });
   }
+  // Eigenschappen open of dicht onthouden, ook als een werkplek het verandert.
+  if (state.showPropertiesPanel !== previous.showPropertiesPanel) savePropertiesPanel(state.showPropertiesPanel);
 });
 
 // Debug: expose store on window in dev mode

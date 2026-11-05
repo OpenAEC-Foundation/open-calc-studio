@@ -1,5 +1,28 @@
 import type { StateCreator } from 'zustand';
 import { applyUiZoom, clampUiZoom, loadUiZoom, nextUiZoom, saveUiZoom } from '@/services/system/uiZoom';
+import { localStore } from '@/utils/browserStorage';
+
+const PROPERTIES_KEY = 'ocs-properties-open';
+/** Onder deze breedte (ook na inzoomen) start Eigenschappen dicht, als er nog geen keuze is. */
+export const PROPERTIES_AUTO_OPEN_MIN_WIDTH = 1400;
+
+/**
+ * Eigenschappen opent zoals de gebruiker het de vorige keer liet. Zonder eerdere
+ * keuze is het dicht in een smal venster, zodat de begroting de ruimte krijgt.
+ */
+export function initialPropertiesPanel(): boolean {
+  const saved = localStore.getItem(PROPERTIES_KEY);
+  if (saved === '1' || saved === '0') return saved === '1';
+  if (typeof window === 'undefined') return true;
+  // De desktop-app opent op 1400 breed (tauri.conf.json), ook op een kleiner scherm dat
+  // pas daarna wordt passend gemaakt; daarom telt de schermbreedte mee.
+  const screenWidth = window.screen?.availWidth || Infinity;
+  return Math.min(window.innerWidth, screenWidth) >= PROPERTIES_AUTO_OPEN_MIN_WIDTH;
+}
+
+export function savePropertiesPanel(open: boolean): void {
+  localStore.setItem(PROPERTIES_KEY, open ? '1' : '0');
+}
 
 export type ThemeName = 'default' | 'light' | 'dark' | 'blue' | 'amber-navy' | 'warm-ember' | 'highContrast';
 export type DialogType = 'settings' | 'about' | 'company' | 'wizard' | 'priceUpdates' | 'revisions' | null;
@@ -28,6 +51,8 @@ export interface UiSlice {
   showPropertiesPanel: boolean;
   showChatPanel: boolean;
   showHoeveelheid: boolean;
+  /** Hoeveelheden, eenheden en prijzen in rapporten; los van de kolom Hoeveelheid in de tabel. */
+  reportShowQuantities: boolean;
   // Hidden grid columns, keyed by "<gridView>:<colKey>" so each view has its own set
   hiddenColumns: Record<string, boolean>;
   pageOrientation: PageOrientation;
@@ -51,6 +76,7 @@ export interface UiSlice {
   togglePropertiesPanel: () => void;
   toggleChatPanel: () => void;
   toggleHoeveelheid: () => void;
+  toggleReportShowQuantities: () => void;
   toggleColumnHidden: (gridView: string, colKey: string) => void;
   setColumnHidden: (gridView: string, colKey: string, hidden: boolean) => void;
   showAllColumns: (gridView: string) => void;
@@ -84,14 +110,16 @@ export const createUiSlice: StateCreator<UiSlice> = (set, get) => ({
   setReportView: (reportView) => set({ reportView }),
   // Structuurpaneel standaard dicht — zelden nodig; aan te zetten via Panelen
   showSchedulePanel: false,
-  showPropertiesPanel: true,
+  showPropertiesPanel: initialPropertiesPanel(),
   showChatPanel: false,
   showHoeveelheid: true,
+  reportShowQuantities: true,
   hiddenColumns: {},
   pageOrientation: 'landscape',
   pageSize: 'A4',
   gridView: 'wpcalc',
   toggleHoeveelheid: () => set((s) => ({ showHoeveelheid: !s.showHoeveelheid })),
+  toggleReportShowQuantities: () => set((s) => ({ reportShowQuantities: !s.reportShowQuantities })),
   toggleColumnHidden: (gridView, colKey) =>
     set((s) => {
       const key = `${gridView}:${colKey}`;
