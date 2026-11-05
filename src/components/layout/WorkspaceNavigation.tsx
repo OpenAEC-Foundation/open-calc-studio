@@ -1,5 +1,7 @@
+import { useState, useSyncExternalStore } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
+import { localStore } from '@/utils/browserStorage';
 import type { ContentTab } from '@/state/slices/uiSlice';
 import { uiText } from '@/i18n/uiText';
 import appIcon from '@/assets/app-icon.svg';
@@ -27,8 +29,24 @@ export function workspaceTitle(tab: ContentTab): string {
   return view ? uiText(`shell.${view.key}`, view.label) : tab === 'offerte' ? uiText('shell.quotation', 'Quotation') : uiText('shell.summary', 'Summary');
 }
 
+const COLLAPSED_KEY = 'ocs-nav-collapsed';
+/** In een smal venster is de zijbalk altijd alleen icoontjes (dezelfde stijl als ingeklapt). */
+const NARROW_QUERY = '(max-width: 980px)';
+const subscribeNarrow = (notify: () => void) => {
+  const media = window.matchMedia?.(NARROW_QUERY);
+  media?.addEventListener('change', notify);
+  return () => media?.removeEventListener('change', notify);
+};
+const isNarrow = () => typeof window !== 'undefined' && !!window.matchMedia?.(NARROW_QUERY).matches;
+
 export function WorkspaceNavigation({ onStart, onSettings }: { onStart: () => void; onSettings: () => void }) {
   const { t } = useTranslation();
+  // Open of ingeklapt tot alleen icoontjes (meer breedte voor de begroting); de keuze blijft bewaard.
+  const [collapsed, setCollapsedState] = useState(() => localStore.getItem(COLLAPSED_KEY) === '1');
+  const setCollapsed = (value: boolean) => { setCollapsedState(value); localStore.setItem(COLLAPSED_KEY, value ? '1' : '0'); };
+  const toggleCollapsed = () => setCollapsed(!collapsed);
+  const narrow = useSyncExternalStore(subscribeNarrow, isNarrow, () => false);
+  const toggleLabel = collapsed ? uiText('shell.expandNav', 'Expand menu') : uiText('shell.collapseNav', 'Collapse menu');
   const active = useAppStore(s => s.activeContentTab);
   const hasDocument = useAppStore(s => s.documents.length > 0);
   const report = useBudgetReview();
@@ -38,7 +56,7 @@ export function WorkspaceNavigation({ onStart, onSettings }: { onStart: () => vo
     else state.setActiveSubSheet(null);
     state.setActiveContentTab(tab);
   };
-  return <nav className="workspace-nav" aria-label={uiText('shell.navigation', 'Workspace navigation')}>
+  return <nav className={`workspace-nav${collapsed || narrow ? ' is-collapsed' : ''}`} aria-label={uiText('shell.navigation', 'Workspace navigation')}>
     <button className="workspace-brand" onClick={onStart} title={t('start')}>
       <img src={appIcon} width="30" height="30" alt="" />
       <span><strong>Open Calc</strong><small>OpenAEC Studio</small></span>
@@ -54,6 +72,7 @@ export function WorkspaceNavigation({ onStart, onSettings }: { onStart: () => vo
       </section>)}
     </div>
     <div className="workspace-nav-footer">
+      <button className="workspace-nav-item workspace-nav-toggle" onClick={toggleCollapsed} aria-expanded={!collapsed} aria-label={toggleLabel} title={toggleLabel}><WorkspaceIcon path={collapsed ? 'M6 6l6 6-6 6M13 6l6 6-6 6' : 'M18 6l-6 6 6 6M11 6l-6 6 6 6'} /><span>{toggleLabel}</span></button>
       <button className="workspace-nav-item" onClick={onSettings} aria-label={t('preferences')} title={t('preferences')}><WorkspaceIcon path="M4 6h16M4 12h16M4 18h16M8 3v6M16 9v6M10 15v6" /><span>{t('preferences')}</span></button>
       <span className="workspace-version">Open Calc Studio · {__APP_VERSION__}</span>
     </div>

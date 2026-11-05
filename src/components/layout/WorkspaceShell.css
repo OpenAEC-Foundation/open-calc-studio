@@ -15,7 +15,7 @@
   padding: var(--oa-space-lg) var(--oa-space-sm) var(--oa-space-sm);
   background: var(--oa-frame);
   border-right: 1px solid var(--oa-border);
-  overflow: auto;
+  overflow: hidden;
 }
 .workspace-brand {
   display: flex;
@@ -30,10 +30,14 @@
 }
 .workspace-brand strong { display: block; font: 500 20px / 1.2 var(--oa-font-heading); letter-spacing: var(--oa-letter-spacing-heading); }
 .workspace-brand small { display: block; margin-top: 3px; color: var(--oa-text-secondary); font: 10px / 1.4 var(--oa-font-mono); }
-.workspace-open { justify-content: center; margin: 0 4px 20px; min-height: 32px; }
-.workspace-nav-sections { flex: 1; }
+.workspace-open { justify-content: center; margin: 0 4px 20px; min-height: 32px; white-space: nowrap; overflow: hidden; }
+/* Alleen de werkplekken scrollen; merk, Projecten & bestanden en de voet (inklappen, voorkeuren) blijven staan. */
+.workspace-nav-sections { flex: 1; min-height: 0; overflow-y: auto; }
+.workspace-brand, .workspace-open, .workspace-nav-footer { flex-shrink: 0; }
 .workspace-nav section + section { margin-top: var(--oa-space-xl); }
 .workspace-nav h2 { padding: 0 12px; margin: 0 0 8px; font-weight: 400; }
+/* Een tekst die ooit toch te lang is: afkappen met … in plaats van een tweede regel. */
+.workspace-nav-item > span { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .workspace-nav-item {
   width: 100%;
   display: flex;
@@ -56,6 +60,13 @@
 .workspace-nav-item .oa-icon { width: 18px; height: 18px; }
 .workspace-nav-footer { border-top: 1px solid var(--oa-border); margin-top: 20px; padding-top: 8px; }
 .workspace-version { display: block; padding: 8px 12px; color: var(--oa-text-secondary); font: 9px / 1.5 var(--oa-font-mono); }
+/* Ingeklapt met de knop onderin, of in een smal venster (< 980px): alleen icoontjes. */
+.workspace-nav.is-collapsed { width: 64px; flex-basis: 64px; padding: 12px 6px; }
+.workspace-nav.is-collapsed .workspace-brand { justify-content: center; padding: 4px 0 16px; }
+.workspace-nav.is-collapsed .workspace-brand > span, .workspace-nav.is-collapsed h2, .workspace-nav.is-collapsed .workspace-nav-item > span, .workspace-nav.is-collapsed .workspace-version { display: none; }
+.workspace-nav.is-collapsed .workspace-nav-item { justify-content: center; padding: 10px; }
+.workspace-nav.is-collapsed .workspace-open { font-size: 0; padding: 0; margin: 0 0 16px; }
+.workspace-nav.is-collapsed .workspace-open .oa-icon { width: 18px; height: 18px; }
 .workspace-header {
   display: flex;
   align-items: center;
@@ -76,10 +87,18 @@
 .workspace-total { display: flex; flex-direction: column; gap: 4px; text-align: right; }
 .workspace-total > strong { font-size: 22px; font-weight: 600; letter-spacing: -.02em; white-space: nowrap; }
 .workspace-save { flex-shrink: 0; }
-.workspace-layout-bar { display:flex; align-items:center; flex-wrap:wrap; gap:8px; padding:6px 16px; flex-shrink:0; background:var(--oa-panel); border-bottom:1px solid var(--oa-border); }
+/* Eén regel: valt hij in twee, dan kost dat op een laptop een rij van de tabel. */
+.workspace-layout-bar { display:flex; align-items:center; flex-wrap:nowrap; gap:8px; padding:6px 16px; flex-shrink:0; min-width:0; background:var(--oa-panel); border-bottom:1px solid var(--oa-border); }
 .workspace-layout-presets { display:flex; gap:2px; }
 .workspace-layout-presets [aria-pressed="true"] { background:var(--oa-selected); color:var(--oa-accent-text); box-shadow:inset 0 -2px var(--oa-selected-bar); }
-.workspace-layout-bar > select { max-width:180px; height:26px; padding:0 6px; }
+/* Rechts 24px vrij voor het pijltje van select.oa-field, anders loopt de tekst eronder door. */
+.workspace-layout-bar > select { flex:0 1 180px; min-width:90px; max-width:180px; height:26px; padding:0 24px 0 6px; text-overflow:ellipsis; }
+.workspace-layout-bar > select:focus { padding:0 23px 0 5px; }
+.workspace-layout-bar > * { flex-shrink:0; }
+.workspace-layout-bar > select, .workspace-layout-message { flex-shrink:1; }
+@media (max-width: 1100px) { .workspace-layout-bar > .oa-mono-label { display:none; } }
+/* Een smal (gesnapt) desktopvenster: liever twee regels dan knoppen buiten beeld. */
+@media (max-width: 1000px) { .workspace-layout-bar { flex-wrap:wrap; } }
 .workspace-layout-editor { position:relative; margin-left:auto; }
 .workspace-layout-editor > summary { list-style:none; }
 .workspace-layout-editor > summary::-webkit-details-marker { display:none; }
@@ -114,20 +133,35 @@
 .calc-studio-shell .subsheet-tab-bar { background: var(--oa-panel); border-top: 1px solid var(--oa-border); }
 .calc-studio-shell .subsheet-tab { font-family: var(--oa-font-body); }
 @media (max-width: 1200px) {
-  .workspace-nav { width: 184px; flex-basis: 184px; }
   .workspace-nav-item { gap: 8px; padding: 8px; }
   .workspace-header { padding: 12px 16px; gap: 16px; }
   .workspace-total > strong { font-size: 19px; }
 }
+/* Smal venster: de zijbalk krijgt is-collapsed via matchMedia, dus de inklapknop doet niets. */
 @media (max-width: 980px) {
-  .workspace-nav { width: 64px; flex-basis: 64px; padding: 12px 6px; }
-  .workspace-brand { justify-content: center; padding: 4px 0 16px; }
-  .workspace-brand > span, .workspace-nav h2, .workspace-nav-item > span, .workspace-version { display: none; }
-  .workspace-nav-item { justify-content: center; padding: 10px; }
-  .workspace-open { font-size: 0; padding: 0; margin: 0 0 16px; }
-  .workspace-open .oa-icon { width: 18px; height: 18px; }
+  .workspace-nav-toggle { display: none; }
   .workspace-total .oa-mono-label { max-width: 140px; font-size: 9px; }
   .workspace-heading h1 { font-size: 18px; }
+}
+/* Lage schermen (bv. een laptop met 150% schaal): de kop wordt één regel, zodat
+   er meer rijen van de begroting in beeld passen. Het pad staat al in de
+   zijbalk; de opslagstatus komt naast de naam te staan. */
+@media (max-height: 760px) {
+  .workspace-header { min-height: 0; padding: 6px 16px; gap: 16px; }
+  .workspace-breadcrumb { display: none; }
+  .workspace-heading { display: flex; align-items: baseline; gap: 12px; }
+  .workspace-heading h1 { font-size: 16px; min-width: 0; }
+  .workspace-document-status { margin-top: 0; flex-shrink: 0; white-space: nowrap; }
+  .workspace-total { flex-direction: row; align-items: baseline; gap: 10px; }
+  /* Zijbalk compacter, zodat ook de onderste items zonder scrollen in beeld zijn. */
+  .workspace-nav { padding: 12px 8px 8px; }
+  .workspace-brand { padding: 0 8px 12px; }
+  .workspace-open { margin-bottom: 12px; }
+  .workspace-nav section + section { margin-top: 12px; }
+  .workspace-nav-item { min-height: 32px; margin: 1px 0; padding: 6px 12px; }
+  .workspace-nav-footer { margin-top: 12px; }
+  .workspace-brand small, .workspace-version { display: none; }
+  .workspace-total > strong { font-size: 16px; }
 }
 @media (forced-colors: active) {
   .workspace-nav-item[aria-current="page"] { color: HighlightText; background: Highlight; border-left: 3px solid Highlight; box-shadow: none; }
@@ -140,4 +174,8 @@
 .companion-workspace > header span { color:var(--oa-text-secondary); font-size:11px; }
 .companion-workspace > div { flex:1; min-height:0; overflow:auto; }
 .companion-origin { padding:16px; }
-.workspace-layout-message { font-size:11px; color:var(--oa-text-secondary); }
+.workspace-layout-message { font-size:11px; color:var(--oa-text-secondary); min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+/* Herstelbalk: elk herstelbestand op een eigen regel; naast elkaar werd het een lange, onleesbare rij. */
+.recovery-bar { flex-direction: column; align-items: stretch; gap: 4px; }
+.recovery-bar > div { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }

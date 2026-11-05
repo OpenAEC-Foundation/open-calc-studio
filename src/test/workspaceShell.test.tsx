@@ -56,6 +56,22 @@ describe('desktop workspace navigation', () => {
     }
     expect(container.querySelectorAll('button[aria-current="page"]')).toHaveLength(1);
   });
+  it('collapses the navigation to icons and remembers the choice', async () => {
+    localStorage.removeItem('ocs-nav-collapsed');
+    await renderShell();
+    const nav = () => container.querySelector('.workspace-nav')!;
+    expect(nav()).not.toHaveClass('is-collapsed');
+    await click('Collapse menu');
+    expect(nav()).toHaveClass('is-collapsed');
+    expect(localStorage.getItem('ocs-nav-collapsed')).toBe('1');
+    await act(async () => root.unmount());
+    root = createRoot(container);
+    await renderShell();
+    expect(nav()).toHaveClass('is-collapsed');
+    await click('Expand menu');
+    expect(nav()).not.toHaveClass('is-collapsed');
+    expect(localStorage.getItem('ocs-nav-collapsed')).toBe('0');
+  });
   it('updates the project heading, unsaved status and total when the estimate changes', async () => {
     await renderShell();
     expect(container.querySelector('h1')).toHaveTextContent('Office renovation');
