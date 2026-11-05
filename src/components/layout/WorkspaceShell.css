@@ -14,7 +14,11 @@
   flex: 0 0 208px;
   padding: var(--oa-space-lg) var(--oa-space-sm) var(--oa-space-sm);
   background: var(--oa-frame);
-  border-right: 1px solid var(--oa-border);
+  /* De gewone rand- en hoverkleuren zijn op wit afgestemd en vallen op het beige weg;
+     daarom hier gemengd met de tekstkleur, zodat het in elk thema zichtbaar blijft. */
+  --nav-line: color-mix(in srgb, var(--oa-text) 12%, var(--oa-frame));
+  --nav-hover: color-mix(in srgb, var(--oa-text) 7%, var(--oa-frame));
+  border-right: 1px solid var(--nav-line);
   overflow: hidden;
 }
 .workspace-brand {
@@ -31,6 +35,7 @@
 .workspace-brand strong { display: block; font: 500 20px / 1.2 var(--oa-font-heading); letter-spacing: var(--oa-letter-spacing-heading); }
 .workspace-brand small { display: block; margin-top: 3px; color: var(--oa-text-secondary); font: 10px / 1.4 var(--oa-font-mono); }
 .workspace-open { justify-content: center; margin: 0 4px 20px; min-height: 32px; white-space: nowrap; overflow: hidden; }
+.workspace-open .oa-icon { width: 18px; height: 18px; flex-shrink: 0; }
 /* Alleen de werkplekken scrollen; merk, Projecten & bestanden en de voet (inklappen, voorkeuren) blijven staan. */
 .workspace-nav-sections { flex: 1; min-height: 0; overflow-y: auto; }
 .workspace-brand, .workspace-open, .workspace-nav-footer { flex-shrink: 0; }
@@ -54,19 +59,19 @@
   text-align: left;
   cursor: pointer;
 }
-.workspace-nav-item:hover { color: var(--oa-text); background: var(--oa-hover); }
-.workspace-nav-item[aria-current="page"] { background: var(--oa-selected); color: var(--oa-accent-text); box-shadow: inset 3px 0 var(--oa-selected-bar); font-weight: 600; }
+.workspace-nav-item:hover { color: var(--oa-text); background: var(--nav-hover); }
+.workspace-nav-item[aria-current="page"] { background: color-mix(in srgb, var(--oa-selected-bar) 10%, var(--oa-panel)); color: var(--oa-accent-text); box-shadow: inset 3px 0 var(--oa-selected-bar); font-weight: 600; }
 .workspace-nav-item:disabled { color: var(--oa-text-disabled); cursor: default; background: transparent; box-shadow: none; }
-.workspace-nav-item .oa-icon { width: 18px; height: 18px; }
-.workspace-nav-footer { border-top: 1px solid var(--oa-border); margin-top: 20px; padding-top: 8px; }
-.workspace-version { display: block; padding: 8px 12px; color: var(--oa-text-secondary); font: 9px / 1.5 var(--oa-font-mono); }
+.workspace-nav-item .oa-icon { width: 18px; height: 18px; flex-shrink: 0; }
+.workspace-nav-footer { border-top: 1px solid var(--nav-line); margin-top: 8px; padding-top: 6px; }
+/* Versie alleen op grote schermen; ingeklapt en op laptops (max-height 800) verborgen. */
+.workspace-version { display: block; padding: 4px 12px 0; color: var(--oa-text-secondary); font: 9px / 1.5 var(--oa-font-mono); }
 /* Ingeklapt met de knop onderin, of in een smal venster (< 980px): alleen icoontjes. */
 .workspace-nav.is-collapsed { width: 64px; flex-basis: 64px; padding: 12px 6px; }
 .workspace-nav.is-collapsed .workspace-brand { justify-content: center; padding: 4px 0 16px; }
-.workspace-nav.is-collapsed .workspace-brand > span, .workspace-nav.is-collapsed h2, .workspace-nav.is-collapsed .workspace-nav-item > span, .workspace-nav.is-collapsed .workspace-version { display: none; }
+.workspace-nav.is-collapsed .workspace-brand > span, .workspace-nav.is-collapsed .workspace-version, .workspace-nav.is-collapsed h2, .workspace-nav.is-collapsed .workspace-nav-item > span, .workspace-nav.is-collapsed .workspace-open > span { display: none; }
+.workspace-nav.is-collapsed .workspace-open { padding: 0; margin: 0 0 16px; }
 .workspace-nav.is-collapsed .workspace-nav-item { justify-content: center; padding: 10px; }
-.workspace-nav.is-collapsed .workspace-open { font-size: 0; padding: 0; margin: 0 0 16px; }
-.workspace-nav.is-collapsed .workspace-open .oa-icon { width: 18px; height: 18px; }
 .workspace-header {
   display: flex;
   align-items: center;
@@ -153,15 +158,19 @@
   .workspace-heading h1 { font-size: 16px; min-width: 0; }
   .workspace-document-status { margin-top: 0; flex-shrink: 0; white-space: nowrap; }
   .workspace-total { flex-direction: row; align-items: baseline; gap: 10px; }
-  /* Zijbalk compacter, zodat ook de onderste items zonder scrollen in beeld zijn. */
-  .workspace-nav { padding: 12px 8px 8px; }
-  .workspace-brand { padding: 0 8px 12px; }
-  .workspace-open { margin-bottom: 12px; }
-  .workspace-nav section + section { margin-top: 12px; }
-  .workspace-nav-item { min-height: 32px; margin: 1px 0; padding: 6px 12px; }
-  .workspace-nav-footer { margin-top: 12px; }
-  .workspace-brand small, .workspace-version { display: none; }
   .workspace-total > strong { font-size: 16px; }
+}
+/* Zijbalk compacter op laptops tot en met 1366×768, zodat alle werkplekken en de
+   voet zonder scrollen in beeld zijn (nooit een kopje zonder items eronder). */
+@media (max-height: 800px) {
+  .workspace-nav { padding: 12px 8px 8px; }
+  .workspace-brand { padding: 0 8px 10px; }
+  .workspace-brand small, .workspace-version { display: none; }
+  .workspace-open { margin-bottom: 10px; }
+  .workspace-nav section + section { margin-top: 12px; }
+  .workspace-nav h2 { margin-bottom: 4px; }
+  .workspace-nav-item { min-height: 30px; margin: 0; padding: 5px 12px; }
+  .workspace-nav.is-collapsed .workspace-nav-item { padding: 6px 10px; }
 }
 @media (forced-colors: active) {
   .workspace-nav-item[aria-current="page"] { color: HighlightText; background: Highlight; border-left: 3px solid Highlight; box-shadow: none; }
