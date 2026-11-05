@@ -82,8 +82,15 @@ export default function HomeTab() {
     const close = (e: MouseEvent) => {
       if (!(e.target as HTMLElement).closest('.ribbon-undo-dropdown-wrap, .ribbon-undo-dropdown')) setShowCollapseList(false);
     };
+    const closeOnRibbonScroll = (e: Event) => {
+      if ((e.target as HTMLElement).classList?.contains('ribbon-content-panel')) setShowCollapseList(false);
+    };
     window.addEventListener('mousedown', close);
-    return () => window.removeEventListener('mousedown', close);
+    window.addEventListener('scroll', closeOnRibbonScroll, true);
+    return () => {
+      window.removeEventListener('mousedown', close);
+      window.removeEventListener('scroll', closeOnRibbonScroll, true);
+    };
   }, [showCollapseList]);
 
   // Meerstaps ongedaan maken via het dropdowntje naast de Ongedaan-knop:
@@ -105,8 +112,16 @@ export default function HomeTab() {
     const close = (e: MouseEvent) => {
       if (!(e.target as HTMLElement).closest('.ribbon-undo-dropdown-wrap, .ribbon-undo-dropdown')) setShowUndoList(false);
     };
+    // Het menu staat vast op het scherm; schuift het lint, dan zou het blijven zweven.
+    const closeOnRibbonScroll = (e: Event) => {
+      if ((e.target as HTMLElement).classList?.contains('ribbon-content-panel')) setShowUndoList(false);
+    };
     window.addEventListener('mousedown', close);
-    return () => window.removeEventListener('mousedown', close);
+    window.addEventListener('scroll', closeOnRibbonScroll, true);
+    return () => {
+      window.removeEventListener('mousedown', close);
+      window.removeEventListener('scroll', closeOnRibbonScroll, true);
+    };
   }, [showUndoList]);
 
   const activeItem = activeItemId ? items.find(i => i.id === activeItemId) : null;
@@ -231,13 +246,16 @@ export default function HomeTab() {
             <RibbonButton icon={addTekstregelIcon} label={t('home.textLine')} size="small" onClick={handleAddTekstregel} disabled={!activeItem} />
             <RibbonButton icon={addWitregelIcon} label={t('home.blankLine')} size="small" onClick={handleAddWitregel} disabled={!activeItem} />
           </RibbonButtonStack>
-          <RibbonButton
-            icon={addRegelIcon}
-            label={t('home.addRegelDirect')}
-            title={t('home.addRegelDirectTitle')}
-            onClick={handleAddRegel}
-          />
-          <RibbonButton icon={deleteIcon} label={t("budget.deleteRow")} onClick={handleDelete} disabled={!selectedItems.length} />
+          <RibbonButtonStack>
+            <RibbonButton
+              icon={addRegelIcon}
+              label={t('home.addRegelDirect')}
+              title={t('home.addRegelDirectTitle')}
+              size="small"
+              onClick={handleAddRegel}
+            />
+            <RibbonButton icon={deleteIcon} label={t("budget.deleteRow")} size="small" onClick={handleDelete} disabled={!selectedItems.length} />
+          </RibbonButtonStack>
         </RibbonGroup>
 
         <RibbonGroup label={t("home.clipboard")}>
@@ -253,105 +271,109 @@ export default function HomeTab() {
             const parent = activeItem && ['chapter', 'begrotingspost', 'bewakingspost'].includes(activeItem.rowType) ? activeItem.id : activeItem?.parentId ?? null;
             useAppStore.getState().openResourcePicker(parent);
           }} />
-        </RibbonGroup>
-        <RibbonGroup label={t("home.history")}>
-          <RibbonButton icon={undoIcon} label={t("home.undo")} onClick={handleUndo} disabled={!canUndo()} />
-          <div className="ribbon-undo-dropdown-wrap">
-            <button
-              className="ribbon-undo-dropdown-toggle"
-              title={t('home.undoMultipleTitle')}
-              disabled={!canUndo()}
-              onClick={(e) => { setUndoPos(posBelow(e.currentTarget as HTMLElement)); setShowUndoList((v) => !v); }}
-            >▾</button>
-            {showUndoList && undoPos && createPortal(
-              <div className="ribbon-undo-dropdown" style={{ position: 'fixed', top: undoPos.top, left: undoPos.left }}>
-                <div className="ribbon-undo-dropdown-header">{t('home.undoUpTo')}</div>
-                {[...undoStack].reverse().slice(0, 15).map((entry, i) => (
-                  <button
-                    key={`${undoStack.length - i}-${entry.description}`}
-                    className="ribbon-undo-dropdown-item"
-                    onClick={() => handleUndoSteps(i + 1)}
-                  >
-                    <span className="ribbon-undo-step">{i + 1}</span>
-                    {entry.description || t('home.changeFallback')}
-                  </button>
-                ))}
-              </div>,
-              getPortalTarget()
-            )}
-          </div>
-          <RibbonButton icon={redoIcon} label={t("home.redo")} onClick={handleRedo} disabled={!canRedo()} />
-        </RibbonGroup>
-
-        <RibbonGroup label={t("view.panels")}>
-          <RibbonButton
-            icon={settingsIcon}
-            label={t('home.quantity')}
-            onClick={toggleHoeveelheid}
-            active={showHoeveelheid}
-          />
-        </RibbonGroup>
-
-        <RibbonGroup label={t('home.display')}>
-          <RibbonButton
-            icon={viewStIcon}
-            label={t('home.viewUi1')}
-            size="small"
-            onClick={() => setGridView('st')}
-            active={gridView === 'st'}
-          />
-          <RibbonButton
-            icon={viewWpCalcIcon}
-            label={t('home.viewUi2')}
-            size="small"
-            onClick={() => setGridView('wpcalc')}
-            active={gridView === 'wpcalc'}
-          />
-          <RibbonButton
-            icon={viewStIcon}
-            label={t('home.viewUi3', 'UI-3')}
-            size="small"
-            onClick={() => setGridView('simple')}
-            active={gridView === 'simple'}
-          />
-          <div className="ribbon-undo-dropdown-wrap" ref={collapseWrapRef}>
-            <RibbonButton
-              icon={addBewakingspostIcon}
-              label={t('home.collapse')}
-              title={t('home.collapseTitle')}
-              onClick={() => { setCollapsePos(posBelow(collapseWrapRef.current)); setShowCollapseList((v) => !v); }}
-            />
-            {showCollapseList && collapsePos && createPortal(
-              <div className="ribbon-undo-dropdown" style={{ position: 'fixed', top: collapsePos.top, left: collapsePos.left }}>
-                <div className="ribbon-undo-dropdown-header">{t('home.collapseTo')}</div>
-                {([
-                  ['hoofdstuk', t('home.collapseChapters')],
-                  ['paragraaf', t('home.collapseParagraphs')],
-                  ['begrotingspost', t('home.collapseBudgetPosts')],
-                  ['bewakingspost', t('home.collapseMonitorPosts')],
-                  ['alles', t('home.expandAll')],
-                ] as const).map(([niveau, label]) => (
-                  <button
-                    key={niveau}
-                    className="ribbon-undo-dropdown-item"
-                    onClick={() => { collapseToLevel(niveau); setShowCollapseList(false); }}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>,
-              getPortalTarget()
-            )}
-          </div>
-        </RibbonGroup>
-
-        <RibbonGroup label={t('home.pricesGroup')}>
           <RibbonButton
             icon={settingsIcon}
             label={t('home.pricesPct')}
             title={t('home.pricesPctTitle')}
             onClick={() => { setPricePct('10'); setShowPriceDialog(true); }}
           />
+        </RibbonGroup>
+        <RibbonGroup label={t("home.history")}>
+          <RibbonButtonStack>
+            <div className="ribbon-undo-dropdown-wrap">
+              <RibbonButton icon={undoIcon} label={t("home.undo")} size="small" onClick={handleUndo} disabled={!canUndo()} />
+              <button
+                className="ribbon-undo-dropdown-toggle"
+                title={t('home.undoMultipleTitle')}
+                disabled={!canUndo()}
+                onClick={(e) => { setUndoPos(posBelow(e.currentTarget as HTMLElement)); setShowUndoList((v) => !v); }}
+              >▾</button>
+              {showUndoList && undoPos && createPortal(
+                <div className="ribbon-undo-dropdown" style={{ position: 'fixed', top: undoPos.top, left: undoPos.left }}>
+                  <div className="ribbon-undo-dropdown-header">{t('home.undoUpTo')}</div>
+                  {[...undoStack].reverse().slice(0, 15).map((entry, i) => (
+                    <button
+                      key={`${undoStack.length - i}-${entry.description}`}
+                      className="ribbon-undo-dropdown-item"
+                      onClick={() => handleUndoSteps(i + 1)}
+                    >
+                      <span className="ribbon-undo-step">{i + 1}</span>
+                      {entry.description || t('home.changeFallback')}
+                    </button>
+                  ))}
+                </div>,
+                getPortalTarget()
+              )}
+            </div>
+            <RibbonButton icon={redoIcon} label={t("home.redo")} size="small" onClick={handleRedo} disabled={!canRedo()} />
+          </RibbonButtonStack>
+        </RibbonGroup>
+
+        <RibbonGroup label={t('home.display')}>
+          <RibbonButtonStack>
+            <RibbonButton
+              icon={viewStIcon}
+              label={t('home.viewUi1')}
+              size="small"
+              onClick={() => setGridView('st')}
+              active={gridView === 'st'}
+            />
+            <RibbonButton
+              icon={viewWpCalcIcon}
+              label={t('home.viewUi2')}
+              size="small"
+              onClick={() => setGridView('wpcalc')}
+              active={gridView === 'wpcalc'}
+            />
+            <RibbonButton
+              icon={viewStIcon}
+              label={t('home.viewUi3', 'UI-3')}
+              size="small"
+              onClick={() => setGridView('simple')}
+              active={gridView === 'simple'}
+            />
+          </RibbonButtonStack>
+          <RibbonButtonStack>
+            <RibbonButton
+              icon={settingsIcon}
+              label={t('home.quantity')}
+              title={gridView === 'wpcalc' ? t('home.quantityUi2Title') : t('home.quantityTitle')}
+              size="small"
+              onClick={toggleHoeveelheid}
+              active={showHoeveelheid && gridView !== 'wpcalc'}
+              disabled={gridView === 'wpcalc'}
+            />
+            <div className="ribbon-undo-dropdown-wrap" ref={collapseWrapRef}>
+              <RibbonButton
+                icon={addBewakingspostIcon}
+                label={t('home.collapse')}
+                title={t('home.collapseTitle')}
+                size="small"
+                onClick={() => { setCollapsePos(posBelow(collapseWrapRef.current)); setShowCollapseList((v) => !v); }}
+              />
+              {showCollapseList && collapsePos && createPortal(
+                <div className="ribbon-undo-dropdown" style={{ position: 'fixed', top: collapsePos.top, left: collapsePos.left }}>
+                  <div className="ribbon-undo-dropdown-header">{t('home.collapseTo')}</div>
+                  {([
+                    ['hoofdstuk', t('home.collapseChapters')],
+                    ['paragraaf', t('home.collapseParagraphs')],
+                    ['begrotingspost', t('home.collapseBudgetPosts')],
+                    ['bewakingspost', t('home.collapseMonitorPosts')],
+                    ['alles', t('home.expandAll')],
+                  ] as const).map(([niveau, label]) => (
+                    <button
+                      key={niveau}
+                      className="ribbon-undo-dropdown-item"
+                      onClick={() => { collapseToLevel(niveau); setShowCollapseList(false); }}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>,
+                getPortalTarget()
+              )}
+            </div>
+          </RibbonButtonStack>
         </RibbonGroup>
 
         <RibbonGroup label={t('home.changesGroup')}>
@@ -364,15 +386,15 @@ export default function HomeTab() {
             active={trackingOn}
             onClick={toggleChangeTracking}
           />
-          <RibbonButton
-            icon={clearMarksIcon}
-            label={t('home.clearMarks')}
-            size="small"
-            title={t('home.clearMarksTitle')}
-            disabled={!trackingOn}
-            onClick={clearChangeMarks}
-          />
           <RibbonButtonStack>
+            <RibbonButton
+              icon={clearMarksIcon}
+              label={t('home.clearMarks')}
+              size="small"
+              title={t('home.clearMarksTitle')}
+              disabled={!trackingOn}
+              onClick={clearChangeMarks}
+            />
             <RibbonButton
               icon={rowHighlightIcon}
               label={t('home.wholeRow')}
@@ -399,9 +421,6 @@ export default function HomeTab() {
             title={t('home.projectDataTitle')}
             onClick={() => setShowProject(true)}
           />
-        </RibbonGroup>
-
-        <RibbonGroup label={t('home.variantsGroup')}>
           <RibbonButton
             icon={branchIcon}
             label={t('home.variants')}
