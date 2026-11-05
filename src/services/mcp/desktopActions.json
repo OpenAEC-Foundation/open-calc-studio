@@ -2731,6 +2731,11 @@
       "signature": "() => void",
       "parameters": []
     },
+    "toggleReportShowQuantities": {
+      "group": "Ui",
+      "signature": "() => void",
+      "parameters": []
+    },
     "toggleColumnHidden": {
       "group": "Ui",
       "signature": "(gridView: string, colKey: string) => void",

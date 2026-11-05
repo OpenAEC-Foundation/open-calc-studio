@@ -23,7 +23,7 @@ export const ReportPreview: React.FC = () => {
   // horen in de afhankelijkheden zodat de preview meewisselt.
   const reportLocale = useAppStore((s) => s.settings.reportLocale);
   const {
-    schedule, items, reportView, showHoeveelheid, toggleHoeveelheid, companyInfo,
+    schedule, items, reportView, reportShowQuantities, toggleReportShowQuantities, companyInfo,
     pageOrientation, pageSize, includeCover, includeSummary, setSchedule,
   } = useAppStore();
 
@@ -119,7 +119,7 @@ export const ReportPreview: React.FC = () => {
           reportView,
           pageSize,
           pageOrientation,
-          showHoeveelheid,
+          showHoeveelheid: reportShowQuantities,
           companyInfo: companyInfo || null,
           includeCover,
           includeSummary,
@@ -156,7 +156,7 @@ export const ReportPreview: React.FC = () => {
     return () => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
     };
-  }, [schedule, items, reportView, pageSize, pageOrientation, showHoeveelheid, companyInfo, includeCover, includeSummary, reportLocale, i18n.language]);
+  }, [schedule, items, reportView, pageSize, pageOrientation, reportShowQuantities, companyInfo, includeCover, includeSummary, reportLocale, i18n.language]);
 
   // Cleanup blob URL on unmount
   useEffect(() => {
@@ -174,7 +174,7 @@ export const ReportPreview: React.FC = () => {
           {pageSize} {pageOrientation === 'landscape' ? t('landscape') : t('portrait')}
         </span>
         <label className="report-toolbar-check" title={t('report.quantitiesTooltip')}>
-          <input type="checkbox" checked={showHoeveelheid} onChange={toggleHoeveelheid} />
+          <input type="checkbox" checked={reportShowQuantities} onChange={toggleReportShowQuantities} />
           {t('quantities')}
         </label>
         {reportView === 'hoofdaanneming' && (
