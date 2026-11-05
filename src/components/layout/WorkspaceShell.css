@@ -89,7 +89,7 @@
 .workspace-document-status { display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; color: var(--oa-text-secondary); font-size: 11px; }
 .workspace-status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--oa-text-secondary); }
 .workspace-status-dot.is-modified { background: var(--oa-accent); }
-.workspace-total { display: flex; flex-direction: column; gap: 4px; text-align: right; }
+.workspace-total { display: flex; flex-direction: column; gap: 4px; text-align: right; flex-shrink: 0; }
 .workspace-total > strong { font-size: 22px; font-weight: 600; letter-spacing: -.02em; white-space: nowrap; }
 .workspace-save { flex-shrink: 0; }
 /* Eén regel: valt hij in twee, dan kost dat op een laptop een rij van de tabel. */
@@ -154,11 +154,20 @@
 @media (max-height: 760px) {
   .workspace-header { min-height: 0; padding: 6px 16px; gap: 16px; }
   .workspace-breadcrumb { display: none; }
-  .workspace-heading { display: flex; align-items: baseline; gap: 12px; }
-  .workspace-heading h1 { font-size: 16px; min-width: 0; }
-  .workspace-document-status { margin-top: 0; flex-shrink: 0; white-space: nowrap; }
+  /* Wordt het midden smal (zijpanelen open), dan schuift eerst de statustekst in
+     (met …) en pas daarna de projectnaam; het bedrag en Opslaan blijven staan. */
+  .workspace-heading { display: flex; align-items: baseline; gap: 12px; overflow: hidden; }
+  .workspace-heading h1 { font-size: 16px; min-width: 0; flex: 0 1 auto; }
+  .workspace-document-status { margin-top: 0; flex: 0 20 auto; min-width: 12px; white-space: nowrap; overflow: hidden; }
+  .workspace-document-status > span:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  .workspace-status-dot { flex-shrink: 0; }
   .workspace-total { flex-direction: row; align-items: baseline; gap: 10px; }
   .workspace-total > strong { font-size: 16px; }
+  /* Volgorde van inschikken bij weinig breedte: eerst het label bij het bedrag,
+     dan de statustekst (het bolletje blijft), de projectnaam als laatste. */
+  .workspace-header { container-type: inline-size; }
+  @container (max-width: 720px) { .workspace-total .oa-mono-label { display: none; } }
+  @container (max-width: 600px) { .workspace-document-status > span:last-child { display: none; } }
 }
 /* Zijbalk compacter op laptops tot en met 1366×768, zodat alle werkplekken en de
    voet zonder scrollen in beeld zijn (nooit een kopje zonder items eronder). */
