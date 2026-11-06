@@ -34,7 +34,10 @@
     "warmEmber": "Teplý žhavý",
     "highContrast": "Vysoký kontrast",
     "font": "Písmo",
-    "uiFontSize": "Velikost písma rozhraní"
+    "uiFontSize": "Velikost písma rozhraní",
+    "assistant": "Chatovací asistent",
+    "chatBubble": "Zobrazit tlačítko chatu vpravo dole",
+    "chatBubbleHelp": "Po vypnutí zůstává asistent dostupný v pracovním prostoru „Prompt & Estimate“."
   },
   "grid": {
     "general": "Tabulka",

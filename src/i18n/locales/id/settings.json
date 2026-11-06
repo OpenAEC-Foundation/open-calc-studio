@@ -34,7 +34,10 @@
     "warmEmber": "Bara Hangat",
     "highContrast": "Kontras tinggi",
     "font": "Font",
-    "uiFontSize": "Ukuran font antarmuka"
+    "uiFontSize": "Ukuran font antarmuka",
+    "assistant": "Asisten obrolan",
+    "chatBubble": "Tampilkan tombol obrolan di kanan bawah",
+    "chatBubbleHelp": "Jika dimatikan, asisten tetap tersedia di ruang kerja “Prompt & Estimate”."
   },
   "grid": {
     "general": "Tabel",

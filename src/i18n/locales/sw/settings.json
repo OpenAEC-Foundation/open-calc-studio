@@ -34,7 +34,10 @@
     "warmEmber": "Kaa la moto",
     "highContrast": "Utofautishaji mkubwa",
     "font": "Fonti",
-    "uiFontSize": "Ukubwa wa fonti ya kiolesura"
+    "uiFontSize": "Ukubwa wa fonti ya kiolesura",
+    "assistant": "Msaidizi wa gumzo",
+    "chatBubble": "Onyesha kitufe cha gumzo chini kulia",
+    "chatBubbleHelp": "Ikizimwa, msaidizi anaendelea kupatikana katika eneo la kazi la “Prompt & Estimate”."
   },
   "grid": {
     "general": "Gridi",

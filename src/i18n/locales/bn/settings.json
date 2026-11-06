@@ -34,7 +34,10 @@
     "warmEmber": "ওয়ার্ম এম্বার",
     "highContrast": "উচ্চ কনট্রাস্ট",
     "font": "ফন্ট",
-    "uiFontSize": "ইন্টারফেস ফন্টের আকার"
+    "uiFontSize": "ইন্টারফেস ফন্টের আকার",
+    "assistant": "চ্যাট সহকারী",
+    "chatBubble": "নিচে ডানদিকে চ্যাট বোতাম দেখান",
+    "chatBubbleHelp": "বন্ধ থাকলে সহকারী “Prompt & Estimate” ওয়ার্কস্পেসে পাওয়া যাবে।"
   },
   "grid": {
     "general": "গ্রিড",

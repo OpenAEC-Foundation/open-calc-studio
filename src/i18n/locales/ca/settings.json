@@ -34,7 +34,10 @@
     "warmEmber": "Brasa càlida",
     "highContrast": "Contrast alt",
     "font": "Lletra",
-    "uiFontSize": "Mida de la lletra de la interfície"
+    "uiFontSize": "Mida de la lletra de la interfície",
+    "assistant": "Assistent de xat",
+    "chatBubble": "Mostra el botó de xat a baix a la dreta",
+    "chatBubbleHelp": "Si està desactivat, l'assistent continua disponible a l'espai de treball «Prompt & Estimate»."
   },
   "grid": {
     "general": "Taula",

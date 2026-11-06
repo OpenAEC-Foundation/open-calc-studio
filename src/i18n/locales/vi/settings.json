@@ -34,7 +34,10 @@
     "warmEmber": "Than hồng ấm",
     "highContrast": "Tương phản cao",
     "font": "Phông chữ",
-    "uiFontSize": "Cỡ chữ giao diện"
+    "uiFontSize": "Cỡ chữ giao diện",
+    "assistant": "Trợ lý trò chuyện",
+    "chatBubble": "Hiện nút trò chuyện ở góc dưới bên phải",
+    "chatBubbleHelp": "Khi tắt, trợ lý vẫn dùng được trong không gian làm việc “Prompt & Estimate”."
   },
   "grid": {
     "general": "Bảng",

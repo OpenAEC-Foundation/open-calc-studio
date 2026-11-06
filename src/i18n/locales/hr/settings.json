@@ -34,7 +34,10 @@
     "warmEmber": "Topli žar",
     "highContrast": "Visoki kontrast",
     "font": "Font",
-    "uiFontSize": "Veličina fonta sučelja"
+    "uiFontSize": "Veličina fonta sučelja",
+    "assistant": "Chat asistent",
+    "chatBubble": "Prikaži gumb za chat dolje desno",
+    "chatBubbleHelp": "Kad je isključeno, asistent ostaje dostupan u radnom prostoru „Prompt & Estimate“."
   },
   "grid": {
     "general": "Tablica",

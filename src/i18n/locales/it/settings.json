@@ -34,7 +34,10 @@
     "warmEmber": "Brace calda",
     "highContrast": "Contrasto elevato",
     "font": "Carattere",
-    "uiFontSize": "Dimensione del carattere dell'interfaccia"
+    "uiFontSize": "Dimensione del carattere dell'interfaccia",
+    "assistant": "Assistente chat",
+    "chatBubble": "Mostra il pulsante della chat in basso a destra",
+    "chatBubbleHelp": "Se disattivato, l'assistente resta disponibile nell'area di lavoro «Prompt & Estimate»."
   },
   "grid": {
     "general": "Griglia",

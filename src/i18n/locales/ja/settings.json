@@ -34,7 +34,10 @@
     "warmEmber": "ウォームエンバー",
     "highContrast": "ハイコントラスト",
     "font": "フォント",
-    "uiFontSize": "画面の文字サイズ"
+    "uiFontSize": "画面の文字サイズ",
+    "assistant": "チャットアシスタント",
+    "chatBubble": "右下にチャットボタンを表示",
+    "chatBubbleHelp": "オフにしても、アシスタントはワークスペース「Prompt & Estimate」から利用できます。"
   },
   "grid": {
     "general": "表",

@@ -34,7 +34,10 @@
     "warmEmber": "Sıcak Kor",
     "highContrast": "Yüksek kontrast",
     "font": "Yazı tipi",
-    "uiFontSize": "Arayüz yazı boyutu"
+    "uiFontSize": "Arayüz yazı boyutu",
+    "assistant": "Sohbet asistanı",
+    "chatBubble": "Sağ alttaki sohbet düğmesini göster",
+    "chatBubbleHelp": "Kapalıyken asistan “Prompt & Estimate” çalışma alanında kullanılabilir kalır."
   },
   "grid": {
     "general": "Tablo",

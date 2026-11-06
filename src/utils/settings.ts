@@ -13,6 +13,8 @@ export interface AppSettings {
   currency: string;
   autoSave: boolean;
   autoSaveInterval: number;
+  /** De ronde chatknop rechtsonder. Uit = alleen nog via de werkplek "Prompt & Begroot". */
+  showChatBubble: boolean;
   recentFiles: string[];
   workspaceLayouts?: WorkspaceLayout[];
   lastWorkspaceLayoutId?: string | null;
@@ -30,6 +32,7 @@ export const defaultSettings: AppSettings = {
   currency: 'EUR',
   autoSave: false,
   autoSaveInterval: 300000,
+  showChatBubble: true,
   recentFiles: [],
 };
 

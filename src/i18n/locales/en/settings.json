@@ -37,7 +37,10 @@
     "uiFontSize": "UI font size",
     "blueprint": "Blueprint",
     "highContrastDark": "High contrast dark",
-    "highContrastLight": "High contrast light"
+    "highContrastLight": "High contrast light",
+    "assistant": "Chat assistant",
+    "chatBubble": "Show the chat button at the bottom right",
+    "chatBubbleHelp": "When switched off, the assistant stays available in the workspace Prompt & Estimate."
   },
   "grid": {
     "general": "Grid",

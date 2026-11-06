@@ -34,7 +34,10 @@
     "warmEmber": "Lämmin hiillos",
     "highContrast": "Suuri kontrasti",
     "font": "Fontti",
-    "uiFontSize": "Käyttöliittymän fonttikoko"
+    "uiFontSize": "Käyttöliittymän fonttikoko",
+    "assistant": "Chat-avustaja",
+    "chatBubble": "Näytä chat-painike oikeassa alakulmassa",
+    "chatBubbleHelp": "Pois päältä ollessaan avustaja on edelleen käytettävissä työtilassa ”Prompt & Estimate”."
   },
   "grid": {
     "general": "Taulukko",

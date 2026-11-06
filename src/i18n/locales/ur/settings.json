@@ -34,7 +34,10 @@
     "warmEmber": "گرم انگارہ",
     "highContrast": "اعلیٰ تضاد",
     "font": "فونٹ",
-    "uiFontSize": "انٹرفیس فونٹ سائز"
+    "uiFontSize": "انٹرفیس فونٹ سائز",
+    "assistant": "چیٹ اسسٹنٹ",
+    "chatBubble": "نیچے دائیں جانب چیٹ بٹن دکھائیں",
+    "chatBubbleHelp": "بند ہونے پر اسسٹنٹ “Prompt & Estimate” ورک اسپیس میں دستیاب رہتا ہے۔"
   },
   "grid": {
     "general": "گرڈ",

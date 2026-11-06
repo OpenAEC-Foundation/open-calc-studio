@@ -34,7 +34,10 @@
     "warmEmber": "Ciepły żar",
     "highContrast": "Wysoki kontrast",
     "font": "Czcionka",
-    "uiFontSize": "Rozmiar czcionki interfejsu"
+    "uiFontSize": "Rozmiar czcionki interfejsu",
+    "assistant": "Asystent czatu",
+    "chatBubble": "Pokaż przycisk czatu w prawym dolnym rogu",
+    "chatBubbleHelp": "Po wyłączeniu asystent pozostaje dostępny w obszarze roboczym „Prompt & Estimate”."
   },
   "grid": {
     "general": "Tabela",

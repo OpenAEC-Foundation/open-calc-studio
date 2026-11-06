@@ -34,7 +34,10 @@
     "warmEmber": "Varm glöd",
     "highContrast": "Hög kontrast",
     "font": "Teckensnitt",
-    "uiFontSize": "Teckenstorlek i gränssnittet"
+    "uiFontSize": "Teckenstorlek i gränssnittet",
+    "assistant": "Chattassistent",
+    "chatBubble": "Visa chattknappen längst ned till höger",
+    "chatBubbleHelp": "Avstängd finns assistenten fortfarande i arbetsytan ”Prompt & Estimate”."
   },
   "grid": {
     "general": "Tabell",

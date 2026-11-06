@@ -34,7 +34,10 @@
     "warmEmber": "Meleg parázs",
     "highContrast": "Nagy kontraszt",
     "font": "Betűtípus",
-    "uiFontSize": "Felület betűmérete"
+    "uiFontSize": "Felület betűmérete",
+    "assistant": "Csevegőasszisztens",
+    "chatBubble": "Csevegőgomb megjelenítése a jobb alsó sarokban",
+    "chatBubbleHelp": "Kikapcsolva az asszisztens továbbra is elérhető a „Prompt & Estimate” munkaterületen."
   },
   "grid": {
     "general": "Táblázat",

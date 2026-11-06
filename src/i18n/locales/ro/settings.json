@@ -34,7 +34,10 @@
     "warmEmber": "Jar cald",
     "highContrast": "Contrast ridicat",
     "font": "Font",
-    "uiFontSize": "Dimensiunea fontului interfeței"
+    "uiFontSize": "Dimensiunea fontului interfeței",
+    "assistant": "Asistent de chat",
+    "chatBubble": "Afișează butonul de chat în dreapta jos",
+    "chatBubbleHelp": "Dezactivat, asistentul rămâne disponibil în spațiul de lucru „Prompt & Estimate”."
   },
   "grid": {
     "general": "Tabel",

@@ -34,7 +34,10 @@
     "warmEmber": "暖橘",
     "highContrast": "高对比度",
     "font": "字体",
-    "uiFontSize": "界面字号"
+    "uiFontSize": "界面字号",
+    "assistant": "聊天助手",
+    "chatBubble": "在右下角显示聊天按钮",
+    "chatBubbleHelp": "关闭后，助手仍可在“Prompt & Estimate”工作区中使用。"
   },
   "grid": {
     "general": "表格",

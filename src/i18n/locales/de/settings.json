@@ -34,7 +34,10 @@
     "warmEmber": "Warme Glut",
     "highContrast": "Hoher Kontrast",
     "font": "Schriftart",
-    "uiFontSize": "Schriftgröße der Oberfläche"
+    "uiFontSize": "Schriftgröße der Oberfläche",
+    "assistant": "Chat-Assistent",
+    "chatBubble": "Chat-Schaltfläche unten rechts anzeigen",
+    "chatBubbleHelp": "Ausgeschaltet bleibt der Assistent über den Arbeitsbereich Prompt & Kalkulation erreichbar."
   },
   "grid": {
     "general": "Tabelle",

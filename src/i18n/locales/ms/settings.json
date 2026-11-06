@@ -34,7 +34,10 @@
     "warmEmber": "Bara Suam",
     "highContrast": "Kontras tinggi",
     "font": "Fon",
-    "uiFontSize": "Saiz fon antara muka"
+    "uiFontSize": "Saiz fon antara muka",
+    "assistant": "Pembantu sembang",
+    "chatBubble": "Tunjukkan butang sembang di bahagian kanan bawah",
+    "chatBubbleHelp": "Jika dimatikan, pembantu masih tersedia di ruang kerja “Prompt & Estimate”."
   },
   "grid": {
     "general": "Jadual",

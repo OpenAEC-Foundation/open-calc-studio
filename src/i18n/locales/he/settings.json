@@ -34,7 +34,10 @@
     "warmEmber": "גחלת חמימה",
     "highContrast": "ניגודיות גבוהה",
     "font": "גופן",
-    "uiFontSize": "גודל גופן הממשק"
+    "uiFontSize": "גודל גופן הממשק",
+    "assistant": "עוזר צ'אט",
+    "chatBubble": "הצגת כפתור הצ'אט בפינה הימנית התחתונה",
+    "chatBubbleHelp": "כשהאפשרות כבויה, העוזר עדיין זמין בסביבת העבודה “Prompt & Estimate”."
   },
   "grid": {
     "general": "טבלה",

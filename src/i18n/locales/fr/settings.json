@@ -34,7 +34,10 @@
     "warmEmber": "Braise chaude",
     "highContrast": "Contraste élevé",
     "font": "Police",
-    "uiFontSize": "Taille de police de l'interface"
+    "uiFontSize": "Taille de police de l'interface",
+    "assistant": "Assistant de chat",
+    "chatBubble": "Afficher le bouton de chat en bas à droite",
+    "chatBubbleHelp": "Désactivé, l'assistant reste disponible dans l'espace de travail « Prompt & Estimate »."
   },
   "grid": {
     "general": "Grille",

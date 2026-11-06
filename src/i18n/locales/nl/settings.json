@@ -37,7 +37,10 @@
     "uiFontSize": "UI lettergrootte",
     "blueprint": "Blueprint",
     "highContrastDark": "Hoog contrast donker",
-    "highContrastLight": "Hoog contrast licht"
+    "highContrastLight": "Hoog contrast licht",
+    "assistant": "Chat-assistent",
+    "chatBubble": "Chatknop rechtsonder tonen",
+    "chatBubbleHelp": "Uitgeschakeld blijft de assistent bereikbaar via de werkplek Prompt & Begroot."
   },
   "grid": {
     "general": "Raster",

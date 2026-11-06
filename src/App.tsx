@@ -95,6 +95,7 @@ const matchesMobile = () => !isDesktopApp && window.matchMedia(MOBILE_QUERY).mat
 function App() {
   const { t } = useTranslation();
   const ownAssistant = useOwnAssistant();
+  const showChatBubble = useAppStore((s) => s.settings.showChatBubble !== false);
   const [hostError, setHostError] = useState('');
   const closingWindow = useRef(false);
   const [settingsReady, setSettingsReady] = useState(false);
@@ -691,7 +692,7 @@ function App() {
         )}
       </div>
       {/* Floating chat button + panel — bottom right */}
-      {ownAssistant && !showChatPanel && activeContentTab !== 'promptBudget' && activeContentTab !== 'wizard' && (
+      {ownAssistant && showChatBubble && !showChatPanel && activeContentTab !== 'promptBudget' && activeContentTab !== 'wizard' && (
         <button
           className="chat-fab"
           onClick={() => useAppStore.getState().toggleChatPanel()}

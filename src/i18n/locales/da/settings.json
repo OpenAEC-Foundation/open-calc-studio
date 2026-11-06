@@ -34,7 +34,10 @@
     "warmEmber": "Varm glød",
     "highContrast": "Høj kontrast",
     "font": "Skrifttype",
-    "uiFontSize": "Skriftstørrelse i brugerfladen"
+    "uiFontSize": "Skriftstørrelse i brugerfladen",
+    "assistant": "Chatassistent",
+    "chatBubble": "Vis chatknappen nederst til højre",
+    "chatBubbleHelp": "Når den er slået fra, er assistenten stadig tilgængelig i arbejdsområdet “Prompt & Estimate”."
   },
   "grid": {
     "general": "Tabel",

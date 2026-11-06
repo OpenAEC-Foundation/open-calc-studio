@@ -34,7 +34,10 @@
     "warmEmber": "جمري دافئ",
     "highContrast": "تباين عالٍ",
     "font": "الخط",
-    "uiFontSize": "حجم خط الواجهة"
+    "uiFontSize": "حجم خط الواجهة",
+    "assistant": "مساعد الدردشة",
+    "chatBubble": "إظهار زر الدردشة في الزاوية السفلية",
+    "chatBubbleHelp": "عند إيقافه يبقى المساعد متاحًا في مساحة العمل «Prompt & Estimate»."
   },
   "grid": {
     "general": "الجدول",

@@ -50,9 +50,11 @@ export default function SettingsDialog({ open, onClose, theme, onThemeChange }: 
   const updateSettings = useAppStore((s) => s.updateSettings);
   const savedLocale = useAppStore((s) => s.settings.locale);
   const savedReportLocale = useAppStore((s) => s.settings.reportLocale);
+  const savedChatBubble = useAppStore((s) => s.settings.showChatBubble !== false);
   const [activeTab, setActiveTab] = useState("general");
   const [draftReportLang, setDraftReportLang] = useState(() => normalizeReportLang(savedReportLocale));
   const [draftTheme, setDraftTheme] = useState(blueprintTheme(theme));
+  const [draftChatBubble, setDraftChatBubble] = useState(savedChatBubble);
   const [draftLang, setDraftLang] = useState(() => {
     // Map stored locale to language code
     const lang = i18next.language || savedLocale?.split("-")[0] || "auto";
@@ -67,8 +69,9 @@ export default function SettingsDialog({ open, onClose, theme, onThemeChange }: 
       const lang = i18next.language || savedLocale?.split("-")[0] || "auto";
       setDraftLang(LANGUAGES.some((l) => l.code === lang) ? lang : "auto");
       setDraftReportLang(normalizeReportLang(savedReportLocale));
+      setDraftChatBubble(savedChatBubble);
     }
-  }, [open, theme, savedLocale, savedReportLocale]);
+  }, [open, theme, savedLocale, savedReportLocale, savedChatBubble]);
 
   const handleCancel = () => {
     setDraftTheme(originalTheme.current);
@@ -79,7 +82,7 @@ export default function SettingsDialog({ open, onClose, theme, onThemeChange }: 
     onThemeChange(draftTheme);
     applyTheme(draftTheme);
     changeLanguage(draftLang);
-    updateSettings({ locale: draftLang, reportLocale: draftReportLang });
+    updateSettings({ locale: draftLang, reportLocale: draftReportLang, showChatBubble: draftChatBubble });
     onClose();
   };
 
@@ -149,6 +152,14 @@ export default function SettingsDialog({ open, onClose, theme, onThemeChange }: 
                   <option key={opt.value} value={opt.value}>{t(opt.labelKey)}</option>
                 ))}
               </select>
+              <h3>{t("appearance.assistant")}</h3>
+              <label className="settings-row settings-check">
+                <input type="checkbox" name="showChatBubble" checked={draftChatBubble} onChange={(e) => setDraftChatBubble(e.target.checked)} />
+                <span className="settings-label">{t("appearance.chatBubble")}</span>
+              </label>
+              <p style={{ fontSize: 11, marginTop: 4, color: "var(--theme-dialog-content-secondary)" }}>
+                {t("appearance.chatBubbleHelp")}
+              </p>
             </div>
           )}
           {activeTab === "about" && (

@@ -78,6 +78,9 @@
   gap: 12px;
 }
 
+.settings-check { justify-content: flex-start; gap: 8px; cursor: pointer; }
+.settings-check input { margin: 0; }
+
 .settings-label {
   font-size: 11px;
   color: var(--theme-dialog-content-text);
