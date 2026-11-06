@@ -88,11 +88,8 @@ export function useKeyboardShortcuts() {
         useAppStore.getState().setUiZoom(100);
       } else if (ctrl && e.key === 'p') {
         e.preventDefault();
-        import('../services/print/printService').then(({ printBudget }) => {
-          const { schedule, items } = useAppStore.getState();
-          const { reportView } = useAppStore.getState();
-          printBudget(schedule, items, reportView);
-        });
+        // Dezelfde route als de printknop in het lint: met de rapportopties (hoeveelheden, bedrijfsgegevens, papier).
+        import('../services/report/reportOutput').then(({ outputCurrentReport }) => outputCurrentReport('print')).catch(error => alert(String(error)));
       } else if (ctrl && e.key === 'Enter' && inGrid && !isInInput) {
         e.preventDefault();
         // Nieuwe regel direct onder het actieve item — op identiteit, en via

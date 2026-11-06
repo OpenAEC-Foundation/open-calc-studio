@@ -82,7 +82,7 @@ describe('spreadsheet commands reach the selected cells',()=>{
  it.each([['spreadsheet.bold','bold',true],['spreadsheet.italic','italic',true],['spreadsheet.alignLeft','align','left'],['spreadsheet.alignCenter','align','center'],['spreadsheet.alignRight','align','right'],['spreadsheet.decimalUp','decimals',3],['spreadsheet.decimalDown','decimals',1]])('%s changes the selected cell',async(key,field,value)=>{
   const s=useAppStore.getState(),id=s.addSubSheet('Quantities');s.setActiveContentTab('spreadsheet');s.setSubSheetCell(id,'A1','12');await render(<><SpreadsheetTab/><SubSheetEditor sheetId={id}/></>);
   const cell=node.querySelector('.subsheet-cell')!;await act(async()=>cell.dispatchEvent(new MouseEvent('mousedown',{button:0,bubbles:true})));await click(tr(key));expect(useAppStore.getState().subSheets[0].cells.A1[field as 'bold']).toBe(value);
- });
+ },15000); // SubSheetEditor rendert traag onder belasting; de standaard 5 s is te krap
 });
 
 describe('text formatting buttons',()=>{

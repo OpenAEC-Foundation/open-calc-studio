@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useAppStore } from '@/state/appStore';
-import { getColumnsForView, isCellEditable } from './gridConstants';
+import { getColumnsForView, hiddenByQuantityToggle, isCellEditable, isColumnHidden } from './gridConstants';
 import type { CostUnit } from '@/types/costModel';
 import { getGridCellDisplayValue } from '@/services/clipboard/excelClipboard';
 import { isFooterRow } from '@/services/grid/gridRows';
@@ -9,11 +9,19 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
   const { activeRow, activeCol, isEditing, setActiveCell, setActiveCellExtend,
     getSelectedRowIndices, startEditing, stopEditing,
     updateItem, pushHistory, items, copyItems, getGridRows, gridView,
-    cellSelectionStart, cellSelectionEnd, schedule } =
+    cellSelectionStart, cellSelectionEnd, schedule, showHoeveelheid, hiddenColumns } =
     useAppStore();
 
   // Mét branchesEnabled: kolomindices moeten gelijk lopen met het gerenderde grid.
   const columns = getColumnsForView(gridView, !!schedule.branchesEnabled);
+  // Verborgen kolommen (kolommenu of lintknop Hoeveelheid) zijn 0 px breed: de toetsen slaan ze over.
+  const colVisible = useCallback((i: number) => {
+    const col = columns[i];
+    return !!col && !hiddenByQuantityToggle(col.key, gridView, showHoeveelheid) && !isColumnHidden(hiddenColumns, gridView, col.key);
+  }, [columns, gridView, showHoeveelheid, hiddenColumns]);
+  const visibleIndices = columns.map((_, i) => i).filter(colVisible);
+  const firstVisibleCol = visibleIndices[0] ?? 0;
+  const lastVisibleCol = visibleIndices[visibleIndices.length - 1] ?? columns.length - 1;
 
   /** Zet de doelrij meteen in bewerkmodus, mits die cel daar bewerkbaar is.
    *  Zo kun je met de pijltjes een kolom doorlopen en direct doortypen —
@@ -23,9 +31,9 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
     const item = visibleItems?.[row];
     if (!item || item.id.startsWith('footer:')) return;
     const col = columns[activeCol];
-    if (!col?.editable || !isCellEditable(col.key, item.rowType, gridView)) return;
+    if (!col?.editable || !colVisible(activeCol) || !isCellEditable(col.key, item.rowType, gridView)) return;
     requestAnimationFrame(() => startEditing());
-  }, [visibleItems, columns, activeCol, gridView, startEditing]);
+  }, [visibleItems, columns, activeCol, gridView, startEditing, colVisible]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -109,17 +117,18 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
           break;
         case 'ArrowLeft':
           e.preventDefault();
-          if (activeCol > 0) setActiveCell(activeRow, activeCol - 1, visibleItems?.[activeRow]?.id);
+          { const prev = visibleIndices.filter((i) => i < activeCol).pop(); if (prev != null) setActiveCell(activeRow, prev, visibleItems?.[activeRow]?.id); }
           break;
         case 'ArrowRight':
           e.preventDefault();
-          if (activeCol < columns.length - 1) setActiveCell(activeRow, activeCol + 1, visibleItems?.[activeRow]?.id);
+          { const next = visibleIndices.find((i) => i > activeCol); if (next != null) setActiveCell(activeRow, next, visibleItems?.[activeRow]?.id); }
           break;
         case 'Tab': {
           e.preventDefault();
           const editableCols = columns
             .map((c, i) => ({ ...c, index: i }))
-            .filter((c) => c.editable);
+            .filter((c) => c.editable && colVisible(c.index));
+          if (editableCols.length === 0) break;
           const currentEditIdx = editableCols.findIndex((c) => c.index === activeCol);
           const nearestIdx =
             currentEditIdx >= 0
@@ -142,7 +151,7 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
         case 'Enter':
         case 'F2':
           e.preventDefault();
-          if (columns[activeCol]?.editable && visibleItems) {
+          if (columns[activeCol]?.editable && colVisible(activeCol) && visibleItems) {
             const item = visibleItems[activeRow];
             if (item && isCellEditable(columns[activeCol].key, item.rowType, gridView)) {
               startEditing();
@@ -152,14 +161,14 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
         case 'Home': {
           e.preventDefault();
           const homeRow = e.ctrlKey ? 0 : activeRow;
-          const homeCol = e.ctrlKey ? activeCol : 0;
+          const homeCol = e.ctrlKey ? activeCol : firstVisibleCol;
           setActiveCell(homeRow, homeCol, visibleItems?.[homeRow]?.id);
           break;
         }
         case 'End': {
           e.preventDefault();
           const endRow = e.ctrlKey ? Math.max(0, visibleRowCount - 1) : activeRow;
-          const endCol = e.ctrlKey ? activeCol : columns.length - 1;
+          const endCol = e.ctrlKey ? activeCol : lastVisibleCol;
           setActiveCell(endRow, endCol, visibleItems?.[endRow]?.id);
           break;
         }
@@ -210,7 +219,7 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
     },
     [activeRow, activeCol, isEditing, visibleRowCount, setActiveCell, setActiveCellExtend,
       getSelectedRowIndices, startEditing, stopEditing, updateItem, pushHistory, items, visibleItems,
-      copyItems, getGridRows, columns, cellSelectionStart, cellSelectionEnd, editIfPossible, gridView]
+      copyItems, getGridRows, columns, cellSelectionStart, cellSelectionEnd, editIfPossible, gridView, colVisible, visibleIndices, firstVisibleCol, lastVisibleCol]
   );
 
   return { handleKeyDown };

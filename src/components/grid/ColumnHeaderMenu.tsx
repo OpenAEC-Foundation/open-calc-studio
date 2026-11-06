@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { GridColumn } from '@/types/costModel';
 import { useAppStore } from '@/state/appStore';
-import { isColumnHideable, isColumnHidden } from './gridConstants';
+import type { GridView } from '@/state/slices/uiSlice';
+import { hiddenByQuantityToggle, isColumnHideable, isColumnHidden } from './gridConstants';
 
 interface Props {
   x: number;
@@ -23,6 +24,15 @@ export const ColumnHeaderMenu: React.FC<Props> = ({ x, y, column, columns, selec
   const hiddenColumns = useAppStore((s) => s.hiddenColumns);
   const setColumnHidden = useAppStore((s) => s.setColumnHidden);
   const showAllColumns = useAppStore((s) => s.showAllColumns);
+  // De lintknop Hoeveelheid verbergt dezelfde kolom langs een andere weg; het menu toont en herstelt beide.
+  const showHoeveelheid = useAppStore((s) => s.showHoeveelheid);
+  const toggleHoeveelheid = useAppStore((s) => s.toggleHoeveelheid);
+  const viaRibbon = (key: string) => hiddenByQuantityToggle(key, gridView as GridView, showHoeveelheid);
+  const isHidden = (key: string) => isColumnHidden(hiddenColumns, gridView, key) || viaRibbon(key);
+  const show = (key: string) => {
+    if (viaRibbon(key)) toggleHoeveelheid();
+    if (isColumnHidden(hiddenColumns, gridView, key)) setColumnHidden(gridView, key, false);
+  };
 
   // Close on outside click / Escape
   useEffect(() => {
@@ -50,7 +60,7 @@ export const ColumnHeaderMenu: React.FC<Props> = ({ x, y, column, columns, selec
 
   // Columns the user is allowed to toggle
   const toggleable = columns.filter((c) => isColumnHideable(c.key));
-  const anyHidden = toggleable.some((c) => isColumnHidden(hiddenColumns, gridView, c.key));
+  const anyHidden = toggleable.some((c) => isHidden(c.key));
 
   // Verbergen werkt op de kolomselectie; is er niets geselecteerd, dan op de
   // aangeklikte kolom. Structurele kolommen (bv. omschrijving) blijven staan.
@@ -81,13 +91,13 @@ export const ColumnHeaderMenu: React.FC<Props> = ({ x, y, column, columns, selec
       <div className="column-header-menu-section-title">{t('columnMenu.showHide')}</div>
       <div className="column-header-menu-list">
         {toggleable.map((c) => {
-          const hidden = isColumnHidden(hiddenColumns, gridView, c.key);
+          const hidden = isHidden(c.key);
           return (
             <label key={c.key} className="column-header-menu-check">
               <input
                 type="checkbox"
                 checked={!hidden}
-                onChange={() => setColumnHidden(gridView, c.key, hidden ? false : true)}
+                onChange={() => (hidden ? show(c.key) : setColumnHidden(gridView, c.key, true))}
               />
               <span>{c.label}</span>
             </label>
@@ -102,6 +112,7 @@ export const ColumnHeaderMenu: React.FC<Props> = ({ x, y, column, columns, selec
         disabled={!anyHidden}
         onClick={() => {
           showAllColumns(gridView);
+          if (columns.some((c) => viaRibbon(c.key))) toggleHoeveelheid();
           onClose();
         }}
       >

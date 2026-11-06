@@ -202,5 +202,5 @@
 .workspace-layout-message { font-size:11px; color:var(--oa-text-secondary); min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 
 /* Herstelbalk: elk herstelbestand op een eigen regel; naast elkaar werd het een lange, onleesbare rij. */
-.recovery-bar { flex-direction: column; align-items: stretch; gap: 4px; }
+.recovery-bar { flex-direction: column; align-items: stretch; gap: 4px; max-height: min(30vh, 160px); overflow-y: auto; flex-shrink: 0; }
 .recovery-bar > div { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }

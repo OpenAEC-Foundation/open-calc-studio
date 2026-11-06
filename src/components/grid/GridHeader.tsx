@@ -110,8 +110,10 @@ export const GridHeader: React.FC = () => {
             onContextMenu={(e) => handleContextMenu(e, col)}
           >
             {showRestoreLeft && prevCol && (
-              <div
+              <button
+                type="button"
                 className="grid-header-hidden-indicator"
+                aria-label={t('columnMenu.showHidden', { name: prevCol.label })}
                 title={t('columnMenu.showHidden', { name: prevCol.label })}
                 onClick={(e) => {
                   e.stopPropagation();
