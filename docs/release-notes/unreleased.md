@@ -1,5 +1,17 @@
 # Open Calc Studio — aankomende release
 
+## 2026.45.1: nieuw logo en compacte schermindeling
+
+- Het goedgekeurde amber euroteken op antraciet met afgeronde transparante
+  hoeken wordt gebruikt in de app, browser, PWA en desktopinstallers.
+- Compacte kop, inklapbare zijbalk, scrollbaar lint en aangepaste dialogen
+  maken de interface bruikbaarder op kleine laptopschermen.
+- De eigenschappenpaneelvoorkeur wordt onthouden; zoompresets zijn ook via
+  de interfacezoom bereikbaar. Rapporthoeveelheden en rasterkolommen hebben
+  onafhankelijke weergaveopties.
+- Duitse interfaceteksten zijn bijgewerkt en Lao is als taal toegevoegd.
+- Productversie 2026.45.1; MSI 26.45.1; bestandsformaat blijft 2.4.0.
+
 ## 2026.45.0: Excel-import, platformassistent en accountcontrole
 
 - Algemene Excel-bestanden openen met een kolomkoppelvenster wanneer ze geen
