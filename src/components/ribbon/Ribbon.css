@@ -253,6 +253,12 @@
   opacity: 0.4;
   pointer-events: none;
 }
+/* Met een title (bv. "niet van toepassing in UI-2") moet de tooltip wél verschijnen; klikken doet toch niets. */
+.ribbon-btn:disabled[title] { pointer-events: auto; }
+.ribbon-btn:disabled:hover { background: transparent; border-color: transparent; }
+.ribbon-btn:disabled[title] { cursor: default; }
+.ribbon-btn:disabled:hover .ribbon-btn-icon svg { stroke: var(--theme-ribbon-icon); }
+.ribbon-btn:disabled:hover .ribbon-btn-label { color: var(--theme-ribbon-text); }
 
 .ribbon-btn-icon {
   width: 28px;

@@ -46,15 +46,20 @@ export function fitWindowToScreen(): Promise<void> {
 async function fit(): Promise<void> {
   if (!isTauriEnvironment()) return;
   try {
-    const { getCurrentWindow, currentMonitor, PhysicalPosition, PhysicalSize } = await import('@tauri-apps/api/window');
+    const { getCurrentWindow, currentMonitor, primaryMonitor, PhysicalPosition, PhysicalSize } = await import('@tauri-apps/api/window');
     const win = getCurrentWindow();
     // Beide in fysieke pixels, dus de schaal van Windows (125%, 150%) telt mee.
-    const [monitor, size, maximized] = await Promise.all([currentMonitor(), win.outerSize(), win.isMaximized()]);
-    if (!monitor || maximized || !doesNotFit(size, monitor.workArea.size)) return;
+    const [current, size, maximized, fullscreen] = await Promise.all([currentMonitor(), win.outerSize(), win.isMaximized(), win.isFullscreen()]);
+    // Fullscreen is de kioskstand van de container (OCS_CONTAINER): daar blijven we vanaf.
+    const monitor = current ?? await primaryMonitor();
+    if (!monitor || maximized || fullscreen || !doesNotFit(size, monitor.workArea.size)) return;
     const rect = fittedRect(monitor.workArea);
+    // Het tweede-schermvenster hoort naast het hoofdvenster: alleen verkleinen (nooit vergroten), niet verplaatsen of maximaliseren.
+    if (new URLSearchParams(window.location.search).has('companion')) {
+      await win.setSize(new PhysicalSize(Math.min(size.width, rect.size.width), Math.min(size.height, rect.size.height)));
+      return;
+    }
     await win.setSize(new PhysicalSize(rect.size.width, rect.size.height));
-    // Het tweede-schermvenster hoort naast het hoofdvenster: alleen verkleinen, niet verplaatsen of maximaliseren.
-    if (new URLSearchParams(window.location.search).has('companion')) return;
     await win.setPosition(new PhysicalPosition(rect.position.x, rect.position.y));
     await win.maximize();
   } catch {

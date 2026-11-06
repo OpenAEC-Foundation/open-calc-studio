@@ -827,7 +827,8 @@ useAppStore.getState().recalculate();
 | `activeContentTab` | `ContentTab` | Actief tabblad (`grid`, `rapport`, `samenvatting`, `ifc`, `offerte`) |
 | `reportMode` | `ReportMode` | Rapportmodus (`client`, `internal`) |
 | `reportView` | `ReportView` | Rapporttype |
-| `showHoeveelheid` | `boolean` | Toon hoeveelheidkolommen |
+| `showHoeveelheid` | `boolean` | Toon de kolom Hoeveelheid in de begrotingsgrid (UI-1/UI-3) |
+| `reportShowQuantities` | `boolean` | Hoeveelheden en prijzen in rapporten tonen (los van de gridkolom) |
 | `pageOrientation` | `PageOrientation` | Pagina-orientatie |
 | `pageSize` | `PageSize` | Papierformaat |
 | `gridView` | `GridView` | Grid weergave (`st`, `wpcalc`, `inschrijfstaat`) |
@@ -835,7 +836,7 @@ useAppStore.getState().recalculate();
 | `includeCover` | `boolean` | Voorblad meenemen |
 | `includeSummary` | `boolean` | Samenvattingspagina meenemen |
 
-Alle velden hebben corresponderende setter-methoden (`setTheme`, `setReportView`, `toggleHoeveelheid`, etc.).
+Alle velden hebben corresponderende setter-methoden (`setTheme`, `setReportView`, `toggleHoeveelheid`, `toggleReportShowQuantities`, etc.).
 
 ### 7.6 HistorySlice
 

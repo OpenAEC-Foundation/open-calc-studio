@@ -114,7 +114,11 @@ export default function Ribbon({ onFileTabClick }: RibbonProps) {
   const updateScrollable = useCallback(() => {
     if (!panelEl) return;
     const { scrollLeft, scrollWidth, clientWidth } = panelEl;
-    const left = scrollLeft > 1, right = scrollLeft + clientWidth < scrollWidth - 1;
+    // In rechts-naar-links-talen (ar, he, fa, ur) begint scrollLeft op 0 en wordt hij negatief naar links.
+    const rtl = getComputedStyle(panelEl).direction === 'rtl';
+    const pos = Math.abs(scrollLeft), max = scrollWidth - clientWidth;
+    const atStart = pos <= 1, atEnd = pos >= max - 1;
+    const left = rtl ? !atEnd : !atStart, right = rtl ? !atStart : !atEnd;
     setScrollable(s => (s.left === left && s.right === right ? s : { left, right }));
   }, [panelEl]);
 
@@ -135,7 +139,8 @@ export default function Ribbon({ onFileTabClick }: RibbonProps) {
     const el = e.currentTarget;
     if (el.scrollWidth <= el.clientWidth || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
     // deltaMode 1 = regels i.p.v. pixels (o.a. Linux); reken om naar pixels.
-    el.scrollLeft += e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+    const delta = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+    el.scrollLeft += getComputedStyle(el).direction === 'rtl' ? -delta : delta;
   };
 
   useEffect(() => {

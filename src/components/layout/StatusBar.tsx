@@ -59,7 +59,7 @@ function ZoomPicker({ value, onChange, onStep, label, title, smallerLabel, large
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") { commitValue(); }
-    else if (e.key === "Escape") { setInputValue(String(value)); setEditing(false); }
+    else if (e.key === "Escape") { setInputValue(String(value)); setEditing(false); setDropdownOpen(false); }
   };
 
   const handlePresetClick = (preset: number) => {
