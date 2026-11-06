@@ -140,6 +140,44 @@
   color: var(--theme-grid-active-text);
 }
 
+/* ── Structuurboom ── */
+.schedule-tree-wrap { padding: 4px; }
+
+.schedule-tree-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--theme-text);
+  padding: 4px 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.schedule-tree { outline: none; }
+.schedule-tree:focus-visible .schedule-item.active {
+  outline: 1px solid var(--theme-focus-color, var(--theme-accent));
+  outline-offset: -1px;
+}
+
+.schedule-tree .schedule-item { min-height: 20px; cursor: pointer; }
+.schedule-item-spacer { width: 14px; flex-shrink: 0; }
+.schedule-item-icon { flex-shrink: 0; color: var(--theme-text-secondary); }
+.schedule-item.active .schedule-item-icon { color: inherit; }
+
+.schedule-item-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.schedule-item-code {
+  margin-right: 6px;
+  color: var(--theme-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.schedule-item.active .schedule-item-code { color: inherit; opacity: 0.8; }
+
 /* ── Resource Picker — OpenAEC Style Book ── */
 .resource-picker-overlay {
   position: fixed;
