@@ -5,6 +5,7 @@ import { ROW_HEIGHT, getColumnsForView, hiddenByQuantityToggle, isColumnHidden }
 import { useAppStore } from '@/state/appStore';
 import { ColumnHeaderMenu } from './ColumnHeaderMenu';
 import type { GridColumn } from '@/types/costModel';
+import { getGridCellDisplayValue } from '@/services/clipboard/excelClipboard';
 
 export const GridHeader: React.FC = () => {
   // useTranslation zorgt óók voor een herrender bij taalwissel, zodat
@@ -63,6 +64,29 @@ export const GridHeader: React.FC = () => {
     },
     [columnWidths, setColumnWidth, columns]
   );
+
+  /** Dubbelklik op het sleepbalkje: de kolom zo breed als de breedste tekst erin, zoals in Excel. */
+  const autoFitColumn = useCallback((index: number) => {
+    const col = columns[index];
+    const ctx = document.createElement('canvas').getContext('2d');
+    if (!col || !ctx) return;
+    const sample = getHostRoot().querySelector('.grid-cell') ?? getHostRoot();
+    const cs = getComputedStyle(sample);
+    const isDesc = col.key === 'description';
+    let widest = 0;
+    ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    for (const item of useAppStore.getState().getGridRows()) {
+      const text = getGridCellDisplayValue(item, col.key);
+      if (!text) continue;
+      // Omschrijving: inspringing per niveau plus ruimte voor de inklapknop.
+      const indent = isDesc ? (item.depth ?? 0) * 16 + 4 + 18 : 0;
+      for (const line of text.split('\n')) widest = Math.max(widest, ctx.measureText(line).width + indent);
+    }
+    ctx.font = `600 ${cs.fontSize} ${cs.fontFamily}`;
+    widest = Math.max(widest, ctx.measureText(col.abbr ? `${col.label} (${col.abbr})` : col.label).width);
+    const padding = 4 + 4 + 2; // celopvulling links en rechts, plus de rand
+    setColumnWidth(index, Math.min(600, Math.ceil(widest + padding)));
+  }, [columns, setColumnWidth]);
 
   const zichtbareKeys = columns.filter((c) => !isHidden(c)).map((c) => c.key);
 
@@ -128,6 +152,7 @@ export const GridHeader: React.FC = () => {
             <div
               className="grid-header-resize"
               onMouseDown={(e) => handleMouseDown(e, i)}
+              onDoubleClick={(e) => { e.stopPropagation(); autoFitColumn(i); }}
             />
           </div>
         );
