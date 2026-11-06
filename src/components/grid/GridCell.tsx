@@ -335,12 +335,12 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
 
   return (
     <div
-      className={`grid-cell${isActive ? ' active' : ''}${isCellSelected ? ' cell-selected' : ''}${alignClass}${isChapterBold ? ' bold' : ''}${column.key === 'rowType' ? ' type-cell' : ''}${isWitregel && isDescCol ? ' witregel-desc' : ''}${editable ? ' editable-value' : ''}${isDescCol ? ' col-description' : ''}${isDerivedSum ? ' derived-sum' : ''}${isChangedCell ? ' changed-cell' : ''}`}
+      className={`grid-cell${isActive ? ' active' : ''}${isCellSelected ? ' cell-selected' : ''}${alignClass}${isChapterBold ? ' bold' : ''}${column.key === 'rowType' ? ' type-cell' : ''}${isWitregel && isDescCol ? ' witregel-desc' : ''}${editable ? ' editable-value' : ''}${isDescCol ? ' col-description' : ''}${isDerivedSum ? ' derived-sum' : ''}${isChangedCell ? ' changed-cell' : ''}${colWidth === 0 ? ' is-hidden' : ''}`}
       title={cellTooltip || undefined}
       style={{
         width: colWidth,
         minHeight: 24,
-        paddingLeft: isDescCol ? (gridView === 'wpcalc'
+        paddingLeft: isDescCol && colWidth !== 0 ? (gridView === 'wpcalc'
           ? (item.rowType === 'chapter' && item.depth === 0 ? 4 : 4 + item.depth * 16) // UI-2: top chapters flush, rest indented by depth
           : item.depth * 16 + 4
         ) : undefined,

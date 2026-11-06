@@ -301,6 +301,9 @@ html.cursor-col-resizing * { cursor: col-resize !important; }
 .grid-row:hover .grid-row-add-btn { opacity: 0.6; }
 .grid-row-add-btn:hover { opacity: 1 !important; background: var(--theme-accent); color: #fff; border-color: var(--theme-accent); }
 
+/* Een met de knop Hoeveelheid verborgen kolom: de kop is al 0 px, de cellen eronder ook,
+   anders steken padding en rand 9-12 px uit en verschuift de totaalrij. */
+.grid-cell.is-hidden, .grid-total-cell.is-hidden { padding: 0; border-right-width: 0; }
 .grid-cell {
   display: inline-flex;
   align-items: center;

@@ -35,12 +35,12 @@ export function workspaceTitle(tab: ContentTab): string {
 const COLLAPSED_KEY = 'ocs-nav-collapsed';
 /** In een smal venster is de zijbalk altijd alleen icoontjes (dezelfde stijl als ingeklapt). */
 const NARROW_QUERY = '(max-width: 980px)';
+const narrowMedia = typeof window !== 'undefined' ? window.matchMedia?.(NARROW_QUERY) : undefined;
 const subscribeNarrow = (notify: () => void) => {
-  const media = window.matchMedia?.(NARROW_QUERY);
-  media?.addEventListener('change', notify);
-  return () => media?.removeEventListener('change', notify);
+  narrowMedia?.addEventListener('change', notify);
+  return () => narrowMedia?.removeEventListener('change', notify);
 };
-const isNarrow = () => typeof window !== 'undefined' && !!window.matchMedia?.(NARROW_QUERY).matches;
+const isNarrow = () => !!narrowMedia?.matches;
 
 export function WorkspaceNavigation({ onStart, onSettings }: { onStart: () => void; onSettings: () => void }) {
   const { t } = useTranslation();

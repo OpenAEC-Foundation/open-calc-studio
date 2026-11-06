@@ -580,7 +580,7 @@ export const CostGrid: React.FC = () => {
               {columns.map((col, i) => (
                 <div
                   key={col.key}
-                  className="grid-total-cell"
+                  className={`grid-total-cell${effectiveColumnWidths[i] === 0 ? ' is-hidden' : ''}`}
                   style={{
                     width: effectiveColumnWidths[i],
                     textAlign: col.align as any,

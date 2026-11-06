@@ -701,7 +701,7 @@ function App() {
           💬
         </button>
       )}
-      {ownAssistant && showChatPanel && activeContentTab !== 'promptBudget' && (
+      {ownAssistant && showChatPanel && activeContentTab !== 'promptBudget' && activeContentTab !== 'wizard' && (
         <div className="chat-floating">
           <ChatPanel />
         </div>

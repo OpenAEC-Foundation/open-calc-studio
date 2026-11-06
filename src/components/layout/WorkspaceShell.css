@@ -21,6 +21,9 @@
   border-right: 1px solid var(--nav-line);
   overflow: hidden;
 }
+/* Hoog contrast: Blueprint zet de rand daar op vol contrast en heeft bewust geen hover-vulling. */
+[data-oa-theme^="high-contrast"] .workspace-nav { --nav-line: var(--oa-border); --nav-hover: var(--oa-hover); }
+[data-oa-theme^="high-contrast"] .workspace-nav-item[aria-current="page"] { background: var(--oa-selected); }
 .workspace-brand {
   display: flex;
   align-items: center;
@@ -36,8 +39,10 @@
 .workspace-brand small { display: block; margin-top: 3px; color: var(--oa-text-secondary); font: 10px / 1.4 var(--oa-font-mono); }
 .workspace-open { justify-content: center; margin: 0 4px 20px; min-height: 32px; white-space: nowrap; overflow: hidden; }
 .workspace-open .oa-icon { width: 18px; height: 18px; flex-shrink: 0; }
+.workspace-open > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 /* Alleen de werkplekken scrollen; merk, Projecten & bestanden en de voet (inklappen, voorkeuren) blijven staan. */
-.workspace-nav-sections { flex: 1; min-height: 0; overflow-y: auto; }
+.workspace-nav-sections { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; }
+.workspace-nav-item:focus-visible { outline-offset: -2px; }
 .workspace-brand, .workspace-open, .workspace-nav-footer { flex-shrink: 0; }
 .workspace-nav section + section { margin-top: var(--oa-space-xl); }
 .workspace-nav h2 { padding: 0 12px; margin: 0 0 8px; font-weight: 400; }
@@ -101,9 +106,11 @@
 .workspace-layout-bar > select:focus { padding:0 23px 0 5px; }
 .workspace-layout-bar > * { flex-shrink:0; }
 .workspace-layout-bar > select, .workspace-layout-message { flex-shrink:1; }
-@media (max-width: 1100px) { .workspace-layout-bar > .oa-mono-label { display:none; } }
-/* Een smal (gesnapt) desktopvenster: liever twee regels dan knoppen buiten beeld. */
-@media (max-width: 1000px) { .workspace-layout-bar { flex-wrap:wrap; } }
+/* De balk meet zijn eigen breedte (zijpanelen open maken het midden smal, ook op een groot scherm):
+   eerst verdwijnt het label, daarna mag hij in twee regels, liever dan knoppen buiten beeld. */
+.workspace-layout-host { container-type:inline-size; flex-shrink:0; }
+@container (max-width: 900px) { .workspace-layout-bar > .oa-mono-label { display:none; } }
+@container (max-width: 760px) { .workspace-layout-bar { flex-wrap:wrap; } }
 .workspace-layout-editor { position:relative; margin-left:auto; }
 .workspace-layout-editor > summary { list-style:none; }
 .workspace-layout-editor > summary::-webkit-details-marker { display:none; }
@@ -167,7 +174,7 @@
      dan de statustekst (het bolletje blijft), de projectnaam als laatste. */
   .workspace-header { container-type: inline-size; }
   @container (max-width: 720px) { .workspace-total .oa-mono-label { display: none; } }
-  @container (max-width: 600px) { .workspace-document-status > span:last-child { display: none; } }
+  @container (max-width: 600px) { .workspace-document-status > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } }
 }
 /* Zijbalk compacter op laptops tot en met 1366×768, zodat alle werkplekken en de
    voet zonder scrollen in beeld zijn (nooit een kopje zonder items eronder). */

@@ -23,7 +23,8 @@ export function WorkspaceLayoutBar() {
     try { save(overwrite && custom ? custom.name : name, overwrite ? custom?.id : undefined); setName(''); setMessage(uiText('layouts.saved', 'Workspace saved.')); }
     catch (error) { setMessage(String((error as Error).message)); }
   }
-  return <div className="workspace-layout-bar" aria-label={uiText('layouts.title', 'Workspaces')}>
+  // De host is een containerquery-anker: de balk schikt in op zijn eigen breedte (zijpanelen open), niet op het venster.
+  return <div className="workspace-layout-host"><div className="workspace-layout-bar" aria-label={uiText('layouts.title', 'Workspaces')}>
     <span className="oa-mono-label">{uiText('layouts.title', 'Workspaces')}</span>
     <div className="workspace-layout-presets">
       {builtinWorkspaceLayouts().map(layout => <button type="button" className="oa-button oa-button--quiet oa-button--compact" aria-pressed={active === layout.id} key={layout.id} onClick={() => { apply(layout.id); setMessage(''); }}>{layout.name}</button>)}
@@ -44,5 +45,5 @@ export function WorkspaceLayoutBar() {
         <span role="status">{message}</span>
       </div>
     </details>
-  </div>;
+  </div></div>;
 }
