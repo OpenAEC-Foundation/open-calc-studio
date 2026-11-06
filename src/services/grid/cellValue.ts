@@ -32,7 +32,8 @@ export function getGridCellNumber(
     case 'productiecapaciteit':
       return isRegel ? (item.normFactor ?? null) : null;
 
-    case 'hoeveelheid': {
+    case 'hoeveelheid':
+    case 'uren': {
       if (isRegel) {
         const qty = item.quantity ?? 0;
         const norm = item.normQuantity ?? 0;

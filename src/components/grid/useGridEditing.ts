@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import i18next from 'i18next';
 import { useAppStore } from '@/state/appStore';
-import { getColumnsForView } from './gridConstants';
+import { isHoursColumn, getColumnsForView } from './gridConstants';
 import { parseNumericInput } from '@/utils/numericInput';
 import type { CostItem, CostUnit } from '@/types/costModel';
 
@@ -19,7 +19,7 @@ export function useGridEditing() {
 
       // WPCalc: de uren-som op de hoofdstuk-FOOTERRIJ bewerken herrekent alle
       // regel-normen in dat hoofdstuk naar rato.
-      if (item.id.startsWith('footer:') && col.key === 'hoeveelheid') {
+      if (item.id.startsWith('footer:') && isHoursColumn(col.key)) {
         const newTotal = parseNumericInput(value);
         if (newTotal != null && !isNaN(newTotal)) {
           pushHistory(items, i18next.t('grid:undo.chapterHoursProrate'));
@@ -48,6 +48,7 @@ export function useGridEditing() {
         productienorm: 'normQuantity',
         productiecapaciteit: 'normFactor',
         hoeveelheid: 'quantity',
+        uren: 'quantity',
         // UI-2 'Hst'-kolom: hoofdstuknummer leeft op CostItem.code — zonder
         // deze mapping schrijft de edit naar een niet-bestaand veld en
         // "gebeurt er niks" bij het wijzigen van een hoofdstuknummer.

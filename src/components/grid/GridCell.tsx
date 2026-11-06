@@ -4,7 +4,7 @@ import type { CostItem } from '@/types/costModel';
 import type { GridColumn } from '@/types/costModel';
 import { isContainerRowType } from '@/types/costModel';
 import { formatNumber, formatCurrency } from '@/utils/formatting';
-import { isCellEditable } from './gridConstants';
+import { isHoursColumn, valueColumnKey, isCellEditable } from './gridConstants';
 import { useAppStore } from '@/state/appStore';
 import { formatUnit } from '@/i18n/formatUnit';
 import { resolvePdfQuantity } from '@/services/pdf/pdfWorkspace';
@@ -32,7 +32,7 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
   const gridView = useAppStore((s) => s.gridView);
   const items = useAppStore((s) => s.items);
   const pdfWorkspace = useAppStore((s) =>
-    (column.key === 'hoeveelheid' || column.key === 'quantity') && item.quantityLink?.source === 'pdf'
+    (isHoursColumn(column.key) || column.key === 'quantity') && item.quantityLink?.source === 'pdf'
       ? s.schedule.pdfWorkspace : undefined);
 
   const getRowTypeAbbr = (): string => {
@@ -66,7 +66,7 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
       if (column.key === 'description') return '+';
       if (!resourceTotals) return '';
       // Show resource breakdown columns
-      switch (column.key) {
+      switch (valueColumnKey(column.key)) {
         case 'hoeveelheid': {
           // Sum uren from the chapter's children
           const chapterId = item.id.replace('footer:', '');
@@ -123,7 +123,7 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
       return '';
     }
 
-    switch (column.key) {
+    switch (valueColumnKey(column.key)) {
       case 'sortIndex':
         return String(rowIndex + 1);
       case 'rowType':
@@ -241,7 +241,7 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
 
     if (isChapterFooter) return '';
 
-    switch (column.key) {
+    switch (valueColumnKey(column.key)) {
       case 'hoeveelheid':
         if (isRegel) {
           const q = item.quantity ?? 0;
@@ -322,7 +322,7 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
 
   const isWitregel = item.rowType === 'witregel';
   const isDescCol = column.key === 'description';
-  const isHoeveelheidCol = column.key === 'hoeveelheid' || column.key === 'quantity';
+  const isHoeveelheidCol = isHoursColumn(column.key) || column.key === 'quantity';
   const showExcelIcon = isHoeveelheidCol && !!item.excelLink;
   const showQuantityLinkIcon = isHoeveelheidCol && !!item.quantityLink;
   const unresolvedPdfLink = showQuantityLinkIcon && item.quantityLink?.source === 'pdf'

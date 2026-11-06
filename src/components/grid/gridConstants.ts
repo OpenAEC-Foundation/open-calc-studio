@@ -61,7 +61,7 @@ const WPCALC_COLUMN_DEFS: ColumnDef[] = [
   { key: 'unit', labelKey: 'columns.unit', abbrKey: 'abbr.unit', width: 50, minWidth: 30, editable: true, type: 'unit-select', align: 'center' },
   { key: 'normUnitPrice', labelKey: 'columns.price', abbrKey: 'abbr.price', width: 70, minWidth: 50, editable: true, type: 'currency', align: 'right', tooltipKey: 'tooltips.wpPrice' },
   { key: 'productienorm', labelKey: 'columns.norm', abbrKey: 'abbr.norm', width: 60, minWidth: 40, editable: true, type: 'number', align: 'right', tooltipKey: 'tooltips.wpNorm' },
-  { key: 'hoeveelheid', labelKey: 'columns.hours', abbrKey: 'abbr.hours', width: 60, minWidth: 45, editable: true, type: 'number', align: 'right', tooltipKey: 'tooltips.wpHours' },
+  { key: 'uren', labelKey: 'columns.hours', abbrKey: 'abbr.hours', width: 60, minWidth: 45, editable: true, type: 'number', align: 'right', tooltipKey: 'tooltips.wpHours' },
   { key: 'tarief', labelKey: 'columns.tarief', abbrKey: 'abbr.tarief', width: 45, minWidth: 35, editable: true, type: 'tarief-select', align: 'center', tooltipKey: 'tooltips.wpTarief' },
   { key: 'arbeidTotal', labelKey: 'columns.labour', abbrKey: 'abbr.labour', width: 80, minWidth: 50, editable: false, type: 'computed', align: 'right', tooltipKey: 'tooltips.wpLabour' },
   { key: 'materiaalTotal', labelKey: 'columns.material', abbrKey: 'abbr.material', width: 80, minWidth: 50, editable: false, type: 'computed', align: 'right', tooltipKey: 'tooltips.wpMaterial' },
@@ -144,12 +144,22 @@ const NON_HIDEABLE_COLUMNS: ReadonlySet<string> = new Set([
 ]);
 
 /**
- * De knop Hoeveelheid in het lint toont of verbergt de kolom Hoeveelheid. In
- * UI-2 hoort de sleutel 'hoeveelheid' bij de kolom Uren; die blijft staan,
- * anders verdwenen de uren met die knop.
+ * De kolom Uren (UI-2, sleutel 'uren') toont dezelfde berekening als de kolom
+ * Hoeveelheid (aantal × norm / capaciteit); alleen het label verschilt. Alle
+ * logica op de inhoud gebruikt daarom deze test in plaats van de sleutel.
  */
-export function hiddenByQuantityToggle(colKey: string, gridView: GridView, showHoeveelheid: boolean): boolean {
-  return colKey === 'hoeveelheid' && gridView !== 'wpcalc' && !showHoeveelheid;
+export function isHoursColumn(colKey: string): boolean {
+  return colKey === 'hoeveelheid' || colKey === 'uren';
+}
+
+/** Naar de sleutel waarop de celwaarde-logica werkt: 'uren' telt als 'hoeveelheid'. */
+export function valueColumnKey(colKey: string): string {
+  return colKey === 'uren' ? 'hoeveelheid' : colKey;
+}
+
+/** De knop Hoeveelheid in het lint toont of verbergt alleen de kolom Hoeveelheid; de kolom Uren heeft een eigen sleutel. */
+export function hiddenByQuantityToggle(colKey: string, _gridView: GridView, showHoeveelheid: boolean): boolean {
+  return colKey === 'hoeveelheid' && !showHoeveelheid;
 }
 
 /** Whether a column may be hidden by the user. */
@@ -193,7 +203,7 @@ export function isCellEditable(colKey: string, rowType: string, _gridView?: Grid
   }
   // Hoeveelheid/Uren: alleen direct invulbaar op tekstregel
   // Op begrotingspost/bewakingspost is dit een berekende som
-  if (colKey === 'hoeveelheid') {
+  if (isHoursColumn(colKey)) {
     // Op (bewakings)posten toont de hoeveelheid-kolom het Aantal — bewerken
     // schrijft naar quantity (zelfde mapping als de editor). Op regels blijft
     // hoeveelheid berekend (aant × pnorm / pcap).

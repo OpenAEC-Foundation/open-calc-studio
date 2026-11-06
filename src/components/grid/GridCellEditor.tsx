@@ -65,7 +65,7 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
 
   const initialValue = (() => {
     if (editValue) return editValue;
-    const keyMap: Record<string, string> = { productienorm: 'normQuantity', productiecapaciteit: 'normFactor', hoeveelheid: 'quantity' };
+    const keyMap: Record<string, string> = { productienorm: 'normQuantity', productiecapaciteit: 'normFactor', hoeveelheid: 'quantity', uren: 'quantity' };
     const fieldKey = keyMap[col.key] ?? col.key;
     const raw = item[fieldKey as keyof CostItem];
     // Post-prijs: als de eigen prijs in materiaal/loon zit (BasCalc-import),

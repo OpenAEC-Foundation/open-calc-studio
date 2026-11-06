@@ -65,7 +65,8 @@ export function getGridCellDisplayValue(item: CostItem, colKey: string): string 
       return isRegel ? formatNumber(item.normQuantity) : '';
     case 'productiecapaciteit':
       return isRegel ? formatNumber(item.normFactor) : '';
-    case 'hoeveelheid': {
+    case 'hoeveelheid':
+    case 'uren': {
       if (isRegel) {
         const qty = item.quantity ?? 0;
         const norm = item.normQuantity ?? 0;

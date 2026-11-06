@@ -10,6 +10,7 @@ const COL_TO_FIELD: Record<string, string> = {
   productienorm: 'normQuantity',
   productiecapaciteit: 'normFactor',
   hoeveelheid: 'quantity',
+  uren: 'quantity',
   chapterCode: 'code',
 };
 const colToField = (key: string) => COL_TO_FIELD[key] ?? key;

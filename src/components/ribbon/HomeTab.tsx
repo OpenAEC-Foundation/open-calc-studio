@@ -1,4 +1,5 @@
 import { selectedGridItems } from '@/services/grid/selectedItems';
+import { getColumnsForView } from '@/components/grid/gridConstants';
 import { uiText } from '@/i18n/uiText';
 import { getPortalTarget } from '@/lib/hostRoot';
 import { useState, useEffect, useRef } from "react";
@@ -30,6 +31,8 @@ export default function HomeTab() {
   const trackingOn = !!schedule.changeTrackingSince;
   const changeDisplayMode = schedule.changeDisplayMode ?? 'row';
   const branchesOn = !!schedule.branchesEnabled;
+  // De knop Hoeveelheid heeft alleen zin als de weergave die kolom heeft (UI-2 toont Uren in plaats daarvan).
+  const hasQuantityColumn = getColumnsForView(gridView, branchesOn).some(c => c.key === 'hoeveelheid');
   const [showProject, setShowProject] = useState(false);
 
   // Maak in één klik een optieset (variant-groep) met twee opties aan.
@@ -337,11 +340,11 @@ export default function HomeTab() {
             <RibbonButton
               icon={settingsIcon}
               label={t('home.quantity')}
-              title={gridView === 'wpcalc' ? t('home.quantityUi2Title') : t('home.quantityTitle')}
+              title={hasQuantityColumn ? t('home.quantityTitle') : t('home.quantityUi2Title')}
               size="small"
               onClick={toggleHoeveelheid}
-              active={showHoeveelheid && gridView !== 'wpcalc'}
-              disabled={gridView === 'wpcalc'}
+              active={showHoeveelheid && hasQuantityColumn}
+              disabled={!hasQuantityColumn}
             />
             <div className="ribbon-undo-dropdown-wrap" ref={collapseWrapRef}>
               <RibbonButton

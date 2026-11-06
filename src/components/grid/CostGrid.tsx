@@ -11,7 +11,7 @@ import { useGridVirtualizer } from './useGridVirtualizer';
 import { useGridNavigation } from './useGridNavigation';
 import { useGridEditing } from './useGridEditing';
 import { useAppStore } from '@/state/appStore';
-import { ROW_HEIGHT, getColumnsForView, hiddenByQuantityToggle, isCellEditable, isColumnHidden } from './gridConstants';
+import { ROW_HEIGHT, getColumnsForView, hiddenByQuantityToggle, isCellEditable, isColumnHidden, isHoursColumn } from './gridConstants';
 import { getGrandTotal } from '@/services/calculation/calculator';
 import { isFooterRow, computeParentIds } from '@/services/grid/gridRows';
 import { computeResourceTotals } from '@/services/grid/resourceTotals';
@@ -263,7 +263,7 @@ export const CostGrid: React.FC = () => {
       // opent direct de cel-editor (uren hoofdstuk naar rato).
       const item = visibleItems[row];
       if (item?.id.startsWith('footer:')) {
-        if (columns[col]?.key === 'hoeveelheid' && !shiftKey) {
+        if (isHoursColumn(columns[col]?.key ?? '') && !shiftKey) {
           setActiveCell(row, col, item.id);
           requestAnimationFrame(() => startEditing());
         }
@@ -302,7 +302,7 @@ export const CostGrid: React.FC = () => {
       if (!item) return;
       // Footerrijen: alleen de uren-cel start een edit
       if (item.id.startsWith('footer:')) {
-        if (colDef?.key === 'hoeveelheid') startEditing();
+        if (isHoursColumn(colDef?.key ?? '')) startEditing();
         return;
       }
 
