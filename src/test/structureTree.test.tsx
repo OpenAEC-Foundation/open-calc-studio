@@ -42,20 +42,70 @@ beforeEach(async () => {
   (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
   await i18next.changeLanguage('en');
   useAppStore.setState({ items: items(), activeItemId: null, activeRow: -1, activeContentTab: 'grid', showPropertiesPanel: false });
+  localStorage.setItem('ocs.structureTree.depth', 'all'); // deze tests kijken tot op regelniveau
   node = document.createElement('div'); document.body.append(node); root = createRoot(node);
   await act(async () => root.render(<SchedulePanel />));
 });
-afterEach(async () => { await act(async () => root.unmount()); node.remove(); });
+afterEach(async () => { await act(async () => root.unmount()); node.remove(); localStorage.removeItem('ocs.structureTree.depth'); });
+
+const chooseDepth = (value: string) => act(async () => {
+  const select = node.querySelector<HTMLSelectElement>('select.schedule-tree-depth')!;
+  select.value = value;
+  select.dispatchEvent(new Event('change', { bubbles: true }));
+});
+
+describe('tree depth', () => {
+  it('only changes how deep the tree looks, never the budget, and is remembered', async () => {
+    const before = useAppStore.getState().items;
+    await chooseDepth('post');
+    expect(node.querySelector('[data-tree-id="regel1"]')).toBeNull();
+    expect(byId('post1').querySelector('button')).toBeNull(); // geen pijltje: boom stopt hier
+    await chooseDepth('chapter');
+    expect(treeItems().map((el) => el.dataset.treeId)).toEqual(['h21', 'p2110', 'h22', 'h23']);
+    expect(byId('p2110').querySelector('button')).toBeNull();
+    expect(useAppStore.getState().items).toBe(before); // niets in- of uitgeklapt
+    expect(useAppStore.getState().getGridRows().some((r) => r.id === 'regel1')).toBe(true);
+    expect(localStorage.getItem('ocs.structureTree.depth')).toBe('chapter');
+  });
+
+  it('a hidden line selected in the grid lights up its estimate item', async () => {
+    await chooseDepth('post');
+    const row = useAppStore.getState().getGridRows().findIndex((r) => r.id === 'regel1');
+    await act(async () => useAppStore.getState().setActiveCell(row, 1, 'regel1'));
+    expect(byId('post1').getAttribute('aria-selected')).toBe('true');
+  });
+
+  it('starts at estimate items when nothing is remembered', async () => {
+    await act(async () => root.unmount());
+    localStorage.removeItem('ocs.structureTree.depth');
+    root = createRoot(node);
+    await act(async () => root.render(<SchedulePanel />));
+    expect(node.querySelector<HTMLSelectElement>('select.schedule-tree-depth')!.value).toBe('post');
+    expect(node.querySelector('[data-tree-id="regel1"]')).toBeNull();
+  });
+});
 
 describe('structure tree', () => {
-  it('shows chapters and estimate items with code and description, but no lines', () => {
-    expect(labels()).toEqual(['21Funderingen', '21.10Grondwerk', '21.10.01Ontgraven', '22Buitenwanden', '23Vloeren']);
+  it('shows chapters, estimate items and their lines with code and description', () => {
+    expect(labels()).toEqual(['21Funderingen', '21.10Grondwerk', '21.10.01Ontgraven', 'Graafmachine', '22Buitenwanden', '23Vloeren']);
     expect(byId('post1').title).toBe('21.10.01 Ontgraven');
+    expect(byId('regel1').getAttribute('aria-level')).toBe('4');
     // Pijltje alleen bij rijen met inhoud in de boom.
     expect(byId('h21').querySelector('button')).not.toBeNull();
     expect(byId('h23').querySelector('button')).toBeNull();
-    expect(byId('post1').querySelector('button')).toBeNull();
+    expect(byId('post1').querySelector('button')).not.toBeNull();
+    expect(byId('regel1').querySelector('button')).toBeNull();
     expect(byId('h22').getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('collapsing an estimate item in the tree hides its lines in tree and grid, and the other way round', async () => {
+    await act(async () => byId('post1').querySelector('button')!.click());
+    expect(useAppStore.getState().items.find((i) => i.id === 'post1')!.isCollapsed).toBe(true);
+    expect(node.querySelector('[data-tree-id="regel1"]')).toBeNull();
+    expect(useAppStore.getState().getGridRows().some((r) => r.id === 'regel1')).toBe(false);
+
+    await act(async () => useAppStore.getState().toggleCollapse('post1')); // pijltje in het raster
+    expect(byId('regel1')).not.toBeNull();
   });
 
   it('expanding in the tree also expands the grid, and the other way round', async () => {
@@ -81,9 +131,11 @@ describe('structure tree', () => {
     expect(useAppStore.getState().showPropertiesPanel).toBe(true);
   });
 
-  it('a line selected in the grid highlights its estimate item', async () => {
+  it('a line selected in the grid is highlighted in the tree; when its item is closed, the item is', async () => {
     const row = useAppStore.getState().getGridRows().findIndex((r) => r.id === 'regel1');
     await act(async () => useAppStore.getState().setActiveCell(row, 1, 'regel1'));
+    expect(byId('regel1').getAttribute('aria-selected')).toBe('true');
+    await act(async () => useAppStore.getState().toggleCollapse('post1'));
     expect(byId('post1').getAttribute('aria-selected')).toBe('true');
   });
 

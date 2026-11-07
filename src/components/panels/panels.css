@@ -153,6 +153,26 @@
   white-space: nowrap;
 }
 
+.schedule-tree-head {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-right: 4px;
+}
+.schedule-tree-head .schedule-tree-title { flex: 1; min-width: 0; }
+.schedule-tree-depth {
+  flex-shrink: 0;
+  max-width: 110px;
+  height: 20px;
+  padding: 0 2px;
+  font-size: 11px;
+  font-family: inherit;
+  color: var(--theme-text);
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: 4px;
+}
+
 .schedule-tree { outline: none; }
 .schedule-tree:focus-visible .schedule-item.active {
   outline: 1px solid var(--theme-focus-color, var(--theme-accent));
@@ -177,6 +197,44 @@
   font-variant-numeric: tabular-nums;
 }
 .schedule-item.active .schedule-item-code { color: inherit; opacity: 0.8; }
+
+/* Slepen in de boom: de gesleepte rij staat alvast op zijn nieuwe plek
+   (zachte tint, streep links); een hoofdstuk/post dat hem krijgt, heeft een
+   dunne lijn. Rustig gehouden: één ding valt op, de rest blijft kalm. */
+.schedule-tree.is-dragging { user-select: none; cursor: grabbing; }
+.schedule-tree.is-dragging .schedule-item { cursor: grabbing; }
+.schedule-tree.is-dragging .schedule-item:hover:not(.dragging):not(.drop-inside) { background: transparent; }
+.schedule-item.dragging {
+  background: color-mix(in srgb, #D97706 16%, transparent);
+  box-shadow: inset 2px 0 0 0 #D97706;
+}
+.schedule-item.drop-inside {
+  background: color-mix(in srgb, #D97706 7%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, #D97706 70%, transparent);
+}
+.schedule-tree.is-blocked, .schedule-tree.is-blocked .schedule-item { cursor: not-allowed; }
+
+/* Klein label naast de muis: alleen waarheen (↑ boven, ↓ onder, → in, ⦸ niet). */
+.schedule-drag-label {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1100;
+  max-width: 260px;
+  padding: 2px 7px;
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  color: var(--theme-text);
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transform: translate(-9999px, -9999px);
+}
+.schedule-drag-label.is-blocked { color: var(--theme-text-secondary); }
 
 /* ── Resource Picker — OpenAEC Style Book ── */
 .resource-picker-overlay {

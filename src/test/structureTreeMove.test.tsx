@@ -21,7 +21,7 @@ function mkItem(partial: Partial<CostItem> & { id: string }): CostItem {
 const items = (): CostItem[] => [
   mkItem({ id: 'h21', rowType: 'chapter', code: '21', description: 'Funderingen', sortOrder: 0 }),
   mkItem({ id: 'p2110', rowType: 'chapter', parentId: 'h21', depth: 1, code: '21.10', description: 'Grondwerk', sortOrder: 0 }),
-  mkItem({ id: 'post1', rowType: 'begrotingspost', parentId: 'p2110', depth: 2, code: '01', description: 'Ontgraven', sortOrder: 0 }),
+  mkItem({ id: 'post1', rowType: 'begrotingspost', parentId: 'p2110', depth: 2, code: '01', description: 'Ontgraven', sortOrder: 0, isCollapsed: true }), // regels dicht
   mkItem({ id: 'regel1', rowType: 'regel', parentId: 'post1', depth: 3, description: 'Graafmachine', sortOrder: 0 }),
   mkItem({ id: 'h22', rowType: 'chapter', code: '22', description: 'Buitenwanden', sortOrder: 1 }),
   mkItem({ id: 'post2', rowType: 'begrotingspost', parentId: 'h22', depth: 1, code: '01', description: 'Metselwerk', sortOrder: 0 }),
@@ -89,7 +89,8 @@ describe('moving from the structure tree', () => {
   it('"Move to..." puts an estimate item at the end of another chapter', async () => {
     await openMenu('post1');
     const targets = await moveTargets();
-    expect(targets.map((b) => b.dataset.moveTarget)).toEqual(['h21', 'h22', 'h23']); // niet 21.10 (huidige ouder)
+    // Niet 21.10 (huidige ouder) en niet 21 (heeft paragrafen: post niet tussen paragrafen).
+    expect(targets.map((b) => b.dataset.moveTarget)).toEqual(['h22', 'h23']);
     await act(async () => targets.find((b) => b.dataset.moveTarget === 'h22')!.click());
     const post1 = find('post1');
     expect(post1.parentId).toBe('h22');
@@ -102,14 +103,31 @@ describe('moving from the structure tree', () => {
     expect(node.querySelector('[role=menu]')).toBeNull();
   });
 
-  it('refuses a cycle: a chapter cannot be moved into itself or its own descendants', async () => {
+  it('a chapter keeps its level: a main chapter has no targets, a section only other main chapters', async () => {
     await openMenu('h21');
-    const targets = await moveTargets();
-    expect(targets.map((b) => b.dataset.moveTarget)).toEqual(['h22', 'h23']); // geen h21, geen 21.10
+    const moveTo = menuButtons().find((b) => b.textContent?.includes(i18next.t('contextMenu.moveTo', { ns: 'grid' })))!;
+    expect(moveTo.disabled).toBe(true); // hoofdstuk blijft hoofdstuk
+    await act(async () => { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); });
+    await openMenu('p2110');
+    // Geen h21 (huidige ouder), geen h22 (heeft posten), geen 21.10 zelf.
+    expect((await moveTargets()).map((b) => b.dataset.moveTarget)).toEqual(['h23']);
+  });
+
+  it('refuses a cycle: a chapter cannot be moved into its own descendants', async () => {
     const before = state().items;
     // Ook rechtstreeks via de store blijft het geweigerd.
     state().moveItems(['h21'], 'p2110', 'inside');
     expect(state().items).toEqual(before);
+  });
+
+  it('Alt+arrow does not slide a chapter past an estimate item', async () => {
+    // Oude, gemengde begroting: in hoofdstuk 22 staat een paragraaf direct na een post.
+    await act(async () => useAppStore.setState({ items: [...items(), mkItem({ id: 'p2210', rowType: 'chapter', parentId: 'h22', depth: 1, code: '22.10', description: 'Gevels', sortOrder: 1 })] }));
+    await act(async () => byId('p2210').click());
+    const before = state().items;
+    await keyDown('ArrowUp', true);
+    expect(state().items).toBe(before);
+    expect(state().undoStack).toHaveLength(0);
   });
 
   it('a move is one undo step', async () => {
