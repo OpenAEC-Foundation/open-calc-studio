@@ -1,5 +1,20 @@
 # Open Calc Studio — aankomende release
 
+## Nog zonder versienummer: SuperCloud-tools op de desktop
+
+- `npm run build:platform` levert `mcp-tools.json` naast de bundel: de
+  definities van de negen `calc_*`-tools van `window.__OPDS_APP__`, gelijk aan
+  `siteAppTools.json`, zodat de host ze zonder draaiende app kan controleren.
+- De desktop-MCP-server biedt dezelfde `calc_*`-tools onder dezelfde namen aan,
+  naast de `app_*`-tools en de oudere tools zonder voorvoegsel. Ze lopen via
+  het app-commando `calc.tool` door dezelfde code als in de browser; export,
+  herstel en tweede scherm worden op de desktop niet geweigerd.
+- De knop **Tweede scherm** is verborgen in de gehoste (`openaecHost`),
+  ingebouwde en sandboxed weergave, waar een popup niet dezelfde opslag bereikt.
+- Het herstelscript voor het opstarten staat niet meer inline in `index.html`
+  maar in `startup-recovery.js` naast de bundel, zodat een gehoste pagina met een
+  strikte CSP zonder `unsafe-inline` (de SuperCloud-werkplek) zonder CSP-fout start.
+
 ## 2026.45.1: nieuw logo en compacte schermindeling
 
 - Het goedgekeurde amber euroteken op antraciet met afgeronde transparante

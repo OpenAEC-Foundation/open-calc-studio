@@ -32,7 +32,12 @@ it('loads public assets beneath a configured Frappe subpath', () => {
   vi.stubEnv('BASE_URL', '/assets/tools/calc/');
   expect(publicAsset('/data/voorbeeld.ifcCalc')).toBe('/assets/tools/calc/data/voorbeeld.ifcCalc');
 });
-const bootstrap = /<script>([\s\S]*?)<\/script>/.exec(readFileSync('index.html', 'utf8'))![1];
+const bootstrap = readFileSync('public/startup-recovery.js', 'utf8');
+it('loads startup recovery as a file, so a strict CSP without inline scripts allows it', () => {
+  const html = readFileSync('index.html', 'utf8');
+  expect(html).toContain('<script src="./startup-recovery.js"></script>');
+  expect(html.replace(/<script id="openaec-analytics-loader">[\s\S]*?<\/script>/, '')).not.toMatch(/<script>/);
+});
 it('skips startup recovery when an opaque frame denies sessionStorage', () => {
   const timer = vi.fn();
   const frame = { get sessionStorage() { throw new DOMException('Blocked', 'SecurityError'); } };

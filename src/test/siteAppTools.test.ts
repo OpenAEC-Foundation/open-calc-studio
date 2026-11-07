@@ -1,7 +1,10 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useAppStore } from '@/state/appStore';
 import { createSiteAppTools, installSiteAppTools } from '@/services/mcp/siteAppTools';
 import { createDefaultItems } from '@/data/defaultBudget';
+import { executeDesktopCommand } from '@/services/mcp/desktopCommand';
+import { zodFromSchema, calcToolNames, registerCalcTools } from '../../mcp-server/src/calcTools';
+import definitions from '@/services/mcp/siteAppTools.json';
 
 const initial = useAppStore.getState();
 const app = createSiteAppTools();
@@ -122,6 +125,84 @@ describe('opaque host frame', () => {
     const origin = Object.getOwnPropertyDescriptor(window, 'origin');
     Object.defineProperty(window, 'origin', { configurable: true, value: 'null' });
     try { expect(recoveryAvailable()).toBe(false); }
+    finally { if (origin) Object.defineProperty(window, 'origin', origin); else delete (window as { origin?: string }).origin; }
+  });
+});
+
+describe('the same tools on the desktop (calc.tool)', () => {
+  it('runs a calc_* tool through the desktop command boundary', async () => {
+    expect(await executeDesktopCommand('calc.tool', { name: 'calc_get_budget_summary' })).toEqual({ documents: [], activeDocumentId: null });
+    const made = await executeDesktopCommand('calc.tool', { name: 'calc_new_budget', args: { fileName: 'Desktop' } }) as { fileName: string };
+    expect(made.fileName).toBe('Desktop');
+    await expect(executeDesktopCommand('calc.tool', {})).rejects.toThrow('name is required');
+    await expect(executeDesktopCommand('calc.tool', { name: 'calc_get_items', args: [] })).rejects.toThrow('args must be an object');
+    await expect(executeDesktopCommand('calc.tool', { name: 'calc_nope' })).rejects.toThrow('onbekende_tool');
+    await expect(executeDesktopCommand('calc.tool', { name: 'calc_get_items', args: { onbekend: 1 } })).rejects.toThrow('unknown field');
+  });
+  it('does not refuse desktop actions there, and never calls itself', async () => {
+    const desktop = createSiteAppTools({ desktop: true });
+    expect(await desktop.run('calc_list_actions', { action: 'export.pdf' })).toHaveProperty('action', 'export.pdf');
+    const groups = await desktop.run('calc_list_actions') as { groups: Record<string, number> };
+    expect(groups.groups.Accounts).toBeGreaterThan(0);
+    for (const tools of [app, desktop]) {
+      await expect(tools.run('calc_action', { action: 'calc.tool', params: { name: 'calc_undo' } })).rejects.toThrow('not an action');
+    }
+  });
+});
+
+describe('desktop MCP server', () => {
+  afterEach(() => { vi.unstubAllGlobals(); });
+  it('offers every calc_* tool with the parameters of mcp-tools.json', async () => {
+    expect(calcToolNames).toEqual(definitions.tools.map(tool => tool.name));
+    for (const tool of definitions.tools) zodFromSchema(tool.inputSchema as never);
+    const preview = zodFromSchema(definitions.tools.find(tool => tool.name === 'calc_preview')!.inputSchema as never);
+    expect(preview.safeParse({}).success).toBe(false);
+    const items = zodFromSchema(definitions.tools.find(tool => tool.name === 'calc_get_items')!.inputSchema as never);
+    expect(items.safeParse({ search: 'beton', limit: 5 }).success).toBe(true);
+    expect(items.safeParse({ onbekend: 1 }).success).toBe(false);
+  });
+  it('keeps null and single-member schemas exact', () => {
+    const value = zodFromSchema({ anyOf: [{ type: 'string' }, { type: 'number' }, { type: 'null' }] } as never);
+    expect(value.safeParse(null).success).toBe(true);
+    expect(value.safeParse({ nested: true }).success).toBe(false);
+    expect(zodFromSchema({ anyOf: [{ type: 'boolean' }] } as never).safeParse('x').success).toBe(false);
+    expect(zodFromSchema({ enum: [1, 'a'] } as never).safeParse('a').success).toBe(true);
+  });
+  it('registers every tool and sends a call to the desktop as calc.tool', async () => {
+    const registered: { name: string; description: string; shape: object; run: (args: object) => Promise<{ content: { text: string }[]; isError?: boolean }> }[] = [];
+    const server = { tool: (name: string, description: string, shape: object, run: never) => { registered.push({ name, description, shape, run }); } };
+    registerCalcTools(server as never);
+    expect(registered.map(tool => tool.name)).toEqual(calcToolNames);
+    expect(registered.find(tool => tool.name === 'calc_undo')!.shape).toEqual({});
+    expect(Object.keys(registered.find(tool => tool.name === 'calc_get_items')!.shape)).toEqual(['parentId', 'rowType', 'search', 'limit', 'offset']);
+    const calls: { url: string; body: unknown }[] = [];
+    vi.stubGlobal('fetch', async (url: URL, init: RequestInit) => {
+      calls.push({ url: String(url), body: JSON.parse(String(init.body)) });
+      return { ok: true, json: async () => ({ success: true, result: { total: 0 } }) };
+    });
+    const answer = await registered.find(tool => tool.name === 'calc_get_items')!.run({ search: 'beton' });
+    expect(JSON.parse(answer.content[0].text)).toEqual({ total: 0 });
+    expect(calls).toEqual([{ url: 'http://127.0.0.1:9742/api/v1/command', body: { action: 'calc.tool', params: { name: 'calc_get_items', args: { search: 'beton' } } } }]);
+    vi.stubGlobal('fetch', async () => ({ ok: true, json: async () => ({ success: false, error: 'onbekende_tool' }) }));
+    const refused = await registered[0].run({});
+    expect(refused.isError).toBe(true);
+    expect(refused.content[0].text).toBe('onbekende_tool');
+  });
+});
+
+describe('second screen in a hosted frame', () => {
+  it('is only offered when a popup can reach the same storage', async () => {
+    const { secondScreenAvailable, openCompanionWindow } = await import('@/services/workspaces/companion');
+    expect(secondScreenAvailable()).toBe(true);
+    const host = { open: async () => { throw Error('x'); }, save: async () => { throw Error('x'); }, list: async () => [], versions: async () => [] };
+    (window as { openaecHost?: unknown }).openaecHost = host;
+    try {
+      expect(secondScreenAvailable()).toBe(false);
+      await expect(openCompanionWindow()).rejects.toThrow();
+    } finally { delete (window as { openaecHost?: unknown }).openaecHost; }
+    const origin = Object.getOwnPropertyDescriptor(window, 'origin');
+    Object.defineProperty(window, 'origin', { configurable: true, value: 'null' });
+    try { expect(secondScreenAvailable()).toBe(false); }
     finally { if (origin) Object.defineProperty(window, 'origin', origin); else delete (window as { origin?: string }).origin; }
   });
 });

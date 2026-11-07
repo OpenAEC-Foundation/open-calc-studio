@@ -1,12 +1,15 @@
 import { APP_VERSION } from './version.js';
 import { createHttpMcp } from './httpTransport';
 import { registerAppTools } from './appTools';
+import { registerCalcTools } from './calcTools';
 // De shebang + createRequire-shim worden door build.mjs (esbuild-banner) aan de bundle toegevoegd.
 /**
  * Open Calc Studio MCP Server
  *
  * Budget CRUD, PDF/IFC/IfcX export, recalculation via Model Context Protocol.
  * Keeps one budget in memory; load with open_budget, modify, then save_budget.
+ *
+ * Also the calc_* tools of the SuperCloud assistant (calcTools.ts), run in the desktop app.
  *
  * Tools: open_budget, get_budget_summary, get_items, add_item, add_chapter,
  *        update_item, remove_item, save_budget, export_pdf, export_ifc,
@@ -1045,6 +1048,7 @@ const server = new McpServer({
 });
 
 registerAppTools(server, loadProjectFile);
+registerCalcTools(server);
 
 // â”€â”€ Resources â”€â”€
 

@@ -11,6 +11,19 @@ The existing unprefixed tools operate on a separate in-memory file project;
 use `app_*` consistently when working on the live desktop document.
 Unsupported vendor formats and GAEB export remain unsupported.
 
+The server also offers the nine `calc_*` tools of the SuperCloud assistant
+(`window.__OPDS_APP__` in the hosted build) under the same names:
+`calc_get_budget_summary`, `calc_get_items`, `calc_new_budget`,
+`calc_create_budget_structure`, `calc_preview`, `calc_apply`, `calc_undo`,
+`calc_list_actions` and `calc_action`. Their definitions come from
+`src/services/mcp/siteAppTools.json`, the file the platform build ships as
+`mcp-tools.json`; `src/calcTools.ts` registers them and forwards each call as
+the app command `calc.tool` with `{ name, args }` to the running desktop app,
+where the same code runs as in the browser. On the desktop the export,
+recovery and second-screen actions are not refused. A prompt or skill written
+for the site therefore works unchanged against the desktop. The older tool
+names keep working. See [the desktop MCP guide](../docs/mcp-desktop.md#de-calc_-tools-van-de-supercloud-assistent).
+
 ## Setup
 
 ```bash

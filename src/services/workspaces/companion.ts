@@ -2,14 +2,23 @@ import { useAppStore } from '@/state/appStore';
 import type { CostItem, CostSchedule, SubSheet } from '@/types/costModel';
 import { uiText } from '@/i18n/uiText';
 import { isEmbedded } from '@/lib/hostRoot';
+import { getSiteHost } from '@/services/file/siteHost';
 
 export interface CompanionSnapshot { documentId: string; name: string; items: CostItem[]; schedule: CostSchedule; subSheets: SubSheet[]; activeItemId: string | null; locale: string; theme: string }
 export const companionChannelName = (id: string) => `ocs-companion-${id}`;
 let current: { focus: () => Promise<void>; dispose: () => void } | undefined;
 
+/**
+ * A second screen needs its own window. Embedded in a page, hosted by the site (SuperCloud werkplek) or in a sandboxed
+ * frame without an origin, popups are not allowed or the window would not reach the same storage: the button is hidden.
+ */
+export function secondScreenAvailable(): boolean {
+  return !isEmbedded() && !getSiteHost() && (typeof window === 'undefined' || window.origin !== 'null');
+}
+
 /** A view-only second screen. The parent never accepts document mutations. */
 export async function openCompanionWindow(): Promise<void> {
-  if (isEmbedded()) throw Error(uiText('companion.standalone', 'Open the standalone app to use a second screen.'));
+  if (!secondScreenAvailable()) throw Error(uiText('companion.standalone', 'Open the standalone app to use a second screen.'));
   if (current) { try { await current.focus(); return; } catch { current.dispose(); } }
   if (typeof BroadcastChannel === 'undefined') throw Error(uiText('companion.unsupported', 'This environment cannot synchronize a second screen.'));
   const id = crypto.randomUUID(), channel = new BroadcastChannel(companionChannelName(id));

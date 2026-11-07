@@ -8,8 +8,9 @@ npm run build:platform -- --base /assets/open_aec/open-calc-studio/ --outDir dis
 node scripts/check-platform-build.mjs dist-platform /assets/open_aec/open-calc-studio/
 ```
 
-Publiceer de hele map, inclusief `.vite/manifest.json`, fonts, WASM, notices en
-`build-info.json`. De platformbuild schakelt eigen accounts, cloudlogin,
+Publiceer de hele map, inclusief `.vite/manifest.json`, fonts, WASM, notices,
+`build-info.json` en `mcp-tools.json` (de tooldefinities van de assistent, zie
+[hieronder](#de-assistent-van-de-site)). De platformbuild schakelt eigen accounts, cloudlogin,
 gebruikersextensies, externe feedback en eigen AI-sleutels uit. De
 calculatiemotor en ingebouwde import/exportmodules blijven beschikbaar.
 Release notes en voorbeelden zijn gebundeld. Er is geen CDN nodig.
@@ -107,7 +108,22 @@ De MCP-laag laadt als aparte chunk bij de eerste aanroep. Wat een bestandssystee
 of een popup nodig heeft (`file.export`, `export.*`, `recovery.*`, het tweede
 scherm) geeft `niet_in_browser`; openen en opslaan lopen via het hostcontract,
 door de gebruiker. `src/services/mcp/siteAppTools.json` is de bron waar een host
-zijn tooldefinities van afleidt.
+zijn tooldefinities van afleidt. `npm run build:platform` schrijft hetzelfde
+bestand als `mcp-tools.json` naast de bundel (`build/siteToolsManifest.ts`), zodat
+de host de negen `calc_*`-tools kan controleren zonder de app te starten; de
+inhoud is gelijk aan `definitions()`.
+
+Dezelfde negen tools biedt de desktop-MCP-server onder dezelfde namen aan
+(`mcp-server/src/calcTools.ts`). Ze lopen daar via het app-commando `calc.tool`
+`{ name, args }` door dezelfde code, in de draaiende desktopapp; export,
+herstel en het tweede scherm worden op de desktop niet geweigerd. Een prompt
+of skill die voor de site is geschreven werkt daardoor ook op de desktop. Zie
+[Desktopfuncties via één MCP-server](mcp-desktop.md#de-calc_-tools-van-de-supercloud-assistent).
+
+De knop **Tweede scherm** is verborgen wanneer de app door de site wordt
+gehost (`openaecHost`), ingebouwd is of in een sandboxed frame met origin
+`null` draait: een popup is daar niet toegestaan of bereikt niet dezelfde
+opslag. `workspace.openSecondScreen` geeft in die gevallen een fout.
 
 Het ondersteunde sandboxattribuut is:
 

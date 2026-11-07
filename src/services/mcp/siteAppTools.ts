@@ -31,6 +31,13 @@ const SIGNATURES_PER_ANSWER = 25;
 
 /** Workspace actions that need a file system, a popup or browser storage the frame does not have. */
 const DESKTOP_ONLY = /^(file\.export$|export\.|recovery\.|workspace\.openSecondScreen$)/;
+/** The desktop command that runs these tools; through calc_action it would only call itself. */
+export const CALC_TOOL_COMMAND = 'calc.tool';
+
+/** Whether an action is refused here: in the browser what needs the desktop, on the desktop nothing but the tools themselves. */
+type Refuse = (action: string, group?: string) => boolean;
+const refuseInBrowser: Refuse = (action, group) => group === 'Accounts' || DESKTOP_ONLY.test(action);
+const refuseOnDesktop: Refuse = () => false;
 
 type Args = Record<string, unknown>;
 
@@ -149,20 +156,20 @@ async function preview(args: Args) {
   return { ...summary, applied: true };
 }
 
-async function listActions(args: Args) {
+async function listActions(args: Args, refuse: Refuse) {
   const [{ default: catalogue }, { workspaceActions }] = await Promise.all([import('./desktopActions.json'), import('./workspaceActionCatalogue')]);
   const actions = catalogue.actions as unknown as Record<string, { group: string; signature: string }>;
-  const hidden = (action: string, group?: string) => group === 'Accounts' || DESKTOP_ONLY.test(action);
+
   if (typeof args.action === 'string') {
     const known = Object.prototype.hasOwnProperty.call(actions, args.action);
-    if (hidden(args.action, known ? actions[args.action].group : undefined)) throw notInBrowser(args.action);
+    if (refuse(args.action, known ? actions[args.action].group : undefined)) throw notInBrowser(args.action);
     const found = known ? actions[args.action] : (workspaceActions as Record<string, unknown>)[args.action];
     if (!found) throw new Error(`Unknown action: ${args.action}`);
     return { action: args.action, ...found as object };
   }
   const all = [
-    ...Object.entries(actions).filter(([name, value]) => !hidden(name, value.group)).map(([name, value]) => ({ name, group: value.group, signature: value.signature })),
-    ...Object.entries(workspaceActions).filter(([name]) => !hidden(name)).map(([name, value]) => ({ name, group: name.split('.')[0], signature: value.description })),
+    ...Object.entries(actions).filter(([name, value]) => !refuse(name, value.group)).map(([name, value]) => ({ name, group: value.group, signature: value.signature })),
+    ...Object.entries(workspaceActions).filter(([name]) => !refuse(name)).map(([name, value]) => ({ name, group: name.split('.')[0], signature: value.description })),
   ];
   const group = typeof args.group === 'string' ? args.group.toLowerCase() : '';
   const words = typeof args.search === 'string' ? args.search.toLowerCase().split(/\s+/).filter(Boolean) : [];
@@ -176,12 +183,13 @@ async function listActions(args: Args) {
   return { total: matches.length, actions: matches.slice(0, SIGNATURES_PER_ANSWER) };
 }
 
-async function runAction(args: Args) {
+async function runAction(args: Args, refuse: Refuse) {
   const action = args.action as string;
   const { default: catalogue } = await import('./desktopActions.json');
   const entry = (catalogue.actions as unknown as Record<string, { group?: string }>);
   const group = Object.prototype.hasOwnProperty.call(entry, action) ? entry[action].group : undefined;
-  if (group === 'Accounts' || DESKTOP_ONLY.test(action)) throw notInBrowser(action);
+  if (action === CALC_TOOL_COMMAND) throw new Error(`${action} is not an action; call the calc_* tool directly.`);
+  if (refuse(action, group)) throw notInBrowser(action);
   const { executeDesktopCommand } = await import('./desktopCommand');
   return executeDesktopCommand(action, (args.params ?? {}) as Args);
 }
@@ -193,7 +201,12 @@ function bounded(name: string, result: unknown): unknown {
   return result;
 }
 
-export function createSiteAppTools(): SiteAppTools {
+/**
+ * The tools as one object. In the browser (default) actions that need the desktop are refused; with `desktop: true`
+ * the desktop MCP server runs the same tools through the command `calc.tool`, where those actions do work.
+ */
+export function createSiteAppTools(options: { desktop?: boolean } = {}): SiteAppTools {
+  const refuse = options.desktop ? refuseOnDesktop : refuseInBrowser;
   const handlers: Record<string, (args: Args) => Promise<unknown>> = {
     calc_get_budget_summary: budgetSummary,
     calc_get_items: getItems,
@@ -202,8 +215,8 @@ export function createSiteAppTools(): SiteAppTools {
     calc_preview: preview,
     calc_apply: async args => (await import('./desktopCommand')).executeDesktopCommand('assistant.apply', { proposalId: args.proposalId }),
     calc_undo: async () => (await import('./desktopCommand')).executeDesktopCommand('undo', {}),
-    calc_list_actions: listActions,
-    calc_action: runAction,
+    calc_list_actions: args => listActions(args, refuse),
+    calc_action: args => runAction(args, refuse),
   };
   return {
     async tools() { return definitions.tools.map(def => def.name); },
