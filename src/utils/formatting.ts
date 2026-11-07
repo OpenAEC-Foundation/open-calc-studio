@@ -24,10 +24,10 @@ export function parseNlNumber(input: string): number | null {
     if (dots > 1) {
       cleaned = cleaned.replace(/\./g, ''); // 1.234.567
     } else if (dots === 1) {
-      // Eén punt zonder komma: alleen duizendtal bij exact 3 cijfers erna
-      // ("1.234" → 1234); anders decimaal ("60.5" → 60,5 — niet 605).
-      const frac = cleaned.slice(cleaned.indexOf('.') + 1);
-      if (/^\d{3}$/.test(frac)) cleaned = cleaned.replace('.', '');
+      // Eén punt zonder komma: alleen duizendtal bij 1 tot 3 cijfers ervoor
+      // (niet 0) en exact 3 erna ("1.234" → 1234); anders decimaal
+      // ("60.5" → 60,5, "0.500" → 0,5, "1234.567" → 1234,567).
+      if (/^-?[1-9]\d{0,2}\.\d{3}$/.test(cleaned)) cleaned = cleaned.replace('.', '');
     }
   }
   const num = parseFloat(cleaned);

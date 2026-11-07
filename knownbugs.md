@@ -25,31 +25,6 @@ stand van `main` op die datum.
 
 ## Rekenen en totalen
 
-1. **Een leeg hoofdstuk houdt zijn oude totaal.** `src/services/calculation/calculator.ts:149-151`: `rollup`
-   stopt vroeg als een hoofdstuk geen kinderen heeft, dus `total` wordt nooit teruggezet. Na het verwijderen
-   van het laatste kind (`deleteItem`, `costItemsSlice.ts:321`) of het wegschuiven ervan toont het hoofdstuk
-   nog het oude bedrag, en dat telt nog mee in kostprijs en aanneemsom. Voorstel: `total = 0` /
-   `unitPrice = 0` zetten voor een hoofdstuk zonder kinderen. — B
-
-2. **Het lage btw-tarief mist een post waarvan de eigen prijs telt omdat het enige kind een tekstregel is.**
-   `src/services/calculation/calculator.ts:436-443` (`computeBtwLaagDirect`). `rollup` neemt de eigen prijs
-   van de post als de kinderen samen 0 zijn (bijvoorbeeld één tekstregel); de wandeling voor het lage tarief
-   gaat juist door naar de bladeren en vindt 0. Nagespeeld: twee posten van 1000, beide `btwTarief: 'laag'`,
-   één met een tekstregel als kind. De grondslag laag komt uit op 1000 in plaats van 2000. Voorstel: in `walk`
-   een knoop waarvan de kinderen samen 0 zijn als blad behandelen, zoals `computeKostprijsBreakdown` doet. — B
-
-3. **Het totaal "excl. btw" dat bij een versie wordt bewaard, is alleen de directe kosten.**
-   `src/state/slices/versionSlice.ts:98-99` telt alleen de hoofdstukken op diepte 0 op. Nagespeeld: voor
-   `sample-en.ifcCalc` bewaart het 28109 in plaats van ongeveer 33522.60. De waarde staat in het bestand en
-   komt terug via MCP. Voorstel: `getStaartBreakdown(items).aanneemsomExcl`. — B
-
-4. **Staartregels bewaren een eenheidsprijs die niet bij hun totaal past.**
-   `src/services/calculation/calculator.ts:211-307`: pass 3 gebruikt een andere basis dan
-   `computeStaartItemBreakdowns`. Nagespeeld: Garanties 2% × €100 = €200, maar het totaal is €212. BTW laag
-   heeft eenheidsprijs €1.074,15, maar totaal €0. Dat is te zien in PropertiesPanel en in de IFCX-export
-   (`ifcxJsonGenerator.ts:192`). Voorstel: `unitPrice: bd.bedrag / 100` zetten in
-   `computeStaartItemBreakdowns`. — B
-
 5. **Eenheid naar 'uur' op een UI-1-arbeidsregel maakt het totaal meer dan drie keer zo groot.**
    `src/state/slices/costItemsSlice.ts:357-360` + `calculator.ts:106`. Achtergrond: elke update rekent voor
    elke regel met een tariefgroep `laborPrice = normQuantity × tarief` opnieuw uit (`calculator.ts:74-81`).
@@ -107,16 +82,6 @@ stand van `main` op die datum.
     dan ongeveer 1000× verkleind. Onder de 1000 geeft de weergave met 2 decimalen drift: 12,345 staat als
     `12,35`, en focus plus blur schaalt de normen opnieuw. Voorstel: parsen met `parseNumericInput` /
     `parseNlNumber` en vergelijken met de waarde zoals getoond (afgerond op 2 decimalen). — B
-
-16. **Een ongeldige formule zonder `=` wordt stil haar eerste getal.** `src/utils/numericInput.ts:37`: als de
-    evaluatie faalt, valt de code terug op `parseNlNumber`, dat `parseFloat` gebruikt. Nagespeeld: `10/0` geeft
-    10, `12*` geeft 12, `3*(4` geeft 3 en `5-` geeft 5; allemaal had null moeten zijn (`=2/0` geeft al null).
-    Zie ook #18. Voorstel: als de tekst op een formule lijkt en de evaluatie faalt, null teruggeven. — B
-
-17. **`parseNlNumber("0.500")` geeft 500.** `src/utils/formatting.ts:29-30`: de regel "3 cijfers na de punt
-    betekent duizendtallen" geldt ook na een voorloop-0. `0.500` geeft 500 en `-0.250` geeft -250, dus een
-    hoeveelheid die zo wordt ingetypt wordt 1000× te groot. Nagespeeld. Voorstel: de duizendtallenregel alleen
-    toepassen als het gehele deel niet 0 is, dus bij `^-?[1-9]\d{0,2}\.\d{3}$`. — B
 
 18. **`parseNlNumber` is te soepel** (minder zeker). Nagespeeld: `1,234,567` geeft 1,234 en `12abc` geeft 12;
     beide zouden geweigerd moeten worden. Zelfde oorzaak als #16. Voorstel: een strikt patroon gebruiken

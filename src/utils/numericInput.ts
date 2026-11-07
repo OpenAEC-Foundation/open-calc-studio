@@ -19,11 +19,9 @@ export function parseNumericInput(input: string): number | null {
   const looksLikeExpr = isFormula || /[*/()]/.test(body) || /\d\s*[+-]/.test(body);
   if (!looksLikeExpr) return parseNlNumber(body);
 
-  const result = evaluateExpression(body);
-  if (result !== null) return result;
-  // Geen geldige formule: expliciete '='-invoer is dan ongeldig,
-  // anders alsnog als gewoon getal proberen.
-  return isFormula ? null : parseNlNumber(body);
+  // Iets dat op een formule lijkt maar niet klopt ("12*", "3*(4", "10/0") is
+  // ongeldig; voorheen werd het stil het eerste getal (12, 3, 10).
+  return evaluateExpression(body);
 }
 
 // Herschrijft alle getal-tokens in een expressie naar punt-notatie

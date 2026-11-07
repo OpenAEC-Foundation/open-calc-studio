@@ -66,6 +66,20 @@ describe('parseNumericInput formules', () => {
     expect(parseNumericInput('=')).toBeNull();
   });
 
+  it('een kapotte formule zonder = wordt niet stil het eerste getal (knownbugs 16)', () => {
+    expect(parseNumericInput('10/0')).toBeNull();
+    expect(parseNumericInput('12*')).toBeNull();
+    expect(parseNumericInput('3*(4')).toBeNull();
+    expect(parseNumericInput('5-')).toBeNull();
+  });
+
+  it('een voorloop-0 met drie decimalen is geen duizendtal (knownbugs 17)', () => {
+    expect(parseNlNumber('0.500')).toBe(0.5);
+    expect(parseNlNumber('-0.250')).toBe(-0.25);
+    expect(parseNlNumber('1234.567')).toBe(1234.567);
+    expect(parseNlNumber('999.000')).toBe(999000);
+  });
+
   it('unaire min en haakjes', () => {
     expect(parseNumericInput('=-5+3')).toBe(-2);
     expect(parseNumericInput('=2*-3')).toBe(-6);

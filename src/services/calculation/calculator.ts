@@ -148,7 +148,12 @@ export function recalculateItems(items: CostItem[], tarieven?: Record<string, nu
   // eenheidsprijs, omdat alleen de kind-tak die afleiding kende.
   function rollup(item: CostItem): void {
     const children = childrenMap.get(item.id) ?? [];
-    if (children.length === 0) return;
+    if (children.length === 0) {
+      // Een hoofdstuk zonder kinderen (laatste kind verwijderd of verplaatst)
+      // hield anders zijn oude totaal, en dat telde door in de staart.
+      if (item.rowType === 'chapter') { item.total = 0; item.unitPrice = 0; }
+      return;
+    }
     const childSum = calcTotal(item.id);
     const own = (item.rowType !== 'chapter' && childSum === 0) ? ownTotal(item) : 0;
     if (own !== 0) {
@@ -436,7 +441,10 @@ export function computeBtwLaagDirect(items: CostItem[]): number {
   const walk = (node: CostItem, inherited: 'hoog' | 'laag'): number => {
     const eff = node.btwTarief ?? inherited;
     const kids = childrenOf.get(node.id);
-    if (!kids || kids.length === 0) {
+    // Een post waarvan de kinderen samen niets opleveren (bv. alleen een
+    // tekstregel) telt in rollup met zijn eigen prijs; hier dus ook als blad.
+    const ownCounts = node.rowType !== 'chapter' && !!kids && kids.reduce((s, k) => s + k.total, 0) === 0;
+    if (!kids || kids.length === 0 || ownCounts) {
       return eff === 'laag' ? node.total : 0;
     }
     return kids.reduce((s, k) => s + walk(k, eff), 0);
@@ -480,7 +488,7 @@ export function computeStaartItemBreakdowns(items: CostItem[]): CostItem[] {
     switch (item.rowType) {
       case 'staart_ak_oa': {
         const v = running.onderaanneming * pct;
-        bd = { ...bd, onderaanneming: v, subtotaal: v };
+        bd = { ...bd, onderaanneming: v, bedrag: running.onderaanneming, subtotaal: v };
         running.onderaanneming += v;
         cumulative += v;
         bd.totaal = cumulative;
@@ -609,7 +617,10 @@ export function computeStaartItemBreakdowns(items: CostItem[]): CostItem[] {
   return items.map((item) => {
     const bd = bdOf.get(item.id);
     if (!bd) return item;
-    return { ...item, staartItemBreakdown: bd, total: bd.subtotaal };
+    // Eenheidsprijs hoort bij dezelfde grondslag als het totaal (percentage ×
+    // grondslag / 100); de derde pas rekende met een andere basis.
+    const unitPrice = item.rowType === 'staart_afronding' ? 0 : bd.bedrag / 100;
+    return { ...item, staartItemBreakdown: bd, total: bd.subtotaal, unitPrice };
   });
 }
 

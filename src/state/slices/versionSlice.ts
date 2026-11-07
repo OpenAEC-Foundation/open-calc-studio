@@ -1,6 +1,7 @@
 import { uiText } from '../../i18n/uiText';
 import type { StateCreator } from 'zustand';
 import type { ProjectSnapshot, SnapshotDiff, CostItem } from '@/types/costModel';
+import { getStaartBreakdown } from '@/services/calculation/calculator';
 
 function genId(): string {
   return `snap_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
@@ -94,9 +95,9 @@ export const createVersionSlice: StateCreator<VersionSlice> = (set, get) => ({
     const now = new Date();
     const defaultLabel = label || uiText('versions.version', "Version {{p0}}", { p0: fmtDate(now) });
 
-    // Calculate total
-    const topChapters = state.items.filter((i: CostItem) => i.rowType === 'chapter' && i.depth === 0);
-    const totaalExclBtw = topChapters.reduce((sum: number, i: CostItem) => sum + i.total, 0);
+    // Aanneemsom excl. btw, dus inclusief de staart (opslagen, risico, winst,
+    // afronding); voorheen alleen de som van de hoofdstukken (directe kosten).
+    const totaalExclBtw = getStaartBreakdown(state.items as CostItem[]).aanneemsomExcl;
 
     const snapshot: ProjectSnapshot = {
       id: genId(),
