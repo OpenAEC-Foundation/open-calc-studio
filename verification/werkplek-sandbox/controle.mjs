@@ -69,7 +69,8 @@ async function startBrowser() {
     try { const b = await chromium.launch(p); noteer(`Browser: ${b.version()} (${p.channel ?? p.executablePath ?? 'playwright-chromium'})`); return b; }
     catch (e) { laatste = e; }
   }
-  throw laatste;
+  throw new Error('Geen browser gevonden. Installeer Chrome of Edge, of draai `npx playwright install chromium`.'
+    + `\nLaatste fout: ${laatste?.message ?? laatste}`);
 }
 
 // In elk frame CSP-overtredingen vastleggen, los van de console.
@@ -80,12 +81,21 @@ const VANGER = `
   });
 `;
 
-const werkplek = await startWerkplek({ bundel: DIST, poortApp: Number(process.env.WERKPLEK_POORT_APP || 3671), poortGast: Number(process.env.WERKPLEK_POORT_GAST || 3672) });
-noteer(`Bundel ${werkplek.bundelUrl} (${DIST}), gastpagina ${werkplek.gastAdres()}`);
-noteer(`CSP op elk bestand van de bundel:\n  ${werkplek.csp}`);
-const browser = await startBrowser();
+const POORT_APP = Number(process.env.WERKPLEK_POORT_APP || 3671);
+const POORT_GAST = Number(process.env.WERKPLEK_POORT_GAST || 3672);
+let werkplek = null;
+let browser = null;
 let code = 1;
 try {
+  try {
+    werkplek = await startWerkplek({ bundel: DIST, poortApp: POORT_APP, poortGast: POORT_GAST });
+  } catch (e) {
+    if (e?.code === 'EADDRINUSE') throw new Error(`Poort ${POORT_APP} of ${POORT_GAST} is al in gebruik (draait de werkplek nog?). Stop die, of kies andere poorten met WERKPLEK_POORT_APP en WERKPLEK_POORT_GAST.`);
+    throw e;
+  }
+  noteer(`Bundel ${werkplek.bundelUrl} (${DIST}), gastpagina ${werkplek.gastAdres()}`);
+  noteer(`CSP op elk bestand van de bundel:\n  ${werkplek.csp}`);
+  browser = await startBrowser();
   const ctx = await browser.newContext({ viewport: { width: 1600, height: 950 }, locale: 'nl-NL' });
   await ctx.addInitScript(VANGER);
   const page = await ctx.newPage();
@@ -338,8 +348,9 @@ try {
   noteer('AFGEBROKEN: ' + (e.stack || e.message));
   code = 2;
 } finally {
-  await browser.close().catch(() => {});
-  await werkplek.sluit();
+  // Opruimen mag de uitslag niet overschrijven.
+  await browser?.close().catch(() => {});
+  await werkplek?.sluit().catch((e) => noteer('Werkplek stoppen mislukt: ' + (e?.message ?? e)));
   const geslaagd = resultaten.filter((r) => r.ok).length;
   noteer(`\n${geslaagd}/${resultaten.length} geslaagd${code === 2 ? ' (afgebroken)' : ''}. Schermafdrukken en verslag: ${UIT}`);
   fs.writeFileSync(path.join(UIT, 'verslag.txt'), regels.join('\n') + '\n');

@@ -1,7 +1,7 @@
 # Werkplek-sandbox: de platformbouw in een nagebootste SuperCloud
 
 Lokale controle voor het laatste vinkje van issue #61: de platformbouw start zonder fouten in een
-`sandbox="allow-scripts allow-modals"`-frame, en Openen, Opslaan en de assistent werken met een nep-`window.openaecHost`.
+`sandbox="allow-scripts allow-downloads allow-modals"`-frame (zoals de echte werkplek), en Openen, Opslaan en de assistent werken met een nep-`window.openaecHost`.
 
 ## Zelf bekijken
 
