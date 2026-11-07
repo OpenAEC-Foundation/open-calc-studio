@@ -567,6 +567,10 @@
     "version": "Versjon {{version}}"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "Noen andre har i mellomtiden lagret en nyere versjon av denne filen. Endringene dine ble lagret som en kopi: {{name}}. Heretter lagres det i den kopien.",
+      "versionConflict": "Ikke lagret: noen andre har i mellomtiden lagret en nyere versjon av denne filen. Endringene dine er fortsatt her. Bruk «Lagre som» for å beholde dem i en ny fil."
+    },
     "prompt": {
       "title": "Prompt og kalkyle",
       "help": "Beskriv arbeidet til venstre; kontroller og rediger kalkylen til høyre.",

@@ -487,6 +487,10 @@
     "paste": "Pegar"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "Mientras tanto, otra persona ha guardado una versión más reciente de este archivo. Tus cambios se han guardado como copia: {{name}}. A partir de ahora se guarda en esa copia.",
+      "versionConflict": "No guardado: mientras tanto, otra persona ha guardado una versión más reciente de este archivo. Tus cambios siguen aquí. Usa «Guardar como» para conservarlos en un archivo nuevo."
+    },
     "diagnostics": {
       "genericTabularImporter": {
         "labour": "Mano de obra",

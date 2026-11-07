@@ -567,6 +567,10 @@
     "version": "Version {{version}}"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "En anden har i mellemtiden gemt en nyere version af denne fil. Dine ændringer er gemt som en kopi: {{name}}. Fremover gemmes der i den kopi.",
+      "versionConflict": "Ikke gemt: en anden har i mellemtiden gemt en nyere version af denne fil. Dine ændringer er her stadig. Brug \"Gem som\" for at gemme dem i en ny fil."
+    },
     "prompt": {
       "title": "Prompt & Budget",
       "help": "Beskriv arbejdet til venstre; gennemgå og rediger budgettet til højre.",

@@ -567,6 +567,10 @@
     "version": "Versio {{version}}"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "Joku muu on sillä välin tallentanut tästä tiedostosta uudemman version. Muutoksesi tallennettiin kopioksi: {{name}}. Tallennus tehdään nyt tähän kopioon.",
+      "versionConflict": "Ei tallennettu: joku muu on sillä välin tallentanut tästä tiedostosta uudemman version. Muutoksesi ovat yhä tallessa täällä. Valitse ”Tallenna nimellä” säilyttääksesi ne uudessa tiedostossa."
+    },
     "prompt": {
       "title": "Kehote ja kustannusarvio",
       "help": "Kuvaile työ vasemmalla; tarkista ja muokkaa kustannusarviota oikealla.",

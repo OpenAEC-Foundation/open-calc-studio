@@ -7,9 +7,18 @@ export interface CompanionSnapshot { documentId: string; name: string; items: Co
 export const companionChannelName = (id: string) => `ocs-companion-${id}`;
 let current: { focus: () => Promise<void>; dispose: () => void } | undefined;
 
+/**
+ * A second screen needs its own window that talks to this one over a BroadcastChannel. Embedded in another page, or in
+ * a sandboxed frame without an origin (the SuperCloud werkplek), that cannot work: the sandbox blocks the popup, and a
+ * window of another opaque origin never hears the channel. A site host alone is no reason: on a normal origin it works.
+ */
+export function secondScreenAvailable(): boolean {
+  return !isEmbedded() && (typeof window === 'undefined' || window.origin !== 'null');
+}
+
 /** A view-only second screen. The parent never accepts document mutations. */
 export async function openCompanionWindow(): Promise<void> {
-  if (isEmbedded()) throw Error(uiText('companion.standalone', 'Open the standalone app to use a second screen.'));
+  if (!secondScreenAvailable()) throw Error(uiText('companion.standalone', 'Open the standalone app to use a second screen.'));
   if (current) { try { await current.focus(); return; } catch { current.dispose(); } }
   if (typeof BroadcastChannel === 'undefined') throw Error(uiText('companion.unsupported', 'This environment cannot synchronize a second screen.'));
   const id = crypto.randomUUID(), channel = new BroadcastChannel(companionChannelName(id));

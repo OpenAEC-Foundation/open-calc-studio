@@ -567,6 +567,10 @@
     "version": "Toleo {{version}}"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "Wakati huo huo mtu mwingine amehifadhi toleo jipya zaidi la faili hili. Mabadiliko yako yamehifadhiwa kama nakala: {{name}}. Kuanzia sasa kuhifadhi kunaenda kwenye nakala hiyo.",
+      "versionConflict": "Haijahifadhiwa: wakati huo huo mtu mwingine amehifadhi toleo jipya zaidi la faili hili. Mabadiliko yako bado yapo hapa. Tumia \"Hifadhi kama\" kuyaweka kwenye faili jipya."
+    },
     "prompt": {
       "title": "Agizo na Makadirio",
       "help": "Eleza kazi upande wa kushoto; pitia na uhariri makadirio upande wa kulia.",

@@ -567,6 +567,10 @@
     "version": "Versió {{version}}"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "Mentrestant algú altre ha desat una versió més nova d'aquest fitxer. Els teus canvis s'han desat com a còpia: {{name}}. A partir d'ara es desa en aquesta còpia.",
+      "versionConflict": "No s'ha desat: mentrestant algú altre ha desat una versió més nova d'aquest fitxer. Els teus canvis encara són aquí. Fes servir «Anomena i desa» per conservar-los en un fitxer nou."
+    },
     "prompt": {
       "title": "Instrucció i pressupost",
       "help": "Descriviu els treballs a l'esquerra; reviseu i editeu el pressupost a la dreta.",

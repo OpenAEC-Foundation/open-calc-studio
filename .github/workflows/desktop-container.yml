@@ -99,6 +99,11 @@ jobs:
         with:
           image: ${{ steps.push.outputs.reference }}
           output-file: release-artifacts/docker-evidence/sbom.spdx.json
+          # On a release event the action attaches the SBOM to the GitHub release by default, which needs
+          # contents: write. This job has contents: read, so v2026.45.1 failed here and the attestations never ran.
+          # The SBOM is attested to the image below and kept as an artifact.
+          upload-release-assets: false
+          upload-artifact: false
       - uses: actions/attest-build-provenance@v3
         if: github.event_name == 'release'
         with:
@@ -112,3 +117,9 @@ jobs:
           subject-digest: ${{ steps.push.outputs.digest }}
           sbom-path: release-artifacts/docker-evidence/sbom.spdx.json
           push-to-registry: true
+      - uses: actions/upload-artifact@v4
+        if: github.event_name == 'release'
+        with:
+          name: open-calc-studio-desktop-container-sbom
+          path: release-artifacts/docker-evidence/sbom.spdx.json
+          if-no-files-found: error

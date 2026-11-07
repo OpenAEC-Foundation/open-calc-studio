@@ -33,6 +33,36 @@ Voorbeeld spreadsheet: `addSubSheet` met `name` geeft een `result` met de echte 
 
 De oude tools zoals `open_budget` en `add_item` werken op het afzonderlijke document in het MCP-proces. Gebruik voor de live app consequent de `app_*`-tools. De automatisch geschreven configuratie schakelt de oudere ongecontroleerde achtergrondbrug uit.
 
+## De `calc_*`-tools van de SuperCloud-assistent
+
+De negen tools die de gehoste app als `window.__OPDS_APP__` aan de site aanbiedt
+(zie [SuperCloud](supercloud.md#de-assistent-van-de-site)) staan onder dezelfde
+namen ook in de desktop-MCP-server, naast de `app_*`-tools en de oudere tools
+zonder voorvoegsel. Die blijven ongewijzigd werken.
+
+| Tool | Doet |
+| --- | --- |
+| `calc_get_budget_summary` | Open documenten en, voor de actieve begroting, projectgegevens, hoofdstuktotalen, staart en prijsopbouw |
+| `calc_get_items` | Regels van het actieve document; filters `parentId`, `rowType`, `search`, plus `limit` (standaard 100, maximaal 500) en `offset` |
+| `calc_new_budget` | Nieuwe begroting met de standaardopzet als documenttab; optioneel `fileName` |
+| `calc_create_budget_structure` | Hoofdstukken met posten en regels in één undo-stap (`chapters`) |
+| `calc_preview` | `assistant.preview`: voorstel voorbereiden zonder mutatie; met `apply: true` meteen toepassen als het voorstel geen fouten heeft |
+| `calc_apply` | `assistant.apply`: voorbereid voorstel toepassen (`proposalId`) |
+| `calc_undo` | Laatste wijziging in de actieve begroting ongedaan maken |
+| `calc_list_actions` | `app_list_actions`: groepen, namen met signatuur of de parameters van één actie |
+| `calc_action` | `app_action`: een actie uit `calc_list_actions` uitvoeren met benoemde parameters |
+
+De parameters zijn die van `src/services/mcp/siteAppTools.json`, hetzelfde
+bestand dat de platformbuild als `mcp-tools.json` meelevert. De server stuurt
+elke aanroep als app-commando `calc.tool` met `{ name, args }` naar de
+draaiende desktopapp (`mcp-server/src/calcTools.ts`); daar loopt dezelfde code
+als in de browser. Anders dan in de browser worden `file.export`, `export.*`,
+`recovery.*`, `workspace.openSecondScreen` en de groep `Accounts` op de desktop
+niet geweigerd. `calc.tool` zelf is geen actie uit de catalogus: `calc_action`
+weigert het (anders zou de tool zichzelf aanroepen). Via `app_action` werkt het
+wel, maar roep liever de `calc_*`-tool rechtstreeks aan. Een gesloten app geeft,
+net als bij `app_*`, een fout.
+
 ## Bereik
 
 | Onderdeel | MCP-bediening |

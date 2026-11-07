@@ -567,6 +567,10 @@
     "version": "Verzija {{version}}"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "U međuvremenu je netko drugi spremio noviju verziju ove datoteke. Vaše su promjene spremljene kao kopija: {{name}}. Od sada se sprema u tu kopiju.",
+      "versionConflict": "Nije spremljeno: u međuvremenu je netko drugi spremio noviju verziju ove datoteke. Vaše su promjene i dalje ovdje. Upotrijebite „Spremi kao” da ih sačuvate u novoj datoteci."
+    },
     "prompt": {
       "title": "Upit i troškovnik",
       "help": "Opišite radove s lijeve strane; pregledajte i uredite troškovnik s desne.",

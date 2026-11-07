@@ -567,6 +567,10 @@
     "version": "Version {{version}}"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "Entre-temps, quelqu'un d'autre a enregistré une version plus récente de ce fichier. Vos modifications ont été enregistrées dans une copie : {{name}}. Les enregistrements suivants iront dans cette copie.",
+      "versionConflict": "Non enregistré : entre-temps, quelqu'un d'autre a enregistré une version plus récente de ce fichier. Vos modifications sont toujours là. Utilisez « Enregistrer sous » pour les conserver dans un nouveau fichier."
+    },
     "prompt": {
       "title": "Prompt & Devis",
       "help": "Décrivez les travaux à gauche ; vérifiez et modifiez le devis à droite.",

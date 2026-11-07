@@ -487,6 +487,10 @@
     "paste": "Einfügen"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "Jemand anderes hat inzwischen eine neuere Version dieser Datei gespeichert. Deine Änderungen wurden als Kopie gespeichert: {{name}}. Speichern geht ab jetzt in diese Kopie.",
+      "versionConflict": "Nicht gespeichert: Jemand anderes hat inzwischen eine neuere Version dieser Datei gespeichert. Deine Änderungen sind noch da. Wähle „Speichern unter“, um sie in einer neuen Datei zu behalten."
+    },
     "ribbon": {
       "scrollLeft": "Menüband nach links scrollen",
       "scrollRight": "Menüband nach rechts scrollen"

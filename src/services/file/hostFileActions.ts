@@ -66,12 +66,15 @@ function contentKey(json: string): string {
   return JSON.stringify(project);
 }
 
-/** Keep the dirty flag on conflicts, errors, or edits made while saving. */
-export async function saveHostedFile(documentId: string, asNew = false): Promise<void> {
+/**
+ * Keep the dirty flag on conflicts, errors, or edits made while saving. When the host stored the edits under another
+ * file than the one that was open (a conflict copy), the result says so, so the caller can tell the user its name.
+ */
+export async function saveHostedFile(documentId: string, asNew = false): Promise<{ redirected: boolean; name: string } | undefined> {
   const host = getSiteHost();
   if (!host) throw new Error('The site storage is not available.');
   const doc = useAppStore.getState().documents.find(d => d.id === documentId);
-  if (!doc) return;
+  if (!doc) return undefined;
   if (doc.hostFile?.readOnly && !asNew) throw new Error('This version is read-only. Use Save as to create a copy.');
   const json = snapshot(documentId);
   const file = await host.save(new TextEncoder().encode(json), {
@@ -87,4 +90,5 @@ export async function saveHostedFile(documentId: string, asNew = false): Promise
     });
   }
   remember(file.id, file.name);
+  return { redirected: !asNew && !!doc.hostFile && file.id !== doc.hostFile.id, name: file.name };
 }

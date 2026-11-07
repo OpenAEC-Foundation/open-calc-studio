@@ -567,6 +567,10 @@
     "version": "Sürüm {{version}}"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "Bu arada başka biri bu dosyanın daha yeni bir sürümünü kaydetti. Değişiklikleriniz bir kopya olarak kaydedildi: {{name}}. Bundan sonra kayıt bu kopyaya yapılır.",
+      "versionConflict": "Kaydedilmedi: bu arada başka biri bu dosyanın daha yeni bir sürümünü kaydetti. Değişiklikleriniz hâlâ burada. Bunları yeni bir dosyada tutmak için \"Farklı kaydet\" komutunu kullanın."
+    },
     "prompt": {
       "title": "İstem ve keşif",
       "help": "İşi solda tanımlayın; keşfi sağda inceleyip düzenleyin.",

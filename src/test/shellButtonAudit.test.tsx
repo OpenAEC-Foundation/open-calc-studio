@@ -10,7 +10,7 @@ vi.mock('@/hooks/useFileOperations',()=>({useFileOperations:()=>({saveFile:m.sav
 vi.mock('@tauri-apps/api/window',()=>({getCurrentWindow:()=>({minimize:m.minimize,toggleMaximize:m.maximize,close:m.close,isMaximized:async()=>false,onResized:async()=>()=>{},setTitle:async()=>{}})}));
 vi.mock('@tauri-apps/plugin-os',()=>({platform:()=> 'linux'}));
 vi.mock('@tauri-apps/api/core',()=>({invoke:async()=>{}}));
-vi.mock('@/services/workspaces/companion',()=>({openCompanionWindow:m.second}));
+vi.mock('@/services/workspaces/companion',()=>({openCompanionWindow:m.second,secondScreenAvailable:()=>true}));
 const initial=useAppStore.getState();let node:HTMLDivElement,root:Root;
 const tr=(key:string)=>i18next.t(key);
 const wt=(key:string)=>i18next.t('workspace.'+key);

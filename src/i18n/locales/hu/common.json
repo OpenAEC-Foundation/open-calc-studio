@@ -567,6 +567,10 @@
     "version": "{{version}}. verzió"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "Időközben valaki más mentette a fájl egy újabb verzióját. A módosításai másolatként lettek mentve: {{name}}. Mostantól ebbe a másolatba ment a program.",
+      "versionConflict": "Nincs mentve: időközben valaki más mentette a fájl egy újabb verzióját. A módosításai még itt vannak. Használja a „Mentés másként” parancsot, hogy új fájlba mentse őket."
+    },
     "prompt": {
       "title": "Prompt és költségvetés",
       "help": "Írja le a munkát bal oldalon; ellenőrizze és szerkessze a költségvetést jobb oldalon.",

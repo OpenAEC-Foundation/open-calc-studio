@@ -57,6 +57,13 @@ export async function executeDesktopCommand(action: string, params: Record<strin
     if (action === 'recovery.restore') { const record = (await recovery.listRecovery()).find(r => r.id === params.id); if (!record) throw Error('Unknown recovery id.'); return { documentIds: recovery.restoreRecovery(record) }; }
     throw Error('Unknown recovery action.');
   }
+  if (action === 'calc.tool') {
+    // The calc_* tools of the site, for the desktop MCP server: same code and names as window.__OPDS_APP__.
+    if (typeof params.name !== 'string') throw Error('name is required');
+    if (params.args !== undefined && (!params.args || typeof params.args !== 'object' || Array.isArray(params.args))) throw Error('args must be an object');
+    const { createSiteAppTools } = await import('./siteAppTools');
+    return createSiteAppTools({ desktop: true }).run(params.name, (params.args ?? {}) as Record<string, unknown>);
+  }
   if (action === 'getState') return desktopState();
   if (action === 'listActions') return { ...catalogue, workspaceActions };
   if (action.startsWith('review.')) {

@@ -569,6 +569,10 @@
     "version": "Verzia {{version}}"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "Medzitým niekto iný uložil novšiu verziu tohto súboru. Vaše zmeny boli uložené ako kópia: {{name}}. Odteraz sa ukladá do tejto kópie.",
+      "versionConflict": "Neuložené: medzitým niekto iný uložil novšiu verziu tohto súboru. Vaše zmeny sú stále tu. Použite „Uložiť ako“ a uložte ich do nového súboru."
+    },
     "prompt": {
       "title": "Zadanie a rozpočet",
       "help": "Vľavo opíšte práce; vpravo skontrolujte a upravte rozpočet.",

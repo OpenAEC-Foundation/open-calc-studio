@@ -277,6 +277,7 @@ function App() {
     // ── File association: Tauri Rust emits this when launched with a file argument ──
     let unlistenAssoc: (() => void) | undefined;
     (async () => {
+      if (!isDesktopApp) return; // Browser and hosted builds have no Tauri events; skip instead of a console warning.
       try {
         const { listen } = await import("@tauri-apps/api/event");
         const { readTextFile, readFile } = await import("@tauri-apps/plugin-fs");
@@ -326,6 +327,7 @@ function App() {
     // Frontend HTML5 dragover/drop also catches drops from external file managers.
     let unlistenDrop: (() => void) | undefined;
     (async () => {
+      if (!isDesktopApp) return; // HTML5 drop handles the browser; the Tauri window API is desktop-only.
       try {
         const { getCurrentWindow } = await import("@tauri-apps/api/window");
         const win = getCurrentWindow();

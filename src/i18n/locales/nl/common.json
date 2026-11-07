@@ -567,6 +567,10 @@
     "version": "Versie {{version}}"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "Iemand anders heeft intussen een nieuwere versie van dit bestand opgeslagen. Je wijzigingen zijn bewaard als kopie: {{name}}. Opslaan gaat vanaf nu naar die kopie.",
+      "versionConflict": "Niet opgeslagen: iemand anders heeft intussen een nieuwere versie van dit bestand opgeslagen. Je wijzigingen staan nog in de app. Kies Opslaan als om ze in een nieuw bestand te bewaren."
+    },
     "prompt": {
       "title": "Prompt & Begroot",
       "help": "Beschrijf het werk links; bekijk en bewerk de begroting rechts.",
