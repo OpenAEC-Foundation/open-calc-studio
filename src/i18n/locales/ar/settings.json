@@ -37,7 +37,10 @@
     "uiFontSize": "حجم خط الواجهة",
     "assistant": "مساعد الدردشة",
     "chatBubble": "إظهار زر الدردشة في الزاوية السفلية",
-    "chatBubbleHelp": "عند إيقافه يبقى المساعد متاحًا في مساحة العمل «Prompt & Estimate»."
+    "chatBubbleHelp": "عند إيقافه يبقى المساعد متاحًا في مساحة العمل «Prompt & Estimate».",
+    "blueprint": "Blueprint",
+    "highContrastDark": "تباين عالٍ داكن",
+    "highContrastLight": "تباين عالٍ فاتح"
   },
   "grid": {
     "general": "الجدول",

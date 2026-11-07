@@ -82,7 +82,9 @@
     "excelUpdated_few": "{{count}} cantități actualizate",
     "excelUpdated_other": "{{count}} de cantități actualizate",
     "excelWarnings": "Avertismente:",
-    "excelUpToDate": "Toate valorile sunt deja actualizate"
+    "excelUpToDate": "Toate valorile sunt deja actualizate",
+    "quantityTitle": "Afișează sau ascunde coloana Cantitate",
+    "quantityUi2Title": "Nu se aplică în UI-2: coloana Ore rămâne întotdeauna"
   },
   "budget": {
     "rows": "Rânduri",
@@ -251,6 +253,8 @@
     "pdfQuotation": "Ofertă PDF",
     "printBtn": "Tipărire",
     "applyTemplate": "Aplicare șablon...",
-    "templateGroup": "Șablon"
+    "templateGroup": "Șablon",
+    "desktopRequired": "Exportul PDF și tipărirea ofertei necesită aplicația desktop.",
+    "pdfFailed": "PDF-ul ofertei nu a putut fi creat"
   }
 }

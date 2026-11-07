@@ -37,7 +37,10 @@
     "uiFontSize": "Розмір шрифту інтерфейсу",
     "assistant": "Чат-асистент",
     "chatBubble": "Показувати кнопку чату внизу праворуч",
-    "chatBubbleHelp": "Якщо вимкнено, асистент залишається доступним у робочій області «Prompt & Estimate»."
+    "chatBubbleHelp": "Якщо вимкнено, асистент залишається доступним у робочій області «Prompt & Estimate».",
+    "blueprint": "Blueprint",
+    "highContrastDark": "Висока контрастність, темна",
+    "highContrastLight": "Висока контрастність, світла"
   },
   "grid": {
     "general": "Таблиця",

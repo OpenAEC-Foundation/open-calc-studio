@@ -37,7 +37,10 @@
     "uiFontSize": "Teckenstorlek i gränssnittet",
     "assistant": "Chattassistent",
     "chatBubble": "Visa chattknappen längst ned till höger",
-    "chatBubbleHelp": "Avstängd finns assistenten fortfarande i arbetsytan ”Prompt & Estimate”."
+    "chatBubbleHelp": "Avstängd finns assistenten fortfarande i arbetsytan ”Prompt & Estimate”.",
+    "blueprint": "Blueprint",
+    "highContrastDark": "Hög kontrast mörk",
+    "highContrastLight": "Hög kontrast ljus"
   },
   "grid": {
     "general": "Tabell",

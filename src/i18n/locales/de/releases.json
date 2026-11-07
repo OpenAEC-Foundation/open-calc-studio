@@ -16,7 +16,14 @@
     "v0.8.2": "OpenAEC hinter einem Feature-Flag",
     "v0.8.1": "OpenAEC-Anmeldung + Verbesserungen am Assistenten",
     "v0.8.0": "Assistent übernimmt Änderungen direkt",
-    "v0.7.10": "OpenAEC-Konto + Navigation in der Fußleiste"
+    "v0.7.10": "OpenAEC-Konto + Navigation in der Fußleiste",
+    "unreleased": "Mobile Web-App für Kalkulationen",
+    "v2026.44.0-dev": "Entwicklung 2026.44.0: Blueprint, Assistent und gehosteter Speicher",
+    "v2026.44.1-dev": "Arbeitsbereiche, Mengenherkunft und Finanzvorschauen",
+    "v2026.44.2-dev": "Prüfzentrum für Preise, Quellen und Einheiten",
+    "v2026.44.3-dev": "Sicherere Eingabe, barrierefreie Dialoge und vollständige IFC-Auswahlen",
+    "v2026.44.4-dev": "Schaltflächenprüfungen, sichere Auswahl und einheitliches Drucken",
+    "v2026.44.5-dev": "SuperCloud-Einstellungen und Container-Vorbereitung"
   },
   "highlights": {
     "v0.13.0": [
@@ -112,6 +119,55 @@
       "OpenAEC-Konto und Navigation in der Fußleiste",
       "Spalten per Rechtsklick auf die Spaltenüberschrift ein- und ausblenden",
       "Register Stunden und Zuschläge zusammengeführt; Bericht im IBIS-Stil (Bouw 2)"
+    ],
+    "unreleased": [
+      "Kalkulationen auf Android und iPhone bearbeiten, mit einer kompakten Ansicht für Titel, Positionen, Kalkulationszeilen, Mengen und Preise",
+      ".ifcCalc-Dateien öffnen und herunterladen, Tabellenzellen bearbeiten und Prompt & Kalkulation auf dem Telefon nutzen",
+      "Das zuletzt aktive Projekt wird als lokaler Entwurf wiederhergestellt; verwenden Sie Speichern für eine portable Kopie"
+    ],
+    "v2026.44.0-dev": [
+      "Neuer Arbeitsbereich mit dauerhafter Navigation, Projektkopfzeile und Live-Kalkulationssumme; offizielle Blueprint-Typografie in allen Bedienelementen, ohne konkurrierende Schriftregistrierungen.",
+      "Fünf offizielle Blueprint-Designs mit lokalen Schriften und der gemeinsamen Kalkulationsoberfläche",
+      "Optionaler fünfstufiger Kalkulationsassistent mit direkter Rückkehr zum vollständigen Editor",
+      "Host-Dateien und -Versionen mit Konfliktschutz sowie ein separater REST/HTTP-MCP-Rechner",
+      "Entwicklungs-Build: Geräte-, Signatur- und AWS-Abnahme stehen noch aus",
+      "Englische und niederländische Übersetzungen decken jetzt PDF-Messungen, die geteilte IFC-Ansicht, Assistentenvorschläge, die Preisbibliothek und Validierungsmeldungen ab."
+    ],
+    "v2026.44.1-dev": [
+      "Arbeitsbereiche für Messen, Kalkulieren und Prüfen speichern, einschließlich Bereichsbreiten, Zoom und Spalten.",
+      "Ein zweites Fenster zeigt PDF-Zeichnungen und die ausgewählte Mengenherkunft, ohne die Kalkulation zu bearbeiten.",
+      "Für jede Menge Quelldatei und Identität, Seite oder IFC-Auswahl, Formel und den ursprünglich verknüpften Wert einsehen.",
+      "Finanzsummen vor und nach einem Assistentenvorschlag prüfen, einschließlich Zuschlägen und MwSt.; den gesamten Vorschlag auf einmal übernehmen oder rückgängig machen.",
+      "Alle neuen Funktionen sind über den Live-MCP-Server verfügbar. Das native Dateiformat erhält in Version 2.3.0 optionale Herkunftsangaben."
+    ],
+    "v2026.44.2-dev": [
+      "Prüfzentrum in der Seitenleiste öffnen oder Prüfung auf dem Mobilgerät; das Abzeichen folgt den aktuellen Hinweisen.",
+      "Preis-, Quell- und Einheitenprüfungen filtern; die genaue Kalkulationszeile anzeigen und zum selben Prüfkontext zurückkehren.",
+      "Ausdrückliche Nullpreise sind gültig. Die Prüfung erhält Mengen, Preise, Änderungsstatus und Rückgängig-Verlauf.",
+      "Verfügbar über Desktop-MCP review.list, review.open und review.openItem sowie die reine SDK-Funktion reviewBudget."
+    ],
+    "v2026.44.3-dev": [
+      "Die mobile Eingabe erhält Nullpreise, folgt der Oberflächensprache und der Projektwährung und unterstützt Rückgängig und Wiederherstellen",
+      "Verknüpfte Mengen sind schreibgeschützt, bis die Verknüpfung ausdrücklich aufgehoben wird; Aufheben und Bearbeiten bilden einen Rückgängig-Schritt",
+      "Löschen, Ausschneiden und Einfügen sind auf die Kalkulationstabelle beschränkt; Textfelder behalten das native Rückgängig",
+      "Assistentenfehler lassen sich aufsuchen oder verwerfen, und beide Prüfoberflächen akzeptieren ausdrückliche Nullpreise",
+      "Dialoge haben barrierefreie Namen, Fokusverwaltung und Unterstützung für verschachtelte Fenster",
+      "IFC-Elemente haben Seitennavigation, Zähler und die Auswahl aller Suchergebnisse, einschließlich ifc.selectFiltered in MCP",
+      "PDF-Quellprüfungen verwenden einen Index; der unabhängige schwebende Assistent ist im gehosteten Betrieb ausgeblendet"
+    ],
+    "v2026.44.4-dev": [
+      "Menübandaktionen berücksichtigen die Mehrfachauswahl; beim Kopieren oder Ausschneiden eingeklappter Kostenpositionen bleiben ihre Kalkulationszeilen erhalten",
+      "Speichern- und Zweitfenster-Aktionen zielen auf das richtige Dokument; Angebots- und Tabellenänderungen erhalten Schutz vor ungespeicherten Änderungen",
+      "Drucken und PDF-Export teilen sich Berichtstypen und Optionen; der Angebotsdruck auf dem Desktop funktioniert und meldet Fehler",
+      "Befehle ohne gültige Ziele sind deaktiviert; leere Einstellungsregisterkarten wurden entfernt und Zoom-Voreinstellungen lassen sich per Tastatur aktivieren"
+    ],
+    "v2026.44.5-dev": [
+      "Gehostete Sitzungen folgen Sprache und Design ohne doppelte Titelleiste.",
+      "Nativer Desktop-Container und privates HTTP-MCP vorbereitet; die eigentliche Container-Abnahme und Veröffentlichung stehen noch aus.",
+      "Signaturerfassung des Updaters erweitert; ein kleiner DynLex-Arithmetik-Prototyp wurde verifiziert."
     ]
+  },
+  "status": {
+    "unreleased": "In Entwicklung"
   }
 }

@@ -188,7 +188,8 @@
     "renamePrompt": "Blatt umbenennen:",
     "deleteConfirm": "Dieses Blatt löschen?",
     "rename": "Umbenennen",
-    "delete": "Löschen"
+    "delete": "Löschen",
+    "backToBudget": "Zurück zur Kalkulation"
   },
   "staart": {
     "groupHoursTitle": "Gruppensumme anpassen — die zugrunde liegenden Zeilen werden anteilig neu skaliert",
@@ -233,5 +234,6 @@
     "vatBaseSet": "MwSt.-Grundlage setzen",
     "finalAmountSet": "Endbetrag setzen",
     "roundingStep": "Rundungsschritt"
-  }
+  },
+  "pdfLinkMissing": "Die PDF-Quellmessung fehlt; die letzte bekannte Menge bleibt erhalten. Verknüpfen Sie die Messung erneut."
 }

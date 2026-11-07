@@ -188,7 +188,8 @@
     "renamePrompt": "Mudar o nome da folha:",
     "deleteConfirm": "Eliminar esta folha?",
     "rename": "Mudar o nome",
-    "delete": "Eliminar"
+    "delete": "Eliminar",
+    "backToBudget": "Voltar ao orçamento"
   },
   "staart": {
     "groupHoursTitle": "Ajustar o total do grupo — as linhas subjacentes são reescalonadas proporcionalmente",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Definir a base de IVA",
     "finalAmountSet": "Definir o valor final",
     "roundingStep": "Passo de arredondamento"
-  }
+  },
+  "pdfLinkMissing": "A medição de origem no PDF está em falta; a última quantidade conhecida é mantida. Volte a ligar a medição."
 }

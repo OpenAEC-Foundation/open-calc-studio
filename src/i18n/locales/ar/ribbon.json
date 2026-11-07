@@ -85,7 +85,9 @@
     "excelUpdated_many": "تم تحديث {{count}} كمية",
     "excelUpdated_other": "تم تحديث {{count}} كمية",
     "excelWarnings": "تحذيرات:",
-    "excelUpToDate": "جميع القيم محدَّثة بالفعل"
+    "excelUpToDate": "جميع القيم محدَّثة بالفعل",
+    "quantityTitle": "إظهار أو إخفاء عمود الكمية",
+    "quantityUi2Title": "لا ينطبق في UI-2: يبقى عمود الساعات دائماً"
   },
   "budget": {
     "rows": "الصفوف",
@@ -257,6 +259,8 @@
     "pdfQuotation": "عرض سعر PDF",
     "printBtn": "طباعة",
     "applyTemplate": "تطبيق قالب...",
-    "templateGroup": "القالب"
+    "templateGroup": "القالب",
+    "desktopRequired": "يتطلب تصدير عرض السعر إلى PDF وطباعته تطبيق سطح المكتب.",
+    "pdfFailed": "تعذّر إنشاء ملف PDF لعرض السعر"
   }
 }

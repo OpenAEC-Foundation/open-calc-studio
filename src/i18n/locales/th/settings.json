@@ -37,7 +37,10 @@
     "uiFontSize": "ขนาดตัวอักษรส่วนติดต่อผู้ใช้",
     "assistant": "ผู้ช่วยแชท",
     "chatBubble": "แสดงปุ่มแชทที่มุมขวาล่าง",
-    "chatBubbleHelp": "เมื่อปิด ผู้ช่วยยังใช้งานได้ในพื้นที่ทำงาน “Prompt & Estimate”"
+    "chatBubbleHelp": "เมื่อปิด ผู้ช่วยยังใช้งานได้ในพื้นที่ทำงาน “Prompt & Estimate”",
+    "blueprint": "Blueprint",
+    "highContrastDark": "ความคมชัดสูงแบบมืด",
+    "highContrastLight": "ความคมชัดสูงแบบสว่าง"
   },
   "grid": {
     "general": "ตาราง",

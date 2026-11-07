@@ -81,7 +81,9 @@
     "excelUpdated_one": "{{count}} quantità aggiornata",
     "excelUpdated_other": "{{count}} quantità aggiornate",
     "excelWarnings": "Avvisi:",
-    "excelUpToDate": "Tutti i valori sono già aggiornati"
+    "excelUpToDate": "Tutti i valori sono già aggiornati",
+    "quantityTitle": "Mostra o nascondi la colonna Quantità",
+    "quantityUi2Title": "Non applicabile in UI-2: la colonna Ore resta sempre visibile"
   },
   "budget": {
     "rows": "Righe",
@@ -249,6 +251,8 @@
     "pdfQuotation": "Offerta PDF",
     "printBtn": "Stampa",
     "applyTemplate": "Applica modello…",
-    "templateGroup": "Modello"
+    "templateGroup": "Modello",
+    "desktopRequired": "L'esportazione PDF e la stampa dell'offerta richiedono l'applicazione desktop.",
+    "pdfFailed": "Impossibile creare il PDF dell'offerta"
   }
 }

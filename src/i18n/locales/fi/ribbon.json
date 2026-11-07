@@ -81,7 +81,9 @@
     "excelUpdated_one": "{{count}} määrä päivitetty",
     "excelUpdated_other": "{{count}} määrää päivitetty",
     "excelWarnings": "Varoitukset:",
-    "excelUpToDate": "Kaikki arvot ovat jo ajan tasalla"
+    "excelUpToDate": "Kaikki arvot ovat jo ajan tasalla",
+    "quantityTitle": "Näytä tai piilota Määrä-sarake",
+    "quantityUi2Title": "Ei sovellu UI-2:ssa: Tunnit-sarake pysyy aina näkyvissä"
   },
   "budget": {
     "rows": "Rivit",
@@ -249,6 +251,8 @@
     "pdfQuotation": "PDF-tarjous",
     "printBtn": "Tulosta",
     "applyTemplate": "Käytä mallia...",
-    "templateGroup": "Malli"
+    "templateGroup": "Malli",
+    "desktopRequired": "Tarjouksen PDF-vienti ja tulostus vaativat työpöytäsovelluksen.",
+    "pdfFailed": "Tarjous-PDF:ää ei voitu luoda"
   }
 }

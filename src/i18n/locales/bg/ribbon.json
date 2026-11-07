@@ -81,7 +81,9 @@
     "excelUpdated_one": "{{count}} количество е обновено",
     "excelUpdated_other": "{{count}} количества са обновени",
     "excelWarnings": "Предупреждения:",
-    "excelUpToDate": "Всички стойности вече са актуални"
+    "excelUpToDate": "Всички стойности вече са актуални",
+    "quantityTitle": "Показва или скрива колоната Количество",
+    "quantityUi2Title": "Не се прилага в UI-2: колоната Часове остава винаги"
   },
   "budget": {
     "rows": "Редове",
@@ -249,6 +251,8 @@
     "pdfQuotation": "PDF оферта",
     "printBtn": "Печат",
     "applyTemplate": "Приложи шаблон...",
-    "templateGroup": "Шаблон"
+    "templateGroup": "Шаблон",
+    "desktopRequired": "PDF експортът и печатът на оферти изискват настолното приложение.",
+    "pdfFailed": "PDF офертата не можа да бъде създадена"
   }
 }

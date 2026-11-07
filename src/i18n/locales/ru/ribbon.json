@@ -83,7 +83,9 @@
     "excelUpdated_many": "Обновлено {{count}} объёмов",
     "excelUpdated_other": "Обновлено {{count}} объёмов",
     "excelWarnings": "Предупреждения:",
-    "excelUpToDate": "Все значения уже актуальны"
+    "excelUpToDate": "Все значения уже актуальны",
+    "quantityTitle": "Показать или скрыть столбец «Объём»",
+    "quantityUi2Title": "Неприменимо в UI-2: столбец «Часы» остаётся всегда"
   },
   "budget": {
     "rows": "Строки",
@@ -253,6 +255,8 @@
     "pdfQuotation": "PDF предложения",
     "printBtn": "Печать",
     "applyTemplate": "Применить шаблон...",
-    "templateGroup": "Шаблон"
+    "templateGroup": "Шаблон",
+    "desktopRequired": "Для экспорта PDF и печати предложения требуется настольное приложение.",
+    "pdfFailed": "Не удалось создать PDF предложения"
   }
 }

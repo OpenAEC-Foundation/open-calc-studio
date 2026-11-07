@@ -71,10 +71,10 @@ describe('workspace language selection', () => {
     expect(i18n.t('workspace.pdf.pointsChosen', { count: 2 })).toContain('2 punten gekozen');
   });
 
-  it('keeps English fallback text for languages without these workspace translations', async () => {
+  it('shows the workspace in other languages from their own translation, never in Dutch', async () => {
     await changeLanguage('de');
     await renderUi(<PdfViewer />);
-    expect(button('Add PDF')).toBeInTheDocument();
+    expect(button('PDF hinzufügen')).toBeInTheDocument();
     expect(container.textContent).not.toContain('PDF toevoegen');
   });
 

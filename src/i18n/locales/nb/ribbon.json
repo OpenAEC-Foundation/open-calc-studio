@@ -81,7 +81,9 @@
     "excelUpdated_one": "{{count}} mengde oppdatert",
     "excelUpdated_other": "{{count}} mengder oppdatert",
     "excelWarnings": "Advarsler:",
-    "excelUpToDate": "Alle verdier er allerede oppdatert"
+    "excelUpToDate": "Alle verdier er allerede oppdatert",
+    "quantityTitle": "Vis eller skjul kolonnen Mengde",
+    "quantityUi2Title": "Gjelder ikke i UI-2: kolonnen Timer vises alltid"
   },
   "budget": {
     "rows": "Linjer",
@@ -249,6 +251,8 @@
     "pdfQuotation": "PDF-tilbud",
     "printBtn": "Skriv ut",
     "applyTemplate": "Bruk mal …",
-    "templateGroup": "Mal"
+    "templateGroup": "Mal",
+    "desktopRequired": "PDF-eksport og utskrift av tilbud krever skrivebordsprogrammet.",
+    "pdfFailed": "Kunne ikke lage tilbuds-PDF"
   }
 }

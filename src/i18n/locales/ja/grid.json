@@ -188,7 +188,8 @@
     "renamePrompt": "シート名の変更：",
     "deleteConfirm": "このシートを削除しますか？",
     "rename": "名前を変更",
-    "delete": "削除"
+    "delete": "削除",
+    "backToBudget": "積算に戻る"
   },
   "staart": {
     "groupHoursTitle": "グループ合計を調整します — 下位の行が比例配分で再計算されます",
@@ -233,5 +234,6 @@
     "vatBaseSet": "課税標準の設定",
     "finalAmountSet": "最終金額の設定",
     "roundingStep": "端数処理の単位"
-  }
+  },
+  "pdfLinkMissing": "PDF ソースの計測が見つかりません。最後に取得した数量を保持しています。計測を再リンクしてください。"
 }

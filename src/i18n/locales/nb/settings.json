@@ -37,7 +37,10 @@
     "uiFontSize": "Skriftstørrelse i grensesnittet",
     "assistant": "Chatassistent",
     "chatBubble": "Vis chatknappen nederst til høyre",
-    "chatBubbleHelp": "Når den er slått av, er assistenten fortsatt tilgjengelig i arbeidsområdet «Prompt & Estimate»."
+    "chatBubbleHelp": "Når den er slått av, er assistenten fortsatt tilgjengelig i arbeidsområdet «Prompt & Estimate».",
+    "blueprint": "Blueprint",
+    "highContrastDark": "Høy kontrast mørk",
+    "highContrastLight": "Høy kontrast lys"
   },
   "grid": {
     "general": "Tabell",

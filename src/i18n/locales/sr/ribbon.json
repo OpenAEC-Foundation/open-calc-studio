@@ -82,7 +82,9 @@
     "excelUpdated_few": "{{count}} количине су ажуриране",
     "excelUpdated_other": "{{count}} количина је ажурирано",
     "excelWarnings": "Упозорења:",
-    "excelUpToDate": "Све вредности су већ ажурне"
+    "excelUpToDate": "Све вредности су већ ажурне",
+    "quantityTitle": "Прикажи или сакриј колону Количина",
+    "quantityUi2Title": "Није применљиво у UI-2: колона Часови увек остаје"
   },
   "budget": {
     "rows": "Редови",
@@ -251,6 +253,8 @@
     "pdfQuotation": "PDF понуда",
     "printBtn": "Штампа",
     "applyTemplate": "Примени шаблон...",
-    "templateGroup": "Шаблон"
+    "templateGroup": "Шаблон",
+    "desktopRequired": "PDF извоз и штампа понуде захтевају десктоп апликацију.",
+    "pdfFailed": "PDF понуде се не може направити"
   }
 }

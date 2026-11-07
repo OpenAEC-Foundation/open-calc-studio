@@ -81,7 +81,9 @@
     "excelUpdated_one": "Kiasi {{count}} kimesasishwa",
     "excelUpdated_other": "Viasi {{count}} vimesasishwa",
     "excelWarnings": "Maonyo:",
-    "excelUpToDate": "Thamani zote tayari ni za sasa"
+    "excelUpToDate": "Thamani zote tayari ni za sasa",
+    "quantityTitle": "Onyesha au ficha safu wima ya Kiasi",
+    "quantityUi2Title": "Haitumiki katika UI-2: safu wima ya Saa hubaki daima"
   },
   "budget": {
     "rows": "Safu",
@@ -249,6 +251,8 @@
     "pdfQuotation": "Nukuu ya PDF",
     "printBtn": "Chapisha",
     "applyTemplate": "Tumia kiolezo...",
-    "templateGroup": "Kiolezo"
+    "templateGroup": "Kiolezo",
+    "desktopRequired": "Uhamishaji wa PDF na uchapishaji wa nukuu ya bei vinahitaji programu ya kompyuta ya mezani.",
+    "pdfFailed": "Imeshindwa kutengeneza PDF ya nukuu ya bei"
   }
 }

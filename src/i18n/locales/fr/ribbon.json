@@ -81,7 +81,9 @@
     "excelUpdated_one": "{{count}} quantité actualisée",
     "excelUpdated_other": "{{count}} quantités actualisées",
     "excelWarnings": "Avertissements :",
-    "excelUpToDate": "Toutes les valeurs sont déjà à jour"
+    "excelUpToDate": "Toutes les valeurs sont déjà à jour",
+    "quantityTitle": "Afficher ou masquer la colonne Quantité",
+    "quantityUi2Title": "Sans objet en UI-2 : la colonne Heures reste toujours affichée"
   },
   "budget": {
     "rows": "Lignes",
@@ -249,6 +251,8 @@
     "pdfQuotation": "Offre PDF",
     "printBtn": "Imprimer",
     "applyTemplate": "Appliquer un modèle…",
-    "templateGroup": "Modèle"
+    "templateGroup": "Modèle",
+    "desktopRequired": "L'export PDF et l'impression de l'offre nécessitent l'application de bureau.",
+    "pdfFailed": "Impossible de créer le PDF de l'offre"
   }
 }

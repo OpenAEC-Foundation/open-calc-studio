@@ -188,7 +188,8 @@
     "renamePrompt": "Namakan semula helaian:",
     "deleteConfirm": "Padam helaian ini?",
     "rename": "Namakan semula",
-    "delete": "Padam"
+    "delete": "Padam",
+    "backToBudget": "Kembali ke anggaran"
   },
   "staart": {
     "groupHoursTitle": "Laraskan jumlah kumpulan — baris di bawahnya diskalakan semula secara berkadar",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Tetapkan asas GST",
     "finalAmountSet": "Tetapkan amaun akhir",
     "roundingStep": "Langkah pembundaran"
-  }
+  },
+  "pdfLinkMissing": "Ukuran sumber PDF tiada; kuantiti terakhir yang diketahui dikekalkan. Pautkan semula ukuran tersebut."
 }

@@ -81,7 +81,9 @@
     "excelUpdated_one": "{{count}} volume diperbarui",
     "excelUpdated_other": "{{count}} volume diperbarui",
     "excelWarnings": "Peringatan:",
-    "excelUpToDate": "Semua nilai sudah terkini"
+    "excelUpToDate": "Semua nilai sudah terkini",
+    "quantityTitle": "Tampilkan atau sembunyikan kolom Volume",
+    "quantityUi2Title": "Tidak berlaku di UI-2: kolom Jam selalu ditampilkan"
   },
   "budget": {
     "rows": "Baris",
@@ -249,6 +251,8 @@
     "pdfQuotation": "Penawaran PDF",
     "printBtn": "Cetak",
     "applyTemplate": "Terapkan templat...",
-    "templateGroup": "Templat"
+    "templateGroup": "Templat",
+    "desktopRequired": "Ekspor PDF dan pencetakan penawaran memerlukan aplikasi desktop.",
+    "pdfFailed": "PDF penawaran tidak dapat dibuat"
   }
 }

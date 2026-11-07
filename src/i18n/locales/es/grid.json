@@ -188,7 +188,8 @@
     "renamePrompt": "Cambiar el nombre de la hoja:",
     "deleteConfirm": "¿Eliminar esta hoja?",
     "rename": "Cambiar nombre",
-    "delete": "Eliminar"
+    "delete": "Eliminar",
+    "backToBudget": "Volver al presupuesto"
   },
   "staart": {
     "groupHoursTitle": "Ajuste el total del grupo: las líneas subyacentes se reescalan a prorrata",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Definir la base del IVA",
     "finalAmountSet": "Definir el importe final",
     "roundingStep": "Escalón de redondeo"
-  }
+  },
+  "pdfLinkMissing": "Falta la medición de origen en el PDF; se conserva la última medición conocida. Vuelva a vincular la medición."
 }

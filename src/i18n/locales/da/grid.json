@@ -188,7 +188,8 @@
     "renamePrompt": "Omdøb ark:",
     "deleteConfirm": "Slet dette ark?",
     "rename": "Omdøb",
-    "delete": "Slet"
+    "delete": "Slet",
+    "backToBudget": "Tilbage til budgettet"
   },
   "staart": {
     "groupHoursTitle": "Juster gruppesummen — de underliggende linjer skaleres forholdsmæssigt",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Angiv momsgrundlag",
     "finalAmountSet": "Angiv slutbeløb",
     "roundingStep": "Afrundingstrin"
-  }
+  },
+  "pdfLinkMissing": "PDF-kildemålingen mangler; den sidst kendte mængde er bevaret. Forbind målingen igen."
 }

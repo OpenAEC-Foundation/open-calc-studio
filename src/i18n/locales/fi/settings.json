@@ -37,7 +37,10 @@
     "uiFontSize": "Käyttöliittymän fonttikoko",
     "assistant": "Chat-avustaja",
     "chatBubble": "Näytä chat-painike oikeassa alakulmassa",
-    "chatBubbleHelp": "Pois päältä ollessaan avustaja on edelleen käytettävissä työtilassa ”Prompt & Estimate”."
+    "chatBubbleHelp": "Pois päältä ollessaan avustaja on edelleen käytettävissä työtilassa ”Prompt & Estimate”.",
+    "blueprint": "Blueprint",
+    "highContrastDark": "Suuri kontrasti, tumma",
+    "highContrastLight": "Suuri kontrasti, vaalea"
   },
   "grid": {
     "general": "Taulukko",

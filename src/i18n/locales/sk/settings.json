@@ -37,7 +37,10 @@
     "uiFontSize": "Veľkosť písma rozhrania",
     "assistant": "Chatovací asistent",
     "chatBubble": "Zobraziť tlačidlo chatu vpravo dole",
-    "chatBubbleHelp": "Po vypnutí zostáva asistent dostupný v pracovnom priestore „Prompt & Estimate“."
+    "chatBubbleHelp": "Po vypnutí zostáva asistent dostupný v pracovnom priestore „Prompt & Estimate“.",
+    "blueprint": "Blueprint",
+    "highContrastDark": "Vysoký kontrast tmavý",
+    "highContrastLight": "Vysoký kontrast svetlý"
   },
   "grid": {
     "general": "Tabuľka",

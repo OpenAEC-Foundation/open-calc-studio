@@ -188,7 +188,8 @@
     "renamePrompt": "Badilisha jina la laha:",
     "deleteConfirm": "Futa laha hii?",
     "rename": "Badilisha jina",
-    "delete": "Futa"
+    "delete": "Futa",
+    "backToBudget": "Rudi kwenye makadirio"
   },
   "staart": {
     "groupHoursTitle": "Rekebisha jumla ya kundi — mistari ya chini hupangwa upya kwa uwiano",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Weka msingi wa VAT",
     "finalAmountSet": "Weka kiasi cha mwisho",
     "roundingStep": "Hatua ya kuzungusha"
-  }
+  },
+  "pdfLinkMissing": "Kipimo cha chanzo cha PDF hakipo; kiasi cha mwisho kinachojulikana kimehifadhiwa. Unganisha kipimo tena."
 }

@@ -16,7 +16,14 @@
     "v0.8.2": "OpenAEC iza zastavice značajke",
     "v0.8.1": "OpenAEC prijava + poboljšanja asistenta",
     "v0.8.0": "Asistent izravno primjenjuje promjene",
-    "v0.7.10": "OpenAEC račun + navigacija u donjoj traci"
+    "v0.7.10": "OpenAEC račun + navigacija u donjoj traci",
+    "unreleased": "Mobilna web-aplikacija za troškovnike",
+    "v2026.44.0-dev": "Razvoj 2026.44.0: Blueprint, čarobnjak i pohrana na poslužitelju",
+    "v2026.44.1-dev": "Radni prostori, podrijetlo količina i financijski pregledi",
+    "v2026.44.2-dev": "Centar za provjeru cijena, izvora i jedinica",
+    "v2026.44.3-dev": "Sigurniji unos, pristupačni dijalozi i potpuni IFC odabiri",
+    "v2026.44.4-dev": "Provjere gumba, siguran odabir i dosljedan ispis",
+    "v2026.44.5-dev": "SuperCloud postavke i priprema kontejnera"
   },
   "highlights": {
     "v0.13.0": [
@@ -112,6 +119,55 @@
       "OpenAEC račun i navigacija u donjoj traci",
       "Sakrivanje/prikaz stupaca desnim klikom na zaglavlje stupca",
       "Kartice Sati i Dodaci objedinjene; izvještaj u IBIS stilu (Bouw 2)"
+    ],
+    "unreleased": [
+      "Uređujte troškovnike na Androidu i iPhoneu s kompaktnim prikazom poglavlja, stavki, kalkulacijskih redaka, količina i cijena",
+      "Otvarajte i preuzimajte .ifcCalc datoteke, uređujte ćelije proračunskih tablica i koristite Upit i troškovnik na telefonu",
+      "Zadnji aktivni projekt vraća se kao lokalna skica; za prijenosnu kopiju upotrijebite Spremi"
+    ],
+    "v2026.44.0-dev": [
+      "Novi radni prostor s trajnom navigacijom, zaglavljem projekta i živim ukupnim iznosom troškovnika; službena Blueprint tipografija u svim kontrolama, bez sukobljenih registracija fontova.",
+      "Pet službenih Blueprint tema s lokalnim fontovima i zajedničkim kalkulacijskim sučeljem",
+      "Neobvezni čarobnjak za troškovnik u pet koraka s izravnim povratkom u puni uređivač",
+      "Datoteke i verzije na poslužitelju sa zaštitom od sukoba, uz zaseban REST/HTTP-MCP kalkulator",
+      "Razvojna verzija: prihvaćanje uređaja, potpisivanja i AWS-a još je u tijeku",
+      "Engleski i nizozemski prijevodi sada pokrivaju PDF mjerenja, podijeljeni IFC prikaz, prijedloge asistenta, biblioteku cijena i poruke provjere valjanosti."
+    ],
+    "v2026.44.1-dev": [
+      "Spremite radne prostore za mjerenje, izradu troškovnika i provjeru, uključujući širine ploča, zumiranje i stupce.",
+      "Drugi prozor prikazuje PDF nacrte i odabrano podrijetlo količine bez uređivanja troškovnika.",
+      "Pregledajte izvornu datoteku i identitet, stranicu ili IFC odabir, formulu i izvornu povezanu vrijednost za svaku količinu.",
+      "Pregledajte financijske zbrojeve prije i poslije prijedloga asistenta, uključujući dodatke i PDV; primijenite ili poništite cijeli prijedlog odjednom.",
+      "Sve nove funkcije dostupne su putem živog MCP poslužitelja. Izvorni format datoteke u verziji 2.3.0 dodaje neobvezno podrijetlo podataka."
+    ],
+    "v2026.44.2-dev": [
+      "Otvorite Centar za provjeru u bočnoj traci ili Provjeru na mobitelu; značka prati trenutačne nalaze.",
+      "Filtrirajte provjere cijena, izvora i jedinica; prikažite točan redak troškovnika i vratite se u isti kontekst provjere.",
+      "Izričite nulte cijene su valjane. Pregled čuva količine, cijene, stanje nespremljenih promjena i povijest poništavanja.",
+      "Dostupno putem desktop MCP-a review.list, review.open i review.openItem te čiste SDK funkcije reviewBudget."
+    ],
+    "v2026.44.3-dev": [
+      "Mobilni unos čuva nulte cijene, prati jezik sučelja i valutu projekta te podržava poništavanje i ponavljanje",
+      "Povezane količine su samo za čitanje dok se izričito ne odvežu; odvezivanje i uređivanje čine jedan korak poništavanja",
+      "Brisanje, izrezivanje i lijepljenje ograničeni su na tablicu troškovnika; tekstualna polja zadržavaju ugrađeno poništavanje",
+      "Pogreške čarobnjaka mogu se pronaći ili odbaciti, a oba sučelja za provjeru prihvaćaju izričite nulte cijene",
+      "Dijalozi imaju pristupačne nazive, upravljanje fokusom i podršku za ugniježđene prozore",
+      "IFC elementi imaju straničenje, brojače i odabir svih rezultata pretrage, uključujući ifc.selectFiltered u MCP-u",
+      "Provjere PDF izvora koriste indeks; neovisni plutajući asistent skriven je u hostiranom okruženju"
+    ],
+    "v2026.44.4-dev": [
+      "Radnje vrpce poštuju višestruki odabir; kopiranje ili izrezivanje sažetih troškovnih stavki čuva njihove kalkulacijske retke",
+      "Radnje spremanja i drugog prozora ciljaju pravi dokument; uređivanja ponude i proračunske tablice dobivaju zaštitu od nespremljenih promjena",
+      "Ispis i PDF izvoz dijele vrste i opcije izvještaja; ispis ponude na desktopu radi i javlja neuspjehe",
+      "Naredbe bez valjanih ciljeva su onemogućene; prazne kartice postavki su uklonjene, a zadane razine zumiranja podržavaju aktivaciju tipkovnicom"
+    ],
+    "v2026.44.5-dev": [
+      "Hostirane sesije prate jezik i temu bez dvostruke naslovne trake.",
+      "Pripremljeni su izvorni desktop kontejner i privatni HTTP MCP; stvarno prihvaćanje kontejnera i objava još su u tijeku.",
+      "Proširen je skup potpisa za ažuriranje; provjeren je mali DynLex aritmetički prototip."
     ]
+  },
+  "status": {
+    "unreleased": "U razvoju"
   }
 }

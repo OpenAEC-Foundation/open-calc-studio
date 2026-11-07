@@ -81,7 +81,9 @@
     "excelUpdated_one": "{{count}} kuantiti dikemas kini",
     "excelUpdated_other": "{{count}} kuantiti dikemas kini",
     "excelWarnings": "Amaran:",
-    "excelUpToDate": "Semua nilai sudah terkini"
+    "excelUpToDate": "Semua nilai sudah terkini",
+    "quantityTitle": "Papar atau sembunyikan lajur Kuantiti",
+    "quantityUi2Title": "Tidak terpakai dalam UI-2: lajur Jam sentiasa kekal"
   },
   "budget": {
     "rows": "Baris",
@@ -249,6 +251,8 @@
     "pdfQuotation": "Sebut harga PDF",
     "printBtn": "Cetak",
     "applyTemplate": "Guna templat...",
-    "templateGroup": "Templat"
+    "templateGroup": "Templat",
+    "desktopRequired": "Eksport dan percetakan PDF sebut harga memerlukan aplikasi desktop.",
+    "pdfFailed": "PDF sebut harga tidak dapat dicipta"
   }
 }

@@ -81,7 +81,9 @@
     "excelUpdated_one": "{{count}} mängd uppdaterad",
     "excelUpdated_other": "{{count}} mängder uppdaterade",
     "excelWarnings": "Varningar:",
-    "excelUpToDate": "Alla värden är redan aktuella"
+    "excelUpToDate": "Alla värden är redan aktuella",
+    "quantityTitle": "Visa eller dölj kolumnen Mängd",
+    "quantityUi2Title": "Gäller inte i UI-2: kolumnen Timmar visas alltid"
   },
   "budget": {
     "rows": "Rader",
@@ -249,6 +251,8 @@
     "pdfQuotation": "PDF-offert",
     "printBtn": "Skriv ut",
     "applyTemplate": "Använd mall …",
-    "templateGroup": "Mall"
+    "templateGroup": "Mall",
+    "desktopRequired": "PDF-export och utskrift av offerter kräver skrivbordsprogrammet.",
+    "pdfFailed": "Offert-PDF:en kunde inte skapas"
   }
 }

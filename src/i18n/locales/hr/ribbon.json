@@ -82,7 +82,9 @@
     "excelUpdated_few": "{{count}} količine ažurirane",
     "excelUpdated_other": "{{count}} količina ažurirano",
     "excelWarnings": "Upozorenja:",
-    "excelUpToDate": "Sve su vrijednosti već ažurne"
+    "excelUpToDate": "Sve su vrijednosti već ažurne",
+    "quantityTitle": "Prikaži ili sakrij stupac Količina",
+    "quantityUi2Title": "Nije primjenjivo u UI-2: stupac Sati uvijek ostaje"
   },
   "budget": {
     "rows": "Redci",
@@ -251,6 +253,8 @@
     "pdfQuotation": "PDF ponuda",
     "printBtn": "Ispiši",
     "applyTemplate": "Primijeni predložak...",
-    "templateGroup": "Predložak"
+    "templateGroup": "Predložak",
+    "desktopRequired": "PDF izvoz i ispis ponude zahtijevaju desktop aplikaciju.",
+    "pdfFailed": "PDF ponude nije bilo moguće izraditi"
   }
 }

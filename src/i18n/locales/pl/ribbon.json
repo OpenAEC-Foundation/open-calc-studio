@@ -83,7 +83,9 @@
     "excelUpdated_many": "Zaktualizowano {{count}} ilości",
     "excelUpdated_other": "Zaktualizowano {{count}} ilości",
     "excelWarnings": "Ostrzeżenia:",
-    "excelUpToDate": "Wszystkie wartości są już aktualne"
+    "excelUpToDate": "Wszystkie wartości są już aktualne",
+    "quantityTitle": "Pokaż lub ukryj kolumnę Ilość",
+    "quantityUi2Title": "Nie dotyczy UI-2: kolumna Godziny jest zawsze widoczna"
   },
   "budget": {
     "rows": "Wiersze",
@@ -253,6 +255,8 @@
     "pdfQuotation": "Oferta PDF",
     "printBtn": "Drukuj",
     "applyTemplate": "Zastosuj szablon...",
-    "templateGroup": "Szablon"
+    "templateGroup": "Szablon",
+    "desktopRequired": "Eksport PDF i drukowanie oferty wymagają aplikacji desktopowej.",
+    "pdfFailed": "Nie można utworzyć oferty PDF"
   }
 }

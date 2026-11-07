@@ -16,7 +16,14 @@
     "v0.8.2": "OpenAEC bir özellik anahtarının arkasında",
     "v0.8.1": "OpenAEC oturum açma + asistan iyileştirmeleri",
     "v0.8.0": "Asistan değişiklikleri doğrudan uyguluyor",
-    "v0.7.10": "OpenAEC hesabı + alt çubuk gezinmesi"
+    "v0.7.10": "OpenAEC hesabı + alt çubuk gezinmesi",
+    "unreleased": "Keşifler için mobil web uygulaması",
+    "v2026.44.0-dev": "2026.44.0 geliştirme: Blueprint, sihirbaz ve barındırılan depolama",
+    "v2026.44.1-dev": "Çalışma alanları, miktar kaynakları ve mali önizlemeler",
+    "v2026.44.2-dev": "Fiyatlar, kaynaklar ve birimler için inceleme merkezi",
+    "v2026.44.3-dev": "Daha güvenli giriş, erişilebilir iletişim kutuları ve eksiksiz IFC seçimleri",
+    "v2026.44.4-dev": "Düğme denetimleri, güvenli seçim ve tutarlı yazdırma",
+    "v2026.44.5-dev": "SuperCloud tercihleri ve kapsayıcı hazırlığı"
   },
   "highlights": {
     "v0.13.0": [
@@ -112,6 +119,55 @@
       "OpenAEC hesabı ve alt çubuk gezinmesi",
       "Sütun başlığına sağ tıklayarak sütunları gizleyin/gösterin",
       "Saatler ve Giderler sekmeleri birleştirildi; IBIS tarzı rapor (Bouw 2)"
+    ],
+    "unreleased": [
+      "Bölümler, pozlar, hesap satırları, miktarlar ve fiyatlar için kompakt görünümle Android ve iPhone'da keşif düzenleyin",
+      "Telefonunuzda .ifcCalc dosyalarını açıp indirin, hesap tablosu hücrelerini düzenleyin ve İstem ve keşif'i kullanın",
+      "Son etkin proje yerel taslak olarak geri yüklenir; taşınabilir bir kopya için Kaydet'i kullanın"
+    ],
+    "v2026.44.0-dev": [
+      "Kalıcı gezinme, proje başlığı ve canlı keşif toplamı içeren yeni çalışma alanı; denetimlerde çakışan yazı tipi kayıtları olmadan resmi Blueprint tipografisi.",
+      "Yerel yazı tipleri ve ortak hesaplama arayüzüyle beş resmi Blueprint teması",
+      "Tam düzenleyiciye doğrudan dönüş içeren isteğe bağlı beş adımlı keşif sihirbazı",
+      "Çakışma korumalı barındırılan dosyalar ve sürümler, ayrıca ayrı bir REST/HTTP-MCP hesaplayıcı",
+      "Geliştirme derlemesi: cihaz, imzalama ve AWS kabulü henüz beklemede",
+      "İngilizce ve Hollandaca çeviriler artık PDF ölçümlerini, IFC bölünmüş görünümünü, asistan önerilerini, fiyat kitaplığını ve doğrulama iletilerini kapsıyor."
+    ],
+    "v2026.44.1-dev": [
+      "Ölçüm, keşif ve inceleme için görev çalışma alanlarını panel genişlikleri, yakınlaştırma ve sütunlarla birlikte kaydedin.",
+      "İkinci bir pencere, keşfi düzenlemeden PDF çizimlerini ve seçili miktar kaynağını gösterir.",
+      "Her miktar için kaynak dosyayı ve kimliği, sayfayı veya IFC seçimini, formülü ve özgün bağlı değeri inceleyin.",
+      "Asistan önerisinden önceki ve sonraki mali toplamları genel giderler ve KDV dahil inceleyin; önerinin tamamını birlikte uygulayın veya geri alın.",
+      "Tüm yeni işlevler canlı MCP sunucusu üzerinden kullanılabilir. Yerel dosya biçimi 2.3.0 sürümünde isteğe bağlı köken bilgisi ekler."
+    ],
+    "v2026.44.2-dev": [
+      "Kenar çubuğundan İnceleme merkezi'ni veya mobilde İnceleme'yi açın; rozet güncel bulguları izler.",
+      "Fiyat, kaynak ve birim denetimlerini filtreleyin; tam keşif satırını gösterin ve aynı inceleme bağlamına geri dönün.",
+      "Açıkça girilen sıfır fiyatlar geçerlidir. İnceleme miktarları, fiyatları, kaydedilmemiş durumu ve geri alma geçmişini korur.",
+      "Masaüstü MCP review.list, review.open ve review.openItem ile saf reviewBudget SDK işlevi üzerinden kullanılabilir."
+    ],
+    "v2026.44.3-dev": [
+      "Mobil giriş sıfır fiyatları korur, arayüz dilini ve proje para birimini izler, geri alma ve yinelemeyi destekler",
+      "Bağlı miktarlar açıkça bağlantısı kaldırılana kadar salt okunurdur; bağlantıyı kaldırma ve düzenleme tek bir geri alma adımı oluşturur",
+      "Silme, kesme ve yapıştırma keşif tablosuyla sınırlıdır; metin alanları yerel geri almayı korur",
+      "Sihirbaz hataları bulunabilir veya atılabilir; her iki inceleme arayüzü de açıkça girilen sıfır fiyatları kabul eder",
+      "İletişim kutularının erişilebilir adları, odak yönetimi ve iç içe pencere desteği var",
+      "IFC elemanlarında sayfalama, sayımlar ve tüm arama sonuçlarının seçimi var; MCP'de ifc.selectFiltered dahil",
+      "PDF kaynak denetimleri bir dizin kullanır; bağımsız yüzen asistan barındırılan ortamda gizlenir"
+    ],
+    "v2026.44.4-dev": [
+      "Şerit eylemleri çoklu seçime uyar; daraltılmış maliyet kalemlerini kopyalama veya kesme hesap satırlarını korur",
+      "Kaydetme ve ikinci pencere eylemleri doğru belgeyi hedefler; teklif ve hesap tablosu düzenlemeleri kaydedilmemiş değişiklik koruması alır",
+      "Yazdırma ve PDF dışa aktarma rapor türlerini ve seçeneklerini paylaşır; masaüstü teklif yazdırma çalışır ve hataları bildirir",
+      "Geçerli hedefi olmayan komutlar devre dışı bırakılır; boş ayar sekmeleri kaldırıldı ve yakınlaştırma ön ayarları klavyeyle etkinleştirilebilir"
+    ],
+    "v2026.44.5-dev": [
+      "Barındırılan oturumlar yinelenen başlık çubuğu olmadan dil ve temayı izler.",
+      "Yerel masaüstü kapsayıcısı ve özel HTTP MCP hazırlandı; gerçek kapsayıcı kabulü ve yayın henüz beklemede.",
+      "Güncelleyici imza toplama genişletildi; küçük bir DynLex aritmetik prototipi doğrulandı."
     ]
+  },
+  "status": {
+    "unreleased": "Geliştirme aşamasında"
   }
 }

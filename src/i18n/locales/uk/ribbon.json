@@ -83,7 +83,9 @@
     "excelUpdated_many": "Оновлено {{count}} обсягів",
     "excelUpdated_other": "Оновлено {{count}} обсягів",
     "excelWarnings": "Попередження:",
-    "excelUpToDate": "Усі значення вже актуальні"
+    "excelUpToDate": "Усі значення вже актуальні",
+    "quantityTitle": "Показати або приховати стовпець «Обсяг»",
+    "quantityUi2Title": "Не застосовується в UI-2: стовпець «Години» завжди залишається"
   },
   "budget": {
     "rows": "Рядки",
@@ -253,6 +255,8 @@
     "pdfQuotation": "PDF пропозиції",
     "printBtn": "Друк",
     "applyTemplate": "Застосувати шаблон...",
-    "templateGroup": "Шаблон"
+    "templateGroup": "Шаблон",
+    "desktopRequired": "Для експорту PDF і друку пропозиції потрібен настільний застосунок.",
+    "pdfFailed": "Не вдалося створити PDF пропозиції"
   }
 }

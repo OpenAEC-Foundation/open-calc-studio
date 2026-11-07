@@ -16,7 +16,14 @@
     "v0.8.2": "OpenAEC nyuma ya kiashiria cha kipengele",
     "v0.8.1": "Kuingia kwa OpenAEC + maboresho ya msaidizi",
     "v0.8.0": "Msaidizi hutumia mabadiliko moja kwa moja",
-    "v0.7.10": "Akaunti ya OpenAEC + urambazaji wa upau wa chini"
+    "v0.7.10": "Akaunti ya OpenAEC + urambazaji wa upau wa chini",
+    "unreleased": "Programu ya wavuti ya simu kwa makadirio",
+    "v2026.44.0-dev": "Maendeleo ya 2026.44.0: Blueprint, mwongozo na hifadhi iliyopangishwa",
+    "v2026.44.1-dev": "Maeneo ya kazi, vyanzo vya viasi na hakiki za kifedha",
+    "v2026.44.2-dev": "Kituo cha ukaguzi kwa bei, vyanzo na vipimo",
+    "v2026.44.3-dev": "Uingizaji salama zaidi, vidirisha vinavyofikika na uteuzi kamili wa IFC",
+    "v2026.44.4-dev": "Ukaguzi wa vitufe, uteuzi salama na uchapishaji thabiti",
+    "v2026.44.5-dev": "Mapendeleo ya SuperCloud na maandalizi ya kontena"
   },
   "highlights": {
     "v0.13.0": [
@@ -112,6 +119,55 @@
       "Akaunti ya OpenAEC na urambazaji wa upau wa chini",
       "Ficha/onyesha safu wima kwa kubofya kulia kichwa cha safu wima",
       "Vichupo vya Saa na Nyongeza vimeunganishwa; ripoti ya mtindo wa IBIS (Bouw 2)"
+    ],
+    "unreleased": [
+      "Hariri makadirio kwenye Android na iPhone kwa mwonekano mfupi wa sura, vipengele, mistari ya kukokotoa, viasi na bei",
+      "Fungua na upakue faili za .ifcCalc, hariri visanduku vya lahajedwali na utumie Agizo na Makadirio kwenye simu yako",
+      "Mradi wa mwisho uliotumika hurejeshwa kama rasimu ya ndani; tumia Hifadhi kwa nakala inayobebeka"
+    ],
+    "v2026.44.0-dev": [
+      "Eneo jipya la kazi lenye urambazaji wa kudumu, kichwa cha mradi na jumla hai ya makadirio; tipografia rasmi ya Blueprint kwenye vidhibiti vyote, bila usajili wa fonti unaoshindana.",
+      "Mandhari tano rasmi za Blueprint zenye fonti za ndani na kiolesura cha pamoja cha kukokotoa",
+      "Mwongozo wa hiari wa makadirio wa hatua tano wenye kurudi moja kwa moja kwenye kihariri kamili",
+      "Faili na matoleo ya mwenyeji yenye kinga dhidi ya migongano, pamoja na kikokotozi tofauti cha REST/HTTP-MCP",
+      "Jengo la maendeleo: kifaa, usainishaji na ukubalifu wa AWS bado vinasubiri",
+      "Tafsiri za Kiingereza na Kiholanzi sasa zinajumuisha vipimo vya PDF, mwonekano uliogawanywa wa IFC, mapendekezo ya msaidizi, maktaba ya bei na ujumbe wa uthibitishaji."
+    ],
+    "v2026.44.1-dev": [
+      "Hifadhi maeneo ya kazi ya kupima, kukadiria na kukagua, pamoja na upana wa paneli, ukuzaji na safu wima.",
+      "Dirisha la pili huonyesha michoro ya PDF na chanzo cha kiasi kilichochaguliwa bila kuhariri makadirio.",
+      "Kagua faili ya chanzo na utambulisho, ukurasa au uteuzi wa IFC, fomula na thamani asili iliyounganishwa kwa kila kiasi.",
+      "Pitia jumla za kifedha kabla na baada ya pendekezo la msaidizi, pamoja na nyongeza na VAT; tumia au tendua pendekezo lote kwa pamoja.",
+      "Kazi zote mpya zinapatikana kupitia seva hai ya MCP. Umbizo la faili asilia linaongeza asili ya hiari katika toleo 2.3.0."
+    ],
+    "v2026.44.2-dev": [
+      "Fungua Kituo cha ukaguzi kwenye upau wa kando, au Ukaguzi kwenye simu; beji hufuata masuala ya sasa.",
+      "Chuja ukaguzi wa bei, vyanzo na vipimo; onyesha safu halisi ya makadirio kisha urudi kwenye muktadha uleule wa ukaguzi.",
+      "Bei sifuri zilizowekwa wazi ni halali. Ukaguzi huhifadhi viasi, bei, hali ya mabadiliko na historia ya kutendua.",
+      "Inapatikana kupitia review.list, review.open na review.openItem za MCP ya kompyuta ya mezani, na kazi safi ya reviewBudget ya SDK."
+    ],
+    "v2026.44.3-dev": [
+      "Uingizaji kwenye simu huhifadhi bei sifuri, hufuata lugha ya kiolesura na sarafu ya mradi, na hutegemeza kutendua na kurudia",
+      "Viasi vilivyounganishwa ni vya kusoma tu hadi vitenganishwe waziwazi; kutenganisha na kuhariri huunda hatua moja ya kutendua",
+      "Kufuta, kukata na kubandika kumewekewa mipaka ya gridi ya makadirio; uga wa maandishi huhifadhi kutendua kwa asili",
+      "Hitilafu za mwongozo zinaweza kutafutwa au kutupwa, na violesura vyote viwili vya ukaguzi vinakubali bei sifuri zilizowekwa wazi",
+      "Vidirisha vina majina yanayofikika, usimamizi wa umakini na utegemezo wa madirisha yaliyo ndani ya mengine",
+      "Elementi za IFC zina kurasa, idadi na uteuzi wa matokeo yote ya utafutaji, pamoja na ifc.selectFiltered katika MCP",
+      "Ukaguzi wa chanzo cha PDF hutumia faharasa; msaidizi huru anayeelea hufichwa unapopangishwa"
+    ],
+    "v2026.44.4-dev": [
+      "Vitendo vya utepe huheshimu uteuzi wa vitu vingi; kunakili au kukata vipengele vya gharama vilivyokunjwa huhifadhi mistari yake ya kukokotoa",
+      "Vitendo vya kuhifadhi na dirisha la pili hulenga hati sahihi; uhariri wa nukuu ya bei na lahajedwali hupata kinga ya mabadiliko ambayo hayajahifadhiwa",
+      "Uchapishaji na uhamishaji wa PDF hushiriki aina na chaguo za ripoti; uchapishaji wa nukuu ya bei kwenye kompyuta ya mezani unafanya kazi na huripoti kushindwa",
+      "Amri zisizo na walengwa halali huzimwa; vichupo vitupu vya mipangilio vimeondolewa na viwango vya ukuzaji vilivyowekwa awali vinategemeza uwashaji kwa kibodi"
+    ],
+    "v2026.44.5-dev": [
+      "Vipindi vilivyopangishwa hufuata lugha na mandhari bila upau wa kichwa unaorudiwa.",
+      "Kontena asilia ya kompyuta ya mezani na MCP ya HTTP ya faragha zimeandaliwa; ukubalifu halisi wa kontena na uchapishaji bado vinasubiri.",
+      "Ukusanyaji wa saini za kisasishaji umepanuliwa; mfano mdogo wa hesabu wa DynLex umethibitishwa."
     ]
+  },
+  "status": {
+    "unreleased": "Katika maendeleo"
   }
 }

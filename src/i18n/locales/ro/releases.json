@@ -16,7 +16,14 @@
     "v0.8.2": "OpenAEC în spatele unui comutator de funcționalitate",
     "v0.8.1": "Autentificare OpenAEC + îmbunătățiri ale asistentului",
     "v0.8.0": "Asistentul aplică modificările direct",
-    "v0.7.10": "Cont OpenAEC + navigare din bara de jos"
+    "v0.7.10": "Cont OpenAEC + navigare din bara de jos",
+    "unreleased": "Aplicație web mobilă pentru devize",
+    "v2026.44.0-dev": "Dezvoltare 2026.44.0: Blueprint, asistent și stocare găzduită",
+    "v2026.44.1-dev": "Spații de lucru, originea cantităților și previzualizări financiare",
+    "v2026.44.2-dev": "Centru de verificare pentru prețuri, surse și unități",
+    "v2026.44.3-dev": "Introducere mai sigură, dialoguri accesibile și selecții IFC complete",
+    "v2026.44.4-dev": "Verificarea butoanelor, selecție sigură și tipărire consecventă",
+    "v2026.44.5-dev": "Preferințe SuperCloud și pregătirea containerului"
   },
   "highlights": {
     "v0.13.0": [
@@ -112,6 +119,55 @@
       "Cont OpenAEC și navigare din bara de jos",
       "Ascunderea/afișarea coloanelor prin clic dreapta pe antetul coloanei",
       "Filele Ore și Adaosuri au fost unite; raport în stil IBIS (Bouw 2)"
+    ],
+    "unreleased": [
+      "Editați devize pe Android și iPhone cu o vizualizare compactă pentru capitole, articole, linii de calcul, cantități și prețuri",
+      "Deschideți și descărcați fișiere .ifcCalc, editați celule de foaie de calcul și folosiți Prompt și deviz pe telefon",
+      "Ultimul proiect activ este restaurat ca ciornă locală; folosiți Salvare pentru o copie portabilă"
+    ],
+    "v2026.44.0-dev": [
+      "Spațiu de lucru nou cu navigare persistentă, antet de proiect și total de deviz actualizat în timp real; tipografie Blueprint oficială pe toate controalele, fără înregistrări de fonturi concurente.",
+      "Cinci teme Blueprint oficiale cu fonturi locale și interfața de calcul partajată",
+      "Asistent opțional de deviz în cinci pași, cu revenire directă la editorul complet",
+      "Fișiere și versiuni găzduite cu protecție la conflicte, plus un calculator REST/HTTP-MCP separat",
+      "Versiune de dezvoltare: acceptarea pe dispozitiv, semnarea și acceptarea AWS sunt încă în așteptare",
+      "Traducerile în engleză și neerlandeză acoperă acum măsurătorile PDF, vizualizarea divizată IFC, propunerile asistentului, biblioteca de prețuri și mesajele de validare."
+    ],
+    "v2026.44.1-dev": [
+      "Salvați spații de lucru pentru măsurare, devizare și verificare, inclusiv lățimile panourilor, zoomul și coloanele.",
+      "O a doua fereastră afișează planșele PDF și originea cantității selectate fără a edita devizul.",
+      "Examinați fișierul sursă și identitatea, pagina sau selecția IFC, formula și valoarea legată inițial pentru fiecare cantitate.",
+      "Verificați totalurile financiare înainte și după o propunere a asistentului, inclusiv adaosurile și TVA-ul; aplicați sau anulați întreaga propunere dintr-o dată.",
+      "Toate funcțiile noi sunt disponibile prin serverul MCP live. Formatul de fișier nativ adaugă proveniența opțională în versiunea 2.3.0."
+    ],
+    "v2026.44.2-dev": [
+      "Deschideți Centrul de verificare din bara laterală sau Verificare pe mobil; insigna urmărește problemele curente.",
+      "Filtrați verificările de prețuri, surse și unități; afișați rândul exact din deviz și reveniți la același context de verificare.",
+      "Prețurile zero explicite sunt valide. Examinarea păstrează cantitățile, prețurile, starea de modificare și istoricul de anulare.",
+      "Disponibil prin review.list, review.open și review.openItem din MCP desktop, precum și prin funcția SDK pură reviewBudget."
+    ],
+    "v2026.44.3-dev": [
+      "Introducerea pe mobil păstrează prețurile zero, urmează limba interfeței și moneda proiectului și acceptă anularea și refacerea",
+      "Cantitățile legate sunt doar în citire până la dezlegarea explicită; dezlegarea și editarea formează un singur pas de anulare",
+      "Ștergerea, decuparea și lipirea sunt limitate la tabelul devizului; câmpurile de text păstrează anularea nativă",
+      "Erorile asistentului pot fi localizate sau abandonate, iar ambele interfețe de verificare acceptă prețuri zero explicite",
+      "Dialogurile au nume accesibile, gestionarea focalizării și suport pentru ferestre imbricate",
+      "Elementele IFC au paginare, numărare și selectarea tuturor rezultatelor căutării, inclusiv ifc.selectFiltered în MCP",
+      "Verificările surselor PDF folosesc un index; asistentul flotant independent este ascuns în modul găzduit"
+    ],
+    "v2026.44.4-dev": [
+      "Acțiunile din panglică respectă selecția multiplă; copierea sau decuparea articolelor de cost restrânse le păstrează liniile de calcul",
+      "Acțiunile de salvare și ale celei de-a doua ferestre vizează documentul corect; editările ofertei și ale foii de calcul primesc protecție pentru modificările nesalvate",
+      "Tipărirea și exportul PDF folosesc aceleași tipuri și opțiuni de raport; tipărirea ofertei pe desktop funcționează și raportează erorile",
+      "Comenzile fără ținte valide sunt dezactivate; filele de setări goale sunt eliminate, iar presetările de zoom pot fi activate de la tastatură"
+    ],
+    "v2026.44.5-dev": [
+      "Sesiunile găzduite urmează limba și tema, fără o bară de titlu dublată.",
+      "Container desktop nativ și MCP HTTP privat pregătite; acceptarea reală a containerului și publicarea rămân în așteptare.",
+      "Colectarea semnăturilor pentru actualizator a fost extinsă; un mic prototip aritmetic DynLex a fost verificat."
     ]
+  },
+  "status": {
+    "unreleased": "În dezvoltare"
   }
 }

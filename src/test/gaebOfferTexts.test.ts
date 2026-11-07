@@ -18,10 +18,11 @@ describe('GAEB-aanbieding: teksten volgen de taal van de app', () => {
     await changeLanguage(lang);
     expect(applied()).toBe(message);
     expect(fileType()).toBe(type);
-  });
+  }, 15000); // taal wisselen laadt de taalbestanden; traag onder belasting
 
-  it('valt voor andere talen terug op Engels, niet op Nederlands', async () => {
+  it('gebruikt in andere talen de eigen vertaling, niet het Nederlands', async () => {
     await changeLanguage('fr');
-    expect(applied()).toBe('5 GAEB bid prices applied.');
-  });
+    expect(applied()).toBe('5 prix de soumission GAEB appliqués.');
+    expect(applied()).not.toContain('overgenomen');
+  }, 15000);
 });

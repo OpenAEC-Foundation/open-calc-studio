@@ -188,7 +188,8 @@
     "renamePrompt": "Ganti nama lembar:",
     "deleteConfirm": "Hapus lembar ini?",
     "rename": "Ganti nama",
-    "delete": "Hapus"
+    "delete": "Hapus",
+    "backToBudget": "Kembali ke anggaran"
   },
   "staart": {
     "groupHoursTitle": "Sesuaikan total grup — baris di bawahnya diskalakan ulang secara proporsional",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Atur dasar PPN",
     "finalAmountSet": "Atur nilai akhir",
     "roundingStep": "Kelipatan pembulatan"
-  }
+  },
+  "pdfLinkMissing": "Pengukuran sumber PDF hilang; volume terakhir yang diketahui dipertahankan. Tautkan kembali pengukurannya."
 }

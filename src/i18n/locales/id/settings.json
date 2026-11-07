@@ -37,7 +37,10 @@
     "uiFontSize": "Ukuran font antarmuka",
     "assistant": "Asisten obrolan",
     "chatBubble": "Tampilkan tombol obrolan di kanan bawah",
-    "chatBubbleHelp": "Jika dimatikan, asisten tetap tersedia di ruang kerja “Prompt & Estimate”."
+    "chatBubbleHelp": "Jika dimatikan, asisten tetap tersedia di ruang kerja “Prompt & Estimate”.",
+    "blueprint": "Blueprint",
+    "highContrastDark": "Kontras tinggi gelap",
+    "highContrastLight": "Kontras tinggi terang"
   },
   "grid": {
     "general": "Tabel",

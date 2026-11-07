@@ -16,7 +16,14 @@
     "v0.8.2": "OpenAEC tras un indicador de función",
     "v0.8.1": "Inicio de sesión OpenAEC + mejoras del asistente",
     "v0.8.0": "El asistente aplica los cambios directamente",
-    "v0.7.10": "Cuenta OpenAEC + navegación en la barra inferior"
+    "v0.7.10": "Cuenta OpenAEC + navegación en la barra inferior",
+    "unreleased": "Aplicación web móvil para presupuestos",
+    "v2026.44.0-dev": "Desarrollo 2026.44.0: Blueprint, asistente y almacenamiento alojado",
+    "v2026.44.1-dev": "Espacios de trabajo, orígenes de mediciones y vistas previas financieras",
+    "v2026.44.2-dev": "Centro de revisión para precios, orígenes y unidades",
+    "v2026.44.3-dev": "Entrada más segura, diálogos accesibles y selecciones IFC completas",
+    "v2026.44.4-dev": "Comprobación de botones, selección segura e impresión coherente",
+    "v2026.44.5-dev": "Preferencias de SuperCloud y preparación del contenedor"
   },
   "highlights": {
     "v0.13.0": [
@@ -112,6 +119,55 @@
       "Cuenta OpenAEC y navegación en la barra inferior",
       "Ocultar/mostrar columnas con el clic derecho en el encabezado de columna",
       "Pestañas de Horas y Recargos unificadas; informe estilo IBIS (Bouw 2)"
+    ],
+    "unreleased": [
+      "Edite presupuestos en Android e iPhone con una vista compacta de capítulos, partidas, líneas de cálculo, mediciones y precios",
+      "Abra y descargue archivos .ifcCalc, edite celdas de hojas de cálculo y use Prompt y presupuesto en su teléfono",
+      "El último proyecto activo se restaura como borrador local; use Guardar para obtener una copia portátil"
+    ],
+    "v2026.44.0-dev": [
+      "Nuevo espacio de trabajo con navegación persistente, encabezado del proyecto y total del presupuesto en directo; tipografía oficial de Blueprint en todos los controles, sin registros de fuentes en conflicto.",
+      "Cinco temas oficiales de Blueprint con fuentes locales y la interfaz de cálculo compartida",
+      "Asistente de presupuesto opcional en cinco pasos con vuelta directa al editor completo",
+      "Archivos y versiones alojados con protección frente a conflictos, además de una calculadora REST/HTTP-MCP independiente",
+      "Compilación de desarrollo: la aceptación en dispositivo, la firma y AWS siguen pendientes",
+      "Las traducciones al inglés y al neerlandés cubren ahora las mediciones en PDF, la vista dividida IFC, las propuestas del asistente, la biblioteca de precios y los mensajes de validación."
+    ],
+    "v2026.44.1-dev": [
+      "Guarde espacios de trabajo por tarea para medir, presupuestar y revisar, incluidos el ancho de los paneles, el zoom y las columnas.",
+      "Una segunda ventana muestra los planos en PDF y el origen de la medición seleccionada sin editar el presupuesto.",
+      "Inspeccione para cada medición el archivo de origen y su identidad, la página o la selección IFC, la fórmula y el valor vinculado original.",
+      "Revise los totales financieros antes y después de una propuesta del asistente, incluidos recargos e IVA; aplique o deshaga toda la propuesta de una vez.",
+      "Todas las funciones nuevas están disponibles a través del servidor MCP en directo. El formato de archivo nativo añade procedencia opcional en la versión 2.3.0."
+    ],
+    "v2026.44.2-dev": [
+      "Abra el Centro de revisión en la barra lateral, o Revisión en el móvil; el indicador sigue las incidencias actuales.",
+      "Filtre las comprobaciones de precios, orígenes y unidades; muestre la línea exacta del presupuesto y vuelva al mismo contexto de revisión.",
+      "Los precios cero explícitos son válidos. La inspección conserva mediciones, precios, estado de modificación e historial de deshacer.",
+      "Disponible a través de review.list, review.open y review.openItem del MCP de escritorio, y de la función pura reviewBudget del SDK."
+    ],
+    "v2026.44.3-dev": [
+      "La entrada móvil conserva los precios cero, sigue la configuración regional de la interfaz y la moneda del proyecto, y admite deshacer y rehacer",
+      "Las mediciones vinculadas son de solo lectura hasta que se desvinculan explícitamente; desvincular y editar forman un único paso de deshacer",
+      "Eliminar, cortar y pegar se limitan a la tabla del presupuesto; los campos de texto conservan el deshacer nativo",
+      "Los errores del asistente se pueden localizar o descartar, y ambas interfaces de revisión aceptan precios cero explícitos",
+      "Los diálogos tienen nombres accesibles, gestión del foco y compatibilidad con ventanas anidadas",
+      "Los elementos IFC tienen paginación, recuentos y selección de todos los resultados de búsqueda, incluido ifc.selectFiltered en MCP",
+      "Las comprobaciones de origen PDF usan un índice; el asistente flotante independiente se oculta en modo alojado"
+    ],
+    "v2026.44.4-dev": [
+      "Las acciones de la cinta respetan la selección múltiple; copiar o cortar partidas contraídas conserva sus líneas de cálculo",
+      "Las acciones de guardar y de segunda ventana actúan sobre el documento correcto; las ediciones de ofertas y hojas de cálculo reciben protección de cambios sin guardar",
+      "Imprimir y exportar a PDF comparten tipos de informe y opciones; la impresión de ofertas en escritorio funciona e informa de los fallos",
+      "Los comandos sin destino válido se desactivan; se han quitado las pestañas de configuración vacías y los niveles de zoom predefinidos se pueden activar con el teclado"
+    ],
+    "v2026.44.5-dev": [
+      "Las sesiones alojadas siguen el idioma y el tema sin barra de título duplicada.",
+      "Contenedor de escritorio nativo y MCP HTTP privado preparados; la aceptación real del contenedor y la publicación siguen pendientes.",
+      "Recogida de firmas del actualizador ampliada; se ha verificado un pequeño prototipo aritmético de DynLex."
     ]
+  },
+  "status": {
+    "unreleased": "En desarrollo"
   }
 }

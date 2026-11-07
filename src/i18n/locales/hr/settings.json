@@ -37,7 +37,10 @@
     "uiFontSize": "Veličina fonta sučelja",
     "assistant": "Chat asistent",
     "chatBubble": "Prikaži gumb za chat dolje desno",
-    "chatBubbleHelp": "Kad je isključeno, asistent ostaje dostupan u radnom prostoru „Prompt & Estimate“."
+    "chatBubbleHelp": "Kad je isključeno, asistent ostaje dostupan u radnom prostoru „Prompt & Estimate“.",
+    "blueprint": "Blueprint",
+    "highContrastDark": "Visoki kontrast tamno",
+    "highContrastLight": "Visoki kontrast svijetlo"
   },
   "grid": {
     "general": "Tablica",

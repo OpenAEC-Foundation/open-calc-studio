@@ -81,7 +81,9 @@
     "excelUpdated_one": "Đã cập nhật {{count}} khối lượng",
     "excelUpdated_other": "Đã cập nhật {{count}} khối lượng",
     "excelWarnings": "Cảnh báo:",
-    "excelUpToDate": "Tất cả giá trị đã là mới nhất"
+    "excelUpToDate": "Tất cả giá trị đã là mới nhất",
+    "quantityTitle": "Hiện hoặc ẩn cột Khối lượng",
+    "quantityUi2Title": "Không áp dụng trong UI-2: cột Giờ luôn được giữ"
   },
   "budget": {
     "rows": "Dòng",
@@ -249,6 +251,8 @@
     "pdfQuotation": "Báo giá PDF",
     "printBtn": "In",
     "applyTemplate": "Áp dụng mẫu...",
-    "templateGroup": "Mẫu"
+    "templateGroup": "Mẫu",
+    "desktopRequired": "Xuất PDF và in báo giá cần ứng dụng máy tính để bàn.",
+    "pdfFailed": "Không tạo được báo giá PDF"
   }
 }

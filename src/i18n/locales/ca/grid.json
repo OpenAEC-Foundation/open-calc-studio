@@ -188,7 +188,8 @@
     "renamePrompt": "Canvia el nom del full:",
     "deleteConfirm": "Voleu suprimir aquest full?",
     "rename": "Canvia el nom",
-    "delete": "Suprimeix"
+    "delete": "Suprimeix",
+    "backToBudget": "Torna al pressupost"
   },
   "staart": {
     "groupHoursTitle": "Ajusteu el total del grup: les línies subjacents es reescalen a prorrata",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Definició de la base de l'IVA",
     "finalAmountSet": "Definició de l'import final",
     "roundingStep": "Esglaó d'arrodoniment"
-  }
+  },
+  "pdfLinkMissing": "Falta l'amidament d'origen del PDF; es conserva el darrer amidament conegut. Torneu a enllaçar l'amidament."
 }

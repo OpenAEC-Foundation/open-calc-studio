@@ -188,7 +188,8 @@
     "renamePrompt": "Nimeä taulukko uudelleen:",
     "deleteConfirm": "Poistetaanko tämä taulukko?",
     "rename": "Nimeä uudelleen",
-    "delete": "Poista"
+    "delete": "Poista",
+    "backToBudget": "Takaisin kustannusarvioon"
   },
   "staart": {
     "groupHoursTitle": "Muuta ryhmän kokonaismäärää — alla olevat rivit skaalataan suhteessa",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Aseta alv-peruste",
     "finalAmountSet": "Aseta lopullinen summa",
     "roundingStep": "Pyöristystarkkuus"
-  }
+  },
+  "pdfLinkMissing": "PDF-lähdemittaus puuttuu; viimeinen tunnettu määrä säilytetään. Linkitä mittaus uudelleen."
 }

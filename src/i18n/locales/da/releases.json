@@ -16,7 +16,14 @@
     "v0.8.2": "OpenAEC bag et feature flag",
     "v0.8.1": "OpenAEC-login + forbedringer af assistenten",
     "v0.8.0": "Assistenten foretager ændringer direkte",
-    "v0.7.10": "OpenAEC-konto + navigation i bundlinjen"
+    "v0.7.10": "OpenAEC-konto + navigation i bundlinjen",
+    "unreleased": "Mobil webapp til budgetter",
+    "v2026.44.0-dev": "2026.44.0 under udvikling: Blueprint, guide og hostet lagring",
+    "v2026.44.1-dev": "Arbejdsområder, mængdeoprindelse og økonomiske forhåndsvisninger",
+    "v2026.44.2-dev": "Kontrolcenter for priser, kilder og enheder",
+    "v2026.44.3-dev": "Sikrere indtastning, tilgængelige dialoger og komplette IFC-markeringer",
+    "v2026.44.4-dev": "Knapkontrol, sikker markering og ensartet udskrivning",
+    "v2026.44.5-dev": "SuperCloud-indstillinger og forberedelse af container"
   },
   "highlights": {
     "v0.13.0": [
@@ -112,6 +119,55 @@
       "OpenAEC-konto og navigation i bundlinjen",
       "Skjul/vis kolonner ved at højreklikke på kolonneoverskriften",
       "Fanerne Timer og Tillæg er slået sammen; rapport i IBIS-stil (Bouw 2)"
+    ],
+    "unreleased": [
+      "Rediger budgetter på Android og iPhone med en kompakt visning af kapitler, poster, beregningslinjer, mængder og priser",
+      "Åbn og download .ifcCalc-filer, rediger regnearksceller, og brug Prompt & Budget på din telefon",
+      "Det senest aktive projekt gendannes som lokal kladde; brug Gem for at få en flytbar kopi"
+    ],
+    "v2026.44.0-dev": [
+      "Nyt arbejdsområde med fast navigation, projekthoved og løbende budgettotal; officiel Blueprint-typografi i alle kontroller uden konkurrerende skriftregistreringer.",
+      "Fem officielle Blueprint-temaer med lokale skrifttyper og den fælles kalkulationsbrugerflade",
+      "Valgfri budgetguide i fem trin med direkte retur til den fulde editor",
+      "Hostede filer og versioner med konfliktbeskyttelse samt en separat REST/HTTP-MCP-kalkulator",
+      "Udviklingsbuild: enhed, signering og AWS-godkendelse mangler stadig",
+      "Engelske og hollandske oversættelser dækker nu PDF-målinger, den opdelte IFC-visning, assistentforslag, prisbiblioteket og valideringsmeddelelser."
+    ],
+    "v2026.44.1-dev": [
+      "Gem arbejdsområder til opmåling, budgettering og kontrol, inkl. panelbredder, zoom og kolonner.",
+      "Et andet vindue viser PDF-tegninger og den valgte mængdes oprindelse uden at redigere budgettet.",
+      "Se kildefil og identitet, side eller IFC-markering, formel og den oprindeligt forbundne værdi for hver mængde.",
+      "Gennemgå de økonomiske totaler før og efter et assistentforslag, inkl. tillæg og moms; anvend eller fortryd hele forslaget samlet.",
+      "Alle nye funktioner er tilgængelige via den aktive MCP-server. Det native filformat får valgfri oprindelsesdata i version 2.3.0."
+    ],
+    "v2026.44.2-dev": [
+      "Åbn Kontrolcenter i sidepanelet eller Kontrol på mobil; mærket følger de aktuelle kontrolpunkter.",
+      "Filtrer pris-, kilde- og enhedskontroller; vis den præcise budgetlinje, og vend tilbage til samme kontrolkontekst.",
+      "Udtrykkelige nulpriser er gyldige. Gennemgang bevarer mængder, priser, ugemt tilstand og fortrydelseshistorik.",
+      "Tilgængelig via desktop-MCP review.list, review.open og review.openItem samt den rene SDK-funktion reviewBudget."
+    ],
+    "v2026.44.3-dev": [
+      "Mobil indtastning bevarer nulpriser, følger brugerfladens sprog og projektets valuta og understøtter fortryd og gentag",
+      "Forbundne mængder er skrivebeskyttede, indtil forbindelsen udtrykkeligt fjernes; fjernelse og redigering udgør ét fortrydelsestrin",
+      "Slet, klip og indsæt er afgrænset til budgettabellen; tekstfelter beholder den indbyggede fortryd",
+      "Fejl i guiden kan findes eller kasseres, og begge kontrolbrugerflader accepterer udtrykkelige nulpriser",
+      "Dialoger har tilgængelige navne, fokusstyring og understøttelse af indlejrede vinduer",
+      "IFC-elementer har sideinddeling, antal og markering af alle søgeresultater, inkl. ifc.selectFiltered i MCP",
+      "PDF-kildekontroller bruger et indeks; den uafhængige flydende assistent er skjult i hostet tilstand"
+    ],
+    "v2026.44.4-dev": [
+      "Båndets handlinger respekterer flere markerede linjer; kopiering eller klipning af skjulte omkostningsposter bevarer deres beregningslinjer",
+      "Gem og handlinger i det andet vindue rammer det rigtige dokument; redigering af tilbud og regneark beskyttes mod tab af ugemte ændringer",
+      "Udskrivning og PDF-eksport deler rapporttyper og indstillinger; udskrivning af tilbud på skrivebordet virker og melder fejl",
+      "Kommandoer uden gyldige mål er deaktiveret; tomme indstillingsfaner er fjernet, og zoomforvalg kan aktiveres med tastaturet"
+    ],
+    "v2026.44.5-dev": [
+      "Hostede sessioner følger sprog og tema uden en dubleret titellinje.",
+      "Native skrivebordscontainer og privat HTTP-MCP forberedt; egentlig godkendelse af containeren og udgivelse mangler stadig.",
+      "Indsamling af opdateringssignaturer udvidet; en lille DynLex-aritmetikprototype er verificeret."
     ]
+  },
+  "status": {
+    "unreleased": "Under udvikling"
   }
 }

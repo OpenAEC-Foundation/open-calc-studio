@@ -16,7 +16,14 @@
     "v0.8.2": "OpenAEC atrás de um feature flag",
     "v0.8.1": "Início de sessão OpenAEC + melhorias no assistente",
     "v0.8.0": "O assistente aplica as alterações diretamente",
-    "v0.7.10": "Conta OpenAEC + navegação na barra inferior"
+    "v0.7.10": "Conta OpenAEC + navegação na barra inferior",
+    "unreleased": "Aplicação web móvel para orçamentos",
+    "v2026.44.0-dev": "Desenvolvimento 2026.44.0: Blueprint, assistente e armazenamento alojado",
+    "v2026.44.1-dev": "Áreas de trabalho, origens de quantidades e pré-visualizações financeiras",
+    "v2026.44.2-dev": "Centro de revisão para preços, origens e unidades",
+    "v2026.44.3-dev": "Introdução mais segura, diálogos acessíveis e seleções IFC completas",
+    "v2026.44.4-dev": "Verificação de botões, seleção segura e impressão consistente",
+    "v2026.44.5-dev": "Preferências SuperCloud e preparação do contentor"
   },
   "highlights": {
     "v0.13.0": [
@@ -112,6 +119,55 @@
       "Conta OpenAEC e navegação na barra inferior",
       "Ocultar/mostrar colunas com o botão direito no cabeçalho da coluna",
       "Separadores Horas e Majorações reunidos; relatório em estilo IBIS (Bouw 2)"
+    ],
+    "unreleased": [
+      "Edite orçamentos em Android e iPhone com uma vista compacta de capítulos, artigos, linhas de cálculo, quantidades e preços",
+      "Abra e transfira ficheiros .ifcCalc, edite células de folhas de cálculo e utilize Prompt e orçamento no seu telemóvel",
+      "A última obra ativa é restaurada como rascunho local; utilize Guardar para obter uma cópia portátil"
+    ],
+    "v2026.44.0-dev": [
+      "Nova área de trabalho com navegação persistente, cabeçalho da obra e total do orçamento em tempo real; tipografia oficial Blueprint em todos os controlos, sem registos de tipos de letra concorrentes.",
+      "Cinco temas oficiais Blueprint com tipos de letra locais e a interface de cálculo partilhada",
+      "Assistente de orçamento opcional em cinco passos com regresso direto ao editor completo",
+      "Ficheiros e versões alojados com proteção contra conflitos, além de uma calculadora REST/HTTP-MCP separada",
+      "Compilação de desenvolvimento: dispositivo, assinatura e aceitação AWS ainda pendentes",
+      "As traduções em inglês e neerlandês cobrem agora as medições em PDF, a vista dividida IFC, as propostas do assistente, a biblioteca de preços e as mensagens de validação."
+    ],
+    "v2026.44.1-dev": [
+      "Guarde áreas de trabalho por tarefa para medir, orçamentar e rever, incluindo larguras dos painéis, zoom e colunas.",
+      "Uma segunda janela mostra os desenhos em PDF e a origem da quantidade selecionada sem editar o orçamento.",
+      "Inspecione o ficheiro de origem e a identidade, a página ou a seleção IFC, a fórmula e o valor ligado original de cada quantidade.",
+      "Reveja os totais financeiros antes e depois de uma proposta do assistente, incluindo majorações e IVA; aplique ou anule toda a proposta de uma só vez.",
+      "Todas as novas funções estão disponíveis através do servidor MCP em tempo real. O formato de ficheiro nativo acrescenta proveniência opcional na versão 2.3.0."
+    ],
+    "v2026.44.2-dev": [
+      "Abra o Centro de revisão na barra lateral, ou Revisão no telemóvel; o distintivo acompanha as questões atuais.",
+      "Filtre as verificações de preços, origens e unidades; revele a linha exata do orçamento e regresse ao mesmo contexto de revisão.",
+      "Os preços zero explícitos são válidos. A inspeção preserva quantidades, preços, estado de alterações e histórico de anulação.",
+      "Disponível através do MCP de ambiente de trabalho review.list, review.open e review.openItem, e da função pura reviewBudget do SDK."
+    ],
+    "v2026.44.3-dev": [
+      "A introdução móvel preserva preços zero, segue o idioma da interface e a moeda da obra, e suporta anular e refazer",
+      "As quantidades ligadas são só de leitura até serem explicitamente desligadas; desligar e editar formam um único passo de anulação",
+      "Eliminar, cortar e colar limitam-se à grelha do orçamento; os campos de texto mantêm a anulação nativa",
+      "Os erros do assistente podem ser localizados ou descartados, e ambas as interfaces de revisão aceitam preços zero explícitos",
+      "Os diálogos têm nomes acessíveis, gestão do foco e suporte para janelas aninhadas",
+      "Os elementos IFC têm paginação, contagens e seleção de todos os resultados da pesquisa, incluindo ifc.selectFiltered no MCP",
+      "As verificações de origem PDF usam um índice; o assistente flutuante independente é ocultado quando alojado"
+    ],
+    "v2026.44.4-dev": [
+      "As ações do friso respeitam a seleção múltipla; copiar ou cortar artigos de custo reduzidos preserva as suas linhas de cálculo",
+      "As ações de guardar e de segunda janela visam o documento certo; as edições de propostas e folhas de cálculo recebem proteção contra alterações não guardadas",
+      "A impressão e a exportação para PDF partilham tipos e opções de relatório; a impressão de propostas no ambiente de trabalho funciona e comunica as falhas",
+      "Os comandos sem destinos válidos são desativados; os separadores de definições vazios foram removidos e as predefinições de zoom suportam ativação por teclado"
+    ],
+    "v2026.44.5-dev": [
+      "As sessões alojadas seguem o idioma e o tema sem uma barra de título duplicada.",
+      "Contentor nativo de ambiente de trabalho e MCP HTTP privado preparados; a aceitação real do contentor e a publicação continuam pendentes.",
+      "Recolha de assinaturas do atualizador alargada; um pequeno protótipo aritmético DynLex foi verificado."
     ]
+  },
+  "status": {
+    "unreleased": "Em desenvolvimento"
   }
 }

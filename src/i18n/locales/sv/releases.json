@@ -16,7 +16,14 @@
     "v0.8.2": "OpenAEC bakom en funktionsflagga",
     "v0.8.1": "OpenAEC-inloggning + förbättringar av assistenten",
     "v0.8.0": "Assistenten gör ändringar direkt",
-    "v0.7.10": "OpenAEC-konto + navigering i nederkanten"
+    "v0.7.10": "OpenAEC-konto + navigering i nederkanten",
+    "unreleased": "Mobil webbapp för kalkyler",
+    "v2026.44.0-dev": "Utveckling 2026.44.0: Blueprint, guide och värdbaserad lagring",
+    "v2026.44.1-dev": "Arbetsytor, mängdursprung och ekonomiska förhandsvisningar",
+    "v2026.44.2-dev": "Granskningscenter för priser, källor och enheter",
+    "v2026.44.3-dev": "Säkrare inmatning, tillgängliga dialoger och fullständiga IFC-markeringar",
+    "v2026.44.4-dev": "Knappkontroller, säker markering och enhetlig utskrift",
+    "v2026.44.5-dev": "SuperCloud-inställningar och containerförberedelser"
   },
   "highlights": {
     "v0.13.0": [
@@ -112,6 +119,55 @@
       "OpenAEC-konto och navigering i nederkanten",
       "Dölj/visa kolumner genom att högerklicka på kolumnrubriken",
       "Flikarna Timmar och Påslag har slagits ihop; rapport i IBIS-stil (Bouw 2)"
+    ],
+    "unreleased": [
+      "Redigera kalkyler på Android och iPhone med en kompakt vy för kapitel, poster, kalkylrader, mängder och priser",
+      "Öppna och ladda ner .ifcCalc-filer, redigera kalkylbladsceller och använd Prompt och kalkyl på telefonen",
+      "Det senast aktiva projektet återställs som ett lokalt utkast; använd Spara för en portabel kopia"
+    ],
+    "v2026.44.0-dev": [
+      "Ny arbetsyta med beständig navigering, projekthuvud och kalkylsumma i realtid; officiell Blueprint-typografi i alla kontroller, utan konkurrerande typsnittsregistreringar.",
+      "Fem officiella Blueprint-teman med lokala typsnitt och det gemensamma kalkylgränssnittet",
+      "Valfri kalkylguide i fem steg med direkt återgång till den fullständiga redigeraren",
+      "Värdfiler och versioner med konfliktskydd, plus en separat REST/HTTP-MCP-kalkylator",
+      "Utvecklingsbygge: enhet, signering och AWS-acceptans återstår",
+      "Engelska och nederländska översättningar täcker nu PDF-mätningar, den delade IFC-vyn, assistentförslag, prisbiblioteket och valideringsmeddelanden."
+    ],
+    "v2026.44.1-dev": [
+      "Spara arbetsytor för mätning, kalkylering och granskning, inklusive panelbredder, zoom och kolumner.",
+      "Ett andra fönster visar PDF-ritningar och den valda mängdens ursprung utan att redigera kalkylen.",
+      "Granska källfil och identitet, sida eller IFC-markering, formel och det ursprungligen kopplade värdet för varje mängd.",
+      "Granska ekonomiska summor före och efter ett assistentförslag, inklusive påslag och moms; tillämpa eller ångra hela förslaget på en gång.",
+      "Alla nya funktioner är tillgängliga via den aktiva MCP-servern. Det egna filformatet får valfri proveniens i version 2.3.0."
+    ],
+    "v2026.44.2-dev": [
+      "Öppna Granskningscenter i sidofältet, eller Granska på mobilen; märket följer aktuella punkter.",
+      "Filtrera pris-, käll- och enhetskontroller; visa den exakta kalkylraden och återgå till samma granskningssammanhang.",
+      "Uttryckliga nollpriser är giltiga. Granskningen bevarar mängder, priser, osparat läge och ångrahistorik.",
+      "Tillgängligt via desktop-MCP review.list, review.open och review.openItem samt den rena SDK-funktionen reviewBudget."
+    ],
+    "v2026.44.3-dev": [
+      "Mobil inmatning bevarar nollpriser, följer gränssnittets språk och projektets valuta, och stöder ångra och gör om",
+      "Kopplade mängder är skrivskyddade tills kopplingen uttryckligen tas bort; borttagning och redigering bildar ett ångrasteg",
+      "Ta bort, klipp ut och klistra in är begränsade till kalkyltabellen; textfält behåller inbyggt ångra",
+      "Guidens fel kan lokaliseras eller förkastas, och båda granskningsgränssnitten godtar uttryckliga nollpriser",
+      "Dialoger har tillgängliga namn, fokushantering och stöd för nästlade fönster",
+      "IFC-element har sidindelning, antal och markering av alla sökresultat, inklusive ifc.selectFiltered i MCP",
+      "PDF-källkontroller använder ett index; den fristående flytande assistenten döljs i värdläge"
+    ],
+    "v2026.44.4-dev": [
+      "Åtgärder i menyfliksområdet respekterar flermarkering; kopiering eller urklippning av ihopfällda kostnadsposter bevarar deras kalkylrader",
+      "Spara och åtgärder i andra fönstret riktas mot rätt dokument; offert- och kalkylbladsändringar får skydd mot osparade ändringar",
+      "Utskrift och PDF-export delar rapporttyper och alternativ; offertutskrift på skrivbordet fungerar och rapporterar fel",
+      "Kommandon utan giltiga mål är inaktiverade; tomma inställningsflikar har tagits bort och zoomförval kan aktiveras med tangentbordet"
+    ],
+    "v2026.44.5-dev": [
+      "Värdbaserade sessioner följer språk och tema utan dubbel namnlist.",
+      "Inbyggd skrivbordscontainer och privat HTTP-MCP förberedda; verklig containeracceptans och publicering återstår.",
+      "Insamlingen av uppdaterarsignaturer utökad; en liten DynLex-prototyp för aritmetik har verifierats."
     ]
+  },
+  "status": {
+    "unreleased": "Under utveckling"
   }
 }

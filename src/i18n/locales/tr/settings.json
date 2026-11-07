@@ -37,7 +37,10 @@
     "uiFontSize": "Arayüz yazı boyutu",
     "assistant": "Sohbet asistanı",
     "chatBubble": "Sağ alttaki sohbet düğmesini göster",
-    "chatBubbleHelp": "Kapalıyken asistan “Prompt & Estimate” çalışma alanında kullanılabilir kalır."
+    "chatBubbleHelp": "Kapalıyken asistan “Prompt & Estimate” çalışma alanında kullanılabilir kalır.",
+    "blueprint": "Blueprint",
+    "highContrastDark": "Yüksek kontrast koyu",
+    "highContrastLight": "Yüksek kontrast açık"
   },
   "grid": {
     "general": "Tablo",

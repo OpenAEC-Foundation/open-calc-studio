@@ -37,7 +37,10 @@
     "uiFontSize": "Tamanho de letra da interface",
     "assistant": "Assistente de chat",
     "chatBubble": "Mostrar o botão de chat no canto inferior direito",
-    "chatBubbleHelp": "Desativado, o assistente continua disponível na área de trabalho «Prompt & Estimate»."
+    "chatBubbleHelp": "Desativado, o assistente continua disponível na área de trabalho «Prompt & Estimate».",
+    "blueprint": "Blueprint",
+    "highContrastDark": "Contraste elevado escuro",
+    "highContrastLight": "Contraste elevado claro"
   },
   "grid": {
     "general": "Grelha",

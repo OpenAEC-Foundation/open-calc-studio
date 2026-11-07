@@ -188,7 +188,8 @@
     "renamePrompt": "Zmień nazwę arkusza:",
     "deleteConfirm": "Usunąć ten arkusz?",
     "rename": "Zmień nazwę",
-    "delete": "Usuń"
+    "delete": "Usuń",
+    "backToBudget": "Powrót do kosztorysu"
   },
   "staart": {
     "groupHoursTitle": "Skoryguj sumę grupy — wiersze podrzędne zostaną przeskalowane proporcjonalnie",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Ustawienie podstawy VAT",
     "finalAmountSet": "Ustawienie kwoty końcowej",
     "roundingStep": "Krok zaokrąglenia"
-  }
+  },
+  "pdfLinkMissing": "Brak źródłowego pomiaru PDF; zachowano ostatnią znaną ilość. Powiąż pomiar ponownie."
 }

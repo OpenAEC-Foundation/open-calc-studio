@@ -16,7 +16,14 @@
     "v0.8.2": "OpenAEC derrière un indicateur de fonctionnalité",
     "v0.8.1": "Connexion OpenAEC + améliorations de l'assistant",
     "v0.8.0": "L'assistant applique les modifications directement",
-    "v0.7.10": "Compte OpenAEC + navigation dans la barre inférieure"
+    "v0.7.10": "Compte OpenAEC + navigation dans la barre inférieure",
+    "unreleased": "Application web mobile pour les devis",
+    "v2026.44.0-dev": "Développement 2026.44.0 : Blueprint, assistant et stockage hébergé",
+    "v2026.44.1-dev": "Espaces de travail, origines des quantités et aperçus financiers",
+    "v2026.44.2-dev": "Centre de contrôle pour les prix, les sources et les unités",
+    "v2026.44.3-dev": "Saisie plus sûre, boîtes de dialogue accessibles et sélections IFC complètes",
+    "v2026.44.4-dev": "Vérification des boutons, sélection sûre et impression cohérente",
+    "v2026.44.5-dev": "Préférences SuperCloud et préparation du conteneur"
   },
   "highlights": {
     "v0.13.0": [
@@ -112,6 +119,55 @@
       "Compte OpenAEC et navigation dans la barre inférieure",
       "Masquer/afficher des colonnes par clic droit sur l'en-tête de colonne",
       "Onglets Heures et Majorations regroupés ; rapport de style IBIS (Bouw 2)"
+    ],
+    "unreleased": [
+      "Modifiez des devis sur Android et iPhone avec une vue compacte des lots, ouvrages, lignes de calcul, quantités et prix",
+      "Ouvrez et téléchargez des fichiers .ifcCalc, modifiez des cellules de feuille de calcul et utilisez Prompt & Devis sur votre téléphone",
+      "Le dernier projet actif est restauré comme brouillon local ; utilisez Enregistrer pour une copie portable"
+    ],
+    "v2026.44.0-dev": [
+      "Nouvel espace de travail avec navigation persistante, en-tête de projet et total du devis en direct ; typographie Blueprint officielle sur tous les contrôles, sans enregistrements de polices concurrents.",
+      "Cinq thèmes Blueprint officiels avec polices locales et interface de calcul partagée",
+      "Assistant de devis facultatif en cinq étapes avec retour direct à l'éditeur complet",
+      "Fichiers et versions hébergés avec protection contre les conflits, plus un calculateur REST/HTTP-MCP séparé",
+      "Version de développement : l'acceptation sur appareil, la signature et AWS sont encore en attente",
+      "Les traductions anglaise et néerlandaise couvrent désormais les mesures PDF, la vue partagée IFC, les propositions de l'assistant, la bibliothèque de prix et les messages de validation."
+    ],
+    "v2026.44.1-dev": [
+      "Enregistrez des espaces de travail par tâche pour le métré, le chiffrage et le contrôle, y compris la largeur des panneaux, le zoom et les colonnes.",
+      "Une seconde fenêtre affiche les plans PDF et l'origine de la quantité sélectionnée sans modifier le devis.",
+      "Inspectez pour chaque quantité le fichier source et son identité, la page ou la sélection IFC, la formule et la valeur liée d'origine.",
+      "Examinez les totaux financiers avant et après une proposition de l'assistant, majorations et TVA comprises ; appliquez ou annulez la proposition entière d'un coup.",
+      "Toutes les nouvelles fonctions sont disponibles via le serveur MCP en direct. Le format de fichier natif ajoute une provenance facultative en version 2.3.0."
+    ],
+    "v2026.44.2-dev": [
+      "Ouvrez le centre de contrôle dans la barre latérale, ou Contrôle sur mobile ; le badge suit les points en cours.",
+      "Filtrez les contrôles de prix, de sources et d'unités ; affichez la ligne de devis exacte et revenez au même contexte de contrôle.",
+      "Les prix zéro explicites sont valides. L'inspection préserve les quantités, les prix, l'état modifié et l'historique d'annulation.",
+      "Disponible via les commandes MCP de bureau review.list, review.open et review.openItem, et la fonction SDK pure reviewBudget."
+    ],
+    "v2026.44.3-dev": [
+      "La saisie mobile conserve les prix zéro, suit la langue de l'interface et la devise du projet, et prend en charge annuler et rétablir",
+      "Les quantités liées sont en lecture seule jusqu'à leur dissociation explicite ; dissocier et modifier forment une seule étape d'annulation",
+      "Supprimer, couper et coller sont limités à la grille du devis ; les champs de texte conservent l'annulation native",
+      "Les erreurs de l'assistant peuvent être localisées ou abandonnées, et les deux interfaces de contrôle acceptent les prix zéro explicites",
+      "Les boîtes de dialogue ont des noms accessibles, une gestion du focus et la prise en charge des fenêtres imbriquées",
+      "Les éléments IFC disposent d'une pagination, de comptages et de la sélection de tous les résultats de recherche, y compris ifc.selectFiltered dans MCP",
+      "Les contrôles de source PDF utilisent un index ; l'assistant flottant indépendant est masqué en mode hébergé"
+    ],
+    "v2026.44.4-dev": [
+      "Les actions du ruban respectent la sélection multiple ; copier ou couper des ouvrages réduits conserve leurs lignes de calcul",
+      "Les actions d'enregistrement et de seconde fenêtre ciblent le bon document ; les modifications d'offre et de feuille de calcul bénéficient de la protection des modifications non enregistrées",
+      "L'impression et l'export PDF partagent les types et options de rapport ; l'impression d'offre sur le bureau fonctionne et signale les échecs",
+      "Les commandes sans cible valide sont désactivées ; les onglets de paramètres vides sont supprimés et les préréglages de zoom peuvent être activés au clavier"
+    ],
+    "v2026.44.5-dev": [
+      "Les sessions hébergées suivent la langue et le thème sans barre de titre en double.",
+      "Conteneur de bureau natif et MCP HTTP privé préparés ; l'acceptation réelle du conteneur et la publication restent en attente.",
+      "Collecte des signatures du programme de mise à jour étendue ; un petit prototype arithmétique DynLex a été vérifié."
     ]
+  },
+  "status": {
+    "unreleased": "En développement"
   }
 }

@@ -188,7 +188,8 @@
     "renamePrompt": "Premenovať hárok:",
     "deleteConfirm": "Odstrániť tento hárok?",
     "rename": "Premenovať",
-    "delete": "Odstrániť"
+    "delete": "Odstrániť",
+    "backToBudget": "Späť na rozpočet"
   },
   "staart": {
     "groupHoursTitle": "Upravte súčet skupiny — podriadené riadky sa prepočítajú pomerne",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Nastavenie základu DPH",
     "finalAmountSet": "Nastavenie konečnej sumy",
     "roundingStep": "Krok zaokrúhlenia"
-  }
+  },
+  "pdfLinkMissing": "Zdrojové meranie PDF chýba; posledné známe množstvo zostáva zachované. Prepojte meranie znova."
 }

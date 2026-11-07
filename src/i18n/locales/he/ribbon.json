@@ -83,7 +83,9 @@
     "excelUpdated_many": "{{count}} כמויות עודכנו",
     "excelUpdated_other": "{{count}} כמויות עודכנו",
     "excelWarnings": "אזהרות:",
-    "excelUpToDate": "כל הערכים כבר מעודכנים"
+    "excelUpToDate": "כל הערכים כבר מעודכנים",
+    "quantityTitle": "הצגה או הסתרה של עמודת הכמות",
+    "quantityUi2Title": "לא רלוונטי ב-UI-2: עמודת השעות נשארת תמיד"
   },
   "budget": {
     "rows": "שורות",
@@ -253,6 +255,8 @@
     "pdfQuotation": "הצעת מחיר PDF",
     "printBtn": "הדפסה",
     "applyTemplate": "החלת תבנית...",
-    "templateGroup": "תבנית"
+    "templateGroup": "תבנית",
+    "desktopRequired": "ייצוא PDF והדפסה של הצעת מחיר מחייבים את יישום שולחן העבודה.",
+    "pdfFailed": "לא ניתן ליצור את ה-PDF של הצעת המחיר"
   }
 }

@@ -37,7 +37,10 @@
     "uiFontSize": "ຂະໜາດຕົວອັກສອນ UI",
     "assistant": "ຜູ້ຊ່ວຍສົນທະນາ",
     "chatBubble": "ສະແດງປຸ່ມສົນທະນາຢູ່ມຸມຂວາລຸ່ມ",
-    "chatBubbleHelp": "ເມື່ອປິດ, ຜູ້ຊ່ວຍຍັງໃຊ້ໄດ້ຢູ່ໃນພື້ນທີ່ເຮັດວຽກ “Prompt & Estimate”."
+    "chatBubbleHelp": "ເມື່ອປິດ, ຜູ້ຊ່ວຍຍັງໃຊ້ໄດ້ຢູ່ໃນພື້ນທີ່ເຮັດວຽກ “Prompt & Estimate”.",
+    "blueprint": "Blueprint",
+    "highContrastDark": "ສີຕັດກັນສູງ ແບບມືດ",
+    "highContrastLight": "ສີຕັດກັນສູງ ແບບສະຫວ່າງ"
   },
   "grid": {
     "general": "ຕາໜ່າງ",

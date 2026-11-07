@@ -16,7 +16,14 @@
     "v0.8.2": "OpenAEC za prepínačom funkcií",
     "v0.8.1": "Prihlásenie OpenAEC + vylepšenia asistenta",
     "v0.8.0": "Asistent robí zmeny priamo",
-    "v0.7.10": "Účet OpenAEC + navigácia v spodnej lište"
+    "v0.7.10": "Účet OpenAEC + navigácia v spodnej lište",
+    "unreleased": "Mobilná webová aplikácia pre rozpočty",
+    "v2026.44.0-dev": "Vývoj 2026.44.0: Blueprint, sprievodca a hostované úložisko",
+    "v2026.44.1-dev": "Pracovné priestory, pôvod množstiev a finančné náhľady",
+    "v2026.44.2-dev": "Kontrolné centrum pre ceny, zdroje a jednotky",
+    "v2026.44.3-dev": "Bezpečnejšie zadávanie, prístupné dialógy a úplné výbery IFC",
+    "v2026.44.4-dev": "Kontroly tlačidiel, bezpečný výber a konzistentná tlač",
+    "v2026.44.5-dev": "Predvoľby SuperCloud a príprava kontajnera"
   },
   "highlights": {
     "v0.13.0": [
@@ -112,6 +119,55 @@
       "Účet OpenAEC a navigácia v spodnej lište",
       "Skrývanie/zobrazovanie stĺpcov pravým tlačidlom na hlavičke stĺpca",
       "Karty Hodiny a Prirážky zlúčené; zostava v štýle IBIS (Bouw 2)"
+    ],
+    "unreleased": [
+      "Upravujte rozpočty na Androide a iPhone v kompaktnom zobrazení kapitol, položiek, kalkulačných riadkov, množstiev a cien",
+      "Otvárajte a sťahujte súbory .ifcCalc, upravujte bunky tabuliek a používajte Zadanie a rozpočet v telefóne",
+      "Posledný aktívny projekt sa obnoví ako lokálny koncept; na prenosnú kópiu použite Uložiť"
+    ],
+    "v2026.44.0-dev": [
+      "Nový pracovný priestor s trvalou navigáciou, hlavičkou projektu a živým súčtom rozpočtu; oficiálna typografia Blueprint vo všetkých ovládacích prvkoch bez konkurenčných registrácií písiem.",
+      "Päť oficiálnych motívov Blueprint s lokálnymi písmami a spoločným kalkulačným rozhraním",
+      "Voliteľný päťkrokový sprievodca rozpočtom s priamym návratom do plného editora",
+      "Súbory a verzie na serveri s ochranou pred konfliktmi a samostatná kalkulačka REST/HTTP-MCP",
+      "Vývojové zostavenie: zariadenie, podpisovanie a akceptácia AWS ešte čakajú",
+      "Anglické a holandské preklady teraz pokrývajú merania PDF, rozdelené zobrazenie IFC, návrhy asistenta, cenovú knižnicu a overovacie správy."
+    ],
+    "v2026.44.1-dev": [
+      "Ukladajte pracovné priestory pre meranie, rozpočtovanie a kontrolu vrátane šírok panelov, priblíženia a stĺpcov.",
+      "Druhé okno zobrazuje výkresy PDF a pôvod vybraného množstva bez úprav rozpočtu.",
+      "Pri každom množstve si prezrite zdrojový súbor a identitu, stranu alebo výber IFC, vzorec a pôvodnú prepojenú hodnotu.",
+      "Skontrolujte finančné súčty pred návrhom asistenta a po ňom vrátane prirážok a DPH; celý návrh použite alebo vráťte späť naraz.",
+      "Všetky nové funkcie sú dostupné cez živý server MCP. Natívny formát súboru pridáva voliteľný pôvod údajov vo verzii 2.3.0."
+    ],
+    "v2026.44.2-dev": [
+      "Otvorte Kontrolné centrum v bočnom paneli alebo Kontrolu v mobile; odznak sleduje aktuálne zistenia.",
+      "Filtrujte kontroly cien, zdrojov a jednotiek; zobrazte presný riadok rozpočtu a vráťte sa do rovnakého kontextu kontroly.",
+      "Výslovné nulové ceny sú platné. Kontrola zachováva množstvá, ceny, stav neuložených zmien a históriu krokov späť.",
+      "Dostupné cez desktopové MCP review.list, review.open a review.openItem a čistú funkciu SDK reviewBudget."
+    ],
+    "v2026.44.3-dev": [
+      "Mobilné zadávanie zachováva nulové ceny, sleduje jazyk rozhrania a menu projektu a podporuje kroky späť a znova",
+      "Prepojené množstvá sú iba na čítanie, kým sa väzba výslovne nezruší; zrušenie väzby a úprava tvoria jeden krok späť",
+      "Odstránenie, vystrihnutie a prilepenie sú obmedzené na tabuľku rozpočtu; textové polia si zachovávajú natívny krok späť",
+      "Chyby sprievodcu možno vyhľadať alebo zahodiť a obe kontrolné rozhrania akceptujú výslovné nulové ceny",
+      "Dialógy majú prístupné názvy, správu zamerania a podporu vnorených okien",
+      "Prvky IFC majú stránkovanie, počty a výber všetkých výsledkov hľadania vrátane ifc.selectFiltered v MCP",
+      "Kontroly zdrojov PDF používajú index; nezávislý plávajúci asistent je v hostovanom režime skrytý"
+    ],
+    "v2026.44.4-dev": [
+      "Akcie na páse s nástrojmi rešpektujú viacnásobný výber; kopírovanie alebo vystrihnutie zbalených nákladových položiek zachováva ich kalkulačné riadky",
+      "Akcie uloženia a druhého okna cielia na správny dokument; úpravy ponuky a tabuľky majú ochranu pred stratou neuložených zmien",
+      "Tlač a export PDF zdieľajú typy zostáv a možnosti; desktopová tlač ponuky funguje a hlási zlyhania",
+      "Príkazy bez platných cieľov sú vypnuté; prázdne karty nastavení sú odstránené a predvoľby priblíženia podporujú aktiváciu klávesnicou"
+    ],
+    "v2026.44.5-dev": [
+      "Hostované relácie sledujú jazyk a motív bez duplicitného záhlavia okna.",
+      "Natívny desktopový kontajner a súkromné HTTP MCP sú pripravené; skutočná akceptácia kontajnera a publikovanie ešte čakajú.",
+      "Zber podpisov aktualizátora bol rozšírený; malý aritmetický prototyp DynLex bol overený."
     ]
+  },
+  "status": {
+    "unreleased": "Vo vývoji"
   }
 }

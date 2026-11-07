@@ -37,7 +37,10 @@
     "uiFontSize": "画面の文字サイズ",
     "assistant": "チャットアシスタント",
     "chatBubble": "右下にチャットボタンを表示",
-    "chatBubbleHelp": "オフにしても、アシスタントはワークスペース「Prompt & Estimate」から利用できます。"
+    "chatBubbleHelp": "オフにしても、アシスタントはワークスペース「Prompt & Estimate」から利用できます。",
+    "blueprint": "Blueprint",
+    "highContrastDark": "ハイコントラスト（ダーク）",
+    "highContrastLight": "ハイコントラスト（ライト）"
   },
   "grid": {
     "general": "表",

@@ -16,7 +16,14 @@
     "v0.8.2": "OpenAEC nằm sau một cờ tính năng",
     "v0.8.1": "Đăng nhập OpenAEC + cải tiến trợ lý",
     "v0.8.0": "Trợ lý áp dụng thay đổi trực tiếp",
-    "v0.7.10": "Tài khoản OpenAEC + điều hướng ở thanh dưới"
+    "v0.7.10": "Tài khoản OpenAEC + điều hướng ở thanh dưới",
+    "unreleased": "Ứng dụng web di động cho dự toán",
+    "v2026.44.0-dev": "Bản phát triển 2026.44.0: Blueprint, trình hướng dẫn và lưu trữ trên máy chủ",
+    "v2026.44.1-dev": "Không gian làm việc, nguồn gốc khối lượng và xem trước tài chính",
+    "v2026.44.2-dev": "Trung tâm rà soát cho giá, nguồn và đơn vị",
+    "v2026.44.3-dev": "Nhập liệu an toàn hơn, hộp thoại dễ tiếp cận và chọn IFC đầy đủ",
+    "v2026.44.4-dev": "Kiểm tra nút, chọn an toàn và in nhất quán",
+    "v2026.44.5-dev": "Tùy chọn SuperCloud và chuẩn bị container"
   },
   "highlights": {
     "v0.13.0": [
@@ -112,6 +119,55 @@
       "Tài khoản OpenAEC và điều hướng ở thanh dưới",
       "Ẩn/hiện cột bằng cách bấm chuột phải vào tiêu đề cột",
       "Gộp thẻ Giờ công và Chi phí cộng thêm; thêm báo cáo kiểu IBIS (Bouw 2)"
+    ],
+    "unreleased": [
+      "Sửa dự toán trên Android và iPhone với giao diện gọn cho chương, công tác, dòng tính toán, khối lượng và giá",
+      "Mở và tải xuống tệp .ifcCalc, sửa ô trang tính và dùng Prompt & Dự toán trên điện thoại",
+      "Dự án hoạt động gần nhất được khôi phục dưới dạng bản nháp cục bộ; dùng Lưu để có bản sao di động"
+    ],
+    "v2026.44.0-dev": [
+      "Không gian làm việc mới với điều hướng cố định, đầu đề dự án và tổng dự toán trực tiếp; kiểu chữ Blueprint chính thức trên mọi điều khiển, không còn đăng ký phông chữ chồng chéo.",
+      "Năm chủ đề Blueprint chính thức với phông chữ cục bộ và giao diện tính toán dùng chung",
+      "Trình hướng dẫn dự toán năm bước tùy chọn, quay thẳng về trình soạn thảo đầy đủ",
+      "Tệp và phiên bản trên máy chủ có bảo vệ xung đột, cùng một bộ tính toán REST/HTTP-MCP riêng",
+      "Bản dựng phát triển: thiết bị, ký số và nghiệm thu AWS vẫn đang chờ",
+      "Bản dịch tiếng Anh và tiếng Hà Lan nay bao gồm phép đo PDF, khung nhìn chia đôi IFC, đề xuất của trợ lý, thư viện giá và thông báo kiểm tra."
+    ],
+    "v2026.44.1-dev": [
+      "Lưu không gian làm việc theo tác vụ cho đo, lập dự toán và rà soát, gồm độ rộng bảng, thu phóng và các cột.",
+      "Cửa sổ thứ hai hiển thị bản vẽ PDF và nguồn gốc khối lượng đã chọn mà không sửa dự toán.",
+      "Xem tệp nguồn và định danh, trang hoặc vùng chọn IFC, công thức và giá trị liên kết gốc của từng khối lượng.",
+      "Xem tổng tài chính trước và sau đề xuất của trợ lý, gồm chi phí cộng thêm và thuế GTGT; áp dụng hoặc hoàn tác toàn bộ đề xuất cùng lúc.",
+      "Mọi chức năng mới đều có sẵn qua máy chủ MCP trực tiếp. Định dạng tệp gốc bổ sung thông tin nguồn gốc tùy chọn ở phiên bản 2.3.0."
+    ],
+    "v2026.44.2-dev": [
+      "Mở Trung tâm rà soát ở thanh bên, hoặc Rà soát trên di động; huy hiệu theo các vấn đề hiện tại.",
+      "Lọc kiểm tra giá, nguồn và đơn vị; hiện đúng dòng dự toán và quay lại đúng ngữ cảnh rà soát.",
+      "Giá 0 nhập rõ ràng là hợp lệ. Việc xem xét giữ nguyên khối lượng, giá, trạng thái chưa lưu và lịch sử hoàn tác.",
+      "Có sẵn qua MCP máy tính để bàn review.list, review.open và review.openItem, và hàm SDK thuần reviewBudget."
+    ],
+    "v2026.44.3-dev": [
+      "Nhập liệu trên di động giữ giá 0, theo ngôn ngữ giao diện và tiền tệ của dự án, hỗ trợ hoàn tác và làm lại",
+      "Khối lượng đã liên kết chỉ đọc cho đến khi bỏ liên kết rõ ràng; bỏ liên kết và sửa tạo thành một bước hoàn tác",
+      "Xóa, cắt và dán chỉ áp dụng trong bảng dự toán; các trường văn bản giữ hoàn tác gốc",
+      "Lỗi trong trình hướng dẫn có thể định vị hoặc bỏ qua, và cả hai giao diện rà soát đều chấp nhận giá 0 nhập rõ ràng",
+      "Hộp thoại có tên dễ tiếp cận, quản lý tiêu điểm và hỗ trợ cửa sổ lồng nhau",
+      "Phần tử IFC có phân trang, đếm số lượng và chọn tất cả kết quả tìm kiếm, kể cả ifc.selectFiltered trong MCP",
+      "Kiểm tra nguồn PDF dùng chỉ mục; trợ lý nổi độc lập được ẩn khi chạy trên máy chủ"
+    ],
+    "v2026.44.4-dev": [
+      "Các thao tác trên ribbon tôn trọng vùng chọn nhiều dòng; sao chép hoặc cắt mục chi phí đã thu gọn vẫn giữ các dòng tính toán",
+      "Thao tác lưu và cửa sổ thứ hai nhắm đúng tài liệu; chỉnh sửa báo giá và trang tính được bảo vệ khi có thay đổi chưa lưu",
+      "In và xuất PDF dùng chung loại báo cáo và tùy chọn; in báo giá trên máy tính để bàn hoạt động và báo lỗi khi thất bại",
+      "Lệnh không có mục tiêu hợp lệ bị vô hiệu; các thẻ cài đặt trống bị gỡ bỏ và mức thu phóng đặt sẵn kích hoạt được bằng bàn phím"
+    ],
+    "v2026.44.5-dev": [
+      "Phiên trên máy chủ theo ngôn ngữ và chủ đề, không có thanh tiêu đề trùng lặp.",
+      "Container máy tính để bàn gốc và HTTP MCP riêng đã được chuẩn bị; nghiệm thu container thực và phát hành vẫn đang chờ.",
+      "Mở rộng thu thập chữ ký cho trình cập nhật; một nguyên mẫu số học DynLex nhỏ đã được kiểm chứng."
     ]
+  },
+  "status": {
+    "unreleased": "Đang phát triển"
   }
 }

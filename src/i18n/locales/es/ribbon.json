@@ -81,7 +81,9 @@
     "excelUpdated_one": "{{count}} medición actualizada",
     "excelUpdated_other": "{{count}} mediciones actualizadas",
     "excelWarnings": "Avisos:",
-    "excelUpToDate": "Todos los valores ya están actualizados"
+    "excelUpToDate": "Todos los valores ya están actualizados",
+    "quantityTitle": "Mostrar u ocultar la columna Cantidad",
+    "quantityUi2Title": "No aplicable en UI-2: la columna Horas siempre se mantiene"
   },
   "budget": {
     "rows": "Líneas",
@@ -249,6 +251,8 @@
     "pdfQuotation": "Oferta en PDF",
     "printBtn": "Imprimir",
     "applyTemplate": "Aplicar plantilla...",
-    "templateGroup": "Plantilla"
+    "templateGroup": "Plantilla",
+    "desktopRequired": "La exportación a PDF y la impresión de ofertas requieren la aplicación de escritorio.",
+    "pdfFailed": "No se ha podido crear el PDF de la oferta"
   }
 }

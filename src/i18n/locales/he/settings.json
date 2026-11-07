@@ -37,7 +37,10 @@
     "uiFontSize": "גודל גופן הממשק",
     "assistant": "עוזר צ'אט",
     "chatBubble": "הצגת כפתור הצ'אט בפינה הימנית התחתונה",
-    "chatBubbleHelp": "כשהאפשרות כבויה, העוזר עדיין זמין בסביבת העבודה “Prompt & Estimate”."
+    "chatBubbleHelp": "כשהאפשרות כבויה, העוזר עדיין זמין בסביבת העבודה “Prompt & Estimate”.",
+    "blueprint": "Blueprint",
+    "highContrastDark": "ניגודיות גבוהה כהה",
+    "highContrastLight": "ניגודיות גבוהה בהירה"
   },
   "grid": {
     "general": "טבלה",

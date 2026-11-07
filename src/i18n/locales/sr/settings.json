@@ -37,7 +37,10 @@
     "uiFontSize": "Величина фонта интерфејса",
     "assistant": "Чет асистент",
     "chatBubble": "Прикажи дугме за чет доле десно",
-    "chatBubbleHelp": "Када је искључено, асистент остаје доступан у радном простору „Prompt & Estimate“."
+    "chatBubbleHelp": "Када је искључено, асистент остаје доступан у радном простору „Prompt & Estimate“.",
+    "blueprint": "Blueprint",
+    "highContrastDark": "Висок контраст тамна",
+    "highContrastLight": "Висок контраст светла"
   },
   "grid": {
     "general": "Табела",

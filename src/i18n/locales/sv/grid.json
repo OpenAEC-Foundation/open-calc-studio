@@ -188,7 +188,8 @@
     "renamePrompt": "Byt namn på bladet:",
     "deleteConfirm": "Ta bort det här bladet?",
     "rename": "Byt namn",
-    "delete": "Ta bort"
+    "delete": "Ta bort",
+    "backToBudget": "Tillbaka till kalkylen"
   },
   "staart": {
     "groupHoursTitle": "Justera gruppsumman — de underliggande raderna skalas om proportionellt",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Ange momsunderlag",
     "finalAmountSet": "Ange slutbelopp",
     "roundingStep": "Avrundningssteg"
-  }
+  },
+  "pdfLinkMissing": "PDF-källmätningen saknas; den senast kända mängden behålls. Koppla mätningen på nytt."
 }

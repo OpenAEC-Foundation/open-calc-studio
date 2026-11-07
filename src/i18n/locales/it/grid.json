@@ -188,7 +188,8 @@
     "renamePrompt": "Rinomina il foglio:",
     "deleteConfirm": "Eliminare questo foglio?",
     "rename": "Rinomina",
-    "delete": "Elimina"
+    "delete": "Elimina",
+    "backToBudget": "Torna al computo"
   },
   "staart": {
     "groupHoursTitle": "Modifica il totale del gruppo — le righe sottostanti vengono riproporzionate",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Imposta la base IVA",
     "finalAmountSet": "Imposta l'importo finale",
     "roundingStep": "Passo di arrotondamento"
-  }
+  },
+  "pdfLinkMissing": "La misurazione di origine PDF è mancante; l'ultima quantità nota viene conservata. Ricollega la misurazione."
 }

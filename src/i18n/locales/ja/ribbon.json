@@ -81,7 +81,9 @@
     "excelUpdated_one": "{{count}} 件の数量を更新しました",
     "excelUpdated_other": "{{count}} 件の数量を更新しました",
     "excelWarnings": "警告：",
-    "excelUpToDate": "すべての値はすでに最新です"
+    "excelUpToDate": "すべての値はすでに最新です",
+    "quantityTitle": "数量列の表示／非表示を切り替えます",
+    "quantityUi2Title": "UI-2 では適用されません：工数列は常に表示されます"
   },
   "budget": {
     "rows": "行",
@@ -249,6 +251,8 @@
     "pdfQuotation": "PDF 見積書",
     "printBtn": "印刷",
     "applyTemplate": "テンプレートを適用…",
-    "templateGroup": "テンプレート"
+    "templateGroup": "テンプレート",
+    "desktopRequired": "見積書の PDF 書き出しと印刷にはデスクトップ版が必要です。",
+    "pdfFailed": "見積書の PDF を作成できませんでした"
   }
 }

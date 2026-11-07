@@ -16,7 +16,14 @@
     "v0.8.2": "OpenAEC dietro un feature flag",
     "v0.8.1": "Accesso OpenAEC + miglioramenti dell'assistente",
     "v0.8.0": "L'assistente applica le modifiche direttamente",
-    "v0.7.10": "Account OpenAEC + navigazione nella barra inferiore"
+    "v0.7.10": "Account OpenAEC + navigazione nella barra inferiore",
+    "unreleased": "Web app mobile per i computi",
+    "v2026.44.0-dev": "Sviluppo 2026.44.0: Blueprint, procedura guidata e archiviazione hosted",
+    "v2026.44.1-dev": "Aree di lavoro, origini delle quantità e anteprime finanziarie",
+    "v2026.44.2-dev": "Centro di revisione per prezzi, origini e unità",
+    "v2026.44.3-dev": "Inserimento più sicuro, finestre di dialogo accessibili e selezioni IFC complete",
+    "v2026.44.4-dev": "Controlli dei pulsanti, selezione sicura e stampa coerente",
+    "v2026.44.5-dev": "Preferenze SuperCloud e preparazione del container"
   },
   "highlights": {
     "v0.13.0": [
@@ -112,6 +119,55 @@
       "Account OpenAEC e navigazione nella barra inferiore",
       "Nascondi/mostra colonne con il clic destro sull'intestazione di colonna",
       "Schede Ore e Maggiorazioni unite; report in stile IBIS (Bouw 2)"
+    ],
+    "unreleased": [
+      "Modifica i computi su Android e iPhone con una vista compatta per capitoli, voci, righe di calcolo, quantità e prezzi",
+      "Apri e scarica file .ifcCalc, modifica le celle dei fogli di calcolo e usa Prompt e computo sul telefono",
+      "L'ultimo progetto attivo viene ripristinato come bozza locale; usa Salva per una copia portabile"
+    ],
+    "v2026.44.0-dev": [
+      "Nuova area di lavoro con navigazione persistente, intestazione del progetto e totale del computo in tempo reale; tipografia Blueprint ufficiale in tutti i controlli, senza registrazioni di caratteri in conflitto.",
+      "Cinque temi Blueprint ufficiali con caratteri locali e l'interfaccia di calcolo condivisa",
+      "Procedura guidata facoltativa in cinque passaggi con ritorno diretto all'editor completo",
+      "File e versioni host con protezione dai conflitti, più un calcolatore REST/HTTP-MCP separato",
+      "Build di sviluppo: dispositivo, firma e accettazione AWS sono ancora in sospeso",
+      "Le traduzioni in inglese e olandese ora coprono le misurazioni PDF, la vista divisa IFC, le proposte dell'assistente, il listino prezzi e i messaggi di convalida."
+    ],
+    "v2026.44.1-dev": [
+      "Salva aree di lavoro per misurare, stimare e revisionare, comprese larghezze dei pannelli, zoom e colonne.",
+      "Una seconda finestra mostra i disegni PDF e l'origine della quantità selezionata senza modificare il computo.",
+      "Esamina file e identità dell'origine, pagina o selezione IFC, formula e valore originale collegato per ogni quantità.",
+      "Controlla i totali finanziari prima e dopo una proposta dell'assistente, comprese maggiorazioni e IVA; applica o annulla l'intera proposta in una volta.",
+      "Tutte le nuove funzioni sono disponibili tramite il server MCP live. Il formato di file nativo aggiunge la provenienza facoltativa nella versione 2.3.0."
+    ],
+    "v2026.44.2-dev": [
+      "Apri il Centro di revisione nella barra laterale, o Revisione su mobile; il badge segue le segnalazioni correnti.",
+      "Filtra i controlli su prezzi, origini e unità; mostra la riga di computo esatta e torna allo stesso contesto di revisione.",
+      "I prezzi zero espliciti sono validi. L'ispezione conserva quantità, prezzi, stato di modifica e cronologia di annullamento.",
+      "Disponibile tramite MCP desktop review.list, review.open e review.openItem, e la funzione SDK pura reviewBudget."
+    ],
+    "v2026.44.3-dev": [
+      "L'inserimento su mobile conserva i prezzi zero, segue la lingua dell'interfaccia e la valuta del progetto, e supporta annulla e ripeti",
+      "Le quantità collegate sono in sola lettura finché non vengono scollegate esplicitamente; scollegamento e modifica formano un unico passaggio di annullamento",
+      "Elimina, taglia e incolla sono limitati alla griglia del computo; i campi di testo mantengono l'annullamento nativo",
+      "Gli errori della procedura guidata possono essere individuati o scartati, ed entrambe le interfacce di revisione accettano prezzi zero espliciti",
+      "Le finestre di dialogo hanno nomi accessibili, gestione del focus e supporto per finestre annidate",
+      "Gli elementi IFC hanno paginazione, conteggi e selezione di tutti i risultati di ricerca, compreso ifc.selectFiltered in MCP",
+      "I controlli delle origini PDF usano un indice; l'assistente flottante indipendente è nascosto in modalità hosted"
+    ],
+    "v2026.44.4-dev": [
+      "Le azioni della barra multifunzione rispettano la selezione multipla; copiare o tagliare voci di costo compresse conserva le loro righe di calcolo",
+      "Le azioni di salvataggio e della seconda finestra agiscono sul documento giusto; le modifiche a offerte e fogli di calcolo ricevono la protezione dalle modifiche non salvate",
+      "Stampa ed esportazione PDF condividono tipi di report e opzioni; la stampa delle offerte su desktop funziona e segnala gli errori",
+      "I comandi senza destinazioni valide sono disattivati; le schede vuote delle impostazioni sono rimosse e i preset di zoom supportano l'attivazione da tastiera"
+    ],
+    "v2026.44.5-dev": [
+      "Le sessioni hosted seguono lingua e tema senza una barra del titolo duplicata.",
+      "Container desktop nativo e MCP HTTP privato preparati; l'accettazione reale del container e la pubblicazione restano in sospeso.",
+      "Raccolta delle firme dell'updater ampliata; un piccolo prototipo aritmetico DynLex è stato verificato."
     ]
+  },
+  "status": {
+    "unreleased": "In sviluppo"
   }
 }

@@ -188,7 +188,8 @@
     "renamePrompt": "Đổi tên trang tính:",
     "deleteConfirm": "Xóa trang tính này?",
     "rename": "Đổi tên",
-    "delete": "Xóa"
+    "delete": "Xóa",
+    "backToBudget": "Quay lại dự toán"
   },
   "staart": {
     "groupHoursTitle": "Điều chỉnh tổng của nhóm — các dòng bên dưới được chia lại theo tỷ lệ",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Đặt cơ sở tính thuế GTGT",
     "finalAmountSet": "Đặt số tiền cuối cùng",
     "roundingStep": "Bước làm tròn"
-  }
+  },
+  "pdfLinkMissing": "Thiếu phép đo nguồn PDF; khối lượng cuối cùng đã biết được giữ lại. Hãy liên kết lại phép đo."
 }

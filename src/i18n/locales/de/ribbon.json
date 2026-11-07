@@ -251,6 +251,8 @@
     "pdfQuotation": "PDF-Angebot",
     "printBtn": "Drucken",
     "applyTemplate": "Vorlage anwenden …",
-    "templateGroup": "Vorlage"
+    "templateGroup": "Vorlage",
+    "desktopRequired": "PDF-Export und Druck des Angebots erfordern die Desktop-Anwendung.",
+    "pdfFailed": "Angebots-PDF konnte nicht erstellt werden"
   }
 }

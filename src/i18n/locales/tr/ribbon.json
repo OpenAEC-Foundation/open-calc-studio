@@ -81,7 +81,9 @@
     "excelUpdated_one": "{{count}} miktar güncellendi",
     "excelUpdated_other": "{{count}} miktar güncellendi",
     "excelWarnings": "Uyarılar:",
-    "excelUpToDate": "Tüm değerler zaten güncel"
+    "excelUpToDate": "Tüm değerler zaten güncel",
+    "quantityTitle": "Miktar sütununu göster veya gizle",
+    "quantityUi2Title": "UI-2'de geçerli değil: Saat sütunu her zaman kalır"
   },
   "budget": {
     "rows": "Satırlar",
@@ -249,6 +251,8 @@
     "pdfQuotation": "PDF teklif",
     "printBtn": "Yazdır",
     "applyTemplate": "Şablon uygula...",
-    "templateGroup": "Şablon"
+    "templateGroup": "Şablon",
+    "desktopRequired": "Teklif PDF dışa aktarma ve yazdırma masaüstü uygulamasını gerektirir.",
+    "pdfFailed": "Teklif PDF'i oluşturulamadı"
   }
 }

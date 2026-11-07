@@ -37,7 +37,10 @@
     "uiFontSize": "انٹرفیس فونٹ سائز",
     "assistant": "چیٹ اسسٹنٹ",
     "chatBubble": "نیچے دائیں جانب چیٹ بٹن دکھائیں",
-    "chatBubbleHelp": "بند ہونے پر اسسٹنٹ “Prompt & Estimate” ورک اسپیس میں دستیاب رہتا ہے۔"
+    "chatBubbleHelp": "بند ہونے پر اسسٹنٹ “Prompt & Estimate” ورک اسپیس میں دستیاب رہتا ہے۔",
+    "blueprint": "Blueprint",
+    "highContrastDark": "اعلیٰ تضاد گہرا",
+    "highContrastLight": "اعلیٰ تضاد ہلکا"
   },
   "grid": {
     "general": "گرڈ",

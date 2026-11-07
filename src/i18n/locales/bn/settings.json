@@ -37,7 +37,10 @@
     "uiFontSize": "ইন্টারফেস ফন্টের আকার",
     "assistant": "চ্যাট সহকারী",
     "chatBubble": "নিচে ডানদিকে চ্যাট বোতাম দেখান",
-    "chatBubbleHelp": "বন্ধ থাকলে সহকারী “Prompt & Estimate” ওয়ার্কস্পেসে পাওয়া যাবে।"
+    "chatBubbleHelp": "বন্ধ থাকলে সহকারী “Prompt & Estimate” ওয়ার্কস্পেসে পাওয়া যাবে।",
+    "blueprint": "Blueprint",
+    "highContrastDark": "উচ্চ কনট্রাস্ট গাঢ়",
+    "highContrastLight": "উচ্চ কনট্রাস্ট হালকা"
   },
   "grid": {
     "general": "গ্রিড",

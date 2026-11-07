@@ -188,7 +188,8 @@
     "renamePrompt": "Přejmenovat list:",
     "deleteConfirm": "Smazat tento list?",
     "rename": "Přejmenovat",
-    "delete": "Smazat"
+    "delete": "Smazat",
+    "backToBudget": "Zpět na rozpočet"
   },
   "staart": {
     "groupHoursTitle": "Upravte součet skupiny — podřízené řádky se přepočítají poměrně",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Nastavení základu DPH",
     "finalAmountSet": "Nastavení konečné částky",
     "roundingStep": "Krok zaokrouhlení"
-  }
+  },
+  "pdfLinkMissing": "Zdrojové měření PDF chybí; poslední známé množství zůstává zachováno. Propojte měření znovu."
 }

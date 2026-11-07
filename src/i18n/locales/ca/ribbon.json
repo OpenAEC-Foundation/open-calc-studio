@@ -81,7 +81,9 @@
     "excelUpdated_one": "{{count}} amidament actualitzat",
     "excelUpdated_other": "{{count}} amidaments actualitzats",
     "excelWarnings": "Avisos:",
-    "excelUpToDate": "Tots els valors ja estan actualitzats"
+    "excelUpToDate": "Tots els valors ja estan actualitzats",
+    "quantityTitle": "Mostra o amaga la columna Amidament",
+    "quantityUi2Title": "No aplicable a UI-2: la columna Hores sempre es manté"
   },
   "budget": {
     "rows": "Línies",
@@ -249,6 +251,8 @@
     "pdfQuotation": "Oferta en PDF",
     "printBtn": "Imprimeix",
     "applyTemplate": "Aplica una plantilla...",
-    "templateGroup": "Plantilla"
+    "templateGroup": "Plantilla",
+    "desktopRequired": "L'exportació a PDF i la impressió de l'oferta requereixen l'aplicació d'escriptori.",
+    "pdfFailed": "No s'ha pogut crear el PDF de l'oferta"
   }
 }

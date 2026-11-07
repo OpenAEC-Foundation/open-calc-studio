@@ -8,7 +8,20 @@
     "rows": "{{count}} ແຖວ",
     "linkDescriptionFirst": "ເຊື່ອມໂຍງຖັນ “ຄຳອະທິບາຍ” ກ່ອນ",
     "cancel": "ຍົກເລີກ",
-    "import": "ນຳເຂົ້າ"
+    "import": "ນຳເຂົ້າ",
+    "fields": {
+      "ignore": "— ບໍ່ສົນໃຈ —",
+      "code": "ລະຫັດ",
+      "nr": "ລ/ດ",
+      "description": "ລາຍລະອຽດ",
+      "unit": "ຫົວໜ່ວຍ",
+      "quantity": "ປະລິມານ",
+      "materialPrice": "ວັດສະດຸ (ລາຄາ/ຫົວໜ່ວຍ)",
+      "laborPrice": "ແຮງງານ (ລາຄາ/ຫົວໜ່ວຍ)",
+      "equipmentPrice": "ກົນຈັກ/ອຸປະກອນ (ລາຄາ/ຫົວໜ່ວຍ)",
+      "unitPrice": "ລາຄາຕໍ່ຫົວໜ່ວຍ",
+      "total": "ລວມ (ຈຳນວນເງິນ)"
+    }
   },
   "quantityPicker": {
     "title": "ເຊື່ອມໂຍງຈຳນວນ",

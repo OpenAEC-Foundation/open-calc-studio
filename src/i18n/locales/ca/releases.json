@@ -16,7 +16,14 @@
     "v0.8.2": "OpenAEC darrere d'un indicador de funcionalitat",
     "v0.8.1": "Inici de sessió OpenAEC + millores de l'assistent",
     "v0.8.0": "L'assistent aplica els canvis directament",
-    "v0.7.10": "Compte OpenAEC + navegació a la barra inferior"
+    "v0.7.10": "Compte OpenAEC + navegació a la barra inferior",
+    "unreleased": "Aplicació web mòbil per a pressupostos",
+    "v2026.44.0-dev": "Desenvolupament 2026.44.0: Blueprint, auxiliar i emmagatzematge allotjat",
+    "v2026.44.1-dev": "Espais de treball, orígens dels amidaments i previsualitzacions financeres",
+    "v2026.44.2-dev": "Centre de revisió per a preus, fonts i unitats",
+    "v2026.44.3-dev": "Entrada més segura, diàlegs accessibles i seleccions IFC completes",
+    "v2026.44.4-dev": "Comprovació de botons, selecció segura i impressió coherent",
+    "v2026.44.5-dev": "Preferències de SuperCloud i preparació del contenidor"
   },
   "highlights": {
     "v0.13.0": [
@@ -112,6 +119,55 @@
       "Compte OpenAEC i navegació a la barra inferior",
       "Amagueu/mostreu columnes amb el clic dret a la capçalera de columna",
       "Pestanyes d'Hores i Recàrrecs unificades; informe d'estil IBIS (Bouw 2)"
+    ],
+    "unreleased": [
+      "Editeu pressupostos a Android i iPhone amb una vista compacta de capítols, partides, línies de càlcul, amidaments i preus",
+      "Obriu i baixeu fitxers .ifcCalc, editeu cel·les de full de càlcul i feu servir Instrucció i pressupost al telèfon",
+      "El darrer projecte actiu es restaura com a esborrany local; feu servir Desa per obtenir-ne una còpia portàtil"
+    ],
+    "v2026.44.0-dev": [
+      "Espai de treball nou amb navegació persistent, capçalera del projecte i total del pressupost en directe; tipografia oficial Blueprint a tots els controls, sense registres de tipus de lletra en conflicte.",
+      "Cinc temes oficials Blueprint amb tipus de lletra locals i la interfície de càlcul compartida",
+      "Auxiliar de pressupost opcional en cinc passos amb retorn directe a l'editor complet",
+      "Fitxers i versions allotjats amb protecció contra conflictes, a més d'una calculadora REST/HTTP-MCP independent",
+      "Compilació de desenvolupament: encara estan pendents el dispositiu, la signatura i l'acceptació a AWS",
+      "Les traduccions a l'anglès i al neerlandès ara cobreixen els amidaments en PDF, la vista dividida IFC, les propostes de l'assistent, la biblioteca de preus i els missatges de validació."
+    ],
+    "v2026.44.1-dev": [
+      "Deseu espais de treball per tasca per amidar, pressupostar i revisar, incloent-hi amplades dels taulers, zoom i columnes.",
+      "Una segona finestra mostra els plànols en PDF i l'origen de l'amidament seleccionat sense editar el pressupost.",
+      "Inspeccioneu el fitxer d'origen i la seva identitat, la pàgina o la selecció IFC, la fórmula i el valor enllaçat original de cada amidament.",
+      "Reviseu els totals financers abans i després d'una proposta de l'assistent, incloent-hi recàrrecs i IVA; apliqueu o desfeu tota la proposta de cop.",
+      "Totes les funcions noves estan disponibles mitjançant el servidor MCP en directe. El format de fitxer natiu afegeix procedència opcional a la versió 2.3.0."
+    ],
+    "v2026.44.2-dev": [
+      "Obriu el Centre de revisió a la barra lateral, o Revisió al mòbil; la insígnia segueix les incidències actuals.",
+      "Filtreu les comprovacions de preus, fonts i unitats; mostreu la línia exacta del pressupost i torneu al mateix context de revisió.",
+      "Els preus zero explícits són vàlids. La inspecció conserva amidaments, preus, estat de modificació i historial de desfer.",
+      "Disponible mitjançant review.list, review.open i review.openItem de l'MCP d'escriptori, i la funció pura reviewBudget de l'SDK."
+    ],
+    "v2026.44.3-dev": [
+      "L'entrada al mòbil conserva els preus zero, segueix la llengua de la interfície i la moneda del projecte, i admet desfer i refer",
+      "Els amidaments enllaçats són de només lectura fins que es desenllacen explícitament; desenllaçar i editar formen un sol pas de desfer",
+      "Suprimir, retallar i enganxar es limiten a la graella del pressupost; els camps de text conserven el desfer natiu",
+      "Els errors de l'auxiliar es poden localitzar o descartar, i les dues interfícies de revisió accepten preus zero explícits",
+      "Els diàlegs tenen noms accessibles, gestió del focus i compatibilitat amb finestres imbricades",
+      "Els elements IFC tenen paginació, recomptes i selecció de tots els resultats de la cerca, inclòs ifc.selectFiltered a l'MCP",
+      "Les comprovacions de fonts PDF utilitzen un índex; l'assistent flotant independent s'amaga quan s'allotja"
+    ],
+    "v2026.44.4-dev": [
+      "Les accions de la cinta respecten la selecció múltiple; copiar o retallar partides reduïdes conserva les seves línies de càlcul",
+      "Les accions de desar i de segona finestra s'apliquen al document correcte; les edicions d'ofertes i fulls de càlcul reben protecció de canvis sense desar",
+      "La impressió i l'exportació a PDF comparteixen tipus d'informe i opcions; la impressió d'ofertes a l'escriptori funciona i informa dels errors",
+      "Les ordres sense destinació vàlida es desactiven; s'eliminen les pestanyes de configuració buides i els valors predefinits de zoom admeten l'activació per teclat"
+    ],
+    "v2026.44.5-dev": [
+      "Les sessions allotjades segueixen la llengua i el tema sense una barra de títol duplicada.",
+      "Contenidor d'escriptori natiu i MCP HTTP privat preparats; l'acceptació real del contenidor i la publicació encara estan pendents.",
+      "S'ha ampliat la recollida de signatures de l'actualitzador; s'ha verificat un petit prototip aritmètic DynLex."
     ]
+  },
+  "status": {
+    "unreleased": "En desenvolupament"
   }
 }

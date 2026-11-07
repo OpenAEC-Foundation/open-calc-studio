@@ -81,7 +81,9 @@
     "excelUpdated_one": "{{count}} मात्रा अपडेट हुई",
     "excelUpdated_other": "{{count}} मात्राएँ अपडेट हुईं",
     "excelWarnings": "चेतावनियाँ:",
-    "excelUpToDate": "सभी मान पहले से अद्यतन हैं"
+    "excelUpToDate": "सभी मान पहले से अद्यतन हैं",
+    "quantityTitle": "मात्रा कॉलम दिखाएँ या छिपाएँ",
+    "quantityUi2Title": "UI-2 में लागू नहीं: घंटे कॉलम हमेशा रहता है"
   },
   "budget": {
     "rows": "पंक्तियाँ",
@@ -249,6 +251,8 @@
     "pdfQuotation": "PDF कोटेशन",
     "printBtn": "प्रिंट",
     "applyTemplate": "टेम्पलेट लागू करें...",
-    "templateGroup": "टेम्पलेट"
+    "templateGroup": "टेम्पलेट",
+    "desktopRequired": "कोटेशन PDF निर्यात और प्रिंटिंग के लिए डेस्कटॉप एप्लिकेशन आवश्यक है।",
+    "pdfFailed": "कोटेशन PDF नहीं बनाई जा सकी"
   }
 }

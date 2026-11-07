@@ -16,7 +16,14 @@
     "v0.8.2": "OpenAEC bak et funksjonsflagg",
     "v0.8.1": "OpenAEC-innlogging + forbedringer i assistenten",
     "v0.8.0": "Assistenten gjør endringer direkte",
-    "v0.7.10": "OpenAEC-konto + navigasjon i bunnlinjen"
+    "v0.7.10": "OpenAEC-konto + navigasjon i bunnlinjen",
+    "unreleased": "Mobil nettapp for kalkyler",
+    "v2026.44.0-dev": "2026.44.0-utvikling: Blueprint, veiviser og vertslagring",
+    "v2026.44.1-dev": "Arbeidsområder, mengdeopprinnelse og økonomiske forhåndsvisninger",
+    "v2026.44.2-dev": "Kontrollsenter for priser, kilder og enheter",
+    "v2026.44.3-dev": "Sikrere inntasting, tilgjengelige dialoger og komplette IFC-merkinger",
+    "v2026.44.4-dev": "Knappekontroller, sikker merking og konsekvent utskrift",
+    "v2026.44.5-dev": "SuperCloud-innstillinger og forberedelse av container"
   },
   "highlights": {
     "v0.13.0": [
@@ -112,6 +119,55 @@
       "OpenAEC-konto og navigasjon i bunnlinjen",
       "Skjul/vis kolonner ved å høyreklikke på kolonneoverskriften",
       "Fanene Timer og Påslag er slått sammen; rapport i IBIS-stil (Bouw 2)"
+    ],
+    "unreleased": [
+      "Rediger kalkyler på Android og iPhone med en kompakt visning av kapitler, poster, beregningslinjer, mengder og priser",
+      "Åpne og last ned .ifcCalc-filer, rediger regnearkceller og bruk Prompt og kalkyle på telefonen",
+      "Det sist aktive prosjektet gjenopprettes som et lokalt utkast; bruk Lagre for en flyttbar kopi"
+    ],
+    "v2026.44.0-dev": [
+      "Nytt arbeidsområde med fast navigasjon, prosjekttopptekst og løpende kalkyletotal; offisiell Blueprint-typografi i alle kontroller, uten konkurrerende skriftregistreringer.",
+      "Fem offisielle Blueprint-temaer med lokale skrifter og det delte kalkylegrensesnittet",
+      "Valgfri kalkyleveiviser i fem trinn med direkte retur til det fullstendige redigeringsverktøyet",
+      "Vertsfiler og versjoner med konfliktbeskyttelse, pluss en egen REST/HTTP-MCP-kalkulator",
+      "Utviklingsbygg: enhet, signering og AWS-godkjenning gjenstår",
+      "Engelske og nederlandske oversettelser dekker nå PDF-målinger, IFC-delt visning, assistentforslag, prisbiblioteket og valideringsmeldinger."
+    ],
+    "v2026.44.1-dev": [
+      "Lagre arbeidsområder for måling, kalkulering og kontroll, inkludert panelbredder, zoom og kolonner.",
+      "Et andre vindu viser PDF-tegninger og den valgte mengdens opprinnelse uten å redigere kalkylen.",
+      "Undersøk kildefil og identitet, side eller IFC-merking, formel og den opprinnelige koblede verdien for hver mengde.",
+      "Gå gjennom økonomiske totaler før og etter et assistentforslag, inkludert påslag og mva.; bruk eller angre hele forslaget samlet.",
+      "Alle nye funksjoner er tilgjengelige via den levende MCP-serveren. Det egne filformatet får valgfri proveniens i versjon 2.3.0."
+    ],
+    "v2026.44.2-dev": [
+      "Åpne Kontrollsenter i sidepanelet, eller Kontroll på mobil; merket følger de gjeldende kontrollpunktene.",
+      "Filtrer pris-, kilde- og enhetskontroller; vis den nøyaktige kalkylelinjen og gå tilbake til samme kontrollkontekst.",
+      "Uttrykkelige nullpriser er gyldige. Undersøkelsen bevarer mengder, priser, endringsstatus og angrelogg.",
+      "Tilgjengelig via skrivebords-MCP review.list, review.open og review.openItem, og den rene SDK-funksjonen reviewBudget."
+    ],
+    "v2026.44.3-dev": [
+      "Mobil inntasting bevarer nullpriser, følger grensesnittspråket og prosjektvalutaen, og støtter angre og gjør om",
+      "Koblede mengder er skrivebeskyttet til koblingen fjernes uttrykkelig; fjerning av kobling og redigering utgjør ett angretrinn",
+      "Slett, klipp ut og lim inn er avgrenset til kalkyletabellen; tekstfelt beholder innebygd angre",
+      "Veiviserfeil kan finnes eller forkastes, og begge kontrollgrensesnittene godtar uttrykkelige nullpriser",
+      "Dialoger har tilgjengelige navn, fokushåndtering og støtte for nestede vinduer",
+      "IFC-elementer har sideinndeling, antall og merking av alle søkeresultater, inkludert ifc.selectFiltered i MCP",
+      "PDF-kildekontroller bruker en indeks; den uavhengige flytende assistenten skjules når appen er vertsbasert"
+    ],
+    "v2026.44.4-dev": [
+      "Båndhandlinger respekterer flervalg; kopiering eller utklipping av skjulte kostnadsposter bevarer beregningslinjene deres",
+      "Lagring og handlinger i det andre vinduet retter seg mot riktig dokument; tilbuds- og regnearkredigeringer får beskyttelse mot ulagrede endringer",
+      "Utskrift og PDF-eksport deler rapporttyper og valg; utskrift av tilbud på skrivebordet fungerer og melder fra om feil",
+      "Kommandoer uten gyldige mål deaktiveres; tomme innstillingsfaner fjernes, og zoomforvalg kan aktiveres med tastaturet"
+    ],
+    "v2026.44.5-dev": [
+      "Vertsbaserte økter følger språk og tema uten dobbel tittellinje.",
+      "Innebygd skrivebordscontainer og privat HTTP-MCP er forberedt; reell containergodkjenning og publisering gjenstår.",
+      "Innsamling av oppdateringssignaturer er utvidet; en liten DynLex-aritmetikkprototype er verifisert."
     ]
+  },
+  "status": {
+    "unreleased": "Under utvikling"
   }
 }

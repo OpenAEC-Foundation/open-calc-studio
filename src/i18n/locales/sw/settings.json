@@ -37,7 +37,10 @@
     "uiFontSize": "Ukubwa wa fonti ya kiolesura",
     "assistant": "Msaidizi wa gumzo",
     "chatBubble": "Onyesha kitufe cha gumzo chini kulia",
-    "chatBubbleHelp": "Ikizimwa, msaidizi anaendelea kupatikana katika eneo la kazi la “Prompt & Estimate”."
+    "chatBubbleHelp": "Ikizimwa, msaidizi anaendelea kupatikana katika eneo la kazi la “Prompt & Estimate”.",
+    "blueprint": "Blueprint",
+    "highContrastDark": "Utofautishaji mkubwa mweusi",
+    "highContrastLight": "Utofautishaji mkubwa mweupe"
   },
   "grid": {
     "general": "Gridi",

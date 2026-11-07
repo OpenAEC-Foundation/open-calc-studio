@@ -83,7 +83,9 @@
     "excelUpdated_many": "Aktualizovaných {{count}} množstva",
     "excelUpdated_other": "Aktualizovaných {{count}} množstiev",
     "excelWarnings": "Upozornenia:",
-    "excelUpToDate": "Všetky hodnoty sú už aktuálne"
+    "excelUpToDate": "Všetky hodnoty sú už aktuálne",
+    "quantityTitle": "Zobraziť alebo skryť stĺpec Množstvo",
+    "quantityUi2Title": "Neplatí v UI-2: stĺpec Hodiny zostáva vždy zobrazený"
   },
   "budget": {
     "rows": "Riadky",
@@ -253,6 +255,8 @@
     "pdfQuotation": "Ponuka PDF",
     "printBtn": "Tlačiť",
     "applyTemplate": "Použiť šablónu...",
-    "templateGroup": "Šablóna"
+    "templateGroup": "Šablóna",
+    "desktopRequired": "Export ponuky do PDF a tlač vyžadujú desktopovú aplikáciu.",
+    "pdfFailed": "PDF ponuky sa nepodarilo vytvoriť"
   }
 }

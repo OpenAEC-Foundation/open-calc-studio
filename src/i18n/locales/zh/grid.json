@@ -188,7 +188,8 @@
     "renamePrompt": "重命名工作表：",
     "deleteConfirm": "删除此工作表？",
     "rename": "重命名",
-    "delete": "删除"
+    "delete": "删除",
+    "backToBudget": "返回预算"
   },
   "staart": {
     "groupHoursTitle": "调整该组合计 —— 下属各行按比例重新分摊",
@@ -233,5 +234,6 @@
     "vatBaseSet": "设置增值税基数",
     "finalAmountSet": "设置最终金额",
     "roundingStep": "舍入步长"
-  }
+  },
+  "pdfLinkMissing": "PDF 来源测量缺失；已保留最后已知的工程量。请重新关联测量。"
 }

@@ -16,7 +16,14 @@
     "v0.8.2": "OpenAEC za przełącznikiem funkcji",
     "v0.8.1": "Logowanie OpenAEC + usprawnienia asystenta",
     "v0.8.0": "Asystent wprowadza zmiany bezpośrednio",
-    "v0.7.10": "Konto OpenAEC + nawigacja na dolnym pasku"
+    "v0.7.10": "Konto OpenAEC + nawigacja na dolnym pasku",
+    "unreleased": "Mobilna aplikacja internetowa do kosztorysów",
+    "v2026.44.0-dev": "Wersja rozwojowa 2026.44.0: Blueprint, kreator i magazyn hostowany",
+    "v2026.44.1-dev": "Obszary robocze, pochodzenie ilości i podglądy finansowe",
+    "v2026.44.2-dev": "Centrum przeglądu cen, źródeł i jednostek",
+    "v2026.44.3-dev": "Bezpieczniejsze wprowadzanie, dostępne okna dialogowe i pełne zaznaczenia IFC",
+    "v2026.44.4-dev": "Kontrola przycisków, bezpieczne zaznaczanie i spójne drukowanie",
+    "v2026.44.5-dev": "Preferencje SuperCloud i przygotowanie kontenera"
   },
   "highlights": {
     "v0.13.0": [
@@ -112,6 +119,55 @@
       "Konto OpenAEC i nawigacja na dolnym pasku",
       "Ukrywanie/pokazywanie kolumn kliknięciem prawym przyciskiem na nagłówku kolumny",
       "Połączone karty Godziny i Narzuty; raport w stylu IBIS (Bouw 2)"
+    ],
+    "unreleased": [
+      "Edytuj kosztorysy na Androidzie i iPhonie w kompaktowym widoku działów, pozycji, nakładów, ilości i cen",
+      "Otwieraj i pobieraj pliki .ifcCalc, edytuj komórki arkusza i korzystaj z funkcji Prompt i kosztorys na telefonie",
+      "Ostatnio aktywny projekt jest przywracany jako lokalny szkic; użyj Zapisz, aby uzyskać przenośną kopię"
+    ],
+    "v2026.44.0-dev": [
+      "Nowy obszar roboczy ze stałą nawigacją, nagłówkiem projektu i sumą kosztorysu na żywo; oficjalna typografia Blueprint we wszystkich kontrolkach, bez konkurujących rejestracji czcionek.",
+      "Pięć oficjalnych motywów Blueprint z lokalnymi czcionkami i wspólnym interfejsem obliczeń",
+      "Opcjonalny pięciostopniowy kreator kosztorysu z bezpośrednim powrotem do pełnego edytora",
+      "Hostowane pliki i wersje z ochroną przed konfliktami oraz osobny kalkulator REST/HTTP-MCP",
+      "Kompilacja rozwojowa: akceptacja urządzeń, podpisywania i AWS wciąż oczekuje",
+      "Tłumaczenia angielskie i holenderskie obejmują teraz pomiary PDF, widok podzielony IFC, propozycje asystenta, bibliotekę cen i komunikaty walidacji."
+    ],
+    "v2026.44.1-dev": [
+      "Zapisuj obszary robocze do pomiarów, kosztorysowania i przeglądu, łącznie z szerokościami paneli, powiększeniem i kolumnami.",
+      "Drugie okno pokazuje rysunki PDF i pochodzenie wybranej ilości bez edytowania kosztorysu.",
+      "Sprawdzaj plik źródłowy i jego tożsamość, stronę lub zaznaczenie IFC, formułę oraz pierwotnie powiązaną wartość dla każdej ilości.",
+      "Przeglądaj sumy finansowe przed propozycją asystenta i po niej, łącznie z narzutami i VAT; zastosuj lub cofnij całą propozycję naraz.",
+      "Wszystkie nowe funkcje są dostępne przez działający serwer MCP. Natywny format pliku zyskuje opcjonalne pochodzenie danych w wersji 2.3.0."
+    ],
+    "v2026.44.2-dev": [
+      "Otwórz Centrum przeglądu na pasku bocznym lub Przegląd na telefonie; plakietka odzwierciedla bieżące uwagi.",
+      "Filtruj kontrole cen, źródeł i jednostek; pokazuj dokładny wiersz kosztorysu i wracaj do tego samego kontekstu przeglądu.",
+      "Jawne ceny zerowe są poprawne. Sprawdzanie zachowuje ilości, ceny, stan modyfikacji i historię cofania.",
+      "Dostępne przez desktopowe MCP review.list, review.open i review.openItem oraz czystą funkcję SDK reviewBudget."
+    ],
+    "v2026.44.3-dev": [
+      "Wprowadzanie mobilne zachowuje ceny zerowe, stosuje język interfejsu i walutę projektu oraz obsługuje cofanie i ponawianie",
+      "Powiązane ilości są tylko do odczytu do czasu jawnego usunięcia powiązania; usunięcie powiązania i edycja tworzą jeden krok cofania",
+      "Usuwanie, wycinanie i wklejanie ograniczono do tabeli kosztorysu; pola tekstowe zachowują natywne cofanie",
+      "Błędy kreatora można zlokalizować lub odrzucić, a oba interfejsy przeglądu akceptują jawne ceny zerowe",
+      "Okna dialogowe mają dostępne nazwy, zarządzanie fokusem i obsługę okien zagnieżdżonych",
+      "Elementy IFC mają stronicowanie, liczniki i zaznaczanie wszystkich wyników wyszukiwania, w tym ifc.selectFiltered w MCP",
+      "Kontrole źródeł PDF używają indeksu; niezależny pływający asystent jest ukryty w trybie hostowanym"
+    ],
+    "v2026.44.4-dev": [
+      "Akcje wstążki uwzględniają zaznaczenie wielokrotne; kopiowanie lub wycinanie zwiniętych pozycji kosztowych zachowuje ich nakłady",
+      "Akcje zapisu i drugiego okna trafiają do właściwego dokumentu; edycje oferty i arkusza są chronione przed utratą niezapisanych zmian",
+      "Drukowanie i eksport PDF współdzielą typy raportów i opcje; drukowanie oferty na desktopie działa i zgłasza błędy",
+      "Polecenia bez poprawnych celów są wyłączone; puste karty ustawień usunięto, a ustawienia powiększenia można aktywować klawiaturą"
+    ],
+    "v2026.44.5-dev": [
+      "Sesje hostowane stosują język i motyw bez zdublowanego paska tytułu.",
+      "Przygotowano natywny kontener desktopowy i prywatne HTTP MCP; faktyczna akceptacja kontenera i publikacja wciąż oczekują.",
+      "Rozszerzono zbieranie podpisów aktualizatora; zweryfikowano mały prototyp arytmetyki DynLex."
     ]
+  },
+  "status": {
+    "unreleased": "W przygotowaniu"
   }
 }

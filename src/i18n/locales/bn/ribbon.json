@@ -81,7 +81,9 @@
     "excelUpdated_one": "{{count}} পরিমাণ আপডেট হয়েছে",
     "excelUpdated_other": "{{count}} পরিমাণ আপডেট হয়েছে",
     "excelWarnings": "সতর্কতা:",
-    "excelUpToDate": "সব মান ইতিমধ্যেই হালনাগাদ"
+    "excelUpToDate": "সব মান ইতিমধ্যেই হালনাগাদ",
+    "quantityTitle": "পরিমাণ কলাম দেখান বা লুকান",
+    "quantityUi2Title": "UI-2-এ প্রযোজ্য নয়: ঘণ্টা কলাম সবসময় থাকে"
   },
   "budget": {
     "rows": "সারি",
@@ -249,6 +251,8 @@
     "pdfQuotation": "PDF কোটেশন",
     "printBtn": "প্রিন্ট",
     "applyTemplate": "টেমপ্লেট প্রয়োগ করুন...",
-    "templateGroup": "টেমপ্লেট"
+    "templateGroup": "টেমপ্লেট",
+    "desktopRequired": "কোটেশন PDF রপ্তানি ও প্রিন্টিংয়ের জন্য ডেস্কটপ অ্যাপ্লিকেশন প্রয়োজন।",
+    "pdfFailed": "কোটেশন PDF তৈরি করা যায়নি"
   }
 }

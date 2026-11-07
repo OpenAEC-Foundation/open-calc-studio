@@ -188,7 +188,8 @@
     "renamePrompt": "Sayfayı yeniden adlandır:",
     "deleteConfirm": "Bu sayfa silinsin mi?",
     "rename": "Yeniden adlandır",
-    "delete": "Sil"
+    "delete": "Sil",
+    "backToBudget": "Keşfe dön"
   },
   "staart": {
     "groupHoursTitle": "Grup toplamını düzenleyin — alttaki satırlar oranlı olarak yeniden ölçeklenir",
@@ -233,5 +234,6 @@
     "vatBaseSet": "KDV matrahını ayarla",
     "finalAmountSet": "Nihai tutarı ayarla",
     "roundingStep": "Yuvarlama adımı"
-  }
+  },
+  "pdfLinkMissing": "PDF kaynak ölçümü eksik; son bilinen miktar korunur. Ölçümü yeniden bağlayın."
 }

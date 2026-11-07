@@ -188,7 +188,8 @@
     "renamePrompt": "Gi arket nytt navn:",
     "deleteConfirm": "Slette dette arket?",
     "rename": "Gi nytt navn",
-    "delete": "Slett"
+    "delete": "Slett",
+    "backToBudget": "Tilbake til kalkylen"
   },
   "staart": {
     "groupHoursTitle": "Juster gruppesummen — de underliggende linjene skaleres forholdsmessig",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Angi mva.-grunnlag",
     "finalAmountSet": "Angi sluttbeløp",
     "roundingStep": "Avrundingstrinn"
-  }
+  },
+  "pdfLinkMissing": "PDF-kildemålingen mangler; den siste kjente mengden beholdes. Koble målingen på nytt."
 }

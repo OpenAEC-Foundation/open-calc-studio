@@ -16,7 +16,14 @@
     "v0.8.2": "OpenAEC di sebalik bendera ciri",
     "v0.8.1": "Log masuk OpenAEC + penambahbaikan pembantu",
     "v0.8.0": "Pembantu menerapkan perubahan secara terus",
-    "v0.7.10": "Akaun OpenAEC + navigasi bar bawah"
+    "v0.7.10": "Akaun OpenAEC + navigasi bar bawah",
+    "unreleased": "Aplikasi web mudah alih untuk anggaran",
+    "v2026.44.0-dev": "Pembangunan 2026.44.0: Blueprint, bestari dan storan terhos",
+    "v2026.44.1-dev": "Ruang kerja, asal usul kuantiti dan pratonton kewangan",
+    "v2026.44.2-dev": "Pusat semakan untuk harga, sumber dan unit",
+    "v2026.44.3-dev": "Input lebih selamat, dialog boleh diakses dan pilihan IFC lengkap",
+    "v2026.44.4-dev": "Semakan butang, pilihan selamat dan percetakan konsisten",
+    "v2026.44.5-dev": "Keutamaan SuperCloud dan penyediaan bekas"
   },
   "highlights": {
     "v0.13.0": [
@@ -112,6 +119,55 @@
       "Akaun OpenAEC dan navigasi bar bawah",
       "Sembunyikan/papar lajur dengan klik kanan pada pengepala lajur",
       "Tab Jam dan Kos tambahan digabungkan; laporan bergaya IBIS (Bouw 2)"
+    ],
+    "unreleased": [
+      "Sunting anggaran pada Android dan iPhone dengan paparan padat untuk bab, butiran, baris pengiraan, kuantiti dan harga",
+      "Buka dan muat turun fail .ifcCalc, sunting sel hamparan dan gunakan Arahan & Anggaran pada telefon anda",
+      "Projek aktif terakhir dipulihkan sebagai draf tempatan; gunakan Simpan untuk salinan mudah alih"
+    ],
+    "v2026.44.0-dev": [
+      "Ruang kerja baharu dengan navigasi kekal, pengepala projek dan jumlah anggaran langsung; tipografi Blueprint rasmi merentas semua kawalan, tanpa pendaftaran fon yang bersaing.",
+      "Lima tema Blueprint rasmi dengan fon tempatan dan UI pengiraan yang dikongsi",
+      "Bestari anggaran lima langkah pilihan dengan laluan terus kembali ke editor penuh",
+      "Fail dan versi hos dengan perlindungan konflik, serta kalkulator REST/HTTP-MCP berasingan",
+      "Binaan pembangunan: penerimaan peranti, penandatanganan dan AWS masih belum selesai",
+      "Terjemahan Inggeris dan Belanda kini merangkumi ukuran PDF, paparan pisah IFC, cadangan pembantu, pustaka harga dan mesej pengesahan."
+    ],
+    "v2026.44.1-dev": [
+      "Simpan ruang kerja tugas untuk pengukuran, penganggaran dan semakan, termasuk lebar panel, zum dan lajur.",
+      "Tetingkap kedua memaparkan lukisan PDF dan asal usul kuantiti yang dipilih tanpa menyunting anggaran.",
+      "Periksa fail dan identiti sumber, halaman atau pilihan IFC, formula dan nilai terpaut asal bagi setiap kuantiti.",
+      "Semak jumlah kewangan sebelum dan selepas cadangan pembantu, termasuk kos tambahan dan GST; terapkan atau buat asal keseluruhan cadangan sekali gus.",
+      "Semua fungsi baharu tersedia melalui pelayan MCP langsung. Format fail asli menambah provenans pilihan dalam versi 2.3.0."
+    ],
+    "v2026.44.2-dev": [
+      "Buka Pusat semakan dalam bar sisi, atau Semakan pada mudah alih; lencana mengikut isu semasa.",
+      "Tapis semakan harga, sumber dan unit; dedahkan baris anggaran yang tepat dan kembali ke konteks semakan yang sama.",
+      "Harga sifar yang jelas adalah sah. Pemeriksaan mengekalkan kuantiti, harga, keadaan belum disimpan dan sejarah buat asal.",
+      "Tersedia melalui MCP desktop review.list, review.open dan review.openItem, serta fungsi SDK tulen reviewBudget."
+    ],
+    "v2026.44.3-dev": [
+      "Input mudah alih mengekalkan harga sifar, mengikut lokal antara muka dan mata wang projek, serta menyokong buat asal dan buat semula",
+      "Kuantiti terpaut adalah baca sahaja sehingga dinyahpaut secara jelas; nyahpaut dan sunting membentuk satu langkah buat asal",
+      "Padam, potong dan tampal dihadkan kepada grid anggaran; medan teks mengekalkan buat asal asli",
+      "Ralat bestari boleh dicari atau dibuang, dan kedua-dua antara muka semakan menerima harga sifar yang jelas",
+      "Dialog mempunyai nama boleh diakses, pengurusan fokus dan sokongan untuk tetingkap bersarang",
+      "Elemen IFC mempunyai penomboran halaman, bilangan dan pilihan semua hasil carian, termasuk ifc.selectFiltered dalam MCP",
+      "Semakan sumber PDF menggunakan indeks; pembantu terapung bebas disembunyikan apabila dihoskan"
+    ],
+    "v2026.44.4-dev": [
+      "Tindakan reben menghormati pilihan berganda; menyalin atau memotong butiran kos yang diruntuhkan mengekalkan baris pengiraannya",
+      "Tindakan simpan dan tetingkap kedua menyasarkan dokumen yang betul; suntingan sebut harga dan hamparan menerima perlindungan perubahan belum disimpan",
+      "Percetakan dan eksport PDF berkongsi jenis dan pilihan laporan; percetakan sebut harga desktop berfungsi dan melaporkan kegagalan",
+      "Perintah tanpa sasaran yang sah dilumpuhkan; tab tetapan kosong dibuang dan praset zum menyokong pengaktifan papan kekunci"
+    ],
+    "v2026.44.5-dev": [
+      "Sesi terhos mengikut bahasa dan tema tanpa bar tajuk berganda.",
+      "Bekas desktop asli dan HTTP MCP persendirian disediakan; penerimaan bekas sebenar dan penerbitan masih belum selesai.",
+      "Pengumpulan tandatangan pengemas kini diperluaskan; prototaip aritmetik DynLex kecil telah disahkan."
     ]
+  },
+  "status": {
+    "unreleased": "Dalam pembangunan"
   }
 }

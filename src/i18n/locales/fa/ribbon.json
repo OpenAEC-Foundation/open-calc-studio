@@ -81,7 +81,9 @@
     "excelUpdated_one": "{{count}} مقدار به‌روزرسانی شد",
     "excelUpdated_other": "{{count}} مقدار به‌روزرسانی شد",
     "excelWarnings": "هشدارها:",
-    "excelUpToDate": "همه مقادیر از پیش به‌روز هستند"
+    "excelUpToDate": "همه مقادیر از پیش به‌روز هستند",
+    "quantityTitle": "نمایش یا پنهان کردن ستون «مقدار»",
+    "quantityUi2Title": "در UI-2 کاربرد ندارد: ستون «ساعت» همیشه می‌ماند"
   },
   "budget": {
     "rows": "سطرها",
@@ -249,6 +251,8 @@
     "pdfQuotation": "پیشنهاد قیمت PDF",
     "printBtn": "چاپ",
     "applyTemplate": "اعمال الگو...",
-    "templateGroup": "الگو"
+    "templateGroup": "الگو",
+    "desktopRequired": "خروجی PDF و چاپ پیشنهاد قیمت به برنامه رومیزی نیاز دارد.",
+    "pdfFailed": "PDF پیشنهاد قیمت ساخته نشد"
   }
 }

@@ -37,7 +37,10 @@
     "uiFontSize": "Saiz fon antara muka",
     "assistant": "Pembantu sembang",
     "chatBubble": "Tunjukkan butang sembang di bahagian kanan bawah",
-    "chatBubbleHelp": "Jika dimatikan, pembantu masih tersedia di ruang kerja “Prompt & Estimate”."
+    "chatBubbleHelp": "Jika dimatikan, pembantu masih tersedia di ruang kerja “Prompt & Estimate”.",
+    "blueprint": "Blueprint",
+    "highContrastDark": "Kontras tinggi gelap",
+    "highContrastLight": "Kontras tinggi cerah"
   },
   "grid": {
     "general": "Jadual",

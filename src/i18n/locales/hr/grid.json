@@ -188,7 +188,8 @@
     "renamePrompt": "Preimenuj list:",
     "deleteConfirm": "Izbrisati ovaj list?",
     "rename": "Preimenuj",
-    "delete": "Izbriši"
+    "delete": "Izbriši",
+    "backToBudget": "Natrag na troškovnik"
   },
   "staart": {
     "groupHoursTitle": "Prilagodite ukupnu vrijednost skupine — pripadajući redci razmjerno se preračunavaju",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Postavljanje osnovice PDV-a",
     "finalAmountSet": "Postavljanje konačnog iznosa",
     "roundingStep": "Korak zaokruživanja"
-  }
+  },
+  "pdfLinkMissing": "Nedostaje izvorno PDF mjerenje; zadržana je zadnja poznata količina. Ponovno povežite mjerenje."
 }

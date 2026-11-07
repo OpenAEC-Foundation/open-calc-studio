@@ -37,7 +37,10 @@
     "uiFontSize": "اندازه قلم رابط کاربری",
     "assistant": "دستیار گفتگو",
     "chatBubble": "نمایش دکمه گفتگو در پایین سمت راست",
-    "chatBubbleHelp": "در صورت خاموش بودن، دستیار همچنان در فضای کاری «Prompt & Estimate» در دسترس است."
+    "chatBubbleHelp": "در صورت خاموش بودن، دستیار همچنان در فضای کاری «Prompt & Estimate» در دسترس است.",
+    "blueprint": "Blueprint",
+    "highContrastDark": "کنتراست بالای تیره",
+    "highContrastLight": "کنتراست بالای روشن"
   },
   "grid": {
     "general": "جدول",

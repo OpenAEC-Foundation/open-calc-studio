@@ -81,7 +81,9 @@
     "excelUpdated_one": "수량 {{count}}건을 업데이트했습니다",
     "excelUpdated_other": "수량 {{count}}건을 업데이트했습니다",
     "excelWarnings": "경고:",
-    "excelUpToDate": "모든 값이 이미 최신입니다"
+    "excelUpToDate": "모든 값이 이미 최신입니다",
+    "quantityTitle": "수량 열 표시 또는 숨기기",
+    "quantityUi2Title": "UI-2에서는 해당 없음: 시간 열은 항상 표시됩니다"
   },
   "budget": {
     "rows": "행",
@@ -249,6 +251,8 @@
     "pdfQuotation": "PDF 견적서",
     "printBtn": "인쇄",
     "applyTemplate": "서식 적용…",
-    "templateGroup": "서식"
+    "templateGroup": "서식",
+    "desktopRequired": "견적서 PDF 내보내기와 인쇄는 데스크톱 응용 프로그램이 필요합니다.",
+    "pdfFailed": "견적서 PDF를 만들 수 없습니다"
   }
 }

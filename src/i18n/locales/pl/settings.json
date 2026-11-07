@@ -37,7 +37,10 @@
     "uiFontSize": "Rozmiar czcionki interfejsu",
     "assistant": "Asystent czatu",
     "chatBubble": "Pokaż przycisk czatu w prawym dolnym rogu",
-    "chatBubbleHelp": "Po wyłączeniu asystent pozostaje dostępny w obszarze roboczym „Prompt & Estimate”."
+    "chatBubbleHelp": "Po wyłączeniu asystent pozostaje dostępny w obszarze roboczym „Prompt & Estimate”.",
+    "blueprint": "Blueprint",
+    "highContrastDark": "Wysoki kontrast, ciemny",
+    "highContrastLight": "Wysoki kontrast, jasny"
   },
   "grid": {
     "general": "Tabela",

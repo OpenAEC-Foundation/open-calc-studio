@@ -37,7 +37,10 @@
     "uiFontSize": "இடைமுக எழுத்துரு அளவு",
     "assistant": "அரட்டை உதவியாளர்",
     "chatBubble": "கீழ் வலதுபுறத்தில் அரட்டை பொத்தானைக் காட்டு",
-    "chatBubbleHelp": "அணைக்கப்பட்டால், உதவியாளர் “Prompt & Estimate” பணியிடத்தில் தொடர்ந்து கிடைக்கும்."
+    "chatBubbleHelp": "அணைக்கப்பட்டால், உதவியாளர் “Prompt & Estimate” பணியிடத்தில் தொடர்ந்து கிடைக்கும்.",
+    "blueprint": "Blueprint",
+    "highContrastDark": "உயர் மாறுபாடு இருண்டது",
+    "highContrastLight": "உயர் மாறுபாடு வெளிர்"
   },
   "grid": {
     "general": "கட்டம்",

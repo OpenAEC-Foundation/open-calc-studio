@@ -16,7 +16,14 @@
     "v0.8.2": "OpenAEC ominaisuuslipun takana",
     "v0.8.1": "OpenAEC-kirjautuminen + avustajan parannuksia",
     "v0.8.0": "Avustaja tekee muutokset suoraan",
-    "v0.7.10": "OpenAEC-tili + alapalkin navigointi"
+    "v0.7.10": "OpenAEC-tili + alapalkin navigointi",
+    "unreleased": "Mobiiliverkkosovellus kustannusarvioille",
+    "v2026.44.0-dev": "2026.44.0-kehitysversio: Blueprint, velho ja isännöity tallennus",
+    "v2026.44.1-dev": "Työtilat, määrien alkuperät ja taloudelliset esikatselut",
+    "v2026.44.2-dev": "Tarkistuskeskus hinnoille, lähteille ja yksiköille",
+    "v2026.44.3-dev": "Turvallisempi syöttö, saavutettavat valintaikkunat ja täydelliset IFC-valinnat",
+    "v2026.44.4-dev": "Painiketarkistukset, turvallinen valinta ja yhdenmukainen tulostus",
+    "v2026.44.5-dev": "SuperCloud-asetukset ja kontin valmistelu"
   },
   "highlights": {
     "v0.13.0": [
@@ -112,6 +119,55 @@
       "OpenAEC-tili ja alapalkin navigointi",
       "Piilota/näytä sarakkeita napsauttamalla sarakeotsikkoa hiiren oikealla painikkeella",
       "Tunnit- ja Lisät-välilehdet yhdistetty; IBIS-tyylinen raportti (Bouw 2)"
+    ],
+    "unreleased": [
+      "Muokkaa kustannusarvioita Androidilla ja iPhonella tiiviissä näkymässä, joka kattaa luvut, nimikkeet, laskentarivit, määrät ja hinnat",
+      "Avaa ja lataa .ifcCalc-tiedostoja, muokkaa taulukon soluja ja käytä Kehote ja kustannusarvio -toimintoa puhelimellasi",
+      "Viimeksi aktiivinen projekti palautetaan paikallisena luonnoksena; käytä Tallenna-toimintoa siirrettävää kopiota varten"
+    ],
+    "v2026.44.0-dev": [
+      "Uusi työtila pysyvällä navigoinnilla, projektiotsikolla ja reaaliaikaisella kustannusarvion summalla; virallinen Blueprint-typografia kaikissa ohjaimissa ilman kilpailevia fonttirekisteröintejä.",
+      "Viisi virallista Blueprint-teemaa paikallisilla fonteilla ja yhteinen laskentakäyttöliittymä",
+      "Valinnainen viisivaiheinen kustannusarviovelho, josta pääsee suoraan takaisin täyteen editoriin",
+      "Isäntätiedostot ja versiot ristiriitasuojauksella sekä erillinen REST/HTTP-MCP-laskin",
+      "Kehitysversio: laite-, allekirjoitus- ja AWS-hyväksyntä ovat vielä kesken",
+      "Englannin- ja hollanninkieliset käännökset kattavat nyt PDF-mittaukset, IFC-jaetun näkymän, avustajan ehdotukset, hintakirjaston ja validointiviestit."
+    ],
+    "v2026.44.1-dev": [
+      "Tallenna tehtäväkohtaiset työtilat mittaukseen, laskentaan ja tarkistukseen, mukaan lukien paneelien leveydet, zoomaus ja sarakkeet.",
+      "Toinen ikkuna näyttää PDF-piirustukset ja valitun määrän alkuperän muokkaamatta kustannusarviota.",
+      "Tarkastele jokaisen määrän lähdetiedostoa ja identiteettiä, sivua tai IFC-valintaa, kaavaa ja alkuperäistä linkitettyä arvoa.",
+      "Tarkista taloudelliset summat ennen avustajan ehdotusta ja sen jälkeen, lisät ja alv mukaan lukien; ota koko ehdotus käyttöön tai kumoa se kerralla.",
+      "Kaikki uudet toiminnot ovat käytettävissä reaaliaikaisen MCP-palvelimen kautta. Natiivi tiedostomuoto lisää valinnaisen alkuperätiedon versiossa 2.3.0."
+    ],
+    "v2026.44.2-dev": [
+      "Avaa Tarkistuskeskus sivupalkista tai Tarkistus mobiilissa; merkki seuraa ajankohtaisia huomioita.",
+      "Suodata hinta-, lähde- ja yksikkötarkistuksia; näytä tarkka kustannusarviorivi ja palaa samaan tarkistuskontekstiin.",
+      "Nimenomaiset nollahinnat ovat kelvollisia. Tarkastelu säilyttää määrät, hinnat, muutostilan ja kumoamishistorian.",
+      "Käytettävissä työpöydän MCP-toimintojen review.list, review.open ja review.openItem sekä puhtaan reviewBudget-SDK-funktion kautta."
+    ],
+    "v2026.44.3-dev": [
+      "Mobiilisyöttö säilyttää nollahinnat, noudattaa käyttöliittymän kieliasetusta ja projektin valuuttaa sekä tukee kumoamista ja uudelleen tekemistä",
+      "Linkitetyt määrät ovat vain luettavissa, kunnes linkitys poistetaan nimenomaisesti; linkityksen poisto ja muokkaus muodostavat yhden kumoamisvaiheen",
+      "Poisto, leikkaus ja liittäminen rajataan kustannusarvioruudukkoon; tekstikentät säilyttävät natiivin kumoamisen",
+      "Velhon virheet voi paikantaa tai hylätä, ja molemmat tarkistusliittymät hyväksyvät nimenomaiset nollahinnat",
+      "Valintaikkunoilla on saavutettavat nimet, kohdistuksen hallinta ja tuki sisäkkäisille ikkunoille",
+      "IFC-elementeillä on sivutus, lukumäärät ja kaikkien hakutulosten valinta, mukaan lukien ifc.selectFiltered MCP:ssä",
+      "PDF-lähdetarkistukset käyttävät indeksiä; erillinen kelluva avustaja piilotetaan isännöidyssä ympäristössä"
+    ],
+    "v2026.44.4-dev": [
+      "Valintanauhan toiminnot huomioivat monivalinnan; tiivistettyjen kustannusnimikkeiden kopiointi tai leikkaus säilyttää niiden laskentarivit",
+      "Tallennus- ja toisen ikkunan toiminnot kohdistuvat oikeaan asiakirjaan; tarjous- ja taulukkomuokkaukset saavat tallentamattomien muutosten suojan",
+      "Tulostus ja PDF-vienti jakavat raporttityypit ja -asetukset; työpöydän tarjoustulostus toimii ja raportoi virheet",
+      "Komennot ilman kelvollisia kohteita on poistettu käytöstä; tyhjät asetusvälilehdet on poistettu ja zoomauksen esiasetukset tukevat näppäimistöaktivointia"
+    ],
+    "v2026.44.5-dev": [
+      "Isännöidyt istunnot noudattavat kieltä ja teemaa ilman kaksinkertaista otsikkopalkkia.",
+      "Natiivi työpöytäkontti ja yksityinen HTTP MCP valmisteltu; todellinen kontin hyväksyntä ja julkaisu ovat vielä kesken.",
+      "Päivittäjän allekirjoitusten keräystä laajennettu; pieni DynLex-aritmetiikkaprototyyppi on vahvistettu."
     ]
+  },
+  "status": {
+    "unreleased": "Kehitteillä"
   }
 }

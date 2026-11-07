@@ -83,7 +83,9 @@
     "excelUpdated_one": "ອັບເດດແລ້ວ {{count}} ຈຳນວນ",
     "excelUpdated_other": "ອັບເດດແລ້ວ {{count}} ຈຳນວນ",
     "excelWarnings": "ຄຳເຕືອນ:",
-    "excelUpToDate": "ຂໍ້ມູນທັງໝົດເປັນປະຈຸບັນແລ້ວ"
+    "excelUpToDate": "ຂໍ້ມູນທັງໝົດເປັນປະຈຸບັນແລ້ວ",
+    "quantityTitle": "ສະແດງ ຫຼື ເຊື່ອງຖັນ ຈຳນວນ",
+    "quantityUi2Title": "ບໍ່ສາມາດໃຊ້ໃນ UI-2: ຖັນ ຊົ່ວໂມງ ຈະຍັງຄົງຢູ່ສະເໝີ"
   },
   "budget": {
     "rows": "ແຖວ",
@@ -252,6 +254,8 @@
     "pdfQuotation": "ໃບສະເໜີລາຄາ PDF",
     "printBtn": "ພິມ",
     "applyTemplate": "ນຳໃຊ້ຮູບແບບ...",
-    "templateGroup": "ຮູບແບບແມ່ແບບ"
+    "templateGroup": "ຮູບແບບແມ່ແບບ",
+    "desktopRequired": "ການສົ່ງອອກ PDF ແລະ ການພິມໃບສະເໜີລາຄາຕ້ອງໃຊ້ໂປຣແກຣມເທິງຄອມພິວເຕີ.",
+    "pdfFailed": "ບໍ່ສາມາດສ້າງໃບສະເໜີລາຄາ PDF ໄດ້"
   }
 }

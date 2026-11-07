@@ -16,7 +16,14 @@
     "v0.8.2": "OpenAEC di balik feature flag",
     "v0.8.1": "Login OpenAEC + peningkatan asisten",
     "v0.8.0": "Asisten menerapkan perubahan secara langsung",
-    "v0.7.10": "Akun OpenAEC + navigasi bilah bawah"
+    "v0.7.10": "Akun OpenAEC + navigasi bilah bawah",
+    "unreleased": "Aplikasi web seluler untuk anggaran",
+    "v2026.44.0-dev": "Pengembangan 2026.44.0: Blueprint, wizard, dan penyimpanan terhosting",
+    "v2026.44.1-dev": "Ruang kerja, asal volume, dan pratinjau keuangan",
+    "v2026.44.2-dev": "Pusat pemeriksaan untuk harga, sumber, dan satuan",
+    "v2026.44.3-dev": "Input yang lebih aman, dialog yang aksesibel, dan pilihan IFC yang lengkap",
+    "v2026.44.4-dev": "Pemeriksaan tombol, pilihan yang aman, dan pencetakan yang konsisten",
+    "v2026.44.5-dev": "Preferensi SuperCloud dan persiapan kontainer"
   },
   "highlights": {
     "v0.13.0": [
@@ -112,6 +119,55 @@
       "Akun OpenAEC dan navigasi bilah bawah",
       "Sembunyikan/tampilkan kolom lewat klik kanan pada kepala kolom",
       "Tab Jam dan Biaya tambahan digabung; laporan bergaya IBIS (Bouw 2)"
+    ],
+    "unreleased": [
+      "Ubah anggaran di Android dan iPhone dengan tampilan ringkas untuk bab, pos, baris perhitungan, volume, dan harga",
+      "Buka dan unduh berkas .ifcCalc, ubah sel lembar kerja, dan gunakan Prompt & Anggaran di ponsel Anda",
+      "Proyek terakhir yang aktif dipulihkan sebagai draf lokal; gunakan Simpan untuk salinan yang portabel"
+    ],
+    "v2026.44.0-dev": [
+      "Ruang kerja baru dengan navigasi tetap, kepala proyek, dan total anggaran langsung; tipografi resmi Blueprint di semua kontrol, tanpa registrasi font yang saling bersaing.",
+      "Lima tema resmi Blueprint dengan font lokal dan antarmuka perhitungan bersama",
+      "Wizard anggaran lima langkah opsional dengan jalan kembali langsung ke editor lengkap",
+      "Berkas dan versi host dengan perlindungan konflik, plus kalkulator REST/HTTP-MCP terpisah",
+      "Build pengembangan: penerimaan perangkat, penandatanganan, dan AWS masih tertunda",
+      "Terjemahan Inggris dan Belanda kini mencakup pengukuran PDF, tampilan terbagi IFC, usulan asisten, pustaka harga, dan pesan validasi."
+    ],
+    "v2026.44.1-dev": [
+      "Simpan ruang kerja tugas untuk mengukur, menganggarkan, dan memeriksa, termasuk lebar panel, zoom, dan kolom.",
+      "Jendela kedua menampilkan gambar PDF dan asal volume yang dipilih tanpa mengubah anggaran.",
+      "Periksa berkas sumber dan identitasnya, halaman atau pilihan IFC, rumus, dan nilai tertaut asli untuk setiap volume.",
+      "Periksa total keuangan sebelum dan sesudah usulan asisten, termasuk biaya tambahan dan PPN; terapkan atau urungkan seluruh usulan sekaligus.",
+      "Semua fungsi baru tersedia melalui server MCP langsung. Format berkas asli menambahkan provenans opsional pada versi 2.3.0."
+    ],
+    "v2026.44.2-dev": [
+      "Buka Pusat pemeriksaan di bilah samping, atau Pemeriksaan di seluler; lencananya mengikuti temuan saat ini.",
+      "Saring pemeriksaan harga, sumber, dan satuan; tampilkan baris anggaran yang tepat dan kembali ke konteks pemeriksaan yang sama.",
+      "Harga nol yang eksplisit dianggap valid. Pemeriksaan mempertahankan volume, harga, status belum tersimpan, dan riwayat urungkan.",
+      "Tersedia melalui MCP desktop review.list, review.open, dan review.openItem, serta fungsi SDK murni reviewBudget."
+    ],
+    "v2026.44.3-dev": [
+      "Input seluler mempertahankan harga nol, mengikuti lokal antarmuka dan mata uang proyek, serta mendukung urungkan dan ulangi",
+      "Volume yang tertaut bersifat hanya baca sampai tautannya dilepas secara eksplisit; pelepasan tautan dan pengubahan menjadi satu langkah urungkan",
+      "Hapus, potong, dan tempel dibatasi pada tabel anggaran; kolom teks mempertahankan urungkan bawaan",
+      "Kesalahan wizard dapat ditemukan atau dibuang, dan kedua antarmuka pemeriksaan menerima harga nol yang eksplisit",
+      "Dialog memiliki nama yang aksesibel, pengelolaan fokus, dan dukungan untuk jendela bersarang",
+      "Elemen IFC memiliki paginasi, jumlah, dan pemilihan semua hasil pencarian, termasuk ifc.selectFiltered di MCP",
+      "Pemeriksaan sumber PDF menggunakan indeks; asisten mengambang independen disembunyikan saat dihosting"
+    ],
+    "v2026.44.4-dev": [
+      "Aksi pita menghormati pilihan ganda; menyalin atau memotong pos biaya yang diciutkan mempertahankan baris perhitungannya",
+      "Aksi simpan dan jendela kedua menyasar dokumen yang tepat; pengubahan penawaran dan lembar kerja mendapat perlindungan perubahan belum tersimpan",
+      "Pencetakan dan ekspor PDF berbagi jenis dan opsi laporan; pencetakan penawaran di desktop berfungsi dan melaporkan kegagalan",
+      "Perintah tanpa target yang valid dinonaktifkan; tab pengaturan kosong dihapus dan preset zoom mendukung aktivasi lewat keyboard"
+    ],
+    "v2026.44.5-dev": [
+      "Sesi terhosting mengikuti bahasa dan tema tanpa bilah judul ganda.",
+      "Kontainer desktop asli dan MCP HTTP privat telah disiapkan; penerimaan dan publikasi kontainer sebenarnya masih tertunda.",
+      "Pengumpulan tanda tangan pembaru diperluas; prototipe aritmetika DynLex kecil telah diverifikasi."
     ]
+  },
+  "status": {
+    "unreleased": "Dalam pengembangan"
   }
 }

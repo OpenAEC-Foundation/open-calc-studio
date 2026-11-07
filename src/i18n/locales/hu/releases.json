@@ -16,7 +16,14 @@
     "v0.8.2": "Az OpenAEC funkciókapcsoló mögött",
     "v0.8.1": "OpenAEC-bejelentkezés + asszisztensfejlesztések",
     "v0.8.0": "Az asszisztens közvetlenül alkalmazza a módosításokat",
-    "v0.7.10": "OpenAEC-fiók + alsó sávos navigáció"
+    "v0.7.10": "OpenAEC-fiók + alsó sávos navigáció",
+    "unreleased": "Mobil webalkalmazás költségvetésekhez",
+    "v2026.44.0-dev": "2026.44.0 fejlesztés: Blueprint, varázsló és hosztolt tárolás",
+    "v2026.44.1-dev": "Munkaterületek, mennyiségek eredete és pénzügyi előnézetek",
+    "v2026.44.2-dev": "Ellenőrzőközpont árakhoz, forrásokhoz és mértékegységekhez",
+    "v2026.44.3-dev": "Biztonságosabb bevitel, akadálymentes párbeszédablakok és teljes IFC-kijelölések",
+    "v2026.44.4-dev": "Gombellenőrzések, biztonságos kijelölés és egységes nyomtatás",
+    "v2026.44.5-dev": "SuperCloud-beállítások és konténer-előkészítés"
   },
   "highlights": {
     "v0.13.0": [
@@ -112,6 +119,55 @@
       "OpenAEC-fiók és alsó sávos navigáció",
       "Oszlopok elrejtése/megjelenítése az oszlopfejlécre jobb gombbal kattintva",
       "Az Órák és a Felárak lap egyesítve; IBIS-stílusú jelentés (Bouw 2)"
+    ],
+    "unreleased": [
+      "Költségvetések szerkesztése Androidon és iPhone-on kompakt nézettel a fejezetekhez, tételekhez, számítási sorokhoz, mennyiségekhez és árakhoz",
+      ".ifcCalc fájlok megnyitása és letöltése, táblázatcellák szerkesztése és a Prompt és költségvetés használata telefonon",
+      "Az utoljára aktív projekt helyi piszkozatként áll vissza; hordozható másolathoz használja a Mentést"
+    ],
+    "v2026.44.0-dev": [
+      "Új munkaterület állandó navigációval, projektfejléccel és élő költségvetési végösszeggel; hivatalos Blueprint tipográfia minden vezérlőelemen, egymással versengő betűkészlet-regisztrációk nélkül.",
+      "Öt hivatalos Blueprint téma helyi betűkészletekkel és a közös kalkulációs felülettel",
+      "Opcionális ötlépéses költségvetési varázsló közvetlen visszatéréssel a teljes szerkesztőbe",
+      "Hosztolt fájlok és verziók ütközésvédelemmel, valamint külön REST/HTTP-MCP kalkulátor",
+      "Fejlesztői build: az eszköz-, aláírás- és AWS-átvétel még folyamatban",
+      "Az angol és holland fordítások már lefedik a PDF-méréseket, az IFC osztott nézetet, az asszisztens javaslatait, az árkönyvtárat és az ellenőrző üzeneteket."
+    ],
+    "v2026.44.1-dev": [
+      "Feladat-munkaterületek mentése méréshez, kalkulációhoz és ellenőrzéshez, a panelszélességekkel, nagyítással és oszlopokkal együtt.",
+      "Egy második ablak PDF-rajzokat és a kijelölt mennyiség eredetét mutatja a költségvetés szerkesztése nélkül.",
+      "Minden mennyiségnél megtekinthető a forrásfájl és azonossága, az oldal vagy IFC-kijelölés, a képlet és az eredetileg összekapcsolt érték.",
+      "Pénzügyi összegek áttekintése az asszisztens javaslata előtt és után, a felárakkal és áfával együtt; a teljes javaslat együtt alkalmazható vagy visszavonható.",
+      "Minden új funkció elérhető az élő MCP-kiszolgálón keresztül. A natív fájlformátum a 2.3.0 verzióban opcionális eredetadatokkal bővül."
+    ],
+    "v2026.44.2-dev": [
+      "Az Ellenőrzőközpont megnyitható az oldalsávban, mobilon pedig az Ellenőrzés menüpontban; a jelvény az aktuális problémákat követi.",
+      "Ár-, forrás- és mértékegység-ellenőrzések szűrése; a pontos költségvetési sor megjelenítése és visszatérés ugyanabba az ellenőrzési környezetbe.",
+      "A kifejezett nulla árak érvényesek. A vizsgálat megőrzi a mennyiségeket, árakat, a módosított állapotot és a visszavonási előzményeket.",
+      "Elérhető az asztali MCP review.list, review.open és review.openItem parancsain, valamint a tiszta reviewBudget SDK-függvényen keresztül."
+    ],
+    "v2026.44.3-dev": [
+      "A mobil bevitel megőrzi a nulla árakat, követi a felület nyelvét és a projekt pénznemét, és támogatja a visszavonást és az ismétlést",
+      "A kapcsolt mennyiségek csak olvashatók a kapcsolat kifejezett feloldásáig; a feloldás és a szerkesztés egyetlen visszavonási lépést alkot",
+      "A törlés, kivágás és beillesztés a költségvetési táblázatra korlátozódik; a szövegmezők megtartják a natív visszavonást",
+      "A varázsló hibái megkereshetők vagy elvethetők, és mindkét ellenőrzési felület elfogadja a kifejezett nulla árakat",
+      "A párbeszédablakok akadálymentes névvel, fókuszkezeléssel és beágyazott ablakok támogatásával rendelkeznek",
+      "Az IFC-elemekhez lapozás, darabszám és az összes keresési találat kijelölése tartozik, az MCP-ben az ifc.selectFiltered paranccsal együtt",
+      "A PDF-forrásellenőrzések indexet használnak; a független lebegő asszisztens hosztolt módban rejtve marad"
+    ],
+    "v2026.44.4-dev": [
+      "A menüszalag műveletei figyelembe veszik a többszörös kijelölést; az összecsukott költségtételek másolása vagy kivágása megőrzi a számítási soraikat",
+      "A mentés és a második ablak műveletei a megfelelő dokumentumot célozzák; az árajánlat- és táblázatszerkesztések védelmet kapnak a nem mentett módosítások ellen",
+      "A nyomtatás és a PDF-exportálás közös jelentéstípusokat és beállításokat használ; az asztali árajánlat-nyomtatás működik és jelzi a hibákat",
+      "Az érvényes cél nélküli parancsok le vannak tiltva; az üres beállítási lapok megszűntek, a nagyítási előbeállítások billentyűzetről is aktiválhatók"
+    ],
+    "v2026.44.5-dev": [
+      "A hosztolt munkamenetek dupla címsor nélkül követik a nyelvet és a témát.",
+      "Natív asztali konténer és privát HTTP MCP előkészítve; a valódi konténer-átvétel és a közzététel még folyamatban.",
+      "A frissítő aláírásgyűjtése bővült; egy kis DynLex aritmetikai prototípus ellenőrzésre került."
     ]
+  },
+  "status": {
+    "unreleased": "Fejlesztés alatt"
   }
 }

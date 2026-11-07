@@ -188,7 +188,8 @@
     "renamePrompt": "Munkalap átnevezése:",
     "deleteConfirm": "Törli ezt a munkalapot?",
     "rename": "Átnevezés",
-    "delete": "Törlés"
+    "delete": "Törlés",
+    "backToBudget": "Vissza a költségvetéshez"
   },
   "staart": {
     "groupHoursTitle": "Módosítsa a csoport összegét — az alatta lévő sorok arányosan újraszámolódnak",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Áfaalap beállítása",
     "finalAmountSet": "Végösszeg beállítása",
     "roundingStep": "Kerekítési lépésköz"
-  }
+  },
+  "pdfLinkMissing": "A PDF-forrásmérés hiányzik; az utolsó ismert mennyiség megmarad. Kapcsolja össze újra a mérést."
 }

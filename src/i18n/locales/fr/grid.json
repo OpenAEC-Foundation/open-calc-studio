@@ -188,7 +188,8 @@
     "renamePrompt": "Renommer la feuille :",
     "deleteConfirm": "Supprimer cette feuille ?",
     "rename": "Renommer",
-    "delete": "Supprimer"
+    "delete": "Supprimer",
+    "backToBudget": "Retour au devis"
   },
   "staart": {
     "groupHoursTitle": "Ajuster le total du groupe — les lignes sous-jacentes sont recalculées au prorata",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Définir la base de TVA",
     "finalAmountSet": "Définir le montant final",
     "roundingStep": "Pas d'arrondi"
-  }
+  },
+  "pdfLinkMissing": "La mesure source PDF est manquante ; la dernière quantité connue est conservée. Reliez la mesure."
 }

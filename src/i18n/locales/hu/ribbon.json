@@ -81,7 +81,9 @@
     "excelUpdated_one": "{{count}} mennyiség frissítve",
     "excelUpdated_other": "{{count}} mennyiség frissítve",
     "excelWarnings": "Figyelmeztetések:",
-    "excelUpToDate": "Minden érték már naprakész"
+    "excelUpToDate": "Minden érték már naprakész",
+    "quantityTitle": "A Mennyiség oszlop megjelenítése vagy elrejtése",
+    "quantityUi2Title": "UI-2-ben nem alkalmazható: az Óra oszlop mindig látható marad"
   },
   "budget": {
     "rows": "Sorok",
@@ -249,6 +251,8 @@
     "pdfQuotation": "PDF árajánlat",
     "printBtn": "Nyomtatás",
     "applyTemplate": "Sablon alkalmazása...",
-    "templateGroup": "Sablon"
+    "templateGroup": "Sablon",
+    "desktopRequired": "Az árajánlat PDF-exportálásához és nyomtatásához az asztali alkalmazás szükséges.",
+    "pdfFailed": "Az árajánlat PDF-je nem hozható létre"
   }
 }

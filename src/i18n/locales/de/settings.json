@@ -37,7 +37,10 @@
     "uiFontSize": "Schriftgröße der Oberfläche",
     "assistant": "Chat-Assistent",
     "chatBubble": "Chat-Schaltfläche unten rechts anzeigen",
-    "chatBubbleHelp": "Ausgeschaltet bleibt der Assistent über den Arbeitsbereich Prompt & Kalkulation erreichbar."
+    "chatBubbleHelp": "Ausgeschaltet bleibt der Assistent über den Arbeitsbereich Prompt & Kalkulation erreichbar.",
+    "blueprint": "Blueprint",
+    "highContrastDark": "Hoher Kontrast dunkel",
+    "highContrastLight": "Hoher Kontrast hell"
   },
   "grid": {
     "general": "Tabelle",

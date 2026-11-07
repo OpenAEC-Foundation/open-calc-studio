@@ -188,7 +188,8 @@
     "renamePrompt": "Redenumire foaie:",
     "deleteConfirm": "Ștergeți această foaie?",
     "rename": "Redenumire",
-    "delete": "Ștergere"
+    "delete": "Ștergere",
+    "backToBudget": "Înapoi la deviz"
   },
   "staart": {
     "groupHoursTitle": "Ajustați totalul grupei — liniile subordonate se rescalează proporțional",
@@ -233,5 +234,6 @@
     "vatBaseSet": "Setare bază TVA",
     "finalAmountSet": "Setare valoare finală",
     "roundingStep": "Pas de rotunjire"
-  }
+  },
+  "pdfLinkMissing": "Măsurătoarea sursă din PDF lipsește; ultima cantitate cunoscută este păstrată. Legați din nou măsurătoarea."
 }

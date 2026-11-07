@@ -37,7 +37,10 @@
     "uiFontSize": "Dimensiunea fontului interfeței",
     "assistant": "Asistent de chat",
     "chatBubble": "Afișează butonul de chat în dreapta jos",
-    "chatBubbleHelp": "Dezactivat, asistentul rămâne disponibil în spațiul de lucru „Prompt & Estimate”."
+    "chatBubbleHelp": "Dezactivat, asistentul rămâne disponibil în spațiul de lucru „Prompt & Estimate”.",
+    "blueprint": "Blueprint",
+    "highContrastDark": "Contrast ridicat întunecat",
+    "highContrastLight": "Contrast ridicat luminos"
   },
   "grid": {
     "general": "Tabel",

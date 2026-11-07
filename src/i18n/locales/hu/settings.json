@@ -37,7 +37,10 @@
     "uiFontSize": "Felület betűmérete",
     "assistant": "Csevegőasszisztens",
     "chatBubble": "Csevegőgomb megjelenítése a jobb alsó sarokban",
-    "chatBubbleHelp": "Kikapcsolva az asszisztens továbbra is elérhető a „Prompt & Estimate” munkaterületen."
+    "chatBubbleHelp": "Kikapcsolva az asszisztens továbbra is elérhető a „Prompt & Estimate” munkaterületen.",
+    "blueprint": "Blueprint",
+    "highContrastDark": "Nagy kontraszt, sötét",
+    "highContrastLight": "Nagy kontraszt, világos"
   },
   "grid": {
     "general": "Táblázat",

@@ -37,7 +37,10 @@
     "uiFontSize": "इंटरफ़ेस फ़ॉन्ट आकार",
     "assistant": "चैट सहायक",
     "chatBubble": "नीचे दाईं ओर चैट बटन दिखाएँ",
-    "chatBubbleHelp": "बंद होने पर सहायक “Prompt & Estimate” कार्यक्षेत्र में उपलब्ध रहता है।"
+    "chatBubbleHelp": "बंद होने पर सहायक “Prompt & Estimate” कार्यक्षेत्र में उपलब्ध रहता है।",
+    "blueprint": "Blueprint",
+    "highContrastDark": "उच्च कंट्रास्ट गहरा",
+    "highContrastLight": "उच्च कंट्रास्ट हल्का"
   },
   "grid": {
     "general": "ग्रिड",

@@ -81,7 +81,9 @@
     "excelUpdated_one": "已更新 {{count}} 项工程量",
     "excelUpdated_other": "已更新 {{count}} 项工程量",
     "excelWarnings": "警告：",
-    "excelUpToDate": "所有数值均已是最新"
+    "excelUpToDate": "所有数值均已是最新",
+    "quantityTitle": "显示或隐藏“数量”列",
+    "quantityUi2Title": "不适用于 UI-2：“工时”列始终保留"
   },
   "budget": {
     "rows": "行",
@@ -249,6 +251,8 @@
     "pdfQuotation": "PDF 报价单",
     "printBtn": "打印",
     "applyTemplate": "应用模板…",
-    "templateGroup": "模板"
+    "templateGroup": "模板",
+    "desktopRequired": "报价单 PDF 导出和打印需要桌面版应用。",
+    "pdfFailed": "无法创建报价单 PDF"
   }
 }

@@ -37,7 +37,10 @@
     "uiFontSize": "Cỡ chữ giao diện",
     "assistant": "Trợ lý trò chuyện",
     "chatBubble": "Hiện nút trò chuyện ở góc dưới bên phải",
-    "chatBubbleHelp": "Khi tắt, trợ lý vẫn dùng được trong không gian làm việc “Prompt & Estimate”."
+    "chatBubbleHelp": "Khi tắt, trợ lý vẫn dùng được trong không gian làm việc “Prompt & Estimate”.",
+    "blueprint": "Blueprint",
+    "highContrastDark": "Tương phản cao tối",
+    "highContrastLight": "Tương phản cao sáng"
   },
   "grid": {
     "general": "Bảng",

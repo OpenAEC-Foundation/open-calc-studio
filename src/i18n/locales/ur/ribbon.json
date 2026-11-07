@@ -81,7 +81,9 @@
     "excelUpdated_one": "{{count}} مقدار اپ ڈیٹ ہوئی",
     "excelUpdated_other": "{{count}} مقادیر اپ ڈیٹ ہوئیں",
     "excelWarnings": "انتباہات:",
-    "excelUpToDate": "تمام اقدار پہلے ہی تازہ ترین ہیں"
+    "excelUpToDate": "تمام اقدار پہلے ہی تازہ ترین ہیں",
+    "quantityTitle": "مقدار کا کالم دکھائیں یا چھپائیں",
+    "quantityUi2Title": "UI-2 میں لاگو نہیں: گھنٹوں کا کالم ہمیشہ رہتا ہے"
   },
   "budget": {
     "rows": "سطریں",
@@ -249,6 +251,8 @@
     "pdfQuotation": "PDF پیشکش",
     "printBtn": "پرنٹ",
     "applyTemplate": "ٹیمپلیٹ لاگو کریں...",
-    "templateGroup": "ٹیمپلیٹ"
+    "templateGroup": "ٹیمپلیٹ",
+    "desktopRequired": "پیشکش کی PDF برآمد اور پرنٹنگ کے لیے ڈیسک ٹاپ ایپلی کیشن درکار ہے۔",
+    "pdfFailed": "پیشکش کی PDF نہیں بن سکی"
   }
 }

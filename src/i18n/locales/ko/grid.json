@@ -188,7 +188,8 @@
     "renamePrompt": "시트 이름 바꾸기:",
     "deleteConfirm": "이 시트를 삭제할까요?",
     "rename": "이름 바꾸기",
-    "delete": "삭제"
+    "delete": "삭제",
+    "backToBudget": "내역서로 돌아가기"
   },
   "staart": {
     "groupHoursTitle": "그룹 합계를 조정합니다 — 하위 행이 비례 배분으로 재계산됩니다",
@@ -233,5 +234,6 @@
     "vatBaseSet": "과세표준 설정",
     "finalAmountSet": "최종 금액 설정",
     "roundingStep": "반올림 단위"
-  }
+  },
+  "pdfLinkMissing": "PDF 원본 측정값이 없어 마지막으로 알려진 수량을 유지합니다. 측정을 다시 연결하세요."
 }

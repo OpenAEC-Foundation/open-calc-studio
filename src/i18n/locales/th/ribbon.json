@@ -81,7 +81,9 @@
     "excelUpdated_one": "อัปเดตปริมาณแล้ว {{count}} รายการ",
     "excelUpdated_other": "อัปเดตปริมาณแล้ว {{count}} รายการ",
     "excelWarnings": "คำเตือน:",
-    "excelUpToDate": "ค่าทั้งหมดเป็นปัจจุบันอยู่แล้ว"
+    "excelUpToDate": "ค่าทั้งหมดเป็นปัจจุบันอยู่แล้ว",
+    "quantityTitle": "แสดงหรือซ่อนคอลัมน์ปริมาณ",
+    "quantityUi2Title": "ไม่ใช้ใน UI-2: คอลัมน์ชั่วโมงจะแสดงอยู่เสมอ"
   },
   "budget": {
     "rows": "แถว",
@@ -249,6 +251,8 @@
     "pdfQuotation": "ใบเสนอราคา PDF",
     "printBtn": "พิมพ์",
     "applyTemplate": "ใช้แม่แบบ...",
-    "templateGroup": "แม่แบบ"
+    "templateGroup": "แม่แบบ",
+    "desktopRequired": "การส่งออก PDF และการพิมพ์ใบเสนอราคาต้องใช้แอปพลิเคชันเดสก์ท็อป",
+    "pdfFailed": "ไม่สามารถสร้าง PDF ใบเสนอราคาได้"
   }
 }

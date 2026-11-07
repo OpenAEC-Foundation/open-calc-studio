@@ -81,7 +81,9 @@
     "excelUpdated_one": "{{count}} ποσότητα ενημερώθηκε",
     "excelUpdated_other": "{{count}} ποσότητες ενημερώθηκαν",
     "excelWarnings": "Προειδοποιήσεις:",
-    "excelUpToDate": "Όλες οι τιμές είναι ήδη ενημερωμένες"
+    "excelUpToDate": "Όλες οι τιμές είναι ήδη ενημερωμένες",
+    "quantityTitle": "Εμφάνιση ή απόκρυψη της στήλης Ποσότητα",
+    "quantityUi2Title": "Δεν ισχύει στο UI-2: η στήλη Ώρες παραμένει πάντα"
   },
   "budget": {
     "rows": "Γραμμές",
@@ -249,6 +251,8 @@
     "pdfQuotation": "Προσφορά PDF",
     "printBtn": "Εκτύπωση",
     "applyTemplate": "Εφαρμογή προτύπου...",
-    "templateGroup": "Πρότυπο"
+    "templateGroup": "Πρότυπο",
+    "desktopRequired": "Η εξαγωγή PDF και η εκτύπωση προσφορών απαιτούν την εφαρμογή για υπολογιστή.",
+    "pdfFailed": "Δεν ήταν δυνατή η δημιουργία του PDF προσφοράς"
   }
 }

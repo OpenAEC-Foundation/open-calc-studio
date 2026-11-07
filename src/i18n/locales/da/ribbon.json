@@ -81,7 +81,9 @@
     "excelUpdated_one": "{{count}} mængde opdateret",
     "excelUpdated_other": "{{count}} mængder opdateret",
     "excelWarnings": "Advarsler:",
-    "excelUpToDate": "Alle værdier er allerede opdaterede"
+    "excelUpToDate": "Alle værdier er allerede opdaterede",
+    "quantityTitle": "Vis eller skjul kolonnen Mængde",
+    "quantityUi2Title": "Gælder ikke i UI-2: kolonnen Timer bliver altid stående"
   },
   "budget": {
     "rows": "Linjer",
@@ -249,6 +251,8 @@
     "pdfQuotation": "PDF-tilbud",
     "printBtn": "Udskriv",
     "applyTemplate": "Anvend skabelon …",
-    "templateGroup": "Skabelon"
+    "templateGroup": "Skabelon",
+    "desktopRequired": "PDF-eksport og udskrivning af tilbud kræver skrivebordsprogrammet.",
+    "pdfFailed": "Tilbuds-PDF kunne ikke oprettes"
   }
 }
