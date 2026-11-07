@@ -35,7 +35,8 @@ it('loads public assets beneath a configured Frappe subpath', () => {
 const bootstrap = readFileSync('public/startup-recovery.js', 'utf8');
 it('loads startup recovery as a file, so a strict CSP without inline scripts allows it', () => {
   const html = readFileSync('index.html', 'utf8');
-  expect(html).toContain('<script src="./startup-recovery.js"></script>');
+  // An absolute public path: Vite puts the configured base in front of it, like /app-icon.svg.
+  expect(html).toContain('<script src="/startup-recovery.js"></script>');
   expect(html.replace(/<script id="openaec-analytics-loader">[\s\S]*?<\/script>/, '')).not.toMatch(/<script>/);
 });
 it('skips startup recovery when an opaque frame denies sessionStorage', () => {

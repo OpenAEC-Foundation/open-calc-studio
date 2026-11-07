@@ -12,7 +12,8 @@ interface Schema { type?: string; enum?: unknown[]; anyOf?: Schema[]; properties
 
 /**
  * The part of JSON Schema that siteAppTools.json uses, as zod, so `tools/list` shows the same parameters. The SDK takes a
- * raw shape, so unknown top-level fields pass here; the app refuses them against the JSON schema (`unknown field`).
+ * raw shape and builds a non-strict object from it, so an unknown top-level field (a typo) is silently dropped before the
+ * call reaches the app; nested objects keep `additionalProperties: false` and are refused with `unknown field`.
  */
 export function zodFromSchema(schema: Schema): ZodTypeAny {
   let type: ZodTypeAny;

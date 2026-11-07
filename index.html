@@ -23,7 +23,9 @@
     <div id="root" class="oa-app"></div>
     <!-- Zelfherstel bij wit scherm: dit script staat bewust BUITEN de bundle.
          Faalt het laden van de module-graph, dan draait geen enkele app-code
-         meer — alleen dit inline script kan dan nog herladen.
+         meer — alleen dit losse script (public/startup-recovery.js, geen
+         inline code, zodat een strikte CSP zonder 'unsafe-inline' het toelaat)
+         kan dan nog herladen.
 
          Hoofdoorzaak in dev: een koude-start-race tussen de Tauri-webview en
          Vite's dependency-optimalisatie. De webview grijpt een module vóórdat
@@ -32,7 +34,7 @@
          paar snelle pogingen toe (geen enkele reload van 8s→60s zoals eerder)
          met een harde bovengrens tegen een reload-lus. Bij een gevulde root
          wordt de teller gewist. -->
-    <script src="./startup-recovery.js"></script>
+    <script src="/startup-recovery.js"></script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
