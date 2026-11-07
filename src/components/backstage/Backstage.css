@@ -232,7 +232,7 @@
   justify-content: center;
 }
 
-.bs-about-logo svg { width: 48px; height: 48px; }
+.bs-about-logo img { width: 48px; height: 48px; display: block; }
 
 .bs-about-app-info { display: flex; flex-direction: column; }
 

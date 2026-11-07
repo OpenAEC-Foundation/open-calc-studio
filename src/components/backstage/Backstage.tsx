@@ -25,6 +25,7 @@ import { CloudPanel } from "./CloudPanel";
 import ColumnMappingDialog from "./ColumnMappingDialog";
 import { showImportWarnings } from "../common/ImportWarningsDialog";
 import { OPENAEC_ENABLED, USER_EXTENSIONS_ENABLED, allowsExternalServices } from "../../services/buildFlags";
+import appIcon from '@/assets/app-icon.svg';
 import "./Backstage.css";
 
 const ICONS = {
@@ -1010,10 +1011,7 @@ function AboutPanel() {
       <h2 className="bs-about-title">{t("aboutPanel.title")}</h2>
       <div className="bs-about-app">
         <div className="bs-about-logo">
-          <svg viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="40" y="40" width="944" height="944" rx="180" fill="#2d8a4e" />
-            <text x="512" y="540" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="750" fontFamily="serif" fontWeight="700" opacity="0.95">Σ</text>
-          </svg>
+          <img src={appIcon} alt="" width="48" height="48" draggable={false} />
         </div>
         <div className="bs-about-app-info">
           <h1 className="bs-about-app-name">{t("aboutPanel.appName")}</h1>
