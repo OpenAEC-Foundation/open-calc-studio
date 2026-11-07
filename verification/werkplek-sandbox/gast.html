@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Werkplek (nagebootst) — Open Calc Studio</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root { color-scheme: light; font: 13px/1.4 system-ui, Segoe UI, sans-serif; }
+    html, body { margin: 0; height: 100%; background: #f3f4f6; color: #111827; }
+    body { display: grid; grid-template-rows: auto 1fr; grid-template-columns: 1fr 420px; height: 100vh; }
+    header { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 8px 12px; background: #1f2937; color: #f9fafb; }
+    header h1 { font-size: 14px; margin: 0 8px 0 0; font-weight: 600; }
+    header code { background: #374151; padding: 1px 5px; border-radius: 3px; }
+    header label { display: inline-flex; gap: 4px; align-items: center; }
+    button { font: inherit; padding: 3px 8px; border: 1px solid #9ca3af; border-radius: 4px; background: #fff; cursor: pointer; }
+    button:hover { background: #e5e7eb; }
+    #frame-houder { position: relative; background: #fff; border-right: 1px solid #d1d5db; }
+    #wp-app { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    aside { display: grid; grid-template-rows: auto auto 1fr; gap: 0; overflow: hidden; min-height: 0; }
+    section { padding: 8px 10px; border-bottom: 1px solid #d1d5db; min-height: 0; display: flex; flex-direction: column; }
+    section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; margin: 0 0 6px; color: #4b5563; }
+    table { border-collapse: collapse; width: 100%; font-size: 12px; }
+    th, td { text-align: left; padding: 2px 4px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+    td.num { text-align: right; }
+    .knoppen { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
+    form.vrij { display: grid; grid-template-columns: 1fr auto; gap: 4px; }
+    form.vrij input, form.vrij textarea { font: 12px/1.3 ui-monospace, Consolas, monospace; padding: 3px 5px; border: 1px solid #9ca3af; border-radius: 4px; }
+    form.vrij textarea { grid-column: 1 / -1; height: 42px; resize: vertical; }
+    pre { margin: 6px 0 0; padding: 6px; background: #111827; color: #d1d5db; font: 11px/1.35 ui-monospace, Consolas, monospace; overflow: auto; max-height: 180px; white-space: pre-wrap; word-break: break-word; }
+    #log-sectie { overflow: hidden; }
+    #log { margin: 0; padding: 0; list-style: none; overflow: auto; flex: 1; font: 11px/1.35 ui-monospace, Consolas, monospace; }
+    #log li { padding: 1px 0; border-bottom: 1px dotted #e5e7eb; }
+    #log li.fout { color: #b91c1c; }
+    #log li.app { color: #1d4ed8; }
+    #log li .t { color: #6b7280; display: inline-block; width: 64px; }
+    #status.verbonden { color: #86efac; }
+    .klein { color: #6b7280; font-size: 11px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Werkplek (nagebootst)</h1>
+    <span>handdruk: <code id="status">wachten…</code></span>
+    <span>frame: <code id="frame-info">—</code></span>
+    <button id="herlaad" type="button" title="Het frame opnieuw laden, met hetzelfde startbestand">Frame herladen</button>
+    <label><input id="conflict" type="checkbox"> Piet slaat op vóór de volgende opslag (conflictkopie)</label>
+    <label><input id="slot" type="checkbox"> Piet vergrendelt het bestand vóór de volgende opslag (conflictkopie)</label>
+    <label>volgende opslag weigeren met
+      <select id="weiger">
+        <option value="">—</option>
+        <option>quotum_ruimte_vol</option>
+        <option>ruimte_gearchiveerd</option>
+        <option>alleen_lezen_deling</option>
+        <option>deling_ingetrokken</option>
+        <option>map_alleen_lezen</option>
+      </select></label>
+    <span class="klein">In de app: Ctrl+O = Openen (lijst van de host), Ctrl+S = Opslaan, Ctrl+Shift+S = Opslaan als.</span>
+  </header>
+  <div id="frame-houder"></div>
+  <aside>
+    <section>
+      <h2>Bestanden bij de host (in het geheugen van deze pagina)</h2>
+      <table id="bestanden"><thead><tr><th>id</th><th>naam</th><th class="num">versies</th><th class="num">bytes</th><th></th></tr></thead><tbody></tbody></table>
+    </section>
+    <section>
+      <h2>Assistent (via de brug naar <code>window.__OPDS_APP__</code>)</h2>
+      <div class="knoppen">
+        <button type="button" data-soort="app.tools">tools()</button>
+        <button type="button" data-soort="app.definities">definitions()</button>
+        <button type="button" data-tool="calc_get_budget_summary">calc_get_budget_summary</button>
+        <button type="button" data-tool="calc_get_items" data-args='{"limit":5}'>calc_get_items (5)</button>
+        <button type="button" data-tool="calc_new_budget" data-args='{"fileName":"Nieuw via assistent"}'>calc_new_budget</button>
+        <button type="button" data-tool="calc_list_actions">calc_list_actions</button>
+        <button type="button" data-tool="calc_action" data-args='{"action":"file.export","params":{}}' title="hoort niet_in_browser te geven">calc_action file.export</button>
+      </div>
+      <form class="vrij" id="vrij">
+        <input id="vrij-naam" placeholder="toolnaam, bv. calc_get_items" list="toolnamen"><button type="submit">Uitvoeren</button>
+        <textarea id="vrij-args" placeholder='argumenten als JSON, bv. {"search":"beton"}'></textarea>
+        <datalist id="toolnamen"></datalist>
+      </form>
+      <pre id="uitvoer">Console: werkplek.run('calc_get_budget_summary'), werkplek.tools(), werkplek.definities(), werkplek.bestanden(), werkplek.log</pre>
+    </section>
+    <section id="log-sectie">
+      <h2>Berichten over de brug (nieuwste boven)</h2>
+      <ul id="log"></ul>
+    </section>
+  </aside>
+  <script src="/werkplek/config.js"></script>
+  <script src="/werkplek/gast.js"></script>
+</body>
+</html>

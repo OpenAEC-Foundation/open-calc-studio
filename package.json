@@ -19,6 +19,7 @@
     "generate:mcp-actions": "node scripts/generate-mcp-actions.mjs",
     "convert:budget": "node scripts/convert-budget.mjs",
     "build:platform": "vite build --mode platform",
+    "verify:werkplek": "node verification/werkplek-sandbox/controle.mjs",
     "version:check": "node scripts/version.mjs check",
     "version:next": "node scripts/version.mjs next",
     "test:version": "node --test scripts/version.node-test.mjs",
