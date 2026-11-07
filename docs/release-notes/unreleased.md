@@ -22,6 +22,9 @@
   kopie gaat. Weigert de site de opslag (`VERSION_CONFLICT`), dan zegt een vertaalde
   melding dat er niets is opgeslagen, dat de wijzigingen nog in de app staan en dat
   Opslaan als ze bewaart.
+- `npm run verify:werkplek` bootst de SuperCloud-werkplek lokaal na (strikte CSP,
+  afgeschermd frame, brug naar een nep-host die de regels van `openaec-storage`
+  volgt) en voert 20 controles uit op de platformbuild.
 - De web- en gehoste versie proberen geen Tauri-koppelingen voor bestandskoppeling
   en slepen meer te starten; de twee waarschuwingen in de console zijn weg.
 
