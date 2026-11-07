@@ -567,6 +567,10 @@
     "version": "Version {{version}}"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "Någon annan har under tiden sparat en nyare version av den här filen. Dina ändringar sparades som en kopia: {{name}}. Från och med nu sparas det i den kopian.",
+      "versionConflict": "Inte sparat: någon annan har under tiden sparat en nyare version av den här filen. Dina ändringar finns kvar här. Använd ”Spara som” för att behålla dem i en ny fil."
+    },
     "prompt": {
       "title": "Prompt och kalkyl",
       "help": "Beskriv arbetet till vänster; granska och redigera kalkylen till höger.",

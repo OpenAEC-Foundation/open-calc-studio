@@ -568,6 +568,10 @@
     "version": "Versiunea {{version}}"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "Între timp, altcineva a salvat o versiune mai nouă a acestui fișier. Modificările tale au fost salvate ca o copie: {{name}}. De acum, salvarea se face în acea copie.",
+      "versionConflict": "Nesalvat: între timp, altcineva a salvat o versiune mai nouă a acestui fișier. Modificările tale sunt încă aici. Folosește „Salvare ca” pentru a le păstra într-un fișier nou."
+    },
     "prompt": {
       "title": "Prompt și deviz",
       "help": "Descrieți lucrările în stânga; verificați și editați devizul în dreapta.",

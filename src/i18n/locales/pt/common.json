@@ -567,6 +567,10 @@
     "version": "Versão {{version}}"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "Entretanto, outra pessoa guardou uma versão mais recente deste ficheiro. As suas alterações foram guardadas como cópia: {{name}}. A partir de agora, a gravação é feita nessa cópia.",
+      "versionConflict": "Não guardado: entretanto, outra pessoa guardou uma versão mais recente deste ficheiro. As suas alterações continuam aqui. Use «Guardar como» para as manter num ficheiro novo."
+    },
     "prompt": {
       "title": "Prompt e orçamento",
       "help": "Descreva os trabalhos à esquerda; reveja e edite o orçamento à direita.",

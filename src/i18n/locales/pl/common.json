@@ -569,6 +569,10 @@
     "version": "Wersja {{version}}"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "W międzyczasie ktoś inny zapisał nowszą wersję tego pliku. Twoje zmiany zapisano jako kopię: {{name}}. Od teraz zapis trafia do tej kopii.",
+      "versionConflict": "Nie zapisano: w międzyczasie ktoś inny zapisał nowszą wersję tego pliku. Twoje zmiany nadal tu są. Użyj „Zapisz jako”, aby zachować je w nowym pliku."
+    },
     "prompt": {
       "title": "Prompt i kosztorys",
       "help": "Opisz roboty po lewej stronie; sprawdź i edytuj kosztorys po prawej.",

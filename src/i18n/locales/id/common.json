@@ -567,6 +567,10 @@
     "version": "Versi {{version}}"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "Sementara itu orang lain telah menyimpan versi yang lebih baru dari file ini. Perubahan Anda disimpan sebagai salinan: {{name}}. Mulai sekarang penyimpanan dilakukan ke salinan itu.",
+      "versionConflict": "Tidak disimpan: sementara itu orang lain telah menyimpan versi yang lebih baru dari file ini. Perubahan Anda masih ada di sini. Gunakan \"Simpan sebagai\" untuk menyimpannya di file baru."
+    },
     "prompt": {
       "title": "Prompt & Anggaran",
       "help": "Uraikan pekerjaan di sebelah kiri; periksa dan ubah anggaran di sebelah kanan.",

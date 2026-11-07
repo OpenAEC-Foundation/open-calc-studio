@@ -567,6 +567,10 @@
     "version": "Phiên bản {{version}}"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "Trong lúc đó, người khác đã lưu một phiên bản mới hơn của tệp này. Các thay đổi của bạn đã được lưu thành một bản sao: {{name}}. Từ giờ việc lưu sẽ vào bản sao đó.",
+      "versionConflict": "Chưa lưu: trong lúc đó, người khác đã lưu một phiên bản mới hơn của tệp này. Các thay đổi của bạn vẫn còn ở đây. Dùng \"Lưu thành\" để giữ chúng trong một tệp mới."
+    },
     "prompt": {
       "title": "Prompt & Dự toán",
       "help": "Mô tả công việc ở bên trái; xem và sửa dự toán ở bên phải.",

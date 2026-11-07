@@ -567,6 +567,10 @@
     "version": "Versione {{version}}"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "Nel frattempo qualcun altro ha salvato una versione più recente di questo file. Le tue modifiche sono state salvate come copia: {{name}}. D'ora in poi il salvataggio avviene in quella copia.",
+      "versionConflict": "Non salvato: nel frattempo qualcun altro ha salvato una versione più recente di questo file. Le tue modifiche sono ancora qui. Usa «Salva con nome» per conservarle in un nuovo file."
+    },
     "prompt": {
       "title": "Prompt e computo",
       "help": "Descrivi i lavori a sinistra; controlla e modifica il computo a destra.",
