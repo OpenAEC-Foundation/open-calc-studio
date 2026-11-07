@@ -121,8 +121,12 @@ export function useFileOperations() {
       try {
         const saved = await saveHostedFile(activeId);
         // The host kept someone else's newer version and stored these edits as a copy (Blueprint contract).
-        if (saved?.redirected) window.alert(uiText('host.savedAsCopy', 'Someone else saved a newer version of this file in the meantime. Your changes were saved as a copy: {{name}}', { name: saved.name }));
-      } catch (err) { await showError(`Failed to save: ${err instanceof Error ? err.message : JSON.stringify(err)}`); }
+        if (saved?.redirected) window.alert(uiText('host.savedAsCopy', 'Someone else saved a newer version of this file in the meantime. Your changes were saved as a copy: {{name}}. Saving now goes to that copy.', { name: saved.name }));
+      } catch (err) {
+        // A host that refuses a stale save instead of making a copy: the edits stay in the app (still unsaved).
+        if ((err as { code?: unknown } | null)?.code === 'VERSION_CONFLICT') window.alert(uiText('host.versionConflict', 'Not saved: someone else saved a newer version of this file in the meantime. Your changes are still here. Use Save as to keep them in a new file.'));
+        else await showError(`Failed to save: ${err instanceof Error ? err.message : JSON.stringify(err)}`);
+      }
       return;
     }
 

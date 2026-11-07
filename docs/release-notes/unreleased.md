@@ -9,14 +9,19 @@
   naast de `app_*`-tools en de oudere tools zonder voorvoegsel. Ze lopen via
   het app-commando `calc.tool` door dezelfde code als in de browser; export,
   herstel en tweede scherm worden op de desktop niet geweigerd.
-- De knop **Tweede scherm** is verborgen in de gehoste (`openaecHost`),
-  ingebouwde en sandboxed weergave, waar een popup niet dezelfde opslag bereikt.
+- De knop **Tweede scherm** is verborgen in een afgeschermd frame zonder eigen
+  origin (de SuperCloud-werkplek) en in de ingebouwde weergave, waar hij niet
+  kan werken. Op de desktop, in de gewone webversie en op een gewone hostpagina
+  blijft hij staan.
 - Het herstelscript voor het opstarten staat niet meer inline in `index.html`
   maar in `startup-recovery.js` naast de bundel, zodat een gehoste pagina met een
   strikte CSP zonder `unsafe-inline` (de SuperCloud-werkplek) zonder CSP-fout start.
 - Bewaart de site een opslag als conflictkopie omdat iemand anders intussen een
   nieuwere versie opsloeg, dan meldt de app nu de naam van die kopie (eerder
-  veranderde alleen de naam van het tabblad).
+  veranderde alleen de naam van het tabblad), en dat opslaan vanaf nu naar die
+  kopie gaat. Weigert de site de opslag (`VERSION_CONFLICT`), dan zegt een vertaalde
+  melding dat er niets is opgeslagen, dat de wijzigingen nog in de app staan en dat
+  Opslaan als ze bewaart.
 - De web- en gehoste versie proberen geen Tauri-koppelingen voor bestandskoppeling
   en slepen meer te starten; de twee waarschuwingen in de console zijn weg.
 

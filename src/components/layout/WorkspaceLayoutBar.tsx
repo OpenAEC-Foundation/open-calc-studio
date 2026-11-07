@@ -1,18 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { builtinWorkspaceLayouts } from '@/state/slices/workspaceSlice';
 import type { WorkspaceLayout } from '@/types/workspaceLayout';
 import { openCompanionWindow, secondScreenAvailable } from '@/services/workspaces/companion';
-import { observeSiteHost } from '@/services/file/siteHost';
 import { uiText } from '@/i18n/uiText';
 
 const EMPTY_LAYOUTS: WorkspaceLayout[] = [];
 
 export function WorkspaceLayoutBar() {
-  // The site host may arrive after the first render; the second screen follows it.
-  const [secondScreen, setSecondScreen] = useState(secondScreenAvailable);
-  useEffect(() => observeSiteHost(() => setSecondScreen(secondScreenAvailable())), []);
   useTranslation();
   const saved = useAppStore(s => s.settings.workspaceLayouts ?? EMPTY_LAYOUTS);
   const active = useAppStore(s => s.activeWorkspaceLayoutId);
@@ -36,7 +32,7 @@ export function WorkspaceLayoutBar() {
       <option value="">{uiText('layouts.savedList', 'Saved workspaces')}</option>
       {saved.map(layout => <option key={layout.id} value={layout.id}>{layout.name}</option>)}
     </select>
-    {secondScreen && <button type="button" className="oa-button oa-button--quiet oa-button--compact" onClick={() => { void openCompanionWindow().catch(error => setMessage((error as Error).message)); }}>{uiText('companion.open', 'Second screen')}</button>}
+    {secondScreenAvailable() && <button type="button" className="oa-button oa-button--quiet oa-button--compact" onClick={() => { void openCompanionWindow().catch(error => setMessage((error as Error).message)); }}>{uiText('companion.open', 'Second screen')}</button>}
     {message && <span className="workspace-layout-message" role="status">{message}</span>}
     <details className="workspace-layout-editor">
       <summary className="oa-button oa-button--quiet oa-button--compact">{uiText('layouts.manage', 'Save / manage')}</summary>

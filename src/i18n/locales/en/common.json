@@ -1164,7 +1164,8 @@
       "unreachable": "The row has an invalid parent structure and cannot be shown in the grid."
     },
     "host": {
-      "savedAsCopy": "Someone else saved a newer version of this file in the meantime. Your changes were saved as a copy: {{name}}"
+      "savedAsCopy": "Someone else saved a newer version of this file in the meantime. Your changes were saved as a copy: {{name}}. Saving now goes to that copy.",
+      "versionConflict": "Not saved: someone else saved a newer version of this file in the meantime. Your changes are still here. Use Save as to keep them in a new file."
     }
   },
   "review": {

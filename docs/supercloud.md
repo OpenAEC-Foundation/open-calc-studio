@@ -120,10 +120,12 @@ herstel en het tweede scherm worden op de desktop niet geweigerd. Een prompt
 of skill die voor de site is geschreven werkt daardoor ook op de desktop. Zie
 [Desktopfuncties via één MCP-server](mcp-desktop.md#de-calc_-tools-van-de-supercloud-assistent).
 
-De knop **Tweede scherm** is verborgen wanneer de app door de site wordt
-gehost (`openaecHost`), ingebouwd is of in een sandboxed frame met origin
-`null` draait: een popup is daar niet toegestaan of bereikt niet dezelfde
-opslag. `workspace.openSecondScreen` geeft in die gevallen een fout.
+De knop **Tweede scherm** is verborgen wanneer de app ingebouwd is of in een
+sandboxed frame met origin `null` draait, zoals de SuperCloud-werkplek: de
+sandbox blokkeert de popup, en een venster met een andere opaque origin hoort
+het `BroadcastChannel` van de app niet. Een `openaecHost` alleen is geen reden:
+op een gewone origin (bijvoorbeeld een Frappe-pagina) blijft de knop werken.
+`workspace.openSecondScreen` geeft in die gevallen een fout.
 
 Het ondersteunde sandboxattribuut is:
 

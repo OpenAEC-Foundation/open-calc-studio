@@ -191,18 +191,19 @@ describe('desktop MCP server', () => {
 });
 
 describe('second screen in a hosted frame', () => {
-  it('is only offered when a popup can reach the same storage', async () => {
+  it('is hidden only where it cannot work: a sandboxed frame without an origin', async () => {
     const { secondScreenAvailable, openCompanionWindow } = await import('@/services/workspaces/companion');
     expect(secondScreenAvailable()).toBe(true);
+    // A site host on a normal origin (e.g. a Frappe page) keeps the second screen.
     const host = { open: async () => { throw Error('x'); }, save: async () => { throw Error('x'); }, list: async () => [], versions: async () => [] };
     (window as { openaecHost?: unknown }).openaecHost = host;
+    try { expect(secondScreenAvailable()).toBe(true); }
+    finally { delete (window as { openaecHost?: unknown }).openaecHost; }
+    const origin = Object.getOwnPropertyDescriptor(window, 'origin');
+    Object.defineProperty(window, 'origin', { configurable: true, value: 'null' });
     try {
       expect(secondScreenAvailable()).toBe(false);
       await expect(openCompanionWindow()).rejects.toThrow();
-    } finally { delete (window as { openaecHost?: unknown }).openaecHost; }
-    const origin = Object.getOwnPropertyDescriptor(window, 'origin');
-    Object.defineProperty(window, 'origin', { configurable: true, value: 'null' });
-    try { expect(secondScreenAvailable()).toBe(false); }
-    finally { if (origin) Object.defineProperty(window, 'origin', origin); else delete (window as { origin?: string }).origin; }
+    } finally { if (origin) Object.defineProperty(window, 'origin', origin); else delete (window as { origin?: string }).origin; }
   });
 });

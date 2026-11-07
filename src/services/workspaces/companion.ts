@@ -2,18 +2,18 @@ import { useAppStore } from '@/state/appStore';
 import type { CostItem, CostSchedule, SubSheet } from '@/types/costModel';
 import { uiText } from '@/i18n/uiText';
 import { isEmbedded } from '@/lib/hostRoot';
-import { getSiteHost } from '@/services/file/siteHost';
 
 export interface CompanionSnapshot { documentId: string; name: string; items: CostItem[]; schedule: CostSchedule; subSheets: SubSheet[]; activeItemId: string | null; locale: string; theme: string }
 export const companionChannelName = (id: string) => `ocs-companion-${id}`;
 let current: { focus: () => Promise<void>; dispose: () => void } | undefined;
 
 /**
- * A second screen needs its own window. Embedded in a page, hosted by the site (SuperCloud werkplek) or in a sandboxed
- * frame without an origin, popups are not allowed or the window would not reach the same storage: the button is hidden.
+ * A second screen needs its own window that talks to this one over a BroadcastChannel. Embedded in another page, or in
+ * a sandboxed frame without an origin (the SuperCloud werkplek), that cannot work: the sandbox blocks the popup, and a
+ * window of another opaque origin never hears the channel. A site host alone is no reason: on a normal origin it works.
  */
 export function secondScreenAvailable(): boolean {
-  return !isEmbedded() && !getSiteHost() && (typeof window === 'undefined' || window.origin !== 'null');
+  return !isEmbedded() && (typeof window === 'undefined' || window.origin !== 'null');
 }
 
 /** A view-only second screen. The parent never accepts document mutations. */
