@@ -55,6 +55,16 @@ describe('site-host files', () => {
     await expect(saveHostedFile(state.activeDocumentId)).rejects.toBe(conflict);
     expect(useAppStore.getState().documents[0]).toMatchObject({ isModified: true, hostFile: { version: '1' } });
   });
+  it('reports when the host stored a stale save as a conflict copy, and not for a normal save', async () => {
+    await openHostedFile('a');
+    const id = useAppStore.getState().activeDocumentId;
+    expect(await saveHostedFile(id)).toEqual({ redirected: false, name: 'Estimate.ifcCalc' });
+    vi.mocked(window.openaecHost!.save).mockResolvedValueOnce({ id: 'a-copy', name: 'Estimate (conflict).ifcCalc', version: '1' });
+    expect(await saveHostedFile(id)).toEqual({ redirected: true, name: 'Estimate (conflict).ifcCalc' });
+    expect(useAppStore.getState().documents[0]).toMatchObject({ fileName: 'Estimate (conflict).ifcCalc', hostFile: { id: 'a-copy' } });
+    vi.mocked(window.openaecHost!.save).mockResolvedValueOnce({ id: 'b', name: 'New.ifcCalc', version: '1' });
+    expect(await saveHostedFile(id, true)).toEqual({ redirected: false, name: 'New.ifcCalc' });
+  });
   it('blocks overwriting a read-only historical file, but permits Save as', async () => {
     await openHostedFile('a'); const state = useAppStore.getState();
     state.updateDocument(state.activeDocumentId, { hostFile: { id: 'a', version: '1', readOnly: true } });

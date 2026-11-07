@@ -1162,6 +1162,9 @@
       "badge": "{{count}} review issues",
       "unavailable": "This row no longer has a review issue in the active variant.",
       "unreachable": "The row has an invalid parent structure and cannot be shown in the grid."
+    },
+    "host": {
+      "savedAsCopy": "Someone else saved a newer version of this file in the meantime. Your changes were saved as a copy: {{name}}"
     }
   },
   "review": {

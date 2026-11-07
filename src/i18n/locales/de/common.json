@@ -487,6 +487,9 @@
     "paste": "Einfügen"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "Jemand anderes hat inzwischen eine neuere Version dieser Datei gespeichert. Deine Änderungen wurden als Kopie gespeichert: {{name}}"
+    },
     "ribbon": {
       "scrollLeft": "Menüband nach links scrollen",
       "scrollRight": "Menüband nach rechts scrollen"

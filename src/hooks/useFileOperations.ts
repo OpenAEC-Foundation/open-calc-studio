@@ -118,7 +118,11 @@ export function useFileOperations() {
     const json = serializeProject(scheduleWithProjectInfo, state.items, state.companyInfo, state.subSheets, state.offerte, state.snapshots);
 
     if (getSiteHost()) {
-      try { await saveHostedFile(activeId); } catch (err) { await showError(`Failed to save: ${err instanceof Error ? err.message : JSON.stringify(err)}`); }
+      try {
+        const saved = await saveHostedFile(activeId);
+        // The host kept someone else's newer version and stored these edits as a copy (Blueprint contract).
+        if (saved?.redirected) window.alert(uiText('host.savedAsCopy', 'Someone else saved a newer version of this file in the meantime. Your changes were saved as a copy: {{name}}', { name: saved.name }));
+      } catch (err) { await showError(`Failed to save: ${err instanceof Error ? err.message : JSON.stringify(err)}`); }
       return;
     }
 

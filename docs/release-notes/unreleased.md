@@ -14,6 +14,11 @@
 - Het herstelscript voor het opstarten staat niet meer inline in `index.html`
   maar in `startup-recovery.js` naast de bundel, zodat een gehoste pagina met een
   strikte CSP zonder `unsafe-inline` (de SuperCloud-werkplek) zonder CSP-fout start.
+- Bewaart de site een opslag als conflictkopie omdat iemand anders intussen een
+  nieuwere versie opsloeg, dan meldt de app nu de naam van die kopie (eerder
+  veranderde alleen de naam van het tabblad).
+- De web- en gehoste versie proberen geen Tauri-koppelingen voor bestandskoppeling
+  en slepen meer te starten; de twee waarschuwingen in de console zijn weg.
 
 ## 2026.45.1: nieuw logo en compacte schermindeling
 

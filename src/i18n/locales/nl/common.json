@@ -567,6 +567,9 @@
     "version": "Versie {{version}}"
   },
   "workspace": {
+    "host": {
+      "savedAsCopy": "Iemand anders heeft intussen een nieuwere versie van dit bestand opgeslagen. Je wijzigingen zijn bewaard als kopie: {{name}}"
+    },
     "prompt": {
       "title": "Prompt & Begroot",
       "help": "Beschrijf het werk links; bekijk en bewerk de begroting rechts.",
