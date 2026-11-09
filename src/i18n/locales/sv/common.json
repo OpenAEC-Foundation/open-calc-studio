@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "Granskningscenter"
+  },
+  "structureTree": {
+    "chapters": "Kapitel",
+    "posts": "Poster",
+    "all": "Rader",
+    "view": "Visningsalternativ",
+    "show": "Visa",
+    "labelCode": "Kod",
+    "amounts": "Belopp",
+    "percent": "% av självkostnad",
+    "deleteConfirm": "Ta bort \"{{name}}\" och allt under ({{count}} rader)?",
+    "expandBelow": "Expandera allt under",
+    "collapseBelow": "Fäll ihop allt under",
+    "deleteConfirmOne": "Ta bort \"{{name}}\"?",
+    "makeParagraphOf": "Gör till avsnitt under",
+    "makeChapter": "Gör till kapitel"
   }
 }

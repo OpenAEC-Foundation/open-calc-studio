@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "Trung tâm rà soát"
+  },
+  "structureTree": {
+    "chapters": "Chương",
+    "posts": "Công tác",
+    "all": "Dòng",
+    "view": "Tùy chọn hiển thị",
+    "show": "Hiển thị",
+    "labelCode": "Mã",
+    "amounts": "Số tiền",
+    "percent": "% giá thành",
+    "deleteConfirm": "Xóa \"{{name}}\" và mọi thứ bên dưới ({{count}} dòng)?",
+    "expandBelow": "Mở rộng tất cả bên dưới",
+    "collapseBelow": "Thu gọn tất cả bên dưới",
+    "deleteConfirmOne": "Xóa \"{{name}}\"?",
+    "makeParagraphOf": "Chuyển thành mục con của",
+    "makeChapter": "Chuyển thành chương"
   }
 }

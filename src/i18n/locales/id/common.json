@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "Pusat pemeriksaan"
+  },
+  "structureTree": {
+    "chapters": "Bab",
+    "posts": "Pos anggaran",
+    "all": "Baris",
+    "view": "Opsi tampilan",
+    "show": "Tampilkan",
+    "labelCode": "Kode",
+    "amounts": "Jumlah",
+    "percent": "% dari harga pokok",
+    "deleteConfirm": "Hapus \"{{name}}\" dan semua di bawahnya ({{count}} baris)?",
+    "expandBelow": "Bentangkan semua di bawahnya",
+    "collapseBelow": "Ciutkan semua di bawahnya",
+    "deleteConfirmOne": "Hapus \"{{name}}\"?",
+    "makeParagraphOf": "Jadikan subbagian dari",
+    "makeChapter": "Jadikan bab"
   }
 }

@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "পর্যালোচনা কেন্দ্র"
+  },
+  "structureTree": {
+    "chapters": "অধ্যায়",
+    "posts": "প্রাক্কলন আইটেম",
+    "all": "সারি",
+    "view": "প্রদর্শনের বিকল্প",
+    "show": "দেখান",
+    "labelCode": "কোড",
+    "amounts": "অঙ্ক",
+    "percent": "খরচ মূল্যের %",
+    "deleteConfirm": "\"{{name}}\" এবং এর নিচের সবকিছু ({{count}}টি সারি) মুছবেন?",
+    "expandBelow": "নিচের সবকিছু প্রসারিত করুন",
+    "collapseBelow": "নিচের সবকিছু সংকুচিত করুন",
+    "deleteConfirmOne": "\"{{name}}\" মুছবেন?",
+    "makeParagraphOf": "এর উপ-অংশ করুন",
+    "makeChapter": "অধ্যায় করুন"
   }
 }

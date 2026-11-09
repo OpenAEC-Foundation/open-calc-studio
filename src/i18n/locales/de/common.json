@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "Prüfzentrum"
+  },
+  "structureTree": {
+    "chapters": "Titel",
+    "posts": "Positionen",
+    "all": "Zeilen",
+    "view": "Anzeigeoptionen",
+    "show": "Anzeigen",
+    "labelCode": "Code",
+    "amounts": "Beträge",
+    "percent": "% der Selbstkosten",
+    "deleteConfirm": "„{{name}}“ und alles darunter ({{count}} Zeilen) löschen?",
+    "expandBelow": "Alles darunter aufklappen",
+    "collapseBelow": "Alles darunter zuklappen",
+    "deleteConfirmOne": "„{{name}}“ löschen?",
+    "makeParagraphOf": "Zum Abschnitt machen unter",
+    "makeChapter": "Zum Titel machen"
   }
 }

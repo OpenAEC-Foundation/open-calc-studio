@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "Център за проверка"
+  },
+  "structureTree": {
+    "chapters": "Раздели",
+    "posts": "Позиции от сметката",
+    "all": "Редове",
+    "view": "Опции за изглед",
+    "show": "Показване",
+    "labelCode": "Код",
+    "amounts": "Суми",
+    "percent": "% от себестойността",
+    "deleteConfirm": "Да се изтрие ли „{{name}}“ и всичко под него (редове: {{count}})?",
+    "expandBelow": "Разгъване на всичко отдолу",
+    "collapseBelow": "Свиване на всичко отдолу",
+    "deleteConfirmOne": "Да се изтрие ли „{{name}}“?",
+    "makeParagraphOf": "Направи параграф на",
+    "makeChapter": "Направи раздел"
   }
 }

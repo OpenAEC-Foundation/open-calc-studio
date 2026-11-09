@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "Centre de revisió"
+  },
+  "structureTree": {
+    "chapters": "Capítols",
+    "posts": "Partides",
+    "all": "Línies",
+    "view": "Opcions de visualització",
+    "show": "Mostra",
+    "labelCode": "Codi",
+    "amounts": "Imports",
+    "percent": "% del cost",
+    "deleteConfirm": "Voleu eliminar «{{name}}» i tot el que conté ({{count}} línies)?",
+    "expandBelow": "Expandeix tot el que hi ha a sota",
+    "collapseBelow": "Replega tot el que hi ha a sota",
+    "deleteConfirmOne": "Voleu eliminar «{{name}}»?",
+    "makeParagraphOf": "Converteix en secció de",
+    "makeChapter": "Converteix en capítol"
   }
 }

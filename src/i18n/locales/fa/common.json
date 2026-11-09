@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "مرکز بازبینی"
+  },
+  "structureTree": {
+    "chapters": "فصل‌ها",
+    "posts": "ردیف‌های برآورد",
+    "all": "سطرها",
+    "view": "گزینه‌های نمایش",
+    "show": "نمایش",
+    "labelCode": "کد",
+    "amounts": "مبالغ",
+    "percent": "٪ از قیمت تمام‌شده",
+    "deleteConfirm": "«{{name}}» و همه موارد زیر آن ({{count}} ردیف) حذف شود؟",
+    "expandBelow": "باز کردن همه موارد زیر",
+    "collapseBelow": "بستن همه موارد زیر",
+    "deleteConfirmOne": "«{{name}}» حذف شود؟",
+    "makeParagraphOf": "تبدیل به بخشی از",
+    "makeChapter": "تبدیل به فصل"
   }
 }

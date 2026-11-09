@@ -1232,5 +1232,21 @@
   },
   "shell": {
     "review": "Kontrolné centrum"
+  },
+  "structureTree": {
+    "chapters": "Kapitoly",
+    "posts": "Rozpočtové položky",
+    "all": "Riadky",
+    "view": "Možnosti zobrazenia",
+    "show": "Zobraziť",
+    "labelCode": "Kód",
+    "amounts": "Sumy",
+    "percent": "% vlastných nákladov",
+    "deleteConfirm": "Odstrániť „{{name}}“ a všetko pod ním (riadky: {{count}})?",
+    "expandBelow": "Rozbaliť všetko pod tým",
+    "collapseBelow": "Zbaliť všetko pod tým",
+    "deleteConfirmOne": "Odstrániť „{{name}}“?",
+    "makeParagraphOf": "Urobiť oddielom v",
+    "makeChapter": "Urobiť kapitolou"
   }
 }

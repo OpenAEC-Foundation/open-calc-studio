@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "समीक्षा केंद्र"
+  },
+  "structureTree": {
+    "chapters": "अध्याय",
+    "posts": "अनुमान मदें",
+    "all": "पंक्तियाँ",
+    "view": "प्रदर्शन विकल्प",
+    "show": "दिखाएँ",
+    "labelCode": "कोड",
+    "amounts": "राशियाँ",
+    "percent": "लागत मूल्य का %",
+    "deleteConfirm": "\"{{name}}\" और उसके नीचे सब कुछ ({{count}} पंक्तियाँ) हटाएँ?",
+    "expandBelow": "नीचे सब कुछ विस्तृत करें",
+    "collapseBelow": "नीचे सब कुछ संक्षिप्त करें",
+    "deleteConfirmOne": "\"{{name}}\" हटाएँ?",
+    "makeParagraphOf": "इसका उपखंड बनाएँ",
+    "makeChapter": "अध्याय बनाएँ"
   }
 }

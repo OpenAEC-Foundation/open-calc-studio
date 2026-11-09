@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "Kituo cha ukaguzi"
+  },
+  "structureTree": {
+    "chapters": "Sura",
+    "posts": "Vipengele vya makadirio",
+    "all": "Safu",
+    "view": "Chaguo za mwonekano",
+    "show": "Onyesha",
+    "labelCode": "Msimbo",
+    "amounts": "Kiasi",
+    "percent": "% ya bei ya gharama",
+    "deleteConfirm": "Futa \"{{name}}\" na kila kitu chini yake (safu {{count}})?",
+    "expandBelow": "Panua vyote vilivyo chini",
+    "collapseBelow": "Kunja vyote vilivyo chini",
+    "deleteConfirmOne": "Futa \"{{name}}\"?",
+    "makeParagraphOf": "Fanya kifungu cha",
+    "makeChapter": "Fanya sura"
   }
 }

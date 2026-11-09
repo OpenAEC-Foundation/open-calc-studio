@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "Centar za provjeru"
+  },
+  "structureTree": {
+    "chapters": "Poglavlja",
+    "posts": "Troškovničke stavke",
+    "all": "Redci",
+    "view": "Mogućnosti prikaza",
+    "show": "Prikaži",
+    "labelCode": "Šifra",
+    "amounts": "Iznosi",
+    "percent": "% cijene koštanja",
+    "deleteConfirm": "Izbrisati „{{name}}” i sve ispod (redaka: {{count}})?",
+    "expandBelow": "Proširi sve ispod",
+    "collapseBelow": "Sažmi sve ispod",
+    "deleteConfirmOne": "Izbrisati „{{name}}”?",
+    "makeParagraphOf": "Učini odjeljkom u",
+    "makeChapter": "Učini poglavljem"
   }
 }

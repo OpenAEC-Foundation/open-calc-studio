@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "审核中心"
+  },
+  "structureTree": {
+    "chapters": "章节",
+    "posts": "清单项",
+    "all": "行",
+    "view": "显示选项",
+    "show": "显示",
+    "labelCode": "代码",
+    "amounts": "金额",
+    "percent": "占成本价 %",
+    "deleteConfirm": "删除\"{{name}}\"及其下所有内容（{{count}} 行）？",
+    "expandBelow": "展开下方全部",
+    "collapseBelow": "折叠下方全部",
+    "deleteConfirmOne": "删除\"{{name}}\"？",
+    "makeParagraphOf": "设为以下章节的小节",
+    "makeChapter": "设为章节"
   }
 }

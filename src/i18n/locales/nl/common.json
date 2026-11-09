@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "Controlecentrum"
+  },
+  "structureTree": {
+    "chapters": "Hoofdstukken",
+    "posts": "Begrotingsposten",
+    "all": "Regels",
+    "view": "Weergaveopties",
+    "show": "Toon",
+    "labelCode": "Code",
+    "amounts": "Bedragen",
+    "percent": "% van kostprijs",
+    "deleteConfirm": "\"{{name}}\" en alles eronder ({{count}} regels) verwijderen?",
+    "expandBelow": "Alles hieronder uitklappen",
+    "collapseBelow": "Alles hieronder inklappen",
+    "deleteConfirmOne": "\"{{name}}\" verwijderen?",
+    "makeParagraphOf": "Maak paragraaf van",
+    "makeChapter": "Maak hoofdstuk"
   }
 }

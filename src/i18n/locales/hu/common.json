@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "Ellenőrzőközpont"
+  },
+  "structureTree": {
+    "chapters": "Fejezetek",
+    "posts": "Tételek",
+    "all": "Sorok",
+    "view": "Megjelenítési beállítások",
+    "show": "Megjelenítés",
+    "labelCode": "Kód",
+    "amounts": "Összegek",
+    "percent": "Önköltség %-a",
+    "deleteConfirm": "Törli a(z) „{{name}}” elemet és minden alatta lévőt ({{count}} sor)?",
+    "expandBelow": "Minden alatta lévő kibontása",
+    "collapseBelow": "Minden alatta lévő összecsukása",
+    "deleteConfirmOne": "Törli a(z) „{{name}}” elemet?",
+    "makeParagraphOf": "Alfejezet legyen ebben:",
+    "makeChapter": "Fejezet legyen"
   }
 }

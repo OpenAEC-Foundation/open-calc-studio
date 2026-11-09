@@ -1232,5 +1232,21 @@
   },
   "shell": {
     "review": "מרכז הבקרה"
+  },
+  "structureTree": {
+    "chapters": "פרקים",
+    "posts": "סעיפי אומדן",
+    "all": "שורות",
+    "view": "אפשרויות תצוגה",
+    "show": "הצג",
+    "labelCode": "קוד",
+    "amounts": "סכומים",
+    "percent": "% ממחיר העלות",
+    "deleteConfirm": "למחוק את \"{{name}}\" ואת כל מה שמתחתיו ({{count}} שורות)?",
+    "expandBelow": "הרחב את כל מה שמתחת",
+    "collapseBelow": "כווץ את כל מה שמתחת",
+    "deleteConfirmOne": "למחוק את \"{{name}}\"?",
+    "makeParagraphOf": "הפוך לסעיף של",
+    "makeChapter": "הפוך לפרק"
   }
 }

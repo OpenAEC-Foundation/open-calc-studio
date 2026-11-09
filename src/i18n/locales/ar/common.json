@@ -1234,5 +1234,21 @@
   },
   "shell": {
     "review": "مركز المراجعة"
+  },
+  "structureTree": {
+    "chapters": "الفصول",
+    "posts": "بنود التكلفة",
+    "all": "الصفوف",
+    "view": "خيارات العرض",
+    "show": "إظهار",
+    "labelCode": "الرمز",
+    "amounts": "المبالغ",
+    "percent": "% من سعر التكلفة",
+    "deleteConfirm": "هل تريد حذف \"{{name}}\" وكل ما تحته (عدد الصفوف: {{count}})؟",
+    "expandBelow": "توسيع كل ما تحته",
+    "collapseBelow": "طي كل ما تحته",
+    "deleteConfirmOne": "هل تريد حذف \"{{name}}\"؟",
+    "makeParagraphOf": "اجعله فقرة من",
+    "makeChapter": "اجعله فصلًا"
   }
 }

@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "Центар за проверу"
+  },
+  "structureTree": {
+    "chapters": "Поглавља",
+    "posts": "Позиције предрачуна",
+    "all": "Редови",
+    "view": "Опције приказа",
+    "show": "Прикажи",
+    "labelCode": "Шифра",
+    "amounts": "Износи",
+    "percent": "% цене коштања",
+    "deleteConfirm": "Обрисати „{{name}}“ и све испод (редова: {{count}})?",
+    "expandBelow": "Прошири све испод",
+    "collapseBelow": "Скупи све испод",
+    "deleteConfirmOne": "Обрисати „{{name}}“?",
+    "makeParagraphOf": "Претвори у параграф у",
+    "makeChapter": "Претвори у поглавље"
   }
 }

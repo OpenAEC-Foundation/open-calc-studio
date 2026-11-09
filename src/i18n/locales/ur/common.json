@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "پڑتال مرکز"
+  },
+  "structureTree": {
+    "chapters": "ابواب",
+    "posts": "تخمینی مدات",
+    "all": "سطریں",
+    "view": "ڈسپلے کے اختیارات",
+    "show": "دکھائیں",
+    "labelCode": "کوڈ",
+    "amounts": "رقوم",
+    "percent": "لاگت کا %",
+    "deleteConfirm": "کیا \"{{name}}\" اور اس کے نیچے سب کچھ ({{count}} قطاریں) حذف کریں؟",
+    "expandBelow": "نیچے سب کچھ پھیلائیں",
+    "collapseBelow": "نیچے سب کچھ سمیٹیں",
+    "deleteConfirmOne": "کیا \"{{name}}\" حذف کریں؟",
+    "makeParagraphOf": "اس کا ذیلی حصہ بنائیں",
+    "makeChapter": "باب بنائیں"
   }
 }

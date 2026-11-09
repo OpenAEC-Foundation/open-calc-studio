@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "ศูนย์ตรวจทาน"
+  },
+  "structureTree": {
+    "chapters": "หมวดงาน",
+    "posts": "รายการงาน",
+    "all": "แถว",
+    "view": "ตัวเลือกการแสดงผล",
+    "show": "แสดง",
+    "labelCode": "รหัส",
+    "amounts": "จำนวนเงิน",
+    "percent": "% ของต้นทุน",
+    "deleteConfirm": "ลบ \"{{name}}\" และทุกอย่างที่อยู่ข้างใต้ ({{count}} แถว) หรือไม่?",
+    "expandBelow": "ขยายทั้งหมดที่อยู่ข้างใต้",
+    "collapseBelow": "ยุบทั้งหมดที่อยู่ข้างใต้",
+    "deleteConfirmOne": "ลบ \"{{name}}\" หรือไม่?",
+    "makeParagraphOf": "ทำเป็นหัวข้อย่อยของ",
+    "makeChapter": "ทำเป็นหมวด"
   }
 }

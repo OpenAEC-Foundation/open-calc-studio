@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "검토 센터"
+  },
+  "structureTree": {
+    "chapters": "장",
+    "posts": "내역 항목",
+    "all": "행",
+    "view": "보기 옵션",
+    "show": "표시",
+    "labelCode": "코드",
+    "amounts": "금액",
+    "percent": "원가 대비 %",
+    "deleteConfirm": "\"{{name}}\" 및 그 아래 모든 항목({{count}}행)을 삭제할까요?",
+    "expandBelow": "아래 항목 모두 펼치기",
+    "collapseBelow": "아래 항목 모두 접기",
+    "deleteConfirmOne": "\"{{name}}\"을(를) 삭제할까요?",
+    "makeParagraphOf": "다음의 하위 절로 만들기",
+    "makeChapter": "장으로 만들기"
   }
 }

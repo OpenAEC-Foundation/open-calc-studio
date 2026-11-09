@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "Центр проверки"
+  },
+  "structureTree": {
+    "chapters": "Разделы",
+    "posts": "Позиции сметы",
+    "all": "Строки",
+    "view": "Параметры отображения",
+    "show": "Показать",
+    "labelCode": "Код",
+    "amounts": "Суммы",
+    "percent": "% от себестоимости",
+    "deleteConfirm": "Удалить «{{name}}» и всё, что ниже (строк: {{count}})?",
+    "expandBelow": "Развернуть всё ниже",
+    "collapseBelow": "Свернуть всё ниже",
+    "deleteConfirmOne": "Удалить «{{name}}»?",
+    "makeParagraphOf": "Сделать параграфом в",
+    "makeChapter": "Сделать разделом"
   }
 }

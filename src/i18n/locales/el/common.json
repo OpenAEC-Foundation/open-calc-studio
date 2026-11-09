@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "Κέντρο ελέγχου"
+  },
+  "structureTree": {
+    "chapters": "Κεφάλαια",
+    "posts": "Άρθρα",
+    "all": "Γραμμές",
+    "view": "Επιλογές προβολής",
+    "show": "Εμφάνιση",
+    "labelCode": "Κωδικός",
+    "amounts": "Ποσά",
+    "percent": "% του κόστους",
+    "deleteConfirm": "Διαγραφή του «{{name}}» και όλων όσων περιέχει ({{count}} γραμμές);",
+    "expandBelow": "Ανάπτυξη όλων από κάτω",
+    "collapseBelow": "Σύμπτυξη όλων από κάτω",
+    "deleteConfirmOne": "Διαγραφή του «{{name}}»;",
+    "makeParagraphOf": "Μετατροπή σε ενότητα του",
+    "makeChapter": "Μετατροπή σε κεφάλαιο"
   }
 }

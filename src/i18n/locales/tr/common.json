@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "İnceleme merkezi"
+  },
+  "structureTree": {
+    "chapters": "Bölümler",
+    "posts": "Pozlar",
+    "all": "Satırlar",
+    "view": "Görünüm seçenekleri",
+    "show": "Göster",
+    "labelCode": "Kod",
+    "amounts": "Tutarlar",
+    "percent": "Maliyetin %'si",
+    "deleteConfirm": "\"{{name}}\" ve altındaki her şey ({{count}} satır) silinsin mi?",
+    "expandBelow": "Altındakilerin tümünü genişlet",
+    "collapseBelow": "Altındakilerin tümünü daralt",
+    "deleteConfirmOne": "\"{{name}}\" silinsin mi?",
+    "makeParagraphOf": "Kısım yap (altında)",
+    "makeChapter": "Bölüm yap"
   }
 }

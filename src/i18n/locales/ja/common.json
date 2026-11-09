@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "レビューセンター"
+  },
+  "structureTree": {
+    "chapters": "章",
+    "posts": "内訳項目",
+    "all": "行",
+    "view": "表示オプション",
+    "show": "表示",
+    "labelCode": "コード",
+    "amounts": "金額",
+    "percent": "原価に対する%",
+    "deleteConfirm": "「{{name}}」とその下のすべて（{{count}} 行）を削除しますか？",
+    "expandBelow": "下の階層をすべて展開",
+    "collapseBelow": "下の階層をすべて折りたたむ",
+    "deleteConfirmOne": "「{{name}}」を削除しますか？",
+    "makeParagraphOf": "次の章の節にする",
+    "makeChapter": "章にする"
   }
 }

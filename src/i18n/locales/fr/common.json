@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "Centre de contrôle"
+  },
+  "structureTree": {
+    "chapters": "Lots",
+    "posts": "Ouvrages",
+    "all": "Lignes",
+    "view": "Options d'affichage",
+    "show": "Afficher",
+    "labelCode": "Code",
+    "amounts": "Montants",
+    "percent": "% du prix de revient",
+    "deleteConfirm": "Supprimer « {{name}} » et tout ce qui se trouve en dessous ({{count}} lignes) ?",
+    "expandBelow": "Tout développer en dessous",
+    "collapseBelow": "Tout réduire en dessous",
+    "deleteConfirmOne": "Supprimer « {{name}} » ?",
+    "makeParagraphOf": "Faire un paragraphe de",
+    "makeChapter": "Faire un lot"
   }
 }

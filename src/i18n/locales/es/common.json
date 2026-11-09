@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "Centro de revisión"
+  },
+  "structureTree": {
+    "chapters": "Capítulos",
+    "posts": "Partidas",
+    "all": "Líneas",
+    "view": "Opciones de vista",
+    "show": "Mostrar",
+    "labelCode": "Código",
+    "amounts": "Importes",
+    "percent": "% del coste",
+    "deleteConfirm": "¿Eliminar «{{name}}» y todo lo que contiene ({{count}} líneas)?",
+    "expandBelow": "Expandir todo lo de debajo",
+    "collapseBelow": "Contraer todo lo de debajo",
+    "deleteConfirmOne": "¿Eliminar «{{name}}»?",
+    "makeParagraphOf": "Convertir en apartado de",
+    "makeChapter": "Convertir en capítulo"
   }
 }

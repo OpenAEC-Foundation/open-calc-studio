@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "Centro di revisione"
+  },
+  "structureTree": {
+    "chapters": "Capitoli",
+    "posts": "Voci di computo",
+    "all": "Righe",
+    "view": "Opzioni di visualizzazione",
+    "show": "Mostra",
+    "labelCode": "Codice",
+    "amounts": "Importi",
+    "percent": "% del costo",
+    "deleteConfirm": "Eliminare \"{{name}}\" e tutto ciò che contiene ({{count}} righe)?",
+    "expandBelow": "Espandi tutto sotto",
+    "collapseBelow": "Comprimi tutto sotto",
+    "deleteConfirmOne": "Eliminare \"{{name}}\"?",
+    "makeParagraphOf": "Rendi paragrafo di",
+    "makeChapter": "Rendi capitolo"
   }
 }

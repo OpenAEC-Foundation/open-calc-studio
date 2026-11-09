@@ -1231,5 +1231,21 @@
   },
   "shell": {
     "review": "ສູນກວດສອບ"
+  },
+  "structureTree": {
+    "chapters": "ໝວດຕ່າງໆ",
+    "posts": "ລາຍການຄາດຄະເນ",
+    "all": "ແຖວ",
+    "view": "ຕົວເລືອກການສະແດງ",
+    "show": "ສະແດງ",
+    "labelCode": "ລະຫັດ",
+    "amounts": "ຈຳນວນເງິນ",
+    "percent": "% ຂອງຕົ້ນທຶນ",
+    "deleteConfirm": "ລຶບ \"{{name}}\" ແລະ ທຸກຢ່າງທີ່ຢູ່ລຸ່ມ ({{count}} ແຖວ) ບໍ?",
+    "expandBelow": "ຂະຫຍາຍທັງໝົດທີ່ຢູ່ລຸ່ມ",
+    "collapseBelow": "ຫຍໍ້ທັງໝົດທີ່ຢູ່ລຸ່ມ",
+    "deleteConfirmOne": "ລຶບ \"{{name}}\" ບໍ?",
+    "makeParagraphOf": "ເຮັດເປັນພາກຍ່ອຍຂອງ",
+    "makeChapter": "ເຮັດເປັນໝວດ"
   }
 }

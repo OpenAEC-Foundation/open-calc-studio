@@ -1232,5 +1232,21 @@
   },
   "shell": {
     "review": "Centrum przeglądu"
+  },
+  "structureTree": {
+    "chapters": "Działy",
+    "posts": "Pozycje kosztorysowe",
+    "all": "Wiersze",
+    "view": "Opcje widoku",
+    "show": "Pokaż",
+    "labelCode": "Kod",
+    "amounts": "Kwoty",
+    "percent": "% kosztu własnego",
+    "deleteConfirm": "Usunąć „{{name}}” i wszystko poniżej (wiersze: {{count}})?",
+    "expandBelow": "Rozwiń wszystko poniżej",
+    "collapseBelow": "Zwiń wszystko poniżej",
+    "deleteConfirmOne": "Usunąć „{{name}}”?",
+    "makeParagraphOf": "Ustaw jako paragraf w",
+    "makeChapter": "Ustaw jako dział"
   }
 }

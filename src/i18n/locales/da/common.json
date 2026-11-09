@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "Kontrolcenter"
+  },
+  "structureTree": {
+    "chapters": "Kapitler",
+    "posts": "Poster",
+    "all": "Linjer",
+    "view": "Visningsindstillinger",
+    "show": "Vis",
+    "labelCode": "Kode",
+    "amounts": "Beløb",
+    "percent": "% af kostpris",
+    "deleteConfirm": "Slet \"{{name}}\" og alt under det ({{count}} linjer)?",
+    "expandBelow": "Udvid alt herunder",
+    "collapseBelow": "Skjul alt herunder",
+    "deleteConfirmOne": "Slet \"{{name}}\"?",
+    "makeParagraphOf": "Gør til afsnit under",
+    "makeChapter": "Gør til kapitel"
   }
 }

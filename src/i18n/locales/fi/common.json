@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "Tarkistuskeskus"
+  },
+  "structureTree": {
+    "chapters": "Luvut",
+    "posts": "Kustannusnimikkeet",
+    "all": "Rivit",
+    "view": "Näyttöasetukset",
+    "show": "Näytä",
+    "labelCode": "Koodi",
+    "amounts": "Summat",
+    "percent": "% omakustannushinnasta",
+    "deleteConfirm": "Poistetaanko \"{{name}}\" ja kaikki sen alla ({{count}} riviä)?",
+    "expandBelow": "Laajenna kaikki alla olevat",
+    "collapseBelow": "Tiivistä kaikki alla olevat",
+    "deleteConfirmOne": "Poistetaanko \"{{name}}\"?",
+    "makeParagraphOf": "Tee alaluvuksi kohteeseen",
+    "makeChapter": "Tee pääluvuksi"
   }
 }

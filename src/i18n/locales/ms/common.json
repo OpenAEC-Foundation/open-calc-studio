@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "Pusat semakan"
+  },
+  "structureTree": {
+    "chapters": "Bab",
+    "posts": "Butiran anggaran",
+    "all": "Baris",
+    "view": "Pilihan paparan",
+    "show": "Tunjukkan",
+    "labelCode": "Kod",
+    "amounts": "Amaun",
+    "percent": "% daripada harga kos",
+    "deleteConfirm": "Padam \"{{name}}\" dan semua di bawahnya ({{count}} baris)?",
+    "expandBelow": "Kembangkan semua di bawah",
+    "collapseBelow": "Runtuhkan semua di bawah",
+    "deleteConfirmOne": "Padam \"{{name}}\"?",
+    "makeParagraphOf": "Jadikan subbahagian bagi",
+    "makeChapter": "Jadikan bab"
   }
 }

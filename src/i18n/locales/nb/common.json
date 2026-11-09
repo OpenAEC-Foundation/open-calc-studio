@@ -1230,5 +1230,21 @@
   },
   "shell": {
     "review": "Kontrollsenter"
+  },
+  "structureTree": {
+    "chapters": "Kapitler",
+    "posts": "Poster",
+    "all": "Linjer",
+    "view": "Visningsvalg",
+    "show": "Vis",
+    "labelCode": "Kode",
+    "amounts": "Beløp",
+    "percent": "% av kostpris",
+    "deleteConfirm": "Slette «{{name}}» og alt under ({{count}} linjer)?",
+    "expandBelow": "Utvid alt under",
+    "collapseBelow": "Skjul alt under",
+    "deleteConfirmOne": "Slette «{{name}}»?",
+    "makeParagraphOf": "Gjør til avsnitt under",
+    "makeChapter": "Gjør til kapittel"
   }
 }

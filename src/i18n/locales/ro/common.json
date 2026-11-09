@@ -1231,5 +1231,21 @@
   },
   "shell": {
     "review": "Centru de verificare"
+  },
+  "structureTree": {
+    "chapters": "Capitole",
+    "posts": "Articole",
+    "all": "Rânduri",
+    "view": "Opțiuni de afișare",
+    "show": "Afișează",
+    "labelCode": "Cod",
+    "amounts": "Sume",
+    "percent": "% din costul de producție",
+    "deleteConfirm": "Ștergeți „{{name}}” și tot ce conține ({{count}} rânduri)?",
+    "expandBelow": "Extinde tot ce este dedesubt",
+    "collapseBelow": "Restrânge tot ce este dedesubt",
+    "deleteConfirmOne": "Ștergeți „{{name}}”?",
+    "makeParagraphOf": "Transformă în secțiune a",
+    "makeChapter": "Transformă în capitol"
   }
 }
