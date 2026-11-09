@@ -203,6 +203,12 @@ stand van `main` op die datum.
 46. **Ongeldige getalinvoer (`abc`) voegt een lege undo-stap toe en wist redo.**
     `src/components/grid/useGridEditing.ts:44` tegenover `:64-66`. Nagespeeld. Voorstel: eerst valideren, dan `pushHistory`. — B
 
+267. **Het tariefveld in het urenoverzicht leest "1.250" als 1250.** `src/components/grid/WpCalcBottomPanel.tsx:142`
+    toont het tarief met een punt (`toFixed(2)`, "64.00"); een gewijzigde waarde gaat door `parseNumericInput`,
+    dat een punt met precies drie cijfers als duizendtal leest. Wie "1.250" typt en € 1,25 bedoelt, krijgt
+    € 1250 ("1,25" en "1.250,50" gaan goed). Gevonden in de review van PR #70. Voorstel: het tarief in
+    Nederlandse notatie tonen (`formatNumber`), met dezelfde controle op ongewijzigde tekst. — S
+
 ## Spreadsheets
 
 48. **Een negatieve waarde in een verwijzing breekt de formule.** In `subSheetSlice.ts:365-370, 378`.
@@ -246,6 +252,14 @@ stand van `main` op die datum.
 57. **Op macOS maakt Cmd+Z in een spreadsheet de begroting ongedaan.**
     `src/components/grid/SubSheetEditor.tsx:213-219` kijkt alleen naar `ctrlKey`, dus het event valt door naar `useKeyboardShortcuts.ts:41` (dat `metaKey` wel
     accepteert). Afgeleid uit de code. Voorstel: `|| e.metaKey`. — S
+
+268. **Een cel die naar een kringverwijzing verwijst, krijgt toch een getal.** `recalcSheetCells` in
+    `src/state/slices/subSheetSlice.ts`: alleen de cellen in de kring verliezen hun waarde; een cel die erop
+    leunt rekent met 0. Voorbeeld: A1=`=B1`, B1=`=A1`, C1=`=A1+1` geeft C1 = 1 in plaats van ongeldig, en dat
+    getal kan in een gekoppelde hoeveelheid terechtkomen. Ook: de evaluatie is recursief, dus een heel lange
+    keten (duizenden rijen, zoals een lopend totaal) kan de stack laten overlopen; die cellen blijven dan stil
+    leeg. Gevonden in de review van PR #70. Voorstel: "ongeldig" doorgeven aan afhankelijke cellen, en de
+    volgorde iteratief bepalen (topologisch sorteren). — S
 
 ## Bestanden, import en export
 
@@ -468,6 +482,12 @@ stand van `main` op die datum.
 
 112. **TRADXML exporteert als `.xml`, maar `lib/importers.ts` stuurt `.xml` naar de XPWE-importer**
      (hosted/API-pad). — S
+
+269. **Oude CUF: Middel-regels per eenheid geven na herberekenen een te laag posttotaal.**
+    `src/services/importers/cufImporter.ts:220-231`. Sinds de fix voor #96 worden Middel-regels vaste bedragen
+    (aantal × prijs) en is het posttotaal hun som; de hoeveelheid van de post telt niet mee. Zijn Middel-
+    aantallen in dit formaat per eenheid bedoeld (0,5 uur per m³ bij 10 m³), dan wordt € 225 na herberekenen
+    € 22,50. Niet te controleren zonder echt bestand; samen met #97 bekijken. Gevonden in de review van PR #70. — S
 
 ## Documenten, tabbladen, versies en herstel
 

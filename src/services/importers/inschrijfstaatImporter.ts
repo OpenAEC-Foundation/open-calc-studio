@@ -184,6 +184,15 @@ export async function importInschrijfstaatFile(buffer: ArrayBuffer): Promise<{
     } else if (info.rowType === 'begrotingspost') {
       // Bestekspost
       const parentId = currentSubChapter?.id ?? currentChapter?.id ?? null;
+      // Een post met alleen een bedrag (stelpost, post zonder aantal of
+      // eenheidsprijs) moet na herberekenen dat bedrag houden: zonder aantal
+      // wordt het 1 × bedrag, zonder eenheidsprijs bedrag ÷ aantal.
+      let quantity = row.quantity;
+      let price = row.unitPrice;
+      if (row.total !== 0 && price === 0) {
+        if (!quantity) quantity = 1;
+        price = row.total / quantity;
+      }
       items.push(makeCostItem({
         code: row.code,
         description: desc,
@@ -191,10 +200,10 @@ export async function importInschrijfstaatFile(buffer: ArrayBuffer): Promise<{
         depth: parentId ? (currentSubChapter ? 2 : 1) : 0,
         parentId,
         sortOrder: sortOrder++,
-        quantity: row.quantity,
+        quantity,
         unit: normalizeUnit(row.unit),
-        normUnitPrice: row.unitPrice,
-        unitPrice: row.unitPrice,
+        normUnitPrice: price,
+        unitPrice: price,
         total: row.total,
         verrekenbaar: verr,
       }));

@@ -103,4 +103,24 @@ describe('imports keep their amounts after recalculation', () => {
     expect(byDesc(items, 'Ontgraven').unitPrice).toBeCloseTo(15.5);
     expect(byDesc(items, 'Grondwerk').total).toBeCloseTo(1550);
   });
+
+  it('Inschrijfstaat: rows with only an amount keep it (no quantity, or no unit price)', async () => {
+    const rows: (string | number)[][] = Array.from({ length: 13 }, () => ['']);
+    rows.push(['vr', '', '10', 'G R O N D W E R K', '', '', '', '', '']);
+    rows.push(['vr', '', '100010', 'Stelpost sloop', '', 'post', 'V', '', 2500]);
+    rows.push(['vr', '', '100020', 'Afvoeren', 4, 'st', 'V', '', 300]);
+    const ws = XLSX.utils.aoa_to_sheet(rows);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Inschrijfstaat');
+    const out = XLSX.write(wb, { type: 'array', bookType: 'xlsx' }) as ArrayBuffer;
+
+    const { items: imported } = await importInschrijfstaatFile(out);
+    const items = recalculateItems(imported);
+    expect(byDesc(items, 'Stelpost sloop').quantity).toBe(1);
+    expect(byDesc(items, 'Stelpost sloop').total).toBeCloseTo(2500);
+    expect(byDesc(items, 'Afvoeren').quantity).toBe(4);
+    expect(byDesc(items, 'Afvoeren').unitPrice).toBeCloseTo(75);
+    expect(byDesc(items, 'Afvoeren').total).toBeCloseTo(300);
+    expect(byDesc(items, 'Grondwerk').total).toBeCloseTo(2800);
+  });
 });
