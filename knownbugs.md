@@ -282,11 +282,9 @@ stand van `main` op die datum.
     het (`useFileOperations.ts:125-127`). Nagespeeld. Voorstel: `openProjectJson(content, displayName,
     filePath)` uit `openProject.ts` gebruiken. — B
 
-59. **RSX-export laat posten onder subhoofdstukken stil weg.** `src/services/exporters/rsxExporter.ts:24-37`.
-    Nagespeeld: met hoofdstuk 01 > 01.1 > post 01.1.1 bevat de uitvoer alleen `<Deelraming code="01"/>` zonder
-    de post, terwijl de waarschuwing zegt dat de hoofdstukken "afgevlakt" zijn. Posten zonder hoofdstuk vallen
-    ook weg (ook in `cufExporter`/`tradxmlExporter`). Voorstel: posten uit alle onderliggende hoofdstukken
-    verzamelen in de bovenste Deelraming. — B
+59. **RSX-, CUF- en TradXML-export laten posten zonder hoofdstuk stil weg.** `src/services/exporters/rsxExporter.ts`
+    (alleen bovenste hoofdstukken worden geschreven), ook in `cufExporter`/`tradxmlExporter`. (Posten onder
+    subhoofdstukken in RSX zijn opgelost.) — B
 
 60. **Generieke CSV-import verminkt een `"` binnen een veld en geciteerde velden over meerdere regels.**
     `src/services/importers/genericTabularImporter.ts:70-91, 96`. Nagespeeld: `Buis 4" PVC;10;m` geeft één cel;
