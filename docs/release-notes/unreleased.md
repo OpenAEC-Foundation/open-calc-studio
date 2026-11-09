@@ -1,5 +1,16 @@
 # Open Calc Studio — aankomende release
 
+## Nog zonder versienummer: arbeid met productiecapaciteit
+
+- **Let op: bedragen kunnen dalen.** Op een regel met een tariefgroep deelt de
+  productiecapaciteit (pcap) nu ook het loon, zoals hij de uren al deelde: 10 m²
+  × norm 1 ÷ capaciteit 2 = 5 uur × € 64 = € 320 (was € 640). Bestaande
+  begrotingen met zo'n regel (tariefgroep én capaciteit anders dan 1) krijgen bij
+  het openen een lager arbeidsbedrag. Regels met capaciteit 1 of leeg, regels met
+  een direct ingevuld uurloon en het UI-1-model veranderen niet.
+- De WpCalc-export en de urenkolom in de Bouw 1- en IBIS-rapporten rekenen met
+  dezelfde deling, zodat ze hetzelfde bedrag en dezelfde uren tonen als de app.
+
 ## Nog zonder versienummer: SuperCloud-tools op de desktop
 
 - `npm run build:platform` levert `mcp-tools.json` naast de bundel: de

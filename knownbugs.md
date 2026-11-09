@@ -33,12 +33,6 @@ stand van `main` op die datum.
    daarna een losse omschrijving bewerken zet hem terug op 64. Voorstel: voor regels met een tariefgroep de
    tarieven schalen in plaats van `laborPrice`. — B
 
-9. **Arbeidskosten negeren de productiecapaciteit, terwijl de uren er wel door gedeeld worden.**
-   `calculator.ts:78` tegenover `urenProrate.ts:21` en `WpCalcBottomPanel.tsx:41,76,154`. Nagespeeld: met
-   capaciteit 2 toont het grid arbeid 640, maar het onderpaneel 5 u × 64 = 320. Voorstel:
-   `norm / (cap || 1) × tarief` (zoals `bc3Exporter.ts:225`). Tweede controle: `bc3Exporter` negeert de
-   capaciteit ook, dus het voorstel staat nog niet vast. — B
-
 10. **Ongedaan maken na een tariefwijziging haalt oude arbeidsprijzen terug.** `setItems` rekent opnieuw zonder
     tarieven (`src/state/slices/costItemsSlice.ts:165`), zie ook `costScheduleSlice.ts:165`; een tariefwijziging
     in `WpCalcBottomPanel.tsx:50` krijgt geen undo-stap. Nagespeeld: tarief A 50→60, daarna Ctrl+Z op een
@@ -207,6 +201,12 @@ stand van `main` op die datum.
     dat een punt met precies drie cijfers als duizendtal leest. Wie "1.250" typt en € 1,25 bedoelt, krijgt
     € 1250 ("1,25" en "1.250,50" gaan goed). Gevonden in de review van PR #70. Voorstel: het tarief in
     Nederlandse notatie tonen (`formatNumber`), met dezelfde controle op ongewijzigde tekst. — S
+
+270. **In UI-2 is de productiecapaciteit onzichtbaar, terwijl hij uren en loon deelt.** De WpCalc-kolommen
+    (`src/components/grid/gridConstants.ts`, `WPCALC_COLUMN_DEFS`) hebben geen kolom pcap; een capaciteit die in
+    UI-1 is ingevuld blijft wel meetellen. De tooltips "Uren" (`tooltips.wpHours`, `common:tooltip.hoursFormula`)
+    zeggen "aantal × norm", zonder de deling. Gevonden bij de fix van knownbug 9. Voorstel: pcap ook in UI-2
+    tonen (eventueel alleen als hij niet 1 is) en de tooltips aanvullen. — B
 
 ## Spreadsheets
 

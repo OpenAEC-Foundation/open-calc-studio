@@ -87,7 +87,10 @@ export function buildExportRequest(
         sortOrder: item.sortOrder || 0,
         resourceType: item.resourceType,
         tariefGroep: item.tariefGroep,
-        normQuantity: item.normQuantity,
+        // WpCalc kent geen productiecapaciteit: de norm daar is uren per
+        // eenheid. Stuur daarom norm ÷ capaciteit mee, anders rekent de
+        // export (kosteneh = prijs + norm × tarief) het loon te hoog.
+        normQuantity: item.normQuantity != null ? item.normQuantity / (item.normFactor || 1) : null,
         normUnitPrice: item.normUnitPrice,
       })),
     companyInfo: companyInfo

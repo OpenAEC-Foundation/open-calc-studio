@@ -176,8 +176,11 @@ fn build_bouw1_row(request: &ReportRequest, item: &CostItem, is_chapter: bool, a
     let total_s = if item.total != 0.0 { nf.currency(item.total) } else { String::new() };
     let norm_s = item.norm_quantity.map(|n| nf.number(n, 3)).unwrap_or_default();
     let tg = item.tarief_groep.clone().unwrap_or_default();
+    // Uren = aantal × norm ÷ productiecapaciteit (normFactor is een deler,
+    // zoals in calculator.ts en urenProrate.ts; leeg of 0 telt als 1).
+    let cap = item.norm_factor.filter(|c| *c != 0.0).unwrap_or(1.0);
     let uren = match (item.quantity, item.norm_quantity) {
-        (Some(q), Some(n)) if q != 0.0 && n != 0.0 => nf.opt_number(Some(q * n)),
+        (Some(q), Some(n)) if q != 0.0 && n != 0.0 => nf.opt_number(Some(q * n / cap)),
         _ => String::new(),
     };
     let kosten_eh = if item.unit_price != 0.0 {

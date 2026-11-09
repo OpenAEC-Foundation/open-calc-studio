@@ -176,8 +176,11 @@ fn build_ibis_row(request: &ReportRequest, item: &CostItem, level: u8, all_items
         .filter(|n| *n != 0.0)
         .map(|n| nf.number(n, 3))
         .unwrap_or_default();
+    // Uren = aantal × norm ÷ productiecapaciteit (normFactor is een deler,
+    // zoals in calculator.ts en urenProrate.ts; leeg of 0 telt als 1).
+    let cap = item.norm_factor.filter(|c| *c != 0.0).unwrap_or(1.0);
     let uren = match (item.quantity, item.norm_quantity) {
-        (Some(q), Some(n)) if q != 0.0 && n != 0.0 => nf.opt_number(Some(q * n)),
+        (Some(q), Some(n)) if q != 0.0 && n != 0.0 => nf.opt_number(Some(q * n / cap)),
         _ => String::new(),
     };
 

@@ -66,7 +66,10 @@ export function recalculateItems(items: CostItem[], tarieven?: Record<string, nu
   const result = normalizeItemOrder(items.map(item => ({ ...item })));
 
   // Recompute laborPrice from tariefGroep + tarieven when tarieven are provided.
-  // Alleen voor regels mét een productienorm: laborPrice = norm × uurtarief.
+  // Alleen voor regels mét een productienorm: laborPrice = norm ÷ capaciteit ×
+  // uurtarief. De productiecapaciteit (normFactor) is een deler, net als in de
+  // uren (aantal × norm ÷ capaciteit) en in het UI-1-model; zonder deling
+  // rekende een regel met capaciteit 2 het dubbele loon af (knownbug 9).
   // Regels zonder norm hebben een direct ingevuld uurloon — dat moet blijven
   // staan (norm=null → 0 × tarief zou het uurloon stilletjes wissen bij
   // elke willekeurige bewerking elders in de begroting).
@@ -74,7 +77,7 @@ export function recalculateItems(items: CostItem[], tarieven?: Record<string, nu
     for (const item of result) {
       if (item.rowType === 'regel' && item.tariefGroep && item.normQuantity != null) {
         const tarief = tarieven[item.tariefGroep] ?? 0;
-        item.laborPrice = item.normQuantity * tarief;
+        item.laborPrice = item.normQuantity / (item.normFactor || 1) * tarief;
       }
     }
   }
