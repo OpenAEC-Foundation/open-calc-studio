@@ -87,13 +87,6 @@ stand van `main` op die datum.
     beide zouden geweigerd moeten worden. Zelfde oorzaak als #16. Voorstel: een strikt patroon gebruiken
     zoals in `parseLocaleNumber`. — B
 
-19. **Eén teken typen en dan Enter, Tab of wegklikken gooit de bewerking weg** (ernstig).
-    `src/components/grid/GridCellEditor.tsx:66-67`, `:103-105`. Als je begint met typen, is `editValue` de
-    getypte toets. `commitIfChanged` vergelijkt daarmee, dus één teken telt nooit als wijziging. Nagespeeld:
-    Aantal = 7, `5` typen, Enter; de cel blijft 7. Geldt ook voor omschrijvingen en elke tekst-, getal- en
-    valutakolom. Voorstel: vergelijken met de opgeslagen celwaarde, of altijd vastleggen als het bewerken met
-    typen begon. — B
-
 20. **Tab in de celeditor komt nog op verborgen kolommen.** `src/components/grid/GridCellEditor.tsx:28`
     (`editableCols`). 8b91b0a loste dit op voor navigatie in het grid, maar niet voor Tab in de editor.
     Nagespeeld: met Prod.norm verborgen gaat Tab vanuit Aantal naar `productienorm` en opent een editor van 0px
