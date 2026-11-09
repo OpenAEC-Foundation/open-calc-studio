@@ -1243,6 +1243,7 @@
     "labelNr": "N°",
     "amounts": "Montants",
     "percent": "% du total",
+    "percentNarrow": "Visible avec un panneau plus large",
     "deleteConfirm_one": "Supprimer « {{name}} » et la ligne en dessous ?",
     "deleteConfirm_many": "Supprimer « {{name}} » et les {{count}} lignes en dessous ?",
     "deleteConfirm_other": "Supprimer « {{name}} » et les {{count}} lignes en dessous ?",

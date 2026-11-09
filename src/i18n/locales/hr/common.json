@@ -1243,6 +1243,7 @@
     "labelNr": "Br.",
     "amounts": "Iznosi",
     "percent": "% ukupnog iznosa",
+    "percentNarrow": "Vidljivo uz širu ploču",
     "deleteConfirm_one": "Izbrisati „{{name}}” i {{count}} redak ispod?",
     "deleteConfirm_few": "Izbrisati „{{name}}” i {{count}} retka ispod?",
     "deleteConfirm_other": "Izbrisati „{{name}}” i {{count}} redaka ispod?",

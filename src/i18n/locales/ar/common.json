@@ -1247,6 +1247,7 @@
     "labelNr": "رقم",
     "amounts": "المبالغ",
     "percent": "% من الإجمالي",
+    "percentNarrow": "يظهر عند توسيع اللوحة",
     "deleteConfirm_zero": "هل تريد حذف \"{{name}}\"؟",
     "deleteConfirm_one": "هل تريد حذف \"{{name}}\" والصف الذي تحته؟",
     "deleteConfirm_two": "هل تريد حذف \"{{name}}\" والصفين اللذين تحته؟",

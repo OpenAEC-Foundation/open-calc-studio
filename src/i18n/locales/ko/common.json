@@ -1243,6 +1243,7 @@
     "labelNr": "번호",
     "amounts": "금액",
     "percent": "합계 대비 %",
+    "percentNarrow": "패널을 넓히면 표시됩니다",
     "deleteConfirm_one": "\"{{name}}\" 및 그 아래 {{count}}개 행을 삭제할까요?",
     "deleteConfirm_other": "\"{{name}}\" 및 그 아래 {{count}}개 행을 삭제할까요?",
     "expandBelow": "아래 항목 모두 펼치기",

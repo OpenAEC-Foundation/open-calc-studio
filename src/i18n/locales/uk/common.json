@@ -1243,6 +1243,7 @@
     "labelNr": "№",
     "amounts": "Суми",
     "percent": "% від підсумку",
+    "percentNarrow": "Видно за ширшої панелі",
     "deleteConfirm_one": "Видалити «{{name}}» і {{count}} рядок під ним?",
     "deleteConfirm_few": "Видалити «{{name}}» і {{count}} рядки під ним?",
     "deleteConfirm_many": "Видалити «{{name}}» і {{count}} рядків під ним?",

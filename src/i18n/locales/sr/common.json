@@ -1243,6 +1243,7 @@
     "labelNr": "Бр.",
     "amounts": "Износи",
     "percent": "% од укупног износа",
+    "percentNarrow": "Видљиво уз шири панел",
     "deleteConfirm_one": "Обрисати „{{name}}“ и {{count}} ред испод?",
     "deleteConfirm_few": "Обрисати „{{name}}“ и {{count}} реда испод?",
     "deleteConfirm_other": "Обрисати „{{name}}“ и {{count}} редова испод?",

@@ -1245,6 +1245,7 @@
     "labelNr": "Č.",
     "amounts": "Sumy",
     "percent": "% z celku",
+    "percentNarrow": "Zobrazí sa pri širšom paneli",
     "deleteConfirm_one": "Odstrániť „{{name}}“ a riadok pod ním?",
     "deleteConfirm_few": "Odstrániť „{{name}}“ a {{count}} riadky pod ním?",
     "deleteConfirm_many": "Odstrániť „{{name}}“ a {{count}} riadku pod ním?",

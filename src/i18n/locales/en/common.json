@@ -49,6 +49,7 @@
     "labelNr": "No.",
     "amounts": "Amounts",
     "percent": "% of total",
+    "percentNarrow": "Shown when the panel is wider",
     "deleteConfirm_one": "Delete \"{{name}}\" and the row below it?",
     "deleteConfirm_other": "Delete \"{{name}}\" and the {{count}} rows below it?",
     "expandBelow": "Expand all below",

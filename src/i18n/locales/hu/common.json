@@ -1243,6 +1243,7 @@
     "labelNr": "Ssz.",
     "amounts": "Összegek",
     "percent": "Az összeg %-a",
+    "percentNarrow": "Szélesebb panelen látható",
     "deleteConfirm_one": "Törli a(z) „{{name}}” elemet és az alatta lévő sort?",
     "deleteConfirm_other": "Törli a(z) „{{name}}” elemet és az alatta lévő {{count}} sort?",
     "expandBelow": "Minden alatta lévő kibontása",

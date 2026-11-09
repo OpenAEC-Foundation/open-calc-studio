@@ -1243,6 +1243,7 @@
     "labelNr": "نمبر",
     "amounts": "رقوم",
     "percent": "کل کا %",
+    "percentNarrow": "پینل چوڑا ہونے پر دکھائی دیتا ہے",
     "deleteConfirm_one": "کیا \"{{name}}\" اور اس کے نیچے والی قطار حذف کریں؟",
     "deleteConfirm_other": "کیا \"{{name}}\" اور اس کے نیچے کی {{count}} قطاریں حذف کریں؟",
     "expandBelow": "نیچے سب کچھ پھیلائیں",

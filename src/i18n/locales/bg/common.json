@@ -1243,6 +1243,7 @@
     "labelNr": "№",
     "amounts": "Суми",
     "percent": "% от общата сума",
+    "percentNarrow": "Вижда се при по-широк панел",
     "deleteConfirm_one": "Да се изтрие ли „{{name}}“ и редът под него?",
     "deleteConfirm_other": "Да се изтрие ли „{{name}}“ и {{count}} реда под него?",
     "expandBelow": "Разгъване на всичко отдолу",

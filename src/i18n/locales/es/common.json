@@ -1243,6 +1243,7 @@
     "labelNr": "Nº",
     "amounts": "Importes",
     "percent": "% del total",
+    "percentNarrow": "Visible con un panel más ancho",
     "deleteConfirm_one": "¿Eliminar «{{name}}» y la fila que contiene?",
     "deleteConfirm_many": "¿Eliminar «{{name}}» y las {{count}} filas que contiene?",
     "deleteConfirm_other": "¿Eliminar «{{name}}» y las {{count}} filas que contiene?",

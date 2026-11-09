@@ -1243,6 +1243,7 @@
     "labelNr": "Na.",
     "amounts": "Kiasi",
     "percent": "% ya jumla",
+    "percentNarrow": "Huonekana paneli ikiwa pana zaidi",
     "deleteConfirm_one": "Futa \"{{name}}\" na safu iliyo chini yake?",
     "deleteConfirm_other": "Futa \"{{name}}\" na safu {{count}} zilizo chini yake?",
     "expandBelow": "Panua vyote vilivyo chini",

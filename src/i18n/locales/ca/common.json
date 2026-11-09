@@ -1243,6 +1243,7 @@
     "labelNr": "Núm.",
     "amounts": "Imports",
     "percent": "% del total",
+    "percentNarrow": "Visible amb un panell més ample",
     "deleteConfirm_one": "Voleu eliminar «{{name}}» i la fila que conté?",
     "deleteConfirm_many": "Voleu eliminar «{{name}}» i les {{count}} files que conté?",
     "deleteConfirm_other": "Voleu eliminar «{{name}}» i les {{count}} files que conté?",

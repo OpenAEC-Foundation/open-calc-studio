@@ -1243,6 +1243,7 @@
     "labelNr": "No.",
     "amounts": "Amaun",
     "percent": "% daripada jumlah",
+    "percentNarrow": "Kelihatan apabila panel lebih lebar",
     "deleteConfirm_one": "Padam \"{{name}}\" dan {{count}} baris di bawahnya?",
     "deleteConfirm_other": "Padam \"{{name}}\" dan {{count}} baris di bawahnya?",
     "expandBelow": "Kembangkan semua di bawah",

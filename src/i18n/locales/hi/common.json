@@ -1243,6 +1243,7 @@
     "labelNr": "क्र.",
     "amounts": "राशियाँ",
     "percent": "कुल का %",
+    "percentNarrow": "पैनल चौड़ा होने पर दिखता है",
     "deleteConfirm_one": "\"{{name}}\" और उसके नीचे की पंक्ति हटाएँ?",
     "deleteConfirm_other": "\"{{name}}\" और उसके नीचे की {{count}} पंक्तियाँ हटाएँ?",
     "expandBelow": "नीचे सब कुछ विस्तृत करें",

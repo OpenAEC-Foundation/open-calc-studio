@@ -1243,6 +1243,7 @@
     "labelNr": "Nr",
     "amounts": "Bedragen",
     "percent": "% van totaal",
+    "percentNarrow": "Zichtbaar bij een breder paneel",
     "deleteConfirm_one": "\"{{name}}\" en de rij eronder verwijderen?",
     "deleteConfirm_other": "\"{{name}}\" en de {{count}} rijen eronder verwijderen?",
     "expandBelow": "Alles hieronder uitklappen",

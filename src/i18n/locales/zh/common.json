@@ -1243,6 +1243,7 @@
     "labelNr": "序号",
     "amounts": "金额",
     "percent": "占总计 %",
+    "percentNarrow": "面板更宽时显示",
     "deleteConfirm_one": "删除\"{{name}}\"及其下的 {{count}} 行？",
     "deleteConfirm_other": "删除\"{{name}}\"及其下的 {{count}} 行？",
     "expandBelow": "展开下方全部",

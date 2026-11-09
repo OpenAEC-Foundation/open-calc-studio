@@ -1243,6 +1243,7 @@
     "labelNr": "Αρ.",
     "amounts": "Ποσά",
     "percent": "% του συνόλου",
+    "percentNarrow": "Εμφανίζεται με φαρδύτερο πλαίσιο",
     "deleteConfirm_one": "Διαγραφή του «{{name}}» και της γραμμής από κάτω;",
     "deleteConfirm_other": "Διαγραφή του «{{name}}» και των {{count}} γραμμών από κάτω;",
     "expandBelow": "Ανάπτυξη όλων από κάτω",

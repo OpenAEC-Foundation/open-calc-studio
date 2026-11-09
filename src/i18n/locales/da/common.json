@@ -1243,6 +1243,7 @@
     "labelNr": "Nr.",
     "amounts": "Beløb",
     "percent": "% af total",
+    "percentNarrow": "Vises, når panelet er bredere",
     "deleteConfirm_one": "Slet \"{{name}}\" og rækken under det?",
     "deleteConfirm_other": "Slet \"{{name}}\" og de {{count}} rækker under det?",
     "expandBelow": "Udvid alt herunder",

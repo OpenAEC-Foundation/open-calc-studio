@@ -1244,6 +1244,7 @@
     "labelNr": "ລ/ດ",
     "amounts": "ຈຳນວນເງິນ",
     "percent": "% ຂອງທັງໝົດ",
+    "percentNarrow": "ສະແດງເມື່ອແຜງກວ້າງຂຶ້ນ",
     "deleteConfirm_one": "ລຶບ \"{{name}}\" ແລະ {{count}} ແຖວທີ່ຢູ່ລຸ່ມບໍ?",
     "deleteConfirm_other": "ລຶບ \"{{name}}\" ແລະ {{count}} ແຖວທີ່ຢູ່ລຸ່ມບໍ?",
     "expandBelow": "ຂະຫຍາຍທັງໝົດທີ່ຢູ່ລຸ່ມ",

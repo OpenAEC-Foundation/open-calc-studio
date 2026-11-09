@@ -1244,6 +1244,7 @@
     "labelNr": "Nr.",
     "amounts": "Sume",
     "percent": "% din total",
+    "percentNarrow": "Vizibil la un panou mai lat",
     "deleteConfirm_one": "Ștergeți „{{name}}” și rândul de sub el?",
     "deleteConfirm_few": "Ștergeți „{{name}}” și cele {{count}} rânduri de sub el?",
     "deleteConfirm_other": "Ștergeți „{{name}}” și cele {{count}} de rânduri de sub el?",

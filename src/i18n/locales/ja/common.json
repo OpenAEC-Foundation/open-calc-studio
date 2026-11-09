@@ -1243,6 +1243,7 @@
     "labelNr": "番号",
     "amounts": "金額",
     "percent": "合計に対する%",
+    "percentNarrow": "パネルを広げると表示されます",
     "deleteConfirm_one": "「{{name}}」とその下の {{count}} 行を削除しますか？",
     "deleteConfirm_other": "「{{name}}」とその下の {{count}} 行を削除しますか？",
     "expandBelow": "下の階層をすべて展開",

@@ -1243,6 +1243,7 @@
     "labelNr": "No",
     "amounts": "Tutarlar",
     "percent": "Toplamın %'si",
+    "percentNarrow": "Panel daha genişken görünür",
     "deleteConfirm_one": "\"{{name}}\" ve altındaki satır silinsin mi?",
     "deleteConfirm_other": "\"{{name}}\" ve altındaki {{count}} satır silinsin mi?",
     "expandBelow": "Altındakilerin tümünü genişlet",

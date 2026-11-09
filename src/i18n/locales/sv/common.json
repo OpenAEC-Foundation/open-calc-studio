@@ -1243,6 +1243,7 @@
     "labelNr": "Nr",
     "amounts": "Belopp",
     "percent": "% av totalt",
+    "percentNarrow": "Visas när panelen är bredare",
     "deleteConfirm_one": "Ta bort \"{{name}}\" och raden under?",
     "deleteConfirm_other": "Ta bort \"{{name}}\" och de {{count}} raderna under?",
     "expandBelow": "Expandera allt under",

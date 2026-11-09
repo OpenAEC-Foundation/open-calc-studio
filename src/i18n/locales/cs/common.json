@@ -1245,6 +1245,7 @@
     "labelNr": "Č.",
     "amounts": "Částky",
     "percent": "% z celku",
+    "percentNarrow": "Zobrazí se při širším panelu",
     "deleteConfirm_one": "Smazat „{{name}}“ a řádek pod ním?",
     "deleteConfirm_few": "Smazat „{{name}}“ a {{count}} řádky pod ním?",
     "deleteConfirm_many": "Smazat „{{name}}“ a {{count}} řádku pod ním?",

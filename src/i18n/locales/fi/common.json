@@ -1243,6 +1243,7 @@
     "labelNr": "Nro",
     "amounts": "Summat",
     "percent": "% kokonaissummasta",
+    "percentNarrow": "Näkyy leveämmässä paneelissa",
     "deleteConfirm_one": "Poistetaanko \"{{name}}\" ja sen alla oleva rivi?",
     "deleteConfirm_other": "Poistetaanko \"{{name}}\" ja sen alla olevat {{count}} riviä?",
     "expandBelow": "Laajenna kaikki alla olevat",

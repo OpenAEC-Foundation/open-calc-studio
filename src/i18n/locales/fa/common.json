@@ -1243,6 +1243,7 @@
     "labelNr": "ردیف",
     "amounts": "مبالغ",
     "percent": "٪ از کل",
+    "percentNarrow": "در پنل پهن‌تر نمایش داده می‌شود",
     "deleteConfirm_one": "«{{name}}» و ردیف زیر آن حذف شود؟",
     "deleteConfirm_other": "«{{name}}» و {{count}} ردیف زیر آن حذف شود؟",
     "expandBelow": "باز کردن همه موارد زیر",

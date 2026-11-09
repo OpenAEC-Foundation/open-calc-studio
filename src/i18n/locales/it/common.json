@@ -1243,6 +1243,7 @@
     "labelNr": "N.",
     "amounts": "Importi",
     "percent": "% del totale",
+    "percentNarrow": "Visibile con un pannello più largo",
     "deleteConfirm_one": "Eliminare \"{{name}}\" e la riga sottostante?",
     "deleteConfirm_many": "Eliminare \"{{name}}\" e le {{count}} righe sottostanti?",
     "deleteConfirm_other": "Eliminare \"{{name}}\" e le {{count}} righe sottostanti?",

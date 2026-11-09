@@ -1243,6 +1243,7 @@
     "labelNr": "Nr.",
     "amounts": "Beträge",
     "percent": "% der Gesamtsumme",
+    "percentNarrow": "Sichtbar bei breiterem Bereich",
     "deleteConfirm_one": "„{{name}}“ und die Zeile darunter löschen?",
     "deleteConfirm_other": "„{{name}}“ und die {{count}} Zeilen darunter löschen?",
     "expandBelow": "Alles darunter aufklappen",

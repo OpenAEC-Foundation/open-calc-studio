@@ -1245,6 +1245,7 @@
     "labelNr": "מס'",
     "amounts": "סכומים",
     "percent": "% מהסך הכול",
+    "percentNarrow": "מוצג כשהחלונית רחבה יותר",
     "deleteConfirm_one": "למחוק את \"{{name}}\" ואת השורה שמתחתיו?",
     "deleteConfirm_two": "למחוק את \"{{name}}\" ואת שתי השורות שמתחתיו?",
     "deleteConfirm_other": "למחוק את \"{{name}}\" ואת {{count}} השורות שמתחתיו?",

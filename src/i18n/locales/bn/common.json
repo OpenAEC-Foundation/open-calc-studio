@@ -1243,6 +1243,7 @@
     "labelNr": "ক্র.",
     "amounts": "অঙ্ক",
     "percent": "মোটের %",
+    "percentNarrow": "প্যানেল চওড়া হলে দেখা যায়",
     "deleteConfirm_one": "\"{{name}}\" এবং এর নিচের সারিটি মুছবেন?",
     "deleteConfirm_other": "\"{{name}}\" এবং এর নিচের {{count}}টি সারি মুছবেন?",
     "expandBelow": "নিচের সবকিছু প্রসারিত করুন",

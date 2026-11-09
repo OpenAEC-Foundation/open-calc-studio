@@ -1243,6 +1243,7 @@
     "labelNr": "STT",
     "amounts": "Số tiền",
     "percent": "% tổng",
+    "percentNarrow": "Hiển thị khi bảng rộng hơn",
     "deleteConfirm_one": "Xóa \"{{name}}\" và {{count}} dòng bên dưới?",
     "deleteConfirm_other": "Xóa \"{{name}}\" và {{count}} dòng bên dưới?",
     "expandBelow": "Mở rộng tất cả bên dưới",
