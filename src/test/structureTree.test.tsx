@@ -59,10 +59,10 @@ describe('tree depth', () => {
     const before = useAppStore.getState().items;
     await chooseDepth('post');
     expect(node.querySelector('[data-tree-id="regel1"]')).toBeNull();
-    expect(byId('post1').querySelector('button')).toBeNull(); // geen pijltje: boom stopt hier
+    expect(byId('post1').querySelector('button')).not.toBeNull(); // pijltje blijft: klapt het raster
     await chooseDepth('chapter');
     expect(treeItems().map((el) => el.dataset.treeId)).toEqual(['h21', 'p2110', 'h22', 'h23']);
-    expect(byId('p2110').querySelector('button')).toBeNull();
+    expect(byId('p2110').querySelector('button')).not.toBeNull(); // inhoud zit dieper: pijltje voor het raster
     expect(useAppStore.getState().items).toBe(before); // niets in- of uitgeklapt
     expect(useAppStore.getState().getGridRows().some((r) => r.id === 'regel1')).toBe(true);
     expect(localStorage.getItem('ocs.structureTree.depth')).toBe('chapter');

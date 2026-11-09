@@ -103,10 +103,27 @@ describe('moving from the structure tree', () => {
     expect(node.querySelector('[role=menu]')).toBeNull();
   });
 
+  it('the Nr column follows the new place; the typed code stays', async () => {
+    await openMenu('post1');
+    const targets = await moveTargets();
+    await act(async () => targets.find((b) => b.dataset.moveTarget === 'h22')!.click());
+    // Nr wordt na elke zet opnieuw uitgerekend: post1 is nu de tweede post in 22.
+    expect(find('post2').nr).toBe('22.01');
+    expect(find('post1').nr).toBe('22.02');
+    expect(find('regel1').nr).toBe('22.02.01');
+    expect(find('post1').code).toBe('01');
+
+    // Terugschuiven boven post2 → nummers wisselen mee.
+    await act(async () => byId('post1').click());
+    await keyDown('ArrowUp', true);
+    expect(find('post1').nr).toBe('22.01');
+    expect(find('post2').nr).toBe('22.02');
+  });
+
   it('a chapter keeps its level: a main chapter has no targets, a section only other main chapters', async () => {
     await openMenu('h21');
-    const moveTo = menuButtons().find((b) => b.textContent?.includes(i18next.t('contextMenu.moveTo', { ns: 'grid' })))!;
-    expect(moveTo.disabled).toBe(true); // hoofdstuk blijft hoofdstuk
+    // Hoofdstuk blijft hoofdstuk: de optie staat er dan niet (ook niet grijs).
+    expect(menuButtons().some((b) => b.textContent?.includes(i18next.t('contextMenu.moveTo', { ns: 'grid' })))).toBe(false);
     await act(async () => { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); });
     await openMenu('p2110');
     // Geen h21 (huidige ouder), geen h22 (heeft posten), geen 21.10 zelf.

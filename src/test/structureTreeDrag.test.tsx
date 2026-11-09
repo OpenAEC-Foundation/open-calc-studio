@@ -44,10 +44,14 @@ const rowTop = (id: string) => rows().indexOf(byId(id)) * ROW;
 const pointer = (type: string, target: Element | Window, clientY: number, clientX = 50) => act(async () => {
   target.dispatchEvent(new MouseEvent(type, { bubbles: true, cancelable: true, clientX, clientY, button: 0 }));
 });
-/** Pak `id` op en beweeg naar `y` (px vanaf de bovenkant van de boom). */
-const dragTo = async (id: string, y: number) => {
+/** Pak `id` op en beweeg naar `y` (px vanaf de bovenkant van de boom). Een
+ *  functie wordt pas ná het oppakken uitgerekend: een open map klapt dan dicht
+ *  en de rijen eronder schuiven op. */
+const dragTo = async (id: string, yOrFn: number | (() => number)) => {
   await pointer('pointerdown', byId(id), rowTop(id) + ROW / 2);
-  await pointer('pointermove', byId(id), rowTop(id) + ROW / 2 + 10); // over de sleep-drempel
+  // Over de sleep-drempel, zijwaarts: blijft boven de eigen rij, dus nog geen doel (en geen springslot).
+  await pointer('pointermove', byId(id), rowTop(id) + ROW / 2, 60);
+  const y = typeof yOrFn === 'function' ? yOrFn() : yOrFn;
   const over = rows()[Math.min(rows().length - 1, Math.floor(y / ROW))];
   await pointer('pointermove', over, y);
 };
@@ -129,7 +133,7 @@ describe('dragging in the structure tree', () => {
   });
 
   it('a section stays a section: it can move into another main chapter without posts', async () => {
-    await dragTo('p2110', rowTop('h23') + ROW / 2);
+    await dragTo('p2110', () => rowTop('h23') + ROW / 2);
     expect(byId('h23').classList.contains('drop-inside')).toBe(true);
     await release();
     expect(find('p2110').parentId).toBe('h23');
@@ -149,10 +153,15 @@ describe('dragging in the structure tree', () => {
 
   it('a forbidden target shows no preview and nothing happens on release', async () => {
     const before = state().items;
-    // Kringetje: hoofdstuk 21 boven zijn eigen paragraaf 21.10.
-    await dragTo('h21', rowTop('p2110') + ROW / 2);
-    expect(treeOrder()).toEqual(ORIGINAL_TREE);
+    // Kringetje: hoofdstuk 21 in zijn eigen paragraaf 21.10 kan via de boom niet eens:
+    // zolang je 21 sleept staat het dicht, dus 21.10 is in beeld geen doel.
+    await dragTo('h21', rowTop('h21') + ROW / 2);
+    expect(treeOrder()).toEqual(['h21', 'h22', 'post2', 'h23']);
+    expect(treeOrder()).not.toContain('p2110');
+    await act(async () => { window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); });
     await release();
+    expect(state().items).toBe(before);
+    state().moveItems(['h21'], 'p2110', 'inside'); // ook via de store geweigerd
     expect(state().items).toBe(before);
     // Een post op het hoogste niveau (boven hoofdstuk 21) mag ook niet.
     await dragTo('post1', rowTop('h21') + 1);
@@ -229,7 +238,7 @@ describe('dragging in the structure tree', () => {
     it('an estimate item dropped on a line goes nowhere (a post never sits among lines)', async () => {
       const before = state().items;
       await dragTo('post2', rowTop('regel1') + 2);
-      expect(treeOrder()).toEqual(['h21', 'p2110', 'post1', 'regel1', 'h22', 'post2', 'regel2', 'h23']);
+      expect(treeOrder()).toEqual(['h21', 'p2110', 'post1', 'regel1', 'h22', 'post2', 'h23']); // post2 zelf even dicht
       await release();
       expect(state().items).toBe(before);
     });
@@ -290,9 +299,109 @@ describe('dragging in the structure tree', () => {
         expect(treeOrder()).toContain('post2');
         await release();
         expect(find('post1').parentId).toBe('h22');
+        expect(find('h22').isCollapsed).toBe(false); // erin gezet: blijft open
       } finally {
         vi.useRealTimers();
       }
+    });
+
+    it('a closed chapter also opens when the item only fits deeper inside; Escape closes it again', async () => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+      try {
+        // 21 dicht. Een post mag niet direct in 21 (dat heeft paragrafen), wel in 21.10.
+        await act(async () => state().toggleCollapse('h21'));
+        await dragTo('post2', rowTop('h21') + ROW / 2);
+        expect(byId('h21').classList.contains('drop-inside')).toBe(false);
+        await act(async () => { vi.advanceTimersByTime(650); });
+        expect(find('h21').isCollapsed).toBe(false);
+        expect(treeOrder()).toContain('p2110'); // nu bereikbaar
+        await act(async () => { window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); });
+        expect(find('h21').isCollapsed).toBe(true); // afgebroken: weer zoals het was (ook in het raster)
+        expect(state().undoStack).toHaveLength(0);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('a closed chapter where the item cannot go anywhere stays closed', async () => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+      try {
+        await act(async () => state().toggleCollapse('h22'));
+        await dragTo('h23', rowTop('h22') + ROW / 2); // een hoofdstuk past niet in 22 (dat heeft posten)
+        await act(async () => { vi.advanceTimersByTime(650); });
+        expect(find('h22').isCollapsed).toBe(true);
+        await release();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('dropping back on its own place is neutral: no forbidden sign, nothing happens', async () => {
+      await dragTo('h23', rowTop('h22') + ROW - 1); // onderste helft van 22 = waar 23 al staat
+      expect(node.querySelector('.schedule-tree.is-blocked')).toBeNull();
+      expect(document.querySelector('.schedule-drag-label')).toBeNull();
+      await release();
+      expect(state().undoStack).toHaveLength(0);
+    });
+
+    it('an open chapter is shown closed while you drag it, so it moves as one row', async () => {
+      await dragTo('p2110', () => rowTop('h23') + ROW / 2);
+      expect(treeOrder()).not.toContain('post1'); // inhoud even weg uit beeld
+      expect(find('p2110').isCollapsed).toBe(false); // begroting zelf ongewijzigd
+      await release();
+      expect(find('p2110').parentId).toBe('h23');
+      expect(treeOrder()).toContain('post1'); // na loslaten weer open
+    });
+
+    it('after releasing outside the tree, the next click in the tree works', async () => {
+      await dragTo('h23', rowTop('h22') + 2);
+      await pointer('pointermove', window, 9999); // buiten de boom
+      await release(); // er kwam geen klik op een rij
+      // Een echte klik: indrukken, loslaten, klik.
+      await pointer('pointerdown', byId('h22'), rowTop('h22') + 5);
+      await release();
+      await act(async () => byId('h22').click());
+      expect(state().activeItemId).toBe('h22');
+    });
+
+    it('no jumping back and forth when the preview shifts rows under the pointer', async () => {
+      // 21 slepen (dicht in beeld): h21 0–20, h22 20–40, post2 40–60, h23 60–80.
+      await dragTo('h21', 38); // onderste helft van 22 → "na 22"
+      // Voorbeeld: h22 0–20, post2 20–40, h21 40–60, h23 60–80. Onder de muis (y 38) staat nu post2.
+      expect(treeOrder()).toEqual(['h22', 'post2', 'h21', 'h23']);
+      // 1 px verder, boven post2: zonder slot "kan hier niet" → voorbeeld terug → weer 22 → … (springen).
+      await pointer('pointermove', byId('post2'), 39);
+      expect(treeOrder()).toEqual(['h22', 'post2', 'h21', 'h23']);
+      expect(node.querySelector('.schedule-tree.is-blocked')).toBeNull();
+      // Een echte beweging (meer dan een halve rij) werkt wel: onderste helft van 23 → "na 23".
+      await pointer('pointermove', byId('h23'), 75);
+      expect(treeOrder()).toEqual(['h22', 'post2', 'h23', 'h21']);
+      await act(async () => { window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); });
+    });
+
+    it('a chapter opened while hovering closes again when the item is dropped somewhere else', async () => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+      try {
+        await act(async () => state().toggleCollapse('h22')); // 22 dicht
+        await dragTo('post1', rowTop('h22') + ROW / 2);
+        await act(async () => { vi.advanceTimersByTime(650); });
+        expect(find('h22').isCollapsed).toBe(false);
+        await pointer('pointermove', byId('h23'), rowTop('h23') + ROW / 2); // verder naar 23
+        await release();
+        expect(find('post1').parentId).toBe('h23');
+        expect(find('h22').isCollapsed).toBe(true); // 22 weer dicht, zoals het was
+        // Het raster wijst nog naar de verplaatste post (22 klapte ná de zet dicht, rijen schoven op).
+        expect(state().getGridRows()[state().activeRow]?.id).toBe('post1');
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('the Delete key does nothing while dragging', async () => {
+      await dragTo('h23', rowTop('h22') + 2);
+      await act(async () => { node.querySelector('[role=tree]')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Delete', bubbles: true })); });
+      expect(state().items.some((i) => i.id === 'h23')).toBe(true);
+      await act(async () => { window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); });
     });
 
     it('a refused move leaves no empty undo step', async () => {
