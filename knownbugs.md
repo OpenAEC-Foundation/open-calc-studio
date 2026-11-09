@@ -215,13 +215,6 @@ stand van `main` op die datum.
 
 ## Spreadsheets
 
-47. **Afhankelijke formules rekenen nooit opnieuw.** Ernstig. `setSubSheetCell` evalueert alleen de bewerkte
-    cel (`subSheetSlice.ts:101-122`). Nagespeeld: A1=`1`, A2=`=A1*2`, dan A1 → `10`: A2 blijft `2`. Wordt A2
-    vóór A1 ingevuld, dan blijft hij `0`. `quantityOrigin.ts:25` leest `cell.computed`, dus verouderde waarden
-    komen in gekoppelde hoeveelheden in de begroting terecht. Voorstel: na elke schrijfactie alle formules in
-    het blad herberekenen (in afhankelijkheidsvolgorde of herhalen tot stabiel, met een limiet voor
-    kringverwijzingen). — B
-
 48. **Een negatieve waarde in een verwijzing breekt de formule.** In `subSheetSlice.ts:365-370, 378`.
     Nagespeeld: A1=`-5`; `=10-A1` wordt `10--5`, een syntaxfout, dus de cel toont de kale formule. `=-A1` faalt
     op dezelfde manier. Voorstel: invullen als `(${value})`. — B
