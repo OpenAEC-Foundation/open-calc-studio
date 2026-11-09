@@ -71,8 +71,10 @@ export const SchedulePanel: React.FC = () => {
   const kostprijs = useMemo(() => (view.percent ? getKostprijs(items) : 0), [items, view.percent]);
   // Wat de boom toont (tot de gekozen diepte)…
   const byParent = useMemo(() => buildChildren(items, DEPTH_TYPES[depth]), [items, depth]);
-  // …en de volledige structuur voor de verplaatsregels: die mogen niet
-  // afhangen van wat er toevallig in beeld is.
+  // …en de volledige structuur voor de verplaatsregels: wáár een rij landt
+  // hangt nooit af van wat er toevallig in beeld is. Eén uitzondering, alleen
+  // voor de melding: "erin" bij een open map heet "onder de laatste rij die
+  // je ziet" als dat precies dezelfde plek is (zie lastShownChild).
   const fullByParent = useMemo(() => buildChildren(items), [items]);
   // Rijen met échte inhoud in de begroting (ook alleen tekst- of witregels,
   // die de boom niet toont), zelfde regel als het pijltje in het raster.
@@ -100,11 +102,29 @@ export const SchedulePanel: React.FC = () => {
 
   // Regels (puur) en acties (via de store); elke render vers, zodat ze
   // altijd de huidige rijen zien.
+  /** Laatste échte kind per ouder (ook tekst-/witregels, die de boom niet
+   *  toont; zonder staartrijen), in rastervolgorde: daar zet "erin" (moveInto)
+   *  een rij achter. */
+  const lastRealChild = useMemo(() => {
+    const map = new Map<string, CostItem>();
+    for (const it of items) {
+      if (!it.parentId || it.rowType.startsWith('staart_')) continue;
+      const cur = map.get(it.parentId);
+      // Zelfde sortOrder: de latere in de lijst staat lager (zoals sortSiblings).
+      if (!cur || (it.sortOrder ?? 0) >= (cur.sortOrder ?? 0)) map.set(it.parentId, it);
+    }
+    return map;
+  }, [items]);
+  /** Laatste rij die de boom ónder `id` laat zien, maar alleen als "erin"
+   *  daar ook echt achter landt: is het laatste échte kind een rij die de boom
+   *  niet toont (tekstregel, of dieper dan de gekozen diepte), dan niets, en
+   *  blijft de melding "erin". Alleen voor de melding, niet voor de plek. */
   const lastShownChild = (id: string, exclude: string): CostItem | undefined => {
     const container = byId.get(id);
     if (!container || isFolded(container)) return undefined;
     const shown = (byParent.get(id) ?? []).filter((c) => c.id !== exclude);
-    return shown[shown.length - 1];
+    const last = shown[shown.length - 1];
+    return last && last.id === lastRealChild.get(id)?.id ? last : undefined;
   };
   const rules = createTreeRules({ byId, fullByParent, descendantsOf, lastShownChild });
   const actions = createTreeActions({ items, byId, fullByParent, foldParents, rules, t, toggleCollapse });
@@ -186,6 +206,25 @@ export const SchedulePanel: React.FC = () => {
   // ── Rechtermuisknopmenu ───────────────────────────────────────────────
   const treeMenu = useTreeMenu();
   const { menu } = treeMenu;
+  // Is de rij van het open menu weg (ongedaan maken, ander document, MCP),
+  // dan het menu sluiten: anders komt het later ineens terug, en pakt zijn
+  // Escape-afhandeling intussen de focus af.
+  const menuGone = !!menu && !byId.has(menu.id);
+  useEffect(() => {
+    if (!menuGone) return;
+    treeMenu.closeMenu();
+    // Stond de focus in het menu, dan is hij nu nergens: terug naar de boom.
+    if (!document.activeElement || document.activeElement === document.body) treeRef.current?.focus({ preventScroll: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [menuGone]);
+
+  /** Shift+F10 of de menutoets: het menu voor de geselecteerde rij, onder die rij. */
+  const openMenuForSelected = () => {
+    if (!highlightId || !nodeIndex.has(highlightId)) return;
+    const row = treeRef.current?.querySelector<HTMLElement>(`[data-tree-id="${CSS.escape(highlightId)}"]`);
+    const rect = row?.getBoundingClientRect();
+    treeMenu.openMenu(rect ? rect.left + Math.min(24, rect.width / 2) : 0, rect ? rect.bottom : 0, highlightId);
+  };
 
   // ── Typen om te springen ─────────────────────────────────────────────
   // Letters typen springt naar de volgende rij waarvan de code of de
@@ -214,6 +253,13 @@ export const SchedulePanel: React.FC = () => {
     // Tijdens slepen geen toetsen (Alt+pijl, *, typen): alleen Escape, en die
     // vangt de sleepbeweging zelf op.
     if (nodes.length === 0 || draggingId) return;
+    // Menu open: de toetsen zijn voor het menu, niet voor de boom.
+    if (menu) return;
+    if ((e.shiftKey && e.key === 'F10') || e.key === 'ContextMenu') {
+      openMenuForSelected();
+      e.preventDefault();
+      return;
+    }
     const index = highlightId ? nodeIndex.get(highlightId) ?? -1 : -1;
     const node = index >= 0 ? nodes[index] : null;
     if (e.altKey && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
@@ -287,6 +333,13 @@ export const SchedulePanel: React.FC = () => {
         aria-activedescendant={highlightId && nodeIndex.has(highlightId) ? treeRowDomId(highlightId) : undefined}
         tabIndex={0}
         onKeyDown={onKeyDown}
+        // Menutoets met de focus op de boom zelf (niet op een rij): geen
+        // menu van de browser, maar ons menu bij de geselecteerde rij.
+        onContextMenu={(e) => {
+          if (e.target !== e.currentTarget) return;
+          e.preventDefault();
+          if (!menu) openMenuForSelected();
+        }}
       >
         {nodes.map(({ item, level, foldable }) => {
           const prefix = prefixOf(item, view.number);
@@ -369,7 +422,7 @@ export const SchedulePanel: React.FC = () => {
         </div>
       )}
 
-      {menu && (
+      {menu && !menuGone && (
         <TreeContextMenu
           state={{ ...treeMenu, menu }}
           menuItem={byId.get(menu.id)}

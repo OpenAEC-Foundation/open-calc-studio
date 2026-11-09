@@ -191,9 +191,13 @@
    maakt van dat element het kader voor position: fixed, en dan staan die
    op de verkeerde plek (en wordt het menu afgesneden). */
 .schedule-tree { container-type: inline-size; }
+/* De actieve rij heeft al de accentkleur als achtergrond (in elk thema gelijk
+   aan de focuskleur), dus een lijn in die kleur zie je niet. Daarom een ring
+   in de tekstkleur van de actieve rij, binnen de rij: die contrasteert altijd
+   met de achtergrond (wit op accent, zwart op geel in hoog contrast). */
 .schedule-tree:focus-visible .schedule-item.active {
-  outline: 1px solid var(--theme-focus-color, var(--theme-accent));
-  outline-offset: -1px;
+  outline: 2px solid var(--theme-grid-active-text, var(--theme-text));
+  outline-offset: -3px;
 }
 /* Nog niets geselecteerd: dan toch zichtbaar dat de boom de focus heeft. */
 .oa-app .schedule-tree:focus-visible:not(:has(.schedule-item.active)),
@@ -215,7 +219,11 @@
   white-space: nowrap;
 }
 
+/* isolate: het nummer is een eigen blok in de tekstrichting. Anders plakt
+   "23.01" bij rechts-naar-links talen aan een Latijnse omschrijving vast
+   ("23.01Timber") en komt de marge aan de verkeerde kant. */
 .schedule-item-code {
+  unicode-bidi: isolate;
   margin-inline-end: 6px;
   color: var(--theme-text-secondary);
   font-variant-numeric: tabular-nums;
@@ -234,24 +242,31 @@
 
 /* Bedrag en % rechts: de omschrijving neemt de rest en kort zo nodig in. */
 .schedule-tree .schedule-item-label { flex: 1; }
-.schedule-item-amount,
-.schedule-item-pct {
+.schedule-tree .schedule-item-amount,
+.schedule-tree .schedule-item-pct {
   flex-shrink: 0;
   font-variant-numeric: tabular-nums;
   color: var(--theme-text-secondary);
   white-space: nowrap;
 }
 /* Vaste breedte ("100,0%" past), zodat de bedragen ervoor altijd onder elkaar staan. */
-.schedule-item-pct { min-width: 6ch; text-align: end; }
-.schedule-item.active .schedule-item-amount,
-.schedule-item.active .schedule-item-pct { color: inherit; opacity: 0.85; }
+.schedule-tree .schedule-item-pct { min-width: 6ch; text-align: end; }
+.schedule-tree .schedule-item.active .schedule-item-amount,
+.schedule-tree .schedule-item.active .schedule-item-pct { color: inherit; opacity: 0.85; }
 /* Smal paneel: het % pas tonen als er ruimte is. Bij de standaardbreedte
    (220 px) bleef er met bedrag én % maar ± 70 px over voor de omschrijving;
    sleep je het paneel breder, dan komt het % erbij. Het bedrag blijft altijd
    staan; de omschrijving kort dan in. */
-@container (max-width: 260px) { .schedule-item-pct { display: none; } }
+@container (max-width: 260px) { .schedule-tree .schedule-item-pct { display: none; } }
 
 /* Weergave-instellingen: klein knopje naast de dieptekeuze, menu eronder. */
+/* Menu met het toetsenbord: zichtbaar welke optie de focus heeft. */
+.schedule-tree-menu .grid-context-menu-item:focus-visible {
+  outline: 2px solid var(--theme-focus-color, var(--theme-accent));
+  outline-offset: -2px;
+}
+/* Pijltje naar een submenu wijst naar de kant waar het submenu opent. */
+:dir(rtl) .schedule-tree-menu .schedule-tree-submenu-arrow { transform: scaleX(-1); }
 /* Grijze menu-optie met de reden als tooltip: ziet eruit als uitgeschakeld,
    maar blijft hoverbaar (een echte `disabled` knop toont geen tooltip). */
 .schedule-tree-menu .grid-context-menu-item[aria-disabled="true"] {
@@ -347,7 +362,8 @@
 .schedule-tree-view-option:hover { background: var(--theme-hover); }
 .schedule-tree-view-option input { margin: 0; accent-color: var(--theme-accent); }
 .schedule-tree-view-hint {
-  padding: 0 12px 2px 32px;
+  padding-block: 0 2px;
+  padding-inline: 32px 12px; /* onder de tekst van het vinkje, ook rechts-naar-links */
   font-size: 10px;
   color: var(--theme-text-secondary);
 }
@@ -360,10 +376,12 @@
 .schedule-tree.is-dragging .schedule-item { cursor: grabbing; }
 .schedule-tree.is-dragging .schedule-item:hover:not(.dragging):not(.drop-inside) { background: transparent; }
 /* Kleuren volgen het thema (accentkleur), niet vast oranje. */
-.schedule-item.dragging {
+.schedule-tree .schedule-item.dragging {
   background: color-mix(in srgb, var(--theme-accent) 16%, transparent);
   box-shadow: inset 2px 0 0 0 var(--theme-accent);
 }
+/* Streep aan de beginkant: bij rechts-naar-links talen rechts. */
+.schedule-tree .schedule-item.dragging:dir(rtl) { box-shadow: inset -2px 0 0 0 var(--theme-accent); }
 /* Dichte map die tijdens het slepen zo openklapt: het pijltje draait in de
    wachttijd alvast naar "open", zodat je ziet wat er gaat gebeuren. */
 .schedule-tree.is-dragging .schedule-item.expand-pending .grid-collapse-btn svg {
@@ -374,7 +392,7 @@
   .schedule-tree.is-dragging .schedule-item.expand-pending .grid-collapse-btn svg { transition: none; }
 }
 /* De map waar de rij in komt: alleen een zachte tint, geen kader eromheen. */
-.schedule-item.drop-inside {
+.schedule-tree .schedule-item.drop-inside {
   background: color-mix(in srgb, var(--theme-accent) 12%, transparent);
 }
 .schedule-tree.is-blocked, .schedule-tree.is-blocked .schedule-item { cursor: not-allowed; }

@@ -103,7 +103,12 @@ export function useTreeDrag({ treeRef, headRef, resolveDrop, applyDrop, hasTarge
     const draggedDescendants = descendantIds(latest.current.items, id);
     const scrollEl = treeRef.current?.closest<HTMLElement>('.left-panel-body') ?? treeRef.current;
 
-    const setHint = (next: DropTarget | null, blocked: boolean) => {
+    /** Waar het voorbeeld vandaan komt (rij onder de muis en welke helft):
+     *  bij loslaten opnieuw nagerekend, want de begroting kan intussen
+     *  veranderd zijn (Ctrl+Z tijdens het slepen). */
+    let hintFrom: { targetId: string; half: 'top' | 'bottom' } | null = null;
+    const setHint = (next: DropTarget | null, blocked: boolean, from: typeof hintFrom = null) => {
+      hintFrom = next ? from : null;
       const prev = dropHintRef.current;
       if (prev?.id !== next?.id || prev?.position !== next?.position) {
         dropHintRef.current = next; // direct, zodat loslaten nooit een oude stand leest
@@ -120,7 +125,9 @@ export function useTreeDrag({ treeRef, headRef, resolveDrop, applyDrop, hasTarge
       // Goedkope tests eerst: alleen een dichte map, en niet opnieuw voor
       // dezelfde. Pas dan (duur bij grote begrotingen) zoeken naar een plek binnenin.
       const folded = !!target && cur.isFolded(target);
-      if (folded && target.id === expandFor) return;
+      // Wel door als de muis nu op het pijltje staat terwijl de gewone timer
+      // loopt: dan opnieuw starten met de korte tijd (zie onder).
+      if (folded && target.id === expandFor && !(overChevron && !expandFast)) return;
       // Al eens "hier past niets in" gevonden: niet bij elke muisbeweging de hele map opnieuw doorzoeken.
       const directInside = folded && hint?.position === 'inside' && hint.id === target.id;
       if (folded && !directInside && target.id === noTargetFor) {
@@ -221,7 +228,8 @@ export function useTreeDrag({ treeRef, headRef, resolveDrop, applyDrop, hasTarge
         scheduleExpand(targetId, prev?.id === targetId ? prev : null);
         return;
       }
-      const resolved = latest.current.resolveDrop(id, targetId, rel < h / 2 ? 'top' : 'bottom');
+      const half = rel < h / 2 ? 'top' : 'bottom';
+      const resolved = latest.current.resolveDrop(id, targetId, half);
       const next = resolved === 'same' ? null : resolved;
       if (prev?.id !== next?.id || prev?.position !== next?.position) lockY = contentY;
       if (resolved === 'same') {
@@ -230,7 +238,7 @@ export function useTreeDrag({ treeRef, headRef, resolveDrop, applyDrop, hasTarge
         scheduleExpand(targetId, null);
         return;
       }
-      setHint(next, next === null);
+      setHint(next, next === null, { targetId, half });
       scheduleExpand(targetId, next);
     };
 
@@ -299,12 +307,25 @@ export function useTreeDrag({ treeRef, headRef, resolveDrop, applyDrop, hasTarge
     };
     const onUp = () => {
       const hint = dropHintRef.current;
+      // Het voorbeeld kan verouderd zijn: is de begroting tijdens het slepen
+      // veranderd (Ctrl+Z, of iets anders in de store), dan opnieuw nagaan
+      // op de verse gegevens, vóór het dichtklappen hieronder (zelfde beeld
+      // als het voorbeeld). Alleen loslaten als het nog precies hetzelfde doel
+      // is; anders niets doen, net als bij een verboden doel. "Erin" telt ook
+      // als de map intussen openklapte en de melding nu "onder de laatste rij"
+      // zou zijn: dat is dezelfde plek (asShown: false).
+      const same = (d: DropTarget | 'same' | null) => !!d && d !== 'same' && d.id === hint?.id && d.position === hint.position;
+      const from = hintFrom;
+      const drop = started && hint && from
+        && (same(latest.current.resolveDrop(id, from.targetId, from.half))
+          || same(latest.current.resolveDrop(id, from.targetId, from.half, true, false)))
+        ? hint : null;
       // Eerst alles wat het slepen opende weer dicht (ook bij een geweigerde
       // zet), dán de zet: zo komt de open/dicht-stand van vóór het slepen in
       // de undo-stap. De zet (runMove) klapt daarna via revealItem de mappen
       // boven de nieuwe plek weer open en koppelt de rij-index opnieuw.
       finish();
-      if (started && hint) latest.current.applyDrop(id, hint);
+      if (drop) latest.current.applyDrop(id, drop);
     };
     const onCancel = () => finish();
     const onKey = (ev: KeyboardEvent) => {

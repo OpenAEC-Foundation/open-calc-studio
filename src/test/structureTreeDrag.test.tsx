@@ -509,4 +509,63 @@ describe('dragging in the structure tree', () => {
     await act(async () => byId('h22').click());
     expect(state().activeItemId).toBe('h22');
   });
+
+  it('a change during the drag (Ctrl+Z) is checked again on release: a forbidden move does not go through', async () => {
+    // Leeg hoofdstuk 24 erbij; 23 wordt er een paragraaf van, als één undo-stap.
+    await act(async () => {
+      const before = state().items;
+      useAppStore.setState({ items: [...before, mkItem({ id: 'h24', rowType: 'chapter', code: '24', description: 'Daken', sortOrder: 2 })] });
+      const withH24 = state().items;
+      state().moveItems(['h23'], 'h24', 'inside');
+      state().pushHistory(withH24, 'paragraph');
+    });
+    expect(find('h23').parentId).toBe('h24');
+    // Paragraaf 21.10 naar de onderste helft van paragraaf 23: "na 23" (in 24).
+    await dragTo('p2110', rowTop('h23') + ROW - 2);
+    expect(treeOrder().indexOf('p2110')).toBe(treeOrder().indexOf('h23') + 1);
+    // Ctrl+Z zonder de muis te bewegen: 23 is weer een hoofdstuk.
+    await act(async () => { const s = state(); const restored = s.undo(); if (restored) s.setItems(restored); });
+    expect(find('h23').parentId).toBeNull();
+    const before = state().items;
+    await release();
+    expect(state().items).toBe(before); // niets verplaatst
+    expect(find('p2110').parentId).toBe('h21'); // blijft een paragraaf van 21
+  });
+
+  it('"inside" an open chapter whose last real row is a text line stays "inside" (lands after the text line)', async () => {
+    await act(async () => {
+      useAppStore.setState({ items: [...state().items, mkItem({ id: 'txt', rowType: 'tekstregel', parentId: 'h22', depth: 1, description: 'Opmerking', sortOrder: 1 })] });
+    });
+    await dragTo('post1', rowTop('h22') + ROW / 2);
+    // Niet "onder 22.01" melden: daar landt hij niet (de tekstregel zit ertussen).
+    expect(byId('h22').classList.contains('drop-inside')).toBe(true);
+    expect(document.querySelector('.schedule-drag-label')?.textContent).not.toContain('Metselwerk');
+    await release();
+    const kids = state().items.filter((i) => i.parentId === 'h22')
+      .map((it, k) => ({ it, k })).sort((a, b) => (a.it.sortOrder - b.it.sortOrder) || (a.k - b.k)).map((x) => x.it.id);
+    expect(kids).toEqual(['post2', 'txt', 'post1']);
+  });
+
+  it('moving onto the arrow while the normal wait runs switches to the short wait', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    const rowAt = document.elementFromPoint;
+    let onArrow = false;
+    try {
+      await act(async () => state().toggleCollapse('h22'));
+      document.elementFromPoint = (x: number, y: number) => {
+        const row = rowAt.call(document, x, y) as HTMLElement | null;
+        return onArrow && row?.dataset.treeId === 'h22' ? row.querySelector('.grid-collapse-btn') : row;
+      };
+      await dragTo('post1', rowTop('h22') + ROW / 2); // eerst op de tekst van 22
+      await act(async () => { vi.advanceTimersByTime(100); });
+      onArrow = true;
+      await pointer('pointermove', byId('h22'), rowTop('h22') + ROW / 2, 20); // dan op het pijltje
+      await act(async () => { vi.advanceTimersByTime(200); });
+      expect(find('h22').isCollapsed).toBe(false); // 300 ms in totaal: alleen met de korte tijd
+      await release();
+    } finally {
+      document.elementFromPoint = rowAt;
+      vi.useRealTimers();
+    }
+  });
 });

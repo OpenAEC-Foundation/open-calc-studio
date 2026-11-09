@@ -5,7 +5,8 @@ import { CONTAINER_TYPES, type DropPos, type DropTarget } from './treeModel';
  * Structuurboom, de verplaatsregels: welke rij waar onder mag hangen, met
  * welke zuster hij mag wisselen, en waar een gesleepte rij landt. Puur: de
  * regels kijken alleen naar de meegegeven kaarten (de volledige structuur,
- * nooit naar wat er toevallig in beeld is) en veranderen niets. De acties
+ * nooit naar wat er toevallig in beeld is; alleen de melding bij "erin"
+ * gebruikt lastShownChild) en veranderen niets. De acties
  * die echt verplaatsen staan in treeActions.ts.
  */
 
@@ -16,7 +17,8 @@ export interface TreeRuleInput {
   /** Nakomelingen van één rij (mag onthouden worden; zie SchedulePanel). */
   descendantsOf: (id: string) => Set<string>;
   /** Laatste rij die de boom nu ónder `id` laat zien (open en binnen de
-   *  gekozen diepte), zonder `exclude`; undefined als er niets te zien is. */
+   *  gekozen diepte), zonder `exclude`, mits dat ook het laatste échte kind
+   *  is (anders landt "erin" ergens anders); anders undefined. */
   lastShownChild?: (id: string, exclude: string) => CostItem | undefined;
 }
 
@@ -153,8 +155,10 @@ export function createTreeRules({ byId, fullByParent, descendantsOf, lastShownCh
    *    hoofdstuk) → ervoor of erna, afhankelijk van de bovenste/onderste helft;
    *  - de juiste ouder (post op hoofdstuk, regel op post) → erin, achteraan.
    *  null = verboden doel (geen voorbeeld, niets bij loslaten);
-   *  'same' = het item staat daar al (neutraal: niets doen, maar ook geen ⦸). */
-  const resolveDrop = (dragId: string, targetId: string, half: 'top' | 'bottom', viaContent = true): DropTarget | 'same' | null => {
+   *  'same' = het item staat daar al (neutraal: niets doen, maar ook geen ⦸).
+   *  `asShown: false` = "erin" altijd als erin melden, los van wat er in beeld
+   *  is (zie useTreeDrag: de controle bij loslaten). */
+  const resolveDrop = (dragId: string, targetId: string, half: 'top' | 'bottom', viaContent = true, asShown = true): DropTarget | 'same' | null => {
     const item = byId.get(dragId);
     const target = byId.get(targetId);
     if (!item || !target || dragId === targetId) return null;
@@ -168,8 +172,12 @@ export function createTreeRules({ byId, fullByParent, descendantsOf, lastShownCh
         // "Erin" = achteraan. Staat de map open, dan is dat precies "onder de
         // laatste rij die je ziet": meld het dan ook zo (zelfde label, geen
         // tint), anders geeft dezelfde plek twee verschillende meldingen.
-        // Een dichte of lege map houdt "erin" (er is geen rij om te noemen).
-        const last = lastShownChild?.(targetId, dragId);
+        // Een dichte of lege map houdt "erin" (er is geen rij om te noemen),
+        // net als een map waarvan het laatste échte kind niet in de boom
+        // staat (tekstregel): dan landt de rij daarachter, niet onder de
+        // laatste rij die je ziet. Dat beslist lastShownChild; alleen de
+        // melding hangt van het beeld af, de plek nooit.
+        const last = asShown ? lastShownChild?.(targetId, dragId) : undefined;
         if (last && isSameLevel(last)) {
           const after = resolveDrop(dragId, last.id, 'bottom', false);
           if (after) return after;

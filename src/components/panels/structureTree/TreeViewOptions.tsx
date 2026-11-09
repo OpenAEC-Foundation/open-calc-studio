@@ -1,9 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TREE_NUMBERS, type TreeView } from './treeModel';
 
 /** Onder deze breedte van de boom verbergt de CSS het % (@container in panels.css). */
 const PCT_MIN_WIDTH = 260;
+/** Vaste id van de hint "zichtbaar bij een breder paneel" (aria-describedby). */
+const PCT_HINT_ID = 'schedule-tree-percent-hint';
 
 /**
  * Structuurboom, het knopje "Weergave" in de kop met zijn uitklapvenster:
@@ -18,6 +20,26 @@ export const TreeViewOptions: React.FC<{ view: TreeView; setView: (patch: Partia
   const viewPanelRef = useRef<HTMLDivElement>(null);
   /** Is de boom nu te smal voor het % (zie PCT_MIN_WIDTH)? Gemeten bij openen. */
   const [narrow, setNarrow] = useState(false);
+  // Het venster opent naar het paneel toe (CSS: inset-inline-end: 0). Bij een
+  // heel smal paneel steekt het dan aan de beginkant buiten beeld: schuif het
+  // terug, binnen het paneel als het past, anders binnen het venster. Gemeten
+  // in schermpixels, dus het werkt voor links-naar-rechts en rechts-naar-links.
+  useLayoutEffect(() => {
+    const menu = viewPanelRef.current;
+    if (!showViewMenu || !menu) return;
+    const r = menu.getBoundingClientRect();
+    if (r.width === 0) return; // geen layout (bv. jsdom)
+    const margin = 4;
+    let min = margin;
+    let max = window.innerWidth - margin;
+    const panel = viewMenuRef.current?.closest('.schedule-tree-wrap')?.getBoundingClientRect();
+    if (panel && panel.width >= r.width) {
+      min = Math.max(min, panel.left);
+      max = Math.min(max, panel.right);
+    }
+    const dx = r.left < min ? min - r.left : r.right > max ? Math.max(max - r.right, min - r.left) : 0;
+    if (dx) menu.style.transform = `translateX(${Math.round(dx)}px)`;
+  }, [showViewMenu]);
   useEffect(() => {
     if (!showViewMenu) return;
     const tree = viewMenuRef.current?.closest('.schedule-tree-wrap')?.querySelector<HTMLElement>('.schedule-tree');
@@ -87,11 +109,18 @@ export const TreeViewOptions: React.FC<{ view: TreeView; setView: (patch: Partia
             {t('structureTree.amounts')}
           </label>
           <label className="schedule-tree-view-option">
-            <input type="checkbox" name="schedule-tree-percent" checked={view.percent} onChange={(e) => setView({ percent: e.target.checked })} />
+            <input
+              type="checkbox"
+              name="schedule-tree-percent"
+              checked={view.percent}
+              onChange={(e) => setView({ percent: e.target.checked })}
+              // De schermlezer leest de hint mee met het vinkje.
+              aria-describedby={view.percent && narrow ? PCT_HINT_ID : undefined}
+            />
             {t('structureTree.percent')}
           </label>
           {/* Anders zet je het aan en zie je niets: zeg dat het paneel breder moet. */}
-          {view.percent && narrow && <div className="schedule-tree-view-hint">{t('structureTree.percentNarrow')}</div>}
+          {view.percent && narrow && <div id={PCT_HINT_ID} className="schedule-tree-view-hint">{t('structureTree.percentNarrow')}</div>}
         </div>
       )}
     </div>

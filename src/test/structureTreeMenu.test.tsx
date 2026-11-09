@@ -78,7 +78,10 @@ describe('"Move to" for a main chapter', () => {
   it('"Place after" puts the chapter directly after the chosen one, with everything below it', async () => {
     await openMenu('h21');
     await openMoveTo();
-    expect(node.querySelector<HTMLButtonElement>('[data-move-top]')!.disabled).toBe(true); // staat al bovenaan
+    // Staat al bovenaan: grijs met reden, niet `disabled` (blijft bereikbaar).
+    const top = node.querySelector<HTMLButtonElement>('[data-move-top]')!;
+    expect(top.getAttribute('aria-disabled')).toBe('true');
+    expect(top.title).toBe(i18next.t('structureTree.whyFirst'));
     await click(node.querySelector<HTMLButtonElement>('[data-move-after="h22"]')!);
     expect(topOrder()).toEqual(['h22', 'h21', 'h23', 'btw']);
     expect(find('p2110').parentId).toBe('h21');
@@ -129,12 +132,155 @@ describe('menu keeps working with the keyboard', () => {
   });
 
   it('a refused Alt+arrow move reports no change (no undo step)', async () => {
-    vi.spyOn(state(), 'moveItems').mockImplementation(() => {});
-    useAppStore.setState({ moveItems: () => {} });
-    await act(async () => byId('h21').click());
-    await act(async () => { tree().dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', altKey: true, bubbles: true })); });
+    const moveItems = state().moveItems;
+    try {
+      useAppStore.setState({ moveItems: () => {} });
+      await act(async () => byId('h21').click());
+      await act(async () => { tree().dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', altKey: true, bubbles: true })); });
+      expect(topOrder()).toEqual(['h21', 'h22', 'h23', 'btw']);
+      expect(state().undoStack).toHaveLength(0);
+    } finally {
+      // Terugzetten: anders verplaatst niets meer in de tests hierna.
+      useAppStore.setState({ moveItems });
+    }
+  });
+});
+
+describe('menu with the keyboard (WAI-ARIA menu)', () => {
+  const key = (k: string, init: KeyboardEventInit = {}) => act(async () => {
+    (document.activeElement as HTMLElement).dispatchEvent(new KeyboardEvent('keydown', { key: k, bubbles: true, cancelable: true, ...init }));
+  });
+  const action = (a: string) => node.querySelector<HTMLElement>(`[data-action="${a}"]`)!;
+  const menuEl = () => node.querySelector('.schedule-tree-menu');
+
+  it('greyed up/down say why (aria-disabled + title) and do nothing when clicked', async () => {
+    await openMenu('h21');
+    expect(action('move-up').getAttribute('aria-disabled')).toBe('true');
+    expect(action('move-up').title).toBe(i18next.t('structureTree.whyFirst'));
+    expect((action('move-up') as HTMLButtonElement).disabled).toBe(false);
+    await click(action('move-up'));
     expect(topOrder()).toEqual(['h21', 'h22', 'h23', 'btw']);
     expect(state().undoStack).toHaveLength(0);
+    await act(async () => { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); });
+    await openMenu('h23');
+    expect(action('move-down').title).toBe(i18next.t('structureTree.whyLast'));
+    expect(action('move-up').hasAttribute('aria-disabled')).toBe(false);
+  });
+
+  it('focus goes to the first enabled item; arrows, Home/End move; greyed items stay reachable', async () => {
+    await openMenu('h21');
+    expect(document.activeElement).toBe(action('move-down'));
+    await key('ArrowUp');
+    expect(document.activeElement).toBe(action('move-up'));
+    await key('ArrowUp'); // rondgaan
+    expect(document.activeElement).toBe(action('delete'));
+    await key('Home');
+    expect(document.activeElement).toBe(action('move-up'));
+    await key('End');
+    expect(document.activeElement).toBe(action('delete'));
+    expect(node.querySelectorAll('.schedule-tree-menu [role=separator]').length).toBeGreaterThan(0);
+  });
+
+  it('ArrowRight opens a submenu with focus inside; ArrowLeft/Escape close only the submenu; Escape again closes the menu', async () => {
+    await openMenu('h23');
+    action('move-to').focus();
+    await key('ArrowRight');
+    expect(node.querySelector('.grid-context-submenu')).not.toBeNull();
+    expect(document.activeElement).toBe(node.querySelector('[data-move-top]'));
+    await key('ArrowDown');
+    expect(document.activeElement).toBe(node.querySelector('[data-move-after="h21"]'));
+    await key('ArrowLeft');
+    expect(node.querySelector('.grid-context-submenu')).toBeNull();
+    expect(document.activeElement).toBe(action('move-to'));
+    await key('Enter');
+    expect(document.activeElement).toBe(node.querySelector('[data-move-top]'));
+    await key('Escape');
+    expect(node.querySelector('.grid-context-submenu')).toBeNull();
+    expect(menuEl()).not.toBeNull();
+    expect(document.activeElement).toBe(action('move-to'));
+    await key('Escape');
+    expect(menuEl()).toBeNull();
+    expect(document.activeElement).toBe(tree());
+  });
+
+  it('Enter activates an item; Tab closes the menu', async () => {
+    await openMenu('h21');
+    await key('Enter'); // omlaag
+    expect(topOrder()).toEqual(['h22', 'h21', 'h23', 'btw']);
+    expect(menuEl()).toBeNull();
+    await openMenu('h21');
+    await key('Tab');
+    expect(menuEl()).toBeNull();
+    expect(document.activeElement).toBe(tree());
+  });
+
+  it('Shift+F10 and the ContextMenu key open the menu for the selected row; tree keys do nothing while it is open', async () => {
+    await act(async () => byId('h22').click());
+    tree().focus();
+    await key('F10', { shiftKey: true });
+    expect(menuEl()).not.toBeNull();
+    expect(menuEl()!.contains(document.activeElement)).toBe(true);
+    // Boomtoetsen tijdens open menu: geen effect op de selectie.
+    await act(async () => { tree().dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true })); });
+    expect(state().activeItemId).toBe('h22');
+    await key('Escape');
+    expect(menuEl()).toBeNull();
+    await key('ContextMenu');
+    expect(menuEl()).not.toBeNull();
+  });
+});
+
+describe('menu closes when its place is gone', () => {
+  it('row removed while open (undo, other document): menu closes and does not come back', async () => {
+    await openMenu('h23');
+    const all = state().items;
+    await act(async () => { useAppStore.setState({ items: all.filter((i) => i.id !== 'h23') }); });
+    expect(node.querySelector('.schedule-tree-menu')).toBeNull();
+    await act(async () => { useAppStore.setState({ items: all }); });
+    expect(node.querySelector('.schedule-tree-menu')).toBeNull();
+  });
+
+  it('scrolling the tree or resizing the window closes it', async () => {
+    await openMenu('h23');
+    await act(async () => { await new Promise((r) => setTimeout(r, 50)); }); // na één frame
+    await act(async () => { tree().dispatchEvent(new Event('scroll')); });
+    expect(node.querySelector('.schedule-tree-menu')).toBeNull();
+    await openMenu('h23');
+    await act(async () => { window.dispatchEvent(new Event('resize')); });
+    expect(node.querySelector('.schedule-tree-menu')).toBeNull();
+  });
+});
+
+describe('honest reasons and counts', () => {
+  it('"Make section of" with only one main chapter says there is no other chapter', async () => {
+    await act(async () => {
+      useAppStore.setState({ items: [
+        mkItem({ id: 'h1', rowType: 'chapter', nr: '1', description: 'Enige', sortOrder: 0 }),
+        mkItem({ id: 'p1', rowType: 'begrotingspost', parentId: 'h1', depth: 1, nr: '1.01', description: 'Post', sortOrder: 0 }),
+      ] });
+    });
+    await openMenu('h1');
+    expect(node.querySelector<HTMLElement>('[data-action="make-paragraph"]')!.title).toBe(i18next.t('structureTree.whyNoOtherChapter'));
+  });
+
+  it('delete question counts only rows of the active variant', async () => {
+    const schedule = state().schedule;
+    try {
+      await act(async () => {
+        useAppStore.setState({
+          schedule: { ...schedule, branchesEnabled: true, activeBranchId: 'b1', branches: [
+            { id: 'b1', name: 'B1', parentId: null }, { id: 'b2', name: 'B2', parentId: null },
+          ] },
+          items: [...items(), mkItem({ id: 'other', rowType: 'regel', parentId: 'post1', depth: 3, description: 'Andere variant', sortOrder: 1, branchId: 'b2' })],
+        });
+      });
+      const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false);
+      await openMenu('post1');
+      await click(node.querySelector<HTMLButtonElement>('[data-action="delete"]')!);
+      expect(confirm).toHaveBeenCalledWith('Delete "21.10.01 Ontgraven" and the row below it?');
+    } finally {
+      useAppStore.setState({ schedule });
+    }
   });
 });
 
@@ -150,8 +296,9 @@ describe('submenu stays inside the window', () => {
     await openMenu('h23');
     await openMoveTo();
     const sub = node.querySelector<HTMLElement>('.grid-context-submenu')!;
-    expect(sub.style.right).toBe('100%');
-    expect(sub.style.left).toBe('auto');
+    // Logische kanten (werkt ook bij rechts-naar-links).
+    expect(sub.style.insetInlineEnd).toBe('100%');
+    expect(sub.style.insetInlineStart).toBe('auto');
     expect(sub.style.top).toBe('-54px'); // 50 eruit + 4 marge
   });
 });

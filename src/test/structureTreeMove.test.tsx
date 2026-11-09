@@ -81,9 +81,10 @@ describe('moving from the structure tree', () => {
     expect(state().items).toBe(before);
     expect(state().undoStack).toHaveLength(0);
     await openMenu('h23');
+    // Grijs = aria-disabled (met reden als tooltip), niet `disabled`.
     const [up, down] = menuButtons();
-    expect(up.disabled).toBe(false);
-    expect(down.disabled).toBe(true);
+    expect(up.getAttribute('aria-disabled')).toBeNull();
+    expect(down.getAttribute('aria-disabled')).toBe('true');
   });
 
   it('"Move to..." puts an estimate item at the end of another chapter', async () => {

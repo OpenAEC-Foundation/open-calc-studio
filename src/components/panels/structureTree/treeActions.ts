@@ -1,7 +1,8 @@
 import type { TFunction } from 'i18next';
 import { useAppStore } from '@/state/appStore';
+import { variantItems } from '@/services/grid/variantScope';
 import type { CostItem } from '@/types/costModel';
-import { descendantIds, prefixOf, sortSiblings, type DropPos, type DropTarget, type TreeNode, type TreeNumber } from './treeModel';
+import { descendantIds, label, sortSiblings, type DropPos, type DropTarget, type TreeNode, type TreeNumber } from './treeModel';
 import type { TreeRules } from './treeRules';
 
 /**
@@ -128,11 +129,13 @@ export function createTreeActions({ items, byId, fullByParent, foldParents, rule
     const store = useAppStore.getState();
     const item = store.items.find((i) => i.id === id);
     if (!item) return false;
-    const gone = descendantIds(store.items, id);
+    // Alleen rijen tellen die je in de actieve variant ziet (zoals het
+    // raster): rijen van een andere variant staan nergens in beeld, dus ook
+    // niet in de vraag. Let op: `deleteItem` haalt ze wél mee weg (net als
+    // Delete in het raster).
+    const gone = descendantIds(variantItems(store.items, store.schedule), id);
     // Zelfde naam als in de boom (met of zonder code, zoals ingesteld).
-    const prefix = prefixOf(item, number);
-    const description = item.description?.trim() ?? '';
-    const name = (prefix && description ? `${prefix} ${description}` : description || prefix) || (item.rowType === 'chapter' ? t('chapter') : '—');
+    const name = label(item, item.rowType === 'chapter' ? t('chapter') : '—', number);
     const question = gone.size > 0
       ? t('structureTree.deleteConfirm', { name, count: gone.size })
       : t('structureTree.deleteConfirmOne', { name });
