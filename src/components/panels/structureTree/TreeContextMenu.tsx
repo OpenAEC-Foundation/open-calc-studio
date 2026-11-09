@@ -91,12 +91,16 @@ export const TreeContextMenu: React.FC<Props> = ({ state, menuItem, treeRef, num
     const onScroll = () => closeKeepFocus();
     const onResize = () => closeKeepFocus();
     const onBlur = (e: FocusEvent) => { if (e.target === window) closeMenu(); };
-    const frame = window.requestAnimationFrame(() => tree?.addEventListener('scroll', onScroll));
+    // Wat echt scrollt is het paneel eromheen (.left-panel-body), niet de boom
+    // zelf; luister naar allebei.
+    const scrollers = [tree, tree?.closest<HTMLElement>('.left-panel-body') ?? null]
+      .filter((el, i, all): el is HTMLElement => !!el && all.indexOf(el) === i);
+    const frame = window.requestAnimationFrame(() => scrollers.forEach((el) => el.addEventListener('scroll', onScroll)));
     window.addEventListener('resize', onResize);
     window.addEventListener('blur', onBlur);
     return () => {
       window.cancelAnimationFrame(frame);
-      tree?.removeEventListener('scroll', onScroll);
+      scrollers.forEach((el) => el.removeEventListener('scroll', onScroll));
       window.removeEventListener('resize', onResize);
       window.removeEventListener('blur', onBlur);
     };

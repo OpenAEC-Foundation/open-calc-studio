@@ -249,6 +249,18 @@ describe('menu closes when its place is gone', () => {
     await act(async () => { window.dispatchEvent(new Event('resize')); });
     expect(node.querySelector('.schedule-tree-menu')).toBeNull();
   });
+
+  it('scrolling the panel around the tree (what really scrolls in the app) closes it too', async () => {
+    node.classList.add('left-panel-body');
+    try {
+      await openMenu('h23');
+      await act(async () => { await new Promise((r) => setTimeout(r, 50)); });
+      await act(async () => { node.dispatchEvent(new Event('scroll')); });
+      expect(node.querySelector('.schedule-tree-menu')).toBeNull();
+    } finally {
+      node.classList.remove('left-panel-body');
+    }
+  });
 });
 
 describe('honest reasons and counts', () => {

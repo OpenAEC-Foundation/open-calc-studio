@@ -267,6 +267,10 @@
 }
 /* Pijltje naar een submenu wijst naar de kant waar het submenu opent. */
 :dir(rtl) .schedule-tree-menu .schedule-tree-submenu-arrow { transform: scaleX(-1); }
+/* Dicht pijltje in de boom wijst in rechts-naar-links talen naar links. */
+:dir(rtl) .schedule-tree .schedule-item[aria-expanded="false"] .grid-collapse-btn svg,
+:dir(rtl) .schedule-tree .schedule-item:not([aria-expanded]) .grid-collapse-btn svg { transform: scaleX(-1); }
+:dir(rtl) .schedule-tree.is-dragging .schedule-item.expand-pending .grid-collapse-btn svg { transform: scaleX(-1) rotate(90deg); }
 /* Grijze menu-optie met de reden als tooltip: ziet eruit als uitgeschakeld,
    maar blijft hoverbaar (een echte `disabled` knop toont geen tooltip). */
 .schedule-tree-menu .grid-context-menu-item[aria-disabled="true"] {

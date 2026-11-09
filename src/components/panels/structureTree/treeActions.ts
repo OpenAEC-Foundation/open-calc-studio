@@ -182,10 +182,9 @@ export function createTreeActions({ items, byId, fullByParent, foldParents, rule
   };
   const hasTreeChildren = (id: string) => foldParents.has(id);
   /** Eén rij open/dicht vanuit de boom (pijltje, ←/→), en het raster bijsturen. */
-  const toggleFold = (id: string) => {
-    toggleCollapse(id);
-    syncGridSelection();
-  };
+  // De selectie in het raster volgt al in de store (toggleCollapse →
+  // keepSelectionAfterFold): hier niet nog eens.
+  const toggleFold = (id: string) => toggleCollapse(id);
 
   return {
     runMove,
