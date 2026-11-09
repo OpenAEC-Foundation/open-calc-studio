@@ -56,3 +56,25 @@ describe('folding resets a grid selection range', () => {
     expect(state().getGridRows()[state().activeRow]?.id).toBe('h1');
   });
 });
+
+describe('folding away the active row', () => {
+  it('the selection moves to the folded chapter, never to another row', () => {
+    select('p1');
+    useAppStore.setState({ selectionStart: rowOf('p1'), selectionEnd: rowOf('h2') });
+    state().toggleCollapse('h1');
+    expect(state().activeItemId).toBe('h1');
+    expect(state().getGridRows()[state().activeRow]?.id).toBe('h1');
+    expect(state().getSelectedRowIndices()).toEqual([state().activeRow]);
+  });
+
+  it('"collapse to level" and "all monitor posts" also drop a row range', () => {
+    select('h1');
+    useAppStore.setState({ selectionStart: rowOf('h1'), selectionEnd: rowOf('h3') });
+    state().collapseToLevel('hoofdstuk');
+    expect(state().selectionStart).toBeNull();
+    expect(state().getGridRows()[state().activeRow]?.id).toBe('h1');
+    useAppStore.setState({ selectionStart: 0, selectionEnd: 2 });
+    state().toggleAllBewakingspostenCollapsed();
+    expect(state().selectionStart).toBeNull();
+  });
+});

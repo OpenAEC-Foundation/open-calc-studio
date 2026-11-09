@@ -482,8 +482,11 @@ export const CostGrid: React.FC = () => {
       setDropHint(null);
       setDraggingIds(new Set());
       if (started && hint) {
-        pushHistory(items, t('grid:undo.moveRow'));
+        // Alleen een undo-stap als er echt iets verplaatst is (een zet naar
+        // dezelfde plek laat de rijen ongemoeid).
+        const before = useAppStore.getState().items;
         moveItems(ids, hint.rowId, hint.pos);
+        if (useAppStore.getState().items !== before) pushHistory(before, t('grid:undo.moveRow'));
       }
     };
     window.addEventListener('pointermove', onMove);

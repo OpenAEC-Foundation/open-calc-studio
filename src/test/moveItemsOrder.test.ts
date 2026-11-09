@@ -135,3 +135,65 @@ describe('moveItems that change nothing keep the same items reference', () => {
     expect(childIds('h1')).toEqual(['x', 'y']);
   });
 });
+
+describe('moveItems: edge cases from the review', () => {
+  const ids = () => state().items.map((i) => i.id);
+
+  it('a target stored without parentId (old files) still counts as top level', () => {
+    const items = [
+      mkItem({ id: 'h1', rowType: 'chapter', sortOrder: 0 }),
+      mkItem({ id: 'h2', rowType: 'chapter', sortOrder: 1 }),
+      mkItem({ id: 'h3', rowType: 'chapter', sortOrder: 2 }),
+    ].map((i) => ({ ...i, parentId: undefined as unknown as null }));
+    useAppStore.setState({ items, activeItemId: null, activeRow: -1 });
+    state().moveItems(['h3'], 'h1', 'before');
+    expect(state().items.filter((i) => i.rowType === 'chapter').map((i) => i.id)).toEqual(['h3', 'h1', 'h2']);
+  });
+
+  it('tail rows keep their stored order when a chapter moves', () => {
+    useAppStore.setState({
+      items: [
+        mkItem({ id: 'h1', rowType: 'chapter', sortOrder: 0 }),
+        mkItem({ id: 'h2', rowType: 'chapter', sortOrder: 1 }),
+        mkItem({ id: 'st1', rowType: 'staart_ak', sortOrder: 5, staartPercentage: 5 }),
+        mkItem({ id: 'st2', rowType: 'staart_btw', sortOrder: 2, staartPercentage: 21 }),
+      ],
+      activeItemId: null, activeRow: -1,
+    });
+    state().moveItems(['h2'], 'h1', 'before');
+    expect(ids().filter((id) => id.startsWith('st'))).toEqual(['st1', 'st2']);
+  });
+
+  it('after a move the selection stays on the moved rows (a Delete right after hits them, not others)', () => {
+    useAppStore.setState({
+      items: [
+        mkItem({ id: 'h1', rowType: 'chapter', sortOrder: 0 }),
+        mkItem({ id: 'p1', rowType: 'begrotingspost', parentId: 'h1', depth: 1, sortOrder: 0 }),
+        mkItem({ id: 'h2', rowType: 'chapter', sortOrder: 1 }),
+        mkItem({ id: 'p2', rowType: 'begrotingspost', parentId: 'h2', depth: 1, sortOrder: 0 }),
+        mkItem({ id: 'p3', rowType: 'begrotingspost', parentId: 'h2', depth: 1, sortOrder: 1 }),
+      ],
+      activeItemId: 'p2', activeRow: 3, selectionStart: 3, selectionEnd: 4,
+    });
+    state().moveItems(['p2', 'p3'], 'p1', 'before');
+    const rows = state().getGridRows();
+    expect(state().getSelectedRowIndices().map((r) => rows[r].id)).toEqual(['p2', 'p3']);
+    expect(state().activeItemId).toBe('p2');
+  });
+
+  it('moved into a collapsed chapter, the selection goes to that chapter', () => {
+    useAppStore.setState({
+      items: [
+        mkItem({ id: 'h1', rowType: 'chapter', sortOrder: 0, isCollapsed: true }),
+        mkItem({ id: 'p1', rowType: 'begrotingspost', parentId: 'h1', depth: 1, sortOrder: 0 }),
+        mkItem({ id: 'h2', rowType: 'chapter', sortOrder: 1 }),
+        mkItem({ id: 'p2', rowType: 'begrotingspost', parentId: 'h2', depth: 1, sortOrder: 0 }),
+      ],
+      activeItemId: 'p2', activeRow: 2,
+    });
+    state().moveItems(['p2'], 'h1', 'inside');
+    const rows = state().getGridRows();
+    expect(state().activeItemId).toBe('h1');
+    expect(rows[state().activeRow].id).toBe('h1');
+  });
+});

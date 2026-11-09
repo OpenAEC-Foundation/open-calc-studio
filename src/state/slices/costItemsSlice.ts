@@ -152,6 +152,62 @@ function createDefaultItem(parentId: string | null, sortOrder: number, depth: nu
 
 export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => {
   /** Mark the active document as modified */
+  /**
+   * Na in- of uitklappen verschuiven de rij-nummers in het raster. Een
+   * selectiebereik bestaat uit rij-nummers en zou dan naar ándere rijen wijzen
+   * (Delete zou daar werken): terug naar alleen de actieve cel. De actieve rij
+   * volgt zijn item; is dat nu verborgen (zijn hoofdstuk ging dicht), dan gaat
+   * de selectie naar de dichtstbijzijnde zichtbare ouder.
+   */
+  /**
+   * Na verplaatsen staan de rijen op andere rij-nummers. De selectie blijft
+   * op de verplaatste rijen (anders zou een Delete direct na het slepen
+   * ándere rijen raken). Zijn ze niet te zien (in een dichte map gezet), dan
+   * gaat de selectie naar de dichtstbijzijnde zichtbare ouder.
+   */
+  const selectMovedRows = (movedIds: string[]) => {
+    const s = get() as any; // volledige AppStore at runtime (selectie)
+    if (!s.getGridRows || movedIds.length === 0) return;
+    const rows: { id: string }[] = s.getGridRows();
+    const indices = movedIds
+      .map((movedId) => rows.findIndex((r) => r.id === movedId))
+      .filter((row) => row >= 0)
+      .sort((a, b) => a - b);
+    if (indices.length === 0) {
+      set({ activeItemId: movedIds[0] } as Partial<CostItemsSlice>);
+      keepSelectionAfterFold();
+      return;
+    }
+    const first = indices[0], last = indices[indices.length - 1];
+    // Een bereik alleen als de rijen ook echt aaneensluiten.
+    const range = indices.length > 1 && last - first === indices.length - 1;
+    set({
+      activeItemId: rows[first].id, activeRow: first,
+      selectionStart: range ? first : null, selectionEnd: range ? last : null,
+      cellSelectionStart: null, cellSelectionEnd: null,
+    } as Partial<CostItemsSlice>);
+  };
+
+  const keepSelectionAfterFold = () => {
+    set({ selectionStart: null, selectionEnd: null, cellSelectionStart: null, cellSelectionEnd: null } as Partial<CostItemsSlice>);
+    const s = get() as any; // volledige AppStore at runtime (selectie)
+    if (!s.activeItemId || !s.getGridRows) return;
+    const rows: { id: string }[] = s.getGridRows();
+    const rowOf = (rowId: string) => rows.findIndex((r) => r.id === rowId);
+    const byId = new Map<string, CostItem>(s.items.map((i: CostItem) => [i.id, i]));
+    let id: string | null = s.activeItemId;
+    const seen = new Set<string>();
+    while (id && rowOf(id) < 0 && !seen.has(id)) {
+      seen.add(id);
+      id = byId.get(id)?.parentId ?? null;
+    }
+    const row = id ? rowOf(id) : -1;
+    if (row < 0) return;
+    if (id !== s.activeItemId || row !== s.activeRow) {
+      set({ activeItemId: id, activeRow: row } as Partial<CostItemsSlice>);
+    }
+  };
+
   const markModified = () => {
     const s = get() as any; // full AppStore at runtime
     if (s.activeDocumentId && s.updateDocument) {
@@ -409,7 +465,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
       newParentId = target.id;
       newParentDepth = target.depth;
     } else {
-      newParentId = target.parentId;
+      newParentId = target.parentId ?? null; // oude opslag: undefined = hoogste niveau
       newParentDepth = target.parentId
         ? (byId.get(target.parentId)?.depth ?? -1)
         : -1;
@@ -431,6 +487,11 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
     }
     for (const list of childrenByParent.values()) {
       list.sort((a, b) => {
+        // Staartregels houden hun volgorde in de opslag (exports en de staart
+        // lezen ze zo); alleen gewone rijen volgen de zichtbare volgorde.
+        if (a.rowType.startsWith('staart_') && b.rowType.startsWith('staart_')) {
+          return (arrayIndex.get(a.id) ?? 0) - (arrayIndex.get(b.id) ?? 0);
+        }
         const so = (a.sortOrder ?? 0) - (b.sortOrder ?? 0);
         return so !== 0 ? so : (arrayIndex.get(a.id) ?? 0) - (arrayIndex.get(b.id) ?? 0);
       });
@@ -531,6 +592,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
 
     set({ items: recalculateItems(newItems) });
     markModified();
+    selectMovedRows(topLevelMovers);
   },
 
   indentItem: (id) => {
@@ -568,19 +630,8 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
       items: state.items.map((item) =>
         item.id === id ? { ...item, isCollapsed: !item.isCollapsed } : item
       ),
-      // Rij-indices van een selectiebereik wijzen na in-/uitklappen naar
-      // ándere rijen (Delete zou daar werken): terug naar alleen de actieve cel.
-      selectionStart: null,
-      selectionEnd: null,
-      cellSelectionStart: null,
-      cellSelectionEnd: null,
-    } as Partial<CostItemsSlice>));
-    // De actieve rij volgt zijn item, als dat nog in beeld is.
-    const s = get() as any; // volledige AppStore at runtime (selectie)
-    if (s.activeItemId && s.getGridRows) {
-      const row = s.getGridRows().findIndex((r: { id: string }) => r.id === s.activeItemId);
-      if (row >= 0 && row !== s.activeRow) set({ activeRow: row } as Partial<CostItemsSlice>);
-    }
+    }));
+    keepSelectionAfterFold();
   },
 
   toggleAllBewakingspostenCollapsed: () => {
@@ -594,6 +645,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
         item.rowType === 'bewakingspost' ? { ...item, isCollapsed: collapse } : item,
       ),
     });
+    keepSelectionAfterFold();
     return collapse;
   },
 
@@ -624,6 +676,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
         return item.isCollapsed === val ? item : { ...item, isCollapsed: val };
       }),
     });
+    keepSelectionAfterFold();
   },
 
   scaleAllPrices: (factor) => {
