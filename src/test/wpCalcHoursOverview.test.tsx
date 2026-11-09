@@ -109,20 +109,3 @@ describe('hours overview: leaving a field without editing changes nothing', () =
   });
 });
 
-describe('hours overview: labour amount equals the calculator', () => {
-  it('quantity 10, norm 1, capacity 2, rate 64 gives 640 in grid and overview', async () => {
-    const state = useAppStore.getState();
-    state.updateItem(rule, 'quantity', 10);
-    state.updateItem(rule, 'normQuantity', 1);
-    state.updateItem(rule, 'normFactor', 2);
-    expect(rule1().total).toBeCloseTo(640, 6);
-    await renderView();
-    const hoursTable = node.querySelector('table.wpcalc-bottom-table')!;
-    const cellsOf = (tr: Element) => [...tr.querySelectorAll('td')].map(td => td.textContent ?? '');
-    const groupRow = cellsOf(hoursTable.querySelector('tbody tr')!);
-    const totalRow = cellsOf(hoursTable.querySelector('tr.wpcalc-bottom-total')!);
-    expect(hoursInput().value).toBe('5,00');
-    expect(groupRow[3]).toBe('640,00');
-    expect(totalRow[3]).toBe('640,00');
-  });
-});

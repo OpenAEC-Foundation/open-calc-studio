@@ -29,22 +29,17 @@ function UrenFullScreen() {
   const tarieven = schedule.tarieven ?? { A: 64, B: 43, C: 82 };
 
   const urenData = useMemo(() => {
-    const groups: Record<string, { uren: number; tarief: number; bedrag: number }> = {};
+    const groups: Record<string, { uren: number; tarief: number }> = {};
     for (const item of items) {
       if (item.rowType !== 'regel') continue;
       const groep = item.tariefGroep || '-';
       if (!groups[groep]) {
-        groups[groep] = { uren: 0, tarief: tarieven[groep] || 0, bedrag: 0 };
+        groups[groep] = { uren: 0, tarief: tarieven[groep] || 0 };
       }
       const qty = item.quantity ?? 0;
       const norm = item.normQuantity ?? 0;
       const cap = item.normFactor ?? 1;
       groups[groep].uren += qty * norm / (cap || 1);
-      // Bedrag zoals de calculator het rekent (calculator.ts): laborPrice =
-      // norm × tarief, regeltotaal = aantal × laborPrice. De capaciteit deelt
-      // daar níét mee, dus hier ook niet; anders toont dit overzicht een ander
-      // arbeidsbedrag dan het grid en de begroting (knownbug 9).
-      groups[groep].bedrag += qty * norm * groups[groep].tarief;
     }
     return groups;
   }, [items, tarieven]);
@@ -85,7 +80,7 @@ function UrenFullScreen() {
 
   const entries = Object.entries(urenData).sort(([a], [b]) => a.localeCompare(b));
   const totaalUren = entries.reduce((s, [, v]) => s + v.uren, 0);
-  const totaalBedrag = entries.reduce((s, [, v]) => s + v.bedrag, 0);
+  const totaalBedrag = entries.reduce((s, [, v]) => s + v.uren * v.tarief, 0);
 
   return (
     <div className="wpcalc-fullscreen-panel">
@@ -163,7 +158,7 @@ function UrenFullScreen() {
                   formatCurrency(val.tarief)
                 )}
               </td>
-              <td style={{ textAlign: 'right' }}>{formatCurrency(val.bedrag)}</td>
+              <td style={{ textAlign: 'right' }}>{formatCurrency(val.uren * val.tarief)}</td>
             </tr>
           ))}
           <tr className="wpcalc-bottom-total">

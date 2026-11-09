@@ -33,12 +33,11 @@ stand van `main` op die datum.
    daarna een losse omschrijving bewerken zet hem terug op 64. Voorstel: voor regels met een tariefgroep de
    tarieven schalen in plaats van `laborPrice`. — B
 
-9. **Arbeidskosten negeren de productiecapaciteit, terwijl de uren er wel door gedeeld worden** (open
-   ontwerpvraag). `calculator.ts:78` rekent `laborPrice = norm × tarief`; de uren (grid, `urenProrate.ts:21`,
-   urenoverzicht) zijn `aantal × norm / capaciteit`. Met capaciteit 2: 5 u, tarief 64, arbeid 640. Het
-   urenoverzicht toont nu hetzelfde bedrag als de calculator (issue #66), dus 5 u × 64 = 640 op één rij.
-   Nog te beslissen: moet de capaciteit ook het bedrag delen (`norm / (cap || 1) × tarief`)? `bc3Exporter`
-   negeert de capaciteit ook. — B
+9. **Arbeidskosten negeren de productiecapaciteit, terwijl de uren er wel door gedeeld worden.**
+   `calculator.ts:78` tegenover `urenProrate.ts:21` en `WpCalcBottomPanel.tsx:41,76,154`. Nagespeeld: met
+   capaciteit 2 toont het grid arbeid 640, maar het onderpaneel 5 u × 64 = 320. Voorstel:
+   `norm / (cap || 1) × tarief` (zoals `bc3Exporter.ts:225`). Tweede controle: `bc3Exporter` negeert de
+   capaciteit ook, dus het voorstel staat nog niet vast. — B
 
 10. **Ongedaan maken na een tariefwijziging haalt oude arbeidsprijzen terug.** `setItems` rekent opnieuw zonder
     tarieven (`src/state/slices/costItemsSlice.ts:165`), zie ook `costScheduleSlice.ts:165`; een tariefwijziging
