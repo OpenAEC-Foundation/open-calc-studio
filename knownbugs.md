@@ -581,10 +581,6 @@ stand van `main` op die datum.
 132. **"Geldig voor N dagen" verdwijnt als de tekst van de voorwaarden leeg is.** `offerte.rs:122-136`. Afgeleid
      uit de code. Voorstel: de alinea over de geldigheid uit het `voorwaarden`-blok halen. — S
 
-133. **Een begroting met 0 % btw krijgt op de offerte 21 % btw erbij.** `offerte.rs:310-313` en `325-327` (de
-     tekst "inclusief BTW (21%)" staat vast in de code). Door een tweede controle bevestigd. Voorstel: alleen
-     op 21 % terugvallen als er helemaal geen btw-regels zijn; de tekst opbouwen uit de echte tarieven. — B
-
 134. **Een negatieve geldigheidsduur laat de PDF-export mislukken.** `OfferteView.tsx:186` tegenover
      `mod.rs:330` (`u32`); `|| 30` zet een leeggemaakt veld bovendien terug op 30. Afgeleid uit de code.
      Voorstel: `min={1}`, begrenzen, en tijdens het bewerken de ruwe tekst houden. — S
