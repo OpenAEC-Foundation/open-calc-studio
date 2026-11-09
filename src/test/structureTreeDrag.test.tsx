@@ -234,13 +234,25 @@ describe('dragging in the structure tree', () => {
 
     it('a line dropped on another estimate item goes inside it, last', async () => {
       await dragTo('regel1', rowTop('post2') + 1); // ook bovenin de rij: erin
-      expect(byId('post2').classList.contains('drop-inside')).toBe(true);
+      // Post 2 staat open: dezelfde plek als "onder de laatste regel", dus
+      // dezelfde melding (geen tint op de post, label noemt die regel).
+      expect(byId('post2').classList.contains('drop-inside')).toBe(false);
+      expect(document.querySelector('.schedule-drag-label')?.textContent).toContain('Metselaar');
+      expect(treeOrder().slice(-3)).toEqual(['regel2', 'regel1', 'h23']);
       expect(state().items.find((i) => i.id === 'regel1')!.parentId).toBe('post1'); // nog niet
       await release();
       expect(find('regel1').parentId).toBe('post2');
       expect(find('regel1').depth).toBe(2);
       expect(state().items.filter((i) => i.parentId === 'post2').map((i) => i.id)).toEqual(['regel2', 'regel1']);
       expect(state().undoStack).toHaveLength(1);
+    });
+
+    it('over a collapsed estimate item a line still goes "inside" (tint on the item)', async () => {
+      await act(async () => state().toggleCollapse('post2'));
+      await dragTo('regel1', rowTop('post2') + 1);
+      expect(byId('post2').classList.contains('drop-inside')).toBe(true);
+      await release();
+      expect(state().items.filter((i) => i.parentId === 'post2').map((i) => i.id)).toEqual(['regel2', 'regel1']);
     });
 
     it('a line dropped on another line lands next to it', async () => {

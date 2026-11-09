@@ -100,7 +100,13 @@ export const SchedulePanel: React.FC = () => {
 
   // Regels (puur) en acties (via de store); elke render vers, zodat ze
   // altijd de huidige rijen zien.
-  const rules = createTreeRules({ byId, fullByParent, descendantsOf });
+  const lastShownChild = (id: string, exclude: string): CostItem | undefined => {
+    const container = byId.get(id);
+    if (!container || isFolded(container)) return undefined;
+    const shown = (byParent.get(id) ?? []).filter((c) => c.id !== exclude);
+    return shown[shown.length - 1];
+  };
+  const rules = createTreeRules({ byId, fullByParent, descendantsOf, lastShownChild });
   const actions = createTreeActions({ items, byId, fullByParent, foldParents, rules, t, toggleCollapse });
   const { moveAmongSiblings, setCollapsedBelow, toggleFold } = actions;
 

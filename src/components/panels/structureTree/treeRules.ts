@@ -15,11 +15,14 @@ export interface TreeRuleInput {
   fullByParent: Map<string | null, CostItem[]>;
   /** Nakomelingen van één rij (mag onthouden worden; zie SchedulePanel). */
   descendantsOf: (id: string) => Set<string>;
+  /** Laatste rij die de boom nu ónder `id` laat zien (open en binnen de
+   *  gekozen diepte), zonder `exclude`; undefined als er niets te zien is. */
+  lastShownChild?: (id: string, exclude: string) => CostItem | undefined;
 }
 
 export type TreeRules = ReturnType<typeof createTreeRules>;
 
-export function createTreeRules({ byId, fullByParent, descendantsOf }: TreeRuleInput) {
+export function createTreeRules({ byId, fullByParent, descendantsOf, lastShownChild }: TreeRuleInput) {
   // ── Verplaatsen ──────────────────────────────────────────────────────
   // Alles blijft op zijn eigen niveau. Waar mag een rij onder hangen?
   //   hoofdstuk       → hetzelfde niveau als nu: een hoofdstuk blijft op het
@@ -161,7 +164,18 @@ export function createTreeRules({ byId, fullByParent, descendantsOf }: TreeRuleI
     if (!isSameLevel(target)) {
       // Boven de eigen ouder (regel boven zijn post): daar staat hij al.
       if (targetId === item.parentId) return 'same';
-      if (canMoveInto(dragId, targetId)) return { id: targetId, position: 'inside' };
+      if (canMoveInto(dragId, targetId)) {
+        // "Erin" = achteraan. Staat de map open, dan is dat precies "onder de
+        // laatste rij die je ziet": meld het dan ook zo (zelfde label, geen
+        // tint), anders geeft dezelfde plek twee verschillende meldingen.
+        // Een dichte of lege map houdt "erin" (er is geen rij om te noemen).
+        const last = lastShownChild?.(targetId, dragId);
+        if (last && isSameLevel(last)) {
+          const after = resolveDrop(dragId, last.id, 'bottom', false);
+          if (after) return after;
+        }
+        return { id: targetId, position: 'inside' };
+      }
       // Boven de inhoud van een rij van hetzelfde soort (een hoofdstuk boven de
       // posten van een ander hoofdstuk): dat betekent "na die rij". Anders kom
       // je bij omhoog slepen eerst langs een hele reeks verboden rijen voordat
