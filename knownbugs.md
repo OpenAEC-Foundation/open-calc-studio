@@ -43,11 +43,12 @@ stand van `main` op die datum.
    daarna een losse omschrijving bewerken zet hem terug op 64. Voorstel: voor regels met een tariefgroep de
    tarieven schalen in plaats van `laborPrice`. — B
 
-9. **Arbeidskosten negeren de productiecapaciteit, terwijl de uren er wel door gedeeld worden.**
-   `calculator.ts:78` tegenover `urenProrate.ts:21` en `WpCalcBottomPanel.tsx:41,76,154`. Nagespeeld: met
-   capaciteit 2 toont het grid arbeid 640, maar het onderpaneel 5 u × 64 = 320. Voorstel:
-   `norm / (cap || 1) × tarief` (zoals `bc3Exporter.ts:225`). Tweede controle: `bc3Exporter` negeert de
-   capaciteit ook, dus het voorstel staat nog niet vast. — B
+9. **Arbeidskosten negeren de productiecapaciteit, terwijl de uren er wel door gedeeld worden** (open
+   ontwerpvraag). `calculator.ts:78` rekent `laborPrice = norm × tarief`; de uren (grid, `urenProrate.ts:21`,
+   urenoverzicht) zijn `aantal × norm / capaciteit`. Met capaciteit 2: 5 u, tarief 64, arbeid 640. Het
+   urenoverzicht toont nu hetzelfde bedrag als de calculator (issue #66), dus 5 u × 64 = 640 op één rij.
+   Nog te beslissen: moet de capaciteit ook het bedrag delen (`norm / (cap || 1) × tarief`)? `bc3Exporter`
+   negeert de capaciteit ook. — B
 
 10. **Ongedaan maken na een tariefwijziging haalt oude arbeidsprijzen terug.** `setItems` rekent opnieuw zonder
     tarieven (`src/state/slices/costItemsSlice.ts:165`), zie ook `costScheduleSlice.ts:165`; een tariefwijziging
@@ -74,14 +75,6 @@ stand van `main` op die datum.
     Voorstel: `laborPrice = null` zetten als de groep geen tarief heeft. — B
 
 ## Tabel, invoer en bediening
-
-15. **Een urenveld verlaten zonder te bewerken kan uren ≥ 1000 wegvagen** (WpCalc-onderpaneel, ernstig).
-    `src/components/grid/WpCalcBottomPanel.tsx:54-72` (invoervelden op r.100 en r.164; `handleTariefChange` op
-    r.48 parset op dezelfde manier). Het veld toont `formatNumber(uren)`, dus 1234,5 staat er als `1.234,50`. Bij
-    blur parset `parseFloat(value.replace(',', '.'))` dat als `1.234.50` en geeft 1,234. Alle regelnormen worden
-    dan ongeveer 1000× verkleind. Onder de 1000 geeft de weergave met 2 decimalen drift: 12,345 staat als
-    `12,35`, en focus plus blur schaalt de normen opnieuw. Voorstel: parsen met `parseNumericInput` /
-    `parseNlNumber` en vergelijken met de waarde zoals getoond (afgerond op 2 decimalen). — B
 
 18. **`parseNlNumber` is te soepel** (minder zeker). Nagespeeld: `1,234,567` geeft 1,234 en `12abc` geeft 12;
     beide zouden geweigerd moeten worden. Zelfde oorzaak als #16. Voorstel: een strikt patroon gebruiken

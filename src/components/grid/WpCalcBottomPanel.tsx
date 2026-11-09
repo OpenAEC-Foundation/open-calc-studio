@@ -29,31 +29,42 @@ function UrenFullScreen() {
   const tarieven = schedule.tarieven ?? { A: 64, B: 43, C: 82 };
 
   const urenData = useMemo(() => {
-    const groups: Record<string, { uren: number; tarief: number }> = {};
+    const groups: Record<string, { uren: number; tarief: number; bedrag: number }> = {};
     for (const item of items) {
       if (item.rowType !== 'regel') continue;
       const groep = item.tariefGroep || '-';
       if (!groups[groep]) {
-        groups[groep] = { uren: 0, tarief: tarieven[groep] || 0 };
+        groups[groep] = { uren: 0, tarief: tarieven[groep] || 0, bedrag: 0 };
       }
       const qty = item.quantity ?? 0;
       const norm = item.normQuantity ?? 0;
       const cap = item.normFactor ?? 1;
       groups[groep].uren += qty * norm / (cap || 1);
+      // Bedrag zoals de calculator het rekent (calculator.ts): laborPrice =
+      // norm × tarief, regeltotaal = aantal × laborPrice. De capaciteit deelt
+      // daar níét mee, dus hier ook niet; anders toont dit overzicht een ander
+      // arbeidsbedrag dan het grid en de begroting (knownbug 9).
+      groups[groep].bedrag += qty * norm * groups[groep].tarief;
     }
     return groups;
   }, [items, tarieven]);
 
-  const handleTariefChange = (groep: string, value: string) => {
-    const num = parseFloat(value.replace(',', '.'));
-    if (isNaN(num)) return;
+  // De velden tonen NL-notatie ("1.234,50"); parseFloat zou dat als 1,234
+  // lezen. Parse daarom zoals de rest van de app, en doe niets als de tekst
+  // niet is gewijzigd: alleen focus + blur mag nooit iets herschalen
+  // (knownbug 15), ook niet door afronding in de weergave.
+  const handleTariefChange = (groep: string, value: string, shown: string) => {
+    if (value.trim() === shown.trim()) return;
+    const num = parseNumericInput(value);
+    if (num === null) return;
     updateTarieven({ ...tarieven, [groep]: num });
   };
 
   /** Commit a new total uren for a tariefgroep — rescales norm naar rato. */
   const handleUrenChange = (groep: string, value: string, currentUren: number) => {
-    const num = parseFloat(value.replace(',', '.'));
-    if (isNaN(num) || num < 0) return;
+    if (value.trim() === formatNumber(currentUren).trim()) return;
+    const num = parseNumericInput(value);
+    if (num === null || num < 0) return;
     // No-op if unchanged (avoid clobbering precision)
     if (Math.abs(num - currentUren) < 0.001) return;
     // Only A/B/C tariefgroepen are valid rescale targets; '-' (no group) is read-only
@@ -64,8 +75,9 @@ function UrenFullScreen() {
 
   /** Commit a new GRAND total uren — rescales all regels naar rato. */
   const handleTotaalUrenChange = (value: string, currentTotal: number) => {
-    const num = parseFloat(value.replace(',', '.'));
-    if (isNaN(num) || num < 0) return;
+    if (value.trim() === formatNumber(currentTotal).trim()) return;
+    const num = parseNumericInput(value);
+    if (num === null || num < 0) return;
     if (Math.abs(num - currentTotal) < 0.001) return;
     pushHistory(items, t('grid:undo.totalHoursProrate'));
     prorateUrenTotal(num);
@@ -73,7 +85,7 @@ function UrenFullScreen() {
 
   const entries = Object.entries(urenData).sort(([a], [b]) => a.localeCompare(b));
   const totaalUren = entries.reduce((s, [, v]) => s + v.uren, 0);
-  const totaalBedrag = entries.reduce((s, [, v]) => s + v.uren * v.tarief, 0);
+  const totaalBedrag = entries.reduce((s, [, v]) => s + v.bedrag, 0);
 
   return (
     <div className="wpcalc-fullscreen-panel">
@@ -128,10 +140,10 @@ function UrenFullScreen() {
                     type="text"
                     className="tarief-input"
                     defaultValue={val.tarief.toFixed(2)}
-                    onBlur={(e) => handleTariefChange(groep, e.target.value)}
+                    onBlur={(e) => handleTariefChange(groep, e.target.value, val.tarief.toFixed(2))}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
-                        handleTariefChange(groep, e.currentTarget.value);
+                        handleTariefChange(groep, e.currentTarget.value, val.tarief.toFixed(2));
                         e.currentTarget.blur();
                       }
                     }}
@@ -151,7 +163,7 @@ function UrenFullScreen() {
                   formatCurrency(val.tarief)
                 )}
               </td>
-              <td style={{ textAlign: 'right' }}>{formatCurrency(val.uren * val.tarief)}</td>
+              <td style={{ textAlign: 'right' }}>{formatCurrency(val.bedrag)}</td>
             </tr>
           ))}
           <tr className="wpcalc-bottom-total">
