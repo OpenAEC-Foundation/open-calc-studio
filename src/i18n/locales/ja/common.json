@@ -1237,14 +1237,25 @@
     "all": "行",
     "view": "表示オプション",
     "show": "表示",
+    "numberHeading": "番号",
     "labelCode": "コード",
+    "labelNone": "なし",
+    "labelNr": "番号",
     "amounts": "金額",
-    "percent": "原価に対する%",
-    "deleteConfirm": "「{{name}}」とその下のすべて（{{count}} 行）を削除しますか？",
+    "percent": "合計に対する%",
+    "deleteConfirm_one": "「{{name}}」とその下の {{count}} 行を削除しますか？",
+    "deleteConfirm_other": "「{{name}}」とその下の {{count}} 行を削除しますか？",
     "expandBelow": "下の階層をすべて展開",
     "collapseBelow": "下の階層をすべて折りたたむ",
     "deleteConfirmOne": "「{{name}}」を削除しますか？",
     "makeParagraphOf": "次の章の節にする",
-    "makeChapter": "章にする"
+    "makeChapter": "章にする",
+    "whyNoOtherChapter": "他の章はありません。",
+    "whyNeedsChapterWithoutItems": "内訳項目のない章だけが節を持てます。",
+    "whyNoChapterWithoutSections": "節のない他の章はありません。",
+    "whyNoOtherItem": "他の内訳項目はありません。",
+    "whyHasSections": "この章には独自の節があります。節は1階層のみです。",
+    "moveToTop": "先頭へ",
+    "placeAfter": "次の後に配置"
   }
 }

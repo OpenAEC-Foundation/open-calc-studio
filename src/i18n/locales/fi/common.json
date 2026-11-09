@@ -1237,14 +1237,25 @@
     "all": "Rivit",
     "view": "Näyttöasetukset",
     "show": "Näytä",
+    "numberHeading": "Numero",
     "labelCode": "Koodi",
+    "labelNone": "Ei mitään",
+    "labelNr": "Nro",
     "amounts": "Summat",
-    "percent": "% omakustannushinnasta",
-    "deleteConfirm": "Poistetaanko \"{{name}}\" ja kaikki sen alla ({{count}} riviä)?",
+    "percent": "% kokonaissummasta",
+    "deleteConfirm_one": "Poistetaanko \"{{name}}\" ja sen alla oleva rivi?",
+    "deleteConfirm_other": "Poistetaanko \"{{name}}\" ja sen alla olevat {{count}} riviä?",
     "expandBelow": "Laajenna kaikki alla olevat",
     "collapseBelow": "Tiivistä kaikki alla olevat",
     "deleteConfirmOne": "Poistetaanko \"{{name}}\"?",
     "makeParagraphOf": "Tee alaluvuksi kohteeseen",
-    "makeChapter": "Tee pääluvuksi"
+    "makeChapter": "Tee pääluvuksi",
+    "whyNoOtherChapter": "Muuta lukua ei ole.",
+    "whyNeedsChapterWithoutItems": "Vain luvulla, jossa ei ole kustannusnimikkeitä, voi olla alalukuja.",
+    "whyNoChapterWithoutSections": "Muuta lukua ilman alalukuja ei ole.",
+    "whyNoOtherItem": "Muuta kustannusnimikettä ei ole.",
+    "whyHasSections": "Tällä luvulla on omia alalukuja; alalukuja on vain yksi taso.",
+    "moveToTop": "Ylimmäksi",
+    "placeAfter": "Sijoita kohteen jälkeen"
   }
 }

@@ -1237,14 +1237,25 @@
     "all": "Zeilen",
     "view": "Anzeigeoptionen",
     "show": "Anzeigen",
+    "numberHeading": "Nummer",
     "labelCode": "Code",
+    "labelNone": "Keine",
+    "labelNr": "Nr.",
     "amounts": "Beträge",
-    "percent": "% der Selbstkosten",
-    "deleteConfirm": "„{{name}}“ und alles darunter ({{count}} Zeilen) löschen?",
+    "percent": "% der Gesamtsumme",
+    "deleteConfirm_one": "„{{name}}“ und die Zeile darunter löschen?",
+    "deleteConfirm_other": "„{{name}}“ und die {{count}} Zeilen darunter löschen?",
     "expandBelow": "Alles darunter aufklappen",
     "collapseBelow": "Alles darunter zuklappen",
     "deleteConfirmOne": "„{{name}}“ löschen?",
     "makeParagraphOf": "Zum Abschnitt machen unter",
-    "makeChapter": "Zum Titel machen"
+    "makeChapter": "Zum Titel machen",
+    "whyNoOtherChapter": "Es gibt keinen anderen Titel.",
+    "whyNeedsChapterWithoutItems": "Nur ein Titel ohne Positionen kann Abschnitte haben.",
+    "whyNoChapterWithoutSections": "Es gibt keinen anderen Titel ohne Abschnitte.",
+    "whyNoOtherItem": "Es gibt keine andere Position.",
+    "whyHasSections": "Dieser Titel hat selbst Abschnitte; es gibt nur eine Abschnittsebene.",
+    "moveToTop": "Ganz nach oben",
+    "placeAfter": "Platzieren nach"
   }
 }

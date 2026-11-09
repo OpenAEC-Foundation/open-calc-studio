@@ -1237,14 +1237,25 @@
     "all": "Linjer",
     "view": "Visningsindstillinger",
     "show": "Vis",
+    "numberHeading": "Nummer",
     "labelCode": "Kode",
+    "labelNone": "Ingen",
+    "labelNr": "Nr.",
     "amounts": "Beløb",
-    "percent": "% af kostpris",
-    "deleteConfirm": "Slet \"{{name}}\" og alt under det ({{count}} linjer)?",
+    "percent": "% af total",
+    "deleteConfirm_one": "Slet \"{{name}}\" og rækken under det?",
+    "deleteConfirm_other": "Slet \"{{name}}\" og de {{count}} rækker under det?",
     "expandBelow": "Udvid alt herunder",
     "collapseBelow": "Skjul alt herunder",
     "deleteConfirmOne": "Slet \"{{name}}\"?",
     "makeParagraphOf": "Gør til afsnit under",
-    "makeChapter": "Gør til kapitel"
+    "makeChapter": "Gør til kapitel",
+    "whyNoOtherChapter": "Der er intet andet kapitel.",
+    "whyNeedsChapterWithoutItems": "Kun et kapitel uden poster kan have afsnit.",
+    "whyNoChapterWithoutSections": "Der er intet andet kapitel uden afsnit.",
+    "whyNoOtherItem": "Der er ingen anden post.",
+    "whyHasSections": "Dette kapitel har selv afsnit; der er kun ét niveau af afsnit.",
+    "moveToTop": "Øverst",
+    "placeAfter": "Placer efter"
   }
 }

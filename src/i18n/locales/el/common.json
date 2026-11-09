@@ -1237,14 +1237,25 @@
     "all": "Γραμμές",
     "view": "Επιλογές προβολής",
     "show": "Εμφάνιση",
+    "numberHeading": "Αριθμός",
     "labelCode": "Κωδικός",
+    "labelNone": "Κανένα",
+    "labelNr": "Αρ.",
     "amounts": "Ποσά",
-    "percent": "% του κόστους",
-    "deleteConfirm": "Διαγραφή του «{{name}}» και όλων όσων περιέχει ({{count}} γραμμές);",
+    "percent": "% του συνόλου",
+    "deleteConfirm_one": "Διαγραφή του «{{name}}» και της γραμμής από κάτω;",
+    "deleteConfirm_other": "Διαγραφή του «{{name}}» και των {{count}} γραμμών από κάτω;",
     "expandBelow": "Ανάπτυξη όλων από κάτω",
     "collapseBelow": "Σύμπτυξη όλων από κάτω",
     "deleteConfirmOne": "Διαγραφή του «{{name}}»;",
     "makeParagraphOf": "Μετατροπή σε ενότητα του",
-    "makeChapter": "Μετατροπή σε κεφάλαιο"
+    "makeChapter": "Μετατροπή σε κεφάλαιο",
+    "whyNoOtherChapter": "Δεν υπάρχει άλλο κεφάλαιο.",
+    "whyNeedsChapterWithoutItems": "Μόνο κεφάλαιο χωρίς άρθρα μπορεί να έχει ενότητες.",
+    "whyNoChapterWithoutSections": "Δεν υπάρχει άλλο κεφάλαιο χωρίς ενότητες.",
+    "whyNoOtherItem": "Δεν υπάρχει άλλο άρθρο.",
+    "whyHasSections": "Αυτό το κεφάλαιο έχει δικές του ενότητες· υπάρχει μόνο ένα επίπεδο ενοτήτων.",
+    "moveToTop": "Στην κορυφή",
+    "placeAfter": "Τοποθέτηση μετά από"
   }
 }

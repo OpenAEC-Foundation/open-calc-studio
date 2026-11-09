@@ -1237,14 +1237,25 @@
     "all": "Satırlar",
     "view": "Görünüm seçenekleri",
     "show": "Göster",
+    "numberHeading": "Numara",
     "labelCode": "Kod",
+    "labelNone": "Yok",
+    "labelNr": "No",
     "amounts": "Tutarlar",
-    "percent": "Maliyetin %'si",
-    "deleteConfirm": "\"{{name}}\" ve altındaki her şey ({{count}} satır) silinsin mi?",
+    "percent": "Toplamın %'si",
+    "deleteConfirm_one": "\"{{name}}\" ve altındaki satır silinsin mi?",
+    "deleteConfirm_other": "\"{{name}}\" ve altındaki {{count}} satır silinsin mi?",
     "expandBelow": "Altındakilerin tümünü genişlet",
     "collapseBelow": "Altındakilerin tümünü daralt",
     "deleteConfirmOne": "\"{{name}}\" silinsin mi?",
     "makeParagraphOf": "Kısım yap (altında)",
-    "makeChapter": "Bölüm yap"
+    "makeChapter": "Bölüm yap",
+    "whyNoOtherChapter": "Başka bölüm yok.",
+    "whyNeedsChapterWithoutItems": "Yalnızca pozu olmayan bir bölümün kısımları olabilir.",
+    "whyNoChapterWithoutSections": "Kısmı olmayan başka bölüm yok.",
+    "whyNoOtherItem": "Başka poz yok.",
+    "whyHasSections": "Bu bölümün kendi kısımları var; yalnızca bir kısım düzeyi vardır.",
+    "moveToTop": "En üste",
+    "placeAfter": "Şunun arkasına yerleştir"
   }
 }

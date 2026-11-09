@@ -1237,14 +1237,25 @@
     "all": "سطرها",
     "view": "گزینه‌های نمایش",
     "show": "نمایش",
+    "numberHeading": "شماره",
     "labelCode": "کد",
+    "labelNone": "هیچ",
+    "labelNr": "ردیف",
     "amounts": "مبالغ",
-    "percent": "٪ از قیمت تمام‌شده",
-    "deleteConfirm": "«{{name}}» و همه موارد زیر آن ({{count}} ردیف) حذف شود؟",
+    "percent": "٪ از کل",
+    "deleteConfirm_one": "«{{name}}» و ردیف زیر آن حذف شود؟",
+    "deleteConfirm_other": "«{{name}}» و {{count}} ردیف زیر آن حذف شود؟",
     "expandBelow": "باز کردن همه موارد زیر",
     "collapseBelow": "بستن همه موارد زیر",
     "deleteConfirmOne": "«{{name}}» حذف شود؟",
     "makeParagraphOf": "تبدیل به بخشی از",
-    "makeChapter": "تبدیل به فصل"
+    "makeChapter": "تبدیل به فصل",
+    "whyNoOtherChapter": "فصل دیگری وجود ندارد.",
+    "whyNeedsChapterWithoutItems": "فقط فصلی بدون ردیف برآورد می‌تواند بخش داشته باشد.",
+    "whyNoChapterWithoutSections": "فصل دیگری بدون بخش وجود ندارد.",
+    "whyNoOtherItem": "ردیف برآورد دیگری وجود ندارد.",
+    "whyHasSections": "این فصل خودش بخش دارد؛ فقط یک سطح بخش وجود دارد.",
+    "moveToTop": "بالاتر از همه",
+    "placeAfter": "قرار دادن پس از"
   }
 }

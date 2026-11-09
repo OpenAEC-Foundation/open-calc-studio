@@ -1237,14 +1237,25 @@
     "all": "Baris",
     "view": "Opsi tampilan",
     "show": "Tampilkan",
+    "numberHeading": "Nomor",
     "labelCode": "Kode",
+    "labelNone": "Tidak ada",
+    "labelNr": "No.",
     "amounts": "Jumlah",
-    "percent": "% dari harga pokok",
-    "deleteConfirm": "Hapus \"{{name}}\" dan semua di bawahnya ({{count}} baris)?",
+    "percent": "% dari total",
+    "deleteConfirm_one": "Hapus \"{{name}}\" dan {{count}} baris di bawahnya?",
+    "deleteConfirm_other": "Hapus \"{{name}}\" dan {{count}} baris di bawahnya?",
     "expandBelow": "Bentangkan semua di bawahnya",
     "collapseBelow": "Ciutkan semua di bawahnya",
     "deleteConfirmOne": "Hapus \"{{name}}\"?",
     "makeParagraphOf": "Jadikan subbagian dari",
-    "makeChapter": "Jadikan bab"
+    "makeChapter": "Jadikan bab",
+    "whyNoOtherChapter": "Tidak ada bab lain.",
+    "whyNeedsChapterWithoutItems": "Hanya bab tanpa pos anggaran yang bisa memiliki subbagian.",
+    "whyNoChapterWithoutSections": "Tidak ada bab lain tanpa subbagian.",
+    "whyNoOtherItem": "Tidak ada pos anggaran lain.",
+    "whyHasSections": "Bab ini sudah memiliki subbagian; hanya ada satu tingkat subbagian.",
+    "moveToTop": "Paling atas",
+    "placeAfter": "Tempatkan setelah"
   }
 }

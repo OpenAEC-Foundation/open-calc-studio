@@ -1237,14 +1237,25 @@
     "all": "행",
     "view": "보기 옵션",
     "show": "표시",
+    "numberHeading": "번호",
     "labelCode": "코드",
+    "labelNone": "없음",
+    "labelNr": "번호",
     "amounts": "금액",
-    "percent": "원가 대비 %",
-    "deleteConfirm": "\"{{name}}\" 및 그 아래 모든 항목({{count}}행)을 삭제할까요?",
+    "percent": "합계 대비 %",
+    "deleteConfirm_one": "\"{{name}}\" 및 그 아래 {{count}}개 행을 삭제할까요?",
+    "deleteConfirm_other": "\"{{name}}\" 및 그 아래 {{count}}개 행을 삭제할까요?",
     "expandBelow": "아래 항목 모두 펼치기",
     "collapseBelow": "아래 항목 모두 접기",
     "deleteConfirmOne": "\"{{name}}\"을(를) 삭제할까요?",
     "makeParagraphOf": "다음의 하위 절로 만들기",
-    "makeChapter": "장으로 만들기"
+    "makeChapter": "장으로 만들기",
+    "whyNoOtherChapter": "다른 장이 없습니다.",
+    "whyNeedsChapterWithoutItems": "내역 항목이 없는 장만 하위 절을 가질 수 있습니다.",
+    "whyNoChapterWithoutSections": "하위 절이 없는 다른 장이 없습니다.",
+    "whyNoOtherItem": "다른 내역 항목이 없습니다.",
+    "whyHasSections": "이 장에는 자체 하위 절이 있습니다. 하위 절은 한 단계뿐입니다.",
+    "moveToTop": "맨 위로",
+    "placeAfter": "다음 뒤에 배치"
   }
 }

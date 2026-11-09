@@ -1237,14 +1237,25 @@
     "all": "แถว",
     "view": "ตัวเลือกการแสดงผล",
     "show": "แสดง",
+    "numberHeading": "หมายเลข",
     "labelCode": "รหัส",
+    "labelNone": "ไม่มี",
+    "labelNr": "ลำดับ",
     "amounts": "จำนวนเงิน",
-    "percent": "% ของต้นทุน",
-    "deleteConfirm": "ลบ \"{{name}}\" และทุกอย่างที่อยู่ข้างใต้ ({{count}} แถว) หรือไม่?",
+    "percent": "% ของทั้งหมด",
+    "deleteConfirm_one": "ลบ \"{{name}}\" และ {{count}} แถวที่อยู่ข้างใต้หรือไม่?",
+    "deleteConfirm_other": "ลบ \"{{name}}\" และ {{count}} แถวที่อยู่ข้างใต้หรือไม่?",
     "expandBelow": "ขยายทั้งหมดที่อยู่ข้างใต้",
     "collapseBelow": "ยุบทั้งหมดที่อยู่ข้างใต้",
     "deleteConfirmOne": "ลบ \"{{name}}\" หรือไม่?",
     "makeParagraphOf": "ทำเป็นหัวข้อย่อยของ",
-    "makeChapter": "ทำเป็นหมวด"
+    "makeChapter": "ทำเป็นหมวด",
+    "whyNoOtherChapter": "ไม่มีหมวดงานอื่น",
+    "whyNeedsChapterWithoutItems": "เฉพาะหมวดงานที่ไม่มีรายการงานเท่านั้นที่มีหัวข้อย่อยได้",
+    "whyNoChapterWithoutSections": "ไม่มีหมวดงานอื่นที่ไม่มีหัวข้อย่อย",
+    "whyNoOtherItem": "ไม่มีรายการงานอื่น",
+    "whyHasSections": "หมวดงานนี้มีหัวข้อย่อยของตัวเอง หัวข้อย่อยมีได้เพียงระดับเดียว",
+    "moveToTop": "บนสุด",
+    "placeAfter": "วางต่อจาก"
   }
 }

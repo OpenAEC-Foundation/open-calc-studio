@@ -1237,14 +1237,25 @@
     "all": "Baris",
     "view": "Pilihan paparan",
     "show": "Tunjukkan",
+    "numberHeading": "Nombor",
     "labelCode": "Kod",
+    "labelNone": "Tiada",
+    "labelNr": "No.",
     "amounts": "Amaun",
-    "percent": "% daripada harga kos",
-    "deleteConfirm": "Padam \"{{name}}\" dan semua di bawahnya ({{count}} baris)?",
+    "percent": "% daripada jumlah",
+    "deleteConfirm_one": "Padam \"{{name}}\" dan {{count}} baris di bawahnya?",
+    "deleteConfirm_other": "Padam \"{{name}}\" dan {{count}} baris di bawahnya?",
     "expandBelow": "Kembangkan semua di bawah",
     "collapseBelow": "Runtuhkan semua di bawah",
     "deleteConfirmOne": "Padam \"{{name}}\"?",
     "makeParagraphOf": "Jadikan subbahagian bagi",
-    "makeChapter": "Jadikan bab"
+    "makeChapter": "Jadikan bab",
+    "whyNoOtherChapter": "Tiada bab lain.",
+    "whyNeedsChapterWithoutItems": "Hanya bab tanpa butiran anggaran boleh mempunyai subbahagian.",
+    "whyNoChapterWithoutSections": "Tiada bab lain tanpa subbahagian.",
+    "whyNoOtherItem": "Tiada butiran anggaran lain.",
+    "whyHasSections": "Bab ini sudah mempunyai subbahagian; hanya ada satu tahap subbahagian.",
+    "moveToTop": "Paling atas",
+    "placeAfter": "Letak selepas"
   }
 }

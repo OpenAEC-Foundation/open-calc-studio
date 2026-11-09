@@ -1237,14 +1237,25 @@
     "all": "Linjer",
     "view": "Visningsvalg",
     "show": "Vis",
+    "numberHeading": "Nummer",
     "labelCode": "Kode",
+    "labelNone": "Ingen",
+    "labelNr": "Nr.",
     "amounts": "Beløp",
-    "percent": "% av kostpris",
-    "deleteConfirm": "Slette «{{name}}» og alt under ({{count}} linjer)?",
+    "percent": "% av totalt",
+    "deleteConfirm_one": "Slette «{{name}}» og raden under?",
+    "deleteConfirm_other": "Slette «{{name}}» og de {{count}} radene under?",
     "expandBelow": "Utvid alt under",
     "collapseBelow": "Skjul alt under",
     "deleteConfirmOne": "Slette «{{name}}»?",
     "makeParagraphOf": "Gjør til avsnitt under",
-    "makeChapter": "Gjør til kapittel"
+    "makeChapter": "Gjør til kapittel",
+    "whyNoOtherChapter": "Det finnes ikke noe annet kapittel.",
+    "whyNeedsChapterWithoutItems": "Bare et kapittel uten poster kan ha avsnitt.",
+    "whyNoChapterWithoutSections": "Det finnes ikke noe annet kapittel uten avsnitt.",
+    "whyNoOtherItem": "Det finnes ingen annen post.",
+    "whyHasSections": "Dette kapitlet har selv avsnitt; det finnes bare ett nivå av avsnitt.",
+    "moveToTop": "Øverst",
+    "placeAfter": "Plasser etter"
   }
 }

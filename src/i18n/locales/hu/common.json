@@ -1237,14 +1237,25 @@
     "all": "Sorok",
     "view": "Megjelenítési beállítások",
     "show": "Megjelenítés",
+    "numberHeading": "Szám",
     "labelCode": "Kód",
+    "labelNone": "Nincs",
+    "labelNr": "Ssz.",
     "amounts": "Összegek",
-    "percent": "Önköltség %-a",
-    "deleteConfirm": "Törli a(z) „{{name}}” elemet és minden alatta lévőt ({{count}} sor)?",
+    "percent": "Az összeg %-a",
+    "deleteConfirm_one": "Törli a(z) „{{name}}” elemet és az alatta lévő sort?",
+    "deleteConfirm_other": "Törli a(z) „{{name}}” elemet és az alatta lévő {{count}} sort?",
     "expandBelow": "Minden alatta lévő kibontása",
     "collapseBelow": "Minden alatta lévő összecsukása",
     "deleteConfirmOne": "Törli a(z) „{{name}}” elemet?",
     "makeParagraphOf": "Alfejezet legyen ebben:",
-    "makeChapter": "Fejezet legyen"
+    "makeChapter": "Fejezet legyen",
+    "whyNoOtherChapter": "Nincs másik fejezet.",
+    "whyNeedsChapterWithoutItems": "Csak tétel nélküli fejezetnek lehetnek alfejezetei.",
+    "whyNoChapterWithoutSections": "Nincs másik alfejezet nélküli fejezet.",
+    "whyNoOtherItem": "Nincs másik tétel.",
+    "whyHasSections": "Ennek a fejezetnek saját alfejezetei vannak; csak egy alfejezetszint van.",
+    "moveToTop": "Legfelülre",
+    "placeAfter": "Elhelyezés ez után:"
   }
 }

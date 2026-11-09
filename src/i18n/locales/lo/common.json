@@ -1238,14 +1238,25 @@
     "all": "ແຖວ",
     "view": "ຕົວເລືອກການສະແດງ",
     "show": "ສະແດງ",
+    "numberHeading": "ເລກ",
     "labelCode": "ລະຫັດ",
+    "labelNone": "ບໍ່ມີ",
+    "labelNr": "ລ/ດ",
     "amounts": "ຈຳນວນເງິນ",
-    "percent": "% ຂອງຕົ້ນທຶນ",
-    "deleteConfirm": "ລຶບ \"{{name}}\" ແລະ ທຸກຢ່າງທີ່ຢູ່ລຸ່ມ ({{count}} ແຖວ) ບໍ?",
+    "percent": "% ຂອງທັງໝົດ",
+    "deleteConfirm_one": "ລຶບ \"{{name}}\" ແລະ {{count}} ແຖວທີ່ຢູ່ລຸ່ມບໍ?",
+    "deleteConfirm_other": "ລຶບ \"{{name}}\" ແລະ {{count}} ແຖວທີ່ຢູ່ລຸ່ມບໍ?",
     "expandBelow": "ຂະຫຍາຍທັງໝົດທີ່ຢູ່ລຸ່ມ",
     "collapseBelow": "ຫຍໍ້ທັງໝົດທີ່ຢູ່ລຸ່ມ",
     "deleteConfirmOne": "ລຶບ \"{{name}}\" ບໍ?",
     "makeParagraphOf": "ເຮັດເປັນພາກຍ່ອຍຂອງ",
-    "makeChapter": "ເຮັດເປັນໝວດ"
+    "makeChapter": "ເຮັດເປັນໝວດ",
+    "whyNoOtherChapter": "ບໍ່ມີໝວດອື່ນ.",
+    "whyNeedsChapterWithoutItems": "ມີແຕ່ໝວດທີ່ບໍ່ມີລາຍການຄາດຄະເນເທົ່ານັ້ນທີ່ມີພາກຍ່ອຍໄດ້.",
+    "whyNoChapterWithoutSections": "ບໍ່ມີໝວດອື່ນທີ່ບໍ່ມີພາກຍ່ອຍ.",
+    "whyNoOtherItem": "ບໍ່ມີລາຍການຄາດຄະເນອື່ນ.",
+    "whyHasSections": "ໝວດນີ້ມີພາກຍ່ອຍຂອງຕົນເອງ; ພາກຍ່ອຍມີພຽງລະດັບດຽວ.",
+    "moveToTop": "ເທິງສຸດ",
+    "placeAfter": "ວາງຫຼັງ"
   }
 }
