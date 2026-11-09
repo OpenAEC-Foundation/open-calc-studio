@@ -437,14 +437,6 @@ stand van `main` op die datum.
     (`bascalcImporter.ts:228-236`); bij `cn`-regels is m arbeid en h materieel (`mapResourceType`, r.27-31).
     Nog controleren met een echt bestand. — S
 
-96. **Imports van TRADXML, oude CUF en Inschrijfstaat komen op € 0 uit.** `tradxmlImporter.ts:36-48`,
-    `cufImporter.ts:220-231`, `:243-257`, `inschrijfstaatImporter.ts:187-199`. De prijs komt alleen in
-    `unitPrice`/`total`, en de `recalculateItems` daarna (`Backstage.tsx:437`, `builtinExtensions.ts:281`)
-    bouwt hem opnieuw op uit `normUnitPrice + materialPrice + laborPrice`. Nagespeeld: 3000 wordt 0, 1550 wordt
-    0, 1500 wordt 0. De tests controleren de uitvoer vóór die herberekening. Ernstig. Voorstel:
-    `normUnitPrice: price` op posten (zoals `rsxImporter.ts:62`); voor CUF-Middelregels ook
-    `normQuantity: 1`. — B
-
 97. **`getText` zoekt in de hele subboom, zodat een post de waarden van zijn kind overneemt.**
     `src/services/importers/xmlHelpers.ts:19-23`. Nagespeeld: een oude CUF-post krijgt hoeveelheid 8, eenheid
     uur en prijs 45 van zijn `<Middel>`. Voorstel: alleen directe kinderen meenemen. — B

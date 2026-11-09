@@ -193,6 +193,7 @@ export async function importInschrijfstaatFile(buffer: ArrayBuffer): Promise<{
         sortOrder: sortOrder++,
         quantity: row.quantity,
         unit: normalizeUnit(row.unit),
+        normUnitPrice: row.unitPrice,
         unitPrice: row.unitPrice,
         total: row.total,
         verrekenbaar: verr,
