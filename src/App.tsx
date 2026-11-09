@@ -49,6 +49,7 @@ import { UrenStaartView } from "./components/grid/WpCalcBottomPanel";
 import { useQuantityLinkSync } from "./hooks/useQuantityLinkSync";
 import { useAppStore } from "./state/appStore";
 import { deserializeProject } from "./services/file/fileService";
+import { openProjectJson } from "./services/file/openProject";
 import { createDefaultSchedule } from "./data/defaultBudget";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
 import { useFileOperations } from "./hooks/useFileOperations";
@@ -243,15 +244,8 @@ function App() {
         try {
           const { readTextFile } = await import('@tauri-apps/plugin-fs');
           const content = await readTextFile(filePath);
-          const parsed = deserializeProject(content);
           const fileName = filePath.replace(/\\/g, '/').split('/').pop()?.replace(/\.(ifcx|json|ocs)$/i, '') ?? 'Begroting';
-          const id = crypto.randomUUID();
-          const store = useAppStore.getState();
-          store.addDocument({ id, filePath, fileName, isModified: false, items: parsed.items, schedule: parsed.schedule });
-          if (parsed.companyInfo) store.setCompanyInfo(parsed.companyInfo);
-          store.setSubSheets(parsed.spreadsheets?.sheets ?? parsed.subSheets ?? []);
-          if (parsed.offerte) store.setOfferte(parsed.offerte);
-          if (parsed.schedule.projectInfo) store.setProjectInfo(parsed.schedule.projectInfo);
+          openProjectJson(content, fileName, filePath);
         } catch (err) {
           console.error('[App] Failed to auto-open file from query param:', err);
         }
@@ -289,12 +283,7 @@ function App() {
           try {
             if (ext === 'ifcCalc' || ext === 'ifccalc' || ext === 'json' || ext === 'ocs' || ext === 'ifcx') {
               const content = await readTextFile(filePath);
-              const parsed = deserializeProject(content);
-              const id = crypto.randomUUID();
-              const displayName = fileName.replace(/\.[^.]+$/, '');
-              store.addDocument({ id, filePath, fileName: displayName, isModified: false, items: parsed.items, schedule: parsed.schedule });
-              if (parsed.companyInfo) store.setCompanyInfo(parsed.companyInfo);
-              if (parsed.spreadsheets?.sheets) store.setSubSheets(parsed.spreadsheets.sheets);
+              openProjectJson(content, fileName.replace(/\.[^.]+$/, ''), filePath);
             } else if (['x81', 'x82', 'x83', 'x84', 'x86', 'x87'].includes(ext ?? '')) {
               const { importGaeb } = await import('./services/importers/gaebImporter');
               const result = importGaeb(await readTextFile(filePath));
@@ -343,12 +332,7 @@ function App() {
             try {
               if (ext === 'ifcCalc' || ext === 'ifccalc' || ext === 'json' || ext === 'ocs' || ext === 'ifcx') {
                 const content = await readTextFile(filePath);
-                const parsed = deserializeProject(content);
-                const id = crypto.randomUUID();
-                const displayName = fileName.replace(/\.[^.]+$/, '');
-                store.addDocument({ id, filePath, fileName: displayName, isModified: false, items: parsed.items, schedule: parsed.schedule });
-                if (parsed.companyInfo) store.setCompanyInfo(parsed.companyInfo);
-                if (parsed.spreadsheets?.sheets) store.setSubSheets(parsed.spreadsheets.sheets);
+                openProjectJson(content, fileName.replace(/\.[^.]+$/, ''), filePath);
               } else if (['x81', 'x82', 'x83', 'x84', 'x86', 'x87'].includes(ext ?? '')) {
                 const { importGaeb } = await import('./services/importers/gaebImporter');
                 const result = importGaeb(await readTextFile(filePath));

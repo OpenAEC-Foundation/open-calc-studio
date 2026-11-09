@@ -249,15 +249,6 @@ stand van `main` op die datum.
 
 ## Bestanden, import en export
 
-58. **Een `.ifcCalc` openen via slepen of dubbelklikken verliest de offerte en de snapshots, en Ctrl+S slaat
-    dat verlies op** (ernstig; door twee agents los van elkaar gevonden). `src/App.tsx:288-296`
-    (bestandskoppeling), `src/App.tsx:341-349` (slepen) en de route "Open in nieuw venster" in
-    `src/App.tsx` (daar gebeurt `setOfferte` wel, `setSnapshots` niet). Beide routes roepen alleen `addDocument` +
-    `setCompanyInfo`/`setSubSheets` aan, niet `setOfferte`/`setSnapshots`. `addDocument` zet een standaardofferte
-    en een lege snapshotlijst neer. `filePath` wijst naar het oorspronkelijke bestand, dus Ctrl+S overschrijft
-    het (`useFileOperations.ts:125-127`). Nagespeeld. Voorstel: `openProjectJson(content, displayName,
-    filePath)` uit `openProject.ts` gebruiken. — B
-
 59. **RSX-, CUF- en TradXML-export laten posten zonder hoofdstuk stil weg.** `src/services/exporters/rsxExporter.ts`
     (alleen bovenste hoofdstukken worden geschreven), ook in `cufExporter`/`tradxmlExporter`. (Posten onder
     subhoofdstukken in RSX zijn opgelost.) — B
