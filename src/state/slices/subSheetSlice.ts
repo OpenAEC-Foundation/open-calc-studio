@@ -104,18 +104,16 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
       subSheets: s.subSheets.map((ss) => {
         if (ss.id !== sheetId) return ss;
         const cell: SubSheetCell = { value };
-        // Try to evaluate if it's a formula or number
-        if (value.startsWith('=')) {
-          const computed = evaluateFormula(value.slice(1), ss.cells);
-          if (computed !== null) cell.computed = computed;
-        } else {
+        // Formulas are evaluated by recalcSheetCells below, together with every
+        // formula that depends on this cell (knownbugs #47).
+        if (!value.startsWith('=')) {
           // NL-notatie: "6,66" moet 6,66 zijn, niet 6 (parseFloat stopt bij de komma)
           const n = parseNlNumber(value);
           if (n !== null) cell.computed = n;
         }
         return {
           ...ss,
-          cells: { ...ss.cells, [cellRef]: cell },
+          cells: recalcSheetCells({ ...ss.cells, [cellRef]: cell }),
         };
       }),
     }));
@@ -125,7 +123,7 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
     snapshot(sheetId);
     edit((s) => ({
       subSheets: s.subSheets.map((ss) =>
-        ss.id === sheetId ? { ...ss, cells } : ss
+        ss.id === sheetId ? { ...ss, cells: recalcSheetCells(cells) } : ss
       ),
     }));
   },
@@ -327,6 +325,12 @@ function cellRefToKey(ref: string): string {
   return ref.toUpperCase().trim();
 }
 
+type CellValueGetter = (ref: string) => number;
+
+function isFormula(cell: SubSheetCell | undefined): cell is SubSheetCell {
+  return typeof cell?.value === 'string' && cell.value.startsWith('=');
+}
+
 function getCellValue(cells: Record<string, SubSheetCell>, ref: string): number {
   const key = cellRefToKey(ref);
   const cell = cells[key];
@@ -334,6 +338,53 @@ function getCellValue(cells: Record<string, SubSheetCell>, ref: string): number 
   if (cell.computed !== undefined) return cell.computed;
   const n = parseNlNumber(cell.value);
   return n === null ? 0 : n;
+}
+
+/**
+ * Re-evaluate every formula cell of a sheet, so a change to one cell reaches
+ * all formulas that depend on it, directly or through other formulas.
+ * Dependencies are evaluated first (depth-first, memoized). Cells that are part
+ * of a circular reference get no computed value, like any other invalid formula.
+ */
+export function recalcSheetCells(
+  cells: Record<string, SubSheetCell>,
+): Record<string, SubSheetCell> {
+  const result: Record<string, SubSheetCell> = { ...cells };
+  const done = new Set<string>();
+  const stack: string[] = [];
+  const cyclic = new Set<string>();
+
+  const valueOf: CellValueGetter = (ref) => {
+    const key = cellRefToKey(ref);
+    const cell = result[key];
+    if (isFormula(cell) && !done.has(key)) {
+      const at = stack.indexOf(key);
+      if (at >= 0) {
+        // Circular reference: every cell on the loop is invalid.
+        for (const k of stack.slice(at)) cyclic.add(k);
+        return 0;
+      }
+      evaluate(key);
+    }
+    return getCellValue(result, key);
+  };
+
+  const evaluate = (key: string) => {
+    stack.push(key);
+    const cell = result[key];
+    const computed = evaluateFormula(cell.value.slice(1), valueOf);
+    stack.pop();
+    done.add(key);
+    const next: SubSheetCell = { ...cell };
+    if (computed !== null && !cyclic.has(key)) next.computed = computed;
+    else delete next.computed;
+    result[key] = next;
+  };
+
+  for (const key of Object.keys(result)) {
+    if (isFormula(result[key]) && !done.has(key)) evaluate(key);
+  }
+  return result;
 }
 
 /**
@@ -345,7 +396,7 @@ function getCellValue(cells: Record<string, SubSheetCell>, ref: string): number 
  */
 function evaluateFormula(
   expr: string,
-  cells: Record<string, SubSheetCell>,
+  valueOf: CellValueGetter,
 ): number | null {
   try {
     let processed = expr.trim();
@@ -357,7 +408,7 @@ function evaluateFormula(
     processed = processed.replace(
       /SUM\(([A-Z]+\d+):([A-Z]+\d+)\)/gi,
       (_match, start, end) => {
-        return String(sumRange(start, end, cells));
+        return String(sumRange(start, end, valueOf));
       },
     );
 
@@ -365,7 +416,7 @@ function evaluateFormula(
     processed = processed.replace(
       /\b([A-Z]+)(\d+)\b/gi,
       (_match, col, row) => {
-        return String(getCellValue(cells, `${col.toUpperCase()}${row}`));
+        return String(valueOf(`${col.toUpperCase()}${row}`));
       },
     );
 
@@ -385,7 +436,7 @@ function evaluateFormula(
 function sumRange(
   start: string,
   end: string,
-  cells: Record<string, SubSheetCell>,
+  valueOf: CellValueGetter,
 ): number {
   const startCol = start.replace(/\d/g, '').toUpperCase();
   const startRow = parseInt(start.replace(/[A-Z]/gi, ''));
@@ -399,7 +450,7 @@ function sumRange(
   for (let c = colStart; c <= colEnd; c++) {
     for (let r = startRow; r <= endRow; r++) {
       const ref = `${String.fromCharCode(c)}${r}`;
-      sum += getCellValue(cells, ref);
+      sum += valueOf(ref);
     }
   }
   return sum;

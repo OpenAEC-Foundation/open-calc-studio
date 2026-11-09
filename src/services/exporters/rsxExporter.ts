@@ -22,11 +22,20 @@ export function exportRsx(input: ExportInput): ExportResult {
 }
 
 function renderDeelraming(ch: CostItem, all: CostItem[], warnings: string[]): XmlNode {
-  const kids = all.filter((it) => it.parentId === ch.id);
-  const resBs = kids.filter((it) => it.rowType === 'begrotingspost' || it.rowType === 'bewakingspost');
-  const subs = kids.filter((it) => it.rowType === 'chapter');
+  // CROW RSX knows one sub-estimate level: collect the items of all nested
+  // chapters (depth-first, in document order) into this top-level Deelraming.
+  const resBs: CostItem[] = [];
+  let hasSubs = false;
+  const collect = (parentId: string) => {
+    for (const it of all) {
+      if (it.parentId !== parentId) continue;
+      if (it.rowType === 'begrotingspost' || it.rowType === 'bewakingspost') resBs.push(it);
+      else if (it.rowType === 'chapter') { hasSubs = true; collect(it.id); }
+    }
+  };
+  collect(ch.id);
 
-  if (subs.length > 0) {
+  if (hasSubs) {
     warnings.push(uiText('diagnostics.rsxFlattened', "RSX: nested chapters under \"{{name}}\" were flattened; CROW RSX supports one sub-estimate level.", { name: ch.description ?? ch.code }));
   }
 

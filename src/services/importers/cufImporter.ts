@@ -226,6 +226,7 @@ function importLegacyCuf(doc: Document): ImportResult {
         description: p.getAttribute('omschrijving') ?? '',
         quantity: qty,
         unit: normalizeUnit(getText(p, 'Eenheid')),
+        normUnitPrice: price,
         unitPrice: price,
         total: qty * price,
       });
@@ -233,6 +234,8 @@ function importLegacyCuf(doc: Document): ImportResult {
 
       // Middel children (arbeid/materiaal/materieel/onderaannemer/overig)
       children(p, 'Middel').forEach((m) => {
+        const mQty = getNumber(m, 'Hoeveelheid');
+        const mPrice = getNumber(m, 'Prijs');
         const typeAttr = (m.getAttribute('type') ?? '').toLowerCase();
         const resourceType: ResourceType =
           typeAttr === 'arbeid' ? 'arbeid' :
@@ -248,9 +251,13 @@ function importLegacyCuf(doc: Document): ImportResult {
             rowType: 'regel',
             code: m.getAttribute('code') ?? '',
             description: m.getAttribute('omschrijving') ?? '',
-            quantity: getNumber(m, 'Hoeveelheid'),
+            quantity: mQty,
             unit: normalizeUnit(getText(m, 'Eenheid')),
-            unitPrice: getNumber(m, 'Prijs'),
+            // Geen normQuantity: de regel rekent dan als directe prijs
+            // (aantal × prijs/middel), zodat het bedrag de herberekening overleeft.
+            normUnitPrice: mPrice,
+            unitPrice: mQty * mPrice,
+            total: mQty * mPrice,
             normFactor: getNumberOrDefault(m, 'Normfactor', 1),
             normDivisor: getNumberOrDefault(m, 'Normdeler', 1),
             resourceType,

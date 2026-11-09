@@ -157,7 +157,8 @@ function calculateHsbWand(params: Record<string, number | string>): WizardResult
       normUnitPrice: matPrijs,
       resourceType: 'materiaal',
     }));
-    // Arbeid regel
+    // Arbeid regel: alleen laborPrice. De calculator telt normUnitPrice en
+    // laborPrice bij elkaar op; beide vullen telde de arbeid dubbel.
     items.push(makeItem({
       description: `Arbeid ${desc.toLowerCase()}`,
       rowType: 'regel',
@@ -170,7 +171,6 @@ function calculateHsbWand(params: Record<string, number | string>): WizardResult
       normQuantity: 1,
       normFactor: 1,
       normDivisor: 1,
-      normUnitPrice: arbPrijs,
       resourceType: 'arbeid',
     }));
   };

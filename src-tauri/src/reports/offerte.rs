@@ -299,20 +299,30 @@ fn build_vrij_section(section: &OfferteSection, flowables: &mut Vec<Box<dyn Flow
     }
 }
 
-fn build_total_price(request: &OfferteReportRequest, flowables: &mut Vec<Box<dyn Flowable>>) {
-    let nf = &request.number_format;
+/// Offertebedrag inclusief btw. De btw komt uit de staart-regels (hoog +
+/// laag), ook als die samen 0 zijn (bijv. 0 % btw); alleen een begroting
+/// zonder enige btw-regel valt terug op 21 %.
+fn total_incl_vat(request: &OfferteReportRequest) -> f64 {
     let aanneemsom: f64 = request.items.iter()
         .filter(|i| i.row_type == "chapter" && i.depth == 0).map(|i| i.total).sum();
     let staart_total: f64 = request.items.iter()
         .filter(|i| i.row_type.starts_with("staart_") && !i.row_type.starts_with("staart_btw"))
         .map(|i| i.total).sum();
     let total_excl = aanneemsom + staart_total;
-    // Btw uit de staart-items (hoog + laag) als die er zijn; anders 21%.
-    let staart_btw: f64 = request.items.iter()
+    let mut btw_rows = request.items.iter()
         .filter(|i| i.row_type.starts_with("staart_btw"))
-        .map(|i| i.total).sum();
-    let btw = if staart_btw > 0.0 { staart_btw } else { total_excl * 0.21 };
-    let total_incl = total_excl + btw;
+        .peekable();
+    let btw = if btw_rows.peek().is_some() {
+        btw_rows.map(|i| i.total).sum()
+    } else {
+        total_excl * 0.21
+    };
+    total_excl + btw
+}
+
+fn build_total_price(request: &OfferteReportRequest, flowables: &mut Vec<Box<dyn Flowable>>) {
+    let nf = &request.number_format;
+    let total_incl = total_incl_vat(request);
 
     flowables.push(Box::new(Spacer::from_mm(12.0)));
     flowables.push(Box::new(Paragraph::new(
@@ -366,5 +376,41 @@ mod tests {
             let pdf = generate_bytes(&request(labels)).expect("PDF");
             assert_eq!(&pdf[0..4], b"%PDF");
         }
+    }
+
+    fn with_items(items: serde_json::Value) -> OfferteReportRequest {
+        let mut req = request(serde_json::json!({}));
+        req.items = serde_json::from_value(items).expect("items parsen");
+        req
+    }
+
+    fn chapter() -> serde_json::Value {
+        serde_json::json!({ "id": "h1", "rowType": "chapter", "depth": 0, "parentId": null, "total": 1000.0 })
+    }
+
+    #[test]
+    fn nul_procent_btw_blijft_nul() {
+        // Knownbug 133: 0 % btw werd 21 % (1000 -> 1210).
+        let req = with_items(serde_json::json!([
+            chapter(),
+            { "id": "b1", "rowType": "staart_btw_laag", "parentId": null, "total": 0.0, "staartPercentage": 9.0 },
+            { "id": "b2", "rowType": "staart_btw", "parentId": null, "total": 0.0, "staartPercentage": 0.0 }
+        ]));
+        assert!((total_incl_vat(&req) - 1000.0).abs() < 1e-9);
+    }
+
+    #[test]
+    fn berekende_btw_wordt_gebruikt() {
+        let req = with_items(serde_json::json!([
+            chapter(),
+            { "id": "b2", "rowType": "staart_btw", "parentId": null, "total": 90.0, "staartPercentage": 9.0 }
+        ]));
+        assert!((total_incl_vat(&req) - 1090.0).abs() < 1e-9);
+    }
+
+    #[test]
+    fn zonder_btw_regels_21_procent() {
+        let req = with_items(serde_json::json!([chapter()]));
+        assert!((total_incl_vat(&req) - 1210.0).abs() < 1e-9);
     }
 }

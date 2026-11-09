@@ -42,6 +42,7 @@ export function importTradxml(xml: string): ImportResult {
         description: el.getAttribute('omschrijving') ?? '',
         quantity: qty,
         unit: normalizeUnit(getText(el, 'Eenheid')),
+        normUnitPrice: price,
         unitPrice: price,
         total: qty * price,
       }),

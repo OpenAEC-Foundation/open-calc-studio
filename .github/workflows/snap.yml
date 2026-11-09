@@ -1,12 +1,13 @@
 name: Build Snap Package
 
 on:
-  # workflow_run werkt alleen als dit workflowbestand op de DEFAULT branch staat.
-  # De workflow wordt getriggerd zodra "Build & Release" afrondt, ongeacht hoe
-  # DIE startte (tag-push óf een eigen workflow_dispatch op main).
-  workflow_run:
-    workflows: ["Build & Release"]
-    types: [completed]
+  # Pas als een mens de concept-release van "Build & Release" PUBLICEERT, net als
+  # desktop-container.yml en latest-json.yml. Vroeger draaide dit op workflow_run
+  # na elke geslaagde tag-build en ging de snap naar `stable` terwijl de
+  # GitHub-release nog een concept was. Let op: een release die een workflow met
+  # GITHUB_TOKEN publiceert, start deze workflow niet.
+  release:
+    types: [published]
   workflow_dispatch:
     inputs:
       version:
@@ -14,8 +15,8 @@ on:
         required: true
         default: 'v0.10.0'
       publish:
-        # Backfill-route: publiceren gebeurt normaal alleen via workflow_run
-        # na een echte release. Deze snap-pijplijn is echter TOEGEVOEGD NA de
+        # Backfill-route: publiceren gebeurt normaal alleen via het
+        # release-published-event. Deze snap-pijplijn is echter TOEGEVOEGD NA de
         # huidige release, dus er bestaat geen release-event om aan te haken en
         # de Store zou tot de volgende release blijven hangen op een oude versie.
         # Bewust default false: aanzetten is onomkeerbaar (een Snap-release is
@@ -43,17 +44,12 @@ jobs:
     # poll-lus (max ~2,5 min) plus een snapcraft-build in een VM.
     timeout-minutes: 75
     runs-on: ubuntu-22.04
-    # `types: [completed]` vuurt OOK als build.yml faalde of werd geannuleerd;
-    # zonder deze gate zou een mislukte release alsnog een snap bouwen.
-    # "Build & Release" draait ook zijn lichte check-job op elke gewone push
-    # naar main (niet alleen op een tag) — zonder de head_branch-check hieronder
-    # zou zo'n routine merge ook deze snap-job triggeren, en zodra
-    # SNAPCRAFT_STORE_CREDENTIALS bestaat zelfs een ongewenste store-publish
-    # veroorzaken. Alleen doorgaan bij een echte v*-tag (of een handmatige test).
+    # Zelfde gate als desktop-container.yml: geen concept en geen pre-release,
+    # en alleen een v*-tag (of een handmatige test).
     if: >-
       github.event_name == 'workflow_dispatch' ||
-      (github.event.workflow_run.conclusion == 'success' &&
-       startsWith(github.event.workflow_run.head_branch, 'v'))
+      (!github.event.release.draft && !github.event.release.prerelease &&
+       startsWith(github.event.release.tag_name, 'v'))
     permissions:
       contents: write
     env:
@@ -63,12 +59,10 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
-          # Bij workflow_run checkt checkout standaard de DEFAULT BRANCH uit,
-          # niet de tag/commit die build.yml bouwde — fout, want snap/snapcraft.yaml
-          # moet van de gebouwde commit komen. Daarom expliciet de head_sha van
-          # build.yml; voor workflow_dispatch (geen workflow_run-event) valt die
-          # weg naar github.ref (de branch waarop handmatig werd gedispatcht).
-          ref: ${{ github.event.workflow_run.head_sha || github.ref }}
+          # snap/snapcraft.yaml moet van de gereleasede tag komen. Voor
+          # workflow_dispatch valt dit terug op github.ref (de branch waarop
+          # handmatig werd gedispatcht).
+          ref: ${{ github.event.release.tag_name || github.ref }}
 
       - name: Get version
         id: get-version
@@ -77,24 +71,17 @@ jobs:
           # GITHUB_*-namen zelf NIET zetten: gereserveerd en al aanwezig in de runner.
           EVENT_NAME: ${{ github.event_name }}
           DISPATCH_VERSION: ${{ github.event.inputs.version }}
-          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
           if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
             VERSION="$DISPATCH_VERSION"
-          elif [ "$EVENT_NAME" = "workflow_run" ]; then
-            # head_branch bevat bij een TAG-push de tagnaam; startte build.yml
-            # zelf via dispatch op main, dan staat hier 'main'.
-            if printf '%s' "$HEAD_BRANCH" | grep -qE '^v[0-9]'; then
-              VERSION="$HEAD_BRANCH"
-            else
-              VERSION="$(gh release list --exclude-drafts --limit 1 --json tagName --jq '.[0].tagName // empty')"
-            fi
+          elif [ "$EVENT_NAME" = "release" ]; then
+            VERSION="$RELEASE_TAG"
           else
             VERSION=""
           fi
           if [ -z "$VERSION" ]; then
-            echo "::error::Kon geen versie afleiden (event=$EVENT_NAME, head_branch=$HEAD_BRANCH)"
+            echo "::error::Kon geen versie afleiden (event=$EVENT_NAME)"
             exit 1
           fi
           # `version` en `version_number` gaan verderop een `sed`-VERVANGINGSPATROON
@@ -153,9 +140,9 @@ jobs:
         uses: snapcore/action-build@v1
         id: snapcraft
 
-      # Echte release (via workflow_run): snap als asset aan de release hangen.
+      # Gepubliceerde release: snap als asset aan de release hangen.
       - name: Upload snap to GitHub release
-        if: github.event_name == 'workflow_run'
+        if: github.event_name == 'release'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: ${{ steps.get-version.outputs.version }}
@@ -172,12 +159,26 @@ jobs:
           path: ${{ steps.snapcraft.outputs.snap }}
           if-no-files-found: error
 
-      # Live publiceren naar de Snap Store: alleen op een echte release én pas
-      # zodra het store-credentials-secret bestaat (eigenaar-stap).
+      # Ook de handmatige backfill mag alleen een gepubliceerde, niet-pre-release
+      # naar `stable` sturen (zelfde controle als latest-json.yml).
+      - name: Only a published release goes to stable
+        if: >-
+          env.SNAPCRAFT_STORE_CREDENTIALS != '' &&
+          (github.event_name == 'release' ||
+           (github.event_name == 'workflow_dispatch' && inputs.publish))
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.get-version.outputs.version }}
+        run: |
+          state=$(gh release view "$VERSION" --json isDraft,isPrerelease --jq '"\(.isDraft) \(.isPrerelease)"')
+          [ "$state" = "false false" ] || { echo "::error::$VERSION is een concept of pre-release"; exit 1; }
+
+      # Live publiceren naar de Snap Store: alleen op een gepubliceerde release
+      # én pas zodra het store-credentials-secret bestaat (eigenaar-stap).
       - name: Publish to Snap Store
         if: >-
           env.SNAPCRAFT_STORE_CREDENTIALS != '' &&
-          (github.event_name == 'workflow_run' ||
+          (github.event_name == 'release' ||
            (github.event_name == 'workflow_dispatch' && inputs.publish))
         uses: snapcore/action-publish@v1
         with:

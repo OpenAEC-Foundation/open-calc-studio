@@ -25,16 +25,6 @@ stand van `main` op die datum.
 
 ## Rekenen en totalen
 
-5. **Eenheid naar 'uur' op een UI-1-arbeidsregel maakt het totaal meer dan drie keer zo groot.**
-   `src/state/slices/costItemsSlice.ts:357-360` + `calculator.ts:106`. Achtergrond: elke update rekent voor
-   elke regel met een tariefgroep `laborPrice = normQuantity × tarief` opnieuw uit (`calculator.ts:74-81`).
-   Nagespeeld: hoeveelheid 10, norm 0,5, normUnitPrice 45 geeft totaal 225; na eenheid → uur wordt arbeid 32
-   en het totaal 770. Niet bedoeld. Voorstel: alleen automatisch invullen als er nog geen prijs of norm
-   staat. — B
-
-6. **Eenheid naar 'uur' overschrijft een bewuste norm 0 met 1.** `costItemsSlice.ts:360` test op
-   `!normQuantity`. Nagespeeld: totaal 500 → 1140. Voorstel: `== null`. — B
-
 7. **Productienorm leegmaken laat de arbeidskosten staan, terwijl 0 typen ze weghaalt.** `calculator.ts:76`.
    Nagespeeld. Voorstel: bij norm null en een tariefgroep ook `laborPrice` leegmaken. — B
 
@@ -75,24 +65,9 @@ stand van `main` op die datum.
 
 ## Tabel, invoer en bediening
 
-15. **Een urenveld verlaten zonder te bewerken kan uren ≥ 1000 wegvagen** (WpCalc-onderpaneel, ernstig).
-    `src/components/grid/WpCalcBottomPanel.tsx:54-72` (invoervelden op r.100 en r.164; `handleTariefChange` op
-    r.48 parset op dezelfde manier). Het veld toont `formatNumber(uren)`, dus 1234,5 staat er als `1.234,50`. Bij
-    blur parset `parseFloat(value.replace(',', '.'))` dat als `1.234.50` en geeft 1,234. Alle regelnormen worden
-    dan ongeveer 1000× verkleind. Onder de 1000 geeft de weergave met 2 decimalen drift: 12,345 staat als
-    `12,35`, en focus plus blur schaalt de normen opnieuw. Voorstel: parsen met `parseNumericInput` /
-    `parseNlNumber` en vergelijken met de waarde zoals getoond (afgerond op 2 decimalen). — B
-
 18. **`parseNlNumber` is te soepel** (minder zeker). Nagespeeld: `1,234,567` geeft 1,234 en `12abc` geeft 12;
     beide zouden geweigerd moeten worden. Zelfde oorzaak als #16. Voorstel: een strikt patroon gebruiken
     zoals in `parseLocaleNumber`. — B
-
-19. **Eén teken typen en dan Enter, Tab of wegklikken gooit de bewerking weg** (ernstig).
-    `src/components/grid/GridCellEditor.tsx:66-67`, `:103-105`. Als je begint met typen, is `editValue` de
-    getypte toets. `commitIfChanged` vergelijkt daarmee, dus één teken telt nooit als wijziging. Nagespeeld:
-    Aantal = 7, `5` typen, Enter; de cel blijft 7. Geldt ook voor omschrijvingen en elke tekst-, getal- en
-    valutakolom. Voorstel: vergelijken met de opgeslagen celwaarde, of altijd vastleggen als het bewerken met
-    typen begon. — B
 
 20. **Tab in de celeditor komt nog op verborgen kolommen.** `src/components/grid/GridCellEditor.tsx:28`
     (`editableCols`). 8b91b0a loste dit op voor navigatie in het grid, maar niet voor Tab in de editor.
@@ -227,14 +202,13 @@ stand van `main` op die datum.
 46. **Ongeldige getalinvoer (`abc`) voegt een lege undo-stap toe en wist redo.**
     `src/components/grid/useGridEditing.ts:44` tegenover `:64-66`. Nagespeeld. Voorstel: eerst valideren, dan `pushHistory`. — B
 
-## Spreadsheets
+267. **Het tariefveld in het urenoverzicht leest "1.250" als 1250.** `src/components/grid/WpCalcBottomPanel.tsx:142`
+    toont het tarief met een punt (`toFixed(2)`, "64.00"); een gewijzigde waarde gaat door `parseNumericInput`,
+    dat een punt met precies drie cijfers als duizendtal leest. Wie "1.250" typt en € 1,25 bedoelt, krijgt
+    € 1250 ("1,25" en "1.250,50" gaan goed). Gevonden in de review van PR #70. Voorstel: het tarief in
+    Nederlandse notatie tonen (`formatNumber`), met dezelfde controle op ongewijzigde tekst. — S
 
-47. **Afhankelijke formules rekenen nooit opnieuw.** Ernstig. `setSubSheetCell` evalueert alleen de bewerkte
-    cel (`subSheetSlice.ts:101-122`). Nagespeeld: A1=`1`, A2=`=A1*2`, dan A1 → `10`: A2 blijft `2`. Wordt A2
-    vóór A1 ingevuld, dan blijft hij `0`. `quantityOrigin.ts:25` leest `cell.computed`, dus verouderde waarden
-    komen in gekoppelde hoeveelheden in de begroting terecht. Voorstel: na elke schrijfactie alle formules in
-    het blad herberekenen (in afhankelijkheidsvolgorde of herhalen tot stabiel, met een limiet voor
-    kringverwijzingen). — B
+## Spreadsheets
 
 48. **Een negatieve waarde in een verwijzing breekt de formule.** In `subSheetSlice.ts:365-370, 378`.
     Nagespeeld: A1=`-5`; `=10-A1` wordt `10--5`, een syntaxfout, dus de cel toont de kale formule. `=-A1` faalt
@@ -278,22 +252,19 @@ stand van `main` op die datum.
     `src/components/grid/SubSheetEditor.tsx:213-219` kijkt alleen naar `ctrlKey`, dus het event valt door naar `useKeyboardShortcuts.ts:41` (dat `metaKey` wel
     accepteert). Afgeleid uit de code. Voorstel: `|| e.metaKey`. — S
 
+268. **Een cel die naar een kringverwijzing verwijst, krijgt toch een getal.** `recalcSheetCells` in
+    `src/state/slices/subSheetSlice.ts`: alleen de cellen in de kring verliezen hun waarde; een cel die erop
+    leunt rekent met 0. Voorbeeld: A1=`=B1`, B1=`=A1`, C1=`=A1+1` geeft C1 = 1 in plaats van ongeldig, en dat
+    getal kan in een gekoppelde hoeveelheid terechtkomen. Ook: de evaluatie is recursief, dus een heel lange
+    keten (duizenden rijen, zoals een lopend totaal) kan de stack laten overlopen; die cellen blijven dan stil
+    leeg. Gevonden in de review van PR #70. Voorstel: "ongeldig" doorgeven aan afhankelijke cellen, en de
+    volgorde iteratief bepalen (topologisch sorteren). — S
+
 ## Bestanden, import en export
 
-58. **Een `.ifcCalc` openen via slepen of dubbelklikken verliest de offerte en de snapshots, en Ctrl+S slaat
-    dat verlies op** (ernstig; door twee agents los van elkaar gevonden). `src/App.tsx:288-296`
-    (bestandskoppeling), `src/App.tsx:341-349` (slepen) en de route "Open in nieuw venster" in
-    `src/App.tsx` (daar gebeurt `setOfferte` wel, `setSnapshots` niet). Beide routes roepen alleen `addDocument` +
-    `setCompanyInfo`/`setSubSheets` aan, niet `setOfferte`/`setSnapshots`. `addDocument` zet een standaardofferte
-    en een lege snapshotlijst neer. `filePath` wijst naar het oorspronkelijke bestand, dus Ctrl+S overschrijft
-    het (`useFileOperations.ts:125-127`). Nagespeeld. Voorstel: `openProjectJson(content, displayName,
-    filePath)` uit `openProject.ts` gebruiken. — B
-
-59. **RSX-export laat posten onder subhoofdstukken stil weg.** `src/services/exporters/rsxExporter.ts:24-37`.
-    Nagespeeld: met hoofdstuk 01 > 01.1 > post 01.1.1 bevat de uitvoer alleen `<Deelraming code="01"/>` zonder
-    de post, terwijl de waarschuwing zegt dat de hoofdstukken "afgevlakt" zijn. Posten zonder hoofdstuk vallen
-    ook weg (ook in `cufExporter`/`tradxmlExporter`). Voorstel: posten uit alle onderliggende hoofdstukken
-    verzamelen in de bovenste Deelraming. — B
+59. **RSX-, CUF- en TradXML-export laten posten zonder hoofdstuk stil weg.** `src/services/exporters/rsxExporter.ts`
+    (alleen bovenste hoofdstukken worden geschreven), ook in `cufExporter`/`tradxmlExporter`. (Posten onder
+    subhoofdstukken in RSX zijn opgelost.) — B
 
 60. **Generieke CSV-import verminkt een `"` binnen een veld en geciteerde velden over meerdere regels.**
     `src/services/importers/genericTabularImporter.ts:70-91, 96`. Nagespeeld: `Buis 4" PVC;10;m` geeft één cel;
@@ -444,14 +415,6 @@ stand van `main` op die datum.
     (`bascalcImporter.ts:228-236`); bij `cn`-regels is m arbeid en h materieel (`mapResourceType`, r.27-31).
     Nog controleren met een echt bestand. — S
 
-96. **Imports van TRADXML, oude CUF en Inschrijfstaat komen op € 0 uit.** `tradxmlImporter.ts:36-48`,
-    `cufImporter.ts:220-231`, `:243-257`, `inschrijfstaatImporter.ts:187-199`. De prijs komt alleen in
-    `unitPrice`/`total`, en de `recalculateItems` daarna (`Backstage.tsx:437`, `builtinExtensions.ts:281`)
-    bouwt hem opnieuw op uit `normUnitPrice + materialPrice + laborPrice`. Nagespeeld: 3000 wordt 0, 1550 wordt
-    0, 1500 wordt 0. De tests controleren de uitvoer vóór die herberekening. Ernstig. Voorstel:
-    `normUnitPrice: price` op posten (zoals `rsxImporter.ts:62`); voor CUF-Middelregels ook
-    `normQuantity: 1`. — B
-
 97. **`getText` zoekt in de hele subboom, zodat een post de waarden van zijn kind overneemt.**
     `src/services/importers/xmlHelpers.ts:19-23`. Nagespeeld: een oude CUF-post krijgt hoeveelheid 8, eenheid
     uur en prijs 45 van zijn `<Middel>`. Voorstel: alleen directe kinderen meenemen. — B
@@ -519,6 +482,12 @@ stand van `main` op die datum.
 112. **TRADXML exporteert als `.xml`, maar `lib/importers.ts` stuurt `.xml` naar de XPWE-importer**
      (hosted/API-pad). — S
 
+269. **Oude CUF: Middel-regels per eenheid geven na herberekenen een te laag posttotaal.**
+    `src/services/importers/cufImporter.ts:220-231`. Sinds de fix voor #96 worden Middel-regels vaste bedragen
+    (aantal × prijs) en is het posttotaal hun som; de hoeveelheid van de post telt niet mee. Zijn Middel-
+    aantallen in dit formaat per eenheid bedoeld (0,5 uur per m³ bij 10 m³), dan wordt € 225 na herberekenen
+    € 22,50. Niet te controleren zonder echt bestand; samen met #97 bekijken. Gevonden in de review van PR #70. — S
+
 ## Documenten, tabbladen, versies en herstel
 
 113. **Dubbele prijsartikelen in het herstel van documenten die op een site gehost worden** (klein).
@@ -526,14 +495,6 @@ stand van `main` op die datum.
      gehoste bibliotheek achter de nieuwe bibliotheek, wat dubbelen geeft. `hostFileActions` doet het omgekeerde
      en laat artikelen weg die in deze sessie voor het eerst zijn toegevoegd. Voorstel: in beide gevallen
      samenvoegen op `id`. — S
-
-114. **Ongedaan maken en opnieuw markeren het document nooit als gewijzigd** (ernstig).
-     `src/state/slices/costItemsSlice.ts:171` (`setItems`); aanroepers: `useKeyboardShortcuts.ts:43-48`,
-     `TitleBar.tsx:81-89`, `HomeTab.tsx:50-56,106`, `MobileWorkspace.tsx:258-259`. Undo/redo loopt via
-     `setItems`, de enige mutator zonder `markModified()`. Nagespeeld: bewerken → Ctrl+S → Ctrl+Z. `isModified`
-     blijft false, dus bij sluiten komt er geen vraag, en het herstellogboek wordt ook verwijderd
-     (`recovery.ts:49`). De ongedaan gemaakte stand gaat stil verloren. Voorstel: `markModified` aanroepen in
-     `undo`/`redo` (`historySlice.ts`), of een actie `restoreItems` toevoegen. — B
 
 115. **Een tabblad uit de tabbalk slepen sluit het zonder te vragen en gooit niet-opgeslagen wijzigingen weg.**
      `src/components/layout/FileTabBar.tsx:168-196` (`handleDragEnd`). Wie meer dan 50px boven of onder de balk
@@ -629,10 +590,6 @@ stand van `main` op die datum.
 
 132. **"Geldig voor N dagen" verdwijnt als de tekst van de voorwaarden leeg is.** `offerte.rs:122-136`. Afgeleid
      uit de code. Voorstel: de alinea over de geldigheid uit het `voorwaarden`-blok halen. — S
-
-133. **Een begroting met 0 % btw krijgt op de offerte 21 % btw erbij.** `offerte.rs:310-313` en `325-327` (de
-     tekst "inclusief BTW (21%)" staat vast in de code). Door een tweede controle bevestigd. Voorstel: alleen
-     op 21 % terugvallen als er helemaal geen btw-regels zijn; de tekst opbouwen uit de echte tarieven. — B
 
 134. **Een negatieve geldigheidsduur laat de PDF-export mislukken.** `OfferteView.tsx:186` tegenover
      `mod.rs:330` (`u32`); `|| 30` zet een leeggemaakt veld bovendien terug op 30. Afgeleid uit de code.
@@ -922,11 +879,6 @@ stand van `main` op die datum.
      ook uur-artikelen mét prijs (bijv. 50) krijgen er €64/u bovenop → 1140 in plaats van 500; ernst daarom
      verhoogd. Raakt alle 14 Arbeid- en 5 (niet 6) Materieel-artikelen met eenheid `uur`. Voorstel: ook
      `laborPrice: null` zetten, of de regel in één atomische update opbouwen. — B
-
-191. **De HSB-wandwizard telt arbeid dubbel.** In `src/services/wizard/hsbWandCalculator.ts:161-175` krijgen
-     arbeidsregels zowel `laborPrice` als `normUnitPrice` = arbPrijs, en de calculator telt ze op. Nagespeeld:
-     "Arbeid stijlen" komt uit op €936 in plaats van €468; het hoofdstuktotaal is €2.379,84 in plaats van
-     ongeveer €1.573. Voorstel: bij arbeidsregels alleen `laborPrice` zetten. — B
 
 192. **De HSB-wizard voegt door afronding van floats een stijl te veel toe.** `hsbWandCalculator.ts:73`
      (`Math.ceil(lengte / stijlAfstand) + 1`): 4.2/0.6 = 7.000000000000001, dus 9 stijlen in plaats van 8.

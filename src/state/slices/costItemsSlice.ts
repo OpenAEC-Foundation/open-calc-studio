@@ -353,11 +353,17 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
           if (field === 'quantity' && item.rowType.startsWith('staart_')) {
             updated.staartPercentage = value;
           }
-          // When unit is set to 'uur': auto-set tariefGroep=A, resourceType=arbeid, normQuantity=1
+          // When unit is set to 'uur': auto-set tariefGroep=A, resourceType=arbeid, normQuantity=1.
+          // Tariefgroep en norm alleen op een regel zonder norm en zonder prijs: anders
+          // rekent de tariefgroep een uurloon bij en verandert het totaal (knownbugs 5),
+          // of wordt een bewuste norm 0 een 1 (knownbugs 6).
           if (field === 'unit' && value === 'uur' && item.rowType === 'regel') {
-            if (!updated.tariefGroep) updated.tariefGroep = 'A';
             if (!updated.resourceType) updated.resourceType = 'arbeid';
-            if (!updated.normQuantity) updated.normQuantity = 1;
+            const heeftPrijs = !!(updated.normUnitPrice || updated.materialPrice || updated.laborPrice);
+            if (updated.normQuantity == null && !heeftPrijs) {
+              if (!updated.tariefGroep) updated.tariefGroep = 'A';
+              updated.normQuantity = 1;
+            }
           }
           return updated;
         }),

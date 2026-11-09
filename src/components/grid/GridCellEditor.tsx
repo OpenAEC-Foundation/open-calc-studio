@@ -63,8 +63,10 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
     }
   }, [col.type, selectOnFocus, isTextareaDesc, isSelect]);
 
-  const initialValue = (() => {
-    if (editValue) return editValue;
+  // De opgeslagen celwaarde zoals de editor hem toont. Hiermee vergelijkt
+  // commitIfChanged; niet met de getypte begintoets (editValue), anders telt
+  // "7 -> 5 typen, Enter" niet als wijziging en gaat de invoer verloren.
+  const storedValue = (() => {
     const keyMap: Record<string, string> = { productienorm: 'normQuantity', productiecapaciteit: 'normFactor', hoeveelheid: 'quantity', uren: 'quantity' };
     const fieldKey = keyMap[col.key] ?? col.key;
     const raw = item[fieldKey as keyof CostItem];
@@ -84,6 +86,8 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
     }
     return String(raw);
   })();
+  // Begintekst van de editor: de getypte toets als je met typen begon.
+  const initialValue = editValue || storedValue;
 
   // Zelfde inspringing als GridCell (padding per diepte + chevron op
   // containerrijen), zodat de tekst tijdens het bewerken op zijn plek
@@ -97,12 +101,12 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
   })();
   const editorStyle = descPaddingLeft !== undefined ? { ...style, paddingLeft: descPaddingLeft } : style;
 
-  // Alleen committen als de tekst echt gewijzigd is: klik-in/klik-uit of
+  // Alleen committen als de tekst echt afwijkt van de opgeslagen waarde: klik-in/klik-uit of
   // Tab-en door cellen mag waarden nooit herschrijven (en vult de
   // geschiedenis niet met lege bewerkingen).
   const commitIfChanged = useCallback((value: string) => {
-    if (value !== initialValue) onCommit(item, colIndex, value);
-  }, [initialValue, onCommit, item, colIndex]);
+    if (value !== storedValue) onCommit(item, colIndex, value);
+  }, [storedValue, onCommit, item, colIndex]);
 
   const moveToNextCell = useCallback((shift: boolean) => {
     const currentEditIdx = editableCols.findIndex(c => c.index === colIndex);

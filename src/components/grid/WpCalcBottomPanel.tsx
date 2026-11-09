@@ -44,16 +44,22 @@ function UrenFullScreen() {
     return groups;
   }, [items, tarieven]);
 
-  const handleTariefChange = (groep: string, value: string) => {
-    const num = parseFloat(value.replace(',', '.'));
-    if (isNaN(num)) return;
+  // De velden tonen NL-notatie ("1.234,50"); parseFloat zou dat als 1,234
+  // lezen. Parse daarom zoals de rest van de app, en doe niets als de tekst
+  // niet is gewijzigd: alleen focus + blur mag nooit iets herschalen
+  // (knownbug 15), ook niet door afronding in de weergave.
+  const handleTariefChange = (groep: string, value: string, shown: string) => {
+    if (value.trim() === shown.trim()) return;
+    const num = parseNumericInput(value);
+    if (num === null) return;
     updateTarieven({ ...tarieven, [groep]: num });
   };
 
   /** Commit a new total uren for a tariefgroep — rescales norm naar rato. */
   const handleUrenChange = (groep: string, value: string, currentUren: number) => {
-    const num = parseFloat(value.replace(',', '.'));
-    if (isNaN(num) || num < 0) return;
+    if (value.trim() === formatNumber(currentUren).trim()) return;
+    const num = parseNumericInput(value);
+    if (num === null || num < 0) return;
     // No-op if unchanged (avoid clobbering precision)
     if (Math.abs(num - currentUren) < 0.001) return;
     // Only A/B/C tariefgroepen are valid rescale targets; '-' (no group) is read-only
@@ -64,8 +70,9 @@ function UrenFullScreen() {
 
   /** Commit a new GRAND total uren — rescales all regels naar rato. */
   const handleTotaalUrenChange = (value: string, currentTotal: number) => {
-    const num = parseFloat(value.replace(',', '.'));
-    if (isNaN(num) || num < 0) return;
+    if (value.trim() === formatNumber(currentTotal).trim()) return;
+    const num = parseNumericInput(value);
+    if (num === null || num < 0) return;
     if (Math.abs(num - currentTotal) < 0.001) return;
     pushHistory(items, t('grid:undo.totalHoursProrate'));
     prorateUrenTotal(num);
@@ -128,10 +135,10 @@ function UrenFullScreen() {
                     type="text"
                     className="tarief-input"
                     defaultValue={val.tarief.toFixed(2)}
-                    onBlur={(e) => handleTariefChange(groep, e.target.value)}
+                    onBlur={(e) => handleTariefChange(groep, e.target.value, val.tarief.toFixed(2))}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
-                        handleTariefChange(groep, e.currentTarget.value);
+                        handleTariefChange(groep, e.currentTarget.value, val.tarief.toFixed(2));
                         e.currentTarget.blur();
                       }
                     }}
