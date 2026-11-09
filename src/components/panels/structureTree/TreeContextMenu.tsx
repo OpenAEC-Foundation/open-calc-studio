@@ -1,0 +1,325 @@
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import type { CostItem } from '@/types/costModel';
+import { allChapters, label, type TreeNumber } from './treeModel';
+import type { TreeRules } from './treeRules';
+import type { TreeActions } from './treeActions';
+
+/**
+ * Structuurboom, het rechtermuisknopmenu: omhoog/omlaag, "Verplaats naar"
+ * (met submenu), hoofdstuk ↔ paragraaf, alles eronder open/dicht en
+ * verwijderen. Welke keuzes er zijn, komt uit de regels (treeRules.ts); wat
+ * een keuze doet, uit de acties (treeActions.ts).
+ */
+
+export interface MenuState { x: number; y: number; id: string }
+
+/** Open/dicht-stand van het menu en zijn submenu's (het paneel opent het). */
+export function useTreeMenu() {
+  const [menu, setMenu] = useState<MenuState | null>(null);
+  const [showMoveSub, setShowMoveSub] = useState(false);
+  const [showParaSub, setShowParaSub] = useState(false);
+  const closeMenu = () => { setMenu(null); setShowMoveSub(false); setShowParaSub(false); };
+  const openMenu = (x: number, y: number, id: string) => {
+    setShowMoveSub(false);
+    setShowParaSub(false);
+    setMenu({ x, y, id });
+  };
+  return { menu, showMoveSub, setShowMoveSub, showParaSub, setShowParaSub, closeMenu, openMenu };
+}
+export type TreeMenu = ReturnType<typeof useTreeMenu>;
+
+interface Props {
+  state: TreeMenu & { menu: MenuState };
+  menuItem: CostItem | undefined;
+  treeRef: React.RefObject<HTMLDivElement | null>;
+  number: TreeNumber;
+  items: CostItem[];
+  fullByParent: Map<string | null, CostItem[]>;
+  rules: TreeRules;
+  actions: TreeActions;
+  /** Verwijderen (met vraag); het paneel weet welke rij daarna geselecteerd wordt. */
+  onDelete: (id: string) => void;
+}
+
+export const TreeContextMenu: React.FC<Props> = ({ state, menuItem, treeRef, number, items, fullByParent, rules, actions, onDelete }) => {
+  const { t } = useTranslation();
+  const { menu, showMoveSub, setShowMoveSub, showParaSub, setShowParaSub, closeMenu } = state;
+  const { levelOf, hasChapters, siblingTarget, canMoveInto, paragraphTargets, canMakeChapter, afterTargets, canMoveToTop, postTargets } = rules;
+  const { moveAmongSiblings, moveInto, makeParagraph, makeChapter, moveChapterToTop, moveChapterAfter, setCollapsedBelow, hasTreeChildren } = actions;
+
+  // ── Rechtermuisknopmenu ───────────────────────────────────────────────
+  const menuRef = useRef<HTMLDivElement>(null);
+  /** Menu dicht na een keuze (of Escape): focus terug naar de boom, anders
+   *  valt hij op de pagina en doen de pijltjestoetsen niets meer. Niet bij
+   *  klikken buiten het menu: dan hoort de focus bij wat je aanklikte. */
+  const closeMenuToTree = () => { closeMenu(); treeRef.current?.focus({ preventScroll: true }); };
+
+  useEffect(() => {
+    if (!menu) return;
+    const onMouseDown = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) closeMenu();
+    };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeMenuToTree(); };
+    document.addEventListener('pointerdown', onMouseDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('pointerdown', onMouseDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [menu]);
+
+  useEffect(() => {
+    if (!menu || !menuRef.current) return;
+    const rect = menuRef.current.getBoundingClientRect();
+    if (rect.right > window.innerWidth) menuRef.current.style.left = `${menu.x - rect.width}px`;
+    if (rect.bottom > window.innerHeight) menuRef.current.style.top = `${menu.y - rect.height}px`;
+  }, [menu]);
+
+  // Een open submenu ook helemaal in beeld houden: valt het rechts buiten
+  // het venster, dan links van het menu; onderaan eruit, dan omhoog schuiven
+  // (maar nooit boven het venster uit).
+  useLayoutEffect(() => {
+    if (!menu || (!showMoveSub && !showParaSub)) return;
+    const sub = menuRef.current?.querySelector<HTMLElement>('.grid-context-submenu');
+    if (!sub) return;
+    const rect = sub.getBoundingClientRect();
+    if (rect.right > window.innerWidth) { sub.style.left = 'auto'; sub.style.right = '100%'; }
+    const overflow = rect.bottom - window.innerHeight + 4;
+    if (overflow > 0) sub.style.top = `${-Math.max(0, Math.min(overflow, rect.top - 4))}px`;
+  }, [menu, showMoveSub, showParaSub]);
+
+  const menuChapters = useMemo(() => {
+    if (!menu) return [];
+    // Doelhoofdstukken voor een post of paragraaf (regels en bewakingsposten: postTargets).
+    const rowType = menuItem?.rowType;
+    if (rowType !== 'chapter' && rowType !== 'begrotingspost') return [];
+    return allChapters(fullByParent).filter(({ item }) => canMoveInto(menu.id, item.id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [menu, fullByParent, items]);
+  const menuParagraphTargets = useMemo(
+    () => (menu ? paragraphTargets(menu.id) : []),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [menu, fullByParent, items],
+  );
+  const menuAfterTargets = useMemo(
+    () => (menu ? afterTargets(menu.id) : []),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [menu, fullByParent, items],
+  );
+  const menuPostTargets = useMemo(
+    () => (menu ? postTargets(menu.id) : []),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [menu, fullByParent, items],
+  );
+
+  if (!menuItem) return null;
+
+  return (
+    <div ref={menuRef} className="grid-context-menu schedule-tree-menu" role="menu" style={{ left: menu.x, top: menu.y }}>
+      <button
+        className="grid-context-menu-item"
+        role="menuitem"
+        disabled={!siblingTarget(menu.id, -1)}
+        onClick={() => { moveAmongSiblings(menu.id, -1); closeMenuToTree(); }}
+      >
+        <span>{t('ribbon:budget.moveUp')}</span>
+        <span className="grid-context-menu-shortcut">Alt+↑</span>
+      </button>
+      <button
+        className="grid-context-menu-item"
+        role="menuitem"
+        disabled={!siblingTarget(menu.id, 1)}
+        onClick={() => { moveAmongSiblings(menu.id, 1); closeMenuToTree(); }}
+      >
+        <span>{t('ribbon:budget.moveDown')}</span>
+        <span className="grid-context-menu-shortcut">Alt+↓</span>
+      </button>
+      {/* Verplaats naar: post/paragraaf → een hoofdstuk; hoofdstuk op het
+          hoogste niveau → bovenaan of ná een ander hoofdstuk (blijft
+          hoofdstuk); regel/bewakingspost → een (bewakings)post. */}
+      {(() => {
+        const topChapter = menuItem.rowType === 'chapter' && levelOf(menuItem.id) === 0;
+        const toPost = menuItem.rowType === 'regel' || menuItem.rowType === 'bewakingspost';
+        const empty = topChapter
+          ? menuAfterTargets.length === 0 && !canMoveToTop(menuItem.id)
+          : toPost ? !menuPostTargets.some((p) => p.target) : menuChapters.length === 0;
+        // Grijs zonder uitleg is raadselachtig: zeg kort waarom het niet kan.
+        const why = !empty ? ''
+          : topChapter ? t('structureTree.whyNoOtherChapter')
+            : toPost ? t('structureTree.whyNoOtherItem')
+              : menuItem.rowType === 'chapter' ? t('structureTree.whyNeedsChapterWithoutItems')
+                : t('structureTree.whyNoChapterWithoutSections');
+        return <>
+      <div className="grid-context-menu-separator" />
+      <div style={{ position: 'relative' }}>
+        <button
+          className="grid-context-menu-item"
+          role="menuitem"
+          data-action="move-to"
+          aria-haspopup="menu"
+          aria-expanded={showMoveSub}
+          // Grijs maar niet `disabled`: een uitgeschakelde knop toont geen
+          // tooltip, en de reden ("waarom kan dit niet?") staat juist daarin.
+          aria-disabled={empty || undefined}
+          data-why={why || undefined}
+          title={why || undefined}
+          onClick={() => { if (empty) return; setShowMoveSub((v) => !v); setShowParaSub(false); }}
+        >
+          <span>{t('grid:contextMenu.moveTo')}</span>
+          <span className="grid-context-menu-shortcut">▸</span>
+        </button>
+        {showMoveSub && (
+          <div className="grid-context-submenu" role="menu" style={{ position: 'absolute', left: '100%', top: 0 }}>
+            {topChapter && <>
+              <button
+                className="grid-context-menu-item"
+                role="menuitem"
+                data-move-top=""
+                disabled={!canMoveToTop(menu.id)}
+                onClick={() => { moveChapterToTop(menu.id); closeMenuToTree(); }}
+              >
+                <span>{t('structureTree.moveToTop')}</span>
+              </button>
+              {menuAfterTargets.length > 0 && (
+                <div className="schedule-tree-menu-heading" role="presentation">{t('structureTree.placeAfter')}</div>
+              )}
+              {menuAfterTargets.map((ch) => (
+                <button
+                  key={ch.id}
+                  className="grid-context-menu-item"
+                  role="menuitem"
+                  data-move-after={ch.id}
+                  style={{ paddingInlineStart: 24 }}
+                  onClick={() => { moveChapterAfter(menu.id, ch.id); closeMenuToTree(); }}
+                >
+                  <span>{label(ch, t('chapter'), number)}</span>
+                </button>
+              ))}
+            </>}
+            {toPost && menuPostTargets.map(({ item: p, level, target }) => (target ? (
+              <button
+                key={p.id}
+                className="grid-context-menu-item"
+                role="menuitem"
+                data-move-target={p.id}
+                style={{ paddingInlineStart: 12 + level * 12 }}
+                onClick={() => { moveInto(menu.id, p.id); closeMenuToTree(); }}
+              >
+                <span>{label(p, '—', number)}</span>
+              </button>
+            ) : (
+              // Hoofdstuk (of de huidige post) als kopje: niet te kiezen.
+              <div
+                key={p.id}
+                className="schedule-tree-menu-heading"
+                role="presentation"
+                style={{ paddingInlineStart: 12 + level * 12 }}
+              >
+                {label(p, p.rowType === 'chapter' ? t('chapter') : '—', number)}
+              </div>
+            )))}
+            {!topChapter && !toPost && menuChapters.map(({ item: ch, level }) => (
+              <button
+                key={ch.id}
+                className="grid-context-menu-item"
+                role="menuitem"
+                data-move-target={ch.id}
+                style={{ paddingInlineStart: 12 + level * 12 }}
+                onClick={() => { moveInto(menu.id, ch.id); closeMenuToTree(); }}
+              >
+                <span>{label(ch, t('chapter'), number)}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+        </>;
+      })()}
+      {/* Een hoofdstuk op het hoogste niveau ziet "Maak paragraaf van" altijd;
+          kan het niet, dan grijs met de reden eronder. */}
+      {(() => {
+        const topChapter = menuItem.rowType === 'chapter' && levelOf(menuItem.id) === 0;
+        const paraWhy = !topChapter || menuParagraphTargets.length > 0 ? ''
+          : hasChapters(menuItem.id) ? t('structureTree.whyHasSections')
+            : t('structureTree.whyNeedsChapterWithoutItems');
+        return (topChapter || canMakeChapter(menuItem.id)) && <>
+        <div className="grid-context-menu-separator" />
+        {topChapter && (
+          <div style={{ position: 'relative' }}>
+            <button
+              className="grid-context-menu-item"
+              role="menuitem"
+              data-action="make-paragraph"
+              aria-haspopup="menu"
+              aria-expanded={showParaSub}
+              // Grijs met de reden als tooltip (zie "Verplaats naar").
+              aria-disabled={paraWhy ? true : undefined}
+              data-why={paraWhy || undefined}
+              title={paraWhy || undefined}
+              onClick={() => { if (paraWhy) return; setShowParaSub((v) => !v); setShowMoveSub(false); }}
+            >
+              <span>{t('structureTree.makeParagraphOf')}</span>
+              <span className="grid-context-menu-shortcut">▸</span>
+            </button>
+            {showParaSub && (
+              <div className="grid-context-submenu" role="menu" style={{ position: 'absolute', left: '100%', top: 0 }}>
+                {menuParagraphTargets.map((ch) => (
+                  <button
+                    key={ch.id}
+                    className="grid-context-menu-item"
+                    role="menuitem"
+                    data-paragraph-target={ch.id}
+                    onClick={() => { makeParagraph(menu.id, ch.id); closeMenuToTree(); }}
+                  >
+                    <span>{label(ch, t('chapter'), number)}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+        {canMakeChapter(menuItem.id) && (
+          <button
+            className="grid-context-menu-item"
+            role="menuitem"
+            data-action="make-chapter"
+            onClick={() => { makeChapter(menu.id); closeMenuToTree(); }}
+          >
+            <span>{t('structureTree.makeChapter')}</span>
+          </button>
+        )}
+      </>;
+      })()}
+      {hasTreeChildren(menuItem.id) && <>
+        <div className="grid-context-menu-separator" />
+        <button
+          className="grid-context-menu-item"
+          role="menuitem"
+          data-action="expand-below"
+          onClick={() => { setCollapsedBelow(menu.id, false); closeMenuToTree(); }}
+        >
+          <span>{t('structureTree.expandBelow')}</span>
+          <span className="grid-context-menu-shortcut">*</span>
+        </button>
+        <button
+          className="grid-context-menu-item"
+          role="menuitem"
+          data-action="collapse-below"
+          onClick={() => { setCollapsedBelow(menu.id, true); closeMenuToTree(); }}
+        >
+          <span>{t('structureTree.collapseBelow')}</span>
+        </button>
+      </>}
+      <div className="grid-context-menu-separator" />
+      <button
+        className="grid-context-menu-item"
+        role="menuitem"
+        data-action="delete"
+        onClick={() => { const id = menu.id; closeMenu(); onDelete(id); treeRef.current?.focus({ preventScroll: true }); }}
+      >
+        <span>{t('delete')}</span>
+      </button>
+    </div>
+  );
+};

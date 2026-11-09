@@ -349,8 +349,12 @@ describe('chapter ↔ section', () => {
   it('not under a chapter with estimate items, and a chapter with sections cannot become a section (it says why)', async () => {
     // h21 heeft een paragraaf: grijs, met de reden eronder. h23 kan wel, maar niet onder h22 (heeft posten).
     await openMenu('h21');
-    expect(node.querySelector<HTMLButtonElement>('[data-action="make-paragraph"]')!.disabled).toBe(true);
-    expect(node.querySelector('[data-why="make-paragraph"]')!.textContent).toBe(i18next.t('structureTree.whyHasSections'));
+    // Grijs, de reden als tooltip; klikken doet niets.
+    const para = node.querySelector<HTMLButtonElement>('[data-action="make-paragraph"]')!;
+    expect(para.getAttribute('aria-disabled')).toBe('true');
+    expect(para.title).toBe(i18next.t('structureTree.whyHasSections'));
+    await act(async () => para.click());
+    expect(node.querySelector('[data-paragraph-target]')).toBeNull();
     await act(async () => { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); });
     await openMenu('h23');
     await clickMenu('[data-action="make-paragraph"]');

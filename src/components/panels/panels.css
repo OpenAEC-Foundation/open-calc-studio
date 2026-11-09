@@ -145,8 +145,10 @@
 
 .schedule-tree-title {
   font-size: 11px;
-  font-weight: 600;
-  color: var(--theme-text);
+  /* Een kopje boven de boom, geen rij: rustig grijs, zodat de hoofdstukken
+     eronder (vet) opvallen en niet alles vet is. */
+  font-weight: 500;
+  color: var(--theme-text-secondary);
   padding: 4px 8px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -224,6 +226,10 @@
    Het bedrag van een hoofdstuk in de gewone tekstkleur (niet gedempt). */
 .schedule-tree .schedule-item[data-row-type="chapter"] .schedule-item-label { font-weight: 600; }
 .schedule-tree .schedule-item[data-row-type="chapter"] .schedule-item-amount { color: var(--theme-text); font-weight: 600; }
+/* Een paragraaf (hoofdstuk in een hoofdstuk) half-vet: zo valt hij duidelijk
+   onder zijn hoofdstuk, ook als alleen hoofdstukken in beeld zijn. */
+.schedule-tree .schedule-item[data-row-type="chapter"]:not([aria-level="1"]) .schedule-item-label,
+.schedule-tree .schedule-item[data-row-type="chapter"]:not([aria-level="1"]) .schedule-item-amount { font-weight: 500; }
 .schedule-tree .schedule-item.active[data-row-type="chapter"] .schedule-item-amount { color: inherit; }
 
 /* Bedrag en % rechts: de omschrijving neemt de rest en kort zo nodig in. */
@@ -239,20 +245,21 @@
 .schedule-item-pct { min-width: 6ch; text-align: end; }
 .schedule-item.active .schedule-item-amount,
 .schedule-item.active .schedule-item-pct { color: inherit; opacity: 0.85; }
-/* Heel smal paneel (onder de standaardbreedte van 220 px): alleen het % weg.
-   Het bedrag blijft altijd staan; de omschrijving kort dan in. */
-@container (max-width: 200px) { .schedule-item-pct { display: none; } }
+/* Smal paneel: het % pas tonen als er ruimte is. Bij de standaardbreedte
+   (220 px) bleef er met bedrag én % maar ± 70 px over voor de omschrijving;
+   sleep je het paneel breder, dan komt het % erbij. Het bedrag blijft altijd
+   staan; de omschrijving kort dan in. */
+@container (max-width: 260px) { .schedule-item-pct { display: none; } }
 
 /* Weergave-instellingen: klein knopje naast de dieptekeuze, menu eronder. */
-/* Korte reden onder een grijze menu-optie ("waarom kan dit niet?"). */
-.schedule-tree-menu-hint {
-  max-width: 240px;
-  padding: 0 12px 4px 24px;
-  font-size: 10px;
-  line-height: 1.35;
-  white-space: normal;
+/* Grijze menu-optie met de reden als tooltip: ziet eruit als uitgeschakeld,
+   maar blijft hoverbaar (een echte `disabled` knop toont geen tooltip). */
+.schedule-tree-menu .grid-context-menu-item[aria-disabled="true"] {
   color: var(--theme-text-secondary);
+  opacity: 0.5;
+  cursor: default;
 }
+.schedule-tree-menu .grid-context-menu-item[aria-disabled="true"]:hover { background: transparent; }
 .schedule-tree-view { position: relative; flex-shrink: 0; }
 .schedule-tree-view-btn {
   display: flex;
@@ -339,6 +346,11 @@
 }
 .schedule-tree-view-option:hover { background: var(--theme-hover); }
 .schedule-tree-view-option input { margin: 0; accent-color: var(--theme-accent); }
+.schedule-tree-view-hint {
+  padding: 0 12px 2px 32px;
+  font-size: 10px;
+  color: var(--theme-text-secondary);
+}
 .schedule-tree-view-sep { height: 1px; margin: 8px 0; background: var(--theme-border); }
 
 /* Slepen in de boom: de gesleepte rij staat alvast op zijn nieuwe plek
@@ -361,9 +373,9 @@
 @media (prefers-reduced-motion: reduce) {
   .schedule-tree.is-dragging .schedule-item.expand-pending .grid-collapse-btn svg { transition: none; }
 }
+/* De map waar de rij in komt: alleen een zachte tint, geen kader eromheen. */
 .schedule-item.drop-inside {
-  background: color-mix(in srgb, var(--theme-accent) 7%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--theme-accent) 70%, transparent);
+  background: color-mix(in srgb, var(--theme-accent) 12%, transparent);
 }
 .schedule-tree.is-blocked, .schedule-tree.is-blocked .schedule-item { cursor: not-allowed; }
 
