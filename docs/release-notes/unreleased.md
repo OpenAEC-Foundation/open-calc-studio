@@ -1,5 +1,19 @@
 # Open Calc Studio — aankomende release
 
+## Nog zonder versienummer: verplaatsen en selectie in het raster
+
+- Een rij verplaatsen (slepen in het raster, of via de AI-koppeling) verandert
+  alleen nog de plek van die rij. In geïmporteerde begrotingen konden eerder ook
+  rijen in andere hoofdstukken van volgorde wisselen.
+- Na het verplaatsen blijft de selectie op de verplaatste rijen staan. Eerder
+  stond hij op de rijen die nu op die regelnummers stonden, zodat een Delete
+  direct na het slepen andere rijen kon raken.
+- Na in- of uitklappen (pijltje, Inklappen tot niveau, bewakingsposten) vervalt
+  een selectie van meerdere rijen; de actieve cel blijft op zijn rij, of op het
+  ingeklapte hoofdstuk als die rij nu verborgen is.
+- Slepen naar dezelfde plek maakt geen ongedaan-stap meer en markeert de
+  begroting niet als gewijzigd.
+
 ## Nog zonder versienummer: arbeid met productiecapaciteit
 
 - **Let op: bedragen kunnen dalen.** Op een regel met een tariefgroep deelt de
