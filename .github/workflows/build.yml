@@ -195,5 +195,8 @@ jobs:
             The macOS app is Developer ID-signed and notarized; verification checks
             the app extracted from the delivered DMG.
             All platform installers have GitHub build-provenance attestations.
+            `SHA256SUMS.txt` covers the files built here. The snap and `latest.json`
+            are added after publishing: the snap has its own `.sha256` file, and
+            `latest.json` carries the updater signatures of the installers.
             See docs/desktop-builds.md for verification and test-build downloads.
           files: release/*

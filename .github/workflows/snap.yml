@@ -140,7 +140,10 @@ jobs:
         uses: snapcore/action-build@v1
         id: snapcraft
 
-      # Gepubliceerde release: snap als asset aan de release hangen.
+      # Gepubliceerde release: snap als asset aan de release hangen, met een
+      # eigen checksum. SHA256SUMS.txt is al gemaakt vóór de snap bestond (#66);
+      # dat bestand achteraf aanvullen kan botsen met latest-json.yml, dat op
+      # hetzelfde moment draait. Controle: sha256sum -c <snap>.sha256
       - name: Upload snap to GitHub release
         if: github.event_name == 'release'
         env:
@@ -148,7 +151,10 @@ jobs:
           VERSION: ${{ steps.get-version.outputs.version }}
           SNAP: ${{ steps.snapcraft.outputs.snap }}
         run: |
-          gh release upload "$VERSION" "$SNAP" --clobber
+          name=$(basename "$SNAP")
+          (cd "$(dirname "$SNAP")" && sha256sum "$name" > "$name.sha256")
+          cat "$SNAP.sha256"
+          gh release upload "$VERSION" "$SNAP" "$SNAP.sha256" --clobber
 
       # Handmatige test: snap als CI-artifact (de release NIET aanraken).
       - name: Upload snap as workflow artifact

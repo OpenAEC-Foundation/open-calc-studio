@@ -154,3 +154,8 @@ Release assets use dots where native build filenames contained spaces, matching
 GitHub's asset naming. The release-level `SHA256SUMS.txt` uses those download
 names. Linux package `.asc` signatures verify the downloaded bytes directly;
 the signed `SHA256SUMS-linux.txt` preserves the original native build names.
+
+`SHA256SUMS.txt` is written before the release is published, so it does not
+list the snap or `latest.json`, which are uploaded afterwards. The snap gets its
+own `<snap>.sha256` (check with `sha256sum -c`); `latest.json` holds the updater
+signatures of the installers it points to.
