@@ -3,6 +3,8 @@ base: core22
 # Versie wordt in CI overschreven met het release-versienummer (zie .github/workflows/snap.yml).
 version: '0.0.0'
 title: Open Calc Studio
+# Zelfde licentie als LICENSE en package.json (#24); de Store-vermelding hoort hiermee overeen te komen (#68).
+license: LGPL-3.0-only
 summary: Construction cost estimating with BasCalc, WPCalc, and IFC support
 description: |
   Open Calc Studio is a desktop application for construction cost estimating: a
