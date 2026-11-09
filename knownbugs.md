@@ -527,14 +527,6 @@ stand van `main` op die datum.
      en laat artikelen weg die in deze sessie voor het eerst zijn toegevoegd. Voorstel: in beide gevallen
      samenvoegen op `id`. — S
 
-114. **Ongedaan maken en opnieuw markeren het document nooit als gewijzigd** (ernstig).
-     `src/state/slices/costItemsSlice.ts:171` (`setItems`); aanroepers: `useKeyboardShortcuts.ts:43-48`,
-     `TitleBar.tsx:81-89`, `HomeTab.tsx:50-56,106`, `MobileWorkspace.tsx:258-259`. Undo/redo loopt via
-     `setItems`, de enige mutator zonder `markModified()`. Nagespeeld: bewerken → Ctrl+S → Ctrl+Z. `isModified`
-     blijft false, dus bij sluiten komt er geen vraag, en het herstellogboek wordt ook verwijderd
-     (`recovery.ts:49`). De ongedaan gemaakte stand gaat stil verloren. Voorstel: `markModified` aanroepen in
-     `undo`/`redo` (`historySlice.ts`), of een actie `restoreItems` toevoegen. — B
-
 115. **Een tabblad uit de tabbalk slepen sluit het zonder te vragen en gooit niet-opgeslagen wijzigingen weg.**
      `src/components/layout/FileTabBar.tsx:168-196` (`handleDragEnd`). Wie meer dan 50px boven of onder de balk
      loslaat (dus ook boven het grid), krijgt een nieuw venster met het bestand *van schijf*, en de app roept

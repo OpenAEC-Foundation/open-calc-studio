@@ -18,6 +18,13 @@ export interface HistorySlice {
 
 const MAX_HISTORY = 50;
 
+/** Undo/redo changes the document content, so a saved document is dirty again. */
+function markActiveModified(state: any) {
+  if (state.activeDocumentId && state.updateDocument) {
+    state.updateDocument(state.activeDocumentId, { isModified: true });
+  }
+}
+
 export const createHistorySlice: StateCreator<HistorySlice> = (set, get) => ({
   undoStack: [],
   redoStack: [],
@@ -39,6 +46,7 @@ export const createHistorySlice: StateCreator<HistorySlice> = (set, get) => ({
       undoStack: s.undoStack.slice(0, -1),
       redoStack: [...s.redoStack, { items: JSON.parse(JSON.stringify(currentItems)), description: entry.description }],
     }));
+    markActiveModified(state);
     return entry.items;
   },
 
@@ -52,6 +60,7 @@ export const createHistorySlice: StateCreator<HistorySlice> = (set, get) => ({
       redoStack: s.redoStack.slice(0, -1),
       undoStack: [...s.undoStack, { items: JSON.parse(JSON.stringify(currentItems)), description: entry.description }],
     }));
+    markActiveModified(state);
     return entry.items;
   },
 
