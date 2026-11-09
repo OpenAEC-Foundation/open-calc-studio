@@ -1257,6 +1257,8 @@
     "whyNoOtherItem": "다른 내역 항목이 없습니다.",
     "whyHasSections": "이 장에는 자체 하위 절이 있습니다. 하위 절은 한 단계뿐입니다.",
     "moveToTop": "맨 위로",
-    "placeAfter": "다음 뒤에 배치"
+    "placeAfter": "다음 뒤에 배치",
+    "whyFirst": "이미 맨 위에 있습니다.",
+    "whyLast": "이미 맨 아래에 있습니다."
   }
 }

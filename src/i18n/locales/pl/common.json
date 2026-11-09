@@ -1261,6 +1261,8 @@
     "whyNoOtherItem": "Nie ma innej pozycji kosztorysowej.",
     "whyHasSections": "Ten dział ma własne paragrafy; jest tylko jeden poziom paragrafów.",
     "moveToTop": "Na górę",
-    "placeAfter": "Umieść po"
+    "placeAfter": "Umieść po",
+    "whyFirst": "Jest już na samej górze.",
+    "whyLast": "Jest już na samym dole."
   }
 }

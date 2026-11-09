@@ -1249,14 +1249,16 @@
     "expandBelow": "Kembangkan semua di bawah",
     "collapseBelow": "Runtuhkan semua di bawah",
     "deleteConfirmOne": "Padam \"{{name}}\"?",
-    "makeParagraphOf": "Jadikan subbahagian bagi",
+    "makeParagraphOf": "Jadikan seksyen bagi",
     "makeChapter": "Jadikan bab",
     "whyNoOtherChapter": "Tiada bab lain.",
-    "whyNeedsChapterWithoutItems": "Hanya bab tanpa butiran anggaran boleh mempunyai subbahagian.",
-    "whyNoChapterWithoutSections": "Tiada bab lain tanpa subbahagian.",
+    "whyNeedsChapterWithoutItems": "Hanya bab tanpa butiran anggaran boleh mempunyai seksyen.",
+    "whyNoChapterWithoutSections": "Tiada bab lain tanpa seksyen.",
     "whyNoOtherItem": "Tiada butiran anggaran lain.",
-    "whyHasSections": "Bab ini sudah mempunyai subbahagian; hanya ada satu tahap subbahagian.",
+    "whyHasSections": "Bab ini sudah mempunyai seksyen; hanya ada satu tahap seksyen.",
     "moveToTop": "Paling atas",
-    "placeAfter": "Letak selepas"
+    "placeAfter": "Letak selepas",
+    "whyFirst": "Sudah berada paling atas.",
+    "whyLast": "Sudah berada paling bawah."
   }
 }

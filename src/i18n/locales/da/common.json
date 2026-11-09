@@ -1257,6 +1257,8 @@
     "whyNoOtherItem": "Der er ingen anden post.",
     "whyHasSections": "Dette kapitel har selv afsnit; der er kun ét niveau af afsnit.",
     "moveToTop": "Øverst",
-    "placeAfter": "Placer efter"
+    "placeAfter": "Placer efter",
+    "whyFirst": "Står allerede øverst.",
+    "whyLast": "Står allerede nederst."
   }
 }

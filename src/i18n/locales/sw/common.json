@@ -1249,14 +1249,16 @@
     "expandBelow": "Panua vyote vilivyo chini",
     "collapseBelow": "Kunja vyote vilivyo chini",
     "deleteConfirmOne": "Futa \"{{name}}\"?",
-    "makeParagraphOf": "Fanya kifungu cha",
+    "makeParagraphOf": "Fanya fungu la",
     "makeChapter": "Fanya sura",
     "whyNoOtherChapter": "Hakuna sura nyingine.",
-    "whyNeedsChapterWithoutItems": "Sura isiyo na vipengele vya makadirio pekee ndiyo inaweza kuwa na vifungu.",
-    "whyNoChapterWithoutSections": "Hakuna sura nyingine isiyo na vifungu.",
+    "whyNeedsChapterWithoutItems": "Sura isiyo na vipengele vya makadirio pekee ndiyo inaweza kuwa na mafungu.",
+    "whyNoChapterWithoutSections": "Hakuna sura nyingine isiyo na mafungu.",
     "whyNoOtherItem": "Hakuna kipengele kingine cha makadirio.",
-    "whyHasSections": "Sura hii ina vifungu vyake; kuna kiwango kimoja tu cha vifungu.",
+    "whyHasSections": "Sura hii ina mafungu yake; kuna kiwango kimoja tu cha mafungu.",
     "moveToTop": "Juu kabisa",
-    "placeAfter": "Weka baada ya"
+    "placeAfter": "Weka baada ya",
+    "whyFirst": "Tayari iko juu kabisa.",
+    "whyLast": "Tayari iko chini kabisa."
   }
 }

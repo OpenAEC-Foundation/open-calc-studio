@@ -1257,6 +1257,8 @@
     "whyNoOtherItem": "他の内訳項目はありません。",
     "whyHasSections": "この章には独自の節があります。節は1階層のみです。",
     "moveToTop": "先頭へ",
-    "placeAfter": "次の後に配置"
+    "placeAfter": "次の後に配置",
+    "whyFirst": "すでに一番上にあります。",
+    "whyLast": "すでに一番下にあります。"
   }
 }

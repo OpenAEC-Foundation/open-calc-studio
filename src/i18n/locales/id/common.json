@@ -1257,6 +1257,8 @@
     "whyNoOtherItem": "Tidak ada pos anggaran lain.",
     "whyHasSections": "Bab ini sudah memiliki subbagian; hanya ada satu tingkat subbagian.",
     "moveToTop": "Paling atas",
-    "placeAfter": "Tempatkan setelah"
+    "placeAfter": "Tempatkan setelah",
+    "whyFirst": "Sudah berada paling atas.",
+    "whyLast": "Sudah berada paling bawah."
   }
 }

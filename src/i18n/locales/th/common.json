@@ -1249,14 +1249,16 @@
     "expandBelow": "ขยายทั้งหมดที่อยู่ข้างใต้",
     "collapseBelow": "ยุบทั้งหมดที่อยู่ข้างใต้",
     "deleteConfirmOne": "ลบ \"{{name}}\" หรือไม่?",
-    "makeParagraphOf": "ทำเป็นหัวข้อย่อยของ",
+    "makeParagraphOf": "ทำเป็นตอนของ",
     "makeChapter": "ทำเป็นหมวด",
     "whyNoOtherChapter": "ไม่มีหมวดงานอื่น",
-    "whyNeedsChapterWithoutItems": "เฉพาะหมวดงานที่ไม่มีรายการงานเท่านั้นที่มีหัวข้อย่อยได้",
-    "whyNoChapterWithoutSections": "ไม่มีหมวดงานอื่นที่ไม่มีหัวข้อย่อย",
+    "whyNeedsChapterWithoutItems": "เฉพาะหมวดงานที่ไม่มีรายการงานเท่านั้นที่มีตอนได้",
+    "whyNoChapterWithoutSections": "ไม่มีหมวดงานอื่นที่ไม่มีตอน",
     "whyNoOtherItem": "ไม่มีรายการงานอื่น",
-    "whyHasSections": "หมวดงานนี้มีหัวข้อย่อยของตัวเอง หัวข้อย่อยมีได้เพียงระดับเดียว",
+    "whyHasSections": "หมวดงานนี้มีตอนของตัวเอง ตอนมีได้เพียงระดับเดียว",
     "moveToTop": "บนสุด",
-    "placeAfter": "วางต่อจาก"
+    "placeAfter": "วางต่อจาก",
+    "whyFirst": "อยู่บนสุดแล้ว",
+    "whyLast": "อยู่ล่างสุดแล้ว"
   }
 }

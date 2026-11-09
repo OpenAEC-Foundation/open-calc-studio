@@ -1257,6 +1257,8 @@
     "whyNoOtherItem": "没有其他清单项。",
     "whyHasSections": "该章节已有自己的小节；小节只有一级。",
     "moveToTop": "移至顶部",
-    "placeAfter": "放在以下项之后"
+    "placeAfter": "放在以下项之后",
+    "whyFirst": "已在最上方。",
+    "whyLast": "已在最下方。"
   }
 }

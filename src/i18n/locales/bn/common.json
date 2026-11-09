@@ -1249,14 +1249,16 @@
     "expandBelow": "নিচের সবকিছু প্রসারিত করুন",
     "collapseBelow": "নিচের সবকিছু সংকুচিত করুন",
     "deleteConfirmOne": "\"{{name}}\" মুছবেন?",
-    "makeParagraphOf": "এর উপ-অংশ করুন",
+    "makeParagraphOf": "নিচের অধ্যায়ের অনুচ্ছেদ করুন",
     "makeChapter": "অধ্যায় করুন",
     "whyNoOtherChapter": "অন্য কোনো অধ্যায় নেই।",
-    "whyNeedsChapterWithoutItems": "শুধু প্রাক্কলন আইটেম ছাড়া অধ্যায়ে উপ-অংশ থাকতে পারে।",
-    "whyNoChapterWithoutSections": "উপ-অংশ ছাড়া অন্য কোনো অধ্যায় নেই।",
+    "whyNeedsChapterWithoutItems": "শুধু প্রাক্কলন আইটেম ছাড়া অধ্যায়ে অনুচ্ছেদ থাকতে পারে।",
+    "whyNoChapterWithoutSections": "অনুচ্ছেদ ছাড়া অন্য কোনো অধ্যায় নেই।",
     "whyNoOtherItem": "অন্য কোনো প্রাক্কলন আইটেম নেই।",
-    "whyHasSections": "এই অধ্যায়ের নিজস্ব উপ-অংশ আছে; উপ-অংশের কেবল একটি স্তর আছে।",
+    "whyHasSections": "এই অধ্যায়ের নিজস্ব অনুচ্ছেদ আছে; অনুচ্ছেদের কেবল একটি স্তর আছে।",
     "moveToTop": "সবার উপরে",
-    "placeAfter": "এর পরে রাখুন"
+    "placeAfter": "নিচেরটির পরে রাখুন",
+    "whyFirst": "ইতিমধ্যে সবার উপরে আছে।",
+    "whyLast": "ইতিমধ্যে সবার নিচে আছে।"
   }
 }

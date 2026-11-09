@@ -1258,6 +1258,8 @@
     "whyNoOtherItem": "No hay otra partida.",
     "whyHasSections": "Este capítulo ya tiene apartados; solo hay un nivel de apartados.",
     "moveToTop": "Al principio",
-    "placeAfter": "Colocar después de"
+    "placeAfter": "Colocar después de",
+    "whyFirst": "Ya está arriba del todo.",
+    "whyLast": "Ya está abajo del todo."
   }
 }

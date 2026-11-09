@@ -1257,6 +1257,8 @@
     "whyNoOtherItem": "Det finnes ingen annen post.",
     "whyHasSections": "Dette kapitlet har selv avsnitt; det finnes bare ett nivå av avsnitt.",
     "moveToTop": "Øverst",
-    "placeAfter": "Plasser etter"
+    "placeAfter": "Plasser etter",
+    "whyFirst": "Står allerede øverst.",
+    "whyLast": "Står allerede nederst."
   }
 }

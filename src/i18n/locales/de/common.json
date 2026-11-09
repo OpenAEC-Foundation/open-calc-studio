@@ -1257,6 +1257,8 @@
     "whyNoOtherItem": "Es gibt keine andere Position.",
     "whyHasSections": "Dieser Titel hat selbst Abschnitte; es gibt nur eine Abschnittsebene.",
     "moveToTop": "Ganz nach oben",
-    "placeAfter": "Platzieren nach"
+    "placeAfter": "Platzieren nach",
+    "whyFirst": "Steht bereits ganz oben.",
+    "whyLast": "Steht bereits ganz unten."
   }
 }

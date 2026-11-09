@@ -1249,14 +1249,16 @@
     "expandBelow": "Altındakilerin tümünü genişlet",
     "collapseBelow": "Altındakilerin tümünü daralt",
     "deleteConfirmOne": "\"{{name}}\" silinsin mi?",
-    "makeParagraphOf": "Kısım yap (altında)",
+    "makeParagraphOf": "Şunun altında paragraf yap",
     "makeChapter": "Bölüm yap",
     "whyNoOtherChapter": "Başka bölüm yok.",
-    "whyNeedsChapterWithoutItems": "Yalnızca pozu olmayan bir bölümün kısımları olabilir.",
-    "whyNoChapterWithoutSections": "Kısmı olmayan başka bölüm yok.",
+    "whyNeedsChapterWithoutItems": "Yalnızca pozu olmayan bir bölümün paragrafları olabilir.",
+    "whyNoChapterWithoutSections": "Paragrafı olmayan başka bölüm yok.",
     "whyNoOtherItem": "Başka poz yok.",
-    "whyHasSections": "Bu bölümün kendi kısımları var; yalnızca bir kısım düzeyi vardır.",
+    "whyHasSections": "Bu bölümün kendi paragrafları var; yalnızca bir paragraf düzeyi vardır.",
     "moveToTop": "En üste",
-    "placeAfter": "Şunun arkasına yerleştir"
+    "placeAfter": "Şunun arkasına yerleştir",
+    "whyFirst": "Zaten en üstte.",
+    "whyLast": "Zaten en altta."
   }
 }

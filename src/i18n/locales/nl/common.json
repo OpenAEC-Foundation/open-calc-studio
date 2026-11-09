@@ -1257,6 +1257,8 @@
     "whyNoOtherItem": "Er is geen andere begrotingspost.",
     "whyHasSections": "Dit hoofdstuk heeft zelf paragrafen; er is maar één niveau paragrafen.",
     "moveToTop": "Bovenaan",
-    "placeAfter": "Plaats na"
+    "placeAfter": "Plaats na",
+    "whyFirst": "Staat al bovenaan.",
+    "whyLast": "Staat al onderaan."
   }
 }

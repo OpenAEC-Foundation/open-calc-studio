@@ -1251,14 +1251,16 @@
     "expandBelow": "Extinde tot ce este dedesubt",
     "collapseBelow": "Restrânge tot ce este dedesubt",
     "deleteConfirmOne": "Ștergeți „{{name}}”?",
-    "makeParagraphOf": "Transformă în secțiune a",
+    "makeParagraphOf": "Transformă în paragraf al",
     "makeChapter": "Transformă în capitol",
     "whyNoOtherChapter": "Nu există alt capitol.",
-    "whyNeedsChapterWithoutItems": "Doar un capitol fără articole poate avea secțiuni.",
-    "whyNoChapterWithoutSections": "Nu există alt capitol fără secțiuni.",
+    "whyNeedsChapterWithoutItems": "Doar un capitol fără articole poate avea paragrafe.",
+    "whyNoChapterWithoutSections": "Nu există alt capitol fără paragrafe.",
     "whyNoOtherItem": "Nu există alt articol.",
-    "whyHasSections": "Acest capitol are deja secțiuni; există un singur nivel de secțiuni.",
+    "whyHasSections": "Acest capitol are deja paragrafe; există un singur nivel de paragrafe.",
     "moveToTop": "Sus de tot",
-    "placeAfter": "Plasează după"
+    "placeAfter": "Plasează după",
+    "whyFirst": "Este deja sus de tot.",
+    "whyLast": "Este deja jos de tot."
   }
 }

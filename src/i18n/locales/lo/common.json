@@ -1233,8 +1233,8 @@
     "review": "ສູນກວດສອບ"
   },
   "structureTree": {
-    "chapters": "ໝວດຕ່າງໆ",
-    "posts": "ລາຍການຄາດຄະເນ",
+    "chapters": "ໝວດວຽກຕ່າງໆ",
+    "posts": "ລາຍການງົບປະມານ",
     "all": "ແຖວ",
     "view": "ຕົວເລືອກການສະແດງ",
     "show": "ສະແດງ",
@@ -1250,14 +1250,16 @@
     "expandBelow": "ຂະຫຍາຍທັງໝົດທີ່ຢູ່ລຸ່ມ",
     "collapseBelow": "ຫຍໍ້ທັງໝົດທີ່ຢູ່ລຸ່ມ",
     "deleteConfirmOne": "ລຶບ \"{{name}}\" ບໍ?",
-    "makeParagraphOf": "ເຮັດເປັນພາກຍ່ອຍຂອງ",
-    "makeChapter": "ເຮັດເປັນໝວດ",
-    "whyNoOtherChapter": "ບໍ່ມີໝວດອື່ນ.",
-    "whyNeedsChapterWithoutItems": "ມີແຕ່ໝວດທີ່ບໍ່ມີລາຍການຄາດຄະເນເທົ່ານັ້ນທີ່ມີພາກຍ່ອຍໄດ້.",
-    "whyNoChapterWithoutSections": "ບໍ່ມີໝວດອື່ນທີ່ບໍ່ມີພາກຍ່ອຍ.",
-    "whyNoOtherItem": "ບໍ່ມີລາຍການຄາດຄະເນອື່ນ.",
-    "whyHasSections": "ໝວດນີ້ມີພາກຍ່ອຍຂອງຕົນເອງ; ພາກຍ່ອຍມີພຽງລະດັບດຽວ.",
+    "makeParagraphOf": "ເຮັດເປັນວັກຂອງ",
+    "makeChapter": "ເຮັດເປັນໝວດວຽກ",
+    "whyNoOtherChapter": "ບໍ່ມີໝວດວຽກອື່ນ.",
+    "whyNeedsChapterWithoutItems": "ມີແຕ່ໝວດວຽກທີ່ບໍ່ມີລາຍການງົບປະມານເທົ່ານັ້ນທີ່ມີວັກໄດ້.",
+    "whyNoChapterWithoutSections": "ບໍ່ມີໝວດວຽກອື່ນທີ່ບໍ່ມີວັກ.",
+    "whyNoOtherItem": "ບໍ່ມີລາຍການງົບປະມານອື່ນ.",
+    "whyHasSections": "ໝວດວຽກນີ້ມີວັກຂອງຕົນເອງ; ວັກມີພຽງລະດັບດຽວ.",
     "moveToTop": "ເທິງສຸດ",
-    "placeAfter": "ວາງຫຼັງ"
+    "placeAfter": "ວາງຫຼັງ",
+    "whyFirst": "ຢູ່ເທິງສຸດແລ້ວ.",
+    "whyLast": "ຢູ່ລຸ່ມສຸດແລ້ວ."
   }
 }

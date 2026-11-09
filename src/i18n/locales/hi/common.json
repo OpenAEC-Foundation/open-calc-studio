@@ -1249,14 +1249,16 @@
     "expandBelow": "नीचे सब कुछ विस्तृत करें",
     "collapseBelow": "नीचे सब कुछ संक्षिप्त करें",
     "deleteConfirmOne": "\"{{name}}\" हटाएँ?",
-    "makeParagraphOf": "इसका उपखंड बनाएँ",
+    "makeParagraphOf": "निम्न अध्याय का पैराग्राफ बनाएँ",
     "makeChapter": "अध्याय बनाएँ",
     "whyNoOtherChapter": "कोई अन्य अध्याय नहीं है।",
-    "whyNeedsChapterWithoutItems": "केवल बिना अनुमान मदों वाले अध्याय में उपखंड हो सकते हैं।",
-    "whyNoChapterWithoutSections": "बिना उपखंड वाला कोई अन्य अध्याय नहीं है।",
+    "whyNeedsChapterWithoutItems": "केवल बिना अनुमान मदों वाले अध्याय में पैराग्राफ हो सकते हैं।",
+    "whyNoChapterWithoutSections": "बिना पैराग्राफ वाला कोई अन्य अध्याय नहीं है।",
     "whyNoOtherItem": "कोई अन्य अनुमान मद नहीं है।",
-    "whyHasSections": "इस अध्याय के अपने उपखंड हैं; उपखंडों का केवल एक स्तर है।",
+    "whyHasSections": "इस अध्याय के अपने पैराग्राफ हैं; पैराग्राफ का केवल एक स्तर है।",
     "moveToTop": "सबसे ऊपर",
-    "placeAfter": "इसके बाद रखें"
+    "placeAfter": "निम्न के बाद रखें",
+    "whyFirst": "पहले से सबसे ऊपर है।",
+    "whyLast": "पहले से सबसे नीचे है।"
   }
 }

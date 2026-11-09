@@ -1249,14 +1249,16 @@
     "expandBelow": "نیچے سب کچھ پھیلائیں",
     "collapseBelow": "نیچے سب کچھ سمیٹیں",
     "deleteConfirmOne": "کیا \"{{name}}\" حذف کریں؟",
-    "makeParagraphOf": "اس کا ذیلی حصہ بنائیں",
+    "makeParagraphOf": "درج ذیل باب کا پیراگراف بنائیں",
     "makeChapter": "باب بنائیں",
     "whyNoOtherChapter": "کوئی اور باب نہیں ہے۔",
-    "whyNeedsChapterWithoutItems": "صرف وہ باب ذیلی حصے رکھ سکتا ہے جس میں تخمینی مدات نہ ہوں۔",
-    "whyNoChapterWithoutSections": "ذیلی حصوں کے بغیر کوئی اور باب نہیں ہے۔",
+    "whyNeedsChapterWithoutItems": "صرف وہ باب پیراگراف رکھ سکتا ہے جس میں تخمینی مدات نہ ہوں۔",
+    "whyNoChapterWithoutSections": "پیراگراف کے بغیر کوئی اور باب نہیں ہے۔",
     "whyNoOtherItem": "کوئی اور تخمینی مد نہیں ہے۔",
-    "whyHasSections": "اس باب کے اپنے ذیلی حصے ہیں؛ ذیلی حصوں کی صرف ایک سطح ہے۔",
+    "whyHasSections": "اس باب کے اپنے پیراگراف ہیں؛ پیراگراف کی صرف ایک سطح ہے۔",
     "moveToTop": "سب سے اوپر",
-    "placeAfter": "اس کے بعد رکھیں"
+    "placeAfter": "درج ذیل کے بعد رکھیں",
+    "whyFirst": "پہلے ہی سب سے اوپر ہے۔",
+    "whyLast": "پہلے ہی سب سے نیچے ہے۔"
   }
 }

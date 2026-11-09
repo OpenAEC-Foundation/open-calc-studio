@@ -1257,6 +1257,8 @@
     "whyNoOtherItem": "Không có công tác nào khác.",
     "whyHasSections": "Chương này đã có mục con; chỉ có một cấp mục con.",
     "moveToTop": "Lên đầu",
-    "placeAfter": "Đặt sau"
+    "placeAfter": "Đặt sau",
+    "whyFirst": "Đã ở trên cùng.",
+    "whyLast": "Đã ở dưới cùng."
   }
 }

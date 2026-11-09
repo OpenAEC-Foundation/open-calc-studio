@@ -1249,14 +1249,16 @@
     "expandBelow": "Laajenna kaikki alla olevat",
     "collapseBelow": "Tiivistä kaikki alla olevat",
     "deleteConfirmOne": "Poistetaanko \"{{name}}\"?",
-    "makeParagraphOf": "Tee alaluvuksi kohteeseen",
+    "makeParagraphOf": "Tee kohdaksi lukuun",
     "makeChapter": "Tee pääluvuksi",
     "whyNoOtherChapter": "Muuta lukua ei ole.",
-    "whyNeedsChapterWithoutItems": "Vain luvulla, jossa ei ole kustannusnimikkeitä, voi olla alalukuja.",
-    "whyNoChapterWithoutSections": "Muuta lukua ilman alalukuja ei ole.",
+    "whyNeedsChapterWithoutItems": "Vain luvulla, jossa ei ole kustannusnimikkeitä, voi olla kohtia.",
+    "whyNoChapterWithoutSections": "Muuta lukua ilman kohtia ei ole.",
     "whyNoOtherItem": "Muuta kustannusnimikettä ei ole.",
-    "whyHasSections": "Tällä luvulla on omia alalukuja; alalukuja on vain yksi taso.",
+    "whyHasSections": "Tällä luvulla on omia kohtia; kohtia on vain yksi taso.",
     "moveToTop": "Ylimmäksi",
-    "placeAfter": "Sijoita kohteen jälkeen"
+    "placeAfter": "Sijoita kohteen jälkeen",
+    "whyFirst": "On jo ylimpänä.",
+    "whyLast": "On jo alimpana."
   }
 }

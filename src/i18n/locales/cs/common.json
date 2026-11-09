@@ -1261,6 +1261,8 @@
     "whyNoOtherItem": "Jiná rozpočtová položka neexistuje.",
     "whyHasSections": "Tato kapitola má vlastní oddíly; existuje jen jedna úroveň oddílů.",
     "moveToTop": "Na začátek",
-    "placeAfter": "Umístit za"
+    "placeAfter": "Umístit za",
+    "whyFirst": "Už je úplně nahoře.",
+    "whyLast": "Už je úplně dole."
   }
 }
