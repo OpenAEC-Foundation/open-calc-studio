@@ -884,11 +884,6 @@ stand van `main` op die datum.
      verhoogd. Raakt alle 14 Arbeid- en 5 (niet 6) Materieel-artikelen met eenheid `uur`. Voorstel: ook
      `laborPrice: null` zetten, of de regel in één atomische update opbouwen. — B
 
-191. **De HSB-wandwizard telt arbeid dubbel.** In `src/services/wizard/hsbWandCalculator.ts:161-175` krijgen
-     arbeidsregels zowel `laborPrice` als `normUnitPrice` = arbPrijs, en de calculator telt ze op. Nagespeeld:
-     "Arbeid stijlen" komt uit op €936 in plaats van €468; het hoofdstuktotaal is €2.379,84 in plaats van
-     ongeveer €1.573. Voorstel: bij arbeidsregels alleen `laborPrice` zetten. — B
-
 192. **De HSB-wizard voegt door afronding van floats een stijl te veel toe.** `hsbWandCalculator.ts:73`
      (`Math.ceil(lengte / stijlAfstand) + 1`): 4.2/0.6 = 7.000000000000001, dus 9 stijlen in plaats van 8.
      Nagespeeld. Voorstel: `Math.ceil(lengte / stijlAfstand - 1e-9) + 1`. — B
