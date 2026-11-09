@@ -1,12 +1,12 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { getKostprijs } from '@/services/calculation/calculator';
 import { variantItems } from '@/services/grid/variantScope';
 import type { CostItem } from '@/types/costModel';
 import {
-  DEPTH_TYPES, buildChildren, descendantIds, flattenTree, formatTreeAmount, label, loadDepth, loadView,
-  pctFormatter, prefixOf, previewChildren, saveDepth, saveView, treeRowDomId,
+  DEPTH_TYPES, buildChildren, descendantsIn, flattenTree, label, loadDepth, loadView,
+  previewChildren, saveDepth, saveView, treeRowDomId,
   type TreeDepth, type TreeView,
 } from './structureTree/treeModel';
 import { createTreeRules } from './structureTree/treeRules';
@@ -14,7 +14,7 @@ import { createTreeActions } from './structureTree/treeActions';
 import { useTreeDrag } from './structureTree/useTreeDrag';
 import { TreeContextMenu, useTreeMenu } from './structureTree/TreeContextMenu';
 import { TreeViewOptions } from './structureTree/TreeViewOptions';
-import { RowIcon } from './structureTree/RowIcon';
+import { TreeRow, type TreeRowEvents } from './structureTree/TreeRow';
 import './panels.css';
 
 export type { TreeDepth, TreeNumber, TreeView } from './structureTree/treeModel';
@@ -89,16 +89,18 @@ export const SchedulePanel: React.FC = () => {
    *  dan klapt het raster dicht). Een lege post met een oude `isCollapsed`
    *  gedraagt zich als open. */
   const isFolded = (item: CostItem): boolean => !!item.isCollapsed && foldParents.has(item.id);
-  /** Nakomelingen van één rij, onthouden zolang de rijen niet veranderen: bij
-   *  slepen wordt dit per muisbeweging vaak gevraagd (8.000 rijen = merkbaar). */
-  const descCache = useRef<{ items: CostItem[]; id: string; set: Set<string> } | null>(null);
-  const descendantsOf = (id: string): Set<string> => {
+  /** Nakomelingen van één rij (in de volledige boomstructuur), onthouden
+   *  zolang die niet verandert: bij slepen wordt dit per muisbeweging vaak
+   *  gevraagd (8.000 rijen = merkbaar). Eén functie voor de regels én het
+   *  slepen, dus ook één onthouden uitkomst. */
+  const descCache = useRef<{ byParent: Map<string | null, CostItem[]>; id: string; set: Set<string> } | null>(null);
+  const descendantsOf = useCallback((id: string): Set<string> => {
     const c = descCache.current;
-    if (c && c.items === items && c.id === id) return c.set;
-    const set = descendantIds(items, id);
-    descCache.current = { items, id, set };
+    if (c && c.byParent === fullByParent && c.id === id) return c.set;
+    const set = descendantsIn(fullByParent, id);
+    descCache.current = { byParent: fullByParent, id, set };
     return set;
-  };
+  }, [fullByParent]);
 
   // Regels (puur) en acties (via de store); elke render vers, zodat ze
   // altijd de huidige rijen zien.
@@ -142,7 +144,7 @@ export const SchedulePanel: React.FC = () => {
     applyDrop: actions.applyDrop,
     isFolded,
     byId,
-    items,
+    descendantsOf,
   });
 
   const shownByParent = useMemo(() => {
@@ -172,8 +174,15 @@ export const SchedulePanel: React.FC = () => {
   // Geselecteerde rij in het raster → dichtstbijzijnde zichtbare boomknoop
   // (een regel markeert zijn begrotingspost, een rij in een dichtgeklapt
   // hoofdstuk markeert dat hoofdstuk).
+  // Zonder activeItemId de rij op `activeRow` in het raster. De rasterlijst
+  // opbouwen is duur (alle rijen): alleen als de selectie of de rijen
+  // veranderen, niet bij elke wijziging van de boom (slepen, diepte).
+  const selectedId = useMemo(
+    () => activeItemId ?? (activeRow >= 0 ? useAppStore.getState().getGridRows()[activeRow]?.id ?? null : null),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [activeItemId, activeRow, items],
+  );
   const highlightId = useMemo(() => {
-    const selectedId = activeItemId ?? useAppStore.getState().getGridRows()[activeRow]?.id ?? null;
     if (!selectedId) return null;
     const guard = new Set<string>();
     let current: string | null = selectedId;
@@ -183,15 +192,43 @@ export const SchedulePanel: React.FC = () => {
       current = byId.get(current)?.parentId ?? null;
     }
     return null;
-  }, [activeItemId, activeRow, byId, nodeIndex]);
+  }, [selectedId, byId, nodeIndex]);
 
   useEffect(() => {
     if (!highlightId) return;
-    const el = treeRef.current?.querySelector<HTMLElement>(`[data-tree-id="${CSS.escape(highlightId)}"]`);
-    el?.scrollIntoView?.({ block: 'nearest' });
+    // Via het DOM-id (direct opzoeken) in plaats van een selector over alle rijen.
+    const el = document.getElementById(treeRowDomId(highlightId));
+    if (el && treeRef.current?.contains(el)) el.scrollIntoView?.({ block: 'nearest' });
   }, [highlightId]);
 
   const openProperties = () => useAppStore.setState({ showPropertiesPanel: true });
+
+  // Handlers van de rijen: één vast object (zie TreeRow), dat altijd de
+  // functies van de laatste render aanroept. Zo blijven de rijen gelijk en
+  // tekent een klik of muisbeweging alleen de rijen die echt veranderden.
+  const rowHandlers = useRef<TreeRowEvents | null>(null);
+  rowHandlers.current = {
+    pointerDown: (e, id) => onRowPointerDown(e, id),
+    click: (id) => {
+      if (suppressClickRef.current) { suppressClickRef.current = false; return; }
+      revealItem(id);
+    },
+    doubleClick: (id) => { revealItem(id); openProperties(); },
+    contextMenu: (e, id) => {
+      e.preventDefault();
+      revealItem(id);
+      treeMenu.openMenu(e.clientX, e.clientY, id);
+    },
+    toggle: (id) => toggleFold(id),
+  };
+  const rowEvents = useMemo<TreeRowEvents>(() => ({
+    pointerDown: (e, id) => rowHandlers.current!.pointerDown(e, id),
+    click: (id) => rowHandlers.current!.click(id),
+    doubleClick: (id) => rowHandlers.current!.doubleClick(id),
+    contextMenu: (e, id) => rowHandlers.current!.contextMenu(e, id),
+    toggle: (id) => rowHandlers.current!.toggle(id),
+  }), []);
+  const chapterFallback = t('chapter');
 
   /** Tekst van het meelopende label, alleen het doel (de gesleepte rij zie je
    *  al in de boom): ↑/↓ = komt boven/onder, → = komt in, ⦸ = kan hier niet. */
@@ -341,75 +378,25 @@ export const SchedulePanel: React.FC = () => {
           if (!menu) openMenuForSelected();
         }}
       >
-        {nodes.map(({ item, level, foldable }) => {
-          const prefix = prefixOf(item, view.number);
-          const description = item.description?.trim() ?? '';
-          const fallback = item.rowType === 'chapter' ? t('chapter') : '—';
-          const text = prefix && description ? `${prefix} ${description}` : description || prefix || fallback;
-          const amount = view.amounts ? formatTreeAmount(item.total) : '';
-          // % alleen voor hoofdstukken en posten (een regel geeft vooral "0,0 %"),
-          // en niet bij een kostprijs van 0 of minder (dan klopt het teken niet).
-          const pct = view.percent && kostprijs > 0 && item.total && item.rowType !== 'regel'
-            ? `${pctFormatter.format((item.total / kostprijs) * 100)}%` : '';
-          // De gesleepte rij staat dicht in beeld: pijltje en aria ook.
-          const shownCollapsed = !!item.isCollapsed || item.id === draggingId;
-          return (
-            <div
-              key={item.id}
-              id={treeRowDomId(item.id)}
-              data-tree-id={item.id}
-              data-row-type={item.rowType}
-              role="treeitem"
-              aria-level={level}
-              aria-selected={item.id === highlightId}
-              // Ook als alleen het raster in-/uitklapt (inhoud dieper dan de boom toont).
-              aria-expanded={foldable ? !shownCollapsed : undefined}
-              // Tijdens slepen alleen de gesleepte rij markeren, niet ook nog de selectie.
-              className={`schedule-item${item.id === highlightId && !draggingId ? ' active' : ''}${item.id === draggingId ? ' dragging' : ''}${dropHint?.position === 'inside' && dropHint.id === item.id ? ' drop-inside' : ''}${item.id === expandPending ? ' expand-pending' : ''}`}
-              style={{ paddingInlineStart: (level - 1) * 12 + 4 }}
-              title={text}
-              onPointerDown={(e) => onRowPointerDown(e, item.id)}
-              onClick={() => {
-                if (suppressClickRef.current) { suppressClickRef.current = false; return; }
-                revealItem(item.id);
-              }}
-              onDoubleClick={() => { revealItem(item.id); openProperties(); }}
-              onContextMenu={(e) => {
-                e.preventDefault();
-                revealItem(item.id);
-                treeMenu.openMenu(e.clientX, e.clientY, item.id);
-              }}
-            >
-              {foldable ? (
-                <button
-                  className="grid-collapse-btn"
-                  tabIndex={-1}
-                  aria-hidden="true"
-                  onClick={(e) => { e.stopPropagation(); toggleFold(item.id); }}
-                  onDoubleClick={(e) => e.stopPropagation()}
-                >
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    {shownCollapsed
-                      ? <polyline points="3,2 7,5 3,8" />
-                      : <polyline points="2,3 5,7 8,3" />}
-                  </svg>
-                </button>
-              ) : (
-                <span className="schedule-item-spacer" />
-              )}
-              <RowIcon rowType={item.rowType} />
-              <span className="schedule-item-label">
-                {prefix && description
-                  ? <><span className="schedule-item-code">{prefix}</span>{description}</>
-                  : text}
-              </span>
-              {amount && <span className="schedule-item-amount">{amount}</span>}
-              {/* Altijd een %-vakje (desnoods leeg), anders schuiven de bedragen
-                  van rijen zonder % naar rechts en staan ze niet onder elkaar. */}
-              {view.percent && <span className="schedule-item-pct" aria-hidden={pct ? undefined : true}>{pct}</span>}
-            </div>
-          );
-        })}
+        {nodes.map(({ item, level, foldable }) => (
+          <TreeRow
+            key={item.id}
+            item={item}
+            level={level}
+            foldable={foldable}
+            selected={item.id === highlightId}
+            active={item.id === highlightId && !draggingId}
+            dragging={item.id === draggingId}
+            dropInside={dropHint?.position === 'inside' && dropHint.id === item.id}
+            expandPending={item.id === expandPending}
+            number={view.number}
+            amounts={view.amounts}
+            percent={view.percent}
+            kostprijs={kostprijs}
+            chapterFallback={chapterFallback}
+            events={rowEvents}
+          />
+        ))}
       </div>
 
       {draggingId && dragLabelText && (

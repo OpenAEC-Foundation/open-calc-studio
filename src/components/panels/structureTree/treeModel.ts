@@ -225,13 +225,21 @@ export function allChapters(byParent: Map<string | null, CostItem[]>): { item: C
   return out;
 }
 
-/** Ids van alle nakomelingen van een item (via parentId). */
+/** Ids van alle nakomelingen van een item (via parentId), ook tekst-/witregels
+ *  en staartrijen: bijv. om te tellen wat er bij verwijderen meegaat. */
 export function descendantIds(items: CostItem[], rootId: string): Set<string> {
   const byParent = new Map<string | null, CostItem[]>();
   for (const it of items) {
     const list = byParent.get(it.parentId ?? null);
     if (list) list.push(it); else byParent.set(it.parentId ?? null, [it]);
   }
+  return descendantsIn(byParent, rootId);
+}
+
+/** Ids van alle nakomelingen van een item in een al opgebouwde kinderenlijst
+ *  (bijv. `buildChildren(items)`, dan alleen de boomtypes): geen nieuwe
+ *  ouderkaart per vraag. */
+export function descendantsIn(byParent: Map<string | null, CostItem[]>, rootId: string): Set<string> {
   const out = new Set<string>();
   const walk = (id: string) => {
     for (const child of byParent.get(id) ?? []) {

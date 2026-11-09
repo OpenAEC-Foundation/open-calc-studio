@@ -2,7 +2,7 @@ import type React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppStore } from '@/state/appStore';
 import type { CostItem } from '@/types/costModel';
-import { descendantIds, type DropTarget } from './treeModel';
+import type { DropTarget } from './treeModel';
 import { syncGridSelection } from './treeActions';
 import type { TreeRules } from './treeRules';
 
@@ -39,10 +39,11 @@ export interface TreeDragInput {
   applyDrop: (dragId: string, d: DropTarget) => boolean;
   isFolded: (item: CostItem) => boolean;
   byId: Map<string, CostItem>;
-  items: CostItem[];
+  /** Nakomelingen van een rij (dezelfde onthouden functie als de regels). */
+  descendantsOf: (id: string) => Set<string>;
 }
 
-export function useTreeDrag({ treeRef, headRef, resolveDrop, applyDrop, hasTargetInside, isFolded, byId, items }: TreeDragInput) {
+export function useTreeDrag({ treeRef, headRef, resolveDrop, applyDrop, hasTargetInside, isFolded, byId, descendantsOf }: TreeDragInput) {
   // Slepen: zolang de muis ingedrukt is, toont de boom alvast de nieuwe plek.
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [dropHint, setDropHint] = useState<DropTarget | null>(null);
@@ -53,8 +54,8 @@ export function useTreeDrag({ treeRef, headRef, resolveDrop, applyDrop, hasTarge
   // De window-listeners van een sleepbeweging leven langer dan één render.
   // Ze roepen daarom altijd de functies van de laatste render aan (verse
   // items, regels en open/dicht-stand), nooit die van het moment van indrukken.
-  const latest = useRef({ resolveDrop, applyDrop, hasTargetInside, isFolded, byId, items });
-  latest.current = { resolveDrop, applyDrop, hasTargetInside, isFolded, byId, items };
+  const latest = useRef({ resolveDrop, applyDrop, hasTargetInside, isFolded, byId, descendantsOf });
+  latest.current = { resolveDrop, applyDrop, hasTargetInside, isFolded, byId, descendantsOf };
 
   /** Opruimen van een lopende sleepbeweging (ook bij het sluiten van het paneel). */
   const dragCleanupRef = useRef<(() => void) | null>(null);
@@ -100,7 +101,7 @@ export function useTreeDrag({ treeRef, headRef, resolveDrop, applyDrop, hasTarge
     /** Wat deze sleepbeweging openklapte: na afloop weer dicht, behalve waar het item in terechtkwam. */
     const openedByDrag: string[] = [];
     /** Eén keer bij indrukken: de rijen onder het gesleepte item (niet bij elke muisbeweging opnieuw). */
-    const draggedDescendants = descendantIds(latest.current.items, id);
+    const draggedDescendants = latest.current.descendantsOf(id);
     const scrollEl = treeRef.current?.closest<HTMLElement>('.left-panel-body') ?? treeRef.current;
 
     /** Waar het voorbeeld vandaan komt (rij onder de muis en welke helft):
