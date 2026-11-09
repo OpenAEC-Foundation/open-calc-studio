@@ -279,6 +279,12 @@ export function generateIfcxJson(
     .filter(i => i.parentId === null)
     .sort((a, b) => a.sortOrder - b.sortOrder);
 
+  // Btw-tarief uit de staartregel 'Btw hoog' (zelfde bron als de ÖNORM-export).
+  // 0 % is een echte waarde; zonder btw-regel laten we vatRate weg in plaats van
+  // 21 % te verzinnen.
+  const btwPct = items.find(i => i.rowType === 'staart_btw')?.staartPercentage;
+  const vatRate = typeof btwPct === 'number' && Number.isFinite(btwPct) ? { vatRate: btwPct } : {};
+
   // Build schedule attributes
   const scheduleAttributes: Record<string, unknown> = {
     'bsi::ifc::prop::Name': schedule.name,
@@ -288,19 +294,24 @@ export function generateIfcxJson(
     'bsi::ifc::prop::Identification': schedule.projectNumber || '',
     'ifcx::cost::currency': {
       currency: schedule.currency || 'EUR',
-      vatRate: 21,
+      ...vatRate,
       vatIncluded: false,
     },
   };
 
-  // Tarieven metadata
+  // Tarieven + staartkosten-percentages. Elk veld los: een begroting zonder
+  // tarieven verliest anders haar percentages bij export → import. 0 is een
+  // echte waarde en blijft behouden.
+  const metadata: Record<string, unknown> = {};
   if (schedule.tarieven && Object.keys(schedule.tarieven).length > 0) {
-    scheduleAttributes['ifcx::cost::metadata'] = {
-      tarieven: schedule.tarieven,
-      uitvoeringskosten: schedule.uitvoeringskosten,
-      algemeneKosten: schedule.algemeneKosten,
-      winstRisico: schedule.winstRisico,
-    };
+    metadata.tarieven = schedule.tarieven;
+  }
+  for (const key of ['uitvoeringskosten', 'algemeneKosten', 'winstRisico'] as const) {
+    const value = schedule[key];
+    if (typeof value === 'number' && Number.isFinite(value)) metadata[key] = value;
+  }
+  if (Object.keys(metadata).length > 0) {
+    scheduleAttributes['ifcx::cost::metadata'] = metadata;
   }
 
   // Build cost item children for the schedule

@@ -888,22 +888,25 @@ function generateIfcxJson(schedule: CostSchedule, items: CostItem[]): string {
   }
   const tops = items.filter(i => i.parentId === null).sort((a, b) => a.sortOrder - b.sortOrder);
   const sp = `/Project/${pn}/CostSchedules/${sn}`;
+  // Zelfde regels als generateIfcxJson in de app: btw uit de staartregel 'Btw hoog'
+  // (0 % blijft 0, geen regel = geen vatRate) en elk metadataveld los.
+  const btwPct = items.find(i => i.rowType === 'staart_btw')?.staartPercentage;
+  const vatRate = typeof btwPct === 'number' && Number.isFinite(btwPct) ? { vatRate: btwPct } : {};
   const sa: Record<string, unknown> = {
     'bsi::ifc::prop::Name': schedule.name,
     'bsi::ifc::prop::Description': schedule.description || '',
     'bsi::ifc::prop::PredefinedType': schedule.predefinedType,
     'bsi::ifc::prop::Status': schedule.status,
     'bsi::ifc::prop::Identification': schedule.projectNumber || '',
-    'ifcx::cost::currency': { currency: schedule.currency || 'EUR', vatRate: 21, vatIncluded: false },
+    'ifcx::cost::currency': { currency: schedule.currency || 'EUR', ...vatRate, vatIncluded: false },
   };
-  if (schedule.tarieven && Object.keys(schedule.tarieven).length > 0) {
-    sa['ifcx::cost::metadata'] = {
-      tarieven: schedule.tarieven,
-      uitvoeringskosten: schedule.uitvoeringskosten,
-      algemeneKosten: schedule.algemeneKosten,
-      winstRisico: schedule.winstRisico,
-    };
+  const meta: Record<string, unknown> = {};
+  if (schedule.tarieven && Object.keys(schedule.tarieven).length > 0) meta.tarieven = schedule.tarieven;
+  for (const key of ['uitvoeringskosten', 'algemeneKosten', 'winstRisico'] as const) {
+    const value = schedule[key];
+    if (typeof value === 'number' && Number.isFinite(value)) meta[key] = value;
   }
+  if (Object.keys(meta).length > 0) sa['ifcx::cost::metadata'] = meta;
   const ciChildren: Record<string, IfcxNode> = {};
   for (const item of tops) {
     ciChildren[pseg(item.code || item.nr || item.id.slice(0, 8))] = buildNode(item, `${sp}/CostItems`, cmap);

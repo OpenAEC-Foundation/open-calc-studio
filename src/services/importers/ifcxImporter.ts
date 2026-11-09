@@ -58,6 +58,13 @@ export function importIfcx(jsonText: string): ImportResult {
     if (numOrNull(m.algemeneKosten) != null) schedule.algemeneKosten = m.algemeneKosten as number;
     if (numOrNull(m.winstRisico) != null) schedule.winstRisico = m.winstRisico as number;
   }
+  // Valuta (ISO 4217-code) — alleen overnemen als het een geldige 3-lettercode is,
+  // anders blijft currency leeg en geldt de normale standaard.
+  const cur = schedA['ifcx::cost::currency'];
+  if (cur && typeof cur === 'object') {
+    const code = str((cur as Record<string, unknown>).currency).trim().toUpperCase();
+    if (/^[A-Z]{3}$/.test(code)) schedule.currency = code;
+  }
 
   let sort = 0;
   const walk = (node: IfcxNode, parentId: string | null, depth: number): void => {
