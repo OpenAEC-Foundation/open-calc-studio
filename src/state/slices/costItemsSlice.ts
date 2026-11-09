@@ -415,85 +415,121 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
         : -1;
     }
 
-    // Collect each moving item with its full subtree (contiguous descendants in flat array)
-    // so hierarchy is preserved. Use flat-array walk since children follow their parent.
-    type Block = { root: typeof state.items[number]; items: typeof state.items };
-    const blocks: Block[] = [];
-    const indexOf = (id: string) => state.items.findIndex((it) => it.id === id);
-    // Sort ids by their current index to maintain visual order
-    const orderedIds = [...ids].sort((a, b) => indexOf(a) - indexOf(b));
-    // Skip ids that are descendants of another moving id (their block is already included)
-    const topLevelMovers: string[] = [];
-    for (const id of orderedIds) {
-      const isInsideAnother = ids.some((other) => other !== id && isDescendantOf(id, other));
-      if (!isInsideAnother) topLevelMovers.push(id);
+    // Work on the tree in VISIBLE order — exactly how getVisibleItems() orders a
+    // sibling group: by sortOrder, ties by flat-array index. The flat array may
+    // differ from that order (imports, MCP add_item); recalculateItems() later
+    // re-derives sortOrder from array order, so the array we hand it must already
+    // be in visible tree order, otherwise unrelated sibling groups get reshuffled.
+    const arrayIndex = new Map<string, number>();
+    state.items.forEach((it, i) => arrayIndex.set(it.id, i));
+    const childrenByParent = new Map<string | null, CostItem[]>();
+    for (const item of state.items) {
+      const key = item.parentId ?? null;
+      const list = childrenByParent.get(key);
+      if (list) list.push(item);
+      else childrenByParent.set(key, [item]);
     }
-
-    const movedItemIds = new Set<string>();
-    for (const rootId of topLevelMovers) {
-      const rootIdx = indexOf(rootId);
-      if (rootIdx < 0) continue;
-      const root = state.items[rootIdx];
-      let endIdx = rootIdx + 1;
-      while (endIdx < state.items.length && state.items[endIdx].depth > root.depth) {
-        endIdx++;
+    for (const list of childrenByParent.values()) {
+      list.sort((a, b) => {
+        const so = (a.sortOrder ?? 0) - (b.sortOrder ?? 0);
+        return so !== 0 ? so : (arrayIndex.get(a.id) ?? 0) - (arrayIndex.get(b.id) ?? 0);
+      });
+    }
+    // Visible (depth-first, collapse ignored) position of every reachable item.
+    const visibleIndex = new Map<string, number>();
+    const walkOld = (parentId: string | null) => {
+      for (const child of childrenByParent.get(parentId) ?? []) {
+        if (visibleIndex.has(child.id)) continue; // cycle guard
+        visibleIndex.set(child.id, visibleIndex.size);
+        walkOld(child.id);
       }
-      const blockItems = state.items.slice(rootIdx, endIdx);
-      blockItems.forEach((bi) => movedItemIds.add(bi.id));
-      blocks.push({ root, items: blockItems });
-    }
+    };
+    walkOld(null);
+    const orderKey = (id: string) =>
+      visibleIndex.get(id) ?? state.items.length + (arrayIndex.get(id) ?? 0);
 
-    // Remaining items with moved items removed
-    const remaining = state.items.filter((it) => !movedItemIds.has(it.id));
+    // Moving roots in visible order; ids inside another moving id travel along
+    // with that ancestor's subtree.
+    const topLevelMovers = [...new Set(ids)]
+      .filter((id) => byId.has(id))
+      .filter((id) => !ids.some((other) => other !== id && isDescendantOf(id, other)))
+      .sort((a, b) => orderKey(a) - orderKey(b));
+    if (topLevelMovers.length === 0) return;
+    const moverSet = new Set(topLevelMovers);
 
-    const targetIdxRemaining = remaining.findIndex((it) => it.id === targetId);
-    if (targetIdxRemaining === -1) return;
-
-    // Determine insertion point in the remaining array
+    // New sibling list of the destination parent.
+    const oldDest = childrenByParent.get(newParentId) ?? [];
+    const dest = oldDest.filter((it) => !moverSet.has(it.id));
     let insertAt: number;
-    if (position === 'before') {
-      insertAt = targetIdxRemaining;
-    } else if (position === 'inside') {
-      // Insert right after target (as first child)
-      insertAt = targetIdxRemaining + 1;
+    if (position === 'inside') {
+      insertAt = 0; // first child in visible order
     } else {
-      // 'after' → after target AND after its subtree
-      const targetItem = remaining[targetIdxRemaining];
-      let endIdx = targetIdxRemaining + 1;
-      while (endIdx < remaining.length && remaining[endIdx].depth > targetItem.depth) {
-        endIdx++;
-      }
-      insertAt = endIdx;
+      const t = dest.findIndex((it) => it.id === targetId);
+      if (t === -1) return;
+      insertAt = position === 'before' ? t : t + 1;
     }
-
-    // Reparent + rewrite depth for each block
-    const depthDelta = (rootOldDepth: number) => (newParentDepth + 1) - rootOldDepth;
-    const rewrittenBlocks: CostItem[][] = blocks.map((block) => {
-      const delta = depthDelta(block.root.depth);
-      return block.items.map((bi, i) => ({
-        ...bi,
-        parentId: i === 0 ? newParentId : bi.parentId,
-        depth: Math.max(0, bi.depth + delta),
-      }));
-    });
-    const flatMoving = rewrittenBlocks.flat();
-
-    const newItems = [
-      ...remaining.slice(0, insertAt),
-      ...flatMoving,
-      ...remaining.slice(insertAt),
+    const newDest = [
+      ...dest.slice(0, insertAt),
+      ...topLevelMovers.map((id) => byId.get(id)!),
+      ...dest.slice(insertAt),
     ];
 
-    // Reassign sortOrder based on position among siblings (per parent)
-    const siblingCounter = new Map<string, number>();
-    const finalItems = newItems.map((it) => {
-      const key = it.parentId ?? '__root__';
-      const next = (siblingCounter.get(key) ?? 0);
-      siblingCounter.set(key, next + 1);
-      return { ...it, sortOrder: next };
-    });
+    // No-op: every mover already sits under the destination parent and the
+    // visible sibling order is unchanged → keep the same items reference.
+    const sameParent = topLevelMovers.every((id) => (byId.get(id)!.parentId ?? null) === newParentId);
+    if (sameParent && newDest.length === oldDest.length && newDest.every((it, i) => it === oldDest[i])) {
+      return;
+    }
 
-    set({ items: recalculateItems(finalItems) });
+    // Detach movers from their old sibling groups (others keep their order).
+    for (const id of topLevelMovers) {
+      const oldKey = byId.get(id)!.parentId ?? null;
+      const list = childrenByParent.get(oldKey);
+      if (list) childrenByParent.set(oldKey, list.filter((it) => it.id !== id));
+    }
+
+    // Reparent movers + shift the depth of their whole subtree.
+    const replaced = new Map<string, CostItem>();
+    const shiftSubtree = (id: string, delta: number, seen: Set<string>) => {
+      for (const child of childrenByParent.get(id) ?? []) {
+        if (seen.has(child.id)) continue;
+        seen.add(child.id);
+        replaced.set(child.id, { ...child, depth: Math.max(0, child.depth + delta) });
+        shiftSubtree(child.id, delta, seen);
+      }
+    };
+    for (const id of topLevelMovers) {
+      const root = byId.get(id)!;
+      const delta = (newParentDepth + 1) - root.depth;
+      replaced.set(id, { ...root, parentId: newParentId, depth: Math.max(0, root.depth + delta) });
+      if (delta !== 0) shiftSubtree(id, delta, new Set([id]));
+    }
+    // Destination group gets fresh sortOrders matching its new visible order.
+    childrenByParent.set(newParentId, newDest.map((it, i) => {
+      const cur = replaced.get(it.id) ?? it;
+      const next = cur.sortOrder === i ? cur : { ...cur, sortOrder: i };
+      replaced.set(it.id, next);
+      return next;
+    }));
+
+    // Rebuild the flat array in visible tree order; unreachable items
+    // (orphans / cycles) keep their relative order at the end.
+    const newItems: CostItem[] = [];
+    const placed = new Set<string>();
+    const walkNew = (parentId: string | null) => {
+      for (const child of childrenByParent.get(parentId) ?? []) {
+        if (placed.has(child.id)) continue;
+        placed.add(child.id);
+        newItems.push(replaced.get(child.id) ?? child);
+        walkNew(child.id);
+      }
+    };
+    walkNew(null);
+    for (const it of state.items) {
+      if (!placed.has(it.id)) newItems.push(replaced.get(it.id) ?? it);
+    }
+
+    set({ items: recalculateItems(newItems) });
     markModified();
   },
 
@@ -532,7 +568,19 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
       items: state.items.map((item) =>
         item.id === id ? { ...item, isCollapsed: !item.isCollapsed } : item
       ),
-    }));
+      // Rij-indices van een selectiebereik wijzen na in-/uitklappen naar
+      // ándere rijen (Delete zou daar werken): terug naar alleen de actieve cel.
+      selectionStart: null,
+      selectionEnd: null,
+      cellSelectionStart: null,
+      cellSelectionEnd: null,
+    } as Partial<CostItemsSlice>));
+    // De actieve rij volgt zijn item, als dat nog in beeld is.
+    const s = get() as any; // volledige AppStore at runtime (selectie)
+    if (s.activeItemId && s.getGridRows) {
+      const row = s.getGridRows().findIndex((r: { id: string }) => r.id === s.activeItemId);
+      if (row >= 0 && row !== s.activeRow) set({ activeRow: row } as Partial<CostItemsSlice>);
+    }
   },
 
   toggleAllBewakingspostenCollapsed: () => {
