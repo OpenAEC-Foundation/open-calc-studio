@@ -25,16 +25,6 @@ stand van `main` op die datum.
 
 ## Rekenen en totalen
 
-5. **Eenheid naar 'uur' op een UI-1-arbeidsregel maakt het totaal meer dan drie keer zo groot.**
-   `src/state/slices/costItemsSlice.ts:357-360` + `calculator.ts:106`. Achtergrond: elke update rekent voor
-   elke regel met een tariefgroep `laborPrice = normQuantity × tarief` opnieuw uit (`calculator.ts:74-81`).
-   Nagespeeld: hoeveelheid 10, norm 0,5, normUnitPrice 45 geeft totaal 225; na eenheid → uur wordt arbeid 32
-   en het totaal 770. Niet bedoeld. Voorstel: alleen automatisch invullen als er nog geen prijs of norm
-   staat. — B
-
-6. **Eenheid naar 'uur' overschrijft een bewuste norm 0 met 1.** `costItemsSlice.ts:360` test op
-   `!normQuantity`. Nagespeeld: totaal 500 → 1140. Voorstel: `== null`. — B
-
 7. **Productienorm leegmaken laat de arbeidskosten staan, terwijl 0 typen ze weghaalt.** `calculator.ts:76`.
    Nagespeeld. Voorstel: bij norm null en een tariefgroep ook `laborPrice` leegmaken. — B
 
