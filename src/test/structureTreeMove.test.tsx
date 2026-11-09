@@ -120,10 +120,11 @@ describe('moving from the structure tree', () => {
     expect(find('post2').nr).toBe('22.02');
   });
 
-  it('a chapter keeps its level: a main chapter has no targets, a section only other main chapters', async () => {
+  it('a chapter keeps its level: a main chapter only changes place, a section only goes to other main chapters', async () => {
     await openMenu('h21');
-    // Hoofdstuk blijft hoofdstuk: de optie staat er dan niet (ook niet grijs).
-    expect(menuButtons().some((b) => b.textContent?.includes(i18next.t('contextMenu.moveTo', { ns: 'grid' })))).toBe(false);
+    // Hoofdstuk blijft hoofdstuk: geen hoofdstukken om in te zetten, wel "na".
+    expect(await moveTargets()).toEqual([]);
+    expect(node.querySelectorAll('[data-move-after]')).toHaveLength(2);
     await act(async () => { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); });
     await openMenu('p2110');
     // Geen h21 (huidige ouder), geen h22 (heeft posten), geen 21.10 zelf.

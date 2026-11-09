@@ -23,7 +23,7 @@ const items = (): CostItem[] => [
   mkItem({ id: 'p2110', rowType: 'chapter', parentId: 'h21', depth: 1, code: '21.10', description: 'Grondwerk', sortOrder: 0 }),
   mkItem({ id: 'post1', rowType: 'begrotingspost', parentId: 'p2110', depth: 2, code: '01', description: 'Ontgraven', sortOrder: 0, isCollapsed: true }), // regels dicht
   mkItem({ id: 'regel1', rowType: 'regel', parentId: 'post1', depth: 3, description: 'Graafmachine', sortOrder: 0 }),
-  mkItem({ id: 'h22', rowType: 'chapter', code: '22', description: 'Buitenwanden', sortOrder: 1 }),
+  mkItem({ id: 'h22', rowType: 'chapter', code: '22', nr: '22', description: 'Buitenwanden', sortOrder: 1 }),
   mkItem({ id: 'post2', rowType: 'begrotingspost', parentId: 'h22', depth: 1, code: '01', description: 'Metselwerk', sortOrder: 0 }),
   mkItem({ id: 'regel2', rowType: 'regel', parentId: 'post2', depth: 2, description: 'Metselaar', sortOrder: 0 }),
   mkItem({ id: 'h23', rowType: 'chapter', code: '23', description: 'Vloeren', sortOrder: 2 }),
@@ -113,15 +113,26 @@ describe('dragging in the structure tree', () => {
     expect(node.querySelector('.drop-inside')).toBeNull();
   });
 
-  it('a main chapter stays a main chapter: never next to a post or a section', async () => {
+  it('a main chapter stays a main chapter: over the content of another chapter it goes after that chapter', async () => {
     const before = state().items;
-    await dragTo('h23', rowTop('post2') + ROW - 1); // naast post 22.01
-    expect(treeOrder()).toEqual(ORIGINAL_TREE);
-    await release();
-    await dragTo('h23', rowTop('p2110') + 2); // naast paragraaf 21.10
+    // Boven post 22.01 (inhoud van 22): "na 22", en daar staat 23 al.
+    await dragTo('h23', rowTop('post2') + ROW - 1);
     expect(treeOrder()).toEqual(ORIGINAL_TREE);
     await release();
     expect(state().items).toBe(before);
+    // Omhoog slepen, boven paragraaf 21.10 en post 21.10.01 (inhoud van 21):
+    // meteen "na 21", nooit naast de paragraaf of de post (en geen ⦸ onderweg).
+    for (const over of ['post1', 'p2110']) {
+      await dragTo('h23', rowTop(over) + 2);
+      expect(treeOrder()).toEqual(['h21', 'p2110', 'post1', 'h23', 'h22', 'post2']);
+      expect(node.querySelector('[role=tree]')!.classList.contains('is-blocked')).toBe(false);
+      await act(async () => { window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); });
+      await release();
+    }
+    await dragTo('h23', rowTop('post1') + 2);
+    await release();
+    expect(topOrder()).toEqual(['h21', 'h23', 'h22', 'btw']);
+    expect(find('h23').parentId).toBeNull();
   });
 
   it('over another main chapter a chapter goes before or after it, wherever you aim in the row', async () => {
@@ -130,6 +141,21 @@ describe('dragging in the structure tree', () => {
     expect(byId('h22').classList.contains('drop-inside')).toBe(false); // nooit "erin"
     await release();
     expect(topOrder()).toEqual(['h21', 'h23', 'h22', 'btw']);
+  });
+
+  it('in the empty space below the last row a chapter goes to the very bottom', async () => {
+    await dragTo('h21', () => rows().length * ROW + 40); // onder de laatste rij, nog in het paneel
+    expect(treeOrder()).toEqual(['h22', 'post2', 'h23', 'h21']);
+    expect(node.querySelector('[role=tree]')!.classList.contains('is-blocked')).toBe(false);
+    await release();
+    expect(topOrder()).toEqual(['h22', 'h23', 'h21', 'btw']); // nooit voorbij de staartregels
+  });
+
+  it('below the panel itself nothing happens', async () => {
+    const before = state().items;
+    await dragTo('h21', 450); // de boom is 400 px hoog
+    await release();
+    expect(state().items).toBe(before);
   });
 
   it('a section stays a section: it can move into another main chapter without posts', async () => {
@@ -235,12 +261,13 @@ describe('dragging in the structure tree', () => {
       expect(state().items).toBe(before);
     });
 
-    it('an estimate item dropped on a line goes nowhere (a post never sits among lines)', async () => {
-      const before = state().items;
+    it('an estimate item over the lines of another item goes after that item (never among lines)', async () => {
       await dragTo('post2', rowTop('regel1') + 2);
-      expect(treeOrder()).toEqual(['h21', 'p2110', 'post1', 'regel1', 'h22', 'post2', 'h23']); // post2 zelf even dicht
+      expect(treeOrder()).toEqual(['h21', 'p2110', 'post1', 'regel1', 'post2', 'h22', 'h23']); // post2 zelf even dicht
       await release();
-      expect(state().items).toBe(before);
+      expect(find('post2').parentId).toBe('p2110');
+      expect(state().items.filter((i) => i.parentId === 'p2110').map((i) => i.id)).toEqual(['post1', 'post2']);
+      expect(find('regel1').parentId).toBe('post1');
     });
   });
 
@@ -281,7 +308,10 @@ describe('dragging in the structure tree', () => {
       await dragTo('h23', rowTop('h22') + 2);
       const labelEl = () => document.querySelector<HTMLElement>('.schedule-drag-label');
       expect(labelEl()?.textContent).toBe('↑  22 Buitenwanden'); // alleen het doel, niet nog eens de gesleepte rij
-      await pointer('pointermove', byId('post2'), rowTop('post2') + 2); // hoofdstuk naast een post
+      await release();
+      expect(labelEl()).toBeNull();
+      // Een post boven een hoofdstuk met paragrafen: kan niet.
+      await dragTo('post2', rowTop('h21') + 2);
       expect(labelEl()?.textContent).toContain('⦸');
       expect(node.querySelector('.schedule-tree.is-blocked')).not.toBeNull();
       await release();
@@ -294,12 +324,54 @@ describe('dragging in the structure tree', () => {
         await act(async () => state().toggleCollapse('h22')); // 22 dicht: post2 niet zichtbaar
         await dragTo('post1', rowTop('h22') + ROW / 2);
         expect(byId('h22').classList.contains('drop-inside')).toBe(true);
-        await act(async () => { vi.advanceTimersByTime(650); });
+        // Zichtbaar dat hij zo opengaat (het pijltje draait alvast mee).
+        expect(byId('h22').classList.contains('expand-pending')).toBe(true);
+        await act(async () => { vi.advanceTimersByTime(300); });
+        expect(find('h22').isCollapsed).toBe(true); // nog niet
+        await act(async () => { vi.advanceTimersByTime(250); });
         expect(find('h22').isCollapsed).toBe(false);
+        expect(byId('h22').classList.contains('expand-pending')).toBe(false);
         expect(treeOrder()).toContain('post2');
         await release();
         expect(find('post1').parentId).toBe('h22');
         expect(find('h22').isCollapsed).toBe(false); // erin gezet: blijft open
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('over the arrow of a collapsed chapter it opens almost at once', async () => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+      const rowAt = document.elementFromPoint;
+      try {
+        await act(async () => state().toggleCollapse('h22'));
+        // De muis staat op het pijltje van 22 (niet ergens anders in de rij).
+        document.elementFromPoint = (x: number, y: number) => {
+          const row = rowAt.call(document, x, y) as HTMLElement | null;
+          return row?.dataset.treeId === 'h22' ? row.querySelector('.grid-collapse-btn') : row;
+        };
+        await dragTo('post1', rowTop('h22') + ROW / 2);
+        await act(async () => { vi.advanceTimersByTime(200); });
+        expect(find('h22').isCollapsed).toBe(false);
+        await release();
+      } finally {
+        document.elementFromPoint = rowAt;
+        vi.useRealTimers();
+      }
+    });
+
+    it('moving away from a collapsed chapter before the wait is over keeps it closed', async () => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+      try {
+        await act(async () => state().toggleCollapse('h22'));
+        await dragTo('post1', rowTop('h22') + ROW / 2);
+        await act(async () => { vi.advanceTimersByTime(300); });
+        await pointer('pointermove', byId('h23'), rowTop('h23') + ROW / 2);
+        expect(byId('h22').classList.contains('expand-pending')).toBe(false);
+        await act(async () => { vi.advanceTimersByTime(650); });
+        expect(find('h22').isCollapsed).toBe(true);
+        await act(async () => { window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); });
+        await release();
       } finally {
         vi.useRealTimers();
       }

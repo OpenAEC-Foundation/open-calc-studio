@@ -21,13 +21,13 @@ function mkItem(partial: Partial<CostItem> & { id: string }): CostItem {
 // 22 Buitenwanden (dichtgeklapt) > post Metselwerk
 // 23 Vloeren (leeg)
 const items = (): CostItem[] => [
-  mkItem({ id: 'h21', rowType: 'chapter', code: '21', description: 'Funderingen', sortOrder: 0 }),
-  mkItem({ id: 'p2110', rowType: 'chapter', parentId: 'h21', depth: 1, code: '21.10', description: 'Grondwerk', sortOrder: 0 }),
-  mkItem({ id: 'post1', rowType: 'begrotingspost', parentId: 'p2110', depth: 2, code: '21.10.01', description: 'Ontgraven', sortOrder: 0 }),
+  mkItem({ id: 'h21', rowType: 'chapter', nr: '21', description: 'Funderingen', sortOrder: 0 }),
+  mkItem({ id: 'p2110', rowType: 'chapter', parentId: 'h21', depth: 1, nr: '21.10', description: 'Grondwerk', sortOrder: 0 }),
+  mkItem({ id: 'post1', rowType: 'begrotingspost', parentId: 'p2110', depth: 2, nr: '21.10.01', description: 'Ontgraven', sortOrder: 0 }),
   mkItem({ id: 'regel1', rowType: 'regel', parentId: 'post1', depth: 3, description: 'Graafmachine', sortOrder: 0 }),
-  mkItem({ id: 'h22', rowType: 'chapter', code: '22', description: 'Buitenwanden', sortOrder: 1, isCollapsed: true }),
-  mkItem({ id: 'post2', rowType: 'begrotingspost', parentId: 'h22', depth: 1, code: '22.01', description: 'Metselwerk', sortOrder: 0 }),
-  mkItem({ id: 'h23', rowType: 'chapter', code: '23', description: 'Vloeren', sortOrder: 2 }),
+  mkItem({ id: 'h22', rowType: 'chapter', nr: '22', description: 'Buitenwanden', sortOrder: 1, isCollapsed: true }),
+  mkItem({ id: 'post2', rowType: 'begrotingspost', parentId: 'h22', depth: 1, nr: '22.01', description: 'Metselwerk', sortOrder: 0 }),
+  mkItem({ id: 'h23', rowType: 'chapter', nr: '23', description: 'Vloeren', sortOrder: 2 }),
 ];
 
 let node: HTMLDivElement, root: Root;

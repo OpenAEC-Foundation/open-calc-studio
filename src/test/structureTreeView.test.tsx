@@ -36,7 +36,8 @@ const state = () => useAppStore.getState();
 const byId = (id: string) => node.querySelector<HTMLElement>(`[data-tree-id="${id}"]`)!;
 const treeOrder = () => [...node.querySelectorAll<HTMLElement>('[role=treeitem]')].map((el) => el.dataset.treeId);
 const amountOf = (id: string) => byId(id).querySelector('.schedule-item-amount')?.textContent ?? null;
-const pctOf = (id: string) => byId(id).querySelector('.schedule-item-pct')?.textContent ?? null;
+// Een rij zonder % heeft een leeg %-vakje (zodat de bedragen onder elkaar staan): leeg = geen %.
+const pctOf = (id: string) => byId(id).querySelector('.schedule-item-pct')?.textContent || null;
 const prefixOf = (id: string) => byId(id).querySelector('.schedule-item-code')?.textContent ?? null;
 const viewButton = () => node.querySelector<HTMLButtonElement>('.schedule-tree-view-btn')!;
 const openView = () => act(async () => viewButton().click());
@@ -78,7 +79,7 @@ describe('amounts and view options', () => {
     expect(amountOf('regel1')).toBe('750');
     expect(amountOf('h23')).toBeNull();
     expect(pctOf('h21')).toBeNull(); // % staat standaard uit
-    expect(prefixOf('post1')).toBe('01'); // standaard de code, zoals altijd
+    expect(prefixOf('post1')).toBe('21.10.01'); // standaard het Nr, zoals de kolom Nr in het raster
   });
 
   it('amounts under one euro show cents (not a misleading "0"); negative amounts keep their sign', async () => {
@@ -102,22 +103,34 @@ describe('amounts and view options', () => {
 
   it('the options menu puts the focus on its first option, and Escape gives it back to the button', async () => {
     await openView();
-    expect(document.activeElement).toBe(option('schedule-tree-code'));
+    expect(document.activeElement).toBe(option('schedule-tree-number', 'nr')); // de gekozen optie
     await act(async () => { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); });
     expect(document.activeElement).toBe(viewButton());
   });
 
-  it('the code can be switched off; a row without a code shows its number, a line usually nothing', async () => {
-    expect(byId('post1').title).toBe('01 Ontgraven');
-    expect(prefixOf('regel1')).toBeNull(); // geen code en geen nummer
-    await act(async () => useAppStore.setState({ items: state().items.map((i) => (i.id === 'post2' ? { ...i, code: '' } : i)) }));
-    expect(prefixOf('post2')).toBe('22.01'); // bijv. na een import zonder codes
+  it('shows the Nr (not the own code) and can be switched off', async () => {
+    expect(byId('post1').title).toBe('21.10.01 Ontgraven'); // eigen code 01 niet
+    expect(prefixOf('regel1')).toBeNull(); // geen nummer
+    await act(async () => useAppStore.setState({ items: state().items.map((i) => (i.id === 'post2' ? { ...i, code: '22 30 10' } : i)) }));
+    expect(prefixOf('post2')).toBe('22.01'); // ook met een eigen (STABU-)code: het Nr
 
     await openView();
-    await clickOption('schedule-tree-code');
+    await clickOption('schedule-tree-number', 'none');
     expect(prefixOf('post1')).toBeNull();
     expect(byId('post1').querySelector('.schedule-item-label')!.textContent).toBe('Ontgraven');
     expect(byId('post1').title).toBe('Ontgraven');
+  });
+
+  it('"Code" shows the own code instead of the Nr; a row without a code shows none', async () => {
+    await act(async () => useAppStore.setState({ items: state().items.map((i) => (i.id === 'post2' ? { ...i, code: '22 30 10' } : i)) }));
+    await openView();
+    await clickOption('schedule-tree-number', 'code');
+    expect(option('schedule-tree-number', 'code').checked).toBe(true);
+    expect(option('schedule-tree-number', 'nr').checked).toBe(false);
+    expect(prefixOf('post1')).toBe('01');
+    expect(prefixOf('post2')).toBe('22 30 10');
+    expect(prefixOf('regel1')).toBeNull();
+    expect(byId('post1').title).toBe('01 Ontgraven');
   });
 
   it('an earlier saved choice "description only" still means: no code', async () => {
@@ -125,6 +138,13 @@ describe('amounts and view options', () => {
     localStorage.setItem('ocs.structureTree.view', JSON.stringify({ label: 'none', amounts: true, percent: false }));
     await render();
     expect(prefixOf('post1')).toBeNull();
+    // …en het vinkje van daarna: uit = niets, aan = het Nr.
+    for (const [code, expected] of [[false, null], [true, '21.10.01']] as const) {
+      await act(async () => root.unmount()); node.remove();
+      localStorage.setItem('ocs.structureTree.view', JSON.stringify({ code, amounts: true, percent: false }));
+      await render();
+      expect(prefixOf('post1')).toBe(expected);
+    }
   });
 
   it('% of cost price: share of the top-level chapters total', async () => {
@@ -139,14 +159,14 @@ describe('amounts and view options', () => {
   it('amounts can be switched off, and the choice is remembered', async () => {
     await openView();
     await clickOption('schedule-tree-amounts');
-    await clickOption('schedule-tree-code');
+    await clickOption('schedule-tree-number', 'none');
     expect(amountOf('h21')).toBeNull();
 
     await act(async () => root.unmount()); node.remove();
     await render();
     expect(amountOf('h21')).toBeNull();
     expect(prefixOf('post1')).toBeNull();
-    expect(JSON.parse(localStorage.getItem('ocs.structureTree.view')!)).toEqual({ code: false, amounts: false, percent: false });
+    expect(JSON.parse(localStorage.getItem('ocs.structureTree.view')!)).toEqual({ number: 'none', amounts: false, percent: false });
   });
 
   it('the options menu closes with Escape or a click elsewhere, and changes nothing in the budget', async () => {
@@ -228,7 +248,7 @@ describe('deleting from the structure tree', () => {
   it('the question uses the same name as the tree shows (without code when codes are off)', async () => {
     const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false);
     await openView();
-    await clickOption('schedule-tree-code');
+    await clickOption('schedule-tree-number', 'none');
     await openMenu('h21');
     await clickDelete();
     expect(confirm).toHaveBeenCalledWith(i18next.t('structureTree.deleteConfirm', { name: 'Funderingen', count: 3 }));
@@ -264,10 +284,13 @@ describe('fold arrow for content deeper than the tree shows', () => {
     const arrow = byId('h22').querySelector<HTMLButtonElement>('.grid-collapse-btn');
     expect(arrow).not.toBeNull();
     expect(byId('h23').querySelector('.grid-collapse-btn')).toBeNull(); // leeg: geen pijltje
-    expect(byId('h22').getAttribute('aria-expanded')).toBeNull(); // boom toont eronder niets
+    // Open/dicht volgt het pijltje (het raster), ook al toont de boom eronder niets.
+    expect(byId('h22').getAttribute('aria-expanded')).toBe('true');
+    expect(byId('h23').getAttribute('aria-expanded')).toBeNull();
 
     await act(async () => arrow!.click());
     expect(isCollapsed('h22')).toBe(true);
+    expect(byId('h22').getAttribute('aria-expanded')).toBe('false');
     expect(gridHas('post2')).toBe(false);
     expect(treeOrder()).toEqual(['h21', 'p2110', 'h22', 'h23']);
     expect(state().undoStack).toHaveLength(0);
@@ -323,10 +346,11 @@ describe('chapter ↔ section', () => {
     expect(find('p2110').parentId).toBe('h21');
   });
 
-  it('not under a chapter with estimate items, and a chapter with sections cannot become a section', async () => {
-    // h21 heeft een paragraaf: geen optie. h23 kan wel, maar niet onder h22 (heeft posten).
+  it('not under a chapter with estimate items, and a chapter with sections cannot become a section (it says why)', async () => {
+    // h21 heeft een paragraaf: grijs, met de reden eronder. h23 kan wel, maar niet onder h22 (heeft posten).
     await openMenu('h21');
-    expect(node.querySelector('[data-action="make-paragraph"]')).toBeNull();
+    expect(node.querySelector<HTMLButtonElement>('[data-action="make-paragraph"]')!.disabled).toBe(true);
+    expect(node.querySelector('[data-why="make-paragraph"]')!.textContent).toBe(i18next.t('structureTree.whyHasSections'));
     await act(async () => { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); });
     await openMenu('h23');
     await clickMenu('[data-action="make-paragraph"]');

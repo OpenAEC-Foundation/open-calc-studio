@@ -235,7 +235,8 @@
   color: var(--theme-text-secondary);
   white-space: nowrap;
 }
-.schedule-item-pct { min-width: 34px; text-align: end; }
+/* Vaste breedte ("100,0%" past), zodat de bedragen ervoor altijd onder elkaar staan. */
+.schedule-item-pct { min-width: 6ch; text-align: end; }
 .schedule-item.active .schedule-item-amount,
 .schedule-item.active .schedule-item-pct { color: inherit; opacity: 0.85; }
 /* Heel smal paneel (onder de standaardbreedte van 220 px): alleen het % weg.
@@ -243,6 +244,15 @@
 @container (max-width: 200px) { .schedule-item-pct { display: none; } }
 
 /* Weergave-instellingen: klein knopje naast de dieptekeuze, menu eronder. */
+/* Korte reden onder een grijze menu-optie ("waarom kan dit niet?"). */
+.schedule-tree-menu-hint {
+  max-width: 240px;
+  padding: 0 12px 4px 24px;
+  font-size: 10px;
+  line-height: 1.35;
+  white-space: normal;
+  color: var(--theme-text-secondary);
+}
 .schedule-tree-view { position: relative; flex-shrink: 0; }
 .schedule-tree-view-btn {
   display: flex;
@@ -264,31 +274,72 @@
   inset-inline-end: 0; /* opent naar het paneel toe, ook bij rechts-naar-links talen */
   top: calc(100% + 4px);
   z-index: 1000;
-  min-width: 170px;
-  padding: 6px 0;
+  min-width: 190px;
+  padding: 8px 0;
   font-size: 11px;
   color: var(--theme-text);
   background: var(--theme-surface);
   border: 1px solid var(--theme-border);
-  border-radius: 4px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
 }
 .schedule-tree-view-heading {
-  padding: 2px 10px 4px;
+  padding: 2px 12px 6px;
+  font-size: 10px;
   font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--theme-text-secondary);
+}
+/* Keuze Nr / Code / Geen: drie knoppen naast elkaar, de gekozen in de accentkleur.
+   De echte radioknoppen blijven bestaan (toetsenbord, schermlezer), alleen onzichtbaar. */
+.schedule-tree-view-segmented {
+  display: flex;
+  margin: 0 12px 2px;
+  padding: 2px;
+  gap: 2px;
+  background: var(--theme-hover);
+  border-radius: 5px;
+}
+.schedule-tree-view-segment {
+  position: relative;
+  flex: 1;
+  padding: 3px 8px;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--theme-text-secondary);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.schedule-tree-view-segment:hover { color: var(--theme-text); }
+.schedule-tree-view-segment.is-on {
+  color: var(--theme-text);
+  font-weight: 600;
+  background: var(--theme-surface);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+.schedule-tree-view-segment input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.schedule-tree-view-segment:has(input:focus-visible) {
+  outline: 1px solid var(--theme-focus-color, var(--theme-accent));
+  outline-offset: -1px;
 }
 .schedule-tree-view-option {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 3px 10px;
+  gap: 8px;
+  padding: 4px 12px;
   cursor: pointer;
   white-space: nowrap;
 }
 .schedule-tree-view-option:hover { background: var(--theme-hover); }
 .schedule-tree-view-option input { margin: 0; accent-color: var(--theme-accent); }
-.schedule-tree-view-sep { height: 1px; margin: 4px 0; background: var(--theme-border); }
+.schedule-tree-view-sep { height: 1px; margin: 8px 0; background: var(--theme-border); }
 
 /* Slepen in de boom: de gesleepte rij staat alvast op zijn nieuwe plek
    (zachte tint, streep links); een hoofdstuk/post dat hem krijgt, heeft een
@@ -300,6 +351,15 @@
 .schedule-item.dragging {
   background: color-mix(in srgb, var(--theme-accent) 16%, transparent);
   box-shadow: inset 2px 0 0 0 var(--theme-accent);
+}
+/* Dichte map die tijdens het slepen zo openklapt: het pijltje draait in de
+   wachttijd alvast naar "open", zodat je ziet wat er gaat gebeuren. */
+.schedule-tree.is-dragging .schedule-item.expand-pending .grid-collapse-btn svg {
+  transform: rotate(90deg);
+  transition: transform 450ms linear;
+}
+@media (prefers-reduced-motion: reduce) {
+  .schedule-tree.is-dragging .schedule-item.expand-pending .grid-collapse-btn svg { transition: none; }
 }
 .schedule-item.drop-inside {
   background: color-mix(in srgb, var(--theme-accent) 7%, transparent);
@@ -328,6 +388,14 @@
   transform: translate(-9999px, -9999px);
 }
 .schedule-drag-label.is-blocked { color: var(--theme-text-secondary); }
+/* Kopje in een submenu van de boom ("Plaats na", hoofdstuknaam boven posten): niet klikbaar. */
+.schedule-tree-menu-heading {
+  padding: 4px 12px 2px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--theme-text-secondary);
+  white-space: nowrap;
+}
 
 /* ── Resource Picker — OpenAEC Style Book ── */
 .resource-picker-overlay {

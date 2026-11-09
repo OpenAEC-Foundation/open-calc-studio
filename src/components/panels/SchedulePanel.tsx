@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { localStore } from '@/utils/browserStorage';
@@ -38,6 +38,10 @@ const DEPTH_TYPES: Record<TreeDepth, ReadonlySet<RowType>> = {
   all: TREE_TYPES,
 };
 const DEPTH_KEY = 'ocs.structureTree.depth';
+/** Hoe lang je met slepen boven een dichte map hangt voordat die openklapt;
+ *  boven het pijltje korter (dat is duidelijk "maak open"). */
+const EXPAND_DELAY = 500;
+const EXPAND_DELAY_FAST = 150;
 // Via localStore: in een afgeschermd frame (SuperCloud-werkplek) is
 // localStorage er niet en valt dit terug op het geheugen.
 function loadDepth(): TreeDepth {
@@ -50,21 +54,27 @@ function saveDepth(depth: TreeDepth): void {
 
 /**
  * Weergave-instellingen van de boom (per gebruiker onthouden):
- * - code: de code vóór de omschrijving (een regel heeft er meestal geen);
+ * - number: wat er vóór de omschrijving staat: het Nr (de plek, zoals de
+ *   kolom Nr in het raster; verandert mee bij verplaatsen), de eigen Code
+ *   (bijv. een STABU-code; verandert nooit) of niets;
  * - amounts: totaal per rij rechts uitgelijnd;
- * - percent: aandeel in de kostprijs.
- * Nummer (10.01.02) of code (01) maakt in een boom weinig uit: de inspringing
- * laat al zien waar een rij hoort. Dus alleen: code aan of uit.
+ * - percent: aandeel in het totaal van de rijen op het hoogste niveau (in
+ *   beeld "% van totaal": niet de Kostprijs uit de staart, met AK, ABK enz.).
  */
-export interface TreeView { code: boolean; amounts: boolean; percent: boolean }
+export type TreeNumber = 'nr' | 'code' | 'none';
+const TREE_NUMBERS: readonly TreeNumber[] = ['nr', 'code', 'none'];
+export interface TreeView { number: TreeNumber; amounts: boolean; percent: boolean }
 const VIEW_KEY = 'ocs.structureTree.view';
-const DEFAULT_VIEW: TreeView = { code: true, amounts: true, percent: false };
+const DEFAULT_VIEW: TreeView = { number: 'nr', amounts: true, percent: false };
 function loadView(): TreeView {
   try {
-    const v = JSON.parse(localStore.getItem(VIEW_KEY) ?? 'null') as (Partial<TreeView> & { label?: string }) | null;
+    const v = JSON.parse(localStore.getItem(VIEW_KEY) ?? 'null') as (Partial<TreeView> & { code?: boolean; label?: string }) | null;
+    // Eerdere (nooit uitgebrachte) vormen: `code` (vinkje) en `label` ('none' = niets).
+    const number: TreeNumber = TREE_NUMBERS.includes(v?.number as TreeNumber) ? v!.number as TreeNumber
+      : typeof v?.code === 'boolean' ? (v.code ? 'nr' : 'none')
+        : v?.label === 'none' ? 'none' : DEFAULT_VIEW.number;
     return {
-      // `label` is de eerdere (nooit uitgebrachte) keuze nummer/code/geen.
-      code: typeof v?.code === 'boolean' ? v.code : v?.label ? v.label !== 'none' : DEFAULT_VIEW.code,
+      number,
       amounts: typeof v?.amounts === 'boolean' ? v.amounts : DEFAULT_VIEW.amounts,
       percent: typeof v?.percent === 'boolean' ? v.percent : DEFAULT_VIEW.percent,
     };
@@ -76,10 +86,12 @@ function saveView(view: TreeView): void {
   localStore.setItem(VIEW_KEY, JSON.stringify(view));
 }
 
-/** De code vóór de omschrijving; zonder code (bijv. na een import) het nummer. */
-function prefixOf(item: CostItem, showCode: boolean): string {
-  if (!showCode) return '';
-  return item.code?.trim() || item.nr?.trim() || '';
+/** Wat er vóór de omschrijving staat, zoals ingesteld: het Nr (hetzelfde als
+ *  de kolom Nr in het raster), de eigen code, of niets. */
+function prefixOf(item: CostItem, number: TreeNumber): string {
+  if (number === 'nr') return item.nr?.trim() || '';
+  if (number === 'code') return item.code?.trim() || '';
+  return '';
 }
 
 // Zelfde notatie als het raster (formatCurrency: altijd nl-NL), maar zonder centen.
@@ -112,7 +124,11 @@ function syncGridSelection(): void {
     guard.add(cur);
     const row = rows.findIndex((r) => r.id === cur);
     if (row >= 0) {
-      if (row !== s.activeRow || cur !== id) s.setActiveCell(row, s.activeCol, cur);
+      // Een selectiebereik (rijnummers) wijst na in-/uitklappen naar andere
+      // rijen: setActiveCell maakt het weer alleen de actieve cel.
+      const hasRange = s.selectionStart != null || s.selectionEnd != null
+        || s.cellSelectionStart != null || s.cellSelectionEnd != null;
+      if (row !== s.activeRow || cur !== id || hasRange) s.setActiveCell(row, s.activeCol, cur);
       return;
     }
   }
@@ -140,15 +156,42 @@ function sortSiblings(list: CostItem[], indexOf: Map<string, number>): void {
 function buildChildren(items: CostItem[], types: ReadonlySet<RowType> = TREE_TYPES): Map<string | null, CostItem[]> {
   const indexOf = new Map<string, number>();
   items.forEach((it, i) => indexOf.set(it.id, i));
+  const byId = new Map(items.map((it) => [it.id, it]));
   const byParent = new Map<string | null, CostItem[]>();
+  /** Hoofdstuk onder een verborgen rij (oud, gemengd bestand: hoofdstuk onder
+   *  een post): de verborgen voorouder direct onder de zichtbare ouder, voor
+   *  de volgorde. Zonder dit verdween zo'n hoofdstuk helemaal uit de boom. */
+  const anchorOf = new Map<string, CostItem>();
   for (const item of items) {
     if (!types.has(item.rowType)) continue;
-    const key = item.parentId ?? null;
+    let key = item.parentId ?? null;
+    if (item.rowType === 'chapter') {
+      // Naar de dichtstbijzijnde voorouder die de boom wél toont.
+      let anchor: CostItem | undefined;
+      const guard = new Set<string>();
+      for (let p = key ? byId.get(key) : undefined; p && !types.has(p.rowType) && !guard.has(p.id); p = p.parentId ? byId.get(p.parentId) : undefined) {
+        guard.add(p.id);
+        anchor = p;
+        key = p.parentId ?? null;
+      }
+      if (anchor) anchorOf.set(item.id, anchor);
+    }
     const list = byParent.get(key);
     if (list) list.push(item);
     else byParent.set(key, [item]);
   }
   for (const list of byParent.values()) sortSiblings(list, indexOf);
+  if (anchorOf.size > 0) {
+    // Opgetilde hoofdstukken direct ná hun verborgen voorouder.
+    const so = (it: CostItem) => (anchorOf.get(it.id) ?? it).sortOrder ?? 0;
+    const at = (it: CostItem) => indexOf.get((anchorOf.get(it.id) ?? it).id) ?? 0;
+    for (const list of byParent.values()) {
+      if (!list.some((it) => anchorOf.has(it.id))) continue;
+      list.sort((a, b) => so(a) - so(b) || at(a) - at(b)
+        || Number(anchorOf.has(a.id)) - Number(anchorOf.has(b.id))
+        || (a.sortOrder ?? 0) - (b.sortOrder ?? 0) || (indexOf.get(a.id) ?? 0) - (indexOf.get(b.id) ?? 0));
+    }
+  }
   return byParent;
 }
 
@@ -160,9 +203,9 @@ function flattenTree(
   foldedId: string | null = null,
   /** Toon deze rij open, ook als `isCollapsed` (alleen voor het sleepvoorbeeld). */
   openId: string | null = null,
-  /** Volledige structuur, voor het pijltje bij rijen waarvan de inhoud
-   *  dieper zit dan de boom nu toont. */
-  fullByParent: Map<string | null, CostItem[]> = byParent,
+  /** Rijen met inhoud in de begroting, voor het pijltje bij rijen waarvan de
+   *  inhoud dieper zit dan de boom nu toont (of alleen uit tekstregels bestaat). */
+  foldParents: ReadonlySet<string> = new Set(),
 ): TreeNode[] {
   const out: TreeNode[] = [];
   const seen = new Set<string>();
@@ -172,7 +215,7 @@ function flattenTree(
       seen.add(item.id);
       // Pijltje alleen bij hoofdstukken en (bewakings)posten met inhoud.
       const hasChildren = CONTAINER_TYPES.has(item.rowType) && (byParent.get(item.id)?.length ?? 0) > 0;
-      const foldable = hasChildren || (CONTAINER_TYPES.has(item.rowType) && (fullByParent.get(item.id)?.length ?? 0) > 0);
+      const foldable = hasChildren || (CONTAINER_TYPES.has(item.rowType) && foldParents.has(item.id));
       out.push({ item, level, parentId, hasChildren, foldable });
       if (hasChildren && (!item.isCollapsed || item.id === openId) && item.id !== foldedId) walk(item.id, level + 1);
     }
@@ -243,11 +286,12 @@ function descendantIds(items: CostItem[], rootId: string): Set<string> {
   return out;
 }
 
-function label(item: CostItem, fallback: string): string {
-  const code = item.code?.trim();
+/** Naam van een rij in de menu's: net als in de boom, met of zonder Nr. */
+function label(item: CostItem, fallback: string, number: TreeNumber): string {
+  const nr = prefixOf(item, number);
   const description = item.description?.trim();
-  if (code && description) return `${code} ${description}`;
-  return code || description || fallback;
+  if (nr && description) return `${nr} ${description}`;
+  return nr || description || fallback;
 }
 
 type DropPos = 'before' | 'after' | 'inside';
@@ -290,7 +334,7 @@ export const SchedulePanel: React.FC = () => {
   useEffect(() => {
     if (!showViewMenu) return;
     // Bij openen de focus op de eerste optie, zodat het menu met het toetsenbord werkt.
-    viewPanelRef.current?.querySelector<HTMLInputElement>('input')?.focus();
+    viewPanelRef.current?.querySelector<HTMLInputElement>('input:checked, input')?.focus();
     const onMouseDown = (e: MouseEvent) => {
       if (viewMenuRef.current && !viewMenuRef.current.contains(e.target as Node)) setShowViewMenu(false);
     };
@@ -307,17 +351,29 @@ export const SchedulePanel: React.FC = () => {
       document.removeEventListener('keydown', onKey);
     };
   }, [showViewMenu]);
-  // Kostprijs = som van de hoofdstukken op het hoogste niveau (zonder staart).
+  // Basis voor "% van totaal": som van alle rijen op het hoogste niveau
+  // (zonder staart). In oude, gemengde begrotingen tellen posten op het
+  // hoogste niveau mee, ook als de boom ze bij "Hoofdstukken" niet toont:
+  // het blijft een aandeel in het geheel. Bij 0 of minder geen % (zie onder).
   const kostprijs = useMemo(() => (view.percent ? getKostprijs(items) : 0), [items, view.percent]);
   // Wat de boom toont (tot de gekozen diepte)…
   const byParent = useMemo(() => buildChildren(items, DEPTH_TYPES[depth]), [items, depth]);
   // …en de volledige structuur voor de verplaatsregels: die mogen niet
   // afhangen van wat er toevallig in beeld is.
   const fullByParent = useMemo(() => buildChildren(items), [items]);
+  // Rijen met échte inhoud in de begroting (ook alleen tekst- of witregels,
+  // die de boom niet toont), zelfde regel als het pijltje in het raster.
+  // Staartrijen tellen niet mee.
+  const foldParents = useMemo(() => {
+    const set = new Set<string>();
+    for (const it of items) if (it.parentId && !it.rowType.startsWith('staart_')) set.add(it.parentId);
+    return set;
+  }, [items]);
   const byId = useMemo(() => new Map(items.map((i) => [i.id, i])), [items]);
-  /** Echt dicht: dichtgeklapt én er hangt in de boom iets onder. Een lege
-   *  post met een oude `isCollapsed` gedraagt zich als open. */
-  const isFolded = (item: CostItem): boolean => !!item.isCollapsed && (fullByParent.get(item.id)?.length ?? 0) > 0;
+  /** Echt dicht: dichtgeklapt én er hangt iets onder (ook alleen tekstregels:
+   *  dan klapt het raster dicht). Een lege post met een oude `isCollapsed`
+   *  gedraagt zich als open. */
+  const isFolded = (item: CostItem): boolean => !!item.isCollapsed && foldParents.has(item.id);
   /** Nakomelingen van één rij, onthouden zolang de rijen niet veranderen: bij
    *  slepen wordt dit per muisbeweging vaak gevraagd (8.000 rijen = merkbaar). */
   const descCache = useRef<{ items: CostItem[]; id: string; set: Set<string> } | null>(null);
@@ -332,6 +388,8 @@ export const SchedulePanel: React.FC = () => {
   // Slepen: zolang de muis ingedrukt is, toont de boom alvast de nieuwe plek.
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [dropHint, setDropHint] = useState<DropTarget | null>(null);
+  /** Dichte map die tijdens het slepen zo openklapt (de timer loopt). */
+  const [expandPending, setExpandPending] = useState<string | null>(null);
   const dropHintRef = useRef<DropTarget | null>(null); // altijd gelijk aan dropHint, maar direct bijgewerkt
 
   const shownByParent = useMemo(() => {
@@ -353,8 +411,8 @@ export const SchedulePanel: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [draggingId, dropHint, byId]);
   const nodes = useMemo(
-    () => flattenTree(shownByParent, draggingId, previewOpenId, fullByParent),
-    [shownByParent, draggingId, previewOpenId, fullByParent],
+    () => flattenTree(shownByParent, draggingId, previewOpenId, foldParents),
+    [shownByParent, draggingId, previewOpenId, foldParents],
   );
   const nodeIndex = useMemo(() => new Map(nodes.map((n, i) => [n.item.id, i])), [nodes]);
 
@@ -448,8 +506,7 @@ export const SchedulePanel: React.FC = () => {
   const moveAmongSiblings = (id: string, dir: -1 | 1): boolean => {
     const target = siblingTarget(id, dir);
     if (!target) return false;
-    runMove(id, target.id, dir < 0 ? 'before' : 'after', t('grid:undo.moveRow'));
-    return true;
+    return runMove(id, target.id, dir < 0 ? 'before' : 'after', t('grid:undo.moveRow'));
   };
 
   const canMoveInto = (id: string, containerId: string): boolean => {
@@ -506,6 +563,65 @@ export const SchedulePanel: React.FC = () => {
     return runMove(id, parentId, 'after', t('grid:undo.moveRow'));
   };
 
+  // ── Hoofdstuk op het hoogste niveau verplaatsen ──────────────────────
+  // "Verplaats naar" bij een hoofdstuk op het hoogste niveau: het blijft een
+  // hoofdstuk (paragraaf maken is "Maak paragraaf van"), alleen de plek
+  // verandert: bovenaan, of direct ná een ander hoofdstuk.
+  const topChapters = (): CostItem[] => (fullByParent.get(null) ?? []).filter((c) => c.rowType === 'chapter');
+  /** Hoofdstukken waar hoofdstuk `id` ná kan; niet zichzelf en niet het
+   *  hoofdstuk direct erboven (daar staat het al). */
+  const afterTargets = (id: string): CostItem[] => {
+    const item = byId.get(id);
+    if (!item || item.rowType !== 'chapter' || levelOf(id) !== 0) return [];
+    const top = topChapters();
+    const i = top.findIndex((c) => c.id === id);
+    return top.filter((c, k) => c.id !== id && (i < 0 || k !== i - 1));
+  };
+  /** Bovenaan kan als er een ander hoofdstuk vóór staat. */
+  const canMoveToTop = (id: string): boolean => {
+    const item = byId.get(id);
+    const first = topChapters()[0];
+    return !!item && item.rowType === 'chapter' && levelOf(id) === 0 && !!first && first.id !== id;
+  };
+  const moveChapterToTop = (id: string): boolean => {
+    if (!canMoveToTop(id)) return false;
+    return runMove(id, topChapters()[0].id, 'before', t('grid:undo.moveRow'));
+  };
+  const moveChapterAfter = (id: string, targetId: string): boolean => {
+    if (!afterTargets(id).some((c) => c.id === targetId)) return false;
+    return runMove(id, targetId, 'after', t('grid:undo.moveRow'));
+  };
+
+  // ── Regel / bewakingspost naar een andere post ───────────────────────
+  /** Doelen voor "Verplaats naar" bij een regel (begrotingsposten en
+   *  bewakingsposten) of bewakingspost (begrotingsposten), in boomvolgorde
+   *  en ingesprongen onder hun hoofdstuk. `target: false` = alleen een kopje
+   *  (hoofdstuk, of de huidige post waar wel een bewakingspost onder hangt). */
+  const postTargets = (id: string): { item: CostItem; level: number; target: boolean }[] => {
+    const item = byId.get(id);
+    if (!item || (item.rowType !== 'regel' && item.rowType !== 'bewakingspost')) return [];
+    const out: { item: CostItem; level: number; target: boolean }[] = [];
+    const seen = new Set<string>();
+    const walk = (parentId: string | null, level: number): boolean => {
+      let any = false;
+      for (const child of fullByParent.get(parentId) ?? []) {
+        if (seen.has(child.id) || !CONTAINER_TYPES.has(child.rowType)) continue;
+        seen.add(child.id);
+        const at = out.length;
+        const ok = child.rowType !== 'chapter' && canMoveInto(id, child.id);
+        out.push({ item: child, level, target: ok });
+        // Dieper kijken: in hoofdstukken, en voor een regel ook in posten (bewakingsposten).
+        const deeper = child.rowType === 'chapter' || (item.rowType === 'regel' && child.rowType === 'begrotingspost');
+        const below = deeper ? walk(child.id, level + 1) : false;
+        if (ok || below) any = true;
+        else out.splice(at); // niets te kiezen hier: weglaten
+      }
+      return any;
+    };
+    walk(null, 0);
+    return out;
+  };
+
   // ── Verwijderen ──────────────────────────────────────────────────────
   /** Verwijdert de rij met alles eronder, net als in het raster (store-actie
    *  `deleteItem`), als één undo-stap. Alleen via het rechtermuisknopmenu en
@@ -519,7 +635,7 @@ export const SchedulePanel: React.FC = () => {
     if (!item) return false;
     const gone = descendantIds(store.items, id);
     // Zelfde naam als in de boom (met of zonder code, zoals ingesteld).
-    const prefix = prefixOf(item, view.code);
+    const prefix = prefixOf(item, view.number);
     const description = item.description?.trim() ?? '';
     const name = (prefix && description ? `${prefix} ${description}` : description || prefix) || (item.rowType === 'chapter' ? t('chapter') : '—');
     const question = gone.size > 0
@@ -553,17 +669,31 @@ export const SchedulePanel: React.FC = () => {
    *  - de juiste ouder (post op hoofdstuk, regel op post) → erin, achteraan.
    *  null = verboden doel (geen voorbeeld, niets bij loslaten);
    *  'same' = het item staat daar al (neutraal: niets doen, maar ook geen ⦸). */
-  const resolveDrop = (dragId: string, targetId: string, half: 'top' | 'bottom'): DropTarget | 'same' | null => {
+  const resolveDrop = (dragId: string, targetId: string, half: 'top' | 'bottom', viaContent = true): DropTarget | 'same' | null => {
     const item = byId.get(dragId);
     const target = byId.get(targetId);
     if (!item || !target || dragId === targetId) return null;
     if (descendantsOf(dragId).has(targetId)) return null; // kringetje
-    const sameLevel = target.rowType === item.rowType
-      && (item.rowType !== 'chapter' || levelOf(targetId) === levelOf(dragId));
-    if (!sameLevel) {
+    const isSameLevel = (row: CostItem) => row.rowType === item.rowType
+      && (item.rowType !== 'chapter' || levelOf(row.id) === levelOf(dragId));
+    if (!isSameLevel(target)) {
       // Boven de eigen ouder (regel boven zijn post): daar staat hij al.
       if (targetId === item.parentId) return 'same';
-      return canMoveInto(dragId, targetId) ? { id: targetId, position: 'inside' } : null;
+      if (canMoveInto(dragId, targetId)) return { id: targetId, position: 'inside' };
+      // Boven de inhoud van een rij van hetzelfde soort (een hoofdstuk boven de
+      // posten van een ander hoofdstuk): dat betekent "na die rij". Anders kom
+      // je bij omhoog slepen eerst langs een hele reeks verboden rijen voordat
+      // je de kop bereikt, en springt het voorbeeld heen en weer.
+      // Niet voor hasTargetInside: dan zou elke dichte map openklappen.
+      if (viaContent) {
+        const seen = new Set<string>();
+        for (let up = target.parentId ? byId.get(target.parentId) : undefined; up && !seen.has(up.id); up = up.parentId ? byId.get(up.parentId) : undefined) {
+          seen.add(up.id);
+          if (up.id === dragId) return null;
+          if (isSameLevel(up)) return resolveDrop(dragId, up.id, 'bottom', false);
+        }
+      }
+      return null;
     }
     const position: DropPos = half === 'top' ? 'before' : 'after';
     // Naast `target` = onder dezelfde ouder; die moet passen.
@@ -589,7 +719,7 @@ export const SchedulePanel: React.FC = () => {
       const child = stack.pop()!;
       if (seen.has(child.id) || child.id === dragId) continue;
       seen.add(child.id);
-      const drop = resolveDrop(dragId, child.id, 'top');
+      const drop = resolveDrop(dragId, child.id, 'top', false);
       if (drop && drop !== 'same') return true;
       stack.push(...(fullByParent.get(child.id) ?? []));
     }
@@ -615,12 +745,13 @@ export const SchedulePanel: React.FC = () => {
   const dragLabelRef = useRef<HTMLDivElement>(null);
   const pointerRef = useRef({ x: 0, y: 0 });
   const [dropBlocked, setDropBlocked] = useState(false);
-  // Het label verschijnt pas na de eerste render van de sleepbeweging: meteen
-  // op de muispositie zetten, anders knippert het linksboven.
-  useLayoutEffect(() => {
-    const el = dragLabelRef.current;
-    if (el && draggingId) el.style.transform = `translate(${pointerRef.current.x + 14}px, ${pointerRef.current.y + 12}px)`;
-  }, [draggingId]);
+  // Het label verschijnt pas als er een doel is (en kan tijdens het slepen
+  // verdwijnen en terugkomen): elke keer dat het in beeld komt meteen op de
+  // muispositie zetten, anders staat het buiten beeld tot de muis weer beweegt.
+  const placeDragLabel = useCallback((el: HTMLDivElement | null) => {
+    dragLabelRef.current = el;
+    if (el) el.style.transform = `translate(${pointerRef.current.x + 14}px, ${pointerRef.current.y + 12}px)`;
+  }, []);
 
   const onRowPointerDown = (e: React.PointerEvent<HTMLDivElement>, id: string) => {
     if (e.button !== 0 || (e.target as HTMLElement).closest('button')) return;
@@ -638,6 +769,10 @@ export const SchedulePanel: React.FC = () => {
     let scrollFrame = 0;
     let expandTimer: ReturnType<typeof setTimeout> | null = null;
     let expandFor: string | null = null;
+    /** Wacht de open-klap-timer op de korte tijd (muis boven het pijltje)? */
+    let expandFast = false;
+    /** Muis staat boven het pijltje van de rij: dan sneller openklappen. */
+    let overChevron = false;
     /** Laatste dichte map waar niets in paste (zie scheduleExpand). */
     let noTargetFor: string | null = null;
     /** Muispositie (in de inhoud) bij de laatste wissel van doel; zie hitTest. */
@@ -677,30 +812,37 @@ export const SchedulePanel: React.FC = () => {
       const canLandInside = folded && (directInside || cur.hasTargetInside(id, target.id));
       if (folded && !canLandInside) noTargetFor = target.id;
       const want = canLandInside ? target!.id : null;
-      if (want === expandFor) return;
+      // Zelfde map: laten lopen, behalve als de muis nu op het pijltje staat
+      // (dan direct de korte tijd).
+      if (want === expandFor && !(want && overChevron && !expandFast)) return;
       if (expandTimer) clearTimeout(expandTimer);
       expandTimer = null;
       expandFor = want;
+      expandFast = !!want && overChevron;
+      // Zichtbaar dat de map zo opengaat (het pijltje draait alvast mee):
+      // anders lijkt het willekeurig wanneer een map openklapt.
+      setExpandPending(want);
       if (!want) return;
       expandTimer = setTimeout(() => {
         expandTimer = null;
+        setExpandPending(null);
         if (latest.current.byId.get(want)?.isCollapsed) {
           useAppStore.getState().toggleCollapse(want);
           openedByDrag.push(want);
           syncGridSelection();
         }
-      }, 600);
+      }, expandFast ? EXPAND_DELAY_FAST : EXPAND_DELAY);
     };
 
-    /** Klapt weer dicht wat deze sleepbeweging opende, behalve de map(pen)
-     *  waar het item in terechtkomt (`dropOn` en alles erboven). */
-    const restoreOpened = (dropOn: string | null) => {
+    /** Klapt weer dicht wat deze sleepbeweging opende. Bij een geslaagde zet
+     *  gebeurt dit vóór de zet (zie onUp): de undo-stap bewaart dan de
+     *  open/dicht-stand van vóór het slepen, en `revealItem` klapt daarna
+     *  alleen de mappen boven de nieuwe plek weer open. */
+    const restoreOpened = () => {
       if (openedByDrag.length === 0) return;
-      const keep = new Set<string>();
       const map = new Map(useAppStore.getState().items.map((i) => [i.id, i]));
-      for (let cur = dropOn; cur && !keep.has(cur); cur = map.get(cur)?.parentId ?? null) keep.add(cur);
       for (const openedId of openedByDrag) {
-        if (!keep.has(openedId) && map.get(openedId) && !map.get(openedId)!.isCollapsed) {
+        if (map.get(openedId) && !map.get(openedId)!.isCollapsed) {
           useAppStore.getState().toggleCollapse(openedId);
         }
       }
@@ -713,9 +855,25 @@ export const SchedulePanel: React.FC = () => {
       // Boven de vaste kop: kijk net eronder (anders is omhoog scrollen
       // tijdens slepen steeds "geen doel").
       const headBottom = headRef.current?.getBoundingClientRect().bottom ?? -Infinity;
-      const probeY = y < headBottom && y >= headBottom - 40 ? headBottom + 2 : y;
+      let probeY = y < headBottom && y >= headBottom - 40 ? headBottom + 2 : y;
       const under = (document.elementFromPoint?.(x, probeY) ?? null) as HTMLElement | null;
-      const rowEl = under?.closest<HTMLElement>('[data-tree-id]') ?? null;
+      let rowEl = under?.closest<HTMLElement>('[data-tree-id]') ?? null;
+      // In het lege stuk onder de laatste rij (nog boven de boom): dat is
+      // "helemaal onderaan", dus de laatste rij (onderste helft). Via de
+      // inhoud-regel van resolveDrop wordt dat voor een hoofdstuk "na het
+      // laatste hoofdstuk". Anders kun je niets helemaal onderaan neerzetten.
+      if (!rowEl && treeRef.current) {
+        const all = treeRef.current.querySelectorAll<HTMLElement>('[data-tree-id]');
+        const last = all[all.length - 1];
+        // Het paneel (dat scrollt), niet alleen de boom: die is soms maar zo hoog als zijn rijen.
+        const area = (scrollEl ?? treeRef.current).getBoundingClientRect();
+        const lastRect = last?.getBoundingClientRect();
+        if (last && lastRect && probeY > lastRect.bottom && probeY <= area.bottom && x >= area.left && x <= area.right) {
+          rowEl = last;
+          probeY = lastRect.bottom - 1;
+        }
+      }
+      overChevron = !!under?.closest('.grid-collapse-btn');
       const targetId = rowEl?.dataset.treeId;
       if (!rowEl || !targetId || !treeRef.current?.contains(rowEl)) {
         lockY = null; // terug in de boom: meteen weer een doel kiezen
@@ -784,8 +942,7 @@ export const SchedulePanel: React.FC = () => {
       if (el) el.style.transform = `translate(${lastX + 14}px, ${lastY + 12}px)`;
     };
 
-    /** `dropOn`: undefined = terugklappen gebeurt later (onUp, na de zet). */
-    const finish = (dropOn: string | null | undefined = null) => {
+    const finish = () => {
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerup', onUp);
       window.removeEventListener('pointercancel', onCancel);
@@ -794,7 +951,7 @@ export const SchedulePanel: React.FC = () => {
       if (scrollFrame) cancelFrame(scrollFrame);
       if (expandTimer) clearTimeout(expandTimer);
       dragCleanupRef.current = null;
-      if (dropOn !== undefined) restoreOpened(dropOn);
+      restoreOpened();
       // De klik die direct op het loslaten volgt negeren. Komt die niet
       // (losgelaten buiten de boom), dan zet de volgende pointerdown de vlag
       // weer terug (onRowPointerDown), dus een echte klik werkt altijd.
@@ -802,11 +959,12 @@ export const SchedulePanel: React.FC = () => {
       dropHintRef.current = null;
       setDropHint(null);
       setDropBlocked(false);
+      setExpandPending(null);
       setDraggingId(null);
     };
     const onMove = (ev: PointerEvent) => {
       // Knop is al los maar de 'pointerup' kwam nooit aan: niets doen.
-      if (started && ev.buttons === 0 && ev.pointerType === 'mouse') { finish(null); return; }
+      if (started && ev.buttons === 0 && ev.pointerType === 'mouse') { finish(); return; }
       lastX = ev.clientX; lastY = ev.clientY;
       if (!started) {
         if (Math.abs(lastX - startX) < 4 && Math.abs(lastY - startY) < 4) return; // sleep-drempel
@@ -821,21 +979,19 @@ export const SchedulePanel: React.FC = () => {
     };
     const onUp = () => {
       const hint = dropHintRef.current;
-      const doMove = started && hint;
-      if (!doMove) { finish(null); return; }
-      finish(undefined); // terugklappen pas na de zet: geweigerd = alles weer dicht
-      const moved = latest.current.applyDrop(id, hint);
-      restoreOpened(moved ? hint.id : null);
-      // De zet koppelde de rij-index toen er nog mappen open stonden die nu
-      // weer dicht zijn: opnieuw koppelen, anders wijst het raster ernaast.
-      if (moved) useAppStore.getState().revealItem(id);
+      // Eerst alles wat het slepen opende weer dicht (ook bij een geweigerde
+      // zet), dán de zet: zo komt de open/dicht-stand van vóór het slepen in
+      // de undo-stap. De zet (runMove) klapt daarna via revealItem de mappen
+      // boven de nieuwe plek weer open en koppelt de rij-index opnieuw.
+      finish();
+      if (started && hint) latest.current.applyDrop(id, hint);
     };
-    const onCancel = () => finish(null);
+    const onCancel = () => finish();
     const onKey = (ev: KeyboardEvent) => {
       if (ev.key !== 'Escape' || !started) return;
       ev.stopPropagation();
       ev.preventDefault();
-      finish(null);
+      finish();
     };
     dragCleanupRef.current = finish;
     window.addEventListener('pointermove', onMove);
@@ -852,7 +1008,7 @@ export const SchedulePanel: React.FC = () => {
     const target = dropHint ? byId.get(dropHint.id) : undefined;
     if (!target || !dropHint) return dropBlocked ? '⦸' : '';
     const arrow = dropHint.position === 'inside' ? '→' : dropHint.position === 'before' ? '↑' : '↓';
-    return `${arrow}  ${label(target, target.rowType === 'chapter' ? t('chapter') : '—')}`;
+    return `${arrow}  ${label(target, target.rowType === 'chapter' ? t('chapter') : '—', view.number)}`;
   })();
 
   // ── Rechtermuisknopmenu ───────────────────────────────────────────────
@@ -861,13 +1017,17 @@ export const SchedulePanel: React.FC = () => {
   const [showParaSub, setShowParaSub] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const closeMenu = () => { setMenu(null); setShowMoveSub(false); setShowParaSub(false); };
+  /** Menu dicht na een keuze (of Escape): focus terug naar de boom, anders
+   *  valt hij op de pagina en doen de pijltjestoetsen niets meer. Niet bij
+   *  klikken buiten het menu: dan hoort de focus bij wat je aanklikte. */
+  const closeMenuToTree = () => { closeMenu(); treeRef.current?.focus({ preventScroll: true }); };
 
   useEffect(() => {
     if (!menu) return;
     const onMouseDown = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) closeMenu();
     };
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeMenu(); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeMenuToTree(); };
     document.addEventListener('pointerdown', onMouseDown);
     document.addEventListener('keydown', onKey);
     return () => {
@@ -883,9 +1043,22 @@ export const SchedulePanel: React.FC = () => {
     if (rect.bottom > window.innerHeight) menuRef.current.style.top = `${menu.y - rect.height}px`;
   }, [menu]);
 
+  // Een open submenu ook helemaal in beeld houden: valt het rechts buiten
+  // het venster, dan links van het menu; onderaan eruit, dan omhoog schuiven
+  // (maar nooit boven het venster uit).
+  useLayoutEffect(() => {
+    if (!menu || (!showMoveSub && !showParaSub)) return;
+    const sub = menuRef.current?.querySelector<HTMLElement>('.grid-context-submenu');
+    if (!sub) return;
+    const rect = sub.getBoundingClientRect();
+    if (rect.right > window.innerWidth) { sub.style.left = 'auto'; sub.style.right = '100%'; }
+    const overflow = rect.bottom - window.innerHeight + 4;
+    if (overflow > 0) sub.style.top = `${-Math.max(0, Math.min(overflow, rect.top - 4))}px`;
+  }, [menu, showMoveSub, showParaSub]);
+
   const menuChapters = useMemo(() => {
     if (!menu) return [];
-    // Alleen hoofdstukken en posten gaan via dit menu; regels sleep je.
+    // Doelhoofdstukken voor een post of paragraaf (regels en bewakingsposten: postTargets).
     const rowType = byId.get(menu.id)?.rowType;
     if (rowType !== 'chapter' && rowType !== 'begrotingspost') return [];
     return allChapters(fullByParent).filter(({ item }) => canMoveInto(menu.id, item.id));
@@ -893,6 +1066,16 @@ export const SchedulePanel: React.FC = () => {
   }, [menu, fullByParent, items]);
   const menuParagraphTargets = useMemo(
     () => (menu ? paragraphTargets(menu.id) : []),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [menu, fullByParent, items],
+  );
+  const menuAfterTargets = useMemo(
+    () => (menu ? afterTargets(menu.id) : []),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [menu, fullByParent, items],
+  );
+  const menuPostTargets = useMemo(
+    () => (menu ? postTargets(menu.id) : []),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [menu, fullByParent, items],
   );
@@ -906,10 +1089,10 @@ export const SchedulePanel: React.FC = () => {
     const stack = [id];
     while (stack.length) {
       const cur = stack.pop()!;
-      const children = fullByParent.get(cur) ?? [];
-      if (children.length === 0 || ids.has(cur)) continue;
+      // Ook een rij met alleen tekstregels eronder klapt mee (in het raster).
+      if (!foldParents.has(cur) || ids.has(cur)) continue;
       ids.add(cur);
-      for (const child of children) stack.push(child.id);
+      for (const child of fullByParent.get(cur) ?? []) stack.push(child.id);
     }
     const store = useAppStore.getState();
     const changes = (i: CostItem) => ids.has(i.id) && !!i.isCollapsed !== collapsed;
@@ -917,7 +1100,7 @@ export const SchedulePanel: React.FC = () => {
     useAppStore.setState({ items: store.items.map((i) => (changes(i) ? { ...i, isCollapsed: collapsed } : i)) });
     syncGridSelection();
   };
-  const hasTreeChildren = (id: string) => (fullByParent.get(id)?.length ?? 0) > 0;
+  const hasTreeChildren = (id: string) => foldParents.has(id);
   /** Eén rij open/dicht vanuit de boom (pijltje, ←/→), en het raster bijsturen. */
   const toggleFold = (id: string) => {
     toggleCollapse(id);
@@ -958,6 +1141,8 @@ export const SchedulePanel: React.FC = () => {
       e.preventDefault();
       return;
     }
+    // Alt+pijl is alleen verplaatsen: Alt+←/→ klapt niets in of uit.
+    if (e.altKey && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) return;
     const go = (i: number) => {
       const target = nodes[Math.max(0, Math.min(nodes.length - 1, i))];
       if (target) revealItem(target.item.id);
@@ -1039,11 +1224,19 @@ export const SchedulePanel: React.FC = () => {
           </button>
           {showViewMenu && (
             <div ref={viewPanelRef} className="schedule-tree-view-menu" role="dialog" aria-label={t('structureTree.view')}>
+              <div className="schedule-tree-view-heading" id="schedule-tree-number-heading">{t('structureTree.numberHeading')}</div>
+              {/* Eén keuze uit drie: Nr (de plek, verandert mee bij verplaatsen),
+                  Code (eigen code, verandert nooit) of niets. */}
+              <div className="schedule-tree-view-segmented" role="radiogroup" aria-labelledby="schedule-tree-number-heading">
+                {TREE_NUMBERS.map((n) => (
+                  <label key={n} className={`schedule-tree-view-segment${view.number === n ? ' is-on' : ''}`}>
+                    <input type="radio" name="schedule-tree-number" value={n} checked={view.number === n} onChange={() => setView({ number: n })} />
+                    {t(n === 'nr' ? 'structureTree.labelNr' : n === 'code' ? 'structureTree.labelCode' : 'structureTree.labelNone')}
+                  </label>
+                ))}
+              </div>
+              <div className="schedule-tree-view-sep" />
               <div className="schedule-tree-view-heading">{t('structureTree.show')}</div>
-              <label className="schedule-tree-view-option">
-                <input type="checkbox" name="schedule-tree-code" checked={view.code} onChange={(e) => setView({ code: e.target.checked })} />
-                {t('structureTree.labelCode')}
-              </label>
               <label className="schedule-tree-view-option">
                 <input type="checkbox" name="schedule-tree-amounts" checked={view.amounts} onChange={(e) => setView({ amounts: e.target.checked })} />
                 {t('structureTree.amounts')}
@@ -1066,8 +1259,8 @@ export const SchedulePanel: React.FC = () => {
         tabIndex={0}
         onKeyDown={onKeyDown}
       >
-        {nodes.map(({ item, level, hasChildren, foldable }) => {
-          const prefix = prefixOf(item, view.code);
+        {nodes.map(({ item, level, foldable }) => {
+          const prefix = prefixOf(item, view.number);
           const description = item.description?.trim() ?? '';
           const fallback = item.rowType === 'chapter' ? t('chapter') : '—';
           const text = prefix && description ? `${prefix} ${description}` : description || prefix || fallback;
@@ -1087,9 +1280,10 @@ export const SchedulePanel: React.FC = () => {
               role="treeitem"
               aria-level={level}
               aria-selected={item.id === highlightId}
-              aria-expanded={hasChildren ? !shownCollapsed : undefined}
+              // Ook als alleen het raster in-/uitklapt (inhoud dieper dan de boom toont).
+              aria-expanded={foldable ? !shownCollapsed : undefined}
               // Tijdens slepen alleen de gesleepte rij markeren, niet ook nog de selectie.
-              className={`schedule-item${item.id === highlightId && !draggingId ? ' active' : ''}${item.id === draggingId ? ' dragging' : ''}${dropHint?.position === 'inside' && dropHint.id === item.id ? ' drop-inside' : ''}`}
+              className={`schedule-item${item.id === highlightId && !draggingId ? ' active' : ''}${item.id === draggingId ? ' dragging' : ''}${dropHint?.position === 'inside' && dropHint.id === item.id ? ' drop-inside' : ''}${item.id === expandPending ? ' expand-pending' : ''}`}
               style={{ paddingInlineStart: (level - 1) * 12 + 4 }}
               title={text}
               onPointerDown={(e) => onRowPointerDown(e, item.id)}
@@ -1130,7 +1324,9 @@ export const SchedulePanel: React.FC = () => {
                   : text}
               </span>
               {amount && <span className="schedule-item-amount">{amount}</span>}
-              {pct && <span className="schedule-item-pct">{pct}</span>}
+              {/* Altijd een %-vakje (desnoods leeg), anders schuiven de bedragen
+                  van rijen zonder % naar rechts en staan ze niet onder elkaar. */}
+              {view.percent && <span className="schedule-item-pct" aria-hidden={pct ? undefined : true}>{pct}</span>}
             </div>
           );
         })}
@@ -1138,7 +1334,7 @@ export const SchedulePanel: React.FC = () => {
 
       {draggingId && dragLabelText && (
         <div
-          ref={dragLabelRef}
+          ref={placeDragLabel}
           className={`schedule-drag-label${dropBlocked ? ' is-blocked' : ''}`}
           aria-hidden="true"
         >
@@ -1152,7 +1348,7 @@ export const SchedulePanel: React.FC = () => {
             className="grid-context-menu-item"
             role="menuitem"
             disabled={!siblingTarget(menu.id, -1)}
-            onClick={() => { moveAmongSiblings(menu.id, -1); closeMenu(); }}
+            onClick={() => { moveAmongSiblings(menu.id, -1); closeMenuToTree(); }}
           >
             <span>{t('ribbon:budget.moveUp')}</span>
             <span className="grid-context-menu-shortcut">Alt+↑</span>
@@ -1161,47 +1357,120 @@ export const SchedulePanel: React.FC = () => {
             className="grid-context-menu-item"
             role="menuitem"
             disabled={!siblingTarget(menu.id, 1)}
-            onClick={() => { moveAmongSiblings(menu.id, 1); closeMenu(); }}
+            onClick={() => { moveAmongSiblings(menu.id, 1); closeMenuToTree(); }}
           >
             <span>{t('ribbon:budget.moveDown')}</span>
             <span className="grid-context-menu-shortcut">Alt+↓</span>
           </button>
-          {/* Een hoofdstuk op het hoogste niveau kan nergens heen: dan geen (grijze) optie. */}
-          {(menuItem.rowType === 'begrotingspost' || (menuItem.rowType === 'chapter' && levelOf(menuItem.id) > 0)) && <>
+          {/* Verplaats naar: post/paragraaf → een hoofdstuk; hoofdstuk op het
+              hoogste niveau → bovenaan of ná een ander hoofdstuk (blijft
+              hoofdstuk); regel/bewakingspost → een (bewakings)post. */}
+          {(() => {
+            const topChapter = menuItem.rowType === 'chapter' && levelOf(menuItem.id) === 0;
+            const toPost = menuItem.rowType === 'regel' || menuItem.rowType === 'bewakingspost';
+            const empty = topChapter
+              ? menuAfterTargets.length === 0 && !canMoveToTop(menuItem.id)
+              : toPost ? !menuPostTargets.some((p) => p.target) : menuChapters.length === 0;
+            // Grijs zonder uitleg is raadselachtig: zeg kort waarom het niet kan.
+            const why = !empty ? ''
+              : topChapter ? t('structureTree.whyNoOtherChapter')
+                : toPost ? t('structureTree.whyNoOtherItem')
+                  : menuItem.rowType === 'chapter' ? t('structureTree.whyNeedsChapterWithoutItems')
+                    : t('structureTree.whyNoChapterWithoutSections');
+            return <>
           <div className="grid-context-menu-separator" />
           <div style={{ position: 'relative' }}>
             <button
               className="grid-context-menu-item"
               role="menuitem"
+              data-action="move-to"
               aria-haspopup="menu"
               aria-expanded={showMoveSub}
-              disabled={menuChapters.length === 0}
+              disabled={empty}
+              title={why || undefined}
               onClick={() => { setShowMoveSub((v) => !v); setShowParaSub(false); }}
             >
               <span>{t('grid:contextMenu.moveTo')}</span>
               <span className="grid-context-menu-shortcut">▸</span>
             </button>
+            {why && <div className="schedule-tree-menu-hint" data-why="move-to">{why}</div>}
             {showMoveSub && (
               <div className="grid-context-submenu" role="menu" style={{ position: 'absolute', left: '100%', top: 0 }}>
-                {menuChapters.map(({ item: ch, level }) => (
+                {topChapter && <>
+                  <button
+                    className="grid-context-menu-item"
+                    role="menuitem"
+                    data-move-top=""
+                    disabled={!canMoveToTop(menu.id)}
+                    onClick={() => { moveChapterToTop(menu.id); closeMenuToTree(); }}
+                  >
+                    <span>{t('structureTree.moveToTop')}</span>
+                  </button>
+                  {menuAfterTargets.length > 0 && (
+                    <div className="schedule-tree-menu-heading" role="presentation">{t('structureTree.placeAfter')}</div>
+                  )}
+                  {menuAfterTargets.map((ch) => (
+                    <button
+                      key={ch.id}
+                      className="grid-context-menu-item"
+                      role="menuitem"
+                      data-move-after={ch.id}
+                      style={{ paddingInlineStart: 24 }}
+                      onClick={() => { moveChapterAfter(menu.id, ch.id); closeMenuToTree(); }}
+                    >
+                      <span>{label(ch, t('chapter'), view.number)}</span>
+                    </button>
+                  ))}
+                </>}
+                {toPost && menuPostTargets.map(({ item: p, level, target }) => (target ? (
+                  <button
+                    key={p.id}
+                    className="grid-context-menu-item"
+                    role="menuitem"
+                    data-move-target={p.id}
+                    style={{ paddingInlineStart: 12 + level * 12 }}
+                    onClick={() => { moveInto(menu.id, p.id); closeMenuToTree(); }}
+                  >
+                    <span>{label(p, '—', view.number)}</span>
+                  </button>
+                ) : (
+                  // Hoofdstuk (of de huidige post) als kopje: niet te kiezen.
+                  <div
+                    key={p.id}
+                    className="schedule-tree-menu-heading"
+                    role="presentation"
+                    style={{ paddingInlineStart: 12 + level * 12 }}
+                  >
+                    {label(p, p.rowType === 'chapter' ? t('chapter') : '—', view.number)}
+                  </div>
+                )))}
+                {!topChapter && !toPost && menuChapters.map(({ item: ch, level }) => (
                   <button
                     key={ch.id}
                     className="grid-context-menu-item"
                     role="menuitem"
                     data-move-target={ch.id}
                     style={{ paddingInlineStart: 12 + level * 12 }}
-                    onClick={() => { moveInto(menu.id, ch.id); closeMenu(); }}
+                    onClick={() => { moveInto(menu.id, ch.id); closeMenuToTree(); }}
                   >
-                    <span>{label(ch, t('chapter'))}</span>
+                    <span>{label(ch, t('chapter'), view.number)}</span>
                   </button>
                 ))}
               </div>
             )}
           </div>
-          </>}
-          {(menuParagraphTargets.length > 0 || canMakeChapter(menuItem.id)) && <>
+            </>;
+          })()}
+          {/* Een hoofdstuk op het hoogste niveau ziet "Maak paragraaf van" altijd;
+              kan het niet, dan grijs met de reden eronder. */}
+          {(() => {
+            const topChapter = menuItem.rowType === 'chapter' && levelOf(menuItem.id) === 0;
+            const paraWhy = !topChapter || menuParagraphTargets.length > 0 ? ''
+              : hasChapters(menuItem.id) ? t('structureTree.whyHasSections')
+                : t('structureTree.whyNeedsChapterWithoutItems');
+            return (topChapter || canMakeChapter(menuItem.id)) && <>
             <div className="grid-context-menu-separator" />
-            {menuParagraphTargets.length > 0 && (
+            {topChapter && (
               <div style={{ position: 'relative' }}>
                 <button
                   className="grid-context-menu-item"
@@ -1209,11 +1478,14 @@ export const SchedulePanel: React.FC = () => {
                   data-action="make-paragraph"
                   aria-haspopup="menu"
                   aria-expanded={showParaSub}
+                  disabled={!!paraWhy}
+                  title={paraWhy || undefined}
                   onClick={() => { setShowParaSub((v) => !v); setShowMoveSub(false); }}
                 >
                   <span>{t('structureTree.makeParagraphOf')}</span>
                   <span className="grid-context-menu-shortcut">▸</span>
                 </button>
+                {paraWhy && <div className="schedule-tree-menu-hint" data-why="make-paragraph">{paraWhy}</div>}
                 {showParaSub && (
                   <div className="grid-context-submenu" role="menu" style={{ position: 'absolute', left: '100%', top: 0 }}>
                     {menuParagraphTargets.map((ch) => (
@@ -1222,9 +1494,9 @@ export const SchedulePanel: React.FC = () => {
                         className="grid-context-menu-item"
                         role="menuitem"
                         data-paragraph-target={ch.id}
-                        onClick={() => { makeParagraph(menu.id, ch.id); closeMenu(); }}
+                        onClick={() => { makeParagraph(menu.id, ch.id); closeMenuToTree(); }}
                       >
-                        <span>{label(ch, t('chapter'))}</span>
+                        <span>{label(ch, t('chapter'), view.number)}</span>
                       </button>
                     ))}
                   </div>
@@ -1236,19 +1508,20 @@ export const SchedulePanel: React.FC = () => {
                 className="grid-context-menu-item"
                 role="menuitem"
                 data-action="make-chapter"
-                onClick={() => { makeChapter(menu.id); closeMenu(); }}
+                onClick={() => { makeChapter(menu.id); closeMenuToTree(); }}
               >
                 <span>{t('structureTree.makeChapter')}</span>
               </button>
             )}
-          </>}
+          </>;
+          })()}
           {hasTreeChildren(menuItem.id) && <>
             <div className="grid-context-menu-separator" />
             <button
               className="grid-context-menu-item"
               role="menuitem"
               data-action="expand-below"
-              onClick={() => { setCollapsedBelow(menu.id, false); closeMenu(); }}
+              onClick={() => { setCollapsedBelow(menu.id, false); closeMenuToTree(); }}
             >
               <span>{t('structureTree.expandBelow')}</span>
               <span className="grid-context-menu-shortcut">*</span>
@@ -1257,7 +1530,7 @@ export const SchedulePanel: React.FC = () => {
               className="grid-context-menu-item"
               role="menuitem"
               data-action="collapse-below"
-              onClick={() => { setCollapsedBelow(menu.id, true); closeMenu(); }}
+              onClick={() => { setCollapsedBelow(menu.id, true); closeMenuToTree(); }}
             >
               <span>{t('structureTree.collapseBelow')}</span>
             </button>
