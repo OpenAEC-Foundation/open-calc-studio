@@ -371,6 +371,11 @@
   font-size: 10px;
   color: var(--theme-text-secondary);
 }
+/* Heel smal paneel: het venster krimpt mee, teksten mogen afbreken. */
+.schedule-tree-view-menu.is-narrow { min-width: 0; }
+.schedule-tree-view-menu.is-narrow .schedule-tree-view-option,
+.schedule-tree-view-menu.is-narrow .schedule-tree-view-segment { white-space: normal; }
+.schedule-tree-view-menu.is-narrow .schedule-tree-view-segment { padding-inline: 4px; }
 .schedule-tree-view-sep { height: 1px; margin: 8px 0; background: var(--theme-border); }
 
 /* Slepen in de boom: de gesleepte rij staat alvast op zijn nieuwe plek

@@ -109,7 +109,11 @@ export const TreeContextMenu: React.FC<Props> = ({ state, menuItem, treeRef, num
   useEffect(() => {
     if (!menu || !menuRef.current) return;
     const rect = menuRef.current.getBoundingClientRect();
-    if (rect.right > window.innerWidth) menuRef.current.style.left = `${menu.x - rect.width}px`;
+    // Rechts-naar-links: het menu opent links van de muis (zoals de submenu's),
+    // tenzij het daar niet past.
+    const rtl = getComputedStyle(menuRef.current).direction === 'rtl';
+    if (rtl && menu.x - rect.width >= 0) menuRef.current.style.left = `${menu.x - rect.width}px`;
+    else if (rect.right > window.innerWidth) menuRef.current.style.left = `${menu.x - rect.width}px`;
     if (rect.bottom > window.innerHeight) menuRef.current.style.top = `${menu.y - rect.height}px`;
   }, [menu]);
 

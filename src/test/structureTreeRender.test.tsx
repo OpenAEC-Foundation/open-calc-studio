@@ -12,9 +12,14 @@ import i18next from '@/i18n/config';
  * de hele boom. Geteld via het icoon dat elke rij tekent.
  */
 
-const iconRenders = vi.hoisted(() => ({ count: 0 }));
+const iconRenders = vi.hoisted(() => ({ count: 0, panel: 0 }));
 vi.mock('@/components/panels/structureTree/RowIcon', () => ({
   RowIcon: () => { iconRenders.count++; return null; },
+}));
+// Het knopje in de kop wordt bij elke render van het paneel opnieuw getekend:
+// zo tellen we hoe vaak het paneel zelf rendert.
+vi.mock('@/components/panels/structureTree/TreeViewOptions', () => ({
+  TreeViewOptions: () => { iconRenders.panel++; return null; },
 }));
 
 function mkItem(partial: Partial<CostItem> & { id: string }): CostItem {
@@ -67,6 +72,15 @@ afterEach(async () => {
 });
 
 describe('structure tree: only changed rows re-render', () => {
+  it('a store change elsewhere in the app does not redraw the tree, even when the app around it re-renders', async () => {
+    // Zoals App: luistert naar de hele store en tekent bij elke wijziging opnieuw.
+    const WholeStoreParent = () => { useAppStore(); return <SchedulePanel />; };
+    await act(async () => root.render(<WholeStoreParent />));
+    iconRenders.panel = 0;
+    expect(await rendersDuring(() => useAppStore.setState({ pdfZoom: 2 } as never))).toBe(0);
+    expect(iconRenders.panel).toBe(0); // het paneel zelf rendert niet eens
+  });
+
   it('renders all rows once at the start', () => {
     expect(node.querySelectorAll('[role=treeitem]').length).toBe(64);
   });

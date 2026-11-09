@@ -27,15 +27,22 @@ export const TreeViewOptions: React.FC<{ view: TreeView; setView: (patch: Partia
   useLayoutEffect(() => {
     const menu = viewPanelRef.current;
     if (!showViewMenu || !menu) return;
-    const r = menu.getBoundingClientRect();
+    let r = menu.getBoundingClientRect();
     if (r.width === 0) return; // geen layout (bv. jsdom)
     const margin = 4;
     let min = margin;
     let max = window.innerWidth - margin;
     const panel = viewMenuRef.current?.closest('.schedule-tree-wrap')?.getBoundingClientRect();
-    if (panel && panel.width >= r.width) {
-      min = Math.max(min, panel.left);
-      max = Math.min(max, panel.right);
+    if (panel) {
+      // Smaller paneel dan het venster: het venster krimpt mee (tekst mag dan
+      // afbreken). Daarbuiten zou het onder de zijbalk ernaast verdwijnen.
+      if (panel.width - 2 * margin < r.width) {
+        menu.classList.add('is-narrow');
+        menu.style.maxWidth = `${Math.max(120, panel.width - 2 * margin)}px`;
+        r = menu.getBoundingClientRect();
+      }
+      min = Math.max(min, panel.left + margin);
+      max = Math.min(max, panel.right - margin);
     }
     const dx = r.left < min ? min - r.left : r.right > max ? Math.max(max - r.right, min - r.left) : 0;
     if (dx) menu.style.transform = `translateX(${Math.round(dx)}px)`;

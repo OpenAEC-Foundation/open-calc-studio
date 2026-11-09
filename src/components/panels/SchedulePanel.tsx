@@ -42,7 +42,7 @@ export type { TreeDepth, TreeNumber, TreeView } from './structureTree/treeModel'
  * - TreeViewOptions    knopje "Weergave" in de kop
  */
 
-export const SchedulePanel: React.FC = () => {
+const SchedulePanelInner: React.FC = () => {
   const { t } = useTranslation();
   const allItems = useAppStore((s) => s.items);
   const branchesEnabled = useAppStore((s) => s.schedule.branchesEnabled);
@@ -425,3 +425,9 @@ export const SchedulePanel: React.FC = () => {
     </div>
   );
 };
+
+/** Het paneel heeft geen props en leest alles zelf uit de store. `App` tekent
+ *  bij elke store-wijziging opnieuw (ook bv. PDF-zoom); zonder memo zou de
+ *  boom dan elke keer al zijn rijen opnieuw opbouwen (merkbaar bij duizenden
+ *  regels). */
+export const SchedulePanel = React.memo(SchedulePanelInner);
