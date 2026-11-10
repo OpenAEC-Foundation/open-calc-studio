@@ -1,6 +1,6 @@
 import { act } from 'react';
 import { createRoot } from 'react-dom/client';
-import { afterEach, beforeEach, expect, it, vi } from 'vitest';
+import { afterEach, beforeAll, beforeEach, expect, it, vi } from 'vitest';
 import { useAppStore } from '@/state/appStore';
 import { PriceUpdateDialog } from '@/components/library/PriceUpdateDialog';
 import { ResourcePicker } from '@/components/library/ResourcePicker';
@@ -10,8 +10,10 @@ import { capturePriceOrigin } from '@/services/pricing/priceUpdates';
 import { changeLanguage } from '@/i18n/config';
 const initial = useAppStore.getState();
 let container: HTMLDivElement, root: ReturnType<typeof createRoot>;
-beforeEach(async () => {
-  await changeLanguage('en'); useAppStore.setState(initial, true);
+// No test switches language, so switch once instead of before every test.
+beforeAll(async () => { await changeLanguage('en'); });
+beforeEach(() => {
+  useAppStore.setState(initial, true);
   (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
   container = document.createElement('div'); document.body.append(container); root = createRoot(container);
 });
@@ -30,7 +32,7 @@ it('reviews catalogue changes through the dialog and applies only checked rows',
   expect(button('Apply selected prices').disabled).toBe(false);
   await act(async () => button('Apply selected prices').click());
   expect(useAppStore.getState().items.find(item => item.id === id)?.normUnitPrice).toBe(12);
-});
+}, 30_000); // first (cold) dialog render in this file: 1 s alone, 9-11 s under a full parallel run
 it('source revision dialog is keyboard dismissible and does not edit an estimate', async () => {
   const s = useAppStore.getState(); s.addDocument(); s.openDialog('revisions');
   const items = useAppStore.getState().items;

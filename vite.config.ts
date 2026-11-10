@@ -3,10 +3,15 @@ import { assetFileName } from './build/assetFileNames';
 import { hostedHtmlPolicy } from './build/hostedHtmlPolicy';
 import { siteToolsManifest } from './build/siteToolsManifest';
 import { defineConfig } from 'vite';
+import { configDefaults } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import pkg from './package.json' with { type: 'json' };
 import { distributionPlugin } from './scripts/distribution-notices.mjs';
+
+// Local, untracked checkout of another app that sometimes sits in the repo root:
+// keep it out of the dev-server scan, the file watcher and the test run.
+const foreignCheckouts = ['UniversalEstimateandValuation/**'];
 
 export default defineConfig({
   base: './',
@@ -26,6 +31,8 @@ export default defineConfig({
     '__APP_VERSION__': JSON.stringify(pkg.version),
   },
   optimizeDeps: {
+    // Vite's default HTML entry scan, minus the foreign checkouts.
+    entries: ['**/*.html', '!**/__tests__/**', '!**/coverage/**', ...foreignCheckouts.map(glob => `!${glob}`)],
     esbuildOptions: {
       define: {
         global: 'globalThis',
@@ -40,7 +47,7 @@ export default defineConfig({
     port: 4200,
     strictPort: true,
     watch: {
-      ignored: ['**/src-tauri/**'],
+      ignored: ['**/src-tauri/**', ...foreignCheckouts.map(glob => `**/${glob}`)],
     },
   },
   env: {
@@ -61,6 +68,9 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
-    exclude: ['**/node_modules/**', 'tests/**', 'libs/**'],
+    exclude: [...configDefaults.exclude, 'tests/**', 'libs/**', ...foreignCheckouts],
+    // UI tests render real dialogs; under parallel load several sit near the 5 s default.
+    testTimeout: 15000,
+    hookTimeout: 15000,
   },
 });

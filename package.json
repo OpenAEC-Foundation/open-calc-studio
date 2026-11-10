@@ -12,6 +12,7 @@
     "preview": "vite preview",
     "tauri": "tauri",
     "test": "vitest run",
+    "test:local": "vitest run --maxWorkers=2",
     "test:watch": "vitest",
     "test:platform": "vitest run --mode platform --config vitest.platform.config.ts",
     "test:e2e": "playwright test",
