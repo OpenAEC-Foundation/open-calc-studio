@@ -2,14 +2,17 @@
 //!
 //! Exports the app's internal data model to a WPCalc-compatible Access MDB file.
 //! Strategy:
-//! 1. Copy the embedded template MDB to the target path
-//! 2. Use PowerShell + ADO to INSERT rows into the MDB tables
+//! 1. Copy the embedded template MDB to a temporary file next to the target
+//! 2. Use PowerShell + ADO to INSERT rows into the MDB tables (script passed
+//!    as a .ps1 file, not on the command line, which Windows caps at 32k chars)
+//! 3. Only after success, move the filled copy over the target
 //!
 //! This avoids native ODBC compile-time dependencies and works reliably on Windows.
 
 use serde::Deserialize;
 use std::collections::HashMap;
 use std::fs;
+use std::path::{Path, PathBuf};
 use std::process::Command;
 
 #[derive(Debug, Clone, Deserialize)]
@@ -552,6 +555,103 @@ fn chrono_now_str() -> String {
     format!("{:02}/{:02}/{}", month.min(12), day.min(28), years)
 }
 
+/// Uniek achtervoegsel voor tijdelijke bestanden (proces-id + tijdstip).
+fn unique_suffix() -> String {
+    let nanos = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|d| d.as_nanos())
+        .unwrap_or_default();
+    format!("{}-{}", std::process::id(), nanos)
+}
+
+/// Tijdelijk databasebestand naast het doel, zodat de afsluitende rename op
+/// hetzelfde volume blijft en het doel pas na succes wordt vervangen.
+fn temp_sibling(output: &Path) -> PathBuf {
+    let dir = output
+        .parent()
+        .filter(|p| !p.as_os_str().is_empty())
+        .unwrap_or_else(|| Path::new("."));
+    let name = output
+        .file_name()
+        .map(|n| n.to_string_lossy().into_owned())
+        .unwrap_or_else(|| "export.calc".to_string());
+    dir.join(format!("~{}.{}.tmp", name, unique_suffix()))
+}
+
+/// Verwijdert de opgegeven bestanden bij het verlaten van de scope (ook bij
+/// een fout), behalve wat inmiddels is weggezet.
+struct RemoveOnDrop(Vec<PathBuf>);
+
+impl Drop for RemoveOnDrop {
+    fn drop(&mut self) {
+        for p in &self.0 {
+            let _ = fs::remove_file(p);
+        }
+    }
+}
+
+/// Schrijf het script als UTF-8 mét BOM: Windows PowerShell 5.1 leest een
+/// .ps1 zonder BOM als ANSI, waardoor é, € en – in omschrijvingen verminkt
+/// zouden worden.
+fn write_ps_script(path: &Path, script: &str) -> Result<(), String> {
+    let mut bytes = Vec::with_capacity(script.len() + 3);
+    bytes.extend_from_slice(b"\xEF\xBB\xBF");
+    bytes.extend_from_slice(script.as_bytes());
+    fs::write(path, bytes).map_err(|e| format!("Failed to write export script {:?}: {}", path, e))
+}
+
+/// Draai het script als bestand (`-File`). Het script ging eerder als
+/// `-Command`-argument mee; bij zo'n 85-100 regels werd de opdrachtregel te
+/// lang voor Windows (32.767 tekens, "os error 206").
+fn run_ps_script(script_path: &Path) -> Result<(), String> {
+    let output = Command::new("powershell")
+        .args(["-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File"])
+        .arg(script_path)
+        .output()
+        .map_err(|e| format!("Failed to run PowerShell: {}", e))?;
+
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    if !output.status.success() {
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        return Err(format!(
+            "PowerShell export failed:\nstderr: {}\nstdout: {}",
+            stderr, stdout
+        ));
+    }
+    if !stdout.contains("OK") {
+        return Err(format!("Export may have failed. Output: {}", stdout));
+    }
+    Ok(())
+}
+
+/// Vul een kopie van de template in een tijdelijk bestand naast het doel en
+/// zet die pas na een geslaagde export op de plek van het doel. Mislukt er
+/// iets, dan blijft een bestaand doelbestand onaangeroerd.
+fn export_via_temp(
+    template: &Path,
+    output: &Path,
+    request: &WpCalcExportRequest,
+    run: impl FnOnce(&Path) -> Result<(), String>,
+) -> Result<(), String> {
+    let tmp_db = temp_sibling(output);
+    let script_path = std::env::temp_dir().join(format!("ocs-wpcalc-export-{}.ps1", unique_suffix()));
+    let mut cleanup = RemoveOnDrop(vec![tmp_db.clone(), script_path.clone()]);
+
+    fs::copy(template, &tmp_db).map_err(|e| {
+        format!("Failed to copy template from {:?} to {:?}: {}", template, tmp_db, e)
+    })?;
+
+    let script = build_ps_script(&tmp_db.to_string_lossy(), request);
+    write_ps_script(&script_path, &script)?;
+    run(&script_path)?;
+
+    // fs::rename vervangt op Windows een bestaand doel (MOVEFILE_REPLACE_EXISTING).
+    fs::rename(&tmp_db, output)
+        .map_err(|e| format!("Failed to write {:?} (is it open in another program?): {}", output, e))?;
+    cleanup.0.retain(|p| p != &tmp_db);
+    Ok(())
+}
+
 /// Execute the export
 #[tauri::command]
 pub fn export_wpcalc(
@@ -559,44 +659,100 @@ pub fn export_wpcalc(
     request: WpCalcExportRequest,
     output_path: String,
 ) -> Result<(), String> {
-    // 1. Find and copy template
     let template = find_template(&app)?;
-    fs::copy(&template, &output_path).map_err(|e| {
-        format!(
-            "Failed to copy template from {:?} to {}: {}",
-            template, output_path, e
-        )
-    })?;
+    export_via_temp(&template, Path::new(&output_path), &request, run_ps_script)
+}
 
-    // 2. Build PowerShell script
-    let ps_script = build_ps_script(&output_path, &request);
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-    // 3. Execute via PowerShell
-    let output = Command::new("powershell")
-        .args([
-            "-NoProfile",
-            "-NonInteractive",
-            "-ExecutionPolicy",
-            "Bypass",
-            "-Command",
-            &ps_script,
-        ])
-        .output()
-        .map_err(|e| format!("Failed to run PowerShell: {}", e))?;
-
-    if !output.status.success() {
-        let stderr = String::from_utf8_lossy(&output.stderr);
-        let stdout = String::from_utf8_lossy(&output.stdout);
-        return Err(format!(
-            "PowerShell export failed:\nstderr: {}\nstdout: {}",
-            stderr, stdout
-        ));
+    fn big_request(rows: usize) -> WpCalcExportRequest {
+        let mut items = vec![serde_json::json!({
+            "id": "h1", "code": "21", "description": "Hoofdstuk – één", "rowType": "chapter",
+            "depth": 0, "parentId": null
+        })];
+        for i in 0..rows {
+            items.push(serde_json::json!({
+                "id": format!("r{i}"), "code": format!("21.{i:03}"),
+                "description": format!("Regel {i} met een wat langere omschrijving, prijs €"),
+                "rowType": "regel", "depth": 1, "parentId": "h1", "quantity": 1.0,
+                "unit": "m2", "materialPrice": 12.5, "normQuantity": 0.25
+            }));
+        }
+        serde_json::from_value(serde_json::json!({
+            "schedule": { "projectName": "Test", "tarieven": { "A": 55.0 } },
+            "items": items,
+        }))
+        .expect("request parsen")
     }
 
-    let stdout = String::from_utf8_lossy(&output.stdout);
-    if !stdout.contains("OK") {
-        return Err(format!("Export may have failed. Output: {}", stdout));
+    fn scratch_dir(name: &str) -> PathBuf {
+        let d = std::env::temp_dir().join(format!("ocs-wpcalc-test-{}-{}", name, unique_suffix()));
+        fs::create_dir_all(&d).unwrap();
+        d
     }
 
-    Ok(())
+    #[test]
+    fn groot_script_gaat_niet_via_de_opdrachtregel() {
+        // Bug 64: bij ~100 regels is het script langer dan de Windows-limiet
+        // voor een opdrachtregel; daarom gaat het via een bestand.
+        let script = build_ps_script("C:\\x\\doel.calc", &big_request(120));
+        assert!(script.encode_utf16().count() > 32_767, "{}", script.len());
+
+        let dir = scratch_dir("bom");
+        let p = dir.join("s.ps1");
+        write_ps_script(&p, &script).unwrap();
+        let bytes = fs::read(&p).unwrap();
+        assert_eq!(&bytes[..3], b"\xEF\xBB\xBF");
+        assert_eq!(std::str::from_utf8(&bytes[3..]).unwrap(), script);
+        assert!(script.contains("Hoofdstuk – één"));
+        let _ = fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn mislukte_export_laat_het_doel_ongemoeid() {
+        let dir = scratch_dir("fail");
+        let template = dir.join("template.calc");
+        let output = dir.join("doel.calc");
+        fs::write(&template, b"TEMPLATE").unwrap();
+        fs::write(&output, b"OUDE INHOUD").unwrap();
+
+        let mut seen_script = None;
+        let err = export_via_temp(&template, &output, &big_request(3), |s| {
+            seen_script = Some(s.to_path_buf());
+            assert!(s.exists());
+            Err("PowerShell export failed".into())
+        })
+        .unwrap_err();
+        assert!(err.contains("failed"));
+        assert_eq!(fs::read(&output).unwrap(), b"OUDE INHOUD");
+        // Geen tijdelijke database of script achtergelaten.
+        assert!(!seen_script.unwrap().exists());
+        let left: Vec<_> = fs::read_dir(&dir).unwrap().map(|e| e.unwrap().file_name()).collect();
+        assert_eq!(left.len(), 2, "{:?}", left);
+        let _ = fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn geslaagde_export_vervangt_het_doel() {
+        let dir = scratch_dir("ok");
+        let template = dir.join("template.calc");
+        let output = dir.join("doel.calc");
+        fs::write(&template, b"TEMPLATE").unwrap();
+        fs::write(&output, b"OUDE INHOUD").unwrap();
+
+        export_via_temp(&template, &output, &big_request(3), |s| {
+            // Het script verwijst naar de tijdelijke kopie, niet naar het doel.
+            let script = fs::read_to_string(s).unwrap();
+            assert!(!script.contains("doel.calc;"), "script schrijft direct in het doel");
+            assert!(script.contains("~doel.calc."));
+            Ok(())
+        })
+        .unwrap();
+        assert_eq!(fs::read(&output).unwrap(), b"TEMPLATE");
+        let left: Vec<_> = fs::read_dir(&dir).unwrap().map(|e| e.unwrap().file_name()).collect();
+        assert_eq!(left.len(), 2, "{:?}", left);
+        let _ = fs::remove_dir_all(&dir);
+    }
 }
