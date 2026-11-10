@@ -227,6 +227,7 @@
     "replace": "Înlocuire",
     "replaceAll": "Înlocuire peste tot ({{count}}×)",
     "hoursGroupProrate": "Ore {{group}} proporțional",
+    "hourlyRate": "Tarif orar {{group}}",
     "totalHoursProrate": "Total ore proporțional",
     "tailPercentage": "Procent adaos",
     "roundingAuto": "Rotunjire automată",

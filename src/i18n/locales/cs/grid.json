@@ -227,6 +227,7 @@
     "replace": "Nahrazení",
     "replaceAll": "Nahradit vše ({{count}}×)",
     "hoursGroupProrate": "Hodiny {{group}} poměrně",
+    "hourlyRate": "Hodinová sazba {{group}}",
     "totalHoursProrate": "Celkové hodiny poměrně",
     "tailPercentage": "Procento přirážky",
     "roundingAuto": "Automatické zaokrouhlení",

@@ -227,6 +227,7 @@
     "replace": "மாற்றுதல்",
     "replaceAll": "அனைத்தையும் மாற்றுதல் ({{count}}×)",
     "hoursGroupProrate": "மணிநேரம் {{group}} விகிதாசாரம்",
+    "hourlyRate": "மணிநேர விகிதம் {{group}}",
     "totalHoursProrate": "மொத்த மணிநேரம் விகிதாசாரம்",
     "tailPercentage": "மார்க்அப் சதவீதம்",
     "roundingAuto": "தானியங்கி வட்டமிடல்",

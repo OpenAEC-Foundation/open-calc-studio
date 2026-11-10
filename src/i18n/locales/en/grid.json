@@ -227,6 +227,7 @@
     "replace": "Replace",
     "replaceAll": "Replace all ({{count}}×)",
     "hoursGroupProrate": "Hours {{group}} pro rata",
+    "hourlyRate": "Hourly rate {{group}}",
     "totalHoursProrate": "Total hours pro rata",
     "tailPercentage": "Markup percentage",
     "roundingAuto": "Automatic rounding",

@@ -227,6 +227,7 @@
     "replace": "바꾸기",
     "replaceAll": "모두 바꾸기({{count}}건)",
     "hoursGroupProrate": "시간 {{group}} 비례 배분",
+    "hourlyRate": "시간당 요율 {{group}}",
     "totalHoursProrate": "총 시간 비례 배분",
     "tailPercentage": "간접비 요율",
     "roundingAuto": "자동 반올림",

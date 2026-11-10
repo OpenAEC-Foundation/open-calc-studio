@@ -227,6 +227,7 @@
     "replace": "置換",
     "replaceAll": "すべて置換（{{count}} 件）",
     "hoursGroupProrate": "工数 {{group}} を比例配分",
+    "hourlyRate": "時間単価 {{group}}",
     "totalHoursProrate": "総工数を比例配分",
     "tailPercentage": "諸経費率",
     "roundingAuto": "自動端数処理",

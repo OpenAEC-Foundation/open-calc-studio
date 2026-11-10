@@ -227,6 +227,7 @@
     "replace": "Заміна",
     "replaceAll": "Замінити всі ({{count}}×)",
     "hoursGroupProrate": "Години {{group}} пропорційно",
+    "hourlyRate": "Погодинна ставка {{group}}",
     "totalHoursProrate": "Усього годин пропорційно",
     "tailPercentage": "Відсоток нарахування",
     "roundingAuto": "Автоматичне округлення",

@@ -227,6 +227,7 @@
     "replace": "Badilisha",
     "replaceAll": "Badilisha zote ({{count}}×)",
     "hoursGroupProrate": "Saa {{group}} kwa uwiano",
+    "hourlyRate": "Kiwango cha saa {{group}}",
     "totalHoursProrate": "Jumla ya saa kwa uwiano",
     "tailPercentage": "Asilimia ya nyongeza",
     "roundingAuto": "Kuzungusha kiotomatiki",

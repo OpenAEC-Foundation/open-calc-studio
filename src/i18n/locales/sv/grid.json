@@ -227,6 +227,7 @@
     "replace": "Ersätt",
     "replaceAll": "Ersätt alla ({{count}}×)",
     "hoursGroupProrate": "Timmar {{group}} proportionellt",
+    "hourlyRate": "Timpris {{group}}",
     "totalHoursProrate": "Totala timmar proportionellt",
     "tailPercentage": "Påslagsprocent",
     "roundingAuto": "Automatisk avrundning",

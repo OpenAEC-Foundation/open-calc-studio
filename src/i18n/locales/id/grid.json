@@ -227,6 +227,7 @@
     "replace": "Ganti",
     "replaceAll": "Ganti semua ({{count}}×)",
     "hoursGroupProrate": "Jam {{group}} proporsional",
+    "hourlyRate": "Tarif per jam {{group}}",
     "totalHoursProrate": "Total jam proporsional",
     "tailPercentage": "Persentase biaya tambahan",
     "roundingAuto": "Pembulatan otomatis",

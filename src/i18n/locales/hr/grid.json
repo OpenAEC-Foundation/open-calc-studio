@@ -227,6 +227,7 @@
     "replace": "Zamjena",
     "replaceAll": "Zamjena svega ({{count}}×)",
     "hoursGroupProrate": "Sati {{group}} razmjerno",
+    "hourlyRate": "Satnica {{group}}",
     "totalHoursProrate": "Ukupni sati razmjerno",
     "tailPercentage": "Postotak dodatka",
     "roundingAuto": "Automatsko zaokruživanje",

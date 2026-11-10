@@ -227,6 +227,7 @@
     "replace": "แทนที่",
     "replaceAll": "แทนที่ทั้งหมด ({{count}}×)",
     "hoursGroupProrate": "ชั่วโมง {{group}} ตามสัดส่วน",
+    "hourlyRate": "อัตรารายชั่วโมง {{group}}",
     "totalHoursProrate": "ชั่วโมงรวมตามสัดส่วน",
     "tailPercentage": "เปอร์เซ็นต์ค่าใช้จ่ายส่วนเพิ่ม",
     "roundingAuto": "ปัดเศษอัตโนมัติ",

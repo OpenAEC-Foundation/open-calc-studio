@@ -227,6 +227,7 @@
     "replace": "Değiştir",
     "replaceAll": "Tümünü değiştir ({{count}}×)",
     "hoursGroupProrate": "{{group}} saatleri oranlı",
+    "hourlyRate": "Saatlik ücret {{group}}",
     "totalHoursProrate": "Toplam saatler oranlı",
     "tailPercentage": "Gider yüzdesi",
     "roundingAuto": "Otomatik yuvarlama",

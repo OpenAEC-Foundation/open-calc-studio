@@ -227,6 +227,7 @@
     "replace": "替换",
     "replaceAll": "全部替换（{{count}} 处）",
     "hoursGroupProrate": "工时 {{group}} 按比例分摊",
+    "hourlyRate": "小时费率 {{group}}",
     "totalHoursProrate": "总工时按比例分摊",
     "tailPercentage": "取费百分比",
     "roundingAuto": "自动舍入",

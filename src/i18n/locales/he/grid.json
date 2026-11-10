@@ -227,6 +227,7 @@
     "replace": "החלפה",
     "replaceAll": "החלפת הכול ({{count}}×)",
     "hoursGroupProrate": "שעות {{group}} באופן יחסי",
+    "hourlyRate": "תעריף שעתי {{group}}",
     "totalHoursProrate": "סך השעות באופן יחסי",
     "tailPercentage": "אחוז התוספת",
     "roundingAuto": "עיגול אוטומטי",

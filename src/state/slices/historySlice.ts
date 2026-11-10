@@ -1,15 +1,23 @@
 import type { StateCreator } from 'zustand';
 import type { CostItem } from '@/types/costModel';
+import { effectiveTarieven } from '@/services/calculation/calculator';
 
 interface HistoryEntry {
   items: CostItem[];
   description: string;
+  /**
+   * Uurtarieven op het moment van de stap. Arbeid op een regel met een
+   * tariefgroep is norm ÷ capaciteit × tarief; zonder de tarieven zou
+   * ongedaan maken oude regels met nieuwe tarieven doorrekenen (knownbugs 8, 10).
+   */
+  tarieven?: Record<string, number>;
 }
 
 export interface HistorySlice {
   undoStack: HistoryEntry[];
   redoStack: HistoryEntry[];
-  pushHistory: (items: CostItem[], description: string) => void;
+  /** `tarieven`: de tarieven die bij `items` horen, als die al gewijzigd zijn (MCP legt de stap pas na de actie vast). */
+  pushHistory: (items: CostItem[], description: string, tarieven?: Record<string, number>) => void;
   undo: () => CostItem[] | null;
   redo: () => CostItem[] | null;
   canUndo: () => boolean;
@@ -17,6 +25,17 @@ export interface HistorySlice {
 }
 
 const MAX_HISTORY = 50;
+
+// Ook zonder eigen tarieven in het schema: dan rekent alles met de standaard,
+// en die hoort dan bij de stap (anders herstelt ongedaan maken niets).
+const tarievenOf = (state: any): Record<string, number> | undefined =>
+  state.schedule ? effectiveTarieven(state.schedule) : undefined;
+
+/** Zet de tarieven van een stap terug in het schema (zonder herberekening: setItems doet dat). */
+function restoreTarieven(set: any, entry: HistoryEntry) {
+  if (!entry.tarieven) return;
+  set((s: any) => (s.schedule ? { schedule: { ...s.schedule, tarieven: { ...entry.tarieven } } } : {}));
+}
 
 /** Undo/redo changes the document content, so a saved document is dirty again. */
 function markActiveModified(state: any) {
@@ -29,9 +48,9 @@ export const createHistorySlice: StateCreator<HistorySlice> = (set, get) => ({
   undoStack: [],
   redoStack: [],
 
-  pushHistory: (items, description) => {
+  pushHistory: (items, description, tarieven) => {
     set((state) => ({
-      undoStack: [...state.undoStack.slice(-MAX_HISTORY + 1), { items: JSON.parse(JSON.stringify(items)), description }],
+      undoStack: [...state.undoStack.slice(-MAX_HISTORY + 1), { items: JSON.parse(JSON.stringify(items)), description, tarieven: tarieven ? { ...tarieven } : tarievenOf(state) }],
       redoStack: [],
     }));
   },
@@ -44,8 +63,9 @@ export const createHistorySlice: StateCreator<HistorySlice> = (set, get) => ({
     const currentItems: CostItem[] = state.items;
     set((s: any) => ({
       undoStack: s.undoStack.slice(0, -1),
-      redoStack: [...s.redoStack, { items: JSON.parse(JSON.stringify(currentItems)), description: entry.description }],
+      redoStack: [...s.redoStack, { items: JSON.parse(JSON.stringify(currentItems)), description: entry.description, tarieven: tarievenOf(s) }],
     }));
+    restoreTarieven(set, entry);
     markActiveModified(state);
     return entry.items;
   },
@@ -58,8 +78,9 @@ export const createHistorySlice: StateCreator<HistorySlice> = (set, get) => ({
     const currentItems: CostItem[] = state.items;
     set((s: any) => ({
       redoStack: s.redoStack.slice(0, -1),
-      undoStack: [...s.undoStack, { items: JSON.parse(JSON.stringify(currentItems)), description: entry.description }],
+      undoStack: [...s.undoStack, { items: JSON.parse(JSON.stringify(currentItems)), description: entry.description, tarieven: tarievenOf(s) }],
     }));
+    restoreTarieven(set, entry);
     markActiveModified(state);
     return entry.items;
   },

@@ -227,6 +227,7 @@
     "replace": "بدلیں",
     "replaceAll": "سب بدلیں ({{count}}×)",
     "hoursGroupProrate": "{{group}} کے گھنٹے تناسب سے",
+    "hourlyRate": "فی گھنٹہ شرح {{group}}",
     "totalHoursProrate": "کل گھنٹے تناسب سے",
     "tailPercentage": "اضافے کا فیصد",
     "roundingAuto": "خودکار گول کاری",

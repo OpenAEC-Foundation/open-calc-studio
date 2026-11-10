@@ -227,6 +227,7 @@
     "replace": "Замена",
     "replaceAll": "Замени све ({{count}}×)",
     "hoursGroupProrate": "Часови {{group}} сразмерно",
+    "hourlyRate": "Сатница {{group}}",
     "totalHoursProrate": "Укупни часови сразмерно",
     "tailPercentage": "Проценат накнаде",
     "roundingAuto": "Аутоматско заокруживање",

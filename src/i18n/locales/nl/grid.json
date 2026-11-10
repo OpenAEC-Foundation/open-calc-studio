@@ -227,6 +227,7 @@
     "replace": "Vervangen",
     "replaceAll": "Alles vervangen ({{count}}×)",
     "hoursGroupProrate": "Uren {{group}} naar rato",
+    "hourlyRate": "Uurtarief {{group}}",
     "totalHoursProrate": "Totaal uren naar rato",
     "tailPercentage": "Staartpercentage",
     "roundingAuto": "Afronding automatisch",

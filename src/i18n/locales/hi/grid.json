@@ -227,6 +227,7 @@
     "replace": "बदलना",
     "replaceAll": "सभी बदलना ({{count}}×)",
     "hoursGroupProrate": "घंटे {{group}} अनुपात में",
+    "hourlyRate": "प्रति घंटा दर {{group}}",
     "totalHoursProrate": "कुल घंटे अनुपात में",
     "tailPercentage": "मार्कअप प्रतिशत",
     "roundingAuto": "स्वतः पूर्णांकन",

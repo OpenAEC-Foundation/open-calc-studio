@@ -227,6 +227,7 @@
     "replace": "Αντικατάσταση",
     "replaceAll": "Αντικατάσταση όλων ({{count}}×)",
     "hoursGroupProrate": "Ώρες {{group}} αναλογικά",
+    "hourlyRate": "Ωριαία χρέωση {{group}}",
     "totalHoursProrate": "Συνολικές ώρες αναλογικά",
     "tailPercentage": "Ποσοστό επιβάρυνσης",
     "roundingAuto": "Αυτόματη στρογγυλοποίηση",

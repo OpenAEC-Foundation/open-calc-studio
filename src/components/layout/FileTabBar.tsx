@@ -169,6 +169,11 @@ export const FileTabBar: React.FC = () => {
     const doc = dragDocRef.current;
     dragDocRef.current = null;
     if (!doc?.filePath) return;
+    // Het nieuwe venster opent het bestand van schijf. Met niet-opgeslagen
+    // wijzigingen zouden die verdwijnen, want het tabblad gaat hier dicht
+    // zonder te vragen (knownbug 115). Dan blijft het tabblad gewoon staan.
+    const actueel = useAppStore.getState().documents.find((d) => d.id === doc.id);
+    if (actueel?.isModified ?? doc.isModified) return;
 
     // Check if dropped outside tab bar
     const tabBar = tabBarRef.current;

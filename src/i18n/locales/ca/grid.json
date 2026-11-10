@@ -227,6 +227,7 @@
     "replace": "Reemplaçament",
     "replaceAll": "Reemplaça-ho tot ({{count}}×)",
     "hoursGroupProrate": "Hores {{group}} a prorrata",
+    "hourlyRate": "Tarifa horària {{group}}",
     "totalHoursProrate": "Hores totals a prorrata",
     "tailPercentage": "Percentatge de recàrrec",
     "roundingAuto": "Arrodoniment automàtic",

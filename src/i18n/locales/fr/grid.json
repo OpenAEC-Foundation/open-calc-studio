@@ -227,6 +227,7 @@
     "replace": "Remplacer",
     "replaceAll": "Tout remplacer ({{count}}×)",
     "hoursGroupProrate": "Heures {{group}} au prorata",
+    "hourlyRate": "Taux horaire {{group}}",
     "totalHoursProrate": "Total des heures au prorata",
     "tailPercentage": "Pourcentage de majoration",
     "roundingAuto": "Arrondi automatique",

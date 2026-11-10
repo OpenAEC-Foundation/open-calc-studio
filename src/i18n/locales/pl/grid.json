@@ -227,6 +227,7 @@
     "replace": "Zamiana",
     "replaceAll": "Zamiana wszystkich ({{count}}×)",
     "hoursGroupProrate": "Godziny {{group}} proporcjonalnie",
+    "hourlyRate": "Stawka godzinowa {{group}}",
     "totalHoursProrate": "Łączne godziny proporcjonalnie",
     "tailPercentage": "Procent narzutu",
     "roundingAuto": "Zaokrąglanie automatyczne",

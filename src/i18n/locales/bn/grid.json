@@ -227,6 +227,7 @@
     "replace": "প্রতিস্থাপন",
     "replaceAll": "সব প্রতিস্থাপন ({{count}}×)",
     "hoursGroupProrate": "ঘণ্টা {{group}} আনুপাতিক",
+    "hourlyRate": "ঘণ্টাপ্রতি হার {{group}}",
     "totalHoursProrate": "মোট ঘণ্টা আনুপাতিক",
     "tailPercentage": "মার্কআপ শতাংশ",
     "roundingAuto": "স্বয়ংক্রিয় রাউন্ডিং",

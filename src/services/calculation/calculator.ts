@@ -62,6 +62,17 @@ export function normalizeItemOrder(items: CostItem[]): CostItem[] {
   return [...ordered, ...staart];
 }
 
+/** Uurtarieven als het schema er (nog) geen heeft, zoals een nieuwe begroting. */
+export const DEFAULT_TARIEVEN: Readonly<Record<string, number>> = Object.freeze({ A: 64, B: 43, C: 82 });
+
+/** De tarieven waarmee gerekend wordt: die van het schema, anders de standaard. */
+export function effectiveTarieven(schedule?: { tarieven?: Record<string, number> } | null): Record<string, number> {
+  // Een lege tabel (bv. WpCalc-import zonder tarieven) telt als geen tarieven:
+  // anders werd het loon van elke normregel 0.
+  const eigen = schedule?.tarieven;
+  return { ...(eigen && Object.keys(eigen).length > 0 ? eigen : DEFAULT_TARIEVEN) };
+}
+
 export function recalculateItems(items: CostItem[], tarieven?: Record<string, number>): CostItem[] {
   const result = normalizeItemOrder(items.map(item => ({ ...item })));
 

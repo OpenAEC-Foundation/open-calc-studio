@@ -227,6 +227,7 @@
     "replace": "ປ່ຽນແທນ",
     "replaceAll": "ປ່ຽນແທນທັງໝົດ ({{count}}×)",
     "hoursGroupProrate": "ຊົ່ວໂມງ {{group}} ຕາມອັດຕາສ່ວນ",
+    "hourlyRate": "ອັດຕາຕໍ່ຊົ່ວໂມງ {{group}}",
     "totalHoursProrate": "ຊົ່ວໂມງລວມຕາມອັດຕາສ່ວນ",
     "tailPercentage": "ເປີເຊັນສ່ວນເພີ່ມ/ກຳໄລ",
     "roundingAuto": "ປັດເສດອັດຕະໂນມັດ",

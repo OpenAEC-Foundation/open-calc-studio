@@ -227,6 +227,7 @@
     "replace": "Korvaa",
     "replaceAll": "Korvaa kaikki ({{count}}×)",
     "hoursGroupProrate": "Tunnit {{group}} suhteessa",
+    "hourlyRate": "Tuntihinta {{group}}",
     "totalHoursProrate": "Kokonaistunnit suhteessa",
     "tailPercentage": "Lisäprosentti",
     "roundingAuto": "Automaattinen pyöristys",

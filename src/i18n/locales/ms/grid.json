@@ -227,6 +227,7 @@
     "replace": "Ganti",
     "replaceAll": "Ganti semua ({{count}}×)",
     "hoursGroupProrate": "Jam {{group}} secara berkadar",
+    "hourlyRate": "Kadar sejam {{group}}",
     "totalHoursProrate": "Jumlah jam secara berkadar",
     "tailPercentage": "Peratusan kos tambahan",
     "roundingAuto": "Pembundaran automatik",

@@ -227,6 +227,7 @@
     "replace": "استبدال",
     "replaceAll": "استبدال الكل ({{count}}×)",
     "hoursGroupProrate": "ساعات {{group}} تناسبياً",
+    "hourlyRate": "سعر الساعة {{group}}",
     "totalHoursProrate": "إجمالي الساعات تناسبياً",
     "tailPercentage": "نسبة الإضافة",
     "roundingAuto": "تقريب تلقائي",

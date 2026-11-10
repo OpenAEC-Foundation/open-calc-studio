@@ -1,9 +1,9 @@
 import catalogue from './desktopActions.json';
 import { workspaceActions } from './workspaceActionCatalogue';
 import { useAppStore } from '@/state/appStore';
+import { effectiveTarieven } from '@/services/calculation/calculator';
 import { deserializeProject, serializeProject } from '@/services/file/fileService';
 import { openProjectInStore } from '@/services/file/openProject';
-import { recalculateItems } from '@/services/calculation/calculator';
 
 export interface JsonSchema { type?: string; enum?: unknown[]; anyOf?: JsonSchema[]; properties?: Record<string, JsonSchema>; required?: string[]; additionalProperties?: boolean | JsonSchema; items?: JsonSchema }
 export function validateArgument(value: unknown, schema: JsonSchema, path = 'argument'): void {
@@ -149,12 +149,12 @@ export async function executeDesktopCommand(action: string, params: Record<strin
   const before = useAppStore.getState();
   try {
     const result = await fn(...args);
-    if (action === 'undo' || action === 'redo') { if (Array.isArray(result)) useAppStore.setState({items:recalculateItems(result,store.schedule.tarieven)}); }
+    if (action === 'undo' || action === 'redo') { if (Array.isArray(result)) useAppStore.getState().setItems(result); } // tarieven zijn door undo/redo al teruggezet
     const current = useAppStore.getState();
     // Document navigation restores that document's own history. Treating the
     // newly active rows as an edit would put another document into its undo stack.
     const documentNavigation = ['addDocument', 'removeDocument', 'setActiveDocument', 'openReviewItem'].includes(action);
-    if (!documentNavigation && current.items !== before.items && !['undo','redo'].includes(action) && current.undoStack === before.undoStack) current.pushHistory(before.items, `MCP: ${action}`);
+    if (!documentNavigation && current.items !== before.items && !['undo','redo'].includes(action) && current.undoStack === before.undoStack) current.pushHistory(before.items, `MCP: ${action}`, effectiveTarieven(before.schedule));
     if (!documentNavigation && (current.items !== before.items || current.schedule !== before.schedule || current.offerte !== before.offerte || current.subSheets !== before.subSheets || current.snapshots !== before.snapshots)) {
       if (current.activeDocumentId) current.updateDocument(current.activeDocumentId,{isModified:true});
     }

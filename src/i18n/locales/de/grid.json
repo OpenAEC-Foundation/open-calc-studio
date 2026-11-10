@@ -227,6 +227,7 @@
     "replace": "Ersetzen",
     "replaceAll": "Alle ersetzen ({{count}}×)",
     "hoursGroupProrate": "Stunden {{group}} anteilig",
+    "hourlyRate": "Stundensatz {{group}}",
     "totalHoursProrate": "Gesamtstunden anteilig",
     "tailPercentage": "Zuschlagsprozentsatz",
     "roundingAuto": "Automatische Rundung",

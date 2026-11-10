@@ -1,7 +1,7 @@
 import type { StateCreator } from 'zustand';
 import type { CostItem, CostUnit, RowType, ExcelLink, QuantityLink } from '@/types/costModel';
 import i18next from 'i18next';
-import { recalculateItems } from '@/services/calculation/calculator';
+import { recalculateItems, effectiveTarieven } from '@/services/calculation/calculator';
 import { prorateUrenForTariefGroep, prorateUrenAll, prorateUrenForChapter } from '@/services/calculation/urenProrate';
 import { createDefaultItems } from '@/data/defaultBudget';
 import { appendHistory, shouldTrackField } from '@/services/history/itemHistory';
@@ -224,7 +224,11 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
   return {
   items: recalculateItems(createDefaultItems()),
 
-  setItems: (items) => set({ items: recalculateItems(items) }),
+  // Met de tarieven van het schema, net als elke bewerking: zonder rekende
+  // ongedaan maken arbeid met oude prijzen door terwijl de tarieven al nieuw
+  // waren, en sprong de volgende losse bewerking stil naar een ander bedrag
+  // (knownbug 10). Regels zonder norm houden hun direct ingevulde uurloon.
+  setItems: (items) => set((s: any) => ({ items: recalculateItems(items, effectiveTarieven(s.schedule)) })),
 
   addItem: (parentId, afterIndex) => {
     const state = get();
@@ -394,7 +398,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
     }
     const state = get() as any;
     const tarieven = (field === 'tariefGroep' || field === 'normQuantity')
-      ? (state.schedule?.tarieven ?? { A: 64, B: 43, C: 82 })
+      ? effectiveTarieven(state.schedule)
       : undefined;
     const historyUser = getCachedOsUsername();
     const historyNow = Date.now();
@@ -405,6 +409,11 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
           const updated = { ...item, [field]: value };
           if (item.priceOrigin && ['normUnitPrice', 'materialPrice', 'laborPrice', 'unit'].includes(field) && item[field] !== value) {
             updated.priceOrigin = { ...item.priceOrigin, locked: true };
+          }
+          // Norm leegmaken op een regel met tariefgroep: het loon kwam uit
+          // norm × tarief, dus dat vervalt ook — net als bij norm 0 (knownbug 7).
+          if (field === 'normQuantity' && value == null && item.rowType === 'regel' && item.tariefGroep && item.normQuantity != null) {
+            updated.laborPrice = null;
           }
           if (field === 'quantityLink') updated.quantityOrigin = value ? captureQuantityOrigin(value as QuantityLink, s) : undefined;
           // Wijzigingshistorie: leg bewerkbare waarde-velden vast (wie/wanneer/wat)
@@ -429,7 +438,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
           }
           return updated;
         }),
-        tarieven ?? (s.schedule?.tarieven ?? { A: 64, B: 43, C: 82 }),
+        tarieven ?? effectiveTarieven(s.schedule),
       ),
     }));
     markModified();
@@ -717,12 +726,21 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
   },
 
   scaleAllPrices: (factor) => {
-    const state = get();
+    const state = get() as any;
     if (!Number.isFinite(factor) || factor <= 0) return;
     const schaal = (v: number | null): number | null => (v == null ? null : v * factor);
+    // Arbeid op een regel met tariefgroep wordt bij elke bewerking opnieuw
+    // norm ÷ capaciteit × tarief. Alleen laborPrice schalen werd dus bij de
+    // volgende bewerking teruggedraaid: schaal de tarieven mee (knownbug 8).
+    // Ook zonder eigen tarieven (nieuwe begroting) rekent elke bewerking met de
+    // standaardtarieven, dus die worden dan geschaald en vastgelegd. Op centen.
+    const tarieven = Object.fromEntries(
+      Object.entries(effectiveTarieven(state.schedule)).map(([k, v]) => [k, Math.round(v * factor * 100) / 100]),
+    );
     set({
+      ...(state.schedule ? { schedule: { ...state.schedule, tarieven } } : {}),
       items: recalculateItems(
-        state.items.map((item) => {
+        state.items.map((item: CostItem) => {
           if (item.rowType.startsWith('staart_')) return item; // percentages, geen prijzen
           if (item.normUnitPrice == null && item.materialPrice == null && item.laborPrice == null) return item;
           return {
@@ -732,6 +750,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
             laborPrice: schaal(item.laborPrice),
           };
         }),
+        tarieven,
       ),
     });
     markModified();
@@ -743,7 +762,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
 
   prorateUrenByTariefGroep: (tariefGroep, newTotal) => {
     set((s: any) => {
-      const tarieven = s.schedule?.tarieven ?? { A: 64, B: 43, C: 82 };
+      const tarieven = effectiveTarieven(s.schedule);
       const rescaled = prorateUrenForTariefGroep(s.items, tariefGroep, newTotal);
       return { items: recalculateItems(rescaled, tarieven) };
     });
@@ -752,7 +771,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
 
   prorateUrenTotal: (newTotal: number) => {
     set((s: any) => {
-      const tarieven = s.schedule?.tarieven ?? { A: 64, B: 43, C: 82 };
+      const tarieven = effectiveTarieven(s.schedule);
       const rescaled = prorateUrenAll(s.items, newTotal);
       return { items: recalculateItems(rescaled, tarieven) };
     });
@@ -761,7 +780,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
 
   prorateUrenForChapter: (chapterId: string, newTotal: number) => {
     set((s: any) => {
-      const tarieven = s.schedule?.tarieven ?? { A: 64, B: 43, C: 82 };
+      const tarieven = effectiveTarieven(s.schedule);
       const rescaled = prorateUrenForChapter(s.items, chapterId, newTotal);
       return { items: recalculateItems(rescaled, tarieven) };
     });

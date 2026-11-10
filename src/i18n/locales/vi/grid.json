@@ -227,6 +227,7 @@
     "replace": "Thay thế",
     "replaceAll": "Thay tất cả ({{count}}×)",
     "hoursGroupProrate": "Giờ công {{group}} theo tỷ lệ",
+    "hourlyRate": "Đơn giá giờ {{group}}",
     "totalHoursProrate": "Tổng giờ công theo tỷ lệ",
     "tailPercentage": "Tỷ lệ chi phí cộng thêm",
     "roundingAuto": "Làm tròn tự động",

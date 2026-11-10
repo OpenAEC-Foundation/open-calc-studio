@@ -227,6 +227,7 @@
     "replace": "جایگزینی",
     "replaceAll": "جایگزینی همه ({{count}}×)",
     "hoursGroupProrate": "ساعت‌های {{group}} به‌نسبت",
+    "hourlyRate": "نرخ ساعتی {{group}}",
     "totalHoursProrate": "مجموع ساعت‌ها به‌نسبت",
     "tailPercentage": "درصد بالاسری",
     "roundingAuto": "گرد کردن خودکار",

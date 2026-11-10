@@ -227,6 +227,7 @@
     "replace": "Csere",
     "replaceAll": "Mind cseréje ({{count}}×)",
     "hoursGroupProrate": "{{group}} órái arányosan",
+    "hourlyRate": "Óradíj {{group}}",
     "totalHoursProrate": "Összes óra arányosan",
     "tailPercentage": "Felárszázalék",
     "roundingAuto": "Automatikus kerekítés",

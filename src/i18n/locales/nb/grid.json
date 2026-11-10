@@ -227,6 +227,7 @@
     "replace": "Erstatt",
     "replaceAll": "Erstatt alle ({{count}}×)",
     "hoursGroupProrate": "Timer {{group}} forholdsmessig",
+    "hourlyRate": "Timesats {{group}}",
     "totalHoursProrate": "Totale timer forholdsmessig",
     "tailPercentage": "Påslagsprosent",
     "roundingAuto": "Automatisk avrunding",

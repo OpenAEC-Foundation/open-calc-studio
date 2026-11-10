@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { formatCurrency, formatNumber, formatNumberForEdit } from '@/utils/formatting';
 import { parseNumericInput } from '@/utils/numericInput';
-import { computeBtwLaagDirect } from '@/services/calculation/calculator';
+import { computeBtwLaagDirect, DEFAULT_TARIEVEN } from '@/services/calculation/calculator';
 
 /**
  * Full-content view for the "Uren & Staart" bottom-nav tab: the hours
@@ -26,7 +26,7 @@ function UrenFullScreen() {
   const prorateUrenByTariefGroep = useAppStore((s) => s.prorateUrenByTariefGroep);
   const prorateUrenTotal = useAppStore((s) => s.prorateUrenTotal);
   const pushHistory = useAppStore((s) => s.pushHistory);
-  const tarieven = schedule.tarieven ?? { A: 64, B: 43, C: 82 };
+  const tarieven = schedule.tarieven ?? DEFAULT_TARIEVEN;
 
   const urenData = useMemo(() => {
     const groups: Record<string, { uren: number; tarief: number }> = {};
@@ -52,6 +52,8 @@ function UrenFullScreen() {
     if (value.trim() === shown.trim()) return;
     const num = parseNumericInput(value);
     if (num === null) return;
+    // Eigen undo-stap: de geschiedenis bewaart ook de tarieven (knownbug 10).
+    pushHistory(items, t('grid:undo.hourlyRate', { group: groep }));
     updateTarieven({ ...tarieven, [groep]: num });
   };
 
