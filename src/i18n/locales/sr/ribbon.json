@@ -188,7 +188,7 @@
     "number": "Број",
     "formatAuto": "Аутоматски",
     "formatNumber": "Број",
-    "formatCurrency": "Валута (€)",
+    "formatCurrency": "Валута ({{symbol}})",
     "formatPercentage": "Проценат (%)",
     "formatText": "Текст",
     "decimalUp": "+Децимала",

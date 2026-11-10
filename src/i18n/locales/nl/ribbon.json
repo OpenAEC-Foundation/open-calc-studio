@@ -187,7 +187,7 @@
     "number": "Getal",
     "formatAuto": "Automatisch",
     "formatNumber": "Getal",
-    "formatCurrency": "Valuta (€)",
+    "formatCurrency": "Valuta ({{symbol}})",
     "formatPercentage": "Percentage (%)",
     "formatText": "Tekst",
     "decimalUp": "+Decimaal",

@@ -155,6 +155,7 @@
     "approval": "Погоджено:",
     "images": "[зобр.: {{count}}]",
     "totalOffer": "Ми можемо виконати ці роботи за: {{amount}}",
-    "inclVatNote": "Ця сума включає ПДВ (21%)."
+    "inclVatNote": "Ця сума включає ПДВ ({{rate}}).",
+    "inclVatNoteMixed": "Ця сума включає ПДВ."
   }
 }

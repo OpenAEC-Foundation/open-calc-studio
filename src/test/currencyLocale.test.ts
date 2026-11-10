@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { create } from 'zustand';
 import { createHistorySlice, type HistorySlice } from '@/state/slices/historySlice';
 import {
-  decimalSeparator, formatCurrency, formatMoney, formatMoneyKeepZero, formatNumber, formatNumberForEdit,
+  currencySymbol, decimalSeparator, formatCurrency, formatMoney, formatMoneyKeepZero, formatNumber, formatNumberForEdit,
   parseLocaleNumber, parseNlNumber, safeCurrency, setNumberLocale,
 } from '@/utils/formatting';
 import { parseNumericInput } from '@/utils/numericInput';
@@ -158,6 +158,14 @@ describe('review-punten', () => {
     expect(parseNumericInput('=12,5*2')).toBe(25);
     setNumberLocale('nl');
     expect(parseNumericInput('=1,234*2')).toBe(2.468);
+  });
+
+  it('valutateken los, voor kolomkoppen', () => {
+    setNumberLocale('en');
+    expect(currencySymbol('USD')).toBe('$');
+    expect(currencySymbol('EUR')).toBe('€');
+    expect(currencySymbol('CAD')).toBe('CA$');
+    expect(currencySymbol('bogus')).toBe('€');
   });
 
   it('bedrag 0 blijft zichtbaar waar dat moet (kop, mobiel, wizard)', () => {

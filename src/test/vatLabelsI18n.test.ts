@@ -31,3 +31,25 @@ describe('btw-namen per taal', () => {
     expect(p.currencyExchangeWarning).not.toBe(en.projectInfo.currencyExchangeWarning);
   });
 });
+
+describe('geen vaste euro of 21% in teksten (issue #65)', () => {
+  const all = readdirSync(dir);
+  const readNs = (lang: string, ns: string) => JSON.parse(readFileSync(join(dir, lang, `${ns}.json`), 'utf8'));
+
+  it.each(all)('%s: offerte-btw-zin gebruikt het echte tarief', (lang) => {
+    const o = readNs(lang, 'report').offerte;
+    expect(o.inclVatNote).toContain('{{rate}}');
+    expect(o.inclVatNote).not.toMatch(/21/);
+    expect(o.inclVatNoteMixed).not.toContain('{{rate}}');
+    expect(o.inclVatNoteMixed).not.toMatch(/\.\.$/);
+  });
+
+  it.each(all)('%s: koppen met valutateken volgen de gekozen valuta', (lang) => {
+    const c = readNs(lang, 'common');
+    const labels = [c.mobile.pricePerUnit, c.projectInfo.perUnitExcl, c.projectInfo.perUnitIncl, readNs(lang, 'ribbon').spreadsheet.formatCurrency];
+    for (const label of labels) {
+      expect(label).toContain('{{symbol}}');
+      expect(label).not.toContain('€');
+    }
+  });
+});

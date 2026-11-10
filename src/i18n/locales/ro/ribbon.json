@@ -188,7 +188,7 @@
     "number": "Număr",
     "formatAuto": "Automat",
     "formatNumber": "Număr",
-    "formatCurrency": "Monedă (€)",
+    "formatCurrency": "Monedă ({{symbol}})",
     "formatPercentage": "Procent (%)",
     "formatText": "Text",
     "decimalUp": "+Zecimală",

@@ -155,6 +155,7 @@
     "approval": "Hyväksytty:",
     "images": "[{{count}} kuvaa]",
     "totalOffer": "Voimme toteuttaa nämä työt hintaan: {{amount}}",
-    "inclVatNote": "Summa sisältää arvonlisäveron (21 %)."
+    "inclVatNote": "Summa sisältää arvonlisäveron ({{rate}}).",
+    "inclVatNoteMixed": "Summa sisältää arvonlisäveron."
   }
 }

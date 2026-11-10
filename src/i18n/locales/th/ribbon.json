@@ -187,7 +187,7 @@
     "number": "ตัวเลข",
     "formatAuto": "อัตโนมัติ",
     "formatNumber": "ตัวเลข",
-    "formatCurrency": "สกุลเงิน (€)",
+    "formatCurrency": "สกุลเงิน ({{symbol}})",
     "formatPercentage": "เปอร์เซ็นต์ (%)",
     "formatText": "ข้อความ",
     "decimalUp": "+ทศนิยม",

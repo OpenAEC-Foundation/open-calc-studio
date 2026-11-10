@@ -187,7 +187,7 @@
     "number": "Zahl",
     "formatAuto": "Automatisch",
     "formatNumber": "Zahl",
-    "formatCurrency": "Währung (€)",
+    "formatCurrency": "Währung ({{symbol}})",
     "formatPercentage": "Prozent (%)",
     "formatText": "Text",
     "decimalUp": "+Dezimal",

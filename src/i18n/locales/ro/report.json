@@ -155,6 +155,7 @@
     "approval": "De acord:",
     "images": "[{{count}} img.]",
     "totalOffer": "Putem executa aceste lucrări pentru: {{amount}}",
-    "inclVatNote": "Această sumă include TVA (21%)."
+    "inclVatNote": "Această sumă include TVA ({{rate}}).",
+    "inclVatNoteMixed": "Această sumă include TVA."
   }
 }

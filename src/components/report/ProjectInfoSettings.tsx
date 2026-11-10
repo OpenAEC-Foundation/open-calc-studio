@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
-import { formatCurrency, formatNumber, formatNumberForEdit, parseLocaleNumber, safeCurrency } from '@/utils/formatting';
+import { currencySymbol, formatCurrency, formatNumber, formatNumberForEdit, parseLocaleNumber, safeCurrency } from '@/utils/formatting';
 import { currencyOptions } from '@/utils/currencies';
 import { getStaartBreakdown } from '@/services/calculation/calculator';
 import { createDefaultProjectProperties } from '@/types/costModel';
@@ -127,8 +127,8 @@ export const ProjectInfoSettings: React.FC = () => {
               <th style={{ textAlign: 'left' }}>{t('projectInfo.property')}</th>
               <th style={{ textAlign: 'right', width: 70 }}>{t('projectInfo.value')}</th>
               <th style={{ textAlign: 'center', width: 40 }}>{t('projectInfo.unitShort')}</th>
-              <th style={{ textAlign: 'right', width: 68 }}>{t('projectInfo.perUnitExcl')}</th>
-              <th style={{ textAlign: 'right', width: 68 }}>{t('projectInfo.perUnitIncl')}</th>
+              <th style={{ textAlign: 'right', width: 68 }}>{t('projectInfo.perUnitExcl', { symbol: currencySymbol(schedule.currency) })}</th>
+              <th style={{ textAlign: 'right', width: 68 }}>{t('projectInfo.perUnitIncl', { symbol: currencySymbol(schedule.currency) })}</th>
               <th style={{ width: 24 }}></th>
             </tr>
           </thead>

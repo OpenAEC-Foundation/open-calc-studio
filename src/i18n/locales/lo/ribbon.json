@@ -190,7 +190,7 @@
     "number": "ຕົວເລກ",
     "formatAuto": "ອັດຕະໂນມັດ",
     "formatNumber": "ຕົວເລກ",
-    "formatCurrency": "ສະກຸນເງິນ (€)",
+    "formatCurrency": "ສະກຸນເງິນ ({{symbol}})",
     "formatPercentage": "ເປີເຊັນ (%)",
     "formatText": "ຂໍ້ຄວາມ",
     "decimalUp": "+ຈຸດທົດສະນິຍົມ",

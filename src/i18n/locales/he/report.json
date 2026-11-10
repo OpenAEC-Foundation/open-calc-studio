@@ -155,6 +155,7 @@
     "approval": "לאישור:",
     "images": "[{{count}} תמונות]",
     "totalOffer": "נוכל לבצע עבודות אלה תמורת: {{amount}}",
-    "inclVatNote": "סכום זה כולל מע\"מ (21%)."
+    "inclVatNote": "סכום זה כולל מע\"מ ({{rate}}).",
+    "inclVatNoteMixed": "סכום זה כולל מע\"מ."
   }
 }

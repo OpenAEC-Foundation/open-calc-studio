@@ -81,6 +81,12 @@ export function formatMoney(value: number | null | undefined, currency: string |
   return formatMoneyKeepZero(value, currency);
 }
 
+/** Alleen het valutateken in de app-taal: "€", "$", "US$", "MX$", "CHF". */
+export function currencySymbol(currency: string | null | undefined): string {
+  const part = formatter(numberLocale, { style: 'currency', currency: safeCurrency(currency) }).formatToParts(1).find(p => p.type === 'currency');
+  return part?.value ?? safeCurrency(currency);
+}
+
 /** Hele bedragen met valutateken ("€ 1.000", "$1,000"), afgerond; 0 blijft zichtbaar. */
 export function formatMoneyWhole(value: number, currency: string | null | undefined): string {
   return plainMinus(formatter(numberLocale, { style: 'currency', currency: safeCurrency(currency), minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(Math.round(value)));

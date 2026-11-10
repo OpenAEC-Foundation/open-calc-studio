@@ -187,7 +187,7 @@
     "number": "数値",
     "formatAuto": "自動",
     "formatNumber": "数値",
-    "formatCurrency": "通貨（€）",
+    "formatCurrency": "通貨（{{symbol}}）",
     "formatPercentage": "パーセント（%）",
     "formatText": "文字列",
     "decimalUp": "+小数点",

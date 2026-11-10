@@ -3,6 +3,7 @@ import RibbonButton from "./RibbonButton";
 import RibbonGroup from "./RibbonGroup";
 import RibbonButtonStack from "./RibbonButtonStack";
 import { useAppStore } from "../../state/appStore";
+import { currencySymbol } from '@/utils/formatting';
 
 export default function SpreadsheetTab() {
   const { t } = useTranslation("ribbon");
@@ -11,6 +12,7 @@ export default function SpreadsheetTab() {
   } = useAppStore();
 
   const activeContentTab = useAppStore(s => s.activeContentTab);
+  const currency = useAppStore(s => s.schedule.currency);
   const canFormat = activeContentTab === 'spreadsheet' && subSheets.some(sheet => sheet.id === activeSubSheetId);
 
   // Blad openen/aanmaken schakelt óók de content-weergave naar 'spreadsheet',
@@ -73,7 +75,7 @@ export default function SpreadsheetTab() {
           >
             <option value="auto">{t('spreadsheet.formatAuto')}</option>
             <option value="number">{t('spreadsheet.formatNumber')}</option>
-            <option value="currency">{t('spreadsheet.formatCurrency')}</option>
+            <option value="currency">{t('spreadsheet.formatCurrency', { symbol: currencySymbol(currency) })}</option>
             <option value="percentage">{t('spreadsheet.formatPercentage')}</option>
             <option value="text">{t('spreadsheet.formatText')}</option>
           </select>

@@ -4,8 +4,8 @@
 export const CURRENCY_CODES = [
   'EUR', 'USD', 'GBP', 'CHF', 'CAD', 'AUD', 'NZD',
   'MXN', 'BRL', 'ARS', 'CLP', 'COP', 'PEN', 'UYU',
-  'SEK', 'NOK', 'DKK', 'PLN', 'CZK', 'HUF', 'RON', 'BGN', 'RSD', 'UAH', 'TRY',
-  'JPY', 'CNY', 'KRW', 'INR', 'IDR', 'MYR', 'SGD', 'THB', 'VND', 'PHP',
+  'SEK', 'NOK', 'DKK', 'PLN', 'CZK', 'HUF', 'RON', 'BGN', 'RSD', 'UAH', 'RUB', 'TRY',
+  'JPY', 'CNY', 'HKD', 'TWD', 'KRW', 'INR', 'LKR', 'IDR', 'MYR', 'SGD', 'THB', 'VND', 'PHP',
   'AED', 'SAR', 'ILS', 'IRR', 'PKR', 'BDT', 'LAK',
   'ZAR', 'NGN', 'KES', 'TZS', 'EGP', 'MAD',
 ] as const;

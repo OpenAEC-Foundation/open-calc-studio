@@ -187,7 +187,7 @@
     "number": "Tal",
     "formatAuto": "Automatiskt",
     "formatNumber": "Tal",
-    "formatCurrency": "Valuta (€)",
+    "formatCurrency": "Valuta ({{symbol}})",
     "formatPercentage": "Procent (%)",
     "formatText": "Text",
     "decimalUp": "+Decimal",

@@ -155,6 +155,7 @@
     "approval": "Godkänns:",
     "images": "[{{count}} bilder]",
     "totalOffer": "Vi kan utföra detta arbete för: {{amount}}",
-    "inclVatNote": "Beloppet inkluderar moms (21 %)."
+    "inclVatNote": "Beloppet inkluderar moms ({{rate}}).",
+    "inclVatNoteMixed": "Beloppet inkluderar moms."
   }
 }

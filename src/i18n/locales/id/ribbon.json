@@ -187,7 +187,7 @@
     "number": "Angka",
     "formatAuto": "Otomatis",
     "formatNumber": "Angka",
-    "formatCurrency": "Mata uang (€)",
+    "formatCurrency": "Mata uang ({{symbol}})",
     "formatPercentage": "Persentase (%)",
     "formatText": "Teks",
     "decimalUp": "+Desimal",

@@ -155,6 +155,7 @@
     "approval": "Elfogadva:",
     "images": "[{{count}} kép]",
     "totalOffer": "Ezeket a munkákat a következő áron tudjuk elvégezni: {{amount}}",
-    "inclVatNote": "Az összeg tartalmazza az áfát (21%)."
+    "inclVatNote": "Az összeg tartalmazza az áfát ({{rate}}).",
+    "inclVatNoteMixed": "Az összeg tartalmazza az áfát."
   }
 }

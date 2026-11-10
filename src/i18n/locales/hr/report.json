@@ -155,6 +155,7 @@
     "approval": "Suglasan:",
     "images": "[{{count}} sl.]",
     "totalOffer": "Ove radove možemo izvesti za: {{amount}}",
-    "inclVatNote": "Ovaj iznos uključuje PDV (21 %)."
+    "inclVatNote": "Ovaj iznos uključuje PDV ({{rate}}).",
+    "inclVatNoteMixed": "Ovaj iznos uključuje PDV."
   }
 }

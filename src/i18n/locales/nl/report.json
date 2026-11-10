@@ -155,6 +155,7 @@
     "approval": "Voor akkoord:",
     "images": "[{{count}} afb.]",
     "totalOffer": "Wij kunnen deze werkzaamheden verzorgen voor: {{amount}}",
-    "inclVatNote": "Dit bedrag is inclusief BTW (21%)."
+    "inclVatNote": "Dit bedrag is inclusief BTW ({{rate}}).",
+    "inclVatNoteMixed": "Dit bedrag is inclusief BTW."
   }
 }

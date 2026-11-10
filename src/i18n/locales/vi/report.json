@@ -155,6 +155,7 @@
     "approval": "Đồng ý:",
     "images": "[{{count}} hình]",
     "totalOffer": "Chúng tôi có thể thực hiện công việc này với giá: {{amount}}",
-    "inclVatNote": "Số tiền này đã bao gồm thuế GTGT (21%)."
+    "inclVatNote": "Số tiền này đã bao gồm thuế GTGT ({{rate}}).",
+    "inclVatNoteMixed": "Số tiền này đã bao gồm thuế GTGT."
   }
 }

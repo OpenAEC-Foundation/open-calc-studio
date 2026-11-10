@@ -187,7 +187,7 @@
     "number": "Szám",
     "formatAuto": "Automatikus",
     "formatNumber": "Szám",
-    "formatCurrency": "Pénznem (€)",
+    "formatCurrency": "Pénznem ({{symbol}})",
     "formatPercentage": "Százalék (%)",
     "formatText": "Szöveg",
     "decimalUp": "+Tizedes",

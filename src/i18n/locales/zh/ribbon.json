@@ -187,7 +187,7 @@
     "number": "数字",
     "formatAuto": "自动",
     "formatNumber": "数字",
-    "formatCurrency": "货币（€）",
+    "formatCurrency": "货币（{{symbol}}）",
     "formatPercentage": "百分比（%）",
     "formatText": "文本",
     "decimalUp": "+小数位",

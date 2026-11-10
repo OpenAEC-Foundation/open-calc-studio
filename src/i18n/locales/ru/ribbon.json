@@ -189,7 +189,7 @@
     "number": "Число",
     "formatAuto": "Автоматически",
     "formatNumber": "Число",
-    "formatCurrency": "Валюта (€)",
+    "formatCurrency": "Валюта ({{symbol}})",
     "formatPercentage": "Процент (%)",
     "formatText": "Текст",
     "decimalUp": "+Разряд",

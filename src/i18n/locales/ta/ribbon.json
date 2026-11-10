@@ -187,7 +187,7 @@
     "number": "எண்",
     "formatAuto": "தானியங்கி",
     "formatNumber": "எண்",
-    "formatCurrency": "நாணயம் (€)",
+    "formatCurrency": "நாணயம் ({{symbol}})",
     "formatPercentage": "சதவீதம் (%)",
     "formatText": "உரை",
     "decimalUp": "+தசமம்",
