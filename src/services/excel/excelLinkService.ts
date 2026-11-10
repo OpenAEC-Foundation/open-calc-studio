@@ -2,54 +2,77 @@ import { readWorkbook } from '@/services/importers/safeWorkbook';
 import * as XLSX from 'xlsx';
 import type { CostItem } from '../../types/costModel';
 
-/** Parse an Excel file (from File object) and return sheet names + data for the picker */
-export async function parseExcelFile(file: File): Promise<{
-  sheetNames: string[];
-  sheets: Record<string, { data: (string | number | null)[][]; ref: string }>;
-}> {
-  const buf = await file.arrayBuffer();
-  const wb = readWorkbook(buf, { type: 'array' });
-  const sheets: Record<string, { data: (string | number | null)[][]; ref: string }> = {};
+/**
+ * One sheet for the cell picker. `data[0][0]` is the top-left cell of the used
+ * range (`ref`), which is not always A1: a sheet whose data starts at B3 has
+ * `origin = { row: 2, col: 1 }`. Add the origin to a data index to get the
+ * real Excel address (knownbugs 79).
+ */
+export interface ExcelPickerSheet {
+  data: (string | number | null)[][];
+  ref: string;
+  /** 0-based sheet row/column of `data[0][0]`. */
+  origin: { row: number; col: number };
+}
 
+export interface ParsedExcelFile {
+  sheetNames: string[];
+  sheets: Record<string, ExcelPickerSheet>;
+}
+
+function workbookToPickerSheets(wb: XLSX.WorkBook): ParsedExcelFile {
+  const sheets: Record<string, ExcelPickerSheet> = {};
   for (const name of wb.SheetNames) {
     const ws = wb.Sheets[name];
     if (!ws) continue;
+    const ref = ws['!ref'] || 'A1';
+    const start = XLSX.utils.decode_range(ref).s;
     const data = XLSX.utils.sheet_to_json<(string | number | null)[]>(ws, {
       header: 1,
       defval: null,
+      // Keep empty rows so data[i] stays sheet row origin.row + i.
+      blankrows: true,
     });
-    sheets[name] = { data, ref: ws['!ref'] || 'A1' };
+    sheets[name] = { data, ref, origin: { row: start.r, col: start.c } };
   }
-
   return { sheetNames: wb.SheetNames, sheets };
 }
 
+/** Parse an Excel file (from File object) and return sheet names + data for the picker */
+export async function parseExcelFile(file: File): Promise<ParsedExcelFile> {
+  const buf = await file.arrayBuffer();
+  return workbookToPickerSheets(readWorkbook(buf, { type: 'array' }));
+}
+
 /** Parse an Excel file from path (Tauri FS) */
-export async function parseExcelFileFromPath(filePath: string): Promise<{
-  sheetNames: string[];
-  sheets: Record<string, { data: (string | number | null)[][]; ref: string }>;
-} | null> {
+export async function parseExcelFileFromPath(filePath: string): Promise<ParsedExcelFile | null> {
   try {
     const tauriFs = await import('@tauri-apps/plugin-fs');
     const bytes = await tauriFs.readFile(filePath);
-    const wb = readWorkbook(bytes, { type: 'array' });
-    const sheets: Record<string, { data: (string | number | null)[][]; ref: string }> = {};
-
-    for (const name of wb.SheetNames) {
-      const ws = wb.Sheets[name];
-      if (!ws) continue;
-      const data = XLSX.utils.sheet_to_json<(string | number | null)[]>(ws, {
-        header: 1,
-        defval: null,
-      });
-      sheets[name] = { data, ref: ws['!ref'] || 'A1' };
-    }
-
-    return { sheetNames: wb.SheetNames, sheets };
+    return workbookToPickerSheets(readWorkbook(bytes, { type: 'array' }));
   } catch (e) {
     console.error(`[ExcelLink] Failed to parse ${filePath}:`, e);
     return null;
   }
+}
+
+/** Numeric value of a picker cell value, or null when it is not a number. */
+export function toPickerNumber(val: string | number | null | undefined): number | null {
+  if (typeof val === 'number') return Number.isFinite(val) ? val : null;
+  if (val === null || val === undefined) return null;
+  const n = parseFloat(String(val));
+  return Number.isFinite(n) ? n : null;
+}
+
+/** Numeric value at an Excel address (e.g. "B4") in a picker sheet, or null. */
+export function pickerCellValue(sheet: ExcelPickerSheet | undefined, cell: string): number | null {
+  if (!sheet || !cell) return null;
+  if (!/^[A-Z]+[1-9][0-9]*$/i.test(cell)) return null;
+  const addr = XLSX.utils.decode_cell(cell.toUpperCase());
+  const r = addr.r - sheet.origin.row;
+  const c = addr.c - sheet.origin.col;
+  if (r < 0 || c < 0) return null;
+  return toPickerNumber(sheet.data[r]?.[c]);
 }
 
 /** Convert column index (0-based) to Excel column letter (A, B, ..., Z, AA, AB, ...) */

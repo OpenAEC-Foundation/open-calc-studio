@@ -1,5 +1,5 @@
 import { uiText } from '@/i18n/uiText';
-import { IfcParser, extractQuantitiesOnDemand, extractProjectUnits } from '@ifc-lite/parser';
+import { IfcParser, extractQuantitiesOnDemand, extractProjectUnits, quantitySiScale } from '@ifc-lite/parser';
 export type QuantityKind = 'volume' | 'area' | 'length' | 'count';
 export interface TakeoffQuantity { key:string; label:string; kind:QuantityKind; value:number; unit:string }
 export interface TakeoffElement { id:string; expressId:number; globalId:string; name:string; type:string; quantities:TakeoffQuantity[] }
@@ -12,15 +12,16 @@ export async function parseTakeoff(buffer:ArrayBuffer, fileName:string):Promise<
   const id=Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,'0')).join('');
   const store=await new IfcParser().parseColumnar(buffer);
   const units=extractProjectUnits(new Uint8Array(buffer),store.entityIndex);
-  const kinds:Record<number,[QuantityKind,string,string]>={0:['length','IfcLengthMeasure','m'],1:['area','IfcAreaMeasure','m²'],2:['volume','IfcVolumeMeasure','m³'],3:['count','IfcCountMeasure','st'],6:['count','IfcCountMeasure','st']};
+  const kinds:Record<number,[QuantityKind,string]>={0:['length','m'],1:['area','m²'],2:['volume','m³'],3:['count','st'],6:['count','st']};
   const elements:TakeoffElement[]=[];
   for(const expressId of store.entities.expressId) {
     const quantities:TakeoffQuantity[]=[];
     for(const set of extractQuantitiesOnDemand(store,expressId))for(const q of set.quantities) {
       const kind=kinds[q.type]; if(!kind)continue;
-      const scale=q.explicitUnitSiScale ?? (kind[0]==='count'?1:units.unitForMeasure(kind[1])?.siScale);
-      if(scale==null||!Number.isFinite(q.value)||!Number.isFinite(scale))continue;
-      quantities.push({key:`${set.name}/${q.name}`,label:`${set.name} · ${q.name}`,kind:kind[0],value:q.value*scale,unit:kind[2]});
+      // quantitySiScale: explicit Unit, else AREAUNIT/VOLUMEUNIT, else the length unit squared/cubed (knownbugs 149).
+      const scale=quantitySiScale(q,units);
+      if(!Number.isFinite(q.value)||!Number.isFinite(scale))continue;
+      quantities.push({key:`${set.name}/${q.name}`,label:`${set.name} · ${q.name}`,kind:kind[0],value:q.value*scale,unit:kind[1]});
     }
     if(!store.entities.hasGeometry(expressId)&&!quantities.length)continue;
     elements.push({id:`${id}:${expressId}`,expressId,globalId:store.entities.getGlobalId(expressId),name:store.entities.getName(expressId)||`#${expressId}`,type:store.entities.getTypeName(expressId),quantities});

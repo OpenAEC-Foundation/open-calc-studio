@@ -70,7 +70,9 @@ function calculateHsbWand(params: Record<string, number | string>): WizardResult
   const oppervlakte = lengte * hoogte; // m²
 
   // Stijlen berekening
-  const aantalStijlen = Math.ceil(lengte / stijlAfstand) + 1;
+  // Small epsilon: 4.2 / 0.6 is 7.000000000000001 in floating point, which
+  // would round up to one stud too many (knownbugs 192).
+  const aantalStijlen = Math.ceil(lengte / stijlAfstand - 1e-9) + 1;
   const stijlLengte = hoogte; // m per stijl
   const totaalStijlHout = aantalStijlen * stijlLengte; // m¹
 
@@ -89,7 +91,8 @@ function calculateHsbWand(params: Record<string, number | string>): WizardResult
   // Gipsplaat
   const gipsplaatOpp = gipsplaat === 'ja' ? oppervlakte : 0;
 
-  // Prijzen (indicatief, €/eenheid)
+  // Prijzen (indicatief, €-richtprijzen per eenheid). Het zijn kale getallen:
+  // ze tellen in de valuta van de begroting (schedule.currency), zonder omrekening.
   const prijsStijlHout = 4.50;      // €/m¹ (38×140mm naaldhout)
   const prijsRegelHout = 3.80;      // €/m¹ (38×140mm naaldhout)
   const prijsBeplating = beplatingType === 'osb' ? 8.50 : 14.00; // €/m²
