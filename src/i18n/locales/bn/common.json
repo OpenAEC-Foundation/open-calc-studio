@@ -415,7 +415,9 @@
     "salutation": "সম্বোধন",
     "firstName": "নামের প্রথম অংশ",
     "renderings": "রেন্ডারিং",
-    "projectPhotos": "প্রকল্পের ছবি"
+    "projectPhotos": "প্রকল্পের ছবি",
+    "currency": "মুদ্রা",
+    "currencyHelp": "টাকার অঙ্ক রূপান্তর করা হয় না। শুধু দেখানোর ধরন বদলায়।"
   },
   "reportLogo": {
     "title": "রিপোর্ট লোগো",

@@ -415,7 +415,9 @@
     "salutation": "Звертання",
     "firstName": "Ім'я",
     "renderings": "Візуалізації",
-    "projectPhotos": "Фотографії проєкту"
+    "projectPhotos": "Фотографії проєкту",
+    "currency": "Валюта",
+    "currencyHelp": "Суми не перераховуються. Змінюється лише їх відображення."
   },
   "reportLogo": {
     "title": "Логотип у звіті",

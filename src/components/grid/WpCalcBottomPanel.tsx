@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
-import { formatCurrency, formatNumber, formatNumberForEdit } from '@/utils/formatting';
+import { formatCurrency, formatNumber, formatNumberForEdit, formatDecimals, parseLocaleNumber } from '@/utils/formatting';
 import { parseNumericInput } from '@/utils/numericInput';
 import { computeBtwLaagDirect, DEFAULT_TARIEVEN } from '@/services/calculation/calculator';
 
@@ -44,7 +44,7 @@ function UrenFullScreen() {
     return groups;
   }, [items, tarieven]);
 
-  // De velden tonen NL-notatie ("1.234,50"); parseFloat zou dat als 1,234
+  // De velden tonen de notatie van de app-taal ("1.234,50"); parseFloat zou dat als 1,234
   // lezen. Parse daarom zoals de rest van de app, en doe niets als de tekst
   // niet is gewijzigd: alleen focus + blur mag nooit iets herschalen
   // (knownbug 15), ook niet door afronding in de weergave.
@@ -136,11 +136,11 @@ function UrenFullScreen() {
                   <input
                     type="text"
                     className="tarief-input"
-                    defaultValue={val.tarief.toFixed(2)}
-                    onBlur={(e) => handleTariefChange(groep, e.target.value, val.tarief.toFixed(2))}
+                    defaultValue={formatDecimals(val.tarief, 2) || '0'}
+                    onBlur={(e) => handleTariefChange(groep, e.target.value, (formatDecimals(val.tarief, 2) || '0'))}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
-                        handleTariefChange(groep, e.currentTarget.value, val.tarief.toFixed(2));
+                        handleTariefChange(groep, e.currentTarget.value, (formatDecimals(val.tarief, 2) || '0'));
                         e.currentTarget.blur();
                       }
                     }}
@@ -291,7 +291,7 @@ function StaartFullScreen() {
   }, [items, schedule, t]);
 
   const handlePercentageChange = (id: string, value: string) => {
-    const num = parseFloat(value.replace(',', '.'));
+    const num = parseLocaleNumber(value) ?? NaN;
     if (!isNaN(num) && id) {
       pushHistory(items, t('grid:undo.tailPercentage'));
       updateItem(id, 'staartPercentage', num);
@@ -371,7 +371,7 @@ function StaartFullScreen() {
                 {r.id && r.percentage != null ? (
                   <input
                     type="text"
-                    defaultValue={String(r.percentage)}
+                    defaultValue={formatNumberForEdit(r.percentage) || '0'}
                     onBlur={e => handlePercentageChange(r.id, e.target.value)}
                     onKeyDown={e => { if (e.key === 'Enter') { handlePercentageChange(r.id, (e.target as HTMLInputElement).value); (e.target as HTMLInputElement).blur(); } }}
                     style={{ width: 50, textAlign: 'right', border: '1px solid var(--theme-border)', borderRadius: 3, padding: '1px 4px', background: 'var(--theme-bg)', color: 'var(--theme-editable-text, var(--theme-text))', fontSize: 'inherit', fontFamily: 'inherit' }}

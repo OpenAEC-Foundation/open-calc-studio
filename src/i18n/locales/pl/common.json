@@ -417,7 +417,9 @@
     "salutation": "Zwrot grzecznościowy",
     "firstName": "Imię",
     "renderings": "Wizualizacje",
-    "projectPhotos": "Zdjęcia projektu"
+    "projectPhotos": "Zdjęcia projektu",
+    "currency": "Waluta",
+    "currencyHelp": "Kwoty nie są przeliczane. Zmienia się tylko sposób ich wyświetlania."
   },
   "reportLogo": {
     "title": "Logo w raporcie",

@@ -416,7 +416,9 @@
     "salutation": "ຄຳຂຶ້ນຕົ້ນ",
     "firstName": "ຊື່ແທ້",
     "renderings": "ຮູບພາບ 3D ຈຳລອງ",
-    "projectPhotos": "ຮູບຖ່າຍໂຄງການ"
+    "projectPhotos": "ຮູບຖ່າຍໂຄງການ",
+    "currency": "ສະກຸນເງິນ",
+    "currencyHelp": "ຈຳນວນເງິນບໍ່ຖືກແປງ. ປ່ຽນແຕ່ວິທີສະແດງເທົ່ານັ້ນ."
   },
   "reportLogo": {
     "title": "ໂລໂກ້ບົດລາຍງານ",

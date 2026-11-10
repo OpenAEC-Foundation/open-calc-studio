@@ -415,7 +415,9 @@
     "salutation": "Hitap",
     "firstName": "Ad",
     "renderings": "Görselleştirmeler",
-    "projectPhotos": "Proje fotoğrafları"
+    "projectPhotos": "Proje fotoğrafları",
+    "currency": "Para birimi",
+    "currencyHelp": "Tutarlar dönüştürülmez. Yalnızca tutarların gösterimi değişir."
   },
   "reportLogo": {
     "title": "Rapor logosu",

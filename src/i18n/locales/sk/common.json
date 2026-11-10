@@ -417,7 +417,9 @@
     "salutation": "Oslovenie",
     "firstName": "Meno",
     "renderings": "Vizualizácie",
-    "projectPhotos": "Fotografie projektu"
+    "projectPhotos": "Fotografie projektu",
+    "currency": "Mena",
+    "currencyHelp": "Sumy sa neprepočítavajú. Mení sa len spôsob ich zobrazenia."
   },
   "reportLogo": {
     "title": "Logo v zostave",

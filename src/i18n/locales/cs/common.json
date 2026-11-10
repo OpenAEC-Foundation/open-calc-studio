@@ -417,7 +417,9 @@
     "salutation": "Oslovení",
     "firstName": "Jméno",
     "renderings": "Vizualizace",
-    "projectPhotos": "Fotografie projektu"
+    "projectPhotos": "Fotografie projektu",
+    "currency": "Měna",
+    "currencyHelp": "Částky se nepřepočítávají. Mění se jen způsob jejich zobrazení."
   },
   "reportLogo": {
     "title": "Logo v sestavě",

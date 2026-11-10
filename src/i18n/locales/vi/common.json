@@ -415,7 +415,9 @@
     "salutation": "Danh xưng",
     "firstName": "Tên",
     "renderings": "Ảnh phối cảnh",
-    "projectPhotos": "Ảnh dự án"
+    "projectPhotos": "Ảnh dự án",
+    "currency": "Tiền tệ",
+    "currencyHelp": "Số tiền không được quy đổi. Chỉ cách hiển thị số tiền thay đổi."
   },
   "reportLogo": {
     "title": "Logo trong báo cáo",

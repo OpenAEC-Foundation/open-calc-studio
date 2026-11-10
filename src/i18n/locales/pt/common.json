@@ -415,7 +415,9 @@
     "salutation": "Tratamento",
     "firstName": "Nome próprio",
     "renderings": "Imagens 3D",
-    "projectPhotos": "Fotografias da obra"
+    "projectPhotos": "Fotografias da obra",
+    "currency": "Moeda",
+    "currencyHelp": "Os valores não são convertidos. Só muda a forma como são mostrados."
   },
   "reportLogo": {
     "title": "Logótipo do relatório",

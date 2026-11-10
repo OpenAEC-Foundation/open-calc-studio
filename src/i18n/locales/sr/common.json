@@ -415,7 +415,9 @@
     "salutation": "Ословљавање",
     "firstName": "Име",
     "renderings": "Визуелизације",
-    "projectPhotos": "Фотографије пројекта"
+    "projectPhotos": "Фотографије пројекта",
+    "currency": "Валута",
+    "currencyHelp": "Износи се не прерачунавају. Мења се само начин приказа."
   },
   "reportLogo": {
     "title": "Логотип у извештају",

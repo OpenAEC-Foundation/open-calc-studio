@@ -415,7 +415,9 @@
     "salutation": "คำนำหน้า",
     "firstName": "ชื่อ",
     "renderings": "ภาพจำลอง",
-    "projectPhotos": "ภาพถ่ายโครงการ"
+    "projectPhotos": "ภาพถ่ายโครงการ",
+    "currency": "สกุลเงิน",
+    "currencyHelp": "จำนวนเงินจะไม่ถูกแปลงค่า เปลี่ยนเฉพาะวิธีแสดงจำนวนเงินเท่านั้น"
   },
   "reportLogo": {
     "title": "โลโก้ในรายงาน",

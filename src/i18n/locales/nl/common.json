@@ -449,7 +449,9 @@
     "salutation": "Aanhef",
     "firstName": "Voornaam",
     "renderings": "Renderings",
-    "projectPhotos": "Projectfoto's"
+    "projectPhotos": "Projectfoto's",
+    "currency": "Valuta",
+    "currencyHelp": "Bedragen worden niet omgerekend. Alleen de weergave van de bedragen verandert."
   },
   "reportLogo": {
     "title": "Rapport-logo",

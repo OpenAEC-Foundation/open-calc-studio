@@ -415,7 +415,9 @@
     "salutation": "Anrede",
     "firstName": "Vorname",
     "renderings": "Renderings",
-    "projectPhotos": "Projektfotos"
+    "projectPhotos": "Projektfotos",
+    "currency": "Währung",
+    "currencyHelp": "Beträge werden nicht umgerechnet. Nur die Anzeige der Beträge ändert sich."
   },
   "reportLogo": {
     "title": "Berichtslogo",

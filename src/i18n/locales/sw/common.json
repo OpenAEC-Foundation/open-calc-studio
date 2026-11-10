@@ -415,7 +415,9 @@
     "salutation": "Salamu",
     "firstName": "Jina la kwanza",
     "renderings": "Picha za muundo",
-    "projectPhotos": "Picha za mradi"
+    "projectPhotos": "Picha za mradi",
+    "currency": "Sarafu",
+    "currencyHelp": "Kiasi hakibadilishwi. Ni namna tu ya kuonyesha kiasi inayobadilika."
   },
   "reportLogo": {
     "title": "Nembo ya ripoti",

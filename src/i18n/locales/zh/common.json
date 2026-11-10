@@ -415,7 +415,9 @@
     "salutation": "称谓",
     "firstName": "名",
     "renderings": "效果图",
-    "projectPhotos": "项目照片"
+    "projectPhotos": "项目照片",
+    "currency": "货币",
+    "currencyHelp": "金额不会换算，只会改变金额的显示方式。"
   },
   "reportLogo": {
     "title": "报表标识",

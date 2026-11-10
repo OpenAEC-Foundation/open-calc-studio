@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppStore } from "../../state/appStore";
 import { formatCurrency, formatNumber } from "../../utils/formatting";
+import { useMoney } from "@/hooks/useMoney";
 import { getGrandTotal } from "../../services/calculation/calculator";
 import { getColumnsForView } from "../grid/gridConstants";
 import { summarizeCellSelection, needsResourceTotals } from "../../services/grid/cellValue";
@@ -194,6 +195,7 @@ function UiZoomControl() {
 
 export default function StatusBar() {
   const { t } = useTranslation();
+  const money = useMoney();
   const { items, activeRow, activeCol, schedule, setActiveBranch } = useAppStore();
   const grandTotal = getGrandTotal(items);
   const branchesEnabled = schedule.branchesEnabled ?? false;
@@ -238,7 +240,7 @@ export default function StatusBar() {
         <SelectionSummary />
         <div className="status-item">
           <span className="status-item-label">{t("total")}:</span>
-          <span className="status-item-value" style={{ fontWeight: 600 }}>{formatCurrency(grandTotal)}</span>
+          <span className="status-item-value" style={{ fontWeight: 600 }}>{money(grandTotal)}</span>
         </div>
         <div className="status-separator" />
         <UiZoomControl />

@@ -415,7 +415,9 @@
     "salutation": "Tiltale",
     "firstName": "Fornavn",
     "renderings": "Visualiseringer",
-    "projectPhotos": "Prosjektbilder"
+    "projectPhotos": "Prosjektbilder",
+    "currency": "Valuta",
+    "currencyHelp": "Beløp regnes ikke om. Bare visningen av beløpene endres."
   },
   "reportLogo": {
     "title": "Rapportlogo",

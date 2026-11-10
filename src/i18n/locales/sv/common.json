@@ -415,7 +415,9 @@
     "salutation": "Tilltal",
     "firstName": "Förnamn",
     "renderings": "Visualiseringar",
-    "projectPhotos": "Projektfoton"
+    "projectPhotos": "Projektfoton",
+    "currency": "Valuta",
+    "currencyHelp": "Belopp räknas inte om. Bara hur beloppen visas ändras."
   },
   "reportLogo": {
     "title": "Rapportlogotyp",

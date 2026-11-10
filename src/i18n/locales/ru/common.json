@@ -415,7 +415,9 @@
     "salutation": "Обращение",
     "firstName": "Имя",
     "renderings": "Визуализации",
-    "projectPhotos": "Фотографии проекта"
+    "projectPhotos": "Фотографии проекта",
+    "currency": "Валюта",
+    "currencyHelp": "Суммы не пересчитываются. Меняется только их отображение."
   },
   "reportLogo": {
     "title": "Логотип в отчёте",

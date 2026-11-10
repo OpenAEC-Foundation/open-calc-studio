@@ -416,7 +416,9 @@
     "salutation": "Formulă de adresare",
     "firstName": "Prenume",
     "renderings": "Randări",
-    "projectPhotos": "Fotografii ale proiectului"
+    "projectPhotos": "Fotografii ale proiectului",
+    "currency": "Monedă",
+    "currencyHelp": "Sumele nu sunt convertite. Se schimbă doar modul de afișare."
   },
   "reportLogo": {
     "title": "Logo raport",

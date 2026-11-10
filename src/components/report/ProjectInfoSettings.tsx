@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
-import { formatCurrency, formatNumber, parseNlNumber } from '@/utils/formatting';
+import { formatCurrency, formatNumber, formatNumberForEdit, parseLocaleNumber, safeCurrency } from '@/utils/formatting';
+import { currencyOptions } from '@/utils/currencies';
 import { getStaartBreakdown } from '@/services/calculation/calculator';
 import { createDefaultProjectProperties } from '@/types/costModel';
 
@@ -19,13 +20,13 @@ const EditableNumberCell: React.FC<{ value: number | null; onChange: (v: number 
   if (editing) {
     return (
       <input ref={inputRef} className="prop-input" style={{ padding: '2px 4px', fontSize: 11, width: '100%' }}
-        value={text} onChange={(e) => setText(e.target.value)} onBlur={() => { setEditing(false); onChange(parseNlNumber(text)); }}
-        onKeyDown={(e) => { if (e.key === 'Enter') { setEditing(false); onChange(parseNlNumber(text)); } if (e.key === 'Escape') setEditing(false); }}
+        value={text} onChange={(e) => setText(e.target.value)} onBlur={() => { setEditing(false); onChange(parseLocaleNumber(text)); }}
+        onKeyDown={(e) => { if (e.key === 'Enter') { setEditing(false); onChange(parseLocaleNumber(text)); } if (e.key === 'Escape') setEditing(false); }}
         placeholder={placeholder} />
     );
   }
   return (
-    <div onClick={() => { setText(value != null ? String(value).replace('.', ',') : ''); setEditing(true); }}
+    <div onClick={() => { setText(value != null ? formatNumberForEdit(value) || '0' : ''); setEditing(true); }}
       style={{ cursor: 'pointer', padding: '2px 4px', minHeight: 18, color: value != null ? 'var(--theme-editable-text, var(--theme-text))' : 'var(--theme-text-secondary)', borderBottom: '1px dashed var(--theme-border)' }}>
       {value != null ? formatNumber(value) : (placeholder ?? '-')}
     </div>
@@ -54,7 +55,7 @@ const EditableTextCell: React.FC<{ value: string; onChange: (v: string) => void;
 };
 
 export const ProjectInfoSettings: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const schedule = useAppStore(s => s.schedule);
   const setSchedule = (patch: Partial<typeof schedule>) => { const state = useAppStore.getState(); state.setSchedule(patch); state.updateDocument(state.activeDocumentId, { isModified: true }); };
   const items = useAppStore(s => s.items);
@@ -94,6 +95,13 @@ export const ProjectInfoSettings: React.FC = () => {
         <div>
           <div className="prop-label">{t('client')}</div>
           <input className="prop-input" value={schedule.client} onChange={(e) => setSchedule({ client: e.target.value })} placeholder={t('client')} />
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <label className="prop-label" htmlFor="project-currency">{t('projectInfo.currency')}</label>
+          <select id="project-currency" className="prop-input" value={safeCurrency(schedule.currency)} onChange={(e) => setSchedule({ currency: e.target.value })} aria-describedby="project-currency-help">
+            {currencyOptions(safeCurrency(schedule.currency), i18n.language).map(o => <option key={o.code} value={o.code}>{o.label}</option>)}
+          </select>
+          <div id="project-currency-help" style={{ marginTop: 4, color: 'var(--theme-text-secondary)', fontSize: 11 }}>{t('projectInfo.currencyHelp')}</div>
         </div>
       </div>
 

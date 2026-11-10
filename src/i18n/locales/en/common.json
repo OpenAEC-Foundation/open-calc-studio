@@ -479,7 +479,9 @@
     "salutation": "Salutation",
     "firstName": "First name",
     "renderings": "Renderings",
-    "projectPhotos": "Project photos"
+    "projectPhotos": "Project photos",
+    "currency": "Currency",
+    "currencyHelp": "Amounts are not converted. This only changes how amounts are shown."
   },
   "reportLogo": {
     "title": "Report logo",

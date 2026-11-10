@@ -415,7 +415,9 @@
     "salutation": "Titolo",
     "firstName": "Nome",
     "renderings": "Render",
-    "projectPhotos": "Foto del progetto"
+    "projectPhotos": "Foto del progetto",
+    "currency": "Valuta",
+    "currencyHelp": "Gli importi non vengono convertiti. Cambia solo il modo in cui vengono mostrati."
   },
   "reportLogo": {
     "title": "Logo del report",

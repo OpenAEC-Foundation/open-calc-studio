@@ -17,7 +17,7 @@ import { isFooterRow, computeParentIds } from '@/services/grid/gridRows';
 import { computeResourceTotals } from '@/services/grid/resourceTotals';
 import { computeHideTotalSet } from '@/services/grid/hideTotal';
 import { isItemChangedSince, changedFieldsSince } from '@/services/history/itemHistory';
-import { formatCurrency } from '@/utils/formatting';
+import { useMoney } from '@/hooks/useMoney';
 import type { CostItem, ExcelLink, Branch } from '@/types/costModel';
 
 // Stable empty-array references for Zustand selectors — without these,
@@ -33,6 +33,7 @@ const HEADER_HEIGHT = ROW_HEIGHT * 2;
 
 export const CostGrid: React.FC = () => {
   const { t, i18n } = useTranslation();
+  const money = useMoney();
   const containerRef = useRef<HTMLDivElement>(null);
   const {
     items,
@@ -590,7 +591,7 @@ export const CostGrid: React.FC = () => {
                   }}
                 >
                   {col.key === 'description' && (heeftBtw ? t('totalInclVat') : t('totalExclVat'))}
-                  {col.key === 'total' && formatCurrency(grandTotal)}
+                  {col.key === 'total' && money(grandTotal)}
                 </div>
               ))}
             </div>

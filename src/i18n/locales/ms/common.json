@@ -415,7 +415,9 @@
     "salutation": "Kata alu-aluan",
     "firstName": "Nama pertama",
     "renderings": "Imej render",
-    "projectPhotos": "Foto projek"
+    "projectPhotos": "Foto projek",
+    "currency": "Mata wang",
+    "currencyHelp": "Amaun tidak ditukar. Hanya cara amaun dipaparkan yang berubah."
   },
   "reportLogo": {
     "title": "Logo laporan",

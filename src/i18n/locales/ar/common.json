@@ -419,7 +419,9 @@
     "salutation": "صيغة المخاطبة",
     "firstName": "الاسم الأول",
     "renderings": "الصور التصورية",
-    "projectPhotos": "صور المشروع"
+    "projectPhotos": "صور المشروع",
+    "currency": "العملة",
+    "currencyHelp": "لا يتم تحويل المبالغ. يغيّر هذا فقط طريقة عرض المبالغ."
   },
   "reportLogo": {
     "title": "شعار التقرير",

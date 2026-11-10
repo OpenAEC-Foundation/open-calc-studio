@@ -415,7 +415,9 @@
     "salutation": "Megszólítás",
     "firstName": "Keresztnév",
     "renderings": "Látványtervek",
-    "projectPhotos": "Projektfotók"
+    "projectPhotos": "Projektfotók",
+    "currency": "Pénznem",
+    "currencyHelp": "Az összegek nem lesznek átváltva. Csak a megjelenítésük változik."
   },
   "reportLogo": {
     "title": "Jelentés logója",

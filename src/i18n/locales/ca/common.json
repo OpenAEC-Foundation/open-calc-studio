@@ -415,7 +415,9 @@
     "salutation": "Tractament",
     "firstName": "Nom",
     "renderings": "Infografies",
-    "projectPhotos": "Fotos del projecte"
+    "projectPhotos": "Fotos del projecte",
+    "currency": "Moneda",
+    "currencyHelp": "Els imports no es converteixen. Només canvia com es mostren."
   },
   "reportLogo": {
     "title": "Logotip de l'informe",

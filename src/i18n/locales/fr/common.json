@@ -415,7 +415,9 @@
     "salutation": "Civilité",
     "firstName": "Prénom",
     "renderings": "Images de synthèse",
-    "projectPhotos": "Photos du projet"
+    "projectPhotos": "Photos du projet",
+    "currency": "Devise",
+    "currencyHelp": "Les montants ne sont pas convertis. Seul leur affichage change."
   },
   "reportLogo": {
     "title": "Logo du rapport",

@@ -415,7 +415,9 @@
     "salutation": "Puhuttelu",
     "firstName": "Etunimi",
     "renderings": "Havainnekuvat",
-    "projectPhotos": "Projektin valokuvat"
+    "projectPhotos": "Projektin valokuvat",
+    "currency": "Valuutta",
+    "currencyHelp": "Summia ei muunneta. Vain summien esitystapa muuttuu."
   },
   "reportLogo": {
     "title": "Raportin logo",

@@ -415,7 +415,9 @@
     "salutation": "القاب",
     "firstName": "پہلا نام",
     "renderings": "تصوراتی مناظر",
-    "projectPhotos": "منصوبے کی تصاویر"
+    "projectPhotos": "منصوبے کی تصاویر",
+    "currency": "کرنسی",
+    "currencyHelp": "رقوم تبدیل نہیں کی جاتیں۔ صرف رقوم کے دکھانے کا طریقہ بدلتا ہے۔"
   },
   "reportLogo": {
     "title": "رپورٹ کا لوگو",

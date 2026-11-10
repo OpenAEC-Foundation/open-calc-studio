@@ -415,7 +415,9 @@
     "salutation": "عنوان خطاب",
     "firstName": "نام",
     "renderings": "تصاویر سه‌بعدی",
-    "projectPhotos": "عکس‌های پروژه"
+    "projectPhotos": "عکس‌های پروژه",
+    "currency": "واحد پول",
+    "currencyHelp": "مبالغ تبدیل نمی‌شوند. فقط نحوهٔ نمایش مبالغ تغییر می‌کند."
   },
   "reportLogo": {
     "title": "نشان گزارش",

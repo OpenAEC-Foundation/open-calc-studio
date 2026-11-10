@@ -415,7 +415,9 @@
     "salutation": "敬称",
     "firstName": "名",
     "renderings": "パース",
-    "projectPhotos": "工事写真"
+    "projectPhotos": "工事写真",
+    "currency": "通貨",
+    "currencyHelp": "金額は換算されません。表示方法だけが変わります。"
   },
   "reportLogo": {
     "title": "帳票ロゴ",

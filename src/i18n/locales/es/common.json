@@ -415,7 +415,9 @@
     "salutation": "Tratamiento",
     "firstName": "Nombre",
     "renderings": "Infografías",
-    "projectPhotos": "Fotos del proyecto"
+    "projectPhotos": "Fotos del proyecto",
+    "currency": "Moneda",
+    "currencyHelp": "Los importes no se convierten. Solo cambia cómo se muestran."
   },
   "reportLogo": {
     "title": "Logotipo del informe",

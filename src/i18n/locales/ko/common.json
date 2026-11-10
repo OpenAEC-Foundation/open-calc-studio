@@ -415,7 +415,9 @@
     "salutation": "호칭",
     "firstName": "이름",
     "renderings": "투시도",
-    "projectPhotos": "공사 사진"
+    "projectPhotos": "공사 사진",
+    "currency": "통화",
+    "currencyHelp": "금액은 환산되지 않습니다. 금액 표시 방식만 바뀝니다."
   },
   "reportLogo": {
     "title": "보고서 로고",

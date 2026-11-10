@@ -417,7 +417,9 @@
     "salutation": "פנייה",
     "firstName": "שם פרטי",
     "renderings": "הדמיות",
-    "projectPhotos": "תמונות הפרויקט"
+    "projectPhotos": "תמונות הפרויקט",
+    "currency": "מטבע",
+    "currencyHelp": "הסכומים אינם מומרים. רק אופן הצגת הסכומים משתנה."
   },
   "reportLogo": {
     "title": "לוגו הדוח",

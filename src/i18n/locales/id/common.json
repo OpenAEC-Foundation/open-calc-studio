@@ -415,7 +415,9 @@
     "salutation": "Sapaan",
     "firstName": "Nama depan",
     "renderings": "Render",
-    "projectPhotos": "Foto proyek"
+    "projectPhotos": "Foto proyek",
+    "currency": "Mata uang",
+    "currencyHelp": "Jumlah tidak dikonversi. Hanya cara jumlah ditampilkan yang berubah."
   },
   "reportLogo": {
     "title": "Logo laporan",

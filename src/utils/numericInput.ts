@@ -1,13 +1,16 @@
-import { parseNlNumber } from './formatting';
+import { parseLocaleNumber } from './formatting';
 
-// Grid-invoer voor getalcellen: een gewoon NL-getal ("6,66", "1.234,56")
-// of een rekenformule ("=12,2*2,22", "12.2*2.2", "17,7+5").
-// Binnen formules zijn zowel komma als punt decimaalteken; een punt is
-// alleen duizendtal-separator als er ook een komma in het getal staat
-// ("1.234,56") of bij meerdere punten ("1.234.567").
+// Grid-invoer voor getalcellen: een gewoon getal in de notatie van de
+// app-taal ("6,66" en "1.234,56" in NL, "6.66" en "1,234.56" in EN) of een
+// rekenformule ("=12,2*2,22", "12.2*2.2", "17,7+5").
+// Binnen formules zijn zowel komma als punt decimaalteken; staan ze allebei
+// in een getal, dan is het laatste het decimaalteken ("1.234,56", "1,234.56").
+// Meerdere keren hetzelfde teken is een duizendtal ("1.234.567").
 // Retourneert null bij lege of ongeldige invoer.
 export function parseNumericInput(input: string): number | null {
-  const trimmed = input.trim();
+  // Geplakte waarden uit andere talen: harde spaties, richtingstekens en het
+  // wiskundige minteken (U+2212) normaliseren.
+  const trimmed = input.replace(/[\u00A0\u202F\u200E\u200F]/g, '').replace(/\u2212/g, '-').trim();
   if (!trimmed) return null;
 
   const isFormula = trimmed.startsWith('=');
@@ -17,7 +20,7 @@ export function parseNumericInput(input: string): number | null {
   // Zonder '=' alleen als formule zien bij een echte operator: * / ( )
   // of een +/- ná een cijfer (zodat "-15,5" een gewoon getal blijft).
   const looksLikeExpr = isFormula || /[*/()]/.test(body) || /\d\s*[+-]/.test(body);
-  if (!looksLikeExpr) return parseNlNumber(body);
+  if (!looksLikeExpr) return parseLocaleNumber(body);
 
   // Iets dat op een formule lijkt maar niet klopt ("12*", "3*(4", "10/0") is
   // ongeldig; voorheen werd het stil het eerste getal (12, 3, 10).
@@ -60,14 +63,22 @@ function tokenize(expr: string): Token[] | null {
   return tokens;
 }
 
-// Getal-token binnen een formule: komma = decimaal; punt = decimaal,
-// tenzij gecombineerd met een komma (duizendtal) of bij meerdere punten.
+// Getal-token binnen een formule, los van de app-taal: komma en punt zijn
+// allebei decimaalteken. Staan ze allebei in het getal, dan is het laatste
+// het decimaalteken en het andere het duizendtal. Meerdere punten zonder
+// komma zijn een duizendtal ("1.234.567"); meerdere komma's zonder punt zijn
+// ongeldig ("1,2,3"), zoals voorheen.
 function parseFormulaNumber(token: string): number | null {
   const lastComma = token.lastIndexOf(',');
+  const lastDot = token.lastIndexOf('.');
   let normalized = token;
-  if (lastComma >= 0) {
+  if (lastComma >= 0 && lastDot >= 0) {
+    const [dec, grp] = lastComma > lastDot ? [',', '.'] : ['.', ','];
+    if (token.indexOf(dec) !== token.lastIndexOf(dec)) return null; // "1,2.3,4"
+    normalized = token.split(grp).join('').replace(dec, '.');
+  } else if (lastComma >= 0) {
     if (token.indexOf(',') !== lastComma) return null; // meerdere komma's
-    normalized = token.replace(/\./g, '').replace(',', '.');
+    normalized = token.replace(',', '.');
   } else if ((token.match(/\./g) || []).length > 1) {
     normalized = token.replace(/\./g, '');
   }
@@ -75,6 +86,7 @@ function parseFormulaNumber(token: string): number | null {
   const num = parseFloat(normalized);
   return isNaN(num) ? null : num;
 }
+
 
 // Recursive descent: expr = term ((+|-) term)*, term = factor ((*|/) factor)*,
 // factor = [+-]* (getal | '(' expr ')')

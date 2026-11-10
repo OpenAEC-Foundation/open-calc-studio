@@ -415,7 +415,9 @@
     "salutation": "संबोधन",
     "firstName": "पहला नाम",
     "renderings": "रेंडरिंग",
-    "projectPhotos": "परियोजना की तस्वीरें"
+    "projectPhotos": "परियोजना की तस्वीरें",
+    "currency": "मुद्रा",
+    "currencyHelp": "राशियाँ बदली नहीं जातीं। केवल उनके दिखने का तरीका बदलता है।"
   },
   "reportLogo": {
     "title": "रिपोर्ट लोगो",
