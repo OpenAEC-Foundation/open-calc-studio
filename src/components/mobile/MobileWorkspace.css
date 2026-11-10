@@ -33,9 +33,15 @@
 
 .mobile-brand { display: flex; align-items: center; gap: 10px; }
 .mobile-brand img { width: 38px; height: 38px; }
-.mobile-brand div { display: flex; flex-direction: column; line-height: 1.2; }
+.mobile-brand div { display: flex; flex-direction: column; min-width: 0; line-height: 1.2; }
 .mobile-brand strong { font-size: 16px; }
 .mobile-brand small { color: var(--theme-text-secondary); font-size: 11px; }
+.mobile-statistics { flex: none; margin-left: auto; min-height: 44px; padding: 6px 10px; border: 1px solid var(--theme-border); border-radius: 8px; background: var(--theme-surface); color: var(--theme-text-secondary); font-size: 12px; }
+/* Zwevende knop van het gedeelde statistiekscript: in de mobiele kop vervangen. */
+.ocs-mobile-workspace #analytics-settings { display: none; }
+/* Het toestemmingspaneel opent onder de knop in de kop, niet over de navigatie
+   en de knop Gereed onderaan (klasse + id wint van de id-regel van het script). */
+.ocs-mobile-workspace #analytics-consent { top: calc(env(safe-area-inset-top, 0px) + 64px); bottom: auto; }
 .mobile-document-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
 .mobile-document-select { width: 100%; min-height: 44px; }
 .mobile-file-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
@@ -111,7 +117,9 @@
 .mobile-cell-list { display: grid; gap: 5px; }
 .mobile-cell-list button { display: flex; gap: 12px; align-items: center; min-height: 44px; width: 100%; padding: 8px 11px; border: 1px solid var(--theme-border); border-radius: 8px; background: var(--theme-surface); color: var(--theme-text); text-align: left; }
 .mobile-cell-list strong { min-width: 40px; color: var(--mobile-accent); }
-.mobile-cell-list span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mobile-cell-list span, .mobile-cell-list small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mobile-cell-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+.mobile-cell-text small { color: var(--theme-text-secondary); font-size: 11px; font-family: var(--font-mono, monospace); }
 
 @media (max-width: 360px) {
   .mobile-summary { flex-direction: column; gap: 4px; }

@@ -16,6 +16,8 @@ import { ReviewCenter, ReviewReturnBar } from '@/components/review/ReviewCenter'
 import { useBudgetReview } from '@/components/review/useBudgetReview';
 import { currencySymbol, getNumberLocale } from '@/utils/formatting';
 import { useMoney } from '@/hooks/useMoney';
+import { mobileCellDisplay } from './mobileCellDisplay';
+import { isEmbedded } from '@/lib/hostRoot';
 
 type MobileTab = 'wizard' | 'budget' | 'sheets' | 'prompt' | 'review';
 const units: CostUnit[] = ['st', 'm', 'm²', 'm³', 'kg', 'ton', 'uur', 'dgn', 'km', 'keer', 'ls', 'week', 'mnd', 'post', '%', 'pm'];
@@ -109,6 +111,7 @@ function MobileItemEditor({ item, onClose }: { item: CostItem; onClose: () => vo
 
 function MobileSheets() {
   const { t } = useTranslation();
+  const currency = useAppStore((s) => s.schedule.currency);
   const sheets = useAppStore((s) => s.subSheets);
   const activeSheetId = useAppStore((s) => s.activeSubSheetId);
   const addSheet = useAppStore((s) => s.addSubSheet);
@@ -165,13 +168,58 @@ function MobileSheets() {
         <button className="mobile-primary" type="submit">{t('save')}</button>
       </form>
       {cellError && <p className="mobile-edit-error" role="alert">{cellError}</p>}
-      <div className="mobile-cell-list">{filled.map(([ref, cell]) => <button type="button" key={ref} onClick={() => chooseCell(ref, cell.value)}><strong>{ref}</strong><span>{cell.value}</span></button>)}</div>
+      <div className="mobile-cell-list">{filled.map(([ref, cell]) => {
+        const shown = mobileCellDisplay(cell, currency);
+        return <button type="button" key={ref} onClick={() => chooseCell(ref, cell.value)}><strong>{ref}</strong><span className="mobile-cell-text"><span>{shown.main}</span>{shown.formula && <small>{shown.formula}</small>}</span></button>;
+      })}</div>
     </> : <p className="mobile-empty-note">{t('mobile.noSheets')}</p>}
   </div>;
 }
 
+/** Het gedeelde OpenAEC-statistiekscript (alleen op de gehoste site, via de
+ * loader in index.html) zet een zwevende knop rechtsonder; op de telefoon ligt
+ * die over de navigatie en de knop Gereed. Zodra die knop er is, verbergen we
+ * hem (CSS-klasse op <html>) en bedient een knop in de kop dezelfde schakelaar.
+ * Ingebouwd in een andere pagina blijven we van die pagina af. */
+type StatisticsWindow = Window & { OpenAECStatistics?: { open: () => void } };
+const statisticsReady = () => !!(window as StatisticsWindow).OpenAECStatistics && !!document.getElementById('analytics-settings');
+function useSiteStatistics(): { toggle: () => void; expanded: boolean } | null {
+  const embedded = isEmbedded();
+  const [available, setAvailable] = useState(() => !embedded && statisticsReady());
+  const [expanded, setExpanded] = useState(false);
+  useEffect(() => {
+    // Zonder loader (desktop, eigen hosting, SuperCloud) komt de knop nooit.
+    if (embedded || available || !document.getElementById('openaec-analytics-loader')) return;
+    // Het script wordt dynamisch ingevoegd en kan na het mounten klaar zijn:
+    // wacht tot zijn knop in de body verschijnt.
+    const check = () => { if (statisticsReady()) setAvailable(true); };
+    const observer = new MutationObserver(check);
+    observer.observe(document.body, { childList: true });
+    check();
+    return () => observer.disconnect();
+  }, [embedded, available]);
+  useEffect(() => {
+    if (!available) return;
+    const root = document.documentElement;
+    root.classList.add('ocs-mobile-workspace');
+    const floating = document.getElementById('analytics-settings');
+    const sync = () => setExpanded(floating?.getAttribute('aria-expanded') === 'true');
+    const observer = floating ? new MutationObserver(sync) : null;
+    if (floating) observer!.observe(floating, { attributes: true, attributeFilter: ['aria-expanded'] });
+    sync();
+    return () => { root.classList.remove('ocs-mobile-workspace'); observer?.disconnect(); };
+  }, [available]);
+  if (!available) return null;
+  return {
+    expanded,
+    // De verborgen knop van het script opent én sluit het paneel; open() kan alleen openen.
+    toggle: () => { const floating = document.getElementById('analytics-settings'); if (floating) floating.click(); else (window as StatisticsWindow).OpenAECStatistics?.open(); },
+  };
+}
+
 export function MobileWorkspace() {
   const { t } = useTranslation();
+  const statistics = useSiteStatistics();
   const undoCount = useAppStore(s => s.undoStack.length);
   const redoCount = useAppStore(s => s.redoStack.length);
   const schedule = useAppStore(s => s.schedule);
@@ -256,7 +304,7 @@ export function MobileWorkspace() {
 
   return <div className="mobile-workspace">
     <header className="mobile-header">
-      <div className="mobile-brand"><img src={appIcon} alt="" /><div><strong>Open Calc Studio <small>v{__APP_VERSION__}</small></strong><small>{t('mobile.subtitle')}</small></div></div>
+      <div className="mobile-brand"><img src={appIcon} alt="" /><div><strong>Open Calc Studio <small>v{__APP_VERSION__}</small></strong><small>{t('mobile.subtitle')}</small></div>{/* Bewust Engels: het paneel van het gedeelde script is Engelstalig en verwijst naar "Statistics". */}{statistics && <button type="button" className="mobile-statistics" aria-controls="analytics-consent" aria-expanded={statistics.expanded} onClick={statistics.toggle}>Statistics</button>}</div>
       {documents.length > 1 ? <select className="mobile-document-select" aria-label={t('mobile.document')} value={activeDocumentId} onChange={(e) => setActiveDocument(e.target.value)}>{documents.map((doc) => <option key={doc.id} value={doc.id}>{doc.fileName}{doc.isModified ? ' •' : ''}</option>)}</select> : <div className="mobile-document-name">{activeDoc?.fileName ?? t('noDocumentOpen')}{activeDoc?.isModified ? ' •' : ''}</div>}
       <div className="mobile-file-actions">
         <button type="button" disabled={!undoCount} onClick={() => { const s = useAppStore.getState(); const restored = s.undo(); if (restored) s.setItems(restored); }}>{t('undo')}</button>

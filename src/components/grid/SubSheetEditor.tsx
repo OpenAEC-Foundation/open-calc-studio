@@ -6,7 +6,7 @@ import { SubSheetRowContextMenu } from './SubSheetRowContextMenu';
 import { SubSheetBorderPicker } from './SubSheetBorderPicker';
 import { shiftFormulaRefs } from '@/services/spreadsheet/formulaRefs';
 import type { CellBorder } from '@/types/costModel';
-import { safeCurrency } from '@/utils/formatting';
+import { cellDisplayText } from '@/services/spreadsheet/cellDisplay';
 
 const COL_WIDTH = 90;
 const ROW_HEIGHT = 24;
@@ -20,27 +20,6 @@ function colLabel(index: number): string {
     n = Math.floor(n / 26) - 1;
   }
   return label;
-}
-
-// Celweergave met het aantal decimalen van de cel. Subbladen lezen getallen
-// in NL-notatie (subSheetSlice: parseNlNumber, ook voor opgeslagen bladen),
-// dus tonen ze die ook, los van de app-taal: anders zie je "1,250.00" en
-// leest het blad "1,250" als 1,25. 'currency' krijgt wel het teken van de
-// begrotingsvaluta (issue #65).
-const cellFormatters = new Map<string, Intl.NumberFormat>();
-function formatCellNumber(value: number, decimals: number, currency?: string): string {
-  const locale = 'nl-NL';
-  const key = `${locale}|${decimals}|${currency ?? ''}`;
-  let f = cellFormatters.get(key);
-  if (!f) {
-    f = new Intl.NumberFormat(`${locale}-u-nu-latn`, {
-      minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals,
-      ...(currency ? { style: 'currency', currency: safeCurrency(currency) } : {}),
-    });
-    cellFormatters.set(key, f);
-  }
-  return f.format(value).replace(/\u2212/g, '-');
 }
 
 export function SubSheetEditor({ sheetId }: { sheetId: string }) {
@@ -562,19 +541,7 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
                     const refColor = getRefColor(cellRef);
 
                     // Display: show computed value or raw value with formatting
-                    const dec = cell?.decimals ?? 2;
-                    const fmt = cell?.format || 'auto';
-                    const display = cell
-                      ? (cell.computed !== undefined
-                          ? (fmt === 'currency'
-                              ? formatCellNumber(cell.computed, dec, currency)
-                              : fmt === 'percentage'
-                                ? `${(cell.computed * 100).toFixed(dec)}%`
-                                : typeof cell.computed === 'number'
-                                  ? formatCellNumber(cell.computed, dec)
-                                  : cell.value)
-                          : cell.value)
-                      : '';
+                    const display = cellDisplayText(cell, currency);
                     // Determine default alignment based on format/content
                     const isNumericFormat =
                       cell?.format === 'currency' ||
