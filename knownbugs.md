@@ -142,12 +142,6 @@ stand van `main` op die datum.
 46. **Ongeldige getalinvoer (`abc`) voegt een lege undo-stap toe en wist redo.**
     `src/components/grid/useGridEditing.ts:44` tegenover `:64-66`. Nagespeeld. Voorstel: eerst valideren, dan `pushHistory`. — B
 
-267. **Het tariefveld in het urenoverzicht leest "1.250" als 1250.** `src/components/grid/WpCalcBottomPanel.tsx:142`
-    toont het tarief met een punt (`toFixed(2)`, "64.00"); een gewijzigde waarde gaat door `parseNumericInput`,
-    dat een punt met precies drie cijfers als duizendtal leest. Wie "1.250" typt en € 1,25 bedoelt, krijgt
-    € 1250 ("1,25" en "1.250,50" gaan goed). Gevonden in de review van PR #70. Voorstel: het tarief in
-    Nederlandse notatie tonen (`formatNumber`), met dezelfde controle op ongewijzigde tekst. — S
-
 270. **In UI-2 is de productiecapaciteit onzichtbaar, terwijl hij uren en loon deelt.** De WpCalc-kolommen
     (`src/components/grid/gridConstants.ts`, `WPCALC_COLUMN_DEFS`) hebben geen kolom pcap; een capaciteit die in
     UI-1 is ingevuld blijft wel meetellen. De tooltips "Uren" (`tooltips.wpHours`, `common:tooltip.hoursFormula`)
@@ -206,11 +200,14 @@ stand van `main` op die datum.
     leeg. Gevonden in de review van PR #70. Voorstel: "ongeldig" doorgeven aan afhankelijke cellen, en de
     volgorde iteratief bepalen (topologisch sorteren). — S
 
-## Bestanden, import en export
+275. **Elke bewerking van een deelbladcel gooit vet, opmaak en decimalen weg.** De cel wordt opnieuw opgebouwd
+    uit alleen de waarde (`setSubSheetCell`). Ook: een cel met 1.234 kopiëren en terugplakken in de
+    Nederlandse notatie geeft 1234. Gevonden bij de valutafix. — B
 
-59. **RSX-, CUF- en TradXML-export laten posten zonder hoofdstuk stil weg.** `src/services/exporters/rsxExporter.ts`
-    (alleen bovenste hoofdstukken worden geschreven), ook in `cufExporter`/`tradxmlExporter`. (Posten onder
-    subhoofdstukken in RSX zijn opgelost.) — B
+276. **MCP `set_cells_batch` slaat ruwe waarden op**, die daarna als Nederlandse notatie worden gelezen;
+    `set_cell` volgt wel de getalnotatie van de app. Gevonden bij de valutafix. — B
+
+## Bestanden, import en export
 
 60. **Generieke CSV-import verminkt een `"` binnen een veld en geciteerde velden over meerdere regels.**
     `src/services/importers/genericTabularImporter.ts:70-91, 96`. Nagespeeld: `Buis 4" PVC;10;m` geeft één cel;
@@ -237,18 +234,9 @@ stand van `main` op die datum.
     documentnaam `Begroting v1.2`, en de opslagnaam wordt daarna `Begroting v1.ifcCalc`. Voorstel: alleen bekende
     extensies weghalen. — B
 
-64. **WPCalc-export mislukt bij grote begrotingen (vanaf zo'n 85-100 regels)** met "filename or extension is too
-    long (os error 206)". Het doelbestand is dan al overschreven met de lege template. — B
-
 66. **`calculatiedatum` in de WPCalc-export klopt niet.** `wpcalc_export.rs:539-552` rekent met jaren van 365
     dagen en maanden van 30 dagen: 2026-11-06 wordt `11/24/2026` en 2026-12-31 wordt `01/14/2027`. Voorstel:
     `chrono::Local::now().format("%m/%d/%Y")`. — S
-
-67. **De Excel-celkiezer schrijft de waarde van de vorige keuze in het volgende item.**
-    `src/components/common/ExcelCellPicker.tsx:34-52`: `selectedValue` wordt niet gereset en de component
-    blijft gemount (`CostGrid.tsx:613`). Nagespeeld: koppel A aan een cel met 42, open de kiezer voor B
-    (gekoppeld aan een cel met 7) en druk op Selecteren; de hoeveelheid van B wordt 42. Voorstel: de state bij
-    elke opening resetten; de waarde uit `initialLink.cell` nemen. — B
 
 68. **Sommige fouten bij Bestand > Importeren blijven stil.** `Backstage.tsx:351-358`: een async `onchange`
     zonder try/catch, zodat een kapotte xlsx of "Four imports are already running" een onafgehandelde
@@ -291,12 +279,6 @@ stand van `main` op die datum.
 78. **`liteXml.ts:172`: in attributen wordt `&#10;` een spatie en CRLF twee spaties.** Geen praktisch effect;
     minder zeker dan de andere importpunten. — S
 
-79. **De Excel-celkiezer slaat de verkeerde cel op als het blad niet op A1 begint (ernstig).**
-    `src/services/excel/excelLinkService.ts:17-21`, `:41-45`; `ExcelCellPicker.tsx:120,198,200`. Gebruikt
-    bereik `B3:D6`, klik op B4 (42): de koppeling wordt opgeslagen als `A2`. Verversen leest dan een lege of
-    verkeerde cel. Tweede controle bevestigt het. Voorstel: verschuif met `decode_range(ref).s.r/.s.c`, of geef
-    `sheet_to_json` een `range` mee die op A1 begint. — B
-
 80. **Verversen maakt van Excel-foutcellen hoeveelheden (`#DIV/0!` → 7, `#N/A` → 42).**
     `excelLinkService.ts:119`. Voorstel: geef een fout bij `t === 'e'`, zoals `tabularBudget.ts:52` al doet.
     Tweede controle bevestigt het; het deel over `t === 'b'` is niet nodig. — B
@@ -305,9 +287,6 @@ stand van `main` op die datum.
     `src/services/importers/genericTabularImporter.ts:115-121`. `best[0]` wordt altijd als kopregel genomen, en
     een `headers`-array met gaten verbergt kolommen in de ColumnMappingDialog. Voorstel: `defval: ''`, de koppen
     aanvullen, en de kopregel herkennen (≥2 niet-lege cellen). — B
-
-82. **Valutabedragen (`€ 1.234,56`) komen zonder waarschuwing als 0 binnen.** `src/services/importers/core.ts:50-52`
-    (`parseNumber`). Voorstel: valutatekens weghalen, en waarschuwen in plaats van 0 teruggeven. — B
 
 83. **Nederlandse decimalen die als tekst zijn opgeslagen, worden in de Excel-koppeling afgekapt (`"6,5"` → 6).**
     `excelLinkService.ts:119`, `ExcelCellPicker.tsx:125` (`parseFloat`; `|| null` maakt van `"0"` bovendien
@@ -329,13 +308,6 @@ stand van `main` op die datum.
     van 100. Nagespeeld. Ernst middel: de totalen van de post en het geheel blijven goed, alleen de
     subbloktotalen kloppen niet. Voorstel: bij een nieuwe `cb` de items op hetzelfde of een dieper niveau van
     de stapel halen, of de `cp`-regels bewaren en daarop poppen. — B
-
-88. **WpCalc: de klassieke staart (UKK/AK/W&R) wordt op verzonnen percentages gezet.**
-    `src/services/importers/wpcalcImporter.ts:391-460`. Bij labels zoals onze eigen export ze schrijft
-    (`wpcalc_export.rs:363-365`) verdwijnt UKK 6 %, wordt AK 8 % de standaardwaarden abk 6 % + ak_oa 9 %,
-    worden garanties/wvpm/verzekering erbij verzonnen en telt W&R dubbel. Nagespeeld. Voorstel: de oude labels
-    herkennen en `staart_ukk/ak/wr` maken; geen standaardwaarden toevoegen voor labels die niet in het bestand
-    staan. — B
 
 90. **DNC: negatieve KU-bedragen vallen weg.** `src/services/importers/dncImporter.ts:179-182` filtert op
     `g > 0`. Nagespeeld. Voorstel: `!== 0`. — B
@@ -431,6 +403,22 @@ stand van `main` op die datum.
     aantallen in dit formaat per eenheid bedoeld (0,5 uur per m³ bij 10 m³), dan wordt € 225 na herberekenen
     € 22,50. Niet te controleren zonder echt bestand; samen met #97 bekijken. Gevonden in de review van PR #70. — S
 
+271. **WpCalc-export meldt "OK" ook als losse INSERTs mislukken.** Het PowerShell-script in
+    `src-tauri/src/wpcalc_export.rs` stopt niet bij fouten, dus regels kunnen ontbreken zonder melding.
+    Gevonden bij de fix van knownbug 64. Voorstel: fouten tellen en melden; `$ErrorActionPreference='Stop'`
+    pas na een test met echte bestanden. — B
+
+272. **WpCalc-export schrijft de staart niet zoals hij in de app staat.** `src/services/export/wpcalcExporter.ts`
+    haalt alle staartregels weg vóór de Rust-export, zodat `wpcalc_export.rs:345-395` ze nooit vindt; bij een
+    begroting uit WpCalc gaat de staart van de import mee, niet de huidige percentages. Gevonden bij de fix
+    van knownbug 88. — B
+
+273. **WpCalc-export vult het veld `calculaties.valuta` niet.** De import leest het sinds de valutafix wel;
+    de export schrijft geen valuta (Rust-kant). Gevonden bij de valutafix. — B
+
+274. **Een CUF-export van OCS verliest bij opnieuw importeren posten onder subhoofdstukken**, en de
+    TradXML-import leest maar één `Element`-niveau. Gevonden bij de fix van knownbug 59. — B
+
 ## Documenten, tabbladen, versies en herstel
 
 113. **Dubbele prijsartikelen in het herstel van documenten die op een site gehost worden** (klein).
@@ -459,12 +447,6 @@ stand van `main` op die datum.
 120. **Automatisch opslaan kan een Opslaan als-venster openen voor geïmporteerde documenten** (latent).
      `App.tsx:404-411` + `useFileOperations.ts:324,343`. `autoSave` staat standaard uit en heeft geen UI, dus
      vandaag kan het niet gebeuren. Voorstel: `isNativeSavePath(doc.filePath)` aan de voorwaarde toevoegen. — S
-
-121. **Wisselen van tabblad verliest de undo-geschiedenis van deelspreadsheets.** `captureDocument` en
-     `documentContext` (`documentSlice.ts:16,25`) bewaren de stapels van de deelspreadsheets niet;
-     `removeDocument` op een achtergrondtabblad zet ze ook terug. Daarnaast gebruikt undo/redo in
-     deelspreadsheets `set` in plaats van `edit`, zodat het document niet als gewijzigd wordt gemarkeerd.
-     Afgeleid uit de code. — S
 
 ## Rapport, offerte en afdrukken
 
@@ -533,20 +515,6 @@ stand van `main` op die datum.
      `:root` donker bij afdrukken op het web (`browserPrint.ts:29-32`), niet getest. Voorstel:
      `print-color-adjust: exact`. — S
 
-139. **De Bouw 1-PDF laat de afrondingsregel weg, waardoor btw en eindtotaal afwijken van de app.**
-     `src-tauri/src/reports/bouw1.rs:296` filtert `staart_afronding` eruit, dus de tak bij `:488` wordt nooit
-     bereikt. De app (`calculator.ts:522-545`) telt de afronding bij het bedrag excl. btw en rekent daarna de btw.
-     Nagespeeld (800 arbeid, 5 % winst, 21 % btw, afronding naar doelbedrag 850): de app geeft 850 + 178,50 =
-     1.028,50, de PDF "Totaal excl. btw € 840,00", btw € 176,40 en totaal € 1.016,40. Voorstel: de afronding in
-     de eerste ronde vóór de btw verwerken, met `si.total` als bedrag. — B
-
-140. **De IBIS- en directie-PDF rekenen opslagen over de verkeerde grondslag.** `src-tauri/src/reports/ibis.rs:396-406`
-     rekent elke opslag over het lopende totaal; in de app gaan `staart_abk`, `staart_garanties` en `staart_wvpm`
-     alleen over arbeid + materiaal + materieel, en IBIS negeert `staartBasis: 'kostprijs'` (BasCalc-imports).
-     Nagespeeld: 1000 arbeid en 1000 onderaanneming, AK onderaanneming 9 %, ABK 6 %. App en Bouw 1-PDF: ABK 60,
-     totaal incl. btw 2.601,50; IBIS-PDF: 125,40 en 2.680,63. Voorstel: dezelfde grondslaglogica als
-     `bouw1.rs:438-466`, of gewoon `si.total` en de opgeslagen opbouw afdrukken. — B
-
 141. **De inhoud van de offerte-PDF begint 15 mm te hoog en valt over het briefhoofd.**
      `src-tauri/src/reports/offerte.rs:58-59` maakt het frame met `Rect::new(margin_left, margin_bottom, …)`,
      terwijl `openaec-layout` vanaf de bovenkant van de pagina meet. Dezelfde fout is in `generator.rs` al
@@ -568,12 +536,6 @@ stand van `main` op die datum.
      inspringing gemeten: in een kolom van 100 pt werd een regel ongeveer 121 pt breed. Voorstel: eerst op `'\n'`
      splitsen en per deel afbreken; vervolgregels mét inspringing meten. — B
 
-144. **De Bouw 1-PDF knipt de code op bytepositie: met een en-dash mislukt de export en codes met punten
-     geven onzin.** `src-tauri/src/reports/bouw1.rs:162-167`: met code `"1–2"` mislukt de PDF-export. `"21.10.010"` wordt Hst `2`, Par `1.`, Nr `10.010`; de HTML-print
-     splitst `item.nr` wel op `.` (`bouw1PrintService.ts:179-184`). Ook mist de titel van het laatste hoofdstuk
-     zijn code (`:282`). Voorstel: `item.nr` op `.` splitsen zoals de TypeScript-kant, en dezelfde titelopmaak
-     gebruiken. — B
-
 145. **Bouw 1- en IBIS-PDF kunnen zonder tekst uitkomen buiten de bouwmachine.** `bouw1.rs:550-605` en `ibis.rs`
      zetten systeemlettertypen uit en ingebedde lettertypen staan ook niet aan. Arial wordt uit
      `C:/Windows/Fonts` gekopieerd naar een map op basis van `CARGO_MANIFEST_DIR` van de bouwmachine of een pad
@@ -593,13 +555,6 @@ stand van `main` op die datum.
      na een paginawissel weer bij rij 0, wat alleen telt bij gestreepte tabelstijlen. — S
 
 ## IFC, PDF en hoeveelheden
-
-149. **Geïmporteerde oppervlakte en inhoud 10⁶ / 10⁹ te groot als de IFC alleen een lengte-eenheid declareert.**
-     Ernstig. `unitForMeasure('IfcAreaMeasure'|'IfcVolumeMeasure')` (`src/services/ifc/ifcTakeoff.ts:21`) valt
-     terug op schaal 1 als er geen AREAUNIT/VOLUMEUNIT is, terwijl de waarden dan in (lengte-eenheid)² /
-     (lengte-eenheid)³ staan. Nagespeeld: een bestand met alleen MILLI METRE geeft NetSideArea 6.000.000 m² in
-     plaats van 6 m². Voorstel: `quantitySiScale(q, units)` uit `@ifc-lite/parser` gebruiken, en een fixture
-     toevoegen die alleen LENGTHUNIT declareert. — B
 
 150. **IFC-export: eenheden op de verkeerde plek, en kg/uren kloppen niet met de gedeclareerde eenheden.**
      `IFCPROJECT(…,$,$,$,(#units),$)` (`src/services/ifc/ifcCostGenerator.ts:69-70`, `:89`) zet de unit
@@ -793,10 +748,6 @@ stand van `main` op die datum.
      schakelt. Afgeleid uit de code; nog nakijken in een echt venster. Voorstel: `onDoubleClick` weghalen. — S
 
 ## Wizard, bibliotheek en prijzen
-
-192. **De HSB-wizard voegt door afronding van floats een stijl te veel toe.** `hsbWandCalculator.ts:73`
-     (`Math.ceil(lengte / stijlAfstand) + 1`): 4.2/0.6 = 7.000000000000001, dus 9 stijlen in plaats van 8.
-     Nagespeeld. Voorstel: `Math.ceil(lengte / stijlAfstand - 1e-9) + 1`. — B
 
 193. **Het totaal "excl. tax" van de wizard laat de opslagen oude stijl (ukk/ak/wr) weg.**
      `src/components/wizard/CalculationWizard.tsx:114` tegenover `WpCalcBottomPanel.tsx:250`: bij
@@ -1049,16 +1000,6 @@ stand van `main` op die datum.
 
 ## Tests en tooling
 
-249. **`version.mjs` faalt op Windows en slaat `Cargo.lock` stilletjes over.** De regex in
-     `scripts/version.mjs:38` en `:52` gebruikt `\n`, maar de checkout heeft CRLF via `core.autocrlf=true`.
-     Nagespeeld: `npm run version:check` faalt nu op main onder Windows met
-     `Cargo.lock: undefined != 2026.45.1`. Voorstel: `\r?\n`, en/of `* text=auto eol=lf` in
-     `.gitattributes`. — B
-
-250. **`check:blueprint` faalt altijd op Windows.** `scripts/verify-blueprint.mjs:6-7` hasht CRLF-bestanden
-     tegen de LF-hashes in `SOURCE.json`. Nagespeeld. Voorstel: `src/styles/blueprint/** -text` in
-     `.gitattributes`. — B
-
 251. **`npm run test:e2e` vindt 0 tests en geeft een fout.** `playwright.config.ts:4-5` laadt ook het
      Vitest-bestand `tests/platform/hostedPolicy.test.tsx`. Nagespeeld. Voorstel: `testMatch: '*.spec.ts'` of
      een `testIgnore`. — B
@@ -1073,25 +1014,8 @@ stand van `main` op die datum.
 255. **`version.mjs next` gebruikt de UTC-datum**, dus lokaal krijg je op maandag tussen 00:00 en 01:00/02:00
      het nummer van vorige week. — S
 
-256. **`src/test/hostedHtmlPolicy.test.ts:7-8` loopt in een timeout, ook als je hem alleen draait.** De test
-     start een volledige Vite-devserver in de root van de repo, die elk HTML-bestand scant (`dist/`, `libs/`,
-     `packages/`, de ongetrackte map `UniversalEstimateandValuation/`),
-     en een case die in een timeout loopt sluit zijn server nooit. Stand bij de run: `tsc` 0 fouten; vitest 832
-     geslaagd / 13 mislukt / 6 overgeslagen. Alle 13 mislukkingen zijn timeouts onder zware belasting,
-     CRLF-regeleinden of de ongetrackte map; geen productbugs. Serieel met een timeout van 60 s is alles groen.
-     Voorstel: de plugin-hooks direct aanroepen (`configResolved` + `transformIndexHtml.handler`) in plaats van
-     een server te starten. — B
-
-257. **`src/test/safeguardDialogs.test.tsx:19` duurt 9–11 s** (de standaardlimiet is 5 s). Voorstel: een
-     timeout per test, of i18n opwarmen in `beforeAll`. — B
-
-258. **Veel UI-tests zitten dicht tegen de limiet van 5 s en mislukken onder belasting:** `buttonAudit`,
-     `chatProposalFlow`, `usabilityRegressions` U11, `settingsFeedbackButtonAudit`, `chatBubbleSetting`,
-     `embed.test.tsx:77`. Voorstel: `testTimeout: 15000` in `vite.config.ts:56-61`. — B
-
-259. **Vitest pakt de ongetrackte map `UniversalEstimateandValuation/tests/` mee**, en daar kan `dxf-parser`
-     niet worden gevonden. Voorstel: de map toevoegen aan `exclude` in `vite.config.ts`, of hem uit de repo
-     halen. `check:blueprint` faalt op Windows: zie #250. — B
+277. **`vitest.platform.config.ts` vervangt het hele testblok** en krijgt daardoor niet de nieuwe limieten
+    van 15 s uit `vite.config.ts`. Gevonden bij de fix van knownbug 258. — B
 
 ## Wensen en open taken (geen bug)
 
@@ -1105,10 +1029,6 @@ stand van `main` op die datum.
 
 262. **De tabel kan geen tekst uit Excel of Sheets plakken.** Ctrl+V plakt alleen regels die binnen de app zijn
      gekopieerd. — S
-
-263. **De app sluiten met "Niet opslaan" biedt het weggegooide werk de volgende keer toch als herstel aan**
-     (mogelijk bedoeld). `src/App.tsx:420-426`, `closeDocuments.ts:16`. Voorstel: `removeRecovery(recoveryWindowId())`
-     uitvoeren vóór `destroy()`, en bij `pagehide` niet opnieuw schrijven. — S
 
 265. **Een gekoppeld totaal houdt zijn oude waarde als de laatste meting weg is.** `pdfWorkspace.ts:40` en
      `src/hooks/useQuantityLinkSync.ts:37` (`null` wordt genegeerd). Nagespeeld, maar waarschijnlijk bedoeld:
