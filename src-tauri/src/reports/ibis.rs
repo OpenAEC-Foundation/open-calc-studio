@@ -380,35 +380,25 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
         .collect();
     let afronding_item = staart_items.iter().find(|i| i.row_type == "staart_afronding");
 
-    // Onderaanneming-deel: nodig voor staart_ak_oa (AK over onderaanneming).
-    let oa_total: f64 = request.items.iter()
-        .filter(|i| i.row_type == "regel")
-        .filter(|i| i.resource_type.as_deref() == Some("onderaannemer"))
-        .map(|i| i.total)
-        .sum();
+    // Grondslag per opslag zoals in de app (computeStaartItemBreakdowns) en
+    // de Bouw 1-PDF: AK onderaanneming over de onderaanneming; ABK, garanties
+    // en WV/PM alleen over loon + materiaal + materieel; risico/winst/
+    // verzekering over het cumulatief; een vlakke staart (BasCalc,
+    // staartBasis 'kostprijs') over de directe kosten.
+    let kp = super::staart::kostprijs_kolommen(&request.items);
+    let mut cascade = super::staart::Cascade::new(kp, alle_kosten);
 
     for si in &opslag {
         let pct = si.staart_percentage.unwrap_or(0.0);
-        let pct_frac = pct / 100.0;
         let pct_str = if si.staart_percentage.is_some() {
             nf.percent(pct, 2)
         } else {
             String::new()
         };
 
-        // Base depends on staart type (mirrors calculator.ts cascade).
-        let (base, post) = match si.row_type.as_str() {
-            "staart_ak_oa" => {
-                let v = oa_total * pct_frac;
-                (oa_total, v)
-            }
-            // All other opslag types: percentage over running cumulative.
-            _ => {
-                let v = cumulative * pct_frac;
-                (cumulative, v)
-            }
-        };
-        cumulative += post;
+        let stap = cascade.apply(si);
+        let (base, post) = (stap.bedrag, stap.post);
+        cumulative = cascade.cumulatief;
 
         rows.push(IbisTotalenRow {
             symbol: "%".into(),
@@ -435,13 +425,16 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
 
     // $ Afronding
     if let Some(af) = afronding_item {
-        cumulative += af.total;
+        // Doelbedrag: precies op het gewenste excl-bedrag; anders het bedrag
+        // dat de app op de regel heeft gezet.
+        let af_post = cascade.apply(af).post;
+        cumulative = cascade.cumulatief;
         rows.push(IbisTotalenRow {
             symbol: "$".into(),
             label: request.lbl("staart.rounding", "Afronding").into(),
             percentage: String::new(),
             bedrag: String::new(),
-            post: nf.currency(af.total),
+            post: nf.currency(af_post),
             totaal: String::new(),
             is_bold: false,
         });
@@ -700,6 +693,77 @@ mod tests {
         assert_eq!(data.report_title, "Client budget estimate");
         assert_eq!(data.chapters[0].rows[0].eh, "h");
         assert_eq!(data.labels.get("columns.description").map(String::as_str), Some("Description"));
+    }
+
+    fn ak_oa_abk_request(view: &str, abk_basis: Option<&str>) -> ReportRequest {
+        let mut abk = serde_json::json!({ "id": "s2", "description": "ABK:", "rowType": "staart_abk",
+            "parentId": null, "staartPercentage": 6.0 });
+        if let Some(b) = abk_basis {
+            abk["staartBasis"] = serde_json::json!(b);
+        }
+        serde_json::from_value(serde_json::json!({
+            "schedule": { "name": "Test", "projectName": "Testproject" },
+            "items": [
+                { "id": "ch1", "code": "10", "description": "WERK", "rowType": "chapter",
+                  "depth": 0, "parentId": null, "total": 2000.0 },
+                { "id": "r1", "description": "arbeid", "rowType": "regel", "depth": 1,
+                  "parentId": "ch1", "total": 1000.0, "resourceType": "arbeid" },
+                { "id": "r2", "description": "onderaanneming", "rowType": "regel", "depth": 1,
+                  "parentId": "ch1", "total": 1000.0, "resourceType": "onderaannemer" },
+                { "id": "s1", "description": "AK OA:", "rowType": "staart_ak_oa",
+                  "parentId": null, "staartPercentage": 9.0 },
+                abk,
+                { "id": "s3", "description": "Btw hoog:", "rowType": "staart_btw",
+                  "parentId": null, "staartPercentage": 21.0 }
+            ],
+            "reportView": view,
+        }))
+        .expect("ReportRequest parsen")
+    }
+
+    fn row<'a>(data: &'a IbisReportData, label: &str) -> &'a IbisTotalenRow {
+        data.totalen.as_ref().unwrap().rows.iter().find(|r| r.label == label)
+            .unwrap_or_else(|| panic!("rij {label} ontbreekt"))
+    }
+
+    #[test]
+    fn abk_alleen_over_loon_materiaal_materieel() {
+        // Bug 140: 1000 arbeid + 1000 onderaanneming, AK OA 9 %, ABK 6 %:
+        // ABK 60 (niet 125,40), totaal incl. btw 2.601,50 (zoals app en Bouw 1).
+        for view in ["ibis", "directie"] {
+            let data = build_ibis_data(&ak_oa_abk_request(view, None));
+            assert_eq!(row(&data, "AK OA").post, "€ 90,00");
+            assert_eq!(row(&data, "ABK").post, "€ 60,00");
+            assert_eq!(row(&data, "ABK").bedrag, "€ 1.000,00");
+            assert_eq!(row(&data, "Totaal excl BTW").totaal, "€ 2.150,00");
+            assert_eq!(row(&data, "Totaal incl BTW").totaal, "€ 2.601,50");
+        }
+    }
+
+    #[test]
+    fn vlakke_staart_over_de_kostprijs() {
+        // staartBasis 'kostprijs' (BasCalc): winst over de directe kosten.
+        let mut req = ak_oa_abk_request("ibis", Some("kostprijs"));
+        req.items.insert(5, serde_json::from_value(serde_json::json!({
+            "id": "s4", "description": "Winst:", "rowType": "staart_winst",
+            "parentId": null, "staartPercentage": 10.0, "staartBasis": "kostprijs"
+        })).unwrap());
+        let data = build_ibis_data(&req);
+        assert_eq!(row(&data, "Winst").post, "€ 200,00");
+        assert_eq!(row(&data, "Totaal excl BTW").totaal, "€ 2.350,00");
+    }
+
+    #[test]
+    fn afronding_naar_doelbedrag() {
+        let mut req = ak_oa_abk_request("ibis", None);
+        req.items.push(serde_json::from_value(serde_json::json!({
+            "id": "s9", "description": "Afronding", "rowType": "staart_afronding",
+            "parentId": null, "staartDoelbedrag": 2200.0, "total": 50.0
+        })).unwrap());
+        let data = build_ibis_data(&req);
+        assert_eq!(row(&data, "Afronding").post, "€ 50,00");
+        assert_eq!(row(&data, "Totaal excl BTW").totaal, "€ 2.200,00");
+        assert_eq!(row(&data, "Totaal incl BTW").totaal, "€ 2.662,00");
     }
 
     #[test]

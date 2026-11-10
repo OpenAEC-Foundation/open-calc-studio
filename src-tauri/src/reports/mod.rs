@@ -3,6 +3,7 @@ pub mod numfmt;
 pub mod offerte;
 mod bouw1;
 mod ibis;
+mod staart;
 
 use serde::Deserialize;
 use std::collections::HashMap;
@@ -229,6 +230,9 @@ pub struct CostItem {
     pub total: f64,
     #[serde(default)]
     pub norm_unit_price: Option<f64>,
+    /// Materiaalprijs van een post zonder kinderen (kostprijskolommen).
+    #[serde(default)]
+    pub material_price: Option<f64>,
     #[serde(default)]
     pub labor_price: Option<f64>,
     #[serde(default)]

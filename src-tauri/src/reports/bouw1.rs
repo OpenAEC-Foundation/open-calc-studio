@@ -156,16 +156,46 @@ fn compute_parent_breakdown(parent_id: &str, all_items: &[&CostItem]) -> Resourc
     bd
 }
 
+/// Hst/Par/Nr-kolommen. Zoals de HTML-print (bouw1PrintService.ts): het
+/// hiërarchische `nr` op punten splitsen. Zonder `nr` (CLI, MCP) valt het
+/// terug op de code: met punten op dezelfde manier, anders de oude vaste
+/// indeling 1/2/rest — per teken, niet per byte, zodat een en-dash of
+/// andere niet-ASCII-tekens de export niet laten vastlopen.
+fn split_hst_par_nr(item: &CostItem) -> (String, String, String) {
+    let from_parts = |s: &str| {
+        let parts: Vec<&str> = s.split('.').collect();
+        (
+            parts.first().map(|p| p.to_string()).unwrap_or_default(),
+            parts.get(1).map(|p| p.to_string()).unwrap_or_default(),
+            if parts.len() >= 3 { parts[2..].join(".") } else { String::new() },
+        )
+    };
+    if let Some(nr) = item.nr.as_deref().filter(|n| !n.is_empty()) {
+        return from_parts(nr);
+    }
+    let code = item.code.as_str();
+    if code.contains('.') {
+        return from_parts(code);
+    }
+    let chars: Vec<char> = code.chars().collect();
+    let take = |a: usize, b: usize| chars[a.min(chars.len())..b.min(chars.len())].iter().collect::<String>();
+    if chars.len() >= 6 {
+        (take(0, 1), take(1, 3), take(3, chars.len()))
+    } else if chars.len() >= 3 {
+        (take(0, 1), take(1, 3), String::new())
+    } else {
+        (code.to_string(), String::new(), String::new())
+    }
+}
+
+/// Hoofdstuktitel: "<code>. <omschrijving>", of alleen de omschrijving.
+fn chapter_title(ch: &CostItem) -> String {
+    if ch.code.is_empty() { ch.description.clone() } else { format!("{}. {}", ch.code, ch.description) }
+}
+
 fn build_bouw1_row(request: &ReportRequest, item: &CostItem, is_chapter: bool, all_items: &[&CostItem]) -> Bouw1Row {
     let nf = &request.number_format;
-    let code = &item.code;
-    let (hst, par, nr_val) = if code.len() >= 6 {
-        (code[..1].to_string(), code[1..3].to_string(), code[3..].to_string())
-    } else if code.len() >= 3 {
-        (code[..1].to_string(), code[1..3].to_string(), String::new())
-    } else {
-        (code.clone(), String::new(), String::new())
-    };
+    let (hst, par, nr_val) = split_hst_par_nr(item);
 
     let qty_s = item.quantity.map(|q| nf.opt_number(Some(q))).unwrap_or_default();
     let unit = request.unit(item.unit.as_deref().unwrap_or(""));
@@ -266,7 +296,7 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
                     let subtotal = nf.currency(ch.total);
                     ch_rows.push(empty_subtotal_row(&subtotal));
                     chapters.push(Bouw1Chapter {
-                        title: if ch.code.is_empty() { ch.description.clone() } else { format!("{}. {}", ch.code, ch.description) },
+                        title: chapter_title(ch),
                         rows: std::mem::take(&mut ch_rows),
                         subtotal,
                     });
@@ -286,51 +316,24 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
             let subtotal = nf.currency(ch.total);
             ch_rows.push(empty_subtotal_row(&subtotal));
             chapters.push(Bouw1Chapter {
-                title: ch.description.clone(),
+                title: chapter_title(ch),
                 rows: std::mem::take(&mut ch_rows),
                 subtotal,
             });
         }
     }
 
-    // Totalen: items-driven. Read live staart breakdowns from each staart_* item
-    // (computed by recalculateItems â†’ computeStaartItemBreakdowns in TS).
+    // Totalen: items-driven. De cascade (kostprijskolommen, opslagen en
+    // afronding) volgt computeStaartItemBreakdowns in calculator.ts: eerst
+    // alle niet-btw-regels in volgorde, daarna de btw over het excl-eindbedrag
+    // (inclusief afronding), ongeacht waar de btw-regels in de staart staan.
     let staart_items: Vec<&CostItem> = request.items.iter()
-        .filter(|i| i.row_type.starts_with("staart_") && i.row_type != "staart_afronding")
+        .filter(|i| i.row_type.starts_with("staart_"))
         .collect();
 
     let totalen = if !staart_items.is_empty() {
-        // Compute kostprijs columns from items (mirrors TS computeKostprijsBreakdown)
-        let mut kp_loon = 0f64;
-        let mut kp_mat = 0f64;
-        let mut kp_matrl = 0f64;
-        let mut kp_stelp = 0f64;
-        let mut kp_oa = 0f64;
-        for it in request.items.iter().filter(|i| i.row_type == "regel") {
-            let qty = it.quantity.unwrap_or(0.0);
-            let lab = it.labor_price.unwrap_or(0.0);
-            let mp = it.norm_unit_price.unwrap_or(0.0);
-            let total = it.total;
-            let rt = it.resource_type.as_deref().unwrap_or("materiaal");
-            if rt == "onderaannemer" {
-                kp_oa += total;
-                continue;
-            }
-            let split_loon = lab * qty;
-            let split_mat = mp * qty;
-            let used_split = (split_loon + split_mat - total).abs() < 0.01
-                && (split_loon + split_mat) > 0.0;
-            let loon_amt = if used_split { split_loon } else { 0.0 };
-            let mat_amt = if used_split { split_mat } else { total };
-            kp_loon += loon_amt;
-            match rt {
-                "arbeid" => kp_loon += mat_amt,
-                "materieel" => kp_matrl += mat_amt,
-                "overig" => kp_stelp += mat_amt,
-                _ => kp_mat += mat_amt,
-            }
-        }
-        let kp_total = kp_loon + kp_mat + kp_matrl + kp_stelp + kp_oa;
+        let kp = super::staart::kostprijs_kolommen(&request.items);
+        let kp_total = kp.totaal();
 
         let mut all_rows: Vec<Bouw1TotalenRow> = Vec::new();
 
@@ -338,180 +341,120 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
         all_rows.push(Bouw1TotalenRow {
             label: request.lbl("summary.columnTotals", "Totaal kolommen:").into(),
             percentage: String::new(),
-            loon: nf.currency(kp_loon),
-            materiaal: nf.currency(kp_mat),
-            materieel: nf.currency(kp_matrl),
-            stelpost: nf.currency(kp_stelp),
-            ond_aann: nf.currency(kp_oa),
+            loon: nf.currency(kp.loon),
+            materiaal: nf.currency(kp.materiaal),
+            materieel: nf.currency(kp.materieel),
+            stelpost: nf.currency(kp.stelpost),
+            ond_aann: nf.currency(kp.onderaanneming),
             bedrag: String::new(),
             post: String::new(),
             totaal: nf.currency(kp_total),
             is_bold: true,
         });
 
-        // Compute staart cascade locally, mirroring TS computeStaartItemBreakdowns.
-        // This makes the report robust regardless of whether TS already populated
-        // staart_item_breakdown on each item.
-        let mut run_loon = kp_loon;
-        let mut run_mat = kp_mat;
-        let mut run_matrl = kp_matrl;
-        let mut cumulative = kp_total;
-        let mut after_kostprijs = false; // before risico/winst/verzekering
-        let mut after_excl = false;       // before btw
-        let mut last_total = cumulative;
-
-        // Laag btw-tarief: per-onderdeel markering (btw_tarief) gaat vóór de
-        // handmatige grondslag; de fractie wordt bij de btw-fase pro rata
-        // over het excl-eindbedrag gelegd (clamp volgt daar ook).
-        let laag_direct = crate::reports::btw_laag_direct(&request.items);
-        let dir_totaal = crate::reports::direct_totaal(&request.items);
-        let laag_fractie = if laag_direct > 0.0 && dir_totaal > 0.0 {
-            Some(laag_direct / dir_totaal)
-        } else {
-            None
+        let is_btw = |si: &CostItem| si.row_type == "staart_btw" || si.row_type == "staart_btw_laag";
+        let pct_str = |si: &CostItem| match si.staart_percentage {
+            Some(p) => nf.percent(p, 2),
+            None => String::new(),
         };
-        let laag_basis_raw: f64 = staart_items.iter()
-            .filter(|i| i.row_type == "staart_btw_laag")
-            .map(|i| i.staart_btw_basis.unwrap_or(0.0).max(0.0))
-            .sum();
-        let mut excl_eind = 0f64;
-        let mut laag_grondslag_totaal = 0f64;
-        let mut laag_resterend = 0f64;
+        let amount = |v: f64| if v != 0.0 { nf.currency(v) } else { String::new() };
+        let bold_total = |label: String, v: f64| Bouw1TotalenRow {
+            label,
+            percentage: String::new(),
+            loon: String::new(), materiaal: String::new(), materieel: String::new(),
+            stelpost: String::new(), ond_aann: String::new(), bedrag: String::new(),
+            post: String::new(),
+            totaal: nf.currency(v),
+            is_bold: true,
+        };
 
-        for si in &staart_items {
-            let pct = si.staart_percentage.unwrap_or(0.0) / 100.0;
-            let pct_str = if si.staart_percentage.is_some() {
-                nf.percent(si.staart_percentage.unwrap(), 2)
-            } else {
-                String::new()
-            };
+        // Ronde 1: opslagen en afronding (excl. btw), in staartvolgorde.
+        let mut cascade = super::staart::Cascade::new(kp, kp_total);
+        let mut after_kostprijs = false; // vóór risico/winst/verzekering
+        for si in staart_items.iter().copied().filter(|si| !is_btw(si)) {
             let is_winst_phase = matches!(
                 si.row_type.as_str(),
                 "staart_risico" | "staart_winst" | "staart_verzekering" | "staart_wr"
             );
-            let is_btw = si.row_type == "staart_btw" || si.row_type == "staart_btw_laag";
-
             if is_winst_phase && !after_kostprijs {
-                all_rows.push(Bouw1TotalenRow {
-                    label: request.lbl("summary.totalCostPrice", "Totaal kostprijs:").into(),
-                    percentage: String::new(),
-                    loon: String::new(), materiaal: String::new(), materieel: String::new(),
-                    stelpost: String::new(), ond_aann: String::new(), bedrag: String::new(),
-                    post: String::new(),
-                    totaal: nf.currency(cumulative),
-                    is_bold: true,
-                });
+                all_rows.push(bold_total(
+                    request.lbl("summary.totalCostPrice", "Totaal kostprijs:").into(),
+                    cascade.cumulatief,
+                ));
                 after_kostprijs = true;
             }
-            if is_btw && !after_excl {
-                all_rows.push(Bouw1TotalenRow {
-                    label: request.lbl("summary.totalExclVat", "Totaal excl. btw.:").into(),
-                    percentage: String::new(),
-                    loon: String::new(), materiaal: String::new(), materieel: String::new(),
-                    stelpost: String::new(), ond_aann: String::new(), bedrag: String::new(),
-                    post: String::new(),
-                    totaal: nf.currency(cumulative),
-                    is_bold: true,
-                });
-                after_excl = true;
-                // Vanaf hier is het excl-eindbedrag bekend: bepaal en clamp de
-                // lage grondslag (markering pro rata, anders handmatig bedrag).
-                excl_eind = cumulative;
-                let raw = match laag_fractie {
-                    Some(f) => f * excl_eind,
-                    None => laag_basis_raw,
-                };
-                laag_grondslag_totaal = raw.max(0.0).min(excl_eind.max(0.0));
-                laag_resterend = laag_grondslag_totaal;
-            }
+            let st = cascade.apply(si);
+            all_rows.push(Bouw1TotalenRow {
+                label: si.description.clone(),
+                percentage: pct_str(si),
+                loon: amount(st.loon),
+                materiaal: amount(st.materiaal),
+                materieel: amount(st.materieel),
+                stelpost: String::new(),
+                ond_aann: amount(st.onderaanneming),
+                bedrag: amount(st.bedrag),
+                post: amount(st.post),
+                totaal: String::new(),
+                is_bold: false,
+            });
+        }
+        let excl_eind = cascade.cumulatief;
 
-            // Compute this row's contribution
-            let mut row_loon = 0.0;
-            let mut row_mat = 0.0;
-            let mut row_matrl = 0.0;
-            let mut row_stelp = 0.0;
-            let mut row_oa = 0.0;
-            let mut row_bedrag = 0.0;
-            let mut row_subtotaal = 0.0;
-
-            // Vlakke staart (BasCalc): percentage over de directe kosten
-            // i.p.v. het opgehoogde bedrag — spiegel van CostItem.staartBasis.
-            let vlak = si.staart_basis.as_deref() == Some("kostprijs");
-
-            match si.row_type.as_str() {
-                "staart_ak_oa" => {
-                    let v = kp_oa * pct;
-                    row_oa = v;
-                    row_subtotaal = v;
-                    cumulative += v;
-                }
-                "staart_abk" | "staart_garanties" | "staart_wvpm" => {
-                    let (b_loon, b_mat, b_matrl) = if vlak {
-                        (kp_loon, kp_mat, kp_matrl)
-                    } else {
-                        (run_loon, run_mat, run_matrl)
-                    };
-                    row_bedrag = b_loon + b_mat + b_matrl;
-                    row_loon = b_loon * pct;
-                    row_mat = b_mat * pct;
-                    row_matrl = b_matrl * pct;
-                    row_subtotaal = row_loon + row_mat + row_matrl;
-                    if !vlak {
-                        run_loon += row_loon;
-                        run_mat += row_mat;
-                        run_matrl += row_matrl;
-                    }
-                    cumulative += row_subtotaal;
-                }
-                "staart_risico" | "staart_winst" | "staart_verzekering"
-                | "staart_ukk" | "staart_ak" | "staart_wr" => {
-                    row_bedrag = if vlak { kp_total } else { cumulative };
-                    row_subtotaal = row_bedrag * pct;
-                    cumulative += row_subtotaal;
-                }
-                "staart_btw" => {
+        // Ronde 2: btw over het excl-eindbedrag. Laag btw-tarief: de
+        // per-onderdeel markering (btw_tarief) gaat vóór de handmatige
+        // grondslag; die fractie wordt pro rata over het excl-eindbedrag gelegd.
+        let btw_items: Vec<&CostItem> = staart_items.iter().copied().filter(|si| is_btw(si)).collect();
+        let mut last_total = excl_eind;
+        if !btw_items.is_empty() {
+            all_rows.push(bold_total(
+                request.lbl("summary.totalExclVat", "Totaal excl. btw.:").into(),
+                excl_eind,
+            ));
+            let laag_direct = crate::reports::btw_laag_direct(&request.items);
+            let dir_totaal = crate::reports::direct_totaal(&request.items);
+            let laag_fractie = if laag_direct > 0.0 && dir_totaal > 0.0 {
+                Some(laag_direct / dir_totaal)
+            } else {
+                None
+            };
+            let raw = match laag_fractie {
+                Some(f) => f * excl_eind,
+                None => btw_items.iter()
+                    .filter(|i| i.row_type == "staart_btw_laag")
+                    .map(|i| i.staart_btw_basis.unwrap_or(0.0).max(0.0))
+                    .sum(),
+            };
+            let laag_grondslag_totaal = raw.max(0.0).min(excl_eind.max(0.0));
+            let mut laag_resterend = laag_grondslag_totaal;
+            for si in &btw_items {
+                let pct = si.staart_percentage.unwrap_or(0.0) / 100.0;
+                let basis = if si.row_type == "staart_btw" {
                     // Hoog tarief over de rest van het excl-eindbedrag.
-                    row_bedrag = excl_eind - laag_grondslag_totaal;
-                    row_subtotaal = row_bedrag * pct;
-                    cumulative += row_subtotaal;
-                }
-                "staart_btw_laag" => {
+                    excl_eind - laag_grondslag_totaal
+                } else {
                     // Laag tarief: bij markering de berekende grondslag,
                     // anders de eigen (geclampte) handmatige grondslag.
-                    let basis = if laag_fractie.is_some() {
+                    let b = if laag_fractie.is_some() {
                         laag_resterend
                     } else {
                         si.staart_btw_basis.unwrap_or(0.0).max(0.0).min(laag_resterend)
                     };
-                    laag_resterend -= basis;
-                    row_bedrag = basis;
-                    row_subtotaal = basis * pct;
-                    cumulative += row_subtotaal;
-                }
-                "staart_afronding" => {
-                    if let Some(doel) = si.staart_doelbedrag {
-                        // Vaste sluitpost: afronding = doelbedrag − som tot hier.
-                        row_subtotaal = doel - cumulative;
-                        cumulative = doel;
-                    }
-                }
-                _ => {}
+                    laag_resterend -= b;
+                    b
+                };
+                let post = basis * pct;
+                last_total += post;
+                all_rows.push(Bouw1TotalenRow {
+                    label: si.description.clone(),
+                    percentage: pct_str(si),
+                    loon: String::new(), materiaal: String::new(), materieel: String::new(),
+                    stelpost: String::new(), ond_aann: String::new(),
+                    bedrag: amount(basis),
+                    post: amount(post),
+                    totaal: String::new(),
+                    is_bold: false,
+                });
             }
-            last_total = cumulative;
-
-            all_rows.push(Bouw1TotalenRow {
-                label: si.description.clone(),
-                percentage: pct_str,
-                loon: if row_loon != 0.0 { nf.currency(row_loon) } else { String::new() },
-                materiaal: if row_mat != 0.0 { nf.currency(row_mat) } else { String::new() },
-                materieel: if row_matrl != 0.0 { nf.currency(row_matrl) } else { String::new() },
-                stelpost: if row_stelp != 0.0 { nf.currency(row_stelp) } else { String::new() },
-                ond_aann: if row_oa != 0.0 { nf.currency(row_oa) } else { String::new() },
-                bedrag: if row_bedrag != 0.0 { nf.currency(row_bedrag) } else { String::new() },
-                post: if row_subtotaal != 0.0 { nf.currency(row_subtotaal) } else { String::new() },
-                totaal: String::new(),
-                is_bold: false,
-            });
         }
 
         // Finally: "Totaalprijs incl. btw." with last cumulative
@@ -695,6 +638,117 @@ mod tests {
         assert_eq!(en.chapters[0].rows[0].aantal_eh, "10.00 h");
         let rows = &en.totalen.as_ref().unwrap().rows;
         assert!(rows.iter().any(|r| r.percentage == "5.00%"), "{:?}", rows.iter().map(|r| &r.percentage).collect::<Vec<_>>());
+    }
+
+    fn totalen_row<'a>(data: &'a Bouw1ReportData, label: &str) -> &'a Bouw1TotalenRow {
+        data.totalen.as_ref().unwrap().rows.iter().find(|r| r.label == label)
+            .unwrap_or_else(|| panic!("rij {label} ontbreekt"))
+    }
+
+    #[test]
+    fn afronding_telt_mee_voor_de_btw() {
+        // Bug 139: 800 arbeid, 5 % winst, 21 % btw, afronding naar 850 (staat
+        // ná de btw, zoals in de standaardstaart): 850 + 178,50 = 1.028,50.
+        let mut req = request(serde_json::json!({}));
+        req.items.push(serde_json::from_value(serde_json::json!({
+            "id": "s3", "description": "Afronding", "rowType": "staart_afronding",
+            "depth": 0, "parentId": null, "staartDoelbedrag": 850.0, "total": 10.0
+        })).unwrap());
+        let data = build_bouw1_data(&req);
+        assert_eq!(totalen_row(&data, "Afronding").post, "€ 10,00");
+        assert_eq!(totalen_row(&data, "Totaal excl. btw.:").totaal, "€ 850,00");
+        assert_eq!(totalen_row(&data, "Btw hoog:").bedrag, "€ 850,00");
+        assert_eq!(totalen_row(&data, "Btw hoog:").post, "€ 178,50");
+        assert_eq!(totalen_row(&data, "Totaalprijs incl. btw.:").totaal, "€ 1.028,50");
+        // De afronding staat vóór "Totaal excl. btw." en de btw erna.
+        let labels: Vec<&str> = data.totalen.as_ref().unwrap().rows.iter().map(|r| r.label.as_str()).collect();
+        let pos = |l: &str| labels.iter().position(|x| *x == l).unwrap();
+        assert!(pos("Afronding") < pos("Totaal excl. btw.:"));
+        assert!(pos("Totaal excl. btw.:") < pos("Btw hoog:"));
+    }
+
+    #[test]
+    fn afronding_vast_bedrag_uit_de_regel() {
+        let mut req = request(serde_json::json!({}));
+        req.items.push(serde_json::from_value(serde_json::json!({
+            "id": "s3", "description": "Afronding", "rowType": "staart_afronding",
+            "depth": 0, "parentId": null, "total": -40.0
+        })).unwrap());
+        let data = build_bouw1_data(&req);
+        assert_eq!(totalen_row(&data, "Totaal excl. btw.:").totaal, "€ 800,00");
+        assert_eq!(totalen_row(&data, "Totaalprijs incl. btw.:").totaal, "€ 968,00");
+    }
+
+    #[test]
+    fn abk_niet_over_onderaanneming() {
+        let req: ReportRequest = serde_json::from_value(serde_json::json!({
+            "schedule": { "name": "Test" },
+            "items": [
+                { "id": "ch1", "code": "1", "description": "WERK", "rowType": "chapter",
+                  "depth": 0, "parentId": null, "total": 2000.0 },
+                { "id": "r1", "rowType": "regel", "depth": 1, "parentId": "ch1",
+                  "total": 1000.0, "resourceType": "arbeid" },
+                { "id": "r2", "rowType": "regel", "depth": 1, "parentId": "ch1",
+                  "total": 1000.0, "resourceType": "onderaannemer" },
+                { "id": "s1", "description": "AK OA:", "rowType": "staart_ak_oa",
+                  "parentId": null, "staartPercentage": 9.0 },
+                { "id": "s2", "description": "ABK:", "rowType": "staart_abk",
+                  "parentId": null, "staartPercentage": 6.0 },
+                { "id": "s3", "description": "Btw hoog:", "rowType": "staart_btw",
+                  "parentId": null, "staartPercentage": 21.0 }
+            ],
+            "reportView": "bouw1",
+        })).unwrap();
+        let data = build_bouw1_data(&req);
+        assert_eq!(totalen_row(&data, "ABK:").post, "€ 60,00");
+        assert_eq!(totalen_row(&data, "Totaalprijs incl. btw.:").totaal, "€ 2.601,50");
+    }
+
+    fn code_item(code: &str, nr: Option<&str>) -> CostItem {
+        let mut v = serde_json::json!({ "id": "x", "code": code, "rowType": "regel", "parentId": null });
+        if let Some(n) = nr {
+            v["nr"] = serde_json::json!(n);
+        }
+        serde_json::from_value(v).unwrap()
+    }
+
+    #[test]
+    fn hst_par_nr_uit_nr_en_veilig_voor_niet_ascii() {
+        let s = |a: &str, b: &str, c: &str| (a.to_string(), b.to_string(), c.to_string());
+        // Zoals de HTML-print: nr op punten splitsen.
+        assert_eq!(split_hst_par_nr(&code_item("21.10.010", Some("21.10.010"))), s("21", "10", "010"));
+        assert_eq!(split_hst_par_nr(&code_item("x", Some("21.01.02.03"))), s("21", "01", "02.03"));
+        assert_eq!(split_hst_par_nr(&code_item("x", Some("21"))), s("21", "", ""));
+        // Zonder nr: code met punten op dezelfde manier.
+        assert_eq!(split_hst_par_nr(&code_item("21.10.010", None)), s("21", "10", "010"));
+        // En-dash: geen paniek op een bytegrens.
+        assert_eq!(split_hst_par_nr(&code_item("1–2", None)), s("1", "–2", ""));
+        assert_eq!(split_hst_par_nr(&code_item("1–2345", None)), s("1", "–2", "345"));
+        // Oude vaste indeling voor codes zonder punten blijft gelijk.
+        assert_eq!(split_hst_par_nr(&code_item("100010", None)), s("1", "00", "010"));
+    }
+
+    #[test]
+    fn export_met_en_dash_en_titel_laatste_hoofdstuk() {
+        let req: ReportRequest = serde_json::from_value(serde_json::json!({
+            "schedule": { "name": "Test" },
+            "items": [
+                { "id": "ch1", "code": "1", "description": "EERSTE", "rowType": "chapter",
+                  "depth": 0, "parentId": null, "total": 100.0 },
+                { "id": "r1", "code": "1–2", "description": "regel", "rowType": "regel",
+                  "depth": 1, "parentId": "ch1", "total": 100.0 },
+                { "id": "ch2", "code": "2", "description": "LAATSTE", "rowType": "chapter",
+                  "depth": 0, "parentId": null, "total": 50.0 },
+                { "id": "r2", "code": "2–1", "description": "regel", "rowType": "regel",
+                  "depth": 1, "parentId": "ch2", "total": 50.0 }
+            ],
+            "reportView": "bouw1",
+        })).unwrap();
+        let data = build_bouw1_data(&req);
+        assert_eq!(data.chapters[0].title, "1. EERSTE");
+        assert_eq!(data.chapters[1].title, "2. LAATSTE");
+        let pdf = generate_bouw1_typst(&req).expect("export met en-dash");
+        assert_eq!(&pdf[0..4], b"%PDF");
     }
 
     #[test]
