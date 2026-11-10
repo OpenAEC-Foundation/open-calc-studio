@@ -10,9 +10,10 @@ import { CostGrid } from '@/components/grid/CostGrid';
 import { getIfcSession, subscribeIfc, ifcRevision, ifcCommand, loadIfcModel } from '@/services/ifc/ifcLiteWorkspace';
 import { aggregateTakeoff } from '@/services/ifc/ifcTakeoff';
 import './ThreeDViewer.css';
+import { getNumberLocale } from '@/utils/formatting';
 
 export function ThreeDViewer() {
-  const { i18n } = useTranslation();
+  useTranslation(); // opnieuw tekenen bij een taal- of notatiewissel (#65)
   const docId=useAppStore(s=>s.activeDocumentId);
   const targetId=useAppStore(s=>s.activeItemId);
   const items=useAppStore(s=>s.items);
@@ -68,7 +69,7 @@ export function ThreeDViewer() {
         <div className="ifc-canvas" ref={mount}/>
         {(!session||loading)&&<div className="ifc-status" role="status">{loading?uiText("ifc.loading", "IFC-Lite is loading geometry and quantities…"):uiText("ifc.drop", "Open or drop an IFC file. Click an element; Ctrl/⌘-click to select several.")}</div>}
         {session && <IfcElementBrowser key={`${docId}:${session.model.id}`} model={session.model} selected={selected} run={run} />}
-        <div className="ifc-takeoff"><select aria-label={uiText("ifc.quantity", "IFC quantity")} value={metric} onChange={e=>setKey(e.target.value)}><option value="__count__">{uiText("ifc.count", "Element count")}</option>{options.map(q=><option key={q.key} value={q.key}>{q.label} ({q.unit})</option>)}</select><strong>{total?`${total.value.toLocaleString(i18n.language,{maximumFractionDigits:4})} ${total.unit}`:uiText("ifc.select", "Select elements")}</strong><button disabled={!total||!eligible} onClick={()=>run('takeoff',{quantityKey:metric,itemId:targetId})}>{uiText("ifc.takeoff", "Apply to selected item")}</button><small>{eligible?`${target?.nr} ${target?.description}`:uiText("ifc.target", "Select an estimate item or calculation line on the right.")} {uiText("ifc.quantityHelp", "Quantities come from IFC quantity sets; check gross/net values.")}</small></div>
+        <div className="ifc-takeoff"><select aria-label={uiText("ifc.quantity", "IFC quantity")} value={metric} onChange={e=>setKey(e.target.value)}><option value="__count__">{uiText("ifc.count", "Element count")}</option>{options.map(q=><option key={q.key} value={q.key}>{q.label} ({q.unit})</option>)}</select><strong>{total?`${total.value.toLocaleString(`${getNumberLocale()}-u-nu-latn`,{maximumFractionDigits:4})} ${total.unit}`:uiText("ifc.select", "Select elements")}</strong><button disabled={!total||!eligible} onClick={()=>run('takeoff',{quantityKey:metric,itemId:targetId})}>{uiText("ifc.takeoff", "Apply to selected item")}</button><small>{eligible?`${target?.nr} ${target?.description}`:uiText("ifc.target", "Select an estimate item or calculation line on the right.")} {uiText("ifc.quantityHelp", "Quantities come from IFC quantity sets; check gross/net values.")}</small></div>
       </section>
       <section className="ifc-budget" aria-label={uiText("ifc.budgetLabel", "Estimate beside IFC")}><CostGrid/></section>
     </div>

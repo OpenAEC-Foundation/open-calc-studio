@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
-import { formatCurrency, formatNumber, formatNumberForEdit, formatDecimals, formatMoneyWhole, parseLocaleNumber } from '@/utils/formatting';
+import { formatCurrency, formatNumber, formatNumberForEdit, formatDecimals, formatMoneyWhole, getNumberLocale, parseLocaleNumber } from '@/utils/formatting';
 import { parseNumericInput } from '@/utils/numericInput';
 import { computeBtwLaagDirect, DEFAULT_TARIEVEN } from '@/services/calculation/calculator';
 
@@ -19,7 +19,7 @@ export function UrenStaartView() {
 }
 
 function UrenFullScreen() {
-  const { t, i18n } = useTranslation('common');
+  const { t } = useTranslation('common');
   const items = useAppStore((s) => s.items);
   const schedule = useAppStore((s) => s.schedule);
   const updateTarieven = useAppStore((s) => s.updateTarieven);
@@ -105,7 +105,7 @@ function UrenFullScreen() {
               <td style={{ textAlign: 'right' }}>
                 {groep !== '-' ? (
                   <input
-                    key={`uren-${groep}-${val.uren}-${i18n.language}`}
+                    key={`uren-${groep}-${val.uren}-${getNumberLocale()}`}
                     type="text"
                     className="uren-input"
                     defaultValue={formatNumber(val.uren)}
@@ -137,7 +137,7 @@ function UrenFullScreen() {
                 {groep !== '-' ? (
                   <input
                     type="text"
-                    key={`tarief-${groep}-${val.tarief}-${i18n.language}`}
+                    key={`tarief-${groep}-${val.tarief}-${getNumberLocale()}`}
                     className="tarief-input"
                     defaultValue={formatDecimals(val.tarief, 2) || '0'}
                     onBlur={(e) => handleTariefChange(groep, e.target.value, (formatDecimals(val.tarief, 2) || '0'))}
@@ -170,7 +170,7 @@ function UrenFullScreen() {
             <td>{t('wpcalc.headerTotal')}</td>
             <td style={{ textAlign: 'right' }}>
               <input
-                key={`totaal-uren-${totaalUren}-${i18n.language}`}
+                key={`totaal-uren-${totaalUren}-${getNumberLocale()}`}
                 type="text"
                 className="uren-input uren-input-total"
                 defaultValue={formatNumber(totaalUren)}
@@ -206,7 +206,7 @@ function UrenFullScreen() {
 }
 
 function StaartFullScreen() {
-  const { t, i18n } = useTranslation('common');
+  const { t } = useTranslation('common');
   const items = useAppStore((s) => s.items);
   const schedule = useAppStore((s) => s.schedule);
   const currency = schedule.currency;
@@ -378,7 +378,7 @@ function StaartFullScreen() {
                   <input
                     // Taal in de key: na een taalwissel opnieuw tekenen in de
                     // nieuwe notatie, anders leest "1,125" (NL) als 1125 (EN).
-                    key={`pct-${r.id}-${r.percentage}-${i18n.language}`}
+                    key={`pct-${r.id}-${r.percentage}-${getNumberLocale()}`}
                     type="text"
                     defaultValue={formatNumberForEdit(r.percentage) || '0'}
                     onBlur={e => handlePercentageChange(r.id, e.target.value, r.percentage)}

@@ -17,6 +17,8 @@
     "reportLanguage": "Rapportsprog",
     "reportLanguageAuto": "Samme som brugerfladen",
     "reportLanguageHelp": "Sprog for udskrifter og PDF-rapporter. Praktisk, når brugerfladens sprog er et andet end din bygherres sprog.",
+    "numberFormat": "Talformat",
+    "numberFormatAuto": "Følger appens sprog",
     "startup": "Opstart",
     "restoreSession": "Gendan session ved opstart",
     "checkUpdates": "Søg efter opdateringer",

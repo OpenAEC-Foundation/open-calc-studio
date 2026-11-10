@@ -57,6 +57,7 @@ import { showImportWarnings } from "./components/common/ImportWarningsDialog";
 import { loadAllExtensions } from "./extensions";
 import { registerBuiltinExtensions } from "./extensions/builtinExtensions";
 import i18next, { changeLanguage } from "./i18n/config";
+import "./i18n/numberFormatSync";
 import { loadSettings } from "./utils/settings";
 import { initMcpBridge } from "./services/mcp/mcpBridge";
 import { initOsUsername } from "./services/system/osUser";

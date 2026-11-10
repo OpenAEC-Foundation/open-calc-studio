@@ -17,6 +17,8 @@
     "reportLanguage": "שפת הדוחות",
     "reportLanguageAuto": "כמו שפת הממשק",
     "reportLanguageHelp": "שפת התדפיסים ודוחות ה-PDF. שימושי כאשר שפת הממשק שונה משפת הלקוח.",
+    "numberFormat": "תבנית מספרים",
+    "numberFormatAuto": "לפי שפת היישום",
     "startup": "הפעלה",
     "restoreSession": "שחזור ההפעלה בעת הפתיחה",
     "checkUpdates": "בדיקת עדכונים",

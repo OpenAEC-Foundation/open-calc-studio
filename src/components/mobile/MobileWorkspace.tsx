@@ -14,15 +14,15 @@ import './MobileWorkspace.css';
 import { QuantityOriginCard } from '@/components/common/QuantityOriginCard';
 import { ReviewCenter, ReviewReturnBar } from '@/components/review/ReviewCenter';
 import { useBudgetReview } from '@/components/review/useBudgetReview';
-import { currencySymbol } from '@/utils/formatting';
+import { currencySymbol, getNumberLocale } from '@/utils/formatting';
 import { useMoney } from '@/hooks/useMoney';
 
 type MobileTab = 'wizard' | 'budget' | 'sheets' | 'prompt' | 'review';
 const units: CostUnit[] = ['st', 'm', 'm²', 'm³', 'kg', 'ton', 'uur', 'dgn', 'km', 'keer', 'ls', 'week', 'mnd', 'post', '%', 'pm'];
 function MobileItemEditor({ item, onClose }: { item: CostItem; onClose: () => void }) {
   const currency = useAppStore(s => s.schedule.currency);
-  const { t, i18n } = useTranslation();
-  const comma = usesDecimalComma(i18n.language);
+  const { t } = useTranslation();
+  const comma = usesDecimalComma(getNumberLocale()); // app-taal of instelling "Getalnotatie" (#65)
   const parseDecimal = (value: string) => parseLocaleNumber(value, comma);
   const dialogRef = useRef<HTMLElement>(null);
   useDialogFocus(dialogRef, true, onClose);

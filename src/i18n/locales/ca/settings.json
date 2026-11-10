@@ -17,6 +17,8 @@
     "reportLanguage": "Idioma dels informes",
     "reportLanguageAuto": "Igual que la interfície",
     "reportLanguageHelp": "Idioma de les impressions i dels informes en PDF. Útil quan l'idioma de la interfície no coincideix amb el del vostre client.",
+    "numberFormat": "Format dels nombres",
+    "numberFormatAuto": "Segons l'idioma de l'aplicació",
     "startup": "Inici",
     "restoreSession": "Restaura la sessió en iniciar",
     "checkUpdates": "Comprova si hi ha actualitzacions",

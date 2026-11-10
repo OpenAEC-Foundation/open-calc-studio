@@ -8,6 +8,7 @@ import { LANGUAGES, changeLanguage } from "../../i18n/config";
 import { useAppStore } from "../../state/appStore";
 import Modal from "../common/Modal";
 import "./SettingsDialog.css";
+import type { NumberFormatPreference } from "@/utils/formatting";
 
 const THEME_OPTIONS = [
   { value: "light", labelKey: "appearance.light" },
@@ -51,10 +52,12 @@ export default function SettingsDialog({ open, onClose, theme, onThemeChange }: 
   const savedLocale = useAppStore((s) => s.settings.locale);
   const savedReportLocale = useAppStore((s) => s.settings.reportLocale);
   const savedChatBubble = useAppStore((s) => s.settings.showChatBubble !== false);
+  const savedNumberFormat = useAppStore((s) => s.settings.numberFormat ?? 'auto');
   const [activeTab, setActiveTab] = useState("general");
   const [draftReportLang, setDraftReportLang] = useState(() => normalizeReportLang(savedReportLocale));
   const [draftTheme, setDraftTheme] = useState(blueprintTheme(theme));
   const [draftChatBubble, setDraftChatBubble] = useState(savedChatBubble);
+  const [draftNumberFormat, setDraftNumberFormat] = useState<NumberFormatPreference>(savedNumberFormat);
   const [draftLang, setDraftLang] = useState(() => {
     // Map stored locale to language code
     const lang = i18next.language || savedLocale?.split("-")[0] || "auto";
@@ -70,8 +73,9 @@ export default function SettingsDialog({ open, onClose, theme, onThemeChange }: 
       setDraftLang(LANGUAGES.some((l) => l.code === lang) ? lang : "auto");
       setDraftReportLang(normalizeReportLang(savedReportLocale));
       setDraftChatBubble(savedChatBubble);
+      setDraftNumberFormat(savedNumberFormat);
     }
-  }, [open, theme, savedLocale, savedReportLocale, savedChatBubble]);
+  }, [open, theme, savedLocale, savedReportLocale, savedChatBubble, savedNumberFormat]);
 
   const handleCancel = () => {
     setDraftTheme(originalTheme.current);
@@ -82,7 +86,7 @@ export default function SettingsDialog({ open, onClose, theme, onThemeChange }: 
     onThemeChange(draftTheme);
     applyTheme(draftTheme);
     changeLanguage(draftLang);
-    updateSettings({ locale: draftLang, reportLocale: draftReportLang, showChatBubble: draftChatBubble });
+    updateSettings({ locale: draftLang, reportLocale: draftReportLang, numberFormat: draftNumberFormat, showChatBubble: draftChatBubble });
     onClose();
   };
 
@@ -137,6 +141,21 @@ export default function SettingsDialog({ open, onClose, theme, onThemeChange }: 
               <p style={{ fontSize: 11, marginTop: 4, color: "var(--theme-dialog-content-secondary)" }}>
                 {t("general.reportLanguageHelp")}
               </p>
+              <div className="settings-row">
+                <label className="settings-label" htmlFor="settings-number-format">{t("general.numberFormat")}</label>
+                <select
+                  id="settings-number-format"
+                  className="settings-select"
+                  value={draftNumberFormat}
+                  onChange={(e) => setDraftNumberFormat(e.target.value as NumberFormatPreference)}
+                  style={{ width: 180 }}
+                >
+                  <option value="auto">{t("general.numberFormatAuto")}</option>
+                  {/* De voorbeelden zijn zelf de uitleg: in elke taal gelijk. */}
+                  <option value="nl-NL">1.234,56</option>
+                  <option value="en-US">1,234.56</option>
+                </select>
+              </div>
             </div>
           )}
           {activeTab === "appearance" && (

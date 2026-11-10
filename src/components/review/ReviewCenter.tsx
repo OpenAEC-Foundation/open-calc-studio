@@ -6,6 +6,7 @@ import { useBudgetReview } from './useBudgetReview';
 import { QuantityOriginCard } from '@/components/common/QuantityOriginCard';
 import { WorkspaceIcon } from '@/components/layout/WorkspaceNavigation';
 import './ReviewCenter.css';
+import { getNumberLocale } from '@/utils/formatting';
 
 const categories: ReviewFilter[] = ['all', 'price', 'source', 'unit'];
 
@@ -19,7 +20,7 @@ export function ReviewCenter({ onOpenItem }: { onOpenItem?: (itemId: string) => 
   const issue = filtered.find(issue => issue.id === selected) ?? filtered[0];
   const item = items.find(item => item.id === issue?.itemId);
   useEffect(() => { setLimit(100); setError(''); }, [documentId, filter]);
-  const number = (value: number | null | undefined) => value == null ? '—' : value.toLocaleString(i18n.language, { maximumFractionDigits: 6 });
+  const number = (value: number | null | undefined) => value == null ? '—' : value.toLocaleString(`${getNumberLocale()}-u-nu-latn`, { maximumFractionDigits: 6 });
   function openItem() {
     if (!issue) return;
     try { useAppStore.getState().openReviewItem(issue.itemId); onOpenItem?.(issue.itemId); }

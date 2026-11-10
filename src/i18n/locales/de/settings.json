@@ -17,6 +17,8 @@
     "reportLanguage": "Berichtssprache",
     "reportLanguageAuto": "Wie Oberfläche",
     "reportLanguageHelp": "Sprache von Ausdrucken und PDF-Berichten. Praktisch, wenn die Sprache der Oberfläche von der Sprache Ihres Auftraggebers abweicht.",
+    "numberFormat": "Zahlenformat",
+    "numberFormatAuto": "Wie die App-Sprache",
     "startup": "Programmstart",
     "restoreSession": "Sitzung beim Start wiederherstellen",
     "checkUpdates": "Nach Updates suchen",

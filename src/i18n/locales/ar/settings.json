@@ -17,6 +17,8 @@
     "reportLanguage": "لغة التقارير",
     "reportLanguageAuto": "مثل لغة الواجهة",
     "reportLanguageHelp": "لغة المطبوعات وتقارير PDF. مفيدة عندما تختلف لغة الواجهة عن لغة عميلك.",
+    "numberFormat": "تنسيق الأرقام",
+    "numberFormatAuto": "حسب لغة التطبيق",
     "startup": "بدء التشغيل",
     "restoreSession": "استعادة الجلسة عند بدء التشغيل",
     "checkUpdates": "البحث عن تحديثات",

@@ -8,6 +8,7 @@ import './CalculationWizard.css';
 import { parseLocaleNumber, usesDecimalComma, formatInputNumber } from '@/utils/numberInput';
 import { variantItems } from '@/services/grid/variantScope';
 import { reviewBudget } from '@/services/review/budgetReview';
+import { getNumberLocale } from '@/utils/formatting';
 import { useMoney } from '@/hooks/useMoney';
 
 export const parseWizardNumber = parseLocaleNumber;
@@ -16,8 +17,8 @@ function NumberField({ label, value, change, invalidDraft, setDraft, fieldId, re
   label: string; value: number | null; change: (value: number | null) => void;
   invalidDraft?: string; setDraft: (id: string, value?: string) => void; fieldId: string; readOnly?: boolean;
 }) {
-  const { t, i18n } = useTranslation();
-  const comma = usesDecimalComma(i18n.language);
+  const { t } = useTranslation();
+  const comma = usesDecimalComma(getNumberLocale()); // app-taal of instelling "Getalnotatie" (#65)
   const invalid = invalidDraft !== undefined;
   const focused = useRef(false);
   const [inputDraft, setInputDraft] = useState(() => invalidDraft ?? formatInputNumber(value, comma));

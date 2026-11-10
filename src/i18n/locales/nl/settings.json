@@ -17,6 +17,8 @@
     "reportLanguage": "Rapporttaal",
     "reportLanguageAuto": "Zelfde als interface",
     "reportLanguageHelp": "Taal van afdrukken en PDF-rapporten. Handig als de interfacetaal afwijkt van de taal van uw opdrachtgever.",
+    "numberFormat": "Getalnotatie",
+    "numberFormatAuto": "Volgt de taal van de app",
     "startup": "Opstarten",
     "restoreSession": "Sessie herstellen bij opstarten",
     "checkUpdates": "Controleer op updates",

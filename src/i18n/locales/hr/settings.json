@@ -17,6 +17,8 @@
     "reportLanguage": "Jezik izvještaja",
     "reportLanguageAuto": "Isto kao sučelje",
     "reportLanguageHelp": "Jezik ispisa i PDF izvještaja. Korisno kada se jezik sučelja razlikuje od jezika vašeg naručitelja.",
+    "numberFormat": "Format brojeva",
+    "numberFormatAuto": "Prema jeziku aplikacije",
     "startup": "Pokretanje",
     "restoreSession": "Vrati sesiju pri pokretanju",
     "checkUpdates": "Provjeri ima li ažuriranja",

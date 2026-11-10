@@ -1,12 +1,24 @@
-// Getalnotatie volgt de app-taal (issue #65): "1.234,56" in het Nederlands,
-// "1,234.56" in het Engels. De taal wordt gezet vanuit i18n/config.ts
-// (setNumberLocale); zonder die aanroep (headless, tests) blijft het NL.
+// Getalnotatie (issue #65). Standaard volgt die de app-taal: "1.234,56" in
+// het Nederlands, "1,234.56" in het Engels. De instelling "Getalnotatie"
+// (Voorkeuren) kan een vaste notatie kiezen; bestaande installaties krijgen
+// 1.234,56, zodat er voor hen niets verandert (utils/settings.ts).
+// - setNumberLocale(taal): vanuit i18n/config.ts bij elke taalwissel;
+// - setNumberFormatPreference(voorkeur): vanuit de instellingen.
+// Zonder die aanroepen (headless, tests) blijft het NL.
 // Altijd Latijnse cijfers (-u-nu-latn): Arabisch-Indische cijfers kan de
 // cel-editor niet teruglezen.
 
 const DEFAULT_LOCALE = 'nl-NL';
+/** 'auto' = volg de app-taal; anders een vaste notatie. */
+export type NumberFormatPreference = 'auto' | 'nl-NL' | 'en-US';
+let appLanguage = DEFAULT_LOCALE;
+let preference: NumberFormatPreference = 'auto';
 let numberLocale = DEFAULT_LOCALE;
 const formatters = new Map<string, Intl.NumberFormat>();
+
+function applyLocale(): void {
+  numberLocale = preference === 'auto' ? appLanguage : preference;
+}
 
 function formatter(locale: string, options: Intl.NumberFormatOptions): Intl.NumberFormat {
   const key = `${locale}|${JSON.stringify(options)}`;
@@ -22,7 +34,7 @@ function formatter(locale: string, options: Intl.NumberFormatOptions): Intl.Numb
 // U+2212. Dat leest Excel niet als getal; toon daarom een gewoon '-'.
 const plainMinus = (s: string) => s.replace(/\u2212/g, '-');
 
-/** Zet de taal voor getalnotatie (bijv. 'en', 'nl', 'es'). Onbekend → NL. */
+/** Zet de app-taal voor de getalnotatie (bijv. 'en', 'nl', 'es'). Onbekend → NL. */
 export function setNumberLocale(locale: string | null | undefined): void {
   let next = DEFAULT_LOCALE;
   if (locale) {
@@ -32,7 +44,14 @@ export function setNumberLocale(locale: string | null | undefined): void {
       /* ongeldige taalcode → standaard */
     }
   }
-  numberLocale = next;
+  appLanguage = next;
+  applyLocale();
+}
+
+/** Instelling "Getalnotatie": volg de app-taal of gebruik een vaste notatie. */
+export function setNumberFormatPreference(pref: string | null | undefined): void {
+  preference = pref === 'nl-NL' || pref === 'en-US' ? pref : 'auto';
+  applyLocale();
 }
 
 export function getNumberLocale(): string {

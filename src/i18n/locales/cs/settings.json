@@ -17,6 +17,8 @@
     "reportLanguage": "Jazyk sestav",
     "reportLanguageAuto": "Stejný jako rozhraní",
     "reportLanguageHelp": "Jazyk tisků a sestav PDF. Užitečné, když se jazyk rozhraní liší od jazyka vašeho objednatele.",
+    "numberFormat": "Formát čísel",
+    "numberFormatAuto": "Podle jazyka aplikace",
     "startup": "Spuštění",
     "restoreSession": "Obnovit relaci při spuštění",
     "checkUpdates": "Kontrolovat aktualizace",

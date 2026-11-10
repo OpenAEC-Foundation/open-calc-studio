@@ -38,9 +38,9 @@ export interface TreeRowProps {
   kostprijs: number;
   /** Naam van een hoofdstuk zonder omschrijving (vertaald). */
   chapterFallback: string;
-  /** App-taal: alleen voor React.memo, zodat bedragen en % na een taalwissel
-   *  opnieuw in de nieuwe notatie getekend worden (issue #65). */
-  language: string;
+  /** Getalnotatie: alleen voor React.memo, zodat bedragen en % na een
+   *  taalwissel of andere instelling opnieuw getekend worden (issue #65). */
+  numberLocale: string;
   events: TreeRowEvents;
 }
 

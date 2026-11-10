@@ -17,6 +17,8 @@
     "reportLanguage": "Lugha ya ripoti",
     "reportLanguageAuto": "Sawa na kiolesura",
     "reportLanguageHelp": "Lugha ya nakala zilizochapishwa na ripoti za PDF. Inafaa pale lugha ya kiolesura inapotofautiana na lugha ya mteja wako.",
+    "numberFormat": "Muundo wa namba",
+    "numberFormatAuto": "Kufuata lugha ya programu",
     "startup": "Uanzishaji",
     "restoreSession": "Rejesha kipindi wakati wa kuanzisha",
     "checkUpdates": "Angalia masasisho",
