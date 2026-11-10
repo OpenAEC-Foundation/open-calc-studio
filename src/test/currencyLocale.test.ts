@@ -196,3 +196,19 @@ describe('review-punten', () => {
     expect(store.getState().schedule.currency).toBe('USD');
   });
 });
+
+describe('structuurboom volgt de app-taal', () => {
+  it('bedragen zonder centen, onder 1 met centen, en percentages', async () => {
+    const { formatTreeAmount, formatTreePercent } = await import('@/components/panels/structureTree/treeModel');
+    expect(formatTreeAmount(1234.56)).toBe('1.235');
+    expect(formatTreeAmount(0.5)).toBe('0,50');
+    expect(formatTreeAmount(0)).toBe('');
+    expect(formatTreePercent(12.345)).toBe('12,3');
+    expect(formatTreePercent(0)).toBe('0,0');
+    setNumberLocale('en');
+    expect(formatTreeAmount(1234.56)).toBe('1,235');
+    expect(formatTreeAmount(0.5)).toBe('0.50');
+    expect(formatTreePercent(12.345)).toBe('12.3');
+    expect(formatTreePercent(0)).toBe('0.0');
+  });
+});

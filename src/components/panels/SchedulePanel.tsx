@@ -43,7 +43,7 @@ export type { TreeDepth, TreeNumber, TreeView } from './structureTree/treeModel'
  */
 
 const SchedulePanelInner: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const allItems = useAppStore((s) => s.items);
   const branchesEnabled = useAppStore((s) => s.schedule.branchesEnabled);
   const activeBranchId = useAppStore((s) => s.schedule.activeBranchId);
@@ -394,6 +394,7 @@ const SchedulePanelInner: React.FC = () => {
             percent={view.percent}
             kostprijs={kostprijs}
             chapterFallback={chapterFallback}
+            language={i18n.language}
             events={rowEvents}
           />
         ))}

@@ -1,4 +1,5 @@
 import { localStore } from '@/utils/browserStorage';
+import { decimalSeparator, formatDecimals } from '@/utils/formatting';
 import type { CostItem, RowType } from '@/types/costModel';
 
 /**
@@ -76,19 +77,21 @@ export function prefixOf(item: CostItem, number: TreeNumber): string {
   return '';
 }
 
-// Zelfde notatie als het raster (formatCurrency: altijd nl-NL), maar zonder centen.
-const euroFormatter = new Intl.NumberFormat('nl-NL', { maximumFractionDigits: 0 });
-const centFormatter = new Intl.NumberFormat('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-/** Bedrag in de boom: hele euro's; onder € 1 met centen (anders staat er "0"
+// Zelfde notatie als het raster (de app-taal, issue #65), maar zonder centen
+// en zonder valutateken: zo blijft de boom rustig, net als de cellen.
+/** Bedrag in de boom: hele bedragen; onder 1 met centen (anders staat er "0"
  *  terwijl de rij wel geld kost). 0 = niets tonen. */
 export function formatTreeAmount(total: number | null | undefined): string {
   if (!total) return '';
-  return Math.abs(total) < 1 ? centFormatter.format(total) : euroFormatter.format(total);
+  return Math.abs(total) < 1 ? formatDecimals(total, 2) : formatDecimals(total, 0, 0);
 }
 /** DOM-id van een boomrij (voor aria-activedescendant). */
 export const treeRowDomId = (id: string) => `schedule-tree-row-${id}`;
 
-export const pctFormatter = new Intl.NumberFormat('nl-NL', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+/** Percentage met één decimaal in de app-taal ("12,5" of "12.5"); 0 als "0,0". */
+export function formatTreePercent(pct: number): string {
+  return pct === 0 ? `0${decimalSeparator()}0` : formatDecimals(pct, 1, 1);
+}
 
 export interface TreeNode {
   item: CostItem;
