@@ -1230,5 +1230,35 @@
   },
   "shell": {
     "review": "Κέντρο ελέγχου"
+  },
+  "structureTree": {
+    "chapters": "Κεφάλαια",
+    "posts": "Άρθρα",
+    "all": "Γραμμές",
+    "view": "Επιλογές προβολής",
+    "show": "Εμφάνιση",
+    "numberHeading": "Αριθμός",
+    "labelCode": "Κωδικός",
+    "labelNone": "Κανένα",
+    "labelNr": "Αρ.",
+    "amounts": "Ποσά",
+    "percent": "% του συνόλου",
+    "percentNarrow": "Εμφανίζεται με φαρδύτερο πλαίσιο",
+    "deleteConfirm_one": "Διαγραφή του «{{name}}» και της γραμμής από κάτω;",
+    "deleteConfirm_other": "Διαγραφή του «{{name}}» και των {{count}} γραμμών από κάτω;",
+    "expandBelow": "Ανάπτυξη όλων από κάτω",
+    "collapseBelow": "Σύμπτυξη όλων από κάτω",
+    "deleteConfirmOne": "Διαγραφή του «{{name}}»;",
+    "makeParagraphOf": "Μετατροπή σε παράγραφο του",
+    "makeChapter": "Μετατροπή σε κεφάλαιο",
+    "whyNoOtherChapter": "Δεν υπάρχει άλλο κεφάλαιο.",
+    "whyNeedsChapterWithoutItems": "Μόνο κεφάλαιο χωρίς άρθρα μπορεί να έχει παραγράφους.",
+    "whyNoChapterWithoutSections": "Δεν υπάρχει άλλο κεφάλαιο χωρίς παραγράφους.",
+    "whyNoOtherItem": "Δεν υπάρχει άλλο άρθρο.",
+    "whyHasSections": "Αυτό το κεφάλαιο έχει δικές του παραγράφους· υπάρχει μόνο ένα επίπεδο παραγράφων.",
+    "moveToTop": "Στην κορυφή",
+    "placeAfter": "Τοποθέτηση μετά από",
+    "whyFirst": "Βρίσκεται ήδη στην κορυφή.",
+    "whyLast": "Βρίσκεται ήδη στο τέλος."
   }
 }

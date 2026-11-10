@@ -1230,5 +1230,36 @@
   },
   "shell": {
     "review": "Centro di revisione"
+  },
+  "structureTree": {
+    "chapters": "Capitoli",
+    "posts": "Voci di computo",
+    "all": "Righe",
+    "view": "Opzioni di visualizzazione",
+    "show": "Mostra",
+    "numberHeading": "Numero",
+    "labelCode": "Codice",
+    "labelNone": "Nessuno",
+    "labelNr": "N.",
+    "amounts": "Importi",
+    "percent": "% del totale",
+    "percentNarrow": "Visibile con un pannello più largo",
+    "deleteConfirm_one": "Eliminare \"{{name}}\" e la riga sottostante?",
+    "deleteConfirm_many": "Eliminare \"{{name}}\" e le {{count}} righe sottostanti?",
+    "deleteConfirm_other": "Eliminare \"{{name}}\" e le {{count}} righe sottostanti?",
+    "expandBelow": "Espandi tutto sotto",
+    "collapseBelow": "Comprimi tutto sotto",
+    "deleteConfirmOne": "Eliminare \"{{name}}\"?",
+    "makeParagraphOf": "Rendi paragrafo di",
+    "makeChapter": "Rendi capitolo",
+    "whyNoOtherChapter": "Non c’è un altro capitolo.",
+    "whyNeedsChapterWithoutItems": "Solo un capitolo senza voci di computo può avere paragrafi.",
+    "whyNoChapterWithoutSections": "Non c’è un altro capitolo senza paragrafi.",
+    "whyNoOtherItem": "Non c’è un’altra voce di computo.",
+    "whyHasSections": "Questo capitolo ha già paragrafi; esiste un solo livello di paragrafi.",
+    "moveToTop": "In cima",
+    "placeAfter": "Posiziona dopo",
+    "whyFirst": "È già in cima.",
+    "whyLast": "È già in fondo."
   }
 }

@@ -1230,5 +1230,37 @@
   },
   "shell": {
     "review": "Центр перевірки"
+  },
+  "structureTree": {
+    "chapters": "Розділи",
+    "posts": "Позиції кошторису",
+    "all": "Рядки",
+    "view": "Параметри відображення",
+    "show": "Показати",
+    "numberHeading": "Номер",
+    "labelCode": "Код",
+    "labelNone": "Немає",
+    "labelNr": "№",
+    "amounts": "Суми",
+    "percent": "% від підсумку",
+    "percentNarrow": "Видно за ширшої панелі",
+    "deleteConfirm_one": "Видалити «{{name}}» і {{count}} рядок під ним?",
+    "deleteConfirm_few": "Видалити «{{name}}» і {{count}} рядки під ним?",
+    "deleteConfirm_many": "Видалити «{{name}}» і {{count}} рядків під ним?",
+    "deleteConfirm_other": "Видалити «{{name}}» і {{count}} рядка під ним?",
+    "expandBelow": "Розгорнути все нижче",
+    "collapseBelow": "Згорнути все нижче",
+    "deleteConfirmOne": "Видалити «{{name}}»?",
+    "makeParagraphOf": "Зробити параграфом у",
+    "makeChapter": "Зробити розділом",
+    "whyNoOtherChapter": "Іншого розділу немає.",
+    "whyNeedsChapterWithoutItems": "Параграфи може мати лише розділ без позицій кошторису.",
+    "whyNoChapterWithoutSections": "Іншого розділу без параграфів немає.",
+    "whyNoOtherItem": "Іншої позиції кошторису немає.",
+    "whyHasSections": "Цей розділ має власні параграфи; рівень параграфів лише один.",
+    "moveToTop": "На початок",
+    "placeAfter": "Розмістити після",
+    "whyFirst": "Уже в самому верху.",
+    "whyLast": "Уже в самому низу."
   }
 }

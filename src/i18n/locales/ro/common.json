@@ -1231,5 +1231,36 @@
   },
   "shell": {
     "review": "Centru de verificare"
+  },
+  "structureTree": {
+    "chapters": "Capitole",
+    "posts": "Articole",
+    "all": "Rânduri",
+    "view": "Opțiuni de afișare",
+    "show": "Afișează",
+    "numberHeading": "Număr",
+    "labelCode": "Cod",
+    "labelNone": "Niciunul",
+    "labelNr": "Nr.",
+    "amounts": "Sume",
+    "percent": "% din total",
+    "percentNarrow": "Vizibil la un panou mai lat",
+    "deleteConfirm_one": "Ștergeți „{{name}}” și rândul de sub el?",
+    "deleteConfirm_few": "Ștergeți „{{name}}” și cele {{count}} rânduri de sub el?",
+    "deleteConfirm_other": "Ștergeți „{{name}}” și cele {{count}} de rânduri de sub el?",
+    "expandBelow": "Extinde tot ce este dedesubt",
+    "collapseBelow": "Restrânge tot ce este dedesubt",
+    "deleteConfirmOne": "Ștergeți „{{name}}”?",
+    "makeParagraphOf": "Transformă în paragraf al",
+    "makeChapter": "Transformă în capitol",
+    "whyNoOtherChapter": "Nu există alt capitol.",
+    "whyNeedsChapterWithoutItems": "Doar un capitol fără articole poate avea paragrafe.",
+    "whyNoChapterWithoutSections": "Nu există alt capitol fără paragrafe.",
+    "whyNoOtherItem": "Nu există alt articol.",
+    "whyHasSections": "Acest capitol are deja paragrafe; există un singur nivel de paragrafe.",
+    "moveToTop": "Sus de tot",
+    "placeAfter": "Plasează după",
+    "whyFirst": "Este deja sus de tot.",
+    "whyLast": "Este deja jos de tot."
   }
 }

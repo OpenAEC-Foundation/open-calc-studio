@@ -1230,5 +1230,35 @@
   },
   "shell": {
     "review": "Granskningscenter"
+  },
+  "structureTree": {
+    "chapters": "Kapitel",
+    "posts": "Poster",
+    "all": "Rader",
+    "view": "Visningsalternativ",
+    "show": "Visa",
+    "numberHeading": "Nummer",
+    "labelCode": "Kod",
+    "labelNone": "Ingen",
+    "labelNr": "Nr",
+    "amounts": "Belopp",
+    "percent": "% av totalt",
+    "percentNarrow": "Visas när panelen är bredare",
+    "deleteConfirm_one": "Ta bort \"{{name}}\" och raden under?",
+    "deleteConfirm_other": "Ta bort \"{{name}}\" och de {{count}} raderna under?",
+    "expandBelow": "Expandera allt under",
+    "collapseBelow": "Fäll ihop allt under",
+    "deleteConfirmOne": "Ta bort \"{{name}}\"?",
+    "makeParagraphOf": "Gör till avsnitt under",
+    "makeChapter": "Gör till kapitel",
+    "whyNoOtherChapter": "Det finns inget annat kapitel.",
+    "whyNeedsChapterWithoutItems": "Bara ett kapitel utan poster kan ha avsnitt.",
+    "whyNoChapterWithoutSections": "Det finns inget annat kapitel utan avsnitt.",
+    "whyNoOtherItem": "Det finns ingen annan post.",
+    "whyHasSections": "Det här kapitlet har egna avsnitt; det finns bara en nivå av avsnitt.",
+    "moveToTop": "Överst",
+    "placeAfter": "Placera efter",
+    "whyFirst": "Står redan överst.",
+    "whyLast": "Står redan nederst."
   }
 }

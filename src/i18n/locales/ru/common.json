@@ -1230,5 +1230,37 @@
   },
   "shell": {
     "review": "Центр проверки"
+  },
+  "structureTree": {
+    "chapters": "Разделы",
+    "posts": "Позиции сметы",
+    "all": "Строки",
+    "view": "Параметры отображения",
+    "show": "Показать",
+    "numberHeading": "Номер",
+    "labelCode": "Код",
+    "labelNone": "Нет",
+    "labelNr": "№",
+    "amounts": "Суммы",
+    "percent": "% от итога",
+    "percentNarrow": "Видно при более широкой панели",
+    "deleteConfirm_one": "Удалить «{{name}}» и {{count}} строку под ним?",
+    "deleteConfirm_few": "Удалить «{{name}}» и {{count}} строки под ним?",
+    "deleteConfirm_many": "Удалить «{{name}}» и {{count}} строк под ним?",
+    "deleteConfirm_other": "Удалить «{{name}}» и {{count}} строки под ним?",
+    "expandBelow": "Развернуть всё ниже",
+    "collapseBelow": "Свернуть всё ниже",
+    "deleteConfirmOne": "Удалить «{{name}}»?",
+    "makeParagraphOf": "Сделать параграфом в",
+    "makeChapter": "Сделать разделом",
+    "whyNoOtherChapter": "Другого раздела нет.",
+    "whyNeedsChapterWithoutItems": "Параграфы может иметь только раздел без позиций сметы.",
+    "whyNoChapterWithoutSections": "Другого раздела без параграфов нет.",
+    "whyNoOtherItem": "Другой позиции сметы нет.",
+    "whyHasSections": "У этого раздела есть свои параграфы; уровень параграфов только один.",
+    "moveToTop": "В начало",
+    "placeAfter": "Поместить после",
+    "whyFirst": "Уже в самом верху.",
+    "whyLast": "Уже в самом низу."
   }
 }

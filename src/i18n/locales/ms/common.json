@@ -1230,5 +1230,35 @@
   },
   "shell": {
     "review": "Pusat semakan"
+  },
+  "structureTree": {
+    "chapters": "Bab",
+    "posts": "Butiran anggaran",
+    "all": "Baris",
+    "view": "Pilihan paparan",
+    "show": "Tunjukkan",
+    "numberHeading": "Nombor",
+    "labelCode": "Kod",
+    "labelNone": "Tiada",
+    "labelNr": "No.",
+    "amounts": "Amaun",
+    "percent": "% daripada jumlah",
+    "percentNarrow": "Kelihatan apabila panel lebih lebar",
+    "deleteConfirm_one": "Padam \"{{name}}\" dan {{count}} baris di bawahnya?",
+    "deleteConfirm_other": "Padam \"{{name}}\" dan {{count}} baris di bawahnya?",
+    "expandBelow": "Kembangkan semua di bawah",
+    "collapseBelow": "Runtuhkan semua di bawah",
+    "deleteConfirmOne": "Padam \"{{name}}\"?",
+    "makeParagraphOf": "Jadikan seksyen bagi",
+    "makeChapter": "Jadikan bab",
+    "whyNoOtherChapter": "Tiada bab lain.",
+    "whyNeedsChapterWithoutItems": "Hanya bab tanpa butiran anggaran boleh mempunyai seksyen.",
+    "whyNoChapterWithoutSections": "Tiada bab lain tanpa seksyen.",
+    "whyNoOtherItem": "Tiada butiran anggaran lain.",
+    "whyHasSections": "Bab ini sudah mempunyai seksyen; hanya ada satu tahap seksyen.",
+    "moveToTop": "Paling atas",
+    "placeAfter": "Letak selepas",
+    "whyFirst": "Sudah berada paling atas.",
+    "whyLast": "Sudah berada paling bawah."
   }
 }

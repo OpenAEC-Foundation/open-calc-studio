@@ -1232,5 +1232,37 @@
   },
   "shell": {
     "review": "Centrum przeglądu"
+  },
+  "structureTree": {
+    "chapters": "Działy",
+    "posts": "Pozycje kosztorysowe",
+    "all": "Wiersze",
+    "view": "Opcje widoku",
+    "show": "Pokaż",
+    "numberHeading": "Numer",
+    "labelCode": "Kod",
+    "labelNone": "Brak",
+    "labelNr": "Lp.",
+    "amounts": "Kwoty",
+    "percent": "% sumy",
+    "percentNarrow": "Widoczne przy szerszym panelu",
+    "deleteConfirm_one": "Usunąć „{{name}}” i wiersz poniżej?",
+    "deleteConfirm_few": "Usunąć „{{name}}” i {{count}} wiersze poniżej?",
+    "deleteConfirm_many": "Usunąć „{{name}}” i {{count}} wierszy poniżej?",
+    "deleteConfirm_other": "Usunąć „{{name}}” i {{count}} wiersza poniżej?",
+    "expandBelow": "Rozwiń wszystko poniżej",
+    "collapseBelow": "Zwiń wszystko poniżej",
+    "deleteConfirmOne": "Usunąć „{{name}}”?",
+    "makeParagraphOf": "Ustaw jako paragraf w",
+    "makeChapter": "Ustaw jako dział",
+    "whyNoOtherChapter": "Nie ma innego działu.",
+    "whyNeedsChapterWithoutItems": "Tylko dział bez pozycji kosztorysowych może mieć paragrafy.",
+    "whyNoChapterWithoutSections": "Nie ma innego działu bez paragrafów.",
+    "whyNoOtherItem": "Nie ma innej pozycji kosztorysowej.",
+    "whyHasSections": "Ten dział ma własne paragrafy; jest tylko jeden poziom paragrafów.",
+    "moveToTop": "Na górę",
+    "placeAfter": "Umieść po",
+    "whyFirst": "Jest już na samej górze.",
+    "whyLast": "Jest już na samym dole."
   }
 }

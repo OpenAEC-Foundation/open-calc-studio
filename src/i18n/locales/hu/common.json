@@ -1230,5 +1230,35 @@
   },
   "shell": {
     "review": "Ellenőrzőközpont"
+  },
+  "structureTree": {
+    "chapters": "Fejezetek",
+    "posts": "Tételek",
+    "all": "Sorok",
+    "view": "Megjelenítési beállítások",
+    "show": "Megjelenítés",
+    "numberHeading": "Szám",
+    "labelCode": "Kód",
+    "labelNone": "Nincs",
+    "labelNr": "Ssz.",
+    "amounts": "Összegek",
+    "percent": "Az összeg %-a",
+    "percentNarrow": "Szélesebb panelen látható",
+    "deleteConfirm_one": "Törli a(z) „{{name}}” elemet és az alatta lévő sort?",
+    "deleteConfirm_other": "Törli a(z) „{{name}}” elemet és az alatta lévő {{count}} sort?",
+    "expandBelow": "Minden alatta lévő kibontása",
+    "collapseBelow": "Minden alatta lévő összecsukása",
+    "deleteConfirmOne": "Törli a(z) „{{name}}” elemet?",
+    "makeParagraphOf": "Szakasz legyen ebben:",
+    "makeChapter": "Fejezet legyen",
+    "whyNoOtherChapter": "Nincs másik fejezet.",
+    "whyNeedsChapterWithoutItems": "Csak tétel nélküli fejezetnek lehetnek szakaszai.",
+    "whyNoChapterWithoutSections": "Nincs másik szakasz nélküli fejezet.",
+    "whyNoOtherItem": "Nincs másik tétel.",
+    "whyHasSections": "Ennek a fejezetnek saját szakaszai vannak; csak egy szakaszszint van.",
+    "moveToTop": "Legfelülre",
+    "placeAfter": "Elhelyezés ez után:",
+    "whyFirst": "Már legfelül van.",
+    "whyLast": "Már legalul van."
   }
 }

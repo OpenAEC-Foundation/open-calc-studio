@@ -1232,5 +1232,37 @@
   },
   "shell": {
     "review": "Kontrolní centrum"
+  },
+  "structureTree": {
+    "chapters": "Kapitoly",
+    "posts": "Rozpočtové položky",
+    "all": "Řádky",
+    "view": "Možnosti zobrazení",
+    "show": "Zobrazit",
+    "numberHeading": "Číslo",
+    "labelCode": "Kód",
+    "labelNone": "Žádné",
+    "labelNr": "Č.",
+    "amounts": "Částky",
+    "percent": "% z celku",
+    "percentNarrow": "Zobrazí se při širším panelu",
+    "deleteConfirm_one": "Smazat „{{name}}“ a řádek pod ním?",
+    "deleteConfirm_few": "Smazat „{{name}}“ a {{count}} řádky pod ním?",
+    "deleteConfirm_many": "Smazat „{{name}}“ a {{count}} řádku pod ním?",
+    "deleteConfirm_other": "Smazat „{{name}}“ a {{count}} řádků pod ním?",
+    "expandBelow": "Rozbalit vše pod tím",
+    "collapseBelow": "Sbalit vše pod tím",
+    "deleteConfirmOne": "Smazat „{{name}}“?",
+    "makeParagraphOf": "Udělat oddílem v",
+    "makeChapter": "Udělat kapitolou",
+    "whyNoOtherChapter": "Jiná kapitola neexistuje.",
+    "whyNeedsChapterWithoutItems": "Oddíly může mít jen kapitola bez rozpočtových položek.",
+    "whyNoChapterWithoutSections": "Jiná kapitola bez oddílů neexistuje.",
+    "whyNoOtherItem": "Jiná rozpočtová položka neexistuje.",
+    "whyHasSections": "Tato kapitola má vlastní oddíly; existuje jen jedna úroveň oddílů.",
+    "moveToTop": "Na začátek",
+    "placeAfter": "Umístit za",
+    "whyFirst": "Už je úplně nahoře.",
+    "whyLast": "Už je úplně dole."
   }
 }

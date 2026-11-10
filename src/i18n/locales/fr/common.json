@@ -1230,5 +1230,36 @@
   },
   "shell": {
     "review": "Centre de contrôle"
+  },
+  "structureTree": {
+    "chapters": "Lots",
+    "posts": "Ouvrages",
+    "all": "Lignes",
+    "view": "Options d'affichage",
+    "show": "Afficher",
+    "numberHeading": "Numéro",
+    "labelCode": "Code",
+    "labelNone": "Aucun",
+    "labelNr": "N°",
+    "amounts": "Montants",
+    "percent": "% du total",
+    "percentNarrow": "Visible avec un panneau plus large",
+    "deleteConfirm_one": "Supprimer « {{name}} » et la ligne en dessous ?",
+    "deleteConfirm_many": "Supprimer « {{name}} » et les {{count}} lignes en dessous ?",
+    "deleteConfirm_other": "Supprimer « {{name}} » et les {{count}} lignes en dessous ?",
+    "expandBelow": "Tout développer en dessous",
+    "collapseBelow": "Tout réduire en dessous",
+    "deleteConfirmOne": "Supprimer « {{name}} » ?",
+    "makeParagraphOf": "Rendre paragraphe de",
+    "makeChapter": "Faire un lot",
+    "whyNoOtherChapter": "Il n’y a pas d’autre lot.",
+    "whyNeedsChapterWithoutItems": "Seul un lot sans ouvrages peut avoir des paragraphes.",
+    "whyNoChapterWithoutSections": "Il n’y a pas d’autre lot sans paragraphes.",
+    "whyNoOtherItem": "Il n’y a pas d’autre ouvrage.",
+    "whyHasSections": "Ce lot a lui-même des paragraphes ; il n’y a qu’un seul niveau de paragraphes.",
+    "moveToTop": "En haut",
+    "placeAfter": "Placer après",
+    "whyFirst": "Déjà tout en haut.",
+    "whyLast": "Déjà tout en bas."
   }
 }

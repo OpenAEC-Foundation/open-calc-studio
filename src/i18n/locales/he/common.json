@@ -1232,5 +1232,36 @@
   },
   "shell": {
     "review": "מרכז הבקרה"
+  },
+  "structureTree": {
+    "chapters": "פרקים",
+    "posts": "סעיפי אומדן",
+    "all": "שורות",
+    "view": "אפשרויות תצוגה",
+    "show": "הצג",
+    "numberHeading": "מספר",
+    "labelCode": "קוד",
+    "labelNone": "ללא",
+    "labelNr": "מס'",
+    "amounts": "סכומים",
+    "percent": "% מהסך הכול",
+    "percentNarrow": "מוצג כשהחלונית רחבה יותר",
+    "deleteConfirm_one": "למחוק את \"{{name}}\" ואת השורה שמתחתיו?",
+    "deleteConfirm_two": "למחוק את \"{{name}}\" ואת שתי השורות שמתחתיו?",
+    "deleteConfirm_other": "למחוק את \"{{name}}\" ואת {{count}} השורות שמתחתיו?",
+    "expandBelow": "הרחב את כל מה שמתחת",
+    "collapseBelow": "כווץ את כל מה שמתחת",
+    "deleteConfirmOne": "למחוק את \"{{name}}\"?",
+    "makeParagraphOf": "הפוך לסעיף של",
+    "makeChapter": "הפוך לפרק",
+    "whyNoOtherChapter": "אין פרק אחר.",
+    "whyNeedsChapterWithoutItems": "רק לפרק ללא סעיפי אומדן יכולים להיות סעיפי משנה.",
+    "whyNoChapterWithoutSections": "אין פרק אחר ללא סעיפי משנה.",
+    "whyNoOtherItem": "אין סעיף אומדן אחר.",
+    "whyHasSections": "לפרק זה יש סעיפי משנה משלו; יש רק רמה אחת של סעיפי משנה.",
+    "moveToTop": "לראש הרשימה",
+    "placeAfter": "מקם אחרי",
+    "whyFirst": "כבר נמצא למעלה.",
+    "whyLast": "כבר נמצא למטה."
   }
 }

@@ -1230,5 +1230,36 @@
   },
   "shell": {
     "review": "Центар за проверу"
+  },
+  "structureTree": {
+    "chapters": "Поглавља",
+    "posts": "Позиције предрачуна",
+    "all": "Редови",
+    "view": "Опције приказа",
+    "show": "Прикажи",
+    "numberHeading": "Број",
+    "labelCode": "Шифра",
+    "labelNone": "Без",
+    "labelNr": "Бр.",
+    "amounts": "Износи",
+    "percent": "% од укупног износа",
+    "percentNarrow": "Видљиво уз шири панел",
+    "deleteConfirm_one": "Обрисати „{{name}}“ и {{count}} ред испод?",
+    "deleteConfirm_few": "Обрисати „{{name}}“ и {{count}} реда испод?",
+    "deleteConfirm_other": "Обрисати „{{name}}“ и {{count}} редова испод?",
+    "expandBelow": "Прошири све испод",
+    "collapseBelow": "Скупи све испод",
+    "deleteConfirmOne": "Обрисати „{{name}}“?",
+    "makeParagraphOf": "Претвори у параграф у",
+    "makeChapter": "Претвори у поглавље",
+    "whyNoOtherChapter": "Нема другог поглавља.",
+    "whyNeedsChapterWithoutItems": "Само поглавље без позиција предрачуна може имати параграфе.",
+    "whyNoChapterWithoutSections": "Нема другог поглавља без параграфа.",
+    "whyNoOtherItem": "Нема друге позиције предрачуна.",
+    "whyHasSections": "Ово поглавље има сопствене параграфе; постоји само један ниво параграфа.",
+    "moveToTop": "На врх",
+    "placeAfter": "Постави после",
+    "whyFirst": "Већ је на врху.",
+    "whyLast": "Већ је на дну."
   }
 }

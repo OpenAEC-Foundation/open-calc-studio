@@ -1,5 +1,25 @@
 # Open Calc Studio — aankomende release
 
+## Nog zonder versienummer: structuurboom
+
+- Het paneel **Structuur** links is een echte boom geworden: hoofdstukken,
+  paragrafen, begrotingsposten, bewakingsposten en regels, in en uit te klappen
+  samen met het raster. Kies de diepte (Hoofdstukken, Begrotingsposten of alles).
+  Een klik op een rij springt in het raster naar die rij, en andersom.
+- **Slepen:** versleep hoofdstukken, paragrafen, posten en regels. Een rij houdt
+  zijn niveau: een hoofdstuk wordt nooit ongemerkt een paragraaf. Een dichte map
+  gaat na een halve seconde open als je erboven blijft hangen (boven het pijltje
+  bijna meteen), en Escape breekt het slepen af. Elke zet is één ongedaan-stap.
+- **Rechtermuisknop (of Shift+F10):** Omhoog/Omlaag (Alt+↑/↓), **Verplaats naar**,
+  **Maak paragraaf van** en **Maak hoofdstuk**, alles eronder in- of uitklappen,
+  en Verwijderen (altijd met een vraag). Een grijze optie zegt in een tooltip
+  waarom hij nu niet kan.
+- **Weergave:** zet het Nr (de plek, zoals de kolom Nr), de eigen Code of niets
+  vóór de omschrijving. Bedragen staan rechts, desgewenst met **% van totaal**;
+  het % verschijnt alleen als het paneel breed genoeg is.
+- Ook bij grote begrotingen (duizenden regels) tekent de boom alleen de rijen
+  die veranderen.
+
 ## Nog zonder versienummer: verplaatsen en selectie in het raster
 
 - Een rij verplaatsen (slepen in het raster, of via de AI-koppeling) verandert

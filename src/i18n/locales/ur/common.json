@@ -1230,5 +1230,35 @@
   },
   "shell": {
     "review": "پڑتال مرکز"
+  },
+  "structureTree": {
+    "chapters": "ابواب",
+    "posts": "تخمینی مدات",
+    "all": "سطریں",
+    "view": "ڈسپلے کے اختیارات",
+    "show": "دکھائیں",
+    "numberHeading": "نمبر",
+    "labelCode": "کوڈ",
+    "labelNone": "کوئی نہیں",
+    "labelNr": "نمبر",
+    "amounts": "رقوم",
+    "percent": "کل کا %",
+    "percentNarrow": "پینل چوڑا ہونے پر دکھائی دیتا ہے",
+    "deleteConfirm_one": "کیا \"{{name}}\" اور اس کے نیچے والی قطار حذف کریں؟",
+    "deleteConfirm_other": "کیا \"{{name}}\" اور اس کے نیچے کی {{count}} قطاریں حذف کریں؟",
+    "expandBelow": "نیچے سب کچھ پھیلائیں",
+    "collapseBelow": "نیچے سب کچھ سمیٹیں",
+    "deleteConfirmOne": "کیا \"{{name}}\" حذف کریں؟",
+    "makeParagraphOf": "درج ذیل باب کا پیراگراف بنائیں",
+    "makeChapter": "باب بنائیں",
+    "whyNoOtherChapter": "کوئی اور باب نہیں ہے۔",
+    "whyNeedsChapterWithoutItems": "صرف وہ باب پیراگراف رکھ سکتا ہے جس میں تخمینی مدات نہ ہوں۔",
+    "whyNoChapterWithoutSections": "پیراگراف کے بغیر کوئی اور باب نہیں ہے۔",
+    "whyNoOtherItem": "کوئی اور تخمینی مد نہیں ہے۔",
+    "whyHasSections": "اس باب کے اپنے پیراگراف ہیں؛ پیراگراف کی صرف ایک سطح ہے۔",
+    "moveToTop": "سب سے اوپر",
+    "placeAfter": "درج ذیل کے بعد رکھیں",
+    "whyFirst": "پہلے ہی سب سے اوپر ہے۔",
+    "whyLast": "پہلے ہی سب سے نیچے ہے۔"
   }
 }

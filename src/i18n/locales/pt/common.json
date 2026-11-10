@@ -1230,5 +1230,36 @@
   },
   "shell": {
     "review": "Centro de revisão"
+  },
+  "structureTree": {
+    "chapters": "Capítulos",
+    "posts": "Artigos",
+    "all": "Linhas",
+    "view": "Opções de visualização",
+    "show": "Mostrar",
+    "numberHeading": "Número",
+    "labelCode": "Código",
+    "labelNone": "Nenhum",
+    "labelNr": "N.º",
+    "amounts": "Valores",
+    "percent": "% do total",
+    "percentNarrow": "Visível com um painel mais largo",
+    "deleteConfirm_one": "Eliminar \"{{name}}\" e a linha abaixo?",
+    "deleteConfirm_many": "Eliminar \"{{name}}\" e as {{count}} linhas abaixo?",
+    "deleteConfirm_other": "Eliminar \"{{name}}\" e as {{count}} linhas abaixo?",
+    "expandBelow": "Expandir tudo abaixo",
+    "collapseBelow": "Recolher tudo abaixo",
+    "deleteConfirmOne": "Eliminar \"{{name}}\"?",
+    "makeParagraphOf": "Tornar parágrafo de",
+    "makeChapter": "Tornar capítulo",
+    "whyNoOtherChapter": "Não há outro capítulo.",
+    "whyNeedsChapterWithoutItems": "Só um capítulo sem artigos pode ter parágrafos.",
+    "whyNoChapterWithoutSections": "Não há outro capítulo sem parágrafos.",
+    "whyNoOtherItem": "Não há outro artigo.",
+    "whyHasSections": "Este capítulo já tem parágrafos; há apenas um nível de parágrafos.",
+    "moveToTop": "No topo",
+    "placeAfter": "Colocar depois de",
+    "whyFirst": "Já está no topo.",
+    "whyLast": "Já está no fundo."
   }
 }

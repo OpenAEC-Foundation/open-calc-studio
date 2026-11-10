@@ -4550,6 +4550,19 @@
         }
       ]
     },
+    "revealItem": {
+      "group": "CostItems",
+      "signature": "(id: string) => boolean",
+      "parameters": [
+        {
+          "name": "id",
+          "optional": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
     "toggleAllBewakingspostenCollapsed": {
       "group": "CostItems",
       "signature": "() => boolean",

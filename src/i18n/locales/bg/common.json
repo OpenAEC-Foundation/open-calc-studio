@@ -1230,5 +1230,35 @@
   },
   "shell": {
     "review": "Център за проверка"
+  },
+  "structureTree": {
+    "chapters": "Раздели",
+    "posts": "Позиции от сметката",
+    "all": "Редове",
+    "view": "Опции за изглед",
+    "show": "Показване",
+    "numberHeading": "Номер",
+    "labelCode": "Код",
+    "labelNone": "Без",
+    "labelNr": "№",
+    "amounts": "Суми",
+    "percent": "% от общата сума",
+    "percentNarrow": "Вижда се при по-широк панел",
+    "deleteConfirm_one": "Да се изтрие ли „{{name}}“ и редът под него?",
+    "deleteConfirm_other": "Да се изтрие ли „{{name}}“ и {{count}} реда под него?",
+    "expandBelow": "Разгъване на всичко отдолу",
+    "collapseBelow": "Свиване на всичко отдолу",
+    "deleteConfirmOne": "Да се изтрие ли „{{name}}“?",
+    "makeParagraphOf": "Направи параграф на",
+    "makeChapter": "Направи раздел",
+    "whyNoOtherChapter": "Няма друг раздел.",
+    "whyNeedsChapterWithoutItems": "Само раздел без позиции може да има параграфи.",
+    "whyNoChapterWithoutSections": "Няма друг раздел без параграфи.",
+    "whyNoOtherItem": "Няма друга позиция.",
+    "whyHasSections": "Този раздел има собствени параграфи; има само едно ниво параграфи.",
+    "moveToTop": "Най-отгоре",
+    "placeAfter": "Постави след",
+    "whyFirst": "Вече е най-горе.",
+    "whyLast": "Вече е най-долу."
   }
 }

@@ -47,6 +47,12 @@ export interface CostItemsSlice {
   outdentItem: (id: string) => void;
   toggleCollapse: (id: string) => void;
   /**
+   * Toon een rij in het raster: klap de bovenliggende rijen open, ga naar het
+   * raster en selecteer de rij. Geeft false terug als de rij niet bestaat of
+   * door een kapotte ouderketen niet getoond kan worden.
+   */
+  revealItem: (id: string) => boolean;
+  /**
    * Klap alle bewakingsposten in één keer in of uit (lint-knop): zijn er nog
    * uitgeklapte bewakingsposten, dan gaan ze allemaal dicht; anders allemaal
    * open. Geeft terug of ze nu ingeklapt zijn.
@@ -632,6 +638,37 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
       ),
     }));
     keepSelectionAfterFold();
+  },
+
+  revealItem: (id) => {
+    const state = get() as any; // full AppStore at runtime (selectie, tabs)
+    const byId = new Map<string, CostItem>(state.items.map((item: CostItem) => [item.id, item]));
+    if (!byId.has(id)) return false;
+    const parents = new Set<string>();
+    let parent = byId.get(id)!.parentId;
+    while (parent) {
+      // Cyclus of verweesde ouder: niet te tonen.
+      if (parents.has(parent) || !byId.has(parent)) return false;
+      parents.add(parent);
+      parent = byId.get(parent)!.parentId;
+    }
+    // Openklappen is weergave-navigatie, net als de inklapknop in het raster:
+    // geen undo-stap en geen 'document gewijzigd'.
+    if (state.items.some((item: CostItem) => parents.has(item.id) && item.isCollapsed)) {
+      set({
+        items: state.items.map((item: CostItem) =>
+          parents.has(item.id) && item.isCollapsed ? { ...item, isCollapsed: false } : item
+        ),
+      });
+    }
+    const after = get() as any;
+    const row = after.getGridRows().findIndex((r: { id: string }) => r.id === id);
+    if (row < 0) return false;
+    after.setActiveSubSheet?.(null);
+    after.clearSelectedColumns?.();
+    after.setActiveContentTab?.('grid');
+    after.setActiveCell(row, 1, id);
+    return true;
   },
 
   toggleAllBewakingspostenCollapsed: () => {

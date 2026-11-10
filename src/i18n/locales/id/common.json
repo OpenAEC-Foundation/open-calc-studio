@@ -1230,5 +1230,35 @@
   },
   "shell": {
     "review": "Pusat pemeriksaan"
+  },
+  "structureTree": {
+    "chapters": "Bab",
+    "posts": "Pos anggaran",
+    "all": "Baris",
+    "view": "Opsi tampilan",
+    "show": "Tampilkan",
+    "numberHeading": "Nomor",
+    "labelCode": "Kode",
+    "labelNone": "Tidak ada",
+    "labelNr": "No.",
+    "amounts": "Jumlah",
+    "percent": "% dari total",
+    "percentNarrow": "Terlihat saat panel lebih lebar",
+    "deleteConfirm_one": "Hapus \"{{name}}\" dan {{count}} baris di bawahnya?",
+    "deleteConfirm_other": "Hapus \"{{name}}\" dan {{count}} baris di bawahnya?",
+    "expandBelow": "Bentangkan semua di bawahnya",
+    "collapseBelow": "Ciutkan semua di bawahnya",
+    "deleteConfirmOne": "Hapus \"{{name}}\"?",
+    "makeParagraphOf": "Jadikan subbagian dari",
+    "makeChapter": "Jadikan bab",
+    "whyNoOtherChapter": "Tidak ada bab lain.",
+    "whyNeedsChapterWithoutItems": "Hanya bab tanpa pos anggaran yang bisa memiliki subbagian.",
+    "whyNoChapterWithoutSections": "Tidak ada bab lain tanpa subbagian.",
+    "whyNoOtherItem": "Tidak ada pos anggaran lain.",
+    "whyHasSections": "Bab ini sudah memiliki subbagian; hanya ada satu tingkat subbagian.",
+    "moveToTop": "Paling atas",
+    "placeAfter": "Tempatkan setelah",
+    "whyFirst": "Sudah berada paling atas.",
+    "whyLast": "Sudah berada paling bawah."
   }
 }

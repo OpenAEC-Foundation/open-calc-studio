@@ -1230,5 +1230,36 @@
   },
   "shell": {
     "review": "Centro de revisión"
+  },
+  "structureTree": {
+    "chapters": "Capítulos",
+    "posts": "Partidas",
+    "all": "Líneas",
+    "view": "Opciones de vista",
+    "show": "Mostrar",
+    "numberHeading": "Número",
+    "labelCode": "Código",
+    "labelNone": "Ninguno",
+    "labelNr": "Nº",
+    "amounts": "Importes",
+    "percent": "% del total",
+    "percentNarrow": "Visible con un panel más ancho",
+    "deleteConfirm_one": "¿Eliminar «{{name}}» y la fila que contiene?",
+    "deleteConfirm_many": "¿Eliminar «{{name}}» y las {{count}} filas que contiene?",
+    "deleteConfirm_other": "¿Eliminar «{{name}}» y las {{count}} filas que contiene?",
+    "expandBelow": "Expandir todo lo de debajo",
+    "collapseBelow": "Contraer todo lo de debajo",
+    "deleteConfirmOne": "¿Eliminar «{{name}}»?",
+    "makeParagraphOf": "Convertir en apartado de",
+    "makeChapter": "Convertir en capítulo",
+    "whyNoOtherChapter": "No hay otro capítulo.",
+    "whyNeedsChapterWithoutItems": "Solo un capítulo sin partidas puede tener apartados.",
+    "whyNoChapterWithoutSections": "No hay otro capítulo sin apartados.",
+    "whyNoOtherItem": "No hay otra partida.",
+    "whyHasSections": "Este capítulo ya tiene apartados; solo hay un nivel de apartados.",
+    "moveToTop": "Al principio",
+    "placeAfter": "Colocar después de",
+    "whyFirst": "Ya está arriba del todo.",
+    "whyLast": "Ya está abajo del todo."
   }
 }

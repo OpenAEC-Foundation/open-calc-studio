@@ -1230,5 +1230,36 @@
   },
   "shell": {
     "review": "Centre de revisió"
+  },
+  "structureTree": {
+    "chapters": "Capítols",
+    "posts": "Partides",
+    "all": "Línies",
+    "view": "Opcions de visualització",
+    "show": "Mostra",
+    "numberHeading": "Número",
+    "labelCode": "Codi",
+    "labelNone": "Cap",
+    "labelNr": "Núm.",
+    "amounts": "Imports",
+    "percent": "% del total",
+    "percentNarrow": "Visible amb un panell més ample",
+    "deleteConfirm_one": "Voleu eliminar «{{name}}» i la fila que conté?",
+    "deleteConfirm_many": "Voleu eliminar «{{name}}» i les {{count}} files que conté?",
+    "deleteConfirm_other": "Voleu eliminar «{{name}}» i les {{count}} files que conté?",
+    "expandBelow": "Expandeix tot el que hi ha a sota",
+    "collapseBelow": "Replega tot el que hi ha a sota",
+    "deleteConfirmOne": "Voleu eliminar «{{name}}»?",
+    "makeParagraphOf": "Converteix en apartat de",
+    "makeChapter": "Converteix en capítol",
+    "whyNoOtherChapter": "No hi ha cap altre capítol.",
+    "whyNeedsChapterWithoutItems": "Només un capítol sense partides pot tenir apartats.",
+    "whyNoChapterWithoutSections": "No hi ha cap altre capítol sense apartats.",
+    "whyNoOtherItem": "No hi ha cap altra partida.",
+    "whyHasSections": "Aquest capítol ja té apartats; només hi ha un nivell d’apartats.",
+    "moveToTop": "A dalt de tot",
+    "placeAfter": "Col·loca després de",
+    "whyFirst": "Ja és a dalt de tot.",
+    "whyLast": "Ja és a baix de tot."
   }
 }

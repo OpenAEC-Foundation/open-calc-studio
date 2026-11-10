@@ -1231,5 +1231,35 @@
   },
   "shell": {
     "review": "ສູນກວດສອບ"
+  },
+  "structureTree": {
+    "chapters": "ໝວດວຽກຕ່າງໆ",
+    "posts": "ລາຍການງົບປະມານ",
+    "all": "ແຖວ",
+    "view": "ຕົວເລືອກການສະແດງ",
+    "show": "ສະແດງ",
+    "numberHeading": "ເລກ",
+    "labelCode": "ລະຫັດ",
+    "labelNone": "ບໍ່ມີ",
+    "labelNr": "ລ/ດ",
+    "amounts": "ຈຳນວນເງິນ",
+    "percent": "% ຂອງທັງໝົດ",
+    "percentNarrow": "ສະແດງເມື່ອແຜງກວ້າງຂຶ້ນ",
+    "deleteConfirm_one": "ລຶບ \"{{name}}\" ແລະ {{count}} ແຖວທີ່ຢູ່ລຸ່ມບໍ?",
+    "deleteConfirm_other": "ລຶບ \"{{name}}\" ແລະ {{count}} ແຖວທີ່ຢູ່ລຸ່ມບໍ?",
+    "expandBelow": "ຂະຫຍາຍທັງໝົດທີ່ຢູ່ລຸ່ມ",
+    "collapseBelow": "ຫຍໍ້ທັງໝົດທີ່ຢູ່ລຸ່ມ",
+    "deleteConfirmOne": "ລຶບ \"{{name}}\" ບໍ?",
+    "makeParagraphOf": "ເຮັດເປັນວັກຂອງ",
+    "makeChapter": "ເຮັດເປັນໝວດວຽກ",
+    "whyNoOtherChapter": "ບໍ່ມີໝວດວຽກອື່ນ.",
+    "whyNeedsChapterWithoutItems": "ມີແຕ່ໝວດວຽກທີ່ບໍ່ມີລາຍການງົບປະມານເທົ່ານັ້ນທີ່ມີວັກໄດ້.",
+    "whyNoChapterWithoutSections": "ບໍ່ມີໝວດວຽກອື່ນທີ່ບໍ່ມີວັກ.",
+    "whyNoOtherItem": "ບໍ່ມີລາຍການງົບປະມານອື່ນ.",
+    "whyHasSections": "ໝວດວຽກນີ້ມີວັກຂອງຕົນເອງ; ວັກມີພຽງລະດັບດຽວ.",
+    "moveToTop": "ເທິງສຸດ",
+    "placeAfter": "ວາງຫຼັງ",
+    "whyFirst": "ຢູ່ເທິງສຸດແລ້ວ.",
+    "whyLast": "ຢູ່ລຸ່ມສຸດແລ້ວ."
   }
 }

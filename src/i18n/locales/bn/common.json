@@ -1230,5 +1230,35 @@
   },
   "shell": {
     "review": "পর্যালোচনা কেন্দ্র"
+  },
+  "structureTree": {
+    "chapters": "অধ্যায়",
+    "posts": "প্রাক্কলন আইটেম",
+    "all": "সারি",
+    "view": "প্রদর্শনের বিকল্প",
+    "show": "দেখান",
+    "numberHeading": "নম্বর",
+    "labelCode": "কোড",
+    "labelNone": "কোনোটি নয়",
+    "labelNr": "ক্র.",
+    "amounts": "অঙ্ক",
+    "percent": "মোটের %",
+    "percentNarrow": "প্যানেল চওড়া হলে দেখা যায়",
+    "deleteConfirm_one": "\"{{name}}\" এবং এর নিচের সারিটি মুছবেন?",
+    "deleteConfirm_other": "\"{{name}}\" এবং এর নিচের {{count}}টি সারি মুছবেন?",
+    "expandBelow": "নিচের সবকিছু প্রসারিত করুন",
+    "collapseBelow": "নিচের সবকিছু সংকুচিত করুন",
+    "deleteConfirmOne": "\"{{name}}\" মুছবেন?",
+    "makeParagraphOf": "নিচের অধ্যায়ের অনুচ্ছেদ করুন",
+    "makeChapter": "অধ্যায় করুন",
+    "whyNoOtherChapter": "অন্য কোনো অধ্যায় নেই।",
+    "whyNeedsChapterWithoutItems": "শুধু প্রাক্কলন আইটেম ছাড়া অধ্যায়ে অনুচ্ছেদ থাকতে পারে।",
+    "whyNoChapterWithoutSections": "অনুচ্ছেদ ছাড়া অন্য কোনো অধ্যায় নেই।",
+    "whyNoOtherItem": "অন্য কোনো প্রাক্কলন আইটেম নেই।",
+    "whyHasSections": "এই অধ্যায়ের নিজস্ব অনুচ্ছেদ আছে; অনুচ্ছেদের কেবল একটি স্তর আছে।",
+    "moveToTop": "সবার উপরে",
+    "placeAfter": "নিচেরটির পরে রাখুন",
+    "whyFirst": "ইতিমধ্যে সবার উপরে আছে।",
+    "whyLast": "ইতিমধ্যে সবার নিচে আছে।"
   }
 }

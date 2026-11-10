@@ -1230,5 +1230,36 @@
   },
   "shell": {
     "review": "Centar za provjeru"
+  },
+  "structureTree": {
+    "chapters": "Poglavlja",
+    "posts": "Troškovničke stavke",
+    "all": "Redci",
+    "view": "Mogućnosti prikaza",
+    "show": "Prikaži",
+    "numberHeading": "Broj",
+    "labelCode": "Šifra",
+    "labelNone": "Bez",
+    "labelNr": "Br.",
+    "amounts": "Iznosi",
+    "percent": "% ukupnog iznosa",
+    "percentNarrow": "Vidljivo uz širu ploču",
+    "deleteConfirm_one": "Izbrisati „{{name}}” i {{count}} redak ispod?",
+    "deleteConfirm_few": "Izbrisati „{{name}}” i {{count}} retka ispod?",
+    "deleteConfirm_other": "Izbrisati „{{name}}” i {{count}} redaka ispod?",
+    "expandBelow": "Proširi sve ispod",
+    "collapseBelow": "Sažmi sve ispod",
+    "deleteConfirmOne": "Izbrisati „{{name}}”?",
+    "makeParagraphOf": "Učini odjeljkom u",
+    "makeChapter": "Učini poglavljem",
+    "whyNoOtherChapter": "Nema drugog poglavlja.",
+    "whyNeedsChapterWithoutItems": "Samo poglavlje bez troškovničkih stavki može imati odjeljke.",
+    "whyNoChapterWithoutSections": "Nema drugog poglavlja bez odjeljaka.",
+    "whyNoOtherItem": "Nema druge troškovničke stavke.",
+    "whyHasSections": "Ovo poglavlje ima vlastite odjeljke; postoji samo jedna razina odjeljaka.",
+    "moveToTop": "Na vrh",
+    "placeAfter": "Smjesti iza",
+    "whyFirst": "Već je na vrhu.",
+    "whyLast": "Već je na dnu."
   }
 }

@@ -1230,5 +1230,35 @@
   },
   "shell": {
     "review": "Trung tâm rà soát"
+  },
+  "structureTree": {
+    "chapters": "Chương",
+    "posts": "Công tác",
+    "all": "Dòng",
+    "view": "Tùy chọn hiển thị",
+    "show": "Hiển thị",
+    "numberHeading": "Số",
+    "labelCode": "Mã",
+    "labelNone": "Không",
+    "labelNr": "STT",
+    "amounts": "Số tiền",
+    "percent": "% tổng",
+    "percentNarrow": "Hiển thị khi bảng rộng hơn",
+    "deleteConfirm_one": "Xóa \"{{name}}\" và {{count}} dòng bên dưới?",
+    "deleteConfirm_other": "Xóa \"{{name}}\" và {{count}} dòng bên dưới?",
+    "expandBelow": "Mở rộng tất cả bên dưới",
+    "collapseBelow": "Thu gọn tất cả bên dưới",
+    "deleteConfirmOne": "Xóa \"{{name}}\"?",
+    "makeParagraphOf": "Chuyển thành mục con của",
+    "makeChapter": "Chuyển thành chương",
+    "whyNoOtherChapter": "Không có chương nào khác.",
+    "whyNeedsChapterWithoutItems": "Chỉ chương không có công tác mới có thể có mục con.",
+    "whyNoChapterWithoutSections": "Không có chương nào khác không có mục con.",
+    "whyNoOtherItem": "Không có công tác nào khác.",
+    "whyHasSections": "Chương này đã có mục con; chỉ có một cấp mục con.",
+    "moveToTop": "Lên đầu",
+    "placeAfter": "Đặt sau",
+    "whyFirst": "Đã ở trên cùng.",
+    "whyLast": "Đã ở dưới cùng."
   }
 }

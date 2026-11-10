@@ -1230,5 +1230,35 @@
   },
   "shell": {
     "review": "ศูนย์ตรวจทาน"
+  },
+  "structureTree": {
+    "chapters": "หมวดงาน",
+    "posts": "รายการงาน",
+    "all": "แถว",
+    "view": "ตัวเลือกการแสดงผล",
+    "show": "แสดง",
+    "numberHeading": "หมายเลข",
+    "labelCode": "รหัส",
+    "labelNone": "ไม่มี",
+    "labelNr": "ลำดับ",
+    "amounts": "จำนวนเงิน",
+    "percent": "% ของทั้งหมด",
+    "percentNarrow": "แสดงเมื่อแผงกว้างขึ้น",
+    "deleteConfirm_one": "ลบ \"{{name}}\" และ {{count}} แถวที่อยู่ข้างใต้หรือไม่?",
+    "deleteConfirm_other": "ลบ \"{{name}}\" และ {{count}} แถวที่อยู่ข้างใต้หรือไม่?",
+    "expandBelow": "ขยายทั้งหมดที่อยู่ข้างใต้",
+    "collapseBelow": "ยุบทั้งหมดที่อยู่ข้างใต้",
+    "deleteConfirmOne": "ลบ \"{{name}}\" หรือไม่?",
+    "makeParagraphOf": "ทำเป็นตอนของ",
+    "makeChapter": "ทำเป็นหมวด",
+    "whyNoOtherChapter": "ไม่มีหมวดงานอื่น",
+    "whyNeedsChapterWithoutItems": "เฉพาะหมวดงานที่ไม่มีรายการงานเท่านั้นที่มีตอนได้",
+    "whyNoChapterWithoutSections": "ไม่มีหมวดงานอื่นที่ไม่มีตอน",
+    "whyNoOtherItem": "ไม่มีรายการงานอื่น",
+    "whyHasSections": "หมวดงานนี้มีตอนของตัวเอง ตอนมีได้เพียงระดับเดียว",
+    "moveToTop": "บนสุด",
+    "placeAfter": "วางต่อจาก",
+    "whyFirst": "อยู่บนสุดแล้ว",
+    "whyLast": "อยู่ล่างสุดแล้ว"
   }
 }

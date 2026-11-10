@@ -1230,5 +1230,35 @@
   },
   "shell": {
     "review": "İnceleme merkezi"
+  },
+  "structureTree": {
+    "chapters": "Bölümler",
+    "posts": "Pozlar",
+    "all": "Satırlar",
+    "view": "Görünüm seçenekleri",
+    "show": "Göster",
+    "numberHeading": "Numara",
+    "labelCode": "Kod",
+    "labelNone": "Yok",
+    "labelNr": "No",
+    "amounts": "Tutarlar",
+    "percent": "Toplamın %'si",
+    "percentNarrow": "Panel daha genişken görünür",
+    "deleteConfirm_one": "\"{{name}}\" ve altındaki satır silinsin mi?",
+    "deleteConfirm_other": "\"{{name}}\" ve altındaki {{count}} satır silinsin mi?",
+    "expandBelow": "Altındakilerin tümünü genişlet",
+    "collapseBelow": "Altındakilerin tümünü daralt",
+    "deleteConfirmOne": "\"{{name}}\" silinsin mi?",
+    "makeParagraphOf": "Şunun altında paragraf yap",
+    "makeChapter": "Bölüm yap",
+    "whyNoOtherChapter": "Başka bölüm yok.",
+    "whyNeedsChapterWithoutItems": "Yalnızca pozu olmayan bir bölümün paragrafları olabilir.",
+    "whyNoChapterWithoutSections": "Paragrafı olmayan başka bölüm yok.",
+    "whyNoOtherItem": "Başka poz yok.",
+    "whyHasSections": "Bu bölümün kendi paragrafları var; yalnızca bir paragraf düzeyi vardır.",
+    "moveToTop": "En üste",
+    "placeAfter": "Şunun arkasına yerleştir",
+    "whyFirst": "Zaten en üstte.",
+    "whyLast": "Zaten en altta."
   }
 }

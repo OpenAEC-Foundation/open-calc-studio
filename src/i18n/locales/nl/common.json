@@ -1230,5 +1230,35 @@
   },
   "shell": {
     "review": "Controlecentrum"
+  },
+  "structureTree": {
+    "chapters": "Hoofdstukken",
+    "posts": "Begrotingsposten",
+    "all": "Regels",
+    "view": "Weergaveopties",
+    "show": "Toon",
+    "numberHeading": "Nummer",
+    "labelCode": "Code",
+    "labelNone": "Geen",
+    "labelNr": "Nr",
+    "amounts": "Bedragen",
+    "percent": "% van totaal",
+    "percentNarrow": "Zichtbaar bij een breder paneel",
+    "deleteConfirm_one": "\"{{name}}\" en de rij eronder verwijderen?",
+    "deleteConfirm_other": "\"{{name}}\" en de {{count}} rijen eronder verwijderen?",
+    "expandBelow": "Alles hieronder uitklappen",
+    "collapseBelow": "Alles hieronder inklappen",
+    "deleteConfirmOne": "\"{{name}}\" verwijderen?",
+    "makeParagraphOf": "Maak paragraaf van",
+    "makeChapter": "Maak hoofdstuk",
+    "whyNoOtherChapter": "Er is geen ander hoofdstuk.",
+    "whyNeedsChapterWithoutItems": "Alleen een hoofdstuk zonder begrotingsposten kan paragrafen hebben.",
+    "whyNoChapterWithoutSections": "Er is geen ander hoofdstuk zonder paragrafen.",
+    "whyNoOtherItem": "Er is geen andere begrotingspost.",
+    "whyHasSections": "Dit hoofdstuk heeft zelf paragrafen; er is maar één niveau paragrafen.",
+    "moveToTop": "Bovenaan",
+    "placeAfter": "Plaats na",
+    "whyFirst": "Staat al bovenaan.",
+    "whyLast": "Staat al onderaan."
   }
 }

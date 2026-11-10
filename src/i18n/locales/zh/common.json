@@ -1230,5 +1230,35 @@
   },
   "shell": {
     "review": "审核中心"
+  },
+  "structureTree": {
+    "chapters": "章节",
+    "posts": "清单项",
+    "all": "行",
+    "view": "显示选项",
+    "show": "显示",
+    "numberHeading": "编号",
+    "labelCode": "编码",
+    "labelNone": "无",
+    "labelNr": "序号",
+    "amounts": "金额",
+    "percent": "占总计 %",
+    "percentNarrow": "面板更宽时显示",
+    "deleteConfirm_one": "删除\"{{name}}\"及其下的 {{count}} 行？",
+    "deleteConfirm_other": "删除\"{{name}}\"及其下的 {{count}} 行？",
+    "expandBelow": "展开下方全部",
+    "collapseBelow": "折叠下方全部",
+    "deleteConfirmOne": "删除\"{{name}}\"？",
+    "makeParagraphOf": "设为以下章节的小节",
+    "makeChapter": "设为章节",
+    "whyNoOtherChapter": "没有其他章节。",
+    "whyNeedsChapterWithoutItems": "只有不含清单项的章节才能有小节。",
+    "whyNoChapterWithoutSections": "没有其他不含小节的章节。",
+    "whyNoOtherItem": "没有其他清单项。",
+    "whyHasSections": "该章节已有自己的小节；小节只有一级。",
+    "moveToTop": "移至顶部",
+    "placeAfter": "放在以下项之后",
+    "whyFirst": "已在最上方。",
+    "whyLast": "已在最下方。"
   }
 }

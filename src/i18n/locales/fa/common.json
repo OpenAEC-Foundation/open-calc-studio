@@ -1230,5 +1230,35 @@
   },
   "shell": {
     "review": "مرکز بازبینی"
+  },
+  "structureTree": {
+    "chapters": "فصل‌ها",
+    "posts": "ردیف‌های برآورد",
+    "all": "سطرها",
+    "view": "گزینه‌های نمایش",
+    "show": "نمایش",
+    "numberHeading": "شماره",
+    "labelCode": "کد",
+    "labelNone": "هیچ",
+    "labelNr": "ردیف",
+    "amounts": "مبالغ",
+    "percent": "٪ از کل",
+    "percentNarrow": "در پنل پهن‌تر نمایش داده می‌شود",
+    "deleteConfirm_one": "«{{name}}» و ردیف زیر آن حذف شود؟",
+    "deleteConfirm_other": "«{{name}}» و {{count}} ردیف زیر آن حذف شود؟",
+    "expandBelow": "باز کردن همه موارد زیر",
+    "collapseBelow": "بستن همه موارد زیر",
+    "deleteConfirmOne": "«{{name}}» حذف شود؟",
+    "makeParagraphOf": "تبدیل به بندی از",
+    "makeChapter": "تبدیل به فصل",
+    "whyNoOtherChapter": "فصل دیگری وجود ندارد.",
+    "whyNeedsChapterWithoutItems": "فقط فصلی بدون ردیف برآورد می‌تواند بند داشته باشد.",
+    "whyNoChapterWithoutSections": "فصل دیگری بدون بند وجود ندارد.",
+    "whyNoOtherItem": "ردیف برآورد دیگری وجود ندارد.",
+    "whyHasSections": "این فصل خودش بند دارد؛ فقط یک سطح بند وجود دارد.",
+    "moveToTop": "بالاتر از همه",
+    "placeAfter": "قرار دادن پس از",
+    "whyFirst": "هم‌اکنون بالاتر از همه است.",
+    "whyLast": "هم‌اکنون پایین‌تر از همه است."
   }
 }
