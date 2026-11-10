@@ -12,6 +12,16 @@ const STORE = 'windows';
 let database: Promise<IDBDatabase> | undefined;
 let windowId = '';
 export function recoveryWindowId(): string { return windowId ||= crypto.randomUUID(); }
+/** Set once the user closed the window on purpose; this window must not journal again (knownbugs 263). */
+let closedDeliberately = false;
+/** Drop this window's journal before a deliberate close (Save or Don't save) and stop journaling, so `pagehide` cannot bring it back. */
+export async function discardRecoveryOnClose(): Promise<void> {
+  closedDeliberately = true;
+  if (!recoveryAvailable()) return;
+  try { await removeRecovery(recoveryWindowId()); } catch { /* No storage: nothing to discard. */ }
+}
+/** Undo `discardRecoveryOnClose` when the window did not close after all. */
+export function resumeRecovery(): void { closedDeliberately = false; }
 /** An opaque host frame has no browser storage at all: there is nothing to journal to, and the host keeps the files. */
 export function recoveryAvailable(): boolean { return typeof window === 'undefined' || window.origin !== 'null'; }
 export function openRecoveryDatabase(): Promise<IDBDatabase> {
@@ -44,6 +54,7 @@ export async function removeRecovery(id: string): Promise<void> {
   await transaction('readwrite', store => store.delete(id));
 }
 export function captureRecovery(id: string): RecoveryRecord | null {
+  if (closedDeliberately && id === windowId) return null;
   const state = useAppStore.getState();
   // Retain all open tabs when any tab has uncommitted work.
   if (!state.documents.some(d => d.isModified)) return null;
@@ -52,6 +63,8 @@ export function captureRecovery(id: string): RecoveryRecord | null {
 }
 export async function writeRecovery(record: RecoveryRecord): Promise<void> {
   if (record.version !== 1 || !record.documents.length || typeof record.id !== 'string') throw Error('Invalid recovery record.');
+  // A write captured before the close was confirmed may still be queued; it must not outlive the discard.
+  if (closedDeliberately && record.id === windowId) { await removeRecovery(record.id); return; }
   await transaction('readwrite', store => store.put(record));
 }
 export function restoreRecovery(record: RecoveryRecord): string[] {

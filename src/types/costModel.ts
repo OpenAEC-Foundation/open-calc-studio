@@ -397,6 +397,9 @@ export interface DocumentData {
   snapshots: ProjectSnapshot[];
   undoStack: { items: CostItem[]; description: string }[];
   redoStack: { items: CostItem[]; description: string }[];
+  /** Undo/redo of the sub-spreadsheets, kept per tab (knownbugs 121). */
+  spreadsheetUndo?: { sheetId: string; snapshot: SubSheet }[];
+  spreadsheetRedo?: { sheetId: string; snapshot: SubSheet }[];
   activeRow: number;
   activeCol: number;
   selectionStart: number | null;

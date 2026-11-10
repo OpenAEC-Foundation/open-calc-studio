@@ -1,4 +1,4 @@
-import { resolveUnsavedDocuments } from './services/file/closeDocuments';
+import { confirmAndCloseWindow } from './services/file/closeDocuments';
 import { useOwnAssistant } from './hooks/useOwnAssistant';
 import { useHostPresentation } from './hooks/useHostPresentation';
 import { CalculationWizard } from './components/wizard/CalculationWizard';
@@ -410,7 +410,7 @@ function App() {
           if (closingWindow.current) return;
           closingWindow.current = true;
           try {
-            if (await resolveUnsavedDocuments(showUnsavedChangesDialog, saveFileForClose)) await win.destroy();
+            await confirmAndCloseWindow(showUnsavedChangesDialog, saveFileForClose, () => win.destroy());
           } finally { closingWindow.current = false; }
         });
       } catch {

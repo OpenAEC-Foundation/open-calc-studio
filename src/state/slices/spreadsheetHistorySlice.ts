@@ -21,6 +21,12 @@ type Deps = {
   subSheets: SubSheet[];
 };
 
+/** Undo/redo changes the sheet content, so a saved document is dirty again (knownbugs 121). */
+function markActiveModified(state: unknown) {
+  const s = state as { activeDocumentId?: string; updateDocument?: (id: string, patch: { isModified: boolean }) => void };
+  if (s.activeDocumentId) s.updateDocument?.(s.activeDocumentId, { isModified: true });
+}
+
 export const createSpreadsheetHistorySlice: StateCreator<
   SpreadsheetHistorySlice & Deps,
   [],
@@ -57,6 +63,7 @@ export const createSpreadsheetHistorySlice: StateCreator<
         ss.id === last.sheetId ? last.snapshot : ss,
       ),
     } as any);
+    markActiveModified(get());
   },
 
   redoSpreadsheet: () => {
@@ -77,6 +84,7 @@ export const createSpreadsheetHistorySlice: StateCreator<
         ss.id === next.sheetId ? next.snapshot : ss,
       ),
     } as any);
+    markActiveModified(get());
   },
 
   clearSpreadsheetHistory: () =>

@@ -14,6 +14,7 @@ function captureDocument(state: AppStore, doc: DocumentTab): DocumentTab {
     companyInfo: state.companyInfo, subSheets: state.subSheets, activeSubSheetId: state.activeSubSheetId,
     offerte: state.offerte, projectInfo: state.projectInfo, snapshots: state.snapshots,
     undoStack: state.undoStack, redoStack: state.redoStack,
+    spreadsheetUndo: state.spreadsheetUndo, spreadsheetRedo: state.spreadsheetRedo,
     activeRow: state.activeRow, activeCol: state.activeCol, selectionStart: state.selectionStart, selectionEnd: state.selectionEnd, scrollTop: state.scrollTop,
   } };
 }
@@ -21,8 +22,8 @@ function captureDocument(state: AppStore, doc: DocumentTab): DocumentTab {
 function documentContext(doc: DocumentTab) {
   return { reviewFilter: 'all' as const, reviewIssueId: null, reviewReturnItemId: null, quantityOriginItemId: null, pdfTargetMeasurementId: null, sheetTargetCell: null, companyInfo: { ...defaultCompanyInfo }, subSheets: [], activeSubSheetId: null,
     offerte: createDefaultOfferte(), projectInfo: doc.schedule.projectInfo ?? createDefaultProjectInfo(), snapshots: [],
-    undoStack: [], redoStack: [], activeRow: 0, activeCol: 0, selectionStart: null, selectionEnd: null, scrollTop: 0,
-    ...doc.context, activeItemId: null, cellSelectionStart: null, cellSelectionEnd: null, spreadsheetUndo: [], spreadsheetRedo: [],
+    undoStack: [], redoStack: [], spreadsheetUndo: [], spreadsheetRedo: [], activeRow: 0, activeCol: 0, selectionStart: null, selectionEnd: null, scrollTop: 0,
+    ...doc.context, activeItemId: null, cellSelectionStart: null, cellSelectionEnd: null,
   };
 }
 
@@ -81,8 +82,12 @@ export const createDocumentSlice: StateCreator<DocumentSlice> = (set, get) => ({
         schedule: createDefaultSchedule(),
         ...documentContext(makeEmptyDoc()),
       } as any);
+    } else if (state.activeDocumentId !== id && filtered.some((d: DocumentTab) => d.id === state.activeDocumentId)) {
+      // Closing a background tab leaves the live state of the active tab alone,
+      // including its undo history and selection (knownbugs 121).
+      set({ documents: filtered } as any);
     } else {
-      const switchTo = state.activeDocumentId === id ? filtered[0] : filtered.find((d: DocumentTab) => d.id === state.activeDocumentId) ?? filtered[0];
+      const switchTo = filtered[0];
       set({
         documents: filtered,
         activeDocumentId: switchTo.id,
