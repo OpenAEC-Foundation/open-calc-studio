@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { currencySymbol, formatCurrency, formatNumber, formatNumberForEdit, parseLocaleNumber, safeCurrency } from '@/utils/formatting';
@@ -67,6 +67,8 @@ export const ProjectInfoSettings: React.FC = () => {
     pushHistory(items, t('projectInfo.currency'), undefined, { currency: previous });
     setSchedule({ currency: next });
   };
+  // 52 valutanamen opzoeken kost tijd: alleen opnieuw bij een andere valuta of taal.
+  const options = useMemo(() => currencyOptions(safeCurrency(schedule.currency), i18n.language), [schedule.currency, i18n.language]);
   const updateProjectProperty = useAppStore(s => s.updateProjectProperty);
   const addProjectProperty = useAppStore(s => s.addProjectProperty);
   const removeProjectProperty = useAppStore(s => s.removeProjectProperty);
@@ -106,13 +108,13 @@ export const ProjectInfoSettings: React.FC = () => {
         </div>
         <div style={{ marginTop: 10 }}>
           <label className="prop-label" htmlFor="project-currency">{t('projectInfo.currency')}</label>
-          <select id="project-currency" className="prop-input" value={safeCurrency(schedule.currency)} onChange={(e) => changeCurrency(e.target.value)} aria-describedby="project-currency-help">
-            {currencyOptions(safeCurrency(schedule.currency), i18n.language).map(o => <option key={o.code} value={o.code}>{o.label}</option>)}
+          <select id="project-currency" className="prop-input" value={safeCurrency(schedule.currency)} onChange={(e) => changeCurrency(e.target.value)} aria-describedby={schedule.budgetExchange ? 'project-currency-help project-currency-warning' : 'project-currency-help'}>
+            {options.map(o => <option key={o.code} value={o.code}>{o.label}</option>)}
           </select>
           <div id="project-currency-help" style={{ marginTop: 4, color: 'var(--theme-text-secondary)', fontSize: 11 }}>{t('projectInfo.currencyHelp')}</div>
           {schedule.budgetExchange && (
             // Terug-exporteren naar het bronbestand weigert een andere valuta (xmlBudget.ts).
-            <div role="note" style={{ marginTop: 4, color: 'var(--theme-warning, #b45309)', fontSize: 11 }}>
+            <div id="project-currency-warning" role="note" style={{ marginTop: 6, paddingLeft: 6, borderLeft: '3px solid var(--theme-accent)', color: 'var(--theme-text)', fontSize: 11 }}>
               {t('projectInfo.currencyExchangeWarning', { format: schedule.budgetExchange.format.toUpperCase(), currency: safeCurrency(schedule.budgetExchange.scheduleSnapshot?.currency) })}
             </div>
           )}

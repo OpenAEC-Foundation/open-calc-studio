@@ -6,7 +6,7 @@ import { SubSheetRowContextMenu } from './SubSheetRowContextMenu';
 import { SubSheetBorderPicker } from './SubSheetBorderPicker';
 import { shiftFormulaRefs } from '@/services/spreadsheet/formulaRefs';
 import type { CellBorder } from '@/types/costModel';
-import { getNumberLocale, safeCurrency } from '@/utils/formatting';
+import { safeCurrency } from '@/utils/formatting';
 
 const COL_WIDTH = 90;
 const ROW_HEIGHT = 24;
@@ -22,11 +22,14 @@ function colLabel(index: number): string {
   return label;
 }
 
-// Celweergave met het aantal decimalen van de cel, in de notatie van de
-// app-taal; 'currency' krijgt het teken van de begrotingsvaluta (issue #65).
+// Celweergave met het aantal decimalen van de cel. Subbladen lezen getallen
+// in NL-notatie (subSheetSlice: parseNlNumber, ook voor opgeslagen bladen),
+// dus tonen ze die ook, los van de app-taal: anders zie je "1,250.00" en
+// leest het blad "1,250" als 1,25. 'currency' krijgt wel het teken van de
+// begrotingsvaluta (issue #65).
 const cellFormatters = new Map<string, Intl.NumberFormat>();
 function formatCellNumber(value: number, decimals: number, currency?: string): string {
-  const locale = getNumberLocale();
+  const locale = 'nl-NL';
   const key = `${locale}|${decimals}|${currency ?? ''}`;
   let f = cellFormatters.get(key);
   if (!f) {

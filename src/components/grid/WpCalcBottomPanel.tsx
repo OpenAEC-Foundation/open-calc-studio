@@ -19,7 +19,7 @@ export function UrenStaartView() {
 }
 
 function UrenFullScreen() {
-  const { t } = useTranslation('common');
+  const { t, i18n } = useTranslation('common');
   const items = useAppStore((s) => s.items);
   const schedule = useAppStore((s) => s.schedule);
   const updateTarieven = useAppStore((s) => s.updateTarieven);
@@ -52,6 +52,8 @@ function UrenFullScreen() {
     if (value.trim() === shown.trim()) return;
     const num = parseNumericInput(value);
     if (num === null) return;
+    // Zelfde getal in een andere notatie (bijv. na een taalwissel): niets doen.
+    if (Math.abs(num - (tarieven[groep] ?? 0)) < 0.005) return;
     // Eigen undo-stap: de geschiedenis bewaart ook de tarieven (knownbug 10).
     pushHistory(items, t('grid:undo.hourlyRate', { group: groep }));
     updateTarieven({ ...tarieven, [groep]: num });
@@ -103,7 +105,7 @@ function UrenFullScreen() {
               <td style={{ textAlign: 'right' }}>
                 {groep !== '-' ? (
                   <input
-                    key={`uren-${groep}-${val.uren}`}
+                    key={`uren-${groep}-${val.uren}-${i18n.language}`}
                     type="text"
                     className="uren-input"
                     defaultValue={formatNumber(val.uren)}
@@ -135,6 +137,7 @@ function UrenFullScreen() {
                 {groep !== '-' ? (
                   <input
                     type="text"
+                    key={`tarief-${groep}-${val.tarief}-${i18n.language}`}
                     className="tarief-input"
                     defaultValue={formatDecimals(val.tarief, 2) || '0'}
                     onBlur={(e) => handleTariefChange(groep, e.target.value, (formatDecimals(val.tarief, 2) || '0'))}
@@ -167,7 +170,7 @@ function UrenFullScreen() {
             <td>{t('wpcalc.headerTotal')}</td>
             <td style={{ textAlign: 'right' }}>
               <input
-                key={`totaal-uren-${totaalUren}`}
+                key={`totaal-uren-${totaalUren}-${i18n.language}`}
                 type="text"
                 className="uren-input uren-input-total"
                 defaultValue={formatNumber(totaalUren)}

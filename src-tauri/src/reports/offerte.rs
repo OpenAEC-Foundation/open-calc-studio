@@ -334,14 +334,22 @@ fn build_total_price(request: &OfferteReportRequest, flowables: &mut Vec<Box<dyn
     )));
     // Het echte tarief uit de staart (IVA 16%, MwSt. 19%, …); bij laag én hoog
     // tegelijk bestaat er geen enkel tarief, dan de zin zonder percentage.
-    let note = match rate {
-        Some(r) => {
-            let decimals = if (r - r.round()).abs() < 1e-9 { 0 } else { 2 };
-            request.lbl_fmt("offerte.inclVatNote", "Dit bedrag is inclusief BTW ({{rate}}).", &[("rate", &nf.percent(r, decimals))])
-        }
+    flowables.push(Box::new(Paragraph::new(&vat_note(request, rate), small_style())));
+}
+
+/// Toelichting onder het offertebedrag: "inclusief btw (16%)", of zonder
+/// tarief als laag én hoog allebei meetellen.
+fn vat_note(request: &OfferteReportRequest, rate: Option<f64>) -> String {
+    let nf = &request.number_format;
+    match rate {
+        // "21%", "5,5%" (geen overbodige nullen), in het %-patroon van de rapporttaal.
+        Some(r) => request.lbl_fmt(
+            "offerte.inclVatNote",
+            "Dit bedrag is inclusief BTW ({{rate}}).",
+            &[("rate", &nf.percent.replace("{{n}}", &nf.pct_value(r)))],
+        ),
         None => request.lbl("offerte.inclVatNoteMixed", "Dit bedrag is inclusief BTW.").to_string(),
-    };
-    flowables.push(Box::new(Paragraph::new(&note, small_style())));
+    }
 }
 
 /// Btw-bedrag en -tarief (in procenten) voor de offerte (issue #65).
@@ -462,5 +470,19 @@ mod tests {
         assert_eq!((btw, rate), (186.0, None));
         // Oud bestand zonder btw-regels: zoals voorheen 21%.
         assert_eq!(vat_summary(&[], 1000.0), (210.0, Some(21.0)));
+    }
+
+    #[test]
+    fn btw_zin_toont_het_echte_tarief() {
+        let nl_req = request(serde_json::json!({}));
+        assert_eq!(vat_note(&nl_req, Some(16.0)), "Dit bedrag is inclusief BTW (16%).");
+        assert_eq!(vat_note(&nl_req, Some(5.5)), "Dit bedrag is inclusief BTW (5,5%).");
+        assert_eq!(vat_note(&nl_req, None), "Dit bedrag is inclusief BTW.");
+        let es = request(serde_json::json!({
+            "offerte.inclVatNote": "Este importe incluye el IVA ({{rate}}).",
+            "offerte.inclVatNoteMixed": "Este importe incluye el IVA."
+        }));
+        assert_eq!(vat_note(&es, Some(16.0)), "Este importe incluye el IVA (16%).");
+        assert_eq!(vat_note(&es, None), "Este importe incluye el IVA.");
     }
 }

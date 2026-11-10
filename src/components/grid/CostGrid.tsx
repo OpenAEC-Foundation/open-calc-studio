@@ -591,7 +591,13 @@ export const CostGrid: React.FC = () => {
                   }}
                 >
                   {col.key === 'description' && (heeftBtw ? t('totalInclVat') : t('totalExclVat'))}
-                  {col.key === 'total' && money(grandTotal)}
+                  {/* Met valutateken is een groot bedrag breder dan de kolom: afkappen
+                      met "…" en het volledige bedrag als tooltip (issue #65). */}
+                  {col.key === 'total' && (
+                    <span title={money(grandTotal)} style={{ overflow: 'hidden', textOverflow: 'ellipsis', minWidth: 0, marginLeft: 'auto' }}>
+                      {money(grandTotal)}
+                    </span>
+                  )}
                 </div>
               ))}
             </div>

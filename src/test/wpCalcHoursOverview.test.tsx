@@ -113,3 +113,27 @@ describe('hours overview: leaving a field without editing changes nothing', () =
   });
 });
 
+
+describe('hours overview after a language switch (issue #65)', () => {
+  it('redraws the fields in the new notation; leaving them changes nothing', async () => {
+    const state = useAppStore.getState();
+    state.updateItem(rule, 'quantity', 12.345);
+    state.updateItem(rule, 'normQuantity', 1);
+    await changeLanguage('nl'); // echt in het Nederlands beginnen
+    await renderView();
+    expect(hoursInput().value).toBe('12,35');
+    expect(rateInput().value).toBe('64,00');
+
+    // Taal wisselen terwijl het paneel open staat: de notatie volgt de app-taal.
+    await act(async () => { await changeLanguage('en'); });
+    expect(hoursInput().value).toBe('12.35');
+    expect(rateInput().value).toBe('64.00');
+
+    await focusAndLeave(hoursInput());
+    await focusAndLeave(totalHoursInput());
+    await focusAndLeave(rateInput());
+    expect(rule1().normQuantity).toBe(1);
+    expect(useAppStore.getState().schedule.tarieven?.A).toBe(64);
+    expect(useAppStore.getState().undoStack).toHaveLength(0);
+  });
+});
