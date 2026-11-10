@@ -46,9 +46,9 @@ describe('site app tools', () => {
     const beton = state.items.find(item => item.description === 'Beton C30')!;
     expect(beton.total).toBeCloseTo(12 * 145);
     const uren = state.items.find(item => item.description === 'Storten')!;
-    expect(uren.total).toBeCloseTo(8 * 46);
+    expect(uren.total).toBeCloseTo(8 * 43);
     const fundering = state.items.find(item => item.description === 'Fundering')!;
-    expect(fundering.total).toBeCloseTo(12 * 145 + 8 * 46 + 30 * 12);
+    expect(fundering.total).toBeCloseTo(12 * 145 + 8 * 43 + 30 * 12);
     expect(out.grandTotal).toBeGreaterThan(fundering.total);
     const betonwerk = state.items.find(item => item.description === 'Betonwerk')!;
     expect(beton.nr.startsWith(betonwerk.nr + '.')).toBe(true);

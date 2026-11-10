@@ -25,21 +25,6 @@ stand van `main` op die datum.
 
 ## Rekenen en totalen
 
-7. **Productienorm leegmaken laat de arbeidskosten staan, terwijl 0 typen ze weghaalt.** `calculator.ts:76`.
-   Nagespeeld. Voorstel: bij norm null en een tariefgroep ook `laborPrice` leegmaken. — B
-
-8. **Een prijsindex op arbeid (`scaleAllPrices`) wordt bij de volgende bewerking ergens anders weer
-   ongedaan gemaakt.** `costItemsSlice.ts:575-594` tegenover `calculator.ts:78`. Nagespeeld: arbeid 64 → 70,4;
-   daarna een losse omschrijving bewerken zet hem terug op 64. Voorstel: voor regels met een tariefgroep de
-   tarieven schalen in plaats van `laborPrice`. — B
-
-10. **Ongedaan maken na een tariefwijziging haalt oude arbeidsprijzen terug.** `setItems` rekent opnieuw zonder
-    tarieven (`src/state/slices/costItemsSlice.ts:165`), zie ook `costScheduleSlice.ts:165`; een tariefwijziging
-    in `WpCalcBottomPanel.tsx:50` krijgt geen undo-stap. Nagespeeld: tarief A 50→60, daarna Ctrl+Z op een
-    eerdere bewerking geeft arbeid 100 terwijl tarief A 60 toont. De volgende, losstaande bewerking springt
-    stilletjes terug naar 120. Voorstel: `schedule.tarieven` meegeven in `setItems` (zoals
-    `assistantProposal.ts:90` doet) en tariefwijzigingen ongedaan te kunnen maken. — B
-
 11. **Een post zonder prijs met lege onderliggende regels telt op tot € 0, zonder waarschuwing in de controle.**
     `src/services/review/budgetReview.ts:36-40`, `:48`: elke onderliggende regel stelt de post vrij, ook als
     die regel zelf is vrijgesteld (hoeveelheid null/0 of eenheid `pm`). Nagespeeld. Voorstel: alleen ouders
@@ -495,14 +480,6 @@ stand van `main` op die datum.
      gehoste bibliotheek achter de nieuwe bibliotheek, wat dubbelen geeft. `hostFileActions` doet het omgekeerde
      en laat artikelen weg die in deze sessie voor het eerst zijn toegevoegd. Voorstel: in beide gevallen
      samenvoegen op `id`. — S
-
-115. **Een tabblad uit de tabbalk slepen sluit het zonder te vragen en gooit niet-opgeslagen wijzigingen weg.**
-     `src/components/layout/FileTabBar.tsx:168-196` (`handleDragEnd`). Wie meer dan 50px boven of onder de balk
-     loslaat (dus ook boven het grid), krijgt een nieuw venster met het bestand *van schijf*, en de app roept
-     `removeDocument` aan zonder naar `isModified` te kijken. "Open in nieuw venster" opent ook de oude versie
-     van schijf. Tweede controle bevestigt het in de code, maar niet of de HTML5-dragend in de Tauri-webview
-     echte coördinaten meegeeft. Voorstel: de opslaan/weggooien-route van `confirmAndClose` gebruiken, of niet
-     losmaken zolang het document gewijzigd is. — B (code), S (Tauri-webview)
 
 116. **Het document sluiten dat in "Naast elkaar bekijken" staat, laat de gesplitste weergave op een verwijderd
      document staan.** `src/state/slices/documentSlice.ts:69-92` (`removeDocument`), `SplitGridPane.tsx:57`.

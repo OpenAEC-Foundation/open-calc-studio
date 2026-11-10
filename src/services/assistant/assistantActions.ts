@@ -3,7 +3,7 @@ import type { CostItem, CostSchedule, RowType } from '@/types/costModel';
 import { useAppStore } from '@/state/appStore';
 import { createStore } from 'zustand/vanilla';
 import { createCostItemsSlice, type CostItemsSlice } from '@/state/slices/costItemsSlice';
-import { recalculateItems } from '@/services/calculation/calculator';
+import { recalculateItems, effectiveTarieven, DEFAULT_TARIEVEN } from '@/services/calculation/calculator';
 
 /**
  * Calculatieassistent — de brug tussen het taalmodel en het geopende document.
@@ -25,7 +25,7 @@ import { recalculateItems } from '@/services/calculation/calculator';
 const MAX_CONTEXT_REGELS = 2000;
 
 export function buildBudgetContext(schedule: CostSchedule, items: CostItem[]): string {
-  const tarieven = schedule.tarieven ?? { A: 66, B: 46, C: 82 };
+  const tarieven = effectiveTarieven(schedule);
   const zichtbaar = items.filter((i) => !i.rowType.startsWith('staart_'));
   const kostprijs = zichtbaar
     .filter((i) => i.parentId === null)
@@ -223,7 +223,7 @@ export function simulateActies(acties: AssistantActie[], items: CostItem[], sche
   }));
   const store = isolated.getState();
 
-  const tarieven = store.schedule.tarieven ?? { A: 66, B: 46, C: 82 };
+  const tarieven = effectiveTarieven(store.schedule);
   // Resolve against original identities: deleting a sibling renumbers later
   // rows, which must never redirect the rest of a proposal to other objects.
   const identities = new Map(items.map(item => [item.nr, item.id]));
@@ -286,7 +286,7 @@ export function simulateActies(acties: AssistantActie[], items: CostItem[], sche
               ? {
                   normQuantity: 1,
                   tariefGroep: groep,
-                  laborPrice: tarieven[groep] ?? 66,
+                  laborPrice: tarieven[groep] ?? DEFAULT_TARIEVEN.A,
                   normUnitPrice: null,
                   resourceType: 'arbeid',
                 }
@@ -294,7 +294,7 @@ export function simulateActies(acties: AssistantActie[], items: CostItem[], sche
                   normUnitPrice: actie.prijs != null ? Number(actie.prijs) : null,
                   normQuantity: actie.norm != null ? Number(actie.norm) : null,
                   tariefGroep: actie.tariefgroep != null ? groep : null,
-                  laborPrice: actie.norm != null && actie.tariefgroep != null ? (tarieven[groep] ?? 66) * Number(actie.norm) : null,
+                  laborPrice: actie.norm != null && actie.tariefgroep != null ? (tarieven[groep] ?? DEFAULT_TARIEVEN.A) * Number(actie.norm) : null,
                   resourceType: (actie.resourceType as CostItem['resourceType']) ?? null,
                 }),
           });
