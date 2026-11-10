@@ -59,6 +59,14 @@ export const ProjectInfoSettings: React.FC = () => {
   const schedule = useAppStore(s => s.schedule);
   const setSchedule = (patch: Partial<typeof schedule>) => { const state = useAppStore.getState(); state.setSchedule(patch); state.updateDocument(state.activeDocumentId, { isModified: true }); };
   const items = useAppStore(s => s.items);
+  const pushHistory = useAppStore(s => s.pushHistory);
+  /** Valuta wisselen: één undo-stap, en niets omrekenen. */
+  const changeCurrency = (next: string) => {
+    const previous = safeCurrency(schedule.currency);
+    if (next === previous) return;
+    pushHistory(items, t('projectInfo.currency'), undefined, { currency: schedule.currency });
+    setSchedule({ currency: next });
+  };
   const updateProjectProperty = useAppStore(s => s.updateProjectProperty);
   const addProjectProperty = useAppStore(s => s.addProjectProperty);
   const removeProjectProperty = useAppStore(s => s.removeProjectProperty);
@@ -98,10 +106,16 @@ export const ProjectInfoSettings: React.FC = () => {
         </div>
         <div style={{ marginTop: 10 }}>
           <label className="prop-label" htmlFor="project-currency">{t('projectInfo.currency')}</label>
-          <select id="project-currency" className="prop-input" value={safeCurrency(schedule.currency)} onChange={(e) => setSchedule({ currency: e.target.value })} aria-describedby="project-currency-help">
+          <select id="project-currency" className="prop-input" value={safeCurrency(schedule.currency)} onChange={(e) => changeCurrency(e.target.value)} aria-describedby="project-currency-help">
             {currencyOptions(safeCurrency(schedule.currency), i18n.language).map(o => <option key={o.code} value={o.code}>{o.label}</option>)}
           </select>
           <div id="project-currency-help" style={{ marginTop: 4, color: 'var(--theme-text-secondary)', fontSize: 11 }}>{t('projectInfo.currencyHelp')}</div>
+          {schedule.budgetExchange && (
+            // Terug-exporteren naar het bronbestand weigert een andere valuta (xmlBudget.ts).
+            <div role="note" style={{ marginTop: 4, color: 'var(--theme-warning, #b45309)', fontSize: 11 }}>
+              {t('projectInfo.currencyExchangeWarning', { format: schedule.budgetExchange.format.toUpperCase(), currency: safeCurrency(schedule.budgetExchange.scheduleSnapshot?.currency) })}
+            </div>
+          )}
         </div>
       </div>
 

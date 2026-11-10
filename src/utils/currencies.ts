@@ -25,7 +25,8 @@ export function currencyName(code: string, language: string): string {
 }
 
 /**
- * Keuzelijst voor de projectinstellingen, op naam gesorteerd in de app-taal.
+ * Keuzelijst voor de projectinstellingen, op valutacode gesorteerd (EUR, GBP, USD, …);
+ * de naam staat erachter in de app-taal.
  * Een code uit een geïmporteerd bestand die niet in de lijst staat, komt er
  * ook in, zodat de keuze nooit stil verspringt.
  */

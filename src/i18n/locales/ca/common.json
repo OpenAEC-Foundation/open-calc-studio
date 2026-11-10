@@ -417,7 +417,8 @@
     "renderings": "Infografies",
     "projectPhotos": "Fotos del projecte",
     "currency": "Moneda",
-    "currencyHelp": "Els imports no es converteixen. Només canvia com es mostren."
+    "currencyHelp": "Els imports no es converteixen. Només canvia com es mostren.",
+    "currencyExchangeWarning": "Aquest pressupost es va importar de {{format}} en {{currency}}. Amb una altra moneda ja no es pot tornar a exportar a aquell fitxer."
   },
   "reportLogo": {
     "title": "Logotip de l'informe",
@@ -449,10 +450,10 @@
     "errNoConnection": "⚠️ Sense connexió amb el servei d'OpenAEC. El servidor de comptes està en marxa (localhost:4000)?\n\n_Detall: {{detail}}_",
     "errServer": "⚠️ El servei d'IA d'OpenAEC ha retornat un error de servidor ({{status}}): és un problema del costat del servidor.\n\n_Detall: {{detail}}_",
     "errGeneric": "⚠️ La crida a la IA ha fallat{{statusSuffix}}.\n\n_Detall: {{detail}}_",
-    "localTotal": "El preu de cost total d'aquest pressupost és de **{{total}} €** sense IVA.\n\nDesglossament per capítols:\n{{list}}",
-    "localChapters": "El pressupost té **{{count}} capítols**:\n{{list}}\n\n**Total: {{total}} €**",
+    "localTotal": "El preu de cost total d'aquest pressupost és de **{{total}}** sense IVA.\n\nDesglossament per capítols:\n{{list}}",
+    "localChapters": "El pressupost té **{{count}} capítols**:\n{{list}}\n\n**Total: {{total}}**",
     "localTop": "Els capítols més cars:\n{{list}}",
-    "localBvo": "Amb una superfície construïda de {{bvo}} m², el preu de cost és de **{{value}} €/m²** sense IVA.",
+    "localBvo": "Amb una superfície construïda de {{bvo}} m², el preu de cost és de **{{value}}/m²** sense IVA.",
     "localNoBvo": "No s'ha indicat la superfície construïda. Indiqueu-la al tauler de propietats per calcular el cost per m².",
     "localHelp": "Us puc ajudar amb preguntes sobre el vostre pressupost. Proveu, per exemple:\n- \"Quin és el total?\"\n- \"Quins són els capítols més cars?\"\n- \"Quant per m²?\"\n\n💡 Per a l'assistent d'IA complet: inicieu la sessió amb OpenAEC o configureu una clau d'API d'Anthropic."
   },

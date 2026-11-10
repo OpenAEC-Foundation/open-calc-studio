@@ -14,6 +14,7 @@ import './MobileWorkspace.css';
 import { QuantityOriginCard } from '@/components/common/QuantityOriginCard';
 import { ReviewCenter, ReviewReturnBar } from '@/components/review/ReviewCenter';
 import { useBudgetReview } from '@/components/review/useBudgetReview';
+import { useMoney } from '@/hooks/useMoney';
 
 type MobileTab = 'wizard' | 'budget' | 'sheets' | 'prompt' | 'review';
 const units: CostUnit[] = ['st', 'm', 'm²', 'm³', 'kg', 'ton', 'uur', 'dgn', 'km', 'keer', 'ls', 'week', 'mnd', 'post', '%', 'pm'];
@@ -168,11 +169,12 @@ function MobileSheets() {
 }
 
 export function MobileWorkspace() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const undoCount = useAppStore(s => s.undoStack.length);
   const redoCount = useAppStore(s => s.redoStack.length);
   const schedule = useAppStore(s => s.schedule);
-  const money = useMemo(() => new Intl.NumberFormat(i18n.language, { style: 'currency', currency: schedule.currency || 'EUR' }), [i18n.language, schedule.currency]);
+  // Zelfde notatie en valuta als de rest van de app (issue #65).
+  const money = { format: useMoney({ keepZero: true }) };
   const { newFile, openFile, saveFile, saveFileAs } = useFileOperations();
   const documents = useAppStore((s) => s.documents);
   const activeDocumentId = useAppStore((s) => s.activeDocumentId);

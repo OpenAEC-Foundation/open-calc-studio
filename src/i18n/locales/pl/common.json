@@ -419,7 +419,8 @@
     "renderings": "Wizualizacje",
     "projectPhotos": "Zdjęcia projektu",
     "currency": "Waluta",
-    "currencyHelp": "Kwoty nie są przeliczane. Zmienia się tylko sposób ich wyświetlania."
+    "currencyHelp": "Kwoty nie są przeliczane. Zmienia się tylko sposób ich wyświetlania.",
+    "currencyExchangeWarning": "Ten kosztorys zaimportowano z {{format}} w walucie {{currency}}. Przy innej walucie nie można go już wyeksportować z powrotem do tego pliku."
   },
   "reportLogo": {
     "title": "Logo w raporcie",
@@ -451,10 +452,10 @@
     "errNoConnection": "⚠️ Brak połączenia z usługą OpenAEC. Czy serwer kont działa (localhost:4000)?\n\n_Szczegóły: {{detail}}_",
     "errServer": "⚠️ Usługa AI OpenAEC zwróciła błąd serwera ({{status}}) — problem występuje po stronie serwera.\n\n_Szczegóły: {{detail}}_",
     "errGeneric": "⚠️ Wywołanie AI nie powiodło się{{statusSuffix}}.\n\n_Szczegóły: {{detail}}_",
-    "localTotal": "Łączny koszt własny tego kosztorysu wynosi **€{{total}}** netto.\n\nPodział na działy:\n{{list}}",
-    "localChapters": "Kosztorys zawiera **{{count}} działów**:\n{{list}}\n\n**Razem: €{{total}}**",
+    "localTotal": "Łączny koszt własny tego kosztorysu wynosi **{{total}}** netto.\n\nPodział na działy:\n{{list}}",
+    "localChapters": "Kosztorys zawiera **{{count}} działów**:\n{{list}}\n\n**Razem: {{total}}**",
     "localTop": "Najdroższe działy:\n{{list}}",
-    "localBvo": "Przy powierzchni całkowitej brutto {{bvo}} m² koszt własny wynosi **€{{value}}/m²** netto.",
+    "localBvo": "Przy powierzchni całkowitej brutto {{bvo}} m² koszt własny wynosi **{{value}}/m²** netto.",
     "localNoBvo": "Nie ustawiono powierzchni całkowitej brutto. Ustaw ją w panelu właściwości, aby obliczyć koszt na m².",
     "localHelp": "Mogę pomóc w pytaniach dotyczących Twojego kosztorysu. Spróbuj na przykład:\n- „Ile wynosi suma?”\n- „Które działy są najdroższe?”\n- „Ile wychodzi na m²?”\n\n💡 Pełny asystent AI: zaloguj się przez OpenAEC lub ustaw klucz API Anthropic."
   },

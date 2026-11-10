@@ -5,8 +5,11 @@ import { useAppStore } from '@/state/appStore';
 import { priceUpdateCommand } from '@/services/pricing/priceUpdateCommands';
 import type { PriceUpdatePlan } from '@/services/pricing/priceUpdates';
 import { uiText } from '@/i18n/uiText';
-import { formatCurrency } from '@/utils/formatting';
-const money = (value: number) => value === 0 ? '0,00' : formatCurrency(value);
+import { formatCurrency, getNumberLocale } from '@/utils/formatting';
+// Zonder valutateken (catalogusprijzen kunnen een eigen valuta hebben); 0 als
+// "0,00"/"0.00" in de notatie van de app-taal (issue #65).
+const zero = () => new Intl.NumberFormat(`${getNumberLocale()}-u-nu-latn`, { minimumFractionDigits: 2 }).format(0);
+const money = (value: number) => value === 0 ? zero() : formatCurrency(value);
 
 export function PriceUpdateDialog() {
   const [plan, setPlan] = useState<(PriceUpdatePlan & { proposalId: string }) | null>(null);

@@ -78,7 +78,17 @@ export function safeCurrency(code: string | null | undefined): string {
  */
 export function formatMoney(value: number | null | undefined, currency: string | null | undefined): string {
   if (value === null || value === undefined || value === 0) return '';
-  return plainMinus(formatter(numberLocale, { style: 'currency', currency: safeCurrency(currency) }).format(value));
+  return formatMoneyKeepZero(value, currency);
+}
+
+/** Hele bedragen met valutateken ("€ 1.000", "$1,000"), afgerond; 0 blijft zichtbaar. */
+export function formatMoneyWhole(value: number, currency: string | null | undefined): string {
+  return plainMinus(formatter(numberLocale, { style: 'currency', currency: safeCurrency(currency), minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(Math.round(value)));
+}
+
+/** Als formatMoney, maar 0 blijft zichtbaar ("€ 0,00"); null/undefined telt als 0. */
+export function formatMoneyKeepZero(value: number | null | undefined, currency: string | null | undefined): string {
+  return plainMinus(formatter(numberLocale, { style: 'currency', currency: safeCurrency(currency) }).format(value ?? 0));
 }
 
 /**

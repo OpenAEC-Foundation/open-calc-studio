@@ -417,7 +417,8 @@
     "renderings": "Havainnekuvat",
     "projectPhotos": "Projektin valokuvat",
     "currency": "Valuutta",
-    "currencyHelp": "Summia ei muunneta. Vain summien esitystapa muuttuu."
+    "currencyHelp": "Summia ei muunneta. Vain summien esitystapa muuttuu.",
+    "currencyExchangeWarning": "Tämä arvio tuotiin muodosta {{format}} valuutassa {{currency}}. Eri valuutalla sitä ei voi enää viedä takaisin kyseiseen tiedostoon."
   },
   "reportLogo": {
     "title": "Raportin logo",
@@ -449,10 +450,10 @@
     "errNoConnection": "⚠️ Ei yhteyttä OpenAEC-palveluun. Onko tilipalvelin käynnissä (localhost:4000)?\n\n_Lisätieto: {{detail}}_",
     "errServer": "⚠️ OpenAEC-tekoälypalvelu palautti palvelinvirheen ({{status}}) — vika on palvelimen puolella.\n\n_Lisätieto: {{detail}}_",
     "errGeneric": "⚠️ Tekoälykutsu epäonnistui{{statusSuffix}}.\n\n_Lisätieto: {{detail}}_",
-    "localTotal": "Tämän kustannusarvion omakustannushinta on **{{total}} €** ilman alv:tä.\n\nErittely luvuittain:\n{{list}}",
-    "localChapters": "Kustannusarviossa on **{{count}} lukua**:\n{{list}}\n\n**Yhteensä: {{total}} €**",
+    "localTotal": "Tämän kustannusarvion omakustannushinta on **{{total}}** ilman alv:tä.\n\nErittely luvuittain:\n{{list}}",
+    "localChapters": "Kustannusarviossa on **{{count}} lukua**:\n{{list}}\n\n**Yhteensä: {{total}}**",
     "localTop": "Kalleimmat luvut:\n{{list}}",
-    "localBvo": "Bruttoalalla {{bvo}} m² omakustannushinta on **{{value}} €/m²** ilman alv:tä.",
+    "localBvo": "Bruttoalalla {{bvo}} m² omakustannushinta on **{{value}}/m²** ilman alv:tä.",
     "localNoBvo": "Bruttoalaa ei ole asetettu. Aseta se ominaisuuspaneelista, jotta neliöhinta voidaan laskea.",
     "localHelp": "Voin auttaa kustannusarviota koskevissa kysymyksissä. Kokeile esimerkiksi:\n- \"Mikä on kokonaissumma?\"\n- \"Mitkä ovat kalleimmat luvut?\"\n- \"Paljonko neliötä kohti?\"\n\n💡 Täyden tekoälyavustajan käyttöön: kirjaudu OpenAEC-tunnuksella tai aseta Anthropic API -avain."
   },

@@ -417,7 +417,8 @@
     "renderings": "Render",
     "projectPhotos": "Foto del progetto",
     "currency": "Valuta",
-    "currencyHelp": "Gli importi non vengono convertiti. Cambia solo il modo in cui vengono mostrati."
+    "currencyHelp": "Gli importi non vengono convertiti. Cambia solo il modo in cui vengono mostrati.",
+    "currencyExchangeWarning": "Questo preventivo è stato importato da {{format}} in {{currency}}. Con un'altra valuta non può più essere riesportato in quel file."
   },
   "reportLogo": {
     "title": "Logo del report",
@@ -449,10 +450,10 @@
     "errNoConnection": "⚠️ Nessuna connessione al servizio OpenAEC. Il server degli account è in esecuzione (localhost:4000)?\n\n_Dettaglio: {{detail}}_",
     "errServer": "⚠️ Il servizio IA di OpenAEC ha restituito un errore del server ({{status}}): il problema è lato server.\n\n_Dettaglio: {{detail}}_",
     "errGeneric": "⚠️ Chiamata IA non riuscita{{statusSuffix}}.\n\n_Dettaglio: {{detail}}_",
-    "localTotal": "Il costo totale di questo computo è **€ {{total}}** IVA esclusa.\n\nRipartizione per capitolo:\n{{list}}",
-    "localChapters": "Il computo comprende **{{count}} capitoli**:\n{{list}}\n\n**Totale: € {{total}}**",
+    "localTotal": "Il costo totale di questo computo è **{{total}}** IVA esclusa.\n\nRipartizione per capitolo:\n{{list}}",
+    "localChapters": "Il computo comprende **{{count}} capitoli**:\n{{list}}\n\n**Totale: {{total}}**",
     "localTop": "I capitoli più cari:\n{{list}}",
-    "localBvo": "Con una superficie lorda di pavimento di {{bvo}} m² il costo è di **€ {{value}}/m²** IVA esclusa.",
+    "localBvo": "Con una superficie lorda di pavimento di {{bvo}} m² il costo è di **{{value}}/m²** IVA esclusa.",
     "localNoBvo": "Non è impostata alcuna superficie lorda di pavimento. Impostala dal pannello delle proprietà per calcolare il costo al m².",
     "localHelp": "Posso aiutarti con domande sul tuo computo. Prova ad esempio:\n- «Qual è il totale?»\n- «Quali sono i capitoli più cari?»\n- «Quanto al m²?»\n\n💡 Per l'assistente IA completo: accedi con OpenAEC oppure imposta una chiave API Anthropic."
   },

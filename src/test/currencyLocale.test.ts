@@ -1,6 +1,8 @@
 import { afterEach, describe, expect, it } from 'vitest';
+import { create } from 'zustand';
+import { createHistorySlice, type HistorySlice } from '@/state/slices/historySlice';
 import {
-  decimalSeparator, formatCurrency, formatMoney, formatNumber, formatNumberForEdit,
+  decimalSeparator, formatCurrency, formatMoney, formatMoneyKeepZero, formatNumber, formatNumberForEdit,
   parseLocaleNumber, parseNlNumber, safeCurrency, setNumberLocale,
 } from '@/utils/formatting';
 import { parseNumericInput } from '@/utils/numericInput';
@@ -144,5 +146,45 @@ describe('belastingnaam in de staart', () => {
   it('een oude staart krijgt een vertaalde lage-btw-regel', () => {
     const items = ensureBtwLaagItem([makeStaartItem('staart_btw', 'IVA general:', 16, 10)]);
     expect(items.find(i => i.rowType === 'staart_btw_laag')?.description).toBe('Low VAT:');
+  });
+});
+
+describe('review-punten', () => {
+  it('Engels: komma met 3 cijfers is ook in een formule een duizendtal', () => {
+    setNumberLocale('en');
+    expect(parseNumericInput('=1,234*2')).toBe(2468);
+    expect(parseNumericInput('2*1,000')).toBe(2000);
+    expect(parseNumericInput('=1,234,567')).toBe(1234567);
+    expect(parseNumericInput('=12,5*2')).toBe(25);
+    setNumberLocale('nl');
+    expect(parseNumericInput('=1,234*2')).toBe(2.468);
+  });
+
+  it('bedrag 0 blijft zichtbaar waar dat moet (kop, mobiel, wizard)', () => {
+    setNumberLocale('en');
+    expect(formatMoneyKeepZero(0, 'USD')).toBe('$0.00');
+    expect(formatMoneyKeepZero(null, 'usd')).toBe('$0.00');
+    expect(formatMoneyKeepZero(5, 'EURO')).toBe('€5.00');
+  });
+
+  it('valuta wisselen is ongedaan te maken en opnieuw te doen', () => {
+    type S = HistorySlice & { items: []; schedule: { currency: string }; setSchedule: (p: { currency?: string }) => void };
+    const store = create<S>()((set, get, api) => ({
+      ...createHistorySlice(set as never, get as never, api as never),
+      items: [],
+      schedule: { currency: 'EUR' },
+      setSchedule: (p) => set(s => ({ schedule: { ...s.schedule, ...p } })),
+    }));
+    const s = store.getState();
+    s.pushHistory([], 'Currency', undefined, { currency: 'EUR' });
+    s.setSchedule({ currency: 'USD' });
+    store.getState().undo();
+    expect(store.getState().schedule.currency).toBe('EUR');
+    store.getState().redo();
+    expect(store.getState().schedule.currency).toBe('USD');
+    // Een gewone stap laat de valuta met rust.
+    store.getState().pushHistory([], 'Edit');
+    store.getState().undo();
+    expect(store.getState().schedule.currency).toBe('USD');
   });
 });

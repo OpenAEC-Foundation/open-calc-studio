@@ -417,7 +417,8 @@
     "renderings": "Visualiseringer",
     "projectPhotos": "Projektfotos",
     "currency": "Valuta",
-    "currencyHelp": "Beløb omregnes ikke. Kun visningen af beløbene ændres."
+    "currencyHelp": "Beløb omregnes ikke. Kun visningen af beløbene ændres.",
+    "currencyExchangeWarning": "Dette overslag er importeret fra {{format}} i {{currency}}. Med en anden valuta kan det ikke længere eksporteres tilbage til den fil."
   },
   "reportLogo": {
     "title": "Rapportlogo",
@@ -449,10 +450,10 @@
     "errNoConnection": "⚠️ Ingen forbindelse til OpenAEC-tjenesten. Kører kontoserveren (localhost:4000)?\n\n_Detalje: {{detail}}_",
     "errServer": "⚠️ OpenAEC AI-tjenesten returnerede en serverfejl ({{status}}) — det er et problem på serversiden.\n\n_Detalje: {{detail}}_",
     "errGeneric": "⚠️ AI-kaldet mislykkedes{{statusSuffix}}.\n\n_Detalje: {{detail}}_",
-    "localTotal": "Den samlede kostpris for dette budget er **€{{total}}** ekskl. moms.\n\nFordeling pr. kapitel:\n{{list}}",
-    "localChapters": "Budgettet har **{{count}} kapitler**:\n{{list}}\n\n**I alt: €{{total}}**",
+    "localTotal": "Den samlede kostpris for dette budget er **{{total}}** ekskl. moms.\n\nFordeling pr. kapitel:\n{{list}}",
+    "localChapters": "Budgettet har **{{count}} kapitler**:\n{{list}}\n\n**I alt: {{total}}**",
     "localTop": "De dyreste kapitler:\n{{list}}",
-    "localBvo": "Med et bruttoetageareal på {{bvo}} m² er kostprisen **€{{value}}/m²** ekskl. moms.",
+    "localBvo": "Med et bruttoetageareal på {{bvo}} m² er kostprisen **{{value}}/m²** ekskl. moms.",
     "localNoBvo": "Der er ikke angivet noget bruttoetageareal. Angiv det i egenskabspanelet for at beregne prisen pr. m².",
     "localHelp": "Jeg kan hjælpe dig med spørgsmål om dit budget. Prøv for eksempel:\n- “Hvad er totalen?”\n- “Hvilke kapitler er dyrest?”\n- “Hvor meget pr. m²?”\n\n💡 For den fulde AI-assistent: log ind med OpenAEC eller angiv en Anthropic API-nøgle."
   },

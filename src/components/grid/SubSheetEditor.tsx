@@ -6,6 +6,7 @@ import { SubSheetRowContextMenu } from './SubSheetRowContextMenu';
 import { SubSheetBorderPicker } from './SubSheetBorderPicker';
 import { shiftFormulaRefs } from '@/services/spreadsheet/formulaRefs';
 import type { CellBorder } from '@/types/costModel';
+import { getNumberLocale, safeCurrency } from '@/utils/formatting';
 
 const COL_WIDTH = 90;
 const ROW_HEIGHT = 24;
@@ -21,8 +22,27 @@ function colLabel(index: number): string {
   return label;
 }
 
+// Celweergave met het aantal decimalen van de cel, in de notatie van de
+// app-taal; 'currency' krijgt het teken van de begrotingsvaluta (issue #65).
+const cellFormatters = new Map<string, Intl.NumberFormat>();
+function formatCellNumber(value: number, decimals: number, currency?: string): string {
+  const locale = getNumberLocale();
+  const key = `${locale}|${decimals}|${currency ?? ''}`;
+  let f = cellFormatters.get(key);
+  if (!f) {
+    f = new Intl.NumberFormat(`${locale}-u-nu-latn`, {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+      ...(currency ? { style: 'currency', currency: safeCurrency(currency) } : {}),
+    });
+    cellFormatters.set(key, f);
+  }
+  return f.format(value).replace(/\u2212/g, '-');
+}
+
 export function SubSheetEditor({ sheetId }: { sheetId: string }) {
   const { t } = useTranslation();
+  const currency = useAppStore((s) => s.schedule.currency);
   const sheet = useAppStore((s) => s.subSheets.find((ss) => ss.id === sheetId));
   const setCell = useAppStore((s) => s.setSubSheetCell);
   const toggleBold = useAppStore((s) => s.toggleSubSheetCellBold);
@@ -544,11 +564,11 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
                     const display = cell
                       ? (cell.computed !== undefined
                           ? (fmt === 'currency'
-                              ? `€ ${cell.computed.toLocaleString('nl-NL', { minimumFractionDigits: dec, maximumFractionDigits: dec })}`
+                              ? formatCellNumber(cell.computed, dec, currency)
                               : fmt === 'percentage'
                                 ? `${(cell.computed * 100).toFixed(dec)}%`
                                 : typeof cell.computed === 'number'
-                                  ? cell.computed.toLocaleString('nl-NL', { minimumFractionDigits: dec, maximumFractionDigits: dec })
+                                  ? formatCellNumber(cell.computed, dec)
                                   : cell.value)
                           : cell.value)
                       : '';

@@ -417,7 +417,8 @@
     "renderings": "Visualiseringar",
     "projectPhotos": "Projektfoton",
     "currency": "Valuta",
-    "currencyHelp": "Belopp räknas inte om. Bara hur beloppen visas ändras."
+    "currencyHelp": "Belopp räknas inte om. Bara hur beloppen visas ändras.",
+    "currencyExchangeWarning": "Den här kalkylen importerades från {{format}} i {{currency}}. Med en annan valuta kan den inte längre exporteras tillbaka till den filen."
   },
   "reportLogo": {
     "title": "Rapportlogotyp",
@@ -449,10 +450,10 @@
     "errNoConnection": "⚠️ Ingen anslutning till OpenAEC-tjänsten. Körs kontoservern (localhost:4000)?\n\n_Detalj: {{detail}}_",
     "errServer": "⚠️ OpenAEC AI-tjänsten svarade med ett serverfel ({{status}}) — problemet ligger på serversidan.\n\n_Detalj: {{detail}}_",
     "errGeneric": "⚠️ AI-anropet misslyckades{{statusSuffix}}.\n\n_Detalj: {{detail}}_",
-    "localTotal": "Den totala självkostnaden för den här kalkylen är **€{{total}}** exkl. moms.\n\nFördelning per kapitel:\n{{list}}",
-    "localChapters": "Kalkylen har **{{count}} kapitel**:\n{{list}}\n\n**Totalt: €{{total}}**",
+    "localTotal": "Den totala självkostnaden för den här kalkylen är **{{total}}** exkl. moms.\n\nFördelning per kapitel:\n{{list}}",
+    "localChapters": "Kalkylen har **{{count}} kapitel**:\n{{list}}\n\n**Totalt: {{total}}**",
     "localTop": "De dyraste kapitlen:\n{{list}}",
-    "localBvo": "Med en bruttoarea på {{bvo}} m² är självkostnaden **€{{value}}/m²** exkl. moms.",
+    "localBvo": "Med en bruttoarea på {{bvo}} m² är självkostnaden **{{value}}/m²** exkl. moms.",
     "localNoBvo": "Ingen bruttoarea är angiven. Ange den i egenskapspanelen för att räkna ut kostnaden per m².",
     "localHelp": "Jag kan hjälpa dig med frågor om din kalkyl. Prova till exempel:\n- ”Vad är totalsumman?”\n- ”Vilka kapitel är dyrast?”\n- ”Hur mycket per m²?”\n\n💡 För den fullständiga AI-assistenten: logga in med OpenAEC eller ange en Anthropic API-nyckel."
   },

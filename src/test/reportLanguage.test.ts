@@ -157,6 +157,19 @@ describe('rapportlabels voor de Rust/Typst-generators', () => {
     expect(reportNumberFormat('hu').currency).toContain('€');
   });
 
+  it('gebruikt de valuta van de begroting, zonder omrekenen (issue #65)', async () => {
+    // Andere valuta houden het volle teken: US$ en CA$ blijven te onderscheiden.
+    const usd = reportNumberFormat('en-GB', 'USD');
+    expect([usd.decimal, usd.group, usd.currency, usd.currencyNegative]).toEqual(['.', ',', 'US${{n}}', '-US${{n}}']);
+    expect(reportNumberFormat('nl-NL', 'USD').currency).toBe('US$\u00A0{{n}}');
+    expect(reportNumberFormat('en-GB', 'CAD').currency).toBe('CA${{n}}');
+    // Ongeldige code valt terug op EUR; zonder valuta blijft het EUR.
+    expect(reportNumberFormat('nl-NL', 'xx').currency).toBe('€\u00A0{{n}}');
+    expect(reportNumberFormat('nl-NL').currency).toBe('€\u00A0{{n}}');
+    const req = await getReportRequestLocale('en', 'USD');
+    expect(req.numberFormat.currency).toContain('US$');
+  });
+
   it('getReportRequestLocale levert labels én notatie in de rapporttaal', async () => {
     const es = await getReportRequestLocale('es');
     expect(es.numberFormat.date).toBe('DD/MM/YYYY');

@@ -45,7 +45,7 @@ export async function exportPdf(data: Record<string, unknown>): Promise<string> 
   const reportView = String(data.reportView || 'bouw1');
   if (!PDF_VIEWS.has(reportView)) throw new Error(`unknown report_view "${reportView}"`);
   const outputPath = await resolveOutputPath(data.outputPath, `${schedule.name || 'begroting'}-${reportView}`, 'pdf');
-  const locale = await getReportRequestLocale();
+  const locale = await getReportRequestLocale(undefined, schedule.currency);
 
   if (reportView === 'offerte') {
     await invoke('generate_offerte_pdf', { request: { ...buildOfferteRequest(store), ...locale }, outputPath });

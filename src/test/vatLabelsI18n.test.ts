@@ -25,5 +25,9 @@ describe('btw-namen per taal', () => {
     const p = read(lang).projectInfo;
     expect(p.currency.trim()).not.toBe('');
     expect(p.currencyHelp).not.toBe(en.projectInfo.currencyHelp);
+    // Waarschuwing bij geïmporteerde XML: beide invulplekken moeten blijven staan.
+    expect(p.currencyExchangeWarning).toContain('{{format}}');
+    expect(p.currencyExchangeWarning).toContain('{{currency}}');
+    expect(p.currencyExchangeWarning).not.toBe(en.projectInfo.currencyExchangeWarning);
   });
 });

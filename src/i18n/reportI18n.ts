@@ -16,6 +16,7 @@ import i18next, { type TFunction } from "i18next";
 import { LANGUAGES, loadLocale } from "./config";
 import { formatUnit } from "./formatUnit";
 import { useAppStore } from "@/state/appStore";
+import { safeCurrency } from "@/utils/formatting";
 
 export type ReportT = TFunction;
 
@@ -156,7 +157,7 @@ function toPattern(parts: Intl.NumberFormatPart[]): string {
   return normalizeSpaces(out);
 }
 
-export function reportNumberFormat(intlLocale: string): ReportNumberFormat {
+export function reportNumberFormat(intlLocale: string, currency: string = "EUR"): ReportNumberFormat {
   // Latijnse cijfers: de PDF-lettertypes hebben niet elk cijferschrift
   // (Arabisch-Indisch, Bengaals, …), en in bestekken zijn ze gangbaar.
   const locale = `${intlLocale}-u-nu-latn`;
@@ -171,8 +172,16 @@ export function reportNumberFormat(intlLocale: string): ReportNumberFormat {
   const grouping = secondary !== primary ? [primary, secondary] : [primary];
   const minGroupingDigits = plain.formatToParts(1234).some((p) => p.type === "group") ? 1 : 2;
 
-  // narrowSymbol: overal "€", ook waar de locale "EUR" schrijft (hu, ro, uk).
-  const money = new Intl.NumberFormat(locale, { style: "currency", currency: "EUR", currencyDisplay: "narrowSymbol" });
+  // Valuta van de begroting (issue #65); er wordt niets omgerekend.
+  // narrowSymbol voor EUR: overal "€", ook waar de locale "EUR" schrijft (hu,
+  // ro, uk). Andere valuta houden het volle teken, zodat "US$", "CA$" en
+  // "MX$" niet allemaal "$" worden.
+  const code = safeCurrency(currency);
+  const money = new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency: code,
+    currencyDisplay: code === "EUR" ? "narrowSymbol" : "symbol",
+  });
   const percent = new Intl.NumberFormat(locale, { style: "percent" });
 
   // Datumvolgorde en scheidingstekens uit een datum met herkenbare delen.
@@ -201,9 +210,10 @@ export function reportNumberFormat(intlLocale: string): ReportNumberFormat {
  */
 export async function getReportRequestLocale(
   reportLocale?: string,
+  currency?: string,
 ): Promise<{ labels: Record<string, string>; numberFormat: ReportNumberFormat }> {
   const lang = resolveReportLanguage(reportLocale);
-  return { labels: await getReportLabels(lang), numberFormat: reportNumberFormat(intlLocaleFor(lang)) };
+  return { labels: await getReportLabels(lang), numberFormat: reportNumberFormat(intlLocaleFor(lang), currency) };
 }
 
 // Een rapporttaal die afwijkt van de interface moet ook voor de synchrone

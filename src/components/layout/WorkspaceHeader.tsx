@@ -5,19 +5,21 @@ import { useFileOperations } from '@/hooks/useFileOperations';
 import { getStaartBreakdown } from '@/services/calculation/calculator';
 import { uiText } from '@/i18n/uiText';
 import { workspaceTitle, WorkspaceIcon } from './WorkspaceNavigation';
+import { useMoney } from '@/hooks/useMoney';
 
 export function WorkspaceHeader() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const schedule = useAppStore(s => s.schedule);
   const items = useAppStore(s => s.items);
   const active = useAppStore(s => s.activeContentTab);
   const doc = useAppStore(s => s.documents.find(d => d.id === s.activeDocumentId));
   const { saveFile } = useFileOperations();
+  const money = useMoney({ keepZero: true });
   const total = useMemo(() => {
     const breakdown = getStaartBreakdown(items);
     return breakdown.aanneemsom + breakdown.afronding;
   }, [items]);
-  const formatted = new Intl.NumberFormat(i18n.language || 'en', { style: 'currency', currency: /^[A-Z]{3}$/.test(schedule.currency) ? schedule.currency : 'EUR' }).format(total);
+  const formatted = money(total);
   return <header className="workspace-header">
     <div className="workspace-heading">
       <div className="workspace-breadcrumb"><span>{schedule.projectNumber || t('appName')}</span><span aria-hidden="true">/</span><span>{workspaceTitle(active)}</span></div>

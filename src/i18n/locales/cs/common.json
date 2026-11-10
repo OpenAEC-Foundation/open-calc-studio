@@ -419,7 +419,8 @@
     "renderings": "Vizualizace",
     "projectPhotos": "Fotografie projektu",
     "currency": "Měna",
-    "currencyHelp": "Částky se nepřepočítávají. Mění se jen způsob jejich zobrazení."
+    "currencyHelp": "Částky se nepřepočítávají. Mění se jen způsob jejich zobrazení.",
+    "currencyExchangeWarning": "Tento rozpočet byl importován z {{format}} v měně {{currency}}. S jinou měnou jej již nelze exportovat zpět do tohoto souboru."
   },
   "reportLogo": {
     "title": "Logo v sestavě",
@@ -451,10 +452,10 @@
     "errNoConnection": "⚠️ Chybí připojení ke službě OpenAEC. Běží server účtů (localhost:4000)?\n\n_Detail: {{detail}}_",
     "errServer": "⚠️ AI služba OpenAEC vrátila chybu serveru ({{status}}) — jde o problém na straně serveru.\n\n_Detail: {{detail}}_",
     "errGeneric": "⚠️ Volání AI se nezdařilo{{statusSuffix}}.\n\n_Detail: {{detail}}_",
-    "localTotal": "Celkové vlastní náklady tohoto rozpočtu činí **€{{total}}** bez DPH.\n\nRozpad podle kapitol:\n{{list}}",
-    "localChapters": "Rozpočet obsahuje **{{count}} kapitol**:\n{{list}}\n\n**Celkem: €{{total}}**",
+    "localTotal": "Celkové vlastní náklady tohoto rozpočtu činí **{{total}}** bez DPH.\n\nRozpad podle kapitol:\n{{list}}",
+    "localChapters": "Rozpočet obsahuje **{{count}} kapitol**:\n{{list}}\n\n**Celkem: {{total}}**",
     "localTop": "Nejdražší kapitoly:\n{{list}}",
-    "localBvo": "Při hrubé podlažní ploše {{bvo}} m² činí vlastní náklady **€{{value}}/m²** bez DPH.",
+    "localBvo": "Při hrubé podlažní ploše {{bvo}} m² činí vlastní náklady **{{value}}/m²** bez DPH.",
     "localNoBvo": "Hrubá podlažní plocha není nastavena. Nastavte ji v panelu vlastností, aby bylo možné spočítat náklady na m².",
     "localHelp": "Rád pomohu s otázkami k vašemu rozpočtu. Zkuste například:\n- „Kolik je celkem?“\n- „Které kapitoly jsou nejdražší?“\n- „Kolik na m²?“\n\n💡 Pro plného AI asistenta: přihlaste se přes OpenAEC nebo nastavte API klíč Anthropic."
   },

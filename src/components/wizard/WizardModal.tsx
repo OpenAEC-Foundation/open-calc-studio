@@ -6,6 +6,8 @@ import { getAllWizards, type WizardDefinition, type WizardResult } from '@/servi
 import { useAppStore } from '@/state/appStore';
 import { recalculateItems } from '@/services/calculation/calculator';
 import { formatUnit } from '@/i18n/formatUnit';
+import { useMoney } from '@/hooks/useMoney';
+import { formatDecimals } from '@/utils/formatting';
 
 // Import wizards to register them
 import '@/services/wizard/hsbWandCalculator';
@@ -19,6 +21,8 @@ interface WizardModalProps {
 
 export default function WizardModal({ open, onClose }: WizardModalProps) {
   const { t } = useTranslation('common');
+  // Prijzen in de valuta van de begroting, 0 blijft zichtbaar (issue #65).
+  const money = useMoney({ keepZero: true });
   const [step, setStep] = useState<WizardStep>('select');
   const [selectedWizard, setSelectedWizard] = useState<WizardDefinition | null>(null);
   const [paramValues, setParamValues] = useState<Record<string, number | string>>({});
@@ -170,10 +174,10 @@ export default function WizardModal({ open, onClose }: WizardModalProps) {
                   <tr key={idx} className={`wizard-row-${item.rowType}`} style={{ paddingLeft: item.depth * 16 }}>
                     <td className="wizard-rowtype">{item.rowType}</td>
                     <td style={{ paddingLeft: item.depth * 16 }}>{item.description}</td>
-                    <td className="align-right">{item.quantity != null ? item.quantity.toFixed(2) : ''}</td>
+                    <td className="align-right">{item.quantity != null ? formatDecimals(item.quantity, 2) : ''}</td>
                     <td>{item.quantity != null ? formatUnit(item.unit) : ''}</td>
-                    <td className="align-right">{item.materialPrice != null ? `€ ${item.materialPrice.toFixed(2)}` : ''}</td>
-                    <td className="align-right">{item.laborPrice != null ? `€ ${item.laborPrice.toFixed(2)}` : ''}</td>
+                    <td className="align-right">{item.materialPrice != null ? money(item.materialPrice) : ''}</td>
+                    <td className="align-right">{item.laborPrice != null ? money(item.laborPrice) : ''}</td>
                   </tr>
                 ))}
               </tbody>

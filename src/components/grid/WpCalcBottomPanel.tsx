@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
-import { formatCurrency, formatNumber, formatNumberForEdit, formatDecimals, parseLocaleNumber } from '@/utils/formatting';
+import { formatCurrency, formatNumber, formatNumberForEdit, formatDecimals, formatMoneyWhole, parseLocaleNumber } from '@/utils/formatting';
 import { parseNumericInput } from '@/utils/numericInput';
 import { computeBtwLaagDirect, DEFAULT_TARIEVEN } from '@/services/calculation/calculator';
 
@@ -203,9 +203,10 @@ function UrenFullScreen() {
 }
 
 function StaartFullScreen() {
-  const { t } = useTranslation('common');
+  const { t, i18n } = useTranslation('common');
   const items = useAppStore((s) => s.items);
   const schedule = useAppStore((s) => s.schedule);
+  const currency = schedule.currency;
   const updateItem = useAppStore((s) => s.updateItem);
   const pushHistory = useAppStore((s) => s.pushHistory);
 
@@ -290,8 +291,10 @@ function StaartFullScreen() {
     return { staartRows: [{ id: '', label: t('grid:staart.noTailCosts'), percentage: null, total: 0, rowType: '', isBold: false }], kostprijs: kp, aanneemsom: kp };
   }, [items, schedule, t]);
 
-  const handlePercentageChange = (id: string, value: string) => {
+  const handlePercentageChange = (id: string, value: string, current: number | null) => {
     const num = parseLocaleNumber(value) ?? NaN;
+    // Ongewijzigd (klik-in/klik-uit): niets opslaan en geen undo-stap.
+    if (current != null && Math.abs(num - current) < 1e-9) return;
     if (!isNaN(num) && id) {
       pushHistory(items, t('grid:undo.tailPercentage'));
       updateItem(id, 'staartPercentage', num);
@@ -370,10 +373,13 @@ function StaartFullScreen() {
               <td style={{ textAlign: 'right' }}>
                 {r.id && r.percentage != null ? (
                   <input
+                    // Taal in de key: na een taalwissel opnieuw tekenen in de
+                    // nieuwe notatie, anders leest "1,125" (NL) als 1125 (EN).
+                    key={`pct-${r.id}-${r.percentage}-${i18n.language}`}
                     type="text"
                     defaultValue={formatNumberForEdit(r.percentage) || '0'}
-                    onBlur={e => handlePercentageChange(r.id, e.target.value)}
-                    onKeyDown={e => { if (e.key === 'Enter') { handlePercentageChange(r.id, (e.target as HTMLInputElement).value); (e.target as HTMLInputElement).blur(); } }}
+                    onBlur={e => handlePercentageChange(r.id, e.target.value, r.percentage)}
+                    onKeyDown={e => { if (e.key === 'Enter') { handlePercentageChange(r.id, (e.target as HTMLInputElement).value, r.percentage); (e.target as HTMLInputElement).blur(); } }}
                     style={{ width: 50, textAlign: 'right', border: '1px solid var(--theme-border)', borderRadius: 3, padding: '1px 4px', background: 'var(--theme-bg)', color: 'var(--theme-editable-text, var(--theme-text))', fontSize: 'inherit', fontFamily: 'inherit' }}
                   />
                 ) : (
@@ -393,10 +399,10 @@ function StaartFullScreen() {
                       style={{ border: '1px solid var(--theme-border)', borderRadius: 3, padding: '1px 2px', background: 'var(--theme-bg)', color: 'var(--theme-text)', fontSize: 10, fontFamily: 'inherit' }}
                     >
                       <option value="0">{t('grid:staart.roundingNone')}</option>
-                      <option value="1">{t('grid:staart.roundTo1')}</option>
-                      <option value="10">{t('grid:staart.roundTo10')}</option>
-                      <option value="100">{t('grid:staart.roundTo100')}</option>
-                      <option value="1000">{t('grid:staart.roundTo1000')}</option>
+                      <option value="1">{t('grid:staart.roundTo1', { amount: formatMoneyWhole(1, currency) })}</option>
+                      <option value="10">{t('grid:staart.roundTo10', { amount: formatMoneyWhole(10, currency) })}</option>
+                      <option value="100">{t('grid:staart.roundTo100', { amount: formatMoneyWhole(100, currency) })}</option>
+                      <option value="1000">{t('grid:staart.roundTo1000', { amount: formatMoneyWhole(1000, currency) })}</option>
                     </select>
                     <input
                       key={`afr-${formatNumberForEdit(Math.round(r.total * 100) / 100)}`}

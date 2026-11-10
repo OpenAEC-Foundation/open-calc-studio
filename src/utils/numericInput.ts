@@ -1,4 +1,4 @@
-import { parseLocaleNumber } from './formatting';
+import { decimalSeparator, parseLocaleNumber } from './formatting';
 
 // Grid-invoer voor getalcellen: een gewoon getal in de notatie van de
 // app-taal ("6,66" en "1.234,56" in NL, "6.66" en "1,234.56" in EN) of een
@@ -24,7 +24,7 @@ export function parseNumericInput(input: string): number | null {
 
   // Iets dat op een formule lijkt maar niet klopt ("12*", "3*(4", "10/0") is
   // ongeldig; voorheen werd het stil het eerste getal (12, 3, 10).
-  return evaluateExpression(body);
+  return evaluateExpression(body, decimalSeparator());
 }
 
 // Herschrijft alle getal-tokens in een expressie naar punt-notatie
@@ -39,7 +39,7 @@ export function normalizeDecimalsInExpression(expr: string): string {
 
 type Token = { kind: 'num'; value: number } | { kind: 'op'; op: string };
 
-function tokenize(expr: string): Token[] | null {
+function tokenize(expr: string, decimal?: ',' | '.'): Token[] | null {
   const tokens: Token[] = [];
   let i = 0;
   while (i < expr.length) {
@@ -52,7 +52,7 @@ function tokenize(expr: string): Token[] | null {
     } else if (/[0-9.,]/.test(ch)) {
       let j = i;
       while (j < expr.length && /[0-9.,]/.test(expr[j])) j++;
-      const value = parseFormulaNumber(expr.slice(i, j));
+      const value = parseFormulaNumber(expr.slice(i, j), decimal);
       if (value === null) return null;
       tokens.push({ kind: 'num', value });
       i = j;
@@ -68,7 +68,10 @@ function tokenize(expr: string): Token[] | null {
 // het decimaalteken en het andere het duizendtal. Meerdere punten zonder
 // komma zijn een duizendtal ("1.234.567"); meerdere komma's zonder punt zijn
 // ongeldig ("1,2,3"), zoals voorheen.
-function parseFormulaNumber(token: string): number | null {
+// Uitzondering voor talen met een punt als decimaalteken (`decimal` = '.'):
+// daar is een komma met precies 3 cijfers erna een duizendtal ("=1,234*2" →
+// 2468, "=1,234,567" → 1234567), net als bij een gewoon getal in die taal.
+function parseFormulaNumber(token: string, decimal?: ',' | '.'): number | null {
   const lastComma = token.lastIndexOf(',');
   const lastDot = token.lastIndexOf('.');
   let normalized = token;
@@ -76,6 +79,8 @@ function parseFormulaNumber(token: string): number | null {
     const [dec, grp] = lastComma > lastDot ? [',', '.'] : ['.', ','];
     if (token.indexOf(dec) !== token.lastIndexOf(dec)) return null; // "1,2.3,4"
     normalized = token.split(grp).join('').replace(dec, '.');
+  } else if (lastComma >= 0 && decimal === '.' && /^[1-9]\d{0,2}(,\d{3})+$/.test(token)) {
+    normalized = token.split(',').join('');
   } else if (lastComma >= 0) {
     if (token.indexOf(',') !== lastComma) return null; // meerdere komma's
     normalized = token.replace(',', '.');
@@ -87,11 +92,10 @@ function parseFormulaNumber(token: string): number | null {
   return isNaN(num) ? null : num;
 }
 
-
 // Recursive descent: expr = term ((+|-) term)*, term = factor ((*|/) factor)*,
 // factor = [+-]* (getal | '(' expr ')')
-function evaluateExpression(expr: string): number | null {
-  const tokens = tokenize(expr);
+function evaluateExpression(expr: string, decimal?: ',' | '.'): number | null {
+  const tokens = tokenize(expr, decimal);
   if (!tokens || tokens.length === 0) return null;
   let pos = 0;
 

@@ -417,7 +417,8 @@
     "renderings": "Imagens 3D",
     "projectPhotos": "Fotografias da obra",
     "currency": "Moeda",
-    "currencyHelp": "Os valores não são convertidos. Só muda a forma como são mostrados."
+    "currencyHelp": "Os valores não são convertidos. Só muda a forma como são mostrados.",
+    "currencyExchangeWarning": "Este orçamento foi importado de {{format}} em {{currency}}. Com outra moeda, já não pode ser exportado de volta para esse ficheiro."
   },
   "reportLogo": {
     "title": "Logótipo do relatório",
@@ -449,10 +450,10 @@
     "errNoConnection": "⚠️ Sem ligação ao serviço OpenAEC. O servidor de contas está em execução (localhost:4000)?\n\n_Detalhe: {{detail}}_",
     "errServer": "⚠️ O serviço de IA da OpenAEC devolveu um erro de servidor ({{status}}) — o problema é do lado do servidor.\n\n_Detalhe: {{detail}}_",
     "errGeneric": "⚠️ A chamada de IA falhou{{statusSuffix}}.\n\n_Detalhe: {{detail}}_",
-    "localTotal": "O preço de custo total deste orçamento é de **{{total}} €** sem IVA.\n\nRepartição por capítulo:\n{{list}}",
-    "localChapters": "O orçamento tem **{{count}} capítulos**:\n{{list}}\n\n**Total: {{total}} €**",
+    "localTotal": "O preço de custo total deste orçamento é de **{{total}}** sem IVA.\n\nRepartição por capítulo:\n{{list}}",
+    "localChapters": "O orçamento tem **{{count}} capítulos**:\n{{list}}\n\n**Total: {{total}}**",
     "localTop": "Os capítulos mais caros:\n{{list}}",
-    "localBvo": "Com uma área bruta de construção de {{bvo}} m², o preço de custo é de **{{value}} €/m²** sem IVA.",
+    "localBvo": "Com uma área bruta de construção de {{bvo}} m², o preço de custo é de **{{value}}/m²** sem IVA.",
     "localNoBvo": "Não está definida qualquer área bruta de construção. Defina-a no painel de propriedades para calcular o custo por m².",
     "localHelp": "Posso ajudar com perguntas sobre o seu orçamento. Experimente, por exemplo:\n- «Qual é o total?»\n- «Quais são os capítulos mais caros?»\n- «Quanto por m²?»\n\n💡 Para o assistente de IA completo: inicie sessão com OpenAEC ou defina uma chave de API Anthropic."
   },

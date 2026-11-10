@@ -417,7 +417,8 @@
     "renderings": "Látványtervek",
     "projectPhotos": "Projektfotók",
     "currency": "Pénznem",
-    "currencyHelp": "Az összegek nem lesznek átváltva. Csak a megjelenítésük változik."
+    "currencyHelp": "Az összegek nem lesznek átváltva. Csak a megjelenítésük változik.",
+    "currencyExchangeWarning": "Ezt a költségvetést {{format}} formátumból importálták {{currency}} pénznemben. Más pénznemmel már nem exportálható vissza abba a fájlba."
   },
   "reportLogo": {
     "title": "Jelentés logója",
@@ -449,10 +450,10 @@
     "errNoConnection": "⚠️ Nincs kapcsolat az OpenAEC szolgáltatással. Fut a fiókkiszolgáló (localhost:4000)?\n\n_Részlet: {{detail}}_",
     "errServer": "⚠️ Az OpenAEC AI szolgáltatás kiszolgálóhibát adott vissza ({{status}}) — ez kiszolgálóoldali probléma.\n\n_Részlet: {{detail}}_",
     "errGeneric": "⚠️ Az AI-hívás sikertelen{{statusSuffix}}.\n\n_Részlet: {{detail}}_",
-    "localTotal": "Ennek a költségvetésnek a teljes önköltsége **€{{total}}** áfa nélkül.\n\nFejezetenkénti bontás:\n{{list}}",
-    "localChapters": "A költségvetésben **{{count}} fejezet** van:\n{{list}}\n\n**Összesen: €{{total}}**",
+    "localTotal": "Ennek a költségvetésnek a teljes önköltsége **{{total}}** áfa nélkül.\n\nFejezetenkénti bontás:\n{{list}}",
+    "localChapters": "A költségvetésben **{{count}} fejezet** van:\n{{list}}\n\n**Összesen: {{total}}**",
     "localTop": "A legdrágább fejezetek:\n{{list}}",
-    "localBvo": "{{bvo}} m² bruttó szintterület mellett az önköltség **€{{value}}/m²** áfa nélkül.",
+    "localBvo": "{{bvo}} m² bruttó szintterület mellett az önköltség **{{value}}/m²** áfa nélkül.",
     "localNoBvo": "Nincs megadva bruttó szintterület. Adja meg a tulajdonságok panelen az m²-enkénti költség kiszámításához.",
     "localHelp": "Segítek a költségvetéssel kapcsolatos kérdésekben. Próbálja meg például:\n- \"Mennyi az összesen?\"\n- \"Melyek a legdrágább fejezetek?\"\n- \"Mennyi m²-enként?\"\n\n💡 A teljes AI-asszisztenshez: jelentkezzen be OpenAEC-fiókkal, vagy adjon meg egy Anthropic API-kulcsot."
   },

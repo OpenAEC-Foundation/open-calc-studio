@@ -124,7 +124,7 @@ export const ReportPreview: React.FC = () => {
           includeCover,
           includeSummary,
           // Teksten en notatie in de rapporttaal; Rust valt terug op Nederlands.
-          ...(await getReportRequestLocale()),
+          ...(await getReportRequestLocale(undefined, schedule.currency)),
         };
 
         // IBIS-stijl en de directiebegroting delen de IBIS Typst-generator

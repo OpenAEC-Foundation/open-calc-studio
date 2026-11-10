@@ -417,7 +417,8 @@
     "renderings": "Picha za muundo",
     "projectPhotos": "Picha za mradi",
     "currency": "Sarafu",
-    "currencyHelp": "Kiasi hakibadilishwi. Ni namna tu ya kuonyesha kiasi inayobadilika."
+    "currencyHelp": "Kiasi hakibadilishwi. Ni namna tu ya kuonyesha kiasi inayobadilika.",
+    "currencyExchangeWarning": "Makadirio haya yaliingizwa kutoka {{format}} kwa {{currency}}. Kwa sarafu nyingine hayawezi tena kuhamishwa kurudi kwenye faili hilo."
   },
   "reportLogo": {
     "title": "Nembo ya ripoti",
@@ -449,10 +450,10 @@
     "errNoConnection": "⚠️ Hakuna muunganisho na huduma ya OpenAEC. Je, seva ya akaunti inafanya kazi (localhost:4000)?\n\n_Maelezo: {{detail}}_",
     "errServer": "⚠️ Huduma ya AI ya OpenAEC imerudisha hitilafu ya seva ({{status}}) — hili ni tatizo la upande wa seva.\n\n_Maelezo: {{detail}}_",
     "errGeneric": "⚠️ Wito wa AI umeshindikana{{statusSuffix}}.\n\n_Maelezo: {{detail}}_",
-    "localTotal": "Jumla ya bei ya gharama ya makadirio haya ni **€{{total}}** bila VAT.\n\nMchanganuo kwa kila sura:\n{{list}}",
-    "localChapters": "Makadirio yana **sura {{count}}**:\n{{list}}\n\n**Jumla: €{{total}}**",
+    "localTotal": "Jumla ya bei ya gharama ya makadirio haya ni **{{total}}** bila VAT.\n\nMchanganuo kwa kila sura:\n{{list}}",
+    "localChapters": "Makadirio yana **sura {{count}}**:\n{{list}}\n\n**Jumla: {{total}}**",
     "localTop": "Sura ghali zaidi:\n{{list}}",
-    "localBvo": "Kwa eneo la sakafu la jumla la {{bvo}} m², bei ya gharama ni **€{{value}}/m²** bila VAT.",
+    "localBvo": "Kwa eneo la sakafu la jumla la {{bvo}} m², bei ya gharama ni **{{value}}/m²** bila VAT.",
     "localNoBvo": "Eneo la sakafu la jumla halijawekwa. Liweke kupitia paneli ya sifa ili kukokotoa gharama kwa kila m².",
     "localHelp": "Ninaweza kukusaidia kwa maswali kuhusu makadirio yako. Jaribu kwa mfano:\n- \"Jumla ni kiasi gani?\"\n- \"Ni sura zipi ghali zaidi?\"\n- \"Ni kiasi gani kwa kila m²?\"\n\n💡 Kwa msaidizi kamili wa AI: ingia kwa OpenAEC au weka ufunguo wa Anthropic API."
   },

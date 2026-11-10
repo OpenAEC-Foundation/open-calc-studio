@@ -451,7 +451,8 @@
     "renderings": "Renderings",
     "projectPhotos": "Projectfoto's",
     "currency": "Valuta",
-    "currencyHelp": "Bedragen worden niet omgerekend. Alleen de weergave van de bedragen verandert."
+    "currencyHelp": "Bedragen worden niet omgerekend. Alleen de weergave van de bedragen verandert.",
+    "currencyExchangeWarning": "Deze begroting is geïmporteerd uit {{format}} in {{currency}}. Met een andere valuta kan hij niet meer terug-geëxporteerd worden naar dat bestand."
   },
   "reportLogo": {
     "title": "Rapport-logo",
@@ -483,10 +484,10 @@
     "errNoConnection": "⚠️ Geen verbinding met de OpenAEC-dienst. Draait de accounts-server (localhost:4000)?\n\n_Detail: {{detail}}_",
     "errServer": "⚠️ De OpenAEC AI-dienst gaf een serverfout ({{status}}) — dit ligt aan de serverkant.\n\n_Detail: {{detail}}_",
     "errGeneric": "⚠️ AI-aanroep mislukt{{statusSuffix}}.\n\n_Detail: {{detail}}_",
-    "localTotal": "De totale kostprijs van deze begroting is **€{{total}}** excl. BTW.\n\nVerdeling per hoofdstuk:\n{{list}}",
-    "localChapters": "De begroting heeft **{{count}} hoofdstukken**:\n{{list}}\n\n**Totaal: €{{total}}**",
+    "localTotal": "De totale kostprijs van deze begroting is **{{total}}** excl. BTW.\n\nVerdeling per hoofdstuk:\n{{list}}",
+    "localChapters": "De begroting heeft **{{count}} hoofdstukken**:\n{{list}}\n\n**Totaal: {{total}}**",
     "localTop": "De duurste hoofdstukken:\n{{list}}",
-    "localBvo": "Met een BVO van {{bvo}} m² is de kostprijs **€{{value}}/m²** excl. BTW.",
+    "localBvo": "Met een BVO van {{bvo}} m² is de kostprijs **{{value}}/m²** excl. BTW.",
     "localNoBvo": "Er is geen BVO ingesteld. Stel deze in via het eigenschappenpaneel om de kosten per m² te berekenen.",
     "localHelp": "Ik kan lokaal totalen en hoofdstukken tonen. Een regel toevoegen kan met: \"Voeg onder 21.01 een regel toe: 12 m³ Beton C30 à €145\". Het voorstel verschijnt eerst ter controle. Voor vrijere opdrachten: log in met OpenAEC of stel een Anthropic API-key in."
   },

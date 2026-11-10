@@ -417,7 +417,8 @@
     "renderings": "Görselleştirmeler",
     "projectPhotos": "Proje fotoğrafları",
     "currency": "Para birimi",
-    "currencyHelp": "Tutarlar dönüştürülmez. Yalnızca tutarların gösterimi değişir."
+    "currencyHelp": "Tutarlar dönüştürülmez. Yalnızca tutarların gösterimi değişir.",
+    "currencyExchangeWarning": "Bu keşif {{format}} dosyasından {{currency}} olarak içe aktarıldı. Farklı bir para birimiyle artık o dosyaya geri aktarılamaz."
   },
   "reportLogo": {
     "title": "Rapor logosu",
@@ -449,10 +450,10 @@
     "errNoConnection": "⚠️ OpenAEC hizmetine bağlanılamıyor. Hesap sunucusu çalışıyor mu (localhost:4000)?\n\n_Ayrıntı: {{detail}}_",
     "errServer": "⚠️ OpenAEC AI hizmeti bir sunucu hatası döndürdü ({{status}}) — bu sunucu tarafında bir sorundur.\n\n_Ayrıntı: {{detail}}_",
     "errGeneric": "⚠️ AI çağrısı başarısız oldu{{statusSuffix}}.\n\n_Ayrıntı: {{detail}}_",
-    "localTotal": "Bu keşfin toplam maliyet bedeli **€{{total}}** (KDV hariç).\n\nBölüm bazında dağılım:\n{{list}}",
-    "localChapters": "Keşifte **{{count}} bölüm** var:\n{{list}}\n\n**Toplam: €{{total}}**",
+    "localTotal": "Bu keşfin toplam maliyet bedeli **{{total}}** (KDV hariç).\n\nBölüm bazında dağılım:\n{{list}}",
+    "localChapters": "Keşifte **{{count}} bölüm** var:\n{{list}}\n\n**Toplam: {{total}}**",
     "localTop": "En pahalı bölümler:\n{{list}}",
-    "localBvo": "{{bvo}} m² brüt kapalı alan ile maliyet bedeli **€{{value}}/m²** (KDV hariç).",
+    "localBvo": "{{bvo}} m² brüt kapalı alan ile maliyet bedeli **{{value}}/m²** (KDV hariç).",
     "localNoBvo": "Brüt kapalı alan girilmemiş. m² başına maliyeti hesaplamak için özellikler panelinden girin.",
     "localHelp": "Keşfinizle ilgili sorularda yardımcı olabilirim. Örneğin şunları deneyin:\n- \"Toplam nedir?\"\n- \"En pahalı bölümler hangileri?\"\n- \"m² başına ne kadar?\"\n\n💡 Tam AI asistanı için: OpenAEC ile oturum açın veya bir Anthropic API anahtarı girin."
   },
