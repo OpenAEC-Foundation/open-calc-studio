@@ -267,3 +267,51 @@ describe('knownbug 25 — pasted and cut rows land at the paste target', () => {
     expect(vorige?.some((item) => item.description === 'Post 1.1')).toBe(true);
   });
 });
+
+// Review: een begroting zonder hoofdstukken (posten op het hoogste niveau) moet
+// gewoon te kopiëren en te knippen blijven, ook al wijkt ze af van de boomregels.
+describe('knownbug 25 — estimates without chapters', () => {
+  beforeEach(() => {
+    useAppStore.setState(initial, true);
+    s().addDocument();
+    s().setItems([]);
+    s().setGridView('st');
+  });
+
+  function losse() {
+    const postA = s().addItem(null);
+    s().updateItem(postA, 'description', 'Post A');
+    const regelA = s().addRegel(postA);
+    s().updateItem(regelA, 'description', 'Regel A');
+    const postB = s().addItem(null);
+    s().updateItem(postB, 'description', 'Post B');
+    return { postA, regelA, postB };
+  }
+
+  it('copy and paste of a top-level post adds a copy next to it', () => {
+    const { postA } = losse();
+    s().copyItems([byId(postA)]);
+    selecteer(postA);
+    s().pasteItems();
+    expect(kinderen(null)).toEqual(['Post A', 'Post A', 'Post B']);
+    const kopie = met('Post A').find((item) => item.id !== postA)!;
+    expect(kinderen(kopie.id)).toEqual(['Regel A']);
+  });
+
+  it('pasting a top-level post while a regel is active puts it after that post', () => {
+    const { postA, regelA } = losse();
+    s().copyItems([byId(postA)]);
+    selecteer(regelA);
+    s().pasteItems();
+    expect(kinderen(null)).toEqual(['Post A', 'Post A', 'Post B']);
+  });
+
+  it('cut and paste of a top-level post moves it', () => {
+    const { postA, postB } = losse();
+    s().cutItems([byId(postA)]);
+    selecteer(postB);
+    s().pasteItems();
+    expect(kinderen(null)).toEqual(['Post B', 'Post A']);
+    expect(met('Regel A')).toHaveLength(1);
+  });
+});

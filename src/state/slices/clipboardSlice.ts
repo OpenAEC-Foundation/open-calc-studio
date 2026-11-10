@@ -97,6 +97,19 @@ export const createClipboardSlice: StateCreator<ClipboardSlice> = (set, get) => 
       if (list) list.push(item); else childrenByParent.set(item.parentId, [item]);
     }
     const childrenOf = (id: string) => childrenByParent.get(id) ?? [];
+    // Row types that already sit under each parent ('' = top level). Pasting
+    // next to rows of the same type is always fine, also in estimates that do
+    // not follow the tree rules (posts without chapters, older mixed files).
+    const typesUnder = new Map<string, Set<string>>();
+    for (const item of items as CostItem[]) {
+      if (originals.has(item.id)) continue;
+      const key = item.parentId ?? '';
+      const set = typesUnder.get(key);
+      if (set) set.add(item.rowType); else typesUnder.set(key, new Set([item.rowType]));
+    }
+    const fits = (root: CostItem, hasChapters: boolean, parent: CostItem | null) =>
+      allowedParent(root, hasChapters, parent, childrenOf)
+      || (typesUnder.get(parent?.id ?? '')?.has(root.rowType) ?? false);
     const parentOf = (item: CostItem): CostItem | null => (item.parentId ? byId.get(item.parentId) ?? null : null);
     /** Flat index just past the subtree of `item` (items are in tree order). */
     const subtreeEnd = (item: CostItem): number => {
@@ -165,7 +178,7 @@ export const createClipboardSlice: StateCreator<ClipboardSlice> = (set, get) => 
         continue;
       }
       const hasChapters = clipboardItems.some((other: CostItem) => other.parentId === original.id && other.rowType === 'chapter');
-      const place = usable.find(c => allowedParent(item, hasChapters, c.parent, childrenOf));
+      const place = usable.find(c => fits(item, hasChapters, c.parent));
       if (!place) return; // nowhere valid to paste: change nothing
       item.parentId = place.parent?.id ?? null;
       item.depth = place.parent ? place.parent.depth + 1 : 0;
