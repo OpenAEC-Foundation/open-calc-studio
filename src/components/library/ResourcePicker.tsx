@@ -202,18 +202,19 @@ export const ResourcePicker: React.FC = () => {
                 onClick={() => setSelectedIndex(idx)}
                 onDoubleClick={() => handleSelect(item)}
               >
-                <span className="rp-col-code">{item.code}</span>
-                <span className="rp-col-desc">{item.description}</span>
+                <span className="rp-col-code" title={item.code}>{item.code}</span>
+                <span className="rp-col-desc" title={item.description}>{item.description}</span>
                 <span className="rp-col-type">
                   <span
                     className="rp-type-badge"
+                    title={t(`dialogs:resourceTypes.${item.resourceType}`)}
                     style={{ backgroundColor: RESOURCE_TYPE_COLORS[item.resourceType] + '22', color: RESOURCE_TYPE_COLORS[item.resourceType], borderColor: RESOURCE_TYPE_COLORS[item.resourceType] + '44' }}
                   >
                     {t(`dialogs:resourceTypes.${item.resourceType}`)}
                   </span>
                 </span>
                 <span className="rp-col-unit">{item.unitSupported === false ? item.originalUnit : formatUnit(item.unit, t)}</span>
-                <span className="rp-col-price">
+                <span className="rp-col-price" title={item.defaultUnitPrice !== null ? undefined : uiText("pricing.enter", "Enter price")}>
                   {item.defaultUnitPrice !== null ? formatCurrency(item.defaultUnitPrice) : uiText("pricing.enter", "Enter price")}
                 </span>
               </div>
