@@ -4,6 +4,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import { useAppStore } from '@/state/appStore';
 import { changeLanguage } from '@/i18n/config';
 import { UrenStaartView } from '@/components/grid/WpCalcBottomPanel';
+import { setNumberLocale } from '@/utils/formatting';
 
 // Issue #66 points 6 and 8 (knownbugs 15 and 9): the "Uren & Staart" hours
 // overview must not rescale norms when an hours field is only focused and
@@ -17,6 +18,9 @@ let node: HTMLDivElement;
 beforeEach(async () => {
   (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
   await changeLanguage('en');
+  // Engelse teksten, maar deze tests rekenen met Nederlandse getallen ("1.234,50").
+  // Sinds #65 volgt de getalnotatie de app-taal; zet die hier dus terug op NL.
+  setNumberLocale('nl-NL');
   useAppStore.setState(initial, true);
   const state = useAppStore.getState();
   state.addDocument({ id: 'hours-doc', items: [] });
@@ -109,3 +113,27 @@ describe('hours overview: leaving a field without editing changes nothing', () =
   });
 });
 
+
+describe('hours overview after a language switch (issue #65)', () => {
+  it('redraws the fields in the new notation; leaving them changes nothing', async () => {
+    const state = useAppStore.getState();
+    state.updateItem(rule, 'quantity', 12.345);
+    state.updateItem(rule, 'normQuantity', 1);
+    await changeLanguage('nl'); // echt in het Nederlands beginnen
+    await renderView();
+    expect(hoursInput().value).toBe('12,35');
+    expect(rateInput().value).toBe('64,00');
+
+    // Taal wisselen terwijl het paneel open staat: de notatie volgt de app-taal.
+    await act(async () => { await changeLanguage('en'); });
+    expect(hoursInput().value).toBe('12.35');
+    expect(rateInput().value).toBe('64.00');
+
+    await focusAndLeave(hoursInput());
+    await focusAndLeave(totalHoursInput());
+    await focusAndLeave(rateInput());
+    expect(rule1().normQuantity).toBe(1);
+    expect(useAppStore.getState().schedule.tarieven?.A).toBe(64);
+    expect(useAppStore.getState().undoStack).toHaveLength(0);
+  });
+});

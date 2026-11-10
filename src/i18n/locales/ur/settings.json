@@ -17,6 +17,8 @@
     "reportLanguage": "رپورٹ کی زبان",
     "reportLanguageAuto": "انٹرفیس جیسی",
     "reportLanguageHelp": "پرنٹ اور PDF رپورٹوں کی زبان۔ اس وقت مفید جب انٹرفیس کی زبان آپ کے کلائنٹ کی زبان سے مختلف ہو۔",
+    "numberFormat": "اعداد کی شکل",
+    "numberFormatAuto": "ایپ کی زبان کے مطابق",
     "startup": "آغاز",
     "restoreSession": "آغاز پر سیشن بحال کریں",
     "checkUpdates": "اپ ڈیٹس دیکھیں",

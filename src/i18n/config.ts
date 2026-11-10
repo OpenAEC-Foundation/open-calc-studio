@@ -2,6 +2,7 @@ import { setHostAttribute } from "@/lib/hostRoot";
 import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
+import { setNumberLocale } from "@/utils/formatting";
 
 // Nederlands en Engels zijn de bronvertalingen: die worden altijd meegebundeld
 // (Engels is de fallback, dus moet synchroon beschikbaar zijn bij init). De
@@ -158,7 +159,12 @@ i18next
 // haal hem alsnog op zodat de UI meteen in de juiste taal verschijnt.
 void loadLocale(i18next.language);
 
+// Getalnotatie volgt de app-taal (issue #65). Deze listener staat vóór die
+// van react-i18next, dus de notatie klopt al als de UI opnieuw tekent.
+setNumberLocale(i18next.language);
+
 i18next.on("languageChanged", (lng) => {
+  setNumberLocale(lng);
   setHostAttribute("lang", lng);
   // RTL-talen (Arabisch, Farsi, Hebreeuws, Urdu) spiegelen de hele layout.
   setHostAttribute("dir", isRTL(lng) ? "rtl" : "ltr");

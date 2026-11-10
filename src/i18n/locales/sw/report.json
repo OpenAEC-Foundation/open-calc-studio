@@ -155,6 +155,7 @@
     "approval": "Imekubaliwa:",
     "images": "[picha {{count}}]",
     "totalOffer": "Tunaweza kutekeleza kazi hii kwa: {{amount}}",
-    "inclVatNote": "Kiasi hiki kinajumuisha VAT (21%)."
+    "inclVatNote": "Kiasi hiki kinajumuisha VAT ({{rate}}).",
+    "inclVatNoteMixed": "Kiasi hiki kinajumuisha VAT."
   }
 }

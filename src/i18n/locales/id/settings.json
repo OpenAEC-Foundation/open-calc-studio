@@ -17,6 +17,8 @@
     "reportLanguage": "Bahasa laporan",
     "reportLanguageAuto": "Sama dengan antarmuka",
     "reportLanguageHelp": "Bahasa untuk hasil cetak dan laporan PDF. Berguna jika bahasa antarmuka berbeda dengan bahasa pemberi tugas Anda.",
+    "numberFormat": "Format angka",
+    "numberFormatAuto": "Mengikuti bahasa aplikasi",
     "startup": "Saat mulai",
     "restoreSession": "Pulihkan sesi saat aplikasi dijalankan",
     "checkUpdates": "Periksa pembaruan",

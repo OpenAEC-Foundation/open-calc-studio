@@ -155,6 +155,7 @@
     "approval": "Onay:",
     "images": "[{{count}} görsel]",
     "totalOffer": "Bu işleri şu bedelle yapabiliriz: {{amount}}",
-    "inclVatNote": "Bu tutara KDV (%21) dahildir."
+    "inclVatNote": "Bu tutara KDV ({{rate}}) dahildir.",
+    "inclVatNoteMixed": "Bu tutara KDV dahildir."
   }
 }

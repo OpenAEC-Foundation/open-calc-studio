@@ -1,6 +1,6 @@
 import React from 'react';
 import type { CostItem } from '@/types/costModel';
-import { formatTreeAmount, pctFormatter, prefixOf, treeRowDomId, type TreeNumber } from './treeModel';
+import { formatTreeAmount, formatTreePercent, prefixOf, treeRowDomId, type TreeNumber } from './treeModel';
 import { RowIcon } from './RowIcon';
 
 /**
@@ -38,6 +38,9 @@ export interface TreeRowProps {
   kostprijs: number;
   /** Naam van een hoofdstuk zonder omschrijving (vertaald). */
   chapterFallback: string;
+  /** Getalnotatie: alleen voor React.memo, zodat bedragen en % na een
+   *  taalwissel of andere instelling opnieuw getekend worden (issue #65). */
+  numberLocale: string;
   events: TreeRowEvents;
 }
 
@@ -53,7 +56,7 @@ export const TreeRow = React.memo(function TreeRow({
   // % alleen voor hoofdstukken en posten (een regel geeft vooral "0,0 %"),
   // en niet bij een kostprijs van 0 of minder (dan klopt het teken niet).
   const pct = percent && kostprijs > 0 && item.total && item.rowType !== 'regel'
-    ? `${pctFormatter.format((item.total / kostprijs) * 100)}%` : '';
+    ? `${formatTreePercent((item.total / kostprijs) * 100)}%` : '';
   // De gesleepte rij staat dicht in beeld: pijltje en aria ook.
   const shownCollapsed = !!item.isCollapsed || dragging;
   return (

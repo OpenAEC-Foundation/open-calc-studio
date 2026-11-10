@@ -155,6 +155,7 @@
     "approval": "Súhlasím:",
     "images": "[{{count}} obr.]",
     "totalOffer": "Tieto práce vieme zrealizovať za: {{amount}}",
-    "inclVatNote": "Táto suma zahŕňa DPH (21 %)."
+    "inclVatNote": "Táto suma zahŕňa DPH ({{rate}}).",
+    "inclVatNoteMixed": "Táto suma zahŕňa DPH."
   }
 }

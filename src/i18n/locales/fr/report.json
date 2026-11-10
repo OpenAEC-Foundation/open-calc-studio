@@ -155,6 +155,7 @@
     "approval": "Bon pour accord :",
     "images": "[{{count}} img.]",
     "totalOffer": "Nous pouvons réaliser ces travaux pour : {{amount}}",
-    "inclVatNote": "Ce montant s'entend TVA comprise (21 %)."
+    "inclVatNote": "Ce montant s'entend TVA comprise ({{rate}}).",
+    "inclVatNoteMixed": "Ce montant s'entend TVA comprise."
   }
 }

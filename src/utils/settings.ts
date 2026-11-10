@@ -1,5 +1,6 @@
 import { storeGet, storeSet } from './store';
 import type { WorkspaceLayout } from '@/types/workspaceLayout';
+import type { NumberFormatPreference } from './formatting';
 
 export interface AppSettings {
   theme: string;
@@ -10,6 +11,12 @@ export interface AppSettings {
    * met een Engelse interface toch Nederlandse rapporten kan afdrukken.
    */
   reportLocale: string;
+  /**
+   * Getalnotatie (issue #65): "auto" = volg de interfacetaal, of vast
+   * "nl-NL" (1.234,56) / "en-US" (1,234.56). Zie loadSettings voor de
+   * standaard bij bestaande installaties.
+   */
+  numberFormat: NumberFormatPreference;
   currency: string;
   autoSave: boolean;
   autoSaveInterval: number;
@@ -29,6 +36,7 @@ export const defaultSettings: AppSettings = {
   // keuze heeft opgeslagen, houdt die.
   locale: 'en',
   reportLocale: 'auto',
+  numberFormat: 'auto',
   currency: 'EUR',
   autoSave: false,
   autoSaveInterval: 300000,
@@ -39,6 +47,11 @@ export const defaultSettings: AppSettings = {
 export async function loadSettings(): Promise<AppSettings> {
   const stored = await storeGet<AppSettings>(SETTINGS_KEY);
   const settings = stored ? { ...defaultSettings, ...stored } : { ...defaultSettings };
+  // Bestaande installatie van vóór de instelling: daar las en toonde de app
+  // getallen altijd als 1.234,56, ook met een Engelse interface. Houd dat zo,
+  // anders wordt "2,500" ineens 2500 in plaats van 2,5. Nieuwe installaties
+  // (nog niets opgeslagen) volgen de app-taal.
+  if (stored && stored.numberFormat === undefined) settings.numberFormat = 'nl-NL';
   settings.workspaceLayouts = sanitizeWorkspaceLayouts(settings.workspaceLayouts);
   return settings;
 }

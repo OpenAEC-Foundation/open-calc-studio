@@ -155,6 +155,7 @@
     "approval": "Съгласен:",
     "images": "[{{count}} изобр.]",
     "totalOffer": "Можем да изпълним тези работи за: {{amount}}",
-    "inclVatNote": "Тази сума включва ДДС (21%)."
+    "inclVatNote": "Тази сума включва ДДС ({{rate}}).",
+    "inclVatNoteMixed": "Тази сума включва ДДС."
   }
 }

@@ -155,6 +155,7 @@
     "approval": "Einverstanden:",
     "images": "[{{count}} Abb.]",
     "totalOffer": "Wir können diese Arbeiten ausführen für: {{amount}}",
-    "inclVatNote": "Dieser Betrag versteht sich inkl. MwSt. (21 %)."
+    "inclVatNote": "Dieser Betrag versteht sich inkl. MwSt. ({{rate}}).",
+    "inclVatNoteMixed": "Dieser Betrag versteht sich inkl. MwSt."
   }
 }

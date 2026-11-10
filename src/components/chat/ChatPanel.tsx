@@ -10,6 +10,7 @@ import { stageAssistantProposal, summarizeAssistantProposal, applyAssistantPropo
 import { ProposalPreview } from './ProposalPreview';
 import { BEGROTEN_KENNIS } from '@/services/assistant/begrotenKennis';
 import { OPENAEC_ENABLED, allowsExternalServices } from '@/services/buildFlags';
+import { formatMoneyKeepZero, formatMoneyWhole } from '@/utils/formatting';
 import './ChatPanel.css';
 
 import type { ChatMessage } from '@/state/slices/chatSlice';
@@ -17,11 +18,21 @@ import type { AssistantActie } from '@/services/assistant/assistantActions';
 
 const EMPTY_MESSAGES: ChatMessage[] = [];
 
+// Bedragen in de valuta van de begroting en de notatie van de app-taal
+// (issue #65); er wordt niets omgerekend.
+const budgetCurrency = () => useAppStore.getState().schedule.currency;
+function formatPrice(value: unknown): string {
+  const n = typeof value === 'number' ? value : Number(value);
+  return Number.isFinite(n) ? formatMoneyKeepZero(n, budgetCurrency()) : String(value);
+}
+/** Afgerond op hele eenheden, voor de lokale overzichten. */
+const formatWholeMoney = (value: number) => formatMoneyWhole(value, budgetCurrency());
+
 function describeProposal(action: AssistantActie): string {
   switch (action.type) {
     case 'add_hoofdstuk': return uiText('chat.chapter', 'New chapter: {{code}} {{description}}', { code: String(action.code ?? ''), description: String(action.omschrijving ?? '') });
     case 'add_post': return uiText('chat.post', 'New item under {{parent}}: {{description}}', { parent: String(action.onderNr), description: String(action.omschrijving ?? '') });
-    case 'add_regel': return uiText('chat.line', 'New line under {{parent}}: {{quantity}} {{unit}} {{description}}{{price}}', { parent: String(action.onderNr), quantity: String(action.aantal ?? '?'), unit: String(action.eenheid ?? 'st'), description: String(action.omschrijving ?? ''), price: action.prijs != null ? ` @ €${String(action.prijs)}` : '' });
+    case 'add_regel': return uiText('chat.line', 'New line under {{parent}}: {{quantity}} {{unit}} {{description}}{{price}}', { parent: String(action.onderNr), quantity: String(action.aantal ?? '?'), unit: String(action.eenheid ?? 'st'), description: String(action.omschrijving ?? ''), price: action.prijs != null ? ` @ ${formatPrice(action.prijs)}` : '' });
     case 'update': return uiText('chat.update', 'No. {{number}}: {{field}} → {{value}}', { number: action.nr, field: uiText('chat.fields.' + String(action.veld), String(action.veld)), value: action.waarde });
     case 'verwijder': return uiText('chat.delete', 'Remove no. {{number}}, including child rows', { number: String(action.nr) });
     default: return String(action.type);
@@ -160,8 +171,8 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
     if (localActions) return `${uiText('chat.localProposal', 'I propose one estimate line. Check the details, then click Apply.')}\n\n\`\`\`ocs-acties\n${JSON.stringify({ acties: localActions })}\n\`\`\``;
     const total = chapters.reduce((s, c) => s + c.total, 0);
     const lower = text.toLowerCase();
-    const fmtTotal = Math.round(total).toLocaleString(i18next.resolvedLanguage || 'en');
-    const chapterList = chapters.map(c => `- ${c.code} ${c.description}: €${Math.round(c.total).toLocaleString(i18next.resolvedLanguage || 'en')}`).join('\n');
+    const fmtTotal = formatWholeMoney(total);
+    const chapterList = chapters.map(c => `- ${c.code} ${c.description}: ${formatWholeMoney(c.total)}`).join('\n');
     if (lower.includes('totaal') || lower.includes('kosten') || lower.includes('prijs') || /\b(total|costs?|prices?)\b/.test(lower)) {
       return i18next.t('chat.localTotal', { total: fmtTotal, list: chapterList });
     }
@@ -170,12 +181,12 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
     }
     if (lower.includes('duurste') || lower.includes('grootste') || /\b(largest|biggest|expensive)\b/.test(lower)) {
       const sorted = [...chapters].sort((a, b) => b.total - a.total);
-      const list = sorted.slice(0, 5).map((c, i) => `${i + 1}. ${c.code} ${c.description}: €${Math.round(c.total).toLocaleString(i18next.resolvedLanguage || 'en')} (${total ? Math.round(c.total / total * 100) : 0}%)`).join('\n');
+      const list = sorted.slice(0, 5).map((c, i) => `${i + 1}. ${c.code} ${c.description}: ${formatWholeMoney(c.total)} (${total ? Math.round(c.total / total * 100) : 0}%)`).join('\n');
       return i18next.t('chat.localTop', { list });
     }
     if (lower.includes('m2') || lower.includes('per vierkante meter') || lower.includes('bvo') || /per square met(er|re)/.test(lower)) {
       return bvo && bvo > 0
-        ? i18next.t('chat.localBvo', { bvo, value: Math.round(total / bvo).toLocaleString(i18next.resolvedLanguage || 'en') })
+        ? i18next.t('chat.localBvo', { bvo, value: formatWholeMoney(total / bvo) })
         : i18next.t('chat.localNoBvo');
     }
     return i18next.t('chat.localHelp');

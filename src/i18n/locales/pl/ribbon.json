@@ -189,7 +189,7 @@
     "number": "Liczba",
     "formatAuto": "Automatyczny",
     "formatNumber": "Liczbowy",
-    "formatCurrency": "Walutowy (€)",
+    "formatCurrency": "Walutowy ({{symbol}})",
     "formatPercentage": "Procentowy (%)",
     "formatText": "Tekstowy",
     "decimalUp": "+Miejsce dz.",

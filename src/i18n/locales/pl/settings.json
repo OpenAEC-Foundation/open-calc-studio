@@ -17,6 +17,8 @@
     "reportLanguage": "Język raportów",
     "reportLanguageAuto": "Taki sam jak interfejs",
     "reportLanguageHelp": "Język wydruków i raportów PDF. Przydatne, gdy język interfejsu różni się od języka Twojego zamawiającego.",
+    "numberFormat": "Format liczb",
+    "numberFormatAuto": "Zgodnie z językiem aplikacji",
     "startup": "Uruchamianie",
     "restoreSession": "Przywróć sesję przy uruchomieniu",
     "checkUpdates": "Sprawdzaj aktualizacje",

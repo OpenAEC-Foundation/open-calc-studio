@@ -188,7 +188,7 @@
     "number": "Broj",
     "formatAuto": "Automatski",
     "formatNumber": "Broj",
-    "formatCurrency": "Valuta (€)",
+    "formatCurrency": "Valuta ({{symbol}})",
     "formatPercentage": "Postotak (%)",
     "formatText": "Tekst",
     "decimalUp": "+Decimala",

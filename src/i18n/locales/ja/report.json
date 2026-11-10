@@ -155,6 +155,7 @@
     "approval": "承諾：",
     "images": "[画像 {{count}} 点]",
     "totalOffer": "本工事は次の金額にて承ります：{{amount}}",
-    "inclVatNote": "本金額には消費税（21%）が含まれています。"
+    "inclVatNote": "本金額には消費税（{{rate}}）が含まれています。",
+    "inclVatNoteMixed": "本金額には消費税が含まれています。"
   }
 }

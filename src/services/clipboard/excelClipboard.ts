@@ -3,7 +3,13 @@
  * in TSV format so they can be pasted directly into Excel/Google Sheets.
  */
 import type { CostItem } from '@/types/costModel';
-import { formatNumber, formatCurrency } from '@/utils/formatting';
+import { formatNumber as fmtNumber, formatCurrency as fmtCurrency } from '@/utils/formatting';
+
+// In RTL-talen (ar, he, fa, ur) zet Intl een onzichtbaar richtingsteken
+// (U+200E/U+200F) voor een negatief getal. Excel ziet de cel dan als tekst.
+const BIDI_MARKS = new RegExp(`[${String.fromCharCode(0x200e, 0x200f)}]`, 'g');
+const formatNumber = (v: number | null) => fmtNumber(v).replace(BIDI_MARKS, '');
+const formatCurrency = (v: number | null) => fmtCurrency(v).replace(BIDI_MARKS, '');
 
 const COLUMNS = [
   { key: 'nr', header: 'Nr' },

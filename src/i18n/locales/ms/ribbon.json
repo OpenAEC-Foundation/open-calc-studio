@@ -187,7 +187,7 @@
     "number": "Nombor",
     "formatAuto": "Automatik",
     "formatNumber": "Nombor",
-    "formatCurrency": "Mata wang (€)",
+    "formatCurrency": "Mata wang ({{symbol}})",
     "formatPercentage": "Peratusan (%)",
     "formatText": "Teks",
     "decimalUp": "+Perpuluhan",

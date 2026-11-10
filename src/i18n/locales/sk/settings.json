@@ -17,6 +17,8 @@
     "reportLanguage": "Jazyk zostáv",
     "reportLanguageAuto": "Rovnaký ako rozhranie",
     "reportLanguageHelp": "Jazyk výtlačkov a zostáv PDF. Užitočné, keď sa jazyk rozhrania líši od jazyka vášho objednávateľa.",
+    "numberFormat": "Formát čísel",
+    "numberFormatAuto": "Podľa jazyka aplikácie",
     "startup": "Spustenie",
     "restoreSession": "Obnoviť reláciu pri spustení",
     "checkUpdates": "Kontrolovať aktualizácie",

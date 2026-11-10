@@ -155,6 +155,7 @@
     "approval": "승인:",
     "images": "[이미지 {{count}}장]",
     "totalOffer": "본 공사는 다음 금액으로 시행할 수 있습니다: {{amount}}",
-    "inclVatNote": "이 금액에는 부가세(21%)가 포함되어 있습니다."
+    "inclVatNote": "이 금액에는 부가세({{rate}})가 포함되어 있습니다.",
+    "inclVatNoteMixed": "이 금액에는 부가세가 포함되어 있습니다."
   }
 }

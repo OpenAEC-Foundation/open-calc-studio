@@ -1,4 +1,5 @@
 import type { CostItem, RowType } from '@/types/costModel';
+import { uiText } from '@/i18n/uiText';
 
 /** Build a single staart_* CostItem with sensible defaults. */
 export function makeStaartItem(
@@ -75,16 +76,16 @@ export function synthesizeStaartItems(schedule: any): CostItem[] {
 
   let n = 9000;
   return [
-    makeStaartItem('staart_ak_oa',       'Algemene kosten over onderaanneming:', akOaPct,        n++),
-    makeStaartItem('staart_abk',         'Algemene bedrijfskosten:',              abkPct,         n++),
-    makeStaartItem('staart_garanties',   'Garanties:',                            garantiesPct,   n++),
-    makeStaartItem('staart_wvpm',        'Werkvoorbereiding & projectmanagement', wvpmPct,        n++),
-    makeStaartItem('staart_risico',      'Risico:',                               risicoPct,      n++),
-    makeStaartItem('staart_winst',       'Winst:',                                winstPct,       n++),
-    makeStaartItem('staart_verzekering', 'Verzekering:',                          verzekeringPct, n++),
-    makeStaartItem('staart_btw_laag',    'Btw laag:',                             btwLaagPct,     n++),
-    makeStaartItem('staart_btw',         'Btw hoog:',                             btwPct,         n++),
-    makeStaartItem('staart_afronding',   'Afronding',                             null,           n++),
+    makeStaartItem('staart_ak_oa',       uiText("defaults.subcontractOverhead", "Overheads on subcontracting:"), akOaPct, n++),
+    makeStaartItem('staart_abk',         uiText("defaults.generalOverhead", "General overheads:"), abkPct, n++),
+    makeStaartItem('staart_garanties',   uiText("defaults.guarantees", "Guarantees:"), garantiesPct, n++),
+    makeStaartItem('staart_wvpm',        uiText("defaults.preparation", "Work preparation & project management"), wvpmPct, n++),
+    makeStaartItem('staart_risico',      uiText("defaults.risk", "Risk:"), risicoPct, n++),
+    makeStaartItem('staart_winst',       uiText("defaults.profit", "Profit:"), winstPct, n++),
+    makeStaartItem('staart_verzekering', uiText("defaults.insurance", "Insurance:"), verzekeringPct, n++),
+    makeStaartItem('staart_btw_laag',    uiText("defaults.vatLow", "Low VAT:"), btwLaagPct, n++),
+    makeStaartItem('staart_btw',         uiText("defaults.vatHigh", "High VAT:"), btwPct, n++),
+    makeStaartItem('staart_afronding',   uiText("defaults.rounding", "Rounding"), null, n++),
   ];
 }
 
@@ -101,7 +102,7 @@ export function ensureBtwLaagItem(items: CostItem[]): CostItem[] {
   const btwIdx = items.findIndex((i) => i.rowType === 'staart_btw');
   if (btwIdx < 0) return items;
   const btw = items[btwIdx];
-  const laag = makeStaartItem('staart_btw_laag', 'Btw laag:', 9, btw.sortOrder);
+  const laag = makeStaartItem('staart_btw_laag', uiText("defaults.vatLow", "Low VAT:"), 9, btw.sortOrder);
   // Direct vóór de hoog-regel; alles vanaf de hoog-regel schuift één plek op.
   return [
     ...items.slice(0, btwIdx),

@@ -17,6 +17,8 @@
     "reportLanguage": "Мова звітів",
     "reportLanguageAuto": "Як в інтерфейсі",
     "reportLanguageHelp": "Мова друкованих форм і PDF-звітів. Зручно, якщо мова інтерфейсу відрізняється від мови вашого замовника.",
+    "numberFormat": "Формат чисел",
+    "numberFormatAuto": "Як у мові застосунку",
     "startup": "Запуск",
     "restoreSession": "Відновлювати сеанс під час запуску",
     "checkUpdates": "Перевіряти оновлення",

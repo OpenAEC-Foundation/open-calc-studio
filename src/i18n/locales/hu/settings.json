@@ -17,6 +17,8 @@
     "reportLanguage": "Jelentések nyelve",
     "reportLanguageAuto": "Azonos a felülettel",
     "reportLanguageHelp": "A nyomtatványok és PDF-jelentések nyelve. Hasznos, ha a felület nyelve eltér a megrendelő nyelvétől.",
+    "numberFormat": "Számformátum",
+    "numberFormatAuto": "Az alkalmazás nyelve szerint",
     "startup": "Indítás",
     "restoreSession": "Munkamenet visszaállítása indításkor",
     "checkUpdates": "Frissítések keresése",

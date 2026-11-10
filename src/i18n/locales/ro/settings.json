@@ -17,6 +17,8 @@
     "reportLanguage": "Limba rapoartelor",
     "reportLanguageAuto": "La fel ca interfața",
     "reportLanguageHelp": "Limba documentelor tipărite și a rapoartelor PDF. Util atunci când limba interfeței diferă de limba beneficiarului.",
+    "numberFormat": "Formatul numerelor",
+    "numberFormatAuto": "După limba aplicației",
     "startup": "Pornire",
     "restoreSession": "Restaurare sesiune la pornire",
     "checkUpdates": "Verificare actualizări",

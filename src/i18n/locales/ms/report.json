@@ -155,6 +155,7 @@
     "approval": "Dipersetujui:",
     "images": "[{{count}} imej]",
     "totalOffer": "Kami boleh melaksanakan kerja ini dengan harga: {{amount}}",
-    "inclVatNote": "Amaun ini termasuk GST (21%)."
+    "inclVatNote": "Amaun ini termasuk GST ({{rate}}).",
+    "inclVatNoteMixed": "Amaun ini termasuk GST."
   }
 }

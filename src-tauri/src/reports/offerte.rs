@@ -3,7 +3,7 @@
 use openaec_layout::*;
 use std::path::Path;
 
-use super::{OfferteReportRequest, OfferteSection};
+use super::{CostItem, OfferteReportRequest, OfferteSection};
 
 #[derive(Debug, Clone)]
 struct BriefhoofdCallback {
@@ -299,30 +299,29 @@ fn build_vrij_section(section: &OfferteSection, flowables: &mut Vec<Box<dyn Flow
     }
 }
 
-/// Offertebedrag inclusief btw. De btw komt uit de staart-regels (hoog +
-/// laag), ook als die samen 0 zijn (bijv. 0 % btw); alleen een begroting
-/// zonder enige btw-regel valt terug op 21 %.
-fn total_incl_vat(request: &OfferteReportRequest) -> f64 {
+/// Offertebedrag inclusief btw, plus het btw-tarief voor de toelichting.
+/// De btw komt uit de staart-regels (hoog + laag), ook als die samen 0 zijn
+/// (bijv. 0 % btw); alleen een begroting zonder enige btw-regel valt terug
+/// op 21 % (knownbug 133, issue #65).
+fn total_and_vat_rate(request: &OfferteReportRequest) -> (f64, Option<f64>) {
     let aanneemsom: f64 = request.items.iter()
         .filter(|i| i.row_type == "chapter" && i.depth == 0).map(|i| i.total).sum();
     let staart_total: f64 = request.items.iter()
         .filter(|i| i.row_type.starts_with("staart_") && !i.row_type.starts_with("staart_btw"))
         .map(|i| i.total).sum();
     let total_excl = aanneemsom + staart_total;
-    let mut btw_rows = request.items.iter()
-        .filter(|i| i.row_type.starts_with("staart_btw"))
-        .peekable();
-    let btw = if btw_rows.peek().is_some() {
-        btw_rows.map(|i| i.total).sum()
-    } else {
-        total_excl * 0.21
-    };
-    total_excl + btw
+    let (btw, rate) = vat_summary(&request.items, total_excl);
+    (total_excl + btw, rate)
+}
+
+#[cfg(test)]
+fn total_incl_vat(request: &OfferteReportRequest) -> f64 {
+    total_and_vat_rate(request).0
 }
 
 fn build_total_price(request: &OfferteReportRequest, flowables: &mut Vec<Box<dyn Flowable>>) {
     let nf = &request.number_format;
-    let total_incl = total_incl_vat(request);
+    let (total_incl, rate) = total_and_vat_rate(request);
 
     flowables.push(Box::new(Spacer::from_mm(12.0)));
     flowables.push(Box::new(Paragraph::new(
@@ -333,10 +332,46 @@ fn build_total_price(request: &OfferteReportRequest, flowables: &mut Vec<Box<dyn
         ),
         ParagraphStyle { font_size: Pt(11.0), leading: Pt(15.0), bold: true, space_after: Pt(4.0), ..Default::default() },
     )));
-    flowables.push(Box::new(Paragraph::new(
-        request.lbl("offerte.inclVatNote", "Dit bedrag is inclusief BTW (21%)."),
-        small_style(),
-    )));
+    // Het echte tarief uit de staart (IVA 16%, MwSt. 19%, …); bij laag én hoog
+    // tegelijk bestaat er geen enkel tarief, dan de zin zonder percentage.
+    flowables.push(Box::new(Paragraph::new(&vat_note(request, rate), small_style())));
+}
+
+/// Toelichting onder het offertebedrag: "inclusief btw (16%)", of zonder
+/// tarief als laag én hoog allebei meetellen.
+fn vat_note(request: &OfferteReportRequest, rate: Option<f64>) -> String {
+    let nf = &request.number_format;
+    match rate {
+        // "21%", "5,5%" (geen overbodige nullen), in het %-patroon van de rapporttaal.
+        Some(r) => request.lbl_fmt(
+            "offerte.inclVatNote",
+            "Dit bedrag is inclusief BTW ({{rate}}).",
+            &[("rate", &nf.percent.replace("{{n}}", &nf.pct_value(r)))],
+        ),
+        None => request.lbl("offerte.inclVatNoteMixed", "Dit bedrag is inclusief BTW.").to_string(),
+    }
+}
+
+/// Btw-bedrag en -tarief (in procenten) voor de offerte (issue #65).
+///
+/// - Btw-regels in de staart (`staart_btw`, `staart_btw_laag`) zijn leidend,
+///   ook als ze samen 0 zijn (bijv. een land zonder btw): dan geen btw erbij.
+/// - Alleen zonder btw-regels (oude bestanden) valt de offerte terug op 21%.
+/// - Tarief: het percentage van de ene regel die echt meetelt; `None` als
+///   laag én hoog allebei een bedrag hebben.
+fn vat_summary(items: &[CostItem], total_excl: f64) -> (f64, Option<f64>) {
+    let rows: Vec<&CostItem> = items.iter().filter(|i| i.row_type.starts_with("staart_btw")).collect();
+    if rows.is_empty() {
+        return (total_excl * 0.21, Some(21.0));
+    }
+    let btw: f64 = rows.iter().map(|i| i.total).sum();
+    let active: Vec<&&CostItem> = rows.iter().filter(|i| i.total.abs() > 0.005).collect();
+    let rate = match active.as_slice() {
+        [] => Some(0.0),
+        [one] => one.staart_percentage.or_else(|| (total_excl.abs() > 0.005).then(|| one.total / total_excl * 100.0)),
+        _ => None,
+    };
+    (btw, rate)
 }
 
 #[cfg(test)]
@@ -412,5 +447,42 @@ mod tests {
     fn zonder_btw_regels_21_procent() {
         let req = with_items(serde_json::json!([chapter()]));
         assert!((total_incl_vat(&req) - 1210.0).abs() < 1e-9);
+    }
+
+    fn btw_regel(row_type: &str, pct: f64, total: f64) -> CostItem {
+        serde_json::from_value(serde_json::json!({
+            "id": row_type, "rowType": row_type, "description": "", "total": total,
+            "staartPercentage": pct, "depth": 0, "parentId": null
+        }))
+        .expect("CostItem parsen")
+    }
+
+    #[test]
+    fn btw_volgt_de_staart_en_niet_vast_21_procent() {
+        // IVA 16% (Mexico): bedrag én tarief uit de staart.
+        let (btw, rate) = vat_summary(&[btw_regel("staart_btw_laag", 9.0, 0.0), btw_regel("staart_btw", 16.0, 160.0)], 1000.0);
+        assert_eq!((btw, rate), (160.0, Some(16.0)));
+        // Btw-regels op 0 (land zonder btw): geen 21% erbij.
+        let (btw, rate) = vat_summary(&[btw_regel("staart_btw", 0.0, 0.0)], 1000.0);
+        assert_eq!((btw, rate), (0.0, Some(0.0)));
+        // Laag én hoog met een bedrag: geen enkel tarief.
+        let (btw, rate) = vat_summary(&[btw_regel("staart_btw_laag", 9.0, 18.0), btw_regel("staart_btw", 21.0, 168.0)], 1000.0);
+        assert_eq!((btw, rate), (186.0, None));
+        // Oud bestand zonder btw-regels: zoals voorheen 21%.
+        assert_eq!(vat_summary(&[], 1000.0), (210.0, Some(21.0)));
+    }
+
+    #[test]
+    fn btw_zin_toont_het_echte_tarief() {
+        let nl_req = request(serde_json::json!({}));
+        assert_eq!(vat_note(&nl_req, Some(16.0)), "Dit bedrag is inclusief BTW (16%).");
+        assert_eq!(vat_note(&nl_req, Some(5.5)), "Dit bedrag is inclusief BTW (5,5%).");
+        assert_eq!(vat_note(&nl_req, None), "Dit bedrag is inclusief BTW.");
+        let es = request(serde_json::json!({
+            "offerte.inclVatNote": "Este importe incluye el IVA ({{rate}}).",
+            "offerte.inclVatNoteMixed": "Este importe incluye el IVA."
+        }));
+        assert_eq!(vat_note(&es, Some(16.0)), "Este importe incluye el IVA (16%).");
+        assert_eq!(vat_note(&es, None), "Este importe incluye el IVA.");
     }
 }

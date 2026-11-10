@@ -155,6 +155,7 @@
     "approval": "Per accettazione:",
     "images": "[{{count}} imm.]",
     "totalOffer": "Possiamo eseguire questi lavori per: {{amount}}",
-    "inclVatNote": "L'importo è comprensivo di IVA (21%)."
+    "inclVatNote": "L'importo è comprensivo di IVA ({{rate}}).",
+    "inclVatNoteMixed": "L'importo è comprensivo di IVA."
   }
 }

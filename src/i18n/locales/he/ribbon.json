@@ -189,7 +189,7 @@
     "number": "מספר",
     "formatAuto": "אוטומטי",
     "formatNumber": "מספר",
-    "formatCurrency": "מטבע (€)",
+    "formatCurrency": "מטבע ({{symbol}})",
     "formatPercentage": "אחוז (%)",
     "formatText": "טקסט",
     "decimalUp": "+ עשרוני",

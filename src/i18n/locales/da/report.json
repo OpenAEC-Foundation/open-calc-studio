@@ -155,6 +155,7 @@
     "approval": "Accepteret:",
     "images": "[{{count}} billeder]",
     "totalOffer": "Vi kan udføre dette arbejde for: {{amount}}",
-    "inclVatNote": "Beløbet er inklusive moms (21 %)."
+    "inclVatNote": "Beløbet er inklusive moms ({{rate}}).",
+    "inclVatNoteMixed": "Beløbet er inklusive moms."
   }
 }

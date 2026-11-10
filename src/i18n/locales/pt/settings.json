@@ -17,6 +17,8 @@
     "reportLanguage": "Idioma dos relatórios",
     "reportLanguageAuto": "Igual à interface",
     "reportLanguageHelp": "Idioma das impressões e dos relatórios em PDF. Útil quando o idioma da interface é diferente do idioma do seu cliente.",
+    "numberFormat": "Formato dos números",
+    "numberFormatAuto": "Segue o idioma da aplicação",
     "startup": "Arranque",
     "restoreSession": "Restaurar a sessão no arranque",
     "checkUpdates": "Procurar atualizações",

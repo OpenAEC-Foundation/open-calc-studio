@@ -191,7 +191,7 @@
     "number": "رقم",
     "formatAuto": "تلقائي",
     "formatNumber": "رقم",
-    "formatCurrency": "عملة (€)",
+    "formatCurrency": "عملة ({{symbol}})",
     "formatPercentage": "نسبة مئوية (%)",
     "formatText": "نص",
     "decimalUp": "+ خانة عشرية",

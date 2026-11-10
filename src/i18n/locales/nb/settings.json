@@ -17,6 +17,8 @@
     "reportLanguage": "Rapportspråk",
     "reportLanguageAuto": "Samme som grensesnittet",
     "reportLanguageHelp": "Språk for utskrifter og PDF-rapporter. Praktisk når språket i grensesnittet er et annet enn språket til byggherren din.",
+    "numberFormat": "Tallformat",
+    "numberFormatAuto": "Følger appens språk",
     "startup": "Oppstart",
     "restoreSession": "Gjenopprett økten ved oppstart",
     "checkUpdates": "Se etter oppdateringer",

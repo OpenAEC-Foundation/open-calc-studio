@@ -189,7 +189,7 @@
     "number": "Číslo",
     "formatAuto": "Automaticky",
     "formatNumber": "Číslo",
-    "formatCurrency": "Mena (€)",
+    "formatCurrency": "Mena ({{symbol}})",
     "formatPercentage": "Percentá (%)",
     "formatText": "Text",
     "decimalUp": "+Desatinné",

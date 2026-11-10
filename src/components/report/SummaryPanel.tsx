@@ -4,11 +4,12 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { getKostprijs, getStaartBreakdown, getGrandTotal } from '@/services/calculation/calculator';
-import { formatCurrency } from '@/utils/formatting';
+import { useMoney } from '@/hooks/useMoney';
 
 export const SummaryPanel: React.FC = () => {
   const { t } = useTranslation();
   const { items, schedule } = useAppStore();
+  const formatCurrency = useMoney();
   const kostprijs = getKostprijs(items);
   const breakdown = getStaartBreakdown(items);
   const grandTotal = getGrandTotal(items);

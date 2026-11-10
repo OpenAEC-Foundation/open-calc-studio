@@ -155,6 +155,7 @@
     "approval": "Agreed:",
     "images": "[{{count}} img.]",
     "totalOffer": "We can carry out this work for: {{amount}}",
-    "inclVatNote": "This amount includes VAT (21%)."
+    "inclVatNote": "This amount includes VAT ({{rate}}).",
+    "inclVatNoteMixed": "This amount includes VAT."
   }
 }

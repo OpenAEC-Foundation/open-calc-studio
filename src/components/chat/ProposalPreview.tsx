@@ -1,12 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import type { AssistantProposalSummary } from '@/services/assistant/assistantProposal';
 import { uiText } from '@/i18n/uiText';
+import { getNumberLocale } from '@/utils/formatting';
 
 export function ProposalPreview({ proposal }: { proposal: AssistantProposalSummary }) {
-  const { i18n } = useTranslation();
-  const currency = new Intl.NumberFormat(i18n.language || 'en', { style: 'currency', currency: /^[A-Z]{3}$/.test(proposal.currency) ? proposal.currency : 'EUR' });
+  useTranslation(); // opnieuw tekenen bij een taal- of notatiewissel (#65)
+  const currency = new Intl.NumberFormat(`${getNumberLocale()}-u-nu-latn`, { style: 'currency', currency: /^[A-Z]{3}$/.test(proposal.currency) ? proposal.currency : 'EUR' });
   const money = (value: number) => currency.format(value);
-  const number = (value: number | null | undefined) => value == null ? '—' : value.toLocaleString(i18n.language || 'en', { maximumFractionDigits: 4 });
+  const number = (value: number | null | undefined) => value == null ? '—' : value.toLocaleString(`${getNumberLocale()}-u-nu-latn`, { maximumFractionDigits: 4 });
   const rows = [ ['direct', uiText('proposal.direct', 'Direct costs')], ['excludingVat', uiText('proposal.excludingVat', 'Total excl. VAT')], ['vat', uiText('proposal.vat', 'VAT')], ['includingVat', uiText('proposal.includingVat', 'Total incl. VAT')] ] as const;
   return <section className="proposal-preview" aria-label={uiText('proposal.title', 'Financial preview')}>
     <strong>{uiText('proposal.title', 'Financial preview')}</strong>

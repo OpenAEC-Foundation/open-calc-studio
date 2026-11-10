@@ -155,6 +155,7 @@
     "approval": "Disetujui:",
     "images": "[{{count}} gbr.]",
     "totalOffer": "Kami dapat melaksanakan pekerjaan ini dengan harga: {{amount}}",
-    "inclVatNote": "Harga ini sudah termasuk PPN (21%)."
+    "inclVatNote": "Harga ini sudah termasuk PPN ({{rate}}).",
+    "inclVatNoteMixed": "Harga ini sudah termasuk PPN."
   }
 }

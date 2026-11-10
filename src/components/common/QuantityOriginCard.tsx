@@ -7,13 +7,14 @@ import { openQuantitySource } from '@/services/quantity/quantitySourceActions';
 import { uiText } from '@/i18n/uiText';
 import Modal from './Modal';
 import './QuantityOriginCard.css';
+import { getNumberLocale } from '@/utils/formatting';
 
 export function QuantityOriginCard({ item, onNavigate, allowNavigate = true }: { item: CostItem; onNavigate?: () => void; allowNavigate?: boolean }) {
   const { i18n } = useTranslation();
   const schedule = useAppStore(s => s.schedule), subSheets = useAppStore(s => s.subSheets), ifcQuantities = useAppStore(s => s.ifcQuantities);
   const origin = getQuantityOrigin(item, { schedule, subSheets, ifcQuantities });
   const [error, setError] = useState('');
-  const number = (value: number | null) => value == null ? '—' : value.toLocaleString(i18n.language || 'en', { maximumFractionDigits: 6 });
+  const number = (value: number | null) => value == null ? '—' : value.toLocaleString(`${getNumberLocale()}-u-nu-latn`, { maximumFractionDigits: 6 });
   async function navigate(index: number) {
     try {
       const result = await openQuantitySource(item.id, index);

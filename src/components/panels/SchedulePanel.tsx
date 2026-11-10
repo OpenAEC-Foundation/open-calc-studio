@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
+import { getNumberLocale } from '@/utils/formatting';
 import { getKostprijs } from '@/services/calculation/calculator';
 import { variantItems } from '@/services/grid/variantScope';
 import type { CostItem } from '@/types/costModel';
@@ -394,6 +395,7 @@ const SchedulePanelInner: React.FC = () => {
             percent={view.percent}
             kostprijs={kostprijs}
             chapterFallback={chapterFallback}
+            numberLocale={getNumberLocale()}
             events={rowEvents}
           />
         ))}

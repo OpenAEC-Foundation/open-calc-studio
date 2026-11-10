@@ -155,6 +155,7 @@
     "approval": "同意确认：",
     "images": "[{{count}} 张图片]",
     "totalOffer": "我方可按以下金额承接本项工程：{{amount}}",
-    "inclVatNote": "本金额已含增值税（21%）。"
+    "inclVatNote": "本金额已含增值税（{{rate}}）。",
+    "inclVatNoteMixed": "本金额已含增值税。"
   }
 }

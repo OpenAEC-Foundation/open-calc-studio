@@ -7,10 +7,11 @@ import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import { useAppStore } from '@/state/appStore';
 import type { PdfPoint, PdfSource, PdfWorkspace } from '@/types/pdfWorkspace';
 import { createPdfSource, emptyPdfWorkspace, importOpenPdfMeasurements, measurePoints, replaceOpenPdfMeasurements } from '@/services/pdf/pdfWorkspace';
+import { getNumberLocale } from '@/utils/formatting';
 
 const EMPTY = emptyPdfWorkspace();
 export function PdfViewer({ readOnly = false }: { readOnly?: boolean }) {
-  const { i18n } = useTranslation();
+  useTranslation(); // opnieuw tekenen bij een taal- of notatiewissel (#65)
   const documentId = useAppStore(s => s.activeDocumentId);
   const workspace = useAppStore(s => s.schedule.pdfWorkspace) ?? EMPTY;
   const source = workspace.sources.find(s => s.id === workspace.activeSourceId);
@@ -171,7 +172,7 @@ export function PdfViewer({ readOnly = false }: { readOnly?: boolean }) {
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 6 }}><strong>{uiText("pdf.scale", "2. Scale")}</strong>
         <button type="button" aria-pressed={tool === 'calibrate'} disabled={!pdf} onClick={() => { setTool('calibrate'); setPoints([]); }}>{uiText("pdf.choosePoints", "Choose two points")}</button>
-        <span style={{ fontSize: 12 }}>{scale ? uiText('pdf.scaleValue', '{{value}} mm per PDF point', { value: scale.toLocaleString(i18n.language, { minimumFractionDigits: 4, maximumFractionDigits: 4 }) }) : uiText("pdf.uncalibrated", "Not calibrated yet")}</span>
+        <span style={{ fontSize: 12 }}>{scale ? uiText('pdf.scaleValue', '{{value}} mm per PDF point', { value: scale.toLocaleString(`${getNumberLocale()}-u-nu-latn`, { minimumFractionDigits: 4, maximumFractionDigits: 4 }) }) : uiText("pdf.uncalibrated", "Not calibrated yet")}</span>
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 6 }}><strong>{uiText("pdf.measure", "3. Measure")}</strong>
         {(['pan', 'length', 'area'] as const).map((v, i) => <button key={v} type="button" aria-pressed={tool === v} disabled={!pdf || (v !== 'pan' && !scale)} onClick={() => { setTool(v); setPoints([]); }}>{[uiText("pdf.pan", "Pan"), uiText("pdf.length", "Length"), uiText("pdf.area", "Area")][i]}</button>)}
@@ -206,7 +207,7 @@ export function PdfViewer({ readOnly = false }: { readOnly?: boolean }) {
     {!!source?.measurements.length && <div style={{ maxHeight: 170, overflow: 'auto', padding: 10 }}>
       {source.measurements.map(m => <div key={m.id} style={{ display: 'flex', gap: 10, padding: 3 }}>
         <span>{m.label} — p. {m.page} — {m.origin === 'open-pdf-studio' ? 'Open PDF Studio' : 'Open Calc Studio'} {m.origin === 'open-pdf-studio' && !m.sourceVerified && `· ${uiText('revisions.unverified', 'Review source identity')}`}</span>
-        <strong style={{ marginLeft: 'auto' }}>{m.value.toLocaleString(i18n.language, { minimumFractionDigits: 3, maximumFractionDigits: 3 })} {m.type === 'area' ? 'm²' : 'm'}</strong>
+        <strong style={{ marginLeft: 'auto' }}>{m.value.toLocaleString(`${getNumberLocale()}-u-nu-latn`, { minimumFractionDigits: 3, maximumFractionDigits: 3 })} {m.type === 'area' ? 'm²' : 'm'}</strong>
         {!readOnly && button(uiText("remove", "Remove"), () => { if (window.confirm(uiText("pdf.removeConfirm", "Remove measurement? A linked individual quantity keeps its last known value; a linked total changes."))) changeSource(s => ({ ...s, measurements: s.measurements.filter(x => x.id !== m.id) })); })}
       </div>)}
     </div>}

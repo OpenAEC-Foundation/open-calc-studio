@@ -155,6 +155,7 @@
     "approval": "Akseptert:",
     "images": "[{{count}} bilder]",
     "totalOffer": "Vi kan utføre dette arbeidet for: {{amount}}",
-    "inclVatNote": "Beløpet er inkludert mva. (21 %)."
+    "inclVatNote": "Beløpet er inkludert mva. ({{rate}}).",
+    "inclVatNoteMixed": "Beløpet er inkludert mva."
   }
 }

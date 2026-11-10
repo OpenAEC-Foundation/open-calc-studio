@@ -8,6 +8,8 @@ import './CalculationWizard.css';
 import { parseLocaleNumber, usesDecimalComma, formatInputNumber } from '@/utils/numberInput';
 import { variantItems } from '@/services/grid/variantScope';
 import { reviewBudget } from '@/services/review/budgetReview';
+import { getNumberLocale } from '@/utils/formatting';
+import { useMoney } from '@/hooks/useMoney';
 
 export const parseWizardNumber = parseLocaleNumber;
 
@@ -15,8 +17,8 @@ function NumberField({ label, value, change, invalidDraft, setDraft, fieldId, re
   label: string; value: number | null; change: (value: number | null) => void;
   invalidDraft?: string; setDraft: (id: string, value?: string) => void; fieldId: string; readOnly?: boolean;
 }) {
-  const { t, i18n } = useTranslation();
-  const comma = usesDecimalComma(i18n.language);
+  const { t } = useTranslation();
+  const comma = usesDecimalComma(getNumberLocale()); // app-taal of instelling "Getalnotatie" (#65)
   const invalid = invalidDraft !== undefined;
   const focused = useRef(false);
   const [inputDraft, setInputDraft] = useState(() => invalidDraft ?? formatInputNumber(value, comma));
@@ -36,7 +38,7 @@ const steps = ['project', 'quantities', 'costs', 'surcharges', 'review'] as cons
 const units: CostUnit[] = ['st', 'm', 'm²', 'm³', 'kg', 'ton', 'uur', 'dgn', 'km', 'keer', 'ls', 'week', 'mnd', 'post', '%', 'pm'];
 
 export function CalculationWizard({ onEditor }: { onEditor?: () => void }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const state = useAppStore();
   const { saveFile } = useFileOperations();
   const [step, setStep] = useState(0);
@@ -49,7 +51,7 @@ export function CalculationWizard({ onEditor }: { onEditor?: () => void }) {
   useEffect(() => { setStep(0); setDrafts({}); setChapter(''); setLimit(60); }, [activeDocumentId]);
   const setDraft = (id: string, value?: string) => setDrafts(current => { const next = { ...current }; value === undefined ? delete next[id] : next[id] = value; return next; });
   const total = useMemo(() => getStaartBreakdown(items), [items]);
-  const money = new Intl.NumberFormat(i18n.language, { style: 'currency', currency: schedule.currency || 'EUR' });
+  const money = { format: useMoney({ keepZero: true }) };
   const scoped = variantItems(items, schedule);
   const review = useMemo(() => reviewBudget(state), [items, schedule, state.subSheets, state.ifcQuantities]);
   const chapters = scoped.filter(item => item.rowType === 'chapter');
