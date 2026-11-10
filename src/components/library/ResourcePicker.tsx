@@ -100,8 +100,12 @@ export const ResourcePicker: React.FC = () => {
       store.updateItem(newId, 'unit', item.unit);
       store.updateItem(newId, 'resourceType', item.resourceType);
       store.updateItem(newId, 'resourceLibraryId', item.id);
-      // An unknown catalogue labour price must not silently become tariff A.
+      // Unit 'uur' makes updateItem pick tariff A with norm 1 on an empty row,
+      // which fills laborPrice with the hourly rate. A library article costs
+      // exactly its library price: no tariff and no hidden labour on top of
+      // it, also when the library has no price (knownbug 190).
       store.updateItem(newId, 'tariefGroep', null);
+      store.updateItem(newId, 'laborPrice', null);
       if (item.defaultUnitPrice === null) {
         store.updateItem(newId, 'normUnitPrice', null);
         store.updateItem(newId, 'notes', uiText("pricing.missing", "Price missing: enter a verified price and source."));

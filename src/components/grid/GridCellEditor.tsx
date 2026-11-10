@@ -108,23 +108,55 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
     if (value !== storedValue) onCommit(item, colIndex, value);
   }, [storedValue, onCommit, item, colIndex]);
 
-  const moveToNextCell = useCallback((shift: boolean) => {
+  /** Laatste rij-index van het gerenderde grid (dezelfde lijst als CostGrid). */
+  const lastRow = () => Math.max(0, useAppStore.getState().getGridRows().length - 1);
+
+  /**
+   * Na het afsluiten van een bewerking met het toetsenbord de focus terug
+   * naar het grid (knownbugs 44). stopEditing() haalt de editor weg; dan valt
+   * de focus naar <body> en werken pijltjes, Ctrl+C/X/V en Delete niet meer.
+   * Pas ná het weghalen van de editor focussen (anders vuurt onBlur en commit
+   * hij nog eens), en alleen als de focus nergens anders heen ging: een nieuwe
+   * editor (Tab/pijltje) of een ander veld/dialoog houdt hem.
+   */
+  const focusGridAfterEdit = () => {
+    const el = inputRef.current ?? textareaRef.current ?? selectRef.current;
+    const grid = el?.closest<HTMLElement>('.cost-grid');
+    if (!grid) return;
+    requestAnimationFrame(() => {
+      if (!grid.isConnected) return;
+      const active = document.activeElement;
+      if (!active || active === document.body || !active.isConnected) grid.focus({ preventScroll: true });
+    });
+  };
+
+  /** Naar de volgende/vorige bewerkbare cel. Geeft false als er geen is
+   *  (eerste cel van de eerste rij, laatste cel van de laatste rij): dan
+   *  blijft de cel staan (knownbugs 21). */
+  const moveToNextCell = useCallback((shift: boolean): boolean => {
     const currentEditIdx = editableCols.findIndex(c => c.index === colIndex);
     if (shift) {
       if (currentEditIdx > 0) {
         setActiveCell(activeRow, editableCols[currentEditIdx - 1].index, item.id);
-      } else if (activeRow > 0) {
-        // Moving to previous row — we don't know that item's ID, keep current
+        return true;
+      }
+      if (activeRow > 0) {
+        // Moving to previous row — setActiveCell resolves that row's item id
         setActiveCell(activeRow - 1, editableCols[editableCols.length - 1].index);
+        return true;
       }
-    } else {
-      if (currentEditIdx < editableCols.length - 1) {
-        setActiveCell(activeRow, editableCols[currentEditIdx + 1].index, item.id);
-      } else {
-        // Moving to next row — we don't know that item's ID, keep current
-        setActiveCell(activeRow + 1, editableCols[0].index);
-      }
+      return false;
     }
+    if (currentEditIdx < editableCols.length - 1) {
+      setActiveCell(activeRow, editableCols[currentEditIdx + 1].index, item.id);
+      return true;
+    }
+    if (activeRow < lastRow()) {
+      // Moving to next row — setActiveCell resolves that row's item id
+      setActiveCell(activeRow + 1, editableCols[0].index);
+      return true;
+    }
+    return false;
   }, [colIndex, activeRow, editableCols, setActiveCell, item.id]);
 
   /**
@@ -138,8 +170,11 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
    */
   const gaNaarRij = useCallback((delta: -1 | 1, waarde?: string) => {
     const doel = activeRow + delta;
-    if (doel < 0) return;
+    // Eerste/laatste rij: niets doen, de editor blijft open (knownbugs 21:
+    // voorbij het einde bleef het grid in bewerkmodus hangen zonder editor).
+    if (doel < 0 || doel > lastRow()) return;
     if (waarde !== undefined) commitIfChanged(waarde);
+    focusGridAfterEdit();
     stopEditing();
     setActiveCell(doel, colIndex);
     requestAnimationFrame(() => startEditing());
@@ -166,6 +201,7 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
         className="grid-cell-editor"
         onChange={(e) => {
           onCommit(item, colIndex, e.target.value);
+          focusGridAfterEdit();
           stopEditing();
           moveToNextCell(false);
         }}
@@ -173,6 +209,7 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
         onKeyDown={(e) => {
           if (e.key === 'Escape') {
             e.preventDefault();
+            focusGridAfterEdit();
             stopEditing();
           } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
             // Rij verspringen gaat vóór het doorlopen van de keuzelijst.
@@ -184,15 +221,16 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
             e.preventDefault();
             const val = (e.target as HTMLSelectElement).value;
             if (val !== defaultVal) onCommit(item, colIndex, val);
+            focusGridAfterEdit();
             stopEditing();
-            moveToNextCell(e.shiftKey);
-            requestAnimationFrame(() => startEditing());
+            if (moveToNextCell(e.shiftKey)) requestAnimationFrame(() => startEditing());
           } else if (col.type === 'vn-select' || col.type === 'tarief-select') {
             // Direct keyboard selection for V/A/N/F or A/B/C
             const key = e.key.toUpperCase();
             if (options.includes(key)) {
               e.preventDefault();
               onCommit(item, colIndex, key);
+              focusGridAfterEdit();
               stopEditing();
               moveToNextCell(false);
             }
@@ -227,6 +265,7 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
         onKeyDown={(e) => {
           if (e.key === 'Escape') {
             e.preventDefault();
+            focusGridAfterEdit();
             stopEditing();
           } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
             // Ook hier gaat rij verspringen vóór; binnen de tekst navigeer je
@@ -236,15 +275,16 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
           } else if (e.key === 'Tab') {
             e.preventDefault();
             commitIfChanged((e.target as HTMLTextAreaElement).value);
+            focusGridAfterEdit();
             stopEditing();
-            moveToNextCell(e.shiftKey);
-            requestAnimationFrame(() => startEditing());
+            if (moveToNextCell(e.shiftKey)) requestAnimationFrame(() => startEditing());
           } else if (isTekstregelDesc && e.key === 'Enter' && !e.shiftKey) {
             // Tekstregel: Enter = bevestigen (Shift+Enter voor een nieuwe regel)
             e.preventDefault();
             commitIfChanged((e.target as HTMLTextAreaElement).value);
+            focusGridAfterEdit();
             stopEditing();
-            setActiveCell(activeRow + 1, colIndex);
+            setActiveCell(Math.min(activeRow + 1, lastRow()), colIndex);
           }
           // Witregel: Enter voegt een nieuwe regel toe (textarea-default)
         }}
@@ -266,8 +306,10 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
         if (e.key === 'Enter') {
           e.preventDefault();
           commitIfChanged((e.target as HTMLInputElement).value);
+          focusGridAfterEdit();
           stopEditing();
-          setActiveCell(activeRow + 1, colIndex);
+          // Op de laatste rij blijven (knownbugs 21).
+          setActiveCell(Math.min(activeRow + 1, lastRow()), colIndex);
         } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
           // Doorlopen van een kolom: bevestigen en meteen de volgende cel
           // bewerken, zonder tussendoor te hoeven klikken of Enter te drukken.
@@ -275,14 +317,16 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
           gaNaarRij(e.key === 'ArrowDown' ? 1 : -1, (e.target as HTMLInputElement).value);
         } else if (e.key === 'Escape') {
           e.preventDefault();
+          focusGridAfterEdit();
           stopEditing();
         } else if (e.key === 'Tab') {
           e.preventDefault();
           commitIfChanged((e.target as HTMLInputElement).value);
+          focusGridAfterEdit();
           stopEditing();
-          moveToNextCell(e.shiftKey);
-          // Re-enter edit mode in the next cell
-          requestAnimationFrame(() => startEditing());
+          // Re-enter edit mode in the next cell; after the last cell of the
+          // last row there is none: stay there and leave edit mode.
+          if (moveToNextCell(e.shiftKey)) requestAnimationFrame(() => startEditing());
         }
       }}
     />

@@ -86,7 +86,16 @@ export interface VersionSlice {
   getDiffsBetween: (oldId: string, newId: string) => SnapshotDiff[];
 }
 
-export const createVersionSlice: StateCreator<VersionSlice> = (set, get) => ({
+export const createVersionSlice: StateCreator<VersionSlice> = (set, get) => {
+  // Versies horen bij het document: maken of verwijderen moet Opslaan, de
+  // vraag bij sluiten en het herstel activeren. Laden (setSnapshots) en
+  // selecteren blijven bewust ongemarkeerd.
+  const markModified = () => {
+    const s = get() as any; // full AppStore at runtime
+    if (s.activeDocumentId && s.updateDocument) s.updateDocument(s.activeDocumentId, { isModified: true });
+  };
+
+  return ({
   snapshots: [],
   selectedSnapshotId: null,
 
@@ -112,12 +121,17 @@ export const createVersionSlice: StateCreator<VersionSlice> = (set, get) => ({
     };
 
     set((s) => ({ snapshots: [...s.snapshots, snapshot] }));
+    markModified();
   },
 
-  deleteSnapshot: (id) => set((s) => ({
-    snapshots: s.snapshots.filter(snap => snap.id !== id),
-    selectedSnapshotId: s.selectedSnapshotId === id ? null : s.selectedSnapshotId,
-  })),
+  deleteSnapshot: (id) => {
+    if (!get().snapshots.some(snap => snap.id === id)) return;
+    set((s) => ({
+      snapshots: s.snapshots.filter(snap => snap.id !== id),
+      selectedSnapshotId: s.selectedSnapshotId === id ? null : s.selectedSnapshotId,
+    }));
+    markModified();
+  },
 
   setSelectedSnapshot: (id) => set({ selectedSnapshotId: id }),
   setSnapshots: (snapshots) => set({ snapshots }),
@@ -137,3 +151,4 @@ export const createVersionSlice: StateCreator<VersionSlice> = (set, get) => ({
     return computeDiffs(oldSnap.items, newSnap.items);
   },
 });
+};

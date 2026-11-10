@@ -53,13 +53,6 @@ stand van `main` op die datum.
     Nagespeeld: met Prod.norm verborgen gaat Tab vanuit Aantal naar `productienorm` en opent een editor van 0px
     breed. Voorstel: verborgen kolommen filteren zoals `colVisible` in `useGridNavigation` doet. — B
 
-21. **Pijl omlaag of Tab op de laatste rij tijdens het bewerken laat het grid vastzitten in bewerkmodus.**
-    `src/components/grid/GridCellEditor.tsx:136` (`gaNaarRij`), `:121`, `:243`, `:266`. Er is geen
-    bovengrens: de actieve rij wordt rowCount, het actieve item null, en bewerken blijft aan zonder editor.
-    Pijltoetsen, Ctrl+C/X/V en Delete werken niet meer tot je met de muis klikt. Nagespeeld. Tweede controle:
-    alleen Pijl omlaag en Tab blijven hangen; bij Enter gaat alleen de rij buiten bereik. Voorstel: begrenzen op
-    `getGridRows().length - 1` (of in `setActiveCell`). — B
-
 22. **De Delete-toets schrijft naar de kolomnaam in plaats van naar het echte veld.**
     `src/components/grid/useGridNavigation.ts:187-210` (het Delete-geval). Het roept `updateItem(itemId,
     col.key, …)` aan zonder de vertaling uit `commitEdit` (`productienorm→normQuantity`,
@@ -78,16 +71,6 @@ stand van `main` op die datum.
 24. **Ctrl+Z, Ctrl+Y en Ctrl+C doen niets met Caps Lock aan.** `src/hooks/useKeyboardShortcuts.ts:41,44`,
     `useGridNavigation.ts:43`: ze vergelijken `e.key === 'z'`, en met Caps Lock is de toets `'Z'`. Voorstel:
     `e.key.toLowerCase()`. — S
-
-25. **Geplakte of geknipte regels gaan terug naar hun oorspronkelijke hoofdstuk** (ernstig).
-    `src/state/slices/clipboardSlice.ts:53-64`, `:66-79`: geplakte regels op het hoogste niveau houden hun oude
-    `parentId`, en `normalizeItemOrder` (`calculator.ts:22`) zet ze terug. Post 1.1 kopiëren op Post 2.1 (H2)
-    zet de kopie in H1. Knippen en plakken naar een ander hoofdstuk doet niets, maar voegt wel een
-    ongedaan-maken-stap toe. Tussen documenten wordt de geplakte regel een wees met een `parentId` uit document A,
-    en na knippen blijft ook het origineel in A staan. Ook onafhankelijk gevonden bij de controle van de
-    rij-operaties, met twee aanvullingen: na het verwijderen van de bron-ouder wordt een geplakte kloon een
-    onzichtbare wees, en `ifcGuid` wordt ongewijzigd gekopieerd, dus elke plakactie maakt dubbele IFC-GUID's.
-    Voorstel: `parentId` en `depth` van de wortels zetten vanuit het plakdoel. — B
 
 26. **Na Shift+klik kopieert Ctrl+C één cel in plaats van de geselecteerde regels.** `useGridNavigation.ts:49`,
     `CostGrid.tsx:337-342`, `selectionSlice.ts:97-108`. Mousedown met Shift maakt een selectie van één cel, en
@@ -165,14 +148,9 @@ stand van `main` op die datum.
     wordt Nr. 240px en Omschrijving 70px. `setColumnWidth` past ook de minimumbreedte van de verkeerde kolom
     toe. Zie #42 voor het voorstel. — B
 
-44. **Het grid verliest na elke celbewerking de toetsenbordfocus.** In `src/components/grid/GridCellEditor.tsx:260-277`
-    en `:163-172` haalt `stopEditing()` de editor weg, zodat de focus naar `<body>` gaat; ook bij het sluiten
-    van Zoeken/Vervangen (`CostGrid.tsx:500`). Daarna werken pijltjestoetsen, Ctrl+C/X/V, Delete en Ctrl+Enter
-    niet meer (`useKeyboardShortcuts.ts:37` eist focus binnen `.cost-grid-wrapper`). `SubSheetEditor` doet het
-    wel goed. Door een tweede controle bevestigd en de ernst verhoogd: het breekt bewerken→Enter→pijltje voor
-    elke gebruiker, niet alleen toetsenbordgebruikers. Nagaan of dit #21 verklaart (toetsen werken niet
-    na bewerken op de laatste regel). Voorstel: `containerRef.current?.focus({preventScroll:true})` na
-    `stopEditing()`. — B
+44. **Na het sluiten van Zoeken/Vervangen verliest het grid de toetsenbordfocus.** `CostGrid.tsx`
+    (`FindReplaceDialog onClose`): de focus gaat naar `<body>`, dus pijltjes en Ctrl+C/X/V werken pas weer na
+    een klik. Na een celbewerking is dit opgelost (`GridCellEditor.tsx` geeft de focus terug). — B
 
 45. **Notities in het paneel Eigenschappen zijn niet ongedaan te maken, en de volgende Ctrl+Z wist ze.**
     `src/components/panels/PropertiesPanel.tsx:163`. Nagespeeld. Voorstel: één undo-stap opslaan bij focus of
@@ -376,9 +354,6 @@ stand van `main` op die datum.
     herkennen en `staart_ukk/ak/wr` maken; geen standaardwaarden toevoegen voor labels die niet in het bestand
     staan. — B
 
-89. **WpCalc: geprijsde regels zonder omschrijving vallen weg.** `wpcalcImporter.ts:246-247` (daardoor is
-    r.297 dode code). Nagespeeld: een hoofdstuk komt op 1000 uit in plaats van 1200. — B
-
 90. **DNC: negatieve KU-bedragen vallen weg.** `src/services/importers/dncImporter.ts:179-182` filtert op
     `g > 0`. Nagespeeld. Voorstel: `!== 0`. — B
 
@@ -493,14 +468,6 @@ stand van `main` op die datum.
      extensie weghaalt. Hetzelfde bestand krijgt dus een andere tabnaam afhankelijk van hoe het geopend is.
      Voorstel: overal op dezelfde manier `\.(ifccalc|ifcx|ocs|json)$` weghalen, hoofdletterongevoelig. — S
 
-118. **Een versie maken vanuit het lint markeert het document niet als gewijzigd.**
-     `src/state/slices/versionSlice.ts:91-113` (`createSnapshot`, ook `deleteSnapshot`), aangeroepen vanuit
-     `OfferteTab.tsx:98,106`. Na "Verzenden" of "Concept" komt er geen vraag over niet-opgeslagen wijzigingen, en
-     `captureRecovery` geeft null, dus de versie gaat verloren. Het MCP-pad (`desktopCommand.ts:151`) markeert het
-     document wel. `projectRecovery.test.ts:13` zet `isModified` met de hand, wat de bug verbergt. Nagespeeld.
-     Voorstel: `updateDocument(activeDocumentId, { isModified: true })` aanroepen, zoals `offerteSlice.ts:143`
-     doet. — B
-
 119. **Een ander open venster toont het live journaal van dit venster als "herstelbaar".**
      `src/components/common/RecoveryBar.tsx:17`, `recovery.ts:14,39`. Een losgemaakt tabbladvenster of een tweede
      browsertabblad biedt de live documenten van het hoofdvenster aan. Herstellen dupliceert ze; Weggooien wist het
@@ -524,11 +491,6 @@ stand van `main` op die datum.
      `src-tauri/src/reports/generator.rs:770-826`). Het resultaat: hoofdstukregels met een lege bedragkolom en
      daarna alleen het eindtotaal. Voorstel: toon bij alleen-hoofdstuktotalen `item.total` op de
      hoofdstukregels, in TS en in Rust. — B
-
-123. **"Rapport genereren" op het IFC-tabblad toont een totaal inclusief btw als "excl. btw".**
-     `src/services/report/reportGenerator.ts:23-24` telt elke hoofdregel op, ook btw en afronding. Nagespeeld:
-     €640 met de standaardstaart geeft 928,25, terwijl het 767,15 moet zijn. Voorstel: `getStaartBreakdown` →
-     `aanneemsom + afronding`, zoals `printService` doet. — B
 
 124. **De standaarddatum van een offerte is de UTC-datum**, en dus tussen 00:00 en 01:00/02:00 een dag te vroeg
      (`src/state/slices/offerteSlice.ts:43`, `:559`, `toISOString().split('T')[0]`). Nagespeeld. Voorstel: bouw
@@ -847,15 +809,6 @@ stand van `main` op die datum.
      schakelt. Afgeleid uit de code; nog nakijken in een echt venster. Voorstel: `onDoubleClick` weghalen. — S
 
 ## Wizard, bibliotheek en prijzen
-
-190. **Een resource uit de picker krijgt een verborgen arbeidsprijs van €64/u terwijl de notitie "Price
-     missing" zegt.** `src/components/library/ResourcePicker.tsx:100-104` + `updateItem` in `costItemsSlice.ts`:
-     `unit='uur'` veld voor veld zetten laat `updateItem` automatisch tarief A en `normQuantity=1` kiezen, dus
-     `laborPrice` wordt 64. Daarna zet `tariefGroep=null` `laborPrice` niet terug. Nagespeeld: "Timmerman" × 10
-     geeft een totaal van €640, en de review ziet geen ontbrekende prijs. Tweede controle: breder dan gemeld,
-     ook uur-artikelen mét prijs (bijv. 50) krijgen er €64/u bovenop → 1140 in plaats van 500; ernst daarom
-     verhoogd. Raakt alle 14 Arbeid- en 5 (niet 6) Materieel-artikelen met eenheid `uur`. Voorstel: ook
-     `laborPrice: null` zetten, of de regel in één atomische update opbouwen. — B
 
 192. **De HSB-wizard voegt door afronding van floats een stijl te veel toe.** `hsbWandCalculator.ts:73`
      (`Math.ceil(lengte / stijlAfstand) + 1`): 4.2/0.6 = 7.000000000000001, dus 9 stijlen in plaats van 8.

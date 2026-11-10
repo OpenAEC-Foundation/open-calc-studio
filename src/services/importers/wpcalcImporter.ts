@@ -242,9 +242,11 @@ export function importWpCalcFile(buffer: ArrayBuffer): {
     // Skip footer rows (rectype 16)
     if (row.rectype === 16) continue;
 
-    // Skip empty text rows (no description, no amounts)
+    // Skip rows without a description, except posts (rectype 0: a priced post
+    // without a description still counts; truly empty posts are skipped below)
+    // and text rows (rectype 5: handled below).
     const desc = (row.omschrijving || '').trim();
-    if (!desc && row.rectype !== 5) continue;
+    if (!desc && row.rectype !== 5 && row.rectype !== 0) continue;
 
     const id = genId();
 

@@ -1,5 +1,6 @@
 import type { CostItem, CostSchedule } from '../../types/costModel';
 import { makeReportContext, type ReportContext } from '@/i18n/reportI18n';
+import { getStaartBreakdown } from '@/services/calculation/calculator';
 
 /**
  * Generates an HTML report for a cost schedule.
@@ -22,6 +23,10 @@ export function generateReport(schedule: CostSchedule, items: CostItem[], ctx: R
   // Calculate grand total
   const topLevelItems = items.filter(i => i.parentId === null);
   const grandTotal = topLevelItems.reduce((sum, item) => sum + item.total, 0);
+  // Onder "excl. btw": aanneemsom + afronding, zoals printService en de
+  // werkbladkop. grandTotal hierboven bevat ook de btw-regels.
+  const breakdown = getStaartBreakdown(items);
+  const totalExclVat = breakdown.aanneemsom + breakdown.afronding;
 
   // Build chapter summary
   const chapters = items.filter(i => i.rowType === 'chapter' && i.depth === 0);
@@ -239,7 +244,7 @@ export function generateReport(schedule: CostSchedule, items: CostItem[], ctx: R
 
   <div class="summary-box">
     <span class="label">${L('totals.budgetTotalExclVat')}</span>
-    <span class="amount">${formatCurrency(grandTotal)}</span>
+    <span class="amount">${formatCurrency(totalExclVat)}</span>
   </div>
 
   <div class="footer">
