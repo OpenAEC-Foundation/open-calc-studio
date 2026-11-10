@@ -747,7 +747,7 @@
       "delete": "Usuń nr {{number}} wraz z wierszami podrzędnymi",
       "count": "Proponowane zmiany: {{count}}",
       "localProposal": "Proponuję jeden nakład kosztorysowy. Sprawdź szczegóły, a następnie kliknij Zastosuj.",
-      "example": "Dodaj pod {{parent}} nakład: 12 m³ betonu C30 po €145",
+      "example": "Dodaj pod {{parent}} nakład: 12 m³ betonu C30 po {{price}}",
       "actions": {
         "tooMany": "Za dużo proponowanych zmian (maksymalnie 100).",
         "action": "Akcja {{p0}}",
@@ -912,6 +912,8 @@
       "dncSharedCode": "Pozycja {{code}} ma ten sam kod co inna pozycja; zasoby zsumowano zamiast wyszczególniać.",
       "onlvTruncated": "{{count}} opisów dłuższych niż 60 znaków skrócono w polu stichwort; pełny tekst zachowano w polu langtext.",
       "rsxFlattened": "RSX: zagnieżdżone działy pod \"{{name}}\" spłaszczono; CROW RSX obsługuje jeden poziom podkosztorysu.",
+      "currencyNotInFormat": "{{format}} nie ma pola waluty, więc odbiorca odczyta te kwoty jako euro. Ten kosztorys jest w {{currency}}; kwot nie przeliczono.",
+      "unreadableNumbers": "{{count}} wartości nie udało się odczytać jako liczby i zaimportowano je jako 0 (na przykład „{{example}}”).",
       "xmlError": "Błąd analizy XML: {{message}} (wiersz {{line}})",
       "xml": {
         "entity": "Nieznana encja {{p0}}",

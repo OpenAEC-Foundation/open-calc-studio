@@ -45,6 +45,9 @@ export const SplitGridPane: React.FC<SplitGridPaneProps> = ({ documentId, onClos
   // otherwise use the snapshot stored in the document tab.
   const liveItems = useAppStore((s) => s.items);
   const doc = documents.find((d) => d.id === documentId);
+  // Decimalen van de valuta van dít document (JPY 0, EUR 2).
+  const liveCurrency = useAppStore((s) => s.schedule.currency);
+  const currency = documentId === activeDocumentId ? liveCurrency : doc?.schedule?.currency;
 
   const items = useMemo(() => {
     if (!doc) return [];
@@ -112,10 +115,10 @@ export const SplitGridPane: React.FC<SplitGridPaneProps> = ({ documentId, onClos
                     {(isRegel || isBgr) ? formatUnit(item.unit, t) : ''}
                   </td>
                   <td className="split-col-price">
-                    {isRegel && item.unitPrice ? formatCurrency(item.unitPrice) : ''}
+                    {isRegel && item.unitPrice ? formatCurrency(item.unitPrice, currency) : ''}
                   </td>
                   <td className="split-col-total">
-                    {!isTekst && item.total ? formatCurrency(item.total) : ''}
+                    {!isTekst && item.total ? formatCurrency(item.total, currency) : ''}
                   </td>
                 </tr>
               );
@@ -128,7 +131,7 @@ export const SplitGridPane: React.FC<SplitGridPaneProps> = ({ documentId, onClos
               <td className="split-col-qty"></td>
               <td className="split-col-unit"></td>
               <td className="split-col-price"></td>
-              <td className="split-col-total">{formatCurrency(total)}</td>
+              <td className="split-col-total">{formatCurrency(total, currency)}</td>
             </tr>
           </tfoot>
         </table>

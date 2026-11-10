@@ -746,7 +746,7 @@
       "delete": "Eliminare nr. {{number}}, inclusiv subrândurile",
       "count": "Modificări propuse: {{count}}",
       "localProposal": "Propun o linie de deviz. Verificați detaliile, apoi faceți clic pe Aplicare.",
-      "example": "Adaugă sub {{parent}} o linie: 12 m³ beton C30 la 145 €",
+      "example": "Adaugă sub {{parent}} o linie: 12 m³ beton C30 la {{price}}",
       "actions": {
         "tooMany": "Prea multe modificări propuse (maximum 100).",
         "action": "Acțiunea {{p0}}",
@@ -911,6 +911,8 @@
       "dncSharedCode": "Articolul {{code}} are același cod cu alt articol; resursele au fost însumate, nu detaliate.",
       "onlvTruncated": "{{count}} denumiri mai lungi de 60 de caractere au fost scurtate în stichwort; textul complet este păstrat în langtext.",
       "rsxFlattened": "RSX: capitolele imbricate sub „{{name}}” au fost aplatizate; CROW RSX acceptă un singur nivel de subdeviz.",
+      "currencyNotInFormat": "{{format}} nu are câmp de monedă, deci destinatarul va citi aceste sume în euro. Acest deviz este în {{currency}}; sumele nu au fost convertite.",
+      "unreadableNumbers": "{{count}} valori nu au putut fi citite ca număr și au fost importate ca 0 (de exemplu „{{example}}”).",
       "xmlError": "Eroare de analiză XML: {{message}} (linia {{line}})",
       "xml": {
         "entity": "Entitate necunoscută {{p0}}",

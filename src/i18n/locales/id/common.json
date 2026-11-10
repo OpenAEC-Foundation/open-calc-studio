@@ -745,7 +745,7 @@
       "delete": "Hapus no. {{number}}, termasuk subbarisnya",
       "count": "Perubahan yang diusulkan: {{count}}",
       "localProposal": "Saya mengusulkan satu baris anggaran. Periksa rinciannya, lalu klik Terapkan.",
-      "example": "Tambahkan di bawah {{parent}} sebuah baris: 12 m³ Beton C30 seharga €145",
+      "example": "Tambahkan di bawah {{parent}} sebuah baris: 12 m³ Beton C30 seharga {{price}}",
       "actions": {
         "tooMany": "Terlalu banyak perubahan yang diusulkan (maksimal 100).",
         "action": "Aksi {{p0}}",
@@ -910,6 +910,8 @@
       "dncSharedCode": "Pos {{code}} berbagi kode dengan pos lain; sumber daya dirangkum, bukan dirinci.",
       "onlvTruncated": "{{count}} uraian yang lebih panjang dari 60 karakter dipendekkan dalam stichwort; teks lengkapnya dipertahankan dalam langtext.",
       "rsxFlattened": "RSX: bab bersarang di bawah \"{{name}}\" diratakan; CROW RSX hanya mendukung satu tingkat subanggaran.",
+      "currencyNotInFormat": "{{format}} tidak memiliki kolom mata uang, sehingga penerima akan membaca jumlah ini sebagai euro. Estimasi ini dalam {{currency}}; jumlahnya tidak dikonversi.",
+      "unreadableNumbers": "{{count}} nilai tidak dapat dibaca sebagai angka dan diimpor sebagai 0 (misalnya \"{{example}}\").",
       "xmlError": "Kesalahan penguraian XML: {{message}} (baris {{line}})",
       "xml": {
         "entity": "Entitas {{p0}} tidak dikenal",

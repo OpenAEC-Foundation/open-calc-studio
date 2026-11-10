@@ -3,7 +3,7 @@
  * getalnormalisatie staan in `core.ts` (gedeeld met de binaire importers);
  * ze worden hier her-geëxporteerd zodat de XML-importers één bron hebben.
  */
-import { parseNumber } from './core';
+import { parseAmount, parseNumber } from './core';
 
 export { makeCostItem, normalizeUnit, genId, genIfcGuid } from './core';
 
@@ -36,9 +36,8 @@ export function getNumberOrDefault(
 ): number {
   const raw = getText(el, tag);
   if (!raw) return def;
-  const t = raw.indexOf(',') >= 0 ? raw.replace(/\./g, '').replace(',', '.') : raw;
-  const n = parseFloat(t.replace(/\s/g, ''));
-  return Number.isFinite(n) ? n : def;
+  const parsed = parseAmount(raw);
+  return parsed.invalid ? def : parsed.value;
 }
 
 export function children(el: Element, tag: string): Element[] {

@@ -745,7 +745,7 @@
       "delete": "Buang no. {{number}}, termasuk subbaris",
       "count": "Perubahan dicadangkan: {{count}}",
       "localProposal": "Saya mencadangkan satu baris anggaran. Semak butirannya, kemudian klik Guna.",
-      "example": "Tambah di bawah {{parent}} satu baris: 12 m³ Konkrit C30 pada €145",
+      "example": "Tambah di bawah {{parent}} satu baris: 12 m³ Konkrit C30 pada {{price}}",
       "actions": {
         "tooMany": "Terlalu banyak perubahan dicadangkan (maksimum 100).",
         "action": "Tindakan {{p0}}",
@@ -910,6 +910,8 @@
       "dncSharedCode": "Butiran {{code}} berkongsi kodnya dengan butiran lain; sumber diringkaskan dan bukannya diperincikan.",
       "onlvTruncated": "{{count}} huraian yang lebih panjang daripada 60 aksara dipendekkan dalam stichwort; teks lengkap dikekalkan dalam langtext.",
       "rsxFlattened": "RSX: bab bersarang di bawah \"{{name}}\" diratakan; CROW RSX menyokong satu aras subanggaran sahaja.",
+      "currencyNotInFormat": "{{format}} tiada medan mata wang, jadi penerima akan membaca jumlah ini sebagai euro. Anggaran ini dalam {{currency}}; jumlah tidak ditukar.",
+      "unreadableNumbers": "{{count}} nilai tidak dapat dibaca sebagai nombor dan diimport sebagai 0 (contohnya \"{{example}}\").",
       "xmlError": "Ralat penghuraian XML: {{message}} (baris {{line}})",
       "xml": {
         "entity": "Entiti tidak diketahui {{p0}}",

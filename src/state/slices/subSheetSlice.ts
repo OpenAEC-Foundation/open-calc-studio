@@ -1,6 +1,6 @@
 import type { StateCreator } from 'zustand';
 import type { SubSheet, SubSheetCell, CellBorder, CellBorders } from '@/types/costModel';
-import { parseNlNumber } from '@/utils/formatting';
+import { parseLocaleNumber, parseNlNumber } from '@/utils/formatting';
 import { normalizeDecimalsInExpression } from '@/utils/numericInput';
 
 export type BorderPreset = 'none' | 'all' | 'outer' | 'thick-outer' | 'inner' | 'top' | 'bottom';
@@ -107,8 +107,15 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
         // Formulas are evaluated by recalcSheetCells below, together with every
         // formula that depends on this cell (knownbugs #47).
         if (!value.startsWith('=')) {
-          // NL-notatie: "6,66" moet 6,66 zijn, niet 6 (parseFloat stopt bij de komma)
-          const n = parseNlNumber(value);
+          // Getalnotatie van de app (issue #65): "6,66" en "1.234,56" in
+          // 1.234,56-notatie, "6.66" en "1,234.56" in 1,234.56-notatie; staan
+          // beide tekens erin, dan is het laatste het decimaalteken.
+          // Ongewijzigde invoer houdt zijn waarde, ook na een wissel van de
+          // notatie ("1,250" blijft 1250 als je de cel opent en weer sluit).
+          const prev = ss.cells[cellRef];
+          const n = prev && prev.value === value && prev.computed !== undefined
+            ? prev.computed
+            : parseLocaleNumber(value);
           if (n !== null) cell.computed = n;
         }
         return {
@@ -336,6 +343,8 @@ function getCellValue(cells: Record<string, SubSheetCell>, ref: string): number 
   const cell = cells[key];
   if (!cell) return 0;
   if (cell.computed !== undefined) return cell.computed;
+  // Cel zonder berekende waarde (geïmporteerd/met de hand bewerkt bestand):
+  // vast NL lezen, zodat opgeslagen bladen niet van betekenis veranderen.
   const n = parseNlNumber(cell.value);
   return n === null ? 0 : n;
 }

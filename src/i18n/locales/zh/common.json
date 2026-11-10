@@ -745,7 +745,7 @@
       "delete": "移除序号 {{number}}，包括子行",
       "count": "建议的更改：{{count}}",
       "localProposal": "我建议添加一条预算行。请检查详情，然后点击“应用”。",
-      "example": "在 {{parent}} 下添加一行：12 m³ C30 混凝土，单价 €145",
+      "example": "在 {{parent}} 下添加一行：12 m³ C30 混凝土，单价 {{price}}",
       "actions": {
         "tooMany": "建议的更改过多（最多 100 项）。",
         "action": "操作 {{p0}}",
@@ -910,6 +910,8 @@
       "dncSharedCode": "项目 {{code}} 与另一项目共用编码；资源已汇总而未逐项列出。",
       "onlvTruncated": "{{count}} 条超过 60 个字符的名称已在 stichwort 中缩短；完整文本保留在 langtext 中。",
       "rsxFlattened": "RSX：“{{name}}”下的嵌套章节已展平；CROW RSX 仅支持一级子预算。",
+      "currencyNotInFormat": "{{format}} 没有货币字段，接收方会把这些金额读作欧元。此预算的货币为 {{currency}}；金额未经换算。",
+      "unreadableNumbers": "有 {{count}} 个值无法读取为数字，已按 0 导入（例如“{{example}}”）。",
       "xmlError": "XML 解析错误：{{message}}（第 {{line}} 行）",
       "xml": {
         "entity": "未知实体 {{p0}}",

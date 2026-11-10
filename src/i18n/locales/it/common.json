@@ -745,7 +745,7 @@
       "delete": "Rimuovi n. {{number}}, comprese le righe figlie",
       "count": "Modifiche proposte: {{count}}",
       "localProposal": "Propongo una riga di computo. Controlla i dettagli, poi fai clic su Applica.",
-      "example": "Aggiungi sotto {{parent}} una riga: 12 m³ Calcestruzzo C30 a €145",
+      "example": "Aggiungi sotto {{parent}} una riga: 12 m³ Calcestruzzo C30 a {{price}}",
       "actions": {
         "tooMany": "Troppe modifiche proposte (massimo 100).",
         "action": "Azione {{p0}}",
@@ -910,6 +910,8 @@
       "dncSharedCode": "La voce {{code}} condivide il codice con un'altra voce; le risorse sono state riepilogate anziché dettagliate.",
       "onlvTruncated": "{{count}} descrizioni più lunghe di 60 caratteri sono state abbreviate nello stichwort; il testo completo è conservato nel langtext.",
       "rsxFlattened": "RSX: i capitoli annidati sotto \"{{name}}\" sono stati appiattiti; CROW RSX supporta un solo livello di sottocomputo.",
+      "currencyNotInFormat": "{{format}} non ha un campo valuta, quindi il destinatario leggerà questi importi in euro. Questo preventivo è in {{currency}}; gli importi non sono stati convertiti.",
+      "unreadableNumbers": "{{count}} valori non sono stati letti come numero e sono stati importati come 0 (ad esempio \"{{example}}\").",
       "xmlError": "Errore di analisi XML: {{message}} (riga {{line}})",
       "xml": {
         "entity": "Entità sconosciuta {{p0}}",

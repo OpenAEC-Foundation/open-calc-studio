@@ -745,7 +745,7 @@
       "delete": "Fjern nr. {{number}} inkl. underliggende linjer",
       "count": "Foreslåede ændringer: {{count}}",
       "localProposal": "Jeg foreslår én budgetlinje. Kontrollér detaljerne, og klik derefter på Anvend.",
-      "example": "Tilføj under {{parent}} en linje: 12 m³ Beton C30 à €145",
+      "example": "Tilføj under {{parent}} en linje: 12 m³ Beton C30 à {{price}}",
       "actions": {
         "tooMany": "For mange foreslåede ændringer (højst 100).",
         "action": "Handling {{p0}}",
@@ -910,6 +910,8 @@
       "dncSharedCode": "Posten {{code}} deler sin kode med en anden post; ressourcerne blev sammenfattet i stedet for specificeret.",
       "onlvTruncated": "{{count}} beskrivelser længere end 60 tegn blev forkortet i stichwort; den fulde tekst bevares i langtext.",
       "rsxFlattened": "RSX: underliggende kapitler under \"{{name}}\" blev fladet ud; CROW RSX understøtter ét delbudgetniveau.",
+      "currencyNotInFormat": "{{format}} har intet valutafelt, så modtageren læser disse beløb som euro. Dette overslag er i {{currency}}; beløbene er ikke omregnet.",
+      "unreadableNumbers": "{{count}} værdier kunne ikke læses som tal og blev importeret som 0 (f.eks. \"{{example}}\").",
       "xmlError": "XML-parsefejl: {{message}} (linje {{line}})",
       "xml": {
         "entity": "Ukendt entitet {{p0}}",

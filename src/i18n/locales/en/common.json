@@ -771,7 +771,7 @@
       "delete": "Remove no. {{number}}, including child rows",
       "count": "Proposed changes: {{count}}",
       "localProposal": "I propose one estimate line. Check the details, then click Apply.",
-      "example": "Add under {{parent}} a line: 12 m³ Concrete C30 at €145",
+      "example": "Add under {{parent}} a line: 12 m³ Concrete C30 at {{price}}",
       "actions": {
         "tooMany": "Too many proposed changes (maximum 100).",
         "action": "Action {{p0}}",
@@ -936,6 +936,8 @@
       "dncSharedCode": "Item {{code}} shares its code with another item; resources were summarized rather than itemized.",
       "onlvTruncated": "{{count}} descriptions longer than 60 characters were shortened in the stichwort; the complete text is retained in the langtext.",
       "rsxFlattened": "RSX: nested chapters under \"{{name}}\" were flattened; CROW RSX supports one sub-estimate level.",
+      "currencyNotInFormat": "{{format}} has no currency field, so the receiver will read these amounts as euros. This estimate is in {{currency}}; the amounts were not converted.",
+      "unreadableNumbers": "{{count}} values could not be read as a number and were imported as 0 (for example \"{{example}}\").",
       "xmlError": "XML parse error: {{message}} (line {{line}})",
       "xml": {
         "entity": "Unknown entity {{p0}}",

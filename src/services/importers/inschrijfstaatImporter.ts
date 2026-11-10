@@ -14,7 +14,18 @@ import { readWorkbook } from '@/services/importers/safeWorkbook';
  */
 
 import type { CostItem, CostSchedule, CompanyInfo, Verrekenbaarheid } from '@/types/costModel';
-import { makeCostItem, normalizeUnit } from './core';
+import { makeCostItem, normalizeUnit, parseNumber } from './core';
+import { CURRENCY_CODES } from '@/utils/currencies';
+
+/**
+ * Een inschrijfstaat schrijft bij een post (vast bedrag) de valuta als eenheid
+ * ("EUR"). Een bekende valutacode in de eenheidskolom is dus een post, en de
+ * eerste zo'n code is de valuta van de begroting. Er wordt niet omgerekend.
+ */
+const CURRENCY_UNITS = new Set<string>(CURRENCY_CODES);
+
+/** Cel als getal: echte getallen direct, tekst via parseNumber ("€ 1.234,56"). */
+const cellNumber = (v: unknown): number => (typeof v === 'number' ? (Number.isFinite(v) ? v : 0) : parseNumber(String(v ?? '')));
 
 function unspaceTitle(text: string): string {
   // "A A N V A N G S W E R K" → "AANVANGSWERK"
@@ -120,8 +131,8 @@ export async function importInschrijfstaatFile(buffer: ArrayBuffer): Promise<{
     const qty = data[r][4] !== '' && data[r][4] !== null ? Number(data[r][4]) : null;
     const unit = String(data[r][5] || '').trim();
     const verr = String(data[r][6] || '').trim();
-    const ehpr = Number(data[r][7]) || 0;
-    const bedr = Number(data[r][8]) || 0;
+    const ehpr = cellNumber(data[r][7]);
+    const bedr = cellNumber(data[r][8]);
 
     parsedRows.push({
       type: rowType,
@@ -140,6 +151,7 @@ export async function importInschrijfstaatFile(buffer: ArrayBuffer): Promise<{
   let sortOrder = 0;
   let currentChapter: CostItem | null = null;
   let currentSubChapter: CostItem | null = null;
+  let currency: string | null = null;
 
   for (const row of parsedRows) {
     const info = getRowInfo(row.code);
@@ -193,6 +205,9 @@ export async function importInschrijfstaatFile(buffer: ArrayBuffer): Promise<{
         if (!quantity) quantity = 1;
         price = row.total / quantity;
       }
+      const unitCode = row.unit.trim().toUpperCase();
+      const isCurrencyUnit = CURRENCY_UNITS.has(unitCode);
+      if (isCurrencyUnit && !currency) currency = unitCode;
       items.push(makeCostItem({
         code: row.code,
         description: desc,
@@ -201,7 +216,7 @@ export async function importInschrijfstaatFile(buffer: ArrayBuffer): Promise<{
         parentId,
         sortOrder: sortOrder++,
         quantity,
-        unit: normalizeUnit(row.unit),
+        unit: isCurrencyUnit ? 'post' : normalizeUnit(row.unit),
         normUnitPrice: price,
         unitPrice: price,
         total: row.total,
@@ -227,7 +242,7 @@ export async function importInschrijfstaatFile(buffer: ArrayBuffer): Promise<{
     description: bestekNr,
     status: 'DRAFT',
     predefinedType: 'TENDER',
-    currency: 'EUR',
+    currency: currency ?? 'EUR',
     projectName: projectName,
     projectNumber: bestekNr,
     client: opdrachtgever,

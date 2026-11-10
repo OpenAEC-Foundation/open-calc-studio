@@ -1,7 +1,7 @@
 import { readWorkbook, WORKBOOK_LIMITS } from '@/services/importers/safeWorkbook';
 import { uiText } from '../../i18n/uiText';
 import * as XLSX from 'xlsx';
-import { BudgetBuilder, parseNumber, normalizeUnit } from './core';
+import { BudgetBuilder, parseAmount, normalizeUnit } from './core';
 import type { ImportResult } from './types';
 import type { CostItem } from '@/types/costModel';
 
@@ -186,6 +186,22 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
   }
 
   const cell = (row: string[], idx: number): string => (idx >= 0 ? (row[idx] ?? '').trim() : '');
+
+  // Getallen en bedragen: valutatekens ("€ 1.234,56") tellen niet mee. Tekst
+  // die geen getal is, komt als 0 binnen — met een melding, niet stil (#82).
+  // Een eenduidige valuta bij de bedragen wordt de valuta van de begroting.
+  let invalidCount = 0;
+  let invalidExample = '';
+  const currencies = new Set<string>();
+  const parseNumber = (raw: string, money = false): number => {
+    const parsed = parseAmount(raw);
+    if (parsed.invalid) {
+      invalidCount += 1;
+      if (!invalidExample) invalidExample = raw;
+    }
+    if (money && parsed.currency) currencies.add(parsed.currency);
+    return parsed.value;
+  };
   let currentChapter: CostItem | null = null;
 
   // Hoofdstukken op code, zodat Spaanse capítulos/subcapítulos als boom
@@ -229,12 +245,12 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
     }
     const parent = (code ? chapterForCode(code) : null) ?? currentChapter;
 
-    let materialPrice = matRaw !== '' ? parseNumber(matRaw) : null;
-    const laborPrice = labRaw !== '' ? parseNumber(labRaw) : null;
-    const equipmentPrice = eqRaw !== '' ? parseNumber(eqRaw) : null;
+    let materialPrice = matRaw !== '' ? parseNumber(matRaw, true) : null;
+    const laborPrice = labRaw !== '' ? parseNumber(labRaw, true) : null;
+    const equipmentPrice = eqRaw !== '' ? parseNumber(eqRaw, true) : null;
     let quantity = hasQty ? parseNumber(qtyRaw) : null;
-    const explicitUnit = upRaw !== '' ? parseNumber(upRaw) : null;
-    const explicitTotal = totRaw !== '' ? parseNumber(totRaw) : null;
+    const explicitUnit = upRaw !== '' ? parseNumber(upRaw, true) : null;
+    const explicitTotal = totRaw !== '' ? parseNumber(totRaw, true) : null;
 
     // Met materieel (maquinaria) erbij past de splitsing niet meer op één
     // kale post: die kent alleen loon plus één eigen prijs. Leg elke
@@ -318,9 +334,14 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
   }
 
   if (builder.length === 0) warnings.push(uiText("diagnostics.genericTabularImporter.noUsableRowsFoundWithThisColumn", "No usable rows found with this column mapping."));
+  if (invalidCount > 0) {
+    warnings.push(uiText('diagnostics.unreadableNumbers', '{{count}} values could not be read as a number and were imported as 0 (for example "{{example}}").', { count: invalidCount, example: invalidExample }));
+  }
 
   return {
-    schedule: { name: data.sourceName || 'Import' },
+    // Alleen bij precies één valuta; bij gemengde valuta's blijft de standaard
+    // staan. Bedragen worden nooit omgerekend.
+    schedule: { name: data.sourceName || 'Import', ...(currencies.size === 1 ? { currency: [...currencies][0] } : {}) },
     items: builder.items,
     warnings,
     format: 'tabular',

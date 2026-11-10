@@ -745,7 +745,7 @@
       "delete": "Ta bort nr {{number}}, inklusive underrader",
       "count": "Föreslagna ändringar: {{count}}",
       "localProposal": "Jag föreslår en kalkylrad. Kontrollera uppgifterna och klicka sedan på Tillämpa.",
-      "example": "Lägg till en rad under {{parent}}: 12 m³ betong C30 à 145 €",
+      "example": "Lägg till en rad under {{parent}}: 12 m³ betong C30 à {{price}}",
       "actions": {
         "tooMany": "För många föreslagna ändringar (högst 100).",
         "action": "Åtgärd {{p0}}",
@@ -910,6 +910,8 @@
       "dncSharedCode": "Post {{code}} delar kod med en annan post; resurserna summerades i stället för att specificeras.",
       "onlvTruncated": "{{count}} beskrivningar längre än 60 tecken kortades i stichwort; den fullständiga texten bevaras i langtext.",
       "rsxFlattened": "RSX: underkapitel under ”{{name}}” slogs ihop; CROW RSX stöder en nivå av delkalkyler.",
+      "currencyNotInFormat": "{{format}} har inget valutafält, så mottagaren läser beloppen som euro. Den här kalkylen är i {{currency}}; beloppen har inte räknats om.",
+      "unreadableNumbers": "{{count}} värden kunde inte läsas som tal och importerades som 0 (till exempel \"{{example}}\").",
       "xmlError": "XML-tolkningsfel: {{message}} (rad {{line}})",
       "xml": {
         "entity": "Okänd entitet {{p0}}",

@@ -69,9 +69,10 @@ export function generateIfcCostFile(schedule: CostSchedule, items: CostItem[], o
   const unitMassId = getId();
   lines.push({ id: unitMassId, entity: `IFCSIUNIT(*,.MASSUNIT.,$,.GRAM.)` });
 
-  // IfcMonetaryUnit
+  // IfcMonetaryUnit: de valuta van de begroting (ISO 4217), zonder omrekening.
   const monetaryUnitId = getId();
-  lines.push({ id: monetaryUnitId, entity: `IFCMONETARYUNIT('EUR')` });
+  const currency = /^[A-Z]{3}$/.test(schedule.currency ?? '') ? schedule.currency : 'EUR';
+  lines.push({ id: monetaryUnitId, entity: `IFCMONETARYUNIT('${currency}')` });
 
   // IfcUnitAssignment
   const unitAssignId = getId();

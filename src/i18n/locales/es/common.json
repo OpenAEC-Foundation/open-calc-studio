@@ -593,6 +593,8 @@
       "dncSharedCode": "La partida {{code}} comparte su código con otra partida; los recursos se han resumido en lugar de detallarse.",
       "onlvTruncated": "{{count}} descripciones de más de 60 caracteres se han acortado en el stichwort; el texto completo se conserva en el langtext.",
       "rsxFlattened": "RSX: los capítulos anidados bajo \"{{name}}\" se han aplanado; CROW RSX admite un solo nivel de subpresupuesto.",
+      "currencyNotInFormat": "{{format}} no tiene campo de moneda, por lo que el destinatario leerá estos importes en euros. Este presupuesto está en {{currency}}; los importes no se han convertido.",
+      "unreadableNumbers": "{{count}} valores no se pudieron leer como número y se importaron como 0 (por ejemplo, «{{example}}»).",
       "xmlError": "Error de análisis XML: {{message}} (línea {{line}})",
       "xml": {
         "entity": "Entidad desconocida {{p0}}",
@@ -794,7 +796,7 @@
       "delete": "Quitar el nº {{number}}, incluidas las líneas hijas",
       "count": "Cambios propuestos: {{count}}",
       "localProposal": "Propongo una línea de presupuesto. Compruebe los detalles y haga clic en Aplicar.",
-      "example": "Añade bajo {{parent}} una línea: 12 m³ Hormigón C30 a 145 €",
+      "example": "Añade bajo {{parent}} una línea: 12 m³ Hormigón C30 a {{price}}",
       "actions": {
         "tooMany": "Demasiados cambios propuestos (máximo 100).",
         "action": "Acción {{p0}}",

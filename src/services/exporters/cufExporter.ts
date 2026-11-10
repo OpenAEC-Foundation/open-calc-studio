@@ -1,11 +1,15 @@
 import type { ExportInput, ExportResult } from './types';
 import type { CostItem } from '@/types/costModel';
-import { buildXml, formatDutch, denormalizeUnit, type XmlNode } from './xmlBuilder';
+import { buildXml, formatDutch, denormalizeUnit, wrapRootPosts, currencyNotInFormatWarning, type XmlNode } from './xmlBuilder';
 
 export function exportCuf(input: ExportInput): ExportResult {
   const warnings: string[] = [];
-  const { schedule, items } = input;
+  const { schedule } = input;
+  // Posten zonder hoofdstuk komen in een eigen hoofdstuk (knownbug 59).
+  const items = wrapRootPosts(input.items, isPost, schedule.name ?? '');
   const chapters = items.filter((it) => it.rowType === 'chapter' && !it.parentId);
+  const currencyWarning = currencyNotInFormatWarning('CUF-XML', schedule.currency);
+  if (currencyWarning) warnings.push(currencyWarning);
 
   const children: (XmlNode | string)[] = [
     { tag: 'Naam', children: [schedule.name ?? ''] },
@@ -33,7 +37,7 @@ export function exportCuf(input: ExportInput): ExportResult {
 
 function renderChapter(chapter: CostItem, all: CostItem[], warnings: string[]): XmlNode {
   const kids = all.filter((it) => it.parentId === chapter.id);
-  const posts = kids.filter((it) => it.rowType === 'begrotingspost' || it.rowType === 'bewakingspost');
+  const posts = kids.filter(isPost);
   const subs  = kids.filter((it) => it.rowType === 'chapter');
 
   return {
@@ -44,6 +48,10 @@ function renderChapter(chapter: CostItem, all: CostItem[], warnings: string[]): 
       ...posts.map((p) => renderPost(p, all, warnings)),
     ],
   };
+}
+
+function isPost(it: CostItem): boolean {
+  return it.rowType === 'begrotingspost' || it.rowType === 'bewakingspost';
 }
 
 function renderPost(post: CostItem, all: CostItem[], _warnings: string[]): XmlNode {

@@ -745,7 +745,7 @@
       "delete": "No {{number}} alt satırlarıyla birlikte kaldırılsın",
       "count": "Önerilen değişiklik: {{count}}",
       "localProposal": "Bir keşif satırı öneriyorum. Ayrıntıları kontrol edip Uygula'ya tıklayın.",
-      "example": "{{parent}} altına bir satır ekle: 12 m³ Beton C30, €145",
+      "example": "{{parent}} altına bir satır ekle: 12 m³ Beton C30, {{price}}",
       "actions": {
         "tooMany": "Çok fazla önerilen değişiklik (en fazla 100).",
         "action": "Eylem {{p0}}",
@@ -910,6 +910,8 @@
       "dncSharedCode": "{{code}} kalemi kodunu başka bir kalemle paylaşıyor; kaynaklar ayrı ayrı değil, özet olarak alındı.",
       "onlvTruncated": "60 karakterden uzun {{count}} açıklama stichwort alanında kısaltıldı; tam metin langtext alanında korunur.",
       "rsxFlattened": "RSX: \"{{name}}\" altındaki iç içe bölümler düzleştirildi; CROW RSX tek bir alt keşif düzeyini destekler.",
+      "currencyNotInFormat": "{{format}} biçiminde para birimi alanı yoktur; alıcı bu tutarları avro olarak okur. Bu keşif {{currency}} cinsindendir; tutarlar dönüştürülmedi.",
+      "unreadableNumbers": "{{count}} değer sayı olarak okunamadı ve 0 olarak içe aktarıldı (örneğin \"{{example}}\").",
       "xmlError": "XML ayrıştırma hatası: {{message}} (satır {{line}})",
       "xml": {
         "entity": "Bilinmeyen varlık {{p0}}",

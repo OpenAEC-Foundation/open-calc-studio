@@ -4,7 +4,7 @@ import { uiText } from '../../i18n/uiText';
  * structure in X81/X82/X83/X86; an X84 offer normally contains prices only
  * and must be combined with its original X83, so it is rejected here.
  */
-import { BudgetBuilder, normalizeUnit } from './core';
+import { BudgetBuilder, normalizeCurrencyCode, normalizeUnit } from './core';
 import { childElement, childElements, parseLiteXml, textContent, type XElement } from './liteXml';
 import type { ImportResult } from './types';
 import type { CostItem, CostUnit } from '@/types/costModel';
@@ -92,7 +92,8 @@ export function importGaeb(xml: string): ImportResult {
   warnings.push(uiText("diagnostics.gaebImporter.gaebSpecificAttachmentsAlternativesAndFreeText", "GAEB-specific attachments, alternatives and free-text fields were not fully preserved. Keep the source file."));
   const project = childElement(root, 'PrjInfo');
   const name = value(project, 'NamePrj') || value(childElement(boq, 'BoQInfo'), 'Name') || 'GAEB-bestek';
-  const currency = value(project, 'Cur') || value(childElement(award, 'AwardInfo'), 'Cur') || 'EUR';
+  // <Cur> is een ISO 4217-code; iets anders (oude "DM") valt terug op EUR.
+  const currency = normalizeCurrencyCode(value(project, 'Cur') || value(childElement(award, 'AwardInfo'), 'Cur')) ?? 'EUR';
   return { schedule: { name, projectName: name, currency }, items: builder.items, warnings, format: 'gaeb' };
 }
 

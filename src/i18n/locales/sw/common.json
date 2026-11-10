@@ -745,7 +745,7 @@
       "delete": "Ondoa na. {{number}}, pamoja na safu ndogo",
       "count": "Mabadiliko yaliyopendekezwa: {{count}}",
       "localProposal": "Ninapendekeza mstari mmoja wa makadirio. Angalia maelezo, kisha bofya Tumia.",
-      "example": "Ongeza chini ya {{parent}} mstari: 12 m³ Zege C30 kwa €145",
+      "example": "Ongeza chini ya {{parent}} mstari: 12 m³ Zege C30 kwa {{price}}",
       "actions": {
         "tooMany": "Mabadiliko yaliyopendekezwa ni mengi mno (upeo 100).",
         "action": "Kitendo {{p0}}",
@@ -910,6 +910,8 @@
       "dncSharedCode": "Kipengele {{code}} kinashiriki msimbo wake na kipengele kingine; rasilimali zilijumlishwa badala ya kuorodheshwa moja moja.",
       "onlvTruncated": "Maelezo {{count}} yenye zaidi ya herufi 60 yalifupishwa katika stichwort; maandishi kamili yamehifadhiwa katika langtext.",
       "rsxFlattened": "RSX: sura zilizo ndani ya \"{{name}}\" zilisawazishwa; CROW RSX inategemeza ngazi moja ya makadirio madogo.",
+      "currencyNotInFormat": "{{format}} haina sehemu ya sarafu, kwa hiyo mpokeaji atasoma kiasi hiki kama euro. Makadirio haya yako katika {{currency}}; kiasi hakijabadilishwa.",
+      "unreadableNumbers": "Thamani {{count}} hazikuweza kusomwa kama nambari na zimeingizwa kama 0 (kwa mfano \"{{example}}\").",
       "xmlError": "Hitilafu ya kuchanganua XML: {{message}} (mstari {{line}})",
       "xml": {
         "entity": "Huluki isiyojulikana {{p0}}",

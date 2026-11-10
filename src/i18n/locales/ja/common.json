@@ -745,7 +745,7 @@
       "delete": "番号 {{number}} を下位行ごと削除",
       "count": "提案された変更：{{count}} 件",
       "localProposal": "積算行を 1 行提案します。内容を確認してから「適用」をクリックしてください。",
-      "example": "{{parent}} の下に行を追加：コンクリート C30 12 m³、単価 €145",
+      "example": "{{parent}} の下に行を追加：コンクリート C30 12 m³、単価 {{price}}",
       "actions": {
         "tooMany": "提案された変更が多すぎます（最大 100 件）。",
         "action": "操作 {{p0}}",
@@ -910,6 +910,8 @@
       "dncSharedCode": "項目 {{code}} は別の項目とコードを共有しています。資源は個別ではなく集計して取り込まれました。",
       "onlvTruncated": "60 文字を超える名称 {{count}} 件は stichwort で短縮されました。完全なテキストは langtext に保持されています。",
       "rsxFlattened": "RSX：「{{name}}」の下の入れ子の章は平坦化されました。CROW RSX はサブ積算を 1 階層しか扱えません。",
+      "currencyNotInFormat": "{{format}} には通貨の項目がないため、受信側はこれらの金額をユーロとして読み取ります。この見積もりは {{currency}} です。金額は換算されていません。",
+      "unreadableNumbers": "{{count}} 個の値を数値として読み取れなかったため、0 としてインポートしました（例:「{{example}}」）。",
       "xmlError": "XML 解析エラー：{{message}}（{{line}} 行目）",
       "xml": {
         "entity": "不明なエンティティ {{p0}}",

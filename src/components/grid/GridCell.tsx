@@ -31,6 +31,8 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
   const { t } = useTranslation('grid');
   const gridView = useAppStore((s) => s.gridView);
   const items = useAppStore((s) => s.items);
+  // Bedragen met het aantal decimalen van de begrotingsvaluta (JPY 0, EUR 2).
+  const currency = useAppStore((s) => s.schedule.currency);
   const pdfWorkspace = useAppStore((s) =>
     (isHoursColumn(column.key) || column.key === 'quantity') && item.quantityLink?.source === 'pdf'
       ? s.schedule.pdfWorkspace : undefined);
@@ -96,20 +98,20 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
         case 'stelpostTotal':
         case 'onderaannemingTotal': {
           const val = resourceTotals[column.key];
-          return val ? formatCurrency(val) : '';
+          return val ? formatCurrency(val, currency) : '';
         }
         case 'unitPrice': {
           // Subtotaal = sum of all resource columns
           const sum = (resourceTotals.arbeidTotal || 0) + (resourceTotals.materiaalTotal || 0) +
             (resourceTotals.materieelTotal || 0) + (resourceTotals.stelpostTotal || 0) +
             (resourceTotals.onderaannemingTotal || 0);
-          return sum ? formatCurrency(sum) : '';
+          return sum ? formatCurrency(sum, currency) : '';
         }
         case 'total': {
           // Look up chapter's total
           const chapterId = item.id.replace('footer:', '');
           const chapter = items.find(it => it.id === chapterId);
-          return chapter ? formatCurrency(chapter.total) : '';
+          return chapter ? formatCurrency(chapter.total, currency) : '';
         }
         default: return '';
       }
@@ -163,24 +165,24 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
       case 'verrekenbaar':
         return rt === 'chapter' ? (item.verrekenbaar ?? '') : '';
       case 'normUnitPrice': {
-        if (isRegel) return formatCurrency(item.normUnitPrice);
+        if (isRegel) return formatCurrency(item.normUnitPrice, currency);
         if (isBgr || isBwk) {
           // Eigen prijs van een (bewakings)post: prijs/middel, plus een
           // eventueel geïmporteerd materiaal-/loonbedrag (BasCalc pint de
           // postprijs daar) — anders is er wél een totaal maar geen
           // zichtbare eenheidsprijs.
           const eigen = (item.normUnitPrice ?? 0) + (item.materialPrice ?? 0) + (item.laborPrice ?? 0);
-          return eigen !== 0 ? formatCurrency(eigen) : '';
+          return eigen !== 0 ? formatCurrency(eigen, currency) : '';
         }
         return '';
       }
       case 'unitPrice':
         // Eenheidsprijs: op regel, bewakingspost, begrotingspost
-        return (isRegel || isBwk || isBgr) ? formatCurrency(item.unitPrice) : '';
+        return (isRegel || isBwk || isBgr) ? formatCurrency(item.unitPrice, currency) : '';
       case 'total':
         // Totaal column: only for chapters and begrotingsposten, not for regels/bewakingsposten
         if (isRegel || rt === 'tekstregel' || rt === 'witregel') return '';
-        return hideTotal ? '' : formatCurrency(item.total);
+        return hideTotal ? '' : formatCurrency(item.total, currency);
       case 'chapterCode': {
         // Walk up to find top-level chapter
         let current: CostItem | undefined = item;
@@ -209,13 +211,13 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
           const nup = item.normUnitPrice ?? 0;
           const lab = item.laborPrice ?? 0;
           const kostenEh = nup + lab;
-          return kostenEh ? formatCurrency(kostenEh) : '';
+          return kostenEh ? formatCurrency(kostenEh, currency) : '';
         }
         if (isBgr || isBwk) {
           // For containers: unitPrice / quantity (per-unit derived)
           const qty = item.quantity ?? 0;
-          if (qty > 0) return formatCurrency(item.total / qty);
-          return item.unitPrice ? formatCurrency(item.unitPrice) : '';
+          if (qty > 0) return formatCurrency(item.total / qty, currency);
+          return item.unitPrice ? formatCurrency(item.unitPrice, currency) : '';
         }
         return '';
       }
@@ -226,7 +228,7 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
       case 'stelpostTotal': {
         if (!resourceTotals) return '';
         const val = resourceTotals[column.key];
-        return val ? formatCurrency(val) : '';
+        return val ? formatCurrency(val, currency) : '';
       }
       default:
         return String(item[column.key as keyof CostItem] ?? '');
@@ -236,7 +238,7 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
   // Generate cell-specific formula tooltip
   const getCellTooltip = (): string => {
     const fmtN = (v: number | null) => v != null ? formatNumber(v) : '?';
-    const fmtC = (v: number | null) => v != null ? formatCurrency(v) : '?';
+    const fmtC = (v: number | null) => v != null ? formatCurrency(v, currency) : '?';
     const isWpc = gridView === 'wpcalc';
 
     if (isChapterFooter) return '';

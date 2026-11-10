@@ -745,7 +745,7 @@
       "delete": "Fjern nr. {{number}}, inkludert underlinjer",
       "count": "Foreslåtte endringer: {{count}}",
       "localProposal": "Jeg foreslår én kalkylelinje. Kontroller detaljene, og klikk deretter Bruk.",
-      "example": "Legg til en linje under {{parent}}: 12 m³ betong C30 à €145",
+      "example": "Legg til en linje under {{parent}}: 12 m³ betong C30 à {{price}}",
       "actions": {
         "tooMany": "For mange foreslåtte endringer (maks. 100).",
         "action": "Handling {{p0}}",
@@ -910,6 +910,8 @@
       "dncSharedCode": "Post {{code}} deler kode med en annen post; ressursene ble oppsummert i stedet for spesifisert.",
       "onlvTruncated": "{{count}} beskrivelser lengre enn 60 tegn ble forkortet i stichwort; den fullstendige teksten beholdes i langtext.",
       "rsxFlattened": "RSX: nestede kapitler under «{{name}}» ble slått sammen; CROW RSX støtter ett delkalkylenivå.",
+      "currencyNotInFormat": "{{format}} har ikke noe valutafelt, så mottakeren leser beløpene som euro. Dette overslaget er i {{currency}}; beløpene er ikke regnet om.",
+      "unreadableNumbers": "{{count}} verdier kunne ikke leses som tall og ble importert som 0 (for eksempel «{{example}}»).",
       "xmlError": "XML-tolkingsfeil: {{message}} (linje {{line}})",
       "xml": {
         "entity": "Ukjent entitet {{p0}}",

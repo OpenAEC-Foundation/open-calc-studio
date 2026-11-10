@@ -6,7 +6,7 @@ import { SubSheetRowContextMenu } from './SubSheetRowContextMenu';
 import { SubSheetBorderPicker } from './SubSheetBorderPicker';
 import { shiftFormulaRefs } from '@/services/spreadsheet/formulaRefs';
 import type { CellBorder } from '@/types/costModel';
-import { cellDisplayText } from '@/services/spreadsheet/cellDisplay';
+import { cellDecimals, cellDisplayText } from '@/services/spreadsheet/cellDisplay';
 
 const COL_WIDTH = 90;
 const ROW_HEIGHT = 24;
@@ -244,10 +244,10 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
         else if (action.startsWith('format-')) setCellFormat(sheetId, ref, action.replace('format-', ''));
         else if (action === 'decimals-up') {
           const cell = sheet?.cells[ref];
-          setCellDecimals(sheetId, ref, (cell?.decimals ?? 2) + 1);
+          setCellDecimals(sheetId, ref, cellDecimals(cell, currency) + 1);
         } else if (action === 'decimals-down') {
           const cell = sheet?.cells[ref];
-          setCellDecimals(sheetId, ref, Math.max(0, (cell?.decimals ?? 2) - 1));
+          setCellDecimals(sheetId, ref, Math.max(0, cellDecimals(cell, currency) - 1));
         } else if (action.startsWith('fontsize-')) {
           setCellFontSize(sheetId, ref, parseInt(action.replace('fontsize-', '')));
         }
@@ -255,7 +255,7 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
     };
     document.addEventListener('spreadsheet-action', handler);
     return () => document.removeEventListener('spreadsheet-action', handler);
-  }, [sheetId, sheet, getSelectedCellRefs, toggleBold, toggleItalic, setCellAlign, setCellFormat, setCellDecimals, setCellFontSize]);
+  }, [sheetId, sheet, currency, getSelectedCellRefs, toggleBold, toggleItalic, setCellAlign, setCellFormat, setCellDecimals, setCellFontSize]);
 
   const commitEdit = useCallback((cellRef: string) => {
     setCell(sheetId, cellRef, editValue);

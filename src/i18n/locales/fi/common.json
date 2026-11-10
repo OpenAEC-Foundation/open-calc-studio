@@ -745,7 +745,7 @@
       "delete": "Poista nro {{number}} alariveineen",
       "count": "Ehdotetut muutokset: {{count}}",
       "localProposal": "Ehdotan yhtä kustannusarvioriviä. Tarkista tiedot ja napsauta sitten Käytä.",
-      "example": "Lisää kohdan {{parent}} alle rivi: 12 m³ betonia C30 hintaan 145 €",
+      "example": "Lisää kohdan {{parent}} alle rivi: 12 m³ betonia C30 hintaan {{price}}",
       "actions": {
         "tooMany": "Liian monta ehdotettua muutosta (enintään 100).",
         "action": "Toiminto {{p0}}",
@@ -910,6 +910,8 @@
       "dncSharedCode": "Nimikkeellä {{code}} on sama koodi kuin toisella nimikkeellä; panokset koottiin yhteen erittelyn sijaan.",
       "onlvTruncated": "{{count}} yli 60 merkin kuvausta lyhennettiin stichwort-kentässä; koko teksti säilytetään langtext-kentässä.",
       "rsxFlattened": "RSX: sisäkkäiset luvut kohdan \"{{name}}\" alla litistettiin; CROW RSX tukee yhtä alikustannusarviotasoa.",
+      "currencyNotInFormat": "{{format}} ei sisällä valuuttakenttää, joten vastaanottaja lukee summat euroina. Tämä laskelma on valuutassa {{currency}}; summia ei ole muunnettu.",
+      "unreadableNumbers": "{{count}} arvoa ei voitu lukea lukuna, ja ne tuotiin arvona 0 (esimerkiksi ”{{example}}”).",
       "xmlError": "XML-jäsennysvirhe: {{message}} (rivi {{line}})",
       "xml": {
         "entity": "Tuntematon entiteetti {{p0}}",

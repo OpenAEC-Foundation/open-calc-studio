@@ -1,10 +1,17 @@
+import { safeCurrency } from '@/utils/formatting';
+
 /**
  * Domeinkennis voor de Calculatieassistent: hoe een Nederlandse bouwbegroting
  * in elkaar zit en welke vakregels gelden bij het opbouwen en wijzigen ervan.
  * Dit is dé plek waar die kennis in de repo leeft — wordt als onderdeel van
  * de system prompt aan het taalmodel meegegeven.
+ *
+ * Bedragen in de voorbeelden staan in de valuta van de begroting (issue #65);
+ * de vakkennis zelf blijft Nederlands.
  */
-export const BEGROTEN_KENNIS = `
+export function begrotenKennis(currency?: string | null): string {
+  const cur = safeCurrency(currency);
+  return `
 ## Vakkennis: zo werkt een bouwbegroting
 
 Structuur (geld zit ALLEEN op rekenregels, nooit op posten of hoofdstukken):
@@ -32,13 +39,17 @@ leveringsregel (bedrag, onderaanneming/overig) plus een aparte montage-regel
 in uren; één rond bedrag mag alleen als échte stelpost en heet dan ook zo.
 
 Vuistregels:
-- Geen ronde fantasie-bedragen (€10.000 → €9.875), behalve letterlijke
+- Geen ronde fantasie-bedragen (${cur} 10.000 → ${cur} 9.875), behalve letterlijke
   offertebedragen of stelposten.
 - Hoeveelheden herleidbaar opbouwen (2 × 37 m × 3 m à 40% = 88,8 m²) en die
   herleiding in de omschrijving of toelichting benoemen.
 - Eenheidsprijzen baseren op vergelijkbare regels die al in het document
   staan; pas indexeren of afwijken als de gebruiker daarom vraagt.
-- Kengetallen toetsen op €/m² BVO excl. btw; grote afwijkingen benoemen.
+- Kengetallen toetsen op ${cur}/m² BVO excl. btw; grote afwijkingen benoemen.
 - Na wijzigingen kloppen totalen automatisch (de app herrekent) — noem in je
   antwoord het effect op het totaal als dat relevant is.
 `;
+}
+
+/** De vakkennis met euro-voorbeelden (standaardvaluta). */
+export const BEGROTEN_KENNIS = begrotenKennis('EUR');

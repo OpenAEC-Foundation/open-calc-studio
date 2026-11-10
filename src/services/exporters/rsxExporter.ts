@@ -1,14 +1,18 @@
 import { uiText } from '../../i18n/uiText';
 import type { ExportInput, ExportResult } from './types';
 import type { CostItem } from '@/types/costModel';
-import { buildXml, formatDutch, denormalizeUnit, type XmlNode } from './xmlBuilder';
+import { buildXml, formatDutch, denormalizeUnit, wrapRootPosts, currencyNotInFormatWarning, type XmlNode } from './xmlBuilder';
 
 const RSX_NS = 'http://www.crow.nl/schema/raw/rsx';
 
 export function exportRsx(input: ExportInput): ExportResult {
   const warnings: string[] = [];
-  const { schedule, items } = input;
+  const { schedule } = input;
+  // Posten zonder hoofdstuk komen in een eigen deelraming (knownbug 59).
+  const items = wrapRootPosts(input.items, isPost, schedule.name ?? '');
   const chapters = items.filter((it) => it.rowType === 'chapter' && !it.parentId);
+  const currencyWarning = currencyNotInFormatWarning('RSX', schedule.currency);
+  if (currencyWarning) warnings.push(currencyWarning);
 
   const root: XmlNode = {
     tag: 'RAWBestand',
@@ -29,7 +33,7 @@ function renderDeelraming(ch: CostItem, all: CostItem[], warnings: string[]): Xm
   const collect = (parentId: string) => {
     for (const it of all) {
       if (it.parentId !== parentId) continue;
-      if (it.rowType === 'begrotingspost' || it.rowType === 'bewakingspost') resBs.push(it);
+      if (isPost(it)) resBs.push(it);
       else if (it.rowType === 'chapter') { hasSubs = true; collect(it.id); }
     }
   };
@@ -44,6 +48,10 @@ function renderDeelraming(ch: CostItem, all: CostItem[], warnings: string[]): Xm
     attrs: { code: ch.code, omschrijving: ch.description },
     children: resBs.map(renderResultaat),
   };
+}
+
+function isPost(it: CostItem): boolean {
+  return it.rowType === 'begrotingspost' || it.rowType === 'bewakingspost';
 }
 
 function renderResultaat(r: CostItem): XmlNode {

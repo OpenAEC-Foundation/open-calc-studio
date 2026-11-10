@@ -745,7 +745,7 @@
       "delete": "Xóa số {{number}}, kể cả các dòng con",
       "count": "Thay đổi đề xuất: {{count}}",
       "localProposal": "Tôi đề xuất một dòng dự toán. Hãy kiểm tra chi tiết rồi bấm Áp dụng.",
-      "example": "Thêm dưới {{parent}} một dòng: 12 m³ Bê tông C30 giá €145",
+      "example": "Thêm dưới {{parent}} một dòng: 12 m³ Bê tông C30 giá {{price}}",
       "actions": {
         "tooMany": "Quá nhiều thay đổi đề xuất (tối đa 100).",
         "action": "Thao tác {{p0}}",
@@ -910,6 +910,8 @@
       "dncSharedCode": "Mục {{code}} dùng chung mã với mục khác; các nguồn lực được tổng hợp thay vì liệt kê chi tiết.",
       "onlvTruncated": "{{count}} mô tả dài hơn 60 ký tự đã được rút ngắn trong stichwort; văn bản đầy đủ được giữ trong langtext.",
       "rsxFlattened": "RSX: các chương lồng nhau dưới \"{{name}}\" đã được làm phẳng; CROW RSX chỉ hỗ trợ một cấp dự toán con.",
+      "currencyNotInFormat": "{{format}} không có trường tiền tệ, nên bên nhận sẽ hiểu các số tiền này là euro. Dự toán này tính bằng {{currency}}; các số tiền không được quy đổi.",
+      "unreadableNumbers": "{{count}} giá trị không đọc được dưới dạng số và đã được nhập là 0 (ví dụ \"{{example}}\").",
       "xmlError": "Lỗi phân tích XML: {{message}} (dòng {{line}})",
       "xml": {
         "entity": "Thực thể không xác định {{p0}}",

@@ -745,7 +745,7 @@
       "delete": "Ukloni br. {{number}}, uključujući podretke",
       "count": "Predložene promjene: {{count}}",
       "localProposal": "Predlažem jedan redak troškovnika. Provjerite pojedinosti, a zatim kliknite Primijeni.",
-      "example": "Dodaj pod {{parent}} redak: 12 m³ beton C30 po 145 €",
+      "example": "Dodaj pod {{parent}} redak: 12 m³ beton C30 po {{price}}",
       "actions": {
         "tooMany": "Previše predloženih promjena (najviše 100).",
         "action": "Radnja {{p0}}",
@@ -910,6 +910,8 @@
       "dncSharedCode": "Stavka {{code}} dijeli šifru s drugom stavkom; resursi su sažeti umjesto raščlanjeni.",
       "onlvTruncated": "{{count}} opisa duljih od 60 znakova skraćeno je u polju stichwort; cijeli je tekst zadržan u polju langtext.",
       "rsxFlattened": "RSX: ugniježđena poglavlja pod \"{{name}}\" su spljoštena; CROW RSX podržava jednu razinu podtroškovnika.",
+      "currencyNotInFormat": "{{format}} nema polje za valutu, pa će primatelj ove iznose čitati kao eure. Ovaj troškovnik je u {{currency}}; iznosi nisu preračunati.",
+      "unreadableNumbers": "{{count}} vrijednosti nije bilo moguće pročitati kao broj pa su uvezene kao 0 (na primjer „{{example}}”).",
       "xmlError": "Pogreška pri raščlanjivanju XML-a: {{message}} (redak {{line}})",
       "xml": {
         "entity": "Nepoznat entitet {{p0}}",

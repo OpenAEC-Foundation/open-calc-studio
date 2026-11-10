@@ -1,3 +1,6 @@
+import { uiText } from '../../i18n/uiText';
+import type { CostItem } from '@/types/costModel';
+
 export type XmlAttrs = Record<string, string | number | undefined>;
 
 export interface XmlNode {
@@ -53,4 +56,45 @@ export function formatDutch(n: number, decimals = 2): string {
 
 export function denormalizeUnit(unit: string): string {
   return unit.replace(/³/g, '3').replace(/²/g, '2');
+}
+
+/**
+ * Posten zonder hoofdstuk (direct onder de wortel) in een eigen hoofdstuk
+ * zetten, op de plek van de eerste zo'n post (knownbug 59). CUF, TradXML en
+ * RSX hangen elke post onder een hoofdstuk/deelraming; zonder deze stap
+ * vielen losse posten stil weg. Opeenvolgende losse posten delen één
+ * hoofdstuk; een echt hoofdstuk ertussen begint een nieuw. Het hoofdstuk
+ * krijgt geen code en de naam van de begroting — elke lezer (ook een oudere
+ * versie van OCS) leest het als gewoon hoofdstuk. Niets wordt herberekend.
+ */
+export function wrapRootPosts(items: CostItem[], isPost: (it: CostItem) => boolean, description: string): CostItem[] {
+  if (!items.some((it) => !it.parentId && isPost(it))) return items;
+  const out: CostItem[] = [];
+  let group: CostItem | null = null;
+  let n = 0;
+  for (const it of items) {
+    if (!it.parentId && it.rowType === 'chapter') group = null;
+    if (!it.parentId && isPost(it)) {
+      if (!group) {
+        n += 1;
+        group = { ...it, id: `ocs-root-posts-${n}`, parentId: null, rowType: 'chapter', code: '', description, notes: '', quantity: null, unit: 'st' };
+        out.push(group);
+      }
+      out.push({ ...it, parentId: group.id, depth: it.depth + 1 });
+      continue;
+    }
+    out.push(it);
+  }
+  return out;
+}
+
+/**
+ * Melding voor formaten zonder valutaveld: de ontvanger leest de bedragen als
+ * euro's. Alleen als de begroting een andere valuta heeft; er wordt nooit
+ * omgerekend. `null` als er niets te melden is.
+ */
+export function currencyNotInFormatWarning(format: string, currency: string | null | undefined): string | null {
+  const code = (currency ?? '').trim().toUpperCase();
+  if (!/^[A-Z]{3}$/.test(code) || code === 'EUR') return null;
+  return uiText('diagnostics.currencyNotInFormat', '{{format}} has no currency field, so the receiver will read these amounts as euros. This estimate is in {{currency}}; the amounts were not converted.', { format, currency: code });
 }

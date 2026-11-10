@@ -3,6 +3,7 @@ import { getStaartBreakdown, recalculateItems } from '@/services/calculation/cal
 import { useAppStore } from '@/state/appStore';
 import { simulateActies, commitAssistantItems, type AssistantActie } from './assistantActions';
 import { uiText } from '@/i18n/uiText';
+import { safeCurrency } from '@/utils/formatting';
 
 export interface ProposalTotals { direct: number; excludingVat: number; vat: number; includingVat: number }
 export interface ProposalChange { id: string; kind: 'added' | 'removed' | 'changed'; before?: CostItem; after?: CostItem }
@@ -51,7 +52,7 @@ export function createAssistantProposal(actions: AssistantActie[], documentId: s
     if (action.type === 'add_regel' && action.prijs == null && String(action.eenheid).toLowerCase() !== 'uur') assumptions.push(uiText('proposal.noPrice', '“{{name}}”: no unit price supplied.', { name: action.omschrijving }));
     if (action.type === 'add_regel' && String(action.eenheid).toLowerCase() === 'uur') assumptions.push(uiText('proposal.labourRate', '“{{name}}”: labour uses rate group {{group}}.', { name: action.omschrijving, group: action.tariefgroep ?? 'A' }));
   }
-  return { id: crypto.randomUUID(), documentId, createdAt: new Date().toISOString(), basis: proposalBasis(items, schedule), currency: schedule.currency || 'EUR', actions: structuredClone(actions), results,
+  return { id: crypto.randomUUID(), documentId, createdAt: new Date().toISOString(), basis: proposalBasis(items, schedule), currency: safeCurrency(schedule.currency), actions: structuredClone(actions), results,
     errors: results.filter(line => line.startsWith('✖')), beforeTotals: totals(items), afterTotals: totals(afterItems), changes, assumptions, afterItems };
 }
 

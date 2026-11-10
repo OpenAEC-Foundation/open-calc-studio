@@ -745,7 +745,7 @@
       "delete": "Suprimeix el núm. {{number}}, incloses les línies filles",
       "count": "Canvis proposats: {{count}}",
       "localProposal": "Proposo una línia de pressupost. Comproveu-ne els detalls i feu clic a Aplica.",
-      "example": "Afegeix sota {{parent}} una línia: 12 m³ Formigó C30 a 145 €",
+      "example": "Afegeix sota {{parent}} una línia: 12 m³ Formigó C30 a {{price}}",
       "actions": {
         "tooMany": "Massa canvis proposats (màxim 100).",
         "action": "Acció {{p0}}",
@@ -910,6 +910,8 @@
       "dncSharedCode": "La partida {{code}} comparteix el codi amb una altra partida; els recursos s'han resumit en lloc de detallar-se.",
       "onlvTruncated": "{{count}} descripcions de més de 60 caràcters s'han escurçat al stichwort; el text complet es conserva al langtext.",
       "rsxFlattened": "RSX: els capítols imbricats sota \"{{name}}\" s'han aplanat; CROW RSX admet un sol nivell de subpressupost.",
+      "currencyNotInFormat": "{{format}} no té camp de moneda, de manera que el destinatari llegirà aquests imports en euros. Aquest pressupost és en {{currency}}; els imports no s'han convertit.",
+      "unreadableNumbers": "{{count}} valors no s'han pogut llegir com a nombre i s'han importat com a 0 (per exemple, «{{example}}»).",
       "xmlError": "Error d'anàlisi XML: {{message}} (línia {{line}})",
       "xml": {
         "entity": "Entitat desconeguda {{p0}}",

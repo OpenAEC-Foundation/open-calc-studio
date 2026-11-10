@@ -745,7 +745,7 @@
       "delete": "{{number}}번 제거(하위 행 포함)",
       "count": "제안된 변경 사항: {{count}}건",
       "localProposal": "내역 행 하나를 제안합니다. 세부 정보를 확인한 뒤 적용을 클릭하세요.",
-      "example": "{{parent}} 아래에 행 추가: 콘크리트 C30 12 m³, €145",
+      "example": "{{parent}} 아래에 행 추가: 콘크리트 C30 12 m³, {{price}}",
       "actions": {
         "tooMany": "제안된 변경 사항이 너무 많습니다(최대 100건).",
         "action": "작업 {{p0}}",
@@ -910,6 +910,8 @@
       "dncSharedCode": "항목 {{code}}이(가) 다른 항목과 코드를 공유하여 자원을 개별 항목이 아닌 요약으로 가져왔습니다.",
       "onlvTruncated": "60자를 초과하는 명칭 {{count}}개를 stichwort에서 줄였습니다. 전체 텍스트는 langtext에 유지됩니다.",
       "rsxFlattened": "RSX: \"{{name}}\" 아래의 중첩된 장을 평탄화했습니다. CROW RSX는 하위 내역서 수준을 하나만 지원합니다.",
+      "currencyNotInFormat": "{{format}}에는 통화 필드가 없으므로 받는 쪽은 이 금액을 유로로 읽습니다. 이 견적은 {{currency}}입니다. 금액은 환산되지 않았습니다.",
+      "unreadableNumbers": "{{count}}개의 값을 숫자로 읽을 수 없어 0으로 가져왔습니다(예: \"{{example}}\").",
       "xmlError": "XML 구문 분석 오류: {{message}}({{line}}행)",
       "xml": {
         "entity": "알 수 없는 엔티티 {{p0}}",

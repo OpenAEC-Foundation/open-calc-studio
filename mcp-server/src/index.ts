@@ -799,7 +799,9 @@ function generateIfcStep(schedule: CostSchedule, items: CostItem[]): string {
 
   const units: [string,string][] = [['LENGTHUNIT','METRE'],['AREAUNIT','SQUARE_METRE'],['VOLUMEUNIT','CUBIC_METRE'],['TIMEUNIT','SECOND'],['MASSUNIT','GRAM']];
   const uids = units.map(([u,b]) => { const i = gid(); lines.push({ id: i, entity: `IFCSIUNIT(*,.${u}.,$,.${b}.)` }); return i; });
-  const muid = gid(); lines.push({ id: muid, entity: `IFCMONETARYUNIT('EUR')` });
+  // Valuta van de begroting (ISO 4217), zonder omrekening; zelfde regel als de app.
+  const currency = /^[A-Z]{3}$/.test(schedule.currency ?? '') ? schedule.currency : 'EUR';
+  const muid = gid(); lines.push({ id: muid, entity: `IFCMONETARYUNIT('${currency}')` });
   const uaid = gid(); lines.push({ id: uaid, entity: `IFCUNITASSIGNMENT((${uids.map(u=>`#${u}`).join(',')},#${muid}))` });
 
   const prid = gid(); lines.push({ id: prid, entity: `IFCPROJECT('${schedule.ifcGuid}',#${ohId},'${encodeStep(schedule.projectName)}','${encodeStep(schedule.description)}',$,$,$,(#${uaid}),$)` });

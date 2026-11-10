@@ -747,7 +747,7 @@
       "delete": "Odebrat č. {{number}} včetně podřízených řádků",
       "count": "Navržené změny: {{count}}",
       "localProposal": "Navrhuji jeden rozpočtový řádek. Zkontrolujte podrobnosti a poté klikněte na Použít.",
-      "example": "Přidej pod {{parent}} řádek: 12 m³ beton C30 za 145 €",
+      "example": "Přidej pod {{parent}} řádek: 12 m³ beton C30 za {{price}}",
       "actions": {
         "tooMany": "Příliš mnoho navržených změn (maximálně 100).",
         "action": "Akce {{p0}}",
@@ -912,6 +912,8 @@
       "dncSharedCode": "Položka {{code}} sdílí kód s jinou položkou; zdroje byly shrnuty, nikoli rozepsány.",
       "onlvTruncated": "{{count}} popisů delších než 60 znaků bylo ve stichwort zkráceno; úplný text zůstává zachován v langtext.",
       "rsxFlattened": "RSX: vnořené kapitoly pod „{{name}}“ byly sloučeny; CROW RSX podporuje jednu úroveň dílčích rozpočtů.",
+      "currencyNotInFormat": "{{format}} nemá pole pro měnu, takže příjemce načte tyto částky jako eura. Tento rozpočet je v {{currency}}; částky nebyly přepočteny.",
+      "unreadableNumbers": "{{count}} hodnot nebylo možné přečíst jako číslo a byly importovány jako 0 (například „{{example}}“).",
       "xmlError": "Chyba při analýze XML: {{message}} (řádek {{line}})",
       "xml": {
         "entity": "Neznámá entita {{p0}}",

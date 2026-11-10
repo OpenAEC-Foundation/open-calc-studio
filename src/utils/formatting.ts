@@ -74,9 +74,14 @@ export function formatNumber(value: number | null): string {
   return formatDecimals(value, 2);
 }
 
-/** Bedrag zonder valutateken (voor cellen en kolommen). */
-export function formatCurrency(value: number | null): string {
-  return formatDecimals(value, 2);
+/**
+ * Bedrag zonder valutateken (voor cellen en kolommen). Met een valuta krijgt
+ * het bedrag het aantal decimalen van die valuta: 0 voor JPY/KRW/CLP, 3 voor
+ * KWD/BHD, anders 2. Zonder valuta 2. Alleen weergave; er wordt niets
+ * afgerond in de opgeslagen waarde.
+ */
+export function formatCurrency(value: number | null, currency?: string | null): string {
+  return formatDecimals(value, currency ? currencyDigits(currency) : 2);
 }
 
 /** Geldige ISO 4217-code, anders EUR. */
@@ -89,6 +94,18 @@ export function safeCurrency(code: string | null | undefined): string {
   } catch {
     return 'EUR';
   }
+}
+
+const digitsCache = new Map<string, number>();
+/** Aantal decimalen (minor unit) van een valuta volgens Intl: EUR 2, JPY 0, KWD 3. */
+export function currencyDigits(currency: string | null | undefined): number {
+  const code = safeCurrency(currency);
+  let digits = digitsCache.get(code);
+  if (digits === undefined) {
+    digits = new Intl.NumberFormat('en', { style: 'currency', currency: code }).resolvedOptions().maximumFractionDigits ?? 2;
+    digitsCache.set(code, digits);
+  }
+  return digits;
 }
 
 /**

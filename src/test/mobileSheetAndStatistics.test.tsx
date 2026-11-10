@@ -5,6 +5,7 @@ import i18next from '@/i18n/config';
 import { MobileWorkspace } from '@/components/mobile/MobileWorkspace';
 import { mobileCellDisplay } from '@/components/mobile/mobileCellDisplay';
 import { cellDisplayText } from '@/services/spreadsheet/cellDisplay';
+import { setNumberFormatPreference } from '@/utils/formatting';
 import { useAppStore } from '@/state/appStore';
 
 const embed = vi.hoisted(() => ({ embedded: false }));
@@ -63,10 +64,11 @@ afterEach(async () => {
 
 describe('mobile sheet cell display', () => {
   it('shows a formula result in the same notation as the desktop grid, with the formula underneath', () => {
+    // Subbladen volgen de instelling "Getalnotatie" (#65); hier vast 1.234,56.
+    setNumberFormatPreference('nl-NL');
     const cell = { value: '=A1*3', computed: 36 };
     expect(mobileCellDisplay(cell)).toEqual({ main: '36,00', formula: '=A1*3' });
     expect(mobileCellDisplay(cell).main).toBe(cellDisplayText(cell));
-    // Ook in een Engelstalige app NL-notatie: het blad leest "1,250" als 1,25.
     expect(mobileCellDisplay({ value: '=A1', computed: 1250 }).main).toBe('1.250,00');
     expect(mobileCellDisplay({ value: '=A1', computed: 0.21, format: 'percentage', decimals: 0 }).main).toBe('21%');
     const money = { value: '=A1', computed: 1234.5, format: 'currency' as const };

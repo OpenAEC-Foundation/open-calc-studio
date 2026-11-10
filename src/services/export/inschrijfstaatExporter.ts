@@ -26,11 +26,16 @@ function spaceOutTitle(text: string): string {
   return text.split('').join(' ');
 }
 
-function mapUnitToExport(unit: string): string {
+/**
+ * Eenheid zoals de inschrijfstaat hem schrijft. Een post (vast bedrag) krijgt
+ * de valuta van de begroting als eenheid ("EUR", "USD"); de import leest die
+ * code terug als post én als valuta. Er wordt niet omgerekend.
+ */
+function mapUnitToExport(unit: string, currency: string): string {
   switch (unit) {
     case 'm²': return 'm2';
     case 'm³': return 'm3';
-    case 'post': return 'EUR';
+    case 'post': return currency;
     default: return unit;
   }
 }
@@ -61,6 +66,7 @@ export function buildInschrijfstaatRows(
   companyInfo?: CompanyInfo | null,
 ): any[][] {
   const rows: any[][] = [];
+  const currency = /^[A-Z]{3}$/.test(schedule.currency ?? '') ? schedule.currency : 'EUR';
 
   // Row 0: metadata
   rows.push(['%_vrij_%', '', '', 0, '', '', '', 0, 0, 0]);
@@ -117,7 +123,7 @@ export function buildInschrijfstaatRows(
     const qty = (item.rowType === 'begrotingspost' || item.rowType === 'regel')
       ? (item.quantity ?? 0) : '';
     const unit = (item.rowType === 'begrotingspost' || item.rowType === 'regel')
-      ? mapUnitToExport(item.unit || 'st') : '';
+      ? mapUnitToExport(item.unit || 'st', currency) : '';
     const verr = item.rowType === 'chapter' ? (item.verrekenbaar || '') :
                  (item.rowType === 'begrotingspost' || item.rowType === 'regel')
                   ? 'N' : '';

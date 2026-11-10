@@ -745,7 +745,7 @@
       "delete": "Supprimer le n° {{number}}, sous-lignes comprises",
       "count": "Modifications proposées : {{count}}",
       "localProposal": "Je propose une ligne de devis. Vérifiez les détails, puis cliquez sur Appliquer.",
-      "example": "Ajoute sous {{parent}} une ligne : 12 m³ Béton C30 à 145 €",
+      "example": "Ajoute sous {{parent}} une ligne : 12 m³ Béton C30 à {{price}}",
       "actions": {
         "tooMany": "Trop de modifications proposées (maximum 100).",
         "action": "Action {{p0}}",
@@ -910,6 +910,8 @@
       "dncSharedCode": "L'ouvrage {{code}} partage son code avec un autre ouvrage ; les ressources ont été regroupées au lieu d'être détaillées.",
       "onlvTruncated": "{{count}} désignations de plus de 60 caractères ont été raccourcies dans le stichwort ; le texte complet est conservé dans le langtext.",
       "rsxFlattened": "RSX : les lots imbriqués sous « {{name}} » ont été aplatis ; CROW RSX ne prend en charge qu'un seul niveau de sous-devis.",
+      "currencyNotInFormat": "{{format}} n'a pas de champ devise : le destinataire lira ces montants en euros. Ce devis est en {{currency}} ; les montants n'ont pas été convertis.",
+      "unreadableNumbers": "{{count}} valeurs n'ont pas pu être lues comme des nombres et ont été importées comme 0 (par exemple « {{example}} »).",
       "xmlError": "Erreur d'analyse XML : {{message}} (ligne {{line}})",
       "xml": {
         "entity": "Entité inconnue {{p0}}",

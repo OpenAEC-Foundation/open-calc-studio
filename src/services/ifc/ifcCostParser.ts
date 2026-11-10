@@ -119,6 +119,12 @@ export function parseIfcCostFile(content: string): { schedule: CostSchedule; ite
     winstRisico: 5,
   };
 
+  // Valuta uit IfcMonetaryUnit: IFC4 schrijft een label ('USD'), IFC2x3 een
+  // enum (.USD.). Alleen een geldige 3-lettercode; anders blijft EUR staan.
+  const monetary = entities.find((e) => e.type === 'IFCMONETARYUNIT');
+  const currencyCode = monetary?.args.trim().replace(/^'(.*)'$/, '$1').replace(/^\.(.*)\.$/, '$1').trim().toUpperCase() ?? '';
+  if (/^[A-Z]{3}$/.test(currencyCode)) schedule.currency = currencyCode;
+
   // Find IfcProject for project name
   const projectEntity = entities.find((e) => e.type === 'IFCPROJECT');
   if (projectEntity) {

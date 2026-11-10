@@ -745,7 +745,7 @@
       "delete": "Уклони бр. {{number}}, укључујући подређене редове",
       "count": "Предложене измене: {{count}}",
       "localProposal": "Предлажем један ред предрачуна. Проверите детаље, а затим кликните Примени.",
-      "example": "Додај под {{parent}} ред: 12 m³ бетон C30 по €145",
+      "example": "Додај под {{parent}} ред: 12 m³ бетон C30 по {{price}}",
       "actions": {
         "tooMany": "Превише предложених измена (највише 100).",
         "action": "Радња {{p0}}",
@@ -910,6 +910,8 @@
       "dncSharedCode": "Позиција {{code}} дели шифру са другом позицијом; ресурси су сумирани уместо појединачно наведени.",
       "onlvTruncated": "{{count}} описа дужих од 60 знакова скраћено је у пољу stichwort; пуни текст је задржан у пољу langtext.",
       "rsxFlattened": "RSX: угнежђена поглавља под „{{name}}“ су спојена; CROW RSX подржава један ниво подпредрачуна.",
+      "currencyNotInFormat": "{{format}} nema polje za valutu, pa će primalac ove iznose čitati kao evre. Ovaj predmer je u {{currency}}; iznosi nisu preračunati.",
+      "unreadableNumbers": "{{count}} vrednosti nije moguće pročitati kao broj pa su uvezene kao 0 (na primer „{{example}}“).",
       "xmlError": "Грешка при рашчлањивању XML-а: {{message}} (ред {{line}})",
       "xml": {
         "entity": "Непознат ентитет {{p0}}",

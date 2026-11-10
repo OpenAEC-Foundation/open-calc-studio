@@ -22,7 +22,7 @@
  * De praktijk wijkt op een aantal punten af van de specificatie; zie de
  * opmerkingen bij `keyOf`, `isContainer`, `decodeBc3` en de variantafhandeling.
  */
-import { makeCostItem, parseNumber, normalizeUnit, genId } from './core';
+import { makeCostItem, parseNumber, normalizeUnit, normalizeCurrencyCode, genId } from './core';
 import { decodeCp850 } from './cp850';
 import { decodeWindows1252 } from './windows1252';
 import type { ImportResult, ImportWarningCode } from './types';
@@ -63,6 +63,7 @@ interface Bc3Data {
   order: Bc3Concept[];                 // alle concepten in declaratievolgorde
   measurements: Map<string, number>;   // "#pad", "ouder::kind::positie", "ouder::kind" of "*::kind" → totaal
   measured: Set<string>;               // kind-keys waarvoor een ~M/~N bestaat
+  currency?: string;                   // DIVISA uit ~K (ISO 4217), als aanwezig
 }
 
 /**
@@ -253,8 +254,18 @@ function parseBc3(text: string): Bc3Data {
         }
         break;
       }
+      case 'K': {
+        // ~K | DN\DD\DS\DR\DI\DP\DC\DM\DIVISA\ | CI\GG\BI\BAJA\IVA | DRC\…\DIVISA\ | n |
+        // De decimalen zijn voor ons niet nodig; DIVISA wel. Veld 1 (FIEBDC-3/95+)
+        // of veld 3 (sinds 2002); het enige alfabetische subveld is de valuta.
+        for (const f of [fields[0], fields[2]]) {
+          const code = (f ?? '').split('\\').map((v) => normalizeCurrencyCode(v)).find(Boolean);
+          if (code) { data.currency = code; break; }
+        }
+        break;
+      }
       default:
-        break; // ~V/~K/~P/~X en overige records hebben geen mapping nodig
+        break; // ~V/~P/~X en overige records hebben geen mapping nodig
     }
   }
   return data;
@@ -663,6 +674,8 @@ export function importBc3(text: string): ImportResult {
       name: titleConcept?.summary || 'BC3-import',
       projectName: titleConcept?.summary || 'BC3-import',
       description: titleConcept?.text ?? '',
+      // Valuta alleen als het bestand hem noemt; anders geldt de standaard (EUR).
+      ...(data.currency ? { currency: data.currency } : {}),
     },
     items,
     warnings: capped,

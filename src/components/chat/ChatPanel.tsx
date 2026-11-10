@@ -8,7 +8,7 @@ import { useAppStore } from '@/state/appStore';
 import { buildBudgetContext, ACTIE_PROTOCOL, parseActies, parseLocalBudgetCommand, validateActies } from '@/services/assistant/assistantActions';
 import { stageAssistantProposal, summarizeAssistantProposal, applyAssistantProposal, discardAssistantProposal, canUndoAssistantProposal, undoAssistantProposal } from '@/services/assistant/assistantProposal';
 import { ProposalPreview } from './ProposalPreview';
-import { BEGROTEN_KENNIS } from '@/services/assistant/begrotenKennis';
+import { begrotenKennis } from '@/services/assistant/begrotenKennis';
 import { OPENAEC_ENABLED, allowsExternalServices } from '@/services/buildFlags';
 import { formatMoneyKeepZero, formatMoneyWhole } from '@/utils/formatting';
 import './ChatPanel.css';
@@ -82,6 +82,8 @@ export function ChatPanel({ embedded = false }: { embedded?: boolean }) {
   const activeDocId = useAppStore(s => s.activeDocumentId);
   const activeDocName = useAppStore(s => s.documents.find(d => d.id === s.activeDocumentId)?.fileName);
   const firstPostNr = useAppStore(s => s.items.find(i => i.rowType === 'begrotingspost')?.nr);
+  // Het voorbeeld toont de prijs in de begrotingsvaluta; opnieuw tekenen bij een wissel.
+  useAppStore(s => s.schedule.currency);
   const accountsUser = useAppStore(s => s.accountsUser);
   const aiCredits = useAppStore(s => s.aiCredits);
   const accountsAiComplete = useAppStore(s => s.accountsAiComplete);
@@ -118,7 +120,7 @@ export function ChatPanel({ embedded = false }: { embedded?: boolean }) {
   const buildContextBlock = useCallback(() => {
     const store = useAppStore.getState();
     const staartItems = store.items.filter(i => i.rowType.startsWith('staart_'));
-    return `${BEGROTEN_KENNIS}
+    return `${begrotenKennis(store.schedule.currency)}
 
 Huidige begroting:
 ${buildBudgetContext(store.schedule, store.items)}
@@ -311,7 +313,7 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
             t('chat.chip1'),
             t('chat.chip2'),
             t('chat.chip3'),
-            ...(firstPostNr ? [uiText('chat.example', 'Add under {{parent}} a line: 12 m³ Concrete C30 at €145', { parent: firstPostNr })] : []),
+            ...(firstPostNr ? [uiText('chat.example', 'Add under {{parent}} a line: 12 m³ Concrete C30 at {{price}}', { parent: firstPostNr, price: formatWholeMoney(145) })] : []),
           ].map((s) => (
             <button key={s} className="chat-chip" onClick={() => { setInput(s); inputRef.current?.focus(); }}>
               {s}

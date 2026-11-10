@@ -1,11 +1,15 @@
 import type { ExportInput, ExportResult } from './types';
 import type { CostItem } from '@/types/costModel';
-import { buildXml, formatDutch, denormalizeUnit, type XmlNode } from './xmlBuilder';
+import { buildXml, formatDutch, denormalizeUnit, wrapRootPosts, currencyNotInFormatWarning, type XmlNode } from './xmlBuilder';
 
 export function exportTradxml(input: ExportInput): ExportResult {
   const _warnings: string[] = [];
-  const { schedule, items } = input;
+  const { schedule } = input;
+  // Activiteiten zonder hoofdstuk komen in een eigen hoofdstuk (knownbug 59).
+  const items = wrapRootPosts(input.items, isActivity, schedule.name ?? '');
   const topChapters = items.filter((it) => it.rowType === 'chapter' && !it.parentId);
+  const currencyWarning = currencyNotInFormatWarning('TRADXML', schedule.currency);
+  if (currencyWarning) _warnings.push(currencyWarning);
 
   const root: XmlNode = {
     tag: 'Begroting',
@@ -21,9 +25,7 @@ export function exportTradxml(input: ExportInput): ExportResult {
 function renderChapter(ch: CostItem, all: CostItem[], depth: number, _warnings: string[]): XmlNode {
   const kids = all.filter((it) => it.parentId === ch.id);
   const subs = kids.filter((it) => it.rowType === 'chapter');
-  const acts = kids.filter(
-    (it) => it.rowType === 'begrotingspost' || it.rowType === 'bewakingspost' || it.rowType === 'regel',
-  );
+  const acts = kids.filter(isActivity);
 
   // Top = Hoofdstuk, nested = Element
   const tag = depth === 0 ? 'Hoofdstuk' : 'Element';
@@ -36,6 +38,10 @@ function renderChapter(ch: CostItem, all: CostItem[], depth: number, _warnings: 
       ...acts.map(renderActivity),
     ],
   };
+}
+
+function isActivity(it: CostItem): boolean {
+  return it.rowType === 'begrotingspost' || it.rowType === 'bewakingspost' || it.rowType === 'regel';
 }
 
 function renderActivity(a: CostItem): XmlNode {

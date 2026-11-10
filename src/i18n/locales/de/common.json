@@ -597,6 +597,8 @@
       "dncSharedCode": "Position {{code}} teilt ihren Code mit einer anderen Position; die Betriebsmittel wurden zusammengefasst statt einzeln aufgeführt.",
       "onlvTruncated": "{{count}} Beschreibungen mit mehr als 60 Zeichen wurden im Stichwort gekürzt; der vollständige Text bleibt im Langtext erhalten.",
       "rsxFlattened": "RSX: verschachtelte Titel unter \"{{name}}\" wurden eingeebnet; CROW RSX unterstützt eine Teilkalkulationsebene.",
+      "currencyNotInFormat": "{{format}} hat kein Währungsfeld, daher liest der Empfänger diese Beträge als Euro. Diese Kalkulation ist in {{currency}}; die Beträge wurden nicht umgerechnet.",
+      "unreadableNumbers": "{{count}} Werte konnten nicht als Zahl gelesen werden und wurden als 0 importiert (zum Beispiel „{{example}}“).",
       "xmlError": "XML-Parserfehler: {{message}} (Zeile {{line}})",
       "xml": {
         "entity": "Unbekannte Entität {{p0}}",
@@ -835,7 +837,7 @@
       "delete": "Nr. {{number}} entfernen, einschließlich Unterzeilen",
       "count": "Vorgeschlagene Änderungen: {{count}}",
       "localProposal": "Ich schlage eine Kalkulationszeile vor. Prüfen Sie die Details und klicken Sie dann auf Übernehmen.",
-      "example": "Füge unter {{parent}} eine Zeile hinzu: 12 m³ Beton C30 zu 145 €",
+      "example": "Füge unter {{parent}} eine Zeile hinzu: 12 m³ Beton C30 zu {{price}}",
       "actions": {
         "tooMany": "Zu viele vorgeschlagene Änderungen (maximal 100).",
         "action": "Aktion {{p0}}",

@@ -745,7 +745,7 @@
       "delete": "Verwijder nr {{number}} inclusief onderliggende regels",
       "count": "{{count}} voorgestelde wijziging(en)",
       "localProposal": "Ik stel één begrotingsregel voor. Controleer de gegevens en klik daarna op Toepassen.",
-      "example": "Voeg onder {{parent}} een regel toe: 12 m³ Beton C30 à €145",
+      "example": "Voeg onder {{parent}} een regel toe: 12 m³ Beton C30 à {{price}}",
       "actions": {
         "tooMany": "Te veel voorgestelde wijzigingen (maximaal 100).",
         "action": "Actie {{p0}}",
@@ -910,6 +910,8 @@
       "dncSharedCode": "Post {{code}} deelt zijn code met een andere post; middelen samengevat i.p.v. gedetailleerd.",
       "onlvTruncated": "{{count}} omschrijving(en) langer dan 60 tekens zijn in het stichwort ingekort; de volledige tekst staat in de langtext.",
       "rsxFlattened": "RSX: geneste chapters onder \"{{name}}\" worden afgevlakt (CROW RSX ondersteunt 1 niveau Deelraming)",
+      "currencyNotInFormat": "{{format}} heeft geen valutaveld, dus de ontvanger leest deze bedragen als euro's. Deze begroting is in {{currency}}; de bedragen zijn niet omgerekend.",
+      "unreadableNumbers": "{{count}} waarden konden niet als getal worden gelezen en zijn als 0 geïmporteerd (bijvoorbeeld \"{{example}}\").",
       "xmlError": "XML-parsefout: {{message}} (regel {{line}})",
       "xml": {
         "entity": "onbekende entiteit {{p0}}",

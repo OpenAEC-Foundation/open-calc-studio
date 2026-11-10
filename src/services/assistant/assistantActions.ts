@@ -4,6 +4,7 @@ import { useAppStore } from '@/state/appStore';
 import { createStore } from 'zustand/vanilla';
 import { createCostItemsSlice, type CostItemsSlice } from '@/state/slices/costItemsSlice';
 import { recalculateItems, effectiveTarieven, DEFAULT_TARIEVEN } from '@/services/calculation/calculator';
+import { safeCurrency } from '@/utils/formatting';
 
 /**
  * Calculatieassistent — de brug tussen het taalmodel en het geopende document.
@@ -50,6 +51,7 @@ export function buildBudgetContext(schedule: CostSchedule, items: CostItem[]): s
 
   return [
     `Project: ${schedule.projectName || schedule.name || '(naamloos)'}`,
+    `Valuta: ${safeCurrency(schedule.currency)} (alle bedragen en prijzen; niets omrekenen)`,
     `Kostprijs (excl. staart/btw): ${Math.round(kostprijs)}`,
     `Tarieven per uur: A=${tarieven.A} B=${tarieven.B} C=${tarieven.C}`,
     '',
@@ -151,10 +153,12 @@ export function parseActies(text: string): { acties: AssistantActie[]; cleanText
 
 /** Small offline grammar for a common estimating command; all other freeform
  * requests still use the configured AI provider. The result uses the same
- * review and validation path as an AI proposal. */
+ * review and validation path as an AI proposal. The price may carry any
+ * currency sign or code before or after it ("€145", "$145", "US$ 145",
+ * "145 kr", "CHF 145"); amounts are in the estimate currency (issue #65). */
 export function parseLocalBudgetCommand(text: string): AssistantActie[] | null {
-  const match = text.trim().match(/^voeg\s+onder\s+(\d+(?:\.\d+)*)\s+(?:een\s+)?regel\s+toe\s*:\s*(\d+(?:[.,]\d+)?)\s+(\S+)\s+(.+?)\s+(?:à|tegen)\s*€?\s*(\d+(?:[.,]\d+)?)\s*$/i);
-  const parsed = match ?? text.trim().match(/^add\s+under\s+(\d+(?:\.\d+)*)\s+(?:a\s+)?line\s*:\s*(\d+(?:[.,]\d+)?)\s+(\S+)\s+(.+?)\s+(?:at|@)\s*€?\s*(\d+(?:[.,]\d+)?)\s*$/i);
+  const match = text.trim().match(/^voeg\s+onder\s+(\d+(?:\.\d+)*)\s+(?:een\s+)?regel\s+toe\s*:\s*(\d+(?:[.,]\d+)?)\s+(\S+)\s+(.+?)\s+(?:à|tegen)\s*(?:[^\d\s+-]{1,5}\s*)?(\d+(?:[.,]\d+)?)(?:\s*[^\d\s+-]{1,5})?\s*$/i);
+  const parsed = match ?? text.trim().match(/^add\s+under\s+(\d+(?:\.\d+)*)\s+(?:a\s+)?line\s*:\s*(\d+(?:[.,]\d+)?)\s+(\S+)\s+(.+?)\s+(?:at|@)\s*(?:[^\d\s+-]{1,5}\s*)?(\d+(?:[.,]\d+)?)(?:\s*[^\d\s+-]{1,5})?\s*$/i);
   if (!parsed) return null;
   const [, onderNr, aantal, eenheid, omschrijving, prijs] = parsed;
   const unit = normaliseerEenheid(eenheid);

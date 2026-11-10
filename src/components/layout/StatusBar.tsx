@@ -126,6 +126,7 @@ function SelectionSummary() {
   const items = useAppStore((s) => s.items);
   const gridView = useAppStore((s) => s.gridView);
   const branchesEnabled = useAppStore((s) => s.schedule.branchesEnabled ?? false);
+  const currency = useAppStore((s) => s.schedule.currency);
   const cellSelectionStart = useAppStore((s) => s.cellSelectionStart);
   const cellSelectionEnd = useAppStore((s) => s.cellSelectionEnd);
   const getGridRows = useAppStore((s) => s.getGridRows);
@@ -152,7 +153,7 @@ function SelectionSummary() {
   }, [items, gridView, branchesEnabled, cellSelectionStart, cellSelectionEnd, getGridRows]);
 
   if (!summary) return null;
-  const fmt = (n: number) => (summary.currency ? formatCurrency(n) : formatNumber(n));
+  const fmt = (n: number) => (summary.currency ? formatCurrency(n, currency) : formatNumber(n));
 
   return (
     <>

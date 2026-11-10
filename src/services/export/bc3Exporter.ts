@@ -349,7 +349,13 @@ export function buildBc3(schedule: CostSchedule, items: CostItem[], charset: Bc3
 
   // ~V: | eigenschap | formaatversie | programma | kop | tekenset |
   const header = `~V||FIEBDC-3/2004|Open Calc Studio||${charset}|||||`;
-  return [header, ...cLines, ...dRecords, ...mRecords, ...tRecords].join('\r\n') + '\r\n';
+  // ~K: decimalen + DIVISA. Zonder ~K geldt EUR met de standaarddecimalen
+  // van de specificatie; die schrijven we hier ook, zodat alleen de valuta
+  // verandert. Een begroting in euro's krijgt geen ~K (zelfde bestand als
+  // voorheen). Bedragen worden niet omgerekend.
+  const currency = /^[A-Z]{3}$/.test(schedule.currency ?? '') ? schedule.currency : 'EUR';
+  const kRecord = currency === 'EUR' ? [] : [`~K|2\\2\\2\\3\\2\\2\\2\\2\\${currency}\\|`];
+  return [header, ...kRecord, ...cLines, ...dRecords, ...mRecords, ...tRecords].join('\r\n') + '\r\n';
 }
 
 /**

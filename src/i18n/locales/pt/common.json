@@ -745,7 +745,7 @@
       "delete": "Remover o n.º {{number}}, incluindo as linhas subordinadas",
       "count": "Alterações propostas: {{count}}",
       "localProposal": "Proponho uma linha de orçamento. Verifique os detalhes e clique em Aplicar.",
-      "example": "Adiciona em {{parent}} uma linha: 12 m³ Betão C30 a 145 €",
+      "example": "Adiciona em {{parent}} uma linha: 12 m³ Betão C30 a {{price}}",
       "actions": {
         "tooMany": "Demasiadas alterações propostas (máximo 100).",
         "action": "Ação {{p0}}",
@@ -910,6 +910,8 @@
       "dncSharedCode": "O artigo {{code}} partilha o código com outro artigo; os recursos foram resumidos em vez de discriminados.",
       "onlvTruncated": "{{count}} designações com mais de 60 caracteres foram encurtadas no stichwort; o texto completo é mantido no langtext.",
       "rsxFlattened": "RSX: os capítulos aninhados em «{{name}}» foram achatados; o CROW RSX suporta um único nível de suborçamento.",
+      "currencyNotInFormat": "{{format}} não tem campo de moeda, por isso o destinatário lerá estes valores em euros. Este orçamento está em {{currency}}; os valores não foram convertidos.",
+      "unreadableNumbers": "{{count}} valores não puderam ser lidos como número e foram importados como 0 (por exemplo, \"{{example}}\").",
       "xmlError": "Erro de análise XML: {{message}} (linha {{line}})",
       "xml": {
         "entity": "Entidade desconhecida {{p0}}",

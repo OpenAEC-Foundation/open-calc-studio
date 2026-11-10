@@ -745,7 +745,7 @@
       "delete": "{{number}}. sz. eltávolítása az alsoraival együtt",
       "count": "Javasolt módosítások: {{count}}",
       "localProposal": "Egy költségvetési sort javaslok. Ellenőrizze a részleteket, majd kattintson az Alkalmaz gombra.",
-      "example": "Adj hozzá a(z) {{parent}} alá egy sort: 12 m³ C30 beton 145 €-ért",
+      "example": "Adj hozzá a(z) {{parent}} alá egy sort: 12 m³ C30 beton {{price}}-ért",
       "actions": {
         "tooMany": "Túl sok javasolt módosítás (legfeljebb 100).",
         "action": "{{p0}}. művelet",
@@ -910,6 +910,8 @@
       "dncSharedCode": "A(z) {{code}} tétel kódja megegyezik egy másik tételével; az erőforrások tételezés helyett összegezve lettek.",
       "onlvTruncated": "{{count}} 60 karakternél hosszabb megnevezés le lett rövidítve a stichwortban; a teljes szöveg a langtextben megmarad.",
       "rsxFlattened": "RSX: a(z) „{{name}}” alatti beágyazott fejezetek lapítva lettek; a CROW RSX egy részköltségvetési szintet támogat.",
+      "currencyNotInFormat": "A(z) {{format}} formátumnak nincs pénznemmezője, így a címzett ezeket az összegeket euróként olvassa. Ez a költségvetés {{currency}} pénznemben van; az összegeket nem váltottuk át.",
+      "unreadableNumbers": "{{count}} érték nem olvasható számként, ezért 0-ként lett importálva (például „{{example}}”).",
       "xmlError": "XML-elemzési hiba: {{message}} ({{line}}. sor)",
       "xml": {
         "entity": "Ismeretlen entitás: {{p0}}",
