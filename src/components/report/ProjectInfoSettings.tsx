@@ -64,7 +64,7 @@ export const ProjectInfoSettings: React.FC = () => {
   const changeCurrency = (next: string) => {
     const previous = safeCurrency(schedule.currency);
     if (next === previous) return;
-    pushHistory(items, t('projectInfo.currency'), undefined, { currency: schedule.currency });
+    pushHistory(items, t('projectInfo.currency'), undefined, { currency: previous });
     setSchedule({ currency: next });
   };
   const updateProjectProperty = useAppStore(s => s.updateProjectProperty);

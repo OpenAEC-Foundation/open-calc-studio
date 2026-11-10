@@ -5,6 +5,7 @@ import { SchedulePanel } from '@/components/panels/SchedulePanel';
 import { useAppStore } from '@/state/appStore';
 import type { CostItem } from '@/types/costModel';
 import i18next from '@/i18n/config';
+import { setNumberLocale } from '@/utils/formatting';
 
 function mkItem(partial: Partial<CostItem> & { id: string }): CostItem {
   return {
@@ -59,6 +60,9 @@ const render = async () => {
 beforeEach(async () => {
   (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
   await i18next.changeLanguage('en');
+  // Engelse teksten, maar deze tests rekenen met Nederlandse getallen ("1.234,50").
+  // Sinds #65 volgt de getalnotatie de app-taal; zet die hier dus terug op NL.
+  setNumberLocale('nl-NL');
   useAppStore.setState({ items: items(), activeItemId: null, activeRow: -1, activeContentTab: 'grid', undoStack: [], redoStack: [] });
   localStorage.setItem('ocs.structureTree.depth', 'all');
   localStorage.removeItem('ocs.structureTree.view');

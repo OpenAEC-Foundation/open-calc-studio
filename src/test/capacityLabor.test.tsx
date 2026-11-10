@@ -6,6 +6,7 @@ import { changeLanguage } from '@/i18n/config';
 import { UrenStaartView } from '@/components/grid/WpCalcBottomPanel';
 import { recalculateItems } from '@/services/calculation/calculator';
 import type { CostItem } from '@/types/costModel';
+import { setNumberLocale } from '@/utils/formatting';
 
 // Knownbug 9 / issue #66 punt 8: de productiecapaciteit (normFactor) is een
 // deler. Uren = aantal × norm ÷ capaciteit, en het loon via een tariefgroep
@@ -75,6 +76,9 @@ describe('estimate and hours overview give the same labour amount', () => {
   beforeEach(async () => {
     (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
     await changeLanguage('en');
+    // Engelse teksten, maar deze tests rekenen met Nederlandse getallen ("1.234,50").
+    // Sinds #65 volgt de getalnotatie de app-taal; zet die hier dus terug op NL.
+    setNumberLocale('nl-NL');
     useAppStore.setState(initial, true);
     const state = useAppStore.getState();
     state.addDocument({ id: 'capacity-doc', items: [] });

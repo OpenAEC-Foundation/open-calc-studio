@@ -4,6 +4,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import { useAppStore } from '@/state/appStore';
 import { changeLanguage } from '@/i18n/config';
 import { UrenStaartView } from '@/components/grid/WpCalcBottomPanel';
+import { setNumberLocale } from '@/utils/formatting';
 
 // Issue #66 points 6 and 8 (knownbugs 15 and 9): the "Uren & Staart" hours
 // overview must not rescale norms when an hours field is only focused and
@@ -17,6 +18,9 @@ let node: HTMLDivElement;
 beforeEach(async () => {
   (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
   await changeLanguage('en');
+  // Engelse teksten, maar deze tests rekenen met Nederlandse getallen ("1.234,50").
+  // Sinds #65 volgt de getalnotatie de app-taal; zet die hier dus terug op NL.
+  setNumberLocale('nl-NL');
   useAppStore.setState(initial, true);
   const state = useAppStore.getState();
   state.addDocument({ id: 'hours-doc', items: [] });
