@@ -17,7 +17,8 @@
  */
 import MDBReader from 'mdb-reader';
 import type { CostItem, CostSchedule, CompanyInfo, ResourceType, StagartRow } from '@/types/costModel';
-import { makeStaartItem } from '@/services/calculation/staartDefaults';
+import { ensureBtwLaagItem, makeStaartItem } from '@/services/calculation/staartDefaults';
+import { safeCurrency } from '@/utils/formatting';
 import { makeCostItem, normalizeUnit, genId, genIfcGuid } from './core';
 
 function num(val: any): number | null {
@@ -25,6 +26,79 @@ function num(val: any): number | null {
   const n = Number(val);
   return isNaN(n) ? null : n;
 }
+
+/**
+ * Valuta uit `calculaties.valuta`. Een ISO-code ("EUR", "USD") nemen we over;
+ * het euroteken of "euro" wordt EUR, guldens (ƒ, fl, hfl) worden NLG.
+ * Leeg of onbekend → EUR. Bedragen worden nooit omgerekend (ook `koers` niet).
+ */
+export function wpcalcCurrency(val: unknown): string {
+  const raw = typeof val === 'string' ? val.trim() : '';
+  if (!raw) return 'EUR';
+  const l = raw.toLowerCase().replace(/\.$/, '');
+  if (l === '€' || l === 'euro') return 'EUR';
+  if (l === 'ƒ' || l === 'fl' || l === 'hfl' || l === 'gulden') return 'NLG';
+  return /^[a-z]{3}$/i.test(raw) ? safeCurrency(raw) : 'EUR';
+}
+
+type StaartKind =
+  | 'ak_oa' | 'abk' | 'garanties' | 'wvpm' | 'risico' | 'winst' | 'verzekering'
+  | 'ukk' | 'ak' | 'wr' | 'btw_laag' | 'btw' | 'afronding';
+
+/**
+ * Welke staartregel hoort bij een WpCalc-label? Zowel de klassieke labels
+ * ("Uitvoeringskosten:", "Algemene kosten:", "Winst & risico:", zoals onze
+ * eigen export ze ook schrijft) als de Bouw 1-labels. Totaalregels
+ * ("Totaal kolommen:", "Totaal excl. btw.:") en onbekende labels → null.
+ */
+export function classifyWpCalcStaartLabel(label: string | null | undefined): StaartKind | null {
+  const l = (label ?? '').toLowerCase().replace(/\s+/g, ' ').trim();
+  if (!l || l.includes('totaal')) return null;
+  if (l.includes('btw')) return l.includes('laag') ? 'btw_laag' : 'btw';
+  if (l.includes('afronding')) return 'afronding';
+  if (l.includes('algemene kosten') && l.includes('onderaanneming')) return 'ak_oa';
+  if (l.includes('algemene bedrijfskosten')) return 'abk';
+  if (l.includes('algemene kosten') || /^ak\b/.test(l)) return 'ak';
+  if (l.includes('uitvoeringskosten') || /^ukk\b/.test(l)) return 'ukk';
+  const winst = l.includes('winst');
+  const risico = l.includes('risico');
+  if ((winst && risico) || /^w ?& ?r\b/.test(l)) return 'wr';
+  if (winst) return 'winst';
+  if (risico) return 'risico';
+  if (l.includes('garantie')) return 'garanties';
+  if (l.includes('werkvoorbereiding')) return 'wvpm';
+  if (l.includes('verzekering')) return 'verzekering';
+  return null;
+}
+
+/** Omschrijvingen van de staartregels na import. */
+const STAART_LABELS: Record<StaartKind, string> = {
+  ak_oa: 'Algemene kosten over onderaanneming:',
+  abk: 'Algemene bedrijfskosten:',
+  garanties: 'Garanties:',
+  wvpm: 'Werkvoorbereiding & projectmanagement',
+  risico: 'Risico:',
+  winst: 'Winst:',
+  verzekering: 'Verzekering:',
+  ukk: 'Uitvoeringskosten:',
+  ak: 'Algemene kosten:',
+  wr: 'Winst & risico:',
+  btw_laag: 'Btw laag:',
+  btw: 'Btw hoog:',
+  afronding: 'Afronding',
+};
+
+/** Standaardstaart, alleen voor een bestand zonder staarttabel (zoals een nieuwe begroting). */
+const DEFAULT_STAART: [StaartKind, number][] = [
+  ['ak_oa', 9], ['abk', 6], ['garanties', 2], ['wvpm', 2], ['risico', 3], ['winst', 5],
+  ['verzekering', 0.5], ['btw_laag', 9], ['btw', 21],
+];
+
+/** Volgorde van de staartregels in de app (fase 1, fase 2, klassiek, btw); afronding komt als laatste. */
+const STAART_ORDER: StaartKind[] = [
+  'ak_oa', 'abk', 'garanties', 'wvpm', 'risico', 'winst', 'verzekering',
+  'ukk', 'ak', 'wr', 'btw_laag', 'btw',
+];
 
 interface WpCalcRow {
   recnr: number;
@@ -84,6 +158,7 @@ interface WpCalcCalc {
   totaalonderaanneming: number;
   totaalstelposten: number;
   totaaluren: number;
+  valuta: string;
 }
 
 export function importWpCalcFile(buffer: ArrayBuffer): {
@@ -119,6 +194,7 @@ export function importWpCalcFile(buffer: ArrayBuffer): {
         totaalonderaanneming: num(r.totaalonderaanneming) || 0,
         totaalstelposten: num(r.totaalstelposten) || 0,
         totaaluren: num(r.totaaluren) || 0,
+        valuta: r.valuta ? String(r.valuta) : '',
       };
     }
   }
@@ -206,7 +282,7 @@ export function importWpCalcFile(buffer: ArrayBuffer): {
     description: '',
     status: 'DRAFT',
     predefinedType: 'BUDGET',
-    currency: 'EUR',
+    currency: wpcalcCurrency(calc?.valuta),
     projectName: calc?.calculatietitel || '',
     projectNumber: calc?.offertenr || '',
     client: calc?.naam || '',
@@ -218,17 +294,26 @@ export function importWpCalcFile(buffer: ArrayBuffer): {
     tarieven: Object.fromEntries(tarieven),
   };
 
-  // Extract UKK/AK/W&R percentages from staart
+  // Staartregels per soort (knownbug 88). WpCalc slaat percentages als
+  // fractie op (0,06 = 6 %); per soort telt de eerste regel in het bestand.
+  const pctOf = (s: WpCalcStaart): number | null =>
+    s.percentage !== null ? Math.round(s.percentage * 10000) / 100 : null;
+  const staartByKind = new Map<StaartKind, WpCalcStaart>();
   for (const s of staartRows) {
-    const omschr = (s.omschrijving || '').toLowerCase();
-    if (s.percentage !== null) {
-      if (omschr.includes('algemene kosten') || omschr.includes('algemene bedrijfskosten')) {
-        schedule.algemeneKosten = Math.round(s.percentage * 10000) / 100;
-      } else if (omschr.includes('winst') || omschr.includes('risico')) {
-        schedule.winstRisico += Math.round((s.percentage || 0) * 10000) / 100;
-      }
-    }
+    const kind = classifyWpCalcStaartLabel(s.omschrijving);
+    if (kind && !staartByKind.has(kind)) staartByKind.set(kind, s);
   }
+  const kindPct = (kind: StaartKind): number | null => {
+    const s = staartByKind.get(kind);
+    return s ? pctOf(s) : null;
+  };
+
+  // Extract UKK/AK/W&R percentages from staart
+  schedule.uitvoeringskosten = kindPct('ukk') ?? 0;
+  schedule.algemeneKosten = kindPct('ak') ?? kindPct('abk') ?? 0;
+  schedule.winstRisico = staartByKind.has('wr')
+    ? kindPct('wr') ?? 0
+    : (kindPct('winst') ?? 0) + (kindPct('risico') ?? 0);
 
   // ── Build CostItems ──
   const items: CostItem[] = [];
@@ -388,78 +473,23 @@ export function importWpCalcFile(buffer: ArrayBuffer): {
   } satisfies StagartRow));
 
   // ── Also create staart_* CostItems so live calculator can do its job ──
-  // Mirrors synthesizeStaartItems() in staartDefaults.ts but pulls percentages
-  // from the actual staart table (rounded the same way as schedule.staartRows).
-  const findPctFromStaart = (label: string): number | null => {
-    const needle = label.toLowerCase();
-    const row = staartRows.find((r) => (r.omschrijving ?? '').toLowerCase().includes(needle));
-    if (!row || row.percentage === null || row.percentage === undefined) return null;
-    return Math.round(row.percentage * 10000) / 100;
-  };
-
+  // Alleen de regels die echt in het bestand staan, met hun percentage
+  // (knownbug 88): klassieke UKK/AK/W&R worden staart_ukk/ak/wr, en er komen
+  // geen verzonnen standaardregels bij. Alleen een bestand zonder staart
+  // krijgt de standaardstaart van een nieuwe begroting.
   let staartSort = sortOrder;
-  items.push(
-    makeStaartItem(
-      'staart_ak_oa',
-      'Algemene kosten over onderaanneming:',
-      findPctFromStaart('algemene kosten over onderaanneming') ?? 9,
-      staartSort++,
-    ),
-    makeStaartItem(
-      'staart_abk',
-      'Algemene bedrijfskosten:',
-      findPctFromStaart('algemene bedrijfskosten') ?? 6,
-      staartSort++,
-    ),
-    makeStaartItem(
-      'staart_garanties',
-      'Garanties:',
-      findPctFromStaart('garantie') ?? 2,
-      staartSort++,
-    ),
-    makeStaartItem(
-      'staart_wvpm',
-      'Werkvoorbereiding & projectmanagement',
-      findPctFromStaart('werkvoorbereiding') ?? 2,
-      staartSort++,
-    ),
-    makeStaartItem(
-      'staart_risico',
-      'Risico:',
-      findPctFromStaart('risico') ?? 3,
-      staartSort++,
-    ),
-    makeStaartItem(
-      'staart_winst',
-      'Winst:',
-      findPctFromStaart('winst') ?? 5,
-      staartSort++,
-    ),
-    makeStaartItem(
-      'staart_verzekering',
-      'Verzekering:',
-      findPctFromStaart('verzekering') ?? 0.5,
-      staartSort++,
-    ),
-    makeStaartItem(
-      'staart_btw_laag',
-      'Btw laag:',
-      findPctFromStaart('btw laag') ?? 9,
-      staartSort++,
-    ),
-    makeStaartItem(
-      'staart_btw',
-      'Btw hoog:',
-      findPctFromStaart('btw hoog') ?? findPctFromStaart('btw') ?? 21,
-      staartSort++,
-    ),
-    makeStaartItem(
-      'staart_afronding',
-      'Afronding',
-      null,
-      staartSort++,
-    ),
-  );
+  if (staartRows.length > 0) {
+    for (const kind of STAART_ORDER) {
+      if (!staartByKind.has(kind)) continue;
+      items.push(makeStaartItem(`staart_${kind}` as const, STAART_LABELS[kind], kindPct(kind) ?? 0, staartSort++));
+    }
+  } else {
+    for (const [kind, pct] of DEFAULT_STAART) {
+      items.push(makeStaartItem(`staart_${kind}` as const, STAART_LABELS[kind], pct, staartSort++));
+    }
+  }
+  // Afronding draagt niets bij tot er een stap of doelbedrag is ingevuld.
+  items.push(makeStaartItem('staart_afronding', STAART_LABELS.afronding, null, staartSort++));
 
   // ── CompanyInfo ──
   const companyInfo: CompanyInfo = {
@@ -475,7 +505,9 @@ export function importWpCalcFile(buffer: ArrayBuffer): {
     logoRight: '',
   };
 
-  return { schedule, items, companyInfo };
+  // Net als bij het openen van een bestand: naast btw hoog een btw-laagregel
+  // (zonder grondslag, dus € 0).
+  return { schedule, items: ensureBtwLaagItem(items), companyInfo };
 }
 
 function findParentId(
