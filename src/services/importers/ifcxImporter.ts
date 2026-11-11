@@ -2,6 +2,7 @@ import { uiText } from '../../i18n/uiText';
 import { makeCostItem, normalizeUnit } from './core';
 import type { ImportResult } from './types';
 import type { CostItem, CostSchedule, ResourceType, RowType } from '@/types/costModel';
+import { importOpenaecIfcx } from './openaecIfcxImporter';
 
 /**
  * IfcX-JSON importer (IFC5-development / IfcX-alpha).
@@ -33,6 +34,8 @@ export function importIfcx(jsonText: string): ImportResult {
   }
 
   const data = Array.isArray(doc.data) ? doc.data : [];
+  const shared = importOpenaecIfcx(data);
+  if (shared) return shared;
   const projectNode = data.find((n) => inheritsAny(n, 'IfcProject')) ?? data[0];
   const projA: Attrs = projectNode?.attributes ?? {};
 

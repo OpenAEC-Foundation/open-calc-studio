@@ -2,12 +2,13 @@ import { useAppStore } from '@/state/appStore';
 import { openImportResult, openProjectJson } from '@/services/file/openProject';
 import { importBudget } from '@/lib/importers';
 import { serializeProject } from '@/services/file/fileService';
+import { isIfcxExchangeJson } from '@/services/importers/ifcxDetection';
 export async function fileCommand(action:string,p:Record<string,unknown>) {
  const s=useAppStore.getState();
  if(action==='import') {
   if(typeof p.fileName!=='string'||typeof p.dataBase64!=='string')throw Error('fileName and dataBase64 are required.');
   const data=Uint8Array.from(atob(p.dataBase64),c=>c.charCodeAt(0));const text=new TextDecoder().decode(data);
-  if(/\.(ifccalc|ocs|ifcx|json)$/i.test(p.fileName))return {documentId:openProjectJson(text,p.fileName)};
+  if(/\.(ifccalc|ocs|ifcx|json)$/i.test(p.fileName)&&!isIfcxExchangeJson(text))return {documentId:openProjectJson(text,p.fileName)};
   const format=String(p.format??'').toLowerCase();
   const readers=await import('@/services/importers');
   const map={cuf:readers.importCuf,tradxml:readers.importTradxml,rsx:readers.importRsx,s01:readers.importS01,sufx:readers.importSufx,rsu:readers.importRsu,zsx:readers.importZsx,nsx:readers.importNsx,bmecat:readers.importBmecat};

@@ -2,6 +2,8 @@ import { APP_VERSION } from './version.js';
 import { createHttpMcp } from './httpTransport';
 import { registerAppTools } from './appTools';
 import { registerCalcTools } from './calcTools';
+import { importIfcx } from '../../src/services/importers/ifcxImporter';
+import { isIfcxExchangeJson } from '../../src/services/importers/ifcxDetection';
 // De shebang + createRequire-shim worden door build.mjs (esbuild-banner) aan de bundle toegevoegd.
 /**
  * Open Calc Studio MCP Server
@@ -1005,8 +1007,17 @@ function makeItem(opts: {
 // ===========================================================================
 
 function createServer() {
-async function loadProjectFile(filePath: string): Promise<{ project: ProjectFile; warnings: string[] }> {
+async function loadProjectFile(filePath: string): Promise<{ project: ProjectFile; warnings: string[]; imported?: boolean }> {
   const ext = extname(filePath).toLowerCase();
+  if (['.ifcx', '.json'].includes(ext) && isIfcxExchangeJson(readFileSync(filePath, 'utf8'))) {
+    const imported = importIfcx(readFileSync(filePath, 'utf8'));
+    const now = new Date().toISOString();
+    return { imported: true, warnings: imported.warnings, project: {
+      version: FILE_FORMAT_VERSION, schedule: { ...defaultSchedule(), ...imported.schedule },
+      items: imported.items, companyInfo: emptyCompanyInfo(), resourceLibrary: [],
+      spreadsheets: { sheets: [], activeSheetId: null }, createdAt: now, modifiedAt: now,
+    } };
+  }
   if (ext === '.xtb') return { project: await loadXtbProject(filePath), warnings: [] };
   if (ext === '.calc' || ext === '.mdb') {
     // Inhoud-sniff: sommige bestanden dragen een .calc/.mdb-extensie maar zijn
@@ -1091,9 +1102,9 @@ server.tool("open_budget", "Open a budget file and load it into memory. Supports
 }, async ({ filePath }) => {
   try {
     const p = resolve(filePath);
-    const { project, warnings } = await loadProjectFile(p);
+    const { project, warnings, imported } = await loadProjectFile(p);
     const items = recalculateItems(project.items, project.schedule.tarieven);
-    const nativePath = NATIVE_BUDGET_EXTENSIONS.has(extname(p).toLowerCase()) ? p : '';
+    const nativePath = !imported && NATIVE_BUDGET_EXTENSIONS.has(extname(p).toLowerCase()) ? p : '';
     currentBudget = { filePath: nativePath, project, items, schedule: project.schedule };
 
     const bd = getStaartBreakdown(items);

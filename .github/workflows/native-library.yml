@@ -53,6 +53,8 @@ jobs:
         run: cargo test --manifest-path src-tauri/Cargo.toml --lib native_library::tests --features tauri/custom-protocol
       - name: Test account configuration
         run: cargo test --manifest-path src-tauri/Cargo.toml --lib accounts::config_tests --features tauri/custom-protocol
+      - name: Test quotation VAT regressions
+        run: cargo test --manifest-path src-tauri/Cargo.toml --lib reports::offerte::tests --features tauri/custom-protocol
       - name: Build full native library and application
         run: cargo build --manifest-path src-tauri/Cargo.toml --lib --bin open-calc-studio --features tauri/custom-protocol
       - run: node scripts/package-native.mjs

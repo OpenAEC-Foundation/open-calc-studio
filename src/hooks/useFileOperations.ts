@@ -7,6 +7,7 @@ import { useCallback } from 'react';
 import { documentChangedSince } from '@/services/file/documentSnapshot';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
+import { openProjectJson } from '@/services/file/openProject';
 import { serializeProject, deserializeProject } from '@/services/file/fileService';
 import {
   isTauriEnvironment,
@@ -270,16 +271,7 @@ export function useFileOperations() {
           return;
         }
 
-        // Native format: .ifcx, .json
-        const parsed = deserializeProject(result.content);
-        const id = crypto.randomUUID();
-
-        addDocument({ id, filePath: result.path, fileName, isModified: false, items: parsed.items, schedule: parsed.schedule });
-        if (parsed.companyInfo) setCompanyInfo(parsed.companyInfo);
-        setSubSheets(parsed.spreadsheets?.sheets ?? parsed.subSheets ?? []);
-        if (parsed.offerte) setOfferte(parsed.offerte);
-        setSnapshots(parsed.snapshots ?? []);
-        if (parsed.schedule.projectInfo) setProjectInfo(parsed.schedule.projectInfo);
+        openProjectJson(result.content, fileName, result.path);
         addToRecentFiles(result.path);
       } catch (err) {
         if (isImportCancelled(err)) return;
@@ -356,18 +348,8 @@ export function useFileOperations() {
         return;
       }
 
-      // Native format: .ifcx, .json
       const { readTextFile } = await import('@tauri-apps/plugin-fs');
-      const content = await readTextFile(filePath);
-      const parsed = deserializeProject(content);
-      const id = crypto.randomUUID();
-
-      addDocument({ id, filePath, fileName, isModified: false, items: parsed.items, schedule: parsed.schedule });
-      if (parsed.companyInfo) setCompanyInfo(parsed.companyInfo);
-      setSubSheets(parsed.spreadsheets?.sheets ?? parsed.subSheets ?? []);
-      if (parsed.offerte) setOfferte(parsed.offerte);
-        setSnapshots(parsed.snapshots ?? []);
-      if (parsed.schedule.projectInfo) setProjectInfo(parsed.schedule.projectInfo);
+      openProjectJson(await readTextFile(filePath), fileName, filePath);
       addToRecentFiles(filePath);
     } catch (err) {
       if (isImportCancelled(err)) return;
@@ -417,16 +399,8 @@ export function useFileOperations() {
           showImportWarnings(importResult, file.name);
           return;
         }
-        // Native formaat (.ifcCalc/.ifcx/.ocs/.json)
-        const parsed = deserializeProject(await file.text());
-        const id = crypto.randomUUID();
         const fileName = file.name.replace(/\.(ifcCalc|ifcx|ocs|json)$/i, '');
-        addDocument({ id, filePath: null, fileName, isModified: false, items: parsed.items, schedule: parsed.schedule });
-        if (parsed.companyInfo) setCompanyInfo(parsed.companyInfo);
-        setSubSheets(parsed.spreadsheets?.sheets ?? parsed.subSheets ?? []);
-        if (parsed.offerte) setOfferte(parsed.offerte);
-        setSnapshots(parsed.snapshots ?? []);
-        if (parsed.schedule.projectInfo) setProjectInfo(parsed.schedule.projectInfo);
+        openProjectJson(await file.text(), fileName);
       } catch (err) {
         if (isImportCancelled(err)) return;
         await showError(`Failed to open file: ${err}`);

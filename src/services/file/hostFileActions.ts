@@ -3,6 +3,7 @@ import { useAppStore } from '@/state/appStore';
 import { deserializeProject, serializeProject } from './fileService';
 import { getSiteHost, hostRecentPath, type HostVersion } from './siteHost';
 import { openImportResult, openProjectJson } from './openProject';
+import { isIfcxExchangeJson } from '@/services/importers/ifcxDetection';
 
 function remember(id: string, name: string) {
   localStore.setItem('ocs-host-name:' + id, name);
@@ -18,7 +19,7 @@ export async function openHostedFile(id: string, version?: HostVersion): Promise
   // Other formats open as a new estimate: their first save creates a native file beside the source, never over it.
   if (!/\.ifccalc$/i.test(file.name)) {
     const baseName = file.name.replace(/\.[^.]+$/, '');
-    if (/\.(ocs|ifcx|json)$/i.test(file.name)) {
+    if (/\.(ocs|ifcx|json)$/i.test(file.name) && !isIfcxExchangeJson(new TextDecoder().decode(file.bytes))) {
       openProjectJson(new TextDecoder().decode(file.bytes), baseName);
     } else {
       const bytes = file.bytes instanceof Uint8Array ? file.bytes : new Uint8Array(file.bytes);

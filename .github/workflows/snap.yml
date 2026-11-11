@@ -190,3 +190,30 @@ jobs:
         with:
           snap: ${{ steps.snapcraft.outputs.snap }}
           release: stable
+
+      # Uploading a revision does not replace a manually edited Store listing.
+      # Keep the listing (including its license) aligned with the released recipe.
+      - name: Synchronize public Store metadata
+        if: >-
+          env.SNAPCRAFT_STORE_CREDENTIALS != '' &&
+          (github.event_name == 'release' ||
+           (github.event_name == 'workflow_dispatch' && inputs.publish))
+        env:
+          SNAP: ${{ steps.snapcraft.outputs.snap }}
+        run: snapcraft upload-metadata "$SNAP" --force
+
+      - name: Record public Store license
+        if: >-
+          env.SNAPCRAFT_STORE_CREDENTIALS != '' &&
+          (github.event_name == 'release' ||
+           (github.event_name == 'workflow_dispatch' && inputs.publish))
+        run: |
+          python3 scripts/ci/check-snap-license.py > snap-store-evidence.json
+          cat snap-store-evidence.json >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: open-calc-studio-snap-store-evidence
+          path: snap-store-evidence.json
+          if-no-files-found: ignore

@@ -1,6 +1,8 @@
-# Open Calc Studio — aankomende release
+# Open Calc Studio — releasehistorie en voorbereiding
 
-## Nog zonder versienummer: structuurboom
+Volledige release-informatie: [2026.46.0](v2026.46.0.md).
+
+## 2026.46.0: structuurboom
 
 - Het paneel **Structuur** links is een echte boom geworden: hoofdstukken,
   paragrafen, begrotingsposten, bewakingsposten en regels, in en uit te klappen
@@ -20,7 +22,7 @@
 - Ook bij grote begrotingen (duizenden regels) tekent de boom alleen de rijen
   die veranderen.
 
-## Nog zonder versienummer: verplaatsen en selectie in het raster
+## 2026.46.0: verplaatsen en selectie in het raster
 
 - Een rij verplaatsen (slepen in het raster, of via de AI-koppeling) verandert
   alleen nog de plek van die rij. In geïmporteerde begrotingen konden eerder ook
@@ -34,7 +36,7 @@
 - Slepen naar dezelfde plek maakt geen ongedaan-stap meer en markeert de
   begroting niet als gewijzigd.
 
-## Nog zonder versienummer: arbeid met productiecapaciteit
+## 2026.46.0: arbeid met productiecapaciteit
 
 - **Let op: bedragen kunnen dalen.** Op een regel met een tariefgroep deelt de
   productiecapaciteit (pcap) nu ook het loon, zoals hij de uren al deelde: 10 m²
@@ -45,7 +47,7 @@
 - De WpCalc-export en de urenkolom in de Bouw 1- en IBIS-rapporten rekenen met
   dezelfde deling, zodat ze hetzelfde bedrag en dezelfde uren tonen als de app.
 
-## Nog zonder versienummer: SuperCloud-tools op de desktop
+## 2026.46.0: SuperCloud-tools op de desktop
 
 - `npm run build:platform` levert `mcp-tools.json` naast de bundel: de
   definities van de negen `calc_*`-tools van `window.__OPDS_APP__`, gelijk aan

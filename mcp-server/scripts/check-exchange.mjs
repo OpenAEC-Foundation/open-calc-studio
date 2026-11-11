@@ -49,6 +49,25 @@ try {
   assert.match(await readFile(x83Path, 'utf8'), /^<\?xml/);
   await call('save_budget', { filePath: join(tmp, 'tender.ifcCalc') });
   console.log('gaeb: chapter and quantity imported');
+  const ifcxPath = join(tmp, 'shared.ifcx');
+  const shared = JSON.stringify({ data: [
+    { path: '/estimates/p', attributes: {
+      'openaec::cost::estimateItem': { quantity: '/quantities/p', currency: 'EUR', rate: 125, total: 250, unit: 'EUR/m³' },
+      'openaec::links': [{ relation: 'costs', target: '/elements/a' }, { relation: 'costs', target: '/elements/b' }],
+    } },
+    { path: '/quantities/p', attributes: { 'openaec::quantity': { value: 2, unit: 'm³' } } },
+  ] });
+  await writeFile(ifcxPath, shared);
+  const ifcx = await call('open_budget', { filePath: ifcxPath });
+  assert.equal(ifcx.itemCount, 1);
+  assert.equal(ifcx.grandTotal, 250);
+  const importedItem = (await call('get_items')).items[0];
+  assert.equal(importedItem.id, '/estimates/p');
+  assert.equal(importedItem.unit, 'm³');
+  const unsafeIfcxSave = await client.callTool({ name: 'save_budget', arguments: {} });
+  assert.equal(unsafeIfcxSave.isError, true, 'IFCX exchange document must not be overwritten by native JSON');
+  assert.equal(await readFile(ifcxPath, 'utf8'), shared);
+  console.log('shared ifcx: identities, amounts and source-file protection verified');
 } finally {
   await client.close();
   await rm(tmp, { recursive: true, force: true });
