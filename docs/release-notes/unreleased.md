@@ -1,6 +1,27 @@
 # Open Calc Studio — releasehistorie en voorbereiding
 
-Volledige release-informatie: [2026.46.0](v2026.46.0.md).
+Volledige release-informatie: [2026.46.1](v2026.46.1.md) · [2026.46.0](v2026.46.0.md).
+
+## 2026.46.1: PDF's in de webversie, varianten en gedeeld kostenprofiel
+
+- **PDF's laden weer in de webversie (#80).** De PDF-worker heet nu `.js` in
+  plaats van `.mjs`; de webserver stuurde `.mjs` mee als
+  `application/octet-stream` en de browser weigerde hem.
+- **Totalen volgen de gekozen variant** (knownbugs 12 en 264): tabel,
+  statusbalk, staart- en urenpaneel, kop, samenvatting, structuurboom, mobiel
+  en wizard tellen alleen de actieve variant. **Let op:** in begrotingen met
+  varianten kunnen de getoonde totalen lager uitvallen dan in 2026.46.0.
+  Rapporten en afdrukken tellen nog alle varianten (knownbug 165).
+- **Controlecentrum** (knownbugs 11, 13, 14): een post met alleen lege regels
+  eronder krijgt de melding "Prijs niet ingevuld"; lege regels onder een post
+  waarvan de eigen prijs het totaal draagt niet meer; een tariefgroep zonder
+  tarief telt niet als prijs.
+- **Gedeeld OpenAEC-kostenprofiel (#69):** Calc schrijft
+  `openaec::cost::estimateItem` (IFC data → Download (OpenAEC IFCX), of MCP
+  `export_ifcx` met `profile: "openaec"`) en leest vrije posten met een inline
+  hoeveelheid. Voorstel voor de gedeelde afspraak in
+  [IFCX-interoperabiliteit](../ifcx-interoperability.md).
+- Productversie 2026.46.1; MSI 26.46.1; bestandsformaat blijft 2.4.0.
 
 ## 2026.46.0: structuurboom
 

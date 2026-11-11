@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Open Calc Studio",
-  "version": "2026.46.0",
+  "version": "2026.46.1",
   "identifier": "com.opencalcstudio.app",
   "mainBinaryName": "Open Calc Studio",
   "build": {
@@ -79,7 +79,7 @@
         "installerIcon": "icons/icon.ico"
       },
       "wix": {
-        "version": "26.46.0"
+        "version": "26.46.1"
       }
     },
     "macOS": {
