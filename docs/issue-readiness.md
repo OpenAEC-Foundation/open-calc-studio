@@ -1,3 +1,15 @@
+# Actuele aanvulling — 2026.46.0, 11 november 2026
+
+[Releasecontrole 2026.46.0](release-verification/2026.46.0.md) beschrijft de
+uitgevoerde regressies voor #66, de gedeelde IFCX-importproef (#69), de
+ondertekende Windows/macOS/Linux-artifacts en de concrete resterende
+SuperCloud-/containergrens (#73/#35). De release staat publiek; 1.525 tests
+plus zes platformisolatietests slagen. #69 blijft voor schema-afstemming open;
+#73 voor echte omgevingstests en publieke containerdistributie.
+
+Onderstaand overzicht is de historische stand van oktober, geen actuele lijst
+van open issues of ontbrekende release-artifacts.
+
 # Issueverwerking en acceptatie — 2026.44.0
 
 Stand: 26 oktober 2026. Dit overzicht betreft deze ontwikkeltak, niet een reeds
