@@ -52,3 +52,12 @@ maximum per-line difference after save/reopen: **2.2737367544323206e-13 EUR**.
 
 Sources: [proposal and maintainer discussion](https://github.com/OpenAEC-Foundation/open-calc-studio/issues/69),
 [Explorer adapter](https://github.com/OpenAEC-Foundation/ifcx-explorer/blob/10917460b67133891870d354b75221d714d63022/viewer/src/studios/adapters.ts).
+
+## Browser verification
+
+The independently authored two-wall fixture was opened through the normal web
+file picker on 11 November and saved as `.ifcCalc`. The saved file retained
+`/estimates/walls`, 3.333333 m³, all three source references, source rate 250 and
+amount 833.33. No model geometry was loaded or certified.
+
+![Shared IFCX example in Open Calc Studio 2026.46.0](screenshots/2026.46.0/ifcx-import.jpg)
