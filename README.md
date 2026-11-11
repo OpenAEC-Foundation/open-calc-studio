@@ -73,8 +73,10 @@ The signed **2026.46.0** release is available for all three desktop platforms:
 
 The [release page](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/tag/v2026.46.0)
 also includes checksums, updater signatures/manifest, the signed Windows DLL
-archive, and SDK, hosted-web and headless-API packages. Snap Store publication
-and public license metadata are checked separately by the release workflow.
+archive, and SDK, hosted-web and headless-API packages. Snap **2026.46.0** is
+on stable as revision **10**, with public product metadata **LGPL-3.0-only**.
+The release asset ending in `-store.snap` matches that Store build and has its
+own checksum; the earlier Snap archive is retained unchanged.
 The project remains in public testing.
 
 [Signature verification](docs/desktop-builds.md) · [macOS startup help](docs/macos-startup.md) · [Release notes](docs/release-notes/v2026.46.0.md)
