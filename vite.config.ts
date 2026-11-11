@@ -1,4 +1,5 @@
 import { browserAliases } from './build/browserAliases';
+import { assetFileName } from './build/assetFileNames';
 import { hostedHtmlPolicy } from './build/hostedHtmlPolicy';
 import { siteToolsManifest } from './build/siteToolsManifest';
 import { defineConfig } from 'vite';
@@ -53,6 +54,8 @@ export default defineConfig({
     minify: !process.env.TAURI_DEBUG ? 'esbuild' : false,
     sourcemap: !!process.env.TAURI_DEBUG,
     chunkSizeWarningLimit: 2048,
+    // PDF-worker als .js: zie build/assetFileNames.ts (issue #80).
+    rollupOptions: { output: { assetFileNames: assetFileName } },
   },
   test: {
     globals: true,

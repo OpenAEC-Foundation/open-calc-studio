@@ -1,4 +1,5 @@
 import { browserAliases } from './build/browserAliases';
+import { assetFileName } from './build/assetFileNames';
 /**
  * Build van het inbouwpakket `@openaec/open-calc-studio` (packages/embed).
  *
@@ -80,7 +81,7 @@ export default defineConfig({
         chunkFileNames: 'chunks/[name]-[hash].js',
         // Eén stylesheet met een vaste naam (package.json: ./style.css).
         assetFileNames: (info) =>
-          (info.names ?? []).some((n) => n.endsWith('.css')) ? 'style.css' : 'assets/[name]-[hash][extname]',
+          (info.names ?? []).some((n) => n.endsWith('.css')) ? 'style.css' : assetFileName(info),
       },
     },
   },
