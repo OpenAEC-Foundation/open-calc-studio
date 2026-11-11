@@ -1,5 +1,28 @@
 # Gehoste Open Calc Studio en SuperCloud
 
+## Release 2026.46.0 — overdracht voor issue #73
+
+Gebruik het platformarchief van deze versie, inclusief `build-info.json` en
+`mcp-tools.json`; vervang een oudere tijdelijke `werkplekCalc`-ingang door het
+onderstaande `openaecHost`-contract. Bewaar de geteste commit, hostversie en
+gebruikte headers bij het testrapport. Een test tegen een nagebootste host is
+geen bewijs voor de echte klantsite.
+
+De laatste acceptatie blijft op de echte werkplek nodig:
+
+| Controle | Verwacht resultaat |
+| --- | --- |
+| Openen, wijzigen, Bestand → Opslaan, herladen | Nieuwe opslagversie; wijziging en Recent blijven behouden |
+| Historische versie en gelijktijdig opslaan | Alleen-lezen bescherming; weigering of benoemde conflictkopie, geen stil verlies |
+| Echt basispad en sandbox/CSP | Voorbeeld, bibliotheek, icoon, fonts en WASM laden zonder console/CSP-fout |
+| IFC openen en afdrukken | Geen netwerk buiten de eigen app/brug; afdrukken zonder popup |
+| `initialFileId`, locale/thema en assistent | Juiste bestand en stijl; geen eigen zwevende assistent; negen `calc_*`-tools |
+| IFCX-uitwisseling openen en opslaan | Nieuwe `.ifcCalc` naast het bronbestand, nooit native JSON over de IFCX-bron |
+
+#73 blijft open tot deze omgevingstests én de openbare containerpublicatie
+(#35) bewezen zijn. De releasenotities onderscheiden die controles van de
+regressietests van de app.
+
 Bouw de afgeslankte webvariant met:
 
 ```sh

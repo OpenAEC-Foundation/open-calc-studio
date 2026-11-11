@@ -47,4 +47,5 @@ jobs:
             --pattern '*.AppImage' --pattern '*.AppImage.sig' --pattern '*.app.tar.gz' --pattern '*.app.tar.gz.sig'
           node .release-kit/release-kit/latest-json.mjs --repo "$GITHUB_REPOSITORY" --tag "$TAG" --dir dist \
             --pubkey "${{ vars.UPDATER_PUBKEY }}" --version-file "$VERSION_FILE" --out latest.json
-          gh release upload "$TAG" latest.json --repo "$GITHUB_REPOSITORY" --clobber
+          sha256sum latest.json > latest.json.sha256
+          gh release upload "$TAG" latest.json latest.json.sha256 --repo "$GITHUB_REPOSITORY" --clobber

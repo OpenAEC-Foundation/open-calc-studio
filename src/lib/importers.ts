@@ -1,4 +1,5 @@
 import type { ImportResult } from '../services/importers/types';
+import { isIfcxExchangeJson } from '../services/importers/ifcxDetection';
 export type { ImportResult } from '../services/importers/types';
 
 /** Browser import API: load only the parser needed for the selected file. */
@@ -8,6 +9,9 @@ export async function importBudget(data: ArrayBuffer, fileName: string): Promise
     return (await import('../services/importers/importWorkerClient')).runImportWorker<ImportResult>('budget', data, fileName);
   }
   const text = () => new TextDecoder().decode(data);
+  if (['ifcx', 'json'].includes(extension ?? '') && isIfcxExchangeJson(text())) {
+    return (await import('../services/importers/ifcxImporter')).importIfcx(text());
+  }
   // Some legacy .calc/.mdb files actually contain a native JSON project.
   if (['ocs', 'ifccalc', 'ifcx', 'json'].includes(extension ?? '') ||
       (['calc', 'mdb'].includes(extension ?? '') && text().trimStart().startsWith('{'))) {

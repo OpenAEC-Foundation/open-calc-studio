@@ -3,6 +3,8 @@ import { deserializeProject } from './fileService';
 import type { ProjectFile } from '@/types/costModel';
 import type { ImportResult } from '@/services/importers/types';
 import { createDefaultSchedule } from '@/data/defaultBudget';
+import { isIfcxExchangeJson } from '@/services/importers/ifcxDetection';
+import { importIfcx } from '@/services/importers/ifcxImporter';
 
 /**
  * Een geparsed project als nieuw documenttabblad openen, met bedrijfsgegevens,
@@ -23,6 +25,8 @@ export function openProjectInStore(parsed: ProjectFile, fileName: string, filePa
 
 /** Idem vanuit de JSON-tekst van een .ifcCalc/.ocs-bestand. */
 export function openProjectJson(json: string, fileName: string, filePath: string | null = null): string {
+  // A model exchange document is imported, never overwritten as a native project.
+  if (isIfcxExchangeJson(json)) return openImportResult(importIfcx(json), fileName);
   return openProjectInStore(deserializeProject(json), fileName, filePath);
 }
 
