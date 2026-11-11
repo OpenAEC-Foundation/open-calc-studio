@@ -136,9 +136,26 @@ jobs:
           sed -i "s/^version: .*/version: '$VERSION_NUMBER'/" snap/snapcraft.yaml
           grep '^version:' snap/snapcraft.yaml
 
-      - name: Build snap
-        uses: snapcore/action-build@v1
+      # Dedicated, disposable Ubuntu 22.04 runner matches core22. Avoid a second
+      # LXD image download: two release attempts stalled before any packaging.
+      - name: Install Snapcraft
+        run: sudo snap install snapcraft --classic
+
+      - name: Build snap from the published DEB on the matching runner
         id: snapcraft
+        timeout-minutes: 20
+        shell: bash
+        run: |
+          . /etc/os-release
+          test "$ID" = ubuntu && test "$VERSION_ID" = 22.04
+          test "$(sed -n 's/^base: //p' snap/snapcraft.yaml)" = core22
+          # This mode installs build dependencies on the disposable CI runner.
+          # Never use it as the default command on a developer's workstation.
+          sudo env SNAPCRAFT_BUILD_INFO=1 snapcraft pack --destructive-mode
+          shopt -s nullglob
+          task_snap_files=(./*.snap)
+          test "${#task_snap_files[@]}" = 1
+          echo "snap=${task_snap_files[0]#./}" >> "$GITHUB_OUTPUT"
 
       # Gepubliceerde release: snap als asset aan de release hangen, met een
       # eigen checksum. SHA256SUMS.txt is al gemaakt vóór de snap bestond (#66);
