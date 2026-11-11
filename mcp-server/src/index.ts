@@ -3,6 +3,7 @@ import { createHttpMcp } from './httpTransport';
 import { registerAppTools } from './appTools';
 import { registerCalcTools } from './calcTools';
 import { importIfcx } from '../../src/services/importers/ifcxImporter';
+import { generateOpenaecIfcx } from '../../src/services/ifc/openaecIfcxGenerator';
 import { isIfcxExchangeJson } from '../../src/services/importers/ifcxDetection';
 // De shebang + createRequire-shim worden door build.mjs (esbuild-banner) aan de bundle toegevoegd.
 /**
@@ -1429,9 +1430,12 @@ server.tool("export_ifc", "Export current budget as IFC STEP format (IFC4X3)", {
   } catch (e: unknown) { return err((e as Error).message); }
 });
 
-server.tool("export_ifcx", "Export current budget as IfcX JSON format (IFC5-development alpha)", {}, async () => {
+server.tool("export_ifcx", "Export current budget as IfcX JSON. profile 'calc' (default): the full budget (ifcx::cost / ifcx::ocs, IFC5-development alpha). profile 'openaec': the shared OpenAEC cost profile (openaec::cost::estimateItem, one item per priced post, direct costs only) for exchange with the IFCX Explorer.", {
+  profile: z.enum(['calc', 'openaec']).optional(),
+}, async ({ profile }) => {
   try {
-    return { content: [{ type: "text" as const, text: generateIfcxJson(req().schedule, req().items) }] };
+    const text = profile === 'openaec' ? generateOpenaecIfcx(req().schedule, req().items) : generateIfcxJson(req().schedule, req().items);
+    return { content: [{ type: "text" as const, text }] };
   } catch (e: unknown) { return err((e as Error).message); }
 });
 

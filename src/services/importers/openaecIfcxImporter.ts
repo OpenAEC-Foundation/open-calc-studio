@@ -40,10 +40,13 @@ export function importOpenaecIfcx(data: SharedIfcxNode[]): ImportResult | null {
     if (!path) throw new Error('IFCX estimateItem: missing path.');
     const attrs = node.attributes ?? {};
     const cost = object(attrs['openaec::cost::estimateItem']);
-    const quantityPath = text(cost.quantity);
-    const quantity = object(nodes.get(quantityPath)?.attributes?.['openaec::quantity']);
-    if (!quantityPath || !nodes.has(quantityPath)) {
-      throw new Error(`IFCX ${path}: unresolved quantity ${quantityPath || '(missing)'}. Include the referenced quantity nodes in the same IFCX document; remote imports are not fetched.`);
+    // `quantity` is a reference to a quantity node, or (free item without a
+    // model quantity) an inline `{ value, unit, formula? }` object.
+    const inline = cost.quantity && typeof cost.quantity === 'object' && !Array.isArray(cost.quantity);
+    const quantityPath = inline ? '' : text(cost.quantity);
+    const quantity = inline ? object(cost.quantity) : object(nodes.get(quantityPath)?.attributes?.['openaec::quantity']);
+    if (!inline && (!quantityPath || !nodes.has(quantityPath))) {
+      throw new Error(`IFCX ${path}: unresolved quantity ${quantityPath || '(missing)'}. Include the referenced quantity nodes in the same IFCX document, or give an inline { value, unit } quantity; remote imports are not fetched.`);
     }
     const value = finite(quantity.value, path, 'quantity');
     const rate = finite(cost.rate, path, 'rate');
@@ -66,16 +69,18 @@ export function importOpenaecIfcx(data: SharedIfcxNode[]): ImportResult | null {
     const label = text(attrs['openaec::label']) || path;
     // Preserve the source's rounded amount after recalculation, as Explorer's adapter does.
     const nativeRate = value !== 0 ? total / value : rate;
+    const sources = [
+      ...(quantityPath ? [{ id: quantityPath, name: 'IFCX', quantityKey: 'openaec::quantity.value' }] : []),
+      ...targets.map(target => ({ id: target, name: 'IFCX model reference' })),
+    ];
     return makeCostItem({
       id: path, rowType: 'begrotingspost', sortOrder: index, code: String(index + 1),
       description: label, quantity: value, unit: normalizedUnit, normUnitPrice: nativeRate,
       unitPrice: nativeRate, total,
-      quantityOrigin: { source: 'ifc', label, verified: false, value, unit: normalizedUnit,
-        formula: text(quantity.formula), sources: [
-          { id: quantityPath, name: 'IFCX', quantityKey: 'openaec::quantity.value' },
-          ...targets.map(target => ({ id: target, name: 'IFCX model reference' })),
-        ] },
-      notes: JSON.stringify({ ifcx: { document: path, quantity: quantityPath, elements: targets },
+      // A typed (inline) quantity without model links is an ordinary free item.
+      ...(sources.length ? { quantityOrigin: { source: 'ifc' as const, label, verified: false, value, unit: normalizedUnit,
+        formula: text(quantity.formula), sources } } : {}),
+      notes: JSON.stringify({ ifcx: { document: path, quantity: quantityPath || 'inline', elements: targets },
         sourceRate: rate, sourceRateUnit: cost.unit, sourceRoundedAmount: total,
         status: cost.status, assumption: cost.assumption,
         rounding: 'Native rate = rounded source amount / quantity. Source rate retained in notes.' }),

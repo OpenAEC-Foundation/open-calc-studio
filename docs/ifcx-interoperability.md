@@ -26,9 +26,44 @@ quantity nodes in `data`. Calc does not download external `imports`, access a
 model service, infer a missing quantity or update quantities live. Unresolved
 references, duplicate paths, mixed cost profiles, mixed currencies, unknown
 quantity units and inconsistent amounts fail before a budget is installed.
-Free items without a quantity-node reference remain outside this provisional
-profile until their representation is agreed with the Explorer maintainers.
-Multiple model references are preserved; geometry selection is not claimed.
+Free items carry their quantity inline (see below). Multiple model references
+are preserved; geometry selection is not claimed.
+
+## Proposed shared contract (Calc side)
+
+Open Calc Studio's proposal for the open points in issue #69. It changes nothing
+in the existing Explorer files: every document the Explorer writes today stays
+valid.
+
+1. **Key name.** `openaec::cost::estimateItem` stays the exchange name
+   (`costItem` is already taken by the Explorer's kilogram items).
+2. **Units.** `unit` on the estimate is the **rate** unit (`EUR/m³`); the
+   **quantity** unit sits with the quantity. Calc's own `unit` maps to the
+   quantity unit. A rate unit must equal `<currency>/<quantity unit>`.
+3. **Free items.** `quantity` is either a path to an `openaec::quantity` node
+   or an inline object `{ "value": 1, "unit": "post", "formula"?: "…" }` for an
+   item without a model quantity (a typed quantity). Inline quantities follow
+   the same unit and amount checks.
+4. **Several model links.** `openaec::links` may hold any number of targets
+   (one item for five window frames); all are kept as source references.
+5. **Amount.** `total` = quantity × `rate`, rounded to cents. A lump sum
+   without a quantity is written as `{ "value": 1, "unit": "post" }`.
+6. **Scope.** The shared profile exchanges priced line items, direct costs
+   only: no chapter structure, no underlying calculation rules, no overheads
+   or VAT. The full budget keeps travelling as Calc's own IFCX
+   (`ifcx::cost::…` / `ifcx::ocs::…`), which stays readable and unchanged.
+   New Calc-specific settings, if ever needed in IFCX, go under
+   `openaec::calc::…`.
+
+### Writing the shared profile
+
+Calc writes the shared profile next to its full IFCX export: **IFC → Download
+(OpenAEC IFCX)** in the app, or `export_ifcx` with `profile: "openaec"` over MCP.
+One `estimateItem` per top-level post (the first cost row under the chapters),
+with the post's rolled-up amount and only the active variant. Items that came
+from the Explorer keep their path, quantity reference, links, source rate and
+status; other items get `/estimates/<id>` and an inline quantity. Calc reads
+its own shared export back to the same direct costs (`src/test/openaecIfcxExport.test.ts`).
 
 ## Reproduce the reference probe
 

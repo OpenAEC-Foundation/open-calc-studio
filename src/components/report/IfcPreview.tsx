@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { generateIfcCostFile } from '@/services/ifc/ifcCostGenerator';
 import { generateIfcxJson } from '@/services/ifc/ifcxJsonGenerator';
+import { generateOpenaecIfcx } from '@/services/ifc/openaecIfcxGenerator';
 import { IfcxFolderOverview } from './IfcxFolderOverview';
 import { IfcStructureView } from './IfcStructureView';
 import { useCloudFolderIfcx } from '@/hooks/useCloudFolderIfcx';
@@ -585,6 +586,18 @@ export const IfcPreview: React.FC = () => {
     URL.revokeObjectURL(url);
   };
 
+  // Gedeeld OpenAEC-kostenprofiel (openaec::cost::estimateItem, issue #69):
+  // alleen posten met bedragen, uitwisselbaar met de IFCX Explorer.
+  const handleDownloadShared = () => {
+    const blob = new Blob([generateOpenaecIfcx(schedule, items)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${schedule.name || 'begroting'}.openaec.ifcx`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const handleCopyStep = () => navigator.clipboard.writeText(ifcContent);
   const handleCopyJson = () => navigator.clipboard.writeText(jsonContent);
 
@@ -702,6 +715,7 @@ export const IfcPreview: React.FC = () => {
           <div className="ifc-toolbar-actions">
             <button className="ifc-toolbar-btn" onClick={handleCopyJson}>{t('copyBtn')}</button>
             <button className="ifc-toolbar-btn" onClick={handleDownloadJson}>{t('download')}</button>
+            <button className="ifc-toolbar-btn" onClick={handleDownloadShared}>{`${t('download')} (OpenAEC IFCX)`}</button>
           </div>
         </div>
         <div className="ifc-code ifc-json-tree" ref={jsonPanelRef}>
