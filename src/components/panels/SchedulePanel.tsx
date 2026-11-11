@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { getNumberLocale } from '@/utils/formatting';
 import { getKostprijs } from '@/services/calculation/calculator';
-import { variantItems } from '@/services/grid/variantScope';
+import { variantCalculatedItems } from '@/services/grid/variantTotals';
 import type { CostItem } from '@/types/costModel';
 import {
   DEPTH_TYPES, buildChildren, descendantsIn, flattenTree, label, loadDepth, loadView,
@@ -50,9 +50,10 @@ const SchedulePanelInner: React.FC = () => {
   const activeBranchId = useAppStore((s) => s.schedule.activeBranchId);
   const branches = useAppStore((s) => s.schedule.branches);
   // Alleen de actieve variant, net als het raster (`gridRows`): rijen van een
-  // andere variant staan niet in het raster, dus ook niet in de boom.
+  // andere variant staan niet in het raster, dus ook niet in de boom, en de
+  // bedragen tellen alleen die variant (knownbug 264).
   const items = useMemo(
-    () => variantItems(allItems, { branchesEnabled, activeBranchId, branches }),
+    () => variantCalculatedItems(allItems, { branchesEnabled, activeBranchId, branches }),
     [allItems, branchesEnabled, activeBranchId, branches],
   );
   const scheduleName = useAppStore((s) => s.schedule.name);

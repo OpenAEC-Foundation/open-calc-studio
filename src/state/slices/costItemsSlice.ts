@@ -2,6 +2,7 @@ import type { StateCreator } from 'zustand';
 import type { CostItem, CostUnit, RowType, ExcelLink, QuantityLink } from '@/types/costModel';
 import i18next from 'i18next';
 import { recalculateItems, effectiveTarieven } from '@/services/calculation/calculator';
+import { withVariantTotals } from '@/services/grid/variantTotals';
 import { prorateUrenForTariefGroep, prorateUrenAll, prorateUrenForChapter } from '@/services/calculation/urenProrate';
 import { createDefaultItems } from '@/data/defaultBudget';
 import { appendHistory, shouldTrackField } from '@/services/history/itemHistory';
@@ -831,7 +832,9 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
 
   getGridRows: () => {
     const state = get() as any; // full AppStore at runtime (gridView/schedule)
-    return buildGridRows(state.getVisibleItems(), state.gridView ?? 'wpcalc', state.schedule ?? {});
+    const schedule = state.schedule ?? {};
+    // Totalen over alleen de gekozen variant (knownbug 12/264).
+    return buildGridRows(withVariantTotals(state.getVisibleItems(), state.items, schedule), state.gridView ?? 'wpcalc', schedule);
   },
 };
 };

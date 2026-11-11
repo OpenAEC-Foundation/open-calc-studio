@@ -7,7 +7,6 @@ import { useAppStore } from '@/state/appStore';
 import { useFileOperations } from '@/hooks/useFileOperations';
 import { getStaartBreakdown } from '@/services/calculation/calculator';
 import { formatInputNumber, parseLocaleNumber, usesDecimalComma } from '@/utils/numberInput';
-import { variantItems } from '@/services/grid/variantScope';
 import { useDialogFocus } from '@/hooks/useDialogFocus';
 import { PromptBudgetWorkspace } from '@/components/chat/PromptBudgetWorkspace';
 import './MobileWorkspace.css';
@@ -18,6 +17,7 @@ import { currencySymbol, getNumberLocale } from '@/utils/formatting';
 import { useMoney } from '@/hooks/useMoney';
 import { mobileCellDisplay } from './mobileCellDisplay';
 import { isEmbedded } from '@/lib/hostRoot';
+import { useVariantItems } from '@/hooks/useVariantItems';
 
 type MobileTab = 'wizard' | 'budget' | 'sheets' | 'prompt' | 'review';
 const units: CostUnit[] = ['st', 'm', 'm²', 'm³', 'kg', 'ton', 'uur', 'dgn', 'km', 'keer', 'ls', 'week', 'mnd', 'post', '%', 'pm'];
@@ -222,7 +222,6 @@ export function MobileWorkspace() {
   const statistics = useSiteStatistics();
   const undoCount = useAppStore(s => s.undoStack.length);
   const redoCount = useAppStore(s => s.redoStack.length);
-  const schedule = useAppStore(s => s.schedule);
   // Zelfde notatie en valuta als de rest van de app (issue #65).
   const money = { format: useMoney({ keepZero: true }) };
   const { newFile, openFile, saveFile, saveFileAs } = useFileOperations();
@@ -249,7 +248,7 @@ export function MobileWorkspace() {
   const [addMenu, setAddMenu] = useState(false);
   const [pageLimit, setPageLimit] = useState(120);
   const editing = items.find((item) => item.id === editingId);
-  const scopedItems = useMemo(() => variantItems(items, schedule), [items, schedule.branchesEnabled, schedule.activeBranchId, schedule.branches]);
+  const scopedItems = useVariantItems();
   const itemIndex = useMemo(() => new Map(items.map((item) => [item.id, item])), [items]);
   const childCounts = useMemo(() => {
     const counts = new Map<string, number>();
@@ -274,9 +273,9 @@ export function MobileWorkspace() {
     });
   }, [scopedItems, itemIndex, query, expanded]);
   const total = useMemo(() => {
-    const breakdown = getStaartBreakdown(items);
+    const breakdown = getStaartBreakdown(scopedItems);
     return breakdown.aanneemsom + breakdown.afronding;
-  }, [items]);
+  }, [scopedItems]);
 
   useEffect(() => { setEditingId(null); setExpanded(new Set()); setPageLimit(120); }, [activeDocumentId]);
   useEffect(() => { setPageLimit(120); }, [query]);

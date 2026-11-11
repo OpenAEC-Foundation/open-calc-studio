@@ -4,6 +4,7 @@ import { useAppStore } from '@/state/appStore';
 import { formatCurrency, formatNumber, formatNumberForEdit, formatDecimals, formatMoneyWhole, getNumberLocale, parseLocaleNumber } from '@/utils/formatting';
 import { parseNumericInput } from '@/utils/numericInput';
 import { computeBtwLaagDirect, DEFAULT_TARIEVEN } from '@/services/calculation/calculator';
+import { useVariantItems } from '@/hooks/useVariantItems';
 
 /**
  * Full-content view for the "Uren & Staart" bottom-nav tab: the hours
@@ -27,10 +28,11 @@ function UrenFullScreen() {
   const prorateUrenTotal = useAppStore((s) => s.prorateUrenTotal);
   const pushHistory = useAppStore((s) => s.pushHistory);
   const tarieven = schedule.tarieven ?? DEFAULT_TARIEVEN;
+  const scopedItems = useVariantItems();
 
   const urenData = useMemo(() => {
     const groups: Record<string, { uren: number; tarief: number }> = {};
-    for (const item of items) {
+    for (const item of scopedItems) {
       if (item.rowType !== 'regel') continue;
       const groep = item.tariefGroep || '-';
       if (!groups[groep]) {
@@ -42,7 +44,7 @@ function UrenFullScreen() {
       groups[groep].uren += qty * norm / (cap || 1);
     }
     return groups;
-  }, [items, tarieven]);
+  }, [scopedItems, tarieven]);
 
   // De velden tonen de notatie van de app-taal ("1.234,50"); parseFloat zou dat als 1,234
   // lezen. Parse daarom zoals de rest van de app, en doe niets als de tekst
@@ -213,10 +215,11 @@ function StaartFullScreen() {
   const updateItem = useAppStore((s) => s.updateItem);
   const pushHistory = useAppStore((s) => s.pushHistory);
 
+  const scopedItems = useVariantItems();
   // Build staart display from staart_* items in the items array
   const { staartRows } = useMemo(() => {
-    const staartItems = items.filter(i => i.rowType.startsWith('staart_'));
-    const kp = items
+    const staartItems = scopedItems.filter(i => i.rowType.startsWith('staart_'));
+    const kp = scopedItems
       .filter(i => i.parentId === null && !i.rowType.startsWith('staart_'))
       .reduce((s, i) => s + i.total, 0);
 
@@ -292,7 +295,7 @@ function StaartFullScreen() {
     }
 
     return { staartRows: [{ id: '', label: t('grid:staart.noTailCosts'), percentage: null, total: 0, rowType: '', isBold: false }], kostprijs: kp, aanneemsom: kp };
-  }, [items, schedule, t]);
+  }, [scopedItems, schedule, t]);
 
   const handlePercentageChange = (id: string, value: string, current: number | null) => {
     const num = parseLocaleNumber(value) ?? NaN;

@@ -8,6 +8,7 @@ import { getColumnsForView } from "../grid/gridConstants";
 import { summarizeCellSelection, needsResourceTotals } from "../../services/grid/cellValue";
 import { computeResourceTotals } from "../../services/grid/resourceTotals";
 import "./StatusBar.css";
+import { useVariantItems } from '@/hooks/useVariantItems';
 
 const ZOOM_PRESETS = [50, 75, 100, 125, 150, 175, 200];
 
@@ -197,7 +198,8 @@ export default function StatusBar() {
   const { t } = useTranslation();
   const money = useMoney();
   const { items, activeRow, activeCol, schedule, setActiveBranch } = useAppStore();
-  const grandTotal = getGrandTotal(items);
+  const scopedItems = useVariantItems();
+  const grandTotal = getGrandTotal(scopedItems);
   const branchesEnabled = schedule.branchesEnabled ?? false;
   const branches = schedule.branches ?? [];
   const activeBranchId = schedule.activeBranchId;

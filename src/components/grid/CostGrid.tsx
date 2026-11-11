@@ -28,6 +28,7 @@ import ExcelCellPicker from '@/components/common/ExcelCellPicker';
 import { QuantityPicker } from '@/components/common/QuantityPicker';
 import { CodePickerModal } from './CodePickerModal';
 import type { CodeEntry } from '@/data/codeLibrary';
+import { useVariantItems } from '@/hooks/useVariantItems';
 
 const HEADER_HEIGHT = ROW_HEIGHT * 2;
 
@@ -92,6 +93,8 @@ export const CostGrid: React.FC = () => {
   const activeBranchId = useAppStore(s => s.schedule.activeBranchId);
   const allBranches = useAppStore(s => s.schedule.branches ?? EMPTY_BRANCHES);
   const getGridRows = useAppStore(s => s.getGridRows);
+  // Totalen over alleen de gekozen variant, net als de rijen (knownbug 264).
+  const scopedItems = useVariantItems();
   // DE gerenderde rijenlijst — gedeeld met alle index-consumers (paneel,
   // plakken, sneltoetsen, zoeken) via dezelfde store-selector, zodat
   // rij-indices overal hetzelfde item aanwijzen.
@@ -147,8 +150,8 @@ export const CostGrid: React.FC = () => {
   // Compute resource totals (only in wpcalc view)
   const resourceTotalsMap = useMemo(() => {
     if (gridView !== 'wpcalc') return null;
-    return computeResourceTotals(items);
-  }, [gridView, items]);
+    return computeResourceTotals(scopedItems);
+  }, [gridView, scopedItems]);
 
   const getRowHeight = useCallback((index: number) => {
     const item = visibleItems[index];
@@ -577,8 +580,8 @@ export const CostGrid: React.FC = () => {
         {visibleItems.length > 0 && (() => {
           // Eindtotaal ínclusief staartkosten en afronding (aanneemsom),
           // niet alleen de kostprijs — de staartregels staan er direct boven.
-          const grandTotal = getGrandTotal(items);
-          const heeftBtw = items.some(i => (i.rowType === 'staart_btw' || i.rowType === 'staart_btw_laag') && Math.abs(i.total) > 0.005);
+          const grandTotal = getGrandTotal(scopedItems);
+          const heeftBtw = scopedItems.some(i => (i.rowType === 'staart_btw' || i.rowType === 'staart_btw_laag') && Math.abs(i.total) > 0.005);
           return (
             <div className="grid-total-row" style={{ height: ROW_HEIGHT, width: effectiveColumnWidths.reduce((s, w) => s + (w ?? 0), 0), minWidth: effectiveColumnWidths.reduce((s, w) => s + (w ?? 0), 0) }}>
               {columns.map((col, i) => (

@@ -1,5 +1,6 @@
 import { createPdfQuantityResolver } from '@/services/pdf/pdfWorkspace';
-import { variantItems } from '@/services/grid/variantScope';
+import { variantCalculatedItems } from '@/services/grid/variantTotals';
+import { effectiveTarieven } from '@/services/calculation/calculator';
 import type { CostItem } from '@/types/costModel';
 import { getQuantityOrigin, type QuantityOriginContext, type QuantityOriginInfo } from '@/services/quantity/quantityOrigin';
 
@@ -27,17 +28,56 @@ export interface BudgetReviewReport {
 export interface BudgetReviewContext extends QuantityOriginContext { items: CostItem[] }
 
 /** Read-only diagnostics: zero prices are explicit prices, not missing prices.
- * No PDF bytes, geometry, spreadsheet contents, recalculation or input mutation.
+ * No PDF bytes, geometry, spreadsheet contents or input mutation; with an active variant
+ * the totals are recalculated on a copy of that variant's rows only.
  */
 export function reviewBudget(input: BudgetReviewContext): BudgetReviewReport {
   const context = { ...input, pdfResolver: createPdfQuantityResolver(input.schedule.pdfWorkspace) };
-  const rows = variantItems(context.items, context.schedule), byId = new Map(rows.map(item => [item.id, item]));
-  const costRows = rows.filter(item => ['regel', 'begrotingspost', 'bewakingspost'].includes(item.rowType));
-  const parentsWithCosts = new Set<string>();
+  // Totalen over alleen de gekozen variant, net als het grid (knownbug 12).
+  const rows = variantCalculatedItems(context.items, context.schedule), byId = new Map(rows.map(item => [item.id, item]));
+  const isCostRow = (item: CostItem) => item.rowType === 'regel' || item.rowType === 'begrotingspost' || item.rowType === 'bewakingspost';
+  const costRows = rows.filter(isCostRow);
+  const children = new Map<string, CostItem[]>();
   for (const item of costRows) {
-    let parent = item.parentId;
-    while (parent && !parentsWithCosts.has(parent)) { parentsWithCosts.add(parent); parent = byId.get(parent)?.parentId ?? null; }
+    if (!item.parentId) continue;
+    const list = children.get(item.parentId);
+    if (list) list.push(item); else children.set(item.parentId, [item]);
   }
+  const tarieven = effectiveTarieven(context.schedule);
+  // Bij een normregel met tariefgroep is het loon afgeleid; een groep zonder
+  // tarief maakt dat loon 0, en dat is geen ingevulde prijs (knownbug 14).
+  const derivedLabor = (item: CostItem) => item.rowType === 'regel' && item.normQuantity != null && !!item.tariefGroep;
+  const hasOwnPrice = (item: CostItem) => {
+    if (derivedLabor(item) && Number.isFinite(tarieven[item.tariefGroep!])) return true;
+    const inputs = item.rowType === 'regel' ? [item.normUnitPrice, derivedLabor(item) ? null : item.laborPrice] : [item.normUnitPrice, item.materialPrice, item.laborPrice];
+    return inputs.some(value => value != null && Number.isFinite(value));
+  };
+  const isExempt = (item: CostItem) => item.unit === 'pm' || item.quantity == null || item.quantity === 0;
+  // Een lege onderliggende regel (geen hoeveelheid, geen prijs, geen pm) dekt
+  // de post erboven niet: anders telde de post stil op tot € 0 (knownbug 11).
+  const coverMemo = new Map<string, boolean>();
+  const covers = (item: CostItem): boolean => {
+    let result = coverMemo.get(item.id);
+    if (result === undefined) {
+      coverMemo.set(item.id, false);
+      result = !(item.quantity == null || item.quantity === 0) || item.unit === 'pm' || hasOwnPrice(item) || (children.get(item.id) ?? []).some(covers);
+      coverMemo.set(item.id, result);
+    }
+    return result;
+  };
+  // Leveren de onderliggende regels samen niets op, dan telt de eigen prijs
+  // van de post (calculator: `childSum === 0`). Lege regels eronder zijn dan
+  // geen fout (knownbug 13).
+  const carriedByPost = (item: CostItem) => {
+    const seen = new Set<string>();
+    for (let parent = item.parentId ? byId.get(item.parentId) : undefined; parent && !seen.has(parent.id); parent = parent.parentId ? byId.get(parent.parentId) : undefined) {
+      seen.add(parent.id);
+      if (!isCostRow(parent)) break;
+      const childSum = (children.get(parent.id) ?? []).reduce((sum, child) => sum + (child.total ?? 0), 0);
+      if (childSum === 0 && !isExempt(parent) && hasOwnPrice(parent)) return true;
+    }
+    return false;
+  };
   const issues: BudgetReviewIssue[] = [];
   const origins = new Map<string, QuantityOriginInfo>();
   const add = (item: CostItem, code: ReviewCode, category: ReviewCategory, severity: BudgetReviewIssue['severity'], origin?: QuantityOriginInfo) => {
@@ -45,11 +85,8 @@ export function reviewBudget(input: BudgetReviewContext): BudgetReviewReport {
       ...(origin ? { source: { source: origin.source, label: origin.label, sources: origin.sources, value: origin.value, unit: origin.unit, currentValue: origin.currentValue } } : {}) });
   };
   for (const item of costRows) {
-    if (!parentsWithCosts.has(item.id) && item.unit !== 'pm' && item.quantity != null && item.quantity !== 0) {
-      const inputs = item.rowType === 'regel' ? [item.normUnitPrice, item.laborPrice] : [item.normUnitPrice, item.materialPrice, item.laborPrice];
-      const hasTariff = item.rowType === 'regel' && item.normQuantity != null && item.tariefGroep && Number.isFinite(context.schedule.tarieven?.[item.tariefGroep]);
-      if (!hasTariff && !inputs.some(value => value != null && Number.isFinite(value))) add(item, 'missing-price', 'price', 'warning');
-    }
+    const coveredByChildren = (children.get(item.id) ?? []).some(covers);
+    if (!coveredByChildren && !isExempt(item) && !hasOwnPrice(item) && !carriedByPost(item)) add(item, 'missing-price', 'price', 'warning');
     if (!item.quantityLink && !item.excelLink) continue;
     const key = JSON.stringify([item.quantityLink, item.excelLink, item.quantity, item.unit, item.quantityOrigin]);
     let origin = origins.get(key);

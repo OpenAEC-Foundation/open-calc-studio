@@ -6,11 +6,12 @@ import { getStaartBreakdown } from '@/services/calculation/calculator';
 import { uiText } from '@/i18n/uiText';
 import { workspaceTitle, WorkspaceIcon } from './WorkspaceNavigation';
 import { useMoney } from '@/hooks/useMoney';
+import { useVariantItems } from '@/hooks/useVariantItems';
 
 export function WorkspaceHeader() {
   const { t } = useTranslation();
   const schedule = useAppStore(s => s.schedule);
-  const items = useAppStore(s => s.items);
+  const items = useVariantItems();
   const active = useAppStore(s => s.activeContentTab);
   const doc = useAppStore(s => s.documents.find(d => d.id === s.activeDocumentId));
   const { saveFile } = useFileOperations();

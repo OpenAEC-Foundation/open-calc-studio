@@ -7,6 +7,7 @@ import type { CostItem, CostUnit } from '@/types/costModel';
 import './CalculationWizard.css';
 import { parseLocaleNumber, usesDecimalComma, formatInputNumber } from '@/utils/numberInput';
 import { variantItems } from '@/services/grid/variantScope';
+import { variantCalculatedItems } from '@/services/grid/variantTotals';
 import { reviewBudget } from '@/services/review/budgetReview';
 import { getNumberLocale } from '@/utils/formatting';
 import { useMoney } from '@/hooks/useMoney';
@@ -50,7 +51,7 @@ export function CalculationWizard({ onEditor }: { onEditor?: () => void }) {
   const { items, schedule, activeDocumentId } = state;
   useEffect(() => { setStep(0); setDrafts({}); setChapter(''); setLimit(60); }, [activeDocumentId]);
   const setDraft = (id: string, value?: string) => setDrafts(current => { const next = { ...current }; value === undefined ? delete next[id] : next[id] = value; return next; });
-  const total = useMemo(() => getStaartBreakdown(items), [items]);
+  const total = useMemo(() => getStaartBreakdown(variantCalculatedItems(items, schedule)), [items, schedule]);
   const money = { format: useMoney({ keepZero: true }) };
   const scoped = variantItems(items, schedule);
   const review = useMemo(() => reviewBudget(state), [items, schedule, state.subSheets, state.ifcQuantities]);

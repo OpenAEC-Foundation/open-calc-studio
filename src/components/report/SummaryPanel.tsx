@@ -5,10 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { getKostprijs, getStaartBreakdown, getGrandTotal } from '@/services/calculation/calculator';
 import { useMoney } from '@/hooks/useMoney';
+import { useVariantItems } from '@/hooks/useVariantItems';
 
 export const SummaryPanel: React.FC = () => {
   const { t } = useTranslation();
-  const { items, schedule } = useAppStore();
+  const { schedule } = useAppStore();
+  const items = useVariantItems();
   const formatCurrency = useMoney();
   const kostprijs = getKostprijs(items);
   const breakdown = getStaartBreakdown(items);

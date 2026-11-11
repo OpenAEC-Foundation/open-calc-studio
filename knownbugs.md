@@ -25,23 +25,6 @@ stand van `main` op die datum.
 
 ## Rekenen en totalen
 
-11. **Een post zonder prijs met lege onderliggende regels telt op tot € 0, zonder waarschuwing in de controle.**
-    `src/services/review/budgetReview.ts:36-40`, `:48`: elke onderliggende regel stelt de post vrij, ook als
-    die regel zelf is vrijgesteld (hoeveelheid null/0 of eenheid `pm`). Nagespeeld. Voorstel: alleen ouders
-    markeren voor regels die de controle doorstaan, of elke post controleren waarvan de onderliggende regels
-    samen 0 zijn (zoals `calculator.ts:153` doet). — B
-
-12. **In de actieve variant toont het grid een totaal, maar de controle meldt "Prijs niet ingevuld".**
-    `budgetReview.ts:34`: de controle werkt per variant, de totalen over alle varianten. Nagespeeld. Samen
-    beslissen met #264 en #165. — B
-
-13. **Een onderliggende regel wordt gemarkeerd terwijl de eigen prijs van de post het totaal draagt.**
-    `budgetReview.ts:48` tegenover `calculator.ts:153`. Nagespeeld; mogelijk bewust. — B
-
-14. **Een tariefgroep die ontbreekt in de tarieventabel verbergt een regel zonder prijs** (laag).
-    `budgetReview.ts:50-51` met `calculator.ts:76`: de `?? 0` maakt de prijs "expliciet". Nagespeeld.
-    Voorstel: `laborPrice = null` zetten als de groep geen tarief heeft. — B
-
 ## Tabel, invoer en bediening
 
 18. **`parseNlNumber` is te soepel** (minder zeker). Nagespeeld: `1,234,567` geeft 1,234 en `12abc` geeft 12;
@@ -688,7 +671,7 @@ stand van `main` op die datum.
 162. **Een variant verwijderen laat zijn regels achter, verborgen maar nog meegeteld.** `removeBranch` in
      `src/state/slices/costScheduleSlice.ts:130-152`. Nagespeeld: het hoofdstuktotaal blijft 150 terwijl het
      grid 100 toont; in "Alle varianten" komt de regel terug met het label "main". Tweede controle: klopt, maar
-     het meetellen hoort bij #264; ernst laag. Voorstel: de regels verwijderen of naar de bovenliggende
+     het meetellen in grid en statusbalk is met de fix van 12/264 weg zolang varianten aan staan; ernst laag. Voorstel: de regels verwijderen of naar de bovenliggende
      branch verplaatsen. — B
 
 163. **Nieuwe regels nemen de variant van hun ouder niet over, en het filter werkt per regel in plaats van per
@@ -702,7 +685,8 @@ stand van `main` op die datum.
 
 165. **Rapporten en afdrukken nemen regels uit niet-actieve varianten mee.**
      `src/services/report/reportGenerator.ts:12` en `bouw1PrintService.ts:67/173` gebruiken geen
-     `variantItems`. Nagespeeld. Samen met #264 beslissen. — B
+     `variantItems`. Nagespeeld. Totalen in grid en statusbalk volgen sinds de fix van 12/264 de gekozen
+     variant via `variantCalculatedItems` (`src/services/grid/variantTotals.ts`); rapporten nog niet. — B
 
 166. **Een andere variant kiezen markeert het document niet als gewijzigd**, dus de gekozen variant kan verloren
      gaan. `setActiveBranch` (`costScheduleSlice.ts:161`). Afgeleid uit de code. — S
@@ -1125,11 +1109,6 @@ stand van `main` op die datum.
 263. **De app sluiten met "Niet opslaan" biedt het weggegooide werk de volgende keer toch als herstel aan**
      (mogelijk bedoeld). `src/App.tsx:420-426`, `closeDocuments.ts:16`. Voorstel: `removeRecovery(recoveryWindowId())`
      uitvoeren vóór `destroy()`, en bij `pagehide` niet opnieuw schrijven. — S
-
-264. **Statusbalk en totalen in de tabel negeren de gekozen variant** (mogelijk bedoeld).
-     `src/components/layout/StatusBar.tsx:198` en `CostGrid.tsx:576` gebruiken `getGrandTotal(items)` over alle
-     varianten; `priceUpdates.ts:40` gebruikt wel `variantItems`. Navragen bij de maintainers of totalen tot de
-     gekozen variant beperkt moeten zijn. — S
 
 265. **Een gekoppeld totaal houdt zijn oude waarde als de laatste meting weg is.** `pdfWorkspace.ts:40` en
      `src/hooks/useQuantityLinkSync.ts:37` (`null` wordt genegeerd). Nagespeeld, maar waarschijnlijk bedoeld:
