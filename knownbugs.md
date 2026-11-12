@@ -25,15 +25,6 @@ stand van `main` op die datum.
 
 ## Rekenen en totalen
 
-286. **Bij openen rekent de app de arbeid met de ruwe tarieven, niet met `effectiveTarieven`.**
-     `src/state/slices/documentSlice.ts:61` roept `recalculateItems(items, schedule.tarieven)` aan. Bij lege
-     tarieven (`tarieven: {}`) wordt de arbeid 0, en bij bestanden met productiecapaciteit of standaardtarieven
-     springt het bedrag bij de eerste bewerking die wél `effectiveTarieven` gebruikt. Hetzelfde patroon (ruwe
-     of helemaal geen tarieven) staat in `clipboardSlice.ts:67`, `priceUpdates.ts:40-51`, `revisionCommands.ts:90`,
-     `workspaceCommands.ts:17,36`, `ifcLiteWorkspace.ts:71`, `assistantActions.ts:341`, `assistantProposal.ts:91`,
-     `Backstage.tsx` en `builtinExtensions.ts` (imports), `lib/core.ts:9` en de losse MCP-server. Gevonden in
-     de releasereview van 10 november; zit ook in 2026.46.0 en 2026.46.1. — B
-
 ## Tabel, invoer en bediening
 
 18. **`parseNlNumber` is te soepel** (minder zeker). Nagespeeld: `1,234,567` geeft 1,234 en `12abc` geeft 12;

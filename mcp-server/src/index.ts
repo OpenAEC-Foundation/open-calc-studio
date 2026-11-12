@@ -21,7 +21,7 @@ import { isIfcxExchangeJson } from '../../src/services/importers/ifcxDetection';
  *
  * Resources: budget://current, budget://schedule, budget://items
  */
-import { recalculateItems, getStaartBreakdown } from '../../src/services/calculation/calculator';
+import { effectiveTarieven, recalculateItems, getStaartBreakdown } from '../../src/services/calculation/calculator';
 import { deserializeProject, FILE_FORMAT_VERSION } from '../../src/services/file/fileService';
 import { importBc3File } from '../../src/services/importers/bc3Importer';
 import { importOnlvFile } from '../../src/services/importers/onlvImporter';
@@ -958,7 +958,7 @@ function req() {
 
 function doRecalc() {
   const b = req();
-  b.items = recalculateItems(b.items, b.schedule.tarieven);
+  b.items = recalculateItems(b.items, effectiveTarieven(b.schedule));
   return b.items;
 }
 
@@ -1106,7 +1106,7 @@ server.tool("open_budget", "Open a budget file and load it into memory. Supports
   try {
     const p = resolve(filePath);
     const { project, warnings, imported } = await loadProjectFile(p);
-    const items = recalculateItems(project.items, project.schedule.tarieven);
+    const items = recalculateItems(project.items, effectiveTarieven(project.schedule));
     const nativePath = !imported && NATIVE_BUDGET_EXTENSIONS.has(extname(p).toLowerCase()) ? p : '';
     currentBudget = { filePath: nativePath, project, items, schedule: project.schedule };
 
@@ -1132,7 +1132,7 @@ server.tool("apply_gaeb_x84", "Apply prices from a GAEB X84 offer to the matchin
   try {
     const b = req();
     const merged = applyGaebX84(readFileSync(resolve(filePath), 'utf-8'), b.items);
-    b.items = recalculateItems(merged.items, b.schedule.tarieven);
+    b.items = recalculateItems(merged.items, effectiveTarieven(b.schedule));
     sendBridgeMutation('set_items', { items: b.items });
     return ok({ success: true, pricedCount: merged.pricedCount, warnings: merged.warnings });
   } catch (e: unknown) { return err((e as Error).message); }
@@ -1865,7 +1865,7 @@ server.tool("lookup_reference_project", "Open a reference project (.ifcx OR .cal
     } else {
       // â”€â”€ JSON (.ifcx) â”€â”€
       const project = deserializeProject(readFileSync(p, 'utf-8'));
-      const items = recalculateItems(project.items, project.schedule.tarieven);
+      const items = recalculateItems(project.items, effectiveTarieven(project.schedule));
       projectName = project.schedule.projectName;
       allItems = items.filter(i => !isStagart(i.rowType)).map(i => ({
         code: i.code, description: i.description, rowType: i.rowType,

@@ -1,5 +1,5 @@
 import type { CostItem, CostSchedule, PriceOrigin, ResourceLibraryItem } from '@/types/costModel';
-import { getGrandTotal, recalculateItems } from '@/services/calculation/calculator';
+import { effectiveTarieven, getGrandTotal, recalculateItems } from '@/services/calculation/calculator';
 import { variantItems } from '@/services/grid/variantScope';
 import { appendHistory } from '@/services/history/itemHistory';
 
@@ -37,8 +37,8 @@ export function previewPriceUpdates(items: CostItem[], schedule: CostSchedule, c
     return { itemId: item.id, description: item.description, before: item.normUnitPrice, after: article?.defaultUnitPrice ?? null, status, article };
   });
   const updated = applyPriceUpdateRows(items, schedule, rows, rows.filter(row => row.status === 'changed').map(row => row.itemId));
-  const before = recalculateItems(variantItems(items, schedule), schedule.tarieven);
-  const after = recalculateItems(variantItems(updated, schedule), schedule.tarieven);
+  const before = recalculateItems(variantItems(items, schedule), effectiveTarieven(schedule));
+  const after = recalculateItems(variantItems(updated, schedule), effectiveTarieven(schedule));
   const next = new Map(after.map(item => [item.id, item]));
   return { rows, beforeTotal: getGrandTotal(before), afterTotal: getGrandTotal(after),
     chapters: before.filter(item => item.rowType === 'chapter' && item.depth === 0).map(item => ({ id: item.id, description: item.description, before: item.total, after: next.get(item.id)?.total ?? item.total })) };
@@ -54,7 +54,7 @@ export function applyPriceUpdateRows(items: CostItem[], schedule: CostSchedule, 
     if (item.normUnitPrice !== row.before || !row.article) throw Error('The estimate changed. Create a new preview.');
     return { ...item, normUnitPrice: row.after, priceOrigin: capturePriceOrigin(row.article, schedule.currency),
       history: appendHistory(item, 'normUnitPrice', item.normUnitPrice, row.after, 'catalogue', now) };
-  }), schedule.tarieven);
+  }), effectiveTarieven(schedule));
 }
 
 /** Embed only the source articles actually used in this estimate. */

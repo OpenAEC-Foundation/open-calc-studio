@@ -8,7 +8,7 @@ import { useFileOperations } from "../../hooks/useFileOperations";
 import { generateIfcCostFile } from "../../services/ifc/ifcCostGenerator";
 import { parseIfcCostFile } from "../../services/ifc/ifcCostParser";
 import { importIfcx } from "../../services/importers/ifcxImporter";
-import { recalculateItems } from "../../services/calculation/calculator";
+import { effectiveTarieven, recalculateItems } from "../../services/calculation/calculator";
 import { exportInschrijfstaatAsync } from "../../services/export/inschrijfstaatExporter";
 import { exportWpCalcFile } from "../../services/export/wpcalcExporter";
 import { outputCurrentReport } from "@/services/report/reportOutput";
@@ -485,7 +485,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
       const store = useAppStore.getState();
       if (!store.activeDocumentId) throw new Error(uiText("import.gaebBase", "Open the matching GAEB X83 bill of quantities first."));
       const result = applyGaebX84(xml, store.items);
-      store.setItems(recalculateItems(result.items, store.schedule.tarieven));
+      store.setItems(recalculateItems(result.items, effectiveTarieven(store.schedule)));
       store.updateDocument(store.activeDocumentId, { isModified: true });
       onClose();
       const applied = uiText("import.offerApplied", "{{count}} GAEB bid prices applied.", { count: result.pricedCount });

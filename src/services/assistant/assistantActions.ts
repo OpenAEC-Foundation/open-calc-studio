@@ -338,7 +338,7 @@ export function simulateActies(acties: AssistantActie[], items: CostItem[], sche
   if (failed.length) {
     return { items, results: [...failed, uiText("chat.actions.none", "✖ No changes applied.")] };
   }
-  const calculated = recalculateItems(isolated.getState().items, schedule.tarieven);
+  const calculated = recalculateItems(isolated.getState().items, effectiveTarieven(schedule));
   if (calculated.some(item => [item.quantity, item.total, item.unitPrice, item.normUnitPrice, item.laborPrice, item.materialPrice].some(value => value != null && !Number.isFinite(value)))) {
     return { items, results: [`✖ ${uiText('proposal.overflow', 'The proposed calculation exceeds the supported numeric range. No changes applied.')}`] };
   }

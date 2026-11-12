@@ -3,7 +3,7 @@ import { aggregateTakeoff, type TakeoffEntry } from '@/services/ifc/ifcTakeoff';
 import { compareIfcRevisions, indexGlobalIds } from './ifcRevisions';
 import { serializeDocument, projectContentKey } from '@/services/file/documentSnapshot';
 import { variantItems } from '@/services/grid/variantScope';
-import { recalculateItems } from '@/services/calculation/calculator';
+import { effectiveTarieven, recalculateItems } from '@/services/calculation/calculator';
 import { captureQuantityOrigin } from '@/services/quantity/quantityOrigin';
 import { appendHistory } from '@/services/history/itemHistory';
 
@@ -91,7 +91,7 @@ export function revisionCommand(action: string, p: Record<string, unknown>): unk
     if (!selected.has(item.id)) return item;
     const row = rows.get(item.id)!, link = { ...item.quantityLink!, source: 'ifc' as const, fragmentId: row.entry!.fragmentId, quantity: (item.quantityLink as { quantity: 'volume' | 'area' | 'length' | 'count' }).quantity };
     return { ...item, quantity: row.after, quantityLink: link, quantityOrigin: captureQuantityOrigin(link, { ...s, schedule }), history: appendHistory(item, 'quantity', item.quantity, row.after, 'IFC revision', Date.now()) };
-  }), s.schedule.tarieven);
+  }), effectiveTarieven(s.schedule));
   s.pushHistory(s.items, 'Apply IFC revision'); useAppStore.setState({ schedule, items }); s.updateDocument(doc.id, { isModified: true });
   proposals.delete(p.proposalId); return { applied: true, count: selected.size };
 }

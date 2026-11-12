@@ -1,12 +1,12 @@
 /** Browser-independent API. Safe to import in Node.js, workers and servers. */
 import type { ProjectFile } from '../types/costModel';
-import { recalculateItems } from '../services/calculation/calculator';
+import { effectiveTarieven, recalculateItems } from '../services/calculation/calculator';
 
 /** Recalculate a project without mutating the input or changing its metadata. */
 export function calculateProject(project: ProjectFile): ProjectFile {
   return {
     ...project,
-    items: recalculateItems(project.items, project.schedule.tarieven),
+    items: recalculateItems(project.items, effectiveTarieven(project.schedule)),
   };
 }
 

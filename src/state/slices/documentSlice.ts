@@ -2,7 +2,7 @@ import { uiText } from '@/i18n/uiText';
 import type { StateCreator } from 'zustand';
 import type { DocumentTab } from '@/types/costModel';
 import { createDefaultSchedule } from '@/data/defaultBudget';
-import { recalculateItems } from '@/services/calculation/calculator';
+import { effectiveTarieven, recalculateItems } from '@/services/calculation/calculator';
 import type { AppStore } from '../appStore';
 import { defaultCompanyInfo } from './companySlice';
 import { createDefaultOfferte } from './offerteSlice';
@@ -58,7 +58,7 @@ export const createDocumentSlice: StateCreator<DocumentSlice> = (set, get) => ({
     const updatedDocs = state.documents.map((d: DocumentTab) => captureDocument(state, d));
     const newDoc = makeEmptyDoc(tab);
     // Recalculate so staart breakdowns are populated for live reporting
-    const recalculated = recalculateItems(newDoc.items, newDoc.schedule.tarieven);
+    const recalculated = recalculateItems(newDoc.items, effectiveTarieven(newDoc.schedule));
     newDoc.items = recalculated;
     set({
       documents: [...updatedDocs, newDoc],

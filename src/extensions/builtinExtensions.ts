@@ -10,7 +10,7 @@ import type { ImportResult } from '../services/importers/types';
 import { importRsx } from '../services/importers/rsxImporter';
 // WpCalc importer is lazy-loaded because mdb-reader needs Buffer polyfill
 // import { importWpCalcFile } from '../services/importers/wpcalcImporter';
-import { recalculateItems } from '../services/calculation/calculator';
+import { effectiveTarieven, recalculateItems } from '../services/calculation/calculator';
 import type { TabularData } from '../services/importers/genericTabularImporter';
 
 /**
@@ -315,7 +315,7 @@ export function registerBuiltinExtensions(): void {
       useAppStore.getState().setReportView('directie');
       return {
         schedule: result.schedule,
-        items: recalculateItems(result.items, result.schedule.tarieven),
+        items: recalculateItems(result.items, effectiveTarieven(result.schedule)),
         warnings: result.warnings,
       };
     },
