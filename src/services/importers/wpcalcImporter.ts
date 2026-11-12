@@ -29,7 +29,7 @@ function num(val: any): number | null {
 
 /**
  * Valuta uit `calculaties.valuta`. Een ISO-code ("EUR", "USD") nemen we over;
- * het euroteken of "euro" wordt EUR, guldens (ƒ, fl, hfl) worden NLG.
+ * het euroteken of "euro" wordt EUR, guldens (ƒ, fl, hfl, Dfl) worden NLG.
  * Leeg of onbekend → EUR. Bedragen worden nooit omgerekend (ook `koers` niet).
  */
 export function wpcalcCurrency(val: unknown): string {
@@ -37,7 +37,7 @@ export function wpcalcCurrency(val: unknown): string {
   if (!raw) return 'EUR';
   const l = raw.toLowerCase().replace(/\.$/, '');
   if (l === '€' || l === 'euro') return 'EUR';
-  if (l === 'ƒ' || l === 'fl' || l === 'hfl' || l === 'gulden') return 'NLG';
+  if (l === 'ƒ' || l === 'fl' || l === 'hfl' || l === 'dfl' || l === 'gulden' || l === 'guldens') return 'NLG';
   return /^[a-z]{3}$/i.test(raw) ? safeCurrency(raw) : 'EUR';
 }
 

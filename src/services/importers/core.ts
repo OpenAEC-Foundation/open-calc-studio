@@ -41,10 +41,10 @@ export function genIfcGuid(): string {
 /**
  * Valutatekens die vóór of achter een bedrag kunnen staan. De waarde is de
  * ISO 4217-code als het teken eenduidig is; `null` bij tekens die meerdere
- * valuta's kunnen betekenen ($, ¥, kr). Langste eerst, zodat "US$" vóór "$" gaat.
+ * valuta's kunnen betekenen ($, C$ = CAD of NIO, ¥, kr). Langste eerst, zodat "US$" vóór "$" gaat.
  */
 const CURRENCY_TOKENS: [string, string | null][] = [
-  ['US$', 'USD'], ['NZ$', 'NZD'], ['HK$', 'HKD'], ['R$', 'BRL'], ['C$', 'CAD'], ['A$', 'AUD'], ['S$', 'SGD'],
+  ['US$', 'USD'], ['NZ$', 'NZD'], ['HK$', 'HKD'], ['R$', 'BRL'], ['C$', null], ['A$', 'AUD'], ['S$', 'SGD'],
   ['€', 'EUR'], ['£', 'GBP'], ['₹', 'INR'], ['₽', 'RUB'], ['₺', 'TRY'], ['₩', 'KRW'], ['₪', 'ILS'],
   ['₫', 'VND'], ['₱', 'PHP'], ['฿', 'THB'], ['₦', 'NGN'], ['₴', 'UAH'], ['₡', 'CRC'], ['zł', 'PLN'], ['Kč', 'CZK'],
   ['kr.', null], ['kr', null], ['$', null], ['¥', null],
@@ -90,7 +90,11 @@ export function parseAmount(raw: string | number | null | undefined): ParsedAmou
   let t = m ? `${m[1] || m[3]}${m[4]}` : s;
   const lastComma = t.lastIndexOf(',');
   const lastDot = t.lastIndexOf('.');
-  if (lastComma >= 0 && lastDot >= 0) {
+  if (token && /^[+-]?[1-9]\d{0,2}[.,]\d{3}$/.test(t)) {
+    // Bedrag met valutateken en één scheidingsteken voor precies drie cijfers
+    // ("€ 1.250", "$1,234", "₩1,000") is een duizendtal, geen 1,25.
+    t = t.replace(/[.,]/, '');
+  } else if (lastComma >= 0 && lastDot >= 0) {
     t = lastComma > lastDot ? t.replace(/\./g, '').replace(',', '.') : t.replace(/,/g, '');
   } else if (lastComma >= 0) {
     t = t.indexOf(',') === lastComma ? t.replace(',', '.') : t.replace(/,/g, '');

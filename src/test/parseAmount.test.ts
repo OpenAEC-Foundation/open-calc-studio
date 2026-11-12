@@ -19,6 +19,15 @@ describe('parseAmount', () => {
     ['€ -12,50', -12.5, 'EUR'],
     ['CHF 1\'234.50', 1234.5, 'CHF'],
     ['₡ 1.234,56', 1234.56, 'CRC'],
+    // Valutateken + één scheidingsteken voor drie cijfers = duizendtal.
+    ['€ 1.250', 1250, 'EUR'],
+    ['$1,234', 1234, null],
+    ['USD 1.234', 1234, 'USD'],
+    ['₩1,000', 1000, 'KRW'],
+    ['€ 12,50', 12.5, 'EUR'],
+    ['€ 0,125', 0.125, 'EUR'],
+    // C$ is zowel Canadese dollar als Nicaraguaanse córdoba.
+    ['C$ 1.500,00', 1500, null],
     ['1.234,56 CRC', 1234.56, 'CRC'],
   ])('%s → %d', (raw, value, currency) => {
     const r = parseAmount(raw);

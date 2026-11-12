@@ -146,6 +146,7 @@ describe('WpCalc-import: valuta uit calculaties.valuta (voormalig issue #75)', (
     expect(wpcalcCurrency('Euro')).toBe('EUR');
     expect(wpcalcCurrency('Hfl.')).toBe('NLG');
     expect(wpcalcCurrency('ƒ')).toBe('NLG');
+    expect(wpcalcCurrency('Dfl')).toBe('NLG');
     expect(wpcalcCurrency('GBP')).toBe('GBP');
     expect(wpcalcCurrency('xx')).toBe('EUR');
     expect(wpcalcCurrency(null)).toBe('EUR');

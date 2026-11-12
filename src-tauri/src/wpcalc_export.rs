@@ -148,9 +148,25 @@ fn find_template(app: &tauri::AppHandle) -> Result<std::path::PathBuf, String> {
     Err("WPCalc template file not found".to_string())
 }
 
-/// Escape a string for use in a SQL string literal (single quotes)
+/// Escape tekst binnen een PowerShell-string tussen dubbele aanhalingstekens:
+/// `$` (variabele), backtick (escape) en de dubbele aanhalingstekens (ook de
+/// typografische, die PowerShell als gewone `"` leest) krijgen een backtick.
+/// Zonder dit werd een map als `Begroting$2024` stil `Begroting`.
+fn ps_dq_escape(s: &str) -> String {
+    let mut out = String::with_capacity(s.len());
+    for c in s.chars() {
+        if matches!(c, '`' | '$' | '"' | '\u{201C}' | '\u{201D}' | '\u{201E}') {
+            out.push('`');
+        }
+        out.push(c);
+    }
+    out
+}
+
+/// Escape a string for a SQL string literal (single quotes) that sits inside
+/// the double-quoted PowerShell string of `$conn.Execute("...")`.
 fn sql_escape(s: &str) -> String {
-    s.replace('\'', "''")
+    ps_dq_escape(&s.replace('\'', "''"))
 }
 
 /// Map CostUnit back to WPCalc eenheid format
@@ -173,10 +189,15 @@ fn build_ps_script(
     // Connection setup
     lines.push(format!(
         r#"$connStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source={};""#,
-        db_path.replace('\\', "\\\\")
+        ps_dq_escape(&db_path.replace('\\', "\\\\"))
     ));
     lines.push(r#"$conn = New-Object -ComObject ADODB.Connection"#.to_string());
-    lines.push(r#"$conn.Open($connStr)"#.to_string());
+    // Gaat de database niet open, dan stoppen zonder "OK": anders zou het lege
+    // sjabloon het bestaande doelbestand vervangen.
+    lines.push(
+        r#"try { $conn.Open($connStr) } catch { [Console]::Error.WriteLine("Cannot open the WpCalc database: $_"); exit 1 }"#
+            .to_string(),
+    );
 
     let docnr = 1;
 
@@ -515,7 +536,7 @@ fn emit_data_row(
         rectype,
         sql_escape(&item.description),
         sql_escape(&item.code),
-        eenheid,
+        sql_escape(eenheid),
         format_f64(qty),
         format_f64(material_price),
         format_f64(kosteneh),
@@ -524,7 +545,7 @@ fn emit_data_row(
         if is_oa { "True" } else { "False" },
         if is_materieel { "True" } else { "False" },
         if is_stelpost { "True" } else { "False" },
-        tarief_groep,
+        sql_escape(tarief_groep),
     ));
 
     recnr + 1
@@ -753,6 +774,44 @@ mod tests {
         assert_eq!(fs::read(&output).unwrap(), b"TEMPLATE");
         let left: Vec<_> = fs::read_dir(&dir).unwrap().map(|e| e.unwrap().file_name()).collect();
         assert_eq!(left.len(), 2, "{:?}", left);
+        let _ = fs::remove_dir_all(&dir);
+    }
+
+    /// PowerShell leest de ge-escapete tekst terug als het origineel.
+    #[cfg(windows)]
+    #[test]
+    fn powershell_leest_tekst_met_dollar_en_aanhalingstekens_heel() {
+        let raw = "Begroting$2024 `x` buis 2\" “a” 'b' $env:TEMP €";
+        let dir = scratch_dir("escape");
+        let p = dir.join("echo.ps1");
+        let out_file = dir.join("uit.txt");
+        // Via een UTF-8-bestand, niet via de console: die verminkt “ ” en €.
+        let script = format!(
+            "[IO.File]::WriteAllText('{}', \"{}\", (New-Object Text.UTF8Encoding $false))",
+            out_file.to_string_lossy().replace('\'', "''"),
+            ps_dq_escape(raw)
+        );
+        write_ps_script(&p, &script).unwrap();
+        let out = Command::new("powershell")
+            .args(["-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File"])
+            .arg(&p)
+            .output()
+            .unwrap();
+        assert!(out.status.success(), "{}", String::from_utf8_lossy(&out.stderr));
+        assert_eq!(fs::read_to_string(&out_file).unwrap(), raw);
+        let _ = fs::remove_dir_all(&dir);
+    }
+
+    /// Gaat de database niet open (hier: bestaat niet), dan geen "OK" maar een fout.
+    #[cfg(windows)]
+    #[test]
+    fn database_die_niet_opent_geeft_een_fout() {
+        let dir = scratch_dir("noopen");
+        let script = build_ps_script(&dir.join("bestaat-niet.calc").to_string_lossy(), &big_request(1));
+        let p = dir.join("s.ps1");
+        write_ps_script(&p, &script).unwrap();
+        let err = run_ps_script(&p).unwrap_err();
+        assert!(err.contains("Cannot open the WpCalc database"), "{}", err);
         let _ = fs::remove_dir_all(&dir);
     }
 }
