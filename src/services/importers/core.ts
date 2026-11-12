@@ -46,7 +46,7 @@ export function genIfcGuid(): string {
 const CURRENCY_TOKENS: [string, string | null][] = [
   ['US$', 'USD'], ['NZ$', 'NZD'], ['HK$', 'HKD'], ['R$', 'BRL'], ['C$', 'CAD'], ['A$', 'AUD'], ['S$', 'SGD'],
   ['€', 'EUR'], ['£', 'GBP'], ['₹', 'INR'], ['₽', 'RUB'], ['₺', 'TRY'], ['₩', 'KRW'], ['₪', 'ILS'],
-  ['₫', 'VND'], ['₱', 'PHP'], ['฿', 'THB'], ['₦', 'NGN'], ['₴', 'UAH'], ['zł', 'PLN'], ['Kč', 'CZK'],
+  ['₫', 'VND'], ['₱', 'PHP'], ['฿', 'THB'], ['₦', 'NGN'], ['₴', 'UAH'], ['₡', 'CRC'], ['zł', 'PLN'], ['Kč', 'CZK'],
   ['kr.', null], ['kr', null], ['$', null], ['¥', null],
   ...CURRENCY_CODES.map((c): [string, string] => [c, c]),
 ];

@@ -123,6 +123,14 @@ describe('valutalijst', () => {
     for (const code of CURRENCY_CODES) expect(safeCurrency(code)).toBe(code);
   });
 
+  it('de colón van Costa Rica staat in de lijst (issue #81)', () => {
+    expect(currencyOptions('EUR', 'es').map(o => o.code)).toContain('CRC');
+    setNumberLocale('es-ES');
+    // es-ES toont de code ("1234,50 CRC"), es-CR het teken (₡); nooit de euro.
+    expect(formatMoney(1234.5, 'CRC')).toMatch(/CRC|₡/);
+    expect(formatMoney(1234.5, 'CRC')).not.toContain('€');
+  });
+
   it('een code uit een geïmporteerd bestand blijft kiesbaar', () => {
     const codes = currencyOptions('XOF', 'en').map(o => o.code);
     expect(codes).toContain('XOF');

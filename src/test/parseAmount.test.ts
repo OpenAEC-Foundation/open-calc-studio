@@ -18,6 +18,8 @@ describe('parseAmount', () => {
     ['-€ 12,50', -12.5, 'EUR'],
     ['€ -12,50', -12.5, 'EUR'],
     ['CHF 1\'234.50', 1234.5, 'CHF'],
+    ['₡ 1.234,56', 1234.56, 'CRC'],
+    ['1.234,56 CRC', 1234.56, 'CRC'],
   ])('%s → %d', (raw, value, currency) => {
     const r = parseAmount(raw);
     expect(r.value).toBeCloseTo(value, 10);

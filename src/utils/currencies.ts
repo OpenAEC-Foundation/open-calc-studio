@@ -4,6 +4,8 @@
 export const CURRENCY_CODES = [
   'EUR', 'USD', 'GBP', 'CHF', 'CAD', 'AUD', 'NZD',
   'MXN', 'BRL', 'ARS', 'CLP', 'COP', 'PEN', 'UYU',
+  // Midden-Amerika en Caribisch gebied (issue #81: colón van Costa Rica).
+  'CRC', 'GTQ', 'HNL', 'NIO', 'PAB', 'DOP', 'BOB', 'PYG',
   'SEK', 'NOK', 'DKK', 'PLN', 'CZK', 'HUF', 'RON', 'BGN', 'RSD', 'UAH', 'RUB', 'TRY',
   'JPY', 'CNY', 'HKD', 'TWD', 'KRW', 'INR', 'LKR', 'IDR', 'MYR', 'SGD', 'THB', 'VND', 'PHP',
   'AED', 'SAR', 'ILS', 'IRR', 'PKR', 'BDT', 'LAK',
