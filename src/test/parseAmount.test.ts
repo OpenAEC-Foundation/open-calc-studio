@@ -26,6 +26,10 @@ describe('parseAmount', () => {
     ['₩1,000', 1000, 'KRW'],
     ['€ 12,50', 12.5, 'EUR'],
     ['€ 0,125', 0.125, 'EUR'],
+    // Komma + drie cijfers bij de euro: Nederlandse prijs met drie decimalen.
+    ['€ 1,500', 1.5, 'EUR'],
+    ['£1,000', 1000, 'GBP'],
+    ['1,250 zł', 1.25, 'PLN'],
     // C$ is zowel Canadese dollar als Nicaraguaanse córdoba.
     ['C$ 1.500,00', 1500, null],
     ['1.234,56 CRC', 1234.56, 'CRC'],

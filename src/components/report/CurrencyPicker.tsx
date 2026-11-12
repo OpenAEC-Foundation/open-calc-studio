@@ -57,6 +57,7 @@ export const CurrencyPicker: React.FC<{
 
   const openList = () => {
     if (open) return;
+    scrollToActive.current = true;
     setActive(Math.max(0, filtered.findIndex(o => o.code === value)));
     setOpen(true);
   };
@@ -81,29 +82,41 @@ export const CurrencyPicker: React.FC<{
     return () => window.removeEventListener('keydown', onKey, true);
   }, [open]);
 
+  // Alleen bij toetsen meescrollen; bij hoveren zou de lijst onder de muis verschuiven.
+  const scrollToActive = useRef(false);
   useEffect(() => {
-    if (!open) return;
+    if (!open || !scrollToActive.current) return;
+    scrollToActive.current = false;
     listRef.current?.querySelector(`[data-index="${active}"]`)?.scrollIntoView?.({ block: 'nearest' });
   }, [open, active]);
 
+  // Volg het veld zolang de lijst open is: ook bij scrollen, venstergrootte en
+  // het verslepen van de dialoog (dat geeft geen scroll- of resize-event).
   const [position, setPosition] = useState<React.CSSProperties | null>(null);
   useLayoutEffect(() => {
     if (!open || !inputRef.current) { setPosition(null); return; }
-    const update = () => { if (inputRef.current) setPosition(listPosition(inputRef.current)); };
-    update();
-    window.addEventListener('resize', update);
-    window.addEventListener('scroll', update, true);
-    return () => {
-      window.removeEventListener('resize', update);
-      window.removeEventListener('scroll', update, true);
+    let last = '';
+    let frame = 0;
+    const update = () => {
+      if (inputRef.current) {
+        const next = listPosition(inputRef.current);
+        const key = JSON.stringify(next);
+        if (key !== last) { last = key; setPosition(next); }
+      }
+      frame = requestAnimationFrame(update);
     };
+    update();
+    return () => cancelAnimationFrame(frame);
   }, [open]);
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const step = e.key === 'ArrowDown' ? 1 : e.key === 'ArrowUp' ? -1 : e.key === 'PageDown' ? 10 : e.key === 'PageUp' ? -10 : 0;
+    // Enter of pijltjes tijdens IME-invoer (ja/zh/ko) horen bij de invoermethode.
+    if (e.nativeEvent.isComposing) return;
     if (step) {
       e.preventDefault();
       if (!open) { openList(); return; }
+      scrollToActive.current = true;
       setActive(i => Math.min(Math.max(i + step, 0), rowCount - 1));
     } else if (e.key === 'Enter' && open) {
       e.preventDefault();
@@ -134,11 +147,21 @@ export const CurrencyPicker: React.FC<{
         // Na een muisklik heft de browser de selectie van onFocus weer op.
         onClick={() => { if (query === null) inputRef.current?.select(); openList(); }}
         onBlur={close}
-        onChange={(e) => { setQuery(e.target.value); setShowAll(false); setActive(0); setOpen(true); }}
+        onChange={(e) => { scrollToActive.current = true; setQuery(e.target.value); setShowAll(false); setActive(0); setOpen(true); }}
         onKeyDown={onKeyDown}
       />
       {open && createPortal(
-        <ul ref={listRef} id={listId} role="listbox" className="currency-picker-list" style={position ?? undefined} aria-label={t('projectInfo.currency')}>
+        <ul
+          ref={listRef}
+          id={listId}
+          role="listbox"
+          className="currency-picker-list"
+          style={position ?? undefined}
+          aria-label={t('projectInfo.currency')}
+          // Klikken in de lijst (ook op de rand, de schuifbalk of "geen treffers")
+          // mag het veld niet laten blurren, anders sluit de lijst.
+          onMouseDown={(e) => e.preventDefault()}
+        >
           {filtered.length === 0 && <li className="currency-picker-empty" role="presentation">{t('projectInfo.currencyNoMatch')}</li>}
           {filtered.map((o, index) => (
             <li

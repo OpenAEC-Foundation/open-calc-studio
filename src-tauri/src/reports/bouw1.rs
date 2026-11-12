@@ -273,6 +273,11 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
         .filter(|i| !i.row_type.starts_with("staart_") && i.row_type != "witregel")
         .filter(|i| request.shows_row(i))
         .collect();
+    // Kolomverdeling per rij over álle regels, ook als alleen hoofdstukken getoond
+    // worden; anders valt een paragraaf zonder kinderen onder Ond.aann.
+    let breakdown_rows: Vec<&CostItem> = request.items.iter()
+        .filter(|i| !i.row_type.starts_with("staart_") && i.row_type != "witregel")
+        .collect();
 
     let mut chapters: Vec<Bouw1Chapter> = Vec::new();
     let mut cur_ch: Option<&CostItem> = None;
@@ -311,7 +316,7 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
             // Skip begrotingspost/bewakingspost that has children - children shown instead
             continue;
         } else {
-            ch_rows.push(build_bouw1_row(request, item, item.row_type == "chapter", &visible));
+            ch_rows.push(build_bouw1_row(request, item, item.row_type == "chapter", &breakdown_rows));
         }
     }
     if let Some(ch) = cur_ch {

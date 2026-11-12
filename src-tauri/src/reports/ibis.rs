@@ -244,6 +244,11 @@ fn build_ibis_data(request: &ReportRequest) -> IbisReportData {
         .filter(|i| !i.row_type.starts_with("staart_") && i.row_type != "witregel")
         .filter(|i| request.shows_row(i))
         .collect();
+    // Kolomverdeling per rij over álle regels, ook als alleen hoofdstukken getoond
+    // worden; anders valt een paragraaf zonder kinderen onder Ond.aann.
+    let breakdown_rows: Vec<&CostItem> = request.items.iter()
+        .filter(|i| !i.row_type.starts_with("staart_") && i.row_type != "witregel")
+        .collect();
 
     // Wijzigingsmarkering: alleen tonen als de gebruiker het aanzet én er een baseline is.
     let show_changes = request.schedule.report_show_changes;
@@ -284,7 +289,7 @@ fn build_ibis_data(request: &ReportRequest) -> IbisReportData {
                 "begrotingspost" | "bewakingspost" => 1,
                 _ => 2,
             };
-            let mut row = build_ibis_row(request, item, level, &visible);
+            let mut row = build_ibis_row(request, item, level, &breakdown_rows);
             row.changed = show_changes && item.changed_since(&since);
             ch_rows.push(row);
         }

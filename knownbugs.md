@@ -424,8 +424,9 @@ stand van `main` op die datum.
     `parseNumber` (`core.ts`) zonder melding. Rest van knownbug 82. Gevonden in de review van de valutafix. — B
 
 279. **`parseAmount` leest een paar tekstvormen verkeerd**: `"12.03.2024"` wordt 12032024, `"EUR 1.250,00 excl."`
-    wordt 1,25 (de punt in "excl." telt als scheidingsteken) en `"6'2"` wordt 62. Alleen als zo'n kolom aan een
-    getalveld wordt gekoppeld. Gevonden in de review van de valutafix (nagespeeld in node). — B
+    wordt 1,25 (de punt in "excl." telt als scheidingsteken) en `"6'2"` wordt 62. Ook `"€ 1.250-"` en
+    `"€1.250/m"` worden 1,25, terwijl `"€ 1.250"` 1250 is. Alleen als zo'n kolom aan een getalveld wordt
+    gekoppeld. Gevonden in de review van de valutafix (nagespeeld in node). — B
 
 280. **WpCalc-import zonder herkende staartlabels geeft geen btw-regel en geen melding.** Labels als
     "B.T.W.", "Omzetbelasting" of Engelse teksten worden niet herkend (`wpcalcImporter.ts`
@@ -572,6 +573,17 @@ stand van `main` op die datum.
      `image_flowable.rs:125-126` rekent midden en rechts uit als `x + w/2 - w/2` en `x + w - w`, dus altijd `x`
      (alleen gebruikt door `openaec-core`/`gen_pdf`, niet door de app). In `table.rs` beginnen gesplitste tabellen
      na een paginawissel weer bij rij 0, wat alleen telt bij gestreepte tabelstijlen. — S
+
+282. **PDF Hoofdaanneming met "alleen hoofdstuktotalen" toont geen bedragen in de tabel.** `generator.rs:757`
+     en `:794`: hoofdstukrijen tonen in die weergave geen totaal en de subtotaalregel komt alleen na een
+     begrotingspost, die nu verborgen is. Gevonden in de review van de PDF-fixes. — S
+
+283. **Losse regels zonder hoofdstuk verdwijnen uit de PDF-tabel bij "alleen hoofdstuktotalen"**, maar tellen
+     wel mee in het totaal (`shows_row`, `reports/mod.rs:60`); de "kostprijs"-regel in `generator.rs:835`
+     telt alleen hoofdstukken. Hoofdstuk 1000 + losse regel 500 toont 1000 en een totaal van 1500. — S
+
+284. **Afronding in de Rust-staart kiest `staartDoelbedrag` vóór `staartVastBedrag`**, de app andersom
+     (`staart.rs:140`). Alleen bereikbaar als beide gezet zijn (MCP of een bewerkt bestand). — S
 
 ## IFC, PDF en hoeveelheden
 
@@ -900,6 +912,10 @@ stand van `main` op die datum.
      (`BranchTreeEditor.tsx:84`, `OfferteView.css:256`), `--theme-hover-bg` (`grid.css:668`),
      `--theme-text-primary` (`grid.css:648,669,714`) en `--theme-ribbon-icon` (`Ribbon.css:260`). Voorstel:
      hernoemen naar de bestaande namen. — S
+
+285. **De valutalijst staat buiten de dialoog (portal), waardoor VoiceOver de opties mogelijk niet voorleest**
+     (`CurrencyPicker.tsx`; de dialoog heeft `aria-modal="true"`). Met toetsenbord en muis werkt hij gewoon.
+     Gevonden in de review van de valutakeuze. — S
 
 ## Prestaties
 

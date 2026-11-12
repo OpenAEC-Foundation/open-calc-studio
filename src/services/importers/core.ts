@@ -55,6 +55,12 @@ const TOKEN_RE = [...CURRENCY_TOKENS].sort((a, b) => b[0].length - a[0].length).
 const AMOUNT_RE = new RegExp(`^([+-]?)(${TOKEN_RE})?([+-]?)(.*?)(${TOKEN_RE})?$`, 'i');
 const TOKEN_CODE = new Map<string, string | null>(CURRENCY_TOKENS.map(([t, c]): [string, string | null] => [t.toLowerCase(), c]));
 
+/** Valutatekens en -codes waarbij de komma het duizendtal scheidt ("$1,234", "£1,000"). */
+const COMMA_GROUP_TOKENS = new Set([
+  '$', 'us$', 'nz$', 'hk$', 'c$', 'a$', 's$', '£', '¥', '₩', '₹', '₱', '฿',
+  'usd', 'gbp', 'aud', 'nzd', 'cad', 'hkd', 'sgd', 'jpy', 'krw', 'cny', 'inr', 'php', 'thb', 'mxn',
+]);
+
 /** Geldige ISO 4217-code uit een bestand (hoofdletterongevoelig), anders null. */
 export function normalizeCurrencyCode(raw: string | null | undefined): string | null {
   const code = (raw ?? '').trim().toUpperCase();
@@ -90,9 +96,12 @@ export function parseAmount(raw: string | number | null | undefined): ParsedAmou
   let t = m ? `${m[1] || m[3]}${m[4]}` : s;
   const lastComma = t.lastIndexOf(',');
   const lastDot = t.lastIndexOf('.');
-  if (token && /^[+-]?[1-9]\d{0,2}[.,]\d{3}$/.test(t)) {
+  const groupMatch = token ? /^[+-]?[1-9]\d{0,2}([.,])\d{3}$/.exec(t) : null;
+  if (groupMatch && (groupMatch[1] === '.' || COMMA_GROUP_TOKENS.has(token!.toLowerCase()))) {
     // Bedrag met valutateken en één scheidingsteken voor precies drie cijfers
-    // ("€ 1.250", "$1,234", "₩1,000") is een duizendtal, geen 1,25.
+    // is een duizendtal: "€ 1.250" → 1250, "$1,234" → 1234, "₩1,000" → 1000.
+    // Een komma alleen bij valuta's die de komma als duizendtal gebruiken;
+    // "€ 1,500" blijft 1,5 (Nederlandse prijs met drie decimalen).
     t = t.replace(/[.,]/, '');
   } else if (lastComma >= 0 && lastDot >= 0) {
     t = lastComma > lastDot ? t.replace(/\./g, '').replace(',', '.') : t.replace(/,/g, '');

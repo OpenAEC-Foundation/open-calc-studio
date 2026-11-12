@@ -189,7 +189,9 @@ fn build_ps_script(
     // Connection setup
     lines.push(format!(
         r#"$connStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source={};""#,
-        ps_dq_escape(&db_path.replace('\\', "\\\\"))
+        // Backslashes niet verdubbelen: PowerShell doet er niets mee, en een
+        // netwerkpad (\\server\map) werkt alleen met enkele backslashes.
+        ps_dq_escape(db_path)
     ));
     lines.push(r#"$conn = New-Object -ComObject ADODB.Connection"#.to_string());
     // Gaat de database niet open, dan stoppen zonder "OK": anders zou het lege
