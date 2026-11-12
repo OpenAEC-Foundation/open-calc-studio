@@ -200,12 +200,11 @@ stand van `main` op die datum.
     leeg. Gevonden in de review van PR #70. Voorstel: "ongeldig" doorgeven aan afhankelijke cellen, en de
     volgorde iteratief bepalen (topologisch sorteren). — S
 
-275. **Elke bewerking van een deelbladcel gooit vet, opmaak en decimalen weg.** De cel wordt opnieuw opgebouwd
-    uit alleen de waarde (`setSubSheetCell`). Ook: een cel met 1.234 kopiëren en terugplakken in de
-    Nederlandse notatie geeft 1234. Gevonden bij de valutafix. — B
+275. **Een deelbladcel met 1.234 kopiëren en terugplakken in de Nederlandse notatie geeft 1234.** Het verlies
+    van opmaak bij elke bewerking is punt 49. Gevonden bij de valutafix. — B
 
 276. **MCP `set_cells_batch` slaat ruwe waarden op**, die daarna als Nederlandse notatie worden gelezen;
-    `set_cell` volgt wel de getalnotatie van de app. Gevonden bij de valutafix. — B
+    `set_cell` volgt wel de getalnotatie van de app. Hoort bij punt 52. Gevonden bij de valutafix. — B
 
 ## Bestanden, import en export
 
@@ -405,6 +404,7 @@ stand van `main` op die datum.
 
 271. **WpCalc-export meldt "OK" ook als losse INSERTs mislukken.** Het PowerShell-script in
     `src-tauri/src/wpcalc_export.rs` stopt niet bij fouten, dus regels kunnen ontbreken zonder melding.
+    (Gaat de database helemaal niet open, dan stopt het script nu wel met een fout.)
     Gevonden bij de fix van knownbug 64. Voorstel: fouten tellen en melden; `$ErrorActionPreference='Stop'`
     pas na een test met echte bestanden. — B
 
@@ -416,8 +416,22 @@ stand van `main` op die datum.
 273. **WpCalc-export vult het veld `calculaties.valuta` niet.** De import leest het sinds de valutafix wel;
     de export schrijft geen valuta (Rust-kant). Gevonden bij de valutafix. — B
 
-274. **Een CUF-export van OCS verliest bij opnieuw importeren posten onder subhoofdstukken**, en de
-    TradXML-import leest maar één `Element`-niveau. Gevonden bij de fix van knownbug 59. — B
+274. **De TradXML-import leest maar één `Element`-niveau** (`tradxmlImporter.ts:52-58`). Het CUF-deel
+    (subhoofdstukken gaan verloren) is punt 103. Gevonden bij de fix van knownbug 59. — B
+
+278. **Andere importers lezen onleesbare bedragen nog stil als 0.** Alleen de generieke import
+    (`genericTabularImporter.ts`) waarschuwt; BC3, DNC, inschrijfstaat en de XML-hulpfuncties gebruiken
+    `parseNumber` (`core.ts`) zonder melding. Rest van knownbug 82. Gevonden in de review van de valutafix. — B
+
+279. **`parseAmount` leest een paar tekstvormen verkeerd**: `"12.03.2024"` wordt 12032024, `"EUR 1.250,00 excl."`
+    wordt 1,25 (de punt in "excl." telt als scheidingsteken) en `"6'2"` wordt 62. Alleen als zo'n kolom aan een
+    getalveld wordt gekoppeld. Gevonden in de review van de valutafix (nagespeeld in node). — B
+
+280. **WpCalc-import zonder herkende staartlabels geeft geen btw-regel en geen melding.** Labels als
+    "B.T.W.", "Omzetbelasting" of Engelse teksten worden niet herkend (`wpcalcImporter.ts`
+    `classifyWpCalcStaartLabel`); dan is incl. btw gelijk aan excl. btw. Ook: "Risicoverzekering" wordt
+    `risico`, een label met "totaal" valt weg, en een tweede regel van dezelfde soort telt niet mee.
+    Gevonden in de review van knownbug 88. — B
 
 ## Documenten, tabbladen, versies en herstel
 
@@ -447,6 +461,11 @@ stand van `main` op die datum.
 120. **Automatisch opslaan kan een Opslaan als-venster openen voor geïmporteerde documenten** (latent).
      `App.tsx:404-411` + `useFileOperations.ts:324,343`. `autoSave` staat standaard uit en heeft geen UI, dus
      vandaag kan het niet gebeuren. Voorstel: `isNativeSavePath(doc.filePath)` aan de voorwaarde toevoegen. — S
+
+281. **Automatisch opslaan loopt door terwijl het venster "Opslaan / Niet opslaan" open staat** (latent).
+     `App.tsx` (interval voor `autoSave`) kijkt niet naar `closingWindow`; met autosave aan kan "Niet opslaan"
+     zo toch opgeslagen werk opleveren. `autoSave` staat standaard uit en heeft geen UI (zie 120). Gevonden in
+     de review van knownbug 263. — S
 
 ## Rapport, offerte en afdrukken
 
@@ -683,9 +702,6 @@ stand van `main` op die datum.
      Voorstel: de chat wissen bij `removeDocument`, de meegestuurde geschiedenis inkorten, een wisknop toevoegen. — S
 
 174. **`assistant.preview` met `actions: [null]` geeft een kale TypeError** (`assistantProposal.ts:49-52`). — S
-
-175. **Het €-teken staat vast in de code** in `PromptBudgetWorkspace.tsx:18` en `ChatPanel.tsx:24,164`, in plaats
-     van `schedule.currency`. — S
 
 176. **`remove_sheet` in de losse MCP-server gaat verloren bij opslaan.** `mcp-server/src/index.ts:2042` (`filter`
      verbreekt de koppeling met de bladlijst van het project), `:1386-1388` (`save_budget` slaat de lijst van het
