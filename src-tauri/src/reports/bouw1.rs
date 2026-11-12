@@ -267,8 +267,11 @@ fn empty_subtotal_row(subtotal: &str) -> Bouw1Row {
 
 fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
     let nf = &request.number_format;
+    // Alleen hoofdstuktotalen: alleen de getoonde rijen filteren; de staart
+    // hieronder rekent over alle regels (request.items).
     let visible: Vec<&CostItem> = request.items.iter()
         .filter(|i| !i.row_type.starts_with("staart_") && i.row_type != "witregel")
+        .filter(|i| request.shows_row(i))
         .collect();
 
     let mut chapters: Vec<Bouw1Chapter> = Vec::new();
@@ -384,6 +387,10 @@ fn build_bouw1_data(request: &ReportRequest) -> Bouw1ReportData {
                 after_kostprijs = true;
             }
             let st = cascade.apply(si);
+            // Afronding van € 0 (standaardstaart zonder stap): geen lege rij.
+            if si.row_type == "staart_afronding" && st.post.abs() < 0.005 {
+                continue;
+            }
             all_rows.push(Bouw1TotalenRow {
                 label: si.description.clone(),
                 percentage: pct_str(si),
@@ -702,6 +709,61 @@ mod tests {
         let data = build_bouw1_data(&req);
         assert_eq!(totalen_row(&data, "ABK:").post, "€ 60,00");
         assert_eq!(totalen_row(&data, "Totaalprijs incl. btw.:").totaal, "€ 2.601,50");
+    }
+
+    /// 1000 arbeid in een hoofdstuk, ABK 6 %, winst 5 %, btw 21 %.
+    /// App (computeStaartItemBreakdowns): ABK 60, excl. 1.113, incl. 1.346,73.
+    fn abk_winst_request(chapter_totals_only: bool) -> ReportRequest {
+        serde_json::from_value(serde_json::json!({
+            "schedule": { "name": "Test", "reportChapterTotalsOnly": chapter_totals_only },
+            "items": [
+                { "id": "ch1", "code": "1", "description": "WERK", "rowType": "chapter",
+                  "depth": 0, "parentId": null, "total": 1000.0 },
+                { "id": "r1", "description": "metselen", "rowType": "regel", "depth": 1,
+                  "parentId": "ch1", "quantity": 10.0, "unit": "uur", "total": 1000.0,
+                  "resourceType": "arbeid" },
+                { "id": "s1", "description": "ABK:", "rowType": "staart_abk",
+                  "parentId": null, "staartPercentage": 6.0 },
+                { "id": "s2", "description": "Winst:", "rowType": "staart_winst",
+                  "parentId": null, "staartPercentage": 5.0 },
+                { "id": "s3", "description": "Btw hoog:", "rowType": "staart_btw",
+                  "parentId": null, "staartPercentage": 21.0 }
+            ],
+            "reportView": "bouw1",
+        }))
+        .expect("ReportRequest parsen")
+    }
+
+    #[test]
+    fn alleen_hoofdstuktotalen_rekent_over_alle_regels() {
+        // Review f5c6cb0: met "alleen hoofdstuktotalen" was Totaal kolommen
+        // € 0 en kregen de opslagen grondslag € 0.
+        let data = build_bouw1_data(&abk_winst_request(true));
+        // Alleen het hoofdstuk (subtotaalregel), geen rekenregel.
+        assert_eq!(data.chapters.len(), 1);
+        assert!(data.chapters[0].rows.iter().all(|r| r.is_subtotal), "{:?}",
+            data.chapters[0].rows.iter().map(|r| &r.omschrijving).collect::<Vec<_>>());
+        assert_eq!(totalen_row(&data, "Totaal kolommen:").totaal, "€ 1.000,00");
+        assert_eq!(totalen_row(&data, "ABK:").post, "€ 60,00");
+        assert_eq!(totalen_row(&data, "Totaal excl. btw.:").totaal, "€ 1.113,00");
+        assert_eq!(totalen_row(&data, "Totaalprijs incl. btw.:").totaal, "€ 1.346,73");
+        // Zonder de optie: dezelfde totalen, mét de rekenregel.
+        let vol = build_bouw1_data(&abk_winst_request(false));
+        assert!(vol.chapters[0].rows.iter().any(|r| r.omschrijving == "metselen"));
+        assert_eq!(totalen_row(&vol, "Totaalprijs incl. btw.:").totaal, "€ 1.346,73");
+    }
+
+    #[test]
+    fn afronding_van_nul_geeft_geen_rij() {
+        // Standaardstaart: afronding zonder stap of doelbedrag = € 0.
+        let mut req = request(serde_json::json!({}));
+        req.items.push(serde_json::from_value(serde_json::json!({
+            "id": "s3", "description": "Afronding", "rowType": "staart_afronding",
+            "depth": 0, "parentId": null, "total": 0.0
+        })).unwrap());
+        let data = build_bouw1_data(&req);
+        assert!(data.totalen.as_ref().unwrap().rows.iter().all(|r| r.label != "Afronding"));
+        assert_eq!(totalen_row(&data, "Totaalprijs incl. btw.:").totaal, "€ 1.016,40");
     }
 
     fn code_item(code: &str, nr: Option<&str>) -> CostItem {

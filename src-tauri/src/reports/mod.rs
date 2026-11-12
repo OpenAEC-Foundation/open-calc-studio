@@ -53,6 +53,13 @@ impl ReportRequest {
     pub fn unit(&self, code: &str) -> String {
         unit_label(&self.labels, code)
     }
+
+    /// Of `item` als rij in de rapporttabel komt. Met "alleen
+    /// hoofdstuktotalen" alleen hoofdstukken; de staartberekening gebruikt
+    /// altijd alle regels (kostprijskolommen, btw-markering).
+    pub fn shows_row(&self, item: &CostItem) -> bool {
+        !self.schedule.report_chapter_totals_only.unwrap_or(false) || item.row_type == "chapter"
+    }
 }
 
 /// Zoek een rapporttekst op; ontbreekt hij (of is hij leeg), dan de
@@ -128,6 +135,11 @@ pub struct Schedule {
     /// regelbedragen (eh.prijs/bedrag) blijven leeg, hoeveelheden zichtbaar.
     #[serde(default)]
     pub report_amounts_subtotals_only: Option<bool>,
+    /// Alleen hoofdstuktotalen: de tabel toont enkel hoofdstukregels. De
+    /// request bevat wel alle regels, zodat de staart over dezelfde
+    /// grondslagen rekent als de app (zie [`ReportRequest::shows_row`]).
+    #[serde(default)]
+    pub report_chapter_totals_only: Option<bool>,
     /// Hoogte van de rapportkoptekst in mm (positie van de accentlijn);
     /// het logo schaalt mee. None = automatisch (10 met logo, 8 zonder).
     #[serde(default)]
@@ -493,8 +505,15 @@ pub fn btw_laag_direct(items: &[CostItem]) -> f64 {
             Some("hoog") => false,
             _ => inherited_laag,
         };
+        // Een post waarvan de kinderen samen niets opleveren (bv. alleen een
+        // tekstregel) telt met zijn eigen prijs, als blad (ownCounts in TS).
         match children.get(&Some(node.id.as_str())) {
-            Some(kids) if !kids.is_empty() => kids.iter().map(|k| walk(k, eff_laag, children)).sum(),
+            Some(kids)
+                if !kids.is_empty()
+                    && !(node.row_type != "chapter" && kids.iter().map(|k| k.total).sum::<f64>() == 0.0) =>
+            {
+                kids.iter().map(|k| walk(k, eff_laag, children)).sum()
+            }
             _ => if eff_laag { node.total } else { 0.0 },
         }
     }
@@ -512,6 +531,33 @@ pub fn direct_totaal(items: &[CostItem]) -> f64 {
         .filter(|i| i.parent_id.is_none() && !i.row_type.starts_with("staart_"))
         .map(|i| i.total)
         .sum()
+}
+
+#[cfg(test)]
+mod btw_tests {
+    use super::*;
+
+    #[test]
+    fn laag_post_met_alleen_tekstregel_telt_met_eigen_prijs() {
+        // Zoals computeBtwLaagDirect (ownCounts): de laag-post van 400 met
+        // alleen een tekstregel eronder telt mee; de hoog-regel van 600 niet.
+        let items: Vec<CostItem> = serde_json::from_value(serde_json::json!([
+            { "id": "h", "rowType": "chapter", "parentId": null, "total": 1000.0 },
+            { "id": "p", "rowType": "begrotingspost", "parentId": "h", "total": 400.0, "btwTarief": "laag" },
+            { "id": "t", "rowType": "tekstregel", "parentId": "p", "total": 0.0 },
+            { "id": "r", "rowType": "regel", "parentId": "h", "total": 600.0 },
+            { "id": "s", "rowType": "staart_btw_laag", "parentId": null, "staartPercentage": 9.0 },
+        ]))
+        .unwrap();
+        assert_eq!(btw_laag_direct(&items), 400.0);
+        // Een hoofdstuk met alleen nul-kinderen blijft wel een tak.
+        let ch: Vec<CostItem> = serde_json::from_value(serde_json::json!([
+            { "id": "h", "rowType": "chapter", "parentId": null, "total": 50.0, "btwTarief": "laag" },
+            { "id": "t", "rowType": "tekstregel", "parentId": "h", "total": 0.0 },
+        ]))
+        .unwrap();
+        assert_eq!(btw_laag_direct(&ch), 0.0);
+    }
 }
 
 #[cfg(test)]

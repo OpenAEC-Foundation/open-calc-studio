@@ -169,8 +169,9 @@ function getCellValue(item: CostItem, key: string, ctx: ReportContext, fmt: Repo
 
 /**
  * Rapport-items volgens de rapportinstellingen: met "alleen subtotaal per
- * hoofdstuk" blijven enkel hoofdstukregels en de staart over. Gedeeld door
- * de HTML-print én de PDF-request (Rust).
+ * hoofdstuk" blijven enkel hoofdstukregels en de staart over. Alleen voor de
+ * HTML-print; de PDF-request (Rust) krijgt alle regels en filtert zelf de
+ * getoonde rijen, zodat de staart over dezelfde grondslagen rekent als de app.
  */
 export function itemsForReport(schedule: CostSchedule, items: CostItem[]): CostItem[] {
   if (!schedule.reportChapterTotalsOnly) return items;

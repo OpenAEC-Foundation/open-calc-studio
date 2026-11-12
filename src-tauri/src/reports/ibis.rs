@@ -238,8 +238,11 @@ fn subtotal_row(label: &str, subtotal: &str) -> IbisRow {
 
 fn build_ibis_data(request: &ReportRequest) -> IbisReportData {
     let nf = &request.number_format;
+    // Alleen hoofdstuktotalen: alleen de getoonde rijen filteren; de staart
+    // rekent over alle regels (request.items).
     let visible: Vec<&CostItem> = request.items.iter()
         .filter(|i| !i.row_type.starts_with("staart_") && i.row_type != "witregel")
+        .filter(|i| request.shows_row(i))
         .collect();
 
     // Wijzigingsmarkering: alleen tonen als de gebruiker het aanzet én er een baseline is.
@@ -350,11 +353,16 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
         return None;
     }
 
-    // Directe kosten (Alle kosten @) = som van top-level hoofdstukken.
-    let alle_kosten: f64 = request.items.iter()
-        .filter(|i| i.row_type == "chapter" && i.depth == 0)
-        .map(|i| i.total)
-        .sum();
+    // Grondslag per opslag zoals in de app (computeStaartItemBreakdowns) en
+    // de Bouw 1-PDF: AK onderaanneming over de onderaanneming; ABK, garanties
+    // en WV/PM alleen over loon + materiaal + materieel; risico/winst/
+    // verzekering over het cumulatief; een vlakke staart (BasCalc,
+    // staartBasis 'kostprijs') over de directe kosten.
+    let kp = super::staart::kostprijs_kolommen(&request.items);
+    // Alle kosten (@) = totaal van de kostprijskolommen, het startpunt van de
+    // cascade in de app — inclusief losse regels buiten een hoofdstuk.
+    let alle_kosten = kp.totaal();
+    let mut cascade = super::staart::Cascade::new(kp, alle_kosten);
 
     let mut rows: Vec<IbisTotalenRow> = Vec::new();
     let mut cumulative = alle_kosten;
@@ -370,25 +378,46 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
         is_bold: true,
     });
 
-    // Walk staart items in order. Split into: opslag-fase (everything except btw/afronding),
-    // afronding, btw-fase.
-    let opslag: Vec<&&CostItem> = staart_items.iter()
-        .filter(|i| !i.row_type.starts_with("staart_btw") && i.row_type != "staart_afronding")
-        .collect();
     let btw_items: Vec<&&CostItem> = staart_items.iter()
         .filter(|i| i.row_type.starts_with("staart_btw"))
         .collect();
-    let afronding_item = staart_items.iter().find(|i| i.row_type == "staart_afronding");
 
-    // Grondslag per opslag zoals in de app (computeStaartItemBreakdowns) en
-    // de Bouw 1-PDF: AK onderaanneming over de onderaanneming; ABK, garanties
-    // en WV/PM alleen over loon + materiaal + materieel; risico/winst/
-    // verzekering over het cumulatief; een vlakke staart (BasCalc,
-    // staartBasis 'kostprijs') over de directe kosten.
-    let kp = super::staart::kostprijs_kolommen(&request.items);
-    let mut cascade = super::staart::Cascade::new(kp, alle_kosten);
+    // (Transport): cumulatief vóór de (eerste) afronding — markeerregel zoals IBIS.
+    let transport_row = |totaal: f64| IbisTotalenRow {
+        symbol: "+".into(),
+        label: request.lbl("staart.transport", "(Transport)").into(),
+        percentage: String::new(),
+        bedrag: String::new(),
+        post: String::new(),
+        totaal: nf.currency(totaal),
+        is_bold: false,
+    };
+    let mut transport_getoond = false;
 
-    for si in &opslag {
+    // Opslagen (%) en afronding ($) in staartvolgorde, zoals de app; de btw
+    // volgt daarna over het excl-eindbedrag.
+    for si in staart_items.iter().filter(|i| !i.row_type.starts_with("staart_btw")) {
+        if si.row_type == "staart_afronding" {
+            if !transport_getoond {
+                rows.push(transport_row(cumulative));
+                transport_getoond = true;
+            }
+            // Doelbedrag: precies op het gewenste excl-bedrag; anders het
+            // bedrag dat de app op de regel heeft gezet.
+            let af_post = cascade.apply(si).post;
+            cumulative = cascade.cumulatief;
+            rows.push(IbisTotalenRow {
+                symbol: "$".into(),
+                label: request.lbl("staart.rounding", "Afronding").into(),
+                percentage: String::new(),
+                bedrag: String::new(),
+                post: nf.currency(af_post),
+                totaal: String::new(),
+                is_bold: false,
+            });
+            continue;
+        }
+
         let pct = si.staart_percentage.unwrap_or(0.0);
         let pct_str = if si.staart_percentage.is_some() {
             nf.percent(pct, 2)
@@ -410,34 +439,8 @@ fn build_ibis_totalen(request: &ReportRequest) -> Option<IbisTotalen> {
             is_bold: false,
         });
     }
-
-    // (Transport): cumulatief vóór afronding — markeerregel zoals IBIS.
-    let transport = cumulative;
-    rows.push(IbisTotalenRow {
-        symbol: "+".into(),
-        label: request.lbl("staart.transport", "(Transport)").into(),
-        percentage: String::new(),
-        bedrag: String::new(),
-        post: String::new(),
-        totaal: nf.currency(transport),
-        is_bold: false,
-    });
-
-    // $ Afronding
-    if let Some(af) = afronding_item {
-        // Doelbedrag: precies op het gewenste excl-bedrag; anders het bedrag
-        // dat de app op de regel heeft gezet.
-        let af_post = cascade.apply(af).post;
-        cumulative = cascade.cumulatief;
-        rows.push(IbisTotalenRow {
-            symbol: "$".into(),
-            label: request.lbl("staart.rounding", "Afronding").into(),
-            percentage: String::new(),
-            bedrag: String::new(),
-            post: nf.currency(af_post),
-            totaal: String::new(),
-            is_bold: false,
-        });
+    if !transport_getoond {
+        rows.push(transport_row(cumulative));
     }
 
     // * Totaal excl BTW
@@ -764,6 +767,92 @@ mod tests {
         assert_eq!(row(&data, "Afronding").post, "€ 50,00");
         assert_eq!(row(&data, "Totaal excl BTW").totaal, "€ 2.200,00");
         assert_eq!(row(&data, "Totaal incl BTW").totaal, "€ 2.662,00");
+    }
+
+    fn staart_request(chapter_totals_only: bool, items: serde_json::Value) -> ReportRequest {
+        serde_json::from_value(serde_json::json!({
+            "schedule": { "name": "Test", "reportChapterTotalsOnly": chapter_totals_only },
+            "items": items,
+            "reportView": "ibis",
+        }))
+        .expect("ReportRequest parsen")
+    }
+
+    #[test]
+    fn alleen_hoofdstuktotalen_rekent_over_alle_regels() {
+        // Review f5c6cb0: met "alleen hoofdstuktotalen" kregen ABK en winst
+        // grondslag € 0. App: ABK 60, excl. 1.113, incl. 1.346,73.
+        let items = serde_json::json!([
+            { "id": "ch1", "code": "10", "description": "WERK", "rowType": "chapter",
+              "depth": 0, "parentId": null, "total": 1000.0 },
+            { "id": "r1", "description": "metselen", "rowType": "regel", "depth": 1,
+              "parentId": "ch1", "total": 1000.0, "resourceType": "arbeid" },
+            { "id": "s1", "description": "ABK:", "rowType": "staart_abk",
+              "parentId": null, "staartPercentage": 6.0 },
+            { "id": "s2", "description": "Winst:", "rowType": "staart_winst",
+              "parentId": null, "staartPercentage": 5.0 },
+            { "id": "s3", "description": "Btw hoog:", "rowType": "staart_btw",
+              "parentId": null, "staartPercentage": 21.0 }
+        ]);
+        for only in [true, false] {
+            let data = build_ibis_data(&staart_request(only, items.clone()));
+            let rows = &data.chapters[0].rows;
+            assert_eq!(rows.iter().any(|r| r.omschrijving == "metselen"), !only);
+            assert_eq!(row(&data, "Alle kosten").totaal, "€ 1.000,00");
+            assert_eq!(row(&data, "ABK").bedrag, "€ 1.000,00");
+            assert_eq!(row(&data, "ABK").post, "€ 60,00");
+            assert_eq!(row(&data, "Winst").post, "€ 53,00");
+            assert_eq!(row(&data, "Totaal excl BTW").totaal, "€ 1.113,00");
+            assert_eq!(row(&data, "Totaal incl BTW").totaal, "€ 1.346,73");
+        }
+    }
+
+    #[test]
+    fn losse_regel_buiten_hoofdstuk_telt_mee() {
+        // Hoofdstuk 1000 + losse top-level regel 500, ABK 6 %: app 1.590.
+        let data = build_ibis_data(&staart_request(false, serde_json::json!([
+            { "id": "ch1", "code": "10", "description": "WERK", "rowType": "chapter",
+              "depth": 0, "parentId": null, "total": 1000.0 },
+            { "id": "r1", "rowType": "regel", "depth": 1, "parentId": "ch1",
+              "total": 1000.0, "resourceType": "arbeid" },
+            { "id": "r2", "rowType": "regel", "depth": 0, "parentId": null,
+              "total": 500.0, "resourceType": "arbeid" },
+            { "id": "s1", "description": "ABK:", "rowType": "staart_abk",
+              "parentId": null, "staartPercentage": 6.0 },
+            { "id": "s3", "description": "Btw hoog:", "rowType": "staart_btw",
+              "parentId": null, "staartPercentage": 21.0 }
+        ])));
+        assert_eq!(row(&data, "Alle kosten").totaal, "€ 1.500,00");
+        assert_eq!(row(&data, "ABK").post, "€ 90,00");
+        assert_eq!(row(&data, "Totaal excl BTW").totaal, "€ 1.590,00");
+        assert_eq!(row(&data, "Totaal incl BTW").totaal, "€ 1.923,90");
+    }
+
+    #[test]
+    fn afronding_volgt_de_staartvolgorde() {
+        // Afronding (doel 850) vóór winst 10 %: winst over 850 → 935, zoals
+        // de app (eerste ronde in arrayvolgorde).
+        let data = build_ibis_data(&staart_request(false, serde_json::json!([
+            { "id": "ch1", "code": "10", "description": "WERK", "rowType": "chapter",
+              "depth": 0, "parentId": null, "total": 800.0 },
+            { "id": "r1", "rowType": "regel", "depth": 1, "parentId": "ch1",
+              "total": 800.0, "resourceType": "arbeid" },
+            { "id": "s1", "description": "Afronding", "rowType": "staart_afronding",
+              "parentId": null, "staartDoelbedrag": 850.0, "total": 50.0 },
+            { "id": "s2", "description": "Winst:", "rowType": "staart_winst",
+              "parentId": null, "staartPercentage": 10.0 },
+            { "id": "s3", "description": "Btw hoog:", "rowType": "staart_btw",
+              "parentId": null, "staartPercentage": 21.0 }
+        ])));
+        assert_eq!(row(&data, "Afronding").post, "€ 50,00");
+        assert_eq!(row(&data, "Winst").bedrag, "€ 850,00");
+        assert_eq!(row(&data, "Totaal excl BTW").totaal, "€ 935,00");
+        assert_eq!(row(&data, "Totaal incl BTW").totaal, "€ 1.131,35");
+        let labels = totalen_labels(&data);
+        let pos = |l: &str| labels.iter().position(|x| x == l).unwrap();
+        assert!(pos("(Transport)") < pos("Afronding"));
+        assert!(pos("Afronding") < pos("Winst"));
+        assert_eq!(labels.iter().filter(|l| *l == "(Transport)").count(), 1);
     }
 
     #[test]

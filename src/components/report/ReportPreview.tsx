@@ -2,7 +2,7 @@ import './report.css';
 import React, { useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
-import { itemsForReport } from '@/services/print/printService';
+import { reportRequestItems, reportRequestSchedule } from '@/services/print/reportRequest';
 import { getReportRequestLocale } from '@/i18n/reportI18n';
 import ProgressModal from '@/components/common/ProgressModal';
 
@@ -72,50 +72,10 @@ export const ReportPreview: React.FC = () => {
         }
 
         const request = {
-          schedule: {
-            name: schedule.name,
-            projectName: schedule.projectName,
-            projectNumber: schedule.projectNumber,
-            client: schedule.client,
-            author: schedule.author,
-            description: schedule.description,
-            status: schedule.status,
-            algemeneKosten: schedule.algemeneKosten,
-            winstRisico: schedule.winstRisico,
-            tarieven: schedule.tarieven,
-            staartRows: schedule.staartRows || null,
-            reportShowChanges: schedule.reportShowChanges ?? false,
-            reportShowVerrekenbaar: schedule.reportShowVerrekenbaar ?? null,
-            reportAmountsSubtotalsOnly: schedule.reportAmountsSubtotalsOnly ?? false,
-            reportHeaderHeightMm: schedule.reportHeaderHeightMm ?? null,
-            reportHeaderLineColor: schedule.reportHeaderLineColor ?? null,
-            changeTrackingSince: schedule.changeTrackingSince ?? null,
-          },
-          items: itemsForReport(schedule, items).map(item => ({
-            id: item.id,
-            code: item.code,
-            description: item.description,
-            nr: item.nr || null,
-            rowType: item.rowType,
-            quantity: item.quantity,
-            unit: item.unit,
-            unitPrice: item.unitPrice,
-            total: item.total,
-            normUnitPrice: item.normUnitPrice,
-            laborPrice: item.laborPrice,
-            depth: item.depth,
-            parentId: item.parentId,
-            staartPercentage: item.staartPercentage,
-            staartBasis: item.staartBasis ?? null,
-            staartDoelbedrag: item.staartDoelbedrag ?? null,
-            verrekenbaar: item.verrekenbaar,
-            resourceType: item.resourceType,
-            tariefGroep: item.tariefGroep,
-            normQuantity: item.normQuantity,
-            normFactor: item.normFactor,
-            normDivisor: item.normDivisor,
-            history: item.history ?? null,
-          })),
+          schedule: reportRequestSchedule(schedule),
+          // Alle regels: Rust toont bij "alleen hoofdstuktotalen" alleen de
+          // hoofdstukken, maar rekent de staart over alle regels (zoals de app).
+          items: reportRequestItems(items),
           reportView,
           pageSize,
           pageOrientation,

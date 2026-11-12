@@ -9,7 +9,6 @@
  * lint-knop "IFC".
  */
 import { useAppStore } from '@/state/appStore';
-import { itemsForReport } from '@/services/print/printService';
 import { getReportRequestLocale } from '@/i18n/reportI18n';
 import { generateIfcCostFile } from '@/services/ifc/ifcCostGenerator';
 import { buildOfferteRequest } from '@/services/offerte/offerteRequest';
@@ -53,7 +52,10 @@ export async function exportPdf(data: Record<string, unknown>): Promise<string> 
   }
   const request = {
     schedule,
-    items: itemsForReport(schedule, items),
+    // Alle regels: Rust toont bij "alleen hoofdstuktotalen" (schedule.
+    // reportChapterTotalsOnly) alleen de hoofdstukken, maar rekent de staart
+    // over alle regels, zoals de app.
+    items,
     reportView,
     pageSize: (data.pageSize as string) || store.pageSize,
     pageOrientation: (data.pageOrientation as string) || store.pageOrientation,

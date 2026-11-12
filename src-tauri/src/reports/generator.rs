@@ -549,7 +549,11 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
     if !request.schedule.report_show_verrekenbaar.unwrap_or(true) {
         columns.retain(|c| c.key != "verrekenbaar");
     }
-    let filtered = filter_items(&request.items, &request.report_view);
+    // Alleen hoofdstuktotalen: alleen hoofdstukrijen in de tabel.
+    let filtered: Vec<&CostItem> = filter_items(&request.items, &request.report_view)
+        .into_iter()
+        .filter(|i| request.shows_row(i))
+        .collect();
 
     // Verrekenbaar erft van het dichtstbijzijnde hoofdstuk erboven: in de
     // begroting staat de 'V' meestal op hoofdstukniveau, terwijl het rapport

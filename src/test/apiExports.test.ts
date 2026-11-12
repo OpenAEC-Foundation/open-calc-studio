@@ -45,6 +45,14 @@ describe('REST-export via de MCP-bridge (export_pdf_request / export_ifc_request
     expect(lastResult()).toEqual({ requestId: 'r2', result: { success: true, outputPath: 'C:/uit/begroting.pdf' } });
   });
 
+  it('stuurt bij "alleen hoofdstuktotalen" alle regels mee (Rust filtert de rijen)', async () => {
+    useAppStore.setState({ schedule: { ...createDefaultSchedule(), reportChapterTotalsOnly: true } } as never);
+    await handleApiExport('export_pdf_request', { requestId: 'r6', reportView: 'ibis', outputPath: 'C:/uit/i.pdf' });
+    const [, args] = calls('generate_ibis_report')[0] as unknown as [string, { request: { items: unknown[]; schedule: Record<string, unknown> } }];
+    expect(args.request.items).toHaveLength(useAppStore.getState().items.length);
+    expect(args.request.schedule.reportChapterTotalsOnly).toBe(true);
+  });
+
   it('stuurt IBIS/directie naar de IBIS-generator en wijst onbekende weergaven af', async () => {
     await handleApiExport('export_pdf_request', { requestId: 'r3', reportView: 'directie', outputPath: 'C:/uit/d.pdf' });
     expect(calls('generate_ibis_report')).toHaveLength(1);
