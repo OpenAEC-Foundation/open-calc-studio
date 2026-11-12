@@ -25,6 +25,15 @@ stand van `main` op die datum.
 
 ## Rekenen en totalen
 
+286. **Bij openen rekent de app de arbeid met de ruwe tarieven, niet met `effectiveTarieven`.**
+     `src/state/slices/documentSlice.ts:61` roept `recalculateItems(items, schedule.tarieven)` aan. Bij lege
+     tarieven (`tarieven: {}`) wordt de arbeid 0, en bij bestanden met productiecapaciteit of standaardtarieven
+     springt het bedrag bij de eerste bewerking die wél `effectiveTarieven` gebruikt. Hetzelfde patroon (ruwe
+     of helemaal geen tarieven) staat in `clipboardSlice.ts:67`, `priceUpdates.ts:40-51`, `revisionCommands.ts:90`,
+     `workspaceCommands.ts:17,36`, `ifcLiteWorkspace.ts:71`, `assistantActions.ts:341`, `assistantProposal.ts:91`,
+     `Backstage.tsx` en `builtinExtensions.ts` (imports), `lib/core.ts:9` en de losse MCP-server. Gevonden in
+     de releasereview van 10 november; zit ook in 2026.46.0 en 2026.46.1. — B
+
 ## Tabel, invoer en bediening
 
 18. **`parseNlNumber` is te soepel** (minder zeker). Nagespeeld: `1,234,567` geeft 1,234 en `12abc` geeft 12;
@@ -573,10 +582,6 @@ stand van `main` op die datum.
      `image_flowable.rs:125-126` rekent midden en rechts uit als `x + w/2 - w/2` en `x + w - w`, dus altijd `x`
      (alleen gebruikt door `openaec-core`/`gen_pdf`, niet door de app). In `table.rs` beginnen gesplitste tabellen
      na een paginawissel weer bij rij 0, wat alleen telt bij gestreepte tabelstijlen. — S
-
-282. **PDF Hoofdaanneming met "alleen hoofdstuktotalen" toont geen bedragen in de tabel.** `generator.rs:757`
-     en `:794`: hoofdstukrijen tonen in die weergave geen totaal en de subtotaalregel komt alleen na een
-     begrotingspost, die nu verborgen is. Gevonden in de review van de PDF-fixes. — S
 
 283. **Losse regels zonder hoofdstuk verdwijnen uit de PDF-tabel bij "alleen hoofdstuktotalen"**, maar tellen
      wel mee in het totaal (`shows_row`, `reports/mod.rs:60`); de "kostprijs"-regel in `generator.rs:835`
