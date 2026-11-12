@@ -418,6 +418,9 @@
     "projectPhotos": "Fotos del projecte",
     "currency": "Moneda",
     "currencyHelp": "Els imports no es converteixen. Només canvia com es mostren.",
+    "currencySearch": "Cerca per codi o nom",
+    "currencyNoMatch": "No s'ha trobat cap moneda",
+    "currencyShowAll": "Mostra totes les monedes",
     "currencyExchangeWarning": "Aquest pressupost es va importar de {{format}} en {{currency}}. Amb una altra moneda ja no es pot tornar a exportar a aquell fitxer."
   },
   "reportLogo": {

@@ -418,6 +418,9 @@
     "projectPhotos": "Foto del progetto",
     "currency": "Valuta",
     "currencyHelp": "Gli importi non vengono convertiti. Cambia solo il modo in cui vengono mostrati.",
+    "currencySearch": "Cerca per codice o nome",
+    "currencyNoMatch": "Nessuna valuta trovata",
+    "currencyShowAll": "Mostra tutte le valute",
     "currencyExchangeWarning": "Questo preventivo è stato importato da {{format}} in {{currency}}. Con un'altra valuta non può più essere riesportato in quel file."
   },
   "reportLogo": {

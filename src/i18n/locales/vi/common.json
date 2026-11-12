@@ -418,6 +418,9 @@
     "projectPhotos": "Ảnh dự án",
     "currency": "Tiền tệ",
     "currencyHelp": "Số tiền không được quy đổi. Chỉ cách hiển thị số tiền thay đổi.",
+    "currencySearch": "Tìm theo mã hoặc tên",
+    "currencyNoMatch": "Không tìm thấy loại tiền tệ",
+    "currencyShowAll": "Hiển thị tất cả loại tiền tệ",
     "currencyExchangeWarning": "Dự toán này được nhập từ {{format}} bằng {{currency}}. Với tiền tệ khác, không thể xuất ngược lại vào tệp đó nữa."
   },
   "reportLogo": {

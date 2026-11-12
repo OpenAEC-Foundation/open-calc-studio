@@ -420,6 +420,9 @@
     "projectPhotos": "תמונות הפרויקט",
     "currency": "מטבע",
     "currencyHelp": "הסכומים אינם מומרים. רק אופן הצגת הסכומים משתנה.",
+    "currencySearch": "חיפוש לפי קוד או שם",
+    "currencyNoMatch": "לא נמצא מטבע",
+    "currencyShowAll": "הצג את כל המטבעות",
     "currencyExchangeWarning": "אומדן זה יובא מ-{{format}} במטבע {{currency}}. עם מטבע אחר לא ניתן עוד לייצא אותו בחזרה לקובץ זה."
   },
   "reportLogo": {

@@ -418,6 +418,9 @@
     "projectPhotos": "Prosjektbilder",
     "currency": "Valuta",
     "currencyHelp": "Beløp regnes ikke om. Bare visningen av beløpene endres.",
+    "currencySearch": "Søk etter kode eller navn",
+    "currencyNoMatch": "Fant ingen valuta",
+    "currencyShowAll": "Vis alle valutaer",
     "currencyExchangeWarning": "Dette overslaget er importert fra {{format}} i {{currency}}. Med en annen valuta kan det ikke lenger eksporteres tilbake til den filen."
   },
   "reportLogo": {

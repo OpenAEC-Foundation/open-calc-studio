@@ -418,6 +418,9 @@
     "projectPhotos": "Picha za mradi",
     "currency": "Sarafu",
     "currencyHelp": "Kiasi hakibadilishwi. Ni namna tu ya kuonyesha kiasi inayobadilika.",
+    "currencySearch": "Tafuta kwa msimbo au jina",
+    "currencyNoMatch": "Hakuna sarafu iliyopatikana",
+    "currencyShowAll": "Onyesha sarafu zote",
     "currencyExchangeWarning": "Makadirio haya yaliingizwa kutoka {{format}} kwa {{currency}}. Kwa sarafu nyingine hayawezi tena kuhamishwa kurudi kwenye faili hilo."
   },
   "reportLogo": {

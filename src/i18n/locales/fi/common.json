@@ -418,6 +418,9 @@
     "projectPhotos": "Projektin valokuvat",
     "currency": "Valuutta",
     "currencyHelp": "Summia ei muunneta. Vain summien esitystapa muuttuu.",
+    "currencySearch": "Hae koodilla tai nimellä",
+    "currencyNoMatch": "Valuuttaa ei löytynyt",
+    "currencyShowAll": "Näytä kaikki valuutat",
     "currencyExchangeWarning": "Tämä arvio tuotiin muodosta {{format}} valuutassa {{currency}}. Eri valuutalla sitä ei voi enää viedä takaisin kyseiseen tiedostoon."
   },
   "reportLogo": {

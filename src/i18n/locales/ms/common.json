@@ -418,6 +418,9 @@
     "projectPhotos": "Foto projek",
     "currency": "Mata wang",
     "currencyHelp": "Amaun tidak ditukar. Hanya cara amaun dipaparkan yang berubah.",
+    "currencySearch": "Cari mengikut kod atau nama",
+    "currencyNoMatch": "Tiada mata wang ditemui",
+    "currencyShowAll": "Tunjukkan semua mata wang",
     "currencyExchangeWarning": "Anggaran ini diimport daripada {{format}} dalam {{currency}}. Dengan mata wang lain, ia tidak lagi boleh dieksport semula ke fail itu."
   },
   "reportLogo": {

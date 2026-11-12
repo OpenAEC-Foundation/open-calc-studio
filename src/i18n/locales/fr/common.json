@@ -418,6 +418,9 @@
     "projectPhotos": "Photos du projet",
     "currency": "Devise",
     "currencyHelp": "Les montants ne sont pas convertis. Seul leur affichage change.",
+    "currencySearch": "Rechercher par code ou nom",
+    "currencyNoMatch": "Aucune devise trouvée",
+    "currencyShowAll": "Afficher toutes les devises",
     "currencyExchangeWarning": "Ce devis a été importé depuis {{format}} en {{currency}}. Avec une autre devise, il ne peut plus être réexporté vers ce fichier."
   },
   "reportLogo": {

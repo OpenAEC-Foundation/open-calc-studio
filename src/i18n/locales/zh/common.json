@@ -418,6 +418,9 @@
     "projectPhotos": "项目照片",
     "currency": "货币",
     "currencyHelp": "金额不会换算，只会改变金额的显示方式。",
+    "currencySearch": "按代码或名称搜索",
+    "currencyNoMatch": "未找到货币",
+    "currencyShowAll": "显示所有货币",
     "currencyExchangeWarning": "此估算从 {{format}} 以 {{currency}} 导入。改用其他货币后，将无法再导出回该文件。"
   },
   "reportLogo": {

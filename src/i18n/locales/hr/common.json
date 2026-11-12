@@ -418,6 +418,9 @@
     "projectPhotos": "Fotografije projekta",
     "currency": "Valuta",
     "currencyHelp": "Iznosi se ne preračunavaju. Mijenja se samo način prikaza.",
+    "currencySearch": "Pretraži po kodu ili nazivu",
+    "currencyNoMatch": "Nije pronađena nijedna valuta",
+    "currencyShowAll": "Prikaži sve valute",
     "currencyExchangeWarning": "Ovaj troškovnik uvezen je iz {{format}} u valuti {{currency}}. S drugom valutom više se ne može izvesti natrag u tu datoteku."
   },
   "reportLogo": {

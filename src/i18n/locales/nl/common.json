@@ -452,6 +452,9 @@
     "projectPhotos": "Projectfoto's",
     "currency": "Valuta",
     "currencyHelp": "Bedragen worden niet omgerekend. Alleen de weergave van de bedragen verandert.",
+    "currencySearch": "Zoek op code of naam",
+    "currencyNoMatch": "Geen valuta gevonden",
+    "currencyShowAll": "Alle valuta's tonen",
     "currencyExchangeWarning": "Deze begroting is geïmporteerd uit {{format}} in {{currency}}. Met een andere valuta kan hij niet meer terug-geëxporteerd worden naar dat bestand."
   },
   "reportLogo": {

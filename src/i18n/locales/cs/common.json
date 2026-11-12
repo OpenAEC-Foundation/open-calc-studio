@@ -420,6 +420,9 @@
     "projectPhotos": "Fotografie projektu",
     "currency": "Měna",
     "currencyHelp": "Částky se nepřepočítávají. Mění se jen způsob jejich zobrazení.",
+    "currencySearch": "Hledat podle kódu nebo názvu",
+    "currencyNoMatch": "Žádná měna nenalezena",
+    "currencyShowAll": "Zobrazit všechny měny",
     "currencyExchangeWarning": "Tento rozpočet byl importován z {{format}} v měně {{currency}}. S jinou měnou jej již nelze exportovat zpět do tohoto souboru."
   },
   "reportLogo": {

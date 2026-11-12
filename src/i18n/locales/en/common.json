@@ -482,6 +482,9 @@
     "projectPhotos": "Project photos",
     "currency": "Currency",
     "currencyHelp": "Amounts are not converted. This only changes how amounts are shown.",
+    "currencySearch": "Search by code or name",
+    "currencyNoMatch": "No currency found",
+    "currencyShowAll": "Show all currencies",
     "currencyExchangeWarning": "This estimate was imported from {{format}} in {{currency}}. With a different currency it can no longer be exported back to that file."
   },
   "reportLogo": {

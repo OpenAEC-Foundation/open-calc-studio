@@ -422,6 +422,9 @@
     "projectPhotos": "صور المشروع",
     "currency": "العملة",
     "currencyHelp": "لا يتم تحويل المبالغ. يغيّر هذا فقط طريقة عرض المبالغ.",
+    "currencySearch": "ابحث بالرمز أو الاسم",
+    "currencyNoMatch": "لم يتم العثور على عملة",
+    "currencyShowAll": "عرض كل العملات",
     "currencyExchangeWarning": "تم استيراد هذا التقدير من {{format}} بعملة {{currency}}. بعملة أخرى لا يمكن تصديره مرة أخرى إلى ذلك الملف."
   },
   "reportLogo": {

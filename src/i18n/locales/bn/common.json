@@ -418,6 +418,9 @@
     "projectPhotos": "প্রকল্পের ছবি",
     "currency": "মুদ্রা",
     "currencyHelp": "টাকার অঙ্ক রূপান্তর করা হয় না। শুধু দেখানোর ধরন বদলায়।",
+    "currencySearch": "কোড বা নাম দিয়ে খুঁজুন",
+    "currencyNoMatch": "কোনো মুদ্রা পাওয়া যায়নি",
+    "currencyShowAll": "সব মুদ্রা দেখান",
     "currencyExchangeWarning": "এই প্রাক্কলনটি {{format}} থেকে {{currency}} মুদ্রায় আমদানি করা হয়েছে। অন্য মুদ্রায় এটি আর সেই ফাইলে ফেরত রপ্তানি করা যাবে না।"
   },
   "reportLogo": {

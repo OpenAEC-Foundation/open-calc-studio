@@ -419,6 +419,9 @@
     "projectPhotos": "Fotografii ale proiectului",
     "currency": "Monedă",
     "currencyHelp": "Sumele nu sunt convertite. Se schimbă doar modul de afișare.",
+    "currencySearch": "Caută după cod sau nume",
+    "currencyNoMatch": "Nu a fost găsită nicio monedă",
+    "currencyShowAll": "Afișează toate monedele",
     "currencyExchangeWarning": "Acest deviz a fost importat din {{format}} în {{currency}}. Cu altă monedă nu mai poate fi exportat înapoi în acel fișier."
   },
   "reportLogo": {

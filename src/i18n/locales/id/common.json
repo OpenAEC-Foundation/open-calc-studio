@@ -418,6 +418,9 @@
     "projectPhotos": "Foto proyek",
     "currency": "Mata uang",
     "currencyHelp": "Jumlah tidak dikonversi. Hanya cara jumlah ditampilkan yang berubah.",
+    "currencySearch": "Cari berdasarkan kode atau nama",
+    "currencyNoMatch": "Mata uang tidak ditemukan",
+    "currencyShowAll": "Tampilkan semua mata uang",
     "currencyExchangeWarning": "Estimasi ini diimpor dari {{format}} dalam {{currency}}. Dengan mata uang lain, estimasi ini tidak dapat diekspor kembali ke file tersebut."
   },
   "reportLogo": {

@@ -418,6 +418,9 @@
     "projectPhotos": "منصوبے کی تصاویر",
     "currency": "کرنسی",
     "currencyHelp": "رقوم تبدیل نہیں کی جاتیں۔ صرف رقوم کے دکھانے کا طریقہ بدلتا ہے۔",
+    "currencySearch": "کوڈ یا نام سے تلاش کریں",
+    "currencyNoMatch": "کوئی کرنسی نہیں ملی",
+    "currencyShowAll": "تمام کرنسیاں دکھائیں",
     "currencyExchangeWarning": "یہ تخمینہ {{format}} سے {{currency}} میں درآمد کیا گیا تھا۔ دوسری کرنسی کے ساتھ اسے اس فائل میں واپس برآمد نہیں کیا جا سکتا۔"
   },
   "reportLogo": {

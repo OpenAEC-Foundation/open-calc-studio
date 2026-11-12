@@ -418,6 +418,9 @@
     "projectPhotos": "عکس‌های پروژه",
     "currency": "واحد پول",
     "currencyHelp": "مبالغ تبدیل نمی‌شوند. فقط نحوهٔ نمایش مبالغ تغییر می‌کند.",
+    "currencySearch": "جستجو با کد یا نام",
+    "currencyNoMatch": "هیچ ارزی پیدا نشد",
+    "currencyShowAll": "نمایش همه ارزها",
     "currencyExchangeWarning": "این برآورد از {{format}} با واحد پول {{currency}} وارد شده است. با واحد پول دیگر دیگر نمی‌توان آن را به همان فایل برگرداند."
   },
   "reportLogo": {

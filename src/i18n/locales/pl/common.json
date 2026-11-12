@@ -420,6 +420,9 @@
     "projectPhotos": "Zdjęcia projektu",
     "currency": "Waluta",
     "currencyHelp": "Kwoty nie są przeliczane. Zmienia się tylko sposób ich wyświetlania.",
+    "currencySearch": "Szukaj według kodu lub nazwy",
+    "currencyNoMatch": "Nie znaleziono waluty",
+    "currencyShowAll": "Pokaż wszystkie waluty",
     "currencyExchangeWarning": "Ten kosztorys zaimportowano z {{format}} w walucie {{currency}}. Przy innej walucie nie można go już wyeksportować z powrotem do tego pliku."
   },
   "reportLogo": {

@@ -418,6 +418,9 @@
     "projectPhotos": "Снимки на проекта",
     "currency": "Валута",
     "currencyHelp": "Сумите не се преизчисляват. Променя се само начинът, по който се показват.",
+    "currencySearch": "Търсене по код или име",
+    "currencyNoMatch": "Няма намерена валута",
+    "currencyShowAll": "Покажи всички валути",
     "currencyExchangeWarning": "Тази оценка е внесена от {{format}} във {{currency}}. С друга валута тя не може да бъде изнесена обратно в този файл."
   },
   "reportLogo": {

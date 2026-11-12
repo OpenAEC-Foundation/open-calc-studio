@@ -418,6 +418,9 @@
     "projectPhotos": "Proje fotoğrafları",
     "currency": "Para birimi",
     "currencyHelp": "Tutarlar dönüştürülmez. Yalnızca tutarların gösterimi değişir.",
+    "currencySearch": "Koda veya ada göre ara",
+    "currencyNoMatch": "Para birimi bulunamadı",
+    "currencyShowAll": "Tüm para birimlerini göster",
     "currencyExchangeWarning": "Bu keşif {{format}} dosyasından {{currency}} olarak içe aktarıldı. Farklı bir para birimiyle artık o dosyaya geri aktarılamaz."
   },
   "reportLogo": {

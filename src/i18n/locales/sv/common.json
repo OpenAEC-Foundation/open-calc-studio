@@ -418,6 +418,9 @@
     "projectPhotos": "Projektfoton",
     "currency": "Valuta",
     "currencyHelp": "Belopp räknas inte om. Bara hur beloppen visas ändras.",
+    "currencySearch": "Sök på kod eller namn",
+    "currencyNoMatch": "Ingen valuta hittades",
+    "currencyShowAll": "Visa alla valutor",
     "currencyExchangeWarning": "Den här kalkylen importerades från {{format}} i {{currency}}. Med en annan valuta kan den inte längre exporteras tillbaka till den filen."
   },
   "reportLogo": {

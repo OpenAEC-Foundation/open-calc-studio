@@ -419,6 +419,9 @@
     "projectPhotos": "ຮູບຖ່າຍໂຄງການ",
     "currency": "ສະກຸນເງິນ",
     "currencyHelp": "ຈຳນວນເງິນບໍ່ຖືກແປງ. ປ່ຽນແຕ່ວິທີສະແດງເທົ່ານັ້ນ.",
+    "currencySearch": "ຊອກຫາດ້ວຍລະຫັດ ຫຼື ຊື່",
+    "currencyNoMatch": "ບໍ່ພົບສະກຸນເງິນ",
+    "currencyShowAll": "ສະແດງສະກຸນເງິນທັງໝົດ",
     "currencyExchangeWarning": "ການຄາດຄະເນນີ້ນຳເຂົ້າຈາກ {{format}} ເປັນ {{currency}}. ຖ້າໃຊ້ສະກຸນເງິນອື່ນ ຈະສົ່ງອອກກັບໄປຫາໄຟລ໌ນັ້ນບໍ່ໄດ້ອີກ."
   },
   "reportLogo": {

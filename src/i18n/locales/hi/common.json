@@ -418,6 +418,9 @@
     "projectPhotos": "परियोजना की तस्वीरें",
     "currency": "मुद्रा",
     "currencyHelp": "राशियाँ बदली नहीं जातीं। केवल उनके दिखने का तरीका बदलता है।",
+    "currencySearch": "कोड या नाम से खोजें",
+    "currencyNoMatch": "कोई मुद्रा नहीं मिली",
+    "currencyShowAll": "सभी मुद्राएँ दिखाएँ",
     "currencyExchangeWarning": "यह अनुमान {{format}} से {{currency}} में आयात किया गया था। दूसरी मुद्रा के साथ इसे उस फ़ाइल में वापस निर्यात नहीं किया जा सकता।"
   },
   "reportLogo": {

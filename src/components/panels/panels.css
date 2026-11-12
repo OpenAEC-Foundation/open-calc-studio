@@ -23,6 +23,52 @@
   box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.2);
 }
 
+/* Valutakeuze met zoeken (CurrencyPicker): rijen zoals de ResourcePicker. De lijst
+   staat in een portal; plek en hoogte (zo veel scherm als er is) zet de component. */
+.currency-picker {
+  position: relative;
+}
+.currency-picker-list {
+  position: fixed;
+  z-index: 10001; /* boven de dialoog (Modal.css: 10000) */
+  box-sizing: border-box;
+  max-height: 60vh;
+  overflow-y: auto;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: 4px;
+  box-shadow: var(--theme-dialog-shadow);
+  font-size: 11px;
+}
+.currency-picker-option {
+  padding: 4px 10px;
+  cursor: pointer;
+  color: var(--theme-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.currency-picker-option.current {
+  font-weight: 600;
+}
+.currency-picker-option.group-start {
+  border-top: 1px solid var(--theme-border);
+}
+.currency-picker-show-all {
+  color: var(--theme-accent);
+}
+.currency-picker-option.selected {
+  background: var(--theme-grid-active-bg);
+  color: var(--theme-grid-active-text);
+}
+.currency-picker-empty {
+  padding: 8px 10px;
+  color: var(--theme-text-secondary);
+}
+
 .prop-textarea {
   width: 100%;
   background: var(--theme-grid-input-bg);

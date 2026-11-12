@@ -418,6 +418,9 @@
     "projectPhotos": "Fotos del proyecto",
     "currency": "Moneda",
     "currencyHelp": "Los importes no se convierten. Solo cambia cómo se muestran.",
+    "currencySearch": "Buscar por código o nombre",
+    "currencyNoMatch": "No se encontró ninguna moneda",
+    "currencyShowAll": "Mostrar todas las monedas",
     "currencyExchangeWarning": "Este presupuesto se importó de {{format}} en {{currency}}. Con otra moneda ya no se puede volver a exportar a ese archivo."
   },
   "reportLogo": {

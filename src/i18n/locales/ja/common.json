@@ -418,6 +418,9 @@
     "projectPhotos": "工事写真",
     "currency": "通貨",
     "currencyHelp": "金額は換算されません。表示方法だけが変わります。",
+    "currencySearch": "コードまたは名前で検索",
+    "currencyNoMatch": "通貨が見つかりません",
+    "currencyShowAll": "すべての通貨を表示",
     "currencyExchangeWarning": "この見積は {{format}} から {{currency}} でインポートされました。別の通貨にすると、そのファイルへ書き戻せなくなります。"
   },
   "reportLogo": {

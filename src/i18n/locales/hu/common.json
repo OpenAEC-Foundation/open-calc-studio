@@ -418,6 +418,9 @@
     "projectPhotos": "Projektfotók",
     "currency": "Pénznem",
     "currencyHelp": "Az összegek nem lesznek átváltva. Csak a megjelenítésük változik.",
+    "currencySearch": "Keresés kód vagy név alapján",
+    "currencyNoMatch": "Nem található pénznem",
+    "currencyShowAll": "Összes pénznem megjelenítése",
     "currencyExchangeWarning": "Ezt a költségvetést {{format}} formátumból importálták {{currency}} pénznemben. Más pénznemmel már nem exportálható vissza abba a fájlba."
   },
   "reportLogo": {

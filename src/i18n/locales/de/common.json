@@ -418,6 +418,9 @@
     "projectPhotos": "Projektfotos",
     "currency": "Währung",
     "currencyHelp": "Beträge werden nicht umgerechnet. Nur die Anzeige der Beträge ändert sich.",
+    "currencySearch": "Nach Code oder Name suchen",
+    "currencyNoMatch": "Keine Währung gefunden",
+    "currencyShowAll": "Alle Währungen anzeigen",
     "currencyExchangeWarning": "Diese Kalkulation wurde aus {{format}} in {{currency}} importiert. Mit einer anderen Währung kann sie nicht mehr in diese Datei zurückexportiert werden."
   },
   "reportLogo": {

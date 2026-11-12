@@ -420,6 +420,9 @@
     "projectPhotos": "Fotografie projektu",
     "currency": "Mena",
     "currencyHelp": "Sumy sa neprepočítavajú. Mení sa len spôsob ich zobrazenia.",
+    "currencySearch": "Hľadať podľa kódu alebo názvu",
+    "currencyNoMatch": "Nenašla sa žiadna mena",
+    "currencyShowAll": "Zobraziť všetky meny",
     "currencyExchangeWarning": "Tento rozpočet bol importovaný z {{format}} v mene {{currency}}. S inou menou ho už nemožno exportovať späť do tohto súboru."
   },
   "reportLogo": {

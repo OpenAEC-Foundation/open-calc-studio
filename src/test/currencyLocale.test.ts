@@ -6,7 +6,7 @@ import {
   parseLocaleNumber, parseNlNumber, safeCurrency, setNumberLocale,
 } from '@/utils/formatting';
 import { parseNumericInput } from '@/utils/numericInput';
-import { CURRENCY_CODES, currencyOptions } from '@/utils/currencies';
+import { allCurrencyCodes, CURRENCY_CODES, currencyOptions, filterCurrencyOptions, MAIN_CURRENCY_CODES, mainCurrencyOptions } from '@/utils/currencies';
 import { synthesizeStaartItems, ensureBtwLaagItem, makeStaartItem } from '@/services/calculation/staartDefaults';
 
 // Issue #65: valuta per begroting, getalnotatie volgens de app-taal.
@@ -136,6 +136,97 @@ describe('valutalijst', () => {
     expect(codes).toContain('XOF');
     expect(codes).toContain('EUR');
     expect(new Set(codes).size).toBe(codes.length);
+  });
+});
+
+describe('volledige valutalijst met zoeken (issue #81)', () => {
+  it('bevat alle ISO-valuta die de runtime kent, zonder edelmetalen, testcodes en fondsen', () => {
+    const codes = allCurrencyCodes();
+    expect(codes.length).toBeGreaterThan(CURRENCY_CODES.length + 50);
+    for (const code of ['CRC', 'KWD', 'ISK', 'XOF', ...CURRENCY_CODES.filter(c => c !== 'BGN')]) expect(codes).toContain(code);
+    for (const code of ['XAU', 'XAG', 'XPT', 'XPD', 'XTS', 'XXX', 'XDR', 'XSU', 'XUA', 'CLF', 'USN', 'CHE']) expect(codes).not.toContain(code);
+    for (const code of codes) expect(safeCurrency(code)).toBe(code);
+  });
+
+  it('valuta die niet meer bestaan staan niet in de lijst, maar een bestaande begroting houdt ze', () => {
+    const codes = allCurrencyCodes();
+    for (const code of ['ANG', 'BGN', 'CUC', 'HRK', 'SLL', 'SVC', 'ZWL']) expect(codes).not.toContain(code);
+    const options = currencyOptions('HRK', 'nl');
+    expect(options.filter(o => o.code === 'HRK')).toHaveLength(1);
+    // De importers herkennen BGN nog wel, voor oude bestanden.
+    expect(CURRENCY_CODES).toContain('BGN');
+  });
+
+  it('zonder Intl.supportedValuesOf valt de lijst terug op de korte lijst', () => {
+    const intl = Intl as unknown as { supportedValuesOf?: unknown };
+    const original = intl.supportedValuesOf;
+    intl.supportedValuesOf = undefined;
+    try {
+      // BGN staat nog in CURRENCY_CODES (importers), maar niet meer in de keuzelijst.
+      expect(allCurrencyCodes()).toEqual(CURRENCY_CODES.filter(code => code !== 'BGN').sort());
+    } finally {
+      intl.supportedValuesOf = original;
+    }
+  });
+
+  it('de importers houden de korte lijst (ALL, TOP, CUP zijn ook gewone woorden)', () => {
+    for (const word of ['ALL', 'TOP', 'CUP']) expect(CURRENCY_CODES as readonly string[]).not.toContain(word);
+  });
+
+  it('hoofdvaluta eerst in vaste volgorde, dan de overige gangbare, dan de rest op code', () => {
+    const options = currencyOptions('EUR', 'en');
+    const codes = options.map(o => o.code);
+    expect(codes.slice(0, MAIN_CURRENCY_CODES.length)).toEqual([...MAIN_CURRENCY_CODES]);
+    const rest = options.slice(MAIN_CURRENCY_CODES.length);
+    expect(rest.some(o => o.main)).toBe(false);
+    const firstOther = rest.findIndex(o => !o.common);
+    expect(rest.slice(firstOther).some(o => o.common)).toBe(false);
+    const sorted = (list: string[]) => [...list].sort();
+    expect(rest.slice(0, firstOther).map(o => o.code)).toEqual(sorted(rest.slice(0, firstOther).map(o => o.code)));
+    expect(rest.slice(firstOther).map(o => o.code)).toEqual(sorted(rest.slice(firstOther).map(o => o.code)));
+    expect(rest.slice(0, firstOther).map(o => o.code)).toContain('NZD');
+    expect(options.find(o => o.code === 'KWD')?.common).toBe(false);
+  });
+
+  it('korte lijst: de 20 hoofdvaluta, plus de huidige als die er niet bij zit', () => {
+    expect(MAIN_CURRENCY_CODES).toHaveLength(20);
+    for (const code of MAIN_CURRENCY_CODES) expect(CURRENCY_CODES as readonly string[]).toContain(code);
+    expect(mainCurrencyOptions(currencyOptions('EUR', 'nl'), 'EUR').map(o => o.code)).toEqual([...MAIN_CURRENCY_CODES]);
+    expect(mainCurrencyOptions(currencyOptions('KWD', 'nl'), 'KWD').map(o => o.code)).toEqual([...MAIN_CURRENCY_CODES, 'KWD']);
+    // Ook een verouderde of geïmporteerde code blijft zichtbaar.
+    expect(mainCurrencyOptions(currencyOptions('HRK', 'nl'), 'HRK').map(o => o.code)).toContain('HRK');
+  });
+
+  it('zoeken op naam in het Spaans, ook zonder accent', () => {
+    const options = currencyOptions('EUR', 'es');
+    expect(filterCurrencyOptions(options, 'colón')[0].code).toBe('CRC');
+    expect(filterCurrencyOptions(options, 'colon')[0].code).toBe('CRC');
+    const dolar = filterCurrencyOptions(options, 'dólar').map(o => o.code);
+    expect(dolar).toEqual(expect.arrayContaining(['USD', 'CAD', 'AUD']));
+    // Gangbare dollars voor de exotische.
+    expect(dolar.indexOf('USD')).toBeLessThan(dolar.indexOf('BBD'));
+  });
+
+  it('zoeken op naam in het Nederlands en op code', () => {
+    const options = currencyOptions('EUR', 'nl');
+    const dollar = filterCurrencyOptions(options, 'dollar').map(o => o.code);
+    expect(dollar).toEqual(expect.arrayContaining(['USD', 'CAD']));
+    expect(dollar).not.toContain('EUR');
+    expect(filterCurrencyOptions(options, 'koeweit')[0].code).toBe('KWD');
+    expect(filterCurrencyOptions(options, 'crc')[0].code).toBe('CRC');
+    expect(filterCurrencyOptions(options, 'KWD')[0].code).toBe('KWD');
+    // Een exacte code wint van namen die met dezelfde letters beginnen.
+    expect(filterCurrencyOptions(options, 'eur')[0].code).toBe('EUR');
+    expect(filterCurrencyOptions(options, 'qqqq')).toEqual([]);
+    expect(filterCurrencyOptions(options, '  ')).toBe(options);
+  });
+
+  it('een onbekende code uit een import staat in de lijst en is te vinden', () => {
+    const options = currencyOptions('XAU', 'nl');
+    expect(options.filter(o => o.code === 'XAU')).toHaveLength(1);
+    expect(filterCurrencyOptions(options, 'xau')[0].code).toBe('XAU');
+    // Rommel uit een bestand komt er niet in.
+    expect(currencyOptions('euro', 'nl').some(o => o.code === 'euro')).toBe(false);
   });
 });
 
