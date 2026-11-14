@@ -11,7 +11,7 @@ import { printFontCss } from './browserPrint';
  */
 
 import type { CostItem, CostSchedule, CompanyInfo } from '@/types/costModel';
-import { getStaartBreakdown } from '@/services/calculation/calculator';
+import { effectiveTarieven, getStaartBreakdown } from '@/services/calculation/calculator';
 import { isStagartRowType } from '@/types/costModel';
 import { makeReportContext, type ReportContext } from '@/i18n/reportI18n';
 
@@ -65,7 +65,9 @@ interface Bouw1Row {
 }
 
 function computeBouw1Rows(items: CostItem[], schedule: CostSchedule): Bouw1Row[] {
-  const tarieven = schedule.tarieven ?? { A: 64, B: 43, C: 82 };
+  // Zelfde tarieven als de rekenkern: een lege of ontbrekende tabel valt
+  // terug op de standaardtarieven (knownbug 288).
+  const tarieven = effectiveTarieven(schedule);
 
   // Build a map of item -> its direct children
   const childrenMap = new Map<string | null, CostItem[]>();
@@ -115,7 +117,8 @@ function computeBouw1Rows(items: CostItem[], schedule: CostSchedule): Bouw1Row[]
 
       // Get tarief for this row
       const tg = item.tariefGroep ?? 'A';
-      const tarief = tarieven[tg] ?? 64;
+      // Groep niet in de tabel: tarief 0, net als recalculateItems.
+      const tarief = tarieven[tg] ?? 0;
 
       if (rt === 'arbeid') {
         loon = total;
@@ -186,7 +189,7 @@ function computeBouw1Rows(items: CostItem[], schedule: CostSchedule): Bouw1Row[]
 
     // Determine tarief
     const tg = item.tariefGroep ?? 'A';
-    const tarief = tarieven[tg] ?? 64;
+    const tarief = tarieven[tg] ?? 0;
 
     // Kosten/eh
     let kostenEh = 0;

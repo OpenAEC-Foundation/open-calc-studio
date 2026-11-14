@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { formatCurrency, formatNumber, formatNumberForEdit, formatDecimals, formatMoneyWhole, getNumberLocale, parseLocaleNumber } from '@/utils/formatting';
 import { parseNumericInput } from '@/utils/numericInput';
-import { computeBtwLaagDirect, DEFAULT_TARIEVEN } from '@/services/calculation/calculator';
+import { computeBtwLaagDirect, effectiveTarieven } from '@/services/calculation/calculator';
 import { useVariantItems } from '@/hooks/useVariantItems';
 
 /**
@@ -27,7 +27,10 @@ function UrenFullScreen() {
   const prorateUrenByTariefGroep = useAppStore((s) => s.prorateUrenByTariefGroep);
   const prorateUrenTotal = useAppStore((s) => s.prorateUrenTotal);
   const pushHistory = useAppStore((s) => s.pushHistory);
-  const tarieven = schedule.tarieven ?? DEFAULT_TARIEVEN;
+  // Dezelfde tarieven als waarmee het loon wordt berekend: een lege tabel
+  // toont de standaardtarieven, niet 0 (en een nieuw tarief voor A laat B en C staan).
+  const eigenTarieven = schedule.tarieven;
+  const tarieven = useMemo(() => effectiveTarieven({ tarieven: eigenTarieven }), [eigenTarieven]);
   const scopedItems = useVariantItems();
 
   const urenData = useMemo(() => {

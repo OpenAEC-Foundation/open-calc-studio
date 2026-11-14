@@ -1186,7 +1186,7 @@ server.tool("add_item", "Add a cost item (begrotingspost, bewakingspost, or rege
   unit: z.string().optional().describe("Unit (st, m, m2, m3, kg, uur, etc.)"),
   normUnitPrice: z.number().optional().describe("Material unit price (for regel rows)"),
   normQuantity: z.number().optional().describe("Labor hours per unit (norm). Auto-sets tariefGroep to A if not specified."),
-  tariefGroep: z.string().optional().describe("Tariff group (A=66/hr, B=46/hr, C=82/hr)"),
+  tariefGroep: z.string().optional().describe("Tariff group (default rates A=64/hr, B=43/hr, C=82/hr)"),
   resourceType: z.string().optional().describe("Resource type (onderaannemer, materieel, materiaal, arbeid, overig)"),
   code: z.string().optional().describe("Item code"),
 }, async ({ parentId, rowType, description, quantity, unit, normUnitPrice, normQuantity, tariefGroep, resourceType, code }) => {
@@ -1590,7 +1590,7 @@ server.tool("create_budget_structure", "Create a complete hierarchical budget st
         normQuantity: z.number().optional().describe("Norm quantity (productienorm)"),
         normFactor: z.number().optional().describe("Norm factor (productiecapaciteit)"),
         resourceType: z.string().optional().describe("Resource type (onderaannemer, materieel, materiaal, arbeid, overig)"),
-        tariefGroep: z.string().optional().describe("Tariff group for labor rate (A=66/hr, B=46/hr, C=82/hr). Auto-set to A when normQuantity is specified."),
+        tariefGroep: z.string().optional().describe("Tariff group for labor rate (default rates A=64/hr, B=43/hr, C=82/hr). Auto-set to A when normQuantity is specified."),
         code: z.string().optional().describe("Rule code"),
       })).optional().describe("Calculation rules under this post"),
     })).optional().describe("Budget posts under this chapter"),

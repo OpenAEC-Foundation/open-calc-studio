@@ -11,6 +11,7 @@
 
 import type { CostItem, CostSchedule, CompanyInfo } from '@/types/costModel';
 import { isTauriEnvironment } from '@/services/file/nativeFileService';
+import { effectiveTarieven } from '@/services/calculation/calculator';
 
 /**
  * Export the current budget as a WPCalc .calc file.
@@ -66,7 +67,9 @@ export function buildExportRequest(
       description: schedule.description || '',
       algemeneKosten: schedule.algemeneKosten || 0,
       winstRisico: schedule.winstRisico || 0,
-      tarieven: schedule.tarieven || null,
+      // De tarieven waarmee de app rekent: zonder (of met een lege) tabel de
+      // standaardtarieven, anders schrijft de export loon 0 (knownbug 287).
+      tarieven: effectiveTarieven(schedule),
       staartRows: schedule.staartRows || null,
     },
     items: items

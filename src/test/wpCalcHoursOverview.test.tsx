@@ -137,3 +137,35 @@ describe('hours overview after a language switch (issue #65)', () => {
     expect(useAppStore.getState().undoStack).toHaveLength(0);
   });
 });
+
+// Knownbug 286 (review): bij een lege tarieventabel rekent de app met de
+// standaardtarieven; het paneel moet die ook tonen en bij het wijzigen van
+// één tarief de andere groepen laten staan.
+describe('hours overview with an empty rate table', () => {
+  it('shows the default rates and keeps the other groups when one rate changes', async () => {
+    const state = useAppStore.getState();
+    state.updateItem(rule, 'quantity', 1);
+    state.updateItem(rule, 'normQuantity', 1);
+    const ruleB = state.addRegel(rule1().parentId!);
+    state.updateItem(ruleB, 'tariefGroep', 'B');
+    state.updateItem(ruleB, 'quantity', 1);
+    state.updateItem(ruleB, 'normQuantity', 1);
+    state.updateTarieven({});
+    const labourB = () => useAppStore.getState().items.find(i => i.id === ruleB)!.laborPrice;
+    expect(rule1().laborPrice).toBeCloseTo(64, 6);
+    expect(labourB()).toBeCloseTo(43, 6);
+
+    await renderView();
+    expect(rateInput().value).toBe('64,00');
+
+    const input = rateInput();
+    await act(async () => {
+      input.focus();
+      input.value = '70';
+      input.blur();
+    });
+    expect(useAppStore.getState().schedule.tarieven).toMatchObject({ A: 70, B: 43, C: 82 });
+    expect(rule1().laborPrice).toBeCloseTo(70, 6);
+    expect(labourB()).toBeCloseTo(43, 6);
+  });
+});

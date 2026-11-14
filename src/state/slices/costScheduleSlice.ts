@@ -2,7 +2,7 @@ import type { StateCreator } from 'zustand';
 import type { CostSchedule, ProjectProperty, Branch } from '@/types/costModel';
 import { createDefaultProjectProperties } from '@/types/costModel';
 import { createDefaultSchedule } from '@/data/defaultBudget';
-import { recalculateItems } from '@/services/calculation/calculator';
+import { effectiveTarieven, recalculateItems } from '@/services/calculation/calculator';
 
 export interface CostScheduleSlice {
   schedule: CostSchedule;
@@ -165,7 +165,7 @@ export const createCostScheduleSlice: StateCreator<CostScheduleSlice> = (set, ge
   updateTarieven: (tarieven) => {
     const state = get() as any;
     const newSchedule = { ...state.schedule, tarieven };
-    const newItems = recalculateItems(state.items, tarieven);
+    const newItems = recalculateItems(state.items, effectiveTarieven(newSchedule));
     set({ schedule: newSchedule, items: newItems } as any);
     // Markeer het actieve document als gewijzigd (documents is een array
     // met isModified; de oude Map/activeDocId-variant was dode code).
