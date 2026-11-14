@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import type { Branch } from '@/types/costModel';
@@ -15,6 +15,21 @@ export const BranchTreeEditor: React.FC = () => {
   const [editName, setEditName] = useState('');
   const [addingUnderId, setAddingUnderId] = useState<string | null>(null);
   const [newBranchName, setNewBranchName] = useState('');
+  // Enter (or Escape) followed by blur may fire both handlers before the re-render;
+  // this guard makes each add-session commit at most once.
+  const addSessionDone = useRef(false);
+
+  const startAdding = (parentId: string) => {
+    addSessionDone.current = false;
+    setAddingUnderId(parentId); setNewBranchName('');
+  };
+  const finishAdding = (parentId: string | null) => {
+    if (addSessionDone.current) return;
+    addSessionDone.current = true;
+    const name = newBranchName.trim();
+    if (parentId && name) addBranch(name, parentId);
+    setAddingUnderId(null); setNewBranchName('');
+  };
 
   const enabled = schedule.branchesEnabled ?? false;
   const branches = schedule.branches ?? [];
@@ -76,7 +91,7 @@ export const BranchTreeEditor: React.FC = () => {
               <button
                 title={t('branches.addSub')}
                 style={{ fontSize: 11, padding: '2px 6px', border: '1px solid var(--theme-border)', background: 'var(--theme-surface)', borderRadius: 3, cursor: 'pointer', color: 'var(--theme-text)' }}
-                onClick={() => { setAddingUnderId(branch.id); setNewBranchName(''); }}
+                onClick={() => startAdding(branch.id)}
               >+</button>
               {!isMain && (
                 <button
@@ -101,17 +116,10 @@ export const BranchTreeEditor: React.FC = () => {
               value={newBranchName}
               placeholder={t('branches.namePlaceholder')}
               onChange={e => setNewBranchName(e.target.value)}
-              onBlur={() => {
-                if (newBranchName.trim()) addBranch(newBranchName.trim(), branch.id);
-                setAddingUnderId(null); setNewBranchName('');
-              }}
+              onBlur={() => finishAdding(branch.id)}
               onKeyDown={e => {
-                if (e.key === 'Enter') {
-                  if (newBranchName.trim()) addBranch(newBranchName.trim(), branch.id);
-                  setAddingUnderId(null); setNewBranchName('');
-                } else if (e.key === 'Escape') {
-                  setAddingUnderId(null); setNewBranchName('');
-                }
+                if (e.key === 'Enter') finishAdding(branch.id);
+                else if (e.key === 'Escape') finishAdding(null);
               }}
             />
           </div>
@@ -144,7 +152,7 @@ export const BranchTreeEditor: React.FC = () => {
             {roots.length === 0 && (
               <button
                 style={{ fontSize: 11, padding: '4px 8px', border: '1px solid var(--theme-border)', background: 'var(--theme-bg)', borderRadius: 3, cursor: 'pointer', color: 'var(--theme-text)' }}
-                onClick={() => addBranch('main', null)}
+                onClick={() => addBranch('main', null, 'main')}
               >{t('branches.createMain')}</button>
             )}
           </div>

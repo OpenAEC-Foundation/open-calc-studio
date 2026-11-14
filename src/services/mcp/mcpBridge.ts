@@ -272,7 +272,9 @@ function handleMutation(mutation: McpMutation) {
     case 'add_branch': {
       const name = (data.name as string) ?? 'branch';
       const parentId = (data.parentId as string | null) ?? null;
-      store.addBranch(name, parentId);
+      // Dezelfde id als de MCP-server teruggeeft, anders wijzen latere
+      // set_active_branch/remove_branch-calls naar een variant die niet bestaat.
+      store.addBranch(name, parentId, typeof data.id === 'string' ? data.id : undefined);
       break;
     }
 

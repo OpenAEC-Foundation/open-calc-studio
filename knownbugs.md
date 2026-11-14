@@ -640,9 +640,6 @@ stand van `main` op die datum.
 
 ## Varianten
 
-160. **"Create main" maakt een tak met een willekeurige UUID.** In `BranchTreeEditor.tsx:147`. Die tak wordt
-     niet als main behandeld en kan worden verwijderd. Voorstel: `id: 'main'`. — S
-
 161. **Je kunt een regel niet vanuit de interface in een variant zetten.** De kolom is `editable: true`
      (`src/components/grid/gridConstants.ts:103`), maar `isCellEditable` (`:182-237`) heeft geen `'branch'`-case;
      `useGridEditing.ts:57-61` zou bovendien naar `branch` (de naam) schrijven in plaats van naar `branchId`.
@@ -669,12 +666,6 @@ stand van `main` op die datum.
      `src/services/report/reportGenerator.ts:12` en `bouw1PrintService.ts:67/173` gebruiken geen
      `variantItems`. Nagespeeld. Totalen in grid en statusbalk volgen sinds de fix van 12/264 de gekozen
      variant via `variantCalculatedItems` (`src/services/grid/variantTotals.ts`); rapporten nog niet. — B
-
-166. **Een andere variant kiezen markeert het document niet als gewijzigd**, dus de gekozen variant kan verloren
-     gaan. `setActiveBranch` (`costScheduleSlice.ts:161`). Afgeleid uit de code. — S
-
-167. **Enter gevolgd door blur kan een branch twee keer toevoegen** (hangt af van de browser).
-     `BranchTreeEditor.tsx:104-111`. Afgeleid uit de code. — S
 
 ## Assistent, MCP en extensies
 

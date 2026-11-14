@@ -23,7 +23,8 @@ export interface CostScheduleSlice {
   setReportShowChanges: (show: boolean) => void;
   // Branches (budget variants)
   toggleBranchesEnabled: () => void;
-  addBranch: (name: string, parentId: string | null) => string;
+  /** Adds a branch; pass `id` for a fixed id (e.g. 'main'). An existing id is returned as-is. */
+  addBranch: (name: string, parentId: string | null, id?: string) => string;
   removeBranch: (id: string) => void;
   renameBranch: (id: string, name: string) => void;
   setActiveBranch: (id: string | undefined) => void;
@@ -116,8 +117,9 @@ export const createCostScheduleSlice: StateCreator<CostScheduleSlice> = (set, ge
           : state.schedule.branches,
       },
     })),
-  addBranch: (name, parentId) => {
-    const id = crypto.randomUUID();
+  addBranch: (name, parentId, fixedId) => {
+    if (fixedId && (get().schedule.branches ?? []).some(b => b.id === fixedId)) return fixedId;
+    const id = fixedId ?? crypto.randomUUID();
     const branch: Branch = { id, name, parentId };
     edit((state) => ({
       schedule: {
@@ -158,10 +160,12 @@ export const createCostScheduleSlice: StateCreator<CostScheduleSlice> = (set, ge
         branches: (state.schedule.branches ?? []).map(b => b.id === id ? { ...b, name } : b),
       },
     })),
-  setActiveBranch: (id) =>
-    set((state) => ({
+  setActiveBranch: (id) => {
+    if (get().schedule.activeBranchId === id) return;
+    edit((state) => ({
       schedule: { ...state.schedule, activeBranchId: id },
-    })),
+    }));
+  },
   updateTarieven: (tarieven) => {
     const state = get() as any;
     const newSchedule = { ...state.schedule, tarieven };
