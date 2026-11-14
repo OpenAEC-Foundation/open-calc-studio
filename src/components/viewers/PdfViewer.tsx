@@ -1,15 +1,41 @@
 import { useTranslation } from 'react-i18next';
 import { uiText } from '@/i18n/uiText';
 /** Persistent PDF workspace and Open PDF Studio quantity exchange. */
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import type { PDFDocumentProxy } from 'pdfjs-dist';
 import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import { useAppStore } from '@/state/appStore';
 import type { PdfPoint, PdfSource, PdfWorkspace } from '@/types/pdfWorkspace';
 import { createPdfSource, emptyPdfWorkspace, importOpenPdfMeasurements, measurePoints, replaceOpenPdfMeasurements } from '@/services/pdf/pdfWorkspace';
 import { getNumberLocale } from '@/utils/formatting';
+import './PdfViewer.css';
 
 const EMPTY = emptyPdfWorkspace();
+
+/** Small 16 px line icon; decorative, the button carries the accessible name. */
+function Icon({ children, className }: { children: ReactNode; className?: string }) {
+  return <svg className={`pdf-ws-icon${className ? ` ${className}` : ''}`} viewBox="0 0 16 16" aria-hidden="true" focusable="false">{children}</svg>;
+}
+const ICONS = {
+  file: <><path d="M4 1.5h5l3 3v10H4z" /><path d="M9 1.5v3h3" /></>,
+  add: <path d="M8 3v10M3 8h10" />,
+  import: <path d="M8 2v8M4.5 6.5 8 10l3.5-3.5M3 13h10" />,
+  calibrate: <><path d="M1.5 11 11 1.5l3.5 3.5L5 14.5z" /><path d="M4.5 8l1.5 1.5M7 5.5l1.5 1.5M9.5 3l1.5 1.5" /></>,
+  pan: <path d="M5 8V3.5a1 1 0 0 1 2 0V7m0-.5V2.5a1 1 0 0 1 2 0V7m0-1a1 1 0 0 1 2 0v1.5m0-.5a1 1 0 0 1 2 0V10a4.5 4.5 0 0 1-8.3 2.4L3 9.5a1 1 0 0 1 1.7-1L5 9" />,
+  length: <path d="M1.5 8h13M4 5.5 1.5 8 4 10.5M12 5.5l2.5 2.5-2.5 2.5" />,
+  area: <path d="M3 3h10v10H3z" strokeDasharray="2 1.5" />,
+  previous: <path d="M10 3.5 5.5 8l4.5 4.5" />,
+  next: <path d="M6 3.5 10.5 8 6 12.5" />,
+  info: <><circle cx="8" cy="8" r="6.5" /><path d="M8 7.5v4M8 5v.2" /></>,
+  close: <path d="M4 4l8 8M12 4l-8 8" />,
+  remove: <path d="M3 4.5h10M6.5 4.5V3h3v1.5M4.5 4.5l.7 9h5.6l.7-9" />,
+};
+
+/** Text fields and selects keep their own Enter/Escape. */
+function isTextEntry(target: EventTarget | null) {
+  return target instanceof HTMLElement && (target.isContentEditable || ['INPUT', 'SELECT', 'TEXTAREA'].includes(target.tagName));
+}
+
 export function PdfViewer({ readOnly = false }: { readOnly?: boolean }) {
   useTranslation(); // opnieuw tekenen bij een taal- of notatiewissel (#65)
   const documentId = useAppStore(s => s.activeDocumentId);
@@ -27,10 +53,13 @@ export function PdfViewer({ readOnly = false }: { readOnly?: boolean }) {
   const [error, setError] = useState('');
   const [rendered, setRendered] = useState(0);
   const [rendering, setRendering] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const stage = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const overlay = useRef<HTMLCanvasElement>(null);
   const pdfInput = useRef<HTMLInputElement>(null);
   const importInput = useRef<HTMLInputElement>(null);
+  const infoId = useId();
   const scale = source?.pageScales[String(page)];
 
   function changeWorkspace(change: (w: PdfWorkspace) => PdfWorkspace) {
@@ -143,7 +172,30 @@ export function PdfViewer({ readOnly = false }: { readOnly?: boolean }) {
       setError('');
     } catch (e) { setError(String(e)); }
   }
-  const button = (name: string, action: () => void, disabled = false) => <button type="button" onClick={action} disabled={disabled}>{name}</button>;
+
+  // Enter finishes and Escape cancels while points are being placed. Only when focus is on the
+  // drawing or elsewhere in this workspace (not in a text field, not in a dialog or drawer), and
+  // the key is consumed so it does not also close something else.
+  const placing = !readOnly && tool !== 'pan' && points.length > 0;
+  const completeRef = useRef(complete);
+  completeRef.current = complete;
+  useEffect(() => {
+    if (!placing) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== 'Enter' && event.key !== 'Escape') return;
+      if (event.defaultPrevented || event.isComposing || event.ctrlKey || event.metaKey || event.altKey) return;
+      const target = event.target;
+      const inWorkspace = target === document.body || target === document.documentElement || (target instanceof Node && !!rootRef.current?.contains(target));
+      if (!inWorkspace || isTextEntry(target)) return;
+      if (event.key === 'Enter' && target instanceof HTMLButtonElement) return; // a focused button handles its own Enter
+      event.preventDefault(); event.stopPropagation();
+      if (event.key === 'Enter') completeRef.current(); else setPoints([]);
+    };
+    window.addEventListener('keydown', onKey, true);
+    return () => window.removeEventListener('keydown', onKey, true);
+  }, [placing]);
+
+  const formatNumber = (value: number, digits: number) => value.toLocaleString(`${getNumberLocale()}-u-nu-latn`, { minimumFractionDigits: digits, maximumFractionDigits: digits });
   const stepHint = !source
     ? uiText("pdf.start", "Start by adding a PDF drawing.")
     : !pdf
@@ -153,63 +205,118 @@ export function PdfViewer({ readOnly = false }: { readOnly?: boolean }) {
         : !scale
           ? uiText("pdf.calibrationHint", "First calibrate this page using two points and a known distance. You can also import Open PDF measurements directly.")
           : uiText("pdf.measureHint", "Choose Length or Area and click the measurement points on the drawing.");
-  return <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: 'var(--theme-bg)', color: 'var(--theme-text)' }}>
-    <div role="status" style={{ padding: '10px 12px', background: 'var(--theme-surface)', borderBottom: '1px solid var(--theme-border)' }}><strong>{uiText("pdf.title", "PDF measurements")}</strong> — {readOnly ? uiText('companion.readOnly', 'Read-only · follows the active estimate') : stepHint}</div>
-    {readOnly ? <div style={{ padding: 10 }}><select aria-label={uiText('pdf.source', 'PDF source')} value={source?.id ?? ''} onChange={event => {
-      const state = useAppStore.getState();
-      state.setSchedule({ pdfWorkspace: { ...(state.schedule.pdfWorkspace ?? EMPTY), activeSourceId: event.target.value } });
-    }}><option value="" disabled>{uiText('pdf.choose', 'Choose a PDF')}</option>{workspace.sources.map(source => <option key={source.id} value={source.id}>{source.fileName}</option>)}</select></div> : <>
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, padding: 10, borderBottom: '1px solid var(--theme-border)' }}>
-      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 6 }}><strong>{uiText("pdf.drawing", "1. Drawing")}</strong>
-      {button(uiText("pdf.add", "Add PDF"), () => pdfInput.current?.click(), !documentId)}
-      <input ref={pdfInput} type="file" accept=".pdf" hidden onChange={e => { const f = e.target.files?.[0]; if (f) void openPdf(f); e.target.value = ''; }} />
-      <select aria-label={uiText("pdf.source", "PDF source")} value={source?.id ?? ''} onChange={e => changeWorkspace(w => ({ ...w, activeSourceId: e.target.value }))}>
-        <option value="" disabled>{uiText("pdf.choose", "Choose a PDF")}</option>
-        {workspace.sources.map(s => <option key={s.id} value={s.id}>{s.fileName}</option>)}
-      </select>
-      {button(uiText("pdf.import", "Import Open PDF measurements"), () => importInput.current?.click(), !pdf)}
-      <input ref={importInput} type="file" accept=".json" hidden onChange={e => { const f = e.target.files?.[0]; if (f) void importMeasurements(f); e.target.value = ''; }} />
-      </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 6 }}><strong>{uiText("pdf.scale", "2. Scale")}</strong>
-        <button type="button" aria-pressed={tool === 'calibrate'} disabled={!pdf} onClick={() => { setTool('calibrate'); setPoints([]); }}>{uiText("pdf.choosePoints", "Choose two points")}</button>
-        <span style={{ fontSize: 12 }}>{scale ? uiText('pdf.scaleValue', '{{value}} mm per PDF point', { value: scale.toLocaleString(`${getNumberLocale()}-u-nu-latn`, { minimumFractionDigits: 4, maximumFractionDigits: 4 }) }) : uiText("pdf.uncalibrated", "Not calibrated yet")}</span>
-      </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 6 }}><strong>{uiText("pdf.measure", "3. Measure")}</strong>
-        {(['pan', 'length', 'area'] as const).map((v, i) => <button key={v} type="button" aria-pressed={tool === v} disabled={!pdf || (v !== 'pan' && !scale)} onClick={() => { setTool(v); setPoints([]); }}>{[uiText("pdf.pan", "Pan"), uiText("pdf.length", "Length"), uiText("pdf.area", "Area")][i]}</button>)}
-      {button(uiText("pdf.finish", "Finish measurement"), complete, !points.length)}
-      {button(uiText("cancel", "Cancel"), () => setPoints([]), !points.length)}
-      </div>
+  const showHint = !readOnly && !!pdf && tool !== 'pan';
+  const infoText = [uiText("pdf.saved", "The PDF and measurements are saved with the estimate (Ctrl+S)."), source ? uiText("pdf.externalScale", "Open PDF measurements retain their own scale and are transferred as quantities.") : ''].filter(Boolean).join(' ');
+  const iconButton = (label: string, icon: ReactNode, action: () => void, disabled = false, className = '') =>
+    <button type="button" className={`oa-icon-button pdf-ws-icon-button ${className}`} aria-label={label} title={label} onClick={action} disabled={disabled}>{icon}</button>;
+  const tools = [
+    { id: 'pan', label: uiText("pdf.pan", "Pan"), icon: ICONS.pan },
+    { id: 'length', label: uiText("pdf.length", "Length"), icon: ICONS.length },
+    { id: 'area', label: uiText("pdf.area", "Area"), icon: ICONS.area },
+  ] as const;
+  const measurements = source?.measurements ?? [];
+
+  return <div ref={rootRef} className={`pdf-ws${readOnly ? ' pdf-ws--readonly' : ''}`}>
+    <div className="pdf-ws-sr-only" role="status">{readOnly ? '' : stepHint}</div>
+    <div className="pdf-ws-toolbar">
+      <span className="pdf-ws-source" title={source?.fileName}>
+        <Icon>{ICONS.file}</Icon>
+        <select aria-label={uiText("pdf.source", "PDF source")} value={source?.id ?? ''} onChange={readOnly ? event => {
+          const state = useAppStore.getState();
+          state.setSchedule({ pdfWorkspace: { ...(state.schedule.pdfWorkspace ?? EMPTY), activeSourceId: event.target.value } });
+        } : e => changeWorkspace(w => ({ ...w, activeSourceId: e.target.value }))}>
+          <option value="" disabled>{uiText("pdf.choose", "Choose a PDF")}</option>
+          {workspace.sources.map(s => <option key={s.id} value={s.id}>{s.fileName}</option>)}
+        </select>
+      </span>
+      {!readOnly && <>
+        {iconButton(uiText("pdf.add", "Add PDF"), <Icon>{ICONS.add}</Icon>, () => pdfInput.current?.click(), !documentId)}
+        <input ref={pdfInput} type="file" accept=".pdf" hidden onChange={e => { const f = e.target.files?.[0]; if (f) void openPdf(f); e.target.value = ''; }} />
+        {iconButton(uiText("pdf.import", "Import Open PDF measurements"), <Icon>{ICONS.import}</Icon>, () => importInput.current?.click(), !pdf)}
+        <input ref={importInput} type="file" accept=".json" hidden onChange={e => { const f = e.target.files?.[0]; if (f) void importMeasurements(f); e.target.value = ''; }} />
+        <span className="pdf-ws-separator" aria-hidden="true" />
+        <span className={`pdf-ws-chip ${scale ? 'pdf-ws-chip--ok' : 'pdf-ws-chip--warning'}`}>
+          <span className="pdf-ws-chip-dot" aria-hidden="true" />
+          {scale ? uiText('pdf.scaleValue', '{{value}} mm per PDF point', { value: formatNumber(scale, 4) }) : uiText("pdf.uncalibrated", "Not calibrated yet")}
+        </span>
+        <button type="button" className="oa-button pdf-ws-button" aria-pressed={tool === 'calibrate'} disabled={!pdf} onClick={() => { setTool('calibrate'); setPoints([]); }}>
+          <Icon>{ICONS.calibrate}</Icon>{uiText("pdf.calibrate", "Calibrate")}
+        </button>
+        <span className="pdf-ws-separator" aria-hidden="true" />
+        <span className="pdf-ws-segmented">
+          {tools.map(v => <button key={v.id} type="button" className="pdf-ws-segment" aria-pressed={tool === v.id} disabled={!pdf || (v.id !== 'pan' && !scale)} onClick={() => { setTool(v.id); setPoints([]); }}>
+            <Icon>{v.icon}</Icon>{v.label}
+          </button>)}
+        </span>
+      </>}
+      <span className="pdf-ws-spacer" />
+      <span className="pdf-ws-group">
+        <button type="button" className="oa-icon-button pdf-ws-icon-button" aria-label={uiText("pdf.zoomOut", "Zoom out")} title={uiText("pdf.zoomOut", "Zoom out")} onClick={() => setZoom(Math.max(.5, zoom - .25))}>−</button>
+        <span className="pdf-ws-readout pdf-ws-readout--zoom">{Math.round(zoom * 100)}%</span>
+        <button type="button" className="oa-icon-button pdf-ws-icon-button" aria-label={uiText("pdf.zoomIn", "Zoom in")} title={uiText("pdf.zoomIn", "Zoom in")} onClick={() => setZoom(Math.min(4, zoom + .25))}>+</button>
+      </span>
+      <span className="pdf-ws-separator" aria-hidden="true" />
+      <span className="pdf-ws-group">
+        {iconButton(uiText("pdf.previous", "Previous page"), <Icon className="pdf-ws-flip">{ICONS.previous}</Icon>, () => { setPage(page - 1); setPoints([]); }, page <= 1)}
+        <span className="pdf-ws-readout">{page} / {pdf?.numPages ?? 0}</span>
+        {iconButton(uiText("pdf.next", "Next page"), <Icon className="pdf-ws-flip">{ICONS.next}</Icon>, () => { setPage(page + 1); setPoints([]); }, !pdf || page >= pdf.numPages)}
+      </span>
+      {!readOnly && <>
+        <button type="button" className="oa-icon-button pdf-ws-icon-button" aria-label={uiText("pdf.info", "More information")} aria-describedby={infoId} title={infoText}><Icon>{ICONS.info}</Icon></button>
+        <span id={infoId} className="pdf-ws-sr-only">{infoText}</span>
+      </>}
     </div>
-    </>}
-    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8, padding: '6px 10px', borderBottom: '1px solid var(--theme-border)' }}>
-      {button('−', () => setZoom(Math.max(.5, zoom - .25)))}<span>{Math.round(zoom * 100)}%</span>{button('+', () => setZoom(Math.min(4, zoom + .25)))}
-      {button(uiText("pdf.previous", "Previous page"), () => { setPage(page - 1); setPoints([]); }, page <= 1)}
-      <span>{page} / {pdf?.numPages ?? 0}</span>
-      {button(uiText("pdf.next", "Next page"), () => { setPage(page + 1); setPoints([]); }, !pdf || page >= pdf.numPages)}
-    </div>
-    <div style={{ padding: '6px 10px', fontSize: 12 }}>
-      {!readOnly && uiText("pdf.saved", "The PDF and measurements are saved with the estimate (Ctrl+S).")}{source && <span> {uiText("pdf.externalScale", "Open PDF measurements retain their own scale and are transferred as quantities.")}</span>}
-    </div>
-    {error && <div role="alert" style={{ padding: 10, color: '#b42318' }}>{error}</div>}
-    <div style={{ flex: 1, overflow: 'auto', padding: 16, background: '#e5e7eb' }}>
-      {!source && <p>{uiText("pdf.empty", "Add a PDF to measure or link saved measurements from Open PDF Studio.")}</p>}
-      <div style={{ position: 'relative', width: 'fit-content', display: source ? 'block' : 'none' }}>
-        <canvas ref={canvas} style={{ display: 'block' }} />
-        <canvas ref={overlay} style={{ position: 'absolute', left: 0, top: 0, cursor: tool === 'pan' ? 'default' : 'crosshair' }} onClick={e => {
-          if (readOnly || tool === 'pan' || rendering || !pdf || !overlay.current) return;
-          if (tool === 'calibrate' && points.length >= 2) return;
-          if (tool !== 'calibrate' && !scale) { setError(uiText("pdf.calibratePage", "Calibrate this page first.")); return; }
-          const c = overlay.current, r = c.getBoundingClientRect();
-          setPoints(p => [...p, { x: (e.clientX - r.left) * c.width / r.width / zoom, y: (e.clientY - r.top) * c.height / r.height / zoom }]);
-        }} />
-      </div>
-    </div>
-    {!!source?.measurements.length && <div style={{ maxHeight: 170, overflow: 'auto', padding: 10 }}>
-      {source.measurements.map(m => <div key={m.id} style={{ display: 'flex', gap: 10, padding: 3 }}>
-        <span>{m.label} — p. {m.page} — {m.origin === 'open-pdf-studio' ? 'Open PDF Studio' : 'Open Calc Studio'} {m.origin === 'open-pdf-studio' && !m.sourceVerified && `· ${uiText('revisions.unverified', 'Review source identity')}`}</span>
-        <strong style={{ marginLeft: 'auto' }}>{m.value.toLocaleString(`${getNumberLocale()}-u-nu-latn`, { minimumFractionDigits: 3, maximumFractionDigits: 3 })} {m.type === 'area' ? 'm²' : 'm'}</strong>
-        {!readOnly && button(uiText("remove", "Remove"), () => { if (window.confirm(uiText("pdf.removeConfirm", "Remove measurement? A linked individual quantity keeps its last known value; a linked total changes."))) changeSource(s => ({ ...s, measurements: s.measurements.filter(x => x.id !== m.id) })); })}
-      </div>)}
+    {error && <div role="alert" className="pdf-ws-alert">
+      <span className="pdf-ws-alert-text">{error}</span>
+      {iconButton(uiText("pdf.dismiss", "Dismiss"), <Icon>{ICONS.close}</Icon>, () => setError(''), false, 'oa-icon-button--small')}
     </div>}
+    <div className="pdf-ws-body">
+      <div className="pdf-ws-stage">
+        {showHint && <div className="pdf-ws-hint">
+          <span className="pdf-ws-hint-text">{points.length
+            ? uiText('pdf.pointsChosen', 'Selected points: {{count}}. Click “Finish measurement” when the shape is complete.', { count: points.length })
+            : tool === 'calibrate' ? uiText("pdf.twoPoints", "Choose exactly two points at a known distance.") : uiText("pdf.placePoints", "Click the measurement points on the drawing.")}</span>
+          {points.length > 0 && <>
+            <span className="pdf-ws-hint-keys" aria-hidden="true">{uiText("pdf.keysHint", "Enter: finish · Esc: cancel")}</span>
+            <button type="button" className="oa-button oa-button--primary oa-button--compact" onClick={complete}>{uiText("pdf.finish", "Finish measurement")}</button>
+            <button type="button" className="oa-button oa-button--quiet oa-button--compact pdf-ws-hint-cancel" onClick={() => setPoints([])}>{uiText("cancel", "Cancel")}</button>
+          </>}
+        </div>}
+        <div ref={stage} className="pdf-ws-scroll" tabIndex={-1}>
+          {!source && <div className="pdf-ws-empty">
+            <Icon className="pdf-ws-empty-icon">{ICONS.file}</Icon>
+            <p>{uiText("pdf.empty", "Add a PDF to measure or link saved measurements from Open PDF Studio.")}</p>
+            {!readOnly && <button type="button" className="oa-button oa-button--primary" onClick={() => pdfInput.current?.click()} disabled={!documentId}>
+              <Icon>{ICONS.add}</Icon>{uiText("pdf.add", "Add PDF")}
+            </button>}
+          </div>}
+          <div className="pdf-ws-paper" hidden={!source}>
+            <canvas ref={canvas} className="pdf-ws-canvas" />
+            <canvas ref={overlay} className={`pdf-ws-overlay${tool === 'pan' || readOnly ? '' : ' pdf-ws-overlay--measuring'}`} onClick={e => {
+              if (readOnly || tool === 'pan' || rendering || !pdf || !overlay.current) return;
+              if (tool === 'calibrate' && points.length >= 2) return;
+              if (tool !== 'calibrate' && !scale) { setError(uiText("pdf.calibratePage", "Calibrate this page first.")); return; }
+              stage.current?.focus({ preventScroll: true });
+              const c = overlay.current, r = c.getBoundingClientRect();
+              setPoints(p => [...p, { x: (e.clientX - r.left) * c.width / r.width / zoom, y: (e.clientY - r.top) * c.height / r.height / zoom }]);
+            }} />
+          </div>
+        </div>
+      </div>
+      {measurements.length > 0 && <aside className="pdf-ws-list" aria-label={uiText("pdf.title", "PDF measurements")}>
+        <h2 className="pdf-ws-list-heading">{uiText("pdf.title", "PDF measurements")}<span className="pdf-ws-count">{measurements.length}</span></h2>
+        <ul className="pdf-ws-rows">
+          {measurements.map(m => <li key={m.id} className={`pdf-ws-row${m.id === targetMeasurementId ? ' pdf-ws-row--target' : ''}`}>
+            <span className="pdf-ws-row-main">
+              <span className="pdf-ws-row-label" title={m.label}>{m.label}</span>
+              <span className="pdf-ws-row-meta">p. {m.page} · {m.origin === 'open-pdf-studio' ? 'Open PDF Studio' : 'Open Calc Studio'}
+                {m.origin === 'open-pdf-studio' && !m.sourceVerified && <span className="pdf-ws-row-unverified"> · {uiText('revisions.unverified', 'Review source identity')}</span>}</span>
+            </span>
+            <strong className="pdf-ws-row-value">{formatNumber(m.value, 3)} {m.type === 'area' ? 'm²' : 'm'}</strong>
+            {!readOnly && iconButton(uiText("remove", "Remove"), <Icon>{ICONS.remove}</Icon>, () => { if (window.confirm(uiText("pdf.removeConfirm", "Remove measurement? A linked individual quantity keeps its last known value; a linked total changes."))) changeSource(s => ({ ...s, measurements: s.measurements.filter(x => x.id !== m.id) })); }, false, 'oa-icon-button--small pdf-ws-row-remove')}
+          </li>)}
+        </ul>
+      </aside>}
+    </div>
   </div>;
 }

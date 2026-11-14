@@ -36,7 +36,7 @@ describe('workspace language selection', () => {
     expect(button('Prompt & Estimate')).toBeInTheDocument();
     expect(button('3D & Estimate')).toBeInTheDocument();
     expect(button('Add PDF')).toBeInTheDocument();
-    expect(button('Finish measurement')).toBeInTheDocument();
+    expect(button('Length')).toBeInTheDocument();
     expect(container.textContent).not.toContain('Nog niet gekalibreerd');
     await act(async () => { await changeLanguage('nl'); });
     expect(button('Prompt & Begroot')).toBeInTheDocument();

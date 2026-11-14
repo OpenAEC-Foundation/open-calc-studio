@@ -658,6 +658,13 @@
       "empty": "Adicione um PDF para medir ou ligue medições guardadas do Open PDF Studio.",
       "calibratePage": "Calibre primeiro esta página.",
       "removeConfirm": "Remover a medição? Uma quantidade individual ligada mantém o último valor conhecido; um total ligado é alterado.",
+      "calibrate": "Calibrar",
+      "zoomIn": "Ampliar",
+      "zoomOut": "Reduzir",
+      "info": "Mais informações",
+      "dismiss": "Fechar",
+      "placePoints": "Clique nos pontos de medição no desenho.",
+      "keysHint": "Enter: concluir · Esc: cancelar",
       "error": {
         "calibrate": "Calibre primeiro a escala.",
         "points": "Pontos de medição válidos insuficientes.",

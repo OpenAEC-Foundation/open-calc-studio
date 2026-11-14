@@ -658,6 +658,13 @@
       "empty": "Adjon hozzá egy PDF-et a méréshez, vagy kapcsolja össze az Open PDF Studio mentett méréseit.",
       "calibratePage": "Előbb kalibrálja ezt az oldalt.",
       "removeConfirm": "Eltávolítja a mérést? Az összekapcsolt egyedi mennyiség megtartja utolsó ismert értékét; az összekapcsolt összeg megváltozik.",
+      "calibrate": "Kalibrálás",
+      "zoomIn": "Nagyítás",
+      "zoomOut": "Kicsinyítés",
+      "info": "További információ",
+      "dismiss": "Bezárás",
+      "placePoints": "Kattintson a mérési pontokra a rajzon.",
+      "keysHint": "Enter: befejezés · Esc: mégse",
       "error": {
         "calibrate": "Előbb kalibrálja a léptéket.",
         "points": "Nincs elég érvényes mérési pont.",

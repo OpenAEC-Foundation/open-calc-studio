@@ -660,6 +660,13 @@
       "empty": "Přidejte PDF pro měření nebo propojte uložená měření z Open PDF Studio.",
       "calibratePage": "Nejprve zkalibrujte tuto stranu.",
       "removeConfirm": "Odebrat měření? Propojené jednotlivé množství si ponechá poslední známou hodnotu; propojený součet se změní.",
+      "calibrate": "Kalibrovat",
+      "zoomIn": "Přiblížit",
+      "zoomOut": "Oddálit",
+      "info": "Další informace",
+      "dismiss": "Zavřít",
+      "placePoints": "Klikněte na měřicí body na výkresu.",
+      "keysHint": "Enter: dokončit · Esc: zrušit",
       "error": {
         "calibrate": "Nejprve zkalibrujte měřítko.",
         "points": "Nedostatek platných měřicích bodů.",

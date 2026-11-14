@@ -709,6 +709,13 @@
       "empty": "Añada un PDF para medir o vincule mediciones guardadas de Open PDF Studio.",
       "calibratePage": "Calibre primero esta página.",
       "removeConfirm": "¿Quitar la medición? Una medición individual vinculada conserva su último valor conocido; un total vinculado cambia.",
+      "calibrate": "Calibrar",
+      "zoomIn": "Acercar",
+      "zoomOut": "Alejar",
+      "info": "Más información",
+      "dismiss": "Cerrar",
+      "placePoints": "Haga clic en los puntos de medición del plano.",
+      "keysHint": "Intro: terminar · Esc: cancelar",
       "error": {
         "calibrate": "Calibre primero la escala.",
         "points": "No hay suficientes puntos de medición válidos.",

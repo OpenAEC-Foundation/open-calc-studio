@@ -798,6 +798,13 @@
       "empty": "Fügen Sie ein PDF zum Messen hinzu oder verknüpfen Sie gespeicherte Messungen aus Open PDF Studio.",
       "calibratePage": "Kalibrieren Sie diese Seite zuerst.",
       "removeConfirm": "Messung entfernen? Eine verknüpfte Einzelmenge behält ihren letzten bekannten Wert; eine verknüpfte Summe ändert sich.",
+      "calibrate": "Kalibrieren",
+      "zoomIn": "Vergrößern",
+      "zoomOut": "Verkleinern",
+      "info": "Weitere Informationen",
+      "dismiss": "Schließen",
+      "placePoints": "Klicken Sie die Messpunkte auf der Zeichnung an.",
+      "keysHint": "Enter: abschließen · Esc: abbrechen",
       "error": {
         "calibrate": "Kalibrieren Sie zuerst den Maßstab.",
         "points": "Nicht genügend gültige Messpunkte.",

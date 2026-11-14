@@ -658,6 +658,13 @@
       "empty": "Afegiu un PDF per amidar o enllaceu amidaments desats d'Open PDF Studio.",
       "calibratePage": "Calibreu primer aquesta pàgina.",
       "removeConfirm": "Voleu suprimir l'amidament? Un amidament individual enllaçat conserva el darrer valor conegut; un total enllaçat canvia.",
+      "calibrate": "Calibra",
+      "zoomIn": "Amplia",
+      "zoomOut": "Redueix",
+      "info": "Més informació",
+      "dismiss": "Tanca",
+      "placePoints": "Feu clic als punts de mesura del plànol.",
+      "keysHint": "Retorn: finalitza · Esc: cancel·la",
       "error": {
         "calibrate": "Calibreu primer l'escala.",
         "points": "No hi ha prou punts d'amidament vàlids.",

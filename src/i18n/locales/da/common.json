@@ -658,6 +658,13 @@
       "empty": "Tilføj en PDF for at måle, eller forbind gemte målinger fra Open PDF Studio.",
       "calibratePage": "Kalibrer først denne side.",
       "removeConfirm": "Fjern måling? En forbundet enkeltmængde beholder sin sidst kendte værdi; en forbundet total ændres.",
+      "calibrate": "Kalibrer",
+      "zoomIn": "Zoom ind",
+      "zoomOut": "Zoom ud",
+      "info": "Flere oplysninger",
+      "dismiss": "Luk",
+      "placePoints": "Klik på målepunkterne på tegningen.",
+      "keysHint": "Enter: afslut · Esc: annuller",
       "error": {
         "calibrate": "Kalibrer først målestokken.",
         "points": "Ikke nok gyldige målepunkter.",

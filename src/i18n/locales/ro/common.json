@@ -659,6 +659,13 @@
       "empty": "Adăugați un PDF pentru a măsura sau legați măsurători salvate din Open PDF Studio.",
       "calibratePage": "Calibrați mai întâi această pagină.",
       "removeConfirm": "Eliminați măsurătoarea? O cantitate individuală legată își păstrează ultima valoare cunoscută; un total legat se modifică.",
+      "calibrate": "Calibrare",
+      "zoomIn": "Mărire",
+      "zoomOut": "Micșorare",
+      "info": "Mai multe informații",
+      "dismiss": "Închide",
+      "placePoints": "Faceți clic pe punctele de măsurare de pe desen.",
+      "keysHint": "Enter: finalizare · Esc: anulare",
       "error": {
         "calibrate": "Calibrați mai întâi scara.",
         "points": "Nu există suficiente puncte de măsurare valide.",

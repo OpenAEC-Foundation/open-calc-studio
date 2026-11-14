@@ -660,6 +660,13 @@
       "empty": "Pridajte PDF na meranie alebo prepojte uložené merania z Open PDF Studio.",
       "calibratePage": "Najprv kalibrujte túto stranu.",
       "removeConfirm": "Odstrániť meranie? Prepojené samostatné množstvo si ponechá poslednú známu hodnotu; prepojený súčet sa zmení.",
+      "calibrate": "Kalibrovať",
+      "zoomIn": "Priblížiť",
+      "zoomOut": "Oddialiť",
+      "info": "Ďalšie informácie",
+      "dismiss": "Zavrieť",
+      "placePoints": "Kliknite na meracie body na výkrese.",
+      "keysHint": "Enter: dokončiť · Esc: zrušiť",
       "error": {
         "calibrate": "Najprv kalibrujte mierku.",
         "points": "Nedostatok platných bodov merania.",

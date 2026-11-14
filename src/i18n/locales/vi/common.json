@@ -658,6 +658,13 @@
       "empty": "Thêm một tệp PDF để đo hoặc liên kết các phép đo đã lưu từ Open PDF Studio.",
       "calibratePage": "Hãy hiệu chỉnh trang này trước.",
       "removeConfirm": "Xóa phép đo? Khối lượng đơn lẻ đã liên kết giữ giá trị cuối cùng đã biết; tổng đã liên kết sẽ thay đổi.",
+      "calibrate": "Hiệu chỉnh",
+      "zoomIn": "Phóng to",
+      "zoomOut": "Thu nhỏ",
+      "info": "Thêm thông tin",
+      "dismiss": "Đóng",
+      "placePoints": "Nhấp vào các điểm đo trên bản vẽ.",
+      "keysHint": "Enter: kết thúc · Esc: hủy",
       "error": {
         "calibrate": "Hãy hiệu chỉnh tỷ lệ trước.",
         "points": "Không đủ điểm đo hợp lệ.",

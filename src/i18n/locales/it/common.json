@@ -658,6 +658,13 @@
       "empty": "Aggiungi un PDF da misurare oppure collega le misurazioni salvate da Open PDF Studio.",
       "calibratePage": "Calibra prima questa pagina.",
       "removeConfirm": "Rimuovere la misurazione? Una quantità singola collegata mantiene l'ultimo valore noto; un totale collegato cambia.",
+      "calibrate": "Calibra",
+      "zoomIn": "Ingrandisci",
+      "zoomOut": "Riduci",
+      "info": "Ulteriori informazioni",
+      "dismiss": "Chiudi",
+      "placePoints": "Fai clic sui punti di misura sul disegno.",
+      "keysHint": "Invio: termina · Esc: annulla",
       "error": {
         "calibrate": "Calibra prima la scala.",
         "points": "Punti di misura validi insufficienti.",

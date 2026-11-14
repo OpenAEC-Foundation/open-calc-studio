@@ -658,6 +658,13 @@
       "empty": "Tambah PDF untuk mengukur atau pautkan ukuran tersimpan daripada Open PDF Studio.",
       "calibratePage": "Tentukur halaman ini terlebih dahulu.",
       "removeConfirm": "Buang ukuran? Kuantiti individu yang terpaut mengekalkan nilai terakhir yang diketahui; jumlah yang terpaut akan berubah.",
+      "calibrate": "Tentukur",
+      "zoomIn": "Zum masuk",
+      "zoomOut": "Zum keluar",
+      "info": "Maklumat lanjut",
+      "dismiss": "Tutup",
+      "placePoints": "Klik titik ukuran pada lukisan.",
+      "keysHint": "Enter: selesai · Esc: batal",
       "error": {
         "calibrate": "Tentukur skala terlebih dahulu.",
         "points": "Titik ukuran yang sah tidak mencukupi.",

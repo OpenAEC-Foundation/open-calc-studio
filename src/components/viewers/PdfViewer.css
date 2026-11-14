@@ -1,0 +1,136 @@
+/* PDF measuring workspace: one toolbar, the drawing, a floating step hint and a side list. */
+.pdf-ws {
+  display: flex; flex-direction: column; height: 100%; min-height: 0;
+  background: var(--theme-bg); color: var(--theme-text);
+  container-type: inline-size; container-name: pdf-ws;
+}
+.pdf-ws-sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+.pdf-ws-icon { width: 15px; height: 15px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+[dir="rtl"] .pdf-ws-flip { transform: scaleX(-1); }
+
+/* ---------- Toolbar ---------- */
+.pdf-ws-toolbar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  padding: 6px 8px; background: var(--theme-surface); border-bottom: 1px solid var(--theme-border);
+}
+.pdf-ws-separator { width: 1px; height: 22px; margin-inline: 2px; background: var(--theme-border); flex: none; }
+.pdf-ws-spacer { flex: 1 1 0; min-width: 0; }
+.pdf-ws-group { display: inline-flex; align-items: center; gap: 2px; }
+.pdf-ws-readout { min-width: 38px; text-align: center; color: var(--theme-text-secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pdf-ws-readout--zoom { min-width: 44px; }
+.pdf-ws-icon-button { color: var(--theme-text); font: inherit; font-size: 16px; line-height: 1; }
+.pdf-ws-icon-button:focus-visible, .pdf-ws-segment:focus-visible, .pdf-ws-source:focus-within {
+  outline: 2px solid var(--theme-focus-color); outline-offset: 1px;
+}
+
+/* Source picker: file icon + select with ellipsis. */
+.pdf-ws-source {
+  position: relative; display: inline-flex; align-items: center; gap: 5px;
+  height: 28px; max-width: 220px; min-width: 120px; padding-inline: 8px 4px;
+  border: 1px solid var(--theme-border); border-radius: 6px;
+  background: var(--theme-bg-lighter, var(--theme-surface)); color: var(--theme-text);
+}
+.pdf-ws-source select {
+  flex: 1; min-width: 0; height: 100%; padding: 0; border: 0; outline: 0;
+  background: transparent; color: inherit; font: inherit;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer;
+}
+.pdf-ws-source select option { background: var(--theme-surface); color: var(--theme-text); }
+
+/* Calibration status chip. */
+.pdf-ws-chip {
+  display: inline-flex; align-items: center; gap: 6px; height: 22px; padding-inline: 8px;
+  border: 1px solid transparent; border-radius: 11px; font-size: 12px; white-space: nowrap;
+}
+.pdf-ws-chip-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex: none; }
+.pdf-ws-chip--warning { background: var(--oa-warning-tint, var(--theme-hover)); color: var(--oa-warning, var(--theme-text)); border-color: color-mix(in srgb, var(--oa-warning, var(--theme-border)) 35%, transparent); }
+.pdf-ws-chip--ok { background: var(--oa-success-tint, var(--theme-hover)); color: var(--oa-success, var(--theme-text)); border-color: color-mix(in srgb, var(--oa-success, var(--theme-border)) 35%, transparent); font-variant-numeric: tabular-nums; }
+
+.pdf-ws-button { padding-inline: 9px; font-weight: 400; }
+.pdf-ws-button[aria-pressed="true"] { background: var(--theme-accent-soft); border-color: var(--theme-accent); color: var(--theme-editable-text); font-weight: 600; }
+
+/* Pan / Length / Area segmented control. */
+.pdf-ws-segmented {
+  display: inline-flex; overflow: hidden; border: 1px solid var(--theme-border); border-radius: 6px;
+  background: var(--theme-bg-lighter, var(--theme-surface));
+}
+.pdf-ws-segment {
+  display: inline-flex; align-items: center; gap: 5px; height: 26px; padding-inline: 9px;
+  border: 0; border-inline-end: 1px solid var(--theme-border); border-radius: 0;
+  background: transparent; color: var(--theme-text); font: inherit; white-space: nowrap; cursor: pointer;
+}
+.pdf-ws-segment:last-child { border-inline-end: 0; }
+.pdf-ws-segment:hover:not(:disabled) { background: var(--theme-hover); }
+.pdf-ws-segment[aria-pressed="true"] { background: var(--theme-accent-soft); color: var(--theme-editable-text); font-weight: 600; box-shadow: inset 0 -2px var(--theme-accent); }
+.pdf-ws-segment:disabled { color: var(--theme-text-faint); cursor: default; }
+
+/* ---------- Error bar ---------- */
+.pdf-ws-alert {
+  display: flex; align-items: center; gap: 8px; padding-block: 5px; padding-inline: 12px 8px;
+  border-bottom: 1px solid var(--theme-danger-color);
+  background: var(--oa-error-tint, var(--theme-surface)); color: var(--theme-danger-color); font-size: 12px;
+}
+.pdf-ws-alert-text { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.pdf-ws-alert .pdf-ws-icon-button { color: inherit; }
+
+/* ---------- Drawing ---------- */
+.pdf-ws-body { flex: 1; min-height: 0; display: flex; }
+.pdf-ws-stage { position: relative; flex: 1; min-width: 0; min-height: 0; display: flex; }
+.pdf-ws-scroll { flex: 1; min-width: 0; overflow: auto; padding: 16px; outline: 0;
+  /* Backdrop slightly off the workspace colour so the white page stands out in every theme. */
+  background: color-mix(in srgb, var(--theme-text) 9%, var(--theme-content-bg, var(--theme-bg))); }
+.pdf-ws-paper { position: relative; width: fit-content; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18); background: #fff; }
+.pdf-ws-paper[hidden] { display: none; }
+.pdf-ws-canvas { display: block; }
+.pdf-ws-overlay { position: absolute; top: 0; left: 0; cursor: default; } /* exactly over the page canvas */
+.pdf-ws-overlay--measuring { cursor: crosshair; }
+
+.pdf-ws-empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  min-height: 100%; padding: 24px; text-align: center; color: var(--theme-text-secondary);
+}
+.pdf-ws-empty p { max-width: 360px; margin: 0; }
+.pdf-ws-empty-icon { width: 40px; height: 40px; stroke-width: 1; color: var(--theme-text-faint); }
+
+/* Floating step hint, top centre over the drawing. */
+.pdf-ws-hint {
+  position: absolute; z-index: 2; inset-block-start: 12px; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 8px;
+  max-width: calc(100% - 24px); padding-block: 6px; padding-inline: 12px 6px;
+  border: 1px solid var(--theme-border); border-radius: 8px;
+  background: var(--theme-surface); color: var(--theme-text); box-shadow: var(--theme-popover-shadow, 0 4px 14px rgba(0, 0, 0, 0.25));
+}
+.pdf-ws-hint-text { min-width: 0; }
+.pdf-ws-hint-keys { font-size: 11px; color: var(--theme-text-secondary); white-space: nowrap; }
+
+/* ---------- Measurement list ---------- */
+.pdf-ws-list {
+  flex: none; width: 230px; display: flex; flex-direction: column; min-height: 0;
+  border-inline-start: 1px solid var(--theme-border); background: var(--theme-surface); font-size: 12px;
+}
+.pdf-ws-list-heading {
+  display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 0;
+  padding: 8px 10px; border-bottom: 1px solid var(--theme-border); font-size: 12px; font-weight: 600;
+}
+.pdf-ws-count { color: var(--theme-text-secondary); font-weight: 400; font-variant-numeric: tabular-nums; }
+.pdf-ws-rows { flex: 1; overflow: auto; margin: 0; padding: 0; list-style: none; }
+.pdf-ws-row { display: flex; align-items: center; gap: 6px; padding-block: 6px; padding-inline: 10px 6px; border-bottom: 1px solid var(--theme-border); }
+.pdf-ws-row--target { background: var(--theme-accent-soft); box-shadow: inset 3px 0 var(--theme-accent); }
+[dir="rtl"] .pdf-ws-row--target { box-shadow: inset -3px 0 var(--theme-accent); }
+.pdf-ws-row-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.pdf-ws-row-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pdf-ws-row-meta { font-size: 10.5px; color: var(--theme-text-secondary); }
+.pdf-ws-row-unverified { color: var(--oa-warning, var(--theme-text)); }
+.pdf-ws-row-value { flex: none; white-space: nowrap; text-align: end; font-variant-numeric: tabular-nums; }
+.pdf-ws-row-remove { color: var(--theme-text-secondary); }
+.pdf-ws-row-remove:hover { color: var(--theme-danger-color); }
+
+/* Narrow: the list moves under the drawing. */
+@container pdf-ws (max-width: 700px) {
+  .pdf-ws-body { flex-direction: column; }
+  .pdf-ws-list { width: auto; max-height: 170px; border-inline-start: 0; border-top: 1px solid var(--theme-border); }
+  .pdf-ws-source { max-width: 160px; }
+}

@@ -658,6 +658,13 @@
       "empty": "Lisää PDF mitattavaksi tai linkitä tallennetut mittaukset Open PDF Studiosta.",
       "calibratePage": "Kalibroi ensin tämä sivu.",
       "removeConfirm": "Poistetaanko mittaus? Linkitetty yksittäinen määrä säilyttää viimeisen tunnetun arvonsa; linkitetty summa muuttuu.",
+      "calibrate": "Kalibroi",
+      "zoomIn": "Lähennä",
+      "zoomOut": "Loitonna",
+      "info": "Lisätietoja",
+      "dismiss": "Sulje",
+      "placePoints": "Napsauta mittauspisteitä piirustuksessa.",
+      "keysHint": "Enter: viimeistele · Esc: peruuta",
       "error": {
         "calibrate": "Kalibroi ensin mittakaava.",
         "points": "Ei tarpeeksi kelvollisia mittauspisteitä.",

@@ -658,6 +658,13 @@
       "empty": "添加 PDF 进行测量，或关联 Open PDF Studio 中已保存的测量。",
       "calibratePage": "请先校准本页。",
       "removeConfirm": "移除测量？已关联的单个工程量保留其最后已知值；已关联的合计将发生变化。",
+      "calibrate": "校准",
+      "zoomIn": "放大",
+      "zoomOut": "缩小",
+      "info": "更多信息",
+      "dismiss": "关闭",
+      "placePoints": "在图纸上点击测量点。",
+      "keysHint": "Enter：完成 · Esc：取消",
       "error": {
         "calibrate": "请先校准比例。",
         "points": "有效的测量点不足。",

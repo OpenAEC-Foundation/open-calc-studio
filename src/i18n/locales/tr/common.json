@@ -658,6 +658,13 @@
       "empty": "Ölçmek için bir PDF ekleyin veya Open PDF Studio'daki kayıtlı ölçümleri bağlayın.",
       "calibratePage": "Önce bu sayfayı kalibre edin.",
       "removeConfirm": "Ölçüm kaldırılsın mı? Bağlı tek bir miktar son bilinen değerini korur; bağlı bir toplam değişir.",
+      "calibrate": "Kalibre et",
+      "zoomIn": "Yakınlaştır",
+      "zoomOut": "Uzaklaştır",
+      "info": "Daha fazla bilgi",
+      "dismiss": "Kapat",
+      "placePoints": "Çizim üzerindeki ölçüm noktalarına tıklayın.",
+      "keysHint": "Enter: bitir · Esc: iptal",
       "error": {
         "calibrate": "Önce ölçeği kalibre edin.",
         "points": "Yeterli sayıda geçerli ölçüm noktası yok.",

@@ -658,6 +658,13 @@
       "empty": "Ongeza PDF ili kupima au unganisha vipimo vilivyohifadhiwa kutoka Open PDF Studio.",
       "calibratePage": "Sawazisha mizani ya ukurasa huu kwanza.",
       "removeConfirm": "Ondoa kipimo? Kiasi kimoja kilichounganishwa huhifadhi thamani yake ya mwisho inayojulikana; jumla iliyounganishwa hubadilika.",
+      "calibrate": "Sawazisha mizani",
+      "zoomIn": "Kuza",
+      "zoomOut": "Punguza",
+      "info": "Maelezo zaidi",
+      "dismiss": "Funga",
+      "placePoints": "Bofya alama za kupimia kwenye mchoro.",
+      "keysHint": "Enter: maliza · Esc: ghairi",
       "error": {
         "calibrate": "Sawazisha mizani kwanza.",
         "points": "Pointi halali za kupima hazitoshi.",

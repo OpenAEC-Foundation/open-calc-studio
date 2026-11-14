@@ -658,6 +658,13 @@
       "empty": "Voeg een PDF toe om te meten of opgeslagen metingen uit Open PDF Studio te koppelen.",
       "calibratePage": "Kalibreer eerst deze pagina.",
       "removeConfirm": "Meting verwijderen? Een gekoppelde losse hoeveelheid behoudt de laatst bekende waarde; een gekoppeld totaal verandert.",
+      "calibrate": "Kalibreren",
+      "zoomIn": "Inzoomen",
+      "zoomOut": "Uitzoomen",
+      "info": "Meer informatie",
+      "dismiss": "Sluiten",
+      "placePoints": "Klik de meetpunten aan op de tekening.",
+      "keysHint": "Enter: afronden · Esc: annuleren",
       "error": {
         "calibrate": "Kalibreer eerst de schaal.",
         "points": "Onvoldoende geldige meetpunten.",

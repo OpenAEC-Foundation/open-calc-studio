@@ -658,6 +658,13 @@
       "empty": "Tambahkan PDF untuk mengukur, atau tautkan pengukuran tersimpan dari Open PDF Studio.",
       "calibratePage": "Kalibrasi halaman ini terlebih dahulu.",
       "removeConfirm": "Hapus pengukuran? Volume tunggal yang tertaut mempertahankan nilai terakhir yang diketahui; total yang tertaut akan berubah.",
+      "calibrate": "Kalibrasi",
+      "zoomIn": "Perbesar",
+      "zoomOut": "Perkecil",
+      "info": "Informasi lebih lanjut",
+      "dismiss": "Tutup",
+      "placePoints": "Klik titik-titik pengukuran pada gambar.",
+      "keysHint": "Enter: selesai · Esc: batal",
       "error": {
         "calibrate": "Kalibrasi skala terlebih dahulu.",
         "points": "Titik pengukuran yang valid tidak cukup.",

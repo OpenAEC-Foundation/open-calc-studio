@@ -658,6 +658,13 @@
       "empty": "Lägg till en PDF att mäta i eller koppla sparade mätningar från Open PDF Studio.",
       "calibratePage": "Kalibrera den här sidan först.",
       "removeConfirm": "Ta bort mätningen? En kopplad enskild mängd behåller sitt senast kända värde; en kopplad summa ändras.",
+      "calibrate": "Kalibrera",
+      "zoomIn": "Zooma in",
+      "zoomOut": "Zooma ut",
+      "info": "Mer information",
+      "dismiss": "Stäng",
+      "placePoints": "Klicka på mätpunkterna på ritningen.",
+      "keysHint": "Enter: avsluta · Esc: avbryt",
       "error": {
         "calibrate": "Kalibrera skalan först.",
         "points": "Inte tillräckligt många giltiga mätpunkter.",

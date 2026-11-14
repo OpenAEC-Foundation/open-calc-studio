@@ -684,6 +684,13 @@
       "empty": "Add a PDF to measure or link saved measurements from Open PDF Studio.",
       "calibratePage": "Calibrate this page first.",
       "removeConfirm": "Remove measurement? A linked individual quantity keeps its last known value; a linked total changes.",
+      "calibrate": "Calibrate",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out",
+      "info": "More information",
+      "dismiss": "Dismiss",
+      "placePoints": "Click the measurement points on the drawing.",
+      "keysHint": "Enter: finish · Esc: cancel",
       "error": {
         "calibrate": "Calibrate the scale first.",
         "points": "Not enough valid measurement points.",

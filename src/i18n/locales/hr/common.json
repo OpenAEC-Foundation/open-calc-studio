@@ -658,6 +658,13 @@
       "empty": "Dodajte PDF za mjerenje ili povežite spremljena mjerenja iz Open PDF Studija.",
       "calibratePage": "Najprije kalibrirajte ovu stranicu.",
       "removeConfirm": "Ukloniti mjerenje? Povezana pojedinačna količina zadržava zadnju poznatu vrijednost; povezani zbroj se mijenja.",
+      "calibrate": "Kalibriraj",
+      "zoomIn": "Povećaj",
+      "zoomOut": "Smanji",
+      "info": "Više informacija",
+      "dismiss": "Zatvori",
+      "placePoints": "Kliknite mjerne točke na crtežu.",
+      "keysHint": "Enter: završi · Esc: odustani",
       "error": {
         "calibrate": "Najprije kalibrirajte mjerilo.",
         "points": "Nedovoljno valjanih mjernih točaka.",

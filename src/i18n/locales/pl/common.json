@@ -660,6 +660,13 @@
       "empty": "Dodaj PDF do pomiarów lub powiąż zapisane pomiary z Open PDF Studio.",
       "calibratePage": "Najpierw skalibruj tę stronę.",
       "removeConfirm": "Usunąć pomiar? Powiązana pojedyncza ilość zachowa ostatnią znaną wartość; powiązana suma ulegnie zmianie.",
+      "calibrate": "Kalibruj",
+      "zoomIn": "Powiększ",
+      "zoomOut": "Pomniejsz",
+      "info": "Więcej informacji",
+      "dismiss": "Zamknij",
+      "placePoints": "Kliknij punkty pomiarowe na rysunku.",
+      "keysHint": "Enter: zakończ · Esc: anuluj",
       "error": {
         "calibrate": "Najpierw skalibruj skalę.",
         "points": "Za mało poprawnych punktów pomiaru.",

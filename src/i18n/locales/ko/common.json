@@ -658,6 +658,13 @@
       "empty": "측정할 PDF를 추가하거나 Open PDF Studio에 저장된 측정값을 연결하세요.",
       "calibratePage": "먼저 이 페이지를 보정하세요.",
       "removeConfirm": "측정을 제거할까요? 연결된 개별 수량은 마지막으로 알려진 값을 유지하고, 연결된 합계는 변경됩니다.",
+      "calibrate": "보정",
+      "zoomIn": "확대",
+      "zoomOut": "축소",
+      "info": "자세한 정보",
+      "dismiss": "닫기",
+      "placePoints": "도면에서 측정 지점을 클릭하세요.",
+      "keysHint": "Enter: 완료 · Esc: 취소",
       "error": {
         "calibrate": "먼저 축척을 보정하세요.",
         "points": "유효한 측정점이 부족합니다.",
