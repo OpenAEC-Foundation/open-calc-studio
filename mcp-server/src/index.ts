@@ -22,6 +22,7 @@ import { isIfcxExchangeJson } from '../../src/services/importers/ifcxDetection';
  * Resources: budget://current, budget://schedule, budget://items
  */
 import { effectiveTarieven, recalculateItems, getStaartBreakdown } from '../../src/services/calculation/calculator';
+import { variantCalculatedItems } from '../../src/services/grid/variantTotals';
 import { deserializeProject, FILE_FORMAT_VERSION } from '../../src/services/file/fileService';
 import { importBc3File } from '../../src/services/importers/bc3Importer';
 import { importOnlvFile } from '../../src/services/importers/onlvImporter';
@@ -1535,6 +1536,12 @@ server.tool("update_schedule", "Update schedule/project metadata", {
   } catch (e: unknown) { return err((e as Error).message); }
 });
 
+/** De variantkeuze zoals MCP hem bijhoudt (schaduwstaat, anders het bestand). */
+function pdfVariantScope() {
+  ensureShadowFromBudget();
+  return { branchesEnabled: shadow.branchesEnabled, activeBranchId: shadow.activeBranchId ?? undefined, branches: shadow.branches as never };
+}
+
 server.tool("export_pdf", "Generate a PDF report from the current budget", {
   outputPath: z.string().describe("Output PDF path"),
   reportView: z.enum(["werkbeschrijving", "hoofdaanneming", "onderaanneming", "inschrijfstaat", "nacalculatie", "bouw1", "offerte"]).optional().default("bouw1").describe("Report view"),
@@ -1544,7 +1551,8 @@ server.tool("export_pdf", "Generate a PDF report from the current budget", {
     // Save to temp file, run gen_pdf, return
     const tmp = b.filePath.replace(/\.[^.]+$/, '_mcp_tmp.ifcx');
     writeFileSync(tmp, JSON.stringify({
-      version: FILE_FORMAT_VERSION, schedule: b.schedule, items: b.items,
+      // Alleen de rijen van de gekozen variant, net als de app (knownbug 165).
+      version: FILE_FORMAT_VERSION, schedule: b.schedule, items: variantCalculatedItems(b.items as never, pdfVariantScope()),
       resourceLibrary: [], companyInfo: b.project.companyInfo,
       createdAt: new Date().toISOString(), modifiedAt: new Date().toISOString(),
     }, null, 2));

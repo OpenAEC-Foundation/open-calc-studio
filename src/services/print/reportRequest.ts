@@ -3,9 +3,10 @@
  * directie en de generieke rapporten). De veldnamen volgen de serde-namen
  * van `ReportRequest`/`CostItem` in src-tauri/src/reports/mod.rs.
  *
- * Altijd alle regels meesturen: met "alleen hoofdstuktotalen" filtert Rust
- * zelf de getoonde rijen (reportChapterTotalsOnly), maar rekent de staart
- * over alle regels — net als de app.
+ * Altijd alle regels (van de gekozen variant, via `variantCalculatedItems`)
+ * meesturen: met "alleen hoofdstuktotalen" filtert Rust zelf de getoonde rijen
+ * (reportChapterTotalsOnly), maar rekent de staart over alle regels — net als
+ * de app.
  */
 import type { CostItem, CostSchedule } from '@/types/costModel';
 

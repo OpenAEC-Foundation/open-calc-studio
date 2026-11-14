@@ -662,11 +662,6 @@ stand van `main` op die datum.
      de volledige `state.items` (`costItemsSlice.ts:494-509`). Nagespeeld. Voorstel: de ouder kiezen uit de
      op variant gefilterde broers en zussen (ook `outdentItem`/`moveItems` nakijken). — B
 
-165. **Rapporten en afdrukken nemen regels uit niet-actieve varianten mee.**
-     `src/services/report/reportGenerator.ts:12` en `bouw1PrintService.ts:67/173` gebruiken geen
-     `variantItems`. Nagespeeld. Totalen in grid en statusbalk volgen sinds de fix van 12/264 de gekozen
-     variant via `variantCalculatedItems` (`src/services/grid/variantTotals.ts`); rapporten nog niet. — B
-
 ## Assistent, MCP en extensies
 
 168. **De MCP-actielijst is verouderd, dus geldige calls worden geweigerd.** `src/services/mcp/desktopActions.json`

@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { reportRequestItems, reportRequestSchedule } from '@/services/print/reportRequest';
+import { variantCalculatedItems } from '@/services/grid/variantTotals';
 import { getReportRequestLocale } from '@/i18n/reportI18n';
 import ProgressModal from '@/components/common/ProgressModal';
 
@@ -73,9 +74,10 @@ export const ReportPreview: React.FC = () => {
 
         const request = {
           schedule: reportRequestSchedule(schedule),
-          // Alle regels: Rust toont bij "alleen hoofdstuktotalen" alleen de
-          // hoofdstukken, maar rekent de staart over alle regels (zoals de app).
-          items: reportRequestItems(items),
+          // Alle regels van de gekozen variant, met totalen over die variant
+          // (zoals grid en statusbalk). Rust toont bij "alleen hoofdstuktotalen"
+          // alleen de hoofdstukken, maar rekent de staart over alle regels.
+          items: reportRequestItems(variantCalculatedItems(items, schedule)),
           reportView,
           pageSize,
           pageOrientation,
