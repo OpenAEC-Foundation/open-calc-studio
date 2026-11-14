@@ -1,6 +1,8 @@
 import type { StateCreator } from 'zustand';
 import type { ResourceLibraryItem, ResourceType, CostUnit } from '@/types/costModel';
 import dutchLibrary from '@/data/nl-price-library.json';
+import portugueseLibrary from '@/data/pt-price-library.json';
+import { createDefaultResourceLibrary } from '@/data/defaultResourceLibrary';
 
 export interface ResourceLibrarySlice {
   resourceLibrary: ResourceLibraryItem[];
@@ -10,6 +12,22 @@ export interface ResourceLibrarySlice {
   loadLibraryFromJson: (json: unknown) => void;
   openResourcePicker: (parentId: string | null) => void;
   closeResourcePicker: () => void;
+  loadDefaultLibrary: (lang) => {
+  const lib = getDefaultLibrary(lang);
+  if (lib) {
+    set({ resourceLibrary: parseLibraryJson(lib) });
+  } else {
+    set({ resourceLibrary: createDefaultResourceLibrary() });
+  }
+},
+}
+
+/** Get the default library for a specific language */
+export function getDefaultLibrary(lang: string): unknown {
+  const baseLang = (lang || 'en').split('-')[0];
+  if (baseLang === 'pt') return portugueseLibrary;
+  if (baseLang === 'nl') return dutchLibrary;
+  return null; // Use defaultResourceLibrary for other languages
 }
 
 /** Map GWW category name to ResourceType */
