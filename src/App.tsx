@@ -76,7 +76,7 @@ import "./components/layout/WorkspaceShell.css";
 
 /**
  * Open de meegeleverde voorbeeldbegroting in de taal van de interface:
- * de Nederlandse voor nl, anders de Engelse. Beide hebben dezelfde getallen
+ * de Nederlandse voor nl, de Portugese voor pt, anders de Engelse. Ze hebben dezelfde getallen
  * en structuur; alleen omschrijvingen en projectgegevens verschillen.
  */
 async function openSampleBudget(): Promise<void> {
