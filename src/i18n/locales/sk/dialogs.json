@@ -96,6 +96,8 @@
       "priceMismatch_few": "Pri {{count}} položkách sa súčet rozpadu líši o viac ako 2 % od jednotkovej ceny v zázname ~C (napr. {{examples}}). Použil sa rozpad.",
       "priceMismatch_many": "Pri {{count}} položkách sa súčet rozpadu líši o viac ako 2 % od jednotkovej ceny v zázname ~C (napr. {{examples}}). Použil sa rozpad.",
       "priceMismatch_other": "Pri {{count}} položkách sa súčet rozpadu líši o viac ako 2 % od jednotkovej ceny v zázname ~C (napr. {{examples}}). Použil sa rozpad.",
+      "roundingDiff": "Tento súbor zaokrúhľuje každý riadok rozpadu a každú jednotkovú cenu na centy, rovnako ako program, ktorý ho vytvoril; Open Calc Studio počíta bez zaokrúhľovania. Položky, ktorých jednotková cena sa preto líši: {{n}} (napr. {{examples}}). Bol použitý nezaokrúhlený rozpad.",
+      "totalMismatch": "Celková suma v súbore ({{file}}) sa líši od tu vypočítanej sumy ({{calculated}}), rozdiel {{difference}}.",
       "noPrices": "Tento súbor neobsahuje žiadne ceny — iba popisy a množstvá (ako knižnica výmer). Celková suma preto zostáva 0,00.",
       "moreWarnings_one": "… a ešte {{count}} podobné upozornenie.",
       "moreWarnings_few": "… a ešte {{count}} podobné upozornenia.",

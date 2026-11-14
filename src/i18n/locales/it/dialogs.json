@@ -90,6 +90,8 @@
       "noProjectStructure": "Nessuna struttura di progetto (##/#) trovata — i concetti sono stati importati come prezzario in un unico capitolo.",
       "priceMismatch_one": "Per {{count}} voce la somma della scomposizione differisce di oltre il 2% dal prezzo unitario del record ~C ({{examples}}). È stata usata la scomposizione.",
       "priceMismatch_other": "Per {{count}} voci la somma della scomposizione differisce di oltre il 2% dal prezzo unitario del record ~C (ad es. {{examples}}). È stata usata la scomposizione.",
+      "roundingDiff": "Questo file arrotonda al centesimo ogni riga della scomposizione e ogni prezzo unitario, come fa il programma che lo ha generato; Open Calc Studio calcola senza arrotondamento. Voci il cui prezzo unitario differisce per questo motivo: {{n}} (ad es. {{examples}}). È stata usata la scomposizione non arrotondata.",
+      "totalMismatch": "Il totale nel file ({{file}}) differisce dal totale calcolato qui ({{calculated}}), differenza {{difference}}.",
       "noPrices": "Questo file non contiene prezzi — solo descrizioni e quantità (come una libreria di misurazioni). Il totale resta quindi 0,00.",
       "moreWarnings_one": "… e ancora {{count}} avviso simile.",
       "moreWarnings_other": "… e altri {{count}} avvisi simili."

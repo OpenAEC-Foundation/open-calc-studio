@@ -273,6 +273,24 @@ function parseBc3(text: string): Bc3Data {
 
 // ── Mapping naar het OCS-kostenmodel ────────────────────────────────────────
 
+/**
+ * Half-up afronden op centen, zoals FIEBDC-3 voorschrijft zonder ~K (DI en
+ * DUO: 2 decimalen). De kleine marge vangt float-ruis op: 0,7 × 18,35 is in
+ * een double 12,8449999…, maar hoort 12,85 te worden.
+ */
+const roundCents = (n: number): number => Math.sign(n) * Math.round(Math.abs(n) * 100 + 1e-6) / 100;
+
+/**
+ * ~C-prijs en uitkomst van de samenstelling naast elkaar, in twee decimalen,
+ * of meer als het verschil anders niet zichtbaar is (BCCA `15JWW90004`: 0,13
+ * tegenover 0,1274).
+ */
+const priceExample = (code: string, declared: number, computed: number): string => {
+  const [a, b] = [2, 4, 6].map((d) => [declared.toFixed(d), computed.toFixed(d)]).find(([x, y]) => x !== y)
+    ?? [declared.toFixed(6), computed.toFixed(6)];
+  return `${code} (~C ${a}, ~D ${b})`;
+};
+
 export function importBc3(text: string): ImportResult {
   const data = parseBc3(text);
   const { variants, order, measurements, measured } = data;
@@ -445,11 +463,16 @@ export function importBc3(text: string): ImportResult {
   /**
    * Rekenregels onder een begrotingspost. Geeft de kostprijs per eenheid van
    * de partida terug, zodat de aanroeper die kan vergelijken met de prijs op
-   * het ~C-record.
+   * het ~C-record: `unitCost` zoals wij rekenen (onafgerond) en `rounded`
+   * zoals FIEBDC-3 het voorschrijft (elke regel en de eenheidsprijs op
+   * centen). Wij houden `unitCost` aan; `rounded` dient alleen om een
+   * afrondingsverschil te herkennen (#83).
    */
-  const addRegels = (post: CostItem, parent: Bc3Concept, postQty: number, depth: number): number => {
+  const addRegels = (post: CostItem, parent: Bc3Concept, postQty: number, depth: number): { unitCost: number; rounded: number } => {
     let unitCost = 0;
     let labourCost = 0;
+    let rounded = 0;
+    let roundedLabour = 0;
     for (const ch of parent.children) {
       const c = resolve(ch.key);
       if (!c) {
@@ -484,11 +507,16 @@ export function importBc3(text: string): ImportResult {
           notes: c.text ?? '',
         });
         unitCost += base * pct;
+        rounded += roundCents((labourOnly(c) ? roundedLabour : rounded) * pct);
         continue;
       }
       const norm = ch.factor * ch.yield_;
       unitCost += norm * c.price;
-      if (c.type === '1') labourCost += norm * c.price;
+      rounded += roundCents(norm * c.price);
+      if (c.type === '1') {
+        labourCost += norm * c.price;
+        roundedLabour += roundCents(norm * c.price);
+      }
       // Rendement 0 betekent in het bestand: dit middel telt niet mee. De
       // calculator leest norm 0 echter als "directe prijs" (aantal × prijs),
       // wat geld zou toevoegen dat er niet is. Aantal 0 houdt de regel
@@ -508,11 +536,18 @@ export function importBc3(text: string): ImportResult {
         notes: c.text ?? '',
       });
     }
-    return unitCost;
+    return { unitCost, rounded: roundCents(rounded) };
   };
 
   /** Partida's waarvan de samenstelling niet op de eigen eenheidsprijs uitkomt. */
   const mismatched: string[] = [];
+  /**
+   * Partida's waarvan alleen de afronding verschilt: de ~C-prijs is precies
+   * de per regel op centen afgeronde samenstelling (CYPE Arquímedes, #83).
+   */
+  const roundingOnly: string[] = [];
+  /** Som van aantal × eenheidsprijs over alle posten, zoals wij die importeren. */
+  let computedTotal = 0;
 
   /** Eén knoop: hoofdstuk (recursief) of begrotingspost met rekenregels. */
   const emit = (parentItem: CostItem | null, parentKey: string, c: Bc3Concept, ch: Bc3Child | null, path: number[], depth: number): void => {
@@ -542,33 +577,39 @@ export function importBc3(text: string): ImportResult {
       normUnitPrice: c.children.length > 0 ? null : c.price,
       notes: c.text ?? '',
     });
-    if (c.children.length === 0) return;
+    if (c.children.length === 0) {
+      computedTotal += qty * c.price;
+      return;
+    }
 
     const first = items.length;
-    const unitCost = addRegels(post, c, qty, depth + 1);
+    const { unitCost, rounded } = addRegels(post, c, qty, depth + 1);
     // Sommige exporteurs schrijven wel de samenstelling maar laten alle
     // rendementen op 0 staan. Dan is de prijs op het ~C-record de enige
     // bruikbare bron en gaat de lege decompositie eruit.
     if (Math.abs(unitCost) < 0.005 && Math.abs(c.price) >= 0.005) {
       items.length = first;
       post.normUnitPrice = c.price;
+      computedTotal += qty * c.price;
       warn(
         'zeroYieldDecomposition',
         'Eén of meer partida\'s hebben een samenstelling zonder rendementen — daar is de eenheidsprijs van het ~C-record aangehouden.',
       );
       return;
     }
+    computedTotal += qty * unitCost;
     // Prijs op het ~C-record en de som van de samenstelling horen gelijk te
-    // zijn. Staat er iets anders, dan is het bestand intern inconsistent
-    // (verouderde prijzen); wij rekenen bottom-up en melden het.
-    if (Math.abs(c.price) >= 0.005 && Math.abs(unitCost - c.price) / Math.abs(c.price) > 0.02) {
-      // Beide bedragen erbij: de gebruiker kan dan zelf zien welk getal het
-      // bronprogramma toonde (~C) en wat de samenstelling oplevert (~D). Twee
-      // decimalen, of meer als het verschil anders niet zichtbaar is
-      // (BCCA `15JWW90004`: 0,13 tegenover 0,1274).
-      const [a, b] = [2, 4, 6].map((d) => [c.price.toFixed(d), unitCost.toFixed(d)]).find(([x, y]) => x !== y)
-        ?? [c.price.toFixed(6), unitCost.toFixed(6)];
-      mismatched.push(`${c.code} (~C ${a}, ~D ${b})`);
+    // zijn. Komt de ~C-prijs precies uit op de per regel afgeronde som, dan
+    // rondt het bronprogramma af en wij niet (#83). Wijkt hij meer dan 2% af,
+    // dan is het bestand intern inconsistent (verouderde prijzen). In beide
+    // gevallen rekenen wij bottom-up en melden het, met beide bedragen erbij:
+    // wat het bronprogramma toonde (~C) en wat de samenstelling oplevert (~D).
+    if (Math.abs(c.price) >= 0.005 && Math.abs(unitCost - c.price) > 1e-6) {
+      // Bij een afrondingsverschil juist de onafgeronde prijs voluit tonen
+      // (47.2665); in twee decimalen zou er 47.27 staan en lijkt het verschil
+      // iets anders dan het is.
+      if (Math.abs(rounded - c.price) < 0.005) roundingOnly.push(`${c.code} (~C ${c.price.toFixed(2)}, ~D ${Number(unitCost.toFixed(6))})`);
+      else if (Math.abs(unitCost - c.price) / Math.abs(c.price) > 0.02) mismatched.push(priceExample(c.code, c.price, unitCost));
     }
   };
 
@@ -636,6 +677,33 @@ export function importBc3(text: string): ImportResult {
       + `(o.a. ${examples}). De samenstelling is aangehouden.`,
       { count: mismatched.length, examples },
     );
+  }
+  if (roundingOnly.length > 0) {
+    const examples = roundingOnly.slice(0, 5).join(', ');
+    warn(
+      'roundingDiff',
+      'Dit bestand rondt elke regel van de samenstelling en elke eenheidsprijs af op centen, zoals het programma '
+      + 'dat het schreef; Open Calc Studio rekent zonder afronding. Partida\'s waarvan de eenheidsprijs daardoor '
+      + `afwijkt: ${roundingOnly.length} (o.a. ${examples}). De onafgeronde samenstelling is aangehouden.`,
+      { n: roundingOnly.length, examples },
+    );
+  }
+
+  // Totaal van het bestand (prijs op de wortel) tegenover het totaal dat wij
+  // importeren. Zo ziet de gebruiker het netto-effect van de meldingen
+  // hierboven in één getal, ook als elk verschil per post klein is.
+  if (root && Math.abs(root.price) >= 0.005) {
+    const calculated = roundCents(computedTotal);
+    if (Math.abs(calculated - root.price) >= 0.01) {
+      const file = root.price.toFixed(2);
+      const calc = calculated.toFixed(2);
+      const difference = (calculated - root.price).toFixed(2);
+      warn(
+        'totalMismatch',
+        `Het totaal in het bestand (${file}) wijkt af van het hier berekende totaal (${calc}), verschil ${difference}.`,
+        { file, calculated: calc, difference },
+      );
+    }
   }
 
   // Een prijsloze import (bv. een "biblioteca de mediciones": posten mét

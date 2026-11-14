@@ -90,6 +90,8 @@
       "noProjectStructure": "No se ha encontrado una estructura de proyecto (##/#): los conceptos se han importado como banco de precios bajo un único capítulo.",
       "priceMismatch_one": "En {{count}} partida, la suma de la descomposición difiere más de un 2 % del precio unitario del registro ~C ({{examples}}). Se ha usado la descomposición.",
       "priceMismatch_other": "En {{count}} partidas, la suma de la descomposición difiere más de un 2 % del precio unitario del registro ~C (p. ej. {{examples}}). Se ha usado la descomposición.",
+      "roundingDiff": "Este archivo redondea a céntimos cada línea de la descomposición y cada precio unitario, como hace el programa que lo generó; Open Calc Studio calcula sin redondeo. Partidas cuyo precio unitario difiere por ello: {{n}} (p. ej. {{examples}}). Se ha usado la descomposición sin redondear.",
+      "totalMismatch": "El total del archivo ({{file}}) difiere del total calculado aquí ({{calculated}}); diferencia {{difference}}.",
       "noPrices": "Este archivo no contiene precios, solo descripciones y mediciones (como una biblioteca de mediciones). Por eso el total sigue siendo 0,00.",
       "moreWarnings_one": "… y {{count}} aviso similar más.",
       "moreWarnings_other": "… y {{count}} avisos similares más."

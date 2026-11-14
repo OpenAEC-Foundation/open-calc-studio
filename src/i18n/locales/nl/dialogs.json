@@ -90,6 +90,8 @@
       "noProjectStructure": "Geen projectstructuur (##/#) gevonden — concepten als prijzenboek onder één hoofdstuk geïmporteerd.",
       "priceMismatch_one": "Bij {{count}} partida wijkt de som van de samenstelling meer dan 2% af van de eenheidsprijs op het ~C-record ({{examples}}). De samenstelling is aangehouden.",
       "priceMismatch_other": "Bij {{count}} partida's wijkt de som van de samenstelling meer dan 2% af van de eenheidsprijs op het ~C-record (o.a. {{examples}}). De samenstelling is aangehouden.",
+      "roundingDiff": "Dit bestand rondt elke regel van de samenstelling en elke eenheidsprijs af op centen, zoals het programma dat het schreef; Open Calc Studio rekent zonder afronding. Partida's waarvan de eenheidsprijs daardoor afwijkt: {{n}} (o.a. {{examples}}). De onafgeronde samenstelling is aangehouden.",
+      "totalMismatch": "Het totaal in het bestand ({{file}}) wijkt af van het hier berekende totaal ({{calculated}}), verschil {{difference}}.",
       "noPrices": "Dit bestand bevat geen prijzen — alleen omschrijvingen en hoeveelheden (zoals een mediciones-bibliotheek). Het totaal blijft daarom € 0,00.",
       "moreWarnings_one": "… en nog {{count}} vergelijkbare melding.",
       "moreWarnings_other": "… en nog {{count}} vergelijkbare meldingen."

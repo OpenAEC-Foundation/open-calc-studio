@@ -90,6 +90,8 @@
       "noProjectStructure": "Não foi encontrada nenhuma estrutura de obra (##/#) — os conceitos foram importados como base de preços num único capítulo.",
       "priceMismatch_one": "Em {{count}} artigo, a soma da decomposição difere mais de 2% do preço unitário do registo ~C ({{examples}}). Foi usada a decomposição.",
       "priceMismatch_other": "Em {{count}} artigos, a soma da decomposição difere mais de 2% do preço unitário do registo ~C (p. ex. {{examples}}). Foi usada a decomposição.",
+      "roundingDiff": "Este ficheiro arredonda ao cêntimo cada linha da decomposição e cada preço unitário, como faz o programa que o gerou; o Open Calc Studio calcula sem arredondamento. Artigos cujo preço unitário difere por isso: {{n}} (p. ex. {{examples}}). Foi usada a decomposição sem arredondamento.",
+      "totalMismatch": "O total no ficheiro ({{file}}) difere do total calculado aqui ({{calculated}}), diferença {{difference}}.",
       "noPrices": "Este ficheiro não contém preços — apenas designações e quantidades (como uma biblioteca de medições). Por isso, o total continua a ser 0,00.",
       "moreWarnings_one": "… e mais {{count}} aviso semelhante.",
       "moreWarnings_other": "… e mais {{count}} avisos semelhantes."

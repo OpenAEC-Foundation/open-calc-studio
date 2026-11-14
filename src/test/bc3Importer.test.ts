@@ -108,3 +108,62 @@ describe('FIEBDC-3 (.bc3) import', () => {
     expect(getKostprijs(items2)).toBeCloseTo(getKostprijs(items1), 2);
   });
 });
+
+// #83: CYPE Arquímedes rondt elke regel (norm × prijs) en de eenheidsprijs af
+// op centen. Het voorbeeld uit het issue: ~C 47,28, onafgerond 47,2665.
+// Letterlijk uit het issue (rounding-final.bc3), incl. de kapotte ~K en de
+// over regels verdeelde ~D-records.
+const CYPE_ROUNDING = String.raw`~V|CYPE INGENIEROS, S.A.|FIEBDC-3/2004|ARQUIMEDES||ANSI|Presupuesto|2|
+~K|0\13\6\\21|
+~C|TEST##||TEST ESTIMATE|4431.65|260113|0|
+~D|TEST##
+|01#\\1
+\|
+~C|01#||CHAPTER|4431.65|260113|0|
+~D|01#
+|P01\\1
+\|
+~C|P01|m2|ITEM WITH DECOMPOSITION|47.28|260113|0|
+~D|P01
+|R01\\0.7
+\R02\\0.7
+\R03\\1.05
+\R04\\1.5
+\|
+~C|R01|h|Oficial 1a|18.35|260113|1|
+~C|R02|h|Peon ordinario|17.08|260113|1|
+~C|R03|m2|Baldosa|21.21|260113|3|
+~C|R04|kg|Cemento cola|0.13|260113|3|
+~M|01#\P01|1\1\|93.732|`.replace(/\r?\n/g, '\r\n');
+
+describe('FIEBDC-3 afrondingsverschil (#83)', () => {
+  it('meldt dat het bestand per regel afrondt, met beide prijzen', () => {
+    const res = importBc3(CYPE_ROUNDING);
+    const code = res.warningCodes?.find((c) => c.code === 'roundingDiff');
+    expect(code?.params).toEqual({ n: 1, examples: 'P01 (~C 47.28, ~D 47.2665)' });
+    // Geen "verouderde prijs": het verschil is 0,03%, en alleen afronding.
+    expect(res.warningCodes?.some((c) => c.code === 'priceMismatch')).toBe(false);
+  });
+
+  it('meldt het totaal van het bestand naast het hier berekende totaal', () => {
+    const res = importBc3(CYPE_ROUNDING);
+    const code = res.warningCodes?.find((c) => c.code === 'totalMismatch');
+    expect(code?.params).toEqual({ file: '4431.65', calculated: '4430.38', difference: '-1.27' });
+    // De melding klopt met wat de app na de import werkelijk uitrekent.
+    expect(getKostprijs(recalculateItems(res.items))).toBeCloseTo(4430.38, 2);
+  });
+
+  it('rondt 0,7 × 18,35 half-up af ondanks float-ruis (12,845 → 12,85)', () => {
+    // Zonder de marge zou de afgeronde som 47,27 zijn en dan matcht ~C niet.
+    const res = importBc3(CYPE_ROUNDING.replace('|47.28|', '|47.27|'));
+    expect(res.warningCodes?.some((c) => c.code === 'roundingDiff')).toBe(false);
+  });
+
+  it('zwijgt als ~C gelijk is aan de onafgeronde samenstelling', () => {
+    const exact = CYPE_ROUNDING
+      .replace('|47.28|', '|47.2665|')
+      .replace(/\|4431\.65\|/g, `|${(93.732 * 47.2665).toFixed(2)}|`);
+    const res = importBc3(exact);
+    expect(res.warningCodes?.some((c) => c.code === 'roundingDiff' || c.code === 'totalMismatch')).toBe(false);
+  });
+});
