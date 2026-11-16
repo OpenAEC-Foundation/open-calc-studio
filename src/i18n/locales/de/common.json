@@ -602,7 +602,7 @@
       "rsxFlattened": "RSX: verschachtelte Titel unter \"{{name}}\" wurden eingeebnet; CROW RSX unterstützt eine Teilkalkulationsebene.",
       "currencyNotInFormat": "{{format}} hat kein Währungsfeld, daher liest der Empfänger diese Beträge als Euro. Diese Kalkulation ist in {{currency}}; die Beträge wurden nicht umgerechnet.",
       "unreadableNumbers": "{{count}} Werte konnten nicht als Zahl gelesen werden und wurden als 0 importiert (zum Beispiel „{{example}}“).",
-      "formulaCellsWithoutValue": "{{count}} Zellen in Zahlenspalten haben keinen verwendbaren Wert (eine Formel ohne gespeichertes Ergebnis oder ein Excel-Fehler) und wurden leer importiert: {{cells}}. Öffnen Sie die Datei in Excel, korrigieren oder berechnen Sie sie neu, speichern Sie sie und importieren Sie erneut.",
+      "formulaCellsWithoutValue": "Zellen in Zahlenspalten ohne verwendbaren Wert wurden leer importiert ({{count}}): {{cells}}. Sie enthalten eine Formel, die nie in Excel berechnet wurde, oder einen Excel-Fehler. Öffnen Sie die Datei in Excel, beheben Sie die Fehler oder berechnen Sie neu (F9), speichern Sie sie und importieren Sie erneut.",
       "xmlError": "XML-Parserfehler: {{message}} (Zeile {{line}})",
       "xml": {
         "entity": "Unbekannte Entität {{p0}}",

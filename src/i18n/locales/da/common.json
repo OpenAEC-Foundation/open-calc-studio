@@ -915,7 +915,7 @@
       "rsxFlattened": "RSX: underliggende kapitler under \"{{name}}\" blev fladet ud; CROW RSX understøtter ét delbudgetniveau.",
       "currencyNotInFormat": "{{format}} har intet valutafelt, så modtageren læser disse beløb som euro. Dette overslag er i {{currency}}; beløbene er ikke omregnet.",
       "unreadableNumbers": "{{count}} værdier kunne ikke læses som tal og blev importeret som 0 (f.eks. \"{{example}}\").",
-      "formulaCellsWithoutValue": "{{count}} celler i talkolonner har ingen brugbar værdi (en formel uden gemt resultat eller en Excel-fejl) og blev importeret tomme: {{cells}}. Åbn filen i Excel, ret eller genberegn den, gem den og importér igen.",
+      "formulaCellsWithoutValue": "Celler i talkolonner uden brugbar værdi blev importeret tomme ({{count}}): {{cells}}. De indeholder en formel, der aldrig er beregnet i Excel, eller en Excel-fejl. Åbn filen i Excel, ret fejlene eller genberegn (F9), gem den og importér igen.",
       "xmlError": "XML-parsefejl: {{message}} (linje {{line}})",
       "xml": {
         "entity": "Ukendt entitet {{p0}}",

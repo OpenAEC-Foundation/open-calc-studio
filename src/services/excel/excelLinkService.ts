@@ -1,4 +1,5 @@
-import { readWorkbook } from '@/services/importers/safeWorkbook';
+import { readWorkbook, readWorkbookForValues } from '@/services/importers/safeWorkbook';
+import { cellIssueKind } from '@/services/importers/genericTabularImporter';
 import * as XLSX from 'xlsx';
 import type { CostItem } from '../../types/costModel';
 
@@ -100,8 +101,24 @@ export async function updateAllExcelLinks(items: CostItem[]): Promise<{
   const errors: string[] = [];
   let updateCount = 0;
 
-  // Group by filePath for efficiency
-  const fileCache = new Map<string, XLSX.WorkBook | null>();
+  // One read per file: cache the promise, not the result, so items linked to
+  // the same file do not each parse it while the first read is in flight.
+  const fileCache = new Map<string, Promise<{ workbook: XLSX.WorkBook; uncalculated: boolean } | null>>();
+  const readLinkedFile = (filePath: string) => {
+    let pending = fileCache.get(filePath);
+    if (!pending) {
+      pending = (async () => {
+        try {
+          const tauriFs = await import('@tauri-apps/plugin-fs');
+          return readWorkbookForValues(await tauriFs.readFile(filePath), { type: 'array' });
+        } catch {
+          return null;
+        }
+      })();
+      fileCache.set(filePath, pending);
+    }
+    return pending;
+  };
 
   const updatedItems = await Promise.all(
     items.map(async (item) => {
@@ -110,23 +127,12 @@ export async function updateAllExcelLinks(items: CostItem[]): Promise<{
       const { filePath, sheet, cell } = item.excelLink;
 
       try {
-        let wb = fileCache.get(filePath);
-        if (wb === undefined) {
-          try {
-            const tauriFs = await import('@tauri-apps/plugin-fs');
-            const bytes = await tauriFs.readFile(filePath);
-            // sheetStubs: anders verdwijnt een formulecel zonder opgeslagen uitkomst (#88).
-            wb = readWorkbook(bytes, { type: 'array', sheetStubs: true });
-          } catch {
-            wb = null;
-          }
-          fileCache.set(filePath, wb);
-        }
-
-        if (!wb) {
+        const file = await readLinkedFile(filePath);
+        if (!file) {
           errors.push(`Kan bestand niet lezen: ${filePath}`);
           return item;
         }
+        const wb = file.workbook;
 
         const ws = wb.Sheets[sheet];
         if (!ws) {
@@ -141,13 +147,15 @@ export async function updateAllExcelLinks(items: CostItem[]): Promise<{
         }
 
         // Een Excel-fout (#REF!, #DIV/0!) heeft een numerieke foutcode als v
-        // (23, 7, …): die mag nooit als hoeveelheid binnenkomen (#88).
-        if (cellObj.t === 'e' && cellObj.v !== undefined) {
-          errors.push(`Cel ${cell} bevat een Excel-fout (${cellObj.w || '#ERROR'}) in ${sheet} (${filePath})`);
+        // (23, 7, …): die mag nooit als hoeveelheid binnenkomen. Een formule
+        // die nooit in Excel is berekend, heeft geen of een nep-uitkomst (#88).
+        const issue = cellIssueKind(cellObj, file.uncalculated);
+        if (issue?.kind === 'error') {
+          errors.push(`Cel ${cell} bevat een Excel-fout (${issue.text}) in ${sheet} (${filePath})`);
           return item;
         }
-        if (cellObj.f && (cellObj.t === 'z' || cellObj.v === undefined)) {
-          errors.push(`Cel ${cell} heeft een formule zonder opgeslagen uitkomst in ${sheet} (${filePath}); open en sla het bestand op in Excel`);
+        if (issue?.kind === 'noCachedValue') {
+          errors.push(`Cel ${cell} heeft een formule die nooit in Excel is berekend in ${sheet} (${filePath}); open en sla het bestand op in Excel`);
           return item;
         }
         if (cellObj.t === 'z') {

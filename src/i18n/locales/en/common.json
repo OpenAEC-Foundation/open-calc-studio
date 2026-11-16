@@ -941,7 +941,7 @@
       "rsxFlattened": "RSX: nested chapters under \"{{name}}\" were flattened; CROW RSX supports one sub-estimate level.",
       "currencyNotInFormat": "{{format}} has no currency field, so the receiver will read these amounts as euros. This estimate is in {{currency}}; the amounts were not converted.",
       "unreadableNumbers": "{{count}} values could not be read as a number and were imported as 0 (for example \"{{example}}\").",
-      "formulaCellsWithoutValue": "{{count}} cells in number columns have no usable value (a formula without a stored result, or an Excel error) and were imported as empty: {{cells}}. Open the file in Excel, fix or recalculate it, save it and import again.",
+      "formulaCellsWithoutValue": "Cells in number columns without a usable value were imported as empty ({{count}}): {{cells}}. They contain a formula that was never calculated in Excel, or an Excel error. Open the file in Excel, correct the errors or recalculate (F9), save it and import again.",
       "xmlError": "XML parse error: {{message}} (line {{line}})",
       "xml": {
         "entity": "Unknown entity {{p0}}",

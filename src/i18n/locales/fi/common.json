@@ -915,7 +915,7 @@
       "rsxFlattened": "RSX: sisäkkäiset luvut kohdan \"{{name}}\" alla litistettiin; CROW RSX tukee yhtä alikustannusarviotasoa.",
       "currencyNotInFormat": "{{format}} ei sisällä valuuttakenttää, joten vastaanottaja lukee summat euroina. Tämä laskelma on valuutassa {{currency}}; summia ei ole muunnettu.",
       "unreadableNumbers": "{{count}} arvoa ei voitu lukea lukuna, ja ne tuotiin arvona 0 (esimerkiksi ”{{example}}”).",
-      "formulaCellsWithoutValue": "{{count}} numerosarakkeiden solulla ei ole käyttökelpoista arvoa (kaava ilman tallennettua tulosta tai Excel-virhe), ja ne tuotiin tyhjinä: {{cells}}. Avaa tiedosto Excelissä, korjaa tai laske se uudelleen, tallenna ja tuo uudelleen.",
+      "formulaCellsWithoutValue": "Numerosarakkeiden solut, joilla ei ole käyttökelpoista arvoa, tuotiin tyhjinä ({{count}}): {{cells}}. Niissä on kaava, jota ei ole koskaan laskettu Excelissä, tai Excel-virhe. Avaa tiedosto Excelissä, korjaa virheet tai laske uudelleen (F9), tallenna ja tuo uudelleen.",
       "xmlError": "XML-jäsennysvirhe: {{message}} (rivi {{line}})",
       "xml": {
         "entity": "Tuntematon entiteetti {{p0}}",

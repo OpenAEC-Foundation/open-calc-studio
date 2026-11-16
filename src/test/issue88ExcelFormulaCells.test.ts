@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import * as XLSX from 'xlsx';
 import { parseCsv, parseXlsxTabular, autoDetectMapping, buildFromMapping } from '@/services/importers';
+import { cellIssueKind } from '@/services/importers/genericTabularImporter';
 import { recalculateItems } from '@/services/calculation/calculator';
 
 // Issue #88: een Excel-cel met een formule zonder opgeslagen uitkomst, of met
@@ -27,7 +28,7 @@ function importRows(cells: Cells, ref: string) {
   return { data, result, items: recalculateItems(result.items) };
 }
 
-const formulaWarning = (warnings: string[]) => warnings.filter((w) => /no usable value|geen bruikbare waarde/.test(w));
+const formulaWarning = (warnings: string[]) => warnings.filter((w) => /usable value|bruikbare waarde/.test(w));
 
 describe('#88 Excel-import: formules zonder uitkomst en foutcellen', () => {
   it('gewone getallen: juiste waarde en geen melding', () => {
@@ -82,7 +83,7 @@ describe('#88 Excel-import: formules zonder uitkomst en foutcellen', () => {
     const result = buildFromMapping(data, autoDetectMapping(data.headers));
     const warnings = formulaWarning(result.warnings);
     expect(warnings).toHaveLength(1);
-    expect(warnings[0]).toMatch(/^1 /);
+    expect(warnings[0]).toContain('(1)');
     expect(warnings[0]).toContain('Begroting!C3 (Hoeveelheid)');
     // B4 staat in een kolom die niet als getal is gekoppeld.
     expect(warnings[0]).not.toContain('B4');
@@ -98,9 +99,9 @@ describe('#88 Excel-import: formules zonder uitkomst en foutcellen', () => {
     }
     const data = parseXlsxTabular(xlsx(cells, `A1:C${last}`), 'test');
     expect(data.cellIssues).toHaveLength(200);
-    expect(data.cellIssuesOverflow).toEqual({ 1: last - 1 - 200 });
+    expect(data.cellIssuesOverflow?.[1]).toHaveLength(last - 1 - 200);
     const [warning] = formulaWarning(buildFromMapping(data, autoDetectMapping(data.headers)).warnings);
-    expect(warning).toMatch(new RegExp(`^${last - 1} `));
+    expect(warning).toContain(`(${last - 1})`);
   });
 
   it('klopt het adres ook met lege rijen en een tabel die niet in A1 begint', () => {
@@ -123,7 +124,7 @@ describe('#88 Excel-import: formules zonder uitkomst en foutcellen', () => {
       cells[`C${r}`] = { t: 'n', v: 5 };
     }
     const [warning] = formulaWarning(importRows(cells, 'A1:C8').result.warnings);
-    expect(warning).toMatch(/^7 /);
+    expect(warning).toContain('(7)');
     expect(warning).toContain('Blad1!B6');
     expect(warning).not.toContain('Blad1!B7');
     expect(warning).toContain('…');
@@ -133,5 +134,72 @@ describe('#88 Excel-import: formules zonder uitkomst en foutcellen', () => {
     const data = parseCsv('Omschrijving;Hoeveelheid;Prijs\nPost;2;3', 'csv');
     expect(data.cellIssues).toBeUndefined();
     expect(formulaWarning(buildFromMapping(data, autoDetectMapping(data.headers)).warnings)).toEqual([]);
+  });
+
+  it('een regel waarvan alle getalcellen kapot zijn blijft een post, geen hoofdstuk', () => {
+    const { items } = importRows({
+      ...header,
+      A2: { t: 's', v: 'Kapot' }, B2: { t: 'n', f: '1+1' } as XLSX.CellObject, C2: { t: 'e', v: 0x17, w: '#REF!' },
+      A3: { t: 's', v: 'Daarna' }, B3: { t: 'n', v: 2 }, C3: { t: 'n', v: 5 },
+    }, 'A1:C3');
+    const kapot = items.find((i) => i.description === 'Kapot')!;
+    expect(kapot.rowType).toBe('begrotingspost');
+    // De volgende post hangt er niet onder.
+    expect(items.find((i) => i.description === 'Daarna')!.parentId).not.toBe(kapot.id);
+  });
+
+  // XlsxWriter/pandas schrijven bij elke formule een nep-uitkomst 0 en zetten
+  // fullCalcOnLoad: nooit in Excel berekend. B3 = B2*4 en C4 = C2*3 hebben 0.
+  it('meldt formules in een bestand dat nooit in Excel is berekend (nep-uitkomst 0)', () => {
+    const bytes = readFileSync(resolve(__dirname, 'fixtures/imports/issue88-uncalculated-placeholder-zero.xlsx'));
+    const data = parseXlsxTabular(new Uint8Array(bytes), 'xlsxwriter');
+    const [warning] = formulaWarning(buildFromMapping(data, autoDetectMapping(data.headers)).warnings);
+    expect(warning).toContain('(2)');
+    expect(warning).toContain('Begroting!B3 (Hoeveelheid)');
+    expect(warning).toContain('Begroting!C4 (Prijs)');
+  });
+
+  it('telt boven het maximum alleen cellen van regels die geïmporteerd worden', () => {
+    const cells: Cells = { ...header, D1: { t: 's', v: 'Notitie' } };
+    for (let r = 2; r <= 251; r++) {
+      // De eerste 230 regels hebben geen omschrijving en worden overgeslagen.
+      if (r > 231) cells[`A${r}`] = { t: 's', v: `Post ${r}` };
+      else cells[`D${r}`] = { t: 's', v: 'hulpregel' };
+      cells[`B${r}`] = { t: 'e', v: 0x17, w: '#REF!' };
+    }
+    const data = parseXlsxTabular(xlsx(cells, 'A1:D251'), 'test');
+    const [warning] = formulaWarning(buildFromMapping(data, autoDetectMapping(data.headers)).warnings);
+    expect(warning).toContain('(20)');
+    expect(warning).toContain('…');
+  });
+
+  it('zet een bladnaam met spaties tussen quotes, zoals Excel', () => {
+    const data = parseXlsxTabular(xlsx({ ...header, A2: { t: 's', v: 'Post' }, B2: { t: 'e', v: 0x07, w: '#DIV/0!' } }, 'A1:C2', 'Begroting 2024'), 'test');
+    expect(data.cellIssues?.[0].address).toBe("'Begroting 2024'!B2");
+  });
+});
+
+describe('#88 cellIssueKind', () => {
+  const kind = (cell: Record<string, unknown>, uncalculated = false) => cellIssueKind(cell as unknown as XLSX.CellObject, uncalculated);
+
+  it('herkent foutcellen, ook nieuwere die SheetJS niet als code kent', () => {
+    expect(kind({ t: 'e', v: 0x17, w: '#REF!' })).toEqual({ kind: 'error', text: '#REF!' });
+    expect(kind({ t: 'e', v: 0x00, w: '#NULL!' })).toEqual({ kind: 'error', text: '#NULL!' });
+    expect(kind({ t: 'e', f: '_xlfn.SEQUENCE(3)', w: '#SPILL!' })).toEqual({ kind: 'error', text: '#SPILL!' });
+  });
+
+  it('herkent formules zonder uitkomst', () => {
+    expect(kind({ t: 'e', f: '2*10' })).toEqual({ kind: 'noCachedValue' });
+    expect(kind({ t: 'z', f: '2*10', v: 0 })).toEqual({ kind: 'noCachedValue' });
+    expect(kind({ t: 'z', F: 'B16:B17', v: 0 })).toEqual({ kind: 'noCachedValue' });
+    expect(kind({ t: 'n', f: '2*10', v: 0 }, true)).toEqual({ kind: 'noCachedValue' });
+  });
+
+  it('laat gewone waarden en formules met een uitkomst met rust', () => {
+    expect(kind({ t: 'n', v: 0 })).toBeNull();
+    expect(kind({ t: 'n', f: '2*10', v: 20 })).toBeNull();
+    expect(kind({ t: 's', f: 'IF(A1="","",A1)', v: '' })).toBeNull();
+    expect(kind({ t: 'z' })).toBeNull();
+    expect(kind({ t: 'n', v: 5 }, true)).toBeNull();
   });
 });

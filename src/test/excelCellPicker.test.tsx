@@ -67,7 +67,7 @@ describe('Excel link service with a sheet that does not start at A1 (knownbugs 7
     const wb = { SheetNames: ['Blad1'], Sheets: { Blad1: ws } } as XLSX.WorkBook;
     files.set('C:/errors.xlsx', new Uint8Array(XLSX.write(wb, { type: 'array', bookType: 'xlsx' }) as ArrayBuffer));
     const link = (cell: string) => ({ filePath: 'C:/errors.xlsx', sheet: 'Blad1', cell });
-    // One item per call: concurrent dynamic imports of the mocked plugin are flaky in vitest.
+    // One item per call, so each error is checked on its own.
     const ref = await updateAllExcelLinks([{ id: 'ref', quantity: 5, excelLink: link('A1') } as unknown as CostItem]);
     expect(ref.updatedItems[0].quantity).toBe(5);
     expect(ref.updateCount).toBe(0);
@@ -76,7 +76,7 @@ describe('Excel link service with a sheet that does not start at A1 (knownbugs 7
     const noCache = await updateAllExcelLinks([{ id: 'nocache', quantity: 6, excelLink: link('A2') } as unknown as CostItem]);
     expect(noCache.updatedItems[0].quantity).toBe(6);
     expect(noCache.updateCount).toBe(0);
-    expect(noCache.errors).toEqual([expect.stringContaining('formule zonder opgeslagen uitkomst')]);
+    expect(noCache.errors).toEqual([expect.stringContaining('nooit in Excel is berekend')]);
   });
 
   // A real file (openpyxl) writes <f>C2*4</f><v/>; SheetJS drops that cell unless sheetStubs is on.
@@ -85,7 +85,22 @@ describe('Excel link service with a sheet that does not start at A1 (knownbugs 7
     files.set(path, new Uint8Array(readFileSync(resolve(__dirname, 'fixtures/imports/issue88-openpyxl-formula-without-result.xlsx'))));
     const { updatedItems, errors } = await updateAllExcelLinks([{ id: 'w', quantity: 3, excelLink: { filePath: path, sheet: 'Begroting', cell: 'C3' } } as unknown as CostItem]);
     expect(updatedItems[0].quantity).toBe(3);
-    expect(errors).toEqual([expect.stringContaining('formule zonder opgeslagen uitkomst')]);
+    expect(errors).toEqual([expect.stringContaining('nooit in Excel is berekend')]);
+  });
+
+  // XlsxWriter writes 0 as the result of every formula and sets fullCalcOnLoad.
+  // Several items linked to one file: the file is read once and each item is judged.
+  it('refresh does not take a placeholder 0 from an uncalculated file, for several items on one file', async () => {
+    const path = 'C:/xlsxwriter.xlsx';
+    files.set(path, new Uint8Array(readFileSync(resolve(__dirname, 'fixtures/imports/issue88-uncalculated-placeholder-zero.xlsx'))));
+    const link = (cell: string) => ({ filePath: path, sheet: 'Begroting', cell });
+    const { updatedItems, updateCount, errors } = await updateAllExcelLinks([
+      { id: 'formula', quantity: 7, excelLink: link('B3') },
+      { id: 'literal', quantity: 1, excelLink: link('B2') },
+    ] as unknown as CostItem[]);
+    expect(updatedItems.map((i) => i.quantity)).toEqual([7, 20]);
+    expect(updateCount).toBe(1);
+    expect(errors).toEqual([expect.stringContaining('B3')]);
   });
 });
 
