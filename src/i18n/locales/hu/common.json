@@ -937,6 +937,7 @@
       "rsxFlattened": "RSX: a(z) „{{name}}” alatti beágyazott fejezetek lapítva lettek; a CROW RSX egy részköltségvetési szintet támogat.",
       "currencyNotInFormat": "A(z) {{format}} formátumnak nincs pénznemmezője, így a címzett ezeket az összegeket euróként olvassa. Ez a költségvetés {{currency}} pénznemben van; az összegeket nem váltottuk át.",
       "unreadableNumbers": "{{count}} érték nem olvasható számként, ezért 0-ként lett importálva (például „{{example}}”).",
+      "formulaCellsWithoutValue": "A számoszlopok használható érték nélküli cellái üresen lettek importálva ({{count}}): {{cells}}. Olyan képletet tartalmaznak, amelyet az Excel soha nem számolt ki, vagy Excel-hibát. Nyissa meg a fájlt az Excelben, javítsa a hibákat vagy számoljon újra (F9), mentse, majd importálja újra.",
       "xmlError": "XML-elemzési hiba: {{message}} ({{line}}. sor)",
       "xml": {
         "entity": "Ismeretlen entitás: {{p0}}",

@@ -90,6 +90,7 @@
       "noProjectStructure": "Không tìm thấy cấu trúc dự án (##/#) — các mục đã được nhập như một bảng giá trong một chương duy nhất.",
       "priceMismatch_one": "Ở {{count}} công tác, tổng phân tích đơn giá chênh hơn 2% so với đơn giá trong bản ghi ~C ({{examples}}). Đã sử dụng phân tích đơn giá.",
       "priceMismatch_other": "Ở {{count}} công tác, tổng phân tích đơn giá chênh hơn 2% so với đơn giá trong bản ghi ~C (vd. {{examples}}). Đã sử dụng phân tích đơn giá.",
+      "totalMismatch": "Tổng trong tệp ({{file}}) khác với tổng được tính ở đây ({{calculated}}), chênh lệch {{difference}}.",
       "noPrices": "Tệp này không chứa giá — chỉ có mô tả và khối lượng (như một thư viện khối lượng). Vì vậy tổng vẫn là 0.00.",
       "moreWarnings_one": "… và thêm {{count}} thông báo tương tự.",
       "moreWarnings_other": "… và thêm {{count}} thông báo tương tự."

@@ -12,6 +12,7 @@ import { useAppStore } from '@/state/appStore';
 import { getReportRequestLocale } from '@/i18n/reportI18n';
 import { generateIfcCostFile } from '@/services/ifc/ifcCostGenerator';
 import { buildOfferteRequest } from '@/services/offerte/offerteRequest';
+import { variantCalculatedItems } from '@/services/grid/variantTotals';
 
 export type ApiExportAction = 'export_pdf_request' | 'export_ifc_request';
 
@@ -52,10 +53,11 @@ export async function exportPdf(data: Record<string, unknown>): Promise<string> 
   }
   const request = {
     schedule,
-    // Alle regels: Rust toont bij "alleen hoofdstuktotalen" (schedule.
+    // Alle regels van de gekozen variant, met totalen over die variant (zoals
+    // grid en statusbalk). Rust toont bij "alleen hoofdstuktotalen" (schedule.
     // reportChapterTotalsOnly) alleen de hoofdstukken, maar rekent de staart
     // over alle regels, zoals de app.
-    items,
+    items: variantCalculatedItems(items, schedule),
     reportView,
     pageSize: (data.pageSize as string) || store.pageSize,
     pageOrientation: (data.pageOrientation as string) || store.pageOrientation,

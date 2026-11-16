@@ -233,12 +233,14 @@ const roundtrip = (file: string): Row => {
   const buf = readFileSync(path.join(DIR, file));
   const original = decodeBc3(toArrayBuffer(buf));
   const A: ImportResult = importBc3File(toArrayBuffer(buf));
-  const itemsA = recalculateItems(A.items);
+  // Rekenen met de afrondingsregel uit het bestand, zoals de app dat doet
+  // (`schedule.priceRounding`, #83); de export schrijft hem terug in ~K.
+  const itemsA = recalculateItems(A.items, undefined, A.schedule.priceRounding);
   const schedule = baseSchedule(A.schedule);
   const { bytes, charset } = buildBc3Bytes(schedule, itemsA);
   const text = buildBc3(schedule, itemsA, charset);
   const B: ImportResult = importBc3File(toArrayBuffer(Buffer.from(bytes)));
-  const itemsB = recalculateItems(B.items);
+  const itemsB = recalculateItems(B.items, undefined, B.schedule.priceRounding);
 
   const snapA = snapshot(itemsA);
   const snapB = snapshot(itemsB);
@@ -321,7 +323,7 @@ describe.skipIf(files.length === 0)('FIEBDC-3 rondreis over verification/bc3', (
 
       it('behoudt projectnaam en -omschrijving', () => {
         const A = importBc3File(toArrayBuffer(readFileSync(path.join(DIR, file))));
-        const { bytes } = buildBc3Bytes(baseSchedule(A.schedule), recalculateItems(A.items));
+        const { bytes } = buildBc3Bytes(baseSchedule(A.schedule), recalculateItems(A.items, undefined, A.schedule.priceRounding));
         const B = importBc3File(toArrayBuffer(Buffer.from(bytes)));
         expect(B.schedule.projectName).toBe(A.schedule.projectName);
         expect(lf(B.schedule.description ?? '')).toBe(lf(A.schedule.description ?? ''));

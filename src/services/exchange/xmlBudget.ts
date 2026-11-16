@@ -105,6 +105,7 @@ export function importXmlBudget(source: string, fileName = 'budget.xml', currenc
   if (!currency) warnings.add(`Currency assumed ${inferredCurrency}; override it when the source uses another currency.`);
   if (b.items.filter(i => i.rowType === 'begrotingspost').every(i => !i.materialPrice)) warnings.add('All prices are blank or zero; this may be an unpriced bill of quantities.');
   const references = Object.fromEntries(b.items.filter(i => i.rowType === 'begrotingspost').map(i => [i.id,i.nr]));
+  // priceRounding: n.v.t. — nieuwe import; het schedule hieronder heeft geen afrondingsregel
   const items = recalculateItems(b.items);
   return {
     format, items, warnings:[...warnings],

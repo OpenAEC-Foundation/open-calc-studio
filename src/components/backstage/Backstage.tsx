@@ -143,7 +143,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         newFile();
         const store = useAppStore.getState();
         store.setSchedule(s);
-        store.setItems(recalculateItems(i));
+        store.setItems(recalculateItems(i, undefined, s.priceRounding));
         store.updateDocument(store.activeDocumentId, {
           fileName: file.name.replace(/\.ifcx?$/i, ''),
           isModified: true,
@@ -371,7 +371,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
     newFile();
     const store = useAppStore.getState();
     store.setSchedule(result.schedule);
-    store.setItems(recalculateItems(result.items));
+    store.setItems(recalculateItems(result.items, undefined, result.schedule.priceRounding));
     store.updateDocument(store.activeDocumentId, { fileName: mappingData.sourceName, isModified: true });
     if (result.warnings.length > 0) {
       console.warn('[Import Excel/CSV] waarschuwingen:', result.warnings);
@@ -435,7 +435,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         newFile();
         const store = useAppStore.getState();
         store.setSchedule(result.schedule);
-        store.setItems(recalculateItems(result.items));
+        store.setItems(recalculateItems(result.items, undefined, result.schedule.priceRounding));
         store.updateDocument(store.activeDocumentId, {
           fileName,
           isModified: true,
@@ -485,7 +485,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
       const store = useAppStore.getState();
       if (!store.activeDocumentId) throw new Error(uiText("import.gaebBase", "Open the matching GAEB X83 bill of quantities first."));
       const result = applyGaebX84(xml, store.items);
-      store.setItems(recalculateItems(result.items, effectiveTarieven(store.schedule)));
+      store.setItems(recalculateItems(result.items, effectiveTarieven(store.schedule), store.schedule.priceRounding));
       store.updateDocument(store.activeDocumentId, { isModified: true });
       onClose();
       const applied = uiText("import.offerApplied", "{{count}} GAEB bid prices applied.", { count: result.pricedCount });
@@ -521,7 +521,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
       newFile();
       const store = useAppStore.getState();
       store.setSchedule(result.schedule);
-      store.setItems(recalculateItems(result.items));
+      store.setItems(recalculateItems(result.items, undefined, result.schedule.priceRounding));
       store.updateDocument(store.activeDocumentId, { fileName, isModified: true });
       if (result.warnings.length > 0) {
         console.warn(`[Import FIEBDC-3] ${result.warnings.length} waarschuwingen:`, result.warnings);

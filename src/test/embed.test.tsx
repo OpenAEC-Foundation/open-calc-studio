@@ -30,7 +30,7 @@ describe('CSS-scoping voor het inbouwpakket', () => {
 
 describe('voorbeeldbegrotingen in de bundel', () => {
   it('zijn gelijk aan de bestanden in public/data', () => {
-    for (const f of ['voorbeeld.ifcCalc', 'sample-en.ifcCalc']) {
+    for (const f of ['voorbeeld.ifcCalc', 'sample-en.ifcCalc', 'sample-pt.ifcCalc']) {
       expect(readFileSync(`src/data/samples/${f}`, 'utf8')).toBe(readFileSync(`public/data/${f}`, 'utf8'));
     }
   });

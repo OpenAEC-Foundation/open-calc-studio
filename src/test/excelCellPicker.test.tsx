@@ -2,6 +2,8 @@ import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import * as XLSX from 'xlsx';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import i18next from '@/i18n/config';
 import ExcelCellPicker from '@/components/common/ExcelCellPicker';
 import { parseExcelFile, pickerCellValue, updateAllExcelLinks } from '@/services/excel/excelLinkService';
@@ -53,6 +55,52 @@ describe('Excel link service with a sheet that does not start at A1 (knownbugs 7
     const { updatedItems, errors } = await updateAllExcelLinks([item]);
     expect(errors).toEqual([]);
     expect(updatedItems[0].quantity).toBe(42);
+  });
+
+  // #88: SheetJS stores #REF! as error code 23; that must never become the quantity.
+  it('refresh keeps the quantity and reports an Excel error cell or a formula without a stored result', async () => {
+    const ws = {
+      '!ref': 'A1:A2',
+      A1: { t: 'e', v: 0x17, w: '#REF!', f: '#REF!*2' },
+      A2: { t: 'n', f: '1+1' },
+    } as XLSX.WorkSheet;
+    const wb = { SheetNames: ['Blad1'], Sheets: { Blad1: ws } } as XLSX.WorkBook;
+    files.set('C:/errors.xlsx', new Uint8Array(XLSX.write(wb, { type: 'array', bookType: 'xlsx' }) as ArrayBuffer));
+    const link = (cell: string) => ({ filePath: 'C:/errors.xlsx', sheet: 'Blad1', cell });
+    // One item per call, so each error is checked on its own.
+    const ref = await updateAllExcelLinks([{ id: 'ref', quantity: 5, excelLink: link('A1') } as unknown as CostItem]);
+    expect(ref.updatedItems[0].quantity).toBe(5);
+    expect(ref.updateCount).toBe(0);
+    expect(ref.errors).toEqual([expect.stringContaining('#REF!')]);
+
+    const noCache = await updateAllExcelLinks([{ id: 'nocache', quantity: 6, excelLink: link('A2') } as unknown as CostItem]);
+    expect(noCache.updatedItems[0].quantity).toBe(6);
+    expect(noCache.updateCount).toBe(0);
+    expect(noCache.errors).toEqual([expect.stringContaining('nooit in Excel is berekend')]);
+  });
+
+  // A real file (openpyxl) writes <f>C2*4</f><v/>; SheetJS drops that cell unless sheetStubs is on.
+  it('refresh reports a formula without a stored result in a real openpyxl file', async () => {
+    const path = 'C:/openpyxl.xlsx';
+    files.set(path, new Uint8Array(readFileSync(resolve(__dirname, 'fixtures/imports/issue88-openpyxl-formula-without-result.xlsx'))));
+    const { updatedItems, errors } = await updateAllExcelLinks([{ id: 'w', quantity: 3, excelLink: { filePath: path, sheet: 'Begroting', cell: 'C3' } } as unknown as CostItem]);
+    expect(updatedItems[0].quantity).toBe(3);
+    expect(errors).toEqual([expect.stringContaining('nooit in Excel is berekend')]);
+  });
+
+  // XlsxWriter writes 0 as the result of every formula and sets fullCalcOnLoad.
+  // Several items linked to one file: the file is read once and each item is judged.
+  it('refresh does not take a placeholder 0 from an uncalculated file, for several items on one file', async () => {
+    const path = 'C:/xlsxwriter.xlsx';
+    files.set(path, new Uint8Array(readFileSync(resolve(__dirname, 'fixtures/imports/issue88-uncalculated-placeholder-zero.xlsx'))));
+    const link = (cell: string) => ({ filePath: path, sheet: 'Begroting', cell });
+    const { updatedItems, updateCount, errors } = await updateAllExcelLinks([
+      { id: 'formula', quantity: 7, excelLink: link('B3') },
+      { id: 'literal', quantity: 1, excelLink: link('B2') },
+    ] as unknown as CostItem[]);
+    expect(updatedItems.map((i) => i.quantity)).toEqual([7, 20]);
+    expect(updateCount).toBe(1);
+    expect(errors).toEqual([expect.stringContaining('B3')]);
   });
 });
 

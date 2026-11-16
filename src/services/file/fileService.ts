@@ -93,6 +93,25 @@ function migrateItemV1toV2(item: any): CostItem {
   };
 }
 
+/**
+ * Hoofdvariant met een oude willekeurige id (knownbug 160) omzetten naar
+ * 'main', samen met alles wat ernaar verwijst. Alleen als er precies één
+ * hoofdvariant met de naam "main" is en er nog geen variant 'main' bestaat.
+ */
+export function migrateLegacyMainBranch(schedule: { branches?: { id: string; name: string; parentId: string | null }[]; activeBranchId?: string | null }, items: { branchId?: string | null }[]): void {
+  const branches = schedule.branches;
+  if (!Array.isArray(branches) || branches.some(b => b.id === 'main')) return;
+  const roots = branches.filter(b => b.parentId === null);
+  if (roots.length !== 1 || roots[0].name !== 'main') return;
+  const old = roots[0].id;
+  for (const branch of branches) {
+    if (branch.id === old) branch.id = 'main';
+    if (branch.parentId === old) branch.parentId = 'main';
+  }
+  if (schedule.activeBranchId === old) schedule.activeBranchId = 'main';
+  for (const item of items) if (item.branchId === old) item.branchId = 'main';
+}
+
 export function deserializeProject(json: string): ProjectFile {
   const parsed = JSON.parse(json);
   if (!parsed.schedule || !Array.isArray(parsed.items)) {
@@ -148,6 +167,16 @@ export function deserializeProject(json: string): ProjectFile {
   }
   if (!Array.isArray(parsed.schedule.branches)) {
     parsed.schedule.branches = [];
+  }
+
+  // Knownbug 160: "Create main" maakte vroeger een hoofdvariant met een
+  // willekeurige id. De rest van de app herkent alleen de id 'main'; zet zo'n
+  // hoofdvariant (ook in de momentopnamen) om naar 'main'.
+  migrateLegacyMainBranch(parsed.schedule, parsed.items);
+  if (Array.isArray(parsed.snapshots)) {
+    for (const snapshot of parsed.snapshots) {
+      if (snapshot?.schedule && Array.isArray(snapshot.items)) migrateLegacyMainBranch(snapshot.schedule, snapshot.items);
+    }
   }
 
   // v2.0 → v2.1 — subSheets[] promoted to spreadsheets object

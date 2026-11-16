@@ -937,6 +937,7 @@
       "rsxFlattened": "RSX: \"{{name}}\" 아래의 중첩된 장을 평탄화했습니다. CROW RSX는 하위 내역서 수준을 하나만 지원합니다.",
       "currencyNotInFormat": "{{format}}에는 통화 필드가 없으므로 받는 쪽은 이 금액을 유로로 읽습니다. 이 견적은 {{currency}}입니다. 금액은 환산되지 않았습니다.",
       "unreadableNumbers": "{{count}}개의 값을 숫자로 읽을 수 없어 0으로 가져왔습니다(예: \"{{example}}\").",
+      "formulaCellsWithoutValue": "사용할 수 있는 값이 없는 숫자 열의 셀을 빈 값으로 가져왔습니다({{count}}): {{cells}}. 이 셀에는 Excel에서 한 번도 계산되지 않은 수식 또는 Excel 오류가 있습니다. Excel에서 파일을 열어 오류를 수정하거나 다시 계산(F9)한 후 저장하고 다시 가져오세요.",
       "xmlError": "XML 구문 분석 오류: {{message}}({{line}}행)",
       "xml": {
         "entity": "알 수 없는 엔티티 {{p0}}",

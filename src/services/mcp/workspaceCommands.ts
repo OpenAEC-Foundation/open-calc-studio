@@ -14,7 +14,7 @@ export async function pdfCommand(action:string,p:Record<string,unknown>) {
     const items=current.items.map(item=>{const link=item.quantityLink;if(link?.source!=='pdf')return item;
       const value=pdf.resolve(link);
       return value===null?item:{...item,quantity:value};});
-    useAppStore.setState({items:recalculateItems(items,effectiveTarieven(current.schedule))});
+    useAppStore.setState({items:recalculateItems(items,effectiveTarieven(current.schedule),current.schedule.priceRounding)});
     current.updateDocument(docId,{isModified:true});};
   if(action==='list')return w.sources.map(({dataBase64,...source})=>source);
   if(action==='add') {
@@ -33,7 +33,7 @@ export async function pdfCommand(action:string,p:Record<string,unknown>) {
     const item=s.items.find(i=>i.id===p.itemId);if(!item||!['regel','begrotingspost','bewakingspost'].includes(item.rowType))throw Error('Selecteer een begrotingspost of rekenregel.');
     s.pushHistory(s.items,'PDF-hoeveelheid koppelen');
     const link = {source:'pdf' as const,measurementId:measurement.id,kind:measurement.type};
-    useAppStore.setState({items:recalculateItems(s.items.map(i=>i.id===p.itemId?{...i,quantity:measurement.value,unit:pdfLinkUnit(measurement.type),quantityLink:link,quantityOrigin:captureQuantityOrigin(link,s)}:i),effectiveTarieven(s.schedule))});
+    useAppStore.setState({items:recalculateItems(s.items.map(i=>i.id===p.itemId?{...i,quantity:measurement.value,unit:pdfLinkUnit(measurement.type),quantityLink:link,quantityOrigin:captureQuantityOrigin(link,s)}:i),effectiveTarieven(s.schedule),s.schedule.priceRounding)});
     s.updateDocument(docId,{isModified:true});return {quantity:measurement.value};
   }
   const pdfjs=await import('pdfjs-dist');pdfjs.GlobalWorkerOptions.workerSrc=workerUrl;

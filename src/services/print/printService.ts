@@ -3,6 +3,7 @@ import type { CostItem, CostSchedule, CompanyInfo } from '@/types/costModel';
 import type { ReportView, PageOrientation, PageSize } from '@/state/slices/uiSlice';
 import { getStaartBreakdown } from '@/services/calculation/calculator';
 import { buildBouw1Html } from './bouw1PrintService';
+import { variantCalculatedItems } from '@/services/grid/variantTotals';
 import { getReportContext, type ReportContext } from '@/i18n/reportI18n';
 
 function escapeHtml(text: string): string {
@@ -194,7 +195,9 @@ function buildHtml(
   const fmt = makeFormatters(ctx);
   const fmtCurrency = fmt.currency;
   const fmtPercentage = fmt.percentage;
-  const items = itemsForReport(schedule, itemsIn);
+  // Alleen de gekozen variant, met totalen over die variant (zoals grid en
+  // statusbalk); zonder gekozen variant blijven de regels ongewijzigd.
+  const items = itemsForReport(schedule, variantCalculatedItems(itemsIn, schedule));
   // Bouw 1 view uses its own dedicated builder (always landscape).
   // IBIS-stijl en directiebegroting renderen als PDF via de Rust/Typst-
   // template; de browser-print (zonder Tauri) valt terug op de Bouw 1

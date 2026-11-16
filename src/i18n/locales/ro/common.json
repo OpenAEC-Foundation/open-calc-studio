@@ -938,6 +938,7 @@
       "rsxFlattened": "RSX: capitolele imbricate sub „{{name}}” au fost aplatizate; CROW RSX acceptă un singur nivel de subdeviz.",
       "currencyNotInFormat": "{{format}} nu are câmp de monedă, deci destinatarul va citi aceste sume în euro. Acest deviz este în {{currency}}; sumele nu au fost convertite.",
       "unreadableNumbers": "{{count}} valori nu au putut fi citite ca număr și au fost importate ca 0 (de exemplu „{{example}}”).",
+      "formulaCellsWithoutValue": "Celule din coloanele numerice fără valoare utilizabilă au fost importate goale ({{count}}): {{cells}}. Conțin o formulă care nu a fost niciodată calculată în Excel sau o eroare Excel. Deschideți fișierul în Excel, corectați erorile sau recalculați (F9), salvați-l și importați din nou.",
       "xmlError": "Eroare de analiză XML: {{message}} (linia {{line}})",
       "xml": {
         "entity": "Entitate necunoscută {{p0}}",

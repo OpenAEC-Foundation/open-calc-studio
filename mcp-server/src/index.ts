@@ -22,6 +22,7 @@ import { isIfcxExchangeJson } from '../../src/services/importers/ifcxDetection';
  * Resources: budget://current, budget://schedule, budget://items
  */
 import { effectiveTarieven, recalculateItems, getStaartBreakdown } from '../../src/services/calculation/calculator';
+import { variantCalculatedItems } from '../../src/services/grid/variantTotals';
 import { deserializeProject, FILE_FORMAT_VERSION } from '../../src/services/file/fileService';
 import { importBc3File } from '../../src/services/importers/bc3Importer';
 import { importOnlvFile } from '../../src/services/importers/onlvImporter';
@@ -31,7 +32,7 @@ import { exportOnlv } from '../../src/services/export/onlvExporter';
 import { exportCuf } from '../../src/services/exporters/cufExporter';
 import { exportTradxml } from '../../src/services/exporters/tradxmlExporter';
 import { exportRsx } from '../../src/services/exporters/rsxExporter';
-import type { CostItem } from '../../src/types/costModel';
+import type { CostItem, PriceRounding } from '../../src/types/costModel';
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
@@ -138,6 +139,8 @@ interface CostSchedule {
   client: string; author: string; ifcGuid: string;
   uitvoeringskosten: number; algemeneKosten: number; winstRisico: number;
   tarieven?: Record<string, number>;
+  /** Afrondingsregel van de begroting (FIEBDC-3 ~K, #83); zie src/types/costModel.ts. */
+  priceRounding?: PriceRounding | null;
   projectProperties?: Array<{ id: string; name: string; value: number | null; unit: string }>;
 }
 
@@ -958,7 +961,7 @@ function req() {
 
 function doRecalc() {
   const b = req();
-  b.items = recalculateItems(b.items, effectiveTarieven(b.schedule));
+  b.items = recalculateItems(b.items, effectiveTarieven(b.schedule), b.schedule?.priceRounding);
   return b.items;
 }
 
@@ -1106,7 +1109,7 @@ server.tool("open_budget", "Open a budget file and load it into memory. Supports
   try {
     const p = resolve(filePath);
     const { project, warnings, imported } = await loadProjectFile(p);
-    const items = recalculateItems(project.items, effectiveTarieven(project.schedule));
+    const items = recalculateItems(project.items, effectiveTarieven(project.schedule), project.schedule?.priceRounding);
     const nativePath = !imported && NATIVE_BUDGET_EXTENSIONS.has(extname(p).toLowerCase()) ? p : '';
     currentBudget = { filePath: nativePath, project, items, schedule: project.schedule };
 
@@ -1132,7 +1135,7 @@ server.tool("apply_gaeb_x84", "Apply prices from a GAEB X84 offer to the matchin
   try {
     const b = req();
     const merged = applyGaebX84(readFileSync(resolve(filePath), 'utf-8'), b.items);
-    b.items = recalculateItems(merged.items, effectiveTarieven(b.schedule));
+    b.items = recalculateItems(merged.items, effectiveTarieven(b.schedule), b.schedule?.priceRounding);
     sendBridgeMutation('set_items', { items: b.items });
     return ok({ success: true, pricedCount: merged.pricedCount, warnings: merged.warnings });
   } catch (e: unknown) { return err((e as Error).message); }
@@ -1535,6 +1538,19 @@ server.tool("update_schedule", "Update schedule/project metadata", {
   } catch (e: unknown) { return err((e as Error).message); }
 });
 
+/**
+ * De variantkeuze zoals MCP hem bijhoudt (schaduwstaat, anders het bestand),
+ * plus de afrondingsregel van de begroting (#83): zonder rekende de PDF van
+ * een variant onafgerond.
+ */
+function pdfVariantScope() {
+  ensureShadowFromBudget();
+  return {
+    branchesEnabled: shadow.branchesEnabled, activeBranchId: shadow.activeBranchId ?? undefined, branches: shadow.branches as never,
+    priceRounding: currentBudget?.schedule?.priceRounding,
+  };
+}
+
 server.tool("export_pdf", "Generate a PDF report from the current budget", {
   outputPath: z.string().describe("Output PDF path"),
   reportView: z.enum(["werkbeschrijving", "hoofdaanneming", "onderaanneming", "inschrijfstaat", "nacalculatie", "bouw1", "offerte"]).optional().default("bouw1").describe("Report view"),
@@ -1544,7 +1560,8 @@ server.tool("export_pdf", "Generate a PDF report from the current budget", {
     // Save to temp file, run gen_pdf, return
     const tmp = b.filePath.replace(/\.[^.]+$/, '_mcp_tmp.ifcx');
     writeFileSync(tmp, JSON.stringify({
-      version: FILE_FORMAT_VERSION, schedule: b.schedule, items: b.items,
+      // Alleen de rijen van de gekozen variant, net als de app (knownbug 165).
+      version: FILE_FORMAT_VERSION, schedule: b.schedule, items: variantCalculatedItems(b.items as never, pdfVariantScope()),
       resourceLibrary: [], companyInfo: b.project.companyInfo,
       createdAt: new Date().toISOString(), modifiedAt: new Date().toISOString(),
     }, null, 2));
@@ -1865,7 +1882,7 @@ server.tool("lookup_reference_project", "Open a reference project (.ifcx OR .cal
     } else {
       // â”€â”€ JSON (.ifcx) â”€â”€
       const project = deserializeProject(readFileSync(p, 'utf-8'));
-      const items = recalculateItems(project.items, effectiveTarieven(project.schedule));
+      const items = recalculateItems(project.items, effectiveTarieven(project.schedule), project.schedule?.priceRounding);
       projectName = project.schedule.projectName;
       allItems = items.filter(i => !isStagart(i.rowType)).map(i => ({
         code: i.code, description: i.description, rowType: i.rowType,

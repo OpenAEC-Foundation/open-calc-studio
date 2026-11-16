@@ -937,6 +937,7 @@
       "rsxFlattened": "RSX: geneste chapters onder \"{{name}}\" worden afgevlakt (CROW RSX ondersteunt 1 niveau Deelraming)",
       "currencyNotInFormat": "{{format}} heeft geen valutaveld, dus de ontvanger leest deze bedragen als euro's. Deze begroting is in {{currency}}; de bedragen zijn niet omgerekend.",
       "unreadableNumbers": "{{count}} waarden konden niet als getal worden gelezen en zijn als 0 geïmporteerd (bijvoorbeeld \"{{example}}\").",
+      "formulaCellsWithoutValue": "Cellen in getalkolommen zonder bruikbare waarde zijn leeg geïmporteerd ({{count}}): {{cells}}. Ze bevatten een formule die nooit in Excel is berekend, of een Excel-fout. Open het bestand in Excel, herstel de fouten of herbereken (F9), sla het op en importeer opnieuw.",
       "xmlError": "XML-parsefout: {{message}} (regel {{line}})",
       "xml": {
         "entity": "onbekende entiteit {{p0}}",

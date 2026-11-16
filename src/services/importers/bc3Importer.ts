@@ -26,7 +26,8 @@ import { makeCostItem, parseNumber, normalizeUnit, normalizeCurrencyCode, genId 
 import { decodeCp850 } from './cp850';
 import { decodeWindows1252 } from './windows1252';
 import type { ImportResult, ImportWarningCode } from './types';
-import type { CostItem, CostUnit, ResourceType } from '@/types/costModel';
+import type { CostItem, CostUnit, PriceRounding, ResourceType } from '@/types/costModel';
+import { FIEBDC_DEFAULT_ROUNDING, isValidDecimals, roundHalfUp } from '@/services/calculation/priceRounding';
 
 // ── Recordmodel ─────────────────────────────────────────────────────────────
 
@@ -64,6 +65,68 @@ interface Bc3Data {
   measurements: Map<string, number>;   // "#pad", "ouder::kind::positie", "ouder::kind" of "*::kind" → totaal
   measured: Set<string>;               // kind-keys waarvoor een ~M/~N bestaat
   currency?: string;                   // DIVISA uit ~K (ISO 4217), als aanwezig
+  rounding: PriceRounding;             // decimalen uit ~K, anders de FIEBDC-standaard (#83)
+}
+
+/**
+ * Aantal decimalen uit één subveld van ~K. Leeg of onleesbaar → undefined.
+ * Een negatief getal betekent volgens de specificatie "ten hoogste zoveel
+ * decimalen" (CYPE schrijft -9); voor afronden is dat hetzelfde als op
+ * zoveel decimalen, en meer dan 6 is bij ons gelijk aan onafgerond.
+ * Positief en buiten 0..6 is onzin (een verschoven coëfficiëntenblok, zoals
+ * `~K|0\13\6\\21|` uit #83) en valt af via `isValidDecimals`.
+ */
+function kDecimals(raw: string | undefined): number | undefined {
+  const s = (raw ?? '').trim();
+  if (!/^[+-]?\d+$/.test(s)) return undefined;
+  const n = Number.parseInt(s, 10);
+  const d = n < 0 ? Math.min(-n, 6) : n;
+  return isValidDecimals(d) ? d : undefined;
+}
+
+/**
+ * Afrondingsregel uit ~K (#83), volgens FIEBDC-3/2024, "~K. Registro tipo
+ * COEFICIENTES" (https://www.fiebdc.es/fiebdc-32024/, Formato-FIEBDC-3-2024.pdf):
+ *
+ *   ~K | DN\DD\DS\DR\DI\DP\DC\DM\DIVISA\ | CI\GG\BI\BAJA\IVA |
+ *        DRC\DC\\DFS\DRS\\DUO\DI\DES\DN\DD\DS\DSP\DEC\DIVISA\ | n |
+ *
+ * Veld 1 (oud) staat er "por compatibilidad"; de specificatie zegt letterlijk
+ * dat programma's veld 3 moeten lezen "por ser más completo y en su defecto
+ * el campo 1". Dus per waarde: veld 3 als die geldig is, anders veld 1,
+ * anders de standaard (2). Dat wijkt af van "eerste groep" uit het issue,
+ * maar volgt de specificatie; in alle voorbeeldbestanden die beide hebben
+ * (Presto 22, CYPE 2016, pyCost) zeggen ze voor deze drie waarden hetzelfde.
+ *
+ * De twee lege plekken in veld 3 zijn de in 2016 geschrapte DRO en DFO; ze
+ * blijven staan, zodat de posities gelijk zijn aan die van 2004 (CYPE
+ * Arquímedes schrijft `\2\\\3\\2\2\2\-9\2\3\EUR\`, zonder DSP/DEC).
+ *
+ * Toewijzing:
+ *   line      = DI  (veld 1 pos. 4, veld 3 pos. 7): rendement × prijs, en ook
+ *               de sommen waarover een percentage gaat.
+ *   unitPrice = DUO (veld 3 pos. 6): kosten van een unidad de obra. In veld 1
+ *               is dat DP (som van de directe kosten) gevolgd door DC (totaal
+ *               incl. CI); twee keer afronden komt neer op de grofste van de
+ *               twee, dus min(DP, DC).
+ *   total     = DC  (veld 3 pos. 1): meting × prijs van de posten in een
+ *               hoofdstuk (unidades de obra uitgezonderd in de rest van die
+ *               definitie); in veld 1 is dat DM (pos. 7).
+ *
+ * Hoeveelheden (DN, DD, DS, DSP) en rendementen (DR, DRC, DFS, DRS) worden
+ * nooit afgerond: wij lezen ze niet.
+ */
+function parseKRounding(fields: string[]): PriceRounding {
+  const oud = (fields[0] ?? '').split('\\');
+  const nieuw = (fields[2] ?? '').split('\\');
+  const dp = kDecimals(oud[5]);
+  const dc = kDecimals(oud[6]);
+  const oudUnit = dp != null && dc != null ? Math.min(dp, dc) : dp ?? dc;
+  return {
+    line: kDecimals(nieuw[7]) ?? kDecimals(oud[4]) ?? FIEBDC_DEFAULT_ROUNDING.line,
+    unitPrice: kDecimals(nieuw[6]) ?? oudUnit ?? FIEBDC_DEFAULT_ROUNDING.unitPrice,
+    total: kDecimals(nieuw[1]) ?? kDecimals(oud[7]) ?? FIEBDC_DEFAULT_ROUNDING.total,
+  };
 }
 
 /**
@@ -109,6 +172,8 @@ function parseBc3(text: string): Bc3Data {
     order: [],
     measurements: new Map(),
     measured: new Set(),
+    // Zonder ~K gelden de standaarddecimalen van FIEBDC-3: alles op centen.
+    rounding: { ...FIEBDC_DEFAULT_ROUNDING },
   };
 
   const variantsOf = (key: string): Bc3Concept[] => {
@@ -256,8 +321,10 @@ function parseBc3(text: string): Bc3Data {
       }
       case 'K': {
         // ~K | DN\DD\DS\DR\DI\DP\DC\DM\DIVISA\ | CI\GG\BI\BAJA\IVA | DRC\…\DIVISA\ | n |
-        // De decimalen zijn voor ons niet nodig; DIVISA wel. Veld 1 (FIEBDC-3/95+)
-        // of veld 3 (sinds 2002); het enige alfabetische subveld is de valuta.
+        // De decimalen bepalen de afronding (zie parseKRounding). DIVISA: veld 1
+        // (FIEBDC-3/95+) of veld 3 (sinds 2002); het enige alfabetische subveld
+        // is de valuta.
+        data.rounding = parseKRounding(fields);
         for (const f of [fields[0], fields[2]]) {
           const code = (f ?? '').split('\\').map((v) => normalizeCurrencyCode(v)).find(Boolean);
           if (code) { data.currency = code; break; }
@@ -273,9 +340,20 @@ function parseBc3(text: string): Bc3Data {
 
 // ── Mapping naar het OCS-kostenmodel ────────────────────────────────────────
 
+/**
+ * ~C-prijs en uitkomst van de samenstelling naast elkaar, in twee decimalen,
+ * of meer als het verschil anders niet zichtbaar is (BCCA `15JWW90004`: 0,13
+ * tegenover 0,1274).
+ */
+const priceExample = (code: string, declared: number, computed: number): string => {
+  const [a, b] = [2, 4, 6].map((d) => [declared.toFixed(d), computed.toFixed(d)]).find(([x, y]) => x !== y)
+    ?? [declared.toFixed(6), computed.toFixed(6)];
+  return `${code} (~C ${a}, ~D ${b})`;
+};
+
 export function importBc3(text: string): ImportResult {
   const data = parseBc3(text);
-  const { variants, order, measurements, measured } = data;
+  const { variants, order, measurements, measured, rounding } = data;
   const items: CostItem[] = [];
 
   /**
@@ -444,12 +522,17 @@ export function importBc3(text: string): ImportResult {
 
   /**
    * Rekenregels onder een begrotingspost. Geeft de kostprijs per eenheid van
-   * de partida terug, zodat de aanroeper die kan vergelijken met de prijs op
-   * het ~C-record.
+   * de partida terug: `unitCost` onafgerond (alleen om een samenstelling
+   * zonder rendementen te herkennen) en `rounded` zoals FIEBDC-3 het
+   * voorschrijft en de calculator het met `schedule.priceRounding` ook doet:
+   * elke regel op `line` decimalen, de som op `unitPrice` (#83). Die laatste
+   * is de prijs die de app na de import toont.
    */
-  const addRegels = (post: CostItem, parent: Bc3Concept, postQty: number, depth: number): number => {
+  const addRegels = (post: CostItem, parent: Bc3Concept, postQty: number, depth: number): { unitCost: number; rounded: number } => {
     let unitCost = 0;
-    let labourCost = 0;
+    let rounded = 0;
+    let roundedLabour = 0;
+    const roundLine = (n: number): number => roundHalfUp(n, rounding.line);
     for (const ch of parent.children) {
       const c = resolve(ch.key);
       if (!c) {
@@ -468,7 +551,10 @@ export function importBc3(text: string): ImportResult {
         // Grondslag: de som van de voorgaande regels, of (TCQ) alleen de
         // arbeid daarin. Eenheid '%' is de markering die BC3 zelf gebruikt
         // (UNIDAD = %); zo blijft de regel ook na een export herkenbaar.
-        const base = labourOnly(c) ? labourCost : unitCost;
+        // FIEBDC-3 rekent het percentage over de som van de áfgeronde regels
+        // ("decimales de los sumatorios sobre los que se aplican los
+        // porcentajes" = DI); de afronding hier haalt alleen float-ruis weg.
+        const base = roundLine(labourOnly(c) ? roundedLabour : rounded);
         add({
           rowType: 'regel',
           parentId: post.id,
@@ -484,11 +570,13 @@ export function importBc3(text: string): ImportResult {
           notes: c.text ?? '',
         });
         unitCost += base * pct;
+        rounded += roundLine(base * pct);
         continue;
       }
       const norm = ch.factor * ch.yield_;
       unitCost += norm * c.price;
-      if (c.type === '1') labourCost += norm * c.price;
+      rounded += roundLine(norm * c.price);
+      if (c.type === '1') roundedLabour += roundLine(norm * c.price);
       // Rendement 0 betekent in het bestand: dit middel telt niet mee. De
       // calculator leest norm 0 echter als "directe prijs" (aantal × prijs),
       // wat geld zou toevoegen dat er niet is. Aantal 0 houdt de regel
@@ -508,11 +596,18 @@ export function importBc3(text: string): ImportResult {
         notes: c.text ?? '',
       });
     }
-    return unitCost;
+    return { unitCost, rounded: roundHalfUp(rounded, rounding.unitPrice) };
   };
 
   /** Partida's waarvan de samenstelling niet op de eigen eenheidsprijs uitkomt. */
   const mismatched: string[] = [];
+  /**
+   * Som van de posttotalen zoals de app ze na de import toont: bij een post
+   * met samenstelling aantal × afgeronde eenheidsprijs, afgerond op `total`
+   * decimalen (zie `applyRounding` in de calculator); een kale post rekent
+   * de calculator onafgerond.
+   */
+  let computedTotal = 0;
 
   /** Eén knoop: hoofdstuk (recursief) of begrotingspost met rekenregels. */
   const emit = (parentItem: CostItem | null, parentKey: string, c: Bc3Concept, ch: Bc3Child | null, path: number[], depth: number): void => {
@@ -542,33 +637,36 @@ export function importBc3(text: string): ImportResult {
       normUnitPrice: c.children.length > 0 ? null : c.price,
       notes: c.text ?? '',
     });
-    if (c.children.length === 0) return;
+    if (c.children.length === 0) {
+      computedTotal += qty * c.price;
+      return;
+    }
 
     const first = items.length;
-    const unitCost = addRegels(post, c, qty, depth + 1);
+    const { unitCost, rounded } = addRegels(post, c, qty, depth + 1);
     // Sommige exporteurs schrijven wel de samenstelling maar laten alle
     // rendementen op 0 staan. Dan is de prijs op het ~C-record de enige
     // bruikbare bron en gaat de lege decompositie eruit.
     if (Math.abs(unitCost) < 0.005 && Math.abs(c.price) >= 0.005) {
       items.length = first;
       post.normUnitPrice = c.price;
+      computedTotal += qty * c.price;
       warn(
         'zeroYieldDecomposition',
         'Eén of meer partida\'s hebben een samenstelling zonder rendementen — daar is de eenheidsprijs van het ~C-record aangehouden.',
       );
       return;
     }
-    // Prijs op het ~C-record en de som van de samenstelling horen gelijk te
-    // zijn. Staat er iets anders, dan is het bestand intern inconsistent
-    // (verouderde prijzen); wij rekenen bottom-up en melden het.
-    if (Math.abs(c.price) >= 0.005 && Math.abs(unitCost - c.price) / Math.abs(c.price) > 0.02) {
-      // Beide bedragen erbij: de gebruiker kan dan zelf zien welk getal het
-      // bronprogramma toonde (~C) en wat de samenstelling oplevert (~D). Twee
-      // decimalen, of meer als het verschil anders niet zichtbaar is
-      // (BCCA `15JWW90004`: 0,13 tegenover 0,1274).
-      const [a, b] = [2, 4, 6].map((d) => [c.price.toFixed(d), unitCost.toFixed(d)]).find(([x, y]) => x !== y)
-        ?? [c.price.toFixed(6), unitCost.toFixed(6)];
-      mismatched.push(`${c.code} (~C ${a}, ~D ${b})`);
+    // Zonder aantal rondt de calculator niet af (en is het totaal toch 0).
+    computedTotal += qty === 0 ? 0 : roundHalfUp(qty * rounded, rounding.total);
+    // Prijs op het ~C-record en de afgeronde som van de samenstelling horen
+    // gelijk te zijn; sinds #83 rekent de app zoals het bestand, dus een
+    // afrondingsverschil is er niet meer. Wijkt hij meer dan 2% af, dan is
+    // het bestand intern inconsistent (verouderde prijzen). Wij rekenen
+    // bottom-up en melden het, met beide bedragen erbij: wat het
+    // bronprogramma toonde (~C) en wat de samenstelling oplevert (~D).
+    if (Math.abs(c.price) >= 0.005 && Math.abs(rounded - c.price) / Math.abs(c.price) > 0.02) {
+      mismatched.push(priceExample(c.code, c.price, rounded));
     }
   };
 
@@ -637,6 +735,22 @@ export function importBc3(text: string): ImportResult {
       { count: mismatched.length, examples },
     );
   }
+  // Totaal van het bestand (prijs op de wortel) tegenover het totaal dat de
+  // app na de import toont. Zo ziet de gebruiker het netto-effect van de
+  // meldingen hierboven in één getal, ook als elk verschil per post klein is.
+  if (root && Math.abs(root.price) >= 0.005) {
+    const calculated = roundHalfUp(computedTotal, 2);
+    if (Math.abs(calculated - root.price) >= 0.01) {
+      const file = root.price.toFixed(2);
+      const calc = calculated.toFixed(2);
+      const difference = (calculated - root.price).toFixed(2);
+      warn(
+        'totalMismatch',
+        `Het totaal in het bestand (${file}) wijkt af van het hier berekende totaal (${calc}), verschil ${difference}.`,
+        { file, calculated: calc, difference },
+      );
+    }
+  }
 
   // Een prijsloze import (bv. een "biblioteca de mediciones": posten mét
   // hoeveelheden maar zónder prijzen) levert anders zwijgend € 0 op. Zeg dat
@@ -676,6 +790,9 @@ export function importBc3(text: string): ImportResult {
       description: titleConcept?.text ?? '',
       // Valuta alleen als het bestand hem noemt; anders geldt de standaard (EUR).
       ...(data.currency ? { currency: data.currency } : {}),
+      // Een BC3-bestand rekent volgens FIEBDC-3: altijd een afrondingsregel,
+      // uit ~K of de standaard (#83).
+      priceRounding: { ...rounding },
     },
     items,
     warnings: capped,

@@ -93,6 +93,7 @@
       "priceMismatch_one": "Za {{count}} stavku zbroj raščlambe razlikuje se za više od 2 % od jedinične cijene u zapisu ~C ({{examples}}). Upotrijebljena je raščlamba.",
       "priceMismatch_few": "Za {{count}} stavke zbroj raščlambe razlikuje se za više od 2 % od jedinične cijene u zapisu ~C (npr. {{examples}}). Upotrijebljena je raščlamba.",
       "priceMismatch_other": "Za {{count}} stavki zbroj raščlambe razlikuje se za više od 2 % od jedinične cijene u zapisu ~C (npr. {{examples}}). Upotrijebljena je raščlamba.",
+      "totalMismatch": "Ukupni iznos u datoteci ({{file}}) razlikuje se od ovdje izračunatog iznosa ({{calculated}}), razlika {{difference}}.",
       "noPrices": "Ova datoteka ne sadrži cijene — samo opise i količine (poput knjižnice izmjera). Ukupni iznos stoga ostaje 0,00.",
       "moreWarnings_one": "… i još {{count}} slična obavijest.",
       "moreWarnings_few": "… i još {{count}} slične obavijesti.",

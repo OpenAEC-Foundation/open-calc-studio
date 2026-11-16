@@ -64,7 +64,7 @@ function removeFromSourceDocument(doc: DocumentTab, cutIds: Set<string>, descrip
     undoStack: [...doc.context.undoStack.slice(-49), { items: JSON.parse(JSON.stringify(doc.items)), description, tarieven }],
     redoStack: [],
   };
-  return { ...doc, items: recalculateItems(remaining, tarieven), isModified: true, ...(context ? { context } : {}) };
+  return { ...doc, items: recalculateItems(remaining, tarieven, doc.schedule?.priceRounding), isModified: true, ...(context ? { context } : {}) };
 }
 
 export const createClipboardSlice: StateCreator<ClipboardSlice> = (set, get) => ({
@@ -212,7 +212,7 @@ export const createClipboardSlice: StateCreator<ClipboardSlice> = (set, get) => 
     // Push history, update items, clear clipboard if cut
     const description = isCut ? i18next.t('history.cutPaste') : i18next.t('history.paste');
     state.pushHistory(items, description);
-    const updates: any = { items: recalculateItems(newItems) };
+    const updates: any = { items: recalculateItems(newItems, undefined, state.schedule?.priceRounding) };
     if (isCut) {
       updates.clipboardItems = [];
       updates.clipboardMode = null;

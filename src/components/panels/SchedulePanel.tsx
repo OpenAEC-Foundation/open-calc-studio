@@ -49,12 +49,13 @@ const SchedulePanelInner: React.FC = () => {
   const branchesEnabled = useAppStore((s) => s.schedule.branchesEnabled);
   const activeBranchId = useAppStore((s) => s.schedule.activeBranchId);
   const branches = useAppStore((s) => s.schedule.branches);
+  const priceRounding = useAppStore((s) => s.schedule.priceRounding);
   // Alleen de actieve variant, net als het raster (`gridRows`): rijen van een
   // andere variant staan niet in het raster, dus ook niet in de boom, en de
   // bedragen tellen alleen die variant (knownbug 264).
   const items = useMemo(
-    () => variantCalculatedItems(allItems, { branchesEnabled, activeBranchId, branches }),
-    [allItems, branchesEnabled, activeBranchId, branches],
+    () => variantCalculatedItems(allItems, { branchesEnabled, activeBranchId, branches, priceRounding }),
+    [allItems, branchesEnabled, activeBranchId, branches, priceRounding],
   );
   const scheduleName = useAppStore((s) => s.schedule.name);
   const activeItemId = useAppStore((s) => s.activeItemId);

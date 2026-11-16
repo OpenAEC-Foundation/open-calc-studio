@@ -108,3 +108,122 @@ describe('FIEBDC-3 (.bc3) import', () => {
     expect(getKostprijs(items2)).toBeCloseTo(getKostprijs(items1), 2);
   });
 });
+
+// #83: CYPE Arquímedes rondt elke regel (norm × prijs) en de eenheidsprijs af
+// op centen. Het voorbeeld uit het issue: ~C 47,28, onafgerond 47,2665.
+// Letterlijk uit het issue (rounding-final.bc3), incl. de kapotte ~K en de
+// over regels verdeelde ~D-records.
+const CYPE_ROUNDING = String.raw`~V|CYPE INGENIEROS, S.A.|FIEBDC-3/2004|ARQUIMEDES||ANSI|Presupuesto|2|
+~K|0\13\6\\21|
+~C|TEST##||TEST ESTIMATE|4431.65|260113|0|
+~D|TEST##
+|01#\\1
+\|
+~C|01#||CHAPTER|4431.65|260113|0|
+~D|01#
+|P01\\1
+\|
+~C|P01|m2|ITEM WITH DECOMPOSITION|47.28|260113|0|
+~D|P01
+|R01\\0.7
+\R02\\0.7
+\R03\\1.05
+\R04\\1.5
+\|
+~C|R01|h|Oficial 1a|18.35|260113|1|
+~C|R02|h|Peon ordinario|17.08|260113|1|
+~C|R03|m2|Baldosa|21.21|260113|3|
+~C|R04|kg|Cemento cola|0.13|260113|3|
+~M|01#\P01|1\1\|93.732|`.replace(/\r?\n/g, '\r\n');
+
+describe('FIEBDC-3 afronding (#83)', () => {
+  it('rekent het voorbeeld uit het issue zoals het bestand: 47,28 en 4.431,65, zonder meldingen', () => {
+    const res = importBc3(CYPE_ROUNDING);
+    // De kapotte ~K (een verschoven coëfficiëntenblok) geeft de standaard.
+    expect(res.schedule.priceRounding).toEqual({ line: 2, unitPrice: 2, total: 2 });
+    const items = recalculateItems(res.items, undefined, res.schedule.priceRounding);
+    const post = items.find((i) => i.code === 'P01')!;
+    expect(post.unitPrice).toBe(47.28);
+    expect(post.total).toBe(4431.65);
+    expect(getKostprijs(items)).toBeCloseTo(4431.65, 9);
+    // De hoeveelheid wordt nooit afgerond.
+    expect(post.quantity).toBe(93.732);
+    expect(res.warningCodes?.some((c) => ['roundingDiff', 'totalMismatch', 'priceMismatch'].includes(c.code))).toBe(false);
+  });
+
+  it('rondt 0,7 × 18,35 half-up af ondanks float-ruis (12,845 → 12,85)', () => {
+    // Zonder de marge zou de afgeronde som 47,27 zijn; dan zou het totaal
+    // 4.430,72 worden en niet meer op het bestand uitkomen.
+    const res = importBc3(CYPE_ROUNDING);
+    const items = recalculateItems(res.items, undefined, res.schedule.priceRounding);
+    // Aantal × 12,85, plus zijn deel van het restje naar rato (± 0,0003);
+    // met 12,84 zou het 0,94 lager uitkomen.
+    expect(items.find((i) => i.code === 'R01')!.total).toBeCloseTo(93.732 * 12.85, 3);
+  });
+
+  it('meldt het totaal van het bestand als het niet uitkomt op wat de app toont', () => {
+    const res = importBc3(CYPE_ROUNDING.replace(/\|4431\.65\|/g, '|4400.00|'));
+    const code = res.warningCodes?.find((c) => c.code === 'totalMismatch');
+    expect(code?.params).toEqual({ file: '4400.00', calculated: '4431.65', difference: '31.65' });
+  });
+
+  it('meldt een ~C-prijs die meer dan 2% van de afgeronde samenstelling afwijkt', () => {
+    const res = importBc3(CYPE_ROUNDING.replace('|47.28|', '|50.00|'));
+    const code = res.warningCodes?.find((c) => c.code === 'priceMismatch');
+    expect(code?.params).toEqual({ count: 1, examples: 'P01 (~C 50.00, ~D 47.28)' });
+  });
+
+  it('valt zonder ~K terug op de FIEBDC-standaard (2/2/2)', () => {
+    const res = importBc3(CYPE_ROUNDING.replace(/~K\|[^\r\n]*\r\n/, ''));
+    expect(res.schedule.priceRounding).toEqual({ line: 2, unitPrice: 2, total: 2 });
+  });
+
+  it('leest de decimalen uit veld 3 (nieuw) vóór veld 1 (oud), per waarde', () => {
+    const k = (rec: string) => importBc3(CYPE_ROUNDING.replace(String.raw`~K|0\13\6\\21|`, rec)).schedule.priceRounding;
+    // Presto 22 (BCCA): beide groepen, gelijk.
+    expect(k(String.raw`~K|\2\3\3\2\2\2\2\EUR\|13\0\0\0\21|3\2\\3\3\\2\2\2\2\2\3\2\2\EUR\|`))
+      .toEqual({ line: 2, unitPrice: 2, total: 2 });
+    // pyCost: veld 3 DC=2 (totaal), DUO=2, DI=4; veld 1 zegt DI=4 ook.
+    expect(k(String.raw`~K|3\3\4\3\4\2\2\2\EUR\|0.0\6\13\0\0|3\2\\2\3\\2\4\5\3\3\4\4\3\EUR\|`))
+      .toEqual({ line: 4, unitPrice: 2, total: 2 });
+    // Veld 3 wint van veld 1 waar ze verschillen.
+    expect(k(String.raw`~K|\2\3\3\2\2\2\2\EUR\|0|3\1\\3\3\\0\3\2\2\2\3\2\2\EUR\|`))
+      .toEqual({ line: 3, unitPrice: 0, total: 1 });
+    // Alleen veld 1: DI, min(DP, DC), DM.
+    expect(k(String.raw`~K|\2\3\3\3\3\2\4\EUR\|0|`)).toEqual({ line: 3, unitPrice: 2, total: 4 });
+    expect(k(String.raw`~K|-9\3\3\3\2\3\2\2\EUR\|0\13\6\\21|`)).toEqual({ line: 2, unitPrice: 2, total: 2 });
+    // Leeg of onzin in veld 3 → veld 1 voor die waarde (CYPE 2004: DRC leeg).
+    expect(k(String.raw`~K|\2\3\3\3\2\2\4\EUR\|0|\\\\\\\x\\\\\\EUR\|`)).toEqual({ line: 3, unitPrice: 2, total: 4 });
+    // Negatief = "ten hoogste zoveel"; meer dan 6 is bij ons onafgerond (6).
+    expect(k(String.raw`~K|\2\3\3\-3\-2\-2\-9\EUR\|0|`)).toEqual({ line: 3, unitPrice: 2, total: 6 });
+    // Alles leeg (TCQ) of onzin → standaard.
+    expect(k(String.raw`~K|\\\\\\\| 0|`)).toEqual({ line: 2, unitPrice: 2, total: 2 });
+    expect(k(String.raw`~K|2\2\2\3\13\2.5\x\7\EUR\|`)).toEqual({ line: 2, unitPrice: 2, total: 2 });
+  });
+
+  it('rekent een opslagregel over de afgeronde som van de voorgaande regels', () => {
+    // Regels: 0,7 × 18,35 = 12,845 → 12,85 en 1,05 × 21,21 = 22,2705 → 22,27;
+    // afgerond 35,12, onafgerond 35,1155. 3% daarover: 1,0536 → 1,05 (over
+    // de onafgeronde som zou het 1,053465 zijn). Eenheidsprijs 36,17.
+    const src = String.raw`~V||FIEBDC-3/2016|X||ANSI|
+~K|\2\3\3\2\2\2\2\EUR\|0|3\2\\3\3\\2\2\2\2\2\3\2\2\EUR\|
+~C|R##||Obra|3390.29||0|
+~C|C1#||Capítulo|3390.29||0|
+~C|P1|m2|Partida|36.17||0|
+~C|MO|h|Oficial|18.35||1|
+~C|MAT|m2|Baldosa|21.21||3|
+~C|%MA|%|Medios auxiliares|0||%|
+~D|R##|C1#\1\1\|
+~D|C1#|P1\1\1\|
+~D|P1|MO\1\0.7\MAT\1\1.05\%MA\1\0.03\|
+~M|C1#\P1|1\1\|93.732|`.replace(/\r?\n/g, '\r\n');
+    const res = importBc3(src);
+    const opslag = res.items.find((i) => i.code === '%MA')!;
+    expect(opslag.normUnitPrice).toBe(35.12);
+    const items = recalculateItems(res.items, undefined, res.schedule.priceRounding);
+    const post = items.find((i) => i.code === 'P1')!;
+    expect(post.unitPrice).toBe(36.17);
+    expect(post.total).toBe(3390.29); // round2(93,732 × 36,17) = 3.390,286…
+    expect(res.warningCodes?.some((c) => c.code === 'totalMismatch' || c.code === 'priceMismatch')).toBe(false);
+  });
+});

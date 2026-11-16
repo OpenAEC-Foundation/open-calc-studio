@@ -90,6 +90,7 @@
       "noProjectStructure": "Aucune structure de projet (##/#) trouvée — les concepts ont été importés comme bibliothèque de prix dans un seul lot.",
       "priceMismatch_one": "Pour {{count}} ouvrage, la somme de la décomposition diffère de plus de 2 % du prix unitaire de l'enregistrement ~C ({{examples}}). La décomposition a été utilisée.",
       "priceMismatch_other": "Pour {{count}} ouvrages, la somme de la décomposition diffère de plus de 2 % du prix unitaire de l'enregistrement ~C (p. ex. {{examples}}). La décomposition a été utilisée.",
+      "totalMismatch": "Le total du fichier ({{file}}) diffère du total calculé ici ({{calculated}}), écart {{difference}}.",
       "noPrices": "Ce fichier ne contient aucun prix — uniquement des désignations et des quantités (comme une bibliothèque de métrés). Le total reste donc à 0,00.",
       "moreWarnings_one": "… et {{count}} autre avertissement similaire.",
       "moreWarnings_other": "… et {{count}} autres avertissements similaires."

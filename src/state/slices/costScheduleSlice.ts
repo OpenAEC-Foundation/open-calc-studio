@@ -3,6 +3,7 @@ import type { CostSchedule, ProjectProperty, Branch } from '@/types/costModel';
 import { createDefaultProjectProperties } from '@/types/costModel';
 import { createDefaultSchedule } from '@/data/defaultBudget';
 import { effectiveTarieven, recalculateItems } from '@/services/calculation/calculator';
+import { normalizePriceRounding } from '@/services/calculation/priceRounding';
 
 export interface CostScheduleSlice {
   schedule: CostSchedule;
@@ -23,7 +24,8 @@ export interface CostScheduleSlice {
   setReportShowChanges: (show: boolean) => void;
   // Branches (budget variants)
   toggleBranchesEnabled: () => void;
-  addBranch: (name: string, parentId: string | null) => string;
+  /** Adds a branch; pass `id` for a fixed id (e.g. 'main'). An existing id is returned as-is. */
+  addBranch: (name: string, parentId: string | null, id?: string) => string;
   removeBranch: (id: string) => void;
   renameBranch: (id: string, name: string) => void;
   setActiveBranch: (id: string | undefined) => void;
@@ -42,8 +44,22 @@ export const createCostScheduleSlice: StateCreator<CostScheduleSlice> = (set, ge
 
   return {
   schedule: createDefaultSchedule(),
-  setSchedule: (partial) =>
-    set((state) => ({ schedule: { ...state.schedule, ...partial } })),
+  setSchedule: (partial) => {
+    const state = get() as any;
+    const schedule = { ...state.schedule, ...partial };
+    // Een andere afrondingsregel (MCP update_schedule, extensie-API, een
+    // geladen bestand) moet direct doorrekenen, net als updateTarieven; anders
+    // blijven de oude bedragen staan tot de eerstvolgende bewerking (#83).
+    // Alleen als de werkende regel echt verandert: null en undefined rekenen
+    // allebei onafgerond. Andere velden gedragen
+    // zich als voorheen (geen herberekening, niet als gewijzigd markeren).
+    const rekenregel = (r: CostSchedule['priceRounding']) => JSON.stringify(normalizePriceRounding(r));
+    if ('priceRounding' in partial && rekenregel(partial.priceRounding) !== rekenregel(state.schedule.priceRounding)) {
+      set({ schedule, items: recalculateItems(state.items, effectiveTarieven(schedule), schedule.priceRounding) } as any);
+      return;
+    }
+    set({ schedule });
+  },
   resetSchedule: () => set({ schedule: createDefaultSchedule() }),
 
   toggleChangeTracking: () => {
@@ -116,8 +132,9 @@ export const createCostScheduleSlice: StateCreator<CostScheduleSlice> = (set, ge
           : state.schedule.branches,
       },
     })),
-  addBranch: (name, parentId) => {
-    const id = crypto.randomUUID();
+  addBranch: (name, parentId, fixedId) => {
+    if (fixedId && (get().schedule.branches ?? []).some(b => b.id === fixedId)) return fixedId;
+    const id = fixedId ?? crypto.randomUUID();
     const branch: Branch = { id, name, parentId };
     edit((state) => ({
       schedule: {
@@ -158,14 +175,16 @@ export const createCostScheduleSlice: StateCreator<CostScheduleSlice> = (set, ge
         branches: (state.schedule.branches ?? []).map(b => b.id === id ? { ...b, name } : b),
       },
     })),
-  setActiveBranch: (id) =>
-    set((state) => ({
+  setActiveBranch: (id) => {
+    if (get().schedule.activeBranchId === id) return;
+    edit((state) => ({
       schedule: { ...state.schedule, activeBranchId: id },
-    })),
+    }));
+  },
   updateTarieven: (tarieven) => {
     const state = get() as any;
     const newSchedule = { ...state.schedule, tarieven };
-    const newItems = recalculateItems(state.items, effectiveTarieven(newSchedule));
+    const newItems = recalculateItems(state.items, effectiveTarieven(newSchedule), newSchedule.priceRounding);
     set({ schedule: newSchedule, items: newItems } as any);
     // Markeer het actieve document als gewijzigd (documents is een array
     // met isModified; de oude Map/activeDocId-variant was dode code).

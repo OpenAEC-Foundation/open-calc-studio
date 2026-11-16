@@ -96,6 +96,7 @@
       "priceMismatch_few": "Dla {{count}} pozycji suma rozbicia różni się o ponad 2% od ceny jednostkowej w rekordzie ~C (np. {{examples}}). Użyto rozbicia.",
       "priceMismatch_many": "Dla {{count}} pozycji suma rozbicia różni się o ponad 2% od ceny jednostkowej w rekordzie ~C (np. {{examples}}). Użyto rozbicia.",
       "priceMismatch_other": "Dla {{count}} pozycji suma rozbicia różni się o ponad 2% od ceny jednostkowej w rekordzie ~C (np. {{examples}}). Użyto rozbicia.",
+      "totalMismatch": "Suma w pliku ({{file}}) różni się od sumy obliczonej tutaj ({{calculated}}), różnica {{difference}}.",
       "noPrices": "Ten plik nie zawiera cen — tylko opisy i ilości (jak biblioteka przedmiarów). Suma wynosi więc 0,00.",
       "moreWarnings_one": "… i jeszcze {{count}} podobny komunikat.",
       "moreWarnings_few": "… i jeszcze {{count}} podobne komunikaty.",

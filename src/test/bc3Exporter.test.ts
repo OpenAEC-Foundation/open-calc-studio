@@ -270,6 +270,97 @@ describe('FIEBDC-3 (.bc3) export', () => {
   });
 });
 
+// #83: CYPE Arquímedes rondt elke regel en de eenheidsprijs af (~C 47,28,
+// onafgerond 47,2665); de kapotte ~K geeft de standaard 2/2/2.
+const CYPE_ROUNDING = String.raw`~V|CYPE INGENIEROS, S.A.|FIEBDC-3/2004|ARQUIMEDES||ANSI|Presupuesto|2|
+~K|0\13\6\\21|
+~C|TEST##||TEST ESTIMATE|4431.65|260113|0|
+~D|TEST##|01#\\1\|
+~C|01#||CHAPTER|4431.65|260113|0|
+~D|01#|P01\\1\|
+~C|P01|m2|ITEM WITH DECOMPOSITION|47.28|260113|0|
+~D|P01|R01\\0.7\R02\\0.7\R03\\1.05\R04\\1.5\|
+~C|R01|h|Oficial 1a|18.35|260113|1|
+~C|R02|h|Peon ordinario|17.08|260113|1|
+~C|R03|m2|Baldosa|21.21|260113|3|
+~C|R04|kg|Cemento cola|0.13|260113|3|
+~M|01#\P01|1\1\|93.732|`.replace(/\r?\n/g, '\r\n');
+
+describe('FIEBDC-3 export met afronding (#83)', () => {
+  /** Importeren, rekenen met de regel uit het bestand, exporteren en terug. */
+  const viaRule = (src: string) => {
+    const a = importBc3(src);
+    const sched = schedule({ ...a.schedule, currency: 'EUR' });
+    const first = recalculateItems(a.items, undefined, a.schedule.priceRounding);
+    const text = buildBc3(sched, first);
+    const b = importBc3(text);
+    const second = recalculateItems(b.items, undefined, b.schedule.priceRounding);
+    return { a, first, text, b, second };
+  };
+
+  it('schrijft de regel in ~K, de afgeronde eenheidsprijs in ~C en de kale normen in ~D', () => {
+    const { text, first } = viaRule(CYPE_ROUNDING);
+    // Op de grootste regel staat het restje van de post; het rendement in het
+    // bestand moet toch de norm zijn (0,7), niet 0,70003.
+    expect(first.find((i) => i.code === 'R03')!.total).not.toBeCloseTo(93.732 * 22.27, 9);
+    expect(text).toContain(String.raw`~K|-9\-9\-9\-9\2\2\2\2\EUR\|`);
+    expect(text).toContain('~C|P01|m²|ITEM WITH DECOMPOSITION|47.28||0|');
+    expect(text).toContain(String.raw`~D|P01|R01\1\0.7\R02\1\0.7\R03\1\1.05\R04\1\1.5\|`);
+    expect(text).toContain('|93.732||');
+    expect(text).toContain('~C|OCS##||TEST ESTIMATE|4431.65||0|');
+  });
+
+  it('houdt regel, rendementen en totalen na de rondreis', () => {
+    const { a, b, first, second } = viaRule(CYPE_ROUNDING);
+    expect(b.schedule.priceRounding).toEqual(a.schedule.priceRounding);
+    const post = second.find((i) => i.code === 'P01')!;
+    expect(post.unitPrice).toBe(47.28);
+    expect(post.total).toBe(4431.65);
+    expect(post.quantity).toBe(93.732);
+    expect(second.filter((i) => i.rowType === 'regel').map((i) => i.normQuantity)).toEqual([0.7, 0.7, 1.05, 1.5]);
+    expect(second.filter((i) => i.rowType === 'regel').map((i) => i.total))
+      .toEqual(first.filter((i) => i.rowType === 'regel').map((i) => i.total));
+    expect(getKostprijs(second)).toBeCloseTo(4431.65, 9);
+    expect(b.warningCodes?.some((c) => c.code === 'totalMismatch' || c.code === 'priceMismatch')).toBe(false);
+  });
+
+  it('schrijft andere decimalen en de valuta mee, en leest ze terug', () => {
+    const a = importBc3(CYPE_ROUNDING);
+    const rule = { line: 3, unitPrice: 2, total: 1 };
+    const sched = schedule({ ...a.schedule, currency: 'GBP', priceRounding: rule });
+    const text = buildBc3(sched, recalculateItems(a.items, undefined, rule));
+    expect(text).toContain(String.raw`~K|-9\-9\-9\-9\3\2\2\1\GBP\|`);
+    const b = importBc3(text);
+    expect(b.schedule.priceRounding).toEqual(rule);
+    expect(b.schedule.currency).toBe('GBP');
+  });
+
+  it('houdt een opslagregel over de afgeronde som na de rondreis', () => {
+    const src = String.raw`~V||FIEBDC-3/2016|X||ANSI|
+~C|R##||Obra|3390.29||0|
+~C|C1#||Capítulo|3390.29||0|
+~C|P1|m2|Partida|36.17||0|
+~C|MO|h|Oficial|18.35||1|
+~C|MAT|m2|Baldosa|21.21||3|
+~C|%MA|%|Medios auxiliares|0||%|
+~D|R##|C1#\1\1\|
+~D|C1#|P1\1\1\|
+~D|P1|MO\1\0.7\MAT\1\1.05\%MA\1\0.03\|
+~M|C1#\P1|1\1\|93.732|`.replace(/\r?\n/g, '\r\n');
+    const { text, first, second, b } = viaRule(src);
+    expect(text).toContain('~C|P1|m²|Partida|36.17||0|');
+    expect(text).toContain(String.raw`MO\1\0.7\MAT\1\1.05\%MA\1\0.03\|`);
+    expect(b.items.find((i) => i.code === '%MA')!.normUnitPrice).toBe(35.12);
+    expect(second.find((i) => i.code === 'P1')!.total).toBe(3390.29);
+    expect(getKostprijs(second)).toBeCloseTo(getKostprijs(first), 9);
+  });
+
+  it('schrijft zonder regel geen ~K voor een begroting in euro', () => {
+    const items = recalculateItems(importBc3(CYPE_ROUNDING).items);
+    expect(buildBc3(schedule(), items)).not.toContain('~K|');
+  });
+});
+
 describe('Windows-1252 zonder TextDecoder', () => {
   it('codeert en decodeert €, aanhalingstekens en gedachtestreepjes symmetrisch', () => {
     const s = 'Precio: 12 € — “entre comillas” … ñ Ç';

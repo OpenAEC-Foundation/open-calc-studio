@@ -88,7 +88,7 @@ export function canUndoAssistantProposal(id: string): boolean {
 export function undoAssistantProposal(id: string): void {
   if (!canUndoAssistantProposal(id)) throw Error(uiText('proposal.undoBlocked', 'Undo later edits first, then undo this proposal.'));
   const state = useAppStore.getState(), entry = state.undoStack[state.undoStack.length - 1];
-  useAppStore.setState({ items: recalculateItems(structuredClone(entry.items), effectiveTarieven(state.schedule)), undoStack: state.undoStack.slice(0, -1),
+  useAppStore.setState({ items: recalculateItems(structuredClone(entry.items), effectiveTarieven(state.schedule), state.schedule.priceRounding), undoStack: state.undoStack.slice(0, -1),
     redoStack: [...state.redoStack, { items: structuredClone(state.items), description: entry.description }],
     documents: state.documents.map(doc => doc.id === state.activeDocumentId ? { ...doc, isModified: true } : doc) });
   applied.delete(id);

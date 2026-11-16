@@ -1,6 +1,7 @@
 import type { CostItem, CostSchedule } from '../../types/costModel';
 import { makeReportContext, type ReportContext } from '@/i18n/reportI18n';
 import { getStaartBreakdown } from '@/services/calculation/calculator';
+import { variantCalculatedItems } from '@/services/grid/variantTotals';
 
 /**
  * Generates an HTML report for a cost schedule.
@@ -10,8 +11,10 @@ import { getStaartBreakdown } from '@/services/calculation/calculator';
  * Zonder `ctx` wordt de rapporttaal gebruikt zoals die op dat moment geladen
  * is; `await getReportContext()` garandeert dat een lazy geladen taal klaarstaat.
  */
-export function generateReport(schedule: CostSchedule, items: CostItem[], ctx: ReportContext = makeReportContext()): string {
+export function generateReport(schedule: CostSchedule, allItems: CostItem[], ctx: ReportContext = makeReportContext()): string {
   const { t } = ctx;
+  // Alleen de gekozen variant, met totalen over die variant (zoals grid en statusbalk).
+  const items = variantCalculatedItems(allItems, schedule);
   const nf = new Intl.NumberFormat(ctx.intlLocale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   // Zelfde gedrag als utils/formatting: 0 en null blijven leeg.
   const formatCurrency = (value: number | null): string => (value === null || value === 0 ? '' : nf.format(value));

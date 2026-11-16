@@ -4,6 +4,7 @@
  * zodat beide dezelfde PDF opleveren.
  */
 import { useAppStore } from '@/state/appStore';
+import { variantCalculatedItems } from '@/services/grid/variantTotals';
 
 type Store = ReturnType<typeof useAppStore.getState>;
 
@@ -66,7 +67,9 @@ export function buildOfferteRequest(store: Store = useAppStore.getState()) {
       algemeneKosten: store.schedule?.algemeneKosten ?? 6,
       winstRisico: store.schedule?.winstRisico ?? 2,
     },
-    items: store.items.map(i => ({
+    // Alleen de gekozen variant (zoals grid en statusbalk): Rust telt de
+    // aanneemsom en staart uit deze regels op.
+    items: (store.schedule ? variantCalculatedItems(store.items, store.schedule) : store.items).map(i => ({
       id: i.id,
       code: i.code || '',
       description: i.description || '',

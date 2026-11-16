@@ -90,6 +90,7 @@
       "noProjectStructure": "공사 구조(##/#)를 찾지 못했습니다 — 항목을 단가집으로 하나의 장 아래에 가져왔습니다.",
       "priceMismatch_one": "내역 항목 {{count}}건에서 구성 명세 합계가 ~C 레코드의 단가와 2% 넘게 차이 납니다({{examples}}). 구성 명세를 적용했습니다.",
       "priceMismatch_other": "내역 항목 {{count}}건에서 구성 명세 합계가 ~C 레코드의 단가와 2% 넘게 차이 납니다(예: {{examples}}). 구성 명세를 적용했습니다.",
+      "totalMismatch": "파일의 합계({{file}})가 여기서 계산한 합계({{calculated}})와 다릅니다. 차이 {{difference}}.",
       "noPrices": "이 파일에는 가격이 없습니다 — 명칭과 수량만 있습니다(수량 라이브러리처럼). 따라서 합계는 0.00으로 유지됩니다.",
       "moreWarnings_one": "… 그 밖에 비슷한 알림 {{count}}건이 더 있습니다.",
       "moreWarnings_other": "… 그 밖에 비슷한 알림 {{count}}건이 더 있습니다."
