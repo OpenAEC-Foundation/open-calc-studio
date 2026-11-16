@@ -19,8 +19,9 @@
  * gebruikt krijgt de tweede een `_n`-suffix. Hoofdstukken blijven altijd
  * uniek.
  */
-import type { CostItem, CostSchedule } from '@/types/costModel';
+import type { CostItem, CostSchedule, PriceRounding } from '@/types/costModel';
 import { encodeWindows1252, fitsWindows1252 } from '@/services/importers/windows1252';
+import { normalizePriceRounding, roundHalfUp } from '@/services/calculation/priceRounding';
 
 /**
  * Getal als BC3-tekst: punt als decimaalteken, geen exponentnotatie, geen
@@ -68,15 +69,42 @@ const SEP = String.fromCharCode(1);
 
 export type Bc3Charset = 'ANSI' | 'UTF-8';
 
+/**
+ * ~K-record voor een begroting met een afrondingsregel (#83), in de oude
+ * indeling van veld 1 (DN\DD\DS\DR\DI\DP\DC\DM\DIVISA): die lezen alle
+ * programma's, en zonder veld 3 vallen nieuwere lezers erop terug.
+ *
+ * DI = regel, DP en DC = eenheidsprijs (zonder CI zijn die gelijk), DM =
+ * posttotaal. DN, DD, DS en DR gaan over hoeveelheden en rendementen; die
+ * mogen nooit worden afgerond. De standaard (2/2/2/3) of een vast getal zou
+ * een lezer 93,732 laten afronden tot 93,73, of een rendement 0,0125 tot
+ * 0,013. Een negatief getal betekent volgens de specificatie "ten hoogste
+ * zoveel decimalen"; -9 is wat CYPE zelf voor DN schrijft.
+ */
+const kRecordFor = (r: PriceRounding, currency: string): string =>
+  `~K|-9\\-9\\-9\\-9\\${r.line}\\${r.unitPrice}\\${r.unitPrice}\\${r.total}\\${currency}\\|`;
+
 export function buildBc3(schedule: CostSchedule, items: CostItem[], charset: Bc3Charset = 'ANSI'): string {
+  /**
+   * Afrondingsregel van de begroting (#83). Is hij er, dan rekent de
+   * calculator een post met alleen regels per regel en per eenheidsprijs
+   * afgerond; dat moet het bestand ook doen (~K, rendementen, ~C-prijs).
+   */
+  const rounding = normalizePriceRounding(schedule.priceRounding);
   const cLines: string[] = [];
   const dRecords: string[] = [];
   const mRecords: string[] = [];
   const tRecords: string[] = [];
 
   const byParent = new Map<string | null, CostItem[]>();
+  /** Alle kinderen behalve staartregels, zoals de calculator ze ziet. */
+  const kindsOf = new Map<string | null, string[]>();
   for (const it of items) {
-    if (it.rowType.startsWith('staart_') || it.rowType === 'witregel') continue;
+    if (it.rowType.startsWith('staart_')) continue;
+    const kinds = kindsOf.get(it.parentId) ?? [];
+    kinds.push(it.rowType);
+    kindsOf.set(it.parentId, kinds);
+    if (it.rowType === 'witregel') continue;
     const list = byParent.get(it.parentId) ?? [];
     list.push(it);
     byParent.set(it.parentId, list);
@@ -218,12 +246,23 @@ export function buildBc3(schedule: CostSchedule, items: CostItem[], charset: Bc3
    * zonder afrondingsruis); anders afgeleid van het bedrag, zodat het
    * direct-model van de calculator en een afwijkend aantal op de regel ook
    * goed in het bestand komen.
+   *
+   * Met een afrondingsregel (#83) is het bedrag van de regel aantal × het
+   * afgeronde bedrag per eenheid, plus op de grootste regel het restje van
+   * de post. Een daarvan afgeleid rendement (0,70003) zou de lezer opnieuw
+   * afronden en verkeerd uitkomen. Dan komt het rendement uit de velden zelf:
+   * de norm, maal aantal van de regel ÷ aantal van de post als die afwijken
+   * (0 bij een regel met aantal 0, zoals een rendement 0 uit een BC3).
    */
-  const regelYield = (k: CostItem, postQty: number, price: number): number => {
+  const regelYield = (k: CostItem, postQty: number, price: number, rounded: boolean): number => {
     const norm = k.normQuantity ?? 0;
     const lab = k.laborPrice ?? 0;
     const own = lab > 0 || norm === 0 ? 1 : norm / (k.normFactor || 1);
     if (postQty === 0) return own;
+    if (rounded) {
+      const qty = k.quantity ?? 0;
+      return qty === postQty ? own : own * (qty / postQty);
+    }
     const expected = own * price * postQty;
     if (Math.abs(expected - k.total) <= 1e-9 * Math.max(1, Math.abs(k.total))) return own;
     return price !== 0 ? (k.total / postQty) / price : 0;
@@ -255,10 +294,23 @@ export function buildBc3(schedule: CostSchedule, items: CostItem[], charset: Bc3
    * met rendement per eenheid van de post. Een geneste bewakingspost wordt
    * een hulpconcept (prijs per eenheid van de ouder, rendement 1).
    */
-  const compose = (post: CostItem, postQty: number): Composition => {
+  const compose = (post: CostItem, postQty: number, nested = false): Composition => {
     const parts: string[] = [];
     let unitCost = 0;
     let labour = 0;
+    // Rondt de calculator deze post af? Alleen een begrotingspost met een
+    // regel, een aantal en rekenregels (eventueel met tekstregels) eronder (zie
+    // `applyRounding` in de calculator). Dan is de ~C-prijs de afgeronde
+    // eenheidsprijs (47,28, niet 47,2665), gaat een percentage over de
+    // afgeronde som, en rekent de lezer met de ~K precies hetzelfde. Een
+    // geneste post rekent hier per eenheid van de ouder en blijft zoals hij was.
+    const kinds = kindsOf.get(post.id) ?? [];
+    // Tekst- en witregels hebben geen bedrag; de calculator rondt zo'n post
+    // gewoon af, dus de export ook.
+    const r = rounding && !nested && post.rowType === 'begrotingspost' && postQty !== 0
+      && kinds.includes('regel') && kinds.every((t) => t === 'regel' || t === 'tekstregel' || t === 'witregel')
+      ? rounding : null;
+    const line = (n: number): number => (r ? roundHalfUp(n, r.line) : n);
     for (const k of byParent.get(post.id) ?? []) {
       if (k.rowType === 'regel') {
         const base = percentageBase(k, unitCost, labour);
@@ -267,22 +319,22 @@ export function buildBc3(schedule: CostSchedule, items: CostItem[], charset: Bc3
           // anders en hoort niet bij het concept), de fractie in ~D.
           const pct = k.normQuantity ?? 0;
           parts.push(`${concept(k, '%', 0, '0', [])}\\1\\${num(pct)}`);
-          unitCost += base * pct;
+          unitCost += line(base * pct);
           continue;
         }
         const price = regelPrice(k);
-        const rend = regelYield(k, postQty, price);
+        const rend = regelYield(k, postQty, price, r != null);
         parts.push(`${concept(k, k.unit, price, TYPE_BY_RESOURCE[k.resourceType ?? ''] ?? '0', [])}\\1\\${num(rend)}`);
-        unitCost += rend * price;
-        if (k.resourceType === 'arbeid') labour += rend * price;
+        unitCost += line(rend * price);
+        if (k.resourceType === 'arbeid') labour += line(rend * price);
       } else if (k.rowType === 'bewakingspost' || k.rowType === 'begrotingspost') {
         const perUnit = postQty !== 0 ? k.total / postQty : k.total;
-        const { parts: sub } = compose(k, postQty !== 0 ? postQty : 1);
+        const { parts: sub } = compose(k, postQty !== 0 ? postQty : 1, true);
         parts.push(`${concept(k, k.unit, money(perUnit), '0', sub)}\\1\\1`);
         unitCost += perUnit;
       }
     }
-    return { parts, unitCost: money(unitCost) };
+    return { parts, unitCost: r ? roundHalfUp(unitCost, r.unitPrice) : money(unitCost) };
   };
 
   /** Partida: concept (gedeeld bij gelijke inhoud) plus een eigen ~M per voorkomen. */
@@ -349,12 +401,15 @@ export function buildBc3(schedule: CostSchedule, items: CostItem[], charset: Bc3
 
   // ~V: | eigenschap | formaatversie | programma | kop | tekenset |
   const header = `~V||FIEBDC-3/2004|Open Calc Studio||${charset}|||||`;
-  // ~K: decimalen + DIVISA. Zonder ~K geldt EUR met de standaarddecimalen
-  // van de specificatie; die schrijven we hier ook, zodat alleen de valuta
-  // verandert. Een begroting in euro's krijgt geen ~K (zelfde bestand als
-  // voorheen). Bedragen worden niet omgerekend.
-  const currency = /^[A-Z]{3}$/.test(schedule.currency ?? '') ? schedule.currency : 'EUR';
-  const kRecord = currency === 'EUR' ? [] : [`~K|2\\2\\2\\3\\2\\2\\2\\2\\${currency}\\|`];
+  // ~K: decimalen + DIVISA. Met een afrondingsregel altijd (zie kRecordFor),
+  // zodat CYPE/Presto dezelfde bedragen uitrekenen. Zonder regel geldt EUR
+  // met de standaarddecimalen van de specificatie; die schrijven we hier
+  // ook, zodat alleen de valuta verandert. Een begroting in euro's zonder
+  // regel krijgt geen ~K (zelfde bestand als voorheen). Bedragen worden niet
+  // omgerekend.
+  const currency = /^[A-Z]{3}$/.test(schedule.currency ?? '') ? schedule.currency! : 'EUR';
+  const kRecord = rounding ? [kRecordFor(rounding, currency)]
+    : currency === 'EUR' ? [] : [`~K|2\\2\\2\\3\\2\\2\\2\\2\\${currency}\\|`];
   return [header, ...kRecord, ...cLines, ...dRecords, ...mRecords, ...tRecords].join('\r\n') + '\r\n';
 }
 

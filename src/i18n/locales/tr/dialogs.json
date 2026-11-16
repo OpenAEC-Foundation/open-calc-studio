@@ -90,7 +90,6 @@
       "noProjectStructure": "Proje yapısı (##/#) bulunamadı — öğeler tek bir bölüm altında fiyat kitabı olarak aktarıldı.",
       "priceMismatch_one": "{{count}} pozda analiz toplamı ~C kaydındaki birim fiyattan %2'den fazla farklı ({{examples}}). Analiz kullanıldı.",
       "priceMismatch_other": "{{count}} pozda analiz toplamı ~C kaydındaki birim fiyattan %2'den fazla farklı (örn. {{examples}}). Analiz kullanıldı.",
-      "roundingDiff": "Bu dosya, onu oluşturan program gibi, ayrıştırmanın her satırını ve her birim fiyatı kuruşa yuvarlar; Open Calc Studio yuvarlama yapmadan hesaplar. Birim fiyatı bu nedenle farklı olan kalemler: {{n}} (ör. {{examples}}). Yuvarlanmamış ayrıştırma kullanıldı.",
       "totalMismatch": "Dosyadaki toplam ({{file}}) burada hesaplanan toplamdan ({{calculated}}) farklı, fark {{difference}}.",
       "noPrices": "Bu dosya fiyat içermiyor — yalnızca açıklamalar ve miktarlar var (bir metraj kütüphanesi gibi). Bu nedenle toplam 0,00 olarak kalır.",
       "moreWarnings_one": "… ve {{count}} benzer bildirim daha.",

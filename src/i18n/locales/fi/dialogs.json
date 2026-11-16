@@ -90,7 +90,6 @@
       "noProjectStructure": "Projektirakennetta (##/#) ei löytynyt — nimikkeet tuotiin hintakirjastona yhden luvun alle.",
       "priceMismatch_one": "{{count}} nimikkeen erittelyn summa poikkeaa yli 2 % ~C-tietueen yksikköhinnasta ({{examples}}). Erittelyä käytettiin.",
       "priceMismatch_other": "{{count}} nimikkeen erittelyn summa poikkeaa yli 2 % ~C-tietueen yksikköhinnasta (esim. {{examples}}). Erittelyä käytettiin.",
-      "roundingDiff": "Tämä tiedosto pyöristää jokaisen erittelyrivin ja jokaisen yksikköhinnan senteiksi, kuten sen tehnyt ohjelma; Open Calc Studio laskee ilman pyöristystä. Nimikkeet, joiden yksikköhinta poikkeaa tästä syystä: {{n}} (esim. {{examples}}). Pyöristämätöntä erittelyä on käytetty.",
       "totalMismatch": "Tiedoston loppusumma ({{file}}) poikkeaa täällä lasketusta summasta ({{calculated}}), erotus {{difference}}.",
       "noPrices": "Tiedosto ei sisällä hintoja — vain kuvauksia ja määriä (kuten määräkirjasto). Loppusumma on siksi 0,00.",
       "moreWarnings_one": "… ja {{count}} muu samankaltainen ilmoitus.",

@@ -91,7 +91,9 @@ describe('FIEBDC-3 (.bc3) praktijkafwijkingen', () => {
     expect(items.find((i) => i.code === '0001')!.total).toBeCloseTo(77.98, 2);
     const opslag = items.find((i) => i.code === '%CI')!;
     expect(opslag.normQuantity).toBeCloseTo(0.06, 6);
-    expect(opslag.normUnitPrice).toBeCloseTo(73.565, 3);
+    // Grondslag is de som van de afgeronde regels (FIEBDC-3, #83): 16,875 →
+    // 16,88, dus 73,57 en niet 73,565. Zonder ~K gelden 2 decimalen.
+    expect(opslag.normUnitPrice).toBe(73.57);
   });
 
   it('laat een %-code die géén opslag is met rendement × prijs staan', () => {

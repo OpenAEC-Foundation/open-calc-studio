@@ -90,7 +90,6 @@
       "noProjectStructure": "Tidak ditemukan struktur proyek (##/#) — konsep diimpor sebagai buku harga di bawah satu bab.",
       "priceMismatch_one": "Untuk {{count}} item, jumlah rincian berbeda lebih dari 2% dari harga satuan pada rekaman ~C (mis. {{examples}}). Rincian yang digunakan.",
       "priceMismatch_other": "Untuk {{count}} item, jumlah rincian berbeda lebih dari 2% dari harga satuan pada rekaman ~C (mis. {{examples}}). Rincian yang digunakan.",
-      "roundingDiff": "File ini membulatkan setiap baris rincian dan setiap harga satuan ke sen, seperti program yang membuatnya; Open Calc Studio menghitung tanpa pembulatan. Item yang harga satuannya berbeda karena hal ini: {{n}} (mis. {{examples}}). Rincian tanpa pembulatan yang digunakan.",
       "totalMismatch": "Total dalam file ({{file}}) berbeda dari total yang dihitung di sini ({{calculated}}), selisih {{difference}}.",
       "noPrices": "Berkas ini tidak memuat harga — hanya uraian dan volume (seperti pustaka pengukuran). Karena itu total tetap 0,00.",
       "moreWarnings_one": "… dan {{count}} catatan serupa lainnya.",

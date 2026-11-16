@@ -90,7 +90,6 @@
       "noProjectStructure": "No project structure (##/#) found — concepts were imported as a price book under a single chapter.",
       "priceMismatch_one": "For {{count}} item the sum of the breakdown differs by more than 2% from the unit price in the ~C record ({{examples}}). The breakdown was used.",
       "priceMismatch_other": "For {{count}} items the sum of the breakdown differs by more than 2% from the unit price in the ~C record (e.g. {{examples}}). The breakdown was used.",
-      "roundingDiff": "This file rounds every breakdown line and every unit price to cents, as the program that wrote it does; Open Calc Studio calculates without rounding. Items whose unit price differs because of this: {{n}} (e.g. {{examples}}). The unrounded breakdown was used.",
       "totalMismatch": "The total in the file ({{file}}) differs from the total calculated here ({{calculated}}), difference {{difference}}.",
       "noPrices": "This file contains no prices — only descriptions and quantities (like a measurements library). The total therefore remains 0.00.",
       "moreWarnings_one": "… and {{count}} more similar notice.",

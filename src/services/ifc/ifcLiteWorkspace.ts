@@ -68,7 +68,7 @@ export async function ifcCommand(action:string,p:Record<string,unknown>) {
     s.pushHistory(s.items,uiText("ifc.history", "Apply IFC quantity"));
     s.setSchedule({ifcTakeoff:{...saved,entries:[...saved.entries.filter(e=>e.fragmentId!==fragmentId),entry]}});
     const link = {source:'ifc' as const,fragmentId,quantity:q.kind};
-    useAppStore.setState({items:recalculateItems(s.items.map(i=>i.id===item.id?{...i,unit:q.unit as typeof i.unit,quantity:q.value,quantityLink:link,quantityOrigin:captureQuantityOrigin(link,useAppStore.getState())}:i),effectiveTarieven(s.schedule))});
+    useAppStore.setState({items:recalculateItems(s.items.map(i=>i.id===item.id?{...i,unit:q.unit as typeof i.unit,quantity:q.value,quantityLink:link,quantityOrigin:captureQuantityOrigin(link,useAppStore.getState())}:i),effectiveTarieven(s.schedule),s.schedule.priceRounding)});
     s.updateDocument(s.activeDocumentId,{isModified:true});return {...q,itemId:item.id,fragmentId};
   }
   throw Error(uiText('ifc.error.action', 'Unknown IFC action: {{action}}', { action }));

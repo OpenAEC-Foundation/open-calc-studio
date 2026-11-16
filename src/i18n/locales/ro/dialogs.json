@@ -93,7 +93,6 @@
       "priceMismatch_one": "La {{count}} articol, suma descompunerii diferă cu peste 2% de prețul unitar din înregistrarea ~C ({{examples}}). S-a folosit descompunerea.",
       "priceMismatch_few": "La {{count}} articole, suma descompunerii diferă cu peste 2% de prețul unitar din înregistrarea ~C (de ex. {{examples}}). S-a folosit descompunerea.",
       "priceMismatch_other": "La {{count}} de articole, suma descompunerii diferă cu peste 2% de prețul unitar din înregistrarea ~C (de ex. {{examples}}). S-a folosit descompunerea.",
-      "roundingDiff": "Acest fișier rotunjește la cenți fiecare rând al descompunerii și fiecare preț unitar, așa cum face programul care l-a creat; Open Calc Studio calculează fără rotunjire. Poziții al căror preț unitar diferă din acest motiv: {{n}} (de ex. {{examples}}). A fost folosită descompunerea nerotunjită.",
       "totalMismatch": "Totalul din fișier ({{file}}) diferă de totalul calculat aici ({{calculated}}), diferență {{difference}}.",
       "noPrices": "Acest fișier nu conține prețuri — doar denumiri și cantități (ca o bibliotecă de antemăsurători). Prin urmare, totalul rămâne 0,00.",
       "moreWarnings_one": "… și încă {{count}} mesaj similar.",

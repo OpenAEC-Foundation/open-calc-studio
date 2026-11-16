@@ -8,5 +8,6 @@ export function useVariantItems() {
   const branchesEnabled = useAppStore(s => s.schedule.branchesEnabled);
   const activeBranchId = useAppStore(s => s.schedule.activeBranchId);
   const branches = useAppStore(s => s.schedule.branches);
-  return useMemo(() => variantCalculatedItems(items, { branchesEnabled, activeBranchId, branches }), [items, branchesEnabled, activeBranchId, branches]);
+  const priceRounding = useAppStore(s => s.schedule.priceRounding);
+  return useMemo(() => variantCalculatedItems(items, { branchesEnabled, activeBranchId, branches, priceRounding }), [items, branchesEnabled, activeBranchId, branches, priceRounding]);
 }

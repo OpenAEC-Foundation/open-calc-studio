@@ -90,7 +90,6 @@
       "noProjectStructure": "Không tìm thấy cấu trúc dự án (##/#) — các mục đã được nhập như một bảng giá trong một chương duy nhất.",
       "priceMismatch_one": "Ở {{count}} công tác, tổng phân tích đơn giá chênh hơn 2% so với đơn giá trong bản ghi ~C ({{examples}}). Đã sử dụng phân tích đơn giá.",
       "priceMismatch_other": "Ở {{count}} công tác, tổng phân tích đơn giá chênh hơn 2% so với đơn giá trong bản ghi ~C (vd. {{examples}}). Đã sử dụng phân tích đơn giá.",
-      "roundingDiff": "Tệp này làm tròn từng dòng phân tích và từng đơn giá đến xu, giống như chương trình đã tạo ra nó; Open Calc Studio tính toán không làm tròn. Các hạng mục có đơn giá khác vì lý do này: {{n}} (ví dụ {{examples}}). Đã dùng phân tích không làm tròn.",
       "totalMismatch": "Tổng trong tệp ({{file}}) khác với tổng được tính ở đây ({{calculated}}), chênh lệch {{difference}}.",
       "noPrices": "Tệp này không chứa giá — chỉ có mô tả và khối lượng (như một thư viện khối lượng). Vì vậy tổng vẫn là 0.00.",
       "moreWarnings_one": "… và thêm {{count}} thông báo tương tự.",

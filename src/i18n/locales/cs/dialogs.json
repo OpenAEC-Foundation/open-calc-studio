@@ -96,7 +96,6 @@
       "priceMismatch_few": "U {{count}} položek se součet rozpadu liší o více než 2 % od jednotkové ceny v záznamu ~C (např. {{examples}}). Byl použit rozpad.",
       "priceMismatch_many": "U {{count}} položky se součet rozpadu liší o více než 2 % od jednotkové ceny v záznamu ~C (např. {{examples}}). Byl použit rozpad.",
       "priceMismatch_other": "U {{count}} položek se součet rozpadu liší o více než 2 % od jednotkové ceny v záznamu ~C (např. {{examples}}). Byl použit rozpad.",
-      "roundingDiff": "Tento soubor zaokrouhluje každý řádek rozpadu a každou jednotkovou cenu na haléře, stejně jako program, který jej vytvořil; Open Calc Studio počítá bez zaokrouhlení. Položky, jejichž jednotková cena se proto liší: {{n}} (např. {{examples}}). Byl použit nezaokrouhlený rozpad.",
       "totalMismatch": "Celková částka v souboru ({{file}}) se liší od zde vypočtené částky ({{calculated}}), rozdíl {{difference}}.",
       "noPrices": "Tento soubor neobsahuje žádné ceny — pouze popisy a množství (jako knihovna výměr). Celková částka proto zůstává 0,00.",
       "moreWarnings_one": "… a ještě {{count}} podobné upozornění.",

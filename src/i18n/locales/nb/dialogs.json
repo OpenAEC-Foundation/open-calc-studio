@@ -90,7 +90,6 @@
       "noProjectStructure": "Ingen prosjektstruktur (##/#) funnet — elementene ble importert som prisbok under ett enkelt kapittel.",
       "priceMismatch_one": "For {{count}} post avviker summen av oppdelingen med mer enn 2 % fra enhetsprisen i ~C-linjen ({{examples}}). Oppdelingen ble brukt.",
       "priceMismatch_other": "For {{count}} poster avviker summen av oppdelingen med mer enn 2 % fra enhetsprisen i ~C-linjen (f.eks. {{examples}}). Oppdelingen ble brukt.",
-      "roundingDiff": "Denne filen runder av hver linje i oppdelingen og hver enhetspris til hele øre, slik programmet som skrev den gjør; Open Calc Studio regner uten avrunding. Poster der enhetsprisen avviker på grunn av dette: {{n}} (f.eks. {{examples}}). Den uavrundede oppdelingen er brukt.",
       "totalMismatch": "Totalen i filen ({{file}}) avviker fra totalen beregnet her ({{calculated}}), differanse {{difference}}.",
       "noPrices": "Denne filen inneholder ingen priser — bare beskrivelser og mengder (som et mengdebibliotek). Totalen blir derfor 0,00.",
       "moreWarnings_one": "… og {{count}} lignende melding til.",

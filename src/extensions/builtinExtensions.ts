@@ -31,7 +31,7 @@ async function importSpreadsheetTable(file: File, originalError: unknown): Promi
   const mapping = await askColumnMapping(table);
   if (!mapping) throw new ImportCancelledError();
   const result = buildFromMapping(table, mapping);
-  return { ...result, items: recalculateItems(result.items) };
+  return { ...result, items: recalculateItems(result.items, undefined, result.schedule?.priceRounding) };
 }
 
 
@@ -199,7 +199,7 @@ export function registerBuiltinExtensions(): void {
       }
       return {
         schedule: result.schedule,
-        items: recalculateItems(result.items),
+        items: recalculateItems(result.items, undefined, result.schedule?.priceRounding),
         companyInfo: result.companyInfo,
       };
     },
@@ -225,7 +225,7 @@ export function registerBuiltinExtensions(): void {
       const result = importWpCalcFile(buffer);
       return {
         schedule: result.schedule,
-        items: recalculateItems(result.items),
+        items: recalculateItems(result.items, undefined, result.schedule?.priceRounding),
         companyInfo: result.companyInfo,
       };
     },
@@ -250,7 +250,7 @@ export function registerBuiltinExtensions(): void {
       const result = importRsx(text);
       return {
         schedule: result.schedule,
-        items: recalculateItems(result.items),
+        items: recalculateItems(result.items, undefined, result.schedule?.priceRounding),
         companyInfo: result.companyInfo,
         warnings: result.warnings,
         format: result.format,
@@ -278,7 +278,7 @@ export function registerBuiltinExtensions(): void {
       const result = await runImportWorker<ImportResult>('inschrijfstaat', buffer, file.name);
       return {
         schedule: result.schedule,
-        items: recalculateItems(result.items),
+        items: recalculateItems(result.items, undefined, result.schedule?.priceRounding),
         companyInfo: result.companyInfo,
       };
     },
@@ -315,7 +315,7 @@ export function registerBuiltinExtensions(): void {
       useAppStore.getState().setReportView('directie');
       return {
         schedule: result.schedule,
-        items: recalculateItems(result.items, effectiveTarieven(result.schedule)),
+        items: recalculateItems(result.items, effectiveTarieven(result.schedule), result.schedule?.priceRounding),
         warnings: result.warnings,
       };
     },
@@ -341,7 +341,7 @@ export function registerBuiltinExtensions(): void {
       const result = await importXtbFile(buffer);
       return {
         schedule: result.schedule,
-        items: recalculateItems(result.items),
+        items: recalculateItems(result.items, undefined, result.schedule?.priceRounding),
         warnings: result.warnings,
       };
     },
@@ -367,7 +367,7 @@ export function registerBuiltinExtensions(): void {
       const result = importBc3File(buffer);
       return {
         schedule: result.schedule,
-        items: recalculateItems(result.items),
+        items: recalculateItems(result.items, undefined, result.schedule?.priceRounding),
         // Meldingen (o.a. "geen prijzen") + vertaalbare codes naar de UI.
         warnings: result.warnings,
         warningCodes: result.warningCodes,
@@ -396,7 +396,7 @@ export function registerBuiltinExtensions(): void {
       const result = importOnlvFile(await file.arrayBuffer());
       return {
         schedule: result.schedule,
-        items: recalculateItems(result.items),
+        items: recalculateItems(result.items, undefined, result.schedule?.priceRounding),
         warnings: result.warnings,
         warningCodes: result.warningCodes,
         format: result.format,

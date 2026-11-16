@@ -6,7 +6,7 @@ import { effectiveTarieven, recalculateItems } from '../services/calculation/cal
 export function calculateProject(project: ProjectFile): ProjectFile {
   return {
     ...project,
-    items: recalculateItems(project.items, effectiveTarieven(project.schedule)),
+    items: recalculateItems(project.items, effectiveTarieven(project.schedule), project.schedule?.priceRounding),
   };
 }
 

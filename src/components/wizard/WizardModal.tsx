@@ -66,7 +66,7 @@ export default function WizardModal({ open, onClose }: WizardModalProps) {
     }));
 
     const newItems = [...items, ...wizardItems];
-    setItems(recalculateItems(newItems));
+    setItems(recalculateItems(newItems, undefined, useAppStore.getState().schedule.priceRounding));
     const state = useAppStore.getState();
     state.updateDocument(state.activeDocumentId, { isModified: true });
     handleClose();

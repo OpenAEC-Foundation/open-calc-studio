@@ -90,7 +90,6 @@
       "noProjectStructure": "No s'ha trobat cap estructura de projecte (##/#): els conceptes s'han importat com a banc de preus sota un únic capítol.",
       "priceMismatch_one": "En {{count}} partida, la suma de la descomposició difereix més d'un 2 % del preu unitari del registre ~C ({{examples}}). S'ha fet servir la descomposició.",
       "priceMismatch_other": "En {{count}} partides, la suma de la descomposició difereix més d'un 2 % del preu unitari del registre ~C (p. ex. {{examples}}). S'ha fet servir la descomposició.",
-      "roundingDiff": "Aquest fitxer arrodoneix a cèntims cada línia de la descomposició i cada preu unitari, com fa el programa que el va generar; Open Calc Studio calcula sense arrodoniment. Partides el preu unitari de les quals difereix per això: {{n}} (p. ex. {{examples}}). S'ha fet servir la descomposició sense arrodonir.",
       "totalMismatch": "El total del fitxer ({{file}}) difereix del total calculat aquí ({{calculated}}); diferència {{difference}}.",
       "noPrices": "Aquest fitxer no conté preus, només descripcions i amidaments (com una biblioteca d'amidaments). Per això el total continua sent 0,00.",
       "moreWarnings_one": "… i {{count}} avís similar més.",

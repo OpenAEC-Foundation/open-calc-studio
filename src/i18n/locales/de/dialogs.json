@@ -90,7 +90,6 @@
       "noProjectStructure": "Keine Projektstruktur (##/#) gefunden — die Einträge wurden als Preisdatenbank unter einem einzigen Titel importiert.",
       "priceMismatch_one": "Bei {{count}} Position weicht die Summe der Zerlegung um mehr als 2 % vom Einheitspreis im ~C-Datensatz ab ({{examples}}). Die Zerlegung wurde verwendet.",
       "priceMismatch_other": "Bei {{count}} Positionen weicht die Summe der Zerlegung um mehr als 2 % vom Einheitspreis im ~C-Datensatz ab (z. B. {{examples}}). Die Zerlegung wurde verwendet.",
-      "roundingDiff": "Diese Datei rundet jede Zeile der Aufgliederung und jeden Einheitspreis auf Cent, wie das Programm, das sie erstellt hat; Open Calc Studio rechnet ohne Rundung. Positionen, deren Einheitspreis dadurch abweicht: {{n}} (z. B. {{examples}}). Die ungerundete Aufgliederung wurde verwendet.",
       "totalMismatch": "Die Gesamtsumme in der Datei ({{file}}) weicht von der hier berechneten Summe ({{calculated}}) ab, Differenz {{difference}}.",
       "noPrices": "Diese Datei enthält keine Preise — nur Beschreibungen und Mengen (wie eine Aufmaßbibliothek). Die Summe bleibt daher 0,00.",
       "moreWarnings_one": "… und {{count}} weiterer ähnlicher Hinweis.",
