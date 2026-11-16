@@ -915,6 +915,7 @@
       "rsxFlattened": "RSX: bab bersarang di bawah \"{{name}}\" diratakan; CROW RSX menyokong satu aras subanggaran sahaja.",
       "currencyNotInFormat": "{{format}} tiada medan mata wang, jadi penerima akan membaca jumlah ini sebagai euro. Anggaran ini dalam {{currency}}; jumlah tidak ditukar.",
       "unreadableNumbers": "{{count}} nilai tidak dapat dibaca sebagai nombor dan diimport sebagai 0 (contohnya \"{{example}}\").",
+      "formulaCellsWithoutValue": "{{count}} sel dalam lajur nombor tiada nilai yang boleh digunakan (formula tanpa hasil yang disimpan, atau ralat Excel) dan diimport sebagai kosong: {{cells}}. Buka fail dalam Excel, betulkan atau kira semula, simpan dan import sekali lagi.",
       "xmlError": "Ralat penghuraian XML: {{message}} (baris {{line}})",
       "xml": {
         "entity": "Entiti tidak diketahui {{p0}}",

@@ -917,6 +917,7 @@
       "rsxFlattened": "RSX: zagnieżdżone działy pod \"{{name}}\" spłaszczono; CROW RSX obsługuje jeden poziom podkosztorysu.",
       "currencyNotInFormat": "{{format}} nie ma pola waluty, więc odbiorca odczyta te kwoty jako euro. Ten kosztorys jest w {{currency}}; kwot nie przeliczono.",
       "unreadableNumbers": "{{count}} wartości nie udało się odczytać jako liczby i zaimportowano je jako 0 (na przykład „{{example}}”).",
+      "formulaCellsWithoutValue": "{{count}} komórek w kolumnach liczbowych nie ma użytecznej wartości (formuła bez zapisanego wyniku lub błąd Excela) i zostały zaimportowane jako puste: {{cells}}. Otwórz plik w Excelu, popraw go lub przelicz, zapisz i zaimportuj ponownie.",
       "xmlError": "Błąd analizy XML: {{message}} (wiersz {{line}})",
       "xml": {
         "entity": "Nieznana encja {{p0}}",

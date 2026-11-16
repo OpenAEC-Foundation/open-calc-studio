@@ -17,5 +17,5 @@ export {
   buildFromMapping,
   TARGET_FIELDS,
 } from './genericTabularImporter';
-export type { TargetField, ColumnMapping, TabularData } from './genericTabularImporter';
+export type { TargetField, ColumnMapping, TabularData, TabularCellIssue } from './genericTabularImporter';
 export type { ImportResult } from './types';

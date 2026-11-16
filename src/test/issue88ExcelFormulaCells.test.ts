@@ -1,0 +1,98 @@
+import { describe, it, expect } from 'vitest';
+import * as XLSX from 'xlsx';
+import { parseCsv, parseXlsxTabular, autoDetectMapping, buildFromMapping } from '@/services/importers';
+import { recalculateItems } from '@/services/calculation/calculator';
+
+// Issue #88: een Excel-cel met een formule zonder opgeslagen uitkomst, of met
+// een Excel-fout, kwam stil als leeg binnen (post van 0). Nu volgt een melding
+// met blad, cel en kolom. Formules mét uitkomst blijven gewoon werken.
+
+type Cells = Record<string, XLSX.CellObject>;
+
+function xlsx(cells: Cells, ref: string, sheet = 'Blad1'): Uint8Array {
+  const ws = { '!ref': ref, ...cells } as XLSX.WorkSheet;
+  const wb = { SheetNames: [sheet], Sheets: { [sheet]: ws } } as XLSX.WorkBook;
+  return new Uint8Array(XLSX.write(wb, { type: 'array', bookType: 'xlsx' }) as ArrayBuffer);
+}
+
+const header: Cells = {
+  A1: { t: 's', v: 'Omschrijving' }, B1: { t: 's', v: 'Hoeveelheid' }, C1: { t: 's', v: 'Prijs' },
+};
+
+function importRows(cells: Cells, ref: string) {
+  const data = parseXlsxTabular(xlsx(cells, ref), 'test');
+  const result = buildFromMapping(data, autoDetectMapping(data.headers));
+  return { data, result, items: recalculateItems(result.items) };
+}
+
+const formulaWarning = (warnings: string[]) => warnings.filter((w) => /no usable value|geen bruikbare waarde/.test(w));
+
+describe('#88 Excel-import: formules zonder uitkomst en foutcellen', () => {
+  it('gewone getallen: juiste waarde en geen melding', () => {
+    const { result, items } = importRows({ ...header, A2: { t: 's', v: 'Post' }, B2: { t: 'n', v: 20 }, C2: { t: 'n', v: 30 } }, 'A1:C2');
+    expect(items.find((i) => i.description === 'Post')!.total).toBeCloseTo(600);
+    expect(formulaWarning(result.warnings)).toEqual([]);
+  });
+
+  it('formule met opgeslagen uitkomst: die uitkomst telt, geen melding', () => {
+    const { result, items } = importRows({ ...header, A2: { t: 's', v: 'Post' }, B2: { t: 'n', v: 20, f: '2*10' }, C2: { t: 'n', v: 30 } }, 'A1:C2');
+    expect(items.find((i) => i.description === 'Post')!.quantity).toBe(20);
+    expect(formulaWarning(result.warnings)).toEqual([]);
+  });
+
+  it('formule zonder opgeslagen uitkomst: melding met blad, cel en kolom', () => {
+    const { result } = importRows({ ...header, A2: { t: 's', v: 'Post' }, B2: { t: 'n', f: '2*10' } as XLSX.CellObject, C2: { t: 'n', v: 30 } }, 'A1:C2');
+    const [warning] = formulaWarning(result.warnings);
+    expect(warning).toBeDefined();
+    expect(warning).toContain('Blad1!B2 (Hoeveelheid)');
+  });
+
+  it('Excel-foutcel: melding met de fouttekst', () => {
+    const { result } = importRows({ ...header, A2: { t: 's', v: 'Post' }, B2: { t: 'n', v: 20 }, C2: { t: 'e', v: 0x17, w: '#REF!', f: 'Z99*#REF!' } }, 'A1:C2');
+    expect(formulaWarning(result.warnings)[0]).toContain('Blad1!C2 #REF! (Prijs)');
+  });
+
+  it('geen melding voor een kolom die niet als getal gekoppeld is', () => {
+    const data = parseXlsxTabular(xlsx({ ...header, A2: { t: 's', v: 'Post' }, B2: { t: 'n', v: 20 }, C2: { t: 'n', f: '1+1' } as XLSX.CellObject }, 'A1:C2'), 'test');
+    expect(data.cellIssues).toHaveLength(1);
+    const result = buildFromMapping(data, ['description', 'quantity', 'ignore']);
+    expect(formulaWarning(result.warnings)).toEqual([]);
+  });
+
+  it('geen melding voor een rij die niet geïmporteerd wordt (geen omschrijving of code)', () => {
+    const { result } = importRows({ ...header, B2: { t: 'n', f: '1+1' } as XLSX.CellObject, A3: { t: 's', v: 'Post' }, B3: { t: 'n', v: 1 } }, 'A1:C3');
+    expect(formulaWarning(result.warnings)).toEqual([]);
+  });
+
+  it('klopt het adres ook met lege rijen en een tabel die niet in A1 begint', () => {
+    const cells: Cells = {
+      B3: { t: 's', v: 'Omschrijving' }, C3: { t: 's', v: 'Hoeveelheid' }, D3: { t: 's', v: 'Prijs' },
+      B4: { t: 's', v: 'Eerste' }, C4: { t: 'n', v: 1 }, D4: { t: 'n', v: 10 },
+      // rij 5 is leeg
+      B6: { t: 's', v: 'Tweede' }, C6: { t: 'n', f: 'C4*2' } as XLSX.CellObject, D6: { t: 'n', v: 10 },
+    };
+    const { data, result } = importRows(cells, 'B3:D6');
+    expect(data.rows.map((r) => r[0])).toEqual(['Eerste', 'Tweede']);
+    expect(formulaWarning(result.warnings)[0]).toContain('Blad1!C6 (Hoeveelheid)');
+  });
+
+  it('noemt maximaal vijf cellen en telt de rest wel mee', () => {
+    const cells: Cells = { ...header };
+    for (let r = 2; r <= 8; r++) {
+      cells[`A${r}`] = { t: 's', v: `Post ${r}` };
+      cells[`B${r}`] = { t: 'n', f: '1+1' } as XLSX.CellObject;
+      cells[`C${r}`] = { t: 'n', v: 5 };
+    }
+    const [warning] = formulaWarning(importRows(cells, 'A1:C8').result.warnings);
+    expect(warning).toMatch(/^7 /);
+    expect(warning).toContain('Blad1!B6');
+    expect(warning).not.toContain('Blad1!B7');
+    expect(warning).toContain('…');
+  });
+
+  it('CSV heeft geen formules en dus geen meldingen', () => {
+    const data = parseCsv('Omschrijving;Hoeveelheid;Prijs\nPost;2;3', 'csv');
+    expect(data.cellIssues).toBeUndefined();
+    expect(formulaWarning(buildFromMapping(data, autoDetectMapping(data.headers)).warnings)).toEqual([]);
+  });
+});

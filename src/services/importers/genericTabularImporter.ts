@@ -54,6 +54,23 @@ export interface TabularData {
   headers: string[];
   rows: string[][];
   sourceName: string;
+  /**
+   * Excel only: cells without a usable value (#88). `row` indexes `rows`,
+   * `col` indexes the row array. `noCachedValue` = a formula whose result was
+   * never stored (e.g. a file written by a script and never saved in Excel);
+   * `error` = an Excel error such as #REF!. Both arrive in `rows` as ''.
+   */
+  cellIssues?: TabularCellIssue[];
+}
+
+export interface TabularCellIssue {
+  row: number;
+  col: number;
+  /** Sheet-qualified address, e.g. "Blad1!B3". */
+  address: string;
+  kind: 'noCachedValue' | 'error';
+  /** The Excel error text (#REF!, #DIV/0!) for `error`. */
+  text?: string;
 }
 
 // ── Parsen ────────────────────────────────────────────────────────────────
@@ -110,16 +127,42 @@ export function parseCsv(text: string, sourceName = 'CSV-import'): TabularData {
 export function parseXlsxTabular(buf: ArrayBuffer | Uint8Array, sourceName = 'Excel-import'): TabularData {
   const wb = readWorkbook(buf instanceof Uint8Array ? buf : new Uint8Array(buf), { type: 'array' });
   // Kies het tabblad met de meeste rijen — dat is doorgaans de databladzijde.
-  let best: unknown[][] | null = null;
+  // Lege rijen vallen weg, maar we onthouden het echte rijnummer van elke rij
+  // zodat een cel zonder bruikbare waarde met zijn adres gemeld kan worden (#88).
+  let best: { name: string; rows: unknown[][]; sheetRows: number[] } | null = null;
   for (const name of wb.SheetNames) {
-    const rows = XLSX.utils.sheet_to_json<unknown[]>(wb.Sheets[name], { header: 1, blankrows: false });
-    if (!best || rows.length > best.length) best = rows;
+    const ws = wb.Sheets[name];
+    const start = XLSX.utils.decode_range(ws['!ref'] || 'A1').s;
+    const all = XLSX.utils.sheet_to_json<unknown[]>(ws, { header: 1, blankrows: true });
+    const rows: unknown[][] = [];
+    const sheetRows: number[] = [];
+    all.forEach((r, i) => {
+      if (!(r as unknown[]).some((v) => v != null && v !== '')) return;
+      rows.push(r as unknown[]);
+      sheetRows.push(start.r + i);
+    });
+    if (!best || rows.length > best.rows.length) best = { name, rows, sheetRows };
   }
-  if (!best || best.length === 0) return { headers: [], rows: [], sourceName };
+  if (!best || best.rows.length === 0) return { headers: [], rows: [], sourceName };
   const toStr = (v: unknown) => (v == null ? '' : String(v).trim());
-  const headers = (best[0] as unknown[]).map(toStr);
-  const rows = best.slice(1).map((r) => (r as unknown[]).map(toStr));
-  return { headers, rows, sourceName };
+  const headers = best.rows[0].map(toStr);
+  const rows = best.rows.slice(1).map((r) => r.map(toStr));
+
+  const ws = wb.Sheets[best.name];
+  const range = XLSX.utils.decode_range(ws['!ref'] || 'A1');
+  const cellIssues: TabularCellIssue[] = [];
+  best.sheetRows.slice(1).forEach((r, row) => {
+    for (let c = range.s.c; c <= range.e.c; c++) {
+      const ref = XLSX.utils.encode_cell({ r, c });
+      const cell = ws[ref] as XLSX.CellObject | undefined;
+      if (!cell) continue;
+      const address = `${best!.name}!${ref}`;
+      const col = c - range.s.c;
+      if (cell.f && cell.v === undefined) cellIssues.push({ row, col, address, kind: 'noCachedValue' });
+      else if (cell.t === 'e') cellIssues.push({ row, col, address, kind: 'error', text: cell.w || '#ERROR' });
+    }
+  });
+  return { headers, rows, sourceName, ...(cellIssues.length ? { cellIssues } : {}) };
 }
 
 // ── Auto-detectie ───────────────────────────────────────────────────────────
@@ -217,12 +260,23 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
   };
   const under = (parent: CostItem | null) => ({ parentId: parent?.id ?? null, depth: parent ? parent.depth + 1 : 0 });
 
-  for (const row of data.rows) {
+  // Excel-cellen zonder bruikbare waarde in een getalkolom: niet stil als
+  // leeg/0 laten binnenkomen, maar met adres melden (#88).
+  const numberCols = new Set([cQty, cMat, cLab, cEq, cUp, cTot].filter((c) => c >= 0));
+  const issuesByRow = new Map<number, TabularCellIssue[]>();
+  for (const issue of data.cellIssues ?? []) {
+    if (!numberCols.has(issue.col)) continue;
+    issuesByRow.set(issue.row, [...(issuesByRow.get(issue.row) ?? []), issue]);
+  }
+  const reportedIssues: TabularCellIssue[] = [];
+
+  for (const [rowIndex, row] of data.rows.entries()) {
     if (row.every((c) => !c || !c.trim())) continue;
 
     const description = cell(row, cDesc);
     const code = cell(row, cCode);
     if (!description && !code) continue;
+    reportedIssues.push(...(issuesByRow.get(rowIndex) ?? []));
 
     const qtyRaw = cell(row, cQty);
     const matRaw = cell(row, cMat);
@@ -336,6 +390,15 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
   if (builder.length === 0) warnings.push(uiText("diagnostics.genericTabularImporter.noUsableRowsFoundWithThisColumn", "No usable rows found with this column mapping."));
   if (invalidCount > 0) {
     warnings.push(uiText('diagnostics.unreadableNumbers', '{{count}} values could not be read as a number and were imported as 0 (for example "{{example}}").', { count: invalidCount, example: invalidExample }));
+  }
+  if (reportedIssues.length > 0) {
+    const describe = (issue: TabularCellIssue) => {
+      const column = data.headers[issue.col] || '?';
+      return issue.kind === 'error' ? `${issue.address} ${issue.text} (${column})` : `${issue.address} (${column})`;
+    };
+    const shown = reportedIssues.slice(0, 5).map(describe).join(', ');
+    const cells = reportedIssues.length > 5 ? `${shown}, …` : shown;
+    warnings.push(uiText('diagnostics.formulaCellsWithoutValue', '{{count}} cells in number columns have no usable value (a formula without a stored result, or an Excel error) and were imported as empty: {{cells}}. Open the file in Excel, fix or recalculate it, save it and import again.', { count: reportedIssues.length, cells }));
   }
 
   return {

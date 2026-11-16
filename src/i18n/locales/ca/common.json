@@ -915,6 +915,7 @@
       "rsxFlattened": "RSX: els capítols imbricats sota \"{{name}}\" s'han aplanat; CROW RSX admet un sol nivell de subpressupost.",
       "currencyNotInFormat": "{{format}} no té camp de moneda, de manera que el destinatari llegirà aquests imports en euros. Aquest pressupost és en {{currency}}; els imports no s'han convertit.",
       "unreadableNumbers": "{{count}} valors no s'han pogut llegir com a nombre i s'han importat com a 0 (per exemple, «{{example}}»).",
+      "formulaCellsWithoutValue": "{{count}} cel·les de columnes numèriques no tenen cap valor utilitzable (una fórmula sense resultat desat o un error d'Excel) i s'han importat buides: {{cells}}. Obriu el fitxer a l'Excel, corregiu-lo o recalculeu-lo, deseu-lo i torneu-lo a importar.",
       "xmlError": "Error d'anàlisi XML: {{message}} (línia {{line}})",
       "xml": {
         "entity": "Entitat desconeguda {{p0}}",

@@ -915,6 +915,7 @@
       "rsxFlattened": "RSX: i capitoli annidati sotto \"{{name}}\" sono stati appiattiti; CROW RSX supporta un solo livello di sottocomputo.",
       "currencyNotInFormat": "{{format}} non ha un campo valuta, quindi il destinatario leggerà questi importi in euro. Questo preventivo è in {{currency}}; gli importi non sono stati convertiti.",
       "unreadableNumbers": "{{count}} valori non sono stati letti come numero e sono stati importati come 0 (ad esempio \"{{example}}\").",
+      "formulaCellsWithoutValue": "{{count}} celle nelle colonne numeriche non hanno un valore utilizzabile (una formula senza risultato salvato o un errore di Excel) e sono state importate vuote: {{cells}}. Apri il file in Excel, correggilo o ricalcolalo, salvalo e importalo di nuovo.",
       "xmlError": "Errore di analisi XML: {{message}} (riga {{line}})",
       "xml": {
         "entity": "Entità sconosciuta {{p0}}",

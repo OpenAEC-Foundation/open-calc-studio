@@ -598,6 +598,7 @@
       "rsxFlattened": "RSX: los capítulos anidados bajo \"{{name}}\" se han aplanado; CROW RSX admite un solo nivel de subpresupuesto.",
       "currencyNotInFormat": "{{format}} no tiene campo de moneda, por lo que el destinatario leerá estos importes en euros. Este presupuesto está en {{currency}}; los importes no se han convertido.",
       "unreadableNumbers": "{{count}} valores no se pudieron leer como número y se importaron como 0 (por ejemplo, «{{example}}»).",
+      "formulaCellsWithoutValue": "{{count}} celdas de columnas numéricas no tienen un valor utilizable (una fórmula sin resultado guardado o un error de Excel) y se importaron vacías: {{cells}}. Abra el archivo en Excel, corríjalo o recalcúlelo, guárdelo e impórtelo de nuevo.",
       "xmlError": "Error de análisis XML: {{message}} (línea {{line}})",
       "xml": {
         "entity": "Entidad desconocida {{p0}}",

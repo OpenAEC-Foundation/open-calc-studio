@@ -915,6 +915,7 @@
       "rsxFlattened": "RSX：“{{name}}”下的嵌套章节已展平；CROW RSX 仅支持一级子预算。",
       "currencyNotInFormat": "{{format}} 没有货币字段，接收方会把这些金额读作欧元。此预算的货币为 {{currency}}；金额未经换算。",
       "unreadableNumbers": "有 {{count}} 个值无法读取为数字，已按 0 导入（例如“{{example}}”）。",
+      "formulaCellsWithoutValue": "数字列中有 {{count}} 个单元格没有可用的值（没有保存结果的公式，或 Excel 错误），已作为空值导入：{{cells}}。请在 Excel 中打开文件，修正或重新计算后保存，然后重新导入。",
       "xmlError": "XML 解析错误：{{message}}（第 {{line}} 行）",
       "xml": {
         "entity": "未知实体 {{p0}}",
