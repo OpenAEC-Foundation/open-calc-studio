@@ -26,6 +26,7 @@ import type { CostItem, ExcelLink, Branch } from '@/types/costModel';
 const EMPTY_BRANCHES: Branch[] = [];
 import ExcelCellPicker from '@/components/common/ExcelCellPicker';
 import { QuantityPicker } from '@/components/common/QuantityPicker';
+import { applyQuantityLink } from '@/services/quantity/quantitySourceActions';
 import { CodePickerModal } from './CodePickerModal';
 import type { CodeEntry } from '@/data/codeLibrary';
 import { useVariantItems } from '@/hooks/useVariantItems';
@@ -642,9 +643,7 @@ export const CostGrid: React.FC = () => {
         <QuantityPicker
           onClose={() => setQuantityLinkItem(null)}
           onPick={(link, value) => {
-            pushHistory(items, t('grid:undo.quantityLink'));
-            updateItem(quantityLinkItem.id, 'quantityLink', link);
-            updateItem(quantityLinkItem.id, 'quantity', value);
+            applyQuantityLink(quantityLinkItem.id, link, value, t('grid:undo.quantityLink'));
             setQuantityLinkItem(null);
           }}
         />

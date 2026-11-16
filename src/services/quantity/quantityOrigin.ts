@@ -14,6 +14,11 @@ export interface QuantityOrigin {
 }
 const pdfOrigins = new WeakMap<PdfQuantityResolver, Map<string, QuantityOrigin | null>>();
 
+/** Unit of a PDF quantity: areas (and their sum) in m², lengths (and their sum) in m. */
+export function pdfLinkUnit(kind: Extract<QuantityLink, { source: 'pdf' }>['kind']): 'm' | 'm²' {
+  return kind === 'area' || kind === 'sum-area' ? 'm²' : 'm';
+}
+
 export interface QuantityOriginContext { schedule: CostSchedule; subSheets: SubSheet[]; ifcQuantities?: IfcQuantity[]; /** Internal, batch-local PDF index. */ pdfResolver?: PdfQuantityResolver }
 export interface QuantityOriginInfo extends QuantityOrigin { status: 'manual' | 'linked' | 'missing' | 'different'; currentValue: number | null; unitMismatch: boolean; captured?: QuantityOrigin }
 
@@ -40,7 +45,7 @@ export function resolveQuantityOrigin(link: QuantityLink, context: QuantityOrigi
     const value = resolver.resolve(link);
     if (value === null || !sources.length) return null;
     const origin: QuantityOrigin = { source: 'pdf', verified: sources.every(({ measurement }) => measurement.origin !== 'open-pdf-studio' || measurement.sourceVerified === true), label: summed ? `Σ ${kind}` : sources[0].measurement.label, sources: sources.map(({ source, measurement }) => ({ id: source.id, name: source.fileName, page: measurement.page, measurementId: measurement.id })),
-      formula: summed ? sources.map(({ measurement }) => measurement.value).join(' + ') : sources[0].measurement.origin === 'open-pdf-studio' ? `Open PDF Studio · #${sources[0].measurement.annotationId ?? sources[0].measurement.id}` : `${kind === 'area' ? 'polygonArea' : 'polylineLength'}(PDF points) × (${sources[0].measurement.mmPerPoint}/1000)${kind === 'area' ? '²' : ''}`, value, unit: kind === 'area' ? 'm²' : 'm' };
+      formula: summed ? sources.map(({ measurement }) => measurement.value).join(' + ') : sources[0].measurement.origin === 'open-pdf-studio' ? `Open PDF Studio · #${sources[0].measurement.annotationId ?? sources[0].measurement.id}` : `${kind === 'area' ? 'polygonArea' : 'polylineLength'}(PDF points) × (${sources[0].measurement.mmPerPoint}/1000)${kind === 'area' ? '²' : ''}`, value, unit: pdfLinkUnit(link.kind) };
     cache.set(cacheKey, origin); return origin;
   }
   const takeoff = context.schedule.ifcTakeoff;
