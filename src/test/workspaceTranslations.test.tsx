@@ -26,7 +26,7 @@ function button(name: string) {
 beforeEach(async () => {
   await changeLanguage('en');
   useAppStore.setState({ documents: [], activeDocumentId: '', subSheets: [], resourceLibrary: [], resourcePickerOpen: false });
-  vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({ clearRect: vi.fn() } as unknown as CanvasRenderingContext2D);
+  vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({ setTransform: vi.fn(), clearRect: vi.fn() } as unknown as CanvasRenderingContext2D);
 });
 afterEach(async () => { if (root) await act(async () => root!.unmount()); root = undefined; container?.remove(); vi.restoreAllMocks(); });
 
@@ -36,12 +36,13 @@ describe('workspace language selection', () => {
     expect(button('Prompt & Estimate')).toBeInTheDocument();
     expect(button('3D & Estimate')).toBeInTheDocument();
     expect(button('Add PDF')).toBeInTheDocument();
-    expect(button('Length')).toBeInTheDocument();
-    expect(container.textContent).not.toContain('Nog niet gekalibreerd');
+    // No PDF yet: the empty state leads (tools and scale appear once a drawing is added).
+    expect(container.textContent).toContain('Add a PDF to measure');
+    expect(container.textContent).not.toContain('Voeg een PDF toe');
     await act(async () => { await changeLanguage('nl'); });
     expect(button('Prompt & Begroot')).toBeInTheDocument();
     expect(button('PDF toevoegen')).toBeInTheDocument();
-    expect(container.textContent).toContain('Nog niet gekalibreerd');
+    expect(container.textContent).toContain('Voeg een PDF toe om te meten');
   });
 
   it('localizes price-library guidance without changing imported resource content', async () => {

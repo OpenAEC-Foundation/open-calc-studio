@@ -1,0 +1,45 @@
+/* "Link to estimate row" dialog, opened from a PDF measurement. Base: .modal-* (Modal.css). */
+.pdf-link-dialog { width: 560px; height: 480px; max-height: 80vh; color: var(--theme-dialog-content-text, var(--theme-text)); user-select: text; }
+.pdf-link-dialog .modal-body { overflow: hidden; }
+
+.pdf-link-measurement {
+  display: flex; align-items: baseline; gap: 12px; padding: 10px 12px 2px;
+  font-size: 12px;
+}
+.pdf-link-measurement-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+.pdf-link-measurement-value { flex: none; font-variant-numeric: tabular-nums; }
+.pdf-link-hint { margin: 0; padding: 0 12px 8px; font-size: 11px; color: var(--theme-text-secondary); }
+
+.pdf-link-search { padding: 8px 12px; border-block: 1px solid var(--theme-dialog-border); }
+.pdf-link-search input {
+  box-sizing: border-box; width: 100%; padding: 6px 10px; font: inherit; font-size: 12px;
+  border: 1px solid var(--theme-border); border-radius: 4px;
+  background: var(--theme-dialog-bg); color: var(--theme-text);
+}
+.pdf-link-search input:focus-visible { outline: 2px solid var(--theme-focus-color); outline-offset: 1px; }
+
+.pdf-link-list { flex: 1; min-height: 0; overflow: auto; margin: 0; padding: 4px 0; list-style: none; }
+.pdf-link-option {
+  display: flex; align-items: center; gap: 8px; padding-block: 4px; padding-inline-end: 12px;
+  font-size: 11.5px; cursor: default;
+}
+.pdf-link-option--post .pdf-link-desc { font-weight: 600; }
+.pdf-link-option--active { background: var(--theme-accent-soft); box-shadow: inset 3px 0 var(--theme-accent); }
+[dir="rtl"] .pdf-link-option--active { box-shadow: inset -3px 0 var(--theme-accent); }
+.pdf-link-code { flex: none; min-width: 48px; font-family: var(--oa-font-mono); font-size: 10.5px; color: var(--theme-text-secondary); }
+.pdf-link-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.pdf-link-desc, .pdf-link-chapter { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pdf-link-chapter { font-size: 10px; color: var(--theme-text-secondary); }
+.pdf-link-badge {
+  flex: none; padding: 0 6px; border-radius: 8px; font-size: 10px; line-height: 16px;
+  background: var(--oa-success-tint, var(--theme-hover)); color: var(--oa-success, var(--theme-text));
+}
+.pdf-link-qty { flex: none; min-width: 72px; text-align: end; font-variant-numeric: tabular-nums; color: var(--theme-text-secondary); white-space: nowrap; }
+.pdf-link-empty { margin: 0; padding: 16px 12px; font-size: 12px; color: var(--theme-text-secondary); text-align: center; }
+.pdf-link-list:empty { flex: 0; padding: 0; }
+
+/* Linked rows under a measurement in the PDF list (PdfViewer). */
+.pdf-ws-row-links { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10.5px; color: var(--theme-editable-text, var(--theme-accent)); }
+.pdf-ws-row-links-more { color: var(--theme-text-secondary); }
+.pdf-ws-row-link { color: var(--theme-text-secondary); }
+.pdf-ws-row-link:hover { color: var(--theme-accent); }

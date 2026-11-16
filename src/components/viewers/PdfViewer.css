@@ -66,12 +66,17 @@
 .pdf-ws-segment:hover:not(:disabled) { background: var(--theme-hover); }
 .pdf-ws-segment[aria-pressed="true"] { background: var(--theme-accent-soft); color: var(--theme-editable-text); font-weight: 600; box-shadow: inset 0 -2px var(--theme-accent); }
 .pdf-ws-segment:disabled { color: var(--theme-text-faint); cursor: default; }
+/* The group clips with overflow: hidden, so draw the focus ring inside the segment. */
+.pdf-ws-segment:focus-visible { outline-offset: -2px; }
 
 /* ---------- Error bar ---------- */
+/* Floats at the bottom of the drawing area, so the drawing does not move when it appears. */
 .pdf-ws-alert {
+  position: absolute; z-index: 3; inset-inline: 12px; inset-block-end: 12px;
   display: flex; align-items: center; gap: 8px; padding-block: 5px; padding-inline: 12px 8px;
-  border-bottom: 1px solid var(--theme-danger-color);
+  border: 1px solid var(--theme-danger-color); border-radius: 8px;
   background: var(--oa-error-tint, var(--theme-surface)); color: var(--theme-danger-color); font-size: 12px;
+  box-shadow: var(--theme-popover-shadow, 0 4px 14px rgba(0, 0, 0, 0.25));
 }
 .pdf-ws-alert-text { flex: 1; min-width: 0; overflow-wrap: anywhere; }
 .pdf-ws-alert .pdf-ws-icon-button { color: inherit; }
@@ -103,7 +108,12 @@
   border: 1px solid var(--theme-border); border-radius: 8px;
   background: var(--theme-surface); color: var(--theme-text); box-shadow: var(--theme-popover-shadow, 0 4px 14px rgba(0, 0, 0, 0.25));
 }
+/* Clicks pass through the hint to the drawing; only its buttons catch them. */
+.pdf-ws-hint { pointer-events: none; }
+.pdf-ws-hint button { pointer-events: auto; }
 .pdf-ws-hint-text { min-width: 0; }
+/* Key hint and buttons stay together on one line; only the instruction text wraps. */
+.pdf-ws-hint-actions { display: inline-flex; align-items: center; gap: 8px; flex-wrap: nowrap; }
 .pdf-ws-hint-keys { font-size: 11px; color: var(--theme-text-secondary); white-space: nowrap; }
 
 /* ---------- Measurement list ---------- */
@@ -133,4 +143,23 @@
   .pdf-ws-body { flex-direction: column; }
   .pdf-ws-list { width: auto; max-height: 170px; border-inline-start: 0; border-top: 1px solid var(--theme-border); }
   .pdf-ws-source { max-width: 160px; }
+}
+
+/* ---------- Fit to width (zoom) ---------- */
+/* Reserve the scrollbar space up front: fit-to-width measures the scroll area's width, and a
+   scrollbar that appears or disappears must not change it (no fit/scrollbar feedback loop). */
+.pdf-ws-scroll { scrollbar-gutter: stable; }
+/* Fit-to-width is on most of the time: a quiet "on" state, not an accent that reads as an alert. */
+.pdf-ws-icon-button[aria-pressed="true"] { background: var(--theme-hover); color: var(--theme-text); }
+
+/* ---------- Review fixes ---------- */
+/* Until the page has been drawn: no empty white sheet (the hint says the drawing is opening). */
+.pdf-ws-paper--loading { visibility: hidden; }
+.pdf-ws-list-empty { margin: 0; padding: 10px; color: var(--theme-text-secondary); }
+/* Less room: tool buttons show only their icon (name stays in aria-label and title), so the
+   toolbar stays on one row instead of wrapping over 3-4 rows. */
+@container pdf-ws (max-width: 1100px) {
+  .pdf-ws-label { display: none; }
+  .pdf-ws-segment, .pdf-ws-button { padding-inline: 7px; }
+  .pdf-ws-source { max-width: 180px; }
 }
