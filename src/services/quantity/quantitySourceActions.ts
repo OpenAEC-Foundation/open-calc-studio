@@ -1,6 +1,17 @@
 import { useAppStore } from '@/state/appStore';
-import { getQuantityOrigin } from './quantityOrigin';
+import type { QuantityLink } from '@/types/costModel';
+import { getQuantityOrigin, pdfLinkUnit } from './quantityOrigin';
 import { uiText } from '@/i18n/uiText';
+
+/** Link a row's quantity to a source in one undo step. A PDF link also sets the unit
+ *  (m or m²), overwriting the previous one, so the control centre sees no unit mismatch. */
+export function applyQuantityLink(itemId: string, link: QuantityLink, value: number, undoLabel: string) {
+  const state = useAppStore.getState();
+  state.pushHistory(state.items, undoLabel);
+  state.updateItem(itemId, 'quantityLink', link);
+  state.updateItem(itemId, 'quantity', value);
+  if (link.source === 'pdf') state.updateItem(itemId, 'unit', pdfLinkUnit(link.kind));
+}
 
 export async function openQuantitySource(itemId: string, sourceIndex = 0) {
   const state = useAppStore.getState(), documentId = state.activeDocumentId;
