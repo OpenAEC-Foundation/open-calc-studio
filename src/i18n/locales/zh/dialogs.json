@@ -90,7 +90,6 @@
       "noProjectStructure": "未找到项目结构（##/#）——条目已作为价格库导入到同一章节下。",
       "priceMismatch_one": "有 {{count}} 个清单项的组成明细合计与 ~C 记录中的单价相差超过 2%（{{examples}}）。已采用组成明细。",
       "priceMismatch_other": "有 {{count}} 个清单项的组成明细合计与 ~C 记录中的单价相差超过 2%（例如 {{examples}}）。已采用组成明细。",
-      "roundingDiff": "此文件与生成它的程序一样，将分解的每一行和每个单价四舍五入到分；Open Calc Studio 不做舍入计算。单价因此不同的条目：{{n}} 个（例如 {{examples}}）。已使用未舍入的分解。",
       "totalMismatch": "文件中的总额（{{file}}）与此处计算的总额（{{calculated}}）不同，差额 {{difference}}。",
       "noPrices": "此文件不含任何价格——只有名称和工程量（类似工程量库）。因此合计仍为 0.00。",
       "moreWarnings_one": "……另有 {{count}} 条类似提示。",

@@ -1,5 +1,6 @@
-import type { CostItem } from '../../types/costModel';
+import type { CostItem, PriceRounding } from '../../types/costModel';
 import { isStagartRowType } from '../../types/costModel';
+import { normalizePriceRounding, roundHalfUp } from './priceRounding';
 
 /**
  * Canonieke item-volgorde: depth-first per parentId, zodat kinderen altijd
@@ -73,7 +74,18 @@ export function effectiveTarieven(schedule?: { tarieven?: Record<string, number>
   return { ...(eigen && Object.keys(eigen).length > 0 ? eigen : DEFAULT_TARIEVEN) };
 }
 
-export function recalculateItems(items: CostItem[], tarieven?: Record<string, number>): CostItem[] {
+/**
+ * Herberekent alle bedragen. `priceRounding` is de afrondingsregel van de
+ * begroting (`schedule.priceRounding`, #83): geef hem altijd mee, ook waar
+ * geen tarieven meegaan — een aanroep zonder regel rekent onafgerond en zet
+ * de afronding van een BC3-begroting dus stil terug.
+ */
+export function recalculateItems(
+  items: CostItem[],
+  tarieven?: Record<string, number>,
+  priceRounding?: PriceRounding | null,
+): CostItem[] {
+  const rounding = normalizePriceRounding(priceRounding);
   const result = normalizeItemOrder(items.map(item => ({ ...item })));
 
   // Recompute laborPrice from tariefGroep + tarieven when tarieven are provided.
@@ -134,6 +146,7 @@ export function recalculateItems(items: CostItem[], tarieven?: Record<string, nu
         const nup = item.normUnitPrice ?? 0;
         item.unitPrice = nup + mat + lab;
         item.total = (item.quantity ?? 0) * item.unitPrice;
+        if (rounding && item.rowType === 'begrotingspost') roundOwnPrice(item, nup + mat + lab, rounding);
       }
       // If has children, total will be computed bottom-up below
     }
@@ -143,10 +156,9 @@ export function recalculateItems(items: CostItem[], tarieven?: Record<string, nu
   // Gebruikt als de kinderen (nog) niets opleveren — een op de post ingevulde
   // prijs mag niet verdwijnen zodra er een lege bewakingspost of tekstregel
   // onder hangt.
-  const ownTotal = (item: CostItem): number => {
-    const price = (item.normUnitPrice ?? 0) + (item.materialPrice ?? 0) + (item.laborPrice ?? 0);
-    return (item.quantity ?? 0) * price;
-  };
+  const ownPrice = (item: CostItem): number =>
+    (item.normUnitPrice ?? 0) + (item.materialPrice ?? 0) + (item.laborPrice ?? 0);
+  const ownTotal = (item: CostItem): number => (item.quantity ?? 0) * ownPrice(item);
 
   // Special first pass for bewakingspost: quantity acts as multiplier
   // Must be done before second pass so the bewakingspost subtree total is correct
@@ -174,8 +186,10 @@ export function recalculateItems(items: CostItem[], tarieven?: Record<string, nu
       // Kinderen leveren (nog) niets op: de eigen post-prijs telt door.
       item.total = own;
       item.unitPrice = item.quantity ? own / item.quantity : own;
+      if (rounding && item.rowType === 'begrotingspost') roundOwnPrice(item, ownPrice(item), rounding);
       return;
     }
+    if (rounding && item.rowType === 'begrotingspost' && applyRounding(item, children, rounding)) return;
     // Total is always the bottom-up sum of children
     item.total = childSum;
     const childUnitPrices = () => children
@@ -190,6 +204,74 @@ export function recalculateItems(items: CostItem[], tarieven?: Record<string, nu
         ? childSum / item.quantity
         : childUnitPrices();
     }
+  }
+
+  /**
+   * Afronding volgens FIEBDC-3 voor een begrotingspost met regels eronder
+   * (#83): elk onderdeel per eenheid van de post afronden (line), de som
+   * daarvan afronden (unitPrice), en aantal × eenheidsprijs afronden (total).
+   *
+   * Onderdelen zijn de regels én eventuele subposten/bewakingsposten: een
+   * samengestelde prijs is in FIEBDC gewoon een regel van de bovenliggende
+   * partida. Van een subpost telt zijn totaal ÷ het aantal van deze post als
+   * bedrag per eenheid. Het totaal van de subpost zelf blijft staan, anders
+   * telt die niet meer op tot zijn eigen kinderen. Tekst- en witregels
+   * hebben geen bedrag (totaal 0) en tellen dus niet mee.
+   *
+   * De regels krijgen aantal × hun afgeronde bedrag per eenheid. Wat er dan
+   * nog overblijft tot het afgeronde posttotaal (het restje) wordt naar rato
+   * van de bedragen over de regels verdeeld; de laatste float-ruis komt op de
+   * grootste regel. Zo tellen de kinderen altijd precies op tot de post (en
+   * kloppen ook de staartkolommen en de btw-splitsing, die van de regels
+   * uitgaan), en slaat geen regel van teken om — ook niet als de regels
+   * fijner afronden dan de eenheidsprijs (bv. 3/2/2 bij 1000 stuks).
+   *
+   * Geeft false terug als de afronding niet toepasbaar is; dan rekent de post
+   * onafgerond (som van de kinderen):
+   * - geen aantal (bedrag per eenheid bestaat niet);
+   * - geen regels om het restje op te vangen (alleen subposten): de som van
+   *   de subposten blijft dan staan; die zijn zelf al afgerond;
+   * - het restje is groter dan alle regels samen (bv. regels zonder bedrag
+   *   naast een subpost): verdelen zou een regel van teken laten omslaan.
+   */
+  function applyRounding(item: CostItem, children: CostItem[], r: PriceRounding): boolean {
+    const qty = item.quantity ?? 0;
+    const lines = children.filter(c => !isStagartRowType(c.rowType));
+    const regels = lines.filter(c => c.rowType === 'regel');
+    if (qty === 0 || regels.length === 0) return false;
+    const perUnit = (c: CostItem) => roundHalfUp(c.total / qty, r.line);
+    const unitPrice = roundHalfUp(lines.reduce((s, c) => s + perUnit(c), 0), r.unitPrice);
+    const total = roundHalfUp(qty * unitPrice, r.total);
+    const vast = lines.filter(c => c.rowType !== 'regel').reduce((s, c) => s + c.total, 0);
+    const bedragen = regels.map(c => qty * perUnit(c));
+    const rest = total - vast - bedragen.reduce((s, v) => s + v, 0);
+    const gewicht = bedragen.reduce((s, v) => s + Math.abs(v), 0);
+    // |rest| > som van |bedragen|: naar rato verdelen keert minstens één regel
+    // om. (Marge voor float-ruis: rest = −gewicht maakt de regels precies 0.)
+    if (Math.abs(rest) > gewicht + 1e-9 * Math.max(1, gewicht)) return false;
+    let biggest = 0;
+    regels.forEach((c, i) => {
+      c.total = gewicht === 0 ? bedragen[i] : bedragen[i] + rest * Math.abs(bedragen[i]) / gewicht;
+      if (Math.abs(bedragen[i]) > Math.abs(bedragen[biggest])) biggest = i;
+    });
+    // Laatste ruis (float) op de grootste regel, zodat de som exact klopt.
+    const ruis = total - vast - regels.reduce((s, c) => s + c.total, 0);
+    if (ruis !== 0) regels[biggest].total += ruis;
+    for (const c of regels) c.unitPrice = c.total;
+    item.total = total;
+    item.unitPrice = unitPrice;
+    return true;
+  }
+
+  /**
+   * Afronding van een post die op zijn eigen prijs rekent (geen regels, of
+   * regels die niets opleveren): eenheidsprijs afronden op `unitPrice`, en
+   * aantal × die eenheidsprijs op `total` (#83). In BC3 is dat elke partida
+   * zonder ontleding.
+   */
+  function roundOwnPrice(item: CostItem, price: number, r: PriceRounding): void {
+    item.unitPrice = roundHalfUp(price, r.unitPrice);
+    item.total = roundHalfUp((item.quantity ?? 0) * item.unitPrice, r.total);
   }
 
   function calcTotal(parentId: string): number {

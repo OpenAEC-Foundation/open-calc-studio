@@ -90,7 +90,6 @@
       "noProjectStructure": "Tiada struktur projek (##/#) ditemui — konsep diimport sebagai buku harga di bawah satu bab.",
       "priceMismatch_one": "Bagi {{count}} butiran, jumlah pecahan berbeza lebih daripada 2% daripada harga seunit dalam rekod ~C (cth. {{examples}}). Pecahan telah digunakan.",
       "priceMismatch_other": "Bagi {{count}} butiran, jumlah pecahan berbeza lebih daripada 2% daripada harga seunit dalam rekod ~C (cth. {{examples}}). Pecahan telah digunakan.",
-      "roundingDiff": "Fail ini membundarkan setiap baris pecahan dan setiap harga seunit kepada sen, seperti program yang menghasilkannya; Open Calc Studio mengira tanpa pembundaran. Item yang harga seunitnya berbeza kerana ini: {{n}} (cth. {{examples}}). Pecahan tanpa pembundaran telah digunakan.",
       "totalMismatch": "Jumlah dalam fail ({{file}}) berbeza daripada jumlah yang dikira di sini ({{calculated}}), perbezaan {{difference}}.",
       "noPrices": "Fail ini tidak mengandungi harga — hanya huraian dan kuantiti (seperti pustaka ukuran). Oleh itu jumlahnya kekal 0.00.",
       "moreWarnings_one": "… dan {{count}} lagi notis yang serupa.",

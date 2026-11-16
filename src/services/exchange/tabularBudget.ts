@@ -91,6 +91,7 @@ export function importBudgetTable(data: Uint8Array, fileName: string, profile?: 
   }
   if (!/^[A-Z]{3}$/.test(currency)) throw new Error('Currency must be an explicit three-letter code.');
   if (!b.items.length) throw new Error('No items in selected table.');
+  // priceRounding: n.v.t. — nieuwe import; het schedule hieronder heeft geen afrondingsregel
   return {project:deserializeProject(serializeProject(schedule(fileName,currency),recalculateItems(b.items))),warnings};
 }
 

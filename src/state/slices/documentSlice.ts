@@ -58,7 +58,7 @@ export const createDocumentSlice: StateCreator<DocumentSlice> = (set, get) => ({
     const updatedDocs = state.documents.map((d: DocumentTab) => captureDocument(state, d));
     const newDoc = makeEmptyDoc(tab);
     // Recalculate so staart breakdowns are populated for live reporting
-    const recalculated = recalculateItems(newDoc.items, effectiveTarieven(newDoc.schedule));
+    const recalculated = recalculateItems(newDoc.items, effectiveTarieven(newDoc.schedule), newDoc.schedule?.priceRounding);
     newDoc.items = recalculated;
     set({
       documents: [...updatedDocs, newDoc],

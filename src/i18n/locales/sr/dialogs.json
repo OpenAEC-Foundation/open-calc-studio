@@ -93,7 +93,6 @@
       "priceMismatch_one": "За {{count}} позицију збир рашчлањења одступа за више од 2% од јединичне цене у запису ~C ({{examples}}). Употребљено је рашчлањење.",
       "priceMismatch_few": "За {{count}} позиције збир рашчлањења одступа за више од 2% од јединичне цене у запису ~C (нпр. {{examples}}). Употребљено је рашчлањење.",
       "priceMismatch_other": "За {{count}} позиција збир рашчлањења одступа за више од 2% од јединичне цене у запису ~C (нпр. {{examples}}). Употребљено је рашчлањење.",
-      "roundingDiff": "Ova datoteka zaokružuje svaki red razrade i svaku jediničnu cenu na cente, kao i program koji ju je napravio; Open Calc Studio računa bez zaokruživanja. Stavke čija se jedinična cena zbog toga razlikuje: {{n}} (npr. {{examples}}). Korišćena je nezaokružena razrada.",
       "totalMismatch": "Ukupan iznos u datoteci ({{file}}) razlikuje se od ovde izračunatog iznosa ({{calculated}}), razlika {{difference}}.",
       "noPrices": "Ова датотека не садржи цене — само описе и количине (као библиотека предмера). Укупан износ зато остаје 0,00.",
       "moreWarnings_one": "… и још {{count}} слично обавештење.",

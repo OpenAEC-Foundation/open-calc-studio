@@ -167,6 +167,19 @@ export interface ExcelLink {
   cell: string;
 }
 
+/**
+ * Aantal decimalen per rekenstap, zoals FIEBDC-3 ze in ~K vastlegt. Alleen
+ * de stappen binnen een post; hoeveelheden worden nooit afgerond.
+ */
+export interface PriceRounding {
+  /** Elke regel per eenheid van de post: norm × prijs (FIEBDC DI). */
+  line: number;
+  /** Eenheidsprijs van de post: som van de regels (FIEBDC DP, oudere versies DUO). */
+  unitPrice: number;
+  /** Posttotaal: aantal × eenheidsprijs (FIEBDC DM). */
+  total: number;
+}
+
 export interface CostSchedule {
   /** Explicit direct-cost exchange: do not synthesize Dutch staart on load. */
   directCostsOnly?: boolean;
@@ -225,6 +238,13 @@ export interface CostSchedule {
    * regelbedragen (eh.prijs/bedrag) blijven leeg, hoeveelheden zichtbaar.
    */
   reportAmountsSubtotalsOnly?: boolean;
+  /**
+   * Afronding van prijzen per begroting (FIEBDC-3 ~K, #83). Ontbreekt hij,
+   * dan rekent de app onafgerond, zoals altijd. Staat hij er, dan rondt een
+   * post met regels elke regel per eenheid af, daarna de eenheidsprijs en
+   * dan aantal × eenheidsprijs. Zie `services/calculation/priceRounding.ts`.
+   */
+  priceRounding?: PriceRounding | null;
   /**
    * Hoogte van de rapportkoptekst in mm (= positie van de accentlijn vanaf
    * de bovenrand). Het logo schaalt mee. undefined = automatisch

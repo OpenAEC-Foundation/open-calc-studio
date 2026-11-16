@@ -1,8 +1,17 @@
 import { recalculateItems } from '@/services/calculation/calculator';
 import { variantItems } from './variantScope';
-import type { CostItem, CostSchedule } from '@/types/costModel';
+import type { CostItem, CostSchedule, PriceRounding } from '@/types/costModel';
 
-type VariantScope = Pick<CostSchedule, 'branchesEnabled' | 'activeBranchId' | 'branches'>;
+/**
+ * Variantkeuze plus de afrondingsregel van de begroting (#83), zodat ook de
+ * variant-totalen afronden. Ofwel de hele begroting (die draagt zijn regel
+ * altijd mee), ofwel een zelf samengestelde scope; daarin is `priceRounding`
+ * verplicht, zodat wie hem vergeet een compileerfout krijgt in plaats van
+ * stil onafgeronde bedragen. Geen regel: geef expliciet `undefined` of `null`.
+ */
+export type VariantScope =
+  | CostSchedule
+  | (Pick<CostSchedule, 'branchesEnabled' | 'activeBranchId' | 'branches'> & { priceRounding: PriceRounding | null | undefined });
 
 const cache = new WeakMap<CostItem[], { key: string; result: CostItem[] }>();
 
@@ -20,10 +29,10 @@ const cache = new WeakMap<CostItem[], { key: string; result: CostItem[] }>();
 export function variantCalculatedItems(items: CostItem[], schedule: VariantScope): CostItem[] {
   const scoped = variantItems(items, schedule);
   if (scoped.length === items.length) return items;
-  const key = JSON.stringify([schedule.activeBranchId, (schedule.branches ?? []).map(branch => [branch.id, branch.parentId])]);
+  const key = JSON.stringify([schedule.activeBranchId, (schedule.branches ?? []).map(branch => [branch.id, branch.parentId]), schedule.priceRounding ?? null]);
   const hit = cache.get(items);
   if (hit && hit.key === key) return hit.result;
-  const result = recalculateItems(scoped);
+  const result = recalculateItems(scoped, undefined, schedule.priceRounding);
   cache.set(items, { key, result });
   return result;
 }

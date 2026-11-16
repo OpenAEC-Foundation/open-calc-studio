@@ -68,7 +68,7 @@ export function createExtensionApi(
       },
       recalculate() {
         const store = useAppStore.getState();
-        store.setItems(recalculateItems(store.items));
+        store.setItems(recalculateItems(store.items, undefined, store.schedule.priceRounding));
       },
       pushHistory(label: string) {
         const store = useAppStore.getState();

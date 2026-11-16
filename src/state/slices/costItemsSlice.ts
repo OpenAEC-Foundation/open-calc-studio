@@ -158,6 +158,12 @@ function createDefaultItem(parentId: string | null, sortOrder: number, depth: nu
 }
 
 export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => {
+  /**
+   * Afrondingsregel van de begroting (#83). Elke herberekening geeft hem mee:
+   * zonder rekent recalculateItems onafgerond en zet de eerste bewerking de
+   * afronding van een BC3-begroting stil terug.
+   */
+  const priceRounding = () => (get() as any).schedule?.priceRounding ?? null;
   /** Mark the active document as modified */
   /**
    * Na in- of uitklappen verschuiven de rij-nummers in het raster. Een
@@ -223,13 +229,14 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
   };
 
   return {
+  // priceRounding: n.v.t. — nieuwe lege begroting heeft nog geen afrondingsregel
   items: recalculateItems(createDefaultItems()),
 
   // Met de tarieven van het schema, net als elke bewerking: zonder rekende
   // ongedaan maken arbeid met oude prijzen door terwijl de tarieven al nieuw
   // waren, en sprong de volgende losse bewerking stil naar een ander bedrag
   // (knownbug 10). Regels zonder norm houden hun direct ingevulde uurloon.
-  setItems: (items) => set((s: any) => ({ items: recalculateItems(items, effectiveTarieven(s.schedule)) })),
+  setItems: (items) => set((s: any) => ({ items: recalculateItems(items, effectiveTarieven(s.schedule), s.schedule?.priceRounding) })),
 
   addItem: (parentId, afterIndex) => {
     const state = get();
@@ -256,7 +263,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
 
     const newItems = [...state.items];
     newItems.splice(insertIndex, 0, newItem);
-    set({ items: recalculateItems(newItems) });
+    set({ items: recalculateItems(newItems, undefined, priceRounding()) });
     markModified();
     return newItem.id;
   },
@@ -271,7 +278,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
     };
     const newItems = [...state.items];
     newItems.splice(findInsertIndex(state.items, parentId, afterItemId), 0, newItem);
-    set({ items: recalculateItems(newItems) });
+    set({ items: recalculateItems(newItems, undefined, priceRounding()) });
     markModified();
     return newItem.id;
   },
@@ -288,7 +295,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
     };
     const newItems = [...state.items];
     newItems.splice(findInsertIndex(state.items, parentId, afterItemId), 0, newItem);
-    set({ items: recalculateItems(newItems) });
+    set({ items: recalculateItems(newItems, undefined, priceRounding()) });
     markModified();
     return newItem.id;
   },
@@ -305,7 +312,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
     };
     const newItems = [...state.items];
     newItems.splice(findInsertIndex(state.items, parentId, afterItemId), 0, newItem);
-    set({ items: recalculateItems(newItems) });
+    set({ items: recalculateItems(newItems, undefined, priceRounding()) });
     markModified();
     return newItem.id;
   },
@@ -360,7 +367,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
     };
     const newItems = [...state.items];
     newItems.splice(findInsertIndex(state.items, parentId, afterItemId), 0, newItem);
-    set({ items: recalculateItems(newItems) });
+    set({ items: recalculateItems(newItems, undefined, priceRounding()) });
     markModified();
     return newItem.id;
   },
@@ -374,7 +381,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
     };
     const newItems = [...state.items];
     newItems.splice(findInsertIndex(state.items, parentId, afterItemId), 0, newItem);
-    set({ items: recalculateItems(newItems) });
+    set({ items: recalculateItems(newItems, undefined, priceRounding()) });
     markModified();
     return newItem.id;
   },
@@ -387,7 +394,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
       state.items.filter((i) => i.parentId === parentId).forEach((i) => collectChildren(i.id));
     }
     collectChildren(id);
-    set({ items: recalculateItems(state.items.filter((i) => !idsToDelete.has(i.id))) });
+    set({ items: recalculateItems(state.items.filter((i) => !idsToDelete.has(i.id)), undefined, priceRounding()) });
     markModified();
   },
 
@@ -440,6 +447,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
           return updated;
         }),
         tarieven ?? effectiveTarieven(s.schedule),
+        s.schedule?.priceRounding,
       ),
     }));
     markModified();
@@ -606,7 +614,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
       if (!placed.has(it.id)) newItems.push(replaced.get(it.id) ?? it);
     }
 
-    set({ items: recalculateItems(newItems) });
+    set({ items: recalculateItems(newItems, undefined, priceRounding()) });
     markModified();
     selectMovedRows(topLevelMovers);
   },
@@ -624,7 +632,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
     const newItems = state.items.map((i) =>
       i.id === id ? { ...i, parentId: newParent.id, depth: newParent.depth + 1 } : i
     );
-    set({ items: recalculateItems(newItems) });
+    set({ items: recalculateItems(newItems, undefined, priceRounding()) });
     markModified();
   },
 
@@ -637,7 +645,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
     const newItems = state.items.map((i) =>
       i.id === id ? { ...i, parentId: parent.parentId, depth: Math.max(0, item.depth - 1) } : i
     );
-    set({ items: recalculateItems(newItems) });
+    set({ items: recalculateItems(newItems, undefined, priceRounding()) });
     markModified();
   },
 
@@ -752,20 +760,21 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
           };
         }),
         tarieven,
+        state.schedule?.priceRounding,
       ),
     });
     markModified();
   },
 
   recalculate: () => {
-    set((state) => ({ items: recalculateItems(state.items) }));
+    set((state: any) => ({ items: recalculateItems(state.items, undefined, state.schedule?.priceRounding) }));
   },
 
   prorateUrenByTariefGroep: (tariefGroep, newTotal) => {
     set((s: any) => {
       const tarieven = effectiveTarieven(s.schedule);
       const rescaled = prorateUrenForTariefGroep(s.items, tariefGroep, newTotal);
-      return { items: recalculateItems(rescaled, tarieven) };
+      return { items: recalculateItems(rescaled, tarieven, s.schedule?.priceRounding) };
     });
     markModified();
   },
@@ -774,7 +783,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
     set((s: any) => {
       const tarieven = effectiveTarieven(s.schedule);
       const rescaled = prorateUrenAll(s.items, newTotal);
-      return { items: recalculateItems(rescaled, tarieven) };
+      return { items: recalculateItems(rescaled, tarieven, s.schedule?.priceRounding) };
     });
     markModified();
   },
@@ -783,7 +792,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
     set((s: any) => {
       const tarieven = effectiveTarieven(s.schedule);
       const rescaled = prorateUrenForChapter(s.items, chapterId, newTotal);
-      return { items: recalculateItems(rescaled, tarieven) };
+      return { items: recalculateItems(rescaled, tarieven, s.schedule?.priceRounding) };
     });
     markModified();
   },
