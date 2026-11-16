@@ -61,6 +61,8 @@ export interface TabularData {
    * `error` = an Excel error such as #REF!. Both arrive in `rows` as ''.
    */
   cellIssues?: TabularCellIssue[];
+  /** Per column: issues beyond the stored maximum, only counted. */
+  cellIssuesOverflow?: Record<number, number>;
 }
 
 export interface TabularCellIssue {
@@ -125,7 +127,10 @@ export function parseCsv(text: string, sourceName = 'CSV-import'): TabularData {
 }
 
 export function parseXlsxTabular(buf: ArrayBuffer | Uint8Array, sourceName = 'Excel-import'): TabularData {
-  const wb = readWorkbook(buf instanceof Uint8Array ? buf : new Uint8Array(buf), { type: 'array' });
+  // sheetStubs: zonder deze optie laat SheetJS een formulecel zonder opgeslagen
+  // uitkomst (<f>…</f><v/>, bv. uit openpyxl) helemaal weg; dan is hij niet te
+  // melden (#88). sheet_to_json slaat de stubs over, dus `rows` blijft gelijk.
+  const wb = readWorkbook(buf instanceof Uint8Array ? buf : new Uint8Array(buf), { type: 'array', sheetStubs: true });
   // Kies het tabblad met de meeste rijen — dat is doorgaans de databladzijde.
   // Lege rijen vallen weg, maar we onthouden het echte rijnummer van elke rij
   // zodat een cel zonder bruikbare waarde met zijn adres gemeld kan worden (#88).
@@ -151,6 +156,16 @@ export function parseXlsxTabular(buf: ArrayBuffer | Uint8Array, sourceName = 'Ex
   const ws = wb.Sheets[best.name];
   const range = XLSX.utils.decode_range(ws['!ref'] || 'A1');
   const cellIssues: TabularCellIssue[] = [];
+  // Per kolom bewaren we een beperkt aantal cellen; de rest tellen we alleen,
+  // zodat een blad vol #REF! de import niet opblaast.
+  const perColumn = new Map<number, number>();
+  const cellIssuesOverflow: Record<number, number> = {};
+  const add = (issue: TabularCellIssue) => {
+    const seen = perColumn.get(issue.col) ?? 0;
+    perColumn.set(issue.col, seen + 1);
+    if (seen < MAX_CELL_ISSUES_PER_COLUMN) cellIssues.push(issue);
+    else cellIssuesOverflow[issue.col] = (cellIssuesOverflow[issue.col] ?? 0) + 1;
+  };
   best.sheetRows.slice(1).forEach((r, row) => {
     for (let c = range.s.c; c <= range.e.c; c++) {
       const ref = XLSX.utils.encode_cell({ r, c });
@@ -158,12 +173,20 @@ export function parseXlsxTabular(buf: ArrayBuffer | Uint8Array, sourceName = 'Ex
       if (!cell) continue;
       const address = `${best!.name}!${ref}`;
       const col = c - range.s.c;
-      if (cell.f && cell.v === undefined) cellIssues.push({ row, col, address, kind: 'noCachedValue' });
-      else if (cell.t === 'e') cellIssues.push({ row, col, address, kind: 'error', text: cell.w || '#ERROR' });
+      // Zonder uitkomst: een stub (t 'z', v 0) of een cel zonder v.
+      if (cell.f && (cell.t === 'z' || cell.v === undefined)) add({ row, col, address, kind: 'noCachedValue' });
+      else if (cell.t === 'e') add({ row, col, address, kind: 'error', text: cell.w || '#ERROR' });
     }
   });
-  return { headers, rows, sourceName, ...(cellIssues.length ? { cellIssues } : {}) };
+  return {
+    headers, rows, sourceName,
+    ...(cellIssues.length ? { cellIssues } : {}),
+    ...(Object.keys(cellIssuesOverflow).length ? { cellIssuesOverflow } : {}),
+  };
 }
+
+/** Max. aantal bewaarde probleemcellen per kolom (#88); de rest telt mee in `cellIssuesOverflow`. */
+const MAX_CELL_ISSUES_PER_COLUMN = 200;
 
 // ── Auto-detectie ───────────────────────────────────────────────────────────
 
@@ -391,14 +414,17 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
   if (invalidCount > 0) {
     warnings.push(uiText('diagnostics.unreadableNumbers', '{{count}} values could not be read as a number and were imported as 0 (for example "{{example}}").', { count: invalidCount, example: invalidExample }));
   }
-  if (reportedIssues.length > 0) {
+  // Boven het maximum per kolom zijn cellen alleen geteld (niet per rij bekend).
+  const overflow = [...numberCols].reduce((sum, c) => sum + (data.cellIssuesOverflow?.[c] ?? 0), 0);
+  const issueCount = reportedIssues.length + overflow;
+  if (issueCount > 0) {
     const describe = (issue: TabularCellIssue) => {
       const column = data.headers[issue.col] || '?';
       return issue.kind === 'error' ? `${issue.address} ${issue.text} (${column})` : `${issue.address} (${column})`;
     };
     const shown = reportedIssues.slice(0, 5).map(describe).join(', ');
-    const cells = reportedIssues.length > 5 ? `${shown}, …` : shown;
-    warnings.push(uiText('diagnostics.formulaCellsWithoutValue', '{{count}} cells in number columns have no usable value (a formula without a stored result, or an Excel error) and were imported as empty: {{cells}}. Open the file in Excel, fix or recalculate it, save it and import again.', { count: reportedIssues.length, cells }));
+    const cells = issueCount > 5 ? `${shown}, …` : shown;
+    warnings.push(uiText('diagnostics.formulaCellsWithoutValue', '{{count}} cells in number columns have no usable value (a formula without a stored result, or an Excel error) and were imported as empty: {{cells}}. Open the file in Excel, fix or recalculate it, save it and import again.', { count: issueCount, cells }));
   }
 
   return {

@@ -2,6 +2,8 @@ import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import * as XLSX from 'xlsx';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import i18next from '@/i18n/config';
 import ExcelCellPicker from '@/components/common/ExcelCellPicker';
 import { parseExcelFile, pickerCellValue, updateAllExcelLinks } from '@/services/excel/excelLinkService';
@@ -75,6 +77,15 @@ describe('Excel link service with a sheet that does not start at A1 (knownbugs 7
     expect(noCache.updatedItems[0].quantity).toBe(6);
     expect(noCache.updateCount).toBe(0);
     expect(noCache.errors).toEqual([expect.stringContaining('formule zonder opgeslagen uitkomst')]);
+  });
+
+  // A real file (openpyxl) writes <f>C2*4</f><v/>; SheetJS drops that cell unless sheetStubs is on.
+  it('refresh reports a formula without a stored result in a real openpyxl file', async () => {
+    const path = 'C:/openpyxl.xlsx';
+    files.set(path, new Uint8Array(readFileSync(resolve(__dirname, 'fixtures/imports/issue88-openpyxl-formula-without-result.xlsx'))));
+    const { updatedItems, errors } = await updateAllExcelLinks([{ id: 'w', quantity: 3, excelLink: { filePath: path, sheet: 'Begroting', cell: 'C3' } } as unknown as CostItem]);
+    expect(updatedItems[0].quantity).toBe(3);
+    expect(errors).toEqual([expect.stringContaining('formule zonder opgeslagen uitkomst')]);
   });
 });
 

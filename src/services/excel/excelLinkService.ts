@@ -115,7 +115,8 @@ export async function updateAllExcelLinks(items: CostItem[]): Promise<{
           try {
             const tauriFs = await import('@tauri-apps/plugin-fs');
             const bytes = await tauriFs.readFile(filePath);
-            wb = readWorkbook(bytes, { type: 'array' });
+            // sheetStubs: anders verdwijnt een formulecel zonder opgeslagen uitkomst (#88).
+            wb = readWorkbook(bytes, { type: 'array', sheetStubs: true });
           } catch {
             wb = null;
           }
@@ -145,8 +146,12 @@ export async function updateAllExcelLinks(items: CostItem[]): Promise<{
           errors.push(`Cel ${cell} bevat een Excel-fout (${cellObj.w || '#ERROR'}) in ${sheet} (${filePath})`);
           return item;
         }
-        if (cellObj.f && cellObj.v === undefined) {
+        if (cellObj.f && (cellObj.t === 'z' || cellObj.v === undefined)) {
           errors.push(`Cel ${cell} heeft een formule zonder opgeslagen uitkomst in ${sheet} (${filePath}); open en sla het bestand op in Excel`);
+          return item;
+        }
+        if (cellObj.t === 'z') {
+          errors.push(`Cel ${cell} is leeg in ${sheet} (${filePath})`);
           return item;
         }
 

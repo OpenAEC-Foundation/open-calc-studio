@@ -1,4 +1,6 @@
 import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import * as XLSX from 'xlsx';
 import { parseCsv, parseXlsxTabular, autoDetectMapping, buildFromMapping } from '@/services/importers';
 import { recalculateItems } from '@/services/calculation/calculator';
@@ -60,8 +62,45 @@ describe('#88 Excel-import: formules zonder uitkomst en foutcellen', () => {
   });
 
   it('geen melding voor een rij die niet geïmporteerd wordt (geen omschrijving of code)', () => {
-    const { result } = importRows({ ...header, B2: { t: 'n', f: '1+1' } as XLSX.CellObject, A3: { t: 's', v: 'Post' }, B3: { t: 'n', v: 1 } }, 'A1:C3');
+    // C2 houdt de rij in de data; zonder omschrijving slaat buildFromMapping hem over.
+    const cells: Cells = { ...header, D1: { t: 's', v: 'Notitie' }, B2: { t: 'n', f: '1+1' } as XLSX.CellObject, D2: { t: 's', v: 'los' }, A3: { t: 's', v: 'Post' }, B3: { t: 'n', v: 1 } };
+    const data = parseXlsxTabular(xlsx(cells, 'A1:D3'), 'test');
+    expect(data.rows).toHaveLength(2);
+    expect(data.cellIssues).toHaveLength(1);
+    const result = buildFromMapping(data, ['description', 'quantity', 'unitPrice', 'ignore']);
     expect(formulaWarning(result.warnings)).toEqual([]);
+  });
+
+  // Echte bestanden schrijven <f>…</f><v/>; SheetJS laat zo'n cel zonder
+  // sheetStubs helemaal weg. Dit bestand is gemaakt met openpyxl 3.1.5 en nooit
+  // in Excel geopend (Wapening!C3 = C2*4 en Notitie B4 = 1+1, zonder uitkomst).
+  it('meldt een formule zonder uitkomst in een echt bestand (openpyxl)', () => {
+    const bytes = readFileSync(resolve(__dirname, 'fixtures/imports/issue88-openpyxl-formula-without-result.xlsx'));
+    const data = parseXlsxTabular(new Uint8Array(bytes), 'openpyxl');
+    expect(data.headers).toEqual(['Omschrijving', 'Notitie', 'Hoeveelheid', 'Prijs']);
+    expect(data.rows.map((r) => r[0])).toEqual(['Metselwerk', 'Wapening', 'Alleen notitie']);
+    const result = buildFromMapping(data, autoDetectMapping(data.headers));
+    const warnings = formulaWarning(result.warnings);
+    expect(warnings).toHaveLength(1);
+    expect(warnings[0]).toMatch(/^1 /);
+    expect(warnings[0]).toContain('Begroting!C3 (Hoeveelheid)');
+    // B4 staat in een kolom die niet als getal is gekoppeld.
+    expect(warnings[0]).not.toContain('B4');
+  });
+
+  it('bewaart per kolom maximaal 200 cellen maar telt ze allemaal', () => {
+    const cells: Cells = { ...header };
+    const last = 260;
+    for (let r = 2; r <= last; r++) {
+      cells[`A${r}`] = { t: 's', v: `Post ${r}` };
+      cells[`B${r}`] = { t: 'e', v: 0x17, w: '#REF!' };
+      cells[`C${r}`] = { t: 'n', v: 1 };
+    }
+    const data = parseXlsxTabular(xlsx(cells, `A1:C${last}`), 'test');
+    expect(data.cellIssues).toHaveLength(200);
+    expect(data.cellIssuesOverflow).toEqual({ 1: last - 1 - 200 });
+    const [warning] = formulaWarning(buildFromMapping(data, autoDetectMapping(data.headers)).warnings);
+    expect(warning).toMatch(new RegExp(`^${last - 1} `));
   });
 
   it('klopt het adres ook met lege rijen en een tabel die niet in A1 begint', () => {
