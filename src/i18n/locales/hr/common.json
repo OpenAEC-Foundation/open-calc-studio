@@ -915,6 +915,7 @@
       "rsxFlattened": "RSX: ugniježđena poglavlja pod \"{{name}}\" su spljoštena; CROW RSX podržava jednu razinu podtroškovnika.",
       "currencyNotInFormat": "{{format}} nema polje za valutu, pa će primatelj ove iznose čitati kao eure. Ovaj troškovnik je u {{currency}}; iznosi nisu preračunati.",
       "unreadableNumbers": "{{count}} vrijednosti nije bilo moguće pročitati kao broj pa su uvezene kao 0 (na primjer „{{example}}”).",
+      "formulaCellsWithoutValue": "Ćelije u brojčanim stupcima bez upotrebljive vrijednosti uvezene su prazne ({{count}}): {{cells}}. Sadrže formulu koja nikad nije izračunata u Excelu ili Excelovu pogrešku. Otvorite datoteku u Excelu, ispravite pogreške ili ponovno izračunajte (F9), spremite je i ponovno uvezite.",
       "xmlError": "Pogreška pri raščlanjivanju XML-a: {{message}} (redak {{line}})",
       "xml": {
         "entity": "Nepoznat entitet {{p0}}",

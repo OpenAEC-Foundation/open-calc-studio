@@ -915,6 +915,7 @@
       "rsxFlattened": "RSX: underkapitel under ”{{name}}” slogs ihop; CROW RSX stöder en nivå av delkalkyler.",
       "currencyNotInFormat": "{{format}} har inget valutafält, så mottagaren läser beloppen som euro. Den här kalkylen är i {{currency}}; beloppen har inte räknats om.",
       "unreadableNumbers": "{{count}} värden kunde inte läsas som tal och importerades som 0 (till exempel \"{{example}}\").",
+      "formulaCellsWithoutValue": "Celler i talkolumner utan användbart värde importerades tomma ({{count}}): {{cells}}. De innehåller en formel som aldrig har beräknats i Excel, eller ett Excel-fel. Öppna filen i Excel, rätta felen eller beräkna om (F9), spara den och importera igen.",
       "xmlError": "XML-tolkningsfel: {{message}} (rad {{line}})",
       "xml": {
         "entity": "Okänd entitet {{p0}}",

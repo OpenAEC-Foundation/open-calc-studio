@@ -42,3 +42,33 @@ export function readWorkbook(data: Uint8Array | ArrayBuffer | string, options: X
   }
   return workbook;
 }
+
+/**
+ * True when the workbook asks Excel to recalculate everything on open
+ * (`fullCalcOnLoad`). Tools such as openpyxl, XlsxWriter and pandas set it,
+ * and Excel removes it when it saves. Formula results in such a file were
+ * never calculated: they are missing or a placeholder 0 (#88).
+ */
+export function isUncalculatedWorkbook(workbook: XLSX.WorkBook): boolean {
+  const calc = (workbook.Workbook as { CalcPr?: { fullCalcOnLoad?: unknown } } | undefined)?.CalcPr;
+  const flag = String(calc?.fullCalcOnLoad ?? '').toLowerCase();
+  return flag === '1' || flag === 'true';
+}
+
+/**
+ * Read a workbook for its cell values and say whether its formula results
+ * can be trusted. Only for an uncalculated workbook is it read again with
+ * `sheetStubs`: without it SheetJS drops a formula cell that has no stored
+ * result (<f>…</f><v/>), so it could not be reported. Excel-saved files keep
+ * the normal, cheaper read. When the stub read is refused (stubs can widen a
+ * sheet without a <dimension>), the normal read is used.
+ */
+export function readWorkbookForValues(data: Uint8Array | ArrayBuffer, options: XLSX.ParsingOptions = {}): { workbook: XLSX.WorkBook; uncalculated: boolean } {
+  const workbook = readWorkbook(data, options);
+  if (!isUncalculatedWorkbook(workbook)) return { workbook, uncalculated: false };
+  try {
+    return { workbook: readWorkbook(data, { ...options, sheetStubs: true }), uncalculated: true };
+  } catch {
+    return { workbook, uncalculated: true };
+  }
+}

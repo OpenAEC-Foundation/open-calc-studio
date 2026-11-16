@@ -915,6 +915,7 @@
       "rsxFlattened": "RSX: sura zilizo ndani ya \"{{name}}\" zilisawazishwa; CROW RSX inategemeza ngazi moja ya makadirio madogo.",
       "currencyNotInFormat": "{{format}} haina sehemu ya sarafu, kwa hiyo mpokeaji atasoma kiasi hiki kama euro. Makadirio haya yako katika {{currency}}; kiasi hakijabadilishwa.",
       "unreadableNumbers": "Thamani {{count}} hazikuweza kusomwa kama nambari na zimeingizwa kama 0 (kwa mfano \"{{example}}\").",
+      "formulaCellsWithoutValue": "Seli katika safu za namba zisizo na thamani inayotumika zimeingizwa zikiwa tupu ({{count}}): {{cells}}. Zina fomula ambayo haijawahi kukokotolewa katika Excel, au hitilafu ya Excel. Fungua faili katika Excel, rekebisha hitilafu au kokotoa upya (F9), ihifadhi kisha uiingize tena.",
       "xmlError": "Hitilafu ya kuchanganua XML: {{message}} (mstari {{line}})",
       "xml": {
         "entity": "Huluki isiyojulikana {{p0}}",

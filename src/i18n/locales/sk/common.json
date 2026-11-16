@@ -917,6 +917,7 @@
       "rsxFlattened": "RSX: vnorené kapitoly pod „{{name}}“ boli zlúčené; CROW RSX podporuje jednu úroveň čiastkových rozpočtov.",
       "currencyNotInFormat": "{{format}} nemá pole pre menu, takže príjemca načíta tieto sumy ako eurá. Tento rozpočet je v {{currency}}; sumy neboli prepočítané.",
       "unreadableNumbers": "{{count}} hodnôt nebolo možné prečítať ako číslo a boli importované ako 0 (napríklad „{{example}}“).",
+      "formulaCellsWithoutValue": "Bunky v číselných stĺpcoch bez použiteľnej hodnoty boli importované ako prázdne ({{count}}): {{cells}}. Obsahujú vzorec, ktorý nebol nikdy vypočítaný v Exceli, alebo chybu Excelu. Otvorte súbor v Exceli, opravte chyby alebo prepočítajte (F9), uložte ho a importujte znova.",
       "xmlError": "Chyba pri analýze XML: {{message}} (riadok {{line}})",
       "xml": {
         "entity": "Neznáma entita {{p0}}",

@@ -915,6 +915,7 @@
       "rsxFlattened": "RSX：「{{name}}」の下の入れ子の章は平坦化されました。CROW RSX はサブ積算を 1 階層しか扱えません。",
       "currencyNotInFormat": "{{format}} には通貨の項目がないため、受信側はこれらの金額をユーロとして読み取ります。この見積もりは {{currency}} です。金額は換算されていません。",
       "unreadableNumbers": "{{count}} 個の値を数値として読み取れなかったため、0 としてインポートしました（例:「{{example}}」）。",
+      "formulaCellsWithoutValue": "使用できる値がない数値列のセルを空としてインポートしました ({{count}}): {{cells}}。これらには Excel で一度も計算されていない数式、または Excel のエラーが含まれています。Excel でファイルを開き、エラーを修正するか再計算 (F9) して保存し、もう一度インポートしてください。",
       "xmlError": "XML 解析エラー：{{message}}（{{line}} 行目）",
       "xml": {
         "entity": "不明なエンティティ {{p0}}",
