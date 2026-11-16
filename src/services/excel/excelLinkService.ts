@@ -139,6 +139,17 @@ export async function updateAllExcelLinks(items: CostItem[]): Promise<{
           return item;
         }
 
+        // Een Excel-fout (#REF!, #DIV/0!) heeft een numerieke foutcode als v
+        // (23, 7, …): die mag nooit als hoeveelheid binnenkomen (#88).
+        if (cellObj.t === 'e' && cellObj.v !== undefined) {
+          errors.push(`Cel ${cell} bevat een Excel-fout (${cellObj.w || '#ERROR'}) in ${sheet} (${filePath})`);
+          return item;
+        }
+        if (cellObj.f && cellObj.v === undefined) {
+          errors.push(`Cel ${cell} heeft een formule zonder opgeslagen uitkomst in ${sheet} (${filePath}); open en sla het bestand op in Excel`);
+          return item;
+        }
+
         const newQty = typeof cellObj.v === 'number' ? cellObj.v : parseFloat(String(cellObj.v));
         if (isNaN(newQty)) {
           errors.push(`Cel ${cell} bevat geen getal in ${sheet} (${filePath})`);

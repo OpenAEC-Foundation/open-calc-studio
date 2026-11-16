@@ -54,6 +54,28 @@ describe('Excel link service with a sheet that does not start at A1 (knownbugs 7
     expect(errors).toEqual([]);
     expect(updatedItems[0].quantity).toBe(42);
   });
+
+  // #88: SheetJS stores #REF! as error code 23; that must never become the quantity.
+  it('refresh keeps the quantity and reports an Excel error cell or a formula without a stored result', async () => {
+    const ws = {
+      '!ref': 'A1:A2',
+      A1: { t: 'e', v: 0x17, w: '#REF!', f: '#REF!*2' },
+      A2: { t: 'n', f: '1+1' },
+    } as XLSX.WorkSheet;
+    const wb = { SheetNames: ['Blad1'], Sheets: { Blad1: ws } } as XLSX.WorkBook;
+    files.set('C:/errors.xlsx', new Uint8Array(XLSX.write(wb, { type: 'array', bookType: 'xlsx' }) as ArrayBuffer));
+    const link = (cell: string) => ({ filePath: 'C:/errors.xlsx', sheet: 'Blad1', cell });
+    // One item per call: concurrent dynamic imports of the mocked plugin are flaky in vitest.
+    const ref = await updateAllExcelLinks([{ id: 'ref', quantity: 5, excelLink: link('A1') } as unknown as CostItem]);
+    expect(ref.updatedItems[0].quantity).toBe(5);
+    expect(ref.updateCount).toBe(0);
+    expect(ref.errors).toEqual([expect.stringContaining('#REF!')]);
+
+    const noCache = await updateAllExcelLinks([{ id: 'nocache', quantity: 6, excelLink: link('A2') } as unknown as CostItem]);
+    expect(noCache.updatedItems[0].quantity).toBe(6);
+    expect(noCache.updateCount).toBe(0);
+    expect(noCache.errors).toEqual([expect.stringContaining('formule zonder opgeslagen uitkomst')]);
+  });
 });
 
 describe('ExcelCellPicker', () => {
