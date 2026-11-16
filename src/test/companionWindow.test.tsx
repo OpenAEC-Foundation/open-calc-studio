@@ -49,7 +49,7 @@ describe('read-only second screen', () => {
   });
   it('renders PDF view-only controls and identifies disconnection without editing the document', async () => {
     container = document.createElement('div'); document.body.append(container); root = createRoot(container);
-    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({ clearRect: vi.fn() } as unknown as CanvasRenderingContext2D);
+    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({ clearRect: vi.fn(), setTransform: vi.fn() } as unknown as CanvasRenderingContext2D);
     await act(async () => root!.render(<CompanionWindow id="read-only-test" />));
     const channel = FakeChannel.instances[0], state = useAppStore.getState();
     await act(async () => channel.receive({ type: 'snapshot', snapshot: { documentId: 'primary', name: 'Live project', items: state.items, schedule: state.schedule, subSheets: [], activeItemId: null, locale: 'en', theme: 'light' } }));
