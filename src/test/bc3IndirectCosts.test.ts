@@ -128,6 +128,28 @@ describe('BC3: indirecte kosten (CI) uit ~K', () => {
     expect(excB.unitPrice).toBeCloseTo(2.9, 9);
   });
 
+  it('opslagregel blijft het percentage van de voorgaande bedragen als het aantal van de post wijzigt', () => {
+    // De regels schalen niet mee met het aantal van de post; de opslag moet
+    // dan het percentage over de regelbedragen blijven (review 1f79c52).
+    const r = importBc3(fixture(WITH_CI));
+    const exc = r.items.find((i) => i.code === 'EXC' && i.rowType === 'begrotingspost')!;
+    for (const postQty of [10420, 2605]) {
+      const items = recalculateItems(r.items.map((i) => (i.id === exc.id ? { ...i, quantity: postQty } : i)));
+      const kids = items.filter((i) => i.parentId === exc.id);
+      const direct = kids.filter((k) => !k.percentageBase).reduce((s, k) => s + k.total, 0);
+      const aux = kids.find((k) => k.code === '%003')!;
+      expect(aux.total / direct, `aantal ${postQty}`).toBeCloseTo(0.03, 9);
+    }
+    // Met afronding: de grondslag per eenheid van de post is de som van de
+    // per eenheid afgeronde regels: 0,495 → 0,50 + 0,27 + 0,465 → 0,47 = 1,24
+    // (niet 2,46, de grondslag bij het oude aantal).
+    const items = recalculateItems(
+      r.items.map((i) => (i.id === exc.id ? { ...i, quantity: 10420 } : i)), undefined, r.schedule.priceRounding,
+    );
+    const aux = items.find((i) => i.parentId === exc.id && i.code === '%003')!;
+    expect(aux.normUnitPrice! * aux.quantity! / 10420).toBeCloseTo(1.24, 9);
+  });
+
   it('opslagregel zonder afrondingsregel: percentage over de som van de voorgaande regels', () => {
     const r = importBc3(fixture(WITH_CI));
     const exc = r.items.find((i) => i.code === 'EXC' && i.rowType === 'begrotingspost')!;

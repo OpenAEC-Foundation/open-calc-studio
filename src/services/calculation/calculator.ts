@@ -239,10 +239,19 @@ export function recalculateItems(
     for (const c of children) {
       if (isStagartRowType(c.rowType)) continue;
       if (c.rowType === 'regel' && c.percentageBase) {
-        c.normUnitPrice = c.percentageBase === 'labour' ? per(labour)
+        const base = c.percentageBase === 'labour' ? per(labour)
           : c.percentageBase === 'subtotal' && r ? roundHalfUp(running, r.unitPrice)
             : per(running);
-        calcRegel(c);
+        // De grondslag geldt per eenheid van de post; de regel rekent met zijn
+        // eigen aantal. Wijkt dat af (aantal van de post later gewijzigd, de
+        // regels schalen niet mee), dan omrekenen, zodat de opslag altijd het
+        // percentage van de voorgaande bedragen blijft. Zonder aantal is het
+        // bedrag toch 0 en blijft prijs/middel staan.
+        const own = c.quantity ?? 0;
+        if (own !== 0) {
+          c.normUnitPrice = own === qty ? base : base * qty / own;
+          calcRegel(c);
+        }
       }
       const amount = per(c.total / qty);
       running += amount;
