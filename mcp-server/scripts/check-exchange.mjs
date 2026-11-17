@@ -68,6 +68,20 @@ try {
   assert.equal(unsafeIfcxSave.isError, true, 'IFCX exchange document must not be overwritten by native JSON');
   assert.equal(await readFile(ifcxPath, 'utf8'), shared);
   console.log('shared ifcx: identities, amounts and source-file protection verified');
+
+  // #88: import_excel_csv uses the app importer, so a formula never calculated
+  // in Excel is reported with its address instead of silently becoming 0.
+  const openpyxl = fileURLToPath(new URL('../../src/test/fixtures/imports/issue88-openpyxl-formula-without-result.xlsx', import.meta.url));
+  const inspected = await call('import_excel_csv', { filePath: openpyxl, dryRun: true });
+  assert.ok(inspected.cells.unusableCells > 0, JSON.stringify(inspected.cells));
+  const excel = await call('import_excel_csv', { filePath: openpyxl, replace: true });
+  assert.equal(excel.cellDiagnostics.unusableCells, inspected.cells.unusableCells);
+  assert.ok(excel.cellDiagnostics.cells.some((c) => c.address === 'Begroting!C3' && c.kind === 'noCachedValue'), JSON.stringify(excel.cellDiagnostics));
+  assert.ok(excel.warnings.some((w) => w.includes('Begroting!C3')), JSON.stringify(excel.warnings));
+  const csv = await call('import_excel_csv', { csvContent: 'Omschrijving;Hoeveelheid;Prijs\nBeton;2;10', replace: true });
+  assert.equal(csv.importedCount, 1);
+  assert.equal(csv.cellDiagnostics, undefined);
+  console.log('import_excel_csv: formula without a stored result reported');
 } finally {
   await client.close();
   await rm(tmp, { recursive: true, force: true });
