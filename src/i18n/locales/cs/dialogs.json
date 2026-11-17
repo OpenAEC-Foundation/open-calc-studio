@@ -9,6 +9,8 @@
     "columnsLinked_other": "{{count}} sloupců propojeno",
     "rows": "{{count}} řádků",
     "linkDescriptionFirst": "nejprve propojte sloupec „Popis“",
+    "formulaValues": "Hodnoty ze vzorců Excelu v přiřazených číselných sloupcích: {{count}}. Jde o výsledky naposledy uložené v Excelu; převezmou se beze změny a nepřepočítají se.",
+    "unusableCells": "Buňky bez použitelné hodnoty v přiřazených číselných sloupcích: {{count}} (chyba Excelu nebo vzorec, který nebyl v Excelu nikdy spočítán). Importují se jako prázdné.",
     "cancel": "Zrušit",
     "import": "Importovat",
     "fields": {
@@ -49,6 +51,8 @@
     "cannotReadFile": "Soubor nelze přečíst",
     "chooseFile": "Vybrat soubor...",
     "noFileSelected": "Není vybrán žádný soubor",
+    "cellError": "Chyba Excelu {{error}}: tato buňka nemá použitelnou hodnotu.",
+    "cellNoCachedValue": "Vzorec nebyl v Excelu nikdy spočítán: žádná použitelná hodnota. Otevřete soubor v Excelu, uložte ho a vyberte znovu.",
     "loadingFile": "Načítání souboru...",
     "cancel": "Zrušit",
     "select": "Vybrat"

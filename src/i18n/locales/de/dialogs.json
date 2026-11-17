@@ -7,6 +7,8 @@
     "columnsLinked_other": "{{count}} Spalten zugeordnet",
     "rows": "{{count}} Zeilen",
     "linkDescriptionFirst": "zuerst eine Spalte „Beschreibung“ zuordnen",
+    "formulaValues": "Werte aus Excel-Formeln in den zugeordneten Zahlenspalten: {{count}}. Das sind die zuletzt in Excel gespeicherten Ergebnisse; sie werden unverändert übernommen und nicht neu berechnet.",
+    "unusableCells": "Zellen ohne verwendbaren Wert in den zugeordneten Zahlenspalten: {{count}} (ein Excel-Fehler oder eine Formel, die nie in Excel berechnet wurde). Sie werden leer importiert.",
     "cancel": "Abbrechen",
     "import": "Importieren",
     "fields": {
@@ -47,6 +49,8 @@
     "cannotReadFile": "Datei kann nicht gelesen werden",
     "chooseFile": "Datei wählen …",
     "noFileSelected": "Keine Datei ausgewählt",
+    "cellError": "Excel-Fehler {{error}}: Diese Zelle hat keinen verwendbaren Wert.",
+    "cellNoCachedValue": "Formel nie in Excel berechnet: kein verwendbarer Wert. Öffnen Sie die Datei in Excel, speichern Sie sie und wählen Sie erneut.",
     "loadingFile": "Datei wird geladen …",
     "cancel": "Abbrechen",
     "select": "Auswählen"

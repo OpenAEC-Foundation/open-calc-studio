@@ -938,6 +938,7 @@
       "currencyNotInFormat": "{{format}} não tem campo de moeda, por isso o destinatário lerá estes valores em euros. Este orçamento está em {{currency}}; os valores não foram convertidos.",
       "unreadableNumbers": "{{count}} valores não puderam ser lidos como número e foram importados como 0 (por exemplo, \"{{example}}\").",
       "formulaCellsWithoutValue": "Células em colunas numéricas sem valor utilizável foram importadas vazias ({{count}}): {{cells}}. Contêm uma fórmula que nunca foi calculada no Excel, ou um erro do Excel. Abra o ficheiro no Excel, corrija os erros ou recalcule (F9), guarde-o e importe novamente.",
+      "formulaValuesStored": "Valores de fórmulas do Excel: {{count}}. São os últimos resultados guardados no Excel; foram importados tal como estão, sem recálculo.",
       "xmlError": "Erro de análise XML: {{message}} (linha {{line}})",
       "xml": {
         "entity": "Entidade desconhecida {{p0}}",

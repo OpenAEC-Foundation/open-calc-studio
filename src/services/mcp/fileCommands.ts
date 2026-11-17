@@ -15,7 +15,7 @@ export async function fileCommand(action:string,p:Record<string,unknown>) {
   const reader=Object.prototype.hasOwnProperty.call(map,format)?map[format as keyof typeof map]:null;
   const result=reader?reader(text):await importBudget(data.buffer,p.fileName);
   if('resources' in result)s.setResourceLibrary([...s.resourceLibrary,...result.resources]);
-  if('items' in result)return {documentId:openImportResult(result,p.fileName),warnings:result.warnings};
+  if('items' in result)return {documentId:openImportResult(result,p.fileName),warnings:result.warnings,...(result.cellDiagnostics?{cellDiagnostics:result.cellDiagnostics}:{})};
   return result;
  }
  if(action!=='export')throw Error('Unknown file command');

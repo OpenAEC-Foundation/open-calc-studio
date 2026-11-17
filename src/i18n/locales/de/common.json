@@ -603,6 +603,7 @@
       "currencyNotInFormat": "{{format}} hat kein Währungsfeld, daher liest der Empfänger diese Beträge als Euro. Diese Kalkulation ist in {{currency}}; die Beträge wurden nicht umgerechnet.",
       "unreadableNumbers": "{{count}} Werte konnten nicht als Zahl gelesen werden und wurden als 0 importiert (zum Beispiel „{{example}}“).",
       "formulaCellsWithoutValue": "Zellen in Zahlenspalten ohne verwendbaren Wert wurden leer importiert ({{count}}): {{cells}}. Sie enthalten eine Formel, die nie in Excel berechnet wurde, oder einen Excel-Fehler. Öffnen Sie die Datei in Excel, beheben Sie die Fehler oder berechnen Sie neu (F9), speichern Sie sie und importieren Sie erneut.",
+      "formulaValuesStored": "Werte aus Excel-Formeln: {{count}}. Das sind die zuletzt in Excel gespeicherten Ergebnisse; sie wurden unverändert übernommen und nicht neu berechnet.",
       "xmlError": "XML-Parserfehler: {{message}} (Zeile {{line}})",
       "xml": {
         "entity": "Unbekannte Entität {{p0}}",

@@ -168,6 +168,43 @@ describe('ExcelCellPicker', () => {
     expect(onSelect).toHaveBeenLastCalledWith({ filePath: 'C:/b.xlsx', sheet: 'Blad1', cell: 'A2' }, 7);
   });
 
+  // #88: the picker shows why a cell has no value and never offers #REF! as 23.
+  it('shows an Excel error cell with its text and reason, and selects it without a value', async () => {
+    const ws = {
+      '!ref': 'A1:A2',
+      A1: { t: 'n', v: 4 },
+      A2: { t: 'e', v: 0x17, w: '#REF!', f: '#REF!*2' },
+    } as XLSX.WorkSheet;
+    const wb = { SheetNames: ['Blad1'], Sheets: { Blad1: ws } } as XLSX.WorkBook;
+    files.set('C:/errors.xlsx', new Uint8Array(XLSX.write(wb, { type: 'array', bookType: 'xlsx' }) as ArrayBuffer));
+    await render(true, { filePath: 'C:/errors.xlsx', sheet: 'Blad1', cell: 'A1' });
+    const errorCell = cellWithText('#REF!');
+    expect(errorCell.classList.contains('issue')).toBe(true);
+    expect(errorCell.title).toBe('Excel error #REF!: this cell has no usable value.');
+    await act(async () => { errorCell.click(); });
+    expect(node.querySelector('.excel-picker-issue')!.textContent).toBe('Excel error #REF!: this cell has no usable value.');
+    expect(node.querySelector('.excel-picker-ref')!.textContent).toBe('Blad1!A2');
+    await clickSelect();
+    expect(onSelect).toHaveBeenLastCalledWith({ filePath: 'C:/errors.xlsx', sheet: 'Blad1', cell: 'A2' }, null);
+  });
+
+  it('does not offer the placeholder 0 of a file never calculated in Excel', async () => {
+    const path = 'C:/xlsxwriter.xlsx';
+    files.set(path, new Uint8Array(readFileSync(resolve(__dirname, 'fixtures/imports/issue88-uncalculated-placeholder-zero.xlsx'))));
+    await render(true, { filePath: path, sheet: 'Begroting', cell: 'B3' });
+    expect(node.querySelector('.excel-picker-issue')!.textContent).toBe(
+      'Formula never calculated in Excel: no usable value. Open the file in Excel, save it and choose again.',
+    );
+    expect(cellWithText('=?')).toBeDefined();
+    await clickSelect();
+    expect(onSelect).toHaveBeenLastCalledWith({ filePath: path, sheet: 'Begroting', cell: 'B3' }, null);
+    // A literal number in the same file still works.
+    await act(async () => { cellWithText('20').click(); });
+    expect(node.querySelector('.excel-picker-issue')).toBeNull();
+    await clickSelect();
+    expect(onSelect).toHaveBeenLastCalledWith({ filePath: path, sheet: 'Begroting', cell: 'B2' }, 20);
+  });
+
   it('never passes a stale value when the linked file cannot be read', async () => {
     files.set('C:/a.xlsx', workbookBytes({ A1: 42 }));
     await render(true, { filePath: 'C:/a.xlsx', sheet: 'Blad1', cell: 'A1' });

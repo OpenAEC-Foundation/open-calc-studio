@@ -7,6 +7,8 @@
     "columnsLinked_other": "{{count}} kolonner tilknyttet",
     "rows": "{{count}} linjer",
     "linkDescriptionFirst": "tilknyt først en “Beskrivelse”-kolonne",
+    "formulaValues": "Værdier fra Excel-formler i de tilknyttede talkolonner: {{count}}. Det er de resultater, Excel sidst gemte; de overtages uændret og genberegnes ikke.",
+    "unusableCells": "Celler uden brugbar værdi i de tilknyttede talkolonner: {{count}} (en Excel-fejl eller en formel, der aldrig er beregnet i Excel). De importeres tomme.",
     "cancel": "Annuller",
     "import": "Importér",
     "fields": {
@@ -47,6 +49,8 @@
     "cannotReadFile": "Filen kan ikke læses",
     "chooseFile": "Vælg fil …",
     "noFileSelected": "Ingen fil valgt",
+    "cellError": "Excel-fejl {{error}}: denne celle har ingen brugbar værdi.",
+    "cellNoCachedValue": "Formlen er aldrig beregnet i Excel: ingen brugbar værdi. Åbn filen i Excel, gem den, og vælg igen.",
     "loadingFile": "Indlæser fil …",
     "cancel": "Annuller",
     "select": "Vælg"

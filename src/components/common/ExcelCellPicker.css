@@ -71,6 +71,21 @@
   font-size: 12px;
 }
 
+/* #88: why the selected cell has no usable value. */
+.excel-picker-issue {
+  font-size: 11px;
+  color: var(--theme-danger-color, #dc2626);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.excel-picker-cell.issue {
+  color: var(--theme-danger-color, #dc2626);
+  font-style: italic;
+}
+
 .excel-picker-error {
   padding: 12px;
   color: #dc2626;

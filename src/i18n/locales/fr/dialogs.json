@@ -7,6 +7,8 @@
     "columnsLinked_other": "{{count}} colonnes associées",
     "rows": "{{count}} lignes",
     "linkDescriptionFirst": "associez d'abord une colonne « Désignation »",
+    "formulaValues": "Valeurs issues de formules Excel dans les colonnes numériques associées : {{count}}. Ce sont les derniers résultats enregistrés dans Excel ; ils sont repris tels quels, sans recalcul.",
+    "unusableCells": "Cellules sans valeur utilisable dans les colonnes numériques associées : {{count}} (une erreur Excel, ou une formule jamais calculée dans Excel). Elles sont importées vides.",
     "cancel": "Annuler",
     "import": "Importer",
     "fields": {
@@ -47,6 +49,8 @@
     "cannotReadFile": "Impossible de lire le fichier",
     "chooseFile": "Choisir un fichier…",
     "noFileSelected": "Aucun fichier sélectionné",
+    "cellError": "Erreur Excel {{error}} : cette cellule n’a pas de valeur utilisable.",
+    "cellNoCachedValue": "Formule jamais calculée dans Excel : aucune valeur utilisable. Ouvrez le fichier dans Excel, enregistrez-le et choisissez à nouveau.",
     "loadingFile": "Chargement du fichier…",
     "cancel": "Annuler",
     "select": "Sélectionner"

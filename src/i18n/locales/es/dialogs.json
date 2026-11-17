@@ -7,6 +7,8 @@
     "columnsLinked_other": "{{count}} columnas vinculadas",
     "rows": "{{count}} filas",
     "linkDescriptionFirst": "vincule primero una columna «Descripción»",
+    "formulaValues": "Valores de fórmulas de Excel en las columnas numéricas vinculadas: {{count}}. Son los últimos resultados guardados en Excel; se importan tal cual, sin recalcular.",
+    "unusableCells": "Celdas sin un valor utilizable en las columnas numéricas vinculadas: {{count}} (un error de Excel o una fórmula nunca calculada en Excel). Se importan vacías.",
     "cancel": "Cancelar",
     "import": "Importar",
     "fields": {
@@ -47,6 +49,8 @@
     "cannotReadFile": "No se puede leer el archivo",
     "chooseFile": "Elegir archivo...",
     "noFileSelected": "Ningún archivo seleccionado",
+    "cellError": "Error de Excel {{error}}: esta celda no tiene un valor utilizable.",
+    "cellNoCachedValue": "Fórmula nunca calculada en Excel: sin valor utilizable. Abra el archivo en Excel, guárdelo y vuelva a elegir.",
     "loadingFile": "Cargando el archivo...",
     "cancel": "Cancelar",
     "select": "Seleccionar"

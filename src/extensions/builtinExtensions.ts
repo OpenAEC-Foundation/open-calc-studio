@@ -30,7 +30,8 @@ async function importSpreadsheetTable(file: File, originalError: unknown): Promi
   const { askColumnMapping, ImportCancelledError } = await import('../components/backstage/askColumnMapping');
   const mapping = await askColumnMapping(table);
   if (!mapping) throw new ImportCancelledError();
-  const result = buildFromMapping(table, mapping);
+  // De kolomdialoog heeft de formule-uitkomsten al getoond (#88).
+  const result = buildFromMapping(table, mapping, { formulaValuesReviewed: true });
   return { ...result, items: recalculateItems(result.items, undefined, result.schedule?.priceRounding) };
 }
 

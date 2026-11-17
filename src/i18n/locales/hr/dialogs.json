@@ -8,6 +8,8 @@
     "columnsLinked_other": "{{count}} stupaca povezano",
     "rows": "{{count}} redaka",
     "linkDescriptionFirst": "najprije povežite stupac „Opis”",
+    "formulaValues": "Vrijednosti iz Excelovih formula u povezanim brojčanim stupcima: {{count}}. To su rezultati koje je Excel zadnji spremio; preuzimaju se nepromijenjeni i ne izračunavaju se ponovno.",
+    "unusableCells": "Ćelije bez upotrebljive vrijednosti u povezanim brojčanim stupcima: {{count}} (Excelova pogreška ili formula koja nikad nije izračunata u Excelu). Uvoze se prazne.",
     "cancel": "Odustani",
     "import": "Uvezi",
     "fields": {
@@ -48,6 +50,8 @@
     "cannotReadFile": "Nije moguće pročitati datoteku",
     "chooseFile": "Odaberi datoteku...",
     "noFileSelected": "Nije odabrana datoteka",
+    "cellError": "Excelova pogreška {{error}}: ova ćelija nema upotrebljivu vrijednost.",
+    "cellNoCachedValue": "Formula nikad nije izračunata u Excelu: nema upotrebljive vrijednosti. Otvorite datoteku u Excelu, spremite je i ponovno odaberite.",
     "loadingFile": "Učitavanje datoteke...",
     "cancel": "Odustani",
     "select": "Odaberi"

@@ -9,6 +9,8 @@
     "columnsLinked_other": "Przypisano {{count}} kolumn",
     "rows": "{{count}} wierszy",
     "linkDescriptionFirst": "najpierw przypisz kolumnę „Opis”",
+    "formulaValues": "Wartości z formuł Excela w powiązanych kolumnach liczbowych: {{count}}. Są to wyniki ostatnio zapisane w Excelu; są przejmowane bez zmian i nie są przeliczane.",
+    "unusableCells": "Komórki bez użytecznej wartości w powiązanych kolumnach liczbowych: {{count}} (błąd Excela lub formuła nigdy nieobliczona w Excelu). Są importowane jako puste.",
     "cancel": "Anuluj",
     "import": "Importuj",
     "fields": {
@@ -49,6 +51,8 @@
     "cannotReadFile": "Nie można odczytać pliku",
     "chooseFile": "Wybierz plik...",
     "noFileSelected": "Nie wybrano pliku",
+    "cellError": "Błąd Excela {{error}}: ta komórka nie ma użytecznej wartości.",
+    "cellNoCachedValue": "Formuła nigdy nie została obliczona w Excelu: brak użytecznej wartości. Otwórz plik w Excelu, zapisz go i wybierz ponownie.",
     "loadingFile": "Wczytywanie pliku...",
     "cancel": "Anuluj",
     "select": "Wybierz"

@@ -7,6 +7,8 @@
     "columnsLinked_other": "{{count}} columns linked",
     "rows": "{{count}} rows",
     "linkDescriptionFirst": "link a “Description” column first",
+    "formulaValues": "Values from Excel formulas in the linked number columns: {{count}}. These are the results last saved in Excel; they are imported as they are and not recalculated.",
+    "unusableCells": "Cells without a usable value in the linked number columns: {{count}} (an Excel error, or a formula never calculated in Excel). They are imported as empty.",
     "cancel": "Cancel",
     "import": "Import",
     "fields": {
@@ -47,6 +49,8 @@
     "cannotReadFile": "Unable to read file",
     "chooseFile": "Choose file...",
     "noFileSelected": "No file selected",
+    "cellError": "Excel error {{error}}: this cell has no usable value.",
+    "cellNoCachedValue": "Formula never calculated in Excel: no usable value. Open the file in Excel, save it and choose again.",
     "loadingFile": "Loading file...",
     "cancel": "Cancel",
     "select": "Select"

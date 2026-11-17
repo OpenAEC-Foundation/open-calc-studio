@@ -964,6 +964,7 @@
       "currencyNotInFormat": "{{format}} has no currency field, so the receiver will read these amounts as euros. This estimate is in {{currency}}; the amounts were not converted.",
       "unreadableNumbers": "{{count}} values could not be read as a number and were imported as 0 (for example \"{{example}}\").",
       "formulaCellsWithoutValue": "Cells in number columns without a usable value were imported as empty ({{count}}): {{cells}}. They contain a formula that was never calculated in Excel, or an Excel error. Open the file in Excel, correct the errors or recalculate (F9), save it and import again.",
+      "formulaValuesStored": "Values from Excel formulas: {{count}}. These are the results last saved in Excel; they were imported as they are and not recalculated.",
       "xmlError": "XML parse error: {{message}} (line {{line}})",
       "xml": {
         "entity": "Unknown entity {{p0}}",

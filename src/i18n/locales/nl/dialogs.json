@@ -7,6 +7,8 @@
     "columnsLinked_other": "{{count}} kolommen gekoppeld",
     "rows": "{{count}} rijen",
     "linkDescriptionFirst": "koppel eerst een “Omschrijving”-kolom",
+    "formulaValues": "Waarden uit Excel-formules in de gekoppelde getalkolommen: {{count}}. Dit zijn de uitkomsten die Excel het laatst heeft opgeslagen; ze worden overgenomen zoals ze zijn en niet herberekend.",
+    "unusableCells": "Cellen zonder bruikbare waarde in de gekoppelde getalkolommen: {{count}} (een Excel-fout, of een formule die nooit in Excel is berekend). Ze komen leeg binnen.",
     "cancel": "Annuleren",
     "import": "Importeren",
     "fields": {
@@ -47,6 +49,8 @@
     "cannotReadFile": "Kan bestand niet lezen",
     "chooseFile": "Bestand kiezen...",
     "noFileSelected": "Geen bestand geselecteerd",
+    "cellError": "Excel-fout {{error}}: deze cel heeft geen bruikbare waarde.",
+    "cellNoCachedValue": "Formule nooit in Excel berekend: geen bruikbare waarde. Open het bestand in Excel, sla het op en kies opnieuw.",
     "loadingFile": "Bestand laden...",
     "cancel": "Annuleren",
     "select": "Selecteren"

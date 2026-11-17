@@ -8,6 +8,8 @@
     "columnsLinked_other": "{{count}} de coloane asociate",
     "rows": "{{count}} rânduri",
     "linkDescriptionFirst": "asociați mai întâi o coloană „Denumire”",
+    "formulaValues": "Valori din formule Excel în coloanele numerice asociate: {{count}}. Sunt ultimele rezultate salvate în Excel; sunt importate ca atare, fără recalculare.",
+    "unusableCells": "Celule fără o valoare utilizabilă în coloanele numerice asociate: {{count}} (o eroare Excel sau o formulă necalculată niciodată în Excel). Sunt importate goale.",
     "cancel": "Anulare",
     "import": "Import",
     "fields": {
@@ -48,6 +50,8 @@
     "cannotReadFile": "Fișierul nu poate fi citit",
     "chooseFile": "Alegere fișier...",
     "noFileSelected": "Niciun fișier selectat",
+    "cellError": "Eroare Excel {{error}}: această celulă nu are o valoare utilizabilă.",
+    "cellNoCachedValue": "Formulă necalculată niciodată în Excel: nicio valoare utilizabilă. Deschideți fișierul în Excel, salvați-l și alegeți din nou.",
     "loadingFile": "Se încarcă fișierul...",
     "cancel": "Anulare",
     "select": "Selectare"

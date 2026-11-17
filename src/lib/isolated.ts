@@ -1,4 +1,10 @@
 import type { ProjectFile } from '../types/costModel';
+import type { ImportCellDiagnostics } from '../services/importers/types';
+
+export interface IsolatedImportResult {
+  warnings: string[];
+  cellDiagnostics?: ImportCellDiagnostics;
+}
 
 export interface IsolatedProps {
   mode?: 'editor' | 'wizard';
@@ -24,7 +30,8 @@ export interface IsolatedStudio {
   readonly ready: Promise<void>;
   update(props: IsolatedProps): Promise<void>;
   getProjectJson(): Promise<string>;
-  importBudget(data: ArrayBuffer, fileName: string): Promise<void>;
+  /** Opens the file as a new estimate; resolves with the import warnings and, for spreadsheets, the cell diagnostics. */
+  importBudget(data: ArrayBuffer, fileName: string): Promise<IsolatedImportResult>;
   unmount(): void;
 }
 const protocol = 'open-calc-studio/v1';
@@ -95,7 +102,7 @@ export function mountIsolated(host: HTMLElement, options: IsolatedOptions): Isol
     iframe, ready,
     update: (next) => request<void>('update', next),
     getProjectJson: () => request<string>('export'),
-    importBudget: (data, fileName) => request<void>('import', { data, fileName }),
+    importBudget: (data, fileName) => request<IsolatedImportResult>('import', { data, fileName }),
     unmount() {
       if (disposed) return;
       disposed = true;

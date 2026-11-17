@@ -938,6 +938,7 @@
       "currencyNotInFormat": "{{format}} har ikke noe valutafelt, så mottakeren leser beløpene som euro. Dette overslaget er i {{currency}}; beløpene er ikke regnet om.",
       "unreadableNumbers": "{{count}} verdier kunne ikke leses som tall og ble importert som 0 (for eksempel «{{example}}»).",
       "formulaCellsWithoutValue": "Celler i tallkolonner uten brukbar verdi ble importert tomme ({{count}}): {{cells}}. De inneholder en formel som aldri er beregnet i Excel, eller en Excel-feil. Åpne filen i Excel, rett feilene eller beregn på nytt (F9), lagre den og importer igjen.",
+      "formulaValuesStored": "Verdier fra Excel-formler: {{count}}. Dette er resultatene Excel sist lagret; de er overtatt uendret og ikke beregnet på nytt.",
       "xmlError": "XML-tolkingsfeil: {{message}} (linje {{line}})",
       "xml": {
         "entity": "Ukjent entitet {{p0}}",

@@ -7,6 +7,8 @@
     "columnsLinked_other": "Safu wima {{count}} zimeunganishwa",
     "rows": "Safu {{count}}",
     "linkDescriptionFirst": "unganisha safu wima ya “Maelezo” kwanza",
+    "formulaValues": "Thamani kutoka kwa fomula za Excel katika safu wima za nambari zilizounganishwa: {{count}}. Haya ni matokeo ambayo Excel ilihifadhi mara ya mwisho; yanaingizwa kama yalivyo na hayakokotolewi upya.",
+    "unusableCells": "Seli zisizo na thamani inayotumika katika safu wima za nambari zilizounganishwa: {{count}} (hitilafu ya Excel, au fomula ambayo haijawahi kukokotolewa katika Excel). Zinaingizwa zikiwa tupu.",
     "cancel": "Ghairi",
     "import": "Ingiza",
     "fields": {
@@ -47,6 +49,8 @@
     "cannotReadFile": "Imeshindwa kusoma faili",
     "chooseFile": "Chagua faili...",
     "noFileSelected": "Hakuna faili iliyochaguliwa",
+    "cellError": "Hitilafu ya Excel {{error}}: seli hii haina thamani inayotumika.",
+    "cellNoCachedValue": "Fomula haijawahi kukokotolewa katika Excel: hakuna thamani inayotumika. Fungua faili katika Excel, uihifadhi kisha uchague tena.",
     "loadingFile": "Inapakia faili...",
     "cancel": "Ghairi",
     "select": "Chagua"

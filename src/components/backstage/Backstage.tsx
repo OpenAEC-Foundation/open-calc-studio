@@ -367,7 +367,8 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
 
   const handleMappingConfirm = useCallback((mapping: ColumnMapping) => {
     if (!mappingData) return;
-    const result = buildFromMapping(mappingData, mapping);
+    // De kolomdialoog heeft de formule-uitkomsten al getoond (#88).
+    const result = buildFromMapping(mappingData, mapping, { formulaValuesReviewed: true });
     newFile();
     const store = useAppStore.getState();
     store.setSchedule(result.schedule);

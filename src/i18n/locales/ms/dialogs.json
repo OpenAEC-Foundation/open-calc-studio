@@ -7,6 +7,8 @@
     "columnsLinked_other": "{{count}} lajur dipautkan",
     "rows": "{{count}} baris",
     "linkDescriptionFirst": "pautkan lajur “Huraian” terlebih dahulu",
+    "formulaValues": "Nilai daripada formula Excel dalam lajur nombor yang dipautkan: {{count}}. Ini ialah keputusan yang terakhir disimpan dalam Excel; ia diambil seadanya dan tidak dikira semula.",
+    "unusableCells": "Sel tanpa nilai yang boleh digunakan dalam lajur nombor yang dipautkan: {{count}} (ralat Excel, atau formula yang tidak pernah dikira dalam Excel). Ia diimport kosong.",
     "cancel": "Batal",
     "import": "Import",
     "fields": {
@@ -47,6 +49,8 @@
     "cannotReadFile": "Tidak dapat membaca fail",
     "chooseFile": "Pilih fail...",
     "noFileSelected": "Tiada fail dipilih",
+    "cellError": "Ralat Excel {{error}}: sel ini tiada nilai yang boleh digunakan.",
+    "cellNoCachedValue": "Formula tidak pernah dikira dalam Excel: tiada nilai yang boleh digunakan. Buka fail dalam Excel, simpan dan pilih semula.",
     "loadingFile": "Memuatkan fail...",
     "cancel": "Batal",
     "select": "Pilih"

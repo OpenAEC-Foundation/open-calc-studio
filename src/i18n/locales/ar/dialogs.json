@@ -11,6 +11,8 @@
     "columnsLinked_other": "تم ربط {{count}} عمود",
     "rows": "{{count}} صف",
     "linkDescriptionFirst": "اربط عمود ”الوصف“ أولاً",
+    "formulaValues": "قيم من صيغ Excel في الأعمدة الرقمية المرتبطة: {{count}}. هذه هي النتائج التي حفظها Excel آخر مرة؛ تُستورد كما هي دون إعادة حساب.",
+    "unusableCells": "خلايا بلا قيمة صالحة في الأعمدة الرقمية المرتبطة: {{count}} (خطأ في Excel، أو صيغة لم تُحسب قط في Excel). تُستورد فارغة.",
     "cancel": "إلغاء",
     "import": "استيراد",
     "fields": {
@@ -51,6 +53,8 @@
     "cannotReadFile": "تعذّرت قراءة الملف",
     "chooseFile": "اختيار ملف...",
     "noFileSelected": "لم يتم اختيار ملف",
+    "cellError": "خطأ Excel \u2066{{error}}\u2069: لا تحتوي هذه الخلية على قيمة صالحة.",
+    "cellNoCachedValue": "لم تُحسب الصيغة قط في Excel: لا توجد قيمة صالحة. افتح الملف في Excel واحفظه ثم اختر مرة أخرى.",
     "loadingFile": "جارٍ تحميل الملف...",
     "cancel": "إلغاء",
     "select": "اختيار"

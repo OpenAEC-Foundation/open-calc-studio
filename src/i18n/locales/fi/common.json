@@ -938,6 +938,7 @@
       "currencyNotInFormat": "{{format}} ei sisällä valuuttakenttää, joten vastaanottaja lukee summat euroina. Tämä laskelma on valuutassa {{currency}}; summia ei ole muunnettu.",
       "unreadableNumbers": "{{count}} arvoa ei voitu lukea lukuna, ja ne tuotiin arvona 0 (esimerkiksi ”{{example}}”).",
       "formulaCellsWithoutValue": "Numerosarakkeiden solut, joilla ei ole käyttökelpoista arvoa, tuotiin tyhjinä ({{count}}): {{cells}}. Niissä on kaava, jota ei ole koskaan laskettu Excelissä, tai Excel-virhe. Avaa tiedosto Excelissä, korjaa virheet tai laske uudelleen (F9), tallenna ja tuo uudelleen.",
+      "formulaValuesStored": "Arvoja Excel-kaavoista: {{count}}. Nämä ovat Excelin viimeksi tallentamat tulokset; ne on tuotu sellaisenaan eikä niitä ole laskettu uudelleen.",
       "xmlError": "XML-jäsennysvirhe: {{message}} (rivi {{line}})",
       "xml": {
         "entity": "Tuntematon entiteetti {{p0}}",

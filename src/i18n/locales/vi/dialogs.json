@@ -7,6 +7,8 @@
     "columnsLinked_other": "Đã liên kết {{count}} cột",
     "rows": "{{count}} dòng",
     "linkDescriptionFirst": "hãy liên kết một cột “Mô tả” trước",
+    "formulaValues": "Giá trị từ công thức Excel trong các cột số đã liên kết: {{count}}. Đây là các kết quả Excel lưu lần cuối; chúng được lấy nguyên trạng và không được tính lại.",
+    "unusableCells": "Ô không có giá trị dùng được trong các cột số đã liên kết: {{count}} (lỗi Excel, hoặc công thức chưa từng được tính trong Excel). Các ô này được nhập dưới dạng trống.",
     "cancel": "Hủy",
     "import": "Nhập",
     "fields": {
@@ -47,6 +49,8 @@
     "cannotReadFile": "Không đọc được tệp",
     "chooseFile": "Chọn tệp...",
     "noFileSelected": "Chưa chọn tệp nào",
+    "cellError": "Lỗi Excel {{error}}: ô này không có giá trị dùng được.",
+    "cellNoCachedValue": "Công thức chưa từng được tính trong Excel: không có giá trị dùng được. Hãy mở tệp trong Excel, lưu lại rồi chọn lại.",
     "loadingFile": "Đang tải tệp...",
     "cancel": "Hủy",
     "select": "Chọn"
