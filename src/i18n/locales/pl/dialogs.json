@@ -9,6 +9,8 @@
     "columnsLinked_other": "Przypisano {{count}} kolumn",
     "rows": "{{count}} wierszy",
     "linkDescriptionFirst": "najpierw przypisz kolumnę „Opis”",
+    "formulaValues": "Wartości z formuł Excela w powiązanych kolumnach liczbowych: {{count}}. Są to wyniki ostatnio zapisane w Excelu; są przejmowane bez zmian i nie są przeliczane.",
+    "unusableCells": "Komórki bez użytecznej wartości w powiązanych kolumnach liczbowych: {{count}} (błąd Excela lub formuła nigdy nieobliczona w Excelu). Są importowane jako puste.",
     "cancel": "Anuluj",
     "import": "Importuj",
     "fields": {

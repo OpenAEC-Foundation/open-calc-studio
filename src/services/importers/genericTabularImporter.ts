@@ -2,7 +2,7 @@ import { readWorkbookForValues, WORKBOOK_LIMITS } from '@/services/importers/saf
 import { uiText } from '../../i18n/uiText';
 import * as XLSX from 'xlsx';
 import { BudgetBuilder, parseAmount, normalizeUnit } from './core';
-import type { ImportResult } from './types';
+import type { ImportCellDiagnostics, ImportResult } from './types';
 import type { CostItem } from '@/types/costModel';
 
 /**
@@ -64,6 +64,12 @@ export interface TabularData {
   cellIssues?: TabularCellIssue[];
   /** Per column: `rows` indices of issues beyond the stored maximum (no address kept). */
   cellIssuesOverflow?: Record<number, number[]>;
+  /**
+   * Excel only: per column, `rows` indices of formula cells whose stored
+   * result is used. That is the result Excel last saved; it is imported as it
+   * is and never recalculated (#88).
+   */
+  formulaCells?: Record<number, number[]>;
 }
 
 export interface TabularCellIssue {
@@ -162,6 +168,7 @@ export function parseXlsxTabular(buf: ArrayBuffer | Uint8Array, sourceName = 'Ex
   // zodat een blad vol #REF! de import niet opblaast.
   const perColumn = new Map<number, number>();
   const cellIssuesOverflow: Record<number, number[]> = {};
+  const formulaCells: Record<number, number[]> = {};
   const add = (issue: TabularCellIssue) => {
     const seen = perColumn.get(issue.col) ?? 0;
     perColumn.set(issue.col, seen + 1);
@@ -179,12 +186,14 @@ export function parseXlsxTabular(buf: ArrayBuffer | Uint8Array, sourceName = 'Ex
       const col = c - range.s.c;
       const issue = cellIssueKind(cell, uncalculated);
       if (issue) add({ row, col, address, ...issue });
+      else if (cell.f || cell.F) (formulaCells[col] ??= []).push(row);
     }
   });
   return {
     headers, rows, sourceName,
     ...(cellIssues.length ? { cellIssues } : {}),
     ...(Object.keys(cellIssuesOverflow).length ? { cellIssuesOverflow } : {}),
+    ...(Object.keys(formulaCells).length ? { formulaCells } : {}),
   };
 }
 
@@ -238,6 +247,62 @@ export function autoDetectMapping(headers: string[]): ColumnMapping {
   });
 }
 
+// ── Formulecellen en cellen zonder waarde (#88) ─────────────────────────────
+
+/** Doelvelden met een getal; alleen daar telt een formule of een kapotte cel. */
+const NUMBER_FIELDS: readonly TargetField[] = ['quantity', 'materialPrice', 'laborPrice', 'equipmentPrice', 'unitPrice', 'total'];
+
+function numberColumns(mapping: ColumnMapping): Set<number> {
+  const cols = new Set<number>();
+  mapping.forEach((field, col) => { if (NUMBER_FIELDS.includes(field)) cols.add(col); });
+  return cols;
+}
+
+/** Een rij wordt geïmporteerd als hij niet leeg is en een omschrijving of code heeft. */
+function importedRowTest(mapping: ColumnMapping): (row: string[] | undefined) => boolean {
+  const filled = (row: string[], idx: number) => idx >= 0 && (row[idx] ?? '').trim() !== '';
+  const cDesc = mapping.indexOf('description');
+  const cCode = mapping.indexOf('code');
+  return (row) => !!row && (filled(row, cDesc) || filled(row, cCode));
+}
+
+export interface TabularCellSummary {
+  /** Getallen in gekoppelde getalkolommen die een opgeslagen Excel-formule-uitkomst zijn. */
+  formulaValues: number;
+  /** Cellen in gekoppelde getalkolommen zonder bruikbare waarde (komen leeg binnen). */
+  unusableCells: number;
+}
+
+/**
+ * Tel voor deze kolomkoppeling de formule-uitkomsten en de cellen zonder
+ * bruikbare waarde, alleen in getalkolommen en op rijen die geïmporteerd
+ * worden. De kolomdialoog toont dit vóór het importeren (#88).
+ */
+export function summarizeCells(data: TabularData, mapping: ColumnMapping): TabularCellSummary {
+  const cols = numberColumns(mapping);
+  const imported = importedRowTest(mapping);
+  const rowImported = (r: number) => imported(data.rows[r]);
+  let formulaValues = 0;
+  let unusableCells = 0;
+  for (const c of cols) {
+    formulaValues += (data.formulaCells?.[c] ?? []).filter(rowImported).length;
+    unusableCells += (data.cellIssuesOverflow?.[c] ?? []).filter(rowImported).length;
+  }
+  for (const issue of data.cellIssues ?? []) {
+    if (cols.has(issue.col) && rowImported(issue.row)) unusableCells += 1;
+  }
+  return { formulaValues, unusableCells };
+}
+
+export interface BuildOptions {
+  /**
+   * De gebruiker heeft de formule-uitkomsten al gezien in de kolomdialoog.
+   * Zonder deze vlag komt er een melding bij, zodat ook een import zonder
+   * dialoog laat weten dat de getallen opgeslagen uitkomsten zijn.
+   */
+  formulaValuesReviewed?: boolean;
+}
+
 // ── Opbouw ───────────────────────────────────────────────────────────────
 
 /**
@@ -249,7 +314,7 @@ export function autoDetectMapping(headers: string[]): ColumnMapping {
  * valt onder hoofdstuk "01.01", dat onder "01" valt); zonder zo'n code komt
  * de rij onder het laatst geziene hoofdstuk.
  */
-export function buildFromMapping(data: TabularData, mapping: ColumnMapping): ImportResult {
+export function buildFromMapping(data: TabularData, mapping: ColumnMapping, options: BuildOptions = {}): ImportResult {
   const builder = new BudgetBuilder();
   const warnings: string[] = [];
 
@@ -304,14 +369,13 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
 
   // Excel-cellen zonder bruikbare waarde in een getalkolom: niet stil als
   // leeg/0 laten binnenkomen, maar met adres melden (#88).
-  const numberCols = new Set([cQty, cMat, cLab, cEq, cUp, cTot].filter((c) => c >= 0));
+  const numberCols = numberColumns(mapping);
   const issuesByRow = new Map<number, TabularCellIssue[]>();
   for (const issue of data.cellIssues ?? []) {
     if (!numberCols.has(issue.col)) continue;
     issuesByRow.set(issue.row, [...(issuesByRow.get(issue.row) ?? []), issue]);
   }
   const reportedIssues: TabularCellIssue[] = [];
-  const importedRows = new Set<number>();
 
   for (const [rowIndex, row] of data.rows.entries()) {
     if (row.every((c) => !c || !c.trim())) continue;
@@ -319,7 +383,6 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
     const description = cell(row, cDesc);
     const code = cell(row, cCode);
     if (!description && !code) continue;
-    importedRows.add(rowIndex);
     const rowIssues = issuesByRow.get(rowIndex) ?? [];
     reportedIssues.push(...rowIssues);
 
@@ -438,19 +501,36 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
   if (invalidCount > 0) {
     warnings.push(uiText('diagnostics.unreadableNumbers', '{{count}} values could not be read as a number and were imported as 0 (for example "{{example}}").', { count: invalidCount, example: invalidExample }));
   }
-  // Boven het maximum per kolom kennen we alleen de rij; tel die van
-  // geïmporteerde regels mee.
-  const overflow = [...numberCols].reduce((sum, c) => sum + (data.cellIssuesOverflow?.[c] ?? []).filter((r) => importedRows.has(r)).length, 0);
-  const issueCount = reportedIssues.length + overflow;
+  // Boven het maximum per kolom kennen we alleen de rij; die telt wel mee.
+  const summary = summarizeCells(data, mapping);
+  const issueCount = summary.unusableCells;
+  const columnName = (col: number) => data.headers[col] || '?';
   if (issueCount > 0) {
     const describe = (issue: TabularCellIssue) => {
-      const column = data.headers[issue.col] || '?';
+      const column = columnName(issue.col);
       return issue.kind === 'error' ? `${issue.address} ${issue.text} (${column})` : `${issue.address} (${column})`;
     };
     const shown = reportedIssues.slice(0, 5).map(describe);
     if (issueCount > shown.length) shown.push('…');
     warnings.push(uiText('diagnostics.formulaCellsWithoutValue', 'Cells in number columns without a usable value were imported as empty ({{count}}): {{cells}}. They contain a formula that was never calculated in Excel, or an Excel error. Open the file in Excel, correct the errors or recalculate (F9), save it and import again.', { count: issueCount, cells: shown.join(', ') }));
   }
+  if (summary.formulaValues > 0 && !options.formulaValuesReviewed) {
+    warnings.push(uiText('diagnostics.formulaValuesStored', 'Values from Excel formulas: {{count}}. These are the results last saved in Excel; they were imported as they are and not recalculated.', { count: summary.formulaValues }));
+  }
+  // Dezelfde informatie gestructureerd, voor aanroepers zonder UI (SDK, MCP).
+  const cellDiagnostics: ImportCellDiagnostics | undefined = summary.formulaValues > 0 || issueCount > 0
+    ? {
+      formulaValues: summary.formulaValues,
+      unusableCells: issueCount,
+      cells: reportedIssues.map((issue) => ({
+        address: issue.address,
+        field: mapping[issue.col],
+        column: columnName(issue.col),
+        kind: issue.kind,
+        ...(issue.text ? { text: issue.text } : {}),
+      })),
+    }
+    : undefined;
 
   return {
     // Alleen bij precies één valuta; bij gemengde valuta's blijft de standaard
@@ -459,5 +539,6 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping): Imp
     items: builder.items,
     warnings,
     format: 'tabular',
+    ...(cellDiagnostics ? { cellDiagnostics } : {}),
   };
 }

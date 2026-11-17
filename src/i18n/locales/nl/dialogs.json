@@ -7,6 +7,8 @@
     "columnsLinked_other": "{{count}} kolommen gekoppeld",
     "rows": "{{count}} rijen",
     "linkDescriptionFirst": "koppel eerst een “Omschrijving”-kolom",
+    "formulaValues": "Waarden uit Excel-formules in de gekoppelde getalkolommen: {{count}}. Dit zijn de uitkomsten die Excel het laatst heeft opgeslagen; ze worden overgenomen zoals ze zijn en niet herberekend.",
+    "unusableCells": "Cellen zonder bruikbare waarde in de gekoppelde getalkolommen: {{count}} (een Excel-fout, of een formule die nooit in Excel is berekend). Ze komen leeg binnen.",
     "cancel": "Annuleren",
     "import": "Importeren",
     "fields": {

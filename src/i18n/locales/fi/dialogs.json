@@ -7,6 +7,8 @@
     "columnsLinked_other": "{{count}} saraketta yhdistetty",
     "rows": "{{count}} riviä",
     "linkDescriptionFirst": "yhdistä ensin ”Kuvaus”-sarake",
+    "formulaValues": "Arvoja Excel-kaavoista yhdistetyissä numerosarakkeissa: {{count}}. Nämä ovat Excelin viimeksi tallentamat tulokset; ne tuodaan sellaisenaan eikä niitä lasketa uudelleen.",
+    "unusableCells": "Soluja ilman käyttökelpoista arvoa yhdistetyissä numerosarakkeissa: {{count}} (Excel-virhe tai kaava, jota ei ole koskaan laskettu Excelissä). Ne tuodaan tyhjinä.",
     "cancel": "Peruuta",
     "import": "Tuo",
     "fields": {

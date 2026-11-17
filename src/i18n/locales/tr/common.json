@@ -938,6 +938,7 @@
       "currencyNotInFormat": "{{format}} biçiminde para birimi alanı yoktur; alıcı bu tutarları avro olarak okur. Bu keşif {{currency}} cinsindendir; tutarlar dönüştürülmedi.",
       "unreadableNumbers": "{{count}} değer sayı olarak okunamadı ve 0 olarak içe aktarıldı (örneğin \"{{example}}\").",
       "formulaCellsWithoutValue": "Sayı sütunlarındaki kullanılabilir değeri olmayan hücreler boş olarak içe aktarıldı ({{count}}): {{cells}}. Bu hücreler Excel'de hiç hesaplanmamış bir formül veya bir Excel hatası içeriyor. Dosyayı Excel'de açın, hataları düzeltin veya yeniden hesaplayın (F9), kaydedin ve tekrar içe aktarın.",
+      "formulaValuesStored": "Excel formüllerinden gelen değerler: {{count}}. Bunlar Excel’in en son kaydettiği sonuçlardır; olduğu gibi aktarıldı ve yeniden hesaplanmadı.",
       "xmlError": "XML ayrıştırma hatası: {{message}} (satır {{line}})",
       "xml": {
         "entity": "Bilinmeyen varlık {{p0}}",

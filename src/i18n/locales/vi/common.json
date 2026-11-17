@@ -938,6 +938,7 @@
       "currencyNotInFormat": "{{format}} không có trường tiền tệ, nên bên nhận sẽ hiểu các số tiền này là euro. Dự toán này tính bằng {{currency}}; các số tiền không được quy đổi.",
       "unreadableNumbers": "{{count}} giá trị không đọc được dưới dạng số và đã được nhập là 0 (ví dụ \"{{example}}\").",
       "formulaCellsWithoutValue": "Các ô trong cột số không có giá trị dùng được đã được nhập dưới dạng trống ({{count}}): {{cells}}. Chúng chứa công thức chưa từng được tính trong Excel, hoặc lỗi Excel. Hãy mở tệp trong Excel, sửa lỗi hoặc tính lại (F9), lưu rồi nhập lại.",
+      "formulaValuesStored": "Giá trị từ công thức Excel: {{count}}. Đây là các kết quả Excel lưu lần cuối; chúng được lấy nguyên trạng và không được tính lại.",
       "xmlError": "Lỗi phân tích XML: {{message}} (dòng {{line}})",
       "xml": {
         "entity": "Thực thể không xác định {{p0}}",

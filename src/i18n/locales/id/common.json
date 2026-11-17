@@ -938,6 +938,7 @@
       "currencyNotInFormat": "{{format}} tidak memiliki kolom mata uang, sehingga penerima akan membaca jumlah ini sebagai euro. Estimasi ini dalam {{currency}}; jumlahnya tidak dikonversi.",
       "unreadableNumbers": "{{count}} nilai tidak dapat dibaca sebagai angka dan diimpor sebagai 0 (misalnya \"{{example}}\").",
       "formulaCellsWithoutValue": "Sel di kolom angka tanpa nilai yang dapat dipakai diimpor sebagai kosong ({{count}}): {{cells}}. Sel tersebut berisi rumus yang belum pernah dihitung di Excel, atau galat Excel. Buka file di Excel, perbaiki galat atau hitung ulang (F9), simpan, lalu impor lagi.",
+      "formulaValuesStored": "Nilai dari rumus Excel: {{count}}. Ini adalah hasil yang terakhir disimpan di Excel; diambil apa adanya dan tidak dihitung ulang.",
       "xmlError": "Kesalahan penguraian XML: {{message}} (baris {{line}})",
       "xml": {
         "entity": "Entitas {{p0}} tidak dikenal",

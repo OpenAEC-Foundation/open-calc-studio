@@ -940,6 +940,7 @@
       "currencyNotInFormat": "{{format}} nemá pole pro měnu, takže příjemce načte tyto částky jako eura. Tento rozpočet je v {{currency}}; částky nebyly přepočteny.",
       "unreadableNumbers": "{{count}} hodnot nebylo možné přečíst jako číslo a byly importovány jako 0 (například „{{example}}“).",
       "formulaCellsWithoutValue": "Buňky v číselných sloupcích bez použitelné hodnoty byly importovány jako prázdné ({{count}}): {{cells}}. Obsahují vzorec, který nebyl nikdy vypočten v Excelu, nebo chybu Excelu. Otevřete soubor v Excelu, opravte chyby nebo přepočítejte (F9), uložte ho a importujte znovu.",
+      "formulaValuesStored": "Hodnoty ze vzorců Excelu: {{count}}. Jde o výsledky naposledy uložené v Excelu; byly převzaty beze změny a nebyly přepočítány.",
       "xmlError": "Chyba při analýze XML: {{message}} (řádek {{line}})",
       "xml": {
         "entity": "Neznámá entita {{p0}}",

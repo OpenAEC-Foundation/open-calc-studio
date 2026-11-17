@@ -7,6 +7,8 @@
     "columnsLinked_other": "{{count}} colunas associadas",
     "rows": "{{count}} linhas",
     "linkDescriptionFirst": "associe primeiro uma coluna «Designação»",
+    "formulaValues": "Valores de fórmulas do Excel nas colunas numéricas associadas: {{count}}. São os últimos resultados guardados no Excel; são importados tal como estão, sem recálculo.",
+    "unusableCells": "Células sem valor utilizável nas colunas numéricas associadas: {{count}} (um erro do Excel ou uma fórmula nunca calculada no Excel). São importadas vazias.",
     "cancel": "Cancelar",
     "import": "Importar",
     "fields": {

@@ -9,6 +9,8 @@
     "columnsLinked_other": "{{count}} stĺpcov prepojených",
     "rows": "{{count}} riadkov",
     "linkDescriptionFirst": "najprv prepojte stĺpec „Popis“",
+    "formulaValues": "Hodnoty zo vzorcov Excelu v priradených číselných stĺpcoch: {{count}}. Ide o výsledky naposledy uložené v Exceli; prevezmú sa bez zmeny a neprepočítajú sa.",
+    "unusableCells": "Bunky bez použiteľnej hodnoty v priradených číselných stĺpcoch: {{count}} (chyba Excelu alebo vzorec, ktorý sa v Exceli nikdy nevypočítal). Importujú sa ako prázdne.",
     "cancel": "Zrušiť",
     "import": "Importovať",
     "fields": {

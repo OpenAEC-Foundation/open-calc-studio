@@ -7,6 +7,8 @@
     "columnsLinked_other": "{{count}} kolom tertaut",
     "rows": "{{count}} baris",
     "linkDescriptionFirst": "tautkan kolom “Uraian” terlebih dahulu",
+    "formulaValues": "Nilai dari rumus Excel di kolom angka yang ditautkan: {{count}}. Ini adalah hasil yang terakhir disimpan di Excel; diambil apa adanya dan tidak dihitung ulang.",
+    "unusableCells": "Sel tanpa nilai yang dapat digunakan di kolom angka yang ditautkan: {{count}} (kesalahan Excel, atau rumus yang tidak pernah dihitung di Excel). Sel ini diimpor kosong.",
     "cancel": "Batal",
     "import": "Impor",
     "fields": {

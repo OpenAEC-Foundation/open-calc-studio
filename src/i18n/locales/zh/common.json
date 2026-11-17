@@ -938,6 +938,7 @@
       "currencyNotInFormat": "{{format}} 没有货币字段，接收方会把这些金额读作欧元。此预算的货币为 {{currency}}；金额未经换算。",
       "unreadableNumbers": "有 {{count}} 个值无法读取为数字，已按 0 导入（例如“{{example}}”）。",
       "formulaCellsWithoutValue": "数字列中没有可用值的单元格已作为空值导入（{{count}}）：{{cells}}。这些单元格包含从未在 Excel 中计算过的公式，或 Excel 错误。请在 Excel 中打开文件，修正错误或重新计算 (F9) 后保存，然后重新导入。",
+      "formulaValuesStored": "来自 Excel 公式的值：{{count}}。这些是 Excel 最后保存的结果，已按原样导入，未重新计算。",
       "xmlError": "XML 解析错误：{{message}}（第 {{line}} 行）",
       "xml": {
         "entity": "未知实体 {{p0}}",

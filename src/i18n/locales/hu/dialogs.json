@@ -7,6 +7,8 @@
     "columnsLinked_other": "{{count}} oszlop párosítva",
     "rows": "{{count}} sor",
     "linkDescriptionFirst": "előbb párosítson egy „Megnevezés” oszlopot",
+    "formulaValues": "Excel-képletekből származó értékek a hozzárendelt számoszlopokban: {{count}}. Ezek az Excelben utoljára mentett eredmények; változatlanul kerülnek át, újraszámítás nélkül.",
+    "unusableCells": "Használható érték nélküli cellák a hozzárendelt számoszlopokban: {{count}} (Excel-hiba, vagy az Excelben soha ki nem számított képlet). Üresen kerülnek importálásra.",
     "cancel": "Mégse",
     "import": "Importálás",
     "fields": {

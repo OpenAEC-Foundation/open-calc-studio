@@ -7,6 +7,8 @@
     "columnsLinked_other": "{{count}} kolonner tilknyttet",
     "rows": "{{count}} linjer",
     "linkDescriptionFirst": "tilknyt først en “Beskrivelse”-kolonne",
+    "formulaValues": "Værdier fra Excel-formler i de tilknyttede talkolonner: {{count}}. Det er de resultater, Excel sidst gemte; de overtages uændret og genberegnes ikke.",
+    "unusableCells": "Celler uden brugbar værdi i de tilknyttede talkolonner: {{count}} (en Excel-fejl eller en formel, der aldrig er beregnet i Excel). De importeres tomme.",
     "cancel": "Annuller",
     "import": "Importér",
     "fields": {

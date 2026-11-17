@@ -4,6 +4,7 @@ import Modal from '../common/Modal';
 import {
   TARGET_FIELDS,
   autoDetectMapping,
+  summarizeCells,
   type ColumnMapping,
   type TabularData,
   type TargetField,
@@ -46,6 +47,12 @@ export default function ColumnMappingDialog({ open, data, onClose, onConfirm }: 
 
   const mappedCount = useMemo(() => mapping.filter((m) => m !== 'ignore').length, [mapping]);
   const hasDescription = mapping.includes('description');
+  // Vóór het importeren laten zien welke getallen opgeslagen Excel-uitkomsten
+  // zijn en welke cellen geen bruikbare waarde hebben; dat volgt de koppeling (#88).
+  const cellSummary = useMemo(
+    () => (data ? summarizeCells(data, mapping) : { formulaValues: 0, unusableCells: 0 }),
+    [data, mapping],
+  );
 
   if (!data) return null;
   const previewRows = data.rows.slice(0, PREVIEW_ROWS);
@@ -93,6 +100,16 @@ export default function ColumnMappingDialog({ open, data, onClose, onConfirm }: 
             </tbody>
           </table>
         </div>
+        {(cellSummary.formulaValues > 0 || cellSummary.unusableCells > 0) && (
+          <div className="cmd-notice" role="status">
+            {cellSummary.formulaValues > 0 && (
+              <p className="cmd-notice-formulas">{t('columnMapping.formulaValues', { count: cellSummary.formulaValues })}</p>
+            )}
+            {cellSummary.unusableCells > 0 && (
+              <p className="cmd-notice-unusable">{t('columnMapping.unusableCells', { count: cellSummary.unusableCells })}</p>
+            )}
+          </div>
+        )}
         <div className="cmd-footer">
           <span className="cmd-status">
             {t('columnMapping.columnsLinked', { count: mappedCount })} · {t('columnMapping.rows', { count: data.rows.length })}

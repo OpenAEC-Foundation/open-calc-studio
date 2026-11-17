@@ -7,6 +7,8 @@
     "columnsLinked_other": "{{count}} sütun eşleştirildi",
     "rows": "{{count}} satır",
     "linkDescriptionFirst": "önce bir “Açıklama” sütunu eşleştirin",
+    "formulaValues": "Bağlı sayı sütunlarında Excel formüllerinden gelen değerler: {{count}}. Bunlar Excel’in en son kaydettiği sonuçlardır; olduğu gibi aktarılır ve yeniden hesaplanmaz.",
+    "unusableCells": "Bağlı sayı sütunlarında kullanılabilir değeri olmayan hücreler: {{count}} (bir Excel hatası veya Excel’de hiç hesaplanmamış bir formül). Boş olarak içe aktarılır.",
     "cancel": "İptal",
     "import": "İçe aktar",
     "fields": {

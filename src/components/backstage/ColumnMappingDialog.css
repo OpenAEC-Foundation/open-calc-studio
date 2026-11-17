@@ -95,6 +95,16 @@
 }
 .cmd-warn { color: var(--theme-danger-color, #dc2626); font-weight: 500; }
 
+/* #88: opgeslagen formule-uitkomsten en cellen zonder waarde, vóór het importeren. */
+.cmd-notice {
+  padding: 8px 16px;
+  border-top: 1px solid var(--theme-dialog-border);
+  font-size: 12px;
+  color: var(--theme-text-secondary);
+}
+.cmd-notice p { margin: 2px 0; }
+.cmd-notice-unusable { color: var(--theme-danger-color, #dc2626); }
+
 .cmd-actions { display: flex; gap: 8px; }
 
 .cmd-btn {

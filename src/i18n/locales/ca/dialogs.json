@@ -7,6 +7,8 @@
     "columnsLinked_other": "{{count}} columnes enllaçades",
     "rows": "{{count}} files",
     "linkDescriptionFirst": "enllaceu primer una columna «Descripció»",
+    "formulaValues": "Valors de fórmules d’Excel a les columnes numèriques vinculades: {{count}}. Són els últims resultats desats a Excel; s’importen tal com són, sense recalcular.",
+    "unusableCells": "Cel·les sense un valor utilitzable a les columnes numèriques vinculades: {{count}} (un error d’Excel o una fórmula mai calculada a Excel). S’importen buides.",
     "cancel": "Cancel·la",
     "import": "Importa",
     "fields": {

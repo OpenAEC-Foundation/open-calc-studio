@@ -7,6 +7,8 @@
     "columnsLinked_other": "{{count}} 列を対応付け済み",
     "rows": "{{count}} 行",
     "linkDescriptionFirst": "先に「名称」列を対応付けてください",
+    "formulaValues": "リンクした数値列にある Excel の数式による値: {{count}}。これらは Excel で最後に保存された結果で、そのまま取り込まれ、再計算されません。",
+    "unusableCells": "リンクした数値列にある、使用できる値のないセル: {{count}}（Excel のエラー、または Excel で一度も計算されていない数式）。空として取り込まれます。",
     "cancel": "キャンセル",
     "import": "インポート",
     "fields": {

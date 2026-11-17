@@ -15,7 +15,8 @@ export {
   parseXlsxTabular,
   autoDetectMapping,
   buildFromMapping,
+  summarizeCells,
   TARGET_FIELDS,
 } from './genericTabularImporter';
-export type { TargetField, ColumnMapping, TabularData, TabularCellIssue } from './genericTabularImporter';
-export type { ImportResult } from './types';
+export type { TargetField, ColumnMapping, TabularData, TabularCellIssue, TabularCellSummary, BuildOptions } from './genericTabularImporter';
+export type { ImportResult, ImportCellDiagnostic, ImportCellDiagnostics } from './types';

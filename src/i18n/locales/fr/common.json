@@ -938,6 +938,7 @@
       "currencyNotInFormat": "{{format}} n'a pas de champ devise : le destinataire lira ces montants en euros. Ce devis est en {{currency}} ; les montants n'ont pas été convertis.",
       "unreadableNumbers": "{{count}} valeurs n'ont pas pu être lues comme des nombres et ont été importées comme 0 (par exemple « {{example}} »).",
       "formulaCellsWithoutValue": "Des cellules de colonnes numériques sans valeur utilisable ont été importées vides ({{count}}) : {{cells}}. Elles contiennent une formule jamais calculée dans Excel, ou une erreur Excel. Ouvrez le fichier dans Excel, corrigez les erreurs ou recalculez (F9), enregistrez-le et importez-le à nouveau.",
+      "formulaValuesStored": "Valeurs issues de formules Excel : {{count}}. Ce sont les derniers résultats enregistrés dans Excel ; ils ont été repris tels quels, sans recalcul.",
       "xmlError": "Erreur d'analyse XML : {{message}} (ligne {{line}})",
       "xml": {
         "entity": "Entité inconnue {{p0}}",

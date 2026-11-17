@@ -7,6 +7,8 @@
     "columnsLinked_other": "{{count}} lajur dipautkan",
     "rows": "{{count}} baris",
     "linkDescriptionFirst": "pautkan lajur “Huraian” terlebih dahulu",
+    "formulaValues": "Nilai daripada formula Excel dalam lajur nombor yang dipautkan: {{count}}. Ini ialah keputusan yang terakhir disimpan dalam Excel; ia diambil seadanya dan tidak dikira semula.",
+    "unusableCells": "Sel tanpa nilai yang boleh digunakan dalam lajur nombor yang dipautkan: {{count}} (ralat Excel, atau formula yang tidak pernah dikira dalam Excel). Ia diimport kosong.",
     "cancel": "Batal",
     "import": "Import",
     "fields": {

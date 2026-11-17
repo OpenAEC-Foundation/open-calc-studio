@@ -7,6 +7,8 @@
     "columnsLinked_other": "{{count}}개 열 연결됨",
     "rows": "{{count}}행",
     "linkDescriptionFirst": "먼저 “명칭” 열을 연결하세요",
+    "formulaValues": "연결된 숫자 열에 있는 Excel 수식에서 온 값: {{count}}. Excel에서 마지막으로 저장된 결과이며, 그대로 가져오고 다시 계산하지 않습니다.",
+    "unusableCells": "연결된 숫자 열에서 사용할 수 있는 값이 없는 셀: {{count}} (Excel 오류 또는 Excel에서 한 번도 계산되지 않은 수식). 빈 값으로 가져옵니다.",
     "cancel": "취소",
     "import": "가져오기",
     "fields": {

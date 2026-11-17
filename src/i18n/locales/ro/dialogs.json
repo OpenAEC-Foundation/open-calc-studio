@@ -8,6 +8,8 @@
     "columnsLinked_other": "{{count}} de coloane asociate",
     "rows": "{{count}} rânduri",
     "linkDescriptionFirst": "asociați mai întâi o coloană „Denumire”",
+    "formulaValues": "Valori din formule Excel în coloanele numerice asociate: {{count}}. Sunt ultimele rezultate salvate în Excel; sunt importate ca atare, fără recalculare.",
+    "unusableCells": "Celule fără o valoare utilizabilă în coloanele numerice asociate: {{count}} (o eroare Excel sau o formulă necalculată niciodată în Excel). Sunt importate goale.",
     "cancel": "Anulare",
     "import": "Import",
     "fields": {

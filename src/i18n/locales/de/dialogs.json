@@ -7,6 +7,8 @@
     "columnsLinked_other": "{{count}} Spalten zugeordnet",
     "rows": "{{count}} Zeilen",
     "linkDescriptionFirst": "zuerst eine Spalte „Beschreibung“ zuordnen",
+    "formulaValues": "Werte aus Excel-Formeln in den zugeordneten Zahlenspalten: {{count}}. Das sind die zuletzt in Excel gespeicherten Ergebnisse; sie werden unverändert übernommen und nicht neu berechnet.",
+    "unusableCells": "Zellen ohne verwendbaren Wert in den zugeordneten Zahlenspalten: {{count}} (ein Excel-Fehler oder eine Formel, die nie in Excel berechnet wurde). Sie werden leer importiert.",
     "cancel": "Abbrechen",
     "import": "Importieren",
     "fields": {

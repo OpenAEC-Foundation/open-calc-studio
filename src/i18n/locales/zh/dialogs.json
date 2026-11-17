@@ -7,6 +7,8 @@
     "columnsLinked_other": "已匹配 {{count}} 列",
     "rows": "{{count}} 行",
     "linkDescriptionFirst": "请先匹配一个“名称”列",
+    "formulaValues": "已关联数字列中来自 Excel 公式的值：{{count}}。这些是 Excel 最后保存的结果，将按原样导入，不会重新计算。",
+    "unusableCells": "已关联数字列中没有可用值的单元格：{{count}}（Excel 错误，或从未在 Excel 中计算过的公式）。这些单元格将以空值导入。",
     "cancel": "取消",
     "import": "导入",
     "fields": {
