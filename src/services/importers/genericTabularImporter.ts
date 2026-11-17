@@ -257,6 +257,25 @@ function numberColumns(mapping: ColumnMapping): Set<number> {
   return new Set(NUMBER_FIELDS.map((field) => mapping.indexOf(field)).filter((col) => col >= 0));
 }
 
+/**
+ * Welke getalkolommen de opbouw voor een rij werkelijk gebruikt. Hoeveelheid,
+ * materiaal, arbeid en materieel altijd; de eenheidsprijs alleen zonder
+ * materiaal/arbeid; het totaal alleen als ook de eenheidsprijs leeg is. Een
+ * Totaal-kolom vol formules (=B2*C2) naast een eenheidsprijs telt dus niet:
+ * die uitkomst komt nooit in de begroting.
+ */
+function usedColumnsTest(mapping: ColumnMapping): (row: string[], col: number) => boolean {
+  const [cQty, cMat, cLab, cEq, cUp, cTot] = NUMBER_FIELDS.map((field) => mapping.indexOf(field));
+  const filled = (row: string[], idx: number) => idx >= 0 && (row[idx] ?? '').trim() !== '';
+  return (row, col) => {
+    if (col < 0) return false;
+    if (col === cQty || col === cMat || col === cLab || col === cEq) return true;
+    if (filled(row, cMat) || filled(row, cLab)) return false;
+    if (col === cUp) return true;
+    return col === cTot && !filled(row, cUp);
+  };
+}
+
 /** Een rij wordt geïmporteerd als hij niet leeg is en een omschrijving of code heeft. */
 function importedRowTest(mapping: ColumnMapping): (row: string[] | undefined) => boolean {
   const filled = (row: string[], idx: number) => idx >= 0 && (row[idx] ?? '').trim() !== '';
@@ -280,7 +299,9 @@ export interface TabularCellSummary {
 export function summarizeCells(data: TabularData, mapping: ColumnMapping): TabularCellSummary {
   const cols = numberColumns(mapping);
   const imported = importedRowTest(mapping);
-  const rowImported = (r: number) => imported(data.rows[r]);
+  const used = usedColumnsTest(mapping);
+  // Telt alleen op regels die geïmporteerd worden, in een kolom die die regel gebruikt.
+  const counts = (r: number, c: number) => imported(data.rows[r]) && used(data.rows[r], c);
   // Alleen een formule die een getal oplevert telt: =ALS(…;"";…) geeft een
   // lege cel en tekst als "n.v.t." komt als onleesbaar getal al apart in beeld.
   const isNumber = (r: number, c: number) => {
@@ -290,11 +311,11 @@ export function summarizeCells(data: TabularData, mapping: ColumnMapping): Tabul
   let formulaValues = 0;
   let unusableCells = 0;
   for (const c of cols) {
-    formulaValues += (data.formulaCells?.[c] ?? []).filter((r) => rowImported(r) && isNumber(r, c)).length;
-    unusableCells += (data.cellIssuesOverflow?.[c] ?? []).filter(rowImported).length;
+    formulaValues += (data.formulaCells?.[c] ?? []).filter((r) => counts(r, c) && isNumber(r, c)).length;
+    unusableCells += (data.cellIssuesOverflow?.[c] ?? []).filter((r) => counts(r, c)).length;
   }
   for (const issue of data.cellIssues ?? []) {
-    if (cols.has(issue.col) && rowImported(issue.row)) unusableCells += 1;
+    if (cols.has(issue.col) && counts(issue.row, issue.col)) unusableCells += 1;
   }
   return { formulaValues, unusableCells };
 }
@@ -374,10 +395,13 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping, opti
 
   // Excel-cellen zonder bruikbare waarde in een getalkolom: niet stil als
   // leeg/0 laten binnenkomen, maar met adres melden (#88).
+  // Alleen kolommen die de regel gebruikt (zie usedColumnsTest), net als summarizeCells.
   const numberCols = numberColumns(mapping);
+  const usedColumn = usedColumnsTest(mapping);
   const issuesByRow = new Map<number, TabularCellIssue[]>();
   for (const issue of data.cellIssues ?? []) {
     if (!numberCols.has(issue.col)) continue;
+    if (!usedColumn(data.rows[issue.row] ?? [], issue.col)) continue;
     issuesByRow.set(issue.row, [...(issuesByRow.get(issue.row) ?? []), issue]);
   }
   const reportedIssues: TabularCellIssue[] = [];

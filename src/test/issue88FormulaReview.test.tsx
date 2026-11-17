@@ -73,6 +73,25 @@ describe('#88 formule-uitkomsten in de import', () => {
     expect(summarizeCells(data, autoDetectMapping(data.headers)).formulaValues).toBe(1);
   });
 
+  it('telt een Totaal-formule niet als de import de eenheidsprijs gebruikt', () => {
+    // Hoeveelheid × eenheidsprijs met een Totaal =B2*C2 (opgeslagen uitkomst
+    // verouderd: 999). De post wordt 20; de formule komt nergens in de begroting.
+    const cells: Cells = {
+      A1: { t: 's', v: 'Omschrijving' }, B1: { t: 's', v: 'Hoeveelheid' }, C1: { t: 's', v: 'Eenheidsprijs' }, D1: { t: 's', v: 'Totaal' },
+      A2: { t: 's', v: 'Beton' }, B2: { t: 'n', v: 2 }, C2: { t: 'n', v: 10 }, D2: { t: 'n', v: 999, f: 'B2*C2' },
+      A3: { t: 's', v: 'Staal' }, B3: { t: 'n', v: 1 }, C3: { t: 'n', v: 5 }, D3: { t: 'e', v: 0x17, w: '#REF!', f: 'B3*#REF!' },
+      A4: { t: 's', v: 'Post' }, D4: { t: 'n', v: 40, f: '4*10' },
+    };
+    const data = parseXlsxTabular(xlsx(cells, 'A1:D4'), 'test');
+    const mapping = autoDetectMapping(data.headers);
+    expect(mapping).toEqual(['description', 'quantity', 'unitPrice', 'total']);
+    // Alleen D4 telt: die regel heeft geen eenheidsprijs, dus het totaal wordt gebruikt.
+    expect(summarizeCells(data, mapping)).toEqual({ formulaValues: 1, unusableCells: 0 });
+    const result = buildFromMapping(data, mapping);
+    expect(result.cellDiagnostics?.cells).toEqual([]);
+    expect(result.warnings.filter((w) => /usable value/.test(w))).toEqual([]);
+  });
+
   it('telt bij een dubbel gekoppeld veld alleen de kolom die de import gebruikt', () => {
     const data = parsedMixed();
     // Kolom C ook als hoeveelheid: de import gebruikt alleen kolom B.
