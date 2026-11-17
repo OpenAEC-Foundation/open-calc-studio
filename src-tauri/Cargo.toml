@@ -63,8 +63,9 @@ rand = "0.8"
 keyring = { version = "3", features = ["windows-native"] }
 
 [dev-dependencies]
-# Reads the PDF content in the report tests (issue #99); already in the tree via printpdf.
-lopdf = "0.31"
+# Reads the PDF content in the report tests (issue #99); already in the tree via
+# printpdf. Same parser feature as printpdf, so tests run the shipped code path.
+lopdf = { version = "0.31", default-features = false, features = ["pom_parser"] }
 
 [target.'cfg(target_os = "macos")'.dependencies]
 keyring = { version = "3", features = ["apple-native"] }

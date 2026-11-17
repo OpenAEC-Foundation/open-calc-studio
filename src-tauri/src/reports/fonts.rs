@@ -28,14 +28,14 @@ pub(crate) fn typst_fonts() -> [&'static [u8]; 4] {
     [REGULAR, BOLD, ITALIC, BOLD_ITALIC]
 }
 
-/// Font names the openaec-layout reports and the offerte ask for. "Inter*"
-/// are the names the report code has always used; they now map to Liberation
-/// Sans as well. Same order as `typst_fonts()`.
+/// Font names in the openaec-layout registry, with their aliases. The reports
+/// and openaec-layout's default styles ask for "LiberationSans" and
+/// "LiberationSans-Bold" etc. Same order as `typst_fonts()`.
 const LAYOUT_NAMES: [(&str, &[&str]); 4] = [
-    ("LiberationSans-Regular", &["LiberationSans", "Inter"]),
-    ("LiberationSans-Bold", &["Inter-Bold"]),
-    ("LiberationSans-Italic", &["Inter-Italic"]),
-    ("LiberationSans-BoldItalic", &["Inter-BoldItalic"]),
+    ("LiberationSans-Regular", &["LiberationSans"]),
+    ("LiberationSans-Bold", &[]),
+    ("LiberationSans-Italic", &[]),
+    ("LiberationSans-BoldItalic", &[]),
 ];
 
 /// Register the built-in fonts in an openaec-layout font registry.
@@ -51,9 +51,11 @@ pub(crate) fn register_layout_fonts(fonts: &SharedFontRegistry) -> Result<(), St
     Ok(())
 }
 
-/// Typst only warns when a font family is missing and then leaves the text
-/// out. Treat that as an error, so a report never comes out without text.
-/// Pass the messages of `compiled.warnings`.
+/// Typst only warns when a template asks for a font family that is not built
+/// in, and then silently uses another font (or, with no fonts at all, leaves
+/// the text out). Treat that as an error, so a template typo is caught by the
+/// tests instead of changing the look of a report. Pass the messages of
+/// `compiled.warnings`.
 pub(crate) fn reject_missing_fonts<'a>(
     warnings: impl IntoIterator<Item = &'a str>,
 ) -> Result<(), String> {
@@ -121,12 +123,25 @@ mod tests {
                 .unwrap_or_else(|e| panic!("{view}: {e}"));
             assert!(text_operations(&pdf) > 5, "{view}: PDF has no text");
         }
+        // The directiebegroting runs through the IBIS template in the app.
+        let pdf = crate::reports::ibis::generate_ibis_typst(&request("directie")).expect("directie");
+        assert!(text_operations(&pdf) > 5, "directie: PDF has no text");
     }
 
     #[test]
     fn missing_typst_font_is_an_error() {
-        assert!(reject_missing_fonts(["unknown font family: arial"]).is_err());
         assert!(reject_missing_fonts(["some other warning"]).is_ok());
+        // Compile for real, so a change in Typst's wording is noticed.
+        let engine = typst_as_lib::TypstEngine::builder()
+            .main_file("#set text(font: \"Nope\")
+Hallo")
+            .fonts(typst_fonts())
+            .build();
+        let compiled = engine.compile();
+        let messages: Vec<String> = compiled.warnings.iter().map(|w| w.message.to_string()).collect();
+        let doc = compiled.output.expect("compiles");
+        typst_pdf::pdf(&doc, &typst_pdf::PdfOptions::default()).expect("PDF");
+        assert!(reject_missing_fonts(messages.iter().map(String::as_str)).is_err(), "{messages:?}");
     }
 
     /// The reports must not depend on fonts installed on the computer.
@@ -144,16 +159,14 @@ mod tests {
         }
     }
 
+    /// The names generator.rs, offerte.rs and openaec-layout's defaults use.
     #[test]
     fn every_layout_font_name_resolves() {
         let fonts = shared_font_registry();
         register_layout_fonts(&fonts).unwrap();
         let reg = fonts.lock().unwrap();
-        for (name, aliases) in LAYOUT_NAMES {
+        for name in ["LiberationSans", "LiberationSans-Regular", "LiberationSans-Bold", "LiberationSans-Italic", "LiberationSans-BoldItalic"] {
             assert!(reg.get(name).is_some(), "{name} not registered");
-            for alias in aliases {
-                assert!(reg.get(alias).is_some(), "{alias} not registered");
-            }
         }
     }
 }

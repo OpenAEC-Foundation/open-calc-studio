@@ -22,6 +22,8 @@ const binary = [windows ? 'open-calc-studio.exe' : 'open-calc-studio', windows ?
 if (!existsSync(library) || !binary) throw Error(`Build the library and executable first: ${source}`);
 mkdirSync(output, { recursive: true });
 copyNotices(output);
+// The Rust binary embeds Liberation Sans for the PDF reports (issue #99); its OFL licence must ship with it.
+if (!existsSync(join(output, 'licenses/LICENSE-Liberation'))) throw Error('licenses/LICENSE-Liberation missing: check out the libs/openaec-reports submodule.');
 if (existsSync(join(root, 'dist/THIRD-PARTY-NOTICES.txt'))) copyFileSync(join(root, 'dist/THIRD-PARTY-NOTICES.txt'), join(output, 'THIRD-PARTY-NOTICES.txt'));
 copyFileSync(library, join(output, libraryName));
 copyFileSync(binary, join(output, windows ? 'OpenCalcStudio.exe' : 'OpenCalcStudio'));

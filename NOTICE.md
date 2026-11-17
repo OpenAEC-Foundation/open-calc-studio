@@ -19,7 +19,8 @@ De B2-iconen zijn niet overgenomen: hun upstreamlicentie is nog niet vastgesteld
 De PDF-rapporten van de desktopapp bevatten Liberation Sans (normaal, vet,
 cursief en vet cursief), ingebouwd vanuit
 `libs/openaec-reports/src/openaec_reports/assets/fonts/`. Liberation Sans valt
-onder de SIL Open Font License 1.1; zie `LICENSE-Liberation` in die map.
+onder de SIL Open Font License 1.1; de licentietekst staat in de broncode in die
+map en in de geleverde app in `licenses/LICENSE-Liberation`.
 
 JavaScript-, Rust- en systeembibliotheken behouden hun eigen licenties. De
 headless serverbuild schrijft een `THIRD-PARTY-NOTICES.txt` met de daadwerkelijk
