@@ -31,7 +31,11 @@ function resolveColumn(def: ColumnDef): GridColumn {
   };
 }
 
-/** UI-1: norm-gebaseerde kolommen (huidige layout) */
+/**
+ * UI-1: norm-gebaseerde kolommen. Eenheid staat direct na Aantal (issue #97):
+ * aantal en eenheid horen bij elkaar, net als in Simple, UI-2 en de
+ * inschrijfstaat.
+ */
 const GRID_COLUMN_DEFS: ColumnDef[] = [
   { key: 'sortIndex', labelKey: 'columns.id', width: 32, minWidth: 28, editable: false, type: 'computed', align: 'center' },
   { key: 'rowType', labelKey: 'columns.type', width: 62, minWidth: 50, editable: false, type: 'computed', align: 'center' },
@@ -39,10 +43,10 @@ const GRID_COLUMN_DEFS: ColumnDef[] = [
   { key: 'code', labelKey: 'columns.code', abbrKey: 'abbr.code', width: 42, minWidth: 32, editable: true, type: 'text', align: 'left' },
   { key: 'description', labelKey: 'columns.description', abbrKey: 'abbr.description', width: 380, minWidth: 120, editable: true, type: 'text', align: 'left' },
   { key: 'quantity', labelKey: 'columns.quantity', abbrKey: 'abbr.quantity', width: 80, minWidth: 50, editable: true, type: 'number', align: 'center', tooltipKey: 'tooltips.quantity' },
+  { key: 'unit', labelKey: 'columns.unit', abbrKey: 'abbr.unit', width: 55, minWidth: 45, editable: true, type: 'unit-select', align: 'center', tooltipKey: 'tooltips.unit' },
   { key: 'productienorm', labelKey: 'columns.productienorm', abbrKey: 'abbr.productienorm', width: 80, minWidth: 50, editable: true, type: 'number', align: 'center', tooltipKey: 'tooltips.productienorm' },
   { key: 'productiecapaciteit', labelKey: 'columns.productiecapaciteit', abbrKey: 'abbr.productiecapaciteit', width: 80, minWidth: 50, editable: true, type: 'number', align: 'center', tooltipKey: 'tooltips.productiecapaciteit' },
   { key: 'hoeveelheid', labelKey: 'columns.hoeveelheid', abbrKey: 'abbr.hoeveelheid', width: 90, minWidth: 60, editable: true, type: 'number', align: 'center', tooltipKey: 'tooltips.hoeveelheid' },
-  { key: 'unit', labelKey: 'columns.unit', abbrKey: 'abbr.unit', width: 55, minWidth: 45, editable: true, type: 'unit-select', align: 'center', tooltipKey: 'tooltips.unit' },
   { key: 'verrekenbaar', labelKey: 'columns.verrekenbaar', abbrKey: 'abbr.verrekenbaar', width: 32, minWidth: 28, editable: true, type: 'vn-select', align: 'center', tooltipKey: 'tooltips.verrekenbaar' },
   { key: 'normUnitPrice', labelKey: 'columns.normUnitPrice', abbrKey: 'abbr.normUnitPrice', width: 100, minWidth: 60, editable: true, type: 'currency', align: 'center', tooltipKey: 'tooltips.normUnitPrice' },
   { key: 'unitPrice', labelKey: 'columns.unitPrice', abbrKey: 'abbr.unitPrice', width: 100, minWidth: 60, editable: false, type: 'computed', align: 'center', tooltipKey: 'tooltips.unitPrice' },
@@ -174,6 +178,26 @@ export function isColumnHidden(
   colKey: string,
 ): boolean {
   return !!hiddenColumns[`${gridView}:${colKey}`];
+}
+
+/** Sleutel van een versleepte kolombreedte in ViewSlice.columnWidths. */
+export function columnWidthKey(gridView: string, colKey: string): string {
+  return `${gridView}:${colKey}`;
+}
+
+/**
+ * Breedte van een kolom in een weergave: de door de gebruiker versleepte
+ * breedte (opgeslagen per weergave + kolomsleutel, net als hiddenColumns),
+ * anders de standaardbreedte. Bewust niet op kolomindex: dan schuift een
+ * breedte naar een andere kolom zodra de volgorde wijzigt (issue #97), de
+ * vertakkingskolom wordt ingevoegd of Simple een andere kolomset toont.
+ */
+export function getColumnWidth(
+  columnWidths: Record<string, number>,
+  gridView: string,
+  col: Pick<GridColumn, 'key' | 'width'>,
+): number {
+  return columnWidths[columnWidthKey(gridView, col.key)] ?? col.width;
 }
 
 export const COST_UNITS = ['st', 'm', 'm²', 'm³', 'kg', 'ton', 'uur', 'dgn', 'km', 'keer', 'ls', 'week', 'mnd', 'post', '%', 'pm'] as const;

@@ -1,7 +1,7 @@
 import { getHostRoot, toHostCoords } from '@/lib/hostRoot';
 import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ROW_HEIGHT, getColumnsForView, hiddenByQuantityToggle, isColumnHidden } from './gridConstants';
+import { ROW_HEIGHT, getColumnWidth, getColumnsForView, hiddenByQuantityToggle, isColumnHidden } from './gridConstants';
 import { useAppStore } from '@/state/appStore';
 import { ColumnHeaderMenu } from './ColumnHeaderMenu';
 import type { GridColumn } from '@/types/costModel';
@@ -12,18 +12,14 @@ export const GridHeader: React.FC = () => {
   // getColumnsForView de labels in de nieuwe taal oplost.
   const { t } = useTranslation('grid');
   const gridView = useAppStore((s) => s.gridView);
-  const columnWidths = useAppStore((s) =>
-    s.gridView === 'wpcalc' ? s.wpcalcColumnWidths
-    : s.gridView === 'inschrijfstaat' ? s.inschrijfstaatColumnWidths
-    : s.columnWidths
-  );
+  const columnWidths = useAppStore((s) => s.columnWidths);
   const setColumnWidth = useAppStore((s) => s.setColumnWidth);
   const showHoeveelheid = useAppStore((s) => s.showHoeveelheid);
   const hiddenColumns = useAppStore((s) => s.hiddenColumns);
   const setColumnHidden = useAppStore((s) => s.setColumnHidden);
   const selectedColumns = useAppStore((s) => s.selectedColumns);
   const selectColumn = useAppStore((s) => s.selectColumn);
-  const resizing = useRef<{ index: number; startX: number; startWidth: number } | null>(null);
+  const resizing = useRef<{ column: GridColumn; startX: number; startWidth: number } | null>(null);
 
   const branchesEnabled = useAppStore((s) => s.schedule.branchesEnabled ?? false);
   const columns = getColumnsForView(gridView, branchesEnabled);
@@ -42,13 +38,14 @@ export const GridHeader: React.FC = () => {
     (e: React.MouseEvent, index: number) => {
       e.preventDefault();
       const startX = e.clientX;
-      const startWidth = columnWidths[index] ?? columns[index].width;
-      resizing.current = { index, startX, startWidth };
+      const column = columns[index];
+      const startWidth = getColumnWidth(columnWidths, gridView, column);
+      resizing.current = { column, startX, startWidth };
 
       const handleMouseMove = (me: MouseEvent) => {
         if (!resizing.current) return;
         const diff = me.clientX - resizing.current.startX;
-        setColumnWidth(resizing.current.index, resizing.current.startWidth + diff);
+        setColumnWidth(resizing.current.column, resizing.current.startWidth + diff);
       };
 
       const handleMouseUp = () => {
@@ -62,7 +59,7 @@ export const GridHeader: React.FC = () => {
       document.addEventListener('mouseup', handleMouseUp);
       getHostRoot().classList.add('cursor-col-resizing');
     },
-    [columnWidths, setColumnWidth, columns]
+    [columnWidths, setColumnWidth, columns, gridView]
   );
 
   /** Dubbelklik op het sleepbalkje: de kolom zo breed als de breedste tekst erin, zoals in Excel. */
@@ -85,7 +82,7 @@ export const GridHeader: React.FC = () => {
     ctx.font = `600 ${cs.fontSize} ${cs.fontFamily}`;
     widest = Math.max(widest, ctx.measureText(col.abbr ? `${col.label} (${col.abbr})` : col.label).width);
     const padding = 4 + 4 + 2; // celopvulling links en rechts, plus de rand
-    setColumnWidth(index, Math.min(600, Math.ceil(widest + padding)));
+    setColumnWidth(col, Math.min(600, Math.ceil(widest + padding)));
   }, [columns, setColumnWidth]);
 
   const zichtbareKeys = columns.filter((c) => !isHidden(c)).map((c) => c.key);
@@ -112,9 +109,9 @@ export const GridHeader: React.FC = () => {
   );
 
   const headerHeight = ROW_HEIGHT * 2;
-  const headerWidth = columns.reduce((s, col, i) => {
+  const headerWidth = columns.reduce((s, col) => {
     if (isHidden(col)) return s;
-    return s + (columnWidths[i] ?? col.width);
+    return s + getColumnWidth(columnWidths, gridView, col);
   }, 0);
   return (
     <div className="grid-header" style={{ height: headerHeight, width: headerWidth, minWidth: headerWidth }}>
@@ -128,7 +125,7 @@ export const GridHeader: React.FC = () => {
           <div
             key={col.key}
             className={`grid-header-cell${selectedColumns.includes(col.key) ? ' is-selected' : ''}`}
-            style={{ width: hidden ? 0 : (columnWidths[i] ?? col.width), padding: hidden ? 0 : undefined, borderRightWidth: hidden ? 0 : undefined, height: headerHeight, overflow: 'hidden', position: 'relative' }}
+            style={{ width: hidden ? 0 : getColumnWidth(columnWidths, gridView, col), padding: hidden ? 0 : undefined, borderRightWidth: hidden ? 0 : undefined, height: headerHeight, overflow: 'hidden', position: 'relative' }}
             title={col.tooltip}
             onClick={(e) => handleHeaderClick(e, col)}
             onContextMenu={(e) => handleContextMenu(e, col)}

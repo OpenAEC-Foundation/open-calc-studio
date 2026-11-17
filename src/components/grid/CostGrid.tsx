@@ -11,7 +11,7 @@ import { useGridVirtualizer } from './useGridVirtualizer';
 import { useGridNavigation } from './useGridNavigation';
 import { useGridEditing } from './useGridEditing';
 import { useAppStore } from '@/state/appStore';
-import { ROW_HEIGHT, getColumnsForView, hiddenByQuantityToggle, isCellEditable, isColumnHidden, isHoursColumn } from './gridConstants';
+import { ROW_HEIGHT, getColumnWidth, getColumnsForView, hiddenByQuantityToggle, isCellEditable, isColumnHidden, isHoursColumn } from './gridConstants';
 import { getGrandTotal } from '@/services/calculation/calculator';
 import { isFooterRow, computeParentIds } from '@/services/grid/gridRows';
 import { computeResourceTotals } from '@/services/grid/resourceTotals';
@@ -71,11 +71,7 @@ export const CostGrid: React.FC = () => {
   const isDraggingRef = useRef(false);
 
   const gridView = useAppStore((s) => s.gridView);
-  const columnWidths = useAppStore((s) =>
-    s.gridView === 'wpcalc' ? s.wpcalcColumnWidths
-    : s.gridView === 'inschrijfstaat' ? s.inschrijfstaatColumnWidths
-    : s.columnWidths
-  );
+  const columnWidths = useAppStore((s) => s.columnWidths);
 
   const branchesEnabled = useAppStore(s => s.schedule.branchesEnabled ?? false);
   // i18n.language in de deps: bij taalwissel opnieuw oplossen zodat
@@ -141,10 +137,10 @@ export const CostGrid: React.FC = () => {
   // and hide any column the user has hidden via the column header menu.
   const hiddenColumns = useAppStore((s) => s.hiddenColumns);
   const effectiveColumnWidths = useMemo(() => {
-    return columns.map((col, i) => {
+    return columns.map((col) => {
       if (hiddenByQuantityToggle(col.key, gridView, showHoeveelheid)) return 0;
       if (isColumnHidden(hiddenColumns, gridView, col.key)) return 0;
-      return columnWidths[i] ?? col.width;
+      return getColumnWidth(columnWidths, gridView, col);
     });
   }, [columns, columnWidths, showHoeveelheid, hiddenColumns, gridView]);
 
