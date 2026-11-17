@@ -657,6 +657,28 @@
                             }
                           ]
                         },
+                        "percentageBase": {
+                          "anyOf": [
+                            {
+                              "type": "null"
+                            },
+                            {
+                              "enum": [
+                                "running"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "labour"
+                              ]
+                            },
+                            {
+                              "enum": [
+                                "subtotal"
+                              ]
+                            }
+                          ]
+                        },
                         "resourceType": {
                           "anyOf": [
                             {
@@ -1134,6 +1156,20 @@
                             },
                             "capturedAt": {
                               "type": "string"
+                            },
+                            "verified": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    false
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    true
+                                  ]
+                                }
+                              ]
                             }
                           },
                           "required": [
@@ -2139,6 +2175,33 @@
                   }
                 ]
               },
+              "priceRounding": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "line": {
+                        "type": "number"
+                      },
+                      "unitPrice": {
+                        "type": "number"
+                      },
+                      "total": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "line",
+                      "unitPrice",
+                      "total"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
               "reportHeaderHeightMm": {
                 "type": "number"
               },
@@ -2309,7 +2372,7 @@
     },
     "addBranch": {
       "group": "CostSchedule",
-      "signature": "(name: string, parentId: string | null) => string",
+      "signature": "(name: string, parentId: string | null, id?: string) => string",
       "parameters": [
         {
           "name": "name",
@@ -2330,6 +2393,13 @@
                 "type": "string"
               }
             ]
+          }
+        },
+        {
+          "name": "id",
+          "optional": true,
+          "schema": {
+            "type": "string"
           }
         }
       ]
@@ -3521,6 +3591,28 @@
                     }
                   ]
                 },
+                "percentageBase": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "enum": [
+                        "running"
+                      ]
+                    },
+                    {
+                      "enum": [
+                        "labour"
+                      ]
+                    },
+                    {
+                      "enum": [
+                        "subtotal"
+                      ]
+                    }
+                  ]
+                },
                 "resourceType": {
                   "anyOf": [
                     {
@@ -3998,6 +4090,20 @@
                     },
                     "capturedAt": {
                       "type": "string"
+                    },
+                    "verified": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            false
+                          ]
+                        },
+                        {
+                          "enum": [
+                            true
+                          ]
+                        }
+                      ]
                     }
                   },
                   "required": [
@@ -4954,13 +5060,26 @@
     },
     "setColumnWidth": {
       "group": "View",
-      "signature": "(index: number, width: number) => void",
+      "signature": "(column: Pick<GridColumn, 'key' | 'minWidth'>, width: number) => void",
       "parameters": [
         {
-          "name": "index",
+          "name": "column",
           "optional": false,
           "schema": {
-            "type": "number"
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "minWidth": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "key",
+              "minWidth"
+            ],
+            "additionalProperties": false
           }
         },
         {
@@ -4972,14 +5091,9 @@
         }
       ]
     },
-    "getActiveColumnWidths": {
-      "group": "View",
-      "signature": "() => number[]",
-      "parameters": []
-    },
     "pushHistory": {
       "group": "History",
-      "signature": "(items: CostItem[], description: string) => void",
+      "signature": "(items: CostItem[], description: string, tarieven?: Record<string, number>, extra?: { currency?: string }) => void",
       "parameters": [
         {
           "name": "items",
@@ -5491,6 +5605,28 @@
                     }
                   ]
                 },
+                "percentageBase": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "enum": [
+                        "running"
+                      ]
+                    },
+                    {
+                      "enum": [
+                        "labour"
+                      ]
+                    },
+                    {
+                      "enum": [
+                        "subtotal"
+                      ]
+                    }
+                  ]
+                },
                 "resourceType": {
                   "anyOf": [
                     {
@@ -5968,6 +6104,20 @@
                     },
                     "capturedAt": {
                       "type": "string"
+                    },
+                    "verified": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            false
+                          ]
+                        },
+                        {
+                          "enum": [
+                            true
+                          ]
+                        }
+                      ]
                     }
                   },
                   "required": [
@@ -6090,6 +6240,32 @@
           "schema": {
             "type": "string"
           }
+        },
+        {
+          "name": "tarieven",
+          "optional": true,
+          "schema": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+            "additionalProperties": {
+              "type": "number"
+            }
+          }
+        },
+        {
+          "name": "extra",
+          "optional": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "currency": {
+                "type": "string"
+              }
+            },
+            "required": [],
+            "additionalProperties": false
+          }
         }
       ]
     },
@@ -6132,6 +6308,25 @@
               "reportLocale": {
                 "type": "string"
               },
+              "numberFormat": {
+                "anyOf": [
+                  {
+                    "enum": [
+                      "auto"
+                    ]
+                  },
+                  {
+                    "enum": [
+                      "nl-NL"
+                    ]
+                  },
+                  {
+                    "enum": [
+                      "en-US"
+                    ]
+                  }
+                ]
+              },
               "currency": {
                 "type": "string"
               },
@@ -6151,6 +6346,20 @@
               },
               "autoSaveInterval": {
                 "type": "number"
+              },
+              "showChatBubble": {
+                "anyOf": [
+                  {
+                    "enum": [
+                      false
+                    ]
+                  },
+                  {
+                    "enum": [
+                      true
+                    ]
+                  }
+                ]
               },
               "recentFiles": {
                 "type": "array",
@@ -6367,9 +6576,11 @@
               "theme",
               "locale",
               "reportLocale",
+              "numberFormat",
               "currency",
               "autoSave",
               "autoSaveInterval",
+              "showChatBubble",
               "recentFiles"
             ],
             "additionalProperties": false
@@ -6396,6 +6607,25 @@
               "reportLocale": {
                 "type": "string"
               },
+              "numberFormat": {
+                "anyOf": [
+                  {
+                    "enum": [
+                      "auto"
+                    ]
+                  },
+                  {
+                    "enum": [
+                      "nl-NL"
+                    ]
+                  },
+                  {
+                    "enum": [
+                      "en-US"
+                    ]
+                  }
+                ]
+              },
               "currency": {
                 "type": "string"
               },
@@ -6415,6 +6645,20 @@
               },
               "autoSaveInterval": {
                 "type": "number"
+              },
+              "showChatBubble": {
+                "anyOf": [
+                  {
+                    "enum": [
+                      false
+                    ]
+                  },
+                  {
+                    "enum": [
+                      true
+                    ]
+                  }
+                ]
               },
               "recentFiles": {
                 "type": "array",
@@ -7147,6 +7391,28 @@
                     }
                   ]
                 },
+                "percentageBase": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "enum": [
+                        "running"
+                      ]
+                    },
+                    {
+                      "enum": [
+                        "labour"
+                      ]
+                    },
+                    {
+                      "enum": [
+                        "subtotal"
+                      ]
+                    }
+                  ]
+                },
                 "resourceType": {
                   "anyOf": [
                     {
@@ -7624,6 +7890,20 @@
                     },
                     "capturedAt": {
                       "type": "string"
+                    },
+                    "verified": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            false
+                          ]
+                        },
+                        {
+                          "enum": [
+                            true
+                          ]
+                        }
+                      ]
                     }
                   },
                   "required": [
@@ -8256,6 +8536,28 @@
                     }
                   ]
                 },
+                "percentageBase": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "enum": [
+                        "running"
+                      ]
+                    },
+                    {
+                      "enum": [
+                        "labour"
+                      ]
+                    },
+                    {
+                      "enum": [
+                        "subtotal"
+                      ]
+                    }
+                  ]
+                },
                 "resourceType": {
                   "anyOf": [
                     {
@@ -8733,6 +9035,20 @@
                     },
                     "capturedAt": {
                       "type": "string"
+                    },
+                    "verified": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            false
+                          ]
+                        },
+                        {
+                          "enum": [
+                            true
+                          ]
+                        }
+                      ]
                     }
                   },
                   "required": [
@@ -12208,6 +12524,28 @@
                         }
                       ]
                     },
+                    "percentageBase": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "enum": [
+                            "running"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "labour"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "subtotal"
+                          ]
+                        }
+                      ]
+                    },
                     "resourceType": {
                       "anyOf": [
                         {
@@ -12685,6 +13023,20 @@
                         },
                         "capturedAt": {
                           "type": "string"
+                        },
+                        "verified": {
+                          "anyOf": [
+                            {
+                              "enum": [
+                                false
+                              ]
+                            },
+                            {
+                              "enum": [
+                                true
+                              ]
+                            }
+                          ]
                         }
                       },
                       "required": [
@@ -13357,6 +13709,28 @@
                                 }
                               ]
                             },
+                            "percentageBase": {
+                              "anyOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "enum": [
+                                    "running"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "labour"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "subtotal"
+                                  ]
+                                }
+                              ]
+                            },
                             "resourceType": {
                               "anyOf": [
                                 {
@@ -13834,6 +14208,20 @@
                                 },
                                 "capturedAt": {
                                   "type": "string"
+                                },
+                                "verified": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        false
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  ]
                                 }
                               },
                               "required": [
@@ -14836,6 +15224,33 @@
                         "enum": [
                           true
                         ]
+                      }
+                    ]
+                  },
+                  "priceRounding": {
+                    "anyOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "line": {
+                            "type": "number"
+                          },
+                          "unitPrice": {
+                            "type": "number"
+                          },
+                          "total": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "line",
+                          "unitPrice",
+                          "total"
+                        ],
+                        "additionalProperties": false
                       }
                     ]
                   },
@@ -15451,6 +15866,28 @@
                         }
                       ]
                     },
+                    "percentageBase": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "enum": [
+                            "running"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "labour"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "subtotal"
+                          ]
+                        }
+                      ]
+                    },
                     "resourceType": {
                       "anyOf": [
                         {
@@ -15928,6 +16365,20 @@
                         },
                         "capturedAt": {
                           "type": "string"
+                        },
+                        "verified": {
+                          "anyOf": [
+                            {
+                              "enum": [
+                                false
+                              ]
+                            },
+                            {
+                              "enum": [
+                                true
+                              ]
+                            }
+                          ]
                         }
                       },
                       "required": [
@@ -16600,6 +17051,28 @@
                                 }
                               ]
                             },
+                            "percentageBase": {
+                              "anyOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "enum": [
+                                    "running"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "labour"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "subtotal"
+                                  ]
+                                }
+                              ]
+                            },
                             "resourceType": {
                               "anyOf": [
                                 {
@@ -17077,6 +17550,20 @@
                                 },
                                 "capturedAt": {
                                   "type": "string"
+                                },
+                                "verified": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        false
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  ]
                                 }
                               },
                               "required": [
@@ -18079,6 +18566,33 @@
                         "enum": [
                           true
                         ]
+                      }
+                    ]
+                  },
+                  "priceRounding": {
+                    "anyOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "line": {
+                            "type": "number"
+                          },
+                          "unitPrice": {
+                            "type": "number"
+                          },
+                          "total": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "line",
+                          "unitPrice",
+                          "total"
+                        ],
+                        "additionalProperties": false
                       }
                     ]
                   },
@@ -18861,12 +19375,12 @@
                           },
                           {
                             "enum": [
-                              "percentage"
+                              "auto"
                             ]
                           },
                           {
                             "enum": [
-                              "auto"
+                              "percentage"
                             ]
                           },
                           {
@@ -19316,12 +19830,12 @@
                     },
                     {
                       "enum": [
-                        "percentage"
+                        "auto"
                       ]
                     },
                     {
                       "enum": [
-                        "auto"
+                        "percentage"
                       ]
                     },
                     {
@@ -20858,6 +21372,28 @@
                                   }
                                 ]
                               },
+                              "percentageBase": {
+                                "anyOf": [
+                                  {
+                                    "type": "null"
+                                  },
+                                  {
+                                    "enum": [
+                                      "running"
+                                    ]
+                                  },
+                                  {
+                                    "enum": [
+                                      "labour"
+                                    ]
+                                  },
+                                  {
+                                    "enum": [
+                                      "subtotal"
+                                    ]
+                                  }
+                                ]
+                              },
                               "resourceType": {
                                 "anyOf": [
                                   {
@@ -21335,6 +21871,20 @@
                                   },
                                   "capturedAt": {
                                     "type": "string"
+                                  },
+                                  "verified": {
+                                    "anyOf": [
+                                      {
+                                        "enum": [
+                                          false
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          true
+                                        ]
+                                      }
+                                    ]
                                   }
                                 },
                                 "required": [
@@ -22340,6 +22890,33 @@
                         }
                       ]
                     },
+                    "priceRounding": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "line": {
+                              "type": "number"
+                            },
+                            "unitPrice": {
+                              "type": "number"
+                            },
+                            "total": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "line",
+                            "unitPrice",
+                            "total"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    },
                     "reportHeaderHeightMm": {
                       "type": "number"
                     },
@@ -22872,6 +23449,28 @@
                           }
                         ]
                       },
+                      "percentageBase": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "enum": [
+                              "running"
+                            ]
+                          },
+                          {
+                            "enum": [
+                              "labour"
+                            ]
+                          },
+                          {
+                            "enum": [
+                              "subtotal"
+                            ]
+                          }
+                        ]
+                      },
                       "resourceType": {
                         "anyOf": [
                           {
@@ -23349,6 +23948,20 @@
                           },
                           "capturedAt": {
                             "type": "string"
+                          },
+                          "verified": {
+                            "anyOf": [
+                              {
+                                "enum": [
+                                  false
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  true
+                                ]
+                              }
+                            ]
                           }
                         },
                         "required": [
@@ -24044,12 +24657,12 @@
                         },
                         {
                           "enum": [
-                            "percentage"
+                            "auto"
                           ]
                         },
                         {
                           "enum": [
-                            "auto"
+                            "percentage"
                           ]
                         },
                         {
@@ -25054,6 +25667,28 @@
                         }
                       ]
                     },
+                    "percentageBase": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "enum": [
+                            "running"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "labour"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "subtotal"
+                          ]
+                        }
+                      ]
+                    },
                     "resourceType": {
                       "anyOf": [
                         {
@@ -25531,6 +26166,20 @@
                         },
                         "capturedAt": {
                           "type": "string"
+                        },
+                        "verified": {
+                          "anyOf": [
+                            {
+                              "enum": [
+                                false
+                              ]
+                            },
+                            {
+                              "enum": [
+                                true
+                              ]
+                            }
+                          ]
                         }
                       },
                       "required": [
@@ -26203,6 +26852,28 @@
                                 }
                               ]
                             },
+                            "percentageBase": {
+                              "anyOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "enum": [
+                                    "running"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "labour"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "subtotal"
+                                  ]
+                                }
+                              ]
+                            },
                             "resourceType": {
                               "anyOf": [
                                 {
@@ -26680,6 +27351,20 @@
                                 },
                                 "capturedAt": {
                                   "type": "string"
+                                },
+                                "verified": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        false
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  ]
                                 }
                               },
                               "required": [
@@ -27685,6 +28370,33 @@
                       }
                     ]
                   },
+                  "priceRounding": {
+                    "anyOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "line": {
+                            "type": "number"
+                          },
+                          "unitPrice": {
+                            "type": "number"
+                          },
+                          "total": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "line",
+                          "unitPrice",
+                          "total"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
                   "reportHeaderHeightMm": {
                     "type": "number"
                   },
@@ -28366,6 +29078,28 @@
                                 }
                               ]
                             },
+                            "percentageBase": {
+                              "anyOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "enum": [
+                                    "running"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "labour"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "subtotal"
+                                  ]
+                                }
+                              ]
+                            },
                             "resourceType": {
                               "anyOf": [
                                 {
@@ -28843,6 +29577,20 @@
                                 },
                                 "capturedAt": {
                                   "type": "string"
+                                },
+                                "verified": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        false
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  ]
                                 }
                               },
                               "required": [
@@ -29462,6 +30210,28 @@
                                 }
                               ]
                             },
+                            "percentageBase": {
+                              "anyOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "enum": [
+                                    "running"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "labour"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "subtotal"
+                                  ]
+                                }
+                              ]
+                            },
                             "resourceType": {
                               "anyOf": [
                                 {
@@ -29939,6 +30709,20 @@
                                 },
                                 "capturedAt": {
                                   "type": "string"
+                                },
+                                "verified": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        false
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  ]
                                 }
                               },
                               "required": [
@@ -30683,6 +31467,28 @@
                         }
                       ]
                     },
+                    "percentageBase": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "enum": [
+                            "running"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "labour"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "subtotal"
+                          ]
+                        }
+                      ]
+                    },
                     "resourceType": {
                       "anyOf": [
                         {
@@ -31160,6 +31966,20 @@
                         },
                         "capturedAt": {
                           "type": "string"
+                        },
+                        "verified": {
+                          "anyOf": [
+                            {
+                              "enum": [
+                                false
+                              ]
+                            },
+                            {
+                              "enum": [
+                                true
+                              ]
+                            }
+                          ]
                         }
                       },
                       "required": [
@@ -31832,6 +32652,28 @@
                                 }
                               ]
                             },
+                            "percentageBase": {
+                              "anyOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "enum": [
+                                    "running"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "labour"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "subtotal"
+                                  ]
+                                }
+                              ]
+                            },
                             "resourceType": {
                               "anyOf": [
                                 {
@@ -32309,6 +33151,20 @@
                                 },
                                 "capturedAt": {
                                   "type": "string"
+                                },
+                                "verified": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        false
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  ]
                                 }
                               },
                               "required": [
@@ -33314,6 +34170,33 @@
                       }
                     ]
                   },
+                  "priceRounding": {
+                    "anyOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "line": {
+                            "type": "number"
+                          },
+                          "unitPrice": {
+                            "type": "number"
+                          },
+                          "total": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "line",
+                          "unitPrice",
+                          "total"
+                        ],
+                        "additionalProperties": false
+                      }
+                    ]
+                  },
                   "reportHeaderHeightMm": {
                     "type": "number"
                   },
@@ -33995,6 +34878,28 @@
                                 }
                               ]
                             },
+                            "percentageBase": {
+                              "anyOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "enum": [
+                                    "running"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "labour"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "subtotal"
+                                  ]
+                                }
+                              ]
+                            },
                             "resourceType": {
                               "anyOf": [
                                 {
@@ -34472,6 +35377,20 @@
                                 },
                                 "capturedAt": {
                                   "type": "string"
+                                },
+                                "verified": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        false
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  ]
                                 }
                               },
                               "required": [
@@ -35091,6 +36010,28 @@
                                 }
                               ]
                             },
+                            "percentageBase": {
+                              "anyOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "enum": [
+                                    "running"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "labour"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "subtotal"
+                                  ]
+                                }
+                              ]
+                            },
                             "resourceType": {
                               "anyOf": [
                                 {
@@ -35568,6 +36509,20 @@
                                 },
                                 "capturedAt": {
                                   "type": "string"
+                                },
+                                "verified": {
+                                  "anyOf": [
+                                    {
+                                      "enum": [
+                                        false
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        true
+                                      ]
+                                    }
+                                  ]
                                 }
                               },
                               "required": [
