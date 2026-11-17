@@ -91,6 +91,7 @@
       "priceMismatch_one": "{{count}} nimikkeen erittelyn summa poikkeaa yli 2 % ~C-tietueen yksikköhinnasta ({{examples}}). Erittelyä käytettiin.",
       "priceMismatch_other": "{{count}} nimikkeen erittelyn summa poikkeaa yli 2 % ~C-tietueen yksikköhinnasta (esim. {{examples}}). Erittelyä käytettiin.",
       "totalMismatch": "Tiedoston loppusumma ({{file}}) poikkeaa täällä lasketusta summasta ({{calculated}}), erotus {{difference}}.",
+      "indirectCosts": "Tämä tiedosto lisää jokaisen nimikkeen hintaan {{percent}} % välillisiä kustannuksia (CI), kuten sen kirjoittanut ohjelma tekee. Ne näkyvät rivinä '{{percent}} % Costes indirectos' jokaisessa nimikkeessä ({{n}}), jotta hinnat ja loppusumma vastaavat tiedostoa.",
       "noPrices": "Tiedosto ei sisällä hintoja — vain kuvauksia ja määriä (kuten määräkirjasto). Loppusumma on siksi 0,00.",
       "moreWarnings_one": "… ja {{count}} muu samankaltainen ilmoitus.",
       "moreWarnings_other": "… ja {{count}} muuta samankaltaista ilmoitusta."

@@ -97,6 +97,7 @@
       "priceMismatch_many": "Pri {{count}} položkách sa súčet rozpadu líši o viac ako 2 % od jednotkovej ceny v zázname ~C (napr. {{examples}}). Použil sa rozpad.",
       "priceMismatch_other": "Pri {{count}} položkách sa súčet rozpadu líši o viac ako 2 % od jednotkovej ceny v zázname ~C (napr. {{examples}}). Použil sa rozpad.",
       "totalMismatch": "Celková suma v súbore ({{file}}) sa líši od tu vypočítanej sumy ({{calculated}}), rozdiel {{difference}}.",
+      "indirectCosts": "Tento súbor pripočítava k cene každej položky {{percent}} % nepriamych nákladov (CI), rovnako ako program, ktorý ho vytvoril. Zobrazujú sa ako riadok '{{percent}} % Costes indirectos' v každej položke ({{n}}), aby ceny aj celková suma zodpovedali súboru.",
       "noPrices": "Tento súbor neobsahuje žiadne ceny — iba popisy a množstvá (ako knižnica výmer). Celková suma preto zostáva 0,00.",
       "moreWarnings_one": "… a ešte {{count}} podobné upozornenie.",
       "moreWarnings_few": "… a ešte {{count}} podobné upozornenia.",

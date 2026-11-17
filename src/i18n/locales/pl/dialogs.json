@@ -97,6 +97,7 @@
       "priceMismatch_many": "Dla {{count}} pozycji suma rozbicia różni się o ponad 2% od ceny jednostkowej w rekordzie ~C (np. {{examples}}). Użyto rozbicia.",
       "priceMismatch_other": "Dla {{count}} pozycji suma rozbicia różni się o ponad 2% od ceny jednostkowej w rekordzie ~C (np. {{examples}}). Użyto rozbicia.",
       "totalMismatch": "Suma w pliku ({{file}}) różni się od sumy obliczonej tutaj ({{calculated}}), różnica {{difference}}.",
+      "indirectCosts": "Ten plik dolicza {{percent}}% kosztów pośrednich (CI) do ceny każdej pozycji, tak jak robi to program, który go utworzył. Pojawiają się one jako wiersz '{{percent}} % Costes indirectos' w każdej pozycji ({{n}}), dzięki czemu ceny i suma zgadzają się z plikiem.",
       "noPrices": "Ten plik nie zawiera cen — tylko opisy i ilości (jak biblioteka przedmiarów). Suma wynosi więc 0,00.",
       "moreWarnings_one": "… i jeszcze {{count}} podobny komunikat.",
       "moreWarnings_few": "… i jeszcze {{count}} podobne komunikaty.",

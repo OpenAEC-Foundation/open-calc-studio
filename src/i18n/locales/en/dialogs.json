@@ -91,6 +91,7 @@
       "priceMismatch_one": "For {{count}} item the sum of the breakdown differs by more than 2% from the unit price in the ~C record ({{examples}}). The breakdown was used.",
       "priceMismatch_other": "For {{count}} items the sum of the breakdown differs by more than 2% from the unit price in the ~C record (e.g. {{examples}}). The breakdown was used.",
       "totalMismatch": "The total in the file ({{file}}) differs from the total calculated here ({{calculated}}), difference {{difference}}.",
+      "indirectCosts": "This file adds {{percent}}% indirect costs (CI) to the price of every item, as the program that wrote it does. They appear as a line '{{percent}} % Costes indirectos' in each item ({{n}}), so the prices and the total match the file.",
       "noPrices": "This file contains no prices — only descriptions and quantities (like a measurements library). The total therefore remains 0.00.",
       "moreWarnings_one": "… and {{count}} more similar notice.",
       "moreWarnings_other": "… and {{count}} more similar notices."

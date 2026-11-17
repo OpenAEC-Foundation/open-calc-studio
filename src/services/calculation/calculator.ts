@@ -113,29 +113,33 @@ export function recalculateItems(
     childrenMap.set(item.parentId, list);
   }
 
+  function calcRegel(item: CostItem): void {
+    // Hoeveelheid = Aantal × Productienorm / Productiecapaciteit
+    const qty = item.quantity ?? 0;
+    const norm = item.normQuantity ?? 0;
+    const cap = item.normFactor ?? 1;
+    const nup = item.normUnitPrice ?? 0;
+    const lab = item.laborPrice ?? 0;
+    const hoeveelheid = qty * norm / (cap || 1);
+    // Two calculation models:
+    // UI-2/WpCalc (work-based): total = aantal × (prijs + laborPrice)
+    //   Used when: laborPrice > 0, or norm=0 with direct price (onderaanneming etc.)
+    // UI-1 (resource-based): total = hoeveelheid × prijs/middel
+    //   Used when: norm > 0 and no separate laborPrice
+    if (lab > 0 || norm === 0) {
+      // WpCalc / direct-price model: kosteneh = normUnitPrice + laborPrice per unit
+      item.unitPrice = qty * (nup + lab);
+    } else {
+      // UI-1 model: eenheidsprijs = hoeveelheid × prijs/middel
+      item.unitPrice = hoeveelheid * nup;
+    }
+    item.total = item.unitPrice;
+  }
+
   // First pass: calculate leaf items (begrotingspost without children, and regel rows)
   for (const item of result) {
     if (item.rowType === 'regel') {
-      // Hoeveelheid = Aantal × Productienorm / Productiecapaciteit
-      const qty = item.quantity ?? 0;
-      const norm = item.normQuantity ?? 0;
-      const cap = item.normFactor ?? 1;
-      const nup = item.normUnitPrice ?? 0;
-      const lab = item.laborPrice ?? 0;
-      const hoeveelheid = qty * norm / (cap || 1);
-      // Two calculation models:
-      // UI-2/WpCalc (work-based): total = aantal × (prijs + laborPrice)
-      //   Used when: laborPrice > 0, or norm=0 with direct price (onderaanneming etc.)
-      // UI-1 (resource-based): total = hoeveelheid × prijs/middel
-      //   Used when: norm > 0 and no separate laborPrice
-      if (lab > 0 || norm === 0) {
-        // WpCalc / direct-price model: kosteneh = normUnitPrice + laborPrice per unit
-        item.unitPrice = qty * (nup + lab);
-      } else {
-        // UI-1 model: eenheidsprijs = hoeveelheid × prijs/middel
-        item.unitPrice = hoeveelheid * nup;
-      }
-      item.total = item.unitPrice;
+      calcRegel(item);
     } else if (item.rowType === 'begrotingspost' || item.rowType === 'bewakingspost') {
       // Kale (bewakings)post zonder kinderen: eigen prijs telt —
       // prijs/middel (normUnitPrice) plus materiaal en loon.
@@ -180,8 +184,11 @@ export function recalculateItems(
       if (item.rowType === 'chapter') { item.total = 0; item.unitPrice = 0; }
       return;
     }
-    const childSum = calcTotal(item.id);
-    const own = (item.rowType !== 'chapter' && childSum === 0) ? ownTotal(item) : 0;
+    let childSum = calcTotal(item.id);
+    if (updatePercentageRows(item, children)) {
+      childSum = children.filter(c => !isStagartRowType(c.rowType)).reduce((s, c) => s + c.total, 0);
+    }
+    const own =(item.rowType !== 'chapter' && childSum === 0) ? ownTotal(item) : 0;
     if (own !== 0) {
       // Kinderen leveren (nog) niets op: de eigen post-prijs telt door.
       item.total = own;
@@ -204,6 +211,44 @@ export function recalculateItems(
         ? childSum / item.quantity
         : childUnitPrices();
     }
+  }
+
+  /**
+   * Opslagregels (`percentageBase`, zie CostItem): prijs/middel = de som van
+   * de voorgaande onderdelen van de post per eenheid van de post, of alleen
+   * de arbeid daarin ('subtotal': de som afgerond als eenheidsprijs, de
+   * grondslag van de indirecte kosten). Zo beweegt een opslag (medios auxiliares, costes
+   * indirectos) mee als een prijs in de post verandert. Een opslag telt zelf
+   * mee in de som voor een volgende opslag, zoals in FIEBDC-3.
+   *
+   * Met een afrondingsregel (alleen een begrotingspost, zie applyRounding)
+   * telt elk onderdeel afgerond op `line` decimalen: FIEBDC-3 rekent het
+   * percentage over de som van de afgeronde regels (DI). Zonder aantal is er
+   * geen bedrag per eenheid; dan blijft prijs/middel staan (het totaal is
+   * dan toch 0).
+   *
+   * Geeft true als er een opslagregel is bijgewerkt.
+   */
+  function updatePercentageRows(item: CostItem, children: CostItem[]): boolean {
+    const qty = item.quantity ?? 0;
+    if (qty === 0 || !children.some(c => c.rowType === 'regel' && c.percentageBase)) return false;
+    const r = rounding && item.rowType === 'begrotingspost' ? rounding : null;
+    const per = (n: number): number => (r ? roundHalfUp(n, r.line) : n);
+    let running = 0;
+    let labour = 0;
+    for (const c of children) {
+      if (isStagartRowType(c.rowType)) continue;
+      if (c.rowType === 'regel' && c.percentageBase) {
+        c.normUnitPrice = c.percentageBase === 'labour' ? per(labour)
+          : c.percentageBase === 'subtotal' && r ? roundHalfUp(running, r.unitPrice)
+            : per(running);
+        calcRegel(c);
+      }
+      const amount = per(c.total / qty);
+      running += amount;
+      if (c.rowType === 'regel' && !c.percentageBase && c.resourceType === 'arbeid') labour += amount;
+    }
+    return true;
   }
 
   /**
@@ -494,9 +539,23 @@ export function computeKostprijsBreakdown(items: CostItem[]): KostprijsBreakdown
 
     const splitLoon = lab * qty;
     const splitMat = matPrice * qty;
-    const usedSplit = Math.abs(splitLoon + splitMat - total) < 0.01 && (splitLoon + splitMat) > 0;
-    const loonAmt = usedSplit ? splitLoon : 0;
-    const matAmt = usedSplit ? splitMat : total;
+    const splitSum = splitLoon + splitMat;
+    const usedSplit = Math.abs(splitSum - total) < 0.01 && splitSum > 0;
+    let loonAmt = usedSplit ? splitLoon : 0;
+    let matAmt = usedSplit ? splitMat : total;
+    // Prijsafronding (#83): een post zonder regels of een regel in het
+    // WpCalc-model (aantal × (prijs + loon)) is per definitie te splitsen,
+    // maar de afronding schuift het totaal weg van aantal × (loon + prijs).
+    // Dan de splitsing naar rato op het afgeronde totaal, zodat het loon in
+    // de loonkolom blijft en de kolommen optellen tot de kostprijs. Zonder
+    // afronding wijkt het totaal hier alleen float-ruis af en blijft alles
+    // zoals het was.
+    const wpModel = ownPost || lab > 0 || (item.normQuantity ?? 0) === 0;
+    const ruis = 1e-9 * Math.max(1, Math.abs(splitLoon) + Math.abs(splitMat));
+    if (wpModel && splitSum > 0 && Math.abs(splitSum - total) > ruis) {
+      loonAmt = total * splitLoon / splitSum;
+      matAmt = total - loonAmt;
+    }
 
     out.loon += loonAmt;
 

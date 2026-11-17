@@ -91,6 +91,7 @@
       "priceMismatch_one": "내역 항목 {{count}}건에서 구성 명세 합계가 ~C 레코드의 단가와 2% 넘게 차이 납니다({{examples}}). 구성 명세를 적용했습니다.",
       "priceMismatch_other": "내역 항목 {{count}}건에서 구성 명세 합계가 ~C 레코드의 단가와 2% 넘게 차이 납니다(예: {{examples}}). 구성 명세를 적용했습니다.",
       "totalMismatch": "파일의 합계({{file}})가 여기서 계산한 합계({{calculated}})와 다릅니다. 차이 {{difference}}.",
+      "indirectCosts": "이 파일은 작성한 프로그램과 마찬가지로 모든 내역 항목의 가격에 간접비(CI) {{percent}}%를 더합니다. 각 내역 항목({{n}})에 '{{percent}} % Costes indirectos' 행으로 표시되므로 가격과 합계가 파일과 일치합니다.",
       "noPrices": "이 파일에는 가격이 없습니다 — 명칭과 수량만 있습니다(수량 라이브러리처럼). 따라서 합계는 0.00으로 유지됩니다.",
       "moreWarnings_one": "… 그 밖에 비슷한 알림 {{count}}건이 더 있습니다.",
       "moreWarnings_other": "… 그 밖에 비슷한 알림 {{count}}건이 더 있습니다."

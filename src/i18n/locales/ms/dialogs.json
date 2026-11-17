@@ -91,6 +91,7 @@
       "priceMismatch_one": "Bagi {{count}} butiran, jumlah pecahan berbeza lebih daripada 2% daripada harga seunit dalam rekod ~C (cth. {{examples}}). Pecahan telah digunakan.",
       "priceMismatch_other": "Bagi {{count}} butiran, jumlah pecahan berbeza lebih daripada 2% daripada harga seunit dalam rekod ~C (cth. {{examples}}). Pecahan telah digunakan.",
       "totalMismatch": "Jumlah dalam fail ({{file}}) berbeza daripada jumlah yang dikira di sini ({{calculated}}), perbezaan {{difference}}.",
+      "indirectCosts": "Fail ini menambah {{percent}}% kos tidak langsung (CI) pada harga setiap butiran, seperti yang dilakukan oleh program yang menulisnya. Kos ini muncul sebagai baris '{{percent}} % Costes indirectos' dalam setiap butiran ({{n}}), supaya harga dan jumlah sepadan dengan fail.",
       "noPrices": "Fail ini tidak mengandungi harga — hanya huraian dan kuantiti (seperti pustaka ukuran). Oleh itu jumlahnya kekal 0.00.",
       "moreWarnings_one": "… dan {{count}} lagi notis yang serupa.",
       "moreWarnings_other": "… dan {{count}} lagi notis yang serupa."

@@ -91,6 +91,7 @@
       "priceMismatch_one": "Kwa kipengele {{count}}, jumla ya uchanganuzi inatofautiana kwa zaidi ya 2% na bei ya kipimo katika rekodi ya ~C ({{examples}}). Uchanganuzi umetumika.",
       "priceMismatch_other": "Kwa vipengele {{count}}, jumla ya uchanganuzi inatofautiana kwa zaidi ya 2% na bei ya kipimo katika rekodi ya ~C (k.m. {{examples}}). Uchanganuzi umetumika.",
       "totalMismatch": "Jumla katika faili ({{file}}) inatofautiana na jumla iliyokokotolewa hapa ({{calculated}}), tofauti {{difference}}.",
+      "indirectCosts": "Faili hii huongeza gharama zisizo za moja kwa moja (CI) za {{percent}}% kwenye bei ya kila kipengele, kama programu iliyoiandika inavyofanya. Zinaonekana kama mstari '{{percent}} % Costes indirectos' katika kila kipengele ({{n}}), ili bei na jumla zilingane na faili.",
       "noPrices": "Faili hii haina bei — ina maelezo na viasi tu (kama maktaba ya vipimo). Kwa hiyo jumla inabaki 0.00.",
       "moreWarnings_one": "… na taarifa {{count}} nyingine inayofanana.",
       "moreWarnings_other": "… na taarifa {{count}} nyingine zinazofanana."

@@ -91,6 +91,7 @@
       "priceMismatch_one": "Pour {{count}} ouvrage, la somme de la décomposition diffère de plus de 2 % du prix unitaire de l'enregistrement ~C ({{examples}}). La décomposition a été utilisée.",
       "priceMismatch_other": "Pour {{count}} ouvrages, la somme de la décomposition diffère de plus de 2 % du prix unitaire de l'enregistrement ~C (p. ex. {{examples}}). La décomposition a été utilisée.",
       "totalMismatch": "Le total du fichier ({{file}}) diffère du total calculé ici ({{calculated}}), écart {{difference}}.",
+      "indirectCosts": "Ce fichier ajoute {{percent}} % de coûts indirects (CI) au prix de chaque ouvrage, comme le fait le programme qui l'a généré. Ils apparaissent sous la forme d'une ligne '{{percent}} % Costes indirectos' dans chaque ouvrage ({{n}}), afin que les prix et le total correspondent au fichier.",
       "noPrices": "Ce fichier ne contient aucun prix — uniquement des désignations et des quantités (comme une bibliothèque de métrés). Le total reste donc à 0,00.",
       "moreWarnings_one": "… et {{count}} autre avertissement similaire.",
       "moreWarnings_other": "… et {{count}} autres avertissements similaires."

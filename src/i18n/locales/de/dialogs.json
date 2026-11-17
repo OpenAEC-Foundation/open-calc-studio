@@ -91,6 +91,7 @@
       "priceMismatch_one": "Bei {{count}} Position weicht die Summe der Zerlegung um mehr als 2 % vom Einheitspreis im ~C-Datensatz ab ({{examples}}). Die Zerlegung wurde verwendet.",
       "priceMismatch_other": "Bei {{count}} Positionen weicht die Summe der Zerlegung um mehr als 2 % vom Einheitspreis im ~C-Datensatz ab (z. B. {{examples}}). Die Zerlegung wurde verwendet.",
       "totalMismatch": "Die Gesamtsumme in der Datei ({{file}}) weicht von der hier berechneten Summe ({{calculated}}) ab, Differenz {{difference}}.",
+      "indirectCosts": "Diese Datei schlägt auf den Preis jeder Position {{percent}} % indirekte Kosten (CI) auf, so wie das Programm, das sie erstellt hat. Sie erscheinen als Zeile '{{percent}} % Costes indirectos' in jeder Position ({{n}}), sodass Preise und Gesamtsumme mit der Datei übereinstimmen.",
       "noPrices": "Diese Datei enthält keine Preise — nur Beschreibungen und Mengen (wie eine Aufmaßbibliothek). Die Summe bleibt daher 0,00.",
       "moreWarnings_one": "… und {{count}} weiterer ähnlicher Hinweis.",
       "moreWarnings_other": "… und {{count}} weitere ähnliche Hinweise."

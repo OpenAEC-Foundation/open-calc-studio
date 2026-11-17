@@ -91,6 +91,7 @@
       "priceMismatch_one": "För {{count}} post avviker summan av uppdelningen med mer än 2 % från enhetspriset i ~C-raden ({{examples}}). Uppdelningen användes.",
       "priceMismatch_other": "För {{count}} poster avviker summan av uppdelningen med mer än 2 % från enhetspriset i ~C-raden (t.ex. {{examples}}). Uppdelningen användes.",
       "totalMismatch": "Totalen i filen ({{file}}) avviker från totalen som beräknats här ({{calculated}}), skillnad {{difference}}.",
+      "indirectCosts": "Den här filen lägger {{percent}} % indirekta kostnader (CI) på priset för varje post, precis som programmet som skrev den. De visas som en rad '{{percent}} % Costes indirectos' i varje post ({{n}}), så att priserna och totalen stämmer med filen.",
       "noPrices": "Den här filen innehåller inga priser — endast beskrivningar och mängder (som ett mängdbibliotek). Totalen blir därför 0,00.",
       "moreWarnings_one": "… och {{count}} ytterligare liknande meddelande.",
       "moreWarnings_other": "… och {{count}} ytterligare liknande meddelanden."

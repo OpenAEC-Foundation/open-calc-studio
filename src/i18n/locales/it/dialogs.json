@@ -91,6 +91,7 @@
       "priceMismatch_one": "Per {{count}} voce la somma della scomposizione differisce di oltre il 2% dal prezzo unitario del record ~C ({{examples}}). È stata usata la scomposizione.",
       "priceMismatch_other": "Per {{count}} voci la somma della scomposizione differisce di oltre il 2% dal prezzo unitario del record ~C (ad es. {{examples}}). È stata usata la scomposizione.",
       "totalMismatch": "Il totale nel file ({{file}}) differisce dal totale calcolato qui ({{calculated}}), differenza {{difference}}.",
+      "indirectCosts": "Questo file aggiunge il {{percent}}% di costi indiretti (CI) al prezzo di ogni voce, come fa il programma che lo ha generato. Compaiono come riga '{{percent}} % Costes indirectos' in ogni voce ({{n}}), così i prezzi e il totale corrispondono al file.",
       "noPrices": "Questo file non contiene prezzi — solo descrizioni e quantità (come una libreria di misurazioni). Il totale resta quindi 0,00.",
       "moreWarnings_one": "… e ancora {{count}} avviso simile.",
       "moreWarnings_other": "… e altri {{count}} avvisi simili."

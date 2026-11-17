@@ -91,6 +91,7 @@
       "priceMismatch_one": "Bij {{count}} partida wijkt de som van de samenstelling meer dan 2% af van de eenheidsprijs op het ~C-record ({{examples}}). De samenstelling is aangehouden.",
       "priceMismatch_other": "Bij {{count}} partida's wijkt de som van de samenstelling meer dan 2% af van de eenheidsprijs op het ~C-record (o.a. {{examples}}). De samenstelling is aangehouden.",
       "totalMismatch": "Het totaal in het bestand ({{file}}) wijkt af van het hier berekende totaal ({{calculated}}), verschil {{difference}}.",
+      "indirectCosts": "Dit bestand telt {{percent}}% indirecte kosten (CI) op bij de prijs van elke post, zoals het programma dat het schreef. Ze staan als regel '{{percent}} % Costes indirectos' in elke post ({{n}}), zodat de prijzen en het totaal gelijk zijn aan het bestand.",
       "noPrices": "Dit bestand bevat geen prijzen — alleen omschrijvingen en hoeveelheden (zoals een mediciones-bibliotheek). Het totaal blijft daarom € 0,00.",
       "moreWarnings_one": "… en nog {{count}} vergelijkbare melding.",
       "moreWarnings_other": "… en nog {{count}} vergelijkbare meldingen."

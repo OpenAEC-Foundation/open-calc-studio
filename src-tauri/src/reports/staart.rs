@@ -55,9 +55,18 @@ pub(super) fn kostprijs_kolommen(items: &[CostItem]) -> Kolommen {
         }
         let split_loon = lab * qty;
         let split_mat = mat_price * qty;
-        let used_split = (split_loon + split_mat - total).abs() < 0.01 && (split_loon + split_mat) > 0.0;
-        let loon_amt = if used_split { split_loon } else { 0.0 };
-        let mat_amt = if used_split { split_mat } else { total };
+        let split_sum = split_loon + split_mat;
+        let used_split = (split_sum - total).abs() < 0.01 && split_sum > 0.0;
+        let mut loon_amt = if used_split { split_loon } else { 0.0 };
+        let mut mat_amt = if used_split { split_mat } else { total };
+        // Prijsafronding (#83): zie computeKostprijsBreakdown. Afgerond totaal
+        // van een kale post of WpCalc-regel: splitsing naar rato.
+        let wp_model = own_post || lab > 0.0 || it.norm_quantity.unwrap_or(0.0) == 0.0;
+        let ruis = 1e-9 * (split_loon.abs() + split_mat.abs()).max(1.0);
+        if wp_model && split_sum > 0.0 && (split_sum - total).abs() > ruis {
+            loon_amt = total * split_loon / split_sum;
+            mat_amt = total - loon_amt;
+        }
         out.loon += loon_amt;
         match rt {
             "arbeid" => out.loon += mat_amt,

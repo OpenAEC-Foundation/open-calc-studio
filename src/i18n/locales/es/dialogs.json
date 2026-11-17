@@ -91,6 +91,7 @@
       "priceMismatch_one": "En {{count}} partida, la suma de la descomposición difiere más de un 2 % del precio unitario del registro ~C ({{examples}}). Se ha usado la descomposición.",
       "priceMismatch_other": "En {{count}} partidas, la suma de la descomposición difiere más de un 2 % del precio unitario del registro ~C (p. ej. {{examples}}). Se ha usado la descomposición.",
       "totalMismatch": "El total del archivo ({{file}}) difiere del total calculado aquí ({{calculated}}); diferencia {{difference}}.",
+      "indirectCosts": "Este archivo suma un {{percent}} % de costes indirectos (CI) al precio de cada partida, como hace el programa que lo generó. Aparecen como una línea '{{percent}} % Costes indirectos' en cada partida ({{n}}), para que los precios y el total coincidan con el archivo.",
       "noPrices": "Este archivo no contiene precios, solo descripciones y mediciones (como una biblioteca de mediciones). Por eso el total sigue siendo 0,00.",
       "moreWarnings_one": "… y {{count}} aviso similar más.",
       "moreWarnings_other": "… y {{count}} avisos similares más."

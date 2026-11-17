@@ -91,6 +91,7 @@
       "priceMismatch_one": "{{count}} pozda analiz toplamı ~C kaydındaki birim fiyattan %2'den fazla farklı ({{examples}}). Analiz kullanıldı.",
       "priceMismatch_other": "{{count}} pozda analiz toplamı ~C kaydındaki birim fiyattan %2'den fazla farklı (örn. {{examples}}). Analiz kullanıldı.",
       "totalMismatch": "Dosyadaki toplam ({{file}}) burada hesaplanan toplamdan ({{calculated}}) farklı, fark {{difference}}.",
+      "indirectCosts": "Bu dosya, onu yazan program gibi, her pozun fiyatına %{{percent}} dolaylı gider (CI) ekler. Bunlar her pozda ({{n}}) '{{percent}} % Costes indirectos' satırı olarak görünür; böylece fiyatlar ve toplam dosyayla eşleşir.",
       "noPrices": "Bu dosya fiyat içermiyor — yalnızca açıklamalar ve miktarlar var (bir metraj kütüphanesi gibi). Bu nedenle toplam 0,00 olarak kalır.",
       "moreWarnings_one": "… ve {{count}} benzer bildirim daha.",
       "moreWarnings_other": "… ve {{count}} benzer bildirim daha."

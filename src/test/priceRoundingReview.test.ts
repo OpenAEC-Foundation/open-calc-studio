@@ -455,9 +455,9 @@ describe('recalculateItems met regel: gevonden gebreken', () => {
   //     kolommen tellen niet meer op tot de kostprijs, en de staart
   //     (computeStaartItemBreakdowns, Bouw 1 in Rust) start op een ander
   //     bedrag dan getKostprijs / de hoofdstuktotalen.
-  // Oplossing: de splitsing naar rato op het afgeronde totaal toepassen
+  // Opgelost: de splitsing naar rato op het afgeronde totaal
   // (loon = total × splitLoon / (splitLoon + splitMat)), in TS én Rust.
-  it.fails('houdt het loon in de loonkolom bij een regel met uurloon (WpCalc-model)', () => {
+  it('houdt het loon in de loonkolom bij een regel met uurloon (WpCalc-model)', () => {
     n = 0;
     const ch = mk('chapter', null);
     const post = mk('begrotingspost', ch.id, { quantity: 10 });
@@ -468,7 +468,7 @@ describe('recalculateItems met regel: gevonden gebreken', () => {
     expect(met.loon).toBeGreaterThan(20); // is 0: alles (30,10) staat onder materiaal
   });
 
-  it.fails('laat de kostprijskolommen optellen tot de kostprijs bij een regel met uurloon', () => {
+  it('laat de kostprijskolommen optellen tot de kostprijs bij een regel met uurloon', () => {
     n = 0;
     const ch = mk('chapter', null);
     const post = mk('begrotingspost', ch.id, { quantity: 2 });

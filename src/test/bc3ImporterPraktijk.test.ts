@@ -86,7 +86,10 @@ describe('FIEBDC-3 (.bc3) praktijkafwijkingen', () => {
       '~D|0001|02.001\\1\\.005\\02.002\\1\\.01\\01.004\\1\\.015\\%CI\\1\\.06\\|',
       '~M|CAP#\\0001|1\\1\\|1|',
     ].join('\r\n');
-    const items = recalculateItems(importBc3(src).items);
+    // Rekenen zoals de app: met de afrondingsregel van de import (#83); de
+    // calculator rekent de grondslag van de opslagregel zelf opnieuw uit.
+    const imported = importBc3(src);
+    const items = recalculateItems(imported.items, undefined, imported.schedule.priceRounding);
     // 27,69 + 29,00 + 16,875 = 73,565 → +6% = 77,98
     expect(items.find((i) => i.code === '0001')!.total).toBeCloseTo(77.98, 2);
     const opslag = items.find((i) => i.code === '%CI')!;
@@ -301,11 +304,12 @@ describe('FIEBDC-3 (.bc3) praktijkafwijkingen', () => {
   });
 
   it('crasht niet op records die de importer niet kent', () => {
-    // ~L, ~X, ~P, ~K en ~A komen in echte bestanden voor.
+    // ~L, ~X, ~P, ~K en ~A komen in echte bestanden voor. CI staat in deze ~K op 0:
+    // indirecte kosten hebben een eigen test (bc3IndirectCosts).
     const src = [
       '~V|RIB Spain|FIEBDC-3/2020\\01112023|Presto 22.01||ANSI||2||||',
       '~L||ESP\\Especificación\\TEC\\Características técnicas\\|',
-      '~K|\\2\\3\\3\\2\\2\\2\\2\\EUR\\|13\\0\\0\\0\\21|3\\2\\\\3\\3\\|',
+      '~K|\\2\\3\\3\\2\\2\\2\\2\\EUR\\|0\\0\\0\\0\\21|3\\2\\\\3\\3\\|',
       '~X||eCO2\\Emisión de CO2\\kg\\v\\|',
       '~P|AAA010$|#1 Definición Parámetros\\DIÁMETRO\\=<0,15 m\\|',
       '~A|OBRA##|CLI\\Cliente\\|',

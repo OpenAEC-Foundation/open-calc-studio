@@ -94,6 +94,7 @@
       "priceMismatch_few": "La {{count}} articole, suma descompunerii diferă cu peste 2% de prețul unitar din înregistrarea ~C (de ex. {{examples}}). S-a folosit descompunerea.",
       "priceMismatch_other": "La {{count}} de articole, suma descompunerii diferă cu peste 2% de prețul unitar din înregistrarea ~C (de ex. {{examples}}). S-a folosit descompunerea.",
       "totalMismatch": "Totalul din fișier ({{file}}) diferă de totalul calculat aici ({{calculated}}), diferență {{difference}}.",
+      "indirectCosts": "Acest fișier adaugă {{percent}}% costuri indirecte (CI) la prețul fiecărui articol, așa cum face programul care l-a generat. Apar ca o linie '{{percent}} % Costes indirectos' în fiecare articol ({{n}}), astfel încât prețurile și totalul să corespundă cu fișierul.",
       "noPrices": "Acest fișier nu conține prețuri — doar denumiri și cantități (ca o bibliotecă de antemăsurători). Prin urmare, totalul rămâne 0,00.",
       "moreWarnings_one": "… și încă {{count}} mesaj similar.",
       "moreWarnings_few": "… și încă {{count}} mesaje similare.",

@@ -109,6 +109,18 @@ export interface CostItem {
   normFactor: number | null;
   normDivisor: number | null;
   normUnitPrice: number | null;
+  /**
+   * Opslagregel (alleen 'regel'): de norm is een percentage als fractie en
+   * prijs/middel volgt de som van de voorgaande onderdelen van de post, per
+   * eenheid van de post. 'running' = alle voorgaande onderdelen (FIEBDC `%`,
+   * zoals medios auxiliares en costes indirectos), 'labour' = alleen de
+   * arbeid daarin (TCQ "despeses auxiliars"). De calculator rekent
+   * prijs/middel elke keer opnieuw uit, zodat de opslag meebeweegt met een
+   * gewijzigde prijs. 'subtotal' = als 'running', maar de som afgerond als
+   * eenheidsprijs: de directe kosten van de post, waarover FIEBDC de
+   * indirecte kosten (CI) rekent. Leeg = gewone regel (vaste prijs/middel).
+   */
+  percentageBase?: 'running' | 'labour' | 'subtotal' | null;
 
   // Middelclassificatie (alleen voor 'regel' rijen)
   resourceType: ResourceType | null;

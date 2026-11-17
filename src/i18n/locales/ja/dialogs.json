@@ -91,6 +91,7 @@
       "priceMismatch_one": "{{count}} 件の内訳項目で、構成明細の合計が ~C レコードの単価と 2% を超えて異なります（{{examples}}）。構成明細を採用しました。",
       "priceMismatch_other": "{{count}} 件の内訳項目で、構成明細の合計が ~C レコードの単価と 2% を超えて異なります（例：{{examples}}）。構成明細を採用しました。",
       "totalMismatch": "ファイル内の合計（{{file}}）が、ここで計算した合計（{{calculated}}）と異なります。差額 {{difference}}。",
+      "indirectCosts": "このファイルは、作成したプログラムと同様に、すべての内訳項目の価格に間接費（CI）{{percent}}% を加算しています。各内訳項目（{{n}}）に「{{percent}} % Costes indirectos」という行として表示されるため、単価と合計がファイルと一致します。",
       "noPrices": "このファイルには価格が含まれていません — 名称と数量のみです（数量ライブラリなど）。そのため合計は 0.00 のままです。",
       "moreWarnings_one": "…ほかに同様の通知が {{count}} 件あります。",
       "moreWarnings_other": "…ほかに同様の通知が {{count}} 件あります。"

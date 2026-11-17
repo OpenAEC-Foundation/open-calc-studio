@@ -66,7 +66,22 @@ interface Bc3Data {
   measured: Set<string>;               // kind-keys waarvoor een ~M/~N bestaat
   currency?: string;                   // DIVISA uit ~K (ISO 4217), als aanwezig
   rounding: PriceRounding;             // decimalen uit ~K, anders de FIEBDC-standaard (#83)
+  indirectCosts: number;               // CI uit ~K veld 2, in procenten (0 = geen)
 }
+
+/**
+ * Indirecte kosten (CI, costes indirectos) uit ~K veld 2: `CI\GG\BI\BAJA\IVA`,
+ * in procenten. Leeg, onleesbaar, negatief of 100 en meer → 0 (geen).
+ */
+function parseKIndirectCosts(fields: string[]): number {
+  const raw = ((fields[1] ?? '').split('\\')[0] ?? '').trim();
+  if (!raw) return 0;
+  const ci = parseNumber(raw);
+  return Number.isFinite(ci) && ci > 0 && ci < 100 ? ci : 0;
+}
+
+/** Code van de regel die de indirecte kosten in een post draagt. */
+const INDIRECT_COSTS_CODE = '%CI';
 
 /**
  * Aantal decimalen uit één subveld van ~K. Leeg of onleesbaar → undefined.
@@ -174,6 +189,7 @@ function parseBc3(text: string): Bc3Data {
     measured: new Set(),
     // Zonder ~K gelden de standaarddecimalen van FIEBDC-3: alles op centen.
     rounding: { ...FIEBDC_DEFAULT_ROUNDING },
+    indirectCosts: 0,
   };
 
   const variantsOf = (key: string): Bc3Concept[] => {
@@ -325,6 +341,7 @@ function parseBc3(text: string): Bc3Data {
         // (FIEBDC-3/95+) of veld 3 (sinds 2002); het enige alfabetische subveld
         // is de valuta.
         data.rounding = parseKRounding(fields);
+        data.indirectCosts = parseKIndirectCosts(fields);
         for (const f of [fields[0], fields[2]]) {
           const code = (f ?? '').split('\\').map((v) => normalizeCurrencyCode(v)).find(Boolean);
           if (code) { data.currency = code; break; }
@@ -353,7 +370,7 @@ const priceExample = (code: string, declared: number, computed: number): string 
 
 export function importBc3(text: string): ImportResult {
   const data = parseBc3(text);
-  const { variants, order, measurements, measured, rounding } = data;
+  const { variants, order, measurements, measured, rounding, indirectCosts } = data;
   const items: CostItem[] = [];
 
   /**
@@ -566,6 +583,8 @@ export function importBc3(text: string): ImportResult {
           normQuantity: pct,
           normFactor: 1,
           normUnitPrice: base,
+          // De calculator rekent de grondslag opnieuw uit bij elke wijziging.
+          percentageBase: labourOnly(c) ? 'labour' : 'running',
           resourceType: 'overig',
           notes: c.text ?? '',
         });
@@ -597,6 +616,86 @@ export function importBc3(text: string): ImportResult {
       });
     }
     return { unitCost, rounded: roundHalfUp(rounded, rounding.unitPrice) };
+  };
+
+  /**
+   * Indirecte kosten (CI uit ~K veld 2). CYPE telt ze op bij de prijs van
+   * elke partida — ook een partida zonder samenstelling, niet bij een
+   * hoofdstuk — en rekent daarna pas aantal × prijs:
+   *   prijs = afgerond(directe kosten × (1 + CI/100)).
+   * De ~C-prijs van de partida is de prijs zónder CI; de hoofdstuktotalen
+   * in het bestand zijn mét (CYPE Arquímedes, pycost_test_file_05: CI 2 %,
+   * alle hoofdstukken kloppen op de cent).
+   *
+   * In de begroting wordt dat een zichtbare opslagregel "Costes indirectos"
+   * onderaan elke post, zoals CYPE het in de prijsopbouw afdrukt. Omdat het
+   * een gewone %-regel is, rekent de calculator hem zonder extra kennis mee
+   * en schrijft de export hem als %-regel terug (met CI 0 in ~K), dus geen
+   * dubbeltelling bij herimport. Heeft de samenstelling zelf al een regel
+   * voor de indirecte kosten, dan komt er geen tweede bij.
+   */
+  const ciFraction = indirectCosts / 100;
+  let ciPosts = 0;
+  const hasOwnIndirectRow = (c: Bc3Concept): boolean => c.children.some((ch) => {
+    const k = firstOf(ch.key);
+    // Op omschrijving ("COSTE INDIRECTO", "Costes indirectos"; codes als
+    // `%7` of `%PRC6` zeggen niets) of op de code `%CI`.
+    return !!k && isPercentageRow(k) && (/indirect/i.test(k.summary) || /^%CI\b/i.test(k.code.trim()));
+  });
+  /** Voegt de CI-regel toe; geeft het bedrag per eenheid van de post terug. */
+  const addIndirectCosts = (post: CostItem, base: number, postQty: number, depth: number): number => {
+    add({
+      rowType: 'regel',
+      parentId: post.id,
+      depth,
+      code: INDIRECT_COSTS_CODE,
+      description: `${indirectCosts} % Costes indirectos`,
+      unit: '%',
+      quantity: postQty,
+      normQuantity: ciFraction,
+      normFactor: 1,
+      normUnitPrice: base,
+      // Grondslag = de directe kosten afgerond als eenheidsprijs (DP), zoals
+      // CYPE; de calculator rekent hem bij elke wijziging opnieuw uit.
+      percentageBase: 'subtotal',
+      resourceType: 'overig',
+    });
+    ciPosts++;
+    return roundHalfUp(base * ciFraction, rounding.line);
+  };
+  /**
+   * Partida zonder (bruikbare) samenstelling: de ~C-prijs. Met CI wordt dat
+   * één rekenregel met die prijs plus de CI-regel; zonder CI blijft het een
+   * kale post zoals voorheen (ook een partida zonder prijs, zoals een
+   * notitie: daar valt niets op te tellen).
+   *
+   * De rekenregel krijgt de code met `.CD` (coste directo) erachter: met
+   * dezelfde code, eenheid en omschrijving als de post zou de export er één
+   * concept van maken.
+   */
+  const bareWith = (post: CostItem, c: Bc3Concept, qty: number, depth: number): void => {
+    if (ciFraction <= 0 || Math.abs(c.price) < 0.005) {
+      post.normUnitPrice = c.price;
+      computedTotal += qty * c.price;
+      return;
+    }
+    post.normUnitPrice = null;
+    add({
+      rowType: 'regel',
+      parentId: post.id,
+      depth: depth + 1,
+      code: `${plainCode(c.code)}.CD`,
+      description: summaryOf(c),
+      unit: bc3Unit(c.unit),
+      quantity: qty,
+      normQuantity: 1,
+      normFactor: 1,
+      normUnitPrice: c.price,
+      resourceType: RESOURCE_BY_TYPE[c.type] ?? 'materiaal',
+    });
+    const base = roundHalfUp(roundHalfUp(c.price, rounding.line), rounding.unitPrice);
+    const unit = roundHalfUp(base + addIndirectCosts(post, base, qty, depth + 1), rounding.unitPrice);
+    computedTotal += qty === 0 ? 0 : roundHalfUp(qty * unit, rounding.total);
   };
 
   /** Partida's waarvan de samenstelling niet op de eigen eenheidsprijs uitkomt. */
@@ -638,7 +737,7 @@ export function importBc3(text: string): ImportResult {
       notes: c.text ?? '',
     });
     if (c.children.length === 0) {
-      computedTotal += qty * c.price;
+      bareWith(post, c, qty, depth);
       return;
     }
 
@@ -649,23 +748,29 @@ export function importBc3(text: string): ImportResult {
     // bruikbare bron en gaat de lege decompositie eruit.
     if (Math.abs(unitCost) < 0.005 && Math.abs(c.price) >= 0.005) {
       items.length = first;
-      post.normUnitPrice = c.price;
-      computedTotal += qty * c.price;
+      bareWith(post, c, qty, depth);
       warn(
         'zeroYieldDecomposition',
         'Eén of meer partida\'s hebben een samenstelling zonder rendementen — daar is de eenheidsprijs van het ~C-record aangehouden.',
       );
       return;
     }
+    // Indirecte kosten over de afgeronde directe kosten (zie addIndirectCosts).
+    const price = ciFraction > 0 && !hasOwnIndirectRow(c)
+      ? roundHalfUp(rounded + addIndirectCosts(post, rounded, qty, depth + 1), rounding.unitPrice)
+      : rounded;
     // Zonder aantal rondt de calculator niet af (en is het totaal toch 0).
-    computedTotal += qty === 0 ? 0 : roundHalfUp(qty * rounded, rounding.total);
+    computedTotal += qty === 0 ? 0 : roundHalfUp(qty * price, rounding.total);
     // Prijs op het ~C-record en de afgeronde som van de samenstelling horen
     // gelijk te zijn; sinds #83 rekent de app zoals het bestand, dus een
     // afrondingsverschil is er niet meer. Wijkt hij meer dan 2% af, dan is
     // het bestand intern inconsistent (verouderde prijzen). Wij rekenen
     // bottom-up en melden het, met beide bedragen erbij: wat het
     // bronprogramma toonde (~C) en wat de samenstelling oplevert (~D).
-    if (Math.abs(c.price) >= 0.005 && Math.abs(rounded - c.price) / Math.abs(c.price) > 0.02) {
+    // De ~C-prijs is normaal zonder CI; een schrijver die hem mét CI noteert
+    // (en de app dus exact volgt) is geen afwijking.
+    const off = (p: number): boolean => Math.abs(p - c.price) / Math.abs(c.price) > 0.02;
+    if (Math.abs(c.price) >= 0.005 && off(rounded) && off(price)) {
       mismatched.push(priceExample(c.code, c.price, rounded));
     }
   };
@@ -726,6 +831,15 @@ export function importBc3(text: string): ImportResult {
     }
   }
 
+  if (ciPosts > 0) {
+    const percent = String(indirectCosts);
+    warn(
+      'indirectCosts',
+      `Het bestand rekent ${percent}% indirecte kosten op elke post. Die staan als regel '${percent} % Costes indirectos' `
+      + `in ${ciPosts} post(en), zodat de prijzen en het totaal gelijk zijn aan het bronprogramma.`,
+      { percent, n: ciPosts },
+    );
+  }
   if (mismatched.length > 0) {
     const examples = mismatched.slice(0, 5).join(', ');
     warn(

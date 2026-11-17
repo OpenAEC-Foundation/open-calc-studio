@@ -182,8 +182,12 @@ export function buildBc3(schedule: CostSchedule, items: CostItem[], charset: Bc3
       } else if (parts.length > 0) {
         // Samengestelde post: een concept met dezelfde kop dat nog geen ~D
         // heeft (zelfde prijs, of als middel met catalogusprijs).
-        const candidate = byHead && !withParts.has(byHead) ? byHead
-          : (byBase.get(base) ?? []).find((c) => !withParts.has(c) && fromRegel.has(c) && !fromPost.has(c));
+        // Nooit een concept dat zelf in deze ~D staat: dat gaf een ~D die
+        // naar zichzelf verwijst (post met één regel met dezelfde kop).
+        const own = new Set(parts.map((p) => p.split('\\')[0].toUpperCase()));
+        const free = (c: string): boolean => !withParts.has(c) && !own.has(c.toUpperCase());
+        const candidate = byHead && free(byHead) ? byHead
+          : (byBase.get(base) ?? []).find((c) => free(c) && fromRegel.has(c) && !fromPost.has(c));
         if (candidate) {
           dRecords.push(`~D|${candidate}|${parts.join('\\')}\\|`);
           withParts.add(candidate);
@@ -277,6 +281,12 @@ export function buildBc3(schedule: CostSchedule, items: CostItem[], charset: Bc3
    * grondslag terug, of null.
    */
   const percentageBase = (k: CostItem, running: number, labour: number): number | null => {
+    // Gemarkeerde opslagregel (sinds de calculator de grondslag zelf rekent).
+    if (k.percentageBase === 'labour') return labour;
+    // 'subtotal' (indirecte kosten) wordt een gewone %-regel: FIEBDC kent
+    // geen aparte grondslag; bij de standaarddecimalen is het bedrag gelijk.
+    if (k.percentageBase === 'running' || k.percentageBase === 'subtotal') return running;
+    // Oudere begrotingen: herkennen aan eenheid en grondslag.
     if (k.unit !== '%' || (k.laborPrice ?? 0) !== 0) return null;
     const nup = k.normUnitPrice ?? 0;
     const near = (b: number): boolean => Math.abs(nup - b) <= 0.005 * Math.max(1, Math.abs(b));
