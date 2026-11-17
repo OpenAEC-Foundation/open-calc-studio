@@ -32,7 +32,7 @@
   flipped: is-landscape,
   margin: (left: 8mm, right: 8mm, top: 34mm, bottom: 13mm),
   header: context {
-    set text(font: "Arial", size: 6pt, fill: rgb("#000"))
+    set text(font: "Liberation Sans", size: 6pt, fill: rgb("#000"))
     v(6mm)
     block(width: 100%, {
       grid(
@@ -69,7 +69,7 @@
     line(length: 100%, stroke: 0.5pt + rgb("#000"))
   },
   footer: context {
-    set text(size: 6pt, fill: rgb("#000"), font: "Arial")
+    set text(size: 6pt, fill: rgb("#000"), font: "Liberation Sans")
     line(length: 100%, stroke: 0.3pt + col-line)
     v(2pt)
     grid(
@@ -84,7 +84,7 @@
 )
 
 // Default text style
-#set text(font: "Arial", size: 6pt, fill: rgb("#000"))
+#set text(font: "Liberation Sans", size: 6pt, fill: rgb("#000"))
 
 // Rapporttitel (getoond voor de directiebegroting-stijl)
 #let report-title = data.at("report_title", default: "")

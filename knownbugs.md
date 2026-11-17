@@ -556,12 +556,6 @@ stand van `main` op die datum.
      inspringing gemeten: in een kolom van 100 pt werd een regel ongeveer 121 pt breed. Voorstel: eerst op `'\n'`
      splitsen en per deel afbreken; vervolgregels mét inspringing meten. — B
 
-145. **Bouw 1- en IBIS-PDF kunnen zonder tekst uitkomen buiten de bouwmachine.** `bouw1.rs:550-605` en `ibis.rs`
-     zetten systeemlettertypen uit en ingebedde lettertypen staan ook niet aan. Arial wordt uit
-     `C:/Windows/Fonts` gekopieerd naar een map op basis van `CARGO_MANIFEST_DIR` van de bouwmachine of een pad
-     relatief aan de werkmap; die map staat in `.gitignore` en zit niet in de bundel. Op Linux en macOS, of als de
-     werkmap niet schrijfbaar is, krijgt Typst geen lettertypen. — S
-
 146. **Het percentage van een betalingstermijn in de offerte-PDF volgt de rapporttaal niet.** `offerte.rs:98`
      formatteert met `{}`, wat `12.5%` geeft in een Nederlandse offerte. — S
 

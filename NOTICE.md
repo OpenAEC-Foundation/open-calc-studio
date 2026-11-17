@@ -16,6 +16,11 @@ hebben hun eigen OFL-1.1-licenties in `src/styles/blueprint/fonts/*-OFL.txt`.
 De bronbestanden en hun SHA-256 staan in `src/styles/blueprint/SOURCE.json`.
 De B2-iconen zijn niet overgenomen: hun upstreamlicentie is nog niet vastgesteld.
 
+De PDF-rapporten van de desktopapp bevatten Liberation Sans (normaal, vet,
+cursief en vet cursief), ingebouwd vanuit
+`libs/openaec-reports/src/openaec_reports/assets/fonts/`. Liberation Sans valt
+onder de SIL Open Font License 1.1; zie `LICENSE-Liberation` in die map.
+
 JavaScript-, Rust- en systeembibliotheken behouden hun eigen licenties. De
 headless serverbuild schrijft een `THIRD-PARTY-NOTICES.txt` met de daadwerkelijk
 gebundelde npm-pakketten en hun aanwezige licentieteksten naast de server.

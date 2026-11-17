@@ -51,7 +51,7 @@ axum = "0.7"
 tower = "0.4"
 openaec-layout = { path = "../libs/openaec-reports/rust/crates/openaec-layout" }
 openaec-core = { path = "../libs/openaec-reports/rust/crates/openaec-core" }
-typst-as-lib = { version = "0.15.4", features = ["typst-kit-fonts"] }
+typst-as-lib = "0.15.4"
 typst-pdf = "0.14.2"
 dirs = "6"
 chrono = { version = "0.4", default-features = false, features = ["clock"] }
@@ -61,6 +61,10 @@ sha2 = "0.10"
 rand = "0.8"
 [target.'cfg(target_os = "windows")'.dependencies]
 keyring = { version = "3", features = ["windows-native"] }
+
+[dev-dependencies]
+# Reads the PDF content in the report tests (issue #99); already in the tree via printpdf.
+lopdf = "0.31"
 
 [target.'cfg(target_os = "macos")'.dependencies]
 keyring = { version = "3", features = ["apple-native"] }

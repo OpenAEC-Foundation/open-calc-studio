@@ -47,7 +47,7 @@ fn small_style() -> ParagraphStyle {
 
 pub fn generate_bytes(request: &OfferteReportRequest) -> Result<Vec<u8>, String> {
     let fonts = shared_font_registry();
-    super::generator::load_system_fonts(&fonts);
+    super::fonts::register_layout_fonts(&fonts)?;
 
     let page = Size { width: Mm(210.0).into(), height: Mm(297.0).into() };
     let margin_left: Pt = Mm(55.0).into();
@@ -410,6 +410,7 @@ mod tests {
         for labels in [serde_json::json!({}), en] {
             let pdf = generate_bytes(&request(labels)).expect("PDF");
             assert_eq!(&pdf[0..4], b"%PDF");
+            assert!(crate::reports::fonts::text_operations(&pdf) > 5, "offerte PDF has no text (issue #99)");
         }
     }
 

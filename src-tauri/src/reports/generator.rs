@@ -396,37 +396,6 @@ fn decode_logo(data_url: &str) -> Option<(Vec<u8>, f32)> {
 
 // ── PDF Generation ──────────────────────────────────────────────────────────
 
-/// Load system fonts into the registry.
-pub(crate) fn load_system_fonts(fonts: &SharedFontRegistry) {
-    let mut reg = fonts.lock().unwrap();
-
-    // Try common font paths on Windows
-    let font_dir = std::path::Path::new("C:/Windows/Fonts");
-    let font_candidates = [
-        ("Inter", "segoeui.ttf"),                // Regular
-        ("Inter-Bold", "segoeuib.ttf"),          // Bold
-        ("Inter-Italic", "segoeuii.ttf"),        // Italic
-        ("Inter-BoldItalic", "segoeuiz.ttf"),    // Bold Italic (paragraaf-koppen)
-    ];
-
-    for (name, file) in &font_candidates {
-        let path = font_dir.join(file);
-        if path.exists() {
-            match reg.register_ttf(name, &path) {
-                Ok(_) => {}
-                Err(e) => eprintln!("Failed to load font {}: {}", name, e),
-            }
-        }
-    }
-
-    // Register aliases
-    reg.register_alias("LiberationSans", "Inter");
-    reg.register_alias("LiberationSans-Bold", "Inter-Bold");
-    reg.register_alias("LiberationSans-Italic", "Inter-Italic");
-    reg.register_alias("LiberationSans-BoldItalic", "Inter-BoldItalic");
-    reg.register_alias("LiberationSans-Regular", "Inter");
-}
-
 // Bouw 1 report generation is in bouw1.rs
 
 /// Generate PDF bytes from a report request.
@@ -442,7 +411,7 @@ pub fn generate_bytes(request: &ReportRequest) -> Result<Vec<u8>, String> {
     }
 
     let fonts = shared_font_registry();
-    load_system_fonts(&fonts);
+    super::fonts::register_layout_fonts(&fonts)?;
     let page = page_size_for(&request.page_size, &request.page_orientation);
 
     // Bedrijfslogo rechtsboven in de koptekst (indien ingesteld)

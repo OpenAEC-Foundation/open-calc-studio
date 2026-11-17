@@ -22,7 +22,7 @@
   flipped: is-landscape,
   margin: (left: 10mm, right: 10mm, top: 37mm, bottom: 14mm),
   header: context {
-    set text(font: "Arial", size: 6pt, fill: rgb("#000"))
+    set text(font: "Liberation Sans", size: 6pt, fill: rgb("#000"))
     v(15mm)
     block(width: 100%, {
       grid(
@@ -50,7 +50,7 @@
     v(2pt)
   },
   footer: context {
-    set text(size: 6pt, fill: rgb("#000"), font: "Arial")
+    set text(size: 6pt, fill: rgb("#000"), font: "Liberation Sans")
     line(length: 100%, stroke: 0.3pt + rgb("#b0b0b0"))
     v(2pt)
     text(size: 6pt, L("footer.terms", "Op al onze offertes zijn de algemene voorwaarden van toepassing. Deze voorwaarden zijn bij dit document als bijlage bijgesloten."))
@@ -63,7 +63,7 @@
 )
 
 // Default text style
-#set text(font: "Arial", size: 6pt, fill: rgb("#000"))
+#set text(font: "Liberation Sans", size: 6pt, fill: rgb("#000"))
 
 // Right-align helper
 #let rcell(content) = align(right, content)

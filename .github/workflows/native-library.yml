@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['src-tauri/**', 'src/**', 'packages/native/**', 'scripts/package-native.mjs', '.github/workflows/native-library.yml']
+    paths: ['src-tauri/**', 'src/**', 'tenants/**', 'packages/native/**', 'scripts/package-native.mjs', '.github/workflows/native-library.yml']
   pull_request:
-    paths: ['src-tauri/**', 'src/**', 'packages/native/**', 'scripts/package-native.mjs', '.github/workflows/native-library.yml']
+    paths: ['src-tauri/**', 'src/**', 'tenants/**', 'packages/native/**', 'scripts/package-native.mjs', '.github/workflows/native-library.yml']
 
 permissions:
   contents: read
@@ -55,6 +55,8 @@ jobs:
         run: cargo test --manifest-path src-tauri/Cargo.toml --lib accounts::config_tests --features tauri/custom-protocol
       - name: Test quotation VAT regressions
         run: cargo test --manifest-path src-tauri/Cargo.toml --lib reports::offerte::tests --features tauri/custom-protocol
+      - name: Test that every PDF report contains text (issue 99)
+        run: cargo test --manifest-path src-tauri/Cargo.toml --lib reports::fonts::tests --features tauri/custom-protocol
       - name: Build full native library and application
         run: cargo build --manifest-path src-tauri/Cargo.toml --lib --bin open-calc-studio --features tauri/custom-protocol
       - run: node scripts/package-native.mjs
