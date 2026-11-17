@@ -78,13 +78,15 @@
   background: var(--oa-error-tint, var(--theme-surface)); color: var(--theme-danger-color); font-size: 12px;
   box-shadow: var(--theme-popover-shadow, 0 4px 14px rgba(0, 0, 0, 0.25));
 }
+/* With the step bar present the error floats just above it (bar 40px + 12px gap). */
+.pdf-ws-alert--above-bar { inset-block-end: 52px; }
 .pdf-ws-alert-text { flex: 1; min-width: 0; overflow-wrap: anywhere; }
 .pdf-ws-alert .pdf-ws-icon-button { color: inherit; }
 
 /* ---------- Drawing ---------- */
 .pdf-ws-body { flex: 1; min-height: 0; display: flex; }
-.pdf-ws-stage { position: relative; flex: 1; min-width: 0; min-height: 0; display: flex; }
-.pdf-ws-scroll { flex: 1; min-width: 0; overflow: auto; padding: 16px; outline: 0;
+.pdf-ws-stage { position: relative; flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; }
+.pdf-ws-scroll { flex: 1; min-width: 0; min-height: 0; overflow: auto; padding: 16px; outline: 0;
   /* Backdrop slightly off the workspace colour so the white page stands out in every theme. */
   background: color-mix(in srgb, var(--theme-text) 9%, var(--theme-content-bg, var(--theme-bg))); }
 .pdf-ws-paper { position: relative; width: fit-content; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18); background: #fff; }
@@ -100,20 +102,16 @@
 .pdf-ws-empty p { max-width: 360px; margin: 0; }
 .pdf-ws-empty-icon { width: 40px; height: 40px; stroke-width: 1; color: var(--theme-text-faint); }
 
-/* Floating step hint, top centre over the drawing. */
+/* Step bar under the drawing (like a CAD command line): always there while a PDF is open and
+   always one line high, so it never covers a point and the drawing never shifts. */
 .pdf-ws-hint {
-  position: absolute; z-index: 2; inset-block-start: 12px; left: 50%; transform: translateX(-50%);
-  display: flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 8px;
-  max-width: calc(100% - 24px); padding-block: 6px; padding-inline: 12px 6px;
-  border: 1px solid var(--theme-border); border-radius: 8px;
-  background: var(--theme-surface); color: var(--theme-text); box-shadow: var(--theme-popover-shadow, 0 4px 14px rgba(0, 0, 0, 0.25));
+  flex: none; display: flex; align-items: center; gap: 8px;
+  min-height: 40px; padding-block: 4px; padding-inline: 12px 8px;
+  border-top: 1px solid var(--theme-border); background: var(--theme-surface); color: var(--theme-text); font-size: 12px;
 }
-/* Clicks pass through the hint to the drawing; only its buttons catch them. */
-.pdf-ws-hint { pointer-events: none; }
-.pdf-ws-hint button { pointer-events: auto; }
-.pdf-ws-hint-text { min-width: 0; }
-/* Key hint and buttons stay together on one line; only the instruction text wraps. */
-.pdf-ws-hint-actions { display: inline-flex; align-items: center; gap: 8px; flex-wrap: nowrap; }
+/* One line: a long instruction ends in "…" (full text in its tooltip). */
+.pdf-ws-hint-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pdf-ws-hint-actions { display: inline-flex; align-items: center; gap: 8px; flex-wrap: nowrap; flex: none; }
 .pdf-ws-hint-keys { font-size: 11px; color: var(--theme-text-secondary); white-space: nowrap; }
 
 /* ---------- Measurement list ---------- */
@@ -143,6 +141,7 @@
   .pdf-ws-body { flex-direction: column; }
   .pdf-ws-list { width: auto; max-height: 170px; border-inline-start: 0; border-top: 1px solid var(--theme-border); }
   .pdf-ws-source { max-width: 160px; }
+  .pdf-ws-hint-keys { display: none; } /* the buttons stay; the key reminder goes first */
 }
 
 /* ---------- Fit to width (zoom) ---------- */

@@ -256,11 +256,12 @@ export function PdfViewer({ readOnly = false }: { readOnly?: boolean }) {
         : !scale
           ? uiText("pdf.calibrationHint", "First calibrate this page using two points and a known distance. You can also import Open PDF measurements directly.")
           : uiText("pdf.measureHint", "Choose Length or Area and click the measurement points on the drawing.");
-  // The floating hint guides every step: while the drawing opens, while the page is not
-  // calibrated (that is why Length and Area are disabled) and while measuring.
+  // The step bar under the drawing guides every step: while the drawing opens, while the page is
+  // not calibrated (that is why Length and Area are disabled) and while measuring. It is always
+  // there while a PDF is open, so it never covers a point and the drawing never shifts.
   const hintText = !source || readOnly ? ''
     : !pdf ? uiText("pdf.opening", "Opening the drawing.")
-      : tool === 'pan' ? (scale ? '' : uiText("pdf.calibrationHint", "First calibrate this page using two points and a known distance. You can also import Open PDF measurements directly."))
+      : tool === 'pan' ? (scale ? uiText("pdf.measureHint", "Choose Length or Area and click the measurement points on the drawing.") : uiText("pdf.calibrationHint", "First calibrate this page using two points and a known distance. You can also import Open PDF measurements directly."))
         : points.length ? (tool === 'calibrate'
           ? uiText('pdf.calibratePointsChosen', '{{count}} of 2 points chosen. Press Enter and enter the real distance.', { count: points.length })
           : uiText('pdf.pointsChosen', 'Selected points: {{count}}. Click “Finish measurement” when the shape is complete.', { count: points.length }))
@@ -331,21 +332,10 @@ export function PdfViewer({ readOnly = false }: { readOnly?: boolean }) {
     </div>
     <div className="pdf-ws-body">
       <div className="pdf-ws-stage">
-        {/* Floats at the bottom of the drawing, so the drawing does not jump down. */}
-        {error && <div role="alert" className="pdf-ws-alert">
+        {/* Floats at the bottom of the drawing (above the step bar), so the drawing does not jump down. */}
+        {error && <div role="alert" className={`pdf-ws-alert${hintText ? ' pdf-ws-alert--above-bar' : ''}`}>
           <span className="pdf-ws-alert-text">{error}</span>
           {iconButton(uiText("pdf.dismiss", "Dismiss"), <Icon>{ICONS.close}</Icon>, () => setError(''), false, 'oa-icon-button--small')}
-        </div>}
-        {hintText && <div className="pdf-ws-hint">
-          <span className="pdf-ws-hint-text">{hintText}</span>
-          {tool === 'pan' && pdf && !scale && <button type="button" className="oa-button oa-button--primary oa-button--compact" onClick={startCalibration}>
-            <Icon>{ICONS.calibrate}</Icon>{uiText("pdf.calibrate", "Calibrate")}
-          </button>}
-          {tool !== 'pan' && points.length > 0 && <span className="pdf-ws-hint-actions">
-            <span className="pdf-ws-hint-keys" aria-hidden="true">{uiText("pdf.keysHint", "Enter: finish · Esc: cancel")}</span>
-            <button type="button" className="oa-button oa-button--primary oa-button--compact" onClick={complete}>{tool === 'calibrate' ? uiText("pdf.calibrate", "Calibrate") : uiText("pdf.finish", "Finish measurement")}</button>
-            <button type="button" className="oa-button oa-button--quiet oa-button--compact pdf-ws-hint-cancel" onClick={() => setPoints([])}>{uiText("cancel", "Cancel")}</button>
-          </span>}
         </div>}
         <div ref={stage} className="pdf-ws-scroll" tabIndex={-1}>
           {!source && <div className="pdf-ws-empty">
@@ -369,6 +359,17 @@ export function PdfViewer({ readOnly = false }: { readOnly?: boolean }) {
             }} />
           </div>
         </div>
+        {hintText && <div className="pdf-ws-hint" role="status">
+          <span className="pdf-ws-hint-text" title={hintText}>{hintText}</span>
+          {tool === 'pan' && pdf && !scale && <button type="button" className="oa-button oa-button--primary oa-button--compact" onClick={startCalibration}>
+            <Icon>{ICONS.calibrate}</Icon>{uiText("pdf.calibrate", "Calibrate")}
+          </button>}
+          {tool !== 'pan' && points.length > 0 && <span className="pdf-ws-hint-actions">
+            <span className="pdf-ws-hint-keys" aria-hidden="true">{uiText("pdf.keysHint", "Enter: finish · Esc: cancel")}</span>
+            <button type="button" className="oa-button oa-button--primary oa-button--compact" onClick={complete}>{tool === 'calibrate' ? uiText("pdf.calibrate", "Calibrate") : uiText("pdf.finish", "Finish measurement")}</button>
+            <button type="button" className="oa-button oa-button--quiet oa-button--compact pdf-ws-hint-cancel" onClick={() => setPoints([])}>{uiText("cancel", "Cancel")}</button>
+          </span>}
+        </div>}
       </div>
       {/* Present as soon as there is a drawing, so the first measurement does not narrow the
           drawing area (fit-to-width would rescale the drawing under the cursor). */}
