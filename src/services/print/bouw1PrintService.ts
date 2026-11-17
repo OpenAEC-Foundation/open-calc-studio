@@ -64,6 +64,11 @@ interface Bouw1Row {
   subtotaal: number;
 }
 
+/** Rijen die in de Bouw 1-afdruk een Hst/Par/Nr dragen (en dus een code nodig hebben). */
+const BOUW1_NUMBERED_ROW_TYPES: ReadonlySet<string> = new Set(['chapter', 'begrotingspost', 'bewakingspost']);
+/** Code uit alleen cijfergroepen met punten ertussen: "12", "12.01", "17.01.003". */
+const NUMERIC_CODE = /^\d+(\.\d+)*$/;
+
 function computeBouw1Rows(items: CostItem[], schedule: CostSchedule): Bouw1Row[] {
   // Zelfde tarieven als de rekenkern: een lege of ontbrekende tabel valt
   // terug op de standaardtarieven (knownbug 288).
@@ -175,13 +180,24 @@ function computeBouw1Rows(items: CostItem[], schedule: CostSchedule): Bouw1Row[]
   const rows: Bouw1Row[] = [];
   const visibleItems = items.filter(it => !isStagartRowType(it.rowType) && it.rowType !== 'witregel');
 
+  // Hst/Par/Nr komen uit de eigen codes van de begroting (bijv. Presto
+  // "12.01.003", #95) als élke genummerde rij zo'n puur numerieke code heeft;
+  // anders voor de hele afdruk uit het berekende Nr — nooit gemengd.
+  const numbered = visibleItems.filter(it => BOUW1_NUMBERED_ROW_TYPES.has(it.rowType));
+  const useCodes = numbered.length > 0 && numbered.every(it => NUMERIC_CODE.test(it.code?.trim() ?? ''));
+
   for (const item of visibleItems) {
     const bd = computeBreakdown(item);
 
     // Generate Hst/Par/Nr columns from hierarchy
     let hst = '', par = '', nr = '';
-    if (item.nr) {
-      const parts = item.nr.split('.');
+    // In code-modus krijgen regels en tekstregels geen nummer: hun eventuele
+    // code (bijv. een bibliotheekcode) is geen positie in de begroting.
+    const source = useCodes
+      ? (BOUW1_NUMBERED_ROW_TYPES.has(item.rowType) ? item.code.trim() : '')
+      : item.nr;
+    if (source) {
+      const parts = source.split('.');
       if (parts.length >= 1) hst = parts[0];
       if (parts.length >= 2) par = parts[1];
       if (parts.length >= 3) nr = parts.slice(2).join('.');

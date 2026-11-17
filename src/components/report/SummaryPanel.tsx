@@ -43,7 +43,7 @@ export const SummaryPanel: React.FC = () => {
           <h3 className="summary-section-title">{t('costPrice')}</h3>
           {chapters.filter(ch => ch.parentId === null).map(ch => (
             <div className="summary-row" key={ch.id}>
-              <span>{ch.nr} {ch.description}</span>
+              <span>{ch.code?.trim() || ch.nr} {ch.description}</span>
               <span>{formatCurrency(ch.total)}</span>
             </div>
           ))}
