@@ -129,8 +129,7 @@
     "hideColumns": "{{count}} کالم چھپائیں",
     "cannotHide": "یہ کالم ساختی معلومات رکھتا ہے اور چھپایا نہیں جا سکتا",
     "showHide": "کالم دکھائیں / چھپائیں",
-    "showAll": "تمام کالم دکھائیں",
-    "showHidden": "چھپا ہوا کالم ”{{name}}“ دکھائیں"
+    "showAll": "تمام کالم دکھائیں"
   },
   "findReplace": {
     "searchPlaceholder": "تلاش…",

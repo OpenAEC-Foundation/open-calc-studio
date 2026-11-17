@@ -129,8 +129,7 @@
     "hideColumns": "Skjul {{count}} kolonner",
     "cannotHide": "Denne kolonne indeholder strukturoplysninger og kan ikke skjules",
     "showHide": "Vis / skjul kolonner",
-    "showAll": "Vis alle kolonner",
-    "showHidden": "Vis den skjulte kolonne “{{name}}”"
+    "showAll": "Vis alle kolonner"
   },
   "findReplace": {
     "searchPlaceholder": "Find …",

@@ -129,8 +129,7 @@
     "hideColumns": "پنهان کردن {{count}} ستون",
     "cannotHide": "این ستون اطلاعات ساختاری دارد و پنهان‌شدنی نیست",
     "showHide": "نمایش / پنهان کردن ستون‌ها",
-    "showAll": "نمایش همه ستون‌ها",
-    "showHidden": "نمایش ستون پنهان «{{name}}»"
+    "showAll": "نمایش همه ستون‌ها"
   },
   "findReplace": {
     "searchPlaceholder": "یافتن…",

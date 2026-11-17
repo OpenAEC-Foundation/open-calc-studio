@@ -129,8 +129,7 @@
     "hideColumns": "ເຊື່ອງ {{count}} ຖັນ",
     "cannotHide": "ຖັນນີ້ບັນຈຸຂໍ້ມູນໂຄງສ້າງ ຈຶ່ງບໍ່ສາມາດເຊື່ອງໄດ້",
     "showHide": "ສະແດງ / ເຊື່ອງຖັນ",
-    "showAll": "ສະແດງຖັນທັງໝົດ",
-    "showHidden": "ສະແດງຖັນທີ່ເຊື່ອງໄວ້ “{{name}}”"
+    "showAll": "ສະແດງຖັນທັງໝົດ"
   },
   "findReplace": {
     "searchPlaceholder": "ຊອກຫາ…",

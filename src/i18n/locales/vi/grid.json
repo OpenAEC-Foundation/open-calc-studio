@@ -129,8 +129,7 @@
     "hideColumns": "Ẩn {{count}} cột",
     "cannotHide": "Cột này mang thông tin cấu trúc nên không thể ẩn",
     "showHide": "Hiện / ẩn cột",
-    "showAll": "Hiện tất cả các cột",
-    "showHidden": "Hiện cột đang ẩn “{{name}}”"
+    "showAll": "Hiện tất cả các cột"
   },
   "findReplace": {
     "searchPlaceholder": "Tìm…",

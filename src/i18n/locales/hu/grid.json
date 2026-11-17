@@ -129,8 +129,7 @@
     "hideColumns": "{{count}} oszlop elrejtése",
     "cannotHide": "Ez az oszlop szerkezeti információt hordoz, és nem rejthető el",
     "showHide": "Oszlopok megjelenítése / elrejtése",
-    "showAll": "Minden oszlop megjelenítése",
-    "showHidden": "A rejtett „{{name}}” oszlop megjelenítése"
+    "showAll": "Minden oszlop megjelenítése"
   },
   "findReplace": {
     "searchPlaceholder": "Keresés…",

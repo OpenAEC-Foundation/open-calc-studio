@@ -129,8 +129,7 @@
     "hideColumns": "إخفاء {{count}} أعمدة",
     "cannotHide": "يحمل هذا العمود معلومات هيكلية ولا يمكن إخفاؤه",
     "showHide": "إظهار / إخفاء الأعمدة",
-    "showAll": "إظهار جميع الأعمدة",
-    "showHidden": "إظهار العمود المخفي ”{{name}}“"
+    "showAll": "إظهار جميع الأعمدة"
   },
   "findReplace": {
     "searchPlaceholder": "بحث…",

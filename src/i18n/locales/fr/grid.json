@@ -129,8 +129,7 @@
     "hideColumns": "Masquer {{count}} colonnes",
     "cannotHide": "Cette colonne porte des informations de structure et ne peut pas être masquée",
     "showHide": "Afficher / masquer des colonnes",
-    "showAll": "Afficher toutes les colonnes",
-    "showHidden": "Afficher la colonne masquée « {{name}} »"
+    "showAll": "Afficher toutes les colonnes"
   },
   "findReplace": {
     "searchPlaceholder": "Rechercher…",

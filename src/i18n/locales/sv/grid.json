@@ -129,8 +129,7 @@
     "hideColumns": "Dölj {{count}} kolumner",
     "cannotHide": "Den här kolumnen bär strukturinformation och kan inte döljas",
     "showHide": "Visa / dölj kolumner",
-    "showAll": "Visa alla kolumner",
-    "showHidden": "Visa den dolda kolumnen ”{{name}}”"
+    "showAll": "Visa alla kolumner"
   },
   "findReplace": {
     "searchPlaceholder": "Sök …",

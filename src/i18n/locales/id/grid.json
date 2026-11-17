@@ -129,8 +129,7 @@
     "hideColumns": "Sembunyikan {{count}} kolom",
     "cannotHide": "Kolom ini memuat informasi struktur dan tidak dapat disembunyikan",
     "showHide": "Tampilkan / sembunyikan kolom",
-    "showAll": "Tampilkan semua kolom",
-    "showHidden": "Tampilkan kolom tersembunyi “{{name}}”"
+    "showAll": "Tampilkan semua kolom"
   },
   "findReplace": {
     "searchPlaceholder": "Temukan…",

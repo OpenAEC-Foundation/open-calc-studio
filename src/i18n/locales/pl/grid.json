@@ -129,8 +129,7 @@
     "hideColumns": "Ukryj {{count}} kolumn",
     "cannotHide": "Ta kolumna zawiera informacje strukturalne i nie może zostać ukryta",
     "showHide": "Pokaż / ukryj kolumny",
-    "showAll": "Pokaż wszystkie kolumny",
-    "showHidden": "Pokaż ukrytą kolumnę „{{name}}”"
+    "showAll": "Pokaż wszystkie kolumny"
   },
   "findReplace": {
     "searchPlaceholder": "Znajdź…",

@@ -129,8 +129,7 @@
     "hideColumns": "Verberg {{count}} kolommen",
     "cannotHide": "Deze kolom is nodig voor de structuur en kan niet verborgen worden",
     "showHide": "Kolommen tonen / verbergen",
-    "showAll": "Alle kolommen tonen",
-    "showHidden": "Verborgen kolom “{{name}}” tonen"
+    "showAll": "Alle kolommen tonen"
   },
   "findReplace": {
     "searchPlaceholder": "Zoeken…",

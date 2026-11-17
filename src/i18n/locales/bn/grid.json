@@ -129,8 +129,7 @@
     "hideColumns": "{{count}} কলাম লুকান",
     "cannotHide": "এই কলামে কাঠামোগত তথ্য আছে, এটি লুকানো যায় না",
     "showHide": "কলাম দেখান / লুকান",
-    "showAll": "সব কলাম দেখান",
-    "showHidden": "লুকানো কলাম “{{name}}” দেখান"
+    "showAll": "সব কলাম দেখান"
   },
   "findReplace": {
     "searchPlaceholder": "খুঁজুন…",

@@ -129,8 +129,7 @@
     "hideColumns": "Sembunyikan {{count}} lajur",
     "cannotHide": "Lajur ini membawa maklumat struktur dan tidak boleh disembunyikan",
     "showHide": "Papar / sembunyikan lajur",
-    "showAll": "Papar semua lajur",
-    "showHidden": "Papar lajur tersembunyi “{{name}}”"
+    "showAll": "Papar semua lajur"
   },
   "findReplace": {
     "searchPlaceholder": "Cari…",

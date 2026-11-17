@@ -129,8 +129,7 @@
     "hideColumns": "隐藏 {{count}} 列",
     "cannotHide": "该列包含结构信息，无法隐藏",
     "showHide": "显示／隐藏列",
-    "showAll": "显示所有列",
-    "showHidden": "显示隐藏列“{{name}}”"
+    "showAll": "显示所有列"
   },
   "findReplace": {
     "searchPlaceholder": "查找…",

@@ -129,8 +129,7 @@
     "hideColumns": "Amaga {{count}} columnes",
     "cannotHide": "Aquesta columna conté informació estructural i no es pot amagar",
     "showHide": "Mostra / amaga columnes",
-    "showAll": "Mostra totes les columnes",
-    "showHidden": "Mostra la columna amagada «{{name}}»"
+    "showAll": "Mostra totes les columnes"
   },
   "findReplace": {
     "searchPlaceholder": "Cerca…",

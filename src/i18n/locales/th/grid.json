@@ -129,8 +129,7 @@
     "hideColumns": "ซ่อน {{count}} คอลัมน์",
     "cannotHide": "คอลัมน์นี้มีข้อมูลเชิงโครงสร้างและซ่อนไม่ได้",
     "showHide": "แสดง / ซ่อนคอลัมน์",
-    "showAll": "แสดงทุกคอลัมน์",
-    "showHidden": "แสดงคอลัมน์ที่ซ่อนอยู่ “{{name}}”"
+    "showAll": "แสดงทุกคอลัมน์"
   },
   "findReplace": {
     "searchPlaceholder": "ค้นหา…",

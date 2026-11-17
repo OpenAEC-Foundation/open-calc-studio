@@ -129,8 +129,7 @@
     "hideColumns": "{{count}}개 열 숨기기",
     "cannotHide": "이 열은 구조 정보를 담고 있어 숨길 수 없습니다",
     "showHide": "열 표시 / 숨기기",
-    "showAll": "모든 열 표시",
-    "showHidden": "숨긴 열 “{{name}}” 표시"
+    "showAll": "모든 열 표시"
   },
   "findReplace": {
     "searchPlaceholder": "찾기…",

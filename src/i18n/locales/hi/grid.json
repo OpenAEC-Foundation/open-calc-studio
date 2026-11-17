@@ -129,8 +129,7 @@
     "hideColumns": "{{count}} कॉलम छिपाएँ",
     "cannotHide": "इस कॉलम में संरचनात्मक जानकारी है, इसे छिपाया नहीं जा सकता",
     "showHide": "कॉलम दिखाएँ / छिपाएँ",
-    "showAll": "सभी कॉलम दिखाएँ",
-    "showHidden": "छिपा कॉलम “{{name}}” दिखाएँ"
+    "showAll": "सभी कॉलम दिखाएँ"
   },
   "findReplace": {
     "searchPlaceholder": "ढूँढें…",

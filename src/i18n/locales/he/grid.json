@@ -129,8 +129,7 @@
     "hideColumns": "הסתרת {{count}} עמודות",
     "cannotHide": "עמודה זו נושאת מידע מבני ולא ניתן להסתירה",
     "showHide": "הצגה / הסתרה של עמודות",
-    "showAll": "הצגת כל העמודות",
-    "showHidden": "הצגת העמודה המוסתרת „{{name}}”"
+    "showAll": "הצגת כל העמודות"
   },
   "findReplace": {
     "searchPlaceholder": "איתור…",

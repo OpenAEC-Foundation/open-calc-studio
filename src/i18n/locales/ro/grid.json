@@ -129,8 +129,7 @@
     "hideColumns": "Ascundere a {{count}} coloane",
     "cannotHide": "Această coloană conține informații structurale și nu poate fi ascunsă",
     "showHide": "Afișare / ascundere coloane",
-    "showAll": "Afișare toate coloanele",
-    "showHidden": "Afișare coloană ascunsă „{{name}}”"
+    "showAll": "Afișare toate coloanele"
   },
   "findReplace": {
     "searchPlaceholder": "Găsire…",

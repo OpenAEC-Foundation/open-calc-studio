@@ -129,8 +129,7 @@
     "hideColumns": "Skryť {{count}} stĺpcov",
     "cannotHide": "Tento stĺpec nesie štruktúrne informácie a nedá sa skryť",
     "showHide": "Zobraziť / skryť stĺpce",
-    "showAll": "Zobraziť všetky stĺpce",
-    "showHidden": "Zobraziť skrytý stĺpec „{{name}}“"
+    "showAll": "Zobraziť všetky stĺpce"
   },
   "findReplace": {
     "searchPlaceholder": "Nájsť…",

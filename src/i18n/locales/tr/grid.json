@@ -129,8 +129,7 @@
     "hideColumns": "{{count}} sütunu gizle",
     "cannotHide": "Bu sütun yapısal bilgi taşır ve gizlenemez",
     "showHide": "Sütunları göster / gizle",
-    "showAll": "Tüm sütunları göster",
-    "showHidden": "Gizli “{{name}}” sütununu göster"
+    "showAll": "Tüm sütunları göster"
   },
   "findReplace": {
     "searchPlaceholder": "Bul…",

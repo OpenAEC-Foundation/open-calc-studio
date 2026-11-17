@@ -207,7 +207,8 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
           break;
         }
         default:
-          if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && columns[activeCol]?.editable && visibleItems) {
+          // Niet doortypen in een verborgen kolom (de cursor stond erop toen hij werd verborgen).
+          if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && columns[activeCol]?.editable && colVisible(activeCol) && visibleItems) {
             const item = visibleItems[activeRow];
             if (item && isCellEditable(columns[activeCol].key, item.rowType, gridView)) {
               e.preventDefault();

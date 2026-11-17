@@ -129,8 +129,7 @@
     "hideColumns": "Sakrij {{count}} stupaca",
     "cannotHide": "Ovaj stupac nosi strukturne informacije i ne može se sakriti",
     "showHide": "Prikaži / sakrij stupce",
-    "showAll": "Prikaži sve stupce",
-    "showHidden": "Prikaži skriveni stupac „{{name}}”"
+    "showAll": "Prikaži sve stupce"
   },
   "findReplace": {
     "searchPlaceholder": "Pronađi…",

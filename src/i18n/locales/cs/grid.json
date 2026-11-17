@@ -129,8 +129,7 @@
     "hideColumns": "Skrýt {{count}} sloupců",
     "cannotHide": "Tento sloupec nese strukturní informace a nelze jej skrýt",
     "showHide": "Zobrazit / skrýt sloupce",
-    "showAll": "Zobrazit všechny sloupce",
-    "showHidden": "Zobrazit skrytý sloupec „{{name}}“"
+    "showAll": "Zobrazit všechny sloupce"
   },
   "findReplace": {
     "searchPlaceholder": "Najít…",

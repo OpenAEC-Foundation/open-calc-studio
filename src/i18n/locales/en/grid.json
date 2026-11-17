@@ -129,8 +129,7 @@
     "hideColumns": "Hide {{count}} columns",
     "cannotHide": "This column carries structural information and cannot be hidden",
     "showHide": "Show / hide columns",
-    "showAll": "Show all columns",
-    "showHidden": "Show hidden column “{{name}}”"
+    "showAll": "Show all columns"
   },
   "findReplace": {
     "searchPlaceholder": "Find…",

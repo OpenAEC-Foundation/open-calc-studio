@@ -129,8 +129,7 @@
     "hideColumns": "{{count}} 列を非表示",
     "cannotHide": "この列は構成情報を含むため非表示にできません",
     "showHide": "列の表示／非表示",
-    "showAll": "すべての列を表示",
-    "showHidden": "非表示の列「{{name}}」を表示"
+    "showAll": "すべての列を表示"
   },
   "findReplace": {
     "searchPlaceholder": "検索…",

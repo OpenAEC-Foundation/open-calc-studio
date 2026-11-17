@@ -10,13 +10,12 @@ import { getGridCellDisplayValue } from '@/services/clipboard/excelClipboard';
 export const GridHeader: React.FC = () => {
   // useTranslation zorgt óók voor een herrender bij taalwissel, zodat
   // getColumnsForView de labels in de nieuwe taal oplost.
-  const { t } = useTranslation('grid');
+  useTranslation('grid');
   const gridView = useAppStore((s) => s.gridView);
   const columnWidths = useAppStore((s) => s.columnWidths);
   const setColumnWidth = useAppStore((s) => s.setColumnWidth);
   const showHoeveelheid = useAppStore((s) => s.showHoeveelheid);
   const hiddenColumns = useAppStore((s) => s.hiddenColumns);
-  const setColumnHidden = useAppStore((s) => s.setColumnHidden);
   const selectedColumns = useAppStore((s) => s.selectedColumns);
   const selectColumn = useAppStore((s) => s.selectColumn);
   const resizing = useRef<{ column: GridColumn; startX: number; startWidth: number } | null>(null);
@@ -117,10 +116,6 @@ export const GridHeader: React.FC = () => {
     <div className="grid-header" style={{ height: headerHeight, width: headerWidth, minWidth: headerWidth }}>
       {columns.map((col, i) => {
         const hidden = isHidden(col);
-        // Show a thin indicator on the next visible column when the column
-        // immediately before it is hidden, so the user can restore it.
-        const prevCol = i > 0 ? columns[i - 1] : null;
-        const showRestoreLeft = !hidden && prevCol != null && isHidden(prevCol);
         return (
           <div
             key={col.key}
@@ -130,20 +125,6 @@ export const GridHeader: React.FC = () => {
             onClick={(e) => handleHeaderClick(e, col)}
             onContextMenu={(e) => handleContextMenu(e, col)}
           >
-            {showRestoreLeft && prevCol && (
-              <button
-                type="button"
-                className="grid-header-hidden-indicator"
-                aria-label={t('columnMenu.showHidden', { name: prevCol.label })}
-                title={t('columnMenu.showHidden', { name: prevCol.label })}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  // Verborgen met de lintknop Hoeveelheid: die knop weer aanzetten, anders komt de kolom niet terug.
-                  if (hiddenByQuantityToggle(prevCol.key, gridView, showHoeveelheid)) useAppStore.getState().toggleHoeveelheid();
-                  else setColumnHidden(gridView, prevCol.key, false);
-                }}
-              />
-            )}
             <span className="grid-header-label">{col.label}</span>
             {col.abbr && <span className="grid-header-abbr">({col.abbr})</span>}
             <div

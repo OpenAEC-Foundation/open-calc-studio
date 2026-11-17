@@ -129,8 +129,7 @@
     "hideColumns": "{{count}} Spalten ausblenden",
     "cannotHide": "Diese Spalte enthält strukturelle Informationen und kann nicht ausgeblendet werden",
     "showHide": "Spalten ein-/ausblenden",
-    "showAll": "Alle Spalten einblenden",
-    "showHidden": "Ausgeblendete Spalte „{{name}}“ einblenden"
+    "showAll": "Alle Spalten einblenden"
   },
   "findReplace": {
     "searchPlaceholder": "Suchen …",

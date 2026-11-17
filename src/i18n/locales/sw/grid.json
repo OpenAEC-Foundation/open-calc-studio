@@ -129,8 +129,7 @@
     "hideColumns": "Ficha safu wima {{count}}",
     "cannotHide": "Safu wima hii ina taarifa za kimuundo na haiwezi kufichwa",
     "showHide": "Onyesha / ficha safu wima",
-    "showAll": "Onyesha safu wima zote",
-    "showHidden": "Onyesha safu wima iliyofichwa “{{name}}”"
+    "showAll": "Onyesha safu wima zote"
   },
   "findReplace": {
     "searchPlaceholder": "Tafuta…",

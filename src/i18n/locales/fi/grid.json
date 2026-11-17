@@ -129,8 +129,7 @@
     "hideColumns": "Piilota {{count}} saraketta",
     "cannotHide": "Tämä sarake sisältää rakenteellista tietoa eikä sitä voi piilottaa",
     "showHide": "Näytä / piilota sarakkeet",
-    "showAll": "Näytä kaikki sarakkeet",
-    "showHidden": "Näytä piilotettu sarake ”{{name}}”"
+    "showAll": "Näytä kaikki sarakkeet"
   },
   "findReplace": {
     "searchPlaceholder": "Etsi…",
