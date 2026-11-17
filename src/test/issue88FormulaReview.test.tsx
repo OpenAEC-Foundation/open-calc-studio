@@ -64,6 +64,31 @@ describe('#88 formule-uitkomsten in de import', () => {
     expect(summarizeCells(data, ['ignore', 'description', 'ignore'])).toEqual({ formulaValues: 0, unusableCells: 0 });
   });
 
+  it('telt een formule die leeg of tekst oplevert niet als getal', () => {
+    const data = parseXlsxTabular(xlsx({
+      ...header,
+      A2: { t: 's', v: 'Hoofdstuk' }, B2: { t: 's', v: '', f: 'IF(1,"",1)' }, C2: { t: 's', v: 'n.v.t.', f: 'IF(1,"n.v.t.",1)' },
+      A3: { t: 's', v: 'Beton' }, B3: { t: 'n', v: 2, f: '1+1' }, C3: { t: 'n', v: 30 },
+    }, 'A1:C3'), 'test');
+    expect(summarizeCells(data, autoDetectMapping(data.headers)).formulaValues).toBe(1);
+  });
+
+  it('telt bij een dubbel gekoppeld veld alleen de kolom die de import gebruikt', () => {
+    const data = parsedMixed();
+    // Kolom C ook als hoeveelheid: de import gebruikt alleen kolom B.
+    expect(summarizeCells(data, ['description', 'quantity', 'quantity'])).toEqual({ formulaValues: 1, unusableCells: 0 });
+  });
+
+  it('telt cellen boven het maximum per kolom mee, alleen op geïmporteerde regels', () => {
+    const data: TabularData = {
+      headers: ['Omschrijving', 'Hoeveelheid'],
+      rows: [['A', ''], ['', ''], ['B', '']],
+      sourceName: 'test',
+      cellIssuesOverflow: { 1: [0, 1, 2] },
+    };
+    expect(summarizeCells(data, ['description', 'quantity'])).toEqual({ formulaValues: 0, unusableCells: 2 });
+  });
+
   it('levert dezelfde informatie gestructureerd aan aanroepers zonder UI', () => {
     const data = parsedMixed();
     const result = buildFromMapping(data, autoDetectMapping(data.headers));

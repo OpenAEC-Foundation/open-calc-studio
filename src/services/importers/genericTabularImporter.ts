@@ -252,10 +252,9 @@ export function autoDetectMapping(headers: string[]): ColumnMapping {
 /** Doelvelden met een getal; alleen daar telt een formule of een kapotte cel. */
 const NUMBER_FIELDS: readonly TargetField[] = ['quantity', 'materialPrice', 'laborPrice', 'equipmentPrice', 'unitPrice', 'total'];
 
+/** De kolom die de opbouw per getalveld gebruikt: bij een dubbele koppeling alleen de eerste. */
 function numberColumns(mapping: ColumnMapping): Set<number> {
-  const cols = new Set<number>();
-  mapping.forEach((field, col) => { if (NUMBER_FIELDS.includes(field)) cols.add(col); });
-  return cols;
+  return new Set(NUMBER_FIELDS.map((field) => mapping.indexOf(field)).filter((col) => col >= 0));
 }
 
 /** Een rij wordt geïmporteerd als hij niet leeg is en een omschrijving of code heeft. */
@@ -282,10 +281,16 @@ export function summarizeCells(data: TabularData, mapping: ColumnMapping): Tabul
   const cols = numberColumns(mapping);
   const imported = importedRowTest(mapping);
   const rowImported = (r: number) => imported(data.rows[r]);
+  // Alleen een formule die een getal oplevert telt: =ALS(…;"";…) geeft een
+  // lege cel en tekst als "n.v.t." komt als onleesbaar getal al apart in beeld.
+  const isNumber = (r: number, c: number) => {
+    const raw = (data.rows[r]?.[c] ?? '').trim();
+    return raw !== '' && !parseAmount(raw).invalid;
+  };
   let formulaValues = 0;
   let unusableCells = 0;
   for (const c of cols) {
-    formulaValues += (data.formulaCells?.[c] ?? []).filter(rowImported).length;
+    formulaValues += (data.formulaCells?.[c] ?? []).filter((r) => rowImported(r) && isNumber(r, c)).length;
     unusableCells += (data.cellIssuesOverflow?.[c] ?? []).filter(rowImported).length;
   }
   for (const issue of data.cellIssues ?? []) {

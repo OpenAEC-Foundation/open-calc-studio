@@ -36,7 +36,8 @@ window.addEventListener('message', async (event) => {
       const { importBudget } = await import('./importers');
       const result = await importBudget(message.payload.data, message.payload.fileName);
       openImportResult(result, message.payload.fileName);
-      send('reply', null, message.id);
+      // The host gets the warnings and, for spreadsheets, which values came from formulas (#88).
+      send('reply', { warnings: result.warnings, ...(result.cellDiagnostics ? { cellDiagnostics: result.cellDiagnostics } : {}) }, message.id);
     } else if (message.type === 'export' && instance) {
       send('reply', instance.getProjectJson(), message.id);
     }

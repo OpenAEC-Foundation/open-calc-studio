@@ -177,7 +177,9 @@ const b = mountIsolated(document.querySelector('#estimate-b'), {
 await Promise.all([a.ready, b.ready]);
 const json = await a.getProjectJson();
 await a.update({ theme: 'dark' });
-await a.importBudget(await file.arrayBuffer(), file.name);
+const { warnings, cellDiagnostics } = await a.importBudget(await file.arrayBuffer(), file.name);
+// Show `warnings` to the user. For CSV/XLSX, `cellDiagnostics` says how many mapped
+// numbers are stored Excel formula results and which cells had no usable value.
 // a.unmount() removes only A; B keeps its data.
 ```
 
