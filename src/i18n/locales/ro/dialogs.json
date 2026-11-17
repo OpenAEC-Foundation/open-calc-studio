@@ -50,6 +50,8 @@
     "cannotReadFile": "Fișierul nu poate fi citit",
     "chooseFile": "Alegere fișier...",
     "noFileSelected": "Niciun fișier selectat",
+    "cellError": "Eroare Excel {{error}}: această celulă nu are o valoare utilizabilă.",
+    "cellNoCachedValue": "Formulă necalculată niciodată în Excel: nicio valoare utilizabilă. Deschideți fișierul în Excel, salvați-l și alegeți din nou.",
     "loadingFile": "Se încarcă fișierul...",
     "cancel": "Anulare",
     "select": "Selectare"

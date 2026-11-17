@@ -49,6 +49,8 @@
     "cannotReadFile": "Imeshindwa kusoma faili",
     "chooseFile": "Chagua faili...",
     "noFileSelected": "Hakuna faili iliyochaguliwa",
+    "cellError": "Hitilafu ya Excel {{error}}: seli hii haina thamani inayotumika.",
+    "cellNoCachedValue": "Fomula haijawahi kukokotolewa katika Excel: hakuna thamani inayotumika. Fungua faili katika Excel, uihifadhi kisha uchague tena.",
     "loadingFile": "Inapakia faili...",
     "cancel": "Ghairi",
     "select": "Chagua"

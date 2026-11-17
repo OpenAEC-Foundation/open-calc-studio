@@ -53,6 +53,8 @@
     "cannotReadFile": "تعذّرت قراءة الملف",
     "chooseFile": "اختيار ملف...",
     "noFileSelected": "لم يتم اختيار ملف",
+    "cellError": "خطأ Excel \u2066{{error}}\u2069: لا تحتوي هذه الخلية على قيمة صالحة.",
+    "cellNoCachedValue": "لم تُحسب الصيغة قط في Excel: لا توجد قيمة صالحة. افتح الملف في Excel واحفظه ثم اختر مرة أخرى.",
     "loadingFile": "جارٍ تحميل الملف...",
     "cancel": "إلغاء",
     "select": "اختيار"

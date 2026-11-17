@@ -50,6 +50,8 @@
     "cannotReadFile": "Nije moguće pročitati datoteku",
     "chooseFile": "Odaberi datoteku...",
     "noFileSelected": "Nije odabrana datoteka",
+    "cellError": "Excelova pogreška {{error}}: ova ćelija nema upotrebljivu vrijednost.",
+    "cellNoCachedValue": "Formula nikad nije izračunata u Excelu: nema upotrebljive vrijednosti. Otvorite datoteku u Excelu, spremite je i ponovno odaberite.",
     "loadingFile": "Učitavanje datoteke...",
     "cancel": "Odustani",
     "select": "Odaberi"

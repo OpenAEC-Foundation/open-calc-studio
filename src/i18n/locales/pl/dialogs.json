@@ -51,6 +51,8 @@
     "cannotReadFile": "Nie można odczytać pliku",
     "chooseFile": "Wybierz plik...",
     "noFileSelected": "Nie wybrano pliku",
+    "cellError": "Błąd Excela {{error}}: ta komórka nie ma użytecznej wartości.",
+    "cellNoCachedValue": "Formuła nigdy nie została obliczona w Excelu: brak użytecznej wartości. Otwórz plik w Excelu, zapisz go i wybierz ponownie.",
     "loadingFile": "Wczytywanie pliku...",
     "cancel": "Anuluj",
     "select": "Wybierz"

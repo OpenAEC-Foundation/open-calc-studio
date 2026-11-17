@@ -49,6 +49,8 @@
     "cannotReadFile": "Datei kann nicht gelesen werden",
     "chooseFile": "Datei wählen …",
     "noFileSelected": "Keine Datei ausgewählt",
+    "cellError": "Excel-Fehler {{error}}: Diese Zelle hat keinen verwendbaren Wert.",
+    "cellNoCachedValue": "Formel nie in Excel berechnet: kein verwendbarer Wert. Öffnen Sie die Datei in Excel, speichern Sie sie und wählen Sie erneut.",
     "loadingFile": "Datei wird geladen …",
     "cancel": "Abbrechen",
     "select": "Auswählen"

@@ -49,6 +49,8 @@
     "cannotReadFile": "Tidak dapat membaca fail",
     "chooseFile": "Pilih fail...",
     "noFileSelected": "Tiada fail dipilih",
+    "cellError": "Ralat Excel {{error}}: sel ini tiada nilai yang boleh digunakan.",
+    "cellNoCachedValue": "Formula tidak pernah dikira dalam Excel: tiada nilai yang boleh digunakan. Buka fail dalam Excel, simpan dan pilih semula.",
     "loadingFile": "Memuatkan fail...",
     "cancel": "Batal",
     "select": "Pilih"

@@ -49,6 +49,8 @@
     "cannotReadFile": "Kan ikke lese filen",
     "chooseFile": "Velg fil …",
     "noFileSelected": "Ingen fil er valgt",
+    "cellError": "Excel-feil {{error}}: denne cellen har ingen brukbar verdi.",
+    "cellNoCachedValue": "Formelen er aldri beregnet i Excel: ingen brukbar verdi. Åpne filen i Excel, lagre den og velg på nytt.",
     "loadingFile": "Laster filen …",
     "cancel": "Avbryt",
     "select": "Velg"

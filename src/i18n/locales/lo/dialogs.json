@@ -49,6 +49,8 @@
     "cannotReadFile": "ບໍ່ສາມາດອ່ານໄຟລ໌ໄດ້",
     "chooseFile": "ເລືອກໄຟລ໌...",
     "noFileSelected": "ຍັງບໍ່ໄດ້ເລືອກໄຟລ໌",
+    "cellError": "ຂໍ້ຜິດພາດຂອງ Excel {{error}}: ເຊວນີ້ບໍ່ມີຄ່າທີ່ໃຊ້ໄດ້.",
+    "cellNoCachedValue": "ສູດບໍ່ເຄີຍຄິດໄລ່ໃນ Excel: ບໍ່ມີຄ່າທີ່ໃຊ້ໄດ້. ເປີດໄຟລ໌ໃນ Excel, ບັນທຶກ ແລ້ວເລືອກໃໝ່.",
     "loadingFile": "ກຳລັງໂຫຼດໄຟລ໌...",
     "cancel": "ຍົກເລີກ",
     "select": "ເລືອກ"

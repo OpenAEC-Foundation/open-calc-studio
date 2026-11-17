@@ -49,6 +49,8 @@
     "cannotReadFile": "No es pot llegir el fitxer",
     "chooseFile": "Trieu un fitxer...",
     "noFileSelected": "Cap fitxer seleccionat",
+    "cellError": "Error d’Excel {{error}}: aquesta cel·la no té un valor utilitzable.",
+    "cellNoCachedValue": "Fórmula mai calculada a Excel: cap valor utilitzable. Obriu el fitxer a Excel, deseu-lo i torneu a triar.",
     "loadingFile": "S'està carregant el fitxer...",
     "cancel": "Cancel·la",
     "select": "Selecciona"

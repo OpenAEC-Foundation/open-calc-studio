@@ -49,6 +49,8 @@
     "cannotReadFile": "Tidak dapat membaca berkas",
     "chooseFile": "Pilih berkas...",
     "noFileSelected": "Belum ada berkas dipilih",
+    "cellError": "Kesalahan Excel {{error}}: sel ini tidak memiliki nilai yang dapat digunakan.",
+    "cellNoCachedValue": "Rumus tidak pernah dihitung di Excel: tidak ada nilai yang dapat digunakan. Buka file di Excel, simpan, lalu pilih lagi.",
     "loadingFile": "Memuat berkas...",
     "cancel": "Batal",
     "select": "Pilih"

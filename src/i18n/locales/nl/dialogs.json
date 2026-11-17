@@ -49,6 +49,8 @@
     "cannotReadFile": "Kan bestand niet lezen",
     "chooseFile": "Bestand kiezen...",
     "noFileSelected": "Geen bestand geselecteerd",
+    "cellError": "Excel-fout {{error}}: deze cel heeft geen bruikbare waarde.",
+    "cellNoCachedValue": "Formule nooit in Excel berekend: geen bruikbare waarde. Open het bestand in Excel, sla het op en kies opnieuw.",
     "loadingFile": "Bestand laden...",
     "cancel": "Annuleren",
     "select": "Selecteren"

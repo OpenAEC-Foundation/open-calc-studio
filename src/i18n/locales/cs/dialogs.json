@@ -51,6 +51,8 @@
     "cannotReadFile": "Soubor nelze přečíst",
     "chooseFile": "Vybrat soubor...",
     "noFileSelected": "Není vybrán žádný soubor",
+    "cellError": "Chyba Excelu {{error}}: tato buňka nemá použitelnou hodnotu.",
+    "cellNoCachedValue": "Vzorec nebyl v Excelu nikdy spočítán: žádná použitelná hodnota. Otevřete soubor v Excelu, uložte ho a vyberte znovu.",
     "loadingFile": "Načítání souboru...",
     "cancel": "Zrušit",
     "select": "Vybrat"

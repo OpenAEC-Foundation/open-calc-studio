@@ -49,6 +49,8 @@
     "cannotReadFile": "Dosya okunamıyor",
     "chooseFile": "Dosya seç...",
     "noFileSelected": "Dosya seçilmedi",
+    "cellError": "Excel hatası {{error}}: bu hücrenin kullanılabilir bir değeri yok.",
+    "cellNoCachedValue": "Formül Excel’de hiç hesaplanmamış: kullanılabilir değer yok. Dosyayı Excel’de açın, kaydedin ve yeniden seçin.",
     "loadingFile": "Dosya yükleniyor...",
     "cancel": "İptal",
     "select": "Seç"

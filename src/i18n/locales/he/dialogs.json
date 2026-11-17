@@ -51,6 +51,8 @@
     "cannotReadFile": "לא ניתן לקרוא את הקובץ",
     "chooseFile": "בחירת קובץ...",
     "noFileSelected": "לא נבחר קובץ",
+    "cellError": "שגיאת Excel \u2066{{error}}\u2069: לתא זה אין ערך שמיש.",
+    "cellNoCachedValue": "הנוסחה מעולם לא חושבה ב-Excel: אין ערך שמיש. פתחו את הקובץ ב-Excel, שמרו אותו ובחרו שוב.",
     "loadingFile": "טוען את הקובץ...",
     "cancel": "ביטול",
     "select": "בחירה"

@@ -49,6 +49,8 @@
     "cannotReadFile": "Unable to read file",
     "chooseFile": "Choose file...",
     "noFileSelected": "No file selected",
+    "cellError": "Excel error {{error}}: this cell has no usable value.",
+    "cellNoCachedValue": "Formula never calculated in Excel: no usable value. Open the file in Excel, save it and choose again.",
     "loadingFile": "Loading file...",
     "cancel": "Cancel",
     "select": "Select"

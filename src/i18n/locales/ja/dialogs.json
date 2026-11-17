@@ -49,6 +49,8 @@
     "cannotReadFile": "ファイルを読み込めません",
     "chooseFile": "ファイルを選択…",
     "noFileSelected": "ファイルが選択されていません",
+    "cellError": "Excel エラー {{error}}: このセルには使用できる値がありません。",
+    "cellNoCachedValue": "数式が Excel で一度も計算されていません: 使用できる値がありません。Excel でファイルを開いて保存し、もう一度選択してください。",
     "loadingFile": "ファイルを読み込んでいます…",
     "cancel": "キャンセル",
     "select": "選択"

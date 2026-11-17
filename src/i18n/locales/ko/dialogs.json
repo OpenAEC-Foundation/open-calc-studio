@@ -49,6 +49,8 @@
     "cannotReadFile": "파일을 읽을 수 없습니다",
     "chooseFile": "파일 선택…",
     "noFileSelected": "선택된 파일 없음",
+    "cellError": "Excel 오류 {{error}}: 이 셀에는 사용할 수 있는 값이 없습니다.",
+    "cellNoCachedValue": "수식이 Excel에서 한 번도 계산되지 않았습니다: 사용할 수 있는 값이 없습니다. Excel에서 파일을 열어 저장한 다음 다시 선택하세요.",
     "loadingFile": "파일을 불러오는 중…",
     "cancel": "취소",
     "select": "선택"

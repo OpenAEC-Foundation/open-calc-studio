@@ -7,7 +7,9 @@ import {
   cellRef,
   colIndexToLetter,
   pickerCellValue,
+  pickerCellIssue,
   type ExcelPickerSheet,
+  type PickerCellIssue,
 } from '../../services/excel/excelLinkService';
 import './Modal.css';
 import './ExcelCellPicker.css';
@@ -37,6 +39,14 @@ export default function ExcelCellPicker({ open, initialLink, onSelect, onCancel 
     () => pickerCellValue(sheets[activeSheet], selectedCell),
     [sheets, activeSheet, selectedCell],
   );
+  // Why the selected cell has no value: an Excel error or a formula never calculated (#88).
+  const selectedIssue = useMemo(
+    () => pickerCellIssue(sheets[activeSheet], selectedCell),
+    [sheets, activeSheet, selectedCell],
+  );
+  const issueText = (issue: PickerCellIssue) => issue.kind === 'error'
+    ? t('excelPicker.cellError', { error: issue.text })
+    : t('excelPicker.cellNoCachedValue');
 
   // Guards against a slow file load from a previous open landing in this one.
   const loadSeq = useRef(0);
@@ -175,6 +185,9 @@ export default function ExcelCellPicker({ open, initialLink, onSelect, onCancel 
               {selectedValue !== null && ` = ${selectedValue}`}
             </span>
           )}
+          {selectedCell && selectedIssue && (
+            <span className="excel-picker-issue" role="status">{issueText(selectedIssue)}</span>
+          )}
           <input
             ref={fileInputRef}
             type="file"
@@ -213,13 +226,18 @@ export default function ExcelCellPicker({ open, initialLink, onSelect, onCancel 
                         const ref = cellRef(ri + origin.row, ci + origin.col);
                         const isSelected = ref === selectedCell;
                         const val = row?.[ci];
+                        const issue = sheets[activeSheet]?.issues?.[ref];
+                        // An error shows its text (#REF!), a formula without a result "=?",
+                        // never the error code or placeholder 0 behind it (#88).
+                        const shown = issue ? (issue.kind === 'error' ? issue.text : '=?') : val;
                         return (
                           <td
                             key={ci}
-                            className={`excel-picker-cell${isSelected ? ' selected' : ''}${typeof val === 'number' ? ' numeric' : ''}`}
+                            className={`excel-picker-cell${isSelected ? ' selected' : ''}${issue ? ' issue' : typeof val === 'number' ? ' numeric' : ''}`}
+                            title={issue ? issueText(issue) : undefined}
                             onClick={() => handleCellClick(ri, ci)}
                           >
-                            {val !== null && val !== undefined ? String(val) : ''}
+                            {shown !== null && shown !== undefined ? String(shown) : ''}
                           </td>
                         );
                       })}

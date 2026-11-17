@@ -49,6 +49,8 @@
     "cannotReadFile": "无法读取文件",
     "chooseFile": "选择文件…",
     "noFileSelected": "未选择文件",
+    "cellError": "Excel 错误 {{error}}：此单元格没有可用值。",
+    "cellNoCachedValue": "公式从未在 Excel 中计算：没有可用值。请在 Excel 中打开文件并保存，然后重新选择。",
     "loadingFile": "正在加载文件…",
     "cancel": "取消",
     "select": "选择"

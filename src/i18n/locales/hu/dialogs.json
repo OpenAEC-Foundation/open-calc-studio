@@ -49,6 +49,8 @@
     "cannotReadFile": "A fájl nem olvasható",
     "chooseFile": "Fájl választása...",
     "noFileSelected": "Nincs kiválasztott fájl",
+    "cellError": "Excel-hiba {{error}}: ennek a cellának nincs használható értéke.",
+    "cellNoCachedValue": "A képletet az Excel soha nem számította ki: nincs használható érték. Nyissa meg a fájlt az Excelben, mentse el, és válasszon újra.",
     "loadingFile": "Fájl betöltése...",
     "cancel": "Mégse",
     "select": "Kiválasztás"

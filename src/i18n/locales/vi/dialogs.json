@@ -49,6 +49,8 @@
     "cannotReadFile": "Không đọc được tệp",
     "chooseFile": "Chọn tệp...",
     "noFileSelected": "Chưa chọn tệp nào",
+    "cellError": "Lỗi Excel {{error}}: ô này không có giá trị dùng được.",
+    "cellNoCachedValue": "Công thức chưa từng được tính trong Excel: không có giá trị dùng được. Hãy mở tệp trong Excel, lưu lại rồi chọn lại.",
     "loadingFile": "Đang tải tệp...",
     "cancel": "Hủy",
     "select": "Chọn"

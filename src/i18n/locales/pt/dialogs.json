@@ -49,6 +49,8 @@
     "cannotReadFile": "Não é possível ler o ficheiro",
     "chooseFile": "Escolher ficheiro…",
     "noFileSelected": "Nenhum ficheiro selecionado",
+    "cellError": "Erro do Excel {{error}}: esta célula não tem um valor utilizável.",
+    "cellNoCachedValue": "Fórmula nunca calculada no Excel: sem valor utilizável. Abra o ficheiro no Excel, guarde-o e escolha novamente.",
     "loadingFile": "A carregar o ficheiro…",
     "cancel": "Cancelar",
     "select": "Selecionar"

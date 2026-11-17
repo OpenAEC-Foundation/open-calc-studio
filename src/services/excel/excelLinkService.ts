@@ -1,5 +1,5 @@
-import { readWorkbook, readWorkbookForValues } from '@/services/importers/safeWorkbook';
-import { cellIssueKind } from '@/services/importers/genericTabularImporter';
+import { readWorkbookForValues } from '@/services/importers/safeWorkbook';
+import { cellIssueKind, type TabularCellIssue } from '@/services/importers/genericTabularImporter';
 import * as XLSX from 'xlsx';
 import type { CostItem } from '../../types/costModel';
 
@@ -14,14 +14,21 @@ export interface ExcelPickerSheet {
   ref: string;
   /** 0-based sheet row/column of `data[0][0]`. */
   origin: { row: number; col: number };
+  /**
+   * Cells without a usable value, by address ("B4"): an Excel error or a
+   * formula never calculated in Excel (#88). Their value in `data` is not used.
+   */
+  issues?: Record<string, PickerCellIssue>;
 }
+
+export type PickerCellIssue = Pick<TabularCellIssue, 'kind' | 'text'>;
 
 export interface ParsedExcelFile {
   sheetNames: string[];
   sheets: Record<string, ExcelPickerSheet>;
 }
 
-function workbookToPickerSheets(wb: XLSX.WorkBook): ParsedExcelFile {
+function workbookToPickerSheets(wb: XLSX.WorkBook, uncalculated: boolean): ParsedExcelFile {
   const sheets: Record<string, ExcelPickerSheet> = {};
   for (const name of wb.SheetNames) {
     const ws = wb.Sheets[name];
@@ -34,23 +41,34 @@ function workbookToPickerSheets(wb: XLSX.WorkBook): ParsedExcelFile {
       // Keep empty rows so data[i] stays sheet row origin.row + i.
       blankrows: true,
     });
-    sheets[name] = { data, ref, origin: { row: start.r, col: start.c } };
+    // Same judgement as "Update Excel links", so the picker never offers a
+    // value that the refresh would refuse (#REF! as 23, a placeholder 0).
+    const issues: Record<string, PickerCellIssue> = {};
+    for (const address of Object.keys(ws)) {
+      if (address.startsWith('!')) continue;
+      const issue = cellIssueKind(ws[address] as XLSX.CellObject, uncalculated);
+      if (issue) issues[address] = issue;
+    }
+    sheets[name] = { data, ref, origin: { row: start.r, col: start.c }, ...(Object.keys(issues).length ? { issues } : {}) };
   }
   return { sheetNames: wb.SheetNames, sheets };
 }
 
+function readPickerFile(data: Uint8Array | ArrayBuffer): ParsedExcelFile {
+  const { workbook, uncalculated } = readWorkbookForValues(data, { type: 'array' });
+  return workbookToPickerSheets(workbook, uncalculated);
+}
+
 /** Parse an Excel file (from File object) and return sheet names + data for the picker */
 export async function parseExcelFile(file: File): Promise<ParsedExcelFile> {
-  const buf = await file.arrayBuffer();
-  return workbookToPickerSheets(readWorkbook(buf, { type: 'array' }));
+  return readPickerFile(await file.arrayBuffer());
 }
 
 /** Parse an Excel file from path (Tauri FS) */
 export async function parseExcelFileFromPath(filePath: string): Promise<ParsedExcelFile | null> {
   try {
     const tauriFs = await import('@tauri-apps/plugin-fs');
-    const bytes = await tauriFs.readFile(filePath);
-    return workbookToPickerSheets(readWorkbook(bytes, { type: 'array' }));
+    return readPickerFile(await tauriFs.readFile(filePath));
   } catch (e) {
     console.error(`[ExcelLink] Failed to parse ${filePath}:`, e);
     return null;
@@ -65,10 +83,17 @@ export function toPickerNumber(val: string | number | null | undefined): number 
   return Number.isFinite(n) ? n : null;
 }
 
+/** Why the cell at an Excel address (e.g. "B4") has no usable value, or null. */
+export function pickerCellIssue(sheet: ExcelPickerSheet | undefined, cell: string): PickerCellIssue | null {
+  if (!sheet?.issues || !cell) return null;
+  return sheet.issues[cell.toUpperCase()] ?? null;
+}
+
 /** Numeric value at an Excel address (e.g. "B4") in a picker sheet, or null. */
 export function pickerCellValue(sheet: ExcelPickerSheet | undefined, cell: string): number | null {
   if (!sheet || !cell) return null;
   if (!/^[A-Z]+[1-9][0-9]*$/i.test(cell)) return null;
+  if (pickerCellIssue(sheet, cell)) return null;
   const addr = XLSX.utils.decode_cell(cell.toUpperCase());
   const r = addr.r - sheet.origin.row;
   const c = addr.c - sheet.origin.col;

@@ -49,6 +49,8 @@
     "cannotReadFile": "Tiedostoa ei voi lukea",
     "chooseFile": "Valitse tiedosto...",
     "noFileSelected": "Tiedostoa ei ole valittu",
+    "cellError": "Excel-virhe {{error}}: tällä solulla ei ole käyttökelpoista arvoa.",
+    "cellNoCachedValue": "Kaavaa ei ole koskaan laskettu Excelissä: ei käyttökelpoista arvoa. Avaa tiedosto Excelissä, tallenna se ja valitse uudelleen.",
     "loadingFile": "Ladataan tiedostoa...",
     "cancel": "Peruuta",
     "select": "Valitse"
