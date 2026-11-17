@@ -40,7 +40,9 @@ const GRID_COLUMN_DEFS: ColumnDef[] = [
   { key: 'sortIndex', labelKey: 'columns.id', width: 32, minWidth: 28, editable: false, type: 'computed', align: 'center' },
   { key: 'rowType', labelKey: 'columns.type', width: 62, minWidth: 50, editable: false, type: 'computed', align: 'center' },
   { key: 'rowNumber', labelKey: 'columns.nr', width: 50, minWidth: 40, editable: false, type: 'computed', align: 'center' },
-  { key: 'code', labelKey: 'columns.code', abbrKey: 'abbr.code', width: 42, minWidth: 32, editable: true, type: 'text', align: 'left' },
+  // Breed genoeg voor hiërarchische codes uit een import ("17.01.01", #95):
+  // de eigen code van de begroting moet zichtbaar zijn naast het berekende Nr.
+  { key: 'code', labelKey: 'columns.code', abbrKey: 'abbr.code', width: 80, minWidth: 32, editable: true, type: 'text', align: 'left' },
   { key: 'description', labelKey: 'columns.description', abbrKey: 'abbr.description', width: 380, minWidth: 120, editable: true, type: 'text', align: 'left' },
   { key: 'quantity', labelKey: 'columns.quantity', abbrKey: 'abbr.quantity', width: 80, minWidth: 50, editable: true, type: 'number', align: 'center', tooltipKey: 'tooltips.quantity' },
   { key: 'unit', labelKey: 'columns.unit', abbrKey: 'abbr.unit', width: 55, minWidth: 45, editable: true, type: 'unit-select', align: 'center', tooltipKey: 'tooltips.unit' },
@@ -94,7 +96,9 @@ const INSCHRIJFSTAAT_COLUMN_DEFS: ColumnDef[] = [
 const SIMPLE_COLUMN_DEFS: ColumnDef[] = [
   { key: 'sortIndex', labelKey: 'columns.id', width: 32, minWidth: 28, editable: false, type: 'computed', align: 'center' },
   { key: 'rowNumber', labelKey: 'columns.nr', width: 50, minWidth: 40, editable: false, type: 'computed', align: 'center' },
-  { key: 'description', labelKey: 'columns.description', abbrKey: 'abbr.description', width: 450, minWidth: 150, editable: true, type: 'text', align: 'left' },
+  // Eigen code van de begroting (bijv. uit Presto: "12.01") naast het berekende Nr (#95).
+  { key: 'code', labelKey: 'columns.code', abbrKey: 'abbr.code', width: 80, minWidth: 32, editable: true, type: 'text', align: 'left' },
+  { key: 'description', labelKey: 'columns.description', abbrKey: 'abbr.description', width: 420, minWidth: 150, editable: true, type: 'text', align: 'left' },
   { key: 'quantity', labelKey: 'columns.quantity', abbrKey: 'abbr.quantity', width: 80, minWidth: 50, editable: true, type: 'number', align: 'right' },
   { key: 'unit', labelKey: 'columns.unit', abbrKey: 'abbr.unit', width: 55, minWidth: 40, editable: true, type: 'unit-select', align: 'center' },
   { key: 'normUnitPrice', labelKey: 'columns.price', abbrKey: 'abbr.price', width: 90, minWidth: 60, editable: true, type: 'currency', align: 'right' },

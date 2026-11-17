@@ -45,7 +45,7 @@ describe('kolombreedtes per kolomsleutel, niet per index', () => {
     expect(width('st', 'description')).toBe(380);
     // Simple deelde vroeger de index-array van UI-1: daar kreeg de
     // omschrijving (index 2) de breedte van Nr.
-    expect(width('simple', 'description')).toBe(450);
+    expect(width('simple', 'description')).toBe(420);
   });
 
   it('een versleepte breedte blijft bij dezelfde kolom, ook met de vertakkingskolom ervoor', () => {
@@ -58,7 +58,7 @@ describe('kolombreedtes per kolomsleutel, niet per index', () => {
 
   it('breedtes zijn per weergave', () => {
     resize('st', 'description', 500);
-    expect(width('simple', 'description')).toBe(450);
+    expect(width('simple', 'description')).toBe(420);
     expect(width('wpcalc', 'description')).toBe(240);
     resize('simple', 'description', 300);
     expect(width('st', 'description')).toBe(500);

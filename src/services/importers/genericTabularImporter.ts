@@ -410,7 +410,11 @@ export function buildFromMapping(data: TabularData, mapping: ColumnMapping, opti
     if (row.every((c) => !c || !c.trim())) continue;
 
     const description = cell(row, cDesc);
-    const code = cell(row, cCode);
+    // Zonder Code-kolom is de eigen nummering van het bestand (kop "Nr", "Nº",
+    // "Pos" …) de code. In `nr` zou ze verloren gaan: dat veld wordt bij elke
+    // herberekening opnieuw uitgerekend (1, 1.01 …). Zo blijven "12.01" en
+    // "17.01.01" staan én bouwen ze de hoofdstukboom op (#95).
+    const code = cCode >= 0 ? cell(row, cCode) : cell(row, cNr);
     if (!description && !code) continue;
     const rowIssues = issuesByRow.get(rowIndex) ?? [];
     reportedIssues.push(...rowIssues);
