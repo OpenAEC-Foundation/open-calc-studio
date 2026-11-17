@@ -1,6 +1,7 @@
 pub mod generator;
 pub mod numfmt;
 pub mod offerte;
+mod fonts;
 mod bouw1;
 mod ibis;
 mod staart;

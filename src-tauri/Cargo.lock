@@ -4142,6 +4142,7 @@ dependencies = [
  "image",
  "keyring",
  "log",
+ "lopdf",
  "openaec-core",
  "openaec-layout",
  "rand 0.8.5",
@@ -7351,7 +7352,6 @@ dependencies = [
  "ecow",
  "thiserror 2.0.18",
  "typst",
- "typst-kit",
 ]
 
 [[package]]
@@ -7396,23 +7396,6 @@ dependencies = [
  "typst-library",
  "typst-macros",
  "typst-svg",
- "typst-syntax",
- "typst-timing",
- "typst-utils",
-]
-
-[[package]]
-name = "typst-kit"
-version = "0.14.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "31476ec753e080ffdd543a0e74b6d319355449ff3eca3f216634f31cfd09a92a"
-dependencies = [
- "ecow",
- "fontdb 0.23.0",
- "once_cell",
- "serde",
- "serde_json",
- "typst-library",
  "typst-syntax",
  "typst-timing",
  "typst-utils",

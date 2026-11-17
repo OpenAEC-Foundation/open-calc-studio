@@ -569,24 +569,7 @@ fn clean_label(s: &str) -> String {
 }
 
 pub fn generate_ibis_typst(request: &ReportRequest) -> Result<Vec<u8>, String> {
-    use typst_as_lib::{TypstEngine, typst_kit_options::TypstKitFontOptions};
-
-    // Resolve tenant path (shared fonts with bouw1).
-    let tenant_path = {
-        let candidates = [
-            option_env!("CARGO_MANIFEST_DIR").map(|d| std::path::PathBuf::from(d).join("..").join("tenants").join("bouw1")),
-            Some(std::path::PathBuf::from("tenants/bouw1")),
-        ];
-        candidates.into_iter().flatten().find(|p| p.exists())
-            .unwrap_or_else(|| std::path::PathBuf::from("tenants/bouw1"))
-    };
-    let fonts_dir = tenant_path.join("fonts");
-    let _ = std::fs::create_dir_all(&fonts_dir);
-    let sys_fonts = std::path::Path::new("C:/Windows/Fonts");
-    for (src, dst) in [("arial.ttf","Arial.ttf"),("arialbd.ttf","Arial-Bold.ttf"),("ariali.ttf","Arial-Italic.ttf")] {
-        let d = fonts_dir.join(dst);
-        if !d.exists() { let _ = std::fs::copy(sys_fonts.join(src), &d); }
-    }
+    use typst_as_lib::TypstEngine;
 
     let mut data = build_ibis_data(request);
     data.page_size = request.page_size.to_lowercase();
@@ -614,17 +597,15 @@ pub fn generate_ibis_typst(request: &ReportRequest) -> Result<Vec<u8>, String> {
             ("logo-left.png", logo_left_bytes.as_slice()),
             ("logo-right.png", logo_right_bytes.as_slice()),
         ])
-        .search_fonts_with(
-            TypstKitFontOptions::default()
-                .include_system_fonts(false)
-                .include_dirs([fonts_dir.to_str().unwrap_or("tenants/bouw1/fonts")]),
-        )
+        // Built-in fonts only, as in bouw1.rs (issue #99).
+        .fonts(super::fonts::typst_fonts())
         .build();
 
     let compiled = engine.compile();
     let doc = compiled.output.map_err(|errs| {
         format!("Typst compile errors: {:?}", errs)
     })?;
+    super::fonts::reject_missing_fonts(compiled.warnings.iter().map(|w| w.message.as_str()))?;
 
     let options = typst_pdf::PdfOptions::default();
     let pdf = typst_pdf::pdf(&doc, &options)

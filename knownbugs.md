@@ -556,12 +556,6 @@ stand van `main` op die datum.
      inspringing gemeten: in een kolom van 100 pt werd een regel ongeveer 121 pt breed. Voorstel: eerst op `'\n'`
      splitsen en per deel afbreken; vervolgregels mét inspringing meten. — B
 
-145. **Bouw 1- en IBIS-PDF kunnen zonder tekst uitkomen buiten de bouwmachine.** `bouw1.rs:550-605` en `ibis.rs`
-     zetten systeemlettertypen uit en ingebedde lettertypen staan ook niet aan. Arial wordt uit
-     `C:/Windows/Fonts` gekopieerd naar een map op basis van `CARGO_MANIFEST_DIR` van de bouwmachine of een pad
-     relatief aan de werkmap; die map staat in `.gitignore` en zit niet in de bundel. Op Linux en macOS, of als de
-     werkmap niet schrijfbaar is, krijgt Typst geen lettertypen. — S
-
 146. **Het percentage van een betalingstermijn in de offerte-PDF volgt de rapporttaal niet.** `offerte.rs:98`
      formatteert met `{}`, wat `12.5%` geeft in een Nederlandse offerte. — S
 
@@ -580,6 +574,19 @@ stand van `main` op die datum.
 
 284. **Afronding in de Rust-staart kiest `staartDoelbedrag` vóór `staartVastBedrag`**, de app andersom
      (`staart.rs:140`). Alleen bereikbaar als beide gezet zijn (MCP of een bewerkt bestand). — S
+
+286. **PDF-rapporten missen tekens die niet in Liberation Sans zitten** (sinds de fix voor #99). Alle
+     rapporten gebruiken nu alleen het ingebouwde Liberation Sans. Daarin ontbreken Arabisch (ar, fa, ur) en
+     onder meer ₹ ₺ ₽ ₸ ₼ ₾. Op Windows kwamen die eerst uit Arial/Segoe UI. Typst (Bouw 1, IBIS, directie)
+     toont een leeg vakje; openaec-layout (`printpdf` `write_text`) laat het teken weg, zonder melding. CJK,
+     Thai, Lao en Indiase schriften ontbraken al in alle drie de lettertypen. Voorstel: Noto Sans (Arabic) als
+     extra lettertype in `reports/fonts.rs` voor Typst, en terugval per teken in openaec-layout. — B (review
+     PR #101, cmap-vergelijking)
+
+287. **`gen_pdf` (ontwikkeltool) maakt bij Bouw 1 een PDF zonder tekst op een schone checkout.**
+     `src-tauri/src/bin/gen_pdf.rs:186-197` laat openaec-core Arial uit `tenants/bouw1/fonts` lezen; die map
+     werd tot #99 door de app zelf gevuld. Niet in de app gebruikt. Voorstel: naar Liberation Sans laten wijzen
+     of het Bouw 1-pad weghalen. — S
 
 ## IFC, PDF en hoeveelheden
 

@@ -7,6 +7,10 @@ export function copyNotices(destination) {
   const blueprint = path.join(target, 'blueprint'); mkdirSync(blueprint, { recursive: true });
   for (const name of ['SOURCE.json', 'LICENSE']) copyFileSync('src/styles/blueprint/' + name, path.join(blueprint, name));
   for (const name of readdirSync('src/styles/blueprint/fonts').filter(name => name.endsWith('-OFL.txt'))) copyFileSync('src/styles/blueprint/fonts/' + name, path.join(blueprint, name));
+  // Liberation Sans is built into the desktop PDF reports (issue #99). The
+  // reports submodule is only checked out for builds that compile Rust.
+  const liberation = 'libs/openaec-reports/src/openaec_reports/assets/fonts/LICENSE-Liberation';
+  if (existsSync(liberation)) copyFileSync(liberation, path.join(target, 'LICENSE-Liberation'));
 }
 
 /** Preserve the actual notices for packages included by the bundler. */
