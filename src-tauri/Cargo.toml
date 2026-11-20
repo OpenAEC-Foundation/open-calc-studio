@@ -66,6 +66,9 @@ keyring = { version = "3", features = ["windows-native"] }
 # Reads the PDF content in the report tests (issue #99); already in the tree via
 # printpdf. Same parser feature as printpdf, so tests run the shipped code path.
 lopdf = { version = "0.31", default-features = false, features = ["pom_parser"] }
+# Walks the laid-out Typst pages to find empty-box glyphs; the same crate
+# typst-as-lib already uses, so nothing new is built.
+typst = "0.14.2"
 
 [target.'cfg(target_os = "macos")'.dependencies]
 keyring = { version = "3", features = ["apple-native"] }
