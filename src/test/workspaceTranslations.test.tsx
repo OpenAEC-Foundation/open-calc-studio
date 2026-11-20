@@ -48,7 +48,7 @@ describe('workspace language selection', () => {
   it('localizes price-library guidance without changing imported resource content', async () => {
     useAppStore.setState({ resourcePickerOpen: true, resourcePickerParentId: null });
     await renderUi(<ResourcePicker />);
-    expect(container.textContent).toContain('Dutch starter library');
+    expect(container.textContent).toContain('Starter library: Netherlands');
     expect(container.textContent).toContain('Select an estimate item before adding a resource.');
   });
 

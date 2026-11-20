@@ -542,6 +542,30 @@
   border-bottom: 1px solid var(--theme-border);
 }
 
+.resource-picker-country {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: var(--theme-text);
+}
+
+.resource-picker-country select {
+  min-width: 220px;
+  padding: 4px 8px;
+  background: var(--theme-dialog-input-bg);
+  border: 1px solid var(--theme-dialog-input-border);
+  border-radius: 6px;
+  color: var(--theme-dialog-input-text);
+  font-size: 12px;
+}
+
+.resource-picker-no-library {
+  padding-left: 6px;
+  border-left: 3px solid var(--theme-accent);
+}
+
 .resource-picker-search input {
   width: 100%;
   padding: 12px 16px;

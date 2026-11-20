@@ -205,6 +205,8 @@ export interface CostSchedule {
   status: 'DRAFT' | 'FINAL' | 'REVISED';
   predefinedType: 'BUDGET' | 'ESTIMATE' | 'TENDER';
   currency: string;
+  /** Country of the built-in price library (ISO 3166-1 alpha-2, issue #93). Unset: NL. */
+  priceCountry?: string;
   projectName: string;
   projectNumber: string;
   client: string;
