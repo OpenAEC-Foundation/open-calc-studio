@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { copyItemsToExcel } from '@/services/clipboard/excelClipboard';
@@ -56,16 +56,39 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
     };
   }, [onClose]);
 
-  // Adjust position so menu stays within viewport
-  useEffect(() => {
-    if (!menuRef.current) return;
-    const rect = menuRef.current.getBoundingClientRect();
-    if (rect.right > window.innerWidth) {
-      menuRef.current.style.left = `${x - rect.width}px`;
+  // Keep the menu inside the window and below the title bar (which sits on
+  // top of everything): open downwards; with no room below, open upwards when
+  // that fits; otherwise slide it up just enough to end at the bottom edge.
+  // Scroll it when the window is lower than the menu itself. Layout effect,
+  // so it never paints off-screen first.
+  useLayoutEffect(() => {
+    const el = menuRef.current;
+    if (!el) return;
+    const margin = 8;
+    el.style.maxHeight = '';
+    el.style.overflowY = '';
+    const rect = el.getBoundingClientRect();
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const titleBar = document.querySelector('.titlebar')?.getBoundingClientRect();
+    const minTop = (titleBar && titleBar.bottom > 0 ? titleBar.bottom : 0) + margin;
+    const maxBottom = vh - margin;
+    let left = x + rect.width > vw - margin ? x - rect.width : x;
+    left = Math.max(margin, Math.min(left, vw - rect.width - margin));
+    let top: number;
+    if (rect.height > maxBottom - minTop) {
+      top = minTop;
+      el.style.maxHeight = `${maxBottom - minTop}px`;
+      el.style.overflowY = 'auto';
+    } else if (y + rect.height <= maxBottom) {
+      top = y;
+    } else if (y - rect.height >= minTop) {
+      top = y - rect.height;
+    } else {
+      top = maxBottom - rect.height;
     }
-    if (rect.bottom > window.innerHeight) {
-      menuRef.current.style.top = `${y - rect.height}px`;
-    }
+    el.style.left = `${left}px`;
+    el.style.top = `${top}px`;
   }, [x, y]);
 
   if (!item) return null;
