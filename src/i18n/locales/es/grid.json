@@ -233,7 +233,23 @@
     "vatBaseClear": "Borrar la base del IVA",
     "vatBaseSet": "Definir la base del IVA",
     "finalAmountSet": "Definir el importe final",
-    "roundingStep": "Escalón de redondeo"
+    "roundingStep": "Escalón de redondeo",
+    "measurementLines": "Editar líneas de medición"
   },
-  "pdfLinkMissing": "Falta la medición de origen en el PDF; se conserva la última medición conocida. Vuelva a vincular la medición."
+  "pdfLinkMissing": "Falta la medición de origen en el PDF; se conserva la última medición conocida. Vuelva a vincular la medición.",
+  "measurement": {
+    "addLines": "Añadir líneas de medición",
+    "removeLines": "Eliminar líneas de medición",
+    "removeConfirm": "¿Eliminar todas las líneas de medición de esta partida? La cantidad se mantiene.",
+    "replaceConfirm": "Esta cantidad procede de las líneas de medición. ¿Eliminar las líneas e introducir la cantidad manualmente?",
+    "description": "Comentario",
+    "count": "Uds.",
+    "length": "Longitud",
+    "width": "Anchura",
+    "height": "Altura",
+    "subtotal": "Subtotal",
+    "sum": "Total",
+    "addLine": "+ Línea",
+    "deleteLine": "Eliminar línea"
+  }
 }

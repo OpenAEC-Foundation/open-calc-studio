@@ -233,7 +233,23 @@
     "vatBaseClear": "KDV matrahını temizle",
     "vatBaseSet": "KDV matrahını ayarla",
     "finalAmountSet": "Nihai tutarı ayarla",
-    "roundingStep": "Yuvarlama adımı"
+    "roundingStep": "Yuvarlama adımı",
+    "measurementLines": "Metraj satırlarını düzenle"
   },
-  "pdfLinkMissing": "PDF kaynak ölçümü eksik; son bilinen miktar korunur. Ölçümü yeniden bağlayın."
+  "pdfLinkMissing": "PDF kaynak ölçümü eksik; son bilinen miktar korunur. Ölçümü yeniden bağlayın.",
+  "measurement": {
+    "addLines": "Metraj satırları ekle",
+    "removeLines": "Metraj satırlarını kaldır",
+    "removeConfirm": "Bu kalemin tüm metraj satırları kaldırılsın mı? Miktar olduğu gibi kalır.",
+    "replaceConfirm": "Bu miktar metraj satırlarından geliyor. Satırlar kaldırılıp miktarı kendiniz mi gireceksiniz?",
+    "description": "Açıklama",
+    "count": "Adet",
+    "length": "Uzunluk",
+    "width": "Genişlik",
+    "height": "Yükseklik",
+    "subtotal": "Ara toplam",
+    "sum": "Toplam",
+    "addLine": "+ Satır",
+    "deleteLine": "Satırı sil"
+  }
 }

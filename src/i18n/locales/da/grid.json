@@ -233,7 +233,23 @@
     "vatBaseClear": "Ryd momsgrundlag",
     "vatBaseSet": "Angiv momsgrundlag",
     "finalAmountSet": "Angiv slutbeløb",
-    "roundingStep": "Afrundingstrin"
+    "roundingStep": "Afrundingstrin",
+    "measurementLines": "Rediger opmålingslinjer"
   },
-  "pdfLinkMissing": "PDF-kildemålingen mangler; den sidst kendte mængde er bevaret. Forbind målingen igen."
+  "pdfLinkMissing": "PDF-kildemålingen mangler; den sidst kendte mængde er bevaret. Forbind målingen igen.",
+  "measurement": {
+    "addLines": "Tilføj opmålingslinjer",
+    "removeLines": "Fjern opmålingslinjer",
+    "removeConfirm": "Fjern alle opmålingslinjer for denne post? Mængden bliver stående.",
+    "replaceConfirm": "Denne mængde kommer fra opmålingslinjerne. Fjern linjerne og indtast mængden selv?",
+    "description": "Beskrivelse",
+    "count": "Antal",
+    "length": "Længde",
+    "width": "Bredde",
+    "height": "Højde",
+    "subtotal": "Subtotal",
+    "sum": "Sum",
+    "addLine": "+ Linje",
+    "deleteLine": "Slet linje"
+  }
 }

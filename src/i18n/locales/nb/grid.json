@@ -233,7 +233,23 @@
     "vatBaseClear": "Tøm mva.-grunnlag",
     "vatBaseSet": "Angi mva.-grunnlag",
     "finalAmountSet": "Angi sluttbeløp",
-    "roundingStep": "Avrundingstrinn"
+    "roundingStep": "Avrundingstrinn",
+    "measurementLines": "Rediger målelinjer"
   },
-  "pdfLinkMissing": "PDF-kildemålingen mangler; den siste kjente mengden beholdes. Koble målingen på nytt."
+  "pdfLinkMissing": "PDF-kildemålingen mangler; den siste kjente mengden beholdes. Koble målingen på nytt.",
+  "measurement": {
+    "addLines": "Legg til målelinjer",
+    "removeLines": "Fjern målelinjer",
+    "removeConfirm": "Fjerne alle målelinjer for denne posten? Mengden blir stående.",
+    "replaceConfirm": "Denne mengden kommer fra målelinjene. Fjerne linjene og legge inn mengden selv?",
+    "description": "Beskrivelse",
+    "count": "Antall",
+    "length": "Lengde",
+    "width": "Bredde",
+    "height": "Høyde",
+    "subtotal": "Delsum",
+    "sum": "Sum",
+    "addLine": "+ Linje",
+    "deleteLine": "Slett linje"
+  }
 }

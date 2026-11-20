@@ -233,7 +233,23 @@
     "vatBaseClear": "Brisanje osnovice PDV-a",
     "vatBaseSet": "Postavljanje osnovice PDV-a",
     "finalAmountSet": "Postavljanje konačnog iznosa",
-    "roundingStep": "Korak zaokruživanja"
+    "roundingStep": "Korak zaokruživanja",
+    "measurementLines": "Uredi retke izmjere"
   },
-  "pdfLinkMissing": "Nedostaje izvorno PDF mjerenje; zadržana je zadnja poznata količina. Ponovno povežite mjerenje."
+  "pdfLinkMissing": "Nedostaje izvorno PDF mjerenje; zadržana je zadnja poznata količina. Ponovno povežite mjerenje.",
+  "measurement": {
+    "addLines": "Dodaj retke izmjere",
+    "removeLines": "Ukloni retke izmjere",
+    "removeConfirm": "Ukloniti sve retke izmjere ove stavke? Količina ostaje nepromijenjena.",
+    "replaceConfirm": "Ova količina dolazi iz redaka izmjere. Ukloniti retke i sami unijeti količinu?",
+    "description": "Opis",
+    "count": "Kom.",
+    "length": "Duljina",
+    "width": "Širina",
+    "height": "Visina",
+    "subtotal": "Međuzbroj",
+    "sum": "Zbroj",
+    "addLine": "+ Redak",
+    "deleteLine": "Izbriši redak"
+  }
 }

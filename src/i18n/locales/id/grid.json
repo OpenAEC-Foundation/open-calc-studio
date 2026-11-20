@@ -233,7 +233,23 @@
     "vatBaseClear": "Kosongkan dasar PPN",
     "vatBaseSet": "Atur dasar PPN",
     "finalAmountSet": "Atur nilai akhir",
-    "roundingStep": "Kelipatan pembulatan"
+    "roundingStep": "Kelipatan pembulatan",
+    "measurementLines": "Edit baris pengukuran"
   },
-  "pdfLinkMissing": "Pengukuran sumber PDF hilang; volume terakhir yang diketahui dipertahankan. Tautkan kembali pengukurannya."
+  "pdfLinkMissing": "Pengukuran sumber PDF hilang; volume terakhir yang diketahui dipertahankan. Tautkan kembali pengukurannya.",
+  "measurement": {
+    "addLines": "Tambah baris pengukuran",
+    "removeLines": "Hapus baris pengukuran",
+    "removeConfirm": "Hapus semua baris pengukuran item ini? Kuantitas tetap seperti semula.",
+    "replaceConfirm": "Kuantitas ini berasal dari baris pengukuran. Hapus baris dan isi kuantitas sendiri?",
+    "description": "Uraian",
+    "count": "Jml",
+    "length": "Panjang",
+    "width": "Lebar",
+    "height": "Tinggi",
+    "subtotal": "Subtotal",
+    "sum": "Jumlah",
+    "addLine": "+ Baris",
+    "deleteLine": "Hapus baris"
+  }
 }

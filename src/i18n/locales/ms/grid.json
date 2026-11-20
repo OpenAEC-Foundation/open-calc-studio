@@ -233,7 +233,23 @@
     "vatBaseClear": "Kosongkan asas GST",
     "vatBaseSet": "Tetapkan asas GST",
     "finalAmountSet": "Tetapkan amaun akhir",
-    "roundingStep": "Langkah pembundaran"
+    "roundingStep": "Langkah pembundaran",
+    "measurementLines": "Sunting baris ukuran"
   },
-  "pdfLinkMissing": "Ukuran sumber PDF tiada; kuantiti terakhir yang diketahui dikekalkan. Pautkan semula ukuran tersebut."
+  "pdfLinkMissing": "Ukuran sumber PDF tiada; kuantiti terakhir yang diketahui dikekalkan. Pautkan semula ukuran tersebut.",
+  "measurement": {
+    "addLines": "Tambah baris ukuran",
+    "removeLines": "Buang baris ukuran",
+    "removeConfirm": "Buang semua baris ukuran bagi item ini? Kuantiti kekal seperti sedia ada.",
+    "replaceConfirm": "Kuantiti ini datang daripada baris ukuran. Buang baris dan masukkan kuantiti sendiri?",
+    "description": "Keterangan",
+    "count": "Bil.",
+    "length": "Panjang",
+    "width": "Lebar",
+    "height": "Tinggi",
+    "subtotal": "Subjumlah",
+    "sum": "Jumlah",
+    "addLine": "+ Baris",
+    "deleteLine": "Padam baris"
+  }
 }

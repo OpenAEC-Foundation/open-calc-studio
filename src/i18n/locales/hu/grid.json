@@ -233,7 +233,23 @@
     "vatBaseClear": "Áfaalap törlése",
     "vatBaseSet": "Áfaalap beállítása",
     "finalAmountSet": "Végösszeg beállítása",
-    "roundingStep": "Kerekítési lépésköz"
+    "roundingStep": "Kerekítési lépésköz",
+    "measurementLines": "Felmérési sorok szerkesztése"
   },
-  "pdfLinkMissing": "A PDF-forrásmérés hiányzik; az utolsó ismert mennyiség megmarad. Kapcsolja össze újra a mérést."
+  "pdfLinkMissing": "A PDF-forrásmérés hiányzik; az utolsó ismert mennyiség megmarad. Kapcsolja össze újra a mérést.",
+  "measurement": {
+    "addLines": "Felmérési sorok hozzáadása",
+    "removeLines": "Felmérési sorok eltávolítása",
+    "removeConfirm": "Eltávolítja a tétel összes felmérési sorát? A mennyiség megmarad.",
+    "replaceConfirm": "Ez a mennyiség a felmérési sorokból származik. Eltávolítja a sorokat, és saját maga adja meg a mennyiséget?",
+    "description": "Leírás",
+    "count": "Db",
+    "length": "Hossz",
+    "width": "Szélesség",
+    "height": "Magasság",
+    "subtotal": "Részösszeg",
+    "sum": "Összeg",
+    "addLine": "+ Sor",
+    "deleteLine": "Sor törlése"
+  }
 }

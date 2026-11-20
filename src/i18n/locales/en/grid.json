@@ -233,7 +233,23 @@
     "vatBaseClear": "Clear VAT base",
     "vatBaseSet": "Set VAT base",
     "finalAmountSet": "Set final amount",
-    "roundingStep": "Rounding step"
+    "roundingStep": "Rounding step",
+    "measurementLines": "Edit measurement lines"
   },
-  "pdfLinkMissing": "PDF source measurement is missing; the last known quantity is retained. Relink the measurement."
+  "pdfLinkMissing": "PDF source measurement is missing; the last known quantity is retained. Relink the measurement.",
+  "measurement": {
+    "addLines": "Add measurement lines",
+    "removeLines": "Remove measurement lines",
+    "removeConfirm": "Remove all measurement lines of this item? The quantity stays as it is.",
+    "replaceConfirm": "This quantity comes from the measurement lines. Remove the lines and enter the quantity yourself?",
+    "description": "Description",
+    "count": "No.",
+    "length": "Length",
+    "width": "Width",
+    "height": "Height",
+    "subtotal": "Subtotal",
+    "sum": "Total",
+    "addLine": "+ Line",
+    "deleteLine": "Delete line"
+  }
 }

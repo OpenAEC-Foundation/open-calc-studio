@@ -233,7 +233,23 @@
     "vatBaseClear": "Futa msingi wa VAT",
     "vatBaseSet": "Weka msingi wa VAT",
     "finalAmountSet": "Weka kiasi cha mwisho",
-    "roundingStep": "Hatua ya kuzungusha"
+    "roundingStep": "Hatua ya kuzungusha",
+    "measurementLines": "Hariri mistari ya vipimo"
   },
-  "pdfLinkMissing": "Kipimo cha chanzo cha PDF hakipo; kiasi cha mwisho kinachojulikana kimehifadhiwa. Unganisha kipimo tena."
+  "pdfLinkMissing": "Kipimo cha chanzo cha PDF hakipo; kiasi cha mwisho kinachojulikana kimehifadhiwa. Unganisha kipimo tena.",
+  "measurement": {
+    "addLines": "Ongeza mistari ya vipimo",
+    "removeLines": "Ondoa mistari ya vipimo",
+    "removeConfirm": "Ondoa mistari yote ya vipimo ya kipengele hiki? Kiasi kinabaki kama kilivyo.",
+    "replaceConfirm": "Kiasi hiki kinatokana na mistari ya vipimo. Ondoa mistari na uweke kiasi mwenyewe?",
+    "description": "Maelezo",
+    "count": "Idadi",
+    "length": "Urefu",
+    "width": "Upana",
+    "height": "Kimo",
+    "subtotal": "Jumla ndogo",
+    "sum": "Jumla",
+    "addLine": "+ Mstari",
+    "deleteLine": "Futa mstari"
+  }
 }

@@ -233,7 +233,23 @@
     "vatBaseClear": "Tyhjennä alv-peruste",
     "vatBaseSet": "Aseta alv-peruste",
     "finalAmountSet": "Aseta lopullinen summa",
-    "roundingStep": "Pyöristystarkkuus"
+    "roundingStep": "Pyöristystarkkuus",
+    "measurementLines": "Muokkaa mittarivejä"
   },
-  "pdfLinkMissing": "PDF-lähdemittaus puuttuu; viimeinen tunnettu määrä säilytetään. Linkitä mittaus uudelleen."
+  "pdfLinkMissing": "PDF-lähdemittaus puuttuu; viimeinen tunnettu määrä säilytetään. Linkitä mittaus uudelleen.",
+  "measurement": {
+    "addLines": "Lisää mittarivejä",
+    "removeLines": "Poista mittarivit",
+    "removeConfirm": "Poistetaanko tämän nimikkeen kaikki mittarivit? Määrä säilyy.",
+    "replaceConfirm": "Tämä määrä tulee mittariveistä. Poistetaanko rivit ja syötetäänkö määrä itse?",
+    "description": "Kuvaus",
+    "count": "Kpl",
+    "length": "Pituus",
+    "width": "Leveys",
+    "height": "Korkeus",
+    "subtotal": "Välisumma",
+    "sum": "Summa",
+    "addLine": "+ Rivi",
+    "deleteLine": "Poista rivi"
+  }
 }

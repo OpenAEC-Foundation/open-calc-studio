@@ -233,7 +233,23 @@
     "vatBaseClear": "Effacer la base de TVA",
     "vatBaseSet": "Définir la base de TVA",
     "finalAmountSet": "Définir le montant final",
-    "roundingStep": "Pas d'arrondi"
+    "roundingStep": "Pas d'arrondi",
+    "measurementLines": "Modifier les lignes de métré"
   },
-  "pdfLinkMissing": "La mesure source PDF est manquante ; la dernière quantité connue est conservée. Reliez la mesure."
+  "pdfLinkMissing": "La mesure source PDF est manquante ; la dernière quantité connue est conservée. Reliez la mesure.",
+  "measurement": {
+    "addLines": "Ajouter des lignes de métré",
+    "removeLines": "Supprimer les lignes de métré",
+    "removeConfirm": "Supprimer toutes les lignes de métré de cet article ? La quantité reste inchangée.",
+    "replaceConfirm": "Cette quantité provient des lignes de métré. Supprimer les lignes et saisir la quantité vous-même ?",
+    "description": "Description",
+    "count": "Nb",
+    "length": "Longueur",
+    "width": "Largeur",
+    "height": "Hauteur",
+    "subtotal": "Sous-total",
+    "sum": "Total",
+    "addLine": "+ Ligne",
+    "deleteLine": "Supprimer la ligne"
+  }
 }

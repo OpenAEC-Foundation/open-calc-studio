@@ -233,7 +233,23 @@
     "vatBaseClear": "Vymazání základu DPH",
     "vatBaseSet": "Nastavení základu DPH",
     "finalAmountSet": "Nastavení konečné částky",
-    "roundingStep": "Krok zaokrouhlení"
+    "roundingStep": "Krok zaokrouhlení",
+    "measurementLines": "Upravit řádky výměr"
   },
-  "pdfLinkMissing": "Zdrojové měření PDF chybí; poslední známé množství zůstává zachováno. Propojte měření znovu."
+  "pdfLinkMissing": "Zdrojové měření PDF chybí; poslední známé množství zůstává zachováno. Propojte měření znovu.",
+  "measurement": {
+    "addLines": "Přidat řádky výkazu výměr",
+    "removeLines": "Odebrat řádky výkazu výměr",
+    "removeConfirm": "Odebrat všechny řádky výměr této položky? Množství zůstane beze změny.",
+    "replaceConfirm": "Toto množství pochází z řádků výměr. Odebrat řádky a zadat množství ručně?",
+    "description": "Popis",
+    "count": "Poč.",
+    "length": "Délka",
+    "width": "Šířka",
+    "height": "Výška",
+    "subtotal": "Mezisoučet",
+    "sum": "Součet",
+    "addLine": "+ Řádek",
+    "deleteLine": "Smazat řádek"
+  }
 }

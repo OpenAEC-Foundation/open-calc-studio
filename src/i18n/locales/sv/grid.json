@@ -233,7 +233,23 @@
     "vatBaseClear": "Rensa momsunderlag",
     "vatBaseSet": "Ange momsunderlag",
     "finalAmountSet": "Ange slutbelopp",
-    "roundingStep": "Avrundningssteg"
+    "roundingStep": "Avrundningssteg",
+    "measurementLines": "Redigera mätrader"
   },
-  "pdfLinkMissing": "PDF-källmätningen saknas; den senast kända mängden behålls. Koppla mätningen på nytt."
+  "pdfLinkMissing": "PDF-källmätningen saknas; den senast kända mängden behålls. Koppla mätningen på nytt.",
+  "measurement": {
+    "addLines": "Lägg till mätrader",
+    "removeLines": "Ta bort mätrader",
+    "removeConfirm": "Ta bort alla mätrader för den här posten? Mängden ligger kvar.",
+    "replaceConfirm": "Den här mängden kommer från mätraderna. Ta bort raderna och ange mängden själv?",
+    "description": "Beskrivning",
+    "count": "Antal",
+    "length": "Längd",
+    "width": "Bredd",
+    "height": "Höjd",
+    "subtotal": "Delsumma",
+    "sum": "Summa",
+    "addLine": "+ Rad",
+    "deleteLine": "Ta bort rad"
+  }
 }

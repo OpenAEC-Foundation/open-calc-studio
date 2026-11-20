@@ -233,7 +233,23 @@
     "vatBaseClear": "Ștergere bază TVA",
     "vatBaseSet": "Setare bază TVA",
     "finalAmountSet": "Setare valoare finală",
-    "roundingStep": "Pas de rotunjire"
+    "roundingStep": "Pas de rotunjire",
+    "measurementLines": "Editează liniile de măsurătoare"
   },
-  "pdfLinkMissing": "Măsurătoarea sursă din PDF lipsește; ultima cantitate cunoscută este păstrată. Legați din nou măsurătoarea."
+  "pdfLinkMissing": "Măsurătoarea sursă din PDF lipsește; ultima cantitate cunoscută este păstrată. Legați din nou măsurătoarea.",
+  "measurement": {
+    "addLines": "Adaugă linii de măsurătoare",
+    "removeLines": "Elimină liniile de măsurătoare",
+    "removeConfirm": "Eliminați toate liniile de măsurătoare ale acestei poziții? Cantitatea rămâne neschimbată.",
+    "replaceConfirm": "Această cantitate provine din liniile de măsurătoare. Eliminați liniile și introduceți cantitatea manual?",
+    "description": "Descriere",
+    "count": "Nr.",
+    "length": "Lungime",
+    "width": "Lățime",
+    "height": "Înălțime",
+    "subtotal": "Subtotal",
+    "sum": "Total",
+    "addLine": "+ Linie",
+    "deleteLine": "Șterge linia"
+  }
 }

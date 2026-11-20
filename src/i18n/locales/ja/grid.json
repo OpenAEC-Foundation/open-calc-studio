@@ -233,7 +233,23 @@
     "vatBaseClear": "課税標準をクリア",
     "vatBaseSet": "課税標準の設定",
     "finalAmountSet": "最終金額の設定",
-    "roundingStep": "端数処理の単位"
+    "roundingStep": "端数処理の単位",
+    "measurementLines": "数量明細行を編集"
   },
-  "pdfLinkMissing": "PDF ソースの計測が見つかりません。最後に取得した数量を保持しています。計測を再リンクしてください。"
+  "pdfLinkMissing": "PDF ソースの計測が見つかりません。最後に取得した数量を保持しています。計測を再リンクしてください。",
+  "measurement": {
+    "addLines": "数量明細行を追加",
+    "removeLines": "数量明細行を削除",
+    "removeConfirm": "この項目の数量明細行をすべて削除しますか？数量はそのまま残ります。",
+    "replaceConfirm": "この数量は数量明細行から算出されています。明細行を削除して数量を直接入力しますか？",
+    "description": "摘要",
+    "count": "個数",
+    "length": "長さ",
+    "width": "幅",
+    "height": "高さ",
+    "subtotal": "小計",
+    "sum": "合計",
+    "addLine": "+ 行",
+    "deleteLine": "行を削除"
+  }
 }

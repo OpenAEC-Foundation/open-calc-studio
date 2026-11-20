@@ -233,7 +233,23 @@
     "vatBaseClear": "Esborrat de la base de l'IVA",
     "vatBaseSet": "Definició de la base de l'IVA",
     "finalAmountSet": "Definició de l'import final",
-    "roundingStep": "Esglaó d'arrodoniment"
+    "roundingStep": "Esglaó d'arrodoniment",
+    "measurementLines": "Edita les línies d'amidament"
   },
-  "pdfLinkMissing": "Falta l'amidament d'origen del PDF; es conserva el darrer amidament conegut. Torneu a enllaçar l'amidament."
+  "pdfLinkMissing": "Falta l'amidament d'origen del PDF; es conserva el darrer amidament conegut. Torneu a enllaçar l'amidament.",
+  "measurement": {
+    "addLines": "Afegeix línies d'amidament",
+    "removeLines": "Elimina les línies d'amidament",
+    "removeConfirm": "Voleu eliminar totes les línies d'amidament d'aquesta partida? La quantitat es manté.",
+    "replaceConfirm": "Aquesta quantitat prové de les línies d'amidament. Voleu eliminar les línies i introduir la quantitat vosaltres mateixos?",
+    "description": "Comentari",
+    "count": "Uts.",
+    "length": "Longitud",
+    "width": "Amplada",
+    "height": "Alçada",
+    "subtotal": "Subtotal",
+    "sum": "Total",
+    "addLine": "+ Línia",
+    "deleteLine": "Elimina la línia"
+  }
 }

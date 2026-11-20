@@ -233,7 +233,23 @@
     "vatBaseClear": "과세표준 지우기",
     "vatBaseSet": "과세표준 설정",
     "finalAmountSet": "최종 금액 설정",
-    "roundingStep": "반올림 단위"
+    "roundingStep": "반올림 단위",
+    "measurementLines": "수량 산출 행 편집"
   },
-  "pdfLinkMissing": "PDF 원본 측정값이 없어 마지막으로 알려진 수량을 유지합니다. 측정을 다시 연결하세요."
+  "pdfLinkMissing": "PDF 원본 측정값이 없어 마지막으로 알려진 수량을 유지합니다. 측정을 다시 연결하세요.",
+  "measurement": {
+    "addLines": "수량 산출 행 추가",
+    "removeLines": "수량 산출 행 삭제",
+    "removeConfirm": "이 항목의 수량 산출 행을 모두 삭제할까요? 수량은 그대로 유지됩니다.",
+    "replaceConfirm": "이 수량은 수량 산출 행에서 계산됩니다. 행을 삭제하고 수량을 직접 입력할까요?",
+    "description": "설명",
+    "count": "개수",
+    "length": "길이",
+    "width": "너비",
+    "height": "높이",
+    "subtotal": "소계",
+    "sum": "합계",
+    "addLine": "+ 행",
+    "deleteLine": "행 삭제"
+  }
 }
