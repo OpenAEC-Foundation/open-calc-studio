@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { pdfQuantities } from '@/services/pdf/pdfWorkspace';
+import { priceCountryOf, withBuiltInLibrary } from '@/services/pricing/priceLibraries';
 import { createCostScheduleSlice, type CostScheduleSlice } from './slices/costScheduleSlice';
 import { createCostItemsSlice, type CostItemsSlice } from './slices/costItemsSlice';
 import { createSelectionSlice, type SelectionSlice } from './slices/selectionSlice';
@@ -77,6 +78,13 @@ useAppStore.subscribe((state, previous) => {
   }
   if (state.schedule.pdfWorkspace !== previous.schedule.pdfWorkspace) {
     useAppStore.setState({ pdfMeasurements: pdfQuantities(state.schedule.pdfWorkspace) });
+  }
+  // The built-in price library follows the country of the active estimate
+  // (issue #93): choosing a country, undo, opening a file or switching tabs.
+  // Imported and added resources stay.
+  const country = priceCountryOf(state.schedule);
+  if (country !== priceCountryOf(previous.schedule)) {
+    useAppStore.setState({ resourceLibrary: withBuiltInLibrary(useAppStore.getState().resourceLibrary, country) });
   }
   // Eigenschappen open of dicht onthouden, ook als een werkplek het verandert.
   if (state.showPropertiesPanel !== previous.showPropertiesPanel) savePropertiesPanel(state.showPropertiesPanel);

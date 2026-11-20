@@ -1,6 +1,7 @@
 import type { StateCreator } from 'zustand';
 import type { CostItem } from '@/types/costModel';
 import { effectiveTarieven } from '@/services/calculation/calculator';
+import { priceCountryOf } from '@/services/pricing/priceLibraries';
 
 interface HistoryEntry {
   items: CostItem[];
@@ -13,14 +14,31 @@ interface HistoryEntry {
   tarieven?: Record<string, number>;
   /** Valuta van de begroting vóór deze stap; alleen gezet als de stap de valuta wijzigt (issue #65). */
   currency?: string;
+  /** Land van de prijsbibliotheek vóór deze stap; alleen gezet als de stap het land wijzigt (issue #93). */
+  priceCountry?: string;
 }
 
-/** Zet de valuta terug en geeft de huidige terug (voor de tegenovergestelde stack). */
-function swapCurrency(state: any, entry: HistoryEntry): string | undefined {
-  if (entry.currency === undefined) return undefined;
-  const current: string | undefined = state.schedule?.currency;
-  state.setSchedule?.({ currency: entry.currency });
-  return current;
+type ScheduleExtra = Pick<HistoryEntry, 'currency' | 'priceCountry'>;
+
+/**
+ * Zet valuta en land van de prijsbibliotheek terug en geeft de huidige terug
+ * (voor de tegenovergestelde stack). Alleen de velden die de stap wijzigde.
+ */
+function swapScheduleExtra(state: any, entry: HistoryEntry): ScheduleExtra {
+  const back: ScheduleExtra = {};
+  const restore: ScheduleExtra = {};
+  if (entry.currency !== undefined) { back.currency = state.schedule?.currency; restore.currency = entry.currency; }
+  if (entry.priceCountry !== undefined) { back.priceCountry = priceCountryOf(state.schedule); restore.priceCountry = entry.priceCountry; }
+  if (Object.keys(restore).length > 0) state.setSchedule?.(restore);
+  return back;
+}
+
+/** Alleen de gezette velden, zodat een stap zonder valuta- of landwijziging ze ook niet krijgt. */
+function definedExtra(extra: ScheduleExtra | undefined): ScheduleExtra {
+  const out: ScheduleExtra = {};
+  if (extra?.currency !== undefined) out.currency = extra.currency;
+  if (extra?.priceCountry !== undefined) out.priceCountry = extra.priceCountry;
+  return out;
 }
 
 export interface HistorySlice {
@@ -29,8 +47,9 @@ export interface HistorySlice {
   /**
    * `tarieven`: de tarieven die bij `items` horen, als die al gewijzigd zijn (MCP legt de stap pas na de actie vast).
    * `extra.currency`: de valuta vóór deze stap, als de stap de valuta wijzigt.
+   * `extra.priceCountry`: het land van de prijsbibliotheek vóór deze stap, als de stap het land wijzigt.
    */
-  pushHistory: (items: CostItem[], description: string, tarieven?: Record<string, number>, extra?: { currency?: string }) => void;
+  pushHistory: (items: CostItem[], description: string, tarieven?: Record<string, number>, extra?: { currency?: string; priceCountry?: string }) => void;
   undo: () => CostItem[] | null;
   redo: () => CostItem[] | null;
   canUndo: () => boolean;
@@ -63,7 +82,7 @@ export const createHistorySlice: StateCreator<HistorySlice> = (set, get) => ({
 
   pushHistory: (items, description, tarieven, extra) => {
     set((state) => ({
-      undoStack: [...state.undoStack.slice(-MAX_HISTORY + 1), { items: JSON.parse(JSON.stringify(items)), description, tarieven: tarieven ? { ...tarieven } : tarievenOf(state), ...(extra?.currency !== undefined ? { currency: extra.currency } : {}) }],
+      undoStack: [...state.undoStack.slice(-MAX_HISTORY + 1), { items: JSON.parse(JSON.stringify(items)), description, tarieven: tarieven ? { ...tarieven } : tarievenOf(state), ...definedExtra(extra) }],
       redoStack: [],
     }));
   },
@@ -74,10 +93,10 @@ export const createHistorySlice: StateCreator<HistorySlice> = (set, get) => ({
     const entry = state.undoStack[state.undoStack.length - 1];
     // Save current items to redo stack so redo restores the correct state
     const currentItems: CostItem[] = state.items;
-    const currency = swapCurrency(state, entry);
+    const back = swapScheduleExtra(state, entry);
     set((s: any) => ({
       undoStack: s.undoStack.slice(0, -1),
-      redoStack: [...s.redoStack, { items: JSON.parse(JSON.stringify(currentItems)), description: entry.description, tarieven: tarievenOf(s), ...(currency !== undefined ? { currency } : {}) }],
+      redoStack: [...s.redoStack, { items: JSON.parse(JSON.stringify(currentItems)), description: entry.description, tarieven: tarievenOf(s), ...definedExtra(back) }],
     }));
     restoreTarieven(set, entry);
     markActiveModified(state);
@@ -90,10 +109,10 @@ export const createHistorySlice: StateCreator<HistorySlice> = (set, get) => ({
     const entry = state.redoStack[state.redoStack.length - 1];
     // Save current items to undo stack so undo can reverse the redo
     const currentItems: CostItem[] = state.items;
-    const currency = swapCurrency(state, entry);
+    const back = swapScheduleExtra(state, entry);
     set((s: any) => ({
       redoStack: s.redoStack.slice(0, -1),
-      undoStack: [...s.undoStack, { items: JSON.parse(JSON.stringify(currentItems)), description: entry.description, tarieven: tarievenOf(s), ...(currency !== undefined ? { currency } : {}) }],
+      undoStack: [...s.undoStack, { items: JSON.parse(JSON.stringify(currentItems)), description: entry.description, tarieven: tarievenOf(s), ...definedExtra(back) }],
     }));
     restoreTarieven(set, entry);
     markActiveModified(state);

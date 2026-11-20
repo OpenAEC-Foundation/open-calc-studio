@@ -6,6 +6,9 @@ import type { ResourceLibraryItem, ResourceType } from '@/types/costModel';
 import { formatCurrency } from '@/utils/formatting';
 import { formatUnit } from '@/i18n/formatUnit';
 import { capturePriceOrigin } from '@/services/pricing/priceUpdates';
+import { hasPriceLibrary, priceCountryOf, PRICE_LIBRARY_COUNTRIES } from '@/services/pricing/priceLibraries';
+import { choosePriceCountry } from '@/services/pricing/choosePriceCountry';
+import { countryName, countryOptions } from '@/utils/countries';
 import '../panels/panels.css';
 
 const RESOURCE_TYPE_COLORS: Record<ResourceType, string> = {
@@ -17,7 +20,7 @@ const RESOURCE_TYPE_COLORS: Record<ResourceType, string> = {
 };
 
 export const ResourcePicker: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const {
     resourceLibrary,
     resourcePickerOpen,
@@ -33,6 +36,12 @@ export const ResourcePicker: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const searchRef = useRef<HTMLInputElement>(null);
+  // Price library per country (issue #93): the country of the active estimate.
+  const country = useAppStore(s => priceCountryOf(s.schedule));
+  const countries = useMemo(
+    () => resourcePickerOpen ? countryOptions(PRICE_LIBRARY_COUNTRIES, country, i18n.language) : null,
+    [resourcePickerOpen, country, i18n.language],
+  );
   const listRef = useRef<HTMLDivElement>(null);
 
   // Focus search input on open
@@ -122,6 +131,8 @@ export const ResourcePicker: React.FC = () => {
   }, [resourcePickerParentId, pushHistory, items, addRegel, closeResourcePicker, t]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    // Arrows and Enter in the country list belong to that list.
+    if ((e.target as HTMLElement).tagName === 'SELECT' && e.key !== 'Escape') return;
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       setSelectedIndex(i => Math.min(i + 1, filtered.length - 1));
@@ -155,7 +166,24 @@ export const ResourcePicker: React.FC = () => {
         </div>
 
         <div className="resource-picker-search">
-          <p>{uiText("pricing.notice", "Dutch starter library. Check prices and reference dates before estimating. A missing price is not treated as verified.")}</p>
+          <div className="resource-picker-country">
+            <label htmlFor="resource-picker-country">{uiText('pricing.country', 'Country')}</label>
+            <select
+              id="resource-picker-country"
+              value={country}
+              onChange={e => { choosePriceCountry(e.target.value); setSelectedCategory(null); setSelectedIndex(0); }}
+            >
+              <optgroup label={uiText('pricing.withLibrary', 'With a price library')}>
+                {countries?.first.map(o => <option key={o.code} value={o.code}>{o.label}</option>)}
+              </optgroup>
+              <optgroup label={uiText('pricing.allCountries', 'All countries')}>
+                {countries?.rest.map(o => <option key={o.code} value={o.code}>{o.label}</option>)}
+              </optgroup>
+            </select>
+          </div>
+          {hasPriceLibrary(country)
+            ? <p>{uiText('pricing.notice', 'Starter library: {{country}}. Check prices and reference dates before estimating. A missing price is not treated as verified.', { country: countryName(country, i18n.language) })}</p>
+            : <p role="status" className="resource-picker-no-library">{uiText('pricing.noLibrary', 'There is no price library for this country yet ({{country}}). Resources you imported or added stay available.', { country: countryName(country, i18n.language) })}</p>}
           <input
             ref={searchRef}
             type="text"

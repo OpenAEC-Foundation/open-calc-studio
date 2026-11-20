@@ -270,7 +270,7 @@ export default function HomeTab() {
         </RibbonGroup>
 
         <RibbonGroup label={uiText("pricing.title", "Prices")}>
-          <RibbonButton icon={companyIcon} label={uiText("pricing.library", "Dutch price library")} onClick={() => {
+          <RibbonButton icon={companyIcon} label={uiText("pricing.library", "Price library")} onClick={() => {
             const parent = activeItem && ['chapter', 'begrotingspost', 'bewakingspost'].includes(activeItem.rowType) ? activeItem.id : activeItem?.parentId ?? null;
             useAppStore.getState().openResourcePicker(parent);
           }} />
