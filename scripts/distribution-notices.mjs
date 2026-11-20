@@ -11,6 +11,10 @@ export function copyNotices(destination) {
   // reports submodule is only checked out for builds that compile Rust.
   const liberation = 'libs/openaec-reports/src/openaec_reports/assets/fonts/LICENSE-Liberation';
   if (existsSync(liberation)) copyFileSync(liberation, path.join(target, 'LICENSE-Liberation'));
+  // Noto Sans Arabic is a fallback font in the same reports (src-tauri/fonts/README.md).
+  // The headless server image has no src-tauri; package-native.mjs checks it is there.
+  const notoArabic = 'src-tauri/fonts/NotoSansArabic-OFL.txt';
+  if (existsSync(notoArabic)) copyFileSync(notoArabic, path.join(target, 'NotoSansArabic-OFL.txt'));
 }
 
 /** Preserve the actual notices for packages included by the bundler. */

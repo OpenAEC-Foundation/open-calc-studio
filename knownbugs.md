@@ -575,18 +575,36 @@ stand van `main` op die datum.
 284. **Afronding in de Rust-staart kiest `staartDoelbedrag` vóór `staartVastBedrag`**, de app andersom
      (`staart.rs:140`). Alleen bereikbaar als beide gezet zijn (MCP of een bewerkt bestand). — S
 
-286. **PDF-rapporten missen tekens die niet in Liberation Sans zitten** (sinds de fix voor #99). Alle
-     rapporten gebruiken nu alleen het ingebouwde Liberation Sans. Daarin ontbreken Arabisch (ar, fa, ur) en
-     onder meer ₹ ₺ ₽ ₸ ₼ ₾. Op Windows kwamen die eerst uit Arial/Segoe UI. Typst (Bouw 1, IBIS, directie)
-     toont een leeg vakje; openaec-layout (`printpdf` `write_text`) laat het teken weg, zonder melding. CJK,
-     Thai, Lao en Indiase schriften ontbraken al in alle drie de lettertypen. Voorstel: Noto Sans (Arabic) als
-     extra lettertype in `reports/fonts.rs` voor Typst, en terugval per teken in openaec-layout. — B (review
-     PR #101, cmap-vergelijking)
+290. **openaec-layout-rapporten laten tekens weg die niet in Liberation Sans zitten** (sinds de fix voor
+     #99). Geldt voor werkbeschrijving, hoofd- en onderaanneming, inschrijfstaat, nacalculatie en offerte;
+     `printpdf` `write_text` slaat het teken over, zonder melding. Op Windows kwamen ze eerst uit Segoe UI:
+     ₹ en ฿ (in de valutalijst van bijna elke rapporttaal), ₽ (ru), ₺ (tr), ৳ (bn), valutatekens met Arabische letters (AED,
+     SAR, IRR en dergelijke) en Arabische labels (ar, fa, ur). Arabisch was daar ook vóór #99 niet leesbaar:
+     openaec-layout zet geen letters aan elkaar en schrijft niet van rechts naar links. De Typst-rapporten
+     (Bouw 1, IBIS, directie) vallen sinds deze fix terug op Noto Sans en Noto Sans Arabic (`reports/fonts.rs`);
+     alleen ฿ en ৳ (en de CJK-valutatekens 元 en ￥, zie 292) zitten in geen enkel ingebouwd lettertype en
+     blijven daar een leeg vakje (Arial had ze ook niet).
+     Voorstel: terugval per teken in openaec-layout (submodule `libs/openaec-reports`). Echt Arabisch daar
+     vraagt daarnaast shaping en bidi (rustybuzz, unicode-bidi). — B (cmap-vergelijking per rapporttaal)
 
-287. **`gen_pdf` (ontwikkeltool) maakt bij Bouw 1 een PDF zonder tekst op een schone checkout.**
+291. **`gen_pdf` (ontwikkeltool) maakt bij Bouw 1 een PDF zonder tekst op een schone checkout.**
      `src-tauri/src/bin/gen_pdf.rs:186-197` laat openaec-core Arial uit `tenants/bouw1/fonts` lezen; die map
      werd tot #99 door de app zelf gevuld. Niet in de app gebruikt. Voorstel: naar Liberation Sans laten wijzen
      of het Bouw 1-pad weghalen. — S
+
+292. **Rapporten in 8 talen tonen hun labels niet: ja, zh, ko, th, lo, hi, bn en ta.** Geen ingebouwd
+     lettertype heeft die schriften, en dat was vóór #99 op Windows ook al zo (Arial en Segoe UI evenmin).
+     De labels en door de gebruiker getypte tekst in die schriften ontbreken in alle PDF-rapporten, op elk
+     systeem, zonder melding. Voorstel: Engelse labels als terugval voor die talen, of een waarschuwing bij
+     het kiezen van zo'n rapporttaal. Lettertypen meeleveren kost veel: CJK alleen al is meer dan 15 MB. —
+     B (cmap-vergelijking per rapporttaal)
+
+293. **Typst-rapporten zetten Arabische, Perzische, Urdu en Hebreeuwse regels links uitgelijnd en van links
+     naar rechts.** De woorden zelf zijn goed (aan elkaar, van rechts naar links), maar `begroting.typ` en
+     `ibis.typ` zetten geen `lang` of `dir`, en `reportI18n.ts:142` haalt de richtingstekens weg. Een label
+     met een Latijns stuk (zoals "Bouw 1") of een valuta met punt (د.إ.) staat daardoor in de verkeerde
+     volgorde voor wie van rechts naar links leest. Voorstel: `text(dir: rtl)` voor ar, fa, ur en he. — S
+     (uit de Typst-bronnen afgeleid, niet nagespeeld)
 
 ## IFC, PDF en hoeveelheden
 
