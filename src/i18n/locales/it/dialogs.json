@@ -98,7 +98,8 @@
       "indirectCosts": "Questo file aggiunge il {{percent}}% di costi indiretti (CI) al prezzo di ogni voce, come fa il programma che lo ha generato. Compaiono come riga '{{percent}} % Costes indirectos' in ogni voce ({{n}}), così i prezzi e il totale corrispondono al file.",
       "noPrices": "Questo file non contiene prezzi — solo descrizioni e quantità (come una libreria di misurazioni). Il totale resta quindi 0,00.",
       "moreWarnings_one": "… e ancora {{count}} avviso simile.",
-      "moreWarnings_other": "… e altri {{count}} avvisi simili."
+      "moreWarnings_other": "… e altri {{count}} avvisi simili.",
+      "measurementLinesDropped": "Per {{n}} voce/i le righe di misura non corrispondono alla quantità nel file, oppure usano una formula. Lì è stata importata solo la quantità."
     },
     "onlv": {
       "leistungsbuch": "Questo è un Leistungsbuch (catalogo di testi standard) senza quantità né prezzi — tutte le posizioni sono state importate con quantità 0.",

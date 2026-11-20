@@ -98,7 +98,8 @@
       "indirectCosts": "このファイルは、作成したプログラムと同様に、すべての内訳項目の価格に間接費（CI）{{percent}}% を加算しています。各内訳項目（{{n}}）に「{{percent}} % Costes indirectos」という行として表示されるため、単価と合計がファイルと一致します。",
       "noPrices": "このファイルには価格が含まれていません — 名称と数量のみです（数量ライブラリなど）。そのため合計は 0.00 のままです。",
       "moreWarnings_one": "…ほかに同様の通知が {{count}} 件あります。",
-      "moreWarnings_other": "…ほかに同様の通知が {{count}} 件あります。"
+      "moreWarnings_other": "…ほかに同様の通知が {{count}} 件あります。",
+      "measurementLinesDropped": "{{n}} 件の項目で、数量明細行の合計がファイルの数量と一致しないか、数式が使われています。それらは数量のみを取り込みました。"
     },
     "onlv": {
       "leistungsbuch": "これは数量と価格を持たない Leistungsbuch（標準文カタログ）です — すべての項目を数量 0 で取り込みました。",

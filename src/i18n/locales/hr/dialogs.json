@@ -102,7 +102,8 @@
       "noPrices": "Ova datoteka ne sadrži cijene — samo opise i količine (poput knjižnice izmjera). Ukupni iznos stoga ostaje 0,00.",
       "moreWarnings_one": "… i još {{count}} slična obavijest.",
       "moreWarnings_few": "… i još {{count}} slične obavijesti.",
-      "moreWarnings_other": "… i još {{count}} sličnih obavijesti."
+      "moreWarnings_other": "… i još {{count}} sličnih obavijesti.",
+      "measurementLinesDropped": "Kod {{n}} stavki retci izmjere ne daju količinu iz datoteke ili koriste formulu. Tamo je preuzeta samo količina."
     },
     "onlv": {
       "leistungsbuch": "Ovo je Leistungsbuch (katalog standardnih tekstova) bez količina i cijena — sve su stavke uvezene s količinom 0.",

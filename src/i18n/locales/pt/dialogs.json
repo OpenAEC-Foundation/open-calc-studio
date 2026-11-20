@@ -98,7 +98,8 @@
       "indirectCosts": "Este ficheiro acrescenta {{percent}}% de custos indiretos (CI) ao preço de cada artigo, tal como faz o programa que o gerou. Aparecem como uma linha '{{percent}} % Costes indirectos' em cada artigo ({{n}}), para que os preços e o total coincidam com o ficheiro.",
       "noPrices": "Este ficheiro não contém preços — apenas designações e quantidades (como uma biblioteca de medições). Por isso, o total continua a ser 0,00.",
       "moreWarnings_one": "… e mais {{count}} aviso semelhante.",
-      "moreWarnings_other": "… e mais {{count}} avisos semelhantes."
+      "moreWarnings_other": "… e mais {{count}} avisos semelhantes.",
+      "measurementLinesDropped": "Em {{n}} artigo(s) as linhas de medição não somam a quantidade do ficheiro ou usam uma fórmula. Aí só foi importada a quantidade."
     },
     "onlv": {
       "leistungsbuch": "Isto é um Leistungsbuch (catálogo de textos-padrão) sem quantidades nem preços — todas as posições foram importadas com quantidade 0.",

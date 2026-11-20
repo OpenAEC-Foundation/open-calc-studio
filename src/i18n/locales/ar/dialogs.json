@@ -53,7 +53,7 @@
     "cannotReadFile": "تعذّرت قراءة الملف",
     "chooseFile": "اختيار ملف...",
     "noFileSelected": "لم يتم اختيار ملف",
-    "cellError": "خطأ Excel \u2066{{error}}\u2069: لا تحتوي هذه الخلية على قيمة صالحة.",
+    "cellError": "خطأ Excel ⁦{{error}}⁩: لا تحتوي هذه الخلية على قيمة صالحة.",
     "cellNoCachedValue": "لم تُحسب الصيغة قط في Excel: لا توجد قيمة صالحة. افتح الملف في Excel واحفظه ثم اختر مرة أخرى.",
     "loadingFile": "جارٍ تحميل الملف...",
     "cancel": "إلغاء",
@@ -114,7 +114,8 @@
       "moreWarnings_two": "… وملاحظتان أخريان مماثلتان.",
       "moreWarnings_few": "… و{{count}} ملاحظات أخرى مماثلة.",
       "moreWarnings_many": "… و{{count}} ملاحظة أخرى مماثلة.",
-      "moreWarnings_other": "… و{{count}} ملاحظة أخرى مماثلة."
+      "moreWarnings_other": "… و{{count}} ملاحظة أخرى مماثلة.",
+      "measurementLinesDropped": "في {{n}} بند(بنود) لا يساوي مجموع أسطر القياس الكمية في الملف، أو تستخدم صيغة. لذلك استُوردت الكمية فقط."
     },
     "onlv": {
       "leistungsbuch": "هذا Leistungsbuch (فهرس نصوص قياسية) بدون كميات أو أسعار — تم استيراد جميع البنود بكمية 0.",

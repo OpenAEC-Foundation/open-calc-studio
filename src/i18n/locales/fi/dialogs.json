@@ -98,7 +98,8 @@
       "indirectCosts": "Tämä tiedosto lisää jokaisen nimikkeen hintaan {{percent}} % välillisiä kustannuksia (CI), kuten sen kirjoittanut ohjelma tekee. Ne näkyvät rivinä '{{percent}} % Costes indirectos' jokaisessa nimikkeessä ({{n}}), jotta hinnat ja loppusumma vastaavat tiedostoa.",
       "noPrices": "Tiedosto ei sisällä hintoja — vain kuvauksia ja määriä (kuten määräkirjasto). Loppusumma on siksi 0,00.",
       "moreWarnings_one": "… ja {{count}} muu samankaltainen ilmoitus.",
-      "moreWarnings_other": "… ja {{count}} muuta samankaltaista ilmoitusta."
+      "moreWarnings_other": "… ja {{count}} muuta samankaltaista ilmoitusta.",
+      "measurementLinesDropped": "{{n}} nimikkeen mittarivit eivät täsmää tiedoston määrään tai ne käyttävät kaavaa. Niistä tuotiin vain määrä."
     },
     "onlv": {
       "leistungsbuch": "Tämä on Leistungsbuch (vakiotekstien luettelo) ilman määriä ja hintoja — kaikki positiot tuotiin määrällä 0.",

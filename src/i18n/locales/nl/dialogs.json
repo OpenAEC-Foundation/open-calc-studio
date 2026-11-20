@@ -98,7 +98,8 @@
       "indirectCosts": "Dit bestand telt {{percent}}% indirecte kosten (CI) op bij de prijs van elke post, zoals het programma dat het schreef. Ze staan als regel '{{percent}} % Costes indirectos' in elke post ({{n}}), zodat de prijzen en het totaal gelijk zijn aan het bestand.",
       "noPrices": "Dit bestand bevat geen prijzen — alleen omschrijvingen en hoeveelheden (zoals een mediciones-bibliotheek). Het totaal blijft daarom € 0,00.",
       "moreWarnings_one": "… en nog {{count}} vergelijkbare melding.",
-      "moreWarnings_other": "… en nog {{count}} vergelijkbare meldingen."
+      "moreWarnings_other": "… en nog {{count}} vergelijkbare meldingen.",
+      "measurementLinesDropped": "Bij {{n}} post(en) komen de meetregels niet uit op de hoeveelheid in het bestand, of gebruiken ze een formule. Daar is alleen de hoeveelheid overgenomen."
     },
     "onlv": {
       "leistungsbuch": "Dit is een Leistungsbuch (catalogus van standaardteksten) zonder hoeveelheden en prijzen — alle posities zijn met hoeveelheid 0 geïmporteerd.",

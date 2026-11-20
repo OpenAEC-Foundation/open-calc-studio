@@ -98,7 +98,8 @@
       "indirectCosts": "Aquest fitxer suma un {{percent}} % de costos indirectes (CI) al preu de cada partida, com fa el programa que l'ha generat. Apareixen com una línia '{{percent}} % Costes indirectos' a cada partida ({{n}}), perquè els preus i el total coincideixin amb el fitxer.",
       "noPrices": "Aquest fitxer no conté preus, només descripcions i amidaments (com una biblioteca d'amidaments). Per això el total continua sent 0,00.",
       "moreWarnings_one": "… i {{count}} avís similar més.",
-      "moreWarnings_other": "… i {{count}} avisos similars més."
+      "moreWarnings_other": "… i {{count}} avisos similars més.",
+      "measurementLinesDropped": "En {{n}} partida(es) les línies d'amidament no sumen la quantitat del fitxer o fan servir una fórmula. Allà només s'ha importat la quantitat."
     },
     "onlv": {
       "leistungsbuch": "Això és un Leistungsbuch (catàleg de textos estàndard) sense amidaments ni preus — totes les posicions s'han importat amb quantitat 0.",
