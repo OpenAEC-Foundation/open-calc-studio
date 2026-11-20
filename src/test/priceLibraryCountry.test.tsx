@@ -7,6 +7,7 @@ import { useAppStore } from '@/state/appStore';
 import { createDefaultSchedule } from '@/data/defaultBudget';
 import { deserializeProject, serializeProject } from '@/services/file/fileService';
 import { choosePriceCountry } from '@/services/pricing/choosePriceCountry';
+import { executeDesktopCommand } from '@/services/mcp/desktopCommand';
 import {
   builtInLibraryItems, hasPriceLibrary, isBuiltInLibraryItem, priceCountryOf, PRICE_LIBRARY_COUNTRIES, withBuiltInLibrary,
 } from '@/services/pricing/priceLibraries';
@@ -85,6 +86,20 @@ describe('country per estimate', () => {
     expect(useAppStore.getState().resourceLibrary).toHaveLength(2);
   });
 
+  it('choices in a row (arrow keys in the list) are one undo step; after an edit a new one', () => {
+    choosePriceCountry('BE');
+    choosePriceCountry('BG');
+    choosePriceCountry('IN');
+    expect(useAppStore.getState().undoStack).toHaveLength(1);
+    useAppStore.getState().undo();
+    expect(priceCountryOf(useAppStore.getState().schedule)).toBe('NL');
+
+    choosePriceCountry('BE');
+    useAppStore.setState({ items: [] });
+    choosePriceCountry('IN');
+    expect(useAppStore.getState().undoStack).toHaveLength(2);
+  });
+
   it('choosing the current country does nothing', () => {
     choosePriceCountry('NL');
     expect(useAppStore.getState().undoStack).toHaveLength(0);
@@ -107,6 +122,14 @@ describe('country per estimate', () => {
     expect(useAppStore.getState().resourceLibrary).toHaveLength(100);
     useAppStore.getState().setActiveDocument('india');
     expect(useAppStore.getState().resourceLibrary).toHaveLength(2);
+  });
+
+  it('MCP openProject never brings Dutch articles saved in the file into another country', async () => {
+    const nlArticle = builtInLibraryItems('NL')[0];
+    const project = JSON.parse(serializeProject({ ...createDefaultSchedule(), priceCountry: 'BE' }, []));
+    project.resourceLibrary = [nlArticle, imported];
+    await executeDesktopCommand('openProject', { json: JSON.stringify(project), fileName: 'be.ifcCalc' });
+    expect(useAppStore.getState().resourceLibrary).toEqual([imported]);
   });
 
   it('is saved in the project file; old files without a country stay NL', () => {
