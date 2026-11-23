@@ -109,6 +109,44 @@ describe('meetregels in het grid', () => {
     expect(post().quantity).toBe(30);
   });
 
+  it('toetsen met Ctrl uit een meetregel bereiken de grid niet (Ctrl+Delete wiste de hoeveelheid)', async () => {
+    const qtyCol = getColumnsForView('st', false).findIndex((c) => c.key === 'quantity');
+    await act(async () => { s().setActiveCell(1, qtyCol, 'p'); });
+    const copy = vi.spyOn(s(), 'copyItems');
+    const el = cell('l1', 'description');
+    await act(async () => { el.focus(); });
+    for (const key of ['Delete', 'c', 'ArrowRight', 'Home']) {
+      await act(async () => { el.dispatchEvent(new KeyboardEvent('keydown', { key, ctrlKey: true, bubbles: true })); });
+    }
+    expect(post().quantity).toBe(30);
+    expect(post().measurementLines).toHaveLength(1);
+    expect(s().activeCol).toBe(qtyCol);
+    expect(s().isEditing).toBe(false);
+    expect(copy).not.toHaveBeenCalled();
+  });
+
+  it('Ctrl+Shift+Z in een vak doet opnieuw', async () => {
+    await type(cell('l1', 'count'), '2');
+    expect(post().quantity).toBe(60);
+    await act(async () => { s().setItems(s().undo()!); });
+    expect(post().quantity).toBe(30);
+    const el = cell('l1', 'count');
+    await act(async () => { el.focus(); });
+    await act(async () => { el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Z', ctrlKey: true, shiftKey: true, bubbles: true })); });
+    expect(post().quantity).toBe(60);
+  });
+
+  it('Delete op de hoeveelheid van een post met meetregels vraagt eerst', async () => {
+    const qtyCol = getColumnsForView('st', false).findIndex((c) => c.key === 'quantity');
+    await act(async () => { s().setActiveCell(1, qtyCol, 'p'); });
+    const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false);
+    const grid = node.querySelector<HTMLElement>('.cost-grid')!;
+    await act(async () => { grid.dispatchEvent(new KeyboardEvent('keydown', { key: 'Delete', bubbles: true })); });
+    expect(confirm).toHaveBeenCalledOnce();
+    expect(post().quantity).toBe(30);
+    expect(post().measurementLines).toHaveLength(1);
+  });
+
   it('een vak wijzigen zet de hoeveelheid van de post', async () => {
     await type(cell('l1', 'count'), '2');
     expect(post().quantity).toBe(60);

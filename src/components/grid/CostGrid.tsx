@@ -256,7 +256,9 @@ export const CostGrid: React.FC = () => {
     if (!container || isEditing) return;
     const currentScroll = container.scrollTop;
     const rowTop = rowOffsets[activeRow] ?? activeRow * ROW_HEIGHT;
-    const rowBottom = rowTop + getRowHeight(activeRow);
+    // Alleen de rij zelf, niet de meetregels eronder (#96): anders schuift
+    // een post met een lang tabelletje uit beeld bij het naar beneden gaan.
+    const rowBottom = rowTop + getMainRowHeight(activeRow);
     const visibleTop = currentScroll + HEADER_HEIGHT;
     const visibleBottom = currentScroll + container.clientHeight;
     if (rowTop < visibleTop) {

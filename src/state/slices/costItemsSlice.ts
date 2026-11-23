@@ -9,7 +9,7 @@ import { appendHistory, shouldTrackField } from '@/services/history/itemHistory'
 import { getCachedOsUsername } from '@/services/system/osUser';
 import { buildGridRows } from '@/services/grid/gridRows';
 import { captureQuantityOrigin } from '@/services/quantity/quantityOrigin';
-import { measurementSum, sameQuantity } from '@/services/measurement/measurementLines';
+import { measurementSum, quantityMatchesLines, sameQuantity } from '@/services/measurement/measurementLines';
 
 function generateId(): string {
   return crypto.randomUUID();
@@ -441,7 +441,9 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
           // Een andere hoeveelheid dan de som van de meetregels: de regels
           // kloppen dan niet meer en vervallen (#96). De grid vraagt dat
           // eerst; andere wegen (paneel, MCP, koppelingen) volgen dezelfde regel.
-          if (field === 'quantity' && item.measurementLines?.length && !sameQuantity(item.quantity, value as number | null)) {
+          // Precies de som intypen houdt ze juist (een bestand van buiten kan iets afwijken).
+          if (field === 'quantity' && item.measurementLines?.length && !sameQuantity(item.quantity, value as number | null)
+            && !quantityMatchesLines({ quantity: value as number | null, measurementLines: item.measurementLines })) {
             delete updated.measurementLines;
           }
           // Een koppeling (Excel, PDF, IFC, deelblad) wordt de bron van de

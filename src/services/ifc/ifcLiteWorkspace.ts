@@ -5,6 +5,7 @@ import { parseTakeoff, aggregateTakeoff, type TakeoffModel } from './ifcTakeoff'
 import type { MeshData } from '@ifc-lite/geometry';
 import { effectiveTarieven, recalculateItems } from '@/services/calculation/calculator';
 import { captureQuantityOrigin } from '@/services/quantity/quantityOrigin';
+import { withoutMeasurementLines } from '@/services/measurement/measurementLines';
 export interface IfcSession {model:TakeoffModel; meshes:MeshData[]; selected:number[]; isolated:boolean; cameraRevision:number}
 const sessions=new Map<string,IfcSession>();
 const listeners=new Set<()=>void>();
@@ -68,7 +69,8 @@ export async function ifcCommand(action:string,p:Record<string,unknown>) {
     s.pushHistory(s.items,uiText("ifc.history", "Apply IFC quantity"));
     s.setSchedule({ifcTakeoff:{...saved,entries:[...saved.entries.filter(e=>e.fragmentId!==fragmentId),entry]}});
     const link = {source:'ifc' as const,fragmentId,quantity:q.kind};
-    useAppStore.setState({items:recalculateItems(s.items.map(i=>i.id===item.id?{...i,unit:q.unit as typeof i.unit,quantity:q.value,quantityLink:link,quantityOrigin:captureQuantityOrigin(link,useAppStore.getState())}:i),effectiveTarieven(s.schedule),s.schedule.priceRounding)});
+    // Een koppeling vervangt meetregels (#96), net als via updateItem.
+    useAppStore.setState({items:recalculateItems(s.items.map(i=>i.id===item.id?{...withoutMeasurementLines(i),unit:q.unit as typeof i.unit,quantity:q.value,quantityLink:link,quantityOrigin:captureQuantityOrigin(link,useAppStore.getState())}:i),effectiveTarieven(s.schedule),s.schedule.priceRounding)});
     s.updateDocument(s.activeDocumentId,{isModified:true});return {...q,itemId:item.id,fragmentId};
   }
   throw Error(uiText('ifc.error.action', 'Unknown IFC action: {{action}}', { action }));

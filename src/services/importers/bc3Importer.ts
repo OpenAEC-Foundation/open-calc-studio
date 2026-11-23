@@ -193,14 +193,13 @@ const RESOURCE_BY_TYPE: Record<string, ResourceType> = {
 function parseMeasurementLines(raw: string): MeasurementLine[] | null {
   const parts = raw.split('\\');
   const lines: MeasurementLine[] = [];
-  // 0 is hier "niet ingevuld": pyCost en andere schrijvers zetten 0 waar
-  // Presto het vak leeg laat (`\\1\14.5\14.5\0\`); als vermenigvuldiger
-  // gelezen zou elke regel 0 worden en klopt het totaal nergens meer.
+  // Een 0 blijft hier 0; of die "niet ingevuld" betekent, beslist
+  // attachMeasurementLines aan de hand van het totaal (zie zerosAsEmpty).
   const num = (v: string | undefined): number | null => {
     const t = (v ?? '').trim();
     if (!t) return null;
     const n = parseNumber(t);
-    return Number.isFinite(n) && n !== 0 ? n : null;
+    return Number.isFinite(n) ? n : null;
   };
   for (let i = 0; i + 1 < parts.length; i += 6) {
     const chunk = parts.slice(i, i + 6);
@@ -222,6 +221,18 @@ function parseMeasurementLines(raw: string): MeasurementLine[] | null {
     }));
   }
   return lines;
+}
+
+/**
+ * Dezelfde regels met elke 0 als "niet ingevuld". pyCost en andere
+ * schrijvers zetten 0 waar Presto het vak leeg laat (`\\1\14.5\14.5\0\`);
+ * als vermenigvuldiger gelezen werd elke regel dan 0. Maar een echte 0 (een
+ * regel die even niet meetelt, of onze eigen export) kan ook; het totaal van
+ * de meting beslist welke lezing klopt.
+ */
+function zerosAsEmpty(lines: MeasurementLine[]): MeasurementLine[] {
+  const empty = (v: number | null): number | null => (v === 0 ? null : v);
+  return lines.map((l) => ({ ...l, count: empty(l.count), length: empty(l.length), width: empty(l.width), height: empty(l.height) }));
 }
 
 // ── Parser ──────────────────────────────────────────────────────────────────
@@ -767,8 +778,12 @@ export function importBc3(text: string): ImportResult {
    */
   const attachMeasurementLines = (post: CostItem, key: string | undefined, qty: number): void => {
     if (key === undefined || !measurementLines.has(key)) return;
-    const lines = measurementLines.get(key);
-    if (!lines || Math.abs(measurementSum(lines) - qty) >= Math.max(0.005, 1e-6 * Math.abs(qty))) {
+    const raw = measurementLines.get(key);
+    const fits = (ls: MeasurementLine[]): boolean => Math.abs(measurementSum(ls) - qty) < Math.max(0.005, 1e-6 * Math.abs(qty));
+    // Eerst 0 als "leeg" (zo schrijft pyCost), anders 0 als echte 0.
+    const asEmpty = raw ? zerosAsEmpty(raw) : null;
+    const lines = asEmpty && fits(asEmpty) ? asEmpty : raw && fits(raw) ? raw : null;
+    if (!lines) {
       droppedMeasurements++;
       return;
     }

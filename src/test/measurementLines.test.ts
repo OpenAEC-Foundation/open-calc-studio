@@ -25,6 +25,12 @@ describe('rekenen met meetregels', () => {
     expect(measurementSum([line(3, 1.3333, null, 1.3333), line(3, 1.3333, null, 1.3333)])).toBe(10.666);
   });
 
+  it('een regel met één vak houdt de getypte precisie; de som verliest niets', () => {
+    expect(lineValue(line(10.12345))).toBe(10.12345);
+    expect(measurementSum([line(10.12345), line(0.00001)])).toBe(10.12346);
+    expect(measurementSum([line(0.1), line(0.2)])).toBe(0.3);
+  });
+
   it('ziet of de hoeveelheid de som van de regels is', () => {
     const lines = [line(2, 10, null, 3)];
     expect(quantityMatchesLines({ quantity: 60, measurementLines: lines })).toBe(true);
@@ -125,6 +131,23 @@ describe('store: setMeasurementLines', () => {
     expect(item('p').quantity).toBe(20);
   });
 
+  it('beginnen bij een preciezere hoeveelheid verandert niets aan hoeveelheid of totaal', () => {
+    useAppStore.setState({ items: recalculateItems(s().items.map((i) => (i.id === 'p' || i.id === 'r1' ? { ...i, quantity: 10.12345 } : i))) } as never);
+    const before = item('p').total;
+    s().setMeasurementLines('p', [line(10.12345)]);
+    expect(item('p').quantity).toBe(10.12345);
+    expect(item('r1').quantity).toBe(10.12345);
+    expect(item('p').total).toBe(before);
+  });
+
+  it('precies de som intypen houdt de regels en neemt de som over', () => {
+    s().setMeasurementLines('p', [line(10), line(5)]);
+    useAppStore.setState({ items: s().items.map((i) => (i.id === 'p' ? { ...i, quantity: 15.004 } : i)) } as never);
+    s().updateItem('p', 'quantity', 15);
+    expect(item('p').measurementLines).toHaveLength(2);
+    expect(item('p').quantity).toBe(15);
+  });
+
   it('regels weghalen laat de hoeveelheid staan', () => {
     s().setMeasurementLines('p', [line(12)]);
     s().setMeasurementLines('p', null);
@@ -191,6 +214,12 @@ describe('BC3', () => {
   it('0 in een vak is "niet ingevuld" (pyCost schrijft 0 waar Presto leeg laat)', () => {
     const r = importBc3(bc3('~M|01#\\01.01|1\\1\\|210.25|\\\\1\\14.5\\14.5\\0\\|'));
     expect(post(r).measurementLines?.[0]).toMatchObject({ count: 1, length: 14.5, width: 14.5, height: null });
+  });
+
+  it('een echte 0 blijft 0 als alleen dat op het totaal uitkomt (eigen export, regel die niet meetelt)', () => {
+    const r = importBc3(bc3(String.raw`~M|01#\01.01|1\1\|20|\a\2\10\\\\b\0\5\\\|`));
+    expect(post(r).quantity).toBe(20);
+    expect(post(r).measurementLines?.map((l) => [l.description, l.count, l.length])).toEqual([['a', 2, 10], ['b', 0, 5]]);
   });
 
   it('regels die niet op de meting uitkomen of een formule hebben: alleen de hoeveelheid, met melding', () => {

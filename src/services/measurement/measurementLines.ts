@@ -18,9 +18,25 @@ export const MEASUREMENT_FIELDS: readonly MeasurementField[] = ['count', 'length
 export const MEASUREMENT_DECIMALS = 3;
 const round = (n: number): number => roundHalfUp(n, MEASUREMENT_DECIMALS);
 
+/** Aantal decimalen van een getal zoals het is ingevoerd (hoogstens 9). */
+function decimalsOf(n: number): number {
+  for (let d = 0; d < 9; d++) {
+    const scaled = n * 10 ** d;
+    if (Math.abs(scaled - Math.round(scaled)) < 1e-9 * Math.max(1, Math.abs(scaled))) return d;
+  }
+  return 9;
+}
+
 /** Rijen die meetregels kunnen hebben. */
 export function canHaveMeasurementLines(item: Pick<CostItem, 'rowType' | 'id'>): boolean {
   return (item.rowType === 'begrotingspost' || item.rowType === 'bewakingspost') && !item.id.startsWith('footer:');
+}
+
+/** De post zonder meetregels (en hun inklapstand): voor wegen die een koppeling zetten buiten updateItem om. */
+export function withoutMeasurementLines<T extends Pick<CostItem, 'measurementLines' | 'measurementLinesCollapsed'>>(item: T): T {
+  if (!item.measurementLines) return item;
+  const { measurementLines: _lines, measurementLinesCollapsed: _collapsed, ...rest } = item;
+  return rest as T;
 }
 
 export function hasMeasurementLines(item: Pick<CostItem, 'measurementLines'>): boolean {
@@ -34,20 +50,26 @@ export function hasMeasurementLines(item: Pick<CostItem, 'measurementLines'>): b
  */
 export function lineValue(line: MeasurementLine): number {
   if (line.subtotal) return 0;
-  let product = 1;
-  let any = false;
-  for (const f of MEASUREMENT_FIELDS) {
-    const v = line[f];
-    if (v == null || !Number.isFinite(v)) continue;
-    product *= v;
-    any = true;
-  }
-  return any ? round(product) : 0;
+  const factors = MEASUREMENT_FIELDS.map((f) => line[f]).filter((v): v is number => v != null && Number.isFinite(v));
+  if (factors.length === 0) return 0;
+  // Eén ingevuld vak: dat getal zelf, zoals getypt. Anders zou een post met
+  // aantal 10,12345 bij de eerste meetregel stil naar 10,123 springen.
+  if (factors.length === 1) return factors[0];
+  return round(factors.reduce((p, v) => p * v, 1));
+}
+
+/**
+ * Som van regelwaarden, afgerond op de decimalen van de fijnste regel (en
+ * minstens 3): dat haalt float-ruis weg zonder getypte precisie te verliezen.
+ */
+function sumOf(values: number[]): number {
+  const decimals = values.reduce((d, v) => Math.max(d, decimalsOf(v)), MEASUREMENT_DECIMALS);
+  return roundHalfUp(values.reduce((s, v) => s + v, 0), decimals);
 }
 
 /** De hoeveelheid die de regels samen opleveren. */
 export function measurementSum(lines: readonly MeasurementLine[] | undefined): number {
-  return round((lines ?? []).reduce((s, l) => s + lineValue(l), 0));
+  return sumOf((lines ?? []).map(lineValue));
 }
 
 /**
@@ -57,12 +79,12 @@ export function measurementSum(lines: readonly MeasurementLine[] | undefined): n
 export function subtotalValue(lines: readonly MeasurementLine[], index: number): number {
   const line = lines[index];
   if (!line?.subtotal) return lineValue(line);
-  let sum = 0;
+  const values: number[] = [];
   for (let i = index - 1; i >= 0; i--) {
     if (lines[i].subtotal && line.subtotal === 'partial') break;
-    sum += lineValue(lines[i]);
+    values.push(lineValue(lines[i]));
   }
-  return round(sum);
+  return sumOf(values);
 }
 
 export function newMeasurementLine(partial: Partial<MeasurementLine> = {}): MeasurementLine {

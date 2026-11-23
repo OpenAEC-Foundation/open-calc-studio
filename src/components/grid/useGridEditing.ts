@@ -3,7 +3,7 @@ import i18next from 'i18next';
 import { useAppStore } from '@/state/appStore';
 import { isHoursColumn, getColumnsForView } from './gridConstants';
 import { parseNumericInput } from '@/utils/numericInput';
-import { sameQuantity } from '@/services/measurement/measurementLines';
+import { quantityMatchesLines, sameQuantity } from '@/services/measurement/measurementLines';
 import type { CostItem, CostUnit } from '@/types/costModel';
 
 export function useGridEditing() {
@@ -49,7 +49,9 @@ export function useGridEditing() {
         const typed = parseNumericInput(value);
         if (typed === null && value.trim() !== '') return;
         if (sameQuantity(typed, item.quantity)) return;
-        if (!window.confirm(i18next.t('grid:measurement.replaceConfirm'))) return;
+        // De som van de regels intypen past de hoeveelheid aan en houdt de regels.
+        if (!quantityMatchesLines({ quantity: typed, measurementLines: item.measurementLines })
+          && !window.confirm(i18next.t('grid:measurement.replaceConfirm'))) return;
       }
 
       pushHistory(items, i18next.t('grid:undo.editCell', { column: col.key }));

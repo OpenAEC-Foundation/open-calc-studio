@@ -53,6 +53,16 @@ export const MEASUREMENT_MIN_WIDTH =
  */
 export const MEASUREMENT_TRAILING = ACTION_WIDTH + GAP + PAD_RIGHT - 6;
 
+/** Sneltoetsen (met Ctrl) die vanuit een meetregel naar de app mogen. */
+const APP_SHORTCUTS: ReadonlySet<string> = new Set(['s', 'o', 'n', 'p', '+', '=', '-', '_', '0']);
+
+/** Esc: het vak terugzetten en de grid weer de focus geven, zodat pijltjes werken. */
+function leaveToGrid(el: HTMLInputElement): void {
+  const grid = el.closest<HTMLElement>('.cost-grid');
+  el.blur();
+  grid?.focus({ preventScroll: true });
+}
+
 /** Getallen: maten op 2 tot 3 decimalen, een aantal zonder decimalen als het heel is. */
 const fmt = (v: number | null | undefined): string => (v == null ? '' : formatDecimals(v, 2, 3) || '0');
 const fmtCount = (v: number | null | undefined): string => (v == null ? '' : formatDecimals(v, 0, 3) || '0');
@@ -112,10 +122,11 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
   };
 
   /**
-   * Toetsen blijven in het tabelletje (de grid mag ze niet als navigatie
-   * zien), behalve sneltoetsen: Ctrl+S en dergelijke gaan naar de app.
-   * Ctrl+Z / Ctrl+Y legt eerst het vak vast en draait dan terug, zodat
-   * ongedaan maken ook hier werkt. Kopiëren en plakken blijven in het vak.
+   * Toetsen blijven in het tabelletje: de grid mag ze niet zien, ook niet met
+   * Ctrl erbij (Ctrl+C kopieerde anders de rij, Ctrl+Delete wiste de
+   * hoeveelheid). Alleen app-sneltoetsen (opslaan, openen, nieuw, afdrukken,
+   * zoom) gaan door. Ctrl+Z / Ctrl+Y (en Ctrl+Shift+Z) leggen eerst het vak
+   * vast en draaien dan terug, zodat ongedaan maken ook hier werkt.
    */
   const onKeyDown = (e: React.KeyboardEvent) => {
     const ctrl = e.ctrlKey || e.metaKey;
@@ -125,11 +136,11 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
       e.stopPropagation();
       (e.target as HTMLElement).blur?.();
       const st = useAppStore.getState();
-      const restored = key === 'z' ? st.undo() : st.redo();
+      const restored = key === 'y' || e.shiftKey ? st.redo() : st.undo();
       if (restored) st.setItems(restored);
       return;
     }
-    if (ctrl || e.altKey) return;
+    if (ctrl && APP_SHORTCUTS.has(key)) return;
     e.stopPropagation();
   };
 
@@ -173,7 +184,6 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
       className={`measurement-block${collapsed ? ' measurement-collapsed' : ''}`}
       style={{ marginLeft: left, width, height: measurementBlockHeight(item) }}
       onKeyDown={onKeyDown}
-      onMouseDown={(e) => e.stopPropagation()}
       onContextMenu={(e) => e.stopPropagation()}
       data-measurement-for={item.id}
     >
@@ -276,7 +286,7 @@ const TextCell: React.FC<CellProps & { value: string; placeholder?: string; onCo
       onBlur={() => { if (draft !== null && !cancelled.current) onCommit(draft); setDraft(null); }}
       onKeyDown={(e) => {
         if (e.key === 'Enter') { e.preventDefault(); e.currentTarget.blur(); onEnter(); }
-        else if (e.key === 'Escape') { cancelled.current = true; e.currentTarget.blur(); }
+        else if (e.key === 'Escape') { cancelled.current = true; leaveToGrid(e.currentTarget); }
       }}
     />
   );
@@ -319,7 +329,7 @@ const NumberCell: React.FC<CellProps & {
       onBlur={finish}
       onKeyDown={(e) => {
         if (e.key === 'Enter') { e.preventDefault(); e.currentTarget.blur(); onEnter(); }
-        else if (e.key === 'Escape') { cancelled.current = true; e.currentTarget.blur(); }
+        else if (e.key === 'Escape') { cancelled.current = true; leaveToGrid(e.currentTarget); }
       }}
     />
   );

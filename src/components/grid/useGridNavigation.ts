@@ -4,6 +4,7 @@ import { getColumnsForView, hiddenByQuantityToggle, isCellEditable, isColumnHidd
 import type { CostUnit } from '@/types/costModel';
 import { getGridCellDisplayValue } from '@/services/clipboard/excelClipboard';
 import { isFooterRow } from '@/services/grid/gridRows';
+import i18next from '@/i18n/config';
 
 export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: string; rowType: string }[]) {
   const { activeRow, activeCol, isEditing, setActiveCell, setActiveCellExtend,
@@ -190,6 +191,10 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
           if (col?.editable && visibleItems) {
             const indices = getSelectedRowIndices();
             const validIndices = indices.filter((i) => i >= 0 && i < visibleItems.length);
+            // Hoeveelheid wissen bij een post met meetregels haalt die weg (#96): eerst vragen.
+            const dropsLines = (col.key === 'quantity' || col.key === 'hoeveelheid' || col.key === 'uren')
+              && validIndices.some((i) => items.find((it) => it.id === visibleItems[i].id)?.measurementLines?.length);
+            if (dropsLines && !window.confirm(i18next.t('grid:measurement.replaceConfirm'))) break;
             if (validIndices.length > 0) {
               pushHistory(items, `Clear ${col.key}`);
               for (const idx of validIndices) {
