@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { pdfQuantities } from '@/services/pdf/pdfWorkspace';
-import { priceCountryOf, withBuiltInLibrary } from '@/services/pricing/priceLibraries';
+import { libraryChoiceKeyOf, withActiveLibraries } from '@/services/pricing/priceLibraries';
+import { subscribeOwnLibraries } from '@/services/pricing/ownLibraries';
 import { createCostScheduleSlice, type CostScheduleSlice } from './slices/costScheduleSlice';
 import { createCostItemsSlice, type CostItemsSlice } from './slices/costItemsSlice';
 import { createSelectionSlice, type SelectionSlice } from './slices/selectionSlice';
@@ -79,16 +80,23 @@ useAppStore.subscribe((state, previous) => {
   if (state.schedule.pdfWorkspace !== previous.schedule.pdfWorkspace) {
     useAppStore.setState({ pdfMeasurements: pdfQuantities(state.schedule.pdfWorkspace) });
   }
-  // The built-in price library follows the country of the active estimate
-  // (issue #93): choosing a country, undo, opening a file or switching tabs.
-  // Imported and added resources stay.
-  const country = priceCountryOf(state.schedule);
-  if (country !== priceCountryOf(previous.schedule)) {
-    useAppStore.setState({ resourceLibrary: withBuiltInLibrary(useAppStore.getState().resourceLibrary, country) });
+  // The library list follows the price libraries of the active estimate
+  // (issues #93, #104): choosing a country or library, undo, opening a file
+  // or switching tabs. Imported and added loose resources stay.
+  if (state.schedule !== previous.schedule && libraryChoiceKeyOf(state.schedule) !== libraryChoiceKeyOf(previous.schedule)) {
+    rebuildResourceLibrary();
   }
   // Eigenschappen open of dicht onthouden, ook als een werkplek het verandert.
   if (state.showPropertiesPanel !== previous.showPropertiesPanel) savePropertiesPanel(state.showPropertiesPanel);
 });
+
+function rebuildResourceLibrary(): void {
+  const { resourceLibrary, schedule } = useAppStore.getState();
+  useAppStore.setState({ resourceLibrary: withActiveLibraries(resourceLibrary, schedule) });
+}
+
+// Own libraries load after start-up and change on import, update or removal.
+subscribeOwnLibraries(rebuildResourceLibrary);
 
 // Debug: expose store on window in dev mode
 if (import.meta.env.DEV) {

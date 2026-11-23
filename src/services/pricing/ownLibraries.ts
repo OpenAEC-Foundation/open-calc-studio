@@ -144,9 +144,12 @@ let libraries: OwnLibrary[] = [];
 let infoSnapshot: OwnLibraryInfo[] = [];
 let loading: Promise<void> | null = null;
 let loadError: string | null = null;
+let loaded = false;
 /** Writes run one after another, so two quick changes never overwrite each other. */
 let writes: Promise<unknown> = Promise.resolve();
 const parsedItems = new Map<string, ResourceLibraryItem[]>();
+/** Every own library ID seen this session, also removed ones: their articles must leave the store too. */
+const seenIds = new Set<string>();
 const listeners = new Set<() => void>();
 
 function isOwnLibrary(value: unknown): value is OwnLibrary {
@@ -157,6 +160,7 @@ function isOwnLibrary(value: unknown): value is OwnLibrary {
 
 function publish(next: OwnLibrary[]): void {
   libraries = next;
+  for (const library of next) seenIds.add(library.id);
   infoSnapshot = next.map(({ library: _library, ...info }) => info);
   parsedItems.clear();
   listeners.forEach(listener => listener());
@@ -167,6 +171,8 @@ export function setOwnLibraryBackend(next: OwnLibraryBackend | null): void {
   backend = next;
   loading = null;
   loadError = null;
+  loaded = false;
+  seenIds.clear();
   writes = Promise.resolve();
   publish([]);
 }
@@ -183,11 +189,14 @@ export function loadOwnLibraries(): Promise<void> {
     if (from !== backend) return;
     const list = Array.isArray(data) ? data : (data as { libraries?: unknown })?.libraries;
     if (!Array.isArray(list)) throw Error('Unknown format.');
+    loaded = true;
     publish(list.filter(isOwnLibrary));
   }).catch(e => {
     if (from !== backend) return;
     loadError = e instanceof Error ? e.message : String(e);
+    loaded = true;
     console.warn('[Own price libraries] could not read the stored libraries:', e);
+    listeners.forEach(listener => listener());
   });
   return loading;
 }
@@ -207,6 +216,16 @@ export function getOwnLibrary(id: string): OwnLibraryInfo | undefined {
 
 export function isOwnLibraryId(id: string | undefined): boolean {
   return id !== undefined && libraries.some(library => library.id === id);
+}
+
+/** True for an own library that is on this computer or was during this session (removed since). */
+export function wasOwnLibraryId(id: string | undefined): boolean {
+  return id !== undefined && seenIds.has(id);
+}
+
+/** False until the stored libraries were read (or failed to). */
+export function ownLibrariesLoaded(): boolean {
+  return loaded;
 }
 
 /** The library file of an own library (to export or share it). */

@@ -207,6 +207,8 @@ export interface CostSchedule {
   currency: string;
   /** Country of the built-in price library (ISO 3166-1 alpha-2, issue #93). Unset: NL. */
   priceCountry?: string;
+  /** Price libraries the estimate uses, in order: `country` and `own:<catalogue ID>` (issue #104). Unset: ['country']. */
+  priceLibraries?: string[];
   projectName: string;
   projectNumber: string;
   client: string;

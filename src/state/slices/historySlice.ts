@@ -1,7 +1,7 @@
 import type { StateCreator } from 'zustand';
 import type { CostItem } from '@/types/costModel';
 import { effectiveTarieven } from '@/services/calculation/calculator';
-import { priceCountryOf } from '@/services/pricing/priceLibraries';
+import { activeLibrariesOf, priceCountryOf } from '@/services/pricing/priceLibraries';
 
 interface HistoryEntry {
   items: CostItem[];
@@ -16,9 +16,11 @@ interface HistoryEntry {
   currency?: string;
   /** Land van de prijsbibliotheek vóór deze stap; alleen gezet als de stap het land wijzigt (issue #93). */
   priceCountry?: string;
+  /** Actieve prijsbibliotheken vóór deze stap; alleen gezet als de stap ze wijzigt (issue #104). */
+  priceLibraries?: string[];
 }
 
-type ScheduleExtra = Pick<HistoryEntry, 'currency' | 'priceCountry'>;
+type ScheduleExtra = Pick<HistoryEntry, 'currency' | 'priceCountry' | 'priceLibraries'>;
 
 /**
  * Zet valuta en land van de prijsbibliotheek terug en geeft de huidige terug
@@ -29,6 +31,7 @@ function swapScheduleExtra(state: any, entry: HistoryEntry): ScheduleExtra {
   const restore: ScheduleExtra = {};
   if (entry.currency !== undefined) { back.currency = state.schedule?.currency; restore.currency = entry.currency; }
   if (entry.priceCountry !== undefined) { back.priceCountry = priceCountryOf(state.schedule); restore.priceCountry = entry.priceCountry; }
+  if (entry.priceLibraries !== undefined) { back.priceLibraries = activeLibrariesOf(state.schedule); restore.priceLibraries = [...entry.priceLibraries]; }
   if (Object.keys(restore).length > 0) state.setSchedule?.(restore);
   return back;
 }
@@ -38,6 +41,7 @@ function definedExtra(extra: ScheduleExtra | undefined): ScheduleExtra {
   const out: ScheduleExtra = {};
   if (extra?.currency !== undefined) out.currency = extra.currency;
   if (extra?.priceCountry !== undefined) out.priceCountry = extra.priceCountry;
+  if (extra?.priceLibraries !== undefined) out.priceLibraries = [...extra.priceLibraries];
   return out;
 }
 
@@ -48,8 +52,9 @@ export interface HistorySlice {
    * `tarieven`: de tarieven die bij `items` horen, als die al gewijzigd zijn (MCP legt de stap pas na de actie vast).
    * `extra.currency`: de valuta vóór deze stap, als de stap de valuta wijzigt.
    * `extra.priceCountry`: het land van de prijsbibliotheek vóór deze stap, als de stap het land wijzigt.
+   * `extra.priceLibraries`: de actieve prijsbibliotheken vóór deze stap, als de stap ze wijzigt.
    */
-  pushHistory: (items: CostItem[], description: string, tarieven?: Record<string, number>, extra?: { currency?: string; priceCountry?: string }) => void;
+  pushHistory: (items: CostItem[], description: string, tarieven?: Record<string, number>, extra?: ScheduleExtra) => void;
   undo: () => CostItem[] | null;
   redo: () => CostItem[] | null;
   canUndo: () => boolean;

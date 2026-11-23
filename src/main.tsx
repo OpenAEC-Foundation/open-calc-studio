@@ -28,6 +28,7 @@ import App from "./App";
 import { CompanionWindow } from "./components/layout/CompanionWindow";
 import { PLATFORM_BUILD } from "./services/buildFlags";
 import { installSiteAppTools } from "./services/mcp/siteAppTools";
+import { loadOwnLibraries } from "./services/pricing/ownLibraries";
 const companionId = new URLSearchParams(window.location.search).get("companion");
 
 // The assistant of the site operates the application through this interface: platform build only.
@@ -81,6 +82,10 @@ if (import.meta.env.PROD && '__TAURI_INTERNALS__' in window) {
     if (e.ctrlKey && e.key === "u") { e.preventDefault(); return; }
   });
 }
+
+// Own price libraries (issue #104) are read in the background; the library
+// list fills in when they arrive.
+if (!companionId) void loadOwnLibraries();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>

@@ -2,9 +2,15 @@
 // estimate in `schedule.priceCountry`; an estimate without one uses the Dutch
 // library, as before. A country without a library has no built-in resources:
 // never fall back silently to another country's prices.
+//
+// Issue #104: an estimate can use several libraries at once, in
+// `schedule.priceLibraries`: `country` (the library of `priceCountry`) and own
+// libraries as `own:<catalogue ID>`. Unset means only the country library, as
+// with #93.
 import type { CostSchedule, ResourceLibraryItem } from '@/types/costModel';
 import { PRICE_LIBRARY_FILES } from '@/data/price-libraries';
 import { catalogueIdOf, parseLibraryJson } from './libraryJson';
+import { isOwnLibraryId, ownLibraryItems, wasOwnLibraryId } from './ownLibraries';
 
 export const DEFAULT_PRICE_COUNTRY = 'NL';
 
@@ -53,4 +59,54 @@ export function isBuiltInLibraryItem(item: Pick<ResourceLibraryItem, 'catalogueI
  */
 export function withBuiltInLibrary(current: ResourceLibraryItem[], country: string): ResourceLibraryItem[] {
   return [...builtInLibraryItems(country), ...current.filter(item => !isBuiltInLibraryItem(item))];
+}
+
+/** Key of the country library in `schedule.priceLibraries`. */
+export const COUNTRY_LIBRARY = 'country';
+const OWN_PREFIX = 'own:';
+
+export const ownLibraryKey = (id: string): string => OWN_PREFIX + id;
+
+/** The own library ID of a key, or null for the country library. */
+export function ownLibraryIdOfKey(key: string): string | null {
+  return key.startsWith(OWN_PREFIX) ? key.slice(OWN_PREFIX.length) : null;
+}
+
+type LibrarySchedule = Pick<CostSchedule, 'priceCountry' | 'priceLibraries'> | null | undefined;
+
+/** The libraries an estimate uses, in order, without doubles. Unset: only the country library. */
+export function activeLibrariesOf(schedule: LibrarySchedule): string[] {
+  const list = schedule?.priceLibraries;
+  if (!Array.isArray(list)) return [COUNTRY_LIBRARY];
+  const keys = list.filter((key): key is string => typeof key === 'string' && (key === COUNTRY_LIBRARY || (key.startsWith(OWN_PREFIX) && key.length > OWN_PREFIX.length)));
+  return [...new Set(keys)];
+}
+
+/** One string for the library choice of an estimate: changes exactly when its library list must change. */
+export function libraryChoiceKeyOf(schedule: LibrarySchedule): string {
+  return [priceCountryOf(schedule), ...activeLibrariesOf(schedule)].join('|');
+}
+
+/** Own libraries the estimate uses that are not on this computer. */
+export function missingOwnLibraries(schedule: LibrarySchedule): string[] {
+  return activeLibrariesOf(schedule).map(ownLibraryIdOfKey).filter((id): id is string => id !== null && !isOwnLibraryId(id));
+}
+
+/** Articles that come from a library (built-in or own) and are swapped with the choice of the estimate. */
+export function isLibraryArticle(item: Pick<ResourceLibraryItem, 'catalogueId'>): boolean {
+  return isBuiltInLibraryItem(item) || wasOwnLibraryId(item.catalogueId);
+}
+
+/**
+ * The library list for an estimate: the articles of its active libraries in
+ * order, then everything the user imported or added loose, unchanged. A
+ * library that is not on this computer gives no articles; never another
+ * library's prices instead.
+ */
+export function withActiveLibraries(current: ResourceLibraryItem[], schedule: LibrarySchedule): ResourceLibraryItem[] {
+  const chosen = activeLibrariesOf(schedule).flatMap(key => {
+    const own = ownLibraryIdOfKey(key);
+    return own === null ? builtInLibraryItems(priceCountryOf(schedule)) : ownLibraryItems(own) ?? [];
+  });
+  return [...chosen, ...current.filter(item => !isLibraryArticle(item))];
 }

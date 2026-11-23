@@ -24,6 +24,9 @@ import ExtensionManagerPanel from "./ExtensionManagerPanel";
 import { CloudPanel } from "./CloudPanel";
 import ColumnMappingDialog from "./ColumnMappingDialog";
 import { showImportWarnings } from "../common/ImportWarningsDialog";
+import { prepareOwnLibrary } from '@/services/pricing/ownLibraryImport';
+import { saveOwnLibrary } from '@/services/pricing/ownLibraries';
+import { activateOwnLibrary } from '@/services/pricing/choosePriceCountry';
 import { OPENAEC_ENABLED, USER_EXTENSIONS_ENABLED, allowsExternalServices } from "../../services/buildFlags";
 import appIcon from '@/assets/app-icon.svg';
 import "./Backstage.css";
@@ -384,19 +387,22 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
 
   const handleBmecatImport = useCallback(async () => {
     onClose();
-    const applyResult = (xml: string, fileName: string) => {
+    const applyResult = async (xml: string, fileName: string) => {
       try {
         const result = importBmecat(xml);
         if (result.resources.length === 0) { alert(t('importPanel.bmecatNoResources', { fileName })); return; }
-        const store = useAppStore.getState();
-        const byCode = new Map(store.resourceLibrary.map((r) => [r.code, r]));
-        for (const r of result.resources) byCode.set(r.code, r);
-        store.setResourceLibrary(Array.from(byCode.values()));
+        // Issue #104: a supplier catalogue becomes its own price library, kept
+        // on this computer and used by this estimate, instead of being merged
+        // by code into the other libraries.
+        const prepared = prepareOwnLibrary(fileName, xml);
+        if (prepared.replaces && !window.confirm(uiText('pricing.ownReplace', 'There is already an own library “{{name}}” on this computer. Replace it with this file? Price links in estimates stay valid.', { name: prepared.replaces.name }))) return;
+        await saveOwnLibrary(prepared.library);
+        activateOwnLibrary(prepared.library.id);
         if (result.warnings.length > 0) {
           console.warn('[Import BMEcat] waarschuwingen:', result.warnings);
           showImportWarnings(result, fileName);
         }
-        console.log(`[Import BMEcat] ${result.resources.length} middelen geladen uit ${fileName}`);
+        alert(uiText('pricing.ownImported', '“{{name}}” imported: {{count}} resources. It is kept on this computer.', { name: prepared.library.name, count: prepared.library.count }));
       } catch (err: any) {
         console.error('[Import BMEcat] failed:', err);
         alert(t('importPanel.importFailed', { error: err?.message || err }));
