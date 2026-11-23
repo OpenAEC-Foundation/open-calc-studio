@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
 import { parseLibraryJson } from '@/state/slices/resourceLibrarySlice';
-import library from '@/data/nl-price-library.json';
+import library from '@/data/price-libraries/NL.json';
 
 it('does not use undated reference prices as active Dutch prices', () => {
   const items = parseLibraryJson(library);

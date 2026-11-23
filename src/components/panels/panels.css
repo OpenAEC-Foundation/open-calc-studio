@@ -493,7 +493,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 200;
+  /* Above the title bar (9999), like every other modal (Modal.css). */
+  z-index: 10000;
 }
 
 .resource-picker {
@@ -501,9 +502,10 @@
   border: 1px solid var(--theme-dialog-border, #4a4a54);
   border-radius: 12px;
   box-shadow: var(--theme-dialog-shadow, 0 10px 15px -3px rgba(0, 0, 0, 0.1));
-  width: 860px;
-  max-width: 90vw;
-  max-height: 80vh;
+  width: 980px;
+  max-width: 94vw;
+  height: 680px;
+  max-height: 88vh;
   display: flex;
   flex-direction: column;
   font-family: var(--oa-font-body);
@@ -537,14 +539,282 @@
   color: var(--theme-text);
 }
 
-.resource-picker-search {
-  padding: 8px 16px;
-  border-bottom: 1px solid var(--theme-border);
+.resource-picker-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
+/* Secondary action in the header: quiet until hovered. */
+.rp-ghost-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background: transparent;
+  border: 1px solid var(--theme-border);
+  border-radius: 6px;
+  color: var(--theme-text-secondary);
+  font-size: 12px;
+  font-family: var(--oa-font-body);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.rp-ghost-btn:hover {
+  background: var(--theme-hover);
+  color: var(--theme-text);
+  border-color: var(--theme-accent);
+}
+
+.resource-picker-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Sidebar: price libraries, then categories ── */
+.resource-picker-side {
+  width: 260px;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-right: 1px solid var(--theme-border);
+  background: color-mix(in srgb, var(--theme-text) 3%, transparent);
+}
+
+.rp-libraries {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 10px 12px;
+  border-bottom: 1px solid var(--theme-border);
+  max-height: 45%;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.rp-side-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 4px 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--theme-text-muted, var(--theme-text-secondary));
+}
+
+.rp-link-btn {
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--theme-accent);
+  font-size: 11px;
+  font-family: var(--oa-font-body);
+  font-weight: 500;
+  letter-spacing: normal;
+  text-transform: none;
+  cursor: pointer;
+}
+.rp-link-btn:hover { text-decoration: underline; }
+
+/* One library: checkbox, name with details, actions on hover. */
+.rp-lib {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 7px 8px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--theme-text-secondary);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.rp-lib:hover { background: var(--theme-hover); }
+.rp-lib.on {
+  background: color-mix(in srgb, var(--theme-accent) 10%, transparent);
+  border-color: color-mix(in srgb, var(--theme-accent) 35%, transparent);
+  color: var(--theme-text);
+}
+.rp-lib input[type="checkbox"] {
+  margin: 2px 0 0;
+  accent-color: var(--theme-accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.rp-lib-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+.rp-lib-text label {
+  font-weight: 500;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rp-lib-meta {
+  font-size: 11px;
+  color: var(--theme-text-muted, var(--theme-text-secondary));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rp-lib.missing .rp-lib-meta { white-space: normal; }
+.rp-lib-text select {
+  width: 100%;
+  padding: 4px 6px;
+  background: var(--theme-dialog-input-bg);
+  border: 1px solid var(--theme-dialog-input-border);
+  border-radius: 6px;
+  color: var(--theme-dialog-input-text);
+  font-size: 12px;
+  font-family: var(--oa-font-body);
+}
+.rp-lib-text select:focus { outline: none; border-color: var(--theme-focus-color); }
+
+.rp-lib-actions {
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.rp-lib:hover .rp-lib-actions,
+.rp-lib:focus-within .rp-lib-actions { opacity: 1; }
+.rp-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 5px;
+  color: var(--theme-text-secondary);
+  cursor: pointer;
+}
+.rp-icon-btn:hover { background: var(--theme-hover); color: var(--theme-text); }
+.rp-icon-btn.danger:hover { color: var(--theme-danger-color, #dc2626); }
+
+.rp-lib.missing {
+  border-color: color-mix(in srgb, var(--theme-danger-color, #dc2626) 40%, transparent);
+  background: color-mix(in srgb, var(--theme-danger-color, #dc2626) 8%, transparent);
+}
+.rp-lib-warn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: var(--theme-danger-color, #dc2626);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.rp-import-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 4px;
+  padding: 7px 10px;
+  background: transparent;
+  border: 1px dashed var(--theme-border);
+  border-radius: 8px;
+  color: var(--theme-text-secondary);
+  font-size: 12px;
+  font-family: var(--oa-font-body);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.rp-import-btn:hover {
+  border-color: var(--theme-accent);
+  color: var(--theme-text);
+  background: color-mix(in srgb, var(--theme-accent) 8%, transparent);
+}
+
+.resource-picker-categories {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px 6px;
+}
+
+.resource-picker-cat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  text-align: start;
+  padding: 5px 8px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  color: var(--theme-text-secondary);
+  font-size: 12px;
+  font-family: var(--oa-font-body);
+  cursor: pointer;
+}
+.resource-picker-cat > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rp-cat-count {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--theme-text-muted, var(--theme-text-secondary));
+}
+.resource-picker-cat:hover {
+  background: var(--theme-hover);
+  color: var(--theme-text);
+}
+.resource-picker-cat.active {
+  background: var(--theme-accent);
+  color: var(--theme-accent-text);
+}
+.resource-picker-cat.active .rp-cat-count { color: inherit; opacity: 0.8; }
+
+/* ── Main: search, messages, list ── */
+.resource-picker-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.resource-picker-search {
+  position: relative;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--theme-border);
+}
+.rp-search-icon {
+  position: absolute;
+  inset-inline-start: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--theme-text-muted, var(--theme-text-secondary));
+  pointer-events: none;
+}
 .resource-picker-search input {
   width: 100%;
-  padding: 12px 16px;
+  padding: 8px 12px;
+  padding-inline-start: 34px;
   background: var(--theme-dialog-input-bg);
   border: 1.5px solid var(--theme-dialog-input-border);
   border-radius: 8px;
@@ -556,46 +826,57 @@
 }
 .resource-picker-search input:focus {
   border-color: var(--theme-focus-color);
-  box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.2);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--theme-focus-color) 25%, transparent);
 }
 
-.resource-picker-body {
+/* Messages above the list: a thin coloured bar on the start side. */
+.rp-banners {
   display: flex;
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 12px 0;
 }
-
-.resource-picker-categories {
-  width: 180px;
-  min-width: 180px;
-  border-right: 1px solid var(--theme-border);
-  overflow-y: auto;
-  padding: 4px 0;
+.rp-banners:last-child { padding-bottom: 8px; }
+.rp-banners + .resource-picker-list { margin-top: 8px; }
+.rp-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  padding: 7px 6px;
+  padding-inline-start: 10px;
+  border-radius: 6px;
+  border-inline-start: 3px solid var(--theme-border);
+  background: color-mix(in srgb, var(--theme-text) 5%, transparent);
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--theme-text-secondary);
 }
-
-.resource-picker-cat {
-  display: block;
-  width: 100%;
-  text-align: left;
-  padding: 5px 12px;
+.rp-banner.note { border-inline-start-color: var(--theme-text-muted, var(--theme-border)); }
+.rp-banner.info { border-inline-start-color: #10b981; color: var(--theme-text); background: color-mix(in srgb, #10b981 10%, transparent); }
+.rp-banner.warn { border-inline-start-color: var(--theme-accent); color: var(--theme-text); background: color-mix(in srgb, var(--theme-accent) 10%, transparent); }
+.rp-banner.error { border-inline-start-color: var(--theme-danger-color, #dc2626); color: var(--theme-text); background: color-mix(in srgb, var(--theme-danger-color, #dc2626) 10%, transparent); }
+.rp-banner-text { flex: 1; min-width: 0; }
+/* Dismiss: quiet until hovered. */
+.rp-banner-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: -1px;
+  padding: 0;
   background: none;
   border: none;
+  border-radius: 4px;
   color: var(--theme-text-secondary);
-  font-size: 12px;
+  opacity: 0.7;
   cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
-.resource-picker-cat:hover {
-  background: var(--theme-hover);
-  color: var(--theme-text);
-}
-.resource-picker-cat.active {
-  background: var(--theme-accent);
-  color: var(--theme-accent-text);
-}
+.rp-banner-close:hover { opacity: 1; background: var(--theme-hover); color: var(--theme-text); }
+.price-update-dialog button.rp-banner-close { min-height: 0; padding: 0; border: none; background: none; }
+
 
 .resource-picker-list {
   flex: 1;
@@ -606,7 +887,7 @@
 .resource-picker-list-header {
   display: flex;
   gap: 8px;
-  padding: 4px 8px;
+  padding: 6px 12px;
   font-weight: 600;
   color: var(--theme-text-secondary);
   border-bottom: 1px solid var(--theme-border);
@@ -619,7 +900,7 @@
 .resource-picker-row {
   display: flex;
   gap: 8px;
-  padding: 3px 8px;
+  padding: 6px 12px;
   cursor: pointer;
   border-bottom: 1px solid var(--theme-border);
   align-items: center;
@@ -643,7 +924,30 @@
 .rp-col-desc { flex: 1 1 auto; min-width: 0; }
 .rp-col-type { flex: 0 0 110px; text-align: center; }
 .rp-col-unit { flex: 0 0 60px; text-align: center; }
-.rp-col-price { flex: 0 0 100px; text-align: end; }
+.rp-col-price { flex: 0 0 100px; text-align: end; font-variant-numeric: tabular-nums; }
+.rp-col-price.empty { color: var(--theme-text-muted, var(--theme-text-secondary)); font-style: italic; }
+.rp-col-code { font-family: var(--oa-font-mono, ui-monospace, monospace); font-size: 11px; color: var(--theme-text-secondary); }
+.resource-picker-row.selected .rp-col-code, .resource-picker-row.selected .rp-col-price.empty { color: inherit; }
+.resource-picker-row.blocked { opacity: 0.6; }
+.rp-col-desc { display: flex; align-items: center; gap: 6px; }
+.rp-desc-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+/* Library of the article, when the list mixes libraries (issue #104). */
+.rp-lib-badge {
+  flex-shrink: 1;
+  max-width: 40%;
+  padding: 0 6px;
+  border-radius: 999px;
+  border: 1px solid var(--theme-border);
+  font-size: 10px;
+  line-height: 16px;
+  color: var(--theme-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.resource-picker-row.selected .rp-lib-badge { color: inherit; border-color: currentColor; }
+/* The type colours are unreadable on the orange selection: a light chip there. */
+.resource-picker-row.selected .rp-type-badge { background-color: rgba(255, 255, 255, 0.92) !important; color: #1f2937 !important; border-color: transparent !important; }
 
 .rp-type-badge {
   display: inline-block;
@@ -672,6 +976,13 @@
   border-top: 1px solid var(--theme-border);
 }
 
+.rp-footer-info {
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--theme-text-secondary);
+  max-width: 65%;
+}
+
 .resource-picker-hint {
   font-size: 11px;
   color: var(--theme-text-secondary);
@@ -696,3 +1007,85 @@
   opacity: 0.5;
   cursor: default;
 }
+
+/* ── Review price updates (same look as the library dialog) ── */
+.resource-picker.price-update-dialog {
+  width: min(960px, 96vw);
+  height: auto;
+  max-height: 90vh;
+  gap: 0;
+}
+.price-update-dialog .pu-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 16px 16px;
+  min-height: 0;
+  overflow-y: auto;
+}
+.price-update-dialog .pu-intro { font-size: 12px; line-height: 1.5; color: var(--theme-text-secondary); }
+.price-update-dialog .pu-sources { display: flex; flex-wrap: wrap; gap: 8px; }
+.price-update-dialog button.rp-import-btn,
+.price-update-dialog button.rp-ghost-btn,
+.price-update-dialog button.resource-picker-close,
+.price-update-dialog button.rp-link-btn,
+.price-update-dialog button.resource-picker-add-btn { min-height: 0; font: inherit; font-size: 12px; }
+.price-update-dialog button.rp-import-btn { margin: 0; padding: 7px 12px; border: 1px dashed var(--theme-border); background: transparent; color: var(--theme-text-secondary); border-radius: 8px; }
+.price-update-dialog button.rp-import-btn:hover { border-color: var(--theme-accent); color: var(--theme-text); }
+.price-update-dialog button.rp-ghost-btn { padding: 7px 12px; background: transparent; color: var(--theme-text-secondary); }
+.price-update-dialog button.rp-ghost-btn:hover { border-color: var(--theme-accent); color: var(--theme-text); background: var(--theme-hover); }
+.price-update-dialog button.resource-picker-close { padding: 4px; border: none; background: none; color: var(--theme-text-secondary); }
+.price-update-dialog button.resource-picker-close:hover { background: var(--theme-hover); color: var(--theme-text); }
+.price-update-dialog button.rp-link-btn { padding: 0; border: none; background: none; color: var(--theme-accent); }
+.price-update-dialog button.resource-picker-add-btn { padding: 6px 20px; background: var(--theme-btn-primary-bg); color: var(--theme-btn-primary-text); border: 1.5px solid var(--theme-btn-primary-border); border-radius: 8px; font-weight: 500; }
+.price-update-dialog .rp-banner { margin: 0; }
+
+.price-update-dialog .pu-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  border: 1px solid var(--theme-border);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--theme-text) 3%, transparent);
+}
+.price-update-dialog .pu-total { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; }
+.price-update-dialog .pu-label { font-size: 12px; color: var(--theme-text-secondary); }
+.price-update-dialog .pu-amounts { display: inline-flex; align-items: baseline; gap: 8px; font-size: 15px; font-variant-numeric: tabular-nums; }
+.price-update-dialog .pu-amounts strong { font-weight: 600; }
+.price-update-dialog .pu-delta { padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+/* Status colours mixed with the theme text colour: darker on light themes, lighter on dark ones. */
+.price-update-dialog .pu-delta.up { color: color-mix(in srgb, #dc2626 65%, var(--theme-text)); background: color-mix(in srgb, #dc2626 12%, transparent); }
+.price-update-dialog .pu-delta.down { color: color-mix(in srgb, #10b981 55%, var(--theme-text)); background: color-mix(in srgb, #10b981 12%, transparent); }
+.price-update-dialog .pu-arrow { display: inline-block; }
+.price-update-dialog .pu-arrow:dir(rtl) { transform: scaleX(-1); }
+.price-update-dialog .pu-note { font-size: 11px; color: var(--theme-text-muted, var(--theme-text-secondary)); }
+.price-update-dialog .pu-chapters { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 2px; font-size: 12px; }
+.price-update-dialog .pu-chapters li { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; border-top: 1px dashed var(--theme-border); font-variant-numeric: tabular-nums; }
+.price-update-dialog .pu-chapters li span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* clip, not hidden: the header row must stay sticky while .pu-body scrolls. */
+.price-update-dialog .pu-table-wrap { border: 1px solid var(--theme-border); border-radius: 10px; overflow: clip; }
+.price-update-dialog table.pu-table { display: table; width: 100%; font-size: 12px; }
+.price-update-dialog .pu-table th {
+  position: sticky; top: 0; padding: 7px 10px;
+  background: var(--theme-dialog-bg); color: var(--theme-text-secondary);
+  font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
+}
+.price-update-dialog .pu-table td { padding: 6px 10px; vertical-align: middle; }
+.price-update-dialog .pu-table th, .price-update-dialog .pu-table td { text-align: start; }
+.price-update-dialog .pu-table tr:last-child td { border-bottom: none; }
+.price-update-dialog .pu-table tbody tr:hover { background: var(--theme-hover); }
+.price-update-dialog .pu-table tr.inactive td { color: var(--theme-text-secondary); }
+.price-update-dialog .pu-table .num { text-align: end; white-space: nowrap; }
+.price-update-dialog .pu-table input[type="checkbox"] { padding: 0; accent-color: var(--theme-accent); }
+.price-update-dialog .pu-status { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 11px; white-space: nowrap; border: 1px solid; }
+.price-update-dialog .pu-status.good { color: color-mix(in srgb, #10b981 55%, var(--theme-text)); border-color: color-mix(in srgb, #10b981 40%, transparent); background: color-mix(in srgb, #10b981 10%, transparent); }
+.price-update-dialog .pu-status.muted { color: var(--theme-text-secondary); border-color: var(--theme-border); }
+.price-update-dialog .pu-status.warn { color: var(--theme-accent); border-color: color-mix(in srgb, var(--theme-accent) 40%, transparent); background: color-mix(in srgb, var(--theme-accent) 10%, transparent); }
+.price-update-dialog .pu-more { margin: 8px 10px; }
+/* Where Add puts the resource: always visible, so Add is never a mystery. */
+.rp-add-target { color: var(--theme-text); font-weight: 500; }
+.rp-side-title-actions { display: inline-flex; align-items: center; gap: 6px; }
+.rp-add-library { width: 22px; height: 22px; color: var(--theme-accent); }
+.rp-add-library:hover { color: var(--theme-accent); background: color-mix(in srgb, var(--theme-accent) 12%, transparent); }

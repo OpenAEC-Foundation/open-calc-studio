@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "id": "example-own-rates",
+  "name": "Example: own rates 2026",
+  "region": "NL",
+  "currency": "EUR",
+  "description": "Example of an own price library to try the import (issue #104). Names, codes and prices are made up; do not use them for real estimates.",
+  "resources": [
+    { "id": "ARB-01", "code": "ARB-01", "description": "Carpenter", "unit": "uur", "resourceType": "arbeid", "category": "Labour", "defaultUnitPrice": 58.5, "source": "Example rates (made up)", "priceDate": "2026-01-01" },
+    { "id": "ARB-02", "code": "ARB-02", "description": "Bricklayer", "unit": "uur", "resourceType": "arbeid", "category": "Labour", "defaultUnitPrice": 61, "source": "Example rates (made up)", "priceDate": "2026-01-01" },
+    { "id": "ARB-03", "code": "ARB-03", "description": "General labourer", "unit": "uur", "resourceType": "arbeid", "category": "Labour", "defaultUnitPrice": 47.25, "source": "Example rates (made up)", "priceDate": "2026-01-01" },
+    { "id": "MAT-01", "code": "MAT-01", "description": "Ready-mix concrete C30/37", "unit": "m3", "resourceType": "materiaal", "category": "Concrete", "defaultUnitPrice": 142, "source": "Example quote (made up)", "priceDate": "2026-02-15" },
+    { "id": "MAT-02", "code": "MAT-02", "description": "Reinforcement steel B500B", "unit": "kg", "resourceType": "materiaal", "category": "Concrete", "defaultUnitPrice": 1.35, "source": "Example quote (made up)", "priceDate": "2026-02-15" },
+    { "id": "MAT-03", "code": "MAT-03", "description": "Facing brick, red", "unit": "st", "resourceType": "materiaal", "category": "Masonry", "defaultUnitPrice": 0.82, "source": "Example quote (made up)", "priceDate": "2026-02-15" },
+    { "id": "MAT-04", "code": "MAT-04", "description": "Mineral wool insulation 100 mm", "unit": "m2", "resourceType": "materiaal", "category": "Insulation", "defaultUnitPrice": null, "referenceUnitPrice": 9.8, "source": "Indication only, no quote yet", "priceDate": null },
+    { "id": "EQP-01", "code": "EQP-01", "description": "Excavator 20 t with operator", "unit": "uur", "resourceType": "materieel", "category": "Equipment", "defaultUnitPrice": 95, "source": "Example rates (made up)", "priceDate": "2026-01-01" },
+    { "id": "EQP-02", "code": "EQP-02", "description": "Scaffolding rental", "unit": "week", "resourceType": "materieel", "category": "Equipment", "defaultUnitPrice": 310, "source": "Example rates (made up)", "priceDate": "2026-01-01" },
+    { "id": "SUB-01", "code": "SUB-01", "description": "Electrical installation (subcontract)", "unit": "post", "resourceType": "onderaannemer", "category": "Subcontractors", "defaultUnitPrice": 12500, "source": "Example quote (made up)", "priceDate": "2026-03-01" }
+  ]
+}

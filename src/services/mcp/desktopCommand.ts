@@ -4,6 +4,7 @@ import { useAppStore } from '@/state/appStore';
 import { effectiveTarieven } from '@/services/calculation/calculator';
 import { deserializeProject, serializeProject } from '@/services/file/fileService';
 import { openProjectInStore } from '@/services/file/openProject';
+import { withActiveLibraries } from '@/services/pricing/priceLibraries';
 
 export interface JsonSchema { type?: string; enum?: unknown[]; anyOf?: JsonSchema[]; properties?: Record<string, JsonSchema>; required?: string[]; additionalProperties?: boolean | JsonSchema; items?: JsonSchema }
 export function validateArgument(value: unknown, schema: JsonSchema, path = 'argument'): void {
@@ -124,7 +125,9 @@ export async function executeDesktopCommand(action: string, params: Record<strin
     if (typeof params.json !== 'string') throw new Error('json is required');
     const project = deserializeProject(params.json);
     const id = openProjectInStore(project, String(params.fileName ?? 'MCP-begroting'), typeof params.filePath === 'string' ? params.filePath : null);
-    useAppStore.getState().setResourceLibrary(project.resourceLibrary ?? []);
+    // The file's own resources, plus the built-in library of the file's country
+    // (#93): built-in articles saved in the file never override that choice.
+    useAppStore.getState().setResourceLibrary(withActiveLibraries(project.resourceLibrary ?? [], project.schedule));
     useAppStore.getState().setSnapshots(project.snapshots ?? []);
     return { documentId: id };
   }

@@ -6,6 +6,12 @@ import type { ResourceLibraryItem, ResourceType } from '@/types/costModel';
 import { formatCurrency } from '@/utils/formatting';
 import { formatUnit } from '@/i18n/formatUnit';
 import { capturePriceOrigin } from '@/services/pricing/priceUpdates';
+import { activeLibrariesOf, COUNTRY_LIBRARY, hasPriceLibrary, isBuiltInLibraryItem, priceCountryOf } from '@/services/pricing/priceLibraries';
+import { countryName } from '@/utils/countries';
+import { PriceLibraryPanel, useOwnLibraries, type PanelMessage } from './PriceLibraryPanel';
+import { Banner } from './Banner';
+import { resourceTarget } from '@/services/pricing/resourceTarget';
+import { useDialogFocus } from '@/hooks/useDialogFocus';
 import '../panels/panels.css';
 
 const RESOURCE_TYPE_COLORS: Record<ResourceType, string> = {
@@ -17,7 +23,7 @@ const RESOURCE_TYPE_COLORS: Record<ResourceType, string> = {
 };
 
 export const ResourcePicker: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const {
     resourceLibrary,
     resourcePickerOpen,
@@ -30,14 +36,39 @@ export const ResourcePicker: React.FC = () => {
 
   const [search, setSearch] = useState('');
   const [error, setError] = useState('');
+  const [message, setMessage] = useState<PanelMessage>(null);
+  /** Country whose library note was closed; it comes back for another country or when the dialog opens again. */
+  const [closedNote, setClosedNote] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const searchRef = useRef<HTMLInputElement>(null);
+  // Price libraries of the active estimate (issues #93, #104).
+  const country = useAppStore(s => priceCountryOf(s.schedule));
+  const countryOn = useAppStore(s => activeLibrariesOf(s.schedule).includes(COUNTRY_LIBRARY));
+  const ownLibraries = useOwnLibraries();
+  /** Library name of an article, shown on each row when the list mixes libraries. */
+  const libraryOf = useMemo(() => {
+    const names = new Map(ownLibraries.map(l => [l.id, l.name]));
+    const countryLabel = countryName(country, i18n.language);
+    return (item: ResourceLibraryItem): string | undefined =>
+      item.catalogueId === undefined ? undefined : isBuiltInLibraryItem(item) ? countryLabel : names.get(item.catalogueId);
+  }, [ownLibraries, country, i18n.language]);
+  const showLibrary = useMemo(
+    () => resourcePickerOpen && new Set(resourceLibrary.map(i => libraryOf(i) ?? '')).size > 1,
+    [resourcePickerOpen, resourceLibrary, libraryOf],
+  );
+  const resetList = useCallback(() => { setSelectedCategory(null); setSelectedIndex(0); }, []);
   const listRef = useRef<HTMLDivElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  // Tab stays in the dialog, Escape closes it, focus returns to where it came from.
+  useDialogFocus(dialogRef, resourcePickerOpen, closeResourcePicker);
 
   // Focus search input on open
   useEffect(() => {
     if (resourcePickerOpen) {
+      setMessage(null);
+      setError('');
+      setClosedNote(null);
       setSearch('');
       setSelectedCategory(null);
       setSelectedIndex(0);
@@ -45,17 +76,17 @@ export const ResourcePicker: React.FC = () => {
     }
   }, [resourcePickerOpen]);
 
-  // Get unique categories
+  // Unique categories with their counts
   const categories = useMemo(() => {
-    const cats = new Set<string>();
-    for (const item of resourceLibrary) cats.add(item.category);
-    return Array.from(cats).sort();
+    const counts = new Map<string, number>();
+    for (const item of resourceLibrary) counts.set(item.category, (counts.get(item.category) ?? 0) + 1);
+    return Array.from(counts).sort(([a], [b]) => a.localeCompare(b));
   }, [resourceLibrary]);
 
   // Filter items
   const filtered = useMemo(() => {
     let list = resourceLibrary;
-    if (selectedCategory) {
+    if (selectedCategory !== null) {
       list = list.filter(i => i.category === selectedCategory);
     }
     if (search.trim()) {
@@ -84,14 +115,20 @@ export const ResourcePicker: React.FC = () => {
     }
   }, [selectedIndex]);
 
+  // Where a resource goes: the post of the selected row, else the last post.
+  const target = useMemo(() => resourceTarget(items, resourcePickerParentId), [items, resourcePickerParentId]);
+
   const handleSelect = useCallback((item: ResourceLibraryItem) => {
-    if (!resourcePickerParentId || item.unitSupported === false) return;
+    if (item.unitSupported === false) return;
     let priceOrigin;
     try { priceOrigin = item.defaultUnitPrice === null ? undefined : capturePriceOrigin(item, useAppStore.getState().schedule.currency); }
     catch (e) { setError(String(e)); return; }
 
     pushHistory(items, t('dialogs:undo.addResource'));
-    const newId = addRegel(resourcePickerParentId);
+    // No post yet: make one in the selected chapter, or a chapter with a post.
+    const store0 = useAppStore.getState();
+    const postId = target.post?.id ?? store0.addItem(target.chapterId ?? store0.addChapter(null));
+    const newId = addRegel(postId);
     if (newId) {
       // Update the new regel with the library item's data
       const store = useAppStore.getState();
@@ -119,9 +156,12 @@ export const ResourcePicker: React.FC = () => {
       useAppStore.setState(s => ({ items: s.items.map(row => row.id === newId ? { ...row, priceOrigin } : row) }));
     }
     closeResourcePicker();
-  }, [resourcePickerParentId, pushHistory, items, addRegel, closeResourcePicker, t]);
+  }, [target, pushHistory, items, addRegel, closeResourcePicker, t]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    // Arrows, Enter and Space in the library controls belong to those controls.
+    const tag = (e.target as HTMLElement).tagName;
+    if ((tag === 'SELECT' || tag === 'BUTTON' || (tag === 'INPUT' && (e.target as HTMLInputElement).type !== 'text')) && e.key !== 'Escape') return;
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       setSelectedIndex(i => Math.min(i + 1, filtered.length - 1));
@@ -140,106 +180,148 @@ export const ResourcePicker: React.FC = () => {
 
   if (!resourcePickerOpen) return null;
 
+  const selected = filtered[selectedIndex];
+  const countryLabel = countryName(country, i18n.language);
+  const showCountryNote = countryOn && closedNote !== country;
+  const dismissCountryNote = () => setClosedNote(country);
+
   return (
     <div className="resource-picker-overlay" onClick={closeResourcePicker}>
-      <div className="resource-picker" onClick={e => e.stopPropagation()} onKeyDown={handleKeyDown}>
+      <div ref={dialogRef} tabIndex={-1} className="resource-picker" role="dialog" aria-modal="true" aria-labelledby="resource-picker-title" onClick={e => e.stopPropagation()} onKeyDown={handleKeyDown}>
         <div className="resource-picker-header">
-          <h2>{t('chooseResource')}</h2>
-          <button onClick={() => { closeResourcePicker(); useAppStore.getState().openDialog('priceUpdates'); }}>{uiText('pricing.updates', 'Review price updates')}</button>
-          {error && <p role="alert">{error}</p>}
-          <button className="resource-picker-close" onClick={closeResourcePicker}>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-              <path d="M12.78 4.28a.75.75 0 00-1.06-1.06L8 6.94 4.28 3.22a.75.75 0 00-1.06 1.06L6.94 8l-3.72 3.72a.75.75 0 101.06 1.06L8 9.06l3.72 3.72a.75.75 0 101.06-1.06L9.06 8l3.72-3.72z" />
-            </svg>
-          </button>
-        </div>
-
-        <div className="resource-picker-search">
-          <p>{uiText("pricing.notice", "Dutch starter library. Check prices and reference dates before estimating. A missing price is not treated as verified.")}</p>
-          <input
-            ref={searchRef}
-            type="text"
-            placeholder={t('searchResource')}
-            value={search}
-            onChange={e => { setSearch(e.target.value); setSelectedIndex(0); }}
-          />
+          <h2 id="resource-picker-title">{t('chooseResource')}</h2>
+          <div className="resource-picker-header-actions">
+            <button type="button" className="rp-ghost-btn" onClick={() => { closeResourcePicker(); useAppStore.getState().openDialog('priceUpdates'); }}>
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9M13.5 2.5v2.8h-2.8" /></svg>
+              {uiText('pricing.updates', 'Review price updates')}
+            </button>
+            <button type="button" className="resource-picker-close" aria-label={t('close', { defaultValue: 'Close' })} onClick={closeResourcePicker}>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                <path d="M12.78 4.28a.75.75 0 00-1.06-1.06L8 6.94 4.28 3.22a.75.75 0 00-1.06 1.06L6.94 8l-3.72 3.72a.75.75 0 101.06 1.06L8 9.06l3.72 3.72a.75.75 0 101.06-1.06L9.06 8l3.72-3.72z" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         <div className="resource-picker-body">
-          <div className="resource-picker-categories">
-            <button
-              className={`resource-picker-cat${selectedCategory === null ? ' active' : ''}`}
-              onClick={() => { setSelectedCategory(null); setSelectedIndex(0); }}
-            >
-              {t('allResources', { count: resourceLibrary.length })}
-            </button>
-            {categories.map(cat => {
-              const count = resourceLibrary.filter(i => i.category === cat).length;
-              return (
+          <aside className="resource-picker-side">
+            <PriceLibraryPanel onChange={resetList} onMessage={setMessage} />
+            <div className="resource-picker-categories">
+              <button
+                type="button"
+                className={`resource-picker-cat${selectedCategory === null ? ' active' : ''}`}
+                onClick={resetList}
+              >
+                <span>{t('allResources', { count: resourceLibrary.length })}</span>
+              </button>
+              {categories.map(([cat, count]) => (
                 <button
+                  type="button"
                   key={cat}
                   className={`resource-picker-cat${selectedCategory === cat ? ' active' : ''}`}
                   onClick={() => { setSelectedCategory(cat); setSelectedIndex(0); }}
+                  title={cat}
                 >
-                  {cat} ({count})
+                  <span>{cat || '—'}</span><span className="rp-cat-count">{count}</span>
                 </button>
-              );
-            })}
-          </div>
-
-          <div className="resource-picker-list" ref={listRef}>
-            <div className="resource-picker-list-header">
-              <span className="rp-col-code">{t('code')}</span>
-              <span className="rp-col-desc">{t('description')}</span>
-              <span className="rp-col-type">{t('type')}</span>
-              <span className="rp-col-unit">{t('unit')}</span>
-              <span className="rp-col-price">{t('price')}</span>
+              ))}
             </div>
-            {filtered.length === 0 && (
-              <div className="resource-picker-empty">{t('noResourcesFound')}</div>
-            )}
-            {filtered.map((item, idx) => (
-              <div
-                key={item.id}
-                data-index={idx}
-                className={`resource-picker-row${idx === selectedIndex ? ' selected' : ''}`}
-                onClick={() => setSelectedIndex(idx)}
-                onDoubleClick={() => handleSelect(item)}
-              >
-                <span className="rp-col-code" title={item.code}>{item.code}</span>
-                <span className="rp-col-desc" title={item.description}>{item.description}</span>
-                <span className="rp-col-type">
-                  <span
-                    className="rp-type-badge"
-                    title={t(`dialogs:resourceTypes.${item.resourceType}`)}
-                    style={{ backgroundColor: RESOURCE_TYPE_COLORS[item.resourceType] + '22', color: RESOURCE_TYPE_COLORS[item.resourceType], borderColor: RESOURCE_TYPE_COLORS[item.resourceType] + '44' }}
-                  >
-                    {t(`dialogs:resourceTypes.${item.resourceType}`)}
-                  </span>
-                </span>
-                <span className="rp-col-unit">{item.unitSupported === false ? item.originalUnit : formatUnit(item.unit, t)}</span>
-                <span className="rp-col-price" title={item.defaultUnitPrice !== null ? undefined : uiText("pricing.enter", "Enter price")}>
-                  {item.defaultUnitPrice !== null ? formatCurrency(item.defaultUnitPrice) : uiText("pricing.enter", "Enter price")}
-                </span>
+          </aside>
+
+          <div className="resource-picker-main">
+            <div className="resource-picker-search">
+              <svg className="rp-search-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true"><circle cx="7" cy="7" r="4.5" /><path d="M10.5 10.5L14 14" /></svg>
+              <input
+                ref={searchRef}
+                type="text"
+                role="combobox"
+                aria-label={t('searchResource')}
+                aria-controls="resource-picker-listbox"
+                aria-expanded="true"
+                aria-autocomplete="list"
+                aria-activedescendant={filtered[selectedIndex] ? `resource-picker-option-${selectedIndex}` : undefined}
+                placeholder={t('searchResource')}
+                value={search}
+                onChange={e => { setSearch(e.target.value); setSelectedIndex(0); }}
+              />
+            </div>
+            {(error || message || showCountryNote) && (
+              <div className="rp-banners">
+                {error && <Banner kind="error" role="alert" onClose={() => setError('')}>{error}</Banner>}
+                {message && <Banner kind={message.kind} role={message.kind === 'error' ? 'alert' : 'status'} onClose={() => setMessage(null)}>{message.text}</Banner>}
+                {showCountryNote && (hasPriceLibrary(country)
+                  ? <Banner kind="note" onClose={dismissCountryNote}>{uiText('pricing.notice', 'Starter library: {{country}}. Check prices and reference dates before estimating. A missing price is not treated as verified.', { country: countryLabel })}</Banner>
+                  : <Banner kind="warn" role="status" className="resource-picker-no-library" onClose={dismissCountryNote}>{uiText('pricing.noLibrary', 'There is no price library for this country yet ({{country}}). Resources you imported or added stay available.', { country: countryLabel })}</Banner>)}
               </div>
-            ))}
+            )}
+
+            <div className="resource-picker-list" ref={listRef} id="resource-picker-listbox" role="listbox" aria-label={t('chooseResource')}>
+              <div className="resource-picker-list-header" aria-hidden="true">
+                <span className="rp-col-code">{t('code')}</span>
+                <span className="rp-col-desc">{t('description')}</span>
+                <span className="rp-col-type">{t('type')}</span>
+                <span className="rp-col-unit">{t('unit')}</span>
+                <span className="rp-col-price">{t('price')}</span>
+              </div>
+              {filtered.length === 0 && (
+                <div className="resource-picker-empty">{t('noResourcesFound')}</div>
+              )}
+              {filtered.map((item, idx) => {
+                const library = showLibrary ? libraryOf(item) : undefined;
+                return (
+                  <div
+                    key={item.id}
+                    id={`resource-picker-option-${idx}`}
+                    role="option"
+                    aria-selected={idx === selectedIndex}
+                    aria-disabled={item.unitSupported === false || undefined}
+                    data-index={idx}
+                    className={`resource-picker-row${idx === selectedIndex ? ' selected' : ''}${item.unitSupported === false ? ' blocked' : ''}`}
+                    onClick={() => setSelectedIndex(idx)}
+                    onDoubleClick={() => handleSelect(item)}
+                  >
+                    <span className="rp-col-code" title={item.code}>{item.code}</span>
+                    <span className="rp-col-desc" title={library ? `${item.description} · ${library}` : item.description}>
+                      <span className="rp-desc-text">{item.description}</span>
+                      {library && <span className="rp-lib-badge">{library}</span>}
+                    </span>
+                    <span className="rp-col-type">
+                      <span
+                        className="rp-type-badge"
+                        title={t(`dialogs:resourceTypes.${item.resourceType}`)}
+                        style={{ backgroundColor: RESOURCE_TYPE_COLORS[item.resourceType] + '22', color: RESOURCE_TYPE_COLORS[item.resourceType], borderColor: RESOURCE_TYPE_COLORS[item.resourceType] + '44' }}
+                      >
+                        {t(`dialogs:resourceTypes.${item.resourceType}`)}
+                      </span>
+                    </span>
+                    <span className="rp-col-unit">{item.unitSupported === false ? item.originalUnit : formatUnit(item.unit, t)}</span>
+                    <span className={`rp-col-price${item.defaultUnitPrice === null ? ' empty' : ''}`} title={item.defaultUnitPrice !== null ? undefined : uiText("pricing.enter", "Enter price")}>
+                      {item.defaultUnitPrice !== null ? formatCurrency(item.defaultUnitPrice) : uiText("pricing.enter", "Enter price")}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
 
         <div className="resource-picker-footer">
-          <div style={{ fontSize: 11, maxWidth: '65%' }}>
-            {filtered[selectedIndex]?.source && <div>{uiText("pricing.source", "Source:")} {filtered[selectedIndex].source}</div>}
-            {filtered[selectedIndex]?.referenceUnitPrice != null && <div>{uiText('pricing.reference', 'Unverified reference: {{price}} per {{unit}}. Reference date and VAT basis unknown.', { price: formatCurrency(filtered[selectedIndex].referenceUnitPrice!), unit: filtered[selectedIndex].originalUnit ?? filtered[selectedIndex].unit })}</div>}
-            {filtered[selectedIndex]?.unitSupported === false && <div>{uiText("pricing.conversion", "This source unit requires manual conversion; adding it is disabled.")}</div>}
-            {!resourcePickerParentId && <div>{uiText("pricing.selectParent", "Select an estimate item before adding a resource.")}</div>}
+          <div className="rp-footer-info">
+            {selected?.source && <div>{uiText("pricing.source", "Source:")} {selected.source}</div>}
+            {selected?.referenceUnitPrice != null && <div>{uiText('pricing.reference', 'Unverified reference: {{price}} per {{unit}}. Reference date and VAT basis unknown.', { price: formatCurrency(selected.referenceUnitPrice!), unit: selected.originalUnit ?? selected.unit })}</div>}
+            {selected?.unitSupported === false && <div>{uiText("pricing.conversion", "This source unit requires manual conversion; adding it is disabled.")}</div>}
+            <div className="rp-add-target">{target.post
+              ? uiText('pricing.addTo', 'Adds to: {{name}}', { name: [target.post.code, target.post.description].filter(Boolean).join(' ') || '—' })
+              : uiText('pricing.addToNew', 'Adds to a new budget post')}</div>
           </div>
           <span className="resource-picker-hint">
             {t('resourceHint', { count: filtered.length })}
           </span>
           <button
+            type="button"
             className="resource-picker-add-btn"
-            disabled={filtered.length === 0 || !resourcePickerParentId || filtered[selectedIndex]?.unitSupported === false}
-            onClick={() => filtered[selectedIndex] && handleSelect(filtered[selectedIndex])}
+            disabled={filtered.length === 0 || selected?.unitSupported === false}
+            onClick={() => selected && handleSelect(selected)}
           >
             {t('add')}
           </button>
