@@ -402,7 +402,10 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
           console.warn('[Import BMEcat] waarschuwingen:', result.warnings);
           showImportWarnings(result, fileName);
         }
-        alert(uiText('pricing.ownImported', '“{{name}}” imported: {{count}} resources. It is kept on this computer.', { name: prepared.library.name, count: prepared.library.count }));
+        alert([
+          uiText('pricing.ownImported', '“{{name}}” imported: {{count}} resources. It is kept on this computer.', { name: prepared.library.name, count: prepared.library.count }),
+          ...(prepared.duplicates.length > 0 ? [uiText('pricing.ownDuplicates', 'Codes that appear more than once got a suffix (~2, ~3) ({{count}}): {{codes}}.', { count: prepared.duplicates.length, codes: prepared.duplicates.slice(0, 10).join(', ') + (prepared.duplicates.length > 10 ? ', …' : '') })] : []),
+        ].join(' '));
       } catch (err: any) {
         console.error('[Import BMEcat] failed:', err);
         alert(t('importPanel.importFailed', { error: err?.message || err }));

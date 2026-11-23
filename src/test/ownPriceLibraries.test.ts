@@ -77,6 +77,14 @@ describe('import a library file', () => {
     expect(items[1]).toMatchObject({ code: 'S-2', defaultUnitPrice: null });
   });
 
+  it('reads a price date from an Excel date cell', () => {
+    const sheet = XLSX.utils.aoa_to_sheet([['Code', 'Description', 'Price', 'Price date'], ['E-1', 'Excavator', 85, new Date(Date.UTC(2026, 2, 1))]], { cellDates: true });
+    const book = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(book, sheet, 'Prices');
+    const bytes = new Uint8Array(XLSX.write(book, { type: 'array', bookType: 'xlsx' }));
+    expect(prepareOwnLibrary('rates.xlsx', bytes).items[0].priceDate).toBe('2026-03-01');
+  });
+
   it('reads an Excel price list', () => {
     const sheet = XLSX.utils.aoa_to_sheet([['Code', 'Description', 'Unit', 'Price'], ['E-1', 'Excavator', 'uur', 85]]);
     const book = XLSX.utils.book_new();
@@ -94,11 +102,41 @@ describe('import a library file', () => {
   });
 
   it('explains what is wrong with an unusable file', () => {
-    expect(() => prepareOwnLibrary('x.json', '{"name":"x"}')).toThrow(/not a usable price library: expected a JSON object/);
+    expect(() => prepareOwnLibrary('x.json', '{"name":"x"}')).toThrow('not a usable price library: expected a JSON object with a list “resources”.');
     expect(() => prepareOwnLibrary('x.json', json({ resources: [] }))).toThrow('This file has no resources.');
-    expect(() => prepareOwnLibrary('x.csv', 'Foo;Bar\n1;2\n')).toThrow(/needs at least the columns code and description. Found: Foo, Bar/);
-    expect(() => prepareOwnLibrary('x.csv', 'Code;Description;Price\nA;B;cheap\n')).toThrow(/row 2: price "cheap" is not a number/);
-    expect(() => prepareOwnLibrary('x.json', json({ resources: [{ id: 'A', code: 'A' }, { id: 'A', code: 'A' }] }))).toThrow(OwnLibraryFileError);
+    expect(() => prepareOwnLibrary('x.csv', 'Foo;Bar\n1;2\n')).toThrow('The table needs at least a column "Code" and a column "Description" (headers in English or Dutch, such as "Omschrijving"). Found: Foo, Bar.');
+    expect(() => prepareOwnLibrary('x.csv', 'Code;Description;Price\nA;B;cheap\n')).toThrow('row 2: price “cheap” is not a number.');
+    expect(() => prepareOwnLibrary('x.json', json({ resources: [{ code: 'A', description: 'x', defaultUnitPrice: -1 }] }))).toThrow(OwnLibraryFileError);
+  });
+});
+
+describe('supplier lists as they come', () => {
+  it('a row without a code gets an ID from its description and unit, so rows added above keep the links', () => {
+    const v1 = prepareOwnLibrary('s.csv', 'Code;Description;Unit;Price\nA;Brick;st;1\n;Cement;kg;0,2\n').items;
+    const v2 = prepareOwnLibrary('s.csv', 'Code;Description;Unit;Price\nA;Brick;st;1\nB;Sand;ton;30\n;Cement;kg;0,25\n').items;
+    const cement = (items: typeof v1) => items.find(i => i.description === 'Cement')!;
+    expect(cement(v1).code).toBe('');
+    expect(cement(v1).id).toMatch(/^s:d-[0-9a-f]{8}$/);
+    expect(cement(v2).id).toBe(cement(v1).id);
+    // Another unit is another article.
+    const other = prepareOwnLibrary('s.csv', 'Code;Description;Unit;Price\n;Cement;zak;5\n').items[0];
+    expect(other.id).not.toBe(cement(v1).id);
+  });
+
+  it('repeated codes get a suffix instead of refusing the file, and are reported', () => {
+    const { items, duplicates } = prepareOwnLibrary('s.csv', 'Code;Description;Unit;Price\nP-1;Pipe 15 mm;m;2\nP-1;Pipe 22 mm;m;3\nP-1;Pipe 28 mm;m;4\nP-2;Bend;st;1\n');
+    expect(items.map(i => i.id)).toEqual(['s:P-1', 's:P-1~2', 's:P-1~3', 's:P-2']);
+    expect(items.map(i => i.code)).toEqual(['P-1', 'P-1', 'P-1', 'P-2']);
+    expect(duplicates).toEqual(['P-1']);
+  });
+
+  it('reads the decimal style of the whole price column', () => {
+    const us = prepareOwnLibrary('us.csv', 'Code,Description,Price\nA,Crane day,"1,234"\nB,Bolt,0.25\n').items;
+    expect(us.map(i => i.defaultUnitPrice)).toEqual([1234, 0.25]);
+    const nl = prepareOwnLibrary('nl.csv', 'Code;Description;Price\nA;Kraan dag;1.234\nB;Bout;0,25\n').items;
+    expect(nl.map(i => i.defaultUnitPrice)).toEqual([1234, 0.25]);
+    const mixed = prepareOwnLibrary('m.csv', 'Code;Description;Price\nA;x;1.250,50\nB;y;12,5\n').items;
+    expect(mixed.map(i => i.defaultUnitPrice)).toEqual([1250.5, 12.5]);
   });
 });
 
@@ -162,27 +200,42 @@ describe('kept on this computer', () => {
   });
 
   it('a failed write keeps the libraries as they were and says why', async () => {
-    const failing: OwnLibraryBackend = { loadAll: async () => [], saveAll: async () => { throw Error('disk full'); } };
+    const failing: OwnLibraryBackend = { loadAll: async () => [], put: async () => { throw Error('disk full'); }, remove: async () => undefined };
     setOwnLibraryBackend(failing);
     await loadOwnLibraries();
     await expect(install('a.json', json())).rejects.toThrow('The library could not be saved on this computer: disk full');
     expect(listOwnLibraries()).toEqual([]);
   });
 
-  it('an unreadable store is never overwritten', async () => {
-    const saveAll = vi.fn();
-    setOwnLibraryBackend({ loadAll: async () => { throw Error('bad JSON'); }, saveAll });
+  it('an unreadable store is never overwritten, and is read again on the next try', async () => {
+    const put = vi.fn(async () => undefined);
+    let fail = true;
+    setOwnLibraryBackend({ loadAll: async () => { if (fail) throw Error('bad JSON'); return []; }, put, remove: async () => undefined });
     await loadOwnLibraries();
     expect(ownLibraryLoadError()).toBe('bad JSON');
     await expect(install('a.json', json())).rejects.toThrow(/could not be read \(bad JSON\), so nothing is saved/);
-    expect(saveAll).not.toHaveBeenCalled();
+    expect(put).not.toHaveBeenCalled();
+    fail = false; // e.g. a busy disk or browser storage that was briefly unavailable
+    await install('a.json', json({ id: 'a' }));
+    expect(ownLibraryLoadError()).toBeNull();
+    expect(put).toHaveBeenCalledTimes(1);
   });
 
-  it('skips damaged entries but keeps the good ones', async () => {
+  it('skips damaged entries but keeps the good ones, also in the store after a change', async () => {
     const good = prepareOwnLibrary('a.json', json({ id: 'a' })).library;
-    setOwnLibraryBackend({ loadAll: async () => ({ version: 1, libraries: [{ id: 'x' }, good, null] }), saveAll: async () => undefined });
+    const store = memoryBackend([{ id: 'x', from: 'a newer app version' }, good]);
+    setOwnLibraryBackend(store);
     await loadOwnLibraries();
     expect(listOwnLibraries().map(l => l.id)).toEqual(['a']);
+    await install('b.json', json({ id: 'b' }));
+    await removeOwnLibrary('a');
+    expect(store.stored.map(l => l.id)).toEqual(['x', 'b']);
+  });
+
+  it('lists the libraries by name, whatever order the storage keeps', async () => {
+    await install('z.json', json({ id: 'z', name: 'Beta' }));
+    await install('a.json', json({ id: 'a', name: 'alpha' }));
+    expect(listOwnLibraries().map(l => l.name)).toEqual(['alpha', 'Beta']);
   });
 
   it('web: IndexedDB keeps the libraries over a reload', async () => {
@@ -197,7 +250,21 @@ describe('kept on this computer', () => {
     expect(ownLibraryItems('b')).toHaveLength(2);
   });
 
-  it('desktop: one file in the app-data folder', async () => {
+  it('web: a library another tab saved meanwhile is not wiped by this tab', async () => {
+    setOwnLibraryBackend(indexedDbBackend());
+    await loadOwnLibraries();
+    await removeOwnLibrary('b');
+    // Another tab of the app saves "other" after this tab read the store.
+    await indexedDbBackend().put(prepareOwnLibrary('other.json', json({ id: 'other' })).library);
+    await install('c.json', json({ id: 'c' }));
+    setOwnLibraryBackend(indexedDbBackend());
+    await loadOwnLibraries();
+    expect(listOwnLibraries().map(l => l.id)).toEqual(['c', 'other']);
+    await removeOwnLibrary('c');
+    await removeOwnLibrary('other');
+  });
+
+  it('desktop: one file in the app-data folder, with a backup that rescues a damaged file', async () => {
     const files = new Map<string, string>();
     vi.doMock('@tauri-apps/api/path', () => ({ appDataDir: async () => '/appdata', join: async (...p: string[]) => p.join('/') }));
     vi.doMock('@tauri-apps/plugin-fs', () => ({
@@ -206,15 +273,42 @@ describe('kept on this computer', () => {
       writeTextFile: async (p: string, v: string) => { files.set(p, v); },
       mkdir: async () => undefined,
     }));
+    const FILE = '/appdata/price-libraries.json';
     try {
       setOwnLibraryBackend(tauriFileBackend());
       await loadOwnLibraries();
       expect(listOwnLibraries()).toEqual([]);
       await install('a.json', json({ id: 'a' }));
-      expect(JSON.parse(files.get('/appdata/price-libraries.json')!)).toMatchObject({ version: 1, libraries: [{ id: 'a', library: { id: 'a' } }] });
+      expect(JSON.parse(files.get(FILE)!)).toMatchObject({ version: 1, libraries: [{ id: 'a', library: { id: 'a' } }] });
+      expect(files.has(`${FILE}.bak`)).toBe(false); // nothing to back up yet
+      await install('b.json', json({ id: 'b' }));
+      expect(JSON.parse(files.get(`${FILE}.bak`)!).libraries.map((l: { id: string }) => l.id)).toEqual(['a']);
+
+      // A crash halfway through a write leaves a damaged file: the backup is used.
+      files.set(FILE, '{"version":1,"libraries":[{"id":"a"');
       setOwnLibraryBackend(tauriFileBackend());
       await loadOwnLibraries();
+      expect(ownLibraryLoadError()).toBeNull();
       expect(listOwnLibraries().map(l => l.id)).toEqual(['a']);
+      // The next change builds on the backup, and never backs up the damaged file.
+      await install('c.json', json({ id: 'c' }));
+      expect(JSON.parse(files.get(FILE)!).libraries.map((l: { id: string }) => l.id)).toEqual(['a', 'c']);
+      expect(JSON.parse(files.get(`${FILE}.bak`)!).libraries.map((l: { id: string }) => l.id)).toEqual(['a']);
+
+      // Records this app cannot read stay in the file.
+      files.set(FILE, JSON.stringify({ version: 1, libraries: [{ id: 'future', shape: 'unknown' }, ...JSON.parse(files.get(FILE)!).libraries] }));
+      setOwnLibraryBackend(tauriFileBackend());
+      await loadOwnLibraries();
+      await removeOwnLibrary('a');
+      expect(JSON.parse(files.get(FILE)!).libraries.map((l: { id: string }) => l.id)).toEqual(['future', 'c']);
+
+      // Both copies damaged: say so, and write nothing.
+      files.set(FILE, 'garbage'); files.set(`${FILE}.bak`, 'garbage');
+      setOwnLibraryBackend(tauriFileBackend());
+      await loadOwnLibraries();
+      expect(ownLibraryLoadError()).not.toBeNull();
+      await expect(install('d.json', json({ id: 'd' }))).rejects.toThrow(/nothing is saved/);
+      expect(files.get(FILE)).toBe('garbage');
     } finally {
       vi.doUnmock('@tauri-apps/api/path');
       vi.doUnmock('@tauri-apps/plugin-fs');

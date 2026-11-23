@@ -125,6 +125,15 @@ describe('active libraries of an estimate', () => {
     expect(codes()).toHaveLength(NL_COUNT + 1);
   });
 
+  it('drops copies of articles of a library that is not on this computer, so the rows say it is missing', async () => {
+    const { isPriceOriginLibraryMissing } = await import('@/services/pricing/priceLibraries');
+    const embedded = { ...loose, id: 'Supplier%20X:A1', code: 'A1', catalogueId: 'Supplier X' };
+    const list = withActiveLibraries([embedded, loose], { priceLibraries: ['country', 'own:Supplier X'] });
+    expect(list.some(i => i.id === embedded.id)).toBe(false);
+    expect(list[list.length - 1]).toEqual(loose);
+    expect(isPriceOriginLibraryMissing({ itemId: embedded.id, catalogueId: 'Supplier X' }, list)).toBe(true);
+  });
+
   it('is saved in the project file', () => {
     const saved = deserializeProject(serializeProject({ ...createDefaultSchedule(), priceLibraries: ['country', 'own:a'] }, []));
     expect(saved.schedule.priceLibraries).toEqual(['country', 'own:a']);
@@ -202,7 +211,7 @@ describe('library dialog', () => {
     Object.defineProperty(input, 'files', { value: [new File(['Foo;Bar\n1;2\n'], 'x.csv')], configurable: true });
     await act(async () => { input.dispatchEvent(new Event('change', { bubbles: true })); });
     await act(async () => { await new Promise(r => setTimeout(r, 0)); });
-    expect(container.querySelector('[role="alert"]')?.textContent).toContain('needs at least the columns code and description');
+    expect(container.querySelector('[role="alert"]')?.textContent).toContain('needs at least a column "Code" and a column "Description"');
     expect(useAppStore.getState().undoStack).toHaveLength(0);
   });
 });
@@ -301,6 +310,11 @@ describe('import button', () => {
     await act(async () => { await install('a', 'Our rates'); });
     expect(container.querySelector('.rp-import-btn')).toBeNull();
     expect(container.querySelector('.rp-add-library')?.getAttribute('aria-label')).toBe('Import library…');
+    // The list is a listbox the search field steers; the current row is announced.
+    const search = container.querySelector<HTMLInputElement>('input[role="combobox"]')!;
+    expect(search.getAttribute('aria-controls')).toBe('resource-picker-listbox');
+    expect(container.querySelector('#resource-picker-listbox')?.getAttribute('role')).toBe('listbox');
+    expect(container.querySelector(`#${search.getAttribute('aria-activedescendant')}`)?.getAttribute('aria-selected')).toBe('true');
     await act(async () => root.unmount()); container.remove();
   });
 });

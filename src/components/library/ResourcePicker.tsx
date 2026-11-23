@@ -11,6 +11,7 @@ import { countryName } from '@/utils/countries';
 import { PriceLibraryPanel, useOwnLibraries, type PanelMessage } from './PriceLibraryPanel';
 import { Banner } from './Banner';
 import { resourceTarget } from '@/services/pricing/resourceTarget';
+import { useDialogFocus } from '@/hooks/useDialogFocus';
 import '../panels/panels.css';
 
 const RESOURCE_TYPE_COLORS: Record<ResourceType, string> = {
@@ -58,6 +59,9 @@ export const ResourcePicker: React.FC = () => {
   );
   const resetList = useCallback(() => { setSelectedCategory(null); setSelectedIndex(0); }, []);
   const listRef = useRef<HTMLDivElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  // Tab stays in the dialog, Escape closes it, focus returns to where it came from.
+  useDialogFocus(dialogRef, resourcePickerOpen, closeResourcePicker);
 
   // Focus search input on open
   useEffect(() => {
@@ -183,7 +187,7 @@ export const ResourcePicker: React.FC = () => {
 
   return (
     <div className="resource-picker-overlay" onClick={closeResourcePicker}>
-      <div className="resource-picker" role="dialog" aria-modal="true" aria-labelledby="resource-picker-title" onClick={e => e.stopPropagation()} onKeyDown={handleKeyDown}>
+      <div ref={dialogRef} tabIndex={-1} className="resource-picker" role="dialog" aria-modal="true" aria-labelledby="resource-picker-title" onClick={e => e.stopPropagation()} onKeyDown={handleKeyDown}>
         <div className="resource-picker-header">
           <h2 id="resource-picker-title">{t('chooseResource')}</h2>
           <div className="resource-picker-header-actions">
@@ -230,6 +234,12 @@ export const ResourcePicker: React.FC = () => {
               <input
                 ref={searchRef}
                 type="text"
+                role="combobox"
+                aria-label={t('searchResource')}
+                aria-controls="resource-picker-listbox"
+                aria-expanded="true"
+                aria-autocomplete="list"
+                aria-activedescendant={filtered[selectedIndex] ? `resource-picker-option-${selectedIndex}` : undefined}
                 placeholder={t('searchResource')}
                 value={search}
                 onChange={e => { setSearch(e.target.value); setSelectedIndex(0); }}
@@ -245,8 +255,8 @@ export const ResourcePicker: React.FC = () => {
               </div>
             )}
 
-            <div className="resource-picker-list" ref={listRef}>
-              <div className="resource-picker-list-header">
+            <div className="resource-picker-list" ref={listRef} id="resource-picker-listbox" role="listbox" aria-label={t('chooseResource')}>
+              <div className="resource-picker-list-header" aria-hidden="true">
                 <span className="rp-col-code">{t('code')}</span>
                 <span className="rp-col-desc">{t('description')}</span>
                 <span className="rp-col-type">{t('type')}</span>
@@ -261,6 +271,10 @@ export const ResourcePicker: React.FC = () => {
                 return (
                   <div
                     key={item.id}
+                    id={`resource-picker-option-${idx}`}
+                    role="option"
+                    aria-selected={idx === selectedIndex}
+                    aria-disabled={item.unitSupported === false || undefined}
                     data-index={idx}
                     className={`resource-picker-row${idx === selectedIndex ? ' selected' : ''}${item.unitSupported === false ? ' blocked' : ''}`}
                     onClick={() => setSelectedIndex(idx)}

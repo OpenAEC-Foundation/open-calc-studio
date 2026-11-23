@@ -813,7 +813,7 @@
 }
 .resource-picker-search input {
   width: 100%;
-  padding: 8px 12px 8px 34px;
+  padding: 8px 12px;
   padding-inline-start: 34px;
   background: var(--theme-dialog-input-bg);
   border: 1.5px solid var(--theme-dialog-input-border);
@@ -843,7 +843,8 @@
   align-items: flex-start;
   gap: 8px;
   margin: 0;
-  padding: 7px 6px 7px 10px;
+  padding: 7px 6px;
+  padding-inline-start: 10px;
   border-radius: 6px;
   border-inline-start: 3px solid var(--theme-border);
   background: color-mix(in srgb, var(--theme-text) 5%, transparent);
@@ -946,7 +947,7 @@
 }
 .resource-picker-row.selected .rp-lib-badge { color: inherit; border-color: currentColor; }
 /* The type colours are unreadable on the orange selection: a light chip there. */
-.resource-picker-row.selected .rp-type-badge { background-color: rgba(255, 255, 255, 0.92) !important; }
+.resource-picker-row.selected .rp-type-badge { background-color: rgba(255, 255, 255, 0.92) !important; color: #1f2937 !important; border-color: transparent !important; }
 
 .rp-type-badge {
   display: inline-block;
@@ -1053,14 +1054,18 @@
 .price-update-dialog .pu-amounts { display: inline-flex; align-items: baseline; gap: 8px; font-size: 15px; font-variant-numeric: tabular-nums; }
 .price-update-dialog .pu-amounts strong { font-weight: 600; }
 .price-update-dialog .pu-delta { padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; }
-.price-update-dialog .pu-delta.up { color: #dc2626; background: color-mix(in srgb, #dc2626 12%, transparent); }
-.price-update-dialog .pu-delta.down { color: #10b981; background: color-mix(in srgb, #10b981 12%, transparent); }
+/* Status colours mixed with the theme text colour: darker on light themes, lighter on dark ones. */
+.price-update-dialog .pu-delta.up { color: color-mix(in srgb, #dc2626 65%, var(--theme-text)); background: color-mix(in srgb, #dc2626 12%, transparent); }
+.price-update-dialog .pu-delta.down { color: color-mix(in srgb, #10b981 55%, var(--theme-text)); background: color-mix(in srgb, #10b981 12%, transparent); }
+.price-update-dialog .pu-arrow { display: inline-block; }
+.price-update-dialog .pu-arrow:dir(rtl) { transform: scaleX(-1); }
 .price-update-dialog .pu-note { font-size: 11px; color: var(--theme-text-muted, var(--theme-text-secondary)); }
 .price-update-dialog .pu-chapters { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 2px; font-size: 12px; }
 .price-update-dialog .pu-chapters li { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; border-top: 1px dashed var(--theme-border); font-variant-numeric: tabular-nums; }
 .price-update-dialog .pu-chapters li span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-.price-update-dialog .pu-table-wrap { border: 1px solid var(--theme-border); border-radius: 10px; overflow: hidden; }
+/* clip, not hidden: the header row must stay sticky while .pu-body scrolls. */
+.price-update-dialog .pu-table-wrap { border: 1px solid var(--theme-border); border-radius: 10px; overflow: clip; }
 .price-update-dialog table.pu-table { display: table; width: 100%; font-size: 12px; }
 .price-update-dialog .pu-table th {
   position: sticky; top: 0; padding: 7px 10px;
@@ -1068,13 +1073,14 @@
   font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
 }
 .price-update-dialog .pu-table td { padding: 6px 10px; vertical-align: middle; }
+.price-update-dialog .pu-table th, .price-update-dialog .pu-table td { text-align: start; }
 .price-update-dialog .pu-table tr:last-child td { border-bottom: none; }
 .price-update-dialog .pu-table tbody tr:hover { background: var(--theme-hover); }
 .price-update-dialog .pu-table tr.inactive td { color: var(--theme-text-secondary); }
 .price-update-dialog .pu-table .num { text-align: end; white-space: nowrap; }
 .price-update-dialog .pu-table input[type="checkbox"] { padding: 0; accent-color: var(--theme-accent); }
 .price-update-dialog .pu-status { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 11px; white-space: nowrap; border: 1px solid; }
-.price-update-dialog .pu-status.good { color: #10b981; border-color: color-mix(in srgb, #10b981 40%, transparent); background: color-mix(in srgb, #10b981 10%, transparent); }
+.price-update-dialog .pu-status.good { color: color-mix(in srgb, #10b981 55%, var(--theme-text)); border-color: color-mix(in srgb, #10b981 40%, transparent); background: color-mix(in srgb, #10b981 10%, transparent); }
 .price-update-dialog .pu-status.muted { color: var(--theme-text-secondary); border-color: var(--theme-border); }
 .price-update-dialog .pu-status.warn { color: var(--theme-accent); border-color: color-mix(in srgb, var(--theme-accent) 40%, transparent); background: color-mix(in srgb, var(--theme-accent) 10%, transparent); }
 .price-update-dialog .pu-more { margin: 8px 10px; }

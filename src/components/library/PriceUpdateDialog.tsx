@@ -69,7 +69,7 @@ export function PriceUpdateDialog() {
             <span className="pu-label">{uiText('pricing.total', 'Estimate total including VAT, all compatible changes:')}</span>
             <span className="pu-amounts">
               <span>{money(plan.beforeTotal)}</span>
-              <span aria-hidden="true">→</span>
+              <span className="pu-arrow" aria-hidden="true">→</span>
               <strong>{money(plan.afterTotal)}</strong>
               {delta !== 0 && <span className={`pu-delta ${delta > 0 ? 'up' : 'down'}`}>{delta > 0 ? '+' : '−'}{money(Math.abs(delta))}</span>}
             </span>
@@ -77,7 +77,7 @@ export function PriceUpdateDialog() {
           <p className="pu-note">{uiText('pricing.selectionPreview', 'The total above assumes every compatible change; only checked rows will be applied.')}</p>
           {plan.chapters.some(c => c.before !== c.after) && (
             <ul className="pu-chapters">
-              {plan.chapters.filter(c => c.before !== c.after).map(c => <li key={c.id}><span>{c.description}</span><span>{money(c.before)} → {money(c.after)}</span></li>)}
+              {plan.chapters.filter(c => c.before !== c.after).map(c => <li key={c.id}><span>{c.description}</span><span>{money(c.before)} <span className="pu-arrow" aria-hidden="true">→</span> {money(c.after)}</span></li>)}
             </ul>
           )}
         </div>

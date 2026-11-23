@@ -45,36 +45,75 @@ export interface OwnLibrary {
 /** What the rest of the app sees: everything but the resources themselves. */
 export type OwnLibraryInfo = Omit<OwnLibrary, 'library'>;
 
-/** Where the libraries are kept. `saveAll` throws when they cannot be stored. */
+/**
+ * Where the libraries are kept. Changes go one library at a time, so a
+ * record this app cannot read (another app version) and a library another
+ * window saved meanwhile are never wiped. `put` and `remove` throw when the
+ * change cannot be stored.
+ */
 export interface OwnLibraryBackend {
   loadAll(): Promise<unknown>;
-  saveAll(libraries: OwnLibrary[]): Promise<void>;
+  put(library: OwnLibrary): Promise<void>;
+  remove(id: string): Promise<void>;
 }
 
 const STORE_VERSION = 1;
 
 // ── Backends ────────────────────────────────────────────────────────────────
 
-/** Desktop app: `<app data>/price-libraries.json`, a file the user can back up. */
+const recordId = (value: unknown): unknown => (value && typeof value === 'object' ? (value as { id?: unknown }).id : undefined);
+
+/**
+ * Desktop app: `<app data>/price-libraries.json`, a file the user can back up.
+ * Before every write the previous content goes to `price-libraries.json.bak`;
+ * a file left half-written by a crash is then read from that copy.
+ */
 export function tauriFileBackend(): OwnLibraryBackend {
-  const file = async () => {
+  const paths = async () => {
     const { appDataDir, join } = await import('@tauri-apps/api/path');
     const dir = await appDataDir();
-    return { dir, path: await join(dir, 'price-libraries.json') };
+    const path = await join(dir, 'price-libraries.json');
+    return { dir, path, backup: `${path}.bak` };
+  };
+  const parse = (text: string): unknown[] => {
+    const data = JSON.parse(text) as unknown;
+    const list = Array.isArray(data) ? data : (data as { libraries?: unknown })?.libraries;
+    if (!Array.isArray(list)) throw Error('Unknown format.');
+    return list;
+  };
+  /** The stored records, also the ones this app cannot read; from the backup when the file is damaged. */
+  const readRaw = async (): Promise<{ records: unknown[]; text: string | null }> => {
+    const { exists, readTextFile } = await import('@tauri-apps/plugin-fs');
+    const { path, backup } = await paths();
+    if (!(await exists(path))) return { records: [], text: null };
+    const text = await readTextFile(path);
+    try {
+      return { records: parse(text), text };
+    } catch (damaged) {
+      if (!(await exists(backup))) throw damaged;
+      console.warn('[Own price libraries] price-libraries.json is damaged; using the backup.', damaged);
+      return { records: parse(await readTextFile(backup)), text: null };
+    }
+  };
+  const write = async (change: (records: unknown[]) => unknown[]) => {
+    const { mkdir, writeTextFile } = await import('@tauri-apps/plugin-fs');
+    const { dir, path, backup } = await paths();
+    try { await mkdir(dir, { recursive: true }); } catch { /* exists */ }
+    const { records, text } = await readRaw();
+    if (text !== null) await writeTextFile(backup, text);
+    await writeTextFile(path, JSON.stringify({ version: STORE_VERSION, libraries: change(records) }));
   };
   return {
-    async loadAll() {
-      const { exists, readTextFile } = await import('@tauri-apps/plugin-fs');
-      const { path } = await file();
-      if (!(await exists(path))) return [];
-      return JSON.parse(await readTextFile(path));
+    async loadAll() { return (await readRaw()).records; },
+    put(library) {
+      return write(records => {
+        const at = records.findIndex(r => recordId(r) === library.id);
+        const next = [...records];
+        if (at >= 0) next[at] = library; else next.push(library);
+        return next;
+      });
     },
-    async saveAll(libraries) {
-      const { mkdir, writeTextFile } = await import('@tauri-apps/plugin-fs');
-      const { dir, path } = await file();
-      try { await mkdir(dir, { recursive: true }); } catch { /* exists */ }
-      await writeTextFile(path, JSON.stringify({ version: STORE_VERSION, libraries }));
-    },
+    remove(id) { return write(records => records.filter(r => recordId(r) !== id)); },
   };
 }
 
@@ -91,6 +130,19 @@ function openIdb(): Promise<IDBDatabase> {
   });
 }
 
+async function idbWrite(apply: (store: IDBObjectStore) => void): Promise<void> {
+  const db = await openIdb();
+  try {
+    await new Promise<void>((resolve, reject) => {
+      const tx = db.transaction(IDB_STORE, 'readwrite');
+      apply(tx.objectStore(IDB_STORE));
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+      tx.onabort = () => reject(tx.error ?? Error('Aborted.'));
+    });
+  } finally { db.close(); }
+}
+
 /** Web: IndexedDB, one record per library (no 5 MB limit like localStorage). */
 export function indexedDbBackend(): OwnLibraryBackend {
   return {
@@ -104,29 +156,22 @@ export function indexedDbBackend(): OwnLibraryBackend {
         });
       } finally { db.close(); }
     },
-    async saveAll(libraries) {
-      const db = await openIdb();
-      try {
-        await new Promise<void>((resolve, reject) => {
-          const tx = db.transaction(IDB_STORE, 'readwrite');
-          const store = tx.objectStore(IDB_STORE);
-          store.clear();
-          for (const library of libraries) store.put(library);
-          tx.oncomplete = () => resolve();
-          tx.onerror = () => reject(tx.error);
-          tx.onabort = () => reject(tx.error ?? Error('Aborted.'));
-        });
-      } finally { db.close(); }
-    },
+    put(library) { return idbWrite(store => { store.put(library); }); },
+    remove(id) { return idbWrite(store => { store.delete(id); }); },
   };
 }
 
 /** Tests, and a last resort when nothing else is available: kept until the app closes. */
-export function memoryBackend(initial: OwnLibrary[] = []): OwnLibraryBackend & { stored: OwnLibrary[] } {
+export function memoryBackend(initial: unknown[] = []): OwnLibraryBackend & { stored: OwnLibrary[] } {
   const backend = {
-    stored: structuredClone(initial),
+    stored: structuredClone(initial) as OwnLibrary[],
     async loadAll() { return { version: STORE_VERSION, libraries: structuredClone(backend.stored) }; },
-    async saveAll(libraries: OwnLibrary[]) { backend.stored = structuredClone(libraries); },
+    async put(library: OwnLibrary) {
+      const at = backend.stored.findIndex(l => recordId(l) === library.id);
+      const copy = structuredClone(library);
+      if (at >= 0) backend.stored[at] = copy; else backend.stored.push(copy);
+    },
+    async remove(id: string) { backend.stored = backend.stored.filter(l => recordId(l) !== id); },
   };
   return backend;
 }
@@ -158,10 +203,13 @@ function isOwnLibrary(value: unknown): value is OwnLibrary {
     && !!v.library && typeof v.library === 'object' && v.library.id === v.id && Array.isArray(v.library.resources);
 }
 
+const byName = (a: OwnLibrary, b: OwnLibrary) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }) || a.id.localeCompare(b.id);
+
 function publish(next: OwnLibrary[]): void {
-  libraries = next;
-  for (const library of next) seenIds.add(library.id);
-  infoSnapshot = next.map(({ library: _library, ...info }) => info);
+  // By name: the same order after a reload, whatever order the storage keeps.
+  libraries = [...next].sort(byName);
+  for (const library of libraries) seenIds.add(library.id);
+  infoSnapshot = libraries.map(({ library: _library, ...info }) => info);
   parsedItems.clear();
   listeners.forEach(listener => listener());
 }
@@ -178,9 +226,10 @@ export function setOwnLibraryBackend(next: OwnLibraryBackend | null): void {
 }
 
 /**
- * Read the stored libraries once. Later calls return the same promise. A
- * damaged store never stops the app: the libraries are then unavailable and
- * `ownLibraryLoadError()` says why, and nothing is written over the store.
+ * Read the stored libraries. Later calls return the same promise; after a
+ * failure the next call tries again. A damaged store never stops the app:
+ * the libraries are then unavailable, `ownLibraryLoadError()` says why, and
+ * nothing is written over the store.
  */
 export function loadOwnLibraries(): Promise<void> {
   backend ??= defaultBackend();
@@ -189,12 +238,14 @@ export function loadOwnLibraries(): Promise<void> {
     if (from !== backend) return;
     const list = Array.isArray(data) ? data : (data as { libraries?: unknown })?.libraries;
     if (!Array.isArray(list)) throw Error('Unknown format.');
+    loadError = null;
     loaded = true;
     publish(list.filter(isOwnLibrary));
   }).catch(e => {
     if (from !== backend) return;
     loadError = e instanceof Error ? e.message : String(e);
     loaded = true;
+    loading = null;
     console.warn('[Own price libraries] could not read the stored libraries:', e);
     listeners.forEach(listener => listener());
   });
@@ -205,7 +256,7 @@ export function ownLibraryLoadError(): string | null {
   return loadError;
 }
 
-/** All own libraries on this computer, in import order. Stable between changes (for useSyncExternalStore). */
+/** All own libraries on this computer, by name. Stable between changes (for useSyncExternalStore). */
 export function listOwnLibraries(): OwnLibraryInfo[] {
   return infoSnapshot;
 }
@@ -251,43 +302,45 @@ export function ownLibraryItems(id: string): ResourceLibraryItem[] | null {
   return items.map(item => ({ ...item }));
 }
 
-/** Apply a change to the current list after earlier writes finished, store it, then show it. */
-function persist(change: (current: OwnLibrary[]) => OwnLibrary[]): Promise<void> {
+/**
+ * After earlier writes finished: store one change, then show it. The list in
+ * memory follows the change, so a library another window saved meanwhile
+ * shows up after the next start and is never overwritten.
+ */
+function persist(store: (to: OwnLibraryBackend) => Promise<void>, change: (current: OwnLibrary[]) => OwnLibrary[]): Promise<void> {
   const run = writes.then(() => loadOwnLibraries()).then(async () => {
     if (loadError !== null) {
       throw Error(uiText('pricing.ownStoreUnreadable', 'The own libraries on this computer could not be read ({{error}}), so nothing is saved, to keep them from being overwritten.', { error: loadError }));
     }
-    const next = change(libraries);
     try {
-      await (backend ??= defaultBackend()).saveAll(next);
+      await store(backend ??= defaultBackend());
     } catch (e) {
       throw Error(uiText('pricing.ownStorageFailed', 'The library could not be saved on this computer: {{error}}', { error: e instanceof Error ? e.message : String(e) }));
     }
-    publish(next);
+    publish(change(libraries));
   });
   writes = run.catch(() => undefined);
   return run;
 }
 
-/** Add an own library, or replace the one with the same ID in its place (a newer version keeps its price links). */
+/** Add an own library, or replace the one with the same ID (a newer version keeps its price links). */
 export function saveOwnLibrary(library: OwnLibrary): Promise<void> {
-  return persist(current => {
-    const at = current.findIndex(l => l.id === library.id);
-    const next = [...current];
-    if (at >= 0) next[at] = library; else next.push(library);
-    return next;
-  });
+  return persist(to => to.put(library), current => [...current.filter(l => l.id !== library.id), library]);
 }
 
 /** Change the name shown to the user. The catalogue ID, and so every price link, stays the same. */
 export async function renameOwnLibrary(id: string, name: string): Promise<void> {
   const trimmed = name.trim();
   if (trimmed === '') return;
-  await persist(current => current.map(l => (l.id === id ? { ...l, name: trimmed, library: { ...l.library, name: trimmed } } : l)));
+  await loadOwnLibraries();
+  const library = libraries.find(l => l.id === id);
+  if (!library) return;
+  const renamed: OwnLibrary = { ...library, name: trimmed, library: { ...library.library, name: trimmed } };
+  await persist(to => to.put(renamed), current => current.map(l => (l.id === id ? renamed : l)));
 }
 
 export function removeOwnLibrary(id: string): Promise<void> {
-  return persist(current => current.filter(l => l.id !== id));
+  return persist(to => to.remove(id), current => current.filter(l => l.id !== id));
 }
 
 export function subscribeOwnLibraries(listener: () => void): () => void {

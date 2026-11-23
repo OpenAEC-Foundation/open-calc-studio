@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useSyncExternalStore } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useSyncExternalStore } from 'react';
 import { useTranslation } from 'react-i18next';
 import { uiText } from '@/i18n/uiText';
 import { useAppStore } from '@/state/appStore';
@@ -6,7 +6,7 @@ import {
   activeLibrariesOf, COUNTRY_LIBRARY, missingOwnLibraries, ownLibraryKey, priceCountryOf, PRICE_LIBRARY_COUNTRIES,
 } from '@/services/pricing/priceLibraries';
 import { activateAllLibraries, activateOwnLibrary, choosePriceCountry, toggleLibrary } from '@/services/pricing/choosePriceCountry';
-import { listOwnLibraries, ownLibrariesLoaded, removeOwnLibrary, renameOwnLibrary, saveOwnLibrary, subscribeOwnLibraries, type OwnLibraryInfo } from '@/services/pricing/ownLibraries';
+import { listOwnLibraries, loadOwnLibraries, ownLibrariesLoaded, ownLibraryLoadError, removeOwnLibrary, renameOwnLibrary, saveOwnLibrary, subscribeOwnLibraries, type OwnLibraryInfo } from '@/services/pricing/ownLibraries';
 import { OWN_LIBRARY_FILE_TYPES, prepareOwnLibrary } from '@/services/pricing/ownLibraryImport';
 import { countryOptions } from '@/utils/countries';
 
@@ -17,6 +17,7 @@ export function useOwnLibraries(): OwnLibraryInfo[] {
 
 export type PanelMessage = { text: string; kind: 'info' | 'error' } | null;
 
+const listCodes = (codes: string[]) => codes.slice(0, 10).join(', ') + (codes.length > 10 ? ', …' : '');
 const messageOf = (e: unknown) => (e instanceof Error ? e.message : String(e));
 
 const Icon: React.FC<{ d: string }> = ({ d }) => (
@@ -40,10 +41,16 @@ export const PriceLibraryPanel: React.FC<{ onChange: () => void; onMessage: (mes
   const schedule = useAppStore(s => s.schedule);
   const active = useMemo(() => activeLibrariesOf(schedule), [schedule]);
   const own = useOwnLibraries();
+  // A store that could not be read: say so here, and try again when the dialog opens.
+  const loadError = useSyncExternalStore(subscribeOwnLibraries, ownLibraryLoadError);
+  useEffect(() => { if (ownLibraryLoadError() !== null) void loadOwnLibraries(); }, []);
   // eslint-disable-next-line react-hooks/exhaustive-deps -- `own` changes when the libraries load
   const missing = useMemo(() => (ownLibrariesLoaded() ? missingOwnLibraries(schedule) : []), [schedule, own]);
   const countries = useMemo(() => countryOptions(PRICE_LIBRARY_COUNTRIES, country, i18n.language), [country, i18n.language]);
   const fileInput = useRef<HTMLInputElement>(null);
+  const section = useRef<HTMLElement>(null);
+  /** The button that had focus can be gone (first import, removed row): put focus on the import button. */
+  const keepFocus = () => setTimeout(() => section.current?.querySelector<HTMLElement>('.rp-add-library, .rp-import-btn')?.focus());
   const updateId = useRef<string | undefined>(undefined);
 
   const openFile = (forUpdate?: string) => {
@@ -63,11 +70,14 @@ export const PriceLibraryPanel: React.FC<{ onChange: () => void; onMessage: (mes
       activateOwnLibrary(prepared.library.id);
       onChange();
       const parts = [uiText('pricing.ownImported', '“{{name}}” imported: {{count}} resources. It is kept on this computer.', { name: prepared.library.name, count: prepared.library.count })];
+      if (prepared.duplicates.length > 0) {
+        parts.push(uiText('pricing.ownDuplicates', 'Codes that appear more than once got a suffix (~2, ~3) ({{count}}): {{codes}}.', { count: prepared.duplicates.length, codes: listCodes(prepared.duplicates) }));
+      }
       if (prepared.dropped.length > 0) {
-        const shown = prepared.dropped.slice(0, 10).join(', ') + (prepared.dropped.length > 10 ? ', …' : '');
-        parts.push(uiText('pricing.ownDropped', 'No longer in the new version ({{count}}): {{codes}}. Rows that use them keep their price.', { count: prepared.dropped.length, codes: shown }));
+        parts.push(uiText('pricing.ownDropped', 'No longer in the new version ({{count}}): {{codes}}. Rows that use them keep their price.', { count: prepared.dropped.length, codes: listCodes(prepared.dropped) }));
       }
       onMessage({ text: parts.join(' '), kind: 'info' });
+      keepFocus();
     } catch (e) {
       onMessage({ text: messageOf(e), kind: 'error' });
     } finally {
@@ -89,6 +99,7 @@ export const PriceLibraryPanel: React.FC<{ onChange: () => void; onMessage: (mes
       toggleLibrary(ownLibraryKey(library.id), false);
       onChange();
       onMessage(null);
+      keepFocus();
     } catch (e) { onMessage({ text: messageOf(e), kind: 'error' }); }
   };
 
@@ -97,7 +108,7 @@ export const PriceLibraryPanel: React.FC<{ onChange: () => void; onMessage: (mes
   const allOn = own.length > 0 && [COUNTRY_LIBRARY, ...own.map(l => ownLibraryKey(l.id))].every(k => active.includes(k));
 
   return (
-    <section className="rp-libraries" aria-labelledby="rp-libraries-title">
+    <section ref={section} className="rp-libraries" aria-labelledby="rp-libraries-title">
       <div className="rp-side-title">
         <span id="rp-libraries-title">{uiText('pricing.libraries', 'Price libraries')}</span>
         {own.length > 0 && (
@@ -156,7 +167,16 @@ export const PriceLibraryPanel: React.FC<{ onChange: () => void; onMessage: (mes
         );
       })}
 
-      {missing.map(id => (
+      {loadError !== null && (
+        <div className="rp-lib missing" role="alert">
+          <span className="rp-lib-warn" aria-hidden="true">!</span>
+          <div className="rp-lib-text">
+            <span className="rp-lib-meta">{uiText('pricing.ownStoreUnreadable', 'The own libraries on this computer could not be read ({{error}}), so nothing is saved, to keep them from being overwritten.', { error: loadError })}</span>
+          </div>
+        </div>
+      )}
+
+      {loadError === null && missing.map(id => (
         <div className="rp-lib missing" key={id} role="status">
           <span className="rp-lib-warn" aria-hidden="true">!</span>
           <div className="rp-lib-text">

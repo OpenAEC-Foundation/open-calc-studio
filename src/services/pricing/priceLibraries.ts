@@ -108,7 +108,10 @@ export function withActiveLibraries(current: ResourceLibraryItem[], schedule: Li
     const own = ownLibraryIdOfKey(key);
     return own === null ? builtInLibraryItems(priceCountryOf(schedule)) : ownLibraryItems(own) ?? [];
   });
-  return [...chosen, ...current.filter(item => !isLibraryArticle(item))];
+  // Copies of articles of a library that is not on this computer (embedded in
+  // an opened file) leave too: the estimate must say the library is missing.
+  const missing = new Set(missingOwnLibraries(schedule));
+  return [...chosen, ...current.filter(item => !isLibraryArticle(item) && !(item.catalogueId !== undefined && missing.has(item.catalogueId)))];
 }
 
 /**

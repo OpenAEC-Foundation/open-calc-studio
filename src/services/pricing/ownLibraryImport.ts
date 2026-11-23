@@ -31,6 +31,8 @@ export interface PreparedOwnLibrary {
   replaces?: OwnLibraryInfo;
   /** Codes of the replaced version that are not in this file; rows linked to them keep their price. */
   dropped: string[];
+  /** Codes that appear more than once in the file; the later ones got a suffix (`~2`, `~3`). */
+  duplicates: string[];
   warnings: string[];
 }
 
@@ -62,7 +64,7 @@ function fromJson(content: string, fileName: string): Draft {
   let data: unknown;
   try { data = JSON.parse(content.replace(/^﻿/, '')); } catch (e) { throw invalid(e instanceof Error ? e.message : String(e)); }
   if (!data || typeof data !== 'object' || Array.isArray(data) || !Array.isArray((data as { resources?: unknown }).resources)) {
-    throw invalid('expected a JSON object with a "resources" list.');
+    throw invalid(uiText('pricing.ownNeedsResources', 'expected a JSON object with a list “resources”.'));
   }
   const d = data as Record<string, unknown>;
   const preferredId = text(d.id) ?? text(d.catalogueId) ?? text(d.name) ?? baseName(fileName);
@@ -96,6 +98,43 @@ const TYPE_WORDS: Record<string, ResourceType> = {
   overig: 'overig', other: 'overig',
 };
 
+/**
+ * Article ID of a row without a code: from its description and unit, never
+ * from its position, so a newer version of the file with rows added above
+ * still links the same article.
+ */
+function contentId(description: string, unit: string): string {
+  const text = `${description.trim().toLowerCase().replace(/\s+/g, ' ')}|${unit.trim().toLowerCase()}`;
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < text.length; i++) { hash ^= text.charCodeAt(i); hash = Math.imul(hash, 0x01000193); }
+  return `d-${(hash >>> 0).toString(16).padStart(8, '0')}`;
+}
+
+/**
+ * Decimal style of a whole price column: a supplier list uses one style, so
+ * "1,234" in a column that also has "12.50" is a thousand, not 1.234. Null
+ * when the column does not tell (each price is then read on its own).
+ */
+function columnDecimals(texts: string[]): 'dot' | 'comma' | null {
+  let dot = false, comma = false;
+  for (const text of texts) {
+    const t = text.replace(/[^\d.,]/g, '');
+    if (/,\d{3}\.\d+$/.test(t) || /\.\d{1,2}$/.test(t) || /\.\d{4,}$/.test(t)) dot = true;
+    if (/\.\d{3},\d+$/.test(t) || /,\d{1,2}$/.test(t) || /,\d{4,}$/.test(t)) comma = true;
+  }
+  return dot && !comma ? 'dot' : comma && !dot ? 'comma' : null;
+}
+
+/** A price date as YYYY-MM-DD: as written, or from an Excel date cell (a day number since 1899-12-30). */
+function isoDate(text: string): string | null {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
+  if (/^\d{5}(\.\d+)?$/.test(text)) {
+    const days = Math.floor(Number(text));
+    if (days > 20000 && days < 80000) return new Date(Date.UTC(1899, 11, 30) + days * 86_400_000).toISOString().slice(0, 10);
+  }
+  return null;
+}
+
 const normHeader = (h: string) => h.trim().toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/[\s._/]+/g, '');
 
 function fromTable(data: TabularData, fileName: string): Draft {
@@ -115,27 +154,32 @@ function fromTable(data: TabularData, fileName: string): Draft {
   const cDate = column('priceDate');
   const cSource = column('source');
   if (cCode < 0 || cDesc < 0) {
-    throw new OwnLibraryFileError(uiText('pricing.ownColumns', 'The table needs at least the columns code and description. Found: {{columns}}.', { columns: data.headers.join(', ') || '—' }));
+    throw new OwnLibraryFileError(uiText('pricing.ownColumns', 'The table needs at least a column "Code" and a column "Description" (headers in English or Dutch, such as "Omschrijving"). Found: {{columns}}.', { columns: data.headers.join(', ') || '—' }));
   }
   const cell = (row: string[], col: number) => (col >= 0 ? String(row[col] ?? '').trim() : '');
-  const resources = data.rows
+  const rows = data.rows
     .map((row, i) => ({ row, line: i + 2 }))
-    .filter(({ row }) => cell(row, cCode) !== '' || cell(row, cDesc) !== '')
+    .filter(({ row }) => cell(row, cCode) !== '' || cell(row, cDesc) !== '');
+  const decimals = columnDecimals(rows.map(({ row }) => cell(row, cPrice)));
+  const resources = rows
     .map(({ row, line }) => {
       const priceText = cell(row, cPrice);
-      const amount = parseAmount(priceText);
-      if (priceText !== '' && amount.invalid) throw invalid(`row ${line}: price "${priceText}" is not a number.`);
+      const amount = parseAmount(decimals === 'dot' ? priceText.replace(/,/g, '') : decimals === 'comma' ? priceText.replace(/\./g, '') : priceText);
+      if (priceText !== '' && amount.invalid) throw invalid(uiText('pricing.ownRowPrice', 'row {{row}}: price “{{price}}” is not a number.', { row: line, price: priceText }));
       const type = TYPE_WORDS[cell(row, cType).toLowerCase()];
-      const date = cell(row, cDate);
+      const date = isoDate(cell(row, cDate));
+      const code = cell(row, cCode);
+      const unit = cell(row, cUnit) || 'st';
       return {
-        code: cell(row, cCode) || `row-${line}`,
+        ...(code ? {} : { id: contentId(cell(row, cDesc), unit) }),
+        code,
         description: cell(row, cDesc),
-        unit: cell(row, cUnit) || 'st',
+        unit,
         ...(type ? { resourceType: type } : {}),
         category: cell(row, cCat),
         defaultUnitPrice: priceText === '' ? null : amount.value,
         source: cell(row, cSource) || fileName,
-        priceDate: /^\d{4}-\d{2}-\d{2}$/.test(date) ? date : null,
+        priceDate: date,
       };
     });
   const name = baseName(fileName);
@@ -150,7 +194,7 @@ function fromBmecat(content: string, fileName: string): { draft: Draft; warnings
     draft: {
       preferredId: name, name, version: 'unversioned',
       resources: result.resources.map(r => ({
-        id: r.code || r.description, code: r.code, description: r.description, unit: r.unit,
+        id: r.code || contentId(r.description, r.unit), code: r.code, description: r.description, unit: r.unit,
         resourceType: r.resourceType, category: r.category, defaultUnitPrice: r.defaultUnitPrice, source: fileName,
       })),
     },
@@ -193,6 +237,7 @@ export function prepareOwnLibrary(fileName: string, content: string | ArrayBuffe
 
   const target = options.updateId === undefined ? undefined : getOwnLibrary(options.updateId);
   if (options.updateId !== undefined && !target) throw new OwnLibraryFileError(uiText('pricing.ownNotFound', 'The own library to update is no longer on this computer.'));
+  const duplicates = suffixDuplicates(draft.resources);
   const { preferredId, ...rest } = draft;
   const json: OwnLibraryJson = {
     ...rest,
@@ -213,9 +258,35 @@ export function prepareOwnLibrary(fileName: string, content: string | ArrayBuffe
     origin, count: items.length, fileName: fileName.split(/[\\/]/).pop() ?? fileName,
     importedAt: (options.now ?? new Date()).toISOString(), library: json,
   };
-  return { library, items, replaces, dropped: replaces ? droppedCodes(replaces.id, items) : [], warnings };
+  return { library, items, replaces, dropped: replaces ? droppedCodes(replaces.id, items) : [], duplicates, warnings };
 }
 
+
+/**
+ * Supplier lists repeat codes (sizes, packaging). Instead of refusing the
+ * file, the second and later rows with an ID get `~2`, `~3`; the code shown
+ * stays. Returns the repeated codes.
+ */
+function suffixDuplicates(resources: unknown[]): string[] {
+  const seen = new Map<string, number>();
+  const repeated = new Set<string>();
+  for (const raw of resources) {
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) continue;
+    const r = raw as Record<string, unknown>;
+    const key = String(r.id ?? r.code ?? '');
+    if (key === '') continue;
+    const n = (seen.get(key) ?? 0) + 1;
+    seen.set(key, n);
+    if (n > 1) {
+      let id = `${key}~${n}`;
+      for (let k = n; seen.has(id); k++) id = `${key}~${k + 1}`;
+      seen.set(id, 1);
+      r.id = id;
+      repeated.add(String(r.code ?? key) || key);
+    }
+  }
+  return [...repeated];
+}
 
 function droppedCodes(id: string, items: ResourceLibraryItem[]): string[] {
   const kept = new Set(items.map(item => item.id));
