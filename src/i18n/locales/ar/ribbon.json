@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "بنود التكلفة",
     "collapseMonitorPosts": "بنود المتابعة",
     "expandAll": "توسيع الكل",
+    "collapseMeasurementLines": "طي أسطر القياس",
+    "expandMeasurementLines": "إظهار أسطر القياس",
     "pricesPct": "الأسعار %",
     "pricesPctTitle": "زيادة أو خفض جميع الأسعار (سعر المورد، المواد، العمالة) بنسبة مئوية",
     "pricesHistory": "الأسعار {{pct}}%",

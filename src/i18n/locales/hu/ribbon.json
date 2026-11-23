@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Tételek",
     "collapseMonitorPosts": "Ellenőrző tételek",
     "expandAll": "Mind kibontása",
+    "collapseMeasurementLines": "Felmérési sorok összecsukása",
+    "expandMeasurementLines": "Felmérési sorok megjelenítése",
     "pricesPct": "Árak %",
     "pricesPctTitle": "Minden ár (erőforrásár, anyag, munkadíj) növelése vagy csökkentése százalékkal",
     "pricesHistory": "Árak {{pct}}%",

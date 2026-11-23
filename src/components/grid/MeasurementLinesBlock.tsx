@@ -35,11 +35,27 @@ export function measurementBlockHeight(item: Pick<CostItem, 'measurementLines' |
   return rows * MEASUREMENT_LINE_HEIGHT + 6;
 }
 
-const FIELD_WIDTH = 72;
-const SUBTOTAL_WIDTH = 92;
+const DESCRIPTION_MIN = 120;
+const FIELD_WIDTH = 64;
+const VALUE_WIDTH = 80;
 const ACTION_WIDTH = 22;
+/** Kolomafstand, binnenrand links/rechts en de accentlijn (zie grid.css). */
+const GAP = 4, PAD_LEFT = 8, PAD_RIGHT = 4, BORDER = 2;
 
+/** Smalste breedte waarbij alle kolommen nog passen. */
+export const MEASUREMENT_MIN_WIDTH =
+  DESCRIPTION_MIN + 4 * FIELD_WIDTH + 2 * VALUE_WIDTH + ACTION_WIDTH + 7 * GAP + PAD_LEFT + PAD_RIGHT + BORDER;
+/**
+ * Wat er rechts van de kolom Subtotaal nog komt (×-knop, afstand, rand),
+ * min de binnenrand van een gridcel. Het tabelletje eindigt zoveel rechts
+ * van de kolom Hoeveelheid, zodat het totaal precies onder de hoeveelheid
+ * van de post staat.
+ */
+export const MEASUREMENT_TRAILING = ACTION_WIDTH + GAP + PAD_RIGHT - 6;
+
+/** Getallen: maten op 2 tot 3 decimalen, een aantal zonder decimalen als het heel is. */
 const fmt = (v: number | null | undefined): string => (v == null ? '' : formatDecimals(v, 2, 3) || '0');
+const fmtCount = (v: number | null | undefined): string => (v == null ? '' : formatDecimals(v, 0, 3) || '0');
 
 interface Props {
   item: CostItem;
@@ -95,18 +111,40 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
     else addLine(field);
   };
 
-  const columnsTemplate = `minmax(140px, 1fr) repeat(4, ${FIELD_WIDTH}px) ${SUBTOTAL_WIDTH}px ${ACTION_WIDTH}px`;
+  /**
+   * Toetsen blijven in het tabelletje (de grid mag ze niet als navigatie
+   * zien), behalve sneltoetsen: Ctrl+S en dergelijke gaan naar de app.
+   * Ctrl+Z / Ctrl+Y legt eerst het vak vast en draait dan terug, zodat
+   * ongedaan maken ook hier werkt. Kopiëren en plakken blijven in het vak.
+   */
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    const ctrl = e.ctrlKey || e.metaKey;
+    const key = e.key.toLowerCase();
+    if (ctrl && (key === 'z' || key === 'y')) {
+      e.preventDefault();
+      e.stopPropagation();
+      (e.target as HTMLElement).blur?.();
+      const st = useAppStore.getState();
+      const restored = key === 'z' ? st.undo() : st.redo();
+      if (restored) st.setItems(restored);
+      return;
+    }
+    if (ctrl || e.altKey) return;
+    e.stopPropagation();
+  };
+
+  const columnsTemplate = `minmax(${DESCRIPTION_MIN}px, 1fr) repeat(4, ${FIELD_WIDTH}px) ${VALUE_WIDTH}px ${VALUE_WIDTH}px ${ACTION_WIDTH}px`;
   const sum = measurementSum(lines);
   const collapsed = !!item.measurementLinesCollapsed;
   // Hoeveelheid ≠ som (een bestand van buiten, een oudere versie): niet stil
-  // aanpassen, wel laten zien, met een knop om de som over te nemen.
+  // aanpassen, wel laten zien met beide getallen, en één klik neemt de som over.
   const mismatch = !quantityMatchesLines(item) ? (
     <button
       type="button"
       className="measurement-mismatch"
       title={t('grid:measurement.mismatch', { quantity: fmt(item.quantity ?? 0), sum: fmt(sum) })}
       onClick={() => commit(current())}
-    >⚠ {t('grid:measurement.useSum')}</button>
+    >⚠ {fmt(item.quantity ?? 0)} ≠ {fmt(sum)} · {t('grid:measurement.useSum')}</button>
   ) : null;
 
   // Eigen chevron: klapt alleen de meetregels in, de middelen blijven staan.
@@ -121,11 +159,20 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
     >{collapsed ? '▸' : '▾'}</button>
   );
 
+  const totalCells = (
+    <>
+      <span className="measurement-mismatch-cell">{mismatch}</span>
+      <span className="num">{t('grid:measurement.sum')}</span>
+      <span className="num measurement-value measurement-sum">{fmt(sum)}</span>
+      <span />
+    </>
+  );
+
   return (
     <div
       className={`measurement-block${collapsed ? ' measurement-collapsed' : ''}`}
       style={{ marginLeft: left, width, height: measurementBlockHeight(item) }}
-      onKeyDown={(e) => e.stopPropagation()}
+      onKeyDown={onKeyDown}
       onMouseDown={(e) => e.stopPropagation()}
       onContextMenu={(e) => e.stopPropagation()}
       data-measurement-for={item.id}
@@ -133,10 +180,7 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
       {collapsed ? (
         <div className="measurement-row measurement-summary" style={{ gridTemplateColumns: columnsTemplate }}>
           <span className="measurement-title">{toggle}{t('grid:measurement.linesCount', { count: lines.length })}</span>
-          <span className="measurement-mismatch-cell">{mismatch}</span>
-          <span className="num">{t('grid:measurement.sum')}</span>
-          <span className="num measurement-value measurement-sum">{fmt(sum)}</span>
-          <span />
+          {totalCells}
         </div>
       ) : (<>
       <div className="measurement-row measurement-head" style={{ gridTemplateColumns: columnsTemplate }}>
@@ -145,6 +189,7 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
         <span className="num">{t('grid:measurement.length')}</span>
         <span className="num">{t('grid:measurement.width')}</span>
         <span className="num">{t('grid:measurement.height')}</span>
+        <span className="num">{t('grid:measurement.partial')}</span>
         <span className="num">{t('grid:measurement.subtotal')}</span>
         <span />
       </div>
@@ -169,6 +214,7 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
                 key={field}
                 dataKey={`${item.id}:${line.id}:${field}`}
                 value={line[field]}
+                format={field === 'count' ? fmtCount : fmt}
                 formula={line.formulas?.[field]}
                 ariaLabel={t(`grid:measurement.${field}`)}
                 onCommit={(value, formula) => {
@@ -183,7 +229,9 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
                 onEnter={() => nextLine(index, field)}
               />
             )))}
-          <span className="num measurement-value">{fmt(line.subtotal ? subtotalValue(lines, index) : lineValue(line))}</span>
+          {/* Parcial: wat de regel oplevert; Subtotal: alleen op een tussentotaalregel. */}
+          <span className="num measurement-value">{line.subtotal ? '' : fmt(lineValue(line))}</span>
+          <span className="num measurement-value">{line.subtotal ? fmt(subtotalValue(lines, index)) : ''}</span>
           <button
             type="button"
             className="measurement-delete"
@@ -199,10 +247,7 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
             {t('grid:measurement.addLine')}
           </button>
         </span>
-        <span className="measurement-mismatch-cell">{mismatch}</span>
-        <span className="num">{t('grid:measurement.sum')}</span>
-        <span className="num measurement-value measurement-sum">{fmt(sum)}</span>
-        <span />
+        {totalCells}
       </div>
       </>)}
     </div>
@@ -244,9 +289,10 @@ const TextCell: React.FC<CellProps & { value: string; placeholder?: string; onCo
  */
 const NumberCell: React.FC<CellProps & {
   value: number | null;
+  format: (v: number | null | undefined) => string;
   formula?: string;
   onCommit: (value: number | null, formula: string | undefined) => void;
-}> = ({ dataKey, ariaLabel, value, formula, onCommit, onEnter }) => {
+}> = ({ dataKey, ariaLabel, value, format, formula, onCommit, onEnter }) => {
   const [draft, setDraft] = useState<string | null>(null);
   const cancelled = useRef(false);
   const editText = formula ?? formatNumberForEdit(value);
@@ -267,7 +313,7 @@ const NumberCell: React.FC<CellProps & {
       aria-label={ariaLabel}
       inputMode="decimal"
       title={formula}
-      value={draft ?? (value == null ? '' : fmt(value))}
+      value={draft ?? (value == null ? '' : format(value))}
       onFocus={() => { cancelled.current = false; setDraft(editText); }}
       onChange={(e) => setDraft(e.target.value)}
       onBlur={finish}

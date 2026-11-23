@@ -55,6 +55,8 @@
     "collapseBudgetPosts": "Positionen",
     "collapseMonitorPosts": "Teilleistungen",
     "expandAll": "Alle ausklappen",
+    "collapseMeasurementLines": "Aufmaßzeilen einklappen",
+    "expandMeasurementLines": "Aufmaßzeilen anzeigen",
     "pricesPct": "Preise %",
     "pricesPctTitle": "Alle Preise (Preis/Betriebsmittel, Material, Lohn) prozentual erhöhen oder senken",
     "pricesHistory": "Preise {{pct}} %",

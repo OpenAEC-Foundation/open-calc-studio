@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Poster",
     "collapseMonitorPosts": "Styrposter",
     "expandAll": "Expandera alla",
+    "collapseMeasurementLines": "Fäll ihop mängdrader",
+    "expandMeasurementLines": "Visa mängdrader",
     "pricesPct": "Priser %",
     "pricesPctTitle": "Höj eller sänk alla priser (pris/resurs, material, arbetskostnad) med en procentsats",
     "pricesHistory": "Priser {{pct}} %",

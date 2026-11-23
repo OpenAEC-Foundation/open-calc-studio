@@ -247,6 +247,7 @@
     "length": "길이",
     "width": "너비",
     "height": "높이",
+    "partial": "부분값",
     "subtotal": "소계",
     "sum": "합계",
     "addLine": "+ 행",

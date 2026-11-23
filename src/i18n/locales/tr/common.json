@@ -1109,12 +1109,14 @@
       "captured": "{{date}} tarihinde bağlandı · kaynak değeri {{value}} {{unit}}",
       "itemMissing": "Keşif satırı artık mevcut değil.",
       "documentChanged": "Etkin keşif değişti. Kaynağı yeniden açın.",
+      "measurement": "Bu kalemin {{count}} ölçü satırının toplamı.",
       "kind": {
         "manual": "Elle giriş",
         "pdf": "PDF ölçümü",
         "ifc": "IFC miktarı",
         "spreadsheet": "Hesap tablosu hücresi",
-        "excel": "Harici Excel başvurusu"
+        "excel": "Harici Excel başvurusu",
+        "measurement": "Ölçü satırları"
       }
     },
     "companion": {

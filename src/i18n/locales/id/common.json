@@ -1109,12 +1109,14 @@
       "captured": "Ditautkan pada {{date}} · nilai sumber {{value}} {{unit}}",
       "itemMissing": "Baris anggaran ini sudah tidak ada.",
       "documentChanged": "Anggaran aktif berubah. Buka sumbernya lagi.",
+      "measurement": "Jumlah {{count}} baris pengukuran item ini.",
       "kind": {
         "manual": "Entri manual",
         "pdf": "Pengukuran PDF",
         "ifc": "Volume IFC",
         "spreadsheet": "Sel lembar kerja",
-        "excel": "Referensi Excel eksternal"
+        "excel": "Referensi Excel eksternal",
+        "measurement": "Baris pengukuran"
       }
     },
     "companion": {

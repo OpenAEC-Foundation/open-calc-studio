@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "รายการงาน",
     "collapseMonitorPosts": "รายการควบคุม",
     "expandAll": "ขยายทั้งหมด",
+    "collapseMeasurementLines": "ยุบบรรทัดการวัดปริมาณ",
+    "expandMeasurementLines": "แสดงบรรทัดการวัดปริมาณ",
     "pricesPct": "ราคา %",
     "pricesPctTitle": "เพิ่มหรือลดราคาทั้งหมด (ราคาต่อทรัพยากร ค่าวัสดุ ค่าแรง) เป็นเปอร์เซ็นต์",
     "pricesHistory": "ราคา {{pct}}%",

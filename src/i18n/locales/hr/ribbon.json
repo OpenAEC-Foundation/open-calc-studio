@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Troškovničke stavke",
     "collapseMonitorPosts": "Kontrolne stavke",
     "expandAll": "Proširi sve",
+    "collapseMeasurementLines": "Sažmi retke izmjere",
+    "expandMeasurementLines": "Prikaži retke izmjere",
     "pricesPct": "Cijene %",
     "pricesPctTitle": "Povećaj ili smanji sve cijene (cijena/resurs, materijal, rad) za određeni postotak",
     "pricesHistory": "Cijene {{pct}} %",

@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Partidas",
     "collapseMonitorPosts": "Partidas de control",
     "expandAll": "Expandir todo",
+    "collapseMeasurementLines": "Plegar las líneas de medición",
+    "expandMeasurementLines": "Mostrar las líneas de medición",
     "pricesPct": "Precios %",
     "pricesPctTitle": "Aumentar o reducir todos los precios (precio/recurso, materiales, mano de obra) un porcentaje",
     "pricesHistory": "Precios {{pct}} %",

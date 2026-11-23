@@ -247,6 +247,7 @@
     "length": "Comprimento",
     "width": "Largura",
     "height": "Altura",
+    "partial": "Parcial",
     "subtotal": "Subtotal",
     "sum": "Total",
     "addLine": "+ Linha",

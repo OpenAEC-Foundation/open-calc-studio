@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Rozpočtové položky",
     "collapseMonitorPosts": "Kontrolné položky",
     "expandAll": "Rozbaliť všetko",
+    "collapseMeasurementLines": "Zbaliť riadky výmery",
+    "expandMeasurementLines": "Zobraziť riadky výmery",
     "pricesPct": "Ceny %",
     "pricesPctTitle": "Zvýšiť alebo znížiť všetky ceny (cena/zdroj, materiál, mzdy) o percento",
     "pricesHistory": "Ceny {{pct}} %",

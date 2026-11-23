@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "סעיפי אומדן",
     "collapseMonitorPosts": "סעיפי מעקב",
     "expandAll": "הרחבת הכול",
+    "collapseMeasurementLines": "כיווץ שורות המדידה",
+    "expandMeasurementLines": "הצגת שורות המדידה",
     "pricesPct": "מחירים %",
     "pricesPctTitle": "העלאה או הורדה של כל המחירים (מחיר/משאב, חומרים, עבודה) באחוזים",
     "pricesHistory": "מחירים {{pct}}%",

@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Voci di computo",
     "collapseMonitorPosts": "Voci di controllo",
     "expandAll": "Espandi tutto",
+    "collapseMeasurementLines": "Comprimi le righe di misura",
+    "expandMeasurementLines": "Mostra le righe di misura",
     "pricesPct": "Prezzi %",
     "pricesPctTitle": "Aumenta o riduci tutti i prezzi (prezzo/risorsa, materiali, manodopera) di una percentuale",
     "pricesHistory": "Prezzi {{pct}}%",

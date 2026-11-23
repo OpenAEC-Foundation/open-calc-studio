@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Pozycje kosztorysowe",
     "collapseMonitorPosts": "Pozycje kontrolne",
     "expandAll": "Rozwiń wszystko",
+    "collapseMeasurementLines": "Zwiń wiersze przedmiaru",
+    "expandMeasurementLines": "Pokaż wiersze przedmiaru",
     "pricesPct": "Ceny %",
     "pricesPctTitle": "Zwiększ lub zmniejsz wszystkie ceny (cena/zasób, materiały, robocizna) o zadany procent",
     "pricesHistory": "Ceny {{pct}}%",

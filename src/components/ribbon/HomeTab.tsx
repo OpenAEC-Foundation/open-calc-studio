@@ -29,7 +29,7 @@ export default function HomeTab() {
     gridView, setGridView,
     schedule, toggleChangeTracking, clearChangeMarks, setChangeDisplayMode,
     toggleBranchesEnabled,
-    setMeasurementLines, toggleCollapse, toggleMeasurementLines,
+    setMeasurementLines, toggleCollapse, toggleMeasurementLines, setAllMeasurementLinesCollapsed,
   } = useAppStore();
 
   const trackingOn = !!schedule.changeTrackingSince;
@@ -417,6 +417,19 @@ export default function HomeTab() {
                       key={niveau}
                       className="ribbon-undo-dropdown-item"
                       onClick={() => { collapseToLevel(niveau); setShowCollapseList(false); }}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                  {/* Meetregels (#96): apart van de rijen, de middelen blijven staan. */}
+                  {([
+                    [true, t('home.collapseMeasurementLines')],
+                    [false, t('home.expandMeasurementLines')],
+                  ] as const).map(([fold, label]) => (
+                    <button
+                      key={String(fold)}
+                      className="ribbon-undo-dropdown-item"
+                      onClick={() => { setAllMeasurementLinesCollapsed(fold); setShowCollapseList(false); }}
                     >
                       {label}
                     </button>

@@ -1109,12 +1109,14 @@
       "captured": "Linkitetty {{date}} · lähteen arvo {{value}} {{unit}}",
       "itemMissing": "Kustannusarvioriviä ei enää ole.",
       "documentChanged": "Aktiivinen kustannusarvio muuttui. Avaa lähde uudelleen.",
+      "measurement": "Tämän nimikkeen {{count}} mittarivin summa.",
       "kind": {
         "manual": "Manuaalinen syöttö",
         "pdf": "PDF-mittaus",
         "ifc": "IFC-määrä",
         "spreadsheet": "Taulukon solu",
-        "excel": "Ulkoinen Excel-viittaus"
+        "excel": "Ulkoinen Excel-viittaus",
+        "measurement": "Mittarivit"
       }
     },
     "companion": {

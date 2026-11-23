@@ -247,6 +247,7 @@
     "length": "Lengde",
     "width": "Bredde",
     "height": "Høyde",
+    "partial": "Delresultat",
     "subtotal": "Delsum",
     "sum": "Sum",
     "addLine": "+ Linje",

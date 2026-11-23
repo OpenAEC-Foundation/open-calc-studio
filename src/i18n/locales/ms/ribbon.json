@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Butiran anggaran",
     "collapseMonitorPosts": "Butiran pemantauan",
     "expandAll": "Kembangkan semua",
+    "collapseMeasurementLines": "Runtuhkan baris pengukuran",
+    "expandMeasurementLines": "Tunjukkan baris pengukuran",
     "pricesPct": "Harga %",
     "pricesPctTitle": "Naikkan atau turunkan semua harga (harga/sumber, bahan, buruh) mengikut peratusan",
     "pricesHistory": "Harga {{pct}}%",

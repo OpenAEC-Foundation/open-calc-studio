@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Pos anggaran",
     "collapseMonitorPosts": "Pos pengawasan",
     "expandAll": "Bentangkan semua",
+    "collapseMeasurementLines": "Ciutkan baris pengukuran",
+    "expandMeasurementLines": "Tampilkan baris pengukuran",
     "pricesPct": "Harga %",
     "pricesPctTitle": "Naikkan atau turunkan semua harga (harga/sumber daya, bahan, upah) dengan persentase tertentu",
     "pricesHistory": "Harga {{pct}}%",

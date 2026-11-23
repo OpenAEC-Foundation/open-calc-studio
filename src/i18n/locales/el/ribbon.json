@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Άρθρα",
     "collapseMonitorPosts": "Άρθρα παρακολούθησης",
     "expandAll": "Ανάπτυξη όλων",
+    "collapseMeasurementLines": "Σύμπτυξη γραμμών επιμέτρησης",
+    "expandMeasurementLines": "Εμφάνιση γραμμών επιμέτρησης",
     "pricesPct": "Τιμές %",
     "pricesPctTitle": "Αύξηση ή μείωση όλων των τιμών (τιμή/πόρος, υλικά, εργατικά) κατά ένα ποσοστό",
     "pricesHistory": "Τιμές {{pct}}%",

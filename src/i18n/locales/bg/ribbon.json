@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Позиции от сметката",
     "collapseMonitorPosts": "Контролни позиции",
     "expandAll": "Разгъни всичко",
+    "collapseMeasurementLines": "Свиване на редовете с измервания",
+    "expandMeasurementLines": "Показване на редовете с измервания",
     "pricesPct": "Цени %",
     "pricesPctTitle": "Увеличава или намалява всички цени (цена/ресурс, материали, труд) с процент",
     "pricesHistory": "Цени {{pct}}%",

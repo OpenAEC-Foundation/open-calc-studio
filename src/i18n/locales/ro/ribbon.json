@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Articole",
     "collapseMonitorPosts": "Articole de urmărire",
     "expandAll": "Extindere completă",
+    "collapseMeasurementLines": "Restrânge liniile de măsurătoare",
+    "expandMeasurementLines": "Afișează liniile de măsurătoare",
     "pricesPct": "Prețuri %",
     "pricesPctTitle": "Mărește sau micșorează toate prețurile (preț/resursă, materiale, manoperă) cu un procent",
     "pricesHistory": "Prețuri {{pct}}%",

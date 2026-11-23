@@ -10,6 +10,7 @@ import { importBc3File } from '@/services/importers/bc3Importer';
 import { recalculateItems } from '@/services/calculation/calculator';
 import { makeCostItem } from '@/services/importers/core';
 import { useAppStore } from '@/state/appStore';
+import { getQuantityOrigin } from '@/services/quantity/quantityOrigin';
 import type { CostItem, CostSchedule } from '@/types/costModel';
 
 const line = (count: number | null, length: number | null = null, width: number | null = null, height: number | null = null, description = '') =>
@@ -131,6 +132,23 @@ describe('store: setMeasurementLines', () => {
     expect(item('p').quantity).toBe(12);
   });
 
+  it('alle meetregels tegelijk in- en uitklappen', () => {
+    s().setMeasurementLines('p', [line(96)]);
+    s().setAllMeasurementLinesCollapsed(true);
+    expect(item('p').measurementLinesCollapsed).toBe(true);
+    expect(item('r1').measurementLinesCollapsed).toBeUndefined();
+    s().setAllMeasurementLinesCollapsed(false);
+    expect(item('p').measurementLinesCollapsed).toBe(false);
+  });
+
+  it('de herkomst van de hoeveelheid is "meetregels"; wijkt hij af, dan "different"', () => {
+    s().setMeasurementLines('p', [line(10), line(5)]);
+    const ctx = { schedule: s().schedule, subSheets: [], ifcQuantities: [] } as never;
+    expect(getQuantityOrigin(item('p'), ctx)).toMatchObject({ source: 'measurement', status: 'linked', value: 15 });
+    useAppStore.setState({ items: s().items.map((i) => (i.id === 'p' ? { ...i, quantity: 16 } : i)) } as never);
+    expect(getQuantityOrigin(item('p'), ctx)).toMatchObject({ source: 'measurement', status: 'different', value: 15, currentValue: 16 });
+  });
+
   it('alleen op (bewakings)posten', () => {
     s().setMeasurementLines('r1', [line(3)]);
     expect(item('r1').measurementLines).toBeUndefined();
@@ -158,6 +176,16 @@ describe('BC3', () => {
       ['', 2, 7.4, null, 3],
       ['A deducir huecos', -1, null, null, 8.04],
     ]);
+  });
+
+  it('meer dan 8 regels: de post begint ingeklapt', () => {
+    // Elke regel: TIPO\COMENTARIO\UNIDADES\LONGITUD\LATITUD\ALTURA\ met alleen Uds = 1.
+    const many = Array.from({ length: 9 }, () => '\\\\1\\\\\\\\').join('');
+    const r = importBc3(bc3(`~M|01#\\01.01|1\\1\\|9|${many}|`));
+    expect(post(r).measurementLines).toHaveLength(9);
+    expect(post(r).measurementLinesCollapsed).toBe(true);
+    const few = importBc3(bc3('~M|01#\\01.01|1\\1\\|2|\\\\2\\\\\\\\|'));
+    expect(post(few).measurementLinesCollapsed).toBeUndefined();
   });
 
   it('0 in een vak is "niet ingevuld" (pyCost schrijft 0 waar Presto leeg laat)', () => {

@@ -1109,12 +1109,14 @@
       "captured": "{{date}} کو منسلک · ماخذ قدر {{value}} {{unit}}",
       "itemMissing": "تخمینے کی سطر اب موجود نہیں۔",
       "documentChanged": "فعال تخمینہ بدل گیا۔ ماخذ دوبارہ کھولیں۔",
+      "measurement": "اس آئٹم کی {{count}} پیمائشی سطروں کا مجموعہ۔",
       "kind": {
         "manual": "دستی اندراج",
         "pdf": "PDF پیمائش",
         "ifc": "IFC مقدار",
         "spreadsheet": "اسپریڈ شیٹ کا خانہ",
-        "excel": "بیرونی Excel حوالہ"
+        "excel": "بیرونی Excel حوالہ",
+        "measurement": "پیمائش کی سطریں"
       }
     },
     "companion": {

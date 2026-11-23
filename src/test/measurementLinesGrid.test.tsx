@@ -82,6 +82,33 @@ describe('meetregels in het grid', () => {
     expect(block()!.querySelector('.measurement-sum')!.textContent).toBe('30.00');
   });
 
+  it('Parcial per regel, Subtotal alleen op een tussentotaalregel; aantal zonder decimalen', async () => {
+    await act(async () => {
+      s().setMeasurementLines('p', [
+        newMeasurementLine({ id: 'l1', description: 'Norte', count: 1, length: 10, height: 3 }),
+        newMeasurementLine({ id: 'l2', description: 'Sur', count: 1, length: 10, height: 3 }),
+        newMeasurementLine({ id: 'st', description: 'Fachadas', subtotal: 'partial' }),
+        newMeasurementLine({ id: 'l3', description: 'Puerta', count: -1, length: 0.9, height: 2.1 }),
+      ]);
+    });
+    const values = (id: string) => [...cell(id, 'description').closest('.measurement-row')!.querySelectorAll('.measurement-value')].map((e) => e.textContent);
+    expect(values('l1')).toEqual(['30.00', '']);
+    expect(values('st')).toEqual(['', '60.00']);
+    expect(values('l3')).toEqual(['-1.89', '']);
+    expect(cell('l1', 'count').value).toBe('1');
+    expect(block()!.querySelector('.measurement-sum')!.textContent).toBe('58.11');
+  });
+
+  it('Ctrl+Z in een vak legt het vak vast en draait het dan terug', async () => {
+    const el = cell('l1', 'count');
+    await act(async () => { el.focus(); });
+    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!;
+    await act(async () => { setter.call(el, '3'); el.dispatchEvent(new Event('input', { bubbles: true })); });
+    await act(async () => { el.dispatchEvent(new KeyboardEvent('keydown', { key: 'z', ctrlKey: true, bubbles: true })); });
+    expect(post().measurementLines![0].count).toBe(1);
+    expect(post().quantity).toBe(30);
+  });
+
   it('een vak wijzigen zet de hoeveelheid van de post', async () => {
     await type(cell('l1', 'count'), '2');
     expect(post().quantity).toBe(60);
@@ -125,6 +152,7 @@ describe('meetregels in het grid', () => {
       useAppStore.setState({ items: s().items.map((i) => (i.id === 'p' ? { ...i, quantity: 31 } : i)) } as never);
     });
     const warn = block()!.querySelector<HTMLButtonElement>('.measurement-mismatch')!;
+    expect(warn.textContent).toContain('31.00 ≠ 30.00');
     expect(warn.title).toContain('31.00');
     expect(warn.title).toContain('30.00');
     await act(async () => { warn.click(); });

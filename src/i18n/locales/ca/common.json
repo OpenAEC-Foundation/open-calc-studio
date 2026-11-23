@@ -1109,12 +1109,14 @@
       "captured": "Enllaçat el {{date}} · valor d'origen {{value}} {{unit}}",
       "itemMissing": "La línia del pressupost ja no existeix.",
       "documentChanged": "El pressupost actiu ha canviat. Torneu a obrir la font.",
+      "measurement": "Suma de les {{count}} línies d'amidament d'aquesta partida.",
       "kind": {
         "manual": "Entrada manual",
         "pdf": "Amidament en PDF",
         "ifc": "Amidament IFC",
         "spreadsheet": "Cel·la de full de càlcul",
-        "excel": "Referència externa a l'Excel"
+        "excel": "Referència externa a l'Excel",
+        "measurement": "Línies d'amidament"
       }
     },
     "companion": {

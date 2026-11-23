@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "மதிப்பீட்டு உருப்படிகள்",
     "collapseMonitorPosts": "கண்காணிப்பு உருப்படிகள்",
     "expandAll": "அனைத்தையும் விரி",
+    "collapseMeasurementLines": "அளவீட்டு வரிகளைச் சுருக்கு",
+    "expandMeasurementLines": "அளவீட்டு வரிகளைக் காட்டு",
     "pricesPct": "விலைகள் %",
     "pricesPctTitle": "அனைத்து விலைகளையும் (வள விலை, பொருள், கூலி) ஒரு சதவீதத்தால் அதிகரி அல்லது குறை",
     "pricesHistory": "விலைகள் {{pct}}%",

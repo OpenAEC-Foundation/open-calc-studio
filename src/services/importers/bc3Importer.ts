@@ -755,6 +755,8 @@ export function importBc3(text: string): ImportResult {
 
   /** Partida's waarvan de samenstelling niet op de eigen eenheidsprijs uitkomt. */
   const mismatched: string[] = [];
+  /** Boven zoveel meetregels staat een post na de import ingeklapt. */
+  const MEASUREMENT_LINES_SHOWN = 8;
   /** Posten waarvan de meetregels niet op het totaal uitkomen (of een formule hebben). */
   let droppedMeasurements = 0;
   /**
@@ -772,6 +774,8 @@ export function importBc3(text: string): ImportResult {
     }
     // Eigen kopie per post: een meting zonder pad hoort bij elk voorkomen.
     post.measurementLines = lines.map((l) => ({ ...l, id: genId() }));
+    // Lange metingen beginnen ingeklapt, anders wordt een grote begroting onleesbaar.
+    if (lines.length > MEASUREMENT_LINES_SHOWN) post.measurementLinesCollapsed = true;
   };
   /**
    * Som van de posttotalen zoals de app ze na de import toont: bij een post

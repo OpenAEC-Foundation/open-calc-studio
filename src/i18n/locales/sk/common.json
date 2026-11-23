@@ -1111,12 +1111,14 @@
       "captured": "Prepojené {{date}} · zdrojová hodnota {{value}} {{unit}}",
       "itemMissing": "Riadok rozpočtu už neexistuje.",
       "documentChanged": "Aktívny rozpočet sa zmenil. Otvorte zdroj znova.",
+      "measurement": "Súčet {{count}} riadkov výmery tejto položky.",
       "kind": {
         "manual": "Ručné zadanie",
         "pdf": "Meranie PDF",
         "ifc": "Množstvo IFC",
         "spreadsheet": "Bunka tabuľky",
-        "excel": "Externý odkaz na Excel"
+        "excel": "Externý odkaz na Excel",
+        "measurement": "Riadky výmery"
       }
     },
     "companion": {

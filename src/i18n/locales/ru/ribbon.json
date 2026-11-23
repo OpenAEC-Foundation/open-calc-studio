@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Позиции сметы",
     "collapseMonitorPosts": "Контрольные позиции",
     "expandAll": "Развернуть всё",
+    "collapseMeasurementLines": "Свернуть строки обмера",
+    "expandMeasurementLines": "Показать строки обмера",
     "pricesPct": "Цены %",
     "pricesPctTitle": "Увеличить или уменьшить все цены (цена/ресурс, материалы, оплата труда) на процент",
     "pricesHistory": "Цены {{pct}}%",

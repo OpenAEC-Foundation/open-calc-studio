@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Partides",
     "collapseMonitorPosts": "Partides de control",
     "expandAll": "Desplega-ho tot",
+    "collapseMeasurementLines": "Plega les línies d'amidament",
+    "expandMeasurementLines": "Mostra les línies d'amidament",
     "pricesPct": "Preus %",
     "pricesPctTitle": "Augmenta o redueix tots els preus (preu/recurs, materials, mà d'obra) un percentatge",
     "pricesHistory": "Preus {{pct}} %",

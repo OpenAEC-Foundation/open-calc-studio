@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "내역 항목",
     "collapseMonitorPosts": "관리 항목",
     "expandAll": "모두 펼치기",
+    "collapseMeasurementLines": "물량 산출 행 접기",
+    "expandMeasurementLines": "물량 산출 행 표시",
     "pricesPct": "가격 %",
     "pricesPctTitle": "모든 가격(자원 단가, 재료비, 노무비)을 일정 비율로 올리거나 내립니다",
     "pricesHistory": "가격 {{pct}}%",

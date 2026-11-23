@@ -1109,12 +1109,14 @@
       "captured": "Gekoppeld op {{date}} · bronwaarde {{value}} {{unit}}",
       "itemMissing": "De begrotingsregel bestaat niet meer.",
       "documentChanged": "De actieve begroting is gewijzigd. Open de bron opnieuw.",
+      "measurement": "Som van de {{count}} meetregels onder deze post.",
       "kind": {
         "manual": "Handmatige invoer",
         "pdf": "PDF-meting",
         "ifc": "IFC-hoeveelheid",
         "spreadsheet": "Rekenbladcel",
-        "excel": "Externe Excel-verwijzing"
+        "excel": "Externe Excel-verwijzing",
+        "measurement": "Meetregels"
       }
     },
     "companion": {

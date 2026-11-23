@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Позиції кошторису",
     "collapseMonitorPosts": "Контрольні позиції",
     "expandAll": "Розгорнути все",
+    "collapseMeasurementLines": "Згорнути рядки обмірів",
+    "expandMeasurementLines": "Показати рядки обмірів",
     "pricesPct": "Ціни %",
     "pricesPctTitle": "Збільшити або зменшити всі ціни (ціна/ресурс, матеріали, оплата праці) на відсоток",
     "pricesHistory": "Ціни {{pct}}%",

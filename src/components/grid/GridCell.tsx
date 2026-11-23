@@ -327,6 +327,8 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
   const isHoeveelheidCol = isHoursColumn(column.key) || column.key === 'quantity';
   const showExcelIcon = isHoeveelheidCol && !!item.excelLink;
   const showQuantityLinkIcon = isHoeveelheidCol && !!item.quantityLink;
+  // Hoeveelheid uit meetregels (#96): Σ, met de herkomst achter een klik.
+  const showMeasurementIcon = isHoeveelheidCol && !!item.measurementLines?.length && !item.quantityLink;
   const unresolvedPdfLink = showQuantityLinkIcon && item.quantityLink?.source === 'pdf'
     && resolvePdfQuantity(item.quantityLink, pdfWorkspace) === null;
   const cellTooltip = getCellTooltip();
@@ -376,6 +378,14 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
           <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
           <path d="M11.286 9.458 12.657 8.086a3 3 0 0 0-4.243-4.243L6.586 5.672A3 3 0 0 0 7.414 10.5l.586-.586a1.002 1.002 0 0 0 .154-.199 2 2 0 0 1-.861-3.337L9.12 4.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287z"/>
         </svg>
+      )}
+      {showMeasurementIcon && (
+        <button type="button" className="grid-quantity-origin grid-measurement-origin" title={uiText('origin.kind.measurement', 'Measurement lines')}
+          aria-label={uiText('origin.kind.measurement', 'Measurement lines')}
+          onMouseDown={event => event.stopPropagation()} onDoubleClick={event => event.stopPropagation()}
+          onClick={event => { event.stopPropagation(); useAppStore.getState().showQuantityOrigin(item.id); }}>
+          Σ
+        </button>
       )}
       {showQuantityLinkIcon && (
         <button type="button" className="grid-quantity-origin" title={unresolvedPdfLink ? t('pdfLinkMissing') : uiText('origin.title', 'Quantity origin')}

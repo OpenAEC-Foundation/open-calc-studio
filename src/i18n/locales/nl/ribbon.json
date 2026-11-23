@@ -55,6 +55,8 @@
     "collapseBudgetPosts": "Begrotingsposten",
     "collapseMonitorPosts": "Bewakingsposten",
     "expandAll": "Alles openklappen",
+    "collapseMeasurementLines": "Meetregels inklappen",
+    "expandMeasurementLines": "Meetregels tonen",
     "pricesPct": "Prijzen %",
     "pricesPctTitle": "Alle prijzen (prijs/middel, materiaal, arbeid) met een percentage verhogen of verlagen",
     "pricesHistory": "Prijzen {{pct}}%",

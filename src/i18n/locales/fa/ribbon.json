@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "ردیف‌های برآورد",
     "collapseMonitorPosts": "ردیف‌های کنترل",
     "expandAll": "باز کردن همه",
+    "collapseMeasurementLines": "جمع کردن ردیف‌های متره",
+    "expandMeasurementLines": "نمایش ردیف‌های متره",
     "pricesPct": "قیمت‌ها %",
     "pricesPctTitle": "افزایش یا کاهش درصدی همه قیمت‌ها (قیمت منبع، مصالح، دستمزد)",
     "pricesHistory": "قیمت‌ها {{pct}}%",

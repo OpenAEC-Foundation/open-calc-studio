@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "清单项",
     "collapseMonitorPosts": "监控项",
     "expandAll": "全部展开",
+    "collapseMeasurementLines": "折叠计量明细行",
+    "expandMeasurementLines": "显示计量明细行",
     "pricesPct": "价格 %",
     "pricesPctTitle": "按百分比调高或调低所有价格（资源价、材料费、人工费）",
     "pricesHistory": "价格 {{pct}}%",

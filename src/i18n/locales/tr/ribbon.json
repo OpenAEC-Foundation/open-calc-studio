@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Pozlar",
     "collapseMonitorPosts": "İzleme pozları",
     "expandAll": "Tümünü genişlet",
+    "collapseMeasurementLines": "Ölçü satırlarını daralt",
+    "expandMeasurementLines": "Ölçü satırlarını göster",
     "pricesPct": "Fiyat %",
     "pricesPctTitle": "Tüm fiyatları (kaynak fiyatı, malzeme, işçilik) yüzde olarak artır veya azalt",
     "pricesHistory": "Fiyatlar %{{pct}}",

@@ -1135,12 +1135,14 @@
       "captured": "Linked on {{date}} · source value {{value}} {{unit}}",
       "itemMissing": "The estimate row no longer exists.",
       "documentChanged": "The active estimate changed. Open the source again.",
+      "measurement": "Sum of the {{count}} measurement lines under this item.",
       "kind": {
         "manual": "Manual entry",
         "pdf": "PDF measurement",
         "ifc": "IFC quantity",
         "spreadsheet": "Spreadsheet cell",
-        "excel": "External Excel reference"
+        "excel": "External Excel reference",
+        "measurement": "Measurement lines"
       }
     },
     "companion": {

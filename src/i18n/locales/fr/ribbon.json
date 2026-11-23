@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Ouvrages",
     "collapseMonitorPosts": "Postes de suivi",
     "expandAll": "Tout développer",
+    "collapseMeasurementLines": "Replier les lignes de métré",
+    "expandMeasurementLines": "Afficher les lignes de métré",
     "pricesPct": "Prix %",
     "pricesPctTitle": "Augmenter ou diminuer tous les prix (prix/ressource, matériaux, main-d'œuvre) d'un pourcentage",
     "pricesHistory": "Prix {{pct}} %",

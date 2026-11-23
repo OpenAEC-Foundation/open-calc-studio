@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "প্রাক্কলন আইটেম",
     "collapseMonitorPosts": "পর্যবেক্ষণ আইটেম",
     "expandAll": "সব প্রসারিত করুন",
+    "collapseMeasurementLines": "পরিমাপের সারি গুটিয়ে নিন",
+    "expandMeasurementLines": "পরিমাপের সারি দেখান",
     "pricesPct": "দাম %",
     "pricesPctTitle": "সব দাম (রিসোর্স দর, সামগ্রী, শ্রম) একটি শতাংশে বাড়ান বা কমান",
     "pricesHistory": "দাম {{pct}}%",

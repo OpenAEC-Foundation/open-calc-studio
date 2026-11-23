@@ -247,6 +247,7 @@
     "length": "Panjang",
     "width": "Lebar",
     "height": "Tinggi",
+    "partial": "Parsial",
     "subtotal": "Subtotal",
     "sum": "Jumlah",
     "addLine": "+ Baris",

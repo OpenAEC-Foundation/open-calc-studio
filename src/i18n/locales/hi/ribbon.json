@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "अनुमान मदें",
     "collapseMonitorPosts": "निगरानी मदें",
     "expandAll": "सब खोलें",
+    "collapseMeasurementLines": "माप पंक्तियाँ समेटें",
+    "expandMeasurementLines": "माप पंक्तियाँ दिखाएँ",
     "pricesPct": "मूल्य %",
     "pricesPctTitle": "सभी मूल्य (संसाधन दर, सामग्री, श्रम) एक प्रतिशत से बढ़ाएँ या घटाएँ",
     "pricesHistory": "मूल्य {{pct}}%",

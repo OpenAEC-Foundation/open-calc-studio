@@ -1109,12 +1109,14 @@
       "captured": "关联于 {{date}} · 来源值 {{value}} {{unit}}",
       "itemMissing": "该预算行已不存在。",
       "documentChanged": "活动预算已更改。请重新打开来源。",
+      "measurement": "此项目下 {{count}} 条计量明细行的合计。",
       "kind": {
         "manual": "手动输入",
         "pdf": "PDF 测量",
         "ifc": "IFC 工程量",
         "spreadsheet": "电子表格单元格",
-        "excel": "外部 Excel 引用"
+        "excel": "外部 Excel 引用",
+        "measurement": "计量明细行"
       }
     },
     "companion": {

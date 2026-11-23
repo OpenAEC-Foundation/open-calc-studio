@@ -55,6 +55,8 @@
     "collapseBudgetPosts": "Estimate items",
     "collapseMonitorPosts": "Monitoring items",
     "expandAll": "Expand all",
+    "collapseMeasurementLines": "Fold measurement lines",
+    "expandMeasurementLines": "Show measurement lines",
     "pricesPct": "Prices %",
     "pricesPctTitle": "Increase or decrease all prices (price/resource, material, labour) by a percentage",
     "pricesHistory": "Prices {{pct}}%",

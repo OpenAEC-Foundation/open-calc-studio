@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Vipengele vya makadirio",
     "collapseMonitorPosts": "Vipengele vya ufuatiliaji",
     "expandAll": "Panua vyote",
+    "collapseMeasurementLines": "Kunja mistari ya vipimo",
+    "expandMeasurementLines": "Onyesha mistari ya vipimo",
     "pricesPct": "Bei %",
     "pricesPctTitle": "Ongeza au punguza bei zote (bei/rasilimali, vifaa, wafanyakazi) kwa asilimia",
     "pricesHistory": "Bei {{pct}}%",

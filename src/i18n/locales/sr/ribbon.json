@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Позиције предрачуна",
     "collapseMonitorPosts": "Контролне позиције",
     "expandAll": "Рашири све",
+    "collapseMeasurementLines": "Скупи редове предмера",
+    "expandMeasurementLines": "Прикажи редове предмера",
     "pricesPct": "Цене %",
     "pricesPctTitle": "Повећај или смањи све цене (цена/ресурс, материјал, рад) за проценат",
     "pricesHistory": "Цене {{pct}}%",

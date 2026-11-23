@@ -1098,6 +1098,11 @@
                                   "enum": [
                                     "excel"
                                   ]
+                                },
+                                {
+                                  "enum": [
+                                    "measurement"
+                                  ]
                                 }
                               ]
                             },
@@ -4129,6 +4134,11 @@
                           "enum": [
                             "excel"
                           ]
+                        },
+                        {
+                          "enum": [
+                            "measurement"
+                          ]
                         }
                       ]
                     },
@@ -4966,6 +4976,30 @@
           "optional": false,
           "schema": {
             "type": "string"
+          }
+        }
+      ]
+    },
+    "setAllMeasurementLinesCollapsed": {
+      "group": "CostItems",
+      "signature": "(collapsed: boolean) => void",
+      "parameters": [
+        {
+          "name": "collapsed",
+          "optional": false,
+          "schema": {
+            "anyOf": [
+              {
+                "enum": [
+                  false
+                ]
+              },
+              {
+                "enum": [
+                  true
+                ]
+              }
+            ]
           }
         }
       ]
@@ -6359,6 +6393,11 @@
                         {
                           "enum": [
                             "excel"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "measurement"
                           ]
                         }
                       ]
@@ -8243,6 +8282,11 @@
                           "enum": [
                             "excel"
                           ]
+                        },
+                        {
+                          "enum": [
+                            "measurement"
+                          ]
                         }
                       ]
                     },
@@ -9484,6 +9528,11 @@
                         {
                           "enum": [
                             "excel"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "measurement"
                           ]
                         }
                       ]
@@ -13570,6 +13619,11 @@
                               "enum": [
                                 "excel"
                               ]
+                            },
+                            {
+                              "enum": [
+                                "measurement"
+                              ]
                             }
                           ]
                         },
@@ -14851,6 +14905,11 @@
                                     {
                                       "enum": [
                                         "excel"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "measurement"
                                       ]
                                     }
                                   ]
@@ -17106,6 +17165,11 @@
                               "enum": [
                                 "excel"
                               ]
+                            },
+                            {
+                              "enum": [
+                                "measurement"
+                              ]
                             }
                           ]
                         },
@@ -18387,6 +18451,11 @@
                                     {
                                       "enum": [
                                         "excel"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "measurement"
                                       ]
                                     }
                                   ]
@@ -22806,6 +22875,11 @@
                                         "enum": [
                                           "excel"
                                         ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "measurement"
+                                        ]
                                       }
                                     ]
                                   },
@@ -24979,6 +25053,11 @@
                               {
                                 "enum": [
                                   "excel"
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  "measurement"
                                 ]
                               }
                             ]
@@ -27295,6 +27374,11 @@
                               "enum": [
                                 "excel"
                               ]
+                            },
+                            {
+                              "enum": [
+                                "measurement"
+                              ]
                             }
                           ]
                         },
@@ -28576,6 +28660,11 @@
                                     {
                                       "enum": [
                                         "excel"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "measurement"
                                       ]
                                     }
                                   ]
@@ -30900,6 +30989,11 @@
                                       "enum": [
                                         "excel"
                                       ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "measurement"
+                                      ]
                                     }
                                   ]
                                 },
@@ -32128,6 +32222,11 @@
                                     {
                                       "enum": [
                                         "excel"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "measurement"
                                       ]
                                     }
                                   ]
@@ -33483,6 +33582,11 @@
                               "enum": [
                                 "excel"
                               ]
+                            },
+                            {
+                              "enum": [
+                                "measurement"
+                              ]
                             }
                           ]
                         },
@@ -34764,6 +34868,11 @@
                                     {
                                       "enum": [
                                         "excel"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "measurement"
                                       ]
                                     }
                                   ]
@@ -37088,6 +37197,11 @@
                                       "enum": [
                                         "excel"
                                       ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "measurement"
+                                      ]
                                     }
                                   ]
                                 },
@@ -38316,6 +38430,11 @@
                                     {
                                       "enum": [
                                         "excel"
+                                      ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "measurement"
                                       ]
                                     }
                                   ]

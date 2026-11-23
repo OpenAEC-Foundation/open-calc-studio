@@ -30,7 +30,7 @@ import { applyQuantityLink } from '@/services/quantity/quantitySourceActions';
 import { CodePickerModal } from './CodePickerModal';
 import type { CodeEntry } from '@/data/codeLibrary';
 import { useVariantItems } from '@/hooks/useVariantItems';
-import { MeasurementLinesBlock, MEASUREMENT_VIEWS, measurementBlockHeight } from './MeasurementLinesBlock';
+import { MeasurementLinesBlock, MEASUREMENT_MIN_WIDTH, MEASUREMENT_TRAILING, MEASUREMENT_VIEWS, measurementBlockHeight } from './MeasurementLinesBlock';
 import { hasMeasurementLines } from '@/services/measurement/measurementLines';
 
 const HEADER_HEIGHT = ROW_HEIGHT * 2;
@@ -39,6 +39,8 @@ export const CostGrid: React.FC = () => {
   const { t, i18n } = useTranslation();
   const money = useMoney();
   const containerRef = useRef<HTMLDivElement>(null);
+  // Zichtbare breedte van de grid (zonder panelen ernaast), voor het meetregel-tabelletje.
+  const [containerWidth, setContainerWidth] = useState(0);
   const {
     items,
     activeRow,
@@ -226,6 +228,7 @@ export const CostGrid: React.FC = () => {
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
         setViewportHeight(entry.contentRect.height - HEADER_HEIGHT);
+        setContainerWidth(entry.contentRect.width);
       }
     });
     observer.observe(container);
@@ -411,6 +414,24 @@ export const CostGrid: React.FC = () => {
     return effectiveColumnWidths.slice(0, Math.max(0, idx)).reduce((s, w) => s + (w ?? 0), 0);
   }, [columns, effectiveColumnWidths]);
   const gridWidth = useMemo(() => effectiveColumnWidths.reduce((s, w) => s + (w ?? 0), 0), [effectiveColumnWidths]);
+  // Rechterrand van de kolom met de hoeveelheid van de post: daar komt het
+  // totaal van de meetregels onder (#96).
+  const quantityRight = useMemo(() => {
+    let idx = columns.findIndex(c => c.key === 'hoeveelheid');
+    if (idx < 0) idx = columns.findIndex(c => c.key === 'quantity');
+    if (idx < 0) return null;
+    return effectiveColumnWidths.slice(0, idx + 1).reduce((s, w) => s + (w ?? 0), 0);
+  }, [columns, effectiveColumnWidths]);
+  /**
+   * Breedte van het meetregel-tabelletje: tot onder de hoeveelheid, maar
+   * nooit voorbij het zichtbare deel van de grid (een paneel ernaast), en
+   * niet smaller dan nodig voor alle kolommen.
+   */
+  const measurementWidth = (indent: number): number => {
+    const anchor = quantityRight != null ? quantityRight + MEASUREMENT_TRAILING : indent + 780;
+    const visible = containerWidth > 0 ? containerWidth - 8 : Infinity;
+    return Math.max(MEASUREMENT_MIN_WIDTH, Math.min(anchor, visible, gridWidth) - indent);
+  };
 
   // Zoeken & vervangen (Ctrl+F) — zwevend paneel rechtsboven in het grid
   const [showFindReplace, setShowFindReplace] = useState(false);
@@ -588,7 +609,7 @@ export const CostGrid: React.FC = () => {
                   <MeasurementLinesBlock
                     item={item}
                     left={indent}
-                    width={Math.max(480, Math.min(780, gridWidth - indent - 8))}
+                    width={measurementWidth(indent)}
                   />
                 )}
                 </React.Fragment>

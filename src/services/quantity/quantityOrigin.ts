@@ -1,9 +1,10 @@
 import type { CostItem, CostSchedule, QuantityLink, SubSheet } from '@/types/costModel';
 import type { IfcQuantity } from '@/state/slices/linkableSourcesSlice';
 import { createPdfQuantityResolver, type PdfQuantityResolver } from '@/services/pdf/pdfWorkspace';
+import { measurementSum, quantityMatchesLines } from '@/services/measurement/measurementLines';
 
 export interface QuantityOrigin {
-  source: 'manual' | 'spreadsheet' | 'pdf' | 'ifc' | 'excel';
+  source: 'manual' | 'spreadsheet' | 'pdf' | 'ifc' | 'excel' | 'measurement';
   label: string;
   sources: { id: string; name: string; page?: number; measurementId?: string; elementIds?: number[]; quantityKey?: string }[];
   formula: string;
@@ -65,6 +66,11 @@ export function getQuantityOrigin(item: CostItem, context: QuantityOriginContext
   const captured = item.quantityOrigin;
   if (!item.quantityLink) {
     if (item.excelLink) return { source: 'excel', label: `${item.excelLink.sheet}!${item.excelLink.cell}`, sources: [{ id: item.excelLink.filePath, name: item.excelLink.filePath }], formula: `${item.excelLink.sheet}!${item.excelLink.cell}`, value: item.quantity, unit: item.unit, status: 'missing', currentValue: item.quantity, unitMismatch: false };
+    // Meetregels onder de post (#96): de hoeveelheid is hun som. Wijkt hij
+    // af (bestand van buiten), dan 'different', net als bij een koppeling.
+    if (item.measurementLines?.length) {
+      return { source: 'measurement', label: '', sources: [], formula: '', value: measurementSum(item.measurementLines), unit: item.unit, status: quantityMatchesLines(item) ? 'linked' : 'different', currentValue: item.quantity, unitMismatch: false };
+    }
     return { source: 'manual', label: '', sources: [], formula: '', value: item.quantity, unit: item.unit, status: 'manual', currentValue: item.quantity, unitMismatch: false };
   }
   const resolved = resolveQuantityOrigin(item.quantityLink, context);

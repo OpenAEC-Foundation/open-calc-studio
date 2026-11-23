@@ -247,6 +247,7 @@
     "length": "Uzunluk",
     "width": "Genişlik",
     "height": "Yükseklik",
+    "partial": "Kısmi",
     "subtotal": "Ara toplam",
     "sum": "Toplam",
     "addLine": "+ Satır",

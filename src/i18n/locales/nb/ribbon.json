@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Poster",
     "collapseMonitorPosts": "Styringsposter",
     "expandAll": "Utvid alle",
+    "collapseMeasurementLines": "Skjul målelinjer",
+    "expandMeasurementLines": "Vis målelinjer",
     "pricesPct": "Priser %",
     "pricesPctTitle": "Øk eller reduser alle priser (pris/ressurs, materialer, arbeidslønn) med en prosentsats",
     "pricesHistory": "Priser {{pct}} %",

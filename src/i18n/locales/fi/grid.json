@@ -247,6 +247,7 @@
     "length": "Pituus",
     "width": "Leveys",
     "height": "Korkeus",
+    "partial": "Osatulos",
     "subtotal": "Välisumma",
     "sum": "Summa",
     "addLine": "+ Rivi",

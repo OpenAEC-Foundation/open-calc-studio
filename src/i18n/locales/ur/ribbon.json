@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "تخمینی مدات",
     "collapseMonitorPosts": "نگرانی مدات",
     "expandAll": "سب پھیلائیں",
+    "collapseMeasurementLines": "پیمائش کی سطریں سمیٹیں",
+    "expandMeasurementLines": "پیمائش کی سطریں دکھائیں",
     "pricesPct": "قیمتیں %",
     "pricesPctTitle": "تمام قیمتیں (وسیلہ نرخ، سامان، مزدوری) فیصد کے حساب سے بڑھائیں یا گھٹائیں",
     "pricesHistory": "قیمتیں {{pct}}%",

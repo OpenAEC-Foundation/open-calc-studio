@@ -1109,12 +1109,14 @@
       "captured": "Forbundet den {{date}} · kildeværdi {{value}} {{unit}}",
       "itemMissing": "Budgetlinjen findes ikke længere.",
       "documentChanged": "Det aktive budget blev ændret. Åbn kilden igen.",
+      "measurement": "Summen af de {{count}} opmålingslinjer under denne post.",
       "kind": {
         "manual": "Manuel indtastning",
         "pdf": "PDF-måling",
         "ifc": "IFC-mængde",
         "spreadsheet": "Regnearkscelle",
-        "excel": "Ekstern Excel-reference"
+        "excel": "Ekstern Excel-reference",
+        "measurement": "Opmålingslinjer"
       }
     },
     "companion": {

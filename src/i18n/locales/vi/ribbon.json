@@ -53,6 +53,8 @@
     "collapseBudgetPosts": "Công tác",
     "collapseMonitorPosts": "Mục theo dõi",
     "expandAll": "Mở rộng tất cả",
+    "collapseMeasurementLines": "Thu gọn dòng đo bóc",
+    "expandMeasurementLines": "Hiện dòng đo bóc",
     "pricesPct": "Giá %",
     "pricesPctTitle": "Tăng hoặc giảm toàn bộ giá (giá/nguồn lực, vật liệu, nhân công) theo tỷ lệ phần trăm",
     "pricesHistory": "Giá {{pct}}%",
