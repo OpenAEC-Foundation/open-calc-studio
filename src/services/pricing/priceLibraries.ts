@@ -38,6 +38,11 @@ export function builtInLibraryItems(country: string): ResourceLibraryItem[] {
   return items.map(item => ({ ...item }));
 }
 
+/** True for the catalogue ID of a built-in country library: an own library never gets one. */
+export function isBuiltInCatalogueId(id: string): boolean {
+  return BUILT_IN_CATALOGUES.has(id);
+}
+
 export function isBuiltInLibraryItem(item: Pick<ResourceLibraryItem, 'catalogueId'>): boolean {
   return item.catalogueId !== undefined && BUILT_IN_CATALOGUES.has(item.catalogueId);
 }
