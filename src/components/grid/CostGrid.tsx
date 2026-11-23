@@ -30,6 +30,8 @@ import { applyQuantityLink } from '@/services/quantity/quantitySourceActions';
 import { CodePickerModal } from './CodePickerModal';
 import type { CodeEntry } from '@/data/codeLibrary';
 import { useVariantItems } from '@/hooks/useVariantItems';
+import { MeasurementLinesBlock, MEASUREMENT_MIN_WIDTH, MEASUREMENT_TRAILING, MEASUREMENT_VIEWS, measurementBlockHeight } from './MeasurementLinesBlock';
+import { hasMeasurementLines } from '@/services/measurement/measurementLines';
 
 const HEADER_HEIGHT = ROW_HEIGHT * 2;
 
@@ -37,6 +39,8 @@ export const CostGrid: React.FC = () => {
   const { t, i18n } = useTranslation();
   const money = useMoney();
   const containerRef = useRef<HTMLDivElement>(null);
+  // Zichtbare breedte van de grid (zonder panelen ernaast), voor het meetregel-tabelletje.
+  const [containerWidth, setContainerWidth] = useState(0);
   const {
     items,
     activeRow,
@@ -150,7 +154,21 @@ export const CostGrid: React.FC = () => {
     return computeResourceTotals(scopedItems);
   }, [gridView, scopedItems]);
 
+  // Meetregels (#96) staan in UI-1 als tabelletje direct onder de post; de
+  // rij is dan hoger, de cellen zelf blijven op de gewone hoogte.
+  const showsMeasurements = useCallback((item: CostItem | undefined): boolean =>
+    !!item && MEASUREMENT_VIEWS.has(gridView) && !item.isCollapsed && hasMeasurementLines(item),
+  [gridView]);
+
   const getRowHeight = useCallback((index: number) => {
+    const item = visibleItems[index];
+    const main = getMainRowHeight(index);
+    return showsMeasurements(item) ? main + measurementBlockHeight(item) : main;
+    // getMainRowHeight leest visibleItems, gridView, columns en de breedtes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visibleItems, showsMeasurements, gridView, columns, effectiveColumnWidths]);
+
+  function getMainRowHeight(index: number): number {
     const item = visibleItems[index];
     if (item?.rowType === 'witregel') {
       const lineCount = Math.max(1, (item.description.match(/\n/g) || []).length + 1);
@@ -170,7 +188,7 @@ export const CostGrid: React.FC = () => {
       return ROW_HEIGHT + 8;
     }
     return ROW_HEIGHT;
-  }, [visibleItems, gridView, columns, effectiveColumnWidths]);
+  }
 
   const { startIndex, endIndex, totalHeight, offsetY, rowOffsets } = useGridVirtualizer(
     visibleItems.length,
@@ -210,6 +228,7 @@ export const CostGrid: React.FC = () => {
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
         setViewportHeight(entry.contentRect.height - HEADER_HEIGHT);
+        setContainerWidth(entry.contentRect.width);
       }
     });
     observer.observe(container);
@@ -237,7 +256,9 @@ export const CostGrid: React.FC = () => {
     if (!container || isEditing) return;
     const currentScroll = container.scrollTop;
     const rowTop = rowOffsets[activeRow] ?? activeRow * ROW_HEIGHT;
-    const rowBottom = rowTop + getRowHeight(activeRow);
+    // Alleen de rij zelf, niet de meetregels eronder (#96): anders schuift
+    // een post met een lang tabelletje uit beeld bij het naar beneden gaan.
+    const rowBottom = rowTop + getMainRowHeight(activeRow);
     const visibleTop = currentScroll + HEADER_HEIGHT;
     const visibleBottom = currentScroll + container.clientHeight;
     if (rowTop < visibleTop) {
@@ -382,7 +403,37 @@ export const CostGrid: React.FC = () => {
   // Welke rijen hebben daadwerkelijk iets onder zich? Alleen die krijgen een
   // klikbare chevron; lege posten houden de plek vrij zodat de omschrijving
   // niet per rij verspringt.
-  const parentIds = useMemo(() => computeParentIds(items), [items]);
+  // Een post met meetregels heeft in UI-1 ook iets om in te klappen.
+  const parentIds = useMemo(() => {
+    const ids = computeParentIds(items);
+    if (MEASUREMENT_VIEWS.has(gridView)) for (const it of items) if (hasMeasurementLines(it)) ids.add(it.id);
+    return ids;
+  }, [items, gridView]);
+
+  // Plek van het meetregel-tabelletje: ingesprongen onder de omschrijving.
+  const descriptionLeft = useMemo(() => {
+    const idx = columns.findIndex(c => c.key === 'description');
+    return effectiveColumnWidths.slice(0, Math.max(0, idx)).reduce((s, w) => s + (w ?? 0), 0);
+  }, [columns, effectiveColumnWidths]);
+  const gridWidth = useMemo(() => effectiveColumnWidths.reduce((s, w) => s + (w ?? 0), 0), [effectiveColumnWidths]);
+  // Rechterrand van de kolom met de hoeveelheid van de post: daar komt het
+  // totaal van de meetregels onder (#96).
+  const quantityRight = useMemo(() => {
+    let idx = columns.findIndex(c => c.key === 'hoeveelheid');
+    if (idx < 0) idx = columns.findIndex(c => c.key === 'quantity');
+    if (idx < 0) return null;
+    return effectiveColumnWidths.slice(0, idx + 1).reduce((s, w) => s + (w ?? 0), 0);
+  }, [columns, effectiveColumnWidths]);
+  /**
+   * Breedte van het meetregel-tabelletje: tot onder de hoeveelheid, maar
+   * nooit voorbij het zichtbare deel van de grid (een paneel ernaast), en
+   * niet smaller dan nodig voor alle kolommen.
+   */
+  const measurementWidth = (indent: number): number => {
+    const anchor = quantityRight != null ? quantityRight + MEASUREMENT_TRAILING : indent + 780;
+    const visible = containerWidth > 0 ? containerWidth - 8 : Infinity;
+    return Math.max(MEASUREMENT_MIN_WIDTH, Math.min(anchor, visible, gridWidth) - indent);
+  };
 
   // Zoeken & vervangen (Ctrl+F) — zwevend paneel rechtsboven in het grid
   const [showFindReplace, setShowFindReplace] = useState(false);
@@ -516,9 +567,11 @@ export const CostGrid: React.FC = () => {
           <div style={{ transform: `translateY(${offsetY}px)` }}>
             {visibleSlice.map((item, i) => {
               const rowIndex = startIndex + i;
+              const block = showsMeasurements(item);
+              const indent = descriptionLeft + item.depth * 16 + 22;
               return (
+                <React.Fragment key={item.id}>
                 <GridRow
-                  key={item.id}
                   item={item}
                   rowIndex={rowIndex}
                   activeRow={activeRow}
@@ -531,7 +584,7 @@ export const CostGrid: React.FC = () => {
                     : undefined}
                   hideTotal={hideTotalSet.has(item.id)}
                   hasChildren={parentIds.has(item.id)}
-                  rowHeight={getRowHeight(rowIndex)}
+                  rowHeight={block ? getMainRowHeight(rowIndex) : getRowHeight(rowIndex)}
                   columns={columns}
                   columnWidths={effectiveColumnWidths}
                   isChapterFooter={chapterFooterIds.has(item.id)}
@@ -554,6 +607,14 @@ export const CostGrid: React.FC = () => {
                   onAddRow={handleAddRow}
                   onPointerDownRow={handleRowPointerDown}
                 />
+                {block && (
+                  <MeasurementLinesBlock
+                    item={item}
+                    left={indent}
+                    width={measurementWidth(indent)}
+                  />
+                )}
+                </React.Fragment>
               );
             })}
           </div>
@@ -567,7 +628,7 @@ export const CostGrid: React.FC = () => {
                 top: rowOffsets[activeRow] ?? activeRow * ROW_HEIGHT,
                 left: editorOffsetX,
                 width: editorWidth,
-                height: getRowHeight(activeRow),
+                height: getMainRowHeight(activeRow),
                 zIndex: 10,
               }}
               onCommit={commitEdit}

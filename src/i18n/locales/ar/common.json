@@ -1147,12 +1147,14 @@
       "captured": "تم الربط في {{date}} · قيمة المصدر {{value}} {{unit}}",
       "itemMissing": "لم يعد صف التقدير موجوداً.",
       "documentChanged": "تغيّر التقدير النشط. افتح المصدر مرة أخرى.",
+      "measurement": "مجموع أسطر القياس ({{count}}) لهذا البند.",
       "kind": {
         "manual": "إدخال يدوي",
         "pdf": "قياس PDF",
         "ifc": "كمية IFC",
         "spreadsheet": "خلية جدول بيانات",
-        "excel": "مرجع Excel خارجي"
+        "excel": "مرجع Excel خارجي",
+        "measurement": "أسطر القياس"
       }
     },
     "companion": {

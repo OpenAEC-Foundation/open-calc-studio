@@ -233,7 +233,30 @@
     "vatBaseClear": "Vymazanie základu DPH",
     "vatBaseSet": "Nastavenie základu DPH",
     "finalAmountSet": "Nastavenie konečnej sumy",
-    "roundingStep": "Krok zaokrúhlenia"
+    "roundingStep": "Krok zaokrúhlenia",
+    "measurementLines": "Upraviť riadky výmer"
   },
-  "pdfLinkMissing": "Zdrojové meranie PDF chýba; posledné známe množstvo zostáva zachované. Prepojte meranie znova."
+  "pdfLinkMissing": "Zdrojové meranie PDF chýba; posledné známe množstvo zostáva zachované. Prepojte meranie znova.",
+  "measurement": {
+    "addLines": "Pridať riadky výkazu výmer",
+    "removeLines": "Odstrániť riadky výkazu výmer",
+    "removeConfirm": "Odstrániť všetky riadky výmer tejto položky? Množstvo zostane bez zmeny.",
+    "replaceConfirm": "Toto množstvo pochádza z riadkov výmer. Odstrániť riadky a zadať množstvo ručne?",
+    "description": "Popis",
+    "count": "Poč.",
+    "length": "Dĺžka",
+    "width": "Šírka",
+    "height": "Výška",
+    "partial": "Čiastkový výsledok",
+    "subtotal": "Medzisúčet",
+    "sum": "Súčet",
+    "addLine": "+ Riadok",
+    "deleteLine": "Zmazať riadok",
+    "toggle": "Zobraziť alebo skryť riadky výmery",
+    "linesCount": "Riadky výmery: {{count}}",
+    "dropLinkConfirm": "Množstvo tejto položky je prepojené s Excelom, PDF, IFC alebo hárkom. Riadky výmery toto prepojenie nahradia. Pokračovať?",
+    "linkReplacesConfirm": "Táto položka má riadky výmery. Prepojenie množstva ich odstráni. Pokračovať?",
+    "mismatch": "Množstvo ({{quantity}}) sa líši od súčtu riadkov výmery ({{sum}}). Kliknutím použijete súčet.",
+    "useSum": "Použiť súčet"
+  }
 }

@@ -98,7 +98,8 @@
       "indirectCosts": "This file adds {{percent}}% indirect costs (CI) to the price of every item, as the program that wrote it does. They appear as a line '{{percent}} % Costes indirectos' in each item ({{n}}), so the prices and the total match the file.",
       "noPrices": "This file contains no prices — only descriptions and quantities (like a measurements library). The total therefore remains 0.00.",
       "moreWarnings_one": "… and {{count}} more similar notice.",
-      "moreWarnings_other": "… and {{count}} more similar notices."
+      "moreWarnings_other": "… and {{count}} more similar notices.",
+      "measurementLinesDropped": "For {{n}} item(s) the measurement lines do not add up to the quantity in the file, or they use a formula. Only the quantity was imported for those."
     },
     "onlv": {
       "leistungsbuch": "This is a Leistungsbuch (catalogue of standard texts) without quantities or prices — all positions were imported with quantity 0.",

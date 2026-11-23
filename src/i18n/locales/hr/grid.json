@@ -233,7 +233,30 @@
     "vatBaseClear": "Brisanje osnovice PDV-a",
     "vatBaseSet": "Postavljanje osnovice PDV-a",
     "finalAmountSet": "Postavljanje konačnog iznosa",
-    "roundingStep": "Korak zaokruživanja"
+    "roundingStep": "Korak zaokruživanja",
+    "measurementLines": "Uredi retke izmjere"
   },
-  "pdfLinkMissing": "Nedostaje izvorno PDF mjerenje; zadržana je zadnja poznata količina. Ponovno povežite mjerenje."
+  "pdfLinkMissing": "Nedostaje izvorno PDF mjerenje; zadržana je zadnja poznata količina. Ponovno povežite mjerenje.",
+  "measurement": {
+    "addLines": "Dodaj retke izmjere",
+    "removeLines": "Ukloni retke izmjere",
+    "removeConfirm": "Ukloniti sve retke izmjere ove stavke? Količina ostaje nepromijenjena.",
+    "replaceConfirm": "Ova količina dolazi iz redaka izmjere. Ukloniti retke i sami unijeti količinu?",
+    "description": "Opis",
+    "count": "Kom.",
+    "length": "Duljina",
+    "width": "Širina",
+    "height": "Visina",
+    "partial": "Djelomično",
+    "subtotal": "Međuzbroj",
+    "sum": "Zbroj",
+    "addLine": "+ Redak",
+    "deleteLine": "Izbriši redak",
+    "toggle": "Prikaži ili sakrij retke izmjere",
+    "linesCount": "Retci izmjere: {{count}}",
+    "dropLinkConfirm": "Količina ove stavke povezana je s Excelom, PDF-om, IFC-om ili listom. Retci izmjere zamjenjuju tu vezu. Nastaviti?",
+    "linkReplacesConfirm": "Ova stavka ima retke izmjere. Povezivanje količine uklanja ih. Nastaviti?",
+    "mismatch": "Količina ({{quantity}}) razlikuje se od zbroja redaka izmjere ({{sum}}). Kliknite za preuzimanje zbroja.",
+    "useSum": "Preuzmi zbroj"
+  }
 }

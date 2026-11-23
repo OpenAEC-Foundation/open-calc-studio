@@ -1143,12 +1143,14 @@
       "captured": "Lié le {{date}} · valeur source {{value}} {{unit}}",
       "itemMissing": "La ligne de devis n'existe plus.",
       "documentChanged": "Le devis actif a changé. Rouvrez la source.",
+      "measurement": "Somme des {{count}} lignes de métré de cet article.",
       "kind": {
         "manual": "Saisie manuelle",
         "pdf": "Mesure PDF",
         "ifc": "Quantité IFC",
         "spreadsheet": "Cellule de feuille de calcul",
-        "excel": "Référence Excel externe"
+        "excel": "Référence Excel externe",
+        "measurement": "Lignes de métré"
       }
     },
     "companion": {

@@ -233,7 +233,30 @@
     "vatBaseClear": "Effacer la base de TVA",
     "vatBaseSet": "Définir la base de TVA",
     "finalAmountSet": "Définir le montant final",
-    "roundingStep": "Pas d'arrondi"
+    "roundingStep": "Pas d'arrondi",
+    "measurementLines": "Modifier les lignes de métré"
   },
-  "pdfLinkMissing": "La mesure source PDF est manquante ; la dernière quantité connue est conservée. Reliez la mesure."
+  "pdfLinkMissing": "La mesure source PDF est manquante ; la dernière quantité connue est conservée. Reliez la mesure.",
+  "measurement": {
+    "addLines": "Ajouter des lignes de métré",
+    "removeLines": "Supprimer les lignes de métré",
+    "removeConfirm": "Supprimer toutes les lignes de métré de cet article ? La quantité reste inchangée.",
+    "replaceConfirm": "Cette quantité provient des lignes de métré. Supprimer les lignes et saisir la quantité vous-même ?",
+    "description": "Description",
+    "count": "Nb",
+    "length": "Longueur",
+    "width": "Largeur",
+    "height": "Hauteur",
+    "partial": "Partiel",
+    "subtotal": "Sous-total",
+    "sum": "Total",
+    "addLine": "+ Ligne",
+    "deleteLine": "Supprimer la ligne",
+    "toggle": "Afficher ou masquer les lignes de métré",
+    "linesCount": "Lignes de métré : {{count}}",
+    "dropLinkConfirm": "La quantité de cet article est liée à Excel, un PDF, un IFC ou une feuille. Les lignes de métré remplacent ce lien. Continuer ?",
+    "linkReplacesConfirm": "Cet article a des lignes de métré. Lier la quantité les supprime. Continuer ?",
+    "mismatch": "La quantité ({{quantity}}) diffère du total des lignes de métré ({{sum}}). Cliquez pour reprendre le total.",
+    "useSum": "Reprendre le total"
+  }
 }

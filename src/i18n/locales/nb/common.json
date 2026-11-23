@@ -1143,12 +1143,14 @@
       "captured": "Koblet {{date}} · kildeverdi {{value}} {{unit}}",
       "itemMissing": "Kalkylelinjen finnes ikke lenger.",
       "documentChanged": "Den aktive kalkylen ble endret. Åpne kilden på nytt.",
+      "measurement": "Summen av de {{count}} målelinjene under denne posten.",
       "kind": {
         "manual": "Manuell inntasting",
         "pdf": "PDF-måling",
         "ifc": "IFC-mengde",
         "spreadsheet": "Regnearkcelle",
-        "excel": "Ekstern Excel-referanse"
+        "excel": "Ekstern Excel-referanse",
+        "measurement": "Målelinjer"
       }
     },
     "companion": {

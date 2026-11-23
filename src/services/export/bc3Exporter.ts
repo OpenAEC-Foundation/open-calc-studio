@@ -55,6 +55,19 @@ const esc = (s: string | null | undefined): string =>
 const escText = (s: string | null | undefined): string =>
   (s ?? '').replace(/[|~\\]/g, ' ').replace(/\r?\n/g, '\r\n').trim();
 
+/**
+ * Detailregels van een ~M-record (#96): per meetregel
+ * `TIPO\COMENTARIO\UNIDADES\LONGITUD\LATITUD\ALTURA\`. Een leeg vak blijft
+ * leeg. Tussentotalen krijgen type 1 (sinds het vorige) of 2 (vanaf het begin).
+ */
+const measurementDetail = (it: CostItem): string =>
+  (it.measurementLines ?? []).map((l) => {
+    const tipo = l.subtotal === 'partial' ? '1' : l.subtotal === 'cumulative' ? '2' : '';
+    const dim = (v: number | null): string => (v == null ? '' : num(v));
+    const dims = l.subtotal ? ['', '', '', ''] : [dim(l.count), dim(l.length), dim(l.width), dim(l.height)];
+    return [tipo, esc(l.description), ...dims].join('\\') + '\\';
+  }).join('');
+
 const TYPE_BY_RESOURCE: Record<string, string> = {
   arbeid: '1',
   materieel: '2',
@@ -353,7 +366,7 @@ export function buildBc3(schedule: CostSchedule, items: CostItem[], charset: Bc3
     const { parts, unitCost } = compose(it, qty);
     const price = parts.length > 0 ? unitCost : money(it.unitPrice);
     const code = concept(it, it.unit, price, '0', parts);
-    mRecords.push(`~M|${parentCode}\\${code}|${path.join('\\')}\\|${num(qty)}||`);
+    mRecords.push(`~M|${parentCode}\\${code}|${path.join('\\')}\\|${num(qty)}|${measurementDetail(it)}|`);
     return code;
   };
 

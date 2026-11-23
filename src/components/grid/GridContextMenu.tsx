@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { copyItemsToExcel } from '@/services/clipboard/excelClipboard';
 import { isFooterRow } from '@/services/grid/gridRows';
+import { canHaveMeasurementLines, hasMeasurementLines, newMeasurementLine } from '@/services/measurement/measurementLines';
+import { MEASUREMENT_VIEWS } from './MeasurementLinesBlock';
 
 interface Props {
   x: number;
@@ -30,6 +32,9 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
     getGridRows,
     getSelectedRowIndices,
     updateItem,
+    setMeasurementLines,
+    toggleCollapse,
+    gridView,
   } = useAppStore();
 
   // De gerenderde rijenlijst (incl. footers) — selectie-indices zijn
@@ -197,7 +202,12 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
   const hasQuantity = ['begrotingspost', 'bewakingspost', 'regel', 'tekstregel'].includes(item.rowType);
   const hasExcelLink = !!item.excelLink;
 
+  // Een koppeling vervangt de meetregels (#96): eerst vragen.
+  const linkMayReplaceLines = () =>
+    !item.measurementLines?.length || window.confirm(t('grid:measurement.linkReplacesConfirm'));
+
   const handleExcelLink = () => {
+    if (!linkMayReplaceLines()) { onClose(); return; }
     if (onExcelLink) onExcelLink(item);
     onClose();
   };
@@ -209,6 +219,7 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
   };
 
   const handleQuantityLink = () => {
+    if (!linkMayReplaceLines()) { onClose(); return; }
     if (onQuantityLink) onQuantityLink(item);
     onClose();
   };
@@ -220,6 +231,25 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
   };
 
   const hasQuantityLink = !!item.quantityLink;
+
+  // Meetregels (#96). De eerste regel krijgt de hoeveelheid die er al stond
+  // als aantal, zodat het totaal niet verspringt. Een gekoppelde hoeveelheid
+  // (Excel, PDF, IFC) verliest die koppeling: eerst vragen.
+  const measurementsHere = MEASUREMENT_VIEWS.has(gridView) && canHaveMeasurementLines(item);
+  const handleAddMeasurementLines = () => {
+    if ((item.excelLink || item.quantityLink) && !window.confirm(t('grid:measurement.dropLinkConfirm'))) { onClose(); return; }
+    pushHistory(items, t('grid:undo.measurementLines'));
+    const qty = item.quantity ?? 0;
+    setMeasurementLines(item.id, [newMeasurementLine(qty !== 0 ? { count: qty } : {})]);
+    if (item.isCollapsed) toggleCollapse(item.id);
+    onClose();
+  };
+  const handleRemoveMeasurementLines = () => {
+    if (!window.confirm(t('grid:measurement.removeConfirm'))) return;
+    pushHistory(items, t('grid:undo.measurementLines'));
+    setMeasurementLines(item.id, null);
+    onClose();
+  };
 
   // Btw-tarief per onderdeel: hoofdstukken, posten en regels. Kinderen erven
   // het tarief van hun ouder (default hoog).
@@ -275,6 +305,12 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
       { label: '-' },
       { label: t('grid:contextMenu.linkQuantity'), action: handleQuantityLink },
       ...(hasQuantityLink ? [{ label: t('grid:contextMenu.removeQuantityLink'), action: handleRemoveQuantityLink }] : []),
+    ] : []),
+    ...(measurementsHere ? [
+      { label: '-' },
+      hasMeasurementLines(item)
+        ? { label: t('grid:measurement.removeLines'), action: handleRemoveMeasurementLines }
+        : { label: t('grid:measurement.addLines'), action: handleAddMeasurementLines },
     ] : []),
     ...(canSetBtw ? [
       { label: '-' },

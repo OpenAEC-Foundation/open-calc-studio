@@ -233,7 +233,30 @@
     "vatBaseClear": "KDV matrahını temizle",
     "vatBaseSet": "KDV matrahını ayarla",
     "finalAmountSet": "Nihai tutarı ayarla",
-    "roundingStep": "Yuvarlama adımı"
+    "roundingStep": "Yuvarlama adımı",
+    "measurementLines": "Metraj satırlarını düzenle"
   },
-  "pdfLinkMissing": "PDF kaynak ölçümü eksik; son bilinen miktar korunur. Ölçümü yeniden bağlayın."
+  "pdfLinkMissing": "PDF kaynak ölçümü eksik; son bilinen miktar korunur. Ölçümü yeniden bağlayın.",
+  "measurement": {
+    "addLines": "Metraj satırları ekle",
+    "removeLines": "Metraj satırlarını kaldır",
+    "removeConfirm": "Bu kalemin tüm metraj satırları kaldırılsın mı? Miktar olduğu gibi kalır.",
+    "replaceConfirm": "Bu miktar metraj satırlarından geliyor. Satırlar kaldırılıp miktarı kendiniz mi gireceksiniz?",
+    "description": "Açıklama",
+    "count": "Adet",
+    "length": "Uzunluk",
+    "width": "Genişlik",
+    "height": "Yükseklik",
+    "partial": "Kısmi",
+    "subtotal": "Ara toplam",
+    "sum": "Toplam",
+    "addLine": "+ Satır",
+    "deleteLine": "Satırı sil",
+    "toggle": "Ölçü satırlarını göster veya gizle",
+    "linesCount": "Ölçü satırları: {{count}}",
+    "dropLinkConfirm": "Bu kalemin miktarı Excel'e, bir PDF'ye, IFC'ye veya bir sayfaya bağlı. Ölçü satırları bu bağlantının yerini alır. Devam edilsin mi?",
+    "linkReplacesConfirm": "Bu kalemin ölçü satırları var. Miktarı bağlamak onları kaldırır. Devam edilsin mi?",
+    "mismatch": "Miktar ({{quantity}}), ölçü satırlarının toplamından ({{sum}}) farklı. Toplamı kullanmak için tıklayın.",
+    "useSum": "Toplamı kullan"
+  }
 }

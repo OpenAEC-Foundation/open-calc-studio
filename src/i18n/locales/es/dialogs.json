@@ -98,7 +98,8 @@
       "indirectCosts": "Este archivo suma un {{percent}} % de costes indirectos (CI) al precio de cada partida, como hace el programa que lo generó. Aparecen como una línea '{{percent}} % Costes indirectos' en cada partida ({{n}}), para que los precios y el total coincidan con el archivo.",
       "noPrices": "Este archivo no contiene precios, solo descripciones y mediciones (como una biblioteca de mediciones). Por eso el total sigue siendo 0,00.",
       "moreWarnings_one": "… y {{count}} aviso similar más.",
-      "moreWarnings_other": "… y {{count}} avisos similares más."
+      "moreWarnings_other": "… y {{count}} avisos similares más.",
+      "measurementLinesDropped": "En {{n}} partida(s) las líneas de medición no suman la cantidad del archivo o usan una fórmula. Allí solo se ha importado la cantidad."
     },
     "onlv": {
       "leistungsbuch": "Esto es un Leistungsbuch (catálogo de textos estándar) sin mediciones ni precios — todas las posiciones se importaron con cantidad 0.",

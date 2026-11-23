@@ -1143,12 +1143,14 @@
       "captured": "Ligada em {{date}} · valor de origem {{value}} {{unit}}",
       "itemMissing": "A linha do orçamento já não existe.",
       "documentChanged": "O orçamento ativo mudou. Abra a origem novamente.",
+      "measurement": "Soma das {{count}} linhas de medição deste artigo.",
       "kind": {
         "manual": "Introdução manual",
         "pdf": "Medição em PDF",
         "ifc": "Quantidade IFC",
         "spreadsheet": "Célula de folha de cálculo",
-        "excel": "Referência externa ao Excel"
+        "excel": "Referência externa ao Excel",
+        "measurement": "Linhas de medição"
       }
     },
     "companion": {

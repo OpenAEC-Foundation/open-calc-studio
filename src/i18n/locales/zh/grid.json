@@ -233,7 +233,30 @@
     "vatBaseClear": "清除增值税基数",
     "vatBaseSet": "设置增值税基数",
     "finalAmountSet": "设置最终金额",
-    "roundingStep": "舍入步长"
+    "roundingStep": "舍入步长",
+    "measurementLines": "编辑计量明细行"
   },
-  "pdfLinkMissing": "PDF 来源测量缺失；已保留最后已知的工程量。请重新关联测量。"
+  "pdfLinkMissing": "PDF 来源测量缺失；已保留最后已知的工程量。请重新关联测量。",
+  "measurement": {
+    "addLines": "添加计量明细行",
+    "removeLines": "删除计量明细行",
+    "removeConfirm": "删除此项目的所有计量明细行？数量保持不变。",
+    "replaceConfirm": "此数量来自计量明细行。删除明细行并自行输入数量？",
+    "description": "说明",
+    "count": "数量",
+    "length": "长度",
+    "width": "宽度",
+    "height": "高度",
+    "partial": "分项",
+    "subtotal": "小计",
+    "sum": "合计",
+    "addLine": "+ 行",
+    "deleteLine": "删除行",
+    "toggle": "显示或隐藏计量明细行",
+    "linesCount": "计量明细行：{{count}}",
+    "dropLinkConfirm": "此项目的数量已链接到 Excel、PDF、IFC 或工作表。计量明细行将替换该链接。是否继续？",
+    "linkReplacesConfirm": "此项目有计量明细行。链接数量会删除这些行。是否继续？",
+    "mismatch": "数量（{{quantity}}）与计量明细行合计（{{sum}}）不一致。点击以使用合计。",
+    "useSum": "使用合计"
+  }
 }

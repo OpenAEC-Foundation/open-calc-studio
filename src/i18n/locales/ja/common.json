@@ -1143,12 +1143,14 @@
       "captured": "{{date}} にリンク · ソース値 {{value}} {{unit}}",
       "itemMissing": "この積算行はもう存在しません。",
       "documentChanged": "アクティブな積算が変わりました。ソースをもう一度開いてください。",
+      "measurement": "この項目の数量明細行 {{count}} 行の合計。",
       "kind": {
         "manual": "手動入力",
         "pdf": "PDF 計測",
         "ifc": "IFC 数量",
         "spreadsheet": "スプレッドシートのセル",
-        "excel": "外部 Excel 参照"
+        "excel": "外部 Excel 参照",
+        "measurement": "数量明細行"
       }
     },
     "companion": {

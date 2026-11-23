@@ -233,7 +233,30 @@
     "vatBaseClear": "課税標準をクリア",
     "vatBaseSet": "課税標準の設定",
     "finalAmountSet": "最終金額の設定",
-    "roundingStep": "端数処理の単位"
+    "roundingStep": "端数処理の単位",
+    "measurementLines": "数量明細行を編集"
   },
-  "pdfLinkMissing": "PDF ソースの計測が見つかりません。最後に取得した数量を保持しています。計測を再リンクしてください。"
+  "pdfLinkMissing": "PDF ソースの計測が見つかりません。最後に取得した数量を保持しています。計測を再リンクしてください。",
+  "measurement": {
+    "addLines": "数量明細行を追加",
+    "removeLines": "数量明細行を削除",
+    "removeConfirm": "この項目の数量明細行をすべて削除しますか？数量はそのまま残ります。",
+    "replaceConfirm": "この数量は数量明細行から算出されています。明細行を削除して数量を直接入力しますか？",
+    "description": "摘要",
+    "count": "個数",
+    "length": "長さ",
+    "width": "幅",
+    "height": "高さ",
+    "partial": "明細値",
+    "subtotal": "小計",
+    "sum": "合計",
+    "addLine": "+ 行",
+    "deleteLine": "行を削除",
+    "toggle": "数量明細行の表示／非表示",
+    "linesCount": "数量明細行: {{count}}",
+    "dropLinkConfirm": "この項目の数量は Excel、PDF、IFC またはシートにリンクされています。数量明細行がこのリンクを置き換えます。続行しますか?",
+    "linkReplacesConfirm": "この項目には数量明細行があります。数量をリンクすると削除されます。続行しますか?",
+    "mismatch": "数量（{{quantity}}）が数量明細行の合計（{{sum}}）と一致しません。クリックすると合計を使用します。",
+    "useSum": "合計を使用"
+  }
 }

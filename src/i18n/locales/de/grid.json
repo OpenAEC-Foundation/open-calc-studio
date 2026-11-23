@@ -233,7 +233,30 @@
     "vatBaseClear": "MwSt.-Grundlage löschen",
     "vatBaseSet": "MwSt.-Grundlage setzen",
     "finalAmountSet": "Endbetrag setzen",
-    "roundingStep": "Rundungsschritt"
+    "roundingStep": "Rundungsschritt",
+    "measurementLines": "Aufmaßzeilen bearbeiten"
   },
-  "pdfLinkMissing": "Die PDF-Quellmessung fehlt; die letzte bekannte Menge bleibt erhalten. Verknüpfen Sie die Messung erneut."
+  "pdfLinkMissing": "Die PDF-Quellmessung fehlt; die letzte bekannte Menge bleibt erhalten. Verknüpfen Sie die Messung erneut.",
+  "measurement": {
+    "addLines": "Aufmaßzeilen hinzufügen",
+    "removeLines": "Aufmaßzeilen entfernen",
+    "removeConfirm": "Alle Aufmaßzeilen dieser Position entfernen? Die Menge bleibt erhalten.",
+    "replaceConfirm": "Diese Menge stammt aus den Aufmaßzeilen. Zeilen entfernen und die Menge selbst eingeben?",
+    "description": "Beschreibung",
+    "count": "Anz.",
+    "length": "Länge",
+    "width": "Breite",
+    "height": "Höhe",
+    "partial": "Ergebnis",
+    "subtotal": "Zwischensumme",
+    "sum": "Summe",
+    "addLine": "+ Zeile",
+    "deleteLine": "Zeile löschen",
+    "toggle": "Aufmaßzeilen ein- oder ausblenden",
+    "linesCount": "Aufmaßzeilen: {{count}}",
+    "dropLinkConfirm": "Die Menge dieser Position ist mit Excel, einem PDF, IFC oder einem Blatt verknüpft. Aufmaßzeilen ersetzen diese Verknüpfung. Fortfahren?",
+    "linkReplacesConfirm": "Diese Position hat Aufmaßzeilen. Eine Verknüpfung der Menge entfernt sie. Fortfahren?",
+    "mismatch": "Die Menge ({{quantity}}) weicht von der Summe der Aufmaßzeilen ({{sum}}) ab. Klicken, um die Summe zu übernehmen.",
+    "useSum": "Summe übernehmen"
+  }
 }

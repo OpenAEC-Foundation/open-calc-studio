@@ -1143,12 +1143,14 @@
       "captured": "Imeunganishwa tarehe {{date}} · thamani ya chanzo {{value}} {{unit}}",
       "itemMissing": "Safu ya makadirio haipo tena.",
       "documentChanged": "Makadirio yanayotumika yamebadilika. Fungua chanzo tena.",
+      "measurement": "Jumla ya mistari {{count}} ya vipimo ya kipengee hiki.",
       "kind": {
         "manual": "Kuingiza kwa mkono",
         "pdf": "Kipimo cha PDF",
         "ifc": "Kiasi cha IFC",
         "spreadsheet": "Kisanduku cha lahajedwali",
-        "excel": "Rejea ya Excel ya nje"
+        "excel": "Rejea ya Excel ya nje",
+        "measurement": "Mistari ya vipimo"
       }
     },
     "companion": {

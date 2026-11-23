@@ -233,7 +233,30 @@
     "vatBaseClear": "Vymazání základu DPH",
     "vatBaseSet": "Nastavení základu DPH",
     "finalAmountSet": "Nastavení konečné částky",
-    "roundingStep": "Krok zaokrouhlení"
+    "roundingStep": "Krok zaokrouhlení",
+    "measurementLines": "Upravit řádky výměr"
   },
-  "pdfLinkMissing": "Zdrojové měření PDF chybí; poslední známé množství zůstává zachováno. Propojte měření znovu."
+  "pdfLinkMissing": "Zdrojové měření PDF chybí; poslední známé množství zůstává zachováno. Propojte měření znovu.",
+  "measurement": {
+    "addLines": "Přidat řádky výkazu výměr",
+    "removeLines": "Odebrat řádky výkazu výměr",
+    "removeConfirm": "Odebrat všechny řádky výměr této položky? Množství zůstane beze změny.",
+    "replaceConfirm": "Toto množství pochází z řádků výměr. Odebrat řádky a zadat množství ručně?",
+    "description": "Popis",
+    "count": "Poč.",
+    "length": "Délka",
+    "width": "Šířka",
+    "height": "Výška",
+    "partial": "Dílčí výsledek",
+    "subtotal": "Mezisoučet",
+    "sum": "Součet",
+    "addLine": "+ Řádek",
+    "deleteLine": "Smazat řádek",
+    "toggle": "Zobrazit nebo skrýt řádky výměry",
+    "linesCount": "Řádky výměry: {{count}}",
+    "dropLinkConfirm": "Množství této položky je propojeno s Excelem, PDF, IFC nebo listem. Řádky výměry toto propojení nahradí. Pokračovat?",
+    "linkReplacesConfirm": "Tato položka má řádky výměry. Propojení množství je odstraní. Pokračovat?",
+    "mismatch": "Množství ({{quantity}}) se liší od součtu řádků výměry ({{sum}}). Kliknutím použijete součet.",
+    "useSum": "Použít součet"
+  }
 }

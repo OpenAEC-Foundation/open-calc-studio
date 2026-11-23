@@ -146,11 +146,52 @@ export interface CostItem {
   quantityOrigin?: import('../services/quantity/quantityOrigin').QuantityOrigin;
 
   /**
+   * Meetregels (afmetingenstaat, #96): heeft een (bewakings)post ze, dan is
+   * zijn hoeveelheid de som ervan. Zie services/measurement/measurementLines.
+   */
+  measurementLines?: MeasurementLine[];
+
+  /**
+   * Meetregels ingeklapt tot één samenvattingsregel. Alleen weergave: de
+   * middelen onder de post blijven zichtbaar (dat is `isCollapsed`).
+   */
+  measurementLinesCollapsed?: boolean;
+
+  /**
    * Wijzigingshistorie van deze regel: per veldwijziging de oude/nieuwe waarde,
    * wanneer en door welke Windows-gebruiker. Optioneel — oudere bestanden en
    * verse regels hebben (nog) geen historie. Zie services/history/itemHistory.
    */
   history?: FieldChange[];
+}
+
+/** Maatvakken van een meetregel. */
+export type MeasurementField = 'count' | 'length' | 'width' | 'height';
+
+/**
+ * Eén meetregel onder een post: aantal × lengte × breedte × hoogte. Een leeg
+ * vak telt niet mee (factor 1); een regel met alleen lege vakken is 0. Een
+ * negatief aantal is een aftrekpost (bv. sparingen).
+ *
+ * Opzet met #45 (Measurement Book) in gedachten: de id blijft vast als regels
+ * verschuiven, zodat een latere verwijzing heel blijft, en `formulas` bewaart
+ * wat de gebruiker typte als dat een formule was.
+ */
+export interface MeasurementLine {
+  id: string;
+  description: string;
+  count: number | null;
+  length: number | null;
+  width: number | null;
+  height: number | null;
+  /** Ingevoerde formule per vak ("=10*3"); het getal ernaast is de uitkomst. */
+  formulas?: Partial<Record<MeasurementField, string>>;
+  /**
+   * Tussentotaalregel (BC3 type 1 en 2): toont de som sinds het vorige
+   * tussentotaal ('partial') of vanaf het begin ('cumulative'). Telt zelf
+   * niet mee in de hoeveelheid.
+   */
+  subtotal?: 'partial' | 'cumulative';
 }
 
 /** Eén vastgelegde veldwijziging op een CostItem (zie itemHistory.ts). */

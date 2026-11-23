@@ -233,7 +233,30 @@
     "vatBaseClear": "Kosongkan dasar PPN",
     "vatBaseSet": "Atur dasar PPN",
     "finalAmountSet": "Atur nilai akhir",
-    "roundingStep": "Kelipatan pembulatan"
+    "roundingStep": "Kelipatan pembulatan",
+    "measurementLines": "Edit baris pengukuran"
   },
-  "pdfLinkMissing": "Pengukuran sumber PDF hilang; volume terakhir yang diketahui dipertahankan. Tautkan kembali pengukurannya."
+  "pdfLinkMissing": "Pengukuran sumber PDF hilang; volume terakhir yang diketahui dipertahankan. Tautkan kembali pengukurannya.",
+  "measurement": {
+    "addLines": "Tambah baris pengukuran",
+    "removeLines": "Hapus baris pengukuran",
+    "removeConfirm": "Hapus semua baris pengukuran item ini? Kuantitas tetap seperti semula.",
+    "replaceConfirm": "Kuantitas ini berasal dari baris pengukuran. Hapus baris dan isi kuantitas sendiri?",
+    "description": "Uraian",
+    "count": "Jml",
+    "length": "Panjang",
+    "width": "Lebar",
+    "height": "Tinggi",
+    "partial": "Parsial",
+    "subtotal": "Subtotal",
+    "sum": "Jumlah",
+    "addLine": "+ Baris",
+    "deleteLine": "Hapus baris",
+    "toggle": "Tampilkan atau sembunyikan baris pengukuran",
+    "linesCount": "Baris pengukuran: {{count}}",
+    "dropLinkConfirm": "Kuantitas item ini tertaut ke Excel, PDF, IFC, atau lembar. Baris pengukuran menggantikan tautan itu. Lanjutkan?",
+    "linkReplacesConfirm": "Item ini memiliki baris pengukuran. Menautkan kuantitas akan menghapusnya. Lanjutkan?",
+    "mismatch": "Kuantitas ({{quantity}}) berbeda dari total baris pengukuran ({{sum}}). Klik untuk memakai total.",
+    "useSum": "Pakai total"
+  }
 }

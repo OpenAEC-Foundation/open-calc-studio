@@ -233,7 +233,30 @@
     "vatBaseClear": "Tøm mva.-grunnlag",
     "vatBaseSet": "Angi mva.-grunnlag",
     "finalAmountSet": "Angi sluttbeløp",
-    "roundingStep": "Avrundingstrinn"
+    "roundingStep": "Avrundingstrinn",
+    "measurementLines": "Rediger målelinjer"
   },
-  "pdfLinkMissing": "PDF-kildemålingen mangler; den siste kjente mengden beholdes. Koble målingen på nytt."
+  "pdfLinkMissing": "PDF-kildemålingen mangler; den siste kjente mengden beholdes. Koble målingen på nytt.",
+  "measurement": {
+    "addLines": "Legg til målelinjer",
+    "removeLines": "Fjern målelinjer",
+    "removeConfirm": "Fjerne alle målelinjer for denne posten? Mengden blir stående.",
+    "replaceConfirm": "Denne mengden kommer fra målelinjene. Fjerne linjene og legge inn mengden selv?",
+    "description": "Beskrivelse",
+    "count": "Antall",
+    "length": "Lengde",
+    "width": "Bredde",
+    "height": "Høyde",
+    "partial": "Delresultat",
+    "subtotal": "Delsum",
+    "sum": "Sum",
+    "addLine": "+ Linje",
+    "deleteLine": "Slett linje",
+    "toggle": "Vis eller skjul målelinjene",
+    "linesCount": "Målelinjer: {{count}}",
+    "dropLinkConfirm": "Mengden for denne posten er koblet til Excel, en PDF, IFC eller et ark. Målelinjer erstatter koblingen. Fortsette?",
+    "linkReplacesConfirm": "Denne posten har målelinjer. Å koble mengden fjerner dem. Fortsette?",
+    "mismatch": "Mengden ({{quantity}}) avviker fra summen av målelinjene ({{sum}}). Klikk for å bruke summen.",
+    "useSum": "Bruk summen"
+  }
 }

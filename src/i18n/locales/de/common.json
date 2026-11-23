@@ -1080,12 +1080,14 @@
       "captured": "Verknüpft am {{date}} · Quellwert {{value}} {{unit}}",
       "itemMissing": "Die Kalkulationszeile existiert nicht mehr.",
       "documentChanged": "Die aktive Kalkulation hat sich geändert. Öffnen Sie die Quelle erneut.",
+      "measurement": "Summe der {{count}} Aufmaßzeilen unter dieser Position.",
       "kind": {
         "manual": "Manuelle Eingabe",
         "pdf": "PDF-Messung",
         "ifc": "IFC-Menge",
         "spreadsheet": "Tabellenzelle",
-        "excel": "Externe Excel-Referenz"
+        "excel": "Externe Excel-Referenz",
+        "measurement": "Aufmaßzeilen"
       }
     },
     "companion": {

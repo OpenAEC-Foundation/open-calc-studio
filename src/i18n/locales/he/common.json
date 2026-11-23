@@ -1145,12 +1145,14 @@
       "captured": "קושר ב-{{date}} · ערך המקור {{value}} {{unit}}",
       "itemMissing": "שורת האומדן אינה קיימת עוד.",
       "documentChanged": "האומדן הפעיל השתנה. יש לפתוח את המקור שוב.",
+      "measurement": "סכום {{count}} שורות המדידה של סעיף זה.",
       "kind": {
         "manual": "הזנה ידנית",
         "pdf": "מדידת PDF",
         "ifc": "כמות IFC",
         "spreadsheet": "תא בגיליון",
-        "excel": "הפניה חיצונית ל-Excel"
+        "excel": "הפניה חיצונית ל-Excel",
+        "measurement": "שורות מדידה"
       }
     },
     "companion": {

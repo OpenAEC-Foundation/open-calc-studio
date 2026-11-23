@@ -1145,12 +1145,14 @@
       "captured": "Propojeno {{date}} · zdrojová hodnota {{value}} {{unit}}",
       "itemMissing": "Řádek rozpočtu již neexistuje.",
       "documentChanged": "Aktivní rozpočet se změnil. Otevřete zdroj znovu.",
+      "measurement": "Součet {{count}} řádků výměry této položky.",
       "kind": {
         "manual": "Ruční zadání",
         "pdf": "Měření PDF",
         "ifc": "Množství IFC",
         "spreadsheet": "Buňka tabulky",
-        "excel": "Externí odkaz na Excel"
+        "excel": "Externí odkaz na Excel",
+        "measurement": "Řádky výměry"
       }
     },
     "companion": {

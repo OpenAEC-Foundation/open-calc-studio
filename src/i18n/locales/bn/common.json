@@ -1143,12 +1143,14 @@
       "captured": "{{date}} তারিখে লিঙ্ক করা · উৎস মান {{value}} {{unit}}",
       "itemMissing": "প্রাক্কলন সারিটি আর নেই।",
       "documentChanged": "সক্রিয় প্রাক্কলন বদলে গেছে। উৎসটি আবার খুলুন।",
+      "measurement": "এই আইটেমের {{count}}টি পরিমাপের সারির যোগফল।",
       "kind": {
         "manual": "হাতে এন্ট্রি",
         "pdf": "PDF পরিমাপ",
         "ifc": "IFC পরিমাণ",
         "spreadsheet": "স্প্রেডশিট সেল",
-        "excel": "বাহ্যিক Excel রেফারেন্স"
+        "excel": "বাহ্যিক Excel রেফারেন্স",
+        "measurement": "পরিমাপের সারি"
       }
     },
     "companion": {

@@ -102,7 +102,8 @@
       "noPrices": "Acest fișier nu conține prețuri — doar denumiri și cantități (ca o bibliotecă de antemăsurători). Prin urmare, totalul rămâne 0,00.",
       "moreWarnings_one": "… și încă {{count}} mesaj similar.",
       "moreWarnings_few": "… și încă {{count}} mesaje similare.",
-      "moreWarnings_other": "… și încă {{count}} de mesaje similare."
+      "moreWarnings_other": "… și încă {{count}} de mesaje similare.",
+      "measurementLinesDropped": "La {{n}} poziție(i) liniile de măsurătoare nu dau cantitatea din fișier sau folosesc o formulă. Acolo s-a importat doar cantitatea."
     },
     "onlv": {
       "leistungsbuch": "Acesta este un Leistungsbuch (catalog de texte standard) fără cantități și prețuri — toate pozițiile au fost importate cu cantitatea 0.",

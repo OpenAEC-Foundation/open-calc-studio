@@ -49,6 +49,22 @@ describe('home ribbon button outcomes',()=>{
   expect(useAppStore.getState().items.some(item=>[post,second].includes(item.id))).toBe(false);expect(useAppStore.getState().undoStack).toHaveLength(1);
   await click(tr('home.undo'));expect(row()).toBeTruthy();expect(row(second)).toBeTruthy();
  });
+ it('measurement line starts the lines with the current quantity, then adds lines, and undoes (#96)',async()=>{
+  await render(<HomeTab/>);await click(tr('home.measurementLine'));
+  expect(row().measurementLines).toHaveLength(1);expect(row().measurementLines![0].count).toBe(2);expect(row().quantity).toBe(2);
+  await click(tr('home.measurementLine'));expect(row().measurementLines).toHaveLength(2);expect(row().quantity).toBe(2);
+  await click(tr('home.undo'));expect(row().measurementLines).toHaveLength(1);
+  select(chapter);await act(async()=>{});expect(button(tr('home.measurementLine'))).toBeDisabled();
+ });
+ it('measurement line on a linked quantity asks first; no keeps the link (#96)',async()=>{
+  useAppStore.getState().updateItem(post,'excelLink',{filePath:'x.xlsx',sheet:'Blad1',cell:'A1'});
+  const confirm=vi.spyOn(window,'confirm').mockReturnValue(false);
+  await render(<HomeTab/>);await click(tr('home.measurementLine'));
+  expect(confirm).toHaveBeenCalledOnce();expect(row().measurementLines).toBeUndefined();expect(row().excelLink).toBeTruthy();
+  confirm.mockReturnValue(true);await click(tr('home.measurementLine'));
+  expect(row().measurementLines).toHaveLength(1);expect(row().excelLink).toBeNull();expect(row().quantity).toBe(2);
+  confirm.mockRestore();
+ });
  it('disables commands whose target is missing or incompatible',async()=>{
   select(chapter);await render(<HomeTab/>);expect(button(tr('home.monitorPost'))).toBeDisabled();
   await act(async()=>useAppStore.setState({activeItemId:null,activeRow:-1}));expect(button(tr('home.copy'))).toBeDisabled();expect(button(tr('home.cut'))).toBeDisabled();

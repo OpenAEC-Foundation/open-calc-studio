@@ -233,7 +233,30 @@
     "vatBaseClear": "Clear VAT base",
     "vatBaseSet": "Set VAT base",
     "finalAmountSet": "Set final amount",
-    "roundingStep": "Rounding step"
+    "roundingStep": "Rounding step",
+    "measurementLines": "Edit measurement lines"
   },
-  "pdfLinkMissing": "PDF source measurement is missing; the last known quantity is retained. Relink the measurement."
+  "pdfLinkMissing": "PDF source measurement is missing; the last known quantity is retained. Relink the measurement.",
+  "measurement": {
+    "addLines": "Add measurement lines",
+    "removeLines": "Remove measurement lines",
+    "removeConfirm": "Remove all measurement lines of this item? The quantity stays as it is.",
+    "replaceConfirm": "This quantity comes from the measurement lines. Remove the lines and enter the quantity yourself?",
+    "description": "Description",
+    "count": "Count",
+    "length": "Length",
+    "width": "Width",
+    "height": "Height",
+    "partial": "Partial",
+    "subtotal": "Subtotal",
+    "sum": "Total",
+    "addLine": "+ Line",
+    "deleteLine": "Delete line",
+    "toggle": "Show or hide the measurement lines",
+    "linesCount": "Measurement lines: {{count}}",
+    "dropLinkConfirm": "The quantity of this item is linked to Excel, a PDF, IFC or a sheet. Measurement lines replace that link. Continue?",
+    "linkReplacesConfirm": "This item has measurement lines. Linking the quantity removes them. Continue?",
+    "mismatch": "The quantity ({{quantity}}) differs from the total of the measurement lines ({{sum}}). Click to use the total.",
+    "useSum": "Use total"
+  }
 }

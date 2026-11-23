@@ -98,7 +98,8 @@
       "indirectCosts": "Tệp này cộng {{percent}}% chi phí gián tiếp (CI) vào giá của mọi công tác, giống như chương trình đã tạo ra nó. Chúng xuất hiện dưới dạng một dòng '{{percent}} % Costes indirectos' trong mỗi công tác ({{n}}), nhờ đó đơn giá và tổng khớp với tệp.",
       "noPrices": "Tệp này không chứa giá — chỉ có mô tả và khối lượng (như một thư viện khối lượng). Vì vậy tổng vẫn là 0.00.",
       "moreWarnings_one": "… và thêm {{count}} thông báo tương tự.",
-      "moreWarnings_other": "… và thêm {{count}} thông báo tương tự."
+      "moreWarnings_other": "… và thêm {{count}} thông báo tương tự.",
+      "measurementLinesDropped": "Ở {{n}} hạng mục, tổng các dòng đo bóc không khớp với khối lượng trong tệp, hoặc dùng công thức. Ở đó chỉ nhập khối lượng."
     },
     "onlv": {
       "leistungsbuch": "Đây là một Leistungsbuch (danh mục văn bản chuẩn) không có khối lượng và giá — tất cả hạng mục được nhập với khối lượng 0.",

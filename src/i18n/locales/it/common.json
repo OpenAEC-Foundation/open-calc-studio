@@ -1143,12 +1143,14 @@
       "captured": "Collegata il {{date}} · valore di origine {{value}} {{unit}}",
       "itemMissing": "La riga di computo non esiste più.",
       "documentChanged": "Il computo attivo è cambiato. Apri di nuovo l'origine.",
+      "measurement": "Somma delle {{count}} righe di misura di questa voce.",
       "kind": {
         "manual": "Inserimento manuale",
         "pdf": "Misurazione PDF",
         "ifc": "Quantità IFC",
         "spreadsheet": "Cella del foglio di calcolo",
-        "excel": "Riferimento Excel esterno"
+        "excel": "Riferimento Excel esterno",
+        "measurement": "Righe di misura"
       }
     },
     "companion": {

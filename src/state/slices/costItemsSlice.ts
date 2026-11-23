@@ -1,5 +1,5 @@
 import type { StateCreator } from 'zustand';
-import type { CostItem, CostUnit, RowType, ExcelLink, QuantityLink } from '@/types/costModel';
+import type { CostItem, CostUnit, RowType, ExcelLink, QuantityLink, MeasurementLine } from '@/types/costModel';
 import i18next from 'i18next';
 import { recalculateItems, effectiveTarieven } from '@/services/calculation/calculator';
 import { withVariantTotals } from '@/services/grid/variantTotals';
@@ -9,6 +9,7 @@ import { appendHistory, shouldTrackField } from '@/services/history/itemHistory'
 import { getCachedOsUsername } from '@/services/system/osUser';
 import { buildGridRows } from '@/services/grid/gridRows';
 import { captureQuantityOrigin } from '@/services/quantity/quantityOrigin';
+import { measurementSum, quantityMatchesLines, sameQuantity } from '@/services/measurement/measurementLines';
 
 function generateId(): string {
   return crypto.randomUUID();
@@ -43,10 +44,23 @@ export interface CostItemsSlice {
   addWitregel: (parentId: string | null, afterItemId?: string) => string;
   deleteItem: (id: string) => void;
   updateItem: (id: string, field: string, value: string | number | null | boolean | CostUnit | ExcelLink | QuantityLink) => void;
+  /**
+   * Meetregels van een (bewakings)post zetten (#96). De hoeveelheid van de
+   * post wordt de som van de regels, en de middelen eronder die hetzelfde
+   * aantal hadden als de post schalen mee, zodat het totaal meebeweegt.
+   * Een andere bron voor de hoeveelheid (Excel-, rekenblad-, PDF- of
+   * IFC-koppeling) vervalt. `null` of een lege lijst haalt de regels weg en
+   * laat de hoeveelheid staan.
+   */
+  setMeasurementLines: (id: string, lines: MeasurementLine[] | null) => void;
   moveItems: (ids: string[], targetId: string, position: 'before' | 'after' | 'inside') => void;
   indentItem: (id: string) => void;
   outdentItem: (id: string) => void;
   toggleCollapse: (id: string) => void;
+  /** Klap alleen de meetregels van een post in of uit (#96); de middelen blijven staan. */
+  toggleMeasurementLines: (id: string) => void;
+  /** Alle meetregels in- of uitklappen (alleen weergave, geen undo-stap). */
+  setAllMeasurementLinesCollapsed: (collapsed: boolean) => void;
   /**
    * Toon een rij in het raster: klap de bovenliggende rijen open, ga naar het
    * raster en selecteer de rij. Geeft false terug als de rij niet bestaat of
@@ -424,6 +438,20 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
             updated.laborPrice = null;
           }
           if (field === 'quantityLink') updated.quantityOrigin = value ? captureQuantityOrigin(value as QuantityLink, s) : undefined;
+          // Een andere hoeveelheid dan de som van de meetregels: de regels
+          // kloppen dan niet meer en vervallen (#96). De grid vraagt dat
+          // eerst; andere wegen (paneel, MCP, koppelingen) volgen dezelfde regel.
+          // Precies de som intypen houdt ze juist (een bestand van buiten kan iets afwijken).
+          if (field === 'quantity' && item.measurementLines?.length && !sameQuantity(item.quantity, value as number | null)
+            && !quantityMatchesLines({ quantity: value as number | null, measurementLines: item.measurementLines })) {
+            delete updated.measurementLines;
+          }
+          // Een koppeling (Excel, PDF, IFC, deelblad) wordt de bron van de
+          // hoeveelheid; meetregels en een koppeling gaan niet samen, net als
+          // andersom in setMeasurementLines. De UI vraagt het eerst.
+          if ((field === 'excelLink' || field === 'quantityLink') && value && item.measurementLines?.length) {
+            delete updated.measurementLines;
+          }
           // Wijzigingshistorie: leg bewerkbare waarde-velden vast (wie/wanneer/wat)
           if (shouldTrackField(field)) {
             updated.history = appendHistory(item, field, item[field], value, historyUser, historyNow);
@@ -447,6 +475,52 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
           return updated;
         }),
         tarieven ?? effectiveTarieven(s.schedule),
+        s.schedule?.priceRounding,
+      ),
+    }));
+    markModified();
+  },
+
+  setMeasurementLines: (id, lines) => {
+    const state = get() as any;
+    const post = state.items.find((i: CostItem) => i.id === id) as CostItem | undefined;
+    if (!post || (post.rowType !== 'begrotingspost' && post.rowType !== 'bewakingspost')) return;
+    const historyUser = getCachedOsUsername();
+    const historyNow = Date.now();
+    if (!lines || lines.length === 0) {
+      set((s: any) => ({
+        items: s.items.map((item: CostItem) => {
+          if (item.id !== id) return item;
+          const { measurementLines: _dropped, ...rest } = item;
+          return rest;
+        }),
+      }));
+      markModified();
+      return;
+    }
+    const oldQty = post.quantity;
+    const newQty = measurementSum(lines);
+    const changed = !sameQuantity(oldQty, newQty);
+    // Middelen volgen alleen een echt aantal: vanaf leeg of 0 zou elk middel
+    // met aantal 0 of leeg (bv. een 0%-regel uit BC3) ineens meetellen.
+    const scaleResources = changed && oldQty != null && oldQty !== 0;
+    set((s: any) => ({
+      items: recalculateItems(
+        s.items.map((item: any) => {
+          if (item.id === id) {
+            const updated = { ...item, measurementLines: lines, quantity: newQty, excelLink: null, quantityLink: null, quantityOrigin: undefined };
+            if (changed) updated.history = appendHistory(item, 'quantity', item.quantity, newQty, historyUser, historyNow);
+            return updated;
+          }
+          // Middelen die het aantal van de post volgden, volgen het nieuwe.
+          // Dat is dezelfde afspraak als bij de BC3-export: een regel met het
+          // aantal van de post geldt per eenheid van de post (rendement).
+          if (scaleResources && item.parentId === id && item.rowType === 'regel' && sameQuantity(item.quantity, oldQty)) {
+            return { ...item, quantity: newQty };
+          }
+          return item;
+        }),
+        effectiveTarieven(s.schedule),
         s.schedule?.priceRounding,
       ),
     }));
@@ -656,6 +730,23 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
       ),
     }));
     keepSelectionAfterFold();
+  },
+
+  setAllMeasurementLinesCollapsed: (collapsed) => {
+    set((state) => ({
+      items: state.items.map((item) =>
+        item.measurementLines?.length && !!item.measurementLinesCollapsed !== collapsed
+          ? { ...item, measurementLinesCollapsed: collapsed }
+          : item),
+    }));
+  },
+
+  toggleMeasurementLines: (id) => {
+    set((state) => ({
+      items: state.items.map((item) =>
+        item.id === id ? { ...item, measurementLinesCollapsed: !item.measurementLinesCollapsed } : item
+      ),
+    }));
   },
 
   revealItem: (id) => {

@@ -1143,12 +1143,14 @@
       "captured": "Összekapcsolva: {{date}} · forrásérték: {{value}} {{unit}}",
       "itemMissing": "A költségvetési sor már nem létezik.",
       "documentChanged": "Az aktív költségvetés megváltozott. Nyissa meg újra a forrást.",
+      "measurement": "A tétel {{count}} felmérési sorának összege.",
       "kind": {
         "manual": "Kézi bevitel",
         "pdf": "PDF-mérés",
         "ifc": "IFC-mennyiség",
         "spreadsheet": "Táblázatcella",
-        "excel": "Külső Excel-hivatkozás"
+        "excel": "Külső Excel-hivatkozás",
+        "measurement": "Felmérési sorok"
       }
     },
     "companion": {

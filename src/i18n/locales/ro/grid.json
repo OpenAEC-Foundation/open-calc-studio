@@ -233,7 +233,30 @@
     "vatBaseClear": "Ștergere bază TVA",
     "vatBaseSet": "Setare bază TVA",
     "finalAmountSet": "Setare valoare finală",
-    "roundingStep": "Pas de rotunjire"
+    "roundingStep": "Pas de rotunjire",
+    "measurementLines": "Editează liniile de măsurătoare"
   },
-  "pdfLinkMissing": "Măsurătoarea sursă din PDF lipsește; ultima cantitate cunoscută este păstrată. Legați din nou măsurătoarea."
+  "pdfLinkMissing": "Măsurătoarea sursă din PDF lipsește; ultima cantitate cunoscută este păstrată. Legați din nou măsurătoarea.",
+  "measurement": {
+    "addLines": "Adaugă linii de măsurătoare",
+    "removeLines": "Elimină liniile de măsurătoare",
+    "removeConfirm": "Eliminați toate liniile de măsurătoare ale acestei poziții? Cantitatea rămâne neschimbată.",
+    "replaceConfirm": "Această cantitate provine din liniile de măsurătoare. Eliminați liniile și introduceți cantitatea manual?",
+    "description": "Descriere",
+    "count": "Nr.",
+    "length": "Lungime",
+    "width": "Lățime",
+    "height": "Înălțime",
+    "partial": "Parțial",
+    "subtotal": "Subtotal",
+    "sum": "Total",
+    "addLine": "+ Linie",
+    "deleteLine": "Șterge linia",
+    "toggle": "Afișează sau ascunde liniile de măsurătoare",
+    "linesCount": "Linii de măsurătoare: {{count}}",
+    "dropLinkConfirm": "Cantitatea acestui articol este legată de Excel, un PDF, IFC sau o foaie. Liniile de măsurătoare înlocuiesc această legătură. Continuați?",
+    "linkReplacesConfirm": "Acest articol are linii de măsurătoare. Legarea cantității le elimină. Continuați?",
+    "mismatch": "Cantitatea ({{quantity}}) diferă de totalul liniilor de măsurătoare ({{sum}}). Faceți clic pentru a folosi totalul.",
+    "useSum": "Folosește totalul"
+  }
 }

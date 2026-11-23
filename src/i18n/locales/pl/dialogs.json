@@ -106,7 +106,8 @@
       "moreWarnings_one": "… i jeszcze {{count}} podobny komunikat.",
       "moreWarnings_few": "… i jeszcze {{count}} podobne komunikaty.",
       "moreWarnings_many": "… i jeszcze {{count}} podobnych komunikatów.",
-      "moreWarnings_other": "… i jeszcze {{count}} podobnych komunikatów."
+      "moreWarnings_other": "… i jeszcze {{count}} podobnych komunikatów.",
+      "measurementLinesDropped": "W {{n}} poz. wiersze obmiaru nie sumują się do ilości z pliku lub używają formuły. Tam zaimportowano tylko ilość."
     },
     "onlv": {
       "leistungsbuch": "To jest Leistungsbuch (katalog tekstów standardowych) bez ilości i cen — wszystkie pozycje zaimportowano z ilością 0.",

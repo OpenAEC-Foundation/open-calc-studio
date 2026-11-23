@@ -1145,12 +1145,14 @@
       "captured": "Powiązano {{date}} · wartość źródłowa {{value}} {{unit}}",
       "itemMissing": "Wiersz kosztorysu już nie istnieje.",
       "documentChanged": "Aktywny kosztorys się zmienił. Otwórz źródło ponownie.",
+      "measurement": "Suma {{count}} wierszy przedmiaru tej pozycji.",
       "kind": {
         "manual": "Wpis ręczny",
         "pdf": "Pomiar PDF",
         "ifc": "Ilość IFC",
         "spreadsheet": "Komórka arkusza",
-        "excel": "Zewnętrzne odwołanie do Excela"
+        "excel": "Zewnętrzne odwołanie do Excela",
+        "measurement": "Wiersze przedmiaru"
       }
     },
     "companion": {

@@ -68,6 +68,8 @@ export function PdfLinkPicker({ measurement, onClose }: Props) {
   const listMounted = useCallback((list: HTMLUListElement | null) => { if (list) scrollToActive(); }, []);
 
   function choose(item: CostItem) {
+    // De koppeling vervangt de meetregels van de post (#96): eerst vragen.
+    if (item.measurementLines?.length && !window.confirm(t('grid:measurement.linkReplacesConfirm'))) return;
     applyQuantityLink(item.id, { source: 'pdf', measurementId: measurement.id, kind: measurement.type }, measurement.value, t('grid:undo.quantityLink'));
     onClose();
   }

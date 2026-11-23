@@ -233,7 +233,30 @@
     "vatBaseClear": "Esborrat de la base de l'IVA",
     "vatBaseSet": "Definició de la base de l'IVA",
     "finalAmountSet": "Definició de l'import final",
-    "roundingStep": "Esglaó d'arrodoniment"
+    "roundingStep": "Esglaó d'arrodoniment",
+    "measurementLines": "Edita les línies d'amidament"
   },
-  "pdfLinkMissing": "Falta l'amidament d'origen del PDF; es conserva el darrer amidament conegut. Torneu a enllaçar l'amidament."
+  "pdfLinkMissing": "Falta l'amidament d'origen del PDF; es conserva el darrer amidament conegut. Torneu a enllaçar l'amidament.",
+  "measurement": {
+    "addLines": "Afegeix línies d'amidament",
+    "removeLines": "Elimina les línies d'amidament",
+    "removeConfirm": "Voleu eliminar totes les línies d'amidament d'aquesta partida? La quantitat es manté.",
+    "replaceConfirm": "Aquesta quantitat prové de les línies d'amidament. Voleu eliminar les línies i introduir la quantitat vosaltres mateixos?",
+    "description": "Comentari",
+    "count": "Uts.",
+    "length": "Longitud",
+    "width": "Amplada",
+    "height": "Alçada",
+    "partial": "Parcial",
+    "subtotal": "Subtotal",
+    "sum": "Total",
+    "addLine": "+ Línia",
+    "deleteLine": "Elimina la línia",
+    "toggle": "Mostra o amaga les línies d'amidament",
+    "linesCount": "Línies d'amidament: {{count}}",
+    "dropLinkConfirm": "La quantitat d'aquesta partida està vinculada a Excel, un PDF, IFC o un full. Les línies d'amidament substitueixen aquest vincle. Voleu continuar?",
+    "linkReplacesConfirm": "Aquesta partida té línies d'amidament. Vincular la quantitat les elimina. Voleu continuar?",
+    "mismatch": "La quantitat ({{quantity}}) no coincideix amb el total de les línies d'amidament ({{sum}}). Feu clic per fer servir el total.",
+    "useSum": "Fes servir el total"
+  }
 }

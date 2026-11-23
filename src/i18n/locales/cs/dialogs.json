@@ -106,7 +106,8 @@
       "moreWarnings_one": "… a ještě {{count}} podobné upozornění.",
       "moreWarnings_few": "… a ještě {{count}} podobná upozornění.",
       "moreWarnings_many": "… a ještě {{count}} podobného upozornění.",
-      "moreWarnings_other": "… a ještě {{count}} podobných upozornění."
+      "moreWarnings_other": "… a ještě {{count}} podobných upozornění.",
+      "measurementLinesDropped": "U {{n}} položek řádky výměr nedávají množství ze souboru nebo používají vzorec. Tam bylo převzato jen množství."
     },
     "onlv": {
       "leistungsbuch": "Toto je Leistungsbuch (katalog standardních textů) bez množství a cen — všechny položky byly importovány s množstvím 0.",

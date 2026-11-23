@@ -233,7 +233,30 @@
     "vatBaseClear": "Xóa cơ sở tính thuế GTGT",
     "vatBaseSet": "Đặt cơ sở tính thuế GTGT",
     "finalAmountSet": "Đặt số tiền cuối cùng",
-    "roundingStep": "Bước làm tròn"
+    "roundingStep": "Bước làm tròn",
+    "measurementLines": "Sửa dòng đo bóc"
   },
-  "pdfLinkMissing": "Thiếu phép đo nguồn PDF; khối lượng cuối cùng đã biết được giữ lại. Hãy liên kết lại phép đo."
+  "pdfLinkMissing": "Thiếu phép đo nguồn PDF; khối lượng cuối cùng đã biết được giữ lại. Hãy liên kết lại phép đo.",
+  "measurement": {
+    "addLines": "Thêm dòng đo bóc",
+    "removeLines": "Xóa dòng đo bóc",
+    "removeConfirm": "Xóa tất cả dòng đo bóc của hạng mục này? Khối lượng giữ nguyên.",
+    "replaceConfirm": "Khối lượng này lấy từ các dòng đo bóc. Xóa các dòng và tự nhập khối lượng?",
+    "description": "Diễn giải",
+    "count": "SL",
+    "length": "Dài",
+    "width": "Rộng",
+    "height": "Cao",
+    "partial": "Từng phần",
+    "subtotal": "Tổng phụ",
+    "sum": "Tổng",
+    "addLine": "+ Dòng",
+    "deleteLine": "Xóa dòng",
+    "toggle": "Hiện hoặc ẩn các dòng đo bóc",
+    "linesCount": "Dòng đo bóc: {{count}}",
+    "dropLinkConfirm": "Khối lượng của hạng mục này được liên kết với Excel, PDF, IFC hoặc một trang tính. Các dòng đo bóc sẽ thay thế liên kết đó. Tiếp tục?",
+    "linkReplacesConfirm": "Hạng mục này có các dòng đo bóc. Liên kết khối lượng sẽ xóa chúng. Tiếp tục?",
+    "mismatch": "Khối lượng ({{quantity}}) khác với tổng các dòng đo bóc ({{sum}}). Nhấp để dùng tổng.",
+    "useSum": "Dùng tổng"
+  }
 }

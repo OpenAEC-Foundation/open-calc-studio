@@ -98,7 +98,8 @@
       "indirectCosts": "Den här filen lägger {{percent}} % indirekta kostnader (CI) på priset för varje post, precis som programmet som skrev den. De visas som en rad '{{percent}} % Costes indirectos' i varje post ({{n}}), så att priserna och totalen stämmer med filen.",
       "noPrices": "Den här filen innehåller inga priser — endast beskrivningar och mängder (som ett mängdbibliotek). Totalen blir därför 0,00.",
       "moreWarnings_one": "… och {{count}} ytterligare liknande meddelande.",
-      "moreWarnings_other": "… och {{count}} ytterligare liknande meddelanden."
+      "moreWarnings_other": "… och {{count}} ytterligare liknande meddelanden.",
+      "measurementLinesDropped": "För {{n}} post(er) blir mätraderna inte mängden i filen, eller så använder de en formel. Där har bara mängden importerats."
     },
     "onlv": {
       "leistungsbuch": "Detta är ett Leistungsbuch (katalog med standardtexter) utan mängder och priser — alla positioner har importerats med mängd 0.",

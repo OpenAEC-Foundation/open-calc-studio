@@ -26,7 +26,8 @@ import { makeCostItem, parseNumber, normalizeUnit, normalizeCurrencyCode, genId 
 import { decodeCp850 } from './cp850';
 import { decodeWindows1252 } from './windows1252';
 import type { ImportResult, ImportWarningCode } from './types';
-import type { CostItem, CostUnit, PriceRounding, ResourceType } from '@/types/costModel';
+import type { CostItem, CostUnit, MeasurementLine, PriceRounding, ResourceType } from '@/types/costModel';
+import { measurementSum, newMeasurementLine } from '@/services/measurement/measurementLines';
 import { FIEBDC_DEFAULT_ROUNDING, isValidDecimals, roundHalfUp } from '@/services/calculation/priceRounding';
 
 // ── Recordmodel ─────────────────────────────────────────────────────────────
@@ -64,6 +65,8 @@ interface Bc3Data {
   order: Bc3Concept[];                 // alle concepten in declaratievolgorde
   measurements: Map<string, number>;   // "#pad", "ouder::kind::positie", "ouder::kind" of "*::kind" → totaal
   measured: Set<string>;               // kind-keys waarvoor een ~M/~N bestaat
+  /** Meetregels per sleutel (zelfde sleutels als `measurements`), #96. `null` = niet over te nemen. */
+  measurementLines: Map<string, MeasurementLine[] | null>;
   currency?: string;                   // DIVISA uit ~K (ISO 4217), als aanwezig
   rounding: PriceRounding;             // decimalen uit ~K, anders de FIEBDC-standaard (#83)
   indirectCosts: number;               // CI uit ~K veld 2, in procenten (0 = geen)
@@ -179,6 +182,59 @@ const RESOURCE_BY_TYPE: Record<string, ResourceType> = {
   '3': 'materiaal',    // materiales
 };
 
+/**
+ * Detailregels van een ~M-record (veld 4), #96. Volgens FIEBDC-3 per regel
+ * zes subvelden: `TIPO \ COMENTARIO \ UNIDADES \ LONGITUD \ LATITUD \ ALTURA \`.
+ * TIPO leeg of 0 = gewone regel, 1 = tussentotaal sinds het vorige, 2 =
+ * tussentotaal vanaf het begin, 3 = formule in het commentaar met a/b/c/d.
+ * Die laatste rekenen we (nog) niet na: dan geeft dit `null` en blijft
+ * alleen het totaal over. Geen regels → lege lijst.
+ */
+function parseMeasurementLines(raw: string): MeasurementLine[] | null {
+  const parts = raw.split('\\');
+  const lines: MeasurementLine[] = [];
+  // Een 0 blijft hier 0; of die "niet ingevuld" betekent, beslist
+  // attachMeasurementLines aan de hand van het totaal (zie zerosAsEmpty).
+  const num = (v: string | undefined): number | null => {
+    const t = (v ?? '').trim();
+    if (!t) return null;
+    const n = parseNumber(t);
+    return Number.isFinite(n) ? n : null;
+  };
+  for (let i = 0; i + 1 < parts.length; i += 6) {
+    const chunk = parts.slice(i, i + 6);
+    if (chunk.every((c) => c.trim() === '')) continue;
+    const tipo = chunk[0].trim();
+    if (tipo === '3') return null;
+    // Commentaar kan op "#ID_BIM" (een IFC-GUID) eindigen; dat is geen omschrijving.
+    const description = (chunk[1] ?? '').replace(/\s*#[0-9A-Za-z_$-]{16,}$/, '').trim();
+    if (tipo === '1' || tipo === '2') {
+      lines.push(newMeasurementLine({ description, subtotal: tipo === '1' ? 'partial' : 'cumulative' }));
+      continue;
+    }
+    lines.push(newMeasurementLine({
+      description,
+      count: num(chunk[2]),
+      length: num(chunk[3]),
+      width: num(chunk[4]),
+      height: num(chunk[5]),
+    }));
+  }
+  return lines;
+}
+
+/**
+ * Dezelfde regels met elke 0 als "niet ingevuld". pyCost en andere
+ * schrijvers zetten 0 waar Presto het vak leeg laat (`\\1\14.5\14.5\0\`);
+ * als vermenigvuldiger gelezen werd elke regel dan 0. Maar een echte 0 (een
+ * regel die even niet meetelt, of onze eigen export) kan ook; het totaal van
+ * de meting beslist welke lezing klopt.
+ */
+function zerosAsEmpty(lines: MeasurementLine[]): MeasurementLine[] {
+  const empty = (v: number | null): number | null => (v === 0 ? null : v);
+  return lines.map((l) => ({ ...l, count: empty(l.count), length: empty(l.length), width: empty(l.width), height: empty(l.height) }));
+}
+
 // ── Parser ──────────────────────────────────────────────────────────────────
 
 function parseBc3(text: string): Bc3Data {
@@ -187,6 +243,7 @@ function parseBc3(text: string): Bc3Data {
     order: [],
     measurements: new Map(),
     measured: new Set(),
+    measurementLines: new Map(),
     // Zonder ~K gelden de standaarddecimalen van FIEBDC-3: alles op centen.
     rounding: { ...FIEBDC_DEFAULT_ROUNDING },
     indirectCosts: 0,
@@ -303,8 +360,15 @@ function parseBc3(text: string): Bc3Data {
         const parentKey = ref.length > 1 ? ref[ref.length - 2] : '';
         const pos = (fields[1] ?? '').split('\\').map((p) => p.trim()).filter(Boolean);
         const index = pos.length > 0 ? Number.parseInt(pos[pos.length - 1], 10) : Number.NaN;
+        const lines = parseMeasurementLines(fields[3] ?? '');
         const bump = (k: string): void => {
           data.measurements.set(k, (data.measurements.get(k) ?? 0) + total);
+          // Meerdere metingen op dezelfde sleutel: regels achter elkaar.
+          // Eén meting zonder bruikbare regels maakt het geheel onbruikbaar.
+          const prev = data.measurementLines.get(k);
+          if (prev === null) return;
+          if (lines === null) data.measurementLines.set(k, null);
+          else if (lines.length > 0 || prev) data.measurementLines.set(k, [...(prev ?? []), ...lines]);
         };
         data.measured.add(childKey);
         if (!parentKey) {
@@ -370,7 +434,7 @@ const priceExample = (code: string, declared: number, computed: number): string 
 
 export function importBc3(text: string): ImportResult {
   const data = parseBc3(text);
-  const { variants, order, measurements, measured, rounding, indirectCosts } = data;
+  const { variants, order, measurements, measured, rounding, indirectCosts, measurementLines } = data;
   const items: CostItem[] = [];
 
   /**
@@ -530,12 +594,14 @@ export function importBc3(text: string): ImportResult {
     return !measured.has(c.key);
   };
 
-  const measurementFor = (path: number[], parentKey: string, childKey: string, index: number, fallback: number): number =>
-    measurements.get(`#${path.join('.')}`)
-    ?? measurements.get(`${parentKey}::${childKey}::${index}`)
-    ?? measurements.get(`${parentKey}::${childKey}`)
-    ?? measurements.get(`*::${childKey}`)
-    ?? fallback;
+  /** De sleutel van de meting die bij dit voorkomen hoort, of undefined. */
+  const measurementKey = (path: number[], parentKey: string, childKey: string, index: number): string | undefined =>
+    [`#${path.join('.')}`, `${parentKey}::${childKey}::${index}`, `${parentKey}::${childKey}`, `*::${childKey}`]
+      .find((k) => measurements.has(k));
+  const measurementFor = (path: number[], parentKey: string, childKey: string, index: number, fallback: number): number => {
+    const key = measurementKey(path, parentKey, childKey, index);
+    return key !== undefined ? measurements.get(key)! : fallback;
+  };
 
   /**
    * Rekenregels onder een begrotingspost. Geeft de kostprijs per eenheid van
@@ -700,6 +766,32 @@ export function importBc3(text: string): ImportResult {
 
   /** Partida's waarvan de samenstelling niet op de eigen eenheidsprijs uitkomt. */
   const mismatched: string[] = [];
+  /** Boven zoveel meetregels staat een post na de import ingeklapt. */
+  const MEASUREMENT_LINES_SHOWN = 8;
+  /** Posten waarvan de meetregels niet op het totaal uitkomen (of een formule hebben). */
+  let droppedMeasurements = 0;
+  /**
+   * Meetregels onder de post zetten (#96), alleen als ze samen het totaal
+   * van de meting opleveren: de hoeveelheid blijft dat totaal, zodat de
+   * prijzen gelijk blijven aan het bronprogramma (#83). Komen ze er niet op
+   * uit, dan blijft alleen het totaal over en volgt een melding.
+   */
+  const attachMeasurementLines = (post: CostItem, key: string | undefined, qty: number): void => {
+    if (key === undefined || !measurementLines.has(key)) return;
+    const raw = measurementLines.get(key);
+    const fits = (ls: MeasurementLine[]): boolean => Math.abs(measurementSum(ls) - qty) < Math.max(0.005, 1e-6 * Math.abs(qty));
+    // Eerst 0 als "leeg" (zo schrijft pyCost), anders 0 als echte 0.
+    const asEmpty = raw ? zerosAsEmpty(raw) : null;
+    const lines = asEmpty && fits(asEmpty) ? asEmpty : raw && fits(raw) ? raw : null;
+    if (!lines) {
+      droppedMeasurements++;
+      return;
+    }
+    // Eigen kopie per post: een meting zonder pad hoort bij elk voorkomen.
+    post.measurementLines = lines.map((l) => ({ ...l, id: genId() }));
+    // Lange metingen beginnen ingeklapt, anders wordt een grote begroting onleesbaar.
+    if (lines.length > MEASUREMENT_LINES_SHOWN) post.measurementLinesCollapsed = true;
+  };
   /**
    * Som van de posttotalen zoals de app ze na de import toont: bij een post
    * met samenstelling aantal × afgeronde eenheidsprijs, afgerond op `total`
@@ -736,6 +828,7 @@ export function importBc3(text: string): ImportResult {
       normUnitPrice: c.children.length > 0 ? null : c.price,
       notes: c.text ?? '',
     });
+    attachMeasurementLines(post, measurementKey(path, parentKey, c.key, path[path.length - 1] ?? 1), qty);
     if (c.children.length === 0) {
       bareWith(post, c, qty, depth);
       return;
@@ -847,6 +940,14 @@ export function importBc3(text: string): ImportResult {
       `Bij ${mismatched.length} partida('s) wijkt de som van de samenstelling meer dan 2% af van de eenheidsprijs op het ~C-record `
       + `(o.a. ${examples}). De samenstelling is aangehouden.`,
       { count: mismatched.length, examples },
+    );
+  }
+  if (droppedMeasurements > 0) {
+    warn(
+      'measurementLinesDropped',
+      `Bij ${droppedMeasurements} partida('s) komen de meetregels niet uit op de hoeveelheid in het bestand, `
+      + 'of gebruiken ze een formule. Daar is alleen de hoeveelheid overgenomen.',
+      { n: droppedMeasurements },
     );
   }
   // Totaal van het bestand (prijs op de wortel) tegenover het totaal dat de

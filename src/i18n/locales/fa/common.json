@@ -1143,12 +1143,14 @@
       "captured": "پیوند در {{date}} · مقدار منبع {{value}} {{unit}}",
       "itemMissing": "سطر برآورد دیگر وجود ندارد.",
       "documentChanged": "برآورد فعال تغییر کرد. منبع را دوباره باز کنید.",
+      "measurement": "جمع {{count}} ردیف متره این ردیف.",
       "kind": {
         "manual": "ورود دستی",
         "pdf": "اندازه‌گیری PDF",
         "ifc": "مقدار IFC",
         "spreadsheet": "سلول صفحه‌گسترده",
-        "excel": "ارجاع خارجی Excel"
+        "excel": "ارجاع خارجی Excel",
+        "measurement": "ردیف‌های متره"
       }
     },
     "companion": {

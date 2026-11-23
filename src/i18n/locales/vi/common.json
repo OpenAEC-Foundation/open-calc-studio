@@ -1143,12 +1143,14 @@
       "captured": "Liên kết ngày {{date}} · giá trị nguồn {{value}} {{unit}}",
       "itemMissing": "Dòng dự toán không còn tồn tại.",
       "documentChanged": "Dự toán đang hoạt động đã thay đổi. Hãy mở lại nguồn.",
+      "measurement": "Tổng của {{count}} dòng đo bóc của hạng mục này.",
       "kind": {
         "manual": "Nhập thủ công",
         "pdf": "Phép đo PDF",
         "ifc": "Khối lượng IFC",
         "spreadsheet": "Ô trang tính",
-        "excel": "Tham chiếu Excel bên ngoài"
+        "excel": "Tham chiếu Excel bên ngoài",
+        "measurement": "Dòng đo bóc"
       }
     },
     "companion": {

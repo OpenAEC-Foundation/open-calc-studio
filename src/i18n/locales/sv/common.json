@@ -1143,12 +1143,14 @@
       "captured": "Kopplad {{date}} · källvärde {{value}} {{unit}}",
       "itemMissing": "Kalkylraden finns inte längre.",
       "documentChanged": "Den aktiva kalkylen ändrades. Öppna källan igen.",
+      "measurement": "Summan av de {{count}} mängdraderna under denna post.",
       "kind": {
         "manual": "Manuell inmatning",
         "pdf": "PDF-mätning",
         "ifc": "IFC-mängd",
         "spreadsheet": "Kalkylbladscell",
-        "excel": "Extern Excel-referens"
+        "excel": "Extern Excel-referens",
+        "measurement": "Mängdrader"
       }
     },
     "companion": {

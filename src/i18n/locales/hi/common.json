@@ -1143,12 +1143,14 @@
       "captured": "{{date}} को लिंक किया गया · स्रोत मान {{value}} {{unit}}",
       "itemMissing": "अनुमान पंक्ति अब मौजूद नहीं है।",
       "documentChanged": "सक्रिय अनुमान बदल गया। स्रोत फिर से खोलें।",
+      "measurement": "इस मद की {{count}} माप पंक्तियों का योग।",
       "kind": {
         "manual": "मैन्युअल प्रविष्टि",
         "pdf": "PDF माप",
         "ifc": "IFC मात्रा",
         "spreadsheet": "स्प्रेडशीट सेल",
-        "excel": "बाहरी Excel संदर्भ"
+        "excel": "बाहरी Excel संदर्भ",
+        "measurement": "माप पंक्तियाँ"
       }
     },
     "companion": {

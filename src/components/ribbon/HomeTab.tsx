@@ -1,5 +1,7 @@
 import { selectedGridItems } from '@/services/grid/selectedItems';
 import { getColumnsForView } from '@/components/grid/gridConstants';
+import { MEASUREMENT_VIEWS } from '@/components/grid/MeasurementLinesBlock';
+import { canHaveMeasurementLines, newMeasurementLine } from '@/services/measurement/measurementLines';
 import { uiText } from '@/i18n/uiText';
 import { getPortalTarget } from '@/lib/hostRoot';
 import { useState, useEffect, useRef } from "react";
@@ -10,13 +12,14 @@ import { ProjectInfoSettings } from "../report/ProjectInfoSettings";
 import RibbonButton from "./RibbonButton";
 import RibbonGroup from "./RibbonGroup";
 import RibbonButtonStack from "./RibbonButtonStack";
-import { clipboardIcon, cutIcon, copyIcon, undoIcon, redoIcon, addChapterIcon, addBegrotingspostIcon, addBewakingspostIcon, addRegelIcon, addTekstregelIcon, addWitregelIcon, deleteIcon, settingsIcon, companyIcon, viewStIcon, viewWpCalcIcon, exportIcon, trackChangesIcon, clearMarksIcon, rowHighlightIcon, cellHighlightIcon, branchIcon, optionSetIcon } from "./icons";
+import { clipboardIcon, cutIcon, copyIcon, undoIcon, redoIcon, addChapterIcon, addBegrotingspostIcon, addBewakingspostIcon, addRegelIcon, addTekstregelIcon, addWitregelIcon, addMeasurementLineIcon, deleteIcon, settingsIcon, companyIcon, viewStIcon, viewWpCalcIcon, exportIcon, trackChangesIcon, clearMarksIcon, rowHighlightIcon, cellHighlightIcon, branchIcon, optionSetIcon } from "./icons";
 import { useAppStore } from "../../state/appStore";
 import { updateAllExcelLinks } from "../../services/excel/excelLinkService";
 
 export default function HomeTab() {
   const { t } = useTranslation("ribbon");
   const { t: tCommon } = useTranslation("common");
+  const { t: tGrid } = useTranslation("grid");
   const {
     canUndo, canRedo, undo, redo, setItems, undoStack,
     activeRow, activeItemId, copyItems, cutItems, pasteItems, clipboardItems,
@@ -26,6 +29,7 @@ export default function HomeTab() {
     gridView, setGridView,
     schedule, toggleChangeTracking, clearChangeMarks, setChangeDisplayMode,
     toggleBranchesEnabled,
+    setMeasurementLines, toggleCollapse, toggleMeasurementLines, setAllMeasurementLinesCollapsed,
   } = useAppStore();
 
   const trackingOn = !!schedule.changeTrackingSince;
@@ -213,6 +217,43 @@ export default function HomeTab() {
     addWitregel(parentId, activeItem.id);
   };
 
+  // Meetregel (#96): bij de post waar je staat, of de post boven het middel
+  // waar je staat. Nog geen regels: het tabelletje verschijnt met de huidige
+  // hoeveelheid als eerste regel. Wel regels: er komt er een onderaan bij.
+  const measurementPost = (() => {
+    let current = activeItem ?? undefined;
+    while (current) {
+      if (canHaveMeasurementLines(current)) return current;
+      if (current.rowType !== 'regel' && current.rowType !== 'tekstregel') return undefined;
+      current = items.find((i) => i.id === current!.parentId);
+    }
+    return undefined;
+  })();
+  const canAddMeasurementLine = !!measurementPost && MEASUREMENT_VIEWS.has(gridView);
+
+  const handleAddMeasurementLine = () => {
+    const post = measurementPost;
+    if (!post || !canAddMeasurementLine) return;
+    // Een gekoppelde hoeveelheid (Excel, PDF, IFC) verliest de koppeling: eerst vragen.
+    if (!post.measurementLines?.length && (post.excelLink || post.quantityLink)
+      && !window.confirm(tGrid('measurement.dropLinkConfirm'))) return;
+    pushHistory(items, tGrid('undo.measurementLines'));
+    const existing = post.measurementLines ?? [];
+    const qty = post.quantity ?? 0;
+    const line = existing.length > 0
+      ? newMeasurementLine()
+      : newMeasurementLine(qty !== 0 ? { count: qty } : {});
+    setMeasurementLines(post.id, [...existing, line]);
+    if (post.isCollapsed) toggleCollapse(post.id);
+    if (post.measurementLinesCollapsed) toggleMeasurementLines(post.id);
+    // Cursor in de nieuwe regel, zodra die getekend is.
+    const focus = (tries: number) => requestAnimationFrame(() => {
+      const el = document.querySelector<HTMLInputElement>(`[data-ml="${post.id}:${line.id}:description"]`);
+      if (el) { el.focus(); el.select(); } else if (tries > 0) focus(tries - 1);
+    });
+    focus(5);
+  };
+
   const handleDelete = () => {
     if (!selectedItems.length) return;
     pushHistory(items, tCommon('delete'));
@@ -256,6 +297,14 @@ export default function HomeTab() {
               title={t('home.addRegelDirectTitle')}
               size="small"
               onClick={handleAddRegel}
+            />
+            <RibbonButton
+              icon={addMeasurementLineIcon}
+              label={t('home.measurementLine')}
+              title={t('home.measurementLineTitle')}
+              size="small"
+              onClick={handleAddMeasurementLine}
+              disabled={!canAddMeasurementLine}
             />
             <RibbonButton icon={deleteIcon} label={t("budget.deleteRow")} size="small" onClick={handleDelete} disabled={!selectedItems.length} />
           </RibbonButtonStack>
@@ -368,6 +417,19 @@ export default function HomeTab() {
                       key={niveau}
                       className="ribbon-undo-dropdown-item"
                       onClick={() => { collapseToLevel(niveau); setShowCollapseList(false); }}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                  {/* Meetregels (#96): apart van de rijen, de middelen blijven staan. */}
+                  {([
+                    [true, t('home.collapseMeasurementLines')],
+                    [false, t('home.expandMeasurementLines')],
+                  ] as const).map(([fold, label]) => (
+                    <button
+                      key={String(fold)}
+                      className="ribbon-undo-dropdown-item"
+                      onClick={() => { setAllMeasurementLinesCollapsed(fold); setShowCollapseList(false); }}
                     >
                       {label}
                     </button>

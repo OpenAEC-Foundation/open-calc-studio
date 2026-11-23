@@ -3,6 +3,7 @@ import i18next from 'i18next';
 import { useAppStore } from '@/state/appStore';
 import { isHoursColumn, getColumnsForView } from './gridConstants';
 import { parseNumericInput } from '@/utils/numericInput';
+import { quantityMatchesLines, sameQuantity } from '@/services/measurement/measurementLines';
 import type { CostItem, CostUnit } from '@/types/costModel';
 
 export function useGridEditing() {
@@ -39,6 +40,18 @@ export function useGridEditing() {
         updateItem(item.id, 'staartDoelbedrag', null);
         updateItem(item.id, 'staartVastBedrag', parsed);
         return;
+      }
+
+      // Hoeveelheid van een post met meetregels: die komt uit de regels. Een
+      // ander getal typen haalt ze weg (#96) — eerst vragen.
+      if ((col.key === 'quantity' || isHoursColumn(col.key)) && item.measurementLines?.length
+        && (item.rowType === 'begrotingspost' || item.rowType === 'bewakingspost')) {
+        const typed = parseNumericInput(value);
+        if (typed === null && value.trim() !== '') return;
+        if (sameQuantity(typed, item.quantity)) return;
+        // De som van de regels intypen past de hoeveelheid aan en houdt de regels.
+        if (!quantityMatchesLines({ quantity: typed, measurementLines: item.measurementLines })
+          && !window.confirm(i18next.t('grid:measurement.replaceConfirm'))) return;
       }
 
       pushHistory(items, i18next.t('grid:undo.editCell', { column: col.key }));

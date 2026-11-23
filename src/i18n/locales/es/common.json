@@ -1063,12 +1063,14 @@
       "captured": "Vinculada el {{date}} · valor de origen {{value}} {{unit}}",
       "itemMissing": "La línea del presupuesto ya no existe.",
       "documentChanged": "El presupuesto activo ha cambiado. Vuelva a abrir el origen.",
+      "measurement": "Suma de las {{count}} líneas de medición de esta partida.",
       "kind": {
         "manual": "Entrada manual",
         "pdf": "Medición en PDF",
         "ifc": "Medición IFC",
         "spreadsheet": "Celda de hoja de cálculo",
-        "excel": "Referencia externa a Excel"
+        "excel": "Referencia externa a Excel",
+        "measurement": "Líneas de medición"
       }
     },
     "companion": {

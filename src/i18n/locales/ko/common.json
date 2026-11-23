@@ -1143,12 +1143,14 @@
       "captured": "{{date}}에 연결됨 · 원본 값 {{value}} {{unit}}",
       "itemMissing": "내역 행이 더 이상 존재하지 않습니다.",
       "documentChanged": "활성 내역서가 변경되었습니다. 원본을 다시 여세요.",
+      "measurement": "이 항목의 물량 산출 행 {{count}}개의 합계.",
       "kind": {
         "manual": "직접 입력",
         "pdf": "PDF 측정",
         "ifc": "IFC 수량",
         "spreadsheet": "스프레드시트 셀",
-        "excel": "외부 Excel 참조"
+        "excel": "외부 Excel 참조",
+        "measurement": "물량 산출 행"
       }
     },
     "companion": {

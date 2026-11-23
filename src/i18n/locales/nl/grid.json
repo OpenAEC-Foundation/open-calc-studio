@@ -233,7 +233,30 @@
     "vatBaseClear": "Btw-grondslag wissen",
     "vatBaseSet": "Btw-grondslag invullen",
     "finalAmountSet": "Eindbedrag invullen",
-    "roundingStep": "Afrondingsstap"
+    "roundingStep": "Afrondingsstap",
+    "measurementLines": "Meetregels bewerken"
   },
-  "pdfLinkMissing": "PDF-bronmeting ontbreekt; de laatst bekende hoeveelheid blijft staan. Koppel de meting opnieuw."
+  "pdfLinkMissing": "PDF-bronmeting ontbreekt; de laatst bekende hoeveelheid blijft staan. Koppel de meting opnieuw.",
+  "measurement": {
+    "addLines": "Meetregels toevoegen",
+    "removeLines": "Meetregels verwijderen",
+    "removeConfirm": "Alle meetregels van deze post verwijderen? De hoeveelheid blijft staan.",
+    "replaceConfirm": "Deze hoeveelheid komt uit de meetregels. Regels verwijderen en de hoeveelheid zelf invullen?",
+    "description": "Omschrijving",
+    "count": "Aant.",
+    "length": "Lengte",
+    "width": "Breedte",
+    "height": "Hoogte",
+    "partial": "Uitkomst",
+    "subtotal": "Subtotaal",
+    "sum": "Som",
+    "addLine": "+ Regel",
+    "deleteLine": "Regel verwijderen",
+    "toggle": "Meetregels tonen of verbergen",
+    "linesCount": "Meetregels: {{count}}",
+    "dropLinkConfirm": "De hoeveelheid van deze post is gekoppeld aan Excel, een PDF, IFC of een blad. Meetregels vervangen die koppeling. Doorgaan?",
+    "linkReplacesConfirm": "Deze post heeft meetregels. Een koppeling van de hoeveelheid haalt ze weg. Doorgaan?",
+    "mismatch": "De hoeveelheid ({{quantity}}) wijkt af van het totaal van de meetregels ({{sum}}). Klik om het totaal over te nemen.",
+    "useSum": "Totaal overnemen"
+  }
 }

@@ -51,7 +51,7 @@
     "cannotReadFile": "לא ניתן לקרוא את הקובץ",
     "chooseFile": "בחירת קובץ...",
     "noFileSelected": "לא נבחר קובץ",
-    "cellError": "שגיאת Excel \u2066{{error}}\u2069: לתא זה אין ערך שמיש.",
+    "cellError": "שגיאת Excel ⁦{{error}}⁩: לתא זה אין ערך שמיש.",
     "cellNoCachedValue": "הנוסחה מעולם לא חושבה ב-Excel: אין ערך שמיש. פתחו את הקובץ ב-Excel, שמרו אותו ובחרו שוב.",
     "loadingFile": "טוען את הקובץ...",
     "cancel": "ביטול",
@@ -106,7 +106,8 @@
       "moreWarnings_one": "… ועוד {{count}} הודעה דומה.",
       "moreWarnings_two": "… ועוד שתי הודעות דומות.",
       "moreWarnings_many": "… ועוד {{count}} הודעות דומות.",
-      "moreWarnings_other": "… ועוד {{count}} הודעות דומות."
+      "moreWarnings_other": "… ועוד {{count}} הודעות דומות.",
+      "measurementLinesDropped": "ב-{{n}} סעיפים שורות המדידה אינן מסתכמות לכמות שבקובץ, או שהן משתמשות בנוסחה. שם יובאה רק הכמות."
     },
     "onlv": {
       "leistungsbuch": "זהו Leistungsbuch (קטלוג טקסטים תקניים) ללא כמויות ומחירים — כל הסעיפים יובאו עם כמות 0.",

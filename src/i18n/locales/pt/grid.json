@@ -233,7 +233,30 @@
     "vatBaseClear": "Limpar a base de IVA",
     "vatBaseSet": "Definir a base de IVA",
     "finalAmountSet": "Definir o valor final",
-    "roundingStep": "Passo de arredondamento"
+    "roundingStep": "Passo de arredondamento",
+    "measurementLines": "Editar linhas de medição"
   },
-  "pdfLinkMissing": "A medição de origem no PDF está em falta; a última quantidade conhecida é mantida. Volte a ligar a medição."
+  "pdfLinkMissing": "A medição de origem no PDF está em falta; a última quantidade conhecida é mantida. Volte a ligar a medição.",
+  "measurement": {
+    "addLines": "Adicionar linhas de medição",
+    "removeLines": "Remover linhas de medição",
+    "removeConfirm": "Remover todas as linhas de medição deste artigo? A quantidade mantém-se.",
+    "replaceConfirm": "Esta quantidade vem das linhas de medição. Remover as linhas e introduzir a quantidade manualmente?",
+    "description": "Descrição",
+    "count": "N.º",
+    "length": "Comprimento",
+    "width": "Largura",
+    "height": "Altura",
+    "partial": "Parcial",
+    "subtotal": "Subtotal",
+    "sum": "Total",
+    "addLine": "+ Linha",
+    "deleteLine": "Eliminar linha",
+    "toggle": "Mostrar ou ocultar as linhas de medição",
+    "linesCount": "Linhas de medição: {{count}}",
+    "dropLinkConfirm": "A quantidade deste artigo está ligada ao Excel, a um PDF, IFC ou a uma folha. As linhas de medição substituem essa ligação. Continuar?",
+    "linkReplacesConfirm": "Este artigo tem linhas de medição. Ligar a quantidade remove-as. Continuar?",
+    "mismatch": "A quantidade ({{quantity}}) difere do total das linhas de medição ({{sum}}). Clique para usar o total.",
+    "useSum": "Usar o total"
+  }
 }

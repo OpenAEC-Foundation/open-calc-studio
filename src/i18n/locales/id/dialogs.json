@@ -98,7 +98,8 @@
       "indirectCosts": "File ini menambahkan {{percent}}% biaya tidak langsung (CI) ke harga setiap item, seperti yang dilakukan program yang menulisnya. Biaya ini muncul sebagai baris '{{percent}} % Costes indirectos' di setiap item ({{n}}), sehingga harga dan total sesuai dengan file.",
       "noPrices": "Berkas ini tidak memuat harga — hanya uraian dan volume (seperti pustaka pengukuran). Karena itu total tetap 0,00.",
       "moreWarnings_one": "… dan {{count}} catatan serupa lainnya.",
-      "moreWarnings_other": "… dan {{count}} catatan serupa lainnya."
+      "moreWarnings_other": "… dan {{count}} catatan serupa lainnya.",
+      "measurementLinesDropped": "Pada {{n}} item, baris pengukuran tidak berjumlah sama dengan kuantitas di file, atau memakai rumus. Di sana hanya kuantitas yang diimpor."
     },
     "onlv": {
       "leistungsbuch": "Ini adalah Leistungsbuch (katalog teks standar) tanpa volume dan harga — semua item diimpor dengan kuantitas 0.",

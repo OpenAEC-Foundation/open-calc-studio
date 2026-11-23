@@ -1144,12 +1144,14 @@
       "captured": "Legată la {{date}} · valoare sursă {{value}} {{unit}}",
       "itemMissing": "Rândul de deviz nu mai există.",
       "documentChanged": "Devizul activ s-a schimbat. Deschideți din nou sursa.",
+      "measurement": "Suma celor {{count}} linii de măsurătoare ale acestui articol.",
       "kind": {
         "manual": "Introducere manuală",
         "pdf": "Măsurătoare PDF",
         "ifc": "Cantitate IFC",
         "spreadsheet": "Celulă de foaie de calcul",
-        "excel": "Referință Excel externă"
+        "excel": "Referință Excel externă",
+        "measurement": "Linii de măsurătoare"
       }
     },
     "companion": {

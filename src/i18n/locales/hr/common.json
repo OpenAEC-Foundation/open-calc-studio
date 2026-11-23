@@ -1143,12 +1143,14 @@
       "captured": "Povezano {{date}} · izvorna vrijednost {{value}} {{unit}}",
       "itemMissing": "Redak troškovnika više ne postoji.",
       "documentChanged": "Aktivni troškovnik se promijenio. Ponovno otvorite izvor.",
+      "measurement": "Zbroj {{count}} redaka izmjere ove stavke.",
       "kind": {
         "manual": "Ručni unos",
         "pdf": "PDF mjerenje",
         "ifc": "IFC količina",
         "spreadsheet": "Ćelija proračunske tablice",
-        "excel": "Vanjska Excel referenca"
+        "excel": "Vanjska Excel referenca",
+        "measurement": "Retci izmjere"
       }
     },
     "companion": {

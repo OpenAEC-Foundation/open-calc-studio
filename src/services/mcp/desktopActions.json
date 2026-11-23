@@ -1098,6 +1098,11 @@
                                   "enum": [
                                     "excel"
                                   ]
+                                },
+                                {
+                                  "enum": [
+                                    "measurement"
+                                  ]
                                 }
                               ]
                             },
@@ -1181,6 +1186,103 @@
                             "unit"
                           ],
                           "additionalProperties": false
+                        },
+                        "measurementLines": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "description": {
+                                "type": "string"
+                              },
+                              "count": {
+                                "anyOf": [
+                                  {
+                                    "type": "null"
+                                  },
+                                  {
+                                    "type": "number"
+                                  }
+                                ]
+                              },
+                              "length": {
+                                "anyOf": [
+                                  {
+                                    "type": "null"
+                                  },
+                                  {
+                                    "type": "number"
+                                  }
+                                ]
+                              },
+                              "width": {
+                                "anyOf": [
+                                  {
+                                    "type": "null"
+                                  },
+                                  {
+                                    "type": "number"
+                                  }
+                                ]
+                              },
+                              "height": {
+                                "anyOf": [
+                                  {
+                                    "type": "null"
+                                  },
+                                  {
+                                    "type": "number"
+                                  }
+                                ]
+                              },
+                              "formulas": {
+                                "type": "object",
+                                "properties": {},
+                                "required": [],
+                                "additionalProperties": false
+                              },
+                              "subtotal": {
+                                "anyOf": [
+                                  {
+                                    "enum": [
+                                      "partial"
+                                    ]
+                                  },
+                                  {
+                                    "enum": [
+                                      "cumulative"
+                                    ]
+                                  }
+                                ]
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "description",
+                              "count",
+                              "length",
+                              "width",
+                              "height"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "measurementLinesCollapsed": {
+                          "anyOf": [
+                            {
+                              "enum": [
+                                false
+                              ]
+                            },
+                            {
+                              "enum": [
+                                true
+                              ]
+                            }
+                          ]
                         },
                         "history": {
                           "type": "array",
@@ -4032,6 +4134,11 @@
                           "enum": [
                             "excel"
                           ]
+                        },
+                        {
+                          "enum": [
+                            "measurement"
+                          ]
                         }
                       ]
                     },
@@ -4115,6 +4222,103 @@
                     "unit"
                   ],
                   "additionalProperties": false
+                },
+                "measurementLines": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "count": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      },
+                      "length": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      },
+                      "width": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      },
+                      "height": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      },
+                      "formulas": {
+                        "type": "object",
+                        "properties": {},
+                        "required": [],
+                        "additionalProperties": false
+                      },
+                      "subtotal": {
+                        "anyOf": [
+                          {
+                            "enum": [
+                              "partial"
+                            ]
+                          },
+                          {
+                            "enum": [
+                              "cumulative"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "description",
+                      "count",
+                      "length",
+                      "width",
+                      "height"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "measurementLinesCollapsed": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        false
+                      ]
+                    },
+                    {
+                      "enum": [
+                        true
+                      ]
+                    }
+                  ]
                 },
                 "history": {
                   "type": "array",
@@ -4571,6 +4775,113 @@
         }
       ]
     },
+    "setMeasurementLines": {
+      "group": "CostItems",
+      "signature": "(id: string, lines: MeasurementLine[] | null) => void",
+      "parameters": [
+        {
+          "name": "id",
+          "optional": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "lines",
+          "optional": false,
+          "schema": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "count": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "number"
+                        }
+                      ]
+                    },
+                    "length": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "number"
+                        }
+                      ]
+                    },
+                    "width": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "number"
+                        }
+                      ]
+                    },
+                    "height": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "number"
+                        }
+                      ]
+                    },
+                    "formulas": {
+                      "type": "object",
+                      "properties": {},
+                      "required": [],
+                      "additionalProperties": false
+                    },
+                    "subtotal": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            "partial"
+                          ]
+                        },
+                        {
+                          "enum": [
+                            "cumulative"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "description",
+                    "count",
+                    "length",
+                    "width",
+                    "height"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
     "moveItems": {
       "group": "CostItems",
       "signature": "(ids: string[], targetId: string, position: 'before' | 'after' | 'inside') => void",
@@ -4652,6 +4963,43 @@
           "optional": false,
           "schema": {
             "type": "string"
+          }
+        }
+      ]
+    },
+    "toggleMeasurementLines": {
+      "group": "CostItems",
+      "signature": "(id: string) => void",
+      "parameters": [
+        {
+          "name": "id",
+          "optional": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "setAllMeasurementLinesCollapsed": {
+      "group": "CostItems",
+      "signature": "(collapsed: boolean) => void",
+      "parameters": [
+        {
+          "name": "collapsed",
+          "optional": false,
+          "schema": {
+            "anyOf": [
+              {
+                "enum": [
+                  false
+                ]
+              },
+              {
+                "enum": [
+                  true
+                ]
+              }
+            ]
           }
         }
       ]
@@ -6046,6 +6394,11 @@
                           "enum": [
                             "excel"
                           ]
+                        },
+                        {
+                          "enum": [
+                            "measurement"
+                          ]
                         }
                       ]
                     },
@@ -6129,6 +6482,103 @@
                     "unit"
                   ],
                   "additionalProperties": false
+                },
+                "measurementLines": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "count": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      },
+                      "length": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      },
+                      "width": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      },
+                      "height": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      },
+                      "formulas": {
+                        "type": "object",
+                        "properties": {},
+                        "required": [],
+                        "additionalProperties": false
+                      },
+                      "subtotal": {
+                        "anyOf": [
+                          {
+                            "enum": [
+                              "partial"
+                            ]
+                          },
+                          {
+                            "enum": [
+                              "cumulative"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "description",
+                      "count",
+                      "length",
+                      "width",
+                      "height"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "measurementLinesCollapsed": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        false
+                      ]
+                    },
+                    {
+                      "enum": [
+                        true
+                      ]
+                    }
+                  ]
                 },
                 "history": {
                   "type": "array",
@@ -7832,6 +8282,11 @@
                           "enum": [
                             "excel"
                           ]
+                        },
+                        {
+                          "enum": [
+                            "measurement"
+                          ]
                         }
                       ]
                     },
@@ -7915,6 +8370,103 @@
                     "unit"
                   ],
                   "additionalProperties": false
+                },
+                "measurementLines": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "count": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      },
+                      "length": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      },
+                      "width": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      },
+                      "height": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      },
+                      "formulas": {
+                        "type": "object",
+                        "properties": {},
+                        "required": [],
+                        "additionalProperties": false
+                      },
+                      "subtotal": {
+                        "anyOf": [
+                          {
+                            "enum": [
+                              "partial"
+                            ]
+                          },
+                          {
+                            "enum": [
+                              "cumulative"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "description",
+                      "count",
+                      "length",
+                      "width",
+                      "height"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "measurementLinesCollapsed": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        false
+                      ]
+                    },
+                    {
+                      "enum": [
+                        true
+                      ]
+                    }
+                  ]
                 },
                 "history": {
                   "type": "array",
@@ -8977,6 +9529,11 @@
                           "enum": [
                             "excel"
                           ]
+                        },
+                        {
+                          "enum": [
+                            "measurement"
+                          ]
                         }
                       ]
                     },
@@ -9060,6 +9617,103 @@
                     "unit"
                   ],
                   "additionalProperties": false
+                },
+                "measurementLines": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "count": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      },
+                      "length": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      },
+                      "width": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      },
+                      "height": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      },
+                      "formulas": {
+                        "type": "object",
+                        "properties": {},
+                        "required": [],
+                        "additionalProperties": false
+                      },
+                      "subtotal": {
+                        "anyOf": [
+                          {
+                            "enum": [
+                              "partial"
+                            ]
+                          },
+                          {
+                            "enum": [
+                              "cumulative"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "description",
+                      "count",
+                      "length",
+                      "width",
+                      "height"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "measurementLinesCollapsed": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        false
+                      ]
+                    },
+                    {
+                      "enum": [
+                        true
+                      ]
+                    }
+                  ]
                 },
                 "history": {
                   "type": "array",
@@ -12965,6 +13619,11 @@
                               "enum": [
                                 "excel"
                               ]
+                            },
+                            {
+                              "enum": [
+                                "measurement"
+                              ]
                             }
                           ]
                         },
@@ -13048,6 +13707,103 @@
                         "unit"
                       ],
                       "additionalProperties": false
+                    },
+                    "measurementLines": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "count": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "number"
+                              }
+                            ]
+                          },
+                          "length": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "number"
+                              }
+                            ]
+                          },
+                          "width": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "number"
+                              }
+                            ]
+                          },
+                          "height": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "number"
+                              }
+                            ]
+                          },
+                          "formulas": {
+                            "type": "object",
+                            "properties": {},
+                            "required": [],
+                            "additionalProperties": false
+                          },
+                          "subtotal": {
+                            "anyOf": [
+                              {
+                                "enum": [
+                                  "partial"
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  "cumulative"
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "description",
+                          "count",
+                          "length",
+                          "width",
+                          "height"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "measurementLinesCollapsed": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            false
+                          ]
+                        },
+                        {
+                          "enum": [
+                            true
+                          ]
+                        }
+                      ]
                     },
                     "history": {
                       "type": "array",
@@ -14150,6 +14906,11 @@
                                       "enum": [
                                         "excel"
                                       ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "measurement"
+                                      ]
                                     }
                                   ]
                                 },
@@ -14233,6 +14994,103 @@
                                 "unit"
                               ],
                               "additionalProperties": false
+                            },
+                            "measurementLines": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "type": "string"
+                                  },
+                                  "count": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "length": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "width": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "height": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "formulas": {
+                                    "type": "object",
+                                    "properties": {},
+                                    "required": [],
+                                    "additionalProperties": false
+                                  },
+                                  "subtotal": {
+                                    "anyOf": [
+                                      {
+                                        "enum": [
+                                          "partial"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "cumulative"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "description",
+                                  "count",
+                                  "length",
+                                  "width",
+                                  "height"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "measurementLinesCollapsed": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    false
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    true
+                                  ]
+                                }
+                              ]
                             },
                             "history": {
                               "type": "array",
@@ -16307,6 +17165,11 @@
                               "enum": [
                                 "excel"
                               ]
+                            },
+                            {
+                              "enum": [
+                                "measurement"
+                              ]
                             }
                           ]
                         },
@@ -16390,6 +17253,103 @@
                         "unit"
                       ],
                       "additionalProperties": false
+                    },
+                    "measurementLines": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "count": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "number"
+                              }
+                            ]
+                          },
+                          "length": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "number"
+                              }
+                            ]
+                          },
+                          "width": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "number"
+                              }
+                            ]
+                          },
+                          "height": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "number"
+                              }
+                            ]
+                          },
+                          "formulas": {
+                            "type": "object",
+                            "properties": {},
+                            "required": [],
+                            "additionalProperties": false
+                          },
+                          "subtotal": {
+                            "anyOf": [
+                              {
+                                "enum": [
+                                  "partial"
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  "cumulative"
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "description",
+                          "count",
+                          "length",
+                          "width",
+                          "height"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "measurementLinesCollapsed": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            false
+                          ]
+                        },
+                        {
+                          "enum": [
+                            true
+                          ]
+                        }
+                      ]
                     },
                     "history": {
                       "type": "array",
@@ -17492,6 +18452,11 @@
                                       "enum": [
                                         "excel"
                                       ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "measurement"
+                                      ]
                                     }
                                   ]
                                 },
@@ -17575,6 +18540,103 @@
                                 "unit"
                               ],
                               "additionalProperties": false
+                            },
+                            "measurementLines": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "type": "string"
+                                  },
+                                  "count": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "length": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "width": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "height": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "formulas": {
+                                    "type": "object",
+                                    "properties": {},
+                                    "required": [],
+                                    "additionalProperties": false
+                                  },
+                                  "subtotal": {
+                                    "anyOf": [
+                                      {
+                                        "enum": [
+                                          "partial"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "cumulative"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "description",
+                                  "count",
+                                  "length",
+                                  "width",
+                                  "height"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "measurementLinesCollapsed": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    false
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    true
+                                  ]
+                                }
+                              ]
                             },
                             "history": {
                               "type": "array",
@@ -21813,6 +22875,11 @@
                                         "enum": [
                                           "excel"
                                         ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "measurement"
+                                        ]
                                       }
                                     ]
                                   },
@@ -21896,6 +22963,103 @@
                                   "unit"
                                 ],
                                 "additionalProperties": false
+                              },
+                              "measurementLines": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "description": {
+                                      "type": "string"
+                                    },
+                                    "count": {
+                                      "anyOf": [
+                                        {
+                                          "type": "null"
+                                        },
+                                        {
+                                          "type": "number"
+                                        }
+                                      ]
+                                    },
+                                    "length": {
+                                      "anyOf": [
+                                        {
+                                          "type": "null"
+                                        },
+                                        {
+                                          "type": "number"
+                                        }
+                                      ]
+                                    },
+                                    "width": {
+                                      "anyOf": [
+                                        {
+                                          "type": "null"
+                                        },
+                                        {
+                                          "type": "number"
+                                        }
+                                      ]
+                                    },
+                                    "height": {
+                                      "anyOf": [
+                                        {
+                                          "type": "null"
+                                        },
+                                        {
+                                          "type": "number"
+                                        }
+                                      ]
+                                    },
+                                    "formulas": {
+                                      "type": "object",
+                                      "properties": {},
+                                      "required": [],
+                                      "additionalProperties": false
+                                    },
+                                    "subtotal": {
+                                      "anyOf": [
+                                        {
+                                          "enum": [
+                                            "partial"
+                                          ]
+                                        },
+                                        {
+                                          "enum": [
+                                            "cumulative"
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "description",
+                                    "count",
+                                    "length",
+                                    "width",
+                                    "height"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              },
+                              "measurementLinesCollapsed": {
+                                "anyOf": [
+                                  {
+                                    "enum": [
+                                      false
+                                    ]
+                                  },
+                                  {
+                                    "enum": [
+                                      true
+                                    ]
+                                  }
+                                ]
                               },
                               "history": {
                                 "type": "array",
@@ -23890,6 +25054,11 @@
                                 "enum": [
                                   "excel"
                                 ]
+                              },
+                              {
+                                "enum": [
+                                  "measurement"
+                                ]
                               }
                             ]
                           },
@@ -23973,6 +25142,103 @@
                           "unit"
                         ],
                         "additionalProperties": false
+                      },
+                      "measurementLines": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            },
+                            "count": {
+                              "anyOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "type": "number"
+                                }
+                              ]
+                            },
+                            "length": {
+                              "anyOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "type": "number"
+                                }
+                              ]
+                            },
+                            "width": {
+                              "anyOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "type": "number"
+                                }
+                              ]
+                            },
+                            "height": {
+                              "anyOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "type": "number"
+                                }
+                              ]
+                            },
+                            "formulas": {
+                              "type": "object",
+                              "properties": {},
+                              "required": [],
+                              "additionalProperties": false
+                            },
+                            "subtotal": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    "partial"
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    "cumulative"
+                                  ]
+                                }
+                              ]
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "description",
+                            "count",
+                            "length",
+                            "width",
+                            "height"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "measurementLinesCollapsed": {
+                        "anyOf": [
+                          {
+                            "enum": [
+                              false
+                            ]
+                          },
+                          {
+                            "enum": [
+                              true
+                            ]
+                          }
+                        ]
                       },
                       "history": {
                         "type": "array",
@@ -26108,6 +27374,11 @@
                               "enum": [
                                 "excel"
                               ]
+                            },
+                            {
+                              "enum": [
+                                "measurement"
+                              ]
                             }
                           ]
                         },
@@ -26191,6 +27462,103 @@
                         "unit"
                       ],
                       "additionalProperties": false
+                    },
+                    "measurementLines": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "count": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "number"
+                              }
+                            ]
+                          },
+                          "length": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "number"
+                              }
+                            ]
+                          },
+                          "width": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "number"
+                              }
+                            ]
+                          },
+                          "height": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "number"
+                              }
+                            ]
+                          },
+                          "formulas": {
+                            "type": "object",
+                            "properties": {},
+                            "required": [],
+                            "additionalProperties": false
+                          },
+                          "subtotal": {
+                            "anyOf": [
+                              {
+                                "enum": [
+                                  "partial"
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  "cumulative"
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "description",
+                          "count",
+                          "length",
+                          "width",
+                          "height"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "measurementLinesCollapsed": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            false
+                          ]
+                        },
+                        {
+                          "enum": [
+                            true
+                          ]
+                        }
+                      ]
                     },
                     "history": {
                       "type": "array",
@@ -27293,6 +28661,11 @@
                                       "enum": [
                                         "excel"
                                       ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "measurement"
+                                      ]
                                     }
                                   ]
                                 },
@@ -27376,6 +28749,103 @@
                                 "unit"
                               ],
                               "additionalProperties": false
+                            },
+                            "measurementLines": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "type": "string"
+                                  },
+                                  "count": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "length": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "width": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "height": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "formulas": {
+                                    "type": "object",
+                                    "properties": {},
+                                    "required": [],
+                                    "additionalProperties": false
+                                  },
+                                  "subtotal": {
+                                    "anyOf": [
+                                      {
+                                        "enum": [
+                                          "partial"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "cumulative"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "description",
+                                  "count",
+                                  "length",
+                                  "width",
+                                  "height"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "measurementLinesCollapsed": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    false
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    true
+                                  ]
+                                }
+                              ]
                             },
                             "history": {
                               "type": "array",
@@ -29519,6 +30989,11 @@
                                       "enum": [
                                         "excel"
                                       ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "measurement"
+                                      ]
                                     }
                                   ]
                                 },
@@ -29602,6 +31077,103 @@
                                 "unit"
                               ],
                               "additionalProperties": false
+                            },
+                            "measurementLines": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "type": "string"
+                                  },
+                                  "count": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "length": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "width": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "height": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "formulas": {
+                                    "type": "object",
+                                    "properties": {},
+                                    "required": [],
+                                    "additionalProperties": false
+                                  },
+                                  "subtotal": {
+                                    "anyOf": [
+                                      {
+                                        "enum": [
+                                          "partial"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "cumulative"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "description",
+                                  "count",
+                                  "length",
+                                  "width",
+                                  "height"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "measurementLinesCollapsed": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    false
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    true
+                                  ]
+                                }
+                              ]
                             },
                             "history": {
                               "type": "array",
@@ -30651,6 +32223,11 @@
                                       "enum": [
                                         "excel"
                                       ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "measurement"
+                                      ]
                                     }
                                   ]
                                 },
@@ -30734,6 +32311,103 @@
                                 "unit"
                               ],
                               "additionalProperties": false
+                            },
+                            "measurementLines": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "type": "string"
+                                  },
+                                  "count": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "length": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "width": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "height": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "formulas": {
+                                    "type": "object",
+                                    "properties": {},
+                                    "required": [],
+                                    "additionalProperties": false
+                                  },
+                                  "subtotal": {
+                                    "anyOf": [
+                                      {
+                                        "enum": [
+                                          "partial"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "cumulative"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "description",
+                                  "count",
+                                  "length",
+                                  "width",
+                                  "height"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "measurementLinesCollapsed": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    false
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    true
+                                  ]
+                                }
+                              ]
                             },
                             "history": {
                               "type": "array",
@@ -31908,6 +33582,11 @@
                               "enum": [
                                 "excel"
                               ]
+                            },
+                            {
+                              "enum": [
+                                "measurement"
+                              ]
                             }
                           ]
                         },
@@ -31991,6 +33670,103 @@
                         "unit"
                       ],
                       "additionalProperties": false
+                    },
+                    "measurementLines": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "count": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "number"
+                              }
+                            ]
+                          },
+                          "length": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "number"
+                              }
+                            ]
+                          },
+                          "width": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "number"
+                              }
+                            ]
+                          },
+                          "height": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "number"
+                              }
+                            ]
+                          },
+                          "formulas": {
+                            "type": "object",
+                            "properties": {},
+                            "required": [],
+                            "additionalProperties": false
+                          },
+                          "subtotal": {
+                            "anyOf": [
+                              {
+                                "enum": [
+                                  "partial"
+                                ]
+                              },
+                              {
+                                "enum": [
+                                  "cumulative"
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "description",
+                          "count",
+                          "length",
+                          "width",
+                          "height"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "measurementLinesCollapsed": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            false
+                          ]
+                        },
+                        {
+                          "enum": [
+                            true
+                          ]
+                        }
+                      ]
                     },
                     "history": {
                       "type": "array",
@@ -33093,6 +34869,11 @@
                                       "enum": [
                                         "excel"
                                       ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "measurement"
+                                      ]
                                     }
                                   ]
                                 },
@@ -33176,6 +34957,103 @@
                                 "unit"
                               ],
                               "additionalProperties": false
+                            },
+                            "measurementLines": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "type": "string"
+                                  },
+                                  "count": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "length": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "width": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "height": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "formulas": {
+                                    "type": "object",
+                                    "properties": {},
+                                    "required": [],
+                                    "additionalProperties": false
+                                  },
+                                  "subtotal": {
+                                    "anyOf": [
+                                      {
+                                        "enum": [
+                                          "partial"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "cumulative"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "description",
+                                  "count",
+                                  "length",
+                                  "width",
+                                  "height"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "measurementLinesCollapsed": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    false
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    true
+                                  ]
+                                }
+                              ]
                             },
                             "history": {
                               "type": "array",
@@ -35319,6 +37197,11 @@
                                       "enum": [
                                         "excel"
                                       ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "measurement"
+                                      ]
                                     }
                                   ]
                                 },
@@ -35402,6 +37285,103 @@
                                 "unit"
                               ],
                               "additionalProperties": false
+                            },
+                            "measurementLines": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "type": "string"
+                                  },
+                                  "count": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "length": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "width": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "height": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "formulas": {
+                                    "type": "object",
+                                    "properties": {},
+                                    "required": [],
+                                    "additionalProperties": false
+                                  },
+                                  "subtotal": {
+                                    "anyOf": [
+                                      {
+                                        "enum": [
+                                          "partial"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "cumulative"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "description",
+                                  "count",
+                                  "length",
+                                  "width",
+                                  "height"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "measurementLinesCollapsed": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    false
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    true
+                                  ]
+                                }
+                              ]
                             },
                             "history": {
                               "type": "array",
@@ -36451,6 +38431,11 @@
                                       "enum": [
                                         "excel"
                                       ]
+                                    },
+                                    {
+                                      "enum": [
+                                        "measurement"
+                                      ]
                                     }
                                   ]
                                 },
@@ -36534,6 +38519,103 @@
                                 "unit"
                               ],
                               "additionalProperties": false
+                            },
+                            "measurementLines": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "type": "string"
+                                  },
+                                  "count": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "length": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "width": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "height": {
+                                    "anyOf": [
+                                      {
+                                        "type": "null"
+                                      },
+                                      {
+                                        "type": "number"
+                                      }
+                                    ]
+                                  },
+                                  "formulas": {
+                                    "type": "object",
+                                    "properties": {},
+                                    "required": [],
+                                    "additionalProperties": false
+                                  },
+                                  "subtotal": {
+                                    "anyOf": [
+                                      {
+                                        "enum": [
+                                          "partial"
+                                        ]
+                                      },
+                                      {
+                                        "enum": [
+                                          "cumulative"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "description",
+                                  "count",
+                                  "length",
+                                  "width",
+                                  "height"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "measurementLinesCollapsed": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    false
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    true
+                                  ]
+                                }
+                              ]
                             },
                             "history": {
                               "type": "array",
