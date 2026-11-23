@@ -24,7 +24,7 @@ mkdirSync(output, { recursive: true });
 copyNotices(output);
 // The Rust binary embeds Liberation Sans for the PDF reports (issue #99); its OFL licence must ship with it.
 if (!existsSync(join(output, 'licenses/LICENSE-Liberation'))) throw Error('licenses/LICENSE-Liberation missing: check out the libs/openaec-reports submodule.');
-for (const licence of ['licenses/NotoSansArabic-OFL.txt', 'licenses/blueprint/NotoSans-OFL.txt']) if (!existsSync(join(output, licence))) throw Error(licence + ' missing: the PDF reports embed this font.');
+for (const licence of ['licenses/NotoSansArabic-OFL.txt', 'licenses/NotoSansThai-OFL.txt', 'licenses/NotoSansBengali-OFL.txt', 'licenses/blueprint/NotoSans-OFL.txt']) if (!existsSync(join(output, licence))) throw Error(licence + ' missing: the PDF reports embed this font.');
 if (existsSync(join(root, 'dist/THIRD-PARTY-NOTICES.txt'))) copyFileSync(join(root, 'dist/THIRD-PARTY-NOTICES.txt'), join(output, 'THIRD-PARTY-NOTICES.txt'));
 copyFileSync(library, join(output, libraryName));
 copyFileSync(binary, join(output, windows ? 'OpenCalcStudio.exe' : 'OpenCalcStudio'));
