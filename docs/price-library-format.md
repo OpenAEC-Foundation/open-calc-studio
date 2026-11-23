@@ -1,6 +1,11 @@
-# Price library format (per country)
+# Price library format
 
-Open Calc Studio ships one built-in price library per country (issue #93). This guide describes the file format, so you can contribute a library for your country.
+Open Calc Studio works with two kinds of price libraries:
+
+- **Country libraries** (issue #93): built into the app, one per country. This guide describes their file format, so you can contribute one for your country.
+- **Own libraries** (issue #104): files you import yourself, such as your company rates or a supplier price list. See [Own libraries](#own-libraries) below; they use the same JSON format, or a simple CSV/Excel table.
+
+An estimate can use several libraries at once. In the library dialog (Budget → Price library) you switch each library on or off for the estimate you are working on.
 
 ## Where it lives
 
@@ -89,3 +94,41 @@ That is all. The country then shows up under "With a price library" in the libra
 3. Stable `id`s: never reuse or renumber them in a later version.
 4. Make sure you may publish the prices (licence of the price list or schedule of rates) and name it in `source`.
 5. Add a test like `src/test/dutchPriceLibrary.test.ts`: the file parses, IDs are unique, and only dated prices with a source are active.
+
+## Own libraries
+
+Import a file with **Price library → Import library…** in the library dialog. The app keeps it on this computer (desktop: `price-libraries.json` in the app-data folder; web: browser storage) and switches it on for the current estimate. Other estimates can switch it on too.
+
+| You can | How |
+|---|---|
+| Import | *Import library…*: library JSON, CSV, Excel (`.xlsx`, `.xls`) or a BMEcat/DICO catalogue (`.xml`). *Backstage → Import → BMEcat* does the same. |
+| Update | *New version…* next to the library (hover over it). The library keeps its catalogue ID, so price links in estimates stay valid, even when the new file has another name. The app lists the codes that are no longer in the new version; rows that use them keep their price. |
+| Rename | *Rename*: only the name you see changes, not the catalogue ID. |
+| Remove | *Remove*: the library leaves this computer. Rows in estimates keep their prices; estimates that use the library say it is missing. |
+
+Article IDs follow the same rule as for country libraries: `<catalogue ID>:<article id>`. For a JSON file the catalogue ID is its `id`, else its `name`; for a table or BMEcat file it is the file name without extension. Give a JSON library a stable `id` if you will send newer versions.
+
+### JSON
+
+The [library JSON format](#file) above. Only `resources` is required; `name`, `id`, `version` and `currency` are recommended.
+
+Example: [`docs/examples/own-price-library.json`](examples/own-price-library.json).
+
+### CSV and Excel
+
+One header row, then one row per resource. The app recognises the columns by their header (English or Dutch, case and accents ignored). CSV may use `;`, `,` or tab between values; a price may use a decimal comma (`1.250,50`) or a decimal point (`1,250.50`).
+
+| Column | Required | Headers it recognises | Meaning |
+|---|---|---|---|
+| Code | yes | `Code`, `Id`, `Item`, `Article code`, `Artikelcode` | Code of the resource; also its article ID. |
+| Description | yes | `Description`, `Omschrijving`, `Name`, `Naam` | Name of the resource. |
+| Unit | no | `Unit`, `Eenheid` | One of the [supported units](#supported-units). Empty: `st` (piece). |
+| Price | no | `Price`, `Unit price`, `Rate`, `Cost`, `Prijs`, `Eenheidsprijs` | Price per unit. Empty: no price; the estimate asks for one. |
+| Type | no | `Type`, `Resource type`, `Soort` | `labour`, `material`, `equipment`, `subcontractor`, `other` (or the Dutch words). Otherwise the app guesses from the category. |
+| Category | no | `Category`, `Categorie`, `Group`, `Chapter`, `Section` | Group shown on the left of the library dialog. |
+| Price date | no | `Price date`, `Date`, `Prijsdatum`, `Peildatum` | Reference date as `YYYY-MM-DD`. |
+| Source | no | `Source`, `Bron` | Where the price comes from. Empty: the file name. |
+
+Example: [`docs/examples/own-price-list.csv`](examples/own-price-list.csv). Open it in Excel and save it as `.xlsx` to try the Excel import.
+
+A file without a code and a description column is refused with a message that lists the columns found, and a price that is not a number is refused with its row number. Nothing is imported then.

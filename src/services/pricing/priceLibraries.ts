@@ -7,7 +7,7 @@
 // `schedule.priceLibraries`: `country` (the library of `priceCountry`) and own
 // libraries as `own:<catalogue ID>`. Unset means only the country library, as
 // with #93.
-import type { CostSchedule, ResourceLibraryItem } from '@/types/costModel';
+import type { CostSchedule, PriceOrigin, ResourceLibraryItem } from '@/types/costModel';
 import { PRICE_LIBRARY_FILES } from '@/data/price-libraries';
 import { catalogueIdOf, parseLibraryJson } from './libraryJson';
 import { isOwnLibraryId, ownLibraryItems, wasOwnLibraryId } from './ownLibraries';
@@ -109,4 +109,15 @@ export function withActiveLibraries(current: ResourceLibraryItem[], schedule: Li
     return own === null ? builtInLibraryItems(priceCountryOf(schedule)) : ownLibraryItems(own) ?? [];
   });
   return [...chosen, ...current.filter(item => !isLibraryArticle(item))];
+}
+
+/**
+ * True when a row's price came from a library article (`<catalogue>:<article>`)
+ * and that library is not in the library list of the estimate: switched off,
+ * or not on this computer. The row keeps its price; only price updates need
+ * the library. Loose and legacy articles never count as missing.
+ */
+export function isPriceOriginLibraryMissing(origin: Pick<PriceOrigin, 'itemId' | 'catalogueId'>, library: ResourceLibraryItem[]): boolean {
+  if (!origin.itemId.startsWith(`${encodeURIComponent(origin.catalogueId)}:`)) return false;
+  return !library.some(item => item.catalogueId === origin.catalogueId);
 }

@@ -1,0 +1,11 @@
+Code;Description;Unit;Price;Type;Category;Price date;Source
+SUP-1001;Sand-lime block 100 mm;m2;24,50;material;Masonry;2026-03-01;Example supplier list (made up)
+SUP-1002;Sand-lime block 150 mm;m2;31,20;material;Masonry;2026-03-01;Example supplier list (made up)
+SUP-1003;Mortar, ready mixed;ton;118,00;material;Masonry;2026-03-01;Example supplier list (made up)
+SUP-2001;Plasterboard 12.5 mm;m2;6,95;material;Interior;2026-03-01;Example supplier list (made up)
+SUP-2002;Metal stud C50;m;2,40;material;Interior;2026-03-01;Example supplier list (made up)
+SUP-3001;Roof tile, ceramic;st;1,85;material;Roofing;2026-03-01;Example supplier list (made up)
+SUP-3002;Roofing membrane EPDM;m2;14,10;material;Roofing;2026-03-01;Example supplier list (made up)
+SUP-4001;Mini excavator rental;dag;235,00;equipment;Equipment;2026-03-01;Example supplier list (made up)
+SUP-4002;Container 10 m3, construction waste;st;465,00;other;Waste;2026-03-01;Example supplier list (made up)
+SUP-5001;Window frame, hardwood, per metre;m;;material;Windows;;Price on request

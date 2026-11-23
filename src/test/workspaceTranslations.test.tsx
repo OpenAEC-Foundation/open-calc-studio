@@ -49,7 +49,7 @@ describe('workspace language selection', () => {
     useAppStore.setState({ resourcePickerOpen: true, resourcePickerParentId: null });
     await renderUi(<ResourcePicker />);
     expect(container.textContent).toContain('Starter library: Netherlands');
-    expect(container.textContent).toContain('Select an estimate item before adding a resource.');
+    expect(container.textContent).toContain('Adds to');
   });
 
   it('creates new surcharge rows and quotation defaults in the language selected at creation time', async () => {

@@ -830,9 +830,20 @@
 }
 
 /* Messages above the list: a thin coloured bar on the start side. */
+.rp-banners {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 12px 0;
+}
+.rp-banners:last-child { padding-bottom: 8px; }
+.rp-banners + .resource-picker-list { margin-top: 8px; }
 .rp-banner {
-  margin: 8px 12px 0;
-  padding: 7px 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  padding: 7px 6px 7px 10px;
   border-radius: 6px;
   border-inline-start: 3px solid var(--theme-border);
   background: color-mix(in srgb, var(--theme-text) 5%, transparent);
@@ -844,8 +855,26 @@
 .rp-banner.info { border-inline-start-color: #10b981; color: var(--theme-text); background: color-mix(in srgb, #10b981 10%, transparent); }
 .rp-banner.warn { border-inline-start-color: var(--theme-accent); color: var(--theme-text); background: color-mix(in srgb, var(--theme-accent) 10%, transparent); }
 .rp-banner.error { border-inline-start-color: var(--theme-danger-color, #dc2626); color: var(--theme-text); background: color-mix(in srgb, var(--theme-danger-color, #dc2626) 10%, transparent); }
-
-.rp-banner:last-of-type { margin-bottom: 8px; }
+.rp-banner-text { flex: 1; min-width: 0; }
+/* Dismiss: quiet until hovered. */
+.rp-banner-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: -1px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  color: var(--theme-text-secondary);
+  opacity: 0.7;
+  cursor: pointer;
+}
+.rp-banner-close:hover { opacity: 1; background: var(--theme-hover); color: var(--theme-text); }
+.price-update-dialog button.rp-banner-close { min-height: 0; padding: 0; border: none; background: none; }
 
 
 .resource-picker-list {
@@ -1049,3 +1078,8 @@
 .price-update-dialog .pu-status.muted { color: var(--theme-text-secondary); border-color: var(--theme-border); }
 .price-update-dialog .pu-status.warn { color: var(--theme-accent); border-color: color-mix(in srgb, var(--theme-accent) 40%, transparent); background: color-mix(in srgb, var(--theme-accent) 10%, transparent); }
 .price-update-dialog .pu-more { margin: 8px 10px; }
+/* Where Add puts the resource: always visible, so Add is never a mystery. */
+.rp-add-target { color: var(--theme-text); font-weight: 500; }
+.rp-side-title-actions { display: inline-flex; align-items: center; gap: 6px; }
+.rp-add-library { width: 22px; height: 22px; color: var(--theme-accent); }
+.rp-add-library:hover { color: var(--theme-accent); background: color-mix(in srgb, var(--theme-accent) 12%, transparent); }

@@ -1,4 +1,6 @@
 import 'fake-indexeddb/auto';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import * as XLSX from 'xlsx';
 import { changeLanguage } from '@/i18n/config';
@@ -217,5 +219,31 @@ describe('kept on this computer', () => {
       vi.doUnmock('@tauri-apps/api/path');
       vi.doUnmock('@tauri-apps/plugin-fs');
     }
+  });
+});
+
+describe('example files in docs/examples', () => {
+  const read = (name: string) => readFileSync(join(process.cwd(), 'docs', 'examples', name), 'utf8');
+
+  it('the example JSON library imports with its prices and one unverified reference', () => {
+    const { library, items } = prepareOwnLibrary('own-price-library.json', read('own-price-library.json'));
+    expect(library).toMatchObject({ id: 'example-own-rates', name: 'Example: own rates 2026', currency: 'EUR', count: 10 });
+    expect(items.every(i => i.unitSupported !== false)).toBe(true);
+    expect(items.find(i => i.code === 'MAT-04')).toMatchObject({ defaultUnitPrice: null, referenceUnitPrice: 9.8 });
+    expect(items.find(i => i.code === 'SUB-01')).toMatchObject({ resourceType: 'onderaannemer', unit: 'post', defaultUnitPrice: 12500 });
+  });
+
+  it('the example CSV price list imports every column', () => {
+    const { library, items } = prepareOwnLibrary('own-price-list.csv', read('own-price-list.csv'));
+    expect(library).toMatchObject({ id: 'own-price-list', origin: 'table', count: 10 });
+    expect(items.every(i => i.unitSupported !== false)).toBe(true);
+    expect(items[0]).toMatchObject({ code: 'SUP-1001', unit: 'm²', defaultUnitPrice: 24.5, resourceType: 'materiaal', category: 'Masonry', priceDate: '2026-03-01', source: 'Example supplier list (made up)' });
+    expect(items.find(i => i.code === 'SUP-4001')).toMatchObject({ resourceType: 'materieel', unit: 'dgn', defaultUnitPrice: 235 });
+    expect(items.find(i => i.code === 'SUP-5001')).toMatchObject({ defaultUnitPrice: null, source: 'Price on request' });
+  });
+
+  it('recognises a Name column as the description', () => {
+    const { items } = prepareOwnLibrary('x.csv', 'Item,Name,Unit,Rate\nA1,Plumber,uur,52.5\n');
+    expect(items[0]).toMatchObject({ code: 'A1', description: 'Plumber', defaultUnitPrice: 52.5 });
   });
 });

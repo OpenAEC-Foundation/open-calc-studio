@@ -7,6 +7,7 @@ import { priceUpdateCommand } from '@/services/pricing/priceUpdateCommands';
 import type { PriceUpdatePlan } from '@/services/pricing/priceUpdates';
 import { uiText } from '@/i18n/uiText';
 import { formatCurrency, getNumberLocale } from '@/utils/formatting';
+import { Banner } from './Banner';
 // Zonder valutateken (catalogusprijzen kunnen een eigen valuta hebben); 0 als
 // "0,00"/"0.00" in de notatie van de app-taal (issue #65).
 const zero = () => new Intl.NumberFormat(`${getNumberLocale()}-u-nu-latn`, { minimumFractionDigits: 2 }).format(0);
@@ -60,7 +61,7 @@ export function PriceUpdateDialog() {
         <input ref={fileInput} type="file" hidden accept=".json" aria-label={uiText('pricing.catalogue', 'Catalogue JSON')} onChange={e => void importCatalogue(e.target.files?.[0])} />
         <button type="button" className="rp-ghost-btn" onClick={() => { setFileName(''); preview(); }}>{uiText('pricing.current', 'Compare loaded catalogue')}</button>
       </div>
-      {error && <p role="alert" className="rp-banner error">{error}</p>}
+      {error && <Banner kind="error" role="alert" onClose={() => setError('')}>{error}</Banner>}
 
       {plan && <>
         <div className="pu-summary">

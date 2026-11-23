@@ -26,6 +26,7 @@ const ICON_RENAME = 'M11.5 2.5l2 2L6 12l-3 1 1-3 7.5-7.5z';
 const ICON_UPDATE = 'M13.5 8a5.5 5.5 0 1 1-1.6-3.9M13.5 2.5v2.8h-2.8';
 const ICON_REMOVE = 'M3 4.5h10M6.5 4.5V3h3v1.5M4.5 4.5l.7 8.5h5.6l.7-8.5';
 const ICON_IMPORT = 'M8 2.5v8M4.5 7L8 10.5 11.5 7M3 13.5h10';
+const ICON_PLUS = 'M8 3v10M3 8h10';
 
 /**
  * The price libraries of the active estimate (issues #93, #104), in the
@@ -99,10 +100,18 @@ export const PriceLibraryPanel: React.FC<{ onChange: () => void; onMessage: (mes
     <section className="rp-libraries" aria-labelledby="rp-libraries-title">
       <div className="rp-side-title">
         <span id="rp-libraries-title">{uiText('pricing.libraries', 'Price libraries')}</span>
-        {own.length > 0 && !allOn && (
-          <button type="button" className="rp-link-btn" onClick={() => { activateAllLibraries(own.map(l => l.id)); onChange(); }}>
-            {uiText('pricing.allLibraries', 'All libraries')}
-          </button>
+        {own.length > 0 && (
+          <span className="rp-side-title-actions">
+            {!allOn && (
+              <button type="button" className="rp-link-btn" onClick={() => { activateAllLibraries(own.map(l => l.id)); onChange(); }}>
+                {uiText('pricing.allLibraries', 'All libraries')}
+              </button>
+            )}
+            {/* After the first import, importing is a + here, so the list keeps its room. */}
+            <button type="button" className="rp-icon-btn rp-add-library" title={uiText('pricing.importLibrary', 'Import library…')} aria-label={uiText('pricing.importLibrary', 'Import library…')} onClick={() => openFile()}>
+              <Icon d={ICON_PLUS} />
+            </button>
+          </span>
         )}
       </div>
 
@@ -157,9 +166,11 @@ export const PriceLibraryPanel: React.FC<{ onChange: () => void; onMessage: (mes
         </div>
       ))}
 
-      <button type="button" className="rp-import-btn" onClick={() => openFile()}>
-        <Icon d={ICON_IMPORT} />{uiText('pricing.importLibrary', 'Import library…')}
-      </button>
+      {own.length === 0 && (
+        <button type="button" className="rp-import-btn" onClick={() => openFile()}>
+          <Icon d={ICON_IMPORT} />{uiText('pricing.importLibrary', 'Import library…')}
+        </button>
+      )}
       <input ref={fileInput} type="file" hidden accept={OWN_LIBRARY_FILE_TYPES} data-testid="own-library-file" onChange={e => void importFile(e.target.files?.[0])} />
     </section>
   );

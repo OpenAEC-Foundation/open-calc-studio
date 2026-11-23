@@ -78,8 +78,9 @@ function fromJson(content: string, fileName: string): Draft {
 }
 
 // Column headers on top of the generic table import (code, description, unit, price).
-const EXTRA_HEADERS: { field: 'code' | 'unitPrice' | 'type' | 'category' | 'priceDate' | 'source'; pattern: RegExp }[] = [
+const EXTRA_HEADERS: { field: 'code' | 'description' | 'unitPrice' | 'type' | 'category' | 'priceDate' | 'source'; pattern: RegExp }[] = [
   { field: 'code', pattern: /^(id|itemcode|itemno|item|artikel|articlecode|articleno)$/ },
+  { field: 'description', pattern: /^(name|title|itemname|resource)$/ },
   { field: 'unitPrice', pattern: /^(rate|unitrate|defaultunitprice|cost|unitcost|kosten)$/ },
   { field: 'type', pattern: /^(type|resourcetype|soort|middelsoort|tipo)$/ },
   { field: 'category', pattern: /^(category|categorie|group|groep|chapter|hoofdstuk|categoria|section)$/ },

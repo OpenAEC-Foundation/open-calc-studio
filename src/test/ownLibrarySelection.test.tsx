@@ -206,3 +206,101 @@ describe('library dialog', () => {
     expect(useAppStore.getState().undoStack).toHaveLength(0);
   });
 });
+
+describe('rows whose library is not loaded', () => {
+  it('keep their price and say so on the price source card', async () => {
+    const { isPriceOriginLibraryMissing } = await import('@/services/pricing/priceLibraries');
+    await install('a', 'Our rates');
+    activateOwnLibrary('a');
+    const origin = { itemId: 'a:L1', catalogueId: 'a' };
+    expect(isPriceOriginLibraryMissing(origin, useAppStore.getState().resourceLibrary)).toBe(false);
+    toggleLibrary('own:a', false);
+    expect(isPriceOriginLibraryMissing(origin, useAppStore.getState().resourceLibrary)).toBe(true);
+    // Loose and legacy articles never count as a missing library.
+    expect(isPriceOriginLibraryMissing({ itemId: 'zsx-1', catalogueId: 'legacy' }, [])).toBe(false);
+
+    const { PriceOriginCard } = await import('@/components/common/PriceOriginCard');
+    const container = document.createElement('div'); document.body.append(container);
+    const root = createRoot(container);
+    const item = { id: 'r1', normUnitPrice: 55, priceOrigin: { ...origin, catalogueVersion: '1', source: 'Own', priceDate: '2026-01-01', currency: 'EUR', unit: 'uur', price: 55, appliedAt: '', locked: false } } as never;
+    await act(async () => { root.render(<PriceOriginCard item={item} />); });
+    expect(container.querySelector('[role="status"]')?.textContent).toContain('The library “Our rates” is not loaded in this estimate. The row keeps its price');
+    await act(async () => { toggleLibrary('own:a', true); });
+    expect(container.querySelector('[role="status"]')).toBeNull();
+    await act(async () => root.unmount()); container.remove();
+  });
+});
+
+describe('closing messages in the library dialog', () => {
+  it('closes the country note until the dialog opens again or the country changes', async () => {
+    Element.prototype.scrollIntoView = vi.fn();
+    useAppStore.setState({ resourcePickerOpen: true });
+    const container = document.createElement('div'); document.body.append(container);
+    const root = createRoot(container);
+    await act(async () => { root.render(<ResourcePicker />); });
+    const close = () => container.querySelector<HTMLButtonElement>('.rp-banner-close')!;
+    expect(container.textContent).toContain('Starter library: Netherlands');
+    await act(async () => { close().click(); });
+    expect(container.textContent).not.toContain('Starter library');
+    expect(container.querySelector('.rp-banners')).toBeNull();
+
+    await act(async () => { choosePriceCountry('IN'); });
+    expect(container.textContent).toContain('There is no price library for this country yet (India)');
+    await act(async () => { close().click(); });
+    expect(container.textContent).not.toContain('There is no price library');
+
+    await act(async () => { useAppStore.setState({ resourcePickerOpen: false }); });
+    await act(async () => { useAppStore.setState({ resourcePickerOpen: true }); });
+    expect(container.textContent).toContain('There is no price library for this country yet (India)');
+    await act(async () => root.unmount()); container.remove();
+  });
+});
+
+describe('adding a resource', () => {
+  it('goes to the post of the selected row, else the last post, else a new chapter with a post', async () => {
+    const { resourceTarget } = await import('@/services/pricing/resourceTarget');
+    const row = (id: string, rowType: string, parentId: string | null) => ({ id, rowType, parentId }) as never;
+    const items = [row('c1', 'chapter', null), row('p1', 'begrotingspost', 'c1'), row('r1', 'regel', 'p1'), row('c2', 'chapter', null), row('p2', 'bewakingspost', 'c2'), row('c3', 'chapter', null)];
+    expect(resourceTarget(items, 'r1').post).toMatchObject({ id: 'p1' });
+    expect(resourceTarget(items, 'p1').post).toMatchObject({ id: 'p1' });
+    expect(resourceTarget(items, 'c2').post).toMatchObject({ id: 'p2' });
+    expect(resourceTarget(items, 'c3')).toEqual({ chapterId: 'c3' });
+    expect(resourceTarget(items, null).post).toMatchObject({ id: 'p2' });
+    expect(resourceTarget([], null)).toEqual({});
+  });
+
+  it('works without a selected row: Add is enabled and makes a chapter with a post in an empty estimate', async () => {
+    Element.prototype.scrollIntoView = vi.fn();
+    useAppStore.setState({ resourcePickerOpen: true, resourcePickerParentId: null, items: [] });
+    const container = document.createElement('div'); document.body.append(container);
+    const root = createRoot(container);
+    await act(async () => { root.render(<ResourcePicker />); });
+    expect(container.querySelector('.rp-add-target')?.textContent).toBe('Adds to a new budget post');
+    const add = container.querySelector<HTMLButtonElement>('.resource-picker-add-btn')!;
+    expect(add.disabled).toBe(false);
+    await act(async () => { add.click(); });
+    const items = useAppStore.getState().items;
+    expect(items.map(i => i.rowType)).toEqual(['chapter', 'begrotingspost', 'regel']);
+    expect(items[2]).toMatchObject({ code: builtInLibraryItems('NL')[0].code, resourceLibraryId: builtInLibraryItems('NL')[0].id });
+    expect(useAppStore.getState().resourcePickerOpen).toBe(false);
+    // One undo step: the store hands back the rows before the add (the caller applies them, as the app does).
+    expect(useAppStore.getState().undo()).toEqual([]);
+    await act(async () => root.unmount()); container.remove();
+  });
+});
+
+describe('import button', () => {
+  it('is a wide button without own libraries and a + next to the title after the first one', async () => {
+    Element.prototype.scrollIntoView = vi.fn();
+    useAppStore.setState({ resourcePickerOpen: true });
+    const container = document.createElement('div'); document.body.append(container);
+    const root = createRoot(container);
+    await act(async () => { root.render(<ResourcePicker />); });
+    expect(container.querySelector('.rp-import-btn')).not.toBeNull();
+    expect(container.querySelector('.rp-add-library')).toBeNull();
+    await act(async () => { await install('a', 'Our rates'); });
+    expect(container.querySelector('.rp-import-btn')).toBeNull();
+    expect(container.querySelector('.rp-add-library')?.getAttribute('aria-label')).toBe('Import library…');
+    await act(async () => root.unmount()); container.remove();
+  });
+});

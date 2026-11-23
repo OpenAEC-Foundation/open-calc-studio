@@ -7,3 +7,4 @@
 .quantity-origin-warning { color:var(--oa-warning); }
 .quantity-origin-dialog { width:min(540px,90vw); }
 .grid-quantity-origin { border:0; background:transparent; font-size:11px; padding:0 3px; cursor:pointer; color:var(--oa-accent-text); }
+.price-origin-missing { margin:0; padding:6px 8px; border-inline-start:3px solid var(--oa-accent, #d97706); background:var(--oa-hover); border-radius:var(--oa-radius-small); }

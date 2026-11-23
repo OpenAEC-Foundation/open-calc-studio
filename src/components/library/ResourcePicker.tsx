@@ -9,6 +9,8 @@ import { capturePriceOrigin } from '@/services/pricing/priceUpdates';
 import { activeLibrariesOf, COUNTRY_LIBRARY, hasPriceLibrary, isBuiltInLibraryItem, priceCountryOf } from '@/services/pricing/priceLibraries';
 import { countryName } from '@/utils/countries';
 import { PriceLibraryPanel, useOwnLibraries, type PanelMessage } from './PriceLibraryPanel';
+import { Banner } from './Banner';
+import { resourceTarget } from '@/services/pricing/resourceTarget';
 import '../panels/panels.css';
 
 const RESOURCE_TYPE_COLORS: Record<ResourceType, string> = {
@@ -34,6 +36,8 @@ export const ResourcePicker: React.FC = () => {
   const [search, setSearch] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState<PanelMessage>(null);
+  /** Country whose library note was closed; it comes back for another country or when the dialog opens again. */
+  const [closedNote, setClosedNote] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const searchRef = useRef<HTMLInputElement>(null);
@@ -60,6 +64,7 @@ export const ResourcePicker: React.FC = () => {
     if (resourcePickerOpen) {
       setMessage(null);
       setError('');
+      setClosedNote(null);
       setSearch('');
       setSelectedCategory(null);
       setSelectedIndex(0);
@@ -106,14 +111,20 @@ export const ResourcePicker: React.FC = () => {
     }
   }, [selectedIndex]);
 
+  // Where a resource goes: the post of the selected row, else the last post.
+  const target = useMemo(() => resourceTarget(items, resourcePickerParentId), [items, resourcePickerParentId]);
+
   const handleSelect = useCallback((item: ResourceLibraryItem) => {
-    if (!resourcePickerParentId || item.unitSupported === false) return;
+    if (item.unitSupported === false) return;
     let priceOrigin;
     try { priceOrigin = item.defaultUnitPrice === null ? undefined : capturePriceOrigin(item, useAppStore.getState().schedule.currency); }
     catch (e) { setError(String(e)); return; }
 
     pushHistory(items, t('dialogs:undo.addResource'));
-    const newId = addRegel(resourcePickerParentId);
+    // No post yet: make one in the selected chapter, or a chapter with a post.
+    const store0 = useAppStore.getState();
+    const postId = target.post?.id ?? store0.addItem(target.chapterId ?? store0.addChapter(null));
+    const newId = addRegel(postId);
     if (newId) {
       // Update the new regel with the library item's data
       const store = useAppStore.getState();
@@ -141,7 +152,7 @@ export const ResourcePicker: React.FC = () => {
       useAppStore.setState(s => ({ items: s.items.map(row => row.id === newId ? { ...row, priceOrigin } : row) }));
     }
     closeResourcePicker();
-  }, [resourcePickerParentId, pushHistory, items, addRegel, closeResourcePicker, t]);
+  }, [target, pushHistory, items, addRegel, closeResourcePicker, t]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     // Arrows, Enter and Space in the library controls belong to those controls.
@@ -167,6 +178,8 @@ export const ResourcePicker: React.FC = () => {
 
   const selected = filtered[selectedIndex];
   const countryLabel = countryName(country, i18n.language);
+  const showCountryNote = countryOn && closedNote !== country;
+  const dismissCountryNote = () => setClosedNote(country);
 
   return (
     <div className="resource-picker-overlay" onClick={closeResourcePicker}>
@@ -222,11 +235,15 @@ export const ResourcePicker: React.FC = () => {
                 onChange={e => { setSearch(e.target.value); setSelectedIndex(0); }}
               />
             </div>
-            {error && <p role="alert" className="rp-banner error">{error}</p>}
-            {message && <p role={message.kind === 'error' ? 'alert' : 'status'} className={`rp-banner ${message.kind}`}>{message.text}</p>}
-            {countryOn && (hasPriceLibrary(country)
-              ? <p className="rp-banner note">{uiText('pricing.notice', 'Starter library: {{country}}. Check prices and reference dates before estimating. A missing price is not treated as verified.', { country: countryLabel })}</p>
-              : <p role="status" className="rp-banner warn resource-picker-no-library">{uiText('pricing.noLibrary', 'There is no price library for this country yet ({{country}}). Resources you imported or added stay available.', { country: countryLabel })}</p>)}
+            {(error || message || showCountryNote) && (
+              <div className="rp-banners">
+                {error && <Banner kind="error" role="alert" onClose={() => setError('')}>{error}</Banner>}
+                {message && <Banner kind={message.kind} role={message.kind === 'error' ? 'alert' : 'status'} onClose={() => setMessage(null)}>{message.text}</Banner>}
+                {showCountryNote && (hasPriceLibrary(country)
+                  ? <Banner kind="note" onClose={dismissCountryNote}>{uiText('pricing.notice', 'Starter library: {{country}}. Check prices and reference dates before estimating. A missing price is not treated as verified.', { country: countryLabel })}</Banner>
+                  : <Banner kind="warn" role="status" className="resource-picker-no-library" onClose={dismissCountryNote}>{uiText('pricing.noLibrary', 'There is no price library for this country yet ({{country}}). Resources you imported or added stay available.', { country: countryLabel })}</Banner>)}
+              </div>
+            )}
 
             <div className="resource-picker-list" ref={listRef}>
               <div className="resource-picker-list-header">
@@ -279,7 +296,9 @@ export const ResourcePicker: React.FC = () => {
             {selected?.source && <div>{uiText("pricing.source", "Source:")} {selected.source}</div>}
             {selected?.referenceUnitPrice != null && <div>{uiText('pricing.reference', 'Unverified reference: {{price}} per {{unit}}. Reference date and VAT basis unknown.', { price: formatCurrency(selected.referenceUnitPrice!), unit: selected.originalUnit ?? selected.unit })}</div>}
             {selected?.unitSupported === false && <div>{uiText("pricing.conversion", "This source unit requires manual conversion; adding it is disabled.")}</div>}
-            {!resourcePickerParentId && <div>{uiText("pricing.selectParent", "Select an estimate item before adding a resource.")}</div>}
+            <div className="rp-add-target">{target.post
+              ? uiText('pricing.addTo', 'Adds to: {{name}}', { name: [target.post.code, target.post.description].filter(Boolean).join(' ') || '—' })
+              : uiText('pricing.addToNew', 'Adds to a new budget post')}</div>
           </div>
           <span className="resource-picker-hint">
             {t('resourceHint', { count: filtered.length })}
@@ -287,7 +306,7 @@ export const ResourcePicker: React.FC = () => {
           <button
             type="button"
             className="resource-picker-add-btn"
-            disabled={filtered.length === 0 || !resourcePickerParentId || selected?.unitSupported === false}
+            disabled={filtered.length === 0 || selected?.unitSupported === false}
             onClick={() => selected && handleSelect(selected)}
           >
             {t('add')}
