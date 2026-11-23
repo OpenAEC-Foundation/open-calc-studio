@@ -252,6 +252,10 @@
     "addLine": "+ Riadok",
     "deleteLine": "Zmazať riadok",
     "toggle": "Zobraziť alebo skryť riadky výmery",
-    "linesCount": "Riadky výmery: {{count}}"
+    "linesCount": "Riadky výmery: {{count}}",
+    "dropLinkConfirm": "Množstvo tejto položky je prepojené s Excelom, PDF, IFC alebo hárkom. Riadky výmery toto prepojenie nahradia. Pokračovať?",
+    "linkReplacesConfirm": "Táto položka má riadky výmery. Prepojenie množstva ich odstráni. Pokračovať?",
+    "mismatch": "Množstvo ({{quantity}}) sa líši od súčtu riadkov výmery ({{sum}}). Kliknutím použijete súčet.",
+    "useSum": "Použiť súčet"
   }
 }

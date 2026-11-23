@@ -252,6 +252,10 @@
     "addLine": "+ Line",
     "deleteLine": "Delete line",
     "toggle": "Show or hide the measurement lines",
-    "linesCount": "Measurement lines: {{count}}"
+    "linesCount": "Measurement lines: {{count}}",
+    "dropLinkConfirm": "The quantity of this item is linked to Excel, a PDF, IFC or a sheet. Measurement lines replace that link. Continue?",
+    "linkReplacesConfirm": "This item has measurement lines. Linking the quantity removes them. Continue?",
+    "mismatch": "The quantity ({{quantity}}) differs from the total of the measurement lines ({{sum}}). Click to use the total.",
+    "useSum": "Use total"
   }
 }

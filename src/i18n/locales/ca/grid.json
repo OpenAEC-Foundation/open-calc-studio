@@ -252,6 +252,10 @@
     "addLine": "+ Línia",
     "deleteLine": "Elimina la línia",
     "toggle": "Mostra o amaga les línies d'amidament",
-    "linesCount": "Línies d'amidament: {{count}}"
+    "linesCount": "Línies d'amidament: {{count}}",
+    "dropLinkConfirm": "La quantitat d'aquesta partida està vinculada a Excel, un PDF, IFC o un full. Les línies d'amidament substitueixen aquest vincle. Voleu continuar?",
+    "linkReplacesConfirm": "Aquesta partida té línies d'amidament. Vincular la quantitat les elimina. Voleu continuar?",
+    "mismatch": "La quantitat ({{quantity}}) no coincideix amb el total de les línies d'amidament ({{sum}}). Feu clic per fer servir el total.",
+    "useSum": "Fes servir el total"
   }
 }

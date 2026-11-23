@@ -252,6 +252,10 @@
     "addLine": "+ Řádek",
     "deleteLine": "Smazat řádek",
     "toggle": "Zobrazit nebo skrýt řádky výměry",
-    "linesCount": "Řádky výměry: {{count}}"
+    "linesCount": "Řádky výměry: {{count}}",
+    "dropLinkConfirm": "Množství této položky je propojeno s Excelem, PDF, IFC nebo listem. Řádky výměry toto propojení nahradí. Pokračovat?",
+    "linkReplacesConfirm": "Tato položka má řádky výměry. Propojení množství je odstraní. Pokračovat?",
+    "mismatch": "Množství ({{quantity}}) se liší od součtu řádků výměry ({{sum}}). Kliknutím použijete součet.",
+    "useSum": "Použít součet"
   }
 }

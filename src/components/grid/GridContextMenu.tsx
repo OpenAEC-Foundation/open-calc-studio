@@ -179,7 +179,12 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
   const hasQuantity = ['begrotingspost', 'bewakingspost', 'regel', 'tekstregel'].includes(item.rowType);
   const hasExcelLink = !!item.excelLink;
 
+  // Een koppeling vervangt de meetregels (#96): eerst vragen.
+  const linkMayReplaceLines = () =>
+    !item.measurementLines?.length || window.confirm(t('grid:measurement.linkReplacesConfirm'));
+
   const handleExcelLink = () => {
+    if (!linkMayReplaceLines()) { onClose(); return; }
     if (onExcelLink) onExcelLink(item);
     onClose();
   };
@@ -191,6 +196,7 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
   };
 
   const handleQuantityLink = () => {
+    if (!linkMayReplaceLines()) { onClose(); return; }
     if (onQuantityLink) onQuantityLink(item);
     onClose();
   };
@@ -203,10 +209,12 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
 
   const hasQuantityLink = !!item.quantityLink;
 
-  // Meetregels (#96), alleen in UI-1. De eerste regel krijgt de hoeveelheid
-  // die er al stond als aantal, zodat het totaal niet verspringt.
+  // Meetregels (#96). De eerste regel krijgt de hoeveelheid die er al stond
+  // als aantal, zodat het totaal niet verspringt. Een gekoppelde hoeveelheid
+  // (Excel, PDF, IFC) verliest die koppeling: eerst vragen.
   const measurementsHere = MEASUREMENT_VIEWS.has(gridView) && canHaveMeasurementLines(item);
   const handleAddMeasurementLines = () => {
+    if ((item.excelLink || item.quantityLink) && !window.confirm(t('grid:measurement.dropLinkConfirm'))) { onClose(); return; }
     pushHistory(items, t('grid:undo.measurementLines'));
     const qty = item.quantity ?? 0;
     setMeasurementLines(item.id, [newMeasurementLine(qty !== 0 ? { count: qty } : {})]);

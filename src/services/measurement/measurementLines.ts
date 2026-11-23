@@ -1,4 +1,5 @@
 import type { CostItem, MeasurementField, MeasurementLine } from '@/types/costModel';
+import { roundHalfUp } from '@/services/calculation/priceRounding';
 
 /**
  * Meetregels (afmetingenstaat) onder een post, #96. De hoeveelheid van een
@@ -7,6 +8,15 @@ import type { CostItem, MeasurementField, MeasurementLine } from '@/types/costMo
  */
 
 export const MEASUREMENT_FIELDS: readonly MeasurementField[] = ['count', 'length', 'width', 'height'];
+
+/**
+ * Decimalen van een meetregel en van de som. FIEBDC-3 rondt elke tussenstap
+ * half-up af en rekent met de afgeronde waarde verder; voor meetregels is
+ * dat DS in ~K, en Presto en CYPE schrijven daar 3. Zo is de som gelijk aan
+ * die in het bronprogramma, en verdwijnt float-ruis (0,1 + 0,2).
+ */
+export const MEASUREMENT_DECIMALS = 3;
+const round = (n: number): number => roundHalfUp(n, MEASUREMENT_DECIMALS);
 
 /** Rijen die meetregels kunnen hebben. */
 export function canHaveMeasurementLines(item: Pick<CostItem, 'rowType' | 'id'>): boolean {
@@ -32,12 +42,12 @@ export function lineValue(line: MeasurementLine): number {
     product *= v;
     any = true;
   }
-  return any ? product : 0;
+  return any ? round(product) : 0;
 }
 
 /** De hoeveelheid die de regels samen opleveren. */
 export function measurementSum(lines: readonly MeasurementLine[] | undefined): number {
-  return (lines ?? []).reduce((s, l) => s + lineValue(l), 0);
+  return round((lines ?? []).reduce((s, l) => s + lineValue(l), 0));
 }
 
 /**
@@ -52,7 +62,7 @@ export function subtotalValue(lines: readonly MeasurementLine[], index: number):
     if (lines[i].subtotal && line.subtotal === 'partial') break;
     sum += lineValue(lines[i]);
   }
-  return sum;
+  return round(sum);
 }
 
 export function newMeasurementLine(partial: Partial<MeasurementLine> = {}): MeasurementLine {
@@ -65,6 +75,17 @@ export function newMeasurementLine(partial: Partial<MeasurementLine> = {}): Meas
     height: null,
     ...partial,
   };
+}
+
+/**
+ * Of de hoeveelheid van de post de som van de regels is, op de decimalen
+ * van de meetregels. Wijkt hij af (een bestand van buiten, een oudere
+ * versie), dan toont het tabelletje dat; de hoeveelheid blijft staan tot de
+ * gebruiker kiest.
+ */
+export function quantityMatchesLines(item: Pick<CostItem, 'quantity' | 'measurementLines'>): boolean {
+  if (!item.measurementLines?.length) return true;
+  return Math.abs((item.quantity ?? 0) - measurementSum(item.measurementLines)) < 0.5 * 10 ** -MEASUREMENT_DECIMALS;
 }
 
 /** Of twee hoeveelheden gelijk genoeg zijn om als dezelfde te gelden (float-ruis). */

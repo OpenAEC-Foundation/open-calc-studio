@@ -252,6 +252,10 @@
     "addLine": "+ Dòng",
     "deleteLine": "Xóa dòng",
     "toggle": "Hiện hoặc ẩn các dòng đo bóc",
-    "linesCount": "Dòng đo bóc: {{count}}"
+    "linesCount": "Dòng đo bóc: {{count}}",
+    "dropLinkConfirm": "Khối lượng của hạng mục này được liên kết với Excel, PDF, IFC hoặc một trang tính. Các dòng đo bóc sẽ thay thế liên kết đó. Tiếp tục?",
+    "linkReplacesConfirm": "Hạng mục này có các dòng đo bóc. Liên kết khối lượng sẽ xóa chúng. Tiếp tục?",
+    "mismatch": "Khối lượng ({{quantity}}) khác với tổng các dòng đo bóc ({{sum}}). Nhấp để dùng tổng.",
+    "useSum": "Dùng tổng"
   }
 }

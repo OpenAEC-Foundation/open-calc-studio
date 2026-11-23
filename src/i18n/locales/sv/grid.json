@@ -252,6 +252,10 @@
     "addLine": "+ Rad",
     "deleteLine": "Ta bort rad",
     "toggle": "Visa eller dölj mängdraderna",
-    "linesCount": "Mängdrader: {{count}}"
+    "linesCount": "Mängdrader: {{count}}",
+    "dropLinkConfirm": "Mängden för denna post är länkad till Excel, en PDF, IFC eller ett blad. Mängdrader ersätter länken. Fortsätta?",
+    "linkReplacesConfirm": "Denna post har mängdrader. Att länka mängden tar bort dem. Fortsätta?",
+    "mismatch": "Mängden ({{quantity}}) skiljer sig från summan av mängdraderna ({{sum}}). Klicka för att använda summan.",
+    "useSum": "Använd summan"
   }
 }

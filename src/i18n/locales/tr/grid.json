@@ -252,6 +252,10 @@
     "addLine": "+ Satır",
     "deleteLine": "Satırı sil",
     "toggle": "Ölçü satırlarını göster veya gizle",
-    "linesCount": "Ölçü satırları: {{count}}"
+    "linesCount": "Ölçü satırları: {{count}}",
+    "dropLinkConfirm": "Bu kalemin miktarı Excel'e, bir PDF'ye, IFC'ye veya bir sayfaya bağlı. Ölçü satırları bu bağlantının yerini alır. Devam edilsin mi?",
+    "linkReplacesConfirm": "Bu kalemin ölçü satırları var. Miktarı bağlamak onları kaldırır. Devam edilsin mi?",
+    "mismatch": "Miktar ({{quantity}}), ölçü satırlarının toplamından ({{sum}}) farklı. Toplamı kullanmak için tıklayın.",
+    "useSum": "Toplamı kullan"
   }
 }

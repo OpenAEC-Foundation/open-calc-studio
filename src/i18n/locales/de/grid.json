@@ -252,6 +252,10 @@
     "addLine": "+ Zeile",
     "deleteLine": "Zeile löschen",
     "toggle": "Aufmaßzeilen ein- oder ausblenden",
-    "linesCount": "Aufmaßzeilen: {{count}}"
+    "linesCount": "Aufmaßzeilen: {{count}}",
+    "dropLinkConfirm": "Die Menge dieser Position ist mit Excel, einem PDF, IFC oder einem Blatt verknüpft. Aufmaßzeilen ersetzen diese Verknüpfung. Fortfahren?",
+    "linkReplacesConfirm": "Diese Position hat Aufmaßzeilen. Eine Verknüpfung der Menge entfernt sie. Fortfahren?",
+    "mismatch": "Die Menge ({{quantity}}) weicht von der Summe der Aufmaßzeilen ({{sum}}) ab. Klicken, um die Summe zu übernehmen.",
+    "useSum": "Summe übernehmen"
   }
 }

@@ -234,6 +234,9 @@ export default function HomeTab() {
   const handleAddMeasurementLine = () => {
     const post = measurementPost;
     if (!post || !canAddMeasurementLine) return;
+    // Een gekoppelde hoeveelheid (Excel, PDF, IFC) verliest de koppeling: eerst vragen.
+    if (!post.measurementLines?.length && (post.excelLink || post.quantityLink)
+      && !window.confirm(tGrid('measurement.dropLinkConfirm'))) return;
     pushHistory(items, tGrid('undo.measurementLines'));
     const existing = post.measurementLines ?? [];
     const qty = post.quantity ?? 0;

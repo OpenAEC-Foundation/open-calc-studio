@@ -252,6 +252,10 @@
     "addLine": "+ Rivi",
     "deleteLine": "Poista rivi",
     "toggle": "Näytä tai piilota mittarivit",
-    "linesCount": "Mittarivit: {{count}}"
+    "linesCount": "Mittarivit: {{count}}",
+    "dropLinkConfirm": "Tämän nimikkeen määrä on linkitetty Exceliin, PDF:ään, IFC:hen tai taulukkoon. Mittarivit korvaavat linkin. Jatketaanko?",
+    "linkReplacesConfirm": "Tällä nimikkeellä on mittarivejä. Määrän linkittäminen poistaa ne. Jatketaanko?",
+    "mismatch": "Määrä ({{quantity}}) poikkeaa mittarivien summasta ({{sum}}). Käytä summaa napsauttamalla.",
+    "useSum": "Käytä summaa"
   }
 }

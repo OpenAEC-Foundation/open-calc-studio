@@ -252,6 +252,10 @@
     "addLine": "+ Linje",
     "deleteLine": "Slett linje",
     "toggle": "Vis eller skjul målelinjene",
-    "linesCount": "Målelinjer: {{count}}"
+    "linesCount": "Målelinjer: {{count}}",
+    "dropLinkConfirm": "Mengden for denne posten er koblet til Excel, en PDF, IFC eller et ark. Målelinjer erstatter koblingen. Fortsette?",
+    "linkReplacesConfirm": "Denne posten har målelinjer. Å koble mengden fjerner dem. Fortsette?",
+    "mismatch": "Mengden ({{quantity}}) avviker fra summen av målelinjene ({{sum}}). Klikk for å bruke summen.",
+    "useSum": "Bruk summen"
   }
 }

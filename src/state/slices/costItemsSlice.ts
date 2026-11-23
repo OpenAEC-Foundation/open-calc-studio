@@ -442,6 +442,12 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
           if (field === 'quantity' && item.measurementLines?.length && !sameQuantity(item.quantity, value as number | null)) {
             delete updated.measurementLines;
           }
+          // Een koppeling (Excel, PDF, IFC, deelblad) wordt de bron van de
+          // hoeveelheid; meetregels en een koppeling gaan niet samen, net als
+          // andersom in setMeasurementLines. De UI vraagt het eerst.
+          if ((field === 'excelLink' || field === 'quantityLink') && value && item.measurementLines?.length) {
+            delete updated.measurementLines;
+          }
           // Wijzigingshistorie: leg bewerkbare waarde-velden vast (wie/wanneer/wat)
           if (shouldTrackField(field)) {
             updated.history = appendHistory(item, field, item[field], value, historyUser, historyNow);
@@ -491,6 +497,9 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
     const oldQty = post.quantity;
     const newQty = measurementSum(lines);
     const changed = !sameQuantity(oldQty, newQty);
+    // Middelen volgen alleen een echt aantal: vanaf leeg of 0 zou elk middel
+    // met aantal 0 of leeg (bv. een 0%-regel uit BC3) ineens meetellen.
+    const scaleResources = changed && oldQty != null && oldQty !== 0;
     set((s: any) => ({
       items: recalculateItems(
         s.items.map((item: any) => {
@@ -500,7 +509,9 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
             return updated;
           }
           // Middelen die het aantal van de post volgden, volgen het nieuwe.
-          if (changed && item.parentId === id && item.rowType === 'regel' && sameQuantity(item.quantity, oldQty)) {
+          // Dat is dezelfde afspraak als bij de BC3-export: een regel met het
+          // aantal van de post geldt per eenheid van de post (rendement).
+          if (scaleResources && item.parentId === id && item.rowType === 'regel' && sameQuantity(item.quantity, oldQty)) {
             return { ...item, quantity: newQty };
           }
           return item;

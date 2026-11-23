@@ -252,6 +252,10 @@
     "addLine": "+ Sor",
     "deleteLine": "Sor törlése",
     "toggle": "Felmérési sorok megjelenítése vagy elrejtése",
-    "linesCount": "Felmérési sorok: {{count}}"
+    "linesCount": "Felmérési sorok: {{count}}",
+    "dropLinkConfirm": "A tétel mennyisége Excelhez, PDF-hez, IFC-hez vagy munkalaphoz van kapcsolva. A felmérési sorok felváltják ezt a kapcsolatot. Folytatja?",
+    "linkReplacesConfirm": "Ennek a tételnek vannak felmérési sorai. A mennyiség kapcsolása eltávolítja őket. Folytatja?",
+    "mismatch": "A mennyiség ({{quantity}}) eltér a felmérési sorok összegétől ({{sum}}). Kattintson az összeg átvételéhez.",
+    "useSum": "Összeg átvétele"
   }
 }

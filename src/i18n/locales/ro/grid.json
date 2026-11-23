@@ -252,6 +252,10 @@
     "addLine": "+ Linie",
     "deleteLine": "Șterge linia",
     "toggle": "Afișează sau ascunde liniile de măsurătoare",
-    "linesCount": "Linii de măsurătoare: {{count}}"
+    "linesCount": "Linii de măsurătoare: {{count}}",
+    "dropLinkConfirm": "Cantitatea acestui articol este legată de Excel, un PDF, IFC sau o foaie. Liniile de măsurătoare înlocuiesc această legătură. Continuați?",
+    "linkReplacesConfirm": "Acest articol are linii de măsurătoare. Legarea cantității le elimină. Continuați?",
+    "mismatch": "Cantitatea ({{quantity}}) diferă de totalul liniilor de măsurătoare ({{sum}}). Faceți clic pentru a folosi totalul.",
+    "useSum": "Folosește totalul"
   }
 }

@@ -119,6 +119,20 @@ describe('meetregels in het grid', () => {
     }
   });
 
+  it('hoeveelheid ≠ som: waarschuwing, en één klik neemt de som over', async () => {
+    expect(block()!.querySelector('.measurement-mismatch')).toBeNull();
+    await act(async () => {
+      useAppStore.setState({ items: s().items.map((i) => (i.id === 'p' ? { ...i, quantity: 31 } : i)) } as never);
+    });
+    const warn = block()!.querySelector<HTMLButtonElement>('.measurement-mismatch')!;
+    expect(warn.title).toContain('31.00');
+    expect(warn.title).toContain('30.00');
+    await act(async () => { warn.click(); });
+    expect(post().quantity).toBe(30);
+    expect(post().measurementLines).toHaveLength(1);
+    expect(block()!.querySelector('.measurement-mismatch')).toBeNull();
+  });
+
   it('eigen chevron klapt alleen de meetregels in; de middelen blijven staan', async () => {
     await act(async () => {
       useAppStore.setState({

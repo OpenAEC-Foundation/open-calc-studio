@@ -252,6 +252,10 @@
     "addLine": "+ Wiersz",
     "deleteLine": "Usuń wiersz",
     "toggle": "Pokaż lub ukryj wiersze przedmiaru",
-    "linesCount": "Wiersze przedmiaru: {{count}}"
+    "linesCount": "Wiersze przedmiaru: {{count}}",
+    "dropLinkConfirm": "Ilość tej pozycji jest powiązana z Excelem, plikiem PDF, IFC lub arkuszem. Wiersze przedmiaru zastąpią to powiązanie. Kontynuować?",
+    "linkReplacesConfirm": "Ta pozycja ma wiersze przedmiaru. Powiązanie ilości je usunie. Kontynuować?",
+    "mismatch": "Ilość ({{quantity}}) różni się od sumy wierszy przedmiaru ({{sum}}). Kliknij, aby użyć sumy.",
+    "useSum": "Użyj sumy"
   }
 }

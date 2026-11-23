@@ -252,6 +252,10 @@
     "addLine": "+ 행",
     "deleteLine": "행 삭제",
     "toggle": "물량 산출 행 표시 또는 숨기기",
-    "linesCount": "물량 산출 행: {{count}}"
+    "linesCount": "물량 산출 행: {{count}}",
+    "dropLinkConfirm": "이 항목의 수량은 Excel, PDF, IFC 또는 시트에 연결되어 있습니다. 물량 산출 행이 이 연결을 대체합니다. 계속하시겠습니까?",
+    "linkReplacesConfirm": "이 항목에는 물량 산출 행이 있습니다. 수량을 연결하면 행이 삭제됩니다. 계속하시겠습니까?",
+    "mismatch": "수량({{quantity}})이 물량 산출 행의 합계({{sum}})와 다릅니다. 클릭하면 합계를 사용합니다.",
+    "useSum": "합계 사용"
   }
 }

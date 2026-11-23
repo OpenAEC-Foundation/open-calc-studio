@@ -3,7 +3,7 @@
 // zelf een andere hoeveelheid invullen haalt de regels weg; BC3 neemt ze
 // mee in beide richtingen.
 import { beforeEach, describe, expect, it } from 'vitest';
-import { lineValue, measurementSum, newMeasurementLine, subtotalValue } from '@/services/measurement/measurementLines';
+import { lineValue, measurementSum, newMeasurementLine, quantityMatchesLines, subtotalValue } from '@/services/measurement/measurementLines';
 import { importBc3 } from '@/services/importers/bc3Importer';
 import { buildBc3Bytes, buildBc3 } from '@/services/export/bc3Exporter';
 import { importBc3File } from '@/services/importers/bc3Importer';
@@ -16,6 +16,22 @@ const line = (count: number | null, length: number | null = null, width: number 
   newMeasurementLine({ count, length, width, height, description });
 
 describe('rekenen met meetregels', () => {
+  it('rondt elke regel en de som half-up af op 3 decimalen, zoals DS in BC3', () => {
+    expect(lineValue(line(3, 1.3333, null, 1.3333))).toBe(5.333);
+    expect(lineValue(line(1, 0.0005))).toBe(0.001);
+    expect(lineValue(line(-1, 0.0005))).toBe(-0.001);
+    expect(measurementSum([line(0.1), line(0.2)])).toBe(0.3);
+    expect(measurementSum([line(3, 1.3333, null, 1.3333), line(3, 1.3333, null, 1.3333)])).toBe(10.666);
+  });
+
+  it('ziet of de hoeveelheid de som van de regels is', () => {
+    const lines = [line(2, 10, null, 3)];
+    expect(quantityMatchesLines({ quantity: 60, measurementLines: lines })).toBe(true);
+    expect(quantityMatchesLines({ quantity: 60.0004, measurementLines: lines })).toBe(true);
+    expect(quantityMatchesLines({ quantity: 61, measurementLines: lines })).toBe(false);
+    expect(quantityMatchesLines({ quantity: 5, measurementLines: undefined })).toBe(true);
+  });
+
   it('vermenigvuldigt de ingevulde vakken; lege vakken tellen niet mee', () => {
     expect(lineValue(line(1, 10, null, 3))).toBe(30);
     expect(lineValue(line(4, 12, 0.8, 0.6))).toBeCloseTo(23.04, 10);
@@ -73,6 +89,30 @@ describe('store: setMeasurementLines', () => {
     s().setMeasurementLines('p', [line(10)]);
     expect(item('p').excelLink).toBeNull();
     expect(item('p').quantityLink).toBeNull();
+  });
+
+  it('een koppeling zetten haalt de meetregels weg, ook bij dezelfde hoeveelheid', () => {
+    s().setMeasurementLines('p', [line(96)]);
+    s().updateItem('p', 'quantityLink', { source: 'pdf', measurementId: 'm1', kind: 'area' });
+    expect(item('p').measurementLines).toBeUndefined();
+    s().setMeasurementLines('p', [line(96)]);
+    s().updateItem('p', 'excelLink', { filePath: 'x.xlsx', sheet: 'Blad1', cell: 'A1' });
+    expect(item('p').measurementLines).toBeUndefined();
+    // Een koppeling weghalen laat de regels juist staan.
+    s().setMeasurementLines('p', [line(96)]);
+    s().updateItem('p', 'excelLink', null);
+    expect(item('p').measurementLines).toHaveLength(1);
+  });
+
+  it('vanaf een lege of 0-hoeveelheid schaalt geen middel mee', () => {
+    const post = makeCostItem({ id: 'p', rowType: 'begrotingspost', code: '01.01', quantity: 0 });
+    const zero = makeCostItem({ id: 'r0', rowType: 'regel', parentId: 'p', quantity: 0, normQuantity: 1, normFactor: 1, normUnitPrice: 10 });
+    const empty = makeCostItem({ id: 're', rowType: 'regel', parentId: 'p', quantity: null, normQuantity: 1, normFactor: 1, normUnitPrice: 10 });
+    useAppStore.setState({ items: recalculateItems([post, zero, empty]) } as never);
+    s().setMeasurementLines('p', [line(5)]);
+    expect(item('p').quantity).toBe(5);
+    expect(item('r0').quantity).toBe(0);
+    expect(item('re').quantity).toBeNull();
   });
 
   it('zelf een andere hoeveelheid invullen haalt de regels weg; dezelfde laat ze staan', () => {

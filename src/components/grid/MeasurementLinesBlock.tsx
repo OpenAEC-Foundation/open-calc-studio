@@ -8,6 +8,7 @@ import {
   lineValue,
   measurementSum,
   newMeasurementLine,
+  quantityMatchesLines,
   subtotalValue,
 } from '@/services/measurement/measurementLines';
 import type { CostItem, MeasurementLine } from '@/types/costModel';
@@ -97,6 +98,16 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
   const columnsTemplate = `minmax(140px, 1fr) repeat(4, ${FIELD_WIDTH}px) ${SUBTOTAL_WIDTH}px ${ACTION_WIDTH}px`;
   const sum = measurementSum(lines);
   const collapsed = !!item.measurementLinesCollapsed;
+  // Hoeveelheid ≠ som (een bestand van buiten, een oudere versie): niet stil
+  // aanpassen, wel laten zien, met een knop om de som over te nemen.
+  const mismatch = !quantityMatchesLines(item) ? (
+    <button
+      type="button"
+      className="measurement-mismatch"
+      title={t('grid:measurement.mismatch', { quantity: fmt(item.quantity ?? 0), sum: fmt(sum) })}
+      onClick={() => commit(current())}
+    >⚠ {t('grid:measurement.useSum')}</button>
+  ) : null;
 
   // Eigen chevron: klapt alleen de meetregels in, de middelen blijven staan.
   const toggle = (
@@ -122,7 +133,7 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
       {collapsed ? (
         <div className="measurement-row measurement-summary" style={{ gridTemplateColumns: columnsTemplate }}>
           <span className="measurement-title">{toggle}{t('grid:measurement.linesCount', { count: lines.length })}</span>
-          <span /><span /><span />
+          <span className="measurement-mismatch-cell">{mismatch}</span>
           <span className="num">{t('grid:measurement.sum')}</span>
           <span className="num measurement-value measurement-sum">{fmt(sum)}</span>
           <span />
@@ -188,7 +199,7 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
             {t('grid:measurement.addLine')}
           </button>
         </span>
-        <span /><span /><span />
+        <span className="measurement-mismatch-cell">{mismatch}</span>
         <span className="num">{t('grid:measurement.sum')}</span>
         <span className="num measurement-value measurement-sum">{fmt(sum)}</span>
         <span />
