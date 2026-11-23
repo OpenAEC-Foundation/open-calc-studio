@@ -40,6 +40,8 @@
     "viewUi3": "Enkel",
     "addRegelDirect": "+ Linje",
     "addRegelDirectTitle": "Legg til en beregningslinje rett under den valgte linjen — det samme som +-knappen ved siden av linjen",
+    "measurementLine": "Målelinje",
+    "measurementLineTitle": "Legg til en målelinje på den valgte posten (antall × lengde × bredde × høyde); postens mengde blir summen av linjene",
     "undoMultipleTitle": "Angre flere trinn",
     "undoUpTo": "Angre opp til …",
     "changeFallback": "Endring",

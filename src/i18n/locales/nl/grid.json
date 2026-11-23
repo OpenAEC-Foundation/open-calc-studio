@@ -250,6 +250,8 @@
     "subtotal": "Subtotaal",
     "sum": "Som",
     "addLine": "+ Regel",
-    "deleteLine": "Regel verwijderen"
+    "deleteLine": "Regel verwijderen",
+    "toggle": "Meetregels tonen of verbergen",
+    "linesCount": "Meetregels: {{count}}"
   }
 }

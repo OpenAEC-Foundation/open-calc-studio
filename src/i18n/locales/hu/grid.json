@@ -250,6 +250,8 @@
     "subtotal": "Részösszeg",
     "sum": "Összeg",
     "addLine": "+ Sor",
-    "deleteLine": "Sor törlése"
+    "deleteLine": "Sor törlése",
+    "toggle": "Felmérési sorok megjelenítése vagy elrejtése",
+    "linesCount": "Felmérési sorok: {{count}}"
   }
 }

@@ -250,6 +250,8 @@
     "subtotal": "Mezisoučet",
     "sum": "Součet",
     "addLine": "+ Řádek",
-    "deleteLine": "Smazat řádek"
+    "deleteLine": "Smazat řádek",
+    "toggle": "Zobrazit nebo skrýt řádky výměry",
+    "linesCount": "Řádky výměry: {{count}}"
   }
 }

@@ -250,6 +250,8 @@
     "subtotal": "Subtotal",
     "sum": "Total",
     "addLine": "+ Línia",
-    "deleteLine": "Elimina la línia"
+    "deleteLine": "Elimina la línia",
+    "toggle": "Mostra o amaga les línies d'amidament",
+    "linesCount": "Línies d'amidament: {{count}}"
   }
 }

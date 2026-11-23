@@ -250,6 +250,8 @@
     "subtotal": "Zwischensumme",
     "sum": "Summe",
     "addLine": "+ Zeile",
-    "deleteLine": "Zeile löschen"
+    "deleteLine": "Zeile löschen",
+    "toggle": "Aufmaßzeilen ein- oder ausblenden",
+    "linesCount": "Aufmaßzeilen: {{count}}"
   }
 }

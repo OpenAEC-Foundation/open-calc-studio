@@ -859,3 +859,25 @@ th.split-col-unit { text-align: center; }
 .measurement-delete:focus-visible { visibility: visible; }
 .measurement-delete:hover,
 .measurement-add:hover { color: var(--theme-accent); }
+.measurement-title {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.measurement-toggle {
+  flex: none;
+  width: 16px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--theme-text-secondary);
+  font: inherit;
+  cursor: pointer;
+}
+.measurement-toggle:hover,
+.measurement-toggle:focus-visible { color: var(--theme-accent); }
+.measurement-summary { border-bottom: none; color: var(--theme-text-secondary); }

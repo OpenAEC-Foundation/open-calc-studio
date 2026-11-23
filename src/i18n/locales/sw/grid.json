@@ -250,6 +250,8 @@
     "subtotal": "Jumla ndogo",
     "sum": "Jumla",
     "addLine": "+ Mstari",
-    "deleteLine": "Futa mstari"
+    "deleteLine": "Futa mstari",
+    "toggle": "Onyesha au ficha mistari ya vipimo",
+    "linesCount": "Mistari ya vipimo: {{count}}"
   }
 }

@@ -13,7 +13,7 @@ import {
 import type { CostItem, MeasurementLine } from '@/types/costModel';
 
 /**
- * Meetregels onder een post in UI-1 (#96): een ingesprongen tabelletje met
+ * Meetregels onder een post (#96): een ingesprongen tabelletje met
  * omschrijving, aantal, lengte, breedte, hoogte en subtotaal, zoals de
  * opbouw in Presto. Het tabelletje staat los van de gridnavigatie: het heeft
  * eigen invoervakken, en toetsen gaan niet door naar het grid.
@@ -22,12 +22,16 @@ import type { CostItem, MeasurementLine } from '@/types/costModel';
 /** Hoogte van één regel in het tabelletje. */
 export const MEASUREMENT_LINE_HEIGHT = 22;
 
-/** Weergaven waarin de meetregels onder de post staan. */
-export const MEASUREMENT_VIEWS: ReadonlySet<string> = new Set(['st']);
+/** Weergaven waarin de meetregels onder de post staan: UI-1, UI-2 en Eenvoudig. */
+export const MEASUREMENT_VIEWS: ReadonlySet<string> = new Set(['st', 'wpcalc', 'simple']);
 
-/** Hoogte van het hele tabelletje: kop, regels en voetregel, plus wat lucht. */
-export function measurementBlockHeight(item: Pick<CostItem, 'measurementLines'>): number {
-  return ((item.measurementLines?.length ?? 0) + 2) * MEASUREMENT_LINE_HEIGHT + 6;
+/**
+ * Hoogte van het tabelletje: kop, regels en voetregel, plus wat lucht.
+ * Ingeklapt is het één samenvattingsregel.
+ */
+export function measurementBlockHeight(item: Pick<CostItem, 'measurementLines' | 'measurementLinesCollapsed'>): number {
+  const rows = item.measurementLinesCollapsed ? 1 : (item.measurementLines?.length ?? 0) + 2;
+  return rows * MEASUREMENT_LINE_HEIGHT + 6;
 }
 
 const FIELD_WIDTH = 72;
@@ -46,6 +50,7 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
   const { t } = useTranslation();
   const setMeasurementLines = useAppStore((s) => s.setMeasurementLines);
   const pushHistory = useAppStore((s) => s.pushHistory);
+  const toggleMeasurementLines = useAppStore((s) => s.toggleMeasurementLines);
   const lines = item.measurementLines ?? [];
   // Na een vastlegging (blur) en vóór de volgende render is `lines` verouderd;
   // wijzigingen lezen daarom de actuele regels uit de store.
@@ -91,18 +96,40 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
 
   const columnsTemplate = `minmax(140px, 1fr) repeat(4, ${FIELD_WIDTH}px) ${SUBTOTAL_WIDTH}px ${ACTION_WIDTH}px`;
   const sum = measurementSum(lines);
+  const collapsed = !!item.measurementLinesCollapsed;
+
+  // Eigen chevron: klapt alleen de meetregels in, de middelen blijven staan.
+  const toggle = (
+    <button
+      type="button"
+      className="measurement-toggle"
+      aria-expanded={!collapsed}
+      title={t('grid:measurement.toggle')}
+      aria-label={t('grid:measurement.toggle')}
+      onClick={() => toggleMeasurementLines(item.id)}
+    >{collapsed ? '▸' : '▾'}</button>
+  );
 
   return (
     <div
-      className="measurement-block"
+      className={`measurement-block${collapsed ? ' measurement-collapsed' : ''}`}
       style={{ marginLeft: left, width, height: measurementBlockHeight(item) }}
       onKeyDown={(e) => e.stopPropagation()}
       onMouseDown={(e) => e.stopPropagation()}
       onContextMenu={(e) => e.stopPropagation()}
       data-measurement-for={item.id}
     >
+      {collapsed ? (
+        <div className="measurement-row measurement-summary" style={{ gridTemplateColumns: columnsTemplate }}>
+          <span className="measurement-title">{toggle}{t('grid:measurement.linesCount', { count: lines.length })}</span>
+          <span /><span /><span />
+          <span className="num">{t('grid:measurement.sum')}</span>
+          <span className="num measurement-value measurement-sum">{fmt(sum)}</span>
+          <span />
+        </div>
+      ) : (<>
       <div className="measurement-row measurement-head" style={{ gridTemplateColumns: columnsTemplate }}>
-        <span>{t('grid:measurement.description')}</span>
+        <span className="measurement-title">{toggle}{t('grid:measurement.description')}</span>
         <span className="num">{t('grid:measurement.count')}</span>
         <span className="num">{t('grid:measurement.length')}</span>
         <span className="num">{t('grid:measurement.width')}</span>
@@ -166,6 +193,7 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
         <span className="num measurement-value measurement-sum">{fmt(sum)}</span>
         <span />
       </div>
+      </>)}
     </div>
   );
 };

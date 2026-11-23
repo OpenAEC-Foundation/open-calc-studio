@@ -57,6 +57,8 @@ export interface CostItemsSlice {
   indentItem: (id: string) => void;
   outdentItem: (id: string) => void;
   toggleCollapse: (id: string) => void;
+  /** Klap alleen de meetregels van een post in of uit (#96); de middelen blijven staan. */
+  toggleMeasurementLines: (id: string) => void;
   /**
    * Toon een rij in het raster: klap de bovenliggende rijen open, ga naar het
    * raster en selecteer de rij. Geeft false terug als de rij niet bestaat of
@@ -713,6 +715,14 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
       ),
     }));
     keepSelectionAfterFold();
+  },
+
+  toggleMeasurementLines: (id) => {
+    set((state) => ({
+      items: state.items.map((item) =>
+        item.id === id ? { ...item, measurementLinesCollapsed: !item.measurementLinesCollapsed } : item
+      ),
+    }));
   },
 
   revealItem: (id) => {

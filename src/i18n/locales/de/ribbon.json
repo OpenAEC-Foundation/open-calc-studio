@@ -42,6 +42,8 @@
     "viewUi3": "Einfach",
     "addRegelDirect": "+ Zeile",
     "addRegelDirectTitle": "Fügt direkt unter der ausgewählten Zeile eine Kalkulationszeile ein — wie die Schaltfläche + neben der Zeile",
+    "measurementLine": "Aufmaßzeile",
+    "measurementLineTitle": "Der ausgewählten Position eine Aufmaßzeile hinzufügen (Anzahl × Länge × Breite × Höhe); die Menge der Position ist die Summe der Zeilen",
     "undoMultipleTitle": "Mehrere Schritte rückgängig machen",
     "undoUpTo": "Rückgängig bis …",
     "changeFallback": "Änderung",

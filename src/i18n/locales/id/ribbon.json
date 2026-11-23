@@ -40,6 +40,8 @@
     "viewUi3": "Sederhana",
     "addRegelDirect": "+ Baris",
     "addRegelDirectTitle": "Tambahkan baris perhitungan langsung di bawah baris terpilih — sama dengan tombol + di samping baris",
+    "measurementLine": "Baris pengukuran",
+    "measurementLineTitle": "Tambahkan baris pengukuran ke item yang dipilih (jumlah × panjang × lebar × tinggi); volume item menjadi jumlah baris",
     "undoMultipleTitle": "Urungkan beberapa langkah",
     "undoUpTo": "Urungkan sampai…",
     "changeFallback": "Perubahan",

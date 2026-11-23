@@ -40,6 +40,8 @@
     "viewUi3": "Enkel",
     "addRegelDirect": "+ Linje",
     "addRegelDirectTitle": "Tilføj en beregningslinje direkte under den valgte linje — samme som knappen + ved siden af linjen",
+    "measurementLine": "Opmålingslinje",
+    "measurementLineTitle": "Tilføj en opmålingslinje til den valgte post (antal × længde × bredde × højde); postens mængde bliver summen af linjerne",
     "undoMultipleTitle": "Fortryd flere trin",
     "undoUpTo": "Fortryd op til …",
     "changeFallback": "Ændring",

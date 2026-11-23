@@ -250,6 +250,8 @@
     "subtotal": "Subtotal",
     "sum": "Total",
     "addLine": "+ Linie",
-    "deleteLine": "Șterge linia"
+    "deleteLine": "Șterge linia",
+    "toggle": "Afișează sau ascunde liniile de măsurătoare",
+    "linesCount": "Linii de măsurătoare: {{count}}"
   }
 }

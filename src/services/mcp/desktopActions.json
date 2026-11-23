@@ -1265,6 +1265,20 @@
                             "additionalProperties": false
                           }
                         },
+                        "measurementLinesCollapsed": {
+                          "anyOf": [
+                            {
+                              "enum": [
+                                false
+                              ]
+                            },
+                            {
+                              "enum": [
+                                true
+                              ]
+                            }
+                          ]
+                        },
                         "history": {
                           "type": "array",
                           "items": {
@@ -4282,6 +4296,20 @@
                     "additionalProperties": false
                   }
                 },
+                "measurementLinesCollapsed": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        false
+                      ]
+                    },
+                    {
+                      "enum": [
+                        true
+                      ]
+                    }
+                  ]
+                },
                 "history": {
                   "type": "array",
                   "items": {
@@ -4917,6 +4945,19 @@
       ]
     },
     "toggleCollapse": {
+      "group": "CostItems",
+      "signature": "(id: string) => void",
+      "parameters": [
+        {
+          "name": "id",
+          "optional": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "toggleMeasurementLines": {
       "group": "CostItems",
       "signature": "(id: string) => void",
       "parameters": [
@@ -6485,6 +6526,20 @@
                     ],
                     "additionalProperties": false
                   }
+                },
+                "measurementLinesCollapsed": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        false
+                      ]
+                    },
+                    {
+                      "enum": [
+                        true
+                      ]
+                    }
+                  ]
                 },
                 "history": {
                   "type": "array",
@@ -8355,6 +8410,20 @@
                     "additionalProperties": false
                   }
                 },
+                "measurementLinesCollapsed": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        false
+                      ]
+                    },
+                    {
+                      "enum": [
+                        true
+                      ]
+                    }
+                  ]
+                },
                 "history": {
                   "type": "array",
                   "items": {
@@ -9582,6 +9651,20 @@
                     ],
                     "additionalProperties": false
                   }
+                },
+                "measurementLinesCollapsed": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        false
+                      ]
+                    },
+                    {
+                      "enum": [
+                        true
+                      ]
+                    }
+                  ]
                 },
                 "history": {
                   "type": "array",
@@ -13654,6 +13737,20 @@
                         "additionalProperties": false
                       }
                     },
+                    "measurementLinesCollapsed": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            false
+                          ]
+                        },
+                        {
+                          "enum": [
+                            true
+                          ]
+                        }
+                      ]
+                    },
                     "history": {
                       "type": "array",
                       "items": {
@@ -14921,6 +15018,20 @@
                                 ],
                                 "additionalProperties": false
                               }
+                            },
+                            "measurementLinesCollapsed": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    false
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    true
+                                  ]
+                                }
+                              ]
                             },
                             "history": {
                               "type": "array",
@@ -17162,6 +17273,20 @@
                         "additionalProperties": false
                       }
                     },
+                    "measurementLinesCollapsed": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            false
+                          ]
+                        },
+                        {
+                          "enum": [
+                            true
+                          ]
+                        }
+                      ]
+                    },
                     "history": {
                       "type": "array",
                       "items": {
@@ -18429,6 +18554,20 @@
                                 ],
                                 "additionalProperties": false
                               }
+                            },
+                            "measurementLinesCollapsed": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    false
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    true
+                                  ]
+                                }
+                              ]
                             },
                             "history": {
                               "type": "array",
@@ -22834,6 +22973,20 @@
                                   "additionalProperties": false
                                 }
                               },
+                              "measurementLinesCollapsed": {
+                                "anyOf": [
+                                  {
+                                    "enum": [
+                                      false
+                                    ]
+                                  },
+                                  {
+                                    "enum": [
+                                      true
+                                    ]
+                                  }
+                                ]
+                              },
                               "history": {
                                 "type": "array",
                                 "items": {
@@ -24993,6 +25146,20 @@
                           ],
                           "additionalProperties": false
                         }
+                      },
+                      "measurementLinesCollapsed": {
+                        "anyOf": [
+                          {
+                            "enum": [
+                              false
+                            ]
+                          },
+                          {
+                            "enum": [
+                              true
+                            ]
+                          }
+                        ]
                       },
                       "history": {
                         "type": "array",
@@ -27295,6 +27462,20 @@
                         "additionalProperties": false
                       }
                     },
+                    "measurementLinesCollapsed": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            false
+                          ]
+                        },
+                        {
+                          "enum": [
+                            true
+                          ]
+                        }
+                      ]
+                    },
                     "history": {
                       "type": "array",
                       "items": {
@@ -28562,6 +28743,20 @@
                                 ],
                                 "additionalProperties": false
                               }
+                            },
+                            "measurementLinesCollapsed": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    false
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    true
+                                  ]
+                                }
+                              ]
                             },
                             "history": {
                               "type": "array",
@@ -30872,6 +31067,20 @@
                                 "additionalProperties": false
                               }
                             },
+                            "measurementLinesCollapsed": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    false
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    true
+                                  ]
+                                }
+                              ]
+                            },
                             "history": {
                               "type": "array",
                               "items": {
@@ -32086,6 +32295,20 @@
                                 ],
                                 "additionalProperties": false
                               }
+                            },
+                            "measurementLinesCollapsed": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    false
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    true
+                                  ]
+                                }
+                              ]
                             },
                             "history": {
                               "type": "array",
@@ -33427,6 +33650,20 @@
                         "additionalProperties": false
                       }
                     },
+                    "measurementLinesCollapsed": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            false
+                          ]
+                        },
+                        {
+                          "enum": [
+                            true
+                          ]
+                        }
+                      ]
+                    },
                     "history": {
                       "type": "array",
                       "items": {
@@ -34694,6 +34931,20 @@
                                 ],
                                 "additionalProperties": false
                               }
+                            },
+                            "measurementLinesCollapsed": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    false
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    true
+                                  ]
+                                }
+                              ]
                             },
                             "history": {
                               "type": "array",
@@ -37004,6 +37255,20 @@
                                 "additionalProperties": false
                               }
                             },
+                            "measurementLinesCollapsed": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    false
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    true
+                                  ]
+                                }
+                              ]
+                            },
                             "history": {
                               "type": "array",
                               "items": {
@@ -38218,6 +38483,20 @@
                                 ],
                                 "additionalProperties": false
                               }
+                            },
+                            "measurementLinesCollapsed": {
+                              "anyOf": [
+                                {
+                                  "enum": [
+                                    false
+                                  ]
+                                },
+                                {
+                                  "enum": [
+                                    true
+                                  ]
+                                }
+                              ]
                             },
                             "history": {
                               "type": "array",

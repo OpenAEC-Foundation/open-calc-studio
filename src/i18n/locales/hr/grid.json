@@ -250,6 +250,8 @@
     "subtotal": "Međuzbroj",
     "sum": "Zbroj",
     "addLine": "+ Redak",
-    "deleteLine": "Izbriši redak"
+    "deleteLine": "Izbriši redak",
+    "toggle": "Prikaži ili sakrij retke izmjere",
+    "linesCount": "Retci izmjere: {{count}}"
   }
 }

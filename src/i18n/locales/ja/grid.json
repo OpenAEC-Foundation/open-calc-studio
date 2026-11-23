@@ -250,6 +250,8 @@
     "subtotal": "小計",
     "sum": "合計",
     "addLine": "+ 行",
-    "deleteLine": "行を削除"
+    "deleteLine": "行を削除",
+    "toggle": "数量明細行の表示／非表示",
+    "linesCount": "数量明細行: {{count}}"
   }
 }

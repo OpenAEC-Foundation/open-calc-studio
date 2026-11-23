@@ -250,6 +250,8 @@
     "subtotal": "Subjumlah",
     "sum": "Jumlah",
     "addLine": "+ Baris",
-    "deleteLine": "Padam baris"
+    "deleteLine": "Padam baris",
+    "toggle": "Tunjukkan atau sembunyikan baris pengukuran",
+    "linesCount": "Baris pengukuran: {{count}}"
   }
 }

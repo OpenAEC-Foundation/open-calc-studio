@@ -111,9 +111,34 @@ describe('meetregels in het grid', () => {
     expect(block()).toBeNull();
   });
 
-  it('in UI-2 staan ze er niet', async () => {
-    await act(async () => { useAppStore.setState({ gridView: 'wpcalc' } as never); });
-    expect(block()).toBeNull();
+  it('staan ook in UI-2 en Eenvoudig onder de post', async () => {
+    for (const view of ['wpcalc', 'simple']) {
+      await act(async () => { useAppStore.setState({ gridView: view } as never); });
+      expect(block(), view).not.toBeNull();
+      expect(cell('l1', 'description').value).toBe('Fachada norte');
+    }
+  });
+
+  it('eigen chevron klapt alleen de meetregels in; de middelen blijven staan', async () => {
+    await act(async () => {
+      useAppStore.setState({
+        items: [...s().items, mkItem({ id: 'r', parentId: 'p', depth: 2, description: 'Ladrillo', quantity: 30, sortOrder: 0 })],
+      } as never);
+    });
+    const toggle = () => block()!.querySelector<HTMLButtonElement>('.measurement-toggle')!;
+    expect(toggle().getAttribute('aria-expanded')).toBe('true');
+
+    await act(async () => { toggle().click(); });
+    expect(post().measurementLinesCollapsed).toBe(true);
+    expect(post().isCollapsed).toBe(false);
+    expect(node.querySelector('[data-ml="p:l1:description"]')).toBeNull();
+    expect(block()!.querySelector('.measurement-summary')!.textContent).toContain('Measurement lines: 1');
+    expect(block()!.querySelector('.measurement-sum')!.textContent).toBe('30.00');
+    expect(node.textContent).toContain('Ladrillo');
+
+    await act(async () => { toggle().click(); });
+    expect(post().measurementLinesCollapsed).toBe(false);
+    expect(cell('l1', 'description').value).toBe('Fachada norte');
   });
 });
 

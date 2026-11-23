@@ -40,6 +40,8 @@
     "viewUi3": "Yksinkertainen",
     "addRegelDirect": "+ Rivi",
     "addRegelDirectTitle": "Lisää laskentarivi suoraan valitun rivin alle — sama kuin rivin vieressä oleva +-painike",
+    "measurementLine": "Mittarivi",
+    "measurementLineTitle": "Lisää mittarivi valittuun nimikkeeseen (määrä × pituus × leveys × korkeus); nimikkeen määrä on rivien summa",
     "undoMultipleTitle": "Kumoa useita vaiheita",
     "undoUpTo": "Kumoa kohtaan…",
     "changeFallback": "Muutos",

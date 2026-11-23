@@ -250,6 +250,8 @@
     "subtotal": "Ara toplam",
     "sum": "Toplam",
     "addLine": "+ Satır",
-    "deleteLine": "Satırı sil"
+    "deleteLine": "Satırı sil",
+    "toggle": "Ölçü satırlarını göster veya gizle",
+    "linesCount": "Ölçü satırları: {{count}}"
   }
 }

@@ -40,6 +40,8 @@
     "viewUi3": "Simples",
     "addRegelDirect": "+ Linha",
     "addRegelDirectTitle": "Adiciona uma linha de cálculo imediatamente abaixo da linha selecionada — igual ao botão + ao lado da linha",
+    "measurementLine": "Linha de medição",
+    "measurementLineTitle": "Adicionar uma linha de medição ao artigo selecionado (quantidade × comprimento × largura × altura); a quantidade do artigo passa a ser a soma das linhas",
     "undoMultipleTitle": "Anular vários passos",
     "undoUpTo": "Anular até…",
     "changeFallback": "Alteração",

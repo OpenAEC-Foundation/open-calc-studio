@@ -40,6 +40,8 @@
     "viewUi3": "פשוט",
     "addRegelDirect": "+ שורה",
     "addRegelDirectTitle": "הוספת שורת חישוב ישירות מתחת לשורה הנבחרת — כמו כפתור + שליד השורה",
+    "measurementLine": "שורת מדידה",
+    "measurementLineTitle": "הוספת שורת מדידה לסעיף הנבחר (כמות × אורך × רוחב × גובה); כמות הסעיף היא סכום השורות",
     "undoMultipleTitle": "ביטול מספר צעדים",
     "undoUpTo": "ביטול עד…",
     "changeFallback": "שינוי",

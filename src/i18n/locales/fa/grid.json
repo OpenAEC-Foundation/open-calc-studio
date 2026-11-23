@@ -250,6 +250,8 @@
     "subtotal": "جمع جزء",
     "sum": "جمع",
     "addLine": "+ ردیف",
-    "deleteLine": "حذف ردیف"
+    "deleteLine": "حذف ردیف",
+    "toggle": "نمایش یا پنهان کردن ردیف‌های متره",
+    "linesCount": "ردیف‌های متره: {{count}}"
   }
 }

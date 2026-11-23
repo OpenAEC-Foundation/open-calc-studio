@@ -40,6 +40,8 @@
     "viewUi3": "Uproszczony",
     "addRegelDirect": "+ Nakład",
     "addRegelDirectTitle": "Dodaje nakład bezpośrednio pod zaznaczonym wierszem — tak samo jak przycisk + obok wiersza",
+    "measurementLine": "Wiersz przedmiaru",
+    "measurementLineTitle": "Dodaj wiersz przedmiaru do wybranej pozycji (liczba × długość × szerokość × wysokość); ilość pozycji to suma wierszy",
     "undoMultipleTitle": "Cofnij wiele kroków",
     "undoUpTo": "Cofnij do…",
     "changeFallback": "Zmiana",

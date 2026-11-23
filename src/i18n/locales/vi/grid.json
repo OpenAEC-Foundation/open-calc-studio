@@ -250,6 +250,8 @@
     "subtotal": "Tổng phụ",
     "sum": "Tổng",
     "addLine": "+ Dòng",
-    "deleteLine": "Xóa dòng"
+    "deleteLine": "Xóa dòng",
+    "toggle": "Hiện hoặc ẩn các dòng đo bóc",
+    "linesCount": "Dòng đo bóc: {{count}}"
   }
 }

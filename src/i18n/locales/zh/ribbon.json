@@ -40,6 +40,8 @@
     "viewUi3": "简易",
     "addRegelDirect": "+ 计算行",
     "addRegelDirectTitle": "在选中行的正下方添加一条计算行 —— 与行旁的 + 按钮相同",
+    "measurementLine": "计量明细行",
+    "measurementLineTitle": "为所选项目添加一行计量明细（数量 × 长 × 宽 × 高）；项目工程量为各行之和",
     "undoMultipleTitle": "撤销多步操作",
     "undoUpTo": "撤销至…",
     "changeFallback": "修改",

@@ -40,6 +40,8 @@
     "viewUi3": "간단히",
     "addRegelDirect": "+ 계산 행",
     "addRegelDirectTitle": "선택한 행 바로 아래에 계산 행을 추가합니다 — 행 옆의 + 버튼과 같습니다",
+    "measurementLine": "물량 산출 행",
+    "measurementLineTitle": "선택한 항목에 물량 산출 행을 추가합니다(개수 × 길이 × 너비 × 높이). 항목 수량은 행의 합계가 됩니다",
     "undoMultipleTitle": "여러 단계 되돌리기",
     "undoUpTo": "여기까지 되돌리기…",
     "changeFallback": "변경",

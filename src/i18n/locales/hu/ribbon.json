@@ -40,6 +40,8 @@
     "viewUi3": "Egyszerű",
     "addRegelDirect": "+ Sor",
     "addRegelDirectTitle": "Számítási sort szúr be közvetlenül a kijelölt sor alá — ugyanaz, mint a sor melletti + gomb",
+    "measurementLine": "Felmérési sor",
+    "measurementLineTitle": "Felmérési sor hozzáadása a kijelölt tételhez (darab × hossz × szélesség × magasság); a tétel mennyisége a sorok összege",
     "undoMultipleTitle": "Több lépés visszavonása",
     "undoUpTo": "Visszavonás eddig…",
     "changeFallback": "Módosítás",

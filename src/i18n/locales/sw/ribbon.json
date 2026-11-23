@@ -40,6 +40,8 @@
     "viewUi3": "Rahisi",
     "addRegelDirect": "+ Mstari",
     "addRegelDirectTitle": "Ongeza mstari wa kukokotoa moja kwa moja chini ya safu iliyochaguliwa — sawa na kitufe cha + kando ya safu",
+    "measurementLine": "Mstari wa kipimo",
+    "measurementLineTitle": "Ongeza mstari wa kipimo kwenye kipengele kilichochaguliwa (idadi × urefu × upana × kimo); kiasi cha kipengele kinakuwa jumla ya mistari",
     "undoMultipleTitle": "Tendua hatua kadhaa",
     "undoUpTo": "Tendua hadi…",
     "changeFallback": "Badiliko",

@@ -250,6 +250,8 @@
     "subtotal": "소계",
     "sum": "합계",
     "addLine": "+ 행",
-    "deleteLine": "행 삭제"
+    "deleteLine": "행 삭제",
+    "toggle": "물량 산출 행 표시 또는 숨기기",
+    "linesCount": "물량 산출 행: {{count}}"
   }
 }

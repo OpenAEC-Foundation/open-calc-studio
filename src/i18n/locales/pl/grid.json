@@ -250,6 +250,8 @@
     "subtotal": "Suma częściowa",
     "sum": "Suma",
     "addLine": "+ Wiersz",
-    "deleteLine": "Usuń wiersz"
+    "deleteLine": "Usuń wiersz",
+    "toggle": "Pokaż lub ukryj wiersze przedmiaru",
+    "linesCount": "Wiersze przedmiaru: {{count}}"
   }
 }

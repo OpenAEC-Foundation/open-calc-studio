@@ -250,6 +250,8 @@
     "subtotal": "Subtotale",
     "sum": "Totale",
     "addLine": "+ Riga",
-    "deleteLine": "Elimina riga"
+    "deleteLine": "Elimina riga",
+    "toggle": "Mostra o nascondi le righe di misura",
+    "linesCount": "Righe di misura: {{count}}"
   }
 }

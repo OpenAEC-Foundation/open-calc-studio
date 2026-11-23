@@ -40,6 +40,8 @@
     "viewUi3": "Jednoduché",
     "addRegelDirect": "+ Riadok",
     "addRegelDirectTitle": "Pridá kalkulačný riadok priamo pod vybraný riadok — rovnako ako tlačidlo + vedľa riadku",
+    "measurementLine": "Riadok výmery",
+    "measurementLineTitle": "Pridať riadok výmery k vybranej položke (počet × dĺžka × šírka × výška); množstvo položky je súčtom riadkov",
     "undoMultipleTitle": "Vrátiť viac krokov späť",
     "undoUpTo": "Vrátiť späť až po…",
     "changeFallback": "Zmena",

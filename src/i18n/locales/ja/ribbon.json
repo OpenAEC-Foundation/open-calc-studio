@@ -40,6 +40,8 @@
     "viewUi3": "簡易",
     "addRegelDirect": "+ 計算行",
     "addRegelDirectTitle": "選択中の行のすぐ下に計算行を追加します — 行の横の + ボタンと同じ動作です",
+    "measurementLine": "数量明細行",
+    "measurementLineTitle": "選択した項目に数量明細行を追加します（数量 × 長さ × 幅 × 高さ）。項目の数量は明細行の合計になります",
     "undoMultipleTitle": "複数の操作をまとめて元に戻す",
     "undoUpTo": "ここまで戻す…",
     "changeFallback": "変更",

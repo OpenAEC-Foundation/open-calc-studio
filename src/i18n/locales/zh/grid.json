@@ -250,6 +250,8 @@
     "subtotal": "小计",
     "sum": "合计",
     "addLine": "+ 行",
-    "deleteLine": "删除行"
+    "deleteLine": "删除行",
+    "toggle": "显示或隐藏计量明细行",
+    "linesCount": "计量明细行：{{count}}"
   }
 }

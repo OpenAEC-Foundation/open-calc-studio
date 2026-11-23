@@ -40,6 +40,8 @@
     "viewUi3": "Semplice",
     "addRegelDirect": "+ Riga",
     "addRegelDirectTitle": "Aggiunge una riga di calcolo subito sotto la riga selezionata — come il pulsante + accanto alla riga",
+    "measurementLine": "Riga di misura",
+    "measurementLineTitle": "Aggiungi una riga di misura alla voce selezionata (numero × lunghezza × larghezza × altezza); la quantità della voce diventa la somma delle righe",
     "undoMultipleTitle": "Annulla più passaggi",
     "undoUpTo": "Annulla fino a…",
     "changeFallback": "Modifica",

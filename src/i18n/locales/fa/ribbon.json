@@ -40,6 +40,8 @@
     "viewUi3": "ساده",
     "addRegelDirect": "+ سطر",
     "addRegelDirectTitle": "افزودن سطر محاسبه دقیقاً زیر سطر انتخاب‌شده — همانند دکمه + کنار سطر",
+    "measurementLine": "ردیف متره",
+    "measurementLineTitle": "افزودن یک ردیف متره به آیتم انتخاب‌شده (تعداد × طول × عرض × ارتفاع)؛ مقدار آیتم برابر مجموع ردیف‌ها می‌شود",
     "undoMultipleTitle": "واگرد چند مرحله‌ای",
     "undoUpTo": "واگرد تا…",
     "changeFallback": "تغییر",

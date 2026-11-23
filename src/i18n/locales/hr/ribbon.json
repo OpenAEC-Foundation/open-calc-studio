@@ -40,6 +40,8 @@
     "viewUi3": "Jednostavno",
     "addRegelDirect": "+ Redak",
     "addRegelDirectTitle": "Dodaj kalkulacijski redak izravno ispod odabranog retka — isto kao gumb + pokraj retka",
+    "measurementLine": "Redak izmjere",
+    "measurementLineTitle": "Dodaj redak izmjere odabranoj stavci (broj × duljina × širina × visina); količina stavke postaje zbroj redaka",
     "undoMultipleTitle": "Poništi više koraka",
     "undoUpTo": "Poništi do…",
     "changeFallback": "Promjena",

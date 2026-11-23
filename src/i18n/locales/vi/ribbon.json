@@ -40,6 +40,8 @@
     "viewUi3": "Đơn giản",
     "addRegelDirect": "+ Dòng",
     "addRegelDirectTitle": "Thêm một dòng tính toán ngay dưới dòng đang chọn — giống nút + bên cạnh dòng",
+    "measurementLine": "Dòng đo bóc",
+    "measurementLineTitle": "Thêm một dòng đo bóc vào hạng mục đã chọn (số lượng × dài × rộng × cao); khối lượng của hạng mục là tổng các dòng",
     "undoMultipleTitle": "Hoàn tác nhiều bước",
     "undoUpTo": "Hoàn tác đến…",
     "changeFallback": "Thay đổi",

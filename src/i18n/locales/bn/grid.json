@@ -250,6 +250,8 @@
     "subtotal": "উপমোট",
     "sum": "মোট",
     "addLine": "+ সারি",
-    "deleteLine": "সারি মুছুন"
+    "deleteLine": "সারি মুছুন",
+    "toggle": "পরিমাপের সারি দেখান বা লুকান",
+    "linesCount": "পরিমাপের সারি: {{count}}"
   }
 }

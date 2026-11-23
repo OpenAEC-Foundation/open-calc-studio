@@ -40,6 +40,8 @@
     "viewUi3": "Senzilla",
     "addRegelDirect": "+ Línia",
     "addRegelDirectTitle": "Afegeix una línia de càlcul just sota la línia seleccionada — igual que el botó + del costat de la línia",
+    "measurementLine": "Línia d'amidament",
+    "measurementLineTitle": "Afegeix una línia d'amidament a la partida seleccionada (uts. × llarg × ample × alt); la quantitat de la partida és la suma de les línies",
     "undoMultipleTitle": "Desfés diversos passos",
     "undoUpTo": "Desfés fins a…",
     "changeFallback": "Canvi",

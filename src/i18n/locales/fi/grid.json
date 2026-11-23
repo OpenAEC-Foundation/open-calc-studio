@@ -250,6 +250,8 @@
     "subtotal": "Välisumma",
     "sum": "Summa",
     "addLine": "+ Rivi",
-    "deleteLine": "Poista rivi"
+    "deleteLine": "Poista rivi",
+    "toggle": "Näytä tai piilota mittarivit",
+    "linesCount": "Mittarivit: {{count}}"
   }
 }

@@ -40,6 +40,8 @@
     "viewUi3": "Basit",
     "addRegelDirect": "+ Satır",
     "addRegelDirectTitle": "Seçili satırın hemen altına bir hesap satırı ekler — satırın yanındaki + düğmesiyle aynıdır",
+    "measurementLine": "Ölçü satırı",
+    "measurementLineTitle": "Seçili kaleme bir ölçü satırı ekleyin (adet × uzunluk × genişlik × yükseklik); kalemin miktarı satırların toplamı olur",
     "undoMultipleTitle": "Birden fazla adımı geri al",
     "undoUpTo": "Şuraya kadar geri al…",
     "changeFallback": "Değişiklik",

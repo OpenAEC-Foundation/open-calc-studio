@@ -250,6 +250,8 @@
     "subtotal": "Delsum",
     "sum": "Sum",
     "addLine": "+ Linje",
-    "deleteLine": "Slett linje"
+    "deleteLine": "Slett linje",
+    "toggle": "Vis eller skjul målelinjene",
+    "linesCount": "Målelinjer: {{count}}"
   }
 }

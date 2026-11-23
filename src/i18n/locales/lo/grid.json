@@ -250,6 +250,8 @@
     "subtotal": "ຍອດລວມຍ່ອຍ",
     "sum": "ລວມ",
     "addLine": "+ ແຖວ",
-    "deleteLine": "ລຶບແຖວ"
+    "deleteLine": "ລຶບແຖວ",
+    "toggle": "ສະແດງ ຫຼື ເຊື່ອງແຖວການວັດແທກ",
+    "linesCount": "ແຖວການວັດແທກ: {{count}}"
   }
 }

@@ -152,6 +152,12 @@ export interface CostItem {
   measurementLines?: MeasurementLine[];
 
   /**
+   * Meetregels ingeklapt tot één samenvattingsregel. Alleen weergave: de
+   * middelen onder de post blijven zichtbaar (dat is `isCollapsed`).
+   */
+  measurementLinesCollapsed?: boolean;
+
+  /**
    * Wijzigingshistorie van deze regel: per veldwijziging de oude/nieuwe waarde,
    * wanneer en door welke Windows-gebruiker. Optioneel — oudere bestanden en
    * verse regels hebben (nog) geen historie. Zie services/history/itemHistory.

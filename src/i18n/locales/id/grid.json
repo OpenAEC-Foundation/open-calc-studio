@@ -250,6 +250,8 @@
     "subtotal": "Subtotal",
     "sum": "Jumlah",
     "addLine": "+ Baris",
-    "deleteLine": "Hapus baris"
+    "deleteLine": "Hapus baris",
+    "toggle": "Tampilkan atau sembunyikan baris pengukuran",
+    "linesCount": "Baris pengukuran: {{count}}"
   }
 }

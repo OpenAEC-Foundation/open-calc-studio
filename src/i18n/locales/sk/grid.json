@@ -250,6 +250,8 @@
     "subtotal": "Medzisúčet",
     "sum": "Súčet",
     "addLine": "+ Riadok",
-    "deleteLine": "Zmazať riadok"
+    "deleteLine": "Zmazať riadok",
+    "toggle": "Zobraziť alebo skryť riadky výmery",
+    "linesCount": "Riadky výmery: {{count}}"
   }
 }

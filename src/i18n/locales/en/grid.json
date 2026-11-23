@@ -250,6 +250,8 @@
     "subtotal": "Subtotal",
     "sum": "Total",
     "addLine": "+ Line",
-    "deleteLine": "Delete line"
+    "deleteLine": "Delete line",
+    "toggle": "Show or hide the measurement lines",
+    "linesCount": "Measurement lines: {{count}}"
   }
 }

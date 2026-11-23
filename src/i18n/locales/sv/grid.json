@@ -250,6 +250,8 @@
     "subtotal": "Delsumma",
     "sum": "Summa",
     "addLine": "+ Rad",
-    "deleteLine": "Ta bort rad"
+    "deleteLine": "Ta bort rad",
+    "toggle": "Visa eller dölj mängdraderna",
+    "linesCount": "Mängdrader: {{count}}"
   }
 }

@@ -42,6 +42,8 @@
     "viewUi3": "Simple",
     "addRegelDirect": "+ Line",
     "addRegelDirectTitle": "Add a calculation line directly below the selected row — same as the + button next to the row",
+    "measurementLine": "Measurement line",
+    "measurementLineTitle": "Add a measurement line to the selected item (count × length × width × height); the item quantity becomes the sum of its lines",
     "undoMultipleTitle": "Undo multiple steps",
     "undoUpTo": "Undo up to…",
     "changeFallback": "Change",

@@ -40,6 +40,8 @@
     "viewUi3": "Enkel",
     "addRegelDirect": "+ Rad",
     "addRegelDirectTitle": "Lägg till en kalkylrad direkt under den markerade raden — samma sak som knappen + bredvid raden",
+    "measurementLine": "Mängdrad",
+    "measurementLineTitle": "Lägg till en mängdrad till den valda posten (antal × längd × bredd × höjd); postens mängd blir summan av raderna",
     "undoMultipleTitle": "Ångra flera steg",
     "undoUpTo": "Ångra upp till …",
     "changeFallback": "Ändring",

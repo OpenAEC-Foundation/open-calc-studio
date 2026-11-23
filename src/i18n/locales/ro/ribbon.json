@@ -40,6 +40,8 @@
     "viewUi3": "Simplu",
     "addRegelDirect": "+ Linie",
     "addRegelDirectTitle": "Adaugă o linie de calcul direct sub rândul selectat — la fel ca butonul + de lângă rând",
+    "measurementLine": "Linie de măsurătoare",
+    "measurementLineTitle": "Adaugă o linie de măsurătoare la articolul selectat (număr × lungime × lățime × înălțime); cantitatea articolului devine suma liniilor",
     "undoMultipleTitle": "Anularea mai multor pași",
     "undoUpTo": "Anulare până la…",
     "changeFallback": "Modificare",
