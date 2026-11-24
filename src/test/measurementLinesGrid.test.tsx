@@ -162,6 +162,11 @@ describe('meetregels in het grid', () => {
     const add = block()!.querySelector<HTMLButtonElement>('.measurement-add')!;
     await act(async () => { add.click(); });
     expect(post().measurementLines).toHaveLength(2);
+    // The new line gets focus one frame later. Wait for it, otherwise that focus
+    // can land between typing and Esc on a slow machine and save the typed value.
+    await act(async () => { await new Promise((r) => requestAnimationFrame(() => r(undefined))); });
+    const added = post().measurementLines![1].id;
+    expect(document.activeElement).toBe(cell(added, 'description'));
 
     const el = cell('l1', 'count');
     await act(async () => { el.focus(); });
