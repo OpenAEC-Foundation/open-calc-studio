@@ -7,10 +7,9 @@ import {
 } from '@/services/pricing/priceLibraries';
 import { activateAllLibraries, choosePriceCountry, toggleLibrary } from '@/services/pricing/choosePriceCountry';
 import { listOwnLibraries, loadOwnLibraries, ownLibrariesLoaded, ownLibraryLoadError, removeOwnLibrary, renameOwnLibrary, subscribeOwnLibraries, type OwnLibraryInfo } from '@/services/pricing/ownLibraries';
-import { OWN_LIBRARY_FILE_TYPES, prepareOwnLibrary, readOwnLibraryTable } from '@/services/pricing/ownLibraryImport';
-import { askLibraryColumnMapping } from './askLibraryColumnMapping';
-import { rememberLibraryMapping } from '@/services/pricing/libraryColumnMappings';
-import { installOwnLibrary, ownLibraryImportedMessage } from '@/services/pricing/installOwnLibrary';
+import { OWN_LIBRARY_FILE_TYPES } from '@/services/pricing/ownLibraryImport';
+import { ownLibraryImportedMessage } from '@/services/pricing/installOwnLibrary';
+import { importOwnLibraryFile } from './importOwnLibraryFile';
 import { countryOptions } from '@/utils/countries';
 
 /** Own libraries on this computer, live. */
@@ -64,14 +63,8 @@ export const PriceLibraryPanel: React.FC<{ onChange: () => void; onMessage: (mes
   const importFile = useCallback(async (file: File | undefined) => {
     if (!file) return;
     try {
-      const binary = /\.xlsx?$/i.test(file.name);
-      const content = binary ? new Uint8Array(await file.arrayBuffer()) : await file.text();
-      const table = readOwnLibraryTable(file.name, content);
-      const columnMapping = table ? await askLibraryColumnMapping(table) : undefined;
-      if (columnMapping === null) return;
-      const prepared = prepareOwnLibrary(file.name, content, { updateId: updateId.current, columnMapping });
-      if (!await installOwnLibrary(prepared, { askReplace: updateId.current === undefined })) return;
-      if (table && columnMapping) rememberLibraryMapping(table.headers, columnMapping);
+      const prepared = await importOwnLibraryFile(file, { updateId: updateId.current });
+      if (!prepared) return;
       onChange();
       onMessage({ text: ownLibraryImportedMessage(prepared), kind: 'info' });
       keepFocus();

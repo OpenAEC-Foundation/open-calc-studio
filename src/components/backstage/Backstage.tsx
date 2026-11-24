@@ -24,9 +24,10 @@ import ExtensionManagerPanel from "./ExtensionManagerPanel";
 import { CloudPanel } from "./CloudPanel";
 import ColumnMappingDialog from "./ColumnMappingDialog";
 import { showImportWarnings } from "../common/ImportWarningsDialog";
-import { looksLikePriceList, prepareOwnLibrary, prepareOwnLibraryFromTable } from '@/services/pricing/ownLibraryImport';
+import { looksLikePriceList, OWN_LIBRARY_FILE_TYPES, prepareOwnLibrary, prepareOwnLibraryFromTable } from '@/services/pricing/ownLibraryImport';
 import { installOwnLibrary, ownLibraryImportedMessage } from '@/services/pricing/installOwnLibrary';
 import { askLibraryColumnMapping } from '@/components/library/askLibraryColumnMapping';
+import { importOwnLibraryFile } from '@/components/library/importOwnLibraryFile';
 import { rememberLibraryMapping } from '@/services/pricing/libraryColumnMappings';
 import { OPENAEC_ENABLED, USER_EXTENSIONS_ENABLED, allowsExternalServices } from "../../services/buildFlags";
 import appIcon from '@/assets/app-icon.svg';
@@ -409,6 +410,28 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
     setMappingData(null);
     onClose();
   }, [mappingData, newFile, onClose]);
+
+  // Import → Price library → Price list: straight to the file, like ZSX and
+  // BMEcat, through the same path as the library dialog (column preview for
+  // a table, then kept on this computer and switched on).
+  const handleLibraryFileImport = useCallback(() => {
+    onClose();
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = OWN_LIBRARY_FILE_TYPES;
+    input.onchange = async (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (!file) return;
+      try {
+        const prepared = await importOwnLibraryFile(file);
+        if (prepared) alert(ownLibraryImportedMessage(prepared));
+      } catch (err: any) {
+        console.error('[Import price list] failed:', err);
+        alert(t('importPanel.importFailed', { error: err?.message || err }));
+      }
+    };
+    input.click();
+  }, [onClose, t]);
 
   const handleBmecatImport = useCallback(async () => {
     onClose();
@@ -904,7 +927,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
                 <h3 className="bs-panel-group-title" id="bs-import-library">{t("importPanel.groupLibrary")}</h3>
                 <p className="bs-panel-group-hint">{t("importPanel.groupLibraryHint")}</p>
                 <div className="bs-panel-options">
-                  <button className="bs-panel-option" data-library-import onClick={() => { onClose(); useAppStore.getState().openResourcePicker(null); }}>
+                  <button className="bs-panel-option" data-library-import onClick={handleLibraryFileImport}>
                     <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
                     <div className="bs-panel-option-text">
                       <strong>{t("importPanel.libraryTableTitle")}</strong>

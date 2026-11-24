@@ -30,12 +30,14 @@ it.each(['.ifc','.xlsx','.cuf','.bc3','.onlv','.xml','.rsx'].map((extension,inde
 });
 it('Exit is explicitly unavailable in the browser and closes the native window when enabled',async()=>{await mount();expect(menu('exit')).toBeDisabled();Object.defineProperty(window,'__TAURI_INTERNALS__',{value:{},configurable:true});await act(async()=>root.render(<Backstage open onClose={close} onOpenSettings={settings}/>));await click(menu('exit'));await vi.waitFor(()=>expect(mock.nativeClose).toHaveBeenCalledOnce());});
 
-it('the separate price-library entry opens library management without importing estimate rows', async () => {
+it('the separate price-library entry asks for a price-list file without importing estimate rows', async () => {
  const before = JSON.stringify(useAppStore.getState().items);
  await mount(); await click(menu('import'));
  await click(node.querySelector<HTMLButtonElement>('[data-library-import]')!);
  expect(close).toHaveBeenCalledOnce();
- expect(useAppStore.getState().resourcePickerOpen).toBe(true);
- expect(picker).not.toHaveBeenCalled();
+ await vi.waitFor(() => expect(picker).toHaveBeenCalledOnce());
+ const element = picker.mock.contexts[0] as HTMLInputElement;
+ expect(element.type).toBe('file');
+ for (const extension of ['.xlsx', '.csv', '.json']) expect(element.accept).toContain(extension);
  expect(JSON.stringify(useAppStore.getState().items)).toBe(before);
 });

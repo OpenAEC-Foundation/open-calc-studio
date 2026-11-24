@@ -102,6 +102,27 @@ it('a price list opened via Excel / CSV offers the price library instead, with t
   expect(useAppStore.getState().items).toBe(before);
 });
 
+it('Price library → Price list goes straight to the file, the column preview and the library', async () => {
+  const alert = vi.spyOn(window, 'alert').mockImplementation(() => {});
+  const before = useAppStore.getState().items;
+  await openImport(new File(['Code;Omschrijving;Eenheid;Prijs\nA-1;Mortel;kg;0,40\nA-2;Steen;st;0,85\n'], 'leverancier.csv', { type: 'text/csv' }));
+  await act(async () => group('library').querySelector<HTMLButtonElement>('[data-library-import]')!.click());
+  // Not the library dialog: the column preview for this file.
+  expect(useAppStore.getState().resourcePickerOpen).toBeFalsy();
+  const confirm = await vi.waitFor(() => {
+    const dialog = document.querySelector('.column-mapping-dialog');
+    expect(dialog?.textContent).toContain('leverancier.csv');
+    return dialog!.querySelector<HTMLButtonElement>('.cmd-btn-primary')!;
+  });
+  await act(async () => confirm.click());
+  await vi.waitFor(() => expect(listOwnLibraries()).toHaveLength(1));
+  expect(listOwnLibraries()[0]).toMatchObject({ id: 'leverancier', origin: 'table', count: 2 });
+  expect(activeLibrariesOf(useAppStore.getState().schedule)).toContain('own:leverancier');
+  await vi.waitFor(() => expect(alert).toHaveBeenCalledWith(expect.stringContaining('“leverancier” imported: 2 resources.')));
+  expect(newFile).not.toHaveBeenCalled();
+  expect(useAppStore.getState().items).toBe(before);
+});
+
 it('an estimate via Excel / CSV gets no price-list hint', async () => {
   await openImport(new File(['Code;Omschrijving;Eenheid;Hoeveelheid;Prijs\nA-1;Metselwerk;m2;12;45\n'], 'begroting.csv', { type: 'text/csv' }));
   await act(async () => buttonWith(group('estimate'), 'Excel / CSV').click());
