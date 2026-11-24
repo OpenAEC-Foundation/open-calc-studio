@@ -57,6 +57,29 @@ export function detectLibraryMapping(headers: string[]): LibraryColumnMapping {
   });
 }
 
+/**
+ * Does a table opened as an estimate look like a price list? Only when the
+ * columns for a price library are there (code, description, a price), none of
+ * an estimate (quantity, total), and nearly every row has a price. Estimates
+ * almost always have a quantity or total column, and their chapter rows have
+ * no price, so a real estimate rarely matches. It is only a hint: the user
+ * decides.
+ */
+export function looksLikePriceList(data: TabularData): boolean {
+  const estimate = autoDetectMapping(data.headers);
+  if (estimate.includes('quantity') || estimate.includes('total')) return false;
+  const library = detectLibraryMapping(data.headers);
+  const price = library.indexOf('unitPrice');
+  if (!library.includes('code') || !library.includes('description') || price < 0) return false;
+  const rows = data.rows.filter(row => row.some(cell => String(cell ?? '').trim() !== ''));
+  if (rows.length === 0) return false;
+  const priced = rows.filter(row => {
+    const text = String(row[price] ?? '').trim();
+    return text !== '' && !parseAmount(text).invalid;
+  }).length;
+  return priced / rows.length >= 0.8;
+}
+
 export interface PreparedOwnLibrary {
   library: OwnLibrary;
   items: ResourceLibraryItem[];
@@ -267,7 +290,11 @@ export function prepareOwnLibrary(fileName: string, content: string | ArrayBuffe
       if (!table) throw invalid('Unsupported table format.');
       draft = fromTable(table, fileName, options.columnMapping);
     } else if (origin === 'bmecat') {
-      ({ draft, warnings } = fromSupplierXml(importBmecat(asText()), fileName));
+      const xml = asText();
+      // Any XML that is not ZSX lands here; one without articles is most
+      // likely an estimate (CUF, GAEB, RSX, ...), so point to the right import.
+      if (!/<(ARTICLE|PRODUCT)[\s>/]/.test(xml)) throw new OwnLibraryFileError(uiText('pricing.ownNotPriceXml', 'This XML file is not a BMEcat catalogue or ZSX price list. Is it an estimate (CUF, GAEB, RSX, …)? Open it with Import → New estimate.'));
+      ({ draft, warnings } = fromSupplierXml(importBmecat(xml), fileName));
     } else if (origin === 'zsx') {
       ({ draft, warnings } = fromSupplierXml(importZsx(asText()), fileName));
     } else {
@@ -277,7 +304,26 @@ export function prepareOwnLibrary(fileName: string, content: string | ArrayBuffe
     if (e instanceof OwnLibraryFileError) throw e;
     throw invalid(e instanceof Error ? e.message : String(e));
   }
+  return finishPrepared(draft, warnings, origin, fileName, options);
+}
 
+/**
+ * A table that was already read (for example in the estimate import, where
+ * the user chose "Import as price library instead") becomes an own library
+ * without reading the file again.
+ */
+export function prepareOwnLibraryFromTable(table: TabularData, fileName: string, options: PrepareOptions = {}): PreparedOwnLibrary {
+  let draft: Draft;
+  try {
+    draft = fromTable(table, fileName, options.columnMapping);
+  } catch (e) {
+    if (e instanceof OwnLibraryFileError) throw e;
+    throw invalid(e instanceof Error ? e.message : String(e));
+  }
+  return finishPrepared(draft, [], 'table', fileName, options);
+}
+
+function finishPrepared(draft: Draft, warnings: string[], origin: OwnLibraryOrigin, fileName: string, options: PrepareOptions): PreparedOwnLibrary {
   const target = options.updateId === undefined ? undefined : getOwnLibrary(options.updateId);
   if (options.updateId !== undefined && !target) throw new OwnLibraryFileError(uiText('pricing.ownNotFound', 'The own library to update is no longer on this computer.'));
   const duplicates = suffixDuplicates(draft.resources);

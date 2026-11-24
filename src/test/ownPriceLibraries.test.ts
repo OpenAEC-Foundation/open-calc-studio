@@ -9,7 +9,8 @@ import {
   ownLibraryLoadError, removeOwnLibrary, renameOwnLibrary, saveOwnLibrary, setOwnLibraryBackend, subscribeOwnLibraries, tauriFileBackend,
   type OwnLibraryBackend,
 } from '@/services/pricing/ownLibraries';
-import { OwnLibraryFileError, prepareOwnLibrary } from '@/services/pricing/ownLibraryImport';
+import { looksLikePriceList, OwnLibraryFileError, prepareOwnLibrary, prepareOwnLibraryFromTable } from '@/services/pricing/ownLibraryImport';
+import { parseCsv } from '@/services/importers/genericTabularImporter';
 import { builtInLibraryItems, PRICE_LIBRARY_COUNTRIES } from '@/services/pricing/priceLibraries';
 import { PRICE_LIBRARY_FILES } from '@/data/price-libraries';
 
@@ -118,6 +119,19 @@ describe('import a library file', () => {
     expect(prepareOwnLibrary('prijslijst.xml', zsx, { format: 'zsx' }).library.fileName).toBe('prijslijst.xml');
   });
 
+  it('says an estimate XML is not a price list, instead of "no resources"', () => {
+    const cuf = '<?xml version="1.0"?><CUF><Begroting><Post><Omschrijving>Metselwerk</Omschrijving></Post></Begroting></CUF>';
+    expect(() => prepareOwnLibrary('begroting.xml', cuf)).toThrow('This XML file is not a BMEcat catalogue or ZSX price list. Is it an estimate (CUF, GAEB, RSX, …)? Open it with Import → New estimate.');
+  });
+
+  it('turns a table that was already read into a library, as the file itself would', () => {
+    const csv = 'Code;Description;Unit;Price\nA-1;Mortar;kg;0,40\nA-2;Brick;st;0,85\n';
+    const table = parseCsv(csv, 'supplier.csv');
+    const fromTable = prepareOwnLibraryFromTable(table, 'supplier.csv');
+    expect(fromTable.items).toEqual(prepareOwnLibrary('supplier.csv', csv).items);
+    expect(fromTable.library).toMatchObject({ id: 'supplier', origin: 'table', fileName: 'supplier.csv', count: 2 });
+  });
+
   it('explains what is wrong with an unusable file', () => {
     expect(() => prepareOwnLibrary('x.json', '{"name":"x"}')).toThrow('not a usable price library: expected a JSON object with a list “resources”.');
     expect(() => prepareOwnLibrary('x.json', json({ resources: [] }))).toThrow('This file has no resources.');
@@ -154,6 +168,24 @@ describe('supplier lists as they come', () => {
     expect(nl.map(i => i.defaultUnitPrice)).toEqual([1234, 0.25]);
     const mixed = prepareOwnLibrary('m.csv', 'Code;Description;Price\nA;x;1.250,50\nB;y;12,5\n').items;
     expect(mixed.map(i => i.defaultUnitPrice)).toEqual([1250.5, 12.5]);
+  });
+});
+
+describe('a price list opened as an estimate', () => {
+  const table = (csv: string) => parseCsv(csv, 'x.csv');
+  it('is recognised by code, description and a price on nearly every row, without quantities', () => {
+    expect(looksLikePriceList(table('Code;Omschrijving;Eenheid;Prijs\nA-1;Mortel;kg;0,40\nA-2;Steen;st;0,85\n'))).toBe(true);
+    expect(looksLikePriceList(table('Code;Description;Unit;Unit price\nA-1;Mortar;kg;0.40\n'))).toBe(true);
+  });
+  it('is not suggested for an estimate', () => {
+    // A quantity or total column: an estimate.
+    expect(looksLikePriceList(table('Code;Omschrijving;Eenheid;Hoeveelheid;Prijs\nA-1;Metselwerk;m2;12;45\n'))).toBe(false);
+    expect(looksLikePriceList(table('Code;Description;Unit;Price;Total\nA-1;Brickwork;m2;45;540\n'))).toBe(false);
+    // Chapter rows without a price: an estimate skeleton.
+    expect(looksLikePriceList(table('Code;Description;Price\n1;Foundations;\n1.1;Concrete;80\n2;Walls;\n2.1;Brickwork;45\n'))).toBe(false);
+    // No code or no price column.
+    expect(looksLikePriceList(table('Description;Price\nMortar;0.40\n'))).toBe(false);
+    expect(looksLikePriceList(table('Code;Description;Unit\nA-1;Mortar;kg\n'))).toBe(false);
   });
 });
 

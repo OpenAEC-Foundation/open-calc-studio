@@ -104,6 +104,19 @@
 }
 .cmd-notice p { margin: 2px 0; }
 .cmd-notice-unusable { color: var(--theme-danger-color, #dc2626); }
+/* A price list opened as an estimate: offer the price library instead. */
+.cmd-suggestion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: none;
+  border-bottom: 1px solid var(--theme-dialog-border);
+  border-left: 3px solid var(--theme-accent);
+  background: var(--theme-hover);
+  color: var(--theme-text);
+}
+.cmd-suggestion .cmd-btn { flex-shrink: 0; }
 
 .cmd-actions { display: flex; gap: 8px; }
 

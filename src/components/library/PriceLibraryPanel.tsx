@@ -5,11 +5,12 @@ import { useAppStore } from '@/state/appStore';
 import {
   activeLibrariesOf, COUNTRY_LIBRARY, missingOwnLibraries, ownLibraryKey, priceCountryOf, PRICE_LIBRARY_COUNTRIES,
 } from '@/services/pricing/priceLibraries';
-import { activateAllLibraries, activateOwnLibrary, choosePriceCountry, toggleLibrary } from '@/services/pricing/choosePriceCountry';
-import { listOwnLibraries, loadOwnLibraries, ownLibrariesLoaded, ownLibraryLoadError, removeOwnLibrary, renameOwnLibrary, saveOwnLibrary, subscribeOwnLibraries, type OwnLibraryInfo } from '@/services/pricing/ownLibraries';
+import { activateAllLibraries, choosePriceCountry, toggleLibrary } from '@/services/pricing/choosePriceCountry';
+import { listOwnLibraries, loadOwnLibraries, ownLibrariesLoaded, ownLibraryLoadError, removeOwnLibrary, renameOwnLibrary, subscribeOwnLibraries, type OwnLibraryInfo } from '@/services/pricing/ownLibraries';
 import { OWN_LIBRARY_FILE_TYPES, prepareOwnLibrary, readOwnLibraryTable } from '@/services/pricing/ownLibraryImport';
 import { askLibraryColumnMapping } from './askLibraryColumnMapping';
 import { rememberLibraryMapping } from '@/services/pricing/libraryColumnMappings';
+import { installOwnLibrary, ownLibraryImportedMessage } from '@/services/pricing/installOwnLibrary';
 import { countryOptions } from '@/utils/countries';
 
 /** Own libraries on this computer, live. */
@@ -19,7 +20,6 @@ export function useOwnLibraries(): OwnLibraryInfo[] {
 
 export type PanelMessage = { text: string; kind: 'info' | 'error' } | null;
 
-const listCodes = (codes: string[]) => codes.slice(0, 10).join(', ') + (codes.length > 10 ? ', …' : '');
 const messageOf = (e: unknown) => (e instanceof Error ? e.message : String(e));
 
 const Icon: React.FC<{ d: string }> = ({ d }) => (
@@ -70,20 +70,10 @@ export const PriceLibraryPanel: React.FC<{ onChange: () => void; onMessage: (mes
       const columnMapping = table ? await askLibraryColumnMapping(table) : undefined;
       if (columnMapping === null) return;
       const prepared = prepareOwnLibrary(file.name, content, { updateId: updateId.current, columnMapping });
-      if (prepared.replaces && updateId.current === undefined
-        && !window.confirm(uiText('pricing.ownReplace', 'There is already an own library “{{name}}” on this computer. Replace it with this file? Price links in estimates stay valid.', { name: prepared.replaces.name }))) return;
-      await saveOwnLibrary(prepared.library);
+      if (!await installOwnLibrary(prepared, { askReplace: updateId.current === undefined })) return;
       if (table && columnMapping) rememberLibraryMapping(table.headers, columnMapping);
-      activateOwnLibrary(prepared.library.id);
       onChange();
-      const parts = [uiText('pricing.ownImported', '“{{name}}” imported: {{count}} resources. It is kept on this computer.', { name: prepared.library.name, count: prepared.library.count })];
-      if (prepared.duplicates.length > 0) {
-        parts.push(uiText('pricing.ownDuplicates', 'Codes that appear more than once got a suffix (~2, ~3) ({{count}}): {{codes}}.', { count: prepared.duplicates.length, codes: listCodes(prepared.duplicates) }));
-      }
-      if (prepared.dropped.length > 0) {
-        parts.push(uiText('pricing.ownDropped', 'No longer in the new version ({{count}}): {{codes}}. Rows that use them keep their price.', { count: prepared.dropped.length, codes: listCodes(prepared.dropped) }));
-      }
-      onMessage({ text: parts.join(' '), kind: 'info' });
+      onMessage({ text: ownLibraryImportedMessage(prepared), kind: 'info' });
       keepFocus();
     } catch (e) {
       onMessage({ text: messageOf(e), kind: 'error' });

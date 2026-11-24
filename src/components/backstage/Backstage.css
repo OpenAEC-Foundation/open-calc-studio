@@ -329,6 +329,21 @@
   gap: 8px;
 }
 
+/* Import panel: what a file becomes (new estimate, open estimate, price library). */
+.bs-panel-group + .bs-panel-group { margin-top: 24px; }
+.bs-panel-group-title {
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--oa-font-heading);
+  color: var(--theme-text);
+  margin: 0 0 2px 0;
+}
+.bs-panel-group-hint {
+  font-size: 12px;
+  color: var(--theme-text-secondary);
+  margin: 0 0 8px 0;
+}
+
 .bs-panel-option {
   display: flex;
   align-items: center;
