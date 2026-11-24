@@ -777,7 +777,9 @@
       "origin": "Priskälla",
       "catalogueLabel": "Katalog",
       "date": "Prisdatum",
-      "applied": "Tillämpat källpris"
+      "applied": "Tillämpat källpris",
+      "category": "Kategori",
+      "vatBasis": "Momsunderlag"
     },
     "import": {
       "gaebBase": "Öppna först den matchande GAEB X83-mängdförteckningen.",

@@ -777,7 +777,9 @@
       "origin": "Ár forrása",
       "catalogueLabel": "Katalógus",
       "date": "Ár dátuma",
-      "applied": "Alkalmazott forrásár"
+      "applied": "Alkalmazott forrásár",
+      "category": "Kategória",
+      "vatBasis": "Áfaalap"
     },
     "import": {
       "gaebBase": "Előbb nyissa meg a hozzá tartozó GAEB X83 költségvetési kiírást.",

@@ -777,7 +777,9 @@
       "origin": "价格来源",
       "catalogueLabel": "目录",
       "date": "价格日期",
-      "applied": "已应用来源价格"
+      "applied": "已应用来源价格",
+      "category": "类别",
+      "vatBasis": "增值税基础"
     },
     "import": {
       "gaebBase": "请先打开对应的 GAEB X83 工程量清单。",

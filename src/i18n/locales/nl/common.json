@@ -777,7 +777,9 @@
       "origin": "Prijsherkomst",
       "catalogueLabel": "Catalogus",
       "date": "Prijspeildatum",
-      "applied": "Toegepaste bronprijs"
+      "applied": "Toegepaste bronprijs",
+      "category": "Categorie",
+      "vatBasis": "Btw-basis"
     },
     "import": {
       "gaebBase": "Open eerst het bijbehorende GAEB X83-bestek.",

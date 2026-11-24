@@ -777,7 +777,9 @@
       "origin": "가격 출처",
       "catalogueLabel": "카탈로그",
       "date": "가격 기준일",
-      "applied": "적용된 원본 가격"
+      "applied": "적용된 원본 가격",
+      "category": "분류",
+      "vatBasis": "부가가치세 기준"
     },
     "import": {
       "gaebBase": "먼저 해당하는 GAEB X83 물량 내역서를 여세요.",

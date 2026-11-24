@@ -1,7 +1,7 @@
 {
   "name": "open-calc-studio",
   "private": true,
-  "version": "2026.46.1",
+  "version": "2026.48.0",
   "type": "module",
   "scripts": {
     "dev": "vite",

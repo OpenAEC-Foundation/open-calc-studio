@@ -777,7 +777,9 @@
       "origin": "Priskilde",
       "catalogueLabel": "Katalog",
       "date": "Prisdato",
-      "applied": "Brukt kildepris"
+      "applied": "Brukt kildepris",
+      "category": "Kategori",
+      "vatBasis": "Mva-grunnlag"
     },
     "import": {
       "gaebBase": "Åpne først den tilhørende GAEB X83-mengdebeskrivelsen.",

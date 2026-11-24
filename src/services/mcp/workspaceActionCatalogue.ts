@@ -1,5 +1,10 @@
 /** Named parameters for the file/viewer commands outside Zustand. */
 export const workspaceActions = {
+  'libraries.list': { parameters: {}, description: 'List persistent own price libraries, built-in countries and active estimate selection.' },
+  'libraries.import': { parameters: { fileName: 'file name with extension', content: 'text JSON/CSV/BMEcat; use dataBase64 for Excel', dataBase64: 'binary Excel file as base64; mutually exclusive with content', columnMapping: 'optional source-column array: ignore, code, description, unit, unitPrice, type, category, priceDate, source, currency, vatBasis', updateId: 'optional existing catalogue ID to preserve links', replace: 'explicit true required to replace any existing library' }, description: 'Import a persistent own library. Does not select it or change estimate prices. Returns removed/duplicate codes and warnings.' },
+  'libraries.select': { parameters: { keys: 'optional array: country and/or own:<catalogueId>', country: 'optional ISO country code' }, description: 'Choose loaded libraries and/or country for the active estimate. Does not convert prices or overwrite estimate rows.' },
+  'libraries.rename': { parameters: { id: 'own catalogue ID', name: 'new display name' }, description: 'Rename an own library while preserving article links.' },
+  'libraries.remove': { parameters: { id: 'own catalogue ID' }, description: 'Remove a persistent own library. Estimate rows keep their values and provenance.' },
   'pricing.open': { parameters: {}, description: 'Open catalogue price review.' },
   'pricing.preview': { parameters: { catalogue: 'optional catalogue JSON with stable id, version, currency and resources' }, description: 'Prepare a price change preview; excludes overrides, incompatible units/currencies and inactive variants.' },
   'pricing.apply': { parameters: { proposalId: 'preview ID', itemIds: 'array of explicitly selected compatible estimate row IDs' }, description: 'Apply selected catalogue prices as one undoable action. Rejects stale estimates.' },

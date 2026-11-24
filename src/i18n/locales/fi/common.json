@@ -777,7 +777,9 @@
       "origin": "Hintalähde",
       "catalogueLabel": "Luettelo",
       "date": "Hintapäivä",
-      "applied": "Käytetty lähdehinta"
+      "applied": "Käytetty lähdehinta",
+      "category": "Luokka",
+      "vatBasis": "ALV-peruste"
     },
     "import": {
       "gaebBase": "Avaa ensin vastaava GAEB X83 -määräluettelo.",

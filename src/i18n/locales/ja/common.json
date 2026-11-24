@@ -777,7 +777,9 @@
       "origin": "価格の出典",
       "catalogueLabel": "カタログ",
       "date": "価格基準日",
-      "applied": "適用済みの出典価格"
+      "applied": "適用済みの出典価格",
+      "category": "カテゴリ",
+      "vatBasis": "付加価値税の基準"
     },
     "import": {
       "gaebBase": "先に対応する GAEB X83 数量明細書を開いてください。",

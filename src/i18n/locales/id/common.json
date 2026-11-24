@@ -777,7 +777,9 @@
       "origin": "Sumber harga",
       "catalogueLabel": "Katalog",
       "date": "Tanggal harga",
-      "applied": "Harga sumber yang diterapkan"
+      "applied": "Harga sumber yang diterapkan",
+      "category": "Kategori",
+      "vatBasis": "Dasar PPN"
     },
     "import": {
       "gaebBase": "Buka daftar kuantitas GAEB X83 yang sesuai terlebih dahulu.",

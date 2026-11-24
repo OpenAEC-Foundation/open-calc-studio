@@ -777,7 +777,9 @@
       "origin": "Izvor cijene",
       "catalogueLabel": "Katalog",
       "date": "Datum cijene",
-      "applied": "Primijenjena izvorna cijena"
+      "applied": "Primijenjena izvorna cijena",
+      "category": "Kategorija",
+      "vatBasis": "Osnovica PDV-a"
     },
     "import": {
       "gaebBase": "Najprije otvorite odgovarajući GAEB X83 popis radova.",

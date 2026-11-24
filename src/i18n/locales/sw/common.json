@@ -777,7 +777,9 @@
       "origin": "Chanzo cha bei",
       "catalogueLabel": "Katalogi",
       "date": "Tarehe ya bei",
-      "applied": "Bei ya chanzo iliyotumika"
+      "applied": "Bei ya chanzo iliyotumika",
+      "category": "Kategoria",
+      "vatBasis": "Msingi wa VAT"
     },
     "import": {
       "gaebBase": "Fungua orodha ya viasi ya GAEB X83 inayolingana kwanza.",

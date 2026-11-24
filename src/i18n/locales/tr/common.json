@@ -777,7 +777,9 @@
       "origin": "Fiyat kaynağı",
       "catalogueLabel": "Katalog",
       "date": "Fiyat tarihi",
-      "applied": "Uygulanan kaynak fiyatı"
+      "applied": "Uygulanan kaynak fiyatı",
+      "category": "Kategori",
+      "vatBasis": "KDV matrahı"
     },
     "import": {
       "gaebBase": "Önce eşleşen GAEB X83 metraj cetvelini açın.",
