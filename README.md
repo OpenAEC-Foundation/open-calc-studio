@@ -67,6 +67,11 @@ report fonts. Country selection does not convert prices or set tax defaults.
 [Release notes and remaining limitations](docs/release-notes/v2026.48.0.md) ·
 [Price library format](docs/price-library-format.md).
 
+[![Own price library with two synthetic articles, including one without a price](docs/screenshots/2026.48.0/price-library.jpg)](docs/screenshots/2026.48.0/price-library.jpg)
+
+Actual web UI, 24 November 2026. The articles are synthetic test data.
+[Capture details](docs/screenshots/2026.48.0/README.md).
+
 ## Downloads
 
 **Upgrade note:** production capacity now divides both hours and labour cost on
@@ -84,7 +89,8 @@ The signed **2026.48.0** release is available for all three desktop platforms:
 The [release page](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/tag/v2026.48.0)
 also includes checksums, updater signatures/manifest, the signed Windows DLL
 archive, and SDK, hosted-web and headless-API packages. Snap and updater
-metadata are generated after publication; they carry separate checksum files.
+metadata carry separate checksum files. The **Snap Store still has 2026.46.1**:
+its publication credential expired ([#109](https://github.com/OpenAEC-Foundation/open-calc-studio/issues/109)); the 2026.48.0 Snap archive is available on GitHub.
 The project remains in public testing.
 
 [Signature verification](docs/desktop-builds.md) · [macOS startup help](docs/macos-startup.md) · [Release notes](docs/release-notes/v2026.48.0.md)
@@ -133,7 +139,7 @@ For the mobile browser, serve a web build over HTTPS. Android and iPhone use the
 
 ## Versions and delivery status
 
-The product version is **2026.48.0**, using `year.ISOweek.patch`.
+The published release is **2026.48.0**, using `year.ISOweek.patch`.
 [Published releases and installers](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/latest)
 are listed separately from source changes. Product packages, Cargo and MCP
 share the version; MSI uses `26.48.0` to fit the Windows major-version limit.
@@ -142,6 +148,8 @@ The `.ifcCalc` **file format is 2.4.0**, with its own compatibility policy.
 Release CI runs the frontend and platform tests, builds the SDK and hosted/API
 archives, and verifies signed installers for Windows, macOS and Linux before
 creating a draft release. Publication follows review of those results.
+The release passed 1,953 frontend tests, six platform-isolation tests and native
+checks on all three OSes. [Verified artifacts and remaining blockers](docs/release-verification/2026.48.0.md).
 An SDK release archive does not assert publication to the npm registry.
 
 Real Android/iPhone acceptance, clean-machine installation and AWS deployment
@@ -208,15 +216,14 @@ The graphical Linux app has a container build alongside the separate headless
 API image. The desktop image is prepared from the release's exact `.deb`, tested
 before release creation, and configured for publication after a stable release.
 
-**Public access is blocked:** the GHCR package is private and its Public option
-is disabled by organization administrators ([#35](https://github.com/OpenAEC-Foundation/open-calc-studio/issues/35)).
-An administrator must enable public distribution; CI credentials do not make
-an anonymous pull possible. After public access is enabled, run:
+The **2026.48.0** image is published and signed, with provenance and an SBOM.
+Anonymous access to its immutable manifest was verified after publication.
+[Release verification](docs/release-verification/2026.48.0.md). Run:
 
 ```sh
 docker run --rm -p 3000:3000 -v /path/to/files:/openaec -v calc-config:/config \
   -e OPENAEC_LANGUAGE=nl -e OPENAEC_THEME=light \
-  ghcr.io/openaec-foundation/open-calc-studio:latest
+  ghcr.io/openaec-foundation/open-calc-studio:2026.48.0
 ```
 
 Open `http://localhost:3000`. The app runs as UID 1000, without FUSE,
