@@ -777,7 +777,9 @@
       "origin": "Fonte del prezzo",
       "catalogueLabel": "Catalogo",
       "date": "Data del prezzo",
-      "applied": "Prezzo di origine applicato"
+      "applied": "Prezzo di origine applicato",
+      "category": "Categoria",
+      "vatBasis": "Base IVA"
     },
     "import": {
       "gaebBase": "Apri prima l'elenco prestazioni GAEB X83 corrispondente.",

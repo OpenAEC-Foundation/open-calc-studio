@@ -777,7 +777,9 @@
       "origin": "Nguồn giá",
       "catalogueLabel": "Danh mục",
       "date": "Ngày giá",
-      "applied": "Giá nguồn đã áp dụng"
+      "applied": "Giá nguồn đã áp dụng",
+      "category": "Danh mục",
+      "vatBasis": "Cơ sở tính thuế GTGT"
     },
     "import": {
       "gaebBase": "Hãy mở bảng khối lượng GAEB X83 tương ứng trước.",

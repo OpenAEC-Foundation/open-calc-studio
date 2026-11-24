@@ -777,6 +777,13 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
                   <span>{t("importPanel.excelCsvDesc")}</span>
                 </div>
               </button>
+              <button className="bs-panel-option" data-library-import onClick={() => { onClose(); useAppStore.getState().openResourcePicker(null); }}>
+                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                <div className="bs-panel-option-text">
+                  <strong>{uiText('pricing.importLibrary', 'Import library…')}</strong>
+                  <span>{uiText('pricing.library', 'Price library')} · JSON / CSV / Excel / BMEcat</span>
+                </div>
+              </button>
               <button
                 className="bs-panel-option"
                 onClick={() => void handleXmlImport(t('importPanel.stabuTitle'), ['s01'], importS01)}

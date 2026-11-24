@@ -1,6 +1,6 @@
 # Open Calc Studio — releasehistorie en voorbereiding
 
-Volledige release-informatie: [2026.46.1](v2026.46.1.md) · [2026.46.0](v2026.46.0.md).
+Volledige release-informatie: [2026.48.0](v2026.48.0.md) · [2026.46.1](v2026.46.1.md) · [2026.46.0](v2026.46.0.md).
 
 ## 2026.46.1: PDF's in de webversie, varianten en gedeeld kostenprofiel
 

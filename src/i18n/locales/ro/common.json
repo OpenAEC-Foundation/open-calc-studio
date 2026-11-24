@@ -778,7 +778,9 @@
       "origin": "Sursa prețului",
       "catalogueLabel": "Catalog",
       "date": "Data prețului",
-      "applied": "Preț sursă aplicat"
+      "applied": "Preț sursă aplicat",
+      "category": "Categorie",
+      "vatBasis": "Bază TVA"
     },
     "import": {
       "gaebBase": "Deschideți mai întâi lista de cantități GAEB X83 corespunzătoare.",

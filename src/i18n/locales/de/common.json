@@ -714,7 +714,9 @@
       "origin": "Preisquelle",
       "catalogueLabel": "Katalog",
       "date": "Preisdatum",
-      "applied": "Übernommener Quellpreis"
+      "applied": "Übernommener Quellpreis",
+      "category": "Kategorie",
+      "vatBasis": "MwSt.-Basis"
     },
     "shell": {
       "navigation": "Arbeitsbereich-Navigation",

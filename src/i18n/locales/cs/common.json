@@ -779,7 +779,9 @@
       "origin": "Zdroj ceny",
       "catalogueLabel": "Katalog",
       "date": "Datum ceny",
-      "applied": "Použitá zdrojová cena"
+      "applied": "Použitá zdrojová cena",
+      "category": "Kategorie",
+      "vatBasis": "Základ DPH"
     },
     "import": {
       "gaebBase": "Nejprve otevřete odpovídající výkaz výměr GAEB X83.",

@@ -777,7 +777,9 @@
       "origin": "Font del preu",
       "catalogueLabel": "Catàleg",
       "date": "Data del preu",
-      "applied": "Preu d'origen aplicat"
+      "applied": "Preu d'origen aplicat",
+      "category": "Categoria",
+      "vatBasis": "Base de l’IVA"
     },
     "import": {
       "gaebBase": "Obriu primer l'estat d'amidaments GAEB X83 corresponent.",

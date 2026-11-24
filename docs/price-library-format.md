@@ -132,3 +132,35 @@ One header row, then one row per resource. The app recognises the columns by the
 Example: [`docs/examples/own-price-list.csv`](examples/own-price-list.csv). Open it in Excel and save it as `.xlsx` to try the Excel import.
 
 A file without a code and a description column is refused with a message that lists the columns found, and a price that is not a number is refused with its row number. Nothing is imported then.
+
+## Column preview and MCP (2026.48.0)
+
+For CSV/Excel, **Import library…** shows a column preview before saving.
+Choose the fields for each column; code and description are required. The app
+remembers a successful mapping for exactly the same headers (up to 20 layouts,
+without storing preview rows in that cache). Cancelling saves nothing.
+Supported fields are `code`, `description`, `unit`, `unitPrice`, `type`,
+`category`, `priceDate`, `source`, `currency` and `vatBasis`; use `ignore` for
+other columns. Resource types accept the native names and English names such
+as `labour`, `material`, `equipment`, `subcontractor` and `other`.
+VAT basis (`excl`, `incl`, `unknown`) is metadata, not a price conversion.
+
+The same library store is available through MCP `app_command`, or the hosted
+`calc_run_action`, with these action names:
+
+- `libraries.list`: lists own libraries, available built-in countries and the
+  active selection.
+- `libraries.import`: `fileName` and `content` (JSON/CSV/BMEcat text), or
+  `dataBase64` (binary Excel). Optional `columnMapping` is an array with one
+  field per source column; `updateId` preserves the catalogue ID on re-import.
+  Passing `replace: true` is required to replace any existing library.
+- `libraries.select`: optional `country` (ISO country code) and `keys`, for
+  example `["country", "own:company-rates"]`, for the open estimate.
+- `libraries.rename`: `id` and `name`; article IDs remain unchanged.
+- `libraries.remove`: `id`; existing estimate rows keep their prices.
+
+Importing through MCP saves the library but does not activate it or change
+estimate rows. Select it explicitly, then use the existing `pricing.preview`
+and `pricing.apply` workflow to review and apply compatible price changes.
+These actions require the running app, as do the other `app_command` actions;
+they are not an independent headless file-store API.

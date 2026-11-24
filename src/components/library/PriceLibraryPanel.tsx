@@ -7,7 +7,9 @@ import {
 } from '@/services/pricing/priceLibraries';
 import { activateAllLibraries, activateOwnLibrary, choosePriceCountry, toggleLibrary } from '@/services/pricing/choosePriceCountry';
 import { listOwnLibraries, loadOwnLibraries, ownLibrariesLoaded, ownLibraryLoadError, removeOwnLibrary, renameOwnLibrary, saveOwnLibrary, subscribeOwnLibraries, type OwnLibraryInfo } from '@/services/pricing/ownLibraries';
-import { OWN_LIBRARY_FILE_TYPES, prepareOwnLibrary } from '@/services/pricing/ownLibraryImport';
+import { OWN_LIBRARY_FILE_TYPES, prepareOwnLibrary, readOwnLibraryTable } from '@/services/pricing/ownLibraryImport';
+import { askLibraryColumnMapping } from './askLibraryColumnMapping';
+import { rememberLibraryMapping } from '@/services/pricing/libraryColumnMappings';
 import { countryOptions } from '@/utils/countries';
 
 /** Own libraries on this computer, live. */
@@ -63,10 +65,15 @@ export const PriceLibraryPanel: React.FC<{ onChange: () => void; onMessage: (mes
     if (!file) return;
     try {
       const binary = /\.xlsx?$/i.test(file.name);
-      const prepared = prepareOwnLibrary(file.name, binary ? new Uint8Array(await file.arrayBuffer()) : await file.text(), { updateId: updateId.current });
+      const content = binary ? new Uint8Array(await file.arrayBuffer()) : await file.text();
+      const table = readOwnLibraryTable(file.name, content);
+      const columnMapping = table ? await askLibraryColumnMapping(table) : undefined;
+      if (columnMapping === null) return;
+      const prepared = prepareOwnLibrary(file.name, content, { updateId: updateId.current, columnMapping });
       if (prepared.replaces && updateId.current === undefined
         && !window.confirm(uiText('pricing.ownReplace', 'There is already an own library “{{name}}” on this computer. Replace it with this file? Price links in estimates stay valid.', { name: prepared.replaces.name }))) return;
       await saveOwnLibrary(prepared.library);
+      if (table && columnMapping) rememberLibraryMapping(table.headers, columnMapping);
       activateOwnLibrary(prepared.library.id);
       onChange();
       const parts = [uiText('pricing.ownImported', '“{{name}}” imported: {{count}} resources. It is kept on this computer.', { name: prepared.library.name, count: prepared.library.count })];
@@ -156,6 +163,7 @@ export const PriceLibraryPanel: React.FC<{ onChange: () => void; onMessage: (mes
               <label htmlFor={id} title={library.name}>{library.name}</label>
               <span className="rp-lib-meta" title={library.fileName}>
                 {uiText('pricing.ownMeta', '{{count}} resources · {{file}} · {{date}}', { count: library.count, file: library.fileName, date: date(library.importedAt) })}
+                {[library.currency, library.region].filter(Boolean).join(' · ') && ` · ${[library.currency, library.region].filter(Boolean).join(' · ')}`}
               </span>
             </div>
             <span className="rp-lib-actions">

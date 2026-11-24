@@ -779,7 +779,9 @@
       "origin": "Źródło ceny",
       "catalogueLabel": "Katalog",
       "date": "Data ceny",
-      "applied": "Zastosowana cena źródłowa"
+      "applied": "Zastosowana cena źródłowa",
+      "category": "Kategoria",
+      "vatBasis": "Podstawa VAT"
     },
     "import": {
       "gaebBase": "Najpierw otwórz pasujący przedmiar GAEB X83.",

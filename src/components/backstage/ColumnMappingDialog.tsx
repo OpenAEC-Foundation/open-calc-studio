@@ -11,11 +11,19 @@ import {
 } from '../../services/importers';
 import './ColumnMappingDialog.css';
 
-interface Props {
+export interface MappingOptions<F extends string> {
+  fields?: { field: F; label: string }[];
+  initialMapping?: F[];
+  requiredFields?: F[];
+  requiredHint?: string;
+  introduction?: string;
+}
+
+interface Props<F extends string> extends MappingOptions<F> {
   open: boolean;
   data: TabularData | null;
   onClose: () => void;
-  onConfirm: (mapping: ColumnMapping) => void;
+  onConfirm: (mapping: F[]) => void;
 }
 
 const PREVIEW_ROWS = 6;
@@ -26,19 +34,19 @@ const PREVIEW_ROWS = 6;
  * mapping wordt vooraf geraden (autoDetectMapping) en is door de gebruiker aan
  * te passen. Een niet-`ignore` doelveld kan aan hooguit één kolom hangen.
  */
-export default function ColumnMappingDialog({ open, data, onClose, onConfirm }: Props) {
+export default function ColumnMappingDialog<F extends string = TargetField>({ open, data, onClose, onConfirm, fields, initialMapping, requiredFields, requiredHint, introduction }: Props<F>) {
   const { t } = useTranslation('dialogs');
-  const [mapping, setMapping] = useState<ColumnMapping>([]);
+  const [mapping, setMapping] = useState<F[]>([]);
 
   useEffect(() => {
-    if (data) setMapping(autoDetectMapping(data.headers));
-  }, [data]);
+    if (data) setMapping(initialMapping ?? autoDetectMapping(data.headers) as F[]);
+  }, [data, initialMapping]);
 
-  const setCol = (idx: number, field: TargetField) => {
+  const setCol = (idx: number, field: F) => {
     setMapping((prev) => {
       const next = [...prev];
       if (field !== 'ignore') {
-        for (let i = 0; i < next.length; i++) if (next[i] === field) next[i] = 'ignore';
+        for (let i = 0; i < next.length; i++) if (next[i] === field) next[i] = 'ignore' as F;
       }
       next[idx] = field;
       return next;
@@ -46,11 +54,11 @@ export default function ColumnMappingDialog({ open, data, onClose, onConfirm }: 
   };
 
   const mappedCount = useMemo(() => mapping.filter((m) => m !== 'ignore').length, [mapping]);
-  const hasDescription = mapping.includes('description');
+  const hasRequiredFields = (requiredFields ?? ['description']).every(field => mapping.includes(field as F));
   // Vóór het importeren laten zien welke getallen opgeslagen Excel-uitkomsten
   // zijn en welke cellen geen bruikbare waarde hebben; dat volgt de koppeling (#88).
   const cellSummary = useMemo(
-    () => (data ? summarizeCells(data, mapping) : { formulaValues: 0, unusableCells: 0 }),
+    () => (data ? summarizeCells(data, mapping as ColumnMapping) : { formulaValues: 0, unusableCells: 0 }),
     [data, mapping],
   );
 
@@ -61,12 +69,12 @@ export default function ColumnMappingDialog({ open, data, onClose, onConfirm }: 
     <Modal open={open} onClose={onClose} title={t('columnMapping.title')} className="column-mapping-dialog">
       <div className="cmd-body">
         <p className="cmd-intro">
-          <Trans
+          {introduction ?? <Trans
             t={t}
             i18nKey="columnMapping.intro"
             values={{ name: data.sourceName }}
             components={{ b: <strong /> }}
-          />
+          />}
         </p>
         <div className="cmd-table-wrap">
           <table className="cmd-table">
@@ -77,9 +85,9 @@ export default function ColumnMappingDialog({ open, data, onClose, onConfirm }: 
                     <div className="cmd-header-name" title={h}>{h || t('columnMapping.columnN', { n: i + 1 })}</div>
                     <select
                       value={mapping[i] ?? 'ignore'}
-                      onChange={(e) => setCol(i, e.target.value as TargetField)}
+                      onChange={(e) => setCol(i, e.target.value as F)}
                     >
-                      {TARGET_FIELDS.map((f) => (
+                      {(fields ?? TARGET_FIELDS).map((f) => (
                         <option key={f.field} value={f.field}>{t(`columnMapping.fields.${f.field}`, { defaultValue: f.label })}</option>
                       ))}
                     </select>
@@ -113,13 +121,13 @@ export default function ColumnMappingDialog({ open, data, onClose, onConfirm }: 
         <div className="cmd-footer">
           <span className="cmd-status">
             {t('columnMapping.columnsLinked', { count: mappedCount })} · {t('columnMapping.rows', { count: data.rows.length })}
-            {!hasDescription && <span className="cmd-warn"> · {t('columnMapping.linkDescriptionFirst')}</span>}
+            {!hasRequiredFields && <span className="cmd-warn"> · {requiredHint ?? t('columnMapping.linkDescriptionFirst')}</span>}
           </span>
           <div className="cmd-actions">
             <button className="cmd-btn" onClick={onClose}>{t('columnMapping.cancel')}</button>
             <button
               className="cmd-btn cmd-btn-primary"
-              disabled={!hasDescription}
+              disabled={!hasRequiredFields}
               onClick={() => onConfirm(mapping)}
             >
               {t('columnMapping.import')}

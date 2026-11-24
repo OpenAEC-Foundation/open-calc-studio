@@ -23,9 +23,19 @@ it('Open browse and recent-file buttons reach their own file operations',async()
 it('Print uses the shared current-report path and Preferences opens settings',async()=>{await mount();await click(menu('printMenu'));expect(mock.print).toHaveBeenCalledWith('print');await click(menu('preferences'));expect(settings).toHaveBeenCalledOnce();});
 it('About displays this build and the back button closes the menu',async()=>{await mount();await click(menu('about'));expect(node.querySelector('.bs-about-version')).toHaveTextContent(__APP_VERSION__);await click(node.querySelector('.backstage-back')!);expect(close).toHaveBeenCalledOnce();});
 it.each(['.ifc','.cuf','.csv','.s01','.sufx','.xml','.rsx','.rsu','.bc3','.onlv','.x83','.xpwe','.x84','.zsx','.xml','.nsx'].map((extension,index)=>[extension,index] as const))('import button %# selects the expected %s file family without editing a project',async(extension,index)=>{
- const before=JSON.stringify(useAppStore.getState().items);await mount();await click(menu('import'));const buttons=node.querySelectorAll<HTMLButtonElement>('.bs-panel-options button');expect(buttons).toHaveLength(16);await click(buttons[index]);await vi.waitFor(()=>expect(picker).toHaveBeenCalledOnce());const element=picker.mock.contexts[0] as HTMLInputElement;expect(element.type).toBe('file');expect(element.accept).toContain(extension);expect(JSON.stringify(useAppStore.getState().items)).toBe(before);
+ const before=JSON.stringify(useAppStore.getState().items);await mount();await click(menu('import'));const buttons=node.querySelectorAll<HTMLButtonElement>('.bs-panel-options button:not([data-library-import])');expect(buttons).toHaveLength(16);await click(buttons[index]);await vi.waitFor(()=>expect(picker).toHaveBeenCalledOnce());const element=picker.mock.contexts[0] as HTMLInputElement;expect(element.type).toBe('file');expect(element.accept).toContain(extension);expect(JSON.stringify(useAppStore.getState().items)).toBe(before);
 });
 it.each(['.ifc','.xlsx','.cuf','.bc3','.onlv','.xml','.rsx'].map((extension,index)=>[extension,index] as const))('export button %# produces an actual %s download',async(extension,index)=>{
  const before=JSON.stringify(useAppStore.getState().items);await mount();await click(menu('export'));const buttons=node.querySelectorAll<HTMLButtonElement>('.bs-panel-options button');await click(buttons[index]);await vi.waitFor(()=>expect(downloads.length).toBeGreaterThan(0));expect(downloads[0].name.toLowerCase()).toMatch(new RegExp(extension.replace('.','\\.')+'$'));expect(downloads[0].href).toContain('blob:');expect(JSON.stringify(useAppStore.getState().items)).toBe(before);
 });
 it('Exit is explicitly unavailable in the browser and closes the native window when enabled',async()=>{await mount();expect(menu('exit')).toBeDisabled();Object.defineProperty(window,'__TAURI_INTERNALS__',{value:{},configurable:true});await act(async()=>root.render(<Backstage open onClose={close} onOpenSettings={settings}/>));await click(menu('exit'));await vi.waitFor(()=>expect(mock.nativeClose).toHaveBeenCalledOnce());});
+
+it('the separate price-library entry opens library management without importing estimate rows', async () => {
+ const before = JSON.stringify(useAppStore.getState().items);
+ await mount(); await click(menu('import'));
+ await click(node.querySelector<HTMLButtonElement>('[data-library-import]')!);
+ expect(close).toHaveBeenCalledOnce();
+ expect(useAppStore.getState().resourcePickerOpen).toBe(true);
+ expect(picker).not.toHaveBeenCalled();
+ expect(JSON.stringify(useAppStore.getState().items)).toBe(before);
+});

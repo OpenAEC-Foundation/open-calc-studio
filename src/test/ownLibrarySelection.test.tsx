@@ -7,7 +7,7 @@ import { useAppStore } from '@/state/appStore';
 import { createDefaultSchedule } from '@/data/defaultBudget';
 import { deserializeProject, serializeProject } from '@/services/file/fileService';
 import { activateAllLibraries, activateOwnLibrary, choosePriceCountry, setActiveLibraries, toggleLibrary } from '@/services/pricing/choosePriceCountry';
-import { loadOwnLibraries, memoryBackend, removeOwnLibrary, saveOwnLibrary, setOwnLibraryBackend } from '@/services/pricing/ownLibraries';
+import { loadOwnLibraries, memoryBackend, ownLibraryItems, removeOwnLibrary, saveOwnLibrary, setOwnLibraryBackend } from '@/services/pricing/ownLibraries';
 import { prepareOwnLibrary } from '@/services/pricing/ownLibraryImport';
 import { activeLibrariesOf, builtInLibraryItems, missingOwnLibraries, withActiveLibraries } from '@/services/pricing/priceLibraries';
 import type { ResourceLibraryItem } from '@/types/costModel';
@@ -205,13 +205,37 @@ describe('library dialog', () => {
     expect(container.textContent).not.toContain('is not on this computer');
   });
 
+  it('lets users map custom price columns, then imports the selected values', async () => {
+    await open();
+    const input = $<HTMLInputElement>('[data-testid="own-library-file"]');
+    Object.defineProperty(input, 'files', { value: [new File(['SKU;Custom title;Custom rate\nA1;Own resource;12.50\n'], 'custom.csv')], configurable: true });
+    await act(async () => { input.dispatchEvent(new Event('change', { bubbles: true })); });
+    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    const selects = [...document.querySelectorAll<HTMLSelectElement>('.cmd-table select')];
+    expect(selects).toHaveLength(3);
+    const button = document.querySelector<HTMLButtonElement>('.cmd-btn-primary')!;
+    expect(button.disabled).toBe(true);
+    await act(async () => {
+      ['code', 'description', 'unitPrice'].forEach((field, index) => {
+        selects[index].value = field;
+        selects[index].dispatchEvent(new Event('change', { bubbles: true }));
+      });
+    });
+    expect(button.disabled).toBe(false);
+    await act(async () => { button.click(); });
+    await act(async () => { await new Promise(r => setTimeout(r, 0)); });
+    expect(ownLibraryItems('custom')![0]).toMatchObject({ code: 'A1', description: 'Own resource', defaultUnitPrice: 12.5 });
+    expect(activeLibrariesOf(useAppStore.getState().schedule)).toContain('own:custom');
+    expect(document.querySelector('.column-mapping-dialog')).toBeNull();
+  });
+
   it('shows a bad file as an error, without changing anything', async () => {
     await open();
     const input = $<HTMLInputElement>('[data-testid="own-library-file"]');
-    Object.defineProperty(input, 'files', { value: [new File(['Foo;Bar\n1;2\n'], 'x.csv')], configurable: true });
+    Object.defineProperty(input, 'files', { value: [new File(['{bad json'], 'x.json')], configurable: true });
     await act(async () => { input.dispatchEvent(new Event('change', { bubbles: true })); });
     await act(async () => { await new Promise(r => setTimeout(r, 0)); });
-    expect(container.querySelector('[role="alert"]')?.textContent).toContain('needs at least a column "Code" and a column "Description"');
+    expect(container.querySelector('[role="alert"]')?.textContent).toContain('not a usable price library');
     expect(useAppStore.getState().undoStack).toHaveLength(0);
   });
 });

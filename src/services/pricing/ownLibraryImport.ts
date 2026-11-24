@@ -22,6 +22,36 @@ export interface PrepareOptions {
    */
   updateId?: string;
   now?: Date;
+  /** Source column index to library field; overrides header detection. */
+  columnMapping?: LibraryColumnMapping;
+}
+
+export const LIBRARY_COLUMN_FIELDS = ['ignore', 'code', 'description', 'unit', 'unitPrice', 'type', 'category', 'priceDate', 'source', 'currency', 'vatBasis'] as const;
+export type LibraryColumnField = typeof LIBRARY_COLUMN_FIELDS[number];
+export type LibraryColumnMapping = LibraryColumnField[];
+
+/** Parse once for a column preview; JSON and supplier XML do not need a mapping. */
+export function readOwnLibraryTable(fileName: string, content: string | ArrayBuffer | Uint8Array): TabularData | null {
+  if (/\.xlsx?$/i.test(fileName)) {
+    if (typeof content === 'string') throw invalid('expected a binary Excel file.');
+    return parseXlsxTabular(content, fileName);
+  }
+  if (/\.(csv|tsv|txt)$/i.test(fileName)) return parseCsv(typeof content === 'string' ? content : new TextDecoder().decode(content), fileName);
+  return null;
+}
+
+export function detectLibraryMapping(headers: string[]): LibraryColumnMapping {
+  const generic = autoDetectMapping(headers);
+  const seen = new Set<string>();
+  return headers.map((h, i) => {
+    const basic = generic[i];
+    const field: LibraryColumnField = ['code', 'description', 'unit', 'unitPrice'].includes(basic)
+      ? basic as LibraryColumnField
+      : EXTRA_HEADERS.find(e => e.pattern.test(normHeader(h)))?.field ?? 'ignore';
+    if (field !== 'ignore' && seen.has(field)) return 'ignore';
+    seen.add(field);
+    return field;
+  });
 }
 
 export interface PreparedOwnLibrary {
@@ -80,13 +110,15 @@ function fromJson(content: string, fileName: string): Draft {
 }
 
 // Column headers on top of the generic table import (code, description, unit, price).
-const EXTRA_HEADERS: { field: 'code' | 'description' | 'unitPrice' | 'type' | 'category' | 'priceDate' | 'source'; pattern: RegExp }[] = [
+const EXTRA_HEADERS: { field: 'code' | 'description' | 'unitPrice' | 'type' | 'category' | 'priceDate' | 'source' | 'currency' | 'vatBasis'; pattern: RegExp }[] = [
   { field: 'code', pattern: /^(id|itemcode|itemno|item|artikel|articlecode|articleno)$/ },
   { field: 'description', pattern: /^(name|title|itemname|resource)$/ },
   { field: 'unitPrice', pattern: /^(rate|unitrate|defaultunitprice|cost|unitcost|kosten)$/ },
   { field: 'type', pattern: /^(type|resourcetype|soort|middelsoort|tipo)$/ },
   { field: 'category', pattern: /^(category|categorie|group|groep|chapter|hoofdstuk|categoria|section)$/ },
   { field: 'priceDate', pattern: /^(pricedate|prijsdatum|date|datum|peildatum)$/ },
+  { field: 'currency', pattern: /^(currency|valuta|moneda)$/ },
+  { field: 'vatBasis', pattern: /^(vatbasis|btwbasis)$/ },
   { field: 'source', pattern: /^(source|bron|pricesource|prijsbron)$/ },
 ];
 
@@ -137,14 +169,13 @@ function isoDate(text: string): string | null {
 
 const normHeader = (h: string) => h.trim().toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/[\s._/]+/g, '');
 
-function fromTable(data: TabularData, fileName: string): Draft {
-  const generic = autoDetectMapping(data.headers);
-  const column = (field: string) => {
-    const at = generic.indexOf(field as never);
-    if (at >= 0) return at;
-    const extra = EXTRA_HEADERS.filter(e => e.field === field);
-    return data.headers.findIndex((h, i) => generic[i] === 'ignore' && extra.some(e => e.pattern.test(normHeader(h))));
-  };
+function fromTable(data: TabularData, fileName: string, provided?: LibraryColumnMapping): Draft {
+  const mapping = provided ?? detectLibraryMapping(data.headers);
+  if (mapping.length !== data.headers.length || mapping.some(f => !LIBRARY_COLUMN_FIELDS.includes(f))
+    || new Set(mapping.filter(f => f !== 'ignore')).size !== mapping.filter(f => f !== 'ignore').length) {
+    throw invalid('Invalid or duplicate library column mapping.');
+  }
+  const column = (field: LibraryColumnField) => mapping.indexOf(field);
   const cCode = column('code');
   const cDesc = column('description');
   const cUnit = column('unit');
@@ -153,6 +184,8 @@ function fromTable(data: TabularData, fileName: string): Draft {
   const cCat = column('category');
   const cDate = column('priceDate');
   const cSource = column('source');
+  const cCurrency = column('currency');
+  const cVat = column('vatBasis');
   if (cCode < 0 || cDesc < 0) {
     throw new OwnLibraryFileError(uiText('pricing.ownColumns', 'The table needs at least a column "Code" and a column "Description" (headers in English or Dutch, such as "Omschrijving"). Found: {{columns}}.', { columns: data.headers.join(', ') || '—' }));
   }
@@ -180,6 +213,8 @@ function fromTable(data: TabularData, fileName: string): Draft {
         defaultUnitPrice: priceText === '' ? null : amount.value,
         source: cell(row, cSource) || fileName,
         priceDate: date,
+        ...(cell(row, cCurrency) ? { currency: cell(row, cCurrency).toUpperCase() } : {}),
+        ...(cell(row, cVat) ? { vatBasis: cell(row, cVat).toLowerCase() } : {}),
       };
     });
   const name = baseName(fileName);
@@ -219,12 +254,9 @@ export function prepareOwnLibrary(fileName: string, content: string | ArrayBuffe
   let warnings: string[] = [];
   try {
     if (origin === 'table') {
-      if (ext === 'xlsx' || ext === 'xls') {
-        if (typeof content === 'string') throw invalid('expected a binary Excel file.');
-        draft = fromTable(parseXlsxTabular(content, fileName), fileName);
-      } else {
-        draft = fromTable(parseCsv(asText(), fileName), fileName);
-      }
+      const table = readOwnLibraryTable(fileName, content);
+      if (!table) throw invalid('Unsupported table format.');
+      draft = fromTable(table, fileName, options.columnMapping);
     } else if (origin === 'bmecat') {
       ({ draft, warnings } = fromBmecat(asText(), fileName));
     } else {

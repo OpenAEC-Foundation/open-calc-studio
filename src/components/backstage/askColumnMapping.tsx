@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { getPortalTarget } from '@/lib/hostRoot';
-import ColumnMappingDialog from './ColumnMappingDialog';
-import type { ColumnMapping, TabularData } from '../../services/importers';
+import ColumnMappingDialog, { type MappingOptions } from './ColumnMappingDialog';
+import type { TabularData, TargetField } from '../../services/importers';
 
 /** Gegooid wanneer de gebruiker het koppelvenster sluit zonder te importeren. */
 export class ImportCancelledError extends Error {
@@ -18,13 +18,13 @@ export class ImportCancelledError extends Error {
  * startscherm de gebruiker de kolommen kan laten controleren (#40).
  * Resolvet met de gekozen mapping, of `null` bij annuleren.
  */
-export function askColumnMapping(data: TabularData): Promise<ColumnMapping | null> {
+export function askColumnMapping<F extends string = TargetField>(data: TabularData, options: MappingOptions<F> = {}): Promise<F[] | null> {
   return new Promise((resolve) => {
     const el = document.createElement('div');
     getPortalTarget().appendChild(el);
     const root = createRoot(el);
     let done = false;
-    const finish = (mapping: ColumnMapping | null) => {
+    const finish = (mapping: F[] | null) => {
       if (done) return; // sluiten na bevestigen mag niet nog eens annuleren
       done = true;
       resolve(mapping);
@@ -34,7 +34,8 @@ export function askColumnMapping(data: TabularData): Promise<ColumnMapping | nul
     function Host() {
       const [open, setOpen] = useState(true);
       return (
-        <ColumnMappingDialog
+        <ColumnMappingDialog<F>
+          {...options}
           open={open}
           data={data}
           onClose={() => { setOpen(false); finish(null); }}

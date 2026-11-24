@@ -803,7 +803,9 @@
       "origin": "Price source",
       "catalogueLabel": "Catalogue",
       "date": "Price date",
-      "applied": "Applied source price"
+      "applied": "Applied source price",
+      "category": "Category",
+      "vatBasis": "VAT basis"
     },
     "import": {
       "gaebBase": "Open the matching GAEB X83 bill of quantities first.",

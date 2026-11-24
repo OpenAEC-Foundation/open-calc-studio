@@ -6,7 +6,7 @@ Open-source construction cost estimating for desktop, browser and embedded appli
 [![Release](https://img.shields.io/github/v/release/OpenAEC-Foundation/open-calc-studio)](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/latest)
 [![Build](https://github.com/OpenAEC-Foundation/open-calc-studio/actions/workflows/build.yml/badge.svg)](https://github.com/OpenAEC-Foundation/open-calc-studio/actions/workflows/build.yml)
 
-**[Download 2026.46.0](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/tag/v2026.46.0)** · **[Try the browser app](https://open-calc-studio.open-aec.com/)** · [User guide](docs/user-guide.md) · [Nederlandse handleiding](docs/gebruikershandleiding.md)
+**[Download the latest release](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/latest)** · **[Try the browser app](https://open-calc-studio.open-aec.com/)** · [User guide](docs/user-guide.md) · [Nederlandse handleiding](docs/gebruikershandleiding.md)
 
 Build an estimate, bring in spreadsheet/PDF/IFC quantities, review the sources
 and prices, and prepare reports. Use the full editor or follow the guided
@@ -57,29 +57,37 @@ using public sample data. [Screenshot sources](docs/screenshots/2026.45.0/README
 5. Save a native `.ifcCalc` project. In a standalone browser, saving downloads a copy;
    a hosted session saves through its site's storage contract.
 
+## New in 2026.48.0
+
+Import separate company/supplier price libraries from JSON, CSV/Excel or
+BMEcat, review column mappings, and select libraries per estimate. Library
+management is also available through MCP. This version includes itemised BC3
+measurement lines, Excel formula diagnostics, source rounding and built-in
+report fonts. Country selection does not convert prices or set tax defaults.
+[Release notes and remaining limitations](docs/release-notes/v2026.48.0.md) ·
+[Price library format](docs/price-library-format.md).
+
 ## Downloads
 
 **Upgrade note:** production capacity now divides both hours and labour cost on
 rate-group lines. Existing estimates with capacity other than 1 may show lower
 labour totals. [Calculation changes](docs/release-notes/v2026.46.0.md).
 
-The signed **2026.46.0** release is available for all three desktop platforms:
+The signed **2026.48.0** release is available for all three desktop platforms:
 
 | Platform | Packages | Verification |
 | --- | --- | --- |
-| Windows x64 | [EXE](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.46.0/Open.Calc.Studio_2026.46.0_x64-setup.exe), [MSI](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.46.0/Open.Calc.Studio_2026.46.0_x64_en-US.msi) | Authenticode; installed app, uninstaller and native DLL checked in CI |
-| macOS Intel + Apple Silicon | [Universal DMG](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.46.0/Open.Calc.Studio_2026.46.0_universal.dmg) | Developer ID, Apple notarization, Gatekeeper and stapled ticket |
-| Linux x64 | [AppImage](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.46.0/Open.Calc.Studio_2026.46.0_amd64.AppImage), [DEB](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.46.0/Open.Calc.Studio_2026.46.0_amd64.deb), [RPM](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.46.0/Open.Calc.Studio-2026.46.0-1.x86_64.rpm) | Detached OpenPGP signatures and the public key accompany the packages |
+| Windows x64 | [EXE](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.48.0/Open.Calc.Studio_2026.48.0_x64-setup.exe), [MSI](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.48.0/Open.Calc.Studio_2026.48.0_x64_en-US.msi) | Authenticode; installed app, uninstaller and native DLL checked in CI |
+| macOS Intel + Apple Silicon | [Universal DMG](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.48.0/Open.Calc.Studio_2026.48.0_universal.dmg) | Developer ID, Apple notarization, Gatekeeper and stapled ticket |
+| Linux x64 | [AppImage](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.48.0/Open.Calc.Studio_2026.48.0_amd64.AppImage), [DEB](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.48.0/Open.Calc.Studio_2026.48.0_amd64.deb), [RPM](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/download/v2026.48.0/Open.Calc.Studio-2026.48.0-1.x86_64.rpm) | Detached OpenPGP signatures and the public key accompany the packages |
 
-The [release page](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/tag/v2026.46.0)
+The [release page](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/tag/v2026.48.0)
 also includes checksums, updater signatures/manifest, the signed Windows DLL
-archive, and SDK, hosted-web and headless-API packages. Snap **2026.46.0** is
-on stable as revision **10**, with public product metadata **LGPL-3.0-only**.
-The release asset ending in `-store.snap` matches that Store build and has its
-own checksum; the earlier Snap archive is retained unchanged.
+archive, and SDK, hosted-web and headless-API packages. Snap and updater
+metadata are generated after publication; they carry separate checksum files.
 The project remains in public testing.
 
-[Signature verification](docs/desktop-builds.md) · [macOS startup help](docs/macos-startup.md) · [Release notes](docs/release-notes/v2026.46.0.md)
+[Signature verification](docs/desktop-builds.md) · [macOS startup help](docs/macos-startup.md) · [Release notes](docs/release-notes/v2026.48.0.md)
 
 ## Run from source
 
@@ -125,17 +133,21 @@ For the mobile browser, serve a web build over HTTPS. Android and iPhone use the
 
 ## Versions and delivery status
 
-The current published release is **[2026.46.0](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/tag/v2026.46.0)**, using `year.ISOweek.patch`. Product packages, Cargo and MCP share this version. MSI uses `26.46.0` to fit the Windows major-version limit. The `.ifcCalc` **file format is 2.4.0**; it has its own compatibility policy and is not a product release number.
+The product version is **2026.48.0**, using `year.ISOweek.patch`.
+[Published releases and installers](https://github.com/OpenAEC-Foundation/open-calc-studio/releases/latest)
+are listed separately from source changes. Product packages, Cargo and MCP
+share the version; MSI uses `26.48.0` to fit the Windows major-version limit.
+The `.ifcCalc` **file format is 2.4.0**, with its own compatibility policy.
 
-The release source passed **1,525 tests** (six skipped), six platform-isolation tests,
-and native library/API checks on Windows, macOS and Linux. Signing and updater
-verification succeeded in [release CI](https://github.com/OpenAEC-Foundation/open-calc-studio/actions/runs/42962816974).
-An SDK archive is available; this does not assert publication to the npm registry.
+Release CI runs the frontend and platform tests, builds the SDK and hosted/API
+archives, and verifies signed installers for Windows, macOS and Linux before
+creating a draft release. Publication follows review of those results.
+An SDK release archive does not assert publication to the npm registry.
 
 Real Android/iPhone acceptance, clean-machine installation and AWS deployment
 remain open. Standalone production account sign-in requires a registered account
 configuration. The DynLex work is a small research prototype, not a rewrite.
-[Release notes](docs/release-notes/v2026.46.0.md) · [Issue acceptance matrix](docs/issue-readiness.md).
+[Release notes](docs/release-notes/v2026.48.0.md) · [Issue acceptance matrix](docs/issue-readiness.md).
 
 | Distribution | Interface and boundary | Documentation |
 | --- | --- | --- |

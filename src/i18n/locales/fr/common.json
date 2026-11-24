@@ -777,7 +777,9 @@
       "origin": "Source du prix",
       "catalogueLabel": "Catalogue",
       "date": "Date du prix",
-      "applied": "Prix source appliqué"
+      "applied": "Prix source appliqué",
+      "category": "Catégorie",
+      "vatBasis": "Base de TVA"
     },
     "import": {
       "gaebBase": "Ouvrez d'abord le bordereau de prestations GAEB X83 correspondant.",

@@ -777,7 +777,9 @@
       "origin": "Fonte do preço",
       "catalogueLabel": "Catálogo",
       "date": "Data do preço",
-      "applied": "Preço de origem aplicado"
+      "applied": "Preço de origem aplicado",
+      "category": "Categoria",
+      "vatBasis": "Base do IVA"
     },
     "import": {
       "gaebBase": "Abra primeiro o mapa de quantidades GAEB X83 correspondente.",

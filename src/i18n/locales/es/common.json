@@ -830,7 +830,9 @@
       "origin": "Fuente del precio",
       "catalogueLabel": "Catálogo",
       "date": "Fecha del precio",
-      "applied": "Precio de la fuente aplicado"
+      "applied": "Precio de la fuente aplicado",
+      "category": "Categoría",
+      "vatBasis": "Base del IVA"
     },
     "import": {
       "gaebBase": "Abra primero el estado de mediciones GAEB X83 correspondiente.",

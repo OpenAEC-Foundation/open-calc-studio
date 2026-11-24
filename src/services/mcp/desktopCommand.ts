@@ -48,6 +48,7 @@ export function desktopState() {
 /** JSON-only action boundary. Dispatches the same store methods used by the UI. */
 export async function executeDesktopCommand(action: string, params: Record<string, unknown> = {}): Promise<unknown> {
   const store = useAppStore.getState();
+  if (action.startsWith('libraries.')) return (await import('../pricing/libraryCommands')).libraryCommand(action.slice(10), params);
   if (action.startsWith('pricing.')) return (await import('../pricing/priceUpdateCommands')).priceUpdateCommand(action.slice(8), params);
   if (action.startsWith('revisions.')) return (await import('../revisions/revisionCommands')).revisionCommand(action.slice(10), params);
   if (action.startsWith('recovery.')) {
