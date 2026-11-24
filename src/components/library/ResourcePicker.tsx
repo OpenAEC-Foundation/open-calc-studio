@@ -63,10 +63,12 @@ export const ResourcePicker: React.FC = () => {
   // Tab stays in the dialog, Escape closes it, focus returns to where it came from.
   useDialogFocus(dialogRef, resourcePickerOpen, closeResourcePicker);
 
-  // Focus search input on open
+  // Focus search input on open; a notice from where it was opened (an
+  // imported price library) shows as the panel message.
   useEffect(() => {
     if (resourcePickerOpen) {
-      setMessage(null);
+      const notice = useAppStore.getState().resourcePickerNotice;
+      setMessage(notice ? { text: notice, kind: 'info' } : null);
       setError('');
       setClosedNote(null);
       setSearch('');

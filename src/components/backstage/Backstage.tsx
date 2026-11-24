@@ -26,12 +26,17 @@ import ColumnMappingDialog from "./ColumnMappingDialog";
 import { showImportWarnings } from "../common/ImportWarningsDialog";
 import { looksLikePriceList, OWN_LIBRARY_FILE_TYPES, prepareOwnLibrary, prepareOwnLibraryFromTable } from '@/services/pricing/ownLibraryImport';
 import { installOwnLibrary, ownLibraryImportedMessage } from '@/services/pricing/installOwnLibrary';
+import type { PreparedOwnLibrary } from '@/services/pricing/ownLibraryImport';
 import { askLibraryColumnMapping } from '@/components/library/askLibraryColumnMapping';
 import { importOwnLibraryFile } from '@/components/library/importOwnLibraryFile';
 import { rememberLibraryMapping } from '@/services/pricing/libraryColumnMappings';
 import { OPENAEC_ENABLED, USER_EXTENSIONS_ENABLED, allowsExternalServices } from "../../services/buildFlags";
 import appIcon from '@/assets/app-icon.svg';
 import "./Backstage.css";
+
+/** After a price-library import: open the library dialog, with what was imported in it. */
+const showImportedLibrary = (prepared: PreparedOwnLibrary) =>
+  useAppStore.getState().openResourcePicker(null, ownLibraryImportedMessage(prepared));
 
 const ICONS = {
   new: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6m-3 3h6"/></svg>',
@@ -246,7 +251,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
       console.warn(`[Import ${label}] waarschuwingen:`, result.warnings);
       showImportWarnings(result, fileName);
     }
-    alert(ownLibraryImportedMessage(prepared));
+    showImportedLibrary(prepared);
   };
 
   const handleZsxImport = useCallback(async () => {
@@ -387,7 +392,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
       const prepared = prepareOwnLibraryFromTable(table, table.sourceName, { columnMapping });
       if (!await installOwnLibrary(prepared)) return;
       rememberLibraryMapping(table.headers, columnMapping);
-      alert(ownLibraryImportedMessage(prepared));
+      showImportedLibrary(prepared);
     } catch (err: any) {
       console.error('[Import price list] failed:', err);
       alert(t('importPanel.importFailed', { error: err?.message || err }));
@@ -424,7 +429,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
       if (!file) return;
       try {
         const prepared = await importOwnLibraryFile(file);
-        if (prepared) alert(ownLibraryImportedMessage(prepared));
+        if (prepared) showImportedLibrary(prepared);
       } catch (err: any) {
         console.error('[Import price list] failed:', err);
         alert(t('importPanel.importFailed', { error: err?.message || err }));

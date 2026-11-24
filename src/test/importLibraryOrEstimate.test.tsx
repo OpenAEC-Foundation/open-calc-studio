@@ -2,8 +2,9 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { afterEach, beforeEach, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, expect, it, onTestFinished, vi } from 'vitest';
 import Backstage from '@/components/backstage/Backstage';
+import { ResourcePicker } from '@/components/library/ResourcePicker';
 import { useAppStore } from '@/state/appStore';
 import i18next from '@/i18n/config';
 import { createDefaultSchedule } from '@/data/defaultBudget';
@@ -35,7 +36,7 @@ beforeEach(async () => {
   useAppStore.setState({
     schedule: createDefaultSchedule(), items: [], undoStack: [], redoStack: [],
     documents: [{ id: 'doc', fileName: 'a.ifcCalc', filePath: null, isModified: false, items: [], schedule: createDefaultSchedule() } as never], activeDocumentId: 'doc',
-    resourceLibrary: builtInLibraryItems('NL'),
+    resourceLibrary: builtInLibraryItems('NL'), resourcePickerOpen: false, resourcePickerNotice: null,
   });
   node = document.createElement('div');
   document.body.appendChild(node);
@@ -97,6 +98,7 @@ it('a price list opened via Excel / CSV offers the price library instead, with t
   await vi.waitFor(() => expect(listOwnLibraries()).toHaveLength(1));
   expect(listOwnLibraries()[0]).toMatchObject({ id: 'leverancier', origin: 'table', count: 2 });
   expect(activeLibrariesOf(useAppStore.getState().schedule)).toContain('own:leverancier');
+  await vi.waitFor(() => expect(useAppStore.getState().resourcePickerNotice).toContain('“leverancier” imported: 2 resources.'));
   // No estimate was made from it.
   expect(newFile).not.toHaveBeenCalled();
   expect(useAppStore.getState().items).toBe(before);
@@ -118,7 +120,10 @@ it('Price library → Price list goes straight to the file, the column preview a
   await vi.waitFor(() => expect(listOwnLibraries()).toHaveLength(1));
   expect(listOwnLibraries()[0]).toMatchObject({ id: 'leverancier', origin: 'table', count: 2 });
   expect(activeLibrariesOf(useAppStore.getState().schedule)).toContain('own:leverancier');
-  await vi.waitFor(() => expect(alert).toHaveBeenCalledWith(expect.stringContaining('“leverancier” imported: 2 resources.')));
+  // Afterwards the library dialog opens and says what was imported.
+  await vi.waitFor(() => expect(useAppStore.getState().resourcePickerOpen).toBe(true));
+  expect(useAppStore.getState().resourcePickerNotice).toContain('“leverancier” imported: 2 resources.');
+  expect(alert).not.toHaveBeenCalled();
   expect(newFile).not.toHaveBeenCalled();
   expect(useAppStore.getState().items).toBe(before);
 });
@@ -142,5 +147,20 @@ it('Backstage → Import → ZSX keeps the price list as an own library and swit
   expect(library).toMatchObject({ id: 'leverancier', origin: 'zsx', fileName: 'leverancier.xml', count: 2 });
   expect(activeLibrariesOf(useAppStore.getState().schedule)).toEqual(['country', 'own:leverancier']);
   await vi.waitFor(() => expect(useAppStore.getState().resourceLibrary.map(i => i.id)).toContain('leverancier:A001'));
-  expect(alert).toHaveBeenCalledWith(expect.stringContaining('“leverancier” imported: 2 resources.'));
+  expect(useAppStore.getState().resourcePickerOpen).toBe(true);
+  expect(useAppStore.getState().resourcePickerNotice).toContain('“leverancier” imported: 2 resources.');
+  expect(alert).not.toHaveBeenCalled();
+});
+
+it('the library dialog shows the import message it was opened with, and not the next time', async () => {
+  // jsdom has no scrollIntoView; the picker scrolls its selected row into view.
+  const scroll = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'scrollIntoView');
+  Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', { configurable: true, value: vi.fn() });
+  onTestFinished(() => { if (scroll) Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', scroll); else delete (HTMLElement.prototype as { scrollIntoView?: unknown }).scrollIntoView; });
+  useAppStore.getState().openResourcePicker(null, '“leverancier” imported: 2 resources.');
+  await act(async () => root.render(<ResourcePicker />));
+  expect(node.querySelector('.rp-banners')?.textContent).toContain('“leverancier” imported: 2 resources.');
+  await act(async () => useAppStore.getState().closeResourcePicker());
+  await act(async () => useAppStore.getState().openResourcePicker(null));
+  expect(node.querySelector('.rp-banners')?.textContent ?? '').not.toContain('imported');
 });
