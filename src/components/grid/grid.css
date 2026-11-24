@@ -881,6 +881,32 @@ th.split-col-unit { text-align: center; }
   text-overflow: ellipsis;
 }
 .measurement-mismatch:hover { text-decoration: underline; }
+.measurement-foot-start { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.measurement-foot-wide { grid-column: span 5; }
+.measurement-notice-region { display: flex; min-width: 0; }
+.measurement-foot-start .measurement-add { flex: none; white-space: nowrap; }
+.measurement-notice {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--oa-warning) 14%, transparent);
+  color: var(--oa-warning);
+  padding: 0 2px 0 6px;
+}
+.measurement-notice-text { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; min-width: 0; }
+.measurement-notice-close {
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+  flex: none;
+}
+.measurement-notice-close:hover { color: var(--theme-text); }
 .measurement-title {
   display: flex;
   align-items: center;

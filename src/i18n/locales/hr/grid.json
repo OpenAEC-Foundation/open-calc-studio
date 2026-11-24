@@ -257,6 +257,12 @@
     "dropLinkConfirm": "Količina ove stavke povezana je s Excelom, PDF-om, IFC-om ili listom. Retci izmjere zamjenjuju tu vezu. Nastaviti?",
     "linkReplacesConfirm": "Ova stavka ima retke izmjere. Povezivanje količine uklanja ih. Nastaviti?",
     "mismatch": "Količina ({{quantity}}) razlikuje se od zbroja redaka izmjere ({{sum}}). Kliknite za preuzimanje zbroja.",
-    "useSum": "Preuzmi zbroj"
+    "useSum": "Preuzmi zbroj",
+    "pasteInvalid": "Nije moguće pročitati, ostavljeno prazno: retci {{lines}}",
+    "pasteUnits": "Jedinica uklonjena: retci {{lines}}",
+    "pasteExtraColumns": "Stupci nakon {{height}} nisu zalijepljeni",
+    "pasteDecimalGuess": "{{text}} pročitano kao {{value}}",
+    "pasteUndo": "Zalijepi retke izmjere",
+    "noticeDismiss": "Zatvori poruku"
   }
 }

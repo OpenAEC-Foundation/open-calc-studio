@@ -257,6 +257,12 @@
     "dropLinkConfirm": "A quantidade deste artigo está ligada ao Excel, a um PDF, IFC ou a uma folha. As linhas de medição substituem essa ligação. Continuar?",
     "linkReplacesConfirm": "Este artigo tem linhas de medição. Ligar a quantidade remove-as. Continuar?",
     "mismatch": "A quantidade ({{quantity}}) difere do total das linhas de medição ({{sum}}). Clique para usar o total.",
-    "useSum": "Usar o total"
+    "useSum": "Usar o total",
+    "pasteInvalid": "Não foi possível ler, deixado vazio: linhas {{lines}}",
+    "pasteUnits": "Unidade removida: linhas {{lines}}",
+    "pasteExtraColumns": "Colunas depois de {{height}} não coladas",
+    "pasteDecimalGuess": "{{text}} lido como {{value}}",
+    "pasteUndo": "Colar linhas de medição",
+    "noticeDismiss": "Fechar mensagem"
   }
 }

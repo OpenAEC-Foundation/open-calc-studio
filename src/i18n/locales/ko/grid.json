@@ -257,6 +257,12 @@
     "dropLinkConfirm": "이 항목의 수량은 Excel, PDF, IFC 또는 시트에 연결되어 있습니다. 물량 산출 행이 이 연결을 대체합니다. 계속하시겠습니까?",
     "linkReplacesConfirm": "이 항목에는 물량 산출 행이 있습니다. 수량을 연결하면 행이 삭제됩니다. 계속하시겠습니까?",
     "mismatch": "수량({{quantity}})이 물량 산출 행의 합계({{sum}})와 다릅니다. 클릭하면 합계를 사용합니다.",
-    "useSum": "합계 사용"
+    "useSum": "합계 사용",
+    "pasteInvalid": "읽을 수 없어 비워 둠: 행 {{lines}}",
+    "pasteUnits": "단위 제거됨: 행 {{lines}}",
+    "pasteExtraColumns": "{{height}} 다음 열은 붙여넣지 않았습니다",
+    "pasteDecimalGuess": "{{text}}을(를) {{value}}(으)로 읽음",
+    "pasteUndo": "측정 행 붙여넣기",
+    "noticeDismiss": "메시지 닫기"
   }
 }

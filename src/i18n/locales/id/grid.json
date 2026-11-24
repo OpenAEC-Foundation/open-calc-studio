@@ -257,6 +257,12 @@
     "dropLinkConfirm": "Kuantitas item ini tertaut ke Excel, PDF, IFC, atau lembar. Baris pengukuran menggantikan tautan itu. Lanjutkan?",
     "linkReplacesConfirm": "Item ini memiliki baris pengukuran. Menautkan kuantitas akan menghapusnya. Lanjutkan?",
     "mismatch": "Kuantitas ({{quantity}}) berbeda dari total baris pengukuran ({{sum}}). Klik untuk memakai total.",
-    "useSum": "Pakai total"
+    "useSum": "Pakai total",
+    "pasteInvalid": "Tidak dapat dibaca, dibiarkan kosong: baris {{lines}}",
+    "pasteUnits": "Satuan dihapus: baris {{lines}}",
+    "pasteExtraColumns": "Kolom setelah {{height}} tidak ditempel",
+    "pasteDecimalGuess": "{{text}} dibaca sebagai {{value}}",
+    "pasteUndo": "Tempel baris pengukuran",
+    "noticeDismiss": "Tutup pesan"
   }
 }

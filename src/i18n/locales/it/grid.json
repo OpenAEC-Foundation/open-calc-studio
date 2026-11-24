@@ -257,6 +257,12 @@
     "dropLinkConfirm": "La quantità di questa voce è collegata a Excel, un PDF, IFC o un foglio. Le righe di misura sostituiscono questo collegamento. Continuare?",
     "linkReplacesConfirm": "Questa voce ha righe di misura. Collegare la quantità le rimuove. Continuare?",
     "mismatch": "La quantità ({{quantity}}) differisce dal totale delle righe di misura ({{sum}}). Fai clic per usare il totale.",
-    "useSum": "Usa il totale"
+    "useSum": "Usa il totale",
+    "pasteInvalid": "Illeggibile, lasciato vuoto: righe {{lines}}",
+    "pasteUnits": "Unità rimossa: righe {{lines}}",
+    "pasteExtraColumns": "Colonne dopo {{height}} non incollate",
+    "pasteDecimalGuess": "{{text}} letto come {{value}}",
+    "pasteUndo": "Incolla righe di misura",
+    "noticeDismiss": "Chiudi messaggio"
   }
 }

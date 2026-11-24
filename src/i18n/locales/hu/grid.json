@@ -257,6 +257,12 @@
     "dropLinkConfirm": "A tétel mennyisége Excelhez, PDF-hez, IFC-hez vagy munkalaphoz van kapcsolva. A felmérési sorok felváltják ezt a kapcsolatot. Folytatja?",
     "linkReplacesConfirm": "Ennek a tételnek vannak felmérési sorai. A mennyiség kapcsolása eltávolítja őket. Folytatja?",
     "mismatch": "A mennyiség ({{quantity}}) eltér a felmérési sorok összegétől ({{sum}}). Kattintson az összeg átvételéhez.",
-    "useSum": "Összeg átvétele"
+    "useSum": "Összeg átvétele",
+    "pasteInvalid": "Nem olvasható, üresen hagyva: sorok {{lines}}",
+    "pasteUnits": "Mértékegység eltávolítva: sorok {{lines}}",
+    "pasteExtraColumns": "A(z) {{height}} utáni oszlopok nincsenek beillesztve",
+    "pasteDecimalGuess": "{{text}} beolvasva: {{value}}",
+    "pasteUndo": "Felmérési sorok beillesztése",
+    "noticeDismiss": "Üzenet bezárása"
   }
 }

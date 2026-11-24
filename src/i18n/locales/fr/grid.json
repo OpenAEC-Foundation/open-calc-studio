@@ -257,6 +257,12 @@
     "dropLinkConfirm": "La quantité de cet article est liée à Excel, un PDF, un IFC ou une feuille. Les lignes de métré remplacent ce lien. Continuer ?",
     "linkReplacesConfirm": "Cet article a des lignes de métré. Lier la quantité les supprime. Continuer ?",
     "mismatch": "La quantité ({{quantity}}) diffère du total des lignes de métré ({{sum}}). Cliquez pour reprendre le total.",
-    "useSum": "Reprendre le total"
+    "useSum": "Reprendre le total",
+    "pasteInvalid": "Illisible, laissé vide : lignes {{lines}}",
+    "pasteUnits": "Unité supprimée : lignes {{lines}}",
+    "pasteExtraColumns": "Colonnes après {{height}} non collées",
+    "pasteDecimalGuess": "{{text}} lu comme {{value}}",
+    "pasteUndo": "Coller des lignes de métré",
+    "noticeDismiss": "Fermer le message"
   }
 }

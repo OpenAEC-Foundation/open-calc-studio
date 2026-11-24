@@ -257,6 +257,12 @@
     "dropLinkConfirm": "Tämän nimikkeen määrä on linkitetty Exceliin, PDF:ään, IFC:hen tai taulukkoon. Mittarivit korvaavat linkin. Jatketaanko?",
     "linkReplacesConfirm": "Tällä nimikkeellä on mittarivejä. Määrän linkittäminen poistaa ne. Jatketaanko?",
     "mismatch": "Määrä ({{quantity}}) poikkeaa mittarivien summasta ({{sum}}). Käytä summaa napsauttamalla.",
-    "useSum": "Käytä summaa"
+    "useSum": "Käytä summaa",
+    "pasteInvalid": "Ei voitu lukea, jätetty tyhjäksi: rivit {{lines}}",
+    "pasteUnits": "Yksikkö poistettu: rivit {{lines}}",
+    "pasteExtraColumns": "Sarakkeita {{height}} jälkeen ei liitetty",
+    "pasteDecimalGuess": "{{text}} luettu arvoksi {{value}}",
+    "pasteUndo": "Liitä mittarivit",
+    "noticeDismiss": "Sulje ilmoitus"
   }
 }

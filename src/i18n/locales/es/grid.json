@@ -257,6 +257,12 @@
     "dropLinkConfirm": "La cantidad de esta partida está vinculada a Excel, un PDF, IFC o una hoja. Las líneas de medición sustituyen ese vínculo. ¿Continuar?",
     "linkReplacesConfirm": "Esta partida tiene líneas de medición. Vincular la cantidad las elimina. ¿Continuar?",
     "mismatch": "La cantidad ({{quantity}}) no coincide con el total de las líneas de medición ({{sum}}). Haga clic para usar el total.",
-    "useSum": "Usar el total"
+    "useSum": "Usar el total",
+    "pasteInvalid": "No se pudo leer, se dejó vacío: líneas {{lines}}",
+    "pasteUnits": "Unidad eliminada: líneas {{lines}}",
+    "pasteExtraColumns": "Las columnas después de {{height}} no se han pegado",
+    "pasteDecimalGuess": "{{text}} leído como {{value}}",
+    "pasteUndo": "Pegar líneas de medición",
+    "noticeDismiss": "Cerrar mensaje"
   }
 }

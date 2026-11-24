@@ -257,6 +257,12 @@
     "dropLinkConfirm": "Cantitatea acestui articol este legată de Excel, un PDF, IFC sau o foaie. Liniile de măsurătoare înlocuiesc această legătură. Continuați?",
     "linkReplacesConfirm": "Acest articol are linii de măsurătoare. Legarea cantității le elimină. Continuați?",
     "mismatch": "Cantitatea ({{quantity}}) diferă de totalul liniilor de măsurătoare ({{sum}}). Faceți clic pentru a folosi totalul.",
-    "useSum": "Folosește totalul"
+    "useSum": "Folosește totalul",
+    "pasteInvalid": "Nu s-a putut citi, lăsat gol: rândurile {{lines}}",
+    "pasteUnits": "Unitate eliminată: rândurile {{lines}}",
+    "pasteExtraColumns": "Coloanele de după {{height}} nu au fost lipite",
+    "pasteDecimalGuess": "{{text}} citit ca {{value}}",
+    "pasteUndo": "Lipire rânduri de măsurătoare",
+    "noticeDismiss": "Închide mesajul"
   }
 }

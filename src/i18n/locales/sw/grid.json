@@ -257,6 +257,12 @@
     "dropLinkConfirm": "Kiasi cha kipengee hiki kimeunganishwa na Excel, PDF, IFC au karatasi. Mistari ya vipimo inachukua nafasi ya kiungo hicho. Endelea?",
     "linkReplacesConfirm": "Kipengee hiki kina mistari ya vipimo. Kuunganisha kiasi kutaiondoa. Endelea?",
     "mismatch": "Kiasi ({{quantity}}) kinatofautiana na jumla ya mistari ya vipimo ({{sum}}). Bofya ili kutumia jumla.",
-    "useSum": "Tumia jumla"
+    "useSum": "Tumia jumla",
+    "pasteInvalid": "Haikusomeka, imeachwa tupu: mistari {{lines}}",
+    "pasteUnits": "Kipimo kimeondolewa: mistari {{lines}}",
+    "pasteExtraColumns": "Safu baada ya {{height}} hazijabandikwa",
+    "pasteDecimalGuess": "{{text}} imesomwa kama {{value}}",
+    "pasteUndo": "Bandika mistari ya vipimo",
+    "noticeDismiss": "Funga ujumbe"
   }
 }

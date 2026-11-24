@@ -257,6 +257,12 @@
     "dropLinkConfirm": "הכמות של סעיף זה מקושרת ל-Excel, PDF, IFC או גיליון. שורות המדידה מחליפות את הקישור. להמשיך?",
     "linkReplacesConfirm": "לסעיף זה יש שורות מדידה. קישור הכמות מסיר אותן. להמשיך?",
     "mismatch": "הכמות ({{quantity}}) שונה מסכום שורות המדידה ({{sum}}). לחצו כדי להשתמש בסכום.",
-    "useSum": "שימוש בסכום"
+    "useSum": "שימוש בסכום",
+    "pasteInvalid": "לא ניתן לקרוא, נשאר ריק: שורות {{lines}}",
+    "pasteUnits": "היחידה הוסרה: שורות {{lines}}",
+    "pasteExtraColumns": "עמודות אחרי {{height}} לא הודבקו",
+    "pasteDecimalGuess": "{{text}} נקרא כ-{{value}}",
+    "pasteUndo": "הדבקת שורות מדידה",
+    "noticeDismiss": "סגירת ההודעה"
   }
 }

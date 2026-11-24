@@ -257,6 +257,12 @@
     "dropLinkConfirm": "Bu kalemin miktarı Excel'e, bir PDF'ye, IFC'ye veya bir sayfaya bağlı. Ölçü satırları bu bağlantının yerini alır. Devam edilsin mi?",
     "linkReplacesConfirm": "Bu kalemin ölçü satırları var. Miktarı bağlamak onları kaldırır. Devam edilsin mi?",
     "mismatch": "Miktar ({{quantity}}), ölçü satırlarının toplamından ({{sum}}) farklı. Toplamı kullanmak için tıklayın.",
-    "useSum": "Toplamı kullan"
+    "useSum": "Toplamı kullan",
+    "pasteInvalid": "Okunamadı, boş bırakıldı: satırlar {{lines}}",
+    "pasteUnits": "Birim kaldırıldı: satırlar {{lines}}",
+    "pasteExtraColumns": "{{height}} sonrasındaki sütunlar yapıştırılmadı",
+    "pasteDecimalGuess": "{{text}}, {{value}} olarak okundu",
+    "pasteUndo": "Metraj satırlarını yapıştır",
+    "noticeDismiss": "Mesajı kapat"
   }
 }

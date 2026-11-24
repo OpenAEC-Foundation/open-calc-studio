@@ -7,7 +7,9 @@ import { decimalSeparator, parseLocaleNumber } from './formatting';
 // in een getal, dan is het laatste het decimaalteken ("1.234,56", "1,234.56").
 // Meerdere keren hetzelfde teken is een duizendtal ("1.234.567").
 // Retourneert null bij lege of ongeldige invoer.
-export function parseNumericInput(input: string): number | null {
+// `decimal`: het decimaalteken; standaard dat van de app-taal. Plakken uit
+// Excel geeft het teken mee dat uit het geplakte blok zelf volgt.
+export function parseNumericInput(input: string, decimal: ',' | '.' = decimalSeparator()): number | null {
   // Geplakte waarden uit andere talen: harde spaties, richtingstekens en het
   // wiskundige minteken (U+2212) normaliseren.
   const trimmed = input.replace(/[\u00A0\u202F\u200E\u200F]/g, '').replace(/\u2212/g, '-').trim();
@@ -20,11 +22,11 @@ export function parseNumericInput(input: string): number | null {
   // Zonder '=' alleen als formule zien bij een echte operator: * / ( )
   // of een +/- ná een cijfer (zodat "-15,5" een gewoon getal blijft).
   const looksLikeExpr = isFormula || /[*/()]/.test(body) || /\d\s*[+-]/.test(body);
-  if (!looksLikeExpr) return parseLocaleNumber(body);
+  if (!looksLikeExpr) return parseLocaleNumber(body, decimal);
 
   // Iets dat op een formule lijkt maar niet klopt ("12*", "3*(4", "10/0") is
   // ongeldig; voorheen werd het stil het eerste getal (12, 3, 10).
-  return evaluateExpression(body, decimalSeparator());
+  return evaluateExpression(body, decimal);
 }
 
 // Herschrijft alle getal-tokens in een expressie naar punt-notatie

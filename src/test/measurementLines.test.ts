@@ -3,7 +3,7 @@
 // zelf een andere hoeveelheid invullen haalt de regels weg; BC3 neemt ze
 // mee in beide richtingen.
 import { beforeEach, describe, expect, it } from 'vitest';
-import { lineValue, measurementSum, newMeasurementLine, quantityMatchesLines, subtotalValue } from '@/services/measurement/measurementLines';
+import { detectPasteDecimal, isClipboardBlock, lineValue, measurementSum, newMeasurementLine, parseClipboardBlock, pasteIntoMeasurementLines, quantityMatchesLines, subtotalValue } from '@/services/measurement/measurementLines';
 import { importBc3 } from '@/services/importers/bc3Importer';
 import { buildBc3Bytes, buildBc3 } from '@/services/export/bc3Exporter';
 import { importBc3File } from '@/services/importers/bc3Importer';
@@ -250,5 +250,146 @@ describe('BC3', () => {
     const q = back.items.find((i) => i.code === '01.01')!;
     expect(q.quantity).toBeCloseTo(51.96, 10);
     expect(q.measurementLines?.map((l) => [l.count, l.length, l.width, l.height])).toEqual([[2, 10, null, 3], [-1, null, null, 8.04]]);
+  });
+});
+
+describe('plakken uit Excel (pure functies)', () => {
+  it('leest een blok: tabs, \r\n en \n, laatste regeleinde telt niet', () => {
+    expect(parseClipboardBlock('a\t1\r\nb\t2\r\n')).toEqual([['a', '1'], ['b', '2']]);
+    expect(parseClipboardBlock('a\t1\nb\t\n')).toEqual([['a', '1'], ['b', '']]);
+    expect(parseClipboardBlock('x\t')).toEqual([['x', '']]);
+  });
+
+  it('cellen tussen aanhalingstekens (Excel) houden hun tab, regeleinde en ""', () => {
+    expect(parseClipboardBlock('"Gevel\nnoord"\t2\r\n"zeg ""hoi"""\t3')).toEqual([['Gevel\nnoord', '2'], ['zeg "hoi"', '3']]);
+    // Een " midden in gewone tekst is gewoon tekst.
+    expect(parseClipboardBlock('12" buis\t1')).toEqual([['12" buis', '1']]);
+  });
+
+  it('één waarde (ook met het regeleinde van één Excel-cel) is geen blok', () => {
+    expect(isClipboardBlock('7')).toBe(false);
+    expect(isClipboardBlock('7\r\n')).toBe(false);
+    expect(isClipboardBlock('7\t8')).toBe(true);
+    expect(isClipboardBlock('7\n8')).toBe(true);
+  });
+
+  it('slaat tussentotaalregels over; nieuwe regels komen vóór een tussentotaal onderaan', () => {
+    const lines = [
+      newMeasurementLine({ id: 'a', count: 1 }),
+      newMeasurementLine({ id: 's', subtotal: 'partial' }),
+      newMeasurementLine({ id: 'b', count: 1 }),
+      newMeasurementLine({ id: 't', subtotal: 'cumulative' }),
+    ];
+    const { lines: next, invalidLines } = pasteIntoMeasurementLines(lines, 0, 'count', [['2'], ['3'], ['4'], ['x']]);
+    expect(next.map((l) => l.count)).toEqual([2, null, 3, 4, null, null]);
+    expect(next.map((l) => l.subtotal ?? '')).toEqual(['', 'partial', '', '', '', 'cumulative']);
+    expect(next.slice(0, 3).map((l) => l.id)).toEqual(['a', 's', 'b']);
+    // Regelnummers zijn die in het tabelletje na het plakken.
+    expect(invalidLines).toEqual([5]);
+  });
+
+  it('begint het plakken op het eindtotaal, dan komen de regels eronder', () => {
+    const lines = [newMeasurementLine({ id: 'a', count: 1 }), newMeasurementLine({ id: 't', subtotal: 'cumulative' })];
+    const { lines: next } = pasteIntoMeasurementLines(lines, 1, 'description', [['x', '2'], ['y', '3']]);
+    expect(next.map((l) => l.id.length > 1 ? l.description : l.id)).toEqual(['a', 't', 'x', 'y']);
+  });
+
+  it('kolommen voorbij Hoogte worden niet geplakt en gemeld; formules blijven, een getal haalt de oude formule weg', () => {
+    const lines = [newMeasurementLine({ id: 'a', count: 2, formulas: { count: '=1+1' } })];
+    const { lines: next, invalidLines, droppedColumns } = pasteIntoMeasurementLines(lines, 0, 'width', [['=2*1,5', '4', '99', '98']]);
+    expect(next[0]).toMatchObject({ count: 2, width: 3, height: 4, formulas: { count: '=1+1', width: '=2*1,5' } });
+    expect(invalidLines).toEqual([]);
+    expect(droppedColumns).toBe(true);
+    const again = pasteIntoMeasurementLines(next, 0, 'count', [['5']]);
+    expect(again.lines[0].formulas).toEqual({ width: '=2*1,5' });
+    // Lege cellen rechts van Hoogte tellen niet als weggelaten kolom.
+    expect(pasteIntoMeasurementLines(next, 0, 'height', [['1', '']]).droppedColumns).toBe(false);
+  });
+
+  it('ongeldige getallen worden leeg en noemen hun regelnummer', () => {
+    const { lines, invalidLines } = pasteIntoMeasurementLines([], 0, 'description', [['x', 'abc', '2'], ['y', '3', '€ 12'], ['z', '1', '=1/0'], ['w', '1e3', '2']]);
+    expect(lines.map((l) => [l.description, l.count, l.length])).toEqual([['x', null, 2], ['y', 3, null], ['z', 1, null], ['w', null, 2]]);
+    expect(invalidLines).toEqual([1, 2, 3, 4]);
+  });
+
+  it('een eenheid achter het getal wordt weggelaten en gemeld', () => {
+    const { lines, unitLines, invalidLines } = pasteIntoMeasurementLines([], 0, 'count', [['2 st', '12 m', '8,5m2', '0,30 m³'], ['1', '3', '', '']]);
+    expect(lines.map((l) => [l.count, l.length, l.width, l.height])).toEqual([[2, 12, 8.5, 0.3], [1, 3, null, null]]);
+    expect(unitLines).toEqual([1]);
+    expect(invalidLines).toEqual([]);
+  });
+
+  it('het decimaalteken volgt uit het blok, niet uit de taal van de app', () => {
+    expect(detectPasteDecimal(['2,5', '10'])).toBe(',');
+    expect(detectPasteDecimal(['1.234,5'])).toBe(',');
+    expect(detectPasteDecimal(['1,234.5'])).toBe('.');
+    expect(detectPasteDecimal(['2.5'])).toBe('.');
+    expect(detectPasteDecimal(['1.234.567'])).toBe(',');
+    expect(detectPasteDecimal(['1,250'])).toBeUndefined();
+    expect(detectPasteDecimal(['2,5', '2.5'])).toBeUndefined();
+    // Spaans werkboek, app in het Engels: "1,250" naast "2,5" is 1,25.
+    const es = pasteIntoMeasurementLines([], 0, 'count', [['1,250', '2,5']], '.');
+    expect([es.lines[0].count, es.lines[0].length]).toEqual([1.25, 2.5]);
+    expect(es.decimalGuess).toBeUndefined();
+    // Engels werkboek, app in het Nederlands: "1,234.5" en "1,250" zijn duizendtallen.
+    const en = pasteIntoMeasurementLines([], 0, 'count', [['1,234.5', '1,250']], ',');
+    expect([en.lines[0].count, en.lines[0].length]).toEqual([1234.5, 1250]);
+  });
+
+  it('geeft het blok geen uitsluitsel, dan de app-taal, en dat wordt gemeld', () => {
+    const nl = pasteIntoMeasurementLines([], 0, 'count', [['1,250', '3']], ',');
+    expect(nl.lines[0].count).toBe(1.25);
+    expect(nl.decimalGuess).toEqual({ text: '1,250', value: 1.25 });
+    const en = pasteIntoMeasurementLines([], 0, 'count', [['1,250', '3']], '.');
+    expect(en.lines[0].count).toBe(1250);
+    expect(en.decimalGuess).toEqual({ text: '1,250', value: 1250 });
+    // Gehele getallen zijn niet dubbelzinnig.
+    expect(pasteIntoMeasurementLines([], 0, 'count', [['3', '4']], '.').decimalGuess).toBeUndefined();
+  });
+
+  it('0,250 en 1234,500 beslissen het decimaalteken; het hele blok leest dan hetzelfde', () => {
+    expect(detectPasteDecimal(['0,250', '1,250', '2,400'])).toBe(',');
+    expect(detectPasteDecimal(['1234,500', '1,250'])).toBe(',');
+    expect(detectPasteDecimal(['0.250', '1.250'])).toBe('.');
+    const en = pasteIntoMeasurementLines([], 0, 'length', [['0,250'], ['1,250'], ['2,400']], '.');
+    expect(en.lines.map((l) => l.length)).toEqual([0.25, 1.25, 2.4]);
+    expect(en.decimalGuess).toBeUndefined();
+    const nl = pasteIntoMeasurementLines([], 0, 'length', [['0.250'], ['1.250']], ',');
+    expect(nl.lines.map((l) => l.length)).toEqual([0.25, 1.25]);
+  });
+
+  it('een negatief getal tussen haakjes (boekhoudnotatie in Excel) blijft negatief', () => {
+    const { lines, invalidLines } = pasteIntoMeasurementLines([], 0, 'count', [['(12)', '(1,50)'], ['-2', '−3']], ',');
+    expect(lines.map((l) => [l.count, l.length])).toEqual([[-12, -1.5], [-2, -3]]);
+    expect(invalidLines).toEqual([]);
+  });
+
+  it('rekensommen en formules lezen met het decimaalteken van het blok', () => {
+    const { lines } = pasteIntoMeasurementLines([], 0, 'count', [['1,250*2', '2,5', '=1,250*2', '10 - 2']], '.');
+    expect(lines.map((l) => [l.count, l.length, l.width, l.height])).toEqual([[2.5, 2.5, 2.5, 8]]);
+    expect(lines[0].formulas).toEqual({ width: '=1,250*2' });
+  });
+
+  it('een datum of code wordt niet uitgerekend maar gemeld', () => {
+    const { lines, invalidLines } = pasteIntoMeasurementLines([], 0, 'count', [['1-2-2024'], ['12-3'], ['3']], '.');
+    expect(lines.map((l) => l.count)).toEqual([null, null, 3]);
+    expect(invalidLines).toEqual([1, 2]);
+  });
+
+  it('het decimaalteken twee keer in één getal is ongeldig, niet stil afgekapt', () => {
+    const { lines, invalidLines } = pasteIntoMeasurementLines([], 0, 'count', [['1.234.567', '2.5']], '.');
+    expect(lines[0].count).toBeNull();
+    expect(lines[0].length).toBe(2.5);
+    expect(invalidLines).toEqual([1]);
+  });
+
+  it('randgevallen: start voorbij het einde, lege en ongelijke rijen, harde spatie, alleen \r', () => {
+    const base = [newMeasurementLine({ id: 'a', count: 1 })];
+    const beyond = pasteIntoMeasurementLines(base, 9, 'count', [['2']]);
+    expect(beyond.lines.map((l) => l.count)).toEqual([1, 2]);
+    const ragged = pasteIntoMeasurementLines([], 0, 'description', [['x', '1', '2'], [''], ['y']]);
+    expect(ragged.lines.map((l) => [l.description, l.count, l.length])).toEqual([['x', 1, 2], ['', null, null], ['y', null, null]]);
+    expect(pasteIntoMeasurementLines([], 0, 'count', [['1 234,5']], '.').lines[0].count).toBe(1234.5);
+    expect(parseClipboardBlock('a\t1\rb\t2')).toEqual([['a', '1'], ['b', '2']]);
   });
 });
