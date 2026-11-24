@@ -346,4 +346,50 @@ describe('plakken uit Excel (pure functies)', () => {
     // Gehele getallen zijn niet dubbelzinnig.
     expect(pasteIntoMeasurementLines([], 0, 'count', [['3', '4']], '.').decimalGuess).toBeUndefined();
   });
+
+  it('0,250 en 1234,500 beslissen het decimaalteken; het hele blok leest dan hetzelfde', () => {
+    expect(detectPasteDecimal(['0,250', '1,250', '2,400'])).toBe(',');
+    expect(detectPasteDecimal(['1234,500', '1,250'])).toBe(',');
+    expect(detectPasteDecimal(['0.250', '1.250'])).toBe('.');
+    const en = pasteIntoMeasurementLines([], 0, 'length', [['0,250'], ['1,250'], ['2,400']], '.');
+    expect(en.lines.map((l) => l.length)).toEqual([0.25, 1.25, 2.4]);
+    expect(en.decimalGuess).toBeUndefined();
+    const nl = pasteIntoMeasurementLines([], 0, 'length', [['0.250'], ['1.250']], ',');
+    expect(nl.lines.map((l) => l.length)).toEqual([0.25, 1.25]);
+  });
+
+  it('een negatief getal tussen haakjes (boekhoudnotatie in Excel) blijft negatief', () => {
+    const { lines, invalidLines } = pasteIntoMeasurementLines([], 0, 'count', [['(12)', '(1,50)'], ['-2', '−3']], ',');
+    expect(lines.map((l) => [l.count, l.length])).toEqual([[-12, -1.5], [-2, -3]]);
+    expect(invalidLines).toEqual([]);
+  });
+
+  it('rekensommen en formules lezen met het decimaalteken van het blok', () => {
+    const { lines } = pasteIntoMeasurementLines([], 0, 'count', [['1,250*2', '2,5', '=1,250*2', '10 - 2']], '.');
+    expect(lines.map((l) => [l.count, l.length, l.width, l.height])).toEqual([[2.5, 2.5, 2.5, 8]]);
+    expect(lines[0].formulas).toEqual({ width: '=1,250*2' });
+  });
+
+  it('een datum of code wordt niet uitgerekend maar gemeld', () => {
+    const { lines, invalidLines } = pasteIntoMeasurementLines([], 0, 'count', [['1-2-2024'], ['12-3'], ['3']], '.');
+    expect(lines.map((l) => l.count)).toEqual([null, null, 3]);
+    expect(invalidLines).toEqual([1, 2]);
+  });
+
+  it('het decimaalteken twee keer in één getal is ongeldig, niet stil afgekapt', () => {
+    const { lines, invalidLines } = pasteIntoMeasurementLines([], 0, 'count', [['1.234.567', '2.5']], '.');
+    expect(lines[0].count).toBeNull();
+    expect(lines[0].length).toBe(2.5);
+    expect(invalidLines).toEqual([1]);
+  });
+
+  it('randgevallen: start voorbij het einde, lege en ongelijke rijen, harde spatie, alleen \r', () => {
+    const base = [newMeasurementLine({ id: 'a', count: 1 })];
+    const beyond = pasteIntoMeasurementLines(base, 9, 'count', [['2']]);
+    expect(beyond.lines.map((l) => l.count)).toEqual([1, 2]);
+    const ragged = pasteIntoMeasurementLines([], 0, 'description', [['x', '1', '2'], [''], ['y']]);
+    expect(ragged.lines.map((l) => [l.description, l.count, l.length])).toEqual([['x', 1, 2], ['', null, null], ['y', null, null]]);
+    expect(pasteIntoMeasurementLines([], 0, 'count', [['1 234,5']], '.').lines[0].count).toBe(1234.5);
+    expect(parseClipboardBlock('a\t1\rb\t2')).toEqual([['a', '1'], ['b', '2']]);
+  });
 });

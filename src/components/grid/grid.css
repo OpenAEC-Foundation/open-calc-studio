@@ -883,6 +883,7 @@ th.split-col-unit { text-align: center; }
 .measurement-mismatch:hover { text-decoration: underline; }
 .measurement-foot-start { display: flex; align-items: center; gap: 6px; min-width: 0; }
 .measurement-foot-wide { grid-column: span 5; }
+.measurement-notice-region { display: flex; min-width: 0; }
 .measurement-foot-start .measurement-add { flex: none; white-space: nowrap; }
 .measurement-notice {
   display: inline-flex;

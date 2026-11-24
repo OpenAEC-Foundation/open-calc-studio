@@ -88,14 +88,17 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
   const current = (): MeasurementLine[] =>
     useAppStore.getState().items.find((i) => i.id === item.id)?.measurementLines ?? [];
 
-  // Melding na plakken (niet te lezen, eenheid weggelaten, ...). Verdwijnt
-  // bij de volgende wijziging of met ×; geen popup die het werk onderbreekt.
-  const [notice, setNotice] = useState<string | null>(null);
+  // Melding na plakken (niet te lezen, eenheid weggelaten, ...): geen popup
+  // die het werk onderbreekt. Hij hoort bij de regels die het plakken
+  // opleverde; veranderen die op welke manier ook (een volgende wijziging,
+  // Ctrl+Z, ongedaan maken in het lint), dan verdwijnt hij. Of met ×.
+  const [pasteNotice, setPasteNotice] = useState<{ text: string; lines: readonly MeasurementLine[] } | null>(null);
+  const notice = pasteNotice && pasteNotice.lines === item.measurementLines ? pasteNotice.text : null;
 
   const commit = useCallback((next: MeasurementLine[], label: string = t('grid:undo.measurementLines')) => {
     pushHistory(useAppStore.getState().items, label);
     setMeasurementLines(item.id, next);
-    setNotice(null);
+    setPasteNotice(null);
   }, [item.id, pushHistory, setMeasurementLines, t]);
 
   const focusCell = (lineId: string, field: string) => {
@@ -143,10 +146,14 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
     const index = lines.findIndex((l) => l.id === lineId);
     if (index < 0) return;
     const live = useAppStore.getState().items.find((i) => i.id === item.id);
-    if ((live?.excelLink || live?.quantityLink) && !window.confirm(t('grid:measurement.dropLinkConfirm'))) return;
+    if ((live?.excelLink || live?.quantityLink) && !window.confirm(t('grid:measurement.dropLinkConfirm'))) {
+      focusCell(lineId, field); // geannuleerd: terug naar het vak
+      return;
+    }
     const result = pasteIntoMeasurementLines(lines, index, field, parseClipboardBlock(text), decimalSeparator());
     commit(result.lines, t('grid:measurement.pasteUndo'));
-    focusCell(lineId, field);
+    // Naar de eerste regel die het plakken vulde (begon het op een tussentotaal, dan is dat de regel erna).
+    focusCell(result.firstLineId ?? lineId, field);
     const parts: string[] = [];
     if (result.invalidLines.length > 0) parts.push(t('grid:measurement.pasteInvalid', { lines: result.invalidLines.join(', ') }));
     if (result.unitLines.length > 0) parts.push(t('grid:measurement.pasteUnits', { lines: result.unitLines.join(', ') }));
@@ -154,7 +161,7 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
     if (result.decimalGuess) {
       parts.push(t('grid:measurement.pasteDecimalGuess', { text: result.decimalGuess.text, value: fmt(result.decimalGuess.value) }));
     }
-    setNotice(parts.length > 0 ? parts.join(' · ') : null);
+    setPasteNotice(parts.length > 0 ? { text: parts.join(' · '), lines: current() } : null);
   };
 
   /**
@@ -297,18 +304,21 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
           <button type="button" className="measurement-add" onClick={() => addLine()}>
             {t('grid:measurement.addLine')}
           </button>
-          {notice && (
-            <span className="measurement-notice" role="status" title={notice}>
-              <span className="measurement-notice-text">⚠ {notice}</span>
-              <button
-                type="button"
-                className="measurement-notice-close"
-                title={t('grid:measurement.noticeDismiss')}
-                aria-label={t('grid:measurement.noticeDismiss')}
-                onClick={() => setNotice(null)}
-              >×</button>
-            </span>
-          )}
+          {/* Live-gebied staat er altijd, zodat een schermlezer de melding voorleest zodra hij verschijnt. */}
+          <span className="measurement-notice-region" role="status">
+            {notice && (
+              <span className="measurement-notice" title={notice}>
+                <span className="measurement-notice-text">⚠ {notice}</span>
+                <button
+                  type="button"
+                  className="measurement-notice-close"
+                  title={t('grid:measurement.noticeDismiss')}
+                  aria-label={t('grid:measurement.noticeDismiss')}
+                  onClick={() => setPasteNotice(null)}
+                >×</button>
+              </span>
+            )}
+          </span>
         </span>
         {notice && !mismatch ? (
           <>

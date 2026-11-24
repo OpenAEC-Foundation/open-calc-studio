@@ -294,8 +294,17 @@ describe('meetregels plakken uit Excel', () => {
     // Half getypt in het vak: het plakken wint, het vak schrijft bij verlaten niets terug.
     const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!;
     await act(async () => { el.focus(); setter.call(el, '99'); el.dispatchEvent(new Event('input', { bubbles: true })); });
+    const undoBefore = s().undoStack.length;
     await paste(el, '4\t5\n6\t7');
-    await act(async () => { el.blur(); });
+    // Precies één undo-stap, het plakken: het vak heeft zijn "99" niet eerst vastgelegd.
+    expect(s().undoStack.length).toBe(undoBefore + 1);
+    expect(s().undoStack[s().undoStack.length - 1].description).toBe(i18next.t('grid:measurement.pasteUndo'));
+    // Daarna staat de focus weer in het startvak, met de geplakte waarde.
+    await act(async () => { await new Promise((r) => requestAnimationFrame(() => r(null))); });
+    expect(document.activeElement).toBe(cell('l1', 'count'));
+    expect(cell('l1', 'count').value).toBe('4');
+    await act(async () => { cell('l1', 'count').blur(); });
+    expect(s().undoStack.length).toBe(undoBefore + 1);
     expect(rows()).toEqual([
       ['Fachada norte', 4, 5, null, 3],
       ['', 6, 7, null, null],
@@ -342,6 +351,27 @@ describe('meetregels plakken uit Excel', () => {
     expect(notice()!.textContent).toContain('Kolommen na Hoogte');
     await act(async () => { notice()!.querySelector<HTMLButtonElement>('button')!.click(); });
     expect(notice()).toBeNull();
+  });
+
+  it('Ctrl+Z na plakken haalt ook de melding weg', async () => {
+    await paste(cell('l1', 'count'), 'veel\t2\n3\t4');
+    expect(block()!.querySelector('.measurement-notice')).not.toBeNull();
+    await act(async () => { s().setItems(s().undo()!); });
+    expect(rows()).toEqual([['Fachada norte', 1, 10, null, 3]]);
+    expect(block()!.querySelector('.measurement-notice')).toBeNull();
+  });
+
+  it('plakken op een tussentotaal begint op de regel erna, en daar staat dan de focus', async () => {
+    await act(async () => {
+      s().setMeasurementLines('p', [
+        newMeasurementLine({ id: 's', subtotal: 'partial' }),
+        newMeasurementLine({ id: 'l2', description: 'B', count: 1 }),
+      ]);
+    });
+    await paste(cell('s', 'description'), 'X\t2\nY\t3');
+    expect(post().measurementLines!.map((l) => [l.id === 's' ? 's' : l.description, l.count])).toEqual([['s', null], ['X', 2], ['Y', 3]]);
+    await act(async () => { await new Promise((r) => requestAnimationFrame(() => r(null))); });
+    expect(document.activeElement).toBe(cell('l2', 'description'));
   });
 
   it('de melding verdwijnt bij de volgende wijziging; de undo-stap heet plakken', async () => {
@@ -395,6 +425,9 @@ describe('meetregels plakken uit Excel', () => {
     await paste(cell('l1', 'description'), 'A\t2\nB\t3');
     expect(confirm).toHaveBeenCalledOnce();
     expect(rows()).toEqual([['Fachada norte', 1, 10, null, 3]]);
+    // Annuleren: terug in het vak.
+    await act(async () => { await new Promise((r) => requestAnimationFrame(() => r(null))); });
+    expect(document.activeElement).toBe(cell('l1', 'description'));
     expect(post().excelLink).toBeTruthy();
     confirm.mockReturnValue(true);
     await paste(cell('l1', 'description'), 'A\t2\nB\t3');
