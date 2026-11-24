@@ -3,6 +3,7 @@ import { openImportResult, openProjectJson } from '@/services/file/openProject';
 import { importBudget } from '@/lib/importers';
 import { serializeProject } from '@/services/file/fileService';
 import { isIfcxExchangeJson } from '@/services/importers/ifcxDetection';
+import { libraryForFile } from '@/services/pricing/priceLibraries';
 export async function fileCommand(action:string,p:Record<string,unknown>) {
  const s=useAppStore.getState();
  if(action==='import') {
@@ -31,7 +32,7 @@ export async function fileCommand(action:string,p:Record<string,unknown>) {
  }
  if(format==='bc3')bytes=(await import('@/services/export/bc3Exporter')).buildBc3Bytes(s.schedule,s.items).bytes;
  else if(format==='inschrijfstaat')bytes=new Uint8Array(await (await (await import('@/services/export/inschrijfstaatExporter')).exportInschrijfstaatAsync(s.schedule,s.items,s.companyInfo)).arrayBuffer());
- else if(format==='native') {const project=JSON.parse(serializeProject(s.schedule,s.items,s.companyInfo,{sheets:s.subSheets,activeSheetId:s.activeSubSheetId},s.offerte,s.snapshots));project.resourceLibrary=s.resourceLibrary;bytes=new TextEncoder().encode(JSON.stringify(project,null,2));}
+ else if(format==='native') {const project=JSON.parse(serializeProject(s.schedule,s.items,s.companyInfo,{sheets:s.subSheets,activeSheetId:s.activeSubSheetId},s.offerte,s.snapshots));project.resourceLibrary=libraryForFile(s.resourceLibrary);bytes=new TextEncoder().encode(JSON.stringify(project,null,2));}
  else {
   const exporters=await import('@/services/exporters');
   const map={onlv:exporters.exportOnlv,cuf:exporters.exportCuf,tradxml:exporters.exportTradxml,rsx:exporters.exportRsx};

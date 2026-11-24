@@ -101,7 +101,9 @@ describe('active libraries of an estimate', () => {
     await install('a');
     activateOwnLibrary('a');
     choosePriceCountry('IN');
-    expect(codes()).toEqual(['a-L1', 'a-M1', 'Z.001']);
+    // India has no library: the English library takes the place of the Dutch one (#86).
+    expect(codes()).toEqual([...builtInLibraryItems('IN').map(i => i.code), 'a-L1', 'a-M1', 'Z.001']);
+    expect(codes()[0]).toBe('EN.A.001');
     useAppStore.getState().undo();
     expect(codes()).toHaveLength(NL_COUNT + 3);
   });

@@ -6,9 +6,8 @@ import type { ResourceLibraryItem, ResourceType } from '@/types/costModel';
 import { formatCurrency } from '@/utils/formatting';
 import { formatUnit } from '@/i18n/formatUnit';
 import { capturePriceOrigin } from '@/services/pricing/priceUpdates';
-import { activeLibrariesOf, COUNTRY_LIBRARY, hasPriceLibrary, isBuiltInLibraryItem, priceCountryOf } from '@/services/pricing/priceLibraries';
-import { countryName } from '@/utils/countries';
-import { PriceLibraryPanel, useOwnLibraries, type PanelMessage } from './PriceLibraryPanel';
+import { activeLibrariesOf, COUNTRY_LIBRARY, ENGLISH_LIBRARY, hasPriceLibrary, isBuiltInLibraryItem, libraryOfCountry, priceCountryOf } from '@/services/pricing/priceLibraries';
+import { libraryChoiceName, PriceLibraryPanel, useOwnLibraries, type PanelMessage } from './PriceLibraryPanel';
 import { Banner } from './Banner';
 import { resourceTarget } from '@/services/pricing/resourceTarget';
 import { useDialogFocus } from '@/hooks/useDialogFocus';
@@ -49,7 +48,7 @@ export const ResourcePicker: React.FC = () => {
   /** Library name of an article, shown on each row when the list mixes libraries. */
   const libraryOf = useMemo(() => {
     const names = new Map(ownLibraries.map(l => [l.id, l.name]));
-    const countryLabel = countryName(country, i18n.language);
+    const countryLabel = libraryChoiceName(libraryOfCountry(country), i18n.language);
     return (item: ResourceLibraryItem): string | undefined =>
       item.catalogueId === undefined ? undefined : isBuiltInLibraryItem(item) ? countryLabel : names.get(item.catalogueId);
   }, [ownLibraries, country, i18n.language]);
@@ -183,7 +182,8 @@ export const ResourcePicker: React.FC = () => {
   if (!resourcePickerOpen) return null;
 
   const selected = filtered[selectedIndex];
-  const countryLabel = countryName(country, i18n.language);
+  const countryLabel = libraryChoiceName(country, i18n.language);
+  const englishNote = uiText('pricing.englishNote', 'You see the English library: common resources with English names and no prices. Enter your own prices or import a price list.');
   const showCountryNote = countryOn && closedNote !== country;
   const dismissCountryNote = () => setClosedNote(country);
 
@@ -251,9 +251,11 @@ export const ResourcePicker: React.FC = () => {
               <div className="rp-banners">
                 {error && <Banner kind="error" role="alert" onClose={() => setError('')}>{error}</Banner>}
                 {message && <Banner kind={message.kind} role={message.kind === 'error' ? 'alert' : 'status'} onClose={() => setMessage(null)}>{message.text}</Banner>}
-                {showCountryNote && (hasPriceLibrary(country)
+                {showCountryNote && (country === ENGLISH_LIBRARY
+                  ? <Banner kind="note" onClose={dismissCountryNote}>{englishNote}</Banner>
+                  : hasPriceLibrary(country)
                   ? <Banner kind="note" onClose={dismissCountryNote}>{uiText('pricing.notice', 'Starter library: {{country}}. Check prices and reference dates before estimating. A missing price is not treated as verified.', { country: countryLabel })}</Banner>
-                  : <Banner kind="warn" role="status" className="resource-picker-no-library" onClose={dismissCountryNote}>{uiText('pricing.noLibrary', 'There is no price library for this country yet ({{country}}). Resources you imported or added stay available.', { country: countryLabel })}</Banner>)}
+                  : <Banner kind="warn" role="status" className="resource-picker-no-library" onClose={dismissCountryNote}>{uiText('pricing.noLibrary', 'There is no price library for this country yet ({{country}}). Resources you imported or added stay available.', { country: countryLabel })}{' '}{englishNote}</Banner>)}
               </div>
             )}
 
@@ -310,7 +312,6 @@ export const ResourcePicker: React.FC = () => {
         <div className="resource-picker-footer">
           <div className="rp-footer-info">
             {selected?.source && <div>{uiText("pricing.source", "Source:")} {selected.source}</div>}
-            {selected?.referenceUnitPrice != null && <div>{uiText('pricing.reference', 'Unverified reference: {{price}} per {{unit}}. Reference date and VAT basis unknown.', { price: formatCurrency(selected.referenceUnitPrice!), unit: selected.originalUnit ?? selected.unit })}</div>}
             {selected?.unitSupported === false && <div>{uiText("pricing.conversion", "This source unit requires manual conversion; adding it is disabled.")}</div>}
             <div className="rp-add-target">{target.post
               ? uiText('pricing.addTo', 'Adds to: {{name}}', { name: [target.post.code, target.post.description].filter(Boolean).join(' ') || '—' })

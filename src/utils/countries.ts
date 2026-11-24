@@ -48,9 +48,12 @@ export interface CountryOption { code: string; label: string }
  * A current code that is not in the ISO list (an old or hand-edited file)
  * stays selectable.
  */
-export function countryOptions(first: readonly string[], current: string, language: string): { first: CountryOption[]; rest: CountryOption[] } {
+export function countryOptions(
+  first: readonly string[], current: string, language: string,
+  labelOf: (code: string, language: string) => string = countryName,
+): { first: CountryOption[]; rest: CountryOption[] } {
   const collator = new Intl.Collator(language || 'en');
-  const option = (code: string): CountryOption => ({ code, label: countryName(code, language) });
+  const option = (code: string): CountryOption => ({ code, label: labelOf(code, language) });
   const sort = (list: CountryOption[]) => list.sort((a, b) => collator.compare(a.label, b.label));
   const top = new Set(first);
   const codes = new Set<string>(COUNTRY_CODES);

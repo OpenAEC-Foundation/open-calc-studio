@@ -4,7 +4,7 @@ import { useAppStore } from '@/state/appStore';
 import { effectiveTarieven } from '@/services/calculation/calculator';
 import { deserializeProject, serializeProject } from '@/services/file/fileService';
 import { openProjectInStore } from '@/services/file/openProject';
-import { withActiveLibraries } from '@/services/pricing/priceLibraries';
+import { libraryForFile, withActiveLibraries } from '@/services/pricing/priceLibraries';
 
 export interface JsonSchema { type?: string; enum?: unknown[]; anyOf?: JsonSchema[]; properties?: Record<string, JsonSchema>; required?: string[]; additionalProperties?: boolean | JsonSchema; items?: JsonSchema }
 export function validateArgument(value: unknown, schema: JsonSchema, path = 'argument'): void {
@@ -119,7 +119,7 @@ export async function executeDesktopCommand(action: string, params: Record<strin
   }
   if (action === 'getProject') {
     const p = JSON.parse(serializeProject(store.schedule, store.items, store.companyInfo, {sheets:store.subSheets,activeSheetId:store.activeSubSheetId}, store.offerte, store.snapshots));
-    p.resourceLibrary = store.resourceLibrary;
+    p.resourceLibrary = libraryForFile(store.resourceLibrary);
     return p;
   }
   if (action === 'openProject') {

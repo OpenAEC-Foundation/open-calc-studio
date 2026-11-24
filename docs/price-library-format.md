@@ -16,10 +16,23 @@ An estimate can use several libraries at once. In the library dialog (Budget →
   import NL from './NL.json';
   import IN from './IN.json';
 
-  export const PRICE_LIBRARY_FILES = { NL, IN };
+  export const PRICE_LIBRARY_FILES = { NL, [ENGLISH_LIBRARY]: EN, IN };
   ```
 
 That is all. The country then shows up under "With a price library" in the library dialog, and estimates set to that country use it.
+
+### The English library
+
+Next to the Netherlands there is the **English library** (issue #86), `src/data/price-libraries/EN.json`, registered under the key `INT` (it is not a country). It holds the same 98 resources as the Dutch library, with English names and the same units (except paint, per m²), but **no prices**: no `defaultUnitPrice`, no `referenceUnitPrice`, no currency. Users enter their own prices or import a price list.
+
+- **New estimates:** with the UI in Dutch a new estimate uses the Dutch library, in any other language the English library. Opened files keep their own choice; files without one stay Dutch.
+- **Choosing it:** "English" is in the country list, under "With a price library", next to the Netherlands.
+- **Countries without a library** get the English library too. The dialog says that the country has no library yet.
+- The English sample estimate and the Portuguese one use the English library.
+- Its catalogue ID is its `id`, `ocs-en`; article IDs look like `ocs-en:en-A.001`. Never change the `id` or the article `id`s.
+- Once a country gets its own library, estimates for that country use it instead. Rows that were added from the English library keep their description and price.
+- A country without a library never gets another country's prices.
+- 2026.48.0 and older do not know `INT`: they open such an estimate with the Dutch library.
 
 ## File
 

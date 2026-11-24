@@ -6,6 +6,7 @@ import { loadOwnLibraries, listOwnLibraries, memoryBackend, ownLibraryItems, own
 import { detectLibraryMapping, prepareOwnLibrary } from '@/services/pricing/ownLibraryImport';
 import { recalledLibraryMapping, rememberLibraryMapping } from '@/services/pricing/libraryColumnMappings';
 import { localStore } from '@/utils/browserStorage';
+import { ENGLISH_CATALOGUE_ID, isEnglishLibraryItem } from '@/services/pricing/priceLibraries';
 
 const content = 'SKU;Naam;EH;Tarief;Soort;Groep;Datum;Bron;Valuta;BTW\nA;Carpenter;uur;52,50;labour;Labour;2026-11-24;Own quote;eur;excl\nB;Check price;st;;material;Material;;;;unknown';
 const columnMapping = ['code', 'description', 'unit', 'unitPrice', 'type', 'category', 'priceDate', 'source', 'currency', 'vatBasis'];
@@ -70,6 +71,27 @@ describe('own price library column mapping and MCP (#104)', () => {
     useAppStore.getState().undo();
     expect(useAppStore.getState().schedule.priceLibraries).toEqual(['country']);
     await expect(executeDesktopCommand('libraries.select', { country: 'invalid' })).rejects.toThrow(/country/);
+  });
+
+  it('says which built-in library the estimate gets, and keeps the English library out of project files (#86)', async () => {
+    const nl = createDefaultSchedule();
+    useAppStore.setState({ schedule: nl, documents: [{ id: 'doc', fileName: 'Test.ifcCalc', filePath: null, isModified: false, items: [], schedule: nl } as never], activeDocumentId: 'doc' });
+    expect(await executeDesktopCommand('libraries.list')).toMatchObject({ country: 'NL', countryLibrary: 'NL', builtInCountries: ['NL', 'INT'] });
+    await executeDesktopCommand('libraries.select', { country: 'IN' });
+    expect(await executeDesktopCommand('libraries.list')).toMatchObject({ country: 'IN', countryLibrary: 'INT' });
+    await executeDesktopCommand('libraries.select', { country: 'int' });
+    expect(await executeDesktopCommand('libraries.list')).toMatchObject({ country: 'INT', countryLibrary: 'INT' });
+    // The English articles are in the list, but not in the file: 2026.48.0 would keep them as own resources.
+    expect(useAppStore.getState().resourceLibrary.some(isEnglishLibraryItem)).toBe(true);
+    const project = await executeDesktopCommand('getProject') as { resourceLibrary: { catalogueId?: string }[] };
+    expect(project.resourceLibrary.some(isEnglishLibraryItem)).toBe(false);
+  });
+
+  it('never gives an own library the catalogue ID of the English library', () => {
+    const json = JSON.stringify({ version: 1, id: ENGLISH_CATALOGUE_ID, name: 'Copy', resources: [{ id: 'a', code: 'A', description: 'A', unit: 'st' }] });
+    const prepared = prepareOwnLibrary('copy.json', json);
+    expect(prepared.library.id).not.toBe(ENGLISH_CATALOGUE_ID);
+    expect(prepared.items.some(isEnglishLibraryItem)).toBe(false);
   });
 
   it('rejects malformed API requests and exposes all operations in the action catalogue', async () => {

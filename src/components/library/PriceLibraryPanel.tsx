@@ -3,14 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { uiText } from '@/i18n/uiText';
 import { useAppStore } from '@/state/appStore';
 import {
-  activeLibrariesOf, COUNTRY_LIBRARY, missingOwnLibraries, ownLibraryKey, priceCountryOf, PRICE_LIBRARY_COUNTRIES,
+  activeLibrariesOf, COUNTRY_LIBRARY, ENGLISH_LIBRARY, hasPriceLibrary, missingOwnLibraries, ownLibraryKey, priceCountryOf, PRICE_LIBRARY_COUNTRIES,
 } from '@/services/pricing/priceLibraries';
 import { activateAllLibraries, choosePriceCountry, toggleLibrary } from '@/services/pricing/choosePriceCountry';
 import { listOwnLibraries, loadOwnLibraries, ownLibrariesLoaded, ownLibraryLoadError, removeOwnLibrary, renameOwnLibrary, subscribeOwnLibraries, type OwnLibraryInfo } from '@/services/pricing/ownLibraries';
 import { OWN_LIBRARY_FILE_TYPES } from '@/services/pricing/ownLibraryImport';
 import { ownLibraryImportedMessage } from '@/services/pricing/installOwnLibrary';
 import { importOwnLibraryFile } from './importOwnLibraryFile';
-import { countryOptions } from '@/utils/countries';
+import { countryName, countryOptions } from '@/utils/countries';
 
 /** Own libraries on this computer, live. */
 export function useOwnLibraries(): OwnLibraryInfo[] {
@@ -30,6 +30,11 @@ const ICON_REMOVE = 'M3 4.5h10M6.5 4.5V3h3v1.5M4.5 4.5l.7 8.5h5.6l.7-8.5';
 const ICON_IMPORT = 'M8 2.5v8M4.5 7L8 10.5 11.5 7M3 13.5h10';
 const ICON_PLUS = 'M8 3v10M3 8h10';
 
+/** Name of a built-in library choice: the country name, or "English" for INT (#86). */
+export function libraryChoiceName(code: string, language: string): string {
+  return code === ENGLISH_LIBRARY ? uiText('pricing.englishLibrary', 'English') : countryName(code, language);
+}
+
 /**
  * The price libraries of the active estimate (issues #93, #104), in the
  * sidebar of the library dialog: the country library and the own libraries on
@@ -47,7 +52,7 @@ export const PriceLibraryPanel: React.FC<{ onChange: () => void; onMessage: (mes
   useEffect(() => { if (ownLibraryLoadError() !== null) void loadOwnLibraries(); }, []);
   // eslint-disable-next-line react-hooks/exhaustive-deps -- `own` changes when the libraries load
   const missing = useMemo(() => (ownLibrariesLoaded() ? missingOwnLibraries(schedule) : []), [schedule, own]);
-  const countries = useMemo(() => countryOptions(PRICE_LIBRARY_COUNTRIES, country, i18n.language), [country, i18n.language]);
+  const countries = useMemo(() => countryOptions(PRICE_LIBRARY_COUNTRIES, country, i18n.language, libraryChoiceName), [country, i18n.language]);
   const fileInput = useRef<HTMLInputElement>(null);
   const section = useRef<HTMLElement>(null);
   /** The button that had focus can be gone (first import, removed row): put focus on the import button. */
@@ -133,6 +138,8 @@ export const PriceLibraryPanel: React.FC<{ onChange: () => void; onMessage: (mes
               {countries.rest.map(o => <option key={o.code} value={o.code}>{o.label}</option>)}
             </optgroup>
           </select>
+          {/* A country without a library gets the English library (#86): say so here too, the banner can be closed. */}
+          {!hasPriceLibrary(country) && <span className="rp-lib-meta rp-lib-english">{uiText('pricing.englishLibrary', 'English')}</span>}
         </div>
       </div>
 
