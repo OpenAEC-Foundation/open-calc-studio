@@ -101,12 +101,12 @@ Import a file with **Price library → Import library…** in the library dialog
 
 | You can | How |
 |---|---|
-| Import | *Import library…*: library JSON, CSV, Excel (`.xlsx`, `.xls`) or a BMEcat/DICO catalogue (`.xml`). *Backstage → Import → BMEcat* does the same. |
+| Import | *Import library…*: library JSON, CSV, Excel (`.xlsx`, `.xls`), a BMEcat/DICO catalogue (`.xml`) or a ZSX price list (`.zsx`, or `.xml` with `<Middel>` elements). *Backstage → Import → BMEcat* and *→ Price list (ZSX)* do the same. |
 | Update | *New version…* next to the library (hover over it). The library keeps its catalogue ID, so price links in estimates stay valid, even when the new file has another name. The app lists the codes that are no longer in the new version; rows that use them keep their price. |
 | Rename | *Rename*: only the name you see changes, not the catalogue ID. |
 | Remove | *Remove*: the library leaves this computer. Rows in estimates keep their prices; estimates that use the library say it is missing. |
 
-Article IDs follow the same rule as for country libraries: `<catalogue ID>:<article id>`. For a JSON file the catalogue ID is its `id`, else its `name`; for a table or BMEcat file it is the file name without extension. Give a JSON library a stable `id` if you will send newer versions.
+Article IDs follow the same rule as for country libraries: `<catalogue ID>:<article id>`. For a JSON file the catalogue ID is its `id`, else its `name`; for a table, BMEcat or ZSX file it is the file name without extension. Articles in a BMEcat or ZSX file keep their code as article id, so a newer price list keeps the links. Give a JSON library a stable `id` if you will send newer versions.
 
 ### JSON
 
@@ -150,7 +150,7 @@ The same library store is available through MCP `app_command`, or the hosted
 
 - `libraries.list`: lists own libraries, available built-in countries and the
   active selection.
-- `libraries.import`: `fileName` and `content` (JSON/CSV/BMEcat text), or
+- `libraries.import`: `fileName` and `content` (JSON/CSV/BMEcat/ZSX text), or
   `dataBase64` (binary Excel). Optional `columnMapping` is an array with one
   field per source column; `updateId` preserves the catalogue ID on re-import.
   Passing `replace: true` is required to replace any existing library.

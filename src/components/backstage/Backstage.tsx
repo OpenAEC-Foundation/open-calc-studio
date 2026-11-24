@@ -231,29 +231,37 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
     }
   }, [extensionImporters, newFile, onClose, t]);
 
+  /**
+   * Issue #104: a supplier catalogue (BMEcat) or price list (ZSX) becomes its
+   * own price library, kept on this computer and used by this estimate,
+   * instead of being merged by code into the other libraries.
+   */
+  const importAsOwnLibrary = async (xml: string, fileName: string, result: { warnings: string[] }, format: 'bmecat' | 'zsx') => {
+    const label = format === 'zsx' ? 'ZSX' : 'BMEcat';
+    const prepared = prepareOwnLibrary(fileName, xml, { format });
+    if (prepared.replaces && !window.confirm(uiText('pricing.ownReplace', 'There is already an own library “{{name}}” on this computer. Replace it with this file? Price links in estimates stay valid.', { name: prepared.replaces.name }))) return;
+    await saveOwnLibrary(prepared.library);
+    activateOwnLibrary(prepared.library.id);
+    if (result.warnings.length > 0) {
+      console.warn(`[Import ${label}] waarschuwingen:`, result.warnings);
+      showImportWarnings(result, fileName);
+    }
+    alert([
+      uiText('pricing.ownImported', '“{{name}}” imported: {{count}} resources. It is kept on this computer.', { name: prepared.library.name, count: prepared.library.count }),
+      ...(prepared.duplicates.length > 0 ? [uiText('pricing.ownDuplicates', 'Codes that appear more than once got a suffix (~2, ~3) ({{count}}): {{codes}}.', { count: prepared.duplicates.length, codes: prepared.duplicates.slice(0, 10).join(', ') + (prepared.duplicates.length > 10 ? ', …' : '') })] : []),
+    ].join(' '));
+  };
+
   const handleZsxImport = useCallback(async () => {
     onClose();
-    const applyResult = (xml: string, fileName: string) => {
+    const applyResult = async (xml: string, fileName: string) => {
       try {
         const result = importZsx(xml);
         if (result.resources.length === 0) {
           alert(t('importPanel.zsxNoResources', { fileName }));
           return;
         }
-        const store = useAppStore.getState();
-        const current = store.resourceLibrary;
-        // Merge by code: incoming entries with a matching code replace the
-        // existing library entry; new codes are appended.
-        const byCode = new Map(current.map((r) => [r.code, r]));
-        for (const r of result.resources) {
-          byCode.set(r.code, r);
-        }
-        store.setResourceLibrary(Array.from(byCode.values()));
-        if (result.warnings.length > 0) {
-          console.warn(`[Import ZSX] ${result.warnings.length} waarschuwingen:`, result.warnings);
-          showImportWarnings(result, fileName);
-        }
-        console.log(`[Import ZSX] ${result.resources.length} middelen geladen uit ${fileName}`);
+        await importAsOwnLibrary(xml, fileName, result, 'zsx');
       } catch (err: any) {
         console.error('[Import ZSX] failed:', err);
         alert(t('importPanel.importFailed', { error: err?.message || err }));
@@ -266,7 +274,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         const res = await openTextFileNative(t('importPanel.zsxTitle'), ['zsx', 'xml']);
         if (!res) return;
         const baseName = (res.path.split(/[\\/]/).pop() || 'import');
-        applyResult(res.content, baseName);
+        await applyResult(res.content, baseName);
       } else {
         const input = document.createElement('input');
         input.type = 'file';
@@ -275,7 +283,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
           const file = (e.target as HTMLInputElement).files?.[0];
           if (!file) return;
           const xml = await file.text();
-          applyResult(xml, file.name);
+          await applyResult(xml, file.name);
         };
         input.click();
       }
@@ -391,21 +399,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
       try {
         const result = importBmecat(xml);
         if (result.resources.length === 0) { alert(t('importPanel.bmecatNoResources', { fileName })); return; }
-        // Issue #104: a supplier catalogue becomes its own price library, kept
-        // on this computer and used by this estimate, instead of being merged
-        // by code into the other libraries.
-        const prepared = prepareOwnLibrary(fileName, xml);
-        if (prepared.replaces && !window.confirm(uiText('pricing.ownReplace', 'There is already an own library “{{name}}” on this computer. Replace it with this file? Price links in estimates stay valid.', { name: prepared.replaces.name }))) return;
-        await saveOwnLibrary(prepared.library);
-        activateOwnLibrary(prepared.library.id);
-        if (result.warnings.length > 0) {
-          console.warn('[Import BMEcat] waarschuwingen:', result.warnings);
-          showImportWarnings(result, fileName);
-        }
-        alert([
-          uiText('pricing.ownImported', '“{{name}}” imported: {{count}} resources. It is kept on this computer.', { name: prepared.library.name, count: prepared.library.count }),
-          ...(prepared.duplicates.length > 0 ? [uiText('pricing.ownDuplicates', 'Codes that appear more than once got a suffix (~2, ~3) ({{count}}): {{codes}}.', { count: prepared.duplicates.length, codes: prepared.duplicates.slice(0, 10).join(', ') + (prepared.duplicates.length > 10 ? ', …' : '') })] : []),
-        ].join(' '));
+        await importAsOwnLibrary(xml, fileName, result, 'bmecat');
       } catch (err: any) {
         console.error('[Import BMEcat] failed:', err);
         alert(t('importPanel.importFailed', { error: err?.message || err }));

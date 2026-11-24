@@ -101,6 +101,23 @@ describe('import a library file', () => {
     expect(items[0]).toMatchObject({ id: 'wholesaler:A-100', code: 'A-100', description: 'Brick red', defaultUnitPrice: 0.85 });
   });
 
+  it('turns a ZSX price list into its own library, with the code as article id', () => {
+    const zsx = readFileSync(join(process.cwd(), 'src/test/fixtures/imports/sample.zsx'), 'utf8');
+    const { library, items } = prepareOwnLibrary('prijslijst.zsx', zsx);
+    expect(library.origin).toBe('zsx');
+    expect(library.fileName).toBe('prijslijst.zsx');
+    expect(items.map(i => i.id)).toEqual(['prijslijst:A001', 'prijslijst:M001']);
+    expect(items[0]).toMatchObject({ code: 'A001', description: 'Uurloon timmerman', unit: 'uur', resourceType: 'arbeid', defaultUnitPrice: 45 });
+    // The same file again gives the same IDs, so price links in estimates stay valid.
+    expect(prepareOwnLibrary('prijslijst.zsx', zsx).items.map(i => i.id)).toEqual(items.map(i => i.id));
+    // A .xml file with <Middel> elements is a ZSX price list, other XML stays BMEcat.
+    expect(prepareOwnLibrary('prijslijst.xml', zsx).library.origin).toBe('zsx');
+    expect(prepareOwnLibrary('prijslijst', zsx).library.origin).toBe('zsx');
+    expect(prepareOwnLibrary('wholesaler.xml', bmecat).library.origin).toBe('bmecat');
+    // The format the user chose wins over detection.
+    expect(prepareOwnLibrary('prijslijst.xml', zsx, { format: 'zsx' }).library.fileName).toBe('prijslijst.xml');
+  });
+
   it('explains what is wrong with an unusable file', () => {
     expect(() => prepareOwnLibrary('x.json', '{"name":"x"}')).toThrow('not a usable price library: expected a JSON object with a list “resources”.');
     expect(() => prepareOwnLibrary('x.json', json({ resources: [] }))).toThrow('This file has no resources.');
