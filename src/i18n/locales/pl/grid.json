@@ -258,6 +258,11 @@
     "linkReplacesConfirm": "Ta pozycja ma wiersze przedmiaru. Powiązanie ilości je usunie. Kontynuować?",
     "mismatch": "Ilość ({{quantity}}) różni się od sumy wierszy przedmiaru ({{sum}}). Kliknij, aby użyć sumy.",
     "useSum": "Użyj sumy",
-    "pasteInvalid": "Nie udało się odczytać niektórych liczb; te pola pozostawiono puste. Wiersze: {{lines}}"
+    "pasteInvalid": "Nie można odczytać, pozostawiono puste: wiersze {{lines}}",
+    "pasteUnits": "Usunięto jednostkę: wiersze {{lines}}",
+    "pasteExtraColumns": "Kolumny po {{height}} nie zostały wklejone",
+    "pasteDecimalGuess": "{{text}} odczytano jako {{value}}",
+    "pasteUndo": "Wklej wiersze obmiaru",
+    "noticeDismiss": "Zamknij komunikat"
   }
 }

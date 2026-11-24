@@ -258,6 +258,11 @@
     "linkReplacesConfirm": "Kipengee hiki kina mistari ya vipimo. Kuunganisha kiasi kutaiondoa. Endelea?",
     "mismatch": "Kiasi ({{quantity}}) kinatofautiana na jumla ya mistari ya vipimo ({{sum}}). Bofya ili kutumia jumla.",
     "useSum": "Tumia jumla",
-    "pasteInvalid": "Baadhi ya nambari hazikuweza kusomwa; sehemu hizo zimeachwa tupu. Mistari: {{lines}}"
+    "pasteInvalid": "Haikusomeka, imeachwa tupu: mistari {{lines}}",
+    "pasteUnits": "Kipimo kimeondolewa: mistari {{lines}}",
+    "pasteExtraColumns": "Safu baada ya {{height}} hazijabandikwa",
+    "pasteDecimalGuess": "{{text}} imesomwa kama {{value}}",
+    "pasteUndo": "Bandika mistari ya vipimo",
+    "noticeDismiss": "Funga ujumbe"
   }
 }

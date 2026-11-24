@@ -258,6 +258,11 @@
     "linkReplacesConfirm": "Bu kalemin ölçü satırları var. Miktarı bağlamak onları kaldırır. Devam edilsin mi?",
     "mismatch": "Miktar ({{quantity}}), ölçü satırlarının toplamından ({{sum}}) farklı. Toplamı kullanmak için tıklayın.",
     "useSum": "Toplamı kullan",
-    "pasteInvalid": "Bazı sayılar okunamadı; bu alanlar boş bırakıldı. Satırlar: {{lines}}"
+    "pasteInvalid": "Okunamadı, boş bırakıldı: satırlar {{lines}}",
+    "pasteUnits": "Birim kaldırıldı: satırlar {{lines}}",
+    "pasteExtraColumns": "{{height}} sonrasındaki sütunlar yapıştırılmadı",
+    "pasteDecimalGuess": "{{text}}, {{value}} olarak okundu",
+    "pasteUndo": "Metraj satırlarını yapıştır",
+    "noticeDismiss": "Mesajı kapat"
   }
 }

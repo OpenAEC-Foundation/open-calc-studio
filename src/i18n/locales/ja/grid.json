@@ -258,6 +258,11 @@
     "linkReplacesConfirm": "この項目には数量明細行があります。数量をリンクすると削除されます。続行しますか?",
     "mismatch": "数量（{{quantity}}）が数量明細行の合計（{{sum}}）と一致しません。クリックすると合計を使用します。",
     "useSum": "合計を使用",
-    "pasteInvalid": "一部の数値を読み取れませんでした。それらの欄は空欄のままです。行: {{lines}}"
+    "pasteInvalid": "読み取れないため空欄: 行 {{lines}}",
+    "pasteUnits": "単位を除去: 行 {{lines}}",
+    "pasteExtraColumns": "{{height}} より右の列は貼り付けていません",
+    "pasteDecimalGuess": "{{text}} を {{value}} として読み取りました",
+    "pasteUndo": "数量明細行の貼り付け",
+    "noticeDismiss": "メッセージを閉じる"
   }
 }

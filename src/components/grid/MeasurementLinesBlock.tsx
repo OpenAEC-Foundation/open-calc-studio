@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { parseNumericInput } from '@/utils/numericInput';
-import { formatDecimals, formatNumberForEdit } from '@/utils/formatting';
+import { decimalSeparator, formatDecimals, formatNumberForEdit } from '@/utils/formatting';
 import {
   MEASUREMENT_FIELDS,
   isClipboardBlock,
@@ -88,9 +88,14 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
   const current = (): MeasurementLine[] =>
     useAppStore.getState().items.find((i) => i.id === item.id)?.measurementLines ?? [];
 
-  const commit = useCallback((next: MeasurementLine[]) => {
-    pushHistory(useAppStore.getState().items, t('grid:undo.measurementLines'));
+  // Melding na plakken (niet te lezen, eenheid weggelaten, ...). Verdwijnt
+  // bij de volgende wijziging of met ×; geen popup die het werk onderbreekt.
+  const [notice, setNotice] = useState<string | null>(null);
+
+  const commit = useCallback((next: MeasurementLine[], label: string = t('grid:undo.measurementLines')) => {
+    pushHistory(useAppStore.getState().items, label);
     setMeasurementLines(item.id, next);
+    setNotice(null);
   }, [item.id, pushHistory, setMeasurementLines, t]);
 
   const focusCell = (lineId: string, field: string) => {
@@ -129,7 +134,9 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
    * Een blok cellen uit Excel geplakt in een vak: regels vanaf deze regel en
    * kolommen vanaf dit vak, in één undo-stap. Een gekoppelde hoeveelheid
    * vraagt eerst, zoals bij het maken van meetregels. Getallen die niet te
-   * lezen zijn blijven leeg; één melding noemt de regels.
+   * lezen zijn blijven leeg; een melding onder het tabelletje noemt de
+   * regels, en ook weggelaten eenheden, kolommen en een gok op het
+   * decimaalteken.
    */
   const pasteBlock = (lineId: string, field: 'description' | MeasurementField, text: string) => {
     const lines = current();
@@ -137,12 +144,17 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
     if (index < 0) return;
     const live = useAppStore.getState().items.find((i) => i.id === item.id);
     if ((live?.excelLink || live?.quantityLink) && !window.confirm(t('grid:measurement.dropLinkConfirm'))) return;
-    const result = pasteIntoMeasurementLines(lines, index, field, parseClipboardBlock(text));
-    commit(result.lines);
+    const result = pasteIntoMeasurementLines(lines, index, field, parseClipboardBlock(text), decimalSeparator());
+    commit(result.lines, t('grid:measurement.pasteUndo'));
     focusCell(lineId, field);
-    if (result.invalidLines.length > 0) {
-      window.alert(t('grid:measurement.pasteInvalid', { lines: result.invalidLines.join(', ') }));
+    const parts: string[] = [];
+    if (result.invalidLines.length > 0) parts.push(t('grid:measurement.pasteInvalid', { lines: result.invalidLines.join(', ') }));
+    if (result.unitLines.length > 0) parts.push(t('grid:measurement.pasteUnits', { lines: result.unitLines.join(', ') }));
+    if (result.droppedColumns) parts.push(t('grid:measurement.pasteExtraColumns', { height: t('grid:measurement.height') }));
+    if (result.decimalGuess) {
+      parts.push(t('grid:measurement.pasteDecimalGuess', { text: result.decimalGuess.text, value: fmt(result.decimalGuess.value) }));
     }
+    setNotice(parts.length > 0 ? parts.join(' · ') : null);
   };
 
   /**
@@ -279,12 +291,32 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
         </div>
       ))}
       <div className="measurement-row measurement-foot" style={{ gridTemplateColumns: columnsTemplate }}>
-        <span>
+        {/* Een melding na plakken krijgt de breedte tot het totaal, tenzij de
+            waarschuwing hoeveelheid ≠ som daar staat. */}
+        <span className={`measurement-foot-start${notice && !mismatch ? ' measurement-foot-wide' : ''}`}>
           <button type="button" className="measurement-add" onClick={() => addLine()}>
             {t('grid:measurement.addLine')}
           </button>
+          {notice && (
+            <span className="measurement-notice" role="status" title={notice}>
+              <span className="measurement-notice-text">⚠ {notice}</span>
+              <button
+                type="button"
+                className="measurement-notice-close"
+                title={t('grid:measurement.noticeDismiss')}
+                aria-label={t('grid:measurement.noticeDismiss')}
+                onClick={() => setNotice(null)}
+              >×</button>
+            </span>
+          )}
         </span>
-        {totalCells}
+        {notice && !mismatch ? (
+          <>
+            <span className="num">{t('grid:measurement.sum')}</span>
+            <span className="num measurement-value measurement-sum">{fmt(sum)}</span>
+            <span />
+          </>
+        ) : totalCells}
       </div>
       </>)}
     </div>

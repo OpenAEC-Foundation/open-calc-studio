@@ -258,6 +258,11 @@
     "linkReplacesConfirm": "This item has measurement lines. Linking the quantity removes them. Continue?",
     "mismatch": "The quantity ({{quantity}}) differs from the total of the measurement lines ({{sum}}). Click to use the total.",
     "useSum": "Use total",
-    "pasteInvalid": "Some numbers could not be read; those fields were left empty. Lines: {{lines}}"
+    "pasteInvalid": "Could not read, left empty: lines {{lines}}",
+    "pasteUnits": "Unit removed: lines {{lines}}",
+    "pasteExtraColumns": "Columns after {{height}} not pasted",
+    "pasteDecimalGuess": "{{text}} read as {{value}}",
+    "pasteUndo": "Paste measurement lines",
+    "noticeDismiss": "Close message"
   }
 }

@@ -258,6 +258,11 @@
     "linkReplacesConfirm": "Ова ставка има редове предмера. Повезивање количине их уклања. Наставити?",
     "mismatch": "Количина ({{quantity}}) разликује се од збира редова предмера ({{sum}}). Кликните да преузмете збир.",
     "useSum": "Преузми збир",
-    "pasteInvalid": "Neki brojevi nisu mogli da se pročitaju; ta polja su ostala prazna. Redovi: {{lines}}"
+    "pasteInvalid": "Nije moguće pročitati, ostavljeno prazno: redovi {{lines}}",
+    "pasteUnits": "Jedinica uklonjena: redovi {{lines}}",
+    "pasteExtraColumns": "Kolone posle {{height}} nisu nalepljene",
+    "pasteDecimalGuess": "{{text}} pročitano kao {{value}}",
+    "pasteUndo": "Nalepi redove merenja",
+    "noticeDismiss": "Zatvori poruku"
   }
 }

@@ -258,6 +258,11 @@
     "linkReplacesConfirm": "Denna post har mängdrader. Att länka mängden tar bort dem. Fortsätta?",
     "mismatch": "Mängden ({{quantity}}) skiljer sig från summan av mängdraderna ({{sum}}). Klicka för att använda summan.",
     "useSum": "Använd summan",
-    "pasteInvalid": "Vissa tal kunde inte läsas; de fälten lämnades tomma. Rader: {{lines}}"
+    "pasteInvalid": "Kunde inte läsas, lämnat tomt: rader {{lines}}",
+    "pasteUnits": "Enhet borttagen: rader {{lines}}",
+    "pasteExtraColumns": "Kolumner efter {{height}} klistrades inte in",
+    "pasteDecimalGuess": "{{text}} läst som {{value}}",
+    "pasteUndo": "Klistra in mätrader",
+    "noticeDismiss": "Stäng meddelande"
   }
 }

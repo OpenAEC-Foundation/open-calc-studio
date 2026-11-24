@@ -327,16 +327,36 @@ describe('meetregels plakken uit Excel', () => {
     expect(post().measurementLines![0].formulas).toEqual({ height: '=2*1,5' });
   });
 
-  it('een ongeldige cel blijft leeg, de rest wordt geplakt, één melding met de regelnummers', async () => {
+  it('een ongeldige cel blijft leeg, de rest wordt geplakt; een melding in het tabelletje noemt de regels', async () => {
     const alert = vi.spyOn(window, 'alert').mockImplementation(() => {});
-    await paste(cell('l1', 'description'), 'A\tveel\t2\nB\t3\t4\nC\t1\t5 m');
+    await paste(cell('l1', 'description'), 'A\tveel\t2\nB\t3\t4 m\nC\t1\t€ 5\t\t\t9');
     expect(rows()).toEqual([
       ['A', null, 2, null, 3],
       ['B', 3, 4, null, null],
       ['C', 1, null, null, null],
     ]);
-    expect(alert).toHaveBeenCalledOnce();
-    expect(alert.mock.calls[0][0]).toContain('1, 3');
+    expect(alert).not.toHaveBeenCalled();
+    const notice = () => block()!.querySelector<HTMLElement>('.measurement-notice');
+    expect(notice()!.textContent).toContain('regels 1, 3');
+    expect(notice()!.textContent).toContain('Eenheid weggelaten: regels 2');
+    expect(notice()!.textContent).toContain('Kolommen na Hoogte');
+    await act(async () => { notice()!.querySelector<HTMLButtonElement>('button')!.click(); });
+    expect(notice()).toBeNull();
+  });
+
+  it('de melding verdwijnt bij de volgende wijziging; de undo-stap heet plakken', async () => {
+    await paste(cell('l1', 'count'), 'veel\t2\n3\t4');
+    expect(s().undoStack[s().undoStack.length - 1]?.description).toBe(i18next.t('grid:measurement.pasteUndo'));
+    expect(block()!.querySelector('.measurement-notice')).not.toBeNull();
+    await type(cell('l1', 'count'), '5');
+    expect(block()!.querySelector('.measurement-notice')).toBeNull();
+  });
+
+  it('decimalen volgen het blok: "1,250" naast "2,5" is 1,25, ook met de app in het Engels', async () => {
+    await act(async () => { await i18next.changeLanguage('en'); });
+    await paste(cell('l1', 'count'), '1\t1,250\t2,5');
+    expect(rows()[0]).toEqual(['Fachada norte', 1, 1.25, 2.5, 3]);
+    expect(block()!.querySelector('.measurement-notice')).toBeNull();
   });
 
   it('het hele plakken is één undo-stap', async () => {

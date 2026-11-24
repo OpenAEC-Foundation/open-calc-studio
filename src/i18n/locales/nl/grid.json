@@ -258,6 +258,11 @@
     "linkReplacesConfirm": "Deze post heeft meetregels. Een koppeling van de hoeveelheid haalt ze weg. Doorgaan?",
     "mismatch": "De hoeveelheid ({{quantity}}) wijkt af van het totaal van de meetregels ({{sum}}). Klik om het totaal over te nemen.",
     "useSum": "Totaal overnemen",
-    "pasteInvalid": "Niet alle getallen konden worden gelezen; die vakken zijn leeg gelaten. Regels: {{lines}}"
+    "pasteInvalid": "Niet te lezen, leeg gelaten: regels {{lines}}",
+    "pasteUnits": "Eenheid weggelaten: regels {{lines}}",
+    "pasteExtraColumns": "Kolommen na {{height}} niet geplakt",
+    "pasteDecimalGuess": "{{text}} gelezen als {{value}}",
+    "pasteUndo": "Meetregels plakken",
+    "noticeDismiss": "Melding sluiten"
   }
 }

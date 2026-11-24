@@ -258,6 +258,11 @@
     "linkReplacesConfirm": "Hạng mục này có các dòng đo bóc. Liên kết khối lượng sẽ xóa chúng. Tiếp tục?",
     "mismatch": "Khối lượng ({{quantity}}) khác với tổng các dòng đo bóc ({{sum}}). Nhấp để dùng tổng.",
     "useSum": "Dùng tổng",
-    "pasteInvalid": "Không đọc được một số con số; các ô đó được để trống. Dòng: {{lines}}"
+    "pasteInvalid": "Không đọc được, để trống: dòng {{lines}}",
+    "pasteUnits": "Đã bỏ đơn vị: dòng {{lines}}",
+    "pasteExtraColumns": "Không dán các cột sau {{height}}",
+    "pasteDecimalGuess": "{{text}} được đọc là {{value}}",
+    "pasteUndo": "Dán dòng đo bóc",
+    "noticeDismiss": "Đóng thông báo"
   }
 }

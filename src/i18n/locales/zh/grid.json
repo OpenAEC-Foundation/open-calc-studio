@@ -258,6 +258,11 @@
     "linkReplacesConfirm": "此项目有计量明细行。链接数量会删除这些行。是否继续？",
     "mismatch": "数量（{{quantity}}）与计量明细行合计（{{sum}}）不一致。点击以使用合计。",
     "useSum": "使用合计",
-    "pasteInvalid": "部分数字无法读取，这些字段已留空。行：{{lines}}"
+    "pasteInvalid": "无法读取，已留空：第 {{lines}} 行",
+    "pasteUnits": "已去除单位：第 {{lines}} 行",
+    "pasteExtraColumns": "{{height}} 之后的列未粘贴",
+    "pasteDecimalGuess": "{{text}} 读作 {{value}}",
+    "pasteUndo": "粘贴计量行",
+    "noticeDismiss": "关闭消息"
   }
 }

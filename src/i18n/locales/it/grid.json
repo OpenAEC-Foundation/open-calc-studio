@@ -258,6 +258,11 @@
     "linkReplacesConfirm": "Questa voce ha righe di misura. Collegare la quantità le rimuove. Continuare?",
     "mismatch": "La quantità ({{quantity}}) differisce dal totale delle righe di misura ({{sum}}). Fai clic per usare il totale.",
     "useSum": "Usa il totale",
-    "pasteInvalid": "Alcuni numeri non sono stati letti; quei campi sono stati lasciati vuoti. Righe: {{lines}}"
+    "pasteInvalid": "Illeggibile, lasciato vuoto: righe {{lines}}",
+    "pasteUnits": "Unità rimossa: righe {{lines}}",
+    "pasteExtraColumns": "Colonne dopo {{height}} non incollate",
+    "pasteDecimalGuess": "{{text}} letto come {{value}}",
+    "pasteUndo": "Incolla righe di misura",
+    "noticeDismiss": "Chiudi messaggio"
   }
 }

@@ -258,6 +258,11 @@
     "linkReplacesConfirm": "Táto položka má riadky výmery. Prepojenie množstva ich odstráni. Pokračovať?",
     "mismatch": "Množstvo ({{quantity}}) sa líši od súčtu riadkov výmery ({{sum}}). Kliknutím použijete súčet.",
     "useSum": "Použiť súčet",
-    "pasteInvalid": "Niektoré čísla sa nepodarilo prečítať; tieto polia zostali prázdne. Riadky: {{lines}}"
+    "pasteInvalid": "Nedá sa prečítať, ponechané prázdne: riadky {{lines}}",
+    "pasteUnits": "Jednotka odstránená: riadky {{lines}}",
+    "pasteExtraColumns": "Stĺpce za {{height}} neboli vložené",
+    "pasteDecimalGuess": "{{text}} prečítané ako {{value}}",
+    "pasteUndo": "Vložiť riadky výmery",
+    "noticeDismiss": "Zavrieť správu"
   }
 }

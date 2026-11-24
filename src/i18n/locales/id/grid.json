@@ -258,6 +258,11 @@
     "linkReplacesConfirm": "Item ini memiliki baris pengukuran. Menautkan kuantitas akan menghapusnya. Lanjutkan?",
     "mismatch": "Kuantitas ({{quantity}}) berbeda dari total baris pengukuran ({{sum}}). Klik untuk memakai total.",
     "useSum": "Pakai total",
-    "pasteInvalid": "Beberapa angka tidak dapat dibaca; kolom tersebut dibiarkan kosong. Baris: {{lines}}"
+    "pasteInvalid": "Tidak dapat dibaca, dibiarkan kosong: baris {{lines}}",
+    "pasteUnits": "Satuan dihapus: baris {{lines}}",
+    "pasteExtraColumns": "Kolom setelah {{height}} tidak ditempel",
+    "pasteDecimalGuess": "{{text}} dibaca sebagai {{value}}",
+    "pasteUndo": "Tempel baris pengukuran",
+    "noticeDismiss": "Tutup pesan"
   }
 }

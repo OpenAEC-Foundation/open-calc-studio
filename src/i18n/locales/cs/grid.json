@@ -258,6 +258,11 @@
     "linkReplacesConfirm": "Tato položka má řádky výměry. Propojení množství je odstraní. Pokračovat?",
     "mismatch": "Množství ({{quantity}}) se liší od součtu řádků výměry ({{sum}}). Kliknutím použijete součet.",
     "useSum": "Použít součet",
-    "pasteInvalid": "Některá čísla nešla přečíst; tato pole zůstala prázdná. Řádky: {{lines}}"
+    "pasteInvalid": "Nelze přečíst, ponecháno prázdné: řádky {{lines}}",
+    "pasteUnits": "Jednotka odstraněna: řádky {{lines}}",
+    "pasteExtraColumns": "Sloupce za {{height}} nebyly vloženy",
+    "pasteDecimalGuess": "{{text}} přečteno jako {{value}}",
+    "pasteUndo": "Vložit řádky výměry",
+    "noticeDismiss": "Zavřít zprávu"
   }
 }

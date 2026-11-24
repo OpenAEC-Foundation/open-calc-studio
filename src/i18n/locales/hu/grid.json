@@ -258,6 +258,11 @@
     "linkReplacesConfirm": "Ennek a tételnek vannak felmérési sorai. A mennyiség kapcsolása eltávolítja őket. Folytatja?",
     "mismatch": "A mennyiség ({{quantity}}) eltér a felmérési sorok összegétől ({{sum}}). Kattintson az összeg átvételéhez.",
     "useSum": "Összeg átvétele",
-    "pasteInvalid": "Néhány számot nem sikerült beolvasni; ezek a mezők üresen maradtak. Sorok: {{lines}}"
+    "pasteInvalid": "Nem olvasható, üresen hagyva: sorok {{lines}}",
+    "pasteUnits": "Mértékegység eltávolítva: sorok {{lines}}",
+    "pasteExtraColumns": "A(z) {{height}} utáni oszlopok nincsenek beillesztve",
+    "pasteDecimalGuess": "{{text}} beolvasva: {{value}}",
+    "pasteUndo": "Felmérési sorok beillesztése",
+    "noticeDismiss": "Üzenet bezárása"
   }
 }

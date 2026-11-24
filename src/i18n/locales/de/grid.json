@@ -258,6 +258,11 @@
     "linkReplacesConfirm": "Diese Position hat Aufmaßzeilen. Eine Verknüpfung der Menge entfernt sie. Fortfahren?",
     "mismatch": "Die Menge ({{quantity}}) weicht von der Summe der Aufmaßzeilen ({{sum}}) ab. Klicken, um die Summe zu übernehmen.",
     "useSum": "Summe übernehmen",
-    "pasteInvalid": "Einige Zahlen konnten nicht gelesen werden; diese Felder bleiben leer. Zeilen: {{lines}}"
+    "pasteInvalid": "Nicht lesbar, leer gelassen: Zeilen {{lines}}",
+    "pasteUnits": "Einheit entfernt: Zeilen {{lines}}",
+    "pasteExtraColumns": "Spalten nach {{height}} nicht eingefügt",
+    "pasteDecimalGuess": "{{text}} gelesen als {{value}}",
+    "pasteUndo": "Aufmaßzeilen einfügen",
+    "noticeDismiss": "Meldung schließen"
   }
 }

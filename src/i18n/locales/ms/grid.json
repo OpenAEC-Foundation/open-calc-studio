@@ -258,6 +258,11 @@
     "linkReplacesConfirm": "Item ini mempunyai baris pengukuran. Memautkan kuantiti akan membuangnya. Teruskan?",
     "mismatch": "Kuantiti ({{quantity}}) berbeza daripada jumlah baris pengukuran ({{sum}}). Klik untuk menggunakan jumlah.",
     "useSum": "Guna jumlah",
-    "pasteInvalid": "Sesetengah nombor tidak dapat dibaca; medan tersebut dibiarkan kosong. Baris: {{lines}}"
+    "pasteInvalid": "Tidak dapat dibaca, dibiarkan kosong: baris {{lines}}",
+    "pasteUnits": "Unit dibuang: baris {{lines}}",
+    "pasteExtraColumns": "Lajur selepas {{height}} tidak ditampal",
+    "pasteDecimalGuess": "{{text}} dibaca sebagai {{value}}",
+    "pasteUndo": "Tampal baris ukuran",
+    "noticeDismiss": "Tutup mesej"
   }
 }

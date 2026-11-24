@@ -258,6 +258,11 @@
     "linkReplacesConfirm": "לסעיף זה יש שורות מדידה. קישור הכמות מסיר אותן. להמשיך?",
     "mismatch": "הכמות ({{quantity}}) שונה מסכום שורות המדידה ({{sum}}). לחצו כדי להשתמש בסכום.",
     "useSum": "שימוש בסכום",
-    "pasteInvalid": "לא ניתן היה לקרוא חלק מהמספרים; שדות אלה נותרו ריקים. שורות: {{lines}}"
+    "pasteInvalid": "לא ניתן לקרוא, נשאר ריק: שורות {{lines}}",
+    "pasteUnits": "היחידה הוסרה: שורות {{lines}}",
+    "pasteExtraColumns": "עמודות אחרי {{height}} לא הודבקו",
+    "pasteDecimalGuess": "{{text}} נקרא כ-{{value}}",
+    "pasteUndo": "הדבקת שורות מדידה",
+    "noticeDismiss": "סגירת ההודעה"
   }
 }

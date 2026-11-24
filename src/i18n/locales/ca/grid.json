@@ -258,6 +258,11 @@
     "linkReplacesConfirm": "Aquesta partida té línies d'amidament. Vincular la quantitat les elimina. Voleu continuar?",
     "mismatch": "La quantitat ({{quantity}}) no coincideix amb el total de les línies d'amidament ({{sum}}). Feu clic per fer servir el total.",
     "useSum": "Fes servir el total",
-    "pasteInvalid": "No s'han pogut llegir alguns nombres; aquests camps s'han deixat buits. Línies: {{lines}}"
+    "pasteInvalid": "No s'ha pogut llegir, deixat buit: línies {{lines}}",
+    "pasteUnits": "Unitat eliminada: línies {{lines}}",
+    "pasteExtraColumns": "No s'han enganxat les columnes després de {{height}}",
+    "pasteDecimalGuess": "{{text}} llegit com a {{value}}",
+    "pasteUndo": "Enganxar línies de medició",
+    "noticeDismiss": "Tanca el missatge"
   }
 }

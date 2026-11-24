@@ -1,6 +1,7 @@
 import type { CostItem, MeasurementField, MeasurementLine } from '@/types/costModel';
 import { roundHalfUp } from '@/services/calculation/priceRounding';
 import { parseNumericInput } from '@/utils/numericInput';
+import { parseLocaleNumber } from '@/utils/formatting';
 
 /**
  * Meetregels (afmetingenstaat) onder een post, #96. De hoeveelheid van een
@@ -160,65 +161,188 @@ export function isClipboardBlock(text: string): boolean {
 
 /** Tekens die in een geplakt getal mogen staan (zonder `=`): cijfers, scheidingstekens, teken, rekenen. */
 const NUMBER_CELL = /^[\d\s.,'  +\-−*/()]+$/;
+/** Eén getal (cijfers met scheidingstekens, eventueel een teken ervoor). */
+const PLAIN_NUMBER = /^[-+−]?[\d\s.,'  ]*\d$/;
+/**
+ * Getal met een eenheid erachter, zoals Excel een cel met getalnotatie
+ * "0 m" of "0,00 m²" kopieert: "12 m", "8,5m2", "3 st". De eenheid is 1 tot
+ * 5 letters, eventueel met 2/3 of ²/³ en een punt.
+ */
+const NUMBER_WITH_UNIT = /^([-+−]?[\d\s.,'  ]*\d)(\s*)([A-Za-zµ]{1,5}[23²³]?\.?)$/;
+
+/** Wat er in een geplakte getalcel staat, vóór het lezen. */
+interface PastedNumberText {
+  /** Lege cel. */
+  empty?: boolean;
+  /** Tekst met `=`: een formule. */
+  formula?: string;
+  /** Het getal of de rekensom zonder eenheid. */
+  number?: string;
+  /** Er stond een eenheid achter die is weggelaten. */
+  unit?: boolean;
+}
+
+function splitPastedNumber(raw: string): PastedNumberText | undefined {
+  const text = raw.trim();
+  if (text === '') return { empty: true };
+  if (text.startsWith('=')) return { formula: text };
+  if (NUMBER_CELL.test(text)) return { number: text };
+  const m = NUMBER_WITH_UNIT.exec(text);
+  // "1e3" is geen 1 met eenheid "e3": zonder spatie mag de eenheid niet met e beginnen.
+  if (m && !(m[2] === '' && /^[eE]/.test(m[3]))) return { number: m[1], unit: true };
+  return undefined;
+}
 
 /**
- * Leest één geplakte getalcel: leeg wordt een leeg vak, `=…` blijft formule.
- * `undefined` = ongeldig (het vak blijft dan leeg). Tekst met letters of
- * eenheden ("12 m") is ongeldig: parseFloat zou er stil 12 van maken.
+ * Welk decimaalteken een geplakt blok gebruikt, uit de getallen zelf: staan
+ * komma en punt allebei in een getal, dan is de laatste het decimaalteken;
+ * een teken dat twee keer voorkomt is een duizendtal; een teken met geen 3
+ * cijfers erachter is een decimaalteken. Zo leest "2,5" en "1.234,5" uit een
+ * Spaans werkboek goed, ook als de app in het Engels staat. Geven de getallen
+ * geen uitsluitsel (alleen "1,250"-achtige getallen), dan `undefined`.
  */
-function readPastedNumber(raw: string): { value: number | null; formula?: string } | undefined {
-  const text = raw.trim();
-  if (text === '') return { value: null };
-  const isFormula = text.startsWith('=');
-  if (!isFormula && !NUMBER_CELL.test(text)) return undefined;
-  const value = parseNumericInput(text);
-  if (value === null || !Number.isFinite(value)) return undefined;
-  return isFormula ? { value, formula: text } : { value };
+export function detectPasteDecimal(numbers: readonly string[]): ',' | '.' | undefined {
+  let comma = 0;
+  let dot = 0;
+  for (const raw of numbers) {
+    const s = raw.replace(/[\s  ']/g, '');
+    const lastComma = s.lastIndexOf(',');
+    const lastDot = s.lastIndexOf('.');
+    if (lastComma >= 0 && lastDot >= 0) {
+      if (lastComma > lastDot) comma++; else dot++;
+      continue;
+    }
+    for (const [sep, other] of [[',', '.'], ['.', ',']] as const) {
+      const count = s.split(sep).length - 1;
+      if (count === 0) continue;
+      const decimals = s.length - s.lastIndexOf(sep) - 1;
+      if (count > 1) {
+        if (other === '.') dot++; else comma++; // meerdere keren: duizendtal
+      } else if (decimals !== 3) {
+        if (sep === ',') comma++; else dot++;
+      }
+    }
+  }
+  if (comma > 0 && dot === 0) return ',';
+  if (dot > 0 && comma === 0) return '.';
+  return undefined;
+}
+
+/** Of een getal dubbelzinnig is: één scheidingsteken met precies 3 cijfers erachter ("1,250"). */
+function isAmbiguousNumber(raw: string): boolean {
+  return /^[-+−]?\d{1,3}[.,]\d{3}$/.test(raw.replace(/[\s  ']/g, ''));
 }
 
 export interface MeasurementPasteResult {
   lines: MeasurementLine[];
-  /** Regelnummers (vanaf 1, in het tabelletje) met een getal dat niet te lezen was. */
+  /** Regelnummers (vanaf 1, in het tabelletje) met een getal dat niet te lezen was; dat vak is leeg. */
   invalidLines: number[];
+  /** Regelnummers waar een eenheid achter een getal is weggelaten ("12 m" → 12). */
+  unitLines: number[];
+  /** Er stonden gevulde kolommen rechts van Hoogte; die zijn niet geplakt. */
+  droppedColumns: boolean;
+  /**
+   * Een dubbelzinnig getal ("1,250") dat volgens de taal van de app is
+   * gelezen, omdat het blok zelf geen uitsluitsel gaf: de tekst en de waarde.
+   */
+  decimalGuess?: { text: string; value: number };
 }
 
 /**
  * Plakt een blok cellen in de meetregels vanaf regel `startIndex`, kolom
  * `startField`. De kolommen volgen het tabelletje (omschrijving, aantal,
  * lengte, breedte, hoogte) vanaf het startvak; wat daar rechts buiten valt
- * vervalt. Bestaande regels worden overschreven, alleen in de geplakte
- * kolommen; tussentotaalregels worden overgeslagen. Komen er meer regels dan
- * er zijn, dan komen ze er onderaan bij.
+ * wordt niet geplakt. Bestaande regels worden overschreven, alleen in de
+ * geplakte kolommen; tussentotaalregels worden overgeslagen. Komen er meer
+ * regels dan er zijn, dan komen ze erbij: vóór de tussentotalen onderaan,
+ * zodat een eindtotaal het eindtotaal blijft.
+ *
+ * `appDecimal` is het decimaalteken van de app-taal: alleen gebruikt als de
+ * getallen in het blok zelf geen uitsluitsel geven.
  */
 export function pasteIntoMeasurementLines(
   lines: readonly MeasurementLine[],
   startIndex: number,
   startField: 'description' | MeasurementField,
   rows: readonly (readonly string[])[],
+  appDecimal: ',' | '.' = '.',
 ): MeasurementPasteResult {
+  const firstColumn = Math.max(0, MEASUREMENT_PASTE_COLUMNS.indexOf(startField));
+  const columnAt = (c: number) => MEASUREMENT_PASTE_COLUMNS[firstColumn + c];
+
+  // Eerst alle getallen van het blok: daaruit volgt het decimaalteken.
+  const plainNumbers: string[] = [];
+  let droppedColumns = false;
+  for (const cells of rows) {
+    cells.forEach((raw, c) => {
+      const column = columnAt(c);
+      if (!column) { if (raw.trim() !== '') droppedColumns = true; return; }
+      if (column === 'description') return;
+      const split = splitPastedNumber(raw);
+      if (split?.number && PLAIN_NUMBER.test(split.number)) plainNumbers.push(split.number);
+    });
+  }
+  const detected = detectPasteDecimal(plainNumbers);
+  const decimal = detected ?? appDecimal;
+  let decimalGuess: MeasurementPasteResult['decimalGuess'];
+
+  const read = (raw: string): { value: number | null; formula?: string; unit?: boolean } | undefined => {
+    const split = splitPastedNumber(raw);
+    if (!split) return undefined;
+    if (split.empty) return { value: null };
+    if (split.formula) {
+      const value = parseNumericInput(split.formula);
+      return value === null || !Number.isFinite(value) ? undefined : { value, formula: split.formula };
+    }
+    const text = split.number!;
+    // Een gewoon getal met het decimaalteken van het blok; een rekensom ("2*3") zoals in de grid.
+    const value = PLAIN_NUMBER.test(text) ? parseLocaleNumber(text, decimal) : parseNumericInput(text);
+    if (value === null || !Number.isFinite(value)) return undefined;
+    if (!detected && !decimalGuess && isAmbiguousNumber(text)) decimalGuess = { text: text.trim(), value };
+    return { value, unit: split.unit };
+  };
+
   const next = [...lines];
   const invalid = new Set<number>();
-  const firstColumn = MEASUREMENT_PASTE_COLUMNS.indexOf(startField);
-  let target = Math.max(0, startIndex);
+  const units = new Set<number>();
+  // Tussentotalen onderaan: nieuwe regels komen ervóór, tenzij het plakken daar zelf begon.
+  let tail = next.length;
+  while (tail > 0 && next[tail - 1].subtotal) tail--;
+  const start = Math.min(Math.max(0, startIndex), next.length);
+  const insertBeforeTail = start < tail;
+  let target = start;
   for (const cells of rows) {
-    while (target < next.length && next[target].subtotal) target++;
-    const line: MeasurementLine = target < next.length ? { ...next[target] } : newMeasurementLine();
+    while (target < tail && next[target].subtotal) target++;
+    let position: number;
+    let line: MeasurementLine;
+    if (target < tail) {
+      position = target++;
+      line = { ...next[position] };
+    } else {
+      position = insertBeforeTail ? tail : next.length;
+      line = newMeasurementLine();
+    }
     const formulas = { ...(line.formulas ?? {}) };
     cells.forEach((raw, c) => {
-      const column = MEASUREMENT_PASTE_COLUMNS[firstColumn + c];
+      const column = columnAt(c);
       if (!column) return;
       if (column === 'description') { line.description = raw.trim(); return; }
-      const read = readPastedNumber(raw);
-      if (!read) invalid.add(target + 1);
-      line[column] = read?.value ?? null;
-      if (read?.formula) formulas[column] = read.formula; else delete formulas[column];
+      const value = read(raw);
+      if (!value) invalid.add(position + 1);
+      if (value?.unit) units.add(position + 1);
+      line[column] = value?.value ?? null;
+      if (value?.formula) formulas[column] = value.formula; else delete formulas[column];
     });
-    line.formulas = Object.keys(formulas).length > 0 ? formulas : undefined;
-    if (line.formulas === undefined) delete line.formulas;
-    if (target < next.length) next[target] = line; else next.push(line);
-    target++;
+    if (Object.keys(formulas).length > 0) line.formulas = formulas; else delete line.formulas;
+    if (position < next.length && next[position].id === line.id) {
+      next[position] = line;
+    } else {
+      next.splice(position, 0, line);
+      if (insertBeforeTail) { tail++; target = tail; } else target = next.length;
+    }
   }
-  return { lines: next, invalidLines: [...invalid].sort((a, b) => a - b) };
+  const sorted = (set: Set<number>) => [...set].sort((a, b) => a - b);
+  return { lines: next, invalidLines: sorted(invalid), unitLines: sorted(units), droppedColumns, decimalGuess };
 }
 
 /**

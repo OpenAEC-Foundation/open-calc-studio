@@ -258,6 +258,11 @@
     "linkReplacesConfirm": "Ova stavka ima retke izmjere. Povezivanje količine uklanja ih. Nastaviti?",
     "mismatch": "Količina ({{quantity}}) razlikuje se od zbroja redaka izmjere ({{sum}}). Kliknite za preuzimanje zbroja.",
     "useSum": "Preuzmi zbroj",
-    "pasteInvalid": "Neki brojevi nisu se mogli pročitati; ta su polja ostala prazna. Retci: {{lines}}"
+    "pasteInvalid": "Nije moguće pročitati, ostavljeno prazno: retci {{lines}}",
+    "pasteUnits": "Jedinica uklonjena: retci {{lines}}",
+    "pasteExtraColumns": "Stupci nakon {{height}} nisu zalijepljeni",
+    "pasteDecimalGuess": "{{text}} pročitano kao {{value}}",
+    "pasteUndo": "Zalijepi retke izmjere",
+    "noticeDismiss": "Zatvori poruku"
   }
 }
