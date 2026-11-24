@@ -1,44 +1,63 @@
 // Built-in price library per country (issue #93). The country is stored per
 // estimate in `schedule.priceCountry`; an estimate without one uses the Dutch
-// library, as before. A country without a library has no built-in resources:
-// never fall back silently to another country's prices.
+// library, as before.
+//
+// Issue #86: the English library (key `INT`, not a country) has the same
+// resources with English names and no prices. New estimates in another UI
+// language than Dutch start with it, and a country without its own library
+// gets it. Never fall back to another country's prices.
 //
 // Issue #104: an estimate can use several libraries at once, in
 // `schedule.priceLibraries`: `country` (the library of `priceCountry`) and own
 // libraries as `own:<catalogue ID>`. Unset means only the country library, as
 // with #93.
 import type { CostSchedule, PriceOrigin, ResourceLibraryItem } from '@/types/costModel';
-import { PRICE_LIBRARY_FILES } from '@/data/price-libraries';
+import { ENGLISH_LIBRARY, PRICE_LIBRARY_FILES } from '@/data/price-libraries';
 import { catalogueIdOf, parseLibraryJson } from './libraryJson';
 import { isOwnLibraryId, ownLibraryItems, wasOwnLibraryId } from './ownLibraries';
 
+export { ENGLISH_LIBRARY };
 export const DEFAULT_PRICE_COUNTRY = 'NL';
 
-/** Countries that have a built-in library, in registry order. */
+/** Built-in libraries in registry order: NL, then the English library (INT). */
 export const PRICE_LIBRARY_COUNTRIES: readonly string[] = Object.keys(PRICE_LIBRARY_FILES);
+
+/** Catalogue ID of the English library. */
+export const ENGLISH_CATALOGUE_ID = catalogueIdOf(PRICE_LIBRARY_FILES[ENGLISH_LIBRARY]);
 
 /** Catalogue IDs of all built-in libraries; their articles are swapped when the country changes. */
 const BUILT_IN_CATALOGUES = new Set(Object.values(PRICE_LIBRARY_FILES).map(catalogueIdOf));
 
-/** The price-library country of an estimate (upper-case ISO code), NL when unset or invalid. */
+/** The price-library country of an estimate (upper-case ISO code, or INT), NL when unset or invalid. */
 export function priceCountryOf(schedule: Pick<CostSchedule, 'priceCountry'> | null | undefined): string {
   const code = schedule?.priceCountry;
-  return typeof code === 'string' && /^[a-z]{2}$/i.test(code) ? code.toUpperCase() : DEFAULT_PRICE_COUNTRY;
+  return typeof code === 'string' && (/^[a-z]{2}$/i.test(code) || code.toUpperCase() === ENGLISH_LIBRARY) ? code.toUpperCase() : DEFAULT_PRICE_COUNTRY;
 }
 
+/** True when the country has a library of its own (INT counts: it is the English library itself). */
 export function hasPriceLibrary(country: string): boolean {
   return Object.prototype.hasOwnProperty.call(PRICE_LIBRARY_FILES, country);
 }
 
+/** The built-in library a country uses: its own, or the English library. */
+export function libraryOfCountry(country: string): string {
+  return hasPriceLibrary(country) ? country : ENGLISH_LIBRARY;
+}
+
+/** The library country for a new estimate: NL for a Dutch UI, else the English library (#86). */
+export function newEstimatePriceCountry(language: string | undefined): string {
+  return (language || '').toLowerCase().split('-')[0] === 'nl' ? DEFAULT_PRICE_COUNTRY : ENGLISH_LIBRARY;
+}
+
 const parsed = new Map<string, ResourceLibraryItem[]>();
 
-/** The built-in articles for a country; empty when it has no library. */
+/** The built-in articles for a country; the English library (no prices) when it has no library of its own. */
 export function builtInLibraryItems(country: string): ResourceLibraryItem[] {
-  if (!hasPriceLibrary(country)) return [];
-  let items = parsed.get(country);
+  const key = libraryOfCountry(country);
+  let items = parsed.get(key);
   if (!items) {
-    items = parseLibraryJson(PRICE_LIBRARY_FILES[country]);
-    parsed.set(country, items);
+    items = parseLibraryJson(PRICE_LIBRARY_FILES[key]);
+    parsed.set(key, items);
   }
   // A copy, so edits through the store (MCP update_resource) never reach the cache.
   return items.map(item => ({ ...item }));
@@ -47,6 +66,20 @@ export function builtInLibraryItems(country: string): ResourceLibraryItem[] {
 /** True for the catalogue ID of a built-in country library: an own library never gets one. */
 export function isBuiltInCatalogueId(id: string): boolean {
   return BUILT_IN_CATALOGUES.has(id);
+}
+
+/**
+ * True for an article of the English library. Never write these into a
+ * project file: 2026.48.0 and older do not know the library and would keep
+ * its 98 articles as the user's own resources.
+ */
+export function isEnglishLibraryItem(item: Pick<ResourceLibraryItem, 'catalogueId'>): boolean {
+  return item.catalogueId === ENGLISH_CATALOGUE_ID;
+}
+
+/** The resource library as it goes into a project file: without the English library. */
+export function libraryForFile(library: ResourceLibraryItem[]): ResourceLibraryItem[] {
+  return library.filter(item => !isEnglishLibraryItem(item));
 }
 
 export function isBuiltInLibraryItem(item: Pick<ResourceLibraryItem, 'catalogueId'>): boolean {

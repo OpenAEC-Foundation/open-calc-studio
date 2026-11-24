@@ -2,7 +2,7 @@ import { useAppStore } from '@/state/appStore';
 import { COUNTRY_CODES } from '@/utils/countries';
 import { loadOwnLibraries, listOwnLibraries, ownLibrariesLoaded, ownLibraryLoadError, getOwnLibrary, saveOwnLibrary, removeOwnLibrary, renameOwnLibrary } from './ownLibraries';
 import { prepareOwnLibrary, type LibraryColumnMapping } from './ownLibraryImport';
-import { activeLibrariesOf, priceCountryOf, PRICE_LIBRARY_COUNTRIES, ownLibraryKey } from './priceLibraries';
+import { activeLibrariesOf, ENGLISH_LIBRARY, libraryOfCountry, priceCountryOf, PRICE_LIBRARY_COUNTRIES, ownLibraryKey } from './priceLibraries';
 import { choosePriceCountry, setActiveLibraries, toggleLibrary } from './choosePriceCountry';
 
 /** Same persistent library operations as the UI, exposed through app_command / calc_run_action. */
@@ -15,7 +15,11 @@ export async function libraryCommand(action: string, params: Record<string, unkn
   if (!ownLibrariesLoaded() || ownLibraryLoadError() !== null) await loadOwnLibraries();
   if (ownLibraryLoadError() !== null) throw Error('Own library storage could not be read.');
   const state = useAppStore.getState();
-  if (action === 'list') return { country: priceCountryOf(state.schedule), builtInCountries: PRICE_LIBRARY_COUNTRIES, active: activeLibrariesOf(state.schedule), libraries: listOwnLibraries() };
+  if (action === 'list') {
+    const country = priceCountryOf(state.schedule);
+    // countryLibrary INT: the English library (English names, no prices), chosen or because the country has none.
+    return { country, countryLibrary: libraryOfCountry(country), builtInCountries: PRICE_LIBRARY_COUNTRIES, active: activeLibrariesOf(state.schedule), libraries: listOwnLibraries() };
+  }
   if (action === 'import') {
     if (typeof params.fileName !== 'string' || params.fileName.length === 0) throw Error('fileName is required.');
     if ((params.content !== undefined && typeof params.content !== 'string') || (params.dataBase64 !== undefined && typeof params.dataBase64 !== 'string')) throw Error('File content must be a string.');
@@ -33,7 +37,7 @@ export async function libraryCommand(action: string, params: Record<string, unkn
   }
   if (action === 'select') {
     if (!state.activeDocumentId) throw Error('Open an estimate first.');
-    if (params.country !== undefined && (typeof params.country !== 'string' || !(COUNTRY_CODES as readonly string[]).includes(params.country.toUpperCase()))) throw Error('Unknown country code.');
+    if (params.country !== undefined && (typeof params.country !== 'string' || ![...COUNTRY_CODES, ENGLISH_LIBRARY].includes(params.country.toUpperCase()))) throw Error('Unknown country code (ISO 3166-1 alpha-2, or INT for the English library).');
     const known = new Set(['country', ...listOwnLibraries().map(l => ownLibraryKey(l.id))]);
     if (params.keys !== undefined && (!Array.isArray(params.keys) || params.keys.some(k => typeof k !== 'string' || !known.has(k)))) throw Error('keys must contain loaded library keys (country or own:<id>).');
     if (params.country !== undefined) choosePriceCountry((params.country as string).toUpperCase());

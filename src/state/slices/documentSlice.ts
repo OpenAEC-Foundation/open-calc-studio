@@ -1,4 +1,6 @@
 import { uiText } from '@/i18n/uiText';
+import i18next from 'i18next';
+import { newEstimatePriceCountry } from '@/services/pricing/priceLibraries';
 import type { StateCreator } from 'zustand';
 import type { DocumentTab } from '@/types/costModel';
 import { createDefaultSchedule } from '@/data/defaultBudget';
@@ -43,7 +45,10 @@ function makeEmptyDoc(overrides?: Partial<DocumentTab>): DocumentTab {
     fileName: uiText("newBudget", "New estimate"),
     isModified: false,
     items: [],
-    schedule: createDefaultSchedule(),
+    // A new estimate (no schedule from a file or import) gets the library of the
+    // UI language: Dutch for nl, else the English library (#86). Opened files
+    // keep their own choice; old files without one stay NL.
+    schedule: { ...createDefaultSchedule(), priceCountry: newEstimatePriceCountry(i18next.language) },
     ...overrides,
   };
 }
