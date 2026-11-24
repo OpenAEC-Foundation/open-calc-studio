@@ -1,18 +1,19 @@
 // Turn a file into an own price library (issue #104): library JSON, a CSV or
-// Excel table, or a BMEcat/DICO supplier catalogue. Every format ends up as
+// Excel table, a BMEcat/DICO supplier catalogue or a ZSX price list. Every format ends up as
 // library JSON and goes through parseLibraryJson, so validation and article IDs
 // are the same as for the built-in libraries.
 import type { ResourceLibraryItem, ResourceType } from '@/types/costModel';
 import { uiText } from '@/i18n/uiText';
 import { parseCsv, parseXlsxTabular, autoDetectMapping, type TabularData } from '@/services/importers/genericTabularImporter';
 import { importBmecat } from '@/services/importers/bmecatImporter';
+import { importZsx } from '@/services/importers/zsxImporter';
 import { parseAmount } from '@/services/importers/core';
 import { parseLibraryJson } from './libraryJson';
 import { isBuiltInCatalogueId } from './priceLibraries';
 import { getOwnLibrary, ownLibraryItems, type OwnLibrary, type OwnLibraryInfo, type OwnLibraryJson, type OwnLibraryOrigin } from './ownLibraries';
 
-export const OWN_LIBRARY_FILE_TYPES = '.json,.csv,.tsv,.txt,.xlsx,.xls,.xml,.bmecat';
-export const OWN_LIBRARY_EXTENSIONS = ['json', 'csv', 'tsv', 'txt', 'xlsx', 'xls', 'xml', 'bmecat'];
+export const OWN_LIBRARY_FILE_TYPES = '.json,.csv,.tsv,.txt,.xlsx,.xls,.xml,.bmecat,.zsx';
+export const OWN_LIBRARY_EXTENSIONS = ['json', 'csv', 'tsv', 'txt', 'xlsx', 'xls', 'xml', 'bmecat', 'zsx'];
 
 export interface PrepareOptions {
   /**
@@ -24,6 +25,8 @@ export interface PrepareOptions {
   now?: Date;
   /** Source column index to library field; overrides header detection. */
   columnMapping?: LibraryColumnMapping;
+  /** The format the user chose (for example ZSX for a .xml file); overrides detection. */
+  format?: OwnLibraryOrigin;
 }
 
 export const LIBRARY_COLUMN_FIELDS = ['ignore', 'code', 'description', 'unit', 'unitPrice', 'type', 'category', 'priceDate', 'source', 'currency', 'vatBasis'] as const;
@@ -52,6 +55,29 @@ export function detectLibraryMapping(headers: string[]): LibraryColumnMapping {
     seen.add(field);
     return field;
   });
+}
+
+/**
+ * Does a table opened as an estimate look like a price list? Only when the
+ * columns for a price library are there (code, description, a price), none of
+ * an estimate (quantity, total), and nearly every row has a price. Estimates
+ * almost always have a quantity or total column, and their chapter rows have
+ * no price, so a real estimate rarely matches. It is only a hint: the user
+ * decides.
+ */
+export function looksLikePriceList(data: TabularData): boolean {
+  const estimate = autoDetectMapping(data.headers);
+  if (estimate.includes('quantity') || estimate.includes('total')) return false;
+  const library = detectLibraryMapping(data.headers);
+  const price = library.indexOf('unitPrice');
+  if (!library.includes('code') || !library.includes('description') || price < 0) return false;
+  const rows = data.rows.filter(row => row.some(cell => String(cell ?? '').trim() !== ''));
+  if (rows.length === 0) return false;
+  const priced = rows.filter(row => {
+    const text = String(row[price] ?? '').trim();
+    return text !== '' && !parseAmount(text).invalid;
+  }).length;
+  return priced / rows.length >= 0.8;
 }
 
 export interface PreparedOwnLibrary {
@@ -221,8 +247,8 @@ function fromTable(data: TabularData, fileName: string, provided?: LibraryColumn
   return { preferredId: name, name, version: 'unversioned', resources };
 }
 
-function fromBmecat(content: string, fileName: string): { draft: Draft; warnings: string[] } {
-  const result = importBmecat(content);
+/** BMEcat/DICO catalogue or ZSX price list: both give a list of resources. */
+function fromSupplierXml(result: { resources: ResourceLibraryItem[]; warnings: string[] }, fileName: string): { draft: Draft; warnings: string[] } {
   const name = baseName(fileName);
   return {
     warnings: result.warnings,
@@ -236,20 +262,26 @@ function fromBmecat(content: string, fileName: string): { draft: Draft; warnings
   };
 }
 
-function originOf(ext: string, content: string | ArrayBuffer | Uint8Array): OwnLibraryOrigin {
+/** A ZSX price list is XML with <Middel> elements; other XML is read as BMEcat. */
+const looksLikeZsx = (xml: string) => /<Middel[\s>/]/.test(xml);
+
+function originOf(ext: string, text: () => string): OwnLibraryOrigin {
   if (ext === 'xlsx' || ext === 'xls' || ext === 'csv' || ext === 'tsv' || ext === 'txt') return 'table';
-  if (ext === 'xml' || ext === 'bmecat') return 'bmecat';
+  if (ext === 'zsx') return 'zsx';
+  if (ext === 'bmecat') return 'bmecat';
+  if (ext === 'xml') return looksLikeZsx(text()) ? 'zsx' : 'bmecat';
   if (ext === 'json') return 'json';
   // No known extension: sniff.
-  const start = (typeof content === 'string' ? content : new TextDecoder().decode(content.slice(0, 64))).trimStart();
-  return start.startsWith('<') ? 'bmecat' : 'json';
+  const content = text();
+  if (!content.trimStart().startsWith('<')) return 'json';
+  return looksLikeZsx(content) ? 'zsx' : 'bmecat';
 }
 
 /** Read a file into an own library. Throws a message for the user on a bad file. */
 export function prepareOwnLibrary(fileName: string, content: string | ArrayBuffer | Uint8Array, options: PrepareOptions = {}): PreparedOwnLibrary {
   const ext = (fileName.match(/\.([^.\\/]+)$/)?.[1] ?? '').toLowerCase();
   const asText = () => typeof content === 'string' ? content : new TextDecoder().decode(content);
-  const origin = originOf(ext, content);
+  const origin = options.format ?? originOf(ext, asText);
   let draft: Draft;
   let warnings: string[] = [];
   try {
@@ -258,7 +290,13 @@ export function prepareOwnLibrary(fileName: string, content: string | ArrayBuffe
       if (!table) throw invalid('Unsupported table format.');
       draft = fromTable(table, fileName, options.columnMapping);
     } else if (origin === 'bmecat') {
-      ({ draft, warnings } = fromBmecat(asText(), fileName));
+      const xml = asText();
+      // Any XML that is not ZSX lands here; one without articles is most
+      // likely an estimate (CUF, GAEB, RSX, ...), so point to the right import.
+      if (!/<(ARTICLE|PRODUCT)[\s>/]/.test(xml)) throw new OwnLibraryFileError(uiText('pricing.ownNotPriceXml', 'This XML file is not a BMEcat catalogue or ZSX price list. Is it an estimate (CUF, GAEB, RSX, …)? Open it with Import → New estimate.'));
+      ({ draft, warnings } = fromSupplierXml(importBmecat(xml), fileName));
+    } else if (origin === 'zsx') {
+      ({ draft, warnings } = fromSupplierXml(importZsx(asText()), fileName));
     } else {
       draft = fromJson(asText(), fileName);
     }
@@ -266,7 +304,26 @@ export function prepareOwnLibrary(fileName: string, content: string | ArrayBuffe
     if (e instanceof OwnLibraryFileError) throw e;
     throw invalid(e instanceof Error ? e.message : String(e));
   }
+  return finishPrepared(draft, warnings, origin, fileName, options);
+}
 
+/**
+ * A table that was already read (for example in the estimate import, where
+ * the user chose "Import as price library instead") becomes an own library
+ * without reading the file again.
+ */
+export function prepareOwnLibraryFromTable(table: TabularData, fileName: string, options: PrepareOptions = {}): PreparedOwnLibrary {
+  let draft: Draft;
+  try {
+    draft = fromTable(table, fileName, options.columnMapping);
+  } catch (e) {
+    if (e instanceof OwnLibraryFileError) throw e;
+    throw invalid(e instanceof Error ? e.message : String(e));
+  }
+  return finishPrepared(draft, [], 'table', fileName, options);
+}
+
+function finishPrepared(draft: Draft, warnings: string[], origin: OwnLibraryOrigin, fileName: string, options: PrepareOptions): PreparedOwnLibrary {
   const target = options.updateId === undefined ? undefined : getOwnLibrary(options.updateId);
   if (options.updateId !== undefined && !target) throw new OwnLibraryFileError(uiText('pricing.ownNotFound', 'The own library to update is no longer on this computer.'));
   const duplicates = suffixDuplicates(draft.resources);

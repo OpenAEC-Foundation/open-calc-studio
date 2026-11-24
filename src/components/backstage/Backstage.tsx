@@ -24,12 +24,19 @@ import ExtensionManagerPanel from "./ExtensionManagerPanel";
 import { CloudPanel } from "./CloudPanel";
 import ColumnMappingDialog from "./ColumnMappingDialog";
 import { showImportWarnings } from "../common/ImportWarningsDialog";
-import { prepareOwnLibrary } from '@/services/pricing/ownLibraryImport';
-import { saveOwnLibrary } from '@/services/pricing/ownLibraries';
-import { activateOwnLibrary } from '@/services/pricing/choosePriceCountry';
+import { looksLikePriceList, OWN_LIBRARY_FILE_TYPES, prepareOwnLibrary, prepareOwnLibraryFromTable } from '@/services/pricing/ownLibraryImport';
+import { installOwnLibrary, ownLibraryImportedMessage } from '@/services/pricing/installOwnLibrary';
+import type { PreparedOwnLibrary } from '@/services/pricing/ownLibraryImport';
+import { askLibraryColumnMapping } from '@/components/library/askLibraryColumnMapping';
+import { importOwnLibraryFile } from '@/components/library/importOwnLibraryFile';
+import { rememberLibraryMapping } from '@/services/pricing/libraryColumnMappings';
 import { OPENAEC_ENABLED, USER_EXTENSIONS_ENABLED, allowsExternalServices } from "../../services/buildFlags";
 import appIcon from '@/assets/app-icon.svg';
 import "./Backstage.css";
+
+/** After a price-library import: open the library dialog, with what was imported in it. */
+const showImportedLibrary = (prepared: PreparedOwnLibrary) =>
+  useAppStore.getState().openResourcePicker(null, ownLibraryImportedMessage(prepared));
 
 const ICONS = {
   new: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6m-3 3h6"/></svg>',
@@ -231,29 +238,32 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
     }
   }, [extensionImporters, newFile, onClose, t]);
 
+  /**
+   * Issue #104: a supplier catalogue (BMEcat) or price list (ZSX) becomes its
+   * own price library, kept on this computer and used by this estimate,
+   * instead of being merged by code into the other libraries.
+   */
+  const importAsOwnLibrary = async (xml: string, fileName: string, result: { warnings: string[] }, format: 'bmecat' | 'zsx') => {
+    const label = format === 'zsx' ? 'ZSX' : 'BMEcat';
+    const prepared = prepareOwnLibrary(fileName, xml, { format });
+    if (!await installOwnLibrary(prepared)) return;
+    if (result.warnings.length > 0) {
+      console.warn(`[Import ${label}] waarschuwingen:`, result.warnings);
+      showImportWarnings(result, fileName);
+    }
+    showImportedLibrary(prepared);
+  };
+
   const handleZsxImport = useCallback(async () => {
     onClose();
-    const applyResult = (xml: string, fileName: string) => {
+    const applyResult = async (xml: string, fileName: string) => {
       try {
         const result = importZsx(xml);
         if (result.resources.length === 0) {
           alert(t('importPanel.zsxNoResources', { fileName }));
           return;
         }
-        const store = useAppStore.getState();
-        const current = store.resourceLibrary;
-        // Merge by code: incoming entries with a matching code replace the
-        // existing library entry; new codes are appended.
-        const byCode = new Map(current.map((r) => [r.code, r]));
-        for (const r of result.resources) {
-          byCode.set(r.code, r);
-        }
-        store.setResourceLibrary(Array.from(byCode.values()));
-        if (result.warnings.length > 0) {
-          console.warn(`[Import ZSX] ${result.warnings.length} waarschuwingen:`, result.warnings);
-          showImportWarnings(result, fileName);
-        }
-        console.log(`[Import ZSX] ${result.resources.length} middelen geladen uit ${fileName}`);
+        await importAsOwnLibrary(xml, fileName, result, 'zsx');
       } catch (err: any) {
         console.error('[Import ZSX] failed:', err);
         alert(t('importPanel.importFailed', { error: err?.message || err }));
@@ -266,7 +276,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         const res = await openTextFileNative(t('importPanel.zsxTitle'), ['zsx', 'xml']);
         if (!res) return;
         const baseName = (res.path.split(/[\\/]/).pop() || 'import');
-        applyResult(res.content, baseName);
+        await applyResult(res.content, baseName);
       } else {
         const input = document.createElement('input');
         input.type = 'file';
@@ -275,7 +285,7 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
           const file = (e.target as HTMLInputElement).files?.[0];
           if (!file) return;
           const xml = await file.text();
-          applyResult(xml, file.name);
+          await applyResult(xml, file.name);
         };
         input.click();
       }
@@ -368,6 +378,27 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
     }
   }, [t]);
 
+  // A supplier price list opened as an estimate: offer the price library
+  // instead, with the same table, so the user does not pick the file again.
+  const priceListHint = useMemo(() => (mappingData ? looksLikePriceList(mappingData) : false), [mappingData]);
+  const importMappingAsLibrary = useCallback(async () => {
+    const table = mappingData;
+    if (!table) return;
+    setMappingData(null);
+    onClose();
+    try {
+      const columnMapping = await askLibraryColumnMapping(table);
+      if (columnMapping === null) return;
+      const prepared = prepareOwnLibraryFromTable(table, table.sourceName, { columnMapping });
+      if (!await installOwnLibrary(prepared)) return;
+      rememberLibraryMapping(table.headers, columnMapping);
+      showImportedLibrary(prepared);
+    } catch (err: any) {
+      console.error('[Import price list] failed:', err);
+      alert(t('importPanel.importFailed', { error: err?.message || err }));
+    }
+  }, [mappingData, onClose, t]);
+
   const handleMappingConfirm = useCallback((mapping: ColumnMapping) => {
     if (!mappingData) return;
     // De kolomdialoog heeft de formule-uitkomsten al getoond (#88).
@@ -385,27 +416,35 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
     onClose();
   }, [mappingData, newFile, onClose]);
 
+  // Import → Price library → Price list: straight to the file, like ZSX and
+  // BMEcat, through the same path as the library dialog (column preview for
+  // a table, then kept on this computer and switched on).
+  const handleLibraryFileImport = useCallback(() => {
+    onClose();
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = OWN_LIBRARY_FILE_TYPES;
+    input.onchange = async (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (!file) return;
+      try {
+        const prepared = await importOwnLibraryFile(file);
+        if (prepared) showImportedLibrary(prepared);
+      } catch (err: any) {
+        console.error('[Import price list] failed:', err);
+        alert(t('importPanel.importFailed', { error: err?.message || err }));
+      }
+    };
+    input.click();
+  }, [onClose, t]);
+
   const handleBmecatImport = useCallback(async () => {
     onClose();
     const applyResult = async (xml: string, fileName: string) => {
       try {
         const result = importBmecat(xml);
         if (result.resources.length === 0) { alert(t('importPanel.bmecatNoResources', { fileName })); return; }
-        // Issue #104: a supplier catalogue becomes its own price library, kept
-        // on this computer and used by this estimate, instead of being merged
-        // by code into the other libraries.
-        const prepared = prepareOwnLibrary(fileName, xml);
-        if (prepared.replaces && !window.confirm(uiText('pricing.ownReplace', 'There is already an own library “{{name}}” on this computer. Replace it with this file? Price links in estimates stay valid.', { name: prepared.replaces.name }))) return;
-        await saveOwnLibrary(prepared.library);
-        activateOwnLibrary(prepared.library.id);
-        if (result.warnings.length > 0) {
-          console.warn('[Import BMEcat] waarschuwingen:', result.warnings);
-          showImportWarnings(result, fileName);
-        }
-        alert([
-          uiText('pricing.ownImported', '“{{name}}” imported: {{count}} resources. It is kept on this computer.', { name: prepared.library.name, count: prepared.library.count }),
-          ...(prepared.duplicates.length > 0 ? [uiText('pricing.ownDuplicates', 'Codes that appear more than once got a suffix (~2, ~3) ({{count}}): {{codes}}.', { count: prepared.duplicates.length, codes: prepared.duplicates.slice(0, 10).join(', ') + (prepared.duplicates.length > 10 ? ', …' : '') })] : []),
-        ].join(' '));
+        await importAsOwnLibrary(xml, fileName, result, 'bmecat');
       } catch (err: any) {
         console.error('[Import BMEcat] failed:', err);
         alert(t('importPanel.importFailed', { error: err?.message || err }));
@@ -749,171 +788,194 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         {activePanel === "import" && (
           <div className="bs-panel">
             <h2 className="bs-panel-title">{t("importPanel.title")}</h2>
-            <div className="bs-panel-options">
-              <button className="bs-panel-option" onClick={handleImportIfc}>
-                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
-                <div className="bs-panel-option-text">
-                  <strong>{t("importPanel.fromTemplate")}</strong>
-                  <span>{t("importPanel.fromTemplateDesc")}</span>
+            <div className="bs-panel-groups">
+              <section className="bs-panel-group" data-import-group="estimate" aria-labelledby="bs-import-estimate">
+                <h3 className="bs-panel-group-title" id="bs-import-estimate">{t("importPanel.groupEstimate")}</h3>
+                <p className="bs-panel-group-hint">{t("importPanel.groupEstimateHint")}</p>
+                <div className="bs-panel-options">
+                  <button className="bs-panel-option" onClick={handleImportIfc}>
+                    <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                    <div className="bs-panel-option-text">
+                      <strong>{t("importPanel.fromTemplate")}</strong>
+                      <span>{t("importPanel.fromTemplateDesc")}</span>
+                    </div>
+                  </button>
+                  <button
+                    className="bs-panel-option"
+                    onClick={() => void handleXmlImport('CUF-XML', ['cuf', 'xml'], importCuf)}
+                  >
+                    <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                    <div className="bs-panel-option-text">
+                      <strong>CUF-XML</strong>
+                      <span>{t("importPanel.cufDesc")}</span>
+                    </div>
+                  </button>
+                  <button
+                    className="bs-panel-option"
+                    onClick={() => void handleGenericImport()}
+                  >
+                    <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                    <div className="bs-panel-option-text">
+                      <strong>Excel / CSV</strong>
+                      <span>{t("importPanel.excelCsvDesc")}</span>
+                    </div>
+                  </button>
+                  <button
+                    className="bs-panel-option"
+                    onClick={() => void handleXmlImport(t('importPanel.stabuTitle'), ['s01'], importS01)}
+                  >
+                    <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                    <div className="bs-panel-option-text">
+                      <strong>{t("importPanel.stabuTitle")}</strong>
+                      <span>{t("importPanel.stabuDesc")}</span>
+                    </div>
+                  </button>
+                  <button
+                    className="bs-panel-option"
+                    onClick={() => void handleXmlImport('STABU SUFX', ['sufx', 'xml'], importSufx)}
+                  >
+                    <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                    <div className="bs-panel-option-text">
+                      <strong>STABU SUFX</strong>
+                      <span>{t("importPanel.sufxDesc")}</span>
+                    </div>
+                  </button>
+                  <button
+                    className="bs-panel-option"
+                    onClick={() => void handleXmlImport('IBIS-TRAD XML', ['xml'], importTradxml)}
+                  >
+                    <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                    <div className="bs-panel-option-text">
+                      <strong>IBIS-TRAD XML</strong>
+                      <span>{t("importPanel.tradDesc")}</span>
+                    </div>
+                  </button>
+                  <button
+                    className="bs-panel-option"
+                    onClick={() => void handleXmlImport('RAW RSX', ['rsx', 'xml'], importRsx)}
+                  >
+                    <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                    <div className="bs-panel-option-text">
+                      <strong>RAW RSX (CROW GWW)</strong>
+                      <span>{t("importPanel.rsxDesc")}</span>
+                    </div>
+                  </button>
+                  <button
+                    className="bs-panel-option"
+                    onClick={() => void handleXmlImport('RAW RSU (legacy)', ['rsu', 'xml'], importRsu)}
+                  >
+                    <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                    <div className="bs-panel-option-text">
+                      <strong>RAW RSU (legacy)</strong>
+                      <span>{t("importPanel.rsuDesc")}</span>
+                    </div>
+                  </button>
+                  <button className="bs-panel-option" onClick={() => void handleBc3Import()}>
+                    <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                    <div className="bs-panel-option-text">
+                      <strong>FIEBDC-3 (.bc3)</strong>
+                      <span>{t("importPanel.bc3Desc")}</span>
+                    </div>
+                  </button>
+                  <button
+                    className="bs-panel-option"
+                    onClick={() => void handleXmlImport('ÖNORM A 2063', ['onlv', 'onlb'], importOnlv)}
+                  >
+                    <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                    <div className="bs-panel-option-text">
+                      <strong>ÖNORM A 2063 (.onlv, .onlb)</strong>
+                      <span>{t("importPanel.onlvDesc")}</span>
+                    </div>
+                  </button>
+                  <button
+                    className="bs-panel-option"
+                    onClick={() => void handleXmlImport('GAEB DA XML', ['x81', 'x82', 'x83', 'x84', 'x86', 'x87'], importGaeb)}
+                  >
+                    <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                    <div className="bs-panel-option-text">
+                      <strong>GAEB DA XML (.x83)</strong>
+                      <span>{uiText("import.gaebHelp", "Import a German bill of quantities; X84 prices require the matching X83 file.")}</span>
+                    </div>
+                  </button>
+                  <button className="bs-panel-option" onClick={() => void handleXmlImport('XPWE / XC4', ['xpwe', 'xc4', 'xml'], importXmlBudget)}>
+                    <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                    <div className="bs-panel-option-text">
+                      <strong>XPWE / XC4</strong>
+                      <span>{uiText("import.xmlHelp", "Italian and Czech estimates, retaining the source file for export.")}</span>
+                    </div>
+                  </button>
+                  {extensionImporters.map((imp) => (
+                    <button key={imp.id} className="bs-panel-option" onClick={() => handleExtensionImport(imp.id)}>
+                      <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: imp.icon || ICONS.import }} />
+                      <div className="bs-panel-option-text">
+                        <strong>{imp.name}</strong>
+                        <span>{imp.description || ''}</span>
+                      </div>
+                    </button>
+                  ))}
                 </div>
-              </button>
-              <button
-                className="bs-panel-option"
-                onClick={() => void handleXmlImport('CUF-XML', ['cuf', 'xml'], importCuf)}
-              >
-                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
-                <div className="bs-panel-option-text">
-                  <strong>CUF-XML</strong>
-                  <span>{t("importPanel.cufDesc")}</span>
+              </section>
+              <section className="bs-panel-group" data-import-group="open" aria-labelledby="bs-import-open">
+                <h3 className="bs-panel-group-title" id="bs-import-open">{t("importPanel.groupOpenEstimate")}</h3>
+                <p className="bs-panel-group-hint">{t("importPanel.groupOpenEstimateHint")}</p>
+                <div className="bs-panel-options">
+                  <button className="bs-panel-option" onClick={() => void handleGaebOffer()}>
+                    <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                    <div className="bs-panel-option-text">
+                      <strong>{uiText("import.offer", "GAEB offer (.x84)")}</strong>
+                      <span>{uiText("import.offerHelp", "Apply bid prices to the open X83 bill of quantities.")}</span>
+                    </div>
+                  </button>
                 </div>
-              </button>
-              <button
-                className="bs-panel-option"
-                onClick={() => void handleGenericImport()}
-              >
-                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
-                <div className="bs-panel-option-text">
-                  <strong>Excel / CSV</strong>
-                  <span>{t("importPanel.excelCsvDesc")}</span>
+              </section>
+              <section className="bs-panel-group" data-import-group="library" aria-labelledby="bs-import-library">
+                <h3 className="bs-panel-group-title" id="bs-import-library">{t("importPanel.groupLibrary")}</h3>
+                <p className="bs-panel-group-hint">{t("importPanel.groupLibraryHint")}</p>
+                <div className="bs-panel-options">
+                  <button className="bs-panel-option" data-library-import onClick={handleLibraryFileImport}>
+                    <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                    <div className="bs-panel-option-text">
+                      <strong>{t("importPanel.libraryTableTitle")}</strong>
+                      <span>{t("importPanel.libraryTableDesc")}</span>
+                    </div>
+                  </button>
+                  <button
+                    className="bs-panel-option"
+                    onClick={() => void handleZsxImport()}
+                  >
+                    <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                    <div className="bs-panel-option-text">
+                      <strong>{t("importPanel.zsxTitle")}</strong>
+                      <span>{t("importPanel.zsxDesc")}</span>
+                    </div>
+                  </button>
+                  <button
+                    className="bs-panel-option"
+                    onClick={() => void handleBmecatImport()}
+                  >
+                    <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                    <div className="bs-panel-option-text">
+                      <strong>{t("importPanel.bmecatTitle")}</strong>
+                      <span>{t("importPanel.bmecatDesc")}</span>
+                    </div>
+                  </button>
                 </div>
-              </button>
-              <button className="bs-panel-option" data-library-import onClick={() => { onClose(); useAppStore.getState().openResourcePicker(null); }}>
-                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
-                <div className="bs-panel-option-text">
-                  <strong>{uiText('pricing.importLibrary', 'Import library…')}</strong>
-                  <span>{uiText('pricing.library', 'Price library')} · JSON / CSV / Excel / BMEcat</span>
+              </section>
+              <section className="bs-panel-group" data-import-group="other" aria-labelledby="bs-import-other">
+                <h3 className="bs-panel-group-title" id="bs-import-other">{t("importPanel.groupOther")}</h3>
+                <div className="bs-panel-options">
+                  <button
+                    className="bs-panel-option"
+                    onClick={() => void handleNsxImport()}
+                  >
+                    <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
+                    <div className="bs-panel-option-text">
+                      <strong>{t("importPanel.nsxTitle")}</strong>
+                      <span>{t("importPanel.nsxDesc")}</span>
+                    </div>
+                  </button>
                 </div>
-              </button>
-              <button
-                className="bs-panel-option"
-                onClick={() => void handleXmlImport(t('importPanel.stabuTitle'), ['s01'], importS01)}
-              >
-                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
-                <div className="bs-panel-option-text">
-                  <strong>{t("importPanel.stabuTitle")}</strong>
-                  <span>{t("importPanel.stabuDesc")}</span>
-                </div>
-              </button>
-              <button
-                className="bs-panel-option"
-                onClick={() => void handleXmlImport('STABU SUFX', ['sufx', 'xml'], importSufx)}
-              >
-                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
-                <div className="bs-panel-option-text">
-                  <strong>STABU SUFX</strong>
-                  <span>{t("importPanel.sufxDesc")}</span>
-                </div>
-              </button>
-              <button
-                className="bs-panel-option"
-                onClick={() => void handleXmlImport('IBIS-TRAD XML', ['xml'], importTradxml)}
-              >
-                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
-                <div className="bs-panel-option-text">
-                  <strong>IBIS-TRAD XML</strong>
-                  <span>{t("importPanel.tradDesc")}</span>
-                </div>
-              </button>
-              <button
-                className="bs-panel-option"
-                onClick={() => void handleXmlImport('RAW RSX', ['rsx', 'xml'], importRsx)}
-              >
-                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
-                <div className="bs-panel-option-text">
-                  <strong>RAW RSX (CROW GWW)</strong>
-                  <span>{t("importPanel.rsxDesc")}</span>
-                </div>
-              </button>
-              <button
-                className="bs-panel-option"
-                onClick={() => void handleXmlImport('RAW RSU (legacy)', ['rsu', 'xml'], importRsu)}
-              >
-                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
-                <div className="bs-panel-option-text">
-                  <strong>RAW RSU (legacy)</strong>
-                  <span>{t("importPanel.rsuDesc")}</span>
-                </div>
-              </button>
-              <button className="bs-panel-option" onClick={() => void handleBc3Import()}>
-                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
-                <div className="bs-panel-option-text">
-                  <strong>FIEBDC-3 (.bc3)</strong>
-                  <span>{t("importPanel.bc3Desc")}</span>
-                </div>
-              </button>
-              <button
-                className="bs-panel-option"
-                onClick={() => void handleXmlImport('ÖNORM A 2063', ['onlv', 'onlb'], importOnlv)}
-              >
-                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
-                <div className="bs-panel-option-text">
-                  <strong>ÖNORM A 2063 (.onlv, .onlb)</strong>
-                  <span>{t("importPanel.onlvDesc")}</span>
-                </div>
-              </button>
-              <button
-                className="bs-panel-option"
-                onClick={() => void handleXmlImport('GAEB DA XML', ['x81', 'x82', 'x83', 'x84', 'x86', 'x87'], importGaeb)}
-              >
-                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
-                <div className="bs-panel-option-text">
-                  <strong>GAEB DA XML (.x83)</strong>
-                  <span>{uiText("import.gaebHelp", "Import a German bill of quantities; X84 prices require the matching X83 file.")}</span>
-                </div>
-              </button>
-              <button className="bs-panel-option" onClick={() => void handleXmlImport('XPWE / XC4', ['xpwe', 'xc4', 'xml'], importXmlBudget)}>
-                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
-                <div className="bs-panel-option-text">
-                  <strong>XPWE / XC4</strong>
-                  <span>{uiText("import.xmlHelp", "Italian and Czech estimates, retaining the source file for export.")}</span>
-                </div>
-              </button>
-              <button className="bs-panel-option" onClick={() => void handleGaebOffer()}>
-                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
-                <div className="bs-panel-option-text">
-                  <strong>{uiText("import.offer", "GAEB offer (.x84)")}</strong>
-                  <span>{uiText("import.offerHelp", "Apply bid prices to the open X83 bill of quantities.")}</span>
-                </div>
-              </button>
-              <button
-                className="bs-panel-option"
-                onClick={() => void handleZsxImport()}
-              >
-                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
-                <div className="bs-panel-option-text">
-                  <strong>{t("importPanel.zsxTitle")}</strong>
-                  <span>{t("importPanel.zsxDesc")}</span>
-                </div>
-              </button>
-              <button
-                className="bs-panel-option"
-                onClick={() => void handleBmecatImport()}
-              >
-                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
-                <div className="bs-panel-option-text">
-                  <strong>{t("importPanel.bmecatTitle")}</strong>
-                  <span>{t("importPanel.bmecatDesc")}</span>
-                </div>
-              </button>
-              <button
-                className="bs-panel-option"
-                onClick={() => void handleNsxImport()}
-              >
-                <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: ICONS.import }} />
-                <div className="bs-panel-option-text">
-                  <strong>{t("importPanel.nsxTitle")}</strong>
-                  <span>{t("importPanel.nsxDesc")}</span>
-                </div>
-              </button>
-              {extensionImporters.map((imp) => (
-                <button key={imp.id} className="bs-panel-option" onClick={() => handleExtensionImport(imp.id)}>
-                  <div className="bs-panel-option-icon" dangerouslySetInnerHTML={{ __html: imp.icon || ICONS.import }} />
-                  <div className="bs-panel-option-text">
-                    <strong>{imp.name}</strong>
-                    <span>{imp.description || ''}</span>
-                  </div>
-                </button>
-              ))}
+              </section>
             </div>
           </div>
         )}
@@ -1016,6 +1078,11 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
         data={mappingData}
         onClose={() => setMappingData(null)}
         onConfirm={handleMappingConfirm}
+        suggestion={priceListHint ? {
+          text: uiText('pricing.looksLikePriceList', 'This looks like a price list: codes and prices, no quantities.'),
+          action: uiText('pricing.importAsLibrary', 'Import as price library instead'),
+          onAction: () => void importMappingAsLibrary(),
+        } : undefined}
       />
     </div>
   );

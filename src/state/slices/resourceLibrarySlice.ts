@@ -9,9 +9,11 @@ export interface ResourceLibrarySlice {
   resourceLibrary: ResourceLibraryItem[];
   resourcePickerOpen: boolean;
   resourcePickerParentId: string | null;
+  /** Said in the picker when it opens, e.g. after importing a price library. */
+  resourcePickerNotice: string | null;
   setResourceLibrary: (items: ResourceLibraryItem[]) => void;
   loadLibraryFromJson: (json: unknown) => void;
-  openResourcePicker: (parentId: string | null) => void;
+  openResourcePicker: (parentId: string | null, notice?: string | null) => void;
   closeResourcePicker: () => void;
 }
 
@@ -20,6 +22,7 @@ export const createResourceLibrarySlice: StateCreator<ResourceLibrarySlice> = (s
     resourceLibrary: builtInLibraryItems(DEFAULT_PRICE_COUNTRY),
     resourcePickerOpen: false,
     resourcePickerParentId: null,
+    resourcePickerNotice: null,
     setResourceLibrary: (resourceLibrary) => set({ resourceLibrary }),
     loadLibraryFromJson: (json) => {
       const items = parseLibraryJson(json);
@@ -27,7 +30,7 @@ export const createResourceLibrarySlice: StateCreator<ResourceLibrarySlice> = (s
         set({ resourceLibrary: items });
       }
     },
-    openResourcePicker: (parentId) => set({ resourcePickerOpen: true, resourcePickerParentId: parentId }),
-    closeResourcePicker: () => set({ resourcePickerOpen: false, resourcePickerParentId: null }),
+    openResourcePicker: (parentId, notice = null) => set({ resourcePickerOpen: true, resourcePickerParentId: parentId, resourcePickerNotice: notice }),
+    closeResourcePicker: () => set({ resourcePickerOpen: false, resourcePickerParentId: null, resourcePickerNotice: null }),
   };
 };

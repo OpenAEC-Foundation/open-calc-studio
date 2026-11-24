@@ -17,6 +17,8 @@ export interface MappingOptions<F extends string> {
   requiredFields?: F[];
   requiredHint?: string;
   introduction?: string;
+  /** A hint with a button, e.g. "This looks like a price list. [Import as price library instead]". */
+  suggestion?: { text: string; action: string; onAction: () => void };
 }
 
 interface Props<F extends string> extends MappingOptions<F> {
@@ -34,7 +36,7 @@ const PREVIEW_ROWS = 6;
  * mapping wordt vooraf geraden (autoDetectMapping) en is door de gebruiker aan
  * te passen. Een niet-`ignore` doelveld kan aan hooguit één kolom hangen.
  */
-export default function ColumnMappingDialog<F extends string = TargetField>({ open, data, onClose, onConfirm, fields, initialMapping, requiredFields, requiredHint, introduction }: Props<F>) {
+export default function ColumnMappingDialog<F extends string = TargetField>({ open, data, onClose, onConfirm, fields, initialMapping, requiredFields, requiredHint, introduction, suggestion }: Props<F>) {
   const { t } = useTranslation('dialogs');
   const [mapping, setMapping] = useState<F[]>([]);
 
@@ -76,6 +78,12 @@ export default function ColumnMappingDialog<F extends string = TargetField>({ op
             components={{ b: <strong /> }}
           />}
         </p>
+        {suggestion && (
+          <div className="cmd-notice cmd-suggestion" role="status">
+            <p>{suggestion.text}</p>
+            <button type="button" className="cmd-btn" onClick={suggestion.onAction}>{suggestion.action}</button>
+          </div>
+        )}
         <div className="cmd-table-wrap">
           <table className="cmd-table">
             <thead>
