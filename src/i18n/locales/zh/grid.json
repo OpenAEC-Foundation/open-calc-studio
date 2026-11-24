@@ -257,6 +257,7 @@
     "dropLinkConfirm": "此项目的数量已链接到 Excel、PDF、IFC 或工作表。计量明细行将替换该链接。是否继续？",
     "linkReplacesConfirm": "此项目有计量明细行。链接数量会删除这些行。是否继续？",
     "mismatch": "数量（{{quantity}}）与计量明细行合计（{{sum}}）不一致。点击以使用合计。",
-    "useSum": "使用合计"
+    "useSum": "使用合计",
+    "pasteInvalid": "部分数字无法读取，这些字段已留空。行：{{lines}}"
   }
 }

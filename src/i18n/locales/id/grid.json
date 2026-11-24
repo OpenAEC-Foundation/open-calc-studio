@@ -257,6 +257,7 @@
     "dropLinkConfirm": "Kuantitas item ini tertaut ke Excel, PDF, IFC, atau lembar. Baris pengukuran menggantikan tautan itu. Lanjutkan?",
     "linkReplacesConfirm": "Item ini memiliki baris pengukuran. Menautkan kuantitas akan menghapusnya. Lanjutkan?",
     "mismatch": "Kuantitas ({{quantity}}) berbeda dari total baris pengukuran ({{sum}}). Klik untuk memakai total.",
-    "useSum": "Pakai total"
+    "useSum": "Pakai total",
+    "pasteInvalid": "Beberapa angka tidak dapat dibaca; kolom tersebut dibiarkan kosong. Baris: {{lines}}"
   }
 }

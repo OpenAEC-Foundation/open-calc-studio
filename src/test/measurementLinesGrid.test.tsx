@@ -261,3 +261,124 @@ describe('zelf een hoeveelheid typen', () => {
     expect(post().measurementLines).toHaveLength(1);
   });
 });
+
+/** Plak tekst in een vak zoals vanuit Excel: een paste-event met clipboardData. */
+async function paste(el: HTMLInputElement, text: string): Promise<Event> {
+  await act(async () => { el.focus(); });
+  const Ctor = typeof ClipboardEvent === 'function' ? ClipboardEvent : Event;
+  const ev = new Ctor('paste', { bubbles: true, cancelable: true });
+  Object.defineProperty(ev, 'clipboardData', { value: { getData: (type: string) => (type === 'text/plain' ? text : '') } });
+  await act(async () => { el.dispatchEvent(ev); });
+  return ev;
+}
+
+const rows = () => post().measurementLines!.map((l) => [l.description, l.count, l.length, l.width, l.height]);
+
+describe('meetregels plakken uit Excel', () => {
+  beforeEach(async () => { await act(async () => { await i18next.changeLanguage('nl'); }); });
+
+  it('een blok van 3×5 vanaf Omschrijving wordt drie regels; de hoeveelheid volgt de som', async () => {
+    const ev = await paste(cell('l1', 'description'), 'Noord\t2\t10\t\t3\r\nZuid\t1\t8,5\t\t3\r\nSparing\t-1\t2\t\t1,2\r\n');
+    expect(ev.defaultPrevented).toBe(true);
+    expect(rows()).toEqual([
+      ['Noord', 2, 10, null, 3],
+      ['Zuid', 1, 8.5, null, 3],
+      ['Sparing', -1, 2, null, 1.2],
+    ]);
+    expect(post().measurementLines![0].id).toBe('l1');
+    expect(post().quantity).toBe(83.1);
+  });
+
+  it('vanaf Aantal begint het blok bij Aantal; andere vakken van de regel blijven staan', async () => {
+    const el = cell('l1', 'count');
+    // Half getypt in het vak: het plakken wint, het vak schrijft bij verlaten niets terug.
+    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!;
+    await act(async () => { el.focus(); setter.call(el, '99'); el.dispatchEvent(new Event('input', { bubbles: true })); });
+    await paste(el, '4\t5\n6\t7');
+    await act(async () => { el.blur(); });
+    expect(rows()).toEqual([
+      ['Fachada norte', 4, 5, null, 3],
+      ['', 6, 7, null, null],
+    ]);
+    expect(post().quantity).toBe(102);
+  });
+
+  it('overschrijft regels vanaf de cursor en vult aan', async () => {
+    await act(async () => {
+      s().setMeasurementLines('p', [
+        newMeasurementLine({ id: 'l1', description: 'A', count: 1 }),
+        newMeasurementLine({ id: 'l2', description: 'B', count: 1 }),
+      ]);
+    });
+    await paste(cell('l2', 'description'), 'B2\t2\nC\t3\nD\t4');
+    expect(rows()).toEqual([
+      ['A', 1, null, null, null],
+      ['B2', 2, null, null, null],
+      ['C', 3, null, null, null],
+      ['D', 4, null, null, null],
+    ]);
+    expect(post().measurementLines!.slice(0, 2).map((l) => l.id)).toEqual(['l1', 'l2']);
+    expect(post().quantity).toBe(10);
+  });
+
+  it('leest komma-decimalen en duizendtallen; een formule blijft formule', async () => {
+    await paste(cell('l1', 'count'), '1\t1.234,5\t2,5\t=2*1,5');
+    expect(rows()[0]).toEqual(['Fachada norte', 1, 1234.5, 2.5, 3]);
+    expect(post().measurementLines![0].formulas).toEqual({ height: '=2*1,5' });
+  });
+
+  it('een ongeldige cel blijft leeg, de rest wordt geplakt, één melding met de regelnummers', async () => {
+    const alert = vi.spyOn(window, 'alert').mockImplementation(() => {});
+    await paste(cell('l1', 'description'), 'A\tveel\t2\nB\t3\t4\nC\t1\t5 m');
+    expect(rows()).toEqual([
+      ['A', null, 2, null, 3],
+      ['B', 3, 4, null, null],
+      ['C', 1, null, null, null],
+    ]);
+    expect(alert).toHaveBeenCalledOnce();
+    expect(alert.mock.calls[0][0]).toContain('1, 3');
+  });
+
+  it('het hele plakken is één undo-stap', async () => {
+    await paste(cell('l1', 'description'), 'A\t2\nB\t3\nC\t4');
+    expect(post().measurementLines).toHaveLength(3);
+    await act(async () => { s().setItems(s().undo()!); });
+    expect(rows()).toEqual([['Fachada norte', 1, 10, null, 3]]);
+    expect(post().quantity).toBe(30);
+  });
+
+  it('één waarde plakt de browser gewoon in het vak (ook met het regeleinde van één Excel-cel)', async () => {
+    for (const text of ['7', '7\r\n']) {
+      const ev = await paste(cell('l1', 'count'), text);
+      expect(ev.defaultPrevented).toBe(false);
+    }
+    expect(rows()).toEqual([['Fachada norte', 1, 10, null, 3]]);
+  });
+
+  it('plakken bereikt de grid niet', async () => {
+    const seen = vi.fn();
+    document.addEventListener('paste', seen);
+    try {
+      await paste(cell('l1', 'count'), '7');
+      await paste(cell('l1', 'count'), '7\t8');
+    } finally {
+      document.removeEventListener('paste', seen);
+    }
+    expect(seen).not.toHaveBeenCalled();
+  });
+
+  it('een gekoppelde hoeveelheid vraagt eerst; nee laat alles staan', async () => {
+    useAppStore.setState({
+      items: s().items.map((i) => (i.id === 'p' ? { ...i, excelLink: { filePath: 'x.xlsx', sheet: 'Blad1', cell: 'A1' } as never } : i)),
+    } as never);
+    const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false);
+    await paste(cell('l1', 'description'), 'A\t2\nB\t3');
+    expect(confirm).toHaveBeenCalledOnce();
+    expect(rows()).toEqual([['Fachada norte', 1, 10, null, 3]]);
+    expect(post().excelLink).toBeTruthy();
+    confirm.mockReturnValue(true);
+    await paste(cell('l1', 'description'), 'A\t2\nB\t3');
+    expect(rows()).toEqual([['A', 2, 10, null, 3], ['B', 3, null, null, null]]);
+    expect(post().excelLink).toBeFalsy();
+  });
+});

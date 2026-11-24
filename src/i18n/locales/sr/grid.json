@@ -257,6 +257,7 @@
     "dropLinkConfirm": "Количина ове ставке повезана је са Excel-ом, PDF-ом, IFC-ом или листом. Редови предмера замењују ту везу. Наставити?",
     "linkReplacesConfirm": "Ова ставка има редове предмера. Повезивање количине их уклања. Наставити?",
     "mismatch": "Количина ({{quantity}}) разликује се од збира редова предмера ({{sum}}). Кликните да преузмете збир.",
-    "useSum": "Преузми збир"
+    "useSum": "Преузми збир",
+    "pasteInvalid": "Neki brojevi nisu mogli da se pročitaju; ta polja su ostala prazna. Redovi: {{lines}}"
   }
 }

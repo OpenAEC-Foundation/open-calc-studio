@@ -257,6 +257,7 @@
     "dropLinkConfirm": "La cantidad de esta partida está vinculada a Excel, un PDF, IFC o una hoja. Las líneas de medición sustituyen ese vínculo. ¿Continuar?",
     "linkReplacesConfirm": "Esta partida tiene líneas de medición. Vincular la cantidad las elimina. ¿Continuar?",
     "mismatch": "La cantidad ({{quantity}}) no coincide con el total de las líneas de medición ({{sum}}). Haga clic para usar el total.",
-    "useSum": "Usar el total"
+    "useSum": "Usar el total",
+    "pasteInvalid": "Algunos números no se pudieron leer; esos campos se han dejado vacíos. Líneas: {{lines}}"
   }
 }

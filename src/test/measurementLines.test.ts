@@ -3,7 +3,7 @@
 // zelf een andere hoeveelheid invullen haalt de regels weg; BC3 neemt ze
 // mee in beide richtingen.
 import { beforeEach, describe, expect, it } from 'vitest';
-import { lineValue, measurementSum, newMeasurementLine, quantityMatchesLines, subtotalValue } from '@/services/measurement/measurementLines';
+import { isClipboardBlock, lineValue, measurementSum, newMeasurementLine, parseClipboardBlock, pasteIntoMeasurementLines, quantityMatchesLines, subtotalValue } from '@/services/measurement/measurementLines';
 import { importBc3 } from '@/services/importers/bc3Importer';
 import { buildBc3Bytes, buildBc3 } from '@/services/export/bc3Exporter';
 import { importBc3File } from '@/services/importers/bc3Importer';
@@ -250,5 +250,52 @@ describe('BC3', () => {
     const q = back.items.find((i) => i.code === '01.01')!;
     expect(q.quantity).toBeCloseTo(51.96, 10);
     expect(q.measurementLines?.map((l) => [l.count, l.length, l.width, l.height])).toEqual([[2, 10, null, 3], [-1, null, null, 8.04]]);
+  });
+});
+
+describe('plakken uit Excel (pure functies)', () => {
+  it('leest een blok: tabs, \r\n en \n, laatste regeleinde telt niet', () => {
+    expect(parseClipboardBlock('a\t1\r\nb\t2\r\n')).toEqual([['a', '1'], ['b', '2']]);
+    expect(parseClipboardBlock('a\t1\nb\t\n')).toEqual([['a', '1'], ['b', '']]);
+    expect(parseClipboardBlock('x\t')).toEqual([['x', '']]);
+  });
+
+  it('cellen tussen aanhalingstekens (Excel) houden hun tab, regeleinde en ""', () => {
+    expect(parseClipboardBlock('"Gevel\nnoord"\t2\r\n"zeg ""hoi"""\t3')).toEqual([['Gevel\nnoord', '2'], ['zeg "hoi"', '3']]);
+    // Een " midden in gewone tekst is gewoon tekst.
+    expect(parseClipboardBlock('12" buis\t1')).toEqual([['12" buis', '1']]);
+  });
+
+  it('één waarde (ook met het regeleinde van één Excel-cel) is geen blok', () => {
+    expect(isClipboardBlock('7')).toBe(false);
+    expect(isClipboardBlock('7\r\n')).toBe(false);
+    expect(isClipboardBlock('7\t8')).toBe(true);
+    expect(isClipboardBlock('7\n8')).toBe(true);
+  });
+
+  it('slaat tussentotaalregels over en vult onderaan aan', () => {
+    const lines = [
+      newMeasurementLine({ id: 'a', count: 1 }),
+      newMeasurementLine({ id: 's', subtotal: 'partial' }),
+      newMeasurementLine({ id: 'b', count: 1 }),
+    ];
+    const { lines: next } = pasteIntoMeasurementLines(lines, 0, 'count', [['2'], ['3'], ['4']]);
+    expect(next.map((l) => [l.id, l.count])).toEqual([['a', 2], ['s', null], ['b', 3], [next[3].id, 4]]);
+    expect(next[1].subtotal).toBe('partial');
+  });
+
+  it('kolommen voorbij Hoogte vervallen; formules blijven, een getal haalt de oude formule weg', () => {
+    const lines = [newMeasurementLine({ id: 'a', count: 2, formulas: { count: '=1+1' } })];
+    const { lines: next, invalidLines } = pasteIntoMeasurementLines(lines, 0, 'width', [['=2*1,5', '4', '99', '98']]);
+    expect(next[0]).toMatchObject({ count: 2, width: 3, height: 4, formulas: { count: '=1+1', width: '=2*1,5' } });
+    expect(invalidLines).toEqual([]);
+    const again = pasteIntoMeasurementLines(next, 0, 'count', [['5']]).lines[0];
+    expect(again.formulas).toEqual({ width: '=2*1,5' });
+  });
+
+  it('ongeldige getallen (ook "12 m") worden leeg en noemen hun regelnummer', () => {
+    const { lines, invalidLines } = pasteIntoMeasurementLines([], 0, 'description', [['x', 'abc', '2'], ['y', '3', '12 m'], ['z', '1', '=1/0']]);
+    expect(lines.map((l) => [l.description, l.count, l.length])).toEqual([['x', null, 2], ['y', 3, null], ['z', 1, null]]);
+    expect(invalidLines).toEqual([1, 2, 3]);
   });
 });

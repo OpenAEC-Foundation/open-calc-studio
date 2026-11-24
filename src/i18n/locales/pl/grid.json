@@ -257,6 +257,7 @@
     "dropLinkConfirm": "Ilość tej pozycji jest powiązana z Excelem, plikiem PDF, IFC lub arkuszem. Wiersze przedmiaru zastąpią to powiązanie. Kontynuować?",
     "linkReplacesConfirm": "Ta pozycja ma wiersze przedmiaru. Powiązanie ilości je usunie. Kontynuować?",
     "mismatch": "Ilość ({{quantity}}) różni się od sumy wierszy przedmiaru ({{sum}}). Kliknij, aby użyć sumy.",
-    "useSum": "Użyj sumy"
+    "useSum": "Użyj sumy",
+    "pasteInvalid": "Nie udało się odczytać niektórych liczb; te pola pozostawiono puste. Wiersze: {{lines}}"
   }
 }

@@ -257,6 +257,7 @@
     "dropLinkConfirm": "Množství této položky je propojeno s Excelem, PDF, IFC nebo listem. Řádky výměry toto propojení nahradí. Pokračovat?",
     "linkReplacesConfirm": "Tato položka má řádky výměry. Propojení množství je odstraní. Pokračovat?",
     "mismatch": "Množství ({{quantity}}) se liší od součtu řádků výměry ({{sum}}). Kliknutím použijete součet.",
-    "useSum": "Použít součet"
+    "useSum": "Použít součet",
+    "pasteInvalid": "Některá čísla nešla přečíst; tato pole zůstala prázdná. Řádky: {{lines}}"
   }
 }

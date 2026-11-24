@@ -257,6 +257,7 @@
     "dropLinkConfirm": "Tämän nimikkeen määrä on linkitetty Exceliin, PDF:ään, IFC:hen tai taulukkoon. Mittarivit korvaavat linkin. Jatketaanko?",
     "linkReplacesConfirm": "Tällä nimikkeellä on mittarivejä. Määrän linkittäminen poistaa ne. Jatketaanko?",
     "mismatch": "Määrä ({{quantity}}) poikkeaa mittarivien summasta ({{sum}}). Käytä summaa napsauttamalla.",
-    "useSum": "Käytä summaa"
+    "useSum": "Käytä summaa",
+    "pasteInvalid": "Joitakin lukuja ei voitu lukea; ne kentät jätettiin tyhjiksi. Rivit: {{lines}}"
   }
 }

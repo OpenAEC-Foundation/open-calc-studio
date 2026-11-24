@@ -1,5 +1,6 @@
 import type { CostItem, MeasurementField, MeasurementLine } from '@/types/costModel';
 import { roundHalfUp } from '@/services/calculation/priceRounding';
+import { parseNumericInput } from '@/utils/numericInput';
 
 /**
  * Meetregels (afmetingenstaat) onder een post, #96. De hoeveelheid van een
@@ -97,6 +98,127 @@ export function newMeasurementLine(partial: Partial<MeasurementLine> = {}): Meas
     height: null,
     ...partial,
   };
+}
+
+/** Kolommen van het tabelletje in volgorde, zoals een geplakt blok ze vult. */
+export const MEASUREMENT_PASTE_COLUMNS: readonly ('description' | MeasurementField)[] = ['description', ...MEASUREMENT_FIELDS];
+
+/**
+ * Tekst van het klembord als blok cellen: regels op \r\n of \n, cellen op
+ * tab. Excel zet een cel met een tab, regeleinde of aanhalingsteken tussen
+ * "…" (met "" voor een aanhalingsteken); dat wordt hier teruggedraaid. Het
+ * laatste regeleinde (Excel sluit elke kopie ermee af) telt niet als regel.
+ */
+export function parseClipboardBlock(text: string): string[][] {
+  const rows: string[][] = [];
+  let row: string[] = [];
+  let cell = '';
+  let i = 0;
+  let atCellStart = true;
+  while (i < text.length) {
+    const ch = text[i];
+    if (atCellStart && ch === '"') {
+      // Aanhalingstekens tot het sluitende "; "" is een " in de cel.
+      let j = i + 1;
+      let quoted = '';
+      while (j < text.length) {
+        if (text[j] === '"') {
+          if (text[j + 1] === '"') { quoted += '"'; j += 2; continue; }
+          break;
+        }
+        quoted += text[j++];
+      }
+      // Alleen een nette cel ("…" gevolgd door tab, regeleinde of einde);
+      // anders is het gewoon tekst die met een " begint.
+      const after = text[j + 1];
+      if (j < text.length && (after === undefined || after === '\t' || after === '\n' || after === '\r')) {
+        cell = quoted;
+        i = j + 1;
+        atCellStart = false;
+        continue;
+      }
+    }
+    atCellStart = false;
+    if (ch === '\t') {
+      row.push(cell); cell = ''; atCellStart = true; i++;
+    } else if (ch === '\r' || ch === '\n') {
+      row.push(cell); rows.push(row); row = []; cell = ''; atCellStart = true;
+      i += ch === '\r' && text[i + 1] === '\n' ? 2 : 1;
+    } else {
+      cell += ch; i++;
+    }
+  }
+  if (!atCellStart || cell !== '' || row.length > 0) { row.push(cell); rows.push(row); }
+  return rows;
+}
+
+/** Of geplakte tekst meer is dan één cel (een tab of een tweede regel). */
+export function isClipboardBlock(text: string): boolean {
+  const rows = parseClipboardBlock(text);
+  return rows.length > 1 || (rows[0]?.length ?? 0) > 1;
+}
+
+/** Tekens die in een geplakt getal mogen staan (zonder `=`): cijfers, scheidingstekens, teken, rekenen. */
+const NUMBER_CELL = /^[\d\s.,'  +\-−*/()]+$/;
+
+/**
+ * Leest één geplakte getalcel: leeg wordt een leeg vak, `=…` blijft formule.
+ * `undefined` = ongeldig (het vak blijft dan leeg). Tekst met letters of
+ * eenheden ("12 m") is ongeldig: parseFloat zou er stil 12 van maken.
+ */
+function readPastedNumber(raw: string): { value: number | null; formula?: string } | undefined {
+  const text = raw.trim();
+  if (text === '') return { value: null };
+  const isFormula = text.startsWith('=');
+  if (!isFormula && !NUMBER_CELL.test(text)) return undefined;
+  const value = parseNumericInput(text);
+  if (value === null || !Number.isFinite(value)) return undefined;
+  return isFormula ? { value, formula: text } : { value };
+}
+
+export interface MeasurementPasteResult {
+  lines: MeasurementLine[];
+  /** Regelnummers (vanaf 1, in het tabelletje) met een getal dat niet te lezen was. */
+  invalidLines: number[];
+}
+
+/**
+ * Plakt een blok cellen in de meetregels vanaf regel `startIndex`, kolom
+ * `startField`. De kolommen volgen het tabelletje (omschrijving, aantal,
+ * lengte, breedte, hoogte) vanaf het startvak; wat daar rechts buiten valt
+ * vervalt. Bestaande regels worden overschreven, alleen in de geplakte
+ * kolommen; tussentotaalregels worden overgeslagen. Komen er meer regels dan
+ * er zijn, dan komen ze er onderaan bij.
+ */
+export function pasteIntoMeasurementLines(
+  lines: readonly MeasurementLine[],
+  startIndex: number,
+  startField: 'description' | MeasurementField,
+  rows: readonly (readonly string[])[],
+): MeasurementPasteResult {
+  const next = [...lines];
+  const invalid = new Set<number>();
+  const firstColumn = MEASUREMENT_PASTE_COLUMNS.indexOf(startField);
+  let target = Math.max(0, startIndex);
+  for (const cells of rows) {
+    while (target < next.length && next[target].subtotal) target++;
+    const line: MeasurementLine = target < next.length ? { ...next[target] } : newMeasurementLine();
+    const formulas = { ...(line.formulas ?? {}) };
+    cells.forEach((raw, c) => {
+      const column = MEASUREMENT_PASTE_COLUMNS[firstColumn + c];
+      if (!column) return;
+      if (column === 'description') { line.description = raw.trim(); return; }
+      const read = readPastedNumber(raw);
+      if (!read) invalid.add(target + 1);
+      line[column] = read?.value ?? null;
+      if (read?.formula) formulas[column] = read.formula; else delete formulas[column];
+    });
+    line.formulas = Object.keys(formulas).length > 0 ? formulas : undefined;
+    if (line.formulas === undefined) delete line.formulas;
+    if (target < next.length) next[target] = line; else next.push(line);
+    target++;
+  }
+  return { lines: next, invalidLines: [...invalid].sort((a, b) => a - b) };
 }
 
 /**

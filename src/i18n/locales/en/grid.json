@@ -257,6 +257,7 @@
     "dropLinkConfirm": "The quantity of this item is linked to Excel, a PDF, IFC or a sheet. Measurement lines replace that link. Continue?",
     "linkReplacesConfirm": "This item has measurement lines. Linking the quantity removes them. Continue?",
     "mismatch": "The quantity ({{quantity}}) differs from the total of the measurement lines ({{sum}}). Click to use the total.",
-    "useSum": "Use total"
+    "useSum": "Use total",
+    "pasteInvalid": "Some numbers could not be read; those fields were left empty. Lines: {{lines}}"
   }
 }

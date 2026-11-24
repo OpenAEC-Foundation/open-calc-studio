@@ -257,6 +257,7 @@
     "dropLinkConfirm": "Količina ove stavke povezana je s Excelom, PDF-om, IFC-om ili listom. Retci izmjere zamjenjuju tu vezu. Nastaviti?",
     "linkReplacesConfirm": "Ova stavka ima retke izmjere. Povezivanje količine uklanja ih. Nastaviti?",
     "mismatch": "Količina ({{quantity}}) razlikuje se od zbroja redaka izmjere ({{sum}}). Kliknite za preuzimanje zbroja.",
-    "useSum": "Preuzmi zbroj"
+    "useSum": "Preuzmi zbroj",
+    "pasteInvalid": "Neki brojevi nisu se mogli pročitati; ta su polja ostala prazna. Retci: {{lines}}"
   }
 }

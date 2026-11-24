@@ -257,6 +257,7 @@
     "dropLinkConfirm": "Die Menge dieser Position ist mit Excel, einem PDF, IFC oder einem Blatt verknüpft. Aufmaßzeilen ersetzen diese Verknüpfung. Fortfahren?",
     "linkReplacesConfirm": "Diese Position hat Aufmaßzeilen. Eine Verknüpfung der Menge entfernt sie. Fortfahren?",
     "mismatch": "Die Menge ({{quantity}}) weicht von der Summe der Aufmaßzeilen ({{sum}}) ab. Klicken, um die Summe zu übernehmen.",
-    "useSum": "Summe übernehmen"
+    "useSum": "Summe übernehmen",
+    "pasteInvalid": "Einige Zahlen konnten nicht gelesen werden; diese Felder bleiben leer. Zeilen: {{lines}}"
   }
 }

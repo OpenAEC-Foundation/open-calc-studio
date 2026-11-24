@@ -257,6 +257,7 @@
     "dropLinkConfirm": "Mängden för denna post är länkad till Excel, en PDF, IFC eller ett blad. Mängdrader ersätter länken. Fortsätta?",
     "linkReplacesConfirm": "Denna post har mängdrader. Att länka mängden tar bort dem. Fortsätta?",
     "mismatch": "Mängden ({{quantity}}) skiljer sig från summan av mängdraderna ({{sum}}). Klicka för att använda summan.",
-    "useSum": "Använd summan"
+    "useSum": "Använd summan",
+    "pasteInvalid": "Vissa tal kunde inte läsas; de fälten lämnades tomma. Rader: {{lines}}"
   }
 }

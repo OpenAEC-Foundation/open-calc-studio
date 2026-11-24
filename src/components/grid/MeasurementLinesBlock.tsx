@@ -5,19 +5,23 @@ import { parseNumericInput } from '@/utils/numericInput';
 import { formatDecimals, formatNumberForEdit } from '@/utils/formatting';
 import {
   MEASUREMENT_FIELDS,
+  isClipboardBlock,
   lineValue,
   measurementSum,
   newMeasurementLine,
+  parseClipboardBlock,
+  pasteIntoMeasurementLines,
   quantityMatchesLines,
   subtotalValue,
 } from '@/services/measurement/measurementLines';
-import type { CostItem, MeasurementLine } from '@/types/costModel';
+import type { CostItem, MeasurementField, MeasurementLine } from '@/types/costModel';
 
 /**
  * Meetregels onder een post (#96): een ingesprongen tabelletje met
  * omschrijving, aantal, lengte, breedte, hoogte en subtotaal, zoals de
  * opbouw in Presto. Het tabelletje staat los van de gridnavigatie: het heeft
- * eigen invoervakken, en toetsen gaan niet door naar het grid.
+ * eigen invoervakken, en toetsen en plakken gaan niet door naar het grid.
+ * Een blok cellen uit Excel plakken maakt er regels van.
  */
 
 /** Hoogte van één regel in het tabelletje. */
@@ -122,6 +126,26 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
   };
 
   /**
+   * Een blok cellen uit Excel geplakt in een vak: regels vanaf deze regel en
+   * kolommen vanaf dit vak, in één undo-stap. Een gekoppelde hoeveelheid
+   * vraagt eerst, zoals bij het maken van meetregels. Getallen die niet te
+   * lezen zijn blijven leeg; één melding noemt de regels.
+   */
+  const pasteBlock = (lineId: string, field: 'description' | MeasurementField, text: string) => {
+    const lines = current();
+    const index = lines.findIndex((l) => l.id === lineId);
+    if (index < 0) return;
+    const live = useAppStore.getState().items.find((i) => i.id === item.id);
+    if ((live?.excelLink || live?.quantityLink) && !window.confirm(t('grid:measurement.dropLinkConfirm'))) return;
+    const result = pasteIntoMeasurementLines(lines, index, field, parseClipboardBlock(text));
+    commit(result.lines);
+    focusCell(lineId, field);
+    if (result.invalidLines.length > 0) {
+      window.alert(t('grid:measurement.pasteInvalid', { lines: result.invalidLines.join(', ') }));
+    }
+  };
+
+  /**
    * Toetsen blijven in het tabelletje: de grid mag ze niet zien, ook niet met
    * Ctrl erbij (Ctrl+C kopieerde anders de rij, Ctrl+Delete wiste de
    * hoeveelheid). Alleen app-sneltoetsen (opslaan, openen, nieuw, afdrukken,
@@ -185,6 +209,7 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
       style={{ marginLeft: left, width, height: measurementBlockHeight(item) }}
       onKeyDown={onKeyDown}
       onContextMenu={(e) => e.stopPropagation()}
+      onPaste={(e) => e.stopPropagation()}
       data-measurement-for={item.id}
     >
       {collapsed ? (
@@ -216,6 +241,7 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
             ariaLabel={t('grid:measurement.description')}
             onCommit={(v) => { if (v !== line.description) updateLine(index, { description: v }); }}
             onEnter={() => nextLine(index, 'description')}
+            onPasteBlock={(text) => pasteBlock(line.id, 'description', text)}
           />
           {MEASUREMENT_FIELDS.map((field) => (line.subtotal
             ? <span key={field} />
@@ -237,6 +263,7 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
                   } as Partial<MeasurementLine>);
                 }}
                 onEnter={() => nextLine(index, field)}
+                onPasteBlock={(text) => pasteBlock(line.id, field, text)}
               />
             )))}
           {/* Parcial: wat de regel oplevert; Subtotal: alleen op een tussentotaalregel. */}
@@ -268,10 +295,28 @@ interface CellProps {
   dataKey: string;
   ariaLabel: string;
   onEnter: () => void;
+  /** Een geplakt blok cellen (tab of meer regels); één waarde plakt de browser zelf. */
+  onPasteBlock: (text: string) => void;
+}
+
+/**
+ * Plakken in een vak: is het een blok cellen, dan neemt het tabelletje het
+ * over. Het vak legt dan niets vast (anders schreef het bij verlaten zijn
+ * oude tekst over het geplakte heen) en verliest de focus.
+ */
+function pasteHandler(cancelled: React.MutableRefObject<boolean>, onPasteBlock: (text: string) => void) {
+  return (e: React.ClipboardEvent<HTMLInputElement>) => {
+    const text = e.clipboardData?.getData('text/plain') ?? '';
+    if (!isClipboardBlock(text)) return;
+    e.preventDefault();
+    cancelled.current = true;
+    e.currentTarget.blur();
+    onPasteBlock(text);
+  };
 }
 
 /** Tekstvak dat pas bij verlaten of Enter vastlegt; Esc zet terug. */
-const TextCell: React.FC<CellProps & { value: string; placeholder?: string; onCommit: (v: string) => void }> = ({ dataKey, ariaLabel, value, placeholder, onCommit, onEnter }) => {
+const TextCell: React.FC<CellProps & { value: string; placeholder?: string; onCommit: (v: string) => void }> = ({ dataKey, ariaLabel, value, placeholder, onCommit, onEnter, onPasteBlock }) => {
   const [draft, setDraft] = useState<string | null>(null);
   const cancelled = useRef(false);
   return (
@@ -283,6 +328,7 @@ const TextCell: React.FC<CellProps & { value: string; placeholder?: string; onCo
       value={draft ?? value}
       onFocus={() => { cancelled.current = false; setDraft(value); }}
       onChange={(e) => setDraft(e.target.value)}
+      onPaste={pasteHandler(cancelled, onPasteBlock)}
       onBlur={() => { if (draft !== null && !cancelled.current) onCommit(draft); setDraft(null); }}
       onKeyDown={(e) => {
         if (e.key === 'Enter') { e.preventDefault(); e.currentTarget.blur(); onEnter(); }
@@ -302,7 +348,7 @@ const NumberCell: React.FC<CellProps & {
   format: (v: number | null | undefined) => string;
   formula?: string;
   onCommit: (value: number | null, formula: string | undefined) => void;
-}> = ({ dataKey, ariaLabel, value, format, formula, onCommit, onEnter }) => {
+}> = ({ dataKey, ariaLabel, value, format, formula, onCommit, onEnter, onPasteBlock }) => {
   const [draft, setDraft] = useState<string | null>(null);
   const cancelled = useRef(false);
   const editText = formula ?? formatNumberForEdit(value);
@@ -326,6 +372,7 @@ const NumberCell: React.FC<CellProps & {
       value={draft ?? (value == null ? '' : format(value))}
       onFocus={() => { cancelled.current = false; setDraft(editText); }}
       onChange={(e) => setDraft(e.target.value)}
+      onPaste={pasteHandler(cancelled, onPasteBlock)}
       onBlur={finish}
       onKeyDown={(e) => {
         if (e.key === 'Enter') { e.preventDefault(); e.currentTarget.blur(); onEnter(); }

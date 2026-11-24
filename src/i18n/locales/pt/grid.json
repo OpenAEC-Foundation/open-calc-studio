@@ -257,6 +257,7 @@
     "dropLinkConfirm": "A quantidade deste artigo está ligada ao Excel, a um PDF, IFC ou a uma folha. As linhas de medição substituem essa ligação. Continuar?",
     "linkReplacesConfirm": "Este artigo tem linhas de medição. Ligar a quantidade remove-as. Continuar?",
     "mismatch": "A quantidade ({{quantity}}) difere do total das linhas de medição ({{sum}}). Clique para usar o total.",
-    "useSum": "Usar o total"
+    "useSum": "Usar o total",
+    "pasteInvalid": "Alguns números não puderam ser lidos; esses campos ficaram vazios. Linhas: {{lines}}"
   }
 }

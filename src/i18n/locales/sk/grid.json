@@ -257,6 +257,7 @@
     "dropLinkConfirm": "Množstvo tejto položky je prepojené s Excelom, PDF, IFC alebo hárkom. Riadky výmery toto prepojenie nahradia. Pokračovať?",
     "linkReplacesConfirm": "Táto položka má riadky výmery. Prepojenie množstva ich odstráni. Pokračovať?",
     "mismatch": "Množstvo ({{quantity}}) sa líši od súčtu riadkov výmery ({{sum}}). Kliknutím použijete súčet.",
-    "useSum": "Použiť súčet"
+    "useSum": "Použiť súčet",
+    "pasteInvalid": "Niektoré čísla sa nepodarilo prečítať; tieto polia zostali prázdne. Riadky: {{lines}}"
   }
 }

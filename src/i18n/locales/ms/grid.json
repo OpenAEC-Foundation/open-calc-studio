@@ -257,6 +257,7 @@
     "dropLinkConfirm": "Kuantiti item ini dipautkan ke Excel, PDF, IFC atau helaian. Baris pengukuran menggantikan pautan itu. Teruskan?",
     "linkReplacesConfirm": "Item ini mempunyai baris pengukuran. Memautkan kuantiti akan membuangnya. Teruskan?",
     "mismatch": "Kuantiti ({{quantity}}) berbeza daripada jumlah baris pengukuran ({{sum}}). Klik untuk menggunakan jumlah.",
-    "useSum": "Guna jumlah"
+    "useSum": "Guna jumlah",
+    "pasteInvalid": "Sesetengah nombor tidak dapat dibaca; medan tersebut dibiarkan kosong. Baris: {{lines}}"
   }
 }

@@ -257,6 +257,7 @@
     "dropLinkConfirm": "Mængden for denne post er koblet til Excel, en PDF, IFC eller et ark. Opmålingslinjer erstatter koblingen. Fortsæt?",
     "linkReplacesConfirm": "Denne post har opmålingslinjer. En kobling af mængden fjerner dem. Fortsæt?",
     "mismatch": "Mængden ({{quantity}}) afviger fra summen af opmålingslinjerne ({{sum}}). Klik for at bruge summen.",
-    "useSum": "Brug summen"
+    "useSum": "Brug summen",
+    "pasteInvalid": "Nogle tal kunne ikke læses; de felter er efterladt tomme. Linjer: {{lines}}"
   }
 }
