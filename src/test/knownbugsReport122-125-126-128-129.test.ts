@@ -25,7 +25,7 @@ function mkSchedule(extra: Record<string, unknown> = {}) {
 /** Hoofdstuk 01 met één post van 10 × 80 = 800. */
 function chapterWithPost(): CostItem[] {
   const ch = makeCostItem({ parentId: null, sortOrder: 0, depth: 0, rowType: 'chapter', code: '01', description: 'Grondwerk' });
-  const post = makeCostItem({ parentId: ch.id, sortOrder: 0, depth: 1, rowType: 'begrotingspost', code: '01.01', description: 'Ontgraven', unit: 'm3', quantity: 10 });
+  const post = makeCostItem({ parentId: ch.id, sortOrder: 0, depth: 1, rowType: 'begrotingspost', code: '01.01', description: 'Ontgraven', unit: 'm³', quantity: 10 });
   const regel = makeCostItem({ parentId: post.id, sortOrder: 0, depth: 2, rowType: 'regel', code: '01.01.01', description: 'Graafmachine', unit: 'uur', quantity: 1, normUnitPrice: 80, resourceType: 'materieel' });
   return [ch, post, regel];
 }
