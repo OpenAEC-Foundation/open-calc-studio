@@ -666,11 +666,6 @@ stand van `main` op die datum.
 
 ## Wizard, bibliotheek en prijzen
 
-193. **Het totaal "excl. tax" van de wizard laat de opslagen oude stijl (ukk/ak/wr) weg.**
-     `src/components/wizard/CalculationWizard.tsx:114` tegenover `WpCalcBottomPanel.tsx:250`: bij
-     BasCalc-imports is de voettekst van de wizard lager dan het gridtotaal, met precies de bedragen ukk + ak +
-     wr. Voorstel: één gedeelde helper voor het totaal excl. — S
-
 194. **Verf is geprijsd per post (`ls`) in plaats van per liter** (data). `src/data/nl-price-library.json`
      AF.005/AF.006, `defaultResourceLibrary.ts:107-108`. Voorstel: uitdrukken per m², of een eenheid liter
      toevoegen. — S
