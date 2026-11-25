@@ -4,7 +4,7 @@ import { defaultCompanyInfo } from '@/state/slices/companySlice';
 import { createDefaultProjectInfo } from '@/types/costModel';
 import { synthesizeStaartItems, ensureBtwLaagItem } from '@/services/calculation/staartDefaults';
 import { usedPriceArticles } from '@/services/pricing/priceUpdates';
-import { generateIfcGuid } from '@/services/ifc/ifcHelpers';
+import { generateIfcGuid, toIfcGlobalId } from '@/services/ifc/ifcHelpers';
 
 /**
  * Huidige versie van het .ifcCalc-bestandsformaat (major.minor.patch).
@@ -169,6 +169,13 @@ export function deserializeProject(json: string): ProjectFile {
   // Backward compatibility: ensure projectInfo exists on schedule
   if (!parsed.schedule.projectInfo) {
     parsed.schedule.projectInfo = createDefaultProjectInfo();
+  }
+
+  // De project-GlobalId van de IFC-export is schedule.ifcGuid. Een lege of ongeldige waarde
+  // (oudere bestanden: leeg, of een UUID van 36 tekens uit de inschrijfstaat-import) eenmalig
+  // herstellen, zodat de GlobalId daarna bij elke export gelijk blijft (knownbugs 151, 153).
+  if (toIfcGlobalId(parsed.schedule.ifcGuid) !== parsed.schedule.ifcGuid) {
+    parsed.schedule.ifcGuid = toIfcGlobalId(parsed.schedule.ifcGuid) ?? generateIfcGuid();
   }
 
   // Backward compatibility: branches fields

@@ -1,15 +1,11 @@
 import type { CostItem, CostUnit, RowType } from '@/types/costModel';
 import { registerWizard, type WizardResult } from './wizardRegistry';
+// Eén generator voor GlobalIds: eerste teken 0-3, zoals IFC vraagt (knownbug 153).
+import { generateIfcGuid as wizGuid } from '@/services/ifc/ifcHelpers';
 
 let _idCounter = 0;
 function wizId(): string {
   return `wiz_${Date.now()}_${++_idCounter}`;
-}
-function wizGuid(): string {
-  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$';
-  let s = '';
-  for (let i = 0; i < 22; i++) s += chars[Math.floor(Math.random() * 64)];
-  return s;
 }
 
 function makeItem(

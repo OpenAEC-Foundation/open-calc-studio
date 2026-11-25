@@ -2,13 +2,8 @@ import { uiText } from '@/i18n/uiText';
 import type { CostItem, CostSchedule } from '@/types/costModel';
 import { createDefaultProjectProperties } from '@/types/costModel';
 import i18next from 'i18next';
-
-function generateIfcGuid(): string {
-  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$';
-  let r = '';
-  for (let i = 0; i < 22; i++) r += chars[Math.floor(Math.random() * 64)];
-  return r;
-}
+// Eén generator voor GlobalIds: eerste teken 0-3, zoals IFC vraagt (knownbug 153).
+import { generateIfcGuid } from '@/services/ifc/ifcHelpers';
 
 /**
  * Empty schedule for initial state before async load.

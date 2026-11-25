@@ -1,7 +1,7 @@
 import type { CostItem, CostSchedule, OfferteDocument, OfferteSectionItem } from '@/types/costModel';
 import { createDefaultProjectProperties } from '@/types/costModel';
 import { getGrandTotal } from '@/services/calculation/calculator';
-import { encodeStepString, formatStepFloat, generateIfcGuid, isoTimestamp } from './ifcHelpers';
+import { encodeStepString, formatStepFloat, generateIfcGuid, isoTimestamp, toIfcGlobalId } from './ifcHelpers';
 
 interface StepLine {
   id: number;
@@ -17,18 +17,17 @@ function findLinkedOfferteItem(offerte: OfferteDocument, costItemId: string): Of
   return null;
 }
 
-/** Een IFC GlobalId: 22 tekens uit het IFC-base64-alfabet. */
-const IFC_GUID = /^[0-9A-Za-z_$]{22}$/;
-
 export function generateIfcCostFile(schedule: CostSchedule, items: CostItem[], offerte?: OfferteDocument): string {
   const lines: StepLine[] = [];
   let nextId = 1;
   const getId = () => nextId++;
-  // Elke GlobalId geldig en uniek in het bestand. Een lege, een UUID van 36 tekens of een
-  // dubbele ifcGuid (gekopieerde regel) wordt in de export vervangen (knownbug 153).
+  // Elke GlobalId geldig en uniek in het bestand. Een UUID van 36 tekens of een GlobalId met
+  // een eerste teken boven 3 wordt vast omgezet (elke export dezelfde waarde); een lege of
+  // dubbele ifcGuid (gekopieerde regel) wordt vervangen (knownbugs 151, 153).
   const usedGuids = new Set<string>();
   const guid = (preferred?: string | null): string => {
-    let value = preferred && IFC_GUID.test(preferred) && !usedGuids.has(preferred) ? preferred : generateIfcGuid();
+    const valid = toIfcGlobalId(preferred);
+    let value = valid && !usedGuids.has(valid) ? valid : generateIfcGuid();
     while (usedGuids.has(value)) value = generateIfcGuid();
     usedGuids.add(value);
     return value;

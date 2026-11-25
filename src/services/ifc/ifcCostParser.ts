@@ -306,11 +306,15 @@ export function parseIfcCostFile(content: string): { schedule: CostSchedule; ite
 
   // Calculate depths
   const items = Array.from(itemMap.values());
+  // Elke ouder (ook een begrotingspost met regels eronder) geeft diepte door, niet alleen een
+  // hoofdstuk; `seen` voorkomt een eindeloze lus bij een kring in het bestand.
+  const seen = new Set<string>();
   function setDepth(parentId: string | null, depth: number) {
     for (const item of items) {
-      if (item.parentId === parentId) {
+      if (item.parentId === parentId && !seen.has(item.id)) {
+        seen.add(item.id);
         item.depth = depth;
-        if (item.rowType === 'chapter') setDepth(item.id, depth + 1);
+        setDepth(item.id, depth + 1);
       }
     }
   }

@@ -23,16 +23,19 @@ export function genId(prefix = 'imp'): string {
 }
 
 const GUID_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$';
-/** 22-teken IFC-stijl GUID-placeholder. */
+/**
+ * 22-teken IFC GlobalId. 22 x 6 bits = 132 bits voor een GUID van 128 bits: het eerste teken
+ * draagt maar 2 bits en is dus 0-3 (knownbug 153).
+ */
 export function genIfcGuid(): string {
   let out = '';
   if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
     const buf = new Uint8Array(22);
     crypto.getRandomValues(buf);
-    for (let i = 0; i < 22; i++) out += GUID_CHARS[buf[i] % 64];
+    for (let i = 0; i < 22; i++) out += GUID_CHARS[buf[i] % (i === 0 ? 4 : 64)];
     return out;
   }
-  for (let i = 0; i < 22; i++) out += GUID_CHARS[(_idCounter * 31 + i * 7) % 64];
+  for (let i = 0; i < 22; i++) out += GUID_CHARS[(_idCounter * 31 + i * 7) % (i === 0 ? 4 : 64)];
   return out;
 }
 

@@ -5,7 +5,9 @@ import { createDefaultItems, createDefaultSchedule } from '@/data/defaultBudget'
 import { recalculateItems } from '@/services/calculation/calculator';
 import { makeCostItem } from '@/services/importers/core';
 import { makeStaartItem } from '@/services/calculation/staartDefaults';
-import { generateIfcGuid } from '@/services/ifc/ifcHelpers';
+import { generateIfcGuid, toIfcGlobalId } from '@/services/ifc/ifcHelpers';
+import { genIfcGuid } from '@/services/importers/core';
+import { deserializeProject, serializeProject } from '@/services/file/fileService';
 import type { CostItem, CostSchedule } from '@/types/costModel';
 
 /** STEP-attributen op het hoogste niveau splitsen (tekst tussen quotes en geneste haakjes heel laten). */
@@ -115,12 +117,66 @@ describe('knownbug 153: geldige en unieke GlobalIds', () => {
     items[3].ifcGuid = items[2].ifcGuid;
     const ifc = generateIfcCostFile({ ...schedule, ifcGuid: '' }, items);
     const guids = ifc.split('\n').filter((l) => /^#\d+=IFC(PROJECT|COSTSCHEDULE|COSTITEM|PROPERTYSET|RELDEFINESBYPROPERTIES|RELNESTS|OWNERHISTORY)\(/.test(l) && !l.includes('OWNERHISTORY')).map((l) => stepArgs(l)[0].replace(/'/g, ''));
-    for (const g of guids) expect(g).toMatch(/^[0-9A-Za-z_$]{22}$/);
+    for (const g of guids) expect(g).toMatch(/^[0-3][0-9A-Za-z_$]{21}$/);
     expect(new Set(guids).size).toBe(guids.length);
   });
 
   it('bronnen maken geldige GlobalIds: staartregels en nieuwe GUIDs (eerste teken 0-3)', () => {
     expect(makeStaartItem('staart_btw_laag', 'Btw laag', 9, 0).ifcGuid).toMatch(/^[0-3][0-9A-Za-z_$]{21}$/);
     for (let i = 0; i < 200; i++) expect(generateIfcGuid()).toMatch(/^[0-3][0-9A-Za-z_$]{21}$/);
+    // Ook de importers (makeCostItem, inschrijfstaat) maken geldige GlobalIds.
+    for (let i = 0; i < 200; i++) expect(genIfcGuid()).toMatch(/^[0-3][0-9A-Za-z_$]{21}$/);
+    expect(makeCostItem({ rowType: 'regel', description: 'x' }).ifcGuid).toMatch(/^[0-3][0-9A-Za-z_$]{21}$/);
+    // Nieuwe begroting en standaard staartregels.
+    for (let i = 0; i < 50; i++) expect(createDefaultSchedule().ifcGuid).toMatch(/^[0-3][0-9A-Za-z_$]{21}$/);
+    for (const item of createDefaultItems()) expect(item.ifcGuid).toMatch(/^[0-3][0-9A-Za-z_$]{21}$/);
+  });
+
+  it('een UUID of een GlobalId met eerste teken boven 3 wordt vast omgezet, niet willekeurig', () => {
+    expect(toIfcGlobalId('00000000-0000-0000-0000-000000000000')).toBe('0'.repeat(22));
+    expect(toIfcGlobalId('ffffffff-ffff-ffff-ffff-ffffffffffff')).toBe('3' + '$'.repeat(21));
+    const uuid = '3f2504e0-4f89-11d3-9a0c-0305e82c3301';
+    const converted = toIfcGlobalId(uuid)!;
+    // Terugrekenen geeft dezelfde 128 bits.
+    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$';
+    let n = BigInt(0);
+    for (const c of converted) n = n * BigInt(64) + BigInt(chars.indexOf(c));
+    expect(n.toString(16).padStart(32, '0')).toBe(uuid.replace(/-/g, ''));
+    expect(toIfcGlobalId('zAbcdefghijklmnopqrstu')).toBe('1Abcdefghijklmnopqrstu');
+    expect(toIfcGlobalId('$Abcdefghijklmnopqrstu')).toBe('3Abcdefghijklmnopqrstu');
+    expect(toIfcGlobalId('1Abcdefghijklmnopqrstu')).toBe('1Abcdefghijklmnopqrstu');
+    expect(toIfcGlobalId('')).toBeNull();
+    expect(toIfcGlobalId('test')).toBeNull();
+  });
+
+  it('een oude UUID als schedule.ifcGuid geeft bij elke export dezelfde project-GlobalId', () => {
+    const { schedule, items } = budget();
+    const old = { ...schedule, ifcGuid: crypto.randomUUID() };
+    const projectGuid = (ifc: string) => stepArgs(entities(ifc, 'IFCPROJECT')[0])[0].replace(/'/g, '');
+    const first = projectGuid(generateIfcCostFile(old, items));
+    expect(first).toMatch(/^[0-3][0-9A-Za-z_$]{21}$/);
+    expect(projectGuid(generateIfcCostFile(old, items))).toBe(first);
+  });
+
+  it('een leeg of ongeldig schedule.ifcGuid wordt bij openen eenmalig hersteld en blijft daarna gelijk', () => {
+    for (const bad of ['', 'zAbcdefghijklmnopqrstu', '3f2504e0-4f89-11d3-9a0c-0305e82c3301']) {
+      const opened = deserializeProject(serializeProject({ ...createDefaultSchedule(), ifcGuid: bad }, []));
+      expect(opened.schedule.ifcGuid).toMatch(/^[0-3][0-9A-Za-z_$]{21}$/);
+      const reopened = deserializeProject(serializeProject(opened.schedule, opened.items));
+      expect(reopened.schedule.ifcGuid).toBe(opened.schedule.ifcGuid);
+    }
+    const valid = generateIfcGuid();
+    expect(deserializeProject(serializeProject({ ...createDefaultSchedule(), ifcGuid: valid }, [])).schedule.ifcGuid).toBe(valid);
+  });
+});
+
+describe('parser: diepte ook onder een begrotingspost', () => {
+  it('een regel onder een post krijgt diepte 2 zonder recalculateItems', () => {
+    const { schedule, items } = budget();
+    const parsed = parseIfcCostFile(generateIfcCostFile(schedule, items));
+    const find = (code: string) => parsed.items.find((i) => i.code === code)!;
+    expect(find('01').depth).toBe(0);
+    expect(find('01.01').depth).toBe(1);
+    expect(find('01.01.01').depth).toBe(2);
   });
 });
