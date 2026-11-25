@@ -24,6 +24,7 @@
     "noExtensionsHint": "Click \"ZIP\" or \"JS\" to install an extension, or browse the catalog.",
     "catalogLoading": "Loading catalog...",
     "catalogError": "Unable to load catalog: ",
+    "installFailed": "Installation failed: ",
     "retry": "Retry",
     "noCatalogResults": "No extensions found in the catalog.",
     "installing": "Installing...",

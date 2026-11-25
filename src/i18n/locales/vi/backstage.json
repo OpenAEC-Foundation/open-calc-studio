@@ -24,6 +24,7 @@
     "noExtensionsHint": "Bấm \"ZIP\" hoặc \"JS\" để cài một tiện ích, hoặc duyệt danh mục.",
     "catalogLoading": "Đang tải danh mục...",
     "catalogError": "Không tải được danh mục: ",
+    "installFailed": "Cài đặt không thành công: ",
     "retry": "Thử lại",
     "noCatalogResults": "Không tìm thấy tiện ích nào trong danh mục.",
     "installing": "Đang cài đặt...",

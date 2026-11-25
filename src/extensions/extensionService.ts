@@ -13,6 +13,14 @@ import {
 } from './extensionLoader';
 import { useAppStore } from '../state/appStore';
 
+/**
+ * Uitkomst van een installatie. `ok: false` zonder `error` betekent dat er niets gebeurde
+ * (geannuleerd of uitgeschakeld); met `error` is het mislukt en toont de UI de reden (knownbug 169).
+ */
+export type InstallResult = { ok: true } | { ok: false; error?: string };
+
+const errorText = (err: unknown) => (err instanceof Error ? err.message : String(err));
+
 // ── Catalog ──
 
 const CATALOG_URL =
@@ -44,8 +52,8 @@ export async function fetchCatalog(): Promise<void> {
 
 // ── Install from Catalog ──
 
-export async function installFromCatalog(entry: CatalogEntry): Promise<boolean> {
-  if (!USER_EXTENSIONS_ENABLED || !allowsExternalServices()) return false;
+export async function installFromCatalog(entry: CatalogEntry): Promise<InstallResult> {
+  if (!USER_EXTENSIONS_ENABLED || !allowsExternalServices()) return { ok: false };
   try {
     const res = await fetch(entry.downloadUrl);
     if (!res.ok) throw new Error(`Download failed: HTTP ${res.status}`);
@@ -54,21 +62,21 @@ export async function installFromCatalog(entry: CatalogEntry): Promise<boolean> 
     return await installFromZipBlob(blob, entry.id);
   } catch (err) {
     console.error('[Extensions] Install from catalog failed:', err);
-    return false;
+    return { ok: false, error: errorText(err) };
   }
 }
 
 // ── Install from local ZIP file ──
 
-export async function installFromFile(): Promise<boolean> {
-  if (!USER_EXTENSIONS_ENABLED || !allowsExternalServices()) return false;
+export async function installFromFile(): Promise<InstallResult> {
+  if (!USER_EXTENSIONS_ENABLED || !allowsExternalServices()) return { ok: false };
   return new Promise((resolve) => {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = '.zip';
     input.onchange = async (e) => {
       const file = (e.target as HTMLInputElement).files?.[0];
-      if (!file) { resolve(false); return; }
+      if (!file) { resolve({ ok: false }); return; }
       const result = await installFromZipBlob(file);
       resolve(result);
     };
@@ -78,15 +86,15 @@ export async function installFromFile(): Promise<boolean> {
 
 // ── Install from raw JS file (for simple extensions) ──
 
-export async function installFromJsFile(): Promise<boolean> {
-  if (!USER_EXTENSIONS_ENABLED || !allowsExternalServices()) return false;
+export async function installFromJsFile(): Promise<InstallResult> {
+  if (!USER_EXTENSIONS_ENABLED || !allowsExternalServices()) return { ok: false };
   return new Promise((resolve) => {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = '.js';
     input.onchange = async (e) => {
       const file = (e.target as HTMLInputElement).files?.[0];
-      if (!file) { resolve(false); return; }
+      if (!file) { resolve({ ok: false }); return; }
 
       try {
         const mainCode = await file.text();
@@ -109,10 +117,10 @@ export async function installFromJsFile(): Promise<boolean> {
         useAppStore.getState().registerExtension(installed);
         await enableExtension(manifest.id);
 
-        resolve(true);
+        resolve({ ok: true });
       } catch (err) {
         console.error('[Extensions] Install from JS failed:', err);
-        resolve(false);
+        resolve({ ok: false, error: errorText(err) });
       }
     };
     input.click();
@@ -145,26 +153,36 @@ function extractManifestFromCode(code: string, fileName: string): ExtensionManif
 
 // ── ZIP handling ──
 
-async function installFromZipBlob(blob: Blob, overrideId?: string): Promise<boolean> {
+/**
+ * Haalt manifest en hoofdbestand uit de ZIP-items. Een gezamenlijke bovenmap
+ * (`my-ext/manifest.json`) valt alleen weg als élk item hem deelt, en het hoofdbestand
+ * wordt op exact pad gezocht: `dist/main.js` blijft `dist/main.js` en `main.js` vindt
+ * geen `domain.js` meer (knownbug 169).
+ */
+export function readExtensionZipEntries(entries: ZipEntry[]): { manifest: ExtensionManifest; mainCode: string } {
+  const normalize = (path: string) => path.replace(/\\/g, '/').replace(/^(\.\/)+/, '').replace(/^\/+/, '');
+  let files = entries.map((entry) => ({ ...entry, name: normalize(entry.name) }));
+  const root = files[0]?.name.match(/^[^/]+\//)?.[0];
+  if (root && files.every((f) => f.name.startsWith(root))) {
+    files = files.map((f) => ({ ...f, name: f.name.slice(root.length) }));
+  }
+
+  const manifestEntry = files.find((f) => f.name === 'manifest.json');
+  if (!manifestEntry) throw new Error('No manifest.json found in ZIP');
+  const manifest: ExtensionManifest = JSON.parse(new TextDecoder().decode(manifestEntry.data));
+
+  const mainPath = normalize(manifest.main || 'main.js');
+  const mainEntry = files.find((f) => f.name === mainPath);
+  if (!mainEntry) throw new Error(`Main file "${mainPath}" not found in ZIP`);
+
+  return { manifest, mainCode: new TextDecoder().decode(mainEntry.data) };
+}
+
+async function installFromZipBlob(blob: Blob, overrideId?: string): Promise<InstallResult> {
   try {
     // Use JSZip-like approach with the built-in DecompressionStream API
     const arrayBuffer = await blob.arrayBuffer();
-    const files = await parseZipEntries(arrayBuffer);
-
-    // Find manifest.json
-    const manifestEntry = files.find((f) => f.name.endsWith('manifest.json'));
-    if (!manifestEntry) throw new Error('No manifest.json found in ZIP');
-
-    const manifest: ExtensionManifest = JSON.parse(new TextDecoder().decode(manifestEntry.data));
-
-    // Find main.js
-    const mainPath = manifest.main || 'main.js';
-    const mainEntry = files.find(
-      (f) => f.name.endsWith(mainPath) || f.name.endsWith('/' + mainPath)
-    );
-    if (!mainEntry) throw new Error(`Main file "${mainPath}" not found in ZIP`);
-
-    const mainCode = new TextDecoder().decode(mainEntry.data);
+    const { manifest, mainCode } = readExtensionZipEntries(await parseZipEntries(arrayBuffer));
     const id = overrideId || manifest.id;
 
     // Check if already installed — disable first
@@ -187,16 +205,16 @@ async function installFromZipBlob(blob: Blob, overrideId?: string): Promise<bool
     useAppStore.getState().registerExtension(installed);
     await enableExtension(id);
 
-    return true;
+    return { ok: true };
   } catch (err) {
     console.error('[Extensions] ZIP install failed:', err);
-    return false;
+    return { ok: false, error: errorText(err) };
   }
 }
 
 // ── Minimal ZIP parser (handles stored + deflate) ──
 
-interface ZipEntry {
+export interface ZipEntry {
   name: string;
   data: Uint8Array;
 }
@@ -253,11 +271,8 @@ async function parseZipEntries(buffer: ArrayBuffer): Promise<ZipEntry[]> {
         throw new Error(`Unsupported compression method: ${method}`);
       }
 
-      // Strip common directory prefix
-      const cleanName = name.replace(/^[^/]+\//, '');
-      if (cleanName) {
-        entries.push({ name: cleanName, data });
-      }
+      // De gezamenlijke bovenmap haalt readExtensionZipEntries weg (alleen als elk item hem deelt).
+      entries.push({ name, data });
     }
 
     offset = dataOffset + compSize;

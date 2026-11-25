@@ -24,6 +24,7 @@
     "noExtensionsHint": "Napsauta \"ZIP\" tai \"JS\" asentaaksesi laajennuksen tai selaa luetteloa.",
     "catalogLoading": "Ladataan luetteloa...",
     "catalogError": "Luettelon lataus epäonnistui: ",
+    "installFailed": "Asennus epäonnistui: ",
     "retry": "Yritä uudelleen",
     "noCatalogResults": "Luettelosta ei löytynyt laajennuksia.",
     "installing": "Asennetaan...",

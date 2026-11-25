@@ -24,6 +24,7 @@
     "noExtensionsHint": "Klicken Sie auf „ZIP“ oder „JS“, um eine Erweiterung zu installieren, oder durchsuchen Sie den Katalog.",
     "catalogLoading": "Katalog wird geladen …",
     "catalogError": "Katalog kann nicht geladen werden: ",
+    "installFailed": "Installation fehlgeschlagen: ",
     "retry": "Erneut versuchen",
     "noCatalogResults": "Keine Erweiterungen im Katalog gefunden.",
     "installing": "Wird installiert …",

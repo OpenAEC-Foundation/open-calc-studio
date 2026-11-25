@@ -24,6 +24,7 @@
     "noExtensionsHint": "Kliknutím na „ZIP“ nebo „JS“ nainstalujete rozšíření, nebo procházejte katalog.",
     "catalogLoading": "Načítání katalogu...",
     "catalogError": "Katalog nelze načíst: ",
+    "installFailed": "Instalace se nezdařila: ",
     "retry": "Zkusit znovu",
     "noCatalogResults": "V katalogu nebyla nalezena žádná rozšíření.",
     "installing": "Instalace...",

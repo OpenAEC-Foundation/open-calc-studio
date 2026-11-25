@@ -609,12 +609,6 @@ stand van `main` op die datum.
 
 ## Assistent, MCP en extensies
 
-169. **Een extensie installeren uit een ZIP kiest het verkeerde hoofdbestand, en fouten blijven stil.**
-     `src/extensions/extensionService.ts:257`, `:162-163`; `ExtensionManagerPanel.tsx:53,256`. De eerste map wordt
-     altijd weggehaald, ook als de ZIP er geen heeft, dus `dist/main.js` geeft "Main file not found".
-     `endsWith(mainPath)` vindt `domain.js` bij `main.js`. Een `false`-resultaat negeert de UI. Nagespeeld.
-     Voorstel: de map alleen weghalen als elk item hem deelt; op een exact pad matchen; de fout tonen. — B
-
 170. **Lange antwoorden van de assistent worden afgekapt en het voorstel verdwijnt stil.**
      `src/components/chat/ChatPanel.tsx:148` (`max_tokens: 1024`, geen controle op `stop_reason`). Nagespeeld: wie
      om ongeveer 25 of meer regels vraagt, gaat over de limiet; het actieblok is onvolledig en de gebruiker krijgt

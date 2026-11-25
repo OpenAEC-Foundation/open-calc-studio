@@ -24,6 +24,7 @@
     "noExtensionsHint": "Kattintson a \"ZIP\" vagy a \"JS\" gombra bővítmény telepítéséhez, vagy böngéssze a katalógust.",
     "catalogLoading": "Katalógus betöltése...",
     "catalogError": "A katalógus nem tölthető be: ",
+    "installFailed": "A telepítés sikertelen: ",
     "retry": "Újra",
     "noCatalogResults": "Nem található bővítmény a katalógusban.",
     "installing": "Telepítés...",

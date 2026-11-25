@@ -24,6 +24,7 @@
     "noExtensionsHint": "Haga clic en \"ZIP\" o \"JS\" para instalar una extensión, o explore el catálogo.",
     "catalogLoading": "Cargando el catálogo...",
     "catalogError": "No se puede cargar el catálogo: ",
+    "installFailed": "La instalación ha fallado: ",
     "retry": "Reintentar",
     "noCatalogResults": "No se han encontrado extensiones en el catálogo.",
     "installing": "Instalando...",

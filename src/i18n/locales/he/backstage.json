@@ -24,6 +24,7 @@
     "noExtensionsHint": "יש ללחוץ \"ZIP\" או \"JS\" כדי להתקין הרחבה, או לעיין בקטלוג.",
     "catalogLoading": "טוען את הקטלוג...",
     "catalogError": "לא ניתן לטעון את הקטלוג: ",
+    "installFailed": "ההתקנה נכשלה: ",
     "retry": "ניסיון חוזר",
     "noCatalogResults": "לא נמצאו הרחבות בקטלוג.",
     "installing": "מתקין...",

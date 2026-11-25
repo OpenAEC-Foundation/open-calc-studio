@@ -24,6 +24,7 @@
     "noExtensionsHint": "Fai clic su «ZIP» o «JS» per installare un'estensione, oppure sfoglia il catalogo.",
     "catalogLoading": "Caricamento del catalogo…",
     "catalogError": "Impossibile caricare il catalogo: ",
+    "installFailed": "Installazione non riuscita: ",
     "retry": "Riprova",
     "noCatalogResults": "Nessuna estensione trovata nel catalogo.",
     "installing": "Installazione…",

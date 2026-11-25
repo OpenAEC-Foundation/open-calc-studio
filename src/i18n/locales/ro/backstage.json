@@ -24,6 +24,7 @@
     "noExtensionsHint": "Faceți clic pe „ZIP” sau „JS” pentru a instala o extensie sau răsfoiți catalogul.",
     "catalogLoading": "Se încarcă catalogul...",
     "catalogError": "Catalogul nu poate fi încărcat: ",
+    "installFailed": "Instalarea a eșuat: ",
     "retry": "Reîncercare",
     "noCatalogResults": "Nu s-au găsit extensii în catalog.",
     "installing": "Se instalează...",

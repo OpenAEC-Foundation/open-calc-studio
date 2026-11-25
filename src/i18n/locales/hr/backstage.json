@@ -24,6 +24,7 @@
     "noExtensionsHint": "Kliknite \"ZIP\" ili \"JS\" za instalaciju proširenja ili pregledajte katalog.",
     "catalogLoading": "Učitavanje kataloga...",
     "catalogError": "Nije moguće učitati katalog: ",
+    "installFailed": "Instalacija nije uspjela: ",
     "retry": "Pokušaj ponovno",
     "noCatalogResults": "U katalogu nije pronađeno nijedno proširenje.",
     "installing": "Instalacija...",

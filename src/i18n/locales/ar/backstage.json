@@ -24,6 +24,7 @@
     "noExtensionsHint": "انقر \"ZIP\" أو \"JS\" لتثبيت إضافة، أو استعرض الكتالوج.",
     "catalogLoading": "جارٍ تحميل الكتالوج...",
     "catalogError": "تعذّر تحميل الكتالوج: ",
+    "installFailed": "فشل التثبيت: ",
     "retry": "إعادة المحاولة",
     "noCatalogResults": "لم يتم العثور على إضافات في الكتالوج.",
     "installing": "جارٍ التثبيت...",
