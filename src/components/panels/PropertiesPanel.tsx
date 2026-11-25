@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { formatCurrency, formatNumber } from '@/utils/formatting';
@@ -116,6 +116,17 @@ export const PropertiesPanel: React.FC = () => {
   const fromId = activeItemId ? items.find((i) => i.id === activeItemId) : undefined;
   const rowItem = fromId ? undefined : getGridRows()[activeRow];
   const item = fromId ?? (rowItem && !isFooterRow(rowItem.id) ? rowItem : undefined);
+  // Notities: één undo-stap per bewerking, vastgelegd bij de eerste wijziging
+  // na focus (knownbug 45; zoals de wizard). Zonder stap wiste Ctrl+Z ze.
+  const notesEditStarted = useRef(false);
+  const changeNotes = (id: string, value: string) => {
+    if (!notesEditStarted.current) {
+      const current = useAppStore.getState();
+      current.pushHistory(current.items, t('notes'));
+      notesEditStarted.current = true;
+    }
+    updateItem(id, 'notes', value);
+  };
 
   return (
     <div style={{ padding: 12, fontSize: 11 }}>
@@ -160,7 +171,8 @@ export const PropertiesPanel: React.FC = () => {
             <textarea
               className="prop-textarea"
               value={item.notes}
-              onChange={(e) => updateItem(item.id, 'notes', e.target.value)}
+              onFocus={() => { notesEditStarted.current = false; }}
+              onChange={(e) => changeNotes(item.id, e.target.value)}
               placeholder={t('notesPlaceholder')}
             />
           </div>
