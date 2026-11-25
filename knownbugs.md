@@ -77,9 +77,6 @@ stand van `main` op die datum.
     van een verwijderd blad (Ctrl+Z in de begroting, een knop)? Voorstel: het blad op zijn oude plek opnieuw
     invoegen als het niet meer bestaat. — B
 
-275. **Een deelbladcel met 1.234 kopiëren en terugplakken in de Nederlandse notatie geeft 1234.** Het verlies
-    van opmaak bij elke bewerking is punt 49. Gevonden bij de valutafix. — B
-
 ## Bestanden, import en export
 
 60. **Generieke CSV-import verminkt een `"` binnen een veld en geciteerde velden over meerdere regels.**

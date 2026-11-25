@@ -7,6 +7,7 @@ import { SubSheetBorderPicker } from './SubSheetBorderPicker';
 import { shiftFormulaRefs } from '@/services/spreadsheet/formulaRefs';
 import type { CellBorder } from '@/types/costModel';
 import { cellDecimals, cellDisplayText } from '@/services/spreadsheet/cellDisplay';
+import { decimalSeparator } from '@/utils/formatting';
 
 const COL_WIDTH = 90;
 const ROW_HEIGHT = 24;
@@ -113,7 +114,11 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
       for (let c = minCol; c <= maxCol; c++) {
         const ref = `${colLabel(c)}${r}`;
         const cell = sheet.cells[ref];
-        cols.push(cell?.computed !== undefined ? String(cell.computed) : (cell?.value || ''));
+        // Getal met het decimaalteken van de app: "1,234" en niet "1.234", dat
+        // plakken (en Excel) in NL-notatie als 1234 leest (knownbug 275).
+        cols.push(cell?.computed !== undefined
+          ? String(cell.computed).replace('.', decimalSeparator())
+          : (cell?.value || ''));
         rawCols.push(cell?.value || '');
       }
       rows.push(cols.join('\t'));
