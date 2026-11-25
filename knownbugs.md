@@ -257,11 +257,6 @@ stand van `main` op die datum.
     (`??` op `''`; `getNumber` geeft 0). Nagespeeld. Voorstel: `||` gebruiken en een ontbrekende prijs als
     null bewaren. — B
 
-99. **IfcX-import zet posten in de verkeerde volgorde als codes op getallen lijken.** `ifcxImporter.ts:104,107`
-    + `ifcxJsonGenerator.ts:246-252`: de code is een JSON-sleutel, en gehele-getalsleutels komen bij het
-    doorlopen eerst. Nagespeeld: `B,20,10,1a,2` komt terug als `2,10,20,B,1a`. Voorstel: een expliciet
-    sortOrder-attribuut, of sleutels met een voorvoegsel. — B
-
 100. **RAW RSX: vanaf hoofdstuk 10 klopt de hoofdstukdiepte niet.** `rsxImporter.ts:91-98` bepaalt de diepte
      op de getalwaarde. Nagespeeld, zonder echt voorbeeldbestand. Voorstel: de diepte op het aantal cijfers
      baseren. — B
@@ -275,17 +270,6 @@ stand van `main` op die datum.
      wordt nooit teruggelezen. Nagespeeld en door een tweede controle bevestigd. Daarnaast bevestigde de tweede
      agent #96 onafhankelijk: CUF/TRADXML-prijzen komen na de herberekening van de import terug als €0.
      Voorstel: geneste Hoofdstuk-elementen recursief aflopen; aan beide kanten één tagnaam voor regels. — B
-
-104. **IFCX importeren en daarna IFC exporteren geeft een fout.** `ifcxImporter.ts:47-51` maakt van `''` `undefined`, en
-     `Backstage.tsx:144` (`setSchedule`) overschrijft daarmee, zodat `encodeStepString(undefined)` een fout gooit
-     in `generateIfcCostFile` en in `IfcPreview.tsx:389`. Nagespeeld en door een tweede controle bevestigd.
-     Voorstel: `''` houden, of undefined-sleutels weglaten vóór het samenvoegen. — B
-
-105. **IFCX: btw-tarief, variant en notities gaan verloren, waardoor het totaal verandert.** In
-     `ifcxJsonGenerator.ts` ~160-232. Nagespeeld: BTW laag wordt hoog, een post uit een variant verschijnt in
-     elke variant, en het totaal gaat van 4354.85 naar 4426.77. `cost::metadata` wordt alleen geschreven als er
-     tarieven zijn (`:297`). Een post met hoeveelheid null verliest zijn eenheid en wordt st. Voorstel:
-     `btwTarief`, `branchId` en `notes` schrijven als `ifcx::ocs::*`-sleutels. — B
 
 106. **IFC STEP: regeltype en staartpercentages worden geschreven maar nooit gelezen.** `ifcCostParser.ts:151,188`
      negeert de set `OCS_ItemProperties` (`ifcCostGenerator.ts:355`). Nagespeeld: een post wordt een hoofdstuk,

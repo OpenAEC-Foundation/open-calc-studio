@@ -165,6 +165,9 @@ function buildCostItemNode(
     'bsi::ifc::prop::Description': item.description || '',
     'ifcx::ocs::rowType': item.rowType,
     'ifcx::ocs::ifcGuid': item.ifcGuid,
+    // De sleutels van `children` geven geen betrouwbare volgorde: gehele-getalsleutels
+    // ('2', '10') komen in JavaScript altijd eerst (knownbug 99).
+    'ifcx::ocs::sortOrder': item.sortOrder,
   };
 
   // Quantity
@@ -173,6 +176,9 @@ function buildCostItemNode(
       value: item.quantity,
       unit: item.unit || 'st',
     };
+  } else if (item.unit) {
+    // Zonder hoeveelheid toch de eenheid bewaren, anders wordt het 'st' (knownbug 105).
+    attributes['ifcx::ocs::unit'] = item.unit;
   }
 
   // Cost breakdown for non-chapter items
@@ -229,6 +235,17 @@ function buildCostItemNode(
   }
   if (item.verrekenbaar) {
     attributes['ifcx::ocs::verrekenbaar'] = item.verrekenbaar;
+  }
+  // Btw-tarief, variant en notities: zonder deze velden verandert het totaal na een
+  // round trip (knownbug 105).
+  if (item.btwTarief) {
+    attributes['ifcx::ocs::btwTarief'] = item.btwTarief;
+  }
+  if (item.branchId) {
+    attributes['ifcx::ocs::branchId'] = item.branchId;
+  }
+  if (item.notes) {
+    attributes['ifcx::ocs::notes'] = item.notes;
   }
 
   const node: IfcxNode = {
@@ -312,6 +329,15 @@ export function generateIfcxJson(
   }
   if (Object.keys(metadata).length > 0) {
     scheduleAttributes['ifcx::cost::metadata'] = metadata;
+  }
+  // Varianten: de regels dragen hun branchId, de boom en de gekozen variant staan hier
+  // (knownbug 105).
+  if (schedule.branches && schedule.branches.length > 0) {
+    scheduleAttributes['ifcx::ocs::variants'] = {
+      branches: schedule.branches,
+      ...(schedule.branchesEnabled != null ? { enabled: schedule.branchesEnabled } : {}),
+      ...(schedule.activeBranchId ? { activeBranchId: schedule.activeBranchId } : {}),
+    };
   }
 
   // Build cost item children for the schedule
