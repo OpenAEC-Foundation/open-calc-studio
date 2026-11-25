@@ -16,7 +16,9 @@ export interface SubSheetSlice {
   renameSubSheet: (id: string, name: string) => void;
   setActiveSubSheet: (id: string | null) => void;
   setSubSheetCell: (sheetId: string, cellRef: string, value: string) => void;
-  setSubSheetCells: (sheetId: string, cells: Record<string, SubSheetCell>) => void;
+  /** Meerdere ingetypte waarden in één stap (MCP set_cells_batch), zelfde regels als setSubSheetCell. */
+  setSubSheetCellValues: (sheetId: string, values: Record<string, string>) => void;
+  setSubSheetCells:(sheetId: string, cells: Record<string, SubSheetCell>) => void;
   toggleSubSheetCellBold: (sheetId: string, cellRef: string) => void;
   toggleSubSheetCellItalic: (sheetId: string, cellRef: string) => void;
   setSubSheetCellAlign: (sheetId: string, cellRef: string, align: 'left' | 'center' | 'right') => void;
@@ -100,29 +102,21 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
   setActiveSubSheet: (id) => set({ activeSubSheetId: id }),
 
   setSubSheetCell: (sheetId, cellRef, value) => {
+    get().setSubSheetCellValues(sheetId, { [cellRef]: value });
+  },
+
+  setSubSheetCellValues: (sheetId, values) => {
     snapshot(sheetId);
     edit((s) => ({
       subSheets: s.subSheets.map((ss) => {
         if (ss.id !== sheetId) return ss;
-        const cell: SubSheetCell = { value };
-        // Formulas are evaluated by recalcSheetCells below, together with every
-        // formula that depends on this cell (knownbugs #47).
-        if (!value.startsWith('=')) {
-          // Getalnotatie van de app (issue #65): "6,66" en "1.234,56" in
-          // 1.234,56-notatie, "6.66" en "1,234.56" in 1,234.56-notatie; staan
-          // beide tekens erin, dan is het laatste het decimaalteken.
-          // Ongewijzigde invoer houdt zijn waarde, ook na een wissel van de
-          // notatie ("1,250" blijft 1250 als je de cel opent en weer sluit).
-          const prev = ss.cells[cellRef];
-          const n = prev && prev.value === value && prev.computed !== undefined
-            ? prev.computed
-            : parseLocaleNumber(value);
-          if (n !== null) cell.computed = n;
+        const cells = { ...ss.cells };
+        for (const [cellRef, value] of Object.entries(values)) {
+          cells[cellRef] = withTypedValue(ss.cells[cellRef], value);
         }
-        return {
-          ...ss,
-          cells: recalcSheetCells({ ...ss.cells, [cellRef]: cell }),
-        };
+        // Formulas are evaluated by recalcSheetCells, together with every
+        // formula that depends on these cells (knownbugs #47).
+        return { ...ss, cells: recalcSheetCells(cells) };
       }),
     }));
   },
@@ -272,6 +266,27 @@ export const createSubSheetSlice: StateCreator<SubSheetSlice> = (set, get) => {
   getSubSheet: (id) => get().subSheets.find((ss) => ss.id === id),
   };
 };
+
+/**
+ * Een cel met een nieuw ingetypte waarde. Opmaak (vet, notatie, decimalen,
+ * randen …) blijft staan, ook bij leegmaken (knownbug 49), zoals in Excel.
+ */
+function withTypedValue(prev: SubSheetCell | undefined, value: string): SubSheetCell {
+  const cell: SubSheetCell = { ...prev, value };
+  delete cell.computed;
+  if (!value.startsWith('=')) {
+    // Getalnotatie van de app (issue #65): "6,66" en "1.234,56" in
+    // 1.234,56-notatie, "6.66" en "1,234.56" in 1,234.56-notatie; staan
+    // beide tekens erin, dan is het laatste het decimaalteken.
+    // Ongewijzigde invoer houdt zijn waarde, ook na een wissel van de
+    // notatie ("1,250" blijft 1250 als je de cel opent en weer sluit).
+    const n = prev && prev.value === value && prev.computed !== undefined
+      ? prev.computed
+      : parseLocaleNumber(value);
+    if (n !== null) cell.computed = n;
+  }
+  return cell;
+}
 
 // ── Border preset helpers ──
 

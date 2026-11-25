@@ -70,16 +70,6 @@ stand van `main` op die datum.
 
 ## Spreadsheets
 
-49. **Een cel bewerken of leegmaken wist de opmaak.** `subSheetSlice.ts:106` schrijft `{ value }`; ook Delete,
-    Knippen en Wissen in `SubSheetEditor.tsx:163, 419, 655` (bij de tweede controle bevestigd op deze regels;
-    eerder stond er 164, 419, 656). Vet, valutanotatie, randen enzovoort zijn weg zodra je een nieuwe waarde
-    typt. Voorstel: `{ ...ss.cells[cellRef], value, computed: undefined }`. — B
-
-52. **MCP `set_cells_batch` slaat formules op zonder ze te berekenen.** `src/services/mcp/mcpBridge.ts:263-266`
-    schrijft `{ value }` zonder `computed` (en wist de opmaak). `=A1*2` verschijnt als kale tekst; `6,66` zonder
-    `computed` geeft via `parseFloat` 6 in `quantityOrigin.ts:25`. Voorstel: hetzelfde evaluatiepad gebruiken
-    als `setSubSheetCell`. — S
-
 55. **Ctrl+Z in de ene deelspreadsheet maakt een bewerking in een andere ongedaan.** Er is één stapel voor alle
     bladen (`src/state/slices/spreadsheetHistorySlice.ts:42-59`, `SubSheetEditor.tsx:206-227`). Nagespeeld.
     Voorstel: een stapel per blad, of filteren op blad-id. — B
@@ -94,9 +84,6 @@ stand van `main` op die datum.
 
 275. **Een deelbladcel met 1.234 kopiëren en terugplakken in de Nederlandse notatie geeft 1234.** Het verlies
     van opmaak bij elke bewerking is punt 49. Gevonden bij de valutafix. — B
-
-276. **MCP `set_cells_batch` slaat ruwe waarden op**, die daarna als Nederlandse notatie worden gelezen;
-    `set_cell` volgt wel de getalnotatie van de app. Hoort bij punt 52. Gevonden bij de valutafix. — B
 
 ## Bestanden, import en export
 
