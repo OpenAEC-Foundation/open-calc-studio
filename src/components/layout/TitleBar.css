@@ -105,8 +105,9 @@
 
 .titlebar-button:hover { background-color: var(--theme-titlebar-btn-hover); }
 .titlebar-button:active { background-color: var(--theme-titlebar-btn-active); }
-.titlebar-close:hover { background-color: var(--theme-danger-color); color: #ffffff; }
-.titlebar-close:active { background-color: var(--theme-danger-hover); color: white; }
+/* Eigen sluit-rood met wit kruis; --theme-danger-color is lichtroze in donkere thema's (knownbug 216). */
+.titlebar-close:hover { background-color: var(--theme-close-hover-bg); color: #ffffff; }
+.titlebar-close:active { background-color: var(--theme-close-active-bg); color: white; }
 
 .titlebar-quick-access {
   display: flex;

@@ -63,3 +63,23 @@ describe('knownbugs 214, 217: geen hardgecodeerd wit op accent- of selectiekleur
     expect(bad).toEqual([]);
   });
 });
+
+describe('knownbug 216: sluitknoppen hebben een leesbare hover', () => {
+  const luminance = (hex: string) => {
+    const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+      .map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+  it('wit kruis op een vast rood met minstens 4,5:1 contrast', () => {
+    const bridge = readFileSync(join(SRC, 'styles', 'blueprintBridge.css'), 'utf8');
+    for (const name of ['--theme-close-hover-bg', '--theme-close-active-bg']) {
+      const hex = new RegExp(`${name}:\\s*(#[0-9a-fA-F]{6})`).exec(bridge)?.[1];
+      expect(hex, name).toBeTruthy();
+      expect(1.05 / (luminance(hex!) + 0.05)).toBeGreaterThanOrEqual(4.5);
+    }
+    const titleBar = readFileSync(join(SRC, 'components', 'layout', 'TitleBar.css'), 'utf8');
+    const modal = readFileSync(join(SRC, 'components', 'common', 'Modal.css'), 'utf8');
+    expect(titleBar).toMatch(/\.titlebar-close:hover \{ background-color: var\(--theme-close-hover-bg\)/);
+    expect(modal).toMatch(/\.modal-close-btn:hover \{\s*background: var\(--theme-close-hover-bg\)/);
+  });
+});

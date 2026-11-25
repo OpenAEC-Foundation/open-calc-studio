@@ -724,10 +724,6 @@ stand van `main` op die datum.
      `workspaceSlice.ts:22`, `:38-40`. Nagespeeld; mogelijk bewust. Voorstel: `gridView`, `hiddenColumns` en
      `gridZoom` buiten de ingebouwde indelingen houden. — B
 
-216. **Hover op de sluitknop: wit × op lichtroze in donkere thema's (~1,9:1).** `TitleBar.css:108-109` en
-     `Modal.css:92-95` gebruiken `--oa-error` (`#FCA5A5`). Contrast berekend uit de tokens, niet gemeten.
-     Voorstel: een eigen token voor de sluit-hover (bijv. `#C42B1C`). — S
-
 218. **ResourcePicker, RevisionDialog en PriceUpdateDialog liggen onder andere zwevende UI.**
      `.resource-picker-overlay { z-index: 200 }` (`panels.css:192`, niet geportaled); de chat (1000),
      Backstage (1000), de importwaarschuwingen (9000) en de titelbalk (9999) liggen erboven. Ook opent het

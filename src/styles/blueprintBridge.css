@@ -36,6 +36,10 @@
   --theme-focus-color: var(--oa-focus);
   --theme-danger-color: var(--oa-error);
   --theme-danger-hover: var(--oa-error);
+  /* Sluitknoppen (venster, dialoog): wit kruis op vast rood, in elk thema
+     leesbaar (knownbug 216; #C42B1C zoals Windows). */
+  --theme-close-hover-bg: #C42B1C;
+  --theme-close-active-bg: #A1251A;
   --theme-editable-text: var(--oa-accent-text);
   --theme-editable-bg: var(--oa-selected);
   --theme-dialog-shadow: var(--oa-shadow-dialog);
