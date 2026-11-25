@@ -354,12 +354,6 @@ stand van `main` op die datum.
      en laat artikelen weg die in deze sessie voor het eerst zijn toegevoegd. Voorstel: in beide gevallen
      samenvoegen op `id`. — S
 
-116. **Het document sluiten dat in "Naast elkaar bekijken" staat, laat de gesplitste weergave op een verwijderd
-     document staan.** `src/state/slices/documentSlice.ts:69-92` (`removeDocument`), `SplitGridPane.tsx:57`.
-     Nagespeeld: rechtsklik op tab B → "View beside" → B sluiten. Het rechterdeel blijft "document not found"
-     tonen. Voorstel: in `removeDocument` `splitDocumentId`/`splitView` terugzetten als het verwijderde document
-     het gesplitste is. — B
-
 117. **De extensie `.ifcCalc` staat in het tabblad en de titel.** `src/hooks/useFileOperations.ts:25-29`
      (`fileNameFromPath` haalt alleen `.ifcx|.json` weg), gebruikt op `:142`, `:183`, `:269`, `:357`; ook
      `App.tsx:249`. Na Opslaan als of Openen staat er "Begroting.ifcCalc" op het tabblad, terwijl slepen elke
@@ -972,11 +966,6 @@ stand van `main` op die datum.
 
 260. **CSV wordt alleen als UTF-8 gedecodeerd** (mogelijk bewust, niet als bug gemeld). Een Windows-1252-CSV uit
      Nederlandstalige Excel geeft vervangingstekens of wordt geweigerd. — S
-
-261. **Het actieve tabblad sluiten springt naar het eerste tabblad** (mogelijk bewust).
-     `src/state/slices/documentSlice.ts:83` (`filtered[0]`). Nagespeeld: met tabbladen a, b, c, d komt het
-     sluiten van c uit op a in plaats van b of d. Voorstel: het tabblad op dezelfde index kiezen, begrensd op het
-     einde van de lijst. — B
 
 262. **De tabel kan geen tekst uit Excel of Sheets plakken.** Ctrl+V plakt alleen regels die binnen de app zijn
      gekopieerd. — S
