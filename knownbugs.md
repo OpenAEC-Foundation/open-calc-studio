@@ -192,18 +192,6 @@ stand van `main` op die datum.
 78. **`liteXml.ts:172`: in attributen wordt `&#10;` een spatie en CRLF twee spaties.** Geen praktisch effect;
     minder zeker dan de andere importpunten. — S
 
-80. **Verversen maakt van Excel-foutcellen hoeveelheden (`#DIV/0!` → 7, `#N/A` → 42).**
-    `excelLinkService.ts:119`. Voorstel: geef een fout bij `t === 'e'`, zoals `tabularBudget.ts:52` al doet.
-    Tweede controle bevestigt het; het deel over `t === 'b'` is niet nodig. — B
-
-83. **Nederlandse decimalen die als tekst zijn opgeslagen, worden in de Excel-koppeling afgekapt (`"6,5"` → 6).**
-    `excelLinkService.ts:119`, `ExcelCellPicker.tsx:125` (`parseFloat`; `|| null` maakt van `"0"` bovendien
-    "geen waarde"). Voorstel: strikt parsen met kommaverwerking. — B
-
-84. **Verversen leest dezelfde werkmap één keer per gekoppelde post (laag).** `excelLinkService.ts:83-100`
-    (`Promise.all` zonder promise-cache); `HomeTab.tsx:226-227` overschrijft bovendien wijzigingen die tijdens een
-    trage verversing zijn gedaan. Voorstel: de leespromise per bestand cachen. — B
-
 87. **BasCalc: een tweede `cb`-blok in een post komt binnen het eerste te hangen.**
     `src/services/importers/bascalcImporter.ts:298-324`; oorzaak op r.170-176: `cp` wordt weggegooid en alleen
     `ih` haalt een niveau van de stapel. Materiaal komt zo onder Arbeid, waardoor Arbeid 300 wordt in plaats
