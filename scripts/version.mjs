@@ -11,6 +11,14 @@ export function isoWeek(date) {
   const week = Math.ceil((((d - new Date(Date.UTC(year, 0, 1))) / 86400000) + 1) / 7);
   return { year, week };
 }
+/**
+ * De kalenderdag van `now` in de lokale tijdzone, als UTC-middernacht voor isoWeek.
+ * Zonder dit gebruikt `next` de UTC-datum, en krijg je in Europa op maandag tussen
+ * 00:00 en 01:00/02:00 nog het nummer van de vorige week (knownbug 255).
+ */
+export function releaseDay(now = new Date()) {
+  return new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+}
 export function parseVersion(version) {
   const m = /^(20\d{2})\.([1-9]|[1-4]\d|5[0-3])\.(0|[1-9]\d*)$/.exec(version);
   if (!m) throw new Error('Version must use YYYY.W.N without leading zeros');
@@ -68,7 +76,7 @@ function main() {
   if (command === 'set') return set(value);
   if (command === 'next') {
     const tags = execFileSync('git', ['tag', '--list', 'v20*'], { encoding: 'utf8' }).trim().split('\n');
-    return set(nextVersion(value ? new Date(value) : new Date(), [json('package.json').version, ...tags]));
+    return set(nextVersion(value ? new Date(value) : releaseDay(), [json('package.json').version, ...tags]));
   }
   if (command !== 'check') throw new Error('Use version.mjs check [tag], set YYYY.W.N, or next [date]');
   const version = json('package.json').version;
