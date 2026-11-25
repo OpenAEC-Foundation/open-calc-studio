@@ -323,11 +323,6 @@ stand van `main` op die datum.
     (`genericTabularImporter.ts`) waarschuwt; BC3, DNC, inschrijfstaat en de XML-hulpfuncties gebruiken
     `parseNumber` (`core.ts`) zonder melding. Rest van knownbug 82. Gevonden in de review van de valutafix. — B
 
-279. **`parseAmount` leest een paar tekstvormen verkeerd**: `"12.03.2024"` wordt 12032024, `"EUR 1.250,00 excl."`
-    wordt 1,25 (de punt in "excl." telt als scheidingsteken) en `"6'2"` wordt 62. Ook `"€ 1.250-"` en
-    `"€1.250/m"` worden 1,25, terwijl `"€ 1.250"` 1250 is. Alleen als zo'n kolom aan een getalveld wordt
-    gekoppeld. Gevonden in de review van de valutafix (nagespeeld in node). — B
-
 280. **WpCalc-import zonder herkende staartlabels geeft geen btw-regel en geen melding.** Labels als
     "B.T.W.", "Omzetbelasting" of Engelse teksten worden niet herkend (`wpcalcImporter.ts`
     `classifyWpCalcStaartLabel`); dan is incl. btw gelijk aan excl. btw. Ook: "Risicoverzekering" wordt
