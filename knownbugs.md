@@ -892,10 +892,6 @@ stand van `main` op die datum.
      `src/i18n/locales/*/releases.json`, `ReleaseNotesPanel.tsx:26-32`. Bij 44.0 staat nog "acceptance
      pending"; offline- en hosted-gebruikers zien alleen deze lijst. — B
 
-238. **De mobiele UI is onvertaald in elke taal behalve EN en NL.** `src/i18n/locales/*/common.json` (32
-     `mobile.*`-sleutels, `review.mobile`, `wizardUI.shortTitle`); daarnaast hard-coded NL/EN in
-     `ReviewCenter.tsx:30-31`. Nagespeeld. — B
-
 239. **De afgedrukte offerte zegt altijd "includes VAT (21%)"** (alle 40 locales). Sleutel
      `report:offerte.inclVatNote`; het percentage staat vast op 21 % in de tekst, net als #133. Voorstel:
      het percentage weglaten, of het meegeven als `{{pct}}`. — B
