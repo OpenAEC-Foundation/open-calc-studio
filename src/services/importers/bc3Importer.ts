@@ -408,14 +408,13 @@ function parseBc3(text: string): Bc3Data {
       case 'T': {
         const key = keyOf(fields[0] ?? '');
         if (!key) break;
-        const list = data.variants.get(key);
-        const concept = list?.[list.length - 1];
-        if (concept) {
-          // Regeleinden in de tekst blijven staan, maar als LF: zo komt het
-          // in de notities zoals de rest van de app ze schrijft.
-          const txt = (fields[1] ?? '').replace(/\r\n?/g, '\n').trim();
-          concept.text = concept.text ? `${concept.text}\n${txt}` : txt;
-        }
+        // Een ~T vóór zijn ~C maakt (net als ~D) een stub die de ~C later
+        // invult; voorheen viel de tekst dan weg (knownbug 75).
+        const concept = targetFor(key);
+        // Regeleinden in de tekst blijven staan, maar als LF: zo komt het
+        // in de notities zoals de rest van de app ze schrijft.
+        const txt = (fields[1] ?? '').replace(/\r\n?/g, '\n').trim();
+        concept.text = concept.text ? `${concept.text}\n${txt}` : txt;
         break;
       }
       case 'K': {

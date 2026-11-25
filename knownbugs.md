@@ -168,9 +168,6 @@ stand van `main` op die datum.
 70. **Openen vanuit de cloud laat offerte, bedrijfsgegevens, spreadsheets, snapshots en projectinfo vallen**
     (`CloudPanel.tsx:100-110`). Zelfde soort bug als #58. — S
 
-75. **BC3: een `~T`-tekst die vóór zijn `~C`-record staat, valt weg.** `src/services/importers/bc3Importer.ts:243-254`
-    (het commentaar bovenin zegt iets anders). Voorstel: gebruik `targetFor(key)` in de `~T`-tak. — B
-
 76. **ÖNORM: een positie zonder `stichwort` krijgt "____" als omschrijving.**
     `src/services/importers/onlvImporter.ts:240-244`; de test op `onlvImporter.test.ts:230` controleert dit niet.
     Voorstel: gebruik `kurz + luecke` alleen als `stichwort-kurz` aanwezig is. — B

@@ -23,6 +23,14 @@ const SAMPLE = [
 ].join('\r\n');
 
 describe('FIEBDC-3 (.bc3) import', () => {
+  it('bewaart een ~T-tekst die vóór zijn ~C-record staat (knownbug 75)', () => {
+    const text = SAMPLE.replace('\r\n~T|PART1|Excavación mecánica en terreno compacto.|', '')
+      .replace('~C|PROY##', '~T|PART1|Excavación mecánica en terreno compacto.|\r\n~C|PROY##');
+    expect(text.indexOf('~T|PART1')).toBeLessThan(text.indexOf('~C|PART1'));
+    const post = importBc3(text).items.find(i => i.code === 'PART1')!;
+    expect(post.notes).toContain('terreno compacto');
+  });
+
   it('bouwt de hiërarchie hoofdstuk → partida → regels', () => {
     const result = importBc3(SAMPLE);
     expect(result.schedule.projectName).toBe('Proyecto de prueba');
