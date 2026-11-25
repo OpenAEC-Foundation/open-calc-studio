@@ -168,15 +168,6 @@ stand van `main` op die datum.
 70. **Openen vanuit de cloud laat offerte, bedrijfsgegevens, spreadsheets, snapshots en projectinfo vallen**
     (`CloudPanel.tsx:100-110`). Zelfde soort bug als #58. — S
 
-73. **GAEB-langteksten plakken alinea's aan elkaar zonder spatie of regeleinde.**
-    `src/services/importers/gaebImporter.ts:26-33`. `<p>Zeile eins</p><p>Zeile zwei</p>` wordt
-    "Zeile einsZeile zwei"; ook `<br/>` gaat verloren. Voorstel: een doorloper in de stijl van `a2063TextLines`
-    (`p`/`br` → `\n`). — B
-
-74. **GAEB maakt van onbekende eenheden (`lfm`, `Tag`, `Wo`, `l`, `qm`, `cbm`, `kWh`) stilletjes "st".**
-    `gaebImporter.ts:18-25`. Voorstel: de tabel uitbreiden (`A2063_TO_OCS` hergebruiken) en onbekende eenheden
-    doorgeven met een waarschuwing. — B
-
 75. **BC3: een `~T`-tekst die vóór zijn `~C`-record staat, valt weg.** `src/services/importers/bc3Importer.ts:243-254`
     (het commentaar bovenin zegt iets anders). Voorstel: gebruik `targetFor(key)` in de `~T`-tak. — B
 

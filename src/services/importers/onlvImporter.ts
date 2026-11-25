@@ -119,7 +119,7 @@ export function a2063TextLines(el: XElement | null | undefined): string[] {
           cur += inner || GAP;
           break;
         }
-        case 'p': case 'h1': case 'h2': case 'h3': case 'ul': case 'ol': case 'table':
+        case 'p': case 'div': case 'h1': case 'h2': case 'h3': case 'ul': case 'ol': case 'table': // div: GAEB-tekst
           flush(); visit(child); flush();
           break;
         case 'li':
