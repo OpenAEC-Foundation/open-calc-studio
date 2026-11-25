@@ -145,7 +145,9 @@ function App() {
   const [isDetachedWindow, setIsDetachedWindow] = useState(false);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+    // Ingebouwd is de query-string van de gastpagina; een component is nooit een
+    // losgekoppeld venster (knownbug 182).
+    const params = new URLSearchParams(isEmbedded() ? '' : window.location.search);
     const fileParam = params.get('file');
     const tParam = params.get('_t');
     if (fileParam) {

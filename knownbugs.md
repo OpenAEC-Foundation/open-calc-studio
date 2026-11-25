@@ -614,10 +614,6 @@ stand van `main` op die datum.
      geschiedenis mee. Een lang gesprek gaat zo op den duur over de contextlimiet, en die chat blijft dan stuk.
      Voorstel: de chat wissen bij `removeDocument`, de meegestuurde geschiedenis inkorten, een wisknop toevoegen. — S
 
-182. **Ingebed toont de component soms ten onrechte de knop "Dock to main window" en slaat hij de mobiele
-     layout over.** De controle op een losgekoppeld venster zou bij een ingebedde component overgeslagen moeten
-     worden. — S
-
 184. **Het tweede-schermvenster herladen blijft hangen op "Waiting for the main window…".**
      `src/components/layout/CompanionWindow.tsx:46-49`, `src/services/workspaces/companion.ts:28-29`: `bye` bij
      beforeunload laat het hoofdvenster zijn kanaal sluiten, dus de `ready`-berichten van de herladen pagina
