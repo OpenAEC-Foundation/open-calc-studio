@@ -225,10 +225,6 @@ stand van `main` op die datum.
     is een echt bestand Windows-1252 of CP850, dan worden letters als Ë verminkt. (Titels met Ë e.d. worden
     inmiddels wel herkend.) Gezien bij #92. — S
 
-94. **`normalizeUnit` maakt van "uren" "st".** `src/services/importers/core.ts:66-82`; ook `m¹`, `kg.`, `weken`
-    en `maanden` worden niet omgezet. Nagespeeld. Voorstel: de aliassen toevoegen en een punt aan het eind
-    weghalen. — B
-
 95. **BasCalc leest de S-kolom op twee tegengestelde manieren.** Bij `ih`-regels is h arbeid en m materiaal
     (`bascalcImporter.ts:228-236`); bij `cn`-regels is m arbeid en h materieel (`mapResourceType`, r.27-31).
     Nog controleren met een echt bestand. — S

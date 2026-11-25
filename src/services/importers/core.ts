@@ -127,23 +127,24 @@ export function parseNumber(raw: string | number | null | undefined): number {
 
 const UNIT_MAP: Record<string, CostUnit> = {
   st: 'st', stk: 'st', stl: 'st', stuk: 'st', stuks: 'st',
-  m: 'm', m1: 'm', meter: 'm',
+  m: 'm', m1: 'm', 'm¹': 'm', meter: 'm',
   m2: 'm²', 'm^2': 'm²', 'm²': 'm²',
   m3: 'm³', 'm^3': 'm³', 'm³': 'm³',
   kg: 'kg', ton: 'ton',
-  uur: 'uur', u: 'uur', h: 'uur',
+  uur: 'uur', uren: 'uur', u: 'uur', h: 'uur',
   dg: 'dgn', dgn: 'dgn', dag: 'dgn', dagen: 'dgn',
   km: 'km', keer: 'keer', ls: 'ls',
-  week: 'week', wk: 'week',
-  mnd: 'mnd', maand: 'mnd',
+  week: 'week', weken: 'week', wk: 'week',
+  mnd: 'mnd', maand: 'mnd', maanden: 'mnd',
   post: 'post', pst: 'post', eur: 'post',
   '%': '%', pm: 'pm',
 };
 
-/** Normaliseer een vrije eenheid-tekst ("m3", "M²", "stuks") naar CostUnit. */
+/** Normaliseer een vrije eenheid-tekst ("m3", "M²", "stuks", "kg.") naar CostUnit. */
 export function normalizeUnit(raw: string | null | undefined): CostUnit {
   const s = (raw ?? '').trim().toLowerCase();
-  return UNIT_MAP[s] ?? 'st';
+  // Een afkortingspunt aan het eind telt niet mee: "kg." = "kg" (knownbug 94).
+  return UNIT_MAP[s] ?? UNIT_MAP[s.replace(/\.$/, '')] ?? 'st';
 }
 
 // ── CostItem-fabriek ──────────────────────────────────────────────────────
