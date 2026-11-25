@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { useAppStore } from '@/state/appStore';
-import { getColumnsForView, hiddenByQuantityToggle, isCellEditable, isColumnHidden } from './gridConstants';
+import { columnFieldKey, getColumnsForView, hiddenByQuantityToggle, isCellEditable, isColumnHidden } from './gridConstants';
 import type { CostUnit } from '@/types/costModel';
-import { getGridCellDisplayValue } from '@/services/clipboard/excelClipboard';
+import { copyItemsToExcel, getGridCellDisplayValue, tsvCell } from '@/services/clipboard/excelClipboard';
 import { isFooterRow } from '@/services/grid/gridRows';
 import i18next from '@/i18n/config';
 
@@ -41,7 +41,7 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
       if (isEditing) return;
 
       // Ctrl+C: copy cell range or selected rows
-      if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
+      if ((e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey && e.key.toLowerCase() === 'c') {
         e.preventDefault();
 
         // If there is a cell range selection, copy that range as TSV.
@@ -62,7 +62,7 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
             const cells: string[] = [];
             for (let c = minCol; c <= maxCol; c++) {
               if (c < 0 || c >= columns.length) { cells.push(''); continue; }
-              cells.push(getGridCellDisplayValue(item, columns[c].key));
+              cells.push(tsvCell(getGridCellDisplayValue(item, columns[c].key)));
             }
             lines.push(cells.join('\t'));
           }
@@ -89,6 +89,10 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
           .filter((it) => !isFooterRow(it.id));
         if (selectedItems.length > 0) {
           copyItems(selectedItems);
+          // Ook als tekst op het systeemklembord, voor plakken in Excel. De
+          // globale sneltoets slaat dit event over (defaultPrevented), dus
+          // zonder deze regel bleef het klembord leeg (knownbug 29).
+          void copyItemsToExcel(selectedItems);
         }
         return;
       }
@@ -188,25 +192,40 @@ export function useGridNavigation(visibleRowCount: number, visibleItems?: { id: 
         case 'Delete': {
           e.preventDefault();
           const col = columns[activeCol];
-          if (col?.editable && visibleItems) {
-            const indices = getSelectedRowIndices();
-            const validIndices = indices.filter((i) => i >= 0 && i < visibleItems.length);
+          if (col?.editable && colVisible(activeCol) && visibleItems) {
+            // Het echte veld (Prod.norm → normQuantity, …) en alleen cellen die op
+            // dat rijtype bewerkbaar zijn; ongewijzigde cellen tellen niet mee,
+            // zodat er geen lege undo-stap komt (knownbug 22).
+            const fieldKey = columnFieldKey(col.key);
+            const clearedValue: string | null | undefined = col.type === 'text' ? ''
+              : (col.type === 'number' || col.type === 'currency') ? null
+              : col.type === 'unit-select' ? ('st' as CostUnit)
+              : undefined;
+            if (clearedValue === undefined) break;
+            const ownPostPrice = (it: { rowType: string }) => fieldKey === 'normUnitPrice'
+              && (it.rowType === 'begrotingspost' || it.rowType === 'bewakingspost');
+            const targets = getSelectedRowIndices()
+              .filter((i) => i >= 0 && i < visibleItems.length)
+              .map((i) => items.find((it) => it.id === visibleItems[i].id))
+              .filter((it): it is NonNullable<typeof it> => !!it && isCellEditable(col.key, it.rowType, gridView))
+              .filter((it) => {
+                const cur = (it as unknown as Record<string, unknown>)[fieldKey];
+                if (ownPostPrice(it)) return cur != null || it.materialPrice != null || it.laborPrice != null;
+                return clearedValue === null ? cur != null : (cur ?? '') !== clearedValue;
+              });
+            if (targets.length === 0) break;
             // Hoeveelheid wissen bij een post met meetregels haalt die weg (#96): eerst vragen.
-            const dropsLines = (col.key === 'quantity' || col.key === 'hoeveelheid' || col.key === 'uren')
-              && validIndices.some((i) => items.find((it) => it.id === visibleItems[i].id)?.measurementLines?.length);
+            const dropsLines = fieldKey === 'quantity' && targets.some((it) => it.measurementLines?.length);
             if (dropsLines && !window.confirm(i18next.t('grid:measurement.replaceConfirm'))) break;
-            if (validIndices.length > 0) {
-              pushHistory(items, `Clear ${col.key}`);
-              for (const idx of validIndices) {
-                const itemId = visibleItems[idx].id;
-                if (col.type === 'text') {
-                  updateItem(itemId, col.key, '');
-                } else if (col.type === 'number' || col.type === 'currency') {
-                  updateItem(itemId, col.key, null);
-                } else if (col.type === 'unit-select') {
-                  updateItem(itemId, col.key, 'st' as CostUnit);
-                }
+            pushHistory(items, `Clear ${col.key}`);
+            for (const it of targets) {
+              // Zoals typen in de Prijs-kolom (useGridEditing): een geïmporteerd
+              // materiaal-/loonbedrag van de post gaat mee, anders blijft de prijs staan.
+              if (ownPostPrice(it)) {
+                if (it.materialPrice != null) updateItem(it.id, 'materialPrice', null);
+                if (it.laborPrice != null) updateItem(it.id, 'laborPrice', null);
               }
+              updateItem(it.id, fieldKey, clearedValue);
             }
           }
           break;

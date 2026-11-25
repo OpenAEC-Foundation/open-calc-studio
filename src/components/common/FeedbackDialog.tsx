@@ -64,7 +64,8 @@ export default function FeedbackDialog({ open, onClose }: FeedbackDialogProps) {
   };
 
   const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
-  const isValidMessage = message.length >= MIN_MESSAGE && message.length <= MAX_MESSAGE;
+  // Op de getrimde tekst: verzonden wordt message.trim() (knownbug 38).
+  const isValidMessage = message.trim().length >= MIN_MESSAGE && message.length <= MAX_MESSAGE;
 
   function handleAttach() {
     if (images.length >= MAX_IMAGES) return;

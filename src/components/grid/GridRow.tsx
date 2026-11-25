@@ -1,19 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { GridCell } from './GridCell';
+import { columnFieldKey } from './gridConstants';
 import type { CostItem, GridColumn } from '@/types/costModel';
 
 export type DropPosition = 'before' | 'after' | 'inside';
 
-/** Grid-kolomsleutel → CostItem-veldnaam (spiegelt useGridEditing.commitEdit). */
-const COL_TO_FIELD: Record<string, string> = {
-  productienorm: 'normQuantity',
-  productiecapaciteit: 'normFactor',
-  hoeveelheid: 'quantity',
-  uren: 'quantity',
-  chapterCode: 'code',
-};
-const colToField = (key: string) => COL_TO_FIELD[key] ?? key;
+const colToField = columnFieldKey;
 
 interface Props {
   item: CostItem;

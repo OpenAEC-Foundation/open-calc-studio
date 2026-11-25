@@ -302,8 +302,9 @@ function StaartFullScreen() {
 
   const handlePercentageChange = (id: string, value: string, current: number | null) => {
     const num = parseLocaleNumber(value) ?? NaN;
-    // Ongewijzigd (klik-in/klik-uit): niets opslaan en geen undo-stap.
-    if (current != null && Math.abs(num - current) < 1e-9) return;
+    // Ongewijzigd (klik-in/klik-uit): niets opslaan en geen undo-stap. Een
+    // leeg percentage staat als "0" in het veld en telt dus als 0 (knownbug 37).
+    if (Math.abs(num - (current ?? 0)) < 1e-9) return;
     if (!isNaN(num) && id) {
       pushHistory(items, t('grid:undo.tailPercentage'));
       updateItem(id, 'staartPercentage', num);

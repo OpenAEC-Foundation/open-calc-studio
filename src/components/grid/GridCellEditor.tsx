@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { COST_UNITS, getColumnsForView, isCellEditable } from './gridConstants';
+import { COST_UNITS, columnFieldKey, getColumnsForView, hiddenByQuantityToggle, isCellEditable, isColumnHidden } from './gridConstants';
 import { formatUnit } from '@/i18n/formatUnit';
 import { formatNumberForEdit } from '@/utils/formatting';
 import { useAppStore } from '@/state/appStore';
@@ -19,13 +19,17 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const selectRef = useRef<HTMLSelectElement>(null);
   const { t } = useTranslation('grid');
-  const { editValue, selectOnFocus, stopEditing, startEditing, setActiveCell, activeRow, gridView, schedule } = useAppStore();
+  const { editValue, selectOnFocus, stopEditing, startEditing, setActiveCell, activeRow, gridView, schedule, showHoeveelheid, hiddenColumns } = useAppStore();
   // Mét branchesEnabled: kolomindices moeten gelijk lopen met het gerenderde grid.
   const columns = getColumnsForView(gridView, !!schedule.branchesEnabled);
   const col = columns[colIndex];
 
-  // Only consider columns that are actually editable for THIS item's rowType
-  const editableCols = columns.map((c, i) => ({ ...c, index: i })).filter(c => isCellEditable(c.key, item.rowType, gridView));
+  // Only consider columns that are actually editable for THIS item's rowType,
+  // en niet verborgen zijn: Tab opende anders een editor van 0 px (knownbug 20).
+  const editableCols = columns.map((c, i) => ({ ...c, index: i })).filter(c =>
+    isCellEditable(c.key, item.rowType, gridView)
+    && !hiddenByQuantityToggle(c.key, gridView, showHoeveelheid)
+    && !isColumnHidden(hiddenColumns, gridView, c.key));
 
   const isWitregelDesc = item.rowType === 'witregel' && col.key === 'description';
   // Tekstregels bewerken met terugloop (textarea): een enkelregel-input
@@ -67,8 +71,7 @@ export const GridCellEditor: React.FC<Props> = ({ item, colIndex, style, onCommi
   // commitIfChanged; niet met de getypte begintoets (editValue), anders telt
   // "7 -> 5 typen, Enter" niet als wijziging en gaat de invoer verloren.
   const storedValue = (() => {
-    const keyMap: Record<string, string> = { productienorm: 'normQuantity', productiecapaciteit: 'normFactor', hoeveelheid: 'quantity', uren: 'quantity' };
-    const fieldKey = keyMap[col.key] ?? col.key;
+    const fieldKey = columnFieldKey(col.key);
     const raw = item[fieldKey as keyof CostItem];
     // Post-prijs: als de eigen prijs in materiaal/loon zit (BasCalc-import),
     // start de editor met die effectieve prijs zodat je hem kunt aanpassen.

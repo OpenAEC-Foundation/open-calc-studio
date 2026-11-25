@@ -38,27 +38,32 @@ export function useKeyboardShortcuts() {
       // Text editors own undo and clipboard; dialogs own their keyboard scope.
       if (inDialog || (isInInput && ctrl && ['z', 'y'].includes(e.key.toLowerCase()))) return;
 
-      if (ctrl && e.key === 'z') {
+      // Letters hoofdletterongevoelig: met Caps Lock aan is e.key 'Z' (knownbug 24).
+      // Shift telt wel: Ctrl+Shift+S is Opslaan als, Ctrl+Shift+Z is opnieuw.
+      const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+      const letter = (k: string) => ctrl && !e.shiftKey && !e.altKey && key === k;
+
+      if (letter('z')) {
         e.preventDefault();
         const restored = undo();
         if (restored) setItems(restored);
-      } else if (ctrl && e.key === 'y') {
+      } else if (letter('y') || (ctrl && e.shiftKey && !e.altKey && key === 'z')) {
         e.preventDefault();
         const restored = redo();
         if (restored) setItems(restored);
-      } else if (ctrl && e.key === 'n') {
+      } else if (letter('n')) {
         e.preventDefault();
         newFile();
-      } else if (ctrl && e.shiftKey && (e.key === 'S' || e.key === 's')) {
+      } else if (ctrl && e.shiftKey && key === 's') {
         e.preventDefault();
         void saveFileAs();
-      } else if (ctrl && e.key === 's') {
+      } else if (letter('s')) {
         e.preventDefault();
         void saveFile();
-      } else if (ctrl && e.key === 'o') {
+      } else if (letter('o')) {
         e.preventDefault();
         void openFile();
-      } else if (ctrl && e.key === 'c') {
+      } else if (letter('c')) {
         if (isEditing || isInInput || !inGrid) return;
         e.preventDefault();
         const selected = getSelectedItems();
@@ -67,12 +72,12 @@ export function useKeyboardShortcuts() {
           // Also put TSV on system clipboard for Excel paste
           copyItemsToExcel(selected);
         }
-      } else if (ctrl && e.key === 'x') {
+      } else if (letter('x')) {
         if (isEditing || isInInput || !inGrid) return;
         e.preventDefault();
         const selected = getSelectedItems();
         if (selected.length > 0) cutItems(selected);
-      } else if (ctrl && e.key === 'v') {
+      } else if (letter('v')) {
         if (isEditing || isInInput || !inGrid) return;
         e.preventDefault();
         pasteItems();
@@ -86,7 +91,7 @@ export function useKeyboardShortcuts() {
       } else if (ctrl && e.key === '0') {
         e.preventDefault();
         useAppStore.getState().setUiZoom(100);
-      } else if (ctrl && e.key === 'p') {
+      } else if (letter('p')) {
         e.preventDefault();
         // Dezelfde route als de printknop in het lint: met de rapportopties (hoeveelheden, bedrijfsgegevens, papier).
         import('../services/report/reportOutput').then(({ outputCurrentReport }) => outputCurrentReport('print')).catch(error => alert(String(error)));
