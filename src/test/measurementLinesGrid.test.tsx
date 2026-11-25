@@ -509,6 +509,8 @@ describe('regelformule (#45)', () => {
     await act(async () => { setter.call(again, 'a'); again.dispatchEvent(new Event('input', { bubbles: true })); });
     await act(async () => { again.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); });
     expect(exprs()).toEqual(['a*b']);
+    // Esc sluit het invoervak echt (anders slaagde de test ook als Esc niets deed).
+    expect(chip('l1')!.tagName).toBe('BUTTON');
   });
 
   it('Enter op de laatste regel: de nieuwe regel neemt de formule over', async () => {

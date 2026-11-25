@@ -22,7 +22,7 @@
 import type { CostItem, CostSchedule, MeasurementLine, PriceRounding } from '@/types/costModel';
 import { encodeWindows1252, fitsWindows1252 } from '@/services/importers/windows1252';
 import { normalizePriceRounding, roundHalfUp } from '@/services/calculation/priceRounding';
-import { evaluateLineExpression } from '@/services/measurement/lineExpression';
+import { evaluateLineExpression, normalizeLineExpression } from '@/services/measurement/lineExpression';
 
 /**
  * Getal als BC3-tekst: punt als decimaalteken, geen exponentnotatie, geen
@@ -85,14 +85,25 @@ const measurementDetail = (it: CostItem): string => {
       continue;
     }
     const dims = values(l).map(dim);
-    const wanted = l.expression ?? (active !== undefined ? productExpression(l) : undefined);
+    // Alleen een leesbare formule; een lege of kapotte (handmatig bewerkt bestand) telt als geen.
+    const own = l.expression ? normalizeLineExpression(l.expression) ?? undefined : undefined;
+    // Een tekstregel zonder getallen en zonder formule: gewoon een tekstregel,
+    // zolang de formule erboven daar 0 oplevert. Geen "0"-formule, die kwam
+    // bij de import terug als ƒ 0 op een notitie.
+    if (!own && active !== undefined && values(l).every((v) => v == null) && emptyLineIsZero(active)) {
+      out.push(row('', esc(l.description), dims));
+      continue;
+    }
+    const wanted = own ?? (active !== undefined ? productExpression(l) : undefined);
     if (wanted === undefined || wanted === active) {
       out.push(row('', esc(l.description), dims));
       continue;
     }
     // Een formuleregel heeft geen plek voor een omschrijving: die komt op
     // een tekstregel erboven, als die niets oplevert. De import zet hem
-    // weer op de formuleregel.
+    // weer op de formuleregel. Levert de formule erboven op lege vakken
+    // niet 0 op ("a+1"), dan kan dat niet en valt de omschrijving weg; de
+    // getallen blijven kloppen.
     if (l.description.trim() && emptyLineIsZero(active)) out.push(row('', esc(l.description), ['', '', '', '']));
     out.push(row('3', esc(wanted), dims));
     active = wanted;

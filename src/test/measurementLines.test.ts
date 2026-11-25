@@ -24,6 +24,8 @@ describe('rekenen met meetregels', () => {
     // Deling door een leeg vak: de regel telt als 0.
     expect(lineValue({ ...line(1), expression: 'a/b' })).toBe(0);
     expect(measurementSum([line(2, 10), { ...line(2, 3), expression: 'a*b/2' }])).toBe(23);
+    // Eén kale letter: het vak zoals getypt, niet afgerond (zoals een regel met één vak).
+    expect(lineValue({ ...line(10.12345), expression: 'a' })).toBe(10.12345);
   });
 
   it('rondt elke regel en de som half-up af op 3 decimalen, zoals DS in BC3', () => {
@@ -297,6 +299,37 @@ describe('BC3', () => {
       ['otro', 0.5, 3, null, 'p*a^2*b'],
       ['Tabique', 1, 4, 2, 'a*b*d'],
     ]);
+  });
+
+  it('rondreis met randgevallen: notitie, tussentotaal en negatief onder een formule, één vak met 5 decimalen erna', () => {
+    const schedule = { id: 's', name: 'T', description: '', status: 'DRAFT', predefinedType: 'BUDGET', currency: 'EUR', projectName: 'T', projectNumber: '', client: '', author: '', ifcGuid: 'g', uitvoeringskosten: 0, algemeneKosten: 0, winstRisico: 0 } as CostSchedule;
+    const chapter = makeCostItem({ rowType: 'chapter', code: '01', description: 'Capítulo' });
+    const lines = [
+      { ...line(2, 3), expression: 'a*b' },
+      line(null, null, null, null, 'nota'),
+      newMeasurementLine({ subtotal: 'partial' }),
+      { ...line(-1, 2), expression: 'a*b' },
+      line(10.12345),
+    ];
+    const p = makeCostItem({
+      rowType: 'begrotingspost', parentId: chapter.id, code: '01.01', description: 'Fábrica', unit: 'm²',
+      quantity: measurementSum(lines), normUnitPrice: 10, measurementLines: lines,
+    });
+    expect(p.quantity).toBe(14.12345);
+    const items = recalculateItems([chapter, p]);
+    // De notitie blijft een gewone tekstregel; de regel met één vak krijgt "a".
+    expect(buildBc3(schedule, items)).toContain(String.raw`|3\a*b\2\3\\\\nota\\\\\1\\\\\\\\-1\2\\\3\a\10.12345\\\\|`);
+    const back = importBc3File(buildBc3Bytes(schedule, items).bytes.buffer as ArrayBuffer);
+    const q = back.items.find((i) => i.code === '01.01')!;
+    expect(q.quantity).toBe(14.12345);
+    expect(q.measurementLines?.map((l) => [l.description, l.count, l.length, l.expression, l.subtotal])).toEqual([
+      ['', 2, 3, 'a*b', undefined],
+      ['nota', null, null, undefined, undefined],
+      ['', null, null, undefined, 'partial'],
+      ['', -1, 2, 'a*b', undefined],
+      ['', 10.12345, null, 'a', undefined],
+    ]);
+    expect(measurementSum(q.measurementLines)).toBe(14.12345);
   });
 
   it('exporteert de regels en leest ze terug', () => {

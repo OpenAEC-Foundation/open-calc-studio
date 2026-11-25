@@ -56,7 +56,9 @@ export function lineValue(line: MeasurementLine): number {
   if (line.expression) {
     // Regelformule: lege vakken tellen als 0; een formule die niets oplevert telt als 0.
     const v = evaluateLineExpression(line.expression, { a: line.count, b: line.length, c: line.width, d: line.height });
-    return v === null ? 0 : round(v);
+    if (v === null) return 0;
+    // Eén kale letter ("a"): dat vak zelf, zoals getypt, net als een regel met één ingevuld vak.
+    return /^[abcd]$/.test(line.expression) ? v : round(v);
   }
   const factors = MEASUREMENT_FIELDS.map((f) => line[f]).filter((v): v is number => v != null && Number.isFinite(v));
   if (factors.length === 0) return 0;

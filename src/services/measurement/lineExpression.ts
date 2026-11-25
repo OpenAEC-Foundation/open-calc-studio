@@ -212,7 +212,7 @@ export function normalizeLineExpression(expression: string): string | null {
   if (!tokens || tokens.length === 0 || !isValidLineExpression(expression)) return null;
   return tokens.map((t) => {
     // Geen exponentnotatie ("1e-7"): die leest geen BC3-programma, en deze rekenaar ook niet.
-    if (t.kind === 'num') return /e/i.test(String(t.value)) ? t.value.toFixed(12).replace(/\.?0+$/, '') : String(t.value);
+    if (t.kind === 'num') return /e/i.test(String(t.value)) ? t.value.toFixed(20).replace(/\.?0+$/, '') : String(t.value);
     if (t.kind === 'var') return t.name;
     if (t.kind === 'fn') return t.name;
     return t.op;

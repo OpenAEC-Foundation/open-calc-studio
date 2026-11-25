@@ -28,7 +28,7 @@ import { decodeWindows1252 } from './windows1252';
 import type { ImportResult, ImportWarningCode } from './types';
 import type { CostItem, CostUnit, MeasurementLine, PriceRounding, ResourceType } from '@/types/costModel';
 import { lineValue, measurementSum, newMeasurementLine } from '@/services/measurement/measurementLines';
-import { normalizeLineExpression } from '@/services/measurement/lineExpression';
+import { evaluateLineExpression, normalizeLineExpression } from '@/services/measurement/lineExpression';
 import { FIEBDC_DEFAULT_ROUNDING, isValidDecimals, roundHalfUp } from '@/services/calculation/priceRounding';
 
 // ── Recordmodel ─────────────────────────────────────────────────────────────
@@ -233,7 +233,11 @@ function parseMeasurementLines(raw: string): MeasurementLine[] | null {
       lines.push(newMeasurementLine({ description, ...values, expression }));
       continue;
     }
-    lines.push(newMeasurementLine({ description: comment, ...values, ...(expression ? { expression } : {}) }));
+    // Een tekstregel zonder getallen krijgt de formule alleen mee als die er
+    // iets oplevert ("a+1"); anders werd een notitie een ƒ-regel.
+    const noValues = Object.values(values).every((v) => v === null);
+    const keepExpression = expression && (!noValues || evaluateLineExpression(expression, { a: null, b: null, c: null, d: null }));
+    lines.push(newMeasurementLine({ description: comment, ...values, ...(keepExpression ? { expression } : {}) }));
   }
   return lines;
 }

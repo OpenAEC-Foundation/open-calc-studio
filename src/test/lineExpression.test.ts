@@ -54,6 +54,7 @@ describe('regelformule uitrekenen', () => {
     expect(normalizeLineExpression('=sqrt(a) × b')).toBe('SQRT(a)*b');
     expect(normalizeLineExpression('Pi*a^2*b')).toBe('p*a^2*b');
     expect(normalizeLineExpression('a*0.0000001')).toBe('a*0.0000001');
+    expect(normalizeLineExpression('a*0.000000000000123')).toBe('a*0.000000000000123');
     expect(normalizeLineExpression('a*x')).toBeNull();
   });
 });
