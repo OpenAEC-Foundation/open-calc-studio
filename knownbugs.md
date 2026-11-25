@@ -635,9 +635,6 @@ stand van `main` op die datum.
      `src/lib/hostRoot.ts:84-93`. Voorstel: de portal verwijderen en `portal` leegmaken bij
      `setHostRoot(null)`. — S
 
-186. **Met een tweede documentvenster open verschijnt een via de API toegevoegde regel in beide documenten.**
-     Alleen het hoofdvenster zou API-wijzigingen moeten verwerken. — B
-
 187. **Bestandskoppeling werkt onbetrouwbaar** (`src-tauri/src/lib.rs:262-274`). Op macOS wordt
      `RunEvent::Opened` genegeerd, dus de app opent leeg. Op Windows/Linux gaat het event één keer af na vaste
      800 ms, zodat het bij een koude start gemist kan worden. Een tweede dubbelklik start een tweede app-proces.

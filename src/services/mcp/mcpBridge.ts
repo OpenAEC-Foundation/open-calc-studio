@@ -21,6 +21,12 @@ export async function initMcpBridge(): Promise<() => void> {
   try {
     const { listen } = await import('@tauri-apps/api/event');
     const { invoke } = await import('@tauri-apps/api/core');
+    const { getCurrentWindow } = await import('@tauri-apps/api/window');
+
+    // Tauri stuurt 'mcp-mutation' naar elk venster. Alleen het hoofdvenster verwerkt
+    // API-wijzigingen en levert de snapshot voor de REST-API; anders kwam een regel in
+    // ieder open documentvenster terecht (knownbug 186).
+    if (getCurrentWindow().label !== 'main') return () => {};
 
     const unlistenFn = await listen<McpMutation>('mcp-mutation', (event) => {
       handleMutation(event.payload);
