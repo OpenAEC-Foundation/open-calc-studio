@@ -18,7 +18,7 @@ export interface SubSheetSlice {
   setSubSheetCell: (sheetId: string, cellRef: string, value: string) => void;
   /** Meerdere ingetypte waarden in één stap (MCP set_cells_batch), zelfde regels als setSubSheetCell. */
   setSubSheetCellValues: (sheetId: string, values: Record<string, string>) => void;
-  setSubSheetCells:(sheetId: string, cells: Record<string, SubSheetCell>) => void;
+  setSubSheetCells: (sheetId: string, cells: Record<string, SubSheetCell>) => void;
   toggleSubSheetCellBold: (sheetId: string, cellRef: string) => void;
   toggleSubSheetCellItalic: (sheetId: string, cellRef: string) => void;
   setSubSheetCellAlign: (sheetId: string, cellRef: string, align: 'left' | 'center' | 'right') => void;
@@ -364,11 +364,12 @@ function readCell(cells: Record<string, SubSheetCell>, key: string): CellRead {
   const cell = cells[key];
   if (!cell) return 0;
   if (cell.computed !== undefined) return cell.computed;
-  if (isFormula(cell)) return 'error';
-  if (cell.value.trim() === '') return 0;
+  const value = String(cell.value ?? '');
+  if (value.startsWith('=')) return 'error';
+  if (value.trim() === '') return 0;
   // Cel zonder berekende waarde (geïmporteerd/met de hand bewerkt bestand):
   // vast NL lezen, zodat opgeslagen bladen niet van betekenis veranderen.
-  const n = parseNlNumber(cell.value);
+  const n = parseNlNumber(value);
   return n === null ? 'text' : n;
 }
 
@@ -452,7 +453,7 @@ const SUM_RE = new RegExp(String.raw`\bSUM\((${REF}):(${REF})\)`, 'gi');
 const REF_RE = new RegExp(String.raw`(?<![A-Z0-9_$])(${REF})(?![A-Z0-9_])`, 'gi');
 // Plaatshouder voor een ingevulde waarde: geen cijfer, punt of komma, dus
 // normalizeDecimalsInExpression laat hem staan.
-const SLOT = '';
+const SLOT = String.fromCharCode(0xe000);
 const ALLOWED_RE = new RegExp(`^[\\d\\s+\\-*/().${SLOT}]+$`);
 const SLOT_RE = new RegExp(SLOT, 'g');
 
