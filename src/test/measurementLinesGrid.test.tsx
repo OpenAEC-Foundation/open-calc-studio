@@ -189,6 +189,14 @@ describe('meetregels in het grid', () => {
     }
   });
 
+  it('Σ staat één keer op de post, bij het aantal; niet ook onder Hoeveelheid of Uren', async () => {
+    const sigmas = () => node.querySelectorAll('.grid-measurement-origin').length;
+    for (const view of ['st', 'wpcalc', 'simple', 'inschrijfstaat']) {
+      await act(async () => { useAppStore.setState({ gridView: view } as never); });
+      expect(sigmas(), view).toBe(1);
+    }
+  });
+
   it('hoeveelheid ≠ som: waarschuwing, en één klik neemt de som over', async () => {
     expect(block()!.querySelector('.measurement-mismatch')).toBeNull();
     await act(async () => {
