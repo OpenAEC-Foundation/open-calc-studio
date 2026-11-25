@@ -75,7 +75,7 @@ export const ReportLogoSettings: React.FC = () => {
             </div>
             {companyInfo[side] && (
               <button
-                style={{ fontSize: 10, background: 'none', border: 'none', color: 'var(--theme-danger, #dc2626)', cursor: 'pointer', marginTop: 2, padding: 0 }}
+                style={{ fontSize: 10, background: 'none', border: 'none', color: 'var(--theme-danger-color, #dc2626)', cursor: 'pointer', marginTop: 2, padding: 0 }}
                 onClick={(e) => { e.stopPropagation(); setCompanyInfo({ ...companyInfo, [side]: '' }); }}
               >{t('reportLogo.remove')}</button>
             )}

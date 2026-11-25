@@ -762,11 +762,6 @@ stand van `main` op die datum.
      `grid.css:508` en `Ribbon.css:181-189`. Gezien in de code. Voorstel: logische CSS-eigenschappen, en `diff`
      omkeren in RTL. — S
 
-221. **Er worden CSS-variabelen gebruikt die nergens zijn gedefinieerd.** `--theme-danger`
-     (`BranchTreeEditor.tsx:84`, `OfferteView.css:256`), `--theme-hover-bg` (`grid.css:668`),
-     `--theme-text-primary` (`grid.css:648,669,714`) en `--theme-ribbon-icon` (`Ribbon.css:260`). Voorstel:
-     hernoemen naar de bestaande namen. — S
-
 285. **De valutalijst staat buiten de dialoog (portal), waardoor VoiceOver de opties mogelijk niet voorleest**
      (`CurrencyPicker.tsx`; de dialoog heeft `aria-modal="true"`). Met toetsenbord en muis werkt hij gewoon.
      Gevonden in de review van de valutakeuze. — S

@@ -617,7 +617,7 @@ select.grid-cell-editor option {
 .split-pane-title {
   font-size: 12px;
   font-weight: 600;
-  color: var(--theme-text-primary);
+  color: var(--theme-text);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -637,8 +637,8 @@ select.grid-cell-editor option {
   flex-shrink: 0;
 }
 .split-pane-close-btn:hover {
-  background: var(--theme-hover-bg);
-  color: var(--theme-text-primary);
+  background: var(--theme-hover);
+  color: var(--theme-text);
 }
 
 .split-pane-body {
@@ -683,7 +683,7 @@ select.grid-cell-editor option {
 .split-pane-table td {
   padding: 2px 6px;
   border-bottom: 1px solid var(--theme-grid-cell-border);
-  color: var(--theme-text-primary);
+  color: var(--theme-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

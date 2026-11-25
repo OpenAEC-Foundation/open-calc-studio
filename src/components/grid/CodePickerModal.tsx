@@ -138,7 +138,7 @@ export const CodePickerModal: React.FC<Props> = ({ open, onClose, onPick }) => {
                     <button
                       title={t('codePicker.removeCustom')}
                       onClick={(ev) => { ev.stopPropagation(); removeCustomCode(e.scheme, e.code); }}
-                      style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--theme-danger, #dc2626)', fontSize: 12, padding: 0 }}
+                      style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--theme-danger-color, #dc2626)', fontSize: 12, padding: 0 }}
                     >✕</button>
                   )}
                 </div>

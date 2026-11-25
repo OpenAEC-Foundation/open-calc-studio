@@ -96,7 +96,7 @@ export const BranchTreeEditor: React.FC = () => {
               {!isMain && (
                 <button
                   title={t('branches.delete')}
-                  style={{ fontSize: 11, padding: '2px 6px', border: 'none', background: 'none', cursor: 'pointer', color: 'var(--theme-danger)' }}
+                  style={{ fontSize: 11, padding: '2px 6px', border: 'none', background: 'none', cursor: 'pointer', color: 'var(--theme-danger-color)' }}
                   onClick={() => {
                     if (confirm(t('branches.confirmDelete', { name: branch.name }))) removeBranch(branch.id);
                   }}
