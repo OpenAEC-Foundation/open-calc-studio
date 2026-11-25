@@ -48,12 +48,16 @@ export function measurePoints(points: PdfPoint[], type: 'length' | 'area', mmPer
   if (!Number.isFinite(mmPerPoint) || mmPerPoint <= 0) throw new Error(uiText("pdf.error.calibrate", "Calibrate the scale first."));
   if (points.length < (type === 'area' ? 3 : 2) || points.some(p => !Number.isFinite(p.x) || !Number.isFinite(p.y))) throw new Error(uiText("pdf.error.points", "Not enough valid measurement points."));
   if (type === 'length') return points.slice(1).reduce((sum, p, i) => sum + Math.hypot(p.x - points[i].x, p.y - points[i].y), 0) * mmPerPoint / 1000;
-  // Een kruisende omtrek (vlinderdas) geeft met de schoenveterformule een verkeerde, vaak 0,
-  // oppervlakte; weigeren in plaats van stil fout meten (knownbug 159).
-  if (polygonSelfIntersects(points)) throw new Error(uiText('pdf.error.selfIntersecting', 'The area outline crosses itself. Click the corners in order around the shape.'));
-  const twiceArea = points.reduce((sum, p, i) => { const next = points[(i + 1) % points.length]; return sum + p.x * next.y - next.x * p.y; }, 0);
   const xs = points.map(p => p.x), ys = points.map(p => p.y);
   const extent = Math.max(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys));
+  // Een dubbelklik (twee gelijke punten na elkaar) of een laatste klik op (of vlak naast) het
+  // eerste hoekpunt om de vorm te sluiten is geen kruising: die punten eerst weglaten.
+  const outline = areaOutline(points, extent);
+  if (outline.length < 3) throw new Error(uiText("pdf.error.points", "Not enough valid measurement points."));
+  // Een kruisende omtrek (vlinderdas) geeft met de schoenveterformule een verkeerde, vaak 0,
+  // oppervlakte; weigeren in plaats van stil fout meten (knownbug 159).
+  if (polygonSelfIntersects(outline)) throw new Error(uiText('pdf.error.selfIntersecting', 'The area outline crosses itself. Click the corners in order around the shape.'));
+  const twiceArea = outline.reduce((sum, p, i) => { const next = outline[(i + 1) % outline.length]; return sum + p.x * next.y - next.x * p.y; }, 0);
   // Alle punten op één lijn: geen oppervlakte, dus geen geldige meting.
   if (!(Math.abs(twiceArea) > 1e-9 * extent * extent)) throw new Error(uiText("pdf.error.points", "Not enough valid measurement points."));
   return Math.abs(twiceArea) / 2 * (mmPerPoint / 1000) ** 2;
@@ -68,6 +72,19 @@ export function remeasure(m: SavedPdfMeasurement, mmPerPoint: number): number {
     if (!m.mmPerPoint || !Number.isFinite(mmPerPoint) || mmPerPoint <= 0) throw error;
     return m.value * (mmPerPoint / m.mmPerPoint) ** (m.type === 'area' ? 2 : 1);
   }
+}
+/**
+ * Omtrek zonder dubbele punten: een punt dat (bijna) op het vorige ligt valt weg, net als een
+ * laatste punt dat (bijna) op het eerste ligt. "Bijna" is 0,5% van de afmeting van de vorm, maar
+ * minstens 2 PDF-punten (een paar schermpixels), en nooit meer dan 5% van de afmeting.
+ */
+function areaOutline(points: PdfPoint[], extent: number): PdfPoint[] {
+  const tolerance = Math.max(0.005 * extent, Math.min(2, 0.05 * extent));
+  const near = (a: PdfPoint, b: PdfPoint) => Math.hypot(a.x - b.x, a.y - b.y) <= tolerance;
+  const outline: PdfPoint[] = [];
+  for (const p of points) if (!outline.length || !near(outline[outline.length - 1], p)) outline.push(p);
+  while (outline.length > 1 && near(outline[outline.length - 1], outline[0])) outline.pop();
+  return outline;
 }
 /** Kruisen of raken twee niet-aangrenzende randen van de gesloten polygoon elkaar? */
 function polygonSelfIntersects(points: PdfPoint[]): boolean {

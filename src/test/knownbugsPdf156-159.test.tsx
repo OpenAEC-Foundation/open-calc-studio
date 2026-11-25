@@ -102,6 +102,21 @@ describe('knownbug 159: zichzelf kruisende oppervlaktepolygoon', () => {
     expect(remeasure(bowtie, 2000)).toBeCloseTo(16);
     expect(remeasure({ ...bowtie, points: [{ x: 0, y: 0 }, { x: 10, y: 0 }, { x: 10, y: 10 }, { x: 0, y: 10 }] }, 2000)).toBeCloseTo(400);
   });
+  it('een dubbelklik op een hoek (twee gelijke punten na elkaar) meet gewoon', () => {
+    expect(measurePoints([{ x: 0, y: 0 }, { x: 10, y: 0 }, { x: 10, y: 0 }, { x: 10, y: 10 }, { x: 0, y: 10 }], 'area', 1000)).toBeCloseTo(100);
+    expect(measurePoints([{ x: 0, y: 0 }, { x: 300, y: 0 }, { x: 300.4, y: 0.3 }, { x: 300, y: 200 }, { x: 0, y: 200 }], 'area', 1000)).toBeCloseTo(60000, -2);
+  });
+  it('de vorm sluiten door weer op (of vlak naast) het eerste hoekpunt te klikken meet gewoon', () => {
+    expect(measurePoints([{ x: 0, y: 0 }, { x: 10, y: 0 }, { x: 10, y: 10 }, { x: 0, y: 10 }, { x: 0, y: 0 }], 'area', 1000)).toBeCloseTo(100);
+    expect(measurePoints([{ x: 0, y: 0 }, { x: 10, y: 0 }, { x: 10, y: 10 }, { x: 0, y: 10 }, { x: 0.3, y: -0.2 }], 'area', 1000)).toBeCloseTo(100);
+    expect(measurePoints([{ x: 0, y: 0 }, { x: 300, y: 0 }, { x: 300, y: 200 }, { x: 0, y: 200 }, { x: 1.2, y: -0.8 }], 'area', 1000)).toBeCloseTo(60000, -2);
+  });
+  it('alleen dubbele punten (minder dan drie echte hoeken) worden geweigerd', () => {
+    expect(() => measurePoints([{ x: 0, y: 0 }, { x: 10, y: 0 }, { x: 10, y: 0 }, { x: 0, y: 0 }], 'area', 1000)).toThrow();
+  });
+  it('een echte kruising blijft geweigerd, ook met een dubbelklik erin', () => {
+    expect(() => measurePoints([{ x: 0, y: 0 }, { x: 10, y: 10 }, { x: 10, y: 10 }, { x: 10, y: 0 }, { x: 0, y: 10 }], 'area', 1000)).toThrow(/crosses itself|kruist/i);
+  });
   it('drie punten op één lijn (oppervlakte 0) worden geweigerd', () => {
     expect(() => measurePoints([{ x: 0, y: 0 }, { x: 5, y: 0 }, { x: 10, y: 0 }], 'area', 1000)).toThrow();
   });
