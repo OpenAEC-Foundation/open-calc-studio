@@ -221,12 +221,9 @@ stand van `main` op die datum.
 86. **Profielimport weigert `St` en `M` met "Unmapped unit"**: eenheden zijn hoofdlettergevoelig
     (`tabularBudget.ts:62`). — B
 
-92. **S01: twee posten met dezelfde 6-cijferige code worden samengevoegd.**
-    `src/services/importers/s01Importer.ts:100-115` negeert `.NNN` en `-END`. Nagespeeld. — B
-
-93. **S01: `extractTitle` accepteert alleen `[A-Z]`**, dus "BEËINDIGEN" krijgt geen titel
-    (`s01Importer.ts:84`). Daarnaast wordt `.s01` als UTF-8 gelezen; de codering van echte STABU-bestanden is
-    nog niet gecontroleerd. Gezien bij #92. — S
+93. **S01: de codering van echte STABU-bestanden is niet gecontroleerd.** `.s01` wordt als UTF-8 gelezen;
+    is een echt bestand Windows-1252 of CP850, dan worden letters als Ë verminkt. (Titels met Ë e.d. worden
+    inmiddels wel herkend.) Gezien bij #92. — S
 
 94. **`normalizeUnit` maakt van "uren" "st".** `src/services/importers/core.ts:66-82`; ook `m¹`, `kg.`, `weken`
     en `maanden` worden niet omgezet. Nagespeeld. Voorstel: de aliassen toevoegen en een punt aan het eind
