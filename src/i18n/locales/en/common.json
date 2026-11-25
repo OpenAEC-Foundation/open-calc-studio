@@ -709,6 +709,7 @@
       "error": {
         "calibrate": "Calibrate the scale first.",
         "points": "Not enough valid measurement points.",
+        "selfIntersecting": "The area outline crosses itself. Click the corners in order around the shape.",
         "size": "Use an embedded PDF up to 30 MB.",
         "notPdf": "This file is not a PDF.",
         "export": "Use the measurement export from the Open Calc integration in Open PDF Studio.",

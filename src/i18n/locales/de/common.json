@@ -865,6 +865,7 @@
       "error": {
         "calibrate": "Kalibrieren Sie zuerst den Maßstab.",
         "points": "Nicht genügend gültige Messpunkte.",
+        "selfIntersecting": "Der Umriss der Fläche kreuzt sich selbst. Klicken Sie die Ecken der Reihe nach um die Form herum an.",
         "size": "Verwenden Sie ein eingebettetes PDF bis 30 MB.",
         "notPdf": "Diese Datei ist kein PDF.",
         "export": "Verwenden Sie den Messungsexport der Open-Calc-Integration in Open PDF Studio.",

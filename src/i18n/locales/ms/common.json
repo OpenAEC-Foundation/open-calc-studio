@@ -683,6 +683,7 @@
       "error": {
         "calibrate": "Tentukur skala terlebih dahulu.",
         "points": "Titik ukuran yang sah tidak mencukupi.",
+        "selfIntersecting": "Garis luar kawasan bersilang dengan dirinya sendiri. Klik sudut-sudut mengikut urutan di sekeliling bentuk.",
         "size": "Gunakan PDF terbenam sehingga 30 MB.",
         "notPdf": "Fail ini bukan PDF.",
         "export": "Gunakan eksport ukuran daripada integrasi Open Calc dalam Open PDF Studio.",

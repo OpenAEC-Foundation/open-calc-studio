@@ -6,7 +6,7 @@ import type { PDFDocumentProxy } from 'pdfjs-dist';
 import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import { useAppStore } from '@/state/appStore';
 import type { PdfPoint, PdfSource, PdfWorkspace } from '@/types/pdfWorkspace';
-import { createPdfSource, emptyPdfWorkspace, importOpenPdfMeasurements, measurePoints, replaceOpenPdfMeasurements } from '@/services/pdf/pdfWorkspace';
+import { createPdfSource, emptyPdfWorkspace, importOpenPdfMeasurements, measurePoints, nextMeasurementNumber, remeasure, replaceOpenPdfMeasurements } from '@/services/pdf/pdfWorkspace';
 import { getNumberLocale } from '@/utils/formatting';
 import { PdfLinkPicker, PdfMeasurementLinks } from './PdfLinkPicker';
 import { nextZoomLevel } from './pdfZoomLevels';
@@ -110,6 +110,10 @@ export function PdfViewer({ readOnly = false }: { readOnly?: boolean }) {
     if (target) setPage(target.page);
   }, [targetMeasurementId, source?.id, documentId]);
 
+  // Another page (also via "Open source", which sets the page in the store): points placed on the
+  // previous page must not end up as a measurement on this page with this page's scale (knownbug 158).
+  useEffect(() => { setPoints([]); }, [page]);
+
   useEffect(() => {
     if (!pdf || !canvas.current || !overlay.current) return;
     let cancelled = false;
@@ -198,12 +202,13 @@ export function PdfViewer({ readOnly = false }: { readOnly?: boolean }) {
         const distance = Math.hypot(points[1].x - points[0].x, points[1].y - points[0].y);
         if (!Number.isFinite(metres) || metres <= 0 || distance <= 0) throw new Error(uiText("pdf.positiveDistance", "Enter a positive distance."));
         const newScale = metres * 1000 / distance;
-        changeSource(s => ({ ...s, pageScales: { ...s.pageScales, [page]: newScale }, measurements: s.measurements.map(m => m.page === page && m.origin === 'open-calc-studio' ? { ...m, mmPerPoint: newScale, value: measurePoints(m.points, m.type, newScale) } : m) }));
+        changeSource(s => ({ ...s, pageScales: { ...s.pageScales, [page]: newScale }, measurements: s.measurements.map(m => m.page === page && m.origin === 'open-calc-studio' ? { ...m, mmPerPoint: newScale, value: remeasure(m, newScale) } : m) }));
         setTool('pan'); // calibration done: the chip shows the scale and Length/Area become available
       } else {
         const value = measurePoints(points, tool, scale ?? 0);
-        // Numbered per type: Area 1, Area 2, Length 1 (not Area 1, Length 2).
-        changeSource(s => ({ ...s, measurements: [...s.measurements, { id: `${s.id}:calc:${crypto.randomUUID()}`, label: `${tool === 'length' ? uiText("pdf.length", "Length") : uiText("pdf.area", "Area")} ${s.measurements.filter(m => m.type === tool).length + 1}`, type: tool, page, points, mmPerPoint: scale!, value, origin: 'open-calc-studio' }] }));
+        // Numbered per type: Area 1, Area 2, Length 1 (not Area 1, Length 2); after a removal the
+        // highest number + 1, so no two measurements share a label (knownbug 156).
+        changeSource(s => ({ ...s, measurements: [...s.measurements, { id: `${s.id}:calc:${crypto.randomUUID()}`, label: `${tool === 'length' ? uiText("pdf.length", "Length") : uiText("pdf.area", "Area")} ${nextMeasurementNumber(s.measurements, tool)}`, type: tool, page, points, mmPerPoint: scale!, value, origin: 'open-calc-studio' }] }));
       }
       setPoints([]); setError('');
     } catch (e) { setError(errorText(e)); }

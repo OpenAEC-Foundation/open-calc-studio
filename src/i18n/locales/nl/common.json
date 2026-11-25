@@ -683,6 +683,7 @@
       "error": {
         "calibrate": "Kalibreer eerst de schaal.",
         "points": "Onvoldoende geldige meetpunten.",
+        "selfIntersecting": "De omtrek van de oppervlakte kruist zichzelf. Klik de hoeken op volgorde rond de vorm aan.",
         "size": "Gebruik voor deze ingebedde PDF maximaal 30 MB.",
         "notPdf": "Dit bestand is geen PDF.",
         "export": "Gebruik de metingenexport van de Open Calc-koppeling in Open PDF Studio.",

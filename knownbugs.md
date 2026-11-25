@@ -559,21 +559,9 @@ stand van `main` op die datum.
      de UI is het alleen een bevestigingsvenster, een harde fout alleen via MCP/API (`pdfWorkspace.ts:69-71`),
      ernst laag. Voorstel: laat de plugin de SHA-256 van de PDF berekenen en in `sourceHash` zetten. — B
 
-156. **Meetlabels herhalen zich na een verwijdering.** `src/components/viewers/PdfViewer.tsx:127`
-     (`measurements.length + 1`). Voeg L1 en L2 toe, verwijder L1, voeg er nog een toe: dan heten twee metingen
-     "Length 2", ook in de hoeveelhedenkiezer. Voorstel: neem het hoogste bestaande nummer van dat type + 1. — B
-
 157. **Het PDF-tabblad verlaten en terugkomen zet de pagina terug en gooit onafgemaakte punten weg.**
      `PdfViewer.tsx:47-48`, `App.tsx:652`; `pdfTargetMeasurementId` wordt nooit gewist. Voorstel: zet de pagina
      alleen terug als `source.id` verandert, en wis het doel na het springen. — S
-
-158. **Onafgemaakte punten gaan mee als "Open source" van pagina wisselt.** `PdfViewer.tsx:64-67`,
-     `quantitySourceActions.ts:15`. Punten van pagina 1 worden opgeslagen als meting op pagina 3, met de schaal
-     van pagina 3. Voorstel: `setPoints([])` in een effect op `page`. — S
-
-159. **Een zichzelf kruisende oppervlaktepolygoon geeft een verkeerde oppervlakte (vaak 0).**
-     `pdfWorkspace.ts:50-51`. Voorstel: herken kruisende randen en weiger de meting, of weiger in elk geval een
-     oppervlakte van 0. — B
 
 ## Varianten
 

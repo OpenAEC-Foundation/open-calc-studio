@@ -1,5 +1,5 @@
 import { useAppStore } from '@/state/appStore';
-import { createPdfQuantityResolver, createPdfSource, emptyPdfWorkspace, importOpenPdfMeasurements, measurePoints, replaceOpenPdfMeasurements } from '@/services/pdf/pdfWorkspace';
+import { createPdfQuantityResolver, createPdfSource, emptyPdfWorkspace, importOpenPdfMeasurements, measurePoints, remeasure, replaceOpenPdfMeasurements } from '@/services/pdf/pdfWorkspace';
 import type { PdfPoint, SavedPdfMeasurement } from '@/types/pdfWorkspace';
 import { effectiveTarieven, recalculateItems } from '@/services/calculation/calculator';
 import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
@@ -49,7 +49,7 @@ export async function pdfCommand(action:string,p:Record<string,unknown>) {
       if(!Array.isArray(points)||points.length!==2||!Number.isFinite(distance)||distance<=0)throw Error('Gebruik twee punten en een positieve afstand in meters.');
       const pointDistance=measurePoints(points,'length',1000);if(pointDistance<=0)throw Error('Kalibratiepunten vallen samen.');
       const scale=distance*1000/pointDistance;source.pageScales[String(page)]=scale;
-      source.measurements=source.measurements.map(m=>m.page===page&&m.origin==='open-calc-studio'?{...m,mmPerPoint:scale,value:measurePoints(m.points,m.type,scale)}:m);commit();return {mmPerPoint:scale};
+      source.measurements=source.measurements.map(m=>m.page===page&&m.origin==='open-calc-studio'?{...m,mmPerPoint:scale,value:remeasure(m,scale)}:m);commit();return {mmPerPoint:scale};
     }
     if(action==='measure') {
       if(p.type!=='length'&&p.type!=='area')throw Error('type moet length of area zijn.');

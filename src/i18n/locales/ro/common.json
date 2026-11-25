@@ -684,6 +684,7 @@
       "error": {
         "calibrate": "Calibrați mai întâi scara.",
         "points": "Nu există suficiente puncte de măsurare valide.",
+        "selfIntersecting": "Conturul suprafeței se intersectează cu el însuși. Faceți clic pe colțuri în ordine în jurul formei.",
         "size": "Folosiți un PDF încorporat de cel mult 30 MB.",
         "notPdf": "Acest fișier nu este un PDF.",
         "export": "Folosiți exportul de măsurători din integrarea Open Calc din Open PDF Studio.",
