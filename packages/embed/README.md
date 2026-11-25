@@ -59,7 +59,7 @@ The component fills its parent; give the parent a height. Props:
 
 | Prop | Type | Description |
 | --- | --- | --- |
-| `theme` | `light` \| `dark` \| `blueprint` \| `high-contrast-dark` \| `high-contrast-light` \| `system` | Blueprint colour theme (default `light`); `system` follows the operating system. Older names (`blue`, `highContrast`, `amber-navy`, `warm-ember`) still work and map to one of these. |
+| `theme` | `light` \| `dark` \| `blueprint` \| `high-contrast-dark` \| `high-contrast-light` \| `system` | Blueprint colour theme (default `light`); `system` picks light or dark from the operating system when the theme is applied (a later OS switch takes effect on the next theme change or reload). Older names (`blue`, `highContrast`, `amber-navy`, `warm-ember`) still work and map to one of these. |
 | `mode` | `editor` \| `wizard` | `wizard` opens the guided estimate wizard on the same project and calculator (default `editor`). |
 | `lang` | language code or `auto` | Interface language: `en`, `nl`, `de`, `es`, `fr`, … (40). |
 | `project` | `string` \| `Blob` \| `ProjectFile` | An `.ifcCalc`/`.ocs` document to open; each new value opens a tab. |
