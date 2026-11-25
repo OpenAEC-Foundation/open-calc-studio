@@ -83,3 +83,15 @@ describe('knownbug 216: sluitknoppen hebben een leesbare hover', () => {
     expect(modal).toMatch(/\.modal-close-btn:hover \{\s*background: var\(--theme-close-hover-bg\)/);
   });
 });
+
+describe('knownbug 219: syntaxkleuren in alle donkere thema\'s', () => {
+  it('elke donkere override in ifc.css geldt ook voor blueprint en high-contrast-dark', () => {
+    const css = readFileSync(join(SRC, 'components', 'report', 'ifc.css'), 'utf8');
+    const selectors = [...css.matchAll(/([^{}\n]*\[data-theme="dark"\][^{}\n]*)\{/g)].map((m) => m[1]);
+    expect(selectors.length).toBeGreaterThan(0);
+    for (const selector of selectors) {
+      expect(selector).toContain('[data-theme="blueprint"]');
+      expect(selector).toContain('[data-theme="high-contrast-dark"]');
+    }
+  });
+});

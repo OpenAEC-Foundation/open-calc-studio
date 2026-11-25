@@ -730,10 +730,6 @@ stand van `main` op die datum.
      contextmenu van het grid (1000) onder het paneel met importwaarschuwingen. Gezien in de code. Voorstel: de
      Modal-laag gebruiken (10000, geportaled), en één gedeelde z-index-schaal. — S
 
-219. **De syntaxkleuren van STEP/JSON wisselen alleen bij `data-theme="dark"`.**
-     `src/components/report/ifc.css:296-311` (en 230/234, 280/284); blueprint en high-contrast-dark houden het
-     lichte palet. Gezien in de code. — S
-
 220. **RTL: de greep om kolommen te verbreden en het submenu van het contextmenu spiegelen niet.**
      `grid.css:49-56` met `GridHeader.tsx:50` (`diff` wordt niet omgekeerd; GridHeader.tsx wordt op dit moment
      omgebouwd; meenemen bij dat werk), `grid.css:492-494` met `GridContextMenu.tsx:287` (`left: 100%`),
