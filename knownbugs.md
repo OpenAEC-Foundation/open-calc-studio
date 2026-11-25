@@ -397,18 +397,6 @@ stand van `main` op die datum.
      (`printService.ts`) is hersteld; Rust nog niet. Voorstel: toon bij alleen-hoofdstuktotalen `item.total` op
      de hoofdstukregels. — B
 
-127. **`SummaryPanel.tsx` toont `aanneemsomAfgerond` (incl. btw) onder "excl. btw".** Nauwelijks bereikbaar.
-     Zie ook #130. — S
-
-130. **Het samenvattingspaneel toont onder "excl. BTW" een bedrag inclusief btw.**
-     `src/components/report/SummaryPanel.tsx:93`, `:15`. Nagespeeld: €10.000 met de standaardstaart geeft
-     "Aanneemsom excl. BTW 14.503,88", terwijl het 11.986,68 moet zijn. Zonder afrondingsregel wordt het label
-     "Totaal excl. BTW", nog steeds inclusief btw. Daarnaast kijkt `hasStaart` alleen naar de oude typen
-     ukk/ak/wr/afronding, dus met de Bouw 1-staart blijft de sectie "Opslagen" leeg. Tweede controle: de
-     getallen kloppen, maar SummaryPanel is in de UI niet bereikbaar (alleen via MCP), dus lage ernst; overlapt
-     met #127. Voorstel: `breakdown.aanneemsom + breakdown.afronding` (zoals in `printService.ts:376`);
-     `hasStaart` baseren op `isStaartRowType`; de Bouw 1-regels, btw en een totaal incl. btw toevoegen. — B
-
 131. **Secties "Opties" komen nooit in de offerte-PDF; introteksten en regelomschrijvingen vallen weg.**
      `src-tauri/src/reports/offerte.rs:81-88` en `243-300` behandelen alleen technisch/meerwerk/opdrachtgever/
      vrij; `OfferteTab.tsx:219` en `OfferteView.tsx:167` maken wel `opties` aan. Tweede controle: klopt, maar

@@ -4,6 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
 import { getKostprijs, getStaartBreakdown, getGrandTotal } from '@/services/calculation/calculator';
+import { isStagartRowType, type CostItem } from '@/types/costModel';
 import { useMoney } from '@/hooks/useMoney';
 import { useVariantItems } from '@/hooks/useVariantItems';
 
@@ -15,7 +16,27 @@ export const SummaryPanel: React.FC = () => {
   const kostprijs = getKostprijs(items);
   const breakdown = getStaartBreakdown(items);
   const grandTotal = getGrandTotal(items);
-  const hasStaart = items.some(i => i.rowType === 'staart_ukk' || i.rowType === 'staart_ak' || i.rowType === 'staart_wr' || i.rowType === 'staart_afronding');
+  // Elke staart telt, ook de Bouw 1-staart (ak_oa, abk, risico, btw, …);
+  // eerder bleef de sectie dan leeg (knownbug 130).
+  const hasStaart = items.some(i => isStagartRowType(i.rowType));
+  const isBtw = (i: CostItem) => i.rowType === 'staart_btw' || i.rowType === 'staart_btw_laag';
+  const staartRegels = items.filter(i => isStagartRowType(i.rowType) && i.total !== 0);
+  const opslagen = staartRegels.filter(i => !isBtw(i));
+  const btwRegels = staartRegels.filter(isBtw);
+  // Excl. btw = opslagen + afronding; aanneemsomAfgerond bevat ook de btw
+  // en stond hier eerder onder "excl. BTW" (knownbugs 127, 130).
+  const exclBtw = breakdown.aanneemsom + breakdown.afronding;
+  const staartLabel = (item: CostItem): string => {
+    const pct = item.staartPercentage ? ` (${item.staartPercentage}%)` : '';
+    switch (item.rowType) {
+      case 'staart_ukk': return `${uiText("summary.siteCosts", "Site costs")}${pct}`;
+      case 'staart_ak': return `${uiText("summary.overheads", "Overheads")}${pct}`;
+      case 'staart_wr': return `${uiText("summary.profitRisk", "Profit & risk")}${pct}`;
+      case 'staart_afronding': return t('rounding');
+      // Staartomschrijvingen eindigen vaak op ':' ("Risk:"); hier volgt het percentage.
+      default: return `${(item.description || '').replace(/:\s*$/, '')}${pct}`;
+    }
+  };
 
   // Count chapters and items
   const chapters = items.filter(i => i.rowType === 'chapter');
@@ -56,45 +77,39 @@ export const SummaryPanel: React.FC = () => {
         {hasStaart && (
           <div className="summary-section">
             <h3 className="summary-section-title">{t('surcharges')}</h3>
-            {breakdown.ukkPercentage > 0 && (
-              <>
+            {opslagen.map(item => (
+              <React.Fragment key={item.id}>
                 <div className="summary-row">
-                  <span>{uiText("summary.siteCosts", "Site costs")} ({breakdown.ukkPercentage}%)</span>
-                  <span>{formatCurrency(breakdown.ukkAmount)}</span>
+                  <span>{staartLabel(item)}</span>
+                  <span>{formatCurrency(item.total)}</span>
                 </div>
-                <div className="summary-row summary-row-subtotal">
-                  <span>{t('subtotal1')}</span>
-                  <span>{formatCurrency(breakdown.subtotaal1)}</span>
-                </div>
-              </>
-            )}
-            {breakdown.akPercentage > 0 && (
-              <>
-                <div className="summary-row">
-                  <span>{uiText("summary.overheads", "Overheads")} ({breakdown.akPercentage}%)</span>
-                  <span>{formatCurrency(breakdown.akAmount)}</span>
-                </div>
-                <div className="summary-row summary-row-subtotal">
-                  <span>{t('subtotal2')}</span>
-                  <span>{formatCurrency(breakdown.subtotaal2)}</span>
-                </div>
-              </>
-            )}
-            {breakdown.wrPercentage > 0 && (
-              <div className="summary-row">
-                <span>{uiText("summary.profitRisk", "Profit & risk")} ({breakdown.wrPercentage}%)</span>
-                <span>{formatCurrency(breakdown.wrAmount)}</span>
-              </div>
-            )}
-            {breakdown.afronding !== 0 && (
-              <div className="summary-row">
-                <span>{t('rounding')}</span>
-                <span>{formatCurrency(breakdown.afronding)}</span>
-              </div>
-            )}
-            <div className="summary-row summary-row-total summary-row-grand">
+                {item.rowType === 'staart_ukk' && (
+                  <div className="summary-row summary-row-subtotal">
+                    <span>{t('subtotal1')}</span>
+                    <span>{formatCurrency(breakdown.subtotaal1)}</span>
+                  </div>
+                )}
+                {item.rowType === 'staart_ak' && (
+                  <div className="summary-row summary-row-subtotal">
+                    <span>{t('subtotal2')}</span>
+                    <span>{formatCurrency(breakdown.subtotaal2)}</span>
+                  </div>
+                )}
+              </React.Fragment>
+            ))}
+            <div className="summary-row summary-row-total">
               <span>{t('contractSumExclVat')}</span>
-              <span>{formatCurrency(breakdown.aanneemsomAfgerond || breakdown.aanneemsom)}</span>
+              <span>{formatCurrency(exclBtw)}</span>
+            </div>
+            {btwRegels.map(item => (
+              <div className="summary-row" key={item.id}>
+                <span>{staartLabel(item)}</span>
+                <span>{formatCurrency(item.total)}</span>
+              </div>
+            ))}
+            <div className="summary-row summary-row-total summary-row-grand">
+              <span>{t('totalInclVat')}</span>
+              <span>{formatCurrency(breakdown.aanneemsomAfgerond)}</span>
             </div>
           </div>
         )}
