@@ -64,6 +64,30 @@ describe('knownbug 158: onafgemaakte punten gaan niet mee naar een andere pagina
   });
 });
 
+describe('knownbug 157: het PDF-tabblad verlaten en terugkomen houdt de pagina', () => {
+  it('na opnieuw mounten (tabblad terug) staat de viewer nog op pagina 3', async () => {
+    setup();
+    await mount();
+    await click('pdf.next'); await click('pdf.next');
+    expect(useAppStore.getState().pdfPage).toBe(3);
+    await act(async () => root.unmount());
+    root = createRoot(node);
+    await act(async () => root.render(<PdfViewer />));
+    // Geladen = de paginateller toont het aantal pagina's (op pagina 3 van 3 is Volgende uit).
+    await vi.waitFor(async () => { await settle(); expect(node.querySelector('.pdf-ws-readout:not(.pdf-ws-readout--zoom)')?.textContent).toBe('3 / 3'); });
+    expect(useAppStore.getState().pdfPage).toBe(3);
+  });
+
+  it('een andere tekening begint wel weer op pagina 1', async () => {
+    setup();
+    await mount();
+    await click('pdf.next');
+    await act(async () => { const s = useAppStore.getState(); const w = s.schedule.pdfWorkspace!; s.setSchedule({ pdfWorkspace: { ...w, activeSourceId: 'pdf2', sources: [...w.sources, { ...w.sources[0], id: 'pdf2', fileName: 'Tweede.pdf' }] } }); });
+    await vi.waitFor(async () => { await settle(); expect(named(tr('pdf.next'))).not.toBeDisabled(); });
+    expect(useAppStore.getState().pdfPage).toBe(1);
+  });
+});
+
 describe('knownbug 159: zichzelf kruisende oppervlaktepolygoon', () => {
   it('een vlinderdas (kruisende randen) wordt geweigerd in plaats van oppervlakte 0', () => {
     expect(() => measurePoints([{ x: 0, y: 0 }, { x: 10, y: 10 }, { x: 10, y: 0 }, { x: 0, y: 10 }], 'area', 1000)).toThrow();

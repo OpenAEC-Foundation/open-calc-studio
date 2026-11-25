@@ -497,9 +497,10 @@ stand van `main` op die datum.
      de UI is het alleen een bevestigingsvenster, een harde fout alleen via MCP/API (`pdfWorkspace.ts:69-71`),
      ernst laag. Voorstel: laat de plugin de SHA-256 van de PDF berekenen en in `sourceHash` zetten. — B
 
-157. **Het PDF-tabblad verlaten en terugkomen zet de pagina terug en gooit onafgemaakte punten weg.**
-     `PdfViewer.tsx:47-48`, `App.tsx:652`; `pdfTargetMeasurementId` wordt nooit gewist. Voorstel: zet de pagina
-     alleen terug als `source.id` verandert, en wis het doel na het springen. — S
+157. **Het PDF-tabblad verlaten en terugkomen gooit onafgemaakte punten weg.** De viewer wordt bij het
+     verlaten ontkoppeld (`App.tsx`, `activeContentTab === 'pdf'`) en de punten staan in lokale state van
+     `PdfViewer.tsx`. (Het terugspringen naar pagina 1 of naar een oud doel is opgelost.) Productvraag: moeten
+     halve metingen een tabwissel overleven? Zo ja, de punten in de store bewaren. — S
 
 ## Varianten
 

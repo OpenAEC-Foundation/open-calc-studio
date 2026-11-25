@@ -13,6 +13,10 @@ import { nextZoomLevel } from './pdfZoomLevels';
 import './PdfViewer.css';
 
 const EMPTY = emptyPdfWorkspace();
+/** The drawing (document + source) and target the viewer last showed. Leaving the PDF tab
+ *  unmounts the viewer; coming back to the same drawing keeps the page instead of jumping back
+ *  to page 1 or to an old target (knownbug 157). */
+let lastShown: { view: string; target: string | null } | null = null;
 const MIN_ZOOM = .25, MAX_ZOOM = 5; // same bounds as setPdfZoom in the store
 const MAX_CANVAS_PIXELS = 2 ** 25; // ~33 MP, the pdf.js default limit per canvas
 const MM_PER_PDF_POINT = 25.4 / 72; // a PDF point is 1/72 inch on paper
@@ -87,9 +91,11 @@ export function PdfViewer({ readOnly = false }: { readOnly?: boolean }) {
     changeWorkspace(w => ({ ...w, sources: w.sources.map(s => s.id === source.id ? change(s) : s) }));
   }
 
+  const viewKey = `${documentId}:${source?.id ?? ''}`;
   useEffect(() => {
     const target = source?.measurements.find(measurement => measurement.id === useAppStore.getState().pdfTargetMeasurementId);
-    setPdf(null); setPage(target?.page ?? 1); setPoints([]); setError(''); setTool('pan'); setFitWidth(true);
+    setPdf(null); setPoints([]); setError(''); setTool('pan'); setFitWidth(true);
+    if (lastShown?.view !== viewKey) setPage(target?.page ?? 1);
     if (!source) return;
     let cancelled = false;
     let task: ReturnType<typeof import('pdfjs-dist').getDocument> | undefined;
@@ -107,7 +113,9 @@ export function PdfViewer({ readOnly = false }: { readOnly?: boolean }) {
 
   useEffect(() => {
     const target = source?.measurements.find(measurement => measurement.id === targetMeasurementId);
-    if (target) setPage(target.page);
+    const unchanged = lastShown?.view === viewKey && lastShown.target === targetMeasurementId;
+    lastShown = { view: viewKey, target: targetMeasurementId };
+    if (target && !unchanged) setPage(target.page);
   }, [targetMeasurementId, source?.id, documentId]);
 
   // Another page (also via "Open source", which sets the page in the store): points placed on the
