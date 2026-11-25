@@ -266,10 +266,6 @@ stand van `main` op die datum.
      op de getalwaarde. Nagespeeld, zonder echt voorbeeldbestand. Voorstel: de diepte op het aantal cijfers
      baseren. — B
 
-101. **Een echt IfcX-bestand faalt bij de algemene import met "Invalid file format".** De inhoudsherkenning
-     stuurt het verkeerd door (`lib/importers.ts:12-16`, `hostFileActions.ts:21`, MCP `fileCommands.ts:10`).
-     Nagespeeld. Voorstel: bij `Array.isArray(parsed.data)` → `importIfcx`. — B
-
 102. **Een CSV die met "PK" begint (bv. `PK-nummer;…`) wordt geweigerd als ongeldige ZIP.**
      `importWorkerClient.ts:4`. Gezien in de code. Voorstel: geen ZIP-controle voor CSV. — S
 
