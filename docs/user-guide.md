@@ -32,9 +32,9 @@ The ribbon across the top contains commands. File opens the file menu. Document 
 1. Choose File → New (Ctrl+N). If an example estimate is open, keep it in its own tab for reference.
 2. In Budget → Project details, enter the project name, number and client.
 3. Choose Budget → Chapter and enter a description, for example “Painting”.
-4. Select that chapter and choose Budget → Budget post. Enter “Paint walls”, quantity `10` and unit `m²`.
-5. With the post selected, choose Budget → Calculation rule. Enter “Paint materials”, quantity `10`, resource price `5`, and leave the production norm and labour price empty. Classify it as material if you want a material breakdown.
-6. Check the result: this direct-price calculation line contributes `10 × 5 = 50` before markups. The containing post and chapter should show 50. The post's quantity is used to show the derived unit price; do not assume it multiplies the child line quantity again.
+4. Select that chapter and choose Budget → Estimate item. Enter “Paint walls”, quantity `10` and unit `m²`.
+5. With the item selected, choose Budget → Calculation line. Enter “Paint materials”, quantity `10`, resource price `5`, and leave the production norm and labour price empty. Classify it as material if you want a material breakdown.
+6. Check the result: this direct-price calculation line contributes `10 × 5 = 50` before markups. The containing item and chapter should show 50. The item's quantity is used to show the derived unit price; do not assume it multiplies the child line quantity again.
 7. Save with Ctrl+Shift+S, select a folder and retain the native `.ifcCalc` extension.
 8. Open the Report tab and check the description, quantity and totals before printing.
 
@@ -42,9 +42,9 @@ This example deliberately uses a direct price. Norm-based labour and resource li
 
 ## Edit and organise
 
-A chapter groups work. A budget post describes a priced item. A monitor post provides an extra level beneath a budget post. Calculation rules contain the underlying costs. Text and blank lines organise the presentation without adding costs.
+A chapter groups work. An estimate item describes a priced item. A monitoring item provides an extra level beneath an estimate item. Calculation lines contain the underlying costs. Text and blank lines organise the presentation without adding costs.
 
-Select the intended parent before adding a row from Budget. A monitor post requires an existing budget post. The + Line command adds a calculation rule below the selected item. Edit a cell by double-clicking it, and confirm with Enter. Use the row grip at the left to select or drag rows, including into another chapter. Check the resulting hierarchy after moving rows.
+Select the intended parent before adding a row from Budget. A monitoring item requires an existing estimate item. The + Line command adds a calculation line below the selected item. Edit a cell by double-clicking it, and confirm with Enter. Use the row grip at the left to select or drag rows, including into another chapter. Check the resulting hierarchy after moving rows.
 
 Budget provides Undo, Redo, collapse controls and price adjustment by percentage. Save a copy before applying broad price changes. Variants and option sets are available from Budget; review which options are active before issuing a report.
 

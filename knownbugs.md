@@ -892,35 +892,6 @@ stand van `main` op die datum.
      `src/i18n/locales/*/releases.json`, `ReleaseNotesPanel.tsx:26-32`. Bij 44.0 staat nog "acceptance
      pending"; offline- en hosted-gebruikers zien alleen deze lijst. — B
 
-240. **EN "Calculation rule" voor "rekenregel"** (een regel in de calculatie, geen voorschrift).
-     Sleutels `common:calculationRule`, `newCalculationRule`, `ribbon:home.calculationRule`,
-     `propertiesPanel.types.regel`, `mobile.addRule`, `mobile.searchItems`, `mobile.noItems`,
-     `tooltip.unitPriceSumRules`, `tooltip.totalSumRules`; Lao heeft het overgenomen. Engels is de fallback voor
-     zo'n 660 sleutels in 37 locales, dus veel gebruikers zien dit. Voorstel: "Calculation line". — B
-
-241. **"Staart" vertaald als "Tail"** (en, sw, vi, th, lo). Sleutels `common:wpcalc.tabTail`, `tabHoursTail`,
-     `tailCosts`, `common:surcharges`, `propertiesPanel.types.staart`. Voorstel: "Markups" (zoals in
-     `report:staart.title`). — B
-
-242. **FR: de tooltip van de afrondingsstap leest als "geen afronding".** `fr:grid:staart.roundingStepTitle`
-     "Pas d'arrondi…", `fr:grid:undo.roundingStep`. Voorstel: "Incrément d'arrondi…". — B
-
-243. **EN "Budget post"/"Monitor post", terwijl elders "Estimate items"/"Monitoring items" staat.** Sleutels
-     `common:budgetPost`, `newBudgetPost`, `ribbon:home.budgetPost`, `types.begrotingspost` en de
-     `monitorPost`-tegenhangers. — B
-
-244. **MS: btw heet "GST" (49 strings).** Maleisië heeft GST in 2018 afgeschaft; het is nu SST. — B
-
-245. **DE: `ribbon:offerte.termijnen` "Termine" (afspraken)** moet "Zahlungsplan" zijn; PL "Terminy" is ook
-     dubbelzinnig. — B
-
-246. **EN: "Export Inschrijfstaat (.xlsx)"** (`common:` / `backstage:exportInschrijfstaat`) moet "Export tender
-     schedule" zijn. — B
-
-247. **CS: `ribbon:rapportage.reporting` is Engels gebleven ("Reporting").** — B
-
-248. **NL: `grid:columns.branch` "Branch"** moet "Variant" zijn. — B
-
 ## Tests en tooling
 
 ## Wensen en open taken (geen bug)

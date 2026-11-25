@@ -11,7 +11,7 @@
   "about": "About",
   "exit": "Exit",
   "printMenu": "Print",
-  "exportInschrijfstaat": "Export Inschrijfstaat (.xlsx)",
+  "exportInschrijfstaat": "Export tender schedule (.xlsx)",
   "extensions": "Extensions",
   "extensionManager": {
     "title": "Extensions",
