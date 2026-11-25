@@ -446,6 +446,7 @@
     "placeholder": "针对本预算的提问或指令…",
     "placeholderPending": "可以继续提问（{{count}} 个处理中）…",
     "noAnswer": "未收到回复。",
+    "clear": "清除对话",
     "notApplied": "⚠️ 未自动应用更改 —— 当前活动的是另一个文档。请切换回来后重新下达指令。",
     "unknownError": "未知错误",
     "errNotSignedIn": "⚠️ 尚未（或不再）登录 OpenAEC。请通过右上角按钮重新登录后再试。\n\n_详情：{{detail}}_",

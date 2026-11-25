@@ -446,6 +446,7 @@
     "placeholder": "Fråga eller instruktion för den här kalkylen …",
     "placeholderPending": "Du kan ställa en fråga till ({{count}} pågår) …",
     "noAnswer": "Inget svar mottaget.",
+    "clear": "Rensa konversationen",
     "notApplied": "⚠️ Ändringarna gjordes inte automatiskt — ett annat dokument är aktivt just nu. Växla tillbaka och upprepa instruktionen.",
     "unknownError": "okänt fel",
     "errNotSignedIn": "⚠️ Inte (längre) inloggad på OpenAEC. Logga in igen via knappen uppe till höger och försök sedan på nytt.\n\n_Detalj: {{detail}}_",

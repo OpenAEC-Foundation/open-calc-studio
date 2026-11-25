@@ -510,6 +510,7 @@
     "placeholder": "Question or instruction for this estimate…",
     "placeholderPending": "You can ask another question ({{count}} in progress)…",
     "noAnswer": "No answer received.",
+    "clear": "Clear conversation",
     "notApplied": "⚠️ Changes not applied automatically — another document is currently active. Switch back and repeat the instruction.",
     "unknownError": "unknown error",
     "errNotSignedIn": "⚠️ Not (or no longer) signed in to OpenAEC. Sign in again via the top-right button and then try again.\n\n_Detail: {{detail}}_",

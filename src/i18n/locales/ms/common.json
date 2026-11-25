@@ -446,6 +446,7 @@
     "placeholder": "Soalan atau arahan untuk anggaran ini…",
     "placeholderPending": "Anda boleh bertanya soalan lain ({{count}} sedang diproses)…",
     "noAnswer": "Tiada jawapan diterima.",
+    "clear": "Kosongkan perbualan",
     "notApplied": "⚠️ Perubahan tidak diterapkan secara automatik — dokumen lain sedang aktif. Kembali ke dokumen tersebut dan ulangi arahan.",
     "unknownError": "ralat tidak diketahui",
     "errNotSignedIn": "⚠️ Anda tidak (lagi) log masuk ke OpenAEC. Log masuk semula melalui butang di kanan atas dan cuba lagi.\n\n_Butiran: {{detail}}_",

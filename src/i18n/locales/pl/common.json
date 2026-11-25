@@ -448,6 +448,7 @@
     "placeholder": "Pytanie lub polecenie dotyczące tego kosztorysu…",
     "placeholderPending": "Możesz zadać kolejne pytanie ({{count}} w toku)…",
     "noAnswer": "Nie otrzymano odpowiedzi.",
+    "clear": "Wyczyść rozmowę",
     "notApplied": "⚠️ Zmiany nie zostały zastosowane automatycznie — aktywny jest inny dokument. Wróć do niego i powtórz polecenie.",
     "unknownError": "nieznany błąd",
     "errNotSignedIn": "⚠️ Brak (lub wygasłe) zalogowanie do OpenAEC. Zaloguj się ponownie przyciskiem w prawym górnym rogu i spróbuj jeszcze raz.\n\n_Szczegóły: {{detail}}_",

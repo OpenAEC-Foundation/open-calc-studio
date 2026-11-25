@@ -446,6 +446,7 @@
     "placeholder": "Pertanyaan atau instruksi untuk anggaran ini…",
     "placeholderPending": "Anda dapat mengajukan pertanyaan lain ({{count}} sedang diproses)…",
     "noAnswer": "Tidak ada jawaban diterima.",
+    "clear": "Hapus percakapan",
     "notApplied": "⚠️ Perubahan tidak diterapkan otomatis — dokumen lain sedang aktif. Kembalilah ke dokumen tersebut dan ulangi instruksinya.",
     "unknownError": "kesalahan tidak dikenal",
     "errNotSignedIn": "⚠️ Anda tidak (lagi) masuk ke OpenAEC. Masuk kembali lewat tombol di kanan atas lalu coba lagi.\n\n_Detail: {{detail}}_",

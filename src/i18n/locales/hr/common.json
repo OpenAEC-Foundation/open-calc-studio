@@ -446,6 +446,7 @@
     "placeholder": "Pitanje ili uputa za ovaj troškovnik…",
     "placeholderPending": "Možete postaviti još jedno pitanje ({{count}} u tijeku)…",
     "noAnswer": "Nije primljen odgovor.",
+    "clear": "Očisti razgovor",
     "notApplied": "⚠️ Promjene nisu automatski primijenjene — trenutačno je aktivan drugi dokument. Vratite se natrag i ponovite uputu.",
     "unknownError": "nepoznata pogreška",
     "errNotSignedIn": "⚠️ Niste (više) prijavljeni u OpenAEC. Prijavite se ponovno gumbom gore desno pa pokušajte opet.\n\n_Detalj: {{detail}}_",

@@ -446,6 +446,7 @@
     "placeholder": "Frage oder Anweisung zu dieser Kalkulation …",
     "placeholderPending": "Sie können eine weitere Frage stellen ({{count}} in Bearbeitung) …",
     "noAnswer": "Keine Antwort erhalten.",
+    "clear": "Unterhaltung löschen",
     "notApplied": "⚠️ Änderungen wurden nicht automatisch übernommen — ein anderes Dokument ist gerade aktiv. Wechseln Sie zurück und wiederholen Sie die Anweisung.",
     "unknownError": "unbekannter Fehler",
     "errNotSignedIn": "⚠️ Nicht (mehr) bei OpenAEC angemeldet. Melden Sie sich über die Schaltfläche oben rechts erneut an und versuchen Sie es noch einmal.\n\n_Detail: {{detail}}_",

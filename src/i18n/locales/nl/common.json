@@ -480,6 +480,7 @@
     "placeholder": "Vraag of opdracht voor deze begroting…",
     "placeholderPending": "Nog een vraag stellen kan ({{count}} lopend)…",
     "noAnswer": "Geen antwoord ontvangen.",
+    "clear": "Gesprek wissen",
     "notApplied": "⚠️ Wijzigingen niet automatisch toegepast — een ander document is nu actief. Schakel terug en stel de opdracht opnieuw.",
     "unknownError": "onbekende fout",
     "errNotSignedIn": "⚠️ Niet (meer) ingelogd bij OpenAEC. Log opnieuw in via de knop rechtsboven en probeer het dan opnieuw.\n\n_Detail: {{detail}}_",

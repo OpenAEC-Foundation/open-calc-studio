@@ -446,6 +446,7 @@
     "placeholder": "Spørgsmål eller instruktion til dette budget …",
     "placeholderPending": "Du kan stille et spørgsmål mere ({{count}} i gang) …",
     "noAnswer": "Intet svar modtaget.",
+    "clear": "Ryd samtalen",
     "notApplied": "⚠️ Ændringerne blev ikke foretaget automatisk — et andet dokument er aktivt lige nu. Skift tilbage, og gentag instruktionen.",
     "unknownError": "ukendt fejl",
     "errNotSignedIn": "⚠️ Ikke (længere) logget ind på OpenAEC. Log ind igen via knappen øverst til højre, og prøv så igen.\n\n_Detalje: {{detail}}_",

@@ -446,6 +446,7 @@
     "placeholder": "Pregunta o instrucció per a aquest pressupost…",
     "placeholderPending": "Podeu fer una altra pregunta ({{count}} en curs)…",
     "noAnswer": "No s'ha rebut cap resposta.",
+    "clear": "Esborra la conversa",
     "notApplied": "⚠️ Els canvis no s'han aplicat automàticament: hi ha un altre document actiu. Torneu-hi i repetiu la instrucció.",
     "unknownError": "error desconegut",
     "errNotSignedIn": "⚠️ No heu iniciat la sessió (o ha caducat) a OpenAEC. Torneu a iniciar-la amb el botó superior dret i proveu-ho de nou.\n\n_Detall: {{detail}}_",

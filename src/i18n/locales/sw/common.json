@@ -446,6 +446,7 @@
     "placeholder": "Swali au maagizo kwa makadirio haya…",
     "placeholderPending": "Unaweza kuuliza swali jingine ({{count}} yanaendelea)…",
     "noAnswer": "Hakuna jibu lililopokelewa.",
+    "clear": "Futa mazungumzo",
     "notApplied": "⚠️ Mabadiliko hayakutumika kiotomatiki — hati nyingine inatumika sasa. Rudi kwenye hati sahihi kisha rudia maagizo.",
     "unknownError": "hitilafu isiyojulikana",
     "errNotSignedIn": "⚠️ Hujaingia (au hujaendelea kuwa umeingia) kwenye OpenAEC. Ingia tena kupitia kitufe cha juu kulia kisha ujaribu tena.\n\n_Maelezo: {{detail}}_",

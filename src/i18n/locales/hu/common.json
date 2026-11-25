@@ -446,6 +446,7 @@
     "placeholder": "Kérdés vagy utasítás ehhez a költségvetéshez…",
     "placeholderPending": "Feltehet újabb kérdést ({{count}} folyamatban)…",
     "noAnswer": "Nem érkezett válasz.",
+    "clear": "Beszélgetés törlése",
     "notApplied": "⚠️ A módosítások nem lettek automatikusan alkalmazva — jelenleg másik dokumentum aktív. Váltson vissza, és ismételje meg az utasítást.",
     "unknownError": "ismeretlen hiba",
     "errNotSignedIn": "⚠️ Nincs (vagy már nincs) bejelentkezve az OpenAEC-be. Jelentkezzen be újra a jobb felső gombbal, majd próbálja újra.\n\n_Részlet: {{detail}}_",

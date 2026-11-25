@@ -446,6 +446,7 @@
     "placeholder": "Pergunta ou instrução para este orçamento…",
     "placeholderPending": "Pode fazer outra pergunta ({{count}} em curso)…",
     "noAnswer": "Não foi recebida qualquer resposta.",
+    "clear": "Limpar a conversa",
     "notApplied": "⚠️ Alterações não aplicadas automaticamente — está ativo outro documento. Volte a esse documento e repita a instrução.",
     "unknownError": "erro desconhecido",
     "errNotSignedIn": "⚠️ Não tem (ou já não tem) sessão iniciada na OpenAEC. Inicie sessão novamente no botão do canto superior direito e tente de novo.\n\n_Detalhe: {{detail}}_",

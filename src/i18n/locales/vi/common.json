@@ -446,6 +446,7 @@
     "placeholder": "Câu hỏi hoặc chỉ dẫn cho dự toán này…",
     "placeholderPending": "Bạn có thể hỏi thêm câu khác ({{count}} đang xử lý)…",
     "noAnswer": "Không nhận được câu trả lời.",
+    "clear": "Xóa cuộc trò chuyện",
     "notApplied": "⚠️ Thay đổi chưa được áp dụng tự động — hiện có tài liệu khác đang hoạt động. Hãy chuyển về rồi lặp lại chỉ dẫn.",
     "unknownError": "lỗi không xác định",
     "errNotSignedIn": "⚠️ Chưa (hoặc không còn) đăng nhập OpenAEC. Hãy đăng nhập lại bằng nút ở góc trên bên phải rồi thử lại.\n\n_Chi tiết: {{detail}}_",

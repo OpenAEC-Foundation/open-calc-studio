@@ -447,6 +447,7 @@
     "placeholder": "Întrebare sau instrucțiune pentru acest deviz…",
     "placeholderPending": "Puteți pune încă o întrebare ({{count}} în curs)…",
     "noAnswer": "Nu s-a primit niciun răspuns.",
+    "clear": "Șterge conversația",
     "notApplied": "⚠️ Modificările nu au fost aplicate automat — în acest moment este activ alt document. Reveniți și repetați instrucțiunea.",
     "unknownError": "eroare necunoscută",
     "errNotSignedIn": "⚠️ Nu sunteți (sau nu mai sunteți) autentificat în OpenAEC. Autentificați-vă din nou cu butonul din dreapta sus și încercați iar.\n\n_Detaliu: {{detail}}_",

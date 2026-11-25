@@ -446,6 +446,7 @@
     "placeholder": "Kysymys tai ohje tälle kustannusarviolle…",
     "placeholderPending": "Voit esittää uuden kysymyksen ({{count}} kesken)…",
     "noAnswer": "Vastausta ei saatu.",
+    "clear": "Tyhjennä keskustelu",
     "notApplied": "⚠️ Muutoksia ei tehty automaattisesti — toinen asiakirja on nyt aktiivinen. Palaa takaisin ja toista ohje.",
     "unknownError": "tuntematon virhe",
     "errNotSignedIn": "⚠️ Et ole (enää) kirjautunut OpenAEC-palveluun. Kirjaudu uudelleen oikean yläkulman painikkeesta ja yritä sitten uudelleen.\n\n_Lisätieto: {{detail}}_",

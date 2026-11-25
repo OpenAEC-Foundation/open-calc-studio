@@ -448,6 +448,7 @@
     "placeholder": "Otázka nebo pokyn k tomuto rozpočtu…",
     "placeholderPending": "Můžete položit další otázku (probíhá {{count}})…",
     "noAnswer": "Nebyla přijata žádná odpověď.",
+    "clear": "Vymazat konverzaci",
     "notApplied": "⚠️ Změny nebyly použity automaticky — aktivní je jiný dokument. Přepněte se zpět a pokyn zopakujte.",
     "unknownError": "neznámá chyba",
     "errNotSignedIn": "⚠️ Nejste (nebo již nejste) přihlášeni k OpenAEC. Přihlaste se znovu tlačítkem vpravo nahoře a zkuste to znovu.\n\n_Detail: {{detail}}_",

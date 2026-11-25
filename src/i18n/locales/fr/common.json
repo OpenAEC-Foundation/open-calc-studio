@@ -446,6 +446,7 @@
     "placeholder": "Question ou instruction pour ce devis…",
     "placeholderPending": "Vous pouvez poser une autre question ({{count}} en cours)…",
     "noAnswer": "Aucune réponse reçue.",
+    "clear": "Effacer la conversation",
     "notApplied": "⚠️ Modifications non appliquées automatiquement — un autre document est actif. Revenez-y et répétez l'instruction.",
     "unknownError": "erreur inconnue",
     "errNotSignedIn": "⚠️ Vous n'êtes pas (ou plus) connecté à OpenAEC. Reconnectez-vous via le bouton en haut à droite, puis réessayez.\n\n_Détail : {{detail}}_",

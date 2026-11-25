@@ -446,6 +446,7 @@
     "placeholder": "Bu keşif için soru veya talimat…",
     "placeholderPending": "Başka bir soru sorabilirsiniz ({{count}} işleniyor)…",
     "noAnswer": "Yanıt alınamadı.",
+    "clear": "Sohbeti temizle",
     "notApplied": "⚠️ Değişiklikler otomatik uygulanmadı — şu anda başka bir belge etkin. Geri dönüp talimatı yineleyin.",
     "unknownError": "bilinmeyen hata",
     "errNotSignedIn": "⚠️ OpenAEC oturumu açık değil (veya sona ermiş). Sağ üstteki düğmeyle yeniden oturum açıp tekrar deneyin.\n\n_Ayrıntı: {{detail}}_",

@@ -446,6 +446,7 @@
     "placeholder": "Domanda o istruzione per questo computo…",
     "placeholderPending": "Puoi fare un'altra domanda ({{count}} in corso)…",
     "noAnswer": "Nessuna risposta ricevuta.",
+    "clear": "Cancella la conversazione",
     "notApplied": "⚠️ Modifiche non applicate automaticamente: è attivo un altro documento. Torna a quello giusto e ripeti l'istruzione.",
     "unknownError": "errore sconosciuto",
     "errNotSignedIn": "⚠️ Non sei (più) connesso a OpenAEC. Accedi di nuovo con il pulsante in alto a destra e riprova.\n\n_Dettaglio: {{detail}}_",
