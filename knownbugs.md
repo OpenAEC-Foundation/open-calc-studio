@@ -881,10 +881,6 @@ stand van `main` op die datum.
 
 ## Teksten, vertalingen en documentatie
 
-229. **Instellingen toont "Automatisch detecteren" nooit meer, en opslaan vervangt het door de gevonden
-     taal.** `src/components/settings/SettingsDialog.tsx:59-60`, `:68`. Gezien in de code. Voorstel: eerst op
-     `savedLocale === 'auto'` testen. — S
-
 233. **"Wat is er nieuw" in de app stopt bij 2026.44.5-dev, terwijl de app op 2026.45.1 staat.**
      `src/i18n/locales/*/releases.json`, `ReleaseNotesPanel.tsx:26-32`. Bij 44.0 staat nog "acceptance
      pending"; offline- en hosted-gebruikers zien alleen deze lijst. — B
