@@ -212,22 +212,24 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
       const active = document.activeElement as HTMLElement | null;
       if (!active?.closest('.subsheet-container')) return;
 
-      if (e.ctrlKey && !e.shiftKey && (e.key === 'z' || e.key === 'Z')) {
+      // Cmd op macOS (knownbug 57); alleen de geschiedenis van dit blad (knownbug 55).
+      const mod = e.ctrlKey || e.metaKey;
+      if (mod && !e.shiftKey && (e.key === 'z' || e.key === 'Z')) {
         e.preventDefault();
         e.stopPropagation();
-        useAppStore.getState().undoSpreadsheet();
+        useAppStore.getState().undoSpreadsheet(sheetId);
       } else if (
-        (e.ctrlKey && (e.key === 'y' || e.key === 'Y')) ||
-        (e.ctrlKey && e.shiftKey && (e.key === 'z' || e.key === 'Z'))
+        (mod && (e.key === 'y' || e.key === 'Y')) ||
+        (mod && e.shiftKey && (e.key === 'z' || e.key === 'Z'))
       ) {
         e.preventDefault();
         e.stopPropagation();
-        useAppStore.getState().redoSpreadsheet();
+        useAppStore.getState().redoSpreadsheet(sheetId);
       }
     };
     window.addEventListener('keydown', onKeyDown, true);
     return () => window.removeEventListener('keydown', onKeyDown, true);
-  }, []);
+  }, [sheetId]);
 
   // Listen for ribbon formatting actions
   useEffect(() => {

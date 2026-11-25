@@ -70,17 +70,12 @@ stand van `main` op die datum.
 
 ## Spreadsheets
 
-55. **Ctrl+Z in de ene deelspreadsheet maakt een bewerking in een andere ongedaan.** Er is één stapel voor alle
-    bladen (`src/state/slices/spreadsheetHistorySlice.ts:42-59`, `SubSheetEditor.tsx:206-227`). Nagespeeld.
-    Voorstel: een stapel per blad, of filteren op blad-id. — B
-
-56. **Het verwijderen van een deelspreadsheet ongedaan maken doet niets, maar verbruikt wel de stap.**
-    `subSheetSlice.ts:77` en `spreadsheetHistorySlice.ts:55` vervangen alleen bladen die nog bestaan.
-    Nagespeeld. Voorstel: het blad opnieuw invoegen als het niet meer bestaat. — B
-
-57. **Op macOS maakt Cmd+Z in een spreadsheet de begroting ongedaan.**
-    `src/components/grid/SubSheetEditor.tsx:213-219` kijkt alleen naar `ctrlKey`, dus het event valt door naar `useKeyboardShortcuts.ts:41` (dat `metaKey` wel
-    accepteert). Afgeleid uit de code. Voorstel: `|| e.metaKey`. — S
+56. **Het verwijderen van een deelspreadsheet is niet ongedaan te maken.** `removeSubSheet` legt wel een stap
+    vast, maar daarna is er geen editor van dat blad meer om Ctrl+Z in te drukken (zonder open blad gaat Ctrl+Z
+    naar de begroting), en `undoSpreadsheet` vervangt alleen bladen die nog bestaan. Sinds de geschiedenis per
+    blad (punt 55) verbruikt Ctrl+Z in een ander blad die stap niet meer. Open vraag: waar hoort het terugzetten
+    van een verwijderd blad (Ctrl+Z in de begroting, een knop)? Voorstel: het blad op zijn oude plek opnieuw
+    invoegen als het niet meer bestaat. — B
 
 275. **Een deelbladcel met 1.234 kopiëren en terugplakken in de Nederlandse notatie geeft 1234.** Het verlies
     van opmaak bij elke bewerking is punt 49. Gevonden bij de valutafix. — B
