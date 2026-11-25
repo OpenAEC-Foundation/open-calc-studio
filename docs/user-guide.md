@@ -60,7 +60,7 @@ Editing an hours total proportionally adjusts the underlying norms. Review the a
 
 Use File → Save for the active document and Save As for a separate copy. The default native extension is `.ifcCalc`; the app also recognises native `.ocs` files. Native files retain editable project data; exchange exports may contain less information.
 
-The desktop app checks the **active** document every two minutes and saves it if modified and already associated with a file path. New documents without a path and inactive tabs are not covered by this timer. Save every new estimate explicitly and save other tabs before closing. In the browser, saving downloads a file; desktop autosave does not apply.
+Open Calc Studio does not save to your project file automatically. Use Save yourself, also for other open tabs before closing. The separate recovery journal (see *Recovery and safe saving* below) is extra protection, not a saved file. In the browser, saving downloads a file.
 
 Use File → Open or Recent Files to reopen a saved estimate. On closing a modified document, choose Save, Discard or Cancel deliberately. Keep backups outside the working file.
 
@@ -72,9 +72,9 @@ Use File → Open or Recent Files to reopen a saved estimate. On closing a modif
 4. Read any import warnings. Compare the hierarchy, quantities, units, labour rates, markups and final amount with the source application.
 5. Save the imported estimate as a new native file before editing further.
 
-Available formats include WPCalc/BasCalc, IBIS-TRAD, IFC cost schedules, BC3 and ÖNORM. Import commands depend on enabled extensions; check File → Extensions if one is missing. Not every format supports every feature. An ordinary 3D IFC model does not necessarily contain an IFC cost schedule.
+Available formats include WPCalc/BasCalc, IBIS-TRAD, IFC cost schedules, BC3 and ÖNORM. A few importers, such as WpCalc, BasCalc, IBIS-TRAD (`.xtb`) and STABU (`.dnc`), are built-in extensions: if one is missing from File → Import, check whether it was switched off under File → Extensions. Hosted builds have no Extensions panel. Not every format supports every feature. An ordinary 3D IFC model does not necessarily contain an IFC cost schedule.
 
-Use File → Export for exchange formats. Keep a native master copy and check the exported result in the receiving application. See the [project feature list](../README.md#import--export) for format coverage.
+Use File → Export for exchange formats. Keep a native master copy and check the exported result in the receiving application. See the [project feature list](../README.md#features) for format coverage.
 
 ## Reports and spreadsheets
 
@@ -102,12 +102,12 @@ Use Command instead of Ctrl on macOS. Browser or operating-system shortcuts may 
 ## Troubleshooting
 
 - **Unexpected total:** check row type, hierarchy, line quantity, production norm, resource price, labour price, rate group and markups. Undo the last change to compare.
-- **Missing importer:** check enabled extensions and the actual file format, not just its extension.
-- **File not saved:** confirm the active tab and destination. Save a new document once before relying on desktop autosave.
+- **Missing importer:** check the actual file format, not just its extension, and whether the importer was switched off under File → Extensions.
+- **File not saved:** confirm the active tab and destination. The app does not save automatically; use Save.
 - **macOS will not launch:** see [macOS startup](macos-startup.md).
 - **Still stuck:** [open an issue](https://github.com/OpenAEC-Foundation/open-calc-studio/issues) with the app version, operating system, reproduction steps and expected/actual result. Use a small anonymised sample instead of confidential project data.
 
-Developers can use the [API documentation](API.md), [native file format](ifccalc-formaat.md) and [build instructions](../README.md#build-from-source).
+Developers can use the [API documentation](API.md), [native file format](ifccalc-formaat.md) and [build instructions](../README.md#run-from-source).
 
 ## Guided and hosted use
 
@@ -211,8 +211,8 @@ IFC quantities remain available; reload the correct original IFC file for the
 
 Native saving keeps the previous version as `filename.ifcCalc.bak`. Copy it to a
 new `.ifcCalc` name to open it if needed. A temporary file is written before the
-destination is replaced. Autosave to an existing file follows settings; a new
-estimate without a path still needs an explicit save. Closing handles every
+destination is replaced. There is no automatic save to the project file; a new
+estimate without a path asks for a file name on Save. Closing handles every
 modified document. Edits made during a pending save remain marked as modified.
 
 ## Price sources and catalogue updates

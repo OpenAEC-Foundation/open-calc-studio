@@ -888,27 +888,9 @@ stand van `main` op die datum.
      taal.** `src/components/settings/SettingsDialog.tsx:59-60`, `:68`. Gezien in de code. Voorstel: eerst op
      `savedLocale === 'auto'` testen. — S
 
-230. **Autosave staat gedocumenteerd als aan (elke 2 min), maar niets kan het aanzetten.** Docs:
-     `docs/user-guide.md:63`, `docs/gebruikershandleiding.md:54`, `wiki/Gebruikershandleiding.md:50`. In de code
-     staat `autoSave: false` met 5 min (`src/utils/settings.ts:33-34`), en `App.tsx:403-412` leest het interval
-     één keer, vóór de instellingen geladen zijn. Er is geen schakelaar in de interface, terwijl de labels
-     `settings.autoSave`/`autoSaveOption` wel bestaan. Zie ook #120. Voorstel: de code aanpassen
-     (schakelaar toevoegen) of de docs. — B
-
-231. **XPWE/XC4 staat gedocumenteerd als niet ondersteund, maar de app importeert en exporteert het.** Docs:
-     `docs/wereldwijde-uitwisseling.md:3-7,31`, `wiki/Bestandsuitwisseling.md:17`, `wiki/MCP-server.md:33`.
-     Code: `Backstage.tsx:846,921`, `src/lib/importers.ts:20`, `converters.ts:31`. Alleen MCP mist het. — B
-
 233. **"Wat is er nieuw" in de app stopt bij 2026.44.5-dev, terwijl de app op 2026.45.1 staat.**
      `src/i18n/locales/*/releases.json`, `ReleaseNotesPanel.tsx:26-32`. Bij 44.0 staat nog "acceptance
      pending"; offline- en hosted-gebruikers zien alleen deze lijst. — B
-
-234. **De docs zeggen "Import commands depend on enabled extensions; check File → Extensions", maar dat klopt
-     niet.** `docs/user-guide.md:75` (en de Nederlandse handleiding en de wiki). De importers zijn hard-coded
-     (`Backstage.tsx:751-886`), en het paneel Extensies wordt in platform-builds niet getoond
-     (`buildFlags.ts:14`, `Backstage.tsx:680`). — B
-
-237. **Kapotte ankers `#import--export` en `#build-from-source`** in `docs/user-guide.md:77,110`. — B
 
 238. **De mobiele UI is onvertaald in elke taal behalve EN en NL.** `src/i18n/locales/*/common.json` (32
      `mobile.*`-sleutels, `review.mobile`, `wizardUI.shortTitle`); daarnaast hard-coded NL/EN in
