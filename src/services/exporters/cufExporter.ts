@@ -1,6 +1,6 @@
 import type { ExportInput, ExportResult } from './types';
 import type { CostItem } from '@/types/costModel';
-import { buildXml, formatDutch, denormalizeUnit, wrapRootPosts, currencyNotInFormatWarning, type XmlNode } from './xmlBuilder';
+import { buildXml, formatDutchPrecise, denormalizeUnit, wrapRootPosts, currencyNotInFormatWarning, type XmlNode } from './xmlBuilder';
 
 export function exportCuf(input: ExportInput): ExportResult {
   const warnings: string[] = [];
@@ -26,7 +26,7 @@ export function exportCuf(input: ExportInput): ExportResult {
         attrs: { type: s.rowType?.replace(/^staart_/, ''), code: s.code },
         children: [
           { tag: 'Omschrijving', children: [s.description ?? ''] },
-          { tag: 'Percentage', children: [formatDutch((s as any).staartPercentage ?? s.quantity ?? 0)] },
+          { tag: 'Percentage', children: [formatDutchPrecise((s as any).staartPercentage ?? s.quantity ?? 0)] },
         ] as (XmlNode | string)[],
       })),
     });
@@ -57,9 +57,9 @@ function isPost(it: CostItem): boolean {
 function renderPost(post: CostItem, all: CostItem[], _warnings: string[]): XmlNode {
   const regels = all.filter((it) => it.parentId === post.id && it.rowType === 'regel');
   const children: (XmlNode | string)[] = [
-    { tag: 'Hoeveelheid', children: [formatDutch(post.quantity ?? 0, 2)] },
+    { tag: 'Hoeveelheid', children: [formatDutchPrecise(post.quantity ?? 0)] },
     { tag: 'Eenheid',     children: [denormalizeUnit(post.unit ?? 'st')] },
-    { tag: 'Prijs',       children: [formatDutch(post.unitPrice ?? 0, 2)] },
+    { tag: 'Prijs',       children: [formatDutchPrecise(post.unitPrice ?? 0)] },
     ...regels.map((r) => renderRegel(r)),
   ];
   return { tag: 'Post', attrs: { code: post.code, omschrijving: post.description }, children };
@@ -70,9 +70,9 @@ function renderRegel(regel: CostItem): XmlNode {
     tag: 'Regel',
     attrs: { code: regel.code, omschrijving: regel.description },
     children: [
-      { tag: 'Hoeveelheid', children: [formatDutch(regel.quantity ?? 0, 2)] },
+      { tag: 'Hoeveelheid', children: [formatDutchPrecise(regel.quantity ?? 0)] },
       { tag: 'Eenheid',     children: [denormalizeUnit(regel.unit ?? 'st')] },
-      { tag: 'Prijs',       children: [formatDutch(regel.unitPrice ?? 0, 2)] },
+      { tag: 'Prijs',       children: [formatDutchPrecise(regel.unitPrice ?? 0)] },
     ],
   };
 }

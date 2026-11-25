@@ -301,14 +301,6 @@ stand van `main` op die datum.
      bewaking. Nagespeeld. Tweede controle: alleen als álle staartregels zijn verwijderd, of alleen Btw laag;
      ernst laag tot middel. Voorstel: alleen oudere formaatversies migreren. — B
 
-108. **CSV-export rondt getallen af op ongeveer 10 significante cijfers.** `tabularBudget.ts:108`
-     (`sheet_to_csv`). Nagespeeld. Voorstel: `{ rawNumbers: true }`. — B
-
-109. **XML-exports ronden af op 2 decimalen en maken van regeleinden spaties.** `cufExporter.ts:52-67`,
-     `tradxmlExporter.ts:46,48` en `rsxExporter.ts:46,48` (`formatDutch(x, 2)`); `xmlBuilder.ts:44` escapet
-     `\n` `\r` `\t` in attributen niet. Nagespeeld. Voorstel: meer decimalen; `&#10;`, `&#13;` en `&#9;`
-     escapen. — B
-
 110. **`createProjectFile` zet `createdAt` bij elke desktop-opslag opnieuw** (`fileService.ts:37`). — S
 
 111. **`activeSubSheetId` wordt niet opgeslagen.** — S

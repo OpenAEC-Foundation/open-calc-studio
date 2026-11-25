@@ -38,7 +38,7 @@ function renderAttrs(attrs?: XmlAttrs, xmlns?: string, keepEmpty = false): strin
   if (attrs) {
     for (const [k, v] of Object.entries(attrs)) {
       if (v === undefined || v === null || (v === '' && !keepEmpty)) continue;
-      parts.push(`${k}="${escapeXml(String(v))}"`);
+      parts.push(`${k}="${escapeAttr(String(v))}"`);
     }
   }
   return parts.length ? ' ' + parts.join(' ') : '';
@@ -50,8 +50,34 @@ function escapeXml(s: string): string {
     .replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 }
 
+/**
+ * Een XML-parser maakt van een letterlijk regeleinde of tab in een attribuut
+ * een spatie; als tekenreferentie blijft het staan (knownbug 109).
+ */
+function escapeAttr(s: string): string {
+  return escapeXml(s).replace(/\n/g, '&#10;').replace(/\r/g, '&#13;').replace(/\t/g, '&#9;');
+}
+
 export function formatDutch(n: number, decimals = 2): string {
   return n.toFixed(decimals).replace('.', ',');
+}
+
+/**
+ * Getal met Nederlandse komma, minstens `minDecimals` en hoogstens
+ * `maxDecimals` decimalen; nullen achteraan vallen weg. Zo blijft 15,50 er
+ * gewoon uitzien maar wordt 1,234567 niet afgerond op 1,23 (knownbug 109).
+ */
+export function formatDutchPrecise(n: number, minDecimals = 2, maxDecimals = 6): string {
+  let s = n.toFixed(maxDecimals);
+  const dot = s.indexOf('.');
+  if (dot >= 0) {
+    let end = s.length;
+    while (end > dot + 1 + minDecimals && s[end - 1] === '0') end -= 1;
+    s = s.slice(0, end);
+    if (s.endsWith('.')) s = s.slice(0, -1);
+  }
+  if (/^-0(?:\.0*)?$/.test(s)) s = s.slice(1);
+  return s.replace('.', ',');
 }
 
 export function denormalizeUnit(unit: string): string {
