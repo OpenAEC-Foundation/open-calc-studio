@@ -94,7 +94,8 @@ export async function openDesktopFile(filePath: string, text?: string): Promise<
   const baseName = fullName.replace(/\.[^.]+$/, '');
   if (NATIVE_OPEN_EXTS.includes(ext)) {
     const content = text ?? await (await import('@tauri-apps/plugin-fs')).readTextFile(filePath);
-    openProjectJson(content, fileNameFromPath(filePath), filePath);
+    // Naam zonder extensie, ook bij .ifcCalc (zoals dubbelklikken en slepen dat al deden).
+    openProjectJson(content, baseName, filePath);
     return;
   }
   const { readBinaryFileByPath } = await import('@/services/file/nativeFileService');

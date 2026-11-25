@@ -2,6 +2,7 @@ import { readWorkbookForValues, WORKBOOK_LIMITS } from '@/services/importers/saf
 import { uiText } from '../../i18n/uiText';
 import * as XLSX from 'xlsx';
 import { BudgetBuilder, parseAmount, normalizeUnit } from './core';
+import { decodeWindows1252 } from './windows1252';
 import type { ImportCellDiagnostics, ImportResult } from './types';
 import type { CostItem } from '@/types/costModel';
 
@@ -170,7 +171,9 @@ export function decodeCsvText(data: ArrayBuffer | Uint8Array): string {
   try {
     return new TextDecoder('utf-8', { fatal: true }).decode(data);
   } catch {
-    return new TextDecoder('windows-1252').decode(data);
+    // Eigen tabel in plaats van TextDecoder('windows-1252'): sommige Node-
+    // versies lezen dat label als Latin-1, waardoor 0x80 geen € wordt.
+    return decodeWindows1252(data instanceof Uint8Array ? data : new Uint8Array(data));
   }
 }
 
