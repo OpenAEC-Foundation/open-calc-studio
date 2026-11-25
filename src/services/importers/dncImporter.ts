@@ -8,7 +8,8 @@ import { uiText } from '../../i18n/uiText';
  *
  *   KK — de posten (regel per `*`-post): STABU-code, omschrijving, hoeveelheid,
  *        eenheid, en de bedragen TOT1=loon, TOT2=materiaal, TOT4=onderaanneming,
- *        TOTAAL = TOT1+TOT2+TOT4.
+ *        TOTAAL = TOT1+TOT2+TOT4. TOT3 is in de voorbeeldbestanden altijd 0; we
+ *        lezen hem als materieel (de tegenhanger van KU-kolom GETAL3).
  *   KU — de middelen per post (gekoppeld via CODE2 = de STABU-code van de post):
  *        GETAL1 = uren-norm (arbeid), GETAL2 = materiaal-eenheidsprijs,
  *        GETAL3 = materieel, GETAL4 = onderaanneming-eenheidsprijs.
@@ -176,10 +177,11 @@ interface KuComponent {
 function resourcesFromKu(ku: DbfRecord, uurloon: number): KuComponent[] {
   const g1 = parseNumber(ku.GETAL1), g2 = parseNumber(ku.GETAL2), g3 = parseNumber(ku.GETAL3), g4 = parseNumber(ku.GETAL4);
   const out: KuComponent[] = [];
-  if (g1 > 0) out.push({ resourceType: 'arbeid', normQuantity: g1, normUnitPrice: uurloon });
-  if (g2 > 0) out.push({ resourceType: 'materiaal', normQuantity: 1, normUnitPrice: g2 });
-  if (g3 > 0) out.push({ resourceType: 'materieel', normQuantity: 1, normUnitPrice: g3 });
-  if (g4 > 0) out.push({ resourceType: 'onderaannemer', normQuantity: 1, normUnitPrice: g4 });
+  // Ook negatieve bedragen (korting, verrekening) tellen mee (knownbug 90).
+  if (g1 !== 0) out.push({ resourceType: 'arbeid', normQuantity: g1, normUnitPrice: uurloon });
+  if (g2 !== 0) out.push({ resourceType: 'materiaal', normQuantity: 1, normUnitPrice: g2 });
+  if (g3 !== 0) out.push({ resourceType: 'materieel', normQuantity: 1, normUnitPrice: g3 });
+  if (g4 !== 0) out.push({ resourceType: 'onderaannemer', normQuantity: 1, normUnitPrice: g4 });
   return out;
 }
 
@@ -239,7 +241,7 @@ export function buildDncImport(
     const chapterId = ensureChapter(code2);
     const postId = genId();
     const hoev = parseNumber(kk.HOEV1);
-    const tot1 = parseNumber(kk.TOT1), tot2 = parseNumber(kk.TOT2), tot4 = parseNumber(kk.TOT4);
+    const tot1 = parseNumber(kk.TOT1), tot2 = parseNumber(kk.TOT2), tot3 = parseNumber(kk.TOT3), tot4 = parseNumber(kk.TOT4);
     const totaal = parseNumber(kk.TOTAAL);
 
     items.push(makeCostItem({
@@ -292,12 +294,14 @@ export function buildDncImport(
       kuUsed.add(code2);
     } else {
       // Geen (eenduidige) KU-detail → samenvattende regels uit de KK-totalen,
-      // zodat het posttotaal exact klopt (loon/materiaal/onderaanneming).
+      // zodat het posttotaal exact klopt (loon/materiaal/materieel/onderaanneming).
+      // TOT3 (vermoedelijk materieel, net als GETAL3) telde eerst niet mee (knownbug 91).
       if (ambiguous && kuList) warnings.push(uiText('diagnostics.dncSharedCode', "Item {{code}} shares its code with another item; resources were summarized rather than itemized.", { code: code2 }));
       let rsort = 0;
       const summary: Array<[ResourceType, number, string]> = [
         ['arbeid', tot1, 'Arbeid'],
         ['materiaal', tot2, 'Materiaal'],
+        ['materieel', tot3, 'Materieel'],
         ['onderaannemer', tot4, 'Onderaanneming'],
       ];
       for (const [rt, amount, label] of summary) {

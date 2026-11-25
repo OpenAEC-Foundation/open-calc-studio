@@ -221,12 +221,6 @@ stand van `main` op die datum.
 86. **Profielimport weigert `St` en `M` met "Unmapped unit"**: eenheden zijn hoofdlettergevoelig
     (`tabularBudget.ts:62`). — B
 
-90. **DNC: negatieve KU-bedragen vallen weg.** `src/services/importers/dncImporter.ts:179-182` filtert op
-    `g > 0`. Nagespeeld. Voorstel: `!== 0`. — B
-
-91. **DNC: de terugvalsamenvatting negeert mogelijk `TOT3` (materieel).** `dncImporter.ts:298-302`. Gezien
-    bij het nalopen van de negatieve KU-bedragen #90; nog controleren met een echt bestand. — S
-
 92. **S01: twee posten met dezelfde 6-cijferige code worden samengevoegd.**
     `src/services/importers/s01Importer.ts:100-115` negeert `.NNN` en `-END`. Nagespeeld. — B
 
