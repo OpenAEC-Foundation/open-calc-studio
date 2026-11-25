@@ -614,8 +614,6 @@ stand van `main` op die datum.
      geschiedenis mee. Een lang gesprek gaat zo op den duur over de contextlimiet, en die chat blijft dan stuk.
      Voorstel: de chat wissen bij `removeDocument`, de meegestuurde geschiedenis inkorten, een wisknop toevoegen. — S
 
-174. **`assistant.preview` met `actions: [null]` geeft een kale TypeError** (`assistantProposal.ts:49-52`). — S
-
 182. **Ingebed toont de component soms ten onrechte de knop "Dock to main window" en slaat hij de mobiele
      layout over.** De controle op een losgekoppeld venster zou bij een ingebedde component overgeslagen moeten
      worden. — S
