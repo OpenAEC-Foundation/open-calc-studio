@@ -13,7 +13,7 @@ import './MobileWorkspace.css';
 import { QuantityOriginCard } from '@/components/common/QuantityOriginCard';
 import { ReviewCenter, ReviewReturnBar } from '@/components/review/ReviewCenter';
 import { useBudgetReview } from '@/components/review/useBudgetReview';
-import { currencySymbol, getNumberLocale } from '@/utils/formatting';
+import { currencySymbol, formatDecimals, getNumberLocale } from '@/utils/formatting';
 import { useMoney } from '@/hooks/useMoney';
 import { mobileCellDisplay } from './mobileCellDisplay';
 import { isEmbedded } from '@/lib/hostRoot';
@@ -317,7 +317,7 @@ export function MobileWorkspace() {
     {activeDoc ? <>
       <main className="mobile-main">
         {tab === 'budget' && <div className="mobile-panel">
-          <ReviewReturnBar />
+          <ReviewReturnBar onBack={() => setTab('review')} />
           <div className="mobile-summary"><span>{t('mobile.estimateTotal')}</span><strong>{money.format(total)}</strong></div>
           <div className="mobile-budget-tools"><input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t('mobile.searchItems')} aria-label={t('mobile.searchItems')} /><button type="button" className="mobile-primary" aria-expanded={addMenu} onClick={() => setAddMenu((value) => !value)}>+ {t('mobile.add')}</button></div>
           {addMenu && <div className="mobile-add-menu"><button type="button" onClick={() => add('chapter')}>{t('mobile.addChapter')}</button><button type="button" onClick={() => add('post')}>{t('mobile.addPost')}</button><button type="button" onClick={() => add('rule')}>{t('mobile.addRule')}</button></div>}
@@ -326,7 +326,7 @@ export function MobileWorkspace() {
             const isContainer = item.rowType === 'begrotingspost' || item.rowType === 'bewakingspost';
             return <div className={`mobile-item mobile-item-${item.rowType}`} key={item.id} style={{ '--mobile-depth': Math.min(item.depth, 3) } as React.CSSProperties}>
               {isContainer && hasChildren && !query ? <button className="mobile-item-expand" type="button" aria-label={expanded.has(item.id) ? t('mobile.collapse') : t('mobile.expand')} aria-expanded={expanded.has(item.id)} onClick={() => setExpanded((current) => { const next = new Set(current); if (next.has(item.id)) next.delete(item.id); else next.add(item.id); return next; })}>{expanded.has(item.id) ? '▾' : '▸'}</button> : <span className="mobile-item-expand-spacer" />}
-              <button className="mobile-item-body" type="button" onClick={() => setEditingId(item.id)}><span className="mobile-item-line"><strong>{item.description || t('noDescription')}</strong><em>{money.format(item.total)}</em></span><span className="mobile-item-meta">{item.code || t(item.rowType === 'chapter' ? 'chapter' : item.rowType === 'regel' ? 'calculationRule' : 'budgetPost')}{item.quantity !== null ? ` · ${item.quantity} ${item.unit}` : ''}</span></button>
+              <button className="mobile-item-body" type="button" onClick={() => setEditingId(item.id)}><span className="mobile-item-line"><strong>{item.description || t('noDescription')}</strong><em>{money.format(item.total)}</em></span><span className="mobile-item-meta">{item.code || t(item.rowType === 'chapter' ? 'chapter' : item.rowType === 'regel' ? 'calculationRule' : 'budgetPost')}{item.quantity !== null ? ` · ${formatDecimals(item.quantity, 0, 6) || '0'} ${item.unit}` : ''}</span></button>
             </div>;
           })}</div>
           {visible.length > pageLimit && <button className="mobile-load-more" type="button" onClick={() => setPageLimit((limit) => limit + 120)}>{t('mobile.showMore', { count: visible.length - pageLimit })}</button>}

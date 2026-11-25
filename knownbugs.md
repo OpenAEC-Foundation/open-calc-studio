@@ -743,25 +743,14 @@ stand van `main` op die datum.
      `role=status` nodig); `FileTabBar.tsx:287-294` ("●" wordt voorgelezen als "black circle", sluiten-"×" is een
      span, geen Ctrl+W/Ctrl+F4). Afgeleid uit de code, niet in de app getest. — S
 
-205. **"Terug naar controle" op het tabblad Begroting doet op mobiel soms niets.** `MobileWorkspace.tsx:191-195`
-     + `ReviewCenter.tsx:64`: `activeContentTab` is al `'review'`, dus het effect draait niet. Nagespeeld.
-     Voorstel: de mobiele tabknoppen ook `setActiveContentTab` laten aanroepen, of een callback doorgeven aan
-     `ReviewReturnBar`. — B
-
 206. **De mobiele weergave en de wizard controleren de valutacode niet vóór het opmaken.** `MobileWorkspace.tsx:175`,
      `CalculationWizard.tsx:52`; `WorkspaceHeader.tsx:20` doet dat wel. Nagespeeld. Voorstel: een
      gedeelde helper met de fallback `/^[A-Z]{3}$/`. — B
-
-207. **De postenlijst op mobiel toont rauwe JS-getallen** (`2.5 st` in NL, float-ruis). `MobileWorkspace.tsx:278`.
-     Nagespeeld. Voorstel: `toLocaleString(i18n.language, { maximumFractionDigits: 6 })`. — B
 
 208. **Getalvelden op de telefoon: geen mintoets op iOS, en `1,250` wordt stil gelezen als 1250.**
      `MobileWorkspace.tsx:88, 91, 92` (`inputMode="decimal"`), `numberInput.ts:5`. Afgeleid uit de code.
      Voorstel: `inputMode="text"` met een pattern; het andere scheidingsteken accepteren als het geen
      duizendtalscheiding kan zijn. — S
-
-209. **Heel kleine waarden (`5e-7`) laten elke bewerking van die post mislukken.** `numberInput.ts:11`:
-     `String(value)` geeft exponentnotatie. Nagespeeld. Voorstel: formatteren zonder exponentnotatie. — B
 
 210. **Een opgeslagen werkruimte die al actief is, kun je niet opnieuw toepassen via de keuzelijst.** Dezelfde
      optie opnieuw kiezen vuurt geen `change` af (`src/components/layout/WorkspaceLayoutBar.tsx:33`). Gezien in
