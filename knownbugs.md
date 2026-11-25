@@ -621,28 +621,6 @@ stand van `main` op die datum.
 
 174. **`assistant.preview` met `actions: [null]` geeft een kale TypeError** (`assistantProposal.ts:49-52`). — S
 
-176. **`remove_sheet` in de losse MCP-server gaat verloren bij opslaan.** `mcp-server/src/index.ts:2042` (`filter`
-     verbreekt de koppeling met de bladlijst van het project), `:1386-1388` (`save_budget` slaat de lijst van het
-     project op). Ook: bij begrotingen uit `ensureBudgetForImport` (`:3099`) worden via MCP toegevoegde bladen
-     nooit opgeslagen. Voorstel: sla `shadow.sheets` / `shadow.resourceLibrary` op in `save_budget`. — B
-
-177. **Na `open_budget` blijven de bladen van de vorige begroting hangen.** `mcp-server/src/index.ts:1972-1990`
-     (`ensureShadowFromBudget` vult alleen als het leeg is), `:1090`. Open A en dan B: `list_sheets` toont nog
-     het blad van A, en `set_cell` schrijft in de verkeerde begroting. Voorstel: zet de kopie in het geheugen
-     terug als `currentBudget` verandert. — B
-
-178. **`export_pdf` laat `<budget>_mcp_tmp.ifcx` naast de begroting van de gebruiker staan.**
-     `mcp-server/src/index.ts:1519`, `:1536`, `:1543`: een kale `require` gooit onder tsx/ESM een fout die wordt
-     ingeslikt, en bij een fout wordt niets opgeruimd. Voorstel: `os.tmpdir()`, `unlinkSync` importeren, en
-     verwijderen in `finally`. — B
-
-179. **`export_pdf` faalt altijd voor geïmporteerde begrotingen (`open ''` ENOENT).** `mcp-server/src/index.ts:1519`
-     (`filePath` is `''`). Voorstel: dezelfde oplossing als #178. — B
-
-180. **`import_uittrekstaat` herkent `m²`/`m³` niet.** `mcp-server/src/index.ts:1713-1714`: de sleutels zijn in
-     de broncode verminkt (`'mÂ²'`); `defaultUnit:'m2'` (het eigen voorbeeld van de tool) wordt ongewijzigd
-     opgeslagen. Voorstel: `'m²'`, `'m³'`, en `defaultUnit` door dezelfde tabel halen. — B
-
 182. **Ingebed toont de component soms ten onrechte de knop "Dock to main window" en slaat hij de mobiele
      layout over.** De controle op een losgekoppeld venster zou bij een ingebedde component overgeslagen moeten
      worden. — S
