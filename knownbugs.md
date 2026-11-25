@@ -881,9 +881,6 @@ stand van `main` op die datum.
 
 ## Teksten, vertalingen en documentatie
 
-228. **Versielabels gebruiken altijd een Nederlandse datumnotatie.** `OfferteTab.tsx:96,104`
-     (`toLocaleDateString('nl-NL')`). Voorstel: de taalinstelling van de app gebruiken. — S
-
 229. **Instellingen toont "Automatisch detecteren" nooit meer, en opslaan vervangt het door de gevonden
      taal.** `src/components/settings/SettingsDialog.tsx:59-60`, `:68`. Gezien in de code. Voorstel: eerst op
      `savedLocale === 'auto'` testen. — S
