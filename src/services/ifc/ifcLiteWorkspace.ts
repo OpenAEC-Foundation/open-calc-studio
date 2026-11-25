@@ -14,6 +14,13 @@ export const subscribeIfc=(fn:()=>void)=>{listeners.add(fn);return()=>{listeners
 export const ifcRevision=()=>revision;
 const notify=()=>{revision++;listeners.forEach(fn=>fn());};
 export const getIfcSession=(documentId:string)=>sessions.get(documentId);
+/** Sessie (met meshdata) van een document vrijgeven. */
+export function disposeIfcSession(documentId:string) { if(sessions.delete(documentId))notify(); }
+// Een gesloten document laat zijn sessie anders voor altijd in het geheugen staan (knownbug 154).
+useAppStore.subscribe((state,previous)=>{
+  if(state.documents===previous.documents)return;
+  for(const id of [...sessions.keys()])if(!state.documents.some(d=>d.id===id))disposeIfcSession(id);
+});
 export async function loadIfcModel(buffer:ArrayBuffer,fileName:string) {
   const docId=useAppStore.getState().activeDocumentId;
   if(!docId)throw Error(uiText("ifc.error.openBudget", "Open an estimate first."));
@@ -36,9 +43,16 @@ export async function ifcCommand(action:string,p:Record<string,unknown>) {
     if(p.dataBase64.length>140*1024*1024)throw Error(uiText("ifc.error.size", "The IFC file exceeds 100 MB."));
     return loadIfcModel(Uint8Array.from(atob(p.dataBase64),c=>c.charCodeAt(0)).buffer,p.fileName);
   }
-  const session=sessions.get(s.activeDocumentId);
+  const openSession=sessions.get(s.activeDocumentId);
   if(action==='listModels')return s.schedule.ifcTakeoff?.models.map(m=>({id:m.id,fileName:m.fileName,elementCount:m.elements.length}))??[];
-  const model=session?.model??s.schedule.ifcTakeoff?.models.find(m=>m.id===p.modelId);
+  // Een meegegeven modelId gaat vóór het open model: anders krijg je de elementen en hoeveelheden
+  // van het verkeerde bestand, en express-ID's bestaan vaak in beide (knownbug 152).
+  const requested=typeof p.modelId==='string'&&p.modelId?p.modelId:null;
+  const model=requested
+    ?(openSession?.model.id===requested?openSession.model:s.schedule.ifcTakeoff?.models.find(m=>m.id===requested))
+    :openSession?.model;
+  // De selectie en de 3D-acties horen bij het open model, niet bij een ander opgeslagen model.
+  const session=openSession&&(!requested||openSession.model.id===requested)?openSession:undefined;
   if(!model)throw Error(uiText("ifc.error.load", "Load an IFC model first, or provide a saved modelId."));
   if(action==='listElements')return filterIfcElements(model.elements, String(p.search ?? ''));
   if(action==='getSelection')return {modelId:model.id,elementIds:session?.selected??[]};

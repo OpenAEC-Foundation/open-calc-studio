@@ -511,21 +511,11 @@ stand van `main` op die datum.
      round trip. Nagelopen tegen het schema. Voorstel: de entiteiten volgens de IFC4X3-indeling schrijven en
      `schedule.ifcGuid` hergebruiken. — S
 
-152. **`ifc.listElements` en `ifc.takeoff` negeren `modelId` zolang er een model open is.**
-     `session?.model ?? find(modelId)` (`src/services/ifc/ifcLiteWorkspace.ts:38`) gebruikt modelId alleen
-     zonder sessie. Vraag je om model A terwijl B open is, dan krijg je de elementen van B; takeoff telt de
-     elementen van B op, en express-ID's bestaan vaak in beide bestanden. Voorstel: als `p.modelId` is
-     meegegeven, dat model eerst opzoeken. — S
-
 153. **Geëxporteerde IFC kan lege GlobalIds of GlobalIds van 36 tekens bevatten.** Geschreven in
      `src/services/ifc/ifcCostGenerator.ts:248`; de bronnen zijn `staartDefaults.ts:25` (`ifcGuid: ''`, via
      `ensureBtwLaagItem` in elk ouder bestand), `fileService.ts:81`, `assistantActions.ts:196` en
      `inschrijfstaatImporter.ts:225` (`crypto.randomUUID()`, 36 tekens). Voorstel: in de generator elke ID die
      niet aan `/^[0-9A-Za-z_$]{22}$/` voldoet vervangen door `generateIfcGuid()`, en de bronnen repareren. — S
-
-154. **IFC-sessies (meshdata) worden nooit vrijgegeven als een document sluit.** De `sessions`-map op
-     moduleniveau in `src/services/ifc/ifcLiteWorkspace.ts:9` krijgt nooit een `delete`. Voorstel:
-     `disposeIfcSession(docId)` in het sluitpad. — S
 
 155. **De meegeleverde Open PDF Studio-plugin geeft nooit een PDF-hash mee, dus zijn imports worden nooit
      geverifieerd.** `integrations/open-pdf-studio/index.js:13` tegen `src/services/pdf/pdfWorkspace.ts:65-66`.
