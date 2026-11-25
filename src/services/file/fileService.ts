@@ -112,11 +112,20 @@ export function migrateLegacyMainBranch(schedule: { branches?: { id: string; nam
   for (const item of items) if (item.branchId === old) item.branchId = 'main';
 }
 
+/** Is formaatversie `version` ouder dan `target` (major.minor.patch, numeriek vergeleken)? */
+function formatVersionBefore(version: string, target: string): boolean {
+  const a = version.split('.').map((n) => parseInt(n, 10) || 0), b = target.split('.').map((n) => parseInt(n, 10) || 0);
+  for (let i = 0; i < 3; i++) if ((a[i] ?? 0) !== (b[i] ?? 0)) return (a[i] ?? 0) < (b[i] ?? 0);
+  return false;
+}
+
 export function deserializeProject(json: string): ProjectFile {
   const parsed = JSON.parse(json);
   if (!parsed.schedule || !Array.isArray(parsed.items)) {
     throw new Error('Invalid file format');
   }
+  // De versie zoals het bestand binnenkwam, vóór de migraties hieronder hem ophogen.
+  const sourceVersion = parsed.version ? String(parsed.version) : '1.0.0';
 
   // Legacy files without version (e.g. raw schedule+items exports)
   if (!parsed.version) {
@@ -195,17 +204,21 @@ export function deserializeProject(json: string): ProjectFile {
 
   // Migrate: legacy schedule.staartRows → staart_* CostItems
   // (Required so live staart calculation has items to operate on.)
+  // Alleen voor oudere formaatversies: in een nieuwer bestand heeft de gebruiker de
+  // staartregels zelf verwijderd, en die mogen niet bij elke keer openen terugkomen
+  // (knownbug 107). Staart-rijen bestaan sinds 2.1.0 (v0.7.4); 2.2.0 kwam daarna.
   if (parsed.items && Array.isArray(parsed.items)) {
     const hasStaartItems = parsed.items.some(
       (it: any) => typeof it?.rowType === 'string' && it.rowType.startsWith('staart_'),
     );
-    if (!hasStaartItems && !parsed.schedule.budgetExchange?.directCostsOnly && !parsed.schedule.directCostsOnly) {
+    if (formatVersionBefore(sourceVersion, '2.2.0') && !hasStaartItems && !parsed.schedule.budgetExchange?.directCostsOnly && !parsed.schedule.directCostsOnly) {
       const staartItems = synthesizeStaartItems(parsed.schedule);
       parsed.items = [...parsed.items, ...staartItems];
     }
     // Migrate: staart van vóór het lage btw-tarief krijgt een "Btw laag"-regel
-    // (9%, zonder grondslag → € 0 tot de grondslag wordt ingevuld).
-    parsed.items = ensureBtwLaagItem(parsed.items);
+    // (9%, zonder grondslag → € 0 tot de grondslag wordt ingevuld). Btw laag kwam
+    // tijdens formaat 2.2.0; vanaf 2.3.0 is een ontbrekende regel bewust verwijderd.
+    if (formatVersionBefore(sourceVersion, '2.3.0')) parsed.items = ensureBtwLaagItem(parsed.items);
   }
 
   return parsed as ProjectFile;

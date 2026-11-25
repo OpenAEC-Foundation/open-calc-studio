@@ -276,11 +276,6 @@ stand van `main` op die datum.
      regels worden posten, staartregels worden gewone posten zonder percentage, en de tariefgroep gaat verloren.
      Voorstel: de property sets lezen via `IFCRELDEFINESBYPROPERTIES`. — B
 
-107. **Native `.ifcCalc`: verwijderde staartregels komen bij elke keer openen terug.**
-     `src/services/file/fileService.ts:174,179`: de migraties draaien bij elke load en `deleteItem` heeft geen
-     bewaking. Nagespeeld. Tweede controle: alleen als álle staartregels zijn verwijderd, of alleen Btw laag;
-     ernst laag tot middel. Voorstel: alleen oudere formaatversies migreren. — B
-
 110. **`createProjectFile` zet `createdAt` bij elke desktop-opslag opnieuw** (`fileService.ts:37`). — S
 
 111. **`activeSubSheetId` wordt niet opgeslagen.** — S
