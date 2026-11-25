@@ -1,3 +1,4 @@
+import type { CostItem } from "@/types/costModel";
 import { selectedGridItems } from '@/services/grid/selectedItems';
 import { getColumnsForView } from '@/components/grid/gridConstants';
 import { MEASUREMENT_VIEWS } from '@/components/grid/MeasurementLinesBlock';
@@ -22,8 +23,8 @@ export default function HomeTab() {
   const { t: tGrid } = useTranslation("grid");
   const {
     canUndo, canRedo, undo, redo, setItems, undoStack,
-    activeRow, activeItemId, copyItems, cutItems, pasteItems, clipboardItems,
-    addItem, addChapter, addBewakingspost, addTekstregel, addWitregel, insertRegelBelow, deleteItem, items, pushHistory,
+    activeItemId, copyItems, cutItems, pasteItems, clipboardItems,
+    addItem, addChapter, moveItems, addBewakingspost, addTekstregel, addWitregel, insertRegelBelow, deleteItem, items, pushHistory,
     collapseToLevel, scaleAllPrices,
     showHoeveelheid, toggleHoeveelheid,
     gridView, setGridView,
@@ -145,17 +146,52 @@ export default function HomeTab() {
   const percentage = Number(pricePct.trim().replace(',', '.'));
   const validPercentage = !!pricePct.trim() && Number.isFinite(percentage) && percentage !== 0 && percentage > -100;
 
+  /** Het item zelf of de dichtstbijzijnde voorouder die aan `stop` voldoet;
+   *  anders de bovenste voorouder (op het hoogste niveau). */
+  const ancestorWhere = (start: CostItem, stop: (it: CostItem) => boolean): { match?: CostItem; root: CostItem } => {
+    let current: CostItem | undefined = start; let root = start; const seen = new Set<string>();
+    while (current && !seen.has(current.id)) {
+      seen.add(current.id);
+      if (stop(current)) return { match: current, root: current };
+      root = current;
+      current = items.find(i => i.id === current?.parentId);
+    }
+    return { root };
+  };
+
   const handleAddChapter = () => {
     pushHistory(items, tCommon('newChapter'));
-    // Add as sibling of active chapter, or at root after current item
-    const parentId = activeItem?.rowType === 'chapter' ? activeItem.parentId : (activeItem?.parentId ?? null);
-    addChapter(parentId, activeItem?.id);
+    // Naast het hoofdstuk waar de cursor in staat, direct na dat hoofdstuk. Op
+    // een regel of post maakte dit eerder een hoofdstuk bínnen die post (knownbug 33).
+    if (!activeItem) { addChapter(null); return; }
+    const { match, root } = ancestorWhere(activeItem, it => it.rowType === 'chapter');
+    const anchor = match ?? root;
+    addChapter(anchor.parentId ?? null, anchor.id);
   };
 
   const handleAddBegrotingspost = () => {
     pushHistory(items, tCommon('newBudgetPost'));
-    const parentId = activeItem?.rowType === 'chapter' ? activeItem.id : (activeItem?.parentId ?? null);
-    addItem(parentId, activeRow);
+    // Op een hoofdstuk: achteraan in dat hoofdstuk. Anders direct na de post
+    // (of het item) waar de cursor in staat, onder hetzelfde hoofdstuk. Eerder
+    // ging de rijnummer van de tabel door als positie onder de zusters (knownbug 32).
+    if (!activeItem) { addItem(null); return; }
+    if (activeItem.rowType === 'chapter') {
+      const lastChild = items
+        .filter(i => i.parentId === activeItem.id)
+        .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+        .pop();
+      const newId = addItem(activeItem.id);
+      moveItems([newId], lastChild?.id ?? activeItem.id, lastChild ? 'after' : 'inside');
+      return;
+    }
+    // Omhoog tot het item direct onder een hoofdstuk (of op het hoogste niveau).
+    const { match } = ancestorWhere(activeItem, it => {
+      const parent = items.find(p => p.id === it.parentId);
+      return !parent || parent.rowType === 'chapter';
+    });
+    const anchor = match ?? activeItem;
+    const newId = addItem(anchor.parentId ?? null);
+    moveItems([newId], anchor.id, 'after');
   };
 
   const handleAddBewakingspost = () => {

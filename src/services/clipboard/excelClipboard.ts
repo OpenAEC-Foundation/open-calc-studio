@@ -100,11 +100,20 @@ export function getGridCellDisplayValue(item: CostItem, colKey: string): string 
   }
 }
 
+/**
+ * Eén TSV-cel. Tekst met een tab, regeleinde of `"` gaat tussen aanhalingstekens
+ * met verdubbelde `"`, zoals Excel en Sheets dat lezen; anders schuiven de
+ * kolommen bij het plakken (knownbug 27).
+ */
+export function tsvCell(value: string): string {
+  return /[\t\r\n"]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value;
+}
+
 /** Build a TSV string from cost items */
 function itemsToTsv(items: CostItem[]): string {
   const header = COLUMNS.map(c => c.header).join('\t');
   const rows = items.map(item =>
-    COLUMNS.map(c => getCellValue(item, c.key)).join('\t')
+    COLUMNS.map(c => tsvCell(getCellValue(item, c.key))).join('\t')
   );
   return [header, ...rows].join('\n');
 }

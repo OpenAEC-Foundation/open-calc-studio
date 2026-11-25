@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import i18next from 'i18next';
 import { useAppStore } from '@/state/appStore';
-import { isHoursColumn, getColumnsForView } from './gridConstants';
+import { isHoursColumn, getColumnsForView, columnFieldKey } from './gridConstants';
 import { parseNumericInput } from '@/utils/numericInput';
 import { quantityMatchesLines, sameQuantity } from '@/services/measurement/measurementLines';
 import type { CostItem, CostUnit } from '@/types/costModel';
@@ -54,20 +54,14 @@ export function useGridEditing() {
           && !window.confirm(i18next.t('grid:measurement.replaceConfirm'))) return;
       }
 
+      // Ongeldige getalinvoer (bv. "abc") verandert niets: dan ook geen
+      // undo-stap, anders wist hij de redo-lijst (knownbug 46).
+      if ((col.type === 'number' || col.type === 'currency')
+        && parseNumericInput(value) === null && value.trim() !== '') return;
+
       pushHistory(items, i18next.t('grid:undo.editCell', { column: col.key }));
 
-      // Map grid column keys to CostItem field names
-      const keyMap: Record<string, string> = {
-        productienorm: 'normQuantity',
-        productiecapaciteit: 'normFactor',
-        hoeveelheid: 'quantity',
-        uren: 'quantity',
-        // UI-2 'Hst'-kolom: hoofdstuknummer leeft op CostItem.code — zonder
-        // deze mapping schrijft de edit naar een niet-bestaand veld en
-        // "gebeurt er niks" bij het wijzigen van een hoofdstuknummer.
-        chapterCode: 'code',
-      };
-      const fieldKey = keyMap[col.key] ?? col.key;
+      const fieldKey = columnFieldKey(col.key);
 
       switch (col.type) {
         case 'text':

@@ -27,7 +27,7 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
     pasteItems,
     clipboardItems,
     indentItem,
-    outdentItem,
+    moveItems,
     pushHistory,
     getGridRows,
     getSelectedRowIndices,
@@ -117,16 +117,14 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
 
   const handleInsertAbove = () => {
     pushHistory(items, t('insertRowAbove'));
-    const parentId = getInsertParentId();
-    if (item.rowType === 'chapter') {
-      // Insert as first child of this chapter
-      addRegel(parentId);
-    } else {
-      const siblings = items.filter((i) => i.parentId === item.parentId);
-      const siblingIdx = siblings.findIndex((s) => s.id === item.id);
-      const prevSibling = siblingIdx > 0 ? siblings[siblingIdx - 1]?.id : undefined;
-      addRegel(parentId, prevSibling);
-    }
+    const newId = addRegel(getInsertParentId());
+    // addRegel zet de regel achteraan; daarna op zijn plek zetten. Op een
+    // hoofdstuk wordt het het eerste kind, anders komt hij direct boven het
+    // item, ook als dat het eerste kind is (knownbug 31). Een post op het
+    // hoogste niveau (zonder ouder) krijgt de regel als eerste kind: een
+    // rekenregel hoort niet los op het hoogste niveau.
+    const asFirstChild = item.rowType === 'chapter' || !item.parentId;
+    if (newId) moveItems([newId], item.id, asFirstChild ? 'inside' : 'before');
     onClose();
   };
 
@@ -183,10 +181,21 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
   };
 
   const handleOutdent = () => {
-    pushHistory(items, t('outdent'));
     const itemsToOutdent = hasMultipleSelected ? selectedItems : [item];
+    // Ouders die zelf uitspringen (ze hebben een ouder); hun kinderen gaan mee.
+    const moving = new Set(itemsToOutdent.filter((it) => it.parentId).map((it) => it.id));
+    // Per ouder in één keer direct ná die ouder zetten, in de huidige volgorde.
+    // Eén voor één uitspringen draaide de volgorde om (knownbug 34).
+    const byParent = new Map<string, string[]>();
     for (const it of itemsToOutdent) {
-      outdentItem(it.id);
+      if (!it.parentId || moving.has(it.parentId)) continue;
+      const list = byParent.get(it.parentId) ?? [];
+      list.push(it.id);
+      byParent.set(it.parentId, list);
+    }
+    if (byParent.size > 0) {
+      pushHistory(items, t('outdent'));
+      for (const [parentId, group] of byParent) moveItems(group, parentId, 'after');
     }
     onClose();
   };
@@ -276,7 +285,19 @@ export const GridContextMenu: React.FC<Props> = ({ x, y, rowIndex, itemId, onClo
 
   const handleMoveToChapter = (chapterId: string) => {
     pushHistory(items, t('grid:undo.moveToChapter'));
-    updateItem(item.id, 'parentId', chapterId);
+    // Alle geselecteerde rijen, achteraan in het hoofdstuk, met de juiste
+    // diepte. updateItem('parentId') zette het item eerst of laatst, afhankelijk
+    // van de richting, en negeerde een meervoudige selectie (knownbug 35).
+    // Hoofdstukken gaan niet mee (zoals canMove): anders wordt een heel
+    // hoofdstuk een subhoofdstuk van het doel.
+    const ids = (hasMultipleSelected ? selectedItems : [item])
+      .filter((it) => it.rowType !== 'chapter')
+      .map((it) => it.id);
+    const lastChild = useAppStore.getState().items
+      .filter((i) => i.parentId === chapterId && !ids.includes(i.id))
+      .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+      .pop();
+    if (ids.length > 0) moveItems(ids, lastChild?.id ?? chapterId, lastChild ? 'after' : 'inside');
     onClose();
   };
 

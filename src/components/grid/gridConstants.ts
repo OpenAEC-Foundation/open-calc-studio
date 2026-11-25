@@ -160,6 +160,22 @@ export function isHoursColumn(colKey: string): boolean {
   return colKey === 'hoeveelheid' || colKey === 'uren';
 }
 
+/**
+ * Grid-kolomsleutel → CostItem-veldnaam. Bewerken, Delete, de editor en de
+ * wijzigingsmarkering gebruiken allemaal deze ene vertaling (knownbug 22).
+ * UI-2 'Hst': het hoofdstuknummer leeft op CostItem.code.
+ */
+const COLUMN_FIELD: Record<string, string> = {
+  productienorm: 'normQuantity',
+  productiecapaciteit: 'normFactor',
+  hoeveelheid: 'quantity',
+  uren: 'quantity',
+  chapterCode: 'code',
+};
+export function columnFieldKey(colKey: string): string {
+  return COLUMN_FIELD[colKey] ?? colKey;
+}
+
 /** Naar de sleutel waarop de celwaarde-logica werkt: 'uren' telt als 'hoeveelheid'. */
 export function valueColumnKey(colKey: string): string {
   return colKey === 'uren' ? 'hoeveelheid' : colKey;

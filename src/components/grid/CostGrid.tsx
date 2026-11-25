@@ -359,6 +359,12 @@ export const CostGrid: React.FC = () => {
       if (shiftKey && cellSelectionStart) {
         // Extend from existing start
         setCellSelection(cellSelectionStart, { row, col });
+      } else if (shiftKey) {
+        // Shift+klik zonder celbereik breidt de RIJselectie uit (handleCellClick).
+        // Hier geen bereik van één cel maken: dan kopieerde Ctrl+C alleen die
+        // ene cel in plaats van de geselecteerde regels (knownbug 26).
+        isDraggingRef.current = false;
+        return;
       } else {
         setCellSelection({ row, col }, { row, col });
       }
@@ -552,7 +558,15 @@ export const CostGrid: React.FC = () => {
 
   return (
     <div className={`cost-grid-wrapper${isWpcalcView ? ' grid-view-wpcalc-wrapper' : ''}`}>
-      <FindReplaceDialog open={showFindReplace} onClose={() => setShowFindReplace(false)} />
+      <FindReplaceDialog
+        open={showFindReplace}
+        onClose={() => {
+          setShowFindReplace(false);
+          // Focus terug naar het grid: anders staat hij op <body> en werken
+          // pijltjes en Ctrl+C/X/V pas weer na een klik (knownbug 44).
+          requestAnimationFrame(() => containerRef.current?.focus({ preventScroll: true }));
+        }}
+      />
       <div
         ref={containerRef}
         className={`cost-grid${isWpcalcView ? ' grid-view-wpcalc' : ''}`}

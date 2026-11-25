@@ -43,9 +43,11 @@ export default function FindReplaceDialog({ open, onClose }: Props) {
     const out: { id: string; field: 'description' | 'code' | 'nr'; text: string }[] = [];
     for (const item of items) {
       if (item.rowType === 'witregel') continue;
+      // Eén treffer per VELD: met code "BET" en omschrijving "Beton" moeten
+      // beide vervangen worden (knownbug 23).
       if (item.description?.toLowerCase().includes(q)) out.push({ id: item.id, field: 'description', text: item.description });
-      else if (item.code?.toLowerCase().includes(q)) out.push({ id: item.id, field: 'code', text: item.code });
-      else if (item.nr?.toLowerCase().includes(q)) out.push({ id: item.id, field: 'nr', text: item.nr });
+      if (item.code?.toLowerCase().includes(q)) out.push({ id: item.id, field: 'code', text: item.code });
+      if (item.nr?.toLowerCase().includes(q)) out.push({ id: item.id, field: 'nr', text: item.nr });
     }
     return out;
   }, [items, query]);
@@ -86,7 +88,8 @@ export default function FindReplaceDialog({ open, onClose }: Props) {
     if (current.field === 'nr') { findNext(1); return; } // nr is berekend — overslaan
     pushHistory(items, t('undo.replace'));
     const re = new RegExp(query.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
-    updateItem(current.id, current.field, current.text.replace(re, replaceWith));
+    // Functie als vervanging: "$'" en "$&" in de tekst blijven letterlijk (knownbug 23).
+    updateItem(current.id, current.field, current.text.replace(re, () => replaceWith));
     // cursor blijft — de lijst herrekent en schuift vanzelf op
   }, [current, query, replaceWith, items, pushHistory, updateItem, findNext, t]);
 
@@ -98,7 +101,7 @@ export default function FindReplaceDialog({ open, onClose }: Props) {
     if (targets.length === 0) return;
     pushHistory(items, t('undo.replaceAll', { count: targets.length }));
     for (const m of targets) {
-      updateItem(m.id, m.field, m.text.replace(re, replaceWith));
+      updateItem(m.id, m.field, m.text.replace(re, () => replaceWith));
     }
   }, [matches, query, replaceWith, items, pushHistory, updateItem, t]);
 

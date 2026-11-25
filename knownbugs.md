@@ -31,86 +31,13 @@ stand van `main` op die datum.
     beide zouden geweigerd moeten worden. Zelfde oorzaak als #16. Voorstel: een strikt patroon gebruiken
     zoals in `parseLocaleNumber`. — B
 
-20. **Tab in de celeditor komt nog op verborgen kolommen.** `src/components/grid/GridCellEditor.tsx:28`
-    (`editableCols`). 8b91b0a loste dit op voor navigatie in het grid, maar niet voor Tab in de editor.
-    Nagespeeld: met Prod.norm verborgen gaat Tab vanuit Aantal naar `productienorm` en opent een editor van 0px
-    breed. Voorstel: verborgen kolommen filteren zoals `colVisible` in `useGridNavigation` doet. — B
-
-22. **De Delete-toets schrijft naar de kolomnaam in plaats van naar het echte veld.**
-    `src/components/grid/useGridNavigation.ts:187-210` (het Delete-geval). Het roept `updateItem(itemId,
-    col.key, …)` aan zonder de vertaling uit `commitEdit` (`productienorm→normQuantity`,
-    `productiecapaciteit→normFactor`, `hoeveelheid`/`uren→quantity`, `chapterCode→code`). Nagespeeld: Delete op
-    Prod.norm laat de norm staan, slaat een los veld `productienorm: null` op en voegt een lege undo-stap toe.
-    Het negeert ook `isCellEditable`: Eenheid krijgt `'st'` op hoofdstukken en lege regels. Voorstel: de
-    vertaling naar `gridConstants` verplaatsen en delen; niet-bewerkbare cellen overslaan. — B
-
-23. **Zoeken en vervangen: "Alles vervangen" slaat de code over als de omschrijving ook past, en `$`-patronen
-    worden geïnterpreteerd.** `src/components/grid/FindReplaceDialog.tsx:46-48`, `:96-103`. Een `if / else if`
-    geeft hoogstens één treffer per item: met code `BET` en omschrijving "Beton storten" vervangt zoeken op `bet`
-    alleen in de omschrijving. Daarnaast gaat de vervangtekst rechtstreeks in `String.replace`: `post ($'s)`
-    geeft "Stelpost ( gronds) grond". Nagespeeld. Voorstel: één treffer per veld; `.replace(re, () =>
-    replaceWith)`. — B
-
-24. **Ctrl+Z, Ctrl+Y en Ctrl+C doen niets met Caps Lock aan.** `src/hooks/useKeyboardShortcuts.ts:41,44`,
-    `useGridNavigation.ts:43`: ze vergelijken `e.key === 'z'`, en met Caps Lock is de toets `'Z'`. Voorstel:
-    `e.key.toLowerCase()`. — S
-
-26. **Na Shift+klik kopieert Ctrl+C één cel in plaats van de geselecteerde regels.** `useGridNavigation.ts:49`,
-    `CostGrid.tsx:337-342`, `selectionSlice.ts:97-108`. Mousedown met Shift maakt een selectie van één cel, en
-    `setActiveCellExtend` laat die staan; Ctrl+C kopieert dan `"01.03"` en het app-klembord blijft leeg.
-    Nagespeeld. Voorstel: de celselectie wissen in `setActiveCellExtend`. — B
-
-27. **Gekopieerde tekst met tabs of regeleinden haalt de kolommen in Excel door elkaar.**
-    `useGridNavigation.ts:64-66`, `excelClipboard.ts:101`. Voorstel: zulke waarden tussen `"…"` zetten en elke
-    `"` erin verdubbelen. — S
-
 28. **"Kopiëren naar Excel" schrijft getallen met een decimale punt, dus Nederlandse Excel maakt van 12.5 een
     datum.** `excelClipboard.ts:24-26` (`String(n)`; ook float-ruis, en 0 wordt leeg). Voorstel: dezelfde
     opmaak gebruiken als `getGridCellDisplayValue`. — S
 
-29. **Ctrl+C op regels zet nooit tekst op het systeemklembord.** `useGridNavigation.ts:43-44`, `:89-92` tegenover
-    `useKeyboardShortcuts.ts:33`, `:61-68`: de handler van de tabel roept `preventDefault` aan, en de globale
-    handler slaat alles met `defaultPrevented` over, dus `copyItemsToExcel` draait nooit. Voorstel:
-    `copyItemsToExcel` aanroepen in het regelpad van de tabel. — S
-
 30. **Ctrl+X na een sleepselectie knipt de eerder actieve regel** (minder zeker). `useKeyboardShortcuts.ts:70-74`,
     `CostGrid.tsx:330-352`. Voorstel: een celbereik bij knippen omzetten naar regels, of de sleepactie de actieve
     regel laten bijwerken. — S
-
-31. **"Regel boven invoegen" op het eerste kind voegt onderaan in.** `src/components/grid/GridContextMenu.tsx:95`,
-    `:99`: `prevSibling` is undefined, dus `findInsertIndex` valt terug op "na het laatste kind". P › A,B,C →
-    Boven A invoegen geeft A, B, C, NEW. Hetzelfde gebeurt met "Als eerste kind invoegen" bij hoofdstukken.
-    Nagespeeld. Voorstel: een pad "invoegen vóór" (`beforeItemId`, of `moveItems(..., 'before')`). — B
-
-32. **"Nieuwe post" in het lint geeft een rijindex van de tabel door als index onder de zusters.**
-    `src/components/ribbon/HomeTab.tsx:154`. Met P0 geselecteerd (rij 1) komt NEW na P1 terecht; verder omlaag in
-    de tabel groeit de verschuiving. Nagespeeld. Voorstel: de id van het actieve item doorgeven en
-    `findInsertIndex` gebruiken, zoals `addChapter` doet. — B
-
-33. **"Nieuw hoofdstuk" in het lint op een regel maakt een hoofdstuk binnen een post.** `HomeTab.tsx:146-148`.
-    Nagespeeld. Voorstel: omhoog lopen naar het dichtstbijzijnde hoofdstuk en diens `parentId` gebruiken. — B
-
-34. **Meerdere regels laten uitspringen draait hun volgorde om.** `GridContextMenu.tsx:156-162` + `outdentItem`
-    (`costItemsSlice.ts:511`). P › A,B,C, A+B uitspringen geeft P(C), B, A. Nagespeeld. Voorstel: in omgekeerde
-    volgorde verwerken, of `moveItems(ids, parentId, 'after')` gebruiken. — B
-
-35. **"Verplaatsen naar hoofdstuk" zet het item eerst of laatst, afhankelijk van de richting.**
-    `GridContextMenu.tsx:226` (`updateItem(id, 'parentId', …)`). Omlaag verplaatst wordt het het eerste kind,
-    omhoog het laatste. Een meervoudige selectie wordt genegeerd. Nagespeeld. Voorstel: `moveItems` met een
-    expliciete toevoeging achteraan. — B
-
-36. **Percentagevelden in de staart tonen na ongedaan maken de oude waarde.**
-    `src/components/grid/WpCalcBottomPanel.tsx:361-366` gebruikt een ongecontroleerde `defaultValue` zonder
-    `key` die van de waarde afhangt. Nagespeeld. Voorstel: `key={`pct-${r.id}-${r.percentage}`}`. — B
-
-37. **In- en uitklikken van een percentageveld voegt een undo-stap toe en markeert het bestand als gewijzigd.**
-    `WpCalcBottomPanel.tsx:283-290`: `handlePercentageChange` controleert niet of de waarde ongewijzigd is,
-    anders dan de naastliggende handlers. Nagespeeld. Voorstel: vroeg teruggaan bij een ongewijzigde waarde;
-    één `updateItem` in plaats van twee. — B
-
-38. **Het feedbackvenster verstuurt een bericht van alleen spaties.**
-    `src/components/common/FeedbackDialog.tsx:67` controleert `message.length` op de ongetrimde tekst en
-    verstuurt daarna `trim()`. Nagespeeld. Voorstel: valideren met `message.trim().length`. — B
 
 39. **Het menu Bestand toont "Ctrl+," bij Voorkeuren, maar er is geen handler.**
     `src/components/backstage/Backstage.tsx:683`. Voorstel: de sneltoets koppelen of het label weghalen. — S
@@ -131,16 +58,9 @@ stand van `main` op die datum.
     wordt Nr. 240px en Omschrijving 70px. `setColumnWidth` past ook de minimumbreedte van de verkeerde kolom
     toe. Zie #42 voor het voorstel. — B
 
-44. **Na het sluiten van Zoeken/Vervangen verliest het grid de toetsenbordfocus.** `CostGrid.tsx`
-    (`FindReplaceDialog onClose`): de focus gaat naar `<body>`, dus pijltjes en Ctrl+C/X/V werken pas weer na
-    een klik. Na een celbewerking is dit opgelost (`GridCellEditor.tsx` geeft de focus terug). — B
-
 45. **Notities in het paneel Eigenschappen zijn niet ongedaan te maken, en de volgende Ctrl+Z wist ze.**
     `src/components/panels/PropertiesPanel.tsx:163`. Nagespeeld. Voorstel: één undo-stap opslaan bij focus of
     bij de eerste wijziging (zoals `CalculationWizard.tsx:68`). — B
-
-46. **Ongeldige getalinvoer (`abc`) voegt een lege undo-stap toe en wist redo.**
-    `src/components/grid/useGridEditing.ts:44` tegenover `:64-66`. Nagespeeld. Voorstel: eerst valideren, dan `pushHistory`. — B
 
 270. **In UI-2 is de productiecapaciteit onzichtbaar, terwijl hij uren en loon deelt.** De WpCalc-kolommen
     (`src/components/grid/gridConstants.ts`, `WPCALC_COLUMN_DEFS`) hebben geen kolom pcap; een capaciteit die in
