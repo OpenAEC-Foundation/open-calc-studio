@@ -409,10 +409,10 @@ stand van `main` op die datum.
 137. **De sjabloonkeuzelijst vervangt de hele offerte zonder bevestiging of undo** (`OfferteTab.tsx:309-320`).
      Met minder zekerheid gemeld. — S
 
-138. **De `.total-row` van het IFC-rapport wordt wit op wit afgedrukt zonder achtergrondafbeeldingen.**
-     `reportGenerator.ts:144-149`. Gezien in de code. Mogelijk ook: in donkere modus blijft de achtergrond van
-     `:root` donker bij afdrukken op het web (`browserPrint.ts:29-32`), niet getest. Voorstel:
-     `print-color-adjust: exact`. — S
+138. **In donkere modus blijft de achtergrond van `:root` mogelijk donker bij afdrukken op het web**
+     (`src/services/print/browserPrint.ts:27-30`; de printstijl zet alleen hoogte en overflow van `html` en
+     `body` terug). Niet getest. (Het eerste deel van dit punt, de witte totaalregel van het IFC-rapport, is
+     hersteld.) — S
 
 141. **De inhoud van de offerte-PDF begint 15 mm te hoog en valt over het briefhoofd.**
      `src-tauri/src/reports/offerte.rs:58-59` maakt het frame met `Rect::new(margin_left, margin_bottom, …)`,

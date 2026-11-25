@@ -154,6 +154,10 @@ export function generateReport(schedule: CostSchedule, allItems: CostItem[], ctx
       color: white;
       font-weight: 700;
       font-size: 12px;
+      /* Witte tekst: zonder achtergrondafbeeldingen bij afdrukken anders wit
+         op wit (knownbug 138). */
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
     .total-row td { border-color: #2d8a4e; }
     .summary-box {
