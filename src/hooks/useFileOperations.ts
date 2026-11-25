@@ -113,6 +113,38 @@ export async function openDesktopFile(filePath: string, text?: string): Promise<
   showImportWarnings(importResult, fullName);
 }
 
+/** Extensies die openDesktopFile zelf leest (native of via de algemene import). */
+const DESKTOP_OPEN_EXTS = [
+  ...NATIVE_OPEN_EXTS, 'calc', 'mdb', 'xtb', 'xls', 'xlsx', 'csv', 'rsx', 'dnc', 'bc3', 'onlv', 'onlb',
+  'x81', 'x82', 'x83', 'x84', 'x86', 'x87', 'xml', 'xpwe', 'xc4', 'cuf',
+];
+
+/** Kan openDesktopFile dit bestand openen? Een PDF of IFC bijvoorbeeld niet. */
+export function canOpenDesktopFile(filePath: string): boolean {
+  const ext = filePath.split('.').pop()?.toLowerCase() || '';
+  return DESKTOP_OPEN_EXTS.includes(ext)
+    || useAppStore.getState().extensionImporters.some(i => i.fileExtensions.some(fe => fe.replace(/^\./, '').toLowerCase() === ext));
+}
+
+/**
+ * Bestanden die het besturingssysteem aanreikt (dubbelklik op een gekoppeld
+ * bestand, slepen naar het venster): hetzelfde pad als Openen, dus een .calc
+ * met JSON-inhoud houdt zijn spreadsheets en een CSV wordt geïmporteerd.
+ * Bestanden die OCS niet opent, slaan we over; een fout wordt gemeld.
+ */
+export async function openDesktopFiles(filePaths: string[]): Promise<void> {
+  for (const filePath of filePaths) {
+    if (!canOpenDesktopFile(filePath)) continue;
+    try {
+      await openDesktopFile(filePath);
+    } catch (err) {
+      if (isImportCancelled(err)) continue;
+      console.error('[Open] Failed to open:', filePath, err);
+      await showError(uiText('files.openFailed', 'Cannot open file: {{error}}', { error: String(err) }));
+    }
+  }
+}
+
 export function useFileOperations() {
   const { t } = useTranslation();
   const {

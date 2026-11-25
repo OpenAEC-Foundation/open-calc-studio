@@ -97,7 +97,9 @@ function detectDelimiter(headerLine: string): string {
  * Een `"` opent alleen aan het begin van een veld een geciteerd veld; daarbinnen
  * mogen scheidingstekens en regeleinden staan (Excel schrijft cellen met
  * meerdere regels zo) en is `""` één aanhalingsteken. Een `"` midden in een
- * veld (`Buis 4" PVC`) is een gewoon teken. Lege regels vallen weg.
+ * veld (`Buis 4" PVC`) is een gewoon teken. Lege regels vallen weg. Sluit een
+ * geciteerd veld nooit, dan telt die openende `"` als gewoon teken en lezen we
+ * vanaf daar opnieuw, zodat de rest van het bestand niet in één cel verdwijnt.
  */
 function parseCsvRows(text: string, delim: string): string[][] {
   const rows: string[][] = [];
@@ -117,15 +119,26 @@ function parseCsvRows(text: string, delim: string): string[][] {
     rows.push(row); row = [];
     if (rows.length > WORKBOOK_LIMITS.rows) throw Error('CSV exceeds 100,000 rows.');
   };
-  for (let i = 0; i < text.length; i++) {
+  // Openende quotes die nooit sluiten: die lezen we als gewoon teken.
+  const literalQuotes = new Set<number>();
+  let opened = { at: -1, rows: 0, row: [] as string[], cells: 0 };
+  for (let i = 0; i <= text.length; i++) {
+    if (i === text.length) {
+      if (!inQuotes) break;
+      literalQuotes.add(opened.at);
+      rows.length = opened.rows; row = opened.row; cells = opened.cells;
+      cur = ''; inQuotes = false; i = opened.at - 1;
+      continue;
+    }
     const ch = text[i];
     if (inQuotes) {
       if (ch !== '"') cur += ch;
       else if (text[i + 1] === '"') { cur += '"'; i += 1; }
       else inQuotes = false;
-    } else if (ch === '"' && cur.trim() === '') {
+    } else if (ch === '"' && cur.trim() === '' && !literalQuotes.has(i)) {
       // Alleen witruimte vóór de quote: dat is het begin van het veld.
       inQuotes = true; cur = '';
+      opened = { at: i, rows: rows.length, row: row.slice(), cells };
     } else if (ch === delim) {
       endField();
     } else if (ch === '\n' || ch === '\r') {
@@ -189,9 +202,14 @@ export function parseXlsxTabular(buf: ArrayBuffer | Uint8Array, sourceName = 'Ex
   if (!best || best.rows.length === 0) return { headers: [], rows: [], sourceName };
   const toStr = (v: unknown) => (v == null ? '' : String(v).trim());
   // Een titelregel ("Begroting nieuwbouw") boven de kop is geen kopregel: de
-  // kop is de eerste rij met minstens twee gevulde cellen (knownbug 81).
-  const filledCells = (r: unknown[]) => r.filter((v) => v != null && v !== '').length;
-  const headerIndex = Math.max(0, best.rows.findIndex((r) => filledCells(r) >= 2));
+  // kop is de eerste rij met minstens twee gevulde cellen (knownbug 81). Een
+  // rij erboven met één bekende kolomnaam ("Omschrijving") is wél de kop: dan
+  // heeft alleen die kolom een naam en is de volgende rij al gegevens.
+  const filled = (r: unknown[]) => r.filter((v) => v != null && v !== '');
+  const firstWide = best.rows.findIndex((r) => filled(r).length >= 2);
+  const knownLabel = best.rows.slice(0, Math.max(0, firstWide))
+    .findIndex((r) => filled(r).some((v) => autoDetectMapping([toStr(v)])[0] !== 'ignore'));
+  const headerIndex = knownLabel >= 0 ? knownLabel : Math.max(0, firstWide);
   const headers = best.rows[headerIndex].map(toStr);
   const rows = best.rows.slice(headerIndex + 1).map((r) => r.map(toStr));
 

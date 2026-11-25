@@ -31,7 +31,8 @@ vi.mock('@/services/file/nativeFileService', async (importOriginal) => {
   };
 });
 
-const { useFileOperations, toIfcCalcPath } = await import('@/hooks/useFileOperations');
+const { useFileOperations, toIfcCalcPath, openDesktopFiles } = await import('@/hooks/useFileOperations');
+const { projectContentKey, serializeDocument } = await import('@/services/file/documentSnapshot');
 const { showError } = await import('@/services/file/nativeFileService');
 
 const initial = useAppStore.getState();
@@ -124,5 +125,42 @@ describe('Opslaan bewaart aanmaakdatum en actief spreadsheet (knownbugs 110, 111
     disk.set('C:/p/project2.ifcCalc', enc(saved[0]));
     await act(async () => { await ops.openRecentFile('C:/p/project2.ifcCalc'); });
     expect(s().activeSubSheetId).toBe('s2');
+  });
+});
+
+describe('Slepen en dubbelklikken openen via hetzelfde pad (review knownbugs 61, 62)', () => {
+  it('een gesleepte .calc met native JSON houdt zijn spreadsheets', async () => {
+    disk.set('C:/p/oud.calc', enc(projectJson()));
+    await act(async () => { await openDesktopFiles(['C:/p/oud.calc']); });
+    expect(s().subSheets.map((x) => x.id)).toEqual(['s1', 's2']);
+    expect(showError).not.toHaveBeenCalled();
+  });
+
+  it('importeert een gesleepte CSV en slaat een PDF over', async () => {
+    disk.set('C:/p/lijst.csv', enc(['Omschrijving;Eenheid;Hoeveelheid;Prijs', 'Beton;m3;10;95'].join(String.fromCharCode(10))));
+    const before = s().documents.length;
+    await act(async () => { await openDesktopFiles(['C:/p/tekening.pdf', 'C:/p/lijst.csv']); });
+    expect(s().documents).toHaveLength(before + 1);
+    expect(s().items.some((i) => i.description === 'Beton')).toBe(true);
+    expect(showError).not.toHaveBeenCalled();
+  });
+
+  it('meldt een bestand dat niet te openen is', async () => {
+    await act(async () => { await openDesktopFiles(['C:/p/weg.ifcCalc']); });
+    expect(showError).toHaveBeenCalledOnce();
+  });
+});
+
+describe('Een ander spreadsheet kiezen is geen inhoudswijziging (review knownbug 111)', () => {
+  it('houdt dezelfde inhoudssleutel na een tabbladwissel', async () => {
+    disk.set('C:/p/project.ifcCalc', enc(projectJson()));
+    await act(async () => { await ops.openRecentFile('C:/p/project.ifcCalc'); });
+    const key = () => {
+      const state = s();
+      return projectContentKey(serializeDocument(state, state.documents.find((d) => d.id === state.activeDocumentId)!));
+    };
+    const before = key();
+    s().setActiveSubSheet('s2');
+    expect(key()).toBe(before);
   });
 });

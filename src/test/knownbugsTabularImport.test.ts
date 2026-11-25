@@ -112,3 +112,25 @@ describe('CSV die met "PK" begint (knownbug 102)', () => {
     expect(posted).toHaveBeenCalledOnce();
   });
 });
+
+describe('review-vervolg: onafgesloten quote en kop met één kolomnaam', () => {
+  it('een quote die nooit sluit slokt de rest van het bestand niet op', () => {
+    const data = parseCsv(['Omschrijving;Hoeveelheid;Eenheid', '"12 inch buis;10;m', 'Beton;2;m3', 'Zand;3;m3'].join(String.fromCharCode(10)), 'csv');
+    expect(data.rows).toEqual([['"12 inch buis', '10', 'm'], ['Beton', '2', 'm3'], ['Zand', '3', 'm3']]);
+  });
+
+  it('herstelt ook na een eerder geldig geciteerd veld', () => {
+    const data = parseCsv(['Omschrijving,Prijs', '"Deur, groot",12', '"Raam,5', 'Kozijn,7'].join(String.fromCharCode(10)), 'csv');
+    expect(data.rows).toEqual([['Deur, groot', '12'], ['"Raam', '5'], ['Kozijn', '7']]);
+  });
+
+  it('neemt een kopregel met één bekende kolomnaam als kop', () => {
+    const data = parseXlsxTabular(xlsxBytes([
+      ['Omschrijving', null],
+      ['Beton', 10],
+      ['Zand', 3],
+    ]), 'x.xlsx');
+    expect(data.headers).toEqual(['Omschrijving', '']);
+    expect(data.rows).toEqual([['Beton', '10'], ['Zand', '3']]);
+  });
+});

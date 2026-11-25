@@ -27,6 +27,9 @@ export function serializeDocument(state: AppStore, doc: DocumentTab): string {
 }
 export function projectContentKey(json: string): string {
   const project = JSON.parse(json); delete project.createdAt; delete project.modifiedAt;
+  // Het actieve spreadsheet wordt mee opgeslagen (knownbug 111), maar een
+  // ander tabblad aanklikken verandert de inhoud niet.
+  if (project.spreadsheets && typeof project.spreadsheets === 'object') delete project.spreadsheets.activeSheetId;
   return JSON.stringify(project);
 }
 export function documentChangedSince(state: AppStore, id: string, saved: string): boolean {
