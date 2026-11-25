@@ -10,7 +10,10 @@ import Modal from "../common/Modal";
 import "./SettingsDialog.css";
 import type { NumberFormatPreference } from "@/utils/formatting";
 
+// "system" volgt het besturingssysteem (licht/donker); voorheen maakte
+// Instellingen er stil "light" van (knownbug 198).
 const THEME_OPTIONS = [
+  { value: "system", labelKey: "appearance.system" },
   { value: "light", labelKey: "appearance.light" },
   { value: "dark", labelKey: "appearance.dark" },
   { value: "blueprint", labelKey: "appearance.blueprint" },
@@ -31,6 +34,23 @@ export function applyTheme(theme: string) {
   setHostAttribute("data-theme", resolved);
   setHostAttribute("data-oa-theme", resolved);
   try { localStore.setItem("ocs-theme", resolved); } catch { /* ignore */ }
+}
+
+/** Kiezer-waarde: "system" blijft "system", oude namen worden een Blueprint-thema. */
+function themeChoice(theme: string): string {
+  return theme === "system" ? "system" : blueprintTheme(theme);
+}
+
+/**
+ * Bij thema "system": volg een live wissel van licht/donker in het
+ * besturingssysteem (knownbug 198). Geeft een opruimfunctie terug.
+ */
+export function followSystemTheme(theme: string): () => void {
+  if (theme !== "system" || typeof window.matchMedia !== "function") return () => {};
+  const query = window.matchMedia("(prefers-color-scheme: dark)");
+  const onChange = () => applyTheme("system");
+  query.addEventListener?.("change", onChange);
+  return () => query.removeEventListener?.("change", onChange);
 }
 
 /** Rapporttaal uit de instellingen: een bekende taalcode, anders "auto" (= volg de interface). */
@@ -55,7 +75,7 @@ export default function SettingsDialog({ open, onClose, theme, onThemeChange }: 
   const savedNumberFormat = useAppStore((s) => s.settings.numberFormat ?? 'auto');
   const [activeTab, setActiveTab] = useState("general");
   const [draftReportLang, setDraftReportLang] = useState(() => normalizeReportLang(savedReportLocale));
-  const [draftTheme, setDraftTheme] = useState(blueprintTheme(theme));
+  const [draftTheme, setDraftTheme] = useState(themeChoice(theme));
   const [draftChatBubble, setDraftChatBubble] = useState(savedChatBubble);
   const [draftNumberFormat, setDraftNumberFormat] = useState<NumberFormatPreference>(savedNumberFormat);
   const [draftLang, setDraftLang] = useState(() => {
@@ -68,7 +88,7 @@ export default function SettingsDialog({ open, onClose, theme, onThemeChange }: 
   useEffect(() => {
     if (open) {
       originalTheme.current = theme;
-      setDraftTheme(blueprintTheme(theme));
+      setDraftTheme(themeChoice(theme));
       const lang = i18next.language || savedLocale?.split("-")[0] || "auto";
       setDraftLang(LANGUAGES.some((l) => l.code === lang) ? lang : "auto");
       setDraftReportLang(normalizeReportLang(savedReportLocale));

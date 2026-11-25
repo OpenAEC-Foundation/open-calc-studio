@@ -21,7 +21,7 @@ import { PriceUpdateDialog } from './components/library/PriceUpdateDialog';
 import Ribbon from "./components/ribbon/Ribbon";
 import StatusBar from "./components/layout/StatusBar";
 import Backstage from "./components/backstage/Backstage";
-import SettingsDialog, { applyTheme } from "./components/settings/SettingsDialog";
+import SettingsDialog, { applyTheme, followSystemTheme } from "./components/settings/SettingsDialog";
 import FeedbackDialog from "./components/common/FeedbackDialog";
 import UnsavedChangesDialog, { registerUnsavedDialogSetter, handleUnsavedResult, showUnsavedChangesDialog, isUnsavedDialogOpen } from "./components/common/UnsavedChangesDialog";
 import { shouldAutoSave } from "./services/file/autoSave";
@@ -452,6 +452,7 @@ function App() {
 
   useEffect(() => {
     applyTheme(theme);
+    return followSystemTheme(theme);
   }, [theme]);
 
   // Left panel resize handler
