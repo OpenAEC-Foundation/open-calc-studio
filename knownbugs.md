@@ -171,9 +171,6 @@ stand van `main` op die datum.
 77. **GAEB-Bedarfspositionen (`Provis WithoutTotal`) en alternatieven (`ALNGroupNo`) tellen mee in het totaal**,
     zonder enige markering (`gaebImporter.ts:73-80`). Minder zeker dan de andere importpunten. — S
 
-78. **`liteXml.ts:172`: in attributen wordt `&#10;` een spatie en CRLF twee spaties.** Geen praktisch effect;
-    minder zeker dan de andere importpunten. — S
-
 80. **Verversen maakt van Excel-foutcellen hoeveelheden (`#DIV/0!` → 7, `#N/A` → 42).**
     `excelLinkService.ts:119`. Voorstel: geef een fout bij `t === 'e'`, zoals `tabularBudget.ts:52` al doet.
     Tweede controle bevestigt het; het deel over `t === 'b'` is niet nodig. — B
