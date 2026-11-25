@@ -390,28 +390,15 @@ stand van `main` op die datum.
 
 ## Rapport, offerte en afdrukken
 
-122. **"Alleen hoofdstuktotalen" met Hoofdaanneming drukt geen bedragen af.** Hoofdaanneming toont bedragen
-     alleen in de subtotalen van posten, en juist die posten worden weggefilterd
-     (`src/services/print/printService.ts:176`, `:260-268`, `:300`; in Rust ook
-     `src-tauri/src/reports/generator.rs:770-826`). Het resultaat: hoofdstukregels met een lege bedragkolom en
-     daarna alleen het eindtotaal. Voorstel: toon bij alleen-hoofdstuktotalen `item.total` op de
-     hoofdstukregels, in TS en in Rust. — B
-
-125. **Percentages in de Bouw 1-samenvatting negeren de rapporttaal** (`0.5 %` in een Nederlands rapport;
-     `src/services/print/bouw1PrintService.ts:556, 566, 578, 590, 657`). Nagespeeld. Voorstel:
-     `Intl.NumberFormat(ctx.intlLocale, { maximumFractionDigits: 2 })`. — B
-
-126. **Afdrukken in de webversie negeert de instelling "Rapportdatum".** `printService.ts:206` en
-     `bouw1PrintService.ts:256` gebruiken altijd `new Date()`; Rust houdt zich wel aan `schedule.reportDate`.
-     Voorstel: gebruik `reportDate`, gelezen als lokale datum. — S
+122. **"Alleen hoofdstuktotalen" met Hoofdaanneming drukt in de PDF geen bedragen af.** Hoofdaanneming toont
+     bedragen alleen in de subtotalen van posten, en juist die posten worden weggefilterd
+     (`src-tauri/src/reports/generator.rs:743-806`, `"total" | "unitPrice" if use_chapter_subtotals`). Het
+     resultaat: hoofdstukregels met een lege bedragkolom en daarna alleen het eindtotaal. De HTML-afdruk
+     (`printService.ts`) is hersteld; Rust nog niet. Voorstel: toon bij alleen-hoofdstuktotalen `item.total` op
+     de hoofdstukregels. — B
 
 127. **`SummaryPanel.tsx` toont `aanneemsomAfgerond` (incl. btw) onder "excl. btw".** Nauwelijks bereikbaar.
      Zie ook #130. — S
-
-128. **De Bouw 1 HTML-samenvatting laat bij BasCalc-imports de regels UKK/AK/W&R weg.** Zie ook #193. — S
-
-129. **De Bouw 1 HTML-afdruk toont nooit het logo van de gebruiker**: `reportOutput` geeft
-     `logoDataUrl: undefined` mee. — S
 
 130. **Het samenvattingspaneel toont onder "excl. BTW" een bedrag inclusief btw.**
      `src/components/report/SummaryPanel.tsx:93`, `:15`. Nagespeeld: €10.000 met de standaardstaart geeft

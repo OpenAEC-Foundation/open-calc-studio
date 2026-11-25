@@ -17,3 +17,13 @@ export function parseLocalIsoDate(value: string | null | undefined): Date | null
   const date = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
   return date.getMonth() === Number(m[2]) - 1 ? date : null;
 }
+
+/**
+ * Datum in de kop van een afdruk: de instelling "Rapportdatum"
+ * (`schedule.reportDate`) of, zonder (geldige) datum, vandaag. Zo volgt de
+ * webafdruk dezelfde datum als de PDF uit Rust (knownbug 126).
+ */
+export function formatReportDate(reportDate: string | null | undefined, intlLocale: string): string {
+  const date = parseLocalIsoDate(reportDate) ?? new Date();
+  return date.toLocaleDateString(intlLocale, { day: '2-digit', month: '2-digit', year: 'numeric' });
+}
