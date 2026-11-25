@@ -931,10 +931,6 @@ stand van `main` op die datum.
 
 ## Tests en tooling
 
-251. **`npm run test:e2e` vindt 0 tests en geeft een fout.** `playwright.config.ts:4-5` laadt ook het
-     Vitest-bestand `tests/platform/hostedPolicy.test.tsx`. Nagespeeld. Voorstel: `testMatch: '*.spec.ts'` of
-     een `testIgnore`. — B
-
 253. **Het API-Docker-image meldt altijd `commit: unknown, dirty: true`.** `Dockerfile` en
      `scripts/distribution-notices.mjs:39-40`: in het image zit geen `.git` en geen git. Afgeleid uit de code.
      Voorstel: een env-variabele `OCS_COMMIT`, gezet vanuit het build-argument `REVISION`. — S
@@ -944,9 +940,6 @@ stand van `main` op die datum.
 
 255. **`version.mjs next` gebruikt de UTC-datum**, dus lokaal krijg je op maandag tussen 00:00 en 01:00/02:00
      het nummer van vorige week. — S
-
-277. **`vitest.platform.config.ts` vervangt het hele testblok** en krijgt daardoor niet de nieuwe limieten
-    van 15 s uit `vite.config.ts`. Gevonden bij de fix van knownbug 258. — B
 
 ## Wensen en open taken (geen bug)
 
