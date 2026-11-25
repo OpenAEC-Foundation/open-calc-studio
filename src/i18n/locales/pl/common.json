@@ -455,6 +455,7 @@
     "errNoConnection": "⚠️ Brak połączenia z usługą OpenAEC. Czy serwer kont działa (localhost:4000)?\n\n_Szczegóły: {{detail}}_",
     "errServer": "⚠️ Usługa AI OpenAEC zwróciła błąd serwera ({{status}}) — problem występuje po stronie serwera.\n\n_Szczegóły: {{detail}}_",
     "errGeneric": "⚠️ Wywołanie AI nie powiodło się{{statusSuffix}}.\n\n_Szczegóły: {{detail}}_",
+    "errTruncated": "⚠️ Odpowiedź była zbyt długa i została ucięta, więc nie zaproponowano żadnych zmian. Poproś o mniej wierszy naraz.",
     "localTotal": "Łączny koszt własny tego kosztorysu wynosi **{{total}}** netto.\n\nPodział na działy:\n{{list}}",
     "localChapters": "Kosztorys zawiera **{{count}} działów**:\n{{list}}\n\n**Razem: {{total}}**",
     "localTop": "Najdroższe działy:\n{{list}}",

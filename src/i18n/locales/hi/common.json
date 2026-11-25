@@ -453,6 +453,7 @@
     "errNoConnection": "⚠️ OpenAEC सेवा से कनेक्शन नहीं है। क्या accounts सर्वर चल रहा है (localhost:4000)?\n\n_विवरण: {{detail}}_",
     "errServer": "⚠️ OpenAEC AI सेवा ने सर्वर त्रुटि दी ({{status}}) — यह सर्वर की ओर की समस्या है।\n\n_विवरण: {{detail}}_",
     "errGeneric": "⚠️ AI कॉल विफल{{statusSuffix}}।\n\n_विवरण: {{detail}}_",
+    "errTruncated": "⚠️ उत्तर बहुत लंबा था और कट गया, इसलिए कोई बदलाव प्रस्तावित नहीं किया गया। एक बार में कम पंक्तियाँ माँगें।",
     "localTotal": "इस अनुमान का कुल लागत मूल्य **{{total}}** है (जीएसटी रहित)।\n\nअध्यायवार विवरण:\n{{list}}",
     "localChapters": "इस अनुमान में **{{count}} अध्याय** हैं:\n{{list}}\n\n**कुल: {{total}}**",
     "localTop": "सबसे महँगे अध्याय:\n{{list}}",

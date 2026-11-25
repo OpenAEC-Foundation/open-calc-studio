@@ -453,6 +453,7 @@
     "errNoConnection": "⚠️ Ingen forbindelse til OpenAEC-tjenesten. Kjører kontoserveren (localhost:4000)?\n\n_Detalj: {{detail}}_",
     "errServer": "⚠️ OpenAEC AI-tjenesten svarte med en serverfeil ({{status}}) — dette er et problem på serversiden.\n\n_Detalj: {{detail}}_",
     "errGeneric": "⚠️ AI-kallet mislyktes{{statusSuffix}}.\n\n_Detalj: {{detail}}_",
+    "errTruncated": "⚠️ Svaret var for langt og ble kuttet, så ingen endringer ble foreslått. Be om færre linjer om gangen.",
     "localTotal": "Samlet selvkost for denne kalkylen er **{{total}}** eks. mva.\n\nFordeling per kapittel:\n{{list}}",
     "localChapters": "Kalkylen har **{{count}} kapitler**:\n{{list}}\n\n**Totalt: {{total}}**",
     "localTop": "De dyreste kapitlene:\n{{list}}",

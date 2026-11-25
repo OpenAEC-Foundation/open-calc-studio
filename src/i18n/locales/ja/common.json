@@ -453,6 +453,7 @@
     "errNoConnection": "⚠️ OpenAEC サービスに接続できません。アカウントサーバーは動作していますか（localhost:4000）？\n\n_詳細：{{detail}}_",
     "errServer": "⚠️ OpenAEC AI サービスがサーバーエラー（{{status}}）を返しました — サーバー側の問題です。\n\n_詳細：{{detail}}_",
     "errGeneric": "⚠️ AI の呼び出しに失敗しました{{statusSuffix}}。\n\n_詳細：{{detail}}_",
+    "errTruncated": "⚠️ 回答が長すぎて途中で切れたため、変更は提案されませんでした。一度に依頼する行数を減らしてください。",
     "localTotal": "この積算の原価合計は **{{total}}**（消費税抜き）です。\n\n章ごとの内訳：\n{{list}}",
     "localChapters": "この積算には **{{count}} 個の章** があります：\n{{list}}\n\n**合計：{{total}}**",
     "localTop": "金額の大きい章：\n{{list}}",

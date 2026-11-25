@@ -453,6 +453,7 @@
     "errNoConnection": "⚠️ Ingen anslutning till OpenAEC-tjänsten. Körs kontoservern (localhost:4000)?\n\n_Detalj: {{detail}}_",
     "errServer": "⚠️ OpenAEC AI-tjänsten svarade med ett serverfel ({{status}}) — problemet ligger på serversidan.\n\n_Detalj: {{detail}}_",
     "errGeneric": "⚠️ AI-anropet misslyckades{{statusSuffix}}.\n\n_Detalj: {{detail}}_",
+    "errTruncated": "⚠️ Svaret var för långt och klipptes av, så inga ändringar föreslogs. Be om färre rader åt gången.",
     "localTotal": "Den totala självkostnaden för den här kalkylen är **{{total}}** exkl. moms.\n\nFördelning per kapitel:\n{{list}}",
     "localChapters": "Kalkylen har **{{count}} kapitel**:\n{{list}}\n\n**Totalt: {{total}}**",
     "localTop": "De dyraste kapitlen:\n{{list}}",

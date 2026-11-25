@@ -455,6 +455,7 @@
     "errNoConnection": "⚠️ אין חיבור לשירות OpenAEC. האם שרת החשבונות פועל (localhost:4000)?\n\n_פרטים: {{detail}}_",
     "errServer": "⚠️ שירות ה-AI של OpenAEC החזיר שגיאת שרת ({{status}}) — התקלה בצד השרת.\n\n_פרטים: {{detail}}_",
     "errGeneric": "⚠️ קריאת ה-AI נכשלה{{statusSuffix}}.\n\n_פרטים: {{detail}}_",
+    "errTruncated": "⚠️ התשובה הייתה ארוכה מדי ונקטעה, ולכן לא הוצעו שינויים. בקשו פחות שורות בכל פעם.",
     "localTotal": "מחיר העלות הכולל של אומדן זה הוא **{{total}}** ללא מע\"מ.\n\nפירוט לפי פרק:\n{{list}}",
     "localChapters": "באומדן יש **{{count}} פרקים**:\n{{list}}\n\n**סה\"כ: {{total}}**",
     "localTop": "הפרקים היקרים ביותר:\n{{list}}",

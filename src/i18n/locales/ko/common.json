@@ -453,6 +453,7 @@
     "errNoConnection": "⚠️ OpenAEC 서비스에 연결할 수 없습니다. 계정 서버가 실행 중입니까(localhost:4000)?\n\n_상세: {{detail}}_",
     "errServer": "⚠️ OpenAEC AI 서비스가 서버 오류({{status}})를 반환했습니다 — 서버 측 문제입니다.\n\n_상세: {{detail}}_",
     "errGeneric": "⚠️ AI 호출에 실패했습니다{{statusSuffix}}.\n\n_상세: {{detail}}_",
+    "errTruncated": "⚠️ 답변이 너무 길어 잘렸기 때문에 변경 사항이 제안되지 않았습니다. 한 번에 더 적은 행을 요청하세요.",
     "localTotal": "이 내역서의 총 원가는 **{{total}}**(부가세 제외)입니다.\n\n장별 내역:\n{{list}}",
     "localChapters": "이 내역서에는 **{{count}}개의 장**이 있습니다:\n{{list}}\n\n**합계: {{total}}**",
     "localTop": "금액이 가장 큰 장:\n{{list}}",

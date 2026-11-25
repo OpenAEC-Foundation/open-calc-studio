@@ -453,6 +453,7 @@
     "errNoConnection": "⚠️ Sin conexión con el servicio de OpenAEC. ¿Está en marcha el servidor de cuentas (localhost:4000)?\n\n_Detalle: {{detail}}_",
     "errServer": "⚠️ El servicio de IA de OpenAEC ha devuelto un error de servidor ({{status}}): es un problema del lado del servidor.\n\n_Detalle: {{detail}}_",
     "errGeneric": "⚠️ La llamada a la IA ha fallado{{statusSuffix}}.\n\n_Detalle: {{detail}}_",
+    "errTruncated": "⚠️ La respuesta era demasiado larga y se ha cortado, por lo que no se ha propuesto ningún cambio. Pida menos líneas cada vez.",
     "localTotal": "El precio de coste total de este presupuesto es **{{total}}** sin IVA.\n\nDesglose por capítulos:\n{{list}}",
     "localChapters": "El presupuesto tiene **{{count}} capítulos**:\n{{list}}\n\n**Total: {{total}}**",
     "localTop": "Los capítulos más caros:\n{{list}}",

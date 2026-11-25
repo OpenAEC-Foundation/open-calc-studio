@@ -455,6 +455,7 @@
     "errNoConnection": "⚠️ Chýba pripojenie k službe OpenAEC. Beží server účtov (localhost:4000)?\n\n_Detail: {{detail}}_",
     "errServer": "⚠️ AI služba OpenAEC vrátila chybu servera ({{status}}) — ide o problém na strane servera.\n\n_Detail: {{detail}}_",
     "errGeneric": "⚠️ Volanie AI zlyhalo{{statusSuffix}}.\n\n_Detail: {{detail}}_",
+    "errTruncated": "⚠️ Odpoveď bola príliš dlhá a bola skrátená, preto neboli navrhnuté žiadne zmeny. Požiadajte o menej riadkov naraz.",
     "localTotal": "Celkové vlastné náklady tohto rozpočtu sú **{{total}}** bez DPH.\n\nRozdelenie podľa kapitol:\n{{list}}",
     "localChapters": "Rozpočet obsahuje **{{count}} kapitol**:\n{{list}}\n\n**Spolu: {{total}}**",
     "localTop": "Najdrahšie kapitoly:\n{{list}}",

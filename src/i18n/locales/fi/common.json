@@ -453,6 +453,7 @@
     "errNoConnection": "⚠️ Ei yhteyttä OpenAEC-palveluun. Onko tilipalvelin käynnissä (localhost:4000)?\n\n_Lisätieto: {{detail}}_",
     "errServer": "⚠️ OpenAEC-tekoälypalvelu palautti palvelinvirheen ({{status}}) — vika on palvelimen puolella.\n\n_Lisätieto: {{detail}}_",
     "errGeneric": "⚠️ Tekoälykutsu epäonnistui{{statusSuffix}}.\n\n_Lisätieto: {{detail}}_",
+    "errTruncated": "⚠️ Vastaus oli liian pitkä ja katkesi, joten muutoksia ei ehdotettu. Pyydä vähemmän rivejä kerrallaan.",
     "localTotal": "Tämän kustannusarvion omakustannushinta on **{{total}}** ilman alv:tä.\n\nErittely luvuittain:\n{{list}}",
     "localChapters": "Kustannusarviossa on **{{count}} lukua**:\n{{list}}\n\n**Yhteensä: {{total}}**",
     "localTop": "Kalleimmat luvut:\n{{list}}",

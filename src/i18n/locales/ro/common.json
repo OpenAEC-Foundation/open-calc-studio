@@ -454,6 +454,7 @@
     "errNoConnection": "⚠️ Nu există conexiune cu serviciul OpenAEC. Rulează serverul de conturi (localhost:4000)?\n\n_Detaliu: {{detail}}_",
     "errServer": "⚠️ Serviciul AI OpenAEC a returnat o eroare de server ({{status}}) — este o problemă de partea serverului.\n\n_Detaliu: {{detail}}_",
     "errGeneric": "⚠️ Apelul AI a eșuat{{statusSuffix}}.\n\n_Detaliu: {{detail}}_",
+    "errTruncated": "⚠️ Răspunsul a fost prea lung și a fost tăiat, așa că nu s-au propus modificări. Cereți mai puține rânduri odată.",
     "localTotal": "Prețul de cost total al acestui deviz este **{{total}}** fără TVA.\n\nDefalcare pe capitole:\n{{list}}",
     "localChapters": "Devizul are **{{count}} capitole**:\n{{list}}\n\n**Total: {{total}}**",
     "localTop": "Cele mai scumpe capitole:\n{{list}}",

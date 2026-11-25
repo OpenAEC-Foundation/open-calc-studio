@@ -453,6 +453,7 @@
     "errNoConnection": "⚠️ Tiada sambungan ke perkhidmatan OpenAEC. Adakah pelayan akaun sedang berjalan (localhost:4000)?\n\n_Butiran: {{detail}}_",
     "errServer": "⚠️ Perkhidmatan AI OpenAEC memulangkan ralat pelayan ({{status}}) — ini masalah di pihak pelayan.\n\n_Butiran: {{detail}}_",
     "errGeneric": "⚠️ Panggilan AI gagal{{statusSuffix}}.\n\n_Butiran: {{detail}}_",
+    "errTruncated": "⚠️ Jawapan terlalu panjang dan terpotong, jadi tiada perubahan dicadangkan. Minta lebih sedikit baris pada satu masa.",
     "localTotal": "Jumlah harga kos anggaran ini ialah **{{total}}** tidak termasuk GST.\n\nPecahan mengikut bab:\n{{list}}",
     "localChapters": "Anggaran ini mempunyai **{{count}} bab**:\n{{list}}\n\n**Jumlah: {{total}}**",
     "localTop": "Bab yang paling mahal:\n{{list}}",

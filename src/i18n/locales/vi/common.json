@@ -453,6 +453,7 @@
     "errNoConnection": "⚠️ Không kết nối được với dịch vụ OpenAEC. Máy chủ tài khoản có đang chạy không (localhost:4000)?\n\n_Chi tiết: {{detail}}_",
     "errServer": "⚠️ Dịch vụ AI của OpenAEC trả về lỗi máy chủ ({{status}}) — đây là sự cố phía máy chủ.\n\n_Chi tiết: {{detail}}_",
     "errGeneric": "⚠️ Gọi AI thất bại{{statusSuffix}}.\n\n_Chi tiết: {{detail}}_",
+    "errTruncated": "⚠️ Câu trả lời quá dài và bị cắt, nên không có thay đổi nào được đề xuất. Hãy yêu cầu ít dòng hơn mỗi lần.",
     "localTotal": "Tổng giá thành của dự toán này là **{{total}}** chưa thuế GTGT.\n\nPhân tích theo chương:\n{{list}}",
     "localChapters": "Dự toán có **{{count}} chương**:\n{{list}}\n\n**Tổng: {{total}}**",
     "localTop": "Các chương tốn kém nhất:\n{{list}}",

@@ -453,6 +453,7 @@
     "errNoConnection": "⚠️ Keine Verbindung zum OpenAEC-Dienst. Läuft der Accounts-Server (localhost:4000)?\n\n_Detail: {{detail}}_",
     "errServer": "⚠️ Der OpenAEC-KI-Dienst hat einen Serverfehler gemeldet ({{status}}) — das Problem liegt auf der Serverseite.\n\n_Detail: {{detail}}_",
     "errGeneric": "⚠️ KI-Aufruf fehlgeschlagen{{statusSuffix}}.\n\n_Detail: {{detail}}_",
+    "errTruncated": "⚠️ Die Antwort war zu lang und wurde abgeschnitten, daher wurden keine Änderungen vorgeschlagen. Fordern Sie weniger Zeilen auf einmal an.",
     "localTotal": "Die gesamten Selbstkosten dieser Kalkulation betragen **{{total}}** exkl. MwSt.\n\nAufteilung je Titel:\n{{list}}",
     "localChapters": "Die Kalkulation hat **{{count}} Titel**:\n{{list}}\n\n**Gesamt: {{total}}**",
     "localTop": "Die teuersten Titel:\n{{list}}",

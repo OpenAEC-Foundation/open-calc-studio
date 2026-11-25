@@ -453,6 +453,7 @@
     "errNoConnection": "⚠️ Ingen forbindelse til OpenAEC-tjenesten. Kører kontoserveren (localhost:4000)?\n\n_Detalje: {{detail}}_",
     "errServer": "⚠️ OpenAEC AI-tjenesten returnerede en serverfejl ({{status}}) — det er et problem på serversiden.\n\n_Detalje: {{detail}}_",
     "errGeneric": "⚠️ AI-kaldet mislykkedes{{statusSuffix}}.\n\n_Detalje: {{detail}}_",
+    "errTruncated": "⚠️ Svaret var for langt og blev afskåret, så der blev ikke foreslået ændringer. Bed om færre linjer ad gangen.",
     "localTotal": "Den samlede kostpris for dette budget er **{{total}}** ekskl. moms.\n\nFordeling pr. kapitel:\n{{list}}",
     "localChapters": "Budgettet har **{{count}} kapitler**:\n{{list}}\n\n**I alt: {{total}}**",
     "localTop": "De dyreste kapitler:\n{{list}}",

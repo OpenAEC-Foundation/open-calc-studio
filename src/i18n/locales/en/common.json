@@ -517,6 +517,7 @@
     "errNoConnection": "⚠️ No connection to the OpenAEC service. Is the accounts server running (localhost:4000)?\n\n_Detail: {{detail}}_",
     "errServer": "⚠️ The OpenAEC AI service returned a server error ({{status}}) — this is a server-side issue.\n\n_Detail: {{detail}}_",
     "errGeneric": "⚠️ AI call failed{{statusSuffix}}.\n\n_Detail: {{detail}}_",
+    "errTruncated": "⚠️ The answer was too long and was cut off, so no changes were proposed. Ask for fewer rows at a time.",
     "localTotal": "The total cost price of this estimate is **{{total}}** excl. VAT.\n\nBreakdown per chapter:\n{{list}}",
     "localChapters": "The estimate has **{{count}} chapters**:\n{{list}}\n\n**Total: {{total}}**",
     "localTop": "The most expensive chapters:\n{{list}}",

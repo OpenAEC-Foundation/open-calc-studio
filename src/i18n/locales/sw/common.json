@@ -453,6 +453,7 @@
     "errNoConnection": "⚠️ Hakuna muunganisho na huduma ya OpenAEC. Je, seva ya akaunti inafanya kazi (localhost:4000)?\n\n_Maelezo: {{detail}}_",
     "errServer": "⚠️ Huduma ya AI ya OpenAEC imerudisha hitilafu ya seva ({{status}}) — hili ni tatizo la upande wa seva.\n\n_Maelezo: {{detail}}_",
     "errGeneric": "⚠️ Wito wa AI umeshindikana{{statusSuffix}}.\n\n_Maelezo: {{detail}}_",
+    "errTruncated": "⚠️ Jibu lilikuwa refu mno na likakatwa, kwa hiyo hakuna mabadiliko yaliyopendekezwa. Omba mistari michache kwa wakati mmoja.",
     "localTotal": "Jumla ya bei ya gharama ya makadirio haya ni **{{total}}** bila VAT.\n\nMchanganuo kwa kila sura:\n{{list}}",
     "localChapters": "Makadirio yana **sura {{count}}**:\n{{list}}\n\n**Jumla: {{total}}**",
     "localTop": "Sura ghali zaidi:\n{{list}}",

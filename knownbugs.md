@@ -609,19 +609,10 @@ stand van `main` op die datum.
 
 ## Assistent, MCP en extensies
 
-170. **Lange antwoorden van de assistent worden afgekapt en het voorstel verdwijnt stil.**
-     `src/components/chat/ChatPanel.tsx:148` (`max_tokens: 1024`, geen controle op `stop_reason`). Nagespeeld: wie
-     om ongeveer 25 of meer regels vraagt, gaat over de limiet; het actieblok is onvolledig en de gebruiker krijgt
-     een "klaar"-bubbel met half geschreven JSON. Voorstel: `max_tokens` verhogen; een fout tonen bij
-     `stop_reason === 'max_tokens'`. — B
-
 171. **Een extensie waarvan `onLoad` een fout gooit, laat haar UI en event listeners achter.**
      `src/extensions/extensionLoader.ts:148-151`: de `catch` roept `api._cleanup()` niet aan, dus haar UI-elementen
      en listeners worden niet opgeruimd; opnieuw inschakelen verdubbelt de listeners. Voorstel:
      `api._cleanup()` aanroepen in de catch. — S
-
-172. **Enter in de chat verstuurt tijdens IME-invoer en zonder open document.** `ChatPanel.tsx:240-245`.
-     Voorstel: `e.nativeEvent.isComposing` / keyCode 229 controleren; `activeDocId` controleren in `handleSend`. — S
 
 173. **De chatgeschiedenis groeit onbeperkt en is niet te wissen.** In `src/state/slices/chatSlice.ts` wordt
      `clearChat` nooit aangeroepen en ruimt `removeDocument` niet op; `ChatPanel.tsx:196-202` stuurt de hele

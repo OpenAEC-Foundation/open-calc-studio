@@ -453,6 +453,7 @@
     "errNoConnection": "⚠️ Aucune connexion au service OpenAEC. Le serveur de comptes est-il démarré (localhost:4000) ?\n\n_Détail : {{detail}}_",
     "errServer": "⚠️ Le service IA OpenAEC a renvoyé une erreur serveur ({{status}}) — le problème se situe côté serveur.\n\n_Détail : {{detail}}_",
     "errGeneric": "⚠️ Échec de l'appel IA{{statusSuffix}}.\n\n_Détail : {{detail}}_",
+    "errTruncated": "⚠️ La réponse était trop longue et a été tronquée ; aucune modification n'a donc été proposée. Demandez moins de lignes à la fois.",
     "localTotal": "Le prix de revient total de ce devis est de **{{total}}** HT.\n\nDétail par lot :\n{{list}}",
     "localChapters": "Le devis comporte **{{count}} lots** :\n{{list}}\n\n**Total : {{total}}**",
     "localTop": "Les lots les plus chers :\n{{list}}",

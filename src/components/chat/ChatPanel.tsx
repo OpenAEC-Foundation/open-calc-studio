@@ -39,12 +39,16 @@ function describeProposal(action: AssistantActie): string {
   }
 }
 
+/** Het antwoord liep tegen `max_tokens` aan; het actieblok is dan onvolledig (knownbug 170). */
+class TruncatedAnswerError extends Error {}
+
 /**
  * Maakt van een ruwe AI-aanroepfout een specifieke, diagnosticeerbare melding.
  * Toont altijd de echte statuscode + servermelding, zodat duidelijk is of het
  * om login, tokens, de verbinding of een serverfout (AI-bridge) gaat.
  */
 function describeAiError(err: unknown): string {
+  if (err instanceof TruncatedAnswerError) return i18next.t('chat.errTruncated');
   const raw = String((err as { message?: string })?.message ?? err ?? '').trim();
   const status = raw.match(/\bgaf (\d{3})\b/)?.[1] ?? raw.match(/\b(40\d|41\d|42\d|50\d)\b/)?.[1] ?? null;
   // Servermelding uit een JSON-body, bv. {"message":"AI bridge exited 1: ..."}
@@ -158,13 +162,15 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
         },
         body: JSON.stringify({
           model: 'claude-sonnet-4-6',
-          max_tokens: 1024,
+          // 1024 was te krap: ±25 regels in een actieblok liepen er al overheen (knownbug 170).
+          max_tokens: 8192,
           system: `${buildSystemPrompt()}\n\n${contextBlock}`,
           messages: [...chatHistory, { role: 'user', content: text }],
         }),
       });
       if (!res.ok) throw new Error(`API error: ${res.status}`);
       const data = await res.json();
+      if (data.stop_reason === 'max_tokens') throw new TruncatedAnswerError();
       return data.content?.[0]?.text || i18next.t('chat.noAnswer');
     }
 
@@ -196,7 +202,8 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
 
   const handleSend = useCallback(async () => {
     const text = input.trim();
-    if (!text) return;
+    // Zonder open document hoort de chat bij niets (knownbug 172).
+    if (!text || !activeDocId) return;
 
     // Alles vastleggen op verzendmoment → correct bij tab-wissel én concurrency
     const docId = activeDocId;
@@ -251,6 +258,8 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    // Enter bevestigt tijdens IME-invoer (Japans, Chinees, …) eerst de tekens (knownbug 172).
+    if (e.nativeEvent.isComposing || e.keyCode === 229) return;
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();
