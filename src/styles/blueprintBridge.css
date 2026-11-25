@@ -50,14 +50,6 @@
   --theme-btn-primary-border: var(--oa-accent);
   --theme-btn-primary-hover-bg: var(--oa-accent-hover);
   --theme-btn-primary-hover-text: var(--oa-text-on-accent);
-  /* Ook de secundaire knoppen en schuifbalken: blueprint en de high-contrast-
-     thema's hebben geen eigen blok in themes.css (knownbug 215). */
-  --theme-btn-secondary-bg: var(--oa-raised);
-  --theme-btn-secondary-text: var(--oa-text);
-  --theme-btn-secondary-hover-bg: var(--oa-hover);
-  --theme-btn-secondary-hover-border: var(--oa-border-strong);
-  --theme-scrollbar-track: var(--oa-panel);
-  --theme-scrollbar-thumb: var(--oa-text-disabled);
   --theme-file-tab-bg: var(--oa-accent);
   --theme-file-tab-hover: var(--oa-accent-hover);
   --theme-file-tab-text: var(--oa-text-on-accent);
@@ -175,6 +167,20 @@
   --theme-app-menu-shortcut: var(--oa-text-secondary);
   --theme-app-menu-shortcut-hover: var(--oa-text);
   --theme-app-menu-divider: var(--oa-border);
+}
+
+/* Secundaire knoppen en schuifbalken: blueprint en de high-contrast-thema's
+   hebben geen eigen blok in themes.css (knownbug 215). Alleen voor die thema's,
+   zodat light en dark hun bestaande waarden uit themes.css houden. */
+[data-theme="blueprint"],
+[data-theme="high-contrast-dark"],
+[data-theme="high-contrast-light"] {
+  --theme-btn-secondary-bg: var(--oa-raised);
+  --theme-btn-secondary-text: var(--oa-text);
+  --theme-btn-secondary-hover-bg: var(--oa-hover);
+  --theme-btn-secondary-hover-border: var(--oa-border-strong);
+  --theme-scrollbar-track: var(--oa-panel);
+  --theme-scrollbar-thumb: var(--oa-text-disabled);
 }
 
 .start-sidebar { background: var(--oa-panel); }

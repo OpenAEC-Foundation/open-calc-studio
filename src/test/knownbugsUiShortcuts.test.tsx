@@ -53,4 +53,30 @@ describe('knownbug 30: Ctrl+X na een sleepselectie', () => {
     expect(cut).toEqual(expect.arrayContaining([b, c]));
     expect(cut).not.toContain(a);
   });
+
+  it('een achtergebleven bereik van één cel (klik op de inklap-chevron) knipt de actieve regel', async () => {
+    await i18next.changeLanguage('en');
+    useAppStore.setState({ documents: [], activeDocumentId: '', items: [], undoStack: [], redoStack: [], activeContentTab: 'grid', clipboardItems: [] });
+    const s = useAppStore.getState();
+    s.addDocument({ id: 'kb30b', items: [] });
+    const chapterH = s.addChapter(null);
+    const postInH = s.addItem(chapterH);
+    s.addRegel(postInH);
+    const other = s.addChapter(null);
+    const postA = s.addItem(other);
+    const rowOf = (id: string) => useAppStore.getState().getGridRows().findIndex((r) => r.id === id);
+    // Post A is actief; daarna een mousedown op de chevron van hoofdstuk H.
+    // Die zet een bereik van één cel, de click wordt door de chevron gestopt.
+    useAppStore.getState().setActiveCell(rowOf(postA), 2, postA);
+    useAppStore.getState().setCellSelection({ row: rowOf(chapterH), col: 2 }, { row: rowOf(chapterH), col: 2 });
+    function Harness() { useKeyboardShortcuts(); return null; }
+    await act(async () => root.render(<Harness />));
+    const grid = document.createElement('div'); grid.className = 'cost-grid-wrapper'; grid.tabIndex = 0; document.body.append(grid);
+    await act(async () => { grid.dispatchEvent(new KeyboardEvent('keydown', { key: 'x', ctrlKey: true, bubbles: true, cancelable: true })); });
+    grid.remove();
+    const cut = (useAppStore.getState().clipboardItems ?? []).map((i) => i.id);
+    expect(cut).toContain(postA);
+    expect(cut).not.toContain(chapterH);
+    expect(cut).not.toContain(postInH);
+  });
 });

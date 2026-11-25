@@ -20,11 +20,15 @@ function getSelectedItems() {
 /** Te knippen regels: een gesleept celbereik telt als de regels die het
  *  beslaat. Na slepen blijft activeRow de eerder actieve regel (er volgt geen
  *  click), dus zonder dit knipte Ctrl+X die regel (knownbug 30).
- *  setActiveCell wist het celbereik, dus een bereik is altijd recent. */
+ *  Alleen een echt gesleept bereik (meer dan één cel) telt: elke mousedown
+ *  zet een bereik van één cel, en waar de click daarna niet doorkomt (de
+ *  inklap-chevron stopt hem) blijft dat staan. Dan knipte Ctrl+X dat
+ *  hoofdstuk met alles eronder in plaats van de actieve regel. */
 function getItemsToCut() {
   const state = useAppStore.getState();
   const { cellSelectionStart: start, cellSelectionEnd: end } = state;
   if (!start || !end) return getSelectedItems();
+  if (start.row === end.row && start.col === end.col) return getSelectedItems();
   const indices: number[] = [];
   for (let row = Math.min(start.row, end.row); row <= Math.max(start.row, end.row); row++) indices.push(row);
   return selectedGridItems(state.getGridRows(), indices);

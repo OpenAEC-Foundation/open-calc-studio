@@ -38,6 +38,18 @@ describe('knownbug 215: de Blueprint-brug dekt elke gebruikte themavariabele', (
     }
     expect([...missing].sort()).toEqual([]);
   });
+
+  it('secundaire knoppen en schuifbalken alleen voor blueprint en high-contrast, light en dark houden themes.css', () => {
+    const bridge = readFileSync(join(SRC, 'styles', 'blueprintBridge.css'), 'utf8');
+    const blocks = [...bridge.matchAll(/([^{}]+)\{([^{}]*)\}/g)].map((m) => ({ selector: m[1].replace(/\/\*[\s\S]*?\*\//g, '').trim(), body: m[2] }));
+    const names = ['--theme-btn-secondary-bg', '--theme-btn-secondary-text', '--theme-btn-secondary-hover-bg', '--theme-btn-secondary-hover-border', '--theme-scrollbar-track', '--theme-scrollbar-thumb'];
+    for (const name of names) {
+      const holders = blocks.filter((b) => new RegExp(`${name}\\s*:`).test(b.body));
+      expect(holders.length, name).toBe(1);
+      const selectors = holders[0].selector.split(',').map((x) => x.trim());
+      expect(selectors.sort(), name).toEqual(['[data-theme="blueprint"]', '[data-theme="high-contrast-dark"]', '[data-theme="high-contrast-light"]']);
+    }
+  });
 });
 
 describe('knownbugs 214, 217: geen hardgecodeerd wit op accent- of selectiekleur', () => {
