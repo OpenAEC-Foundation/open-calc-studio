@@ -128,25 +128,6 @@ stand van `main` op die datum.
 
 ## Bestanden, import en export
 
-61. **Het Open-venster accepteert bestandstypen die niet te openen zijn, en een recente `.dnc` verdwijnt uit de
-    lijst.** `src/hooks/useFileOperations.ts:298` en `:213-266`; tweede controle plaatst het dialoogfilter op
-    `nativeFileService.ts:7` en de binaire lijst op r.68 (eerder gemeld als `nativeFileService.ts:8,16`).
-    `openRecentFile` mist `'dnc'` in zijn binaire lijst, valt terug op JSON-parsen, krijgt een SyntaxError en
-    de catch haalt het bestand uit de recente bestanden. `csv` en `x81`–`x87` staan in het dialoogfilter, maar
-    gaan in Tauri naar `deserializeProject`, dat een SyntaxError gooit. Voorstel: alles wat niet native is via
-    `importBudget` (`@/lib/importers`) laten lopen. — B
-
-62. **Een `.calc`/`.mdb` die eigenlijk native JSON bevat verliest zijn spreadsheets.**
-    `src/hooks/useFileOperations.ts:223` en `:307`: de code kijkt naar `native.subSheets`, maar
-    `deserializeProject` vult alleen `spreadsheets.sheets`. De sheets worden niet geladen, en de volgende
-    Opslaan als schrijft het bestand zonder ze. Tweede controle: ernst gemiddeld, want het vraagt een
-    .calc/.mdb met onze JSON erin, en dat is zeldzaam. Voorstel: `openProjectInStore(native, …)` gebruiken. — B
-
-63. **De voorgestelde opslagnaam knipt een deel van een naam met een punt weg.**
-    `src/hooks/useFileOperations.ts:48` (`toIfcCalcPath`). Nagespeeld: `Begroting v1.2.xls` wordt de
-    documentnaam `Begroting v1.2`, en de opslagnaam wordt daarna `Begroting v1.ifcCalc`. Voorstel: alleen bekende
-    extensies weghalen. — B
-
 66. **`calculatiedatum` in de WPCalc-export klopt niet.** `wpcalc_export.rs:539-552` rekent met jaren van 365
     dagen en maanden van 30 dagen: 2026-11-06 wordt `11/24/2026` en 2026-12-31 wordt `01/14/2027`. Voorstel:
     `chrono::Local::now().format("%m/%d/%Y")`. — S
@@ -276,10 +257,6 @@ stand van `main` op die datum.
      `tradxmlExporter.ts:46,48` en `rsxExporter.ts:46,48` (`formatDutch(x, 2)`); `xmlBuilder.ts:44` escapet
      `\n` `\r` `\t` in attributen niet. Nagespeeld. Voorstel: meer decimalen; `&#10;`, `&#13;` en `&#9;`
      escapen. — B
-
-110. **`createProjectFile` zet `createdAt` bij elke desktop-opslag opnieuw** (`fileService.ts:37`). — S
-
-111. **`activeSubSheetId` wordt niet opgeslagen.** — S
 
 112. **TRADXML exporteert als `.xml`, maar `lib/importers.ts` stuurt `.xml` naar de XPWE-importer**
      (hosted/API-pad). — S

@@ -3,6 +3,7 @@ import { useAppStore } from '@/state/appStore';
 import { deserializeProject, serializeProject } from './fileService';
 import { getSiteHost, hostRecentPath, type HostVersion } from './siteHost';
 import { openImportResult, openProjectJson } from './openProject';
+import { spreadsheetsData } from './documentSnapshot';
 import { isIfcxExchangeJson } from '@/services/importers/ifcxDetection';
 
 function remember(id: string, name: string) {
@@ -54,7 +55,7 @@ function snapshot(documentId: string): string {
   const active = state.activeDocumentId === documentId;
   const context = active ? state : doc.context ?? state;
   const schedule = { ...(active ? state.schedule : doc.schedule), projectInfo: context.projectInfo };
-  const serialized = JSON.parse(serializeProject(schedule, active ? state.items : doc.items, context.companyInfo, context.subSheets, context.offerte, context.snapshots));
+  const serialized = JSON.parse(serializeProject(schedule, active ? state.items : doc.items, context.companyInfo, spreadsheetsData(context), context.offerte, context.snapshots));
   return JSON.stringify({ ...doc.hostProject, ...serialized,
     resourceLibrary: doc.hostProject?.resourceLibrary ?? serialized.resourceLibrary,
     createdAt: doc.hostProject?.createdAt ?? serialized.createdAt,

@@ -64,9 +64,9 @@ export async function openFileNative(): Promise<{ path: string; content: string 
   const filePath = typeof selected === 'string' ? selected : selected;
   if (!filePath) return null;
   const ext = filePath.split('.').pop()?.toLowerCase() || '';
-  // Binary formats: read as bytes
-  if (['calc', 'mdb', 'xtb', 'xls', 'xlsx', 'dnc', 'bc3'].includes(ext)) {
-    // Binary format — caller will re-read as binary via openBinaryFileNative
+  // Alleen native JSON als tekst; al het andere (ook CSV en GAEB) leest de
+  // aanroeper als bytes voor de importeur (knownbug 61).
+  if (!['ifccalc', 'ifcx', 'ocs', 'json'].includes(ext)) {
     return { path: filePath, content: '__BINARY__' };
   }
   const content = await _fs.readTextFile(filePath);
