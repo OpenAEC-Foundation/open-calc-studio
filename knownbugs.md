@@ -35,10 +35,6 @@ stand van `main` op die datum.
     `CostGrid.tsx:330-352`. Voorstel: een celbereik bij knippen omzetten naar regels, of de sleepactie de actieve
     regel laten bijwerken. — S
 
-40. **"Wat is nieuw" gooit offline de opgeslagen release notes weg.**
-    `src/components/welcome/ReleaseNotesPanel.tsx:138`: verouderde closure, `releases` is in de catch altijd
-    null. Voorstel: `setReleases(prev => prev?.length ? prev : mergeReleases([]))`. — S
-
 41. **De dropdowns Undo-lijst en Inklappen kunnen tegelijk open staan** (`HomeTab.tsx:86,116`). — S
 
 42. **UI-3 ("eenvoudig") gebruikt de kolombreedtes van UI-1, gekoppeld op positie.**

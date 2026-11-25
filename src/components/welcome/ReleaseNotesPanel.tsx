@@ -139,8 +139,10 @@ export function ReleaseNotesPanel() {
       } catch (e: any) {
         // Network/CORS failure — fall back to bundled list. Never leave UI empty.
         console.warn('[ReleaseNotes] GitHub fetch failed, using bundled fallback:', e);
-        if (!aborted && (releases === null || releases.length === 0)) {
-          setReleases(mergeReleases([]));
+        // Functionele update: `releases` in deze closure is altijd de
+        // beginwaarde (null), waardoor de cache werd weggegooid (knownbug 40).
+        if (!aborted) {
+          setReleases(prev => (prev?.length ? prev : mergeReleases([])));
           setError(null);
         }
       }
