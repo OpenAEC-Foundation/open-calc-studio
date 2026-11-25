@@ -4,6 +4,7 @@ import { defaultCompanyInfo } from '@/state/slices/companySlice';
 import { createDefaultProjectInfo } from '@/types/costModel';
 import { synthesizeStaartItems, ensureBtwLaagItem } from '@/services/calculation/staartDefaults';
 import { usedPriceArticles } from '@/services/pricing/priceUpdates';
+import { generateIfcGuid } from '@/services/ifc/ifcHelpers';
 
 /**
  * Huidige versie van het .ifcCalc-bestandsformaat (major.minor.patch).
@@ -78,7 +79,7 @@ function migrateItemV1toV2(item: any): CostItem {
     isCollapsed: item.isCollapsed ?? false,
     depth: item.depth ?? 0,
     notes: item.notes ?? '',
-    ifcGuid: item.ifcGuid ?? '',
+    ifcGuid: item.ifcGuid || generateIfcGuid(), // geen lege GlobalId (knownbug 153)
     rowType,
     staartPercentage: item.staartPercentage ?? null,
     nr: item.nr ?? '',

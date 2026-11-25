@@ -5,6 +5,7 @@ import { createStore } from 'zustand/vanilla';
 import { createCostItemsSlice, type CostItemsSlice } from '@/state/slices/costItemsSlice';
 import { recalculateItems, effectiveTarieven, DEFAULT_TARIEVEN } from '@/services/calculation/calculator';
 import { safeCurrency } from '@/utils/formatting';
+import { generateIfcGuid } from '@/services/ifc/ifcHelpers';
 
 /**
  * Calculatieassistent — de brug tussen het taalmodel en het geopende document.
@@ -197,7 +198,7 @@ function nieuwItem(rowType: RowType, parentId: string | null, overrides: Partial
     isCollapsed: false,
     depth: 0,
     notes: '',
-    ifcGuid: crypto.randomUUID(),
+    ifcGuid: generateIfcGuid(), // een IFC GlobalId, geen UUID van 36 tekens (knownbug 153)
     rowType,
     staartPercentage: null,
     nr: '',

@@ -1,7 +1,9 @@
 export function generateIfcGuid(): string {
   const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$';
-  let result = '';
-  for (let i = 0; i < 22; i++) {
+  // 22 tekens x 6 bits = 132 bits voor een GUID van 128 bits: het eerste teken draagt maar
+  // 2 bits en is dus 0-3 (knownbug 153).
+  let result = chars[Math.floor(Math.random() * 4)];
+  for (let i = 1; i < 22; i++) {
     result += chars[Math.floor(Math.random() * 64)];
   }
   return result;

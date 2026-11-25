@@ -271,11 +271,6 @@ stand van `main` op die datum.
      agent #96 onafhankelijk: CUF/TRADXML-prijzen komen na de herberekening van de import terug als €0.
      Voorstel: geneste Hoofdstuk-elementen recursief aflopen; aan beide kanten één tagnaam voor regels. — B
 
-106. **IFC STEP: regeltype en staartpercentages worden geschreven maar nooit gelezen.** `ifcCostParser.ts:151,188`
-     negeert de set `OCS_ItemProperties` (`ifcCostGenerator.ts:355`). Nagespeeld: een post wordt een hoofdstuk,
-     regels worden posten, staartregels worden gewone posten zonder percentage, en de tariefgroep gaat verloren.
-     Voorstel: de property sets lezen via `IFCRELDEFINESBYPROPERTIES`. — B
-
 110. **`createProjectFile` zet `createdAt` bij elke desktop-opslag opnieuw** (`fileService.ts:37`). — S
 
 111. **`activeSubSheetId` wordt niet opgeslagen.** — S
@@ -494,28 +489,6 @@ stand van `main` op die datum.
      (uit de Typst-bronnen afgeleid, niet nagespeeld)
 
 ## IFC, PDF en hoeveelheden
-
-150. **IFC-export: eenheden op de verkeerde plek, en kg/uren kloppen niet met de gedeclareerde eenheden.**
-     `IFCPROJECT(…,$,$,$,(#units),$)` (`src/services/ifc/ifcCostGenerator.ts:69-70`, `:89`) zet de unit
-     assignment in RepresentationContexts, dus lezers zien geen eenheden. Is dat opgelost, dan is MASSUNIT
-     GRAM zonder KILO (gewichten 1000× te klein) en TIMEUNIT SECOND terwijl de waarden in uren staan.
-     Nagespeeld. Voorstel: `$,$,$,$,#units`; `.KILO.,.GRAM.`; een conversie-eenheid voor uren declareren of
-     met 3600 vermenigvuldigen. — B
-
-151. **IFC-export schrijft entiteiten met het verkeerde aantal attributen; prijzen en hoeveelheden hangen niet
-     aan de posten.** In `src/services/ifc/ifcCostGenerator.ts:136`, `:248`, `:260-288` krijgt IfcCostSchedule
-     12 attributen (moet 10 zijn, met Status als tekst), IfcCostItem 7 (moet 9; CostValues en CostQuantities
-     ontbreken) en IfcCostValue 8 (moet 10; `'MATERIAL'` belandt in UnitBasis). Een export bevat dus geen prijs
-     of hoeveelheid per post. Bij import bouwt `ifcCostParser.ts:166-174` een `costValueMap` die nergens wordt
-     gebruikt. De GUID van de schedule is bij elke export willekeurig, dus `schedule.ifcGuid` verandert bij elke
-     round trip. Nagelopen tegen het schema. Voorstel: de entiteiten volgens de IFC4X3-indeling schrijven en
-     `schedule.ifcGuid` hergebruiken. — S
-
-153. **Geëxporteerde IFC kan lege GlobalIds of GlobalIds van 36 tekens bevatten.** Geschreven in
-     `src/services/ifc/ifcCostGenerator.ts:248`; de bronnen zijn `staartDefaults.ts:25` (`ifcGuid: ''`, via
-     `ensureBtwLaagItem` in elk ouder bestand), `fileService.ts:81`, `assistantActions.ts:196` en
-     `inschrijfstaatImporter.ts:225` (`crypto.randomUUID()`, 36 tekens). Voorstel: in de generator elke ID die
-     niet aan `/^[0-9A-Za-z_$]{22}$/` voldoet vervangen door `generateIfcGuid()`, en de bronnen repareren. — S
 
 155. **De meegeleverde Open PDF Studio-plugin geeft nooit een PDF-hash mee, dus zijn imports worden nooit
      geverifieerd.** `integrations/open-pdf-studio/index.js:13` tegen `src/services/pdf/pdfWorkspace.ts:65-66`.
