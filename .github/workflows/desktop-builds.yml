@@ -62,6 +62,8 @@ jobs:
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `matrix=${JSON.stringify({include})}\n`);
           NODE
       - run: npm ci
+      # src/test/knownbugsMcpServer176 starts mcp-server via tsx; it needs mcp-server's own packages.
+      - run: npm --prefix mcp-server ci
       - run: npm test -- --maxWorkers=2 --testTimeout=20000
       - name: Verify updater signing configuration before compiling
         env:

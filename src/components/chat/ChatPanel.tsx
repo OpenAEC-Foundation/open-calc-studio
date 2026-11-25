@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { buildAssistantSystemPrompt } from '@/services/assistant/promptLanguage';
 import { useAppStore } from '@/state/appStore';
-import { buildBudgetContext, ACTIE_PROTOCOL, parseActies, parseLocalBudgetCommand, validateActies } from '@/services/assistant/assistantActions';
+import { buildBudgetContext, ACTIE_PROTOCOL, hasUnclosedActionBlock, parseActies, parseLocalBudgetCommand, validateActies } from '@/services/assistant/assistantActions';
 import { stageAssistantProposal, summarizeAssistantProposal, applyAssistantProposal, discardAssistantProposal, canUndoAssistantProposal, undoAssistantProposal } from '@/services/assistant/assistantProposal';
 import { ProposalPreview } from './ProposalPreview';
 import { begrotenKennis } from '@/services/assistant/begrotenKennis';
@@ -160,7 +160,9 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
     // (1) OpenAEC-account
     if (OPENAEC_ENABLED && allowsExternalServices() && accountsUser) {
       const prompt = `${contextBlock}\n\n${historyText}\n\nAssistent:`;
-      return (await accountsAiComplete(prompt, buildSystemPrompt())) || i18next.t('chat.noAnswer');
+      const answer = await accountsAiComplete(prompt, buildSystemPrompt());
+      if (hasUnclosedActionBlock(answer)) throw new TruncatedAnswerError();
+      return answer || i18next.t('chat.noAnswer');
     }
 
     // (3) eigen Anthropic API-key
@@ -183,7 +185,7 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
       });
       if (!res.ok) throw new Error(`API error: ${res.status}`);
       const data = await res.json();
-      if (data.stop_reason === 'max_tokens') throw new TruncatedAnswerError();
+      if (data.stop_reason === 'max_tokens' || hasUnclosedActionBlock(data.content?.[0]?.text ?? '')) throw new TruncatedAnswerError();
       return data.content?.[0]?.text || i18next.t('chat.noAnswer');
     }
 

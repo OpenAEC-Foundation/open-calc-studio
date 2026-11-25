@@ -2,13 +2,16 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
-import { copyFileSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 
 // Knownbugs 176-180: de losse MCP-server (mcp-server/), via stdio aangeroepen zoals een echte client.
 const serverDir = resolve(process.cwd(), 'mcp-server');
 const sample = resolve(process.cwd(), 'public/data/voorbeeld.ifcCalc');
+// De server draait via tsx uit mcp-server/node_modules (npm --prefix mcp-server ci). Lokaal zonder
+// die installatie overslaan; in CI installeert de workflow ze en faalt een ontbrekende installatie hier.
+const skip = !existsSync(join(serverDir, 'node_modules', 'tsx')) && !process.env.CI;
 let client: Client;
 let tmp: string;
 
@@ -22,6 +25,7 @@ async function call(name: string, args: Record<string, unknown> = {}) {
 }
 
 beforeAll(async () => {
+  if (skip) return;
   tmp = mkdtempSync(join(tmpdir(), 'ocs-kb-mcp-'));
   client = new Client({ name: 'knownbugs-mcp', version: '1.0.0' });
   await client.connect(new StdioClientTransport({
@@ -31,10 +35,10 @@ beforeAll(async () => {
 }, 60000);
 afterAll(async () => {
   await client?.close();
-  rmSync(tmp, { recursive: true, force: true });
+  if (tmp) rmSync(tmp, { recursive: true, force: true });
 });
 
-describe('standalone MCP server sheets (knownbugs 176, 177)', () => {
+describe.skipIf(skip)('standalone MCP server sheets (knownbugs 176, 177)', () => {
   it('saves a removed sheet as removed', async () => {
     const file = join(tmp, 'remove.ifcCalc');
     copyFileSync(sample, file);
@@ -78,7 +82,7 @@ describe('standalone MCP server sheets (knownbugs 176, 177)', () => {
   });
 });
 
-describe('standalone MCP server export_pdf (knownbugs 178, 179)', () => {
+describe.skipIf(skip)('standalone MCP server export_pdf (knownbugs 178, 179)', () => {
   it('leaves no temporary file next to the budget', async () => {
     const dir = mkdtempSync(join(tmp, 'pdf-'));
     const file = join(dir, 'begroting.ifcCalc');
@@ -101,7 +105,7 @@ describe('standalone MCP server export_pdf (knownbugs 178, 179)', () => {
   });
 });
 
-describe('standalone MCP server import_uittrekstaat (knownbug 180)', () => {
+describe.skipIf(skip)('standalone MCP server import_uittrekstaat (knownbug 180)', () => {
   it('recognises m² and m³ and normalises the default unit', async () => {
     const file = join(tmp, 'units.ifcCalc');
     copyFileSync(sample, file);
