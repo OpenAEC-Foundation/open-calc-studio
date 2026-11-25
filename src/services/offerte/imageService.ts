@@ -16,6 +16,10 @@ export async function createThumbnail(file: File): Promise<string> {
         canvas.width = THUMBNAIL_MAX_WIDTH;
         canvas.height = Math.round(img.height * scale);
         const ctx = canvas.getContext('2d')!;
+        // JPEG kent geen transparantie: zonder witte ondergrond worden
+        // transparante delen van een PNG zwart (knownbug 136).
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         resolve(canvas.toDataURL('image/jpeg', 0.7));
       };

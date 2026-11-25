@@ -406,10 +406,6 @@ stand van `main` op die datum.
 132. **"Geldig voor N dagen" verdwijnt als de tekst van de voorwaarden leeg is.** `offerte.rs:122-136`. Afgeleid
      uit de code. Voorstel: de alinea over de geldigheid uit het `voorwaarden`-blok halen. — S
 
-136. **Transparante PNG's krijgen zwarte miniaturen.** `src/services/offerte/imageService.ts:20` maakt er JPEG
-     van zonder witte achtergrond. Afgeleid uit de code. Voorstel: het canvas eerst wit vullen, of PNG
-     houden. — S
-
 137. **De sjabloonkeuzelijst vervangt de hele offerte zonder bevestiging of undo** (`OfferteTab.tsx:309-320`).
      Met minder zekerheid gemeld. — S
 
