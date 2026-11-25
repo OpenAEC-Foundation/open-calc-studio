@@ -675,9 +675,6 @@ stand van `main` op die datum.
      AF.005/AF.006, `defaultResourceLibrary.ts:107-108`. Voorstel: uitdrukken per m², of een eenheid liter
      toevoegen. — S
 
-195. **Zoeken met een spatie vooraan of achteraan vindt niets.** `ResourcePicker.tsx:62` en
-     `CostItemPicker.tsx:36` filteren op de niet-getrimde `search`. — S
-
 ## Weergave, mobiel en toegankelijkheid
 
 196. **De schuifanimatie van het lint gaat soms de verkeerde kant op** wanneer het tabblad tekstopmaak

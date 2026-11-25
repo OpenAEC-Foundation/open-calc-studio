@@ -33,7 +33,7 @@ export default function CostItemPicker({
 
   const filteredItems = useMemo(() => {
     if (!search.trim()) return items.filter(i => !i.rowType.startsWith('staart_'));
-    const q = search.toLowerCase();
+    const q = search.trim().toLowerCase(); // spaties eromheen tellen niet (knownbug 195)
     return items.filter(i =>
       !i.rowType.startsWith('staart_') &&
       (i.description.toLowerCase().includes(q) || i.code.toLowerCase().includes(q))
