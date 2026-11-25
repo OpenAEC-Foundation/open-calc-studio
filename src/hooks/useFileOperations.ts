@@ -107,7 +107,7 @@ export async function openDesktopFile(filePath: string, text?: string): Promise<
   }
   const imp = useAppStore.getState().extensionImporters.find(i => i.fileExtensions.some(fe => fe.replace(/^\./, '').toLowerCase() === ext));
   const importResult = imp
-    ? await imp.handler(new File([data], fullName))
+    ? { warnings: [], ...await imp.handler(new File([data], fullName)) }
     : await (await import('@/lib/importers')).importBudget(data, fullName);
   openImportResult(importResult, baseName, filePath);
   showImportWarnings(importResult, fullName);

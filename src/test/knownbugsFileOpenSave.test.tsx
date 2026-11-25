@@ -67,7 +67,7 @@ describe('Recente bestanden en Openen op de desktop (knownbug 61)', () => {
     await act(async () => { await ops.openRecentFile('C:/p/raming.dnc'); });
     expect(handler).toHaveBeenCalledOnce();
     expect(s().settings.recentFiles).toContain('C:/p/raming.dnc');
-    expect(s().documents.at(-1)?.fileName).toBe('raming');
+    expect(s().documents[s().documents.length - 1]?.fileName).toBe('raming');
   });
 
   it('opent een recente CSV via de algemene import in plaats van als JSON', async () => {
