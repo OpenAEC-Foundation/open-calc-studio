@@ -339,12 +339,6 @@ stand van `main` op die datum.
 
 ## Documenten, tabbladen, versies en herstel
 
-113. **Dubbele prijsartikelen in het herstel van documenten die op een site gehost worden** (klein).
-     `src/services/file/documentSnapshot.ts:18` tegenover `hostFileActions.ts:58`: `serializeDocument` plakt de
-     gehoste bibliotheek achter de nieuwe bibliotheek, wat dubbelen geeft. `hostFileActions` doet het omgekeerde
-     en laat artikelen weg die in deze sessie voor het eerst zijn toegevoegd. Voorstel: in beide gevallen
-     samenvoegen op `id`. — S
-
 119. **Een ander open venster toont het live journaal van dit venster als "herstelbaar".**
      `src/components/common/RecoveryBar.tsx:17`, `recovery.ts:14,39`. Een losgemaakt tabbladvenster of een tweede
      browsertabblad biedt de live documenten van het hoofdvenster aan. Herstellen dupliceert ze; Weggooien wist het
