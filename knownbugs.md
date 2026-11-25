@@ -624,10 +624,6 @@ stand van `main` op die datum.
      bereiken niemand. Klik je daarna opnieuw op "second screen", dan opent er een tweede venster. Voorstel:
      `bye` behandelen als losgekoppeld zonder dispose; alleen disposen als het venster echt dicht is. — S
 
-185. **De portal-wrapper van de embed blijft na unmount in `<body>` staan** (laag). In
-     `src/lib/hostRoot.ts:84-93`. Voorstel: de portal verwijderen en `portal` leegmaken bij
-     `setHostRoot(null)`. — S
-
 187. **Bestandskoppeling werkt onbetrouwbaar** (`src-tauri/src/lib.rs:262-274`). Op macOS wordt
      `RunEvent::Opened` genegeerd, dus de app opent leeg. Op Windows/Linux gaat het event één keer af na vaste
      800 ms, zodat het bij een koude start gemist kan worden. Een tweede dubbelklik start een tweede app-proces.
