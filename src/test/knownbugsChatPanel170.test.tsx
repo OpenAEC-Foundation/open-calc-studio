@@ -43,7 +43,7 @@ describe('assistant chat (knownbug 170)', () => {
     await vi.waitFor(() => expect(node.querySelector('.chat-typing')).toBeNull());
     const body = JSON.parse(String((fetchMock.mock.calls[0] as unknown as [string, RequestInit])[1].body));
     expect(body.max_tokens).toBeGreaterThanOrEqual(4096);
-    const last = useAppStore.getState().chats['chat-doc'].at(-1)!;
+    const last = useAppStore.getState().chats['chat-doc'].slice(-1)[0];
     expect(last.status).toBe('error');
     expect(last.content).not.toContain('ocs-acties');
     expect(last.content).toContain('cut off');
