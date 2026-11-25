@@ -87,13 +87,16 @@ function rawNum(el: Element, tagName: string): number | null {
   return isNaN(n) ? null : n;
 }
 
-/** Hoofdstukdiepte uit een tussenhoofdnummer afleiden. */
+/**
+ * Hoofdstukdiepte uit een tussenhoofdnummer afleiden: op het aantal cijfers,
+ * niet op de waarde. Hoofdstuk "10" (twee cijfers) is even diep als "01";
+ * op de waarde werd het een niveau dieper en kwam "1001" ernaast in plaats
+ * van eronder (knownbug 100).
+ */
 function getChapterDepth(nr: string): number {
-  const n = parseInt(nr, 10);
-  if (isNaN(n)) return 0;
-  if (n < 10) return 0;
-  if (n < 100) return 1;
-  if (n < 10000) return 1;
+  const digits = nr.replace(/\D/g, '').length;
+  if (digits <= 2) return 0;
+  if (digits <= 4) return 1;
   return 2;
 }
 

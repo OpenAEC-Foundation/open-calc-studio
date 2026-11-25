@@ -230,10 +230,6 @@ stand van `main` op die datum.
     doorlopen eerst. Nagespeeld: `B,20,10,1a,2` komt terug als `2,10,20,B,1a`. Voorstel: een expliciet
     sortOrder-attribuut, of sleutels met een voorvoegsel. — B
 
-100. **RAW RSX: vanaf hoofdstuk 10 klopt de hoofdstukdiepte niet.** `rsxImporter.ts:91-98` bepaalt de diepte
-     op de getalwaarde. Nagespeeld, zonder echt voorbeeldbestand. Voorstel: de diepte op het aantal cijfers
-     baseren. — B
-
 101. **Een echt IfcX-bestand faalt bij de algemene import met "Invalid file format".** De inhoudsherkenning
      stuurt het verkeerd door (`lib/importers.ts:12-16`, `hostFileActions.ts:21`, MCP `fileCommands.ts:10`).
      Nagespeeld. Voorstel: bij `Array.isArray(parsed.data)` → `importIfcx`. — B
