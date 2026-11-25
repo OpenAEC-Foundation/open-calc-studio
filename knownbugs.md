@@ -729,13 +729,6 @@ stand van `main` op die datum.
      high-contrast-light. Contrast berekend uit de tokens, niet gemeten. Voorstel:
      `color: var(--theme-text)`. — S
 
-215. **High-contrast-light: de knoppen Annuleren en "Niet opslaan" zijn onzichtbaar (~1,05:1) en de
-     schuifbalken donkerbruin.** De fallback-vars `--theme-btn-secondary-*` en `--theme-scrollbar-*` in
-     `src/styles/themes.css:221-227` worden niet hergekoppeld in `blueprintBridge.css`; gebruikt in
-     `SettingsDialog.css:150-151`, `UnsavedChangesDialog.css:61-62`, `ImportWarningsDialog.css:96-97` en
-     `globals.css:171-172`. Contrast berekend uit de tokens, niet gemeten. Voorstel: de zes vars aan de bridge
-     toevoegen. — S
-
 216. **Hover op de sluitknop: wit × op lichtroze in donkere thema's (~1,9:1).** `TitleBar.css:108-109` en
      `Modal.css:92-95` gebruiken `--oa-error` (`#FCA5A5`). Contrast berekend uit de tokens, niet gemeten.
      Voorstel: een eigen token voor de sluit-hover (bijv. `#C42B1C`). — S

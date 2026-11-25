@@ -26,3 +26,16 @@ describe('knownbug 221: gebruikte themavariabelen bestaan', () => {
     expect(missing).toEqual([]);
   });
 });
+
+describe('knownbug 215: de Blueprint-brug dekt elke gebruikte themavariabele', () => {
+  it('blueprint en high-contrast hebben geen blok in themes.css, dus de brug moet alles definiëren', () => {
+    const bridge = readFileSync(join(SRC, 'styles', 'blueprintBridge.css'), 'utf8');
+    const bridged = new Set([...bridge.matchAll(/(--theme-[\w-]+)\s*:/g)].map((m) => m[1]));
+    const missing = new Set<string>();
+    for (const file of files(SRC)) {
+      if (/[\\/]styles[\\/](themes|blueprintBridge)\.css$/.test(file)) continue;
+      for (const m of readFileSync(file, 'utf8').matchAll(/var\(\s*(--theme-[\w-]+)\s*\)/g)) if (!bridged.has(m[1])) missing.add(m[1]);
+    }
+    expect([...missing].sort()).toEqual([]);
+  });
+});
