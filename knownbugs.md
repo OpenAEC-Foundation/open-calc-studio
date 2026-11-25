@@ -653,6 +653,13 @@ stand van `main` op die datum.
      heeft een eigen `onDoubleClick` naast `data-tauri-drag-region`, terwijl Tauri's `drag.js` al zelf
      schakelt. Afgeleid uit de code; nog nakijken in een echt venster. Voorstel: `onDoubleClick` weghalen. — S
 
+294. **De losse MCP-server houdt eigen celwaarden bij die afwijken van de app.** `set_cell` en `set_cells_batch` in
+     `mcp-server/src/index.ts:2092-2142` zetten `computed` met `parseFloat` (`6,66` wordt 6, `1.234,56` wordt
+     1.234), rekenen formules niet uit en vervangen de hele cel (opmaak weg). `get_cell` (`:2110`) leest die kopie,
+     dus de assistent ziet andere waarden dan de app toont. De app zelf rekent sinds de fix van punt 52 en 276 wel
+     goed. Gezien in de code, niet nagespeeld. Voorstel: dezelfde getalnotatie en formule-evaluatie gebruiken als
+     `subSheetSlice.ts`, of de waarden uit de app opvragen. — S
+
 ## Wizard, bibliotheek en prijzen
 
 193. **Het totaal "excl. tax" van de wizard laat de opslagen oude stijl (ukk/ak/wr) weg.**
