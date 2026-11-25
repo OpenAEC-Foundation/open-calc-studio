@@ -237,6 +237,16 @@ describe('ÖNORM A 2063 (.onlv) import — positiesoorten, teksten, eenheden', (
     expect(byCode(res.items, '01.02.02').description).toBe('Fliesen Farbe: weiß');
   });
 
+  it('zet geen Lücke als omschrijving als er helemaal geen stichwort is (knownbug 76)', () => {
+    const xml = lgOnlv(
+      `<grundtextnr nr="01"><ungeteilteposition mfv="">${pos('X', { gesamt: '1.00', langtext: '<p>Erste Zeile</p><p>Zweite</p>' }).replace('<stichwort>X</stichwort>', '')}</ungeteilteposition></grundtextnr>`
+      + `<grundtextnr nr="02"><ungeteilteposition mfv="">${pos('Y', { gesamt: '1.00' }).replace('<stichwort>Y</stichwort>', '')}</ungeteilteposition></grundtextnr>`,
+    );
+    const res = importOnlv(xml);
+    expect(byCode(res.items, '01.02.01').description).toBe('Erste Zeile');
+    expect(byCode(res.items, '01.02.02').description).toBe('01.02.02');
+  });
+
   it('zet ÖNORM-eenheden om en laat onbekende ongewijzigd staan met een melding', () => {
     const units = ['m', 'm²', 'm³', 'kg', 't', 'Stk', 'PA', 'h', 'd', 'Wo', 'Mo', 'km', 'VE', 'l', 'g', 'cm'];
     const positionen = units.map((u, i) => `<grundtextnr nr="${String(i + 1).padStart(2, '0')}"><ungeteilteposition mfv="">${pos(u, { einheit: u, gesamt: '1.00' })}</ungeteilteposition></grundtextnr>`).join('');

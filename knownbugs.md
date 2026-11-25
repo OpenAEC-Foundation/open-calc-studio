@@ -168,10 +168,6 @@ stand van `main` op die datum.
 70. **Openen vanuit de cloud laat offerte, bedrijfsgegevens, spreadsheets, snapshots en projectinfo vallen**
     (`CloudPanel.tsx:100-110`). Zelfde soort bug als #58. — S
 
-76. **ÖNORM: een positie zonder `stichwort` krijgt "____" als omschrijving.**
-    `src/services/importers/onlvImporter.ts:240-244`; de test op `onlvImporter.test.ts:230` controleert dit niet.
-    Voorstel: gebruik `kurz + luecke` alleen als `stichwort-kurz` aanwezig is. — B
-
 77. **GAEB-Bedarfspositionen (`Provis WithoutTotal`) en alternatieven (`ALNGroupNo`) tellen mee in het totaal**,
     zonder enige markering (`gaebImporter.ts:73-80`). Minder zeker dan de andere importpunten. — S
 
