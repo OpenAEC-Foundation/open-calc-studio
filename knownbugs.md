@@ -609,12 +609,6 @@ stand van `main` op die datum.
 
 ## Assistent, MCP en extensies
 
-168. **De MCP-actielijst is verouderd, dus geldige calls worden geweigerd.** `src/services/mcp/desktopActions.json`
-     is niet opnieuw gegenereerd na e48901a / `quantityOrigin.ts:13`. Nagespeeld:
-     `updateSettings({partial:{showChatBubble:false}})` faalt met "unknown field"; ook `setItems`/`addDocument`
-     met regels die `verified` dragen (PDF-meting) falen. Voorstel: `npm run generate:mcp-actions`, plus een test
-     die controleert dat het bestand bij is. — B
-
 169. **Een extensie installeren uit een ZIP kiest het verkeerde hoofdbestand, en fouten blijven stil.**
      `src/extensions/extensionService.ts:257`, `:162-163`; `ExtensionManagerPanel.tsx:53,256`. De eerste map wordt
      altijd weggehaald, ook als de ZIP er geen heeft, dus `dist/main.js` geeft "Main file not found".

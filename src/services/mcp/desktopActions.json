@@ -1244,6 +1244,9 @@
                                 "required": [],
                                 "additionalProperties": false
                               },
+                              "expression": {
+                                "type": "string"
+                              },
                               "subtotal": {
                                 "anyOf": [
                                   {
@@ -1835,6 +1838,15 @@
               },
               "currency": {
                 "type": "string"
+              },
+              "priceCountry": {
+                "type": "string"
+              },
+              "priceLibraries": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               },
               "projectName": {
                 "type": "string"
@@ -4280,6 +4292,9 @@
                         "required": [],
                         "additionalProperties": false
                       },
+                      "expression": {
+                        "type": "string"
+                      },
                       "subtotal": {
                         "anyOf": [
                           {
@@ -4850,6 +4865,9 @@
                       "properties": {},
                       "required": [],
                       "additionalProperties": false
+                    },
+                    "expression": {
+                      "type": "string"
                     },
                     "subtotal": {
                       "anyOf": [
@@ -5441,7 +5459,7 @@
     },
     "pushHistory": {
       "group": "History",
-      "signature": "(items: CostItem[], description: string, tarieven?: Record<string, number>, extra?: { currency?: string }) => void",
+      "signature": "(items: CostItem[], description: string, tarieven?: Record<string, number>, extra?: ScheduleExtra) => void",
       "parameters": [
         {
           "name": "items",
@@ -6540,6 +6558,9 @@
                         "required": [],
                         "additionalProperties": false
                       },
+                      "expression": {
+                        "type": "string"
+                      },
                       "subtotal": {
                         "anyOf": [
                           {
@@ -6711,6 +6732,15 @@
             "properties": {
               "currency": {
                 "type": "string"
+              },
+              "priceCountry": {
+                "type": "string"
+              },
+              "priceLibraries": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               }
             },
             "required": [],
@@ -8428,6 +8458,9 @@
                         "required": [],
                         "additionalProperties": false
                       },
+                      "expression": {
+                        "type": "string"
+                      },
                       "subtotal": {
                         "anyOf": [
                           {
@@ -9674,6 +9707,9 @@
                         "properties": {},
                         "required": [],
                         "additionalProperties": false
+                      },
+                      "expression": {
+                        "type": "string"
                       },
                       "subtotal": {
                         "anyOf": [
@@ -13765,6 +13801,9 @@
                             "required": [],
                             "additionalProperties": false
                           },
+                          "expression": {
+                            "type": "string"
+                          },
                           "subtotal": {
                             "anyOf": [
                               {
@@ -15052,6 +15091,9 @@
                                     "required": [],
                                     "additionalProperties": false
                                   },
+                                  "expression": {
+                                    "type": "string"
+                                  },
                                   "subtotal": {
                                     "anyOf": [
                                       {
@@ -15643,6 +15685,15 @@
                   },
                   "currency": {
                     "type": "string"
+                  },
+                  "priceCountry": {
+                    "type": "string"
+                  },
+                  "priceLibraries": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
                   },
                   "projectName": {
                     "type": "string"
@@ -17311,6 +17362,9 @@
                             "required": [],
                             "additionalProperties": false
                           },
+                          "expression": {
+                            "type": "string"
+                          },
                           "subtotal": {
                             "anyOf": [
                               {
@@ -18598,6 +18652,9 @@
                                     "required": [],
                                     "additionalProperties": false
                                   },
+                                  "expression": {
+                                    "type": "string"
+                                  },
                                   "subtotal": {
                                     "anyOf": [
                                       {
@@ -19189,6 +19246,15 @@
                   },
                   "currency": {
                     "type": "string"
+                  },
+                  "priceCountry": {
+                    "type": "string"
+                  },
+                  "priceLibraries": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
                   },
                   "projectName": {
                     "type": "string"
@@ -19915,11 +19981,25 @@
     },
     "openResourcePicker": {
       "group": "ResourceLibrary",
-      "signature": "(parentId: string | null) => void",
+      "signature": "(parentId: string | null, notice?: string | null) => void",
       "parameters": [
         {
           "name": "parentId",
           "optional": false,
+          "schema": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        {
+          "name": "notice",
+          "optional": true,
           "schema": {
             "anyOf": [
               {
@@ -23021,6 +23101,9 @@
                                       "required": [],
                                       "additionalProperties": false
                                     },
+                                    "expression": {
+                                      "type": "string"
+                                    },
                                     "subtotal": {
                                       "anyOf": [
                                         {
@@ -23612,6 +23695,15 @@
                     },
                     "currency": {
                       "type": "string"
+                    },
+                    "priceCountry": {
+                      "type": "string"
+                    },
+                    "priceLibraries": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
                     },
                     "projectName": {
                       "type": "string"
@@ -25199,6 +25291,9 @@
                               "properties": {},
                               "required": [],
                               "additionalProperties": false
+                            },
+                            "expression": {
+                              "type": "string"
                             },
                             "subtotal": {
                               "anyOf": [
@@ -27520,6 +27615,9 @@
                             "required": [],
                             "additionalProperties": false
                           },
+                          "expression": {
+                            "type": "string"
+                          },
                           "subtotal": {
                             "anyOf": [
                               {
@@ -28807,6 +28905,9 @@
                                     "required": [],
                                     "additionalProperties": false
                                   },
+                                  "expression": {
+                                    "type": "string"
+                                  },
                                   "subtotal": {
                                     "anyOf": [
                                       {
@@ -29398,6 +29499,15 @@
                   },
                   "currency": {
                     "type": "string"
+                  },
+                  "priceCountry": {
+                    "type": "string"
+                  },
+                  "priceLibraries": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
                   },
                   "projectName": {
                     "type": "string"
@@ -31135,6 +31245,9 @@
                                     "required": [],
                                     "additionalProperties": false
                                   },
+                                  "expression": {
+                                    "type": "string"
+                                  },
                                   "subtotal": {
                                     "anyOf": [
                                       {
@@ -32368,6 +32481,9 @@
                                     "properties": {},
                                     "required": [],
                                     "additionalProperties": false
+                                  },
+                                  "expression": {
+                                    "type": "string"
                                   },
                                   "subtotal": {
                                     "anyOf": [
@@ -33728,6 +33844,9 @@
                             "required": [],
                             "additionalProperties": false
                           },
+                          "expression": {
+                            "type": "string"
+                          },
                           "subtotal": {
                             "anyOf": [
                               {
@@ -35015,6 +35134,9 @@
                                     "required": [],
                                     "additionalProperties": false
                                   },
+                                  "expression": {
+                                    "type": "string"
+                                  },
                                   "subtotal": {
                                     "anyOf": [
                                       {
@@ -35606,6 +35728,15 @@
                   },
                   "currency": {
                     "type": "string"
+                  },
+                  "priceCountry": {
+                    "type": "string"
+                  },
+                  "priceLibraries": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
                   },
                   "projectName": {
                     "type": "string"
@@ -37343,6 +37474,9 @@
                                     "required": [],
                                     "additionalProperties": false
                                   },
+                                  "expression": {
+                                    "type": "string"
+                                  },
                                   "subtotal": {
                                     "anyOf": [
                                       {
@@ -38576,6 +38710,9 @@
                                     "properties": {},
                                     "required": [],
                                     "additionalProperties": false
+                                  },
+                                  "expression": {
+                                    "type": "string"
                                   },
                                   "subtotal": {
                                     "anyOf": [
