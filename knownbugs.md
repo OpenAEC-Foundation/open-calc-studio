@@ -132,17 +132,6 @@ stand van `main` op die datum.
     dagen en maanden van 30 dagen: 2026-11-06 wordt `11/24/2026` en 2026-12-31 wordt `01/14/2027`. Voorstel:
     `chrono::Local::now().format("%m/%d/%Y")`. — S
 
-68. **Sommige fouten bij Bestand > Importeren blijven stil.** `Backstage.tsx:351-358`: een async `onchange`
-    zonder try/catch, zodat een kapotte xlsx of "Four imports are already running" een onafgehandelde
-    rejection wordt; ook `:136-151` (IFCX `reader.onload`). Voorstel: dezelfde try/catch + alert als bij de
-    andere importhandlers. — S
-
-69. **Recente bestanden onder Bestand > Openen tonen ruwe `ocs-host:…`.** `Backstage.tsx:711`;
-    `StartSidebar.tsx:77` handelt dit wel af. Voorstel: de naamlogica delen. — S
-
-70. **Openen vanuit de cloud laat offerte, bedrijfsgegevens, spreadsheets, snapshots en projectinfo vallen**
-    (`CloudPanel.tsx:100-110`). Zelfde soort bug als #58. — S
-
 71. **BMEcat: eenheidscodes uit UN/ECE Rec 20 (MTR, MTK, MTQ, KGM, TNE, C62, PCE) worden allemaal "st".**
     `src/services/importers/bmecatImporter.ts:306`. Voorstel: een Rec 20-vertaaltabel toevoegen, en waarschuwen
     bij onbekende eenheden. — B
@@ -257,9 +246,6 @@ stand van `main` op die datum.
      `tradxmlExporter.ts:46,48` en `rsxExporter.ts:46,48` (`formatDutch(x, 2)`); `xmlBuilder.ts:44` escapet
      `\n` `\r` `\t` in attributen niet. Nagespeeld. Voorstel: meer decimalen; `&#10;`, `&#13;` en `&#9;`
      escapen. — B
-
-112. **TRADXML exporteert als `.xml`, maar `lib/importers.ts` stuurt `.xml` naar de XPWE-importer**
-     (hosted/API-pad). — S
 
 269. **Oude CUF: Middel-regels per eenheid geven na herberekenen een te laag posttotaal.**
     `src/services/importers/cufImporter.ts:220-231`. Sinds de fix voor #96 worden Middel-regels vaste bedragen

@@ -2,6 +2,11 @@ import type { ImportResult } from '../services/importers/types';
 import { isIfcxExchangeJson } from '../services/importers/ifcxDetection';
 export type { ImportResult } from '../services/importers/types';
 
+/** Naam van het wortelelement, na de XML-declaratie, commentaar en doctype. */
+function xmlRootName(xml: string): string | null {
+  return /^\uFEFF?\s*(?:<\?[\s\S]*?\?>\s*|<!--[\s\S]*?-->\s*|<!DOCTYPE[^>]*>\s*)*<([A-Za-z_][\w.:-]*)/.exec(xml)?.[1] ?? null;
+}
+
 /** Browser import API: load only the parser needed for the selected file. */
 export async function importBudget(data: ArrayBuffer, fileName: string): Promise<ImportResult> {
   const extension = fileName.split('.').pop()?.toLowerCase();
@@ -20,8 +25,12 @@ export async function importBudget(data: ArrayBuffer, fileName: string): Promise
     return { schedule: project.schedule, items: project.items, companyInfo: project.companyInfo, warnings: [], format: 'ocs' };
   }
   switch (extension) {
-    case 'xpwe': case 'xc4': case 'xml':
-      return (await import('../services/exchange/xmlBudget')).importXmlBudget(new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(data), fileName);
+    case 'xpwe': case 'xc4': case 'xml': {
+      const xml = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(data);
+      // De TRADXML-export is ook .xml, met <Begroting> als wortel (knownbug 112).
+      if (extension === 'xml' && xmlRootName(xml) === 'Begroting') return (await import('../services/importers/tradxmlImporter')).importTradxml(xml);
+      return (await import('../services/exchange/xmlBudget')).importXmlBudget(xml, fileName);
+    }
     case 'bc3': return (await import('../services/importers/bc3Importer')).importBc3File(data);
     case 'onlv': case 'onlb': return (await import('../services/importers/onlvImporter')).importOnlvFile(data);
     case 'x81': case 'x82': case 'x83': case 'x84': case 'x86': case 'x87':
