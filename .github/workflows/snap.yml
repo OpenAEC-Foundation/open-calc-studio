@@ -115,10 +115,16 @@ jobs:
 
       # Een gepubliceerde snap + .sha256 op de release zijn onveranderlijk (#109).
       # Een herhaalde release-run (re-run) zou opnieuw bouwen en het bestaande
-      # bestand willen vervangen; stop daarom vóór de build met een verwijzing
-      # naar de herstelroute.
+      # bestand willen vervangen; een handmatige publish zonder reuse_release_snap
+      # zou een nieuwe build met andere bytes naar `stable` sturen. Stop in beide
+      # gevallen vóór de build met een verwijzing naar de herstelroute.
+      # NB: een re-run gebruikt de workflow van de oorspronkelijke tag; tags van
+      # vóór deze wijziging (t/m v2026.48.0) hebben deze stap dus nog niet.
       - name: Refuse to rebuild over an existing release snap
-        if: github.event_name == 'release'
+        if: >-
+          github.event_name == 'release' ||
+          (github.event_name == 'workflow_dispatch' && inputs.publish &&
+           inputs.reuse_release_snap != true)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: ${{ steps.get-version.outputs.version }}
@@ -179,7 +185,10 @@ jobs:
         shell: bash
         run: |
           . /etc/os-release
-          test "$ID" = ubuntu && test "$VERSION_ID" = 22.04
+          # Losse regels: onder `bash -e` wordt de eerste helft van `a && b`
+          # niet afgedwongen.
+          test "$ID" = ubuntu
+          test "$VERSION_ID" = 22.04
           test "$(sed -n 's/^base: //p' snap/snapcraft.yaml)" = core22
           # This mode installs build dependencies on the disposable CI runner.
           # Never use it as the default command on a developer's workstation.
@@ -234,11 +243,13 @@ jobs:
 
           # 3. Inhoud: de snap zelf moet deze naam en versie dragen.
           meta=$(unsquashfs -cat "$dir/$name" meta/snap.yaml)
-          if ! printf '%s\n' "$meta" | grep -Fxq 'name: open-calc-studio' ||
-             ! printf '%s\n' "$meta" | grep -Fxq \
+          # Here-strings, geen pipe: met pipefail kan `grep -q` die vroeg stopt
+          # een SIGPIPE bij printf veroorzaken en zo een valse fout geven.
+          if ! grep -Fxq 'name: open-calc-studio' <<<"$meta" ||
+             ! grep -Fxq \
                  -e "version: $VERSION_NUMBER" \
                  -e "version: '$VERSION_NUMBER'" \
-                 -e "version: \"$VERSION_NUMBER\""; then
+                 -e "version: \"$VERSION_NUMBER\"" <<<"$meta"; then
             echo "::error::meta/snap.yaml in $name hoort niet bij open-calc-studio $VERSION_NUMBER:"
             printf '%s\n' "$meta" | grep -E '^(name|version):' || true
             exit 1
@@ -255,7 +266,7 @@ jobs:
           BUILT: ${{ steps.snapcraft.outputs.snap }}
         run: |
           path="${EXISTING:-$BUILT}"
-          test -n "$path" && test -f "$path"
+          test -f "$path"
           echo "path=$path" >> "$GITHUB_OUTPUT"
 
       # Gepubliceerde release: snap als asset aan de release hangen, met een
@@ -303,12 +314,18 @@ jobs:
       # Credentials vóór de onomkeerbare stap controleren (#109): een duidelijke
       # foutmelding met herstelroute, en een waarschuwing ruim vóór ze verlopen.
       # Een expliciete handmatige publish zonder secret is een fout, geen stille
-      # skip. `whoami` toont ook het e-mailadres van de publisher: dat NIET in
-      # het (openbare) log zetten, alleen de regels hieronder.
+      # skip. Ook de droogtest van de herstelroute controleert het secret
+      # (`whoami` is alleen-lezen): juist dat ging in #109 mis. De rechten worden
+      # vóór de upload gecontroleerd, omdat een upload niet te herhalen is als
+      # daarna pas upload-metadata op ontbrekende rechten stukloopt.
+      # `whoami` toont ook het e-mailadres van de publisher: dat NIET in het
+      # (openbare) log zetten, alleen de regels hieronder.
       - name: Check Snap Store credentials
         if: >-
           (github.event_name == 'release' && env.SNAPCRAFT_STORE_CREDENTIALS != '') ||
-          (github.event_name == 'workflow_dispatch' && inputs.publish)
+          (github.event_name == 'workflow_dispatch' && inputs.publish) ||
+          (github.event_name == 'workflow_dispatch' && inputs.reuse_release_snap &&
+           env.SNAPCRAFT_STORE_CREDENTIALS != '')
         env:
           VERSION: ${{ steps.get-version.outputs.version }}
         run: |
@@ -321,7 +338,29 @@ jobs:
             echo "::error::Snap Store-credentials zijn ongeldig of verlopen. Een publisher van open-calc-studio moet ze vernieuwen (snapcraft export-login) en het secret bijwerken; publiceer daarna de snap die al op release $VERSION staat met reuse_release_snap. Zie docs/desktop-builds.md."
             exit 1
           fi
-          printf '%s\n' "$out" | grep -E '^(permissions|channels|packages|snaps|expires):' || true
+          printf '%s\n' "$out" | grep -E '^(permissions|channels|expires):' || true
+
+          # Rechten en kanaal: "no restrictions" of een (komma-)lijst.
+          field() { printf '%s\n' "$out" | sed -n "s/^$1: *//p" | head -1; }
+          has() { case "$1" in "no restrictions") return 0 ;; esac
+                  case " $(printf '%s' "$1" | tr ',' ' ') " in *" $2 "*) return 0 ;; esac
+                  return 1; }
+          perms=$(field permissions)
+          channels=$(field channels)
+          if [ -z "$perms" ] || [ -z "$channels" ]; then
+            echo "::warning::Kon rechten/kanalen van de Snap Store-credentials niet lezen; niet gecontroleerd."
+          else
+            missing=""
+            for acl in package_access package_push package_update package_release; do
+              has "$perms" "$acl" || missing="$missing $acl"
+            done
+            has "$channels" stable || missing="$missing channel:stable"
+            if [ -n "$missing" ]; then
+              echo "::error::Snap Store-credentials missen:$missing. Exporteer ze opnieuw met de opdracht uit docs/desktop-builds.md."
+              exit 1
+            fi
+          fi
+
           expires=$(printf '%s\n' "$out" | sed -n 's/^expires: *//p' | head -1)
           if [ -z "$expires" ] || ! exp_s=$(date -u -d "$expires" +%s 2>/dev/null); then
             echo "::warning::Kon de vervaldatum van de Snap Store-credentials niet lezen."

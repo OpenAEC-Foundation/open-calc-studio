@@ -165,26 +165,44 @@ signatures of the installers it points to.
 The release run (`snap.yml`) first attaches the snap and its `.sha256` to the
 GitHub release, then publishes to the Snap Store. If only the Store step fails
 (for example because the credentials expired, #109), the attached snap is the
-release artifact: never rebuild or overwrite it. A rerun of the release job
-refuses to start building once a snap is attached, and the upload no longer
-uses `--clobber`.
+release artifact: never rebuild or overwrite it.
+
+**Do not use "Re-run jobs" on the failed release run.** A rerun uses the
+workflow file of the release tag. Tags up to and including `v2026.48.0` still
+rebuild and upload with `--clobber`, so a rerun would replace the attached snap
+and publish different bytes. From later tags on, a rerun refuses to build once
+a snap is attached, and a manual run with `publish` but without
+`reuse_release_snap` refuses as well.
 
 1. **Renew credentials** (a publisher of `open-calc-studio` in the Snap Store):
 
    ```sh
    snapcraft export-login --snaps=open-calc-studio --channels=stable \
      --acls=package_access,package_push,package_update,package_release \
-     --expires=<YYYY-MM-DD, about a year ahead> creds.txt
+     --expires=<YYYY-MM-DD, at most 11 months ahead> creds.txt
    ```
 
-   Store the contents of `creds.txt` as the GitHub secret
-   `SNAPCRAFT_STORE_CREDENTIALS`, delete the file and note the expiry date.
-   Each publishing run checks the credentials before the Store step and warns
-   when they expire within 45 days.
+   The Store accepts at most one year for these permissions. Store the
+   contents of `creds.txt` as the GitHub secret `SNAPCRAFT_STORE_CREDENTIALS`,
+   delete the file and note the expiry date. Runs that publish, and the dry run
+   below, check the credentials (validity, the four permissions, the `stable`
+   channel) before anything reaches the Store, and warn when they expire
+   within 45 days.
 2. **Dry run:** start *Build Snap Package* manually with `version` set to the
    release tag, `reuse_release_snap` on and `publish` off. It downloads the
    attached snap and checks it against its `.sha256`, against the digest GitHub
-   recorded for the asset, and against the name and version inside the snap.
+   recorded for the asset, and against the name and version inside the snap,
+   then checks the credentials. Nothing is published.
 3. **Publish:** run it again with `reuse_release_snap` and `publish` both on.
    It sends exactly those bytes to `stable`, synchronizes the Store metadata
    and records the public Store license and stable revision in the run summary.
+
+If the upload in step 3 succeeded but a later step failed, do not run it again:
+a second upload of the same snap is most likely rejected, so the later steps
+would never be reached. Finish by hand with
+`snapcraft upload-metadata <snap> --force` and, if needed,
+`snapcraft release open-calc-studio <revision> stable`.
+
+If a release has the `.snap` but not its `.sha256` (an interrupted upload), both
+routes refuse. Compute the checksum of the attached snap, compare it with the
+digest GitHub shows for the asset, and attach the `.sha256` by hand first.
