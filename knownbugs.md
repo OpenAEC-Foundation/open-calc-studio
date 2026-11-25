@@ -25,6 +25,14 @@ stand van `main` op die datum.
 
 ## Rekenen en totalen
 
+294. **Kengetallen en opgeslagen versies laten de opslagen oude stijl (ukk/ak/wr) en de afronding weg uit het
+     totaal excl. btw.** `src/components/report/ProjectInfoSettings.tsx:80` en `src/state/slices/versionSlice.ts:109`
+     gebruiken `getStaartBreakdown(...).aanneemsomExcl`, dat alleen het Bouw 1-model optelt (kostprijs + risico,
+     winst, verzekering). Bij BasCalc-imports is dat lager dan het gridtotaal; de afronding ontbreekt altijd,
+     terwijl het commentaar in `versionSlice.ts` zegt dat die erin zit. Dezelfde oorzaak als knownbug 193 (wizard,
+     opgelost met `aanneemsom + afronding`). Gezien in de code, niet in de app nagespeeld. Voorstel: één gedeelde
+     helper voor het totaal excl. btw. — S
+
 ## Tabel, invoer en bediening
 
 28. **"Kopiëren naar Excel" schrijft getallen met een decimale punt, dus Nederlandse Excel maakt van 12.5 een
