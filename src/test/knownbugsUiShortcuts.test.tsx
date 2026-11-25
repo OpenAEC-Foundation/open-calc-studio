@@ -32,7 +32,7 @@ describe('knownbug 39: Ctrl+, opent de voorkeuren', () => {
 describe('knownbug 30: Ctrl+X na een sleepselectie', () => {
   it('knipt de regels van het gesleepte celbereik, niet de eerder actieve regel', async () => {
     await i18next.changeLanguage('en');
-    useAppStore.setState({ documents: [], activeDocumentId: '', items: [], undoStack: [], redoStack: [], activeContentTab: 'grid', clipboardItems: null });
+    useAppStore.setState({ documents: [], activeDocumentId: '', items: [], undoStack: [], redoStack: [], activeContentTab: 'grid', clipboardItems: [] });
     const s = useAppStore.getState();
     s.addDocument({ id: 'kb30', items: [] });
     const chapter = s.addChapter(null);
