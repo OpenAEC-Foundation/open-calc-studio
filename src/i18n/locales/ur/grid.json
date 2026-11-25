@@ -263,6 +263,10 @@
     "pasteExtraColumns": "{{height}} کے بعد والے کالم پیسٹ نہیں ہوئے",
     "pasteDecimalGuess": "{{text}} کو {{value}} پڑھا گیا",
     "pasteUndo": "پیمائش کی سطریں پیسٹ کریں",
-    "noticeDismiss": "پیغام بند کریں"
+    "noticeDismiss": "پیغام بند کریں",
+    "expression": "سطر کا فارمولا",
+    "expressionHint": "سطر کے فارمولے کے لیے =a*b*c/2 لکھیں: a = {{units}}، b = {{length}}، c = {{width}}، d = {{height}}، p = π",
+    "expressionEdit": "سطر کا فارمولا {{expression}}، نیچے کی سطروں پر بھی لاگو ہے۔ تبدیل کرنے کے لیے کلک کریں؛ ہٹانے کے لیے خالی کریں۔",
+    "expressionContinued": "اوپر والا وہی سطر کا فارمولا: {{expression}}۔ اس سطر سے تبدیل کرنے کے لیے کلک کریں۔"
   }
 }

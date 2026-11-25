@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Kolonner etter {{height}} er ikke limt inn",
     "pasteDecimalGuess": "{{text}} lest som {{value}}",
     "pasteUndo": "Lim inn målelinjer",
-    "noticeDismiss": "Lukk melding"
+    "noticeDismiss": "Lukk melding",
+    "expression": "Linjeformel",
+    "expressionHint": "Skriv =a*b*c/2 for en linjeformel: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Linjeformel {{expression}}, gjelder også for linjene under. Klikk for å endre; tøm den for å fjerne den.",
+    "expressionContinued": "Samme linjeformel som over: {{expression}}. Klikk for å endre den fra denne linjen."
   }
 }

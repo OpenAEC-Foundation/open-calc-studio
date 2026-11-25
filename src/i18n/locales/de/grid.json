@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Spalten nach {{height}} nicht eingefügt",
     "pasteDecimalGuess": "{{text}} gelesen als {{value}}",
     "pasteUndo": "Aufmaßzeilen einfügen",
-    "noticeDismiss": "Meldung schließen"
+    "noticeDismiss": "Meldung schließen",
+    "expression": "Zeilenformel",
+    "expressionHint": "Geben Sie =a*b*c/2 für eine Zeilenformel ein: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Zeilenformel {{expression}}, gilt auch für die Zeilen darunter. Klicken zum Ändern; leeren zum Entfernen.",
+    "expressionContinued": "Gleiche Zeilenformel wie oben: {{expression}}. Klicken, um sie ab dieser Zeile zu ändern."
   }
 }

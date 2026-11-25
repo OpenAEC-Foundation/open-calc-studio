@@ -99,7 +99,7 @@
       "noPrices": "Ce fichier ne contient aucun prix — uniquement des désignations et des quantités (comme une bibliothèque de métrés). Le total reste donc à 0,00.",
       "moreWarnings_one": "… et {{count}} autre avertissement similaire.",
       "moreWarnings_other": "… et {{count}} autres avertissements similaires.",
-      "measurementLinesDropped": "Pour {{n}} article(s), les lignes de métré ne correspondent pas à la quantité du fichier, ou utilisent une formule. Seule la quantité a été importée pour ceux-ci."
+      "measurementLinesDropped": "Pour {{n}} article(s), les lignes de métré ne correspondent pas à la quantité du fichier, ou utilisent une formule illisible. Seule la quantité a été importée pour ceux-ci."
     },
     "onlv": {
       "leistungsbuch": "Ceci est un Leistungsbuch (catalogue de textes types) sans quantités ni prix — toutes les positions ont été importées avec la quantité 0.",

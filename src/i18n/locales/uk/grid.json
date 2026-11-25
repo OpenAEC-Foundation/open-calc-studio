@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Стовпці після «{{height}}» не вставлено",
     "pasteDecimalGuess": "{{text}} прочитано як {{value}}",
     "pasteUndo": "Вставити рядки обмірів",
-    "noticeDismiss": "Закрити повідомлення"
+    "noticeDismiss": "Закрити повідомлення",
+    "expression": "Формула рядка",
+    "expressionHint": "Введіть =a*b*c/2 для формули рядка: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Формула рядка {{expression}}, діє і для рядків нижче. Натисніть, щоб змінити; очистіть, щоб вилучити.",
+    "expressionContinued": "Та сама формула рядка, що вище: {{expression}}. Натисніть, щоб змінити її починаючи з цього рядка."
   }
 }

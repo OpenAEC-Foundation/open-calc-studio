@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Столбцы после «{{height}}» не вставлены",
     "pasteDecimalGuess": "{{text}} прочитано как {{value}}",
     "pasteUndo": "Вставить строки обмеров",
-    "noticeDismiss": "Закрыть сообщение"
+    "noticeDismiss": "Закрыть сообщение",
+    "expression": "Формула строки",
+    "expressionHint": "Введите =a*b*c/2 для формулы строки: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Формула строки {{expression}}, действует и для строк ниже. Нажмите, чтобы изменить; очистите, чтобы удалить.",
+    "expressionContinued": "Та же формула строки, что выше: {{expression}}. Нажмите, чтобы изменить её начиная с этой строки."
   }
 }

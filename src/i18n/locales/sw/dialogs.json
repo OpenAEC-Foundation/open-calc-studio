@@ -99,7 +99,7 @@
       "noPrices": "Faili hii haina bei — ina maelezo na viasi tu (kama maktaba ya vipimo). Kwa hiyo jumla inabaki 0.00.",
       "moreWarnings_one": "… na taarifa {{count}} nyingine inayofanana.",
       "moreWarnings_other": "… na taarifa {{count}} nyingine zinazofanana.",
-      "measurementLinesDropped": "Kwa vipengele {{n}}, mistari ya vipimo haifikii kiasi kilicho kwenye faili, au inatumia fomula. Hapo ni kiasi pekee kilicholetwa."
+      "measurementLinesDropped": "Kwa vipengele {{n}}, mistari ya vipimo haifikii kiasi kilicho kwenye faili, au inatumia fomula isiyoweza kusomeka. Hapo ni kiasi pekee kilicholetwa."
     },
     "onlv": {
       "leistungsbuch": "Hii ni Leistungsbuch (katalogi ya maandishi sanifu) bila viasi wala bei — vipengele vyote vimeingizwa kwa kiasi 0.",

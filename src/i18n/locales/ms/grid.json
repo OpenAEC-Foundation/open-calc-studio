@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Lajur selepas {{height}} tidak ditampal",
     "pasteDecimalGuess": "{{text}} dibaca sebagai {{value}}",
     "pasteUndo": "Tampal baris ukuran",
-    "noticeDismiss": "Tutup mesej"
+    "noticeDismiss": "Tutup mesej",
+    "expression": "Formula baris",
+    "expressionHint": "Taip =a*b*c/2 untuk formula baris: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Formula baris {{expression}}, juga terpakai pada baris di bawah. Klik untuk menukar; kosongkan untuk membuang.",
+    "expressionContinued": "Formula baris yang sama seperti di atas: {{expression}}. Klik untuk menukarnya mulai baris ini."
   }
 }

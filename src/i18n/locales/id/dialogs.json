@@ -99,7 +99,7 @@
       "noPrices": "Berkas ini tidak memuat harga — hanya uraian dan volume (seperti pustaka pengukuran). Karena itu total tetap 0,00.",
       "moreWarnings_one": "… dan {{count}} catatan serupa lainnya.",
       "moreWarnings_other": "… dan {{count}} catatan serupa lainnya.",
-      "measurementLinesDropped": "Pada {{n}} item, baris pengukuran tidak berjumlah sama dengan kuantitas di file, atau memakai rumus. Di sana hanya kuantitas yang diimpor."
+      "measurementLinesDropped": "Pada {{n}} item, baris pengukuran tidak berjumlah sama dengan kuantitas di file, atau memakai rumus yang tidak dapat dibaca. Di sana hanya kuantitas yang diimpor."
     },
     "onlv": {
       "leistungsbuch": "Ini adalah Leistungsbuch (katalog teks standar) tanpa volume dan harga — semua item diimpor dengan kuantitas 0.",

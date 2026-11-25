@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Kolonner efter {{height}} er ikke indsat",
     "pasteDecimalGuess": "{{text}} læst som {{value}}",
     "pasteUndo": "Indsæt opmålingslinjer",
-    "noticeDismiss": "Luk besked"
+    "noticeDismiss": "Luk besked",
+    "expression": "Linjeformel",
+    "expressionHint": "Skriv =a*b*c/2 for en linjeformel: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Linjeformel {{expression}}, gælder også for linjerne nedenunder. Klik for at ændre; tøm den for at fjerne den.",
+    "expressionContinued": "Samme linjeformel som ovenfor: {{expression}}. Klik for at ændre den fra denne linje."
   }
 }

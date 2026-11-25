@@ -263,6 +263,10 @@
     "pasteExtraColumns": "ไม่ได้วางคอลัมน์หลัง {{height}}",
     "pasteDecimalGuess": "อ่าน {{text}} เป็น {{value}}",
     "pasteUndo": "วางแถวการวัด",
-    "noticeDismiss": "ปิดข้อความ"
+    "noticeDismiss": "ปิดข้อความ",
+    "expression": "สูตรบรรทัด",
+    "expressionHint": "พิมพ์ =a*b*c/2 สำหรับสูตรบรรทัด: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "สูตรบรรทัด {{expression}} ใช้กับบรรทัดด้านล่างด้วย คลิกเพื่อแก้ไข ล้างค่าเพื่อลบ",
+    "expressionContinued": "สูตรบรรทัดเดียวกับด้านบน: {{expression}} คลิกเพื่อแก้ไขตั้งแต่บรรทัดนี้"
   }
 }

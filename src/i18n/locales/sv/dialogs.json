@@ -99,7 +99,7 @@
       "noPrices": "Den här filen innehåller inga priser — endast beskrivningar och mängder (som ett mängdbibliotek). Totalen blir därför 0,00.",
       "moreWarnings_one": "… och {{count}} ytterligare liknande meddelande.",
       "moreWarnings_other": "… och {{count}} ytterligare liknande meddelanden.",
-      "measurementLinesDropped": "För {{n}} post(er) blir mätraderna inte mängden i filen, eller så använder de en formel. Där har bara mängden importerats."
+      "measurementLinesDropped": "För {{n}} post(er) blir mätraderna inte mängden i filen, eller så använder de en formel som inte kan läsas. Där har bara mängden importerats."
     },
     "onlv": {
       "leistungsbuch": "Detta är ett Leistungsbuch (katalog med standardtexter) utan mängder och priser — alla positioner har importerats med mängd 0.",

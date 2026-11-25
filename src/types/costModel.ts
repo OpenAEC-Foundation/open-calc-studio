@@ -187,6 +187,15 @@ export interface MeasurementLine {
   /** Ingevoerde formule per vak ("=10*3"); het getal ernaast is de uitkomst. */
   formulas?: Partial<Record<MeasurementField, string>>;
   /**
+   * Regelformule (#45, BC3 regeltype 3): de regel levert deze rekensom op in
+   * plaats van het product van de vakken, met a = aantal, b = lengte,
+   * c = breedte, d = hoogte en p = π ("a*b*c/2"). Bewaard met een punt als
+   * decimaalteken (zie normalizeLineExpression). In BC3 geldt een formule
+   * ook voor de regels eronder; hier staat hij op elke regel waarvoor hij
+   * geldt.
+   */
+  expression?: string;
+  /**
    * Tussentotaalregel (BC3 type 1 en 2): toont de som sinds het vorige
    * tussentotaal ('partial') of vanaf het begin ('cumulative'). Telt zelf
    * niet mee in de hoeveelheid.

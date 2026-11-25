@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Columns after {{height}} not pasted",
     "pasteDecimalGuess": "{{text}} read as {{value}}",
     "pasteUndo": "Paste measurement lines",
-    "noticeDismiss": "Close message"
+    "noticeDismiss": "Close message",
+    "expression": "Line formula",
+    "expressionHint": "Type =a*b*c/2 for a line formula: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Line formula {{expression}}, also used by the lines below. Click to change; clear it to remove.",
+    "expressionContinued": "Same line formula as above: {{expression}}. Click to change it from this line on."
   }
 }

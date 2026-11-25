@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Không dán các cột sau {{height}}",
     "pasteDecimalGuess": "{{text}} được đọc là {{value}}",
     "pasteUndo": "Dán dòng đo bóc",
-    "noticeDismiss": "Đóng thông báo"
+    "noticeDismiss": "Đóng thông báo",
+    "expression": "Công thức dòng",
+    "expressionHint": "Nhập =a*b*c/2 để tạo công thức dòng: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Công thức dòng {{expression}}, áp dụng cả cho các dòng bên dưới. Bấm để sửa; xóa trống để bỏ.",
+    "expressionContinued": "Cùng công thức dòng như bên trên: {{expression}}. Bấm để sửa từ dòng này."
   }
 }

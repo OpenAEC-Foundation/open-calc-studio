@@ -19,9 +19,10 @@
  * gebruikt krijgt de tweede een `_n`-suffix. Hoofdstukken blijven altijd
  * uniek.
  */
-import type { CostItem, CostSchedule, PriceRounding } from '@/types/costModel';
+import type { CostItem, CostSchedule, MeasurementLine, PriceRounding } from '@/types/costModel';
 import { encodeWindows1252, fitsWindows1252 } from '@/services/importers/windows1252';
 import { normalizePriceRounding, roundHalfUp } from '@/services/calculation/priceRounding';
+import { evaluateLineExpression, normalizeLineExpression } from '@/services/measurement/lineExpression';
 
 /**
  * Getal als BC3-tekst: punt als decimaalteken, geen exponentnotatie, geen
@@ -59,14 +60,56 @@ const escText = (s: string | null | undefined): string =>
  * Detailregels van een ~M-record (#96): per meetregel
  * `TIPO\COMENTARIO\UNIDADES\LONGITUD\LATITUD\ALTURA\`. Een leeg vak blijft
  * leeg. Tussentotalen krijgen type 1 (sinds het vorige) of 2 (vanaf het begin).
+ *
+ * Regelformules (#45) worden type 3, met de formule als commentaar. In BC3
+ * geldt een formule ook voor de regels eronder, tot de volgende: alleen
+ * waar de formule wisselt komt een type-3-regel. Een gewone regel ná een
+ * formule krijgt daarom zijn eigen product als formule ("a*b"), anders
+ * rekende het andere programma hem met de formule erboven.
  */
-const measurementDetail = (it: CostItem): string =>
-  (it.measurementLines ?? []).map((l) => {
-    const tipo = l.subtotal === 'partial' ? '1' : l.subtotal === 'cumulative' ? '2' : '';
-    const dim = (v: number | null): string => (v == null ? '' : num(v));
-    const dims = l.subtotal ? ['', '', '', ''] : [dim(l.count), dim(l.length), dim(l.width), dim(l.height)];
-    return [tipo, esc(l.description), ...dims].join('\\') + '\\';
-  }).join('');
+const measurementDetail = (it: CostItem): string => {
+  const row = (tipo: string, comment: string, dims: string[]): string => [tipo, comment, ...dims].join('\\') + '\\';
+  const dim = (v: number | null): string => (v == null ? '' : num(v));
+  const values = (l: MeasurementLine) => [l.count, l.length, l.width, l.height];
+  /** Het product van de ingevulde vakken als formule; geen vak ingevuld: 0. */
+  const productExpression = (l: MeasurementLine): string =>
+    values(l).map((v, i) => (v == null ? '' : 'abcd'[i])).filter(Boolean).join('*') || '0';
+  /** Of een tekstregel zonder getallen onder deze formule 0 oplevert. */
+  const emptyLineIsZero = (expr: string | undefined): boolean =>
+    !expr || !evaluateLineExpression(expr, { a: null, b: null, c: null, d: null });
+  let active: string | undefined;
+  const out: string[] = [];
+  for (const l of it.measurementLines ?? []) {
+    if (l.subtotal) {
+      out.push(row(l.subtotal === 'partial' ? '1' : '2', esc(l.description), ['', '', '', '']));
+      continue;
+    }
+    const dims = values(l).map(dim);
+    // Alleen een leesbare formule; een lege of kapotte (handmatig bewerkt bestand) telt als geen.
+    const own = l.expression ? normalizeLineExpression(l.expression) ?? undefined : undefined;
+    // Een tekstregel zonder getallen en zonder formule: gewoon een tekstregel,
+    // zolang de formule erboven daar 0 oplevert. Geen "0"-formule, die kwam
+    // bij de import terug als ƒ 0 op een notitie.
+    if (!own && active !== undefined && values(l).every((v) => v == null) && emptyLineIsZero(active)) {
+      out.push(row('', esc(l.description), dims));
+      continue;
+    }
+    const wanted = own ?? (active !== undefined ? productExpression(l) : undefined);
+    if (wanted === undefined || wanted === active) {
+      out.push(row('', esc(l.description), dims));
+      continue;
+    }
+    // Een formuleregel heeft geen plek voor een omschrijving: die komt op
+    // een tekstregel erboven, als die niets oplevert. De import zet hem
+    // weer op de formuleregel. Levert de formule erboven op lege vakken
+    // niet 0 op ("a+1"), dan kan dat niet en valt de omschrijving weg; de
+    // getallen blijven kloppen.
+    if (l.description.trim() && emptyLineIsZero(active)) out.push(row('', esc(l.description), ['', '', '', '']));
+    out.push(row('3', esc(wanted), dims));
+    active = wanted;
+  }
+  return out.join('');
+};
 
 const TYPE_BY_RESOURCE: Record<string, string> = {
   arbeid: '1',

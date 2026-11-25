@@ -328,7 +328,12 @@ export const GridCell: React.FC<Props> = React.memo(({ item, column, colWidth, r
   const showExcelIcon = isHoeveelheidCol && !!item.excelLink;
   const showQuantityLinkIcon = isHoeveelheidCol && !!item.quantityLink;
   // Hoeveelheid uit meetregels (#96): Σ, met de herkomst achter een klik.
-  const showMeasurementIcon = isHoeveelheidCol && !!item.measurementLines?.length && !item.quantityLink;
+  // Alleen in de eigen hoeveelheidskolom van de post: de kolommen
+  // Hoeveelheid (UI-1) en Uren (UI-2) herhalen daar het aantal, en een Σ
+  // onder Uren deed alsof de uren uit de meetregels kwamen. De inschrijfstaat
+  // heeft geen kolom Aantal; daar staat hij bij Hoeveelheid.
+  const isPostQuantityCol = column.key === 'quantity' || (gridView === 'inschrijfstaat' && column.key === 'hoeveelheid');
+  const showMeasurementIcon = isPostQuantityCol && !!item.measurementLines?.length && !item.quantityLink;
   const unresolvedPdfLink = showQuantityLinkIcon && item.quantityLink?.source === 'pdf'
     && resolvePdfQuantity(item.quantityLink, pdfWorkspace) === null;
   const cellTooltip = getCellTooltip();

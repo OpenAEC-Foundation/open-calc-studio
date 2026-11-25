@@ -2,6 +2,7 @@ import type { CostItem, MeasurementField, MeasurementLine } from '@/types/costMo
 import { roundHalfUp } from '@/services/calculation/priceRounding';
 import { parseNumericInput } from '@/utils/numericInput';
 import { parseLocaleNumber } from '@/utils/formatting';
+import { evaluateLineExpression } from './lineExpression';
 
 /**
  * Meetregels (afmetingenstaat) onder een post, #96. De hoeveelheid van een
@@ -52,6 +53,13 @@ export function hasMeasurementLines(item: Pick<CostItem, 'measurementLines'>): b
  */
 export function lineValue(line: MeasurementLine): number {
   if (line.subtotal) return 0;
+  if (line.expression) {
+    // Regelformule: lege vakken tellen als 0; een formule die niets oplevert telt als 0.
+    const v = evaluateLineExpression(line.expression, { a: line.count, b: line.length, c: line.width, d: line.height });
+    if (v === null) return 0;
+    // Eén kale letter ("a"): dat vak zelf, zoals getypt, net als een regel met één ingevuld vak.
+    return /^[abcd]$/.test(line.expression) ? v : round(v);
+  }
   const factors = MEASUREMENT_FIELDS.map((f) => line[f]).filter((v): v is number => v != null && Number.isFinite(v));
   if (factors.length === 0) return 0;
   // Eén ingevuld vak: dat getal zelf, zoals getypt. Anders zou een post met

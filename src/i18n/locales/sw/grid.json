@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Safu baada ya {{height}} hazijabandikwa",
     "pasteDecimalGuess": "{{text}} imesomwa kama {{value}}",
     "pasteUndo": "Bandika mistari ya vipimo",
-    "noticeDismiss": "Funga ujumbe"
+    "noticeDismiss": "Funga ujumbe",
+    "expression": "Fomula ya mstari",
+    "expressionHint": "Andika =a*b*c/2 kwa fomula ya mstari: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Fomula ya mstari {{expression}}, inatumika pia kwa mistari iliyo chini. Bofya kubadilisha; iache tupu kuiondoa.",
+    "expressionContinued": "Fomula ile ile ya mstari kama hapo juu: {{expression}}. Bofya kuibadilisha kuanzia mstari huu."
   }
 }

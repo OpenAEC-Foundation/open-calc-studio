@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Kolumny po {{height}} nie zostały wklejone",
     "pasteDecimalGuess": "{{text}} odczytano jako {{value}}",
     "pasteUndo": "Wklej wiersze obmiaru",
-    "noticeDismiss": "Zamknij komunikat"
+    "noticeDismiss": "Zamknij komunikat",
+    "expression": "Formuła wiersza",
+    "expressionHint": "Wpisz =a*b*c/2, aby dodać formułę wiersza: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Formuła wiersza {{expression}}, dotyczy też wierszy poniżej. Kliknij, aby zmienić; wyczyść, aby usunąć.",
+    "expressionContinued": "Ta sama formuła wiersza co wyżej: {{expression}}. Kliknij, aby zmienić ją od tego wiersza."
   }
 }

@@ -107,7 +107,7 @@
       "moreWarnings_few": "… a ešte {{count}} podobné upozornenia.",
       "moreWarnings_many": "… a ešte {{count}} podobného upozornenia.",
       "moreWarnings_other": "… a ešte {{count}} podobných upozornení.",
-      "measurementLinesDropped": "Pri {{n}} položkách riadky výmer nedávajú množstvo zo súboru alebo používajú vzorec. Tam sa prevzalo len množstvo."
+      "measurementLinesDropped": "Pri {{n}} položkách riadky výmer nedávajú množstvo zo súboru alebo používajú vzorec, ktorý sa nedá prečítať. Tam sa prevzalo len množstvo."
     },
     "onlv": {
       "leistungsbuch": "Toto je Leistungsbuch (katalóg štandardných textov) bez množstiev a cien — všetky položky boli importované s množstvom 0.",

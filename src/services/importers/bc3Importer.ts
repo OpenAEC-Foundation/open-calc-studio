@@ -27,7 +27,8 @@ import { decodeCp850 } from './cp850';
 import { decodeWindows1252 } from './windows1252';
 import type { ImportResult, ImportWarningCode } from './types';
 import type { CostItem, CostUnit, MeasurementLine, PriceRounding, ResourceType } from '@/types/costModel';
-import { measurementSum, newMeasurementLine } from '@/services/measurement/measurementLines';
+import { lineValue, measurementSum, newMeasurementLine } from '@/services/measurement/measurementLines';
+import { evaluateLineExpression, normalizeLineExpression } from '@/services/measurement/lineExpression';
 import { FIEBDC_DEFAULT_ROUNDING, isValidDecimals, roundHalfUp } from '@/services/calculation/priceRounding';
 
 // ── Recordmodel ─────────────────────────────────────────────────────────────
@@ -186,8 +187,10 @@ const RESOURCE_BY_TYPE: Record<string, ResourceType> = {
  * Detailregels van een ~M-record (veld 4), #96. Volgens FIEBDC-3 per regel
  * zes subvelden: `TIPO \ COMENTARIO \ UNIDADES \ LONGITUD \ LATITUD \ ALTURA \`.
  * TIPO leeg of 0 = gewone regel, 1 = tussentotaal sinds het vorige, 2 =
- * tussentotaal vanaf het begin, 3 = formule in het commentaar met a/b/c/d.
- * Die laatste rekenen we (nog) niet na: dan geeft dit `null` en blijft
+ * tussentotaal vanaf het begin, 3 = formule in het commentaar met a/b/c/d
+ * (#45). Een formule geldt voor zijn eigen regel en de regels eronder, tot
+ * de volgende formule; elke regel waarvoor hij geldt krijgt hem als
+ * `expression`. Een formule die niet te lezen is geeft `null`: dan blijft
  * alleen het totaal over. Geen regels → lege lijst.
  */
 function parseMeasurementLines(raw: string): MeasurementLine[] | null {
@@ -201,24 +204,40 @@ function parseMeasurementLines(raw: string): MeasurementLine[] | null {
     const n = parseNumber(t);
     return Number.isFinite(n) ? n : null;
   };
+  let expression: string | undefined;
   for (let i = 0; i + 1 < parts.length; i += 6) {
     const chunk = parts.slice(i, i + 6);
     if (chunk.every((c) => c.trim() === '')) continue;
     const tipo = chunk[0].trim();
-    if (tipo === '3') return null;
     // Commentaar kan op "#ID_BIM" (een IFC-GUID) eindigen; dat is geen omschrijving.
-    const description = (chunk[1] ?? '').replace(/\s*#[0-9A-Za-z_$-]{16,}$/, '').trim();
+    const comment = (chunk[1] ?? '').replace(/\s*#[0-9A-Za-z_$-]{16,}$/, '').trim();
     if (tipo === '1' || tipo === '2') {
-      lines.push(newMeasurementLine({ description, subtotal: tipo === '1' ? 'partial' : 'cumulative' }));
+      lines.push(newMeasurementLine({ description: comment, subtotal: tipo === '1' ? 'partial' : 'cumulative' }));
       continue;
     }
-    lines.push(newMeasurementLine({
-      description,
-      count: num(chunk[2]),
-      length: num(chunk[3]),
-      width: num(chunk[4]),
-      height: num(chunk[5]),
-    }));
+    const values = { count: num(chunk[2]), length: num(chunk[3]), width: num(chunk[4]), height: num(chunk[5]) };
+    if (tipo === '3') {
+      const expr = normalizeLineExpression(comment);
+      if (!expr) return null;
+      expression = expr;
+      // Het commentaar is de formule zelf. Een tekstregel er direct boven
+      // die niets oplevert ("Ronde kolommen") wordt de omschrijving; zo
+      // schrijft de export een formuleregel met omschrijving ook weg.
+      const prev = lines[lines.length - 1];
+      let description = '';
+      if (prev && !prev.subtotal && prev.description && lineValue(prev) === 0
+        && [prev.count, prev.length, prev.width, prev.height].every((v) => v === null || v === 0)) {
+        description = prev.description;
+        lines.pop();
+      }
+      lines.push(newMeasurementLine({ description, ...values, expression }));
+      continue;
+    }
+    // Een tekstregel zonder getallen krijgt de formule alleen mee als die er
+    // iets oplevert ("a+1"); anders werd een notitie een ƒ-regel.
+    const noValues = Object.values(values).every((v) => v === null);
+    const keepExpression = expression && (!noValues || evaluateLineExpression(expression, { a: null, b: null, c: null, d: null }));
+    lines.push(newMeasurementLine({ description: comment, ...values, ...(keepExpression ? { expression } : {}) }));
   }
   return lines;
 }
@@ -768,7 +787,7 @@ export function importBc3(text: string): ImportResult {
   const mismatched: string[] = [];
   /** Boven zoveel meetregels staat een post na de import ingeklapt. */
   const MEASUREMENT_LINES_SHOWN = 8;
-  /** Posten waarvan de meetregels niet op het totaal uitkomen (of een formule hebben). */
+  /** Posten waarvan de meetregels niet op het totaal uitkomen (of een onleesbare formule hebben). */
   let droppedMeasurements = 0;
   /**
    * Meetregels onder de post zetten (#96), alleen als ze samen het totaal
@@ -946,7 +965,7 @@ export function importBc3(text: string): ImportResult {
     warn(
       'measurementLinesDropped',
       `Bij ${droppedMeasurements} partida('s) komen de meetregels niet uit op de hoeveelheid in het bestand, `
-      + 'of gebruiken ze een formule. Daar is alleen de hoeveelheid overgenomen.',
+      + 'of hebben ze een formule die niet te lezen is. Daar is alleen de hoeveelheid overgenomen.',
       { n: droppedMeasurements },
     );
   }

@@ -263,6 +263,10 @@
     "pasteExtraColumns": "لم تُلصق الأعمدة بعد {{height}}",
     "pasteDecimalGuess": "قُرئ {{text}} على أنه {{value}}",
     "pasteUndo": "لصق أسطر القياس",
-    "noticeDismiss": "إغلاق الرسالة"
+    "noticeDismiss": "إغلاق الرسالة",
+    "expression": "صيغة السطر",
+    "expressionHint": "اكتب =a*b*c/2 لصيغة سطر: a = {{units}}، b = {{length}}، c = {{width}}، d = {{height}}، p = π",
+    "expressionEdit": "صيغة السطر {{expression}}، تنطبق أيضًا على الأسطر التالية. انقر للتغيير؛ أفرغها لإزالتها.",
+    "expressionContinued": "نفس صيغة السطر أعلاه: {{expression}}. انقر لتغييرها بدءًا من هذا السطر."
   }
 }

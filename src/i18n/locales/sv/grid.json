@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Kolumner efter {{height}} klistrades inte in",
     "pasteDecimalGuess": "{{text}} läst som {{value}}",
     "pasteUndo": "Klistra in mätrader",
-    "noticeDismiss": "Stäng meddelande"
+    "noticeDismiss": "Stäng meddelande",
+    "expression": "Radformel",
+    "expressionHint": "Skriv =a*b*c/2 för en radformel: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Radformel {{expression}}, gäller även raderna nedanför. Klicka för att ändra; töm den för att ta bort den.",
+    "expressionContinued": "Samma radformel som ovan: {{expression}}. Klicka för att ändra den från den här raden."
   }
 }
