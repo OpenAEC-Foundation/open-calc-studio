@@ -1,5 +1,5 @@
 import { uiText } from '../../i18n/uiText';
-import { parseXml, getText } from './xmlHelpers';
+import { parseXml, getText, getDescendantText } from './xmlHelpers';
 import { genId, matchUnit, unknownUnitsWarning } from './core';
 import type { CostUnit, ResourceLibraryItem, ResourceType } from '@/types/costModel';
 
@@ -51,7 +51,7 @@ function bmecatUnit(raw: string): { unit: CostUnit; known: boolean } {
 
 function firstChildText(node: Element, ...tags: string[]): string {
   for (const tag of tags) {
-    const t = getText(node, tag);
+    const t = getDescendantText(node, tag);
     if (t) return t;
   }
   return '';
@@ -110,7 +110,7 @@ export function importBmecat(xml: string): PriceImportResult {
     const priceQuantity = order ? parseFloat(getText(order, 'PRICE_QUANTITY').replace(',', '.')) : NaN;
     const unitPrice = Number.isFinite(priceQuantity) && priceQuantity > 0 ? priceEn / priceQuantity : priceEn;
 
-    const featSys = getText(node, 'REFERENCE_FEATURE_SYSTEM_NAME');
+    const featSys = getDescendantText(node, 'REFERENCE_FEATURE_SYSTEM_NAME');
     const keywords = Array.from(node.getElementsByTagName('KEYWORD'))
       .map((k) => k.textContent ?? '')
       .join(' ');

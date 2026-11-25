@@ -225,10 +225,6 @@ stand van `main` op die datum.
     (`bascalcImporter.ts:228-236`); bij `cn`-regels is m arbeid en h materieel (`mapResourceType`, r.27-31).
     Nog controleren met een echt bestand. — S
 
-97. **`getText` zoekt in de hele subboom, zodat een post de waarden van zijn kind overneemt.**
-    `src/services/importers/xmlHelpers.ts:19-23`. Nagespeeld: een oude CUF-post krijgt hoeveelheid 8, eenheid
-    uur en prijs 45 van zijn `<Middel>`. Voorstel: alleen directe kinderen meenemen. — B
-
 98. **ZSX laat `<Omschrijving>` vallen en maakt van een ontbrekende prijs 0.** `zsxImporter.ts:24-29`, `:33,41`
     (`??` op `''`; `getNumber` geeft 0). Nagespeeld. Voorstel: `||` gebruiken en een ontbrekende prijs als
     null bewaren. — B
