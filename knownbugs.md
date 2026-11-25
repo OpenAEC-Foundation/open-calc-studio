@@ -388,7 +388,7 @@ stand van `main` op die datum.
      zo toch opgeslagen werk opleveren. `autoSave` staat standaard uit en heeft geen UI (zie 120). Gevonden in
      de review van knownbug 263. — S
 
-296. **Het autosave-interval wordt één keer gelezen, vóór de instellingen geladen zijn** (latent).
+298. **Het autosave-interval wordt één keer gelezen, vóór de instellingen geladen zijn** (latent).
      `src/App.tsx:390-399`: `setInterval` gebruikt `settings.autoSaveInterval` op het moment van mounten
      (dus de standaardwaarde), en het effect hangt alleen van `saveFileForClose` af. Een opgeslagen of later
      gewijzigd interval werkt pas na een herstart, of niet. `autoSave` staat standaard uit en heeft geen UI
@@ -894,12 +894,12 @@ stand van `main` op die datum.
      nog "acceptance pending" (niet nagegaan of dat nog klopt); offline- en hosted-gebruikers zien alleen deze
      lijst. — B
 
-294. **De lijst cloudbestanden toont datum en tijd altijd in Nederlandse notatie.**
+299. **De lijst cloudbestanden toont datum en tijd altijd in Nederlandse notatie.**
      `src/components/backstage/CloudPanel.tsx:123-124` (`toLocaleDateString('nl-NL')`,
      `toLocaleTimeString('nl-NL')`). Gezien in de code, bij de fix van knownbug 228 (zelfde fout in
      `OfferteTab.tsx`). Voorstel: `i18n.language` gebruiken, zoals `PriceLibraryPanel.tsx:102`. — S
 
-295. **De offerteknop `ribbon:offerte.termijnen` zegt in veel talen "voorwaarden" in plaats van betaaltermijnen.**
+300. **De offerteknop `ribbon:offerte.termijnen` zegt in veel talen "voorwaarden" in plaats van betaaltermijnen.**
      EN "Terms", MS "Terma", BN, EL, HI, HU, TA en TR ook "voorwaarden/condities"; CS/SK "Termíny" betekent
      eerder data of deadlines. De knop opent de betalingstermijnen (`__termijnen`). Gezien in de vertalingen bij
      de fix van knownbug 245 (DE/PL). Voorstel: per taal het woord van
