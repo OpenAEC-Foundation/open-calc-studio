@@ -6,7 +6,7 @@ library. The same code that runs in the desktop app and the
 [online demo](https://open-calc-studio.open-aec.com/), packaged so you can
 put an estimate inside your own site or application.
 
-- Interface in 39 languages, reports in your report language
+- Interface in 40 languages, reports in your report language
 - Reads and writes `.ifcCalc` (open JSON, IFC-linked), FIEBDC-3 `.bc3`
   (Spain), ÖNORM A 2063 `.onlv`/`.onlb` (Austria), CUF-XML, IBIS-TRAD, RSX,
   Excel/CSV and more
@@ -59,8 +59,9 @@ The component fills its parent; give the parent a height. Props:
 
 | Prop | Type | Description |
 | --- | --- | --- |
-| `theme` | `light` \| `dark` \| `blue` \| `amber-navy` \| `warm-ember` \| `highContrast` \| `system` | Colour theme (default `light`). |
-| `lang` | language code or `auto` | Interface language: `en`, `nl`, `de`, `es`, `fr`, … (39). |
+| `theme` | `light` \| `dark` \| `blueprint` \| `high-contrast-dark` \| `high-contrast-light` \| `system` | Blueprint colour theme (default `light`); `system` follows the operating system. Older names (`blue`, `highContrast`, `amber-navy`, `warm-ember`) still work and map to one of these. |
+| `mode` | `editor` \| `wizard` | `wizard` opens the guided estimate wizard on the same project and calculator (default `editor`). |
+| `lang` | language code or `auto` | Interface language: `en`, `nl`, `de`, `es`, `fr`, … (40). |
 | `project` | `string` \| `Blob` \| `ProjectFile` | An `.ifcCalc`/`.ocs` document to open; each new value opens a tab. |
 | `fileName` | `string` | Tab name (defaults to the file name). |
 | `sample` | `boolean` | Open the bundled sample estimate when nothing is loaded. |
@@ -144,9 +145,10 @@ available as `useOpenCalcStore` for advanced use.
 
 ## Versions
 
-The package version follows the app: `0.13.x` of the package is built from
-the same source as Open Calc Studio v0.13.x. Every GitHub release ships the
-package as `open-calc-studio-<version>.tgz` as well.
+The package version is the app version (calendar based, `YEAR.WEEK.PATCH`,
+for example `2026.48.0`): each package version is built from the same source
+as the Open Calc Studio release with that number. Every GitHub release ships
+the package as `openaec-open-calc-studio-<version>.tgz` as well.
 
 ## Licence
 
@@ -191,6 +193,13 @@ resolves after the initial document is available (or the empty UI is initialized
 `update` acknowledges the property update; use `onChange` to observe an asynchronously
 loaded Blob project. Failed loads go to `onError`. Requests have a 30-second
 timeout by default (`timeout` option). Removing the iframe rejects pending calls.
+
+`mountIsolated` takes the same props as the component (including `mode`), plus
+`src`, `title` (the iframe's accessible name, default `Open Calc Studio`),
+`timeout` and `opaque`. With `opaque: true` the iframe is sandboxed without
+`allow-same-origin`, so the frame runs in an opaque (`null`) origin, separate
+from your page's origin. Its module scripts are then loaded cross-origin:
+serve the frame assets with CORS enabled.
 
 View the example with `npm run dev:embed` at `/isolated.html`.
 Run `npm run test:lib:browser` after installing Playwright Chromium to verify

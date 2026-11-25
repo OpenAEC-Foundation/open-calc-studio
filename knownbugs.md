@@ -899,10 +899,6 @@ stand van `main` op die datum.
      `docs/wereldwijde-uitwisseling.md:3-7,31`, `wiki/Bestandsuitwisseling.md:17`, `wiki/MCP-server.md:33`.
      Code: `Backstage.tsx:846,921`, `src/lib/importers.ts:20`, `converters.ts:31`. Alleen MCP mist het. — B
 
-232. **De themawaarden in de embed-README kloppen niet; `mode` en `opaque` zijn niet gedocumenteerd.**
-     `packages/embed/README.md:62` tegenover `blueprintTheme.ts:2-4`, `src/lib/index.tsx:25-26` en
-     `isolated.ts:34`. — B
-
 233. **"Wat is er nieuw" in de app stopt bij 2026.44.5-dev, terwijl de app op 2026.45.1 staat.**
      `src/i18n/locales/*/releases.json`, `ReleaseNotesPanel.tsx:26-32`. Bij 44.0 staat nog "acceptance
      pending"; offline- en hosted-gebruikers zien alleen deze lijst. — B
@@ -911,12 +907,6 @@ stand van `main` op die datum.
      niet.** `docs/user-guide.md:75` (en de Nederlandse handleiding en de wiki). De importers zijn hard-coded
      (`Backstage.tsx:751-886`), en het paneel Extensies wordt in platform-builds niet getoond
      (`buildFlags.ts:14`, `Backstage.tsx:680`). — B
-
-235. **Embed-versie en archiefnaam in de README zijn verouderd.** `packages/embed/README.md:147-149` noemt
-     versie "0.13.x" en archief `open-calc-studio-<v>.tgz` (zie `build.yml:187`); in werkelijkheid is de versie
-     kalendergebaseerd en heet het archief `openaec-open-calc-studio-<v>.tgz`. — B
-
-236. **"39 languages" moet 40 zijn.** `packages/embed/README.md:9,63`, `src/lib/index.tsx:28`. — B
 
 237. **Kapotte ankers `#import--export` en `#build-from-source`** in `docs/user-guide.md:77,110`. — B
 
