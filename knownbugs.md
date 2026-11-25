@@ -502,6 +502,17 @@ stand van `main` op die datum.
      `PdfViewer.tsx`. (Het terugspringen naar pagina 1 of naar een oud doel is opgelost.) Productvraag: moeten
      halve metingen een tabwissel overleven? Zo ja, de punten in de store bewaren. — S
 
+294. **IFC-export schrijft heel kleine of heel grote getallen als ongeldige STEP-REAL.**
+     `formatStepFloat` (`src/services/ifc/ifcHelpers.ts`) gebruikt `toString()`: 1e-7 wordt `1e-7.`, 2.5e-7
+     blijft `2.5e-7` en 1e21 wordt `1e+21.`; STEP verwacht iets als `1.E-07`. Nagespeeld in Node. Komt alleen
+     voor bij extreme waarden. Voorstel: exponent omzetten naar de STEP-vorm (`1.E-07`). — B
+
+295. **IFC-export hangt de posten met `IfcRelNests` aan de `IfcCostSchedule`.** `ifcCostGenerator.ts`
+     (onderaan, "Top-level items nested under schedule"). Voor zover bekend verwacht IFC4/IFC4X3 dat posten via
+     `IfcRelAssignsToControl` aan een kostenschema hangen en alleen onderling met `IfcRelNests` genest zijn.
+     Niet getoetst met een IFC-validator. Voorstel: eerst met een validator (bv. IfcOpenShell) controleren;
+     zo ja, `IfcRelAssignsToControl` schrijven en de parser beide laten lezen. — S
+
 ## Varianten
 
 161. **Je kunt een regel niet vanuit de interface in een variant zetten.** De kolom is `editable: true`
