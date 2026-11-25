@@ -237,12 +237,13 @@ stand van `main` op die datum.
 102. **Een CSV die met "PK" begint (bv. `PK-nummer;…`) wordt geweigerd als ongeldige ZIP.**
      `importWorkerClient.ts:4`. Gezien in de code. Voorstel: geen ZIP-controle voor CSV. — S
 
-103. **CUF: subhoofdstukken en alle regels gaan verloren bij opnieuw importeren.** De exporter schrijft geneste
-     `<Hoofdstuk>` (`cufExporter.ts:44`) en `<Regel>` (`cufExporter.ts:60-62`); de importer leest alleen `<Post>`
-     onder een Hoofdstuk op het hoogste niveau (`cufImporter.ts:206,217`) en `<Middel>` (`:235`). `<Staart>`
-     wordt nooit teruggelezen. Nagespeeld en door een tweede controle bevestigd. Daarnaast bevestigde de tweede
-     agent #96 onafhankelijk: CUF/TRADXML-prijzen komen na de herberekening van de import terug als €0.
-     Voorstel: geneste Hoofdstuk-elementen recursief aflopen; aan beide kanten één tagnaam voor regels. — B
+103. **CUF: de staart en het soort middel gaan verloren bij opnieuw importeren.** Subhoofdstukken en `<Regel>`s
+     komen sinds de fix wel terug (`knownbugsCufTradxml103-274.test.ts`), maar `<Staart>` (`cufExporter.ts:20-33`)
+     wordt nooit teruggelezen, en `<Regel>` krijgt geen `type`-attribuut (`cufExporter.ts:renderRegel`), zodat
+     elke regel na herimport "overig" is. De staart stond al in de bevestigde melding; het soort middel heb ik
+     alleen in de code gezien.
+     Voorstel: de exporter `<Middel type=…>` laten schrijven (prijs per eenheid) en de staart als
+     schema-percentages teruglezen. — B (staart), S (soort middel)
 
 104. **IFCX importeren en daarna IFC exporteren geeft een fout.** `ifcxImporter.ts:47-51` maakt van `''` `undefined`, en
      `Backstage.tsx:144` (`setSchedule`) overschrijft daarmee, zodat `encodeStepString(undefined)` een fout gooit
@@ -299,9 +300,6 @@ stand van `main` op die datum.
 
 273. **WpCalc-export vult het veld `calculaties.valuta` niet.** De import leest het sinds de valutafix wel;
     de export schrijft geen valuta (Rust-kant). Gevonden bij de valutafix. — B
-
-274. **De TradXML-import leest maar één `Element`-niveau** (`tradxmlImporter.ts:52-58`). Het CUF-deel
-    (subhoofdstukken gaan verloren) is punt 103. Gevonden bij de fix van knownbug 59. — B
 
 278. **Andere importers lezen onleesbare bedragen nog stil als 0.** Alleen de generieke import
     (`genericTabularImporter.ts`) waarschuwt; BC3, DNC, inschrijfstaat en de XML-hulpfuncties gebruiken
