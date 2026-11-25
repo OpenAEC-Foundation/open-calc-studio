@@ -161,7 +161,10 @@ function extractManifestFromCode(code: string, fileName: string): ExtensionManif
  */
 export function readExtensionZipEntries(entries: ZipEntry[]): { manifest: ExtensionManifest; mainCode: string } {
   const normalize = (path: string) => path.replace(/\\/g, '/').replace(/^(\.\/)+/, '').replace(/^\/+/, '');
-  let files = entries.map((entry) => ({ ...entry, name: normalize(entry.name) }));
+  // macOS-archiefmetadata (`__MACOSX/…/._manifest.json`) telt niet mee.
+  let files = entries
+    .map((entry) => ({ ...entry, name: normalize(entry.name) }))
+    .filter((entry) => !entry.name.startsWith('__MACOSX/'));
   const root = files[0]?.name.match(/^[^/]+\//)?.[0];
   if (root && files.every((f) => f.name.startsWith(root))) {
     files = files.map((f) => ({ ...f, name: f.name.slice(root.length) }));

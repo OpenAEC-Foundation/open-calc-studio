@@ -55,6 +55,11 @@ describe('extension ZIP install (knownbug 169)',()=>{
   expect(await installFromFile()).toEqual({ok:true});
   expect(saved[0]?.mainCode).toBe('/*main*/');
  });
+ it('ignores macOS archive metadata when finding the shared root folder',async()=>{
+  pickFile(storedZip({'demo/manifest.json':manifest('main.js'),'demo/main.js':'/*main*/','__MACOSX/demo/._manifest.json':'xx','__MACOSX/demo/._main.js':'xx'}));
+  expect(await installFromFile()).toEqual({ok:true});
+  expect(saved[0]?.mainCode).toBe('/*main*/');
+ });
  it('reports why an install failed',async()=>{
   pickFile(storedZip({'manifest.json':manifest('missing.js')}));
   expect(await installFromFile()).toEqual({ok:false,error:'Main file "missing.js" not found in ZIP'});
