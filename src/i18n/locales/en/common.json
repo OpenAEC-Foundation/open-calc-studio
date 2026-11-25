@@ -1215,7 +1215,8 @@
       "missing": "This workspace no longer exists.",
       "nameRequired": "Enter a workspace name.",
       "customOnly": "Only your saved workspaces can be overwritten.",
-      "limit": "You can save up to 20 workspaces."
+      "limit": "You can save up to 20 workspaces.",
+      "duplicateName": "A workspace with this name already exists."
     },
     "report": {
       "quotationDesktopRequired": "Quotation PDFs require the desktop application.",

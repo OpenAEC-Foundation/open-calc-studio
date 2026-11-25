@@ -1189,7 +1189,8 @@
       "missing": "Eneo hili la kazi halipo tena.",
       "nameRequired": "Weka jina la eneo la kazi.",
       "customOnly": "Maeneo ya kazi uliyohifadhi wewe pekee ndiyo yanaweza kuandikwa juu.",
-      "limit": "Unaweza kuhifadhi hadi maeneo ya kazi 20."
+      "limit": "Unaweza kuhifadhi hadi maeneo ya kazi 20.",
+      "duplicateName": "Eneo la kazi lenye jina hili tayari lipo."
     },
     "report": {
       "quotationDesktopRequired": "PDF za nukuu ya bei zinahitaji programu ya kompyuta ya mezani.",

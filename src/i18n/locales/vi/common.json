@@ -1189,7 +1189,8 @@
       "missing": "Không gian làm việc này không còn tồn tại.",
       "nameRequired": "Hãy nhập tên không gian làm việc.",
       "customOnly": "Chỉ có thể ghi đè các không gian làm việc bạn đã lưu.",
-      "limit": "Bạn có thể lưu tối đa 20 không gian làm việc."
+      "limit": "Bạn có thể lưu tối đa 20 không gian làm việc.",
+      "duplicateName": "Đã có không gian làm việc với tên này."
     },
     "report": {
       "quotationDesktopRequired": "Báo giá PDF cần ứng dụng máy tính để bàn.",

@@ -1189,7 +1189,8 @@
       "missing": "Tätä työtilaa ei enää ole.",
       "nameRequired": "Anna työtilan nimi.",
       "customOnly": "Vain omia tallennettuja työtiloja voi korvata.",
-      "limit": "Voit tallentaa enintään 20 työtilaa."
+      "limit": "Voit tallentaa enintään 20 työtilaa.",
+      "duplicateName": "Tämänniminen työtila on jo olemassa."
     },
     "report": {
       "quotationDesktopRequired": "Tarjous-PDF:t vaativat työpöytäsovelluksen.",

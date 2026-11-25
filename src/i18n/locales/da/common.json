@@ -1189,7 +1189,8 @@
       "missing": "Dette arbejdsområde findes ikke længere.",
       "nameRequired": "Indtast et navn på arbejdsområdet.",
       "customOnly": "Kun dine egne gemte arbejdsområder kan overskrives.",
-      "limit": "Du kan gemme op til 20 arbejdsområder."
+      "limit": "Du kan gemme op til 20 arbejdsområder.",
+      "duplicateName": "Der findes allerede et arbejdsområde med dette navn."
     },
     "report": {
       "quotationDesktopRequired": "Tilbuds-PDF'er kræver skrivebordsprogrammet.",

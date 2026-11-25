@@ -752,13 +752,6 @@ stand van `main` op die datum.
      optie opnieuw kiezen vuurt geen `change` af (`src/components/layout/WorkspaceLayoutBar.tsx:33`). Gezien in
      de code. Voorstel: een actie "Toepassen"/"Herstellen", of de select na elke toepassing terugzetten. — S
 
-211. **"Bijwerken" van een opgeslagen werkruimte zet die onderaan de lijst.**
-     `src/state/slices/workspaceSlice.ts:58`. Nagespeeld. Voorstel: op dezelfde plek vervangen met `map`. — B
-
-212. **Dubbele werkruimtenamen en namen van ingebouwde indelingen worden geaccepteerd.**
-     `workspaceSlice.ts:50-56`. Nagespeeld. Voorstel: namen hoofdletterongevoelig vergelijken met de opgeslagen
-     en de ingebouwde indelingen. — B
-
 213. **Een ingebouwde werkruimte-indeling wist zonder melding verborgen kolommen, rasterweergave en zoom.**
      `workspaceSlice.ts:22`, `:38-40`. Nagespeeld; mogelijk bewust. Voorstel: `gridView`, `hiddenColumns` en
      `gridZoom` buiten de ingebouwde indelingen houden. — B

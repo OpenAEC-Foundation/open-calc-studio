@@ -1190,7 +1190,8 @@
       "missing": "Acest spațiu de lucru nu mai există.",
       "nameRequired": "Introduceți un nume pentru spațiul de lucru.",
       "customOnly": "Doar spațiile de lucru salvate de dumneavoastră pot fi suprascrise.",
-      "limit": "Puteți salva cel mult 20 de spații de lucru."
+      "limit": "Puteți salva cel mult 20 de spații de lucru.",
+      "duplicateName": "Există deja un spațiu de lucru cu acest nume."
     },
     "report": {
       "quotationDesktopRequired": "PDF-urile de ofertă necesită aplicația desktop.",

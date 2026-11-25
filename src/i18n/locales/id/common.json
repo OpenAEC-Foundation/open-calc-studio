@@ -1189,7 +1189,8 @@
       "missing": "Ruang kerja ini sudah tidak ada.",
       "nameRequired": "Masukkan nama ruang kerja.",
       "customOnly": "Hanya ruang kerja yang Anda simpan yang dapat ditimpa.",
-      "limit": "Anda dapat menyimpan hingga 20 ruang kerja."
+      "limit": "Anda dapat menyimpan hingga 20 ruang kerja.",
+      "duplicateName": "Ruang kerja dengan nama ini sudah ada."
     },
     "report": {
       "quotationDesktopRequired": "PDF penawaran memerlukan aplikasi desktop.",

@@ -1189,7 +1189,8 @@
       "missing": "此工作区已不存在。",
       "nameRequired": "请输入工作区名称。",
       "customOnly": "只能覆盖您自己保存的工作区。",
-      "limit": "最多可保存 20 个工作区。"
+      "limit": "最多可保存 20 个工作区。",
+      "duplicateName": "已存在同名的工作区。"
     },
     "report": {
       "quotationDesktopRequired": "报价单 PDF 需要桌面版应用。",

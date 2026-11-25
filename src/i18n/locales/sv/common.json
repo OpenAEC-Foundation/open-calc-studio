@@ -1189,7 +1189,8 @@
       "missing": "Den här arbetsytan finns inte längre.",
       "nameRequired": "Ange ett namn på arbetsytan.",
       "customOnly": "Bara dina egna sparade arbetsytor kan skrivas över.",
-      "limit": "Du kan spara upp till 20 arbetsytor."
+      "limit": "Du kan spara upp till 20 arbetsytor.",
+      "duplicateName": "Det finns redan en arbetsyta med det här namnet."
     },
     "report": {
       "quotationDesktopRequired": "Offert-PDF:er kräver skrivbordsprogrammet.",
