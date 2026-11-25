@@ -17,6 +17,19 @@ function getSelectedItems() {
   return selectedGridItems(gridRows, indices);
 }
 
+/** Te knippen regels: een gesleept celbereik telt als de regels die het
+ *  beslaat. Na slepen blijft activeRow de eerder actieve regel (er volgt geen
+ *  click), dus zonder dit knipte Ctrl+X die regel (knownbug 30).
+ *  setActiveCell wist het celbereik, dus een bereik is altijd recent. */
+function getItemsToCut() {
+  const state = useAppStore.getState();
+  const { cellSelectionStart: start, cellSelectionEnd: end } = state;
+  if (!start || !end) return getSelectedItems();
+  const indices: number[] = [];
+  for (let row = Math.min(start.row, end.row); row <= Math.max(start.row, end.row); row++) indices.push(row);
+  return selectedGridItems(state.getGridRows(), indices);
+}
+
 /** `onOpenSettings`: Ctrl+, opent de voorkeuren, zoals het menu Bestand belooft (knownbug 39). */
 export function useKeyboardShortcuts(options: { onOpenSettings?: () => void } = {}) {
   const openSettings = useRef(options.onOpenSettings);
@@ -78,7 +91,7 @@ export function useKeyboardShortcuts(options: { onOpenSettings?: () => void } = 
       } else if (letter('x')) {
         if (isEditing || isInInput || !inGrid) return;
         e.preventDefault();
-        const selected = getSelectedItems();
+        const selected = getItemsToCut();
         if (selected.length > 0) cutItems(selected);
       } else if (letter('v')) {
         if (isEditing || isInInput || !inGrid) return;

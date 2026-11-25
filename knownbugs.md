@@ -31,10 +31,6 @@ stand van `main` op die datum.
     datum.** `excelClipboard.ts:24-26` (`String(n)`; ook float-ruis, en 0 wordt leeg). Voorstel: dezelfde
     opmaak gebruiken als `getGridCellDisplayValue`. — S
 
-30. **Ctrl+X na een sleepselectie knipt de eerder actieve regel** (minder zeker). `useKeyboardShortcuts.ts:70-74`,
-    `CostGrid.tsx:330-352`. Voorstel: een celbereik bij knippen omzetten naar regels, of de sleepactie de actieve
-    regel laten bijwerken. — S
-
 42. **UI-3 ("eenvoudig") gebruikt de kolombreedtes van UI-1, gekoppeld op positie.**
     `src/state/slices/viewSlice.ts:20,39-41`, `CostGrid.tsx:71-75,142`, `GridHeader.tsx:15-19,131`. Nagespeeld:
     Omschrijving wordt 50px, Eenheid 380px, en een kolom verbreden in UI-3 verandert de breedtes van UI-1.
