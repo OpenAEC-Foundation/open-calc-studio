@@ -25,7 +25,7 @@ stand van `main` op die datum.
 
 ## Rekenen en totalen
 
-294. **Kengetallen en opgeslagen versies laten de opslagen oude stijl (ukk/ak/wr) en de afronding weg uit het
+302. **Kengetallen en opgeslagen versies laten de opslagen oude stijl (ukk/ak/wr) en de afronding weg uit het
      totaal excl. btw.** `src/components/report/ProjectInfoSettings.tsx:80` en `src/state/slices/versionSlice.ts:109`
      gebruiken `getStaartBreakdown(...).aanneemsomExcl`, dat alleen het Bouw 1-model optelt (kostprijs + risico,
      winst, verzekering). Bij BasCalc-imports is dat lager dan het gridtotaal; de afronding ontbreekt altijd,
