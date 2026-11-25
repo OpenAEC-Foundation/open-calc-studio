@@ -350,15 +350,6 @@ stand van `main` op die datum.
      browsertabblad biedt de live documenten van het hoofdvenster aan. Herstellen dupliceert ze; Weggooien wist het
      live journaal. Voorstel: een levenssignaal per venster (heartbeat of `navigator.locks`). — S
 
-120. **Automatisch opslaan kan een Opslaan als-venster openen voor geïmporteerde documenten** (latent).
-     `App.tsx:404-411` + `useFileOperations.ts:324,343`. `autoSave` staat standaard uit en heeft geen UI, dus
-     vandaag kan het niet gebeuren. Voorstel: `isNativeSavePath(doc.filePath)` aan de voorwaarde toevoegen. — S
-
-281. **Automatisch opslaan loopt door terwijl het venster "Opslaan / Niet opslaan" open staat** (latent).
-     `App.tsx` (interval voor `autoSave`) kijkt niet naar `closingWindow`; met autosave aan kan "Niet opslaan"
-     zo toch opgeslagen werk opleveren. `autoSave` staat standaard uit en heeft geen UI (zie 120). Gevonden in
-     de review van knownbug 263. — S
-
 ## Rapport, offerte en afdrukken
 
 122. **"Alleen hoofdstuktotalen" met Hoofdaanneming drukt geen bedragen af.** Hoofdaanneming toont bedragen
