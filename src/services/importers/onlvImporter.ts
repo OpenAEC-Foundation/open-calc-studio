@@ -237,11 +237,13 @@ export function importOnlv(xml: string): ImportResult {
    * het bijbehorende grundtext (alleen bij folgepositionen).
    */
   const addPosition = (parent: CostItem | null, depth: number, code: string, eig: XElement | null, grundtextLines: string[]): void => {
-    // Lücke alleen achter een stichwort-kurz; zonder enig stichwort werd de
-    // omschrijving anders "____" (knownbug 76).
+    // De GAP-placeholder alleen achter een stichwort-kurz; zonder enig
+    // stichwort werd de omschrijving anders "____" (knownbug 76). Een
+    // ingevulde Lücke zonder kurz blijft wel de omschrijving.
     const kurz = kidText(eig, 'stichwort-kurz');
+    const luecke = kidText(eig, 'stichwort-luecke');
     const stichwort = kidText(eig, 'stichwort')
-      || (kurz ? `${kurz} ${kidText(eig, 'stichwort-luecke') || GAP}` : '');
+      || (kurz ? `${kurz} ${luecke || GAP}` : luecke);
     const langtext = kid(eig, 'langtext');
     const textLines = a2063TextLines(langtext);
     const description = stichwort || textLines[0] || code;

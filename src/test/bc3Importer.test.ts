@@ -31,6 +31,37 @@ describe('FIEBDC-3 (.bc3) import', () => {
     expect(post.notes).toContain('terreno compacto');
   });
 
+  it('een ~T zonder ~C wordt geen extra post in een prijzenboek (knownbug 75, review)', () => {
+    const text = [
+      '~V||FIEBDC-3/2004|TestSoft||ANSI|||||',
+      '~C|MO001|h|Peón ordinario|15.50||1|',
+      '~C|MAT01|m3|Arena de río|20.00||3|',
+      '~T|GHOST|Tekst bij een code zonder ~C.|',
+    ].join('\r\n');
+    const posten = importBc3(text).items.filter(i => i.rowType === 'begrotingspost');
+    expect(posten.map(p => p.code)).toEqual(['MO001', 'MAT01']);
+  });
+
+  it('een ~T op een aliascode vóór de ~C blokkeert de alias niet (knownbug 75, review)', () => {
+    const text = [
+      '~V||FIEBDC-3/2004|TestSoft||ANSI|||||',
+      '~C|PROY##||Proyecto|20.00||0|',
+      '~C|CAP01#||Capítulo|20.00||0|',
+      '~T|ALIAS1|Tekst via de alias.|',
+      '~C|PART1\\ALIAS1|m3|Excavación|10.00||0|',
+      '~C|MO001|h|Peón ordinario|10.00||1|',
+      '~D|PROY##|CAP01#\\1\\1\\|',
+      '~D|CAP01#|ALIAS1\\1\\2\\|',
+      '~D|PART1|MO001\\1\\1\\|',
+    ].join('\r\n');
+    const result = importBc3(text);
+    const post = result.items.find(i => i.rowType === 'begrotingspost')!;
+    expect(post.code).toBe('PART1');
+    expect(post.description).toBe('Excavación');
+    expect(post.notes).toContain('via de alias');
+    expect(result.items.filter(i => i.rowType === 'regel').map(r => r.code)).toEqual(['MO001']);
+  });
+
   it('bouwt de hiërarchie hoofdstuk → partida → regels', () => {
     const result = importBc3(SAMPLE);
     expect(result.schedule.projectName).toBe('Proyecto de prueba');

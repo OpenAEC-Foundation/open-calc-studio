@@ -279,10 +279,11 @@ stand van `main` op die datum.
      (hosted/API-pad). — S
 
 269. **Oude CUF: Middel-regels per eenheid geven na herberekenen een te laag posttotaal.**
-    `src/services/importers/cufImporter.ts:220-231`. Sinds de fix voor #96 worden Middel-regels vaste bedragen
+    `src/services/importers/cufImporter.ts`, `addRegel`. Sinds de fix voor #96 worden Middel-regels vaste bedragen
     (aantal × prijs) en is het posttotaal hun som; de hoeveelheid van de post telt niet mee. Zijn Middel-
     aantallen in dit formaat per eenheid bedoeld (0,5 uur per m³ bij 10 m³), dan wordt € 225 na herberekenen
-    € 22,50. Niet te controleren zonder echt bestand; samen met #97 bekijken. Gevonden in de review van PR #70. — S
+    € 22,50. Niet te controleren zonder echt bestand. (#97 is opgelost: een oude CUF-post neemt de hoeveelheid,
+    eenheid en prijs van zijn Middel niet meer over.) Gevonden in de review van PR #70. — S
 
 271. **WpCalc-export meldt "OK" ook als losse INSERTs mislukken.** Het PowerShell-script in
     `src-tauri/src/wpcalc_export.rs` stopt niet bij fouten, dus regels kunnen ontbreken zonder melding.
