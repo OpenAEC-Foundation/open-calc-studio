@@ -97,7 +97,7 @@ export const CodePickerModal: React.FC<Props> = ({ open, onClose, onPick }) => {
                   fontSize: 11, padding: '3px 8px', borderRadius: 3, cursor: 'pointer',
                   border: '1px solid var(--theme-border)',
                   background: filter === f ? 'var(--theme-accent)' : 'var(--theme-surface)',
-                  color: filter === f ? '#fff' : 'var(--theme-text)',
+                  color: filter === f ? 'var(--theme-accent-text)' : 'var(--theme-text)',
                 }}
               >
                 {f === 'all' ? t('codePicker.all') : SCHEME_LABEL[f]}
@@ -172,7 +172,7 @@ export const CodePickerModal: React.FC<Props> = ({ open, onClose, onPick }) => {
               </select>
               <button
                 onClick={handleAdd}
-                style={{ fontSize: 11, padding: '4px 10px', border: 'none', background: 'var(--theme-accent)', color: '#fff', borderRadius: 3, cursor: 'pointer' }}
+                style={{ fontSize: 11, padding: '4px 10px', border: 'none', background: 'var(--theme-accent)', color: 'var(--theme-accent-text)', borderRadius: 3, cursor: 'pointer' }}
               >{t('common:add')}</button>
               <button
                 onClick={() => setShowAdd(false)}

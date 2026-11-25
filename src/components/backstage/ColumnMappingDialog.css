@@ -137,7 +137,7 @@
 .cmd-btn-primary {
   background: var(--theme-accent, #D97706);
   border-color: var(--theme-accent, #D97706);
-  color: #fff;
+  color: var(--theme-accent-text);
 }
-.cmd-btn-primary:hover { background: var(--theme-accent-hover, #EA580C); color: #fff; }
+.cmd-btn-primary:hover { background: var(--theme-accent-hover, #EA580C); color: var(--theme-accent-text); }
 .cmd-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }

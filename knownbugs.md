@@ -724,20 +724,9 @@ stand van `main` op die datum.
      `workspaceSlice.ts:22`, `:38-40`. Nagespeeld; mogelijk bewust. Voorstel: `gridView`, `hiddenColumns` en
      `gridZoom` buiten de ingebouwde indelingen houden. — B
 
-214. **Contextmenu van een rekenblad: witte tekst op een bijna witte hover in het standaard lichte thema.**
-     `src/components/grid/SubSheetEditor.css:336-339`; `--theme-active` is `#FBF1E6` in licht en `#FFFFFF` in
-     high-contrast-light. Contrast berekend uit de tokens, niet gemeten. Voorstel:
-     `color: var(--theme-text)`. — S
-
 216. **Hover op de sluitknop: wit × op lichtroze in donkere thema's (~1,9:1).** `TitleBar.css:108-109` en
      `Modal.css:92-95` gebruiken `--oa-error` (`#FCA5A5`). Contrast berekend uit de tokens, niet gemeten.
      Voorstel: een eigen token voor de sluit-hover (bijv. `#C42B1C`). — S
-
-217. **Hardgecodeerd wit op `--theme-accent` (2,1–3,2:1).** `CostItemPicker.css:63,75`,
-     `ExcelCellPicker.css:148,219`, `WizardModal.css:115`, `FeedbackDialog.css:87`, `report.css:45,78`,
-     `ColumnMappingDialog.css:117,119`, `grid.css:302`, en inline in `QuantityPicker.tsx:125,180` en
-     `CodePickerModal.tsx:100,175`. Contrast berekend uit de tokens, niet gemeten. Voorstel:
-     `var(--theme-accent-text)`. — S
 
 218. **ResourcePicker, RevisionDialog en PriceUpdateDialog liggen onder andere zwevende UI.**
      `.resource-picker-overlay { z-index: 200 }` (`panels.css:192`, niet geportaled); de chat (1000),

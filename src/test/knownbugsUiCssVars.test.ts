@@ -39,3 +39,27 @@ describe('knownbug 215: de Blueprint-brug dekt elke gebruikte themavariabele', (
     expect([...missing].sort()).toEqual([]);
   });
 });
+
+describe('knownbugs 214, 217: geen hardgecodeerd wit op accent- of selectiekleur', () => {
+  // --oa-text-on-accent is donker in light, dark, blueprint en high-contrast-dark;
+  // --theme-active is in de lichte thema's bijna wit.
+  const accentBg = /background(?:-color)?\s*:\s*['"]?var\(--theme-(?:accent|accent-hover|active)\b/;
+  const white = /(?<![-\w])color\s*:\s*['"]?(?:#fff\b|#ffffff\b|white\b)/i;
+  it('CSS-regels', () => {
+    const bad: string[] = [];
+    for (const file of files(SRC).filter((f) => f.endsWith('.css'))) {
+      const text = readFileSync(file, 'utf8');
+      for (const m of text.matchAll(/\{[^{}]*\}/g)) if (accentBg.test(m[0]) && white.test(m[0])) bad.push(`${relative(SRC, file)}:${text.slice(0, m.index).split('\n').length}`);
+    }
+    expect(bad).toEqual([]);
+  });
+  it('inline stijlen', () => {
+    const bad: string[] = [];
+    for (const file of files(SRC).filter((f) => f.endsWith('.tsx'))) {
+      const text = readFileSync(file, 'utf8');
+      for (const m of text.matchAll(/style=\{\{[^}]*\}\}/g)) if (accentBg.test(m[0]) && white.test(m[0])) bad.push(relative(SRC, file));
+      for (const m of text.matchAll(/\?\s*'var\(--theme-accent\)'[^\n]*\n[^\n]*color:\s*[^?\n]*\?\s*'(?:#fff|white)'/g)) bad.push(`${relative(SRC, file)} (${m[0].length})`);
+    }
+    expect(bad).toEqual([]);
+  });
+});

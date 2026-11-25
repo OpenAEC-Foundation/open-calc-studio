@@ -42,7 +42,7 @@
 
 .report-mode-btn.active {
   background: var(--theme-accent);
-  color: #fff;
+  color: var(--theme-accent-text);
 }
 
 .report-view-toggle {
@@ -75,7 +75,7 @@
 
 .report-view-btn.active {
   background: var(--theme-accent);
-  color: #fff;
+  color: var(--theme-accent-text);
 }
 
 .report-print-btn {

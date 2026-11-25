@@ -335,7 +335,8 @@
 
 .subsheet-context-menu button:hover {
   background: var(--theme-active);
-  color: white;
+  /* --theme-active is licht in de lichte thema's: wit was onleesbaar (knownbug 214). */
+  color: var(--theme-text);
 }
 
 .subsheet-ctx-sep {

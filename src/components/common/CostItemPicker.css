@@ -60,7 +60,7 @@
 }
 
 .cost-picker-item:hover { background: var(--theme-hover); }
-.cost-picker-item.selected { background: var(--theme-accent); color: #fff; }
+.cost-picker-item.selected { background: var(--theme-accent); color: var(--theme-accent-text); }
 .cost-picker-item.depth-1 { padding-left: 28px; }
 .cost-picker-item.depth-2 { padding-left: 44px; }
 .cost-picker-item.depth-3 { padding-left: 60px; }
@@ -72,7 +72,7 @@
   padding: 1px 5px;
   border-radius: 3px;
   background: var(--theme-accent);
-  color: #fff;
+  color: var(--theme-accent-text);
   flex-shrink: 0;
 }
 

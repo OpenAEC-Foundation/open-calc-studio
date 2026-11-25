@@ -112,7 +112,7 @@
 }
 .wizard-btn-primary {
   background: var(--theme-accent, #D97706);
-  color: #fff;
+  color: var(--theme-accent-text);
   border-color: var(--theme-accent, #D97706);
 }
 .wizard-btn-primary:hover {
