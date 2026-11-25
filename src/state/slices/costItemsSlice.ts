@@ -402,12 +402,24 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
 
   deleteItem: (id) => {
     const state = get();
-    const idsToDelete = new Set<string>();
-    function collectChildren(parentId: string) {
-      idsToDelete.add(parentId);
-      state.items.filter((i) => i.parentId === parentId).forEach((i) => collectChildren(i.id));
+    // Eén ouder→kinderen-kaart en een eigen stapel: voorheen werd per kind de
+    // hele lijst gefilterd (kwadratisch) en recursief afgelopen (knownbug 225).
+    const childrenOf = new Map<string, string[]>();
+    for (const item of state.items) {
+      const parentId = item.parentId;
+      if (!parentId) continue;
+      const list = childrenOf.get(parentId);
+      if (list) list.push(item.id); else childrenOf.set(parentId, [item.id]);
     }
-    collectChildren(id);
+    const idsToDelete = new Set<string>([id]);
+    const stack = [id];
+    while (stack.length) {
+      for (const childId of childrenOf.get(stack.pop()!) ?? []) {
+        if (idsToDelete.has(childId)) continue;
+        idsToDelete.add(childId);
+        stack.push(childId);
+      }
+    }
     set({ items: recalculateItems(state.items.filter((i) => !idsToDelete.has(i.id)), undefined, priceRounding()) });
     markModified();
   },

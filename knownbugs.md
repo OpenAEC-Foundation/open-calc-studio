@@ -823,10 +823,6 @@ stand van `main` op die datum.
      ≈ 11 s; 50 cellen leegmaken ≈ 27 s (ook zonder de belasting minstens zo'n 4,5 s). Voorstel:
      `updateItems(patches[])` / `deleteItems(ids[])` met één herberekening. — B
 
-225. **Een hoofdstuk verwijderen is kwadratisch.** `costItemsSlice.ts` `deleteItem` → `collectChildren`
-     (~300-306). Gemeten op een belaste machine: 20k met een hoofdstuk van 5.000 regels ≈ 2,1 s (bovenop de
-     herberekening). Voorstel: een map ouder→kinderen, of de aaneengesloten subboom aflopen. — B
-
 226. **Scrollen of de cursor verplaatsen rendert de hele app opnieuw en bouwt de rijenlijst opnieuw op.**
      `useAppStore()` zonder selector in `App.tsx:136`, `useKeyboardShortcuts.ts:21-25`, `HomeTab.tsx:29`,
      `CostGrid.tsx:37-60`, `StatusBar.tsx:197` en andere; `scrollTop` wordt bij elk scroll-event in de store
