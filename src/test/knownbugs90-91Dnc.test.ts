@@ -28,4 +28,13 @@ describe('DNC-import (knownbugs 90, 91)', () => {
     const materieel = recalced.find((i) => i.parentId === post.id && i.resourceType === 'materieel');
     expect(materieel?.total).toBeCloseTo(150, 6);
   });
+
+  it('laat TOT3 weg als TOTAAL juist zonder TOT3 klopt (geen dubbeltelling)', () => {
+    // TOTAAL = TOT1+TOT2+TOT4; TOT3 is hier dus iets anders dan een vierde kolom.
+    const kk: DbfRecord = { CODE2: '21.11.11-a.01>a', TITEL: 'Beton', HOEV1: '10', EENH: 'm3', TOTAAL: '850.00', TOT1: '300.00', TOT2: '500.00', TOT3: '150.00', TOT4: '50.00' };
+    const recalced = recalculateItems(buildDncImport({ KK: [kk], KU: [], VU }).items);
+    const post = recalced.find((i) => i.rowType === 'begrotingspost')!;
+    expect(post.total).toBeCloseTo(850, 6);
+    expect(recalced.some((i) => i.parentId === post.id && i.resourceType === 'materieel')).toBe(false);
+  });
 });

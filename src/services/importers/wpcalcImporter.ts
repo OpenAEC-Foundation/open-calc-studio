@@ -53,7 +53,8 @@ type StaartKind =
  */
 export function classifyWpCalcStaartLabel(label: string | null | undefined): StaartKind | null {
   const l = (label ?? '').toLowerCase().replace(/\s+/g, ' ').trim();
-  if (!l || l.includes('totaal')) return null;
+  // Totaalregels, ook Engelse ("Total excl. VAT:", "Subtotal"): geen staartregel.
+  if (!l || l.includes('totaal') || l.includes('total')) return null;
   // Ook "B.T.W.", "Omzetbelasting" en "VAT" (knownbug 280).
   if (l.replace(/\./g, '').includes('btw') || l.includes('omzetbelasting') || /\bvat\b/.test(l)) {
     return l.includes('laag') ? 'btw_laag' : 'btw';

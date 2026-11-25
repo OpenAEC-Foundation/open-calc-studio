@@ -58,3 +58,35 @@ describe('WpCalc-export: staart zoals in de app (knownbug 272)', () => {
     expect(buildExportRequest(schedule, []).schedule.staartRows).toBeNull();
   });
 });
+
+// Review-follow-up: binnen een WpCalc-deel blijft de volgorde van de app, en
+// het lopende totaal loopt in bestandsvolgorde op en sluit aan op de totaalregels.
+describe('WpCalc-export: volgorde en lopend totaal van de staart (knownbug 272)', () => {
+  const schedule = { ...createDefaultSchedule(), name: 'Volgorde' } as CostSchedule;
+  const post = makeCostItem({
+    id: 'p1', rowType: 'begrotingspost', depth: 0, description: 'Ontgraven',
+    quantity: 10, materialPrice: 100, unitPrice: 100, unit: 'm³',
+  });
+  // App-volgorde: uitvoeringskosten vóór winst, en beide vóór de ABK.
+  const items = recalculateItems([
+    post,
+    makeStaartItem('staart_ukk', 'Uitvoeringskosten:', 4, 10),
+    makeStaartItem('staart_winst', 'Winst:', 5, 11),
+    makeStaartItem('staart_abk', 'Algemene bedrijfskosten:', 10, 12),
+    makeStaartItem('staart_btw', 'Btw hoog:', 21, 13),
+  ], schedule.tarieven);
+  const rows = buildExportRequest(schedule, items).schedule.staartRows!;
+  const kinds = rows.map((r) => classifyWpCalcStaartLabel(r.label));
+
+  it('zet de opslagen over de kolommen vóór Totaal kostprijs, en houdt binnen een deel de app-volgorde', () => {
+    expect(kinds).toEqual([null, 'abk', null, 'ukk', 'winst', null, 'btw', null]);
+  });
+
+  it('laat het lopende totaal oplopen en aansluiten op de totaalregels', () => {
+    for (let i = 1; i < rows.length; i++) {
+      const prev = rows[i - 1].totaal!;
+      const expected = rows[i].itemtype === 4 ? prev : prev + (rows[i].subtotaal ?? 0);
+      expect(rows[i].totaal).toBeCloseTo(expected, 6);
+    }
+  });
+});

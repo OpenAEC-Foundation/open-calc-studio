@@ -82,6 +82,19 @@ describe('parseAmount: text around the number (knownbug 279)', () => {
   it.each(['12.03.2024', "6'2", '1.2.3', '12,34,5'])('%s is not a number', (raw) => {
     expect(parseAmount(raw)).toEqual({ value: 0, invalid: true, currency: null });
   });
+
+  // Review-follow-up: een apostrof als tekstmarkering (CSV/Excel) blijft een getal.
+  it.each<[string, number]>([
+    ["'12,50", 12.5],
+    ["'1234", 1234],
+    ['’12,50', 12.5],
+    ["'1'234", 1234],
+    ["12,50'", 12.5],
+  ])('leading/trailing apostrophe: %s → %d', (raw, value) => {
+    const r = parseAmount(raw);
+    expect(r.invalid).toBe(false);
+    expect(r.value).toBeCloseTo(value, 10);
+  });
 });
 
 describe('generic tabular import with currency amounts', () => {

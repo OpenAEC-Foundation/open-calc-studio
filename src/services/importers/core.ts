@@ -94,7 +94,8 @@ export interface ParsedAmount {
 export function parseAmount(raw: string | number | null | undefined): ParsedAmount {
   if (typeof raw === 'number') return { value: Number.isFinite(raw) ? raw : 0, invalid: !Number.isFinite(raw), currency: null };
   if (raw == null) return { value: 0, invalid: false, currency: null };
-  const s = String(raw).replace(/[\s\u00a0\u2007\u202f]/g, '').replace(/\u2212/g, '-');
+  // Een apostrof vooraan of achteraan is een tekstmarkering (CSV/Excel: "'12,50"), geen duizendtal.
+  const s = String(raw).replace(/[\s\u00a0\u2007\u202f]/g, '').replace(/\u2212/g, '-').replace(/^['\u2019]+|['\u2019]+$/g, '');
   if (!s) return { value: 0, invalid: false, currency: null };
   const invalid: ParsedAmount = { value: 0, invalid: true, currency: null };
   const m = AMOUNT_RE.exec(s);

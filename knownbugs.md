@@ -221,6 +221,9 @@ stand van `main` op die datum.
 86. **Profielimport weigert `St` en `M` met "Unmapped unit"**: eenheden zijn hoofdlettergevoelig
     (`tabularBudget.ts:62`). — B
 
+91. **DNC: de terugvalsamenvatting negeert mogelijk `TOT3` (materieel).** `dncImporter.ts:298-302`. Gezien
+    bij het nalopen van de negatieve KU-bedragen #90; nog controleren met een echt bestand. — S
+
 93. **S01: de codering van echte STABU-bestanden is niet gecontroleerd.** `.s01` wordt als UTF-8 gelezen;
     is een echt bestand Windows-1252 of CP850, dan worden letters als Ë verminkt. (Titels met Ë e.d. worden
     inmiddels wel herkend.) Gezien bij #92. — S

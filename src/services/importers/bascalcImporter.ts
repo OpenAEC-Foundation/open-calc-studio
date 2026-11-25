@@ -303,17 +303,19 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
     } else if (entry.type === 'cp') {
       closeBlock();
     } else if (entry.type === 'cb') {
-      closeBlock();
       const row = entry.row;
       const code = cellStr(row, 2);
       const description = cellStr(row, 3);
       const bedrag = cellNum(row, 13);
 
-      const parentId = parentStack.length > 0 ? parentStack[parentStack.length - 1].id : null;
-      const depth = parentId ? (parentStack[parentStack.length - 1].depth + 1) : 0;
-
       // cb rows with code 'opm' are tekstregel (opmerking), not bewakingspost
       const isTekst = code.trim().toLowerCase() === 'opm';
+      // Alleen een nieuw blok sluit het vorige; een opmerking binnen een blok
+      // laat het open, zodat de cn-regels erna onder het blok blijven.
+      if (!isTekst) closeBlock();
+
+      const parentId = parentStack.length > 0 ? parentStack[parentStack.length - 1].id : null;
+      const depth = parentId ? (parentStack[parentStack.length - 1].depth + 1) : 0;
 
       const item = makeCostItem({
         parentId,

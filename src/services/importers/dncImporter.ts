@@ -9,7 +9,9 @@ import { uiText } from '../../i18n/uiText';
  *   KK — de posten (regel per `*`-post): STABU-code, omschrijving, hoeveelheid,
  *        eenheid, en de bedragen TOT1=loon, TOT2=materiaal, TOT4=onderaanneming,
  *        TOTAAL = TOT1+TOT2+TOT4. TOT3 is in de voorbeeldbestanden altijd 0; we
- *        lezen hem als materieel (de tegenhanger van KU-kolom GETAL3).
+ *        lezen hem als materieel (de tegenhanger van KU-kolom GETAL3), maar
+ *        alleen als TOTAAL hem ook bevat (niet gecontroleerd met een echt
+ *        bestand waarin TOT3 gevuld is, knownbug 91).
  *   KU — de middelen per post (gekoppeld via CODE2 = de STABU-code van de post):
  *        GETAL1 = uren-norm (arbeid), GETAL2 = materiaal-eenheidsprijs,
  *        GETAL3 = materieel, GETAL4 = onderaanneming-eenheidsprijs.
@@ -295,13 +297,17 @@ export function buildDncImport(
     } else {
       // Geen (eenduidige) KU-detail → samenvattende regels uit de KK-totalen,
       // zodat het posttotaal exact klopt (loon/materiaal/materieel/onderaanneming).
-      // TOT3 (vermoedelijk materieel, net als GETAL3) telde eerst niet mee (knownbug 91).
+      // TOT3 (vermoedelijk materieel, net als GETAL3) telt alleen mee als TOTAAL
+      // hem bevat; klopt TOTAAL juist zonder TOT3, dan is TOT3 iets anders
+      // (bv. een subtotaal) en zou het posttotaal te hoog worden (knownbug 91).
+      const near = (a: number, b: number) => Math.abs(a - b) < 0.005;
+      const tot3InTotaal = !(tot3 && totaal && near(tot1 + tot2 + tot4, totaal) && !near(tot1 + tot2 + tot3 + tot4, totaal));
       if (ambiguous && kuList) warnings.push(uiText('diagnostics.dncSharedCode', "Item {{code}} shares its code with another item; resources were summarized rather than itemized.", { code: code2 }));
       let rsort = 0;
       const summary: Array<[ResourceType, number, string]> = [
         ['arbeid', tot1, 'Arbeid'],
         ['materiaal', tot2, 'Materiaal'],
-        ['materieel', tot3, 'Materieel'],
+        ['materieel', tot3InTotaal ? tot3 : 0, 'Materieel'],
         ['onderaannemer', tot4, 'Onderaanneming'],
       ];
       for (const [rt, amount, label] of summary) {

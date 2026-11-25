@@ -26,4 +26,17 @@ describe('WpCalc-staartlabels (knownbug 280)', () => {
     expect(classifyWpCalcStaartLabel('Totaalprijs incl. B.T.W.:')).toBeNull();
     expect(classifyWpCalcStaartLabel('Evacuatieplan')).toBeNull();
   });
+
+  // Review-follow-up: Engelse totaalregels met "VAT" zijn geen btw-regel;
+  // anders werd "Total excl. VAT:" (leeg percentage) de btw-regel → 0 % btw.
+  it.each(['Total excl. VAT:', 'Total incl. VAT:', 'Subtotal excl. VAT', 'Grand total incl. VAT'])(
+    '%s is een totaalregel', (label) => {
+      expect(classifyWpCalcStaartLabel(label)).toBeNull();
+    },
+  );
+
+  it('herkent in een Engelse staart de echte VAT-regel als btw', () => {
+    const labels = ['Total columns:', 'Total excl. VAT:', 'VAT high:', 'Total incl. VAT:'];
+    expect(labels.map((l) => classifyWpCalcStaartLabel(l))).toEqual([null, null, 'btw', null]);
+  });
 });

@@ -130,9 +130,14 @@ const BTW = ['staart_btw_laag', 'staart_btw'];
 
 /**
  * Staartregels voor het WpCalc-bestand, gebouwd uit de staart_*-regels zoals
- * de app ze nu rekent (percentage, grondslag, bedrag, lopend totaal), in de
- * volgorde van het staartpaneel. Zonder staartregels `null`: dan schrijft de
- * Rust-kant alleen de standaard totaalregels.
+ * de app ze nu rekent (percentage, grondslag, bedrag), in de vaste
+ * WpCalc-indeling: eerst de opslagen over de kolommen, dan "Totaal kostprijs",
+ * dan de opslagen over de kostprijs en de afronding, dan de btw. Binnen elk
+ * deel blijft de volgorde van de app. Het lopende totaal wordt in die
+ * bestandsvolgorde opgeteld, zodat het aansluit op de totaalregels. De labels
+ * zijn de vaste WpCalc-labels (ook als de omschrijving in de app anders is),
+ * zodat de import elke regel weer herkent. Zonder staartregels `null`: dan
+ * schrijft de Rust-kant alleen de standaard totaalregels.
  */
 export function buildStaartRows(items: CostItem[]): StagartRow[] | null {
   const live = computeStaartItemBreakdowns(items);
@@ -158,23 +163,25 @@ export function buildStaartRows(items: CostItem[]): StagartRow[] | null {
       onderaanneming: bd?.onderaanneming ?? null,
       bedrag: bd?.bedrag ?? null,
       subtotaal: bd?.subtotaal ?? item.total,
-      totaal: bd?.totaal ?? null,
+      totaal: null, // lopend totaal, hieronder in bestandsvolgorde
       itemtype,
     };
   };
-  const ofTypes = (types: string[]) =>
-    types.flatMap((rt) => staart.filter((i) => i.rowType === rt)).map(rowOf);
-  const som = (rows: StagartRow[]) => rows.reduce((s, r) => s + (r.subtotaal ?? 0), 0);
+  // Regels van deze soorten, in de volgorde waarin ze in de app staan.
+  const ofTypes = (types: string[]) => staart.filter((i) => types.includes(i.rowType)).map(rowOf);
+  // Lopend totaal in bestandsvolgorde, vanaf het totaal van de vorige totaalregel.
+  let running = totaalKolommen;
+  const withRunning = (rows: StagartRow[]) => rows.map((r) => ({ ...r, totaal: (running += r.subtotaal ?? 0) }));
 
-  const phase1 = ofTypes(PHASE1);
-  const excl = [...ofTypes(PHASE2), ...ofTypes(['staart_afronding'])];
-  const btw = ofTypes(BTW);
-  const kostprijs = totaalKolommen + som(phase1);
-  const exclBtw = kostprijs + som(excl);
+  const phase1 = withRunning(ofTypes(PHASE1));
+  const kostprijs = running;
+  const excl = withRunning(ofTypes([...PHASE2, 'staart_afronding']));
+  const exclBtw = running;
+  const btw = withRunning(ofTypes(BTW));
   return [
     { ...totalRow('Totaal kolommen:', 32, totaalKolommen), ...kolommen },
     ...phase1, totalRow('Totaal kostprijs:', 4, kostprijs),
     ...excl, totalRow('Totaal excl. btw.:', 4, exclBtw),
-    ...btw, totalRow('Totaalprijs incl. btw.:', 4, exclBtw + som(btw)),
+    ...btw, totalRow('Totaalprijs incl. btw.:', 4, running),
   ];
 }
