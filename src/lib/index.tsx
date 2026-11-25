@@ -67,8 +67,9 @@ export function OpenCalcStudio({
   style,
 }: OpenCalcStudioProps) {
   // Opties die App bij het opstarten leest (thema/taal winnen van de
-  // opgeslagen voorkeur; voorbeeld alleen op verzoek). Idempotent.
-  markEmbedded({ autoSample: sample, theme, locale: lang });
+  // opgeslagen voorkeur). Idempotent. Het voorbeeld opent het effect
+  // hieronder, niet App (knownbug 183).
+  markEmbedded({ theme, locale: lang });
 
   useEffect(() => { useAppStore.getState().setActiveContentTab(mode === 'wizard' ? 'wizard' : 'grid'); }, [mode]);
 

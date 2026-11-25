@@ -11,8 +11,6 @@
  */
 
 export interface EmbedOptions {
-  /** Voorbeeldbegroting openen als er niets geladen is (standaard uit). */
-  autoSample?: boolean;
   /** Thema van de gastpagina; wint van de opgeslagen voorkeur. */
   theme?: string;
   /** Interfacetaal van de gastpagina; wint van de opgeslagen voorkeur. */

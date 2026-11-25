@@ -625,11 +625,6 @@ stand van `main` op die datum.
      layout over.** De controle op een losgekoppeld venster zou bij een ingebedde component overgeslagen moeten
      worden. — S
 
-183. **`sample: true` in embed kan de voorbeeldbegroting twee keer openen.** `src/App.tsx:262-270` +
-     `openSampleBudget` (`App.tsx:80`) tegenover `src/lib/index.tsx:122-130`. Gesimuleerd: als de sample-chunk
-     er langer dan 50 ms over doet, openen er twee tabbladen "Sample estimate". Voorstel: één pad, of na de
-     await opnieuw `documents.length > 0` controleren. — B
-
 184. **Het tweede-schermvenster herladen blijft hangen op "Waiting for the main window…".**
      `src/components/layout/CompanionWindow.tsx:46-49`, `src/services/workspaces/companion.ts:28-29`: `bye` bij
      beforeunload laat het hoofdvenster zijn kanaal sluiten, dus de `ready`-berichten van de herladen pagina
