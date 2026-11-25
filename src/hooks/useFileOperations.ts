@@ -23,10 +23,13 @@ function isImportCancelled(err: unknown): boolean {
   return err instanceof Error && err.name === 'ImportCancelledError';
 }
 
-function fileNameFromPath(filePath: string): string {
+/** Tabnaam uit een pad: zonder map en zonder native extensie. Ook `.ifcCalc`
+ *  en `.ocs`, anders stond na Opslaan als "Begroting.ifcCalc" op het tabblad
+ *  (knownbug 117). Andere extensies blijven staan. */
+export function fileNameFromPath(filePath: string): string {
   const segments = filePath.replace(/\\/g, '/').split('/');
   const fullName = segments[segments.length - 1];
-  return fullName.replace(/\.(ifcx|json)$/i, '');
+  return fullName.replace(/\.(ifccalc|ifcx|ocs|json)$/i, '');
 }
 
 /** Extensies waarin OCS zijn native JSON-projectformaat wegschrijft. */

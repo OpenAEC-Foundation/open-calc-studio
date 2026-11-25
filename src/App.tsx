@@ -52,7 +52,7 @@ import { deserializeProject } from "./services/file/fileService";
 import { openProjectJson } from "./services/file/openProject";
 import { createDefaultSchedule } from "./data/defaultBudget";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
-import { useFileOperations } from "./hooks/useFileOperations";
+import { fileNameFromPath, useFileOperations } from "./hooks/useFileOperations";
 import { showImportWarnings } from "./components/common/ImportWarningsDialog";
 import { loadAllExtensions } from "./extensions";
 import { registerBuiltinExtensions } from "./extensions/builtinExtensions";
@@ -245,7 +245,7 @@ function App() {
         try {
           const { readTextFile } = await import('@tauri-apps/plugin-fs');
           const content = await readTextFile(filePath);
-          const fileName = filePath.replace(/\\/g, '/').split('/').pop()?.replace(/\.(ifcx|json|ocs)$/i, '') ?? 'Begroting';
+          const fileName = fileNameFromPath(filePath) || 'Begroting';
           openProjectJson(content, fileName, filePath);
         } catch (err) {
           console.error('[App] Failed to auto-open file from query param:', err);

@@ -345,12 +345,6 @@ stand van `main` op die datum.
      en laat artikelen weg die in deze sessie voor het eerst zijn toegevoegd. Voorstel: in beide gevallen
      samenvoegen op `id`. — S
 
-117. **De extensie `.ifcCalc` staat in het tabblad en de titel.** `src/hooks/useFileOperations.ts:25-29`
-     (`fileNameFromPath` haalt alleen `.ifcx|.json` weg), gebruikt op `:142`, `:183`, `:269`, `:357`; ook
-     `App.tsx:249`. Na Opslaan als of Openen staat er "Begroting.ifcCalc" op het tabblad, terwijl slepen elke
-     extensie weghaalt. Hetzelfde bestand krijgt dus een andere tabnaam afhankelijk van hoe het geopend is.
-     Voorstel: overal op dezelfde manier `\.(ifccalc|ifcx|ocs|json)$` weghalen, hoofdletterongevoelig. — S
-
 119. **Een ander open venster toont het live journaal van dit venster als "herstelbaar".**
      `src/components/common/RecoveryBar.tsx:17`, `recovery.ts:14,39`. Een losgemaakt tabbladvenster of een tweede
      browsertabblad biedt de live documenten van het hoofdvenster aan. Herstellen dupliceert ze; Weggooien wist het
