@@ -323,11 +323,12 @@ stand van `main` op die datum.
     (`genericTabularImporter.ts`) waarschuwt; BC3, DNC, inschrijfstaat en de XML-hulpfuncties gebruiken
     `parseNumber` (`core.ts`) zonder melding. Rest van knownbug 82. Gevonden in de review van de valutafix. — B
 
-280. **WpCalc-import zonder herkende staartlabels geeft geen btw-regel en geen melding.** Labels als
-    "B.T.W.", "Omzetbelasting" of Engelse teksten worden niet herkend (`wpcalcImporter.ts`
-    `classifyWpCalcStaartLabel`); dan is incl. btw gelijk aan excl. btw. Ook: "Risicoverzekering" wordt
-    `risico`, een label met "totaal" valt weg, en een tweede regel van dezelfde soort telt niet mee.
-    Gevonden in de review van knownbug 88. — B
+280. **WpCalc-import zonder herkende staartlabels geeft geen btw-regel en geen melding.** Een label dat
+    `classifyWpCalcStaartLabel` (`wpcalcImporter.ts`) niet kent, valt stil weg; zonder btw-regel is incl.
+    btw gelijk aan excl. btw. "B.T.W.", "Omzetbelasting", "VAT" en "Risicoverzekering" worden inmiddels
+    herkend; andere Engelse teksten niet. Ook: een label met "totaal" valt weg, en een tweede regel van
+    dezelfde soort telt niet mee. Open: een melding bij onbekende labels (de import heeft nog geen
+    meldingenkanaal) en wat er met dubbele soorten moet. Gevonden in de review van knownbug 88. — B
 
 ## Documenten, tabbladen, versies en herstel
 
