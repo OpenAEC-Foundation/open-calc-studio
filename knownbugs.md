@@ -625,7 +625,7 @@ stand van `main` op die datum.
      heeft een eigen `onDoubleClick` naast `data-tauri-drag-region`, terwijl Tauri's `drag.js` al zelf
      schakelt. Afgeleid uit de code; nog nakijken in een echt venster. Voorstel: `onDoubleClick` weghalen. — S
 
-294. **Een extensie-ZIP met een data descriptor (bit 3) wordt niet gelezen.** `parseZipEntries` in
+301. **Een extensie-ZIP met een data descriptor (bit 3) wordt niet gelezen.** `parseZipEntries` in
      `src/extensions/extensionService.ts` leest de gecomprimeerde grootte uit de local file header. Tools die
      streamend inpakken (bit 3 gezet) zetten daar 0 en schrijven de grootte pas na de data, dus de parser leest
      een leeg bestand en stopt bij de volgende "header". Gezien in de code, niet nagespeeld met zo'n ZIP.
