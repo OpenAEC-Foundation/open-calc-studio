@@ -342,7 +342,12 @@ export function buildBouw1Html(
 
   // Zonder meegegeven logo: het linker logo uit de bedrijfsgegevens, zoals
   // de Bouw 1-PDF (logo-left.png) dat ook doet (knownbug 129).
-  const logoSrc = logoDataUrl || companyInfo?.logoLeft || '';
+  // Via MCP kan logoLeft als kale base64-PNG binnenkomen (zonder 'data:').
+  const rawLogoLeft = companyInfo?.logoLeft?.trim() || '';
+  const logoLeftSrc = rawLogoLeft && !rawLogoLeft.startsWith('data:')
+    ? `data:image/png;base64,${rawLogoLeft}`
+    : rawLogoLeft;
+  const logoSrc = logoDataUrl || logoLeftSrc;
   const logoHtml = logoSrc
     ? `<img src="${esc(logoSrc)}" class="company-logo" alt="Logo" />`
     : `<div class="company-name-large">${esc(companyName)}</div>`;

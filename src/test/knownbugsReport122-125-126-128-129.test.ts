@@ -98,4 +98,11 @@ describe('rapporten en afdrukken (knownbugs 122, 125, 126, 128, 129)', () => {
     const plain = await generatePrintHtml(mkSchedule(), items, 'bouw1', true, { ...companyInfo, logoLeft: '' });
     expect(plain).toContain('company-name-large');
   });
+
+  it('129: een kale base64-PNG als logoLeft (zoals MCP die opslaat) krijgt een data:-prefix', async () => {
+    const raw = 'iVBORw0KGgoAAAANSUhEUg==';
+    const companyInfo = { name: 'Test BV', logoLeft: raw, logoRight: '' } as CompanyInfo;
+    const html = await generatePrintHtml(mkSchedule(), recalculateItems(chapterWithPost()), 'bouw1', true, companyInfo);
+    expect(html).toContain(`<img src="data:image/png;base64,${raw}" class="company-logo"`);
+  });
 });

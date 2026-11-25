@@ -83,4 +83,19 @@ describe('offerte (knownbugs 124, 134, 135)', () => {
     expect(total.textContent).not.toContain('99.99');
     expect(total.textContent).not.toMatch(/must/i);
   });
+
+  it('135: label en rode controle gebruiken dezelfde precisie (3 x 33,3333 = 99,9999)', async () => {
+    const state = useAppStore.getState();
+    state.setOfferteField({ betalingstermijnen: [
+      { id: 'a', beschrijving: 'A', percentage: 33.3333, toelichting: '' },
+      { id: 'b', beschrijving: 'B', percentage: 33.3333, toelichting: '' },
+      { id: 'c', beschrijving: 'C', percentage: 33.3333, toelichting: '' },
+    ] });
+    state.setActiveSectionId('__termijnen');
+    await renderView();
+    const total = node.querySelector<HTMLElement>('.termijn-total')!;
+    expect(total.style.color).toBe('rgb(220, 38, 38)');
+    expect(total.textContent).toContain('99.9999%');
+    expect(total.textContent).not.toContain(': 100%');
+  });
 });

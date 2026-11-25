@@ -72,8 +72,10 @@ export function OfferteView() {
 
   const totalTermijnen = offerte.betalingstermijnen.reduce((sum, term) => sum + term.percentage, 0);
   // Drijvende komma: 10,1 + 64,1 + 25,8 = 99,99999999999999 (knownbug 135)
-  const termijnenKloppen = Math.abs(totalTermijnen - 100) < 1e-6;
-  const totalTermijnenLabel = Math.round(totalTermijnen * 100) / 100;
+  // Label en controle op dezelfde precisie (4 decimalen), zodat het paneel
+  // nooit "100% moet 100 zijn" toont: 3 x 33,3333 = 99,9999 blijft zichtbaar.
+  const totalTermijnenLabel = Math.round(totalTermijnen * 10000) / 10000;
+  const termijnenKloppen = totalTermijnenLabel === 100;
 
   return (
     <div className="offerte-view">
