@@ -934,6 +934,13 @@ stand van `main` op die datum.
 277. **`vitest.platform.config.ts` vervangt het hele testblok** en krijgt daardoor niet de nieuwe limieten
     van 15 s uit `vite.config.ts`. Gevonden bij de fix van knownbug 258. — B
 
+295. **`src/services/mcp/desktopActions.json` loopt achter op de store-types.** `npm run generate:mcp-actions` geeft
+     op `main` (ee1edf6) zo'n 180 regels verschil: onder meer `expression` bij regels en `priceCountry`/
+     `priceLibraries` in het schema ontbreken. Het schema heeft `additionalProperties: false`, dus zulke velden
+     worden mogelijk geweigerd (niet nagespeeld). `desktopCommand.test.ts` controleert alleen of elke actie erin
+     staat, niet of de schema's kloppen. Gevonden bij de fix van knownbugs 52 en 55. Voorstel: de catalogus
+     opnieuw genereren en een test die faalt als hij achterloopt. — B
+
 ## Wensen en open taken (geen bug)
 
 260. **CSV wordt alleen als UTF-8 gedecodeerd** (mogelijk bewust, niet als bug gemeld). Een Windows-1252-CSV uit
