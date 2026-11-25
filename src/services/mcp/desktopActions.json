@@ -20851,6 +20851,31 @@
         }
       ]
     },
+    "setSubSheetCellValues": {
+      "group": "SubSheet",
+      "signature": "(sheetId: string, values: Record<string, string>) => void",
+      "parameters": [
+        {
+          "name": "sheetId",
+          "optional": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "values",
+          "optional": false,
+          "schema": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
     "setSubSheetCells": {
       "group": "SubSheet",
       "signature": "(sheetId: string, cells: Record<string, SubSheetCell>) => void",
@@ -26245,13 +26270,29 @@
     },
     "undoSpreadsheet": {
       "group": "SpreadsheetHistory",
-      "signature": "() => void",
-      "parameters": []
+      "signature": "(sheetId?: string) => void",
+      "parameters": [
+        {
+          "name": "sheetId",
+          "optional": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
     },
     "redoSpreadsheet": {
       "group": "SpreadsheetHistory",
-      "signature": "() => void",
-      "parameters": []
+      "signature": "(sheetId?: string) => void",
+      "parameters": [
+        {
+          "name": "sheetId",
+          "optional": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
     },
     "clearSpreadsheetHistory": {
       "group": "SpreadsheetHistory",
