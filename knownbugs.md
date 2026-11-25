@@ -707,11 +707,6 @@ stand van `main` op die datum.
 196. **De schuifanimatie van het lint gaat soms de verkeerde kant op** wanneer het tabblad tekstopmaak
      verschijnt (`Ribbon.tsx:97`). Alleen cosmetisch. — S
 
-197. **Bij een door i18next bewaarde taal worden RTL-richting en `lang` bij het opstarten niet gezet.**
-     `src/i18n/config.ts:161-165`: de listener wordt pas na de synchrone `init()` geregistreerd. Nagespeeld:
-     Arabisch + Automatisch detecteren → herladen geeft Arabische tekst met een links-naar-rechts-opmaak.
-     Voorstel: de listener vóór `init()` registreren, of `dir`/`lang` eenmalig na `init` zetten. — B
-
 198. **Het thema "system" volgt geen live wijziging van het besturingssysteem, en Instellingen maakt er
      "light" van.** `SettingsDialog.tsx:20-26`, `useHostPresentation.ts:8`, `App.tsx:466-468`. Gezien in de code.
      Voorstel: een listener op wijzigingen van `prefers-color-scheme`, en "system" toevoegen aan
