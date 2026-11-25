@@ -881,9 +881,12 @@ stand van `main` op die datum.
 
 ## Teksten, vertalingen en documentatie
 
-233. **"Wat is er nieuw" in de app stopt bij 2026.44.5-dev, terwijl de app op 2026.45.1 staat.**
-     `src/i18n/locales/*/releases.json`, `ReleaseNotesPanel.tsx:26-32`. Bij 44.0 staat nog "acceptance
-     pending"; offline- en hosted-gebruikers zien alleen deze lijst. — B
+233. **"Wat is er nieuw" toont de releases vanaf 2026.45.0 alleen in het Engels.** De gebundelde lijst in
+     `ReleaseNotesPanel.tsx` loopt inmiddels tot de huidige versie (bewaakt door
+     `src/test/bundledReleaseNotes.test.ts`), maar `src/i18n/locales/*/releases.json` heeft geen `names`/
+     `highlights` voor v2026.45.0 en later, dus elke taal toont daar de Engelse titel en tekst. Bij 44.0 staat
+     nog "acceptance pending" (niet nagegaan of dat nog klopt); offline- en hosted-gebruikers zien alleen deze
+     lijst. — B
 
 ## Tests en tooling
 
