@@ -614,12 +614,6 @@ stand van `main` op die datum.
      geschiedenis mee. Een lang gesprek gaat zo op den duur over de contextlimiet, en die chat blijft dan stuk.
      Voorstel: de chat wissen bij `removeDocument`, de meegestuurde geschiedenis inkorten, een wisknop toevoegen. — S
 
-184. **Het tweede-schermvenster herladen blijft hangen op "Waiting for the main window…".**
-     `src/components/layout/CompanionWindow.tsx:46-49`, `src/services/workspaces/companion.ts:28-29`: `bye` bij
-     beforeunload laat het hoofdvenster zijn kanaal sluiten, dus de `ready`-berichten van de herladen pagina
-     bereiken niemand. Klik je daarna opnieuw op "second screen", dan opent er een tweede venster. Voorstel:
-     `bye` behandelen als losgekoppeld zonder dispose; alleen disposen als het venster echt dicht is. — S
-
 187. **Bestandskoppeling werkt onbetrouwbaar** (`src-tauri/src/lib.rs:262-274`). Op macOS wordt
      `RunEvent::Opened` genegeerd, dus de app opent leeg. Op Windows/Linux gaat het event één keer af na vaste
      800 ms, zodat het bij een koude start gemist kan worden. Een tweede dubbelklik start een tweede app-proces.
