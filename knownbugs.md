@@ -221,13 +221,6 @@ stand van `main` op die datum.
 86. **Profielimport weigert `St` en `M` met "Unmapped unit"**: eenheden zijn hoofdlettergevoelig
     (`tabularBudget.ts:62`). — B
 
-87. **BasCalc: een tweede `cb`-blok in een post komt binnen het eerste te hangen.**
-    `src/services/importers/bascalcImporter.ts:298-324`; oorzaak op r.170-176: `cp` wordt weggegooid en alleen
-    `ih` haalt een niveau van de stapel. Materiaal komt zo onder Arbeid, waardoor Arbeid 300 wordt in plaats
-    van 100. Nagespeeld. Ernst middel: de totalen van de post en het geheel blijven goed, alleen de
-    subbloktotalen kloppen niet. Voorstel: bij een nieuwe `cb` de items op hetzelfde of een dieper niveau van
-    de stapel halen, of de `cp`-regels bewaren en daarop poppen. — B
-
 90. **DNC: negatieve KU-bedragen vallen weg.** `src/services/importers/dncImporter.ts:179-182` filtert op
     `g > 0`. Nagespeeld. Voorstel: `!== 0`. — B
 

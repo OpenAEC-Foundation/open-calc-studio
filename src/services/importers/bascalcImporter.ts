@@ -160,18 +160,23 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
   const items: CostItem[] = [];
   let sortOrder = 0;
 
-  // Track parent hierarchy by depth
-  const parentStack: { id: string; depth: number }[] = [];
+  // Track parent hierarchy by depth. `isBlock` markeert een cb-blok
+  // (bewakingspost): dat sluit bij de cp-regel of bij het volgende cb-blok.
+  const parentStack: { id: string; depth: number; isBlock?: boolean }[] = [];
+  /** Open cb-blok van de stapel halen, zodat een volgend blok naast het vorige komt (knownbug 87). */
+  const closeBlock = () => {
+    while (parentStack.length > 0 && parentStack[parentStack.length - 1].isBlock) parentStack.pop();
+  };
 
   // Collect all rows.
-  // 'cp' (afsluiting calculatieblok, hv-factor) wordt overgeslagen: de
+  // 'cp' (afsluiting calculatieblok, hv-factor) wordt geen regel: de
   // hv-factor zit al verwerkt in de cn-bedragen (kolom N) en een cp-rij als
-  // regel importeren gaf lege phantom-regels.
+  // regel importeren gaf lege phantom-regels. Hij sluit wel het cb-blok af.
   const rowEntries: { type: string; row: unknown[] }[] = [];
   for (const row of data) {
     if (!row || row.length === 0) continue;
     const rijtype = cellStr(row, 0); // Column A
-    if (rijtype === 'ih' || rijtype === 'cn' || rijtype === 'cb' || rijtype === 'opm') {
+    if (rijtype === 'ih' || rijtype === 'cn' || rijtype === 'cb' || rijtype === 'cp' || rijtype === 'opm') {
       rowEntries.push({ type: rijtype, row });
     }
   }
@@ -293,9 +298,12 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
       // so that cb/cn rows become children of the begrotingspost, not the chapter
       parentStack.push({ id: item.id, depth });
     } else if (inStaartBlock) {
-      // cb/cn/opm binnen een staart-blok: overslaan (geen echte calculatie).
+      // cb/cn/cp/opm binnen een staart-blok: overslaan (geen echte calculatie).
       continue;
+    } else if (entry.type === 'cp') {
+      closeBlock();
     } else if (entry.type === 'cb') {
+      closeBlock();
       const row = entry.row;
       const code = cellStr(row, 2);
       const description = cellStr(row, 3);
@@ -320,7 +328,7 @@ export function importBasCalcFile(arrayBuffer: ArrayBuffer): { schedule: CostSch
       items.push(item);
       // Only bewakingspost can be parent of cn rows
       if (!isTekst) {
-        parentStack.push({ id: item.id, depth });
+        parentStack.push({ id: item.id, depth, isBlock: true });
       }
     } else if (entry.type === 'cn') {
       // Regel → own CostItem row with norm fields
