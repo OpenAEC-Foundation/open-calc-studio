@@ -609,11 +609,6 @@ stand van `main` op die datum.
 
 ## Assistent, MCP en extensies
 
-171. **Een extensie waarvan `onLoad` een fout gooit, laat haar UI en event listeners achter.**
-     `src/extensions/extensionLoader.ts:148-151`: de `catch` roept `api._cleanup()` niet aan, dus haar UI-elementen
-     en listeners worden niet opgeruimd; opnieuw inschakelen verdubbelt de listeners. Voorstel:
-     `api._cleanup()` aanroepen in de catch. — S
-
 173. **De chatgeschiedenis groeit onbeperkt en is niet te wissen.** In `src/state/slices/chatSlice.ts` wordt
      `clearChat` nooit aangeroepen en ruimt `removeDocument` niet op; `ChatPanel.tsx:196-202` stuurt de hele
      geschiedenis mee. Een lang gesprek gaat zo op den duur over de contextlimiet, en die chat blijft dan stuk.

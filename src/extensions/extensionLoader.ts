@@ -130,12 +130,13 @@ export async function enableExtension(id: string): Promise<void> {
 
   store.setExtensionStatus(id, 'loading');
 
+  let api: ReturnType<typeof createExtensionApi> | null = null;
   try {
     const stored = await getExtensionFromDb(id);
     if (!stored) throw new Error(`Extension "${id}" not found in storage`);
 
     const plugin = executeExtensionCode(stored.mainCode);
-    const api = createExtensionApi(id, stored.manifest.permissions);
+    api = createExtensionApi(id, stored.manifest.permissions);
 
     await plugin.onLoad(api);
 
@@ -146,6 +147,9 @@ export async function enableExtension(id: string): Promise<void> {
     stored.enabled = true;
     await saveExtensionToDb(stored);
   } catch (err: any) {
+    // Wat onLoad vóór de fout registreerde (knoppen, listeners) weer opruimen;
+    // anders bleef het staan en verdubbelde een nieuwe poging de listeners (knownbug 171).
+    if (!activePlugins.has(id)) api?._cleanup();
     store.setExtensionStatus(id, 'error', err.message || String(err));
     console.error(`[Extensions] Failed to enable "${id}":`, err);
   }
