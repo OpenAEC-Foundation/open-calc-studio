@@ -71,6 +71,9 @@ export function OfferteView() {
   );
 
   const totalTermijnen = offerte.betalingstermijnen.reduce((sum, term) => sum + term.percentage, 0);
+  // Drijvende komma: 10,1 + 64,1 + 25,8 = 99,99999999999999 (knownbug 135)
+  const termijnenKloppen = Math.abs(totalTermijnen - 100) < 1e-6;
+  const totalTermijnenLabel = Math.round(totalTermijnen * 100) / 100;
 
   return (
     <div className="offerte-view">
@@ -183,7 +186,7 @@ export function OfferteView() {
                 <label>{t("offerte.date")}</label>
                 <input type="date" value={offerte.offerteDatum} onChange={e => setOfferteField({ offerteDatum: e.target.value })} />
                 <label>{t("offerte.validityDays")}</label>
-                <input type="number" value={offerte.geldigheid} onChange={e => setOfferteField({ geldigheid: parseInt(e.target.value) || 30 })} />
+                <ValidityDaysInput value={offerte.geldigheid} onChange={geldigheid => setOfferteField({ geldigheid })} />
               </div>
 
               <h4>{t("offerte.addressee")}</h4>
@@ -524,8 +527,8 @@ export function OfferteView() {
           {activeSectionId === '__termijnen' && (
             <div className="offerte-termijnen-editor">
               <h3>{t("offerte.paymentTerms")}</h3>
-              <p className="termijn-total" style={{ color: totalTermijnen === 100 ? 'var(--theme-text)' : '#dc2626' }}>
-                {t("offerte.totalLabel")}: {totalTermijnen}% {totalTermijnen !== 100 && t("offerte.mustBe100")}
+              <p className="termijn-total" style={{ color: termijnenKloppen ? 'var(--theme-text)' : '#dc2626' }}>
+                {t("offerte.totalLabel")}: {totalTermijnenLabel}% {!termijnenKloppen && t("offerte.mustBe100")}
               </p>
               <table className="offerte-items-table">
                 <thead>
@@ -629,5 +632,29 @@ export function OfferteView() {
         onCancel={() => setLinkingItem(null)}
       />
     </div>
+  );
+}
+
+/**
+ * Geldigheid in dagen. Houdt tijdens het typen de ruwe tekst vast, zodat een
+ * leeggemaakt veld niet meteen terugspringt op 30, en bewaart alleen een
+ * positief geheel getal: een negatieve waarde liet de PDF-export mislukken
+ * (knownbug 134).
+ */
+function ValidityDaysInput({ value, onChange }: { value: number; onChange: (days: number) => void }) {
+  const [draft, setDraft] = useState<string | null>(null);
+  return (
+    <input
+      type="number"
+      min={1}
+      step={1}
+      value={draft ?? String(value)}
+      onChange={e => {
+        setDraft(e.target.value);
+        const days = Number(e.target.value);
+        if (e.target.value.trim() !== '' && Number.isInteger(days) && days >= 1) onChange(days);
+      }}
+      onBlur={() => setDraft(null)}
+    />
   );
 }

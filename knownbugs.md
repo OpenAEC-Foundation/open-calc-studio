@@ -397,10 +397,6 @@ stand van `main` op die datum.
      daarna alleen het eindtotaal. Voorstel: toon bij alleen-hoofdstuktotalen `item.total` op de
      hoofdstukregels, in TS en in Rust. — B
 
-124. **De standaarddatum van een offerte is de UTC-datum**, en dus tussen 00:00 en 01:00/02:00 een dag te vroeg
-     (`src/state/slices/offerteSlice.ts:43`, `:559`, `toISOString().split('T')[0]`). Nagespeeld. Voorstel: bouw
-     de datum op uit het lokale jaar, de maand en de dag. — B
-
 125. **Percentages in de Bouw 1-samenvatting negeren de rapporttaal** (`0.5 %` in een Nederlands rapport;
      `src/services/print/bouw1PrintService.ts:556, 566, 578, 590, 657`). Nagespeeld. Voorstel:
      `Intl.NumberFormat(ctx.intlLocale, { maximumFractionDigits: 2 })`. — B
@@ -434,14 +430,6 @@ stand van `main` op die datum.
 
 132. **"Geldig voor N dagen" verdwijnt als de tekst van de voorwaarden leeg is.** `offerte.rs:122-136`. Afgeleid
      uit de code. Voorstel: de alinea over de geldigheid uit het `voorwaarden`-blok halen. — S
-
-134. **Een negatieve geldigheidsduur laat de PDF-export mislukken.** `OfferteView.tsx:186` tegenover
-     `mod.rs:330` (`u32`); `|| 30` zet een leeggemaakt veld bovendien terug op 30. Afgeleid uit de code.
-     Voorstel: `min={1}`, begrenzen, en tijdens het bewerken de ruwe tekst houden. — S
-
-135. **Betalingstermijnen die samen 100 % zijn, worden rood gemarkeerd.** `OfferteView.tsx:73` en `527`
-     (`=== 100`; 10.1+64.1+25.8 = 99.99999999999999). Nagespeeld. Voorstel: `Math.abs(total - 100) < 1e-6`; het
-     afgeronde totaal tonen. — B
 
 136. **Transparante PNG's krijgen zwarte miniaturen.** `src/services/offerte/imageService.ts:20` maakt er JPEG
      van zonder witte achtergrond. Afgeleid uit de code. Voorstel: het canvas eerst wit vullen, of PNG
