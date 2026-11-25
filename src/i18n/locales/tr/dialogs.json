@@ -99,7 +99,7 @@
       "noPrices": "Bu dosya fiyat içermiyor — yalnızca açıklamalar ve miktarlar var (bir metraj kütüphanesi gibi). Bu nedenle toplam 0,00 olarak kalır.",
       "moreWarnings_one": "… ve {{count}} benzer bildirim daha.",
       "moreWarnings_other": "… ve {{count}} benzer bildirim daha.",
-      "measurementLinesDropped": "{{n}} kalemde metraj satırları dosyadaki miktarı vermiyor veya formül kullanıyor. Oralarda yalnızca miktar alındı."
+      "measurementLinesDropped": "{{n}} kalemde metraj satırları dosyadaki miktarı vermiyor veya okunamayan bir formül kullanıyor. Oralarda yalnızca miktar alındı."
     },
     "onlv": {
       "leistungsbuch": "Bu bir Leistungsbuch (standart metin kataloğu); miktar ve fiyat içermez — tüm pozisyonlar 0 miktarla içe aktarıldı.",

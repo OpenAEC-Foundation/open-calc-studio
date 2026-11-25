@@ -17,6 +17,15 @@ const line = (count: number | null, length: number | null = null, width: number 
   newMeasurementLine({ count, length, width, height, description });
 
 describe('rekenen met meetregels', () => {
+  it('een regelformule (#45) vervangt het product; lege vakken tellen als 0', () => {
+    expect(lineValue({ ...line(2, 3), expression: 'a*b/2' })).toBe(3);
+    expect(lineValue({ ...line(0.5, 2), expression: 'p*a^2*b' })).toBe(1.571);
+    expect(lineValue({ ...line(null), expression: 'a*b' })).toBe(0);
+    // Deling door een leeg vak: de regel telt als 0.
+    expect(lineValue({ ...line(1), expression: 'a/b' })).toBe(0);
+    expect(measurementSum([line(2, 10), { ...line(2, 3), expression: 'a*b/2' }])).toBe(23);
+  });
+
   it('rondt elke regel en de som half-up af op 3 decimalen, zoals DS in BC3', () => {
     expect(lineValue(line(3, 1.3333, null, 1.3333))).toBe(5.333);
     expect(lineValue(line(1, 0.0005))).toBe(0.001);
@@ -222,14 +231,72 @@ describe('BC3', () => {
     expect(post(r).measurementLines?.map((l) => [l.description, l.count, l.length])).toEqual([['a', 2, 10], ['b', 0, 5]]);
   });
 
-  it('regels die niet op de meting uitkomen of een formule hebben: alleen de hoeveelheid, met melding', () => {
+  it('regels die niet op de meting uitkomen of een onleesbare formule hebben: alleen de hoeveelheid, met melding', () => {
     const off = importBc3(bc3('~M|01#\\01.01|1\\1\\|50|\\Muro\\1\\10\\\\3\\|'));
     expect(post(off).quantity).toBe(50);
     expect(post(off).measurementLines).toBeUndefined();
     expect(off.warnings.some((w) => w.includes('meetregels'))).toBe(true);
 
-    const formula = importBc3(bc3('~M|01#\\01.01|1\\1\\|30|3\\a*b\\1\\10\\\\3\\|'));
-    expect(post(formula).measurementLines).toBeUndefined();
+    // a*x: x bestaat niet.
+    const unreadable = importBc3(bc3(String.raw`~M|01#\01.01|1\1\|30|3\a*x\1\10\\3\|`));
+    expect(post(unreadable).quantity).toBe(30);
+    expect(post(unreadable).measurementLines).toBeUndefined();
+    // Een formule die wel te lezen is maar niet op het totaal uitkomt (a*b = 10, niet 30).
+    const wrong = importBc3(bc3(String.raw`~M|01#\01.01|1\1\|30|3\a*b\1\10\\3\|`));
+    expect(post(wrong).measurementLines).toBeUndefined();
+  });
+
+  it('formuleregel (type 3, #45): rekent met a/b/c/d en geldt voor de regels eronder, ook over een tussentotaal heen', () => {
+    // 2·10·3/2 = 30; 1·4·2/2 = 4; tussentotaal; 1·2·2/2 = 2; nieuwe formule π·0,5²·2 = 1,571.
+    const r = importBc3(bc3(String.raw`~M|01#\01.01|1\1\|37.571|3\a*b*d/2\2\10\\3\\Gevel\1\4\\2\1\\\\\\\\1\2\\2\3\p*a^2*b\0.5\2\\\|`));
+    const p = post(r);
+    expect(p.quantity).toBeCloseTo(37.571, 10);
+    expect(p.measurementLines?.map((l) => [l.description, l.count, l.length, l.width, l.height, l.expression, l.subtotal])).toEqual([
+      ['', 2, 10, null, 3, 'a*b*d/2', undefined],
+      ['Gevel', 1, 4, null, 2, 'a*b*d/2', undefined],
+      ['', null, null, null, null, undefined, 'partial'],
+      ['', 1, 2, null, 2, 'a*b*d/2', undefined],
+      ['', 0.5, 2, null, null, 'p*a^2*b', undefined],
+    ]);
+    expect(p.measurementLines!.map(lineValue)).toEqual([30, 4, 0, 2, 1.571]);
+    expect(r.warnings.some((w) => w.includes('meetregels'))).toBe(false);
+  });
+
+  it('een tekstregel direct boven een formuleregel wordt de omschrijving', () => {
+    const r = importBc3(bc3(String.raw`~M|01#\01.01|1\1\|2.356|\Pilares circulares\\\\\3\p*a^2*b\0.5\3\\\|`));
+    expect(post(r).measurementLines?.map((l) => [l.description, l.count, l.length, l.expression])).toEqual([
+      ['Pilares circulares', 0.5, 3, 'p*a^2*b'],
+    ]);
+  });
+
+  it('exporteert regelformules als type 3 en leest ze terug', () => {
+    const schedule = { id: 's', name: 'T', description: '', status: 'DRAFT', predefinedType: 'BUDGET', currency: 'EUR', projectName: 'T', projectNumber: '', client: '', author: '', ifcGuid: 'g', uitvoeringskosten: 0, algemeneKosten: 0, winstRisico: 0 } as CostSchedule;
+    const chapter = makeCostItem({ rowType: 'chapter', code: '01', description: 'Capítulo' });
+    const lines = [
+      line(1, 10, null, 3, 'Muro'),
+      { ...line(0.5, 3, null, null, 'Pilares'), expression: 'p*a^2*b' },
+      { ...line(0.5, 3, null, null, 'otro'), expression: 'p*a^2*b' },
+      // Gewone regel ná een formule: krijgt zijn eigen product als formule, anders rekent Presto hem met π·a²·b.
+      line(1, 4, null, 2, 'Tabique'),
+    ];
+    const p = makeCostItem({
+      rowType: 'begrotingspost', parentId: chapter.id, code: '01.01', description: 'Fábrica', unit: 'm²',
+      quantity: measurementSum(lines), normUnitPrice: 10, measurementLines: lines,
+    });
+    expect(p.quantity).toBeCloseTo(42.712, 10);
+    const items = recalculateItems([chapter, p]);
+    expect(buildBc3(schedule, items)).toContain(
+      String.raw`|\Muro\1\10\\3\\Pilares\\\\\3\p*a^2*b\0.5\3\\\\otro\0.5\3\\\\Tabique\\\\\3\a*b*d\1\4\\2\|`,
+    );
+    const back = importBc3File(buildBc3Bytes(schedule, items).bytes.buffer as ArrayBuffer);
+    const q = back.items.find((i) => i.code === '01.01')!;
+    expect(q.quantity).toBeCloseTo(42.712, 10);
+    expect(q.measurementLines?.map((l) => [l.description, l.count, l.length, l.height, l.expression])).toEqual([
+      ['Muro', 1, 10, 3, undefined],
+      ['Pilares', 0.5, 3, null, 'p*a^2*b'],
+      ['otro', 0.5, 3, null, 'p*a^2*b'],
+      ['Tabique', 1, 4, 2, 'a*b*d'],
+    ]);
   });
 
   it('exporteert de regels en leest ze terug', () => {

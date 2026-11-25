@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Coloanele de după {{height}} nu au fost lipite",
     "pasteDecimalGuess": "{{text}} citit ca {{value}}",
     "pasteUndo": "Lipire rânduri de măsurătoare",
-    "noticeDismiss": "Închide mesajul"
+    "noticeDismiss": "Închide mesajul",
+    "expression": "Formulă de rând",
+    "expressionHint": "Tastați =a*b*c/2 pentru o formulă de rând: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Formulă de rând {{expression}}, se aplică și rândurilor de dedesubt. Faceți clic pentru a o modifica; goliți-o pentru a o elimina.",
+    "expressionContinued": "Aceeași formulă de rând ca mai sus: {{expression}}. Faceți clic pentru a o modifica de la acest rând."
   }
 }

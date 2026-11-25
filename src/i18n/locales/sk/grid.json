@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Stĺpce za {{height}} neboli vložené",
     "pasteDecimalGuess": "{{text}} prečítané ako {{value}}",
     "pasteUndo": "Vložiť riadky výmery",
-    "noticeDismiss": "Zavrieť správu"
+    "noticeDismiss": "Zavrieť správu",
+    "expression": "Vzorec riadku",
+    "expressionHint": "Napíšte =a*b*c/2 pre vzorec riadku: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Vzorec riadku {{expression}}, platí aj pre riadky pod ním. Kliknutím ho zmeníte; vymazaním ho odstránite.",
+    "expressionContinued": "Rovnaký vzorec riadku ako vyššie: {{expression}}. Kliknutím ho zmeníte od tohto riadku."
   }
 }

@@ -263,6 +263,10 @@
     "pasteExtraColumns": "No s'han enganxat les columnes després de {{height}}",
     "pasteDecimalGuess": "{{text}} llegit com a {{value}}",
     "pasteUndo": "Enganxar línies de medició",
-    "noticeDismiss": "Tanca el missatge"
+    "noticeDismiss": "Tanca el missatge",
+    "expression": "Fórmula de línia",
+    "expressionHint": "Escriviu =a*b*c/2 per a una fórmula de línia: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Fórmula de línia {{expression}}, també per a les línies de sota. Feu clic per canviar-la; deixeu-la buida per treure-la.",
+    "expressionContinued": "Mateixa fórmula de línia que a dalt: {{expression}}. Feu clic per canviar-la des d’aquesta línia."
   }
 }

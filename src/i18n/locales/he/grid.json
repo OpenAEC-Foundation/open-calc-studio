@@ -263,6 +263,10 @@
     "pasteExtraColumns": "עמודות אחרי {{height}} לא הודבקו",
     "pasteDecimalGuess": "{{text}} נקרא כ-{{value}}",
     "pasteUndo": "הדבקת שורות מדידה",
-    "noticeDismiss": "סגירת ההודעה"
+    "noticeDismiss": "סגירת ההודעה",
+    "expression": "נוסחת שורה",
+    "expressionHint": "הקלידו =a*b*c/2 לנוסחת שורה: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "נוסחת שורה {{expression}}, חלה גם על השורות שמתחת. לחצו לשינוי; רוקנו כדי להסיר.",
+    "expressionContinued": "אותה נוסחת שורה כמו למעלה: {{expression}}. לחצו כדי לשנות אותה החל משורה זו."
   }
 }

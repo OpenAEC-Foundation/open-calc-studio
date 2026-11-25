@@ -263,6 +263,10 @@
     "pasteExtraColumns": "{{height}}-এর পরের কলাম পেস্ট করা হয়নি",
     "pasteDecimalGuess": "{{text}} পড়া হয়েছে {{value}} হিসেবে",
     "pasteUndo": "পরিমাপ লাইন পেস্ট করুন",
-    "noticeDismiss": "বার্তা বন্ধ করুন"
+    "noticeDismiss": "বার্তা বন্ধ করুন",
+    "expression": "লাইন সূত্র",
+    "expressionHint": "লাইন সূত্রের জন্য =a*b*c/2 লিখুন: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "লাইন সূত্র {{expression}}, নিচের লাইনগুলোতেও প্রযোজ্য। পরিবর্তন করতে ক্লিক করুন; সরাতে খালি করুন।",
+    "expressionContinued": "উপরের মতো একই লাইন সূত্র: {{expression}}। এই লাইন থেকে পরিবর্তন করতে ক্লিক করুন।"
   }
 }

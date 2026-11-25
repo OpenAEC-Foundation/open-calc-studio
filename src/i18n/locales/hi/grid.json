@@ -263,6 +263,10 @@
     "pasteExtraColumns": "{{height}} के बाद के कॉलम पेस्ट नहीं किए गए",
     "pasteDecimalGuess": "{{text}} को {{value}} पढ़ा गया",
     "pasteUndo": "माप पंक्तियाँ पेस्ट करें",
-    "noticeDismiss": "संदेश बंद करें"
+    "noticeDismiss": "संदेश बंद करें",
+    "expression": "पंक्ति सूत्र",
+    "expressionHint": "पंक्ति सूत्र के लिए =a*b*c/2 लिखें: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "पंक्ति सूत्र {{expression}}, नीचे की पंक्तियों पर भी लागू। बदलने के लिए क्लिक करें; हटाने के लिए खाली करें।",
+    "expressionContinued": "ऊपर जैसा ही पंक्ति सूत्र: {{expression}}। इस पंक्ति से बदलने के लिए क्लिक करें।"
   }
 }

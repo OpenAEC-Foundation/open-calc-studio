@@ -263,6 +263,10 @@
     "pasteExtraColumns": "A(z) {{height}} utáni oszlopok nincsenek beillesztve",
     "pasteDecimalGuess": "{{text}} beolvasva: {{value}}",
     "pasteUndo": "Felmérési sorok beillesztése",
-    "noticeDismiss": "Üzenet bezárása"
+    "noticeDismiss": "Üzenet bezárása",
+    "expression": "Sorképlet",
+    "expressionHint": "Sorképlethez írja be: =a*b*c/2. a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Sorképlet: {{expression}}, az alatta lévő sorokra is érvényes. Kattintson a módosításhoz; ürítse ki az eltávolításhoz.",
+    "expressionContinued": "Ugyanaz a sorképlet, mint fent: {{expression}}. Kattintson, hogy ettől a sortól módosítsa."
   }
 }

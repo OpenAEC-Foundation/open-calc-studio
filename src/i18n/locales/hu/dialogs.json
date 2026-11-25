@@ -99,7 +99,7 @@
       "noPrices": "Ez a fájl nem tartalmaz árakat — csak megnevezéseket és mennyiségeket (mint egy felmérési könyvtár). Ezért a végösszeg 0,00 marad.",
       "moreWarnings_one": "… és még {{count}} hasonló üzenet.",
       "moreWarnings_other": "… és még {{count}} hasonló üzenet.",
-      "measurementLinesDropped": "{{n}} tételnél a felmérési sorok nem adják ki a fájlban lévő mennyiséget, vagy képletet használnak. Ott csak a mennyiség került átvételre."
+      "measurementLinesDropped": "{{n}} tételnél a felmérési sorok nem adják ki a fájlban lévő mennyiséget, vagy olvashatatlan képletet használnak. Ott csak a mennyiség került átvételre."
     },
     "onlv": {
       "leistungsbuch": "Ez egy Leistungsbuch (szabványszövegek katalógusa) mennyiségek és árak nélkül — minden tétel 0 mennyiséggel lett importálva.",

@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Sarakkeita {{height}} jälkeen ei liitetty",
     "pasteDecimalGuess": "{{text}} luettu arvoksi {{value}}",
     "pasteUndo": "Liitä mittarivit",
-    "noticeDismiss": "Sulje ilmoitus"
+    "noticeDismiss": "Sulje ilmoitus",
+    "expression": "Rivikaava",
+    "expressionHint": "Kirjoita =a*b*c/2 rivikaavaksi: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Rivikaava {{expression}}, koskee myös alla olevia rivejä. Muuta napsauttamalla; tyhjennä poistaaksesi.",
+    "expressionContinued": "Sama rivikaava kuin yllä: {{expression}}. Napsauta muuttaaksesi sitä tästä rivistä alkaen."
   }
 }

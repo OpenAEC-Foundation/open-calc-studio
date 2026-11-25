@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Sloupce za {{height}} nebyly vloženy",
     "pasteDecimalGuess": "{{text}} přečteno jako {{value}}",
     "pasteUndo": "Vložit řádky výměry",
-    "noticeDismiss": "Zavřít zprávu"
+    "noticeDismiss": "Zavřít zprávu",
+    "expression": "Vzorec řádku",
+    "expressionHint": "Napište =a*b*c/2 pro vzorec řádku: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Vzorec řádku {{expression}}, platí i pro řádky pod ním. Klikněte pro změnu; vymazáním jej odstraníte.",
+    "expressionContinued": "Stejný vzorec řádku jako výše: {{expression}}. Klikněte pro změnu od tohoto řádku."
   }
 }

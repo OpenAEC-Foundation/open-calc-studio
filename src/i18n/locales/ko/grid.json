@@ -263,6 +263,10 @@
     "pasteExtraColumns": "{{height}} 다음 열은 붙여넣지 않았습니다",
     "pasteDecimalGuess": "{{text}}을(를) {{value}}(으)로 읽음",
     "pasteUndo": "측정 행 붙여넣기",
-    "noticeDismiss": "메시지 닫기"
+    "noticeDismiss": "메시지 닫기",
+    "expression": "행 수식",
+    "expressionHint": "행 수식은 =a*b*c/2처럼 입력하세요: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "행 수식 {{expression}}, 아래 행에도 적용됩니다. 클릭하여 변경하고, 비우면 제거됩니다.",
+    "expressionContinued": "위와 같은 행 수식: {{expression}}. 클릭하면 이 행부터 변경합니다."
   }
 }

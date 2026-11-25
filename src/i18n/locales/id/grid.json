@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Kolom setelah {{height}} tidak ditempel",
     "pasteDecimalGuess": "{{text}} dibaca sebagai {{value}}",
     "pasteUndo": "Tempel baris pengukuran",
-    "noticeDismiss": "Tutup pesan"
+    "noticeDismiss": "Tutup pesan",
+    "expression": "Rumus baris",
+    "expressionHint": "Ketik =a*b*c/2 untuk rumus baris: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Rumus baris {{expression}}, berlaku juga untuk baris di bawahnya. Klik untuk mengubah; kosongkan untuk menghapus.",
+    "expressionContinued": "Rumus baris sama seperti di atas: {{expression}}. Klik untuk mengubahnya mulai baris ini."
   }
 }

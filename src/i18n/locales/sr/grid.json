@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Kolone posle {{height}} nisu nalepljene",
     "pasteDecimalGuess": "{{text}} pročitano kao {{value}}",
     "pasteUndo": "Nalepi redove merenja",
-    "noticeDismiss": "Zatvori poruku"
+    "noticeDismiss": "Zatvori poruku",
+    "expression": "Formula reda",
+    "expressionHint": "Upišite =a*b*c/2 za formulu reda: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Formula reda {{expression}}, važi i za redove ispod. Kliknite da je promenite; ispraznite je da je uklonite.",
+    "expressionContinued": "Ista formula reda kao gore: {{expression}}. Kliknite da je promenite od ovog reda."
   }
 }

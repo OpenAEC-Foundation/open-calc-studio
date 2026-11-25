@@ -14,6 +14,7 @@ import {
   quantityMatchesLines,
   subtotalValue,
 } from '@/services/measurement/measurementLines';
+import { isValidLineExpression, normalizeLineExpression } from '@/services/measurement/lineExpression';
 import type { CostItem, MeasurementField, MeasurementLine } from '@/types/costModel';
 
 /**
@@ -115,9 +116,35 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
   };
 
   const addLine = (focusField: string = 'description') => {
-    const line = newMeasurementLine();
+    // Een regelformule geldt door, zoals in BC3: de nieuwe regel neemt die van de laatste regel over.
+    const last = current()[current().length - 1];
+    const line = newMeasurementLine(last?.expression && !last.subtotal ? { expression: last.expression } : {});
     commit([...current(), line]);
     focusCell(line.id, focusField);
+  };
+
+  /**
+   * Regelformule zetten of weghalen (#45), op deze regel en de regels eronder
+   * met dezelfde formule (tussentotalen tellen niet mee): een formule geldt
+   * tot de volgende, zoals in BC3. `description` vervangt ook de omschrijving
+   * van deze regel (de formule werd in dat vak getypt).
+   */
+  const setExpression = (index: number, expression: string | undefined, description?: string) => {
+    const lines = current();
+    const old = lines[index]?.expression;
+    const next = [...lines];
+    for (let i = index; i < lines.length; i++) {
+      const l = lines[i];
+      if (l.subtotal) continue;
+      if (i > index && (old === undefined || l.expression !== old)) break;
+      const { expression: _old, ...rest } = l;
+      next[i] = {
+        ...rest,
+        ...(expression ? { expression } : {}),
+        ...(i === index && description !== undefined ? { description } : {}),
+      };
+    }
+    commit(next);
   };
 
   const removeLine = (index: number) => {
@@ -187,6 +214,14 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
     e.stopPropagation();
   };
 
+  /** Uitleg bij de regelformule, met de kolomnamen in de taal van de app. */
+  const expressionHint = t('grid:measurement.expressionHint', {
+    units: t('grid:measurement.count'),
+    length: t('grid:measurement.length'),
+    width: t('grid:measurement.width'),
+    height: t('grid:measurement.height'),
+  });
+
   const columnsTemplate = `minmax(${DESCRIPTION_MIN}px, 1fr) repeat(4, ${FIELD_WIDTH}px) ${VALUE_WIDTH}px ${VALUE_WIDTH}px ${ACTION_WIDTH}px`;
   const sum = measurementSum(lines);
   const collapsed = !!item.measurementLinesCollapsed;
@@ -253,15 +288,34 @@ export const MeasurementLinesBlock: React.FC<Props> = ({ item, left, width }) =>
           className={`measurement-row${line.subtotal ? ' measurement-subtotal' : ''}${lineValue(line) < 0 ? ' measurement-negative' : ''}`}
           style={{ gridTemplateColumns: columnsTemplate }}
         >
-          <TextCell
-            dataKey={`${item.id}:${line.id}:description`}
-            value={line.description}
-            placeholder={line.subtotal ? t('grid:measurement.subtotal') : ''}
-            ariaLabel={t('grid:measurement.description')}
-            onCommit={(v) => { if (v !== line.description) updateLine(index, { description: v }); }}
-            onEnter={() => nextLine(index, 'description')}
-            onPasteBlock={(text) => pasteBlock(line.id, 'description', text)}
-          />
+          <span className="measurement-desc">
+            {!line.subtotal && line.expression && (
+              <ExpressionCell
+                dataKey={`${item.id}:${line.id}:expression`}
+                expression={line.expression}
+                continued={previousExpression(lines, index) === line.expression}
+                hint={expressionHint}
+                onCommit={(expr) => setExpression(index, expr)}
+              />
+            )}
+            <TextCell
+              dataKey={`${item.id}:${line.id}:description`}
+              value={line.description}
+              placeholder={line.subtotal ? t('grid:measurement.subtotal') : ''}
+              title={line.subtotal ? undefined : expressionHint}
+              ariaLabel={t('grid:measurement.description')}
+              onCommit={(v) => {
+                // "=a*b*c/2" in de omschrijving: een regelformule, geen tekst.
+                if (!line.subtotal && v.trim().startsWith('=')) {
+                  const expr = normalizeLineExpression(v);
+                  if (expr) { setExpression(index, expr, ''); return; }
+                }
+                if (v !== line.description) updateLine(index, { description: v });
+              }}
+              onEnter={() => nextLine(index, 'description')}
+              onPasteBlock={(text) => pasteBlock(line.id, 'description', text)}
+            />
+          </span>
           {MEASUREMENT_FIELDS.map((field) => (line.subtotal
             ? <span key={field} />
             : (
@@ -357,8 +411,76 @@ function pasteHandler(cancelled: React.MutableRefObject<boolean>, onPasteBlock: 
   };
 }
 
+/** Formule van de dichtstbijzijnde gewone regel erboven (tussentotalen overgeslagen). */
+function previousExpression(lines: readonly MeasurementLine[], index: number): string | undefined {
+  for (let i = index - 1; i >= 0; i--) if (!lines[i].subtotal) return lines[i].expression;
+  return undefined;
+}
+
+/**
+ * Regelformule als knopje vóór de omschrijving (#45). Op de regel waar hij
+ * begint staat de formule zelf, op de regels eronder met dezelfde formule
+ * alleen ƒ. Klikken maakt er een invoervak van: Enter of verlaten legt
+ * vast, leeg haalt de formule weg, Esc zet terug. Een ongeldige formule
+ * kleurt het vak rood en wordt niet vastgelegd.
+ */
+const ExpressionCell: React.FC<{
+  dataKey: string;
+  expression: string;
+  continued: boolean;
+  hint: string;
+  onCommit: (expression: string | undefined) => void;
+}> = ({ dataKey, expression, continued, hint, onCommit }) => {
+  const { t } = useTranslation();
+  const [draft, setDraft] = useState<string | null>(null);
+  const cancelled = useRef(false);
+  const label = t('grid:measurement.expression');
+  if (draft === null) {
+    return (
+      <button
+        type="button"
+        className={`measurement-expr${continued ? ' measurement-expr-cont' : ''}`}
+        data-ml={dataKey}
+        title={t(continued ? 'grid:measurement.expressionContinued' : 'grid:measurement.expressionEdit', { expression })}
+        aria-label={`${label}: ${expression}`}
+        onClick={() => { cancelled.current = false; setDraft(expression); }}
+      >ƒ{continued ? '' : ` ${expression}`}</button>
+    );
+  }
+  const text = draft.trim();
+  const invalid = text !== '' && !isValidLineExpression(text);
+  const finish = () => {
+    if (!cancelled.current && !invalid) {
+      if (text === '') onCommit(undefined);
+      else {
+        const normalized = normalizeLineExpression(text);
+        if (normalized && normalized !== expression) onCommit(normalized);
+      }
+    }
+    setDraft(null);
+  };
+  return (
+    <input
+      className="measurement-input measurement-expr-input"
+      data-ml={dataKey}
+      aria-label={label}
+      aria-invalid={invalid}
+      title={hint}
+      autoFocus
+      value={draft}
+      onFocus={(e) => e.currentTarget.select()}
+      onChange={(e) => setDraft(e.target.value)}
+      onBlur={finish}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') { e.preventDefault(); if (!invalid) e.currentTarget.blur(); }
+        else if (e.key === 'Escape') { e.preventDefault(); cancelled.current = true; e.currentTarget.blur(); }
+      }}
+    />
+  );
+};
+
 /** Tekstvak dat pas bij verlaten of Enter vastlegt; Esc zet terug. */
-const TextCell: React.FC<CellProps & { value: string; placeholder?: string; onCommit: (v: string) => void }> = ({ dataKey, ariaLabel, value, placeholder, onCommit, onEnter, onPasteBlock }) => {
+const TextCell: React.FC<CellProps & { value: string; placeholder?: string; title?: string; onCommit: (v: string) => void }> = ({ dataKey, ariaLabel, value, placeholder, title, onCommit, onEnter, onPasteBlock }) => {
   const [draft, setDraft] = useState<string | null>(null);
   const cancelled = useRef(false);
   return (
@@ -367,6 +489,7 @@ const TextCell: React.FC<CellProps & { value: string; placeholder?: string; onCo
       data-ml={dataKey}
       aria-label={ariaLabel}
       placeholder={placeholder}
+      title={title}
       value={draft ?? value}
       onFocus={() => { cancelled.current = false; setDraft(value); }}
       onChange={(e) => setDraft(e.target.value)}

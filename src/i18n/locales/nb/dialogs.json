@@ -99,7 +99,7 @@
       "noPrices": "Denne filen inneholder ingen priser — bare beskrivelser og mengder (som et mengdebibliotek). Totalen blir derfor 0,00.",
       "moreWarnings_one": "… og {{count}} lignende melding til.",
       "moreWarnings_other": "… og {{count}} lignende meldinger til.",
-      "measurementLinesDropped": "For {{n}} post(er) gir målelinjene ikke mengden i filen, eller de bruker en formel. Der er bare mengden importert."
+      "measurementLinesDropped": "For {{n}} post(er) gir målelinjene ikke mengden i filen, eller de bruker en formel som ikke kan leses. Der er bare mengden importert."
     },
     "onlv": {
       "leistungsbuch": "Dette er et Leistungsbuch (katalog over standardtekster) uten mengder og priser — alle posisjoner er importert med mengde 0.",

@@ -99,7 +99,7 @@
       "noPrices": "Diese Datei enthält keine Preise — nur Beschreibungen und Mengen (wie eine Aufmaßbibliothek). Die Summe bleibt daher 0,00.",
       "moreWarnings_one": "… und {{count}} weiterer ähnlicher Hinweis.",
       "moreWarnings_other": "… und {{count}} weitere ähnliche Hinweise.",
-      "measurementLinesDropped": "Bei {{n}} Position(en) ergeben die Aufmaßzeilen nicht die Menge in der Datei oder enthalten eine Formel. Dort wurde nur die Menge übernommen."
+      "measurementLinesDropped": "Bei {{n}} Position(en) ergeben die Aufmaßzeilen nicht die Menge in der Datei oder enthalten eine nicht lesbare Formel. Dort wurde nur die Menge übernommen."
     },
     "onlv": {
       "leistungsbuch": "Dies ist ein Leistungsbuch (Katalog standardisierter Texte) ohne Mengen und Preise — alle Positionen wurden mit Menge 0 importiert.",

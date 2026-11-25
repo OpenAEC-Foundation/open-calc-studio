@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Οι στήλες μετά το {{height}} δεν επικολλήθηκαν",
     "pasteDecimalGuess": "Το {{text}} διαβάστηκε ως {{value}}",
     "pasteUndo": "Επικόλληση γραμμών επιμέτρησης",
-    "noticeDismiss": "Κλείσιμο μηνύματος"
+    "noticeDismiss": "Κλείσιμο μηνύματος",
+    "expression": "Τύπος γραμμής",
+    "expressionHint": "Πληκτρολογήστε =a*b*c/2 για τύπο γραμμής: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Τύπος γραμμής {{expression}}, ισχύει και για τις γραμμές από κάτω. Κάντε κλικ για αλλαγή· αδειάστε τον για αφαίρεση.",
+    "expressionContinued": "Ίδιος τύπος γραμμής με επάνω: {{expression}}. Κάντε κλικ για αλλαγή από αυτή τη γραμμή."
   }
 }

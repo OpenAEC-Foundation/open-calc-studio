@@ -435,3 +435,79 @@ describe('meetregels plakken uit Excel', () => {
     expect(post().excelLink).toBeFalsy();
   });
 });
+
+describe('regelformule (#45)', () => {
+  const chip = (line: string) => node.querySelector<HTMLElement>(`[data-ml="p:${line}:expression"]`);
+  const exprs = () => post().measurementLines!.map((l) => l.expression);
+  const setLines = async (lines: Parameters<typeof newMeasurementLine>[0][]) => {
+    await act(async () => { s().setMeasurementLines('p', lines.map((l) => newMeasurementLine(l))); });
+  };
+
+  it('=a*b*d/2 in de omschrijving wordt een regelformule; Parcial en hoeveelheid volgen', async () => {
+    await type(cell('l1', 'description'), '=a*b*d/2');
+    expect(post().measurementLines![0]).toMatchObject({ description: '', expression: 'a*b*d/2', count: 1, length: 10, height: 3 });
+    expect(post().quantity).toBe(15);
+    expect(chip('l1')!.textContent).toBe('ƒ a*b*d/2');
+    expect(block()!.querySelector('.measurement-sum')!.textContent).toBe('15.00');
+  });
+
+  it('tekst met = die geen formule is blijft omschrijving', async () => {
+    await type(cell('l1', 'description'), '=== kop ===');
+    expect(post().measurementLines![0]).toMatchObject({ description: '=== kop ===' });
+    expect(post().measurementLines![0].expression).toBeUndefined();
+  });
+
+  it('wijzigen geldt voor deze regel en de regels eronder met dezelfde formule; leegmaken haalt hem daar weg', async () => {
+    await setLines([
+      { id: 'l1', count: 1, length: 10, expression: 'a*b' },
+      { id: 'l2', count: 2, length: 3, expression: 'a*b' },
+      { id: 's', subtotal: 'partial' },
+      { id: 'l4', count: 1, length: 1, expression: 'a*b' },
+      { id: 'l5', count: 4, expression: 'a' },
+    ]);
+    // Op de vervolgregel staat alleen ƒ.
+    expect(chip('l2')!.textContent).toBe('ƒ');
+    expect(chip('l5')!.textContent).toBe('ƒ a');
+
+    await act(async () => { chip('l1')!.click(); });
+    expect(chip('l1')!.tagName).toBe('INPUT');
+    expect(document.activeElement).toBe(chip('l1'));
+    await type(chip('l1') as HTMLInputElement, 'a*b*2');
+    expect(exprs()).toEqual(['a*b*2', 'a*b*2', undefined, 'a*b*2', 'a']);
+    expect(post().quantity).toBe(20 + 12 + 2 + 4);
+
+    await act(async () => { chip('l2')!.click(); });
+    await type(chip('l2') as HTMLInputElement, '');
+    expect(exprs()).toEqual(['a*b*2', undefined, undefined, undefined, 'a']);
+    // Zonder formule weer het product.
+    expect(post().quantity).toBe(20 + 6 + 1 + 4);
+  });
+
+  it('een ongeldige formule kleurt rood en wordt niet vastgelegd; Esc zet terug', async () => {
+    await setLines([{ id: 'l1', count: 1, length: 10, expression: 'a*b' }]);
+    await act(async () => { chip('l1')!.click(); });
+    const input = chip('l1') as HTMLInputElement;
+    const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!;
+    await act(async () => { setter.call(input, 'a*x'); input.dispatchEvent(new Event('input', { bubbles: true })); });
+    expect(input.getAttribute('aria-invalid')).toBe('true');
+    await act(async () => { input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); });
+    expect(chip('l1')!.tagName).toBe('INPUT');
+    await act(async () => { input.blur(); });
+    expect(exprs()).toEqual(['a*b']);
+    expect(chip('l1')!.tagName).toBe('BUTTON');
+
+    await act(async () => { chip('l1')!.click(); });
+    const again = chip('l1') as HTMLInputElement;
+    await act(async () => { setter.call(again, 'a'); again.dispatchEvent(new Event('input', { bubbles: true })); });
+    await act(async () => { again.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); });
+    expect(exprs()).toEqual(['a*b']);
+  });
+
+  it('Enter op de laatste regel: de nieuwe regel neemt de formule over', async () => {
+    await setLines([{ id: 'l1', count: 1, length: 10, expression: 'a*b/2' }]);
+    const el = cell('l1', 'length');
+    await act(async () => { el.focus(); });
+    await act(async () => { el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); });
+    expect(exprs()).toEqual(['a*b/2', 'a*b/2']);
+  });
+});

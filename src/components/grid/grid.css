@@ -845,6 +845,32 @@ th.split-col-unit { text-align: center; }
   background: var(--theme-editable-bg, var(--theme-surface));
 }
 .measurement-negative .measurement-value { color: var(--theme-text-secondary); }
+/* Omschrijving met regelformule (#45): de formule als knopje vóór de tekst. */
+.measurement-desc { display: flex; align-items: center; gap: 3px; min-width: 0; }
+.measurement-desc > .measurement-input { flex: 1 1 auto; }
+.measurement-expr {
+  flex: 0 1 auto;
+  max-width: 60%;
+  height: 18px;
+  padding: 0 4px;
+  overflow: hidden;
+  border: 1px solid var(--theme-border);
+  border-radius: 3px;
+  background: var(--theme-surface, transparent);
+  color: var(--theme-accent);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+.measurement-expr:hover,
+.measurement-expr:focus-visible { border-color: var(--theme-accent); }
+/* Zelfde formule als de regel erboven: alleen het ƒ-teken. */
+.measurement-expr-cont { flex: none; border-color: transparent; background: transparent; color: var(--theme-text-secondary); }
+.measurement-desc > .measurement-expr-input { flex: 0 1 60%; font-variant-numeric: tabular-nums; }
+.measurement-expr-input[aria-invalid="true"],
+.measurement-expr-input[aria-invalid="true"]:focus { border-color: var(--theme-danger-color, #c62828); }
 .measurement-subtotal {
   font-weight: 600;
   border-top: 1px solid var(--theme-border);

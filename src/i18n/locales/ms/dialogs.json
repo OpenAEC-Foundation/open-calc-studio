@@ -99,7 +99,7 @@
       "noPrices": "Fail ini tidak mengandungi harga — hanya huraian dan kuantiti (seperti pustaka ukuran). Oleh itu jumlahnya kekal 0.00.",
       "moreWarnings_one": "… dan {{count}} lagi notis yang serupa.",
       "moreWarnings_other": "… dan {{count}} lagi notis yang serupa.",
-      "measurementLinesDropped": "Bagi {{n}} item, baris ukuran tidak menjumlah kepada kuantiti dalam fail, atau menggunakan formula. Di situ hanya kuantiti diimport."
+      "measurementLinesDropped": "Bagi {{n}} item, baris ukuran tidak menjumlah kepada kuantiti dalam fail, atau menggunakan formula yang tidak dapat dibaca. Di situ hanya kuantiti diimport."
     },
     "onlv": {
       "leistungsbuch": "Ini ialah Leistungsbuch (katalog teks piawai) tanpa kuantiti dan harga — semua item diimport dengan kuantiti 0.",

@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Kolommen na {{height}} niet geplakt",
     "pasteDecimalGuess": "{{text}} gelezen als {{value}}",
     "pasteUndo": "Meetregels plakken",
-    "noticeDismiss": "Melding sluiten"
+    "noticeDismiss": "Melding sluiten",
+    "expression": "Regelformule",
+    "expressionHint": "Typ =a*b*c/2 voor een regelformule: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Regelformule {{expression}}, geldt ook voor de regels eronder. Klik om te wijzigen; leegmaken haalt hem weg.",
+    "expressionContinued": "Zelfde regelformule als erboven: {{expression}}. Klik om hem vanaf deze regel te wijzigen."
   }
 }

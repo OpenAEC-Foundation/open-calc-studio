@@ -263,6 +263,10 @@
     "pasteExtraColumns": "{{height}} sonrasındaki sütunlar yapıştırılmadı",
     "pasteDecimalGuess": "{{text}}, {{value}} olarak okundu",
     "pasteUndo": "Metraj satırlarını yapıştır",
-    "noticeDismiss": "Mesajı kapat"
+    "noticeDismiss": "Mesajı kapat",
+    "expression": "Satır formülü",
+    "expressionHint": "Satır formülü için =a*b*c/2 yazın: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Satır formülü {{expression}}, alttaki satırlar için de geçerli. Değiştirmek için tıklayın; kaldırmak için boşaltın.",
+    "expressionContinued": "Yukarıdakiyle aynı satır formülü: {{expression}}. Bu satırdan itibaren değiştirmek için tıklayın."
   }
 }

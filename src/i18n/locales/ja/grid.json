@@ -263,6 +263,10 @@
     "pasteExtraColumns": "{{height}} より右の列は貼り付けていません",
     "pasteDecimalGuess": "{{text}} を {{value}} として読み取りました",
     "pasteUndo": "数量明細行の貼り付け",
-    "noticeDismiss": "メッセージを閉じる"
+    "noticeDismiss": "メッセージを閉じる",
+    "expression": "行の式",
+    "expressionHint": "行の式は =a*b*c/2 のように入力します: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "行の式 {{expression}}。下の行にも適用されます。クリックで変更、空にすると削除します。",
+    "expressionContinued": "上と同じ行の式: {{expression}}。クリックするとこの行から変更します。"
   }
 }

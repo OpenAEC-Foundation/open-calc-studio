@@ -99,7 +99,7 @@
       "noPrices": "Este archivo no contiene precios, solo descripciones y mediciones (como una biblioteca de mediciones). Por eso el total sigue siendo 0,00.",
       "moreWarnings_one": "… y {{count}} aviso similar más.",
       "moreWarnings_other": "… y {{count}} avisos similares más.",
-      "measurementLinesDropped": "En {{n}} partida(s) las líneas de medición no suman la cantidad del archivo o usan una fórmula. Allí solo se ha importado la cantidad."
+      "measurementLinesDropped": "En {{n}} partida(s) las líneas de medición no suman la cantidad del archivo o usan una fórmula que no se puede leer. Allí solo se ha importado la cantidad."
     },
     "onlv": {
       "leistungsbuch": "Esto es un Leistungsbuch (catálogo de textos estándar) sin mediciones ni precios — todas las posiciones se importaron con cantidad 0.",

@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Stupci nakon {{height}} nisu zalijepljeni",
     "pasteDecimalGuess": "{{text}} pročitano kao {{value}}",
     "pasteUndo": "Zalijepi retke izmjere",
-    "noticeDismiss": "Zatvori poruku"
+    "noticeDismiss": "Zatvori poruku",
+    "expression": "Formula retka",
+    "expressionHint": "Upišite =a*b*c/2 za formulu retka: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Formula retka {{expression}}, vrijedi i za retke ispod. Kliknite za promjenu; ispraznite je za uklanjanje.",
+    "expressionContinued": "Ista formula retka kao gore: {{expression}}. Kliknite za promjenu od ovog retka."
   }
 }

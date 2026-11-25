@@ -99,7 +99,7 @@
       "noPrices": "此文件不含任何价格——只有名称和工程量（类似工程量库）。因此合计仍为 0.00。",
       "moreWarnings_one": "……另有 {{count}} 条类似提示。",
       "moreWarnings_other": "……另有 {{count}} 条类似提示。",
-      "measurementLinesDropped": "有 {{n}} 个项目的计量明细行之和与文件中的数量不一致，或使用了公式。这些项目仅导入了数量。"
+      "measurementLinesDropped": "有 {{n}} 个项目的计量明细行之和与文件中的数量不一致，或使用了无法读取的公式。这些项目仅导入了数量。"
     },
     "onlv": {
       "leistungsbuch": "这是一个没有工程量和价格的 Leistungsbuch（标准文本目录）——所有项目均以数量 0 导入。",

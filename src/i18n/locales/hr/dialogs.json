@@ -103,7 +103,7 @@
       "moreWarnings_one": "… i još {{count}} slična obavijest.",
       "moreWarnings_few": "… i još {{count}} slične obavijesti.",
       "moreWarnings_other": "… i još {{count}} sličnih obavijesti.",
-      "measurementLinesDropped": "Kod {{n}} stavki retci izmjere ne daju količinu iz datoteke ili koriste formulu. Tamo je preuzeta samo količina."
+      "measurementLinesDropped": "Kod {{n}} stavki retci izmjere ne daju količinu iz datoteke ili koriste formulu koja se ne može pročitati. Tamo je preuzeta samo količina."
     },
     "onlv": {
       "leistungsbuch": "Ovo je Leistungsbuch (katalog standardnih tekstova) bez količina i cijena — sve su stavke uvezene s količinom 0.",

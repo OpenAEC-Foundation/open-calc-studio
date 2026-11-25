@@ -263,6 +263,10 @@
     "pasteExtraColumns": "{{height}} 之后的列未粘贴",
     "pasteDecimalGuess": "{{text}} 读作 {{value}}",
     "pasteUndo": "粘贴计量行",
-    "noticeDismiss": "关闭消息"
+    "noticeDismiss": "关闭消息",
+    "expression": "行公式",
+    "expressionHint": "输入 =a*b*c/2 作为行公式：a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "行公式 {{expression}}，也适用于下方各行。点击修改；清空即删除。",
+    "expressionContinued": "与上方相同的行公式：{{expression}}。点击可从此行起修改。"
   }
 }

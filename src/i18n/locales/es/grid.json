@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Las columnas después de {{height}} no se han pegado",
     "pasteDecimalGuess": "{{text}} leído como {{value}}",
     "pasteUndo": "Pegar líneas de medición",
-    "noticeDismiss": "Cerrar mensaje"
+    "noticeDismiss": "Cerrar mensaje",
+    "expression": "Fórmula de línea",
+    "expressionHint": "Escriba =a*b*c/2 para una fórmula de línea: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Fórmula de línea {{expression}}, también para las líneas siguientes. Haga clic para cambiarla; déjela vacía para quitarla.",
+    "expressionContinued": "Misma fórmula de línea que arriba: {{expression}}. Haga clic para cambiarla desde esta línea."
   }
 }

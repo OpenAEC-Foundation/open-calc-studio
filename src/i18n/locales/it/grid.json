@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Colonne dopo {{height}} non incollate",
     "pasteDecimalGuess": "{{text}} letto come {{value}}",
     "pasteUndo": "Incolla righe di misura",
-    "noticeDismiss": "Chiudi messaggio"
+    "noticeDismiss": "Chiudi messaggio",
+    "expression": "Formula di riga",
+    "expressionHint": "Digita =a*b*c/2 per una formula di riga: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Formula di riga {{expression}}, vale anche per le righe sottostanti. Clicca per modificarla; svuotala per rimuoverla.",
+    "expressionContinued": "Stessa formula di riga di sopra: {{expression}}. Clicca per modificarla da questa riga in poi."
   }
 }

@@ -263,6 +263,10 @@
     "pasteExtraColumns": "{{height}} க்குப் பிறகான நெடுவரிசைகள் ஒட்டப்படவில்லை",
     "pasteDecimalGuess": "{{text}} என்பது {{value}} எனப் படிக்கப்பட்டது",
     "pasteUndo": "அளவீட்டு வரிகளை ஒட்டு",
-    "noticeDismiss": "செய்தியை மூடு"
+    "noticeDismiss": "செய்தியை மூடு",
+    "expression": "வரி சூத்திரம்",
+    "expressionHint": "வரி சூத்திரத்திற்கு =a*b*c/2 என தட்டச்சு செய்யவும்: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "வரி சூத்திரம் {{expression}}, கீழே உள்ள வரிகளுக்கும் பொருந்தும். மாற்ற கிளிக் செய்யவும்; நீக்க காலியாக்கவும்.",
+    "expressionContinued": "மேலே உள்ள அதே வரி சூத்திரம்: {{expression}}. இந்த வரியிலிருந்து மாற்ற கிளிக் செய்யவும்."
   }
 }

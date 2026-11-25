@@ -263,6 +263,10 @@
     "pasteExtraColumns": "ຖັນຫຼັງ {{height}} ບໍ່ໄດ້ວາງ",
     "pasteDecimalGuess": "ອ່ານ {{text}} ເປັນ {{value}}",
     "pasteUndo": "ວາງແຖວການວັດແທກ",
-    "noticeDismiss": "ປິດຂໍ້ຄວາມ"
+    "noticeDismiss": "ປິດຂໍ້ຄວາມ",
+    "expression": "ສູດແຖວ",
+    "expressionHint": "ພິມ =a*b*c/2 ສຳລັບສູດແຖວ: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "ສູດແຖວ {{expression}} ໃຊ້ກັບແຖວລຸ່ມນຳ. ຄລິກເພື່ອປ່ຽນ; ລຶບໃຫ້ຫວ່າງເພື່ອເອົາອອກ.",
+    "expressionContinued": "ສູດແຖວດຽວກັບຂ້າງເທິງ: {{expression}}. ຄລິກເພື່ອປ່ຽນຕັ້ງແຕ່ແຖວນີ້."
   }
 }

@@ -263,6 +263,10 @@
     "pasteExtraColumns": "ستون‌های بعد از {{height}} چسبانده نشدند",
     "pasteDecimalGuess": "{{text}} به‌صورت {{value}} خوانده شد",
     "pasteUndo": "چسباندن سطرهای اندازه‌گیری",
-    "noticeDismiss": "بستن پیام"
+    "noticeDismiss": "بستن پیام",
+    "expression": "فرمول سطر",
+    "expressionHint": "برای فرمول سطر =a*b*c/2 را تایپ کنید: a = {{units}}، b = {{length}}، c = {{width}}، d = {{height}}، p = π",
+    "expressionEdit": "فرمول سطر {{expression}}، برای سطرهای زیرین هم اعمال می‌شود. برای تغییر کلیک کنید؛ برای حذف خالی‌اش کنید.",
+    "expressionContinued": "همان فرمول سطر بالا: {{expression}}. برای تغییر آن از این سطر کلیک کنید."
   }
 }

@@ -263,6 +263,10 @@
     "pasteExtraColumns": "Колоните след {{height}} не са поставени",
     "pasteDecimalGuess": "{{text}} е прочетено като {{value}}",
     "pasteUndo": "Поставяне на редове с измервания",
-    "noticeDismiss": "Затваряне на съобщението"
+    "noticeDismiss": "Затваряне на съобщението",
+    "expression": "Формула на реда",
+    "expressionHint": "Въведете =a*b*c/2 за формула на реда: a = {{units}}, b = {{length}}, c = {{width}}, d = {{height}}, p = π",
+    "expressionEdit": "Формула на реда {{expression}}, важи и за редовете под него. Щракнете, за да я промените; изчистете я, за да я премахнете.",
+    "expressionContinued": "Същата формула на реда като горе: {{expression}}. Щракнете, за да я промените от този ред нататък."
   }
 }
