@@ -27,10 +27,6 @@ stand van `main` op die datum.
 
 ## Tabel, invoer en bediening
 
-18. **`parseNlNumber` is te soepel** (minder zeker). Nagespeeld: `1,234,567` geeft 1,234 en `12abc` geeft 12;
-    beide zouden geweigerd moeten worden. Zelfde oorzaak als #16. Voorstel: een strikt patroon gebruiken
-    zoals in `parseLocaleNumber`. — B
-
 28. **"Kopiëren naar Excel" schrijft getallen met een decimale punt, dus Nederlandse Excel maakt van 12.5 een
     datum.** `excelClipboard.ts:24-26` (`String(n)`; ook float-ruis, en 0 wordt leeg). Voorstel: dezelfde
     opmaak gebruiken als `getGridCellDisplayValue`. — S
