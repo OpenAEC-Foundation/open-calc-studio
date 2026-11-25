@@ -46,7 +46,12 @@ export function buildInfo(kind) {
   try {
     commit = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
     dirty = !!execFileSync('git', ['status', '--porcelain'], { encoding: 'utf8' }).trim();
-  } catch { /* Exported source tarballs can have no Git directory. */ }
+  } catch {
+    // Exported source tarballs and the Docker build stage have no Git; the Dockerfile
+    // passes the commit as OCS_COMMIT (build argument REVISION), knownbug 253.
+    const fromEnv = process.env.OCS_COMMIT?.trim();
+    if (fromEnv && fromEnv !== 'unknown') { commit = fromEnv; dirty = false; }
+  }
   return { version: JSON.parse(readFileSync('package.json', 'utf8')).version, kind, commit, dirty,
     blueprint: JSON.parse(readFileSync('src/styles/blueprint/SOURCE.json', 'utf8')).commit };
 }

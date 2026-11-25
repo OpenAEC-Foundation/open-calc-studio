@@ -931,10 +931,6 @@ stand van `main` op die datum.
 
 ## Tests en tooling
 
-253. **Het API-Docker-image meldt altijd `commit: unknown, dirty: true`.** `Dockerfile` en
-     `scripts/distribution-notices.mjs:39-40`: in het image zit geen `.git` en geen git. Afgeleid uit de code.
-     Voorstel: een env-variabele `OCS_COMMIT`, gezet vanuit het build-argument `REVISION`. — S
-
 254. **Het embed-pakket noemt gebundelde pakketten als dependencies.** `embed-sync.mjs:26-31` declareert
      `mdb-reader`, `events` en `stream-browserify` als dependencies, terwijl ze gebundeld zijn. — S
 
