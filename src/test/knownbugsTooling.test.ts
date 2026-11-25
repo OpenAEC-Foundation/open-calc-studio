@@ -35,3 +35,20 @@ describe('test configuration', () => {
     expect((platform.test.exclude ?? []).some((pattern) => matchesGlob('tests/platform/hostedPolicy.test.tsx', pattern))).toBe(false);
   });
 });
+
+describe('embed package (knownbug 254)', () => {
+  it('does not declare packages that the library build bundles as dependencies', async () => {
+    const { readFileSync } = await import('node:fs');
+    const json = (file: string) => JSON.parse(readFileSync(join(process.cwd(), file), 'utf8'));
+    const embed = json('packages/embed/package.json');
+    const root = json('package.json');
+    for (const bundled of ['xlsx', 'mdb-reader', 'events', 'stream-browserify']) {
+      expect(root.dependencies).toHaveProperty(bundled);
+      expect(embed.dependencies).not.toHaveProperty(bundled);
+    }
+    // embed-sync en vite.lib.config delen één lijst; de gecommitte package.json volgt die.
+    // @ts-expect-error -- .mjs-script zonder typedeclaratie
+    const { embedDependencies } = await import('../../scripts/embed-bundled.mjs');
+    expect(embed.dependencies).toEqual(embedDependencies(root.dependencies));
+  });
+});
