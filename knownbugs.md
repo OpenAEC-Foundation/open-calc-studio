@@ -308,11 +308,6 @@ stand van `main` op die datum.
     Gevonden bij de fix van knownbug 64. Voorstel: fouten tellen en melden; `$ErrorActionPreference='Stop'`
     pas na een test met echte bestanden. — B
 
-272. **WpCalc-export schrijft de staart niet zoals hij in de app staat.** `src/services/export/wpcalcExporter.ts`
-    haalt alle staartregels weg vóór de Rust-export, zodat `wpcalc_export.rs:345-395` ze nooit vindt; bij een
-    begroting uit WpCalc gaat de staart van de import mee, niet de huidige percentages. Gevonden bij de fix
-    van knownbug 88. — B
-
 273. **WpCalc-export vult het veld `calculaties.valuta` niet.** De import leest het sinds de valutafix wel;
     de export schrijft geen valuta (Rust-kant). Gevonden bij de valutafix. — B
 

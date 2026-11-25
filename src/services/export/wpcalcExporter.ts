@@ -9,9 +9,9 @@
  * 2. Populates all tables (calculaties, data, staart, tarieven) via ADO/OLEDB
  */
 
-import type { CostItem, CostSchedule, CompanyInfo } from '@/types/costModel';
+import type { CostItem, CostSchedule, CompanyInfo, StagartRow, StaartItemBreakdown } from '@/types/costModel';
 import { isTauriEnvironment } from '@/services/file/nativeFileService';
-import { effectiveTarieven } from '@/services/calculation/calculator';
+import { computeKostprijsBreakdown, computeStaartItemBreakdowns, effectiveTarieven } from '@/services/calculation/calculator';
 
 /**
  * Export the current budget as a WPCalc .calc file.
@@ -70,7 +70,9 @@ export function buildExportRequest(
       // De tarieven waarmee de app rekent: zonder (of met een lege) tabel de
       // standaardtarieven, anders schrijft de export loon 0 (knownbug 287).
       tarieven: effectiveTarieven(schedule),
-      staartRows: schedule.staartRows || null,
+      // De staart zoals hij nu in de app staat, niet de staartRows van een
+      // eerdere WpCalc-import (knownbug 272).
+      staartRows: buildStaartRows(items),
     },
     items: items
       .filter((item) => !item.rowType.startsWith('staart_'))
@@ -104,4 +106,75 @@ export function buildExportRequest(
         }
       : null,
   };
+}
+
+/** WpCalc-label en itemtype per staartsoort (1 = over de kolommen, 2 = over de kostprijs, 64 = btw, 128 = afronding). */
+const STAART_EXPORT: Record<string, { label: string; itemtype: number }> = {
+  staart_ak_oa: { label: 'Algemene kosten over onderaanneming:', itemtype: 1 },
+  staart_abk: { label: 'Algemene bedrijfskosten:', itemtype: 1 },
+  staart_garanties: { label: 'Garanties:', itemtype: 1 },
+  staart_wvpm: { label: 'Werkvoorbereiding & projectmanagement', itemtype: 1 },
+  staart_ukk: { label: 'Uitvoeringskosten:', itemtype: 1 },
+  staart_risico: { label: 'Risico:', itemtype: 2 },
+  staart_winst: { label: 'Winst:', itemtype: 2 },
+  staart_verzekering: { label: 'Verzekering:', itemtype: 2 },
+  staart_ak: { label: 'Algemene kosten:', itemtype: 2 },
+  staart_wr: { label: 'Winst & risico:', itemtype: 2 },
+  staart_afronding: { label: 'Afronding', itemtype: 128 },
+  staart_btw_laag: { label: 'Btw laag:', itemtype: 64 },
+  staart_btw: { label: 'Btw hoog:', itemtype: 64 },
+};
+const PHASE1 = ['staart_ak_oa', 'staart_abk', 'staart_garanties', 'staart_wvpm'];
+const PHASE2 = ['staart_risico', 'staart_winst', 'staart_verzekering', 'staart_ukk', 'staart_ak', 'staart_wr'];
+const BTW = ['staart_btw_laag', 'staart_btw'];
+
+/**
+ * Staartregels voor het WpCalc-bestand, gebouwd uit de staart_*-regels zoals
+ * de app ze nu rekent (percentage, grondslag, bedrag, lopend totaal), in de
+ * volgorde van het staartpaneel. Zonder staartregels `null`: dan schrijft de
+ * Rust-kant alleen de standaard totaalregels.
+ */
+export function buildStaartRows(items: CostItem[]): StagartRow[] | null {
+  const live = computeStaartItemBreakdowns(items);
+  const staart = live.filter((i) => i.rowType in STAART_EXPORT);
+  if (staart.length === 0) return null;
+
+  const kolommen = computeKostprijsBreakdown(live);
+  const totaalKolommen = kolommen.loon + kolommen.materiaal + kolommen.materieel + kolommen.stelpost + kolommen.onderaanneming;
+  const empty = { loon: null, materiaal: null, materieel: null, stelpost: null, onderaanneming: null, bedrag: null, subtotaal: null };
+  const totalRow = (label: string, itemtype: number, totaal: number): StagartRow =>
+    ({ label, percentage: null, ...empty, totaal, itemtype });
+  const rowOf = (item: CostItem): StagartRow => {
+    const { label, itemtype } = STAART_EXPORT[item.rowType];
+    const bd: StaartItemBreakdown | undefined = item.staartItemBreakdown;
+    return {
+      // Vaste WpCalc-labels, zodat de import elke regel weer herkent.
+      label,
+      percentage: item.rowType === 'staart_afronding' ? null : item.staartPercentage ?? null,
+      loon: bd?.loon ?? null,
+      materiaal: bd?.materiaal ?? null,
+      materieel: bd?.materieel ?? null,
+      stelpost: bd?.stelpost ?? null,
+      onderaanneming: bd?.onderaanneming ?? null,
+      bedrag: bd?.bedrag ?? null,
+      subtotaal: bd?.subtotaal ?? item.total,
+      totaal: bd?.totaal ?? null,
+      itemtype,
+    };
+  };
+  const ofTypes = (types: string[]) =>
+    types.flatMap((rt) => staart.filter((i) => i.rowType === rt)).map(rowOf);
+  const som = (rows: StagartRow[]) => rows.reduce((s, r) => s + (r.subtotaal ?? 0), 0);
+
+  const phase1 = ofTypes(PHASE1);
+  const excl = [...ofTypes(PHASE2), ...ofTypes(['staart_afronding'])];
+  const btw = ofTypes(BTW);
+  const kostprijs = totaalKolommen + som(phase1);
+  const exclBtw = kostprijs + som(excl);
+  return [
+    { ...totalRow('Totaal kolommen:', 32, totaalKolommen), ...kolommen },
+    ...phase1, totalRow('Totaal kostprijs:', 4, kostprijs),
+    ...excl, totalRow('Totaal excl. btw.:', 4, exclBtw),
+    ...btw, totalRow('Totaalprijs incl. btw.:', 4, exclBtw + som(btw)),
+  ];
 }
