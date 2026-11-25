@@ -104,6 +104,15 @@ describe('Opslaan bewaart aanmaakdatum en actief spreadsheet (knownbugs 110, 111
     expect(JSON.parse(saved[0]).createdAt).toBe('2020-01-02T03:04:05.000Z');
   });
 
+  it('houdt createdAt van een nieuw document gelijk bij elke opslag', async () => {
+    s().addDocument({ id: 'nieuw', filePath: 'C:/p/nieuw.ifcCalc', fileName: 'nieuw', items: [] });
+    await act(async () => { await ops.saveFile(); });
+    await new Promise((r) => setTimeout(r, 5));
+    await act(async () => { await ops.saveFile(); });
+    expect(saved).toHaveLength(2);
+    expect(JSON.parse(saved[1]).createdAt).toBe(JSON.parse(saved[0]).createdAt);
+  });
+
   it('bewaart en herstelt het actieve spreadsheet', async () => {
     disk.set('C:/p/project.ifcCalc', enc(projectJson()));
     await act(async () => { await ops.openRecentFile('C:/p/project.ifcCalc'); });
