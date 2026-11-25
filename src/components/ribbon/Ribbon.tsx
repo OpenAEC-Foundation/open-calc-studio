@@ -86,8 +86,11 @@ export default function Ribbon({ onFileTabClick }: RibbonProps) {
 
   const switchTab = useCallback((newTab: TabId) => {
     if (newTab === activeTab) return;
-    const oldIndex = TABS.indexOf(activeTab);
-    const newIndex = TABS.indexOf(newTab);
+    // Volgorde uit ALL_TABS (vast, zelfde volgorde als op het scherm): de
+    // gememoriseerde TABS kon verouderd zijn zodra Tekstopmaak verscheen, en
+    // dan schoof het lint de verkeerde kant op (knownbug 196).
+    const oldIndex = ALL_TABS.indexOf(activeTab);
+    const newIndex = ALL_TABS.indexOf(newTab);
     setDirection(newIndex > oldIndex ? "right" : "left");
     setPrevTab(activeTab);
     setActiveTab(newTab);

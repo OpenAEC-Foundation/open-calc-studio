@@ -662,9 +662,6 @@ stand van `main` op die datum.
 
 ## Weergave, mobiel en toegankelijkheid
 
-196. **De schuifanimatie van het lint gaat soms de verkeerde kant op** wanneer het tabblad tekstopmaak
-     verschijnt (`Ribbon.tsx:97`). Alleen cosmetisch. — S
-
 199. **Schermlezers krijgen geen informatie uit het hoofdgrid.** `CostGrid.tsx:501-509`, `GridCell.tsx:338`,
      GridRow, `GridCellEditor.tsx:252`. Afgeleid uit de code, niet in de app getest. Voorstel:
      `role=grid/row/gridcell`, `aria-rowcount`/`aria-rowindex`, `aria-activedescendant` en een label op de
