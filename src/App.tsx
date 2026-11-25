@@ -188,7 +188,7 @@ function App() {
     sendDockRequest(detachedFileRef.current, windowLabelRef.current);
   }, []);
 
-  useKeyboardShortcuts();
+  useKeyboardShortcuts({ onOpenSettings: () => setSettingsOpen(true) });
 
   // Load test-begroting on startup
   const defaultLoaded = useRef(false);

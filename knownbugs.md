@@ -35,9 +35,6 @@ stand van `main` op die datum.
     `CostGrid.tsx:330-352`. Voorstel: een celbereik bij knippen omzetten naar regels, of de sleepactie de actieve
     regel laten bijwerken. — S
 
-39. **Het menu Bestand toont "Ctrl+," bij Voorkeuren, maar er is geen handler.**
-    `src/components/backstage/Backstage.tsx:683`. Voorstel: de sneltoets koppelen of het label weghalen. — S
-
 40. **"Wat is nieuw" gooit offline de opgeslagen release notes weg.**
     `src/components/welcome/ReleaseNotesPanel.tsx:138`: verouderde closure, `releases` is in de catch altijd
     null. Voorstel: `setReleases(prev => prev?.length ? prev : mergeReleases([]))`. — S

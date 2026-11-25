@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import i18next from 'i18next';
 import { useAppStore } from '@/state/appStore';
 import { useFileOperations } from './useFileOperations';
@@ -17,7 +17,10 @@ function getSelectedItems() {
   return selectedGridItems(gridRows, indices);
 }
 
-export function useKeyboardShortcuts() {
+/** `onOpenSettings`: Ctrl+, opent de voorkeuren, zoals het menu Bestand belooft (knownbug 39). */
+export function useKeyboardShortcuts(options: { onOpenSettings?: () => void } = {}) {
+  const openSettings = useRef(options.onOpenSettings);
+  openSettings.current = options.onOpenSettings;
   const {
     insertRegelBelow, undo, redo, setItems, items, pushHistory,
     activeRow, deleteItem, activeCol,
@@ -91,6 +94,9 @@ export function useKeyboardShortcuts() {
       } else if (ctrl && e.key === '0') {
         e.preventDefault();
         useAppStore.getState().setUiZoom(100);
+      } else if (ctrl && !e.altKey && e.key === ',' && openSettings.current) {
+        e.preventDefault();
+        openSettings.current();
       } else if (letter('p')) {
         e.preventDefault();
         // Dezelfde route als de printknop in het lint: met de rapportopties (hoeveelheden, bedrijfsgegevens, papier).
