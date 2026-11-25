@@ -70,35 +70,15 @@ stand van `main` op die datum.
 
 ## Spreadsheets
 
-48. **Een negatieve waarde in een verwijzing breekt de formule.** In `subSheetSlice.ts:365-370, 378`.
-    Nagespeeld: A1=`-5`; `=10-A1` wordt `10--5`, een syntaxfout, dus de cel toont de kale formule. `=-A1` faalt
-    op dezelfde manier. Voorstel: invullen als `(${value})`. — B
-
 49. **Een cel bewerken of leegmaken wist de opmaak.** `subSheetSlice.ts:106` schrijft `{ value }`; ook Delete,
     Knippen en Wissen in `SubSheetEditor.tsx:163, 419, 655` (bij de tweede controle bevestigd op deze regels;
     eerder stond er 164, 419, 656). Vet, valutanotatie, randen enzovoort zijn weg zodra je een nieuwe waarde
     typt. Voorstel: `{ ...ss.cells[cellRef], value, computed: undefined }`. — B
 
-50. **Absolute verwijzingen (`$A$1`) worden niet geëvalueerd, terwijl plakken ze wel schrijft.** De regexen in
-    `subSheetSlice.ts:357-370` staan geen `$` toe. Nagespeeld: `=$A$1*2` en `=SUM($A$1:$A$2)` verschijnen als
-    kale formuletekst. `shiftFormulaRefs` maakt zulke verwijzingen bewust bij plakken. Voorstel: `\$?` toestaan
-    vóór kolom en rij en de `$` weghalen vóór het opzoeken. — B
-
-51. **`SUM` met een omgekeerd bereik of kolommen van twee letters geeft 0.** In `subSheetSlice.ts:396-403`.
-    Nagespeeld: `=SUM(A3:A1)` geeft 0 (moet 6 zijn). `=SUM(Z1:AA1)` geeft 0, omdat alleen `charCodeAt(0)` wordt
-    gebruikt (speelt alleen bij meer dan 26 kolommen). Voorstel: min/max van rijen en kolommen nemen en
-    `colIndexFromLabel` uit `formulaRefs.ts` hergebruiken. — B
-
 52. **MCP `set_cells_batch` slaat formules op zonder ze te berekenen.** `src/services/mcp/mcpBridge.ts:263-266`
     schrijft `{ value }` zonder `computed` (en wist de opmaak). `=A1*2` verschijnt als kale tekst; `6,66` zonder
     `computed` geeft via `parseFloat` 6 in `quantityOrigin.ts:25`. Voorstel: hetzelfde evaluatiepad gebruiken
     als `setSubSheetCell`. — S
-
-53. **Een verwezen cel met tekst of een fout telt stilletjes als 0.** `=A1+1` geeft 1 in plaats van een fout.
-    — B
-
-54. **Een heel kleine waarde in een verwijzing laat de formule mislukken.** A1=`0,0000001` wordt ingevuld als
-    `1e-7`; dat valt door de controle op toegestane tekens, dus `=A1*2` geeft geen resultaat. — B
 
 55. **Ctrl+Z in de ene deelspreadsheet maakt een bewerking in een andere ongedaan.** Er is één stapel voor alle
     bladen (`src/state/slices/spreadsheetHistorySlice.ts:42-59`, `SubSheetEditor.tsx:206-227`). Nagespeeld.
@@ -111,14 +91,6 @@ stand van `main` op die datum.
 57. **Op macOS maakt Cmd+Z in een spreadsheet de begroting ongedaan.**
     `src/components/grid/SubSheetEditor.tsx:213-219` kijkt alleen naar `ctrlKey`, dus het event valt door naar `useKeyboardShortcuts.ts:41` (dat `metaKey` wel
     accepteert). Afgeleid uit de code. Voorstel: `|| e.metaKey`. — S
-
-268. **Een cel die naar een kringverwijzing verwijst, krijgt toch een getal.** `recalcSheetCells` in
-    `src/state/slices/subSheetSlice.ts`: alleen de cellen in de kring verliezen hun waarde; een cel die erop
-    leunt rekent met 0. Voorbeeld: A1=`=B1`, B1=`=A1`, C1=`=A1+1` geeft C1 = 1 in plaats van ongeldig, en dat
-    getal kan in een gekoppelde hoeveelheid terechtkomen. Ook: de evaluatie is recursief, dus een heel lange
-    keten (duizenden rijen, zoals een lopend totaal) kan de stack laten overlopen; die cellen blijven dan stil
-    leeg. Gevonden in de review van PR #70. Voorstel: "ongeldig" doorgeven aan afhankelijke cellen, en de
-    volgorde iteratief bepalen (topologisch sorteren). — S
 
 275. **Een deelbladcel met 1.234 kopiëren en terugplakken in de Nederlandse notatie geeft 1234.** Het verlies
     van opmaak bij elke bewerking is punt 49. Gevonden bij de valutafix. — B
