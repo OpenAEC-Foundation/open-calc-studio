@@ -1,7 +1,10 @@
-import { checkWorkbookBytes } from './safeWorkbook';
+import { checkWorkbookBytes, WORKBOOK_LIMITS } from './safeWorkbook';
 let running = 0;
 export function runImportWorker<T>(kind: 'tabular' | 'budget' | 'bascalc' | 'inschrijfstaat', data: ArrayBuffer, fileName: string): Promise<T> {
-  checkWorkbookBytes(new Uint8Array(data));
+  // Een CSV is tekst, geen ZIP: alleen de grootte controleren, anders wordt
+  // een CSV die met "PK" begint als kapotte ZIP geweigerd (knownbug 102).
+  if (!/\.csv$/i.test(fileName)) checkWorkbookBytes(new Uint8Array(data));
+  else if (data.byteLength > WORKBOOK_LIMITS.bytes) throw Error('Spreadsheet exceeds 64 MiB.');
   if (running >= 4) return Promise.reject(Error('Four imports are already running. Wait for an import to finish.'));
   return new Promise<T>((resolve, reject) => {
     const worker = new Worker(new URL('./importWorker.ts', import.meta.url), { type: 'module' });

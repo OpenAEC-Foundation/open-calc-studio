@@ -34,8 +34,8 @@ export async function importBudget(data: ArrayBuffer, fileName: string): Promise
       return { ...(await import('../services/importers/wpcalcImporter')).importWpCalcFile(data), warnings: [], format: 'wpcalc' };
     }
     case 'csv': case 'xlsx': {
-      const { parseCsv, parseXlsxTabular, autoDetectMapping, buildFromMapping } = await import('../services/importers/genericTabularImporter');
-      const table = extension === 'csv' ? parseCsv(text(), fileName) : parseXlsxTabular(data, fileName);
+      const { decodeCsvText, parseCsv, parseXlsxTabular, autoDetectMapping, buildFromMapping } = await import('../services/importers/genericTabularImporter');
+      const table = extension === 'csv' ? parseCsv(decodeCsvText(data), fileName) : parseXlsxTabular(data, fileName);
       return buildFromMapping(table, autoDetectMapping(table.headers));
     }
     case 'rsx': return (await import('../services/importers/rsxImporter')).importRsx(text());

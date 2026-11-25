@@ -128,12 +128,6 @@ stand van `main` op die datum.
 
 ## Bestanden, import en export
 
-60. **Generieke CSV-import verminkt een `"` binnen een veld en geciteerde velden over meerdere regels.**
-    `src/services/importers/genericTabularImporter.ts:70-91, 96`. Nagespeeld: `Buis 4" PVC;10;m` geeft één cel;
-    `"Regel 1\nRegel 2";10;m` geeft twee kapotte rijen, en Excel schrijft cellen met meerdere regels precies
-    zo. Voorstel: één state machine teken voor teken over de hele tekst, waarbij `"` alleen aan het begin van
-    een veld als openingsaanhalingsteken telt (of SheetJS gebruiken). — B
-
 61. **Het Open-venster accepteert bestandstypen die niet te openen zijn, en een recente `.dnc` verdwijnt uit de
     lijst.** `src/hooks/useFileOperations.ts:298` en `:213-266`; tweede controle plaatst het dialoogfilter op
     `nativeFileService.ts:7` en de binaire lijst op r.68 (eerder gemeld als `nativeFileService.ts:8,16`).
@@ -202,11 +196,6 @@ stand van `main` op die datum.
     `excelLinkService.ts:119`. Voorstel: geef een fout bij `t === 'e'`, zoals `tabularBudget.ts:52` al doet.
     Tweede controle bevestigt het; het deel over `t === 'b'` is niet nodig. — B
 
-81. **Algemene Excel-import: een titelregel of een lege kopcel maakt kolommen onkoppelbaar.**
-    `src/services/importers/genericTabularImporter.ts:115-121`. `best[0]` wordt altijd als kopregel genomen, en
-    een `headers`-array met gaten verbergt kolommen in de ColumnMappingDialog. Voorstel: `defval: ''`, de koppen
-    aanvullen, en de kopregel herkennen (≥2 niet-lege cellen). — B
-
 83. **Nederlandse decimalen die als tekst zijn opgeslagen, worden in de Excel-koppeling afgekapt (`"6,5"` → 6).**
     `excelLinkService.ts:119`, `ExcelCellPicker.tsx:125` (`parseFloat`; `|| null` maakt van `"0"` bovendien
     "geen waarde"). Voorstel: strikt parsen met kommaverwerking. — B
@@ -214,12 +203,6 @@ stand van `main` op die datum.
 84. **Verversen leest dezelfde werkmap één keer per gekoppelde post (laag).** `excelLinkService.ts:83-100`
     (`Promise.all` zonder promise-cache); `HomeTab.tsx:226-227` overschrijft bovendien wijzigingen die tijdens een
     trage verversing zijn gedaan. Voorstel: de leespromise per bestand cachen. — B
-
-85. **Automatische kopherkenning mist `Prijs (€)`, `Totaal €`, `Hoeveelheid (m2)`, `Eenh.` en `Prijs/eh`**
-    (`genericTabularImporter.ts:147`). — B
-
-86. **Profielimport weigert `St` en `M` met "Unmapped unit"**: eenheden zijn hoofdlettergevoelig
-    (`tabularBudget.ts:62`). — B
 
 87. **BasCalc: een tweede `cb`-blok in een post komt binnen het eerste te hangen.**
     `src/services/importers/bascalcImporter.ts:298-324`; oorzaak op r.170-176: `cp` wordt weggegooid en alleen
@@ -269,9 +252,6 @@ stand van `main` op die datum.
 101. **Een echt IfcX-bestand faalt bij de algemene import met "Invalid file format".** De inhoudsherkenning
      stuurt het verkeerd door (`lib/importers.ts:12-16`, `hostFileActions.ts:21`, MCP `fileCommands.ts:10`).
      Nagespeeld. Voorstel: bij `Array.isArray(parsed.data)` → `importIfcx`. — B
-
-102. **Een CSV die met "PK" begint (bv. `PK-nummer;…`) wordt geweigerd als ongeldige ZIP.**
-     `importWorkerClient.ts:4`. Gezien in de code. Voorstel: geen ZIP-controle voor CSV. — S
 
 103. **CUF: subhoofdstukken en alle regels gaan verloren bij opnieuw importeren.** De exporter schrijft geneste
      `<Hoofdstuk>` (`cufExporter.ts:44`) en `<Regel>` (`cufExporter.ts:60-62`); de importer leest alleen `<Post>`
@@ -977,9 +957,6 @@ stand van `main` op die datum.
     van 15 s uit `vite.config.ts`. Gevonden bij de fix van knownbug 258. — B
 
 ## Wensen en open taken (geen bug)
-
-260. **CSV wordt alleen als UTF-8 gedecodeerd** (mogelijk bewust, niet als bug gemeld). Een Windows-1252-CSV uit
-     Nederlandstalige Excel geeft vervangingstekens of wordt geweigerd. — S
 
 261. **Het actieve tabblad sluiten springt naar het eerste tabblad** (mogelijk bewust).
      `src/state/slices/documentSlice.ts:83` (`filtered[0]`). Nagespeeld: met tabbladen a, b, c, d komt het

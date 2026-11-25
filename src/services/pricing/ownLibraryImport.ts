@@ -4,7 +4,7 @@
 // are the same as for the built-in libraries.
 import type { ResourceLibraryItem, ResourceType } from '@/types/costModel';
 import { uiText } from '@/i18n/uiText';
-import { parseCsv, parseXlsxTabular, autoDetectMapping, type TabularData } from '@/services/importers/genericTabularImporter';
+import { decodeCsvText, parseCsv, parseXlsxTabular, autoDetectMapping, type TabularData } from '@/services/importers/genericTabularImporter';
 import { importBmecat } from '@/services/importers/bmecatImporter';
 import { importZsx } from '@/services/importers/zsxImporter';
 import { parseAmount } from '@/services/importers/core';
@@ -39,7 +39,7 @@ export function readOwnLibraryTable(fileName: string, content: string | ArrayBuf
     if (typeof content === 'string') throw invalid('expected a binary Excel file.');
     return parseXlsxTabular(content, fileName);
   }
-  if (/\.(csv|tsv|txt)$/i.test(fileName)) return parseCsv(typeof content === 'string' ? content : new TextDecoder().decode(content), fileName);
+  if (/\.(csv|tsv|txt)$/i.test(fileName)) return parseCsv(typeof content === 'string' ? content : decodeCsvText(content), fileName);
   return null;
 }
 
