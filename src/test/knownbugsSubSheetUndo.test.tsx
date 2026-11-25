@@ -41,6 +41,17 @@ describe('stapel per blad (knownbug 55)', () => {
     expect(value(a, 'A1')).toBe('a2');
   });
 
+  it('veel bewerkingen in blad B duwen de stappen van blad A niet weg', () => {
+    for (let n = 0; n < 60; n++) useAppStore.getState().setSubSheetCell(b, 'A1', `b${n}`);
+    const steps = (id: string) =>
+      useAppStore.getState().spreadsheetUndo.filter((e) => e.sheetId === id).length;
+    expect(steps(b)).toBe(50);
+    expect(steps(a)).toBe(2);
+    useAppStore.getState().undoSpreadsheet(a);
+    useAppStore.getState().undoSpreadsheet(a);
+    expect(value(a, 'A1')).toBeUndefined();
+  });
+
   it('doet niets als het blad zelf geen geschiedenis heeft', () => {
     const c = useAppStore.getState().addSubSheet('C');
     useAppStore.getState().undoSpreadsheet(c);

@@ -37,6 +37,18 @@ function lastStepOf(stack: Snapshot[], sheetId?: string): number {
   return -1;
 }
 
+/** De stapel zonder de oudste stap van dit blad als dat blad al MAX_HISTORY stappen heeft. */
+function dropOldestOf(stack: Snapshot[], sheetId: string): Snapshot[] {
+  let count = 0;
+  let oldest = -1;
+  for (let i = 0; i < stack.length; i++) {
+    if (stack[i].sheetId !== sheetId) continue;
+    if (oldest < 0) oldest = i;
+    count++;
+  }
+  return count >= MAX_HISTORY ? stack.filter((_, i) => i !== oldest) : stack;
+}
+
 export const createSpreadsheetHistorySlice: StateCreator<
   SpreadsheetHistorySlice & Deps,
   [],
@@ -68,8 +80,10 @@ export const createSpreadsheetHistorySlice: StateCreator<
 
     pushSpreadsheetSnapshot: (sheet) =>
       set((s) => ({
+        // Maximum per blad: veel bewerkingen in blad B duwen de stappen van
+        // blad A niet weg (knownbug 55).
         spreadsheetUndo: [
-          ...s.spreadsheetUndo.slice(-(MAX_HISTORY - 1)),
+          ...dropOldestOf(s.spreadsheetUndo, sheet.id),
           { sheetId: sheet.id, snapshot: JSON.parse(JSON.stringify(sheet)) },
         ],
         // Alleen de redo van dit blad vervalt; die van andere bladen blijft (knownbug 55).

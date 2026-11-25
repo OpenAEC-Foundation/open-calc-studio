@@ -44,6 +44,31 @@ describe('verwijzingen invullen', () => {
   });
 });
 
+describe('opeenvolgende plus- en mintekens', () => {
+  it('leest -- en ++ voor een verwijzing als twee tekens, zoals Excel', () => {
+    set('A1', '5');
+    set('B1', '=--A1');
+    set('B2', '=2*++A1');
+    set('B3', '=A1--A1');
+    set('B4', '=A1++A1');
+    set('B5', '=--5');
+    expect(computed('B1')).toBe(5);
+    expect(computed('B2')).toBe(10);
+    expect(computed('B3')).toBe(10);
+    expect(computed('B4')).toBe(10);
+    expect(computed('B5')).toBe(5);
+    expect(computed('A1')).toBe(5);
+  });
+
+  it('geeft een fout bij ++ of -- na een verwijzing', () => {
+    set('A1', '5');
+    set('B1', '=A1++');
+    set('B2', '=A1--');
+    expect(computed('B1')).toBeUndefined();
+    expect(computed('B2')).toBeUndefined();
+  });
+});
+
 describe('SUM', () => {
   it('telt een omgekeerd bereik op (knownbug 51)', () => {
     set('A1', '1');

@@ -503,8 +503,13 @@ function evaluateFormula(
 
     // Evaluate the math expression safely (only allow numbers, operators and slots)
     if (!ALLOWED_RE.test(processed)) return null;
+    // `--A1` is in Excel twee keer min (= A1), in JS een decrement. Zet
+    // daarom een spatie tussen opeenvolgende + en -, en geef een slot door als
+    // `(+v[i])`, waar ++/-- niet op kunnen: `=--A1` geeft A1, `=A1++` een fout.
     let i = 0;
-    const body = processed.replace(SLOT_RE, () => `v[${i++}]`);
+    const body = processed
+      .replace(/([+-])(?=[+-])/g, '$1 ')
+      .replace(SLOT_RE, () => `(+v[${i++}])`);
     const result = Function('v', `"use strict"; return (${body})`)(values);
     return typeof result === 'number' && isFinite(result) ? result : null;
   } catch {
