@@ -926,6 +926,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Nessuna tabella KK (voci) trovata nel file .DNC."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} unità senza equivalente è stata mantenuta invariata: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} unità senza equivalente sono state mantenute invariate: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Nessun elemento <ARTICLE>/<PRODUCT> trovato. È un catalogo BMEcat/DICO?",
         "noUsableArticlesWithACodeOr": "Nessun articolo utilizzabile con codice o descrizione trovato."

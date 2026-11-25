@@ -928,6 +928,12 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "W pliku .DNC nie znaleziono tabeli KK (pozycje)."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} jednostkę bez odpowiednika zachowano bez zmian: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} jednostek bez odpowiednika zachowano bez zmian: {{examples}}.",
+        "unknownUnitsKept_few": "{{count}} jednostki bez odpowiednika zachowano bez zmian: {{examples}}.",
+        "unknownUnitsKept_many": "{{count}} jednostek bez odpowiednika zachowano bez zmian: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Nie znaleziono elementów <ARTICLE>/<PRODUCT>. Czy to katalog BMEcat/DICO?",
         "noUsableArticlesWithACodeOr": "Nie znaleziono użytecznych artykułów z kodem lub opisem."

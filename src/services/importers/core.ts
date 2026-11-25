@@ -8,6 +8,7 @@
  */
 import type { CostItem, CostUnit, RowType } from '@/types/costModel';
 import { CURRENCY_CODES } from '@/utils/currencies';
+import { uiText } from '../../i18n/uiText';
 
 // ── id / guid ───────────────────────────────────────────────────────────────
 
@@ -142,8 +143,27 @@ const UNIT_MAP: Record<string, CostUnit> = {
 
 /** Normaliseer een vrije eenheid-tekst ("m3", "M²", "stuks") naar CostUnit. */
 export function normalizeUnit(raw: string | null | undefined): CostUnit {
+  return matchUnit(raw) ?? 'st';
+}
+
+/** Als `normalizeUnit`, maar `null` voor een eenheid die we niet kennen. */
+export function matchUnit(raw: string | null | undefined): CostUnit | null {
   const s = (raw ?? '').trim().toLowerCase();
-  return UNIT_MAP[s] ?? 'st';
+  return UNIT_MAP[s] ?? null;
+}
+
+/**
+ * Melding voor eenheden zonder tegenhanger die een importer ongewijzigd heeft
+ * overgenomen (zoals ÖNORM doet); `null` als er geen waren.
+ */
+export function unknownUnitsWarning(units: Set<string>): string | null {
+  if (units.size === 0) return null;
+  const examples = Array.from(units).slice(0, 8).join(', ');
+  return uiText(
+    'diagnostics.importUnits.unknownUnitsKept',
+    '{{count}} units without an equivalent here were kept unchanged: {{examples}}.',
+    { count: units.size, examples },
+  );
 }
 
 // ── CostItem-fabriek ──────────────────────────────────────────────────────

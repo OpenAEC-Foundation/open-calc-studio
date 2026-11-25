@@ -926,6 +926,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": ".DNC-tiedostosta ei löytynyt KK-taulua (nimikkeet)."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} yksikkö ilman vastinetta säilytettiin sellaisenaan: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} yksikköä ilman vastinetta säilytettiin sellaisenaan: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "<ARTICLE>/<PRODUCT>-elementtejä ei löytynyt. Onko tämä BMEcat/DICO-luettelo?",
         "noUsableArticlesWithACodeOr": "Käyttökelpoisia artikkeleita, joilla on koodi tai kuvaus, ei löytynyt."

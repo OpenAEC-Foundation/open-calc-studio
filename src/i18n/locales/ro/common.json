@@ -927,6 +927,11 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Nu s-a găsit niciun tabel KK (articole) în fișierul .DNC."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} unitate fără echivalent a fost păstrată neschimbată: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} de unități fără echivalent au fost păstrate neschimbate: {{examples}}.",
+        "unknownUnitsKept_few": "{{count}} unități fără echivalent au fost păstrate neschimbate: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Nu s-au găsit elemente <ARTICLE>/<PRODUCT>. Este acesta un catalog BMEcat/DICO?",
         "noUsableArticlesWithACodeOr": "Nu s-au găsit articole utilizabile cu cod sau denumire."

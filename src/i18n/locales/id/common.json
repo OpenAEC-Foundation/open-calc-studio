@@ -926,6 +926,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Tidak ditemukan tabel KK (pos) dalam berkas .DNC."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} satuan tanpa padanan dipertahankan apa adanya: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} satuan tanpa padanan dipertahankan apa adanya: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Tidak ditemukan elemen <ARTICLE>/<PRODUCT>. Apakah ini katalog BMEcat/DICO?",
         "noUsableArticlesWithACodeOr": "Tidak ditemukan artikel yang dapat digunakan dengan kode atau uraian."

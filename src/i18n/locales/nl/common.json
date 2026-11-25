@@ -926,6 +926,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Geen KK-tabel (posten) gevonden in het .DNC-bestand."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} eenheid zonder tegenhanger is ongewijzigd overgenomen: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} eenheden zonder tegenhanger zijn ongewijzigd overgenomen: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Geen <ARTICLE>/<PRODUCT> elementen gevonden — is dit een BMEcat/DICO-catalogus?",
         "noUsableArticlesWithACodeOr": "Geen bruikbare artikelen met code of omschrijving gevonden."

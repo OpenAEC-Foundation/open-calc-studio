@@ -926,6 +926,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": ".DNC dosyasında KK tablosu (kalemler) bulunamadı."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "Karşılığı olmayan {{count}} birim değiştirilmeden korundu: {{examples}}.",
+        "unknownUnitsKept_other": "Karşılığı olmayan {{count}} birim değiştirilmeden korundu: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "<ARTICLE>/<PRODUCT> öğesi bulunamadı. Bu bir BMEcat/DICO kataloğu mu?",
         "noUsableArticlesWithACodeOr": "Kodu veya açıklaması olan kullanılabilir ürün bulunamadı."

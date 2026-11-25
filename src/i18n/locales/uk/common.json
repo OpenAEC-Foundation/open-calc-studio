@@ -926,6 +926,12 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "У файлі .DNC не знайдено таблиці KK (позиції)."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} одиницю без відповідника збережено без змін: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} одиниць без відповідника збережено без змін: {{examples}}.",
+        "unknownUnitsKept_few": "{{count}} одиниці без відповідника збережено без змін: {{examples}}.",
+        "unknownUnitsKept_many": "{{count}} одиниць без відповідника збережено без змін: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Не знайдено елементів <ARTICLE>/<PRODUCT>. Це каталог BMEcat/DICO?",
         "noUsableArticlesWithACodeOr": "Не знайдено придатних артикулів з кодом або описом."

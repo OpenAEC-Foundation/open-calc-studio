@@ -926,6 +926,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Không tìm thấy bảng KK (các mục) trong tệp .DNC."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} đơn vị không có đơn vị tương ứng được giữ nguyên: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} đơn vị không có đơn vị tương ứng được giữ nguyên: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Không tìm thấy phần tử <ARTICLE>/<PRODUCT> nào. Đây có phải danh mục BMEcat/DICO không?",
         "noUsableArticlesWithACodeOr": "Không tìm thấy mặt hàng dùng được nào có mã hoặc mô tả."

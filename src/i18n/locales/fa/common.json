@@ -926,6 +926,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "هیچ جدول KK (ردیف‌ها) در فایل ‎.DNC یافت نشد."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} واحد بدون معادل بدون تغییر نگه داشته شد: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} واحد بدون معادل بدون تغییر نگه داشته شدند: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "هیچ عنصر <ARTICLE>/<PRODUCT> یافت نشد. آیا این یک کاتالوگ BMEcat/DICO است؟",
         "noUsableArticlesWithACodeOr": "هیچ کالای قابل استفاده‌ای با کد یا شرح یافت نشد."

@@ -168,14 +168,6 @@ stand van `main` op die datum.
 70. **Openen vanuit de cloud laat offerte, bedrijfsgegevens, spreadsheets, snapshots en projectinfo vallen**
     (`CloudPanel.tsx:100-110`). Zelfde soort bug als #58. — S
 
-71. **BMEcat: eenheidscodes uit UN/ECE Rec 20 (MTR, MTK, MTQ, KGM, TNE, C62, PCE) worden allemaal "st".**
-    `src/services/importers/bmecatImporter.ts:306`. Voorstel: een Rec 20-vertaaltabel toevoegen, en waarschuwen
-    bij onbekende eenheden. — B
-
-72. **BMEcat negeert `PRICE_QUANTITY`, waardoor de eenheidsprijs 10–1000× te hoog is.**
-    `bmecatImporter.ts:309-313`. € 145 per 100 m wordt € 145/m. Voorstel: deel door `PRICE_QUANTITY` als die
-    groter is dan 0. — B
-
 73. **GAEB-langteksten plakken alinea's aan elkaar zonder spatie of regeleinde.**
     `src/services/importers/gaebImporter.ts:26-33`. `<p>Zeile eins</p><p>Zeile zwei</p>` wordt
     "Zeile einsZeile zwei"; ook `<br/>` gaat verloren. Voorstel: een doorloper in de stijl van `a2063TextLines`

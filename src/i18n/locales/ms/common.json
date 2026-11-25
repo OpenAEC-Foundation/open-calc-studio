@@ -926,6 +926,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Tiada jadual KK (butiran) ditemui dalam fail .DNC."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} unit tanpa padanan dikekalkan tanpa perubahan: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} unit tanpa padanan dikekalkan tanpa perubahan: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Tiada elemen <ARTICLE>/<PRODUCT> ditemui. Adakah ini katalog BMEcat/DICO?",
         "noUsableArticlesWithACodeOr": "Tiada artikel yang boleh digunakan dengan kod atau huraian ditemui."

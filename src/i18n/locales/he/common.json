@@ -928,6 +928,12 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "לא נמצאה טבלת KK (סעיפים) בקובץ ה-.DNC."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} יחידה ללא מקבילה נשמרה ללא שינוי: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} יחידות ללא מקבילה נשמרו ללא שינוי: {{examples}}.",
+        "unknownUnitsKept_two": "שתי יחידות ללא מקבילה נשמרו ללא שינוי: {{examples}}.",
+        "unknownUnitsKept_many": "{{count}} יחידות ללא מקבילה נשמרו ללא שינוי: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "לא נמצאו רכיבי <ARTICLE>/<PRODUCT>. האם זהו קטלוג BMEcat/DICO?",
         "noUsableArticlesWithACodeOr": "לא נמצאו פריטים שמישים עם קוד או תיאור."

@@ -926,6 +926,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Hakuna jedwali la KK (vipengele) lililopatikana katika faili ya .DNC."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "Kipimo {{count}} kisicho na kilinganifu kimehifadhiwa bila mabadiliko: {{examples}}.",
+        "unknownUnitsKept_other": "Vipimo {{count}} visivyo na vilinganifu vimehifadhiwa bila mabadiliko: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Hakuna elementi za <ARTICLE>/<PRODUCT> zilizopatikana. Je, hii ni katalogi ya BMEcat/DICO?",
         "noUsableArticlesWithACodeOr": "Hakuna bidhaa zinazoweza kutumika zenye msimbo au maelezo zilizopatikana."

@@ -930,6 +930,14 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "لم يتم العثور على جدول KK (البنود) في ملف .DNC."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "تم الاحتفاظ بـ {{count}} وحدة بلا مقابل دون تغيير: {{examples}}.",
+        "unknownUnitsKept_other": "تم الاحتفاظ بـ {{count}} وحدة بلا مقابل دون تغيير: {{examples}}.",
+        "unknownUnitsKept_zero": "لا توجد وحدات بلا مقابل.",
+        "unknownUnitsKept_two": "تم الاحتفاظ بوحدتين بلا مقابل دون تغيير: {{examples}}.",
+        "unknownUnitsKept_few": "تم الاحتفاظ بـ {{count}} وحدات بلا مقابل دون تغيير: {{examples}}.",
+        "unknownUnitsKept_many": "تم الاحتفاظ بـ {{count}} وحدة بلا مقابل دون تغيير: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "لم يتم العثور على عناصر <ARTICLE>/<PRODUCT>. هل هذا كتالوج BMEcat/DICO؟",
         "noUsableArticlesWithACodeOr": "لم يتم العثور على مواد قابلة للاستخدام بكود أو وصف."

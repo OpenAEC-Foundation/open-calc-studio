@@ -926,6 +926,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Nem található KK tábla (tételek) a .DNC fájlban."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} megfelelő nélküli egység változatlanul átvéve: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} megfelelő nélküli egység változatlanul átvéve: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Nem található <ARTICLE>/<PRODUCT> elem. Ez biztosan BMEcat/DICO katalógus?",
         "noUsableArticlesWithACodeOr": "Nem található használható cikk kóddal vagy megnevezéssel."

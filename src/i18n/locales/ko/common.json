@@ -926,6 +926,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": ".DNC 파일에서 KK 테이블(항목)을 찾을 수 없습니다."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "대응 단위가 없는 단위 {{count}}개를 그대로 유지했습니다: {{examples}}.",
+        "unknownUnitsKept_other": "대응 단위가 없는 단위 {{count}}개를 그대로 유지했습니다: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "<ARTICLE>/<PRODUCT> 요소를 찾을 수 없습니다. BMEcat/DICO 카탈로그가 맞습니까?",
         "noUsableArticlesWithACodeOr": "코드나 명칭이 있는 사용 가능한 품목을 찾을 수 없습니다."

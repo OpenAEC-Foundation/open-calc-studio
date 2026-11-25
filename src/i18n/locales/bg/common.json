@@ -926,6 +926,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "В .DNC файла не е намерена KK таблица (позиции)."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} единица без съответствие е запазена без промяна: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} единици без съответствие са запазени без промяна: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Не са намерени елементи <ARTICLE>/<PRODUCT>. Това BMEcat/DICO каталог ли е?",
         "noUsableArticlesWithACodeOr": "Не са намерени използваеми артикули с код или описание."
