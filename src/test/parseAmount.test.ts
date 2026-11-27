@@ -73,6 +73,18 @@ describe('parseAmount: text around the number (knownbug 279)', () => {
     ['1.5e3', 1500],
     ['₹1,23,456.50', 123456.5],
     ["1'234'567", 1234567],
+    // Review: a round amount with a separator after it ("1.250,-") keeps its
+    // thousands separator, as before 279; it is not 1.25.
+    ['1.250,-', 1250],
+    ['12.500,-', 12500],
+    ['-1.250,-', -1250],
+    ['1.250,=', 1250],
+    ['1.250.-', 1250],
+    ['1.250,', 1250],
+    ['1,250.', 1250],
+    ['125,-', 125],
+    ['1.250.000,-', 1250000],
+    ['12,50,-', 12.5],
   ])('%s → %d', (raw, value) => {
     const r = parseAmount(raw);
     expect(r.invalid).toBe(false);
