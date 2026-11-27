@@ -7,6 +7,7 @@ import { SubSheetBorderPicker } from './SubSheetBorderPicker';
 import { shiftFormulaRefs } from '@/services/spreadsheet/formulaRefs';
 import type { CellBorder } from '@/types/costModel';
 import { cellDecimals, cellDisplayText } from '@/services/spreadsheet/cellDisplay';
+import { decimalSeparator } from '@/utils/formatting';
 
 const COL_WIDTH = 90;
 const ROW_HEIGHT = 24;
@@ -113,7 +114,11 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
       for (let c = minCol; c <= maxCol; c++) {
         const ref = `${colLabel(c)}${r}`;
         const cell = sheet.cells[ref];
-        cols.push(cell?.computed !== undefined ? String(cell.computed) : (cell?.value || ''));
+        // Getal met het decimaalteken van de app: "1,234" en niet "1.234", dat
+        // plakken (en Excel) in NL-notatie als 1234 leest (knownbug 275).
+        cols.push(cell?.computed !== undefined
+          ? String(cell.computed).replace('.', decimalSeparator())
+          : (cell?.value || ''));
         rawCols.push(cell?.value || '');
       }
       rows.push(cols.join('\t'));
@@ -212,22 +217,24 @@ export function SubSheetEditor({ sheetId }: { sheetId: string }) {
       const active = document.activeElement as HTMLElement | null;
       if (!active?.closest('.subsheet-container')) return;
 
-      if (e.ctrlKey && !e.shiftKey && (e.key === 'z' || e.key === 'Z')) {
+      // Cmd op macOS (knownbug 57); alleen de geschiedenis van dit blad (knownbug 55).
+      const mod = e.ctrlKey || e.metaKey;
+      if (mod && !e.shiftKey && (e.key === 'z' || e.key === 'Z')) {
         e.preventDefault();
         e.stopPropagation();
-        useAppStore.getState().undoSpreadsheet();
+        useAppStore.getState().undoSpreadsheet(sheetId);
       } else if (
-        (e.ctrlKey && (e.key === 'y' || e.key === 'Y')) ||
-        (e.ctrlKey && e.shiftKey && (e.key === 'z' || e.key === 'Z'))
+        (mod && (e.key === 'y' || e.key === 'Y')) ||
+        (mod && e.shiftKey && (e.key === 'z' || e.key === 'Z'))
       ) {
         e.preventDefault();
         e.stopPropagation();
-        useAppStore.getState().redoSpreadsheet();
+        useAppStore.getState().redoSpreadsheet(sheetId);
       }
     };
     window.addEventListener('keydown', onKeyDown, true);
     return () => window.removeEventListener('keydown', onKeyDown, true);
-  }, []);
+  }, [sheetId]);
 
   // Listen for ribbon formatting actions
   useEffect(() => {
