@@ -61,7 +61,7 @@
     "tradDesc": "IBIS Trad 交换格式（.xml）",
     "rsxDesc": "CROW RAW 规范交换格式（.rsx/.xml）",
     "rsuDesc": "较旧的 RAW 交换格式（.rsu）—— 走 RSX 通道",
-    "bc3Desc": "西班牙预算（.bc3）；价格手册也会作为预算打开",
+    "bc3Desc": "西班牙预算 (.bc3)；价格数据库请在下方“价格库”中导入",
     "onlvDesc": "奥地利 ÖNORM A 2063 工程量清单 (.onlv) 或标准文本目录 (.onlb)",
     "zsxTitle": "价格表（ZSX）",
     "zsxDesc": "价格表作为自有价格库（.zsx/.xml）",
@@ -84,8 +84,8 @@
     "groupLibrary": "价格库",
     "groupLibraryHint": "保存在这台电脑上，所有预算都可使用。不会创建预算。",
     "groupOther": "其他",
-    "libraryTableTitle": "价格表（Excel / CSV / JSON）",
-    "libraryTableDesc": "自有或供应商的价格表，可预览列（.xlsx/.csv/.json）"
+    "libraryTableTitle": "价格表（Excel / CSV / JSON / BC3）",
+    "libraryTableDesc": "自有或供应商的价格表，可预览列（.xlsx/.csv/.json/.bc3）"
   },
   "cloudPanel": {
     "size": "大小",

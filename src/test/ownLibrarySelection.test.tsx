@@ -310,7 +310,7 @@ describe('adding a resource', () => {
     const container = document.createElement('div'); document.body.append(container);
     const root = createRoot(container);
     await act(async () => { root.render(<ResourcePicker />); });
-    expect(container.querySelector('.rp-add-target')?.textContent).toBe('Adds to a new budget post');
+    expect(container.querySelector('.rp-add-target')?.textContent).toBe('Adds to a new estimate item');
     const add = container.querySelector<HTMLButtonElement>('.resource-picker-add-btn')!;
     expect(add.disabled).toBe(false);
     await act(async () => { add.click(); });

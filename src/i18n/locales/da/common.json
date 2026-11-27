@@ -749,6 +749,10 @@
       "looksLikePriceList": "Det ligner en prisliste: koder og priser, ingen mængder.",
       "importAsLibrary": "Importér som prisbibliotek i stedet",
       "ownNotPriceXml": "Denne XML-fil er ikke et BMEcat-katalog eller en ZSX-prisliste. Er det et budget (CUF, GAEB, RSX, …)? Åbn den via Import → Nyt budget.",
+      "ownBc3NoConcepts": "ingen ~C-poster fundet; er dette en BC3-fil?",
+      "ownBc3Negative": "Udeladt, fordi prisen er negativ ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "Importeret uden pris, fordi prisen i filen er 0 ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "Filen angiver ingen valuta. Ældre BC3-filer er ofte i pesetas: kontrollér priserne, før du bruger dem.",
       "selectAll": "Vælg alle ændringer",
       "ownDuplicates": "Koder, der forekommer flere gange, fik et suffiks (~2, ~3) ({{count}}): {{codes}}.",
       "libraryNotLoaded": "Biblioteket “{{name}}” er ikke indlæst i dette overslag. Linjen beholder sin pris; slå biblioteket til for at gennemgå prisopdateringer.",
@@ -925,6 +929,10 @@
       },
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Ingen KK-tabel (poster) fundet i .DNC-filen."
+      },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} enhed uden modstykke er bevaret uændret: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} enheder uden modstykke er bevaret uændret: {{examples}}."
       },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Ingen <ARTICLE>/<PRODUCT>-elementer fundet. Er dette et BMEcat/DICO-katalog?",

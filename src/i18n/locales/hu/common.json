@@ -749,6 +749,10 @@
       "looksLikePriceList": "Ez árlistának tűnik: kódok és árak, mennyiségek nélkül.",
       "importAsLibrary": "Importálás inkább árkönyvtárként",
       "ownNotPriceXml": "Ez az XML-fájl nem BMEcat-katalógus és nem ZSX-árlista. Költségvetés (CUF, GAEB, RSX, …)? Nyissa meg az Importálás → Új költségvetés útvonalon.",
+      "ownBc3NoConcepts": "nem található ~C rekord; ez BC3 fájl?",
+      "ownBc3Negative": "Kihagyva, mert az ár negatív ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "Ár nélkül importálva, mert a fájlban az ár 0 ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "A fájl nem adja meg a pénznemet. A régebbi BC3 fájlok gyakran pesetában vannak: használat előtt ellenőrizze az árakat.",
       "selectAll": "Összes változás kijelölése",
       "ownDuplicates": "A többször előforduló kódok utótagot kaptak (~2, ~3) ({{count}}): {{codes}}.",
       "libraryNotLoaded": "A(z) „{{name}}” könyvtár nincs betöltve ebben a költségvetésben. A sor megtartja az árát; kapcsolja be a könyvtárat az áraktualizálások áttekintéséhez.",
@@ -925,6 +929,10 @@
       },
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Nem található KK tábla (tételek) a .DNC fájlban."
+      },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} megfelelő nélküli egység változatlanul átvéve: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} megfelelő nélküli egység változatlanul átvéve: {{examples}}."
       },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Nem található <ARTICLE>/<PRODUCT> elem. Ez biztosan BMEcat/DICO katalógus?",

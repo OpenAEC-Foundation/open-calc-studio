@@ -749,6 +749,10 @@
       "looksLikePriceList": "Tämä näyttää hinnastolta: koodeja ja hintoja, ei määriä.",
       "importAsLibrary": "Tuo sen sijaan hintakirjastona",
       "ownNotPriceXml": "Tämä XML-tiedosto ei ole BMEcat-luettelo eikä ZSX-hinnasto. Onko se kustannusarvio (CUF, GAEB, RSX, …)? Avaa se kohdasta Tuonti → Uusi kustannusarvio.",
+      "ownBc3NoConcepts": "~C-tietueita ei löytynyt; onko tämä BC3-tiedosto?",
+      "ownBc3Negative": "Jätetty pois, koska hinta on negatiivinen ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "Tuotu ilman hintaa, koska hinta tiedostossa on 0 ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "Tiedosto ei kerro valuuttaa. Vanhemmat BC3-tiedostot ovat usein pesetoina: tarkista hinnat ennen käyttöä.",
       "selectAll": "Valitse kaikki muutokset",
       "ownDuplicates": "Useammin esiintyvät koodit saivat päätteen (~2, ~3) ({{count}}): {{codes}}.",
       "libraryNotLoaded": "Kirjasto ”{{name}}” ei ole ladattuna tähän laskelmaan. Rivi säilyttää hintansa; ota kirjasto käyttöön tarkistaaksesi hintapäivitykset.",
@@ -925,6 +929,10 @@
       },
       "dncImporter": {
         "noKKTableItemsFoundInThe": ".DNC-tiedostosta ei löytynyt KK-taulua (nimikkeet)."
+      },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} yksikkö ilman vastinetta säilytettiin sellaisenaan: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} yksikköä ilman vastinetta säilytettiin sellaisenaan: {{examples}}."
       },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "<ARTICLE>/<PRODUCT>-elementtejä ei löytynyt. Onko tämä BMEcat/DICO-luettelo?",

@@ -61,7 +61,7 @@
     "tradDesc": "Výměnný formát IBIS Trad (.xml)",
     "rsxDesc": "Výměna specifikací CROW RAW (.rsx/.xml)",
     "rsuDesc": "Starší výměna RAW (.rsu) — přes cestu RSX",
-    "bc3Desc": "Španělské rozpočty (.bc3); cenová databáze se také otevře jako rozpočet",
+    "bc3Desc": "Španělské rozpočty (.bc3); cenovou databázi importujte níže v Cenové knihovně",
     "onlvDesc": "Rakouský výkaz výměr ÖNORM A 2063 (.onlv) nebo katalog standardních textů (.onlb)",
     "zsxTitle": "Ceník (ZSX)",
     "zsxDesc": "Ceník jako vlastní cenová knihovna (.zsx/.xml)",
@@ -84,8 +84,8 @@
     "groupLibrary": "Cenová knihovna",
     "groupLibraryHint": "Uloží se v tomto počítači, takže ji může použít každý rozpočet. Nevytváří rozpočet.",
     "groupOther": "Ostatní",
-    "libraryTableTitle": "Ceník (Excel / CSV / JSON)",
-    "libraryTableDesc": "Vlastní ceník nebo ceník dodavatele, s náhledem sloupců (.xlsx/.csv/.json)"
+    "libraryTableTitle": "Ceník (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "Vlastní ceník nebo ceník dodavatele, s náhledem sloupců (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "Velikost",

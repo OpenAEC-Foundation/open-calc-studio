@@ -749,6 +749,10 @@
       "looksLikePriceList": "価格表のようです：コードと価格のみで、数量がありません。",
       "importAsLibrary": "代わりに価格ライブラリとしてインポート",
       "ownNotPriceXml": "この XML ファイルは BMEcat カタログでも ZSX 価格表でもありません。積算（CUF、GAEB、RSX、…）ですか？ インポート → 新規積算 で開いてください。",
+      "ownBc3NoConcepts": "~C レコードが見つかりません。BC3 ファイルですか?",
+      "ownBc3Negative": "単価がマイナスのため除外しました ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "ファイル内の単価が 0 のため単価なしで取り込みました ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "ファイルに通貨の記載がありません。古い BC3 ファイルはペセタ建てのことが多いため、使用前に単価を確認してください。",
       "selectAll": "すべての変更を選択",
       "ownDuplicates": "重複しているコードに接尾辞を付けました (~2, ~3)（{{count}}）: {{codes}}。",
       "libraryNotLoaded": "ライブラリ「{{name}}」はこの見積に読み込まれていません。行の価格はそのままです。価格更新を確認するにはライブラリをオンにしてください。",
@@ -925,6 +929,10 @@
       },
       "dncImporter": {
         "noKKTableItemsFoundInThe": ".DNC ファイルに KK テーブル（項目）が見つかりません。"
+      },
+      "importUnits": {
+        "unknownUnitsKept_one": "対応する単位のない {{count}} 件の単位をそのまま保持しました: {{examples}}。",
+        "unknownUnitsKept_other": "対応する単位のない {{count}} 件の単位をそのまま保持しました: {{examples}}。"
       },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "<ARTICLE>/<PRODUCT> 要素が見つかりません。これは BMEcat/DICO カタログですか？",

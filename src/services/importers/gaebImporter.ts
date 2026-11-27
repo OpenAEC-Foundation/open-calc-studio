@@ -4,8 +4,9 @@ import { uiText } from '../../i18n/uiText';
  * structure in X81/X82/X83/X86; an X84 offer normally contains prices only
  * and must be combined with its original X83, so it is rejected here.
  */
-import { BudgetBuilder, normalizeCurrencyCode, normalizeUnit } from './core';
+import { BudgetBuilder, matchUnit, normalizeCurrencyCode, unknownUnitsWarning } from './core';
 import { childElement, childElements, parseLiteXml, textContent, type XElement } from './liteXml';
+import { a2063TextLines, a2063Unit } from './onlvImporter';
 import type { ImportResult } from './types';
 import type { CostItem, CostUnit } from '@/types/costModel';
 
@@ -15,13 +16,20 @@ const number = (raw: string): number | null => {
   const n = Number(raw.trim().replace(',', '.'));
   return Number.isFinite(n) ? n : null;
 };
-const unit = (raw: string): CostUnit => {
-  const u = raw.trim().toLowerCase();
-  if (['psch', 'pausch', 'pa', 'ps'].includes(u)) return 'post';
-  if (['st', 'stk', 'stck', 'stück', 'pc'].includes(u)) return 'st';
-  if (u === 't') return 'ton';
-  if (u === 'h' || u === 'std') return 'uur';
-  return normalizeUnit(u);
+/** GAEB-eenheden die noch ÖNORM noch onze eigen tabel kent. */
+const GAEB_UNITS: Record<string, CostUnit> = {
+  ps: 'post', stck: 'st', pc: 'st', qm: 'm²', cbm: 'm³', mon: 'mnd', monat: 'mnd', woche: 'week',
+};
+/**
+ * QU is vrije tekst. Wat we niet kennen, gaat ongewijzigd mee met een melding
+ * (zoals bij ÖNORM), in plaats van stil "st" te worden (knownbug 74).
+ */
+const unit = (raw: string): { unit: CostUnit; known: boolean } => {
+  const s = raw.trim();
+  if (!s) return { unit: 'st', known: true };
+  const mapped = GAEB_UNITS[s.toLowerCase()] ?? matchUnit(s);
+  if (mapped) return { unit: mapped, known: true };
+  return a2063Unit(s);
 };
 const compact = (s: string): string => s.replace(/\s+/g, ' ').trim();
 const descriptionOf = (el: XElement): { summary: string; detail: string } => {
@@ -29,8 +37,10 @@ const descriptionOf = (el: XElement): { summary: string; detail: string } => {
   const complete = childElement(description, 'CompleteText');
   const outline = childElement(complete, 'OutlineText');
   const detail = childElement(complete, 'DetailTxt');
-  const summary = compact(textContent(outline)) || compact(textContent(detail)) || compact(textContent(description));
-  return { summary, detail: compact(textContent(detail)) };
+  // Alinea's en <br/> worden regels, zoals bij ÖNORM (knownbug 73).
+  const detailLines = a2063TextLines(detail);
+  const summary = a2063TextLines(outline).join(' ') || detailLines.join(' ') || compact(textContent(description));
+  return { summary, detail: detailLines.join(' ') === summary ? '' : detailLines.join('\n') };
 };
 
 export function importGaeb(xml: string): ImportResult {
@@ -49,6 +59,7 @@ export function importGaeb(xml: string): ImportResult {
   const warnings: string[] = [];
   let missingDescription = 0;
   let missingQuantity = 0;
+  const unknownUnits = new Set<string>();
   const walk = (part: XElement, parentId: string | null, path: string[], depth: number): void => {
     if (depth > 30) throw new Error(uiText("diagnostics.gaebImporter.theGAEBBillOfQuantitiesHasMore", "The GAEB bill of quantities has more than 30 hierarchy levels."));
     for (const child of part.children) {
@@ -70,11 +81,13 @@ export function importGaeb(xml: string): ImportResult {
           const quantity = number(value(item, 'Qty'));
           if (quantity === null) missingQuantity++;
           const price = number(value(item, 'UP'));
+          const qu = unit(value(item, 'QU'));
+          if (!qu.known) unknownUnits.add(qu.unit);
           builder.add({
             rowType: 'begrotingspost', parentId, depth, code,
             description: summary || `GAEB-positie ${code}`,
-            notes: detail && detail !== summary ? detail : '',
-            quantity, unit: unit(value(item, 'QU')),
+            notes: detail,
+            quantity, unit: qu.unit,
             unitPrice: price ?? 0,
             materialPrice: price,
           });
@@ -88,6 +101,8 @@ export function importGaeb(xml: string): ImportResult {
     throw new Error(uiText("diagnostics.gaebImporter.gaebX84ContainsBidPricesOnlyImport", "GAEB X84 contains bid prices only. Import the matching X83 file first; X84 merging is not available here."));
   }
   if (missingDescription) warnings.push(uiText("diagnostics.gaebImporter.gaebItemsHadNoDescriptionCheckThem", "{{p0}} GAEB items had no description; check them after import.", { p0: missingDescription }));
+  const unitWarning = unknownUnitsWarning(unknownUnits);
+  if (unitWarning) warnings.push(unitWarning);
   if (missingQuantity) warnings.push(uiText("diagnostics.gaebImporter.gaebItemsHadNoQuantityCheckThem", "{{p0}} GAEB items had no quantity; check them after import.", { p0: missingQuantity }));
   warnings.push(uiText("diagnostics.gaebImporter.gaebSpecificAttachmentsAlternativesAndFreeText", "GAEB-specific attachments, alternatives and free-text fields were not fully preserved. Keep the source file."));
   const project = childElement(root, 'PrjInfo');

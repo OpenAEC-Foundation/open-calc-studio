@@ -1,5 +1,6 @@
 import { uiText } from '../../i18n/uiText';
-import { parseXml, getText, getNumber, children, normalizeUnit } from './xmlHelpers';
+import { parseXml, getText, children, normalizeUnit } from './xmlHelpers';
+import { parseAmount } from './core';
 import type { ResourceLibraryItem, ResourceType } from '@/types/costModel';
 
 export interface ZsxImportResult {
@@ -45,16 +46,21 @@ export function importZsx(xml: string): ZsxImportResult {
 
   middelen.forEach((m) => {
     const code = m.getAttribute('code') ?? '';
+    // `||`, niet `??`: getText geeft '' (geen null) als het element
+    // ontbreekt, en dan viel <Omschrijving> weg (knownbug 98).
     const naam =
-      m.getAttribute('naam') ??
-      m.getAttribute('omschrijving') ??
-      getText(m, 'Naam') ??
-      getText(m, 'Omschrijving') ??
+      m.getAttribute('naam') ||
+      m.getAttribute('omschrijving') ||
+      getText(m, 'Naam') ||
+      getText(m, 'Omschrijving') ||
       '';
-    const typeAttr = m.getAttribute('type') ?? getText(m, 'Type') ?? '';
+    const typeAttr = m.getAttribute('type') || getText(m, 'Type');
     const resourceType = mapType(typeAttr);
     const unit = normalizeUnit(getText(m, 'Eenheid'));
-    const price = getNumber(m, 'Prijs');
+    // Geen of onleesbare prijs: leeg laten in plaats van € 0 (knownbug 98).
+    const priceText = getText(m, 'Prijs');
+    const parsed = priceText ? parseAmount(priceText) : null;
+    const price = parsed && !parsed.invalid ? parsed.value : null;
 
     resources.push({
       id: genId(),
@@ -62,7 +68,7 @@ export function importZsx(xml: string): ZsxImportResult {
       description: naam,
       unit,
       resourceType,
-      defaultUnitPrice: Number.isFinite(price) ? price : null,
+      defaultUnitPrice: price,
       category: m.getAttribute('categorie') ?? '',
     });
   });

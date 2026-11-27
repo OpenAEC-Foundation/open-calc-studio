@@ -168,35 +168,8 @@ stand van `main` op die datum.
 70. **Openen vanuit de cloud laat offerte, bedrijfsgegevens, spreadsheets, snapshots en projectinfo vallen**
     (`CloudPanel.tsx:100-110`). Zelfde soort bug als #58. — S
 
-71. **BMEcat: eenheidscodes uit UN/ECE Rec 20 (MTR, MTK, MTQ, KGM, TNE, C62, PCE) worden allemaal "st".**
-    `src/services/importers/bmecatImporter.ts:306`. Voorstel: een Rec 20-vertaaltabel toevoegen, en waarschuwen
-    bij onbekende eenheden. — B
-
-72. **BMEcat negeert `PRICE_QUANTITY`, waardoor de eenheidsprijs 10–1000× te hoog is.**
-    `bmecatImporter.ts:309-313`. € 145 per 100 m wordt € 145/m. Voorstel: deel door `PRICE_QUANTITY` als die
-    groter is dan 0. — B
-
-73. **GAEB-langteksten plakken alinea's aan elkaar zonder spatie of regeleinde.**
-    `src/services/importers/gaebImporter.ts:26-33`. `<p>Zeile eins</p><p>Zeile zwei</p>` wordt
-    "Zeile einsZeile zwei"; ook `<br/>` gaat verloren. Voorstel: een doorloper in de stijl van `a2063TextLines`
-    (`p`/`br` → `\n`). — B
-
-74. **GAEB maakt van onbekende eenheden (`lfm`, `Tag`, `Wo`, `l`, `qm`, `cbm`, `kWh`) stilletjes "st".**
-    `gaebImporter.ts:18-25`. Voorstel: de tabel uitbreiden (`A2063_TO_OCS` hergebruiken) en onbekende eenheden
-    doorgeven met een waarschuwing. — B
-
-75. **BC3: een `~T`-tekst die vóór zijn `~C`-record staat, valt weg.** `src/services/importers/bc3Importer.ts:243-254`
-    (het commentaar bovenin zegt iets anders). Voorstel: gebruik `targetFor(key)` in de `~T`-tak. — B
-
-76. **ÖNORM: een positie zonder `stichwort` krijgt "____" als omschrijving.**
-    `src/services/importers/onlvImporter.ts:240-244`; de test op `onlvImporter.test.ts:230` controleert dit niet.
-    Voorstel: gebruik `kurz + luecke` alleen als `stichwort-kurz` aanwezig is. — B
-
 77. **GAEB-Bedarfspositionen (`Provis WithoutTotal`) en alternatieven (`ALNGroupNo`) tellen mee in het totaal**,
     zonder enige markering (`gaebImporter.ts:73-80`). Minder zeker dan de andere importpunten. — S
-
-78. **`liteXml.ts:172`: in attributen wordt `&#10;` een spatie en CRLF twee spaties.** Geen praktisch effect;
-    minder zeker dan de andere importpunten. — S
 
 80. **Verversen maakt van Excel-foutcellen hoeveelheden (`#DIV/0!` → 7, `#N/A` → 42).**
     `excelLinkService.ts:119`. Voorstel: geef een fout bij `t === 'e'`, zoals `tabularBudget.ts:52` al doet.
@@ -249,22 +222,10 @@ stand van `main` op die datum.
     (`bascalcImporter.ts:228-236`); bij `cn`-regels is m arbeid en h materieel (`mapResourceType`, r.27-31).
     Nog controleren met een echt bestand. — S
 
-97. **`getText` zoekt in de hele subboom, zodat een post de waarden van zijn kind overneemt.**
-    `src/services/importers/xmlHelpers.ts:19-23`. Nagespeeld: een oude CUF-post krijgt hoeveelheid 8, eenheid
-    uur en prijs 45 van zijn `<Middel>`. Voorstel: alleen directe kinderen meenemen. — B
-
-98. **ZSX laat `<Omschrijving>` vallen en maakt van een ontbrekende prijs 0.** `zsxImporter.ts:24-29`, `:33,41`
-    (`??` op `''`; `getNumber` geeft 0). Nagespeeld. Voorstel: `||` gebruiken en een ontbrekende prijs als
-    null bewaren. — B
-
 99. **IfcX-import zet posten in de verkeerde volgorde als codes op getallen lijken.** `ifcxImporter.ts:104,107`
     + `ifcxJsonGenerator.ts:246-252`: de code is een JSON-sleutel, en gehele-getalsleutels komen bij het
     doorlopen eerst. Nagespeeld: `B,20,10,1a,2` komt terug als `2,10,20,B,1a`. Voorstel: een expliciet
     sortOrder-attribuut, of sleutels met een voorvoegsel. — B
-
-100. **RAW RSX: vanaf hoofdstuk 10 klopt de hoofdstukdiepte niet.** `rsxImporter.ts:91-98` bepaalt de diepte
-     op de getalwaarde. Nagespeeld, zonder echt voorbeeldbestand. Voorstel: de diepte op het aantal cijfers
-     baseren. — B
 
 101. **Een echt IfcX-bestand faalt bij de algemene import met "Invalid file format".** De inhoudsherkenning
      stuurt het verkeerd door (`lib/importers.ts:12-16`, `hostFileActions.ts:21`, MCP `fileCommands.ts:10`).
@@ -273,12 +234,13 @@ stand van `main` op die datum.
 102. **Een CSV die met "PK" begint (bv. `PK-nummer;…`) wordt geweigerd als ongeldige ZIP.**
      `importWorkerClient.ts:4`. Gezien in de code. Voorstel: geen ZIP-controle voor CSV. — S
 
-103. **CUF: subhoofdstukken en alle regels gaan verloren bij opnieuw importeren.** De exporter schrijft geneste
-     `<Hoofdstuk>` (`cufExporter.ts:44`) en `<Regel>` (`cufExporter.ts:60-62`); de importer leest alleen `<Post>`
-     onder een Hoofdstuk op het hoogste niveau (`cufImporter.ts:206,217`) en `<Middel>` (`:235`). `<Staart>`
-     wordt nooit teruggelezen. Nagespeeld en door een tweede controle bevestigd. Daarnaast bevestigde de tweede
-     agent #96 onafhankelijk: CUF/TRADXML-prijzen komen na de herberekening van de import terug als €0.
-     Voorstel: geneste Hoofdstuk-elementen recursief aflopen; aan beide kanten één tagnaam voor regels. — B
+103. **CUF: de staart en het soort middel gaan verloren bij opnieuw importeren.** Subhoofdstukken en `<Regel>`s
+     komen sinds de fix wel terug (`knownbugsCufTradxml103-274.test.ts`), maar `<Staart>` (`cufExporter.ts:20-33`)
+     wordt nooit teruggelezen, en `<Regel>` krijgt geen `type`-attribuut (`cufExporter.ts:renderRegel`), zodat
+     elke regel na herimport "overig" is. De staart stond al in de bevestigde melding; het soort middel heb ik
+     alleen in de code gezien.
+     Voorstel: de exporter `<Middel type=…>` laten schrijven (prijs per eenheid) en de staart als
+     schema-percentages teruglezen. — B (staart), S (soort middel)
 
 104. **IFCX importeren en daarna IFC exporteren geeft een fout.** `ifcxImporter.ts:47-51` maakt van `''` `undefined`, en
      `Backstage.tsx:144` (`setSchedule`) overschrijft daarmee, zodat `encodeStepString(undefined)` een fout gooit
@@ -317,10 +279,11 @@ stand van `main` op die datum.
      (hosted/API-pad). — S
 
 269. **Oude CUF: Middel-regels per eenheid geven na herberekenen een te laag posttotaal.**
-    `src/services/importers/cufImporter.ts:220-231`. Sinds de fix voor #96 worden Middel-regels vaste bedragen
+    `src/services/importers/cufImporter.ts`, `addRegel`. Sinds de fix voor #96 worden Middel-regels vaste bedragen
     (aantal × prijs) en is het posttotaal hun som; de hoeveelheid van de post telt niet mee. Zijn Middel-
     aantallen in dit formaat per eenheid bedoeld (0,5 uur per m³ bij 10 m³), dan wordt € 225 na herberekenen
-    € 22,50. Niet te controleren zonder echt bestand; samen met #97 bekijken. Gevonden in de review van PR #70. — S
+    € 22,50. Niet te controleren zonder echt bestand. (#97 is opgelost: een oude CUF-post neemt de hoeveelheid,
+    eenheid en prijs van zijn Middel niet meer over.) Gevonden in de review van PR #70. — S
 
 271. **WpCalc-export meldt "OK" ook als losse INSERTs mislukken.** Het PowerShell-script in
     `src-tauri/src/wpcalc_export.rs` stopt niet bij fouten, dus regels kunnen ontbreken zonder melding.
@@ -335,9 +298,6 @@ stand van `main` op die datum.
 
 273. **WpCalc-export vult het veld `calculaties.valuta` niet.** De import leest het sinds de valutafix wel;
     de export schrijft geen valuta (Rust-kant). Gevonden bij de valutafix. — B
-
-274. **De TradXML-import leest maar één `Element`-niveau** (`tradxmlImporter.ts:52-58`). Het CUF-deel
-    (subhoofdstukken gaan verloren) is punt 103. Gevonden bij de fix van knownbug 59. — B
 
 278. **Andere importers lezen onleesbare bedragen nog stil als 0.** Alleen de generieke import
     (`genericTabularImporter.ts`) waarschuwt; BC3, DNC, inschrijfstaat en de XML-hulpfuncties gebruiken
@@ -387,6 +347,12 @@ stand van `main` op die datum.
      `App.tsx` (interval voor `autoSave`) kijkt niet naar `closingWindow`; met autosave aan kan "Niet opslaan"
      zo toch opgeslagen werk opleveren. `autoSave` staat standaard uit en heeft geen UI (zie 120). Gevonden in
      de review van knownbug 263. — S
+
+298. **Het autosave-interval wordt één keer gelezen, vóór de instellingen geladen zijn** (latent).
+     `src/App.tsx:390-399`: `setInterval` gebruikt `settings.autoSaveInterval` op het moment van mounten
+     (dus de standaardwaarde), en het effect hangt alleen van `saveFileForClose` af. Een opgeslagen of later
+     gewijzigd interval werkt pas na een herstart, of niet. `autoSave` staat standaard uit en heeft geen UI
+     (zie 120); overgebleven uit knownbug 230, waarvan alleen de docs zijn rechtgezet. — S
 
 ## Rapport, offerte en afdrukken
 
@@ -454,28 +420,18 @@ stand van `main` op die datum.
 284. **Afronding in de Rust-staart kiest `staartDoelbedrag` vóór `staartVastBedrag`**, de app andersom
      (`staart.rs:140`). Alleen bereikbaar als beide gezet zijn (MCP of een bewerkt bestand). — S
 
-290. **openaec-layout-rapporten laten tekens weg die niet in Liberation Sans zitten** (sinds de fix voor
-     #99). Geldt voor werkbeschrijving, hoofd- en onderaanneming, inschrijfstaat, nacalculatie en offerte;
-     `printpdf` `write_text` slaat het teken over, zonder melding. Op Windows kwamen ze eerst uit Segoe UI:
-     ₹ en ฿ (in de valutalijst van bijna elke rapporttaal), ₽ (ru), ₺ (tr), ৳ (bn), valutatekens met Arabische letters (AED,
-     SAR, IRR en dergelijke) en Arabische labels (ar, fa, ur). Arabisch was daar ook vóór #99 niet leesbaar:
-     openaec-layout zet geen letters aan elkaar en schrijft niet van rechts naar links. De Typst-rapporten
-     (Bouw 1, IBIS, directie) vallen sinds deze fix terug op Noto Sans en Noto Sans Arabic (`reports/fonts.rs`);
-     alleen ฿ en ৳ (en de CJK-valutatekens 元 en ￥, zie 292) zitten in geen enkel ingebouwd lettertype en
-     blijven daar een leeg vakje (Arial had ze ook niet).
-     Voorstel: terugval per teken in openaec-layout (submodule `libs/openaec-reports`). Echt Arabisch daar
-     vraagt daarnaast shaping en bidi (rustybuzz, unicode-bidi). — B (cmap-vergelijking per rapporttaal)
-
 291. **`gen_pdf` (ontwikkeltool) maakt bij Bouw 1 een PDF zonder tekst op een schone checkout.**
      `src-tauri/src/bin/gen_pdf.rs:186-197` laat openaec-core Arial uit `tenants/bouw1/fonts` lezen; die map
-     werd tot #99 door de app zelf gevuld. Niet in de app gebruikt. Voorstel: naar Liberation Sans laten wijzen
-     of het Bouw 1-pad weghalen. — S
+     werd tot #99 door de app zelf gevuld. De app gebruikt het niet, maar de losse MCP-server wel: `export_pdf`
+     (`mcp-server/src/index.ts:1555`) roept `gen_pdf` aan, standaard met Bouw 1. Voorstel: naar Liberation Sans
+     laten wijzen of het Bouw 1-pad weghalen. — S
 
-292. **Rapporten in 8 talen tonen hun labels niet: ja, zh, ko, th, lo, hi, bn en ta.** Geen ingebouwd
-     lettertype heeft die schriften, en dat was vóór #99 op Windows ook al zo (Arial en Segoe UI evenmin).
-     De labels en door de gebruiker getypte tekst in die schriften ontbreken in alle PDF-rapporten, op elk
-     systeem, zonder melding. Voorstel: Engelse labels als terugval voor die talen, of een waarschuwing bij
-     het kiezen van zo'n rapporttaal. Lettertypen meeleveren kost veel: CJK alleen al is meer dan 15 MB. —
+292. **Rapporten in 6 talen tonen hun labels niet: ja, zh, ko, lo, hi en ta.** Geen ingebouwd lettertype
+     heeft die schriften, en dat was vóór #99 op Windows ook al zo (Arial en Segoe UI evenmin). De labels en
+     door de gebruiker getypte tekst in die schriften ontbreken in alle PDF-rapporten, op elk systeem, zonder
+     melding; ook de CJK-valutatekens 元 en ￥. (th en bn tonen hun tekens sinds Noto Sans Thai en Noto
+     Sans Bengali meegaan, maar niet overal netjes gezet, zie 294.) Voorstel: Engelse labels als terugval voor die talen, of een waarschuwing bij het
+     kiezen van zo'n rapporttaal. Lettertypen meeleveren kost veel: CJK alleen al is meer dan 15 MB. —
      B (cmap-vergelijking per rapporttaal)
 
 293. **Typst-rapporten zetten Arabische, Perzische, Urdu en Hebreeuwse regels links uitgelijnd en van links
@@ -484,6 +440,17 @@ stand van `main` op die datum.
      met een Latijns stuk (zoals "Bouw 1") of een valuta met punt (د.إ.) staat daardoor in de verkeerde
      volgorde voor wie van rechts naar links leest. Voorstel: `text(dir: rtl)` voor ar, fa, ur en he. — S
      (uit de Typst-bronnen afgeleid, niet nagespeeld)
+
+294. **openaec-layout-rapporten zetten Arabisch, Bengaals en Thai niet goed.** Werkbeschrijving, hoofd- en
+     onderaanneming, inschrijfstaat, nacalculatie en offerte tekenen elk teken los, van links naar rechts
+     (geen shaping in openaec-layout). Arabische, Perzische en Urdu-letters staan daardoor los en in
+     omgekeerde volgorde, zoals vóór #99 op Windows; Bengaalse klinkertekens zoals ি staan achter in plaats
+     van vóór hun medeklinker, zonder ligaturen. Thaise klinker- en toontekens staan boven hun medeklinker,
+     maar botsen als er twee boven elkaar horen (ที่) en schuiven niet op bij hoge medeklinkers (ป ฝ ฟ). De
+     tekens zelf staan er wel (terugvallettertypen in `reports/fonts.rs`). De Typst-rapporten vormen deze
+     letters wel goed (voor de regelrichting zie 293). Vet Thai en Bengaals komt in beide engines normaal uit:
+     alleen de normale snit gaat mee. Voorstel: shaping en bidi in openaec-layout (rustybuzz, unicode-bidi).
+     — B (Arabisch in een voorbeeld-PDF gezien; Bengaals en Thai uit de glyph-metrieken, door twee agents)
 
 ## IFC, PDF en hoeveelheden
 
@@ -840,100 +807,25 @@ stand van `main` op die datum.
 
 ## Teksten, vertalingen en documentatie
 
-228. **Versielabels gebruiken altijd een Nederlandse datumnotatie.** `OfferteTab.tsx:96,104`
-     (`toLocaleDateString('nl-NL')`). Voorstel: de taalinstelling van de app gebruiken. — S
+233. **"Wat is er nieuw" toont de releases vanaf 2026.45.0 alleen in het Engels.** De gebundelde lijst in
+     `ReleaseNotesPanel.tsx` loopt inmiddels tot de huidige versie (bewaakt door
+     `src/test/bundledReleaseNotes.test.ts`), maar `src/i18n/locales/*/releases.json` heeft geen `names`/
+     `highlights` voor v2026.45.0 en later, dus elke taal toont daar de Engelse titel en tekst. Bij 44.0 staat
+     nog "acceptance pending" (niet nagegaan of dat nog klopt); offline- en hosted-gebruikers zien alleen deze
+     lijst. — B
 
-229. **Instellingen toont "Automatisch detecteren" nooit meer, en opslaan vervangt het door de gevonden
-     taal.** `src/components/settings/SettingsDialog.tsx:59-60`, `:68`. Gezien in de code. Voorstel: eerst op
-     `savedLocale === 'auto'` testen. — S
+299. **De lijst cloudbestanden toont datum en tijd altijd in Nederlandse notatie.**
+     `src/components/backstage/CloudPanel.tsx:123-124` (`toLocaleDateString('nl-NL')`,
+     `toLocaleTimeString('nl-NL')`). Gezien in de code, bij de fix van knownbug 228 (zelfde fout in
+     `OfferteTab.tsx`). Voorstel: `i18n.language` gebruiken, zoals `PriceLibraryPanel.tsx:102`. — S
 
-230. **Autosave staat gedocumenteerd als aan (elke 2 min), maar niets kan het aanzetten.** Docs:
-     `docs/user-guide.md:63`, `docs/gebruikershandleiding.md:54`, `wiki/Gebruikershandleiding.md:50`. In de code
-     staat `autoSave: false` met 5 min (`src/utils/settings.ts:33-34`), en `App.tsx:403-412` leest het interval
-     één keer, vóór de instellingen geladen zijn. Er is geen schakelaar in de interface, terwijl de labels
-     `settings.autoSave`/`autoSaveOption` wel bestaan. Zie ook #120. Voorstel: de code aanpassen
-     (schakelaar toevoegen) of de docs. — B
-
-231. **XPWE/XC4 staat gedocumenteerd als niet ondersteund, maar de app importeert en exporteert het.** Docs:
-     `docs/wereldwijde-uitwisseling.md:3-7,31`, `wiki/Bestandsuitwisseling.md:17`, `wiki/MCP-server.md:33`.
-     Code: `Backstage.tsx:846,921`, `src/lib/importers.ts:20`, `converters.ts:31`. Alleen MCP mist het. — B
-
-232. **De themawaarden in de embed-README kloppen niet; `mode` en `opaque` zijn niet gedocumenteerd.**
-     `packages/embed/README.md:62` tegenover `blueprintTheme.ts:2-4`, `src/lib/index.tsx:25-26` en
-     `isolated.ts:34`. — B
-
-233. **"Wat is er nieuw" in de app stopt bij 2026.44.5-dev, terwijl de app op 2026.45.1 staat.**
-     `src/i18n/locales/*/releases.json`, `ReleaseNotesPanel.tsx:26-32`. Bij 44.0 staat nog "acceptance
-     pending"; offline- en hosted-gebruikers zien alleen deze lijst. — B
-
-234. **De docs zeggen "Import commands depend on enabled extensions; check File → Extensions", maar dat klopt
-     niet.** `docs/user-guide.md:75` (en de Nederlandse handleiding en de wiki). De importers zijn hard-coded
-     (`Backstage.tsx:751-886`), en het paneel Extensies wordt in platform-builds niet getoond
-     (`buildFlags.ts:14`, `Backstage.tsx:680`). — B
-
-235. **Embed-versie en archiefnaam in de README zijn verouderd.** `packages/embed/README.md:147-149` noemt
-     versie "0.13.x" en archief `open-calc-studio-<v>.tgz` (zie `build.yml:187`); in werkelijkheid is de versie
-     kalendergebaseerd en heet het archief `openaec-open-calc-studio-<v>.tgz`. — B
-
-236. **"39 languages" moet 40 zijn.** `packages/embed/README.md:9,63`, `src/lib/index.tsx:28`. — B
-
-237. **Kapotte ankers `#import--export` en `#build-from-source`** in `docs/user-guide.md:77,110`. — B
-
-238. **De mobiele UI is onvertaald in elke taal behalve EN en NL.** `src/i18n/locales/*/common.json` (32
-     `mobile.*`-sleutels, `review.mobile`, `wizardUI.shortTitle`); daarnaast hard-coded NL/EN in
-     `ReviewCenter.tsx:30-31`. Nagespeeld. — B
-
-239. **De afgedrukte offerte zegt altijd "includes VAT (21%)"** (alle 40 locales). Sleutel
-     `report:offerte.inclVatNote`; het percentage staat vast op 21 % in de tekst, net als #133. Voorstel:
-     het percentage weglaten, of het meegeven als `{{pct}}`. — B
-
-240. **EN "Calculation rule" voor "rekenregel"** (een regel in de calculatie, geen voorschrift).
-     Sleutels `common:calculationRule`, `newCalculationRule`, `ribbon:home.calculationRule`,
-     `propertiesPanel.types.regel`, `mobile.addRule`, `mobile.searchItems`, `mobile.noItems`,
-     `tooltip.unitPriceSumRules`, `tooltip.totalSumRules`; Lao heeft het overgenomen. Engels is de fallback voor
-     zo'n 660 sleutels in 37 locales, dus veel gebruikers zien dit. Voorstel: "Calculation line". — B
-
-241. **"Staart" vertaald als "Tail"** (en, sw, vi, th, lo). Sleutels `common:wpcalc.tabTail`, `tabHoursTail`,
-     `tailCosts`, `common:surcharges`, `propertiesPanel.types.staart`. Voorstel: "Markups" (zoals in
-     `report:staart.title`). — B
-
-242. **FR: de tooltip van de afrondingsstap leest als "geen afronding".** `fr:grid:staart.roundingStepTitle`
-     "Pas d'arrondi…", `fr:grid:undo.roundingStep`. Voorstel: "Incrément d'arrondi…". — B
-
-243. **EN "Budget post"/"Monitor post", terwijl elders "Estimate items"/"Monitoring items" staat.** Sleutels
-     `common:budgetPost`, `newBudgetPost`, `ribbon:home.budgetPost`, `types.begrotingspost` en de
-     `monitorPost`-tegenhangers. — B
-
-244. **MS: btw heet "GST" (49 strings).** Maleisië heeft GST in 2018 afgeschaft; het is nu SST. — B
-
-245. **DE: `ribbon:offerte.termijnen` "Termine" (afspraken)** moet "Zahlungsplan" zijn; PL "Terminy" is ook
-     dubbelzinnig. — B
-
-246. **EN: "Export Inschrijfstaat (.xlsx)"** (`common:` / `backstage:exportInschrijfstaat`) moet "Export tender
-     schedule" zijn. — B
-
-247. **CS: `ribbon:rapportage.reporting` is Engels gebleven ("Reporting").** — B
-
-248. **NL: `grid:columns.branch` "Branch"** moet "Variant" zijn. — B
+300. **De offerteknop `ribbon:offerte.termijnen` zegt in veel talen "voorwaarden" in plaats van betaaltermijnen.**
+     EN "Terms", MS "Terma", BN, EL, HI, HU, TA en TR ook "voorwaarden/condities"; CS/SK "Termíny" betekent
+     eerder data of deadlines. De knop opent de betalingstermijnen (`__termijnen`). Gezien in de vertalingen bij
+     de fix van knownbug 245 (DE/PL). Voorstel: per taal het woord van
+     `common:workspace.quotationDefaults.payments` gebruiken (EN "Payment schedule"). — S
 
 ## Tests en tooling
-
-251. **`npm run test:e2e` vindt 0 tests en geeft een fout.** `playwright.config.ts:4-5` laadt ook het
-     Vitest-bestand `tests/platform/hostedPolicy.test.tsx`. Nagespeeld. Voorstel: `testMatch: '*.spec.ts'` of
-     een `testIgnore`. — B
-
-253. **Het API-Docker-image meldt altijd `commit: unknown, dirty: true`.** `Dockerfile` en
-     `scripts/distribution-notices.mjs:39-40`: in het image zit geen `.git` en geen git. Afgeleid uit de code.
-     Voorstel: een env-variabele `OCS_COMMIT`, gezet vanuit het build-argument `REVISION`. — S
-
-254. **Het embed-pakket noemt gebundelde pakketten als dependencies.** `embed-sync.mjs:26-31` declareert
-     `mdb-reader`, `events` en `stream-browserify` als dependencies, terwijl ze gebundeld zijn. — S
-
-255. **`version.mjs next` gebruikt de UTC-datum**, dus lokaal krijg je op maandag tussen 00:00 en 01:00/02:00
-     het nummer van vorige week. — S
-
-277. **`vitest.platform.config.ts` vervangt het hele testblok** en krijgt daardoor niet de nieuwe limieten
-    van 15 s uit `vite.config.ts`. Gevonden bij de fix van knownbug 258. — B
 
 ## Wensen en open taken (geen bug)
 

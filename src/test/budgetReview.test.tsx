@@ -143,6 +143,13 @@ describe('review navigation and MCP', () => {
     expect(node.querySelector('.review-empty')).toHaveTextContent('Geen meldingen gevonden');
     expect(node.querySelector('.workspace-review-count')).toHaveTextContent('0');
   });
+  it('translates the price-update and revision buttons in every language, not only nl/en (knownbug 238)', async () => {
+    await changeLanguage('de');
+    node = document.createElement('div'); document.body.append(node); root = createRoot(node);
+    await act(async () => root!.render(<ReviewCenter />));
+    const labels = [...node.querySelectorAll('.review-filters:first-child button')].map(button => button.textContent);
+    expect(labels).toEqual(['Preisaktualisierungen prüfen', 'Quellrevisionen vergleichen']);
+  });
   it('opens the flagged row editor on mobile and returns to the same review', async () => {
     node = document.createElement('div'); document.body.append(node); root = createRoot(node);
     await act(async () => root!.render(<MobileWorkspace />));

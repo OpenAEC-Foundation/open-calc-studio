@@ -559,6 +559,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Keine KK-Tabelle (Positionen) in der .DNC-Datei gefunden."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} Einheit ohne Entsprechung wurde unverändert übernommen: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} Einheiten ohne Entsprechung wurden unverändert übernommen: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Keine <ARTICLE>/<PRODUCT>-Elemente gefunden. Ist dies ein BMEcat-/DICO-Katalog?",
         "noUsableArticlesWithACodeOr": "Keine verwendbaren Artikel mit Code oder Beschreibung gefunden."
@@ -686,6 +690,10 @@
       "looksLikePriceList": "Das sieht nach einer Preisliste aus: Codes und Preise, keine Mengen.",
       "importAsLibrary": "Stattdessen als Preisbibliothek importieren",
       "ownNotPriceXml": "Diese XML-Datei ist weder ein BMEcat-Katalog noch eine ZSX-Preisliste. Ist es eine Kalkulation (CUF, GAEB, RSX, …)? Öffnen Sie sie über Import → Neue Kalkulation.",
+      "ownBc3NoConcepts": "keine ~C-Datensätze gefunden; ist das eine BC3-Datei?",
+      "ownBc3Negative": "Ausgelassen, weil der Preis negativ ist ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "Ohne Preis importiert, weil der Preis in der Datei 0 ist ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "Die Datei nennt keine Währung. Ältere BC3-Dateien sind oft in Peseten: Prüfen Sie die Preise, bevor Sie sie verwenden.",
       "selectAll": "Alle Änderungen auswählen",
       "ownDuplicates": "Mehrfach vorkommende Codes erhielten ein Suffix (~2, ~3) ({{count}}): {{codes}}.",
       "libraryNotLoaded": "Die Bibliothek „{{name}}“ ist in dieser Kalkulation nicht geladen. Die Zeile behält ihren Preis; aktivieren Sie die Bibliothek, um Preisupdates zu prüfen.",

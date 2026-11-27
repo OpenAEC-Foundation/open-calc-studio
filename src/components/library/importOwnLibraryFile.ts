@@ -12,7 +12,10 @@ import { askLibraryColumnMapping } from './askLibraryColumnMapping';
  * the file cannot be read as a price library.
  */
 export async function importOwnLibraryFile(file: File, { updateId }: { updateId?: string } = {}): Promise<PreparedOwnLibrary | null> {
-  const binary = /\.xlsx?$/i.test(file.name);
+  // Excel is binary; a BC3 file declares its own character set (often not
+  // UTF-8), also when it has another or no extension and is recognised by
+  // its content. Only the text formats are read as UTF-8 here.
+  const binary = !/\.(json|csv|tsv|txt|xml|bmecat|zsx)$/i.test(file.name);
   const content = binary ? new Uint8Array(await file.arrayBuffer()) : await file.text();
   const table = readOwnLibraryTable(file.name, content);
   const columnMapping = table ? await askLibraryColumnMapping(table) : undefined;

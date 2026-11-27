@@ -44,3 +44,22 @@ describe('ZSX importer', () => {
     expect(result.warnings.length).toBeGreaterThan(0);
   });
 });
+
+describe('ZSX: omschrijving en ontbrekende prijs (knownbug 98)', () => {
+  const xml = `<?xml version="1.0"?><Prijslijst>
+    <Middel code="M1" type="materiaal"><Omschrijving>Zand</Omschrijving><Eenheid>m3</Eenheid></Middel>
+    <Middel code="M2" type="materiaal" naam=""><Naam>Grind</Naam><Prijs>0</Prijs></Middel>
+  </Prijslijst>`;
+
+  it('leest <Omschrijving> als er geen naam is', () => {
+    const r = importZsx(xml);
+    expect(r.resources.find((x) => x.code === 'M1')?.description).toBe('Zand');
+    expect(r.resources.find((x) => x.code === 'M2')?.description).toBe('Grind');
+  });
+
+  it('laat een ontbrekende prijs leeg in plaats van 0', () => {
+    const r = importZsx(xml);
+    expect(r.resources.find((x) => x.code === 'M1')?.defaultUnitPrice).toBeNull();
+    expect(r.resources.find((x) => x.code === 'M2')?.defaultUnitPrice).toBe(0);
+  });
+});
