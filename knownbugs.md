@@ -330,41 +330,12 @@ stand van `main` op die datum.
 
 ## Rapport, offerte en afdrukken
 
-122. **"Alleen hoofdstuktotalen" met Hoofdaanneming drukt geen bedragen af.** Hoofdaanneming toont bedragen
-     alleen in de subtotalen van posten, en juist die posten worden weggefilterd
-     (`src/services/print/printService.ts:176`, `:260-268`, `:300`; in Rust ook
-     `src-tauri/src/reports/generator.rs:770-826`). Het resultaat: hoofdstukregels met een lege bedragkolom en
-     daarna alleen het eindtotaal. Voorstel: toon bij alleen-hoofdstuktotalen `item.total` op de
-     hoofdstukregels, in TS en in Rust. — B
-
-124. **De standaarddatum van een offerte is de UTC-datum**, en dus tussen 00:00 en 01:00/02:00 een dag te vroeg
-     (`src/state/slices/offerteSlice.ts:43`, `:559`, `toISOString().split('T')[0]`). Nagespeeld. Voorstel: bouw
-     de datum op uit het lokale jaar, de maand en de dag. — B
-
-125. **Percentages in de Bouw 1-samenvatting negeren de rapporttaal** (`0.5 %` in een Nederlands rapport;
-     `src/services/print/bouw1PrintService.ts:556, 566, 578, 590, 657`). Nagespeeld. Voorstel:
-     `Intl.NumberFormat(ctx.intlLocale, { maximumFractionDigits: 2 })`. — B
-
-126. **Afdrukken in de webversie negeert de instelling "Rapportdatum".** `printService.ts:206` en
-     `bouw1PrintService.ts:256` gebruiken altijd `new Date()`; Rust houdt zich wel aan `schedule.reportDate`.
-     Voorstel: gebruik `reportDate`, gelezen als lokale datum. — S
-
-127. **`SummaryPanel.tsx` toont `aanneemsomAfgerond` (incl. btw) onder "excl. btw".** Nauwelijks bereikbaar.
-     Zie ook #130. — S
-
-128. **De Bouw 1 HTML-samenvatting laat bij BasCalc-imports de regels UKK/AK/W&R weg.** Zie ook #193. — S
-
-129. **De Bouw 1 HTML-afdruk toont nooit het logo van de gebruiker**: `reportOutput` geeft
-     `logoDataUrl: undefined` mee. — S
-
-130. **Het samenvattingspaneel toont onder "excl. BTW" een bedrag inclusief btw.**
-     `src/components/report/SummaryPanel.tsx:93`, `:15`. Nagespeeld: €10.000 met de standaardstaart geeft
-     "Aanneemsom excl. BTW 14.503,88", terwijl het 11.986,68 moet zijn. Zonder afrondingsregel wordt het label
-     "Totaal excl. BTW", nog steeds inclusief btw. Daarnaast kijkt `hasStaart` alleen naar de oude typen
-     ukk/ak/wr/afronding, dus met de Bouw 1-staart blijft de sectie "Opslagen" leeg. Tweede controle: de
-     getallen kloppen, maar SummaryPanel is in de UI niet bereikbaar (alleen via MCP), dus lage ernst; overlapt
-     met #127. Voorstel: `breakdown.aanneemsom + breakdown.afronding` (zoals in `printService.ts:376`);
-     `hasStaart` baseren op `isStaartRowType`; de Bouw 1-regels, btw en een totaal incl. btw toevoegen. — B
+122. **"Alleen hoofdstuktotalen" met Hoofdaanneming drukt in de PDF geen bedragen af.** Hoofdaanneming toont
+     bedragen alleen in de subtotalen van posten, en juist die posten worden weggefilterd
+     (`src-tauri/src/reports/generator.rs:743-806`, `"total" | "unitPrice" if use_chapter_subtotals`). Het
+     resultaat: hoofdstukregels met een lege bedragkolom en daarna alleen het eindtotaal. De HTML-afdruk
+     (`printService.ts`) is hersteld; Rust nog niet. Voorstel: toon bij alleen-hoofdstuktotalen `item.total` op
+     de hoofdstukregels. — B
 
 131. **Secties "Opties" komen nooit in de offerte-PDF; introteksten en regelomschrijvingen vallen weg.**
      `src-tauri/src/reports/offerte.rs:81-88` en `243-300` behandelen alleen technisch/meerwerk/opdrachtgever/
@@ -375,25 +346,13 @@ stand van `main` op die datum.
 132. **"Geldig voor N dagen" verdwijnt als de tekst van de voorwaarden leeg is.** `offerte.rs:122-136`. Afgeleid
      uit de code. Voorstel: de alinea over de geldigheid uit het `voorwaarden`-blok halen. — S
 
-134. **Een negatieve geldigheidsduur laat de PDF-export mislukken.** `OfferteView.tsx:186` tegenover
-     `mod.rs:330` (`u32`); `|| 30` zet een leeggemaakt veld bovendien terug op 30. Afgeleid uit de code.
-     Voorstel: `min={1}`, begrenzen, en tijdens het bewerken de ruwe tekst houden. — S
-
-135. **Betalingstermijnen die samen 100 % zijn, worden rood gemarkeerd.** `OfferteView.tsx:73` en `527`
-     (`=== 100`; 10.1+64.1+25.8 = 99.99999999999999). Nagespeeld. Voorstel: `Math.abs(total - 100) < 1e-6`; het
-     afgeronde totaal tonen. — B
-
-136. **Transparante PNG's krijgen zwarte miniaturen.** `src/services/offerte/imageService.ts:20` maakt er JPEG
-     van zonder witte achtergrond. Afgeleid uit de code. Voorstel: het canvas eerst wit vullen, of PNG
-     houden. — S
-
 137. **De sjabloonkeuzelijst vervangt de hele offerte zonder bevestiging of undo** (`OfferteTab.tsx:309-320`).
      Met minder zekerheid gemeld. — S
 
-138. **De `.total-row` van het IFC-rapport wordt wit op wit afgedrukt zonder achtergrondafbeeldingen.**
-     `reportGenerator.ts:144-149`. Gezien in de code. Mogelijk ook: in donkere modus blijft de achtergrond van
-     `:root` donker bij afdrukken op het web (`browserPrint.ts:29-32`), niet getest. Voorstel:
-     `print-color-adjust: exact`. — S
+138. **In donkere modus blijft de achtergrond van `:root` mogelijk donker bij afdrukken op het web**
+     (`src/services/print/browserPrint.ts:27-30`; de printstijl zet alleen hoogte en overflow van `html` en
+     `body` terug). Niet getest. (Het eerste deel van dit punt, de witte totaalregel van het IFC-rapport, is
+     hersteld.) — S
 
 141. **De inhoud van de offerte-PDF begint 15 mm te hoog en valt over het briefhoofd.**
      `src-tauri/src/reports/offerte.rs:58-59` maakt het frame met `Rect::new(margin_left, margin_bottom, …)`,

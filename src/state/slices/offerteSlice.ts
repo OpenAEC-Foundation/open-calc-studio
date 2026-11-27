@@ -6,6 +6,7 @@ import type {
   OfferteProperty, OfferteMaterialLayer, OfferteImage, ProjectInfo,
 } from '@/types/costModel';
 import { createDefaultProjectInfo } from '@/types/costModel';
+import { localIsoDate } from '@/utils/localDate';
 
 function genId(): string {
   return `off_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
@@ -40,7 +41,7 @@ export function createDefaultOfferte(): OfferteDocument {
     id: genId(),
     type: 'particulier',
     offerteNummer: '',
-    offerteDatum: new Date().toISOString().split('T')[0],
+    offerteDatum: localIsoDate(),
     geldigheid: 30,
     geadresseerde: { naam: '', adres: '', postcode: '', plaats: '' },
     begeleidendSchrijven: '',
@@ -556,7 +557,7 @@ export const createOfferteSlice: StateCreator<OfferteSlice> = (set, get) => {
   // ── Legacy compatibility (RAW offerte + old UI) ──
   offerteSettings: {
     staartInEP: true, afrondingNiveau: 0.01, globaleKorting: 0, btwPercentage: 21,
-    offerteNummer: '', offerteDatum: new Date().toISOString().split('T')[0],
+    offerteNummer: '', offerteDatum: localIsoDate(),
     geldigheid: 30, betreft: '', opdrachtgever: '', voorwaarden: uiText('quotationDefaults.terms', "All our offers are subject to UAV 2012 and our general terms and conditions."),
     ondertekeningNaam: '', ondertekeningFunctie: '',
   },
