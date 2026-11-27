@@ -931,6 +931,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "ບໍ່ພົບຕາຕະລາງ KK (ລາຍການ) ໃນໄຟລ໌ .DNC."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} ຫົວໜ່ວຍທີ່ບໍ່ມີຫົວໜ່ວຍທຽບເທົ່າຢູ່ບ່ອນນີ້ ຖືກຮັກສາໄວ້ຄືເກົ່າ: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} ຫົວໜ່ວຍທີ່ບໍ່ມີຫົວໜ່ວຍທຽບເທົ່າຢູ່ບ່ອນນີ້ ຖືກຮັກສາໄວ້ຄືເກົ່າ: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "ບໍ່ພົບອົງປະກອບ <ARTICLE>/<PRODUCT>. ນີ້ແມ່ນແຄັດຕາລັອກ BMEcat/DICO ບໍ່?",
         "noUsableArticlesWithACodeOr": "ບໍ່ພົບລາຍການສິນຄ້າທີ່ໃຊ້ໄດ້ທີ່ມີລະຫັດ ຫຼື ລາຍລະອຽດ."

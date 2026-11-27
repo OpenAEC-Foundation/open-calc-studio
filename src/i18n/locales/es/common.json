@@ -555,6 +555,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "No se ha encontrado ninguna tabla KK (partidas) en el archivo .DNC."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} unidad sin equivalente se conservó sin cambios: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} unidades sin equivalente se conservaron sin cambios: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "No se han encontrado elementos <ARTICLE>/<PRODUCT>. ¿Es un catálogo BMEcat/DICO?",
         "noUsableArticlesWithACodeOr": "No se han encontrado artículos utilizables con código o descripción."

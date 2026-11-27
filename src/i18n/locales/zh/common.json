@@ -930,6 +930,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "在 .DNC 文件中未找到 KK 表（项目）。"
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} 个没有对应单位的单位已原样保留：{{examples}}。",
+        "unknownUnitsKept_other": "{{count}} 个没有对应单位的单位已原样保留：{{examples}}。"
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "未找到 <ARTICLE>/<PRODUCT> 元素。这是 BMEcat/DICO 目录吗？",
         "noUsableArticlesWithACodeOr": "未找到带编码或名称的可用条目。"

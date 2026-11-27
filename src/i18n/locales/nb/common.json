@@ -930,6 +930,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Fant ingen KK-tabell (poster) i .DNC-filen."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} enhet uten motstykke er beholdt uendret: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} enheter uten motstykke er beholdt uendret: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Fant ingen <ARTICLE>/<PRODUCT>-elementer. Er dette en BMEcat/DICO-katalog?",
         "noUsableArticlesWithACodeOr": "Fant ingen brukbare artikler med kode eller beskrivelse."

@@ -362,7 +362,20 @@ function parseBc3(text: string): Bc3Data {
         // Alle codes (aliassen) verwijzen naar hetzelfde concept.
         for (const alias of codes.slice(1)) {
           const aliasKey = keyOf(alias);
-          if (variantsOf(aliasKey).length === 0) variantsOf(aliasKey).push(concept);
+          const aliasList = variantsOf(aliasKey);
+          if (aliasList.length === 0) {
+            aliasList.push(concept);
+          } else if (aliasList.length === 1 && aliasList[0].stub && aliasList[0] !== concept) {
+            // Een ~D/~T op de aliascode vóór deze ~C maakte een stub: neem
+            // zijn kinderen en tekst over, zodat verwijzingen naar de alias
+            // dit concept krijgen in plaats van een lege stub.
+            const aliasStub = aliasList[0];
+            concept.children.push(...aliasStub.children);
+            if (aliasStub.text) concept.text = concept.text ? `${concept.text}\n${aliasStub.text}` : aliasStub.text;
+            aliasList[0] = concept;
+            const at = data.order.indexOf(aliasStub);
+            if (at >= 0) data.order.splice(at, 1);
+          }
         }
         break;
       }
@@ -429,14 +442,13 @@ function parseBc3(text: string): Bc3Data {
       case 'T': {
         const key = keyOf(fields[0] ?? '');
         if (!key) break;
-        const list = data.variants.get(key);
-        const concept = list?.[list.length - 1];
-        if (concept) {
-          // Regeleinden in de tekst blijven staan, maar als LF: zo komt het
-          // in de notities zoals de rest van de app ze schrijft.
-          const txt = (fields[1] ?? '').replace(/\r\n?/g, '\n').trim();
-          concept.text = concept.text ? `${concept.text}\n${txt}` : txt;
-        }
+        // Een ~T vóór zijn ~C maakt (net als ~D) een stub die de ~C later
+        // invult; voorheen viel de tekst dan weg (knownbug 75).
+        const concept = targetFor(key);
+        // Regeleinden in de tekst blijven staan, maar als LF: zo komt het
+        // in de notities zoals de rest van de app ze schrijft.
+        const txt = (fields[1] ?? '').replace(/\r\n?/g, '\n').trim();
+        concept.text = concept.text ? `${concept.text}\n${txt}` : txt;
         break;
       }
       case 'K': {
@@ -456,6 +468,16 @@ function parseBc3(text: string): Bc3Data {
         break; // ~V/~P/~X en overige records hebben geen mapping nodig
     }
   }
+  // Een ~T zonder ~C en zonder ~D laat een lege stub achter; die hoort niet
+  // als (prijsloze) post in het prijzenboek te verschijnen. Zo voegde een
+  // weesverwijzing ook vóór knownbug 75 niets toe.
+  for (const [key, list] of data.variants) {
+    const kept = list.filter((c) => !(c.stub && c.children.length === 0));
+    if (kept.length === list.length) continue;
+    if (kept.length === 0) data.variants.delete(key);
+    else data.variants.set(key, kept);
+  }
+  data.order = data.order.filter((c) => !(c.stub && c.children.length === 0));
   return data;
 }
 

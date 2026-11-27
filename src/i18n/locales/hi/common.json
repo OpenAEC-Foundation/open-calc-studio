@@ -930,6 +930,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": ".DNC फ़ाइल में कोई KK तालिका (मदें) नहीं मिली।"
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} इकाई जिसका कोई समकक्ष नहीं, अपरिवर्तित रखी गई: {{examples}}।",
+        "unknownUnitsKept_other": "{{count}} इकाइयाँ जिनका कोई समकक्ष नहीं, अपरिवर्तित रखी गईं: {{examples}}।"
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "कोई <ARTICLE>/<PRODUCT> तत्व नहीं मिला। क्या यह BMEcat/DICO कैटलॉग है?",
         "noUsableArticlesWithACodeOr": "कोड या विवरण वाला कोई उपयोगी आर्टिकल नहीं मिला।"

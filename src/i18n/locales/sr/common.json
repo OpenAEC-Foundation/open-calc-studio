@@ -930,6 +930,11 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "У .DNC датотеци није пронађена KK табела (позиције)."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} јединица без одговарајуће јединице задржана је непромењена: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} јединица без одговарајуће јединице задржано је непромењено: {{examples}}.",
+        "unknownUnitsKept_few": "{{count}} јединице без одговарајуће јединице задржане су непромењене: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Нису пронађени елементи <ARTICLE>/<PRODUCT>. Да ли је ово BMEcat/DICO каталог?",
         "noUsableArticlesWithACodeOr": "Нису пронађени употребљиви артикли са шифром или описом."

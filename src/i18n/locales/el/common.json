@@ -930,6 +930,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Δεν βρέθηκε πίνακας KK (άρθρα) στο αρχείο .DNC."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} μονάδα χωρίς αντιστοιχία διατηρήθηκε αμετάβλητη: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} μονάδες χωρίς αντιστοιχία διατηρήθηκαν αμετάβλητες: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Δεν βρέθηκαν στοιχεία <ARTICLE>/<PRODUCT>. Είναι αυτό κατάλογος BMEcat/DICO;",
         "noUsableArticlesWithACodeOr": "Δεν βρέθηκαν αξιοποιήσιμα είδη με κωδικό ή περιγραφή."

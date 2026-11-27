@@ -932,6 +932,12 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "V souboru .DNC nebyla nalezena tabulka KK (položky)."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} jednotka bez protějšku byla ponechána beze změny: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} jednotek bez protějšku bylo ponecháno beze změny: {{examples}}.",
+        "unknownUnitsKept_few": "{{count}} jednotky bez protějšku byly ponechány beze změny: {{examples}}.",
+        "unknownUnitsKept_many": "{{count}} jednotek bez protějšku bylo ponecháno beze změny: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Nebyly nalezeny žádné prvky <ARTICLE>/<PRODUCT>. Jde o katalog BMEcat/DICO?",
         "noUsableArticlesWithACodeOr": "Nebyly nalezeny žádné použitelné artikly s kódem nebo popisem."

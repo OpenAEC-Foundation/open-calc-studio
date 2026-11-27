@@ -203,77 +203,96 @@ function importLegacyCuf(doc: Document): ImportResult {
 
   const name = getText(root, 'Naam') || 'Geïmporteerde begroting';
 
-  children(root, 'Hoofdstuk').forEach((h, idx) => {
-    const chapter = makeCostItem({
-      parentId: null,
-      sortOrder: items.length,
-      depth: 0,
-      rowType: 'chapter',
-      code: h.getAttribute('code') ?? `H${idx + 1}`,
-      description: h.getAttribute('omschrijving') ?? '',
-    });
-    items.push(chapter);
+  const resourceTypeOf = (m: Element): ResourceType => {
+    const typeAttr = (m.getAttribute('type') ?? '').toLowerCase();
+    return typeAttr === 'arbeid' ? 'arbeid' :
+      typeAttr === 'materiaal' ? 'materiaal' :
+      typeAttr === 'materieel' ? 'materieel' :
+      (typeAttr === 'onderaanneming' || typeAttr === 'onderaannemer') ? 'onderaannemer' :
+      'overig';
+  };
 
-    children(h, 'Post').forEach((p) => {
-      const qty = getNumber(p, 'Hoeveelheid');
-      const price = getNumber(p, 'Prijs');
-      const post = makeCostItem({
-        parentId: chapter.id,
+  /**
+   * Een <Middel> (prijs per eenheid) of een <Regel> zoals de OCS-export hem
+   * schrijft (prijs = het bedrag van de regel). Voorheen werden <Regel>s
+   * genegeerd, dus een eigen export kwam zonder regels terug (knownbug 103).
+   */
+  const addRegel = (m: Element, postId: string, depth: number): void => {
+    const mQty = getNumber(m, 'Hoeveelheid');
+    const isRegel = m.localName === 'Regel';
+    const amount = getNumber(m, 'Prijs');
+    const mPrice = isRegel && mQty !== 0 ? amount / mQty : amount;
+    items.push(
+      makeCostItem({
+        parentId: postId,
         sortOrder: items.length,
-        depth: 1,
-        rowType: 'begrotingspost',
-        code: p.getAttribute('code') ?? '',
-        description: p.getAttribute('omschrijving') ?? '',
-        quantity: qty,
-        unit: normalizeUnit(getText(p, 'Eenheid')),
-        normUnitPrice: price,
-        unitPrice: price,
-        total: qty * price,
-      });
-      items.push(post);
+        depth,
+        rowType: 'regel',
+        code: m.getAttribute('code') ?? '',
+        description: m.getAttribute('omschrijving') ?? '',
+        quantity: mQty,
+        unit: normalizeUnit(getText(m, 'Eenheid')),
+        // Geen normQuantity: de regel rekent dan als directe prijs
+        // (aantal × prijs/middel), zodat het bedrag de herberekening overleeft.
+        normUnitPrice: mPrice,
+        unitPrice: mQty * mPrice,
+        total: mQty * mPrice,
+        normFactor: getNumberOrDefault(m, 'Normfactor', 1),
+        normDivisor: getNumberOrDefault(m, 'Normdeler', 1),
+        resourceType: resourceTypeOf(m),
+      }),
+    );
+  };
 
-      // Middel children (arbeid/materiaal/materieel/onderaannemer/overig)
-      children(p, 'Middel').forEach((m) => {
-        const mQty = getNumber(m, 'Hoeveelheid');
-        const mPrice = getNumber(m, 'Prijs');
-        const typeAttr = (m.getAttribute('type') ?? '').toLowerCase();
-        const resourceType: ResourceType =
-          typeAttr === 'arbeid' ? 'arbeid' :
-          typeAttr === 'materiaal' ? 'materiaal' :
-          typeAttr === 'materieel' ? 'materieel' :
-          (typeAttr === 'onderaanneming' || typeAttr === 'onderaannemer') ? 'onderaannemer' :
-          'overig';
-        items.push(
-          makeCostItem({
-            parentId: post.id,
-            sortOrder: items.length,
-            depth: 2,
-            rowType: 'regel',
-            code: m.getAttribute('code') ?? '',
-            description: m.getAttribute('omschrijving') ?? '',
-            quantity: mQty,
-            unit: normalizeUnit(getText(m, 'Eenheid')),
-            // Geen normQuantity: de regel rekent dan als directe prijs
-            // (aantal × prijs/middel), zodat het bedrag de herberekening overleeft.
-            normUnitPrice: mPrice,
-            unitPrice: mQty * mPrice,
-            total: mQty * mPrice,
-            normFactor: getNumberOrDefault(m, 'Normfactor', 1),
-            normDivisor: getNumberOrDefault(m, 'Normdeler', 1),
-            resourceType,
-          }),
-        );
-      });
+  const addPost = (p: Element, chapterId: string, depth: number): void => {
+    const qty = getNumber(p, 'Hoeveelheid');
+    const price = getNumber(p, 'Prijs');
+    const post = makeCostItem({
+      parentId: chapterId,
+      sortOrder: items.length,
+      depth,
+      rowType: 'begrotingspost',
+      code: p.getAttribute('code') ?? '',
+      description: p.getAttribute('omschrijving') ?? '',
+      quantity: qty,
+      unit: normalizeUnit(getText(p, 'Eenheid')),
+      normUnitPrice: price,
+      unitPrice: price,
+      total: qty * price,
+    });
+    items.push(post);
 
+    for (const child of Array.from(p.children)) {
+      // Middel/Regel (arbeid/materiaal/materieel/onderaannemer/overig)
+      if (child.localName === 'Middel' || child.localName === 'Regel') addRegel(child, post.id, depth + 1);
       // Toeslag: warn, don't import (not mapped in OCS model)
-      children(p, 'Toeslag').forEach((t) => {
-        const tCode = t.getAttribute('code') ?? '?';
+      else if (child.localName === 'Toeslag') {
+        const tCode = child.getAttribute('code') ?? '?';
         warnings.push(
           uiText("diagnostics.cufImporter.surchargeWasNotImportedItIsUnsupported", "Surcharge \"{{p0}}\" was not imported: it is unsupported by the OCS model.", { p0: tCode }),
         );
-      });
+      }
+    }
+  };
+
+  /** Een Hoofdstuk met zijn posten én geneste subhoofdstukken, in bestandsvolgorde (knownbug 103). */
+  const addChapter = (h: Element, parentId: string | null, depth: number, fallbackCode: string): void => {
+    const chapter = makeCostItem({
+      parentId,
+      sortOrder: items.length,
+      depth,
+      rowType: 'chapter',
+      code: h.getAttribute('code') ?? fallbackCode,
+      description: h.getAttribute('omschrijving') ?? '',
     });
-  });
+    items.push(chapter);
+    for (const child of Array.from(h.children)) {
+      if (child.localName === 'Hoofdstuk') addChapter(child, chapter.id, depth + 1, '');
+      else if (child.localName === 'Post') addPost(child, chapter.id, depth + 1);
+    }
+  };
+
+  children(root, 'Hoofdstuk').forEach((h, idx) => addChapter(h, null, 0, `H${idx + 1}`));
 
   if (items.length === 0) warnings.push(uiText("diagnostics.cufImporter.theCUFFileContainsNoChaptersOr", "The CUF file contains no chapters or items."));
 

@@ -930,6 +930,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "No s'ha trobat cap taula KK (partides) al fitxer .DNC."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} unitat sense equivalent s'ha conservat sense canvis: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} unitats sense equivalent s'han conservat sense canvis: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "No s'ha trobat cap element <ARTICLE>/<PRODUCT>. És un catàleg BMEcat/DICO?",
         "noUsableArticlesWithACodeOr": "No s'ha trobat cap article utilitzable amb codi o descripció."

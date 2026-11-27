@@ -930,6 +930,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": ".DNC ফাইলে কোনো KK টেবিল (আইটেম) পাওয়া যায়নি।"
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "সমতুল্য নেই এমন {{count}}টি একক অপরিবর্তিত রাখা হয়েছে: {{examples}}।",
+        "unknownUnitsKept_other": "সমতুল্য নেই এমন {{count}}টি একক অপরিবর্তিত রাখা হয়েছে: {{examples}}।"
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "কোনো <ARTICLE>/<PRODUCT> এলিমেন্ট পাওয়া যায়নি। এটি কি একটি BMEcat/DICO ক্যাটালগ?",
         "noUsableArticlesWithACodeOr": "কোড বা বিবরণসহ কোনো ব্যবহারযোগ্য আর্টিকেল পাওয়া যায়নি।"
