@@ -30,7 +30,7 @@ Zie de [desktop-MCP-handleiding](https://github.com/OpenAEC-Foundation/open-calc
 
 - GAEB-export is nog niet beschikbaar; import bewaart niet elk GAEB-veld.
 - PDF-metingen en IFC-quantitysets zijn via `pdf.*` en `ifc.*` in `app_action` beschikbaar. Ze vereisen de draaiende desktopapp.
-- SIA 451/CRBX, DCF/XPWE en OST/OSP worden niet ondersteund.
+- XPWE/XC4 import en export werken alleen in de app, nog niet via MCP. SIA 451/CRBX, DCF en OST/OSP worden niet ondersteund.
 - Een MCP-actie op een open desktopbegroting kan gevolgen hebben voor die sessie. Bewaar belangrijk werk voordat je externe automatisering gebruikt.
 
 Meld ontbrekende functies of problemen via de [issues](https://github.com/OpenAEC-Foundation/open-calc-studio/issues), liefst met een geanonimiseerd voorbeeldbestand en het verwachte resultaat.

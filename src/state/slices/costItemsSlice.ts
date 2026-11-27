@@ -305,7 +305,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
     const siblings = state.items.filter((i) => i.parentId === parentId);
     const newItem: CostItem = {
       ...createDefaultItem(parentId, siblings.length, depth, 'bewakingspost'),
-      description: i18next.t('newMonitorPost', { defaultValue: 'New monitor post' }),
+      description: i18next.t('newMonitorPost', { defaultValue: 'New monitoring item' }),
     };
     const newItems = [...state.items];
     newItems.splice(findInsertIndex(state.items, parentId, afterItemId), 0, newItem);
@@ -322,7 +322,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
     const siblings = state.items.filter((i) => i.parentId === parentId);
     const newItem: CostItem = {
       ...createDefaultItem(parentId, siblings.length, depth, 'regel'),
-      description: i18next.t('newCalculationRule', { defaultValue: 'New calculation rule' }),
+      description: i18next.t('newCalculationRule', { defaultValue: 'New calculation line' }),
     };
     const newItems = [...state.items];
     newItems.splice(findInsertIndex(state.items, parentId, afterItemId), 0, newItem);

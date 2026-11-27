@@ -5,6 +5,7 @@ import { getStaartBreakdown } from '@/services/calculation/calculator';
 import { buildBouw1Html } from './bouw1PrintService';
 import { variantCalculatedItems } from '@/services/grid/variantTotals';
 import { getReportContext, type ReportContext } from '@/i18n/reportI18n';
+import { formatReportDate } from '@/utils/localDate';
 
 function escapeHtml(text: string): string {
   return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -219,7 +220,7 @@ function buildHtml(
   }
   const colCount = columns.length;
   const hasTotalCol = columns.some(c => c.key === 'total');
-  const today = new Date().toLocaleDateString(ctx.intlLocale, { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const today = formatReportDate(schedule.reportDate, ctx.intlLocale);
 
   const hasStaart = items.some(item => item.rowType.startsWith('staart_'));
   const breakdown = hasStaart ? getStaartBreakdown(items) : null;
@@ -241,6 +242,7 @@ function buildHtml(
   const useSubtotalRows = view === 'hoofdaanneming' && hasTotalCol;
   // Rapportoptie: alleen subtotaal-bedragen (hoeveelheden blijven zichtbaar)
   const hideLineAmounts = useSubtotalRows && !!schedule.reportAmountsSubtotalsOnly;
+  const chapterTotalsOnly = !!schedule.reportChapterTotalsOnly;
 
   // Koptekst-instellingen (rapporteigenschappen): lijnkleur en hoogte;
   // het logo schaalt mee met de koptekst-hoogte.
@@ -300,8 +302,10 @@ function buildHtml(
     if (item.rowType === 'chapter') {
       const cells = columns.map(c => {
         if (c.key === 'description') return `<td class="desc"${indentStyle}>${escapeHtml(item.description)}</td>`;
-        // Bij hoofdaanneming: geen totaal naast hoofdstuknaam
-        if (c.key === 'total') return `<td class="amount">${useSubtotalRows ? '' : (item.total === 0 ? '' : fmtCurrency(item.total))}</td>`;
+        // Bij hoofdaanneming: geen totaal naast hoofdstuknaam (dat staat in
+        // het subtotaal), behalve bij alleen hoofdstuktotalen: dan zijn er
+        // geen posten en dus geen subtotalen (knownbug 122).
+        if (c.key === 'total') return `<td class="amount">${useSubtotalRows && !chapterTotalsOnly ? '' : (item.total === 0 ? '' : fmtCurrency(item.total))}</td>`;
         if (c.key === 'code') return `<td class="code">${escapeHtml(item.code)}</td>`;
         // Clean views: S/V leeg op hoofdstukregels (de posten dragen de V)
         if (c.key === 'verrekenbaar') return `<td class="center">${cleanView ? '' : (item.verrekenbaar ?? '')}</td>`;

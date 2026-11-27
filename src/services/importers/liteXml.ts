@@ -169,7 +169,10 @@ export function parseLiteXml(input: string): XElement {
       const end = xml.indexOf(String.fromCharCode(q), i + 1);
       if (end < 0) fail(uiText('diagnostics.xml.attributeEnd', "Attribute {{p0}} is not terminated", { p0: aname }), xml, lt);
       const raw = xml.slice(i + 1, end);
-      node.attrs[localName(aname)] = decode(raw, xml, lt).replace(/[\t\n\r]/g, ' ');
+      // Attribuutnormalisatie (XML 1.0, 3.3.3): eerst regeleinden samenvoegen
+      // en letterlijke witruimte → spatie, dán entiteiten oplossen; een
+      // tekenverwijzing als &#10; blijft zo een regeleinde (knownbug 78).
+      node.attrs[localName(aname)] = decode(raw.replace(/\r\n?/g, '\n').replace(/[\t\n]/g, ' '), xml, lt);
       i = end + 1;
     }
 

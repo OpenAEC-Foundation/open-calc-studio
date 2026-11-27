@@ -61,7 +61,7 @@
     "tradDesc": "Định dạng trao đổi IBIS Trad (.xml)",
     "rsxDesc": "Trao đổi chỉ dẫn kỹ thuật CROW RAW (.rsx/.xml)",
     "rsuDesc": "Trao đổi RAW đời cũ (.rsu) — qua tuyến RSX",
-    "bc3Desc": "Dự toán của Tây Ban Nha (.bc3); sổ đơn giá cũng mở thành dự toán",
+    "bc3Desc": "Dự toán Tây Ban Nha (.bc3); với cơ sở dữ liệu giá, hãy dùng Thư viện giá bên dưới",
     "onlvDesc": "Bảng khối lượng Áo ÖNORM A 2063 (.onlv) hoặc danh mục văn bản chuẩn (.onlb)",
     "zsxTitle": "Bảng giá (ZSX)",
     "zsxDesc": "Bảng giá thành thư viện giá riêng (.zsx/.xml)",
@@ -84,8 +84,8 @@
     "groupLibrary": "Thư viện giá",
     "groupLibraryHint": "Được lưu trên máy tính này để mọi dự toán đều dùng được. Không tạo dự toán.",
     "groupOther": "Khác",
-    "libraryTableTitle": "Bảng giá (Excel / CSV / JSON)",
-    "libraryTableDesc": "Bảng giá của bạn hoặc của nhà cung cấp, có xem trước cột (.xlsx/.csv/.json)"
+    "libraryTableTitle": "Bảng giá (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "Bảng giá của bạn hoặc của nhà cung cấp, có xem trước cột (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "Kích thước",

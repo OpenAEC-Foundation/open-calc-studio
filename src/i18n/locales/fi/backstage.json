@@ -61,7 +61,7 @@
     "tradDesc": "IBIS Trad -siirtomuoto (.xml)",
     "rsxDesc": "CROW RAW -selostuksen tiedonsiirto (.rsx/.xml)",
     "rsuDesc": "Vanhempi RAW-siirtomuoto (.rsu) — RSX-reitin kautta",
-    "bc3Desc": "Espanjalaiset kustannusarviot (.bc3); myös hintakirja avautuu kustannusarviona",
+    "bc3Desc": "Espanjalaiset kustannusarviot (.bc3); hintatietokanta tuodaan alla kohdassa Hintakirjasto",
     "onlvDesc": "Itävaltalainen ÖNORM A 2063 -erittely (.onlv) tai vakiotekstien luettelo (.onlb)",
     "zsxTitle": "Hinnasto (ZSX)",
     "zsxDesc": "Hinnasto omaksi hintakirjastoksi (.zsx/.xml)",
@@ -84,8 +84,8 @@
     "groupLibrary": "Hintakirjasto",
     "groupLibraryHint": "Tallennetaan tälle tietokoneelle, jotta jokainen kustannusarvio voi käyttää sitä. Ei luo kustannusarviota.",
     "groupOther": "Muut",
-    "libraryTableTitle": "Hinnasto (Excel / CSV / JSON)",
-    "libraryTableDesc": "Oma tai toimittajan hinnasto, sarakkeiden esikatselulla (.xlsx/.csv/.json)"
+    "libraryTableTitle": "Hinnasto (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "Oma tai toimittajan hinnasto, sarakkeiden esikatselulla (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "Koko",

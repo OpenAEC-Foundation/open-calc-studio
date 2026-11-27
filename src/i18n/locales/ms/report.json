@@ -91,13 +91,13 @@
     "subtotal1": "Jumlah kecil 1",
     "subtotal2": "Jumlah kecil 2",
     "directCosts": "Jumlah kecil kos langsung (harga kos)",
-    "contractSumExclVat": "Jumlah kontrak tidak termasuk GST",
-    "totalExclVat": "Jumlah tidak termasuk GST",
-    "totalInclVat": "Jumlah termasuk GST",
-    "vatLowPct": "GST rendah {{pct}}%",
-    "vatPct": "GST {{pct}}%",
+    "contractSumExclVat": "Jumlah kontrak tidak termasuk SST",
+    "totalExclVat": "Jumlah tidak termasuk SST",
+    "totalInclVat": "Jumlah termasuk SST",
+    "vatLowPct": "SST rendah {{pct}}%",
+    "vatPct": "SST {{pct}}%",
     "budgetTotal": "Jumlah anggaran",
-    "budgetTotalExclVat": "Jumlah anggaran (tidak termasuk GST)"
+    "budgetTotalExclVat": "Jumlah anggaran (tidak termasuk SST)"
   },
   "summary": {
     "title": "Ringkasan",
@@ -111,24 +111,24 @@
     "risk": "Risiko:",
     "profit": "Keuntungan:",
     "insurance": "Insurans:",
-    "vatLow": "GST rendah:",
-    "vatHigh": "GST biasa:",
-    "totalExclVat": "Jumlah tidak termasuk GST:",
-    "totalInclVat": "Harga keseluruhan termasuk GST:"
+    "vatLow": "SST rendah:",
+    "vatHigh": "SST biasa:",
+    "totalExclVat": "Jumlah tidak termasuk SST:",
+    "totalInclVat": "Harga keseluruhan termasuk SST:"
   },
   "staart": {
     "title": "Kos tambahan",
     "allCosts": "Semua kos",
     "transport": "(Dibawa ke hadapan)",
     "rounding": "Pembundaran",
-    "totalExclVat": "Jumlah tidak termasuk GST",
-    "vatBase": "Asas GST",
-    "vatBaseHigh": "Asas GST biasa",
-    "vatBaseLow": "Asas GST rendah",
-    "vatHigh": "GST biasa",
-    "vatLow": "GST rendah",
-    "totalVat": "Jumlah GST",
-    "totalInclVat": "Jumlah termasuk GST"
+    "totalExclVat": "Jumlah tidak termasuk SST",
+    "vatBase": "Asas SST",
+    "vatBaseHigh": "Asas SST biasa",
+    "vatBaseLow": "Asas SST rendah",
+    "vatHigh": "SST biasa",
+    "vatLow": "SST rendah",
+    "totalVat": "Jumlah SST",
+    "totalInclVat": "Jumlah termasuk SST"
   },
   "footer": {
     "page": "Halaman {{page}} / {{total}}",
@@ -155,7 +155,7 @@
     "approval": "Dipersetujui:",
     "images": "[{{count}} imej]",
     "totalOffer": "Kami boleh melaksanakan kerja ini dengan harga: {{amount}}",
-    "inclVatNote": "Amaun ini termasuk GST ({{rate}}).",
-    "inclVatNoteMixed": "Amaun ini termasuk GST."
+    "inclVatNote": "Amaun ini termasuk SST ({{rate}}).",
+    "inclVatNoteMixed": "Amaun ini termasuk SST."
   }
 }

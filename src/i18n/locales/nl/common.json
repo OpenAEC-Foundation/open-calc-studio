@@ -749,6 +749,10 @@
       "looksLikePriceList": "Dit lijkt een prijslijst: codes en prijzen, geen hoeveelheden.",
       "importAsLibrary": "Importeer als prijsbibliotheek",
       "ownNotPriceXml": "Dit XML-bestand is geen BMEcat-catalogus of ZSX-prijslijst. Is het een begroting (CUF, GAEB, RSX, …)? Open het via Importeren → Nieuwe begroting.",
+      "ownBc3NoConcepts": "geen ~C-records gevonden; is dit een BC3-bestand?",
+      "ownBc3Negative": "Weggelaten omdat de prijs negatief is ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "Zonder prijs geïmporteerd omdat de prijs in het bestand 0 is ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "Het bestand noemt geen valuta. Oudere BC3-bestanden zijn vaak in peseta's: controleer de prijzen voordat je ze gebruikt.",
       "selectAll": "Alle wijzigingen selecteren",
       "ownDuplicates": "Codes die vaker voorkomen kregen een achtervoegsel (~2, ~3) ({{count}}): {{codes}}.",
       "libraryNotLoaded": "De bibliotheek “{{name}}” is niet geladen in deze begroting. De regel houdt zijn prijs; zet de bibliotheek aan om prijsupdates te beoordelen.",
@@ -925,6 +929,10 @@
       },
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Geen KK-tabel (posten) gevonden in het .DNC-bestand."
+      },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} eenheid zonder tegenhanger is ongewijzigd overgenomen: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} eenheden zonder tegenhanger zijn ongewijzigd overgenomen: {{examples}}."
       },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Geen <ARTICLE>/<PRODUCT> elementen gevonden — is dit een BMEcat/DICO-catalogus?",
