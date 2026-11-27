@@ -113,7 +113,7 @@
   "rows": "แถว",
   "costPrice": "ราคาทุน",
   "costPriceDirect": "ราคาทุน (ต้นทุนทางตรง)",
-  "surcharges": "ค่าใช้จ่ายส่วนเพิ่ม (ส่วนท้าย)",
+  "surcharges": "ค่าใช้จ่ายส่วนเพิ่ม",
   "subtotal1": "รวมย่อย 1",
   "subtotal2": "รวมย่อย 2",
   "rounding": "ปัดเศษ",
@@ -153,8 +153,8 @@
   "wpcalc": {
     "tabData": "ข้อมูล",
     "tabHours": "ชั่วโมง",
-    "tabTail": "ส่วนท้าย",
-    "tabHoursTail": "ชั่วโมงและส่วนท้าย",
+    "tabTail": "ค่าใช้จ่ายส่วนเพิ่ม",
+    "tabHoursTail": "ชั่วโมงและค่าใช้จ่ายส่วนเพิ่ม",
     "tabReport": "รายงาน",
     "hoursOverview": "ภาพรวมชั่วโมง",
     "headerType": "ประเภท",
@@ -162,7 +162,7 @@
     "headerRate": "อัตรา",
     "headerTotal": "รวม",
     "rateGroup": "กลุ่มอัตรา",
-    "tailCosts": "ค่าใช้จ่ายส่วนท้าย",
+    "tailCosts": "ค่าใช้จ่ายส่วนเพิ่ม",
     "colDescription": "รายละเอียด",
     "colPercentage": "%",
     "colLabor": "ค่าแรง",
@@ -348,7 +348,7 @@
       "regel": "บรรทัดคำนวณ",
       "tekstregel": "บรรทัดข้อความ",
       "witregel": "บรรทัดว่าง",
-      "staart": "บรรทัดส่วนท้าย"
+      "staart": "บรรทัดค่าใช้จ่ายส่วนเพิ่ม"
     },
     "fields": {
       "code": "รหัส",

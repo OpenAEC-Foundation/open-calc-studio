@@ -113,7 +113,7 @@
   "rows": "Dòng",
   "costPrice": "Giá thành",
   "costPriceDirect": "Giá thành (chi phí trực tiếp)",
-  "surcharges": "Chi phí cộng thêm (phần đuôi)",
+  "surcharges": "Chi phí cộng thêm",
   "subtotal1": "Cộng 1",
   "subtotal2": "Cộng 2",
   "rounding": "Làm tròn",
@@ -153,8 +153,8 @@
   "wpcalc": {
     "tabData": "Dữ liệu",
     "tabHours": "Giờ công",
-    "tabTail": "Phần đuôi",
-    "tabHoursTail": "Giờ công & phần đuôi",
+    "tabTail": "Chi phí cộng thêm",
+    "tabHoursTail": "Giờ công & chi phí cộng thêm",
     "tabReport": "Báo cáo",
     "hoursOverview": "Tổng quan giờ công",
     "headerType": "Loại",
@@ -162,7 +162,7 @@
     "headerRate": "Mức giá",
     "headerTotal": "Tổng",
     "rateGroup": "Nhóm đơn giá",
-    "tailCosts": "Chi phí phần đuôi",
+    "tailCosts": "Chi phí cộng thêm",
     "colDescription": "Mô tả",
     "colPercentage": "%",
     "colLabor": "Nhân công",
@@ -348,7 +348,7 @@
       "regel": "Dòng tính toán",
       "tekstregel": "Dòng văn bản",
       "witregel": "Dòng trống",
-      "staart": "Dòng phần đuôi"
+      "staart": "Dòng chi phí cộng thêm"
     },
     "fields": {
       "code": "Mã",

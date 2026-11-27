@@ -113,7 +113,7 @@
   "rows": "Safu",
   "costPrice": "Bei ya gharama",
   "costPriceDirect": "Bei ya gharama (gharama za moja kwa moja)",
-  "surcharges": "Nyongeza (gharama za mkia)",
+  "surcharges": "Nyongeza",
   "subtotal1": "Jumla ndogo 1",
   "subtotal2": "Jumla ndogo 2",
   "rounding": "Kuzungusha",
@@ -153,8 +153,8 @@
   "wpcalc": {
     "tabData": "Data",
     "tabHours": "Saa",
-    "tabTail": "Mkia",
-    "tabHoursTail": "Saa na mkia",
+    "tabTail": "Nyongeza",
+    "tabHoursTail": "Saa na nyongeza",
     "tabReport": "Ripoti",
     "hoursOverview": "Muhtasari wa saa",
     "headerType": "Aina",
@@ -162,7 +162,7 @@
     "headerRate": "Kiwango",
     "headerTotal": "Jumla",
     "rateGroup": "Kundi la viwango",
-    "tailCosts": "Gharama za mkia",
+    "tailCosts": "Gharama za nyongeza",
     "colDescription": "Maelezo",
     "colPercentage": "%",
     "colLabor": "Wafanyakazi",
@@ -348,7 +348,7 @@
       "regel": "Mstari wa kukokotoa",
       "tekstregel": "Mstari wa maandishi",
       "witregel": "Mstari mtupu",
-      "staart": "Mstari wa mkia"
+      "staart": "Mstari wa nyongeza"
     },
     "fields": {
       "code": "Msimbo",

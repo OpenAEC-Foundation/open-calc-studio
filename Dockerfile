@@ -8,7 +8,9 @@ COPY src ./src
 COPY server ./server
 COPY scripts/build-server.mjs scripts/distribution-notices.mjs ./scripts/
 COPY LICENSE COPYING NOTICE.md ./
-RUN node scripts/build-server.mjs
+# No Git in this image: build-info.json takes the commit from the REVISION build argument.
+ARG REVISION=unknown
+RUN OCS_COMMIT=$REVISION node scripts/build-server.mjs
 
 FROM node:22-bookworm-slim
 ARG VERSION=unknown

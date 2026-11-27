@@ -1,8 +1,8 @@
 # Internationale bestandsuitwisseling
 
 Open Calc Studio leest momenteel native projecten, Nederlandse CUF/RAW/IBIS,
-Spaanse BC3, Oostenrijkse ÖNORM A 2063 en een afgebakend deel van Duitse GAEB
-DA XML. CSV/Excel kan via kolomtoewijzing worden geïmporteerd. PDF en IFC zijn
+Spaanse BC3, Oostenrijkse ÖNORM A 2063, Italiaanse XPWE, Tsjechische XC4 en een
+afgebakend deel van Duitse GAEB DA XML. CSV/Excel kan via kolomtoewijzing worden geïmporteerd. PDF en IFC zijn
 bronnen voor metingen en hoeveelheden; zij zijn niet automatisch een volledige
 begroting met bewerkbare prijsopbouw.
 
@@ -28,8 +28,10 @@ RSX aan, maar geen GAEB-export.
 De Nederlandse CUF/RAW, Spaanse BC3 en Oostenrijkse ONLV-formaten worden door
 de app geïmporteerd en geëxporteerd. Een praktisch uitwisselproces vraagt nog
 steeds om testbestanden van de ontvangende software; het eigen round-trip-testen
-bewijst geen leverancierscertificering. SIA 451/CRBX, Italiaanse DCF/XPWE en
-Amerikaanse OST/OSP zijn nog niet geïmplementeerd. Hun semantiek en eventuele
+bewijst geen leverancierscertificering. XPWE en XC4 worden in de app
+geïmporteerd en terug naar het ingebedde bronbestand geëxporteerd (zie
+[begrotingsconverters](begroting-converters.md)); via MCP kan dat nog niet.
+SIA 451/CRBX, Italiaanse DCF en Amerikaanse OST/OSP zijn nog niet geïmplementeerd. Hun semantiek en eventuele
 licenties moeten worden vastgesteld voordat er een betrouwbare converter kan
 worden uitgebracht.
 

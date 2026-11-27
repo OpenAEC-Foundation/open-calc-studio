@@ -199,7 +199,7 @@
     "totalExclVatInclMarkups": "Total HT majorations incluses :",
     "totalInclVat": "Prix total TTC :",
     "noTailCosts": "Aucun frais indirect configuré",
-    "roundingStepTitle": "Pas d'arrondi automatique du total HT",
+    "roundingStepTitle": "Incrément d'arrondi automatique du total HT",
     "roundingNone": "pas d'arrondi",
     "roundTo1": "à {{amount}}",
     "roundTo10": "à {{amount}}",
@@ -233,7 +233,7 @@
     "vatBaseClear": "Effacer la base de TVA",
     "vatBaseSet": "Définir la base de TVA",
     "finalAmountSet": "Définir le montant final",
-    "roundingStep": "Pas d'arrondi",
+    "roundingStep": "Incrément d'arrondi",
     "measurementLines": "Modifier les lignes de métré"
   },
   "pdfLinkMissing": "La mesure source PDF est manquante ; la dernière quantité connue est conservée. Reliez la mesure.",
