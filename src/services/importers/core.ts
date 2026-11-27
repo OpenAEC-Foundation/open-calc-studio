@@ -104,14 +104,22 @@ export function parseAmount(raw: string | number | null | undefined): ParsedAmou
   const currency = token ? TOKEN_CODE.get(token.toLowerCase()) ?? null : null;
   // Alleen het getal zelf (teken, cijfers, scheidingstekens, exponent); wat
   // erachter staat telt niet mee, net als bij parseFloat.
-  const core = /^[+-]?[\d.,'\u2019]*\d(?:e[+-]?\d+)?/i.exec(m ? `${m[1] || m[3]}${m[4]}` : s)?.[0];
+  const source = m ? `${m[1] || m[3]}${m[4]}` : s;
+  const core = /^[+-]?[\d.,'\u2019]*\d(?:e[+-]?\d+)?/i.exec(source)?.[0];
   if (!core || /['\u2019](?!\d{3}(?!\d))/.test(core)) return invalid;
   const exp = /e[+-]?\d+$/i.exec(core)?.[0] ?? '';
   let t = core.slice(0, core.length - exp.length).replace(/['\u2019]/g, '');
   const lastComma = t.lastIndexOf(',');
   const lastDot = t.lastIndexOf('.');
   const groupMatch = token ? /^[+-]?[1-9]\d{0,2}([.,])\d{3}$/.exec(t) : null;
-  if (groupMatch && (groupMatch[1] === '.' || COMMA_GROUP_TOKENS.has(token!.toLowerCase()))) {
+  // Een scheidingsteken direct na het getal zonder decimalen ("1.250,-",
+  // "1.250,=", "1,250.") is het decimaalteken van een rond bedrag; het teken
+  // ín het getal is dan een duizendtal: "1.250,-" → 1250, niet 1,25.
+  const wholeSep = !exp && /^[.,](?!\d)/.test(source.slice(core.length));
+  const innerSeps = t.replace(/^[+-]/, '').match(/[.,]/g) ?? [];
+  if (wholeSep && innerSeps.length > 0 && innerSeps.every((c) => c === innerSeps[0]) && groupsOk(t, innerSeps[0] as '.' | ',')) {
+    t = t.replace(/[.,]/g, '');
+  } else if (groupMatch && (groupMatch[1] === '.' || COMMA_GROUP_TOKENS.has(token!.toLowerCase()))) {
     // Bedrag met valutateken en één scheidingsteken voor precies drie cijfers
     // is een duizendtal: "€ 1.250" → 1250, "$1,234" → 1234, "₩1,000" → 1000.
     // Een komma alleen bij valuta's die de komma als duizendtal gebruiken;
