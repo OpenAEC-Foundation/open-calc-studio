@@ -23,7 +23,7 @@ export async function libraryCommand(action: string, params: Record<string, unkn
   if (action === 'import') {
     if (typeof params.fileName !== 'string' || params.fileName.length === 0) throw Error('fileName is required.');
     if ((params.content !== undefined && typeof params.content !== 'string') || (params.dataBase64 !== undefined && typeof params.dataBase64 !== 'string')) throw Error('File content must be a string.');
-    if ((typeof params.content === 'string') === (typeof params.dataBase64 === 'string')) throw Error('Provide either content (text) or dataBase64 (Excel).');
+    if ((typeof params.content === 'string') === (typeof params.dataBase64 === 'string')) throw Error('Provide either content (text) or dataBase64 (Excel, or BC3 in its own character set).');
     if (params.updateId !== undefined && typeof params.updateId !== 'string') throw Error('updateId must be a string.');
     if (params.replace !== undefined && typeof params.replace !== 'boolean') throw Error('replace must be a boolean.');
     if (params.columnMapping !== undefined && (!Array.isArray(params.columnMapping) || params.columnMapping.some(f => typeof f !== 'string'))) throw Error('columnMapping must be an array of field names.');

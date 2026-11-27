@@ -23,7 +23,7 @@ export interface OwnLibraryJson {
   resources: unknown[];
 }
 
-export type OwnLibraryOrigin = 'json' | 'table' | 'bmecat' | 'zsx';
+export type OwnLibraryOrigin = 'json' | 'table' | 'bmecat' | 'zsx' | 'bc3';
 
 export interface OwnLibrary {
   /** Catalogue ID: part of every article ID, so price links depend on it. Never changes after the first import. */

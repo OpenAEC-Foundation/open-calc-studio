@@ -51,7 +51,7 @@ Een aangepast urentotaal schaalt de onderliggende normen naar rato. Bekijk de ge
 
 Bestand → Opslaan bewaart het actieve document; Opslaan als maakt een afzonderlijke kopie. `.ifcCalc` is de standaard voor het eigen formaat; native `.ocs` wordt ook herkend. Bewaar een native hoofdbestand naast exports voor andere programma's.
 
-De desktopapp controleert iedere twee minuten alleen het **actieve** document en slaat het op als het gewijzigd is en al een bestandspad heeft. Nieuwe documenten zonder pad en inactieve tabbladen vallen hier niet onder. Sla nieuwe begrotingen dus eerst zelf op en bewaar andere tabbladen vóór sluiten. In de browser wordt bij opslaan een bestand gedownload; deze desktop-autosave geldt daar niet.
+Open Calc Studio slaat niet automatisch op in je projectbestand. Gebruik zelf Opslaan, ook voor andere open tabbladen vóór sluiten. Het aparte hersteljournal (zie *Herstel en veilig opslaan* hieronder) is een extra vangnet, geen opgeslagen bestand. In de browser wordt bij opslaan een bestand gedownload.
 
 Open een bestand via Bestand → Openen of recente bestanden. Kies bij sluiten bewust tussen Opslaan, Niet opslaan en Annuleren. Bewaar daarnaast een reservekopie.
 
@@ -63,7 +63,7 @@ Open een bestand via Bestand → Openen of recente bestanden. Kies bij sluiten b
 4. Lees waarschuwingen en vergelijk structuur, hoeveelheden, eenheden, tarieven, staart en eindbedrag met het bronprogramma.
 5. Bewaar het resultaat als nieuw native bestand.
 
-Ondersteunde routes omvatten onder meer WPCalc/BasCalc, IBIS-TRAD, IFC-kostenstructuren, BC3, ÖNORM, CUF/RAW en GAEB DA XML. Controleer Bestand → Extensies als een importer ontbreekt. Een gewoon IFC-model bevat niet noodzakelijk een kostenbegroting. Zie [internationale bestandsuitwisseling](wereldwijde-uitwisseling.md) voor de precieze grenzen; niet elk formaat bewaart alle functies.
+Ondersteunde routes omvatten onder meer WPCalc/BasCalc, IBIS-TRAD, IFC-kostenstructuren, BC3, ÖNORM, CUF/RAW en GAEB DA XML. Enkele importers, zoals WpCalc, BasCalc, IBIS-TRAD (`.xtb`) en STABU (`.dnc`), zijn ingebouwde extensies: ontbreekt er een onder Bestand → Importeren, kijk dan of hij onder Bestand → Extensies is uitgezet. Gehoste builds hebben geen paneel Extensies. Een gewoon IFC-model bevat niet noodzakelijk een kostenbegroting. Zie [internationale bestandsuitwisseling](wereldwijde-uitwisseling.md) voor de precieze grenzen; niet elk formaat bewaart alle functies.
 
 Bij GAEB importeer je eerst een `.x83`-bestek. Een `.x84`-aanbieding bevat hoofdzakelijk prijzen en kan pas daarna via **GAEB-aanbieding (.x84)** op dezelfde positienummers worden toegepast. Bewaar het resultaat onder een nieuwe `.ifcCalc`-naam. Controleer de importwaarschuwingen en de totalen: bijlagen, alternatieven en bepaalde tekstvelden komen nog niet volledig mee. GAEB-export is er nog niet.
 
@@ -108,7 +108,7 @@ Gebruik op macOS Command in plaats van Ctrl. Browser of besturingssysteem kan ee
 | Afdrukken | Ctrl+P |
 | Inzoomen / Uitzoomen / Herstellen | Ctrl+Plus / Ctrl+Minus / Ctrl+0 |
 
-Klopt een totaal niet, controleer dan rijtype, structuur, aantal, norm, prijs, loon, tariefgroep en staart. Ontbreekt een importer, controleer extensies en het werkelijke bronformaat. Ontbreekt een opgeslagen bestand, controleer het actieve tabblad en de bestemming.
+Klopt een totaal niet, controleer dan rijtype, structuur, aantal, norm, prijs, loon, tariefgroep en staart. Ontbreekt een importer, controleer dan het werkelijke bronformaat en of de importer onder Bestand → Extensies is uitgezet. Ontbreekt een opgeslagen bestand, controleer het actieve tabblad en de bestemming.
 
 Meld een probleem via de [issues](https://github.com/OpenAEC-Foundation/open-calc-studio/issues) met versie, besturingssysteem, stappen, verwacht en werkelijk resultaat. Gebruik een klein geanonimiseerd voorbeeld. Technische documentatie: [API](API.md) en [bestandsformaat](ifccalc-formaat.md).
 
@@ -218,8 +218,8 @@ beschikbaar; laad het juiste oorspronkelijke IFC-bestand opnieuw voor de
 Native opslaan bewaart de vorige versie als `bestandsnaam.ifcCalc.bak` naast het
 project. Kopieer deze zo nodig naar een nieuwe `.ifcCalc`-naam en open die.
 Eerst wordt een tijdelijk bestand geschreven; daarna wordt het doel vervangen.
-Autosave naar het bestaande bestand volgt de instellingen; een nieuw document
-zonder pad vraagt expliciet opslaan. Bij sluiten worden alle gewijzigde
+De app slaat niet automatisch op in het projectbestand; een nieuw document
+zonder pad vraagt bij Opslaan om een bestandsnaam. Bij sluiten worden alle gewijzigde
 begrotingen behandeld. Bewerken tijdens opslaan maakt de nieuwe wijzigingen
 niet stilzwijgend ongewijzigd.
 

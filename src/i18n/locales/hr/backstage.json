@@ -61,7 +61,7 @@
     "tradDesc": "IBIS Trad format razmjene (.xml)",
     "rsxDesc": "CROW RAW razmjena specifikacija (.rsx/.xml)",
     "rsuDesc": "Stariji RAW format razmjene (.rsu) — putem RSX rute",
-    "bc3Desc": "Španjolski troškovnici (.bc3); i knjiga cijena otvara se kao troškovnik",
+    "bc3Desc": "Španjolski troškovnici (.bc3); bazu cijena uvezite niže pod Knjižnica cijena",
     "onlvDesc": "Austrijski troškovnik ÖNORM A 2063 (.onlv) ili katalog standardnih tekstova (.onlb)",
     "zsxTitle": "Cjenik (ZSX)",
     "zsxDesc": "Cjenik kao vlastita biblioteka cijena (.zsx/.xml)",
@@ -84,8 +84,8 @@
     "groupLibrary": "Biblioteka cijena",
     "groupLibraryHint": "Čuva se na ovom računalu kako bi je svaki troškovnik mogao koristiti. Ne stvara troškovnik.",
     "groupOther": "Ostalo",
-    "libraryTableTitle": "Cjenik (Excel / CSV / JSON)",
-    "libraryTableDesc": "Vlastiti cjenik ili cjenik dobavljača, s pregledom stupaca (.xlsx/.csv/.json)"
+    "libraryTableTitle": "Cjenik (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "Vlastiti cjenik ili cjenik dobavljača, s pregledom stupaca (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "Veličina",

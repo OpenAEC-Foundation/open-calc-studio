@@ -105,10 +105,10 @@
   "expand": "Kembangkan",
   "collapse": "Runtuhkan",
   "vat": {
-    "lowBadge": "GST rendah",
-    "highBadge": "GST biasa",
-    "lowBadgeTitle": "Kadar GST rendah — bahagian ini (termasuk baris di bawahnya) dikira ke dalam asas kadar rendah",
-    "highBadgeTitle": "Kadar GST biasa (nyata) — pengecualian dalam bahagian berkadar rendah"
+    "lowBadge": "SST rendah",
+    "highBadge": "SST biasa",
+    "lowBadgeTitle": "Kadar SST rendah — bahagian ini (termasuk baris di bawahnya) dikira ke dalam asas kadar rendah",
+    "highBadgeTitle": "Kadar SST biasa (nyata) — pengecualian dalam bahagian berkadar rendah"
   },
   "row": {
     "dragHandleTitle": "Klik untuk memilih baris; seret untuk mengalihkannya (juga ke bab lain)"
@@ -120,9 +120,9 @@
     "removeExcelLink": "Buang pautan Excel",
     "linkQuantity": "🔗 Pautkan kuantiti (hamparan/PDF/IFC)...",
     "removeQuantityLink": "Buang pautan kuantiti",
-    "vatInherit": "Warisi kadar GST (lalai biasa)",
-    "vatHigh": "Kadar GST biasa",
-    "vatLow": "Kadar GST rendah"
+    "vatInherit": "Warisi kadar SST (lalai biasa)",
+    "vatHigh": "Kadar SST biasa",
+    "vatLow": "Kadar SST rendah"
   },
   "columnMenu": {
     "hideColumn": "Sembunyikan lajur “{{name}}”",
@@ -196,10 +196,10 @@
     "totalColumns": "Jumlah mengikut lajur:",
     "totalCostPrice": "Jumlah harga kos:",
     "rounding": "Pembundaran",
-    "totalExclVatInclMarkups": "Jumlah tanpa GST termasuk kos tambahan:",
-    "totalInclVat": "Harga keseluruhan termasuk GST:",
+    "totalExclVatInclMarkups": "Jumlah tanpa SST termasuk kos tambahan:",
+    "totalInclVat": "Harga keseluruhan termasuk SST:",
     "noTailCosts": "Tiada kos tidak langsung ditetapkan",
-    "roundingStepTitle": "Langkah pembundaran automatik bagi jumlah tanpa GST",
+    "roundingStepTitle": "Langkah pembundaran automatik bagi jumlah tanpa SST",
     "roundingNone": "tanpa pembundaran",
     "roundTo1": "kepada {{amount}}",
     "roundTo10": "kepada {{amount}}",
@@ -209,14 +209,14 @@
     "roundingAmountTitle": "Masukkan amaun pembundaran (butiran penutup tetap); kosongkan untuk membundarkan secara automatik",
     "over": "atas",
     "basePlaceholder": "asas",
-    "vatBaseComputedTitle": "Asas dikira daripada bahagian yang ditanda sebagai \"GST rendah\" (klik kanan pada baris dalam jadual), secara berkadar termasuk kos tambahan.",
-    "vatBaseManualTitle": "Asas (amaun tanpa GST) yang dikenakan kadar rendah; kadar biasa terpakai untuk bakinya. Kosong = tiada bahagian berkadar rendah. Petua: tandakan bahagian melalui klik kanan → Kadar GST rendah.",
-    "finalAmountTitle": "Masukkan amaun akhir tanpa GST (termasuk kos tambahan): pembundaran secara automatik menjadi bezanya; kosongkan untuk membundarkan secara automatik"
+    "vatBaseComputedTitle": "Asas dikira daripada bahagian yang ditanda sebagai \"SST rendah\" (klik kanan pada baris dalam jadual), secara berkadar termasuk kos tambahan.",
+    "vatBaseManualTitle": "Asas (amaun tanpa SST) yang dikenakan kadar rendah; kadar biasa terpakai untuk bakinya. Kosong = tiada bahagian berkadar rendah. Petua: tandakan bahagian melalui klik kanan → Kadar SST rendah.",
+    "finalAmountTitle": "Masukkan amaun akhir tanpa SST (termasuk kos tambahan): pembundaran secara automatik menjadi bezanya; kosongkan untuk membundarkan secara automatik"
   },
   "undo": {
     "moveRow": "Alih baris",
     "moveToChapter": "Alih ke bab",
-    "vatRate": "Kadar GST",
+    "vatRate": "Kadar SST",
     "excelLink": "Pautan Excel",
     "quantityLink": "Pautan kuantiti",
     "pickCode": "Pilih kod",
@@ -230,8 +230,8 @@
     "totalHoursProrate": "Jumlah jam secara berkadar",
     "tailPercentage": "Peratusan kos tambahan",
     "roundingAuto": "Pembundaran automatik",
-    "vatBaseClear": "Kosongkan asas GST",
-    "vatBaseSet": "Tetapkan asas GST",
+    "vatBaseClear": "Kosongkan asas SST",
+    "vatBaseSet": "Tetapkan asas SST",
     "finalAmountSet": "Tetapkan amaun akhir",
     "roundingStep": "Langkah pembundaran",
     "measurementLines": "Sunting baris ukuran"

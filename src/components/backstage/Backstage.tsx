@@ -258,7 +258,8 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
       console.warn(`[Import ${label}] waarschuwingen:`, result.warnings);
       showImportWarnings(result, fileName);
     }
-    showImportedLibrary(prepared);
+    // The warnings are in the dialog above already.
+    showImportedLibrary({ ...prepared, warnings: [] });
   };
 
   const handleZsxImport = useCallback(async () => {
@@ -431,7 +432,8 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
 
   // Import → Price library → Price list: straight to the file, like ZSX and
   // BMEcat, through the same path as the library dialog (column preview for
-  // a table, then kept on this computer and switched on).
+  // a table, then kept on this computer and switched on). Also a BC3 price
+  // database (#127).
   const handleLibraryFileImport = useCallback(() => {
     onClose();
     const input = document.createElement('input');

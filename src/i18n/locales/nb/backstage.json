@@ -61,7 +61,7 @@
     "tradDesc": "IBIS Trad-utvekslingsformat (.xml)",
     "rsxDesc": "CROW RAW-beskrivelsesutveksling (.rsx/.xml)",
     "rsuDesc": "Eldre RAW-utveksling (.rsu) — via RSX-veien",
-    "bc3Desc": "Spanske kalkyler (.bc3); en prisbok åpnes også som kalkyle",
+    "bc3Desc": "Spanske kalkyler (.bc3); en prisdatabase importeres under Prisbibliotek nedenfor",
     "onlvDesc": "Østerriksk ÖNORM A 2063-beskrivelse (.onlv) eller katalog over standardtekster (.onlb)",
     "zsxTitle": "Prisliste (ZSX)",
     "zsxDesc": "Prisliste som eget prisbibliotek (.zsx/.xml)",
@@ -84,8 +84,8 @@
     "groupLibrary": "Prisbibliotek",
     "groupLibraryHint": "Lagres på denne datamaskinen, slik at alle kalkyler kan bruke det. Oppretter ingen kalkyle.",
     "groupOther": "Annet",
-    "libraryTableTitle": "Prisliste (Excel / CSV / JSON)",
-    "libraryTableDesc": "Egen prisliste eller en leverandørs, med kolonneforhåndsvisning (.xlsx/.csv/.json)"
+    "libraryTableTitle": "Prisliste (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "Egen prisliste eller en leverandørs, med kolonneforhåndsvisning (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "Størrelse",

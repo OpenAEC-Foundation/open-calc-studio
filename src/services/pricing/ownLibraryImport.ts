@@ -1,5 +1,6 @@
 // Turn a file into an own price library (issue #104): library JSON, a CSV or
-// Excel table, a BMEcat/DICO supplier catalogue or a ZSX price list. Every format ends up as
+// Excel table, a BMEcat/DICO supplier catalogue, a ZSX price list or a BC3
+// price database (#127). Every format ends up as
 // library JSON and goes through parseLibraryJson, so validation and article IDs
 // are the same as for the built-in libraries.
 import type { ResourceLibraryItem, ResourceType } from '@/types/costModel';
@@ -7,13 +8,14 @@ import { uiText } from '@/i18n/uiText';
 import { decodeCsvText, parseCsv, parseXlsxTabular, autoDetectMapping, type TabularData } from '@/services/importers/genericTabularImporter';
 import { importBmecat } from '@/services/importers/bmecatImporter';
 import { importZsx } from '@/services/importers/zsxImporter';
+import { bc3PriceList, decodeBc3 } from '@/services/importers/bc3Importer';
 import { parseAmount } from '@/services/importers/core';
 import { parseLibraryJson } from './libraryJson';
 import { isBuiltInCatalogueId } from './priceLibraries';
 import { getOwnLibrary, ownLibraryItems, type OwnLibrary, type OwnLibraryInfo, type OwnLibraryJson, type OwnLibraryOrigin } from './ownLibraries';
 
-export const OWN_LIBRARY_FILE_TYPES = '.json,.csv,.tsv,.txt,.xlsx,.xls,.xml,.bmecat,.zsx';
-export const OWN_LIBRARY_EXTENSIONS = ['json', 'csv', 'tsv', 'txt', 'xlsx', 'xls', 'xml', 'bmecat', 'zsx'];
+export const OWN_LIBRARY_FILE_TYPES = '.json,.csv,.tsv,.txt,.xlsx,.xls,.xml,.bmecat,.zsx,.bc3';
+export const OWN_LIBRARY_EXTENSIONS = ['json', 'csv', 'tsv', 'txt', 'xlsx', 'xls', 'xml', 'bmecat', 'zsx', 'bc3'];
 
 export interface PrepareOptions {
   /**
@@ -262,6 +264,34 @@ function fromSupplierXml(result: { resources: ResourceLibraryItem[]; warnings: s
   };
 }
 
+/** A copy of exactly these bytes, as the ArrayBuffer decodeBc3 expects. */
+const bytesOf = (content: ArrayBuffer | Uint8Array): ArrayBuffer =>
+  content instanceof Uint8Array ? content.slice().buffer : content;
+
+/**
+ * A BC3 price database (#127): every priced concept, with the chapter it is
+ * in as category. The file's own codes stay the article IDs, so a newer
+ * version of the same database updates the prices of linked rows.
+ */
+function fromBc3(text: string, fileName: string): { draft: Draft; warnings: string[] } {
+  if (!/~C\|/.test(text)) throw invalid(uiText('pricing.ownBc3NoConcepts', 'no ~C records found; is this a BC3 file?'));
+  const { entries, currency, negative, unpriced } = bc3PriceList(text);
+  const name = baseName(fileName);
+  const list = (codes: string[]) => ({ n: codes.length, codes: codes.slice(0, 10).join(', ') + (codes.length > 10 ? ', …' : '') });
+  const warnings: string[] = [];
+  if (!currency) warnings.push(uiText('pricing.ownBc3NoCurrency', 'The file does not state its currency. Older BC3 files are often in pesetas: check the prices before you use them.'));
+  if (negative.length > 0) warnings.push(uiText('pricing.ownBc3Negative', 'Left out because the price is negative ({{n}}): {{codes}}', list(negative)));
+  if (unpriced.length > 0) warnings.push(uiText('pricing.ownBc3Unpriced', 'Imported without a price because the price in the file is 0 ({{n}}): {{codes}}', list(unpriced)));
+  return {
+    warnings,
+    draft: {
+      preferredId: name, name, version: 'unversioned',
+      ...(currency ? { currency } : {}),
+      resources: entries.map(e => ({ id: e.code, ...e, source: fileName })),
+    },
+  };
+}
+
 /** A ZSX price list is XML with <Middel> elements; other XML is read as BMEcat. */
 const looksLikeZsx = (xml: string) => /<Middel[\s>/]/.test(xml);
 
@@ -270,9 +300,11 @@ function originOf(ext: string, text: () => string): OwnLibraryOrigin {
   if (ext === 'zsx') return 'zsx';
   if (ext === 'bmecat') return 'bmecat';
   if (ext === 'xml') return looksLikeZsx(text()) ? 'zsx' : 'bmecat';
+  if (ext === 'bc3') return 'bc3';
   if (ext === 'json') return 'json';
   // No known extension: sniff.
   const content = text();
+  if (/^﻿?\s*~V\|/.test(content)) return 'bc3';
   if (!content.trimStart().startsWith('<')) return 'json';
   return looksLikeZsx(content) ? 'zsx' : 'bmecat';
 }
@@ -295,6 +327,8 @@ export function prepareOwnLibrary(fileName: string, content: string | ArrayBuffe
       // likely an estimate (CUF, GAEB, RSX, ...), so point to the right import.
       if (!/<(ARTICLE|PRODUCT)[\s>/]/.test(xml)) throw new OwnLibraryFileError(uiText('pricing.ownNotPriceXml', 'This XML file is not a BMEcat catalogue or ZSX price list. Is it an estimate (CUF, GAEB, RSX, …)? Open it with Import → New estimate.'));
       ({ draft, warnings } = fromSupplierXml(importBmecat(xml), fileName));
+    } else if (origin === 'bc3') {
+      ({ draft, warnings } = fromBc3(typeof content === 'string' ? content : decodeBc3(bytesOf(content)), fileName));
     } else if (origin === 'zsx') {
       ({ draft, warnings } = fromSupplierXml(importZsx(asText()), fileName));
     } else {

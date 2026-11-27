@@ -751,6 +751,10 @@
       "looksLikePriceList": "Vyzerá to ako cenník: kódy a ceny, žiadne množstvá.",
       "importAsLibrary": "Importovať radšej ako cenovú knižnicu",
       "ownNotPriceXml": "Tento súbor XML nie je katalóg BMEcat ani cenník ZSX. Je to rozpočet (CUF, GAEB, RSX, …)? Otvorte ho cez Import → Nový rozpočet.",
+      "ownBc3NoConcepts": "nenašli sa žiadne záznamy ~C; je to súbor BC3?",
+      "ownBc3Negative": "Vynechané, pretože cena je záporná ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "Importované bez ceny, pretože cena v súbore je 0 ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "Súbor neuvádza menu. Staršie súbory BC3 bývajú v pesetách: pred použitím ceny skontrolujte.",
       "selectAll": "Vybrať všetky zmeny",
       "ownDuplicates": "Opakujúce sa kódy dostali príponu (~2, ~3) ({{count}}): {{codes}}.",
       "libraryNotLoaded": "Knižnica „{{name}}“ nie je v tomto rozpočte načítaná. Riadok si ponechá svoju cenu; zapnite knižnicu, aby ste mohli skontrolovať aktualizácie cien.",
@@ -927,6 +931,12 @@
       },
       "dncImporter": {
         "noKKTableItemsFoundInThe": "V súbore .DNC sa nenašla tabuľka KK (položky)."
+      },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} jednotka bez náprotivku bola ponechaná bez zmeny: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} jednotiek bez náprotivku bolo ponechaných bez zmeny: {{examples}}.",
+        "unknownUnitsKept_few": "{{count}} jednotky bez náprotivku boli ponechané bez zmeny: {{examples}}.",
+        "unknownUnitsKept_many": "{{count}} jednotiek bez náprotivku bolo ponechaných bez zmeny: {{examples}}."
       },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Nenašli sa žiadne prvky <ARTICLE>/<PRODUCT>. Ide o katalóg BMEcat/DICO?",
