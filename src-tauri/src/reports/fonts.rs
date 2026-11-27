@@ -7,11 +7,14 @@
 //! files). It has the same character widths as Arial, so the Typst layouts
 //! that were designed for Arial keep their column widths and line breaks.
 //!
-//! Typst also gets two fallback fonts, which it uses per character when
-//! Liberation Sans lacks one: Noto Sans for currency signs such as ₹ ₽ ₺, and
-//! Noto Sans Arabic for Arabic, Persian and Urdu labels (Typst joins the
-//! letters and sets them right to left). openaec-layout has no per-character
-//! fallback, so its reports still miss these characters (see knownbugs.md).
+//! Both engines also get fallback fonts, used per character when Liberation
+//! Sans lacks one: Noto Sans for currency signs such as ₹ ₽ ₺, Noto Sans
+//! Arabic for Arabic, Persian and Urdu, Noto Sans Thai for ฿ and Thai, and
+//! Noto Sans Bengali for ৳ and Bengali. Typst shapes these scripts properly
+//! (joined letters, right to left, reordered vowels). openaec-layout has no
+//! shaping: it draws one glyph per character, left to right. Arabic there
+//! comes out as separate letters, as it did with the Windows fonts before,
+//! and Bengali vowel signs land after their consonant.
 
 use openaec_layout::SharedFontRegistry;
 
@@ -29,20 +32,32 @@ static BOLD: &[u8] = liberation!("LiberationSans-Bold.ttf");
 static ITALIC: &[u8] = liberation!("LiberationSans-Italic.ttf");
 static BOLD_ITALIC: &[u8] = liberation!("LiberationSans-BoldItalic.ttf");
 
-// Fallbacks for Typst only. Noto Sans is the copy the UI already ships (with
-// its OFL licence next to it); Noto Sans Arabic is described in
+// Fallbacks. Noto Sans is the copy the UI already ships (with its OFL licence
+// next to it); the others, and the Noto Sans subset, are described in
 // src-tauri/fonts/README.md.
 static NOTO_SANS: &[u8] = include_bytes!("../../../src/styles/blueprint/fonts/NotoSans-Regular.ttf");
+static NOTO_SANS_SUBSET: &[u8] = include_bytes!("../../fonts/NotoSans-Regular-subset.ttf");
 static NOTO_ARABIC: &[u8] = include_bytes!("../../fonts/NotoSansArabic-Regular.ttf");
 static NOTO_ARABIC_BOLD: &[u8] = include_bytes!("../../fonts/NotoSansArabic-Bold.ttf");
+static NOTO_THAI: &[u8] = include_bytes!("../../fonts/NotoSansThai-Regular.ttf");
+static NOTO_BENGALI: &[u8] = include_bytes!("../../fonts/NotoSansBengali-Regular.ttf");
 
 const LIBERATION: [&[u8]; 4] = [REGULAR, BOLD, ITALIC, BOLD_ITALIC];
 
 /// The font files for the Typst engine (Bouw 1, IBIS-stijl, directiebegroting):
 /// Liberation Sans, then the fallbacks. Typst only embeds the glyphs it uses.
-pub(crate) fn typst_fonts() -> [&'static [u8]; 7] {
-    [REGULAR, BOLD, ITALIC, BOLD_ITALIC, NOTO_SANS, NOTO_ARABIC, NOTO_ARABIC_BOLD]
+pub(crate) fn typst_fonts() -> [&'static [u8]; 9] {
+    [
+        REGULAR, BOLD, ITALIC, BOLD_ITALIC,
+        NOTO_SANS, NOTO_ARABIC, NOTO_ARABIC_BOLD, NOTO_THAI, NOTO_BENGALI,
+    ]
 }
+
+/// Fallbacks for openaec-layout, tried in this order. openaec-layout embeds a
+/// fallback whole, and only in PDFs that use it. So it gets a small subset of
+/// Noto Sans (punctuation, currency and letterlike symbols, about 60 KB
+/// instead of 620 KB) and no bold Arabic.
+const LAYOUT_FALLBACKS: [&[u8]; 4] = [NOTO_SANS_SUBSET, NOTO_ARABIC, NOTO_THAI, NOTO_BENGALI];
 
 /// Font names in the openaec-layout registry, with their aliases. The reports
 /// and openaec-layout's default styles ask for "LiberationSans" and
@@ -63,6 +78,10 @@ pub(crate) fn register_layout_fonts(fonts: &SharedFontRegistry) -> Result<(), St
         for alias in *aliases {
             reg.register_alias(alias, name);
         }
+    }
+    for data in LAYOUT_FALLBACKS {
+        reg.add_fallback_ttf_bytes(data.to_vec())
+            .map_err(|e| format!("report fallback font could not be loaded: {e}"))?;
     }
     Ok(())
 }
@@ -111,10 +130,15 @@ mod tests {
     use openaec_layout::shared_font_registry;
 
     fn request(view: &str) -> ReportRequest {
+        request_with(view, "GRONDWERK")
+    }
+
+    /// `chapter` is the chapter title, which every report view shows.
+    fn request_with(view: &str, chapter: &str) -> ReportRequest {
         serde_json::from_value(serde_json::json!({
             "schedule": { "name": "Test", "projectName": "Testproject" },
             "items": [
-                { "id": "ch1", "code": "1", "description": "GRONDWERK", "rowType": "chapter",
+                { "id": "ch1", "code": "1", "description": chapter, "rowType": "chapter",
                   "depth": 0, "parentId": null, "total": 800.0 },
                 { "id": "r1", "code": "100010", "description": "graven", "rowType": "regel",
                   "depth": 1, "parentId": "ch1", "quantity": 10.0, "unit": "uur",
@@ -180,8 +204,8 @@ Hallo")
             }
         }
 
-        // ₹ ₽ ₺ and the Arabic, Persian and Urdu words for "total".
-        let sample = "Totaal ₹ 1.000 ₽ 2 ₺ 3 المجموع جمع کل مجموعہ";
+        // ₹ ₽ ₺ ฿ ৳ and the Arabic, Persian and Urdu words for "total".
+        let sample = "Totaal ₹ 1.000 ₽ 2 ₺ 3 ฿ 4 ৳ 5 المجموع جمع کل مجموعہ";
         let engine = typst_as_lib::TypstEngine::builder()
             .main_file(format!(
                 "#set text(font: \"Liberation Sans\")\n{sample}\n\n#text(weight: \"bold\")[{sample}]"
@@ -204,11 +228,78 @@ Hallo")
             ("Noto Sans", 400),
             ("Noto Sans Arabic", 400),
             ("Noto Sans Arabic", 700),
+            ("Noto Sans Thai", 400),
+            ("Noto Sans Bengali", 400),
         ] {
             assert!(
                 families.iter().any(|(f, w)| f == family && *w == weight),
                 "{family} {weight} not used: {families:?}"
             );
+        }
+    }
+
+    /// A quotation whose covering letter is `text`.
+    fn offerte_request(text: &str) -> crate::reports::OfferteReportRequest {
+        serde_json::from_value(serde_json::json!({
+            "offerte": {
+                "offerteNummer": "2026-001", "offerteDatum": "11-09-2026", "geldigheid": 30,
+                "geadresseerde": { "naam": "Gemeente", "adres": "Straat 1", "postcode": "1234 AB", "plaats": "Plaats" },
+                "begeleidendSchrijven": text,
+                "secties": [], "betalingstermijnen": [], "garanties": [],
+                "voorwaarden": "Algemene voorwaarden", "ondertekening": []
+            },
+            "schedule": { "name": "Test" },
+            "items": [],
+        }))
+        .expect("parse OfferteReportRequest")
+    }
+
+    /// Number of font programs embedded in a PDF.
+    fn embedded_fonts(pdf: &[u8]) -> usize {
+        let doc = lopdf::Document::load_mem(pdf).expect("parse PDF");
+        doc.objects
+            .values()
+            .filter(|obj| matches!(obj, lopdf::Object::Dictionary(d) if d.get(b"FontFile2").is_ok()))
+            .count()
+    }
+
+    /// openaec-layout reports draw characters Liberation Sans lacks with the
+    /// fallback fonts, and only embed a fallback when the text needs it.
+    #[test]
+    fn layout_reports_fall_back_for_missing_characters() {
+        let fonts = shared_font_registry();
+        register_layout_fonts(&fonts).unwrap();
+        {
+            let mut reg = fonts.lock().unwrap();
+            let fallbacks = reg.fallbacks().to_vec();
+            // Index in LAYOUT_FALLBACKS: Noto Sans, Arabic, Thai, Bengali.
+            // ₹ ₽ ₺ and the replacement character; Urdu "total"; ฿ and Thai
+            // ko kai; ৳ and Bengali ka.
+            for (text, fallback) in [("₹₽₺\u{FFFD}", 0), ("مجموعہ", 1), ("฿ก", 2), ("৳ক", 3)] {
+                for name in ["LiberationSans", "LiberationSans-Bold"] {
+                    let liberation = reg.get(name).unwrap();
+                    for ch in text.chars() {
+                        assert_eq!(reg.font_for_char(liberation, ch), fallbacks[fallback], "{ch} in {name}");
+                    }
+                }
+            }
+        }
+        for view in ["werkbeschrijving", "hoofdaanneming", "onderaanneming", "inschrijfstaat", "nacalculatie", "offerte"] {
+            let pdf = |text: &str| {
+                if view == "offerte" {
+                    crate::reports::offerte::generate_bytes(&offerte_request(text))
+                } else {
+                    generator::generate_bytes(&request_with(view, text))
+                }
+                .unwrap_or_else(|e| panic!("{view}: {e}"))
+            };
+            let (plain, special) = (pdf("GRONDWERK"), pdf("GRONDWERK ₹ ₽ ₺ ฿ ৳ مجموعہ"));
+            // Noto Sans, Noto Sans Arabic, Noto Sans Thai and Noto Sans Bengali.
+            assert_eq!(embedded_fonts(&special), embedded_fonts(&plain) + 4, "{view}");
+            // All four together, compressed, stay small (the whole Noto Sans
+            // alone would add about 310 KB).
+            let growth = special.len() - plain.len();
+            assert!(growth < 250_000, "{view}: fallbacks add {growth} bytes");
         }
     }
 

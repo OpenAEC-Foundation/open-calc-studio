@@ -11,10 +11,12 @@ export function copyNotices(destination) {
   // reports submodule is only checked out for builds that compile Rust.
   const liberation = 'libs/openaec-reports/src/openaec_reports/assets/fonts/LICENSE-Liberation';
   if (existsSync(liberation)) copyFileSync(liberation, path.join(target, 'LICENSE-Liberation'));
-  // Noto Sans Arabic is a fallback font in the same reports (src-tauri/fonts/README.md).
-  // The headless server image has no src-tauri; package-native.mjs checks it is there.
-  const notoArabic = 'src-tauri/fonts/NotoSansArabic-OFL.txt';
-  if (existsSync(notoArabic)) copyFileSync(notoArabic, path.join(target, 'NotoSansArabic-OFL.txt'));
+  // Fallback fonts in the same reports (src-tauri/fonts/README.md). The
+  // headless server image has no src-tauri; package-native.mjs checks they are there.
+  for (const name of ['NotoSansArabic-OFL.txt', 'NotoSansThai-OFL.txt', 'NotoSansBengali-OFL.txt']) {
+    const licence = 'src-tauri/fonts/' + name;
+    if (existsSync(licence)) copyFileSync(licence, path.join(target, name));
+  }
 }
 
 /** Preserve the actual notices for packages included by the bundler. */
@@ -46,7 +48,12 @@ export function buildInfo(kind) {
   try {
     commit = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
     dirty = !!execFileSync('git', ['status', '--porcelain'], { encoding: 'utf8' }).trim();
-  } catch { /* Exported source tarballs can have no Git directory. */ }
+  } catch {
+    // Exported source tarballs and the Docker build stage have no Git; the Dockerfile
+    // passes the commit as OCS_COMMIT (build argument REVISION), knownbug 253.
+    const fromEnv = process.env.OCS_COMMIT?.trim();
+    if (fromEnv && fromEnv !== 'unknown') { commit = fromEnv; dirty = false; }
+  }
   return { version: JSON.parse(readFileSync('package.json', 'utf8')).version, kind, commit, dirty,
     blueprint: JSON.parse(readFileSync('src/styles/blueprint/SOURCE.json', 'utf8')).commit };
 }

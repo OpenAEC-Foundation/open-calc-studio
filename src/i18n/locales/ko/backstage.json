@@ -61,7 +61,7 @@
     "tradDesc": "IBIS Trad 교환 형식(.xml)",
     "rsxDesc": "CROW RAW 시방 교환 형식(.rsx/.xml)",
     "rsuDesc": "구형 RAW 교환 형식(.rsu) — RSX 경로로 처리",
-    "bc3Desc": "스페인 내역서(.bc3). 단가집도 내역서로 열립니다",
+    "bc3Desc": "스페인 견적 (.bc3). 단가 데이터베이스는 아래 단가 라이브러리에서 가져오세요",
     "onlvDesc": "오스트리아 ÖNORM A 2063 내역서(.onlv) 또는 표준 문안 카탈로그(.onlb)",
     "zsxTitle": "단가표(ZSX)",
     "zsxDesc": "단가표를 자체 가격 라이브러리로(.zsx/.xml)",
@@ -84,8 +84,8 @@
     "groupLibrary": "가격 라이브러리",
     "groupLibraryHint": "이 컴퓨터에 보관되어 모든 내역서에서 사용할 수 있습니다. 내역서를 만들지 않습니다.",
     "groupOther": "기타",
-    "libraryTableTitle": "단가표(Excel / CSV / JSON)",
-    "libraryTableDesc": "자체 또는 공급업체 단가표, 열 미리 보기 포함(.xlsx/.csv/.json)"
+    "libraryTableTitle": "단가표(Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "자체 또는 공급업체 단가표, 열 미리 보기 포함(.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "크기",

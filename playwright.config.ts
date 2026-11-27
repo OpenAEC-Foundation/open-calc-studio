@@ -2,6 +2,9 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
+  // Alleen Playwright-specs: tests/platform bevat Vitest-bestanden (*.test.tsx) die
+  // Playwright anders ook laadt, waarna het 0 tests vindt (knownbug 251).
+  testMatch: '**/*.spec.ts',
   testIgnore: 'library.spec.ts',
   workers: 1,
   timeout: 60_000,

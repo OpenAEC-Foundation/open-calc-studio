@@ -179,6 +179,11 @@ export function normalizeUnit(raw: string | null | undefined): CostUnit {
   return UNIT_MAP[s] ?? UNIT_MAP[s.replace(/\.$/, '')] ?? 'st';
 }
 
+/** Like normalizeUnit, but undefined for a unit it does not know (instead of 'st'). */
+export function knownUnit(raw: string | null | undefined): CostUnit | undefined {
+  return UNIT_MAP[(raw ?? '').trim().toLowerCase()];
+}
+
 // ── CostItem-fabriek ──────────────────────────────────────────────────────
 
 /**
