@@ -114,7 +114,7 @@ Import a file with **Price library → Import library…** in the library dialog
 
 | You can | How |
 |---|---|
-| Import | *Import library…*: library JSON, CSV, Excel (`.xlsx`, `.xls`), a BMEcat/DICO catalogue (`.xml`) or a ZSX price list (`.zsx`, or `.xml` with `<Middel>` elements). *File → Import* has a **Price library** section with the same three entries (Excel / CSV / JSON, ZSX, BMEcat). A price list opened via *Import → New estimate → Excel / CSV* (codes and prices, no quantities) shows *Import as price library instead*. |
+| Import | *Import library…*: library JSON, CSV, Excel (`.xlsx`, `.xls`), a BMEcat/DICO catalogue (`.xml`), a ZSX price list (`.zsx`, or `.xml` with `<Middel>` elements) or a BC3 price database (`.bc3`, FIEBDC-3: every priced concept with its own code, chapter as category; type 1/2/3 become labour/equipment/material, a partida becomes one article with its unit price). *File → Import* has a **Price library** section with the same three entries (Excel / CSV / JSON / BC3, ZSX, BMEcat). A price list opened via *Import → New estimate → Excel / CSV* (codes and prices, no quantities) shows *Import as price library instead*. |
 | Update | *New version…* next to the library (hover over it). The library keeps its catalogue ID, so price links in estimates stay valid, even when the new file has another name. The app lists the codes that are no longer in the new version; rows that use them keep their price. |
 | Rename | *Rename*: only the name you see changes, not the catalogue ID. |
 | Remove | *Remove*: the library leaves this computer. Rows in estimates keep their prices; estimates that use the library say it is missing. |

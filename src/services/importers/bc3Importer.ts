@@ -22,7 +22,7 @@
  * De praktijk wijkt op een aantal punten af van de specificatie; zie de
  * opmerkingen bij `keyOf`, `isContainer`, `decodeBc3` en de variantafhandeling.
  */
-import { makeCostItem, parseNumber, normalizeUnit, normalizeCurrencyCode, genId } from './core';
+import { makeCostItem, parseNumber, normalizeUnit, knownUnit, normalizeCurrencyCode, genId } from './core';
 import { decodeCp850 } from './cp850';
 import { decodeWindows1252 } from './windows1252';
 import type { ImportResult, ImportWarningCode } from './types';
@@ -45,6 +45,7 @@ interface Bc3Concept {
   unit: string;
   summary: string;
   price: number;
+  date?: string;         // ~C veld 5, DDMMAAAA of DDMMAA (prijsdatum)
   type: string;          // '0'..'5', '%' of leeg
   isRoot: boolean;
   isChapter: boolean;
@@ -164,8 +165,27 @@ const keyOf = (code: string): string => code.trim().replace(/#+$/, '').trim().to
  */
 const plainCode = (code: string): string => code.trim().replace(/#+$/, '').trim();
 
-/** Lengte waarop een uit ~T afgeleide omschrijving wordt afgekapt (zie `summaryOf`). */
+/** Lengte waarop een uit ~T afgeleide omschrijving wordt afgekapt (zie `conceptSummary`). */
 const SUMMARY_MAX = 120;
+
+/**
+ * Omschrijving van een concept. Sommige schrijvers (Presto 11, ARPO) laten
+ * de korte omschrijving in ~C leeg en zetten alles in ~T; in het raster zou
+ * dan de code als omschrijving verschijnen. Dan is de eerste regel van die
+ * tekst de omschrijving — afgekapt op een woordgrens rond SUMMARY_MAX
+ * tekens — en blijft de volledige tekst in de notities. Zonder tekst: de
+ * code. Een export schrijft die afgeleide omschrijving in ~C, zodat een
+ * herimport dezelfde omschrijving oplevert.
+ */
+function conceptSummary(c: Bc3Concept): string {
+  if (c.summary) return c.summary;
+  const line = (c.text ?? '').split('\n').map((s) => s.trim()).find(Boolean) ?? '';
+  if (!line) return c.code;
+  if (line.length <= SUMMARY_MAX) return line;
+  const cut = line.slice(0, SUMMARY_MAX);
+  const space = cut.lastIndexOf(' ');
+  return `${(space > SUMMARY_MAX / 2 ? cut.slice(0, space) : cut).trimEnd()}…`;
+}
 
 /** Spaanse eenheden die normalizeUnit niet kent (na verwijdering van een slotpunt). */
 const BC3_UNITS: Record<string, CostUnit> = {
@@ -319,6 +339,7 @@ function parseBc3(text: string): Bc3Data {
           // staan; de omschrijving is bij ons één regel.
           summary: (fields[2] ?? '').replace(/\s*\r?\n\s*/g, ' ').trim(),
           price: parseNumber(priceRaw),
+          date: (fields[4] ?? '').split('\\')[0].trim(),
           type: conceptType,
           isRoot: /##\s*$/.test(code),
           isChapter: /(^|[^#])#\s*$/.test(code),
@@ -497,24 +518,7 @@ export function importBc3(text: string): ImportResult {
 
   const firstOf = (key: string): Bc3Concept | undefined => variants.get(key)?.[0];
 
-  /**
-   * Omschrijving van een concept. Sommige schrijvers (Presto 11, ARPO) laten
-   * de korte omschrijving in ~C leeg en zetten alles in ~T; in het raster zou
-   * dan de code als omschrijving verschijnen. Dan is de eerste regel van die
-   * tekst de omschrijving — afgekapt op een woordgrens rond SUMMARY_MAX
-   * tekens — en blijft de volledige tekst in de notities. Zonder tekst: de
-   * code. Een export schrijft die afgeleide omschrijving in ~C, zodat een
-   * herimport dezelfde omschrijving oplevert.
-   */
-  const summaryOf = (c: Bc3Concept): string => {
-    if (c.summary) return c.summary;
-    const line = (c.text ?? '').split('\n').map((s) => s.trim()).find(Boolean) ?? '';
-    if (!line) return c.code;
-    if (line.length <= SUMMARY_MAX) return line;
-    const cut = line.slice(0, SUMMARY_MAX);
-    const space = cut.lastIndexOf(' ');
-    return `${(space > SUMMARY_MAX / 2 ? cut.slice(0, space) : cut).trimEnd()}…`;
-  };
+  const summaryOf = conceptSummary;
 
   /**
    * Percentage als fractie: sommige schrijvers noteren 3 in plaats van 0,03.
@@ -1110,4 +1114,128 @@ export function decodeBc3(buffer: ArrayBuffer): string {
 
 export function importBc3File(buffer: ArrayBuffer): ImportResult {
   return importBc3(decodeBc3(buffer));
+}
+
+// ── Prijzenbank als eigen prijsbibliotheek (#127) ───────────────────────────
+
+/** Eén artikel van een BC3-prijzenbank, in de vorm van library-JSON. */
+export interface Bc3PriceListEntry {
+  code: string;
+  description: string;
+  /** Een bekende eenheid als CostUnit; een onbekende (l, kW, …) zoals in het bestand. */
+  unit: CostUnit | string;
+  resourceType: ResourceType;
+  /** Het hoofdstuk waar het artikel onder staat (korte omschrijving), anders leeg. */
+  category: string;
+  /** De ~C-prijs; null bij prijs 0 (een prijzenbank zonder prijzen, of een lege partida). */
+  defaultUnitPrice: number | null;
+  /** ISO-datum uit ~C veld 5, als die te lezen is. */
+  priceDate?: string;
+}
+
+export interface Bc3PriceList {
+  entries: Bc3PriceListEntry[];
+  /** DIVISA uit ~K. */
+  currency?: string;
+  /** Codes die zijn overgeslagen omdat hun prijs negatief is. */
+  negative: string[];
+  /** Codes met prijs 0: wel een artikel, maar zonder prijs. */
+  unpriced: string[];
+}
+
+/**
+ * Prijsdatum uit ~C: DDMMAAAA, of DDMMAA (jaar 80–99 → 19xx). Een voorloopnul
+ * van de dag valt in de praktijk soms weg (5 of 7 cijfers). Dag 00 betekent
+ * alleen maand en jaar, maand 00 alleen het jaar: dan de eerste van de maand
+ * of van het jaar. Anders undefined.
+ */
+function bc3Date(raw: string | undefined): string | undefined {
+  let s = (raw ?? '').trim();
+  if (!/^\d{5,8}$/.test(s)) return undefined;
+  if (s.length === 5 || s.length === 7) s = `0${s}`;
+  const month = Number(s.slice(2, 4)) || 1;
+  const day = Number(s.slice(0, 2)) || 1;
+  let year = Number(s.slice(4));
+  if (s.length === 6) year += year >= 80 ? 1900 : 2000;
+  if (year < 1900 || month > 12 || day > new Date(Date.UTC(year, month, 0)).getUTCDate()) return undefined;
+  const two = (n: number) => String(n).padStart(2, '0');
+  return `${year}-${two(month)}-${two(day)}`;
+}
+
+/**
+ * Een BC3-prijzenbank (BCCA, BEDEC, CYPE, Presto, …) als lijst artikelen
+ * voor een eigen prijsbibliotheek (#127). Elk concept met een eenheid of
+ * type wordt een artikel met zijn ~C-prijs: type 1 arbeid, 2 materieel,
+ * 3 materiaal, en een partida (samengestelde eenheidsprijs) overig.
+ * Hoofdstukken, de wortel en opslagen (%) zijn geen artikel; elke code met
+ * een % geldt hier als opslag (importBc3 beslist dat per concept, maar een
+ * %-code met een eigen prijs komt in prijzenbanken vrijwel niet voor). Een
+ * code komt één keer voor; bij een dubbel gebruikte code telt de eerste.
+ * Prijs 0 wordt een artikel zonder prijs, een negatieve prijs wordt
+ * overgeslagen (een bibliotheek kent geen negatieve prijzen).
+ */
+export function bc3PriceList(text: string): Bc3PriceList {
+  const { order, variants, measured, currency } = parseBc3(text);
+  // Een prijzenbank heeft geen metingen. Daarin is een concept zonder #,
+  // zonder eenheid maar mét samenstelling en een prijs een partida (BCCA
+  // `18BTA00010`), geen hoofdstuk: hoofdstukken van een prijzenbank hebben
+  // geen prijs.
+  const priceDatabase = measured.size === 0;
+  // Verder dezelfde regel als `isContainer` in importBc3.
+  const isContainer = (c: Bc3Concept): boolean => {
+    if (c.isChapter || c.isRoot) return true;
+    if (c.unit || c.isPercentage || RESOURCE_BY_TYPE[c.type]) return false;
+    if (c.children.length === 0) return false;
+    if (priceDatabase && c.price > 0) return false;
+    return !measured.has(c.key);
+  };
+
+  /**
+   * Eenheid en prijs per die eenheid. `mu` (millar) is een prijs per duizend
+   * stuks: per stuk gedeeld door 1000. Een eenheid die de app niet kent
+   * blijft zoals in het bestand, zodat de bibliotheek hem als niet
+   * ondersteund toont in plaats van stilzwijgend `st` te maken.
+   */
+  const unitAndPrice = (c: Bc3Concept): { unit: CostUnit | string; price: number } => {
+    const s = c.unit.trim().toLowerCase().replace(/\.+$/, '');
+    if (s === 'mu' || s === 'mud' || s === 'millar') return { unit: 'st', price: c.price / 1000 };
+    if (!s) return { unit: 'st', price: c.price };
+    return { unit: BC3_UNITS[s] ?? knownUnit(s) ?? c.unit.trim(), price: c.price };
+  };
+
+  // Hoofdstuk per artikel: het dichtstbijzijnde hoofdstuk dat het noemt.
+  const category = new Map<string, string>();
+  for (const parent of order) {
+    if (parent.stub || !isContainer(parent) || parent.isRoot) continue;
+    const name = conceptSummary(parent);
+    for (const ch of parent.children) {
+      if (!category.has(ch.key)) category.set(ch.key, name === parent.code ? plainCode(parent.code) : name);
+    }
+  }
+
+  const entries: Bc3PriceListEntry[] = [];
+  const negative: string[] = [];
+  const unpriced: string[] = [];
+  const seen = new Set<string>();
+  for (const c of order) {
+    if (c.stub || c.isPercentage || isContainer(c) || seen.has(c.key)) continue;
+    if (variants.get(c.key)?.[0] !== c) continue; // alias of tweede variant
+    seen.add(c.key);
+    const code = plainCode(c.code);
+    if (!Number.isFinite(c.price)) continue;
+    if (c.price < 0) { negative.push(code); continue; }
+    const date = bc3Date(c.date);
+    const { unit, price } = unitAndPrice(c);
+    if (Math.abs(price) < 1e-9) unpriced.push(code);
+    entries.push({
+      code,
+      description: conceptSummary(c),
+      unit,
+      resourceType: RESOURCE_BY_TYPE[c.type] ?? 'overig',
+      category: category.get(c.key) ?? '',
+      defaultUnitPrice: Math.abs(price) < 1e-9 ? null : price,
+      ...(date ? { priceDate: date } : {}),
+    });
+  }
+  return { entries, ...(currency ? { currency } : {}), negative, unpriced };
 }

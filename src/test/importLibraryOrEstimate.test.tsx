@@ -72,7 +72,7 @@ it('the import panel says what a file becomes: new estimate, the open estimate, 
   expect(group('estimate').textContent).toContain('FIEBDC-3 (.bc3)');
   expect(group('open').textContent).toContain('GAEB offer (.x84)');
   const library = group('library');
-  expect(library.querySelector('[data-library-import]')?.textContent).toContain('Price list (Excel / CSV / JSON)');
+  expect(library.querySelector('[data-library-import]')?.textContent).toContain('Price list (Excel / CSV / JSON / BC3)');
   expect(library.textContent).toContain('Price list (ZSX)');
   expect(library.textContent).toContain('Price catalog (BMEcat/DICO)');
   expect(library.textContent).toContain('Does not create an estimate.');
@@ -126,6 +126,26 @@ it('Price library → Price list goes straight to the file, the column preview a
   expect(alert).not.toHaveBeenCalled();
   expect(newFile).not.toHaveBeenCalled();
   expect(useAppStore.getState().items).toBe(before);
+});
+
+it('Price library → Price list also takes a BC3 price database and keeps it as an own library (#127)', async () => {
+  const alert = vi.spyOn(window, 'alert').mockImplementation(() => {});
+  const bc3 = '~V|Test|FIEBDC-3/2020|Presto||ANSI|\r\n~C|01#||Albañilería|0||0|\r\n~D|01#|MO001\\1\\1\\|\r\n~C|MO001|h|Oficial 1ª|22.4|150323|1|\r\n';
+  await openImport(new File([Uint8Array.from(bc3, ch => ch.charCodeAt(0))], 'banco.bc3'));
+  const click = HTMLInputElement.prototype.click as unknown as { mock: { contexts: HTMLInputElement[] } };
+  await act(async () => group('library').querySelector<HTMLButtonElement>('[data-library-import]')!.click());
+  const contexts = click.mock.contexts;
+  expect(contexts[contexts.length - 1].accept.split(',')).toContain('.bc3');
+  await vi.waitFor(() => expect(listOwnLibraries()).toHaveLength(1));
+  expect(listOwnLibraries()[0]).toMatchObject({ id: 'banco', origin: 'bc3', count: 1 });
+  expect(activeLibrariesOf(useAppStore.getState().schedule)).toContain('own:banco');
+  // Read in its own character set, not as UTF-8.
+  await vi.waitFor(() => expect(useAppStore.getState().resourceLibrary.find(i => i.code === 'MO001')?.description).toBe('Oficial 1ª'));
+  // The file has no ~K: the library notice says so (the reader's warnings are shown, not dropped).
+  expect(useAppStore.getState().resourcePickerNotice).toContain('“banco” imported: 1 resources.');
+  expect(useAppStore.getState().resourcePickerNotice).toContain('does not state its currency');
+  expect(alert).not.toHaveBeenCalled();
+  expect(newFile).not.toHaveBeenCalled();
 });
 
 it('an estimate via Excel / CSV gets no price-list hint', async () => {
