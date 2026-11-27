@@ -501,28 +501,18 @@ stand van `main` op die datum.
 284. **Afronding in de Rust-staart kiest `staartDoelbedrag` vóór `staartVastBedrag`**, de app andersom
      (`staart.rs:140`). Alleen bereikbaar als beide gezet zijn (MCP of een bewerkt bestand). — S
 
-290. **openaec-layout-rapporten laten tekens weg die niet in Liberation Sans zitten** (sinds de fix voor
-     #99). Geldt voor werkbeschrijving, hoofd- en onderaanneming, inschrijfstaat, nacalculatie en offerte;
-     `printpdf` `write_text` slaat het teken over, zonder melding. Op Windows kwamen ze eerst uit Segoe UI:
-     ₹ en ฿ (in de valutalijst van bijna elke rapporttaal), ₽ (ru), ₺ (tr), ৳ (bn), valutatekens met Arabische letters (AED,
-     SAR, IRR en dergelijke) en Arabische labels (ar, fa, ur). Arabisch was daar ook vóór #99 niet leesbaar:
-     openaec-layout zet geen letters aan elkaar en schrijft niet van rechts naar links. De Typst-rapporten
-     (Bouw 1, IBIS, directie) vallen sinds deze fix terug op Noto Sans en Noto Sans Arabic (`reports/fonts.rs`);
-     alleen ฿ en ৳ (en de CJK-valutatekens 元 en ￥, zie 292) zitten in geen enkel ingebouwd lettertype en
-     blijven daar een leeg vakje (Arial had ze ook niet).
-     Voorstel: terugval per teken in openaec-layout (submodule `libs/openaec-reports`). Echt Arabisch daar
-     vraagt daarnaast shaping en bidi (rustybuzz, unicode-bidi). — B (cmap-vergelijking per rapporttaal)
-
 291. **`gen_pdf` (ontwikkeltool) maakt bij Bouw 1 een PDF zonder tekst op een schone checkout.**
      `src-tauri/src/bin/gen_pdf.rs:186-197` laat openaec-core Arial uit `tenants/bouw1/fonts` lezen; die map
-     werd tot #99 door de app zelf gevuld. Niet in de app gebruikt. Voorstel: naar Liberation Sans laten wijzen
-     of het Bouw 1-pad weghalen. — S
+     werd tot #99 door de app zelf gevuld. De app gebruikt het niet, maar de losse MCP-server wel: `export_pdf`
+     (`mcp-server/src/index.ts:1555`) roept `gen_pdf` aan, standaard met Bouw 1. Voorstel: naar Liberation Sans
+     laten wijzen of het Bouw 1-pad weghalen. — S
 
-292. **Rapporten in 8 talen tonen hun labels niet: ja, zh, ko, th, lo, hi, bn en ta.** Geen ingebouwd
-     lettertype heeft die schriften, en dat was vóór #99 op Windows ook al zo (Arial en Segoe UI evenmin).
-     De labels en door de gebruiker getypte tekst in die schriften ontbreken in alle PDF-rapporten, op elk
-     systeem, zonder melding. Voorstel: Engelse labels als terugval voor die talen, of een waarschuwing bij
-     het kiezen van zo'n rapporttaal. Lettertypen meeleveren kost veel: CJK alleen al is meer dan 15 MB. —
+292. **Rapporten in 6 talen tonen hun labels niet: ja, zh, ko, lo, hi en ta.** Geen ingebouwd lettertype
+     heeft die schriften, en dat was vóór #99 op Windows ook al zo (Arial en Segoe UI evenmin). De labels en
+     door de gebruiker getypte tekst in die schriften ontbreken in alle PDF-rapporten, op elk systeem, zonder
+     melding; ook de CJK-valutatekens 元 en ￥. (th en bn tonen hun tekens sinds Noto Sans Thai en Noto
+     Sans Bengali meegaan, maar niet overal netjes gezet, zie 294.) Voorstel: Engelse labels als terugval voor die talen, of een waarschuwing bij het
+     kiezen van zo'n rapporttaal. Lettertypen meeleveren kost veel: CJK alleen al is meer dan 15 MB. —
      B (cmap-vergelijking per rapporttaal)
 
 293. **Typst-rapporten zetten Arabische, Perzische, Urdu en Hebreeuwse regels links uitgelijnd en van links
@@ -531,6 +521,17 @@ stand van `main` op die datum.
      met een Latijns stuk (zoals "Bouw 1") of een valuta met punt (د.إ.) staat daardoor in de verkeerde
      volgorde voor wie van rechts naar links leest. Voorstel: `text(dir: rtl)` voor ar, fa, ur en he. — S
      (uit de Typst-bronnen afgeleid, niet nagespeeld)
+
+294. **openaec-layout-rapporten zetten Arabisch, Bengaals en Thai niet goed.** Werkbeschrijving, hoofd- en
+     onderaanneming, inschrijfstaat, nacalculatie en offerte tekenen elk teken los, van links naar rechts
+     (geen shaping in openaec-layout). Arabische, Perzische en Urdu-letters staan daardoor los en in
+     omgekeerde volgorde, zoals vóór #99 op Windows; Bengaalse klinkertekens zoals ি staan achter in plaats
+     van vóór hun medeklinker, zonder ligaturen. Thaise klinker- en toontekens staan boven hun medeklinker,
+     maar botsen als er twee boven elkaar horen (ที่) en schuiven niet op bij hoge medeklinkers (ป ฝ ฟ). De
+     tekens zelf staan er wel (terugvallettertypen in `reports/fonts.rs`). De Typst-rapporten vormen deze
+     letters wel goed (voor de regelrichting zie 293). Vet Thai en Bengaals komt in beide engines normaal uit:
+     alleen de normale snit gaat mee. Voorstel: shaping en bidi in openaec-layout (rustybuzz, unicode-bidi).
+     — B (Arabisch in een voorbeeld-PDF gezien; Bengaals en Thai uit de glyph-metrieken, door twee agents)
 
 ## IFC, PDF en hoeveelheden
 
