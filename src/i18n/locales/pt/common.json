@@ -930,6 +930,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Nenhuma tabela KK (artigos) encontrada no ficheiro .DNC."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} unidade sem equivalente foi mantida inalterada: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} unidades sem equivalente foram mantidas inalteradas: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Nenhum elemento <ARTICLE>/<PRODUCT> encontrado. Trata-se de um catálogo BMEcat/DICO?",
         "noUsableArticlesWithACodeOr": "Nenhum artigo utilizável com código ou designação encontrado."

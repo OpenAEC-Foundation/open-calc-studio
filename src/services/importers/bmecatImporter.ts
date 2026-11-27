@@ -1,7 +1,7 @@
 import { uiText } from '../../i18n/uiText';
-import { parseXml, getText, normalizeUnit } from './xmlHelpers';
-import { genId } from './core';
-import type { ResourceLibraryItem, ResourceType } from '@/types/costModel';
+import { parseXml, getText, getDescendantText } from './xmlHelpers';
+import { genId, matchUnit, unknownUnitsWarning } from './core';
+import type { CostUnit, ResourceLibraryItem, ResourceType } from '@/types/costModel';
 
 /**
  * BMEcat 2005 / DICO (Ketenstandaard Bouw en Techniek) prijzencatalogus →
@@ -27,9 +27,31 @@ function guessType(text: string): ResourceType {
   return 'materiaal';
 }
 
+/**
+ * BMEcat schrijft eenheden als UN/ECE Rec 20-code (MTR, MTK, C62 …). Zonder
+ * deze tabel werden ze allemaal "st" (knownbug 71).
+ */
+const REC20_UNITS: Record<string, CostUnit> = {
+  MTR: 'm', MTK: 'm²', MTQ: 'm³', KMT: 'km',
+  KGM: 'kg', TNE: 'ton',
+  C62: 'st', PCE: 'st', H87: 'st', EA: 'st',
+  HUR: 'uur', DAY: 'dgn', WEE: 'week', MON: 'mnd',
+  LS: 'ls',
+};
+
+/** Rec 20-code of vrije tekst → eenheid; `known` = er is een tegenhanger. */
+function bmecatUnit(raw: string): { unit: CostUnit; known: boolean } {
+  const s = raw.trim();
+  if (!s) return { unit: 'st', known: true };
+  const mapped = REC20_UNITS[s.toUpperCase()] ?? matchUnit(s);
+  if (mapped) return { unit: mapped, known: true };
+  // Onbekend: ongewijzigd overnemen (zoals de ÖNORM-import), niet stil "st".
+  return { unit: s as CostUnit, known: false };
+}
+
 function firstChildText(node: Element, ...tags: string[]): string {
   for (const tag of tags) {
-    const t = getText(node, tag);
+    const t = getDescendantText(node, tag);
     if (t) return t;
   }
   return '';
@@ -50,6 +72,7 @@ export function importBmecat(xml: string): PriceImportResult {
   }
 
   const seen = new Set<string>();
+  const unknownUnits = new Set<string>();
   for (const node of nodes) {
     // Sla de mime/feature-subknopen over die per ongeluk ARTICLE kunnen heten.
     const code =
@@ -73,7 +96,8 @@ export function importBmecat(xml: string): PriceImportResult {
     const order =
       (node.getElementsByTagName('ARTICLE_ORDER_DETAILS')[0] as Element | undefined) ??
       (node.getElementsByTagName('PRODUCT_ORDER_DETAILS')[0] as Element | undefined);
-    const unit = normalizeUnit(order ? firstChildText(order, 'ORDER_UNIT', 'CONTENT_UNIT') : '');
+    const { unit, known } = bmecatUnit(order ? firstChildText(order, 'ORDER_UNIT', 'CONTENT_UNIT') : '');
+    if (!known) unknownUnits.add(unit);
 
     // Eerste prijs uit de eerste ARTICLE_PRICE.
     const priceEl = node.getElementsByTagName('PRICE_AMOUNT')[0];
@@ -81,8 +105,12 @@ export function importBmecat(xml: string): PriceImportResult {
     const price = priceText ? parseFloat(priceText.replace(/\./g, '').replace(',', '.')) : NaN;
     // BMEcat is EN-decimaal ("12.50"); alleen NL-normaliseren als er een komma is.
     const priceEn = priceText && priceText.indexOf(',') < 0 ? parseFloat(priceText) : price;
+    // PRICE_AMOUNT geldt voor PRICE_QUANTITY bestel-eenheden (€ 145 per 100 m);
+    // de middelenbibliotheek wil de prijs per eenheid (knownbug 72).
+    const priceQuantity = order ? parseFloat(getText(order, 'PRICE_QUANTITY').replace(',', '.')) : NaN;
+    const unitPrice = Number.isFinite(priceQuantity) && priceQuantity > 0 ? priceEn / priceQuantity : priceEn;
 
-    const featSys = getText(node, 'REFERENCE_FEATURE_SYSTEM_NAME');
+    const featSys = getDescendantText(node, 'REFERENCE_FEATURE_SYSTEM_NAME');
     const keywords = Array.from(node.getElementsByTagName('KEYWORD'))
       .map((k) => k.textContent ?? '')
       .join(' ');
@@ -93,11 +121,13 @@ export function importBmecat(xml: string): PriceImportResult {
       description,
       unit,
       resourceType: guessType(`${description} ${keywords}`),
-      defaultUnitPrice: Number.isFinite(priceEn) ? priceEn : null,
+      defaultUnitPrice: Number.isFinite(unitPrice) ? unitPrice : null,
       category: featSys || 'BMEcat',
     });
   }
 
+  const unitWarning = unknownUnitsWarning(unknownUnits);
+  if (unitWarning) warnings.push(unitWarning);
   if (resources.length === 0) warnings.push(uiText("diagnostics.bmecatImporter.noUsableArticlesWithACodeOr", "No usable articles with a code or description found."));
 
   return { resources, warnings, format: 'bmecat' };

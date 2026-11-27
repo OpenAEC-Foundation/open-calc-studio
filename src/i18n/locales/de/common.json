@@ -559,6 +559,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Keine KK-Tabelle (Positionen) in der .DNC-Datei gefunden."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} Einheit ohne Entsprechung wurde unverändert übernommen: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} Einheiten ohne Entsprechung wurden unverändert übernommen: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Keine <ARTICLE>/<PRODUCT>-Elemente gefunden. Ist dies ein BMEcat-/DICO-Katalog?",
         "noUsableArticlesWithACodeOr": "Keine verwendbaren Artikel mit Code oder Beschreibung gefunden."

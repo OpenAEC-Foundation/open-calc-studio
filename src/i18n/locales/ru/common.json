@@ -930,6 +930,12 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "В файле .DNC не найдена таблица KK (позиции)."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} единица без соответствия сохранена без изменений: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} единиц без соответствия сохранены без изменений: {{examples}}.",
+        "unknownUnitsKept_few": "{{count}} единицы без соответствия сохранены без изменений: {{examples}}.",
+        "unknownUnitsKept_many": "{{count}} единиц без соответствия сохранены без изменений: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Элементы <ARTICLE>/<PRODUCT> не найдены. Это каталог BMEcat/DICO?",
         "noUsableArticlesWithACodeOr": "Не найдено пригодных артикулов с кодом или описанием."

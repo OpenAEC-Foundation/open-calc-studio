@@ -168,35 +168,8 @@ stand van `main` op die datum.
 70. **Openen vanuit de cloud laat offerte, bedrijfsgegevens, spreadsheets, snapshots en projectinfo vallen**
     (`CloudPanel.tsx:100-110`). Zelfde soort bug als #58. — S
 
-71. **BMEcat: eenheidscodes uit UN/ECE Rec 20 (MTR, MTK, MTQ, KGM, TNE, C62, PCE) worden allemaal "st".**
-    `src/services/importers/bmecatImporter.ts:306`. Voorstel: een Rec 20-vertaaltabel toevoegen, en waarschuwen
-    bij onbekende eenheden. — B
-
-72. **BMEcat negeert `PRICE_QUANTITY`, waardoor de eenheidsprijs 10–1000× te hoog is.**
-    `bmecatImporter.ts:309-313`. € 145 per 100 m wordt € 145/m. Voorstel: deel door `PRICE_QUANTITY` als die
-    groter is dan 0. — B
-
-73. **GAEB-langteksten plakken alinea's aan elkaar zonder spatie of regeleinde.**
-    `src/services/importers/gaebImporter.ts:26-33`. `<p>Zeile eins</p><p>Zeile zwei</p>` wordt
-    "Zeile einsZeile zwei"; ook `<br/>` gaat verloren. Voorstel: een doorloper in de stijl van `a2063TextLines`
-    (`p`/`br` → `\n`). — B
-
-74. **GAEB maakt van onbekende eenheden (`lfm`, `Tag`, `Wo`, `l`, `qm`, `cbm`, `kWh`) stilletjes "st".**
-    `gaebImporter.ts:18-25`. Voorstel: de tabel uitbreiden (`A2063_TO_OCS` hergebruiken) en onbekende eenheden
-    doorgeven met een waarschuwing. — B
-
-75. **BC3: een `~T`-tekst die vóór zijn `~C`-record staat, valt weg.** `src/services/importers/bc3Importer.ts:243-254`
-    (het commentaar bovenin zegt iets anders). Voorstel: gebruik `targetFor(key)` in de `~T`-tak. — B
-
-76. **ÖNORM: een positie zonder `stichwort` krijgt "____" als omschrijving.**
-    `src/services/importers/onlvImporter.ts:240-244`; de test op `onlvImporter.test.ts:230` controleert dit niet.
-    Voorstel: gebruik `kurz + luecke` alleen als `stichwort-kurz` aanwezig is. — B
-
 77. **GAEB-Bedarfspositionen (`Provis WithoutTotal`) en alternatieven (`ALNGroupNo`) tellen mee in het totaal**,
     zonder enige markering (`gaebImporter.ts:73-80`). Minder zeker dan de andere importpunten. — S
-
-78. **`liteXml.ts:172`: in attributen wordt `&#10;` een spatie en CRLF twee spaties.** Geen praktisch effect;
-    minder zeker dan de andere importpunten. — S
 
 80. **Verversen maakt van Excel-foutcellen hoeveelheden (`#DIV/0!` → 7, `#N/A` → 42).**
     `excelLinkService.ts:119`. Voorstel: geef een fout bij `t === 'e'`, zoals `tabularBudget.ts:52` al doet.
@@ -249,22 +222,10 @@ stand van `main` op die datum.
     (`bascalcImporter.ts:228-236`); bij `cn`-regels is m arbeid en h materieel (`mapResourceType`, r.27-31).
     Nog controleren met een echt bestand. — S
 
-97. **`getText` zoekt in de hele subboom, zodat een post de waarden van zijn kind overneemt.**
-    `src/services/importers/xmlHelpers.ts:19-23`. Nagespeeld: een oude CUF-post krijgt hoeveelheid 8, eenheid
-    uur en prijs 45 van zijn `<Middel>`. Voorstel: alleen directe kinderen meenemen. — B
-
-98. **ZSX laat `<Omschrijving>` vallen en maakt van een ontbrekende prijs 0.** `zsxImporter.ts:24-29`, `:33,41`
-    (`??` op `''`; `getNumber` geeft 0). Nagespeeld. Voorstel: `||` gebruiken en een ontbrekende prijs als
-    null bewaren. — B
-
 99. **IfcX-import zet posten in de verkeerde volgorde als codes op getallen lijken.** `ifcxImporter.ts:104,107`
     + `ifcxJsonGenerator.ts:246-252`: de code is een JSON-sleutel, en gehele-getalsleutels komen bij het
     doorlopen eerst. Nagespeeld: `B,20,10,1a,2` komt terug als `2,10,20,B,1a`. Voorstel: een expliciet
     sortOrder-attribuut, of sleutels met een voorvoegsel. — B
-
-100. **RAW RSX: vanaf hoofdstuk 10 klopt de hoofdstukdiepte niet.** `rsxImporter.ts:91-98` bepaalt de diepte
-     op de getalwaarde. Nagespeeld, zonder echt voorbeeldbestand. Voorstel: de diepte op het aantal cijfers
-     baseren. — B
 
 101. **Een echt IfcX-bestand faalt bij de algemene import met "Invalid file format".** De inhoudsherkenning
      stuurt het verkeerd door (`lib/importers.ts:12-16`, `hostFileActions.ts:21`, MCP `fileCommands.ts:10`).
@@ -273,12 +234,13 @@ stand van `main` op die datum.
 102. **Een CSV die met "PK" begint (bv. `PK-nummer;…`) wordt geweigerd als ongeldige ZIP.**
      `importWorkerClient.ts:4`. Gezien in de code. Voorstel: geen ZIP-controle voor CSV. — S
 
-103. **CUF: subhoofdstukken en alle regels gaan verloren bij opnieuw importeren.** De exporter schrijft geneste
-     `<Hoofdstuk>` (`cufExporter.ts:44`) en `<Regel>` (`cufExporter.ts:60-62`); de importer leest alleen `<Post>`
-     onder een Hoofdstuk op het hoogste niveau (`cufImporter.ts:206,217`) en `<Middel>` (`:235`). `<Staart>`
-     wordt nooit teruggelezen. Nagespeeld en door een tweede controle bevestigd. Daarnaast bevestigde de tweede
-     agent #96 onafhankelijk: CUF/TRADXML-prijzen komen na de herberekening van de import terug als €0.
-     Voorstel: geneste Hoofdstuk-elementen recursief aflopen; aan beide kanten één tagnaam voor regels. — B
+103. **CUF: de staart en het soort middel gaan verloren bij opnieuw importeren.** Subhoofdstukken en `<Regel>`s
+     komen sinds de fix wel terug (`knownbugsCufTradxml103-274.test.ts`), maar `<Staart>` (`cufExporter.ts:20-33`)
+     wordt nooit teruggelezen, en `<Regel>` krijgt geen `type`-attribuut (`cufExporter.ts:renderRegel`), zodat
+     elke regel na herimport "overig" is. De staart stond al in de bevestigde melding; het soort middel heb ik
+     alleen in de code gezien.
+     Voorstel: de exporter `<Middel type=…>` laten schrijven (prijs per eenheid) en de staart als
+     schema-percentages teruglezen. — B (staart), S (soort middel)
 
 104. **IFCX importeren en daarna IFC exporteren geeft een fout.** `ifcxImporter.ts:47-51` maakt van `''` `undefined`, en
      `Backstage.tsx:144` (`setSchedule`) overschrijft daarmee, zodat `encodeStepString(undefined)` een fout gooit
@@ -317,10 +279,11 @@ stand van `main` op die datum.
      (hosted/API-pad). — S
 
 269. **Oude CUF: Middel-regels per eenheid geven na herberekenen een te laag posttotaal.**
-    `src/services/importers/cufImporter.ts:220-231`. Sinds de fix voor #96 worden Middel-regels vaste bedragen
+    `src/services/importers/cufImporter.ts`, `addRegel`. Sinds de fix voor #96 worden Middel-regels vaste bedragen
     (aantal × prijs) en is het posttotaal hun som; de hoeveelheid van de post telt niet mee. Zijn Middel-
     aantallen in dit formaat per eenheid bedoeld (0,5 uur per m³ bij 10 m³), dan wordt € 225 na herberekenen
-    € 22,50. Niet te controleren zonder echt bestand; samen met #97 bekijken. Gevonden in de review van PR #70. — S
+    € 22,50. Niet te controleren zonder echt bestand. (#97 is opgelost: een oude CUF-post neemt de hoeveelheid,
+    eenheid en prijs van zijn Middel niet meer over.) Gevonden in de review van PR #70. — S
 
 271. **WpCalc-export meldt "OK" ook als losse INSERTs mislukken.** Het PowerShell-script in
     `src-tauri/src/wpcalc_export.rs` stopt niet bij fouten, dus regels kunnen ontbreken zonder melding.
@@ -335,9 +298,6 @@ stand van `main` op die datum.
 
 273. **WpCalc-export vult het veld `calculaties.valuta` niet.** De import leest het sinds de valutafix wel;
     de export schrijft geen valuta (Rust-kant). Gevonden bij de valutafix. — B
-
-274. **De TradXML-import leest maar één `Element`-niveau** (`tradxmlImporter.ts:52-58`). Het CUF-deel
-    (subhoofdstukken gaan verloren) is punt 103. Gevonden bij de fix van knownbug 59. — B
 
 278. **Andere importers lezen onleesbare bedragen nog stil als 0.** Alleen de generieke import
     (`genericTabularImporter.ts`) waarschuwt; BC3, DNC, inschrijfstaat en de XML-hulpfuncties gebruiken

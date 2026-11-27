@@ -956,6 +956,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "No KK table (items) found in the .DNC file."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} unit without an equivalent here was kept unchanged: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} units without an equivalent here were kept unchanged: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "No <ARTICLE>/<PRODUCT> elements found. Is this a BMEcat/DICO catalogue?",
         "noUsableArticlesWithACodeOr": "No usable articles with a code or description found."

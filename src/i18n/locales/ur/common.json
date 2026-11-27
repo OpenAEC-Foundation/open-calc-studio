@@ -930,6 +930,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": ".DNC فائل میں کوئی KK جدول (مدات) نہیں ملا۔"
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} اکائی جس کا کوئی متبادل نہیں، بغیر تبدیلی رکھی گئی: {{examples}}۔",
+        "unknownUnitsKept_other": "{{count}} اکائیاں جن کا کوئی متبادل نہیں، بغیر تبدیلی رکھی گئیں: {{examples}}۔"
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "کوئی <ARTICLE>/<PRODUCT> عنصر نہیں ملا۔ کیا یہ BMEcat/DICO کیٹلاگ ہے؟",
         "noUsableArticlesWithACodeOr": "کوڈ یا تفصیل والا کوئی قابلِ استعمال آرٹیکل نہیں ملا۔"
