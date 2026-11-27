@@ -194,29 +194,12 @@ stand van `main` op die datum.
 86. **Profielimport weigert `St` en `M` met "Unmapped unit"**: eenheden zijn hoofdlettergevoelig
     (`tabularBudget.ts:62`). — B
 
-87. **BasCalc: een tweede `cb`-blok in een post komt binnen het eerste te hangen.**
-    `src/services/importers/bascalcImporter.ts:298-324`; oorzaak op r.170-176: `cp` wordt weggegooid en alleen
-    `ih` haalt een niveau van de stapel. Materiaal komt zo onder Arbeid, waardoor Arbeid 300 wordt in plaats
-    van 100. Nagespeeld. Ernst middel: de totalen van de post en het geheel blijven goed, alleen de
-    subbloktotalen kloppen niet. Voorstel: bij een nieuwe `cb` de items op hetzelfde of een dieper niveau van
-    de stapel halen, of de `cp`-regels bewaren en daarop poppen. — B
-
-90. **DNC: negatieve KU-bedragen vallen weg.** `src/services/importers/dncImporter.ts:179-182` filtert op
-    `g > 0`. Nagespeeld. Voorstel: `!== 0`. — B
-
 91. **DNC: de terugvalsamenvatting negeert mogelijk `TOT3` (materieel).** `dncImporter.ts:298-302`. Gezien
     bij het nalopen van de negatieve KU-bedragen #90; nog controleren met een echt bestand. — S
 
-92. **S01: twee posten met dezelfde 6-cijferige code worden samengevoegd.**
-    `src/services/importers/s01Importer.ts:100-115` negeert `.NNN` en `-END`. Nagespeeld. — B
-
-93. **S01: `extractTitle` accepteert alleen `[A-Z]`**, dus "BEËINDIGEN" krijgt geen titel
-    (`s01Importer.ts:84`). Daarnaast wordt `.s01` als UTF-8 gelezen; de codering van echte STABU-bestanden is
-    nog niet gecontroleerd. Gezien bij #92. — S
-
-94. **`normalizeUnit` maakt van "uren" "st".** `src/services/importers/core.ts:66-82`; ook `m¹`, `kg.`, `weken`
-    en `maanden` worden niet omgezet. Nagespeeld. Voorstel: de aliassen toevoegen en een punt aan het eind
-    weghalen. — B
+93. **S01: de codering van echte STABU-bestanden is niet gecontroleerd.** `.s01` wordt als UTF-8 gelezen;
+    is een echt bestand Windows-1252 of CP850, dan worden letters als Ë verminkt. (Titels met Ë e.d. worden
+    inmiddels wel herkend.) Gezien bij #92. — S
 
 95. **BasCalc leest de S-kolom op twee tegengestelde manieren.** Bij `ih`-regels is h arbeid en m materiaal
     (`bascalcImporter.ts:228-236`); bij `cn`-regels is m arbeid en h materieel (`mapResourceType`, r.27-31).
@@ -291,11 +274,6 @@ stand van `main` op die datum.
     Gevonden bij de fix van knownbug 64. Voorstel: fouten tellen en melden; `$ErrorActionPreference='Stop'`
     pas na een test met echte bestanden. — B
 
-272. **WpCalc-export schrijft de staart niet zoals hij in de app staat.** `src/services/export/wpcalcExporter.ts`
-    haalt alle staartregels weg vóór de Rust-export, zodat `wpcalc_export.rs:345-395` ze nooit vindt; bij een
-    begroting uit WpCalc gaat de staart van de import mee, niet de huidige percentages. Gevonden bij de fix
-    van knownbug 88. — B
-
 273. **WpCalc-export vult het veld `calculaties.valuta` niet.** De import leest het sinds de valutafix wel;
     de export schrijft geen valuta (Rust-kant). Gevonden bij de valutafix. — B
 
@@ -303,16 +281,12 @@ stand van `main` op die datum.
     (`genericTabularImporter.ts`) waarschuwt; BC3, DNC, inschrijfstaat en de XML-hulpfuncties gebruiken
     `parseNumber` (`core.ts`) zonder melding. Rest van knownbug 82. Gevonden in de review van de valutafix. — B
 
-279. **`parseAmount` leest een paar tekstvormen verkeerd**: `"12.03.2024"` wordt 12032024, `"EUR 1.250,00 excl."`
-    wordt 1,25 (de punt in "excl." telt als scheidingsteken) en `"6'2"` wordt 62. Ook `"€ 1.250-"` en
-    `"€1.250/m"` worden 1,25, terwijl `"€ 1.250"` 1250 is. Alleen als zo'n kolom aan een getalveld wordt
-    gekoppeld. Gevonden in de review van de valutafix (nagespeeld in node). — B
-
-280. **WpCalc-import zonder herkende staartlabels geeft geen btw-regel en geen melding.** Labels als
-    "B.T.W.", "Omzetbelasting" of Engelse teksten worden niet herkend (`wpcalcImporter.ts`
-    `classifyWpCalcStaartLabel`); dan is incl. btw gelijk aan excl. btw. Ook: "Risicoverzekering" wordt
-    `risico`, een label met "totaal" valt weg, en een tweede regel van dezelfde soort telt niet mee.
-    Gevonden in de review van knownbug 88. — B
+280. **WpCalc-import zonder herkende staartlabels geeft geen btw-regel en geen melding.** Een label dat
+    `classifyWpCalcStaartLabel` (`wpcalcImporter.ts`) niet kent, valt stil weg; zonder btw-regel is incl.
+    btw gelijk aan excl. btw. "B.T.W.", "Omzetbelasting", "VAT" en "Risicoverzekering" worden inmiddels
+    herkend; andere Engelse teksten niet. Ook: een label met "totaal" valt weg, en een tweede regel van
+    dezelfde soort telt niet mee. Open: een melding bij onbekende labels (de import heeft nog geen
+    meldingenkanaal) en wat er met dubbele soorten moet. Gevonden in de review van knownbug 88. — B
 
 ## Documenten, tabbladen, versies en herstel
 

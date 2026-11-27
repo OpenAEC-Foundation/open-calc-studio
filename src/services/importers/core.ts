@@ -84,35 +84,75 @@ export interface ParsedAmount {
  *
  * Decimaalteken: staan er zowel punten als komma's in, dan is het laatste
  * teken het decimaalteken ("1.234,56" en "1,234.56"). Alleen één komma →
- * NL-decimaal ("12,5"); meerdere komma's of meerdere punten → duizendtallen.
+ * NL-decimaal ("12,5"); meerdere komma's of meerdere punten → duizendtallen,
+ * mits de groepen kloppen ("1.234.567", ook Indiaas "1,23,456"); "12.03.2024"
+ * is dus geen getal. Een apostrof telt alleen als duizendtal vóór precies drie
+ * cijfers ("1'234"); "6'2" is geen getal.
+ *
+ * Tekst achter het getal ("excl.", "/m", ",-") telt niet mee, en de punten
+ * daarin ook niet als scheidingsteken: "EUR 1.250,00 excl." → 1250 (knownbug 279).
  */
 export function parseAmount(raw: string | number | null | undefined): ParsedAmount {
   if (typeof raw === 'number') return { value: Number.isFinite(raw) ? raw : 0, invalid: !Number.isFinite(raw), currency: null };
   if (raw == null) return { value: 0, invalid: false, currency: null };
-  const s = String(raw).replace(/[\s\u00a0\u2007\u202f'\u2019]/g, '').replace(/\u2212/g, '-');
+  // Een apostrof vooraan of achteraan is een tekstmarkering (CSV/Excel: "'12,50"), geen duizendtal.
+  const s = String(raw).replace(/[\s\u00a0\u2007\u202f]/g, '').replace(/\u2212/g, '-').replace(/^['\u2019]+|['\u2019]+$/g, '');
   if (!s) return { value: 0, invalid: false, currency: null };
+  const invalid: ParsedAmount = { value: 0, invalid: true, currency: null };
   const m = AMOUNT_RE.exec(s);
   const token = m?.[2] ?? m?.[5];
   const currency = token ? TOKEN_CODE.get(token.toLowerCase()) ?? null : null;
-  let t = m ? `${m[1] || m[3]}${m[4]}` : s;
+  // Alleen het getal zelf (teken, cijfers, scheidingstekens, exponent); wat
+  // erachter staat telt niet mee, net als bij parseFloat.
+  const source = m ? `${m[1] || m[3]}${m[4]}` : s;
+  const core = /^[+-]?[\d.,'\u2019]*\d(?:e[+-]?\d+)?/i.exec(source)?.[0];
+  if (!core || /['\u2019](?!\d{3}(?!\d))/.test(core)) return invalid;
+  const exp = /e[+-]?\d+$/i.exec(core)?.[0] ?? '';
+  let t = core.slice(0, core.length - exp.length).replace(/['\u2019]/g, '');
   const lastComma = t.lastIndexOf(',');
   const lastDot = t.lastIndexOf('.');
   const groupMatch = token ? /^[+-]?[1-9]\d{0,2}([.,])\d{3}$/.exec(t) : null;
-  if (groupMatch && (groupMatch[1] === '.' || COMMA_GROUP_TOKENS.has(token!.toLowerCase()))) {
+  // Een scheidingsteken direct na het getal zonder decimalen ("1.250,-",
+  // "1.250,=", "1,250.") is het decimaalteken van een rond bedrag; het teken
+  // ín het getal is dan een duizendtal: "1.250,-" → 1250, niet 1,25.
+  const wholeSep = !exp && /^[.,](?!\d)/.test(source.slice(core.length));
+  const innerSeps = t.replace(/^[+-]/, '').match(/[.,]/g) ?? [];
+  if (wholeSep && innerSeps.length > 0 && innerSeps.every((c) => c === innerSeps[0]) && groupsOk(t, innerSeps[0] as '.' | ',')) {
+    t = t.replace(/[.,]/g, '');
+  } else if (groupMatch && (groupMatch[1] === '.' || COMMA_GROUP_TOKENS.has(token!.toLowerCase()))) {
     // Bedrag met valutateken en één scheidingsteken voor precies drie cijfers
     // is een duizendtal: "€ 1.250" → 1250, "$1,234" → 1234, "₩1,000" → 1000.
     // Een komma alleen bij valuta's die de komma als duizendtal gebruiken;
     // "€ 1,500" blijft 1,5 (Nederlandse prijs met drie decimalen).
     t = t.replace(/[.,]/, '');
   } else if (lastComma >= 0 && lastDot >= 0) {
-    t = lastComma > lastDot ? t.replace(/\./g, '').replace(',', '.') : t.replace(/,/g, '');
+    const [dec, group]: ['.' | ',', '.' | ','] = lastComma > lastDot ? [',', '.'] : ['.', ','];
+    const decAt = t.lastIndexOf(dec);
+    if (!groupsOk(t.slice(0, decAt), group)) return invalid;
+    t = `${t.slice(0, decAt).split(group).join('')}.${t.slice(decAt + 1)}`;
   } else if (lastComma >= 0) {
-    t = t.indexOf(',') === lastComma ? t.replace(',', '.') : t.replace(/,/g, '');
+    if (t.indexOf(',') === lastComma) t = t.replace(',', '.');
+    else if (groupsOk(t, ',')) t = t.replace(/,/g, '');
+    else return invalid;
   } else if (lastDot >= 0 && t.indexOf('.') !== lastDot) {
+    if (!groupsOk(t, '.')) return invalid;
     t = t.replace(/\./g, '');
   }
-  const n = parseFloat(t);
-  return Number.isFinite(n) ? { value: n, invalid: false, currency } : { value: 0, invalid: true, currency: null };
+  const n = parseFloat(t + exp);
+  return Number.isFinite(n) ? { value: n, invalid: false, currency } : invalid;
+}
+
+/** Geldige duizendtalgroepen per scheidingsteken: 1.234.567 en Indiaas 1,23,456. */
+const GROUP_RES: Record<'.' | ',', RegExp[]> = {
+  '.': [/^\d{1,3}(?:\.\d{3})+$/, /^\d{1,2}(?:\.\d{2})+\.\d{3}$/],
+  ',': [/^\d{1,3}(?:,\d{3})+$/, /^\d{1,2}(?:,\d{2})+,\d{3}$/],
+};
+
+/** Klopt de groepering van een geheel getal met dit duizendtalteken? */
+function groupsOk(intPart: string, sep: '.' | ','): boolean {
+  const digits = intPart.replace(/^[+-]/, '');
+  if (!digits.includes(sep)) return /^\d*$/.test(digits);
+  return GROUP_RES[sep].some((re) => re.test(digits));
 }
 
 /**
@@ -128,20 +168,20 @@ export function parseNumber(raw: string | number | null | undefined): number {
 
 const UNIT_MAP: Record<string, CostUnit> = {
   st: 'st', stk: 'st', stl: 'st', stuk: 'st', stuks: 'st',
-  m: 'm', m1: 'm', meter: 'm',
+  m: 'm', m1: 'm', 'm¹': 'm', meter: 'm',
   m2: 'm²', 'm^2': 'm²', 'm²': 'm²',
   m3: 'm³', 'm^3': 'm³', 'm³': 'm³',
   kg: 'kg', ton: 'ton',
-  uur: 'uur', u: 'uur', h: 'uur',
+  uur: 'uur', uren: 'uur', u: 'uur', h: 'uur',
   dg: 'dgn', dgn: 'dgn', dag: 'dgn', dagen: 'dgn',
   km: 'km', keer: 'keer', ls: 'ls',
-  week: 'week', wk: 'week',
-  mnd: 'mnd', maand: 'mnd',
+  week: 'week', weken: 'week', wk: 'week',
+  mnd: 'mnd', maand: 'mnd', maanden: 'mnd',
   post: 'post', pst: 'post', eur: 'post',
   '%': '%', pm: 'pm',
 };
 
-/** Normaliseer een vrije eenheid-tekst ("m3", "M²", "stuks") naar CostUnit. */
+/** Normaliseer een vrije eenheid-tekst ("m3", "M²", "stuks", "kg.") naar CostUnit. */
 export function normalizeUnit(raw: string | null | undefined): CostUnit {
   return matchUnit(raw) ?? 'st';
 }
@@ -149,7 +189,13 @@ export function normalizeUnit(raw: string | null | undefined): CostUnit {
 /** Als `normalizeUnit`, maar `null` voor een eenheid die we niet kennen. */
 export function matchUnit(raw: string | null | undefined): CostUnit | null {
   const s = (raw ?? '').trim().toLowerCase();
-  return UNIT_MAP[s] ?? null;
+  // Een afkortingspunt aan het eind telt niet mee: "kg." = "kg" (knownbug 94).
+  return UNIT_MAP[s] ?? UNIT_MAP[s.replace(/\.$/, '')] ?? null;
+}
+
+/** Like normalizeUnit, but undefined for a unit it does not know (instead of 'st'). */
+export function knownUnit(raw: string | null | undefined): CostUnit | undefined {
+  return matchUnit(raw) ?? undefined;
 }
 
 /**
@@ -164,11 +210,6 @@ export function unknownUnitsWarning(units: Set<string>): string | null {
     '{{count}} units without an equivalent here were kept unchanged: {{examples}}.',
     { count: units.size, examples },
   );
-}
-
-/** Like normalizeUnit, but undefined for a unit it does not know (instead of 'st'). */
-export function knownUnit(raw: string | null | undefined): CostUnit | undefined {
-  return UNIT_MAP[(raw ?? '').trim().toLowerCase()];
 }
 
 // ── CostItem-fabriek ──────────────────────────────────────────────────────

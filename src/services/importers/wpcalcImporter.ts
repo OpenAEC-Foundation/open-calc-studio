@@ -53,8 +53,12 @@ type StaartKind =
  */
 export function classifyWpCalcStaartLabel(label: string | null | undefined): StaartKind | null {
   const l = (label ?? '').toLowerCase().replace(/\s+/g, ' ').trim();
-  if (!l || l.includes('totaal')) return null;
-  if (l.includes('btw')) return l.includes('laag') ? 'btw_laag' : 'btw';
+  // Totaalregels, ook Engelse ("Total excl. VAT:", "Subtotal"): geen staartregel.
+  if (!l || l.includes('totaal') || l.includes('total')) return null;
+  // Ook "B.T.W.", "Omzetbelasting" en "VAT" (knownbug 280).
+  if (l.replace(/\./g, '').includes('btw') || l.includes('omzetbelasting') || /\bvat\b/.test(l)) {
+    return l.includes('laag') ? 'btw_laag' : 'btw';
+  }
   if (l.includes('afronding')) return 'afronding';
   if (l.includes('algemene kosten') && l.includes('onderaanneming')) return 'ak_oa';
   if (l.includes('algemene bedrijfskosten')) return 'abk';
@@ -63,11 +67,12 @@ export function classifyWpCalcStaartLabel(label: string | null | undefined): Sta
   const winst = l.includes('winst');
   const risico = l.includes('risico');
   if ((winst && risico) || /^w ?& ?r\b/.test(l)) return 'wr';
+  // Vóór winst/risico: "Risicoverzekering" is een verzekering (knownbug 280).
+  if (l.includes('verzekering')) return 'verzekering';
   if (winst) return 'winst';
   if (risico) return 'risico';
   if (l.includes('garantie')) return 'garanties';
   if (l.includes('werkvoorbereiding')) return 'wvpm';
-  if (l.includes('verzekering')) return 'verzekering';
   return null;
 }
 
