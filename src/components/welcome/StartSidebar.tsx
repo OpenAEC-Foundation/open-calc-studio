@@ -1,5 +1,4 @@
-import { localStore } from '@/utils/browserStorage';
-import { HOST_RECENT_PREFIX } from '@/services/file/siteHost';
+import { recentFileLabel } from '@/services/file/recentFiles';
 import appIcon from '../../assets/app-icon.svg';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
@@ -74,15 +73,13 @@ export function StartSidebar({ onLoadVoorbeeld, onClose }: StartSidebarProps) {
             <h3 className="start-recent-title">{t('backstage:recentFiles')}</h3>
             <div className="start-recent-list">
               {settings.recentFiles.map((filePath: string) => {
-                const name = filePath.startsWith(HOST_RECENT_PREFIX)
-                  ? localStore.getItem('ocs-host-name:' + decodeURIComponent(filePath.slice(HOST_RECENT_PREFIX.length))) || t('host.file')
-                  : filePath.replace(/\\/g, '/').split('/').pop()?.replace(/\.(ifcx|json|ocs|calc)$/i, '') ?? filePath;
+                const { name, isHost } = recentFileLabel(filePath, t('host.file'));
                 return (
                   <button
                     key={filePath}
                     className="start-recent-item"
                     onClick={() => { void openRecentFile(filePath); onClose(); }}
-                    title={filePath}
+                    title={isHost ? name : filePath}
                   >
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
