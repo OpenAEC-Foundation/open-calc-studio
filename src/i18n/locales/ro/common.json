@@ -684,6 +684,7 @@
       "error": {
         "calibrate": "Calibrați mai întâi scara.",
         "points": "Nu există suficiente puncte de măsurare valide.",
+        "selfIntersecting": "Conturul suprafeței se intersectează cu el însuși. Faceți clic pe colțuri în ordine în jurul formei.",
         "size": "Folosiți un PDF încorporat de cel mult 30 MB.",
         "notPdf": "Acest fișier nu este un PDF.",
         "export": "Folosiți exportul de măsurători din integrarea Open Calc din Open PDF Studio.",
@@ -750,6 +751,10 @@
       "looksLikePriceList": "Pare o listă de prețuri: coduri și prețuri, fără cantități.",
       "importAsLibrary": "Importă în schimb ca bibliotecă de prețuri",
       "ownNotPriceXml": "Acest fișier XML nu este un catalog BMEcat sau o listă de prețuri ZSX. Este un deviz (CUF, GAEB, RSX, …)? Deschideți-l prin Import → Deviz nou.",
+      "ownBc3NoConcepts": "nu s-au găsit înregistrări ~C; este un fișier BC3?",
+      "ownBc3Negative": "Omise deoarece prețul este negativ ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "Importate fără preț deoarece prețul din fișier este 0 ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "Fișierul nu indică moneda. Fișierele BC3 mai vechi sunt adesea în pesete: verificați prețurile înainte de a le folosi.",
       "selectAll": "Selectează toate modificările",
       "ownDuplicates": "Codurile care apar de mai multe ori au primit un sufix (~2, ~3) ({{count}}): {{codes}}.",
       "libraryNotLoaded": "Biblioteca „{{name}}” nu este încărcată în acest deviz. Rândul își păstrează prețul; activează biblioteca pentru a verifica actualizările de preț.",
@@ -926,6 +931,11 @@
       },
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Nu s-a găsit niciun tabel KK (articole) în fișierul .DNC."
+      },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} unitate fără echivalent a fost păstrată neschimbată: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} de unități fără echivalent au fost păstrate neschimbate: {{examples}}.",
+        "unknownUnitsKept_few": "{{count}} unități fără echivalent au fost păstrate neschimbate: {{examples}}."
       },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Nu s-au găsit elemente <ARTICLE>/<PRODUCT>. Este acesta un catalog BMEcat/DICO?",

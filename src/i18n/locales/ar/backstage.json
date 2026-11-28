@@ -61,7 +61,7 @@
     "tradDesc": "صيغة تبادل IBIS Trad (.xml)",
     "rsxDesc": "تبادل مواصفات CROW RAW (.rsx/.xml)",
     "rsuDesc": "تبادل RAW‎ القديم (.rsu) — عبر مسار RSX",
-    "bc3Desc": "تقديرات إسبانية (.bc3)؛ يُفتح دليل الأسعار أيضًا كتقدير",
+    "bc3Desc": "تقديرات إسبانية (.bc3)؛ لقاعدة أسعار استخدم مكتبة الأسعار أدناه",
     "onlvDesc": "جدول كميات نمساوي ÖNORM A 2063 (.onlv) أو فهرس نصوص قياسية (.onlb)",
     "zsxTitle": "قائمة أسعار (ZSX)",
     "zsxDesc": "قائمة أسعار كمكتبة أسعار خاصة (.zsx/.xml)",
@@ -84,8 +84,8 @@
     "groupLibrary": "مكتبة الأسعار",
     "groupLibraryHint": "تُحفظ على هذا الكمبيوتر ليستخدمها كل تقدير. لا تُنشئ تقديرًا.",
     "groupOther": "أخرى",
-    "libraryTableTitle": "قائمة أسعار (Excel / CSV / JSON)",
-    "libraryTableDesc": "قائمة أسعارك أو قائمة أسعار مورّد، مع معاينة للأعمدة (.xlsx/.csv/.json)"
+    "libraryTableTitle": "قائمة أسعار (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "قائمة أسعارك أو قائمة أسعار مورّد، مع معاينة للأعمدة (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "الحجم",

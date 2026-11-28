@@ -61,7 +61,7 @@
     "tradDesc": "IBIS Trad adatcsereformátum (.xml)",
     "rsxDesc": "CROW RAW műszaki leírás adatcsere (.rsx/.xml)",
     "rsuDesc": "Régebbi RAW adatcsere (.rsu) — az RSX útvonalon",
-    "bc3Desc": "Spanyol költségvetések (.bc3); az árjegyzék is költségvetésként nyílik meg",
+    "bc3Desc": "Spanyol költségvetések (.bc3); áradatbázist lent, az Árkönyvtár alatt importálhat",
     "onlvDesc": "Osztrák ÖNORM A 2063 kiírás (.onlv) vagy szabványszöveg-katalógus (.onlb)",
     "zsxTitle": "Árlista (ZSX)",
     "zsxDesc": "Árlista saját árkönyvtárként (.zsx/.xml)",
@@ -84,8 +84,8 @@
     "groupLibrary": "Árkönyvtár",
     "groupLibraryHint": "Ezen a számítógépen tárolódik, így minden költségvetés használhatja. Nem hoz létre költségvetést.",
     "groupOther": "Egyéb",
-    "libraryTableTitle": "Árlista (Excel / CSV / JSON)",
-    "libraryTableDesc": "Saját vagy beszállítói árlista, oszlopelőnézettel (.xlsx/.csv/.json)"
+    "libraryTableTitle": "Árlista (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "Saját vagy beszállítói árlista, oszlopelőnézettel (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "Méret",

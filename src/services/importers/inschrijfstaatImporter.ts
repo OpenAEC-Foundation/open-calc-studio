@@ -14,7 +14,7 @@ import { readWorkbook } from '@/services/importers/safeWorkbook';
  */
 
 import type { CostItem, CostSchedule, CompanyInfo, Verrekenbaarheid } from '@/types/costModel';
-import { makeCostItem, normalizeUnit, parseNumber } from './core';
+import { genIfcGuid, makeCostItem, normalizeUnit, parseNumber } from './core';
 import { CURRENCY_CODES } from '@/utils/currencies';
 
 /**
@@ -247,7 +247,7 @@ export async function importInschrijfstaatFile(buffer: ArrayBuffer): Promise<{
     projectNumber: bestekNr,
     client: opdrachtgever,
     author: companyName,
-    ifcGuid: crypto.randomUUID(),
+    ifcGuid: genIfcGuid(), // een IFC GlobalId, geen UUID van 36 tekens (knownbug 153)
     uitvoeringskosten: 0,
     algemeneKosten: 0,
     winstRisico: 0,

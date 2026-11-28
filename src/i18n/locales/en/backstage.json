@@ -11,7 +11,7 @@
   "about": "About",
   "exit": "Exit",
   "printMenu": "Print",
-  "exportInschrijfstaat": "Export Inschrijfstaat (.xlsx)",
+  "exportInschrijfstaat": "Export tender schedule (.xlsx)",
   "extensions": "Extensions",
   "extensionManager": {
     "title": "Extensions",
@@ -61,7 +61,7 @@
     "tradDesc": "IBIS Trad exchange format (.xml)",
     "rsxDesc": "CROW RAW specification exchange (.rsx/.xml)",
     "rsuDesc": "Older RAW exchange (.rsu) — via the RSX route",
-    "bc3Desc": "Spanish estimates (.bc3); a price book also opens as an estimate",
+    "bc3Desc": "Spanish estimates (.bc3); for a price database, use Price library below",
     "onlvDesc": "Austrian ÖNORM A 2063 specification (.onlv) or catalogue of standard texts (.onlb)",
     "zsxTitle": "Price list (ZSX)",
     "zsxDesc": "Price list as an own price library (.zsx/.xml)",
@@ -84,8 +84,8 @@
     "groupLibrary": "Price library",
     "groupLibraryHint": "Kept on this computer, so every estimate can use it. Does not create an estimate.",
     "groupOther": "Other",
-    "libraryTableTitle": "Price list (Excel / CSV / JSON)",
-    "libraryTableDesc": "Your own or a supplier's price list, with a column preview (.xlsx/.csv/.json)"
+    "libraryTableTitle": "Price list (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "Your own or a supplier's price list, with a column preview (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "Size",

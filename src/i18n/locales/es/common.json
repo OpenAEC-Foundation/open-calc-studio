@@ -555,6 +555,10 @@
       "dncImporter": {
         "noKKTableItemsFoundInThe": "No se ha encontrado ninguna tabla KK (partidas) en el archivo .DNC."
       },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} unidad sin equivalente se conservó sin cambios: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} unidades sin equivalente se conservaron sin cambios: {{examples}}."
+      },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "No se han encontrado elementos <ARTICLE>/<PRODUCT>. ¿Es un catálogo BMEcat/DICO?",
         "noUsableArticlesWithACodeOr": "No se han encontrado artículos utilizables con código o descripción."
@@ -736,6 +740,7 @@
       "error": {
         "calibrate": "Calibre primero la escala.",
         "points": "No hay suficientes puntos de medición válidos.",
+        "selfIntersecting": "El contorno del área se cruza consigo mismo. Haga clic en las esquinas en orden alrededor de la forma.",
         "size": "Use un PDF incrustado de hasta 30 MB.",
         "notPdf": "Este archivo no es un PDF.",
         "export": "Use la exportación de mediciones de la integración con Open Calc en Open PDF Studio.",
@@ -802,6 +807,10 @@
       "looksLikePriceList": "Parece una lista de precios: códigos y precios, sin cantidades.",
       "importAsLibrary": "Importar como biblioteca de precios",
       "ownNotPriceXml": "Este archivo XML no es un catálogo BMEcat ni una lista de precios ZSX. ¿Es un presupuesto (CUF, GAEB, RSX, …)? Ábrelo con Importar → Nuevo presupuesto.",
+      "ownBc3NoConcepts": "no se encontraron registros ~C; ¿es un archivo BC3?",
+      "ownBc3Negative": "Omitidos porque el precio es negativo ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "Importados sin precio porque el precio en el archivo es 0 ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "El archivo no indica su moneda. Los archivos BC3 antiguos suelen estar en pesetas: revisa los precios antes de usarlos.",
       "selectAll": "Seleccionar todos los cambios",
       "ownDuplicates": "Los códigos repetidos recibieron un sufijo (~2, ~3) ({{count}}): {{codes}}.",
       "libraryNotLoaded": "La biblioteca «{{name}}» no está cargada en este presupuesto. La línea conserva su precio; activa la biblioteca para revisar las actualizaciones de precios.",

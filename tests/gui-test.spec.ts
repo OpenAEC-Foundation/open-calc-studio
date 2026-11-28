@@ -36,7 +36,7 @@ test('navigate the estimate workspaces without runtime errors', async ({ page })
   await page.goto('/');
   await expect(page.locator('.cost-grid')).toBeVisible();
   const tabs = page.locator('.subsheet-tab-bar');
-  for (const name of ['Hours & Tail', 'Report', 'Prompt & Begroot', 'PDF & metingen', 'Spreadsheet', 'IFC', 'Data']) {
+  for (const name of ['Hours & Markups', 'Report', 'Prompt & Begroot', 'PDF & metingen', 'Spreadsheet', 'IFC', 'Data']) {
     await tabs.getByRole('button', { name, exact: true }).click();
     await expect(tabs.getByRole('button', { name: name === 'Spreadsheet' ? /Sheet|Blad/ : name, exact: true })).toHaveClass(/active/);
   }

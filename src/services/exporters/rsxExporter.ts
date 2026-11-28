@@ -1,7 +1,7 @@
 import { uiText } from '../../i18n/uiText';
 import type { ExportInput, ExportResult } from './types';
 import type { CostItem } from '@/types/costModel';
-import { buildXml, formatDutch, denormalizeUnit, wrapRootPosts, currencyNotInFormatWarning, type XmlNode } from './xmlBuilder';
+import { buildXml, formatDutchPrecise, denormalizeUnit, wrapRootPosts, currencyNotInFormatWarning, type XmlNode } from './xmlBuilder';
 
 const RSX_NS = 'http://www.crow.nl/schema/raw/rsx';
 
@@ -60,9 +60,9 @@ function renderResultaat(r: CostItem): XmlNode {
     attrs: { besteksnummer: r.code },
     children: [
       { tag: 'Omschrijving', children: [r.description ?? ''] },
-      { tag: 'Hoeveelheid',  children: [formatDutch(r.quantity ?? 0, 2)] },
+      { tag: 'Hoeveelheid',  children: [formatDutchPrecise(r.quantity ?? 0)] },
       { tag: 'Eenheid',      children: [denormalizeUnit(r.unit ?? 'st')] },
-      { tag: 'Prijs',        children: [formatDutch(r.unitPrice ?? 0, 2)] },
+      { tag: 'Prijs',        children: [formatDutchPrecise(r.unitPrice ?? 0)] },
     ],
   };
 }

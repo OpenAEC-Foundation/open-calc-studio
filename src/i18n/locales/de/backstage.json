@@ -61,7 +61,7 @@
     "tradDesc": "IBIS Trad-Austauschformat (.xml)",
     "rsxDesc": "CROW RAW-Leistungsverzeichnis-Austausch (.rsx/.xml)",
     "rsuDesc": "Älterer RAW-Austausch (.rsu) — über den RSX-Weg",
-    "bc3Desc": "Spanische Kalkulationen (.bc3); ein Preisbuch wird ebenfalls als Kalkulation geöffnet",
+    "bc3Desc": "Spanische Kalkulationen (.bc3); eine Preisdatenbank importieren Sie unten unter Preisbibliothek",
     "onlvDesc": "Österreichisches ÖNORM A 2063-Leistungsverzeichnis (.onlv) oder Leistungsbuch (.onlb)",
     "zsxTitle": "Preisliste (ZSX)",
     "zsxDesc": "Preisliste als eigene Preisbibliothek (.zsx/.xml)",
@@ -84,8 +84,8 @@
     "groupLibrary": "Preisbibliothek",
     "groupLibraryHint": "Wird auf diesem Computer gespeichert, damit jede Kalkulation sie nutzen kann. Erstellt keine Kalkulation.",
     "groupOther": "Sonstiges",
-    "libraryTableTitle": "Preisliste (Excel / CSV / JSON)",
-    "libraryTableDesc": "Eigene Preisliste oder die eines Lieferanten, mit Spaltenvorschau (.xlsx/.csv/.json)"
+    "libraryTableTitle": "Preisliste (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "Eigene Preisliste oder die eines Lieferanten, mit Spaltenvorschau (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "Größe",

@@ -315,7 +315,7 @@ export const ResourcePicker: React.FC = () => {
             {selected?.unitSupported === false && <div>{uiText("pricing.conversion", "This source unit requires manual conversion; adding it is disabled.")}</div>}
             <div className="rp-add-target">{target.post
               ? uiText('pricing.addTo', 'Adds to: {{name}}', { name: [target.post.code, target.post.description].filter(Boolean).join(' ') || '—' })
-              : uiText('pricing.addToNew', 'Adds to a new budget post')}</div>
+              : uiText('pricing.addToNew', 'Adds to a new estimate item')}</div>
           </div>
           <span className="resource-picker-hint">
             {t('resourceHint', { count: filtered.length })}

@@ -113,7 +113,7 @@
   "rows": "Dòng",
   "costPrice": "Giá thành",
   "costPriceDirect": "Giá thành (chi phí trực tiếp)",
-  "surcharges": "Chi phí cộng thêm (phần đuôi)",
+  "surcharges": "Chi phí cộng thêm",
   "subtotal1": "Cộng 1",
   "subtotal2": "Cộng 2",
   "rounding": "Làm tròn",
@@ -153,8 +153,8 @@
   "wpcalc": {
     "tabData": "Dữ liệu",
     "tabHours": "Giờ công",
-    "tabTail": "Phần đuôi",
-    "tabHoursTail": "Giờ công & phần đuôi",
+    "tabTail": "Chi phí cộng thêm",
+    "tabHoursTail": "Giờ công & chi phí cộng thêm",
     "tabReport": "Báo cáo",
     "hoursOverview": "Tổng quan giờ công",
     "headerType": "Loại",
@@ -162,7 +162,7 @@
     "headerRate": "Mức giá",
     "headerTotal": "Tổng",
     "rateGroup": "Nhóm đơn giá",
-    "tailCosts": "Chi phí phần đuôi",
+    "tailCosts": "Chi phí cộng thêm",
     "colDescription": "Mô tả",
     "colPercentage": "%",
     "colLabor": "Nhân công",
@@ -348,7 +348,7 @@
       "regel": "Dòng tính toán",
       "tekstregel": "Dòng văn bản",
       "witregel": "Dòng trống",
-      "staart": "Dòng phần đuôi"
+      "staart": "Dòng chi phí cộng thêm"
     },
     "fields": {
       "code": "Mã",
@@ -683,6 +683,7 @@
       "error": {
         "calibrate": "Hãy hiệu chỉnh tỷ lệ trước.",
         "points": "Không đủ điểm đo hợp lệ.",
+        "selfIntersecting": "Đường bao của diện tích tự cắt nhau. Hãy nhấp vào các góc theo thứ tự quanh hình.",
         "size": "Dùng tệp PDF nhúng tối đa 30 MB.",
         "notPdf": "Tệp này không phải là PDF.",
         "export": "Dùng chức năng xuất phép đo của tích hợp Open Calc trong Open PDF Studio.",
@@ -749,6 +750,10 @@
       "looksLikePriceList": "Đây có vẻ là bảng giá: mã và giá, không có khối lượng.",
       "importAsLibrary": "Nhập dưới dạng thư viện giá",
       "ownNotPriceXml": "Tệp XML này không phải danh mục BMEcat hay bảng giá ZSX. Đây có phải là dự toán (CUF, GAEB, RSX, …) không? Hãy mở qua Nhập → Dự toán mới.",
+      "ownBc3NoConcepts": "không tìm thấy bản ghi ~C; đây có phải tệp BC3 không?",
+      "ownBc3Negative": "Đã bỏ qua vì giá âm ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "Đã nhập không có giá vì giá trong tệp là 0 ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "Tệp không ghi đơn vị tiền tệ. Tệp BC3 cũ thường tính bằng peseta: hãy kiểm tra giá trước khi dùng.",
       "selectAll": "Chọn tất cả thay đổi",
       "ownDuplicates": "Các mã xuất hiện nhiều lần được thêm hậu tố (~2, ~3) ({{count}}): {{codes}}.",
       "libraryNotLoaded": "Thư viện “{{name}}” chưa được tải trong dự toán này. Dòng vẫn giữ giá của nó; bật thư viện để xem xét cập nhật giá.",
@@ -925,6 +930,10 @@
       },
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Không tìm thấy bảng KK (các mục) trong tệp .DNC."
+      },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} đơn vị không có đơn vị tương ứng được giữ nguyên: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} đơn vị không có đơn vị tương ứng được giữ nguyên: {{examples}}."
       },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Không tìm thấy phần tử <ARTICLE>/<PRODUCT> nào. Đây có phải danh mục BMEcat/DICO không?",

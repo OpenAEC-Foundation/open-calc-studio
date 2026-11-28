@@ -683,6 +683,7 @@
       "error": {
         "calibrate": "Calibreu primer l'escala.",
         "points": "No hi ha prou punts d'amidament vàlids.",
+        "selfIntersecting": "El contorn de l’àrea es creua amb si mateix. Feu clic a les cantonades en ordre al voltant de la forma.",
         "size": "Feu servir un PDF incrustat de fins a 30 MB.",
         "notPdf": "Aquest fitxer no és un PDF.",
         "export": "Feu servir l'exportació d'amidaments de la integració amb Open Calc a Open PDF Studio.",
@@ -749,6 +750,10 @@
       "looksLikePriceList": "Sembla una llista de preus: codis i preus, sense quantitats.",
       "importAsLibrary": "Importa-ho com a biblioteca de preus",
       "ownNotPriceXml": "Aquest fitxer XML no és un catàleg BMEcat ni una llista de preus ZSX. És un pressupost (CUF, GAEB, RSX, …)? Obriu-lo amb Importa → Pressupost nou.",
+      "ownBc3NoConcepts": "no s'han trobat registres ~C; és un fitxer BC3?",
+      "ownBc3Negative": "Omesos perquè el preu és negatiu ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "Importats sense preu perquè el preu al fitxer és 0 ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "El fitxer no indica la moneda. Els fitxers BC3 antics sovint són en pessetes: revisa els preus abans de fer-los servir.",
       "selectAll": "Selecciona tots els canvis",
       "ownDuplicates": "Els codis repetits han rebut un sufix (~2, ~3) ({{count}}): {{codes}}.",
       "libraryNotLoaded": "La biblioteca «{{name}}» no està carregada en aquest pressupost. La línia conserva el preu; activa la biblioteca per revisar les actualitzacions de preus.",
@@ -925,6 +930,10 @@
       },
       "dncImporter": {
         "noKKTableItemsFoundInThe": "No s'ha trobat cap taula KK (partides) al fitxer .DNC."
+      },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} unitat sense equivalent s'ha conservat sense canvis: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} unitats sense equivalent s'han conservat sense canvis: {{examples}}."
       },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "No s'ha trobat cap element <ARTICLE>/<PRODUCT>. És un catàleg BMEcat/DICO?",

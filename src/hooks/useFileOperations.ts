@@ -4,11 +4,11 @@ import { getSiteHost, HOST_RECENT_PREFIX } from '@/services/file/siteHost';
 import { openHostedFile, saveHostedFile } from '@/services/file/hostFileActions';
 import { pickHostFile } from '@/components/common/HostFileDialog';
 import { useCallback } from 'react';
-import { documentChangedSince } from '@/services/file/documentSnapshot';
+import { documentChangedSince, serializeDocument } from '@/services/file/documentSnapshot';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
-import { openProjectJson } from '@/services/file/openProject';
-import { serializeProject, deserializeProject } from '@/services/file/fileService';
+import { openImportResult, openProjectInStore, openProjectJson } from '@/services/file/openProject';
+import { deserializeProject } from '@/services/file/fileService';
 import {
   isTauriEnvironment,
   openFileNative,
@@ -48,10 +48,16 @@ export function isNativeSavePath(filePath: string): boolean {
  * schrijft immers altijd het OCS-formaat, nooit het bronformaat.
  */
 export function toIfcCalcPath(filePath: string | null | undefined, fileName: string | null | undefined): string {
-  if (filePath) return filePath.replace(/\.[^.\\/]+$/, '') + '.ifcCalc';
-  const base = (fileName || 'begroting').replace(/\.[^.]+$/, '');
+  if (filePath) return filePath.replace(KNOWN_FILE_EXTENSION, '') + '.ifcCalc';
+  const base = (fileName || 'begroting').replace(KNOWN_FILE_EXTENSION, '');
   return `${base || 'begroting'}.ifcCalc`;
 }
+
+/**
+ * Extensies die OCS opent of importeert. Alleen die gaan eraf bij het voorstel
+ * voor de opslagnaam: "Begroting v1.2" blijft "Begroting v1.2" (knownbug 63).
+ */
+const KNOWN_FILE_EXTENSION = /\.(ifccalc|ifcx|ocs|json|calc|mdb|xtb|xlsx?|csv|rsx|dnc|bc3|onl[vb]|x8[1-7]|xml|xpwe|xc4|cuf|ifc)$/i;
 
 /**
  * Sommige bestanden dragen een .calc/.mdb-extensie maar zijn in werkelijkheid
@@ -74,17 +80,82 @@ export function sniffNativeProject(data: ArrayBuffer): ReturnType<typeof deseria
   }
 }
 
+/** Extensies waarvan de inhoud een native OCS-project (JSON) is. */
+const NATIVE_OPEN_EXTS = ['ifccalc', 'ifcx', 'ocs', 'json'];
+
+/**
+ * Een bestand van schijf openen (desktop: Openen en Recente bestanden, één
+ * pad voor beide). Native JSON opent als project; een .calc/.mdb met
+ * JSON-inhoud ook, met spreadsheets en al (knownbug 62). Andere formaten gaan
+ * naar de geregistreerde importeur, en anders naar de algemene import (CSV,
+ * GAEB …), nooit naar de JSON-lezer (knownbug 61). `text` is de al gelezen
+ * inhoud van een native bestand. Gooit bij een fout.
+ */
+export async function openDesktopFile(filePath: string, text?: string): Promise<void> {
+  const ext = filePath.split('.').pop()?.toLowerCase() || '';
+  const fullName = filePath.replace(/\\/g, '/').split('/').pop() || filePath;
+  const baseName = fullName.replace(/\.[^.]+$/, '');
+  if (NATIVE_OPEN_EXTS.includes(ext)) {
+    const content = text ?? await (await import('@tauri-apps/plugin-fs')).readTextFile(filePath);
+    // Naam zonder extensie, ook bij .ifcCalc (zoals dubbelklikken en slepen dat al deden).
+    openProjectJson(content, baseName, filePath);
+    return;
+  }
+  const { readBinaryFileByPath } = await import('@/services/file/nativeFileService');
+  const data = await readBinaryFileByPath(filePath);
+  // Inhoud-sniff: een .calc/.mdb met JSON-inhoud is een native OCS-project
+  const native = ext === 'calc' || ext === 'mdb' ? sniffNativeProject(data) : null;
+  if (native) {
+    openProjectInStore(native, baseName, filePath);
+    return;
+  }
+  const imp = useAppStore.getState().extensionImporters.find(i => i.fileExtensions.some(fe => fe.replace(/^\./, '').toLowerCase() === ext));
+  const importResult = imp
+    ? { warnings: [], ...await imp.handler(new File([data], fullName)) }
+    : await (await import('@/lib/importers')).importBudget(data, fullName);
+  openImportResult(importResult, baseName, filePath);
+  showImportWarnings(importResult, fullName);
+}
+
+/** Extensies die openDesktopFile zelf leest (native of via de algemene import). */
+const DESKTOP_OPEN_EXTS = [
+  ...NATIVE_OPEN_EXTS, 'calc', 'mdb', 'xtb', 'xls', 'xlsx', 'csv', 'rsx', 'dnc', 'bc3', 'onlv', 'onlb',
+  'x81', 'x82', 'x83', 'x84', 'x86', 'x87', 'xml', 'xpwe', 'xc4', 'cuf',
+];
+
+/** Kan openDesktopFile dit bestand openen? Een PDF of IFC bijvoorbeeld niet. */
+export function canOpenDesktopFile(filePath: string): boolean {
+  const ext = filePath.split('.').pop()?.toLowerCase() || '';
+  return DESKTOP_OPEN_EXTS.includes(ext)
+    || useAppStore.getState().extensionImporters.some(i => i.fileExtensions.some(fe => fe.replace(/^\./, '').toLowerCase() === ext));
+}
+
+/**
+ * Bestanden die het besturingssysteem aanreikt (dubbelklik op een gekoppeld
+ * bestand, slepen naar het venster): hetzelfde pad als Openen, dus een .calc
+ * met JSON-inhoud houdt zijn spreadsheets en een CSV wordt geïmporteerd.
+ * Bestanden die OCS niet opent, slaan we over; een fout wordt gemeld.
+ */
+export async function openDesktopFiles(filePaths: string[]): Promise<void> {
+  for (const filePath of filePaths) {
+    if (!canOpenDesktopFile(filePath)) continue;
+    try {
+      await openDesktopFile(filePath);
+    } catch (err) {
+      if (isImportCancelled(err)) continue;
+      console.error('[Open] Failed to open:', filePath, err);
+      await showError(uiText('files.openFailed', 'Cannot open file: {{error}}', { error: String(err) }));
+    }
+  }
+}
+
 export function useFileOperations() {
   const { t } = useTranslation();
   const {
     updateDocument,
     setCompanyInfo,
-    setSubSheets,
     addDocument,
     settings, updateSettings,
-    setOfferte,
-    setProjectInfo,
-    setSnapshots,
   } = useAppStore();
 
   const addToRecentFiles = useCallback((filePath: string) => {
@@ -118,8 +189,9 @@ export function useFileOperations() {
     const doc = state.documents.find((d) => d.id === activeId);
     if (!doc) return;
 
-    const scheduleWithProjectInfo = { ...state.schedule, projectInfo: state.projectInfo };
-    const json = serializeProject(scheduleWithProjectInfo, state.items, state.companyInfo, state.subSheets, state.offerte, state.snapshots);
+    // Zelfde serialisatie als de controle op wijzigingen: met de aanmaakdatum
+    // van het bestand en het actieve spreadsheet (knownbugs 110, 111).
+    const json = serializeDocument(state, doc);
 
     if (getSiteHost()) {
       try {
@@ -175,8 +247,9 @@ export function useFileOperations() {
     const doc = state.documents.find((d) => d.id === activeId);
     if (!doc) return;
 
-    const scheduleWithProjectInfo = { ...state.schedule, projectInfo: state.projectInfo };
-    const json = serializeProject(scheduleWithProjectInfo, state.items, state.companyInfo, state.subSheets, state.offerte, state.snapshots);
+    // Zelfde serialisatie als de controle op wijzigingen: met de aanmaakdatum
+    // van het bestand en het actieve spreadsheet (knownbugs 110, 111).
+    const json = serializeDocument(state, doc);
     // Prefer the active tab's folder + filename, but always with .ifcCalc als
     // standaardformaat — ook als het document uit een import (.xls/.xtb/…)
     // komt. Opslaan-als schrijft immers altijd het native OCS-formaat.
@@ -217,64 +290,7 @@ export function useFileOperations() {
       try {
         const result = await openFileNative();
         if (!result) return; // cancelled
-
-        const ext = result.path.split('.').pop()?.toLowerCase() || '';
-        const fileName = fileNameFromPath(result.path);
-
-        // Binary import formats: .calc, .mdb, .xls, .xlsx, .xtb, .dnc, .bc3
-        if (['calc', 'mdb', 'xls', 'xlsx', 'xtb', 'dnc', 'bc3'].includes(ext)) {
-          const { readBinaryFileByPath } = await import('@/services/file/nativeFileService');
-          const data = await readBinaryFileByPath(result.path);
-
-          // Inhoud-sniff: een .calc/.mdb met JSON-inhoud is een native OCS-project
-          const native = sniffNativeProject(data);
-          if (native) {
-            const id = crypto.randomUUID();
-            addDocument({ id, filePath: result.path, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: false, items: native.items, schedule: native.schedule });
-            if (native.companyInfo) setCompanyInfo(native.companyInfo);
-            if (native.subSheets) setSubSheets(native.subSheets);
-            if (native.offerte) setOfferte(native.offerte);
-            setSnapshots(native.snapshots ?? []);
-            if (native.schedule.projectInfo) setProjectInfo(native.schedule.projectInfo);
-            addToRecentFiles(result.path);
-            return;
-          }
-
-          // Find the matching extension importer
-          const store = useAppStore.getState();
-          const importers = store.extensionImporters;
-          const imp = importers.find(i => i.fileExtensions.some(fe => fe.replace(/^\./, '') === ext));
-          if (!imp) { await showError(uiText('files.noImporter', 'No importer found for .{{extension}} files', { extension: ext })); return; }
-
-          const file = new File([data], fileName);
-          const importResult = await imp.handler(file);
-
-          const id = crypto.randomUUID();
-          addDocument({ id, filePath: result.path, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: false, items: importResult.items, schedule: importResult.schedule });
-          if (importResult.companyInfo) setCompanyInfo(importResult.companyInfo);
-          showImportWarnings(importResult, fileName);
-          addToRecentFiles(result.path);
-          return;
-        }
-
-        // Text import: .rsx, .onlv, .onlb
-        if (ext === 'rsx' || ext === 'onlv' || ext === 'onlb') {
-          const store = useAppStore.getState();
-          const imp = store.extensionImporters.find(i => i.fileExtensions.some(fe => fe.replace(/^\./, '') === ext));
-          if (!imp) { await showError(uiText('files.noImporter', 'No importer found for .{{extension}} files', { extension: ext })); return; }
-
-          const file = new File([result.content], fileName, { type: 'text/plain' });
-          const importResult = await imp.handler(file);
-
-          const id = crypto.randomUUID();
-          addDocument({ id, filePath: result.path, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: false, items: importResult.items, schedule: importResult.schedule });
-          if (importResult.companyInfo) setCompanyInfo(importResult.companyInfo);
-          showImportWarnings(importResult, fileName);
-          addToRecentFiles(result.path);
-          return;
-        }
-
-        openProjectJson(result.content, fileName, result.path);
+        await openDesktopFile(result.path, result.content === '__BINARY__' ? undefined : result.content);
         addToRecentFiles(result.path);
       } catch (err) {
         if (isImportCancelled(err)) return;
@@ -283,7 +299,7 @@ export function useFileOperations() {
     } else {
       openFileBrowser();
     }
-  }, [addDocument, setCompanyInfo, setSubSheets, setOfferte, setProjectInfo, setSnapshots, addToRecentFiles]);
+  }, [addToRecentFiles]);
 
   // ─── OPEN RECENT FILE ───
   const openRecentFile = useCallback(async (filePath: string) => {
@@ -294,65 +310,7 @@ export function useFileOperations() {
     }
     if (!isTauriEnvironment()) return;
     try {
-      const ext = filePath.split('.').pop()?.toLowerCase() || '';
-      const fileName = fileNameFromPath(filePath);
-
-      // Binary import formats: .calc, .mdb, .xls, .xlsx, .xtb, .bc3
-      if (['calc', 'mdb', 'xls', 'xlsx', 'xtb', 'bc3'].includes(ext)) {
-        const { readBinaryFileByPath } = await import('@/services/file/nativeFileService');
-        const data = await readBinaryFileByPath(filePath);
-
-        // Inhoud-sniff: een .calc/.mdb met JSON-inhoud is een native OCS-project
-        const native = sniffNativeProject(data);
-        if (native) {
-          const id = crypto.randomUUID();
-          addDocument({ id, filePath, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: false, items: native.items, schedule: native.schedule });
-          if (native.companyInfo) setCompanyInfo(native.companyInfo);
-          if (native.subSheets) setSubSheets(native.subSheets);
-          if (native.offerte) setOfferte(native.offerte);
-            setSnapshots(native.snapshots ?? []);
-          if (native.schedule.projectInfo) setProjectInfo(native.schedule.projectInfo);
-          addToRecentFiles(filePath);
-          return;
-        }
-
-        const store = useAppStore.getState();
-        const importers = store.extensionImporters;
-        const imp = importers.find(i => i.fileExtensions.some(fe => fe.replace(/^\./, '') === ext));
-        if (!imp) { await showError(uiText('files.noImporter', 'No importer found for .{{extension}} files', { extension: ext })); return; }
-
-        const file = new File([data], fileName);
-        const importResult = await imp.handler(file);
-
-        const id = crypto.randomUUID();
-        addDocument({ id, filePath, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: false, items: importResult.items, schedule: importResult.schedule });
-        if (importResult.companyInfo) setCompanyInfo(importResult.companyInfo);
-        showImportWarnings(importResult, fileName);
-        addToRecentFiles(filePath);
-        return;
-      }
-
-      // Text import: .rsx, .onlv, .onlb
-      if (ext === 'rsx' || ext === 'onlv' || ext === 'onlb') {
-        const { readTextFile } = await import('@tauri-apps/plugin-fs');
-        const content = await readTextFile(filePath);
-        const store = useAppStore.getState();
-        const imp = store.extensionImporters.find(i => i.fileExtensions.some(fe => fe.replace(/^\./, '') === ext));
-        if (!imp) { await showError(uiText('files.noImporter', 'No importer found for .{{extension}} files', { extension: ext })); return; }
-
-        const file = new File([content], fileName, { type: 'text/plain' });
-        const importResult = await imp.handler(file);
-
-        const id = crypto.randomUUID();
-        addDocument({ id, filePath, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: false, items: importResult.items, schedule: importResult.schedule });
-        if (importResult.companyInfo) setCompanyInfo(importResult.companyInfo);
-        showImportWarnings(importResult, fileName);
-        addToRecentFiles(filePath);
-        return;
-      }
-
-      const { readTextFile } = await import('@tauri-apps/plugin-fs');
-      openProjectJson(await readTextFile(filePath), fileName, filePath);
+      await openDesktopFile(filePath);
       addToRecentFiles(filePath);
     } catch (err) {
       if (isImportCancelled(err)) return;
@@ -361,7 +319,7 @@ export function useFileOperations() {
       updateSettings({ recentFiles: current.filter((p: string) => p !== filePath) });
       await showError(uiText('files.openFailed', 'Cannot open file: {{error}}', { error: String(err) }));
     }
-  }, [addDocument, setCompanyInfo, setSubSheets, setOfferte, setProjectInfo, setSnapshots, addToRecentFiles, settings.recentFiles, updateSettings]);
+  }, [addToRecentFiles, settings.recentFiles, updateSettings]);
 
   // ─── Browser fallbacks ───
   function browserDownload(json: string, name: string) {

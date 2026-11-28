@@ -53,6 +53,17 @@ export function followSystemTheme(theme: string): () => void {
   return () => query.removeEventListener?.("change", onChange);
 }
 
+/**
+ * Taalkeuze voor het formulier: "auto" blijft "auto" (anders toont het venster de
+ * gedetecteerde taal en maakt Opslaan daar een vaste keuze van, knownbug 229);
+ * verder de actieve taal, of de opgeslagen code.
+ */
+function draftLanguage(savedLocale: string | undefined): string {
+  if (savedLocale === "auto") return "auto";
+  const lang = i18next.language || savedLocale?.split("-")[0] || "auto";
+  return LANGUAGES.some((l) => l.code === lang) ? lang : "auto";
+}
+
 /** Rapporttaal uit de instellingen: een bekende taalcode, anders "auto" (= volg de interface). */
 function normalizeReportLang(code: string | undefined): string {
   return code && code !== "auto" && LANGUAGES.some((l) => l.code === code) ? code : "auto";
@@ -78,19 +89,14 @@ export default function SettingsDialog({ open, onClose, theme, onThemeChange }: 
   const [draftTheme, setDraftTheme] = useState(themeChoice(theme));
   const [draftChatBubble, setDraftChatBubble] = useState(savedChatBubble);
   const [draftNumberFormat, setDraftNumberFormat] = useState<NumberFormatPreference>(savedNumberFormat);
-  const [draftLang, setDraftLang] = useState(() => {
-    // Map stored locale to language code
-    const lang = i18next.language || savedLocale?.split("-")[0] || "auto";
-    return LANGUAGES.some((l) => l.code === lang) ? lang : "auto";
-  });
+  const [draftLang, setDraftLang] = useState(() => draftLanguage(savedLocale));
   const originalTheme = useRef(theme);
 
   useEffect(() => {
     if (open) {
       originalTheme.current = theme;
       setDraftTheme(themeChoice(theme));
-      const lang = i18next.language || savedLocale?.split("-")[0] || "auto";
-      setDraftLang(LANGUAGES.some((l) => l.code === lang) ? lang : "auto");
+      setDraftLang(draftLanguage(savedLocale));
       setDraftReportLang(normalizeReportLang(savedReportLocale));
       setDraftChatBubble(savedChatBubble);
       setDraftNumberFormat(savedNumberFormat);

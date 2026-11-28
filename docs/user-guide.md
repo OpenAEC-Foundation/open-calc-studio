@@ -32,9 +32,9 @@ The ribbon across the top contains commands. File opens the file menu. Document 
 1. Choose File → New (Ctrl+N). If an example estimate is open, keep it in its own tab for reference.
 2. In Budget → Project details, enter the project name, number and client.
 3. Choose Budget → Chapter and enter a description, for example “Painting”.
-4. Select that chapter and choose Budget → Budget post. Enter “Paint walls”, quantity `10` and unit `m²`.
-5. With the post selected, choose Budget → Calculation rule. Enter “Paint materials”, quantity `10`, resource price `5`, and leave the production norm and labour price empty. Classify it as material if you want a material breakdown.
-6. Check the result: this direct-price calculation line contributes `10 × 5 = 50` before markups. The containing post and chapter should show 50. The post's quantity is used to show the derived unit price; do not assume it multiplies the child line quantity again.
+4. Select that chapter and choose Budget → Estimate item. Enter “Paint walls”, quantity `10` and unit `m²`.
+5. With the item selected, choose Budget → Calculation line. Enter “Paint materials”, quantity `10`, resource price `5`, and leave the production norm and labour price empty. Classify it as material if you want a material breakdown.
+6. Check the result: this direct-price calculation line contributes `10 × 5 = 50` before markups. The containing item and chapter should show 50. The item's quantity is used to show the derived unit price; do not assume it multiplies the child line quantity again.
 7. Save with Ctrl+Shift+S, select a folder and retain the native `.ifcCalc` extension.
 8. Open the Report tab and check the description, quantity and totals before printing.
 
@@ -42,9 +42,9 @@ This example deliberately uses a direct price. Norm-based labour and resource li
 
 ## Edit and organise
 
-A chapter groups work. A budget post describes a priced item. A monitor post provides an extra level beneath a budget post. Calculation rules contain the underlying costs. Text and blank lines organise the presentation without adding costs.
+A chapter groups work. An estimate item describes a priced item. A monitoring item provides an extra level beneath an estimate item. Calculation lines contain the underlying costs. Text and blank lines organise the presentation without adding costs.
 
-Select the intended parent before adding a row from Budget. A monitor post requires an existing budget post. The + Line command adds a calculation rule below the selected item. Edit a cell by double-clicking it, and confirm with Enter. Use the row grip at the left to select or drag rows, including into another chapter. Check the resulting hierarchy after moving rows.
+Select the intended parent before adding a row from Budget. A monitoring item requires an existing estimate item. The + Line command adds a calculation line below the selected item. Edit a cell by double-clicking it, and confirm with Enter. Use the row grip at the left to select or drag rows, including into another chapter. Check the resulting hierarchy after moving rows.
 
 Budget provides Undo, Redo, collapse controls and price adjustment by percentage. Save a copy before applying broad price changes. Variants and option sets are available from Budget; review which options are active before issuing a report.
 
@@ -60,7 +60,7 @@ Editing an hours total proportionally adjusts the underlying norms. Review the a
 
 Use File → Save for the active document and Save As for a separate copy. The default native extension is `.ifcCalc`; the app also recognises native `.ocs` files. Native files retain editable project data; exchange exports may contain less information.
 
-The desktop app checks the **active** document every two minutes and saves it if modified and already associated with a file path. New documents without a path and inactive tabs are not covered by this timer. Save every new estimate explicitly and save other tabs before closing. In the browser, saving downloads a file; desktop autosave does not apply.
+Open Calc Studio does not save to your project file automatically. Use Save yourself, also for other open tabs before closing. The separate recovery journal (see *Recovery and safe saving* below) is extra protection, not a saved file. In the browser, saving downloads a file.
 
 Use File → Open or Recent Files to reopen a saved estimate. On closing a modified document, choose Save, Discard or Cancel deliberately. Keep backups outside the working file.
 
@@ -72,9 +72,9 @@ Use File → Open or Recent Files to reopen a saved estimate. On closing a modif
 4. Read any import warnings. Compare the hierarchy, quantities, units, labour rates, markups and final amount with the source application.
 5. Save the imported estimate as a new native file before editing further.
 
-Available formats include WPCalc/BasCalc, IBIS-TRAD, IFC cost schedules, BC3 and ÖNORM. Import commands depend on enabled extensions; check File → Extensions if one is missing. Not every format supports every feature. An ordinary 3D IFC model does not necessarily contain an IFC cost schedule.
+Available formats include WPCalc/BasCalc, IBIS-TRAD, IFC cost schedules, BC3 and ÖNORM. A few importers, such as WpCalc, BasCalc, IBIS-TRAD (`.xtb`) and STABU (`.dnc`), are built-in extensions: if one is missing from File → Import, check whether it was switched off under File → Extensions. Hosted builds have no Extensions panel. Not every format supports every feature. An ordinary 3D IFC model does not necessarily contain an IFC cost schedule.
 
-Use File → Export for exchange formats. Keep a native master copy and check the exported result in the receiving application. See the [project feature list](../README.md#import--export) for format coverage.
+Use File → Export for exchange formats. Keep a native master copy and check the exported result in the receiving application. See the [project feature list](../README.md#features) for format coverage.
 
 ## Reports and spreadsheets
 
@@ -102,12 +102,12 @@ Use Command instead of Ctrl on macOS. Browser or operating-system shortcuts may 
 ## Troubleshooting
 
 - **Unexpected total:** check row type, hierarchy, line quantity, production norm, resource price, labour price, rate group and markups. Undo the last change to compare.
-- **Missing importer:** check enabled extensions and the actual file format, not just its extension.
-- **File not saved:** confirm the active tab and destination. Save a new document once before relying on desktop autosave.
+- **Missing importer:** check the actual file format, not just its extension, and whether the importer was switched off under File → Extensions.
+- **File not saved:** confirm the active tab and destination. The app does not save automatically; use Save.
 - **macOS will not launch:** see [macOS startup](macos-startup.md).
 - **Still stuck:** [open an issue](https://github.com/OpenAEC-Foundation/open-calc-studio/issues) with the app version, operating system, reproduction steps and expected/actual result. Use a small anonymised sample instead of confidential project data.
 
-Developers can use the [API documentation](API.md), [native file format](ifccalc-formaat.md) and [build instructions](../README.md#build-from-source).
+Developers can use the [API documentation](API.md), [native file format](ifccalc-formaat.md) and [build instructions](../README.md#run-from-source).
 
 ## Guided and hosted use
 
@@ -211,8 +211,8 @@ IFC quantities remain available; reload the correct original IFC file for the
 
 Native saving keeps the previous version as `filename.ifcCalc.bak`. Copy it to a
 new `.ifcCalc` name to open it if needed. A temporary file is written before the
-destination is replaced. Autosave to an existing file follows settings; a new
-estimate without a path still needs an explicit save. Closing handles every
+destination is replaced. There is no automatic save to the project file; a new
+estimate without a path asks for a file name on Save. Closing handles every
 modified document. Edits made during a pending save remain marked as modified.
 
 ## Price sources and catalogue updates

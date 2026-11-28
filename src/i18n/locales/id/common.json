@@ -683,6 +683,7 @@
       "error": {
         "calibrate": "Kalibrasi skala terlebih dahulu.",
         "points": "Titik pengukuran yang valid tidak cukup.",
+        "selfIntersecting": "Garis luar area memotong dirinya sendiri. Klik sudut-sudutnya secara berurutan mengelilingi bentuk.",
         "size": "Gunakan PDF tersemat maksimal 30 MB.",
         "notPdf": "Berkas ini bukan PDF.",
         "export": "Gunakan ekspor pengukuran dari integrasi Open Calc di Open PDF Studio.",
@@ -749,6 +750,10 @@
       "looksLikePriceList": "Ini tampak seperti daftar harga: kode dan harga, tanpa kuantitas.",
       "importAsLibrary": "Impor sebagai pustaka harga",
       "ownNotPriceXml": "File XML ini bukan katalog BMEcat atau daftar harga ZSX. Apakah ini anggaran (CUF, GAEB, RSX, …)? Buka melalui Impor → Anggaran baru.",
+      "ownBc3NoConcepts": "tidak ada rekaman ~C; apakah ini berkas BC3?",
+      "ownBc3Negative": "Dilewati karena harganya negatif ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "Diimpor tanpa harga karena harga di berkas adalah 0 ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "Berkas tidak menyebut mata uangnya. Berkas BC3 lama sering dalam peseta: periksa harga sebelum digunakan.",
       "selectAll": "Pilih semua perubahan",
       "ownDuplicates": "Kode yang muncul lebih dari sekali diberi akhiran (~2, ~3) ({{count}}): {{codes}}.",
       "libraryNotLoaded": "Pustaka “{{name}}” tidak dimuat dalam estimasi ini. Baris tetap memakai harganya; aktifkan pustaka untuk meninjau pembaruan harga.",
@@ -925,6 +930,10 @@
       },
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Tidak ditemukan tabel KK (pos) dalam berkas .DNC."
+      },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} satuan tanpa padanan dipertahankan apa adanya: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} satuan tanpa padanan dipertahankan apa adanya: {{examples}}."
       },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Tidak ditemukan elemen <ARTICLE>/<PRODUCT>. Apakah ini katalog BMEcat/DICO?",

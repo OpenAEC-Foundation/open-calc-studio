@@ -10,19 +10,13 @@ import { getCachedOsUsername } from '@/services/system/osUser';
 import { buildGridRows } from '@/services/grid/gridRows';
 import { captureQuantityOrigin } from '@/services/quantity/quantityOrigin';
 import { measurementSum, quantityMatchesLines, sameQuantity } from '@/services/measurement/measurementLines';
+// Eén generator voor GlobalIds: eerste teken 0-3, zoals IFC vraagt (knownbug 153).
+import { generateIfcGuid } from '@/services/ifc/ifcHelpers';
 
 function generateId(): string {
   return crypto.randomUUID();
 }
 
-function generateIfcGuid(): string {
-  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$';
-  let result = '';
-  for (let i = 0; i < 22; i++) {
-    result += chars[Math.floor(Math.random() * 64)];
-  }
-  return result;
-}
 
 export interface CostItemsSlice {
   items: CostItem[];
@@ -305,7 +299,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
     const siblings = state.items.filter((i) => i.parentId === parentId);
     const newItem: CostItem = {
       ...createDefaultItem(parentId, siblings.length, depth, 'bewakingspost'),
-      description: i18next.t('newMonitorPost', { defaultValue: 'New monitor post' }),
+      description: i18next.t('newMonitorPost', { defaultValue: 'New monitoring item' }),
     };
     const newItems = [...state.items];
     newItems.splice(findInsertIndex(state.items, parentId, afterItemId), 0, newItem);
@@ -322,7 +316,7 @@ export const createCostItemsSlice: StateCreator<CostItemsSlice> = (set, get) => 
     const siblings = state.items.filter((i) => i.parentId === parentId);
     const newItem: CostItem = {
       ...createDefaultItem(parentId, siblings.length, depth, 'regel'),
-      description: i18next.t('newCalculationRule', { defaultValue: 'New calculation rule' }),
+      description: i18next.t('newCalculationRule', { defaultValue: 'New calculation line' }),
     };
     const newItems = [...state.items];
     newItems.splice(findInsertIndex(state.items, parentId, afterItemId), 0, newItem);

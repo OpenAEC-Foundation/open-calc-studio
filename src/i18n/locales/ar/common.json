@@ -687,6 +687,7 @@
       "error": {
         "calibrate": "عايِر المقياس أولاً.",
         "points": "لا توجد نقاط قياس صالحة كافية.",
+        "selfIntersecting": "حدود المساحة تتقاطع مع نفسها. انقر على الزوايا بالترتيب حول الشكل.",
         "size": "استخدم ملف PDF مضمّناً بحجم لا يتجاوز 30 ميغابايت.",
         "notPdf": "هذا الملف ليس ملف PDF.",
         "export": "استخدم تصدير القياسات من تكامل Open Calc في Open PDF Studio.",
@@ -753,6 +754,10 @@
       "looksLikePriceList": "يبدو هذا قائمة أسعار: رموز وأسعار، بدون كميات.",
       "importAsLibrary": "استيراد كمكتبة أسعار بدلاً من ذلك",
       "ownNotPriceXml": "ملف XML هذا ليس كتالوج BMEcat ولا قائمة أسعار ZSX. هل هو تقدير (CUF، GAEB، RSX، …)؟ افتحه عبر استيراد → تقدير جديد.",
+      "ownBc3NoConcepts": "لم يُعثر على سجلات ~C؛ هل هذا ملف BC3؟",
+      "ownBc3Negative": "استُبعدت لأن السعر سالب ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "استُوردت بلا سعر لأن السعر في الملف 0 ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "لا يذكر الملف عملته. ملفات BC3 القديمة غالبًا بالبيزيتا: تحقق من الأسعار قبل استخدامها.",
       "selectAll": "تحديد كل التغييرات",
       "ownDuplicates": "حصلت الرموز المكررة على لاحقة (~2، ~3) ({{count}}): {{codes}}.",
       "libraryNotLoaded": "المكتبة «{{name}}» غير محمّلة في هذا التقدير. يحتفظ السطر بسعره؛ فعّل المكتبة لمراجعة تحديثات الأسعار.",
@@ -929,6 +934,14 @@
       },
       "dncImporter": {
         "noKKTableItemsFoundInThe": "لم يتم العثور على جدول KK (البنود) في ملف .DNC."
+      },
+      "importUnits": {
+        "unknownUnitsKept_one": "تم الاحتفاظ بـ {{count}} وحدة بلا مقابل دون تغيير: {{examples}}.",
+        "unknownUnitsKept_other": "تم الاحتفاظ بـ {{count}} وحدة بلا مقابل دون تغيير: {{examples}}.",
+        "unknownUnitsKept_zero": "لا توجد وحدات بلا مقابل.",
+        "unknownUnitsKept_two": "تم الاحتفاظ بوحدتين بلا مقابل دون تغيير: {{examples}}.",
+        "unknownUnitsKept_few": "تم الاحتفاظ بـ {{count}} وحدات بلا مقابل دون تغيير: {{examples}}.",
+        "unknownUnitsKept_many": "تم الاحتفاظ بـ {{count}} وحدة بلا مقابل دون تغيير: {{examples}}."
       },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "لم يتم العثور على عناصر <ARTICLE>/<PRODUCT>. هل هذا كتالوج BMEcat/DICO؟",

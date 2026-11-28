@@ -61,7 +61,7 @@
     "tradDesc": "Format de schimb IBIS Trad (.xml)",
     "rsxDesc": "Schimb de caiete de sarcini CROW RAW (.rsx/.xml)",
     "rsuDesc": "Schimb RAW mai vechi (.rsu) — pe traseul RSX",
-    "bc3Desc": "Devize spaniole (.bc3); un catalog de prețuri se deschide tot ca deviz",
+    "bc3Desc": "Devize spaniole (.bc3); pentru o bază de prețuri, folosiți Bibliotecă de prețuri mai jos",
     "onlvDesc": "Caiet de sarcini austriac ÖNORM A 2063 (.onlv) sau catalog de texte standard (.onlb)",
     "zsxTitle": "Listă de prețuri (ZSX)",
     "zsxDesc": "Listă de prețuri ca bibliotecă de prețuri proprie (.zsx/.xml)",
@@ -84,8 +84,8 @@
     "groupLibrary": "Bibliotecă de prețuri",
     "groupLibraryHint": "Păstrată pe acest computer, ca orice deviz să o poată folosi. Nu creează un deviz.",
     "groupOther": "Altele",
-    "libraryTableTitle": "Listă de prețuri (Excel / CSV / JSON)",
-    "libraryTableDesc": "Lista de prețuri proprie sau a unui furnizor, cu previzualizarea coloanelor (.xlsx/.csv/.json)"
+    "libraryTableTitle": "Listă de prețuri (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "Lista de prețuri proprie sau a unui furnizor, cu previzualizarea coloanelor (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "Dimensiune",

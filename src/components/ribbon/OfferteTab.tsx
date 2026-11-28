@@ -8,7 +8,9 @@ import { isTauriEnvironment } from "@/services/file/nativeFileService";
 import { getBuiltInTemplates, applyTemplate } from '@/services/offerte/templateService';
 
 export default function OfferteTab() {
-  const { t } = useTranslation("ribbon");
+  const { t, i18n } = useTranslation("ribbon");
+  // Versielabels in de datumnotatie van de app-taal, niet altijd nl-NL (knownbug 228).
+  const versionDate = () => new Date().toLocaleDateString(i18n.language);
   const {
     offerte, setOfferteType, addSection, setActiveSectionId,
     activeSectionId, removeSection, createSnapshot,
@@ -94,7 +96,7 @@ export default function OfferteTab() {
             icon={reportIcon}
             label={t("offerte.send")}
             onClick={() => {
-              const label = `${t("offerte.sentPrefix")} ${new Date().toLocaleDateString('nl-NL')}`;
+              const label = `${t("offerte.sentPrefix")} ${versionDate()}`;
               createSnapshot(label, 'verstuurd');
             }}
           />
@@ -102,7 +104,7 @@ export default function OfferteTab() {
             icon={reportIcon}
             label={t("offerte.concept")}
             onClick={() => {
-              const label = `${t("offerte.conceptPrefix")} ${new Date().toLocaleDateString('nl-NL')}`;
+              const label = `${t("offerte.conceptPrefix")} ${versionDate()}`;
               createSnapshot(label, 'concept');
             }}
           />

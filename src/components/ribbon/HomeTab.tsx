@@ -16,6 +16,7 @@ import RibbonButtonStack from "./RibbonButtonStack";
 import { clipboardIcon, cutIcon, copyIcon, undoIcon, redoIcon, addChapterIcon, addBegrotingspostIcon, addBewakingspostIcon, addRegelIcon, addTekstregelIcon, addWitregelIcon, addMeasurementLineIcon, deleteIcon, settingsIcon, companyIcon, viewStIcon, viewWpCalcIcon, exportIcon, trackChangesIcon, clearMarksIcon, rowHighlightIcon, cellHighlightIcon, branchIcon, optionSetIcon } from "./icons";
 import { useAppStore } from "../../state/appStore";
 import { updateAllExcelLinks } from "../../services/excel/excelLinkService";
+import { effectiveTarieven, recalculateItems } from "@/services/calculation/calculator";
 
 export default function HomeTab() {
   const { t } = useTranslation("ribbon");
@@ -302,8 +303,20 @@ export default function HomeTab() {
 
   const handleUpdateExcel = async () => {
     pushHistory(items, t('home.updateExcel'));
+    const documentId = useAppStore.getState().activeDocumentId;
     const { updatedItems, updateCount, errors } = await updateAllExcelLinks(items);
-    setItems(updatedItems);
+    // Alleen de nieuwe hoeveelheden toepassen op de huidige stand: wat tijdens
+    // een trage verversing is gewijzigd, blijft staan (knownbug 84).
+    const quantities = new Map(updatedItems.filter((u, i) => u !== items[i]).map((u) => [u.id, u.quantity]));
+    const withQuantities = (list: CostItem[]) => list.map((i) => (quantities.has(i.id) ? { ...i, quantity: quantities.get(i.id)! } : i));
+    const now = useAppStore.getState();
+    const doc = now.documents.find((d) => d.id === documentId);
+    if (quantities.size > 0 && now.activeDocumentId === documentId) {
+      setItems(withQuantities(now.items));
+    } else if (quantities.size > 0 && doc) {
+      // Intussen naar een ander tabblad gegaan: het eigen document bijwerken.
+      now.updateDocument(documentId, { isModified: true, items: recalculateItems(withQuantities(doc.items), effectiveTarieven(doc.schedule), doc.schedule.priceRounding) });
+    }
     const msg = t('home.excelUpdated', { count: updateCount });
     if (errors.length > 0) {
       alert(`${msg}\n\n${t('home.excelWarnings')}\n${errors.join('\n')}`);
