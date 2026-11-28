@@ -25,12 +25,13 @@ describe('knownbug 18: parseNlNumber/parseLocaleNumber zijn strikt', () => {
 });
 
 describe('knownbug 18: gevolg voor subbladen (bewust)', () => {
-  // Tekst met een eenheid of procentteken is geen getal meer; een formule die
-  // ernaar verwijst rekent met 0, zoals Excel tekst in een som negeert.
+  // Tekst met een eenheid of procentteken is geen getal meer. Een formule die
+  // ernaar verwijst geeft een fout, zoals #WAARDE! in Excel (knownbug 53):
+  // liever een zichtbare fout dan een stille 0 in de begroting.
   // Opgeslagen cellen met een berekende waarde houden die waarde.
-  it('"12 m" en "10%" zonder berekende waarde tellen als 0, een opgeslagen waarde blijft', () => {
+  it('"12 m" en "10%" zonder berekende waarde maken een formule ongeldig, een opgeslagen waarde blijft', () => {
     const fresh = recalcSheetCells({ A1: { value: '12 m' }, A2: { value: '10%' }, B1: { value: '=A1+A2' } });
-    expect(fresh.B1.computed).toBe(0);
+    expect(fresh.B1.computed).toBeUndefined();
     const saved = recalcSheetCells({ A1: { value: '12 m', computed: 12 }, B1: { value: '=A1*2' } });
     expect(saved.B1.computed).toBe(24);
   });

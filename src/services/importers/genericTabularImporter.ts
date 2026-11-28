@@ -133,7 +133,10 @@ function parseCsvRows(text: string, delim: string): string[][] {
     }
     const ch = text[i];
     if (inQuotes) {
-      if (ch !== '"') cur += ch;
+      // Een regeleinde in een cel wordt altijd "\n" (ook "\r\n" uit Windows/Excel),
+      // anders kwam de "\r" als _x000d_ in een xlsx-export terecht.
+      if (ch === '\r') { cur += '\n'; if (text[i + 1] === '\n') i += 1; }
+      else if (ch !== '"') cur += ch;
       else if (text[i + 1] === '"') { cur += '"'; i += 1; }
       else inQuotes = false;
     } else if (ch === '"' && cur.trim() === '' && !literalQuotes.has(i)) {

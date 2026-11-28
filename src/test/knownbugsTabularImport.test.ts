@@ -17,7 +17,13 @@ describe('generieke CSV-import: aanhalingstekens (knownbug 60)', () => {
 
   it('leest een geciteerd veld over meerdere regels als één cel', () => {
     const data = parseCsv('Omschrijving;Hoeveelheid;Eenheid\r\n"Regel 1\r\nRegel 2";10;m\r\nVolgende;2;st', 'csv');
-    expect(data.rows).toEqual([['Regel 1\r\nRegel 2', '10', 'm'], ['Volgende', '2', 'st']]);
+    // Het regeleinde in de cel wordt "\n": een "\r" kwam als _x000d_ in een xlsx-export.
+    expect(data.rows).toEqual([['Regel 1\nRegel 2', '10', 'm'], ['Volgende', '2', 'st']]);
+  });
+
+  it('maakt van een los "\\r" in een geciteerd veld ook "\\n"', () => {
+    const data = parseCsv('Omschrijving;Hoeveelheid\r"A\rB";1', 'csv');
+    expect(data.rows).toEqual([['A\nB', '1']]);
   });
 
   it('houdt dubbele aanhalingstekens binnen een geciteerd veld en slaat lege regels over', () => {
