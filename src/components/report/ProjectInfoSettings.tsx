@@ -18,11 +18,14 @@ const EditableNumberCell: React.FC<{ value: number | null; onChange: (v: number 
   const [text, setText] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => { if (editing && inputRef.current) { inputRef.current.focus(); inputRef.current.select(); } }, [editing]);
+  // Onleesbare invoer ("120 m2") laat de oude waarde staan: sinds de strikte
+  // getallezer (knownbug 18) zou die anders leeg worden. Leeg blijft leeg.
+  const commit = () => { setEditing(false); const n = parseLocaleNumber(text); if (n !== null || !text.trim()) onChange(n); };
   if (editing) {
     return (
       <input ref={inputRef} className="prop-input" style={{ padding: '2px 4px', fontSize: 11, width: '100%' }}
-        value={text} onChange={(e) => setText(e.target.value)} onBlur={() => { setEditing(false); onChange(parseLocaleNumber(text)); }}
-        onKeyDown={(e) => { if (e.key === 'Enter') { setEditing(false); onChange(parseLocaleNumber(text)); } if (e.key === 'Escape') setEditing(false); }}
+        value={text} onChange={(e) => setText(e.target.value)} onBlur={commit}
+        onKeyDown={(e) => { if (e.key === 'Enter') commit(); if (e.key === 'Escape') setEditing(false); }}
         placeholder={placeholder} />
     );
   }

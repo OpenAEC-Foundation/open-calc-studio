@@ -1204,7 +1204,8 @@
       "missing": "Tento pracovní prostor již neexistuje.",
       "nameRequired": "Zadejte název pracovního prostoru.",
       "customOnly": "Přepsat lze pouze vaše uložené pracovní prostory.",
-      "limit": "Můžete uložit až 20 pracovních prostorů."
+      "limit": "Můžete uložit až 20 pracovních prostorů.",
+      "duplicateName": "Pracovní prostor s tímto názvem už existuje."
     },
     "report": {
       "quotationDesktopRequired": "PDF nabídky vyžadují desktopovou aplikaci.",

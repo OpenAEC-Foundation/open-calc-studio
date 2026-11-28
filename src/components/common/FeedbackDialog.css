@@ -84,7 +84,7 @@
 .feedback-category-btn:hover { background: var(--theme-hover); }
 .feedback-category-btn.active {
   background: var(--theme-accent);
-  color: #fff;
+  color: var(--theme-accent-text);
   border-color: var(--theme-accent);
 }
 

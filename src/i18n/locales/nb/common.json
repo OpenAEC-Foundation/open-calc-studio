@@ -1200,7 +1200,8 @@
       "missing": "Dette arbeidsområdet finnes ikke lenger.",
       "nameRequired": "Skriv inn et navn på arbeidsområdet.",
       "customOnly": "Bare dine egne lagrede arbeidsområder kan overskrives.",
-      "limit": "Du kan lagre opptil 20 arbeidsområder."
+      "limit": "Du kan lagre opptil 20 arbeidsområder.",
+      "duplicateName": "Det finnes allerede et arbeidsområde med dette navnet."
     },
     "report": {
       "quotationDesktopRequired": "Tilbuds-PDF-er krever skrivebordsprogrammet.",

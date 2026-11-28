@@ -1200,7 +1200,8 @@
       "missing": "Questa area di lavoro non esiste più.",
       "nameRequired": "Inserisci un nome per l'area di lavoro.",
       "customOnly": "Solo le aree di lavoro salvate da te possono essere sovrascritte.",
-      "limit": "Puoi salvare fino a 20 aree di lavoro."
+      "limit": "Puoi salvare fino a 20 aree di lavoro.",
+      "duplicateName": "Esiste già un'area di lavoro con questo nome."
     },
     "report": {
       "quotationDesktopRequired": "I PDF delle offerte richiedono l'applicazione desktop.",

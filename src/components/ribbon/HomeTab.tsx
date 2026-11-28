@@ -105,6 +105,8 @@ export default function HomeTab() {
   // Meerstaps ongedaan maken via het dropdowntje naast de Ongedaan-knop:
   // n keer poppen en de laatst herstelde staat toepassen (elke stap apart
   // toepassen houdt de redo-stack correct).
+  // Eén van beide lijsten tegelijk: ze delen de klasse van de wrapper, dus de
+  // klik-buiten-sluiter van de ene ziet de knop van de andere als binnen (knownbug 41).
   const [showUndoList, setShowUndoList] = useState(false);
   const [undoPos, setUndoPos] = useState<{ top: number; left: number } | null>(null);
   const handleUndoSteps = (n: number) => {
@@ -387,7 +389,7 @@ export default function HomeTab() {
                 className="ribbon-undo-dropdown-toggle"
                 title={t('home.undoMultipleTitle')}
                 disabled={!canUndo()}
-                onClick={(e) => { setUndoPos(posBelow(e.currentTarget as HTMLElement)); setShowUndoList((v) => !v); }}
+                onClick={(e) => { setUndoPos(posBelow(e.currentTarget as HTMLElement)); setShowUndoList((v) => !v); setShowCollapseList(false); }}
               >▾</button>
               {showUndoList && undoPos && createPortal(
                 <div className="ribbon-undo-dropdown" style={{ position: 'fixed', top: undoPos.top, left: undoPos.left }}>
@@ -450,7 +452,7 @@ export default function HomeTab() {
                 label={t('home.collapse')}
                 title={t('home.collapseTitle')}
                 size="small"
-                onClick={() => { setCollapsePos(posBelow(collapseWrapRef.current)); setShowCollapseList((v) => !v); }}
+                onClick={() => { setCollapsePos(posBelow(collapseWrapRef.current)); setShowCollapseList((v) => !v); setShowUndoList(false); }}
               />
               {showCollapseList && collapsePos && createPortal(
                 <div className="ribbon-undo-dropdown" style={{ position: 'fixed', top: collapsePos.top, left: collapsePos.left }}>

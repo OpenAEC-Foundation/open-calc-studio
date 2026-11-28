@@ -91,7 +91,7 @@ export const ResourcePicker: React.FC = () => {
       list = list.filter(i => i.category === selectedCategory);
     }
     if (search.trim()) {
-      const q = search.toLowerCase();
+      const q = search.trim().toLowerCase(); // spaties eromheen tellen niet (knownbug 195)
       list = list.filter(i =>
         i.description.toLowerCase().includes(q) ||
         i.code.toLowerCase().includes(q) ||

@@ -253,4 +253,4 @@ h4 { font-size: 13px; font-weight: 600; color: var(--theme-text); margin: 12px 0
   border: none; background: transparent; color: var(--theme-text-muted);
   cursor: pointer; font-size: 11px; padding: 2px;
 }
-.offerte-subitem-row button:hover { color: var(--theme-danger); }
+.offerte-subitem-row button:hover { color: var(--theme-danger-color); }

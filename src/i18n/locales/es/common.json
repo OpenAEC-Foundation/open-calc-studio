@@ -1120,7 +1120,8 @@
       "missing": "Este espacio de trabajo ya no existe.",
       "nameRequired": "Introduzca un nombre para el espacio de trabajo.",
       "customOnly": "Solo se pueden sobrescribir sus espacios de trabajo guardados.",
-      "limit": "Puede guardar hasta 20 espacios de trabajo."
+      "limit": "Puede guardar hasta 20 espacios de trabajo.",
+      "duplicateName": "Ya existe un espacio de trabajo con este nombre."
     },
     "report": {
       "quotationDesktopRequired": "Los PDF de oferta requieren la aplicación de escritorio.",

@@ -1,6 +1,19 @@
 import type { AppStore } from '@/state/appStore';
-import type { DocumentTab, SpreadsheetsData, SubSheet } from '@/types/costModel';
+import type { DocumentTab, ResourceLibraryItem, SpreadsheetsData, SubSheet } from '@/types/costModel';
 import { serializeProject } from './fileService';
+
+/**
+ * Prijsartikelen van een gehost bestand samenvoegen op id: de gehoste
+ * artikelen blijven staan (met hun volledige gegevens), artikelen die in deze
+ * sessie zijn toegevoegd komen erachter. Voorheen gaf het herstel dubbelen en
+ * liet opslaan bij de host de nieuwe artikelen weg (knownbug 113).
+ */
+export function mergeResourceLibraries(hosted: ResourceLibraryItem[] | undefined, current: ResourceLibraryItem[] | undefined): ResourceLibraryItem[] {
+  const merged = [...(hosted ?? [])];
+  const seen = new Set(merged.map(article => article.id));
+  for (const article of current ?? []) if (!seen.has(article.id)) { seen.add(article.id); merged.push(article); }
+  return merged;
+}
 
 /** Spreadsheets met het actieve blad, zodat dat mee wordt opgeslagen (knownbug 111). */
 export function spreadsheetsData(context: { subSheets: SubSheet[]; activeSubSheetId: string | null } | undefined): SpreadsheetsData | undefined {
@@ -22,7 +35,7 @@ export function serializeDocument(state: AppStore, doc: DocumentTab): string {
   const project = JSON.parse(json);
   return JSON.stringify({ ...doc.hostProject, ...project,
     createdAt: doc.hostProject.createdAt ?? project.createdAt,
-    resourceLibrary: [...(doc.hostProject.resourceLibrary ?? []), ...project.resourceLibrary],
+    resourceLibrary: mergeResourceLibraries(doc.hostProject.resourceLibrary, project.resourceLibrary),
   });
 }
 export function projectContentKey(json: string): string {

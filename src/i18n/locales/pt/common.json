@@ -1200,7 +1200,8 @@
       "missing": "Esta área de trabalho já não existe.",
       "nameRequired": "Introduza um nome para a área de trabalho.",
       "customOnly": "Só as suas áreas de trabalho guardadas podem ser substituídas.",
-      "limit": "Pode guardar até 20 áreas de trabalho."
+      "limit": "Pode guardar até 20 áreas de trabalho.",
+      "duplicateName": "Já existe uma área de trabalho com este nome."
     },
     "report": {
       "quotationDesktopRequired": "Os PDF de propostas requerem a aplicação de ambiente de trabalho.",

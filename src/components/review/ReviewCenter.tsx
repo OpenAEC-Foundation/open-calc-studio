@@ -58,9 +58,11 @@ export function ReviewCenter({ onOpenItem }: { onOpenItem?: (itemId: string) => 
   </section>;
 }
 
-export function ReviewReturnBar() {
+/** `onBack`: voor een weergave met eigen tabbladen (mobiel), die niet reageert
+ * als `activeContentTab` al 'review' is (knownbug 205). */
+export function ReviewReturnBar({ onBack }: { onBack?: () => void } = {}) {
   const { t } = useTranslation();
   const id = useAppStore(s => s.reviewReturnItemId), item = useAppStore(s => s.items.find(item => item.id === s.reviewReturnItemId));
   if (!id || !item) return null;
-  return <div className="review-return-bar"><span>{t('review.selected', { number: item.nr || item.code || '—' })}</span><button type="button" className="oa-button oa-button--quiet oa-button--compact" onClick={() => { const state = useAppStore.getState(); state.setActiveSubSheet(null); state.setActiveContentTab('review'); }}>{t('review.back')}</button></div>;
+  return <div className="review-return-bar"><span>{t('review.selected', { number: item.nr || item.code || '—' })}</span><button type="button" className="oa-button oa-button--quiet oa-button--compact" onClick={() => { const state = useAppStore.getState(); state.setActiveSubSheet(null); state.setActiveContentTab('review'); onBack?.(); }}>{t('review.back')}</button></div>;
 }

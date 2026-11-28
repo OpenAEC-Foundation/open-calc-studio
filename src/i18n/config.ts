@@ -163,11 +163,20 @@ void loadLocale(i18next.language);
 // van react-i18next, dus de notatie klopt al als de UI opnieuw tekent.
 setNumberLocale(i18next.language);
 
-i18next.on("languageChanged", (lng) => {
-  setNumberLocale(lng);
+function applyLanguageToHost(lng: string): void {
   setHostAttribute("lang", lng);
   // RTL-talen (Arabisch, Farsi, Hebreeuws, Urdu) spiegelen de hele layout.
   setHostAttribute("dir", isRTL(lng) ? "rtl" : "ltr");
+}
+
+// init() hierboven loopt synchroon (de bundels staan inline), dus de eerste
+// "languageChanged" is al voorbij: zet lang/dir hier eenmalig voor een
+// bewaarde taal, anders start Arabisch links-naar-rechts (knownbug 197).
+applyLanguageToHost(i18next.language || "en");
+
+i18next.on("languageChanged", (lng) => {
+  setNumberLocale(lng);
+  applyLanguageToHost(lng);
 });
 
 /**

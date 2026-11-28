@@ -1204,7 +1204,8 @@
       "missing": "Ten obszar roboczy już nie istnieje.",
       "nameRequired": "Wprowadź nazwę obszaru roboczego.",
       "customOnly": "Nadpisać można tylko własne zapisane obszary robocze.",
-      "limit": "Możesz zapisać maksymalnie 20 obszarów roboczych."
+      "limit": "Możesz zapisać maksymalnie 20 obszarów roboczych.",
+      "duplicateName": "Obszar roboczy o tej nazwie już istnieje."
     },
     "report": {
       "quotationDesktopRequired": "Oferty PDF wymagają aplikacji desktopowej.",

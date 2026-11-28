@@ -1200,7 +1200,8 @@
       "missing": "이 작업 공간은 더 이상 존재하지 않습니다.",
       "nameRequired": "작업 공간 이름을 입력하세요.",
       "customOnly": "직접 저장한 작업 공간만 덮어쓸 수 있습니다.",
-      "limit": "작업 공간은 최대 20개까지 저장할 수 있습니다."
+      "limit": "작업 공간은 최대 20개까지 저장할 수 있습니다.",
+      "duplicateName": "이 이름의 작업 공간이 이미 있습니다."
     },
     "report": {
       "quotationDesktopRequired": "견적서 PDF는 데스크톱 응용 프로그램이 필요합니다.",

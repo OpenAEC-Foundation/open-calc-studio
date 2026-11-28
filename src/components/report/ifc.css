@@ -231,7 +231,7 @@
   outline: 1px solid rgba(99, 102, 241, 0.3);
   outline-offset: -1px;
 }
-[data-theme="dark"] .ifc-step-highlight {
+:is([data-theme="dark"], [data-theme="blueprint"], [data-theme="high-contrast-dark"]) .ifc-step-highlight {
   background: rgba(129, 140, 248, 0.15) !important;
   outline-color: rgba(129, 140, 248, 0.3);
 }
@@ -281,7 +281,7 @@
   outline: 1px solid rgba(99, 102, 241, 0.3);
   outline-offset: -1px;
 }
-[data-theme="dark"] .json-tree-highlight {
+:is([data-theme="dark"], [data-theme="blueprint"], [data-theme="high-contrast-dark"]) .json-tree-highlight {
   background: rgba(129, 140, 248, 0.15) !important;
   outline-color: rgba(129, 140, 248, 0.3);
 }
@@ -301,11 +301,11 @@
 .step-number { color: #0891b2; }
 .json-key { color: #6366f1; }
 
-/* Dark theme overrides */
-[data-theme="dark"] .step-keyword { color: #c084fc; }
-[data-theme="dark"] .step-entity-ref { color: #60a5fa; }
-[data-theme="dark"] .step-entity-type { color: #34d399; }
-[data-theme="dark"] .step-string { color: #fbbf24; }
-[data-theme="dark"] .step-enum { color: #fb923c; }
-[data-theme="dark"] .step-number { color: #22d3ee; }
-[data-theme="dark"] .json-key { color: #a5b4fc; }
+/* Donkere thema's: dark, blueprint en high-contrast-dark (knownbug 219) */
+:is([data-theme="dark"], [data-theme="blueprint"], [data-theme="high-contrast-dark"]) .step-keyword { color: #c084fc; }
+:is([data-theme="dark"], [data-theme="blueprint"], [data-theme="high-contrast-dark"]) .step-entity-ref { color: #60a5fa; }
+:is([data-theme="dark"], [data-theme="blueprint"], [data-theme="high-contrast-dark"]) .step-entity-type { color: #34d399; }
+:is([data-theme="dark"], [data-theme="blueprint"], [data-theme="high-contrast-dark"]) .step-string { color: #fbbf24; }
+:is([data-theme="dark"], [data-theme="blueprint"], [data-theme="high-contrast-dark"]) .step-enum { color: #fb923c; }
+:is([data-theme="dark"], [data-theme="blueprint"], [data-theme="high-contrast-dark"]) .step-number { color: #22d3ee; }
+:is([data-theme="dark"], [data-theme="blueprint"], [data-theme="high-contrast-dark"]) .json-key { color: #a5b4fc; }

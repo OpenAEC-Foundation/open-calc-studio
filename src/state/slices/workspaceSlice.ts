@@ -53,9 +53,22 @@ export const createWorkspaceSlice: StateCreator<WorkspaceSlice> = (set, get) => 
     const layouts = state.settings.workspaceLayouts ?? [];
     if (id && !layouts.some(layout => layout.id === id)) throw Error(uiText('layouts.customOnly', 'Only your saved workspaces can be overwritten.'));
     if (!id && layouts.length >= 20) throw Error(uiText('layouts.limit', 'You can save up to 20 workspaces.'));
+    // Geen twee werkruimtes met dezelfde naam, ook niet gelijk aan een ingebouwde
+    // indeling; hoofdletters tellen niet mee (knownbug 212). Een bestaande
+    // werkruimte bijwerken onder zijn eigen naam mag altijd: die naam kan na
+    // een taalwissel gelijk zijn aan een ingebouwde, of van vóór deze controle
+    // dubbel zijn, en er is geen hernoemknop om dat op te lossen.
+    const key = title.toLocaleLowerCase();
+    const own = id ? layouts.find(layout => layout.id === id) : undefined;
+    const keepsOwnName = own?.name.trim().toLocaleLowerCase() === key;
+    const taken = !keepsOwnName && [...builtinWorkspaceLayouts(), ...layouts.filter(layout => layout.id !== id)]
+      .some(layout => layout.name.trim().toLocaleLowerCase() === key);
+    if (taken) throw Error(uiText('layouts.duplicateName', 'A workspace with this name already exists.'));
     const layout: WorkspaceLayout = { id: id ?? crypto.randomUUID(), name: title, activeContentTab: state.activeContentTab, showSchedulePanel: state.showSchedulePanel, showPropertiesPanel: state.showPropertiesPanel, showChatPanel: state.showChatPanel,
       leftPanelWidth: state.leftPanelWidth, rightPanelWidth: state.rightPanelWidth, ifcSplitPercent: state.ifcSplitPercent, gridView: state.gridView, gridZoom: state.gridZoom, pdfZoom: state.pdfZoom, hiddenColumns: { ...state.hiddenColumns } };
-    state.updateSettings({ workspaceLayouts: [...layouts.filter(value => value.id !== layout.id), layout], lastWorkspaceLayoutId: layout.id });
+    // Bijwerken vervangt op dezelfde plek in de lijst (knownbug 211).
+    const next = id ? layouts.map(value => (value.id === id ? layout : value)) : [...layouts, layout];
+    state.updateSettings({ workspaceLayouts: next, lastWorkspaceLayoutId: layout.id });
     set({ activeWorkspaceLayoutId: layout.id });
     return layout.id;
   },

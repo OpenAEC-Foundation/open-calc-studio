@@ -159,8 +159,11 @@ export function parseLocaleNumber(input: string, decimal: ',' | '.' = decimalSep
       || new RegExp(`^-?[1-9]\\d{0,2}\\${group}\\d{3}$`).test(s);
     s = thousands ? s.split(group).join('') : s.replace(group, '.');
   }
-  const num = parseFloat(s);
-  return isNaN(num) ? null : num;
+  // Strikt (knownbug 18): wat overblijft moet één getal zijn. Voorheen las
+  // parseFloat "12abc" als 12 en "1,234,567" (NL) als 1,234.
+  if (!/^[+-]?(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?$/i.test(s)) return null;
+  const num = Number(s);
+  return Number.isFinite(num) ? num : null;
 }
 
 /** Leest een getal in NL-notatie, los van de app-taal (subbladen, bestanden). */

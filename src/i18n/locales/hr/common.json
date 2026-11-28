@@ -1201,7 +1201,8 @@
       "missing": "Ovaj radni prostor više ne postoji.",
       "nameRequired": "Unesite naziv radnog prostora.",
       "customOnly": "Mogu se prepisati samo vaši spremljeni radni prostori.",
-      "limit": "Možete spremiti do 20 radnih prostora."
+      "limit": "Možete spremiti do 20 radnih prostora.",
+      "duplicateName": "Radni prostor s tim nazivom već postoji."
     },
     "report": {
       "quotationDesktopRequired": "PDF ponude zahtijeva desktop aplikaciju.",

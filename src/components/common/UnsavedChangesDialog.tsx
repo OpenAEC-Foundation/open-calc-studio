@@ -54,3 +54,8 @@ export function handleUnsavedResult(result: UnsavedResult) {
   _resolve?.(result);
   _resolve = null;
 }
+
+/** Staat de vraag "Opslaan / Niet opslaan" nu open? (autosave wacht dan, knownbug 281) */
+export function isUnsavedDialogOpen(): boolean {
+  return _resolve !== null;
+}

@@ -1200,7 +1200,8 @@
       "missing": "Ruang kerja ini tidak lagi wujud.",
       "nameRequired": "Masukkan nama ruang kerja.",
       "customOnly": "Hanya ruang kerja yang anda simpan boleh ditulis ganti.",
-      "limit": "Anda boleh menyimpan sehingga 20 ruang kerja."
+      "limit": "Anda boleh menyimpan sehingga 20 ruang kerja.",
+      "duplicateName": "Ruang kerja dengan nama ini sudah wujud."
     },
     "report": {
       "quotationDesktopRequired": "PDF sebut harga memerlukan aplikasi desktop.",

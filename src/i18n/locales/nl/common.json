@@ -1200,7 +1200,8 @@
       "missing": "Deze werkplek bestaat niet meer.",
       "nameRequired": "Voer een naam voor de werkplek in.",
       "customOnly": "Alleen je eigen opgeslagen werkplekken kunnen worden overschreven.",
-      "limit": "Je kunt maximaal 20 werkplekken opslaan."
+      "limit": "Je kunt maximaal 20 werkplekken opslaan.",
+      "duplicateName": "Er bestaat al een werkplek met deze naam."
     },
     "report": {
       "quotationDesktopRequired": "Offerte-PDF vereist de desktopapplicatie.",

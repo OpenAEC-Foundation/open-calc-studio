@@ -25,28 +25,19 @@ stand van `main` op die datum.
 
 ## Rekenen en totalen
 
-## Tabel, invoer en bediening
+302. **Kengetallen en opgeslagen versies laten de opslagen oude stijl (ukk/ak/wr) en de afronding weg uit het
+     totaal excl. btw.** `src/components/report/ProjectInfoSettings.tsx:80` en `src/state/slices/versionSlice.ts:109`
+     gebruiken `getStaartBreakdown(...).aanneemsomExcl`, dat alleen het Bouw 1-model optelt (kostprijs + risico,
+     winst, verzekering). Bij BasCalc-imports is dat lager dan het gridtotaal; de afronding ontbreekt altijd,
+     terwijl het commentaar in `versionSlice.ts` zegt dat die erin zit. Dezelfde oorzaak als knownbug 193 (wizard,
+     opgelost met `aanneemsom + afronding`). Gezien in de code, niet in de app nagespeeld. Voorstel: één gedeelde
+     helper voor het totaal excl. btw. — S
 
-18. **`parseNlNumber` is te soepel** (minder zeker). Nagespeeld: `1,234,567` geeft 1,234 en `12abc` geeft 12;
-    beide zouden geweigerd moeten worden. Zelfde oorzaak als #16. Voorstel: een strikt patroon gebruiken
-    zoals in `parseLocaleNumber`. — B
+## Tabel, invoer en bediening
 
 28. **"Kopiëren naar Excel" schrijft getallen met een decimale punt, dus Nederlandse Excel maakt van 12.5 een
     datum.** `excelClipboard.ts:24-26` (`String(n)`; ook float-ruis, en 0 wordt leeg). Voorstel: dezelfde
     opmaak gebruiken als `getGridCellDisplayValue`. — S
-
-30. **Ctrl+X na een sleepselectie knipt de eerder actieve regel** (minder zeker). `useKeyboardShortcuts.ts:70-74`,
-    `CostGrid.tsx:330-352`. Voorstel: een celbereik bij knippen omzetten naar regels, of de sleepactie de actieve
-    regel laten bijwerken. — S
-
-39. **Het menu Bestand toont "Ctrl+," bij Voorkeuren, maar er is geen handler.**
-    `src/components/backstage/Backstage.tsx:683`. Voorstel: de sneltoets koppelen of het label weghalen. — S
-
-40. **"Wat is nieuw" gooit offline de opgeslagen release notes weg.**
-    `src/components/welcome/ReleaseNotesPanel.tsx:138`: verouderde closure, `releases` is in de catch altijd
-    null. Voorstel: `setReleases(prev => prev?.length ? prev : mergeReleases([]))`. — S
-
-41. **De dropdowns Undo-lijst en Inklappen kunnen tegelijk open staan** (`HomeTab.tsx:86,116`). — S
 
 42. **UI-3 ("eenvoudig") gebruikt de kolombreedtes van UI-1, gekoppeld op positie.**
     `src/state/slices/viewSlice.ts:20,39-41`, `CostGrid.tsx:71-75,142`, `GridHeader.tsx:15-19,131`. Nagespeeld:
@@ -57,10 +48,6 @@ stand van `main` op die datum.
     `src/components/grid/gridConstants.ts:125-131` + de positie-arrays in `viewSlice.ts`. Nagespeeld: in UI-2
     wordt Nr. 240px en Omschrijving 70px. `setColumnWidth` past ook de minimumbreedte van de verkeerde kolom
     toe. Zie #42 voor het voorstel. — B
-
-45. **Notities in het paneel Eigenschappen zijn niet ongedaan te maken, en de volgende Ctrl+Z wist ze.**
-    `src/components/panels/PropertiesPanel.tsx:163`. Nagespeeld. Voorstel: één undo-stap opslaan bij focus of
-    bij de eerste wijziging (zoals `CalculationWizard.tsx:68`). — B
 
 270. **In UI-2 is de productiecapaciteit onzichtbaar, terwijl hij uren en loon deelt.** De WpCalc-kolommen
     (`src/components/grid/gridConstants.ts`, `WPCALC_COLUMN_DEFS`) hebben geen kolom pcap; een capaciteit die in
@@ -134,37 +121,10 @@ stand van `main` op die datum.
 
 ## Documenten, tabbladen, versies en herstel
 
-113. **Dubbele prijsartikelen in het herstel van documenten die op een site gehost worden** (klein).
-     `src/services/file/documentSnapshot.ts:18` tegenover `hostFileActions.ts:58`: `serializeDocument` plakt de
-     gehoste bibliotheek achter de nieuwe bibliotheek, wat dubbelen geeft. `hostFileActions` doet het omgekeerde
-     en laat artikelen weg die in deze sessie voor het eerst zijn toegevoegd. Voorstel: in beide gevallen
-     samenvoegen op `id`. — S
-
-116. **Het document sluiten dat in "Naast elkaar bekijken" staat, laat de gesplitste weergave op een verwijderd
-     document staan.** `src/state/slices/documentSlice.ts:69-92` (`removeDocument`), `SplitGridPane.tsx:57`.
-     Nagespeeld: rechtsklik op tab B → "View beside" → B sluiten. Het rechterdeel blijft "document not found"
-     tonen. Voorstel: in `removeDocument` `splitDocumentId`/`splitView` terugzetten als het verwijderde document
-     het gesplitste is. — B
-
-117. **De extensie `.ifcCalc` staat in het tabblad en de titel.** `src/hooks/useFileOperations.ts:25-29`
-     (`fileNameFromPath` haalt alleen `.ifcx|.json` weg), gebruikt op `:142`, `:183`, `:269`, `:357`; ook
-     `App.tsx:249`. Na Opslaan als of Openen staat er "Begroting.ifcCalc" op het tabblad, terwijl slepen elke
-     extensie weghaalt. Hetzelfde bestand krijgt dus een andere tabnaam afhankelijk van hoe het geopend is.
-     Voorstel: overal op dezelfde manier `\.(ifccalc|ifcx|ocs|json)$` weghalen, hoofdletterongevoelig. — S
-
 119. **Een ander open venster toont het live journaal van dit venster als "herstelbaar".**
      `src/components/common/RecoveryBar.tsx:17`, `recovery.ts:14,39`. Een losgemaakt tabbladvenster of een tweede
      browsertabblad biedt de live documenten van het hoofdvenster aan. Herstellen dupliceert ze; Weggooien wist het
      live journaal. Voorstel: een levenssignaal per venster (heartbeat of `navigator.locks`). — S
-
-120. **Automatisch opslaan kan een Opslaan als-venster openen voor geïmporteerde documenten** (latent).
-     `App.tsx:404-411` + `useFileOperations.ts:324,343`. `autoSave` staat standaard uit en heeft geen UI, dus
-     vandaag kan het niet gebeuren. Voorstel: `isNativeSavePath(doc.filePath)` aan de voorwaarde toevoegen. — S
-
-281. **Automatisch opslaan loopt door terwijl het venster "Opslaan / Niet opslaan" open staat** (latent).
-     `App.tsx` (interval voor `autoSave`) kijkt niet naar `closingWindow`; met autosave aan kan "Niet opslaan"
-     zo toch opgeslagen werk opleveren. `autoSave` staat standaard uit en heeft geen UI (zie 120). Gevonden in
-     de review van knownbug 263. — S
 
 298. **Het autosave-interval wordt één keer gelezen, vóór de instellingen geladen zijn** (latent).
      `src/App.tsx:390-399`: `setInterval` gebruikt `settings.autoSaveInterval` op het moment van mounten
@@ -351,32 +311,11 @@ stand van `main` op die datum.
 
 ## Wizard, bibliotheek en prijzen
 
-193. **Het totaal "excl. tax" van de wizard laat de opslagen oude stijl (ukk/ak/wr) weg.**
-     `src/components/wizard/CalculationWizard.tsx:114` tegenover `WpCalcBottomPanel.tsx:250`: bij
-     BasCalc-imports is de voettekst van de wizard lager dan het gridtotaal, met precies de bedragen ukk + ak +
-     wr. Voorstel: één gedeelde helper voor het totaal excl. — S
-
 194. **Verf is geprijsd per post (`ls`) in plaats van per liter** (data). `src/data/nl-price-library.json`
      AF.005/AF.006, `defaultResourceLibrary.ts:107-108`. Voorstel: uitdrukken per m², of een eenheid liter
      toevoegen. — S
 
-195. **Zoeken met een spatie vooraan of achteraan vindt niets.** `ResourcePicker.tsx:62` en
-     `CostItemPicker.tsx:36` filteren op de niet-getrimde `search`. — S
-
 ## Weergave, mobiel en toegankelijkheid
-
-196. **De schuifanimatie van het lint gaat soms de verkeerde kant op** wanneer het tabblad tekstopmaak
-     verschijnt (`Ribbon.tsx:97`). Alleen cosmetisch. — S
-
-197. **Bij een door i18next bewaarde taal worden RTL-richting en `lang` bij het opstarten niet gezet.**
-     `src/i18n/config.ts:161-165`: de listener wordt pas na de synchrone `init()` geregistreerd. Nagespeeld:
-     Arabisch + Automatisch detecteren → herladen geeft Arabische tekst met een links-naar-rechts-opmaak.
-     Voorstel: de listener vóór `init()` registreren, of `dir`/`lang` eenmalig na `init` zetten. — B
-
-198. **Het thema "system" volgt geen live wijziging van het besturingssysteem, en Instellingen maakt er
-     "light" van.** `SettingsDialog.tsx:20-26`, `useHostPresentation.ts:8`, `App.tsx:466-468`. Gezien in de code.
-     Voorstel: een listener op wijzigingen van `prefers-color-scheme`, en "system" toevoegen aan
-     `THEME_OPTIONS`. — S
 
 199. **Schermlezers krijgen geen informatie uit het hoofdgrid.** `CostGrid.tsx:501-509`, `GridCell.tsx:338`,
      GridRow, `GridCellEditor.tsx:252`. Afgeleid uit de code, niet in de app getest. Voorstel:
@@ -409,62 +348,18 @@ stand van `main` op die datum.
      `role=status` nodig); `FileTabBar.tsx:287-294` ("●" wordt voorgelezen als "black circle", sluiten-"×" is een
      span, geen Ctrl+W/Ctrl+F4). Afgeleid uit de code, niet in de app getest. — S
 
-205. **"Terug naar controle" op het tabblad Begroting doet op mobiel soms niets.** `MobileWorkspace.tsx:191-195`
-     + `ReviewCenter.tsx:64`: `activeContentTab` is al `'review'`, dus het effect draait niet. Nagespeeld.
-     Voorstel: de mobiele tabknoppen ook `setActiveContentTab` laten aanroepen, of een callback doorgeven aan
-     `ReviewReturnBar`. — B
-
-206. **De mobiele weergave en de wizard controleren de valutacode niet vóór het opmaken.** `MobileWorkspace.tsx:175`,
-     `CalculationWizard.tsx:52`; `WorkspaceHeader.tsx:20` doet dat wel. Nagespeeld. Voorstel: een
-     gedeelde helper met de fallback `/^[A-Z]{3}$/`. — B
-
-207. **De postenlijst op mobiel toont rauwe JS-getallen** (`2.5 st` in NL, float-ruis). `MobileWorkspace.tsx:278`.
-     Nagespeeld. Voorstel: `toLocaleString(i18n.language, { maximumFractionDigits: 6 })`. — B
-
 208. **Getalvelden op de telefoon: geen mintoets op iOS, en `1,250` wordt stil gelezen als 1250.**
      `MobileWorkspace.tsx:88, 91, 92` (`inputMode="decimal"`), `numberInput.ts:5`. Afgeleid uit de code.
      Voorstel: `inputMode="text"` met een pattern; het andere scheidingsteken accepteren als het geen
      duizendtalscheiding kan zijn. — S
 
-209. **Heel kleine waarden (`5e-7`) laten elke bewerking van die post mislukken.** `numberInput.ts:11`:
-     `String(value)` geeft exponentnotatie. Nagespeeld. Voorstel: formatteren zonder exponentnotatie. — B
-
 210. **Een opgeslagen werkruimte die al actief is, kun je niet opnieuw toepassen via de keuzelijst.** Dezelfde
      optie opnieuw kiezen vuurt geen `change` af (`src/components/layout/WorkspaceLayoutBar.tsx:33`). Gezien in
      de code. Voorstel: een actie "Toepassen"/"Herstellen", of de select na elke toepassing terugzetten. — S
 
-211. **"Bijwerken" van een opgeslagen werkruimte zet die onderaan de lijst.**
-     `src/state/slices/workspaceSlice.ts:58`. Nagespeeld. Voorstel: op dezelfde plek vervangen met `map`. — B
-
-212. **Dubbele werkruimtenamen en namen van ingebouwde indelingen worden geaccepteerd.**
-     `workspaceSlice.ts:50-56`. Nagespeeld. Voorstel: namen hoofdletterongevoelig vergelijken met de opgeslagen
-     en de ingebouwde indelingen. — B
-
 213. **Een ingebouwde werkruimte-indeling wist zonder melding verborgen kolommen, rasterweergave en zoom.**
      `workspaceSlice.ts:22`, `:38-40`. Nagespeeld; mogelijk bewust. Voorstel: `gridView`, `hiddenColumns` en
      `gridZoom` buiten de ingebouwde indelingen houden. — B
-
-214. **Contextmenu van een rekenblad: witte tekst op een bijna witte hover in het standaard lichte thema.**
-     `src/components/grid/SubSheetEditor.css:336-339`; `--theme-active` is `#FBF1E6` in licht en `#FFFFFF` in
-     high-contrast-light. Contrast berekend uit de tokens, niet gemeten. Voorstel:
-     `color: var(--theme-text)`. — S
-
-215. **High-contrast-light: de knoppen Annuleren en "Niet opslaan" zijn onzichtbaar (~1,05:1) en de
-     schuifbalken donkerbruin.** De fallback-vars `--theme-btn-secondary-*` en `--theme-scrollbar-*` in
-     `src/styles/themes.css:221-227` worden niet hergekoppeld in `blueprintBridge.css`; gebruikt in
-     `SettingsDialog.css:150-151`, `UnsavedChangesDialog.css:61-62`, `ImportWarningsDialog.css:96-97` en
-     `globals.css:171-172`. Contrast berekend uit de tokens, niet gemeten. Voorstel: de zes vars aan de bridge
-     toevoegen. — S
-
-216. **Hover op de sluitknop: wit × op lichtroze in donkere thema's (~1,9:1).** `TitleBar.css:108-109` en
-     `Modal.css:92-95` gebruiken `--oa-error` (`#FCA5A5`). Contrast berekend uit de tokens, niet gemeten.
-     Voorstel: een eigen token voor de sluit-hover (bijv. `#C42B1C`). — S
-
-217. **Hardgecodeerd wit op `--theme-accent` (2,1–3,2:1).** `CostItemPicker.css:63,75`,
-     `ExcelCellPicker.css:148,219`, `WizardModal.css:115`, `FeedbackDialog.css:87`, `report.css:45,78`,
-     `ColumnMappingDialog.css:117,119`, `grid.css:302`, en inline in `QuantityPicker.tsx:125,180` en
-     `CodePickerModal.tsx:100,175`. Contrast berekend uit de tokens, niet gemeten. Voorstel:
-     `var(--theme-accent-text)`. — S
 
 218. **ResourcePicker, RevisionDialog en PriceUpdateDialog liggen onder andere zwevende UI.**
      `.resource-picker-overlay { z-index: 200 }` (`panels.css:192`, niet geportaled); de chat (1000),
@@ -472,20 +367,11 @@ stand van `main` op die datum.
      contextmenu van het grid (1000) onder het paneel met importwaarschuwingen. Gezien in de code. Voorstel: de
      Modal-laag gebruiken (10000, geportaled), en één gedeelde z-index-schaal. — S
 
-219. **De syntaxkleuren van STEP/JSON wisselen alleen bij `data-theme="dark"`.**
-     `src/components/report/ifc.css:296-311` (en 230/234, 280/284); blueprint en high-contrast-dark houden het
-     lichte palet. Gezien in de code. — S
-
 220. **RTL: de greep om kolommen te verbreden en het submenu van het contextmenu spiegelen niet.**
      `grid.css:49-56` met `GridHeader.tsx:50` (`diff` wordt niet omgekeerd; GridHeader.tsx wordt op dit moment
      omgebouwd; meenemen bij dat werk), `grid.css:492-494` met `GridContextMenu.tsx:287` (`left: 100%`),
      `grid.css:508` en `Ribbon.css:181-189`. Gezien in de code. Voorstel: logische CSS-eigenschappen, en `diff`
      omkeren in RTL. — S
-
-221. **Er worden CSS-variabelen gebruikt die nergens zijn gedefinieerd.** `--theme-danger`
-     (`BranchTreeEditor.tsx:84`, `OfferteView.css:256`), `--theme-hover-bg` (`grid.css:668`),
-     `--theme-text-primary` (`grid.css:648,669,714`) en `--theme-ribbon-icon` (`Ribbon.css:260`). Voorstel:
-     hernoemen naar de bestaande namen. — S
 
 285. **De valutalijst staat buiten de dialoog (portal), waardoor VoiceOver de opties mogelijk niet voorleest**
      (`CurrencyPicker.tsx`; de dialoog heeft `aria-modal="true"`). Met toetsenbord en muis werkt hij gewoon.
@@ -510,10 +396,6 @@ stand van `main` op die datum.
      TekstopmaakTab en `useGridEditing.ts:79-82`. Gemeten op een belaste machine: 50 regels verwijderen bij 20k
      ≈ 11 s; 50 cellen leegmaken ≈ 27 s (ook zonder de belasting minstens zo'n 4,5 s). Voorstel:
      `updateItems(patches[])` / `deleteItems(ids[])` met één herberekening. — B
-
-225. **Een hoofdstuk verwijderen is kwadratisch.** `costItemsSlice.ts` `deleteItem` → `collectChildren`
-     (~300-306). Gemeten op een belaste machine: 20k met een hoofdstuk van 5.000 regels ≈ 2,1 s (bovenop de
-     herberekening). Voorstel: een map ouder→kinderen, of de aaneengesloten subboom aflopen. — B
 
 226. **Scrollen of de cursor verplaatsen rendert de hele app opnieuw en bouwt de rijenlijst opnieuw op.**
      `useAppStore()` zonder selector in `App.tsx:136`, `useKeyboardShortcuts.ts:21-25`, `HomeTab.tsx:29`,
@@ -547,11 +429,6 @@ stand van `main` op die datum.
      `common:workspace.quotationDefaults.payments` gebruiken (EN "Payment schedule"). — S
 
 ## Wensen en open taken (geen bug)
-
-261. **Het actieve tabblad sluiten springt naar het eerste tabblad** (mogelijk bewust).
-     `src/state/slices/documentSlice.ts:83` (`filtered[0]`). Nagespeeld: met tabbladen a, b, c, d komt het
-     sluiten van c uit op a in plaats van b of d. Voorstel: het tabblad op dezelfde index kiezen, begrensd op het
-     einde van de lijst. — B
 
 262. **De tabel kan geen tekst uit Excel of Sheets plakken.** Ctrl+V plakt alleen regels die binnen de app zijn
      gekopieerd. — S

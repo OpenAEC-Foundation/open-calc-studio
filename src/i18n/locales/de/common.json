@@ -1137,7 +1137,8 @@
       "missing": "Dieser Arbeitsbereich existiert nicht mehr.",
       "nameRequired": "Geben Sie einen Namen für den Arbeitsbereich ein.",
       "customOnly": "Nur Ihre gespeicherten Arbeitsbereiche können überschrieben werden.",
-      "limit": "Sie können bis zu 20 Arbeitsbereiche speichern."
+      "limit": "Sie können bis zu 20 Arbeitsbereiche speichern.",
+      "duplicateName": "Ein Arbeitsbereich mit diesem Namen existiert bereits."
     },
     "report": {
       "quotationDesktopRequired": "Angebots-PDFs erfordern die Desktop-Anwendung.",

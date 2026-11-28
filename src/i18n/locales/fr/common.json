@@ -1200,7 +1200,8 @@
       "missing": "Cet espace de travail n'existe plus.",
       "nameRequired": "Saisissez un nom d'espace de travail.",
       "customOnly": "Seuls vos espaces de travail enregistrés peuvent être écrasés.",
-      "limit": "Vous pouvez enregistrer jusqu'à 20 espaces de travail."
+      "limit": "Vous pouvez enregistrer jusqu'à 20 espaces de travail.",
+      "duplicateName": "Un espace de travail portant ce nom existe déjà."
     },
     "report": {
       "quotationDesktopRequired": "Les PDF d'offre nécessitent l'application de bureau.",

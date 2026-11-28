@@ -1200,7 +1200,8 @@
       "missing": "Aquest espai de treball ja no existeix.",
       "nameRequired": "Introduïu un nom per a l'espai de treball.",
       "customOnly": "Només es poden sobreescriure els espais de treball que heu desat.",
-      "limit": "Podeu desar fins a 20 espais de treball."
+      "limit": "Podeu desar fins a 20 espais de treball.",
+      "duplicateName": "Ja existeix un espai de treball amb aquest nom."
     },
     "report": {
       "quotationDesktopRequired": "Els PDF d'ofertes requereixen l'aplicació d'escriptori.",

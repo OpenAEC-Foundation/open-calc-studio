@@ -51,6 +51,8 @@ export function CalculationWizard({ onEditor }: { onEditor?: () => void }) {
   const { items, schedule, activeDocumentId } = state;
   useEffect(() => { setStep(0); setDrafts({}); setChapter(''); setLimit(60); }, [activeDocumentId]);
   const setDraft = (id: string, value?: string) => setDrafts(current => { const next = { ...current }; value === undefined ? delete next[id] : next[id] = value; return next; });
+  // `aanneemsom` telt ook de opslagen oude stijl (ukk/ak/wr van BasCalc-imports)
+  // mee, net als het gridtotaal; `aanneemsomExcl` alleen het Bouw 1-model (knownbug 193).
   const total = useMemo(() => getStaartBreakdown(variantCalculatedItems(items, schedule)), [items, schedule]);
   const money = { format: useMoney({ keepZero: true }) };
   const scoped = variantItems(items, schedule);
@@ -114,7 +116,7 @@ export function CalculationWizard({ onEditor }: { onEditor?: () => void }) {
       </div>}
     </div>
     <footer className="calc-wizard-footer"><button className="oa-button" disabled={step === 0 || !!errors.length} onClick={() => show(step - 1)}>{t('wizardUI.back')}</button>
-      <output aria-live="polite">{t('wizardUI.exclTax')}: <strong>{money.format(total.aanneemsomExcl + total.afronding)}</strong></output>
+      <output aria-live="polite">{t('wizardUI.exclTax')}: <strong>{money.format(total.aanneemsom + total.afronding)}</strong></output>
       <button className="oa-button oa-button--primary" disabled={!!errors.length} onClick={() => step < 4 ? show(step + 1) : editor()}>{t(step < 4 ? 'wizardUI.next' : 'wizardUI.editor')}</button>
     </footer>
   </section>;

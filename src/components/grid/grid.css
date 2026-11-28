@@ -299,7 +299,7 @@ html.cursor-col-resizing * { cursor: col-resize !important; }
   transition: opacity 0.15s;
 }
 .grid-row:hover .grid-row-add-btn { opacity: 0.6; }
-.grid-row-add-btn:hover { opacity: 1 !important; background: var(--theme-accent); color: #fff; border-color: var(--theme-accent); }
+.grid-row-add-btn:hover { opacity: 1 !important; background: var(--theme-accent); color: var(--theme-accent-text); border-color: var(--theme-accent); }
 
 /* Een met de knop Hoeveelheid verborgen kolom: de kop is al 0 px, de cellen eronder ook,
    anders steken padding en rand 9-12 px uit en verschuift de totaalrij. */
@@ -617,7 +617,7 @@ select.grid-cell-editor option {
 .split-pane-title {
   font-size: 12px;
   font-weight: 600;
-  color: var(--theme-text-primary);
+  color: var(--theme-text);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -637,8 +637,8 @@ select.grid-cell-editor option {
   flex-shrink: 0;
 }
 .split-pane-close-btn:hover {
-  background: var(--theme-hover-bg);
-  color: var(--theme-text-primary);
+  background: var(--theme-hover);
+  color: var(--theme-text);
 }
 
 .split-pane-body {
@@ -683,7 +683,7 @@ select.grid-cell-editor option {
 .split-pane-table td {
   padding: 2px 6px;
   border-bottom: 1px solid var(--theme-grid-cell-border);
-  color: var(--theme-text-primary);
+  color: var(--theme-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

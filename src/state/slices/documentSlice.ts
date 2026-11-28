@@ -78,9 +78,13 @@ export const createDocumentSlice: StateCreator<DocumentSlice> = (set, get) => ({
 
   removeDocument: (id) => {
     const state = get() as any;
+    const closedIndex = state.documents.findIndex((d: DocumentTab) => d.id === id);
     const filtered = state.documents
       .map((d: DocumentTab) => captureDocument(state, d))
       .filter((d: DocumentTab) => d.id !== id);
+    // Het document in "Naast elkaar bekijken" sluit: de gesplitste weergave
+    // zou anders op een verwijderd document blijven staan (knownbug 116).
+    const split = state.splitDocumentId === id ? { splitDocumentId: null, splitView: false } : {};
     if (filtered.length === 0) {
       set({
         documents: [],
@@ -88,19 +92,23 @@ export const createDocumentSlice: StateCreator<DocumentSlice> = (set, get) => ({
         items: [],
         schedule: createDefaultSchedule(),
         ...documentContext(makeEmptyDoc()),
+        ...split,
       } as any);
     } else if (state.activeDocumentId !== id && filtered.some((d: DocumentTab) => d.id === state.activeDocumentId)) {
       // Closing a background tab leaves the live state of the active tab alone,
       // including its undo history and selection (knownbugs 121).
-      set({ documents: filtered } as any);
+      set({ documents: filtered, ...split } as any);
     } else {
-      const switchTo = filtered[0];
+      // Het tabblad dat op de plek van het gesloten tabblad komt, of het
+      // vorige als het laatste sluit (knownbug 261; voorheen altijd het eerste).
+      const switchTo = filtered[Math.min(Math.max(closedIndex, 0), filtered.length - 1)];
       set({
         documents: filtered,
         activeDocumentId: switchTo.id,
         items: switchTo.items,
         schedule: switchTo.schedule,
         ...documentContext(switchTo),
+        ...split,
       } as any);
     }
     // De chat hoort bij het document; anders bleef hij na sluiten in het geheugen (knownbug 173).

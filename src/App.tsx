@@ -21,9 +21,10 @@ import { PriceUpdateDialog } from './components/library/PriceUpdateDialog';
 import Ribbon from "./components/ribbon/Ribbon";
 import StatusBar from "./components/layout/StatusBar";
 import Backstage from "./components/backstage/Backstage";
-import SettingsDialog, { applyTheme } from "./components/settings/SettingsDialog";
+import SettingsDialog, { applyTheme, followSystemTheme } from "./components/settings/SettingsDialog";
 import FeedbackDialog from "./components/common/FeedbackDialog";
-import UnsavedChangesDialog, { registerUnsavedDialogSetter, handleUnsavedResult, showUnsavedChangesDialog } from "./components/common/UnsavedChangesDialog";
+import UnsavedChangesDialog, { registerUnsavedDialogSetter, handleUnsavedResult, showUnsavedChangesDialog, isUnsavedDialogOpen } from "./components/common/UnsavedChangesDialog";
+import { shouldAutoSave } from "./services/file/autoSave";
 import { FileTabBar } from "./components/layout/FileTabBar";
 import { CostGrid } from "./components/grid/CostGrid";
 import { ReportPreview } from "./components/report/ReportPreview";
@@ -51,7 +52,7 @@ import { useAppStore } from "./state/appStore";
 import { deserializeProject } from "./services/file/fileService";
 import { openProjectJson } from "./services/file/openProject";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
-import { openDesktopFiles, useFileOperations } from "./hooks/useFileOperations";
+import { fileNameFromPath, openDesktopFiles, useFileOperations } from "./hooks/useFileOperations";
 import { loadAllExtensions } from "./extensions";
 import { registerBuiltinExtensions } from "./extensions/builtinExtensions";
 import i18next, { changeLanguage } from "./i18n/config";
@@ -188,7 +189,7 @@ function App() {
     sendDockRequest(detachedFileRef.current, windowLabelRef.current);
   }, []);
 
-  useKeyboardShortcuts();
+  useKeyboardShortcuts({ onOpenSettings: () => setSettingsOpen(true) });
 
   // Load test-begroting on startup
   const defaultLoaded = useRef(false);
@@ -245,7 +246,7 @@ function App() {
         try {
           const { readTextFile } = await import('@tauri-apps/plugin-fs');
           const content = await readTextFile(filePath);
-          const fileName = filePath.replace(/\\/g, '/').split('/').pop()?.replace(/\.(ifcx|json|ocs)$/i, '') ?? 'Begroting';
+          const fileName = fileNameFromPath(filePath) || 'Begroting';
           openProjectJson(content, fileName, filePath);
         } catch (err) {
           console.error('[App] Failed to auto-open file from query param:', err);
@@ -332,9 +333,8 @@ function App() {
   useEffect(() => {
     if (!('__TAURI_INTERNALS__' in window)) return;
     const id = setInterval(() => {
-      const s = useAppStore.getState();
-      const doc = s.documents.find((d) => d.id === s.activeDocumentId);
-      if (s.settings.autoSave && doc?.isModified && doc.filePath) {
+      // Alleen native bestanden en niet tijdens "Opslaan / Niet opslaan" (knownbugs 120, 281).
+      if (shouldAutoSave(useAppStore.getState(), closingWindow.current || isUnsavedDialogOpen())) {
         void saveFileForClose();
       }
     }, Math.max(30_000, useAppStore.getState().settings.autoSaveInterval || 120_000));
@@ -394,6 +394,7 @@ function App() {
 
   useEffect(() => {
     applyTheme(theme);
+    return followSystemTheme(theme);
   }, [theme]);
 
   // Left panel resize handler

@@ -1200,7 +1200,8 @@
       "missing": "Bu çalışma alanı artık mevcut değil.",
       "nameRequired": "Bir çalışma alanı adı girin.",
       "customOnly": "Yalnızca kendi kaydettiğiniz çalışma alanlarının üzerine yazılabilir.",
-      "limit": "En fazla 20 çalışma alanı kaydedebilirsiniz."
+      "limit": "En fazla 20 çalışma alanı kaydedebilirsiniz.",
+      "duplicateName": "Bu adla bir çalışma alanı zaten var."
     },
     "report": {
       "quotationDesktopRequired": "Teklif PDF'leri masaüstü uygulamasını gerektirir.",

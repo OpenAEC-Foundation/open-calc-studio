@@ -36,6 +36,10 @@
   --theme-focus-color: var(--oa-focus);
   --theme-danger-color: var(--oa-error);
   --theme-danger-hover: var(--oa-error);
+  /* Sluitknoppen (venster, dialoog): wit kruis op vast rood, in elk thema
+     leesbaar (knownbug 216; #C42B1C zoals Windows). */
+  --theme-close-hover-bg: #C42B1C;
+  --theme-close-active-bg: #A1251A;
   --theme-editable-text: var(--oa-accent-text);
   --theme-editable-bg: var(--oa-selected);
   --theme-dialog-shadow: var(--oa-shadow-dialog);
@@ -163,6 +167,20 @@
   --theme-app-menu-shortcut: var(--oa-text-secondary);
   --theme-app-menu-shortcut-hover: var(--oa-text);
   --theme-app-menu-divider: var(--oa-border);
+}
+
+/* Secundaire knoppen en schuifbalken: blueprint en de high-contrast-thema's
+   hebben geen eigen blok in themes.css (knownbug 215). Alleen voor die thema's,
+   zodat light en dark hun bestaande waarden uit themes.css houden. */
+[data-theme="blueprint"],
+[data-theme="high-contrast-dark"],
+[data-theme="high-contrast-light"] {
+  --theme-btn-secondary-bg: var(--oa-raised);
+  --theme-btn-secondary-text: var(--oa-text);
+  --theme-btn-secondary-hover-bg: var(--oa-hover);
+  --theme-btn-secondary-hover-border: var(--oa-border-strong);
+  --theme-scrollbar-track: var(--oa-panel);
+  --theme-scrollbar-thumb: var(--oa-text-disabled);
 }
 
 .start-sidebar { background: var(--oa-panel); }

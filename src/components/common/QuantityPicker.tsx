@@ -122,7 +122,7 @@ export function QuantityPicker({ onPick, onClose }: Props) {
                   <button
                     onClick={pickSpreadsheet}
                     disabled={!cellRef}
-                    style={{ padding: '8px 16px', background: 'var(--theme-accent)', color: 'white', border: 'none', borderRadius: 4, cursor: 'pointer', fontSize: 12 }}
+                    style={{ padding: '8px 16px', background: 'var(--theme-accent)', color: 'var(--theme-accent-text)', border: 'none', borderRadius: 4, cursor: 'pointer', fontSize: 12 }}
                   >{t('quantityPicker.linkCell')}</button>
                 </>
               )}
@@ -177,7 +177,7 @@ export function QuantityPicker({ onPick, onClose }: Props) {
                           <button
                             key={k}
                             onClick={() => pickIfc(q, k)}
-                            style={{ padding: '4px 8px', fontSize: 11, background: 'var(--theme-accent)', color: 'white', border: 'none', borderRadius: 3, cursor: 'pointer' }}
+                            style={{ padding: '4px 8px', fontSize: 11, background: 'var(--theme-accent)', color: 'var(--theme-accent-text)', border: 'none', borderRadius: 3, cursor: 'pointer' }}
                           >{k}: {q[k]?.toFixed(2)}</button>
                         )
                       ))}

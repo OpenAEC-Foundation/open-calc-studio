@@ -1,6 +1,7 @@
 import { localStore } from '@/utils/browserStorage';
 import { useAppStore } from '@/state/appStore';
 import { deserializeProject, serializeProject } from './fileService';
+import { mergeResourceLibraries } from './documentSnapshot';
 import { getSiteHost, hostRecentPath, type HostVersion } from './siteHost';
 import { openImportResult, openProjectJson } from './openProject';
 import { spreadsheetsData } from './documentSnapshot';
@@ -57,7 +58,7 @@ function snapshot(documentId: string): string {
   const schedule = { ...(active ? state.schedule : doc.schedule), projectInfo: context.projectInfo };
   const serialized = JSON.parse(serializeProject(schedule, active ? state.items : doc.items, context.companyInfo, spreadsheetsData(context), context.offerte, context.snapshots));
   return JSON.stringify({ ...doc.hostProject, ...serialized,
-    resourceLibrary: doc.hostProject?.resourceLibrary ?? serialized.resourceLibrary,
+    resourceLibrary: mergeResourceLibraries(doc.hostProject?.resourceLibrary, serialized.resourceLibrary),
     createdAt: doc.hostProject?.createdAt ?? serialized.createdAt,
   }, null, 2);
 }

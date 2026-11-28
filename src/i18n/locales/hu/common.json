@@ -1200,7 +1200,8 @@
       "missing": "Ez a munkaterület már nem létezik.",
       "nameRequired": "Adjon meg egy munkaterületnevet.",
       "customOnly": "Csak a saját mentett munkaterületei írhatók felül.",
-      "limit": "Legfeljebb 20 munkaterületet menthet."
+      "limit": "Legfeljebb 20 munkaterületet menthet.",
+      "duplicateName": "Már létezik ilyen nevű munkaterület."
     },
     "report": {
       "quotationDesktopRequired": "Az árajánlat PDF-jéhez az asztali alkalmazás szükséges.",
