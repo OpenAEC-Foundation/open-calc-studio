@@ -21,11 +21,13 @@ cursief en vet cursief), ingebouwd vanuit
 `libs/openaec-reports/src/openaec_reports/assets/fonts/`. Liberation Sans valt
 onder de SIL Open Font License 1.1; de licentietekst staat in de broncode in die
 map en in de geleverde app in `licenses/LICENSE-Liberation`.
-Voor tekens die Liberation Sans mist, gebruiken de Typst-rapporten ook Noto Sans
-(de kopie onder `src/styles/blueprint/fonts/`) en Noto Sans Arabic (normaal en
-vet, uit `src-tauri/fonts/`, met bron en SHA-256 in de README daar). Beide vallen
-onder de SIL Open Font License 1.1; in de geleverde app staan de licenties in
-`licenses/blueprint/NotoSans-OFL.txt` en `licenses/NotoSansArabic-OFL.txt`.
+Voor tekens die Liberation Sans mist, gebruiken de PDF-rapporten ook Noto Sans
+(de kopie onder `src/styles/blueprint/fonts/`). Een deelverzameling daarvan,
+Noto Sans Arabic (normaal en vet), Noto Sans Thai en Noto Sans Bengali staan in
+`src-tauri/fonts/`, met bron en SHA-256 in de README daar. Ze vallen allemaal onder
+de SIL Open Font License 1.1; in de geleverde app staan de licenties in
+`licenses/blueprint/NotoSans-OFL.txt`, `licenses/NotoSansArabic-OFL.txt`,
+`licenses/NotoSansThai-OFL.txt` en `licenses/NotoSansBengali-OFL.txt`.
 
 JavaScript-, Rust- en systeembibliotheken behouden hun eigen licenties. De
 headless serverbuild schrijft een `THIRD-PARTY-NOTICES.txt` met de daadwerkelijk

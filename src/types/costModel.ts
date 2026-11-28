@@ -467,6 +467,8 @@ export interface DocumentTab {
   hostProject?: ProjectFile;
   /** @internal Per-tab UI/history context; use the individual store actions. */
   context?: Omit<DocumentData, 'items' | 'schedule'>;
+  /** @internal `createdAt` of the opened project file, written back on save (knownbug 110). */
+  createdAt?: string;
   items: CostItem[];
   schedule: CostSchedule;
 }

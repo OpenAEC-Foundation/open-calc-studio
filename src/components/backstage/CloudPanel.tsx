@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/state/appStore';
-import { deserializeProject } from '@/services/file/fileService';
+import { openProjectJson } from '@/services/file/openProject';
 import type { CloudFile } from '@/state/slices/accountsSlice';
 
 /**
@@ -100,12 +100,9 @@ export function CloudPanel({ onClose }: { onClose: () => void }) {
   const handleOpen = (id: string, name: string) =>
     run(id, async () => {
       const content = await cloudDownload(id);
-      const project = deserializeProject(content) as any;
-      const store = useAppStore.getState() as any;
-      store.addDocument({ fileName: name });
-      if (project.schedule) store.setSchedule(project.schedule);
-      if (Array.isArray(project.items)) store.setItems(project.items);
-      store.recalculate();
+      // Zelfde pad als een lokaal bestand: ook offerte, bedrijfsgegevens,
+      // spreadsheets, versies en projectinfo komen mee (knownbug 70).
+      openProjectJson(content, name.replace(OPENABLE, ''));
       onClose();
     });
 

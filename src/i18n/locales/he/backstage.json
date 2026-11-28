@@ -61,7 +61,7 @@
     "tradDesc": "פורמט ההחלפה IBIS Trad (.xml)",
     "rsxDesc": "החלפת מפרטי CROW RAW (.rsx/.xml)",
     "rsuDesc": "החלפת RAW‎ ישנה (.rsu) — דרך מסלול ה-RSX",
-    "bc3Desc": "אומדנים ספרדיים (.bc3); גם ספר מחירים נפתח כאומדן",
+    "bc3Desc": "אומדנים ספרדיים (.bc3); למאגר מחירים השתמשו בספריית מחירים למטה",
     "onlvDesc": "כתב כמויות אוסטרי ÖNORM A 2063 (.onlv) או קטלוג טקסטים תקניים (.onlb)",
     "zsxTitle": "מחירון (ZSX)",
     "zsxDesc": "מחירון כספריית מחירים עצמית (.zsx/.xml)",
@@ -84,8 +84,8 @@
     "groupLibrary": "ספריית מחירים",
     "groupLibraryHint": "נשמרת במחשב הזה, כך שכל אומדן יכול להשתמש בה. לא יוצרת אומדן.",
     "groupOther": "אחר",
-    "libraryTableTitle": "מחירון (Excel / CSV / JSON)",
-    "libraryTableDesc": "מחירון משלך או של ספק, עם תצוגה מקדימה של העמודות (.xlsx/.csv/.json)"
+    "libraryTableTitle": "מחירון (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "מחירון משלך או של ספק, עם תצוגה מקדימה של העמודות (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "גודל",

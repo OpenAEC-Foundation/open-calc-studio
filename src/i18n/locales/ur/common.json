@@ -750,6 +750,10 @@
       "looksLikePriceList": "یہ نرخ نامہ لگتا ہے: کوڈ اور قیمتیں، مقداریں نہیں۔",
       "importAsLibrary": "اس کے بجائے قیمت لائبریری کے طور پر درآمد کریں",
       "ownNotPriceXml": "یہ XML فائل BMEcat کیٹلاگ یا ZSX نرخ نامہ نہیں ہے۔ کیا یہ تخمینہ ہے (CUF، GAEB، RSX، …)؟ اسے درآمد → نیا تخمینہ سے کھولیں۔",
+      "ownBc3NoConcepts": "کوئی ~C ریکارڈ نہیں ملا؛ کیا یہ BC3 فائل ہے؟",
+      "ownBc3Negative": "چھوڑ دیے گئے کیونکہ قیمت منفی ہے ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "بغیر قیمت کے درآمد کیے گئے کیونکہ فائل میں قیمت 0 ہے ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "فائل اپنی کرنسی نہیں بتاتی۔ پرانی BC3 فائلیں اکثر پیسیٹا میں ہوتی ہیں: استعمال سے پہلے قیمتیں جانچ لیں۔",
       "selectAll": "تمام تبدیلیاں منتخب کریں",
       "ownDuplicates": "ایک سے زیادہ بار آنے والے کوڈز کو لاحقہ دیا گیا (~2، ~3) ({{count}}): {{codes}}۔",
       "libraryNotLoaded": "لائبریری “{{name}}” اس تخمینے میں لوڈ نہیں ہے۔ قطار اپنی قیمت برقرار رکھتی ہے؛ قیمتوں کی تازہ کاری دیکھنے کے لیے لائبریری آن کریں۔",
@@ -926,6 +930,10 @@
       },
       "dncImporter": {
         "noKKTableItemsFoundInThe": ".DNC فائل میں کوئی KK جدول (مدات) نہیں ملا۔"
+      },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} اکائی جس کا کوئی متبادل نہیں، بغیر تبدیلی رکھی گئی: {{examples}}۔",
+        "unknownUnitsKept_other": "{{count}} اکائیاں جن کا کوئی متبادل نہیں، بغیر تبدیلی رکھی گئیں: {{examples}}۔"
       },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "کوئی <ARTICLE>/<PRODUCT> عنصر نہیں ملا۔ کیا یہ BMEcat/DICO کیٹلاگ ہے؟",

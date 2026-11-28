@@ -1,4 +1,5 @@
 import { readWorkbook } from '@/services/importers/safeWorkbook';
+import { decodeCsvText } from '@/services/importers/genericTabularImporter';
 import * as XLSX from 'xlsx';
 import type { CostSchedule, CostItem, CostUnit, ProjectFile } from '../../types/costModel';
 import { BudgetBuilder, genId, genIfcGuid } from '../importers/core';
@@ -34,7 +35,7 @@ function schedule(name: string, currency: string): CostSchedule {
 /** Regional spreadsheets require a reviewed profile. XLS is readable but never re-created as a tender template. */
 export function importBudgetTable(data: Uint8Array, fileName: string, profile?: BudgetTableProfile): { project: ProjectFile; warnings: string[] } {
   const wb = /\.csv$/i.test(fileName)
-    ? readWorkbook(new TextDecoder('utf-8',{fatal:true}).decode(data),{type:'string',raw:true})
+    ? readWorkbook(decodeCsvText(data),{type:'string',raw:true})
     : readWorkbook(data,{type:'array',raw:true});
   const warnings: string[] = ['Normalized direct costs only: original layout, formulas, macros, taxes and overhead are not reproduced.'];
   const b = new BudgetBuilder();
@@ -59,7 +60,9 @@ export function importBudgetTable(data: Uint8Array, fileName: string, profile?: 
       const rawUnit = String(cell(r,c.unit) ?? '').trim();
       if (!description && !rawUnit && cell(r,c.quantity) == null && cell(r,c.price) == null) continue;
       if (!description || !rawUnit) throw new Error(`Row ${r} is not an item (missing description/unit). Narrow the profile row range.`);
-      const unit = knownUnits.has(rawUnit) ? rawUnit as CostUnit : unitMap[rawUnit.toLowerCase()];
+      // Hoofdletterongevoelig: "St" en "M" zijn st en m (knownbug 86).
+      const lowerUnit = rawUnit.toLowerCase();
+      const unit = knownUnits.has(rawUnit) ? rawUnit as CostUnit : knownUnits.has(lowerUnit) ? lowerUnit as CostUnit : unitMap[lowerUnit];
       if (!unit) throw new Error(`Unmapped unit "${rawUnit}" at row ${r}. Add a reviewed unit mapping.`);
       b.add({rowType:'begrotingspost',code:String(cell(r,c.code) ?? ''),description,unit,quantity:numeric(cell(r,c.quantity),profile.decimalSeparator,`row ${r} quantity`),materialPrice:numeric(cell(r,c.price),profile.decimalSeparator,`row ${r} price`)});
     }

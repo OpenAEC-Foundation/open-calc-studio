@@ -750,6 +750,10 @@
       "looksLikePriceList": "Isto parece uma lista de preços: códigos e preços, sem quantidades.",
       "importAsLibrary": "Importar antes como biblioteca de preços",
       "ownNotPriceXml": "Este ficheiro XML não é um catálogo BMEcat nem uma lista de preços ZSX. É um orçamento (CUF, GAEB, RSX, …)? Abra-o com Importar → Novo orçamento.",
+      "ownBc3NoConcepts": "nenhum registo ~C encontrado; é um ficheiro BC3?",
+      "ownBc3Negative": "Omitidos porque o preço é negativo ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "Importados sem preço porque o preço no ficheiro é 0 ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "O ficheiro não indica a moeda. Ficheiros BC3 antigos estão muitas vezes em pesetas: verifique os preços antes de os usar.",
       "selectAll": "Selecionar todas as alterações",
       "ownDuplicates": "Os códigos repetidos receberam um sufixo (~2, ~3) ({{count}}): {{codes}}.",
       "libraryNotLoaded": "A biblioteca «{{name}}» não está carregada neste orçamento. A linha mantém o seu preço; ative a biblioteca para rever as atualizações de preços.",
@@ -926,6 +930,10 @@
       },
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Nenhuma tabela KK (artigos) encontrada no ficheiro .DNC."
+      },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} unidade sem equivalente foi mantida inalterada: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} unidades sem equivalente foram mantidas inalteradas: {{examples}}."
       },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Nenhum elemento <ARTICLE>/<PRODUCT> encontrado. Trata-se de um catálogo BMEcat/DICO?",

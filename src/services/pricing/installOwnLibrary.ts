@@ -21,7 +21,11 @@ export async function installOwnLibrary(prepared: PreparedOwnLibrary, { askRepla
   return true;
 }
 
-/** What to tell the user after an import: count, repeated codes, codes no longer in a new version. */
+/**
+ * What to tell the user after an import: count, repeated codes, codes no
+ * longer in a new version, and what the file reader warned about (for
+ * example a BC3 file without currency, #127).
+ */
 export function ownLibraryImportedMessage(prepared: PreparedOwnLibrary): string {
   const parts = [uiText('pricing.ownImported', '“{{name}}” imported: {{count}} resources. It is kept on this computer.', { name: prepared.library.name, count: prepared.library.count })];
   if (prepared.duplicates.length > 0) {
@@ -30,5 +34,7 @@ export function ownLibraryImportedMessage(prepared: PreparedOwnLibrary): string 
   if (prepared.dropped.length > 0) {
     parts.push(uiText('pricing.ownDropped', 'No longer in the new version ({{count}}): {{codes}}. Rows that use them keep their price.', { count: prepared.dropped.length, codes: listCodes(prepared.dropped) }));
   }
+  // Each warning as its own sentence, also when the text has no full stop.
+  parts.push(...prepared.warnings.map(w => /[.!?。！？]$/.test(w.trim()) ? w : `${w}.`));
   return parts.join(' ');
 }

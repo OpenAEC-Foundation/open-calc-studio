@@ -750,6 +750,10 @@
       "looksLikePriceList": "Схоже на прайс-лист: коди й ціни, без кількостей.",
       "importAsLibrary": "Натомість імпортувати як бібліотеку цін",
       "ownNotPriceXml": "Цей XML-файл не є каталогом BMEcat чи прайс-листом ZSX. Це кошторис (CUF, GAEB, RSX, …)? Відкрийте його через Імпорт → Новий кошторис.",
+      "ownBc3NoConcepts": "записів ~C не знайдено; це файл BC3?",
+      "ownBc3Negative": "Пропущено, бо ціна від'ємна ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "Імпортовано без ціни, бо ціна у файлі дорівнює 0 ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "У файлі не вказано валюту. Старі файли BC3 часто в песетах: перевірте ціни перед використанням.",
       "selectAll": "Вибрати всі зміни",
       "ownDuplicates": "Коди, що повторюються, отримали суфікс (~2, ~3) ({{count}}): {{codes}}.",
       "libraryNotLoaded": "Бібліотека «{{name}}» не завантажена в цьому кошторисі. Рядок зберігає свою ціну; увімкніть бібліотеку, щоб переглянути оновлення цін.",
@@ -926,6 +930,12 @@
       },
       "dncImporter": {
         "noKKTableItemsFoundInThe": "У файлі .DNC не знайдено таблиці KK (позиції)."
+      },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} одиницю без відповідника збережено без змін: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} одиниць без відповідника збережено без змін: {{examples}}.",
+        "unknownUnitsKept_few": "{{count}} одиниці без відповідника збережено без змін: {{examples}}.",
+        "unknownUnitsKept_many": "{{count}} одиниць без відповідника збережено без змін: {{examples}}."
       },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Не знайдено елементів <ARTICLE>/<PRODUCT>. Це каталог BMEcat/DICO?",

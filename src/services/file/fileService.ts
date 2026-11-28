@@ -22,6 +22,7 @@ function createProjectFile(
   spreadsheets?: SpreadsheetsData | SubSheet[],
   offerte?: OfferteDocument,
   snapshots?: ProjectSnapshot[],
+  createdAt?: string,
 ): ProjectFile {
   const spreadsheetsData: SpreadsheetsData = Array.isArray(spreadsheets)
     ? { sheets: spreadsheets, activeSheetId: spreadsheets[0]?.id ?? null }
@@ -35,7 +36,8 @@ function createProjectFile(
     spreadsheets: spreadsheetsData,
     offerte,
     snapshots: snapshots && snapshots.length > 0 ? snapshots : undefined,
-    createdAt: new Date().toISOString(),
+    // De aanmaakdatum van een geopend bestand blijft staan (knownbug 110).
+    createdAt: createdAt ?? new Date().toISOString(),
     modifiedAt: new Date().toISOString(),
   };
 }
@@ -47,8 +49,9 @@ export function serializeProject(
   spreadsheets?: SpreadsheetsData | SubSheet[],
   offerte?: OfferteDocument,
   snapshots?: ProjectSnapshot[],
+  createdAt?: string,
 ): string {
-  return JSON.stringify(createProjectFile(schedule, items, companyInfo, spreadsheets, offerte, snapshots), null, 2);
+  return JSON.stringify(createProjectFile(schedule, items, companyInfo, spreadsheets, offerte, snapshots, createdAt), null, 2);
 }
 
 /** Migrate a v1 item (with isChapter, resources, rowType='normal') to v2 format */

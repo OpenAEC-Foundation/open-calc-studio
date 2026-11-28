@@ -750,6 +750,10 @@
       "looksLikePriceList": "این به فهرست قیمت شبیه است: کدها و قیمت\u200cها، بدون مقادیر.",
       "importAsLibrary": "به\u200cجای آن به\u200cعنوان کتابخانه قیمت وارد شود",
       "ownNotPriceXml": "این فایل XML کاتالوگ BMEcat یا فهرست قیمت ZSX نیست. آیا برآورد است (CUF، GAEB، RSX، …)؟ آن را با ورودی → برآورد جدید باز کنید.",
+      "ownBc3NoConcepts": "هیچ رکورد ~C پیدا نشد؛ آیا این فایل BC3 است؟",
+      "ownBc3Negative": "کنار گذاشته شد چون قیمت منفی است ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "بدون قیمت وارد شد چون قیمت در فایل 0 است ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "فایل واحد پول را مشخص نمی‌کند. فایل‌های قدیمی BC3 اغلب به پزتا هستند: پیش از استفاده قیمت‌ها را بررسی کنید.",
       "selectAll": "انتخاب همه تغییرات",
       "ownDuplicates": "کدهای تکراری یک پسوند گرفتند (~2، ~3) ({{count}}): {{codes}}.",
       "libraryNotLoaded": "کتابخانه «{{name}}» در این برآورد بارگذاری نشده است. ردیف قیمت خود را حفظ می\u200cکند؛ برای بررسی به\u200cروزرسانی قیمت\u200cها کتابخانه را فعال کنید.",
@@ -926,6 +930,10 @@
       },
       "dncImporter": {
         "noKKTableItemsFoundInThe": "هیچ جدول KK (ردیف‌ها) در فایل ‎.DNC یافت نشد."
+      },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} واحد بدون معادل بدون تغییر نگه داشته شد: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} واحد بدون معادل بدون تغییر نگه داشته شدند: {{examples}}."
       },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "هیچ عنصر <ARTICLE>/<PRODUCT> یافت نشد. آیا این یک کاتالوگ BMEcat/DICO است؟",

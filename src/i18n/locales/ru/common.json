@@ -750,6 +750,10 @@
       "looksLikePriceList": "Похоже на прайс-лист: коды и цены, без количеств.",
       "importAsLibrary": "Импортировать как библиотеку цен",
       "ownNotPriceXml": "Этот XML-файл не является каталогом BMEcat или прайс-листом ZSX. Это смета (CUF, GAEB, RSX, …)? Откройте его через Импорт → Новая смета.",
+      "ownBc3NoConcepts": "записи ~C не найдены; это файл BC3?",
+      "ownBc3Negative": "Пропущены, так как цена отрицательная ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "Импортированы без цены, так как цена в файле равна 0 ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "В файле не указана валюта. Старые файлы BC3 часто в песетах: проверьте цены перед использованием.",
       "selectAll": "Выбрать все изменения",
       "ownDuplicates": "Повторяющиеся коды получили суффикс (~2, ~3) ({{count}}): {{codes}}.",
       "libraryNotLoaded": "Библиотека «{{name}}» не загружена в этой смете. Строка сохраняет свою цену; включите библиотеку, чтобы просмотреть обновления цен.",
@@ -926,6 +930,12 @@
       },
       "dncImporter": {
         "noKKTableItemsFoundInThe": "В файле .DNC не найдена таблица KK (позиции)."
+      },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} единица без соответствия сохранена без изменений: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} единиц без соответствия сохранены без изменений: {{examples}}.",
+        "unknownUnitsKept_few": "{{count}} единицы без соответствия сохранены без изменений: {{examples}}.",
+        "unknownUnitsKept_many": "{{count}} единиц без соответствия сохранены без изменений: {{examples}}."
       },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Элементы <ARTICLE>/<PRODUCT> не найдены. Это каталог BMEcat/DICO?",

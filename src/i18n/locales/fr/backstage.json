@@ -61,7 +61,7 @@
     "tradDesc": "Format d'échange IBIS Trad (.xml)",
     "rsxDesc": "Échange de cahier des charges CROW RAW (.rsx/.xml)",
     "rsuDesc": "Ancien échange RAW (.rsu) — via la route RSX",
-    "bc3Desc": "Devis espagnols (.bc3) ; un bordereau de prix s'ouvre aussi comme devis",
+    "bc3Desc": "Devis espagnols (.bc3) ; pour une base de prix, utilisez Bibliothèque de prix ci-dessous",
     "onlvDesc": "Devis autrichien ÖNORM A 2063 (.onlv) ou catalogue de textes types (.onlb)",
     "zsxTitle": "Liste de prix (ZSX)",
     "zsxDesc": "Liste de prix comme bibliothèque de prix personnelle (.zsx/.xml)",
@@ -84,8 +84,8 @@
     "groupLibrary": "Bibliothèque de prix",
     "groupLibraryHint": "Conservée sur cet ordinateur pour que chaque devis puisse l'utiliser. Ne crée pas de devis.",
     "groupOther": "Autre",
-    "libraryTableTitle": "Liste de prix (Excel / CSV / JSON)",
-    "libraryTableDesc": "Votre liste de prix ou celle d'un fournisseur, avec aperçu des colonnes (.xlsx/.csv/.json)"
+    "libraryTableTitle": "Liste de prix (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "Votre liste de prix ou celle d'un fournisseur, avec aperçu des colonnes (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "Taille",

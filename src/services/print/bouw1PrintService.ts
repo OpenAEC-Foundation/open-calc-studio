@@ -14,6 +14,7 @@ import type { CostItem, CostSchedule, CompanyInfo } from '@/types/costModel';
 import { effectiveTarieven, getStaartBreakdown } from '@/services/calculation/calculator';
 import { isStagartRowType } from '@/types/costModel';
 import { makeReportContext, type ReportContext } from '@/i18n/reportI18n';
+import { formatReportDate } from '@/utils/localDate';
 
 function esc(text: string): string {
   return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -29,17 +30,21 @@ interface Bouw1Fmt {
   force: (value: number) => string;
   /** Normen: drie decimalen, leeg bij 0/null. */
   norm: (value: number | null) => string;
+  /** Percentage in de rapporttaal ("0,5 %"), hoogstens twee decimalen (knownbug 125). */
+  pct: (value: number) => string;
 }
 
 function makeBouw1Fmt(ctx: ReportContext): Bouw1Fmt {
   const nf2 = new Intl.NumberFormat(ctx.intlLocale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const nf3 = new Intl.NumberFormat(ctx.intlLocale, { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+  const nfPct = new Intl.NumberFormat(ctx.intlLocale, { maximumFractionDigits: 2 });
   return {
     ctx,
     t: ctx.t,
     num: (value) => (value === null || value === undefined || value === 0 ? '' : nf2.format(value)),
     force: (value) => nf2.format(value),
     norm: (value) => (value === null || value === undefined || value === 0 ? '' : nf3.format(value)),
+    pct: (value) => `${nfPct.format(value)} %`,
   };
 }
 
@@ -269,7 +274,7 @@ export function buildBouw1Html(
 ): string {
   const fx = makeBouw1Fmt(ctx);
   const { t } = ctx;
-  const today = new Date().toLocaleDateString(ctx.intlLocale, { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const today = formatReportDate(schedule.reportDate, ctx.intlLocale);
   const bouw1Rows = computeBouw1Rows(items, schedule);
   const hasStaart = items.some(item => isStagartRowType(item.rowType));
   const breakdown = hasStaart ? getStaartBreakdown(items) : null;
@@ -326,7 +331,7 @@ export function buildBouw1Html(
   }
 
   // Summary section
-  let summaryHtml = buildSummarySection(colTotals, breakdown, hasStaart, fx);
+  let summaryHtml = buildSummarySection(colTotals, breakdown, hasStaart, fx, items);
 
   const actionsHtml = includeActions
     ? `<div class="print-actions">
@@ -335,8 +340,16 @@ export function buildBouw1Html(
 </div>`
     : '';
 
-  const logoHtml = logoDataUrl
-    ? `<img src="${logoDataUrl}" class="company-logo" alt="Logo" />`
+  // Zonder meegegeven logo: het linker logo uit de bedrijfsgegevens, zoals
+  // de Bouw 1-PDF (logo-left.png) dat ook doet (knownbug 129).
+  // Via MCP kan logoLeft als kale base64-PNG binnenkomen (zonder 'data:').
+  const rawLogoLeft = companyInfo?.logoLeft?.trim() || '';
+  const logoLeftSrc = rawLogoLeft && !rawLogoLeft.startsWith('data:')
+    ? `data:image/png;base64,${rawLogoLeft}`
+    : rawLogoLeft;
+  const logoSrc = logoDataUrl || logoLeftSrc;
+  const logoHtml = logoSrc
+    ? `<img src="${esc(logoSrc)}" class="company-logo" alt="Logo" />`
     : `<div class="company-name-large">${esc(companyName)}</div>`;
 
   return `<!DOCTYPE html>
@@ -495,10 +508,28 @@ function buildSummarySection(
   breakdown: ReturnType<typeof getStaartBreakdown> | null,
   hasStaart: boolean,
   fx: Bouw1Fmt,
+  items: CostItem[] = [],
 ): string {
   const { t } = fx;
   const fmtNLForce = fx.force;
   const lbl = (key: string) => esc(t(key));
+
+  // Opslagen oude stijl (BasCalc-imports: ukk, ak, w&r) staan niet in de vaste
+  // Bouw 1-regels hieronder. Toon ze als eigen regel en tel ze mee, anders is
+  // het totaal excl. btw lager dan in het grid (knownbug 128).
+  const legacyRow = (item: CostItem) => `
+      <tr>
+        <td>${esc(item.description || '')}</td>
+        <td class="num">${fx.pct(item.staartPercentage ?? 0)}</td>
+        <td colspan="5"></td>
+        <td class="num">${fx.num(item.staartItemBreakdown?.bedrag ?? null)}</td>
+        <td class="num">${fmtNLForce(item.total)}</td>
+        <td></td>
+      </tr>`;
+  const legacyRows = (rowTypes: string[]) => items
+    .filter(i => rowTypes.includes(i.rowType) && i.total !== 0)
+    .map(legacyRow).join('');
+  const legacyKostprijs = (breakdown?.ukkAmount ?? 0) + (breakdown?.akAmount ?? 0);
   const kostprijs = breakdown?.kostprijs ?? (colTotals.loon + colTotals.materiaal + colTotals.materieel + colTotals.stelpost + colTotals.ondaann);
   const akBasis = colTotals.loon + colTotals.materiaal + colTotals.materieel;
 
@@ -523,7 +554,9 @@ function buildSummarySection(
   const wvPct = breakdown?.wvpmPercentage ?? 2;
   const wvAmount = breakdown?.wvpmAmount ?? akBasis * (wvPct / 100);
 
-  const totaalKostprijs = breakdown?.kostprijsBouw1 ?? (kostprijs + akOndAmount + akAmount + garantieAmount + wvAmount);
+  const totaalKostprijs = breakdown
+    ? breakdown.kostprijsBouw1 + legacyKostprijs
+    : (kostprijs + akOndAmount + akAmount + garantieAmount + wvAmount);
 
   // Risico, winst, verzekering
   const risicoPct = breakdown?.risicoPercentage ?? 3;
@@ -534,7 +567,8 @@ function buildSummarySection(
   const winst = breakdown?.winstAmount ?? totaalKostprijs * (winstPct / 100);
   const verzekering = breakdown?.verzekeringAmount ?? totaalKostprijs * (verzekeringPct / 100);
 
-  const totaalExclBtw = breakdown?.aanneemsomExcl ?? (totaalKostprijs + risico + winst + verzekering);
+  // aanneemsom = aanneemsomExcl plus de opslagen oude stijl
+  const totaalExclBtw = breakdown?.aanneemsom ?? (totaalKostprijs + risico + winst + verzekering);
   const btwPct = breakdown?.btwPercentage ?? 21;
 
   return `
@@ -572,7 +606,7 @@ function buildSummarySection(
 
       <tr>
         <td>${lbl('summary.overheadSubcontract')}</td>
-        <td class="num">${akOndPct} %</td>
+        <td class="num">${fx.pct(akOndPct)}</td>
         <td></td><td></td><td></td><td></td>
         <td class="num">${fmtNLForce(akOndAmount)}</td>
         <td></td>
@@ -582,7 +616,7 @@ function buildSummarySection(
 
       <tr>
         <td>${lbl('summary.generalOverhead')}</td>
-        <td class="num">${akPct} %</td>
+        <td class="num">${fx.pct(akPct)}</td>
         <td class="num">${fmtNLForce(colTotals.loon * akPct / 100)}</td>
         <td class="num">${fmtNLForce(colTotals.materiaal * akPct / 100)}</td>
         <td class="num">${fmtNLForce(colTotals.materieel * akPct / 100)}</td>
@@ -594,7 +628,7 @@ function buildSummarySection(
 
       <tr>
         <td>${lbl('summary.guarantees')}</td>
-        <td class="num">${garantiePct} %</td>
+        <td class="num">${fx.pct(garantiePct)}</td>
         <td class="num">${fmtNLForce(colTotals.loon * garantiePct / 100)}</td>
         <td class="num">${fmtNLForce(colTotals.materiaal * garantiePct / 100)}</td>
         <td class="num">${fmtNLForce(colTotals.materieel * garantiePct / 100)}</td>
@@ -606,7 +640,7 @@ function buildSummarySection(
 
       <tr>
         <td>${lbl('summary.preparation')}</td>
-        <td class="num">${wvPct} %</td>
+        <td class="num">${fx.pct(wvPct)}</td>
         <td class="num">${fmtNLForce(colTotals.loon * wvPct / 100)}</td>
         <td class="num">${fmtNLForce(colTotals.materiaal * wvPct / 100)}</td>
         <td class="num">${fmtNLForce(colTotals.materieel * wvPct / 100)}</td>
@@ -615,6 +649,8 @@ function buildSummarySection(
         <td></td>
         <td></td>
       </tr>
+
+      ${legacyRows(['staart_ukk', 'staart_ak'])}
 
       <tr class="summary-kostprijs">
         <td>${lbl('summary.totalCostPrice')}</td>
@@ -631,7 +667,7 @@ function buildSummarySection(
 
       <tr>
         <td>${lbl('summary.risk')}</td>
-        <td class="num">${risicoPct} %</td>
+        <td class="num">${fx.pct(risicoPct)}</td>
         <td colspan="4"></td>
         <td></td>
         <td class="num">${fmtNLForce(totaalKostprijs)}</td>
@@ -641,7 +677,7 @@ function buildSummarySection(
 
       <tr>
         <td>${lbl('summary.profit')}</td>
-        <td class="num">${winstPct} %</td>
+        <td class="num">${fx.pct(winstPct)}</td>
         <td colspan="4"></td>
         <td></td>
         <td class="num">${fmtNLForce(totaalKostprijs)}</td>
@@ -651,19 +687,20 @@ function buildSummarySection(
 
       <tr>
         <td>${lbl('summary.insurance')}</td>
-        <td class="num">${verzekeringPct} %</td>
+        <td class="num">${fx.pct(verzekeringPct)}</td>
         <td colspan="4"></td>
         <td></td>
         <td class="num">${fmtNLForce(totaalKostprijs)}</td>
         <td class="num">${fmtNLForce(verzekering)}</td>
         <td></td>
       </tr>
+      ${legacyRows(['staart_wr'])}
 
       ${(() => {
         // Excl-eindbedrag (incl. afronding); btw uit de breakdown zodat de
         // hoog/laag-verdeling van de staart-items 1-op-1 wordt overgenomen.
         const exclEind = hasStaart && breakdown
-          ? breakdown.aanneemsomExcl + breakdown.afronding
+          ? breakdown.aanneemsom + breakdown.afronding
           : totaalExclBtw;
         const btwLaagGrondslag = breakdown?.btwLaagGrondslag ?? 0;
         const btwLaagPct = breakdown?.btwLaagPercentage ?? 9;
@@ -673,7 +710,7 @@ function buildSummarySection(
         const btwLaagRow = btwLaagGrondslag > 0 ? `
       <tr>
         <td>${lbl('summary.vatLow')}</td>
-        <td class="num">${btwLaagPct} %</td>
+        <td class="num">${fx.pct(btwLaagPct)}</td>
         <td colspan="5"></td>
         <td class="num">${fmtNLForce(btwLaagGrondslag)}</td>
         <td class="num">${fmtNLForce(btwLaag)}</td>
@@ -688,7 +725,7 @@ function buildSummarySection(
       ${btwLaagRow}
       <tr>
         <td>${lbl('summary.vatHigh')}</td>
-        <td class="num">${btwPct} %</td>
+        <td class="num">${fx.pct(btwPct)}</td>
         <td colspan="5"></td>
         <td class="num">${fmtNLForce(btwGrondslag)}</td>
         <td class="num">${fmtNLForce(btwHoog)}</td>

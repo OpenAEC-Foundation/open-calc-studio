@@ -1,5 +1,6 @@
 import { readWorkbookForValues } from '@/services/importers/safeWorkbook';
 import { cellIssueKind, type TabularCellIssue } from '@/services/importers/genericTabularImporter';
+import { parseAmount } from '@/services/importers/core';
 import * as XLSX from 'xlsx';
 import type { CostItem } from '../../types/costModel';
 
@@ -75,12 +76,22 @@ export async function parseExcelFileFromPath(filePath: string): Promise<ParsedEx
   }
 }
 
+/**
+ * Een getal dat als tekst in een cel staat, streng gelezen: "6,5" is 6,5 en
+ * "1.234,5" is 1234,5; tekst als "12abc" is geen getal (knownbug 83).
+ */
+function textCellNumber(text: string): number | null {
+  const s = text.trim();
+  if (!/^[+-]?[\d\s.,]+$/.test(s) || !/\d/.test(s)) return null;
+  const parsed = parseAmount(s);
+  return parsed.invalid ? null : parsed.value;
+}
+
 /** Numeric value of a picker cell value, or null when it is not a number. */
 export function toPickerNumber(val: string | number | null | undefined): number | null {
   if (typeof val === 'number') return Number.isFinite(val) ? val : null;
   if (val === null || val === undefined) return null;
-  const n = parseFloat(String(val));
-  return Number.isFinite(n) ? n : null;
+  return textCellNumber(String(val));
 }
 
 /** Why the cell at an Excel address (e.g. "B4") has no usable value, or null. */
@@ -188,8 +199,8 @@ export async function updateAllExcelLinks(items: CostItem[]): Promise<{
           return item;
         }
 
-        const newQty = typeof cellObj.v === 'number' ? cellObj.v : parseFloat(String(cellObj.v));
-        if (isNaN(newQty)) {
+        const newQty = toPickerNumber(typeof cellObj.v === 'number' ? cellObj.v : String(cellObj.v ?? ''));
+        if (newQty === null) {
           errors.push(`Cel ${cell} bevat geen getal in ${sheet} (${filePath})`);
           return item;
         }
