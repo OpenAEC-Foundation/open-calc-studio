@@ -99,9 +99,14 @@
   border-radius: 3px;
 }
 
-.chat-close:hover {
+.chat-close:hover:not(:disabled) {
   background: var(--theme-border);
   color: var(--theme-text);
+}
+
+.chat-close:disabled {
+  opacity: 0.4;
+  cursor: default;
 }
 
 .chat-messages {

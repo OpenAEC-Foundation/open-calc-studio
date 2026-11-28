@@ -143,7 +143,9 @@ function App() {
   const [isDetachedWindow, setIsDetachedWindow] = useState(false);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+    // Ingebouwd is de query-string van de gastpagina; een component is nooit een
+    // losgekoppeld venster (knownbug 182).
+    const params = new URLSearchParams(isEmbedded() ? '' : window.location.search);
     const fileParam = params.get('file');
     const tParam = params.get('_t');
     if (fileParam) {
@@ -258,8 +260,9 @@ function App() {
           // Wait a tick so settings/extensions are initialised first
           await new Promise(r => setTimeout(r, 50));
           if (window.__OCS_CONTAINER__ || PLATFORM_BUILD || getSiteHost() || restoredDraft || useAppStore.getState().documents.length > 0) return;
-          // Ingebouwd bepaalt de gastpagina of het voorbeeld opengaat.
-          if (isEmbedded() && !getEmbedOptions().autoSample) return;
+          // Ingebouwd opent de component (src/lib/index.tsx) het voorbeeld zelf als de
+          // gastpagina `sample` zet; hier ook openen gaf twee tabbladen (knownbug 183).
+          if (isEmbedded()) return;
           await openSampleBudget();
         } catch (err) {
           console.warn('[App] Could not auto-load voorbeeldbegroting:', err);

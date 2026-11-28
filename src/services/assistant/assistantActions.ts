@@ -139,6 +139,13 @@ export function validateActies(acties: AssistantActie[], items: CostItem[]): str
   return errors;
 }
 
+/** Een ```ocs-acties-blok zonder sluitende fence: het antwoord is afgekapt. Vangt ook de
+ *  OpenAEC-accountroute af, die geen `stop_reason` doorgeeft (knownbug 170). */
+export function hasUnclosedActionBlock(text: string): boolean {
+  const start = text.lastIndexOf('```ocs-acties');
+  return start >= 0 && text.indexOf('```', start + '```ocs-acties'.length) < 0;
+}
+
 export function parseActies(text: string): { acties: AssistantActie[]; cleanText: string } {
   const match = text.match(/```(?:ocs-acties|json)?\s*\n?(\{[\s\S]*?\})\s*```/);
   if (!match) return { acties: [], cleanText: text };

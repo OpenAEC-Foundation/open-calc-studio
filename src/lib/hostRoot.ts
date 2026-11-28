@@ -11,8 +11,6 @@
  */
 
 export interface EmbedOptions {
-  /** Voorbeeldbegroting openen als er niets geladen is (standaard uit). */
-  autoSample?: boolean;
   /** Thema van de gastpagina; wint van de opgeslagen voorkeur. */
   theme?: string;
   /** Interfacetaal van de gastpagina; wint van de opgeslagen voorkeur. */
@@ -44,6 +42,12 @@ export function getEmbedOptions(): EmbedOptions {
 
 export function setHostRoot(el: HTMLElement | null): void {
   host = el;
+  // Component weg: de portal-wrapper ook uit <body> halen; getPortalTarget maakt
+  // bij een volgende mount een nieuwe (knownbug 185).
+  if (!el && portal) {
+    portal.remove();
+    portal = null;
+  }
   if (el) {
     for (const [name, value] of pending) {
       el.setAttribute(name, value);

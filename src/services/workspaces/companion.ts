@@ -33,9 +33,13 @@ export async function openCompanionWindow(): Promise<void> {
     if (state.items === previous.items && state.schedule === previous.schedule && state.subSheets === previous.subSheets && state.activeDocumentId === previous.activeDocumentId && state.activeItemId === previous.activeItemId && state.settings === previous.settings) return;
     clearTimeout(timer); timer = setTimeout(send, 200);
   });
-  const alive = setInterval(() => { if (!closed) channel.postMessage({ type: 'alive' }); }, 4000);
+  // Of het venster echt dicht is; 'bye' alleen betekent ook herladen (knownbug 184).
+  let windowClosed = () => false;
+  const alive = setInterval(() => { if (windowClosed()) dispose(); else if (!closed) channel.postMessage({ type: 'alive' }); }, 4000);
   const dispose = () => { if (closed) return; closed = true; unsubscribe(); clearInterval(alive); clearTimeout(timer); channel.close(); current = undefined; };
-  channel.onmessage = event => { if (event.data?.type === 'ready') { ready = true; send(); } else if (event.data?.type === 'bye') dispose(); };
+  // 'bye' komt ook bij herladen: dan stoppen met sturen tot de nieuwe pagina 'ready' zegt,
+  // maar het kanaal openhouden. Opruimen gebeurt pas als het venster echt dicht is (knownbug 184).
+  channel.onmessage = event => { if (event.data?.type === 'ready') { ready = true; send(); } else if (event.data?.type === 'bye') ready = false; };
   const url = new URL(window.location.href); url.search = ''; url.searchParams.set('companion', id); url.hash = '';
   try {
     let focus: () => Promise<void>;
@@ -48,6 +52,7 @@ export async function openCompanionWindow(): Promise<void> {
     } else {
       const popup = window.open(url.href, `ocs-companion-${id}`, 'popup,width=1100,height=850');
       if (!popup) throw Error(uiText('companion.blocked', 'Allow the second-screen window in your browser and try again.'));
+      windowClosed = () => popup.closed;
       focus = async () => { if (popup.closed) throw Error('closed'); popup.focus(); };
     }
     current = { focus, dispose };

@@ -36,6 +36,9 @@ export function proposalBasis(items: CostItem[], schedule: CostSchedule): string
 const compareFields: (keyof CostItem)[] = ['description', 'code', 'quantity', 'unit', 'normUnitPrice', 'normQuantity', 'laborPrice', 'materialPrice', 'tariefGroep', 'resourceType', 'total', 'parentId'];
 export function createAssistantProposal(actions: AssistantActie[], documentId: string, items: CostItem[], schedule: CostSchedule): AssistantProposal {
   if (!actions.length || actions.length > 100) throw Error(uiText('proposal.actionLimit', 'Provide between 1 and 100 proposed changes.'));
+  // Elke actie moet een object zijn; `[null]` via MCP gaf anders een kale TypeError (knownbug 174).
+  const invalid = actions.findIndex(action => !action || typeof action !== 'object' || Array.isArray(action));
+  if (invalid >= 0) throw Error(uiText('chat.actions.invalid', '{{p0}}: invalid action.', { p0: uiText('chat.actions.action', 'Action {{p0}}', { p0: invalid + 1 }) }));
   const { items: afterItems, results } = simulateActies(actions, items, schedule);
   const before = new Map(items.map(item => [item.id, item]));
   const after = new Map(afterItems.map(item => [item.id, item]));

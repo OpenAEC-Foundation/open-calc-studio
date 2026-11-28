@@ -39,7 +39,8 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { execFile } from "node:child_process";
-import { readFileSync, writeFileSync, accessSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, accessSync, existsSync, mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { createRequire } from "node:module";
 import * as crypto from "node:crypto";
 import { basename, dirname, extname, join, resolve } from "node:path";
@@ -1409,14 +1410,18 @@ server.tool("save_budget", "Save current budget to an .ifcx file", {
     if (!NATIVE_BUDGET_EXTENSIONS.has(extname(out).toLowerCase())) {
       throw new Error('save_budget schrijft uitsluitend .ifcCalc, .ocs, .json of .ifcx. Kies een nieuw native bestandspad.');
     }
+    // Bladen, bibliotheek en varianten wijzigen via MCP alleen in de schaduwstaat;
+    // die is dus de bron bij opslaan (knownbug 176). In 2.1-vorm (spreadsheets-object).
+    ensureShadowFromBudget();
+    const prevSpreadsheets = (b.project as ProjectFile).spreadsheets as Record<string, unknown> | undefined;
+    const schedule: CostSchedule = shadow.branches.length > 0 || (b.schedule as any).branches !== undefined
+      ? { ...b.schedule, branchesEnabled: shadow.branchesEnabled, activeBranchId: shadow.activeBranchId ?? undefined, branches: shadow.branches } as CostSchedule
+      : b.schedule;
     const pf: ProjectFile = {
-      version: FILE_FORMAT_VERSION, schedule: b.schedule, items: b.items,
-      resourceLibrary: b.project.resourceLibrary ?? [],
+      version: FILE_FORMAT_VERSION, schedule, items: b.items,
+      resourceLibrary: shadow.resourceLibrary,
       companyInfo: b.project.companyInfo,
-      // 2.1-vorm behouden: spreadsheets-object doorzetten als het bestond,
-      // anders afleiden uit legacy subSheets — nooit stilletjes droppen.
-      spreadsheets: (b.project as ProjectFile).spreadsheets
-        ?? { sheets: b.project.subSheets ?? [], activeSheetId: (b.project.subSheets as Array<{ id?: string }> | undefined)?.[0]?.id ?? null },
+      spreadsheets: { ...(prevSpreadsheets ?? {}), sheets: shadow.sheets, activeSheetId: shadow.activeSheetId ?? shadow.sheets[0]?.id ?? null },
       offerte: b.project.offerte,
       snapshots: b.project.snapshots,
       brandSlug: b.project.brandSlug,
@@ -1556,10 +1561,13 @@ server.tool("export_pdf", "Generate a PDF report from the current budget", {
   outputPath: z.string().describe("Output PDF path"),
   reportView: z.enum(["werkbeschrijving", "hoofdaanneming", "onderaanneming", "inschrijfstaat", "nacalculatie", "bouw1", "offerte"]).optional().default("bouw1").describe("Report view"),
 }, async ({ outputPath, reportView }) => {
+  let tmpDir: string | null = null;
   try {
     const b = req();
-    // Save to temp file, run gen_pdf, return
-    const tmp = b.filePath.replace(/\.[^.]+$/, '_mcp_tmp.ifcx');
+    // Tijdelijk bestand in de temp-map, niet naast de begroting van de gebruiker (die
+    // heeft na een import geen pad), en altijd opgeruimd (knownbugs 178, 179).
+    tmpDir = mkdtempSync(join(tmpdir(), 'ocs-mcp-pdf-'));
+    const tmp = join(tmpDir, 'budget.ifcx');
     writeFileSync(tmp, JSON.stringify({
       // Alleen de rijen van de gekozen variant, net als de app (knownbug 165).
       version: FILE_FORMAT_VERSION, schedule: b.schedule, items: variantCalculatedItems(b.items as never, pdfVariantScope()),
@@ -1575,16 +1583,17 @@ server.tool("export_pdf", "Generate a PDF report from the current budget", {
     let bin: string | null = null;
     for (const c of bins) { try { accessSync(c); bin = c; break; } catch { /* skip */ } }
     if (!bin) {
-      try { accessSync(tmp); require('node:fs').unlinkSync(tmp); } catch { /* skip */ }
       return err("gen_pdf not found. Build: cd src-tauri && cargo build --bin gen_pdf");
     }
     await execFileAsync(bin, [tmp, resolve(outputPath), '--report-view', reportView ?? 'bouw1'], {
       timeout: 60000, cwd: REPO_ROOT,
       env: { ...process.env, OCS_REPORT_VIEW: reportView ?? 'bouw1' },
     });
-    try { require('node:fs').unlinkSync(tmp); } catch { /* skip */ }
     return ok({ success: true, pdfPath: resolve(outputPath) });
   } catch (e: unknown) { return err((e as Error).message); }
+  finally {
+    if (tmpDir) rmSync(tmpDir, { recursive: true, force: true });
+  }
 });
 
 // â”€â”€ Batch / Smart Tools â”€â”€
@@ -1691,7 +1700,15 @@ server.tool("import_uittrekstaat", "Parse a tab-separated quantity takeoff table
 }, async ({ data, sectionTitle, defaultUnit }) => {
   try {
     const b = req();
-    const defUnit = (defaultUnit as CostUnit) || 'm\u00B2';
+    // Eenheden uit de tabel; de sleutels waren verminkt ('mÂ²') en defaultUnit werd
+    // ongewijzigd opgeslagen (knownbug 180).
+    const unitMap: Record<string, CostUnit> = {
+      'm': 'm', 'm2': 'm\u00B2', 'm\u00B2': 'm\u00B2', 'm3': 'm\u00B3', 'm\u00B3': 'm\u00B3',
+      'kg': 'kg', 'st': 'st', 'stuk': 'st', 'stuks': 'st', 'uur': 'uur', 'post': 'post',
+      'ton': 'ton', 'km': 'km', 'ls': 'ls', 'week': 'week',
+    };
+    const unitKey = (value: string) => value.toLowerCase().replace(/\s/g, '');
+    const defUnit: CostUnit = defaultUnit ? (unitMap[unitKey(defaultUnit)] ?? defaultUnit as CostUnit) : 'm\u00B2';
 
     // Parse TSV lines
     const lines = data.split('\n').map(l => l.replace(/\r$/, ''));
@@ -1750,16 +1767,10 @@ server.tool("import_uittrekstaat", "Parse a tab-separated quantity takeoff table
         for (let ci = 1; ci < cols.length; ci++) {
           const val = cols[ci];
           if (!val) continue;
-          // Check if it's a unit
-          const unitMap: Record<string, CostUnit> = {
-            'mm': defUnit, 'm': 'm', 'm2': 'm\u00B2', 'mÂ²': 'm\u00B2',
-            'm3': 'm\u00B3', 'mÂ³': 'm\u00B3', 'kg': 'kg', 'st': 'st',
-            'stuk': 'st', 'stuks': 'st', 'uur': 'uur', 'post': 'post',
-            'ton': 'ton', 'km': 'km', 'ls': 'ls', 'week': 'week',
-          };
-          const lv = val.toLowerCase().replace(/\s/g, '');
-          if (unitMap[lv]) {
-            unit = unitMap[lv];
+          // Check if it's a unit ('mm' is de maateenheid van de afmetingen: standaardeenheid)
+          const lv = unitKey(val);
+          if (lv === 'mm' || unitMap[lv]) {
+            unit = lv === 'mm' ? defUnit : unitMap[lv];
             continue;
           }
           // Check if it's a number (could be quantity, dimension, etc.)
@@ -2011,23 +2022,29 @@ const shadow: ShadowState = {
   activeDocumentId: null,
 };
 
+/** De begroting waaruit de schaduwstaat het laatst is gevuld. */
+let shadowSource: typeof currentBudget = null;
+
+/**
+ * Vult de schaduwstaat (bladen, varianten, bibliotheek) uit de open begroting, één keer
+ * per begroting. Daarna is de schaduwstaat leidend en schrijft save_budget hem terug (#176).
+ * Na open_budget van een andere begroting begint hij opnieuw; vroeger bleven de bladen
+ * van de vorige begroting staan (knownbug 177).
+ */
 function ensureShadowFromBudget() {
-  if (!currentBudget) return;
+  if (!currentBudget || shadowSource === currentBudget) return;
+  // Wat zonder open begroting is aangemaakt, gaat mee naar de eerste begroting.
+  const carry = shadowSource === null;
+  shadowSource = currentBudget;
   const sched: any = currentBudget.schedule;
-  if (sched.branches && shadow.branches.length === 0) {
-    shadow.branches = sched.branches;
-    shadow.branchesEnabled = !!sched.branchesEnabled;
-    shadow.activeBranchId = sched.activeBranchId ?? null;
-  }
-  const lib = (currentBudget.project.resourceLibrary as ResourceLibraryItem[] | undefined);
-  if (lib && shadow.resourceLibrary.length === 0) {
-    shadow.resourceLibrary = lib;
-  }
-  const sheets = (currentBudget.project.subSheets as SubSheet[] | undefined)
-    ?? (currentBudget.project as any).spreadsheets?.sheets;
-  if (sheets && shadow.sheets.length === 0) {
-    shadow.sheets = sheets;
-  }
+  const fresh = <T,>(list: T[] | undefined, kept: T[]) => [...(carry ? kept : []), ...(list ?? []).map(entry => structuredClone(entry))];
+  shadow.branches = fresh(sched.branches as BranchInfo[] | undefined, shadow.branches);
+  shadow.branchesEnabled = (carry && shadow.branchesEnabled) || !!sched.branchesEnabled;
+  shadow.activeBranchId = sched.activeBranchId ?? (carry ? shadow.activeBranchId : null);
+  shadow.resourceLibrary = fresh(currentBudget.project.resourceLibrary as ResourceLibraryItem[] | undefined, shadow.resourceLibrary);
+  const spreadsheets = (currentBudget.project as any).spreadsheets as { sheets?: SubSheet[]; activeSheetId?: string | null } | undefined;
+  shadow.sheets = fresh((currentBudget.project.subSheets as SubSheet[] | undefined) ?? spreadsheets?.sheets, shadow.sheets);
+  shadow.activeSheetId = spreadsheets?.activeSheetId ?? (carry ? shadow.activeSheetId : null);
 }
 
 // ===========================================================================

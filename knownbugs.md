@@ -321,83 +321,6 @@ stand van `main` op die datum.
 
 ## Assistent, MCP en extensies
 
-168. **De MCP-actielijst is verouderd, dus geldige calls worden geweigerd.** `src/services/mcp/desktopActions.json`
-     is niet opnieuw gegenereerd na e48901a / `quantityOrigin.ts:13`. Nagespeeld:
-     `updateSettings({partial:{showChatBubble:false}})` faalt met "unknown field"; ook `setItems`/`addDocument`
-     met regels die `verified` dragen (PDF-meting) falen. Voorstel: `npm run generate:mcp-actions`, plus een test
-     die controleert dat het bestand bij is. — B
-
-169. **Een extensie installeren uit een ZIP kiest het verkeerde hoofdbestand, en fouten blijven stil.**
-     `src/extensions/extensionService.ts:257`, `:162-163`; `ExtensionManagerPanel.tsx:53,256`. De eerste map wordt
-     altijd weggehaald, ook als de ZIP er geen heeft, dus `dist/main.js` geeft "Main file not found".
-     `endsWith(mainPath)` vindt `domain.js` bij `main.js`. Een `false`-resultaat negeert de UI. Nagespeeld.
-     Voorstel: de map alleen weghalen als elk item hem deelt; op een exact pad matchen; de fout tonen. — B
-
-170. **Lange antwoorden van de assistent worden afgekapt en het voorstel verdwijnt stil.**
-     `src/components/chat/ChatPanel.tsx:148` (`max_tokens: 1024`, geen controle op `stop_reason`). Nagespeeld: wie
-     om ongeveer 25 of meer regels vraagt, gaat over de limiet; het actieblok is onvolledig en de gebruiker krijgt
-     een "klaar"-bubbel met half geschreven JSON. Voorstel: `max_tokens` verhogen; een fout tonen bij
-     `stop_reason === 'max_tokens'`. — B
-
-171. **Een extensie waarvan `onLoad` een fout gooit, laat haar UI en event listeners achter.**
-     `src/extensions/extensionLoader.ts:148-151`: de `catch` roept `api._cleanup()` niet aan, dus haar UI-elementen
-     en listeners worden niet opgeruimd; opnieuw inschakelen verdubbelt de listeners. Voorstel:
-     `api._cleanup()` aanroepen in de catch. — S
-
-172. **Enter in de chat verstuurt tijdens IME-invoer en zonder open document.** `ChatPanel.tsx:240-245`.
-     Voorstel: `e.nativeEvent.isComposing` / keyCode 229 controleren; `activeDocId` controleren in `handleSend`. — S
-
-173. **De chatgeschiedenis groeit onbeperkt en is niet te wissen.** In `src/state/slices/chatSlice.ts` wordt
-     `clearChat` nooit aangeroepen en ruimt `removeDocument` niet op; `ChatPanel.tsx:196-202` stuurt de hele
-     geschiedenis mee. Een lang gesprek gaat zo op den duur over de contextlimiet, en die chat blijft dan stuk.
-     Voorstel: de chat wissen bij `removeDocument`, de meegestuurde geschiedenis inkorten, een wisknop toevoegen. — S
-
-174. **`assistant.preview` met `actions: [null]` geeft een kale TypeError** (`assistantProposal.ts:49-52`). — S
-
-176. **`remove_sheet` in de losse MCP-server gaat verloren bij opslaan.** `mcp-server/src/index.ts:2042` (`filter`
-     verbreekt de koppeling met de bladlijst van het project), `:1386-1388` (`save_budget` slaat de lijst van het
-     project op). Ook: bij begrotingen uit `ensureBudgetForImport` (`:3099`) worden via MCP toegevoegde bladen
-     nooit opgeslagen. Voorstel: sla `shadow.sheets` / `shadow.resourceLibrary` op in `save_budget`. — B
-
-177. **Na `open_budget` blijven de bladen van de vorige begroting hangen.** `mcp-server/src/index.ts:1972-1990`
-     (`ensureShadowFromBudget` vult alleen als het leeg is), `:1090`. Open A en dan B: `list_sheets` toont nog
-     het blad van A, en `set_cell` schrijft in de verkeerde begroting. Voorstel: zet de kopie in het geheugen
-     terug als `currentBudget` verandert. — B
-
-178. **`export_pdf` laat `<budget>_mcp_tmp.ifcx` naast de begroting van de gebruiker staan.**
-     `mcp-server/src/index.ts:1519`, `:1536`, `:1543`: een kale `require` gooit onder tsx/ESM een fout die wordt
-     ingeslikt, en bij een fout wordt niets opgeruimd. Voorstel: `os.tmpdir()`, `unlinkSync` importeren, en
-     verwijderen in `finally`. — B
-
-179. **`export_pdf` faalt altijd voor geïmporteerde begrotingen (`open ''` ENOENT).** `mcp-server/src/index.ts:1519`
-     (`filePath` is `''`). Voorstel: dezelfde oplossing als #178. — B
-
-180. **`import_uittrekstaat` herkent `m²`/`m³` niet.** `mcp-server/src/index.ts:1713-1714`: de sleutels zijn in
-     de broncode verminkt (`'mÂ²'`); `defaultUnit:'m2'` (het eigen voorbeeld van de tool) wordt ongewijzigd
-     opgeslagen. Voorstel: `'m²'`, `'m³'`, en `defaultUnit` door dezelfde tabel halen. — B
-
-182. **Ingebed toont de component soms ten onrechte de knop "Dock to main window" en slaat hij de mobiele
-     layout over.** De controle op een losgekoppeld venster zou bij een ingebedde component overgeslagen moeten
-     worden. — S
-
-183. **`sample: true` in embed kan de voorbeeldbegroting twee keer openen.** `src/App.tsx:262-270` +
-     `openSampleBudget` (`App.tsx:80`) tegenover `src/lib/index.tsx:122-130`. Gesimuleerd: als de sample-chunk
-     er langer dan 50 ms over doet, openen er twee tabbladen "Sample estimate". Voorstel: één pad, of na de
-     await opnieuw `documents.length > 0` controleren. — B
-
-184. **Het tweede-schermvenster herladen blijft hangen op "Waiting for the main window…".**
-     `src/components/layout/CompanionWindow.tsx:46-49`, `src/services/workspaces/companion.ts:28-29`: `bye` bij
-     beforeunload laat het hoofdvenster zijn kanaal sluiten, dus de `ready`-berichten van de herladen pagina
-     bereiken niemand. Klik je daarna opnieuw op "second screen", dan opent er een tweede venster. Voorstel:
-     `bye` behandelen als losgekoppeld zonder dispose; alleen disposen als het venster echt dicht is. — S
-
-185. **De portal-wrapper van de embed blijft na unmount in `<body>` staan** (laag). In
-     `src/lib/hostRoot.ts:84-93`. Voorstel: de portal verwijderen en `portal` leegmaken bij
-     `setHostRoot(null)`. — S
-
-186. **Met een tweede documentvenster open verschijnt een via de API toegevoegde regel in beide documenten.**
-     Alleen het hoofdvenster zou API-wijzigingen moeten verwerken. — B
-
 187. **Bestandskoppeling werkt onbetrouwbaar** (`src-tauri/src/lib.rs:262-274`). Op macOS wordt
      `RunEvent::Opened` genegeerd, dus de app opent leeg. Op Windows/Linux gaat het event één keer af na vaste
      800 ms, zodat het bij een koude start gemist kan worden. Een tweede dubbelklik start een tweede app-proces.
@@ -414,6 +337,11 @@ stand van `main` op die datum.
      heeft een eigen `onDoubleClick` naast `data-tauri-drag-region`, terwijl Tauri's `drag.js` al zelf
      schakelt. Afgeleid uit de code; nog nakijken in een echt venster. Voorstel: `onDoubleClick` weghalen. — S
 
+301. **Een extensie-ZIP met een data descriptor (bit 3) wordt niet gelezen.** `parseZipEntries` in
+     `src/extensions/extensionService.ts` leest de gecomprimeerde grootte uit de local file header. Tools die
+     streamend inpakken (bit 3 gezet) zetten daar 0 en schrijven de grootte pas na de data, dus de parser leest
+     een leeg bestand en stopt bij de volgende "header". Gezien in de code, niet nagespeeld met zo'n ZIP.
+     Voorstel: de groottes uit de central directory lezen, of de bestaande xlsx/JSZip-bibliotheek gebruiken. — S
 303. **De losse MCP-server houdt eigen celwaarden bij die afwijken van de app.** `set_cell` en `set_cells_batch` in
      `mcp-server/src/index.ts:2092-2142` zetten `computed` met `parseFloat` (`6,66` wordt 6, `1.234,56` wordt
      1.234), rekenen formules niet uit en vervangen de hele cel (opmaak weg). `get_cell` (`:2110`) leest die kopie,
@@ -617,15 +545,6 @@ stand van `main` op die datum.
      eerder data of deadlines. De knop opent de betalingstermijnen (`__termijnen`). Gezien in de vertalingen bij
      de fix van knownbug 245 (DE/PL). Voorstel: per taal het woord van
      `common:workspace.quotationDefaults.payments` gebruiken (EN "Payment schedule"). — S
-
-## Tests en tooling
-
-304. **`src/services/mcp/desktopActions.json` loopt achter op de store-types.** `npm run generate:mcp-actions` geeft
-     op `main` (ee1edf6) zo'n 180 regels verschil: onder meer `expression` bij regels en `priceCountry`/
-     `priceLibraries` in het schema ontbreken. Het schema heeft `additionalProperties: false`, dus zulke velden
-     worden mogelijk geweigerd (niet nagespeeld). `desktopCommand.test.ts` controleert alleen of elke actie erin
-     staat, niet of de schema's kloppen. Gevonden bij de fix van knownbugs 52 en 55. Voorstel: de catalogus
-     opnieuw genereren en een test die faalt als hij achterloopt. — B
 
 ## Wensen en open taken (geen bug)
 

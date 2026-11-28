@@ -24,6 +24,7 @@
     "noExtensionsHint": "Klik på “ZIP” eller “JS” for at installere en udvidelse, eller gennemse kataloget.",
     "catalogLoading": "Indlæser katalog …",
     "catalogError": "Kataloget kan ikke indlæses: ",
+    "installFailed": "Installationen mislykkedes: ",
     "retry": "Prøv igen",
     "noCatalogResults": "Ingen udvidelser fundet i kataloget.",
     "installing": "Installerer …",

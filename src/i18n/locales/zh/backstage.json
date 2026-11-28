@@ -24,6 +24,7 @@
     "noExtensionsHint": "点击“ZIP”或“JS”安装扩展，或浏览目录。",
     "catalogLoading": "正在加载目录…",
     "catalogError": "无法加载目录：",
+    "installFailed": "安装失败：",
     "retry": "重试",
     "noCatalogResults": "目录中未找到扩展。",
     "installing": "正在安装…",

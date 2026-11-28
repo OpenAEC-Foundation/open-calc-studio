@@ -24,6 +24,7 @@
     "noExtensionsHint": "Bofya \"ZIP\" au \"JS\" kusakinisha kiendelezi, au vinjari katalogi.",
     "catalogLoading": "Inapakia katalogi...",
     "catalogError": "Imeshindwa kupakia katalogi: ",
+    "installFailed": "Usakinishaji umeshindwa: ",
     "retry": "Jaribu tena",
     "noCatalogResults": "Hakuna viendelezi vilivyopatikana kwenye katalogi.",
     "installing": "Inasakinisha...",

@@ -24,6 +24,7 @@
     "noExtensionsHint": "Klicka på ”ZIP” eller ”JS” för att installera ett tillägg, eller bläddra i katalogen.",
     "catalogLoading": "Läser in katalogen …",
     "catalogError": "Katalogen kan inte läsas in: ",
+    "installFailed": "Installationen misslyckades: ",
     "retry": "Försök igen",
     "noCatalogResults": "Inga tillägg hittades i katalogen.",
     "installing": "Installerar …",

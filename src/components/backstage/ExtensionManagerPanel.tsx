@@ -12,9 +12,11 @@ import {
   installFromCatalog,
 } from '../../extensions';
 import type { InstalledExtension, CatalogEntry, ExtensionCategory } from '../../extensions/types';
+import type { InstallResult } from '../../extensions/extensionService';
 import './ExtensionManagerPanel.css';
 
 type TabId = 'installed' | 'browse';
+type RunInstall = (install: () => Promise<InstallResult>) => Promise<void>;
 
 const CATEGORY_COLORS: Record<ExtensionCategory, string> = {
   'Import/Export': '#06b6d4',
@@ -28,6 +30,13 @@ export default function ExtensionManagerPanel() {
   const { t } = useTranslation('backstage');
   const [activeTab, setActiveTab] = useState<TabId>('installed');
   const [search, setSearch] = useState('');
+  // Een mislukte installatie bleef stil (knownbug 169); toon de reden.
+  const [installError, setInstallError] = useState<string | null>(null);
+  const runInstall = useCallback<RunInstall>(async (install) => {
+    setInstallError(null);
+    const result = await install();
+    if (!result.ok && result.error) setInstallError(result.error);
+  }, []);
 
   return (
     <div className="ext-manager">
@@ -50,13 +59,13 @@ export default function ExtensionManagerPanel() {
         </div>
 
         <div className="ext-manager-actions">
-          <button className="ext-install-btn" onClick={() => installFromFile()} title={t('extensionManager.installFromZip')}>
+          <button className="ext-install-btn" onClick={() => runInstall(installFromFile)} title={t('extensionManager.installFromZip')}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
             </svg>
             ZIP
           </button>
-          <button className="ext-install-btn" onClick={() => installFromJsFile()} title={t('extensionManager.installFromJs')}>
+          <button className="ext-install-btn" onClick={() => runInstall(installFromJsFile)} title={t('extensionManager.installFromJs')}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><path d="M14 2v6h6" />
             </svg>
@@ -73,8 +82,12 @@ export default function ExtensionManagerPanel() {
         onChange={(e) => setSearch(e.target.value)}
       />
 
+      {installError && (
+        <p className="ext-card-error-msg" role="alert">{t('extensionManager.installFailed')}{installError}</p>
+      )}
+
       {activeTab === 'installed' && <InstalledTab search={search} />}
-      {activeTab === 'browse' && <BrowseTab search={search} />}
+      {activeTab === 'browse' && <BrowseTab search={search} runInstall={runInstall} />}
     </div>
   );
 }
@@ -193,7 +206,7 @@ function InstalledExtensionCard({ ext }: { ext: InstalledExtension }) {
   );
 }
 
-function BrowseTab({ search }: { search: string }) {
+function BrowseTab({ search, runInstall }: { search: string; runInstall: RunInstall }) {
   const { t } = useTranslation('backstage');
   const catalogEntries = useAppStore((s) => s.catalogEntries);
   const catalogLoading = useAppStore((s) => s.catalogLoading);
@@ -241,21 +254,22 @@ function BrowseTab({ search }: { search: string }) {
           key={entry.id}
           entry={entry}
           isInstalled={!!installed[entry.id]}
+          runInstall={runInstall}
         />
       ))}
     </div>
   );
 }
 
-function CatalogCard({ entry, isInstalled }: { entry: CatalogEntry; isInstalled: boolean }) {
+function CatalogCard({ entry, isInstalled, runInstall }: { entry: CatalogEntry; isInstalled: boolean; runInstall: RunInstall }) {
   const { t } = useTranslation('backstage');
   const [installing, setInstalling] = useState(false);
 
   const handleInstall = useCallback(async () => {
     setInstalling(true);
-    await installFromCatalog(entry);
+    await runInstall(() => installFromCatalog(entry));
     setInstalling(false);
-  }, [entry]);
+  }, [entry, runInstall]);
 
   return (
     <div className="ext-card">
