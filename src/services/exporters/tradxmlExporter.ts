@@ -1,6 +1,6 @@
 import type { ExportInput, ExportResult } from './types';
 import type { CostItem } from '@/types/costModel';
-import { buildXml, formatDutch, denormalizeUnit, wrapRootPosts, currencyNotInFormatWarning, type XmlNode } from './xmlBuilder';
+import { buildXml, formatDutchPrecise, denormalizeUnit, wrapRootPosts, currencyNotInFormatWarning, type XmlNode } from './xmlBuilder';
 
 export function exportTradxml(input: ExportInput): ExportResult {
   const _warnings: string[] = [];
@@ -49,9 +49,9 @@ function renderActivity(a: CostItem): XmlNode {
     tag: 'Activiteit',
     attrs: { code: a.code, omschrijving: a.description },
     children: [
-      { tag: 'Hoeveelheid', children: [formatDutch(a.quantity ?? 0, 2)] },
+      { tag: 'Hoeveelheid', children: [formatDutchPrecise(a.quantity ?? 0)] },
       { tag: 'Eenheid', children: [denormalizeUnit(a.unit ?? 'st')] },
-      { tag: 'Eenheidsprijs', children: [formatDutch(a.unitPrice ?? 0, 2)] },
+      { tag: 'Eenheidsprijs', children: [formatDutchPrecise(a.unitPrice ?? 0)] },
     ],
   };
 }

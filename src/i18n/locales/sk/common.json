@@ -687,6 +687,7 @@
       "error": {
         "calibrate": "Najprv kalibrujte mierku.",
         "points": "Nedostatok platných bodov merania.",
+        "selfIntersecting": "Obrys plochy pretína sám seba. Kliknite na rohy postupne okolo tvaru.",
         "size": "Použite vložené PDF do veľkosti 30 MB.",
         "notPdf": "Tento súbor nie je PDF.",
         "export": "Použite export meraní z integrácie Open Calc v Open PDF Studio.",

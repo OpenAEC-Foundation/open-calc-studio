@@ -685,6 +685,7 @@
       "error": {
         "calibrate": "Sawazisha mizani kwanza.",
         "points": "Pointi halali za kupima hazitoshi.",
+        "selfIntersecting": "Mzunguko wa eneo unajikata wenyewe. Bofya pembe kwa mpangilio kuzunguka umbo.",
         "size": "Tumia PDF iliyopachikwa isiyozidi MB 30.",
         "notPdf": "Faili hii si PDF.",
         "export": "Tumia uhamishaji wa vipimo kutoka muunganisho wa Open Calc katika Open PDF Studio.",

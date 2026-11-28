@@ -685,6 +685,7 @@
       "error": {
         "calibrate": "Hãy hiệu chỉnh tỷ lệ trước.",
         "points": "Không đủ điểm đo hợp lệ.",
+        "selfIntersecting": "Đường bao của diện tích tự cắt nhau. Hãy nhấp vào các góc theo thứ tự quanh hình.",
         "size": "Dùng tệp PDF nhúng tối đa 30 MB.",
         "notPdf": "Tệp này không phải là PDF.",
         "export": "Dùng chức năng xuất phép đo của tích hợp Open Calc trong Open PDF Studio.",

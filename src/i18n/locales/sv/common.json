@@ -685,6 +685,7 @@
       "error": {
         "calibrate": "Kalibrera skalan först.",
         "points": "Inte tillräckligt många giltiga mätpunkter.",
+        "selfIntersecting": "Ytans kontur korsar sig själv. Klicka på hörnen i ordning runt formen.",
         "size": "Använd en inbäddad PDF på högst 30 MB.",
         "notPdf": "Den här filen är inte en PDF.",
         "export": "Använd mätningsexporten från Open Calc-integrationen i Open PDF Studio.",

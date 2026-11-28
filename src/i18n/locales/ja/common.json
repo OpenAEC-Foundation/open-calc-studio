@@ -685,6 +685,7 @@
       "error": {
         "calibrate": "先に縮尺を校正してください。",
         "points": "有効な計測点が不足しています。",
+        "selfIntersecting": "面積の輪郭が自己交差しています。形状に沿って角を順番にクリックしてください。",
         "size": "30 MB 以下の埋め込み PDF を使用してください。",
         "notPdf": "このファイルは PDF ではありません。",
         "export": "Open PDF Studio の Open Calc 連携から計測結果のエクスポートを使用してください。",

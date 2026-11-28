@@ -685,6 +685,7 @@
       "error": {
         "calibrate": "Kalibrasi skala terlebih dahulu.",
         "points": "Titik pengukuran yang valid tidak cukup.",
+        "selfIntersecting": "Garis luar area memotong dirinya sendiri. Klik sudut-sudutnya secara berurutan mengelilingi bentuk.",
         "size": "Gunakan PDF tersemat maksimal 30 MB.",
         "notPdf": "Berkas ini bukan PDF.",
         "export": "Gunakan ekspor pengukuran dari integrasi Open Calc di Open PDF Studio.",

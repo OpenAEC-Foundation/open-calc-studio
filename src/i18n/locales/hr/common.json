@@ -685,6 +685,7 @@
       "error": {
         "calibrate": "Najprije kalibrirajte mjerilo.",
         "points": "Nedovoljno valjanih mjernih točaka.",
+        "selfIntersecting": "Obris površine siječe sam sebe. Kliknite kutove redom oko oblika.",
         "size": "Koristite ugrađeni PDF do 30 MB.",
         "notPdf": "Ova datoteka nije PDF.",
         "export": "Koristite izvoz mjerenja iz Open Calc integracije u Open PDF Studiju.",

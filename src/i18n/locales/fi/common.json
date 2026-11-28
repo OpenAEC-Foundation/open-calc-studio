@@ -685,6 +685,7 @@
       "error": {
         "calibrate": "Kalibroi ensin mittakaava.",
         "points": "Ei tarpeeksi kelvollisia mittauspisteitä.",
+        "selfIntersecting": "Alueen ääriviiva leikkaa itsensä. Napsauta kulmat järjestyksessä muodon ympäri.",
         "size": "Käytä enintään 30 Mt:n upotettua PDF-tiedostoa.",
         "notPdf": "Tämä tiedosto ei ole PDF.",
         "export": "Käytä Open PDF Studion Open Calc -integraation mittausvientiä.",

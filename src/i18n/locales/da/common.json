@@ -685,6 +685,7 @@
       "error": {
         "calibrate": "Kalibrer først målestokken.",
         "points": "Ikke nok gyldige målepunkter.",
+        "selfIntersecting": "Arealets omrids krydser sig selv. Klik på hjørnerne i rækkefølge rundt om formen.",
         "size": "Brug en indlejret PDF på højst 30 MB.",
         "notPdf": "Denne fil er ikke en PDF.",
         "export": "Brug målingseksporten fra Open Calc-integrationen i Open PDF Studio.",

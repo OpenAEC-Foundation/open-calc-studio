@@ -685,6 +685,7 @@
       "error": {
         "calibrate": "Calibrez d'abord l'échelle.",
         "points": "Pas assez de points de mesure valides.",
+        "selfIntersecting": "Le contour de la surface se croise. Cliquez sur les angles dans l’ordre autour de la forme.",
         "size": "Utilisez un PDF intégré de 30 Mo maximum.",
         "notPdf": "Ce fichier n'est pas un PDF.",
         "export": "Utilisez l'export des mesures de l'intégration Open Calc dans Open PDF Studio.",

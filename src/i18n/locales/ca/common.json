@@ -685,6 +685,7 @@
       "error": {
         "calibrate": "Calibreu primer l'escala.",
         "points": "No hi ha prou punts d'amidament vàlids.",
+        "selfIntersecting": "El contorn de l’àrea es creua amb si mateix. Feu clic a les cantonades en ordre al voltant de la forma.",
         "size": "Feu servir un PDF incrustat de fins a 30 MB.",
         "notPdf": "Aquest fitxer no és un PDF.",
         "export": "Feu servir l'exportació d'amidaments de la integració amb Open Calc a Open PDF Studio.",

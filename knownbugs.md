@@ -97,15 +97,6 @@ stand van `main` op die datum.
     (`bascalcImporter.ts:228-236`); bij `cn`-regels is m arbeid en h materieel (`mapResourceType`, r.27-31).
     Nog controleren met een echt bestand. — S
 
-99. **IfcX-import zet posten in de verkeerde volgorde als codes op getallen lijken.** `ifcxImporter.ts:104,107`
-    + `ifcxJsonGenerator.ts:246-252`: de code is een JSON-sleutel, en gehele-getalsleutels komen bij het
-    doorlopen eerst. Nagespeeld: `B,20,10,1a,2` komt terug als `2,10,20,B,1a`. Voorstel: een expliciet
-    sortOrder-attribuut, of sleutels met een voorvoegsel. — B
-
-101. **Een echt IfcX-bestand faalt bij de algemene import met "Invalid file format".** De inhoudsherkenning
-     stuurt het verkeerd door (`lib/importers.ts:12-16`, `hostFileActions.ts:21`, MCP `fileCommands.ts:10`).
-     Nagespeeld. Voorstel: bij `Array.isArray(parsed.data)` → `importIfcx`. — B
-
 103. **CUF: de staart en het soort middel gaan verloren bij opnieuw importeren.** Subhoofdstukken en `<Regel>`s
      komen sinds de fix wel terug (`knownbugsCufTradxml103-274.test.ts`), maar `<Staart>` (`cufExporter.ts:20-33`)
      wordt nooit teruggelezen, en `<Regel>` krijgt geen `type`-attribuut (`cufExporter.ts:renderRegel`), zodat
@@ -113,35 +104,6 @@ stand van `main` op die datum.
      alleen in de code gezien.
      Voorstel: de exporter `<Middel type=…>` laten schrijven (prijs per eenheid) en de staart als
      schema-percentages teruglezen. — B (staart), S (soort middel)
-
-104. **IFCX importeren en daarna IFC exporteren geeft een fout.** `ifcxImporter.ts:47-51` maakt van `''` `undefined`, en
-     `Backstage.tsx:144` (`setSchedule`) overschrijft daarmee, zodat `encodeStepString(undefined)` een fout gooit
-     in `generateIfcCostFile` en in `IfcPreview.tsx:389`. Nagespeeld en door een tweede controle bevestigd.
-     Voorstel: `''` houden, of undefined-sleutels weglaten vóór het samenvoegen. — B
-
-105. **IFCX: btw-tarief, variant en notities gaan verloren, waardoor het totaal verandert.** In
-     `ifcxJsonGenerator.ts` ~160-232. Nagespeeld: BTW laag wordt hoog, een post uit een variant verschijnt in
-     elke variant, en het totaal gaat van 4354.85 naar 4426.77. `cost::metadata` wordt alleen geschreven als er
-     tarieven zijn (`:297`). Een post met hoeveelheid null verliest zijn eenheid en wordt st. Voorstel:
-     `btwTarief`, `branchId` en `notes` schrijven als `ifcx::ocs::*`-sleutels. — B
-
-106. **IFC STEP: regeltype en staartpercentages worden geschreven maar nooit gelezen.** `ifcCostParser.ts:151,188`
-     negeert de set `OCS_ItemProperties` (`ifcCostGenerator.ts:355`). Nagespeeld: een post wordt een hoofdstuk,
-     regels worden posten, staartregels worden gewone posten zonder percentage, en de tariefgroep gaat verloren.
-     Voorstel: de property sets lezen via `IFCRELDEFINESBYPROPERTIES`. — B
-
-107. **Native `.ifcCalc`: verwijderde staartregels komen bij elke keer openen terug.**
-     `src/services/file/fileService.ts:174,179`: de migraties draaien bij elke load en `deleteItem` heeft geen
-     bewaking. Nagespeeld. Tweede controle: alleen als álle staartregels zijn verwijderd, of alleen Btw laag;
-     ernst laag tot middel. Voorstel: alleen oudere formaatversies migreren. — B
-
-108. **CSV-export rondt getallen af op ongeveer 10 significante cijfers.** `tabularBudget.ts:108`
-     (`sheet_to_csv`). Nagespeeld. Voorstel: `{ rawNumbers: true }`. — B
-
-109. **XML-exports ronden af op 2 decimalen en maken van regeleinden spaties.** `cufExporter.ts:52-67`,
-     `tradxmlExporter.ts:46,48` en `rsxExporter.ts:46,48` (`formatDutch(x, 2)`); `xmlBuilder.ts:44` escapet
-     `\n` `\r` `\t` in attributen niet. Nagespeeld. Voorstel: meer decimalen; `&#10;`, `&#13;` en `&#9;`
-     escapen. — B
 
 269. **Oude CUF: Middel-regels per eenheid geven na herberekenen een te laag posttotaal.**
     `src/services/importers/cufImporter.ts`, `addRegel`. Sinds de fix voor #96 worden Middel-regels vaste bedragen
@@ -310,38 +272,6 @@ stand van `main` op die datum.
 
 ## IFC, PDF en hoeveelheden
 
-150. **IFC-export: eenheden op de verkeerde plek, en kg/uren kloppen niet met de gedeclareerde eenheden.**
-     `IFCPROJECT(…,$,$,$,(#units),$)` (`src/services/ifc/ifcCostGenerator.ts:69-70`, `:89`) zet de unit
-     assignment in RepresentationContexts, dus lezers zien geen eenheden. Is dat opgelost, dan is MASSUNIT
-     GRAM zonder KILO (gewichten 1000× te klein) en TIMEUNIT SECOND terwijl de waarden in uren staan.
-     Nagespeeld. Voorstel: `$,$,$,$,#units`; `.KILO.,.GRAM.`; een conversie-eenheid voor uren declareren of
-     met 3600 vermenigvuldigen. — B
-
-151. **IFC-export schrijft entiteiten met het verkeerde aantal attributen; prijzen en hoeveelheden hangen niet
-     aan de posten.** In `src/services/ifc/ifcCostGenerator.ts:136`, `:248`, `:260-288` krijgt IfcCostSchedule
-     12 attributen (moet 10 zijn, met Status als tekst), IfcCostItem 7 (moet 9; CostValues en CostQuantities
-     ontbreken) en IfcCostValue 8 (moet 10; `'MATERIAL'` belandt in UnitBasis). Een export bevat dus geen prijs
-     of hoeveelheid per post. Bij import bouwt `ifcCostParser.ts:166-174` een `costValueMap` die nergens wordt
-     gebruikt. De GUID van de schedule is bij elke export willekeurig, dus `schedule.ifcGuid` verandert bij elke
-     round trip. Nagelopen tegen het schema. Voorstel: de entiteiten volgens de IFC4X3-indeling schrijven en
-     `schedule.ifcGuid` hergebruiken. — S
-
-152. **`ifc.listElements` en `ifc.takeoff` negeren `modelId` zolang er een model open is.**
-     `session?.model ?? find(modelId)` (`src/services/ifc/ifcLiteWorkspace.ts:38`) gebruikt modelId alleen
-     zonder sessie. Vraag je om model A terwijl B open is, dan krijg je de elementen van B; takeoff telt de
-     elementen van B op, en express-ID's bestaan vaak in beide bestanden. Voorstel: als `p.modelId` is
-     meegegeven, dat model eerst opzoeken. — S
-
-153. **Geëxporteerde IFC kan lege GlobalIds of GlobalIds van 36 tekens bevatten.** Geschreven in
-     `src/services/ifc/ifcCostGenerator.ts:248`; de bronnen zijn `staartDefaults.ts:25` (`ifcGuid: ''`, via
-     `ensureBtwLaagItem` in elk ouder bestand), `fileService.ts:81`, `assistantActions.ts:196` en
-     `inschrijfstaatImporter.ts:225` (`crypto.randomUUID()`, 36 tekens). Voorstel: in de generator elke ID die
-     niet aan `/^[0-9A-Za-z_$]{22}$/` voldoet vervangen door `generateIfcGuid()`, en de bronnen repareren. — S
-
-154. **IFC-sessies (meshdata) worden nooit vrijgegeven als een document sluit.** De `sessions`-map op
-     moduleniveau in `src/services/ifc/ifcLiteWorkspace.ts:9` krijgt nooit een `delete`. Voorstel:
-     `disposeIfcSession(docId)` in het sluitpad. — S
-
 155. **De meegeleverde Open PDF Studio-plugin geeft nooit een PDF-hash mee, dus zijn imports worden nooit
      geverifieerd.** `integrations/open-pdf-studio/index.js:13` tegen `src/services/pdf/pdfWorkspace.ts:65-66`.
      Zonder opt-in krijg je de fout "no PDF hash"; met opt-in is elke hoeveelheid `verified: false` met een
@@ -349,21 +279,21 @@ stand van `main` op die datum.
      de UI is het alleen een bevestigingsvenster, een harde fout alleen via MCP/API (`pdfWorkspace.ts:69-71`),
      ernst laag. Voorstel: laat de plugin de SHA-256 van de PDF berekenen en in `sourceHash` zetten. — B
 
-156. **Meetlabels herhalen zich na een verwijdering.** `src/components/viewers/PdfViewer.tsx:127`
-     (`measurements.length + 1`). Voeg L1 en L2 toe, verwijder L1, voeg er nog een toe: dan heten twee metingen
-     "Length 2", ook in de hoeveelhedenkiezer. Voorstel: neem het hoogste bestaande nummer van dat type + 1. — B
+157. **Het PDF-tabblad verlaten en terugkomen gooit onafgemaakte punten weg.** De viewer wordt bij het
+     verlaten ontkoppeld (`App.tsx`, `activeContentTab === 'pdf'`) en de punten staan in lokale state van
+     `PdfViewer.tsx`. (Het terugspringen naar pagina 1 of naar een oud doel is opgelost.) Productvraag: moeten
+     halve metingen een tabwissel overleven? Zo ja, de punten in de store bewaren. — S
 
-157. **Het PDF-tabblad verlaten en terugkomen zet de pagina terug en gooit onafgemaakte punten weg.**
-     `PdfViewer.tsx:47-48`, `App.tsx:652`; `pdfTargetMeasurementId` wordt nooit gewist. Voorstel: zet de pagina
-     alleen terug als `source.id` verandert, en wis het doel na het springen. — S
+296. **IFC-export schrijft heel kleine of heel grote getallen als ongeldige STEP-REAL.**
+     `formatStepFloat` (`src/services/ifc/ifcHelpers.ts`) gebruikt `toString()`: 1e-7 wordt `1e-7.`, 2.5e-7
+     blijft `2.5e-7` en 1e21 wordt `1e+21.`; STEP verwacht iets als `1.E-07`. Nagespeeld in Node. Komt alleen
+     voor bij extreme waarden. Voorstel: exponent omzetten naar de STEP-vorm (`1.E-07`). — B
 
-158. **Onafgemaakte punten gaan mee als "Open source" van pagina wisselt.** `PdfViewer.tsx:64-67`,
-     `quantitySourceActions.ts:15`. Punten van pagina 1 worden opgeslagen als meting op pagina 3, met de schaal
-     van pagina 3. Voorstel: `setPoints([])` in een effect op `page`. — S
-
-159. **Een zichzelf kruisende oppervlaktepolygoon geeft een verkeerde oppervlakte (vaak 0).**
-     `pdfWorkspace.ts:50-51`. Voorstel: herken kruisende randen en weiger de meting, of weiger in elk geval een
-     oppervlakte van 0. — B
+297. **IFC-export hangt de posten met `IfcRelNests` aan de `IfcCostSchedule`.** `ifcCostGenerator.ts`
+     (onderaan, "Top-level items nested under schedule"). Voor zover bekend verwacht IFC4/IFC4X3 dat posten via
+     `IfcRelAssignsToControl` aan een kostenschema hangen en alleen onderling met `IfcRelNests` genest zijn.
+     Niet getoetst met een IFC-validator. Voorstel: eerst met een validator (bv. IfcOpenShell) controleren;
+     zo ja, `IfcRelAssignsToControl` schrijven en de parser beide laten lezen. — S
 
 ## Varianten
 

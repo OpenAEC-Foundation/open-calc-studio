@@ -685,6 +685,7 @@
       "error": {
         "calibrate": "Calibra prima la scala.",
         "points": "Punti di misura validi insufficienti.",
+        "selfIntersecting": "Il contorno dell’area si interseca. Fai clic sugli angoli in ordine attorno alla forma.",
         "size": "Usa un PDF incorporato fino a 30 MB.",
         "notPdf": "Questo file non è un PDF.",
         "export": "Usa l'esportazione delle misurazioni dell'integrazione Open Calc in Open PDF Studio.",

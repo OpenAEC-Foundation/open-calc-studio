@@ -1,7 +1,7 @@
 import type { CostItem, CostSchedule, OfferteDocument, OfferteSectionItem } from '@/types/costModel';
 import { createDefaultProjectProperties } from '@/types/costModel';
 import { getGrandTotal } from '@/services/calculation/calculator';
-import { encodeStepString, formatStepFloat, generateIfcGuid, isoTimestamp } from './ifcHelpers';
+import { encodeStepString, formatStepFloat, generateIfcGuid, isoTimestamp, toIfcGlobalId } from './ifcHelpers';
 
 interface StepLine {
   id: number;
@@ -21,6 +21,17 @@ export function generateIfcCostFile(schedule: CostSchedule, items: CostItem[], o
   const lines: StepLine[] = [];
   let nextId = 1;
   const getId = () => nextId++;
+  // Elke GlobalId geldig en uniek in het bestand. Een UUID van 36 tekens of een GlobalId met
+  // een eerste teken boven 3 wordt vast omgezet (elke export dezelfde waarde); een lege of
+  // dubbele ifcGuid (gekopieerde regel) wordt vervangen (knownbugs 151, 153).
+  const usedGuids = new Set<string>();
+  const guid = (preferred?: string | null): string => {
+    const valid = toIfcGlobalId(preferred);
+    let value = valid && !usedGuids.has(valid) ? valid : generateIfcGuid();
+    while (usedGuids.has(value)) value = generateIfcGuid();
+    usedGuids.add(value);
+    return value;
+  };
 
   const ts = isoTimestamp();
 
@@ -63,11 +74,20 @@ export function generateIfcCostFile(schedule: CostSchedule, items: CostItem[], o
   const unitVolumeId = getId();
   lines.push({ id: unitVolumeId, entity: `IFCSIUNIT(*,.VOLUMEUNIT.,$,.CUBIC_METRE.)` });
 
+  // Tijd staat in uren (eenheid 'uur'): een uur-eenheid op basis van de seconde, anders lezen
+  // programma's de waarden als seconden (knownbug 150).
+  const unitSecondId = getId();
+  lines.push({ id: unitSecondId, entity: `IFCSIUNIT(*,.TIMEUNIT.,$,.SECOND.)` });
+  const timeDimsId = getId();
+  lines.push({ id: timeDimsId, entity: `IFCDIMENSIONALEXPONENTS(0,0,1,0,0,0,0)` });
+  const hourFactorId = getId();
+  lines.push({ id: hourFactorId, entity: `IFCMEASUREWITHUNIT(IFCTIMEMEASURE(3600.),#${unitSecondId})` });
   const unitTimeId = getId();
-  lines.push({ id: unitTimeId, entity: `IFCSIUNIT(*,.TIMEUNIT.,$,.SECOND.)` });
+  lines.push({ id: unitTimeId, entity: `IFCCONVERSIONBASEDUNIT(#${timeDimsId},.TIMEUNIT.,'hour',#${hourFactorId})` });
 
+  // Gewichten staan in kg: KILO-voorvoegsel, anders zijn ze 1000x te klein (knownbug 150).
   const unitMassId = getId();
-  lines.push({ id: unitMassId, entity: `IFCSIUNIT(*,.MASSUNIT.,$,.GRAM.)` });
+  lines.push({ id: unitMassId, entity: `IFCSIUNIT(*,.MASSUNIT.,.KILO.,.GRAM.)` });
 
   // IfcMonetaryUnit: de valuta van de begroting (ISO 4217), zonder omrekening.
   const monetaryUnitId = getId();
@@ -81,11 +101,13 @@ export function generateIfcCostFile(schedule: CostSchedule, items: CostItem[], o
     entity: `IFCUNITASSIGNMENT((#${unitLengthId},#${unitAreaId},#${unitVolumeId},#${unitTimeId},#${unitMassId},#${monetaryUnitId}))`,
   });
 
-  // IfcProject (with IfcUnitAssignment reference)
+  // IfcProject: de eenheden horen in UnitsInContext (9e attribuut), niet in
+  // RepresentationContexts (knownbug 150). De GlobalId is schedule.ifcGuid; de parser leest
+  // hem hier terug, zodat hij bij een round trip gelijk blijft (knownbug 151).
   const projectId = getId();
   lines.push({
     id: projectId,
-    entity: `IFCPROJECT('${schedule.ifcGuid}',#${ownerHistId},'${encodeStepString(schedule.projectName)}','${encodeStepString(schedule.description)}',$,$,$,(#${unitAssignId}),$)`,
+    entity: `IFCPROJECT('${guid(schedule.ifcGuid)}',#${ownerHistId},'${encodeStepString(schedule.projectName)}','${encodeStepString(schedule.description)}',$,$,$,$,#${unitAssignId})`,
   });
 
   // ── IfcPropertySet "OCS_ProjectMetrics" on IfcProject ──
@@ -120,21 +142,22 @@ export function generateIfcCostFile(schedule: CostSchedule, items: CostItem[], o
       const metricsPsetId = getId();
       lines.push({
         id: metricsPsetId,
-        entity: `IFCPROPERTYSET('${generateIfcGuid()}',#${ownerHistId},'OCS_ProjectMetrics','Project building metrics',(${metricPropIds.map(p => `#${p}`).join(',')}))`,
+        entity: `IFCPROPERTYSET('${guid()}',#${ownerHistId},'OCS_ProjectMetrics','Project building metrics',(${metricPropIds.map(p => `#${p}`).join(',')}))`,
       });
       const relMetricsId = getId();
       lines.push({
         id: relMetricsId,
-        entity: `IFCRELDEFINESBYPROPERTIES('${generateIfcGuid()}',#${ownerHistId},$,$,(#${projectId}),#${metricsPsetId})`,
+        entity: `IFCRELDEFINESBYPROPERTIES('${guid()}',#${ownerHistId},$,$,(#${projectId}),#${metricsPsetId})`,
       });
     }
   }
 
-  // IfcCostSchedule
+  // IfcCostSchedule (IFC4X3, 10 attributen): ..., ObjectType, Identification, PredefinedType,
+  // Status (tekst), SubmittedOn, UpdateDate (knownbug 151).
   const schedId = getId();
   lines.push({
     id: schedId,
-    entity: `IFCCOSTSCHEDULE('${generateIfcGuid()}',#${ownerHistId},'${encodeStepString(schedule.name)}','${encodeStepString(schedule.description)}',$,$,$,$,$,.${schedule.predefinedType}.,.${schedule.status}.,${formatStepFloat(0)})`,
+    entity: `IFCCOSTSCHEDULE('${guid()}',#${ownerHistId},'${encodeStepString(schedule.name)}','${encodeStepString(schedule.description)}',$,$,.${schedule.predefinedType}.,'${encodeStepString(schedule.status)}',$,$)`,
   });
 
   // ── Tarieven as IfcPropertySet "OCS_Tarieven" on the IfcCostSchedule ──
@@ -152,12 +175,12 @@ export function generateIfcCostFile(schedule: CostSchedule, items: CostItem[], o
     tarievenPsetId = getId();
     lines.push({
       id: tarievenPsetId,
-      entity: `IFCPROPERTYSET('${generateIfcGuid()}',#${ownerHistId},'OCS_Tarieven','Tarieven per tariefgroep',(${propIds.map(p => `#${p}`).join(',')}))`,
+      entity: `IFCPROPERTYSET('${guid()}',#${ownerHistId},'OCS_Tarieven','Tarieven per tariefgroep',(${propIds.map(p => `#${p}`).join(',')}))`,
     });
     const relTarievenId = getId();
     lines.push({
       id: relTarievenId,
-      entity: `IFCRELDEFINESBYPROPERTIES('${generateIfcGuid()}',#${ownerHistId},$,$,(#${schedId}),#${tarievenPsetId})`,
+      entity: `IFCRELDEFINESBYPROPERTIES('${guid()}',#${ownerHistId},$,$,(#${schedId}),#${tarievenPsetId})`,
     });
   }
 
@@ -181,9 +204,9 @@ export function generateIfcCostFile(schedule: CostSchedule, items: CostItem[], o
     }
     if (offerteProps.length > 0) {
       const psetId = getId();
-      lines.push({ id: psetId, entity: `IFCPROPERTYSET('${generateIfcGuid()}',#${ownerHistId},'Pset_Offerte',$,(${offerteProps.map(p => '#' + p).join(',')}))` });
+      lines.push({ id: psetId, entity: `IFCPROPERTYSET('${guid()}',#${ownerHistId},'Pset_Offerte',$,(${offerteProps.map(p => '#' + p).join(',')}))` });
       const relId = getId();
-      lines.push({ id: relId, entity: `IFCRELDEFINESBYPROPERTIES('${generateIfcGuid()}',#${ownerHistId},$,$,(#${schedId}),#${psetId})` });
+      lines.push({ id: relId, entity: `IFCRELDEFINESBYPROPERTIES('${guid()}',#${ownerHistId},$,$,(#${schedId}),#${psetId})` });
     }
   }
 
@@ -230,9 +253,9 @@ export function generateIfcCostFile(schedule: CostSchedule, items: CostItem[], o
 
     if (piProps.length > 0) {
       const piPsetId = getId();
-      lines.push({ id: piPsetId, entity: `IFCPROPERTYSET('${generateIfcGuid()}',#${ownerHistId},'Pset_ProjectInfo',$,(${piProps.map(p => '#' + p).join(',')}))` });
+      lines.push({ id: piPsetId, entity: `IFCPROPERTYSET('${guid()}',#${ownerHistId},'Pset_ProjectInfo',$,(${piProps.map(p => '#' + p).join(',')}))` });
       const piRelId = getId();
-      lines.push({ id: piRelId, entity: `IFCRELDEFINESBYPROPERTIES('${generateIfcGuid()}',#${ownerHistId},$,$,(#${projectId}),#${piPsetId})` });
+      lines.push({ id: piRelId, entity: `IFCRELDEFINESBYPROPERTIES('${guid()}',#${ownerHistId},$,$,(#${projectId}),#${piPsetId})` });
     }
   }
 
@@ -244,51 +267,30 @@ export function generateIfcCostFile(schedule: CostSchedule, items: CostItem[], o
     const costItemId = getId();
     itemIdMap.set(item.id, costItemId);
 
-    lines.push({
-      id: costItemId,
-      entity: `IFCCOSTITEM('${item.ifcGuid}',#${ownerHistId},'${encodeStepString(item.code)}','${encodeStepString(item.description)}',$,$,$)`,
-    });
-
+    // Prijzen en hoeveelheid hangen via CostValues en CostQuantities aan de post; los
+    // geschreven entiteiten las niemand terug (knownbug 151).
+    const costValueIds: number[] = [];
+    const quantityIds: number[] = [];
     if (item.rowType !== 'chapter') {
       const hasMaterial = item.materialPrice !== null && item.materialPrice !== 0;
       const hasLabor = item.laborPrice !== null && item.laborPrice !== 0;
+      // IfcCostValue (IFC4X3, 10 attributen): Name, Description, AppliedValue, UnitBasis,
+      // ApplicableDate, FixedUntilDate, Category, Condition, ArithmeticOperator, Components.
+      const costValue = (category: string, value: number, operator = '$', components = '$') => {
+        const id = getId();
+        lines.push({ id, entity: `IFCCOSTVALUE($,$,IFCMONETARYMEASURE(${formatStepFloat(value)}),$,$,$,'${category}',$,${operator},${components})` });
+        return id;
+      };
 
       if (hasMaterial && hasLabor) {
-        // IfcCostValue with ArithmeticOperator ADD and Components for both material+labor
-        const cvMatCompId = getId();
-        lines.push({
-          id: cvMatCompId,
-          entity: `IFCCOSTVALUE($,$,$,'MATERIAL',$,IFCMONETARYMEASURE(${formatStepFloat(item.materialPrice!)}),$,$)`,
-        });
-
-        const cvLabCompId = getId();
-        lines.push({
-          id: cvLabCompId,
-          entity: `IFCCOSTVALUE($,$,$,'LABOR',$,IFCMONETARYMEASURE(${formatStepFloat(item.laborPrice!)}),$,$)`,
-        });
-
+        // Materiaal + arbeid als componenten van een opgeteld bedrag (Category '*').
+        const cvMatCompId = costValue('MATERIAL', item.materialPrice!);
+        const cvLabCompId = costValue('LABOR', item.laborPrice!);
         const totalUnitPrice = (item.materialPrice ?? 0) + (item.laborPrice ?? 0);
-        const cvTotalId = getId();
-        lines.push({
-          id: cvTotalId,
-          entity: `IFCCOSTVALUE($,$,$,'*',.ADD.,IFCMONETARYMEASURE(${formatStepFloat(totalUnitPrice)}),(#${cvMatCompId},#${cvLabCompId}),$)`,
-        });
+        costValueIds.push(costValue('*', totalUnitPrice, '.ADD.', `(#${cvMatCompId},#${cvLabCompId})`));
       } else {
-        // Single cost value (material or labor only)
-        if (hasMaterial) {
-          const cvMatId = getId();
-          lines.push({
-            id: cvMatId,
-            entity: `IFCCOSTVALUE($,$,$,'MATERIAL',$,IFCMONETARYMEASURE(${formatStepFloat(item.materialPrice!)}),$,$)`,
-          });
-        }
-        if (hasLabor) {
-          const cvLabId = getId();
-          lines.push({
-            id: cvLabId,
-            entity: `IFCCOSTVALUE($,$,$,'LABOR',$,IFCMONETARYMEASURE(${formatStepFloat(item.laborPrice!)}),$,$)`,
-          });
-        }
+        if (hasMaterial) costValueIds.push(costValue('MATERIAL', item.materialPrice!));
+        if (hasLabor) costValueIds.push(costValue('LABOR', item.laborPrice!));
       }
 
       // Quantity
@@ -296,8 +298,17 @@ export function generateIfcCostFile(schedule: CostSchedule, items: CostItem[], o
         const qtyId = getId();
         const qtyEntity = getQuantityEntity(item.unit, item.quantity, item.description);
         lines.push({ id: qtyId, entity: qtyEntity });
+        quantityIds.push(qtyId);
       }
     }
+
+    // IfcCostItem (IFC4X3, 9 attributen): ..., ObjectType, Identification, PredefinedType,
+    // CostValues, CostQuantities.
+    const refList = (ids: number[]) => (ids.length ? `(${ids.map((id) => `#${id}`).join(',')})` : '$');
+    lines.push({
+      id: costItemId,
+      entity: `IFCCOSTITEM('${guid(item.ifcGuid)}',#${ownerHistId},'${encodeStepString(item.code)}','${encodeStepString(item.description)}',$,$,$,${refList(costValueIds)},${refList(quantityIds)})`,
+    });
 
     // ── IfcPropertySet "OCS_ItemProperties" for custom fields ──
     const propIds: number[] = [];
@@ -340,6 +351,16 @@ export function generateIfcCostFile(schedule: CostSchedule, items: CostItem[], o
       propIds.push(propVkId);
     }
 
+    // Eenheid: het type hoeveelheid kent alleen m, m2, m3, kg en uur (en zonder hoeveelheid niets).
+    if (item.unit) {
+      const propUnitId = getId();
+      lines.push({
+        id: propUnitId,
+        entity: `IFCPROPERTYSINGLEVALUE('unit',$,IFCLABEL('${encodeStepString(item.unit)}'),$)`,
+      });
+      propIds.push(propUnitId);
+    }
+
     // staartPercentage (for staart items)
     if (item.rowType.startsWith('staart_') && item.staartPercentage !== null) {
       const propSpId = getId();
@@ -353,13 +374,13 @@ export function generateIfcCostFile(schedule: CostSchedule, items: CostItem[], o
     const psetId = getId();
     lines.push({
       id: psetId,
-      entity: `IFCPROPERTYSET('${generateIfcGuid()}',#${ownerHistId},'OCS_ItemProperties','Open Calc Studio custom properties',(${propIds.map(p => `#${p}`).join(',')}))`,
+      entity: `IFCPROPERTYSET('${guid()}',#${ownerHistId},'OCS_ItemProperties','Open Calc Studio custom properties',(${propIds.map(p => `#${p}`).join(',')}))`,
     });
 
     const relDefId = getId();
     lines.push({
       id: relDefId,
-      entity: `IFCRELDEFINESBYPROPERTIES('${generateIfcGuid()}',#${ownerHistId},$,$,(#${costItemId}),#${psetId})`,
+      entity: `IFCRELDEFINESBYPROPERTIES('${guid()}',#${ownerHistId},$,$,(#${costItemId}),#${psetId})`,
     });
 
     // ── Offerte-linked data per cost item ──
@@ -380,9 +401,9 @@ export function generateIfcCostFile(schedule: CostSchedule, items: CostItem[], o
           specProps.push(propId);
         }
         const specPsetId = getId();
-        lines.push({ id: specPsetId, entity: `IFCPROPERTYSET('${generateIfcGuid()}',#${ownerHistId},'Pset_OfferteSpec',$,(${specProps.map(p => '#' + p).join(',')}))` });
+        lines.push({ id: specPsetId, entity: `IFCPROPERTYSET('${guid()}',#${ownerHistId},'Pset_OfferteSpec',$,(${specProps.map(p => '#' + p).join(',')}))` });
         const specRelId = getId();
-        lines.push({ id: specRelId, entity: `IFCRELDEFINESBYPROPERTIES('${generateIfcGuid()}',#${ownerHistId},$,$,(#${costItemId}),#${specPsetId})` });
+        lines.push({ id: specRelId, entity: `IFCRELDEFINESBYPROPERTIES('${guid()}',#${ownerHistId},$,$,(#${costItemId}),#${specPsetId})` });
       }
 
       // IfcMaterialLayerSet
@@ -399,7 +420,7 @@ export function generateIfcCostFile(schedule: CostSchedule, items: CostItem[], o
         const setId = getId();
         lines.push({ id: setId, entity: `IFCMATERIALLAYERSET((${layerIds.map(l => '#' + l).join(',')}),'${encodeStepString(linkedOfferteItem.onderdeel)}')` });
         const matRelId = getId();
-        lines.push({ id: matRelId, entity: `IFCRELASSOCIATESMATERIAL('${generateIfcGuid()}',#${ownerHistId},$,$,(#${costItemId}),#${setId})` });
+        lines.push({ id: matRelId, entity: `IFCRELASSOCIATESMATERIAL('${guid()}',#${ownerHistId},$,$,(#${costItemId}),#${setId})` });
       }
 
       // Pset_Meerwerk
@@ -421,9 +442,9 @@ export function generateIfcCostFile(schedule: CostSchedule, items: CostItem[], o
             mwProps.push(puId);
           }
           const mwPsetId = getId();
-          lines.push({ id: mwPsetId, entity: `IFCPROPERTYSET('${generateIfcGuid()}',#${ownerHistId},'Pset_Meerwerk',$,(${mwProps.map(p => '#' + p).join(',')}))` });
+          lines.push({ id: mwPsetId, entity: `IFCPROPERTYSET('${guid()}',#${ownerHistId},'Pset_Meerwerk',$,(${mwProps.map(p => '#' + p).join(',')}))` });
           const mwRelId = getId();
-          lines.push({ id: mwRelId, entity: `IFCRELDEFINESBYPROPERTIES('${generateIfcGuid()}',#${ownerHistId},$,$,(#${costItemId}),#${mwPsetId})` });
+          lines.push({ id: mwRelId, entity: `IFCRELDEFINESBYPROPERTIES('${guid()}',#${ownerHistId},$,$,(#${costItemId}),#${mwPsetId})` });
         }
       }
     }
@@ -444,7 +465,7 @@ export function generateIfcCostFile(schedule: CostSchedule, items: CostItem[], o
     const relatedIds = topItems.map((i) => `#${itemIdMap.get(i.id)}`).join(',');
     lines.push({
       id: relId,
-      entity: `IFCRELNESTS('${generateIfcGuid()}',#${ownerHistId},$,$,#${schedId},(${relatedIds}))`,
+      entity: `IFCRELNESTS('${guid()}',#${ownerHistId},$,$,#${schedId},(${relatedIds}))`,
     });
   }
 
@@ -457,7 +478,7 @@ export function generateIfcCostFile(schedule: CostSchedule, items: CostItem[], o
     const relatedIds = children.map((i) => `#${itemIdMap.get(i.id)}`).join(',');
     lines.push({
       id: relId,
-      entity: `IFCRELNESTS('${generateIfcGuid()}',#${ownerHistId},$,$,#${parentStepId},(${relatedIds}))`,
+      entity: `IFCRELNESTS('${guid()}',#${ownerHistId},$,$,#${parentStepId},(${relatedIds}))`,
     });
   }
 
