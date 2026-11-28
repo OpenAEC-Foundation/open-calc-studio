@@ -62,7 +62,7 @@
     "tradDesc": "Formato de intercambio IBIS Trad (.xml)",
     "rsxDesc": "Intercambio de pliegos CROW RAW (.rsx/.xml)",
     "rsuDesc": "Intercambio RAW antiguo (.rsu) — por la vía RSX",
-    "bc3Desc": "Presupuestos españoles (.bc3); un banco de precios también se abre como presupuesto",
+    "bc3Desc": "Presupuestos españoles (.bc3); para un banco de precios, usa Biblioteca de precios más abajo",
     "onlvDesc": "Pliego austriaco ÖNORM A 2063 (.onlv) o catálogo de textos estándar (.onlb)",
     "zsxTitle": "Lista de precios (ZSX)",
     "zsxDesc": "Lista de precios como biblioteca de precios propia (.zsx/.xml)",
@@ -85,8 +85,8 @@
     "groupLibrary": "Biblioteca de precios",
     "groupLibraryHint": "Se guarda en este equipo para que cualquier presupuesto pueda usarla. No crea un presupuesto.",
     "groupOther": "Otros",
-    "libraryTableTitle": "Lista de precios (Excel / CSV / JSON)",
-    "libraryTableDesc": "Lista de precios propia o de un proveedor, con vista previa de columnas (.xlsx/.csv/.json)"
+    "libraryTableTitle": "Lista de precios (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "Lista de precios propia o de un proveedor, con vista previa de columnas (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "Tamaño",

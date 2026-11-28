@@ -3,7 +3,7 @@
  * and applies mutations to the Zustand store so the UI updates live.
  */
 import { useAppStore } from '@/state/appStore';
-import type { CostItem, ResourceLibraryItem, SubSheetCell } from '@/types/costModel';
+import type { CostItem, ResourceLibraryItem } from '@/types/costModel';
 import { handleApiExport } from './apiExports';
 
 /** Shape of the payload emitted by the Rust WS bridge. */
@@ -264,12 +264,13 @@ function handleMutation(mutation: McpMutation) {
       const sheetId = data.sheetId as string;
       const cells = data.cells as Array<{ ref: string; value: string }> | undefined;
       if (sheetId && Array.isArray(cells)) {
-        const existing = store.subSheets.find((s) => s.id === sheetId);
-        const merged: Record<string, SubSheetCell> = { ...(existing?.cells ?? {}) };
+        // Zelfde pad als set_cell: getalnotatie van de app, formules
+        // berekend, opmaak behouden; één stap ongedaan maken (knownbugs 52, 276).
+        const values: Record<string, string> = {};
         for (const c of cells) {
-          merged[c.ref] = { value: c.value };
+          if (c?.ref) values[c.ref] = c.value ?? '';
         }
-        store.setSubSheetCells(sheetId, merged);
+        store.setSubSheetCellValues(sheetId, values);
       }
       break;
     }

@@ -62,7 +62,7 @@
     "tradDesc": "Formato de intercâmbio IBIS Trad (.xml)",
     "rsxDesc": "Intercâmbio de cadernos de encargos CROW RAW (.rsx/.xml)",
     "rsuDesc": "Intercâmbio RAW antigo (.rsu) — através da via RSX",
-    "bc3Desc": "Orçamentos espanhóis (.bc3); uma base de preços também abre como orçamento",
+    "bc3Desc": "Orçamentos espanhóis (.bc3); para uma base de preços, use Biblioteca de preços abaixo",
     "onlvDesc": "Caderno de encargos austríaco ÖNORM A 2063 (.onlv) ou catálogo de textos-padrão (.onlb)",
     "zsxTitle": "Lista de preços (ZSX)",
     "zsxDesc": "Lista de preços como biblioteca de preços própria (.zsx/.xml)",
@@ -85,8 +85,8 @@
     "groupLibrary": "Biblioteca de preços",
     "groupLibraryHint": "Guardada neste computador, para que qualquer orçamento a possa usar. Não cria um orçamento.",
     "groupOther": "Outros",
-    "libraryTableTitle": "Lista de preços (Excel / CSV / JSON)",
-    "libraryTableDesc": "Lista de preços própria ou de um fornecedor, com pré-visualização das colunas (.xlsx/.csv/.json)"
+    "libraryTableTitle": "Lista de preços (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "Lista de preços própria ou de um fornecedor, com pré-visualização das colunas (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "Tamanho",

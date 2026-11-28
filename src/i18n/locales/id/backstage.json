@@ -62,7 +62,7 @@
     "tradDesc": "Format pertukaran IBIS Trad (.xml)",
     "rsxDesc": "Pertukaran spesifikasi CROW RAW (.rsx/.xml)",
     "rsuDesc": "Pertukaran RAW lama (.rsu) — melalui jalur RSX",
-    "bc3Desc": "Anggaran Spanyol (.bc3); buku harga juga dibuka sebagai anggaran",
+    "bc3Desc": "Anggaran Spanyol (.bc3); untuk basis data harga, gunakan Pustaka harga di bawah",
     "onlvDesc": "Daftar kuantitas Austria ÖNORM A 2063 (.onlv) atau katalog teks standar (.onlb)",
     "zsxTitle": "Daftar harga (ZSX)",
     "zsxDesc": "Daftar harga sebagai pustaka harga sendiri (.zsx/.xml)",
@@ -85,8 +85,8 @@
     "groupLibrary": "Pustaka harga",
     "groupLibraryHint": "Disimpan di komputer ini sehingga setiap anggaran dapat memakainya. Tidak membuat anggaran.",
     "groupOther": "Lainnya",
-    "libraryTableTitle": "Daftar harga (Excel / CSV / JSON)",
-    "libraryTableDesc": "Daftar harga Anda sendiri atau dari pemasok, dengan pratinjau kolom (.xlsx/.csv/.json)"
+    "libraryTableTitle": "Daftar harga (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "Daftar harga Anda sendiri atau dari pemasok, dengan pratinjau kolom (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "Ukuran",

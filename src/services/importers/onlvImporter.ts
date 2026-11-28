@@ -119,7 +119,7 @@ export function a2063TextLines(el: XElement | null | undefined): string[] {
           cur += inner || GAP;
           break;
         }
-        case 'p': case 'h1': case 'h2': case 'h3': case 'ul': case 'ol': case 'table':
+        case 'p': case 'div': case 'h1': case 'h2': case 'h3': case 'ul': case 'ol': case 'table': // div: GAEB-tekst
           flush(); visit(child); flush();
           break;
         case 'li':
@@ -237,8 +237,13 @@ export function importOnlv(xml: string): ImportResult {
    * het bijbehorende grundtext (alleen bij folgepositionen).
    */
   const addPosition = (parent: CostItem | null, depth: number, code: string, eig: XElement | null, grundtextLines: string[]): void => {
+    // De GAP-placeholder alleen achter een stichwort-kurz; zonder enig
+    // stichwort werd de omschrijving anders "____" (knownbug 76). Een
+    // ingevulde Lücke zonder kurz blijft wel de omschrijving.
+    const kurz = kidText(eig, 'stichwort-kurz');
+    const luecke = kidText(eig, 'stichwort-luecke');
     const stichwort = kidText(eig, 'stichwort')
-      || [kidText(eig, 'stichwort-kurz'), kidText(eig, 'stichwort-luecke') || GAP].filter(Boolean).join(' ');
+      || (kurz ? `${kurz} ${luecke || GAP}` : luecke);
     const langtext = kid(eig, 'langtext');
     const textLines = a2063TextLines(langtext);
     const description = stichwort || textLines[0] || code;

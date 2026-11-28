@@ -62,7 +62,7 @@
     "tradDesc": "Format d'intercanvi IBIS Trad (.xml)",
     "rsxDesc": "Intercanvi de plecs CROW RAW (.rsx/.xml)",
     "rsuDesc": "Intercanvi RAW antic (.rsu) — per la via RSX",
-    "bc3Desc": "Pressupostos espanyols (.bc3); un banc de preus també s'obre com a pressupost",
+    "bc3Desc": "Pressupostos espanyols (.bc3); per a un banc de preus, fes servir Biblioteca de preus més avall",
     "onlvDesc": "Plec austríac ÖNORM A 2063 (.onlv) o catàleg de textos estàndard (.onlb)",
     "zsxTitle": "Llista de preus (ZSX)",
     "zsxDesc": "Llista de preus com a biblioteca de preus pròpia (.zsx/.xml)",
@@ -85,8 +85,8 @@
     "groupLibrary": "Biblioteca de preus",
     "groupLibraryHint": "Es desa en aquest ordinador perquè la pugui fer servir qualsevol pressupost. No crea cap pressupost.",
     "groupOther": "Altres",
-    "libraryTableTitle": "Llista de preus (Excel / CSV / JSON)",
-    "libraryTableDesc": "Llista de preus pròpia o d'un proveïdor, amb previsualització de columnes (.xlsx/.csv/.json)"
+    "libraryTableTitle": "Llista de preus (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "Llista de preus pròpia o d'un proveïdor, amb previsualització de columnes (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "Mida",

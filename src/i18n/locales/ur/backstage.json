@@ -62,7 +62,7 @@
     "tradDesc": "IBIS Trad تبادلہ فارمیٹ (.xml)",
     "rsxDesc": "CROW RAW تفصیلات کا تبادلہ (.rsx/.xml)",
     "rsuDesc": "پرانا RAW تبادلہ (.rsu) — RSX راستے سے",
-    "bc3Desc": "ہسپانوی تخمینے (.bc3)؛ نرخ کی کتاب بھی تخمینے کے طور پر کھلتی ہے",
+    "bc3Desc": "ہسپانوی تخمینے (.bc3)؛ قیمتوں کے ڈیٹا بیس کے لیے نیچے قیمت لائبریری استعمال کریں",
     "onlvDesc": "آسٹریائی ÖNORM A 2063 مقداری فہرست (.onlv) یا معیاری متون کا کیٹلاگ (.onlb)",
     "zsxTitle": "نرخ نامہ (ZSX)",
     "zsxDesc": "نرخ نامہ اپنی قیمت لائبریری کے طور پر (.zsx/.xml)",
@@ -85,8 +85,8 @@
     "groupLibrary": "قیمت لائبریری",
     "groupLibraryHint": "اس کمپیوٹر پر محفوظ رہتی ہے، تاکہ ہر تخمینہ اسے استعمال کر سکے۔ کوئی تخمینہ نہیں بناتی۔",
     "groupOther": "دیگر",
-    "libraryTableTitle": "نرخ نامہ (Excel / CSV / JSON)",
-    "libraryTableDesc": "آپ کا اپنا یا کسی سپلائر کا نرخ نامہ، کالم پیش منظر کے ساتھ (.xlsx/.csv/.json)"
+    "libraryTableTitle": "نرخ نامہ (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "آپ کا اپنا یا کسی سپلائر کا نرخ نامہ، کالم پیش منظر کے ساتھ (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "حجم",

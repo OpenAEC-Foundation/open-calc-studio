@@ -751,6 +751,10 @@
       "looksLikePriceList": "Sembra un listino prezzi: codici e prezzi, nessuna quantità.",
       "importAsLibrary": "Importa invece come libreria prezzi",
       "ownNotPriceXml": "Questo file XML non è un catalogo BMEcat né un listino prezzi ZSX. È un computo (CUF, GAEB, RSX, …)? Aprilo con Importa → Nuovo computo.",
+      "ownBc3NoConcepts": "nessun record ~C trovato; è un file BC3?",
+      "ownBc3Negative": "Esclusi perché il prezzo è negativo ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "Importati senza prezzo perché il prezzo nel file è 0 ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "Il file non indica la valuta. I file BC3 più vecchi sono spesso in pesetas: controlla i prezzi prima di usarli.",
       "selectAll": "Seleziona tutte le modifiche",
       "ownDuplicates": "I codici ripetuti hanno ricevuto un suffisso (~2, ~3) ({{count}}): {{codes}}.",
       "libraryNotLoaded": "La libreria «{{name}}» non è caricata in questo computo. La riga mantiene il suo prezzo; attiva la libreria per verificare gli aggiornamenti dei prezzi.",
@@ -927,6 +931,10 @@
       },
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Nessuna tabella KK (voci) trovata nel file .DNC."
+      },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} unità senza equivalente è stata mantenuta invariata: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} unità senza equivalente sono state mantenute invariate: {{examples}}."
       },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Nessun elemento <ARTICLE>/<PRODUCT> trovato. È un catalogo BMEcat/DICO?",

@@ -11,7 +11,7 @@
   "about": "ກ່ຽວກັບ",
   "exit": "ອອກ",
   "printMenu": "ພິມ",
-  "exportInschrijfstaat": "ສົ່ງອອກ Inschrijfstaat (.xlsx)",
+  "exportInschrijfstaat": "ສົ່ງອອກໃບປະມູນ (.xlsx)",
   "extensions": "ສ່ວນຂະຫຍາຍ",
   "extensionManager": {
     "title": "ສ່ວນຂະຫຍາຍ",
@@ -62,7 +62,7 @@
     "tradDesc": "ຮູບແບບການແລກປ່ຽນ IBIS Trad (.xml)",
     "rsxDesc": "ການແລກປ່ຽນຂໍ້ກຳນົດສະເພາະ CROW RAW (.rsx/.xml)",
     "rsuDesc": "ການແລກປ່ຽນ RAW ລຸ້ນເກົ່າ (.rsu) — ຜ່ານຊ່ອງທາງ RSX",
-    "bc3Desc": "ງົບປະມານຂອງແອັດສະປາຍ (.bc3); ປຶ້ມລາຄາກໍເປີດເປັນງົບປະມານໄດ້ເຊັ່ນກັນ",
+    "bc3Desc": "ການປະເມີນຂອງສະເປນ (.bc3); ສຳລັບຖານຂໍ້ມູນລາຄາ ໃຫ້ໃຊ້ຫ້ອງສະໝຸດລາຄາດ້ານລຸ່ມ",
     "onlvDesc": "ຂໍ້ກຳນົດສະເພາະ ÖNORM A 2063 ຂອງໂອຕຣິດ (.onlv) ຫຼື ລາຍການຂໍ້ຄວາມມາດຕະຖານ (.onlb)",
     "zsxTitle": "ຕາຕະລາງລາຄາ (ZSX)",
     "zsxDesc": "ຕາຕະລາງລາຄາເປັນຄັງລາຄາຂອງຕົນເອງ (.zsx/.xml)",
@@ -85,8 +85,8 @@
     "groupLibrary": "ຄັງລາຄາ",
     "groupLibraryHint": "ເກັບໄວ້ໃນຄອມພິວເຕີນີ້ ເພື່ອໃຫ້ທຸກງົບປະມານໃຊ້ໄດ້. ບໍ່ສ້າງງົບປະມານ.",
     "groupOther": "ອື່ນໆ",
-    "libraryTableTitle": "ຕາຕະລາງລາຄາ (Excel / CSV / JSON)",
-    "libraryTableDesc": "ຕາຕະລາງລາຄາຂອງທ່ານເອງ ຫຼື ຂອງຜູ້ສະໜອງ, ພ້ອມຕົວຢ່າງຖັນ (.xlsx/.csv/.json)"
+    "libraryTableTitle": "ຕາຕະລາງລາຄາ (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "ຕາຕະລາງລາຄາຂອງທ່ານເອງ ຫຼື ຂອງຜູ້ສະໜອງ, ພ້ອມຕົວຢ່າງຖັນ (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "ຂະໜາດ",

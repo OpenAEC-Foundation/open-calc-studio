@@ -25,7 +25,7 @@ export interface OpenCalcStudioProps {
   mode?: 'editor' | 'wizard';
   /** Blueprint theme: light, dark, blueprint, high-contrast-dark, high-contrast-light, or system. */
   theme?: string;
-  /** Interfacetaal (een van de 39 codes, bv. `en`, `nl`, `es`, `de`) of `auto`. */
+  /** Interfacetaal (een van de 40 codes, bv. `en`, `nl`, `es`, `de`) of `auto`. */
   lang?: string;
   /**
    * Project om te openen: de JSON-tekst van een .ifcCalc/.ocs-bestand, een

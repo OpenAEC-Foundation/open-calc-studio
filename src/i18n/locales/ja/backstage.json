@@ -62,7 +62,7 @@
     "tradDesc": "IBIS Trad 交換形式（.xml）",
     "rsxDesc": "CROW RAW 仕様交換形式（.rsx/.xml）",
     "rsuDesc": "旧 RAW 交換形式（.rsu）— RSX 経由で処理します",
-    "bc3Desc": "スペインの積算（.bc3）。単価集も積算として開きます",
+    "bc3Desc": "スペインの見積 (.bc3)。単価データベースは下の「単価ライブラリ」から取り込みます",
     "onlvDesc": "オーストリアの ÖNORM A 2063 内訳書 (.onlv) または標準文カタログ (.onlb)",
     "zsxTitle": "価格表（ZSX）",
     "zsxDesc": "価格表を独自の価格ライブラリとして（.zsx/.xml）",
@@ -85,8 +85,8 @@
     "groupLibrary": "価格ライブラリ",
     "groupLibraryHint": "このコンピューターに保存され、どの積算からも使えます。積算は作成しません。",
     "groupOther": "その他",
-    "libraryTableTitle": "価格表（Excel / CSV / JSON）",
-    "libraryTableDesc": "自社または仕入先の価格表、列プレビュー付き（.xlsx/.csv/.json）"
+    "libraryTableTitle": "価格表（Excel / CSV / JSON / BC3）",
+    "libraryTableDesc": "自社または仕入先の価格表、列プレビュー付き（.xlsx/.csv/.json/.bc3）"
   },
   "cloudPanel": {
     "size": "サイズ",

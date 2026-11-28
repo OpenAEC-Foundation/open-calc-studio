@@ -62,7 +62,7 @@
     "tradDesc": "Umbizo la ubadilishanaji la IBIS Trad (.xml)",
     "rsxDesc": "Ubadilishanaji wa vigezo vya CROW RAW (.rsx/.xml)",
     "rsuDesc": "Ubadilishanaji wa zamani wa RAW (.rsu) — kupitia njia ya RSX",
-    "bc3Desc": "Makadirio ya Uhispania (.bc3); kitabu cha bei pia hufunguka kama makadirio",
+    "bc3Desc": "Makadirio ya Kihispania (.bc3); kwa hifadhidata ya bei, tumia Maktaba ya bei hapa chini",
     "onlvDesc": "Orodha ya kazi ya Austria ÖNORM A 2063 (.onlv) au katalogi ya maandishi sanifu (.onlb)",
     "zsxTitle": "Orodha ya bei (ZSX)",
     "zsxDesc": "Orodha ya bei kama maktaba yako ya bei (.zsx/.xml)",
@@ -85,8 +85,8 @@
     "groupLibrary": "Maktaba ya bei",
     "groupLibraryHint": "Huhifadhiwa kwenye kompyuta hii ili kila makadirio yaweze kuitumia. Haiundi makadirio.",
     "groupOther": "Nyingine",
-    "libraryTableTitle": "Orodha ya bei (Excel / CSV / JSON)",
-    "libraryTableDesc": "Orodha yako ya bei au ya msambazaji, pamoja na onyesho la safu wima (.xlsx/.csv/.json)"
+    "libraryTableTitle": "Orodha ya bei (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "Orodha yako ya bei au ya msambazaji, pamoja na onyesho la safu wima (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "Ukubwa",

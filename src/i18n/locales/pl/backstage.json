@@ -62,7 +62,7 @@
     "tradDesc": "Format wymiany IBIS Trad (.xml)",
     "rsxDesc": "Wymiana specyfikacji CROW RAW (.rsx/.xml)",
     "rsuDesc": "Starsza wymiana RAW (.rsu) — przez ścieżkę RSX",
-    "bc3Desc": "Hiszpańskie kosztorysy (.bc3); baza cen też otwiera się jako kosztorys",
+    "bc3Desc": "Hiszpańskie kosztorysy (.bc3); bazę cen zaimportujesz poniżej w Bibliotece cen",
     "onlvDesc": "Austriacki przedmiar ÖNORM A 2063 (.onlv) lub katalog tekstów standardowych (.onlb)",
     "zsxTitle": "Cennik (ZSX)",
     "zsxDesc": "Cennik jako własna biblioteka cen (.zsx/.xml)",
@@ -85,8 +85,8 @@
     "groupLibrary": "Biblioteka cen",
     "groupLibraryHint": "Przechowywana na tym komputerze, więc może z niej korzystać każdy kosztorys. Nie tworzy kosztorysu.",
     "groupOther": "Inne",
-    "libraryTableTitle": "Cennik (Excel / CSV / JSON)",
-    "libraryTableDesc": "Własny cennik lub cennik dostawcy, z podglądem kolumn (.xlsx/.csv/.json)"
+    "libraryTableTitle": "Cennik (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "Własny cennik lub cennik dostawcy, z podglądem kolumn (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "Rozmiar",

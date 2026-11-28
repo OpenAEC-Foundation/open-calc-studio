@@ -58,6 +58,57 @@ describe('parseAmount', () => {
   });
 });
 
+// Knownbug 279: tekst achter het getal en onregelmatige groepen werden
+// verkeerd gelezen ("12.03.2024" → 12032024, "EUR 1.250,00 excl." → 1,25).
+describe('parseAmount: text around the number (knownbug 279)', () => {
+  it.each<[string, number]>([
+    ['EUR 1.250,00 excl.', 1250],
+    ['€ 1.250,00 incl. btw', 1250],
+    ['€1.250/m', 1250],
+    ['€ 1.250-', 1250],
+    ['€ 1.250,-', 1250],
+    ['€ 1.250,--', 1250],
+    ['€ 12,50/m²', 12.5],
+    ['12,5 m2', 12.5],
+    ['1.5e3', 1500],
+    ['₹1,23,456.50', 123456.5],
+    ["1'234'567", 1234567],
+    // Review: a round amount with a separator after it ("1.250,-") keeps its
+    // thousands separator, as before 279; it is not 1.25.
+    ['1.250,-', 1250],
+    ['12.500,-', 12500],
+    ['-1.250,-', -1250],
+    ['1.250,=', 1250],
+    ['1.250.-', 1250],
+    ['1.250,', 1250],
+    ['1,250.', 1250],
+    ['125,-', 125],
+    ['1.250.000,-', 1250000],
+    ['12,50,-', 12.5],
+  ])('%s → %d', (raw, value) => {
+    const r = parseAmount(raw);
+    expect(r.invalid).toBe(false);
+    expect(r.value).toBeCloseTo(value, 10);
+  });
+
+  it.each(['12.03.2024', "6'2", '1.2.3', '12,34,5'])('%s is not a number', (raw) => {
+    expect(parseAmount(raw)).toEqual({ value: 0, invalid: true, currency: null });
+  });
+
+  // Review-follow-up: een apostrof als tekstmarkering (CSV/Excel) blijft een getal.
+  it.each<[string, number]>([
+    ["'12,50", 12.5],
+    ["'1234", 1234],
+    ['’12,50', 12.5],
+    ["'1'234", 1234],
+    ["12,50'", 12.5],
+  ])('leading/trailing apostrophe: %s → %d', (raw, value) => {
+    const r = parseAmount(raw);
+    expect(r.invalid).toBe(false);
+    expect(r.value).toBeCloseTo(value, 10);
+  });
+});
+
 describe('generic tabular import with currency amounts', () => {
   const mapping = ['code', 'description', 'quantity', 'unit', 'unitPrice'] as const;
 

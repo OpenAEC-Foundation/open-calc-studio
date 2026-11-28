@@ -1,12 +1,13 @@
-import { defineConfig } from 'vitest/config';
+import { configDefaults, defineConfig } from 'vitest/config';
 import application from './vite.config';
 
 export default defineConfig({
   ...application,
+  // Neem de gedeelde testinstellingen (o.a. de 15 s-limieten) over; alleen include en
+  // exclude verschillen, want de app-config sluit tests/** uit (knownbug 277).
   test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: ['./src/test/setup.ts'],
+    ...application.test,
     include: ['tests/platform/**/*.test.tsx'],
+    exclude: [...configDefaults.exclude],
   },
 });

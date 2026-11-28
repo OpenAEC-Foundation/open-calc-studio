@@ -14,13 +14,22 @@ export function parseXml(text: string): Document {
   return doc;
 }
 
+/**
+ * Tekst van het eerste directe kind met deze tagnaam. Alleen directe kinderen:
+ * met de hele subboom nam een post zonder eigen <Hoeveelheid> die van zijn
+ * <Middel> over (knownbug 97). Zie `getDescendantText` voor de subboom.
+ */
 export function getText(el: Element | null | undefined, tag: string): string {
   if (!el) return '';
   const direct = Array.from(el.children).find((c) => c.tagName === tag || c.localName === tag);
-  const found =
-    direct ??
-    el.getElementsByTagName(tag)[0] ??
-    el.getElementsByTagNameNS('*', tag)[0];
+  return direct?.textContent?.trim() ?? '';
+}
+
+/** Als `getText`, maar zonder direct kind wordt de hele subboom doorzocht. */
+export function getDescendantText(el: Element | null | undefined, tag: string): string {
+  if (!el) return '';
+  const direct = Array.from(el.children).find((c) => c.tagName === tag || c.localName === tag);
+  const found = direct ?? el.getElementsByTagName(tag)[0] ?? el.getElementsByTagNameNS('*', tag)[0];
   return found?.textContent?.trim() ?? '';
 }
 

@@ -751,6 +751,10 @@
       "looksLikePriceList": "Ovo izgleda kao cjenik: šifre i cijene, bez količina.",
       "importAsLibrary": "Uvezi kao biblioteku cijena",
       "ownNotPriceXml": "Ova XML datoteka nije BMEcat katalog ni ZSX cjenik. Je li to troškovnik (CUF, GAEB, RSX, …)? Otvorite je putem Uvoz → Novi troškovnik.",
+      "ownBc3NoConcepts": "nisu pronađeni zapisi ~C; je li ovo BC3 datoteka?",
+      "ownBc3Negative": "Izostavljeno jer je cijena negativna ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "Uvezeno bez cijene jer je cijena u datoteci 0 ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "Datoteka ne navodi valutu. Starije BC3 datoteke često su u pezetama: provjerite cijene prije upotrebe.",
       "selectAll": "Odaberi sve promjene",
       "ownDuplicates": "Kodovi koji se ponavljaju dobili su sufiks (~2, ~3) ({{count}}): {{codes}}.",
       "libraryNotLoaded": "Biblioteka „{{name}}” nije učitana u ovom troškovniku. Stavka zadržava svoju cijenu; uključite biblioteku da biste pregledali ažuriranja cijena.",
@@ -927,6 +931,11 @@
       },
       "dncImporter": {
         "noKKTableItemsFoundInThe": "U .DNC datoteci nije pronađena KK tablica (stavke)."
+      },
+      "importUnits": {
+        "unknownUnitsKept_one": "{{count}} jedinica bez odgovarajuće jedinice zadržana je nepromijenjena: {{examples}}.",
+        "unknownUnitsKept_other": "{{count}} jedinica bez odgovarajuće jedinice zadržano je nepromijenjeno: {{examples}}.",
+        "unknownUnitsKept_few": "{{count}} jedinice bez odgovarajuće jedinice zadržane su nepromijenjene: {{examples}}."
       },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Nisu pronađeni elementi <ARTICLE>/<PRODUCT>. Je li ovo BMEcat/DICO katalog?",

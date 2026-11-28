@@ -186,7 +186,7 @@ jobs:
             - **Windows:** `.exe` (NSIS installer) / `.msi`
             - **macOS:** `.dmg` (universal: Apple Silicon + Intel)
             - **Linux:** `.AppImage` / `.deb` / `.rpm`
-            - **Embed in your own site:** `open-calc-studio-<version>.tgz` — npm package `@openaec/open-calc-studio` (React component + library, see `packages/embed/README.md`)
+            - **Embed in your own site:** `openaec-open-calc-studio-<version>.tgz` — npm package `@openaec/open-calc-studio` (React component + library, see `packages/embed/README.md`)
 
             - **Hosted web:** versioned platform archive with manifest and license notices.
             - **Headless API:** Node.js archive; REST and MCP use inline project data.

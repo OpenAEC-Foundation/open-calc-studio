@@ -4,7 +4,7 @@
     "v0.12.1": "Nombor dan tarikh dalam laporan PDF mengikut bahasa laporan",
     "v0.12.0": "Laporan dan unit dalam bahasa anda sendiri",
     "v0.11.0": "39 bahasa + FIEBDC-3 Sepanyol (.bc3)",
-    "v0.10.3": "GST biasa dan rendah — boleh dipilih bagi setiap bahagian",
+    "v0.10.3": "SST biasa dan rendah — boleh dipilih bagi setiap bahagian",
     "v0.10.0": "Logo dalam pengepala laporan + formula dalam sel",
     "v0.9.0": "Jumlah BasCalc tepat + laporan bergaya spesifikasi",
     "v0.8.8": "Pembetulan import Excel/CSV + melalui MCP",
@@ -35,7 +35,7 @@
     ],
     "v0.12.1": [
       "Laporan PDF menulis amaun, kuantiti, peratusan dan tarikh dalam tatatanda bahasa laporan — contohnya 1.234,56 € dan DD/MM/YYYY dalam bahasa Sepanyol, 1 234,56 € dalam bahasa Perancis",
-      "Kadar GST seperti 5.5% dibundarkan kepada 6% dalam laporan — dibetulkan",
+      "Kadar SST seperti 5.5% dibundarkan kepada 6% dalam laporan — dibetulkan",
       "Pusingan FIEBDC-3 (.bc3) disahkan pada 21 fail sebenar: selepas import → eksport → import semula, setiap amaun, huraian, kuantiti dan teks kembali tanpa perubahan; pengeksport kini menulis nombor tanpa pembundaran, mengekalkan pemisah baris dalam teks, berkongsi sumber yang sama sebagai satu konsep dan tidak lagi mengira wang untuk sumber dengan hasil 0",
       "REST API: eksport PDF dan IFC (/api/v1/export/…) melaporkan berjaya tetapi tidak menulis fail; fail kini ditulis dalam bahasa laporan dan pemanggil menerima laluannya, atau mesej ralat sebenar"
     ],
@@ -54,16 +54,16 @@
       "macOS: ralat \"rosak\" diselesaikan dan binaan itu sendiri dibaiki; \"Apa yang baharu\" kini dipaparkan dalam bahasa anda sendiri"
     ],
     "v0.10.3": [
-      "Baris kos tambahan baharu \"GST rendah\" (9%) di samping \"GST biasa\" — anggaran sedia ada mendapatkannya secara automatik",
-      "Tandakan bab, butiran atau baris sebagai berkadar rendah melalui klik kanan; subbutiran mewarisi kadar tersebut dan jadual memaparkan label GST",
+      "Baris kos tambahan baharu \"SST rendah\" (9%) di samping \"SST biasa\" — anggaran sedia ada mendapatkannya secara automatik",
+      "Tandakan bab, butiran atau baris sebagai berkadar rendah melalui klik kanan; subbutiran mewarisi kadar tersebut dan jadual memaparkan label SST",
       "Asas bercukai dikira secara berkadar daripada penandaan (termasuk kos tambahan) atau dimasukkan secara manual dalam panel kos tambahan",
-      "Pembahagian GST diterapkan dalam semua laporan (IBIS memaparkan asas biasa dan rendah secara berasingan) dan pada pelayan MCP",
-      "Pembetulan: GST dikira dua kali dalam ringkasan Bouw 1, dan amaun termasuk GST dipaparkan di bawah label \"Jumlah kontrak tidak termasuk GST\""
+      "Pembahagian SST diterapkan dalam semua laporan (IBIS memaparkan asas biasa dan rendah secara berasingan) dan pada pelayan MCP",
+      "Pembetulan: SST dikira dua kali dalam ringkasan Bouw 1, dan amaun termasuk SST dipaparkan di bawah label \"Jumlah kontrak tidak termasuk SST\""
     ],
     "v0.10.0": [
       "Logo syarikat di kanan atas pengepala laporan (lutsinar, berskala bersama); ketinggian pengepala dan warna garis boleh dilaraskan",
       "Formula dalam sel bernombor (=12.2*2.22 atau 12,2*2,2) — dan pepijat perpuluhan yang tercicir telah dibetulkan",
-      "Kos tambahan: masukkan amaun akhir tanpa GST dan pembundaran secara automatik menjadi bezanya; GST dikira atas amaun yang dibundarkan",
+      "Kos tambahan: masukkan amaun akhir tanpa SST dan pembundaran secara automatik menjadi bezanya; SST dikira atas amaun yang dibundarkan",
       "Kontrak utama: baris hasil tambah dengan \"+\", lajur S pilihan (boleh dikira semula diwarisi daripada bab) dan paparan jumlah kecil sahaja",
       "Bekerja lebih pantas: harga ±%, Ctrl+F cari dan ganti, runtuhkan mengikut aras, buat asal berbilang langkah, baris teks dengan lilitan perkataan"
     ],
@@ -137,7 +137,7 @@
       "Simpan ruang kerja tugas untuk pengukuran, penganggaran dan semakan, termasuk lebar panel, zum dan lajur.",
       "Tetingkap kedua memaparkan lukisan PDF dan asal usul kuantiti yang dipilih tanpa menyunting anggaran.",
       "Periksa fail dan identiti sumber, halaman atau pilihan IFC, formula dan nilai terpaut asal bagi setiap kuantiti.",
-      "Semak jumlah kewangan sebelum dan selepas cadangan pembantu, termasuk kos tambahan dan GST; terapkan atau buat asal keseluruhan cadangan sekali gus.",
+      "Semak jumlah kewangan sebelum dan selepas cadangan pembantu, termasuk kos tambahan dan SST; terapkan atau buat asal keseluruhan cadangan sekali gus.",
       "Semua fungsi baharu tersedia melalui pelayan MCP langsung. Format fail asli menambah provenans pilihan dalam versi 2.3.0."
     ],
     "v2026.44.2-dev": [

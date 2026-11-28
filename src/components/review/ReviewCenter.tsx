@@ -11,7 +11,7 @@ import { getNumberLocale } from '@/utils/formatting';
 const categories: ReviewFilter[] = ['all', 'price', 'source', 'unit'];
 
 export function ReviewCenter({ onOpenItem }: { onOpenItem?: (itemId: string) => void } = {}) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const report = useBudgetReview();
   const filter = useAppStore(s => s.reviewFilter), selected = useAppStore(s => s.reviewIssueId);
   const items = useAppStore(s => s.items), documentId = useAppStore(s => s.activeDocumentId);
@@ -28,8 +28,8 @@ export function ReviewCenter({ onOpenItem }: { onOpenItem?: (itemId: string) => 
   }
   return <section className="review-center" aria-label={t('review.title')}>
     <div className="review-filters">
-      <button className="oa-button" onClick={() => useAppStore.getState().openDialog('priceUpdates')}>{i18n.language.startsWith('nl') ? 'Prijsupdates beoordelen' : 'Review price updates'}</button>
-      <button className="oa-button" onClick={() => useAppStore.getState().openDialog('revisions')}>{i18n.language.startsWith('nl') ? 'Bronrevisies vergelijken' : 'Compare source revisions'}</button>
+      <button className="oa-button" onClick={() => useAppStore.getState().openDialog('priceUpdates')}>{t('workspace.pricing.updates')}</button>
+      <button className="oa-button" onClick={() => useAppStore.getState().openDialog('revisions')}>{t('workspace.revisions.title')}</button>
     </div>
     <header className="review-heading"><h2 className="oa-heading oa-heading--section">{t('review.title')}</h2><p role="status">{t('review.summary', { count: report.counts.all, rows: report.rowCount, affected: report.affectedRows })}</p><p>{t('review.scope')}</p></header>
     <div className="review-filters" role="group" aria-label={t('review.filterLabel')}>

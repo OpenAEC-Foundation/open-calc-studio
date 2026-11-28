@@ -8,12 +8,20 @@ import { variantCalculatedItems } from '@/services/grid/variantTotals';
 
 type Store = ReturnType<typeof useAppStore.getState>;
 
+/**
+ * Rust leest de geldigheid als `u32`: een negatief of gebroken getal (MCP,
+ * een bewerkt bestand) liet de hele PDF-export mislukken (knownbug 134).
+ */
+function geldigheidDagen(value: number): number {
+  return Number.isFinite(value) ? Math.max(1, Math.round(value)) : 30;
+}
+
 export function buildOfferteRequest(store: Store = useAppStore.getState()) {
   return {
     offerte: {
       offerteNummer: store.offerte.offerteNummer,
       offerteDatum: store.offerte.offerteDatum,
-      geldigheid: store.offerte.geldigheid,
+      geldigheid: geldigheidDagen(store.offerte.geldigheid),
       geadresseerde: store.offerte.geadresseerde,
       begeleidendSchrijven: store.offerte.begeleidendSchrijven,
       secties: store.offerte.secties.map(s => ({

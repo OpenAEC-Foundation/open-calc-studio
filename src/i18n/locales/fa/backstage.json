@@ -62,7 +62,7 @@
     "tradDesc": "قالب تبادل IBIS Trad (.xml)",
     "rsxDesc": "تبادل مشخصات CROW RAW (.rsx/.xml)",
     "rsuDesc": "تبادل قدیمی RAW (.rsu) — از مسیر RSX",
-    "bc3Desc": "برآوردهای اسپانیایی (.bc3)؛ فهرست\u200cبها هم به\u200cصورت برآورد باز می\u200cشود",
+    "bc3Desc": "برآوردهای اسپانیایی (.bc3)؛ برای پایگاه قیمت از کتابخانهٔ قیمت در پایین استفاده کنید",
     "onlvDesc": "فهرست مقادیر اتریشی ÖNORM A 2063 (.onlv) یا فهرست متون استاندارد (.onlb)",
     "zsxTitle": "فهرست قیمت (ZSX)",
     "zsxDesc": "فهرست قیمت به\u200cعنوان کتابخانه قیمت شخصی (.zsx/.xml)",
@@ -85,8 +85,8 @@
     "groupLibrary": "کتابخانه قیمت",
     "groupLibraryHint": "روی این رایانه نگه داشته می\u200cشود تا هر برآوردی بتواند از آن استفاده کند. برآوردی ایجاد نمی\u200cکند.",
     "groupOther": "سایر",
-    "libraryTableTitle": "فهرست قیمت (Excel / CSV / JSON)",
-    "libraryTableDesc": "فهرست قیمت خودتان یا یک تأمین\u200cکننده، با پیش\u200cنمایش ستون\u200cها (.xlsx/.csv/.json)"
+    "libraryTableTitle": "فهرست قیمت (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "فهرست قیمت خودتان یا یک تأمین\u200cکننده، با پیش\u200cنمایش ستون\u200cها (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "اندازه",

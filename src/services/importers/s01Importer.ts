@@ -79,9 +79,10 @@ export function importS01(text: string): ImportResult {
     return null;
   };
 
-  /** Titel = aaneengesloten hoofdletter-tekst aan het einde van een S-regel. */
+  /** Titel = aaneengesloten hoofdletter-tekst aan het einde van een S-regel.
+   *  Ook hoofdletters met accent ("BEËINDIGEN"), knownbug 93. */
   const extractTitle = (line: string): string => {
-    const m = line.match(/\s([A-Z][A-Z0-9 ,.'()/&-]{2,})\s*$/);
+    const m = line.match(/\s(\p{Lu}[\p{Lu}0-9 ,.'()/&-]{2,})\s*$/u);
     return m ? m[1].trim() : '';
   };
 
@@ -97,9 +98,20 @@ export function importS01(text: string): ImportResult {
 
     const parsed = parseCode(raw);
     if (!parsed) continue;
-    const isEnd = /-END\s*$/.test(raw);
+    if (/-END\s*$/.test(raw)) {
+      // Einde post: een volgende post met dezelfde code (andere .NNN-variant)
+      // wordt een eigen post, niet samengevoegd (knownbug 92).
+      if (parsed.base === currentBase) {
+        flushPost();
+        currentBase = '';
+      }
+      continue;
+    }
+    // Een besteksposthoofd ("210105 .102") begint altijd een nieuwe post,
+    // ook als de vorige post met dezelfde code geen -END-regel had.
+    const isPostHead = /^\d{6}\s+\.\d+\s*$/.test(raw);
 
-    if (parsed.base !== currentBase) {
+    if (parsed.base !== currentBase || isPostHead) {
       flushPost();
       currentBase = parsed.base;
       const chapter = ensureChapter(parsed.hfdst);
@@ -113,8 +125,6 @@ export function importS01(text: string): ImportResult {
       });
       currentPost = { item: post, notes: [] };
     }
-
-    if (isEnd) continue;
 
     const title = extractTitle(raw);
     if (title && currentPost && currentPost.item.description === parsed.code) {

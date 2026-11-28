@@ -3,6 +3,7 @@
 // installeren). React/ReactDOM zijn peer-afhankelijkheden; @types/* horen
 // niet in een runtime-pakket.
 import { readFileSync, writeFileSync, existsSync, copyFileSync } from 'node:fs';
+import { embedDependencies } from './embed-bundled.mjs';
 
 // Keep the complete product license available at the npm package root.
 for (const name of ['LICENSE', 'COPYING', 'NOTICE.md']) {
@@ -23,12 +24,8 @@ const root = JSON.parse(readFileSync('package.json', 'utf8'));
 const path = 'packages/embed/package.json';
 const embed = JSON.parse(readFileSync(path, 'utf8'));
 
-const peers = new Set(['react', 'react-dom']);
-const dependencies = Object.fromEntries(
-  Object.entries(root.dependencies)
-    .filter(([name]) => !peers.has(name) && name !== 'xlsx' && !name.startsWith('@types/'))
-    .sort(([a], [b]) => a.localeCompare(b)),
-);
+// Zonder peers en zonder wat de lib-build zelf bundelt (zie embed-bundled.mjs).
+const dependencies = embedDependencies(root.dependencies);
 
 const next = { ...embed, version: root.version, license: root.license, dependencies };
 const json = JSON.stringify(next, null, 2) + '\n';

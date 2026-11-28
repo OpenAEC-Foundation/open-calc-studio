@@ -62,7 +62,7 @@
     "tradDesc": "IBIS Trad değişim biçimi (.xml)",
     "rsxDesc": "CROW RAW şartname değişimi (.rsx/.xml)",
     "rsuDesc": "Eski RAW değişimi (.rsu) — RSX yolu üzerinden",
-    "bc3Desc": "İspanyol keşifleri (.bc3); fiyat kitabı da keşif olarak açılır",
+    "bc3Desc": "İspanyol keşifler (.bc3); fiyat veritabanı için aşağıdaki Fiyat kitaplığını kullanın",
     "onlvDesc": "Avusturya ÖNORM A 2063 keşif listesi (.onlv) veya standart metin kataloğu (.onlb)",
     "zsxTitle": "Fiyat listesi (ZSX)",
     "zsxDesc": "Fiyat listesi kendi fiyat kütüphaneniz olarak (.zsx/.xml)",
@@ -85,8 +85,8 @@
     "groupLibrary": "Fiyat kütüphanesi",
     "groupLibraryHint": "Bu bilgisayarda saklanır, böylece her keşif kullanabilir. Keşif oluşturmaz.",
     "groupOther": "Diğer",
-    "libraryTableTitle": "Fiyat listesi (Excel / CSV / JSON)",
-    "libraryTableDesc": "Kendi fiyat listeniz veya bir tedarikçininki, sütun önizlemesiyle (.xlsx/.csv/.json)"
+    "libraryTableTitle": "Fiyat listesi (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "Kendi fiyat listeniz veya bir tedarikçininki, sütun önizlemesiyle (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "Boyut",

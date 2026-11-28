@@ -62,7 +62,7 @@
     "tradDesc": "IBIS Trad uitwisselformaat (.xml)",
     "rsxDesc": "CROW RAW besteks-uitwisseling (.rsx/.xml)",
     "rsuDesc": "Oudere RAW-uitwisseling (.rsu) — via de RSX-route",
-    "bc3Desc": "Spaanse begrotingen (.bc3); een prijzenboek opent ook als begroting",
+    "bc3Desc": "Spaanse begrotingen (.bc3); een prijzenbank importeer je onder Prijsbibliotheek hieronder",
     "onlvDesc": "Oostenrijks ÖNORM A 2063-bestek (.onlv) of catalogus van standaardteksten (.onlb)",
     "zsxTitle": "Prijslijst (ZSX)",
     "zsxDesc": "Prijslijst als eigen prijsbibliotheek (.zsx/.xml)",
@@ -85,8 +85,8 @@
     "groupLibrary": "Prijsbibliotheek",
     "groupLibraryHint": "Wordt bewaard op deze computer, zodat elke begroting hem kan gebruiken. Maakt geen begroting.",
     "groupOther": "Overig",
-    "libraryTableTitle": "Prijslijst (Excel / CSV / JSON)",
-    "libraryTableDesc": "Eigen prijslijst of die van een leverancier, met kolomvoorbeeld (.xlsx/.csv/.json)"
+    "libraryTableTitle": "Prijslijst (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "Eigen prijslijst of die van een leverancier, met kolomvoorbeeld (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "Grootte",

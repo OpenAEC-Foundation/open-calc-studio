@@ -62,7 +62,7 @@
     "tradDesc": "Formato di scambio IBIS Trad (.xml)",
     "rsxDesc": "Scambio di capitolati CROW RAW (.rsx/.xml)",
     "rsuDesc": "Vecchio scambio RAW (.rsu) — tramite il percorso RSX",
-    "bc3Desc": "Computi spagnoli (.bc3); anche un prezzario si apre come computo",
+    "bc3Desc": "Computi spagnoli (.bc3); per un prezzario, usa Libreria prezzi qui sotto",
     "onlvDesc": "Capitolato austriaco ÖNORM A 2063 (.onlv) o catalogo di testi standard (.onlb)",
     "zsxTitle": "Listino prezzi (ZSX)",
     "zsxDesc": "Listino prezzi come libreria prezzi propria (.zsx/.xml)",
@@ -85,8 +85,8 @@
     "groupLibrary": "Libreria prezzi",
     "groupLibraryHint": "Conservata su questo computer, così ogni computo può usarla. Non crea un computo.",
     "groupOther": "Altro",
-    "libraryTableTitle": "Listino prezzi (Excel / CSV / JSON)",
-    "libraryTableDesc": "Listino prezzi tuo o di un fornitore, con anteprima delle colonne (.xlsx/.csv/.json)"
+    "libraryTableTitle": "Listino prezzi (Excel / CSV / JSON / BC3)",
+    "libraryTableDesc": "Listino prezzi tuo o di un fornitore, con anteprima delle colonne (.xlsx/.csv/.json/.bc3)"
   },
   "cloudPanel": {
     "size": "Dimensione",

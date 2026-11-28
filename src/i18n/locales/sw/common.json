@@ -113,7 +113,7 @@
   "rows": "Safu",
   "costPrice": "Bei ya gharama",
   "costPriceDirect": "Bei ya gharama (gharama za moja kwa moja)",
-  "surcharges": "Nyongeza (gharama za mkia)",
+  "surcharges": "Nyongeza",
   "subtotal1": "Jumla ndogo 1",
   "subtotal2": "Jumla ndogo 2",
   "rounding": "Kuzungusha",
@@ -153,8 +153,8 @@
   "wpcalc": {
     "tabData": "Data",
     "tabHours": "Saa",
-    "tabTail": "Mkia",
-    "tabHoursTail": "Saa na mkia",
+    "tabTail": "Nyongeza",
+    "tabHoursTail": "Saa na nyongeza",
     "tabReport": "Ripoti",
     "hoursOverview": "Muhtasari wa saa",
     "headerType": "Aina",
@@ -162,7 +162,7 @@
     "headerRate": "Kiwango",
     "headerTotal": "Jumla",
     "rateGroup": "Kundi la viwango",
-    "tailCosts": "Gharama za mkia",
+    "tailCosts": "Gharama za nyongeza",
     "colDescription": "Maelezo",
     "colPercentage": "%",
     "colLabor": "Wafanyakazi",
@@ -348,7 +348,7 @@
       "regel": "Mstari wa kukokotoa",
       "tekstregel": "Mstari wa maandishi",
       "witregel": "Mstari mtupu",
-      "staart": "Mstari wa mkia"
+      "staart": "Mstari wa nyongeza"
     },
     "fields": {
       "code": "Msimbo",
@@ -751,6 +751,10 @@
       "looksLikePriceList": "Hii inaonekana kama orodha ya bei: misimbo na bei, bila idadi.",
       "importAsLibrary": "Ingiza kama maktaba ya bei badala yake",
       "ownNotPriceXml": "Faili hii ya XML si katalogi ya BMEcat wala orodha ya bei ya ZSX. Je, ni makadirio (CUF, GAEB, RSX, …)? Ifungue kupitia Ingiza → Makadirio mapya.",
+      "ownBc3NoConcepts": "hakuna rekodi za ~C zilizopatikana; je, hii ni faili ya BC3?",
+      "ownBc3Negative": "Viliachwa kwa sababu bei ni hasi ({{n}}): {{codes}}",
+      "ownBc3Unpriced": "Viliingizwa bila bei kwa sababu bei kwenye faili ni 0 ({{n}}): {{codes}}",
+      "ownBc3NoCurrency": "Faili haitaji sarafu yake. Faili za zamani za BC3 mara nyingi ziko kwa peseta: kagua bei kabla ya kuzitumia.",
       "selectAll": "Chagua mabadiliko yote",
       "ownDuplicates": "Misimbo inayojirudia imepewa kiambishi tamati (~2, ~3) ({{count}}): {{codes}}.",
       "libraryNotLoaded": "Maktaba “{{name}}” haijapakiwa katika makadirio haya. Mstari unabaki na bei yake; washa maktaba ili kukagua masasisho ya bei.",
@@ -927,6 +931,10 @@
       },
       "dncImporter": {
         "noKKTableItemsFoundInThe": "Hakuna jedwali la KK (vipengele) lililopatikana katika faili ya .DNC."
+      },
+      "importUnits": {
+        "unknownUnitsKept_one": "Kipimo {{count}} kisicho na kilinganifu kimehifadhiwa bila mabadiliko: {{examples}}.",
+        "unknownUnitsKept_other": "Vipimo {{count}} visivyo na vilinganifu vimehifadhiwa bila mabadiliko: {{examples}}."
       },
       "bmecatImporter": {
         "noARTICLEPRODUCTElementsFoundIsThis": "Hakuna elementi za <ARTICLE>/<PRODUCT> zilizopatikana. Je, hii ni katalogi ya BMEcat/DICO?",
