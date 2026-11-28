@@ -2,6 +2,7 @@ import { readWorkbookForValues, WORKBOOK_LIMITS } from '@/services/importers/saf
 import { uiText } from '../../i18n/uiText';
 import * as XLSX from 'xlsx';
 import { BudgetBuilder, parseAmount, normalizeUnit } from './core';
+import { decodeWindows1252 } from './windows1252';
 import type { ImportCellDiagnostics, ImportResult } from './types';
 import type { CostItem } from '@/types/costModel';
 
@@ -92,45 +93,88 @@ function detectDelimiter(headerLine: string): string {
   return best && best[1] > 0 ? best[0] : ';';
 }
 
-/** Parse één CSV-regel met ondersteuning voor "quoted" velden. */
-function parseCsvLine(line: string, delim: string): string[] {
-  const out: string[] = [];
+/**
+ * Lees CSV-tekst in rijen, teken voor teken over de hele tekst (knownbug 60).
+ * Een `"` opent alleen aan het begin van een veld een geciteerd veld; daarbinnen
+ * mogen scheidingstekens en regeleinden staan (Excel schrijft cellen met
+ * meerdere regels zo) en is `""` één aanhalingsteken. Een `"` midden in een
+ * veld (`Buis 4" PVC`) is een gewoon teken. Lege regels vallen weg. Sluit een
+ * geciteerd veld nooit, dan telt die openende `"` als gewoon teken en lezen we
+ * vanaf daar opnieuw, zodat de rest van het bestand niet in één cel verdwijnt.
+ */
+function parseCsvRows(text: string, delim: string): string[][] {
+  const rows: string[][] = [];
+  let row: string[] = [];
   let cur = '';
   let inQuotes = false;
-  for (let i = 0; i < line.length; i++) {
-    const ch = line[i];
+  let cells = 0;
+  const endField = () => {
+    row.push(cur.trim()); cur = '';
+    if (row.length > WORKBOOK_LIMITS.columns) throw Error('CSV exceeds 1,024 columns.');
+  };
+  const endRow = () => {
+    endField();
+    if (row.every((c) => c === '')) { row = []; return; }
+    cells += row.length;
+    if (cells > WORKBOOK_LIMITS.cells) throw Error('CSV exceeds two million cells.');
+    rows.push(row); row = [];
+    if (rows.length > WORKBOOK_LIMITS.rows) throw Error('CSV exceeds 100,000 rows.');
+  };
+  // Openende quotes die nooit sluiten: die lezen we als gewoon teken.
+  const literalQuotes = new Set<number>();
+  let opened = { at: -1, rows: 0, row: [] as string[], cells: 0 };
+  for (let i = 0; i <= text.length; i++) {
+    if (i === text.length) {
+      if (!inQuotes) break;
+      literalQuotes.add(opened.at);
+      rows.length = opened.rows; row = opened.row; cells = opened.cells;
+      cur = ''; inQuotes = false; i = opened.at - 1;
+      continue;
+    }
+    const ch = text[i];
     if (inQuotes) {
-      if (ch === '"') {
-        if (line[i + 1] === '"') { cur += '"'; i += 1; } else inQuotes = false;
-      } else cur += ch;
-    } else if (ch === '"') {
-      inQuotes = true;
+      if (ch !== '"') cur += ch;
+      else if (text[i + 1] === '"') { cur += '"'; i += 1; }
+      else inQuotes = false;
+    } else if (ch === '"' && cur.trim() === '' && !literalQuotes.has(i)) {
+      // Alleen witruimte vóór de quote: dat is het begin van het veld.
+      inQuotes = true; cur = '';
+      opened = { at: i, rows: rows.length, row: row.slice(), cells };
     } else if (ch === delim) {
-      out.push(cur); cur = '';
-      if (out.length >= WORKBOOK_LIMITS.columns) throw Error('CSV exceeds 1,024 columns.');
+      endField();
+    } else if (ch === '\n' || ch === '\r') {
+      if (ch === '\r' && text[i + 1] === '\n') i += 1;
+      endRow();
     } else {
       cur += ch;
     }
   }
-  out.push(cur);
-  return out.map((s) => s.trim());
+  if (cur !== '' || row.length > 0) endRow();
+  return rows;
 }
 
 export function parseCsv(text: string, sourceName = 'CSV-import'): TabularData {
   if (text.length * 2 > WORKBOOK_LIMITS.bytes) throw Error('CSV exceeds the supported size.');
-  const clean = text.replace(/^﻿/, ''); // strip BOM
-  const lines = clean.split(/\r?\n/).filter((l) => l.trim().length > 0);
-  if (lines.length > WORKBOOK_LIMITS.rows) throw Error('CSV exceeds 100,000 rows.');
-  if (lines.length === 0) return { headers: [], rows: [], sourceName };
-  const delim = detectDelimiter(lines[0]);
-  const headers = parseCsvLine(lines[0], delim);
-  const rows: string[][] = []; let cells = headers.length;
-  for (const line of lines.slice(1)) {
-    const row = parseCsvLine(line, delim); cells += row.length;
-    if (cells > WORKBOOK_LIMITS.cells) throw Error('CSV exceeds two million cells.');
-    rows.push(row);
-  }
+  const clean = text.replace(/^\uFEFF/, ''); // strip BOM
+  const firstLine = clean.split(/\r?\n/).find((l) => l.trim().length > 0);
+  if (firstLine === undefined) return { headers: [], rows: [], sourceName };
+  const [headers = [], ...rows] = parseCsvRows(clean, detectDelimiter(firstLine));
   return { headers, rows, sourceName };
+}
+
+/**
+ * Bytes van een CSV naar tekst: UTF-8 als dat geldig is, anders Windows-1252,
+ * de codering van Nederlandstalige Excel bij "CSV (gescheiden door
+ * lijstscheidingsteken)" (knownbug 260).
+ */
+export function decodeCsvText(data: ArrayBuffer | Uint8Array): string {
+  try {
+    return new TextDecoder('utf-8', { fatal: true }).decode(data);
+  } catch {
+    // Eigen tabel in plaats van TextDecoder('windows-1252'): sommige Node-
+    // versies lezen dat label als Latin-1, waardoor 0x80 geen € wordt.
+    return decodeWindows1252(data instanceof Uint8Array ? data : new Uint8Array(data));
+  }
 }
 
 export function parseXlsxTabular(buf: ArrayBuffer | Uint8Array, sourceName = 'Excel-import'): TabularData {
@@ -146,7 +190,9 @@ export function parseXlsxTabular(buf: ArrayBuffer | Uint8Array, sourceName = 'Ex
   for (const name of wb.SheetNames) {
     const ws = wb.Sheets[name];
     const start = XLSX.utils.decode_range(ws['!ref'] || 'A1').s;
-    const all = XLSX.utils.sheet_to_json<unknown[]>(ws, { header: 1, blankrows: true });
+    // defval: een lege cel wordt '' in plaats van een gat in de array, zodat
+    // ook een kolom met een lege kopcel te koppelen is (knownbug 81).
+    const all = XLSX.utils.sheet_to_json<unknown[]>(ws, { header: 1, blankrows: true, defval: '' });
     const rows: unknown[][] = [];
     const sheetRows: number[] = [];
     all.forEach((r, i) => {
@@ -158,8 +204,17 @@ export function parseXlsxTabular(buf: ArrayBuffer | Uint8Array, sourceName = 'Ex
   }
   if (!best || best.rows.length === 0) return { headers: [], rows: [], sourceName };
   const toStr = (v: unknown) => (v == null ? '' : String(v).trim());
-  const headers = best.rows[0].map(toStr);
-  const rows = best.rows.slice(1).map((r) => r.map(toStr));
+  // Een titelregel ("Begroting nieuwbouw") boven de kop is geen kopregel: de
+  // kop is de eerste rij met minstens twee gevulde cellen (knownbug 81). Een
+  // rij erboven met één bekende kolomnaam ("Omschrijving") is wél de kop: dan
+  // heeft alleen die kolom een naam en is de volgende rij al gegevens.
+  const filled = (r: unknown[]) => r.filter((v) => v != null && v !== '');
+  const firstWide = best.rows.findIndex((r) => filled(r).length >= 2);
+  const knownLabel = best.rows.slice(0, Math.max(0, firstWide))
+    .findIndex((r) => filled(r).some((v) => autoDetectMapping([toStr(v)])[0] !== 'ignore'));
+  const headerIndex = knownLabel >= 0 ? knownLabel : Math.max(0, firstWide);
+  const headers = best.rows[headerIndex].map(toStr);
+  const rows = best.rows.slice(headerIndex + 1).map((r) => r.map(toStr));
 
   const ws = wb.Sheets[best.name];
   const range = XLSX.utils.decode_range(ws['!ref'] || 'A1');
@@ -177,7 +232,7 @@ export function parseXlsxTabular(buf: ArrayBuffer | Uint8Array, sourceName = 'Ex
   };
   // Excel schrijft een bladnaam met spaties of leestekens tussen quotes.
   const sheetRef = /^[A-Za-z_][A-Za-z0-9_.]*$/.test(best.name) ? best.name : `'${best.name.replace(/'/g, "''")}'`;
-  best.sheetRows.slice(1).forEach((r, row) => {
+  best.sheetRows.slice(headerIndex + 1).forEach((r, row) => {
     for (let c = range.s.c; c <= range.e.c; c++) {
       const ref = XLSX.utils.encode_cell({ r, c });
       const cell = ws[ref] as XLSX.CellObject | undefined;
@@ -221,16 +276,18 @@ export function cellIssueKind(cell: XLSX.CellObject, uncalculated: boolean): Pic
 // Koppen worden vóór vergelijking genormaliseerd: kleine letters, zonder
 // accenten, spaties en leestekens ("Mano de obra" → "manodeobra",
 // "Medición" → "medicion", "Ud." → "ud"). Spaanse koppen volgen Presto/BC3 (#40).
+// Een toevoeging tussen haakjes en een valutateken tellen niet mee:
+// "Prijs (€)", "Totaal €" en "Hoeveelheid (m2)" (knownbug 85).
 const HEADER_SYNONYMS: { field: TargetField; pattern: RegExp }[] = [
   { field: 'code', pattern: /^(code|stabu|nlsfb|nl-sfb|besteksnr|besteknr|artikelnr|artikelcode|codigo|cod)$/ },
   { field: 'nr', pattern: /^(nr|nummer|regelnr|volgnr|positie|pos|numero|num|nº|orden)$/ },
   { field: 'description', pattern: /^(omschrijving|omschr|oms|description|benaming|naam|werk|activiteit|resumen|descripcion|concepto|designacion)$/ },
-  { field: 'unit', pattern: /^(eh|ehd|eenheid|unit|ud|uds|unidad|unidades)$/ },
+  { field: 'unit', pattern: /^(eh|ehd|eenh|eenheid|unit|ud|uds|unidad|unidades)$/ },
   { field: 'quantity', pattern: /^(hoeveelheid|hoev|hvh|aantal|qty|quantity|medicion|cantidad|cant)$/ },
   { field: 'materialPrice', pattern: /^(materiaal|materiaalprijs|mat|matprijs|material|materiales)$/ },
   { field: 'laborPrice', pattern: /^(arbeid|arbeidsprijs|loon|loonprijs|labor|labour|uurprijs|urenprijs|manodeobra|mo)$/ },
   { field: 'equipmentPrice', pattern: /^(materieel|materieelprijs|equipment|machinery|plant|maquinaria|equipo|equipos)$/ },
-  { field: 'unitPrice', pattern: /^(eenheidsprijs|ehprijs|ehprs|prijs|price|unitprice|stukprijs|tarief|prijspereh|precio|preciounitario)$/ },
+  { field: 'unitPrice', pattern: /^(eenheidsprijs|ehprijs|ehprs|prijs|price|unitprice|stukprijs|tarief|prijspereh|prijseh|precio|preciounitario)$/ },
   { field: 'total', pattern: /^(totaal|bedrag|total|amount|subtotaal|regeltotaal|importe)$/ },
 ];
 
@@ -238,7 +295,8 @@ const HEADER_SYNONYMS: { field: TargetField; pattern: RegExp }[] = [
 export function autoDetectMapping(headers: string[]): ColumnMapping {
   const used = new Set<TargetField>();
   return headers.map((h) => {
-    const norm = h.trim().toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '').replace(/[\s._/]+/g, '');
+    const norm = h.trim().toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '')
+      .replace(/\([^)]*\)/g, '').replace(/[€$£]/g, '').replace(/[\s._/]+/g, '');
     for (const syn of HEADER_SYNONYMS) {
       if (used.has(syn.field)) continue;
       if (syn.pattern.test(norm)) { used.add(syn.field); return syn.field; }

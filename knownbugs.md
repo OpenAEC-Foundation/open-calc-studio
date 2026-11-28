@@ -79,71 +79,12 @@ stand van `main` op die datum.
 
 ## Bestanden, import en export
 
-60. **Generieke CSV-import verminkt een `"` binnen een veld en geciteerde velden over meerdere regels.**
-    `src/services/importers/genericTabularImporter.ts:70-91, 96`. Nagespeeld: `Buis 4" PVC;10;m` geeft één cel;
-    `"Regel 1\nRegel 2";10;m` geeft twee kapotte rijen, en Excel schrijft cellen met meerdere regels precies
-    zo. Voorstel: één state machine teken voor teken over de hele tekst, waarbij `"` alleen aan het begin van
-    een veld als openingsaanhalingsteken telt (of SheetJS gebruiken). — B
-
-61. **Het Open-venster accepteert bestandstypen die niet te openen zijn, en een recente `.dnc` verdwijnt uit de
-    lijst.** `src/hooks/useFileOperations.ts:298` en `:213-266`; tweede controle plaatst het dialoogfilter op
-    `nativeFileService.ts:7` en de binaire lijst op r.68 (eerder gemeld als `nativeFileService.ts:8,16`).
-    `openRecentFile` mist `'dnc'` in zijn binaire lijst, valt terug op JSON-parsen, krijgt een SyntaxError en
-    de catch haalt het bestand uit de recente bestanden. `csv` en `x81`–`x87` staan in het dialoogfilter, maar
-    gaan in Tauri naar `deserializeProject`, dat een SyntaxError gooit. Voorstel: alles wat niet native is via
-    `importBudget` (`@/lib/importers`) laten lopen. — B
-
-62. **Een `.calc`/`.mdb` die eigenlijk native JSON bevat verliest zijn spreadsheets.**
-    `src/hooks/useFileOperations.ts:223` en `:307`: de code kijkt naar `native.subSheets`, maar
-    `deserializeProject` vult alleen `spreadsheets.sheets`. De sheets worden niet geladen, en de volgende
-    Opslaan als schrijft het bestand zonder ze. Tweede controle: ernst gemiddeld, want het vraagt een
-    .calc/.mdb met onze JSON erin, en dat is zeldzaam. Voorstel: `openProjectInStore(native, …)` gebruiken. — B
-
-63. **De voorgestelde opslagnaam knipt een deel van een naam met een punt weg.**
-    `src/hooks/useFileOperations.ts:48` (`toIfcCalcPath`). Nagespeeld: `Begroting v1.2.xls` wordt de
-    documentnaam `Begroting v1.2`, en de opslagnaam wordt daarna `Begroting v1.ifcCalc`. Voorstel: alleen bekende
-    extensies weghalen. — B
-
 66. **`calculatiedatum` in de WPCalc-export klopt niet.** `wpcalc_export.rs:539-552` rekent met jaren van 365
     dagen en maanden van 30 dagen: 2026-11-06 wordt `11/24/2026` en 2026-12-31 wordt `01/14/2027`. Voorstel:
     `chrono::Local::now().format("%m/%d/%Y")`. — S
 
-68. **Sommige fouten bij Bestand > Importeren blijven stil.** `Backstage.tsx:351-358`: een async `onchange`
-    zonder try/catch, zodat een kapotte xlsx of "Four imports are already running" een onafgehandelde
-    rejection wordt; ook `:136-151` (IFCX `reader.onload`). Voorstel: dezelfde try/catch + alert als bij de
-    andere importhandlers. — S
-
-69. **Recente bestanden onder Bestand > Openen tonen ruwe `ocs-host:…`.** `Backstage.tsx:711`;
-    `StartSidebar.tsx:77` handelt dit wel af. Voorstel: de naamlogica delen. — S
-
-70. **Openen vanuit de cloud laat offerte, bedrijfsgegevens, spreadsheets, snapshots en projectinfo vallen**
-    (`CloudPanel.tsx:100-110`). Zelfde soort bug als #58. — S
-
 77. **GAEB-Bedarfspositionen (`Provis WithoutTotal`) en alternatieven (`ALNGroupNo`) tellen mee in het totaal**,
     zonder enige markering (`gaebImporter.ts:73-80`). Minder zeker dan de andere importpunten. — S
-
-80. **Verversen maakt van Excel-foutcellen hoeveelheden (`#DIV/0!` → 7, `#N/A` → 42).**
-    `excelLinkService.ts:119`. Voorstel: geef een fout bij `t === 'e'`, zoals `tabularBudget.ts:52` al doet.
-    Tweede controle bevestigt het; het deel over `t === 'b'` is niet nodig. — B
-
-81. **Algemene Excel-import: een titelregel of een lege kopcel maakt kolommen onkoppelbaar.**
-    `src/services/importers/genericTabularImporter.ts:115-121`. `best[0]` wordt altijd als kopregel genomen, en
-    een `headers`-array met gaten verbergt kolommen in de ColumnMappingDialog. Voorstel: `defval: ''`, de koppen
-    aanvullen, en de kopregel herkennen (≥2 niet-lege cellen). — B
-
-83. **Nederlandse decimalen die als tekst zijn opgeslagen, worden in de Excel-koppeling afgekapt (`"6,5"` → 6).**
-    `excelLinkService.ts:119`, `ExcelCellPicker.tsx:125` (`parseFloat`; `|| null` maakt van `"0"` bovendien
-    "geen waarde"). Voorstel: strikt parsen met kommaverwerking. — B
-
-84. **Verversen leest dezelfde werkmap één keer per gekoppelde post (laag).** `excelLinkService.ts:83-100`
-    (`Promise.all` zonder promise-cache); `HomeTab.tsx:226-227` overschrijft bovendien wijzigingen die tijdens een
-    trage verversing zijn gedaan. Voorstel: de leespromise per bestand cachen. — B
-
-85. **Automatische kopherkenning mist `Prijs (€)`, `Totaal €`, `Hoeveelheid (m2)`, `Eenh.` en `Prijs/eh`**
-    (`genericTabularImporter.ts:147`). — B
-
-86. **Profielimport weigert `St` en `M` met "Unmapped unit"**: eenheden zijn hoofdlettergevoelig
-    (`tabularBudget.ts:62`). — B
 
 91. **DNC: de terugvalsamenvatting negeert mogelijk `TOT3` (materieel).** `dncImporter.ts:298-302`. Gezien
     bij het nalopen van de negatieve KU-bedragen #90; nog controleren met een echt bestand. — S
@@ -164,9 +105,6 @@ stand van `main` op die datum.
 101. **Een echt IfcX-bestand faalt bij de algemene import met "Invalid file format".** De inhoudsherkenning
      stuurt het verkeerd door (`lib/importers.ts:12-16`, `hostFileActions.ts:21`, MCP `fileCommands.ts:10`).
      Nagespeeld. Voorstel: bij `Array.isArray(parsed.data)` → `importIfcx`. — B
-
-102. **Een CSV die met "PK" begint (bv. `PK-nummer;…`) wordt geweigerd als ongeldige ZIP.**
-     `importWorkerClient.ts:4`. Gezien in de code. Voorstel: geen ZIP-controle voor CSV. — S
 
 103. **CUF: de staart en het soort middel gaan verloren bij opnieuw importeren.** Subhoofdstukken en `<Regel>`s
      komen sinds de fix wel terug (`knownbugsCufTradxml103-274.test.ts`), maar `<Staart>` (`cufExporter.ts:20-33`)
@@ -204,13 +142,6 @@ stand van `main` op die datum.
      `tradxmlExporter.ts:46,48` en `rsxExporter.ts:46,48` (`formatDutch(x, 2)`); `xmlBuilder.ts:44` escapet
      `\n` `\r` `\t` in attributen niet. Nagespeeld. Voorstel: meer decimalen; `&#10;`, `&#13;` en `&#9;`
      escapen. — B
-
-110. **`createProjectFile` zet `createdAt` bij elke desktop-opslag opnieuw** (`fileService.ts:37`). — S
-
-111. **`activeSubSheetId` wordt niet opgeslagen.** — S
-
-112. **TRADXML exporteert als `.xml`, maar `lib/importers.ts` stuurt `.xml` naar de XPWE-importer**
-     (hosted/API-pad). — S
 
 269. **Oude CUF: Middel-regels per eenheid geven na herberekenen een te laag posttotaal.**
     `src/services/importers/cufImporter.ts`, `addRegel`. Sinds de fix voor #96 worden Middel-regels vaste bedragen
@@ -686,9 +617,6 @@ stand van `main` op die datum.
      `common:workspace.quotationDefaults.payments` gebruiken (EN "Payment schedule"). — S
 
 ## Wensen en open taken (geen bug)
-
-260. **CSV wordt alleen als UTF-8 gedecodeerd** (mogelijk bewust, niet als bug gemeld). Een Windows-1252-CSV uit
-     Nederlandstalige Excel geeft vervangingstekens of wordt geweigerd. — S
 
 261. **Het actieve tabblad sluiten springt naar het eerste tabblad** (mogelijk bewust).
      `src/state/slices/documentSlice.ts:83` (`filtered[0]`). Nagespeeld: met tabbladen a, b, c, d komt het

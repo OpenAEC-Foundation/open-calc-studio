@@ -49,6 +49,8 @@ function makeEmptyDoc(overrides?: Partial<DocumentTab>): DocumentTab {
     // UI language: Dutch for nl, else the English library (#86). Opened files
     // keep their own choice; old files without one stay NL.
     schedule: { ...createDefaultSchedule(), priceCountry: newEstimatePriceCountry(i18next.language) },
+    // Aanmaakdatum voor het bestand; een geopend bestand geeft zijn eigen mee (knownbug 110).
+    createdAt: new Date().toISOString(),
     ...overrides,
   };
 }

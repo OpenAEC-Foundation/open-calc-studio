@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppStore } from "../../state/appStore";
 import { useFileOperations } from "../../hooks/useFileOperations";
+import { recentFileLabel } from "../../services/file/recentFiles";
 import { generateIfcCostFile } from "../../services/ifc/ifcCostGenerator";
 import { parseIfcCostFile } from "../../services/ifc/ifcCostParser";
 import { importIfcx } from "../../services/importers/ifcxImporter";
@@ -145,26 +146,32 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
       if (!file) return;
       const reader = new FileReader();
       reader.onload = () => {
-        const content = reader.result as string;
-        // .ifcx is JSON (IfcX-alpha), .ifc is STEP — kies op extensie/inhoud.
-        const isIfcx = /\.ifcx$/i.test(file.name) || content.trimStart().startsWith('{');
-        const imported = isIfcx ? importIfcx(content) : parseIfcCostFile(content);
-        const { schedule: s, items: i } = imported;
-        newFile();
-        const store = useAppStore.getState();
-        store.setSchedule(s);
-        store.setItems(recalculateItems(i, undefined, s.priceRounding));
-        store.updateDocument(store.activeDocumentId, {
-          fileName: file.name.replace(/\.ifcx?$/i, ''),
-          isModified: true,
-        });
-        if ('warnings' in imported) showImportWarnings(imported, file.name);
+        // Een kapot bestand geeft een melding, geen stille fout (knownbug 68).
+        try {
+          const content = reader.result as string;
+          // .ifcx is JSON (IfcX-alpha), .ifc is STEP — kies op extensie/inhoud.
+          const isIfcx = /\.ifcx$/i.test(file.name) || content.trimStart().startsWith('{');
+          const imported = isIfcx ? importIfcx(content) : parseIfcCostFile(content);
+          const { schedule: s, items: i } = imported;
+          newFile();
+          const store = useAppStore.getState();
+          store.setSchedule(s);
+          store.setItems(recalculateItems(i, undefined, s.priceRounding));
+          store.updateDocument(store.activeDocumentId, {
+            fileName: file.name.replace(/\.ifcx?$/i, ''),
+            isModified: true,
+          });
+          if ('warnings' in imported) showImportWarnings(imported, file.name);
+        } catch (err: any) {
+          console.error('[Import IFC] failed:', err);
+          alert(t('importPanel.importFailed', { error: err?.message || err }));
+        }
       };
       reader.readAsText(file);
     };
     input.click();
     onClose();
-  }, [newFile, onClose]);
+  }, [newFile, onClose, t]);
 
   const handleExtensionImport = useCallback(async (importerId: string) => {
     const imp = extensionImporters.find((i) => i.id === importerId);
@@ -367,9 +374,15 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
           const file = (e.target as HTMLInputElement).files?.[0];
           if (!file) return;
           if (file.size > 64 * 1024 * 1024) { alert(t('importPanel.importFailed', { error: 'Spreadsheet exceeds 64 MiB.' })); return; }
-          const data = await runImportWorker<TabularData>('tabular', await file.arrayBuffer(), file.name);
-          if (data.headers.length === 0) { alert(t('importPanel.noColumnsFound')); return; }
-          setMappingData(data);
+          // Een kapotte xlsx of een volle importrij geeft een melding (knownbug 68).
+          try {
+            const data = await runImportWorker<TabularData>('tabular', await file.arrayBuffer(), file.name);
+            if (data.headers.length === 0) { alert(t('importPanel.noColumnsFound')); return; }
+            setMappingData(data);
+          } catch (err: any) {
+            console.error('[Import Excel/CSV] failed:', err);
+            alert(t('importPanel.importFailed', { error: err?.message || err }));
+          }
         };
         input.click();
       }
@@ -760,14 +773,13 @@ export default function Backstage({ open, onClose, onOpenSettings }: BackstagePr
                 <h3 className="bs-recent-title">{t("recentFiles")}</h3>
                 <div className="bs-recent-list">
                   {settings.recentFiles.map((filePath) => {
-                    const name = filePath.replace(/\\/g, '/').split('/').pop()?.replace(/\.(ifcx|json|ocs|calc)$/i, '') ?? filePath;
-                    const dir = filePath.replace(/\\/g, '/').split('/').slice(0, -1).join('/');
+                    const { name, dir, isHost } = recentFileLabel(filePath, t('common:host.file'));
                     return (
                       <button
                         key={filePath}
                         className="bs-recent-item"
                         onClick={() => { onClose(); void openRecentFile(filePath); }}
-                        title={filePath}
+                        title={isHost ? name : filePath}
                       >
                         <div className="bs-recent-item-icon">
                           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>

@@ -50,10 +50,8 @@ import { useQuantityLinkSync } from "./hooks/useQuantityLinkSync";
 import { useAppStore } from "./state/appStore";
 import { deserializeProject } from "./services/file/fileService";
 import { openProjectJson } from "./services/file/openProject";
-import { createDefaultSchedule } from "./data/defaultBudget";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
-import { useFileOperations } from "./hooks/useFileOperations";
-import { showImportWarnings } from "./components/common/ImportWarningsDialog";
+import { openDesktopFiles, useFileOperations } from "./hooks/useFileOperations";
 import { loadAllExtensions } from "./extensions";
 import { registerBuiltinExtensions } from "./extensions/builtinExtensions";
 import i18next, { changeLanguage } from "./i18n/config";
@@ -278,37 +276,9 @@ function App() {
       if (!isDesktopApp) return; // Browser and hosted builds have no Tauri events; skip instead of a console warning.
       try {
         const { listen } = await import("@tauri-apps/api/event");
-        const { readTextFile, readFile } = await import("@tauri-apps/plugin-fs");
+        // Zelfde pad als Openen: inhoud-sniff voor .calc, CSV/Excel via de import (knownbugs 61, 62).
         unlistenAssoc = await listen<string>('file-association-open', async (e) => {
-          const filePath = e.payload;
-          const fileName = filePath.replace(/\\/g, '/').split('/').pop() ?? 'Begroting';
-          const ext = fileName.split('.').pop()?.toLowerCase();
-          const store = useAppStore.getState();
-          try {
-            if (ext === 'ifcCalc' || ext === 'ifccalc' || ext === 'json' || ext === 'ocs' || ext === 'ifcx') {
-              const content = await readTextFile(filePath);
-              openProjectJson(content, fileName.replace(/\.[^.]+$/, ''), filePath);
-            } else if (['x81', 'x82', 'x83', 'x84', 'x86', 'x87'].includes(ext ?? '')) {
-              const { importGaeb } = await import('./services/importers/gaebImporter');
-              const result = importGaeb(await readTextFile(filePath));
-              store.addDocument({ id: crypto.randomUUID(), filePath: null, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: true, items: result.items, schedule: { ...createDefaultSchedule(), ...result.schedule } });
-              showImportWarnings(result, fileName);
-            } else if (ext === 'calc' || ext === 'xtb' || ext === 'dnc' || ext === 'bc3' || ext === 'onlv' || ext === 'onlb') {
-              const data = await readFile(filePath);
-              const importers = store.extensionImporters;
-              const imp = importers.find((i: any) => i.fileExtensions.some((fe: string) => fe.replace(/^\./, '') === ext));
-              if (imp) {
-                const file = new File([data], fileName);
-                const result = await imp.handler(file);
-                const id = crypto.randomUUID();
-                store.addDocument({ id, filePath, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: false, items: result.items, schedule: result.schedule });
-                if (result.companyInfo) store.setCompanyInfo(result.companyInfo);
-                showImportWarnings(result, fileName);
-              }
-            }
-          } catch (err) {
-            console.error('[FileAssoc] Failed to open:', filePath, err);
-          }
+          await openDesktopFiles([e.payload]);
         });
       } catch (e) {
         console.warn('[FileAssoc] Tauri events unavailable:', e);
@@ -328,38 +298,7 @@ function App() {
           if (event.payload.type !== 'drop') return;
           const paths = (event.payload as any).paths as string[] | undefined;
           if (!paths || paths.length === 0) return;
-          const { readTextFile, readFile } = await import("@tauri-apps/plugin-fs");
-          const store = useAppStore.getState();
-          for (const filePath of paths) {
-            const fileName = filePath.replace(/\\/g, '/').split('/').pop() ?? 'Begroting';
-            const ext = fileName.split('.').pop()?.toLowerCase();
-            try {
-              if (ext === 'ifcCalc' || ext === 'ifccalc' || ext === 'json' || ext === 'ocs' || ext === 'ifcx') {
-                const content = await readTextFile(filePath);
-                openProjectJson(content, fileName.replace(/\.[^.]+$/, ''), filePath);
-              } else if (['x81', 'x82', 'x83', 'x84', 'x86', 'x87'].includes(ext ?? '')) {
-                const { importGaeb } = await import('./services/importers/gaebImporter');
-                const result = importGaeb(await readTextFile(filePath));
-                store.addDocument({ id: crypto.randomUUID(), filePath: null, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: true, items: result.items, schedule: { ...createDefaultSchedule(), ...result.schedule } });
-                showImportWarnings(result, fileName);
-              } else if (ext === 'calc' || ext === 'mdb' || ext === 'xls' || ext === 'xlsx' || ext === 'xtb' || ext === 'dnc' || ext === 'bc3' || ext === 'onlv' || ext === 'onlb') {
-                // Import via extension importers (binair én tekst — de handler leest de bytes zelf)
-                const data = await readFile(filePath);
-                const importers = store.extensionImporters;
-                const imp = importers.find((i: any) => i.fileExtensions.some((fe: string) => fe.replace(/^\./, '') === ext));
-                if (imp) {
-                  const file = new File([data], fileName);
-                  const result = await imp.handler(file);
-                  const id = crypto.randomUUID();
-                  store.addDocument({ id, filePath, fileName: fileName.replace(/\.[^.]+$/, ''), isModified: false, items: result.items, schedule: result.schedule });
-                  if (result.companyInfo) store.setCompanyInfo(result.companyInfo);
-                  showImportWarnings(result, fileName);
-                }
-              }
-            } catch (e) {
-              console.error('[Drop] Failed to open:', filePath, e);
-            }
-          }
+          await openDesktopFiles(paths);
         });
       } catch (e) {
         // Not in Tauri context

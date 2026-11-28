@@ -1,12 +1,12 @@
 import { importBudget } from '@/lib/importers';
-import { parseCsv, parseXlsxTabular } from './genericTabularImporter';
+import { decodeCsvText, parseCsv, parseXlsxTabular } from './genericTabularImporter';
 import { importBasCalcFile } from './bascalcImporter';
 import { importInschrijfstaatFile } from './inschrijfstaatImporter';
 
 self.onmessage = async (event: MessageEvent<{ kind: string; data: ArrayBuffer; fileName: string }>) => {
   const { kind, data, fileName } = event.data;
   try {
-    const result = kind === 'tabular' ? (/\.csv$/i.test(fileName) ? parseCsv(new TextDecoder('utf-8', { fatal: true }).decode(data), fileName) : parseXlsxTabular(data, fileName))
+    const result = kind === 'tabular' ? (/\.csv$/i.test(fileName) ? parseCsv(decodeCsvText(data), fileName) : parseXlsxTabular(data, fileName))
       : kind === 'bascalc' ? importBasCalcFile(data)
       : kind === 'inschrijfstaat' ? await importInschrijfstaatFile(data)
       : await importBudget(data, fileName);
