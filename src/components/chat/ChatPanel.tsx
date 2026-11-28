@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { buildAssistantSystemPrompt } from '@/services/assistant/promptLanguage';
 import { useAppStore } from '@/state/appStore';
-import { buildBudgetContext, ACTIE_PROTOCOL, parseActies, parseLocalBudgetCommand, validateActies } from '@/services/assistant/assistantActions';
+import { buildBudgetContext, ACTIE_PROTOCOL, hasUnclosedActionBlock, parseActies, parseLocalBudgetCommand, validateActies } from '@/services/assistant/assistantActions';
 import { stageAssistantProposal, summarizeAssistantProposal, applyAssistantProposal, discardAssistantProposal, canUndoAssistantProposal, undoAssistantProposal } from '@/services/assistant/assistantProposal';
 import { ProposalPreview } from './ProposalPreview';
 import { begrotenKennis } from '@/services/assistant/begrotenKennis';
@@ -17,6 +17,18 @@ import type { ChatMessage } from '@/state/slices/chatSlice';
 import type { AssistantActie } from '@/services/assistant/assistantActions';
 
 const EMPTY_MESSAGES: ChatMessage[] = [];
+/**
+ * Hoeveel eerdere berichten meegaan naar de AI. Een lang gesprek ging vroeger volledig
+ * mee en liep zo over de contextlimiet (knownbug 173).
+ */
+const MAX_HISTORY_MESSAGES = 20;
+
+/** De laatste berichten van het gesprek, beginnend met een vraag van de gebruiker. */
+function recentHistory(messages: ChatMessage[]): ChatMessage[] {
+  const recent = messages.filter(m => m.status !== 'pending').slice(-MAX_HISTORY_MESSAGES);
+  const firstUser = recent.findIndex(m => m.role === 'user');
+  return firstUser < 0 ? [] : recent.slice(firstUser);
+}
 
 // Bedragen in de valuta van de begroting en de notatie van de app-taal
 // (issue #65); er wordt niets omgerekend.
@@ -39,12 +51,16 @@ function describeProposal(action: AssistantActie): string {
   }
 }
 
+/** Het antwoord liep tegen `max_tokens` aan; het actieblok is dan onvolledig (knownbug 170). */
+class TruncatedAnswerError extends Error {}
+
 /**
  * Maakt van een ruwe AI-aanroepfout een specifieke, diagnosticeerbare melding.
  * Toont altijd de echte statuscode + servermelding, zodat duidelijk is of het
  * om login, tokens, de verbinding of een serverfout (AI-bridge) gaat.
  */
 function describeAiError(err: unknown): string {
+  if (err instanceof TruncatedAnswerError) return i18next.t('chat.errTruncated');
   const raw = String((err as { message?: string })?.message ?? err ?? '').trim();
   const status = raw.match(/\bgaf (\d{3})\b/)?.[1] ?? raw.match(/\b(40\d|41\d|42\d|50\d)\b/)?.[1] ?? null;
   // Servermelding uit een JSON-body, bv. {"message":"AI bridge exited 1: ..."}
@@ -94,6 +110,7 @@ export function ChatPanel({ embedded = false }: { embedded?: boolean }) {
   const messages = useAppStore(s => s.chats[activeDocId] ?? EMPTY_MESSAGES);
   const appendChatMessage = useAppStore(s => s.appendChatMessage);
   const updateChatMessage = useAppStore(s => s.updateChatMessage);
+  const clearChat = useAppStore(s => s.clearChat);
   // Keep the batch undo button in sync with subsequent edits and undo/redo.
   useAppStore(s => s.items);
   useAppStore(s => s.undoStack);
@@ -143,7 +160,9 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
     // (1) OpenAEC-account
     if (OPENAEC_ENABLED && allowsExternalServices() && accountsUser) {
       const prompt = `${contextBlock}\n\n${historyText}\n\nAssistent:`;
-      return (await accountsAiComplete(prompt, buildSystemPrompt())) || i18next.t('chat.noAnswer');
+      const answer = await accountsAiComplete(prompt, buildSystemPrompt());
+      if (hasUnclosedActionBlock(answer)) throw new TruncatedAnswerError();
+      return answer || i18next.t('chat.noAnswer');
     }
 
     // (3) eigen Anthropic API-key
@@ -158,13 +177,15 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
         },
         body: JSON.stringify({
           model: 'claude-sonnet-4-6',
-          max_tokens: 1024,
+          // 1024 was te krap: ±25 regels in een actieblok liepen er al overheen (knownbug 170).
+          max_tokens: 8192,
           system: `${buildSystemPrompt()}\n\n${contextBlock}`,
           messages: [...chatHistory, { role: 'user', content: text }],
         }),
       });
       if (!res.ok) throw new Error(`API error: ${res.status}`);
       const data = await res.json();
+      if (data.stop_reason === 'max_tokens' || hasUnclosedActionBlock(data.content?.[0]?.text ?? '')) throw new TruncatedAnswerError();
       return data.content?.[0]?.text || i18next.t('chat.noAnswer');
     }
 
@@ -196,7 +217,8 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
 
   const handleSend = useCallback(async () => {
     const text = input.trim();
-    if (!text) return;
+    // Zonder open document hoort de chat bij niets (knownbug 172).
+    if (!text || !activeDocId) return;
 
     // Alles vastleggen op verzendmoment → correct bij tab-wissel én concurrency
     const docId = activeDocId;
@@ -205,13 +227,11 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
     const chapters = store.items.filter(i => i.rowType === 'chapter' && i.depth === 0)
       .map(c => ({ code: c.code, description: c.description, total: c.total }));
     const bvo = store.schedule?.projectProperties?.find((p: any) => p.name === 'BVO')?.value ?? undefined;
-    const priorMessages = store.chats[docId] ?? [];
+    const priorMessages = recentHistory(store.chats[docId] ?? []);
     const historyText = priorMessages
-      .filter(m => m.status !== 'pending')
       .map(m => `${m.role === 'user' ? 'Gebruiker' : 'Assistent'}: ${m.content}`)
       .concat(`Gebruiker: ${text}`).join('\n\n');
     const chatHistory = priorMessages
-      .filter(m => m.status !== 'pending')
       .map(m => ({ role: m.role, content: m.content }));
 
     const userMsg: ChatMessage = { id: crypto.randomUUID(), role: 'user', content: text, timestamp: Date.now(), status: 'done' };
@@ -251,6 +271,8 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    // Enter bevestigt tijdens IME-invoer (Japans, Chinees, …) eerst de tekens (knownbug 172).
+    if (e.nativeEvent.isComposing || e.keyCode === 229) return;
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();
@@ -272,6 +294,7 @@ Staartkosten: ${staartItems.map(s => `${s.description} ${s.staartPercentage ?? '
             {t('chat.tokens', { amount: aiCredits.toLocaleString(i18next.resolvedLanguage || 'en') })}
           </span>
         )}
+        <button className="chat-close chat-clear" type="button" onClick={() => clearChat(activeDocId)} disabled={!messages.length || pendingCount > 0} title={t('chat.clear')} aria-label={t('chat.clear')}>🗑</button>
         {!embedded && <button className="chat-close" onClick={toggleChatPanel}>✕</button>}
       </div>
       <div className="chat-messages">

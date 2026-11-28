@@ -24,6 +24,7 @@
     "noExtensionsHint": "Kliknij „ZIP” lub „JS”, aby zainstalować rozszerzenie, albo przejrzyj katalog.",
     "catalogLoading": "Wczytywanie katalogu...",
     "catalogError": "Nie można wczytać katalogu: ",
+    "installFailed": "Instalacja nie powiodła się: ",
     "retry": "Spróbuj ponownie",
     "noCatalogResults": "Nie znaleziono rozszerzeń w katalogu.",
     "installing": "Instalowanie...",

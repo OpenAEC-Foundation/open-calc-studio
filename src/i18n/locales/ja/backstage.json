@@ -24,6 +24,7 @@
     "noExtensionsHint": "「ZIP」または「JS」をクリックしてインストールするか、カタログをご覧ください。",
     "catalogLoading": "カタログを読み込んでいます…",
     "catalogError": "カタログを読み込めません：",
+    "installFailed": "インストールに失敗しました：",
     "retry": "再試行",
     "noCatalogResults": "カタログに該当する拡張機能はありません。",
     "installing": "インストールしています…",

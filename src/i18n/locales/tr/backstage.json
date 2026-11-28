@@ -24,6 +24,7 @@
     "noExtensionsHint": "Eklenti yüklemek için \"ZIP\" veya \"JS\" düğmesine tıklayın ya da kataloğa göz atın.",
     "catalogLoading": "Katalog yükleniyor...",
     "catalogError": "Katalog yüklenemedi: ",
+    "installFailed": "Yükleme başarısız oldu: ",
     "retry": "Yeniden dene",
     "noCatalogResults": "Katalogda eklenti bulunamadı.",
     "installing": "Yükleniyor...",

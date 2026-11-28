@@ -24,6 +24,7 @@
     "noExtensionsHint": "Klik op \"ZIP\" of \"JS\" om een extensie te installeren, of blader door de catalogus.",
     "catalogLoading": "Catalogus laden...",
     "catalogError": "Kan catalogus niet laden: ",
+    "installFailed": "Installeren mislukt: ",
     "retry": "Opnieuw proberen",
     "noCatalogResults": "Geen extensies gevonden in de catalogus.",
     "installing": "Installeren...",

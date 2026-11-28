@@ -24,6 +24,7 @@
     "noExtensionsHint": "Klik \"ZIP\" atau \"JS\" untuk memasang ekstensi, atau jelajahi katalog.",
     "catalogLoading": "Memuat katalog...",
     "catalogError": "Tidak dapat memuat katalog: ",
+    "installFailed": "Pemasangan gagal: ",
     "retry": "Coba lagi",
     "noCatalogResults": "Tidak ada ekstensi ditemukan di katalog.",
     "installing": "Memasang...",

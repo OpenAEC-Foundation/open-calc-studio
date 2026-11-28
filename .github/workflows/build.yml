@@ -28,6 +28,8 @@ jobs:
         with:
           node-version: 22.18.0
       - run: npm ci
+      # src/test/knownbugsMcpServer176 starts mcp-server via tsx; it needs mcp-server's own packages.
+      - run: npm --prefix mcp-server ci
       - run: npx tsc --noEmit
       - run: npm test -- --maxWorkers=2 --testTimeout=20000
       - run: npm run test:platform

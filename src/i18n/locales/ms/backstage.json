@@ -24,6 +24,7 @@
     "noExtensionsHint": "Klik \"ZIP\" atau \"JS\" untuk memasang sambungan, atau layari katalog.",
     "catalogLoading": "Memuatkan katalog...",
     "catalogError": "Tidak dapat memuatkan katalog: ",
+    "installFailed": "Pemasangan gagal: ",
     "retry": "Cuba lagi",
     "noCatalogResults": "Tiada sambungan ditemui dalam katalog.",
     "installing": "Sedang memasang...",

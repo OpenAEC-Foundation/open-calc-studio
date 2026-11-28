@@ -24,6 +24,7 @@
     "noExtensionsHint": "Feu clic a «ZIP» o «JS» per instal·lar una extensió, o exploreu el catàleg.",
     "catalogLoading": "S'està carregant el catàleg...",
     "catalogError": "No es pot carregar el catàleg: ",
+    "installFailed": "No s'ha pogut instal·lar: ",
     "retry": "Torna-ho a provar",
     "noCatalogResults": "No s'ha trobat cap extensió al catàleg.",
     "installing": "S'està instal·lant...",

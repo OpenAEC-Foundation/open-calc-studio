@@ -111,6 +111,8 @@ export const createDocumentSlice: StateCreator<DocumentSlice> = (set, get) => ({
         ...split,
       } as any);
     }
+    // De chat hoort bij het document; anders bleef hij na sluiten in het geheugen (knownbug 173).
+    (get() as any).clearChat?.(id);
   },
 
   setActiveDocument: (id) => {

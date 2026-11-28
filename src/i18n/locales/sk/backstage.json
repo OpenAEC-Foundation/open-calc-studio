@@ -24,6 +24,7 @@
     "noExtensionsHint": "Kliknutím na „ZIP“ alebo „JS“ nainštalujete rozšírenie, alebo prehliadajte katalóg.",
     "catalogLoading": "Načítavanie katalógu...",
     "catalogError": "Katalóg sa nedá načítať: ",
+    "installFailed": "Inštalácia zlyhala: ",
     "retry": "Skúsiť znova",
     "noCatalogResults": "V katalógu sa nenašli žiadne rozšírenia.",
     "installing": "Inštalovanie...",

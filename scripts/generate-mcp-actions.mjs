@@ -50,5 +50,14 @@ for(const source of program.getSourceFiles().filter(f=>/src\/state\/slices\/[^/]
   }
  }
 }
-fs.writeFileSync('src/services/mcp/desktopActions.json',JSON.stringify({actions,excluded},null,2)+'\n');
+const outFile='src/services/mcp/desktopActions.json';
+const output=JSON.stringify({actions,excluded},null,2)+'\n';
+// --check: alleen vergelijken (knownbug 168), zodat een test een verouderde actielijst opmerkt.
+if(process.argv.includes('--check')) {
+  const current=fs.existsSync(outFile)?fs.readFileSync(outFile,'utf8').replace(/\r\n/g,'\n'):'';
+  if(current!==output){console.error(`${outFile} is out of date; run npm run generate:mcp-actions`);process.exit(1);}
+  console.log(`${outFile} is up to date`);
+  process.exit(0);
+}
+fs.writeFileSync(outFile,output);
 console.log(`${Object.keys(actions).length} JSON-callable desktop actions; ${Object.keys(excluded).length} callback-only extension hooks excluded`);
