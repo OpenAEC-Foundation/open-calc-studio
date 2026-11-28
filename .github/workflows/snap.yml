@@ -25,6 +25,17 @@ on:
         type: boolean
         required: false
         default: false
+      reuse_release_snap:
+        # Herstelroute (#109): de release-run bouwde en hing de snap al aan de
+        # release, maar de Store-stap faalde (bijv. verlopen credentials). Dan
+        # NIET opnieuw bouwen: een nieuwe build kan andere bytes geven dan het
+        # gepubliceerde bestand en de bijbehorende .sha256. Deze route downloadt
+        # het bestaande release-bestand, controleert het en publiceert precies
+        # die bytes. Zonder `publish` is het een controle-run (droogtest).
+        description: 'Bestaande snap van de release gebruiken i.p.v. opnieuw bouwen (herstel na mislukte Store-stap)'
+        type: boolean
+        required: false
+        default: false
 
 # Minimale default; de build-snap-job zet zelf `contents: write` omdat hij de
 # snap als asset aan de release hangt.
@@ -102,9 +113,33 @@ jobs:
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "version_number=${VERSION#v}" >> "$GITHUB_OUTPUT"
 
+      # Een gepubliceerde snap + .sha256 op de release zijn onveranderlijk (#109).
+      # Een herhaalde release-run (re-run) zou opnieuw bouwen en het bestaande
+      # bestand willen vervangen; een handmatige publish zonder reuse_release_snap
+      # zou een nieuwe build met andere bytes naar `stable` sturen. Stop in beide
+      # gevallen vóór de build met een verwijzing naar de herstelroute.
+      # NB: een re-run gebruikt de workflow van de oorspronkelijke tag; tags van
+      # vóór deze wijziging (t/m v2026.48.0) hebben deze stap dus nog niet.
+      - name: Refuse to rebuild over an existing release snap
+        if: >-
+          github.event_name == 'release' ||
+          (github.event_name == 'workflow_dispatch' && inputs.publish &&
+           inputs.reuse_release_snap != true)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.get-version.outputs.version }}
+        run: |
+          existing=$(gh release view "$VERSION" --json assets \
+            --jq '[.assets[].name | select(endswith(".snap") or endswith(".snap.sha256"))] | join(" ")')
+          if [ -n "$existing" ]; then
+            echo "::error::Release $VERSION heeft al een snap ($existing). Niet opnieuw bouwen of overschrijven. Herstel: start 'Build Snap Package' handmatig met version=$VERSION en reuse_release_snap aan (eerst zonder publish als controle, daarna met publish). Zie docs/desktop-builds.md."
+            exit 1
+          fi
+
       # We bouwen de Tauri-app NIET opnieuw: de snap herverpakt de deb van de
       # gepubliceerde GitHub-release (zelfde artifact als de overige Linux-downloads).
       - name: Wait for release deb and download it
+        if: inputs.reuse_release_snap != true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: ${{ steps.get-version.outputs.version }}
@@ -130,6 +165,7 @@ jobs:
           echo "Gebruik $deb -> open-calc-studio.deb"
 
       - name: Set version in snapcraft.yaml
+        if: inputs.reuse_release_snap != true
         env:
           VERSION_NUMBER: ${{ steps.get-version.outputs.version_number }}
         run: |
@@ -138,16 +174,21 @@ jobs:
 
       # Dedicated, disposable Ubuntu 22.04 runner matches core22. Avoid a second
       # LXD image download: two release attempts stalled before any packaging.
+      # Ook in de herstelroute nodig: `snapcraft whoami` en `upload-metadata`.
       - name: Install Snapcraft
         run: sudo snap install snapcraft --classic
 
       - name: Build snap from the published DEB on the matching runner
+        if: inputs.reuse_release_snap != true
         id: snapcraft
         timeout-minutes: 20
         shell: bash
         run: |
           . /etc/os-release
-          test "$ID" = ubuntu && test "$VERSION_ID" = 22.04
+          # Losse regels: onder `bash -e` wordt de eerste helft van `a && b`
+          # niet afgedwongen.
+          test "$ID" = ubuntu
+          test "$VERSION_ID" = 22.04
           test "$(sed -n 's/^base: //p' snap/snapcraft.yaml)" = core22
           # This mode installs build dependencies on the disposable CI runner.
           # Never use it as the default command on a developer's workstation.
@@ -157,29 +198,103 @@ jobs:
           test "${#task_snap_files[@]}" = 1
           echo "snap=${task_snap_files[0]#./}" >> "$GITHUB_OUTPUT"
 
+      # Herstelroute (#109): precies de bytes die al op de release staan.
+      # Drie onafhankelijke controles vóór er iets naar de Store gaat:
+      # 1. de .sha256 van de release klopt (sha256sum -c);
+      # 2. de digest die GitHub zelf voor het asset bijhoudt klopt;
+      # 3. naam en versie in meta/snap.yaml horen bij deze release.
+      - name: Download and verify the existing release snap
+        if: inputs.reuse_release_snap == true
+        id: existing
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.get-version.outputs.version }}
+          VERSION_NUMBER: ${{ steps.get-version.outputs.version_number }}
+        run: |
+          set -euo pipefail
+          name="open-calc-studio_${VERSION_NUMBER}_amd64.snap"
+          dir=release-snap
+          mkdir -p "$dir"
+          gh release download "$VERSION" -p "$name" -p "$name.sha256" --dir "$dir"
+          if [ ! -f "$dir/$name" ] || [ ! -f "$dir/$name.sha256" ]; then
+            echo "::error::Release $VERSION mist $name en/of $name.sha256; herstel met deze route kan niet."
+            exit 1
+          fi
+
+          # 1. Checksumbestand: precies één regel, voor precies dit bestand.
+          if [ "$(wc -l < "$dir/$name.sha256")" != 1 ] ||
+             [ "$(awk '{print $2}' "$dir/$name.sha256")" != "$name" ]; then
+            echo "::error::$name.sha256 heeft niet de verwachte vorm:"
+            cat "$dir/$name.sha256"
+            exit 1
+          fi
+          (cd "$dir" && sha256sum -c "$name.sha256")
+          actual="sha256:$(sha256sum "$dir/$name" | cut -d' ' -f1)"
+
+          # 2. GitHub-digest van het asset (onafhankelijk van het .sha256-bestand).
+          recorded=$(SNAP_NAME="$name" gh release view "$VERSION" --json assets \
+            --jq '.assets[] | select(.name == $ENV.SNAP_NAME) | .digest // ""')
+          if [ -z "$recorded" ]; then
+            echo "::warning::GitHub geeft geen digest voor $name; alleen de .sha256 is gecontroleerd."
+          elif [ "$recorded" != "$actual" ]; then
+            echo "::error::Digest wijkt af: GitHub $recorded, download $actual"
+            exit 1
+          fi
+
+          # 3. Inhoud: de snap zelf moet deze naam en versie dragen.
+          meta=$(unsquashfs -cat "$dir/$name" meta/snap.yaml)
+          # Here-strings, geen pipe: met pipefail kan `grep -q` die vroeg stopt
+          # een SIGPIPE bij printf veroorzaken en zo een valse fout geven.
+          if ! grep -Fxq 'name: open-calc-studio' <<<"$meta" ||
+             ! grep -Fxq \
+                 -e "version: $VERSION_NUMBER" \
+                 -e "version: '$VERSION_NUMBER'" \
+                 -e "version: \"$VERSION_NUMBER\"" <<<"$meta"; then
+            echo "::error::meta/snap.yaml in $name hoort niet bij open-calc-studio $VERSION_NUMBER:"
+            printf '%s\n' "$meta" | grep -E '^(name|version):' || true
+            exit 1
+          fi
+
+          echo "Geverifieerd: $name ($actual)" | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "snap=$dir/$name" >> "$GITHUB_OUTPUT"
+
+      # Eén pad voor de rest van de job, ongeacht welke route de snap leverde.
+      - name: Select snap for upload and publication
+        id: snap
+        env:
+          EXISTING: ${{ steps.existing.outputs.snap }}
+          BUILT: ${{ steps.snapcraft.outputs.snap }}
+        run: |
+          path="${EXISTING:-$BUILT}"
+          test -f "$path"
+          echo "path=$path" >> "$GITHUB_OUTPUT"
+
       # Gepubliceerde release: snap als asset aan de release hangen, met een
       # eigen checksum. SHA256SUMS.txt is al gemaakt vóór de snap bestond (#66);
       # dat bestand achteraf aanvullen kan botsen met latest-json.yml, dat op
       # hetzelfde moment draait. Controle: sha256sum -c <snap>.sha256
+      # Bewust ZONDER --clobber (#109): een gepubliceerd asset wordt nooit
+      # vervangen; bestaat het al, dan faalt de upload.
       - name: Upload snap to GitHub release
         if: github.event_name == 'release'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: ${{ steps.get-version.outputs.version }}
-          SNAP: ${{ steps.snapcraft.outputs.snap }}
+          SNAP: ${{ steps.snap.outputs.path }}
         run: |
           name=$(basename "$SNAP")
           (cd "$(dirname "$SNAP")" && sha256sum "$name" > "$name.sha256")
           cat "$SNAP.sha256"
-          gh release upload "$VERSION" "$SNAP" "$SNAP.sha256" --clobber
+          gh release upload "$VERSION" "$SNAP" "$SNAP.sha256"
 
       # Handmatige test: snap als CI-artifact (de release NIET aanraken).
+      # In de herstelroute overbodig: het bestand staat al op de release.
       - name: Upload snap as workflow artifact
-        if: github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'workflow_dispatch' && inputs.reuse_release_snap != true
         uses: actions/upload-artifact@v4
         with:
           name: open-calc-studio-snap
-          path: ${{ steps.snapcraft.outputs.snap }}
+          path: ${{ steps.snap.outputs.path }}
           if-no-files-found: error
 
       # Ook de handmatige backfill mag alleen een gepubliceerde, niet-pre-release
@@ -196,6 +311,67 @@ jobs:
           state=$(gh release view "$VERSION" --json isDraft,isPrerelease --jq '"\(.isDraft) \(.isPrerelease)"')
           [ "$state" = "false false" ] || { echo "::error::$VERSION is een concept of pre-release"; exit 1; }
 
+      # Credentials vóór de onomkeerbare stap controleren (#109): een duidelijke
+      # foutmelding met herstelroute, en een waarschuwing ruim vóór ze verlopen.
+      # Een expliciete handmatige publish zonder secret is een fout, geen stille
+      # skip. Ook de droogtest van de herstelroute controleert het secret
+      # (`whoami` is alleen-lezen): juist dat ging in #109 mis. De rechten worden
+      # vóór de upload gecontroleerd, omdat een upload niet te herhalen is als
+      # daarna pas upload-metadata op ontbrekende rechten stukloopt.
+      # `whoami` toont ook het e-mailadres van de publisher: dat NIET in het
+      # (openbare) log zetten, alleen de regels hieronder.
+      - name: Check Snap Store credentials
+        if: >-
+          (github.event_name == 'release' && env.SNAPCRAFT_STORE_CREDENTIALS != '') ||
+          (github.event_name == 'workflow_dispatch' && inputs.publish) ||
+          (github.event_name == 'workflow_dispatch' && inputs.reuse_release_snap &&
+           env.SNAPCRAFT_STORE_CREDENTIALS != '')
+        env:
+          VERSION: ${{ steps.get-version.outputs.version }}
+        run: |
+          if [ -z "$SNAPCRAFT_STORE_CREDENTIALS" ]; then
+            echo "::error::publish staat aan, maar het secret SNAPCRAFT_STORE_CREDENTIALS ontbreekt."
+            exit 1
+          fi
+          if ! out=$(snapcraft whoami 2>&1); then
+            printf '%s\n' "$out" | grep -v '@' || true
+            echo "::error::Snap Store-credentials zijn ongeldig of verlopen. Een publisher van open-calc-studio moet ze vernieuwen (snapcraft export-login) en het secret bijwerken; publiceer daarna de snap die al op release $VERSION staat met reuse_release_snap. Zie docs/desktop-builds.md."
+            exit 1
+          fi
+          printf '%s\n' "$out" | grep -E '^(permissions|channels|expires):' || true
+
+          # Rechten en kanaal: "no restrictions" of een (komma-)lijst.
+          field() { printf '%s\n' "$out" | sed -n "s/^$1: *//p" | head -1; }
+          has() { case "$1" in "no restrictions") return 0 ;; esac
+                  case " $(printf '%s' "$1" | tr ',' ' ') " in *" $2 "*) return 0 ;; esac
+                  return 1; }
+          perms=$(field permissions)
+          channels=$(field channels)
+          if [ -z "$perms" ] || [ -z "$channels" ]; then
+            echo "::warning::Kon rechten/kanalen van de Snap Store-credentials niet lezen; niet gecontroleerd."
+          else
+            missing=""
+            for acl in package_access package_push package_update package_release; do
+              has "$perms" "$acl" || missing="$missing $acl"
+            done
+            has "$channels" stable || missing="$missing channel:stable"
+            if [ -n "$missing" ]; then
+              echo "::error::Snap Store-credentials missen:$missing. Exporteer ze opnieuw met de opdracht uit docs/desktop-builds.md."
+              exit 1
+            fi
+          fi
+
+          expires=$(printf '%s\n' "$out" | sed -n 's/^expires: *//p' | head -1)
+          if [ -z "$expires" ] || ! exp_s=$(date -u -d "$expires" +%s 2>/dev/null); then
+            echo "::warning::Kon de vervaldatum van de Snap Store-credentials niet lezen."
+          else
+            days=$(( (exp_s - $(date -u +%s)) / 86400 ))
+            echo "Credentials verlopen over $days dagen ($expires)."
+            if [ "$days" -lt 45 ]; then
+              echo "::warning::Snap Store-credentials verlopen over $days dagen ($expires). Vernieuw ze vóór de volgende release (docs/desktop-builds.md)."
+            fi
+          fi
+
       # Live publiceren naar de Snap Store: alleen op een gepubliceerde release
       # én pas zodra het store-credentials-secret bestaat (eigenaar-stap).
       - name: Publish to Snap Store
@@ -205,7 +381,7 @@ jobs:
            (github.event_name == 'workflow_dispatch' && inputs.publish))
         uses: snapcore/action-publish@v1
         with:
-          snap: ${{ steps.snapcraft.outputs.snap }}
+          snap: ${{ steps.snap.outputs.path }}
           release: stable
 
       # Uploading a revision does not replace a manually edited Store listing.
@@ -216,7 +392,7 @@ jobs:
           (github.event_name == 'release' ||
            (github.event_name == 'workflow_dispatch' && inputs.publish))
         env:
-          SNAP: ${{ steps.snapcraft.outputs.snap }}
+          SNAP: ${{ steps.snap.outputs.path }}
         run: snapcraft upload-metadata "$SNAP" --force
 
       - name: Record public Store license
