@@ -12,6 +12,8 @@ vi.mock('@tauri-apps/api/event', () => ({
   }),
 }));
 vi.mock('@tauri-apps/api/core', () => ({ invoke: vi.fn(async () => undefined) }));
+// Only the main window runs the MCP bridge (knownbug 186).
+vi.mock('@tauri-apps/api/window', () => ({ getCurrentWindow: () => ({ label: 'main' }) }));
 
 const initial = useAppStore.getState();
 let sheetId = '';
