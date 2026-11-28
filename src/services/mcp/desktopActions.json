@@ -30086,10 +30086,10 @@
                   "currency": {
                     "type": "string"
                   },
-                  "documentId": {
+                  "createdAt": {
                     "type": "string"
                   },
-                  "createdAt": {
+                  "documentId": {
                     "type": "string"
                   },
                   "actions": {
@@ -32686,8 +32686,8 @@
                 "required": [
                   "id",
                   "currency",
-                  "documentId",
                   "createdAt",
+                  "documentId",
                   "actions",
                   "results",
                   "errors",
@@ -36315,10 +36315,10 @@
                   "currency": {
                     "type": "string"
                   },
-                  "documentId": {
+                  "createdAt": {
                     "type": "string"
                   },
-                  "createdAt": {
+                  "documentId": {
                     "type": "string"
                   },
                   "actions": {
@@ -38915,8 +38915,8 @@
                 "required": [
                   "id",
                   "currency",
-                  "documentId",
                   "createdAt",
+                  "documentId",
                   "actions",
                   "results",
                   "errors",
