@@ -683,6 +683,7 @@
       "error": {
         "calibrate": "Előbb kalibrálja a léptéket.",
         "points": "Nincs elég érvényes mérési pont.",
+        "selfIntersecting": "A terület körvonala önmagát metszi. Kattintson a sarkokra sorban az alakzat körül.",
         "size": "Legfeljebb 30 MB-os beágyazott PDF-et használjon.",
         "notPdf": "Ez a fájl nem PDF.",
         "export": "Használja az Open PDF Studio Open Calc integrációjának mérésexportját.",

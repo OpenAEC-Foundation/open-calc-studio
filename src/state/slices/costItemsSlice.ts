@@ -10,19 +10,13 @@ import { getCachedOsUsername } from '@/services/system/osUser';
 import { buildGridRows } from '@/services/grid/gridRows';
 import { captureQuantityOrigin } from '@/services/quantity/quantityOrigin';
 import { measurementSum, quantityMatchesLines, sameQuantity } from '@/services/measurement/measurementLines';
+// Eén generator voor GlobalIds: eerste teken 0-3, zoals IFC vraagt (knownbug 153).
+import { generateIfcGuid } from '@/services/ifc/ifcHelpers';
 
 function generateId(): string {
   return crypto.randomUUID();
 }
 
-function generateIfcGuid(): string {
-  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$';
-  let result = '';
-  for (let i = 0; i < 22; i++) {
-    result += chars[Math.floor(Math.random() * 64)];
-  }
-  return result;
-}
 
 export interface CostItemsSlice {
   items: CostItem[];

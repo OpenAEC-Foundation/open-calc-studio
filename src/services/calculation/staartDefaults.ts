@@ -1,5 +1,6 @@
 import type { CostItem, RowType } from '@/types/costModel';
 import { uiText } from '@/i18n/uiText';
+import { generateIfcGuid } from '@/services/ifc/ifcHelpers';
 
 /** Build a single staart_* CostItem with sensible defaults. */
 export function makeStaartItem(
@@ -23,7 +24,7 @@ export function makeStaartItem(
     isCollapsed: false,
     depth: 0,
     notes: '',
-    ifcGuid: '',
+    ifcGuid: generateIfcGuid(), // geen lege GlobalId in een IFC-export (knownbug 153)
     rowType,
     staartPercentage: pct,
     nr: '',

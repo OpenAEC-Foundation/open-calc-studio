@@ -683,6 +683,7 @@
       "error": {
         "calibrate": "请先校准比例。",
         "points": "有效的测量点不足。",
+        "selfIntersecting": "面积轮廓自相交。请沿形状依次点击各个角点。",
         "size": "请使用不超过 30 MB 的内嵌 PDF。",
         "notPdf": "此文件不是 PDF。",
         "export": "请使用 Open PDF Studio 中 Open Calc 集成的测量导出。",

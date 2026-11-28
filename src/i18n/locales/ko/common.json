@@ -683,6 +683,7 @@
       "error": {
         "calibrate": "먼저 축척을 보정하세요.",
         "points": "유효한 측정점이 부족합니다.",
+        "selfIntersecting": "면적 윤곽선이 스스로 교차합니다. 도형을 따라 모서리를 순서대로 클릭하세요.",
         "size": "30 MB 이하의 내장 PDF를 사용하세요.",
         "notPdf": "이 파일은 PDF가 아닙니다.",
         "export": "Open PDF Studio의 Open Calc 연동에서 측정값 내보내기를 사용하세요.",

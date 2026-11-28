@@ -109,7 +109,7 @@ export function exportBudgetTable(project: ProjectFile, format: 'csv'|'xlsx'): {
   if (format === 'csv' && rows.some(row => row.some(v => typeof v === 'string' && /^\s*[=+@-]/.test(v)))) throw new Error('Formula-like text cannot be exported safely to CSV. Use XLSX.');
   const sheet = XLSX.utils.aoa_to_sheet([[...headers,'currency'],...rows]);
   sheet['!cols'] = headers.concat('currency').map(h => ({wch:h === 'description' ? 70 : h === 'notes' ? 40 : 18}));
-  if (format === 'csv') return {data:new TextEncoder().encode(XLSX.utils.sheet_to_csv(sheet)),warnings:['Normalized OCS table; source layout and unrepresented project metadata are omitted.']};
+  if (format === 'csv') return {data:new TextEncoder().encode(XLSX.utils.sheet_to_csv(sheet,{rawNumbers:true}))  /* rawNumbers: geen afronding op ~10 cijfers (knownbug 108) */,warnings:['Normalized OCS table; source layout and unrepresented project metadata are omitted.']};
   const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,sheet,'Budget');
   return {data:new Uint8Array(XLSX.write(wb,{type:'array',bookType:'xlsx'})),warnings:['Normalized OCS table; source layout and unrepresented project metadata are omitted.']};
 }

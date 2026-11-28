@@ -1,10 +1,35 @@
 export function generateIfcGuid(): string {
   const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$';
-  let result = '';
-  for (let i = 0; i < 22; i++) {
+  // 22 tekens x 6 bits = 132 bits voor een GUID van 128 bits: het eerste teken draagt maar
+  // 2 bits en is dus 0-3 (knownbug 153).
+  let result = chars[Math.floor(Math.random() * 4)];
+  for (let i = 1; i < 22; i++) {
     result += chars[Math.floor(Math.random() * 64)];
   }
   return result;
+}
+
+const IFC_GUID_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_$';
+
+/**
+ * Een opgeslagen ifcGuid als geldige IFC GlobalId (22 tekens, eerste teken 0-3), zonder
+ * toeval, zodat elke export dezelfde waarde geeft (knownbugs 151, 153):
+ * - al geldig: ongewijzigd;
+ * - 22 tekens maar eerste teken boven 3 (oudere generator): alleen de laagste 2 bits van het
+ *   eerste teken blijven over;
+ * - een UUID van 36 tekens (oudere inschrijfstaat-import): de gewone UUID-naar-GlobalId-omzetting.
+ * Anders (leeg of onherkenbaar) `null`.
+ */
+export function toIfcGlobalId(value: string | null | undefined): string | null {
+  if (!value) return null;
+  if (/^[0-9A-Za-z_$]{22}$/.test(value)) return IFC_GUID_CHARS[IFC_GUID_CHARS.indexOf(value[0]) & 3] + value.slice(1);
+  if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value)) {
+    let n = BigInt('0x' + value.replace(/-/g, ''));
+    let out = '';
+    for (let i = 0; i < 22; i++) { out = IFC_GUID_CHARS[Number(n & BigInt(63))] + out; n >>= BigInt(6); }
+    return out;
+  }
+  return null;
 }
 
 export function encodeStepString(str: string): string {

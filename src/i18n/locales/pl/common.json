@@ -685,6 +685,7 @@
       "error": {
         "calibrate": "Najpierw skalibruj skalę.",
         "points": "Za mało poprawnych punktów pomiaru.",
+        "selfIntersecting": "Obrys powierzchni przecina sam siebie. Kliknij narożniki po kolei wokół kształtu.",
         "size": "Użyj osadzonego pliku PDF o rozmiarze do 30 MB.",
         "notPdf": "Ten plik nie jest plikiem PDF.",
         "export": "Użyj eksportu pomiarów z integracji Open Calc w Open PDF Studio.",
